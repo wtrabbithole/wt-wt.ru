@@ -54,7 +54,7 @@ function g_chat_latest_threads::refreshAdvanced(excludeTags = "hidden", includeT
 
 function g_chat_latest_threads::onNewThreadInfoToList(threadInfo)
 {
-  ::append_once(threadInfo, _requestedList)
+  ::u.appendOnce(threadInfo, _requestedList)
 }
 
 function g_chat_latest_threads::onThreadsListEnd()

@@ -72,12 +72,11 @@ function g_mplayer_param_type::_newer(old, new) {
       return ::build_mplayer_name(player, false)
     }
     diffFunc = ::g_mplayer_param_type._newer
-    width = "1@nameWidth + 1.5@tableIcoSize + 1@tablePad"
+    width = "1@nameWidth + 1@tablePad"
     pareText = true
     updateSpecificMarkupParams = function(markupTbl)
     {
-      markupTbl.widthInWideScreen <- "1@nameWidthInWideScreen + 1.5@tableIcoSize + 1@tablePad"
-      markupTbl.airWeaponIcons <- false
+      markupTbl.widthInWideScreen <- "1@nameWidthInWideScreen + 1@tablePad"
       delete markupTbl.tooltip
     }
   }
@@ -270,6 +269,11 @@ function g_mplayer_param_type::_newer(old, new) {
   RACE_SAME_CHECKPOINT_TIME = {
     id = "raceSameCheckpointTime"
     relWidth = 30
+  }
+
+  UNIT_ICON = {
+    id = "unitIcon"
+    width = "1.5@tableIcoSize"
   }
 
   SQUAD = {

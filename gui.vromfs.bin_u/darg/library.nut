@@ -10,7 +10,6 @@ function with_table(tbl, func) {
   return tbl
 }
 
-
 /*
   this function is safe wrapper to arraya.extend(). Can handle obj and val of any type.
 */
@@ -70,6 +69,22 @@ function hdpx(pixels) {
   return sh((::math.floor(pixels) + 0.5) * 100.0 / 1080.0)
 }
 
+
+function deep_clone(source) {
+  local complex_types = ["table", "array", "instance"]
+  if (complex_types.find(::type(source)) == null)
+    return source
+
+  local deep_clone_unsafe = function(source) {
+    local result = clone source
+    foreach (attr, value in result)
+      if (complex_types.find(::type(value)) != null)
+        result[attr] = callee()(value)
+    return result
+  }
+
+  return deep_clone_unsafe(source)
+}
 
 /*
   defensive function - try to not to fail in all ways (for example for data driven function)

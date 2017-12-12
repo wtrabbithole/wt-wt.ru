@@ -144,7 +144,7 @@ class ::BaseItem
 
   function _tostring()
   {
-    return ::format("Item %s (id = %s)", getDebugName(), id)
+    return ::format("Item %s (id = %s)", getDebugName(), id.tostring())
   }
 
   function isCanBuy()

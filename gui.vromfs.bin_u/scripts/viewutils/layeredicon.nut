@@ -197,16 +197,14 @@ function LayersIcon::getTextDataFromLayer(layerCfg)
     if (id in layerCfg)
       props += ::format("%s:t='%s';", id, layerCfg[id])
 
-  local id = ""
-  if (::getTblValue("id", layerCfg))
-    id = ::format("id:t='%s'", layerCfg.id)
+  local idTag = ("id" in layerCfg) ? ::format("id:t='%s';", ::g_string.stripTags(layerCfg.id)) : ""
 
   local posX = ("x" in layerCfg)? layerCfg.x.tostring() : "(pw-w)/2"
   local posY = ("y" in layerCfg)? layerCfg.y.tostring() : "(ph-h)/2"
   local position = ::getTblValue("position", layerCfg, "absolute")
 
   return ::format("blankTextArea {%s text:t='%s'; pos:t='%s, %s'; position:t='%s'; %s}",
-                      ::g_string.stripTags(id),
+                      idTag,
                       ::g_string.stripTags(::getTblValue("text", layerCfg, "")),
                       posX, posY,
                       position,

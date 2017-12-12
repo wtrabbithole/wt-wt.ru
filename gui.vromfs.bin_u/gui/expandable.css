@@ -65,6 +65,10 @@ expandable:current > selImg {
   background-color:@transparent;
 }
 
+listbox > expandable > selImg {
+  background-color:@transparent;
+}
+
 expandable {
   css-hier-invalidate:yes;
 }
@@ -87,7 +91,7 @@ expandable:hover statusImg[background-image] {
   background-color:@hoverTextColor;
 }
 
-expandable:current, expandable.simple[active=yes],
+expandable:focus, expandable:current, expandable.simple[active=yes],
 expandable[selected=yes] {
   background-color:@frameDarkActiveBgColor;
   border-color:@frameDarkSelectedBorderColor;

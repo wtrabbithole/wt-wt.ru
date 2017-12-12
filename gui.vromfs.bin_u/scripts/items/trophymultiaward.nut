@@ -518,11 +518,11 @@ class TrophyMultiAward
         local typesKey = (awardType == "resource") ?  "resourceType" : "type"
         local uTypes = awardBlk % typesKey
         foreach(uType in uTypes)
-          ::append_once(uType, res)
+          ::u.appendOnce(uType, res)
         continue
       }
 
-      ::append_once(awardType, res)
+      ::u.appendOnce(awardType, res)
     }
     return res
   }

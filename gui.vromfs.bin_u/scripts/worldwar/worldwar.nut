@@ -201,6 +201,7 @@ foreach (fn in [
                  "handler/wwMapTooltip.nut"
                  "handler/wwSquadList.nut"
                  "handler/wwBattleDescription.nut"
+                 "handler/wwGlobalBattlesModal.nut"
                  "handler/wwAirfieldFlyOut.nut"
                  "handler/wwObjectivesInfo.nut"
                  "handler/wwMyClanSquadInviteModal.nut"
@@ -232,7 +233,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
 
   isDebugMode = false
 
-  myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles"
+  myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
 
   defaultDiffCode = ::DIFFICULTY_REALISTIC
@@ -1203,9 +1204,11 @@ function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)
     ::g_tasker.addTask(taskId, null, cb, errorCb)
 }
 
-function g_world_war::getSidesOrder()
+function g_world_war::getSidesOrder(battle = null)
 {
-  local playerSide = ::ww_get_player_side()
+  local playerSide = (battle && ::u.isWwGlobalBattle(battle))
+    ? battle.getSideByCountry(::get_profile_info().country)
+    : ::ww_get_player_side()
   local enemySide  = ::g_world_war.getOppositeSide(playerSide)
   return [ playerSide, enemySide ]
 }

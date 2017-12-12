@@ -4,6 +4,8 @@ local dmModule = require("dmModule.nut")
 local colors = require("style/colors.nut")
 local background = require("style/hudBackground.nut")
 
+local mathEx = require("sqStdLibs/common/math.nut")
+
 const STATE_ICON_MARGIN = 1
 const STATE_ICON_SIZE = 54
 
@@ -254,6 +256,11 @@ local crewCountColor = function(min, current) {
   return colors.hud.damageModule.active
 }
 
+
+local countCrewLeftPercent = @() mathEx.clamp(mathEx.lerp(crewState.minCrewMembersCount.value - 1,
+  crewState.totalCrewMembersCount.value, 0, 100, crewState.aliveCrewMembersCount.value), 0, 100)
+
+
 local crewBlock = {
   vplace = VALIGN_BOTTOM
   flow = FLOW_VERTICAL
@@ -286,7 +293,7 @@ local crewBlock = {
         vplace = VALIGN_BOTTOM
         hplace = HALIGN_RIGHT
         rendObj = ROBJ_TEXT
-        text = (100 * crewState.aliveCrewMembersCount.value / crewState.totalCrewMembersCount.value) + "%"
+        text = countCrewLeftPercent() + "%"
         font = Fonts.tiny_text_hud
         fontFx = fontFx
         fontFxColor = fontFxColor

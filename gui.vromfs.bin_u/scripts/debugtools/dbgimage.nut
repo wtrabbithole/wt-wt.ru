@@ -3,6 +3,8 @@
 //   int - image size on 1080p big fonts
 //   null - various image sizes
 //   string - daguiConstant
+local g_path = require("sqStdLibs/common/path.nut")
+
 function debug_svg(image, size = null, bgColor = "#808080")
 {
   local baseHeight = ::u.isInteger(size) ? 1080 : ::screen_height()
@@ -61,7 +63,7 @@ function debug_svg_list(fileMask = null, size = null, bgColor = null)
   foreach (dir in dirs)
   {
     local filePaths = ::find_files_in_folder(dir, fileMask, false, true, true)
-    filesList.extend(::u.map(filePaths, @(path) ::g_path.fileName(path)))
+    filesList.extend(::u.map(filePaths, @(path) g_path.fileName(path)))
   }
   filesList.sort()
 

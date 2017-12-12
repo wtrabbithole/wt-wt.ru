@@ -23,7 +23,7 @@ class ::gui_handlers.OptionsCustomDifficultyModal extends ::gui_handlers.Generic
 
   function reinitScreen()
   {
-    local optListObj = scene.findObject(optionsId)
+    local optListObj = scene.findObject(currentContainerName)
     if (!::checkObj(optListObj))
       return
     options = ::get_custom_difficulty_options()

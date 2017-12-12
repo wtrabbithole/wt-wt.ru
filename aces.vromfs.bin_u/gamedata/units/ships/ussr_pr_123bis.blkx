@@ -1603,7 +1603,6 @@
           },
           {
             "onHit": {
-              "damageType": "explosion",
               "expl": 0.9,
               "damage": 350.0,
               "fHitCritical": true
@@ -1611,7 +1610,6 @@
           },
           {
             "onHit": {
-              "damageType": "explosion",
               "expl": 0.2,
               "damage": 200.0,
               "fHitCritical": true
@@ -1821,7 +1819,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.1,
+              "fire": 0.03,
               "damage": 20.0,
               "fHitCritical": true
             }
@@ -1829,7 +1827,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.35,
+              "fire": 0.15,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -1877,30 +1875,36 @@
       {
         "part": [
           {
-            "name": "bow_l_dm"
+            "name": "compartment_01_dm"
           },
           {
-            "name": "bow_r_dm"
+            "name": "compartment_02_dm"
           },
           {
-            "name": "mid_l_dm"
+            "name": "compartment_03_dm"
           },
           {
-            "name": "mid_r_dm"
+            "name": "compartment_04_dm"
           },
           {
-            "name": "stern_l_dm"
+            "name": "compartment_05_dm"
           },
           {
-            "name": "stern_r_dm"
+            "name": "compartment_06_dm"
           },
           {
-            "name": "stern_back_dm"
+            "name": "compartment_07_dm"
+          },
+          {
+            "name": "superstructure_dm"
+          },
+          {
+            "name": "deckhouse_dm"
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.03,
+              "fire": 0.02,
               "damage": 13.0,
               "fHitCritical": true
             }
@@ -1908,8 +1912,16 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.1,
+              "fire": 0.05,
               "damage": 50.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "damage": 120.0,
               "fHitCritical": true
             }
           }
@@ -2614,6 +2626,7 @@
           "barrelDP": "tt_01_dm",
           "breechDP": "torpedo_01_dm",
           "brokenBarrelAllowShoot": false,
+          "ammoDP": "torpedo_01_dm",
           "startFx": "start_torpedo",
           "startFxOffset": [3.0,0.0,0.0],
           "allowableDelta": 180.0,
@@ -2643,6 +2656,7 @@
           "barrelDP": "tt_02_dm",
           "breechDP": "torpedo_02_dm",
           "brokenBarrelAllowShoot": false,
+          "ammoDP": "torpedo_02_dm",
           "startFx": "start_torpedo",
           "startFxOffset": [3.0,0.0,0.0],
           "allowableDelta": 180.0,
@@ -2666,7 +2680,8 @@
           "emitter": "bone_bomb_01",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_01_dm"
         }
       },
       {
@@ -2677,7 +2692,8 @@
           "emitter": "bone_bomb_02",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_02_dm"
         }
       },
       {
@@ -2688,7 +2704,8 @@
           "emitter": "bone_bomb_03",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_03_dm"
         }
       },
       {
@@ -2699,7 +2716,8 @@
           "emitter": "bone_bomb_04",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_04_dm"
         }
       },
       {
@@ -2710,7 +2728,8 @@
           "emitter": "bone_bomb_05",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_05_dm"
         }
       },
       {
@@ -2721,7 +2740,8 @@
           "emitter": "bone_bomb_06",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_06_dm"
         }
       }
     ]
@@ -2860,6 +2880,13 @@
             "fx": {
               "name": "tank_smoke_small",
               "emitter": "emtr_fire_ammo_03",
+              "scale": 2.0
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_smoke_small",
+              "emitter": "emtr_fire_ammo_04",
               "scale": 2.0
             }
           }
@@ -3278,6 +3305,78 @@
             }
           }
         ]
+      },
+      {
+        "event": {
+          "name": "ammo_fire_1",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_01"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_2",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_02"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_3",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_4",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_1",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_01"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_2",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_02"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_3",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_4",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        }
       },
       {
         "event": {

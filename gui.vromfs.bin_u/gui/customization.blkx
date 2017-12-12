@@ -24,7 +24,7 @@
   },
   {
     "tdiv": {
-      "size": "@rw, sh - 1@minYposWindow - 1@bh - 1@bottomBarHeight",
+      "size": "@rw, sh - 1@minYposWindow - 1@bottomBarHeight",
       "pos": "50%pw-50%w, 1@minYposWindow",
       "position": "root",
       "flow": "vertical",
@@ -47,7 +47,7 @@
               "flow": "vertical"
             },
             {
-              "pos": "pw-w, 0"
+              "pos": "pw-w - 1@buttonMargin, 0"
             },
             {
               "position": "relative"
@@ -57,12 +57,13 @@
                 "id": "skins_div",
                 "left": "pw-w",
                 "position": "relative",
+                "width": "1@customizationBlockWidth",
                 "frame": [
                   {
                     "height": "ph"
                   },
                   {
-                    "min-width": "4@decalIconHeight + 2@framePadding"
+                    "width": "pw"
                   },
                   {
                     "flow": "vertical"
@@ -74,6 +75,9 @@
                       },
                       {
                         "class": "optionsTable"
+                      },
+                      {
+                        "width": "pw"
                       },
                       {
                         "baseRow": "yes"
@@ -104,6 +108,8 @@
                           "flow": "vertical",
                           "text": {
                             "text": "#options/skin",
+                            "left": "1@framePadding",
+                            "position": "relative",
                             "smallFont": "yes",
                             "overlayTextColor": "silver"
                           },
@@ -120,6 +126,8 @@
                           "display": "hide",
                           "text": {
                             "text": "#options/user_skins",
+                            "left": "1@framePadding",
+                            "position": "relative",
                             "smallFont": "yes",
                             "overlayTextColor": "silver"
                           },
@@ -182,14 +190,14 @@
                     }
                   },
                   {
-                    "textarea": {
+                    "textareaNoTab": {
                       "id": "decal_text_area",
-                      "size": "pw, ph",
-                      "pos": "0,-h",
-                      "position": "absolute",
-                      "text": "#decals/devoiceDecals",
+                      "width": "75%pw",
+                      "left": "1@framePadding",
+                      "position": "relative",
+                      "text": "#charServer/decal/timed",
                       "smallFont": "yes",
-                      "style": "color:@helpF1Color;"
+                      "overlayTextColor": "warning"
                     }
                   }
                 ]
@@ -213,38 +221,46 @@
                 },
                 "tdiv": {
                   "id": "decals_list",
-                  "css-hier-invalidate": "yes",
+                  "width": "pw",
+                  "height": "1@countDecalsInHeight * 1@decalIconHeight",
+                  "pos": "50%pw-50%w, 1@frameHeaderHeight",
+                  "position": "relative",
                   "behaviour": "posNavigator",
                   "moveX": "linear",
                   "moveY": "linear",
                   "navigatorShortcuts": "full",
                   "on_activate": "onDecalCategoryActivate",
                   "on_cancel_edit": "onDecalCategoryCancel",
+                  "css-hier-invalidate": "yes",
                   "flow": "vertical",
                   "class": "decalsList",
-                  "overflow-y": "scroll",
-                  "width": "pw",
-                  "height": "1@countDecalsInHeight * 1@decalIconHeight",
-                  "pos": "50%pw-50%w, 1@frameHeaderHeight",
-                  "position": "relative"
+                  "overflow-y": "scroll"
                 }
               }
             },
             {
               "userDecalsDiv": {
                 "id": "attachable_div",
-                "pos": "pw-w, 1",
+                "pos": "pw-w, -1",
                 "position": "relative",
                 "frame": {
                   "id": "slots_attachable_list_edge",
                   "flow": "vertical",
+                  "width": "1@customizationBlockWidth",
                   "text": {
+                    "left": "1@framePadding",
+                    "position": "relative",
                     "text": "#decorators",
                     "smallFont": "yes",
                     "overlayTextColor": "silver"
                   },
                   "tdiv": {
                     "id": "slots_attachable_list",
+                    "width": "pw",
+                    "left": "50%pw-50%w",
+                    "position": "relative",
+                    "flow": "h-flow",
+                    "flow-align": "left",
                     "behaviour": "posNavigator",
                     "moveX": "linear",
                     "moveY": "linear",
@@ -253,10 +269,7 @@
                     "on_wrap_down": "onWrapDown",
                     "css-hier-invalidate": "yes",
                     "on_activate": "onAttachableSlotActivate",
-                    "on_select": "onAttachSlotSelect",
-                    "max-width": "4*(1@decalIconHeight + 2@framePadding)",
-                    "flow": "h-flow",
-                    "flow-align": "reverse"
+                    "on_select": "onAttachSlotSelect"
                   }
                 }
               }
@@ -264,19 +277,23 @@
             {
               "userDecalsDiv": {
                 "id": "decalslots_div",
-                "pos": "pw-w, 1",
+                "pos": "pw-w, -1",
                 "position": "relative",
                 "frame": {
                   "id": "slots_list_edge",
                   "height": "ph",
+                  "min-width": "1@customizationBlockWidth",
                   "flow": "vertical",
                   "text": {
+                    "left": "1@framePadding",
+                    "position": "relative",
                     "text": "#decals",
                     "smallFont": "yes",
                     "overlayTextColor": "silver"
                   },
                   "tdiv": {
                     "id": "slots_list",
+                    "flow": "horizontal",
                     "behaviour": "posNavigator",
                     "moveX": "linear",
                     "moveY": "linear",
@@ -285,9 +302,24 @@
                     "on_wrap_down": "onWrapDown",
                     "css-hier-invalidate": "yes",
                     "on_activate": "onDecalSlotActivate",
-                    "on_select": "onDecalSlotSelect",
-                    "height": "1@decalIconHeight",
-                    "flow": "horizontal"
+                    "on_select": "onDecalSlotSelect"
+                  }
+                }
+              }
+            },
+            {
+              "frame": {
+                "id": "toggle_damaged_div",
+                "min-width": "1@customizationBlockWidth",
+                "display": "hide",
+                "SwitchBox": {
+                  "id": "btn_toggle_damaged",
+                  "text": "#mainmenu/btnShowDamaged",
+                  "value": "no",
+                  "on_change_value": "onToggleDamaged",
+                  "SwitchSliderBg": {
+                    "SwitchSliderBgOn": [],
+                    "SwitchSlider": []
                   }
                 }
               }
@@ -314,7 +346,7 @@
             {
               "frame": {
                 "id": "decals_hint",
-                "pos": "pw -w, -h",
+                "pos": "pw -w - 1@buttonMargin, -h",
                 "position": "absolute",
                 "table": [
                   {
@@ -325,9 +357,6 @@
                   },
                   {
                     "td-incsize": "4"
-                  },
-                  {
-                    "padding": "200@sf/@pf, 15@sf/@pf, 15@sf/@pf, 15*@sf/@pf"
                   },
                   {
                     "tr": [
@@ -435,7 +464,7 @@
                 "class": "image",
                 "display": "hide",
                 "style": "min-width:@buttonWidth",
-                "btnName": "A",
+                "btnName": "X",
                 "visualStyle": "purchase",
                 "buttonWink": [],
                 "buttonGlance": [],
@@ -455,13 +484,13 @@
             {
               "Button_text": {
                 "id": "btn_buy",
-                "btnName": "A",
                 "_on_click": "onBuy",
                 "hideText": "yes",
                 "css-hier-invalidate": "yes",
                 "showButtonImageOnConsole": "no",
                 "display": "hide",
                 "visualStyle": "purchase",
+                "btnName": "X",
                 "buttonWink": [],
                 "buttonGlance": [],
                 "ButtonImg": [],
@@ -482,7 +511,7 @@
               "Button_text": {
                 "id": "btn_buy_skin",
                 "text": "#mainmenu/btnOrder",
-                "btnName": "A",
+                "btnName": "X",
                 "_on_click": "onBuySkin",
                 "hideText": "yes",
                 "display": "hide",
@@ -648,182 +677,382 @@
   {
     "gamercard_div": [
       {
-        "gamercard": {
-          "css-hier-invalidate": "yes",
-          "flow": "horizontal",
-          "tdiv": {
-            "id": "gamercard_drawer_container"
+        "gamercard": [
+          {
+            "css-hier-invalidate": "yes"
           },
-          "GamecardPlate": {
-            "id": "gamercard_center",
-            "display": "hide",
-            "pos": "50%sw-50%w, 0",
-            "position": "root",
-            "min-width": "1@queueTableWidth",
-            "padding-top": "1@gameModeSelectPaddingTop",
-            "padding-bottom": "1@gameModeSelectPaddingBottom",
-            "background-color": "@gameModeColor",
+          {
+            "flow": "horizontal"
+          },
+          {
             "tdiv": {
-              "id": "gamercard_panel_center",
-              "position": "relative",
-              "pos": "50%pw-50%w, 0",
-              "display": "hide",
-              "enable": "no",
-              "behaviour": "wrapNavigator",
-              "navigatorShortcuts": "yes",
-              "childsActivate": "yes",
-              "on_wrap_up": "onWrapUp",
-              "on_wrap_down": "onWrapDown",
-              "on_wrap_left": "onTopGCPanelLeft",
-              "on_wrap_right": "onTopGCPanelRight",
-              "gameModeChangeButton": [
-                {
-                  "id": "game_mode_change_button"
-                },
-                {
-                  "on_click": "onOpenGameModeSelect"
-                },
-                {
-                  "btnName": "Y"
-                },
-                {
-                  "dropMenuArrow": []
-                },
-                {
-                  "dropMenuSeparator": []
-                },
-                {
-                  "ButtonImg": []
-                },
-                {
-                  "activeText": {
-                    "id": "game_mode_change_button_text",
-                    "margin": "5@dp, 0"
-                  }
-                },
-                {
-                  "newIconWidget": {
-                    "id": "new_game_modes_widget_place",
-                    "pos": "0.5h -5@dp, 50%ph-50%h",
-                    "position": "relative"
-                  }
-                },
-                {
-                  "dropMenuSeparator": []
-                },
-                {
-                  "dropMenuArrow": []
-                }
-              ]
+              "id": "gamercard_drawer_container"
             }
           },
-          "TopMenuPanel": [
-            {
+          {
+            "tdiv": {
+              "size": "sw, 1@topBarHeight + 0.015@sf",
+              "position": "root",
+              "flow": "vertical",
               "tdiv": {
-                "background-color": "@gameModeColorSolid",
+                "size": "pw, 0.02@sf",
+                "pos": "0, ph-h",
                 "position": "absolute",
+                "background-repeat": "expand",
+                "background-image": "#ui/gameuiskin#optionlist_background_top",
+                "background-color": "#90909090",
+                "background-position": "0, 0.25h, 0, 0"
+              }
+            }
+          },
+          {
+            "GamecardPlate": {
+              "id": "gamercard_center",
+              "display": "hide",
+              "pos": "50%sw-50%w, 1@bh",
+              "position": "root",
+              "min-width": "1@queueTableWidth",
+              "padding-top": "1@gameModeSelectPaddingTop",
+              "padding-bottom": "1@gameModeSelectPaddingBottom",
+              "background-color": "@gameModeColor",
+              "tdiv": {
+                "id": "gamercard_panel_center",
+                "position": "relative",
                 "pos": "50%pw-50%w, 0",
-                "size": "1@gcToBattleButtonPlaceWidth, 1@topBarHeight"
-              }
-            },
-            {
-              "GameLogoPlate": {
-                "id": "gamercard_logo",
-                "position": "absolute",
-                "pos": "50%pw - 50%w, 0",
-                "redPlate": {
-                  "pattern": {
-                    "type": "dark_diag_lines"
+                "display": "hide",
+                "enable": "no",
+                "behaviour": "wrapNavigator",
+                "navigatorShortcuts": "yes",
+                "childsActivate": "yes",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown",
+                "on_wrap_left": "onTopGCPanelLeft",
+                "on_wrap_right": "onTopGCPanelRight",
+                "gameModeChangeButton": [
+                  {
+                    "id": "game_mode_change_button"
+                  },
+                  {
+                    "on_click": "onOpenGameModeSelect"
+                  },
+                  {
+                    "btnName": "Y"
+                  },
+                  {
+                    "dropMenuArrow": []
+                  },
+                  {
+                    "dropMenuSeparator": []
+                  },
+                  {
+                    "ButtonImg": []
+                  },
+                  {
+                    "activeText": {
+                      "id": "game_mode_change_button_text",
+                      "margin": "5@dp, 0"
+                    }
+                  },
+                  {
+                    "newIconWidget": {
+                      "id": "new_game_modes_widget_place",
+                      "pos": "0.5h -5@dp, 50%ph-50%h",
+                      "position": "relative"
+                    }
+                  },
+                  {
+                    "dropMenuSeparator": []
+                  },
+                  {
+                    "dropMenuArrow": []
                   }
-                },
-                "GameLogoImg": {
-                  "background-image": "ui/title128"
-                }
+                ]
               }
-            },
-            {
-              "tdiv": {
-                "flow": "vertical",
-                "pos": "1@offsetBetweenScreenAndAirinfo, 1@topBarHeight",
-                "width": "50%pw - 1@offsetBetweenScreenAndAirinfo - 0.5@titleLogoPlateWidth",
-                "position": "absolute",
-                "total-input-transparent": "yes",
-                "textareaNoTab": {
-                  "id": "gc_title",
-                  "overlayTextColor": "active",
-                  "text": "",
-                  "max-width": "pw"
-                },
-                "activeText": {
-                  "id": "online_info",
-                  "smallFont": "yes",
-                  "commonTextColor": "yes",
-                  "text": "",
-                  "max-width": "pw"
-                },
+            }
+          },
+          {
+            "TopMenuPanel": [
+              {
+                "shadowSafeArea": []
+              },
+              {
+                "tdiv": [
+                  {
+                    "id": "top_gamercard_bg"
+                  },
+                  {
+                    "size": "pw, ph-1@bh+1@topGamercardDarkLineHeight"
+                  },
+                  {
+                    "pos": "0, 1@bh-1@topGamercardDarkLineHeight"
+                  },
+                  {
+                    "position": "absolute"
+                  },
+                  {
+                    "needRedShadow": "yes"
+                  },
+                  {
+                    "css-hier-invalidate": "yes"
+                  },
+                  {
+                    "TopMenuPanelBg": {
+                      "width": "0.5fw",
+                      "overflow": "hidden",
+                      "css-hier-invalidate": "yes",
+                      "Red_shadow_light": {
+                        "pos": "pw-50%w, 0",
+                        "position": "absolute",
+                        "size": "1@titleLogoPlateWidth, 1@topBarHeight",
+                        "class": "inverted"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "height": "ph",
+                      "pos": "0,-1@bh+1@topGamercardDarkLineHeight",
+                      "position": "relative",
+                      "padding": "-1@titleLogoPlateWidth / 128",
+                      "GameLogoPlate": {
+                        "id": "gamercard_logo",
+                        "redPlate": {
+                          "pattern": {
+                            "type": "dark_diag_lines"
+                          }
+                        },
+                        "GameLogoImg": {
+                          "background-image": "ui/title128"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "gamercard_tobattle_bg",
+                      "height": "ph",
+                      "background-color": "@gameModeColor",
+                      "tdiv": {
+                        "id": "gamercard_tobattle",
+                        "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
+                        "position": "relative",
+                        "allowDecreaseFont": "yes",
+                        "display": "hide"
+                      }
+                    }
+                  },
+                  {
+                    "TopMenuPanelBg": {
+                      "width": "0.5fw",
+                      "overflow": "hidden",
+                      "css-hier-invalidate": "yes",
+                      "Red_shadow_light": {
+                        "pos": "-50%w, 0",
+                        "position": "absolute",
+                        "size": "1@titleLogoPlateWidth, 1@topBarHeight",
+                        "class": "inverted"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
                 "tdiv": {
-                  "id": "mission_texts_block_left",
-                  "flow": "vertical"
+                  "flow": "vertical",
+                  "pos": "1@offsetBetweenScreenAndAirinfo, 1@topBarHeight + 2@dp",
+                  "width": "50%pw - 1@offsetBetweenScreenAndAirinfo - 0.5@titleLogoPlateWidth",
+                  "position": "absolute",
+                  "total-input-transparent": "yes",
+                  "textareaNoTab": {
+                    "id": "gc_title",
+                    "overlayTextColor": "active",
+                    "smallFont": "yes",
+                    "text": "",
+                    "max-width": "pw"
+                  },
+                  "activeText": {
+                    "id": "online_info",
+                    "smallFont": "yes",
+                    "commonTextColor": "yes",
+                    "text": "",
+                    "max-width": "pw"
+                  },
+                  "tdiv": {
+                    "id": "mission_texts_block_left",
+                    "flow": "vertical"
+                  }
                 }
-              }
-            },
-            {
-              "tdiv": {
-                "id": "mission_texts_block_right",
-                "flow": "vertical",
-                "pos": "pw - w - 1@bw, 1@topBarHeight",
-                "position": "absolute",
-                "total-input-transparent": "yes"
-              }
-            },
-            {
-              "tdiv": [
-                {
-                  "width": "1@rw"
-                },
-                {
-                  "height": "1@gamercardHeight"
-                },
-                {
-                  "pos": "1@bw,ph-h-1@dp"
-                },
-                {
-                  "position": "absolute"
-                },
-                {
-                  "tdiv": [
-                    {
-                      "width": "@topGcPanelWidth"
-                    },
-                    {
-                      "height": "ph"
-                    },
-                    {
-                      "pos": "50%pw - w - 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h"
-                    },
-                    {
-                      "position": "absolute"
-                    },
-                    {
-                      "tdiv": {
-                        "id": "topmenu_menu_panel",
-                        "height": "ph",
-                        "padding": "-1@gcButtonsInterval, 0"
+              },
+              {
+                "tdiv": {
+                  "id": "mission_texts_block_right",
+                  "flow": "vertical",
+                  "pos": "pw - w - 1@bw, 1@topBarHeight",
+                  "position": "absolute",
+                  "total-input-transparent": "yes"
+                }
+              },
+              {
+                "tdiv": [
+                  {
+                    "width": "1@rw"
+                  },
+                  {
+                    "height": "1@gamercardHeight"
+                  },
+                  {
+                    "pos": "1@bw,1@topGamercardButtonsPos"
+                  },
+                  {
+                    "position": "absolute"
+                  },
+                  {
+                    "tdiv": [
+                      {
+                        "width": "@topGcPanelWidth"
+                      },
+                      {
+                        "height": "ph"
+                      },
+                      {
+                        "pos": "50%pw - w - 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h"
+                      },
+                      {
+                        "position": "absolute"
+                      },
+                      {
+                        "tdiv": {
+                          "id": "topmenu_menu_panel",
+                          "height": "ph",
+                          "padding": "-1@gcButtonsInterval, 0"
+                        }
+                      },
+                      {
+                        "tdiv": {
+                          "id": "left_gc_panel_free_width",
+                          "width": "fw"
+                        }
+                      },
+                      {
+                        "gcButtonsHolder": [
+                          {
+                            "id": "gamercard_panel_left"
+                          },
+                          {
+                            "padding-right": "1@dp"
+                          },
+                          {
+                            "class": "header"
+                          },
+                          {
+                            "gcButtonsInterval": "yes"
+                          },
+                          {
+                            "behaviour": "wrapNavigator"
+                          },
+                          {
+                            "navigatorShortcuts": "yes"
+                          },
+                          {
+                            "childsActivate": "yes"
+                          },
+                          {
+                            "on_wrap_up": "onWrapUp"
+                          },
+                          {
+                            "on_wrap_down": "onWrapDown"
+                          },
+                          {
+                            "on_wrap_left": "onTopGCPanelLeft"
+                          },
+                          {
+                            "on_wrap_right": "onTopGCPanelRight"
+                          },
+                          {
+                            "Button_text": {
+                              "id": "gc_clanTag",
+                              "tooltip": "#mainmenu/btnClanCard",
+                              "display": "hide",
+                              "_on_click": "onMyClanOpen",
+                              "tdiv": {
+                                "id": "gc_clanAlert",
+                                "position": "relative",
+                                "pos": "0, 50%ph-50%h",
+                                "size": "22/720@sf, 22/720@sf",
+                                "background-color": "@white",
+                                "background-image": "#ui/gameuiskin#new_icon"
+                              },
+                              "btnText": {
+                                "id": "gc_clanTag_name",
+                                "min-width": "ph",
+                                "pos": "0, 50%ph-50%h",
+                                "position": "relative",
+                                "isDarkWhenDisabled": "no"
+                              },
+                              "gcBtnLine": []
+                            }
+                          },
+                          {
+                            "Button_text": {
+                              "id": "gc_profile",
+                              "tooltip": "#mainmenu/btnProfile",
+                              "_on_click": "onProfile",
+                              "cardImg": {
+                                "id": "gc_icon"
+                              },
+                              "tdiv": {
+                                "position": "relative",
+                                "pos": "@blockInterval, 50%ph-50%h",
+                                "flow": "vertical",
+                                "tdiv": {
+                                  "height": "0.025@sf",
+                                  "pos": "50%pw-50%w, 50%pw-50%w",
+                                  "position": "relative",
+                                  "activeText": {
+                                    "id": "gc_rank",
+                                    "position": "relative",
+                                    "pos": "0, 50%ph-50%h",
+                                    "text": ""
+                                  },
+                                  "cardImg": {
+                                    "id": "gc_prestige",
+                                    "position": "relative",
+                                    "pos": "1@dp, 50%ph - 50%h"
+                                  }
+                                },
+                                "expProgress": {
+                                  "id": "gc_rankProgress",
+                                  "width": "pw",
+                                  "pos": "0, ph",
+                                  "position": "absolute",
+                                  "small": "yes"
+                                }
+                              },
+                              "btnText": {
+                                "id": "gc_name",
+                                "pos": "@blockInterval, 50%ph-50%h",
+                                "position": "relative",
+                                "text-align": "left",
+                                "isDarkWhenDisabled": "no"
+                              }
+                            }
+                          }
+                        ]
                       }
-                    },
-                    {
-                      "tdiv": {
-                        "id": "left_gc_panel_free_width",
-                        "width": "fw"
-                      }
-                    },
-                    {
+                    ]
+                  },
+                  {
+                    "tdiv": {
+                      "width": "@topGcPanelWidth",
+                      "height": "ph",
+                      "pos": "50%pw + 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h",
+                      "position": "absolute",
                       "gcButtonsHolder": [
                         {
-                          "id": "gamercard_panel_left"
+                          "id": "gamercard_panel_right"
                         },
                         {
-                          "padding-right": "1@dp"
+                          "width": "@topGcPanelWidth"
                         },
                         {
                           "class": "header"
@@ -853,539 +1082,440 @@
                           "on_wrap_right": "onTopGCPanelRight"
                         },
                         {
+                          "Button_text": [
+                            {
+                              "id": "gc_warpoints"
+                            },
+                            {
+                              "isColoredImg": "yes"
+                            },
+                            {
+                              "tooltip": "#mainmenu/warpoints"
+                            },
+                            {
+                              "showBonusPersonal": ""
+                            },
+                            {
+                              "showBonusCommon": ""
+                            },
+                            {
+                              "_on_click": "onOnlineShopLions"
+                            },
+                            {
+                              "img": {
+                                "isFirstLeft": "yes",
+                                "background-image": "#ui/gameuiskin#shop_warpoints"
+                              }
+                            },
+                            {
+                              "btnText": {
+                                "id": "gc_balance",
+                                "min-width": "0.05@sf",
+                                "pos": "@blockInterval, 50%ph-50%h",
+                                "position": "relative",
+                                "text-align": "left"
+                              }
+                            },
+                            {
+                              "BonusCorner": {
+                                "bonusType": "personal"
+                              }
+                            },
+                            {
+                              "BonusCorner": {
+                                "bonusType": "common"
+                              }
+                            },
+                            {
+                              "gcBtnLine": []
+                            }
+                          ]
+                        },
+                        {
                           "Button_text": {
-                            "id": "gc_clanTag",
-                            "tooltip": "#mainmenu/btnClanCard",
-                            "display": "hide",
-                            "_on_click": "onMyClanOpen",
-                            "tdiv": {
-                              "id": "gc_clanAlert",
-                              "position": "relative",
-                              "pos": "0, 50%ph-50%h",
-                              "size": "22/720@sf, 22/720@sf",
-                              "background-color": "@white",
-                              "background-image": "#ui/gameuiskin#new_icon"
+                            "id": "gc_eagles",
+                            "isColoredImg": "yes",
+                            "tooltip": "#mainmenu/gold",
+                            "_on_click": "onOnlineShopEaglesMsg",
+                            "img": {
+                              "isFirstLeft": "yes",
+                              "background-image": "#ui/gameuiskin#shop_warpoints_premium"
                             },
                             "btnText": {
-                              "id": "gc_clanTag_name",
-                              "min-width": "ph",
-                              "pos": "0, 50%ph-50%h",
+                              "id": "gc_gold",
+                              "min-width": "0.05@sf",
+                              "pos": "@blockInterval, 50%ph-50%h",
                               "position": "relative",
-                              "isDarkWhenDisabled": "no"
+                              "text-align": "left"
+                            },
+                            "gcBtnLine": []
+                          }
+                        },
+                        {
+                          "Button_text": [
+                            {
+                              "id": "gc_free_exp"
+                            },
+                            {
+                              "class": "image"
+                            },
+                            {
+                              "isColoredImg": "yes"
+                            },
+                            {
+                              "showBonusPersonal": ""
+                            },
+                            {
+                              "showBonusCommon": ""
+                            },
+                            {
+                              "_on_click": "onConvertExp"
+                            },
+                            {
+                              "img": {
+                                "background-image": "#ui/gameuiskin#convert_xp"
+                              }
+                            },
+                            {
+                              "BonusCorner": {
+                                "bonusType": "personal"
+                              }
+                            },
+                            {
+                              "BonusCorner": {
+                                "bonusType": "common"
+                              }
+                            },
+                            {
+                              "discount_notification": {
+                                "id": "changeExp_discount",
+                                "type": "up",
+                                "display": "hide"
+                              }
+                            },
+                            {
+                              "gcBtnLine": []
+                            }
+                          ]
+                        },
+                        {
+                          "Button_text": {
+                            "id": "gc_PremiumAccount",
+                            "class": "image",
+                            "isColoredImg": "yes",
+                            "_on_click": "onOnlineShopPremium",
+                            "img": {
+                              "id": "gc_prempic",
+                              "background-image": ""
                             }
                           }
                         },
                         {
-                          "Button_text": {
-                            "id": "gc_profile",
-                            "tooltip": "#mainmenu/btnProfile",
-                            "_on_click": "onProfile",
-                            "cardImg": {
-                              "id": "gc_icon"
-                            },
-                            "tdiv": {
-                              "position": "relative",
-                              "pos": "@blockInterval, 50%ph-50%h",
-                              "flow": "vertical",
-                              "tdiv": {
-                                "height": "0.025@sf",
-                                "pos": "50%pw-50%w, 50%pw-50%w",
-                                "position": "relative",
-                                "activeText": {
-                                  "id": "gc_rank",
-                                  "position": "relative",
-                                  "pos": "0, 50%ph-50%h",
-                                  "text": ""
-                                },
-                                "cardImg": {
-                                  "id": "gc_prestige",
-                                  "position": "relative",
-                                  "pos": "1@dp, 50%ph - 50%h"
-                                }
-                              },
-                              "expProgress": {
-                                "id": "gc_rankProgress",
-                                "width": "pw",
-                                "pos": "0, ph",
-                                "position": "absolute",
-                                "small": "yes"
-                              }
-                            },
-                            "btnText": {
-                              "id": "gc_name",
-                              "pos": "@blockInterval, 50%ph-50%h",
-                              "position": "relative",
-                              "text-align": "left",
-                              "isDarkWhenDisabled": "no"
-                            }
+                          "tdiv": {
+                            "id": "right_gc_panel_free_width",
+                            "width": "fw",
+                            "inactive": "yes"
+                          }
+                        },
+                        {
+                          "tdiv": {
+                            "id": "topmenu_menu_panel_right",
+                            "height": "ph",
+                            "padding": "-1@gcButtonsInterval, 0",
+                            "inactive": "yes"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "infoBlock": {
+                  "css-hier-invalidate": "yes",
+                  "activeText": {
+                    "id": "gc_queue_wait_text",
+                    "pos": "0, 50%ph-50%h",
+                    "position": "relative",
+                    "behaviour": "Timer",
+                    "timer_interval_msec": "1000"
+                  },
+                  "animated_wait_icon": {
+                    "id": "gc_queue_wait_icon",
+                    "pos": "0,50%ph-50%h",
+                    "position": "relaive",
+                    "background-rotation": "0",
+                    "display": "show",
+                    "title": "$tooltipObj",
+                    "tooltipObj": {
+                      "id": "queues_info_tooltip",
+                      "on_tooltip_open": "onQueuesTooltipOpen",
+                      "on_tooltip_close": "onTooltipObjClose",
+                      "display": "hide"
+                    }
+                  }
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "chatPopupNest",
+                  "size": "0.4@sf+10, 0.075*@sf+10",
+                  "position": "absolute",
+                  "pos": "0.5@rw-w-0.55@titleLogoPlateWidth-0.019@scrn_tgt, @topBarHeight",
+                  "flow": "vertical"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "gamercard": {
+          "BottomMenuPanel": [
+            {
+              "shadowSafeArea": []
+            },
+            {
+              "line": []
+            },
+            {
+              "tdiv": {
+                "size": "pw, 0.02@sf",
+                "pos": "0, ph",
+                "position": "absolute",
+                "background-repeat": "expand",
+                "background-image": "#ui/gameuiskin#optionlist_background_top",
+                "background-color": "#90909090",
+                "background-position": "0, 0.25h, 0, 0"
+              }
+            },
+            {
+              "tdiv": [
+                {
+                  "width": "1@bottomGcWidth"
+                },
+                {
+                  "height": "1@gamercardHeight"
+                },
+                {
+                  "pos": "pw/2 - w/2, ph/2 - h/2"
+                },
+                {
+                  "position": "absolute"
+                },
+                {
+                  "tdiv": {
+                    "id": "gamercard_bottom_left",
+                    "height": "ph",
+                    "class": "header",
+                    "width": "fw",
+                    "bottomNavPlace": {
+                      "id": "gamercard_bottom_navbar_place",
+                      "size": "pw - ph, ph",
+                      "pos": "0, 0.5(ph-h)",
+                      "position": "absolute"
+                    },
+                    "tdiv": {
+                      "id": "slotbar-presetsPlace",
+                      "size": "pw, ph",
+                      "position": "absolute"
+                    }
+                  }
+                },
+                {
+                  "gcButtonsHolder": {
+                    "id": "gamercard_squad_widget",
+                    "pos": "0, 0.5(ph-h)",
+                    "margin-right": "2@buttonTextPadding",
+                    "class": "header",
+                    "behaviour": "wrapNavigator",
+                    "navigatorShortcuts": "yes",
+                    "childsActivate": "yes",
+                    "on_wrap_up": "onWrapUp",
+                    "on_wrap_down": "onWrapDown",
+                    "on_wrap_left": "onWrapLeft",
+                    "on_wrap_right": "onWrapRight"
+                  }
+                },
+                {
+                  "gcButtonsHolder": [
+                    {
+                      "id": "gamercard_bottom_right"
+                    },
+                    {
+                      "class": "header"
+                    },
+                    {
+                      "behaviour": "wrapNavigator"
+                    },
+                    {
+                      "navigatorShortcuts": "yes"
+                    },
+                    {
+                      "childsActivate": "yes"
+                    },
+                    {
+                      "on_wrap_up": "onWrapUp"
+                    },
+                    {
+                      "on_wrap_down": "onWrapDown"
+                    },
+                    {
+                      "on_wrap_left": "onBottomGCPanelLeft"
+                    },
+                    {
+                      "on_wrap_right": "onBottomGCPanelRight"
+                    },
+                    {
+                      "Button_text": [
+                        {
+                          "id": "gc_invites_btn"
+                        },
+                        {
+                          "class": "image"
+                        },
+                        {
+                          "tooltip": "#mainmenu/invites"
+                        },
+                        {
+                          "_on_click": "onGC_invites"
+                        },
+                        {
+                          "img": {
+                            "id": "icon",
+                            "background-image": "#ui/gameuiskin#invites.svg"
+                          }
+                        },
+                        {
+                          "img": {
+                            "id": "iconNew",
+                            "background-image": "#ui/gameuiskin#invites_new.svg",
+                            "style": "background-color:@textureGlowColor",
+                            "display": "hide"
+                          }
+                        },
+                        {
+                          "img": {
+                            "id": "iconGlow",
+                            "background-image": "#ui/gameuiskin#mail_new_glow",
+                            "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
+                            "_transp-timer": "0",
+                            "display": "hide"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Button_text": {
+                        "id": "gc_contacts",
+                        "class": "image",
+                        "tooltip": "#mainmenu/contacts",
+                        "_on_click": "onGC_contacts",
+                        "img": {
+                          "background-image": "#ui/gameuiskin#friends.svg"
+                        },
+                        "text": {
+                          "id": "gc_friends_online",
+                          "position": "absolute",
+                          "pos": "pw - w, ph - h - 2",
+                          "style": "font:@fontTiny; color:@userlogColoredText",
+                          "shadeStyle": "outline33pct",
+                          "text": ""
+                        }
+                      }
+                    },
+                    {
+                      "Button_text": [
+                        {
+                          "id": "gc_chat_btn"
+                        },
+                        {
+                          "class": "image"
+                        },
+                        {
+                          "tooltip": "#mainmenu/chat"
+                        },
+                        {
+                          "_on_click": "onGC_chat"
+                        },
+                        {
+                          "img": {
+                            "id": "icon",
+                            "background-image": "#ui/gameuiskin#chat.svg"
+                          }
+                        },
+                        {
+                          "img": {
+                            "id": "iconNew",
+                            "background-image": "#ui/gameuiskin#chat_new.svg",
+                            "style": "background-color:@textureGlowColor",
+                            "display": "hide"
+                          }
+                        },
+                        {
+                          "img": {
+                            "id": "iconGlow",
+                            "background-image": "#ui/gameuiskin#mail_new_glow",
+                            "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
+                            "_transp-timer": "0",
+                            "display": "hide"
+                          }
+                        },
+                        {
+                          "text": {
+                            "id": "gc_new_chat_messages",
+                            "position": "absolute",
+                            "pos": "pw - w, ph - h",
+                            "style": "font:@fontTiny; color:@userlogColoredText",
+                            "text": ""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Button_text": [
+                        {
+                          "id": "gc_userlog_btn"
+                        },
+                        {
+                          "class": "image"
+                        },
+                        {
+                          "tooltip": "#userlog/no_new_messages"
+                        },
+                        {
+                          "_on_click": "onUserLog"
+                        },
+                        {
+                          "img": {
+                            "id": "icon",
+                            "background-image": "#ui/gameuiskin#mail.svg"
+                          }
+                        },
+                        {
+                          "img": {
+                            "id": "iconNew",
+                            "background-image": "#ui/gameuiskin#mail_new.svg",
+                            "style": "background-color:@textureGlowColor",
+                            "display": "hide"
+                          }
+                        },
+                        {
+                          "img": {
+                            "id": "iconGlow",
+                            "background-image": "#ui/gameuiskin#mail_new_glow",
+                            "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
+                            "_transp-timer": "0",
+                            "display": "hide"
                           }
                         }
                       ]
                     }
                   ]
-                },
-                {
-                  "tdiv": {
-                    "width": "@topGcPanelWidth",
-                    "height": "ph",
-                    "pos": "50%pw + 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h",
-                    "position": "absolute",
-                    "gcButtonsHolder": [
-                      {
-                        "id": "gamercard_panel_right"
-                      },
-                      {
-                        "width": "@topGcPanelWidth"
-                      },
-                      {
-                        "class": "header"
-                      },
-                      {
-                        "gcButtonsInterval": "yes"
-                      },
-                      {
-                        "behaviour": "wrapNavigator"
-                      },
-                      {
-                        "navigatorShortcuts": "yes"
-                      },
-                      {
-                        "childsActivate": "yes"
-                      },
-                      {
-                        "on_wrap_up": "onWrapUp"
-                      },
-                      {
-                        "on_wrap_down": "onWrapDown"
-                      },
-                      {
-                        "on_wrap_left": "onTopGCPanelLeft"
-                      },
-                      {
-                        "on_wrap_right": "onTopGCPanelRight"
-                      },
-                      {
-                        "Button_text": [
-                          {
-                            "id": "gc_warpoints"
-                          },
-                          {
-                            "isColoredImg": "yes"
-                          },
-                          {
-                            "tooltip": "#mainmenu/warpoints"
-                          },
-                          {
-                            "showBonusPersonal": ""
-                          },
-                          {
-                            "showBonusCommon": ""
-                          },
-                          {
-                            "_on_click": "onOnlineShopLions"
-                          },
-                          {
-                            "img": {
-                              "isFirstLeft": "yes",
-                              "background-image": "#ui/gameuiskin#shop_warpoints"
-                            }
-                          },
-                          {
-                            "btnText": {
-                              "id": "gc_balance",
-                              "min-width": "0.05@sf",
-                              "pos": "@blockInterval, 50%ph-50%h",
-                              "position": "relative",
-                              "text-align": "left"
-                            }
-                          },
-                          {
-                            "BonusCorner": {
-                              "bonusType": "personal"
-                            }
-                          },
-                          {
-                            "BonusCorner": {
-                              "bonusType": "common"
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "Button_text": {
-                          "id": "gc_eagles",
-                          "isColoredImg": "yes",
-                          "tooltip": "#mainmenu/gold",
-                          "_on_click": "onOnlineShopEaglesMsg",
-                          "img": {
-                            "isFirstLeft": "yes",
-                            "background-image": "#ui/gameuiskin#shop_warpoints_premium"
-                          },
-                          "btnText": {
-                            "id": "gc_gold",
-                            "min-width": "0.05@sf",
-                            "pos": "@blockInterval, 50%ph-50%h",
-                            "position": "relative",
-                            "text-align": "left"
-                          }
-                        }
-                      },
-                      {
-                        "Button_text": [
-                          {
-                            "id": "gc_free_exp"
-                          },
-                          {
-                            "class": "image"
-                          },
-                          {
-                            "isColoredImg": "yes"
-                          },
-                          {
-                            "showBonusPersonal": ""
-                          },
-                          {
-                            "showBonusCommon": ""
-                          },
-                          {
-                            "_on_click": "onConvertExp"
-                          },
-                          {
-                            "img": {
-                              "background-image": "#ui/gameuiskin#convert_xp"
-                            }
-                          },
-                          {
-                            "BonusCorner": {
-                              "bonusType": "personal"
-                            }
-                          },
-                          {
-                            "BonusCorner": {
-                              "bonusType": "common"
-                            }
-                          },
-                          {
-                            "discount_notification": {
-                              "id": "changeExp_discount",
-                              "type": "up",
-                              "display": "hide"
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "Button_text": {
-                          "id": "gc_PremiumAccount",
-                          "class": "image",
-                          "isColoredImg": "yes",
-                          "_on_click": "onOnlineShopPremium",
-                          "img": {
-                            "id": "gc_prempic",
-                            "background-image": ""
-                          }
-                        }
-                      },
-                      {
-                        "tdiv": {
-                          "id": "right_gc_panel_free_width",
-                          "width": "fw",
-                          "inactive": "yes"
-                        }
-                      },
-                      {
-                        "tdiv": {
-                          "id": "topmenu_menu_panel_right",
-                          "height": "ph",
-                          "padding": "-1@gcButtonsInterval, 0",
-                          "inactive": "yes"
-                        }
-                      }
-                    ]
-                  }
                 }
               ]
-            },
-            {
-              "tdiv": {
-                "position": "absolute",
-                "pos": "50%pw-50%w, 0",
-                "tdiv": {
-                  "id": "gamercard_tobattle",
-                  "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
-                  "pos": "0, 1@bh",
-                  "position": "relative",
-                  "allowDecreaseFont": "yes"
-                }
-              }
-            },
-            {
-              "infoBlock": {
-                "css-hier-invalidate": "yes",
-                "activeText": {
-                  "id": "gc_queue_wait_text",
-                  "pos": "0, 50%ph-50%h",
-                  "position": "relative",
-                  "behaviour": "Timer",
-                  "timer_interval_msec": "1000"
-                },
-                "animated_wait_icon": {
-                  "id": "gc_queue_wait_icon",
-                  "pos": "0,50%ph-50%h",
-                  "position": "relaive",
-                  "background-rotation": "0",
-                  "display": "show",
-                  "title": "$tooltipObj",
-                  "tooltipObj": {
-                    "id": "queues_info_tooltip",
-                    "on_tooltip_open": "onQueuesTooltipOpen",
-                    "on_tooltip_close": "onTooltipObjClose",
-                    "display": "hide"
-                  }
-                }
-              }
-            },
-            {
-              "tdiv": {
-                "id": "chatPopupNest",
-                "size": "0.4@sf+10, 0.075*@sf+10",
-                "position": "absolute",
-                "pos": "0.5@rw-w-0.55@titleLogoPlateWidth-0.019@scrn_tgt, @topBarHeight",
-                "flow": "vertical"
-              }
             }
-          ]
-        }
-      },
-      {
-        "gamercard": {
-          "BottomMenuPanel": {
-            "line": [],
-            "tdiv": [
-              {
-                "width": "1@bottomGcWidth"
-              },
-              {
-                "height": "1@gamercardHeight"
-              },
-              {
-                "pos": "pw/2 - w/2, 6"
-              },
-              {
-                "position": "absolute"
-              },
-              {
-                "tdiv": {
-                  "id": "gamercard_bottom_left",
-                  "height": "ph",
-                  "class": "header",
-                  "width": "fw",
-                  "bottomNavPlace": {
-                    "id": "gamercard_bottom_navbar_place",
-                    "size": "pw - ph, ph",
-                    "pos": "0, 0.5(ph-h)",
-                    "position": "absolute"
-                  },
-                  "tdiv": {
-                    "id": "slotbar-presetsPlace",
-                    "size": "pw, ph",
-                    "position": "absolute"
-                  }
-                }
-              },
-              {
-                "gcButtonsHolder": {
-                  "id": "gamercard_squad_widget",
-                  "pos": "0, 0.5(ph-h)",
-                  "margin-right": "2@buttonTextPadding",
-                  "class": "header",
-                  "behaviour": "wrapNavigator",
-                  "navigatorShortcuts": "yes",
-                  "childsActivate": "yes",
-                  "on_wrap_up": "onWrapUp",
-                  "on_wrap_down": "onWrapDown",
-                  "on_wrap_left": "onWrapLeft",
-                  "on_wrap_right": "onWrapRight"
-                }
-              },
-              {
-                "gcButtonsHolder": [
-                  {
-                    "id": "gamercard_bottom_right"
-                  },
-                  {
-                    "class": "header"
-                  },
-                  {
-                    "behaviour": "wrapNavigator"
-                  },
-                  {
-                    "navigatorShortcuts": "yes"
-                  },
-                  {
-                    "childsActivate": "yes"
-                  },
-                  {
-                    "on_wrap_up": "onWrapUp"
-                  },
-                  {
-                    "on_wrap_down": "onWrapDown"
-                  },
-                  {
-                    "on_wrap_left": "onBottomGCPanelLeft"
-                  },
-                  {
-                    "on_wrap_right": "onBottomGCPanelRight"
-                  },
-                  {
-                    "Button_text": [
-                      {
-                        "id": "gc_invites_btn"
-                      },
-                      {
-                        "class": "image"
-                      },
-                      {
-                        "tooltip": "#mainmenu/invites"
-                      },
-                      {
-                        "_on_click": "onGC_invites"
-                      },
-                      {
-                        "img": {
-                          "id": "icon",
-                          "background-image": "#ui/gameuiskin#invites.svg"
-                        }
-                      },
-                      {
-                        "img": {
-                          "id": "iconNew",
-                          "background-image": "#ui/gameuiskin#invites_new.svg",
-                          "style": "background-color:@textureGlowColor",
-                          "display": "hide"
-                        }
-                      },
-                      {
-                        "img": {
-                          "id": "iconGlow",
-                          "background-image": "#ui/gameuiskin#mail_new_glow",
-                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
-                          "_transp-timer": "0",
-                          "display": "hide"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "Button_text": {
-                      "id": "gc_contacts",
-                      "class": "image",
-                      "tooltip": "#mainmenu/contacts",
-                      "_on_click": "onGC_contacts",
-                      "img": {
-                        "background-image": "#ui/gameuiskin#friends.svg"
-                      },
-                      "text": {
-                        "id": "gc_friends_online",
-                        "position": "absolute",
-                        "pos": "pw - w, ph - h - 2",
-                        "style": "font:@fontTiny; color:@userlogColoredText",
-                        "shadeStyle": "outline33pct",
-                        "text": ""
-                      }
-                    }
-                  },
-                  {
-                    "Button_text": [
-                      {
-                        "id": "gc_chat_btn"
-                      },
-                      {
-                        "class": "image"
-                      },
-                      {
-                        "tooltip": "#mainmenu/chat"
-                      },
-                      {
-                        "_on_click": "onGC_chat"
-                      },
-                      {
-                        "img": {
-                          "id": "icon",
-                          "background-image": "#ui/gameuiskin#chat.svg"
-                        }
-                      },
-                      {
-                        "img": {
-                          "id": "iconNew",
-                          "background-image": "#ui/gameuiskin#chat_new.svg",
-                          "style": "background-color:@textureGlowColor",
-                          "display": "hide"
-                        }
-                      },
-                      {
-                        "img": {
-                          "id": "iconGlow",
-                          "background-image": "#ui/gameuiskin#mail_new_glow",
-                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
-                          "_transp-timer": "0",
-                          "display": "hide"
-                        }
-                      },
-                      {
-                        "text": {
-                          "id": "gc_new_chat_messages",
-                          "position": "absolute",
-                          "pos": "pw - w, ph - h",
-                          "style": "font:@fontTiny; color:@userlogColoredText",
-                          "text": ""
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "Button_text": [
-                      {
-                        "id": "gc_userlog_btn"
-                      },
-                      {
-                        "class": "image"
-                      },
-                      {
-                        "tooltip": "#userlog/no_new_messages"
-                      },
-                      {
-                        "_on_click": "onUserLog"
-                      },
-                      {
-                        "img": {
-                          "id": "icon",
-                          "background-image": "#ui/gameuiskin#mail.svg"
-                        }
-                      },
-                      {
-                        "img": {
-                          "id": "iconNew",
-                          "background-image": "#ui/gameuiskin#mail_new.svg",
-                          "style": "background-color:@textureGlowColor",
-                          "display": "hide"
-                        }
-                      },
-                      {
-                        "img": {
-                          "id": "iconGlow",
-                          "background-image": "#ui/gameuiskin#mail_new_glow",
-                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
-                          "_transp-timer": "0",
-                          "display": "hide"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
+          ],
           "tdiv": {
             "position": "root",
             "pos": "sw - w, 0",

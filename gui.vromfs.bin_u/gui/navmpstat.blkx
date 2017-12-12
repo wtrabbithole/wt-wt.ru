@@ -1,26 +1,13 @@
 {
-  "navLeft": [
-    {
-      "Button_text": {
-        "id": "btn_usercard",
-        "text": "#mainmenu/btnUserCard",
-        "on_click": "onUserCard",
-        "display": "hide",
-        "btnName": "Y",
-        "ButtonImg": []
-      }
-    },
-    {
-      "Button_text": {
-        "id": "btn_complain",
-        "text": "#mainmenu/btnComplain",
-        "btnName": "X",
-        "_on_click": "onComplain",
-        "display": "hide",
-        "ButtonImg": []
-      }
+  "navLeft": {
+    "Button_text": {
+      "id": "btn_user_options",
+      "text": "#mainmenu/btnUserAction",
+      "btnName": "Y",
+      "on_click": "onUserOptions",
+      "ButtonImg": []
     }
-  ],
+  },
   "navBottomLeft": [],
   "navMiddle": {
     "activeText": {
@@ -45,7 +32,7 @@
         "text": "#flightmenu/btnActivateOrder",
         "display": "hide",
         "enable": "no",
-        "btnName": "SpaceA",
+        "btnName": "R3",
         "_on_click": "onActivateOrder",
         "behavior": "Timer",
         "timer_handler_func": "onOrderTimerUpdate",

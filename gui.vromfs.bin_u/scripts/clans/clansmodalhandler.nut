@@ -108,7 +108,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     clanLbInited = true
     curPageData = null
     curClanLbPage = 0
-    curClan = null
     clanByRow = {}
     isLastPage = false
     curEra = CLAN_RANK_ERA
@@ -307,7 +306,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function onSearchStart()
   {
     curClanLbPage = 0
-    curClan = null
     searchRequest = scene.findObject("search_edit").getValue()
     searchRequest = searchRequest.len() > 0 ? ::clearBorderSymbols(searchRequest, [" "]) : ""
     isSearchMode = searchRequest.len() > 0
@@ -330,13 +328,12 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     if (!::checkObj(scene))
       return
+
     local lbPageObj = scene.findObject("clans_list_content")
     if (!::checkObj(lbPageObj))
       return
 
-    local btnBackToLbObj = lbPageObj.findObject("btn_back_to_clanlist")
-    btnBackToLbObj.show(isSearchMode)
-    btnBackToLbObj.enable(isSearchMode)
+    ::showBtn("btn_back_to_clanlist", isSearchMode, lbPageObj)
 
     if (isSearchMode && !("clan" in lbBlk))
     {
@@ -372,7 +369,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     tooltips = {}
     clanByRow.clear()
     local rowIdx = 0
-    local rowLastPage = lbTableObj.getValue()
     isLastPage = true
     foreach(name, rowBlk in clanLbBlk % "clan")
     {
@@ -388,9 +384,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       data += generateRowTableData(rowBlk, rowIdx++)
       clanByRow[rowIdx.tostring()] <- rowBlk._id.tostring()
     }
+
+    local lastRowIdx = lbTableObj.getValue()
     if (rowIdx < clansPerPage)
     {
-      rowLastPage = min(rowIdx,rowLastPage)
+      lastRowIdx = ::min(rowIdx,lastRowIdx)
       for(local i = rowIdx; i < clansPerPage; i++)
       {
         data += buildTableRow("row_" + rowIdx++, [], rowIdx % 2 == 0, "inactive:t='yes';")
@@ -413,7 +411,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         continue
       local block = {
         id = item.id
-        image = "#ui/gameuiskin#lb_" + item.id
+        image = item.icon
         tooltip = item.tooltip
         active = clansLbSort.id == item.id
         needText = false
@@ -435,12 +433,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         lbTableObj.findObject(rowName).findObject(name).tooltip = value
     guiScene.setUpdatesEnabled(true, true)
 
-    if(curPage == "clans_list")
+    if (curPage == "clans_list")
     {
-      onSelectLb()
       restoreFocus()
-      local indexKey = lbTableObj.getValue().tostring()
-      lbTableObj.setValue(rowLastPage)
+      lbTableObj.setValue(lastRowIdx)
+      onSelectLb()
     }
   }
 
@@ -544,26 +541,23 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onSelectLb()
   {
-    local objTbl = curPageObj.findObject("clan_lboard_table")
-    if (!::checkObj(objTbl))
-      curClan = null
-    else {
-      local indexKey = objTbl.getValue().tostring()
-      curClan = ::getTblValue(indexKey, clanByRow, null)
-    }
-    updateButtons()
+    guiScene.performDelayed(this, (function () {
+      updateButtons()
+    }))
   }
 
   function updateButtons()
   {
+    local clansTableObj = scene.findObject("clan_lboard_table")
+    local clan = getCurClan()
+
     local buttons = {
-      btn_clan_info = curClan != null
-      btn_membership_req = !::is_in_clan() && curClan != null && ::clan_get_requested_clan_id() != curClan
+      btn_clan_info = clan != null && clansTableObj && clansTableObj.isFocused()
+      btn_membership_req = !::is_in_clan() && clan != null && ::clan_get_requested_clan_id() != clan
       mid_nav_bar = clanByRow.len() > 0
     }
 
-    foreach(btnId, status in buttons)
-      ::showBtn(btnId, status, curPageObj)
+    ::showBtnTable(curPageObj, buttons)
 
     local reqButton = curPageObj.findObject("btn_membership_req")
     if(::checkObj(reqButton))
@@ -571,7 +565,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       local opened = true
       if(curPageData)
         foreach(rowBlk in curPageData % "clan")
-          if(rowBlk._id == curClan)
+          if(rowBlk._id == clan)
           {
             opened = rowBlk.status != "closed"
             break
@@ -581,6 +575,15 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
   }
 
+  function getCurClan()
+  {
+    local objTbl = curPageObj.findObject("clan_lboard_table")
+    if (!::check_obj(objTbl))
+      return
+
+    return clanByRow?[objTbl.getValue().tostring()]
+  }
+
   function onEventClanMembershipRequested(p)
   {
     updateButtons()
@@ -588,9 +591,16 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onClanInfo()
   {
-    if(curClan == null)
+    local clan = getCurClan()
+    if (clan == null)
       return
-    showClanPage(curClan, "", "")
+
+    showClanPage(clan, "", "")
+  }
+
+  function onSelectClansList()
+  {
+    onSelectLb()
   }
 
   function goToPage(obj)
@@ -619,26 +629,24 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onClanRclick(position = null)
   {
-    if(!curClan)
+    local clan = getCurClan()
+    if (!clan)
       return
     local menu = [
       {
         text = ::loc("clan/btn_clan_info")
         show = true
-        action = (@(curClan) function() {
-          showClanPage(curClan, "", "")})(curClan)
+        action = @() showClanPage(clan, "", "")
       }
       {
         text = ::loc("clan/btn_membership_req")
-        show = (::clan_get_my_clan_id() == "-1" && clan_get_requested_clan_id() != curClan)
-        action = (@(curClan) function() {
-          onMembershipReq()
-        })(curClan)
+        show = (::clan_get_my_clan_id() == "-1" && clan_get_requested_clan_id() != clan)
+        action = @() onMembershipReq()
       }
       {
         text = ::loc("mainmenu/btnComplain")
-        show = (::clan_get_my_clan_id() != curClan)
-        action = (@(curClan) function() { complainToClan(curClan) })(curClan)
+        show = (::clan_get_my_clan_id() != clan)
+        action = @() complainToClan(clan)
       }
     ]
 

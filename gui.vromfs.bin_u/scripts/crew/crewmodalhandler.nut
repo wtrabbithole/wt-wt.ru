@@ -53,11 +53,14 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return goBack()
 
     initMainParams(true, true)
-    ::init_slotbar(this, scene.findObject("nav-help"), true, null,
-                    { showNewSlot=false,
-                      emptyText="#shop/aircraftNotSelected",
-                      crewId = crew.id
-                    })
+    createSlotbar({
+      crewId = crew.id
+      showNewSlot=false,
+      emptyText="#shop/aircraftNotSelected",
+      beforeSlotbarSelect = @(onOk, onCancel, slotData) checkSkillPointsAndDo(onOk, onCancel)
+      afterSlotbarSelect = openSelectedCrew
+      onSlotDblClick = onSlotDblClick
+    })
     if (slotbarParams)
       delete slotbarParams.crewId //it need only to correct init slotbar, but no need on reinit it.
 
@@ -287,7 +290,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updatePointsText()
   {
     local isMaxLevel = ::g_crew.isCrewMaxLevel(crew, getCurCountryName(), curUnitType)
-    local curPointsText = ::nbsp + ::get_crew_sp_text(curPoints)
+    local curPointsText = ::get_crew_sp_text(curPoints)
     scene.findObject("crew_cur_points").setValue(isMaxLevel ? "" : curPointsText)
 
     local levelIncText = ""
@@ -519,7 +522,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function checkSkillPointsAndDo(action, cancelAction = function() {}, updateAfterApply = true)
   {
     local crewPoints = ::getTblValue("skillPoints", crew, 0)
-    if (curPoints == crewPoints || skipCheckAirSelect)
+    if (curPoints == crewPoints)
       return action()
 
     local msgOptions = [
@@ -549,45 +552,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     checkSkillPointsAndDo(::gui_start_menuShop)
   }
 
-  function onSlotbarDblClick(obj)
+  function onSlotDblClick(crew)
   {
-    checkSkillPointsAndDo(base.onSlotbarDblClick)
-  }
-
-  function onSlotbarSelectAction(obj)
-  {
-    if (!obj || ::slotbar_oninit)
-      return
-
-    local tblId = obj.id
-    if ((tblId.len() <= 11) || (tblId.slice(0, 11) != "airs_table_"))
-      return
-
-    curSlotCountryId = tblId.slice(11).tointeger()
-
-    local curCol = obj.cur_col.tointeger()
-    local trObj = obj.getChild(0)
-    if (curCol < 0 || curCol >= trObj.childrenCount())
-      return
-    local curTdId = trObj.getChild(curCol).id
-    local newSlotId = getSlotIdByObjId(curTdId, curSlotCountryId)
-    if (newSlotId < 0)
-      return
-    curSlotIdInCountry = newSlotId
-
-    local newCrew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    if (!newCrew || newCrew.id==crew.id)
-      return
-
-    ignoreCheckSlotbar = true
-    checkSkillPointsAndDo(function() {
-      ignoreCheckSlotbar = false
-      openSelectedCrew()
-    },
-    function() {
-      ignoreCheckSlotbar = false
-      checkSlotbar()
-    })
+    local unit = ::g_crew.getCrewUnit(crew)
+    if (unit)
+      checkSkillPointsAndDo(@() ::open_weapons_for_unit(unit))
   }
 
   function beforeSlotbarChange(action, cancelAction)
@@ -597,29 +566,14 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function openSelectedCrew()
   {
-    crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    if (crew)
-    {
-      countryId = curSlotCountryId
-      idInCountry = curSlotIdInCountry
-    } else
-      crew = getSlotItem(countryId, idInCountry)
+    local newCrew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
+    if (!newCrew || !::g_crew.getCrewUnit(newCrew)) //do not open crew for crews without unit
+      return
+
+    crew = newCrew
+    countryId = curSlotCountryId
+    idInCountry = curSlotIdInCountry
     initMainParams(true, true)
-    if (crew)
-      if ("aircraft" in crew)
-      {
-        showAircraft(crew.aircraft)
-        ::select_crew(curSlotCountryId, curSlotIdInCountry)
-      } else
-        onSlotChangeAircraft(null)
-  }
-
-  function reinitSlotbarAction()
-  {
-    base.reinitSlotbarAction()
-
-    if (countryId != curSlotCountryId || idInCountry != curSlotIdInCountry)
-      openSelectedCrew()
   }
 
   function onUpgrCrewSkillsTutorial()

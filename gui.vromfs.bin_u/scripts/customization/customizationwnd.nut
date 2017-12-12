@@ -112,6 +112,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     isUnitBought = unit.isBought()
     setSceneTitle(::loc(is_own ? "mainmenu/showroom" : "mainmenu/btnPreview") + ::loc("ui/parentheses/space", { text = ::getUnitName(unit.name) }))
 
+    ::hangar_show_model_damaged(::hangar_get_loaded_model_damage_state())
+    local cObj = scene.findObject("btn_toggle_damaged")
+    if (::checkObj(cObj))
+      cObj.setValue(::hangar_get_loaded_model_damage_state() == MDS_DAMAGED)
+
     local bObj = scene.findObject("btn_testflight")
     if (::checkObj(bObj))
     {
@@ -1640,6 +1645,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function onToggleDamaged(obj)
+  {
+    ::hangar_show_model_damaged(obj.getValue() ? MDS_DAMAGED : MDS_UNDAMAGED)
+  }
+
   function onBuySkin()
   {
     local skinId = ::g_unlocks.getSkinId(unit.name, previewSkinId)
@@ -1726,10 +1736,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     })(owner, unit)
 
     saveDecorators(false)
-    checkedNewFlight((@(afterCloseFunc) function() {
-      ::test_flight_aircraft <- unit
-      ::gui_start_testflight(afterCloseFunc)
-    })(afterCloseFunc))
+    checkedNewFlight(function() {
+      ::gui_start_testflight(unit, afterCloseFunc)
+    })
   }
 
   function onBuy()
@@ -1968,6 +1977,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     guiScene.performDelayed(this, base.goBack)
+    ::g_decorator.clearUgcPreviewParams()  // clear only when closed by player
   }
 
   function onAirInfoToggleDMViewer(obj)
@@ -1980,6 +1990,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::hangar_exit_decal_mode(false)
     ::hangar_set_current_decal_slot(-1)
     ::hangar_apply_skin_preview(::hangar_get_last_skin(unit.name))
+    ::hangar_show_model_damaged(MDS_ORIGINAL)
   }
 
   function getCurrentFocusedType()
@@ -1997,30 +2008,38 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updatePenaltyText()
   {
-    local show = ::is_decals_disabled()
-    local objText = showSceneBtn("decal_text_area", show)
-    if (!::checkObj(objText) || !show)
+    local obj = scene.findObject("decal_text_area")
+    if (!::check_obj(obj))
       return
 
     local txt = ""
-    local timeSec = ::get_time_till_decals_disabled()
-    if (timeSec == 0)
+    if (::is_decals_disabled())
     {
-      local st = penalty.getPenaltyStatus()
-      if ("seconds_left" in st)
-        timeSec = st.seconds_left
+      local timeSec = ::get_time_till_decals_disabled()
+      if (timeSec == 0)
+      {
+        local st = penalty.getPenaltyStatus()
+        if ("seconds_left" in st)
+          timeSec = st.seconds_left
+      }
+
+      if (timeSec == 0)
+        txt = ::format(::loc("charServer/decal/permanent"))
+      else
+        txt = ::format(::loc("charServer/decal/timed"), time.hoursToString(time.secondsToHours(timeSec), false))
     }
 
-    if (timeSec == 0)
-      txt = ::format(::loc("charServer/decal/permanent"))
-    else
-      txt = ::format(::loc("charServer/decal/timed"), time.hoursToString(time.secondsToHours(timeSec), false))
-    objText.setValue(txt)
+    obj.setValue(txt)
   }
 
   function onEventSelectUGCSkinForPreview(params)
   {
+    local skinBlockName = params.unitName + "/" + params.skinName
+    ::g_decorator.previewedUgcSkinId = skinBlockName;
     applySkin(params.skinName, true)
+    local isForApprove = params?.isForApprove ?? false
+    ::g_decorator.approversUnitToPreviewUgcResource = isForApprove ? ::show_aircraft : null
+    showSceneBtn("toggle_damaged_div", isForApprove)
     updateSkinList()
   }
 }

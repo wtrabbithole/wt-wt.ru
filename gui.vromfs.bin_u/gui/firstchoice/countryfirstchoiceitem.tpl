@@ -2,6 +2,7 @@ div {
   id:t='country_choice_list_box';
   width:t='pw'
   flow:t='h-flow'
+  total-input-transparent:t='yes'
 
   behaviour:t='posNavigator'
   navigatorShortcuts:t='active'

@@ -15,10 +15,6 @@ local shipState = {
   sightAngle = Watched(0)
   fov = Watched(0)
 
-  depthUnderShip = Watched(-1)
-  showDepthUnderShip = Watched(false)
-  depthUnderShipIsCritical = Watched(false)
-
   obstacleIsNear = Watched(false)
   distanceToObstacle = Watched(-1)
 

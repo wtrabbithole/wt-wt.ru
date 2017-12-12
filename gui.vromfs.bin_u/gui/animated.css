@@ -10,6 +10,7 @@ hoverSize {
   not-input-transparent:yes;
   on_activate:onHoverSizeMove;
   snd_activate:menu_appear;
+  css-hier-invalidate:yes;
 }
 
 :hover > hoverSize,
@@ -90,7 +91,7 @@ hideSize[moveOut] {
 hideSize[moveOut=yes] {
   size-time:250;
 }
-hideSize[moveOut=no][height=0], hideSize[moveOut=yes][_size-timer=1] {
+hideSize[moveOut=no][height=0], hideSize[moveOut=yes][_size-timer=1], hoverSize[moveOut=yes][_size-timer=1] {
   move:no;
 }
 hideSize[move=yes] {

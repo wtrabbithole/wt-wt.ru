@@ -25,11 +25,11 @@
 @const hitCameraHeight: @hitCameraWidth / @hitCamRenderAspectRatio;
 @const hitCamFadedColor: #a0a0a0;
 
-@const hudMisObjIconsSize: 32@nhsf/@pf;
+@const artilleryTargetArcSize: (20/1080@shHud+1)\2*2;
+@const artilleryTargetArcOffset: (16/1080@shHud+1)\2*2;
+@const artilleryTargetInnerDiameterMin: (2/1080@shHud+1px)\2*2 $max 4@dp;
 
-hud_touch_shortcut {
-  behavior:touchArea;
-}
+@const hudMisObjIconsSize: 32@nhsf/@pf;
 
 @const sizeTacticalMap:          0.3*@shHud;
 @const sizeDamageIndicatorFull:  0.3*@shHud;
@@ -39,6 +39,11 @@ hud_touch_shortcut {
 
 @const tranTouchShortcutColor:   #80808080;
 @const pushedTouchShortcutColor: #efe7a4;
+
+hud_touch_shortcut {
+  behavior:touchArea;
+}
+
 hud_touch_shortcut[shortcut_id]  {
   behavior:button;
   background-color:@tranTouchShortcutColor;
@@ -49,10 +54,6 @@ hud_touch_shortcut[shortcut_id]  {
 hud_touch_shortcut:pushed {
   background-color:@pushedTouchShortcutColor;
 }
-
-@const artilleryTargetArcSize: (24/1080@shHud+1)\2*2;
-@const artilleryTargetArcOffset: (16/1080@shHud+1)\2*2;
-@const artilleryTargetInnerDiameterMin: (3/1080@shHud+1px)\2*2;
 
 
 
@@ -329,6 +330,9 @@ rewardMessageText[view_class=hit] {
 rewardMessageText[view_class=critical_hit] {
   text-shade-color: @criticalHitRewardTextGlowColor;
 }
+rewardMessageText[view_class=scout] {
+  text-shade-color: @criticalHitRewardTextGlowColor;
+}
 rewardMessageText[view_class=kill] {
   text-shade-color: @killRewardTextGlowColor;
 }
@@ -502,6 +506,27 @@ hitCamDebuff[state=killed]    > hitCamDebuffLabel { color:#ff4040;   }
 
 
 
+targetArc {
+  size:@artilleryTargetArcSize, @artilleryTargetArcSize;
+  position:absolute;
+  background-image:#ui/gameuiskin#artillery_target_arc.svg;
+  background-svg-size:@artilleryTargetArcSize, @artilleryTargetArcSize;
+  background-color:@goodTextColor;
+}
+
+targetArc:disabled {
+  background-color:@badTextColor;
+}
+
+targetShade {
+  size:@artilleryTargetArcSize, @artilleryTargetArcSize;
+  position:absolute;
+  background-image:#ui/gameuiskin#artillery_target_arc_bg;
+  background-color:@white;
+}
+
+
+
 textareaCentered[shadeStyle=HudHeader3D],
 textareaNoTab[shadeStyle=HudHeader3D],
 [shadeStyle=HudHeader3D] > textareaNoTab,
@@ -555,16 +580,20 @@ textareaNoTab[shadeStyle=LiveStats] {
 
 [hintStyle=hudHintCommon] hintRow > img {
   size:0.06sh, 0.06sh;
+  background-svg-size:0.06sh, 0.06sh;
 }
 
 [hintStyle=hudMinor] hintRow > img {
   size:0.04sh, 0.04sh;
+  background-svg-size:0.04sh, 0.04sh;
 }
 
 [hintStyle=hudHintCommon] hintRow > img[sizeStyle=small] {
   size:0.04sh, 0.04sh;
+  background-svg-size:0.04sh, 0.04sh;
 }
 
 [hintStyle=hudMinor] hintRow > img[sizeStyle=small] {
   size:0.030sh, 0.030sh;
+  background-svg-size:0.030sh, 0.030sh;
 }

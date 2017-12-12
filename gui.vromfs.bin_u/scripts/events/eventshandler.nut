@@ -120,7 +120,10 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWindow()
   {
-    ::init_slotbar(this, scene.findObject("nav-help"), true, null, { eventId = curEventId })
+    createSlotbar({
+      eventId = curEventId
+      afterSlotbarSelect = @() updateButtons()
+    })
     showEventDescription(curEventId)
     updateButtons()
   }
@@ -545,12 +548,6 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onSlotbarCountryAction(obj)
   {
     base.onSlotbarCountryAction(obj)
-    updateButtons()
-  }
-
-  function onSlotbarSelectAction(obj)
-  {
-    base.onSlotbarSelectAction(obj)
     updateButtons()
   }
 

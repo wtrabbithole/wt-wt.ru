@@ -86,8 +86,30 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(typeObj, data, data.len(), this)
       typeObj.id = opt.id
     }
+
+    initFocusArray()
     onTypeChange()
     updateButtons()
+  }
+
+  function getMainFocusObj()
+  {
+    return getObj(optionsList[0].id)
+  }
+
+  function getMainFocusObj2()
+  {
+    return getObj(optionsList[1].id)
+  }
+
+  function getMainFocusObj3()
+  {
+    return getObj(optionsList[2].id)
+  }
+
+  function getMainFocusObj4()
+  {
+    return getObj("complaint_text")
   }
 
   function canBan()
@@ -174,6 +196,8 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
 class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
+  optionsList = null
+
   function initScreen()
   {
     if (!scene || !pInfo || typeof(pInfo) != "table")
@@ -219,11 +243,26 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
       targetObj.setValue(pName)
 
     local typeObj = scene.findObject("option_list")
+
+    optionsList = []
     local option = ::get_option(::USEROPT_COMPLAINT_CATEGORY)
+    optionsList.append(option)
     local data = create_option_list(option.id, option.items, option.value, null, false)
     guiScene.replaceContentFromText(typeObj, data, data.len(), this)
     typeObj.id = option.id
+
+    initFocusArray()
     onTypeChange()
+  }
+
+  function getMainFocusObj()
+  {
+    return getObj(optionsList[0].id)
+  }
+
+  function getMainFocusObj2()
+  {
+    return getObj("complaint_text")
   }
 
   function onTypeChange()

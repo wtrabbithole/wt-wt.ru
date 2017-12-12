@@ -154,7 +154,7 @@ class QueueManager {
     local res = []
     foreach(queue in queuesList)
       if (isQueueActive(queue))
-         ::append_once(queue.queueType, res)
+         ::u.appendOnce(queue.queueType, res)
 
     return res
   }

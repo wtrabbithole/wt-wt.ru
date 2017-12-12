@@ -14,7 +14,8 @@
 
 function weaponVisual::createItemLayout(id, item, type, params = {})
 {
-  item.type <- type
+  if (!("type" in item))
+    item.type <- type
   local view = {
     id = id
     itemWidth = ::getTblValue("itemWidth", params, 1)
@@ -1154,7 +1155,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
           ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
       }
     if (repairText!="")
-      addDesc += "\n" + ::loc("shop/avg_repair_cost") + repairText
+      addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp + repairText
   }
 
   if (!statusTbl.amount)

@@ -1447,30 +1447,39 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return obj["class"] = "empty"
 
     local rowsCfg = []
-    if (tRow.isCountedInUnits)
+    if (!tRow.joinRows)
     {
-      foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+      if (tRow.isCountedInUnits)
+      {
+        foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+          rowsCfg.append({
+            row     = tRow
+            name    = ::getUnitName(unitId)
+            expData = unitData
+          })
+      }
+      else
+      {
         rowsCfg.append({
           row     = tRow
-          name    = ::getUnitName(unitId)
-          expData = unitData
+          name    = tRow.getName()
+          expData = ::debriefing_result.exp
         })
-    }
-    else
-    {
-      rowsCfg.append({
-        row     = tRow
-        name    = tRow.getName()
-        expData = ::debriefing_result.exp
-      })
+      }
     }
 
-    if (tRow.tooltipExtraRows)
+    if (tRow.joinRows || tRow.tooltipExtraRows)
     {
-      foreach (id in tRow.tooltipExtraRows())
+      local extraRows = []
+      if (tRow.joinRows)
+        extraRows.extend(tRow.joinRows)
+      if (tRow.tooltipExtraRows)
+        extraRows.extend(tRow.tooltipExtraRows())
+
+      foreach (id in extraRows)
       {
         local extraRow = ::get_debriefing_row_by_id(id)
-        if (extraRow.show)
+        if (extraRow.show || extraRow.showInTooltips)
           rowsCfg.append({
             row     = extraRow
             name    = extraRow.getName()
@@ -2134,7 +2143,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local buttonsList = {
       btn_view_replay = isAnimDone && isReplayReady && !isMp
       btn_save_replay = isAnimDone && isReplayReady && !::is_replay_saved()
-      btn_usercard = isAnimDone && (curTab == "players_stats") && player && !player.isBot
+      btn_user_options = isAnimDone && (curTab == "players_stats") && player && !player.isBot && ::show_console_buttons
     }
 
     foreach(btn, show in buttonsList)

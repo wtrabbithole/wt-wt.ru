@@ -88,7 +88,7 @@ class EventRoomCreationContext
     if (brRange)
     {
       local ediff = ::events.getEDiffByEvent(mGameMode)
-      local unitMRank = ::get_unit_economic_rank_by_ediff(ediff, unit)
+      local unitMRank = unit.getEconomicRank(ediff)
       if (unitMRank < ::getTblValue(0, brRange, 0) || ::getTblValue(1, brRange, ::max_country_rank) < unitMRank)
         return false
     }

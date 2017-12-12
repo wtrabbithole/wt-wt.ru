@@ -1,15 +1,11 @@
 [
   {
     "tdiv": {
-      "id": "hud_message_timers"
-    }
-  },
-  {
-    "tdiv": {
       "id": "hud_hints_nest",
       "size": "pw, ph",
       "position": "absolute",
       "css-hier-invalidate": "yes",
+      "behavior": "Timer",
       "tdiv": {
         "id": "mission_hints",
         "width": "(2/3) * sw",
@@ -18,6 +14,17 @@
         "flow": "vertical",
         "flow-align": "right"
       }
+    }
+  },
+  {
+    "tdiv": {
+      "id": "hud_message_timers"
+    }
+  },
+  {
+    "dummy": {
+      "id": "hud_message_timer",
+      "behavior": "Timer"
     }
   }
 ]

@@ -144,7 +144,8 @@ menu_button_inactive:current, menu_button_inactive:active, menu_button_inactive:
 underline {
   width:pw;
   height:(@sf/@pf_outdated*0.75) $max 1;
-  pos:50%pw-50%w, ph-h;
+  top:ph-h;
+  left:50%pw-50%w;
   position:absolute;
   background-color:@commonMenuButtonColor;
 }
@@ -158,8 +159,8 @@ underline {
 }
 
 [show_console_buttons=yes] button.link[btnName] > underline {
-  margin-left:ph;
   width:pw-ph;
+  left:0.5*(pw - w + ph);
 }
 
 hoverBgButton {

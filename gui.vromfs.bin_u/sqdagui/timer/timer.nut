@@ -1,3 +1,4 @@
+local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
 ::g_script_reloader.loadOnce("sqDagui/daguiUtil.nut")
 
 class Timer
@@ -15,7 +16,7 @@ class Timer
     if (!_onTimeOut)
       return ::dagor.assertf(false, "Error: no onTimeOut in Timer.")
 
-    onTimeOut = handler ? ::Callback(_onTimeOut, handler) : _onTimeOut
+    onTimeOut = handler ? Callback(_onTimeOut, handler) : _onTimeOut
     cycled    = _cycled
     isDelayed = _isDelayed
 

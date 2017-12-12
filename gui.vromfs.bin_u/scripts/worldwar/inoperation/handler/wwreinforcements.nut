@@ -12,6 +12,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
   updateDelay = 1 //sec
 
   currentReinforcementName = null
+  reinforcementSpeedup = -1
 
   function getSceneTplView()
   {
@@ -163,6 +164,28 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     updateSelectedArmy(true, false)
   }
 
+  function fillReinforcementsSpeed(newSpeedup)
+  {
+    if (reinforcementSpeedup == newSpeedup)
+      return
+
+    local textObj = scene.findObject("arrival_speed_text")
+    if (!::check_obj(textObj))
+      return
+
+    local speedText = ""
+    if (newSpeedup > 0)
+    {
+      speedText = ::colorize("goodTextColor", ::loc("keysPlus") + newSpeedup)
+      speedText = ::loc("worldwar/state/reinforcement_arrival_speed", {speedup = speedText})
+    }
+    else
+      speedText = ::loc("worldwar/state/reinforcement_arrival_basic_speed")
+
+    textObj.setValue(speedText)
+    reinforcementSpeedup = newSpeedup
+  }
+
   function fillArmiesList(viewsArray, id, isReady)
   {
     local placeObj = scene.findObject(id)
@@ -190,6 +213,11 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
   function onEventWWMapClearSelectionBySelectedObject(params)
   {
     updateSelectedArmy(false, false)
+  }
+
+  function onEventWWReinforcementSpeedupUpdated(params)
+  {
+    fillReinforcementsSpeed(params?.speedup ?? 0)
   }
 
   function updateSelectedArmy(select, destroy)

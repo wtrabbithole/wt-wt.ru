@@ -1,7 +1,9 @@
+local DaguiSceneTimers = require("sqDagui/timer/daguiSceneTimers.nut")
+
 ::g_hud_message_stack <- {
   scene = null
   guiScene = null
-  timersNest = null
+  timers = DaguiSceneTimers(0.25, "hudMessagesTimers")
 
   function init(_scene)
   {
@@ -27,14 +29,15 @@
 
   function initMessageNests()
   {
-    timersNest = scene.findObject("hud_message_timers")
+    timers.setUpdaterObj(scene.findObject("hud_message_timer"))
 
     foreach (hudMessage in ::g_hud_messages.types)
-      hudMessage.reinit(scene, guiScene, timersNest)
+      hudMessage.reinit(scene, timers)
   }
 
   function clearMessageStacks()
   {
+    timers.resetTimers()
     foreach (hudMessage in ::g_hud_messages.types)
       hudMessage.clearStack()
   }

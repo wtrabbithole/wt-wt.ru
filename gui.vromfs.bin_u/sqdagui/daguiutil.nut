@@ -1,3 +1,7 @@
+local g_string =  require("sqStdLibs/common/string.nut")
+local u = require("sqStdLibs/common/u.nut")
+
+
 enum ALIGN
 {
   LEFT   = "left"
@@ -13,7 +17,6 @@ enum ALIGN
     regexp2("</?b>")
   ]
 }
-
 /*
 * count amount of items can be filled in current obj.
 * return table with itemsCount and items sizes in pixels
@@ -95,7 +98,7 @@ function g_dagui_utils::toPixels(guiScene, value, obj = null)
 {
   if (::is_numeric(value))
     return value.tointeger()
-  if (::u.isString(value))
+  if (u.isString(value))
     return guiScene.calcString(value, obj)
   return 0
 }
@@ -128,7 +131,7 @@ function g_dagui_utils::daguiStringToColor4(colorStr)
   if (colorStr.len() != 8 && colorStr.len() != 6)
     return res
 
-  local colorInt = ::g_string.hexStringToInt(colorStr)
+  local colorInt = g_string.hexStringToInt(colorStr)
   if (colorStr.len() == 8)
     res.a = ((colorInt & 0xFF000000) >> 24).tofloat() / 255
   res.r = ((colorInt & 0xFF0000) >> 16).tofloat() / 255
@@ -190,12 +193,12 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
 
   local parentPos  = [0, 0]
   local parentSize = [0, 0]
-  if (::u.isInstance(parentObjOrPos) && ::check_obj(parentObjOrPos))
+  if (u.isInstance(parentObjOrPos) && ::check_obj(parentObjOrPos))
   {
     parentPos  = parentObjOrPos.getPosRC()
     parentSize = parentObjOrPos.getSize()
   }
-  else if (::u.isArray(parentObjOrPos) && parentObjOrPos.len() == 2)
+  else if (u.isArray(parentObjOrPos) && parentObjOrPos.len() == 2)
   {
     parentPos[0] = toPixels(guiScene, parentObjOrPos[0])
     parentPos[1] = toPixels(guiScene, parentObjOrPos[1])
@@ -205,7 +208,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
     parentPos  = ::get_dagui_mouse_cursor_pos_RC()
   }
 
-  local screenBorders = ::getTblValue("screenBorders", params, ["@bw", "@bh"])
+  local screenBorders = params?.screenBorders ?? ["@bw", "@bh"]
   local bw = toPixels(guiScene, screenBorders[0])
   local bh = toPixels(guiScene, screenBorders[1])
   local screenStart = [ bw, bh ]
@@ -259,8 +262,8 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
     }
 
     local targetPoint = [
-      parentPos[0] + (parentSize[0] * ::getTblValue("customPosX", params, parentTargetPoint[0])).tointeger()
-      parentPos[1] + (parentSize[1] * ::getTblValue("customPosY", params, parentTargetPoint[1])).tointeger()
+      parentPos[0] + (parentSize[0] * (params?.customPosX ?? parentTargetPoint[0])).tointeger()
+      parentPos[1] + (parentSize[1] * (params?.customPosY ?? parentTargetPoint[1])).tointeger()
     ]
 
     local isFits = [ true, true ]
@@ -303,7 +306,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
       menuPosText[i] = (menuPos[i] - frameOffset[i]) + frameOffsetText[i]
 
     menuObj["menu_align"] = align
-    menuObj["pos"] = ::g_string.implode(menuPosText, ", ")
+    menuObj["pos"] = g_string.implode(menuPosText, ", ")
 
     if (arrowOffset[0] || arrowOffset[1])
     {
@@ -314,7 +317,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
         local arrowPos = arrowObj.getPosRC()
         foreach (i, v in arrowPos)
           arrowPos[i] += arrowOffset[i]
-        arrowObj["style"] = "position:root; pos:" + ::g_string.implode(arrowPos, ", ") + ";"
+        arrowObj["style"] = "position:root; pos:" + g_string.implode(arrowPos, ", ") + ";"
       }
     }
 

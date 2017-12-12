@@ -5,7 +5,7 @@ but have 2 axis navigation as posNavigator by real size and positions of self ch
 
 class ::gui_bhv.PosOptionsNavigator extends ::gui_bhv.posNavigator
 {
-  activateByMClick = false
+  canChooseByMClick = false
 
   skipFocusPID = ::dagui_propid.add_name_id("_skipFocus")
 

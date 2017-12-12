@@ -246,6 +246,9 @@
     "shipboardDamageControlWeight": [1.0,2.0,3.0]
   },
   {
+    "criticalBuoyancy": 0.5
+  },
+  {
     "kineticEnergyToDamage": {
       "default": {
         "p0": [3000.0,5.0],
@@ -345,6 +348,10 @@
         "brisanceEquivalent": 1.0
       },
       "fp02": {
+        "strengthEquivalent": 1.0,
+        "brisanceEquivalent": 1.0
+      },
+      "fp15": {
         "strengthEquivalent": 1.0,
         "brisanceEquivalent": 1.0
       },
@@ -765,6 +772,50 @@
           "p8": [500.0,40000.0],
           "p9": [1000.0,80000.0],
           "p10": [2000.0,100000.0]
+        }
+      }
+    }
+  },
+  {
+    "explosiveTypeToShattersParamsForAmmoStowage": {
+      "ships_tanks_ammo": {
+        "explosiveMassToRadius": {
+          "p3": [3.0,25.0],
+          "p4": [7.0,45.0],
+          "p5": [25.0,70.0],
+          "p6": [40.0,100.0],
+          "p7": [120.0,120.0],
+          "p8": [300.0,150.0],
+          "p9": [500.0,200.0],
+          "p10": [2000.0,300.0]
+        },
+        "explosiveMassToPenetration": {
+          "p3": [3.0,7.0],
+          "p4": [7.0,8.0],
+          "p5": [25.0,10.0],
+          "p6": [40.0,13.0],
+          "p7": [120.0,13.0],
+          "p8": [300.0,15.0],
+          "p9": [2000.0,17.0]
+        },
+        "explosiveMassToDamage": {
+          "p3": [3.0,6.0],
+          "p4": [7.0,7.0],
+          "p5": [25.0,10.0],
+          "p6": [40.0,12.0],
+          "p7": [120.0,15.0],
+          "p8": [300.0,16.0],
+          "p9": [2000.0,20.0]
+        },
+        "bodyMassToShattersCount": {
+          "p3": [10.0,70.0],
+          "p4": [25.0,150.0],
+          "p5": [50.0,500.0],
+          "p6": [100.0,1000.0],
+          "p7": [250.0,2000.0],
+          "p8": [500.0,4000.0],
+          "p9": [1000.0,8000.0],
+          "p10": [2000.0,10000.0]
         }
       }
     }
@@ -1203,62 +1254,62 @@
       "partRepairHp": 0.7,
       "hpForRepair": 0.7,
       "engine_l_01_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_l_02_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_r_01_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_r_02_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_01_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_02_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_03_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_04_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_05_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_06_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_07_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
       "engine_08_dm": {
-        "speed": 2.5,
+        "speed": 7.5,
         "partRepairHp": 1.0,
         "completely": true
       },
@@ -1283,12 +1334,12 @@
         "completely": true
       },
       "steering_gear_01_dm": {
-        "speed": 2.5,
+        "speed": 10.0,
         "partRepairHp": 1.0,
         "completely": true
       },
       "steering_gear_02_dm": {
-        "speed": 2.5,
+        "speed": 10.0,
         "partRepairHp": 1.0,
         "completely": true
       },
@@ -1313,42 +1364,62 @@
         "completely": true
       },
       "transmission_01_dm": {
-        "speed": 6.5,
+        "speed": 10.0,
         "partRepairHp": 1.0,
         "completely": true
       },
       "transmission_02_dm": {
-        "speed": 6.5,
+        "speed": 10.0,
         "partRepairHp": 1.0,
         "completely": true
       },
       "transmission_03_dm": {
-        "speed": 6.5,
+        "speed": 10.0,
         "partRepairHp": 1.0,
         "completely": true
       },
       "transmission_04_dm": {
-        "speed": 6.5,
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "pump_01_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "pump_02_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "pump_03_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "pump_04_dm": {
+        "speed": 10.0,
         "partRepairHp": 1.0,
         "completely": true
       },
       "rudder_01_dm": {
-        "speed": 2.0,
+        "speed": 4.0,
         "completely": true,
         "modRequired": false
       },
       "rudder_02_dm": {
-        "speed": 2.0,
+        "speed": 4.0,
         "completely": true,
         "modRequired": false
       },
       "rudder_03_dm": {
-        "speed": 2.0,
+        "speed": 4.0,
         "completely": true,
         "modRequired": false
       },
       "rudder_04_dm": {
-        "speed": 2.0,
+        "speed": 4.0,
         "completely": true,
         "modRequired": false
       },
@@ -5039,26 +5110,26 @@
       ],
       "fuelMassToOuterRadius": [
         {
-          "p0": [50.0,2.5]
+          "p0": [50.0,4.5]
         },
         {
-          "p1": [100.0,3.5]
+          "p1": [100.0,5.0]
         },
         {
-          "p2": [500.0,4.5]
+          "p2": [500.0,7.0]
         },
         {
-          "p2": [1000.0,7.5]
+          "p2": [1000.0,12.0]
         }
       ],
       "fuelMassToPenetration": {
-        "p0": [50.0,3.0],
-        "p1": [100.0,4.0],
-        "p2": [500.0,6.0]
+        "p0": [50.0,8.0],
+        "p1": [100.0,10.0],
+        "p2": [500.0,15.0]
       },
       "fuelMassToDamage": {
-        "p0": [50.0,100.0],
-        "p1": [100.0,200.0],
+        "p0": [50.0,40.0],
+        "p1": [100.0,100.0],
         "p2": [500.0,350.0]
       }
     }

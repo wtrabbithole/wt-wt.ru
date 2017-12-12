@@ -1055,19 +1055,21 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!checkScene())
       return
 
+    showSceneBtn("contacts_buttons_console", ::show_console_buttons)
     if (!::show_console_buttons)
-    {
-      scene.findObject("contacts_buttons_console").show(false)
       return
-    }
 
     local focusObj = getListFocusObj(true)
     local showSelectButton = focusObj != null || getSearchObj().isFocused()
 
     if (showSelectButton)
     {
-      local btnText = getSearchObj().isFocused() ? ::loc("contacts/search") : ::loc("mainmenu/btnSelect")
-      scene.findObject("btn_select").setValue(btnText)
+      local btnTextLocId = "contacts/choosePlayer"
+      if (focusObj?.id == "contacts_groups")
+        btnTextLocId = "contacts/chooseGroup"
+      else if (getSearchObj().isFocused())
+        btnTextLocId = "contacts/search"
+      scene.findObject("btn_select").setValue(::loc(btnTextLocId))
     }
 
     showSceneBtn("btn_psnFriends", ::is_platform_ps4)

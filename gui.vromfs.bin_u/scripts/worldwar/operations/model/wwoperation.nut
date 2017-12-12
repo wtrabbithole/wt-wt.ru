@@ -305,7 +305,7 @@ class WwOperation
 
       if (!(side in res))
         res[side] <- []
-      ::append_once(country, res[side])
+      ::u.appendOnce(country, res[side])
     }
     return res
   }

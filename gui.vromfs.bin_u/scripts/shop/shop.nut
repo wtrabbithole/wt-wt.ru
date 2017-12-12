@@ -70,7 +70,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   shopData = null
   slotbarActions = [ "research", "buy", "take", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
-  actionsPrefix = "on"
   needUpdateSlotbar = false
   needUpdateSquadInfo = false
   shopResearchMode = false
@@ -178,7 +177,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                 continue
 
               airData.air <- air
-              air.rank <- airBlk.rank ? airBlk.rank : 0
               airData.rank <- air.rank
             }
             else  //aircraft group
@@ -191,10 +189,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                 air = getAircraftByName(gAirBlk.getBlockName())
                 if (!checkUnitShowInShop(air))
                   continue
-                air.rank <- gAirBlk.rank? gAirBlk.rank : 0
+
                 if (!("rank" in airData))
                   airData.rank <- air.rank
-                air.group <- airData.name
                 airData.airsGroup.append(air)
                 selected = selected || (::get_es_unit_type(air) == selAirType && ::getUnitCountry(air) == selAirCountry)
               }
@@ -330,7 +327,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       foreach(bIdx, branch in branches)
       {
         local headPos = null
-        if (bIdx != 0 && ("reqAir" in branch[0]))
+        if (bIdx != 0 && branch[0]?.reqAir)
           headPos = getReqAirPosInArray(branch[0].reqAir, rangeTree)
         local config = makeTblByBranch(branch, page.ranksHeight, headPos ? headPos[0] : null)
           //config.offset, config.tbl
@@ -422,21 +419,22 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         else
         {
           local air = page.tree[i][j]
-          if (air.name in reqAirs)
+          local searchName = ::isUnitGroup(air) ? air?.searchReqName : air.name
+          if (searchName in reqAirs)
           {
-            foreach(req in reqAirs[air.name])
+            foreach(req in reqAirs[searchName])
               page.lines.append({
                 air = req.air,
                 line = [i, j, req.pos[0], req.pos[1]]
                 group = [::isUnitGroup(air), ::isUnitGroup(req.air)]
               })
-            reqAirs.rawdelete(air.name)
+            reqAirs.rawdelete(searchName)
           }
-          if (first && "shopReqName" in air)
-            if (air.shopReqName in reqAirs)
-              reqAirs[air.shopReqName].append({ air = air, pos = [i,j] })
+          if (first && air?.reqAir)
+            if (air.reqAir in reqAirs)
+              reqAirs[air.reqAir].append({ air = air, pos = [i,j] })
             else
-              reqAirs[air.shopReqName] <- [{ air = air, pos = [i,j] }]
+              reqAirs[air.reqAir] <- [{ air = air, pos = [i,j] }]
         }
       }
     if (reqAirs.len() > 0 && first)
@@ -498,60 +496,37 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local tblWidth = 0
     foreach(idx, item in branch)
     {
-      local reqName = null
-      local curAir = ::isUnitGroup(item) ? item : item.air
-      local reqGroup = false
-      if ("reqAir" in item)
-        prevAir = getAircraftByName(item.reqAir)
-      if (prevAir)
+      local curAir = null
+      if (!::isUnitGroup(item))
+        curAir = item.air
+      else
       {
-        if (::isUnitGroup(prevAir))
-          reqGroup = true
-        curAir.shopReqName <- prevAir.name
-        curAir.isReqGroup <- reqGroup
+        curAir = item
+        local reqGroup = false
+        if (item?.reqAir)
+          prevAir = getAircraftByName(item.reqAir)
+        if (prevAir)
+          curAir.reqAir <- prevAir.name
       }
 
       //Line branch generation
       if (ranksHeight[curAir.rank - 1] > res.tbl.len())
         res.tbl.resize(ranksHeight[curAir.rank - 1], [])
       res.tbl.append([curAir])
+
       prevAir = curAir
-
-      //Branch generation by row==rank
-      /*local row = ((item.rank <= ::max_country_rank) ? item.rank : ::max_country_rank)
-      row -= res.offset
-      if (row < 0)
-        row = 0
-      if (res.tbl.len() > row)
+      if (::isUnitGroup(item))
       {
-        if (idx == 0 && row == 0)
-          res.tbl[0][0] = curAir
-        else
-          res.tbl[row].append(curAir)
+        prevAir = null
+        local unit = item.airsGroup?[0] //!!FIX ME: duplicate logic of generateUnitShopInfo
+        if (unit && !::isUnitSpecial(unit) && !::isUnitGift(unit))
+        {
+          prevAir = unit
+          item.searchReqName <- unit.name
+        }
       }
-      else
-        for(local i = res.tbl.len(); i <= row; i++)
-          res.tbl.append([(i == row)? curAir : 1]) //integer mean line
-      if (res.tbl[row].len() > tblWidth)
-        tblWidth = res.tbl[row].len()
-      */
     }
 
-    /* //Offset for wide branches  (like in generation rowIdx==rank)
-    local lastOffset = 0
-    for(local i=res.tbl.len()-1; i>=0; i--)
-    {
-      local row = res.tbl[i]
-      local offset = (0.5*(tblWidth-row.len())+0.5*(1-row.len()%2)).tointeger()
-      if (row.len()==1 && row[0]!=null && typeof(row[0])=="integer")
-        offset=lastOffset
-
-      for(local j=0; j<offset; j++)
-        row.insert(0, null)
-      lastOffset = offset
-    }
-    res.tbl[0].resize(tblWidth, null)
-    */
     return res
   }
 
@@ -573,11 +548,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       item.childs <- 0
       item.used <- false
       item.header <- i == 0
-      if ((i<rangeData.len() - 1) && !("reqAir" in rangeData[i + 1]))
+      if ((i<rangeData.len() - 1) && !(rangeData[i + 1]?.reqAir))
         item.childs += rangeData[i + 1].childs + (1 + rankK * rangeData[i + 1].rank)
       if (item.name in addCount)
         item.childs += addCount.rawdelete(item.name)
-      if ("reqAir" in item)
+      if (item?.reqAir)
         if (item.reqAir == "")
           item.header = true
         else
@@ -603,7 +578,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     foreach(b in branches)
       foreach(idx, item in b)
         test += ((idx==0)? "\n" : ", ") + item.air.name + " ("+item.air.rank+","+item.childs+")"
-                 + (("reqAir" in item)? "("+item.reqAir+")":"")
+                 + (item?.reqAir ? "("+item.reqAir+")":"")
     dagor.debug(test)
 */
     return branches
@@ -626,7 +601,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       curBranch.append(item)
 
       local next = (item.name in brIdxTbl)? brIdxTbl[item.name] : []
-      if (idx < rangeData.len()-1 && !("reqAir" in rangeData[idx+1]))
+      if (idx < rangeData.len()-1 && !rangeData[idx+1]?.reqAir)
         next.append(idx+1)
       if (next.len()==0)
         idx=-1
@@ -648,11 +623,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     } while (idx >= 0)
 
     if (branches.len()>0 && curBranch.len()==1
-        && (!("reqAir" in curBranch[0]) || curBranch[0].reqAir==""))
+        && (!curBranch[0]?.reqAir || curBranch[0].reqAir==""))
     {  //for line branch generation. NoReq aircrafts extends previous branch.
       local placeFound = false
       foreach(bIdx, bItem in branches[branches.len()-1])
-        if (("reqAir" in bItem) && bItem.reqAir=="" && bItem.rank >= curBranch[0].rank)
+        if (bItem?.reqAir && bItem.reqAir=="" && bItem.rank >= curBranch[0].rank)
         {
           branches[branches.len()-1].insert(bIdx, curBranch[0])
           placeFound = true
@@ -1261,23 +1236,16 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function fillAirReq(item)
   {
     local req = true
-    if ("shopReqName" in item)
-      if (item.isReqGroup)
-      {
-        req = false
-        foreach(air in ::all_units)
-          if (("group" in air) && air.group == item.shopReqName && ::isUnitBought(air))
-          {
-            req = true
-            break
-          }
-      }
-      else
-        req = ::isUnitBought(::getAircraftByName(item.shopReqName))
+    if (item?.reqAir)
+      req = ::isUnitBought(::getAircraftByName(item.reqAir))
     if (::isUnitGroup(item))
+    {
       foreach(idx, air in item.airsGroup)
-        air.shopReq <- req
-    item.shopReq <- req
+        air.shopReq = req
+      item.shopReq <- req
+    }
+    else
+      item.shopReq = req
   }
 
   function getCurPageEsUnitType()
@@ -1342,7 +1310,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     ::updateAirAfterSwitchMod(unit)
 
-    if (::isGroupPart(unit))
+    if (!::isUnitGroup(unit) && ::isGroupPart(unit))
       updateGroupItem(unit.group)
   }
 
@@ -1391,8 +1359,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local is_unit = !::isUnitGroup(unit)
     return {
-             active         = true,
-             actionsPrefix  = actionsPrefix,
+             hasActions     = true,
              showInService  = true,
              fullGroupBlock = !is_unit
              mainActionFunc = is_unit? "onUnitMainFunc" : "",
@@ -1896,16 +1863,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   }
 
   function repairRequest(unit) {
-    if (!unit)
-      return
-    showMsgBoxRepair(unit, (@(unit) function() { ::check_and_repair_unit(unit) })(unit))
-  }
-
-  function onSlotRepair(obj)
-  {
-    local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    local airName = ("aircraft" in crew)? crew.aircraft : ""
-    repairRequest(getAircraftByName(airName))
+    if (unit)
+      unit.repair()
   }
 
   function onTopMenuSlotRepair(obj)
@@ -2108,22 +2067,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     destroyGroupChoose()
   }
 
-  function onTestFlight(obj)
-  {
-    checkedCrewModify(function (){
-      if (!::g_squad_utils.canJoinFlightMsgBox())
-        return
-      local air = getCurAircraft()
-      if (!air)
-        return
-      if (air.testFlight == "")
-        return
-      ::show_aircraft = air
-      ::test_flight_aircraft <- air
-      ::gui_start_testflight()
-    })
-  }
-
   function onBack(obj)
   {
     save(false)
@@ -2181,37 +2124,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return ""
   }
 
-  function onShowroom(obj)
-  {
-    local air = getCurAircraft()
-    if (!air || ::isUnitGroup(air))
-      return
-    ::show_aircraft = air
-    checkedCrewModify(function (){
-      guiScene.performDelayed(this, function() {
-        goForward(::gui_start_decals)
-      })
-    })
-  }
-
   function onModifications(obj)
   {
     msgBox("not_available", ::loc("msgbox/notAvailbleYet"), [["ok", function() {} ]], "ok", { cancel_fn = function() {}})
-  }
-
-  function onWeapons(obj)
-  {
-    local air = getCurAircraft()
-    if (!air)
-      return
-    ::open_weapons_for_unit(air)
-  }
-
-  function onInfo(obj)
-  {
-    local air = getCurAircraft()
-    if (!air) return
-    ::gui_start_aircraft_info(air.name)
   }
 
   function checkTag(aircraft, tag)
@@ -2379,7 +2294,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       if (obj.isHovered())
       {
         local unit = ::getAircraftByName(obj.unit_name)
-        local actions = ::get_unit_actions_list(unit, handler, handler.actionsPrefix, slotbarActions)
+        local actions = ::get_unit_actions_list(unit, handler, slotbarActions)
 
         ::gui_handlers.ActionsList(obj, actions)
       }

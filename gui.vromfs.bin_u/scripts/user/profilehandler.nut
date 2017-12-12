@@ -280,7 +280,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local unlocks = ::g_unlocks.getUnlocksByType(type)
     foreach(unlock in unlocks)
       if (::is_unlock_visible(unlock))
-        ::append_once(getCategoryFunc(unlock), categories, true)
+        ::u.appendOnce(getCategoryFunc(unlock), categories, true)
 
     return categories
   }

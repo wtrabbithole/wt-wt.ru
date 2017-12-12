@@ -253,6 +253,9 @@ function g_invites::fetchNewInvitesFromUserlogs()
     if ( blk.type == ::EULT_WW_CREATE_OPERATION ||
          blk.type == ::EULT_WW_START_OPERATION )
     {
+      if (blk.disabled)
+        continue
+
       local operationId = ::getTblValue("operationId", blk.body)
       if (::is_worldwar_enabled() && operationId != null)
         ::g_world_war.addOperationInvite(

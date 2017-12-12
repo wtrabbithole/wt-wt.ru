@@ -105,7 +105,7 @@ class ::WwBattleView
     local hasArmyInfo = ::getTblValue("hasArmyInfo", param, true)
     local hasVersusText = ::getTblValue("hasVersusText", param)
     local canAlignRight = ::getTblValue("canAlignRight", param, true)
-    foreach(sideIdx, side in ::g_world_war.getSidesOrder())
+    foreach(sideIdx, side in ::g_world_war.getSidesOrder(battle))
     {
       local team = battle.getTeamBySide(side)
       if (!team)
@@ -127,13 +127,16 @@ class ::WwBattleView
           armyViews.append(army.getView())
       }
 
-      if (hasVersusText && !isVersusTextAdded)
+      if (armyViews.len())
       {
-        armyViews.top().setHasVersusText(true)
-        isVersusTextAdded = true
+        if (hasVersusText && !isVersusTextAdded)
+        {
+          armyViews.top().setHasVersusText(true)
+          isVersusTextAdded = true
+        }
+        else
+          armyViews.top().setHasVersusText(false)
       }
-      else
-        armyViews.top().setHasVersusText(false)
 
       maxSideArmiesNumber = ::max(maxSideArmiesNumber, armyViews.len())
 

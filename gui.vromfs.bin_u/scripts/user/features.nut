@@ -71,6 +71,7 @@
     WorldWarReplay = false
     WorldWarSquadInfo = false
     WorldWarSquadInvite = false
+    WorldWarGlobalBattles = false
 
     GraphicsOptions = true
     Spectator = false
@@ -119,12 +120,15 @@
     Wagers = true
     ItemsRoulette = false
     BattleTasks = false
+    BattleTasksHard = true
     PersonalUnlocks = false
 
     BulletParamsForAirs = ::disable_network()
 
     TankDetailedDamageIndicator = ::disable_network()
     ShipDetailedDamageIndicator = ::disable_network()
+
+    ActiveScouting = false
 
     ShowAllPromoBlocks = ::disable_network()
     ShowAllBattleTasks = false
@@ -181,6 +185,9 @@
 
     AllowExternalLink = true
     TankAltCrosshair = false
+
+    EnableUgcSkins = false
+    EnableUgcDecals = false
   }
 
   cache = {}

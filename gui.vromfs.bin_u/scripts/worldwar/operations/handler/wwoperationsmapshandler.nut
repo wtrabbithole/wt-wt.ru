@@ -58,10 +58,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function initToBattleButton()
   {
-    local toBattleNest = scene.findObject("gamercard_tobattle")
-    if (!::check_obj(toBattleNest))
+    local toBattleNest = showSceneBtn("gamercard_tobattle", true)
+    if (!toBattleNest)
       return
 
+    scene.findObject("top_gamercard_bg").needRedShadow = "no"
     local toBattleBlk = ::handyman.renderCached("gui/mainmenu/toBattleButton", {
       enableEnterKey = !::is_platform_shield_tv()
     })
@@ -678,7 +679,15 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onStart()
   {
-    openOperationsListModal()
+    if (::has_feature("WorldWarGlobalBattles"))
+      openGlobalBattlesModal()
+    else
+      openOperationsListModal()
+  }
+
+  function openGlobalBattlesModal()
+  {
+    ::gui_handlers.WwGlobalBattlesModal.open()
   }
 
   function openOperationsListModal()

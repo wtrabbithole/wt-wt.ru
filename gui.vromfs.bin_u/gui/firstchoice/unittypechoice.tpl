@@ -4,6 +4,7 @@ div {
 
   flow:t="h-flow"
   flow-align:t='center'
+  total-input-transparent:t='yes'
 
   behaviour:t='posNavigator'
   navigatorShortcuts:t='active'

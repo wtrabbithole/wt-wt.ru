@@ -1,21 +1,34 @@
-@const spectatorTopOffset: 30*@sf/@pf_outdated;
+@const spectatorTopOffset: 45@sf/@pf;
 @const spectatorTableWidth: 1@nameWidth +1.5@tableIcoSize +1@tablePad +2 + 2@scrollBarSize;
 @const spectatorRowHeight: 1.4@baseTrHeight;
 @const spectatorToolbarBtnSize: 1.5@sIco;
 @const spectatorToolbarPadding: 0.25@sIco;
 
+spectatorFrame {
+  background-color: @frameSpectatorBackgroundColor;
+  border-color: @frameSpectatorBorderColor;
+  border:yes;
+  border-offset:@dp;
+}
+
 table.spectatorTeamTable {
   width:pw;
   css-hier-invalidate:yes;
+  total-input-transparent:yes;
 }
 
 table.spectatorTeamTable > tr {
   height:1@spectatorRowHeight;
+  background-position:1,5;
+  background-repeat:expand;
   css-hier-invalidate:yes;
 }
 table.spectatorTeamTable > tr[selected=yes] {
-  background-image:#ui/gameuiskin#option_select_odd;
-  background-color:@white;
+  re-type:9rect;
+  background-image:#ui/gameuiskin#expandable_item_sub_transp_sym;
+  background-position:0, 4;
+  background-repeat:expand;
+  background-color:@switchButtonOnColor;
 }
 
 table.spectatorTeamTable > tr[dead=yes] > td > textareaNoTab {
@@ -47,10 +60,10 @@ td.spectatorTeamCell {
 td.spectatorTeamCell > hr {
   size:pw, 1@dp;
   position:absolute;
-  background-image:#ui/gameuiskin#optionlist_background_right;
+  background-image:#ui/gameuiskin#expandable_item_sub_transp;
   background-position:1;
   background-repeat:expand;
-  bgcolor:#40000000;
+  background-color:#30000000;
 }
 td.spectatorTeamCell > hr.top {
   pos:0, 0;
@@ -59,9 +72,6 @@ td.spectatorTeamCell > hr.bottom {
   pos:0, ph-h;
 }
 td.spectatorTeamCell[side=left] > hr {
-  rotation:0;
-}
-td.spectatorTeamCell[side=right] > hr {
   rotation:180;
 }
 
@@ -153,7 +163,7 @@ td.spectatorTeamCell > textareaNoTab[id=unit] {
 td.spectatorTeamCell > textareaNoTab[id=name] {
   color:@activeTextColor;
   size:pw, 0.75@baseTrHeight;
-  pos:0, 2*@sf/@pf_outdated;
+  pos:0, 3@sf/@pf;
   position:relative;
 }
 table.spectatorTeamTable > tr[selected=yes] > td > textareaNoTab[id=name] {
@@ -173,25 +183,16 @@ hoverButton, toggleButton
   behaviour:button;
   size:@mIco, @mIco;
   re-type:9rect;
-  background-image:#ui/gameuiskin#window_body;
-  background-position:4;
-  background-repeat:expand;
   snd_click:click;
   css-hier-invalidate:yes;
-  background-color:@transparent;
 }
 
 hoverButton
 {
   size:@spectatorToolbarBtnSize, @spectatorToolbarBtnSize;
   class:header;
-  background-color:#4c4c4c4c;
   color:@gray;
   font:@fontNormal;
-  text-shade:"blur:48";
-  text-shade-x:0;
-  text-shade-y:0;
-  text-shade-color:#55000000;
 }
 
 hoverButton > icon, toggleButton > icon
@@ -204,14 +205,14 @@ hoverButton > icon, toggleButton > icon
   input-transparent:yes;
 }
 
-hoverButton:hover, toggleButton:hover
+hoverButton:hover
 {
-  background-color:#99999999;
-  color:@white;
+  background-color:@switchButtonOnColor;
+  color:@buttonFontColorHover;
 }
-hoverButton:hover > icon, toggleButton:hover > icon
+hoverButton:hover > icon
 {
-  background-color:@white;
+  background-color:@buttonFontColorHover;
 }
 
 hoverButton[highlighted=yes]
@@ -234,7 +235,6 @@ hoverButton[highlighted=yes]:hover > icon
 
 hoverButton:disabled
 {
-  background-color:#4c4c4c4c;
   color:#30303030;
 }
 hoverButton:disabled > icon
@@ -248,19 +248,15 @@ hoverButton[isTextBtn=yes]
   min-width:50%pw;
   color:@gray;
   color-factor:127;
-  background-color:#00000000;
 }
 hoverButton[isTextBtn=yes][highlighted=yes]
 {
   color:@gray;
   color-factor:255;
-  background-color:#4c4c4c4c;
 }
 hoverButton[isTextBtn=yes] > updated
 {
-  pos:pw/2-w/2, ph/2-h/2;
-  position:absolute;
-  size:pw-4px, ph-4px;
+  size:pw, ph;
   background-color:#00261b09;
   input-transparent:yes;
   display:hide;
@@ -273,12 +269,22 @@ hoverButton[isTextBtn=yes]:hover
 {
   color:@white;
   color-factor:255;
-  background-color:#99999999;
+  background-color:@menuButtonColorHover;
 }
 hoverButton[isTextBtn=yes][highlighted=no][alert=yes]
 {
   color:@gold;
   color-factor:255;
+}
+
+toggleButton:hover
+{
+  background-color:@menuButtonColorHover;
+  color:@white;
+}
+toggleButton:hover > icon
+{
+  background-color:@white;
 }
 
 toggleButton[toggled=yes] {

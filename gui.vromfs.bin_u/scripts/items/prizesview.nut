@@ -560,7 +560,7 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
     infoText += (infoText.len() ? "\n" : "") + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
 
   local unitPlate = ::build_aircraft_item(unitName, unit, {
-    active = true,
+    hasActions = true,
     status = isBought ? "locked" : "canBuy",
     showAsTrophyContent = true
     isReceivedPrizes = receivedPrizes

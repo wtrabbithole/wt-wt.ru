@@ -37,8 +37,8 @@ tdiv {
   flow:t='vertical'
 
   textareaNoTab {
-    id:t='ready_label_text'
-    text:t='#worldwar/state/reinforcement_coming'
+    id:t='arrival_speed_text'
+    text:t=''
     smallFont:t='yes'
   }
 

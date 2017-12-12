@@ -128,6 +128,15 @@ local time = require("scripts/time.nut")
     }
   }
 
+  SCOUT = {
+    code = ::EII_SCOUT
+    isForWheelMenu = @() true
+    _name = "scout_active"
+    _icon = "#ui/gameuiskin#scouting"
+    _title = ::loc("hotkeys/ID_SCOUT")
+    getShortcut = @(actionItem, unit = null) "ID_SCOUT"
+  }
+
   ARTILLERY_TARGET = {
     code = ::EII_ARTILLERY_TARGET
     _name = "artillery_target"

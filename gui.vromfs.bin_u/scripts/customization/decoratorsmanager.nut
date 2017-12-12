@@ -6,11 +6,20 @@ function on_dl_content_skins_invalidate()
 
 ::g_decorator <- {
   cache = {}
+  previewedUgcSkinId = ""
+  approversUnitToPreviewUgcResource = null
 }
 
 function g_decorator::clearCache()
 {
   ::g_decorator.cache.clear()
+  ::g_decorator.clearUgcPreviewParams()
+}
+
+function g_decorator::clearUgcPreviewParams()
+{
+  ::g_decorator.previewedUgcSkinId = ""
+  ::g_decorator.approversUnitToPreviewUgcResource = null
 }
 
 function g_decorator::getCachedDataByType(decType)
@@ -151,9 +160,15 @@ function g_decorator::getSkinsOption(unitName, showLocked=false)
 
     local skinBlockName = unitName + "/"+ skinName
 
+    local isPreviewedUgcSkin = ::has_feature("EnableUgcSkins") && skinBlockName == previewedUgcSkinId
     local decorator = ::g_decorator.getDecorator(skinBlockName, ::g_decorator_type.SKINS)
     if (!decorator)
-      continue
+    {
+      if (isPreviewedUgcSkin)
+        decorator = ::Decorator(skinBlockName, ::g_decorator_type.SKINS);
+      else
+        continue
+    }
 
     local isUnlocked = decorator.isUnlocked()
     local isOwn = isDefault || isUnlocked
@@ -161,12 +176,14 @@ function g_decorator::getSkinsOption(unitName, showLocked=false)
     if (!isOwn && !showLocked)
       continue
 
-    if (!decorator.isVisible())
+    local forceVisible = isPreviewedUgcSkin
+
+    if (!decorator.isVisible() && !forceVisible)
       continue
 
     local cost = decorator.getCost()
     local hasPrice = !cost.isZero()
-    local isVisible = isDefault || isOwn || hasPrice || ::is_unlock_visible(decorator.unlockBlk)
+    local isVisible = isDefault || isOwn || hasPrice || ::is_unlock_visible(decorator.unlockBlk)|| forceVisible
     if (!isVisible && !::is_dev_version)
       continue
 

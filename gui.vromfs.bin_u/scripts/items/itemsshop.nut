@@ -813,7 +813,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     local data = {
       openData = {
-        curTab = itemsTab.SHOP
+        curTab = curTab
         filter = filter
       }
       stateData = {

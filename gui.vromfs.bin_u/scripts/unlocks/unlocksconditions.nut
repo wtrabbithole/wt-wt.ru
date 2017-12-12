@@ -426,7 +426,7 @@ function UnlockConditions::loadCondition(blk)
     res.values = []
     local values = blk % "postfix"
     foreach(val in values)
-      ::append_once(regExpNumericEnding.replace("", val), res.values)
+      ::u.appendOnce(regExpNumericEnding.replace("", val), res.values)
     res.locGroup <- ::getTblValue("allowed", blk, true) ? "missionPostfixAllowed" : "missionPostfixProhibited"
   }
   else if (t == "mission")

@@ -272,6 +272,50 @@
     }
   }
 
+  RANDOM_UNIT = { //by unit name
+    isCustomTooltipFill = true
+    fillTooltip = function(obj, handler, id, params)
+    {
+      if (!::checkObj(obj))
+        return false
+      local groupName = params?.groupName
+      local missionRules = ::g_mis_custom_state.getCurMissionRules()
+      if (!groupName || !missionRules)
+        return false
+
+      local unitsList = missionRules.getRandomUnitsList(groupName)
+      local unitsView = []
+      local unit
+      foreach (unitName in unitsList)
+      {
+        unit = ::getAircraftByName(unitName)
+        if (!unit)
+          unitsView.append({name = unitName})
+        else
+          unitsView.append({
+            name = ::getUnitName(unit)
+            unitClassIcon = ::getUnitClassIco(unit.name)
+            shopItemType = ::get_unit_role(unit.name)
+            tooltipId = ::g_tooltip.getIdUnit(unit.name, { needShopInfo = true })
+          })
+      }
+
+      local tooltipParams = {
+        groupName = ::loc("respawn/randomUnitsGroup/description",
+          {groupName = ::colorize("activeTextColor", missionRules.getRandomUnitsGroupLocName(groupName))})
+        rankGroup = ::loc("shop/age") + ::loc("ui/colon") +
+          ::colorize("activeTextColor", missionRules.getRandomUnitsGroupLocRank(groupName))
+        battleRatingGroup = ::loc("shop/battle_rating") + ::loc("ui/colon") +
+          ::colorize("activeTextColor", missionRules.getRandomUnitsGroupLocBattleRating(groupName))
+        units = unitsView
+      }
+      local data = ::handyman.renderCached("gui/tooltips/randomUnitTooltip", tooltipParams)
+
+      obj.getScene().replaceContentFromText(obj, data, data.len(), handler)
+      return true
+    }
+  }
+
   MODIFICATION = { //by unitName, modName
     getTooltipId = function(unitName, modName = "", params = null, p3 = null)
     {

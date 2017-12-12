@@ -7,6 +7,7 @@ activateTab {
   foreground-position:0, 0, 0, h - 2@dp;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
+  input-transparent:yes;
 }
 activateTab:hover {
   background-color:@listboxHoverOptionColor;
@@ -54,3 +55,114 @@ activateTab[selected=yes] >             RadioButtonImg { background-image:#ui/ga
 activateTab[chosen=yes] >               RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_; }
 activateTab[chosen=yes]:hover >         RadioButtonImg,
 activateTab[chosen=yes][selected=yes] > RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_hover; }
+
+activateSelect {
+  behaviour:ActivateSelect;
+  _has_navigator:yes;
+  re-type:9rect;
+  background-color:@listboxBgColor;
+  padding:@listboxPad-1@listboxItemsInterval;
+}
+
+activateSelect > shopFilter {
+  margin:1@listboxItemsInterval;
+}
+
+activateSelect[isTransparentBg=yes] {
+  background-color:@transparent;
+  padding: 0;
+}
+
+activateSelect.header > shopFilter {
+  margin-right:0;
+}
+
+activateSelect > shopFilter {
+  padding:0.015@scrn_tgt, 0;
+}
+
+activateSelect > shopFilter {
+  background-position:0, 0, 0, 2@dp;
+  foreground-position:0, h - 2@dp, 0, 0;
+  height:ph;
+  margin:1@listboxItemsInterval, 0, 1@listboxItemsInterval, 0;
+}
+
+activateSelect[smallFont=yes] > shopFilter {
+  height:1@buttonHeight;
+}
+
+activateSelect[normalFont=yes] > shopFilter {
+  padding:0.5*@scrn_tgt/100.0, 0;
+}
+
+activateSelect[smallFont=yes] > shopFilter[canClose=yes] {
+  padding:@scrn_tgt/100.0, 2*@sf/@pf_outdated+0.5*@scrn_tgt/100.0, 3*@scrn_tgt/100.0, 0.5*@scrn_tgt/100.0;
+}
+
+activateSelect > shopFilter[selected=yes] {
+  foreground-color:@transparent;
+  background-color:@transparent;
+  color:@commonTextColor;
+}
+
+activateSelect > shopFilter[selected=yes] > shopFilterText {
+  color:@commonTextColor;
+}
+
+activateSelect > shopFilter:hover {
+  foreground-color:@headerOptionHoverColor;
+  color:@headerOptionSelectedTextColor;
+  background-color:@transparent;
+}
+
+activateSelect > shopFilter:hover > shopFilterText {
+  color:@headerOptionSelectedTextColor;
+}
+
+activateSelect > shopFilter:pushed {
+  foreground-color:@headerOptionSelectedColor;
+}
+
+activateSelect > shopFilter[chosen=yes] {
+  background-color:@listboxSelOptionColor;
+  foreground-color:@headerOptionSelectedColor;
+  color:@activeTextColor;
+}
+
+activateSelect > shopFilter[chosen=yes] > shopFilterText {
+  color:@activeTextColor;
+}
+
+activateSelect > shopFilter > shopFilterText[colorTag=squad],
+activateSelect > shopFilter[selected=yes] > shopFilterText[colorTag=squad] {
+  color:@mChatSenderMySquadColorDark;
+}
+
+activateSelect > shopFilter:hover > shopFilterText[colorTag=squad],
+activateSelect > shopFilter[chosen=yes] > shopFilterText[colorTag=squad] {
+  color:@mChatSenderMySquadColor;
+}
+
+activateSelect > shopFilter > shopFilterText[colorTag=friend],
+activateSelect > shopFilter[selected=yes] > shopFilterText[colorTag=friend] {
+  color:@mChatSenderFriendColorDark;
+}
+
+activateSelect > shopFilter:hover > shopFilterText[colorTag=friend],
+activateSelect > shopFilter[chosen=yes] > shopFilterText[colorTag=friend] {
+  color:@mChatSenderFriendColor;
+}
+
+activateSelect[smallFont=yes] cornerImg {
+  height:1@cIco;
+  pos:pw-w-6@sf/@pf, -0.5h;
+}
+
+activateSelect[withImages=yes] > shopFilter > shopFilterImg {
+  height:@cIco;
+  background-svg-size:@cIco, @cIco;
+  pos:0, ph/2-h/2;
+  position:relative;
+  margin-right:1@blockInterval;
+}

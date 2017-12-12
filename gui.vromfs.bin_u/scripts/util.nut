@@ -1380,6 +1380,7 @@ function buildTableRow(rowName, rowData, even=null, trParams="", tablePad="@tblP
       width = ::getTblValue("width", cell)
       tdalign = ::getTblValue("tdAlign", cell)
       tooltip = ::getTblValue("tooltip", cell)
+      tooltipId = cell?.tooltipId
       callback = ::getTblValue("callback", cell)
       active = ::getTblValue("active", cell, false)
       cellType = ::getTblValue("cellType", cell)
@@ -2420,7 +2421,7 @@ function is_vendor_tencent()
 
 function is_vietnamese_version()
 {
-  return ::get_current_language() == "Vietnamese" || ::use_fpt_login() //we need to check language too early when get_language from profile not work
+  return ::get_current_language() == "Vietnamese" //we need to check language too early when get_language from profile not work
 }
 
 function is_platform_shield_tv()
@@ -2910,24 +2911,6 @@ function get_dagui_obj_aabb(obj)
     pos = obj.getPosRC()
     visible = obj.isVisible()
   }
-}
-
-::_net_asserts_list <- []
-function script_net_assert_once(id, msg)
-{
-  if (::isInArray(id, _net_asserts_list))
-    return dagor.debug(msg)
-
-  _net_asserts_list.append(id)
-  return script_net_assert(msg)
-}
-
-function assertf_once(id, msg)
-{
-  if (::isInArray(id, _net_asserts_list))
-    return dagor.debug(msg)
-  _net_asserts_list.append(id)
-  return ::dagor.assertf(false, msg)
 }
 
 function get_object_value(parentObj, id, defValue = null)

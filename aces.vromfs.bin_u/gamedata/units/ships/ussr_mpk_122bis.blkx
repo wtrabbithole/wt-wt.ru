@@ -2505,7 +2505,6 @@
           },
           {
             "onHit": {
-              "damageType": "explosion",
               "expl": 0.9,
               "damage": 350.0,
               "fHitCritical": true
@@ -2513,7 +2512,6 @@
           },
           {
             "onHit": {
-              "damageType": "explosion",
               "expl": 0.2,
               "damage": 200.0,
               "fHitCritical": true
@@ -2723,7 +2721,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.1,
+              "fire": 0.03,
               "damage": 20.0,
               "fHitCritical": true
             }
@@ -2731,7 +2729,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.35,
+              "fire": 0.15,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -2779,30 +2777,36 @@
       {
         "part": [
           {
-            "name": "bow_l_dm"
+            "name": "compartment_01_dm"
           },
           {
-            "name": "bow_r_dm"
+            "name": "compartment_02_dm"
           },
           {
-            "name": "mid_l_dm"
+            "name": "compartment_03_dm"
           },
           {
-            "name": "mid_r_dm"
+            "name": "compartment_04_dm"
           },
           {
-            "name": "stern_l_dm"
+            "name": "compartment_05_dm"
           },
           {
-            "name": "stern_r_dm"
+            "name": "compartment_06_dm"
           },
           {
-            "name": "stern_back_dm"
+            "name": "compartment_07_dm"
+          },
+          {
+            "name": "superstructure_dm"
+          },
+          {
+            "name": "deckhouse_dm"
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.03,
+              "fire": 0.02,
               "damage": 13.0,
               "fHitCritical": true
             }
@@ -2810,8 +2814,16 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.1,
+              "fire": 0.05,
               "damage": 50.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "damage": 120.0,
               "fHitCritical": true
             }
           }
@@ -3983,7 +3995,8 @@
           "emitter": "bone_bomb_01",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_01_dm"
         }
       },
       {
@@ -3994,7 +4007,8 @@
           "emitter": "bone_bomb_02",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.0
+          "dropSpeed": 3.0,
+          "ammoDP": "depth_charge_02_dm"
         }
       },
       {
@@ -4005,7 +4019,8 @@
           "emitter": "bone_bomb_03",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 5.0
+          "dropSpeed": 5.0,
+          "ammoDP": "depth_charge_03_dm"
         }
       },
       {
@@ -4016,7 +4031,8 @@
           "emitter": "bone_bomb_04",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 5.0
+          "dropSpeed": 5.0,
+          "ammoDP": "depth_charge_04_dm"
         }
       },
       {
@@ -4027,7 +4043,8 @@
           "emitter": "bone_bomb_05",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 7.0
+          "dropSpeed": 7.0,
+          "ammoDP": "depth_charge_05_dm"
         }
       },
       {
@@ -4038,7 +4055,8 @@
           "emitter": "bone_bomb_06",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 7.0
+          "dropSpeed": 7.0,
+          "ammoDP": "depth_charge_06_dm"
         }
       },
       {
@@ -4049,7 +4067,8 @@
           "emitter": "bone_bomb_07",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 9.0
+          "dropSpeed": 9.0,
+          "ammoDP": "depth_charge_07_dm"
         }
       },
       {
@@ -4060,7 +4079,8 @@
           "emitter": "bone_bomb_08",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 9.0
+          "dropSpeed": 9.0,
+          "ammoDP": "depth_charge_08_dm"
         }
       },
       {
@@ -4071,7 +4091,8 @@
           "emitter": "bone_bomb_09",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 11.0
+          "dropSpeed": 11.0,
+          "ammoDP": "depth_charge_09_dm"
         }
       },
       {
@@ -4082,7 +4103,8 @@
           "emitter": "bone_bomb_10",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 11.0
+          "dropSpeed": 11.0,
+          "ammoDP": "depth_charge_10_dm"
         }
       },
       {
@@ -4093,7 +4115,8 @@
           "emitter": "bone_bomb_11",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 13.0
+          "dropSpeed": 13.0,
+          "ammoDP": "depth_charge_11_dm"
         }
       },
       {
@@ -4104,7 +4127,8 @@
           "emitter": "bone_bomb_12",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 13.0
+          "dropSpeed": 13.0,
+          "ammoDP": "depth_charge_12_dm"
         }
       },
       {
@@ -4115,7 +4139,8 @@
           "emitter": "bone_bomb_13",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 20.0
+          "dropSpeed": 20.0,
+          "ammoDP": "depth_charge_13_dm"
         }
       },
       {
@@ -4126,7 +4151,8 @@
           "emitter": "bone_bomb_14",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 20.0
+          "dropSpeed": 20.0,
+          "ammoDP": "depth_charge_14_dm"
         }
       },
       {
@@ -4137,7 +4163,8 @@
           "emitter": "bone_rocket_01",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_15_dm"
         }
       },
       {
@@ -4148,7 +4175,8 @@
           "emitter": "bone_rocket_02",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_16_dm"
         }
       },
       {
@@ -4159,7 +4187,8 @@
           "emitter": "bone_rocket_03",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_17_dm"
         }
       },
       {
@@ -4170,7 +4199,8 @@
           "emitter": "bone_rocket_04",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_18_dm"
         }
       },
       {
@@ -4181,7 +4211,8 @@
           "emitter": "bone_rocket_05",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_19_dm"
         }
       },
       {
@@ -4192,7 +4223,8 @@
           "emitter": "bone_rocket_06",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_20_dm"
         }
       },
       {
@@ -4203,7 +4235,8 @@
           "emitter": "bone_rocket_07",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_21_dm"
         }
       },
       {
@@ -4214,7 +4247,8 @@
           "emitter": "bone_rocket_08",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 30.0
+          "dropSpeed": 30.0,
+          "ammoDP": "depth_charge_22_dm"
         }
       }
     ]
@@ -4353,6 +4387,13 @@
             "fx": {
               "name": "tank_smoke_small",
               "emitter": "emtr_fire_ammo_03",
+              "scale": 2.0
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_smoke_small",
+              "emitter": "emtr_fire_ammo_04",
               "scale": 2.0
             }
           }
@@ -4771,6 +4812,78 @@
             }
           }
         ]
+      },
+      {
+        "event": {
+          "name": "ammo_fire_1",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_01"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_2",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_02"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_3",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_4",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_1",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_01"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_2",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_02"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_3",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_4",
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        }
       },
       {
         "event": {

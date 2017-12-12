@@ -260,6 +260,14 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       this))
   }
 
+  function getReinforcementSpeedup(objectiveBlk)
+  {
+    local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+    if (side == ::ww_get_player_side())
+     return type.getReinforcementSpeedupPercent(
+       objectiveBlk, statusBlock, ::ww_side_val_to_name(side))
+  }
+
   function onEventWWLoadOperation(params)
   {
     local objectivesBlk = ::g_world_war.getOperationObjectives()
@@ -276,13 +284,39 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     checkTimers()
   }
 
+  function onTabChange()
+  {
+    updateReinforcementSpeedup()
+  }
+
   function updateDynamicData(objectivesBlk)
   {
     dynamicBlk = ::u.copy(objectivesBlk.status) || ::DataBlock()
+    updateDynamicDataBlocks()
+    updateReinforcementSpeedup()
+  }
+
+  function updateDynamicDataBlocks()
+  {
     for (local i = 0; i < staticBlk.blockCount(); i++)
-    {
       updateDynamicDataBlock(staticBlk.getBlock(i))
-    }
+  }
+
+  function updateReinforcementSpeedup()
+  {
+    local reinforcementSpeedup = 0
+    foreach (objectiveBlk in staticBlk)
+      if (canShowObjective(objectiveBlk, true))
+      {
+        local statusBlock = getStatusBlock(objectiveBlk)
+        local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+        local sideEnumVal = ::ww_side_val_to_name(side)
+
+        reinforcementSpeedup += type.getReinforcementSpeedupPercent
+          (objectiveBlk, statusBlock, sideEnumVal)
+      }
+
+    ::ww_event("ReinforcementSpeedupUpdated", { speedup = reinforcementSpeedup })
   }
 
   function updateDynamicDataBlock(objectiveBlk)

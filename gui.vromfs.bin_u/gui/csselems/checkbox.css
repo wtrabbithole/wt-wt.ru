@@ -198,10 +198,11 @@ playbackCheckbox > descImg {
 playbackCheckbox > playbackImg {
   size:1@mIco, 1@mIco;
   position:relative;
-  background-image:#ui/gameuiskin#replay_play;
+  background-image:#ui/gameuiskin#replay_play.svg;
   background-position:0;
   background-repeat:expand;
   background-color:@playbackButtonColor;
+  background-svg-size:@mIco, @mIco;
   input-transparent:yes;
 }
 
@@ -215,7 +216,7 @@ playbackCheckbox[downloading=yes] > animated_wait_icon {
 }
 
 playbackCheckbox:checked > playbackImg {
-  background-image:#ui/gameuiskin#replay_stop;
+  background-image:#ui/gameuiskin#replay_stop.svg;
 }
 
 playbackCheckbox:hover > playbackImg,

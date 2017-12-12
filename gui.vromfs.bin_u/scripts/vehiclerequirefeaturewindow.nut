@@ -9,7 +9,7 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
 
   function initScreen()
   {
-    purchases = ::OnlineShopModel.getAllFeaturePurchases(::getUnitReqFeature(unit))
+    purchases = ::OnlineShopModel.getAllFeaturePurchases(unit.reqFeature)
     local view = {
       headerText = getWndHeaderText()
       windowImage = getWndImage()

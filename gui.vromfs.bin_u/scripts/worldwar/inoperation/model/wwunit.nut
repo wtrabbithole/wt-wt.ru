@@ -220,7 +220,7 @@ class ::WwUnit
     if (!::g_ww_unit_type.isAir(wwUnitType.code))
       return 0
 
-    local maxFlyTime = ::getTblValue("maxFlightTimeMinutes", unit) ||
+    local maxFlyTime = (unit && unit.getUnitWpCostBlk()?.maxFlightTimeMinutes) ||
       ::g_world_war.getWWConfigurableValue("defaultMaxFlightTimeMinutes", 0)
     return (maxFlyTime * 60 / ::ww_get_speedup_factor()).tointeger()
   }

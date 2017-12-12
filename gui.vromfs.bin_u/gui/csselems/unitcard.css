@@ -1,6 +1,11 @@
+table.shopTable, table.slotbarTable {
+  total-input-transparent:yes;
+}
+
 .shopTable > tr,
 .slotbarTable > tr {
   background-color:@transparent;
+  foreground-color:@transparent;
 }
 
 .shopTable > tr > td, td.shopClone {
@@ -643,7 +648,7 @@ talismanIcon[incomplete=yes] {
 
 spareCount {
   re-type:text;
-  pos:pw-w, ph/2-h/2;
+  pos:pw-w-1@blockInterval, ph/2-h/2;
   position:absolute;
   font:@fontSmall;
   color:#596a71;

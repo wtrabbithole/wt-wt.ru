@@ -77,6 +77,8 @@ function getLogNameByType(type)
       return "activate_item"
     case ::EULT_REMOVE_ITEM:
       return "remove_item"
+    case ::EULT_INVENTORY_ADD_ITEM:
+      return "inventory_add_item"
     case ::EULT_TICKETS_REMINDER:
       return "ticket_reminder"
     case ::EULT_BUY_BATTLE:

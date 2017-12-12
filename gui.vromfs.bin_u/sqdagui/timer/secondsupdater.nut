@@ -1,5 +1,5 @@
-::g_script_reloader.loadOnce("sqStdLibs/common/u.nut") //!!FIX ME: better to make this modules too
-::g_script_reloader.loadOnce("sqDagui/daguiUtil.nut")
+local u = require("sqStdLibs/common/u.nut")
+::g_script_reloader.loadOnce("sqDagui/daguiUtil.nut")  //!!FIX ME: better to make this modules too
 
 local SecondsUpdater = class
 {
@@ -13,7 +13,7 @@ local SecondsUpdater = class
   static function getUpdaterByNestObj(nestObj)
   {
     local userData = nestObj.getUserData()
-    if (::u.isSecondsUpdater(userData))
+    if (u.isSecondsUpdater(userData))
       return userData
 
     local timerObj = nestObj.findObject(getTimerObjIdByNestObj(nestObj))
@@ -21,7 +21,7 @@ local SecondsUpdater = class
       return null
 
     userData = timerObj.getUserData()
-    if (::u.isSecondsUpdater(userData))
+    if (u.isSecondsUpdater(userData))
       return userData
 
     return null
@@ -85,6 +85,6 @@ local SecondsUpdater = class
   }
 }
 
-::u.registerClass("SecondsUpdater", SecondsUpdater)
+u.registerClass("SecondsUpdater", SecondsUpdater)
 
 return SecondsUpdater

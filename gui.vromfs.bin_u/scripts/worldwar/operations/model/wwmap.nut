@@ -118,7 +118,7 @@ class WwMap
 
   function getChangeStateTimeText()
   {
-    return ""
+    return getMapChangeStateTimeText()
   }
 
   function getMapChangeStateTimeText()

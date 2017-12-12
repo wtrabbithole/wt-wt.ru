@@ -1,3 +1,13 @@
+function gui_start_dynamic_summary()
+{
+  ::handlersManager.loadHandler(::gui_handlers.CampaignPreview, { isFinal = false })
+}
+
+function gui_start_dynamic_summary_f()
+{
+  ::handlersManager.loadHandler(::gui_handlers.CampaignPreview, { isFinal = true })
+}
+
 class ::gui_handlers.CampaignPreview extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/dynamicSummary.blk"

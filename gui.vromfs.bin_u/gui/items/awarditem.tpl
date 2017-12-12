@@ -4,6 +4,7 @@ awardItemDiv {
   flow:t='vertical'
 
   awardItemHeader {
+    size:t='pw, 1@awardItemHeaderHeight';
     <<#havePeriodReward>>
       <<^openedPicture>>
         havePeriodReward:t='yes'
@@ -15,7 +16,6 @@ awardItemDiv {
       arrowCurrent{}
     <</current>>
 
-    size:t='pw, 1@frameHeaderHeight+1';
     tdiv {
       width:t='pw'
       pos:t='50%pw-50%w, 50%ph-50%h'

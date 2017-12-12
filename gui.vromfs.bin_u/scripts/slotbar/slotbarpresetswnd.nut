@@ -79,7 +79,8 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
         local battleRatingMax = 0
         foreach (unitId in preset.units)
         {
-          local br = ::get_unit_battle_rating_by_mode(::getAircraftByName(unitId), ediff)
+          local unit = ::getAircraftByName(unitId)
+          local br = unit ? unit.getBattleRating(ediff) : 0.0
           battleRatingMin = !battleRatingMin ? br : ::min(battleRatingMin, br)
           battleRatingMax = !battleRatingMax ? br : ::max(battleRatingMax, br)
         }
@@ -100,7 +101,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
           local unitId = idx < preset.units.len() ? preset.units[idx] : ""
           local unit = unitId == "" ? null : ::getAircraftByName(unitId)
           local params = {
-            active = false
+            hasActions = false
             status = (hasFeatureTanks || !::isTank(::getAircraftByName(unitId))) ? "owned" : "locked"
             showBR = ::has_feature("SlotbarShowBattleRating")
             getEdiffFunc = getCurrentEdiff.bindenv(this)

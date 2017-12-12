@@ -3187,7 +3187,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.1,
+              "fire": 0.03,
               "damage": 20.0,
               "fHitCritical": true
             }
@@ -3195,7 +3195,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.35,
+              "fire": 0.15,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -3541,9 +3541,40 @@
       },
       "engines": [
         {
+          "maxSpeed": 19.54
+        },
+        {
+          "maxReverseSpeed": 7.0
+        },
+        {
+          "speedToTime": [
+            {
+              "row": [5.0,5.0]
+            },
+            {
+              "row": [10.0,14.0]
+            },
+            {
+              "row": [19.54,27.0]
+            }
+          ]
+        },
+        {
+          "reverseSpeedToTime": [
+            {
+              "row": [0.0,2.0]
+            },
+            {
+              "row": [4.0,5.0]
+            },
+            {
+              "row": [7.0,12.0]
+            }
+          ]
+        },
+        {
           "engine": {
             "pos": [-50.8,-3.2,2.4],
-            "maxThrust": 485000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_room_01_dm",
             "transmissionDmPart": "transmission_02_dm",
@@ -3553,11 +3584,25 @@
         {
           "engine": {
             "pos": [-50.8,-3.2,-2.4],
-            "maxThrust": 485000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_room_02_dm",
             "transmissionDmPart": "transmission_01_dm",
             "propeller": "propeller_01"
+          }
+        },
+        {
+          "engine_rooms": {
+            "engine_room1": {
+              "engineRoomDmPart": "engine_room_01_dm",
+              "funnelDmPart": "funnel_01_dm"
+            },
+            "engine_room2": {
+              "engineRoomDmPart": "engine_room_02_dm",
+              "funnelDmPart": "funnel_02_dm"
+            },
+            "engine_room3": {
+              "engineRoomDmPart": "engine_room_03_dm"
+            }
           }
         }
       ],
@@ -6380,6 +6425,7 @@
           "useEmitter": true,
           "emitterGenRange": [1,4],
           "emitterGenFmt": "bone_torpedo_%02d",
+          "ammoDpGenFmt": "torpedo_%02d_dm",
           "barrelDP": "tt_01_dm",
           "brokenBarrelAllowShoot": false,
           "startFx": "start_torpedo",
@@ -6411,6 +6457,7 @@
           "useEmitter": true,
           "emitterGenRange": [5,8],
           "emitterGenFmt": "bone_torpedo_%02d",
+          "ammoDpGenFmt": "torpedo_%02d_dm",
           "barrelDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
           "startFx": "start_torpedo",
@@ -6551,6 +6598,12 @@
             "fx": {
               "name": "ship_smoke",
               "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_smoke",
+              "emitter": "emtr_fire_ammo_04"
             }
           }
         ]
@@ -6807,6 +6860,86 @@
         ]
       },
       {
+        "event": {
+          "name": "ammo_fire_1",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_01",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_2",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_02",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_3",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_03",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_fire_4",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_04",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_1",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_01",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_2",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_02",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_3",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_03",
+            "scale": 0.7
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "ammo_explosion_4",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "emitter": "emtr_fire_ammo_04",
+            "scale": 0.7
+          }
+        }
+      },
+      {
         "event": [
           {
             "name": "salute"
@@ -6943,41 +7076,7 @@
             }
           }
         }
-      ],
-      "ammo3": {
-        "weaponTrigger": "gunner13",
-        "shells": {
-          "torpedo_01_dm": {
-            "count": 1
-          },
-          "torpedo_02_dm": {
-            "count": 1
-          },
-          "torpedo_03_dm": {
-            "count": 1
-          },
-          "torpedo_04_dm": {
-            "count": 1
-          }
-        }
-      },
-      "ammo5": {
-        "weaponTrigger": "gunner14",
-        "shells": {
-          "torpedo_05_dm": {
-            "count": 1
-          },
-          "torpedo_06_dm": {
-            "count": 1
-          },
-          "torpedo_07_dm": {
-            "count": 1
-          },
-          "torpedo_08_dm": {
-            "count": 1
-          }
-        }
-      }
+      ]
     }
   },
   {
@@ -6992,5 +7091,119 @@
         "tankRearmOnCaptureZone": true
       }
     }
+  },
+  {
+    "wreckedParts": [
+      {
+        "part": {
+          "node": "main_caliber_turret_01",
+          "idx": 1,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_01"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_02",
+          "idx": 2,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_02"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_03",
+          "idx": 3,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_03"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_04",
+          "idx": 4,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_04"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_05",
+          "idx": 5,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_05"
+        }
+      },
+      {
+        "part": {
+          "node": "tt_01",
+          "idx": 6,
+          "mass": 1000.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_tt_01"
+        }
+      },
+      {
+        "part": {
+          "node": "tt_02",
+          "idx": 7,
+          "mass": 1000.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_tt_02"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_decor_08",
+          "idx": 8,
+          "mass": 900.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_decor_08_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_armor_05",
+          "idx": 9,
+          "mass": 900.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_armor_05_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "mast_02",
+          "idx": 10,
+          "mass": 800.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_body_06"
+        }
+      }
+    ]
   }
 ]

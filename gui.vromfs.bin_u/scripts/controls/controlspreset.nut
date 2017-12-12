@@ -583,12 +583,7 @@ class ControlsPreset {
 
   function loadBasePresetsFromBlk(blk, version, presetChain = [])
   {
-    if (presetChain.len() > 0)
-    {
-      basePresetPaths["default"] <- presetChain[0]
-      ::dagor.debug("ControlsPreset: InitialPreset = " + presetChain[0])
-    }
-    else if (version >= PRESET_ACTUAL_VERSION)
+    if (version >= PRESET_ACTUAL_VERSION)
     {
       local blkBasePresetPaths = blk["basePresetPaths"]
 
@@ -597,15 +592,16 @@ class ControlsPreset {
 
       foreach (presetGroup, presetPath in blkBasePresetPaths)
       {
-        applyBasePreset(presetPath, presetGroup, presetChain)
         ::dagor.debug("ControlsPreset: BasePreset." +
           presetGroup + " = " + presetPath)
+        applyBasePreset(presetPath, presetGroup, presetChain)
       }
     }
-    else
+
+    if (presetChain.len() == 1)
     {
-      // TODO: find similar preset
-      // Diff calculation not required, because it performed on saving
+      basePresetPaths["default"] <- presetChain[0]
+      ::dagor.debug("ControlsPreset: InitialPreset = " + presetChain[0])
     }
   }
 

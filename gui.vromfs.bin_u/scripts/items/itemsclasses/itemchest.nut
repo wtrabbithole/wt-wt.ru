@@ -3,6 +3,7 @@ local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
 
 class ::items_classes.Chest extends ItemExternal {
   static iType = itemType.CHEST
+  static typeIcon = "#ui/gameuiskin#item_type_trophies"
   constructor(itemDesc, invBlk = null, slotData = null)
   {
     base.constructor(itemDesc)
@@ -15,7 +16,12 @@ class ::items_classes.Chest extends ItemExternal {
 
   function doMainAction(cb, handler, params = null)
   {
-    inventoryClient.openChest(id, function(items) {
+    if (!uids || !uids.len())
+      return -1
+
+    local uid = uids[0]
+
+    inventoryClient.openChest(uid, function(items) {
       ::ItemsManager.markInventoryUpdate()
       ::gui_start_open_chest_list(items)
     })

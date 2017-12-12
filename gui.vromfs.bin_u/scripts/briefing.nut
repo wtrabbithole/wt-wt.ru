@@ -313,9 +313,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     ::select_controller(true, true)
     base.initScreen()
     local gm = ::get_game_mode()
-    scene.findObject("btn_list").show(/*!isRestart && (gm == ::GM_CAMPAIGN)*/false)
-
-    ::set_gui_options_mode(::get_options_mode(::get_game_mode()))
+    ::set_gui_options_mode(::get_options_mode(gm))
 
     local campaignName = ::current_campaign_id
     missionName = ::current_campaign_mission
@@ -749,11 +747,6 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
   {
     showSceneBtn("mission_box", false)
     ::quit_to_debriefing()
-  }
-
-  function onList(obj)
-  {
-    goForward(::gui_start_menuCampaign)
   }
 
   tempVar = 0

@@ -2,7 +2,7 @@ class gui_bhv.ActivateSelect extends gui_bhv.posNavigator
 {
   valuePID = ::dagui_propid.add_name_id("value")  //values by bits   chosen:yes;
   selectedPID = ::dagui_propid.add_name_id("_selected")    //only 1     selected:yes;
-  activateByMClick = true
+  canChooseByMClick = true
 
   function setValue(obj, value)
   {
@@ -50,12 +50,14 @@ class gui_bhv.ActivateSelect extends gui_bhv.posNavigator
     return true
   }
 
-  function activateAction(obj)
+  function onShortcutSelect(obj, is_down)
   {
-    local selected = getSelectedValue(obj)
-    if (selected < 0)
-      return
+    if (is_down)
+      return ::RETCODE_NOTHING
 
-    chooseItem(obj, selected)
+    local selected = getSelectedValue(obj)
+    if (selected >= 0)
+      chooseItem(obj, selected)
+    return ::RETCODE_HALT
   }
 }

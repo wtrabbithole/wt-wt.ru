@@ -158,7 +158,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       data = "table { id:t='items_list'; class:t='crewTable'; " +
                "pos:t='0.5(pw-w), 0'; position:t='relative'; " +
                "behavior:t = 'OptionsNavigator'; cur_col:t='0'; cur_row:t='0'; num_rows:t='-1'; " +
-               "on_click:t='onItemSelect'; " +
+               "on_click:t='onItemSelect'; selfFocusBorder:t='yes'; " +
                data +
              "} " +
              "dummy { id:t='btn_apply'; on_click:t = 'onApply'; behaviour:t='accesskey'; accessKey:t = 'J:A | J:Start | Space | Enter | NumEnter' }"
@@ -557,11 +557,12 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach(method in payMethodsCfg)
       if (payMethods & method.id)
       {
+        local payMethodId = method.id
         local name = "yuNetwork/payMethod/" + method.name
         items.append({
           name = name
           icon = "!#ui/gameuiskin/payment_" + method.name + ".svg"
-          callback = ::Callback(@() onYuplayPurchase(task, method.id), this)
+          callback = ::Callback(@() onYuplayPurchase(task, payMethodId), this)
         })
         selItem = selItem || name
       }

@@ -12,7 +12,10 @@ tr {
       <<#cellType>> cellType:t='<<cellType>>' <</cellType>>
       <<#width>>width:t='<<width>>' <</width>>
       <<#tdalign>> tdalign:t='<<tdalign>>' <</tdalign>>
-      <<#tooltip>> tooltip:t='<<tooltip>>' <</tooltip>>
+      <<#tooltipId>>tooltip:t='$tooltipObj'<</tooltipId>>
+      <<^tooltipId>>
+        <<#tooltip>> tooltip:t='<<tooltip>>' <</tooltip>>
+      <</tooltipId>>
       <<@rawParam>>
 
       <<#callback>>
@@ -58,6 +61,15 @@ tr {
         text:t='<<text>>'
       }
     <</params>>
+
+    <<#tooltipId>>
+    tooltipObj {
+      tooltipId:t='<<tooltipId>>'
+      display:t='hide'
+      on_tooltip_open:t='onGenericTooltipOpen'
+      on_tooltip_close:t='onTooltipObjClose'
+    }
+    <</tooltipId>>
   }
   <</cell>>
 }

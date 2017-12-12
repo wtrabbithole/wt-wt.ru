@@ -21,7 +21,7 @@ function gui_start_select_unit(countryId, idInCountry, handler, config = null)
   if (!::CrewTakeUnitProcess.safeInterrupt())
     return
 
-  local slotbarObj = ::get_slotbar_obj(handler, handler.slotbarScene)
+  local slotbarObj = handler.slotbarScene
   local slotObj = ::get_slot_obj(slotbarObj, countryId, idInCountry)
   if (!::checkObj(slotObj))
   {
@@ -176,11 +176,10 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (!a || !b)
         return a <=> b
-      if (!::u.isTable(a) || !::u.isTable(b))
-        return ::u.isTable(a) <=> ::u.isTable(b)
+      if (!::u.isUnit(a) || !::u.isUnit(b))
+        return ::u.isUnit(a) <=> ::u.isUnit(b)
 
-      return (::get_unit_economic_rank_by_ediff(ediff, a)
-            <=> ::get_unit_economic_rank_by_ediff(ediff, b))
+      return a.getEconomicRank(ediff) <=> b.getEconomicRank(ediff)
         || ::is_default_aircraft(b.name) <=> ::is_default_aircraft(a.name)
         || getSortSpecialization(a) <=> getSortSpecialization(b)
         || a.rank <=> b.rank

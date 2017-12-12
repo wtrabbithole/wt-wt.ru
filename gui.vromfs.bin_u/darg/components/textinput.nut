@@ -82,6 +82,8 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
       password = options.get("password")
       key = text_state
 
+      hotkeys = options?.hotkeys
+
       onChange = function () {
         local changeHook = handlers.get("onChange", function (newVal) {})
         return function(new_val) {

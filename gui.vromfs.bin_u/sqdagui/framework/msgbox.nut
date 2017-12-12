@@ -2,6 +2,7 @@
 
 //  {id, text, buttons, defBtn}
 ::gui_scene_boxes <- []
+local g_string =  require("sqStdLibs/common/string.nut")
 
 function remove_scene_box(id)
 {
@@ -33,42 +34,27 @@ function destroyMsgBox(boxObj)
 function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
 {
   gui_scene = gui_scene || ::get_cur_gui_scene()
-  if (::getTblValue("checkDuplicateId", options) && ::check_obj(gui_scene[id]))
+  if (options?.checkDuplicateId && ::check_obj(gui_scene[id]))
     return null
 
-  local rootNode = ""
-  local cancel_fn = null
-  local need_cancel_fn = null
-  local needWaitAnim = false
-  local data_below_text = null
-  local data_below_buttons = null
-  local debug_string = null
-  local delayedButtons = 0
-  if (buttons && buttons.len() == 1)
-    cancel_fn = buttons[0].len() >= 2 ? buttons[0][1] : function(){}
-  local baseHandler = ::getTblValue("baseHandler", options, null)
+  local rootNode = options?.root ?? ""
+  local needWaitAnim = options?.waitAnim ?? false
+  local data_below_text = options?.data_below_text
+  local data_below_buttons = options?.data_below_buttons
+  local debug_string = options?.debug_string
+  local delayedButtons = options?.delayedButtons ?? 0
+  local baseHandler = options?.baseHandler
   local needAnim = ::need_new_msg_box_anim()
 
-  if (options)
-  {
-    if ("root" in options)
-      rootNode = options.root
-    if ("cancel_fn" in options)
-      cancel_fn = options.cancel_fn
-    if ("need_cancel_fn" in options)
-      need_cancel_fn = options.need_cancel_fn
-    if ("waitAnim" in options)
-      needWaitAnim = options.waitAnim
-    data_below_text = getTblValue("data_below_text", options, data_below_text)
-    data_below_buttons = getTblValue("data_below_buttons", options, data_below_buttons)
-    debug_string = getTblValue("debug_string", options, debug_string)
-    if ("delayedButtons" in options)
-      delayedButtons = options.delayedButtons
-    if ("saved" in options && options.saved)
-      ::saved_scene_msg_box = (@(id, gui_scene, text, buttons, def_btn, options) function() {
-          scene_msg_box(id, gui_scene, text, buttons, def_btn, options)
-        })(id, gui_scene, text, buttons, def_btn, options)
-  }
+  local cancel_fn = options?.cancel_fn
+  local need_cancel_fn = options?.need_cancel_fn
+  if (!cancel_fn && buttons && buttons.len() == 1)
+    cancel_fn = buttons[0].len() >= 2 ? buttons[0][1] : function(){}
+
+  if (options?.saved)
+    ::saved_scene_msg_box = (@(id, gui_scene, text, buttons, def_btn, options) function() {
+        scene_msg_box(id, gui_scene, text, buttons, def_btn, options)
+      })(id, gui_scene, text, buttons, def_btn, options)
 
   local bottomLinks = get_text_urls_data(text)
   if (bottomLinks)
@@ -77,7 +63,7 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
     data_below_text = data_below_text || ""
     foreach(idx, urlData in bottomLinks.urls)
       data_below_text += ::format("button { id:t='msgLink%d'; text:t='%s'; link:t='%s'; on_click:t = '::open_url_by_obj'; underline{} }",
-                           idx, ::g_string.stripTags(urlData.text), ::g_string.stripTags(urlData.url))
+                           idx, g_string.stripTags(urlData.text), g_string.stripTags(urlData.url))
   }
 
   if (!::check_obj(gui_scene[rootNode]))
@@ -93,12 +79,12 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
   dagor.debug("GuiManager: load msgbox = " + id)
 //  ::enableHangarControls(false, false) //to disable hangar controls need restore them on destroy msgBox
 
-  local isBigMessage = ::g_string.countSubstrings(text, "\n") > 7
+  local isBigMessage = g_string.countSubstrings(text, "\n") > 7
   if (isBigMessage)
     msgbox.findObject("msgBox_container").type = "big"
 
   local textObj = msgbox.findObject("msgText")
-  if (::getTblValue("font", options) == "fontNormal")
+  if (options?.font == "fontNormal")
     textObj.mediumFont = "no"
   textObj.setValue(text)
 
@@ -391,9 +377,7 @@ function update_msg_boxes()
   for (local i = 0; i < msgsToShow.len(); i++)
   {
     local msg = ::gui_scene_boxes[msgsToShow[i]]
-    local options = ::getTblValue("options", msg, null)
-    //if (msgsToShow[i] > 0)
-    //  options = { root = ::gui_scene_boxes[msgsToShow[i] - 1].id }
+    local options = msg?.options
     if (guiScene[msg.id] == null)
       scene_msg_box(msg.id, guiScene, msg.text, msg.buttons, msg.defBtn, options)
   }

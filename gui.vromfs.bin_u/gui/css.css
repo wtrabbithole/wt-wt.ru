@@ -10,6 +10,10 @@
 @import "pedia.css"
 @import "cssElems\keyboard.css"
 
+@const rowHoverBackgroundColor: #18181818;
+@const rowFocusBackgroundColor: #332C2C2C;
+@const rowFocusForegroundColor: #C6AEAEAE;
+
 tdiv, img, img2, pcHide, pcOnly, shopAirImg, voiceIcon {
   input-transparent: yes;
   if_target_pc:@target_pc;
@@ -1051,20 +1055,6 @@ verticalCellsOptions > tr {
   width:pw;
 }
 
-.mpTable > tr:hover, .optionsTable > tr:hover, tr[selected=yes],
-.crewTable > tr:hover, .lbTable > tr:hover {
-  re-type:9rect;
-  background-position:4,4;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#option_select;
-}
-.mpTable > tr:hover, .optionsTable > tr:hover, .crewTable > tr:hover, .lbTable > tr:hover {
-  background-color:@selImgHoverColor;
-}
-tr[inactive=yes]:hover {
-  background-color:@transparent;
-}
-
 tr[even=yes] {
   background-color:@evenTrColor;
 }
@@ -1072,17 +1062,45 @@ tr[even=yes][queueTableRow=yes] {
   background-color:@evenQueueTableTrColor;
 }
 
+tr[selected=yes],
+.crewTable > tr:hover,
+.mpTable > tr:hover,
+.optionsTable > tr:hover,
+.lbTable > tr:hover {
+  re-type:9rect;
+  background-image:"";
+  background-position:0;
+  background-color:@rowHoverBackgroundColor;
+  foreground-position:0, h-1@dp, 0, 0;
+  foreground-color:@transparent;
+}
+
+tr[inactive=yes]:hover {
+  background-color:@transparent;
+  foreground-color:@transparent;
+}
+
 tr[selected=yes], [higlightRowOnHover=yes] > tr:hover {
-  needHighLight:yes;
+  _needHighLight:yes;
 }
 
-[higlightRowOnHover=yes] > tr[inactive=yes], [invisibleSelection=yes] > * > tr {
-  needHighLight:no;
+[higlightRowOnHover=yes] > tr[inactive=yes],
+[invisibleSelection=yes] > * > tr {
+  _needHighLight:no;
 }
 
-tr[needHighLight=yes] {
-  background-image:#ui/gameuiskin#option_select_even;
-  background-color:@white;
+tr[_needHighLight=yes] {
+  re-type:9rect;
+  background-image:"";
+  background-position:0;
+  background-color:@rowFocusBackgroundColor;
+  foreground-position:0, h-1@dp, 0, 0;
+  foreground-color:@rowFocusForegroundColor;
+}
+
+tr[_needHighLight=no] {
+  background-color:@transparent;
+  foreground-color:@transparent;
 }
 
 tr[selType=left], [selType=left] > tr[selected=yes] {
@@ -1097,9 +1115,6 @@ tr[selType=left], [selType=left] > tr[selected=yes] {
 [selType=left] > tr > td > text {
   width:pw;
   text-align:right;
-}
-
-td[cellType] {
 }
 
 td[cellType=left] {
@@ -1453,6 +1468,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "cssElems\editbox.css"
 @import "cssElems\frame.css"
 @import "cssElems\navBar.css"
+@import "cssElems\focusFrameAnim.css"
 
 
 @import "help/help.css"
@@ -1480,6 +1496,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "chat/chat.css"
 @import "fileDialog/fileDialog.css"
 @import "animated.css"
+@import "cssElems\focusBorder.css"
 
 animated_wait_icon
 {
@@ -1679,6 +1696,10 @@ imgFrame > backlight:hover, imgFrame > backlight:pushed {
   background-image:#ui/gameuiskin#acheivement_bg_hover;
 }
 
+
+imgButton.decal_image {
+  margin:4@dp;
+}
 
 imgButton.decal_image:disabled, imgButton.decal_image[unlocked=no] {
   background-image:#ui/gameuiskin#header_button_disabled;
@@ -2094,22 +2115,26 @@ ProjectAwardsPanel > img:hover {
 }
 
 TopMenuPanel {
-  re-type:9rect;
   pos:0,0;
   position:root;
   size:sw, 1@topBarHeight;
+  css-hier-invalidate:yes;
+}
+
+TopMenuPanelBg {
+  height:ph;
+  re-type:9rect;
   background-image:#ui/gameuiskin#top_bar;
   background-color:@white;
-  background-position:1, 6, 1, 1;
+  background-position:1, 6, 1, 2;
   background-repeat:expand;
-  css-hier-invalidate:yes;
 }
 
 BottomMenuPanel {
   re-type:9rect;
-  pos:0, sh-h +3@dp;
+  pos:0, sh-h - 1@bh;
   position:root;
-  size:sw, 1@bottomBarHeight +3@dp;
+  size:sw, 1@bottomBarHeight - 1@bh;
   background-color:@bottomBarBackgroundColor;
 }
 
@@ -2119,25 +2144,15 @@ BottomMenuPanel > line {
   background-color: '@bottomBarForegroundColor';
 }
 
-airItemNavigation {
-  id:air_actions_navigation;
-  behaviour:wrapNavigator;
-  navigatorShortcuts:"yes";
-  on_wrap_up: onWrapUp;
-  on_wrap_down: onWrapDown;
-  re-type:9rect;
-  pos:6,50%ph-50%h;
-  position:absolute;
-  padding-left:3*@sf/@pf_outdated;
-  height:1@slotbarTop;
-  background-color:@transparent;
-  background-image:#ui/gameuiskin#block_bg_rounded_flat@@vs;
-  background-position:0;
-  background-repeat:expand;
+shadowSafeArea {
+  size:pw, 1@bh;
+  pos:0, 0;
+  position: "absolute";
+  background-color:'@gameModeColor';
 }
 
-airItemNavigation[highlight=yes], airItemNavigation:focus{
-  background-color:#0f0f0f0f;
+BottomMenuPanel > shadowSafeArea {
+  pos:0, ph;
 }
 
 CompanyLogo {
@@ -2161,9 +2176,17 @@ copyright {
 }
 
 Red_shadow_light {
-  background-color: #00777777;
+  background-color: #00550000;
   background-image:#ui/gameuiskin#top_bar_light;
   input-transparent:yes;
+}
+
+Red_shadow_light.inverted {
+  background-position:0,h,0,h;
+}
+
+[needRedShadow=no] > * > Red_shadow_light {
+  background-color:@transparent;
 }
 
 GameLogoPlate {
@@ -2287,97 +2310,6 @@ textareaNoTab.highlightButton:pushed {
   background-color:@frameDarkActiveBgColor;
   border-color:@frameDarkSelectedBorderColor;
   color:@activeTextColor;
-}
-
-focus_border {
-  position: absolute;
-  pos: -1, -1;
-  size: pw + 2, ph + 2;
-  display: hide;
-  input-transparent:yes;
-}
-
-focus_border_in_scroll {
-  re-type:9rect;
-  size:pw, ph;
-  pos:0, 0;
-  position:fixed;
-  input-transparent:yes;
-  display:hide;
-}
-
-
-[show_console_buttons=yes] focus_border_in_scroll {
-  display:show;
-}
-
-focus_border,
-[show_console_buttons=yes] :focus focus_border_in_scroll,
-[show_console_buttons=yes] [childsActivate=yes] > Button_text:focus,
-[show_console_buttons=yes] [childsActivate=yes] > button:focus,
-[show_console_buttons=yes] [childsActivate=yes] > emptyButton:focus,
-[show_console_buttons=yes] [childsActivate=yes] > emptyButton[selected=yes],
-[show_console_buttons=yes] [showSelect=yes] > Button_text[selected=yes],
-[show_console_buttons=yes] [showSelect=yes] > button[selected=yes],
-[show_console_buttons=yes] [showSelect=yes] > CheckBox[selected=yes],
-[showSelect=always] > Button_text[selected=yes],
-[show_console_buttons=yes] [selfFocusBorder=yes]:focus > tr[selected=yes],
-[show_console_buttons=yes] CheckBox:focus,
-[show_console_buttons=yes] RadioButton_AD:focus,
-[show_console_buttons=yes] HorizontalListBox:focus > shopFilter[selected=yes],
-[show_console_buttons=yes] VerticalListBox:focus > shopFilter[selected=yes],
-[show_console_buttons=yes] :focus > RadioButton:current,
-[show_console_buttons=yes] :focus > collapsableBlock[selected=yes],
-[show_console_buttons=yes] :focus > imgButton[selected=yes],
-[show_console_buttons=yes] buttonPlayer[selected=yes],
-[show_console_buttons=yes] [childsActivate=yes] > gameModeItem:focus,
-[show_console_buttons=yes] [childsActivate=yes] > gameModeChangeButton:focus,
-[show_console_buttons=yes] [childsActivate=yes] > div.dropDown:focus,
-[show_console_buttons=yes] MultiSelect:focus > multiOption[selected=yes],
-[show_console_buttons=yes] game_mode_block[selected=yes],
-[show_console_buttons=yes] [cluster_select_button_container=yes] > button[selected=yes],
-[show_console_buttons=yes] :focus > activateTab[selected=yes],
-[show_console_buttons=yes] promoButton:focus,
-[show_console_buttons=yes] :focus > promoButton[type=simpleList][selected=yes],
-[show_console_buttons=yes] PosOptionsNavigator > cell[selected=yes],
-[show_console_buttons=yes] gameModeChangeButton[navigatorShortcuts]:focus,
-[show_console_buttons=yes] hangarToggleButton[navigatorShortcuts]:focus,
-[show_console_buttons=yes] ComboBox[focusFrame=yes]:focus,
-[show_console_buttons=yes] pupup_actions_list > itemsList > actionListItem:focus,
-[show_console_buttons=yes] pupup_actions_list > itemsList > button:focus,
-[show_console_buttons=yes] VerticalListBox:focus > expandable[selected=yes] {
-  re-type:9rect;
-  foreground-color: @gamepadFocusFrameColor;
-  foreground-image: #ui/gameuiskin#item_selection;
-  foreground-position: 8, 10, 8, 8;
-  foreground-repeat: expand;
-}
-
-shopItem > focus_border {
-  pos: -1, -2;
-  size: pw+2, ph+2;
-}
-shopItem[group=yes] > focus_border {
-  pos: -1, -8;
-  size: pw+2, ph+8;
-}
-
-focus_border.fontRow {
-  size: pw+2, 0.03@sf+2;
-}
-
-focusConsoleDiv {
-  display:hide;
-  input-transparent:yes;
-}
-
-table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
-[show_console_buttons=yes] :focus > focus_border,
-[show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
-[show_console_buttons=yes] :focus > focusConsoleDiv,
-[show_console_buttons=yes] :focus > itemDiv[selected=yes] > focus_border
-{
-  display: show;
 }
 
 airInfoBlock {

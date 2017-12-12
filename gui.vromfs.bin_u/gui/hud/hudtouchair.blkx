@@ -415,6 +415,9 @@
         "css-hier-invalidate": "yes"
       },
       {
+        "behavior": "Timer"
+      },
+      {
         "tdiv": [
           {
             "width": "(2/3) * sw"
@@ -510,6 +513,17 @@
   },
   {
     "tdiv": {
+      "id": "hud_message_timers"
+    }
+  },
+  {
+    "dummy": {
+      "id": "hud_message_timer",
+      "behavior": "Timer"
+    }
+  },
+  {
+    "tdiv": {
       "position": "absolute",
       "pos": "0, -@bh",
       "hud_touch_shortcut": {
@@ -560,11 +574,6 @@
         }
       }
     ]
-  },
-  {
-    "tdiv": {
-      "id": "hud_message_timers"
-    }
   },
   {
     "tdiv": {

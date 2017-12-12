@@ -57,7 +57,7 @@ Button_text {
   text:t='#mainmenu/toBattle';
   on_click:t='onStart';
   css-hier-invalidate:t='yes';
-  is_to_battle_button:t='yes';
+  iconPos:t='middleBottom';
   isCancel:t='no';
 
   <<^enableEnterKey>>
@@ -81,9 +81,5 @@ Button_text {
   }
 
   btnName:t='X';
-  ButtonImg{
-    id:t='to_battle_console_image'
-    position:t='absolute';
-    pos:t='0.5pw-0.5w, ph-0.5h';
-  }
+  ButtonImg{ id:t='to_battle_console_image' }
 }

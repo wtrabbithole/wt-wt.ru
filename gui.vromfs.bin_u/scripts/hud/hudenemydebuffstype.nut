@@ -240,6 +240,6 @@ function g_hud_enemy_debuffs::getTrackedPartNamesByUnitType(unitType)
   foreach (item in types)
     if (unitTypeBit & item.unitTypesMask)
       foreach (partName in item.parts)
-        ::append_once(partName, list)
+        ::u.appendOnce(partName, list)
   return list
 }

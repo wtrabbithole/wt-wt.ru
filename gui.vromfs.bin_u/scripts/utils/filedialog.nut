@@ -1,4 +1,6 @@
 local time = require("scripts/time.nut")
+local stdpath = require("sqStdLibs/common/path.nut")
+
 class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 {
   static wndType = handlerType.MODAL
@@ -284,10 +286,10 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (!validatePath(path))
         return []
-      local files = ::find_files_ex(::g_path.join(path, allFilesFilter), maxFiles)
+      local files = ::find_files_ex(stdpath.join(path, allFilesFilter), maxFiles)
       foreach(file in files)
         if ("name" in file)
-          file.fullPath <- ::g_path.join(path, file.name)
+          file.fullPath <- stdpath.join(path, file.name)
       return files
     }
 
@@ -295,13 +297,13 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (!validatePath(path))
         return null
-      local basename = ::g_path.fileName(path)
+      local basename = stdpath.fileName(path)
       local files = ::find_files_ex(path, 1)
       if (files.len() > 0 && ::getTblValue("name", files[0]) == basename)
         return files[0]
 
       if (files.len() == 0)
-        files = ::find_files_ex(::g_path.join(path, allFilesFilter), 1)
+        files = ::find_files_ex(stdpath.join(path, allFilesFilter), 1)
       if (files.len() > 0)
         return {name = basename, isDirectory = true}
       return null
@@ -331,9 +333,9 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         name = "#filesystem/gamePaths"
         childs = [
           { name = "#filesystem/gameSaves",
-            path = ::g_path.normalize(::get_save_load_path()) },
+            path = stdpath.normalize(::get_save_load_path()) },
           { name = "#filesystem/gameExe",
-            path = ::g_path.parentPath(::g_path.normalize(::get_exe_dir())) }
+            path = stdpath.parentPath(stdpath.normalize(::get_exe_dir())) }
         ]
       })
 
@@ -387,7 +389,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     // Init defaults
     if (dirPath != "")
-      dirPath = ::g_path.normalize(dirPath)
+      dirPath = stdpath.normalize(dirPath)
     else if (::is_platform_windows)
       dirPath = "C:"
     else
@@ -521,7 +523,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUp()
   {
-    local parentPath = ::g_path.parentPath(dirPath)
+    local parentPath = stdpath.parentPath(dirPath)
     if (parentPath != null)
       openDirectory(parentPath)
   }
@@ -547,7 +549,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       updateSelectedFileName()
 
       local fullPath = ::getTblValue(fileName, cachedFileFullPathByFileName) ||
-        ::g_path.join(dirPath, fileName)
+        stdpath.join(dirPath, fileName)
       if (fullPath != "")
         openFileOrDir(fullPath)
     }
@@ -587,7 +589,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     fileName = getObj("file_name").getValue()
     if (fileName != "")
-      openFileOrDir(::g_path.join(dirPath, fileName))
+      openFileOrDir(stdpath.join(dirPath, fileName))
   }
 
 
@@ -792,7 +794,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     fileName = cachedFileNameByTableRowId[childObj.id]
     guiScene.performDelayed(this, updateButtons)
-    local file = readFileInfo(::g_path.join(dirPath, fileName))
+    local file = readFileInfo(stdpath.join(dirPath, fileName))
     if (file && !isDirectory(file))
       fillFileNameObj()
   }
@@ -810,7 +812,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     while (!isDirectory(readFileInfo(dirPath)))
     {
-      local parentPath = ::g_path.parentPath(dirPath)
+      local parentPath = stdpath.parentPath(dirPath)
       if (!parentPath)
         return
       dirPath = parentPath
@@ -825,8 +827,8 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local settingName = FILEDIALOG_PATH_SETTING_ID + "/" + pathTag
     local saveBlk = ::DataBlock()
-    saveBlk.dirPath = ::g_path.parentPath(path)
-    saveBlk.fileName = ::g_path.fileName(path)
+    saveBlk.dirPath = stdpath.parentPath(path)
+    saveBlk.fileName = stdpath.fileName(path)
     ::save_local_account_settings(settingName, saveBlk)
   }
 
@@ -884,7 +886,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
   function openDirectory(path)
   {
-    path = ::g_path.normalize(path)
+    path = stdpath.normalize(path)
     local file = readFileInfo(path)
     if (isDirectory(file))
     {
@@ -908,7 +910,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
   function openFileOrDir(path)
   {
-    path = ::g_path.normalize(path)
+    path = stdpath.normalize(path)
     local file = readFileInfo(path)
     if (isDirectory(file))
       openDirectory(path)
@@ -917,7 +919,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       finallySelectedPath = path
       if (isSaveFile)
       {
-        local folderPath = ::g_path.parentPath(path)
+        local folderPath = stdpath.parentPath(path)
         if (shouldAskOnRewrite && isExists(file))
           ::scene_msg_box("filesystem_rewrite_msg_box", null,
             ::loc("filesystem/askRewriteFile", {path = path}),
@@ -946,10 +948,10 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
   function rememberSelectedFile()
   {
     local path = ""
-    local pathSegments = ::g_path.splitToArray(::g_path.join(dirPath, fileName))
+    local pathSegments = stdpath.splitToArray(stdpath.join(dirPath, fileName))
     for (local j = 0; j < pathSegments.len() - 1; j++)
     {
-      path = ::g_path.join(path, pathSegments[j])
+      path = stdpath.join(path, pathSegments[j])
       lastSelectedFileByPath[path] <- pathSegments[j + 1]
     }
   }
@@ -1029,14 +1031,14 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       dirPathObj.setValue("")
-      local pathParts = ::g_path.splitToArray(dirPath)
+      local pathParts = stdpath.splitToArray(dirPath)
 
       cachedPathByPathPartId.clear()
       local view = {items = []}
       local combinedPath = ""
       foreach (idx, pathPart in pathParts)
       {
-        combinedPath = ::g_path.join(combinedPath, pathPart)
+        combinedPath = stdpath.join(combinedPath, pathPart)
         if (pathPart == "")
           continue
 
@@ -1169,7 +1171,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       }
       else if ("path" in element)
       {
-        element.path = ::g_path.normalize(element.path)
+        element.path = stdpath.normalize(element.path)
         if (!("name" in element))
           element.name <- element.path
         if (isDirectory(readFileInfo(element.path)))

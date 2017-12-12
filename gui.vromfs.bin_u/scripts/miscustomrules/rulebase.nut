@@ -66,7 +66,7 @@ class ::mission_rules.Base
 
   function getUnitLeftRespawns(unit, teamDataBlk = null)
   {
-    if (!unit)
+    if (!unit || !isUnitEnabledByRandomGroups(unit.name))
       return 0
     return getUnitLeftRespawnsByTeamDataBlk(unit, teamDataBlk || getMyTeamDataBlk())
   }
@@ -350,6 +350,114 @@ class ::mission_rules.Base
       if (blk.name == weapon.name)
         return ::max(blk.respawnsLeft || 0, 0)
     return 0
+  }
+
+  function getRandomUnitsGroupName(unitName)
+  {
+    local randomGroups = getMyStateBlk()?.random_units
+    if (!randomGroups)
+      return
+    foreach (unitsGroup in randomGroups)
+    {
+      if (unitName in unitsGroup)
+        return unitsGroup.getBlockName()
+    }
+  }
+
+  function getRandomUnitsList(groupName)
+  {
+    local unitsList = []
+    local randomUnitsGroup = getMyStateBlk()?.random_units?[groupName]
+    if (!randomUnitsGroup)
+      return unitsList
+
+    local unit
+    foreach (unitName, u in randomUnitsGroup)
+    {
+      unitsList.append(unitName)
+    }
+    return unitsList
+  }
+
+  function getRandomUnitsGroupLocName(groupName)
+  {
+    return ::loc("icon/dice/transparent") +
+      ::loc(::configs.GUI.get()?.randomSpawnUnitPresets?[groupName]?.name
+      ?? "respawn/randomUnitsGroup/name")
+  }
+
+  function getRandomUnitsGroupIcon(groupName)
+  {
+    return ::configs.GUI.get()?.randomSpawnUnitPresets?[groupName]?.icon
+      ?? "!#ui/unitskin#random_unit"
+  }
+
+  function isUnitEnabledByRandomGroups(unitName)
+  {
+    local randomGroups = getMyStateBlk()?.random_units
+    if (!randomGroups)
+      return true
+
+    foreach (unitsGroup in randomGroups)
+    {
+      if (unitName in unitsGroup)
+        return unitsGroup[unitName]
+    }
+    return true
+  }
+
+  function getRandomUnitsGroupLocBattleRating(groupName)
+  {
+    local randomGroups = getMyStateBlk()?.random_units?[groupName]
+    if (!randomGroups)
+      return
+
+    local ediff = ::get_current_ediff()
+    local getBR = @(unit) unit.getBattleRating(ediff)
+    local valueBR = getRandomUnitsGroupValueRange(randomGroups, getBR)
+    local minBR = valueBR.minValue
+    local maxBR = valueBR.maxValue
+    return (minBR != maxBR ? ::format("%.1f-%.1f", minBR, maxBR) : ::format("%.1f", minBR))
+  }
+
+  function getWeaponForRandomUnit(unit, weaponryName)
+  {
+    return missionParams?.editSlotbar?[unit.shopCountry]?[unit.name]?[weaponryName]
+      ?? ::get_last_weapon(unit.name)
+  }
+
+  function getRandomUnitsGroupLocRank(groupName)
+  {
+    local randomGroups = getMyStateBlk()?.random_units?[groupName]
+    if (!randomGroups)
+      return
+
+    local getRank = function(unit) {return unit.rank}
+    local valueRank = getRandomUnitsGroupValueRange(randomGroups, getRank)
+    local minRank = valueRank.minValue
+    local maxRank = valueRank.maxValue
+    return ::getUnitRankName(minRank) + ((minRank != maxRank) ? "-" + ::getUnitRankName(maxRank) : "")
+  }
+
+  function getRandomUnitsGroupValueRange(randomGroups, getValue)
+  {
+    local minValue
+    local maxValue
+    foreach(name, u in randomGroups)
+    {
+      local unit = ::getAircraftByName(name)
+
+      if (!unit)
+        continue
+
+      local value = getValue(unit)
+      minValue = (minValue == null) ? value : ::min(minValue, value)
+      maxValue = (maxValue == null) ? value : ::max(maxValue, value)
+    }
+    return {
+      minValue = minValue ?? 0
+      maxValue = maxValue ?? 0
+    }
   }
 }
 

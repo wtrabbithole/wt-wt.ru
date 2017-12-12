@@ -186,6 +186,7 @@ local time = require("scripts/time.nut")
 
   getUpdatableParamsDescriptionText = @(dataBlk, statusBlk, side) ""
   getUpdatableParamsDescriptionTooltip = @(dataBlk, statusBlk, side) ""
+  getReinforcementSpeedupPercent = @(dataBlk, statusBlk, side) 0
 
   timersArrayByParamName = {}
   timerSetVisibleFunctionTable = {}
@@ -389,20 +390,22 @@ local time = require("scripts/time.nut")
 
     getUpdatableParamsDescriptionText = function(dataBlk, statusBlk, side)
     {
-      local sideIdx = ::ww_side_name_to_val(side)
-      local paramName = "rSpeedMulStatus" + sideIdx + "New"
-      if (!(paramName in statusBlk))
+      local speedupPerc = getReinforcementSpeedupPercent(dataBlk, statusBlk, side)
+      if (speedupPerc <= 0)
         return ""
 
-      local speedupFactor = statusBlk[paramName]
-      if (speedupFactor <= 1)
-        return ""
-
-      local speedupPerc = ::round((speedupFactor - 1) * 100)
       local speedupText = ::loc("worldwar/valueWithPercent", {percent = speedupPerc})
-      speedupText = ::colorize("warningTextColor", "+" + speedupText)
+      speedupText = ::colorize("goodTextColor", ::loc("keysPlus") + speedupText)
       speedupText = ::loc("worldWar/iconReinforcement") + speedupText
       return ::loc("ui/parentheses", {text = speedupText})
+    }
+
+    getReinforcementSpeedupPercent = function(dataBlk, statusBlk, side)
+    {
+      local sideIdx = ::ww_side_name_to_val(side)
+      local paramName = "rSpeedMulStatus" + sideIdx + "New"
+      local speedupFactor = statusBlk?[paramName] ?? 1
+      return ::round(::max(speedupFactor - 1, 0) * 100)
     }
 
     getUpdatableParamsDescriptionTooltip = @(...) ::loc("worldwar/state/reinforcement_arrival_speedup")

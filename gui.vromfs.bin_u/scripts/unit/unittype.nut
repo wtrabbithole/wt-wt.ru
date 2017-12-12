@@ -29,7 +29,7 @@ enum UNIT_TYPE_ORDER
   bit = 0      //unitType bit for it mask. filled by esUnitType  (bit = 1 << esUnitType)
   sortOrder = UNIT_TYPE_ORDER.INVALID
   uiSkin = "!#ui/unitskin#"
-  uiClassSkin = "!#ui/gameuiskin#"
+  uiClassSkin = "#ui/gameuiskin#"
   fontIcon = ""
   testFlightIcon = ""
   testFlightName = ""
@@ -65,8 +65,6 @@ enum UNIT_TYPE_ORDER
     armyId = "aviation"
     esUnitType = ::ES_UNIT_TYPE_AIRCRAFT
     sortOrder = UNIT_TYPE_ORDER.AIRCRAFT
-    uiSkin = "!#ui/unitskin#"
-    uiClassSkin = "!#ui/gameuiskin#"
     fontIcon = ::loc("icon/unittype/aircraft")
     testFlightIcon = "#ui/gameuiskin#slot_testflight.svg"
     testFlightName = "TestFlight"
@@ -94,8 +92,6 @@ enum UNIT_TYPE_ORDER
     armyId = "army"
     esUnitType = ::ES_UNIT_TYPE_TANK
     sortOrder = UNIT_TYPE_ORDER.TANK
-    uiSkin = "!#ui/unitskin#"
-    uiClassSkin = "!#ui/gameuiskin#"
     fontIcon = ::loc("icon/unittype/tank")
     testFlightIcon = "#ui/gameuiskin#slot_testdrive.svg"
     testFlightName = "TestDrive"
@@ -127,8 +123,6 @@ enum UNIT_TYPE_ORDER
     armyId = "fleet"
     esUnitType = ::ES_UNIT_TYPE_SHIP
     sortOrder = UNIT_TYPE_ORDER.SHIP
-    uiSkin = "!#ui/unitskin#"
-    uiClassSkin = "!#ui/gameuiskin#"
     fontIcon = ::loc("icon/unittype/ship")
     testFlightIcon = "#ui/gameuiskin#slot_test_out_to_sea.svg"
     testFlightName = "TestSail"

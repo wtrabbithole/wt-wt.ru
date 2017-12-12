@@ -137,8 +137,9 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
   markup_mptable = {
     invert = false
-    name = {
-      width = "1@nameWidth +1.5@tableIcoSize +1@tablePad"
+    colorTeam = ""
+    columns = {
+      name = { width = "1@nameWidth +1@tablePad" }
     }
   }
 
@@ -466,7 +467,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
           data.tablesArray.append(teamName)
           data.markups[teamName] <- clone markup_mptable
           data.markups[teamName].invert = false
-          data.markups[teamName].colorTeam <- teamName != ""? (teamName == "teamB"? "red" : "blue") : ""
+          data.markups[teamName].colorTeam = teamName != ""? (teamName == "teamB"? "red" : "blue") : ""
         }
 
         if (block.isLocal && teamName != "")
@@ -724,9 +725,9 @@ class ::gui_handlers.RenameReplayHandler extends ::gui_handlers.BaseGuiHandlerWT
         [["ok", function() {} ]], "ok");
       return;
     }
-    if (newName && newName != "" && newName != baseName)
+    if (newName && newName != "")
     {
-      if (afterRenameFunc)
+      if (afterRenameFunc && newName != baseName)
       {
         if (::rename_file(basePath, newName))
           afterRenameFunc.call(funcOwner, newName);

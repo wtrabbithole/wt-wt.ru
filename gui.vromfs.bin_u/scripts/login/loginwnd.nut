@@ -330,13 +330,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function requestLogin(no_dump_login)
   {
-    if (::use_fpt_login())
-    {
-      ::statsd_counter("gameStart.request_login.fpt")
-      ::dagor.debug("Login: yuplay2_fpt_login")
-      return ::yuplay2_fpt_login(no_dump_login, ::get_object_value(scene, "loginbox_password", ""))
-    }
-
     ::statsd_counter("gameStart.request_login.regular")
     ::dagor.debug("Login: check_login_pass")
     return ::check_login_pass(no_dump_login,
@@ -422,8 +415,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     if (was_using_stoken)
       autoSave = autoSave | 4
 
-    if (!::use_fpt_login())
-      ::set_login_pass(no_dump_login.tostring(), ::get_object_value(scene, "loginbox_password", ""), autoSave)
+    ::set_login_pass(no_dump_login.tostring(), ::get_object_value(scene, "loginbox_password", ""), autoSave)
 
     if (!::checkObj(scene)) //set_login_pass start onlineJob
       return
@@ -451,17 +443,14 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     ::disable_autorelogin_once <- false
     local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
 
-    if (::use_fpt_login())
-      no_dump_login = ::clearBorderSymbols(no_dump_login)
-    else
-      no_dump_login = ::validate_email(no_dump_login)
+    no_dump_login = ::validate_email(no_dump_login)
 
     if (no_dump_login == null) //can be null after validate_email
       no_dump_login = ""
 
     if (no_dump_login == "" && (stoken == ""))  //invalid email
     {
-      local locId = ::use_fpt_login()? "msgbox/emptyLogin" : "msgbox/invalidEmail"
+      local locId = "msgbox/invalidEmail"
       msgBox("invalid_email", ::loc(locId),
         [["ok", ::Callback(function()
                 {

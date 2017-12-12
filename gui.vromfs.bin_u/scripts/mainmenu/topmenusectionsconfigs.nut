@@ -114,6 +114,7 @@ Params - can be whole section ('help', 'pve') or single button.
         ::g_top_menu_buttons.WINDOW_HELP
         ::g_top_menu_buttons.ENCYCLOPEDIA
         ::g_top_menu_buttons.CREDITS
+        ::g_top_menu_buttons.EULA
         ::g_top_menu_buttons.LINE_SEPARATOR
         ::g_top_menu_buttons.WIKI
         ::g_top_menu_buttons.FAQ

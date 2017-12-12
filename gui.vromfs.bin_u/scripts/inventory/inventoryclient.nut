@@ -164,6 +164,13 @@ local InventoryClient = class {
   }
 
   function addItemDef(itemdef) {
+    itemdef.tags = getTagsItemDef(itemdef)
+
+    itemdefs[itemdef.itemdefid] <- itemdef
+  }
+
+  function getTagsItemDef(itemdef)
+  {
     local tags = ::getTblValue("tags" , itemdef, null)
     if (!tags)
       return
@@ -175,10 +182,7 @@ local InventoryClient = class {
         parsedTags[parsed[0]] <- parsed[1]
       }
     }
-
-    itemdef.tags = parsedTags
-
-    itemdefs[itemdef.itemdefid] <- itemdef
+    return parsedTags
   }
 
   function handleItemsDelta(result, cb = null) {

@@ -3,6 +3,7 @@
 ::dagor.runScript("sqStdLibs/scriptReloader/scriptReloader.nut")
 ::g_script_reloader.loadOnce("sqStdLibs/helpers/backCompatibility.nut")
 ::g_script_reloader.loadOnce("scripts/compatibility.nut")
+::g_script_reloader.loadOnce("scripts/clientState/errorHandling.nut")
 
 ::nda_version <- -1
 ::nda_version_tanks <-5
@@ -210,13 +211,14 @@ randomize()
 
 //------- vvv files before login vvv ----------
 
+::g_string <- ::require("sqStdLibs/common/string.nut") //put g_string to root_table
+::u <- ::require("sqStdLibs/common/u.nut") //put u to roottable
+::Callback <- ::require("sqStdLibs/helpers/callback.nut").Callback
+
 foreach (fn in [
   "scripts/sharedEnums.nut"
 
-  "sqStdLibs/common/string.nut"
-  "sqStdLibs/common/u.nut"
   "sqStdLibs/common/math.nut"
-  "sqStdLibs/common/path.nut"
   "sqStdLibs/helpers/enumUtils.nut"
 
   "sqDagui/guiBhv/allBhv.nut"
@@ -225,7 +227,6 @@ foreach (fn in [
   "scripts/onlineShop/urlType.nut"
   "scripts/onlineShop/url.nut"
 
-  "sqStdLibs/helpers/callback.nut"
   "sqStdLibs/helpers/handyman.nut"
   "scripts/debugTools/dbgToString.nut"
 
@@ -328,6 +329,7 @@ function load_scripts_after_login()
   foreach (fn in [
     "ranks.nut"
     "difficulty.nut"
+    "unitClassType.nut"
     "teams.nut"
     "airInfo.nut"
     "options/optionsExt.nut"
@@ -504,7 +506,10 @@ function load_scripts_after_login()
     "dynCampaign/campaignPreview.nut"
     "dynCampaign/campaignResults.nut"
     "briefing.nut"
-    "missionBuilder.nut"
+    "missionBuilder/testFlight.nut"
+    "missionBuilder/missionBuilder.nut"
+    "missionBuilder/missionBuilderTuner.nut"
+    "missionBuilder/changeAircraftForBuilder.nut"
 
     "events/eventRoomCreationContext.nut"
     "events/createEventRoomWnd.nut"
@@ -671,7 +676,6 @@ function load_scripts_after_login()
     "vehicleRequireFeatureWindow.nut"
     "slotbar/slotbarPresetsTutorial.nut"
     "slotInfoPanel.nut"
-    "unitClassType.nut"
     "unit/infoBoxWindow.nut"
     "unit/unitInfoType.nut"
     "unit/unitInfoExporter.nut"

@@ -41,6 +41,7 @@
   animatedSwitchScene                = function(startFunc) { startFunc () } //no anim by default
   beforeLoadHandler                  = function(hType) {}
   onBaseHandlerLoadFailed            = function(handler) {}
+  beforeInitHandler                  = function(handler) {}
 
   _loadHandlerRecursionLevel         = 0
 }
@@ -95,7 +96,7 @@ function handlersManager::getHandlerClassDebugName(handlerClass)
   local className = getHandlerClassName(handlerClass)
   if (className)
     return "::gui_handlers." + className
-  return " sceneBlk = " + ::getTblValue("sceneBlkName", handlerClass, null)
+  return " sceneBlk = " + handlerClass?.sceneBlkName
 }
 
 function handlersManager::onLoadHandlerDebug(handlerClass, params)
@@ -109,6 +110,8 @@ function handlersManager::onLoadHandlerDebug(handlerClass, params)
 
 function handlersManager::initHandler(handler)
 {
+  beforeInitHandler(handler)
+
   local result
   try
   {
@@ -668,7 +671,7 @@ function handlersManager::requestHandlerRestore(restoreHandler, triggerHandlerCl
   if (!triggerHandlerClass)
     return false
 
-  local restoreDataArray = ::getTblValue(triggerHandlerClass, restoreDataByTriggerHandler, null) || []
+  local restoreDataArray = restoreDataByTriggerHandler?[triggerHandlerClass] || []
   restoreDataArray.push(restoreData)
   restoreDataByTriggerHandler[triggerHandlerClass] <- restoreDataArray
   return true
@@ -680,7 +683,7 @@ function handlersManager::requestHandlerRestore(restoreHandler, triggerHandlerCl
  */
 function handlersManager::restoreHandlers(triggerHandlerClass)
 {
-  local restoreDataArray = ::getTblValue(triggerHandlerClass, restoreDataByTriggerHandler, null)
+  local restoreDataArray = restoreDataByTriggerHandler?[triggerHandlerClass]
   if (restoreDataArray == null)
     return
   restoreDataByTriggerHandler[triggerHandlerClass] <- null
@@ -688,10 +691,10 @@ function handlersManager::restoreHandlers(triggerHandlerClass)
   {
     local restoreData = restoreDataArray[i]
 
-    local openData = ::getTblValue("openData", restoreData, null)
+    local openData = restoreData?.openData
     local handler = loadHandler(restoreData.handlerClass, openData || {})
 
-    local stateData = ::getTblValue("stateData", restoreData, null)
+    local stateData = restoreData?.stateData
     if (stateData != null)
       handler.restoreHandler(stateData)
   }
@@ -730,7 +733,7 @@ function handlersManager::setLastBaseHandlerStartFuncByHandler(handlerClass, par
 {
   local handlerClassName = getHandlerClassName(handlerClass)
   setLastBaseHandlerStartFunc(function() {
-                               local hClass = ::getTblValue(handlerClassName, ::gui_handlers, handlerClass)
+                               local hClass = ::gui_handlers?[handlerClassName] ?? handlerClass
                                ::handlersManager.loadHandler(hClass, params)
                              })
 }

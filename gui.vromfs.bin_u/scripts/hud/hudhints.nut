@@ -342,7 +342,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     local interval = HINT_INTERVAL.HIDDEN
     local count = ::get_hint_seen_count(maskId)
     foreach(countInterval in countIntervals)
-      if (count < countInterval.count)
+      if (!countInterval?.count || count < countInterval.count)
       {
         interval = countInterval.timeInterval
         break
@@ -526,15 +526,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   HAVE_ART_SUPPORT_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
+    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "hints/have_art_support"
     noKeyLocId = "hints/have_art_support_no_key"
     getShortcuts = @(data) ::g_hud_action_bar_type.ARTILLERY_TARGET.getVisualShortcut()
     showEvent = "hint:have_art_support:show"
     hideEvent = "hint:have_art_support:hide"
-    lifeTime = 10.0
+    lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    totalCount = 10
+    totalCount = 5
     maskId = 27
   }
 
@@ -589,12 +589,12 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   F1_CONTROLS_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
+    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "hints/f1_controls"
     showEvent = "hint:f1_controls:show"
     hideEvent = "helpOpened"
     priority = CATASTROPHIC_HINT_PRIORITY
-    totalCount = 10
+    totalCount = 3
     lifeTime = 5.0
     delayTime = 10.0
     maskId = 0
@@ -608,6 +608,9 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     priority = CATASTROPHIC_HINT_PRIORITY
     lifeTime = 5.0
     delayTime = 10.0
+    countIntervals = [{
+      timeInterval = 30.0
+    }]
     maskId = 7
   }
 
@@ -619,6 +622,9 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     priority = CATASTROPHIC_HINT_PRIORITY
     lifeTime = 5.0
     delayTime = 3600.0
+    countIntervals = [{
+      timeInterval = 20.0
+    }]
     maskId = 8
   }
 
@@ -676,7 +682,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   EXTINGUISH_FIRE_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
+    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "hints/extinguish_fire"
     noKeyLocId = "hints/extinguish_fire_nokey"
     getShortcuts = @(data) ::g_hud_action_bar_type.EXTINGUISHER.getVisualShortcut()
@@ -753,8 +759,8 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     shortcuts = "ID_SHOOT_ARTILLERY"
     showEvent = "hint:artillery_map:show"
     hideEvent = "hint:artillery_map:hide"
-    lifeTime = 10.0
-    totalCount = 10
+    lifeTime = 5.0
+    totalCount = 5
     maskId = 15
   }
 
@@ -855,7 +861,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
         }
       }
 
-      local freeSlotIconName = "#ui/gameuiskin#btn_help"
+      local freeSlotIconName = "#ui/gameuiskin#btn_help.svg"
       local freeSlotIconColor = "@minorTextColor"
       local freeSlotIconStr = makeSmallImageStr(freeSlotIconName, freeSlotIconColor, "small")
       for(local i = 0; i < totalSlotsPerCommand - reservedSlotsCountA; ++i)
@@ -928,6 +934,42 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     hideEvent = "hint:torpedo_broken:hide"
   }
 
+  USE_BINOCULAR_SCOUTING = {
+    locId = "HUD/TXT_USE_BINOCULAR_SCOUTING"
+    showEvent = "hint:use_binocular_scouting"
+    lifeTime = 3.0
+  }
+
+  TARGET_BINOCULAR_FOR_SCOUTING = {
+    locId = "HUD/TXT_TARGET_BINOCULAR_FOR_SCOUTING"
+    showEvent = "hint:target_binocular_for_scouting"
+    lifeTime = 3.0
+  }
+
+  CHOOSE_TARGET_FOR_SCOUTING = {
+    locId = "HUD/TXT_CHOOSE_TARGET_FOR_SCOUTING"
+    showEvent = "hint:choose_target_for_scouting"
+    lifeTime = 3.0
+  }
+
+  CHOOSE_GROUND_TARGET_FOR_SCOUTING = {
+    locId = "HUD/TXT_CHOOSE_GROUND_TARGET_FOR_SCOUTING"
+    showEvent = "hint:choose_ground_target_for_scouting"
+    lifeTime = 3.0
+  }
+
+  TARGET_ALREADY_SCOUTED = {
+    locId = "HUD/TXT_TARGET_ALREADY_SCOUTED"
+    showEvent = "hint:target_already_scouted"
+    lifeTime = 3.0
+  }
+
+  FUNNEL_DAMAGED = {
+    locId = "HUD/TXT_FUNNEL_DAMAGED"
+    showEvent = "hint:funnel_damaged"
+    lifeTime = 3.0
+  }
+
   MISSION_COMPLETE_HINT = {
     locId = "HUD_MISSION_COMPLETE_HDR"
     showEvent = "hint:mission_complete:show"
@@ -942,6 +984,13 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
       res += eventData?.count ? " " + eventData.count : ""
       return res
     }
+  }
+
+  MISFIRE_HINT = {
+    hintType = ::g_hud_hint_types.ACTIONBAR
+    locId = "hud_gun_breech_malfunction_misfire"
+    showEvent = "hint:misfire:show"
+    lifeTime = 5.0
   }
 
   MISSION_HINT            = genMissionHint(::g_hud_hint_types.MISSION_STANDARD, isStandardMissionHint)
@@ -1023,18 +1072,23 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   OFFER_REPAIR = {
     hintType = ::g_hud_hint_types.REPAIR
     getLocId = function (data) {
+      local unitType = ::get_es_unit_type(::get_player_cur_unit())
       if (::getTblValue("assist", data, false))
       {
-        if (::get_es_unit_type(::get_player_cur_unit()) == ::ES_UNIT_TYPE_TANK)
+        if (unitType == ::ES_UNIT_TYPE_TANK)
           return "hints/repair_assist_tank_hold"
         return "hints/repair_assist_plane_hold"
       }
-      return "hints/repair_tank_hold"
+      return (unitType == ::ES_UNIT_TYPE_SHIP) ? "hints/repair_ship" : "hints/repair_tank_hold"
     }
 
     noKeyLocId = "hints/ready_to_bailout_nokey"
-    shortcuts = "ID_REPAIR_TANK"
-
+    getShortcuts =  function(data)
+    {
+      return ::isShip(::get_player_cur_unit()) ?
+        ::g_hud_action_bar_type.TOOLKIT.getVisualShortcut()
+      : "ID_REPAIR_TANK"
+    }
     showEvent = "tankRepair:offerRepair"
     hideEvent = "tankRepair:cantRepair"
   }
@@ -1055,6 +1109,12 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:ammoDestroyed:show"
     priority = CATASTROPHIC_HINT_PRIORITY
     lifeTime = 5.0
+  }
+
+  WEAPON_TYPE_UNAVAILABLE = {
+    locId = "hints/weapon_type_unavailable"
+    showEvent = "hint:weaponTypeUnavailable:show"
+    lifeTime = 3.0
   }
 
 },

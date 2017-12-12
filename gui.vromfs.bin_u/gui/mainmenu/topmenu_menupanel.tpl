@@ -52,7 +52,9 @@ tdiv {
         on_activate:t='topmenuMenuActivate'
         on_cancel_edit:t='unstickGCDropdownMenu'
 
-        line {}
+        line {
+          inactive:t='yes'
+        }
 
         <<#columns>>
           <<#buttons>>
@@ -151,6 +153,10 @@ tdiv {
         text:t='<<tmText>>'
       }
       <</tmText>>
+
+      <<^isLast>>
+      gcBtnLine {}
+      <</isLast>>
     }
   }
   <</section>>

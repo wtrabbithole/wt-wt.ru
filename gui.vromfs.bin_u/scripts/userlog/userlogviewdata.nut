@@ -1,5 +1,17 @@
 local time = require("scripts/time.nut")
 
+function update_repair_cost(units, repairCost)
+{
+  local idx = 0
+  while (("cost"+idx) in units) {
+    local cost = ::getTblValue("cost"+idx, units, 0)
+    if (cost>0)
+      repairCost.rCost += cost
+    else
+      repairCost.notEnoughCost -= cost
+    idx++
+  }
+}
 
 function get_userlog_view_data(log)
 {
@@ -109,34 +121,28 @@ function get_userlog_view_data(log)
     local containerLog = ::getTblValue("container", log)
 
     local freeRepair = ("aircrafts" in log) && log.aircrafts.len() > 0
+    local repairCost = {rCost = 0, notEnoughCost = 0}
     local aircraftsRepaired = ::getTblValue("aircraftsRepaired", containerLog)
     if (aircraftsRepaired)
+      update_repair_cost(aircraftsRepaired, repairCost);
+
+    local unitsRepairedManually = ::getTblValue("manuallySpentRepairCost", log)
+    if (unitsRepairedManually)
+      update_repair_cost(unitsRepairedManually, repairCost);
+
+    if (repairCost.rCost>0)
     {
-      local idx = 0
-      local rCost = 0
-      local notEnoughCost = 0
-      while (("cost"+idx) in aircraftsRepaired) {
-        local cost = ::getTblValue("cost"+idx, aircraftsRepaired, 0)
-        if (cost>0)
-          rCost += cost
-        else
-          notEnoughCost -= cost
-        idx++
-      }
-      if (rCost>0)
-      {
-        desc += "\n" + ::loc("shop/auto_repair_cost") + ::loc("ui/colon")
-        desc += "<color=@activeTextColor>" + ::Cost(-rCost).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
-        wp -= rCost
-        freeRepair = false
-      }
-      if (notEnoughCost!=0)
-      {
-        desc += "\n" + ::loc("shop/auto_repair_failed") + ::loc("ui/colon")
-        desc += "<color=@warningTextColor>(" +
-          ::Cost(notEnoughCost).toStringWithParams({isWpAlwaysShown = true}) + ")</color>"
-        freeRepair = false
-      }
+      desc += "\n" + ::loc("shop/auto_repair_cost") + ::loc("ui/colon")
+      desc += "<color=@activeTextColor>" + ::Cost(-repairCost.rCost).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
+      wp -= repairCost.rCost
+      freeRepair = false
+    }
+    if (repairCost.notEnoughCost!=0)
+    {
+      desc += "\n" + ::loc("shop/auto_repair_failed") + ::loc("ui/colon")
+      desc += "<color=@warningTextColor>(" +
+        ::Cost(repairCost.notEnoughCost).toStringWithParams({isWpAlwaysShown = true}) + ")</color>"
+      freeRepair = false
     }
 
     if (freeRepair && ("autoRepairWasOn" in log) && log.autoRepairWasOn)
@@ -1146,6 +1152,21 @@ function get_userlog_view_data(log)
         res.description <- ::loc("userlog/" + logName + "_desc/wager") + " " + earned.tostring()
     }
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
+  }
+  else if (log.type == ::EULT_INVENTORY_ADD_ITEM)
+  {
+    local itemDefId = log?.itemDefId ?? ""
+    local item = ::ItemsManager.findItemdefsById(itemDefId)
+    local numItems = log?.quantity ?? 1
+    local locId = "userlog/" + logName
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
+    res.name = ::loc(locId, {
+      numItemsColored = ::colorize("userlogColoredText", numItems)
+      numItems = numItems
+      numItemsAdd = numItems
+      itemName = (item && item.getName()) ? item.getName() : ""
+    })
+    res.descriptionBlk <- ::get_userlog_image_item(item)
   }
   else if (log.type == ::EULT_TICKETS_REMINDER)
   {

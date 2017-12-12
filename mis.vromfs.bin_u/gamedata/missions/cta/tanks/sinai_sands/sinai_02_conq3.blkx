@@ -352,56 +352,176 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
-      "part": {
-        "event": "",
-        "minTime": 0,
-        "slide": [
-          {
-            "map": true
-          },
-          {
-            "minTime": 4
-          },
-          {
-            "picture": ""
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_t1_resp01"
+      "part": [
+        {
+          "event": ""
+        },
+        {
+          "minTime": 0
+        },
+        {
+          "slide": [
+            {
+              "difficulty": "realistic"
+            },
+            {
+              "map": true
+            },
+            {
+              "minTime": 4
+            },
+            {
+              "picture": ""
+            },
+            {
+              "showAirMap": false
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
+                "side": "neutral",
+                "target": "briefing_hardcore_t1_capturezone"
+              }
             }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_t1_resp02"
+          ]
+        },
+        {
+          "slide": [
+            {
+              "difficulty": "hardcore"
+            },
+            {
+              "map": true
+            },
+            {
+              "minTime": 4
+            },
+            {
+              "picture": ""
+            },
+            {
+              "showAirMap": false
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
+                "side": "neutral",
+                "target": "briefing_hardcore_t1_capturezone"
+              }
             }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "enemy",
-              "target": "briefing_t2_resp01"
+          ]
+        },
+        {
+          "slide": [
+            {
+              "difficulty": "arcade"
+            },
+            {
+              "map": true
+            },
+            {
+              "minTime": 4
+            },
+            {
+              "picture": ""
+            },
+            {
+              "showAirMap": false
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_arcade_t1_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_arcade_t1_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_arcade_t2_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_arcade_t2_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
+                "side": "neutral",
+                "target": "briefing_arcade_t1_capturezone"
+              }
             }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "enemy",
-              "target": "briefing_t2_resp02"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "basezone_A",
-              "side": "neutral",
-              "target": "briefing_t1_capturezone"
-            }
-          }
-        ]
-      }
+          ]
+        }
+      ]
     }
   },
   "imports": [
@@ -455,7 +575,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/sinai_sands/battleareas/sinai02_battleareas_Conq_arcade_template.blk",
+        "file": "gameData/missions/cta/tanks/sinai_sands/battleareas/sinai02_battleareas_Conq3_arcade_template.blk",
         "difficulty": "arcade",
         "importAreas": true,
         "importUnits": true,
@@ -554,7 +674,7 @@
     }
   },
   "areas": {
-    "briefing_t1_resp02": {
+    "briefing_hardcore_t1_resp02": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -565,7 +685,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t1_resp01": {
+    "briefing_hardcore_t1_resp01": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -576,7 +696,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t2_resp01": {
+    "briefing_hardcore_t2_resp01": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -587,7 +707,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t2_resp02": {
+    "briefing_hardcore_t2_resp02": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -598,13 +718,68 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t1_capturezone": {
+    "briefing_hardcore_t1_capturezone": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [912.55,628.15,2359.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t2_resp01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [951.3,631.15,1761.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t2_resp02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2198.8,631.15,1746.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t1_resp02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2180.8,631.15,3022.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t1_resp01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [962.9,631.15,2969.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t1_capturezone": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1721.35,630.85,2368.95]
       ],
       "objLayer": 0,
       "props": []

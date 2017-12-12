@@ -190,14 +190,22 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
     onResumeRaw()
   }
 
+  _isWaitForResume = false
   function onResumeRaw()
   {
-    if (isMissionFailed)
+    if (isMissionFailed || _isWaitForResume)
       return
 
-    ::in_flight_menu(false) //in_flight_menu will call closeScene which call stat chat
-    if (usePause)
-      ::pause_game(false)
+    _isWaitForResume = true
+    guiScene.performDelayed(this, function()
+    {
+      if (!isValid())
+        return
+      _isWaitForResume = false
+      ::in_flight_menu(false) //in_flight_menu will call closeScene which call stat chat
+      if (usePause)
+        ::pause_game(false)
+    })
   }
 
   function onCancel(obj)

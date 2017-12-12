@@ -148,6 +148,11 @@ groupBox, groupList {
   snd_dbl_click:click;
   navigatorShortcuts:full;
   mouse-focusable:yes;
+  total-input-transparent:yes;
+}
+
+groupList {
+  not-input-transparent:yes;
 }
 
 groupBox {
@@ -244,6 +249,8 @@ groupList > text:current {
   foreground-image: #ui/gameuiskin#item_selection;
   foreground-position: 6;
   foreground-repeat: expand;
+  behavior:focusFrameTarget;
+  focusImageSource:foreground;
 }
 
 groupList > text > img,

@@ -93,9 +93,6 @@ function on_mainmenu_return(handler, isAfterLogin)
       handler.doWhenActive(::check_joystick_thustmaster_hotas)
     }
   }
-//      if (!::g_login.isLoggedIn() && ::top_menu_handler)
-//        ::init_slotbar(::top_menu_handler, guiScene["nav-topMenu"])
-//        ::init_slotbar(handler)
 
   check_logout_scheduled()
 
@@ -336,7 +333,8 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
     local unit = ::getAircraftByName(unitName)
     local lockObj = scene.findObject("crew-notready-topmenu")
-    lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"), time.secondsToString(::lockTimeMaxLimitSec))
+    lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"),
+      time.secondsToString(::get_warpoints_blk().lockTimeMaxLimitSec || 0))
     ::setCrewUnlockTime(lockObj, unit)
 
     updateUnitRentInfo(unit)

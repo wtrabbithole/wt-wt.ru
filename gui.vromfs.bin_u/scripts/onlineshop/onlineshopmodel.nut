@@ -455,7 +455,14 @@ function get_entitlement_name(item)
 {
   local name = ""
   if (("useGroupAmount" in item) && item.useGroupAmount && ("group" in item))
-    name = format(::loc("charServer/entitlement/" + item.group), ::get_entitlement_amount(item).tointeger())
+  {
+    name = ::loc("charServer/entitlement/" + item.group)
+    local amountStr = ::g_language.decimalFormat(::get_entitlement_amount(item))
+    if(name.find("%d") != null)
+      name = ::stringReplace(name, "%d", amountStr)
+    else
+      name = ::loc("charServer/entitlement/" + item.group, {amount = amountStr})
+  }
   else
     name = ::loc("charServer/entitlement/" + ::get_entitlement_locId(item))
 
@@ -595,7 +602,17 @@ function launch_ps4_store_by_chapter(chapter)
 
 function launch_xbox_one_store_by_chapter(chapter)
 {
-  ::xbox_show_marketplace()
+  ::xbox_show_marketplace(chapter == "eagles");
 }
 
 ::subscribe_handler(::OnlineShopModel, ::g_listener_priority.CONFIG_VALIDATION)
+
+function xbox_on_purchases_updated()
+{
+  if (::is_online_available())
+    ::g_tasker.addTask(::update_entitlements_limited(),
+                        {
+                          showProgressBox = true
+                          progressBoxText = ::loc("charServer/checking")
+                        })
+}

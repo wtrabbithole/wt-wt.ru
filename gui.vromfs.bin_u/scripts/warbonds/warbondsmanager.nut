@@ -328,7 +328,8 @@ function g_warbonds::updateSeenAwardsData()
   }
 
   foreach (id in wbListIdsToDelete)
-    delete seenAwardsData[id]
+    if (id in seenAwardsData)
+      delete seenAwardsData[id]
 
   ::g_warbonds.saveSeenAwardsData()
 }

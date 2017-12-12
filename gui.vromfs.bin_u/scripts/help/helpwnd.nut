@@ -5,16 +5,19 @@ local controlsMarkupSource = {
     title = "#controls/help/dualshock4"
     blk = "gui/help/controllerDualshock.blk"
     iconsPreset = gamepadIcons.ICO_PRESET_PS4
+    btnBackLocId = "controls/help/dualshock4_btn_share"
   },
   xboxOne = {
     title = "#controls/help/xboxone"
     blk = "gui/help/controllerXboxOne.blk"
     iconsPreset = gamepadIcons.ICO_PRESET_XBOXONE
+    btnBackLocId = "xinp/Select"
   },
   xbox360 = {
     title = "#controls/help/xinput"
     blk = "gui/help/controllerXbox.blk"
     iconsPreset = gamepadIcons.ICO_PRESET_DEFAULT
+    btnBackLocId = "xinp/Select"
   }
 }
 
@@ -1133,7 +1136,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local tObj = scene.findObject("joy_btn_share")
     if (::checkObj(tObj))
     {
-      local title = ::loc("controls/help/dualshock4_btn_share")
+      local title = ::loc(controllerMarkup.btnBackLocId)
       tObj.setValue(title)
       tObj.tooltip = ::loc("controls/help/press") + ::loc("ui/colon") + "\n" + title
     }

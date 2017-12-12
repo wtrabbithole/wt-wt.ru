@@ -55,7 +55,9 @@ class ::gui_handlers.MRoomPlayersListWidget extends ::gui_handlers.BaseGuiHandle
 
     local markupData = {
       tr_size = "pw, @baseTrHeight"
-      name = { width = "fw" }
+      columns = {
+        name = { width = "fw" }
+      }
     }
     local maxRows = ::SessionLobby.getMaxMembersCount(room)
     foreach(idx, team in teams)

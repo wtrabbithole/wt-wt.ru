@@ -85,7 +85,8 @@
     id = "items"
     reqFeature = "Items"
     show = [::EULT_BUY_ITEM, ::EULT_OPEN_TROPHY, ::EULT_NEW_ITEM, ::EULT_NEW_UNLOCK
-            ::EULT_ACTIVATE_ITEM, ::EULT_REMOVE_ITEM, ::EULT_TICKETS_REMINDER, ::EULT_CONVERT_BLUEPRINTS]
+            ::EULT_ACTIVATE_ITEM, ::EULT_REMOVE_ITEM, ::EULT_TICKETS_REMINDER,
+            ::EULT_CONVERT_BLUEPRINTS, ::EULT_INVENTORY_ADD_ITEM]
     unlocks = [::UNLOCKABLE_TROPHY]
   }
   {
@@ -111,6 +112,21 @@ function gui_modal_userLog()
 
 class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
+  wndType = handlerType.MODAL
+  sceneBlkName = "gui/userlog.blk"
+
+  logs = null
+  listObj = null
+  curPage = null
+
+  nextLogId = 0
+  logsPerPage = 10
+  haveNext = false
+
+  selectedIndex = 0
+
+  slotbarActions = [ "take", "showroom", "testflight", "weapons", "info" ]
+
   function initScreen()
   {
     if (!::checkObj(scene))
@@ -121,6 +137,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillTabs()
 
     scene.findObject("btn_refresh").show(true)
+    initFocusArray()
   }
 
   function fillTabs()
@@ -419,19 +436,32 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     openUnitActionsList(obj, true, true)
   }
 
-  scene = null
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/userlog.blk"
+  function getMainFocusObj()
+  {
+    return "header_buttons"
+  }
 
-  logs = null
-  listObj = null
-  curPage = null
+  function getMainFocusObj2()
+  {
+    return listObj
+  }
 
-  nextLogId = 0
-  logsPerPage = 10
-  haveNext = false
+  function onUpdateItemsDef()
+  {
+    if (logs)
+      for(local i=0; i<nextLogId; i++)
+      {
+        log = logs[i]
+        if (log.type == ::EULT_INVENTORY_ADD_ITEM)
+        {
+          fillLog(log)
+        }
+      }
+  }
 
-  selectedIndex = 0
+  function onEventItemDefsListUpdated(params)
+  {
+    doWhenActiveOnce("onUpdateItemsDef")
+  }
 
-  slotbarActions = [ "take", "showroom", "testflight", "weapons", "info" ]
 }

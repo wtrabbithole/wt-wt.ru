@@ -27,8 +27,10 @@ class ::gui_handlers.CreateEventRoomWnd extends ::gui_handlers.GenericOptionsMod
     base.initScreen()
     updateMissionsBtn()
 
-    ::init_slotbar(this, scene.findObject("nav-help"), true, null,
-      { roomCreationContext = roomCreationContext })
+    createSlotbar({
+      roomCreationContext = roomCreationContext
+      afterSlotbarSelect = @() updateApplyButton()
+    })
     updateApplyButton()
   }
 
@@ -133,12 +135,6 @@ class ::gui_handlers.CreateEventRoomWnd extends ::gui_handlers.GenericOptionsMod
   function onSlotbarCountryAction(obj)
   {
     base.onSlotbarCountryAction(obj)
-    updateApplyButton()
-  }
-
-  function onSlotbarSelectAction(obj)
-  {
-    base.onSlotbarSelectAction(obj)
     updateApplyButton()
   }
 

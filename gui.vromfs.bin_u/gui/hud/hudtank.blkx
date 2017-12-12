@@ -173,11 +173,6 @@
     }
   },
   {
-    "tdiv": {
-      "id": "hud_message_timers"
-    }
-  },
-  {
     "tdiv": [
       {
         "position": "absolute"
@@ -593,6 +588,9 @@
         "css-hier-invalidate": "yes"
       },
       {
+        "behavior": "Timer"
+      },
+      {
         "tdiv": [
           {
             "width": "(2/3) * sw"
@@ -684,6 +682,17 @@
       "pos": "pw/2-w/2, ph-h-0.03@shHud",
       "position": "absolute",
       "display": "hide"
+    }
+  },
+  {
+    "tdiv": {
+      "id": "hud_message_timers"
+    }
+  },
+  {
+    "dummy": {
+      "id": "hud_message_timer",
+      "behavior": "Timer"
     }
   }
 ]

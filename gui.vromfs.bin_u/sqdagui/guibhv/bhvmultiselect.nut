@@ -4,7 +4,7 @@ class gui_bhv.MultiSelect extends gui_bhv.posNavigator
   selectedPID = ::dagui_propid.add_name_id("_selected")    //only 1     selected:yes;
 
   chosenPID = ::dagui_propid.add_name_id("chosen")    //only to init property if it not used in css.
-  activateByMClick = true
+  canChooseByMClick = true
 
   function getValue(obj)
   {
@@ -59,13 +59,18 @@ class gui_bhv.MultiSelect extends gui_bhv.posNavigator
     return true
   }
 
-  function activateAction(obj)
+  function chooseItem(obj, selIdx, needSound = true)
   {
-    local selected = getSelectedValue(obj)
-    if (selected < 0)
-      return
+    if (selIdx >= 0)
+      chooseItems(obj, getValue(obj) ^ (1 << selIdx))
+  }
 
-    local value = getValue(obj)
-    chooseItems(obj, value ^ (1 << selected))
+  function onShortcutSelect(obj, is_down)
+  {
+    if (is_down)
+      return ::RETCODE_NOTHING
+
+    chooseItem(obj, getSelectedValue(obj))
+    return ::RETCODE_HALT
   }
 }

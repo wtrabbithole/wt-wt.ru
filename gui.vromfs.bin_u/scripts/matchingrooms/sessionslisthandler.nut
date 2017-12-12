@@ -326,17 +326,25 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
 
     guiScene.applyPendingChanges(false)
     _roomsMarkUpData = {
-            tr_size = "pw, @baseTrHeight"
-            //automatic  mission = { width = "0.35pw-ph" }
-            hasPassword = { width = "1@baseTrHeight + 1@tablePad" }
-            mission = { halign = "left", relWidth = 50 }
-            name = { width = "@nameWidth" }
-            numPlayers = { relWidth = 10 }
-            gm = { relWidth = 20 }
-            //difficultyStr = { width = "0.15pw" }
-          }
+      tr_size = "pw, @baseTrHeight"
+      columns = {
+        hasPassword   = { width = "1@baseTrHeight + 1@tablePad" }
+        mission       = { halign = "left", relWidth = 50 }
+        name          = { width = "@nameWidth" }
+        numPlayers    = { relWidth = 10 }
+        gm            = { relWidth = 20 }
+        //difficultyStr = { width = "0.15pw" }
+      }
+    }
+
+    local columnsOrder = getColumnsList()
+    foreach (id, data in _roomsMarkUpData.columns)
+      if (!::isInArray(id, columnsOrder))
+        delete _roomsMarkUpData.columns[id]
+
     if (::checkObj(sessionsListObj))
-      ::count_width_for_mptable(sessionsListObj, _roomsMarkUpData, getColumnsList())
+      ::count_width_for_mptable(sessionsListObj, _roomsMarkUpData.columns)
+
     return _roomsMarkUpData
   }
 

@@ -6,7 +6,7 @@ gcButtonsHolder {
   css-hier-invalidate:t='yes'
 
   behavior:t='ActivateSelect'
-  navigatorShortcuts:t='SpaceA'
+  navigatorShortcuts:t='yes'
   on_select:t='onPresetChange'
   on_wrap_up:t='onWrapUp'
   on_wrap_down:t='onWrapDown'

@@ -361,66 +361,183 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
-      "part": {
-        "event": "",
-        "minTime": 0,
-        "slide": [
-          {
-            "map": true
-          },
-          {
-            "minTime": 4
-          },
-          {
-            "picture": ""
-          },
-          {
-            "showAirMap": false
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_t1_resp01"
+      "part": [
+        {
+          "event": ""
+        },
+        {
+          "minTime": 0
+        },
+        {
+          "slide": [
+            {
+              "difficulty": "realistic"
+            },
+            {
+              "map": true
+            },
+            {
+              "minTime": 4
+            },
+            {
+              "picture": ""
+            },
+            {
+              "showAirMap": false
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_capturezone"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_B",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_capturezone"
+              }
             }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_t1_resp02"
+          ]
+        },
+        {
+          "slide": [
+            {
+              "difficulty": "hardcore"
+            },
+            {
+              "map": true
+            },
+            {
+              "minTime": 4
+            },
+            {
+              "picture": ""
+            },
+            {
+              "showAirMap": false
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_resp02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
+                "side": "ally",
+                "target": "briefing_hardcore_t1_capturezone"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_B",
+                "side": "enemy",
+                "target": "briefing_hardcore_t2_capturezone"
+              }
             }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "enemy",
-              "target": "briefing_t2_resp01"
+          ]
+        },
+        {
+          "slide": [
+            {
+              "difficulty": "arcade"
+            },
+            {
+              "map": true
+            },
+            {
+              "minTime": 4
+            },
+            {
+              "picture": ""
+            },
+            {
+              "showAirMap": false
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_arcade_t1_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_arcade_t2_resp01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
+                "side": "ally",
+                "target": "briefing_arcade_t1_capturezone"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_B",
+                "side": "enemy",
+                "target": "briefing_arcade_t2_capturezone"
+              }
             }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "enemy",
-              "target": "briefing_t2_resp02"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "basezone_A",
-              "side": "ally",
-              "target": "briefing_t1_capturezone"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "basezone_B",
-              "side": "enemy",
-              "target": "briefing_t2_capturezone"
-            }
-          }
-        ]
-      }
+          ]
+        }
+      ]
     }
   },
   "imports": [
@@ -573,7 +690,7 @@
     }
   },
   "areas": {
-    "briefing_t1_resp02": {
+    "briefing_hardcore_t1_resp02": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -584,7 +701,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t1_resp01": {
+    "briefing_hardcore_t1_resp01": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -595,7 +712,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t2_resp01": {
+    "briefing_hardcore_t2_resp01": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -606,7 +723,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t2_resp02": {
+    "briefing_hardcore_t2_resp02": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -617,7 +734,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t1_capturezone": {
+    "briefing_hardcore_t1_capturezone": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
@@ -628,13 +745,57 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_t2_capturezone": {
+    "briefing_hardcore_t2_capturezone": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [1535.55,630.85,1431.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t2_resp01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1194.9,631.15,1540.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t1_resp01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1119.05,631.15,3090.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t2_capturezone": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1968.4,630.85,2131.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_arcade_t1_capturezone": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1951.6,630.85,2615.25]
       ],
       "objLayer": 0,
       "props": []
@@ -658,7 +819,7 @@
     },
     {
       "layer": {
-        "enabled": true
+        "enabled": false
       }
     }
   ],

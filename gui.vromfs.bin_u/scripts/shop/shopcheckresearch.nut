@@ -33,13 +33,15 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
     showSceneBtn("modesRadiobuttons", false)
 
-    ::init_slotbar(this, scene.findObject("slotbar_place"), true, null, {
-            showNewSlot = true,
-            showEmptySlot = true,
-            limitCountryChoice = true,
-            customCountry = unitCountry,
-            showTopPanel = false
-          })
+    createSlotbar(
+      {
+        showNewSlot = true,
+        showEmptySlot = true,
+        limitCountryChoice = true,
+        customCountry = unitCountry,
+        showTopPanel = false
+      },
+      "slotbar_place")
 
     selectRequiredUnit()
   }

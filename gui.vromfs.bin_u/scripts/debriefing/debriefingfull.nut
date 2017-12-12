@@ -31,8 +31,10 @@
   rowProps = null //for custom row visual
   showByModes = null //function(gameMode), boolean
   showByTypes = null //function(gameType), boolean
+  isShowOnlyInTooltips = false // row is invisible in table, but still can show in other rows tooltips, as extra row.
   canShowRewardAsValue = false  //when no reward in other rows, reward in thoose rows will show in value row.
   showOnlyWhenFullResult = false
+  joinRows = null // null or array of existing row ids, which must be joined into this new row.
   customValueName = null
   getValueFunc = null
   tooltipExtraRows = null //function(), array
@@ -55,15 +57,16 @@
   reward = 0
   rewardType = "wp"
   show = false
+  showInTooltips = false
 
   getRewardId = function() { return rewardId || id }
-  isVisible = function(gameMode, gameType, isDebriefingFull)
+  isVisible = function(gameMode, gameType, isDebriefingFull, isTooltip = false)
   {
     if (showByModes && !showByModes(gameMode))
       return false
     if (showByTypes && !showByTypes(gameType))
       return false
-    return isDebriefingFull || !showOnlyWhenFullResult
+    return (isDebriefingFull || !showOnlyWhenFullResult) && (isTooltip || !isShowOnlyInTooltips)
   }
   isVisibleWhenEmpty = function() { return showEvenEmpty }
   getName = function() { return ::loc(::getTblValue("text", this, "debriefing/" + id)) }
@@ -104,7 +107,24 @@
     text = "multiplayer/assists"
   }
   "Critical",
+  "Scout",
+  "ScoutCriticalHit",
+  "ScoutKill",
   "Hit"
+  { id = "Scouting"
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByModes = ::is_gamemode_versus
+    joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit" ]
+  }
+  { id = "Scout"
+    isShowOnlyInTooltips = true
+  }
+  { id = "ScoutCriticalHit"
+    isShowOnlyInTooltips = true
+  }
+  { id = "ScoutKill"
+    isShowOnlyInTooltips = true
+  }
   { id = "Overkill"
     showByModes = ::is_gamemode_versus
   }
@@ -366,6 +386,10 @@ function gather_debriefing_result()
   ::debriefing_result.expDump <- ::u.copy(exp) // Untouched copy for debug
 
   // Put exp data compatibility changes here.
+
+  foreach (row in ::debriefing_rows)
+    if (row.joinRows)
+      ::debriefing_join_rows_into_row(exp, row.getRewardId(), row.joinRows)
 
   ::debriefing_apply_first_win_in_day_mul(exp, ::debriefing_result)
 
@@ -763,6 +787,43 @@ function get_debriefing_result_event_id()
 }
 
 /**
+ * Joins multiple rows rewards into new single row.
+ */
+function debriefing_join_rows_into_row(exp, destRowId, srcRowIdsArray)
+{
+  local tables = [ exp ]
+  foreach (unitId, tbl in exp.aircrafts)
+    tables.append(tbl)
+
+  foreach (tbl in tables)
+    foreach (prefix in [ "tbl", "wp", "exp", "num" ])
+    {
+      local keyTo = prefix + destRowId
+      if (keyTo in tbl)
+        continue
+      foreach (srcRowId in srcRowIdsArray)
+      {
+        local keyFrom = prefix + srcRowId
+        if (!(keyFrom in tbl))
+          continue
+        local val = tbl[keyFrom]
+        local isTable = ::u.isTable(val)
+        if (!(keyTo in tbl))
+          tbl[keyTo] <- isTable ? (clone val) : val
+        else
+        {
+          if (::is_numeric(val))
+            tbl[keyTo] += val
+          else if (isTable)
+            foreach (i, v in val)
+              if (::is_numeric(v))
+              tbl[keyTo][i] += v
+        }
+      }
+    }
+}
+
+/**
  * Applies xpFirstWinInDayMul and wpFirstWinInDayMul to debriefing result totals,
  * free exp, units and mods research (but not to expTotal in aircrafts).
  * Adds FirstWinInDay as a separate bonus row.
@@ -854,7 +915,8 @@ function recount_debriefing_result()
   foreach(row in ::debriefing_rows)
   {
     row.show = row.isVisible(gm, gt, isDebriefingResultFull)
-    if (!row.show)
+    row.showInTooltips = row.show || row.isVisible(gm, gt, isDebriefingResultFull, true)
+    if (!row.show && !row.showInTooltips)
       continue
 
     local isRowEmpty = true
@@ -874,10 +936,14 @@ function recount_debriefing_result()
       row.value = ::getTblValue(row.type + row.getRewardId(), ::debriefing_result.exp, 0)
     isRowEmpty = isRowEmpty && !row.value
 
-    if (row.showByValue)
-      row.show = row.showByValue(row.value)
-    else if (!row.isVisibleWhenEmpty())
-      row.show = !isRowEmpty
+    local isHide = row.showByValue && !row.showByValue(row.value)
+      || isRowEmpty && !row.isVisibleWhenEmpty()
+
+    if (isHide)
+    {
+      row.show = false
+      row.showInTooltips = false
+    }
   }
 
   foreach(row in ::debriefing_rows)

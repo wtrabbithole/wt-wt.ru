@@ -26,7 +26,7 @@ ScrollBar {
   padding:0;
   background-color:@scrollbarBgColor;
   behaviour:ScrollBar;
-  input-transparent:yes;
+  total-input-transparent:yes;
 }
 
 ScrollBar[flow=vertical] {
@@ -138,7 +138,7 @@ slotsScrollDiv > ScrollBar[flow=vertical] {
   position:absolute;
 }
 tdiv[scroll-align=left] {
-  padding-left:@scrollBarSize+0.5*@scrn_tgt/100.0;
+  padding-left:@scrollBarSize;
 }
 tdiv[scroll-align=left][scroll-padding=no] {
   padding-left:0;
