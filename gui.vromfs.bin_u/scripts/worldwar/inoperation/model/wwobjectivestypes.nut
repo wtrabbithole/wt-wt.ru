@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 
@@ -232,7 +233,7 @@ local time = require("scripts/time.nut")
       return updateFunc(nestObj, dataBlk, statusBlk, type, updateParam, side)
     })(updateFunc, statusBlk, type, updateParam, timerParam, side), handler)
 
-    return [::secondsUpdater(obj, update, false, dataBlk)]
+    return [SecondsUpdater(obj, update, false, dataBlk)]
   }
 }
 
@@ -334,7 +335,7 @@ local time = require("scripts/time.nut")
     specificClassParamConvertion = {
       num = function(value, blk, side, type) {
         local zones = ::split(blk.zone, ";")
-        return type.isDefender(blk, side) ? value - zones.len() + 1 : zones.len()
+        return type.isDefender(blk, side) ? zones.len() - value + 1 : value
       }
     }
 

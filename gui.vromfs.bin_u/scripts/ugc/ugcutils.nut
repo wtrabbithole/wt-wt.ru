@@ -4,6 +4,7 @@ function update_unit_skins_list(unitName)
   if (!unit)
     return
 
+  ::on_dl_content_skins_invalidate()
   unit.skins.clear()
   unit.skins = ::get_skins_for_unit(unitName)
 }
@@ -16,7 +17,8 @@ function ugc_skin_preview(params)
   }
 
   local blkHashName = params.hash
-  local res = ugc_preview_resource(blkHashName, "skin", "testName")
+  local name = params?.name ?? "testName"
+  local res = ugc_preview_resource(blkHashName, "skin", name)
 
   return res.result
 }
@@ -28,9 +30,7 @@ function ugc_start_unit_preview(unitName, skinName)
   {
     ::show_aircraft = unit
     gui_start_decals()
-    local handler = ::handlersManager.getActiveBaseHandler()
-    if (handler && (handler instanceof ::gui_handlers.DecalMenuHandler))
-      handler.applySkin(skinName, true)
+    broadcastEvent("SelectUGCSkinForPreview", {skinName = skinName})
   }
 }
 

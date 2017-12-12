@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 
@@ -107,7 +108,7 @@ class ::gui_handlers.MRoomMembersWnd extends ::gui_handlers.BaseGuiHandlerWT
   function initRoomTimer()
   {
     local timerObj = scene.findObject("event_time")
-    ::secondsUpdater(timerObj, ::Callback(function(obj, params)
+    SecondsUpdater(timerObj, ::Callback(function(obj, params)
     {
       local text = ""
       local startTime = ::SessionLobby.getRoomSessionStartTime(room)

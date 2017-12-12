@@ -130,6 +130,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       ::loc(::g_squad_manager.isMeReady() ? "multiplayer/btnNotReady" : "mainmenu/btnReady"))
 
     showSceneBtn("btn_squadInvites", ::gui_handlers.squadInviteListWnd.canOpen())
+    updateVisibleNewApplications ()
 
     local btnSquadLeave = showSceneBtn("btn_squadLeave", ::g_squad_manager.canLeaveSquad())
     btnSquadLeave.tooltip = ::loc("squadAction/leave")
@@ -178,6 +179,14 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     ::g_squad_utils.showMemberMenu(obj, parentHandlerWeak)
   }
 
+  function updateVisibleNewApplications()
+  {
+    local objGlow = scene.findObject("iconGlow")
+    if (::check_obj(objGlow))
+      objGlow.wink = (::gui_handlers.squadInviteListWnd.canOpen() &&
+        ::g_squad_manager.hasNewApplication) ? "yes" : "no"
+  }
+
   function onWrapUp(obj) {
     if (::handlersManager.isHandlerValid(parentHandlerWeak))
       parentHandlerWeak.onWrapUp(obj)
@@ -201,6 +210,11 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
   }
 
   /**event handlers**/
+  function onEventSquadHasNewApplications(params)
+  {
+    doWhenActiveOnce("updateVisibleNewApplications")
+  }
+
   function onEventSquadSetReady(params)
   {
     doWhenActiveOnce("updateView")

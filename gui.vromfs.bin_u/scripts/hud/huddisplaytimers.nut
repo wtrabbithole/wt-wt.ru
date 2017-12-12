@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 ::g_hud_display_timers <- {
@@ -278,7 +279,7 @@ local time = require("scripts/time.nut")
       iconObj.wink = "no"
       ::g_time_bar.setDirectionForward(timebarObj)
       local createTime = ::dagor.getCurTime()
-      repairUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
+      repairUpdater = SecondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
         local curTime = ::dagor.getCurTime()
         local timeToShowSeconds = debuffs_data.time - time.millisecondsToSeconds(curTime - createTime)
         if (timeToShowSeconds < 0)
@@ -351,7 +352,7 @@ local time = require("scripts/time.nut")
       iconObj.wink = "no"
       ::g_time_bar.setDirectionForward(timebarObj)
       local createTime = ::dagor.getCurTime()
-      repairBreachesUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
+      repairBreachesUpdater = SecondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
         local curTime = ::dagor.getCurTime()
         local timeToShowSeconds = debuffs_data.time - time.millisecondsToSeconds(curTime - createTime)
         if (timeToShowSeconds < 0)
@@ -404,7 +405,7 @@ local time = require("scripts/time.nut")
       iconObj.wink = "no"
       ::g_time_bar.setDirectionForward(timebarObj)
       local createTime = ::dagor.getCurTime()
-      extinguishUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
+      extinguishUpdater = SecondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
         local curTime = ::dagor.getCurTime()
         local timeToShowSeconds = debuffs_data.time - time.millisecondsToSeconds(curTime - createTime)
         if (timeToShowSeconds < 0)

@@ -104,10 +104,10 @@
               "targetGnd": false
             },
             {
-              "accuracy": 0.6
+              "accuracy": 0.3
             },
             {
-              "effShootingRate": 0.6
+              "effShootingRate": 0.3
             }
           ]
         },
@@ -140,10 +140,10 @@
               "targetGnd": false
             },
             {
-              "accuracy": 0.6
+              "accuracy": 0.3
             },
             {
-              "effShootingRate": 0.6
+              "effShootingRate": 0.3
             }
           ]
         },
@@ -232,6 +232,7 @@
             "killOutOfBattleArea": true,
             "newGridHorizontalCellCount": 0,
             "killArea": false,
+            "detectionArea": false,
             "area": "flt_battle_area"
           }
         }
@@ -6382,7 +6383,7 @@
               "show": true,
               "colorCode": "Team B-A",
               "scale": 1.5,
-              "simplification": 0.5,
+              "simplification": 0.05,
               "curve": true
             }
           },
@@ -6791,7 +6792,7 @@
             "show": true,
             "colorCode": "Team B-A",
             "scale": 1.5,
-            "simplification": 0.5,
+            "simplification": 0.05,
             "curve": true
           },
           "__missionShowMapLine": {
@@ -6818,7 +6819,7 @@
               "areaNameTo": "@flt_draw_point_03",
               "colorCode": "Team B-A",
               "scale": 1.5,
-              "simplification": 0.5,
+              "simplification": 0.05,
               "curve": true
             }
           },
@@ -6828,7 +6829,7 @@
               "areaNameTo": "@flt_draw_point_05",
               "colorCode": "Team B-A",
               "scale": 1.5,
-              "simplification": 0.5,
+              "simplification": 0.05,
               "curve": true
             }
           },
@@ -6882,7 +6883,7 @@
             "show": true,
             "colorCode": "Team B-A",
             "scale": 1.5,
-            "simplification": 0.5,
+            "simplification": 0.05,
             "curve": true
           },
           "__missionShowMapLine": {
@@ -6910,7 +6911,7 @@
             "areaNameTo": "@flt_draw_point_04",
             "colorCode": "Team B-A",
             "scale": 1.5,
-            "simplification": 0.5,
+            "simplification": 0.05,
             "curve": true
           },
           "triggerEnable": {
@@ -8565,6 +8566,24 @@
               "var": "flt_battles_last_battle_idx",
               "input_var": "flt_heat_t1_search_idx"
             }
+          },
+          {
+            "comment": {
+              "value": "запоминаем текущую зону для проверки захваченного аэродрома родившегося уже на фронтлайне"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_battles_prev_area_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_heat_battle_idx",
+              "digits": 2,
+              "var": "flt_battles_prev_area_name"
+            }
           }
         ],
         "else_actions": [
@@ -8719,6 +8738,24 @@
               "value": 0,
               "var": "flt_battles_last_battle_idx",
               "input_var": "flt_heat_t2_search_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "запоминаем текущую зону для проверки захваченного аэродрома родившегося уже на фронтлайне"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_battles_prev_area_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_heat_battle_idx",
+              "digits": 2,
+              "var": "flt_battles_prev_area_name"
             }
           }
         ]
@@ -9213,6 +9250,25 @@
         "conditions": [],
         "actions": [
           {
+            "varSetInt": [
+              {
+                "value": 1
+              },
+              {
+                "var": "flt_t1_activity_time"
+              },
+              {
+                "var": "flt_t2_activity_time"
+              },
+              {
+                "var": "flt_t1_players_activity_time"
+              },
+              {
+                "var": "flt_t2_players_activity_time"
+              }
+            ]
+          },
+          {
             "comment": {
               "value": "отключаем проверку лимитов и спавны"
             }
@@ -9488,17 +9544,51 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 10.0
           }
         },
         "conditions": [],
-        "actions": {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "flt_battle_time"
+        "actions": [
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 10.0,
+              "var": "flt_battle_time"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_t1_activity_change",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_t2_activity_change",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "varModify": [
+              {
+                "operator": "add"
+              },
+              {
+                "value": 1.0
+              },
+              {
+                "var": "flt_t1_activity_time"
+              },
+              {
+                "var": "flt_t2_activity_time"
+              }
+            ]
           }
-        },
+        ],
         "else_actions": []
       },
       "flt_battles_end": {
@@ -9721,12 +9811,15 @@
           },
           {
             "comment": {
-              "value": "прячем войска"
+              "value": "говорим что таск выполнен"
             }
           },
           {
-            "__triggerEnable": {
-              "target": "flt_battles_armies_hide"
+            "triggerActivate": {
+              "target": "flt_t1_activity_calc",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
             }
           },
           {
@@ -9853,12 +9946,15 @@
           },
           {
             "comment": {
-              "value": "прячем войска"
+              "value": "говорим что таск выполнен"
             }
           },
           {
-            "__triggerEnable": {
-              "target": "flt_battles_armies_hide"
+            "triggerActivate": {
+              "target": "flt_t2_activity_calc",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
             }
           },
           {
@@ -10278,6 +10374,12 @@
             }
           },
           {
+            "varGetStringValue": {
+              "from_var_name": "flt_battles_prev_area_name",
+              "var": "ft_capture_t2_prev_frontline_name"
+            }
+          },
+          {
             "comment": {
               "value": "фиксим индексы"
             }
@@ -10439,6 +10541,12 @@
             "varGetStringValue": {
               "from_var_name": "flt_battles_frontline_name",
               "var": "bdt_capture_t1_frontline_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "flt_battles_prev_area_name",
+              "var": "ft_capture_t1_prev_frontline_name"
             }
           },
           {
@@ -11388,6 +11496,579 @@
         },
         "else_actions": []
       }
+    },
+    "players_activity": {
+      "isCategory": true,
+      "is_enabled": true,
+      "flt_activity_start": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "назначаем дистанцию проверки от ранга миссии"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_matchning_distance_0_3",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_matchning_distance_4_7",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_matchning_distance_8_11",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_matchning_distance_12_16",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "flt_matchning_distance_17_20",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "flt_matchning_distance_0_3": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_matching_rank",
+            "value": 4,
+            "comparasion_func": "less"
+          }
+        },
+        "actions": {
+          "varSetReal": {
+            "value": 3000.0,
+            "var": "flt_activity_distance"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_matchning_distance_4_7": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 3,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 8,
+              "comparasion_func": "less"
+            }
+          }
+        ],
+        "actions": {
+          "varSetReal": {
+            "value": 4500.0,
+            "var": "flt_activity_distance"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_matchning_distance_8_11": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 7,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 12,
+              "comparasion_func": "less"
+            }
+          }
+        ],
+        "actions": {
+          "varSetReal": {
+            "value": 6000.0,
+            "var": "flt_activity_distance"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_matchning_distance_12_16": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 11,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 17,
+              "comparasion_func": "less"
+            }
+          }
+        ],
+        "actions": {
+          "varSetReal": {
+            "value": 7500.0,
+            "var": "flt_activity_distance"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_matchning_distance_17_20": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 16,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_matching_rank",
+              "value": 30,
+              "comparasion_func": "less"
+            }
+          }
+        ],
+        "actions": {
+          "varSetReal": {
+            "value": 9000.0,
+            "var": "flt_activity_distance"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_t1_activity_change": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "unitDistanceBetween": {
+              "value": 1500.0,
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "target_type": "isOnline",
+              "target_marking": 0,
+              "check_objects": "any",
+              "check_targets": "any",
+              "object": "@flt_battles_t1_army_squad_name",
+              "target": "t1_players_squad",
+              "var": "flt_activity_distance",
+              "compareCenters": false,
+              "check_all_units": true
+            }
+          },
+          {
+            "unitDistanceBetween": {
+              "value": 1500.0,
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "target_type": "isOnline",
+              "target_marking": 0,
+              "check_objects": "any",
+              "check_targets": "any",
+              "object": "@flt_battles_t2_army_squad_name",
+              "target": "t1_players_squad",
+              "var": "flt_activity_distance",
+              "compareCenters": false,
+              "check_all_units": true
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "рядом есть один из игроков команды А"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "flt_t1_players_activity_time"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "рядом нет игроков команды А"
+          }
+        }
+      },
+      "flt_t2_activity_change": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "unitDistanceBetween": {
+              "value": 1500.0,
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "target_type": "isOnline",
+              "target_marking": 0,
+              "check_objects": "any",
+              "check_targets": "any",
+              "object": "@flt_battles_t2_army_squad_name",
+              "target": "t2_players_squad",
+              "var": "flt_activity_distance",
+              "compareCenters": false,
+              "check_all_units": true
+            }
+          },
+          {
+            "unitDistanceBetween": {
+              "value": 1500.0,
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "target_type": "isOnline",
+              "target_marking": 0,
+              "check_objects": "any",
+              "check_targets": "any",
+              "object": "@flt_battles_t1_army_squad_name",
+              "target": "t2_players_squad",
+              "var": "flt_activity_distance",
+              "compareCenters": false,
+              "check_all_units": true
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "рядом есть один из игроков команды Б"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "flt_t2_players_activity_time"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "рядом нет игроков команды Б"
+          }
+        }
+      },
+      "flt_t1_activity_calc": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "считаем процент активности от обющей активности задания"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "flt_t1_players_activity_calc",
+              "input_var": "flt_t1_players_activity_time"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "mul",
+              "value": 100.0,
+              "var": "flt_t1_players_activity_calc"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "divAB",
+              "value": 100.0,
+              "var": "flt_t1_players_activity_calc",
+              "use_variable": true,
+              "var_value": "flt_t1_activity_time"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем активность"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_t1_activity_check"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "flt_t1_activity_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_t1_players_activity_calc",
+            "value": 24,
+            "comparasion_func": "more"
+          },
+          "unitWhenCountMatches": {
+            "object_type": "isKilledByPlayer",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@flt_battles_t2_army_squad_name"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была 25% или выше"
+          },
+          "triggerEnable": {
+            "target": "t1_major_task_completed"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была ниже 25%"
+          },
+          "triggerEnable": {
+            "target": "t1_tiny_task_completed"
+          }
+        }
+      },
+      "flt_t2_activity_calc": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "считаем процент активности от обющей активности задания"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "flt_t2_players_activity_calc",
+              "input_var": "flt_t2_players_activity_time"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "mul",
+              "value": 100.0,
+              "var": "flt_t2_players_activity_calc"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "divAB",
+              "value": 100.0,
+              "var": "flt_t2_players_activity_calc",
+              "use_variable": true,
+              "var_value": "flt_t2_activity_time"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем активность"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_t2_activity_check"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "flt_t2_activity_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_t2_players_activity_calc",
+            "value": 24,
+            "comparasion_func": "more"
+          },
+          "unitWhenCountMatches": {
+            "object_type": "isKilledByPlayer",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@flt_battles_t1_army_squad_name"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была 25% или выше"
+          },
+          "triggerEnable": {
+            "target": "t2_major_task_completed"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была ниже 25%"
+          },
+          "triggerEnable": {
+            "target": "t2_tiny_task_completed"
+          }
+        }
+      }
     }
   },
   "mission_objectives": {
@@ -11696,7 +12377,16 @@
     "flt_battles_t2_bunker_name": "",
     "flt_battles_last_battle_idx": 0,
     "flt_draw_last_draw": 0,
-    "flt_draw_last_draw_point_num": 0
+    "flt_draw_last_draw_point_num": 0,
+    "flt_battles_prev_area_name": "",
+    "flt_t1_activity_time": 0,
+    "flt_t2_activity_time": 0,
+    "flt_t1_players_activity_time": 0,
+    "flt_t2_players_activity_time": 0,
+    "flt_activity_distance": 0.0,
+    "flt_t1_players_activity_calc": 0,
+    "flt_t2_players_activity_calc": 0,
+    "flt_matching_rank": 0
   },
   "dialogs": [],
   "airfields": [],

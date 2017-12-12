@@ -1,5 +1,5 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-
 
 enum bit_unit_status
 {
@@ -1540,7 +1540,7 @@ function fillAirCharProgress(progressObj, min, max, cur)
 
 function fillAirInfoTimers(holderObj, air, needShopInfo)
 {
-  ::secondsUpdater(holderObj, (@(air, needShopInfo) function(obj, params) {
+  SecondsUpdater(holderObj, (@(air, needShopInfo) function(obj, params) {
     local isActive = false
 
     // Unit repair cost

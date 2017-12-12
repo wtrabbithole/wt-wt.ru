@@ -91,7 +91,7 @@ class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local msg = ::loc("yn1/waiting_for_game_query")
-    local waitTime = ::queues.getQueueActiveTime(queue)
+    local waitTime = queue.getActiveTime()
     if (waitTime > 0)
     {
       local minutes = time.secondsToMinutes(waitTime).tointeger()

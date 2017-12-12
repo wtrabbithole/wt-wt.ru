@@ -217,7 +217,7 @@
   AIR_STREAK_HINT = {
     eventChance = 50
     iconsList = ["aircraft_fighter", "aircraft_attacker", "aircraft_bomber"]
-    textsList = ["hints/event_start_time", "hints/event_can_join_ally", "hints/event_can_join_enemy"]
+    textsList = ["hints/event_start_time", "hints/event_can_join_ally", "hints/event_can_join_enemy", "hints/event_player_start_on"]
     genNewEvent = function()
     {
       local eventData = {
@@ -226,10 +226,8 @@
         locId = ::u.chooseRandom(textsList)
         shortcut = "ID_KILLSTREAK_WHEEL_MENU"
         slotsCount = 3
+        playerId = 0
       }
-
-      if (eventData.locId != "hints/event_start_time")
-        eventData.playerId <- 0
 
       local pTotal = ::math.rnd() % 6 + 1
       for(local i = 0; i < pTotal; i++)

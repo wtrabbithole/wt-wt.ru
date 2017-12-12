@@ -29,7 +29,7 @@ expandable {
             id:t='inviterName_<<uid>>'
             inviteUid:t='<<uid>>'
             overlayTextColor:t='userlog'
-            text:t='<<inviterName>>'
+            text:t='<<getInviterName>>'
 
             behaviour:t='button'
             on_r_click:t='onInviterInfo'

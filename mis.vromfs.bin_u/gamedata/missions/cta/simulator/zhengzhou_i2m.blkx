@@ -581,7 +581,7 @@
         },
         {
           "varSetInt": {
-            "value": 4,
+            "value": 3,
             "var": "to_max_templates_to_launch"
           }
         },
@@ -632,6 +632,17 @@
               "var": "ht_t2_delay_timer"
             }
           ]
+        },
+        {
+          "comment": {
+            "value": "ограничиваем количество позиций аэродрома"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 5,
+            "var": "ft_max_airfield_idx_to_generate"
+          }
         }
       ],
       "else_actions": []
@@ -4407,6 +4418,62 @@
           }
         },
         "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_enemy_planes_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1350.65,57.1638,-2672.73]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_players_squad"
+          },
+          {
+            "squad_members": "bt_t2_bomber"
+          },
+          {
+            "squad_members": "bt_t2_fighter"
+          },
+          {
+            "squad_members": "at_t2_assault"
+          },
+          {
+            "squad_members": "at_t2_fighter"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_enemy_planes_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1489.66,57.1639,-2572.87]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_players_squad"
+          },
+          {
+            "squad_members": "bt_t1_bomber"
+          },
+          {
+            "squad_members": "bt_t1_fighter"
+          },
+          {
+            "squad_members": "at_t1_assault"
+          },
+          {
+            "squad_members": "at_t1_fighter"
+          }
+        ]
       }
     }
   ],

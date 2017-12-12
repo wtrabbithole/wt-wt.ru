@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 ::researched_items_table <- null
 ::abandoned_researched_items_for_session <- []
 ::researchedModForCheck <- "prevMod"
@@ -1116,7 +1117,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     local handler = this
     local func = function(nestObj){reInitCurrentUnit(nestObj)}
     if (::getUnitRepairCost(researchConfig.unit) > 0 && ::checkObj(timerObj))
-      ::secondsUpdater(timerObj, (@(handler, scene, researchConfig, func) function(obj, params) {
+      SecondsUpdater(timerObj, (@(handler, scene, researchConfig, func) function(obj, params) {
         local repairPrice = ::getUnitRepairCost(researchConfig.unit)
         local isBroken = repairPrice > 0
         local repairBtnId = "btn_repair"

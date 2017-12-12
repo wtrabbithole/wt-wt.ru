@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 
@@ -345,7 +346,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   {
     local rentInfoObj = scene.findObject("rented_unit_info_text")
     local messageTemplate = ::loc("mainmenu/unitRentTimeleft") + ::loc("ui/colon") + "%s"
-    ::secondsUpdater(rentInfoObj, function(obj, params) {
+    SecondsUpdater(rentInfoObj, function(obj, params) {
       local isVisible = !!unit && unit.isRented()
       obj.show(isVisible)
       if (isVisible)

@@ -19,9 +19,10 @@ class SquadMember
   unallowedEventsENames = null
   sessionRoomId = ""
 
-  isChanged = false
   isWaiting = true
   isInvite = false
+  isApplication = false
+  isNewApplication = false
   isInvitedToSquadChat = false
 
   updatedProperties = ["name", "rank", "country", "clanTag", "pilotIcon", "selAirs",
@@ -29,10 +30,12 @@ class SquadMember
                        "isReady", "isCrewsReady", "cyberCafeId", "unallowedEventsENames",
                        "sessionRoomId"]
 
-  constructor(uid, isInvite = false)
+  constructor(uid, isInvite = false, isApplication = false)
   {
     this.uid = uid.tostring()
     this.isInvite = isInvite
+    this.isApplication = isApplication
+    this.isNewApplication = isApplication
 
     initUniqueInstanceValues()
 
@@ -55,6 +58,7 @@ class SquadMember
   function update(data)
   {
     local newValue = null
+    local isChanged = false
     foreach(idx, property in updatedProperties)
     {
       newValue = ::getTblValue(property, data, null)
@@ -68,6 +72,7 @@ class SquadMember
       }
     }
     isWaiting = false
+    return isChanged
   }
 
   function isActualData()

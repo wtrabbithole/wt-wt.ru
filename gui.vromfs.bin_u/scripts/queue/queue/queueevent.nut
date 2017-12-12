@@ -212,6 +212,15 @@ class ::queue_classes.Event extends ::queue_classes.Base
     }
   }
 
+  function getBattleName()
+  {
+    local event = ::events.getEvent(name)
+    if (!event)
+      return ""
+
+    return ::events.getEventNameText(event)
+  }
+
   function hasCustomMode()
   {
     return hasCustomModeByEventName(name)

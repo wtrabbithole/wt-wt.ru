@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 const MAX_THREAD_LANG_VISIBLE = 3
 
 class ChatThreadInfo
@@ -146,7 +148,7 @@ class ChatThreadInfo
       return ownerUid
 
     local res = ownerClanTag.len() ? ownerClanTag + " " : ""
-    res += ownerNick
+    res += platformModule.getPlayerName(ownerNick)
     if (isColored)
       res = ::colorize(::g_chat.getSenderColor(ownerNick, false, false, defaultColor), res)
     return res

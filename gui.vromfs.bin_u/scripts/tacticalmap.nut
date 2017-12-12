@@ -429,6 +429,8 @@ function addHideToObjStringById(data, objId)
 
 function is_tactical_map_active()
 {
+  if (!::g_login.isLoggedIn())
+    return false
   local curHandler = ::handlersManager.getActiveBaseHandler()
   return curHandler != null &&  (curHandler instanceof ::gui_handlers.TacticalMap ||
     curHandler instanceof ::gui_handlers.ArtilleryMap || curHandler instanceof ::gui_handlers.RespawnHandler)

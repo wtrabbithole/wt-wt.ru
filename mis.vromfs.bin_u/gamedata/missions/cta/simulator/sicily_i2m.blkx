@@ -226,6 +226,7 @@
       "scoreLimit": 15000,
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
+      "allowEmptyTeams": false,
       "country_axis": "germany",
       "country_allies": "britain",
       "tags": [],
@@ -556,6 +557,17 @@
         },
         {
           "comment": {
+            "value": "увеличиваем количество одновременно запущенных шаблонов"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 3,
+            "var": "to_max_templates_to_launch"
+          }
+        },
+        {
+          "comment": {
             "value": "настройка охотников"
           }
         },
@@ -584,6 +596,17 @@
               "var": "ht_t2_delay_timer"
             }
           ]
+        },
+        {
+          "comment": {
+            "value": "ограничиваем количество позиций аэродрома"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 5,
+            "var": "ft_max_airfield_idx_to_generate"
+          }
         }
       ],
       "else_actions": []
@@ -674,17 +697,17 @@
       "armada": {
         "name": "t1_player01",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.999215,0.0,0.0396066],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [11624.5,1401.9,4945.0]
+          [-0.0396066,0.0,-0.999215],
+          [22240.3,1401.9,4945.0]
         ],
-        "unit_class": "b-29",
+        "unit_class": "mosquito_fb_mk6",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
-        "weapons": "B29_8x2000lbs",
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -4168,20 +4191,65 @@
         },
         "way": []
       }
+    },
+    {
+      "squad": {
+        "name": "t1_enemy_planes_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1350.65,57.1638,-2672.73]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_players_squad"
+          },
+          {
+            "squad_members": "bt_t2_bomber"
+          },
+          {
+            "squad_members": "bt_t2_fighter"
+          },
+          {
+            "squad_members": "at_t2_assault"
+          },
+          {
+            "squad_members": "at_t2_fighter"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_enemy_planes_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1489.66,57.1639,-2572.87]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_players_squad"
+          },
+          {
+            "squad_members": "bt_t1_bomber"
+          },
+          {
+            "squad_members": "bt_t1_fighter"
+          },
+          {
+            "squad_members": "at_t1_assault"
+          },
+          {
+            "squad_members": "at_t1_fighter"
+          }
+        ]
+      }
     }
   ],
   "areas": {
-    "t1_base01": {
-      "type": "Box",
-      "tm": [
-        [226.79,0.0,-60.7682],
-        [0.0,194.28,0.0],
-        [66.415,0.0,247.864],
-        [17915.0,24.75,6459.4]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "t1_base02": {
       "type": "Box",
       "tm": [
@@ -4217,6 +4285,16 @@
     }
   },
   "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
     {
       "layer": {
         "enabled": true

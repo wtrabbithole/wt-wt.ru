@@ -812,9 +812,15 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     foreach (side, isEmpty in emptySidesReinforcementList)
       if (isEmpty)
         ::ww_turn_off_sector_sprites("Reinforcement", rearZones[::ww_side_val_to_name(side)])
+      else
+      {
+        ::ww_turn_off_sector_sprites("Reinforcement", ::g_world_war.getRearZonesLostBySide(side))
+        if (!(side in arrivingReinforcementSides))
+          ::ww_turn_on_sector_sprites("Reinforcement", ::g_world_war.getRearZonesOwnedToSide(side), 0)
+      }
 
     foreach (side, value in arrivingReinforcementSides)
-      ::ww_turn_on_sector_sprites("Reinforcement", rearZones[::ww_side_val_to_name(side)], 5000)
+      ::ww_turn_on_sector_sprites("Reinforcement", ::g_world_war.getRearZonesOwnedToSide(side), 5000)
   }
 
   function updateArmyStrenght()
@@ -1011,16 +1017,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWWMapSelectedBattle(params)
   {
     local wwBattle = ::getTblValue("battle", params, ::WwBattle())
-    if (wwBattle.isValid())
-    {
-      if (!wwBattle.isStillInOperation())
-        return ::g_popups.add("", ::loc("worldwar/battle_finished"),
-          null, null, null, "battle_finished")
-      if (wwBattle.isAutoBattle())
-        return ::g_popups.add("", ::loc("worldwar/battleIsInAutoMode"),
-          null, null, null, "battle_in_auto_mode")
-    }
+    openBattleDescriptionModal(wwBattle)
+  }
 
+  function openBattleDescriptionModal(wwBattle)
+  {
     ::gui_handlers.WwBattleDescription.open(wwBattle)
   }
 
@@ -1124,10 +1125,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      local rearZones = ::g_world_war.getRearZones()
-      local sideName = ::ww_side_val_to_name(reinforcementSide)
-      if (sideName in rearZones)
-        highlightedZones = rearZones[sideName]
+      highlightedZones = ::g_world_war.getRearZonesOwnedToSide(reinforcementSide)
       popupText = ::loc("worldwar/error/reinforcement/wrongCell")
     }
 

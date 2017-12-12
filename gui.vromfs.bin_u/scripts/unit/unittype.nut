@@ -48,6 +48,7 @@ enum UNIT_TYPE_ORDER
   getArmyLocName = function() { return ::loc("mainmenu/" + armyId, "") }
   getLocName = function() { return ::loc(::format("unit_type/%s", tag), "") }
   canUseSeveralBulletsForGun = false
+  modClassOrder = []
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_unit_type", {
@@ -84,6 +85,7 @@ enum UNIT_TYPE_ORDER
     }
     canUseSeveralBulletsForGun = false
     canChangeViewType = true
+    modClassOrder = ["lth", "armor", "weapon"]
   }
 
   TANK = {
@@ -111,9 +113,12 @@ enum UNIT_TYPE_ORDER
         return ::has_feature("BritainTanksInFirstCountryChoice")
       if (country == "country_japan")
         return ::has_feature("JapanTanksInFirstCountryChoice")
+      if (country == "country_france")
+        return ::has_feature("FranceTanksInFirstCountryChoice")
       return true
     }
     canUseSeveralBulletsForGun = true
+    modClassOrder = ["mobility", "protection", "firepower"]
   }
 
   SHIP = {
@@ -134,6 +139,7 @@ enum UNIT_TYPE_ORDER
     isAvailableForFirstChoice = function(country = null)
       { return isAvailable() && ::has_feature("ShipsFirstChoice") }
     canUseSeveralBulletsForGun = true
+    modClassOrder = ["seakeeping", "unsinkability", "firepower"]
   }
 },
 function()

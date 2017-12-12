@@ -117,7 +117,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   {
     local txtWaitTime = ""
     local curQueue = getCurQueue()
-    local waitTime = curQueue ? ::queues.getQueueActiveTime(curQueue) : 0
+    local waitTime = curQueue ? curQueue.getActiveTime() : 0
     if (waitTime > 0)
     {
       local minutes = time.secondsToMinutes(waitTime).tointeger()

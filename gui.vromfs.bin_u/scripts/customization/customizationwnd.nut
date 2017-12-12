@@ -2017,4 +2017,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       txt = ::format(::loc("charServer/decal/timed"), time.hoursToString(time.secondsToHours(timeSec), false))
     objText.setValue(txt)
   }
+
+  function onEventSelectUGCSkinForPreview(params)
+  {
+    applySkin(params.skinName, true)
+    updateSkinList()
+  }
 }

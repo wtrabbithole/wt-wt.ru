@@ -64,9 +64,8 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     timersArray = []
     foreach (id, dataBlk in staticBlk)
     {
-      local statusBlk = dynamicBlk.getBlockByName(id)
+      local statusBlk = getStatusBlock(dataBlk)
       local type = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
-
       local handler = this
       foreach (param, func in type.timersArrayByParamName)
         timersArray.extend(func(handler, scene, param, dataBlk, statusBlk, type, side))
@@ -250,16 +249,15 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function getObjectiveViewsArray(objectives)
   {
-    return ::u.mapAdvanced(objectives, (@(dynamicBlk, side) function(statObjBlk, idx, array) {
-      local blockId = statObjBlk.getBlockName()
-      local dynObjBlk = dynamicBlk.getBlockByName(blockId)
-      return ::WwObjectiveView(
-        statObjBlk,
-        dynObjBlk,
-        side,
-        array.len() == 1 || idx == (array.len() - 1)
-      )
-    })(dynamicBlk, side))
+    return ::u.mapAdvanced(objectives, ::Callback(
+      @(dataBlk, idx, array)
+        ::WwObjectiveView(
+          dataBlk,
+          getStatusBlock(dataBlk),
+          side,
+          array.len() == 1 || idx == (array.len() - 1)
+        ),
+      this))
   }
 
   function onEventWWLoadOperation(params)
@@ -281,39 +279,36 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
   function updateDynamicData(objectivesBlk)
   {
     dynamicBlk = ::u.copy(objectivesBlk.status) || ::DataBlock()
-    for (local i = 0; i < dynamicBlk.blockCount(); i++)
+    for (local i = 0; i < staticBlk.blockCount(); i++)
     {
-      local dynBlock = dynamicBlk.getBlock(i)
-      updateDynamicDataBlock(dynBlock)
+      updateDynamicDataBlock(staticBlk.getBlock(i))
     }
   }
 
-  function updateDynamicDataBlock(dynBlock)
+  function updateDynamicDataBlock(objectiveBlk)
   {
-    local id = dynBlock.getBlockName()
-    local statBlk = staticBlk.getBlockByName(id)
-    if (!statBlk)
-      return
+    local objectiveBlockId = objectiveBlk.getBlockName()
+    local statusBlock = getStatusBlock(objectiveBlk)
 
-    local type = ::g_ww_objective_type.getTypeByTypeName(statBlk.type)
+    local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
     local sideEnumVal = ::ww_side_val_to_name(side)
-    local result = type.getUpdatableParamsArray(statBlk, dynBlock, sideEnumVal)
-    local zones = type.getUpdatableZonesParams(statBlk, dynBlock, sideEnumVal)
+    local result = type.getUpdatableParamsArray(objectiveBlk, statusBlock, sideEnumVal)
+    local zones = type.getUpdatableZonesParams(objectiveBlk, statusBlock, sideEnumVal)
 
-    local objectiveObj = scene.findObject(id)
+    local objectiveObj = scene.findObject(objectiveBlockId)
     if (!::checkObj(objectiveObj))
       return
 
-    local statusType = type.getObjectiveStatus(dynBlock.winner, sideEnumVal)
+    local statusType = type.getObjectiveStatus(statusBlock.winner, sideEnumVal)
     objectiveObj.status = statusType.name
 
     local imageObj = objectiveObj.findObject("statusImg")
     if (::checkObj(imageObj))
       imageObj["background-image"] = statusType.wwMissionObjImg
 
-    local titleObj = objectiveObj.findObject(type.getNameId(statBlk, side))
+    local titleObj = objectiveObj.findObject(type.getNameId(objectiveBlk, side))
     if (::checkObj(titleObj))
-      titleObj.setValue(type.getName(statBlk, dynBlock, sideEnumVal))
+      titleObj.setValue(type.getName(objectiveBlk, statusBlock, sideEnumVal))
 
     foreach (block in result)
     {
@@ -347,19 +342,14 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local descObj = objectiveObj.findObject("updatable_data_text")
     if (::check_obj(descObj))
     {
-      local text = type.getUpdatableParamsDescriptionText(statBlk, dynBlock, sideEnumVal)
+      local text = type.getUpdatableParamsDescriptionText(objectiveBlk, statusBlock, sideEnumVal)
       descObj.setValue(text)
     }
   }
 
-  function getStatusBlock()
+  function getStatusBlock(blk)
   {
-    local objectivesBlk = ::g_world_war.getOperationObjectives()
-    if (!objectivesBlk.status || !(id in objectivesBlk.status))
-      return null
-
-    local block = ::u.copy(objectivesBlk.status[id])
-    return block
+    return dynamicBlk.getBlockByName(blk?.guiStatusBlk || blk.getBlockName())
   }
 
   function onOpenFullMissionObjects()

@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 ::g_clan_log_type <- {
   types = []
 }
@@ -102,7 +104,7 @@ function g_clan_log_type::_getSignText(logEntry)
     showDetails = false
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/add_new_member_log", {nick = logEntry.nick})
+      return ::loc("clan/log/add_new_member_log", {nick = platformModule.getPlayerName(logEntry.nick)})
     }
   }
   REMOVE = {
@@ -114,7 +116,7 @@ function g_clan_log_type::_getSignText(logEntry)
     ]
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/remove_member_log", {nick = logEntry.nick})
+      return ::loc("clan/log/remove_member_log", {nick = platformModule.getPlayerName(logEntry.nick)})
     }
   }
   ROLE = {
@@ -129,7 +131,7 @@ function g_clan_log_type::_getSignText(logEntry)
     ]
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/change_role_log", {nick = logEntry.nick})
+      return ::loc("clan/log/change_role_log", {nick = platformModule.getPlayerName(logEntry.nick)})
     }
   }
   UPGRADE_MEMBERS = {

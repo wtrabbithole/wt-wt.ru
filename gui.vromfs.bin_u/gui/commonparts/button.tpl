@@ -22,6 +22,7 @@
 
   id:t='<<id>>'
   text:t='<<text>>'
+  tooltip:t='<<tooltip>>'
   css-hier-invalidate:t='yes'
   <<#isHidden>>
     display:t='hide'
@@ -35,6 +36,9 @@
   <<#visualStyle>>
     visualStyle:t='<<visualStyle>>'
   <</visualStyle>>
+  <<#isColoredImg>>
+    isColoredImg:t='<<isColoredImg>>'
+  <</isColoredImg>>
 
   <<^isToBattle>>
     <<#style>>
@@ -93,12 +97,23 @@
 
   <<#shortcut>>
     btnName:t='<<shortcut>>'
-    ButtonImg {}
+    ButtonImg {
+      <<#showOnSelect>>
+        showOnSelect:t='<<showOnSelect>>'
+      <</showOnSelect>>
+      <<#iconName>>
+        iconName:t='<<iconName>>'
+      <</iconName>>
+    }
   <</shortcut>>
 
   <<#image>>
     btnImage { background-image:t='<<image>>' }
   <</image>>
+
+  <<#img>>
+    img { background-image:t='<<img>>' }
+  <</img>>
 
   additionalIconsDiv {
     input-transparent:t='yes'

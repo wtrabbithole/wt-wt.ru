@@ -168,7 +168,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local delay = ::getTblValue("timeToAskShowRoomsListSec", ::configs.GUI.get().eventRoomsList,
                     SHOW_RLIST_ASK_DELAY_DEFAULT)
-    if (::queues.getQueueActiveTime(queueToShow) < delay)
+    if (queueToShow.getActiveTime() < delay)
       return
 
     local maxCount = ::getTblValue("askBeforeOpenCount", ::configs.GUI.get().eventRoomsList,

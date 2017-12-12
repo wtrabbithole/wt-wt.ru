@@ -360,6 +360,9 @@ function g_string::hexStringToInt(hexString)
 //Return defValue when incorrect prefix
 function g_string::cutPrefix(id, prefix, defValue = null)
 {
+  if (!id)
+    return defValue
+
   local pLen = prefix.len()
   if ((id.len() > pLen) && (id.slice(0, pLen) == prefix))
     return id.slice(pLen)

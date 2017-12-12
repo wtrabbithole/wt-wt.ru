@@ -188,7 +188,8 @@
             "varSetRandomInt": {
               "var": "ft_generate_t1_cur_idx",
               "from": 1,
-              "to_not_including": 6
+              "to_not_including": 6,
+              "var_to_not_including": "ft_max_airfield_idx_to_generate"
             }
           },
           {
@@ -492,6 +493,10 @@
           }
         ],
         "else_actions": {
+          "varSetBool": {
+            "value": false,
+            "var": "ft_generate_t1_distance_check_fail"
+          },
           "comment": {
             "value": "индекс вышел за пределы диапазона. "
           },
@@ -665,7 +670,8 @@
             "check_objects": "any",
             "check_targets": "any",
             "object": "@ft_distance_check_t1_airfield_name",
-            "target": "@ft_generate_t1_target_name"
+            "target": "@ft_generate_t1_target_name",
+            "compareCenters": false
           }
         },
         "actions": [
@@ -687,36 +693,6 @@
           {
             "triggerEnable": {
               "target": "ft_generate_t1_distance_rotator"
-            }
-          },
-          {
-            "systemLog": {
-              "value": "========================================",
-              "logtype": "log"
-            }
-          },
-          {
-            "systemLog": {
-              "value": "@ft_distance_check_t1_airfield_name",
-              "logtype": "log"
-            }
-          },
-          {
-            "systemLog": {
-              "value": "====",
-              "logtype": "log"
-            }
-          },
-          {
-            "systemLog": {
-              "value": "@ft_generate_t1_target_name",
-              "logtype": "log"
-            }
-          },
-          {
-            "systemLog": {
-              "value": "========================================",
-              "logtype": "log"
             }
           }
         ],
@@ -1295,7 +1271,8 @@
             "varSetRandomInt": {
               "var": "ft_generate_t2_cur_idx",
               "from": 1,
-              "to_not_including": 6
+              "to_not_including": 6,
+              "var_to_not_including": "ft_max_airfield_idx_to_generate"
             }
           },
           {
@@ -1599,6 +1576,10 @@
           }
         ],
         "else_actions": {
+          "varSetBool": {
+            "value": false,
+            "var": "ft_generate_t2_distance_check_fail"
+          },
           "comment": {
             "value": "индекс вне диапазона или равен текущему. можно прекращать проверку"
           },
@@ -1772,7 +1753,8 @@
             "check_objects": "any",
             "check_targets": "any",
             "object": "@ft_distance_check_t2_airfield_name",
-            "target": "@ft_generate_t2_target_name"
+            "target": "@ft_generate_t2_target_name",
+            "compareCenters": false
           }
         },
         "actions": [
@@ -1818,7 +1800,7 @@
           {
             "varSetBool": {
               "value": true,
-              "var": "ft_generate_t1_distance_check_fail"
+              "var": "ft_generate_t2_distance_check_fail"
             }
           },
           {
@@ -1839,6 +1821,30 @@
           {
             "triggerEnable": {
               "target": "ft_generate_t2_airfield_rotator"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": "first field",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": "@ft_distance_check_t2_airfield_name",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": "second field",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": "@ft_generate_t2_target_name",
+              "logtype": "screen_and_log"
             }
           }
         ]
@@ -2290,12 +2296,12 @@
           },
           {
             "comment": {
-              "value": "36000 для истории"
+              "value": "39600 для истории"
             }
           },
           {
             "varSetReal": {
-              "value": 36000.0,
+              "value": 39600.0,
               "var": "ft_airfield_max_hp"
             }
           },
@@ -2361,12 +2367,12 @@
           },
           {
             "comment": {
-              "value": "54000 для истории"
+              "value": "59400 для истории"
             }
           },
           {
             "varSetReal": {
-              "value": 54000.0,
+              "value": 59400.0,
               "var": "ft_airfield_max_hp"
             }
           },
@@ -2432,12 +2438,12 @@
           },
           {
             "comment": {
-              "value": "90000 для истории"
+              "value": "99000 для истории"
             }
           },
           {
             "varSetReal": {
-              "value": 90000.0,
+              "value": 99000.0,
               "var": "ft_airfield_max_hp"
             }
           },
@@ -2503,12 +2509,12 @@
           },
           {
             "comment": {
-              "value": "168000 для истории"
+              "value": "184800 для истории"
             }
           },
           {
             "varSetReal": {
-              "value": 168000.0,
+              "value": 184800.0,
               "var": "ft_airfield_max_hp"
             }
           },
@@ -2565,12 +2571,12 @@
           },
           {
             "comment": {
-              "value": "168000 для истории"
+              "value": "184800 для истории"
             }
           },
           {
             "varSetReal": {
-              "value": 168000.0,
+              "value": 184800.0,
               "var": "ft_airfield_max_hp"
             }
           },
@@ -3191,7 +3197,7 @@
             "value": "квеста на обнаружение аэродрома не было. выдаем награду за обнаружение"
           },
           "triggerEnable": {
-            "target": "t2_minor_task_completed"
+            "target": "t2_detection_task_completed"
           }
         }
       },
@@ -3261,7 +3267,7 @@
         ],
         "else_actions": {
           "triggerEnable": {
-            "target": "t1_minor_task_completed"
+            "target": "t1_detection_task_completed"
           }
         }
       }
@@ -3803,7 +3809,7 @@
           },
           {
             "triggerEnable": {
-              "target": "t2_task_completed"
+              "target": "t2_moderate_task_completed"
             }
           },
           {
@@ -4352,7 +4358,7 @@
           },
           {
             "triggerEnable": {
-              "target": "t1_task_completed"
+              "target": "t1_moderate_task_completed"
             }
           },
           {
@@ -6305,6 +6311,37 @@
           },
           {
             "comment": {
+              "value": ""
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ft_t2_airfield_",
+              "var": "ft_t1_bombers_field_zone"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ft_t1_bombers_field_idx",
+              "digits": 2,
+              "var": "ft_t1_bombers_field_zone"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_bomb_zone",
+              "digits": 2,
+              "var": "ft_t1_bombers_field_zone"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ft_t1_bombers_field_zone",
+              "var": "ft_t1_bombers_field_zone"
+            }
+          },
+          {
+            "comment": {
               "value": "говорим что поиск закончился. дальше дело шаблона бомберов"
             }
           },
@@ -6558,6 +6595,37 @@
           },
           {
             "comment": {
+              "value": ""
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ft_t1_airfield_",
+              "var": "ft_t2_bombers_field_zone"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ft_t2_bombers_field_idx",
+              "digits": 2,
+              "var": "ft_t2_bombers_field_zone"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_bomb_zone",
+              "digits": 2,
+              "var": "ft_t2_bombers_field_zone"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ft_t2_bombers_field_zone",
+              "var": "ft_t2_bombers_field_zone"
+            }
+          },
+          {
+            "comment": {
               "value": "говорим что поиск закончился. дальше дело шаблона бомберов"
             }
           },
@@ -6755,7 +6823,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -6763,16 +6831,28 @@
             "time": 1.0
           }
         },
-        "conditions": {
-          "unitWhenInArea": {
-            "math": "2D",
-            "object_type": "isActive",
-            "object_marking": 0,
-            "check_objects": "any",
-            "object": "@ft_capture_t1_airfield_target_name",
-            "target": "@ft_capture_t1_frontline_name"
+        "conditions": [
+          {
+            "unitWhenInArea": {
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "check_objects": "any",
+              "object": "@ft_capture_t1_airfield_target_name",
+              "target": "@ft_capture_t1_frontline_name"
+            }
+          },
+          {
+            "unitWhenInArea": {
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "check_objects": "any",
+              "object": "@ft_capture_t1_airfield_target_name",
+              "target": "@ft_capture_t1_prev_frontline_name"
+            }
           }
-        },
+        ],
         "actions": [
           {
             "comment": {
@@ -6996,7 +7076,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -7004,16 +7084,28 @@
             "time": 1.0
           }
         },
-        "conditions": {
-          "unitWhenInArea": {
-            "math": "2D",
-            "object_type": "isActive",
-            "object_marking": 0,
-            "check_objects": "any",
-            "object": "@ft_capture_t2_airfield_target_name",
-            "target": "@ft_capture_t2_frontline_name"
+        "conditions": [
+          {
+            "unitWhenInArea": {
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "check_objects": "any",
+              "object": "@ft_capture_t2_airfield_target_name",
+              "target": "@ft_capture_t2_frontline_name"
+            }
+          },
+          {
+            "unitWhenInArea": {
+              "math": "2D",
+              "object_type": "isActive",
+              "object_marking": 0,
+              "check_objects": "any",
+              "object": "@ft_capture_t2_airfield_target_name",
+              "target": "@ft_capture_t2_prev_frontline_name"
+            }
           }
-        },
+        ],
         "actions": [
           {
             "comment": {
@@ -7114,16 +7206,16 @@
               "object": "ft_t2_small_aaa_squad"
             },
             {
-              "accuracy": 0.7
+              "accuracy": 0.8
             },
             {
               "checkVisibilityTarget": true
             },
             {
-              "effShootingRate": 0.6
+              "effShootingRate": 0.8
             },
             {
-              "airEffShootingRate": 0.6
+              "airEffShootingRate": 0.8
             },
             {
               "fireRandom": true
@@ -7148,16 +7240,16 @@
               "object": "ft_t2_big_aaa_squad"
             },
             {
-              "accuracy": 0.3
+              "accuracy": 0.8
             },
             {
               "checkVisibilityTarget": true
             },
             {
-              "effShootingRate": 0.6
+              "effShootingRate": 0.8
             },
             {
-              "airEffShootingRate": 0.6
+              "airEffShootingRate": 0.8
             },
             {
               "fireRandom": true
@@ -7677,6 +7769,14 @@
             }
           },
           {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "@st_t1_generate_name",
+              "realisticAI": false,
+              "stabInfluenceEnabled": true
+            }
+          },
+          {
             "unitMoveTo": {
               "object_marking": 0,
               "target": "@st_t1_generate_target_name",
@@ -7697,9 +7797,15 @@
             "unitAttackTarget": {
               "playerAttracted": false,
               "object": "@st_t1_generate_name",
-              "target": "t2_players_squad",
+              "target": "t1_enemy_planes_squad",
+              "fireRandom": true,
+              "targetTypeName": "airplane",
+              "targetDistMax": 5000.0,
+              "attackAltRange": [100.0,5000.0],
               "anchorTarget": "@st_t1_generate_target_name",
-              "targetToAnchorDist": [4500.0,5000.0]
+              "targetToAnchorDist": [4000.0,5000.0],
+              "maxNumAttackersPerTarget": 1,
+              "resetObjectToFollow": false
             }
           },
           {
@@ -8097,6 +8203,14 @@
             }
           },
           {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "@st_t2_generate_name",
+              "realisticAI": false,
+              "stabInfluenceEnabled": true
+            }
+          },
+          {
             "unitMoveTo": {
               "object_marking": 0,
               "target": "@st_t2_generate_target_name",
@@ -8117,9 +8231,15 @@
             "unitAttackTarget": {
               "playerAttracted": false,
               "object": "@st_t2_generate_name",
-              "target": "t1_players_squad",
+              "target": "t2_enemy_planes_squad",
+              "fireRandom": true,
+              "targetTypeName": "airplane",
+              "targetDistMax": 5000.0,
+              "attackAltRange": [100.0,5000.0],
               "anchorTarget": "@st_t2_generate_target_name",
-              "targetToAnchorDist": [4500.0,5000.0]
+              "targetToAnchorDist": [4000.0,5000.0],
+              "maxNumAttackersPerTarget": 1,
+              "resetObjectToFollow": false
             }
           },
           {
@@ -8286,6 +8406,447 @@
           }
         },
         "else_actions": []
+      }
+    },
+    "enemy_players_on_field": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ft_land_enemy_init": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetInt": [
+            {
+              "value": 0
+            },
+            {
+              "var": "ft_land_enemy_t1_airfield_idx"
+            },
+            {
+              "var": "ft_land_enemy_t2_airfield_idx"
+            }
+          ],
+          "wait": {
+            "time": 120.0
+          },
+          "comment": {
+            "value": "запускаем проверку через 2 минуты после начала сессии"
+          },
+          "triggerEnable": [
+            {
+              "target": "ft_land_enemy_t1_rotator"
+            },
+            {
+              "target": "ft_land_enemy_t2_rotator"
+            }
+          ]
+        },
+        "else_actions": []
+      },
+      "ft_land_enemy_t1_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 7.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ft_land_enemy_t1_airfield_idx",
+            "value": 0,
+            "comparasion_func": "less",
+            "var_value_other": "ft_max_airfields_count"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "индекс аэродрома в диапазоне. получаем имя переменной где хранится аэродром"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ft_land_enemy_t1_airfield_idx"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ft_t1_airfield_",
+              "var": "ft_land_enemy_t1_airfield_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ft_land_enemy_t1_airfield_idx",
+              "digits": 2,
+              "var": "ft_land_enemy_t1_airfield_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ft_land_enemy_t1_airfield_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем настоящее имя аэродрома"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ft_land_enemy_t1_airfield_name",
+              "var": "ft_land_enemy_t1_airfield_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем статус аэродрома"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ft_land_enemy_t1_check_exist"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "индекс аэродрома вне диапазона. нужен рестарт ротатора"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t1_restart"
+          }
+        }
+      },
+      "ft_land_enemy_t1_restart": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetInt": {
+            "value": 0,
+            "var": "ft_land_enemy_t1_airfield_idx"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t1_rotator"
+          }
+        },
+        "else_actions": []
+      },
+      "ft_land_enemy_t1_check_exist": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "objectExists": {
+            "target": "@ft_land_enemy_t1_airfield_name",
+            "type": "objectGroup"
+          },
+          "objGroupWhenStatus": {
+            "obj_status": "isActive",
+            "army": 0,
+            "target": "@ft_land_enemy_t1_airfield_name"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "аэродром есть и активен"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t1_check_landing"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "аэродрома нет или он не активен. запускаем ротатор"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t1_rotator"
+          }
+        }
+      },
+      "ft_land_enemy_t1_check_landing": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenOnLZ": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "check_objects": "any",
+            "afterRepaired": false,
+            "object": "t2_players_squad",
+            "target": "@ft_land_enemy_t1_airfield_name"
+          }
+        },
+        "actions": {
+          "unitDamage": {
+            "power": 1.0,
+            "useEffect": false,
+            "countEffects": 1,
+            "delay": [1.0,1.0],
+            "offset": [0.0,0.0,0.0],
+            "radiusOffset": [10.0,15.0],
+            "target": "t2_players_squad",
+            "partName": "body",
+            "doExplosion": true,
+            "useForTriggerFiltered": true
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t1_rotator"
+          }
+        },
+        "else_actions": {
+          "triggerEnable": {
+            "target": "ft_land_enemy_t1_rotator"
+          }
+        }
+      },
+      "ft_land_enemy_t2_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 7.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ft_land_enemy_t2_airfield_idx",
+            "value": 0,
+            "comparasion_func": "less",
+            "var_value_other": "ft_max_airfields_count"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "индекс аэродрома в диапазоне. получаем имя переменной где хранится аэродром"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ft_land_enemy_t2_airfield_idx"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ft_t2_airfield_",
+              "var": "ft_land_enemy_t2_airfield_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ft_land_enemy_t2_airfield_idx",
+              "digits": 2,
+              "var": "ft_land_enemy_t2_airfield_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ft_land_enemy_t2_airfield_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем настоящее имя аэродрома"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ft_land_enemy_t2_airfield_name",
+              "var": "ft_land_enemy_t2_airfield_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем статус аэродрома"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ft_land_enemy_t2_check_exist"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "индекс аэродрома вне диапазона. нужен рестарт ротатора"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t2_restart"
+          }
+        }
+      },
+      "ft_land_enemy_t2_restart": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetInt": {
+            "value": 0,
+            "var": "ft_land_enemy_t2_airfield_idx"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t2_rotator"
+          }
+        },
+        "else_actions": []
+      },
+      "ft_land_enemy_t2_check_exist": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "objectExists": {
+            "target": "@ft_land_enemy_t2_airfield_name",
+            "type": "objectGroup"
+          },
+          "objGroupWhenStatus": {
+            "obj_status": "isActive",
+            "army": 0,
+            "target": "@ft_land_enemy_t2_airfield_name"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "аэродром есть и активен"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t2_check_landing"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "аэродрома нет или он не активен. запускаем ротатор"
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t2_rotator"
+          }
+        }
+      },
+      "ft_land_enemy_t2_check_landing": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenOnLZ": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "check_objects": "any",
+            "afterRepaired": false,
+            "object": "t1_players_squad",
+            "target": "@ft_land_enemy_t2_airfield_name"
+          }
+        },
+        "actions": {
+          "unitDamage": {
+            "power": 1.0,
+            "useEffect": false,
+            "countEffects": 1,
+            "delay": [1.0,1.0],
+            "offset": [0.0,0.0,0.0],
+            "radiusOffset": [10.0,15.0],
+            "target": "t1_players_squad",
+            "partName": "body",
+            "doExplosion": true,
+            "useForTriggerFiltered": true
+          },
+          "triggerEnable": {
+            "target": "ft_land_enemy_t2_rotator"
+          }
+        },
+        "else_actions": {
+          "triggerEnable": {
+            "target": "ft_land_enemy_t2_rotator"
+          }
+        }
       }
     }
   },
@@ -8564,7 +9125,16 @@
     "st_t1_generate_target_name": "",
     "st_t2_generate_target_name": "",
     "st_t1_despawn_name": "",
-    "st_t2_despawn_name": ""
+    "st_t2_despawn_name": "",
+    "ft_land_enemy_t1_airfield_name": "",
+    "ft_land_enemy_t2_airfield_name": "",
+    "ft_land_enemy_t1_airfield_idx": 0,
+    "ft_land_enemy_t2_airfield_idx": 0,
+    "ft_capture_t1_prev_frontline_name": "",
+    "ft_capture_t2_prev_frontline_name": "",
+    "ft_t1_bombers_field_zone": "",
+    "ft_t2_bombers_field_zone": "",
+    "ft_max_airfield_idx_to_generate": 6
   },
   "dialogs": [],
   "airfields": [],

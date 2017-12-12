@@ -221,25 +221,6 @@ class QueueManager {
       ::update_gamercards()
   }
 
-  function getQueueActiveTime(queue)
-  {
-    if (queue.activateTime >= 0)
-      return 0.001 * (::dagor.getCurTime() - queue.activateTime)
-    return 0
-  }
-
-  function getQueueActiveTimeText(queue)
-  {
-    local waitTime = ::queues.getQueueActiveTime(queue)
-    if (waitTime > 0)
-    {
-      local minutes = time.secondsToMinutes(waitTime).tointeger()
-      local seconds = waitTime - time.minutesToSeconds(minutes).tointeger()
-      return ::format(::loc("yn1/wait_time"), minutes, seconds)
-    }
-    return ""
-  }
-
   function getQueueType(queue)
   {
     return queue.typeBit
@@ -540,28 +521,13 @@ class QueueManager {
                                   )
   }
 
-  function getQueueNameText(queue)
-  {
-    local event = ::events.getEvent(queue.name)
-    if (event == null)
-      return ""
-    return ::events.getEventNameText(event)
-  }
-
   function getQueuesInfoText()
   {
     local text = ::loc("inQueueList/header")
     foreach(queue in queuesList)
-    {
-      if (!isQueueActive(queue))
-        continue
-      local event = ::events.getEvent(queue.name)
-      if (event == null)
-        continue
-      text += "\n<color=@activeTextColor>" + getQueueNameText(queue) + "</color>"
-      text += "\n" + ::loc("options/country") + ::loc("ui/colon") + ::loc(getQueueCountry(queue))
-      text += "\n" + getQueueActiveTimeText(queue)
-    }
+      if (isQueueActive(queue))
+        text += "\n" + queue.getDescription()
+
     return text
   }
 

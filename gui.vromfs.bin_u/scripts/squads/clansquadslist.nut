@@ -8,7 +8,8 @@ local ClanSquadsList = class
 
   clanSquadsList = []
   clanId = ""
-  lastUpdateTimeMsec = -1000000
+  lastUpdateTimeMsec = - CLAN_SQUADS_LIST_TIME_OUT
+  lastRequestTimeMsec = - CLAN_SQUADS_LIST_REQUEST_TIME_OUT
   isInUpdate = false
 
 /*************************************************************************************************/
@@ -21,20 +22,27 @@ local ClanSquadsList = class
              && ::dagor.getCurTime() - lastUpdateTimeMsec < CLAN_SQUADS_LIST_REFRESH_MIN_TIME
   }
 
-  function isRequestTimeOut()
+  function canRequestByTime()
   {
-    return isInUpdate && ::dagor.getCurTime() - lastUpdateTimeMsec > CLAN_SQUADS_LIST_REQUEST_TIME_OUT
+    local checkTime = isInUpdate ? CLAN_SQUADS_LIST_REQUEST_TIME_OUT
+      : CLAN_SQUADS_LIST_REFRESH_MIN_TIME
+    return  ::dagor.getCurTime() - lastRequestTimeMsec >= checkTime
   }
 
   function canRequest()
   {
-    return !isNewest() && (!isInUpdate || isRequestTimeOut())
+    return !isNewest() && canRequestByTime()
+  }
+
+  function isListValid()
+  {
+    return ((clanId == ::clan_get_my_clan_id())
+      && (::dagor.getCurTime() - lastUpdateTimeMsec < CLAN_SQUADS_LIST_TIME_OUT))
   }
 
   function validateList()
   {
-    if ((clanId != ::clan_get_my_clan_id())
-         || (::dagor.getCurTime() - lastUpdateTimeMsec >= CLAN_SQUADS_LIST_TIME_OUT))
+    if (!isListValid())
       clanSquadsList.clear()
   }
 
@@ -52,7 +60,7 @@ local ClanSquadsList = class
       return false
 
     isInUpdate = true
-    lastUpdateTimeMsec = ::dagor.getCurTime()
+    lastRequestTimeMsec = ::dagor.getCurTime()
 
     local requestClanId = ::clan_get_my_clan_id()
     local cb = ::Callback(@(resp) requestListCb(resp, requestClanId), this)
@@ -80,14 +88,15 @@ local ClanSquadsList = class
   function requestListCb(p, requestClanId)
   {
     isInUpdate = false
-    lastUpdateTimeMsec = ::dagor.getCurTime()
     clanId = requestClanId
 
     local squads = ::checkMatchingError(p, false) ? (p?.squads) : null
     if (!squads)
       return
 
+    lastUpdateTimeMsec = ::dagor.getCurTime()
     updateClanSquadsList(squads)
+    ::broadcastEvent("ClanSquadsListChanged", { clanSquadsList = clanSquadsList })
   }
 
   function updateClanSquadsList(squads) //can be called each update

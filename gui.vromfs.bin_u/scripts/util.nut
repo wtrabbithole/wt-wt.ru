@@ -1,6 +1,8 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalty = require("penalty")
 local penalties = require("scripts/penitentiary/penalties.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
 ::allowingMultCountry <- [1.5, 2, 2.5, 3, 4, 5]
@@ -731,94 +733,6 @@ function is_game_mode_with_spendable_weapons()
   return mode == ::GM_DOMINATION || mode == ::GM_TOURNAMENT;
 }
 
-class ::secondsUpdater //for info which require update each second
-{
-  timer = 0.0
-  updateFunc = null
-  params = null
-  nestObj = null
-  timerObj = null
-  destroyTimerObjOnFinish = false
-
-  static function getUpdaterByNestObj(nestObj)
-  {
-    local userData = nestObj.getUserData()
-    if (::u.isInstance(userData) && userData instanceof ::secondsUpdater)
-      return userData
-
-    local timerObj = nestObj.findObject(getTimerObjIdByNestObj(nestObj))
-    if (timerObj == null)
-      return null
-
-    userData = timerObj.getUserData()
-    if (::u.isInstance(userData) && userData instanceof ::secondsUpdater)
-      return userData
-
-    return null
-  }
-
-  function constructor(_nestObj, _updateFunc, useNestAsTimerObj = true, _params = {})
-  {
-    if (!_updateFunc)
-      return ::dagor.assertf(false, "Error: no updateFunc in seconds updater.")
-
-    nestObj    = _nestObj
-    updateFunc = _updateFunc
-    params     = _params
-
-    local lastUpdaterByNestObject = getUpdaterByNestObj(_nestObj)
-    if (lastUpdaterByNestObject != null)
-      lastUpdaterByNestObject.remove()
-
-    if (updateFunc(nestObj, params))
-      return
-
-    timerObj = useNestAsTimerObj ? nestObj : createTimerObj(nestObj)
-    if (!timerObj)
-      return
-
-    destroyTimerObjOnFinish = !useNestAsTimerObj
-    timerObj.timer_handler_func = "onUpdate"
-    timerObj.timer_interval_msec = "1000"
-    timerObj.setUserData(this)
-  }
-
-  function createTimerObj(nestObj)
-  {
-    local blkText = "dummy {id:t = '" + getTimerObjIdByNestObj(nestObj) + "' behavior:t = 'Timer' }"
-    nestObj.getScene().appendWithBlk(nestObj, blkText, null)
-    local index = nestObj.childrenCount() - 1
-    local resObj = index >= 0 ? nestObj.getChild(index) : null
-    if (resObj && resObj.tag == "dummy")
-      return resObj
-    return null
-  }
-
-  function onUpdate(obj, dt)
-  {
-    if (updateFunc(nestObj, params))
-      remove()
-  }
-
-  function remove()
-  {
-    ::remove_seconds_updater(timerObj)
-    if (destroyTimerObjOnFinish && ::checkObj(timerObj))
-      timerObj.getScene().destroyElement(timerObj)
-  }
-
-  function getTimerObjIdByNestObj(nestObj)
-  {
-    return "seconds_updater_" + nestObj.id
-  }
-}
-
-function remove_seconds_updater(obj)
-{
-  if (::checkObj(obj))
-    obj.setUserData(null)
-}
-
 function getTextByModes(textFunc, separator = " / ")
 {
   local text = ""
@@ -834,7 +748,7 @@ function setCrewUnlockTime(obj, air)
   if(!::checkObj(obj))
     return
 
-  ::secondsUpdater(obj, (@(air) function(obj, params) {
+  SecondsUpdater(obj, (@(air) function(obj, params) {
     ::g_crews_list.refresh()
     local crew = air && ::getCrewByAir(air)
     local lockTime = ::getTblValue("lockedTillSec", crew, 0)
@@ -2930,7 +2844,7 @@ function build_mplayer_name(player, colored = true, withClanTag = true, withUnit
     return ""
 
   local clanTag = withClanTag ? player.clanTag : ""
-  local name = ::g_string.implode([clanTag, player.name], " ")
+  local nameArray = [clanTag, platformModule.getPlayerName(player.name)]
 
   if (withUnit)
   {
@@ -2941,9 +2855,10 @@ function build_mplayer_name(player, colored = true, withClanTag = true, withUnit
         unitNameLoc = ::loc(unitId + "_1")
     }
     if (unitNameLoc != "")
-      name += ::loc("ui/parentheses/space", {text = unitNameLoc})
+      nameArray.append(::loc("ui/parentheses", {text = unitNameLoc}))
   }
 
+  local name = ::g_string.implode(nameArray, " ")
   return colored ? ::colorize(::get_mplayer_color(player), name) : name
 }
 

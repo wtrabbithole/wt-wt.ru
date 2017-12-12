@@ -146,6 +146,7 @@ foreach (fn in [
                  "externalServices/worldWarTopMenuSectionsConfigs.nut"
                  "externalServices/wwQueue.nut"
                  "externalServices/inviteWwOperation.nut"
+                 "externalServices/inviteWwOperationBattle.nut"
                  "bhvWorldWarMap.nut"
                  "model/wwUnitType.nut"
                  "inOperation/wwOperations.nut"
@@ -202,6 +203,7 @@ foreach (fn in [
                  "handler/wwBattleDescription.nut"
                  "handler/wwAirfieldFlyOut.nut"
                  "handler/wwObjectivesInfo.nut"
+                 "handler/wwMyClanSquadInviteModal.nut"
                  "worldWarRender.nut"
                  "worldWarBattleJoinProcess.nut"
                ])
@@ -278,7 +280,7 @@ function g_world_war::openOperationsOrQueues()
   ::handlersManager.loadHandler(::gui_handlers.WwOperationsMapsHandler)
 }
 
-function g_world_war::joinOperationById(operationId, country = null, isSilence = false)
+function g_world_war::joinOperationById(operationId, country = null, isSilence = false, onSuccess = null)
 {
   local operation = ::g_ww_global_status.getOperationById(operationId)
   if (!operation)
@@ -293,10 +295,10 @@ function g_world_war::joinOperationById(operationId, country = null, isSilence =
   if (::u.isEmpty(country))
     country = operation.getMyAssignCountry() || ::get_profile_info().country
 
-  operation.join(country, null, isSilence)
+  operation.join(country, null, isSilence, onSuccess)
 }
 
-function g_world_war::onJoinOperationSuccess(operationId, country, isSilence)
+function g_world_war::onJoinOperationSuccess(operationId, country, isSilence, onSuccess)
 {
   local operation = ::g_ww_global_status.getOperationById(operationId)
   local sideSelectSuccess = false
@@ -322,6 +324,9 @@ function g_world_war::onJoinOperationSuccess(operationId, country, isSilence)
 
   // To force an extra ui update when operation is fully loaded, and lastPlayedOperationId changed.
   ::ww_event("LoadOperation")
+
+  if (onSuccess)
+    onSuccess()
 }
 
 function g_world_war::openJoinOperationByIdWnd()
@@ -519,6 +524,21 @@ function g_world_war::getRearZones()
     updateRearZones()
 
   return rearZones
+}
+
+function g_world_war::getRearZonesBySide(side)
+{
+  return getRearZones()?[::ww_side_val_to_name(side)] ?? []
+}
+
+function g_world_war::getRearZonesOwnedToSide(side)
+{
+  return getRearZonesBySide(side).filter(@(idx, zone) ::ww_get_zone_side_by_name(zone) == side)
+}
+
+function g_world_war::getRearZonesLostBySide(side)
+{
+  return getRearZonesBySide(side).filter(@(idx, zone) ::ww_get_zone_side_by_name(zone) != side)
 }
 
 function g_world_war::getSelectedArmies()
@@ -1243,6 +1263,24 @@ function g_world_war::addOperationInvite(operationId, clanName, isStarted, invit
         isStarted = isStarted,
         inviteTime = inviteTime }
     )
+}
+
+function g_world_war::addSquadInviteToWWBattle(params)
+{
+  local squadronId = params?.squadronId
+  local operationId = params?.battle?.operationId
+  local battleId = params?.battle?.battleId
+  if (!squadronId || !operationId || !battleId)
+    return
+
+  if (squadronId != ::clan_get_my_clan_id() || !::g_squad_manager.isSquadLeader())
+    return
+
+  ::g_invites.addInvite(::g_invites_classes.WwOperationBattle, {
+    operationId = operationId,
+    battleId = battleId
+  })
+  ::g_invites.rescheduleInvitesTask()
 }
 
 function g_world_war::getSaveOperationLogId()

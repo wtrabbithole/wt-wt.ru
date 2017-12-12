@@ -1312,9 +1312,6 @@
         "role": "tank_gunner"
       },
       {
-        "role": "loader"
-      },
-      {
         "substitute": "commander"
       },
       {
@@ -1335,11 +1332,20 @@
         "substitute": "machine_gunner"
       }
     ],
-    "commander": {
-      "dmPart": "commander_dm",
-      "role": "commander",
-      "substitute": "machine_gunner"
-    },
+    "commander": [
+      {
+        "dmPart": "commander_dm"
+      },
+      {
+        "role": "commander"
+      },
+      {
+        "role": "loader"
+      },
+      {
+        "substitute": "machine_gunner"
+      }
+    ],
     "machine_gunner": {
       "dmPart": "machine_gunner_dm",
       "role": "radio_gunner"

@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 
@@ -465,7 +466,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     local serverMessageTimerObject = scene.findObject("server_message_timer")
     if (::checkObj(serverMessageTimerObject))
     {
-      ::secondsUpdater(serverMessageTimerObject, (@(scene) function (obj, params) {
+      SecondsUpdater(serverMessageTimerObject, (@(scene) function (obj, params) {
         return !::server_message_update_scene(scene)
       })(scene))
     }

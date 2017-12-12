@@ -1,3 +1,5 @@
+local squadApplications = require("scripts/squads/squadApplications.nut")
+
 foreach (notificationName, callback in
           {
             ["msquad.notify_invite"] = function(params)
@@ -56,6 +58,11 @@ foreach (notificationName, callback in
                 {
                   ::g_squad_manager.addMember(userId.tostring())
                   ::g_squad_manager.joinSquadChatRoom()
+                  return
+                }
+                if (userId == ::my_user_id_str && !::g_squad_manager.isInSquad())
+                {
+                  ::g_squad_manager.requestSquadData()
                 }
               },
 
@@ -108,6 +115,50 @@ foreach (notificationName, callback in
                 local userId = ::getTblValue("userId", params, "").tostring()
                 if (userId != ::my_user_id_str && ::g_squad_manager.isInSquad())
                   ::g_squad_manager.setMemberOnlineStatus(userId, false)
+              },
+
+            ["msquad.notify_application"] = function(params)
+              {
+                local replaces = params?.replaces
+                local squad = params?.squad
+                local applicant = params?.applicant
+                local leader = params?.leader
+
+                if (applicant == null || applicant.id == ::my_user_id_int64)
+                {
+                  if (replaces)
+                    squadApplications.deleteApplication(replaces)
+                  squadApplications.addApplication(squad.id, leader.id)
+                }
+                else
+                  ::g_squad_manager.addApplication(applicant.id)
+              },
+
+            ["msquad.notify_application_denied"] = function(params)
+              {
+                local applicant = params?.applicant
+                local squad = params?.squad
+
+                if (applicant == null || applicant.id == ::my_user_id_int64)
+                  squadApplications.onDeniedApplication(squad.id, true)
+                else
+                  ::g_squad_manager.removeApplication(applicant.id)
+              },
+
+            ["msquad.notify_application_revoked"] = function(params)
+              {
+                local applicant = params?.applicant
+                local squad = params?.squad
+
+                if (!::g_squad_manager.isInSquad())
+                  return
+                ::g_squad_manager.removeApplication(applicant.id)
+              },
+
+            ["msquad.notify_request_action"] = function(params)
+              {
+                if (params?.action == "join_ww_battle" && ::is_worldwar_enabled())
+                  ::g_world_war.addSquadInviteToWWBattle(params)
               }
           }
         )

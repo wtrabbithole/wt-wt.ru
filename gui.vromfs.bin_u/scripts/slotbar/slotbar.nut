@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 /*
@@ -524,7 +525,7 @@ function fill_unit_item_timers(holderObj, unit, params = {})
   if (!rentedUnit || !rentedUnit.isRented())
     return
 
-  ::secondsUpdater(holderObj, (@(rentedUnit) function(obj, params) {
+  SecondsUpdater(holderObj, (@(rentedUnit) function(obj, params) {
     local isActive = false
 
     // Unit rent time
@@ -1391,7 +1392,7 @@ function checkSlotbarUpdater(slotbarObj, handler, country)
 
   local timerObj = slotbarObj.findObject("slotbar_timer")
   if (timerObj)
-    ::secondsUpdater(timerObj, (@(handler, country, brokenCount) function(obj, params) {
+    SecondsUpdater(timerObj, (@(handler, country, brokenCount) function(obj, params) {
       if (brokenCount!=::getBrokenSlotsCount(country))
       {
         if (handler)
@@ -1907,7 +1908,7 @@ function get_slotbar_countries(cleared = false)
 
 function addAirButtonsTimer(listObj, needTimerList, air, handler)
 {
-  ::secondsUpdater(listObj, (@(needTimerList, air, handler) function(obj, params) {
+  SecondsUpdater(listObj, (@(needTimerList, air, handler) function(obj, params) {
     foreach(name in needTimerList)
     {
       local btnObj = obj.findObject("slot_action_" + name)

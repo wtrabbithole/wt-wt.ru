@@ -2,13 +2,17 @@ foreach (notificationName, callback in
   {
     ["worldwar.on_join_to_battle"] = function(params)
       {
-        local operationId = ::getTblValue("operationId", params, "")
+        local operationId = params?.operationId ?? ""
+        local team = params?.team ?? ::SIDE_1
+        local country = params?.country ?? ""
         local battleIds = ::getTblValue("battleIds", params, [])
         foreach (battleId in battleIds)
         {
           local queue = ::queues.createQueue({
               operationId = operationId
               battleId = battleId
+              country = country
+              team = team
             }, true)
           ::queues.afterJoinQueue(queue)
         }

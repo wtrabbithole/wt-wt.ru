@@ -163,7 +163,7 @@ class WwOperation
     return res
   }
 
-  function join(country, onErrorCb = null, isSilence = false)
+  function join(country, onErrorCb = null, isSilence = false, onSuccess = null)
   {
     local cantJoinReason = getCantJoinReasonData(country)
     if (!cantJoinReason.canJoin)
@@ -174,18 +174,20 @@ class WwOperation
     }
 
     ::g_world_war.stopWar()
-    return _join(country, onErrorCb, isSilence)
+    return _join(country, onErrorCb, isSilence, onSuccess)
   }
 
-  function _join(country, onErrorCb, isSilence)
+  function _join(country, onErrorCb, isSilence, onSuccess)
   {
     local taskId = ::ww_start_war(id)
-    local cb = (@(country, id, isSilence) function() { ::g_world_war.onJoinOperationSuccess(id, country, isSilence) })(country, id, isSilence)
-    local errorCb = (@(onErrorCb) function(res) {
-                      ::g_world_war.stopWar()
-                      if (onErrorCb)
-                        onErrorCb(res)
-                    })(onErrorCb)
+    local cb = ::Callback(function() {
+        ::g_world_war.onJoinOperationSuccess(id, country, isSilence, onSuccess)
+      }, this)
+    local errorCb = function(res) {
+        ::g_world_war.stopWar()
+        if (onErrorCb)
+          onErrorCb(res)
+      }
     ::g_tasker.addTask(taskId, { showProgressBox = true }, cb, errorCb)
     return taskId >= 0
   }

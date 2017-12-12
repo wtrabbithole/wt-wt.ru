@@ -21,14 +21,11 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   artilleryEnabledCheckCooldown = 0.0
 
   mapSizeMeters = -1
-  minDispersionRadiusMeters = 15
-  maxDispersionRadiusMeters = 60
-  pointerSizeToRadiusScale = 3.2
+  invalidTargetDispersionRadiusMeters = 60
 
   mapPos  = [0, 0]
   mapSize = [0, 0]
   objTarget = null
-  pointerRadiusToHalfsizePx = 0
   invalidTargetDispersionRadius = 0
   prevShadeRangePos = [-1, -1]
 
@@ -60,8 +57,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
         local objTargetCenter = scene.findObject("super_artillery_target_center")
         objTargetCenter["background-image"] = iconSuperArtilleryTarget
       }
-      local targetHalfsizePxMin = round(mapSize[0] * minDispersionRadiusMeters.tofloat() / mapSizeMeters * pointerSizeToRadiusScale)
-      pointerRadiusToHalfsizePx = isSuperArtillery ? 0.0 : (targetHalfsizePxMin - targetHalfsizePxMin / pointerSizeToRadiusScale)
     }
 
     watchAxis = ::joystickInterface.getAxisWatch(false, true)
@@ -134,11 +129,11 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     objTarget.show(show)
     if (show)
     {
-      local halfSize = round(mapSize[0] * dispersionRadius + pointerRadiusToHalfsizePx)
-      local posX = 1.0 * mapSize[0] * mapCoords[0] - halfSize
-      local posY = 1.0 * mapSize[1] * mapCoords[1] - halfSize
-      objTarget.size = ::format("%d, %d", (halfSize * 2), (halfSize * 2))
-      objTarget.pos = ::format("%d, %d", posX, posY)
+      local sizePx = ::round(mapSize[0] * dispersionRadius) * 2
+      local posX = 1.0 * mapSize[0] * mapCoords[0]
+      local posY = 1.0 * mapSize[1] * mapCoords[1]
+      objTarget.size = ::format("%d, %d", sizePx, sizePx)
+      objTarget.pos = ::format("%d-w/2, %d-h/2", posX, posY)
       if (!isSuperArtillery)
         for (local i = 0; i < objTarget.childrenCount(); i++)
           objTarget.getChild(i)["background-color"] = valid ? "#20F020" : "#FF4B38"
@@ -173,7 +168,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       return
     prevShadeRangePos = rangePos
 
-    invalidTargetDispersionRadius = maxDispersionRadiusMeters.tofloat() / mapSizeMeters * diameter
+    invalidTargetDispersionRadius = invalidTargetDispersionRadiusMeters.tofloat() / mapSizeMeters * diameter
 
     local obj = scene.findObject("map_shade_center")
     if (!::checkObj(obj))
@@ -361,11 +356,15 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
 function gui_start_artillery_map(params = {})
 {
+  // Temporary fix for wop_1_73_1_X, required, while client executable has no commit 111108.
+  if (params && ::is_version_equals_or_older("1.73.1.78"))
+    params.mapSizeMeters <- ::max(1400, (params?.mapSizeMeters ?? 0))
+
   ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
   {
+    mapSizeMeters = params?.mapSizeMeters ?? 1400
     isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
     superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
-    mapSizeMeters = getTblValue("mapSizeMeters", params, 1400),
     iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
     iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
   })

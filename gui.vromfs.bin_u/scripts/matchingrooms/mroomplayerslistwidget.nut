@@ -126,6 +126,14 @@ class ::gui_handlers.MRoomPlayersListWidget extends ::gui_handlers.BaseGuiHandle
       updateTeamPlayersTbl(team, playersList)
     isTablesInUpdate = false
 
+    if (!playersInTeamTables?[focusedTeam]?.len())
+      foreach(team, list in playersInTeamTables)
+        if (list.len())
+        {
+          setFocusedTeam(team)
+          return
+        }
+
     onPlayerSelect()
   }
 
@@ -178,8 +186,13 @@ class ::gui_handlers.MRoomPlayersListWidget extends ::gui_handlers.BaseGuiHandle
     if (!newTeamObj)
       return
 
+    setFocusedTeam(newFocusedTeam)
+  }
+
+  function setFocusedTeam(newFocusedTeam)
+  {
     focusedTeam = newFocusedTeam
-    newTeamObj.select()
+    getFocusedTeamTableObj().select()
     onPlayerSelect()
   }
 

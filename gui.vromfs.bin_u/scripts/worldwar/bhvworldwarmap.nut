@@ -113,8 +113,13 @@ class ::ww_gui_bhv.worldWarMapControls
           }
         })(obj, airfieldIdx)
 
-      ::gui_handlers.WwAirfieldFlyOut.open(
-        airfieldIdx, clickPos, armyTargetName, ::Callback(checkFlewOutArmy, this))
+      local mapCell = ::ww_get_map_cell_by_coords(clickPos.x, clickPos.y)
+      if (::ww_is_cell_generally_passable(mapCell))
+        ::gui_handlers.WwAirfieldFlyOut.open(
+          airfieldIdx, clickPos, armyTargetName, ::Callback(checkFlewOutArmy, this))
+      else
+        ::g_popups.add("", ::loc("worldWar/error/cantSentAirArmy"),
+          null, null, null, "send_air_army_error")
     }
     else if (currentSelectedObject == mapObjectSelect.ARMY)
       ::g_world_war.moveSelectedArmes(clickPos.x, clickPos.y, armyTargetName, append)
@@ -396,10 +401,10 @@ class ::ww_gui_bhv.worldWarMapControls
   function checkRearZone(obj, mapPos)
   {
     local zoneName = ::ww_get_zone_name(::ww_get_zone_idx(mapPos.x, mapPos.y))
-    foreach (side, zones in ::g_world_war.getRearZones())
-      if (::isInArray(zoneName, zones))
+    foreach (side in ::g_world_war.getCommonSidesOrder())
+      if (::isInArray(zoneName, ::g_world_war.getRearZonesOwnedToSide(side)))
       {
-        sendMapEvent("RearZoneSelected", { side = side })
+        sendMapEvent("RearZoneSelected", { side = ::ww_side_val_to_name(side) })
         return true
       }
   }

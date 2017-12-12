@@ -1,62 +1,48 @@
-g_cached_files_table <- {}
+local removeImgPostfixRegexpList = [
+  regexp2("\\?P1$")
+  regexp2("\\?x1ac$")
+]
+local removeImgPrefixRegexp = regexp2("^#")
 
-function cached_is_existing_image(fn, assertText = null)
-{
-  if (is_gui_webcache_enabled()) // images always "exist" when gui webcache enabled
-    return true;
-
-  if (!(fn in g_cached_files_table))
-  {
-    g_cached_files_table[fn] <- is_existing_file(fn, false)
-    if (!g_cached_files_table[fn] && assertText)
-      ::dagor.assertf(false, ::format(assertText, fn))
-  }
-  return g_cached_files_table[fn]
-}
-
-function check_image_exist(img, assertText = null)
+local function isImagePrefetched(img)
 {
   if (img == "")
     return true
 
-  img = regexp2("\\?P1$").replace("", img)
-  img = regexp2("\\?x1ac$").replace("", img)
+  foreach(rg in removeImgPostfixRegexpList)
+    img = rg.replace("", img)
 
   if (regexp2("^#[^\\s]+#[^\\s]").match(img)) //skin
+    return true //small skin icons not require to prefetch. But if so, need to correct check dynamic skins
+
+  img = removeImgPrefixRegexp.replace("", img)
+
+  local res = true
+  if (!::web_vromfs_is_file_prefetched(img))
   {
-    local skinName = regexp2("^#|#[^\\s]+").replace("", img)
-    return ::cached_is_existing_image(skinName + ".ta.bin", assertText)
+    res = false
+    ::web_vromfs_prefetch_file(img)
   }
-
-  img = regexp2("^#").replace("", img)
-  if (regexp2("[^\\s].jpg$").match(img))
-    return ::cached_is_existing_image(img, assertText)
-
-  return ::cached_is_existing_image(img + ".ddsx", assertText)
+  return res
 }
 
-function check_blk_images(blk, assertText = null)
+local function isAllBlkImagesPrefetched(blk)
 {
+  local res = true
   foreach(tag in ["background-image", "foreground-image"])
     foreach(img in (blk % tag))
       if (typeof(img) == "string")
-        if (!::check_image_exist(img, assertText))
-          return false
+        if (!isImagePrefetched(img))
+          res = false
 
   local totalBlocks = blk.blockCount()
   for(local i = 0; i < totalBlocks; i++)
-    if (!::check_blk_images(blk.getBlock(i), assertText))
-      return false
-  return true
+    if (!isAllBlkImagesPrefetched(blk.getBlock(i)))
+      res = false
+
+  return res
 }
 
-function check_blk_images_by_file(fileName)
-{
-  local blk = ::DataBlock()
-  if (!blk.load(fileName))
-  {
-    ::dagor.assertf(false, "Error: cant load loading bg: " + fileName)
-    return false
-  }
-  return ::check_blk_images(blk, "Error: cant load image %s for " + fileName)
+return {
+  isAllBlkImagesPrefetched = isAllBlkImagesPrefetched
 }

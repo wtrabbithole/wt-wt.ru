@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 function gui_modal_ban(playerInfo, chatLog)
 {
   ::gui_start_modal_wnd(::gui_handlers.BanHandler, { player = playerInfo, chatLog = chatLog })
@@ -55,7 +57,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
     local clanTag = ::getTblValue("clanTag", player, "")
     local targetObj = scene.findObject("complain_target")
     if (::checkObj(targetObj))
-      targetObj.setValue((clanTag.len() > 0? (clanTag + " ") : "") + playerName)
+      targetObj.setValue((clanTag.len() > 0? (clanTag + " ") : "") + platformModule.getPlayerName(playerName))
 
     local options = [
       ::USEROPT_COMPLAINT_CATEGORY,
@@ -95,7 +97,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function notFoundPlayerMsg()
   {
-    msgBox("incorrect_user", ::loc("chat/error/item-not-found", { nick = playerName }),
+    msgBox("incorrect_user", ::loc("chat/error/item-not-found", { nick = platformModule.getPlayerName(playerName) }),
         [
           ["ok", function() { goBack() } ]
         ], "ok")
@@ -188,7 +190,7 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     chatLog = location + "\n" + chatLog
 
-    local pName = pInfo.name
+    local pName = platformModule.getPlayerName(pInfo.name)
     local clanTag
     if("clanData" in pInfo)
     {

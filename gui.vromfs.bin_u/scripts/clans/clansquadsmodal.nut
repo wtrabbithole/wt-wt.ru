@@ -1,11 +1,60 @@
+const OFFLINE_SQUAD_TEXT_COLOR = "contactOfflineColor"
+
 local squadsListData = require("scripts/squads/clanSquadsList.nut")
+local squadApplications = require("scripts/squads/squadApplications.nut")
+::dagui_propid.add_name_id("leaderUid")
 
 class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
   sceneBlkName = "gui/clans/clanSquadsModal.blk"
   squadsListObj = null
+  dummyButtonsListObj = null
   minListItems = 5
+  onlineUsersTable = null
+
+  squadButtonsList = [
+    {
+      id = "btn_squad_info"
+      buttonClass ="image"
+      shortcut = ""
+      showOnSelect = "focus"
+      iconName = "X"
+      btnKey = "X"
+      tooltip = @() ::loc("squad/info")
+      img = "#ui/gameuiskin#btn_help.svg"
+      funcName = "onSquadInfo"
+      isHidden = false
+      isDisabled = false
+    },
+    {
+      id = "btn_application"
+      buttonClass ="image"
+      shortcut = ""
+      showOnSelect = "focus"
+      iconName = "A"
+      btnKey = "A"
+      tooltip = @() ::loc("squad/membership_request")
+      img = "#ui/gameuiskin#btn_invite.svg"
+      funcName = "onApplication"
+      isHidden = true
+      isDisabled = true
+    },
+    {
+      id = "btn_revoke_application"
+      buttonClass ="image"
+      shortcut = ""
+      showOnSelect = "focus"
+      iconName = "A"
+      btnKey = "A"
+      isColoredImg = "yes"
+      tooltip = @() ::loc("squad/revoke_membership_request")
+      img = "#ui/gameuiskin#icon_primary_fail"
+      funcName = "onRevokeApplication"
+      isHidden = true
+      isDisabled = true
+    }
+  ]
 
   curList = null
   selectedSquad = null
@@ -19,25 +68,52 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function initScreen()
   {
     squadsListObj = scene.findObject("clan_squads_list")
+    dummyButtonsListObj = scene.findObject("clan_squads_modal")
     if (!::checkObj(squadsListObj))
       return goBack()
     curList = []
     selectedSquad = null
-    local view = { squad = array(minListItems, null) }
+    onlineUsersTable = {}
+    local view = { squad = array(minListItems, {buttonsList = createSquadButtons()}) }
     local blk = ::handyman.renderCached(("gui/clans/clanSquadsList"), view)
     guiScene.appendWithBlk(squadsListObj, blk, this)
-    scene.findObject("squad_list_update").setUserData(this)
-    refreshList()
 
-    squadsListObj.setValue(0)
+    blk = createDummyButtons()
+    guiScene.appendWithBlk(dummyButtonsListObj, blk, this)
+
+    scene.findObject("squad_list_update").setUserData(this)
+
+    refreshOnlineUsersTable()
+    refreshList()
+    updateSquadsListInfo(curList.len())
     initFocusArray()
     restoreFocus()
   }
 
+  function createSquadButtons()
+  {
+    local markUp = ""
+    foreach (buttonView in squadButtonsList)
+      markUp += ::handyman.renderCached("gui/commonParts/button", buttonView)
+    return markUp
+  }
+
+  function createDummyButtons()
+  {
+    local markUp = ""
+    foreach (buttonView in squadButtonsList)
+      markUp += ::handyman.renderCached("gui/commonParts/dummyButton", buttonView)
+    return markUp
+  }
+
   function refreshList()
   {
-    local newList = clone squadsListData.getList()
+    squadsListData.requestList()
+  }
 
+  function updateSquadsList()
+  {
+    local newList = clone squadsListData.getList()
     local total = ::max(newList.len(), curList.len())
     local isSelected = false
     for(local i = 0; i < total; i++)
@@ -45,25 +121,36 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       updateSquadInfo(i, curList?[i], newList?[i])
       if (!isSelected && ::u.isEqual(selectedSquad, newList?[i]) && (selectedIndex != -1))
         {
-          squadsListObj.setValue(i)
+          if (selectedIndex != i)
+          {
+            squadsListObj.setValue(i)
+            selectedIndex = i
+          }
+          selectedSquad = newList?[i]
           isSelected = true
         }
     }
-    if (!isSelected && curList.len()>0)
+    curList = newList
+    if (!isSelected && newList.len()>0)
     {
-      selectedIndex = clamp(selectedIndex, 0, curList.len() - 1)
-      selectedSquad = curList[selectedIndex]
+      selectedIndex = clamp(selectedIndex, 0, newList.len() - 1)
+      selectedSquad = newList[selectedIndex]
       squadsListObj.setValue(selectedIndex)
     }
-    curList = newList
-
+    else
+      if (newList.len() <= 0)
+      {
+        selectedSquad = null
+        selectedIndex = -1
+        gui_bhv.posNavigator.clearSelect(squadsListObj)
+      }
+    updateSquadDummyButtons()
     updateSquadsListInfo(curList.len())
   }
 
   function updateSquadInfo(idx, curSquad, newSquad)
   {
-    if (curSquad == newSquad
-      || (::u.isEqual(curSquad, newSquad)))
+    if (curSquad == newSquad || (::u.isEqual(curSquad, newSquad)))
       return
 
     local obj = getSquadObj(idx)
@@ -74,7 +161,49 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       return null
     obj.findObject("leader_name").setValue(getLeaderName(newSquad))
     obj.findObject("num_members").setValue(getNumMembers(newSquad))
-    obj.findObject("presence").setValue(getPresence(newSquad))
+    obj.findObject("btn_user_options").leaderUid = newSquad?.leader
+    obj.findObject("btn_squad_info").leaderUid = newSquad?.leader
+    obj.findObject("application_disabled").show(
+      !(newSquad?.data?.properties?.isApplicationsEnaled ?? true))
+    fillPresence(obj, newSquad)
+    local buttonsContainerObj = obj.findObject("buttons_container")
+    buttonsContainerObj.leaderUid = newSquad?.leader
+
+    updateSquadButtons(buttonsContainerObj, newSquad)
+  }
+
+  function fillPresence(obj, squad)
+  {
+    obj.findObject("presence").setValue(!isSquadOnline(squad)
+      ? ::colorize(OFFLINE_SQUAD_TEXT_COLOR, ::loc("matching/SQUAD_LEADER_OFFLINE"))
+      : getPresence(squad))
+  }
+
+  function updateSquadButtons(obj, squad)
+  {
+    ::showBtn("btn_application", canApplicationMembership(squad), obj)
+    ::showBtn("btn_revoke_application", canRevokeApplication(squad), obj)
+  }
+
+  function updateSquadDummyButtons()
+  {
+    if (!selectedSquad)
+      return
+    ::showBtn("btn_application", canApplicationMembership(selectedSquad), dummyButtonsListObj)
+    ::showBtn("btn_revoke_application", canRevokeApplication(selectedSquad), dummyButtonsListObj)
+  }
+
+  function canApplicationMembership(squad)
+  {
+    return !squadApplications.hasApplication(squad.leader)
+      && !isMySquad(squad)
+      && (squad?.data?.properties?.isApplicationsEnaled ?? true)
+  }
+
+  function canRevokeApplication(squad)
+  {
+    return squadApplications.hasApplication(squad.leader)
+      && !::g_squad_manager.isInSquad()
   }
 
   function getSquadObj(idx)
@@ -85,9 +214,18 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     return squadsListObj.getChild(idx-1).getClone()
   }
 
+  function isMySquad(squad)
+  {
+    if (!::g_squad_manager.isInSquad())
+      return false
+
+    return ::isInArray(::my_user_id_int64, squad?.members ?? [])
+  }
+
   function getLeaderName(squad)
   {
-    return ::getContact(squad?.leader.tostring())?.name ?? ""
+    local contact = ::getContact(squad?.leader.tostring())
+    return contact? contact.getName() : ""
   }
 
   function getNumMembers(squad)
@@ -104,16 +242,17 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
 
   function onUpdate(obj, dt)
   {
-    doWhenActiveOnce("refreshList")
+    refreshList()
   }
 
   function updateSquadsListInfo(visibleSquadsAmount)
   {
     local needWaitIcon = !visibleSquadsAmount && squadsListData.isInUpdate
+      && !squadsListData.isListValid()
     scene.findObject("items_list_wait_icon").show(needWaitIcon)
 
     local infoText = ""
-    if (!visibleSquadsAmount && !needWaitIcon)
+    if (!visibleSquadsAmount && squadsListData.isListValid())
       infoText = ::loc("clan/no_squads_in_clan")
 
     scene.findObject("items_list_msg").setValue(infoText)
@@ -147,10 +286,157 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
 
     selectedIndex = index
     selectedSquad = curList[index]
+    updateSquadDummyButtons()
+  }
+
+  function onLeaderClick(obj)
+  {
+    local actionSquad = getSquadByObj(obj)
+    if (!actionSquad)
+      return
+
+    obj = getSquadObj(curList.find(actionSquad)).findObject("btn_user_options")
+    local position = obj.getPosRC()
+    position[1] += obj.getSize()[1]
+    local leaderUid = actionSquad?.leader.tostring()
+    local contact = leaderUid && ::getContact(leaderUid)
+    local leaderName = contact? contact.getName(): ""
+    ::g_chat.showPlayerRClickMenu(leaderName, null, contact, position)
+  }
+
+  function getFocusedSquad()
+  {
+    if (!squadsListObj.isFocused())
+      return
+
+    return selectedSquad
+  }
+
+  function getSquadByObj(obj)
+  {
+    if (!obj)
+      return
+
+    local leaderUidStr = obj.leaderUid || obj.getParent().leaderUid
+    if (!leaderUidStr)
+      return getFocusedSquad()
+
+    local leaderUid = ::to_integer_safe(leaderUidStr)
+    foreach (squad in curList)
+      if (squad?.leader && squad?.leader == leaderUid)
+        return squad
+  }
+
+  function onApplication(obj)
+  {
+    local actionSquad = getSquadByObj(obj)
+    if (!actionSquad)
+      return
+
+    local leaderUid = actionSquad?.leader
+    ::g_squad_manager.membershipAplication(leaderUid)
+  }
+
+  function onRevokeApplication(obj)
+  {
+    local actionSquad = getSquadByObj(obj)
+    if (!actionSquad)
+      return
+
+    local leaderUid = actionSquad?.leader
+    ::g_squad_manager.revokeMembershipAplication(leaderUid)
+  }
+
+  function onSquadInfo(obj)
+  {
+    local actionSquad = getSquadByObj(obj)
+    if (!actionSquad)
+      return
+
+    obj = getSquadObj(curList.find(actionSquad)).findObject("btn_squad_info")
+    ::gui_handlers.clanSquadInfoWnd.open(obj, actionSquad)
   }
 
   function getMainFocusObj()
   {
     return squadsListObj
+  }
+
+  function onEventPlayerApplicationsChanged(params)
+  {
+    if (!curList.len())
+      return
+    local leadersUid = params.leadersArr
+    local leader = null
+    local obj = null
+    for (local i = 0; i < curList.len(); i++)
+    {
+      leader = curList[i].leader
+      if (::isInArray(leader, leadersUid))
+      {
+        obj = getSquadObj(i)
+        updateSquadButtons(obj, curList[i])
+      }
+    }
+    updateSquadDummyButtons()
+  }
+
+  function onEventClanSquadsListChanged(params)
+  {
+    updateSquadsList()
+  }
+
+  function onEventClanRoomMembersChanged(params = {})
+  {
+    refreshUserOnlineData(params)
+  }
+
+  function updateSquadOnlineStatus(contact)
+  {
+    local contactUid = contact.uid.tointeger()
+    local idx = ::u.searchIndex(curList, @(squad)
+      squad.leader == contactUid)
+    if (idx < 0)
+      return
+
+    local obj = getSquadObj(idx)
+    local squad = curList[idx]
+    fillPresence(obj, squad)
+    updateSquadButtons(obj, squad)
+  }
+
+  function refreshOnlineUsersTable()
+  {
+    local roomId = ::g_chat_room_type.CLAN.roomPrefix + ::clan_get_my_clan_id()
+    local room = ::g_chat.getRoomById(roomId)
+    if (!room || !("users" in room))
+      return
+
+    foreach (user in room.users)
+    {
+      local contact = ::findContactByNick(user.name)
+      if (contact)
+        onlineUsersTable[contact.uid.tointeger()] <- true
+    }
+  }
+
+  function refreshUserOnlineData(params)
+  {
+    if (!("nick" in params) || !("presence" in params))
+      return
+
+    local contact = ::findContactByNick(params.nick)
+    if (!contact)
+      return
+
+    local uid = contact.uid.tointeger()
+    onlineUsersTable[uid] <- params.presence != ::g_contact_presence.OFFLINE
+
+    updateSquadOnlineStatus(contact)
+  }
+
+  function isSquadOnline(squad)
+  {
+    return onlineUsersTable?[squad.leader] ?? false
   }
 }

@@ -2,6 +2,8 @@
 
 loading_bg
 {
+  reserveBg:t='login_layer_c1' //layer loaded behind current to be visible while current images not full loaded
+
   //full layers list
   login_layer_a1:r = 2.0
   login_layer_b1:r = 2.0
@@ -55,15 +57,22 @@ loading_bg
 */
 
 local time = require("scripts/time.nut")
+local fileCheck = require("scripts/clientState/fileCheck.nut")
+
+local createBgData = @() {
+  list = {}
+  reserveBg = ""
+}
 
 ::g_anim_bg <- {
-  bgList = {}
-  bgListBeforeLogin = {}
+  bgDataBeforeLogin = createBgData()
+  bgDataAfterLogin = createBgData()
   lastBg = ""
   inited = false
 
-  defaultValueKey = "default_chance"
-  beforeLoginBlockKey = "beforeLogin"
+  RESERVE_BG_KEY = "reserveBg"
+  DEFAULT_VALUE_KEY = "default_chance"
+  BLOCK_BEFORE_LOGIN_KEY = "beforeLogin"
 
   debugLastModified = null
 }
@@ -74,10 +83,14 @@ function g_anim_bg::load(animBgBlk = "", obj = null)
 
   if (!obj)
     obj = ::get_cur_gui_scene()["animated_bg_picture"]
-  if (!::checkObj(obj) || !bgList.len())
+  if (!::check_obj(obj))
     return
 
-  local curBgList = getCurBgList()
+  local curBgData = getCurBgData()
+  local curBgList = curBgData.list
+  if (!curBgList.len())
+    return
+
   if (animBgBlk!="")
     lastBg = animBgBlk
   else
@@ -96,35 +109,58 @@ function g_anim_bg::load(animBgBlk = "", obj = null)
       }
     }
 
-  local animBgFile = getLastBgFileName()
-  if (!::check_blk_images_by_file(animBgFile))
+  local bgBlk = loadBgBlk(lastBg)
+  if (!bgBlk)
   {
-    removeFromBgLists(lastBg)
     lastBg = ""
     load("", obj)
     return
   }
 
-  obj.getScene().replaceContent(obj, animBgFile, this)
+  if (!fileCheck.isAllBlkImagesPrefetched(bgBlk)
+    && curBgData.reserveBg.len())
+    bgBlk = loadBgBlk(curBgData.reserveBg) || bgBlk
+
+  obj.getScene().replaceContentFromDataBlock(obj, bgBlk, this)
   debugLastModified = null
+}
+
+function g_anim_bg::getFullFileName(name)
+{
+  return "config/loadingbg/" + name + ".blk"
+}
+
+function g_anim_bg::loadBgBlk(name)
+{
+  local res = ::DataBlock()
+  if (!res.load(getFullFileName(name)))
+  {
+    res = null
+    removeFromBgLists(name)
+    ::dagor.assertf(false, "Error: cant load login bg blk: " + getFullFileName(name))
+  }
+  return res
 }
 
 function g_anim_bg::getLastBgFileName()
 {
-  return lastBg.len() ? "config/loadingbg/" + lastBg + ".blk" : ""
+  return lastBg.len() ? getFullFileName(lastBg) : ""
 }
 
-function g_anim_bg::getCurBgList()
+function g_anim_bg::getCurBgData()
 {
-  return !::g_login.isLoggedIn() ? bgListBeforeLogin : bgList
+  return !::g_login.isLoggedIn() ? bgDataBeforeLogin : bgDataAfterLogin
 }
 
 function g_anim_bg::removeFromBgLists(name)
 {
-  if (name in bgList)
-    delete bgList[name]
-  if (name in bgListBeforeLogin)
-    delete bgListBeforeLogin[name]
+  foreach(data in [bgDataAfterLogin, bgDataBeforeLogin])
+  {
+    if (name in data.list)
+      delete data.list[name]
+    if (data.reserveBg == name)
+      data.reserveBg = ""
+  }
 }
 
 function g_anim_bg::reset()
@@ -138,8 +174,8 @@ function g_anim_bg::initOnce()
     return
   inited = true
 
-  bgList.clear()
-  bgListBeforeLogin.clear()
+  bgDataAfterLogin.list.clear()
+  bgDataBeforeLogin.list.clear()
 
   local blk = ::configs.GUI.get()
 
@@ -147,7 +183,7 @@ function g_anim_bg::initOnce()
   if (!bgBlk)
     return
 
-  applyBlkToAllBgLists(bgBlk)
+  applyBlkToAllBgData(bgBlk)
 
   local curLang = ::g_language.getLanguageName()
   foreach(langBlk in bgBlk % "language")
@@ -156,10 +192,10 @@ function g_anim_bg::initOnce()
 
   local presetBlk = bgBlk[::get_country_flags_preset()]
   if (::u.isDataBlock(presetBlk))
-    applyBlkToAllBgLists(presetBlk)
+    applyBlkToAllBgData(presetBlk)
 
-  validateBgList(bgList)
-  validateBgList(bgListBeforeLogin)
+  validateBgData(bgDataAfterLogin)
+  validateBgData(bgDataBeforeLogin)
 }
 
 function g_anim_bg::applyBlkByLang(langBlk, curLang)
@@ -185,35 +221,45 @@ function g_anim_bg::applyBlkByLang(langBlk, curLang)
   ::dagor.assertf(!!(langsExclude || langsInclude || platformInclude || platformExclude),
     "AnimBG: Found block without language or platform permissions. it always override defaults.")
 
-  applyBlkToAllBgLists(langBlk)
+  applyBlkToAllBgData(langBlk)
 }
 
-function g_anim_bg::applyBlkToAllBgLists(blk)
+function g_anim_bg::applyBlkToAllBgData(blk)
 {
-  applyBlkToBgList(bgList, blk)
-  applyBlkToBgList(bgListBeforeLogin, blk)
-  local beforeLoginBlk = blk[beforeLoginBlockKey]
+  applyBlkToBgData(bgDataAfterLogin, blk)
+  applyBlkToBgData(bgDataBeforeLogin, blk)
+  local beforeLoginBlk = blk[BLOCK_BEFORE_LOGIN_KEY]
   if (::u.isDataBlock(beforeLoginBlk))
-    applyBlkToBgList(bgListBeforeLogin, beforeLoginBlk)
+    applyBlkToBgData(bgDataBeforeLogin, beforeLoginBlk)
 }
 
-function g_anim_bg::applyBlkToBgList(list, blk)
+function g_anim_bg::applyBlkToBgData(bgData, blk)
 {
-  local defValue = blk[defaultValueKey]
+  local list = bgData.list
+
+  local defValue = blk[DEFAULT_VALUE_KEY]
   if (defValue != null)
     foreach(key, value in list)
       list[key] = defValue
 
+  if (::u.isString(blk[RESERVE_BG_KEY]))
+    bgData.reserveBg = blk[RESERVE_BG_KEY]
+
   for (local i = 0; i < blk.paramCount(); i++)
-    list[blk.getParamName(i)] <- blk.getParamValue(i)
+  {
+    local value = blk.getParamValue(i)
+    if (::is_numeric(value))
+      list[blk.getParamName(i)] <- value
+  }
 
   //to not check name for each added param
-  if (defaultValueKey in list)
-    delete list[defaultValueKey]
+  if (DEFAULT_VALUE_KEY in list)
+    delete list[DEFAULT_VALUE_KEY]
 }
 
-function g_anim_bg::validateBgList(list)
+function g_anim_bg::validateBgData(bgData)
 {
+  local list = bgData.list
   local keys = ::u.keys(list)
   foreach(key in keys)
   {

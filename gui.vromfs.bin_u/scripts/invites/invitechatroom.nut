@@ -44,7 +44,7 @@ class ::g_invites_classes.ChatRoom extends ::BaseInvite
 
     local clickNameText = roomType.getInviteClickNameText(roomId)
     return ::loc(roomType.inviteLocIdFull,
-                 { player = format(nameF, getChatInviterLink(), inviterName),
+                 { player = format(nameF, getChatInviterLink(), getInviterName()),
                    channel = format(nameF, getChatLink(), clickNameText) })
   }
 
@@ -60,7 +60,7 @@ class ::g_invites_classes.ChatRoom extends ::BaseInvite
   {
     return ::loc(roomType.inviteLocIdFull,
                  {
-                   player = inviterName
+                   player = getInviterName()
                    channel = roomType.getRoomName(roomId)
                  })
   }

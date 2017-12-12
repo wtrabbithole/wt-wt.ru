@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -1337,9 +1340,107 @@
           "active": true
         }
       }
+    },
+    {
+      "area_squad": {
+        "name": "t2_killarea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3333.86,7.10303,435.537]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_killarea_hardcore_block01"
+          },
+          {
+            "squad_members": "t2_killarea_hardcore_block02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_killarea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2488.35,20.8228,1152.45]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_killarea_block02"
+          },
+          {
+            "squad_members": "t2_killarea_block01"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_killarea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [953.336,39.7563,2317.14]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_killarea_block02"
+          },
+          {
+            "squad_members": "t1_killarea_block01"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_killarea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [597.991,139.9,3158.91]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_killarea_hardcore_block01"
+          },
+          {
+            "squad_members": "t1_killarea_hardcore_block02"
+          }
+        ]
+      }
     }
   ],
   "areas": {
+    "conq_battle_area_arcade": {
+      "type": "Box",
+      "tm": [
+        [-1774.36,0.0,0.0],
+        [0.0,206.21,0.0],
+        [0.0,0.0,-1774.36],
+        [2311.0,30.9,2300.0]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "conq_battle_area_hardcore": {
+      "type": "Box",
+      "tm": [
+        [-3204.49,0.0,0.0],
+        [0.0,206.21,0.0],
+        [0.0,0.0,-3204.49],
+        [2193.2,55.15,2252.3]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
     "teamB_spawn_01_01": {
       "type": "Sphere",
       "tm": [
@@ -3659,6 +3760,94 @@
       "objLayer": 0,
       "props": []
     },
+    "t2_killarea_hardcore_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,126.131,0.0],
+        [0.0,0.0,150.0],
+        [1905.1,8.65,999.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_hardcore_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,126.131,0.0],
+        [0.0,0.0,150.0],
+        [3666.46,8.67285,858.433]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_hardcore_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,80.7091,0.0],
+        [0.0,0.0,150.0],
+        [785.53,61.3156,3687.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_hardcore_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,80.7091,0.0],
+        [0.0,0.0,150.0],
+        [1031.6,60.05,1948.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,80.7091,0.0],
+        [0.0,0.0,150.0],
+        [1718.71,61.316,2833.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,80.7091,0.0],
+        [0.0,0.0,150.0],
+        [2166.0,61.3,2769.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,80.7091,0.0],
+        [0.0,0.0,150.0],
+        [2822.44,61.3162,1768.03]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,80.7091,0.0],
+        [0.0,0.0,150.0],
+        [2815.93,61.3157,2251.56]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
     "briefing_conq_capture_area_hardcore": {
       "type": "Point",
       "tm": [
@@ -3724,6 +3913,50 @@
       ],
       "objLayer": 0,
       "props": []
+    },
+    "briefing_t1_spawn_01_hardcore": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [806.977,61.6096,3663.06]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t1_spawn_02_hardcore": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [993.488,29.021,2033.19]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_spawn_01_hardcore": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1909.58,13.9321,944.355]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_spawn_02_hardcore": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [3720.32,19.3289,837.337]
+      ],
+      "objLayer": 0,
+      "props": []
     }
   },
   "objLayers": [
@@ -3744,7 +3977,7 @@
     },
     {
       "layer": {
-        "enabled": true
+        "enabled": false
       }
     }
   ],

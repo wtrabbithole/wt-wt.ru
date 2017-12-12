@@ -1,5 +1,3 @@
-::modClassOrderAir <- ["lth", "armor", "weapon"]
-::modClassOrderTank <- ["mobility", "protection", "firepower"]
 ::header_len_per_cell <- 17
 ::tooltip_display_delay <- 2
 ::max_spare_amount <- 100
@@ -1610,10 +1608,9 @@ function modsTreeGenerator::findPathToMod(branch, modName)
 
 function modsTreeGenerator::mustBeInModTree(mod)
 {
-  if (::isInArray(mod.modClass, ::modClassOrderAir) ||
-      ::isInArray(mod.modClass, ::modClassOrderTank)
-     )
-    return true
+  foreach(unitType in ::g_unit_type.types)
+    if (unitType.modClassOrder.find(mod.modClass) != null)
+      return true
   return false
 }
 
@@ -1663,8 +1660,7 @@ function modsTreeGenerator::generateTree(genAir)
   if (!("modifications" in air))
     return tree
 
-  local modClassOrder = ::isTank(genAir)? ::modClassOrderTank : ::modClassOrderAir
-  foreach(ctg in modClassOrder)
+  foreach(ctg in genAir.unitType.modClassOrder)
     tree.append([ctg])
 
   local notInTreeMods = []

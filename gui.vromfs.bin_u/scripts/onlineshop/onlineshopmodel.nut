@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -398,7 +399,7 @@ function OnlineShopModel::startEntitlementsUpdater()
   if (!handler)
     return
 
-  entitlemetsUpdaterWeak = ::secondsUpdater(
+  entitlemetsUpdaterWeak = SecondsUpdater(
     handler.scene,
     function(obj, params)
     {

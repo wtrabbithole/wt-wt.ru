@@ -34,8 +34,20 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   static function open(battle)
   {
     if (battle.isValid())
-      if (!battle.isStillInOperation() || battle.isAutoBattle())
+    {
+      if (!battle.isStillInOperation())
+      {
         battle = ::WwBattle()
+        ::g_popups.add("", ::loc("worldwar/battle_finished"),
+          null, null, null, "battle_finished")
+      }
+      else if (battle.isAutoBattle())
+      {
+        battle = ::WwBattle()
+        ::g_popups.add("", ::loc("worldwar/battleIsInAutoMode"),
+          null, null, null, "battle_in_auto_mode")
+      }
+    }
 
     ::handlersManager.loadHandler(::gui_handlers.WwBattleDescription, {battle = battle})
   }
@@ -386,7 +398,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!currentBattleQueue)
       return
 
-    local currentWaitingTime = ::queues.getQueueActiveTime(currentBattleQueue).tointeger()
+    local currentWaitingTime = currentBattleQueue.getActiveTime().tointeger()
     scene.findObject("ww_queue_waiting_time").setValue(time.secondsToString(currentWaitingTime, false))
 
     updateBattlesStatusInList()
@@ -557,7 +569,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenSquadsListModal(obj)
   {
-    ::gui_handlers.MyClanSquadsListModal.open()
+    ::gui_handlers.WwMyClanSquadInviteModal.open(
+      ::ww_get_operation_id(), battle.id, ::get_profile_info().country)
   }
 
   function onEventClusterChange(params)

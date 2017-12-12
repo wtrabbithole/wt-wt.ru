@@ -223,6 +223,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
       listObj.setValue(selIdx)
     }
+    else if (selIdx < 0)
+      onItemSelect(listObj)
 
     local filterObj = scene.findObject("filter_edit_box")
     if (::checkObj(filterObj))
@@ -886,11 +888,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local typeName = obj.getChild(value).id
-    local newMisListType = ::g_mislist_type.getTypeByName(typeName)
-    if (newMisListType == misListType)
-      return
-
-    misListType = newMisListType
+    misListType = ::g_mislist_type.getTypeByName(typeName)
     ::saveLocalByAccount("wnd/chosenMisListType", misListType.id)
     updateFavorites()
     updateWindow()

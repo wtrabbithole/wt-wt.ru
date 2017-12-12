@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local platformModule = require("scripts/clientState/platform.nut")
 
 class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -32,7 +32,7 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local headerTextObj = scene.findObject("clan_activity_header_text")
-    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"), curPlayerName))
+    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"), platformModule.getPlayerName(curPlayerName)))
 
     local history = memberData.activityHistory
 

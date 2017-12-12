@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 
@@ -132,7 +133,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
     local timerObj = getObject("event_time")
     if (timerObj != null)
     {
-        ::secondsUpdater(timerObj, ::Callback(function(obj, params)
+        SecondsUpdater(timerObj, ::Callback(function(obj, params)
         {
           local text = getDescriptionTimeText()
           obj.setValue(text)

@@ -140,8 +140,8 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "get_race_winners_count", value = ::getTblValue("numberOfWinningPlaces", ::debriefing_result, 0) }
     { id = "get_race_best_lap_time", value = ::getTblValueByPath("exp.ptmBestLap", ::debriefing_result, -1) }
     { id = "get_race_lap_times", value = ::getTblValueByPath("exp.ptmLapTimesArray", ::debriefing_result, []) }
-    { id = "get_local_team_for_mpstats", value = ::getTblValue("localTeam", ::debriefing_result, 1) }
-    { id = "get_player_army_for_hud", value = ::getTblValue("localTeam", ::debriefing_result, 1) }
+    { id = "get_mp_local_team", value = ::debriefing_result?.localTeam ?? ::get_mp_local_team() }
+    { id = "get_player_army_for_hud", value = ::debriefing_result?.friendlyTeam ?? ::get_player_army_for_hud() }
     { id = "_fake_sessionlobby_settings", value = ::SessionLobby.settings }
     "LAST_SESSION_DEBUG_INFO"
     "get_mission_mode"

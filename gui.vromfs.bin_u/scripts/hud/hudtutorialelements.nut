@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 ::g_hud_tutorial_elements <- {
@@ -222,7 +223,7 @@ function g_hud_tutorial_elements::onEventLoadingStateChange(params)
 
 function g_hud_tutorial_elements::addDebugTimer()
 {
-  ::secondsUpdater(scene,
+  SecondsUpdater(scene,
                    function(...)
                    {
                      return ::g_hud_tutorial_elements.onDbgUpdate()

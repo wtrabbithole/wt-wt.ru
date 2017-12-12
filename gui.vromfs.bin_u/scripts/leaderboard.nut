@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::leaderboards_list <- [
   ::g_lb_category.VICTORIES_BATTLES
@@ -791,7 +792,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       {
         id = "name"
         tdAlign = "left"
-        text = "name" in row ? ::g_string.stripTags(row.name) : ""
+        text = platformModule.getPlayerName(row?.name ?? "")
       }
     ]
     foreach(lbCategory in lb_presets)

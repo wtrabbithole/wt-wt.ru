@@ -375,7 +375,8 @@ function gather_debriefing_result()
     ::debriefing_result.exp.result <- ::STATS_RESULT_FAIL
 
   ::debriefing_result.country <- ::get_local_player_country()
-  ::debriefing_result.localTeam <- ::get_local_team_for_mpstats()
+  ::debriefing_result.localTeam <- ::get_mp_local_team()
+  ::debriefing_result.friendlyTeam <- ::get_player_army_for_hud()
   ::debriefing_result.haveTeamkills <- debriefing_result_have_teamkills()
   ::debriefing_result.activeBoosters <- ::get_debriefing_result_active_boosters()
   ::debriefing_result.activeWager <- ::get_debriefing_result_active_wager()

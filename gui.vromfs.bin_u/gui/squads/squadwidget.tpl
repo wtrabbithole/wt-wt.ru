@@ -148,6 +148,14 @@ Button_text {
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
   }
+  img {
+    id:t='iconGlow'
+    background-image:t='#ui/gameuiskin#mail_new_glow'
+    style:t='background-color:@textureGlowColor; size:110%ph, 110%ph'
+    _transp-timer:t='0'
+    display:t='hide'
+  }
+
 }
 
 Button_text {

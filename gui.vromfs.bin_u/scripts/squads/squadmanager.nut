@@ -1,3 +1,5 @@
+local squadApplications = require("scripts/squads/squadApplications.nut")
+
 enum squadEvent
 {
   DATA_UPDATED = "SquadDataUpdated"
@@ -5,7 +7,10 @@ enum squadEvent
   STATUS_CHANGED = "SquadStatusChanged"
   PLAYER_INVITED = "SquadPlayerInvited"
   INVITES_CHANGED = "SquadInvitesChanged"
+  APPLICATIONS_CHANGED = "SquadApplicationsChanged"
   SIZE_CHANGED = "SquadSizeChanged"
+  NEW_APPLICATIONS = "SquadHasNewApplications"
+  PROPERTIES_CHANGED = "SquadPropertiesChanged"
 }
 
 enum squadStatusUpdateState {
@@ -26,7 +31,10 @@ const DEFAULT_SQUADS_VERSION = 1
 const SQUADS_VERSION = 2
 const SQUAD_REQEST_TIMEOUT = 45000
 
-local DEFAULT_SQUAD_PROPERTIES = { maxMembers = 4 }
+local DEFAULT_SQUAD_PROPERTIES = {
+  maxMembers = 4
+  isApplicationsEnaled = true
+}
 local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
 g_squad_manager <- {
@@ -45,6 +53,7 @@ g_squad_manager <- {
     id = ""
     members = {}
     invitedPlayers = {}
+    applications = {}
     chatInfo = {
       name = ""
       password = ""
@@ -62,6 +71,7 @@ g_squad_manager <- {
   isMyCrewsReady = false
   lastUpdateStatus = squadStatusUpdateState.NONE
   roomCreateInProgress = false
+  hasNewApplication = false
 }
 
 function g_squad_manager::setState(newState)
@@ -168,6 +178,11 @@ function g_squad_manager::getMembers()
 function g_squad_manager::getInvitedPlayers()
 {
   return squadData.invitedPlayers
+}
+
+function g_squad_manager::getApplicationsToSquad()
+{
+  return squadData.applications
 }
 
 function g_squad_manager::getLeaderNick()
@@ -286,8 +301,10 @@ function g_squad_manager::getSquadSize(includeInvites = false)
 
   local res = squadData.members.len()
   if (includeInvites)
+  {
     res += getInvitedPlayers().len()
-
+    res += getApplicationsToSquad().len()
+  }
   return res
 }
 
@@ -342,6 +359,26 @@ function g_squad_manager::initSquadSizes()
 function g_squad_manager::isInvitedMaxPlayers()
 {
   return isSquadFull() || getInvitedPlayers().len() >= maxInvitesCount
+}
+
+function g_squad_manager::isApplicationsEnaled()
+{
+  return squadData.properties.isApplicationsEnaled
+}
+
+function g_squad_manager::enableApplications(shouldEnable)
+{
+  if (shouldEnable == isApplicationsEnaled())
+    return
+
+  squadData.properties.isApplicationsEnaled = shouldEnable
+
+  updateSquadData()
+}
+
+function g_squad_manager::canChangeReceiveApplications(shouldCheckLeader = true)
+{
+  return ::has_feature("ClanSquads") && (!shouldCheckLeader || isSquadLeader())
 }
 
 function g_squad_manager::getPlayerStatusInMySquad(uid)
@@ -569,6 +606,8 @@ function g_squad_manager::checkForSquad()
                      if (invites != null)
                        foreach (squadId in invites)
                          ::g_invites.addInviteToSquad(squadId, squadId.tostring())
+
+                     squadApplications.updateApplicationsList(response?.applications ?? [])
                    }
 
   ::msquad.requestInfo(callback, callback, {showError = false})
@@ -657,6 +696,67 @@ function g_squad_manager::revokeSquadInvite(uid, callback = null)
   ::msquad.revokeInvite(uid, fullCallback)
 }
 
+function g_squad_manager::membershipAplication(sid)
+{
+  local callback = ::Callback(@(response) squadApplications.addApplication(sid, sid), this)
+  local cb = function()
+  {
+    ::request_matching("msquad.request_membership",
+      callback
+      null, {squadId = sid}, null)
+  }
+  local canJoin = ::g_squad_utils.canJoinFlightMsgBox(
+    { allowWhenAlone = false, msgId = "squad/leave_squad_for_application" },
+    cb)
+
+  if (canJoin)
+  {
+    cb()
+  }
+}
+
+function g_squad_manager::revokeMembershipAplication(sid)
+{
+  squadApplications.deleteApplication(sid)
+  ::request_matching("msquad.revoke_membership_request", null, null,{squadId = sid}, null)
+}
+
+function g_squad_manager::acceptMembershipAplication(uid)
+{
+  if (isInSquad() && !isSquadLeader())
+    return
+
+  if (isSquadFull())
+    return ::g_popups.add(null, ::loc("matching/SQUAD_FULL"))
+
+  local callback = ::Callback(@(response) addMember(uid.tostring()), this)
+  ::request_matching("msquad.accept_membership", callback, null,{userId = uid}, null)
+}
+
+function g_squad_manager::denyAllAplication()
+{
+  if (!isSquadLeader())
+    return
+
+  foreach (uid, memberData in getApplicationsToSquad())
+    denyMembershipAplication(uid);
+
+  squadData.applications.clear()
+  if (getSquadSize(true) == 1)
+    disbandSquad()
+  checkNewApplications()
+  ::broadcastEvent(squadEvent.APPLICATIONS_CHANGED, {})
+  ::broadcastEvent(squadEvent.DATA_UPDATED)
+}
+
+function g_squad_manager::denyMembershipAplication(uid, callback = null)
+{
+  if (isInSquad() && !isSquadLeader())
+    return
+
+  ::request_matching("msquad.deny_membership", callback, null,{userId = uid}, null)
+}
+
 function g_squad_manager::dismissFromSquad(uid)
 {
   if (!isSquadLeader())
@@ -735,7 +835,10 @@ function g_squad_manager::acceptSquadInvite(sid)
 
   setState(squadState.JOINING)
   ::msquad.acceptInvite(sid,
-    function(response) { requestSquadData() }.bindenv(this),
+    function(response)
+    {
+      requestSquadData()
+    }.bindenv(this),
     function(response)
     {
       setState(squadState.NOT_IN_SQUAD)
@@ -876,6 +979,7 @@ function g_squad_manager::reset()
 
   squadData.members.clear()
   squadData.invitedPlayers.clear()
+  squadData.applications.clear()
   squadData.chatInfo = { name = "", password = "" }
   squadData.wwOperationInfo = { id = -1, country = "", battle = null }
   squadData.properties = clone DEFAULT_SQUAD_PROPERTIES
@@ -936,11 +1040,80 @@ function g_squad_manager::removeInvitedPlayers(uid)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
 }
 
+function g_squad_manager::updateApplications(applications)
+{
+  local newApplicationsData = {}
+  foreach(uid in applications)
+  {
+    if (uid in squadData.applications)
+      newApplicationsData[uid] <- squadData.applications[uid]
+    else
+    {
+      newApplicationsData[uid] <- SquadMember(uid.tostring(), false, true)
+      hasNewApplication = true
+    }
+    ::g_users_info_manager.requestInfo([uid.tostring()])
+  }
+  if (!newApplicationsData)
+    hasNewApplication = false
+  squadData.applications = newApplicationsData
+}
+
+function g_squad_manager::addApplication(uid)
+{
+  if (uid in squadData.applications)
+    return
+
+  squadData.applications[uid] <- SquadMember(uid.tostring(), false, true)
+  ::g_users_info_manager.requestInfo([uid.tostring()])
+  checkNewApplications()
+  if (isSquadLeader())
+    ::g_popups.add(null, ::colorize("chatTextInviteColor",
+      format(::loc("squad/player_application"), squadData.applications[uid]?.name ?? "")))
+  ::broadcastEvent(squadEvent.APPLICATIONS_CHANGED, { uid = uid })
+  ::broadcastEvent(squadEvent.DATA_UPDATED)
+}
+
+function g_squad_manager::removeApplication(uid)
+{
+  if (!(uid in squadData.applications))
+    return
+
+  squadData.applications.rawdelete(uid)
+  if (getSquadSize(true) == 1)
+    ::g_squad_manager.disbandSquad()
+  checkNewApplications()
+  ::broadcastEvent(squadEvent.APPLICATIONS_CHANGED, {})
+  ::broadcastEvent(squadEvent.DATA_UPDATED)
+}
+
+function g_squad_manager::markAllApplicationsSeen()
+{
+  foreach (application in squadData.applications)
+    application.isNewApplication = false
+  checkNewApplications()
+}
+
+function g_squad_manager::checkNewApplications()
+{
+  local curHasNewApplication = hasNewApplication
+  hasNewApplication = false
+  foreach (application in squadData.applications)
+    if (application.isNewApplication == true)
+      {
+        hasNewApplication = true
+        break
+      }
+   if (curHasNewApplication != hasNewApplication)
+     ::broadcastEvent(squadEvent.NEW_APPLICATIONS)
+}
+
 function g_squad_manager::addMember(uid)
 {
   removeInvitedPlayers(uid)
   local memberData = SquadMember(uid)
   squadData.members[uid] <- memberData
+  removeApplication(uid.tointeger())
   requestMemberData(uid)
 
   ::broadcastEvent(squadEvent.STATUS_CHANGED)
@@ -995,6 +1168,8 @@ function g_squad_manager::onSquadDataChanged(data = null)
   squadData.members = newMembersData
 
   updateInvitedData(::getTblValue("invites", resSquadData, []))
+
+  updateApplications (::getTblValue("applications", resSquadData, []))
 
   cyberCafeSquadMembersNum = getSameCyberCafeMembersNum()
   _parseCustomSquadData(::getTblValue("data", resSquadData, null))
@@ -1052,9 +1227,20 @@ function g_squad_manager::_parseCustomSquadData(data)
     squadData.wwOperationInfo = { id = -1, country = "", battle = null }
 
   local properties = ::getTblValue("properties", data)
+  local property = null
+  local isPropertyChange = false
   if (::u.isTable(properties))
     foreach(key, value in properties)
+    {
+      property = squadData?.properties?[key]
+      if (::u.isEqual(property, value))
+        continue
+
       squadData.properties[key] <- value
+      isPropertyChange = true
+    }
+  if (isPropertyChange)
+    ::broadcastEvent(squadEvent.PROPERTIES_CHANGED)
   squadData.presence = data?.presence ?? clone DEFAULT_SQUAD_PRESENCE
 }
 
@@ -1169,6 +1355,19 @@ function g_squad_manager::onEventContactsUpdated(params)
 
   if (isChanged)
     ::broadcastEvent(squadEvent.INVITES_CHANGED)
+
+  isChanged = false
+  foreach (uid, memberData in getApplicationsToSquad())
+  {
+    contact = ::getContact(uid.tostring())
+    if (contact == null)
+      continue
+
+    if (memberData.update(contact))
+      isChanged = true
+  }
+  if (isChanged)
+    ::broadcastEvent(squadEvent.APPLICATIONS_CHANGED {})
 }
 
 function g_squad_manager::onEventAvatarChanged(params)

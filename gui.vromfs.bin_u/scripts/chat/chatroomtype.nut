@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 enum chatRoomCheckOrder {
   CUSTOM
   GLOBAL
@@ -87,10 +89,10 @@ enum chatRoomTabOrder {
     getRoomId    = function(playerName, ...) { return playerName }
     getRoomName  = function(roomId, isColored = false) //roomId == playerName
     {
-      local res = roomId
       local clanTag = ::getTblValue(roomId, ::clanUserTable, "")
-      if(clanTag != "")
-        res = clanTag + " " + roomId
+      local res = platformModule.getPlayerName(roomId)
+      if (clanTag != "")
+        res = clanTag + " " + res
       if (isColored)
         res = ::colorize(::g_chat.getSenderColor(roomId), res)
       return res

@@ -1870,7 +1870,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         }
         playersTblDone = playersTblDone && curPlayersTbl[t].len() == playersTbl[t].len()
       }
-      updateStats(curPlayersTbl, ::debriefing_result.mpTblTeams)
+      updateStats(curPlayersTbl, ::debriefing_result.mpTblTeams, ::debriefing_result.localTeam, ::debriefing_result.friendlyTeam)
       statsTimer += playersRowTime
 
       if (hasLocalPlayer)
