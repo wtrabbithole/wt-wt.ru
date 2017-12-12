@@ -377,15 +377,35 @@
       "conditions": [],
       "actions": [
         {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object": "ai_tanks_squad",
-            "stealthRadius": 0.0,
-            "accuracy": 0.1,
-            "effShootingRate": 0.0,
-            "speed": 20.0,
-            "lockSpeed": true
-          }
+          "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object": "t2_aaa_squad"
+            },
+            {
+              "object": "t1_aaa_squad"
+            },
+            {
+              "stealthRadius": 0.0
+            },
+            {
+              "accuracy": 0.1
+            },
+            {
+              "effShootingRate": 0.0
+            },
+            {
+              "effShootingRateByPlayer": 0.0
+            },
+            {
+              "speed": 20.0
+            },
+            {
+              "lockSpeed": true
+            }
+          ]
         },
         {
           "unitSetProperties": [
@@ -3855,6 +3875,12 @@
           },
           {
             "squad_members": "teamB_ai_tank09"
+          },
+          {
+            "squad_members": "t1_ai_tanks_squad"
+          },
+          {
+            "squad_members": "t2_ai_tanks_squad"
           }
         ]
       }

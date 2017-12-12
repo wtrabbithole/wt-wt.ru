@@ -44,4 +44,9 @@ class ::queue_classes.WwBattle extends ::queue_classes.Base
 
     return ::g_world_war.getBattleById(battleId)
   }
+
+  function getBattleName()
+  {
+    return ::loc("mainmenu/btnWorldwar")
+  }
 }

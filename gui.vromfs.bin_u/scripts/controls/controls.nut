@@ -1563,7 +1563,7 @@ function switch_helpers_mode_and_option(preset = "")
     if (::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM)
       ::set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
   }
-  else if (::is_platform_ps4 || ::is_platform_shield_tv())
+  else if (::is_ps4_or_xbox || ::is_platform_shield_tv())
     ::set_helpers_mode_and_option(globalEnv.EM_REALISTIC)
   else if (::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM)
     ::set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
@@ -1654,7 +1654,7 @@ function gui_start_controls_console()
 
 function gui_start_controls()
 {
-  if (::is_platform_ps4 || ::is_platform_shield_tv())
+  if (::is_ps4_or_xbox || ::is_platform_shield_tv())
   {
     local cdb = ::get_local_custom_settings_blk()
     if (!(ps4ControlsModeActivatedParamName in cdb) || cdb[ps4ControlsModeActivatedParamName])
@@ -1846,7 +1846,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     showSceneBtn("btn_controlsHelp", ::is_platform_pc)
     showSceneBtn("btn_exportToFile", isImportExportAllowed)
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
-    showSceneBtn("btn_switchMode", ::is_platform_ps4 || ::is_platform_shield_tv())
+    showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
     showSceneBtn("btn_controlsWizard", !isTutorial)
     showSceneBtn("btn_clearAll", !isTutorial)
   }
@@ -3300,7 +3300,7 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
     {
       local config = ::get_option(item.optionType)
       elemIdTxt = "#options/" + config.id
-      elemTxt = ::create_option_slider(item.id, config.value, "onSliderChange", true, "slider", item)
+      elemTxt = ::create_option_slider(item.id, config.value, "onSliderChange", true, "slider", config)
     }
     else
     {

@@ -386,7 +386,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!currentBattleQueue)
       return
 
-    local currentWaitingTime = ::queues.getQueueActiveTime(currentBattleQueue).tointeger()
+    local currentWaitingTime = currentBattleQueue.getActiveTime().tointeger()
     scene.findObject("ww_queue_waiting_time").setValue(time.secondsToString(currentWaitingTime, false))
 
     updateBattlesStatusInList()

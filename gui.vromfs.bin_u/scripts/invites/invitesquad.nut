@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 class ::g_invites_classes.Squad extends ::BaseInvite
 {
   //custom class params, not exist in base invite
@@ -47,7 +49,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   {
     return ::loc("multiplayer/squad/invite/desc",
                  {
-                   name = inviterName || leaderId
+                   name = getInviterName() || platformModule.getPlayerName(leaderId)
                  })
   }
 
@@ -55,7 +57,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   {
     return ::loc("multiplayer/squad/invite/desc",
                  {
-                   name = inviterName || leaderId
+                   name = getInviterName() || platformModule.getPlayerName(leaderId)
                  })
   }
 

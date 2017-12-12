@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 
@@ -628,7 +629,7 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
 
   local holderObj = taskBlockObj.findObject("task_timer_text")
   if (::checkObj(holderObj) && task)
-    ::secondsUpdater(holderObj, (@(task) function(obj, params) {
+    SecondsUpdater(holderObj, (@(task) function(obj, params) {
       local timeText = ::g_battle_tasks.getRefreshTimeTextForTask(task)
       local isTimeEnded = timeText == ""
       if (isTimeEnded)
@@ -640,7 +641,7 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
 
   local holderObj = taskBlockObj.findObject("tasks_refresh_timer")
   if (::checkObj(holderObj))
-    ::secondsUpdater(holderObj, function(obj, params) {
+    SecondsUpdater(holderObj, function(obj, params) {
       local timeText = ::g_battle_task_difficulty.EASY.getTimeLeftText()
       obj.setValue(::loc("ui/parentheses/space", {text = timeText + ::loc("icon/timer")}))
 

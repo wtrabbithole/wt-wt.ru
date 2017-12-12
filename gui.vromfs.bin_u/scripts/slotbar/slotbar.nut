@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 /*
@@ -229,7 +230,7 @@ function build_aircraft_item(id, air, params = {})
       isBroken            = isLocalState && isBroken
       shopAirImg          = ::image_for_air(air)
       isPkgDev            = air.isPkgDev
-      isRecentlyReleased      = air.isRecentlyReleased
+      isRecentlyReleased  = air.isRecentlyReleased()
       discountId          = id + "-discount"
       showDiscount        = isLocalState && !isOwn && (!::isUnitGift(air) || checkNotification)
       shopItemTextId      = id + "_txt"
@@ -324,7 +325,7 @@ function build_aircraft_item(id, air, params = {})
       special = ::isUnitSpecial(a)
       isElite = isElite && ::isUnitElite(a)
       isPkgDev = isPkgDev || a.isPkgDev
-      isRecentlyReleased = isRecentlyReleased || a.isRecentlyReleased
+      isRecentlyReleased = isRecentlyReleased || a.isRecentlyReleased()
 
       local hasTalisman = special || ::shop_is_modification_enabled(a.name, "premExpMul")
       hasTalismanIcon = hasTalismanIcon || hasTalisman
@@ -440,7 +441,7 @@ function build_aircraft_item(id, air, params = {})
       isBroken            = bitStatus & bit_unit_status.broken
       shopAirImg          = shopAirImage
       isPkgDev            = isPkgDev
-      isRecentlyReleased      = isRecentlyReleased
+      isRecentlyReleased  = isRecentlyReleased
       discountId          = id + "-discount"
       shopItemTextId      = id + "_txt"
       shopItemText        = forceUnitNameOnPlate ? "#" + nextAir.name + "_shop" : "#shop/group/" + air.name
@@ -524,7 +525,7 @@ function fill_unit_item_timers(holderObj, unit, params = {})
   if (!rentedUnit || !rentedUnit.isRented())
     return
 
-  ::secondsUpdater(holderObj, (@(rentedUnit) function(obj, params) {
+  SecondsUpdater(holderObj, (@(rentedUnit) function(obj, params) {
     local isActive = false
 
     // Unit rent time
@@ -1391,7 +1392,7 @@ function checkSlotbarUpdater(slotbarObj, handler, country)
 
   local timerObj = slotbarObj.findObject("slotbar_timer")
   if (timerObj)
-    ::secondsUpdater(timerObj, (@(handler, country, brokenCount) function(obj, params) {
+    SecondsUpdater(timerObj, (@(handler, country, brokenCount) function(obj, params) {
       if (brokenCount!=::getBrokenSlotsCount(country))
       {
         if (handler)
@@ -1907,7 +1908,7 @@ function get_slotbar_countries(cleared = false)
 
 function addAirButtonsTimer(listObj, needTimerList, air, handler)
 {
-  ::secondsUpdater(listObj, (@(needTimerList, air, handler) function(obj, params) {
+  SecondsUpdater(listObj, (@(needTimerList, air, handler) function(obj, params) {
     foreach(name in needTimerList)
     {
       local btnObj = obj.findObject("slot_action_" + name)

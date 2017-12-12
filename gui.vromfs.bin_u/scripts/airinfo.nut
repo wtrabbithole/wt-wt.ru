@@ -1,5 +1,5 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-
 
 enum bit_unit_status
 {
@@ -1540,7 +1540,7 @@ function fillAirCharProgress(progressObj, min, max, cur)
 
 function fillAirInfoTimers(holderObj, air, needShopInfo)
 {
-  ::secondsUpdater(holderObj, (@(air, needShopInfo) function(obj, params) {
+  SecondsUpdater(holderObj, (@(air, needShopInfo) function(obj, params) {
     local isActive = false
 
     // Unit repair cost
@@ -2134,7 +2134,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (air.isPkgDev)
     addInfoTextsList.append(::colorize("badTextColor", ::loc("locatedInPackage", { package = "PKG_DEV" })))
-  if (air.isRecentlyReleased)
+  if (air.isRecentlyReleased())
     addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
 
   if (isInFlight && ::g_mis_custom_state.getCurMissionRules().hasCustomUnitRespawns())

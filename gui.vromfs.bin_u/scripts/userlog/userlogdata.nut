@@ -350,7 +350,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       if (blk.body.unlockType == ::UNLOCKABLE_CHALLENGE)
       {
         local unlock = ::g_unlocks.getUnlockById(blk.body.unlockId)
-        if (unlock.showAsBattleTask)
+        if (unlock?.showAsBattleTask)
           ::broadcastEvent("PersonalUnlocksRequestUpdate")
       }
 

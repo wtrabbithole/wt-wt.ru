@@ -287,7 +287,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updatePointsText()
   {
     local isMaxLevel = ::g_crew.isCrewMaxLevel(crew, getCurCountryName(), curUnitType)
-    local curPointsText = ::get_crew_sp_text(curPoints)
+    local curPointsText = ::nbsp + ::get_crew_sp_text(curPoints)
     scene.findObject("crew_cur_points").setValue(isMaxLevel ? "" : curPointsText)
 
     local levelIncText = ""
@@ -295,7 +295,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (isMaxLevel)
     {
       levelIncText = ::loc("ui/parentheses/space", { text = ::loc("options/quality_max") })
-      levelIncTooltip += "\n" + ::loc("crew/availablePoints") + " " + curPointsText
+      levelIncTooltip += "\n" + ::loc("crew/availablePoints") + curPointsText
     }
     else if (crewLevelInc > 0.005)
       levelIncText = "+" + ::round_by_value(crewLevelInc, 0.01)

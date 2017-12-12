@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 
@@ -312,6 +313,18 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   function onEventHangarModelLoaded(p)
   {
     doWhenActiveOnce("updateSelUnitInfo")
+    updateLowQualityModelWarning()
+  }
+
+  function updateLowQualityModelWarning()
+  {
+    local lowQuality = !::is_loaded_model_high_quality()
+    local warningObj = showSceneBtn("low-quality-model-warning", lowQuality)
+    local canDownloadPackage = ::can_download_package()
+    ::showBtn("low_quality_model_download_button", canDownloadPackage, warningObj)
+
+    if (lowQuality && canDownloadPackage && isSceneActive() && ::isInMenu())
+      ::check_package_and_ask_download_once("pkg_main", "air_in_hangar")
   }
 
   function updateSelUnitInfo()
@@ -333,7 +346,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   {
     local rentInfoObj = scene.findObject("rented_unit_info_text")
     local messageTemplate = ::loc("mainmenu/unitRentTimeleft") + ::loc("ui/colon") + "%s"
-    ::secondsUpdater(rentInfoObj, function(obj, params) {
+    SecondsUpdater(rentInfoObj, function(obj, params) {
       local isVisible = !!unit && unit.isRented()
       obj.show(isVisible)
       if (isVisible)

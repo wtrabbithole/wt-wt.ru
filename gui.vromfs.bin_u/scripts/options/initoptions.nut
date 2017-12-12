@@ -30,17 +30,33 @@ function init_all_units()
     ::all_units[unit.name] <- unit
 }
 
+local function unitIsRecentlyReleased() //unit function
+{
+  if ("_isRecentlyReleased" in this)
+    return _isRecentlyReleased
+
+  local res = false
+  local releaseDate = ::get_unittags_blk()?[name]?.releaseDate
+  if (releaseDate)
+  {
+    local recentlyReleasedUnitsDays = ::configs.GUI.get().markRecentlyReleasedUnitsDays || 0
+    if (recentlyReleasedUnitsDays)
+    {
+      local releaseTime = ::get_t_from_utc_time(time.getTimeFromStringUtc(releaseDate))
+      res = releaseTime + time.daysToSeconds(recentlyReleasedUnitsDays) > ::get_charserver_time_sec()
+    }
+  }
+
+  this._isRecentlyReleased <- res
+  return _isRecentlyReleased
+}
+
 function update_all_units()
 {
   //update the main table
   local ws = ::get_warpoints_blk()
   local ws_cost = ::get_wpcost_blk()
   local unitTagsBlk = ::get_unittags_blk()
-
-  local markRecentlyReleasedUnitsDays = ::getTblValue("markRecentlyReleasedUnitsDays", ::configs.GUI.get(), 0)
-  local timeMarkReleasedAfter = ::mktime(::get_local_time()) - (markRecentlyReleasedUnitsDays * TIME_DAY_IN_SECONDS)
-  dagor.debug("Marking just released units: days=" + markRecentlyReleasedUnitsDays + " since=" + timeMarkReleasedAfter
-    + " machine=" + ::mktime(::get_local_time()) + " char=" + ::get_charserver_time_sec())
 
   foreach (air in ::all_units)
   {
@@ -123,9 +139,7 @@ function update_all_units()
     air.getRentTimeleft <- ::getUnitRentTimeleft
     air.maxFlightTimeMinutes <- ::getTblValue("maxFlightTimeMinutes", ws_air, 0)
     air.isPkgDev <- ::is_dev_version && ::getTblValue("pkgDev", ws_air, false)
-
-    local releaseDate = ::get_tbl_value_by_path_array([ air.name, "releaseDate" ], unitTagsBlk, "")
-    air.isRecentlyReleased <- releaseDate != "" && ::get_t_from_utc_time(time.getTimeFromStringUtc(releaseDate)) > timeMarkReleasedAfter
+    air.isRecentlyReleased <- unitIsRecentlyReleased
   }
 
   foreach (airname, airblock in ws_cost)

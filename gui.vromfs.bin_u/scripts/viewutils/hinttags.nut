@@ -14,7 +14,8 @@ enum hintTagCheckOrder {
 
   checkTag = function(tagName) { return typeName == tagName }
   getViewSlices = function(tagName, params) { return [] }
-  makeTag = function(param) { return typeName }
+  makeTag = function(params = null) { return typeName }
+  makeFullTag = @(params = null) ::g_hints.hintTags[0] + makeTag(params) + ::g_hints.hintTags[1]
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_hint_tag", {
@@ -58,9 +59,10 @@ enum hintTagCheckOrder {
     checkTag = function(tagName) { return ::g_string.startsWith(tagName, typeName) }
     colorParam = "color="
     sizeParam = "sizeStyle="
+    delimiter = " "
     getViewSlices = function(tagName, params)
     {
-      local paramsList = ::split(tagName, " ")
+      local paramsList = ::split(tagName, delimiter)
       local res = {
         image = ::g_string.cutPrefix(paramsList[0], typeName,  "")
         color = null
@@ -73,9 +75,11 @@ enum hintTagCheckOrder {
       }
       return [res]
     }
-    makeTag = function(image, color = null, sizeStyle = null)
+    makeTag = function(params = null)
     {
-      return typeName + image + (color ? " " + colorParam + color : "") + (sizeStyle ? " " + sizeParam + sizeStyle : "")
+      return typeName + (params?.image || "")
+        + (params?.color      ? delimiter + colorParam + params.color : "")
+        + (params?.sizeStyle  ? delimiter + sizeParam + params.sizeStyle : "")
     }
   }
 

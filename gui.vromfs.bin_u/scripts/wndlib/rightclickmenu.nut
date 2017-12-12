@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 /*
   config = [
     {
@@ -114,7 +115,7 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
       if (!::checkObj(obj))
         continue
 
-      ::secondsUpdater(obj,
+      SecondsUpdater(obj,
                        (@(onUpdateButton) function(obj, params) {
                          local data = onUpdateButton(params)
                          updateBtnByTable(obj, data)

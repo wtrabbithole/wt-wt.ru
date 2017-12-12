@@ -65,7 +65,7 @@ function get_main_options()
       [::USEROPT_XRAY_KILL, "spinner", ::has_feature("Tanks") && ::has_feature("XrayKill")],
       [::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT, "spinner",
         ::has_feature("Tanks") && ( ! isInFlight || ! ::is_tank_gunner_camera_from_sight_available())],
-      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::has_feature("Tanks")],
+      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::has_feature("TankAltCrosshair")],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],

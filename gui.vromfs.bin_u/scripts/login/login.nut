@@ -56,11 +56,11 @@ function g_login::hasState(state)
   return (curState & state) == state
 }
 
-function g_login::startLoginProcess()
+function g_login::startLoginProcess(shouldCheckScriptsReload = false)
 {
   if (curLoginProcess && curLoginProcess.isValid())
     return
-  curLoginProcess = ::LoginProcess()
+  curLoginProcess = ::LoginProcess(shouldCheckScriptsReload)
 }
 
 function g_login::setState(newState)
@@ -108,7 +108,7 @@ function g_login::reset()
 function g_login::onEventScriptsReloaded(p)
 {
   if (!isLoggedIn() && isAuthorized())
-    startLoginProcess()
+    startLoginProcess(true)
 }
 
 

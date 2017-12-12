@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 function showClanPage(id, name, tag)
 {
   ::gui_start_modal_wnd(::gui_handlers.clanPageModal,
@@ -194,11 +196,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (isVisible)
     {
       text += ::loc("clan/lastChanges") + ::loc("ui/colon")
-      if (::my_user_id_str == clanData.changedByUid)
-        text += ::colorize("mainPlayerColor", clanData.changedByNick)
-      else
-        text += clanData.changedByNick
-
+      local color = ::my_user_id_str == clanData.changedByUid? "mainPlayerColor" : ""
+      text += ::colorize(color, platformModule.getPlayerName(clanData.changedByNick))
       text += ::loc("ui/comma") + clanData.getInfoChangeDateText()
     }
     obj.setValue(text)
@@ -690,7 +689,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       res.width    <- "0.01@sf"
     }
 
-    res.text = column.type.getShortTextByValue(member[id])
+    local text = column.type.getShortTextByValue(member[id])
+    res.text = id == "nick"? platformModule.getPlayerName(text) : text
     return res
   }
 

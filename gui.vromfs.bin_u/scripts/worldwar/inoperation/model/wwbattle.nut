@@ -590,7 +590,7 @@ class ::WwBattle
       side = ::ww_get_player_side()
 
     local team = getTeamBySide(side)
-    return ::g_string.cutPrefix(team.country, "country_")
+    return team?.country
   }
 
   function getTeamNameBySide(side = -1)

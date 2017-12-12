@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local platformModule = require("scripts/clientState/platform.nut")
 
 const PLAYERS_IN_FIRST_TABLE_IN_FFA = 16
 
@@ -55,9 +55,9 @@ function get_in_battle_time_to_kick_show_alert()
   return ::in_battle_time_to_kick_show_alert
 }
 
-function get_local_team_for_mpstats()
+function get_local_team_for_mpstats(team = null)
 {
-  return ::get_mp_local_team() != Team.B ? Team.A : Team.B
+  return (team ?? ::get_mp_local_team()) != Team.B ? Team.A : Team.B
 }
 
 function gui_start_mpstatscreen_(is_from_game)
@@ -89,6 +89,8 @@ function gui_start_flight_menu_stat()
 
 function is_mpstatscreen_active()
 {
+  if (!::g_login.isLoggedIn())
+    return false
   local curHandler = ::handlersManager.getActiveBaseHandler()
   return curHandler != null && (curHandler instanceof ::gui_handlers.MPStatScreen)
 }
@@ -223,11 +225,10 @@ function build_mp_table(table, markup, hdr, max_rows)
           playerIcoDiv = format("tdiv { pos:t='%s, 0.5ph-0.5h'; position:t='absolute'; %s} ",
                            row_invert? "0" : "pw-w-1", playerIcoDiv)
 
-        local nameText = item || ""
+        local nameText = platformModule.getPlayerName(item) || ""
         if (!isEmpty && "clanTag" in table[i] && table[i].clanTag != "")
           nameText = table[i].clanTag + " " + nameText
 
-        local data = ""
         tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s'; pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s%s"
           nameWidth, textDiv, nameAlign, nameText, playerIcoDiv, textPadding
         )
@@ -482,7 +483,7 @@ function set_mp_table(obj_tbl, table, params)
           nameText = item
           local prepPlayer = false
           if ("clanTag" in table[i] && table[i].clanTag != "")
-            nameText = table[i].clanTag + " " + nameText
+            nameText = table[i].clanTag + " " + platformModule.getPlayerName(nameText)
           if (("invitedName" in table[i]) && table[i].invitedName != item)
           {
             local color = ""
@@ -494,8 +495,8 @@ function set_mp_table(obj_tbl, table, params)
 
             local playerName = table[i].invitedName
             if (color != "")
-              playerName = "<color=@" + color + ">" + table[i].invitedName + "</color>"
-            nameText = ::format("%s... %s", nameText, playerName)
+              playerName = ::colorize(color, platformModule.getPlayerName(table[i].invitedName))
+            nameText = ::format("%s... %s", platformModule.getPlayerName(nameText), playerName)
           }
 
           if (objName)
@@ -905,7 +906,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   gameMode = 0
   gameType = 0
   isOnline = false
+
   isTeamplay    = false
+  isTeamsWithCountryFlags = false
+  isTeamsRandom = true
 
   missionObjectives = MISSION_OBJECTIVE.NONE
 
@@ -1085,7 +1089,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     gameMode = ::get_game_mode()
     gameType = ::get_game_type()
     isOnline = ::g_login.isLoggedIn()
+
     isTeamplay = ::is_mode_with_teams(gameType)
+    isTeamsWithCountryFlags = isTeamplay && (!isShowEnemyAirs() || !(::SessionLobby.getRoomEvent()?.isSymmetric ?? false))
+    isTeamsRandom = !isTeamplay || gameMode == ::GM_DOMINATION
 
     missionObjectives = ::g_mission_type.getCurrentObjectives()
 
@@ -1093,7 +1100,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local friendlyTeam = ::get_player_army_for_hud()
     local teamObj1 = scene.findObject("team1_info")
     local teamObj2 = scene.findObject("team2_info")
-    local countries
 
     if (!isTeamplay)
     {
@@ -1417,13 +1423,11 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function updateTeams(tbl)
+  function updateTeams(tbl, playerTeam, friendlyTeam)
   {
     if (!tbl)
       return
 
-    local playerTeam = ::get_local_team_for_mpstats()
-    local friendlyTeam = ::get_player_army_for_hud()
     local teamObj1 = scene.findObject("team1_info")
     local teamObj2 = scene.findObject("team2_info")
 
@@ -1482,10 +1486,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function updateStats(customTbl = null, customTblTeams = null)
+  function updateStats(customTbl = null, customTblTeams = null, customPlayerTeam = null, customFriendlyTeam = null)
   {
-    local playerTeam = ::get_local_team_for_mpstats()
-    local friendlyTeam = ::get_player_army_for_hud()
+    local playerTeam   = ::get_local_team_for_mpstats(customPlayerTeam ?? ::get_mp_local_team())
+    local friendlyTeam = customFriendlyTeam ?? ::get_player_army_for_hud()
     local tblObj1 = scene.findObject("table_kills_team1")
     local tblObj2 = scene.findObject("table_kills_team2")
 
@@ -1505,7 +1509,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (playerTeam > 0)
-      updateTeams(customTblTeams || ::get_mp_tbl_teams())
+      updateTeams(customTblTeams || ::get_mp_tbl_teams(), playerTeam, friendlyTeam)
 
     if (checkRaceDataOnStart && ::is_race_started())
     {
@@ -1884,47 +1888,36 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
    */
   function updateCountryFlags()
   {
-    local teamObj1 = scene.findObject("team1_info")
-    local teamObj2 = scene.findObject("team2_info")
     local playerTeam = ::get_local_team_for_mpstats()
-    local countries
-    local teamIco
-    local needCountryFlags = getNeedCountryFlags()
     if (!needPlayersTbl || playerTeam <= 0)
       return
+    local teamObj1 = scene.findObject("team1_info")
+    local teamObj2 = scene.findObject("team2_info")
+    local countries
+    local teamIco
+
     if (::checkObj(teamObj1))
     {
-      countries = needCountryFlags ? getCountriesByTeam(playerTeam) : []
-      if (needCountryFlags)
+      countries = isTeamsWithCountryFlags ? getCountriesByTeam(playerTeam) : []
+      if (isTeamsWithCountryFlags)
         teamIco = null
       else
-        teamIco = playerTeam == Team.A ? "allies" : "axis"
+        teamIco = isTeamsRandom ? "allies"
+          : playerTeam == Team.A ? "allies" : "axis"
       setTeamInfoTeamIco(teamObj1, teamIco)
       setTeamInfoCountries(teamObj1, countries)
     }
     if (!showLocalTeamOnly && ::checkObj(teamObj2))
     {
-      countries = needCountryFlags ? getCountriesByTeam(playerTeam == Team.A ? Team.B : Team.A) : []
-      if (needCountryFlags)
+      countries = isTeamsWithCountryFlags ? getCountriesByTeam(playerTeam == Team.A ? Team.B : Team.A) : []
+      if (isTeamsWithCountryFlags)
         teamIco = null
       else
-        teamIco = (playerTeam == Team.A) ? "axis" : "allies"
+        teamIco = isTeamsRandom ? "axis"
+          : playerTeam == Team.A ? "axis" : "allies"
       setTeamInfoTeamIco(teamObj2, teamIco)
       setTeamInfoCountries(teamObj2, countries)
     }
-  }
-
-  /**
-   * Returns false if both teams have all countries available.
-   */
-  function getNeedCountryFlags()
-  {
-    foreach (team in ::events.getSidesList())
-    {
-      if (getCountriesByTeam(team).len() < ::shopCountriesList.len())
-        return true
-    }
-    return false
   }
 
   /**

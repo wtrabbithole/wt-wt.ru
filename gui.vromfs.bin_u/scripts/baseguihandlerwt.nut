@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local time = require("scripts/time.nut")
 
@@ -1145,7 +1146,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onQueuesTooltipOpen(obj)
   {
     guiScene.replaceContent(obj, "gui/queue/queueInfoTooltip.blk", this)
-    ::secondsUpdater(obj.findObject("queue_tooltip_root"), function(obj, params)
+    SecondsUpdater(obj.findObject("queue_tooltip_root"), function(obj, params)
     {
       obj.findObject("text").setValue(::queues.getQueuesInfoText())
     })
@@ -1416,7 +1417,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       if (blk.advert)
       {
         text += ::loc(blk.advert, "")
-        ::secondsUpdater(obj, (@(text) function(obj, params) {
+        SecondsUpdater(obj, (@(text) function(obj, params) {
           local stopUpdate = text.find("{time_countdown=") == null
           local textResult = time.processTimeStamps(text)
           local objText = obj.findObject("topmenu_advert_text")
@@ -1426,25 +1427,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
         })(text))
       }
     }
-  }
-
-  function onEventHangarModelLoaded(params)
-  {
-    updateLowQualityModelWarning()
-  }
-
-  function updateLowQualityModelWarning()
-  {
-    if (wndType != handlerType.BASE)
-      return
-
-    local lowQuality = !::is_loaded_model_high_quality()
-    local warningObj = showSceneBtn("low-quality-model-warning", lowQuality)
-    local canDownloadPackage = ::can_download_package()
-    ::showBtn("low_quality_model_download_button", canDownloadPackage, warningObj)
-
-    if (lowQuality && canDownloadPackage && isSceneActive() && ::isInMenu())
-      ::check_package_and_ask_download_once("pkg_main", "air_in_hangar")
   }
 
   function proccessLinkFromText(obj, itype, link)

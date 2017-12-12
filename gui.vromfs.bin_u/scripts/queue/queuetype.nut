@@ -72,7 +72,7 @@ enum qTypeCheckOrder {
           country     = wwBattle ? wwBattle.getCountryNameBySide()
                           : ::getTblValue("country", params, "")
           team        = wwBattle ? wwBattle.getTeamNameBySide()
-                          : ::getTblValue("country", params, ::SIDE_1)
+                          : ::getTblValue("team", params, ::SIDE_1)
         }
       }
 

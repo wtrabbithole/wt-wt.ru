@@ -43,6 +43,7 @@
     JapanTanksInFirstCountryChoice = false
 
     FranceAircraftsInFirstCountryChoice = false
+    FranceTanksInFirstCountryChoice = false
 
     Helicopters = ::disable_network()
 
@@ -179,6 +180,7 @@
     HitCameraTargetStateIconsTank = false
 
     AllowExternalLink = true
+    TankAltCrosshair = false
   }
 
   cache = {}

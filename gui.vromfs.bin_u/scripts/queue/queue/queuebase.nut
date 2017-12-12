@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::queue_classes.Base
 {
   id = 0
@@ -70,6 +73,38 @@ class ::queue_classes.Base
   function getTeamCode()
   {
     return ::getTblValue("team", params, Team.Any)
+  }
+
+  function getBattleName()
+  {
+    return ""
+  }
+
+  function getDescription()
+  {
+    return "<color=@activeTextColor>" + getBattleName() + "</color>\n" +
+           ::loc("options/country") + ::loc("ui/colon") + ::loc(params?.country ?? "") + "\n" +
+           getQueueActiveTimeText()
+  }
+
+  function getQueueActiveTimeText()
+  {
+    local waitTime = getActiveTime()
+    if (waitTime > 0)
+    {
+      local minutes = time.secondsToMinutes(waitTime).tointeger()
+      local seconds = waitTime - time.minutesToSeconds(minutes).tointeger()
+      return ::format(::loc("yn1/wait_time"), minutes, seconds)
+    }
+    return ""
+  }
+
+  function getActiveTime()
+  {
+    if (activateTime >= 0)
+      return time.millisecondsToSeconds(::dagor.getCurTime() - activateTime)
+
+    return 0
   }
 
   function join(successCallback, errorCallback) {}

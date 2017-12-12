@@ -45,7 +45,11 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       updateSquadInfo(i, curList?[i], newList?[i])
       if (!isSelected && ::u.isEqual(selectedSquad, newList?[i]) && (selectedIndex != -1))
         {
-          squadsListObj.setValue(i)
+          if (selectedIndex != i)
+          {
+            squadsListObj.setValue(i)
+            selectedIndex = i
+          }
           isSelected = true
         }
     }
@@ -87,7 +91,8 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
 
   function getLeaderName(squad)
   {
-    return ::getContact(squad?.leader.tostring())?.name ?? ""
+    local contact = ::getContact(squad?.leader.tostring())
+    return contact? contact.getName() : ""
   }
 
   function getNumMembers(squad)

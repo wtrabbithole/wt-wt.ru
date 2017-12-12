@@ -29,7 +29,7 @@
             "position": "absolute"
           },
           {
-            "pos": "pw/2-w/2, ph + 16*@sf/@pf_outdated"
+            "pos": "pw/2-w/2, ph + 24@sf/@pf"
           },
           {
             "flow": "vertical"
@@ -48,7 +48,7 @@
           {
             "tdiv": {
               "id": "shortcuts_block",
-              "pos": "pw/2-w/2, 8*@sf/@pf_outdated",
+              "pos": "pw/2-w/2, 12@sf/@pf",
               "position": "relative"
             }
           }
@@ -64,7 +64,7 @@
       {
         "tdiv": [
           {
-            "size": "ph - 16*@sf/@pf_outdated, ph - 16*@sf/@pf_outdated"
+            "size": "ph - 24@sf/@pf, ph - 24@sf/@pf"
           },
           {
             "pos": "pw/2-w/2, ph/2-h/2"
@@ -137,18 +137,18 @@
               "position": "absolute",
               "super_artillery_target": {
                 "id": "super_artillery_target",
-                "size": "32*@sf/@pf_outdated, 32*@sf/@pf_outdated",
+                "size": "100@sf/@pf, 100@sf/@pf",
                 "pos": "pw/2-w/2, ph/2-h/2",
                 "position": "absolute",
-                "background-image": "",
+                "background-image": "#ui/gameuiskin#artillery_region",
                 "background-color": "#ffb751",
                 "display": "hide",
                 "tdiv": {
                   "id": "super_artillery_target_center",
-                  "size": "16*@sf/@pf_outdated, 16*@sf/@pf_outdated",
+                  "size": "24@sf/@pf, 24@sf/@pf",
                   "pos": "pw/2-w/2, ph/2-h/2",
                   "position": "absolute",
-                  "background-image": "",
+                  "background-image": "#ui/gameuiskin#chat_icon_attack",
                   "background-color": "#ffb751",
                   "rotation": "0"
                 }
@@ -164,7 +164,10 @@
                   "id": "artillery_target"
                 },
                 {
-                  "size": "32*@sf/@pf_outdated, 32*@sf/@pf_outdated"
+                  "min-width": "@artilleryTargetInnerDiameterMin"
+                },
+                {
+                  "min-height": "@artilleryTargetInnerDiameterMin"
                 },
                 {
                   "pos": "pw/2-w/2, ph/2-h/2"
@@ -176,57 +179,43 @@
                   "display": "hide"
                 },
                 {
-                  "min-height": "32"
-                },
-                {
-                  "min-width": "32"
-                },
-                {
                   "tdiv": {
-                    "size": "pw/3, ph/3",
-                    "pos": "pw/2-w/2, 0",
+                    "size": "@artilleryTargetArcSize, @artilleryTargetArcSize",
+                    "pos": "pw/2-w/2, -@artilleryTargetArcOffset",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
                     "background-color": "#FF0000",
-                    "rotation": "0",
-                    "min-height": "12",
-                    "min-width": "12"
+                    "rotation": "0"
                   }
                 },
                 {
                   "tdiv": {
-                    "size": "pw/3, ph/3",
-                    "pos": "pw-w, ph/2-h/2",
+                    "size": "@artilleryTargetArcSize, @artilleryTargetArcSize",
+                    "pos": "pw-w+@artilleryTargetArcOffset, ph/2-h/2",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
                     "background-color": "#FF0000",
-                    "rotation": "90",
-                    "min-height": "12",
-                    "min-width": "12"
+                    "rotation": "90"
                   }
                 },
                 {
                   "tdiv": {
-                    "size": "pw/3, ph/3",
-                    "pos": "pw/2-w/2, ph-h",
+                    "size": "@artilleryTargetArcSize, @artilleryTargetArcSize",
+                    "pos": "pw/2-w/2, ph-h+@artilleryTargetArcOffset",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
                     "background-color": "#FF0000",
-                    "rotation": "180",
-                    "min-height": "12",
-                    "min-width": "12"
+                    "rotation": "180"
                   }
                 },
                 {
                   "tdiv": {
-                    "size": "pw/3, ph/3",
-                    "pos": "0, ph/2-h/2",
+                    "size": "@artilleryTargetArcSize, @artilleryTargetArcSize",
+                    "pos": "-@artilleryTargetArcOffset, ph/2-h/2",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
                     "background-color": "#FF0000",
-                    "rotation": "270",
-                    "min-height": "12",
-                    "min-width": "12"
+                    "rotation": "270"
                   }
                 }
               ]

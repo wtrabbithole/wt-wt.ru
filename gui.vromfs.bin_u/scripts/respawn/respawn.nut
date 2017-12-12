@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
@@ -286,7 +287,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     tmapHintObj = scene.findObject("tmap_hint")
     tmapIconObj = scene.findObject("tmap_icon")
     tmapRespawnBaseTimerObj = scene.findObject("tmap_respawn_base_timer")
-    ::secondsUpdater(tmapRespawnBaseTimerObj, (@(obj, params) updateRespawnBaseTimerText()).bindenv(this))
+    SecondsUpdater(tmapRespawnBaseTimerObj, (@(obj, params) updateRespawnBaseTimerText()).bindenv(this))
   }
 
   function updateRespawnBaseTimerText()

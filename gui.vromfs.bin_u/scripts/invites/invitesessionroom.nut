@@ -71,7 +71,7 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
     local room = ::g_mroom_info.get(roomId).getFullRoomData()
     local event = room ? ::SessionLobby.getRoomEvent(room) : null
     local modeId = "skirmish"
-    local params = { player = ::colorize(activeColor, inviterName) }
+    local params = { player = ::colorize(activeColor, getInviterName()) }
     if (event)
     {
       modeId = "event"

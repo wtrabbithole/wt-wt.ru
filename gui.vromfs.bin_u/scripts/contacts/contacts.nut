@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 enum contactEvent
 {
   CONTACTS_UPDATED = "ContactsUpdated"
@@ -360,7 +362,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::check_obj(obj))
         continue
 
-      local fullName = (f.clanTag != ""? (f.clanTag + " ") : "") + f.name
+      local fullName = (f.clanTag != ""? (f.clanTag + " ") : "") + f.getName()
       local contactNameObj = obj.findObject("contactName")
       contactNameObj.setValue(fullName)
       local contactPresenceObj = obj.findObject("contactPresence")
@@ -1636,13 +1638,13 @@ function editContactMsgBox(player, groupName, add, ownerHandler, onModify = null
     {
       if (onModify)
         onModify.call(ownerHandler)
-      ::g_popups.add(null, format(msg, contact.name))
+      ::g_popups.add(null, format(msg, contact.getName()))
     }
   }
   else
   {
     local msg = ::loc("msg/ask_remove_from_" + groupName)
-    ::scene_msg_box("remove_from_list", null, format(msg, contact.name), [
+    ::scene_msg_box("remove_from_list", null, format(msg, contact.getName()), [
       ["ok", (@(contact, groupName, ownerHandler, onModify) function() {
         ::editPlayerInContacts(contact, groupName, false)
         if (onModify && ownerHandler)
@@ -1830,6 +1832,11 @@ class Contact
       clanUserTable[name] <- clanTag
   }
 
+  function getName()
+  {
+    return platformModule.getPlayerName(name)
+  }
+
   function getPresenceText()
   {
     local res = presence.getText()
@@ -2011,7 +2018,7 @@ function findContactByNick(nick)
 function fillContactTooltip(obj, contact, handler)
 {
   local view = {
-    name = contact.name
+    name = contact.getName()
     presenceText = contact.getPresenceText()
     presenceIcon = contact.presence.getIcon()
     presenceIconColor = contact.presence.getIconColor()

@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 ::g_invites_classes <- {}
 
 class ::BaseInvite
@@ -67,6 +69,11 @@ class ::BaseInvite
     if ( timedExpireStamp > 0 && timedExpireStamp <= ::get_charserver_time_sec() )
       return true
     return false
+  }
+
+  function getInviterName()
+  {
+    return platformModule.getPlayerName(inviterName)
   }
 
   function isVisible()

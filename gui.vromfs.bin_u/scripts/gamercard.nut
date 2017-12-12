@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local platformModule = require("scripts/clientState/platform.nut")
 
 function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, save_scene=true)
 {
@@ -122,6 +122,8 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
         case "name":
           if (::u.isEmpty(val))
             val = ::loc("mainmenu/pleaseSignIn")
+          else
+            val = platformModule.getPlayerName(val)
         default:
           if (val == null)
             val = ""

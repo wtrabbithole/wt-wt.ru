@@ -1328,20 +1328,20 @@ function get_option(type, context = null)
 
     case ::USEROPT_MOUSE_SENSE:
       descr.id = "multiplier_mouse"
+      descr.controlType = optionControlType.SLIDER
+      descr.min <- 5
+      descr.max <- 100
       descr.value = (::get_option_multiplier(::OPTION_MOUSE_SENSE) * 50.0).tointeger()
-      if (descr.value < 5)
-        descr.value = 5
-      else if (descr.value > 100)
-        descr.value = 100
+      descr.value = ::clamp(descr.value, descr.min, descr.max)
       break
 
     case ::USEROPT_MOUSE_AIM_SENSE:
       descr.id = "multiplier_mouse_aim"
+      descr.controlType = optionControlType.SLIDER
+      descr.min <- 5
+      descr.max <- 100
       descr.value = (::get_option_multiplier(::OPTION_MOUSE_AIM_SENSE) * 50.0).tointeger()
-      if (descr.value < 5)
-        descr.value = 5
-      else if (descr.value > 100)
-        descr.value = 100
+      descr.value = ::clamp(descr.value, descr.min, descr.max)
       break
 
     case ::USEROPT_GUNNER_VIEW_SENSE:

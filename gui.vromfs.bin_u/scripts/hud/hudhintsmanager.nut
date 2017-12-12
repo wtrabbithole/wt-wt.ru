@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 enum HintShowState {
@@ -275,7 +276,7 @@ enum HintShowState {
     if (!::checkObj(hintObj))
       return
 
-    hintData.secondsUpdater <- ::secondsUpdater(hintObj, (@(hintData) function (obj, params) {
+    hintData.secondsUpdater <- SecondsUpdater(hintObj, (@(hintData) function (obj, params) {
       local textObj = obj.findObject("time_text")
       if (!::checkObj(textObj))
         return false

@@ -1,4 +1,5 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::menu_chat_handler <- null
 ::menu_chat_sizes <- null
@@ -1265,6 +1266,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       localized = true
       local locText = ::loc(ending, "")
       local playerName = ::g_string.slice(msg, 0, -ending.len() - 1)
+      playerName = platformModule.getPlayerName(playerName)
       if (locText != "")
         msg = ::format(locText, playerName)
       if (playerName == ::my_user_name)
@@ -1304,10 +1306,10 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     myself = messageAuthor == ::my_user_name
 
-    local fullName = (clanTag!=""? (clanTag + " "): "") + messageAuthor
+    local fullName = (clanTag!=""? (clanTag + " "): "") + platformModule.getPlayerName(messageAuthor)
 
     if (messageAuthor=="")
-      text = format("<color=%s>%s</color>", overlaySystemColor? overlaySystemColor : systemColor, msg)
+      text = ::colorize(overlaySystemColor? overlaySystemColor : systemColor, msg)
     else
     {
       local userColor = ::g_chat.getSenderColor(messageAuthor, true, privateMsg)
@@ -1321,15 +1323,18 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       else if (!myPrivate && ::isPlayerNickInContacts(messageAuthor, ::EPL_BLOCKLIST))
       {
-        if (privateMsg) return
+        if (privateMsg)
+          return
+
         userColor = blockedColor
         msgColor = blockedColor
         msg = ::g_chat.makeBlockedMsg(msg)
-      } else
+      }
+      else
         msg = colorMyNameInText(msg)
 
       if (msgColor!="")
-        msg = "<Color="+msgColor+">" + msg + "</Color>"
+        msg = ::colorize(msgColor, msg)
 
       local from = myPrivate? format(::loc("chat/myPrivateMsgToPlayer"), fullName) : fullName
       text = format("<Link=%s><Color=%s>%s</Color>:</Link> %s",
@@ -1573,7 +1578,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         local userName = roomId
         if (!roomRegexp.match(userName)) //private room
         {
-          addRoomMsg(lastActionRoom, "", format(::loc("chat/error/401/userNotConnected"), userName))
+          addRoomMsg(lastActionRoom, "", format(::loc("chat/error/401/userNotConnected"), platformModule.getPlayerName(userName)))
           return
         }
       }

@@ -43,7 +43,7 @@ class ::g_invites_classes.Friend extends ::BaseInvite
   function getPopupText()
   {
     return ::loc("contacts/popup_friend_invitation_recieved",
-      { userName = ::colorize("goodTextColor", inviterName) })
+      { userName = ::colorize("goodTextColor", getInviterName()) })
   }
 
   function getIcon()

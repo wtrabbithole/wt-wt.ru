@@ -237,9 +237,8 @@ foreach (fn in [
   "scripts/viewUtils/projectAwards.nut"
 
   "scripts/sqModuleHelpers.nut"
-  "scripts/clientState/fileCheck.nut"
   "scripts/util.nut"
-  "scripts/timer.nut"
+  "sqDagui/timer/timer.nut"
 
   "scripts/clientState/localProfile.nut"
   "scripts/options/optionsExtNames.nut"

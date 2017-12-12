@@ -59,7 +59,7 @@ function g_hud_hints::_buildText(data)
   {
     local res = ::loc(getLocId(data))
     if (image)
-      res = ::g_hints.hintTags[0] + ::g_hint_tag.IMAGE.makeTag(image) + ::g_hints.hintTags[1] + res
+      res = ::g_hint_tag.IMAGE.makeFullTag({ image = image }) + res
     return res
   }
 
@@ -218,7 +218,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     local res = ::g_hud_hints._buildText.call(this, hintData)
     if (!getShortcuts(hintData))
       return res
-    res = ::g_hints.hintTags[0] + ::g_hints.timerMark + ::g_hints.hintTags[1] + " " + res
+    res = ::g_hint_tag.TIMER.makeFullTag() + " " + res
     return res
   }
 
@@ -379,7 +379,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     selfRemove = true
     buildText = function (data) {
       local res = ::g_hud_hints._buildText.call(this, data)
-      res += " " + ::g_hints.hintTags[0] + ::g_hints.timerMark + ::g_hints.hintTags[1]
+      res += " " + ::g_hint_tag.TIMER.makeFullTag()
       local offenderName = ::getTblValue("offenderName", data, "")
       if (offenderName != "")
         res +=  "\n" + ::loc(awardGiveForLocId) + offenderName
@@ -402,7 +402,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     noKeyLocId = "hints/crew_busy_extinguishing_no_key"
     showEvent = "hint:extinguish:begin"
     hideEvent = "hint:extinguish:end"
-    maskId = 25
   }
 
   TRACK_REPAIR_HINT = {
@@ -410,7 +409,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     locId     = "hints/track_repair"
     showEvent = "hint:track_repair"
     lifeTime = 5.0
-    maskId = 13
   }
 
   MORE_KILLS_FOR_KILL_STREAK_HINT = {
@@ -419,7 +417,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:more_kills_for_kill_streak:show"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 16
   }
 
   NEED_KILLS_STREAK_EVENT_HINT = {
@@ -428,7 +425,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:needs_kills_streak_event:show"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 17
   }
 
   ACTIVE_EVENT_HINT = {
@@ -437,7 +433,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:active_event:show"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 18
   }
 
   ALREADY_PARTICIPATING_HINT = {
@@ -446,7 +441,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:already_participating:show"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 20
   }
 
   NO_EVENT_SLOTS_HINT = {
@@ -455,7 +449,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:no_event_slots:show"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 19
   }
 
   INEFFECTIVE_HIT_HINT = {
@@ -483,7 +476,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:gun_jammed:show"
     lifeTime = 2.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 30
   }
 
   AUTOTHROTTLE_HINT = {
@@ -491,7 +483,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:autothrottle:show"
     lifeTime = 10.0
     priority = CATASTROPHIC_HINT_PRIORITY
-    maskId = 14
   }
 
   PILOT_LOSE_CONTROL_HINT = {
@@ -547,20 +538,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     maskId = 27
   }
 
-  TANK_REARM_PROCESS_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/tank_rearm_process"
-    noKeyLocId = "hints/tank_rearm_process_no_key"
-    shortcuts = "ID_REPAIR_TANK"
-    showEvent = "hint:tank_rearm_process:show"
-    hideEvent = "hint:tank_rearm_process:hide"
-    lifeTime = 10.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-    totalCount = 10
-    isShowedInVR = true
-    maskId = 21
-  }
-
   AUTO_REARM_HINT = {
     hintType = ::g_hud_hint_types.COMMON
     locId = "hints/auto_rearm"
@@ -585,7 +562,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     getShortcuts = @(data) ::g_hud_action_bar_type.WINCH.getVisualShortcut()
     lifeTime = 10.0
     delayTime = 4.0
-    maskId = 22
   }
 
   WINCH_USE_HINT = {
@@ -598,7 +574,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     getShortcuts = @(data) ::g_hud_action_bar_type.WINCH_ATTACH.getVisualShortcut()
     lifeTime = 10.0
     delayTime = 2.0
-    maskId = 23
   }
 
   WINCH_DETACH_HINT = {
@@ -611,7 +586,6 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     getShortcuts = @(data) ::g_hud_action_bar_type.WINCH_DETACH.getVisualShortcut()
     lifeTime = 10.0
     delayTime = 4.0
-    maskId = 24
   }
 
   F1_CONTROLS_HINT = {
@@ -820,29 +794,39 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:event_start_time:show"
     hideEvent = "hint:event_start_time:hide"
     getShortcuts = @(eventData) eventData?.shortcut
+
+    makeSmallImageStr = @(image, color = null, sizeStyle = null) ::g_hint_tag.IMAGE.makeFullTag({
+      image = image
+      color = color
+      sizeStyle = sizeStyle
+    })
+
     buildText = function(eventData)
     {
       local res = ::g_hud_hints._buildText.call(this, eventData)
       local rawShortcutsArray = getRawShortcutsArray(getShortcuts(eventData))
-      local player = eventData?.playerId ? ::get_mplayer_by_id(eventData.playerId) : null
-      local playerText = player ? ::build_mplayer_name(player) : null
-      local locId = rawShortcutsArray.len() > 0 ? eventData?.locId : (eventData?.noKeyLocId ?? eventData?.locId)
-      local hintText = locId ? ::loc(locId) : ""
-      local timeSec = eventData?.timeSeconds ?? 0
-      local secLocStr = ::loc("mainmenu/seconds")
-      res += playerText ? ::format(hintText, playerText, timeSec, secLocStr)
-      : ::format(hintText, timeSec, secLocStr)
+      local player = "playerId" in eventData ? ::get_mplayer_by_id(eventData.playerId) : null
+      local locId = eventData?.locId ?? ""
+      if (!rawShortcutsArray.len())
+        locId = eventData?.noKeyLocId ?? locId
+
+      res += ::loc(locId, {
+        player = player ? ::build_mplayer_name(player) : ""
+        time = time.secondsToString(eventData?.timeSeconds ?? 0, true, true)
+      })
 
       local participantsAStr = ""
       local participantsBStr = ""
       local reservedSlotsCountA = 0
       local reservedSlotsCountB = 0
       local totalSlotsPerCommand = eventData?.slotsCount ?? 0
+      local spaceStr = "          "
 
       local participantList = []
       if(eventData?.participant)
         participantList = ::u.isArray(eventData.participant) ? eventData.participant : [eventData.participant]
 
+      local playerTeam = ::get_local_team_for_mpstats()
       foreach (participant in participantList)
       {
         local pIdArray = ::u.isArray(participant.participantId)? participant.participantId : [participant.participantId]
@@ -856,38 +840,33 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
           {
             local icon = "#ui/gameuiskin#" + image
             local color = "@" + (participantPlayer ? ::get_mplayer_color(participantPlayer) : "hudColorHero")
-            local pStr = ::g_hints.hintTags[0]
-              + ::g_hint_tag.IMAGE.makeTag(icon, color, "small")
-              + ::g_hints.hintTags[1]
-            if(participantPlayer.isLocal || participantPlayer.isInHeroSquad)
+            local pStr = makeSmallImageStr(icon, color)
+            if (playerTeam == participantPlayer.team)
             {
-              participantsAStr = pStr + participantsAStr
+              participantsAStr += pStr + " "
               ++reservedSlotsCountA
             }
             else
             {
-              participantsBStr += pStr
+              participantsBStr = " " + pStr + participantsBStr
               ++reservedSlotsCountB
             }
           }
         }
       }
 
-      local freeSlotIconName = "#ui/gameuiskin#gun_direction"
+      local freeSlotIconName = "#ui/gameuiskin#btn_help"
       local freeSlotIconColor = "@minorTextColor"
+      local freeSlotIconStr = makeSmallImageStr(freeSlotIconName, freeSlotIconColor, "small")
       for(local i = 0; i < totalSlotsPerCommand - reservedSlotsCountA; ++i)
-      {
-        participantsAStr = makeImageStr(freeSlotIconName, freeSlotIconColor) + participantsAStr
-      }
+        participantsAStr += freeSlotIconStr + " "
 
       for(local i = 0; i < totalSlotsPerCommand - reservedSlotsCountB; ++i)
-      {
-        participantsBStr += makeImageStr(freeSlotIconName, freeSlotIconColor)
-      }
+        participantsBStr = " " + freeSlotIconStr + participantsBStr
 
       if (participantsAStr.len() > 0 && participantsBStr.len() > 0)
         res = participantsAStr
-        + " " + ::loc("country/VS") + " "
+        + spaceStr + ::loc("country/VS").tolower() + spaceStr
         + participantsBStr
         + "\n" + res
 
@@ -1092,11 +1071,4 @@ function() {
 function g_hud_hints::getByName(hintName)
 {
   return ::g_enum_utils.getCachedType("name", hintName, cache.byName, this, UNKNOWN)
-}
-
-function makeImageStr(image, color = null)
-{
-  return ::g_hints.hintTags[0]
-       + ::g_hint_tag.IMAGE.makeTag(image, color, "small")
-       + ::g_hints.hintTags[1]
 }

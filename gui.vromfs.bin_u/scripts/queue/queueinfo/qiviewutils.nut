@@ -1,3 +1,4 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
 
@@ -89,7 +90,7 @@ function g_qi_view_utils::updateShortQueueInfo(timerObj, textObj, iconObj)
 {
   if (!::check_obj(timerObj))
     return
-  ::secondsUpdater(timerObj, (@(textObj, iconObj) function(obj, p) {
+  SecondsUpdater(timerObj, (@(textObj, iconObj) function(obj, p) {
     local queue = ::queues.findQueue({}) //first active queue
     if (::check_obj(textObj))
     {
@@ -97,7 +98,7 @@ function g_qi_view_utils::updateShortQueueInfo(timerObj, textObj, iconObj)
       if (queue)
       {
         msg = ::loc("yn1/wait_for_session")
-        local waitTime = queue ? ::queues.getQueueActiveTime(queue).tointeger() : 0
+        local waitTime = queue ? queue.getActiveTime().tointeger() : 0
         if (waitTime > 0)
           msg += ::loc("ui/colon") + time.secondsToString(waitTime, false)
       }
