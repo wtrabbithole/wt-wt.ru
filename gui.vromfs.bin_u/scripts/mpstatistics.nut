@@ -95,18 +95,21 @@ function is_mpstatscreen_active()
   return curHandler != null && (curHandler instanceof ::gui_handlers.MPStatScreen)
 }
 
-function build_mp_table(table, markup, hdr, max_rows)
+function build_mp_table(table, markupData, hdr, max_rows)
 {
   local numTblRows = table.len()
   local numRows = ::max(numTblRows, max_rows)
   if (numRows <= 0)
     return ""
 
-  local is_header = ::getTblValue("is_header", markup, false)
-  local tr_size = ::getTblValue("tr_size", markup, "pw,@baseTrHeight")
-  local row_invert = ::getTblValue("invert", markup, false)
+  local isHeader    = markupData?.is_header ?? false
+  local trSize      = markupData?.tr_size   ?? "pw, @baseTrHeight"
+  local isRowInvert = markupData?.invert    ?? false
+  local colorTeam   = markupData?.colorTeam ?? "blue"
 
-  if (row_invert)
+  local markup = markupData.columns
+
+  if (isRowInvert)
   {
     hdr = clone hdr
     hdr.reverse()
@@ -114,10 +117,10 @@ function build_mp_table(table, markup, hdr, max_rows)
 
   local data = ""
 
-  if (is_header)
+  if (isHeader)
   {
     local headerView = {
-      trSize = tr_size
+      trSize = trSize
       headerCells = []
     }
     for (local i = 0; i < hdr.len(); ++i)
@@ -187,50 +190,14 @@ function build_mp_table(table, markup, hdr, max_rows)
       {
         local textDiv = "textareaNoTab"
         local nameWidth = ((hdr[j] in markup)&&("width" in markup[hdr[j]]))?markup[hdr[j]].width:"0.5pw-0.035sh"
-        local nameAlign = row_invert? "text-align:t='right' " : ""
-
-        //update air weapons and dead icons
-        local isAircraft = (!isEmpty) && ("aircraftName" in table[i])
-        local isDead = (!isEmpty) && ("isDead" in table[i]) && table[i].isDead
-        local airWeaponIcons = ("name" in markup) && ("airWeaponIcons" in markup.name) && markup.name.airWeaponIcons
-        local unitIcoColorType = ""
-        local unitIco = ""
-        if (isDead)
-          unitIco = "#ui/gameuiskin#dead"
-        else if (airWeaponIcons && isAircraft)
-        {
-          local name = table[i].aircraftName;
-          unitIco = getUnitClassIco(name);
-          unitIcoColorType = ::get_unit_role(name);
-        }
-
-        local airImgText = format(
-          "img { id:t='aircraft-ico'; size:t='@tableIcoSize,@tableIcoSize'; background-image:t='%s'; shopItemType:t='%s'; } ",
-          unitIco, unitIcoColorType)
-        local weapText = ""
-
-        if (airWeaponIcons)
-        {
-          local weaponType = (!isDead && isAircraft && ("weapon" in table[i]))?
-                                getWeaponTypeIcoByWeapon(table[i].aircraftName, table[i].weapon)
-                                : getWeaponTypeIcoByWeapon("", "")
-          foreach(name, weap in weaponType)
-            weapText += format("img { id:t='%s-ico'; size:t='0.375@tableIcoSize,@tableIcoSize'; background-image:t='%s'; margin-right:t='2' } ",
-                                     name, weap)
-        }
-        //update icons finished
-
-        local playerIcoDiv = row_invert? airImgText + weapText : weapText + airImgText
-        if (playerIcoDiv != "")
-          playerIcoDiv = format("tdiv { pos:t='%s, 0.5ph-0.5h'; position:t='absolute'; %s} ",
-                           row_invert? "0" : "pw-w-1", playerIcoDiv)
+        local nameAlign = isRowInvert ? "text-align:t='right' " : ""
 
         local nameText = platformModule.getPlayerName(item) || ""
         if (!isEmpty && "clanTag" in table[i] && table[i].clanTag != "")
           nameText = table[i].clanTag + " " + nameText
 
-        tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s'; pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s%s"
-          nameWidth, textDiv, nameAlign, nameText, playerIcoDiv, textPadding
+        tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s'; pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s"
+          nameWidth, textDiv, nameAlign, nameText, textPadding
         )
 
         if (!isEmpty)
@@ -243,6 +210,18 @@ function build_mp_table(table, markup, hdr, max_rows)
             trAdd += "spectator:t = 'yes';"
         }
       }
+      else if (hdr[j] == "unitIcon")
+      {
+        //creating empty unit class/dead icon and weapons icons, to be filled in update func
+        local images = [ "img { id:t='unit-ico'; size:t='@tableIcoSize,@tableIcoSize'; background-image:t=''; shopItemType:t=''; }" ]
+        foreach(id, weap in ::getWeaponTypeIcoByWeapon("", ""))
+          images.insert(0, ::format("img { id:t='%s-ico'; size:t='0.375@tableIcoSize,@tableIcoSize'; background-image:t=''; margin:t='2@dp, 0' }", id))
+        if (isRowInvert)
+          images.reverse()
+        local cellWidth = markup?[hdr[j]]?.width ?? "@tableIcoSize, @tableIcoSize"
+        local divPos = isRowInvert ? "0" : "pw-w"
+        tdData += ::format("width:t='%s'; tdiv { pos:t='%s, ph/2-h/2'; position:t='absolute'; %s } ", cellWidth, divPos, ::g_string.implode(images))
+      }
       else if (hdr[j] == "rank")
       {
         local prestigeImg = "";
@@ -254,9 +233,9 @@ function build_mp_table(table, markup, hdr, max_rows)
         }
         local rankItem = format("activeText { id:t='rank-text'; text:t='%s'; margin-right:t='%%s' } ", rankTxt)
         local prestigeItem = format("cardImg { id:t='prestige-ico'; background-image:t='%s'; margin-right:t='%%s' } ", prestigeImg)
-        local data = row_invert? prestigeItem + rankItem : rankItem + prestigeItem
+        local data = isRowInvert ? prestigeItem + rankItem : rankItem + prestigeItem
         tdData += format("width:t='2.2@rows16height%s'; tdiv { pos:t='%s, 0.5(ph-h)'; position:t='absolute'; " + data + " } ",
-                    widthAdd, row_invert? "0" : "pw-w-1", "0", "0.003sh")
+                    widthAdd, isRowInvert ? "0" : "pw-w-1", "0", "0.003sh")
       }
       else if (hdr[j] == "rowNo")
       {
@@ -319,7 +298,7 @@ function build_mp_table(table, markup, hdr, max_rows)
               "teamImg {" +
               "id:t='%s';" +
               "background-image:t='%s'; ",
-              getTblValue("colorTeam", markup, "blue"), "icon_"+hdr[j], markup[hdr[j]].image
+              colorTeam, "icon_"+hdr[j], markup[hdr[j]].image
             )
         }
         local textParams = format("halign:t='%s'; ", halign)
@@ -342,7 +321,7 @@ function build_mp_table(table, markup, hdr, max_rows)
     }
 
     if (trData.len() > 0)
-      data += "tr {size:t = '" + tr_size + "'; " + trAdd + trData + " text-valign:t='center'; css-hier-invalidate:t='all'; }\n"
+      data += "tr {size:t = '" + trSize + "'; " + trAdd + trData + " text-valign:t='center'; css-hier-invalidate:t='all'; }\n"
   }
 
   return data
@@ -474,8 +453,6 @@ function set_mp_table(obj_tbl, table, params)
       {
         local objName = objTd.findObject("name-text")
         local objDlcImg = objTd.findObject("dlc-ico")
-        local objAircraft = objTd.findObject("aircraft-ico")
-        local objWeapon = null
         local nameText = ""
 
         if (!isEmpty)
@@ -504,60 +481,11 @@ function set_mp_table(obj_tbl, table, params)
 
           if (objDlcImg)
             objDlcImg.show(false)
-
-          local unitIco = ""
-          local unitIcoColorType = ""
-          local isAircraft = "aircraftName" in table[i]
-          local isDead = ("isDead" in table[i]) && table[i].isDead
-          if (isInFlight && !isInGame)
-            unitIco = ::g_player_state.HAS_LEAVED_GAME.getIcon(table[i])
-          else
-          {
-            if (isDead)
-            {
-              if (::getTblValue("spectator", table[i], false))
-                unitIco = "#ui/gameuiskin#player_spectator"
-              else
-                unitIco = "#ui/gameuiskin#dead"
-            }
-            else if (isAircraft && showAirIcons)
-            {
-              local name = table[i].aircraftName;
-              unitIco = getUnitClassIco(name);
-              unitIcoColorType = ::get_unit_role(name);
-            }
-          }
-          if (objAircraft)
-          {
-            objAircraft["background-image"] = unitIco
-            objAircraft["shopItemType"] = unitIcoColorType
-          }
-
-          if (showAirIcons)
-          {
-            local weaponType = (!isDead && isAircraft && ("weapon" in table[i]))?
-                                  getWeaponTypeIcoByWeapon(table[i].aircraftName, table[i].weapon)
-                                  : getWeaponTypeIcoByWeapon("", "")
-            foreach(name, weap in weaponType)
-            {
-              objWeapon = objTd.findObject(name + "-ico")
-              if (objWeapon)
-                objWeapon["background-image"] = weap
-            }
-          }
         }
         else
         {
           if (objName)     objName.setValue("")
           if (objDlcImg)   objDlcImg.show(false)
-          if (objAircraft) objAircraft["background-image"] = ""
-          local weaponType = getWeaponTypeIcoByWeapon("", "")
-          foreach(name, weap in weaponType)
-          {
-            objWeapon = objTd.findObject(name + "-ico")
-            if (objWeapon)
-              objWeapon["background-image"] = ""
-          }
         }
 
         if (!isEmpty)
@@ -604,6 +532,43 @@ function set_mp_table(obj_tbl, table, params)
           }
         }
         objTr.tooltip = tooltip
+      }
+      else if (hdr == "unitIcon")
+      {
+        local unitIco = ""
+        local unitIcoColorType = ""
+        local unitId = ""
+        local weapon = ""
+
+        if (!isEmpty)
+        {
+          local player = table[i]
+          if (isInFlight && !isInGame)
+            unitIco = ::g_player_state.HAS_LEAVED_GAME.getIcon(player)
+          else if (player?.isDead)
+            unitIco = (player?.spectator) ? "#ui/gameuiskin#player_spectator" : "#ui/gameuiskin#dead"
+          else if (showAirIcons && ("aircraftName" in player))
+          {
+            unitId = player.aircraftName
+            unitIco = ::getUnitClassIco(unitId)
+            unitIcoColorType = ::get_unit_role(unitId)
+            weapon = player?.weapon ?? ""
+          }
+        }
+
+        local obj = objTd.findObject("unit-ico")
+        if (::check_obj(obj))
+        {
+          obj["background-image"] = unitIco
+          obj["shopItemType"] = unitIcoColorType
+        }
+
+        foreach(id, icon in ::getWeaponTypeIcoByWeapon(unitId, weapon))
+        {
+          obj = objTd.findObject(id + "-ico")
+          if (::check_obj(obj))
+            obj["background-image"] = icon
+        }
       }
       else if (hdr == "aircraft")
       {
@@ -777,11 +742,7 @@ function getUnitClassIco(unit)
     unit = ::getAircraftByName(unit)
   if (!unit)
     return ""
-
-  if ("customClassIco" in unit)
-    return unit.customClassIco
-
-  return ::get_unit_class_icon_by_unit(unit, unit.name + "_ico")
+  return unit.customClassIco ?? ::get_unit_class_icon_by_unit(unit, unit.name + "_ico")
 }
 
 function getUnitClassColor(unit)
@@ -847,34 +808,33 @@ function get_mp_country_by_team(team)
   return "country_0"
 }
 
-function count_width_for_mptable(objTbl, markupData, tblData)
+function count_width_for_mptable(objTbl, markup)
 {
   local guiScene = objTbl.getScene()
   local usedWidth = 0
   local relWidthTotal = 0.0
-  foreach (id in tblData)
+  foreach (id, col in markup)
   {
-    if ("relWidth" in markupData[id])
-      relWidthTotal += markupData[id].relWidth
-    else if ("width" in markupData[id])
+    if ("relWidth" in col)
+      relWidthTotal += col.relWidth
+    else if ("width" in col)
     {
-      local width = guiScene.calcString(markupData[id].width, objTbl)
-      markupData[id].width = width.tostring()
+      local width = guiScene.calcString(col.width, objTbl)
+      col.width = width.tostring()
       usedWidth += width
     }
   }
 
   local freeWidth = objTbl.getSize()[0] - usedWidth
-  foreach (id in tblData)
+  foreach (id, col in markup)
   {
-    if (relWidthTotal > 0 && ("relWidth" in markupData[id]))
+    if (relWidthTotal > 0 && ("relWidth" in col))
     {
-      local cell = markupData[id]
-      local width = (freeWidth * cell.relWidth / relWidthTotal).tointeger()
-      cell.width <- width.tostring()
+      local width = (freeWidth * col.relWidth / relWidthTotal).tointeger()
+      col.width <- width.tostring()
       freeWidth -= width
-      relWidthTotal -= cell.relWidth
-      delete cell.relWidth
+      relWidthTotal -= col.relWidth
+      delete col.relWidth
     }
   }
 }
@@ -922,9 +882,9 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   checkRaceDataOnStart = true
   numberOfWinningPlaces = -1
 
-  defaultRowHeaders         = ["squad", "name", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills",
+  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills",
                                "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
-  raceRowHeaders            = ["rowNo", "name", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
+  raceRowHeaders            = ["rowNo", "name", "unitIcon", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
   statTrSize = "pw, 1@baseTrHeight"
 
@@ -1091,7 +1051,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     isOnline = ::g_login.isLoggedIn()
 
     isTeamplay = ::is_mode_with_teams(gameType)
-    isTeamsWithCountryFlags = isTeamplay && (!isShowEnemyAirs() || !(::SessionLobby.getRoomEvent()?.isSymmetric ?? false))
+    isTeamsWithCountryFlags = isTeamplay &&
+      (::get_mission_difficulty_int() > 0 || !(::SessionLobby.getRoomEvent()?.isSymmetric ?? false))
     isTeamsRandom = !isTeamplay || gameMode == ::GM_DOMINATION
 
     missionObjectives = ::g_mission_type.getCurrentObjectives()
@@ -1141,46 +1102,52 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local showAirIcons = ::getTblValue("showAirIcons", tblConfig, showAircrafts)
     local invert = ::getTblValue("invert", tblConfig, false)
 
-    local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
-    local tblData = []
-    foreach (id in sourceHeaders)
-      if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType))
-        tblData.append(id)
-
-    if (!showAircrafts)
-      ::u.removeFrom(tblData, "aircraft")
-    if (!::SquadIcon.isShowSquad())
-      ::u.removeFrom(tblData, "squad")
+    local tblData = [] // columns order
 
     local markupData = {
       tr_size = statTrSize
       invert = invert
+      colorTeam = "blue"
+      columns = {}
     }
 
     if (gameType & ::GT_COOPERATIVE)
     {
-      tblData = ["name"]
-      markupData["name"] <- {width = "pw - ph - 1@tablePad", airWeaponIcons = showAircrafts, readyIcon = false}
+      tblData = showAirIcons ? [ "unitIcon", "name" ] : [ "name" ]
+      foreach(id in tblData)
+        markupData.columns[id] <- ::g_mplayer_param_type.getTypeById(id).getMarkupData()
+
+      if ("name" in markupData.columns)
+        markupData.columns["name"].width = "fw"
     }
     else
     {
+      local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
+      foreach (id in sourceHeaders)
+        if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType))
+          tblData.append(id)
+
+      if (!showAircrafts)
+        ::u.removeFrom(tblData, "aircraft")
+      if (!::SquadIcon.isShowSquad())
+        ::u.removeFrom(tblData, "squad")
+
       foreach(name in tblData)
-        markupData[name] <- ::g_mplayer_param_type.getTypeById(name).getMarkupData()
+        markupData.columns[name] <- ::g_mplayer_param_type.getTypeById(name).getMarkupData()
 
-      if ("name" in markupData)
+      if ("name" in markupData.columns)
       {
-        markupData["name"].airWeaponIcons = showAirIcons
-
-        if (isWideScreenStatTbl && ("widthInWideScreen" in markupData["name"]))
-          markupData["name"].width = markupData["name"].widthInWideScreen
+        local col = markupData.columns["name"]
+        if (isWideScreenStatTbl && ("widthInWideScreen" in col))
+          col.width = col.widthInWideScreen
       }
 
-      ::count_width_for_mptable(objTbl, markupData, tblData)
+      ::count_width_for_mptable(objTbl, markupData.columns)
 
       local teamNum = (team==2)? 2 : 1
       local tableObj = scene.findObject("team_table_" + teamNum)
       if (team == 2)
-        markupData.colorTeam <- "red"
+        markupData.colorTeam = "red"
       if (::checkObj(tableObj))
       {
         local rowHeaderData = createHeaderRow(tableObj, tblData, markupData, teamNum)
@@ -1570,7 +1537,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!markupData
         || typeof markupData != "table"
-        || markupData.len() == 0
+        || !("columns" in markupData)
+        || !markupData.columns.len()
         || !::checkObj(tableObj))
       return ""
 
@@ -1582,7 +1550,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local view = {cells = []}
     foreach(name in tblData)
     {
-      local value = ::getTblValue(name, markupData)
+      local value = markupData.columns?[name]
       if (!value || typeof value != "table")
         continue
 
@@ -1601,8 +1569,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     return trData
   }
 
-  function onComplain(obj) {}
-
   function goBack(obj) {}
 
   function onUserCard(obj)
@@ -1617,7 +1583,36 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   function onUserRClick(obj)
   {
     onClick(obj)
-    session_player_rmenu(this, getSelectedPlayer())
+    ::session_player_rmenu(this, getSelectedPlayer())
+  }
+
+  function onUserOptions(obj)
+  {
+    local selectedTableObj = getSelectedTable()
+    if (!::check_obj(selectedTableObj))
+      return
+
+    onClick(selectedTableObj)
+    local selectedPlayer = getSelectedPlayer()
+    local orientation = selectedTableObj.id == "table_kills_team1"? RCLICK_MENU_ORIENT.RIGHT : RCLICK_MENU_ORIENT.LEFT
+    ::session_player_rmenu(this, selectedPlayer, "", getSelectedRowPos(selectedTableObj, orientation), orientation)
+  }
+
+  function getSelectedRowPos(selectedTableObj, orientation)
+  {
+    local rowNum = selectedTableObj.getValue()
+    if (rowNum >= selectedTableObj.childrenCount())
+      return null
+
+    local rowObj = selectedTableObj.getChild(rowNum)
+    local rowSize = rowObj.getSize()
+    local rowPos = rowObj.getPosRC()
+
+    local posX = rowPos[0]
+    if (orientation == RCLICK_MENU_ORIENT.RIGHT)
+      posX += rowSize[0]
+
+    return [posX, rowPos[1] + rowSize[1]]
   }
 
   function onFriends()
@@ -1688,11 +1683,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       ::do_kick_player(player.id)
   }
 
-  function onChangeTeam()
-  {
-
-  }
-
   function getPlayerInfo(name)
   {
     if (name && name != "")
@@ -1731,10 +1721,18 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local pInfo = getSelectedInfo()
     ::set_mplayer_info(scene, pInfo, isTeam)
 
-    local player = getSelectedPlayer();
-    showSceneBtn("btn_usercard", isOnline && player && !player.isBot && !isSpectate)
-    showSceneBtn("btn_kick", isOnline && ::is_mplayer_host() && player && !player.isLocal && !player.isBot)
+    local player = getSelectedPlayer()
+    showSceneBtn("btn_user_options", isOnline && player && !player.isBot && !isSpectate && ::show_console_buttons)
     ::SquadIcon.updateListLabelsSquad()
+  }
+
+  function onComplain(obj)
+  {
+    local pInfo = getSelectedInfo()
+    if (!pInfo || pInfo.isBot || pInfo.isLocal)
+      return
+
+    ::gui_modal_complain(pInfo)
   }
 
   function updateListsButtons()
@@ -1941,7 +1939,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         if (unit != null)
           country = ::getUnitCountry(unit)
       }
-      ::append_once(country, countries, true)
+      ::u.appendOnce(country, countries, true)
     }
     return countries
   }
@@ -2108,15 +2106,6 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
   function onApply()
   {
     goBack(null)
-  }
-
-  function onComplain(obj)
-  {
-    local pInfo = getSelectedInfo()
-    if (!pInfo || pInfo.isBot || pInfo.isLocal)
-      return
-
-    ::gui_modal_complain(pInfo)
   }
 
   function onHideHUD(obj) {}

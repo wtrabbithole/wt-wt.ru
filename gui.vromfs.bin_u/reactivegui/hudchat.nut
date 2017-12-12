@@ -55,6 +55,9 @@ local chatInputCtor = function (field, send) {
   local options = {
     font = Fonts.tiny_text_hud
     margin = 0
+    hotkeys = [
+      [ "J:B", @() restoreControle() ]
+    ]
   }
   return textInput.hud(field, options, handlers)
 }

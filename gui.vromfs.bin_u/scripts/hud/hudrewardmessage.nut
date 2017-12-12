@@ -33,6 +33,9 @@ function g_hud_reward_message::_getText(rewardValue, counter)
 enum REWARD_PRIORITY {
   noPriority, //for null message. any real type priority is higher
   common,
+  scout,
+  scout_hit,
+  scout_kill,
   hit,
   critical,
   assist,
@@ -186,4 +189,26 @@ enum REWARD_PRIORITY {
     viewClass = "hit"
     priority = REWARD_PRIORITY.hit
   }
+
+  SCOUT = {
+    code = ::EXP_EVENT_SCOUT
+    locId  = "exp_reasons/scout"
+    viewClass = "scout"
+    priority = REWARD_PRIORITY.scout
+  }
+
+  SCOUT_CRITICAL_HIT = {
+    code = ::EXP_EVENT_SCOUT_CRITICAL_HIT
+    locId  = "exp_reasons/scout_critical_hit"
+    viewClass = "scout"
+    priority = REWARD_PRIORITY.scout_hit
+  }
+
+  SCOUT_KILL = {
+    code = ::EXP_EVENT_SCOUT_KILL
+    locId  = "exp_reasons/scout_kill"
+    viewClass = "scout"
+    priority = REWARD_PRIORITY.scout_kill
+  }
+
 })

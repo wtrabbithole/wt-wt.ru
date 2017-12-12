@@ -32,23 +32,22 @@
         "css-hier-invalidate": "yes",
         "re-type": "9rect",
         "position": "absolute",
-        "pos": "-1@bw -4*@sf/@pf_outdated, 1@spectatorTopOffset",
+        "pos": "-1@bw -4@dp, 1@spectatorTopOffset",
         "min-height": "2@sIco",
-        "background-image": "#ui/gameuiskin#window_body_gradient",
-        "background-position": "4",
+        "background-image": "#ui/gameuiskin#expandable_item_ww_transp_reflect",
+        "background-position": "2, 2, 0, 2",
         "background-repeat": "expand",
         "background-color": "#99999999",
-        "rotation": "0",
-        "padding": "1@bw, 1*@sf/@pf_outdated, 6*@sf/@pf_outdated, 1*@sf/@pf_outdated",
+        "padding": "1@bw, 1@dp, 1@framePadding, 1@dp",
         "flow": "vertical",
         "tdiv": {
           "id": "content",
-          "rotation": "0",
           "overflow-y": "auto",
           "scroll-align": "left",
           "width": "1@spectatorTableWidth",
           "min-height": "1@spectatorRowHeight",
-          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -16*@sf/@pf_outdated",
+          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -24@sf/@pf",
+          "invisibleSelection": "yes",
           "table": {
             "id": "table_team1",
             "class": "spectatorTeamTable",
@@ -75,23 +74,22 @@
         "css-hier-invalidate": "yes",
         "re-type": "9rect",
         "position": "absolute",
-        "pos": "pw - w + 4*@sf/@pf_outdated +1@bw, 1@spectatorTopOffset",
+        "pos": "pw - w + 4@dp +1@bw, 1@spectatorTopOffset",
         "min-height": "2@sIco",
-        "background-image": "#ui/gameuiskin#window_body_gradient",
-        "background-position": "4",
+        "background-image": "#ui/gameuiskin#expandable_item_ww_transp",
+        "background-position": "0, 2, 2, 2",
         "background-repeat": "expand",
         "background-color": "#99999999",
-        "rotation": "180",
-        "padding": "1@bw, 1*@sf/@pf_outdated, 6*@sf/@pf_outdated, 1*@sf/@pf_outdated",
+        "padding": "1@framePadding, 1@dp, 1@bw, 1@dp",
         "flow": "vertical",
         "tdiv": {
           "id": "content",
-          "rotation": "180",
           "overflow-y": "auto",
           "scroll-align": "right",
           "width": "1@spectatorTableWidth",
           "min-height": "1@spectatorRowHeight",
-          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -16*@sf/@pf_outdated",
+          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -24@sf/@pf",
+          "invisibleSelection": "yes",
           "table": {
             "id": "table_team2",
             "class": "spectatorTeamTable",
@@ -113,18 +111,13 @@
       }
     },
     {
-      "tdiv": {
+      "spectatorFrame": {
         "id": "log_div",
         "css-hier-invalidate": "yes",
-        "re-type": "9rect",
         "position": "absolute",
-        "pos": "-1@bw -4*@sf/@pf_outdated, ph-h",
+        "pos": "-1@bw -4@dp, ph-h",
         "min-height": "2@sIco",
-        "background-image": "#ui/gameuiskin#window_body",
-        "background-position": "4",
-        "background-repeat": "expand",
-        "background-color": "#99999999",
-        "padding": "6*@sf/@pf_outdated",
+        "padding": "1@framePadding",
         "padding-left": "1@bw",
         "flow": "vertical",
         "tdiv": [
@@ -146,7 +139,7 @@
                 "width": "pw"
               },
               {
-                "padding-bottom": "6*@sf/@pf_outdated"
+                "padding-bottom": "1@framePadding"
               },
               {
                 "hoverButton": {
@@ -203,18 +196,13 @@
       }
     },
     {
-      "tdiv": {
+      "spectatorFrame": {
         "id": "map_div",
         "css-hier-invalidate": "yes",
-        "re-type": "9rect",
         "position": "absolute",
-        "pos": "pw - w + 4*@sf/@pf_outdated +1@bw, ph-h",
+        "pos": "pw - w + 4@dp +1@bw, ph-h",
         "min-height": "2@sIco",
-        "background-image": "#ui/gameuiskin#window_body",
-        "background-position": "4",
-        "background-repeat": "expand",
-        "background-color": "#99999999",
-        "padding": "6*@sf/@pf_outdated",
+        "padding": "1@framePadding",
         "padding-right": "1@bw",
         "flow": "vertical",
         "tdiv": {
@@ -222,6 +210,7 @@
           "size": "1@spectatorTableWidth, 1@spectatorTableWidth",
           "behaviour": "button",
           "on_click": "onMapClick",
+          "total-input-transparent": "yes",
           "tacticalMap": {
             "size": "pw, ph"
           }
@@ -258,7 +247,7 @@
           "id": "waiting_for_target_spawn",
           "pos": "pw/2-w/2, 0",
           "position": "relative",
-          "padding-bottom": "8*@sf/@pf_outdated",
+          "padding-bottom": "12@sf/@pf",
           "text": "#spectator/waiting_for_target_spawn"
         },
         "targetInfo": {
@@ -283,18 +272,7 @@
       }
     },
     {
-      "activeText": {
-        "id": "ansel_text",
-        "display": "hide",
-        "pos": "pw/2-w/2, ph-h - 0.01@shHud - 1@sIco",
-        "position": "absolute",
-        "text-align": "center",
-        "caption": "yes",
-        "text": "#replays/nvidiaAnselSpectatorMessage"
-      }
-    },
-    {
-      "controls_bar": [
+      "spectatorFrame": [
         {
           "id": "controls_div"
         },
@@ -303,21 +281,6 @@
         },
         {
           "position": "absolute"
-        },
-        {
-          "re-type": "9rect"
-        },
-        {
-          "background-image": "#ui/gameuiskin#window_body"
-        },
-        {
-          "background-position": "4"
-        },
-        {
-          "background-repeat": "expand"
-        },
-        {
-          "background-color": "#99999999"
         },
         {
           "padding": "1@spectatorToolbarPadding"
@@ -522,7 +485,7 @@
                 "on_click": "onBtnShortcut",
                 "is_shortcut": "yes",
                 "icon": {
-                  "background-image": "#ui/gameuiskin#replay_forward",
+                  "background-image": "#ui/gameuiskin#replay_forward.svg",
                   "rotation": "180",
                   "background-position": "0, h"
                 }
@@ -543,7 +506,7 @@
                 "on_click": "onBtnShortcut",
                 "is_shortcut": "yes",
                 "icon": {
-                  "background-image": "#ui/gameuiskin#replay_forward"
+                  "background-image": "#ui/gameuiskin#replay_forward.svg"
                 }
               }
             },
@@ -557,7 +520,7 @@
                 "is_shortcut": "yes",
                 "icon": {
                   "id": "icon",
-                  "background-image": "#ui/gameuiskin#replay_pause"
+                  "background-image": "#ui/gameuiskin#replay_pause.svg"
                 }
               }
             },
@@ -626,7 +589,7 @@
         "attachSide": "left",
         "toggled": "yes",
         "toggleObj": "stats_left",
-        "pos": "-4*@sf/@pf_outdated, 1@spectatorTopOffset - h",
+        "pos": "-4@dp, 1@spectatorTopOffset - h",
         "position": "absolute",
         "icon": []
       }
@@ -638,7 +601,7 @@
         "attachSide": "right",
         "toggled": "yes",
         "toggleObj": "stats_right",
-        "pos": "pw-w +4*@sf/@pf_outdated, 1@spectatorTopOffset - h",
+        "pos": "pw-w +4@dp, 1@spectatorTopOffset - h",
         "position": "absolute",
         "icon": []
       }
@@ -650,7 +613,7 @@
         "attachSide": "left",
         "toggled": "yes",
         "toggleObj": "log_div",
-        "pos": "-4*@sf/@pf_outdated, ph-h - 1@spectatorTableWidth -12*@sf/@pf_outdated",
+        "pos": "-4@dp, ph-h - 1@spectatorTableWidth -16@sf/@pf",
         "position": "absolute",
         "icon": []
       }
@@ -662,26 +625,22 @@
         "attachSide": "right",
         "toggled": "yes",
         "toggleObj": "map_div",
-        "pos": "pw-w +4*@sf/@pf_outdated, ph-h - 1@spectatorTableWidth -12*@sf/@pf_outdated",
+        "pos": "pw-w +4@dp, ph-h - 1@spectatorTableWidth -16@sf/@pf",
         "position": "absolute",
         "icon": []
       }
     },
     {
-      "div": {
+      "spectatorFrame": {
         "id": "map_large_div",
         "display": "hide",
-        "width": "1@rh $min (1@rw -2@spectatorTableWidth -12*@sf/@pf_outdated)",
-        "height": "1@rh $min (1@rw -2@spectatorTableWidth -12*@sf/@pf_outdated)",
+        "width": "1@rh $min (1@rw -2@spectatorTableWidth -16@sf/@pf)",
+        "height": "1@rh $min (1@rw -2@spectatorTableWidth -16@sf/@pf)",
         "pos": "pw/2-w/2, ph/2-h/2",
         "position": "absolute",
         "css-hier-invalidate": "yes",
-        "re-type": "9rect",
-        "background-image": "#ui/gameuiskin#window_body",
-        "background-position": "4",
-        "background-repeat": "expand",
-        "background-color": "#99999999",
-        "padding": "6*@sf/@pf_outdated",
+        "padding": "1@framePadding",
+        "total-input-transparent": "yes",
         "behaviour": "button",
         "on_click": "onMapClick",
         "tacticalMap": {
@@ -691,15 +650,12 @@
           "width": "pw",
           "height": "ph"
         },
-        "hoverButton": {
+        "Button_close": {
           "id": "btnCloseMap",
           "on_click": "onMapClick",
-          "pos": "pw-w-6*@sf/@pf_outdated, 6*@sf/@pf_outdated",
+          "pos": "pw-w-1@framePadding, 1@framePadding",
           "position": "absolute",
-          "tooltip": "#mainmenu/btnClose",
-          "icon": {
-            "background-image": "#ui/gameuiskin#btn_close.svg"
-          }
+          "have_shortcut": "no"
         }
       }
     },
@@ -708,6 +664,8 @@
         "id": "hud_hitcamera",
         "position": "absolute",
         "pos": "pw - w, ph - h",
+        "input-transparent": "yes",
+        "total-input-transparent": "yes",
         "result": "",
         "hitCameraLine": [],
         "hitCameraRender": {

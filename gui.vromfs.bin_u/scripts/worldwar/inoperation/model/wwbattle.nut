@@ -18,11 +18,11 @@ class ::WwBattle
 
   queueInfo = null
 
-  constructor(blk = ::DataBlock())
+  constructor(blk = ::DataBlock(), params = null)
   {
     id = blk.id || blk.getBlockName() || ""
     status = blk.status? ::ww_battle_status_name_to_val(blk.status) : 0
-    pos = blk.pos || ::Point2()
+    pos = blk.pos ? ::Point2(blk.pos.x, blk.pos.y) : ::Point2()
     maxPlayersPerArmy = blk.maxPlayersPerArmy || 0
     minPlayersPerArmy = blk.minTeamSize || 0
     battleStartMillisec = blk.battleStartTimestamp || 0
@@ -35,9 +35,12 @@ class ::WwBattle
 
     createLocalizeConfig(blk.desc)
 
+    updateParams(blk, params)
     updateTeamsInfo(blk)
     applyBattleUpdates(blk)
   }
+
+  function updateParams(blk, params) {}
 
   function applyBattleUpdates(blk)
   {
@@ -221,7 +224,7 @@ class ::WwBattle
             firstArmyCountry = army.owner.country
 
           teamArmyNames.push(armyName)
-          ::append_once(army.unitType, teamUnitTypes)
+          ::u.appendOnce(army.unitType, teamUnitTypes)
         }
       }
 
@@ -641,10 +644,10 @@ class ::WwBattle
   function getSectorName()
   {
     if (!isValid())
-      return null
+      return ""
 
     local sectorIdx = ::ww_get_zone_idx_world(pos)
-    return ::ww_get_zone_name(sectorIdx)
+    return sectorIdx >= 0 ? ::ww_get_zone_name(sectorIdx) : ""
   }
 
   function getBattleDurationTime()

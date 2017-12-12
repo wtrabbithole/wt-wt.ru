@@ -67,7 +67,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
       initTopMenuTimer()
       instantOpenShopWnd()
-      ::init_slotbar(this, guiScene["nav-topMenu"], true, null, { mainMenuSlotbar = true })
+      createSlotbar({ mainMenuSlotbar = true }, "nav-topMenu")
       currentFocusItem = ::top_menu_shop_active? 2 : 11 //shop : slotbar
       initFocusArray()
     }
@@ -330,20 +330,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     {
       updateShopCountry(false)
       updateSlotbarTopPanelVisibility(false)
-    }
-  }
-
-  function onSlotRepair(obj)
-  {
-    if (::top_menu_shop_active && ::is_shop_loaded())
-      ::shop_gui_handler.onTopMenuSlotRepair.call(::shop_gui_handler, obj)
-    else if (::current_base_gui_handler && ("onTopMenuSlotRepair" in ::current_base_gui_handler))
-      ::current_base_gui_handler.onTopMenuSlotRepair.call(::current_base_gui_handler, obj)
-    else
-    {
-      local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
-      if (air)
-        showMsgBoxRepair(air, (@(obj) function() { base.onSlotRepair(obj) })(obj))
     }
   }
 

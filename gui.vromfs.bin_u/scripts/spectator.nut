@@ -499,7 +499,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       if (::is_game_paused() != replayPaused)
       {
         replayPaused = ::is_game_paused()
-        scene.findObject("ID_REPLAY_PAUSE").findObject("icon")["background-image"] = replayPaused ? "#ui/gameuiskin#replay_play" : "#ui/gameuiskin#replay_pause"
+        scene.findObject("ID_REPLAY_PAUSE").findObject("icon")["background-image"] = replayPaused ? "#ui/gameuiskin#replay_play.svg" : "#ui/gameuiskin#replay_pause.svg"
       }
       if (::get_time_speed() != replayTimeSpeed)
       {

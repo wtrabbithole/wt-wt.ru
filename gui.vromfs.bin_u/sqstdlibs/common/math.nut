@@ -6,8 +6,7 @@ function minByAbs(a, b) { return (fabs(a) < fabs(b))? a : b }
 function maxByAbs(a, b) { return (fabs(a) > fabs(b))? a : b }
 
 
-function clamp(value, min, max)
-{
+function clamp(value, min, max) {
   return (value < min) ? min : (value > max) ? max : value
 }
 
@@ -75,3 +74,21 @@ function calc_golden_ratio_columns(total, widthToHeight = 1.0)
   local rows = (sqrt(total.tofloat() / GOLDEN_RATIO * widthToHeight) + 0.5).tointeger() || 1
   return ceil(total.tofloat() / rows).tointeger()
 }
+
+//EXPORT content for require
+local export = {
+  GOLDEN_RATIO = GOLDEN_RATIO
+  min = min
+  max = max
+  clamp = clamp
+  minByAbs = minByAbs
+  round_by_value = round_by_value
+  number_of_set_bits = number_of_set_bits
+  roundToDigits = roundToDigits
+  is_bit_set = is_bit_set
+  change_bit = change_bit
+  lerp = lerp
+  calc_golden_ratio_columns = calc_golden_ratio_columns
+}
+
+return export

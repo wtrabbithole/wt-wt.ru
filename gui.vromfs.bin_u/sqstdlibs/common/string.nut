@@ -1,13 +1,22 @@
-  //pairs list taken from http://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/nls/rbagslowtoupmaptable.htm
+//pairs list taken from http://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/nls/rbagslowtoupmaptable.htm
 const CASE_PAIR_LOWER = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭįıĳĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧũūŭůűųŵŷźżžƃƅƈƌƒƙơƣƥƨƭưƴƶƹƽǆǉǌǎǐǒǔǖǘǚǜǟǡǣǥǧǩǫǭǯǳǵǻǽǿȁȃȅȇȉȋȍȏȑȓȕȗɓɔɗɘəɛɠɣɨɩɯɲɵʃʈʊʋʒάέήίαβγδεζηθικλμνξοπρστυφχψωϊϋόύώϣϥϧϩϫϭϯабвгдежзийклмнопрстуфхцчшщъыьэюяёђѓєѕіїјљњћќўџѡѣѥѧѩѫѭѯѱѳѵѷѹѻѽѿҁґғҕҗҙқҝҟҡңҥҧҩҫҭүұҳҵҷҹһҽҿӂӄӈӌӑӓӕӗәӛӝӟӡӣӥӧөӫӯӱӳӵӹաբգդեզէըթժիլխծկհձղճմյնշոչպջռսվտրցւփքօֆაბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵḁḃḅḇḉḋḍḏḑḓḕḗḙḛḝḟḡḣḥḧḩḫḭḯḱḳḵḷḹḻḽḿṁṃṅṇṉṋṍṏṑṓṕṗṙṛṝṟṡṣṥṧṩṫṭṯṱṳṵṷṹṻṽṿẁẃẅẇẉẋẍẏẑẓẕạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
 const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
 
-::g_string <- {
-  INVALID_INDEX = -1
+local INVALID_INDEX = -1
 
-  intRegExp = regexp2(@"^-?\d+$")
-  floatRegExp = regexp2(@"^-?\d+\.?\d*$")
+local rootTable = getroottable()
+local intRegExp = null
+local floatRegExp = null
+local stripTagsConfig = null
 
+function clamp(value, min, max) { //copied from math to no expose new dependency. clamp\min\max should be in language or system stdlibrary
+  return (value < min) ? min : (value > max) ? max : value
+}
+
+
+if ("regexp2" in rootTable) {
+  intRegExp = ::regexp2(@"^-?\d+$")
+  floatRegExp  = ::regexp2(@"^-?\d+\.?\d*$")
   stripTagsConfig = [
     {
       re2 = ::regexp2("~")
@@ -30,7 +39,138 @@ const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍ�
       repl = "~\'"
     }
   ]
+} else  if ("regexp" in rootTable) {
+  intRegExp = ::regexp(@"^-?(\d+)$")
+  floatRegExp  = ::regexp(@"^-?(\d+)(\.?)(\d*)$")
+  stripTagsConfig = [
+    {
+      re2 = ::regexp(@"~")
+      repl = "~~"
+    }
+    {
+      re2 = ::regexp("\"")
+      repl = "~\""
+    }
+    {
+      re2 = ::regexp(@"\r")
+      repl = "~r"
+    }
+    {
+      re2 = ::regexp(@"\n")
+      repl = "~n"
+    }
+    {
+      re2 = ::regexp(@"\'")
+      repl = "~\'"
+    }
+  ]
 }
+
+local function tostring_any(input) {
+  if (::type(input) != "userdata"){
+    return input.tostring()
+  }
+  else
+    return "#USERDATA#"
+}
+
+local function tostring_r(input, indent = "  ") {
+  local out = ""
+
+  local table_types = ["class","table","instance"]
+  local simple_types = ["string", "float", "bool", "integer"]
+  local complex_types = ["userdata","weakreference"]
+  local function_types = ["function", "generator", "thread"]
+  local rawtypes = []
+  rawtypes.extend(complex_types)
+  rawtypes.extend(simple_types)
+
+  local func_tostring = function(func) {
+    local info = func.getinfos()
+    local out = ""
+    if (!info.native) {
+      local params = info.parameters.reduce(@(res, curval) res.tostring() + ", " + curval)
+      local fname = "" + info.name
+      if (fname.find("(null : 0x0") != null)
+        fname = "@"
+      out += "(function): " + info.src + ",(" + fname + ") arguments(" + params + ")"
+    } else if (info.native) {
+      out += "(nativefunction): " + info.name
+
+    } else {
+      out += func.tostring()
+    }
+    return out
+  }
+
+  local sub_tostring_r = function(input, indent, arrayElem = false, separator = "\n") {
+    local out = ""
+    foreach (key, value in input) {
+      if (simple_types.find(::type(value)) != null && function_types.find(::type(value)) != -1) {
+        out += separator
+        if (!arrayElem) {
+           out += indent + tostring_any(key) +  " = "
+        }
+        out += value.tostring()
+      }
+      else if (function_types.find(::type(value)) != null &&
+        function_types.find(::type(value)) != -1) {
+        out += separator
+        if (!arrayElem) {
+           out += indent + tostring_any(key) +  " = "
+        }
+        out += func_tostring(value)
+      }
+      else if (["null"].find(::type(value)) != null) {
+        out += separator
+        if (!arrayElem) {
+           out += indent + tostring_any(key) +  " = "
+        }
+        out += "null"
+      }
+      else if (::type(value) == "array" && function_types.find(::type(value)) != -1) {
+        out += separator
+        if (!arrayElem) {
+          out += indent + key.tostring() +  " = "
+        }
+        out += "[" + callee()(value, indent + "  ", true, " ") + " ]"
+      }
+      else if (table_types.find(::type(value)) != null && table_types.find(::type(value)) != -1) {
+        out += "\n" + indent
+        if (!arrayElem) {
+          out += tostring_any(key) +  " = "
+        }
+        out += "{" + callee()(value, indent + "  ") + "\n" + indent + "}"
+        if (arrayElem)
+          out += "\n"
+      }
+      else {
+        out += "\n" + indent
+        if (!arrayElem) {
+          out += tostring_any(key) +  " = "
+        }
+        out += tostring_any(value) + "\n"
+      }
+    }
+    return out
+  }
+  if (table_types.find(::type(input)) != null && table_types.find(::type(input)) != -1) {
+    out += input.tostring() + " { "
+    out += sub_tostring_r(input, indent, false,"\n")
+    out += "\n}"
+  } else if (::type(input)=="array"){
+    out += input.tostring() + " ["
+    out += sub_tostring_r(input, "  ", true, " ")
+    if (out.slice(-1) != "\n")
+      out += " "
+    out += "]"
+  } else {
+    out += sub_tostring_r([input], "", true, "")
+  }
+
+  return out +"\n"
+}
+
 
 /**
  * Retrieves a substring from the string. The substring starts and ends at a specified indexes.
@@ -42,18 +182,17 @@ const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍ�
  *                          end at the end'th character from the end of input string.
  * @return {string} - substring, or on error - part of substring or empty string.
  */
-function g_string::slice(str, start = 0, end = null)
-{
+local function slice(str, start = 0, end = null) {
   str = str || ""
   local total = str.len()
   if (start < 0)
     start += total
-  start = ::clamp(start, 0, total)
+  start = clamp(start, 0, total)
   if (end == null)
     end = total
   else if (end < 0)
     end += total
-  end = ::clamp(end, start, total)
+  end = clamp(end, start, total)
   return str.slice(start, end)
 }
 
@@ -68,8 +207,7 @@ function g_string::slice(str, start = 0, end = null)
  *                             end at the end'th character from the end of input string.
  * @return {string} - substring, or on error - part of substring or empty string.
  */
-function g_string::substring(str, start = 0, length = null)
-{
+local function substring(str, start = 0, length = null) {
   local end = length
   if (length != null && length >= 0)
   {
@@ -77,10 +215,10 @@ function g_string::substring(str, start = 0, length = null)
     local total = str.len()
     if (start < 0)
       start += total
-    start = ::clamp(start, 0, total)
+    start = clamp(start, 0, total)
     end = start + length
   }
-  return ::g_string.slice(str, start, end)
+  return slice(str, start, end)
 }
 
 /**
@@ -90,11 +228,10 @@ function g_string::substring(str, start = 0, length = null)
  * @param {string}  value - Matching substring.
  * @return {boolean}
  */
-function g_string::startsWith(str, value)
-{
+local function startsWith(str, value) {
   str = str || ""
   value = value || ""
-  return ::g_string.slice(str, 0, value.len()) == value
+  return slice(str, 0, value.len()) == value
 }
 
 /**
@@ -104,11 +241,10 @@ function g_string::startsWith(str, value)
  * @param {string}  value - Matching substring.
  * @return {boolean}
  */
-function g_string::endsWith(str, value)
-{
+local function endsWith(str, value) {
   str = str || ""
   value = value || ""
-  return ::g_string.slice(str, - value.len()) == value
+  return slice(str, - value.len()) == value
 }
 
 /**
@@ -119,8 +255,7 @@ function g_string::endsWith(str, value)
  * @param {integer} [startIndex=0] - Search start index.
  * @return {integer} - index, or -1 if not found.
  */
-function g_string::indexOf(str, value, startIndex = 0)
-{
+local function indexOf(str, value, startIndex = 0) {
   str = str || ""
   value = value || ""
   local idx = str.find(value, startIndex)
@@ -135,15 +270,13 @@ function g_string::indexOf(str, value, startIndex = 0)
  * @param {integer} [startIndex=0] - Search start index.
  * @return {integer} - index, or -1 if not found.
  */
-function g_string::lastIndexOf(str, value, startIndex = 0)
-{
+local function lastIndexOf(str, value, startIndex = 0) {
   str = str || ""
   value = value || ""
   local idx = INVALID_INDEX
   local curIdx = startIndex - 1
   local length = str.len()
-  while (curIdx < length - 1)
-  {
+  while (curIdx < length - 1) {
     curIdx = str.find(value, curIdx + 1)
     if (curIdx == null)
       break
@@ -160,14 +293,12 @@ function g_string::lastIndexOf(str, value, startIndex = 0)
  * @param {integer}  [startIndex=0] - Search start index.
  * @return {integer} - index, or -1 if not found.
  */
-function g_string::indexOfAny(str, anyOf, startIndex = 0)
-{
+local function indexOfAny(str, anyOf, startIndex = 0) {
   str = str || ""
   anyOf = anyOf || [ "" ]
   local idx = INVALID_INDEX
-  foreach (value in anyOf)
-  {
-    local curIdx = ::g_string.indexOf(str, value, startIndex)
+  foreach (value in anyOf) {
+    local curIdx = indexOf(str, value, startIndex)
     if (curIdx != INVALID_INDEX && (idx == INVALID_INDEX || curIdx < idx))
       idx = curIdx
   }
@@ -182,14 +313,13 @@ function g_string::indexOfAny(str, anyOf, startIndex = 0)
  * @param {integer}  [startIndex=0] - Search start index.
  * @return {integer} - index, or -1 if not found.
  */
-function g_string::lastIndexOfAny(str, anyOf, startIndex = 0)
-{
+local function lastIndexOfAny(str, anyOf, startIndex = 0) {
   str = str || ""
   anyOf = anyOf || [ "" ]
   local idx = INVALID_INDEX
   foreach (value in anyOf)
   {
-    local curIdx = ::g_string.lastIndexOf(str, value, startIndex)
+    local curIdx = lastIndexOf(str, value, startIndex)
     if (curIdx != INVALID_INDEX && (idx == INVALID_INDEX || curIdx > idx))
       idx = curIdx
   }
@@ -197,28 +327,28 @@ function g_string::lastIndexOfAny(str, anyOf, startIndex = 0)
 }
 
 //returns the number of entries of @substr in @str.
-function g_string::countSubstrings(str, substr)
-{
+local function countSubstrings(str, substr) {
   local res = -1
   local findex = -1
-  for(res; findex != null; res++)
+  for(res; findex != null; res++) {
     findex = str.find(substr, ++findex)
+  }
   return res
 }
 
 //remove start and end spaces and line breaks from @str
-function g_string::clearBorderSymbolsMultiline(str)
-{
+local function clearBorderSymbolsMultiline(str) {
   return ::clearBorderSymbols(str, [" ", 0x0A.tochar(), 0x0D.tochar()])
 }
 
 //Change case to upper for set up number of symbols
-function g_string::toUpper(string, symbolsNum = 0)
-{
-  if (symbolsNum <= 0)
-   symbolsNum = string.len()
-  if (symbolsNum >= string.len())
+local function toUpper(string, symbolsNum = 0) {
+  if (symbolsNum <= 0) {
+    symbolsNum = string.len()
+  }
+  if (symbolsNum >= string.len()) {
     return string.toupper()
+  }
   return slice(string, 0, symbolsNum).toupper() + slice(string, symbolsNum)
 }
 
@@ -231,15 +361,10 @@ function g_string::toUpper(string, symbolsNum = 0)
  * @return {string} - String containing all the array elements in the same order,
  *                    with the glue string between each element.
  */
-function g_string::implode(pieces = [], glue = "") // Reverse operation to split()
-{
-  local result = ""
-  foreach (piece in pieces)
-    if (piece != "")
-      result += (result == "" ? "" : glue) + piece
-  return result
+// Reverse operation to split()
+local function implode(pieces = [], glue = "") {
+  return pieces.filter(@(index,val) val != "").reduce(@(prev, cur) prev + glue + cur) ?? ""
 }
-
 
 /**
  * Joins array elements into a string with the glue string between each element.
@@ -251,12 +376,8 @@ function g_string::implode(pieces = [], glue = "") // Reverse operation to split
  * @return {string} - String containing all the array elements in the same order,
  *                    with the glue string between each element.
  */
-function g_string::join(pieces, glue)
-{
-  local joined = ""
-  foreach (piece in pieces)
-    joined += (joined.len() ? glue : "") + piece
-  return joined
+local function join(pieces, glue) {
+  return pieces.reduce(@(prev, cur) prev + glue + cur) ?? ""
 }
 
 /**
@@ -268,16 +389,14 @@ function g_string::join(pieces, glue)
  * @param {string} glue - glue string.
  * @return {string[]} - Array of sub-strings.
  */
-function g_string::split(joined, glue)
-{
+local function split(joined, glue) {
   local pieces = []
   local joinedLen = joined.len()
   if (!joinedLen)
     return pieces
   local glueLen = glue.len()
   local start = 0
-  while (start <= joinedLen)
-  {
+  while (start <= joinedLen) {
     local end = joined.find(glue, start)
     if (end == null)
       end = joinedLen
@@ -287,23 +406,11 @@ function g_string::split(joined, glue)
   return pieces
 }
 
-function g_string::isStringInteger(str)
-{
-  return intRegExp.match(str)
-}
-
-function g_string::isStringFloat(str)
-{
-  return floatRegExp.match(str)
-}
-
-function g_string::replaceSym(str, from, to)
-{
+local function replaceSym(str, from, to) {
   if (!str)
     return ""
   local str2 = []
-  foreach (sym in str)
-  {
+  foreach (sym in str) {
     if (sym == from)
       sym = to
     str2.append(sym.tochar())
@@ -311,8 +418,49 @@ function g_string::replaceSym(str, from, to)
   return join(str2, "")
 }
 
-function g_string::intToUtf8Char(c)
-{
+local function isStringInteger(str) {
+  if (type(str) == "integer")
+    return true
+  if (type(str) != "string")
+    return false
+  if (intRegExp != null)
+    return intRegExp.match(str)
+  
+  if (startsWith(str,"-"))
+    str=str.slice(1)
+  local ok = false
+  try {
+    ok = str.tointeger().tostring() == str
+  }
+  catch(e) {
+    ok = false
+  }
+  return ok
+}
+
+local function isStringFloat(str, separator=".") {
+  if (type(str) == "integer" || type(str) == "float")
+    return true
+  if (type(str) != "string")
+    return false
+  if (floatRegExp != null)
+    return floatRegExp.match(str)
+  if (startsWith(str,"-"))
+    str=str.slice(1)
+  local s_list = split(str,separator)
+  if (s_list.len() > 3) 
+    return false
+  local ok = true
+  foreach (s in s_list) {
+    if (startsWith(s,"-"))
+      ok = false
+    try { ok = ok && str.tointeger().tostring() == str }
+    catch(e) { ok = false }
+  }
+  return ok
+}
+
+local function intToUtf8Char(c) {
   if (c <= 0x7F)
     return c.tochar()
   if (c <= 0x7FF)
@@ -321,8 +469,7 @@ function g_string::intToUtf8Char(c)
   return (0xe0 + (c>>12)).tochar() + (0x80 + ((c>>6) & 0x3F)).tochar() + (0x80 + (c & 0x3F)).tochar()
 }
 
-function g_string::utf8ToUpper(str, symbolsNum = 0)
-{
+local function utf8ToUpper(str, symbolsNum = 0) {
   if(str.len() < 1)
     return str
   local utf8Str = utf8(str)
@@ -333,21 +480,18 @@ function g_string::utf8ToUpper(str, symbolsNum = 0)
    utf8Str.slice(symbolsNum, strLength)
 }
 
-function g_string::utf8ToLower(str)
-{
+local function utf8ToLower(str) {
   return utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
 }
 
-function g_string::hexStringToInt(hexString)
-{
+local function hexStringToInt(hexString) {
   // Does the string start with '0x'? If so, remove it
   if (hexString.len() >= 2 && hexString.slice(0, 2) == "0x")
     hexString = hexString.slice(2)
 
   // Get the integer value of the remaining string
   local res = 0
-  foreach (character in hexString)
-  {
+  foreach (character in hexString) {
     local nibble = character - '0'
     if (nibble > 9)
       nibble = ((nibble & 0x1F) - 7)
@@ -358,8 +502,7 @@ function g_string::hexStringToInt(hexString)
 }
 
 //Return defValue when incorrect prefix
-function g_string::cutPrefix(id, prefix, defValue = null)
-{
+local function cutPrefix(id, prefix, defValue = null) {
   if (!id)
     return defValue
 
@@ -369,24 +512,54 @@ function g_string::cutPrefix(id, prefix, defValue = null)
   return defValue
 }
 
-function g_string::stripTags(str)
-{
-  if (!str || !str.len())
-    return ""
-
-  foreach(test in stripTagsConfig)
-    str = test.re2.replace(test.repl, str)
-  return str
-}
-
-function g_string::intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3)
-{
+local function intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3) {
   local res = value.tointeger().tostring()
   local idx = res.len()
-  while (idx > charsAmount)
-  {
+  while (idx > charsAmount) {
     idx -= charsAmount
     res = res.slice(0, idx) + delimiter + res.slice(idx)
   }
   return res
 }
+
+local function stripTags(str) {
+  if (!str || !str.len())
+    return ""
+  if (stripTagsConfig == null)
+    assert(stripTagsConfig != null, "stripTags is not working without regexp")
+  foreach(test in stripTagsConfig)
+    str = test.re2.replace(test.repl, str)
+  return str
+}
+
+local export = {
+  INVALID_INDEX = INVALID_INDEX
+  slice = slice
+  substring = substring
+  startsWith = startsWith
+  endsWith = endsWith
+  indexOf = indexOf
+  lastIndexOf = lastIndexOf
+  indexOfAny = indexOfAny
+  lastIndexOfAny = lastIndexOfAny
+  countSubstrings = countSubstrings
+  clearBorderSymbolsMultiline = clearBorderSymbolsMultiline
+  toUpper = toUpper
+  implode = implode
+  join = join
+  split = split
+  isStringInteger = isStringInteger
+  isStringFloat = isStringFloat
+  replaceSym = replaceSym
+  intToUtf8Char = intToUtf8Char
+  utf8ToUpper = utf8ToUpper
+  utf8ToLower = utf8ToLower
+  hexStringToInt = hexStringToInt
+  cutPrefix = cutPrefix
+  intToStrWithDelimiter = intToStrWithDelimiter
+  stripTags = stripTags
+  tostring_any  = tostring_any
+  tostring_r = tostring_r
+}
+
+return export

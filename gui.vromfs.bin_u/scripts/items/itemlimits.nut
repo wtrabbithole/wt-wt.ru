@@ -68,7 +68,7 @@ function g_item_limits::requestLimits(isBlocking = false)
 
 function g_item_limits::enqueueItem(itemName)
 {
-  ::append_once(itemName, itemNamesQueue)
+  ::u.appendOnce(itemName, itemNamesQueue)
 }
 
 function g_item_limits::requestLimitsForItem(itemId, forceRefresh = false)

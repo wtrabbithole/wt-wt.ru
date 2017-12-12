@@ -42,7 +42,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function updateMap()
   {
-    if (!descItem)
+    if (!descItem && !map)
     {
       ::showBtn("world_war_map_block", false, scene)
       return
@@ -80,10 +80,13 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     mapNestObj.width = minSize
     mapNestObj.pos = "50%pw-50%w, 0.5*(" + maxHeight + "-" + minSize + ")+" + top
 
-    ::g_world_war.updateOperationPreviewAndDo(descItem.id, ::Callback(function() {
-        updateStatus()
-        updateTeamsInfo()
-      }, this), true)
+    if (descItem)
+      ::g_world_war.updateOperationPreviewAndDo(descItem.id, ::Callback(function() {
+          updateStatus()
+          updateTeamsInfo()
+        }, this), true)
+    else
+      ::ww_preview_operation_from_file(map.name)
   }
 
   function updateStatus()

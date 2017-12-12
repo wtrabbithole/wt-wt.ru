@@ -80,7 +80,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!unit)
       return
 
-    local params = {active = true}
+    local params = {hasActions = true}
     local data = ::build_aircraft_item(unit.name, unit, params)
     local airObj = scene.findObject("reward_aircrafts")
     guiScene.replaceContentFromText(airObj, data, data.len(), this)
@@ -213,8 +213,8 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onMsgLink(obj)
   {
     if(::getTblValue("type", config) == "regionalPromoPopup")
-      ::add_big_query_record("promo_popup_click", ::save_to_json(
-        {id = ::u.getFirstFound(["id", "link", "popupImage"], [config], -1)}))
+      ::add_big_query_record("promo_popup_click",
+        ::save_to_json({ id = config?.id ?? config?.link ?? config?.popupImage ?? - 1 }))
     ::g_promo.openLink(this, [obj.link, ::getTblValue("forceExternalBrowser", config, false)],
       "show_unlock")
   }

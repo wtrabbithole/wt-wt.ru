@@ -120,7 +120,7 @@ function g_battle_task_difficulty::getRefreshTimeForAllTypes(tasksArray, overrid
     foreach(task in tasksArray)
     {
       local type = getDifficultyTypeByTask(task)
-      ::append_once(type.timeParamId, processedTimeParamIds)
+      ::u.appendOnce(type.timeParamId, processedTimeParamIds)
     }
 
   local resultArray = []

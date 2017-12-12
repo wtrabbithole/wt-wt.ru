@@ -169,7 +169,7 @@ function g_lb_category::_getAdditionalTooltipPart(row)
 
 function g_lb_category::_typeConstructor ()
 {
-  headerImage = "#ui/gameuiskin#lb_" + (headerImage != "" ? headerImage : visualKey)
+  headerImage = "#ui/gameuiskin#lb_" + (headerImage != "" ? headerImage : visualKey) + ".svg"
   headerTooltip = "#multiplayer/" + (headerTooltip != "" ? headerTooltip : visualKey)
 }
 
@@ -392,7 +392,7 @@ function g_lb_category::_typeConstructor ()
     CLANDUELS_CLAN_ELO = {
       field = "clanRating"
       type = ::g_lb_data_type.NUM,
-      headerImage = "dr_era5"
+      headerImage = "elo_rating"
       headerTooltip = "clan_elo"
 
       showFieldFilter = [] // not encountered in event leaderboards
@@ -402,7 +402,7 @@ function g_lb_category::_typeConstructor ()
     EVENTS_PERSONAL_ELO = {
       field = "rating"
       type = ::g_lb_data_type.NUM,
-      headerImage = "dr_era5"
+      headerImage = "elo_rating"
       headerTooltip = "personal_elo"
 
       isSortDefaultFilter = true

@@ -1,6 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local time = require("scripts/time.nut")
+local callback = ::require("sqStdLibs/helpers/callback.nut")
 
 const MAIN_FOCUS_ITEM_IDX = 4
 
@@ -19,7 +20,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     function() { return getMainFocusObj4() }      //main focus obj of handler
     "crew_unlock_buttons",
     "autorefill-settings",
-    function() { return getSlotbarMenu() }        //slotbar menu
     function() { return getCurrentAirsTable() }   // slotbar
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
@@ -45,8 +45,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   slotbarScene = null
   slotbarActions = null
-  activeSlotbar = false
-  slotbarCountry = null
   slotbarParams = null
   getCurrentEdiff = ::get_current_ediff
   isSlotbarShaded = false
@@ -452,21 +450,47 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return ::to_integer_safe(slotObjId.slice(prefix.len()), -1)
   }
 
+  function getSelSlotDataByObj(obj)
+  {
+    local res = {
+      isValid = false
+      countryId = -1
+      crewIdInCountry = -1
+    }
+
+    local countryIdStr = ::getObjIdByPrefix(obj, "airs_table_")
+    if (!countryIdStr)
+      return res
+    res.countryId = countryIdStr.tointeger()
+
+    local curCol = obj.cur_col.tointeger()
+    if (curCol < 0)
+      return res
+    local trObj = obj.getChild(0)
+    if (curCol >= trObj.childrenCount())
+      return res
+
+    local curTdId = trObj.getChild(curCol).id
+    res.crewIdInCountry = getSlotIdByObjId(curTdId, res.countryId)
+    res.isValid = res.crewIdInCountry >= 0
+    return res
+  }
+
   function onSlotbarSelect(obj)
   {
     if (!::checkObj(obj))
       return
 
-    if (::slotbar_oninit || skipCheckAirSelect)
+    if (::slotbar_oninit || skipCheckAirSelect || !(slotbarParams?.shouldCheckQueue ?? !::is_in_flight()))
     {
-      onSlotbarSelectAction(obj)
+      onSlotbarSelectImpl(obj)
       skipCheckAirSelect = false
     }
     else
       checkedAirChange(
         (@(obj) function() {
           if (::checkObj(obj))
-            onSlotbarSelectAction(obj)
+            onSlotbarSelectImpl(obj)
         })(obj),
         (@(obj) function() {
           if (::checkObj(obj))
@@ -476,38 +500,42 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
           }
         })(obj)
       )
-    local slotItem = ::get_slot_obj(obj, curSlotCountryId, ::to_integer_safe(obj.cur_col))
-    openUnitActionsList(slotItem, true)
   }
 
-  function onSlotbarSelectAction(obj)
+  function onSlotbarSelectImpl(obj)
   {
-    if (!obj)
+    if (!::check_obj(obj))
       return
 
-    local tblId = obj.id
-    if ((tblId.len() <= 11) || (tblId.slice(0, 11) != "airs_table_"))
+    local selSlot = getSelSlotDataByObj(obj)
+    if (!selSlot.isValid)
+      return
+    if (curSlotCountryId == selSlot.countryId
+        && curSlotIdInCountry == selSlot.crewIdInCountry)
       return
 
-    curSlotCountryId = tblId.slice(11).tointeger()
-    local cur_col = obj.cur_col.tointeger()
-    if (cur_col < 0)
-      return
+    if (slotbarParams?.beforeSlotbarSelect)
+      slotbarParams.beforeSlotbarSelect.call(
+        this,
+        ::Callback(@() ::check_obj(obj) && applySlotSelection(obj, selSlot), this),
+        ::Callback(@() ::check_obj(obj) && selectTblAircraft(obj, curSlotIdInCountry), this),
+        selSlot
+      )
+    else
+      applySlotSelection(obj, selSlot)
+  }
 
-    local trObj = obj.getChild(0)
-    if (cur_col >= trObj.childrenCount())
-      return
+  function applySlotSelection(obj, selSlot)
+  {
+    curSlotCountryId = selSlot.countryId
+    curSlotIdInCountry = selSlot.crewIdInCountry
 
-    local curTdId = trObj.getChild(cur_col).id
-    local newSlotId = getSlotIdByObjId(curTdId, curSlotCountryId)
-    if (newSlotId == -1)
-      return
-    curSlotIdInCountry = newSlotId
     if (::slotbar_oninit)
-      return
+      return afterSlotbarSelect()
 
+    local needActionsWithEmptyCrews = slotbarParams?.needActionsWithEmptyCrews ?? true
     local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    if (!crew && (curSlotCountryId in ::g_crews_list.get()))
+    if (needActionsWithEmptyCrews && !crew && (curSlotCountryId in ::g_crews_list.get()))
     {
       local country = ::g_crews_list.get()[curSlotCountryId].country
 
@@ -541,14 +569,33 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       showAircraft(crew.aircraft)
       select_crew(curSlotCountryId, curSlotIdInCountry)
     }
-    else if (crew && !("aircraft" in crew))
+    else if (needActionsWithEmptyCrews && crew && !("aircraft" in crew))
       onSlotChangeAircraft()
+
+    if (slotbarParams?.hasActions ?? true)
+    {
+      local slotItem = ::get_slot_obj(obj, curSlotCountryId, ::to_integer_safe(obj.cur_col))
+      openUnitActionsList(slotItem, true)
+    }
+
+    afterSlotbarSelect()
   }
 
-  function selectTblAircraft(tblObj, idx=0)
+  function afterSlotbarSelect()
   {
-    if (tblObj && tblObj.isValid() && idx>=0)
-      ::gui_bhv.columnNavigator.selectCell.call(::gui_bhv.columnNavigator, tblObj, 0, idx)
+    if (slotbarParams?.afterSlotbarSelect)
+      slotbarParams.afterSlotbarSelect.call(this)
+  }
+
+  function selectTblAircraft(tblObj, slotIdInCountry=0)
+  {
+    if (tblObj && tblObj.isValid() && slotIdInCountry>=0)
+    {
+      local slotIdx = getSlotIdxBySlotIdInCountry(tblObj, slotIdInCountry)
+      if (slotIdx < 0)
+        return
+      ::gui_bhv.columnNavigator.selectCell.call(::gui_bhv.columnNavigator, tblObj, 0, slotIdx)
+    }
   }
 
   function showAircraft(airName)
@@ -563,7 +610,14 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onSlotbarDblClick(obj=null)
   {
-    onSlotWeapons(null)
+    local onSlotDblClick = slotbarParams?.onSlotDblClick
+      ?? function(crew) {
+           local unit = ::g_crew.getCrewUnit(crew)
+           if (unit)
+             ::open_weapons_for_unit(unit)
+         }
+
+    onSlotDblClick(getCurCrew())
   }
 
   function checkSelectCountryByIdx(obj)
@@ -637,7 +691,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local countryIdx = ::to_integer_safe(
       ::getObjIdByPrefix(obj.getChild(curValue), "slotbar-country"), curSlotCountryId)
 
-    if (!slotbarCountry)
+    if (!slotbarParams?.singleCountry)
     {
       if (!checkSelectCountryByIdx(obj))
         return
@@ -677,7 +731,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function switchCountry(way)
   {
-    if (slotbarCountry || !::checkObj(slotbarScene))
+    if (slotbarParams?.singleCountry || !::checkObj(slotbarScene))
       return
 
     local hObj = slotbarScene.findObject("slotbar-countries")
@@ -695,38 +749,34 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
   }
 
-  function showMsgBoxRepair(unit, fnOkey)
+  function getCurCrew()
   {
-    if (!unit)
-      return
-    local price = ::getUnitRepairCost(unit)
-    local msgText = ::loc("msgbox/question_repair",
-                          { unitName = ::loc(::getUnitName(unit)), cost = ::Cost(price).tostring() })
-    msgBox("question_quit_game", msgText,
-    [
-      ["yes", fnOkey ],
-      ["no", function() { return false } ]
-    ], "no", { cancel_fn = function() {}})
+    return getSlotItem(curSlotCountryId, curSlotIdInCountry)
   }
 
-  function onSlotRepair(obj)
+  function getSlotIdxBySlotIdInCountry(tblObj,slotIdInCountry)
   {
-    local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    local unitName = ::getTblValue("aircraft", crew, "")
-    local unit = ::getAircraftByName(unitName)
-    if (!unit)
-      return
-
-    local cost = ::Cost(::wp_get_repair_cost(unitName), 0)
-    if (cost.isZero())
+    if (!tblObj.childrenCount())
+      return -1
+    local slotListObj = tblObj.getChild(0)
+    if (!::checkObj(slotListObj))
+      return -1
+    local prefix = "td_slot_" + curSlotCountryId +"_"
+    for(local i = 0; i < slotListObj.childrenCount(); i++)
     {
-      ::reinitAllSlotbars()
-      ::showAirInfo(unit, true)
-      return
+      local id = ::getObjIdByPrefix(slotListObj.getChild(i), prefix)
+      if (!id)
+      {
+        local objId = slotListObj.getChild(i).id
+        ::script_net_assert_once("bad slot id", "Error: Bad slotbar slot id")
+        continue
+      }
+
+      if (::to_integer_safe(id) == slotIdInCountry)
+        return i
     }
 
-    if (::check_balance_msgBox(cost, afterSlotOp))
-      ::repair_unit(unit, (@(unit) function() { ::showAirInfo(unit, true) })(unit) )
+    return -1
   }
 
   function onEventCrewSkillsChanged(params)
@@ -779,75 +829,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     ::gui_start_select_unit(curSlotCountryId, curSlotIdInCountry, this, slotbarParams)
   }
 
-  function onSlotShowroom(obj)
-  {
-    checkedForward((@(obj) function() {
-      onSlotShowroomAction(obj)
-    })(obj))
-  }
-
-  function onSlotShowroomAction(obj)
-  {
-    guiScene.performDelayed(this, function() {
-      local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-      if (crew)
-        ::show_crew = crew.id
-      goForward(::gui_start_decals)
-    })
-  }
-
-  function onSlotTestFlight(obj)
-  {
-    checkedNewFlight((@(obj) function() {
-      onSlotTestFlightAction(obj)
-    })(obj))
-  }
-
-  function onSlotTestFlightAction(obj)
-  {
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::enable_coop_in_QMB, showOfflineSquadMembersPopup = true }))
-      return
-
-    local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    local airName = ("aircraft" in crew)? crew.aircraft : ""
-    local air = getAircraftByName(airName)
-    if (!air) return
-    if (air.testFlight == "")
-      return
-    ::show_aircraft = air
-    ::test_flight_aircraft <- air
-    ::gui_start_testflight()
-  }
-
-  function onSlotModifications(obj)
-  {
-    notAvailableYetMsgBox()
-  }
-
-  function onSlotCrew(obj)
-  {
-    local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    if (!crew)
-      return
-    ::gui_modal_crew(curSlotCountryId, curSlotIdInCountry)
-  }
-
-  function onSlotWeapons(obj=null)
-  {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
-    if (!air) return
-
-    ::aircraft_for_weapons = air.name
-    ::gui_modal_weapons()
-  }
-
-  function onSlotInfo(obj)
-  {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
-    if (!air) return
-    ::gui_start_aircraft_info(air.name)
-  }
-
   function onSlotbarNextAir(obj)
   {
     ::nextSlotbarAir(slotbarScene, curSlotCountryId, 1)
@@ -863,13 +844,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     set_autorefill_by_obj(obj)
   }
 
-  function onSlotsChoosePreset(obj)
-  {
-    checkedCrewModify(function (){
-      ::gui_choose_slotbar_preset(this)
-    })
-  }
-
   function onEventAutorefillChanged(params)
   {
     if (!::checkObj(slotbarScene) || !("id" in params) || !("value" in params))
@@ -877,6 +851,14 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
     local obj = slotbarScene.findObject(params.id)
     if (obj && obj.getValue!=params.value) obj.setValue(params.value)
+  }
+
+  //"nav-help" - navBar
+  function createSlotbar(params = {}, nest = "nav-help")
+  {
+    if (::u.isString(nest))
+      nest = scene.findObject(nest)
+    ::init_slotbar(this, nest, params)
   }
 
   function reinitSlotbar()
@@ -890,7 +872,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (ignoreCheckSlotbar || !::checkObj(slotbarScene))
       return
 
-    ::init_slotbar(this, slotbarScene, activeSlotbar, slotbarCountry, slotbarParams)
+    ::init_slotbar(this, slotbarScene, slotbarParams)
     shadeSlotbar(isSlotbarShaded)
     if (isSceneActiveNoModals())
       restoreFocus()
@@ -933,7 +915,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!unit)
       return
 
-    local actions = ::get_unit_actions_list(unit, this, "onSlot", actionsArray)
+    local actions = ::get_unit_actions_list(unit, this, actionsArray)
     if (!actions.actions.len())
       return
 
@@ -969,13 +951,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (airsTable.getChild(0).childrenCount() > curIdInCountry)
       return airsTable.getChild(0).getChild(curIdInCountry).getChild(1)
     return null
-  }
-
-  function getSlotbarMenu() //slotbarmenu
-  {
-    if (!::checkObj(slotbarScene))
-      return null
-    return slotbarScene.findObject("air_actions_navigation")
   }
 
   function getSlotbarPresetsList()
@@ -1017,6 +992,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
    */
   function selectCrew(crewId)
   {
+    if (rootHandlerWeak)
+      return rootHandlerWeak.selectCrew(crewId)
+
     local objId = "airs_table_" + getCurSlotCountryId().tostring()
     local obj = getSlotbarScene().findObject(objId)
     if (::checkObj(obj))
@@ -1322,7 +1300,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function checkAndStart(onSuccess, onCancel, checkName, checkParam = null)
   {
-    ::queues.checkAndStart(::Callback.make(onSuccess, this), ::Callback.make(onCancel, this),
+    ::queues.checkAndStart(callback.make(onSuccess, this), callback.make(onCancel, this),
       checkName, checkParam)
   }
 

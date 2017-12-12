@@ -1,3 +1,6 @@
+local u = require("sqStdLibs/common/u.nut")
+local callback = ::require("sqStdLibs/helpers/callback.nut")
+
 const SUBSCRIPTIONS_AMOUNT_TO_CLEAR = 50
 
 //
@@ -41,7 +44,7 @@ class Subscription
 
   constructor(func, env, priority)
   {
-    listenerCallback = ::u.isCallback(func) ? func : ::Callback(func, env)
+    listenerCallback = callback.make(func, env)
     listenerPriority = priority
   }
 }
@@ -142,7 +145,7 @@ function subscribe_events_from_handler(handler, eventNamesList)
   foreach (eventName in eventNamesList)
   {
     local funcName = "onEvent" + eventName
-    local listenerFunc = ::getTblValue(funcName, handler, null)
+    local listenerFunc = handler?[funcName]
     if (listenerFunc != null)
       ::add_event_listener(eventName, listenerFunc, handler)
   }
@@ -154,7 +157,7 @@ function subscribe_handler(handler, listener_priority = -1)
     return
   foreach (property_name, property in handler)
   {
-    if (!::u.isFunction(property))
+    if (!u.isFunction(property))
       continue
     local index = property_name.find("onEvent")
     if (index != 0)

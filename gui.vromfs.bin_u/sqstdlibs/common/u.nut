@@ -3,24 +3,16 @@ const FLT_EPSILON = 0.0000001192092896
  * u is a set of utility functions
  */
 
-::u <- {
-  customIsEqual = {}
-  customIsEmpty = {}
-}
+local rootTable = getroottable()
+local split = rootTable?.split
+  ?? require("string")?.split
+  ?? function(str,sep) {
+       throw("no split of string library exist")
+       return str
+     }
 
-/**
- * Add type checking functions such as isArray()
- */
-foreach (typeName in ["integer", "int64", "float", "string", "null",
-                      "bool", "array", "table", "function",
-                      "class", "instance", "generator",
-                      "userdata", "thread", "weakref"])
-{
-  local funcName = "is" + typeName.slice(0, 1).toupper() + typeName.slice(1)
-  ::u[funcName] <- (@(typeName) function (arg) {
-    return typeof arg == typeName
-  })(typeName)
-}
+local customIsEqual = {}
+local customIsEmpty = {}
 
 /*******************************************************************************
  **************************** Custom Classes register **************************
@@ -29,10 +21,9 @@ foreach (typeName in ["integer", "int64", "float", "string", "null",
 /*
   register instance class to work with u.is<className>, u.isEqual,  u.isEmpty
 */
-function u::registerClass(className, classRef, isEqualFunc = null, isEmptyFunc = null)
-{
+local function registerClass(className, classRef, isEqualFunc = null, isEmptyFunc = null) {
   local funcName = "is" + className.slice(0, 1).toupper() + className.slice(1)
-  ::u[funcName] <- @(value) value instanceof classRef
+  this[funcName] <- @(value) value instanceof classRef
 
   if (isEqualFunc)
     customIsEqual[classRef] <- isEqualFunc
@@ -43,7 +34,7 @@ function u::registerClass(className, classRef, isEqualFunc = null, isEmptyFunc =
 /*
   try to register standard dagor classes
 */
-foreach (className, config in
+local dagorClasses =
 {
   DataBlock = {
     isEmpty = @(val) !val.paramCount() && !val.blockCount()
@@ -59,7 +50,7 @@ foreach (className, config in
       {
         local b1 = val1.getBlock(i)
         local b2 = val2.getBlock(i)
-        if (b1.getBlockName() != b2.getBlockName() || !::u.isEqual(b1, b2))
+        if (b1.getBlockName() != b2.getBlockName() || !isEqual(b1, b2))
           return false
       }
       return true
@@ -80,19 +71,11 @@ foreach (className, config in
     isEqual = function(val1, val2)
     {
       for (local i = 0; i < 4; i++)
-        if (!::u.isEqual(val1[i], val2[i]))
+        if (!isEqual(val1[i], val2[i]))
           return false
       return true
     }
   }
-})
-{
-  if (!(className in ::getroottable()))
-    continue
-  ::u.registerClass(className, ::getroottable()[className],
-    ("isEqual" in config) && config.isEqual,
-    ("isEmpty" in config) && config.isEmpty
-  )
 }
 
 /*******************************************************************************
@@ -103,12 +86,12 @@ foreach (className, config in
  * Produces a new array of values by mapping each value in list through a
  * transformation function (iteratee(value, key, list)).
  */
-function u::map(list, func)
+local function map(list, func)
 {
   return mapAdvanced(list, (@(func) function(val, ...) { return func(val) })(func))
 }
 
-function u::mapAdvanced(list, iteratee)
+local function mapAdvanced(list, iteratee)
 {
   if (typeof(list) == "array")
   {
@@ -140,8 +123,7 @@ function u::mapAdvanced(list, iteratee)
  * The first element is instead passed as the memo in the
  * invocation of the iteratee on the next element in the list.
  */
-function u::reduce(list, iteratee, memo = null)
-{
+local function reduce(list, iteratee, memo = null) {
   foreach (item in list)
     memo = iteratee(item, memo)
 
@@ -156,8 +138,7 @@ function u::reduce(list, iteratee, memo = null)
  * the entire list.
  * @reverseOrder work only with arrays.
  */
-function u::search(list, predicate, reverseOrder = false)
-{
+local function search(list, predicate, reverseOrder = false) {
   if (!reverseOrder || !isArray(list))
   {
     foreach(value in list)
@@ -176,8 +157,7 @@ function u::search(list, predicate, reverseOrder = false)
  * Looks through each value in the list, returning an array of all the values
  * that pass a truth test (predicate).
  */
-function u::filter(list, predicate)
-{
+local function filter(list, predicate) {
   local res = []
   foreach (element in list)
     if (predicate(element))
@@ -190,15 +170,14 @@ function u::filter(list, predicate)
  * element in the array (or a property name), returns an object with an index
  * of each item.
  */
-function u::indexBy(array, iteratee)
-{
+local function indexBy(array, iteratee) {
   local res = {}
-  if (::u.isString(iteratee))
+  if (isString(iteratee))
   {
     foreach (idx, val in array)
       res[val[iteratee]] <- val
   }
-  else if (::u.isFunction(iteratee))
+  else if (isFunction(iteratee))
   {
     foreach (idx, val in array)
       res[iteratee(val, idx, array)] <- val
@@ -214,7 +193,7 @@ function u::indexBy(array, iteratee)
 /**
  * keys return an array of keys of specified table
  */
-function u::keys(table)
+local function keys(table)
 {
   if (typeof table != "table")
     return []
@@ -228,7 +207,7 @@ function u::keys(table)
 /**
  * Return all of the values of the table's properties.
  */
-function u::values(table)
+local function values(table)
 {
   local res = []
   foreach (val in table)
@@ -239,7 +218,7 @@ function u::values(table)
 /**
  * Convert a table into a list of [key, value] pairs.
  */
-function u::pairs(table)
+local function pairs(table)
 {
   local res = []
   foreach (key, val in table)
@@ -252,7 +231,7 @@ function u::pairs(table)
  * values the keys. For this to work, all of your table's values should be
  * unique and string serializable.
  */
-function u::invert(table)
+local function invert(table)
 {
   local res = {}
   foreach (key, val in table)
@@ -267,13 +246,13 @@ function u::invert(table)
  * pick can filter with function (value, key, table), with array, or set of
  * separate strings (each as a separate argument)
  */
-function u::pick(table, ... /*keys*/)
+local function pick(table, ... /*keys*/)
 {
   local res = {}
   if (table == null)
     return res
 
-  if (::u.isFunction(vargv[0]))
+  if (isFunction(vargv[0]))
   {
     foreach (key, val in table)
       if (vargv[0](value, key, obj)) res[key] <- val
@@ -281,7 +260,7 @@ function u::pick(table, ... /*keys*/)
   else
   {
     local keys = []
-    if (::u.isArray(vargv[0]))
+    if (isArray(vargv[0]))
       keys = vargv[0]
     else
       for (local i = 0; i < vargv.len(); i++)
@@ -297,7 +276,7 @@ function u::pick(table, ... /*keys*/)
 /**
  * Return true if specified obj (@table, @array, @string, @datablock) is empty
  */
-function u::isEmpty(val)
+local function isEmpty(val)
 {
   if (!val)
     return true
@@ -319,7 +298,7 @@ function u::isEmpty(val)
 /*
  * Return true if object or it's values are all equal to checking value
 **/
-function u::isEqual(val1, val2)
+local function isEqual(val1, val2)
 {
   if (typeof(val1) != typeof(val2))
     return false
@@ -353,16 +332,16 @@ function u::isEqual(val1, val2)
  * object, and return the destination object. It's in-order, so the last source
  * will override properties of the same name in previous arguments.
  */
-function u::extend(destination, ... /*sources*/)
+local function extend(destination, ... /*sources*/)
 {
   for (local i = 0; i < vargv.len(); i++)
     foreach (key, val in vargv[i])
     {
       local v = val
-      if (::u.isArray(val) || ::u.isTable(val))
-        v = ::u.extend(::u.isArray(val) ? [] : {}, val)
+      if (isArray(val) || isTable(val))
+        v = extend(isArray(val) ? [] : {}, val)
 
-      ::u.isArray(destination)
+      isArray(destination)
         ? destination.append(v)
         : destination[key] <- v
     }
@@ -374,12 +353,16 @@ function u::extend(destination, ... /*sources*/)
  * Recursevly copy all fields of obj to the new instance of same type and
  * returns it.
  */
-function u::copy(obj)
+local function copy(obj)
 {
   if (obj == null)
     return null
 
-  if (::u.isDataBlock(obj))
+  if (isArray(obj) || isTable(obj))
+    return extend(isArray(obj) ? [] : {}, obj)
+
+  //!!FIX ME: Better to make clone method work with datablocks, or move it to custom methods same as isEqual
+  if ("isDataBlock" in this && isDataBlock(obj))
   {
     local res = ::DataBlock()
     res.setFrom(obj)
@@ -389,10 +372,7 @@ function u::copy(obj)
     return res
   }
 
-  if (!::u.isArray(obj) && !::u.isTable(obj))
-    return clone obj
-
-  return ::u.extend(::u.isArray(obj) ? [] : {}, obj)
+  return clone obj
 }
 
 /**
@@ -400,11 +380,11 @@ function u::copy(obj)
    if skipSecondTable=true), and for each key maps value func(tbl1Value, tbl2Value)
  * If value not exist in one of table it will be pushed to func as defValue
  */
-function u::tablesCombine(tbl1, tbl2, func, defValue = null, addParams = true)
+local function tablesCombine(tbl1, tbl2, func, defValue = null, addParams = true)
 {
   local res = {}
   foreach(key, value in tbl1)
-    res[key] <- func(value, ::getTblValue(key, tbl2, defValue))
+    res[key] <- func(value, tbl2?[key] ?? defValue)
   if (!addParams)
     return res
   foreach(key, value in tbl2)
@@ -417,14 +397,14 @@ function u::tablesCombine(tbl1, tbl2, func, defValue = null, addParams = true)
  * Create new table which have keys, replaced from keysEqual table.
  * deepLevel param set deep of recursion for replace keys in tbl childs
 */
-function u::keysReplace(tbl, keysEqual, deepLevel = -1)
+local function keysReplace(tbl, keysEqual, deepLevel = -1)
 {
   local res = {}
   local newValue = null
   foreach(key, value in tbl)
   {
-    if (::u.isTable(value) && deepLevel != 0)
-      newValue = ::u.keysReplace(value, keysEqual, deepLevel - 1)
+    if (isTable(value) && deepLevel != 0)
+      newValue = keysReplace(value, keysEqual, deepLevel - 1)
     else
       newValue = value
 
@@ -441,7 +421,7 @@ function u::keysReplace(tbl, keysEqual, deepLevel = -1)
   * Find and remove {value} from {data} (table/array) once
   * return true if found
 */
-function u::removeFrom(data, value)
+local function removeFrom(data, value)
 {
   if (isArray(data))
   {
@@ -465,21 +445,19 @@ function u::removeFrom(data, value)
 }
 
 /**
- * Save get value from @tablesArray (array of sources)
- * by @pathsArray (array of paths) with ::getTblValueByPath
- * @return first not null value or @defValue
+ * Returns first not null result of @getter function applied to @dataArray item
+ * Returns @defValue when nothing found
  */
-function u::getFirstFound(pathsArray, tablesArray, defValue = null)
+local function getFirstFound(dataArray, getter, defValue = null)
 {
   local result = null
-  foreach (table in tablesArray)
-    foreach (path in pathsArray)
-    {
-      result = ::getTblValueByPath(path, table, null)
-      if(result != null)
-        return result
-    }
-  return defValue
+  foreach (data in dataArray)
+  {
+    result = getter(data)
+    if(result != null)
+      break
+  }
+  return result ?? defValue
 }
 
 /*******************************************************************************
@@ -491,7 +469,7 @@ function u::getFirstFound(pathsArray, tablesArray, defValue = null)
  * is not present in the array
  * <defaultIndex> is index tp return when value not found in the given array
  */
-function u::searchIndex(arr, predicate, defaultIndex = -1)
+local function searchIndex(arr, predicate, defaultIndex = -1)
 {
   foreach (index, item in arr)
     if (predicate(item))
@@ -503,21 +481,21 @@ function u::searchIndex(arr, predicate, defaultIndex = -1)
  * Returns the last element of an array. Passing n will return the last n
  * elements of the array.
  */
-function u::last(arr, n = 1)
+local function last(arr, n = 1)
 {
   if (arr.len() >= n && n > 0)
     return arr[arr.len() - n]
 }
 
 // * Returns random element of the given array
-function u::chooseRandom(arr)
+local function chooseRandom(arr)
 {
   if (!arr.len())
     return null
   return arr[::math.rnd() % arr.len()]
 }
 
-function u::chooseRandomNoRepeat(arr, prevIdx)
+local function chooseRandomNoRepeat(arr, prevIdx)
 {
   if (prevIdx < 0)
     return chooseRandom(arr)
@@ -532,36 +510,56 @@ function u::chooseRandomNoRepeat(arr, prevIdx)
   return arr[nextIdx]
 }
 
-//save get value from table, array, or instance by @key
-//return @defValue if @key dosnt exist in @tbl
-function getTblValue(key, tbl, defValue = null)
-{
-  return (key in tbl)? tbl[key] : defValue
-}
-
-//save get value from table, array, or instance by @path string separated by @separator
-//return @defValue if @path not complete in @tbl
-function getTblValueByPath(path, tbl, defValue = null, separator = ".")
-{
-  if (path == "")
-    return defValue
-  if (path.find(separator) == null)
-    return ::getTblValue(path, tbl, defValue)
-  local keys = ::split(path, separator)
-  return ::get_tbl_value_by_path_array(keys, tbl, defValue)
-}
-
-//save get value from table, array, or instance by @pathArray
-//return @defValue if @pathArray not complete in @tbl
-function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
-{
-  foreach(key in pathArray)
-    tbl = ::getTblValue(key, tbl, defValue)
-  return tbl
-}
-
-function append_once(v, arr, skipNull = false)
+local function appendOnce(v, arr, skipNull = false)
 {
   if ((!skipNull || v != null) && arr.find(v) < 0)
     arr.append(v)
 }
+
+local export = {
+  appendOnce = appendOnce
+  chooseRandom = chooseRandom
+  chooseRandomNoRepeat = chooseRandomNoRepeat
+  mapAdvanced = mapAdvanced
+  getFirstFound = getFirstFound
+  search = search
+  indexBy = indexBy
+  searchIndex = searchIndex
+  getFirstFound = getFirstFound
+  removeFrom = removeFrom
+  extend = extend
+  tablesCombine = tablesCombine
+  registerClass = registerClass
+  keysReplace = keysReplace
+  copy = copy
+  isEqual = isEqual
+  isEmpty = isEmpty
+  pick = pick
+  last = last
+  invert = invert
+  pairs = pairs
+  values = values
+  keys = keys
+//obsolete?
+  map = map
+  reduce = reduce 
+  filter = filter
+}
+
+/**
+ * Add type checking functions such as isArray()
+ */
+local internalTypes = ["integer", "int64", "float", "string", "null",
+                      "bool", "array", "table", "function",
+                      "class", "instance", "generator",
+                      "userdata", "thread", "weakref"]
+foreach (typeName in internalTypes) {
+  local funcName = "is" + typeName.slice(0, 1).toupper() + typeName.slice(1)
+  export[funcName] <- (@(typeName) @(arg) typeof arg == typeName)(typeName)
+}
+
+foreach (className, config in dagorClasses)
+  if (className in rootTable)
+    export.registerClass(className, rootTable[className], config?.isEqual, config?.isEmpty)
+
+return export

@@ -27,6 +27,8 @@
  *  ::handyman.renderCached(template_name, view) use just temaplte file name.
  */
 
+local g_string =  require("sqStdLibs/common/string.nut")
+
 class Context
 {
   view          = {}
@@ -77,7 +79,7 @@ class Context
         }
         else
         {
-          value = ::getTblValue(name, context.view, null)
+          value = context.view?[name]
         }
 
         if (value != null)
@@ -137,7 +139,7 @@ class Writer
   function parse(template, tags = null)
   {
     local cache = this.cache
-    local tokens = ::getTblValue(template, cache, null)
+    local tokens = cache?[template]
 
     if (tokens == null)
     {
@@ -275,7 +277,7 @@ class Writer
         value = context.lookup(token[1])
         if (value != null)
           if (typeof value == "string")
-            buffer += ::g_string.stripTags(value)
+            buffer += g_string.stripTags(value)
           else
             buffer += value.tostring()
 
@@ -287,7 +289,7 @@ class Writer
           buffer += value.tostring()
       }
       else if (token[0] == "?")
-        buffer += ::g_string.stripTags(::loc(token[1]))
+        buffer += g_string.stripTags(::loc(token[1]))
       else if (token[0] == "text")
         buffer += token[1]
     }

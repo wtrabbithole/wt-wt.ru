@@ -14,8 +14,10 @@
   <<#isBattle>>
   img {
     id:t='battle_icon'
-    size:t='ph,ph'
-    background-image:t='#ui/gameuiskin#lb_each_player_session'
+    pos:t='ph/2-h/2, ph/2-h/2'; position:t='relative'
+    size:t='@cIco, @cIco'
+    background-image:t='#ui/gameuiskin#lb_each_player_session.svg'
+    background-svg-size:t='@cIco, @cIco'
   }
   <</isBattle>>
 

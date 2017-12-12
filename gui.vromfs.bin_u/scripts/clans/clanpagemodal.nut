@@ -28,7 +28,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   clanData         = null
   curEra           = CLAN_RANK_ERA
   curPlayer        = null
-  curClan          = null
   curMode          = 0
   currentFocusItem = 5
 
@@ -276,10 +275,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     isMyClan = myClanId == clanData.id;
 
     if (!isMyClan && myClanId == "-1" && clan_get_requested_clan_id() != clanData.id && clanData.status != "closed")
-    {
-      curClan = clanData.id
       showMembershipsButton = true
-    }
 
     if(isMyClan || adminMode)
       myRights = clan_get_role_rights(adminMode ? ::ECMR_CLANADMIN : clan_get_my_role())
@@ -338,6 +334,11 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     updateUserOptionButton()
   }
 
+  function getCurClan()
+  {
+    return clanData?.id
+  }
+
   function updateUserOptionButton()
   {
     local show = false
@@ -353,11 +354,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     local clanElo = ::getTblValue(::ranked_column_prefix + curEra + ::domination_modes[curMode].clanDataEnding, clanData.astat, 0)
     local eloTextObj = scene.findObject("clan_elo_value")
-    local eloIconObj = scene.findObject("clan_elo_icon")
-    if (!::checkObj(eloTextObj) || !::checkObj(eloIconObj))
-      return
-    eloTextObj.setValue(clanElo.tostring())
-    eloIconObj["background-image"] = "#ui/gameuiskin#lb_dr_era" + curEra
+    if (::check_obj(eloTextObj))
+      eloTextObj.setValue(clanElo.tostring())
   }
 
   function fillClanActivity()
@@ -372,7 +370,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     {
       local clanActivity = ::getTblValue("activity", clanData.astat, 0)
       activityTextObj.setValue(clanActivity.tostring())
-      activityIconObj["background-image"] = "#ui/gameuiskin#lb_activity"
+      activityIconObj["background-image"] = "#ui/gameuiskin#lb_activity.svg"
     }
     activityTextObj.show(showActivity)
     activityIconObj.show(showActivity)
@@ -542,7 +540,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     foreach(item in ::clan_data_list)
     {
       rowHeader.append({
-                       image = "#ui/gameuiskin#lb_" + item.id
+                       image = "#ui/gameuiskin#lb_" + item.id + ".svg"
                        tooltip = "#multiplayer/" + item.id
                        tdAlign="center"
                        active = false
@@ -1077,6 +1075,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onMembershipReq(obj = null)
   {
+    local curClan = getCurClan()
     if (curClan)
       ::clan_membership_request(curClan, this)
   }

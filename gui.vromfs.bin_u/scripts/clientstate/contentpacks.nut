@@ -85,17 +85,17 @@ function updateContentPacks()
   local pblk = ::DataBlock()
   ::get_shop_prices(pblk)
   foreach (ename, ent in pblk)
-    ::append_once(checkReqContent(ename, ent), reqPacksList, true)
+    ::u.appendOnce(checkReqContent(ename, ent), reqPacksList, true)
 
   local sBlk = ::get_game_settings_blk()
   local fBlk = sBlk && sBlk.features
   if (fBlk)
     foreach (fname, fdata in fBlk)
-      ::append_once(checkReqContent(fname, fdata), reqPacksList, true)
+      ::u.appendOnce(checkReqContent(fname, fdata), reqPacksList, true)
 
   //workaround - reqPack is missing again in ents
-  ::append_once(checkReqContentByName("usa_pacific_41_43", "hc_pacific"), reqPacksList, true)
-  ::append_once(checkReqContentByName("jpn_pacific_41_43", "hc_pacific"), reqPacksList, true)
+  ::u.appendOnce(checkReqContentByName("usa_pacific_41_43", "hc_pacific"), reqPacksList, true)
+  ::u.appendOnce(checkReqContentByName("jpn_pacific_41_43", "hc_pacific"), reqPacksList, true)
 
   local text = ""
   local langPack = "pkg_" + ::get_current_language()
@@ -103,7 +103,7 @@ function updateContentPacks()
   {
     if (!reqPacksList.len())
       text = ::loc("yn1/have_new_content_lang")
-    ::append_once(langPack, reqPacksList)
+    ::u.appendOnce(langPack, reqPacksList)
   }
 
   local canceledBlk = ::loadLocalByAccount("canceledPacks")
@@ -159,12 +159,7 @@ function request_packages_and_restart(packList)
     return ::quit_and_run_cmd("../../../../MacOS/launcher -silentupdate")
   if (::is_platform_windows)
   {
-    local exec = "launcher.exe";
-
-    if (::use_fpt_login())
-      exec += " -justupdate -execute \"aces.exe -forcestart\"";
-    else
-      exec += " -silentupdate";
+    local exec = "launcher.exe -silentupdate";
 
     return ::quit_and_run_cmd(exec)
   }

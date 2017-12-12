@@ -1,3 +1,5 @@
+local u = require("sqStdLibs/common/u.nut")
+
 /*
   FramedMessageBox is a message box, with visible frame.
   Config {
@@ -40,13 +42,13 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
 
   function getSceneTplView()
   {
-    if (::u.isEmpty(buttons))
+    if (u.isEmpty(buttons))
       buttons = closeButtonDefault
 
     foreach(idx, button in buttons)
     {
       buttons[idx].funcName <- "onButtonClick"
-      buttons[idx].id <- ::getTblValue("id", button, "button_" + idx)
+      buttons[idx].id <- button?.id ?? "button_" + idx
     }
 
     return this
@@ -67,7 +69,7 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
     if (::check_obj(buttonsObj))
       buttonsObj.select()
 
-    if (!::u.isEmpty(onOpenSound))
+    if (!u.isEmpty(onOpenSound))
       ::play_gui_sound(onOpenSound)
   }
 
@@ -85,7 +87,7 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
     foreach(button in buttons)
       if (button.id == obj.id)
       {
-        performAction(::getTblValue("cb", button))
+        performAction(button?.cb)
         break
       }
 

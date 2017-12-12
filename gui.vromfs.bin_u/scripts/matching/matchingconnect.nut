@@ -97,7 +97,7 @@ function g_matching_connect::checkSpecialCharErrors(error)
 {
   if (error == ::ERRCODE_EMPTY_NICK)
   {
-    if (::is_vendor_tencent() || ::use_fpt_login())
+    if (::is_vendor_tencent())
     {
       ::change_nickname(::Callback(
                           function() {

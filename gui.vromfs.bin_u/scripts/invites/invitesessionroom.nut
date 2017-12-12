@@ -95,7 +95,7 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
 
   function getIcon()
   {
-    return "#ui/gameuiskin#lb_each_player_session"
+    return "#ui/gameuiskin#lb_each_player_session.svg"
   }
 
   function haveRestrictions()

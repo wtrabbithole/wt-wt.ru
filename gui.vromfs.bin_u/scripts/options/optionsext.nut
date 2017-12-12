@@ -34,7 +34,6 @@ function is_measure_unit_user_option(user_opt)
 
 ::game_mode_maps <- []
 ::dynamic_layouts <- []
-::all_units <- {}
 ::current_tag <- null
 ::aircraft_for_weapons <- null
 ::cur_aircraft_name <- null
@@ -87,10 +86,7 @@ function image_for_air(air)
     air = ::getAircraftByName(air)
   if (!air)
     return ""
-
-  if (("customImage" in air) && air.customImage != "")
-    return air.customImage
-  return ::get_unit_icon_by_unit(air, air.name)
+  return air.customImage ?? ::get_unit_icon_by_unit(air, air.name)
 }
 
 ::mission_name_for_takeoff <- ""
@@ -103,7 +99,7 @@ function image_for_air(air)
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
     "game_mode_maps", "dynamic_layouts",
-    "all_units", "shopCountriesList", "acList",
+    "shopCountriesList", "acList",
     "encyclopedia_data", "measure_units",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
@@ -1336,7 +1332,7 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_MOUSE_AIM_SENSE:
-      descr.id = "multiplier_mouse_aim"
+      descr.id = "multiplier_joy_camera_view"
       descr.controlType = optionControlType.SLIDER
       descr.min <- 5
       descr.max <- 100
@@ -1461,6 +1457,12 @@ function get_option(type, context = null)
       descr.id = "volume_engine"
       descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_ENGINE) * 100).tointeger()
+      descr.cb = "onVolumeChange"
+      break
+    case ::USEROPT_VOLUME_MY_ENGINE:
+      descr.id = "volume_my_engine"
+      descr.controlType = optionControlType.SLIDER
+      descr.value = (::get_sound_volume(::SND_TYPE_MY_ENGINE) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_DIALOGS:
@@ -2308,6 +2310,32 @@ function get_option(type, context = null)
         }
       }
       break
+
+    case USEROPT_UGC_FORBIDDEN_TAGS:
+      descr.id = "ugc_forbidden_tags"
+      descr.controlType = optionControlType.BIT_LIST
+      descr.controlName <- "multiselect"
+      descr.value = 0
+      defaultValue = 0
+      descr.items = []
+      descr.values = []
+      local tags = ::ugc_get_all_tags()
+      for(local i = 0; i < tags.len(); i++)
+      {
+        descr.items.append(::loc("ugc_tag/" + tags[i].name))
+        descr.values.append(tags[i].name)
+        if (tags[i].isForbidden)
+          descr.value = descr.value | (1 << i);
+      }
+      break
+
+    case USEROPT_UGC_USE_FORBIDDEN_TAGS:
+      descr.id = "ugc_use_forbidden_tags"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = false
+      break;
+
 
     case USEROPT_TANK_SKIN_CONDITION:
       descr.id = "skin_condition"
@@ -4106,6 +4134,9 @@ function set_option(type, value, descr = null)
     case ::USEROPT_VOLUME_ENGINE:
       ::set_sound_volume(::SND_TYPE_ENGINE, value / 100.0, true)
       break
+    case ::USEROPT_VOLUME_MY_ENGINE:
+      ::set_sound_volume(::SND_TYPE_MY_ENGINE, value / 100.0, true)
+      break
     case ::USEROPT_VOLUME_DIALOGS:
       ::set_sound_volume(::SND_TYPE_DIALOGS, value / 100.0, true)
       break
@@ -4440,6 +4471,13 @@ function set_option(type, value, descr = null)
       ::set_gui_option(type, value)
       break
 
+    case ::USEROPT_UGC_FORBIDDEN_TAGS:
+      local arr = []
+      for (local i = 0; i < descr.values.len(); i++)
+        arr.append({name = descr.values[i], isForbidden = (value & (1 << i)) > 0})
+      ::ugc_set_tags_forbidden(arr);
+      break
+
     case ::USEROPT_MP_TEAM_COUNTRY_RAND:
     case ::USEROPT_MP_TEAM_COUNTRY:
       if (value >= 0 && value < descr.values.len())
@@ -4552,6 +4590,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_HELICOPTER_AIM_FIRE:
     case ::USEROPT_HELICOPTER_KEEP_HEIGHT:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
+    case ::USEROPT_UGC_USE_FORBIDDEN_TAGS:
 
       if (descr.controlType == optionControlType.LIST)
       {
@@ -5002,6 +5041,7 @@ function create_options_container(name, options, is_focused, is_centered, column
                     "cur_col:t='0'; cur_row:t='%d'; num_rows:t='-1'; " +
                     "on_wrap_up:t='onWrapUp';" +
                     "on_wrap_down:t='onWrapDown';" +
+                    "selfFocusBorder:t='yes';" +
                     "%s" +
                     "\n%s\n" +
                   "}",

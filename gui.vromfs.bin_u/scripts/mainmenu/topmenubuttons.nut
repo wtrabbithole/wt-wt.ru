@@ -282,6 +282,12 @@ enum TOP_MENU_ELEMENT_TYPE {
     isFeatured = true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
+  EULA = {
+    text = "#mainmenu/licenseAgreement"
+    onClickFunc = @(obj, handler) ::gui_start_eula(::TEXT_EULA, true)
+    isDelayed = false
+    isHidden = @(...) !::isInMenu()
+  }
   EMPTY = {
     elementType = TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
   }

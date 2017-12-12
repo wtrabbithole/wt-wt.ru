@@ -13,7 +13,7 @@ tdiv{
     style:t='color:@disabledTextColor;'
     smallFont:t='yes'
   }
-  activeText{
+  textarea{
     id:t='expTeaser'
     pos:t='pw-w, 0'; position:t='relative'
     noMargin:t='yes'
@@ -21,7 +21,7 @@ tdiv{
     text:t='<<expTeaser>>'
     style:t='color:@disabledTextColor;'
   }
-  activeText{
+  textarea{
     id:t='wpTeaser'
     pos:t='pw-w, 0'; position:t='relative'
     noMargin:t='yes'
@@ -46,44 +46,20 @@ tdiv{
     smallFont:t='yes'
   }
   <</showTeaser>>
-  activeText{
+  textarea{
     id:t='exp'
-    min-width:t='0.1@sf'
     pos:t='pw-w, 0'; position:t='relative'
-    padding-right:t='0.03@sf'
     noMargin:t='yes'
     talign:t='right'
-    <<^canSuggestPrem>>
-    caption:t='yes'
-    <</canSuggestPrem>>
+    style:t='color:@mainTitleTextColor;'
     text:t='<<exp>>'
-
-    img{
-      height:t='0.03@sf'; width:t='h'
-      pos:t='pw-85%w, ph/2-h/2'; position:t='absolute'
-      background-image:t='#ui/gameuiskin#convert_rp'
-    }
   }
-  activeText{
+  textarea{
     id:t='wp'
-    min-width:t='0.1@sf'
     pos:t='pw-w, 0'; position:t='relative'
-    padding-right:t='0.03@sf'
     noMargin:t='yes'
     talign:t='right'
-    <<^canSuggestPrem>>
-    caption:t='yes'
-    <</canSuggestPrem>>
+    style:t='color:@mainTitleTextColor;'
     text:t='<<wp>>'
-
-    tdiv{
-      height:t='0.03@sf'; width:t='h'
-      pos:t='pw-85%w, ph/2-h/2'; position:t='absolute'
-      img{
-        size:t='80%ph, 80%ph'
-        pos:t='pw/2-w/2, ph/2-h/2'; position:t='absolute'
-        background-image:t='#ui/gameuiskin#shop_warpoints'
-      }
-    }
   }
 }

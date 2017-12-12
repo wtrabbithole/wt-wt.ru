@@ -18,7 +18,7 @@ class gui_bhv.posNavigator
   canSelectNonePID = ::dagui_propid.add_name_id("canSelectNone")
   fixedCoordTimeoutMsec = 5000
 
-  activateByMClick = false
+  canChooseByMClick = false
 
   function onAttach(obj)
   {
@@ -38,8 +38,7 @@ class gui_bhv.posNavigator
     }
     else if (event == ::EV_ON_FOCUS_LOST)
     {
-      local clear = obj.clearOnFocusLost
-      if (!clear || clear == "yes")
+      if (canSelectOnlyFocused(obj))
         clearSelect(obj)
       resetFixedCoord(obj)
     }
@@ -50,6 +49,11 @@ class gui_bhv.posNavigator
 
     obj.sendNotify("set_focus")
     return (obj.disableFocusParent == "yes")? ::RETCODE_HALT : ::RETCODE_NOTHING
+  }
+
+  function canSelectOnlyFocused(obj)
+  {
+    return obj.clearOnFocusLost != "no"
   }
 
   function getValue(obj)
@@ -190,6 +194,8 @@ class gui_bhv.posNavigator
     return true
   }
 
+  function chooseItem(obj, idx, needSound = true) {}
+
   function onSelectAction(obj)
   {
     obj.sendNotify("select")
@@ -241,11 +247,11 @@ class gui_bhv.posNavigator
     local clicked = findClickedObj(obj, mx, my)
     if (clicked)
     {
-      selectItem(obj, clicked.idx, clicked.obj, !activateByMClick)
+      selectItem(obj, clicked.idx, clicked.obj, !canChooseByMClick)
       resetFixedCoord(obj)
       obj.sendNotify("click")
-      if (activateByMClick)
-        activateAction(obj)
+      if (canChooseByMClick)
+        chooseItem(obj, clicked.idx, true)
       return ::RETCODE_HALT
     }
     return ::RETCODE_NOTHING
@@ -469,7 +475,9 @@ class gui_bhv.posNavigator
   {
     if (!childObj || !childObj.isValid())
       return false
-    childObj["selected"] = isSelected ? "yes" : "no"
+
+    local canSelect = obj.isFocused() || !canSelectOnlyFocused(obj)
+    childObj["selected"] = canSelect && isSelected ? "yes" : "no"
     return true
   }
 

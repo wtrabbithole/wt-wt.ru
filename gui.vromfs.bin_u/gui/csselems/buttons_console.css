@@ -70,7 +70,6 @@
 @const topMenuButtonWidth: 0.15@sf;
 
 @const topMenuBattleButtonHeight: 0.055@sf;
-@const topMenuBattleButtonImgHeight: 0.6@topMenuBattleButtonHeight;
 
 @const buttonCloseHeight: @bigButtonHeight;
 @const smallButtonCloseHeight: @smallButtonHeight;
@@ -339,6 +338,12 @@ Button_text.battle > textarea {
   top:50%ph-50%h;
   position:relative;
   paragraph-indent:0;
+}
+
+Button_text.battle[pc_style=no] > btnText,
+Button_text.battle[pc_style=no] > textarea {
+  left:0;
+  text-align:left;
 }
 
 Button_text.battle > buttonWink {
@@ -777,14 +782,13 @@ Button_close[have_shortcut=BNotEsc]
   btnName:BNotEsc;
 }
 
-[show_console_buttons=yes] [activateBy="Y"]:focus > shopFilter[selected=yes] > Button_close {
+[show_console_buttons=yes] [activateBy="Y"]:focus > shopFilter[chosen=yes] > Button_close {
   background-color:@transparent;
-}
-[show_console_buttons=yes] [activateBy="Y"]:focus > shopFilter[selected=yes] > Button_close {
   foreground-image:'@control_button_y';
 }
 
-.tabs > shopFilter[canClose=no] > Button_close {
+.tabs > shopFilter[canClose=no] > Button_close,
+activateSelect > shopFilter[canClose=no] > Button_close {
   display:hide;
   enable:no;
 }
@@ -864,8 +868,9 @@ Button_text[btnName=AB]                { accessKey:'J:A | Space | Enter | NumEnt
 
 Button_text[btnName=A], DummyButton[btnName=A]
                                        { accessKey:'J:A | Space | Enter | NumEnter'; }
-Button_text[btnName=SpaceA]        { accessKey:'J:A | Space'; }
-Button_text[btnName=A][onlyA], Button_text[focusBtnName=A] { accessKey:'J:A'; }
+Button_text[btnName=SpaceA]            { accessKey:'J:A | Space'; }
+Button_text[btnName=A][onlyA]          { accessKey:'J:A'; }
+Button_text[focusBtnName=A]            { shortcutActivate:'J:A | Space'; }
 
 Button_text[btnName=B], Button_close[btnName=B], dummy[btnName=B], DummyButton[btnName=B]
                                        { accessKey:'J:B | Esc'; }
@@ -1906,12 +1911,20 @@ Button_text[externalLink=yes]:[selected=yes] > btnText > underline {
 }
 
 
-Button_text[is_to_battle_button=yes] > ButtonImg {
-  height:1@topMenuBattleButtonImgHeight;
+Button_text[iconPos=middleBottom] > ButtonImg {
+  height:@buttonIconHeight;
+  position:absolute;
+  pos:0.5pw-0.5w, ph-0.5h;
 }
 
-Button_text[is_to_battle_button=yes][pc_style=no] {
-  padding-left:0;
+Button_text[iconPos=middleBottom][pc_style=no] {
+  padding-left:1@buttonTextPadding;
+}
+
+Button_text[iconPos=middleBottom][pc_style=no] > btnText,
+Button_text[iconPos=middleBottom][pc_style=no] > textarea {
+  left:50%pw-50%w;
+  text-align:center;
 }
 
 textareaNoTab.highlightButton > ButtonImg {
@@ -1992,6 +2005,16 @@ gcButtonsHolder {
 [gcButtonsInterval=yes] > Button_text {
   margin-left:1@gcButtonsInterval;
   margin-right:1@gcButtonsInterval;
+}
+
+gcBtnLine {
+  size:1@gcSeparatorSize, 0.5ph;
+  background-color:#383838;
+}
+
+Button_text > gcBtnLine {
+  pos:pw + 0.5@gcButtonsInterval - 0.5w, 50%ph-50%h;
+  position:absolute;
 }
 
 

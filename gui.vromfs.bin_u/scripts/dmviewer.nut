@@ -515,10 +515,10 @@
             if ( ! engineMainBlk)
               break
 
-            local engineType = ::u.getFirstFound(["Type", "type"], [infoBlk, engineMainBlk]).tolower()
+            local engineType = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.Type ?? b?.type, "").tolower()
             if (engineType == "inline" || engineType == "radial")
             {
-              local cylinders = ::u.getFirstFound(["Cylinders", "cylinders"], [infoBlk, engineMainBlk], 0)
+              local cylinders = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.Cylinders ?? b?.cylinders, 0)
               if(cylinders > 0)
                 engineInfo.push(cylinders + ::loc("engine_cylinders_postfix"))
             }
@@ -545,10 +545,13 @@
             local powerTakeoff = 0
             local thrustMax = 0
             local thrustTakeoff = 0
-            local horsePowerValue = ::u.getFirstFound(["ThrustMax.PowerMax0", "HorsePowers", "Power"], [infoBlk, engineMainBlk], 0)
-            local thrustValue = ::u.getFirstFound(["ThrustMax.ThrustMax0"], [infoBlk, engineMainBlk], 0)
-            local throttleBoost = ::u.getFirstFound(["ThrottleBoost"], [infoBlk, engineMainBlk], 0)
-            local afterburnerBoost = ::u.getFirstFound(["AfterburnerBoost"], [infoBlk, engineMainBlk], 0)
+            local horsePowerValue = ::u.getFirstFound([infoBlk, engineMainBlk],
+              @(b) b?.ThrustMax?.PowerMax0 ?? b?.HorsePowers ?? b?.Power,
+              0
+            )
+            local thrustValue = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrustMax?.ThrustMax0, 0)
+            local throttleBoost = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrottleBoost, 0)
+            local afterburnerBoost = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.AfterburnerBoost, 0)
             // for planes modifications have delta values
             local thrustModDelta = getTblValueByPath("modificators." +
               difficulty.crewSkillName + ".thrust", unit, 0) / KGF_TO_NEWTON  // mod thrust comes in Newtons
@@ -572,7 +575,7 @@
                 local boosterMainBlk = getTblValueByPath("Booster" + partIndex + ".Main", fmBlk)
                 if (boosterMainBlk)
                   sources.insert(1, boosterMainBlk)
-                thrustTakeoff = ::u.getFirstFound(["Thrust", "thrust"], sources, 0)
+                thrustTakeoff = ::u.getFirstFound(sources, @(b) b?.Thrust ?? b?.thrust,  0)
               break
 
               case "turboprop":
@@ -641,6 +644,7 @@
       case "cannon_breech":
       case "tt":
       case "torpedo":
+      case "main_caliber_gun":
 
         local weaponInfoBlk = getWeaponByXrayPartName(partName)
         if( ! weaponInfoBlk)
@@ -648,6 +652,9 @@
 
         local bulletsList = ["torpedo"]
         local weaponBlkLink = getTblValueByPath("blk", weaponInfoBlk)
+        if (!weaponBlkLink)
+          break
+
         local weaponName = ::get_weapon_name_by_blk_path(weaponBlkLink)
         local weaponBlk = ::DataBlock(weaponBlkLink)
         local massInfoAdded = false
@@ -810,10 +817,7 @@
     local unitTags = ::getTblValue(unit.name, ::get_unittags_blk(), null)
     if(unitTags != null)
       sources.insert(0, unitTags)
-    local path = "info"
-    if(partName != null)
-      path += "." + partName
-    local infoBlk = ::u.getFirstFound([path], sources)
+    local infoBlk = ::u.getFirstFound(sources, @(b) partName ? b?.info?[partName] : b?.info)
     if(infoBlk && partName != null && "alias" in infoBlk)
       infoBlk = getInfoBlk(getTblValue("alias", infoBlk))
     return infoBlk

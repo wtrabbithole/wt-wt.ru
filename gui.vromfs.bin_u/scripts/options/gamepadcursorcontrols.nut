@@ -45,13 +45,14 @@ const IS_GAMEPAD_CURSOR_ENABLED_DEFAULT = true
 
   function canChangeValue()
   {
-    return ::has_feature("GamepadCursorControl")
+    return ::has_feature("GamepadCursorControl") && ::is_cursor_visible_in_gui()
   }
 
 
   function onEventProfileUpdated(p)
   {
-    setValue(getValue())
+    if (!::g_login.isLoggedIn())
+      setValue(getValue())
   }
 }
 

@@ -107,7 +107,7 @@ function build_aircraft_item(id, air, params = {})
       status = ::getUnitItemStatusText(bitStatus, false)
     }
 
-    local isActive = getVal("active", false) && !disabled
+    local hasActions = getVal("hasActions", false) && !disabled
 
     //
     // Bottom button view
@@ -119,7 +119,7 @@ function build_aircraft_item(id, air, params = {})
     local checkTexts = mainButtonAction.len() > 0 && (mainButtonText.len() > 0 || mainButtonIcon.len() > 0)
     local checkButton = !isVehicleInResearch || ::has_feature("SpendGold")
     local bottomButtonView = {
-      hasButton           = isActive && checkTexts && checkButton
+      hasButton           = hasActions && checkTexts && checkButton
       spaceButton         = true
       mainButtonText      = mainButtonText
       mainButtonAction    = mainButtonAction
@@ -145,7 +145,7 @@ function build_aircraft_item(id, air, params = {})
     local itemButtonsView = {
       itemButtons = {
         hasToBattleButton       = getVal("toBattle", false) && !::show_console_buttons
-        toBattleButtonPrefix    = getVal("actionsPrefix", "onSlot")
+        toBattleButtonAction    = getVal("toBattleButtonAction", "onSlotBattle")
         hasExtraInfoBlock       = getVal("hasExtraInfoBlock", false)
 
         hasCrewInfo             = hasCrewInfo
@@ -247,9 +247,23 @@ function build_aircraft_item(id, air, params = {})
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
       tooltipId           = ::g_tooltip.getIdUnit(air.name, getVal("tooltipParams", null))
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
-      hasHoverMenu        = !isActive
-      hasOnHover          = isActive
+      hasHoverMenu        = hasActions
     }
+    local missionRules = params?.missionRules
+    local groupName = missionRules ? missionRules.getRandomUnitsGroupName(air.name) : null
+    if (groupName)
+    {
+      local missionRules = getVal("missionRules", null)
+      resView.shopAirImg = missionRules.getRandomUnitsGroupIcon(groupName)
+      resView.shopItemType = ""
+      resView.unitClassIcon = ""
+      resView.isElite = false
+      resView.premiumPatternType = false
+      resView.unitRarity = ""
+      resView.unitRankText = missionRules.getRandomUnitsGroupLocBattleRating(groupName)
+      resView.tooltipId = ::g_tooltip_type.RANDOM_UNIT.getTooltipId(air.name, {groupName = groupName})
+    }
+
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotSingle", resView)
   }
   else if (air && ::isUnitGroup(air)) //group of aircrafts
@@ -610,6 +624,9 @@ function get_slot_unit_name_text(unit, params)
 {
   local res = ::getUnitName(unit)
   local missionRules = ::getTblValue("missionRules", params)
+  local groupName = missionRules ? missionRules.getRandomUnitsGroupName(unit.name) : null
+  if (groupName)
+    res = missionRules.getRandomUnitsGroupLocName(groupName)
   if (missionRules && missionRules.needLeftRespawnOnSlots)
   {
     local leftRespawns = missionRules.getUnitLeftRespawns(unit)
@@ -731,7 +748,7 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
   local forceNotInResearch  = ::getTblValue("forceNotInResearch", params, false)
   local isVehicleInResearch = !forceNotInResearch && ::isUnitInResearch(unit)
 
-  progressText = ::Cost(0, 0, 0, unitExpReq - unitExpCur).tostring()
+  progressText = ::Cost().setRp(unitExpReq - unitExpCur).tostring()
 
   local flushExp = ::getTblValue("flushExp", params, 0)
   local isFull = flushExp > 0 && flushExp >= unitExpReq
@@ -756,7 +773,7 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
     {
       isReserve = isReserve || ::isUnitDefault(u)
       rank = rank || u.rank
-      local br = ::get_unit_battle_rating_by_mode(u, ediff)
+      local br = u.getBattleRating(ediff)
       minBR = !minBR ? br : ::min(minBR, br)
       maxBR = !maxBR ? br : ::max(maxBR, br)
     }
@@ -768,7 +785,7 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
   local isReserve = ::isUnitDefault(unit)
   local isSpare = crew && ::is_in_flight() ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false
   return isReserve ? (isSpare ? "" : ::g_string.stripTags(::loc("shop/reserve"))) :
-    showBR  ? ::format("%.1f", ::get_unit_battle_rating_by_mode(unit, ediff)) :
+    showBR  ? ::format("%.1f", unit.getBattleRating(ediff)) :
     ::get_roman_numeral(unit.rank)
 }
 
@@ -830,30 +847,13 @@ function isCountryAllCrewsUnlockedInHangar(countryId)
   return true
 }
 
-function aircraftRClickMenu(prefix, itemActions, air, handler, position = null)
+function create_slotbar_holder_obj(scene=null)
 {
-  local menu = ::get_unit_actions_list(air, handler, prefix, itemActions)
-  ::gui_right_click_menu(menu, handler, position);
-}
-
-function get_slotbar_obj(handler=null, scene=null, canCreateObj = false)
-{
-  local guiScene = ::get_gui_scene()
-  if (!::checkObj(scene))
-  {
-    scene = guiScene["nav-topMenu"]
-    if (!::checkObj(scene))
-      scene = guiScene["nav-help"]
-  }
-  assert(scene && scene.isValid())
-
   local slotbarObj = scene.findObject("nav-slotbar")
-  if (!slotbarObj || !slotbarObj.isValid())
+  if (!::check_obj(slotbarObj))
   {
-    if (!canCreateObj)
-      return null
     local data = "slotbarDiv { id:t='nav-slotbar' }"
-    guiScene.appendWithBlk(scene, data, handler)
+    scene.getScene().appendWithBlk(scene, data)
     slotbarObj = scene.findObject("nav-slotbar")
   }
   return slotbarObj
@@ -861,7 +861,7 @@ function get_slotbar_obj(handler=null, scene=null, canCreateObj = false)
 
 ::defaultSlotbarActions <- [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
 
-function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCountry = null, params = {})
+function init_slotbar(handler, scene, params = {})
 {
   if (!::g_login.isLoggedIn())
     return
@@ -874,8 +874,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   ::slotbar_oninit = true
   ::g_crews_list.refresh()
 
-  local country = slotbarCountry
-  local slotbarObj = ::get_slotbar_obj(handler, scene, true)
+  local singleCountry = params?.singleCountry //country name to show it alone in slotbar
+  local country = singleCountry
+  local slotbarObj = ::create_slotbar_holder_obj(scene)
   local guiScene = ::get_gui_scene()
   guiScene.setUpdatesEnabled(false, false);
   guiScene.replaceContent(slotbarObj, "gui/slotbar/slotbar.blk", handler)
@@ -893,6 +894,8 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
     country = curPlayerCountry
   local curAircraft = ::get_show_aircraft_name()
   local curCrewId = ::getTblValue("crewId", params)
+  local shouldSelectCrewRecruit = params?.shouldSelectCrewRecruit ?? false
+  local canSelectEmptyCrew = shouldSelectCrewRecruit || curCrewId != null && !(params?.needActionsWithEmptyCrews ?? true)
   local foundCurAir = false
   local airShopCountry = null
   local limitCountryChoice = (country == null) && ::getTblValue("limitCountryChoice", params, false)
@@ -928,9 +931,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
     ::initSlotbarTopBar(slotbarObj, true) //show autorefill checkboxes
 
   local missionRules = ::getTblValue("missionRules", params)
-  local showNewSlot = !::g_crews_list.isSlotbarOverrided && ::getTblValue("showNewSlot", params, !slotbarCountry)
+  local showNewSlot = !::g_crews_list.isSlotbarOverrided && ::getTblValue("showNewSlot", params, !singleCountry)
   local needShowLockedSlots = missionRules == null || missionRules.needShowLockedSlots
-  local showEmptySlot = !::g_crews_list.isSlotbarOverrided && needShowLockedSlots && ::getTblValue("showEmptySlot", params, !slotbarCountry)
+  local showEmptySlot = !::g_crews_list.isSlotbarOverrided && needShowLockedSlots && ::getTblValue("showEmptySlot", params, !singleCountry)
   local emptyText = ("emptyText" in params)? params.emptyText : "#shop/chooseAircraft"
 
   local showBR = ::has_feature("SlotbarShowBattleRating")
@@ -992,6 +995,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         local crew = ::g_crews_list.get()[c].crews[i]
         local airName = ("aircraft" in crew)? crew.aircraft : ""
         local air = getAircraftByName(airName)
+        local isUnitEnabledByRandomGroups = !missionRules || missionRules.isUnitEnabledByRandomGroups(airName)
         local unlocked = ::isUnitUnlocked(handler, air, c, i, country, true)
         local status = bit_unit_status.owned
         if (air)
@@ -1019,14 +1023,14 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
             selectable = false
         }
 
-        if ((!air && showEmptySlot) || air && (needShowLockedSlots || unlocked))
+        if ((!air && showEmptySlot) || air && (needShowLockedSlots || unlocked) && isUnitEnabledByRandomGroups)
         {
           local airParams = {
                               emptyText      = emptyText,
                               crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
                               status         = ::getUnitItemStatusText(status),
                               inactive       = ::show_console_buttons && status == bit_unit_status.locked && ::is_in_flight(),
-                              active         = isSlotbarActive,
+                              hasActions     = params?.hasActions ?? true,
                               toBattle       = ::getTblValue("toBattle", params, false)
                               mainActionFunc = ::SessionLobby.canChangeCrewUnits() ? "onSlotChangeAircraft" : ""
                               mainActionText = "" // "#multiplayer/changeAircraft"
@@ -1057,7 +1061,16 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
           filledSlots++
         }
 
-        if (air)
+        if (canSelectEmptyCrew && curCrewId == crew.id)
+        {
+          selectedIdsData.countryId = c
+          selectedIdsData.countryVisibleIdx = countryVisibleIdx
+          selectedIdsData.idInCountry = i
+          selectedIdsData.cellId = filledSlots
+          selectedIdsData.selectable = selectable
+          foundCurAir = true
+        }
+        else if (air)
         {
           if ((!foundCurAir && selectedIdsData.idInCountry < 0 || !country)
               && (!limitCountryChoice || airShopCountry == ::g_crews_list.get()[c].country))
@@ -1126,7 +1139,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
 
       local slotCost = ::get_crew_slot_cost(::g_crews_list.get()[c].country)
       if (slotCost && showNewSlot && (slotCost.costGold == 0 || ::has_feature("SpendGold")))
-        rowData += build_aircraft_item(::get_slot_obj_id(c, ::g_crews_list.get()[c].crews.len()),
+      {
+        local idInCountry = ::g_crews_list.get()[c].crews.len()
+        rowData += build_aircraft_item(::get_slot_obj_id(c, idInCountry),
                                        null,
                                        {
                                          emptyText = "#shop/recruitCrew",
@@ -1135,6 +1150,17 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
                                          emptyCost = slotCost,
                                          inactive = true
                                        })
+
+        if (shouldSelectCrewRecruit)
+        {
+          selectedIdsData.countryId = c
+          selectedIdsData.countryVisibleIdx = countryVisibleIdx
+          selectedIdsData.idInCountry = idInCountry
+          selectedIdsData.cellId = filledSlots + 1
+          selectedIdsData.selectable = true
+          foundCurAir = true
+        }
+      }
       rowData = "tr { " + rowData + " } "
 
       guiScene.replaceContentFromText(tblObj, rowData, rowData.len(), handler)
@@ -1213,8 +1239,6 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   if (handler && ("slotbarScene" in handler))
   {
     handler.slotbarScene = scene
-    handler.activeSlotbar = isSlotbarActive
-    handler.slotbarCountry = slotbarCountry
     handler.slotbarParams = params
   }
 
@@ -1263,8 +1287,8 @@ function get_slotbar_unit_slots(handler, unitId = null, crewId = -1, withEmptySl
   if (!::handlersManager.isHandlerValid(handler) || !::checkObj(::getTblValue("slotbarScene", handler)))
     return unitSlots
 
-  local slotbarObj = ::get_slotbar_obj(handler, handler.slotbarScene)
-  local country = handler.slotbarCountry
+  local slotbarObj = handler.slotbarScene
+  local country = handler.slotbarParams?.singleCountry
   foreach(countryId, countryData in ::g_crews_list.get())
     if (!country || countryData.country == country)
       foreach (idInCountry, crew in countryData.crews)
@@ -1351,8 +1375,6 @@ function destroy_slotbar(handler)
   }
 
   handler.slotbarScene = null
-  handler.activeSlotbar = false
-  handler.slotbarCountry = null
   handler.slotbarParams = null
 }
 
@@ -1523,7 +1545,7 @@ function getSlotbarUnitTypes(country)
         {
           local unit = ::getAircraftByName(crew.aircraft)
           if (unit)
-            ::append_once(::get_es_unit_type(unit), res)
+            ::u.appendOnce(::get_es_unit_type(unit), res)
         }
   return res
 }
@@ -1784,13 +1806,13 @@ function set_autorefill_by_obj(obj)
   }
 }
 
-function nextSlotbarAir(scene, countryId, way)
+function nextSlotbarAir(slotbarScene, countryId, way)
 {
-  if (!::checkObj(scene))
+  if (!::checkObj(slotbarScene))
     return
-  local slotbarObj = ::get_slotbar_obj(null, scene)
-  local tblObj = slotbarObj && slotbarObj.findObject("airs_table_"+countryId)
-  if (!::checkObj(tblObj)) return
+  local tblObj = slotbarScene.findObject("airs_table_"+countryId)
+  if (!::checkObj(tblObj))
+    return
   ::gui_bhv.columnNavigator.selectColumn.call(::gui_bhv.columnNavigator, tblObj, way)
 }
 

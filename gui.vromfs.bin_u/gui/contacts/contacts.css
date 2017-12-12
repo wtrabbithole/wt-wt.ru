@@ -3,6 +3,7 @@ contactItem {
   size: pw, 0.04@scrn_tgt;
   padding:1@blockInterval, 0;
   css-hier-invalidate:yes;
+  not-input-transparent:yes;
 }
 
 contactItem:current {
@@ -32,6 +33,8 @@ contactItem:hover > tdiv[contact_buttons_holder=yes] {
   foreground-image: #ui/gameuiskin#item_selection;
   foreground-position: 6;
   foreground-repeat: expand;
+  behavior:focusFrameTarget;
+  focusImageSource:foreground;
 }
 
 contactStatusImg {

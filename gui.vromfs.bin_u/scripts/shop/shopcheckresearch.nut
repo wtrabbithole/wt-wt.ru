@@ -33,13 +33,15 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
     showSceneBtn("modesRadiobuttons", false)
 
-    ::init_slotbar(this, scene.findObject("slotbar_place"), true, null, {
-            showNewSlot = true,
-            showEmptySlot = true,
-            limitCountryChoice = true,
-            customCountry = unitCountry,
-            showTopPanel = false
-          })
+    createSlotbar(
+      {
+        showNewSlot = true,
+        showEmptySlot = true,
+        limitCountryChoice = true,
+        customCountry = unitCountry,
+        showTopPanel = false
+      },
+      "slotbar_place")
 
     selectRequiredUnit()
   }
@@ -260,7 +262,8 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
       local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
       local flushExp = reqExp < availableFlushExp ? reqExp : availableFlushExp
       local textSample = ::loc("shop/researchUnit", { unit = ::getUnitName(unit.name) }) + "%s"
-      local textValue = flushExp ? ::loc("ui/parentheses/space", {text = getRpPriceText(flushExp, true)}) : ""
+      local textValue = flushExp ? ::loc("ui/parentheses/space",
+        {text = ::Cost().setRp(flushExp).tostring()}) : ""
       coloredText = ::format(textSample, textValue)
     }
 

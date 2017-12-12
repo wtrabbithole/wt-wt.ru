@@ -1,5 +1,8 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
+local DaguiSceneTimers = require("sqDagui/timer/daguiSceneTimers.nut")
 local time = require("scripts/time.nut")
+
+const TIMERS_CHECK_INTEVAL = 0.25
 
 enum HintShowState {
   NOT_MATCH = 0
@@ -17,7 +20,7 @@ enum HintShowState {
   activeHints = []
   animatedRemovedHints = [] //hints set to remove animation. to be able instant finish them
 
-  timerNest = null
+  timers = DaguiSceneTimers(TIMERS_CHECK_INTEVAL, "hudHintsTimers")
 
   hintIdx = 0 //used only for unique hint id
 
@@ -50,7 +53,10 @@ enum HintShowState {
   function onEventLoadingStateChange(p)
   {
     if (!::is_in_flight())
+    {
       activeHints.clear()
+      timers.reset()
+    }
     animatedRemovedHints.clear()
   }
 
@@ -71,11 +77,7 @@ enum HintShowState {
       return false
 
     guiScene = scene.getScene()
-    timerNest = nest.findObject("hud_message_timers")
-
-    if (!::checkObj(timerNest))
-      return false
-
+    timers.setUpdaterObj(scene)
     return true
   }
 
@@ -150,8 +152,7 @@ enum HintShowState {
       hintObj = null
       addTime = ::dagor.getCurTime()
       eventData = eventData
-      removeTimer = null
-      delayShowTimer = null
+      lifeTimerWeak = null
     })
 
     local addedHint = ::u.last(activeHints)
@@ -160,36 +161,34 @@ enum HintShowState {
 
   function updateRemoveTimer(hintData)
   {
-    if (!::checkObj(timerNest))
-      return
     if (!hintData.hint.selfRemove)
       return
 
     local lifeTime = hintData.hint.getLifeTime(hintData.eventData)
-    if (hintData.removeTimer)
+    if (hintData.lifeTimerWeak)
     {
       if (lifeTime <= 0)
-        hintData.removeTimer.destroy()
+        timers.removeTimer(hintData.lifeTimerWeak)
       else
-        hintData.removeTimer.setDelay(lifeTime)
+        timers.setTimerTime(hintData.lifeTimerWeak, lifeTime)
       return
     }
 
     if (lifeTime <= 0)
       return
 
-    hintData.removeTimer = ::Timer(timerNest, lifeTime, (@(hintData) function () {
+    hintData.lifeTimerWeak = timers.addTimer(lifeTime, ::Callback(function () {
       hideHint(hintData, false)
       removeFromList(hintData)
       removeDelayedShowTimer(hintData.hint)
-    })(hintData), this)
+    }, this)).weakref()
   }
 
   function removeDelayedShowTimer(hint)
   {
-    if(hint.name in delayedShowTimers)
+    if(delayedShowTimers?[hint.name])
     {
-      delayedShowTimers[hint.name].destroy()
+      timers.removeTimer(delayedShowTimers[hint.name])
       delete delayedShowTimers[hint.name]
     }
   }
@@ -307,8 +306,8 @@ enum HintShowState {
   function removeHint(hintData, isInstant)
   {
     hideHint(hintData, isInstant)
-    if (hintData.hint.selfRemove && hintData.removeTimer)
-      hintData.removeTimer.destroy()
+    if (hintData.hint.selfRemove && hintData.lifeTimerWeak)
+      timers.removeTimer(hintData.lifeTimerWeak)
     removeFromList(hintData)
   }
 
@@ -383,24 +382,16 @@ enum HintShowState {
 
   function showDelayed(hint, eventData)
   {
-    if (!::checkObj(timerNest))
-      return
     if (hint.delayTime <= 0)
       return
-    if(hint.name in delayedShowTimers)
+    if(delayedShowTimers?[hint.name])
       return
 
-    local delayShowTimer = ::Timer(timerNest, hint.delayTime, function () {
-      if(hint.name in delayedShowTimers)
-      {
+    delayedShowTimers[hint.name] <- timers.addTimer(hint.delayTime, ::Callback(function () {
+      if(delayedShowTimers?[hint.name])
         onShowEvent(hint, eventData)
-      }
-    }, this)
-
-    delayedShowTimers[hint.name] <- delayShowTimer
+    }, this)).weakref()
   }
-
-
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_hud_hints_manager")

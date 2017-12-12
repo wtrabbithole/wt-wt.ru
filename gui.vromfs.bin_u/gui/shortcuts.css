@@ -27,18 +27,18 @@ menu_button, menu_button_inactive {
   shortcutActivate:"J:A | Space";
 }
 
-[childsActivate=yes] > Button_text[btnName=X] {
-  accessKey:"J:X | Space";
-}
-
-[childsActivate=yes] > Button_text[btnName=LB] {
-  accessKey:"J:LB";
+MultiSelect {
+  shortcutSelect: "J:A | Space";
 }
 
 MultiSelect[optionsShortcuts] {
   shortcutLeft:'@shortcutLeftGamepad | Left';
   shortcutRight:'@shortcutRightGamepad | Right';
-  shortcutActivate:"J:X | Space";
+  shortcutSelect:"J:X | Space";
+}
+
+options_list > * > MultiSelect {
+  shortcutSelect: "J:A | Space";
 }
 
 dropright {
@@ -141,6 +141,34 @@ textareaNoTab[scrollbarShortcutsOnSelect] {
   accesskeyMoveDown:"Down | @shortcutDownGamepad";
 }
 
+[navigatorShortcuts] {
+  shortcutUp: '@shortcutUpGamepad | Up';
+  shortcutDown: '@shortcutDownGamepad | Down';
+  shortcutLeft: '@shortcutLeftGamepad | Left';
+  shortcutRight: '@shortcutRightGamepad | Right';
+  shortcutSelect: "Space | J:A";   shortcutActivate:"";
+}
+
+CheckBox, gameModeChangeButton,
+CheckBox[btnName=SpaceA], button[btnName=SpaceA], [navigatorShortcuts=SpaceA] {
+  shortcutActivate:"Space | J:A";
+}
+
+[navigatorShortcuts=active], [navigatorShortcuts=full], [navigatorShortcuts=onlyActivate] {
+  shortcutActivate:'J:A | Enter | NumEnter | Space';
+}
+[swap_ab] [navigatorShortcuts=active], [swap_ab] [navigatorShortcuts=full], [swap_ab] [navigatorShortcuts=onlyActivate] {
+  shortcutActivate:'J:B | Enter | NumEnter | Space';
+}
+[navigatorShortcuts=onlyActivate] {
+  shortcutLeft:"";
+  shortcutRight:"";
+}
+
+[navigatorShortcuts=cancel], [navigatorShortcuts=full] {
+  shortcutCancel:"Esc | J:B";
+}
+
 SlideListBox, SlideListBoxOptions
 {
   shortcutLeft: "@shortcutLeftGamepad | Left";
@@ -213,39 +241,12 @@ EditBox[switchFocus=yes] {
   shortcutActivate:"";
 }
 
-[navigatorShortcuts] {
-  shortcutUp: '@shortcutUpGamepad | Up';
-  shortcutDown: '@shortcutDownGamepad | Down';
-  shortcutLeft: '@shortcutLeftGamepad | Left';
-  shortcutRight: '@shortcutRightGamepad | Right';
-  shortcutActivate:"";
-}
-
 EditBox[noActivate=yes] {
   shortcutActivate:"";
 }
 
-CheckBox, options_nest > MultiSelect, gameModeChangeButton,
-CheckBox[btnName=SpaceA], button[btnName=SpaceA], [navigatorShortcuts=SpaceA] {
-  shortcutActivate:"Space | J:A";
-}
-
-[navigatorShortcuts=active], [navigatorShortcuts=full], [navigatorShortcuts=onlyActivate] {
-  shortcutActivate:'J:A | Enter | NumEnter | Space';
-}
-[swap_ab] [navigatorShortcuts=active], [swap_ab] [navigatorShortcuts=full], [swap_ab] [navigatorShortcuts=onlyActivate] {
-  shortcutActivate:'J:B | Enter | NumEnter | Space';
-}
-[navigatorShortcuts=onlyActivate] {
-  shortcutLeft:"";
-  shortcutRight:"";
-}
-
-[navigatorShortcuts=cancel], [navigatorShortcuts=full] {
-  shortcutCancel:"Esc | J:B";
-}
-
-HorizontalListBox[activateBy=Y] {
+HorizontalListBox[activateBy=Y],
+activateSelect[activateBy=Y] {
   shortcutActivate:'J:Y | Del';
 }
 

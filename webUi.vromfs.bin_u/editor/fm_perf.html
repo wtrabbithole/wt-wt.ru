@@ -5,12 +5,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
   <style type="text/css">
-    .number-box
-    {
-       width : 60px;
+    .number-box {
+      width : 60px;
     }
     
-    .chart-content-zhukovsky {
+    .chart-content {
       width: 1820px;
       height: 400px;
       margin: 0 auto;
@@ -18,7 +17,7 @@
       padding: 0px;
     }
 
-    .chart-container-zhukovsky {
+    .chart-container {
       box-sizing: border-box;
       -moz-box-sizing: border-box;  
       width: 1820px;
@@ -38,17 +37,17 @@
       -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
       -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     }
-    
+       
     .legend table, .legend > div {
-        height: 20px !important;
-        opacity: 1 !important;
-        right: 10px;
-        bottom: 50px;
+      height: 20px !important;
+      opacity: 1 !important;
+      right: 10px;
+      bottom: 50px;
     }
      
     .legend table {
-        border: 1px solid #555;
-        padding: 5px;
+      border: 1px solid #555;
+      padding: 5px;
     }
 
     .chart-placeholder {
@@ -57,14 +56,15 @@
       font-size: 14px;
       line-height: 1.2em;
     }
-        
   </style>
+  
   <script src="../cookies.js"></script>
   <script src="../jquery-1.10.1.min.js"></script>
   <script src="../jquery.flot.js"></script>
   <script src="../jquery.flot.navigate.min.js"></script>
   <script src="../jquery.flot.axislabels.js"></script>
   <script src="../parameter.js"></script>
+  <script src="../plots.js"></script>
   <title>"War Thunder" Flight Model</title>
 </head>
   
@@ -122,8 +122,12 @@
  
   
   var settings = {
-    unitSystemName: 0
+    type: 'table',
+    items: {
+      unitSystem: { type: 'enum', controlId: 'ComboUnitSystem', value: 0, variants: unitSystemVariants },
+    }
   }
+  
   var state = {
     connected: true,
     fm: {
@@ -140,20 +144,24 @@
     Mach: 2
   }
     
-  var zhukovskyChartsParameters = {
+  var chartsParameters = {
     type: 'table',
     items: {
-      altitude:     { type: 'number', unit: 'altitude', controlId: 'EditAltitude',      value: 0.0 },
-      throttle:     { type: 'number', unit: 'ratio',    controlId: 'EditThrottle',      value: 1.0, min: 0.0, max: 1.1 },
-      speedType:    { type: 'enum',                     controlId: 'ComboSpeedType',    value: SpeedType.TAS },
-      series: {
+      altitude:       { type: 'number', unit: 'altitude', controlId: 'EditAltitude',           value: 0.0 },
+      throttle:       { type: 'number', unit: 'ratio',    controlId: 'EditThrottle',           value: 1.0, min: 0.0, max: 1.1 },
+      speedType:      { type: 'enum',                     controlId: 'ComboSpeedType',         value: SpeedType.TAS },
+      speedRangeManual: { type: 'bool',                   controlId: 'CheckBoxSpeedRangeManual', value: false },
+      speedMin:       { type: 'number', unit: 'velocity', controlId: 'EditSpeedMin',           value: 10.0,  min: 0.0, max: 1000.0 },
+      speedMax:       { type: 'number', unit: 'velocity', controlId: 'EditSpeedMax',           value: 250.0, min: 0.0, max: 1000.0 },
+      limits:         { type: 'bool',                     controlId: 'CheckBoxLimits',         value: true },
+      zhukovskyChartSeries: {
         type: 'array',
         items: [
-          { type: 'bool', controlId: 'CheckBoxClimbRateBySpeed',    value: true },
-          { type: 'bool', controlId: 'CheckBoxTurnTimeBySpeed',     value: true },
-          { type: 'bool', controlId: 'CheckBoxMaxAvailableThrust',  value: true },
-          { type: 'bool', controlId: 'CheckBoxMaxSpeedReqThrust',   value: true },
-          { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust1', value: true },
+          { type: 'bool', controlId: 'CheckBoxClimbRateBySpeed',    value: true  },
+          { type: 'bool', controlId: 'CheckBoxTurnTimeBySpeed',     value: true  },
+          { type: 'bool', controlId: 'CheckBoxMaxAvailableThrust',  value: true  },
+          { type: 'bool', controlId: 'CheckBoxMaxSpeedReqThrust',   value: true  },
+          { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust1', value: true  },
           { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust2', value: false },
           { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust3', value: false },
           { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust4', value: false }
@@ -167,189 +175,295 @@
           { type: 'number', unit: 'verticalVelocity', precision: 1, controlId: 'EditClimbRate3', value: 5.0 },
           { type: 'number', unit: 'verticalVelocity', precision: 1, controlId: 'EditClimbRate4', value: 3.0 }
         ]
-      }
-    }
-  }
-  
-  var zhukovskyChartAppliedParameters = {}
-      
-  function getZhukovskyCharts()
-  {
-    var climbRate = zhukovskyChartsParameters.items.climbRate.items
-    const zhukovskyChartsData = [
-      { name: 'Vy(V)',                                      unit: 'verticalVelocity',  color: 0, width: 1, yaxis: 3 },
-      { name: 'ToT(V)',                                     unit: undefined,           color: 1, width: 1, yaxis: 2 },
-      { name: 'Ft.avl(V)',                                  unit: 'thrust',            color: 2, width: 6, yaxis: 1 },
-      { name: 'Ft.req(Vy = 0, V)',                          unit: 'thrust',           color: 3, width: 3, yaxis: 1 },
-      { name: 'Ft.req(Vy = ' + climbRate[0].value + ', V)', unit: 'thrust',           color: 4, width: 3, yaxis: 1 },
-      { name: 'Ft.req(Vy = ' + climbRate[1].value + ', V)', unit: 'thrust',           color: 5, width: 3, yaxis: 1 },
-      { name: 'Ft.req(Vy = ' + climbRate[2].value + ', V)', unit: 'thrust',           color: 6, width: 3, yaxis: 1 },
-      { name: 'Ft.req(Vy = ' + climbRate[3].value + ', V)', unit: 'thrust',           color: 7, width: 3, yaxis: 1 }
-    ]
-    var data = []
-    const plot = fmTables ? fmTables.zhukovskyCharts : undefined
-    if (plot != undefined)
-    {
-      const xUnits = zhukovskyChartsParameters.items.speedType.value == SpeedType.Mach ? undefined : 'velocity'
-      const points = plot
-      var series = zhukovskyChartsParameters.items.series.items
-      var paramIndex = 1
-      for (var u = 0; u < series.length; ++u)
-      {
-        var zhukovskyChartData = zhukovskyChartsData[u]
-        if (series[u].value)
-        {
-          var pointsData = []
-          pointsData.length = points.length
-          for (var i = 0; i < points.length; ++i)
-            pointsData[i] = [ convertToUnit(points[i][0], xUnits, settings.unitSystemName),
-                              zhukovskyChartData.unit != undefined ? convertToUnit(points[i][paramIndex], zhukovskyChartData.unit, settings.unitSystemName) : points[i][paramIndex] ]
-          data[data.length] = {
-            label: zhukovskyChartData.name,
-            data: pointsData,
-            yaxis: zhukovskyChartData.yaxis,
-            color: zhukovskyChartData.color,
-            lines: { lineWidth: zhukovskyChartData.width }
-          }
-          ++paramIndex
-        }
-      }
-    }
-    return data
-  }
-  
-  var chartsData = 
-  {
-    zhukovskyCharts: {
-      zhukovskyCharts: {
-        enabled: true,
-        charts: [
-          {
-            name: 'Vy(V), ToT(V)',
-            xAxis: {
-              name: 'V'
-            },
-            yAxes: [
-              {
-                name: 'F',
-              },
-              {
-                name: 'Tt',
-              },
-              {
-                name: 'Vy'
-              }
-            ],
-            interactive: true,
-            legendPosition: 'ne',
-            func: getZhukovskyCharts,
-            chart: 'placeholder_zhukovsky_charts'
-          }
+      },
+      balanceChartSeries: {
+        type: 'array',
+        items: [
+          { type: 'bool', controlId: 'CheckBoxBalanceAoa',          value: true },
+          { type: 'bool', controlId: 'CheckBoxBalanceElevator',     value: true }
         ]
-      }
+      },
+      loadFactor:     { type: 'number', unit: 'loadFactor',    controlId: 'EditLoadFactor',    value: 1.0, min: -5.0, max: 20.0 },
     }
+  }
+       
+  var chartsData =
+  {
+    performance: {
+      enabled: true,
+      alignByArg: true,
+      charts: [
+        {
+          name: 'Vy(V), ToT(V)',
+          xAxes: [
+            {
+              name: 'V',
+              unit: 'velocity'
+            }
+          ],
+          yAxes: [
+            {
+              name: 'F(V)',
+              unit: 'thrust',
+              labelWidth: 20,
+              reserveSpace: true
+            },
+            {
+              name: 'Tt(V)',
+              unit: 'time',
+              labelWidth: 20,
+              reserveSpace: true
+            },
+            {
+              name: 'Vy(V)',
+              unit: 'verticalVelocity',
+              labelWidth: 20,
+              reserveSpace: true
+            }
+          ],
+          //interactive: true,
+          func: collectPoints,
+          format: {
+            args: [],
+            curves: [
+              {
+                invertAxes: false,
+                argIndex: 0,
+                argAxis: 0,
+                //argName: 'V',
+                valuesIndex: 1,
+                values: [
+                  {
+                    index: 0,
+                    axis: 2,
+                    name: 'Vy(V)',
+                    width: 1,
+                    color: ['#008'],
+                    enabled: false
+                  },
+                  {
+                    index: 1,
+                    axis: 1,
+                    name: 'ToT(V)',
+                    width: 1,
+                    color: ['#00b'],
+                    enabled: false
+                  },
+                  {
+                    index: 2,
+                    axis: 0,
+                    name: 'Ft.avl(V)',
+                    width: 5,
+                    color: ['#f00'],
+                    enabled: false
+                  },
+                  {
+                    index: 3,
+                    axis: 0,
+                    name: 'Ft.req(Vy = 0, V)',
+                    width: 5,
+                    color: ['#a0a'],
+                    enabled: false
+                  },                  
+                  {
+                    index: 4,
+                    axis: 0,
+                    name: 'Ft.req(Vy = Vy1, V)',
+                    width: 3,
+                    color: ['#808'],
+                    enabled: false
+                  },
+                  {
+                    index: 5,
+                    axis: 0,
+                    name: 'Ft.req(Vy = Vy2, V)',
+                    width: 3,
+                    color: ['#606'],
+                    enabled: false
+                  },
+                  {
+                    index: 6,
+                    axis: 0,
+                    name: 'Ft.req(Vy = Vy3, V)',
+                    width: 3,
+                    color: ['#404'],
+                    enabled: false
+                  },
+                  {
+                    index: 7,
+                    axis: 0,
+                    name: 'Ft.req(Vy = Vy4, V)',
+                    width: 3,
+                    color: ['#202'],
+                    enabled: false
+                  }                  
+                ]
+              }
+            ]
+          },
+          tableName: 'zhukovskyChart',
+          chart: 'placeholder_zhukovsky_charts',
+          legendPosition: 'ne'
+        },
+        {
+          name: '',
+          xAxes: [
+            {
+              name: 'V',
+              unit: 'velocity'
+            }
+          ],
+          yAxes: [
+            {
+              name: 'LF',
+              unit: 'loadFactor',
+              labelWidth: 140,
+              reserveSpace: true
+            },
+          ],
+          markings: [
+            {
+              value: 1.0,
+              color: '#0f0',
+              yAxis: 0,
+              width: 5,
+              enabled: false
+            },
+            {
+              tableName: 'vgDiagramLimits',
+              paramName: 'loadFactorMin',
+              color: '#00f',
+              yAxis: 0,
+              width: 5,
+              enabled: false
+            },
+            {
+              tableName: 'vgDiagramLimits',
+              paramName: 'loadFactorMax',
+              color: '#f00',
+              yAxis: 0,
+              width: 5,
+              enabled: false
+            },
+            {
+              tableName: 'vgDiagramLimits',
+              paramName: 'speedLimMax',
+              color: '#0f0',
+              xAxis: 0,
+              width: 5,
+              enabled: false
+            }              
+          ],
+          func: collectPoints,
+          format: {
+            args: [],
+            curves: [
+              {
+                invertAxes: false,
+                argIndex: 0,
+                argAxis: 0,
+                argName: 'V',
+                valuesIndex: 1,
+                values: [
+                  {
+                    index: 0,
+                    axis: 0,
+                    name: 'LF.max',
+                    width: 3,
+                    color: ['#f00'],
+                    enabled: true
+                  },
+                  {
+                    index: 1,
+                    axis: 0,
+                    name: 'LF.min',
+                    width: 3,
+                    color: ['#00f'],
+                    enabled: true
+                  }
+                ]              
+              }
+            ]
+          },
+          tableName: 'vgDiagram',
+          chart: 'placeholder_vg_diagram',
+          legendPosition: 'ne'
+        },
+        {
+          name: '',
+          xAxes: [
+            {
+              name: 'V',
+              unit: 'velocity'
+            }
+          ],
+          yAxes: [
+            {
+              name: 'AoA',
+              unit: 'angle',
+              labelWidth: 50,
+              reserveSpace: true
+            },
+            {
+              name: 'Elev',
+              unit: 'ratio',
+              labelWidth: 50,
+              reserveSpace: true
+            },
+          ],
+          func: collectPoints,
+          format: {
+            args: [],
+            curves: [
+              {
+                invertAxes: false,
+                argIndex: 0,
+                argAxis: 0,
+                argName: 'V',
+                valuesIndex: 1,
+                values: [
+                  {
+                    index: 0,
+                    axis: 0,
+                    name: 'AoA',
+                    width: 3,
+                    color: ['#007'],
+                    enabled: false
+                  },
+                  {
+                    index: 1,
+                    axis: 1,
+                    name: 'Elev',
+                    width: 3,
+                    color: ['#707'],
+                    enabled: false
+                  }
+                ]
+              }
+            ]
+          },
+          tableName: 'balanceChart',
+          chart: 'placeholder_balance_chart',
+          legendPosition: 'ne'
+        }
+      ]      
+    }
+  }
+  
+  function updatePlotFlags()
+  {
+    for (var i = 0; i < chartsData.performance.charts[0].format.curves[0].values.length; ++i)
+      chartsData.performance.charts[0].format.curves[0].values[i].enabled = chartsParameters.items.zhukovskyChartSeries.items[i].value
+    for (var i = 0; i < chartsData.performance.charts[2].format.curves[0].values.length; ++i)
+      chartsData.performance.charts[2].format.curves[0].values[i].enabled = chartsParameters.items.balanceChartSeries.items[i].value      
+      
+    for (var i = 0; i < chartsData.performance.charts.length; ++i)
+      if (chartsData.performance.charts[i].markings != undefined)
+        for (var j = 0; j < chartsData.performance.charts[i].markings.length; ++j)
+          chartsData.performance.charts[i].markings[j].enabled = chartsParameters.items.limits.value
   }
   
   var charts = {}
-    
-  function updateChartGroup(chartsData, group)
-  {
-    var chartGroupData = chartsData[group]
-    if (chartGroupData != undefined &&
-        chartGroupData.enabled)
-    {
-      var chartGroup = charts[group]  
-      for(var i = 0; i < chartGroup.length; i++ )
-      {
-        var chartData = chartGroupData.charts[i]
-        chartGroup[i].setData(chartData.func(chartGroupData.data, chartData.data))
-        chartGroup[i].draw();
-      }
-    }
-  }
-    
-  function updateCharts(chartsData)
-  {
-    for (group in chartsData)
-      updateChartGroup(chartsData, group)
-  }
-  
-  function buildYAxes(chartData)
-  {
-    var yaxes = [] 
-    if (chartData.yAxes)
-    {
-      yaxes.length = chartData.yAxes.length
-      for (var i = 0; i < chartData.yAxes.length; ++i)
-        yaxes[i] = {
-          axisLabel: chartData.yAxes[i].name,
-          alignTicksWithAxis: chartData.yAxes[i].alignTicksWithAxis,
-          position: chartData.yAxes[i].position
-        }
-    }
-    else
-    {
-      yaxes.length = 1
-      yaxes[0] = {
-        axisLabel: chartData.yAxis.name
-      }
-    }
-    for (var i = 0; i < yaxes.length; ++i)
-    {
-      var yaxis = yaxes[i]
-      yaxis.axisLabelUseCanvas = true
-      yaxis.axisLabelFontSizePixels = 16
-      yaxis.axisLabelFontFamily = 'Arial'
-    }
-    return yaxes
-  }
-  
-  function setupCharts(chartsData)
-  {
-    $(function() {
-      for (group in chartsData)
-      {
-        var chartGroupData = chartsData[group]
-        if (chartGroupData.enabled)
-        {
-          charts[group] = []
-          for (var i = 0; i < chartGroupData.charts.length; ++i)
-          {
-            var chartData = chartGroupData.charts[i]          
-            var chartGroup = charts[group]
-            var chartObj = $('#' + chartData.chart)
-            chartGroup[i] = $.plot(chartObj, chartData.func(chartGroupData.data, chartData.data), {
-              series: {
-                lines: {
-                  show: true
-                },
-                shadowSize: 0
-              },
-              xaxes: [ {
-                axisLabel: chartData.xAxis.name,
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 16,
-                axisLabelFontFamily: 'Arial',
-              } ],
-              yaxes: buildYAxes(chartData),
-              zoom: {
-                interactive: chartData.interactive != undefined && chartData.interactive,
-                mode: 'y'
-              },
-              pan: {
-                interactive: chartData.interactive != undefined && chartData.interactive
-              },
-              legend: {
-                labelBoxBorderColor: "Black",
-                position: chartData.legendPosition
-              }
-            });
-          }
-        }
-      }
-      updateCharts(chartsData)
-    });
-  }
     
   function onConnectionStateChange(connected)
   {
@@ -362,15 +476,27 @@
       headerConnectionState.style.color = connected ? 'Black' : 'Red'
     }
   }
-    
-  function fillZhukovskyCharts(data, update)
+  
+  function fillSpeedRange(data)
   {
-    fmTables.zhukovskyCharts = data
-//    if (update)
-//      updateChartGroup(chartsData.zhukovskyCharts)
-//    else
-      setupCharts(chartsData.zhukovskyCharts)
-    zhukovskyChartAppliedParameters = serializeParameterToJSON(zhukovskyChartsParameters)
+    chartsParameters.items.speedMin.value = data.speedMin
+    saveParameter(chartsParameters.items.speedMin, settings.items.unitSystem.value)
+    serializeParameterToCookie(chartsParameters.items.speedMin, 'chartsParameters.speedMin')
+    
+    chartsParameters.items.speedMax.value = data.speedMax
+    saveParameter(chartsParameters.items.speedMax, settings.items.unitSystem.value)
+    serializeParameterToCookie(chartsParameters.items.speedMax, 'chartsParameters.speedMax')
+    
+    updateFmTables()
+  }
+    
+  function fillFmTables(data)
+  {
+    fmTables = data
+    
+    resetPlotsRanges(chartsData)
+    updatePlotFlags()
+    setupCharts(chartsData, charts, fmTables, settings.items.unitSystem.value)
   }
   
   function fillFmProperties(data)
@@ -384,22 +510,56 @@
     for (var tableName in data.tables)
       fmTables[tableName] = data.tables[tableName]
     
-    updateZhukovskyCharts(true)
+    updateFmTables()
   }
   
   //Callbacks
   
-  function onZhukovskyChartsParamChange(path)
+  function onSettingsChange(path)
   {
-    var param = getParameterByPath(zhukovskyChartsParameters, path)
+    var param = getParameterByPath(settings, path)
+    if (loadParameter(param, null))
+      serializeParameterToCookie(param, path[path.length - 1])
+    else
+      alert('Parameter path "' + parameterPathToString(path) + '" not found!')
+  }  
+  
+  function onUnitSystemChange(path)
+  {
+    onSettingsChange(path)
+    
+    saveParameter(chartsParameters, settings.items.unitSystem.value)
+    updateFmTables()
+  }  
+  
+  function onChartsSpeedTypeChange(path)
+  {
+    var param = getParameterByPath(chartsParameters, path)
     if (param != undefined)
     {
-      loadParameter(param, settings.unitSystemName)
-      serializeParameterToCookie(param, 'zhukovskyChartsParameters' + parameterPathToString(path))
-      updateZhukovskyCharts(true)
+      var oldSpeedType = param.value
+      loadParameter(param, settings.items.unitSystem.value)
+      serializeParameterToCookie(param, 'chartsParameters' + parameterPathToString(path))
+      updateSpeedParameter()
+      updateSpeedRange(oldSpeedType)
+
     }
     else
-      alert('Parameter path "zhukovskyChartsParameters' + parameterPathToString(path) + '" not found!')
+      alert('Parameter path "chartsParameters' + parameterPathToString(path) + '" not found!')
+  }
+    
+  function onChartsParamChange(path)
+  {
+    var param = getParameterByPath(chartsParameters, path)
+    if (param != undefined)
+    {
+      loadParameter(param, settings.items.unitSystem.value)
+      serializeParameterToCookie(param, 'chartsParameters' + parameterPathToString(path))
+      updatePlotFlags()
+      updateFmTables()
+    }
+    else
+      alert('Parameter path "chartsParameters' + parameterPathToString(path) + '" not found!')
   }
   
   function setCommand(data, successFunc, errorFunc) {
@@ -412,27 +572,66 @@
   }
   
   var fmTables = {}
-    
-  function updateZhukovskyCharts(update)
+  
+  function updateSpeedParameter()
+  {
+    chartsParameters.items.speedMin.unit = chartsParameters.items.speedType.value == SpeedType.Mach ? undefined : "velocity"
+    chartsParameters.items.speedMin.precision = chartsParameters.items.speedType.value == SpeedType.Mach ? 2 : 0
+    chartsParameters.items.speedMax.unit = chartsParameters.items.speedType.value == SpeedType.Mach ? undefined : "velocity"
+    chartsParameters.items.speedMax.precision = chartsParameters.items.speedType.value == SpeedType.Mach ? 2 : 0
+    // charts
+    for (var i = 0; i < chartsData.performance.charts.length; ++i)
+      chartsData.performance.charts[i].xAxes[0].unit = chartsParameters.items.speedType.value == SpeedType.Mach ? undefined : "velocity"
+  }
+  
+  function updateSpeedRange(oldSpeedType)
   {
     var params = {
-      cmd: 'getZhukovskyCharts',
-      alt: zhukovskyChartsParameters.items.altitude.value,
-      throttle: zhukovskyChartsParameters.items.throttle.value,
-      speedType: zhukovskyChartsParameters.items.speedType.value
+      cmd: 'setSpeedRange',
+      alt: chartsParameters.items.altitude.value,
+      oldSpeedType: oldSpeedType,
+      speedType: chartsParameters.items.speedType.value,
+      speedMin: chartsParameters.items.speedMin.value,
+      speedMax: chartsParameters.items.speedMax.value
     }
-    var series = zhukovskyChartsParameters.items.series.items
-    for (var f = 0; f < series.length; ++f)
-      params['series' + f] = series[f].value ? 'true' : 'false'
-    var climbRate = zhukovskyChartsParameters.items.climbRate.items
+    
+    setCommand( params,
+                function(data)
+                {
+                  onConnectionStateChange(true)
+                  fillSpeedRange(data)
+                },
+                function(data)
+                {
+                  onConnectionStateChange(false)
+                }
+              )
+  }
+  
+  function updateFmTables()
+  {
+    var params = {
+      cmd: 'getFmTables',
+      alt: chartsParameters.items.altitude.value,
+      throttle: chartsParameters.items.throttle.value,
+      speedType: chartsParameters.items.speedType.value,
+      speedRangeManual: chartsParameters.items.speedRangeManual.value,
+      speedMin: chartsParameters.items.speedMin.value,
+      speedMax: chartsParameters.items.speedMax.value,
+      loadFactor: chartsParameters.items.loadFactor.value
+    }
+    var zhukovskyChartSeries = chartsParameters.items.zhukovskyChartSeries.items
+    for (var f = 0; f < zhukovskyChartSeries.length; ++f)
+      params['zhukovskyChartSeries' + f] = zhukovskyChartSeries[f].value ? 'true' : 'false'
+    var climbRate = chartsParameters.items.climbRate.items
     for (var c = 0; c < climbRate.length; ++c)
-       params['climbRate' + c] = climbRate[c].value
+      params['climbRate' + c] = climbRate[c].value
   
     setCommand( params,
                 function(data)
                 {
                   onConnectionStateChange(true)
-                  fillZhukovskyCharts(data, update)
+                  fillFmTables(data)
                 },
                 function(data)
                 {
@@ -471,9 +670,15 @@
   {
     onConnectionStateChange(false)
     
-    prepareParameter(zhukovskyChartsParameters)
-    deserializeParameterFromCookie(zhukovskyChartsParameters, 'zhukovskyChartsParameters')
-    saveParameter(zhukovskyChartsParameters, settings.unitSystemName)
+    prepareParameter(settings)
+    deserializeParameterFromCookie(settings, undefined)
+    saveParameter(settings, null)
+    
+    prepareParameter(chartsParameters)
+    deserializeParameterFromCookie(chartsParameters, 'chartsParameters')
+    updateSpeedParameter()
+    saveParameter(chartsParameters, settings.items.unitSystem.value)
+    
     updateFmProperties()
   }
 
@@ -487,7 +692,18 @@
   <h2 id="HeaderAircraftType">Unknown</h2>
   <input type="button" value="Update" onClick="updateFmPropertiesNow()">
   
-  <h2>Zhukovsky chart</h2>
+  <h2>Settings</h2>
+  <table>
+    <tr>
+      <td>Unit System</td>  
+      <td>      
+        <select id="ComboUnitSystem" onchange="onUnitSystemChange(['unitSystem'])" style="width:100%">
+        </select>
+      </td>  
+    </tr>
+  </table>  
+  
+  <h2>Performance charts: Zhukovsky chart, VG-diagram, Balance chart</h2>
   <table>
     <tr>
       <td valign="top" >
@@ -496,17 +712,20 @@
             <td colspan="3"><b>Parameters</b></td>  
           </tr>
           <tr>
+            <td colspan="3"><b>Common</b></td>  
+          </tr>          
+          <tr>
             <td class="editLabel" id="LabelAltitude">Altitude</td>  
-            <td colspan="2"><input class="number-box" type="number" id="EditAltitude" size = "5" value="0" onchange="onZhukovskyChartsParamChange(['altitude'])"></td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditAltitude" size = "5" value="0" onchange="onChartsParamChange(['altitude'])"></td>  
           </tr>
           <tr>
             <td>Throttle</td>  
-            <td colspan="2"><input class="number-box" type="number" id="EditThrottle" size = "5" value="0" onchange="onZhukovskyChartsParamChange(['throttle'])"></td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditThrottle" size = "5" value="0" onchange="onChartsParamChange(['throttle'])"></td>  
           </tr>
           <tr>
             <td>Speed Type</td>  
             <td colspan="2">
-              <select class="number-box" id="ComboSpeedType" onchange="onZhukovskyChartsParamChange(['speedType'])">
+              <select class="number-box" id="ComboSpeedType" onchange="onChartsSpeedTypeChange(['speedType'])">
                 <option selected value="0">TAS</option>
                 <option value="1">IAS</option>
                 <option value="2">Mach</option>
@@ -514,38 +733,66 @@
             </td>  
           </tr>
           <tr>
+            <td colspan="3"><input type="checkbox" id="CheckBoxSpeedRangeManual" onchange="onChartsParamChange(['speedRangeManual'])">Manual Speed Range</td>  
+          </tr>
+          <tr>
+            <td>Speed min</td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditSpeedMin" size = "5" value="0" onchange="onChartsParamChange(['speedMin'])"></td>  
+          </tr>
+          <tr>
+            <td>Speed max</td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditSpeedMax" size = "5" value="250" onchange="onChartsParamChange(['speedMax'])"></td>  
+          </tr>
+          <tr>
+            <td colspan="3"><input type="checkbox" id="CheckBoxLimits" onchange="onChartsParamChange(['limits'])">Limits</td>
+          </tr>          
+          <tr>
+            <td colspan="3"><b>Zhukovsky chart</b></td>  
+          </tr>
+          <tr>
             <td colspan="3"><b>Series: climb rate and turn time</b></td>  
           </tr>
           <tr>
-            <td colspan="1"><input type="checkbox" id="CheckBoxClimbRateBySpeed" onchange="onZhukovskyChartsParamChange(['series', 0])">Vy(V)</td>  
-            <td colspan="2"><input type="checkbox" id="CheckBoxTurnTimeBySpeed" onchange="onZhukovskyChartsParamChange(['series', 1])">ToT(V)</td>  
+            <td colspan="1"><input type="checkbox" id="CheckBoxClimbRateBySpeed" onchange="onChartsParamChange(['zhukovskyChartSeries', 0])">Vy(V)</td>  
+            <td colspan="2"><input type="checkbox" id="CheckBoxTurnTimeBySpeed" onchange="onChartsParamChange(['zhukovskyChartSeries', 1])">ToT(V)</td>  
           </tr>
           <tr>
             <td colspan="3"><b>Series: available and required thrust</b></td>  
           </tr>
           <tr>
-            <td colspan="1"><input type="checkbox" id="CheckBoxMaxAvailableThrust" onchange="onZhukovskyChartsParamChange(['series', 2])">Tavl(V)</td>  
-            <td colspan="2"><input type="checkbox" id="CheckBoxMaxSpeedReqThrust" onchange="onZhukovskyChartsParamChange(['series', 3])">Ft.req(Vy=0, V)</td>  
+            <td colspan="1"><input type="checkbox" id="CheckBoxMaxAvailableThrust" onchange="onChartsParamChange(['zhukovskyChartSeries', 2])">Tavl(V)</td>  
+            <td colspan="2"><input type="checkbox" id="CheckBoxMaxSpeedReqThrust" onchange="onChartsParamChange(['zhukovskyChartSeries', 3])">Ft.req(Vy=0, V)</td>  
           </tr>
           <tr>
-            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust1" size="5" onchange="onZhukovskyChartsParamChange(['series', 4])">Ft.req(Vy=</td>  
-            <td><input class="number-box" type="number" id="EditClimbRate1" value="15" onchange="onZhukovskyChartsParamChange(['climbRate', 0])"></td>  
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust1" size="5" onchange="onChartsParamChange(['zhukovskyChartSeries', 4])">Ft.req(Vy=</td>  
+            <td><input class="number-box" type="number" id="EditClimbRate1" value="15" onchange="onChartsParamChange(['climbRate', 0])"></td>  
             <td>,V)</td>  
           </tr>
           <tr>
-            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust2" size="5" onchange="onZhukovskyChartsParamChange(['series', 5])">Ft.req(Vy=</td>  
-            <td><input class="number-box" type="number" id="EditClimbRate2" value="10" onchange="onZhukovskyChartsParamChange(['climbRate', 1])"></td>  
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust2" size="5" onchange="onChartsParamChange(['zhukovskyChartSeries', 5])">Ft.req(Vy=</td>  
+            <td><input class="number-box" type="number" id="EditClimbRate2" value="10" onchange="onChartsParamChange(['climbRate', 1])"></td>  
             <td>,V)</td>  
           </tr>
           <tr>
-            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust3" size="5" onchange="onZhukovskyChartsParamChange(['series', 6])">Ft.req(Vy=</td>  
-            <td><input class="number-box" type="number" id="EditClimbRate3" value="5" onchange="onZhukovskyChartsParamChange(['climbRate', 2])"></td>  
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust3" size="5" onchange="onChartsParamChange(['zhukovskyChartSeries', 6])">Ft.req(Vy=</td>  
+            <td><input class="number-box" type="number" id="EditClimbRate3" value="5" onchange="onChartsParamChange(['climbRate', 2])"></td>  
             <td>,V)</td>  
           </tr>
           <tr>
-            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust4" size="5" onchange="onZhukovskyChartsParamChange(['series', 7])">Ft.req(Vy=</td>  
-            <td><input class="number-box" type="number" id="EditClimbRate4" value="3" onchange="onZhukovskyChartsParamChange(['climbRate', 3])"></td>  
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust4" size="5" onchange="onChartsParamChange(['zhukovskyChartSeries', 7])">Ft.req(Vy=</td>  
+            <td><input class="number-box" type="number" id="EditClimbRate4" value="3" onchange="onChartsParamChange(['climbRate', 3])"></td>  
             <td>,V)</td>  
+          </tr>   
+          <tr>
+            <td colspan="3"><b>Balance chart</b></td>  
+          </tr>
+          <tr>
+            <td class="editLabel" id="LabelLoadFactor">Load Factor</td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditLoadFactor" size = "5" value="0" onchange="onChartsParamChange(['loadFactor'])"></td>  
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxBalanceAoa" onchange="onChartsParamChange(['balanceChartSeries', 0])">AoA</td>
+            <td colspan="2"><input type="checkbox" id="CheckBoxBalanceElevator" onchange="onChartsParamChange(['balanceChartSeries', 1])">Elevator</td>
           </tr>
         </table>
       </td>  
@@ -553,14 +800,34 @@
         <table>
           <tr>
             <td>
-              <div class="chart-content-zhukovsky">
-                <div class="chart-container-zhukovsky">
-                  <div class="tableheader"><b>Vy(V), ToT(V), Ft.avl(V), Ft.req(Vy=0, V), Ft.req(Vy=Vy1, V), ..., Ft.req(Vy=Vyn, V)</b></div>
+              <div class="chart-content">
+                <div class="chart-container">
+                  <div class="tableheader"><b>Zhukovsky chart: Vy(V), ToT(V), Ft.avl(V), Ft.req(Vy=0, V), Ft.req(Vy=Vy1, V), ..., Ft.req(Vy=Vyn, V)</b></div>
                   <div id="placeholder_zhukovsky_charts" class="chart-placeholder"></div>
                 </div>
               </div>
             </td>  
           </tr>
+          <tr>
+            <td>
+              <div class="chart-content">
+                <div class="chart-container">
+                  <div class="tableheader"><b>VG-diagram: LF.max(V), LF.min(V)</b></div>
+                  <div id="placeholder_vg_diagram" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content">
+                <div class="chart-container">
+                  <div class="tableheader"><b>Balance chart: AoA(V, LF=LF), Elev(V, LF=LF)</b></div>
+                  <div id="placeholder_balance_chart" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>              
+          </tr>          
         </table>
       </td>  
     </tr>

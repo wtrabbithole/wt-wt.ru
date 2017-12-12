@@ -17,11 +17,6 @@ function use_tencent_login()
   return ::is_platform_windows && ::getFromSettingsBlk("yunetwork/useTencentLogin", false)
 }
 
-function use_fpt_login()
-{
-  return ::is_platform_windows && ::getFromSettingsBlk("yunetwork/useFptLogin", false)
-}
-
 function use_dmm_login()
 {
   return ::dgs_get_argv("dmm_user_id") && ::dgs_get_argv("dmm_token")

@@ -217,7 +217,7 @@ class UnitInfoExporter
     if(!curUnit.isInShop || ::get_es_unit_type(curUnit) >= ::ES_UNIT_TYPE_TOTAL_RELEASED)
       return true
 
-    if(!("modificators" in curUnit))
+    if(!curUnit.modificators)
     {
       if(isTank(curUnit))
         return check_unit_mods_update(curUnit)

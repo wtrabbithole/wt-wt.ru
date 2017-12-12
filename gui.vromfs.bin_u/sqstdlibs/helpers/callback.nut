@@ -1,3 +1,4 @@
+local u = require("sqStdLibs/common/u.nut")
 /**
  * Callback - wrapper for regular callback functions with context validation.
  *
@@ -22,7 +23,10 @@
  *   Callback.
  */
 
-class Callback
+local assertFunc = function(callback, errorText) { throw(errorText) }
+local getDbgName = @(context) typeof context
+
+local Callback = class
 {
   refToContext = null
   hasContext = false
@@ -39,17 +43,6 @@ class Callback
       setContext(context)
 
     valid = true
-  }
-
-  static function make(func, context = null)
-  {
-    if (typeof func == "instance" && func instanceof ::Callback)
-      return func
-    if (typeof func == "function")
-      return ::Callback(func, context)
-    if (typeof func == "string" && (func in context) && typeof context[func] == "function")
-      return ::Callback(context[func], context)
-    return null
   }
 
   function setContext(context)
@@ -73,35 +66,12 @@ class Callback
   {
     if (!hasContext)
       return "null"
-
-    if (!::u.isTable(refToContext))
-      return ::toString(refToContext, 0)
-
-    foreach(key, value in ::getroottable())
-      if (value == refToContext)
-        return key
-    return "unknown table"
+    return getDbgName(refToContext)
   }
 
   function tostring()
   {
     return ::format("Callback( context = %s)", getContextDbgName())
-  }
-
-  function sendNetAssert(error)
-  {
-    local eventText = ""
-    if (::current_broadcasting_events.len())
-      eventText += ::format("event = %s, ", ::current_broadcasting_events.top().eventName)
-    local hudEventName = ::g_hud_event_manager.getCurHudEventName()
-    if (hudEventName)
-      eventText += ::format("hudEvent = %s, ", hudEventName)
-
-    ::script_net_assert_once("cb error " + eventText,
-                              format("::Callback error ( %scontext = %s):\n%s",
-                                eventText, getContextDbgName(), error
-                              )
-                            )
   }
 
   /**
@@ -138,7 +108,7 @@ class Callback
     }
     catch (error)
     {
-      sendNetAssert(error)
+      assertFunc(this, error)
     }
   }
 
@@ -176,7 +146,7 @@ class Callback
     }
     catch (error)
     {
-      sendNetAssert(error)
+      assertFunc(this, error)
     }
   }
 
@@ -197,4 +167,22 @@ class Callback
   }
 }
 
-::u.registerClass("Callback", ::Callback)
+local function make(func, context = null)
+{
+  if (u.isCallback(func))
+    return func
+  if (typeof func == "function")
+    return Callback(func, context)
+  if (typeof func == "string" && (func in context) && typeof context[func] == "function")
+    return ::Callback(context[func], context)
+  return null
+}
+
+u.registerClass("Callback", Callback)
+
+return {
+  Callback = Callback
+  setAssertFunction = @(func) assertFunc = func  //void func(callback, assertText)
+  setContextDbgNameFunction = @(func) getDbgName = func  //string func(context)
+  make = make
+}

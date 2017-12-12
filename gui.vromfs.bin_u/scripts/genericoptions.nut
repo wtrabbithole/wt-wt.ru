@@ -20,7 +20,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   sceneNavBlkName = "gui/options/navOptionsBack.blk"
   shouldBlurSceneBg = true
 
-  optionsId = "generic_options"
+  currentContainerName = "generic_options"
   options = null
   optionsConfig = null //config forwarded to get_option
   optionsContainers = null
@@ -45,7 +45,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!optionsContainers)
       optionsContainers = []
     if (options)
-      loadOptions(options, optionsId)
+      loadOptions(options, currentContainerName)
 
     ::set_menu_title(titleText, scene, "menu-title")
   }
@@ -66,6 +66,11 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
     updateLinkedOptions()
     onHintUpdate()
+  }
+
+  function getMainFocusObj()
+  {
+    return currentContainerName
   }
 
   function updateLinkedOptions()
@@ -462,6 +467,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       ::set_sound_volume(::SND_TYPE_RADIO, obj.getValue() / 100.0, false)
     else if (obj.id == "volume_engine")
       ::set_sound_volume(::SND_TYPE_ENGINE, obj.getValue() / 100.0, false)
+    else if (obj.id == "volume_my_engine")
+      ::set_sound_volume(::SND_TYPE_MY_ENGINE, obj.getValue() / 100.0, false)
     else if (obj.id == "volume_dialogs")
       ::set_sound_volume(::SND_TYPE_DIALOGS, obj.getValue() / 100.0, false)
     else if (obj.id == "volume_voice_in")
@@ -510,9 +517,14 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       local success = ::add_tank_alt_crosshair_template()
       local message = success && unit ? ::format(::loc("hud/successUserSight"), unit.name) : ::loc("hud/failUserSight")
 
-      ::showInfoMsgBox(message)
+      guiScene.performDelayed(this, function()
+      {
+        if (!isValid())
+          return
 
-      updateOptionDelayed(USEROPT_TANK_ALT_CROSSHAIR)
+        ::showInfoMsgBox(message)
+        updateOption(USEROPT_TANK_ALT_CROSSHAIR)
+      })
     } else
       setOptionValueByControlObj(obj)
   }
@@ -745,10 +757,11 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
   sceneNavBlkName = "gui/options/navOptionsBack.blk"
   multipleInstances = true
 
+  currentFocusItem = MAIN_FOCUS_ITEM_IDX + 1
+
   applyAtClose = true
 
   navigationHandlerWeak = null
-  currentContainerName = ""
   headersToOptionsList = {}
 
   function initScreen()
@@ -757,6 +770,7 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
 
     updateButtons()
     initNavigation()
+    initFocusArray()
   }
 
   function initNavigation()
@@ -775,6 +789,16 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
       })
     registerSubHandler(navigationHandlerWeak)
     navigationHandlerWeak = handler.weakref()
+  }
+
+  function getMainFocusObj()
+  {
+    return "filter_edit_box"
+  }
+
+  function getMainFocusObj2()
+  {
+    return currentContainerName
   }
 
   function doNavigateToSection(navItem)
@@ -1046,8 +1070,10 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     applySearchFilter()
   }
 
-  function onFilterEditBoxCancel()
+  function onFilterEditBoxCancel(obj = null)
   {
+    if (obj.getValue() == "")
+      return goBack()
     resetSearch()
   }
 

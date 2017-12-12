@@ -1,4 +1,11 @@
-::g_path <- {}
+local rootTable = getroottable()
+local split = function(str,sep) {
+  throw("no split of string library exist")
+}
+if ("split" in rootTable)
+  split = ::split
+else if ("string" in rootTable)
+  split = require("string").split
 
 /**
  * Normalize file path slashes to be unix-like forward slashes.
@@ -18,30 +25,25 @@
  *   normalize("a/.b/./c")            > "a/.b/c"
  *   normalize("/a/b///c\\d")         > "/a/b/c/d"
  */
-function g_path::normalize(path)
-{
-  local pathSegments = ::split(path, "\\/")
+local function normalize(path) {
+  local pathSegments = split(path, "\\/")
   local isAbsolutePath = false
 
-  if (path.len() > 0 && (path[0] == '/' || path[0] == "\\"[0]))
-  {
+  if (path.len() > 0 && (path[0] == '/' || path[0] == "\\"[0])) {
     isAbsolutePath = true
     pathSegments.insert(0, "/")
   }
   else if (pathSegments.len() > 0 &&
-    ::regexp("^[a-zA-Z]:.*$").match(pathSegments[0]))
-  {
+    ::regexp("^[a-zA-Z]:.*$").match(pathSegments[0])) {
     isAbsolutePath = true
-    if (pathSegments[0].len() > 2)
-    {
+    if (pathSegments[0].len() > 2) {
       pathSegments.insert(0, pathSegments[0].slice(0, 2))
       pathSegments[1] = pathSegments[1].slice(2)
     }
   }
 
   local numRemoved = 0
-  for (local j = pathSegments.len() - 1; j >= 0; j--)
-  {
+  for (local j = pathSegments.len() - 1; j >= 0; j--) {
     local segment = pathSegments[j]
     if (segment == ".")
       numRemoved += 1
@@ -55,7 +57,7 @@ function g_path::normalize(path)
     }
   }
 
-  local normalizedPath = ::g_string.implode(pathSegments, "/")
+  local normalizedPath = pathSegments.filter(@(index,val) val != "").reduce(@(prev, cur) prev + "/" + cur)
   if (normalizedPath.len() > 2 && normalizedPath.slice(0, 2) == "//")
     normalizedPath = normalizedPath.slice(1)
   return normalizedPath
@@ -65,8 +67,7 @@ function g_path::normalize(path)
 /**
  * Check is path already normalized
  */
-function g_path::isNormalized(path)
-{
+local function isNormalized(path) {
   return path == normalize(path)
 }
 
@@ -74,8 +75,7 @@ function g_path::isNormalized(path)
 /**
  * Get last slash seperator index in past string
  */
-function g_path::getLastSeperatorIndex(path)
-{
+local function getLastSeperatorIndex(path) {
   for (local j = path.len() - 1; j >= 0; j--)
     if (path[j] == '/')
       return j
@@ -94,8 +94,7 @@ function g_path::getLastSeperatorIndex(path)
  *   parentPath("a")              > null
  *   parentPath("a/b")            > "a"
  */
-function g_path::parentPath(path)
-{
+local function parentPath(path) {
   if (path == "/")
     return null
 
@@ -120,8 +119,7 @@ function g_path::parentPath(path)
  *   parentPath("a")              > "a"
  *   parentPath("a/b")            > "b"
  */
-function g_path::fileName(path)
-{
+local function fileName(path) {
   if (path == "/")
     return "/"
 
@@ -143,8 +141,9 @@ function g_path::fileName(path)
  *   join("a/b", "c/d")          > "a/b/c/d"
  *   join("/", "/")              > "/"
  */
-function g_path::join(basePath, other)
-{
+local function _join(basePath, other) {
+  assert(type(basePath) == "string")
+  assert(type(other) == "string")
   if (basePath == "")
     return other
   else if (other == "" || other == "/")
@@ -167,11 +166,23 @@ function g_path::join(basePath, other)
  *   joinArray([])                   > ""
  *   joinArray(["/"])                > "/"
  */
-function g_path::joinArray(pathArray)
-{
+local function joinArray(pathArray) {
   local path = ""
   foreach (pathSegment in pathArray)
     path = join(path, pathSegment)
+  return path
+}
+
+local function join(...) {
+  local path = ""
+  foreach (pathSegment in vargv) {
+    if (type(pathSegment) == "array") {
+      path = _join(path,joinArray(pathSegment))
+    }
+    else {
+      path = _join(path, pathSegment)
+    }
+  }
   return path
 }
 
@@ -185,14 +196,26 @@ function g_path::joinArray(pathArray)
  *   splitToArray("")           > []
  *   splitToArray("/")          > ["/"]
  */
-function g_path::splitToArray(path)
-{
+local function splitToArray(path) {
   if (path == "")
     return []
-
-  local segments = ::split(path, "/")
+  assert(type(path)=="string")
+  local segments = split(path, "/")
   if (path[0] == '/')
     segments.insert(0, "/")
 
   return segments
 }
+
+//EXPORT content for require
+local export = {
+  normalize = normalize
+  isNormalized = isNormalized
+  getLastSeperatorIndex = getLastSeperatorIndex
+  parentPath = parentPath
+  fileName = fileName
+  join = join
+  splitToArray = splitToArray
+}
+
+return export

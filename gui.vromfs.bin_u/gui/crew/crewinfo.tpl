@@ -58,6 +58,7 @@ tdiv {
     }
     textareaNoTab {
       id:t='crew_cur_points'
+      margin-left:t='1@blockInterval'
       overlayTextColor:t='active'
       crewStatus:t='<<crewStatus>>'
       text:t='<<crewPoints>>'

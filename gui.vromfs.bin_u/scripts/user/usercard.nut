@@ -182,7 +182,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       view.tabs.append({
         id = sheet
-        tabImage = tabImageNamePrefix + sheet.tolower()
+        tabImage = ::format(tabImageNameTemplate, sheet.tolower())
         tabName = tabLocalePrefix + sheet
         navImagesText = ::get_navigation_images_text(idx, sheetsList.len())
       })
@@ -484,13 +484,16 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj) || lbModesList == null)
       return
 
-    local val = obj.getValue()
+    local newLbMode = lbModesList?[obj.getValue()]
+    if (newLbMode == null || lbMode == newLbMode)
+      return
 
-    if (val >= 0 && val < lbModesList.len() && lbMode != lbModesList[val])
+    lbMode = newLbMode
+    guiScene.performDelayed(this, function()
     {
-      lbMode = lbModesList[val]
-      fillLeaderboard()
-    }
+      if (isValid())
+        fillLeaderboard()
+    })
   }
 
   function fillStatistics()
@@ -694,7 +697,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (isOwnStats || !("ownProfileOnly" in item) || !item.ownProfileOnly)
         headerRow.append({
           id = item.id
-          image = "#ui/gameuiskin#" + (("icon" in item)? item.icon : "lb_"+item.id)
+          image = "#ui/gameuiskin#" + (("icon" in item)? item.icon : "lb_"+item.id) + ".svg"
           tooltip = ("text" in item)? "#" + item.text : "#multiplayer/"+item.id
           callback = "onStatsCategory"
           active = statsSortBy==item.id
@@ -711,7 +714,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     for(local idx = fromIdx; idx <= toIdx; idx++)
     {
       local airData = airStatsList[idx]
-      local unitTooltip = ::loc("mainmenu/type_" + ::get_unit_role(airData.name)) + ::loc("ui/colon") + ::getUnitName(airData.name)
+      local unitTooltipId = ::g_tooltip_type.UNIT.getTooltipId(airData.name)
 
       local rowName = "row_"+idx
       local rowData = [
@@ -722,11 +725,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
           id="unit",
           width=rcWidth,
           image=getUnitClassIco(airData.name),
-          tooltip = unitTooltip,
+          tooltipId = unitTooltipId,
           cellType="splitRight",
           needText = false
         }
-        { id="name", text = ::getUnitName(airData, true), tdAlign="left", active = statsSortBy=="name", cellType="splitLeft", tooltip = unitTooltip }
+        { id="name", text = ::getUnitName(airData.name, true), tdAlign="left", active = statsSortBy=="name", cellType="splitLeft", tooltipId = unitTooltipId }
       ]
       foreach(item in ::air_stats_list)
       {
@@ -1070,7 +1073,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   info = null
   sheetsList = ["Profile", "Statistics"]
 
-  tabImageNamePrefix = "#ui/gameuiskin#sh_"
+  tabImageNameTemplate = "#ui/gameuiskin#sh_%s.svg"
   tabLocalePrefix = "#mainmenu/btn"
 
   statsPerPage = 0

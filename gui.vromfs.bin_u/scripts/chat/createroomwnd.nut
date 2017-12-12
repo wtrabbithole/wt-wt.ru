@@ -38,7 +38,7 @@ class ::gui_handlers.CreateRoomWnd extends ::gui_handlers.BaseGuiHandlerWT
     tabBlocksList = []
     foreach(tab in fullTabsList)
     {
-      ::append_once(tab.tabBlockName, tabBlocksList)
+      ::u.appendOnce(tab.tabBlockName, tabBlocksList)
       if (tab.roomType.canCreateRoom())
         tabsList.append(tab)
     }

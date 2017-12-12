@@ -14,7 +14,8 @@
 
 function weaponVisual::createItemLayout(id, item, type, params = {})
 {
-  item.type <- type
+  if (!("type" in item))
+    item.type <- type
   local view = {
     id = id
     itemWidth = ::getTblValue("itemWidth", params, 1)
@@ -202,7 +203,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     else if (priceObj && canResearch && !isResearchInProgress && !isResearchPaused)
     {
       local showExp = itemReqExp - statusTbl.modExp
-      local rpText = getRpPriceText(showExp, true)
+      local rpText = ::Cost().setRp(showExp).tostring()
       if (flushExp > 0 && flushExp > showExp)
         rpText = "<color=@goodTextColor>" + rpText + "</color>"
       priceObj.setValue(rpText)
@@ -1499,12 +1500,16 @@ function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, e
     {
       local expText = ""
       if (is_researching || is_paused)
-        expText = ::loc("currency/researchPoints/name") + ::loc("ui/colon") + "<color=@activeTextColor>" + curExp + ::loc("ui/slash") + ::getRpPriceText(item.reqExp, true) + "</color>"
+        expText = ::loc("currency/researchPoints/name") + ::loc("ui/colon") +
+          ::colorize("activeTextColor",
+            ::Cost().setRp(curExp).toStringWithParams({isRpAlwaysShown = true}) +
+            ::loc("ui/slash") + ::Cost().setRp(item.reqExp).tostring())
       else
-        expText = ::loc("shop/required_rp") + " " + "<color=@activeTextColor>" + ::getRpPriceText(item.reqExp, true) + "</color>"
+        expText = ::loc("shop/required_rp") + " " + "<color=@activeTextColor>" +
+          ::Cost().setRp(item.reqExp).tostring() + "</color>"
 
-      local diffExp = ::getTblValue("diffExp", params, 0)
-      if (diffExp > 0)
+      local diffExp = ::Cost().setRp(::getTblValue("diffExp", params, 0)).tostring()
+      if (diffExp.len())
         expText += " (+" + diffExp + ")"
       descTbl.expText <- expText
     }

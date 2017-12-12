@@ -161,6 +161,45 @@ local makeSideScroll = function(content, options={}) {
 }
 
 
+local makeHVScrolls = function(content, options={}) {
+  local styling = options.get("styling", defStyling)
+  local scrollHandler = options.get("scrollHandler") || ::ScrollHandler()
+  local rootBase = options.get("rootBase", styling.ContentRoot)
+
+  local contentRoot = function() {
+    local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
+    if (typeof(bhv)!="array")
+      bhv = [bhv]
+    bhv.extend([Behaviors.WheelScroll, Behaviors.ScrollEvent])
+
+    return class extends rootBase {
+      behavior = bhv
+      scrollHandler = scrollHandler
+
+      children = content
+    }
+  }
+
+  return {
+    size = flex()
+    flow = FLOW_VERTICAL
+
+    children = [
+      {
+        size = flex()
+        flow = FLOW_HORIZONTAL
+        clipChildren = true
+        children = [
+          contentRoot
+          scrollbar(scrollHandler, options.__merge({orientation=O_VERTICAL}))
+        ]
+      }
+      scrollbar(scrollHandler, options.__merge({orientation=O_HORIZONTAL}))
+    ]
+  }
+}
+
+
 local makeVertScroll = function(content, options={}) {
   local o = clone options
   o.orientation <- O_VERTICAL
@@ -180,4 +219,5 @@ return {
   scrollbar = scrollbar
   makeHorizScroll = makeHorizScroll
   makeVertScroll = makeVertScroll
+  makeHVScrolls = makeHVScrolls
 }

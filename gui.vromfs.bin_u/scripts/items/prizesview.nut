@@ -217,7 +217,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
   else if (prize.warpoints)
     name = ::Cost(prize.warpoints).toStringWithParams({isWpAlwaysShown = true, isColored = colored})
   else if (prize.exp)
-    name = getFreeRpPriceText(prize.exp, colored)
+    name = ::Cost().setFrp(prize.exp).toStringWithParams({isColored = colored})
   else
   {
     name = ::loc("item/unknown")
@@ -392,7 +392,7 @@ function PrizesView::getPrizeCurrency(prize)
   if (prize.warpoints)
     return ::Cost(prize.warpoints)
   if (prize.exp)
-    return ::Cost(0, 0, prize.exp)
+    return ::Cost().setFrp(prize.exp)
   return null
 }
 
@@ -560,7 +560,7 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
     infoText += (infoText.len() ? "\n" : "") + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
 
   local unitPlate = ::build_aircraft_item(unitName, unit, {
-    active = true,
+    hasActions = true,
     status = isBought ? "locked" : "canBuy",
     showAsTrophyContent = true
     isReceivedPrizes = receivedPrizes

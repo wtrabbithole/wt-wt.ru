@@ -109,7 +109,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
       }
 
       local tmId = sectionData.getTopMenuButtonDivId()
-      ::append_once(tmId, GCDropdownsList)
+      ::u.appendOnce(tmId, GCDropdownsList)
 
       sectionsView.append({
         tmId = tmId
@@ -125,6 +125,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
         columnsCount = columnsCount
         columns = columns
         btnName = sectionData.btnName
+        isLast = topMenuButtonIndex == sectionsOrder.len() - 1
       })
     }
     return sectionsView
@@ -235,6 +236,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     if (selObj.on_change_value)
       selObj.setValue(!selObj.getValue())
 
+    unstickGCDropdownMenu()
     this[eventName](selObj)
   }
 

@@ -292,8 +292,8 @@ function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty
   local fullRequestsList = [::g_skill_parameters_request_type.CURRENT_VALUES] //required for getting params list
   foreach(columnType in columnTypes)
   {
-    ::append_once(columnType.previousParametersRequestType, fullRequestsList, true)
-    ::append_once(columnType.currentParametersRequestType, fullRequestsList, true)
+    ::u.appendOnce(columnType.previousParametersRequestType, fullRequestsList, true)
+    ::u.appendOnce(columnType.currentParametersRequestType, fullRequestsList, true)
   }
 
   //collect parameters by request types

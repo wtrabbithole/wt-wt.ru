@@ -453,7 +453,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     {
       local currencies = []
       if (premTeaser.exp > 0)
-        currencies.append(::getRpPriceText(premTeaser.exp, true))
+        currencies.append(::Cost().setRp(premTeaser.exp).tostring())
       if (premTeaser.wp  > 0)
         currencies.append(::Cost(premTeaser.wp).tostring())
       tooltip = ::loc("debriefing/PremiumNotEarned") + ::loc("ui/colon") + "\n" + ::g_string.implode(currencies, ::loc("ui/comma"))
@@ -463,10 +463,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local markup = ::handyman.renderCached("gui/debriefing/debriefingTotals", {
       showTeaser = canSuggestPrem && premTeaser.isPositive
       canSuggestPrem = canSuggestPrem
-      exp = totalCurValues["exp"]
-      wp  = totalCurValues["wp"]
-      expTeaser = premTeaser.exp
-      wpTeaser  = premTeaser.wp
+      exp = ::Cost().setRp(totalCurValues["exp"]).tostring()
+      wp  = ::Cost(totalCurValues["wp"]).tostring()
+      expTeaser = ::Cost().setRp(premTeaser.exp).toStringWithParams({isColored = false})
+      wpTeaser  = ::Cost(premTeaser.wp).toStringWithParams({isColored = false})
       teaserTooltip = tooltip
     })
     guiScene.replaceContentFromText(totalObj, markup, markup.len(), this)
@@ -862,8 +862,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         if (!bonusExp && !bonusWp)
           continue
         bonusesTotal.append(::loc(::getTblValue(bonusType, bonusNames, "")) + ::loc("ui/colon") +
-          ::g_string.implode(
-            [ ::getRpPriceText(bonusExp, true), ::Cost(bonusWp).tostring() ],::loc("ui/comma")))
+          ::Cost(bonusWp, 0, bonusExp).tostring())
       }
       if (!::u.isEmpty(bonusesTotal))
         textArray.append(::g_string.implode(bonusesTotal, "\n"))
@@ -1082,8 +1081,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     {
       case "wp":  return ::Cost(value).toStringWithParams({isWpAlwaysShown = true})
       case "gold": return ::Cost(0, value).toStringWithParams({isGoldAlwaysShown = true})
-      case "exp": return ::getRpPriceText(value, true)
-      case "frp": return ::getFreeRpPriceText(value, true)
+      case "exp": return ::Cost().setRp(value).tostring()
+      case "frp": return ::Cost().setFrp(value).tostring()
       case "num": return value.tostring()
       case "sec": return value + ::loc("debriefing/timeSec")
       case "mul": return "x" + value
@@ -1110,6 +1109,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
     }
 
+    local cost = ::Cost()
     foreach(p in [ "exp", "wp", "expTeaser", "wpTeaser" ])
       if (totalCurValues[p] != totalTarValues[p])
       {
@@ -1118,7 +1118,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
         local obj = totalObj.findObject(p)
         if (::checkObj(obj))
-          obj.setValue(totalCurValues[p].tostring())
+        {
+          cost.wp = p.find("wp") != null ? totalCurValues[p] : 0
+          cost.rp = p.find("exp") != null ? totalCurValues[p] : 0
+          obj.setValue(cost.toStringWithParams({isColored = p.find("Teaser") == null}))
+        }
         needPlayCount = true
       }
   }
@@ -1192,7 +1196,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       if (expInvestUnitTotal > 0)
       {
-        local msg = ::format(::loc("debriefing/all_units_researched"), ::getRpPriceText(expInvestUnitTotal, true))
+        local msg = ::format(::loc("debriefing/all_units_researched"),
+          ::Cost().setRp(expInvestUnitTotal).tostring())
         local noUnitObj = scene.findObject("no_air_text")
         if (::checkObj(noUnitObj))
           noUnitObj.setValue(::g_string.stripTags(msg))
@@ -1315,7 +1320,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local msg = "debriefing/but_all_mods_researched"
       if (::find_any_not_researched_mod(unit))
         msg = "debriefing/but_not_any_research_active"
-      msg = format(::loc(msg), ::getRpPriceText(getModExp(airData) || airData.expTotal, true))
+      msg = format(::loc(msg), ::Cost().setRp(getModExp(airData) || airData.expTotal).tostring())
       obj.findObject("no_mod_text").setValue(msg)
     }
   }
@@ -1442,30 +1447,39 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return obj["class"] = "empty"
 
     local rowsCfg = []
-    if (tRow.isCountedInUnits)
+    if (!tRow.joinRows)
     {
-      foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+      if (tRow.isCountedInUnits)
+      {
+        foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+          rowsCfg.append({
+            row     = tRow
+            name    = ::getUnitName(unitId)
+            expData = unitData
+          })
+      }
+      else
+      {
         rowsCfg.append({
           row     = tRow
-          name    = ::getUnitName(unitId)
-          expData = unitData
+          name    = tRow.getName()
+          expData = ::debriefing_result.exp
         })
-    }
-    else
-    {
-      rowsCfg.append({
-        row     = tRow
-        name    = tRow.getName()
-        expData = ::debriefing_result.exp
-      })
+      }
     }
 
-    if (tRow.tooltipExtraRows)
+    if (tRow.joinRows || tRow.tooltipExtraRows)
     {
-      foreach (id in tRow.tooltipExtraRows())
+      local extraRows = []
+      if (tRow.joinRows)
+        extraRows.extend(tRow.joinRows)
+      if (tRow.tooltipExtraRows)
+        extraRows.extend(tRow.tooltipExtraRows())
+
+      foreach (id in extraRows)
       {
         local extraRow = ::get_debriefing_row_by_id(id)
-        if (extraRow.show)
+        if (extraRow.show || extraRow.showInTooltips)
           rowsCfg.append({
             row     = extraRow
             name    = extraRow.getName()
@@ -2129,7 +2143,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local buttonsList = {
       btn_view_replay = isAnimDone && isReplayReady && !isMp
       btn_save_replay = isAnimDone && isReplayReady && !::is_replay_saved()
-      btn_usercard = isAnimDone && (curTab == "players_stats") && player && !player.isBot
+      btn_user_options = isAnimDone && (curTab == "players_stats") && player && !player.isBot && ::show_console_buttons
     }
 
     foreach(btn, show in buttonsList)

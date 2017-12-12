@@ -173,7 +173,8 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       local rowObj = scene.findObject(getRowName(idx))
       if (!::checkObj(rowObj))
         continue
-      local newCost = ::g_crew.getNextSkillStepCost(item, item.newValue)
+
+      local newCost = ::g_crew.getNextSkillStepCost(item, item?.newValue ?? getSkillValue(curPage.id, item.name))
       rowObj.findObject("buttonInc").inactiveColor = (newCost > 0 && newCost <= getCurPoints()) ? "no" : "yes"
       rowObj.findObject("availableSkillProgress").setValue(::g_crew.skillValueToStep(item, getSkillMaxAvailable(item)))
     }

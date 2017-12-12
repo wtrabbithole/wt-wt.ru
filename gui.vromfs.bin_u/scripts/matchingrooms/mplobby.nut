@@ -283,7 +283,7 @@ enum SessionStatus
   TOO_FEW_B
 }
 
-function session_player_rmenu(handler, player, chatText = "", position = null)
+function session_player_rmenu(handler, player, chatText = "", position = null, orientation = null)
 {
   if (!player || player.isBot || !("userId" in player) || !::g_login.isLoggedIn())
       return
@@ -358,7 +358,7 @@ function session_player_rmenu(handler, player, chatText = "", position = null)
       })(uid, clanTag, name, chatText)
     }
   ]
-  ::gui_right_click_menu(menu, handler, position)
+  ::gui_right_click_menu(menu, handler, position, orientation)
 }
 
 function gui_start_mp_lobby(next_mission = false)
@@ -433,7 +433,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
       ::SessionLobby.setTeam(::SessionLobby.getRandomTeam(), true)
 
     updateSessionInfo()
-    initSlotbar()
+    createSlotbar()
     setSceneTitle(::loc("multiplayer/lobby"))
     updateWindow()
     updateRoomInSession()
@@ -452,11 +452,6 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
       tableTeams = [::g_team.A, ::g_team.B]
       isInfoByTeams = true
     }
-  }
-
-  function initSlotbar()
-  {
-    ::init_slotbar(this, scene.findObject("nav-help"))
   }
 
   function getMainFocusObj()

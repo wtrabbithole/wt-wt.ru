@@ -9,8 +9,9 @@ local ItemExternal = class extends ::BaseItem
   {
     base.constructor(::DataBlock())
 
-    uids = []
-    id = itemDesc.itemid
+    isInventoryItem = true
+    id = itemDesc.itemdef.itemdefid
+    uids = [ itemDesc.itemid ]
     amount = itemDesc.quantity
     itemDef = itemDesc.itemdef
 
@@ -21,6 +22,15 @@ local ItemExternal = class extends ::BaseItem
         metaBlk = null
       }
     }
+  }
+
+  function tryAddItem(itemDesc)
+  {
+    if (id != itemDesc.itemdef.itemdefid)
+      return false
+    uids.append(itemDesc.itemid)
+    amount += itemDesc.quantity
+    return true
   }
 
   function getName(colored = true)
@@ -42,6 +52,13 @@ local ItemExternal = class extends ::BaseItem
   function getIcon(addItemName = true)
   {
     return ::LayersIcon.getIconData(null, itemDef.icon_url)
+  }
+
+  function getBigIcon()
+  {
+    local url = !::u.isEmpty(itemDef.icon_url_large) ?
+      itemDef.icon_url_large : itemDef.icon_url
+    return ::LayersIcon.getIconData(null, url)
   }
 
   function canConsume()
@@ -68,15 +85,19 @@ local ItemExternal = class extends ::BaseItem
 
   function doMainAction(cb, handler, params = null)
   {
+    if (!uids || !uids.len())
+      return -1
+
+    local uid = uids[0]
+
     if (metaBlk) {
       addLocalization()
 
       local blk = ::DataBlock()
-      blk.setInt("itemId", id.tointeger())
+      blk.setInt("itemId", uid.tointeger())
 
-      local idToRemove = id
       local taskCallback = function() {
-        inventoryClient.removeItem(idToRemove)
+        inventoryClient.removeItem(uid)
         cb({ success = true })
       }
 

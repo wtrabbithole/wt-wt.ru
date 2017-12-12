@@ -40,10 +40,10 @@ class ::WwBattleResultsView
     foreach (team in battleRes.teams)
     {
       foreach (wwUnit in team.unitsInitial)
-        ::append_once(wwUnit.getWwUnitType().code, battleUnitTypes)
+        ::u.appendOnce(wwUnit.getWwUnitType().code, battleUnitTypes)
       foreach (wwUnit in team.unitsRemain)
         if (wwUnit.inactiveCount > 0)
-          ::append_once(wwUnit.getWwUnitType().code, inactiveUnitTypes)
+          ::u.appendOnce(wwUnit.getWwUnitType().code, inactiveUnitTypes)
     }
 
     battleUnitTypes.sort()

@@ -189,7 +189,7 @@ const COMPARE_NO_COMPARE = "no"
         if (diff.egdCode != ::EGD_NONE)
         {
           local mode = diff.getEgdName()
-          blk.value[mode] = ::get_unit_battle_rating_by_mode(unit, diff.getEdiff())
+          blk.value[mode] = unit.getBattleRating(diff.getEdiff())
           blk.valueText[mode] = format("%.1f", blk.value[mode])
         }
     }
@@ -229,7 +229,7 @@ const COMPARE_NO_COMPARE = "no"
         if (diff.egdCode != ::EGD_NONE)
         {
           local mode = diff.getEgdName()
-          local wpMuls = ::get_unit_wp_reward_muls(unit, diff)
+          local wpMuls = unit.getWpRewardMulList(diff)
           local value = (wpMuls.wpMul * wpMuls.premMul * 100.0 + 0.5).tointeger()
           local premUnitMul = wpMuls.premMul * 1.0
           blk.value[mode] = value

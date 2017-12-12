@@ -140,7 +140,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
 
       local blockFormat = "tdiv { class:t='rankUpList'; halign:t='center'; %s }"
       return ::format(blockFormat, ::build_aircraft_item(unit.name, unit, {
-        active = true,
+        hasActions = true,
         status = ::isUnitBought(unit) ? "owned" : "canBuy",
         showAsTrophyContent = true
       }))

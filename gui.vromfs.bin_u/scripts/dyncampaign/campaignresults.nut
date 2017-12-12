@@ -1,3 +1,8 @@
+function gui_start_dynamic_results()
+{
+  ::handlersManager.loadHandler(::gui_handlers.CampaignResults)
+}
+
 class ::gui_handlers.CampaignResults extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/debriefingCamp.blk"

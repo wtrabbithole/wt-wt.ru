@@ -9,7 +9,6 @@ weaponry_item {
   total-input-transparent:t='yes'
   css-hier-invalidate:t='yes'
 
-  selImg{}
   tdiv {
     id:t='modItem_discount';
     pos:t='pw-w, -1@discountBoxDownHeight + 8*@sf/@pf_outdated';

@@ -201,7 +201,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return scene.findObject("main_modifications")
+    return mainModsObj
   }
 
   function getMainFocusObj2()
@@ -289,69 +289,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWeaponPurchased(params) { updateAllItems() }
   function onEventSparePurchased(params) { updateAllItems() }
 
-  function onUnitConvert(obj)
-  {
-    local selUnit = getSelectedUnit()
-    if(isSpendGoldOnTankRestricted(selUnit))
-      return
-
-    if (selUnit)
-      ::gui_modal_convertExp(selUnit, this)
-  }
-
-  function onUnitBuy(obj)
-  {
-    local selUnit = getSelectedUnit()
-    if (!selUnit || !::old_check_balance_msgBox(::wp_get_cost(selUnit.name), ::wp_get_cost_gold(selUnit.name)))
-      return
-
-    ::buyUnit(selUnit)
-  }
-
-  function onUnitResearch(obj)
-  {
-    local selUnit = getSelectedUnit()
-    if (!selUnit || ::isUnitInResearch(selUnit))
-      return
-    ::researchUnit(selUnit)
-  }
-
-  function onUnitShowroom(obj = null)
-  {
-    local selUnit = getSelectedUnit()
-    if (!selUnit)
-      return
-
-    checkSaveBulletsAndDo(null)
-    checkedForward((@(selUnit) function() {
-      ::show_aircraft = selUnit
-      base.onSlotShowroom(null)
-    })(selUnit))
-  }
-
-  function onUnitTestFlight(obj = null)
-  {
-    local selUnit = getSelectedUnit()
-    if (!selUnit || !::g_squad_utils.canJoinFlightMsgBox())
-      return
-
-    checkedNewFlight((@(selUnit) function() {
-      checkSaveBulletsAndDo((@(selUnit) function() {
-          ::show_aircraft <- selUnit
-          ::gui_start_testflight()
-        })(selUnit)
-      )
-    })(selUnit))
-  }
-
-  function onUnitInfo(obj = null)
-  {
-    local selUnit = getSelectedUnit()
-    if (!selUnit)
-      return
-    ::gui_start_aircraft_info(selUnit.name)
-  }
-
   function isItemTypeUnit(type)
   {
     return type == weaponsItem.curUnit
@@ -360,8 +297,16 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function addItemToList(item, type)
   {
     local idx = items.len()
-    item.type <- type
-    item.guiPosIdx <- idx
+    if (::u.isUnit(item)) //!!FIX ME: it a bad idea to unit be a direct item in weaponry list
+    {
+      item.type = type
+      item.guiPosIdx = idx
+    }
+    else
+    {
+      item.type <- type
+      item.guiPosIdx <- idx
+    }
     items.append(item)
     return "item_" + idx
   }
@@ -455,7 +400,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateAllItems()
   {
-    if (!::checkObj(scene))
+    if (!isValid())
       return
 
     fillAvailableRPText()
@@ -510,10 +455,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (showResearchButton)
     {
       local flushExp = item.reqExp < availableFlushExp ? item.reqExp : availableFlushExp
-      local textSample = ::loc("weaponry/research") + " (%s)"
-      local coloredText = ::format(textSample, getRpPriceText(flushExp, true))
-      local notColoredText = ::format(textSample, getRpPriceText(flushExp))
-      ::setDoubleTextToButton(scene, "btn_nav_research", notColoredText, coloredText)
+      ::set_double_text_to_button(scene, "btn_nav_research",
+        ::format(::loc("weaponry/research") + " (%s)", ::Cost().setRp(flushExp).tostring()))
     }
 
     local showPurchaseButton = researchMode
@@ -537,7 +480,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local params = {
       slotbarActions = airActions
-      actionsPrefix = actionsPrefix
     }
     local unitBlk = ::build_aircraft_item("unit_item", unit, params)
     guiScene.replaceContentFromText(itemObj, unitBlk, unitBlk.len(), this)
@@ -754,7 +696,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local nextX = offsetX
-    if ("spare" in air && !researchMode)
+    if (air.spare && !researchMode)
       createItem(air.spare, weaponsItem.spare, mainModsObj, nextX++, offsetY)
     foreach(mod in air.modifications)
       if ((!researchMode || ::canResearchMod(air, mod))
@@ -1120,6 +1062,12 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (::checkObj(curBundleTblObj))
       onDropDown(curBundleTblObj.getParent().getParent()) //need a hoverSize here or bundleItem.
+
+    if (::check_obj(mainModsObj))
+    {
+      checkCurrentFocusItem(mainModsObj)
+      mainModsObj.select()
+    }
   }
 
   function onModAction(obj, fullAction = true, stickBundle = false)
@@ -1413,18 +1361,18 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function doSwitchMod(item, equipped)
   {
-    taskId = enable_modification(airName, item.name, !equipped)
-    if (taskId >= 0)
-    {
-      ::set_char_cb(this, slotOpCb)
-      showTaskProgressBox()
-      afterSlotOp = (@(item) function() {
-        if (::checkObj(scene))
-          updateAllItems()
-        fillGamercard()
-        ::updateAirAfterSwitchMod(air, item.name)
-      })(item)
-    }
+    local wndUpdateItems = ::Callback(function() {
+      updateAllItems()
+      unstickCurBundle()
+    }, this)
+
+    local taskSuccessCallback = (@(air, item) function() {
+      ::updateAirAfterSwitchMod(air, item.name)
+      wndUpdateItems()
+    }) (air, item)
+
+    local taskId = enable_modification(airName, item.name, !equipped)
+    ::g_tasker.addTask(taskId, { showProgressBox = true }, taskSuccessCallback)
   }
 
   function checkSaveBulletsAndDo(func)
@@ -1551,7 +1499,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   setResearchManually = false
 
   airActions = ["research", "buy"]
-  actionsPrefix = "onUnit"
   isOwn = true
   is_tank = false
   wasOwn = true
@@ -2127,7 +2074,7 @@ class ::gui_handlers.MultiplePurchase extends ::gui_handlers.BaseGuiHandlerWT
   function sceneUpdate()
   {
     scene.findObject("skillSlider").setValue(curValue)
-
+    scene.findObject("oldSkillProgress").setValue(minValue)
     scene.findObject("newSkillProgress").setValue(curValue)
     local buyValue = curValue - minValue
     local buyValueText = buyValue==0? "": ("+" + buyValue.tostring())

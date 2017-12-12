@@ -62,8 +62,32 @@ if (!("set_control_helpers_mode" in getroottable())) // func was renamed
   set_control_helpers_mode <- ::set_helpers_mode
 
 //--------------------------------------------------------------------//
-//!!!!!!!!!!!!!!!!END OF IMPORTANT COMPATIBILITIES!!!!!!!!!!!!!!!!!!!!!//
+//!!!!!!!!!!!!!!!!END OF IMPORTANT COMPATIBILITIES!!!!!!!!!!!!!!!!!!!!//
 //--------------------------------------------------------------------//
+
+//--------------------------------------------------------------------//
+//----------------------OBSOLETTE SCRIPT FUNCTIONS--------------------//
+//-- Do not use them. Use null operators or native functons instead --//
+//--------------------------------------------------------------------//
+
+::getTblValue <- @(key, tbl, defValue = null) key in tbl ? tbl[key] : defValue
+
+function getTblValueByPath(path, tbl, defValue = null, separator = ".")
+{
+  if (path == "")
+    return defValue
+  if (path.find(separator) == null)
+    return tbl?[path] ?? defValue
+  local keys = ::split(path, separator)
+  return ::get_tbl_value_by_path_array(keys, tbl, defValue)
+}
+
+function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
+{
+  foreach(key in pathArray)
+    tbl = tbl?[key] ?? defValue
+  return tbl
+}
 
 //--------------------------------------------------------------------//
 //----------------------COMPATIBILITIES BY VERSIONS-------------------//
@@ -539,4 +563,27 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 //----------------------------wop_1_73_1_X---------------------------------//
 ::apply_compatibilities({
   SND_TYPE_MY_ENGINE = 8
+
+  ugc_get_all_tags = @() []
+  ugc_set_tags_forbidden = function(arr) {}
+
+  EII_SCOUT = 16
+  EXP_EVENT_SCOUT = 25
+  EXP_EVENT_SCOUT_CRITICAL_HIT = 26
+  EXP_EVENT_SCOUT_KILL = 27
+
+})
+
+//----------------------------wop_1_73_1_X---------------------------------//
+::apply_compatibilities({
+  SND_TYPE_MY_ENGINE = 8
+
+  MDS_UNDAMAGED = 0
+  MDS_DAMAGED = 1
+  MDS_ORIGINAL = 2
+
+  EULT_INVENTORY_ADD_ITEM = 55
+
+  hangar_show_model_damaged = function(state) {}
+  hangar_get_loaded_model_damage_state = @() MDS_UNDAMAGED
 })

@@ -117,8 +117,11 @@ expandable {
 
           text:t = '#mainmenu/btnAirAction'
           on_click:t = 'onThreadsActivate'
-          btnName:t='A'
-          ButtonImg { showOnSelect:t='focus' }
+          btnName:t=''
+          ButtonImg {
+            iconName:t='A'
+            showOnSelect:t='focus'
+          }
         }
       }
       <</isGamepadMode>>

@@ -10,7 +10,8 @@ class MRoomsList
   roomsList = null
   requestParams = null
 
-  lastUpdateTimeMsec = -1000000
+  lastUpdateTimeMsec = - ROOM_LIST_TIME_OUT
+  lastRequestTimeMsec = - ROOM_LIST_REQUEST_TIME_OUT
   isInUpdate = false
 
   static mRoomsListById = {}
@@ -43,14 +44,15 @@ class MRoomsList
     return !isInUpdate && ::dagor.getCurTime() - lastUpdateTimeMsec < ROOM_LIST_REFRESH_MIN_TIME
   }
 
-  function isRequestTimeOut()
+  function canRequestByTime()
   {
-    return isInUpdate && ::dagor.getCurTime() - lastUpdateTimeMsec > ROOM_LIST_REQUEST_TIME_OUT
+    local checkTime = isInUpdate ? ROOM_LIST_REQUEST_TIME_OUT : ROOM_LIST_REFRESH_MIN_TIME
+    return  ::dagor.getCurTime() - lastRequestTimeMsec >= checkTime
   }
 
   function canRequest()
   {
-    return !isNewest() && (!isInUpdate || isRequestTimeOut())
+    return !isNewest() && canRequestByTime()
   }
 
   function validateList()
@@ -84,7 +86,7 @@ class MRoomsList
       return false
 
     isInUpdate = true
-    lastUpdateTimeMsec = ::dagor.getCurTime()
+    lastRequestTimeMsec = ::dagor.getCurTime()
 
     local roomsData = this
     ::fetch_rooms_list(getFetchRoomsParams(), (@(roomsData) function(p) {  roomsData.requestListCb(p) })(roomsData))
@@ -99,12 +101,12 @@ class MRoomsList
   function requestListCb(p)
   {
     isInUpdate = false
-    lastUpdateTimeMsec = ::dagor.getCurTime()
 
     local digest = ::checkMatchingError(p, false) ? ::getTblValue("digest", p) : null
     if (!digest)
       return
 
+    lastUpdateTimeMsec = ::dagor.getCurTime()
     updateRoomsList(digest)
     ::broadcastEvent("SearchedRoomsChanged", { roomsList = this })
   }

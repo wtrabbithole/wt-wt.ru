@@ -23,15 +23,21 @@ enum ESwitchSpectatorTarget
 }
 
 ::respawn_options <- [
-  {id = "skin",        hint = "options/skin",                   user_option = ::USEROPT_SKIN },
-  {id = "user_skins",  hint = "options/user_skins",             user_option = ::USEROPT_USER_SKIN },
-  {id = "gundist",     hint = "options/gun_target_dist",        user_option = ::USEROPT_GUN_TARGET_DISTANCE},
+  {id = "skin",        hint = "options/skin",
+    user_option = ::USEROPT_SKIN, isShowForRandomUnit =false },
+  {id = "user_skins",  hint = "options/user_skins",
+    user_option = ::USEROPT_USER_SKIN, isShowForRandomUnit =false },
+  {id = "gundist",     hint = "options/gun_target_dist",
+    user_option = ::USEROPT_GUN_TARGET_DISTANCE},
   {id = "gunvertical", hint = "options/gun_vertical_targeting", user_option = ::USEROPT_GUN_VERTICAL_TARGETING},
-  {id = "bombtime",    hint = "options/bomb_activation_time",   user_option = ::USEROPT_BOMB_ACTIVATION_TIME},
+  {id = "bombtime",    hint = "options/bomb_activation_time",
+    user_option = ::USEROPT_BOMB_ACTIVATION_TIME, isShowForRandomUnit =false },
   {id = "depthcharge_activation_time",  hint = "options/depthcharge_activation_time",
-     user_option = ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME},
-  {id = "rocket_fuse_dist",  hint = "options/rocket_fuse_dist",       user_option = ::USEROPT_ROCKET_FUSE_DIST},
-  {id = "fuel",        hint = "options/fuel_amount",            user_option = ::USEROPT_LOAD_FUEL_AMOUNT},
+     user_option = ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, isShowForRandomUnit =false },
+  {id = "rocket_fuse_dist",  hint = "options/rocket_fuse_dist",
+    user_option = ::USEROPT_ROCKET_FUSE_DIST, isShowForRandomUnit =false },
+  {id = "fuel",        hint = "options/fuel_amount",
+    user_option = ::USEROPT_LOAD_FUEL_AMOUNT, isShowForRandomUnit =false },
   {id = "respawn_base",hint = "options/respawn_base",        cb = "onRespawnbaseOptionUpdate", use_margin_top = true},
 ]
 
@@ -514,7 +520,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function initAircraftSelect()
   {
     local team = ::get_mp_local_team()
-    local country = ::get_local_player_country()
 
     filterTags = []
     ::set_aircrafts_filter(filterTags)
@@ -539,7 +544,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       {
         slotbarInited = false
         beforeRefreshSlotbar()
-        ::init_slotbar(this, scene.findObject("flight_menu_bgd"), false, country, getSlotbarParams())
+        createSlotbar(getSlotbarParams(), "flight_menu_bgd")
         afterRefreshSlotbar()
         slotReadyAtHostMask = getCrewSlotReadyMask()
         slotbarInited = true
@@ -577,16 +582,23 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function getSlotbarParams()
   {
     return {
+      singleCountry = ::get_local_player_country()
+      hasActions = false
+      showNewSlot = false
+      showEmptySlot = false
       toBattle = canChangeAircraft
       haveRespawnCost = missionRules.hasRespawnCost
       haveSpawnDelay = missionRules.isSpawnDelayEnabled
       totalSpawnScore = curSpawnScore
       sessionWpBalance = sessionWpBalance
       checkRespawnBases = true
-      active = false
       missionRules = missionRules
       hasExtraInfoBlock = true
       shouldSelectAvailableUnit = isRespawn
+
+      beforeSlotbarSelect = beforeSlotbarSelect
+      afterSlotbarSelect = onChangeUnit
+      onSlotDblClick = @(crew) onApply()
     }
   }
 
@@ -698,7 +710,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   //hack: to check slotready changed
   function checkCrewAccessChange()
   {
-    if (!slotbarCountry || !slotbarInited)
+    if (!slotbarParams?.singleCountry || !slotbarInited)
       return
 
     local needReinitSlotbar = false
@@ -752,92 +764,71 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     return res
   }
 
-  function onSlotbarSelect(obj)
+  function beforeSlotbarSelect(onOk, onCancel, selSlot)
   {
-    if (!::checkObj(obj))
-      return
-
-    local tblId = obj.id
-    if ((tblId.len() <= 11) || (tblId.slice(0, 11) != "airs_table_"))
-      return
-    local newCountryId = tblId.slice(11).tointeger()
-    local cur_col = obj.cur_col.tointeger()
-    local newIdInCountry = -1
-    local trObj = obj.getChild(0)
-    if (cur_col >= 0 && cur_col < trObj.childrenCount())
-    {
-      local curObjId = trObj.getChild(cur_col).getChild(0).id
-      local prefix = "slot_"+newCountryId+"_"
-      if (curObjId && curObjId.len() > prefix.len() && curObjId.find(prefix) == 0)
-        newIdInCountry = curObjId.slice(prefix.len()).tointeger()
-    }
-
-    if (newIdInCountry < 0
-        || curSlotCountryId == newCountryId && curSlotIdInCountry == newIdInCountry)
-      return
-
     if (!canChangeAircraft && slotbarInited)
     {
-      selectTblAircraft(obj, curSlotIdInCountry)
+      onCancel()
       return
     }
 
-    local air = getSlotAircraft(newCountryId, newIdInCountry)
-    local available = ::is_crew_available_in_session(newIdInCountry, false)
-
-    if (air && (available || !slotbarInited))  //can init wnd without any available aircrafts
+    local unit = getSlotAircraft(selSlot.countryId, selSlot.crewIdInCountry)
+    local isAvailable = ::is_crew_available_in_session(selSlot.crewIdInCountry, false)
+    if (unit && (isAvailable || !slotbarInited))  //can init wnd without any available aircrafts
     {
-      curSlotCountryId = newCountryId
-      curSlotIdInCountry = newIdInCountry
-      if (!air)
-      {
-        ::callstack()
-        dagor.assert(true, "Respawn, no unit on selected crew")
-      }
-      else
-      {
-        if (slotbarInited)
-          prevUnitAutoChangeTimeMsec = -1
-        ::cur_aircraft_name = air.name
-      }
-
-      slotbarInited=true
-      onAircraftUpdate(obj)
+      onOk()
       return
     }
 
     if (!::has_available_slots())
-      return
+      return onOk()
+
+    onCancel()
 
     local msgId = "not_available_aircraft"
-    if (!available && ::getTblValue("useKillStreaks", missionTable) && ::get_es_unit_type(air) == ::ES_UNIT_TYPE_AIRCRAFT)
+    if (!isAvailable && ::getTblValue("useKillStreaks", missionTable) && ::get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT)
       msgId = "msg/need_more_kills_for_aircraft"
-
-    msgBox("not_available_air", ::loc(msgId),
-      [
-        ["ok", (@(obj) function() { selectTblAircraft(obj, curSlotIdInCountry) })(obj) ]
-      ], "ok")
+    ::showInfoMsgBox("not_available_air", ::loc(msgId))
   }
 
-  function onSlotbarDblClick(obj) {onApply(obj)}
+  function onChangeUnit()
+  {
+    local unit = getCurSlotUnit()
+    if (!unit)
+      return
+
+    if (slotbarInited)
+      prevUnitAutoChangeTimeMsec = -1
+    ::cur_aircraft_name = unit.name
+
+    slotbarInited=true
+    onAircraftUpdate()
+  }
+
   function onSlotbarCountry(obj) {}
-  function onSlotBattle(obj) {onApply(obj)}
+  function onSlotBattle(obj) {onApply()}
 
   function updateWeaponsSelector()
   {
     local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
-    local canChangeWeaponry = canChangeAircraft
+    local missionRules = ::g_mis_custom_state.getCurMissionRules()
+    local isRandomUnit = missionRules && missionRules.getRandomUnitsGroupName(unit.name)
+    local shouldShowWeaponry = !isRandomUnit || !isRespawn
+    local canChangeWeaponry = canChangeAircraft && shouldShowWeaponry
+
+    local weaponsSelectorObj = scene.findObject("unit_weapons_selector")
     if (weaponsSelectorWeak)
     {
       weaponsSelectorWeak.setUnit(unit)
       weaponsSelectorWeak.updateAllItems()
       weaponsSelectorWeak.setCanChangeWeaponry(canChangeWeaponry)
+      weaponsSelectorObj.show(shouldShowWeaponry)
       delayedRestoreFocus()
       return
     }
 
     local handler = ::handlersManager.loadHandler(::gui_handlers.unitWeaponsHandler,
-                                       { scene = scene.findObject("unit_weapons_selector")
+                                       { scene = weaponsSelectorObj
                                          unit = unit
                                          parentHandlerWeak = this
                                          canShowPrice = true
@@ -846,6 +837,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     weaponsSelectorWeak = handler.weakref()
     registerSubHandler(handler)
+    weaponsSelectorObj.show(shouldShowWeaponry)
     delayedRestoreFocus()
   }
 
@@ -854,7 +846,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local obj = scene.findObject(id + "_tr")
     if (!::checkObj(obj))
       return false
+    local respOption = ::u.search(::respawn_options, @(o) o.id == id)
+    local isShowForRandomUnit = respOption?.isShowForRandomUnit ?? true
 
+    local unit = getCurSlotUnit()
+    local missionRules = ::g_mis_custom_state.getCurMissionRules()
+    local isRandomUnit = missionRules && missionRules.getRandomUnitsGroupName(unit.name)
+    show = show && (isShowForRandomUnit || !isRandomUnit)
     obj.show(show)
     obj.inactive = show ? null : "yes"
     return true
@@ -1046,6 +1044,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local skinObj = scene.findObject("skin")
     if (::checkObj(skinObj))
       guiScene.replaceContentFromText(skinObj, data, data.len(), this)
+    showOptionRow("skin", true)
   }
 
   function updateUserSkins()
@@ -1062,6 +1061,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local uskObj = scene.findObject("user_skins")
     if (::checkObj(uskObj))
       guiScene.replaceContentFromText(uskObj, data, data.len(), this)
+    showOptionRow("user_skins", true)
   }
 
   function updateRespawnBases(air)
@@ -1241,6 +1241,12 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function preselectUnitWeapon(unit)
   {
+    if (missionRules.getRandomUnitsGroupName(unit.name))
+    {
+      ::set_last_weapon(unit.name, missionRules.getWeaponForRandomUnit(unit, "forceWeapon"))
+      return
+    }
+
     if (!missionRules.hasWeaponLimits())
       return
 
@@ -1273,7 +1279,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateTacticalMapUnitType(false)
   }
 
-  function onAircraftUpdate(obj)
+  function onAircraftUpdate()
   {
     updateUnitOptions()
     checkReady()
@@ -1533,7 +1539,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     checkReady()
     if (readyForRespawn)
-      onApply(null)
+      onApply()
   }
 
   function checkReady(obj=null)
@@ -1629,7 +1635,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateApplyText()
   }
 
-  function onApply(obj)
+  function onApply()
   {
     if (doRespawnCalled)
       return
@@ -1778,7 +1784,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     if (use_autostart() && get_mp_autostart_countdown() <= 0 && !isApplyPressed)
     {
-      onApply(obj);
+      onApply()
       return
     }
 
@@ -2135,7 +2141,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function onEmptyChatEntered()
   {
-    onApply(null)
+    onApply()
   }
 
   function onGamemenu(obj)

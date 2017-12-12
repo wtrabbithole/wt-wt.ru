@@ -61,7 +61,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     },
     {
       tabType = BattleTasksWndTab.BATTLE_TASKS_HARD
-      isVisible = @() ::has_feature("BattleTasks")
+      isVisible = @() ::has_feature("BattleTasksHard")
       text = "#mainmenu/btnBattleTasksHard"
       noTasksLocId = "mainmenu/battleTasks/noSpecialTasks"
       fillFunc = "fillBattleTasksList"

@@ -47,7 +47,6 @@ frame {
 
       on_select:t='onSelectTask'
 
-      behaviour:t='wrapNavigator'
       navigatorShortcuts:t='yes'
       childsActivate:t='yes'
       on_wrap_up:t='onWrapUp'

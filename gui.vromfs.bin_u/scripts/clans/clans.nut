@@ -518,11 +518,11 @@ function g_clans::getClanMembersCountText(clanData)
 
 ::ranked_column_prefix <- "dr_era"
 ::clan_leaderboards_list <- [
-  {id = "dr_era1", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era2", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era3", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era4", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era5", tooltip="#clan/dr_era/desc"}
+  {id = "dr_era1", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
+  {id = "dr_era2", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
+  {id = "dr_era3", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
+  {id = "dr_era4", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
+  {id = "dr_era5", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
   {id = "members_cnt", sort = false, byDifficulty = false}
   {id = "air_kills", field = "akills", sort = false}
   {id = "ground_kills", field = "gkills", sort = false}
@@ -586,6 +586,8 @@ foreach(idx, category in ::clan_leaderboards_list)
     ::clan_leaderboards_list[idx].byDifficulty <- true
   if (!("field" in ::clan_leaderboards_list[idx]))
     ::clan_leaderboards_list[idx].field <- ::clan_leaderboards_list[idx].id
+  if (!("icon" in ::clan_leaderboards_list[idx]))
+    ::clan_leaderboards_list[idx].icon <- "#ui/gameuiskin#lb_" + ::clan_leaderboards_list[idx].id + ".svg"
   if (!("tooltip" in ::clan_leaderboards_list[idx]))
     ::clan_leaderboards_list[idx].tooltip <- "#clan/" + ::clan_leaderboards_list[idx].id + "/desc"
 }

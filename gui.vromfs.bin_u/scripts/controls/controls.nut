@@ -254,17 +254,14 @@ function get_favorite_voice_message_option(index)
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
-    { id="mouse_aim_sensitivity", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_MOUSE_AIM_SENSE
-    }
-    { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_MOUSE_SENSE
-    }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
     }
     { id = "aim_time_nonlinearity_air", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_AIM_TIME_NONLINEARITY_AIR
+    }
+    { id="joy_camera_sensitivity", type = CONTROL_TYPE.SLIDER
+      optionType = ::USEROPT_MOUSE_AIM_SENSE
     }
     { id="use_joystick_on_mouse_aim", type = CONTROL_TYPE.SWITCH_BOX,
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
@@ -666,14 +663,21 @@ function get_favorite_voice_message_option(index)
       autobind = ["ID_ACTION_BAR_ITEM_5"]
       showFunc = @() !(::is_platform_pc && !::is_xinput_device())
     }
-    { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.TANK, checkAssign = false
+    { id="ID_SCOUT"
+      checkGroup = ctrlGroups.TANK,
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_COMMA]
+      checkAssign = false
+      showFunc = @() ::has_feature("ActiveScouting")
+    }
+
+    { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.TANK|ctrlGroups.SHIP, checkAssign = false
       autobind = ["ID_FIRE_GM", "ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
     }
-    { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.TANK, checkAssign = false
+    { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.TANK|ctrlGroups.SHIP, checkAssign = false
       autobind_sc = @() get_is_console_mode_force_enabled() ?
         [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.MOUSE_MIDDLE_BUTTON]
     }
-    { id="ID_ARTILLERY_CANCEL", checkGroup = ctrlGroups.TANK, checkAssign = false}
+    { id="ID_ARTILLERY_CANCEL", checkGroup = ctrlGroups.TANK|ctrlGroups.SHIP, checkAssign = false}
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SHORT_STOP",               checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -966,6 +970,9 @@ function get_favorite_voice_message_option(index)
 */
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
     { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
+    { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
+      optionType = ::USEROPT_MOUSE_SENSE
+    }
     { id = "camera_mouse_speed", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
@@ -1240,7 +1247,6 @@ function get_shortcut_by_id(shortcutId)
   "ID_BAY_DOOR",
   "ID_BOMBS",
   "ID_ROCKETS",
-  "ID_WEAPON_LOCK",
   "ID_SCHRAEGE_MUSIK",
   "ID_GEAR",
   { id="ailerons", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -4065,6 +4071,18 @@ function getRequiredControlsForUnit(unit, helpersMode)
       }
     }
 
+    local gameParams = ::dgs_get_game_params()
+    local missionDifficulty = ::get_mission_difficulty()
+    local difficultyName = ::g_difficulty.getDifficultyByName(missionDifficulty).settingsName
+    local difficultySettings = gameParams?.difficulty_settings?.baseDifficulty?[difficultyName]
+
+    local unit = ::get_player_cur_unit()
+    local tags = unit?.tags || []
+    local scoutPresetId = difficultySettings?.scoutPreset || ""
+    if (::has_feature("ActiveScouting") && tags.find("scout") != null
+      && gameParams?.scoutPresets?[scoutPresetId]?.enabled)
+      controls.append("ID_SCOUT")
+
     actionBarShortcutFormat = "ID_ACTION_BAR_ITEM_%d"
   }
   else if (unitType == ::g_unit_type.SHIP)
@@ -4262,10 +4280,10 @@ function get_full_shortcuts_list()
 
   foreach(item in ::shortcutsList)
     if (item.type == CONTROL_TYPE.SHORTCUT)
-      ::append_once(item.id, res)
+      ::u.appendOnce(item.id, res)
     else if (item.type == CONTROL_TYPE.AXIS)
       foreach(name in axisScNames)
-        ::append_once(item.axisName + ((name=="")?"" : "_" + name), res)
+        ::u.appendOnce(item.axisName + ((name=="")?"" : "_" + name), res)
   return res
 }
 

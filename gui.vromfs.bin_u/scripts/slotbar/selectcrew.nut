@@ -68,28 +68,31 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(bDiv))
       guiScene.destroyElement(bDiv)
 
-    local sbObj = scene.findObject("take-aircraft-slotbar")
-    ::init_slotbar(this, sbObj, false, country, {
-                                                  showNewSlot = true,
-                                                  showEmptySlot = true,
-                                                  unitForSpecType = unit,
-                                                  alwaysShowBorder = "yes"
-                                                })
+    local crew = ::get_country_crews(country)?[takeCrewIdInCountry]
+    createSlotbar(
+      {
+        crewId = crew?.id
+        shouldSelectCrewRecruit =  takeCrewIdInCountry > 0 && !crew
+        singleCountry = country
+        hasActions = false
+        showNewSlot = true,
+        showEmptySlot = true,
+        needActionsWithEmptyCrews = false
+        unitForSpecType = unit,
+        alwaysShowBorder = "yes"
+
+        afterSlotbarSelect = onChangeUnit
+        onSlotDblClick = onSlotDblClick
+      },
+      "take-aircraft-slotbar")
+
+    onChangeUnit()
 
     local legendObj = fillLegendData()
 
     local airTblObj = getCurrentAirsTable()
     if (::checkObj(airTblObj))
-    {
       airTblObj.select()
-      if (takeCrewIdInCountry >= 0)
-      {
-        selectTblAircraft(airTblObj, takeCrewIdInCountry)
-        updateButtons()
-      }
-      else
-        onSlotbarSelect(airTblObj)
-    }
 
     local textObj = scene.findObject("take-aircraft-text")
     textObj.setValue(messageText)
@@ -190,6 +193,8 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     takeCrewIdInCountry = ::get_first_empty_crew_slot()
+    if (takeCrewIdInCountry >= 0)
+      return
 
     local costTable = ::get_crew_slot_cost(country)
     if (!costTable)
@@ -215,14 +220,9 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
            )
   }
 
-  function onSlotbarSelect(obj)
+  function onChangeUnit()
   {
-    if (!::checkObj(obj))
-      return
-    if (::slotbar_oninit)
-      return
-
-    takeCrewIdInCountry = obj.cur_col.tointeger()
+    takeCrewIdInCountry = getCurSlotIdInCountry()
     updateButtons()
   }
 
@@ -274,13 +274,9 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_modal_tutor(steps, this)
   }
 
-  function onSlotbarDblClick()
+  function onSlotDblClick(crew)
   {
-    ::CrewTakeUnitProcess(
-      getSlotItem(curSlotCountryId, takeCrewIdInCountry),
-      unit,
-      ::Callback(onTakeProcessFinish, this)
-    )
+    ::CrewTakeUnitProcess(crew, unit, ::Callback(onTakeProcessFinish, this))
   }
 
   function onTakeProcessFinish(isSuccess)

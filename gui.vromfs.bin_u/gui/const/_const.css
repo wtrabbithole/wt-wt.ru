@@ -77,10 +77,14 @@
 @const crewTrHeight:(0.035*@sf)\1 + 6*@sf/@pf_outdated;
 @const smallRowHeight:(0.02*@sf)\1;
 
-@const gamercardHeight:1@bigButtonHeight;
-@const topBarHeight:1@gamercardHeight + 1@bh + 0.006@sf;
+@const gamercardHeight:(1@bigButtonHeight)\1;
+@const topBarHeight:1@gamercardHeight + 1@topGamercardButtonsPos + 1@dp;
+@const topGamercardButtonsPos:1@bh + 1@topGamercardRedLineHeight;
+@const topGamercardRedLineHeight: 2@dp;
+@const topGamercardDarkLineHeight: 2@dp;
 @const bottomBarHeight:        59@sf/@pf + 1@bh;
-@const gcButtonsInterval:      (1@topGcPanelWidth - 0.6@sf) \ 10 $max 0;
+@const gcSeparatorSize:        1@dp;
+@const gcButtonsInterval:      ((((1@topGcPanelWidth - 0.6@sf) / 10 - 1@gcSeparatorSize) \ 2 * 2) $max 0) + 1@gcSeparatorSize;
 
 @const frameHeaderHeight:      (0.045@sf)/1 + 1@frameHeaderPad;
 @const frameHeaderPad:         2@dp;
@@ -170,6 +174,7 @@
 @const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
 @const slotbarInvisPad: 1@buttonHeight;
 @const offsetBetweenScreenAndAirinfo: (1@bw + 1@mIco + 2@listboxPad + 2@airInfoPadding) $min  0.5 * (sw - 1@slotbarWidthFull);
+@const airInfoPanelRightSide: 1@bw + 1@mIco + 2@listboxPad + 2@airInfoPadding;
 @const airInfoPanelWidth: 0.4@sf;
 @const airInfoPanelShadowWidth: 0.07@sf;
 @const airInfoPanelDmSwitcherWidth: ((@airInfoPanelWidth - 2@listboxPad - 2@listboxItemsInterval) \ 3) * 3 + 2@listboxPad + 2@listboxItemsInterval; 
@@ -247,7 +252,7 @@
 
 @const infoPanelVertPosition: 1@titleLogoPlateHeight + 1@bh + 0.04@sf;
 
-@const gameModeSelectPaddingTop: 1@topMenuBattleButtonHeight + 0.5@topMenuBattleButtonImgHeight + 3@dp + 1@bh';
+@const gameModeSelectPaddingTop: 1@topMenuBattleButtonHeight + 0.5@buttonIconHeight + 3@dp';
 @const gameModeSelectPaddingBottom: 3@dp;
 @const gameModeSelectPadding: 1@gameModeSelectPaddingTop + 1@gameModeSelectPaddingBottom;
 
@@ -259,6 +264,8 @@
 @const respawnOptListContainerWidth:(1@slotbarWidth1-8*@sf/@pf_outdated) $max (1@rw * (1-1@isWide));
 
 @const topMenuHoverMenuIndent: 0.01@sf;
+
+@const customizationBlockWidth: 4(1@decalIconHeight + 8@dp);
 
 @const shortcutUpDpAndStick: "J:Dpad.Up | J:L.Thumb.Up";
 @const shortcutUpDp: "J:Dpad.Up";

@@ -148,12 +148,12 @@ function unitHasTag(unitId, tag)
 
 function get_ds_ut_name_unit_type(unitType)
 {
-  return ::getTblValue(unitType, ::ds_unit_type_names, DS_UT_INVALID)
+  return ::ds_unit_type_names?[unitType] ?? DS_UT_INVALID
 }
 
 function get_unit_type_by_unit_name(unitId)
 {
-  return ::getTblValue(::getWpcostUnitClass(unitId), ::mapWpUnitClassToWpUnitType, DS_UT_INVALID)
+  return ::mapWpUnitClassToWpUnitType?[::getWpcostUnitClass(unitId)] ?? DS_UT_INVALID
 }
 
 function round(value, digits=0)
@@ -167,18 +167,10 @@ function calc_battle_rating_from_rank(economicRank)
   return ::round(economicRank / 3.0 + 1, 1)
 }
 
-function get_unit_economic_rank_by_ediff(ediff, unit)
+function get_unit_blk_economic_rank_by_mode(unitBlk, ediff)
 {
-  local id = ::format("economicRank%s", ::get_econRank_emode_name(ediff))
-  return ::getTblValue(id, unit, 0.0)
-}
-
-function get_unit_battle_rating_by_mode(unit, ediff)
-{
-  if (!::CAN_USE_EDIFF)
-    ediff = ediff % EDIFF_SHIFT
-  local mrank = ::get_unit_economic_rank_by_ediff(ediff, unit)
-  return ::calc_battle_rating_from_rank(mrank)
+  local mode_name = ::get_econRank_emode_name(ediff)
+  return unitBlk?["economicRank" + mode_name] ?? 0
 }
 
 function player_activity_coef(score, time)

@@ -1,0 +1,88 @@
+focus_border {
+  position: absolute;
+  pos: -1, -1;
+  size: pw + 2, ph + 2;
+  display: hide;
+  input-transparent:yes;
+}
+
+focus_border_in_scroll {
+  re-type:9rect;
+  size:pw, ph;
+  pos:0, 0;
+  position:fixed;
+  input-transparent:yes;
+  display:hide;
+}
+
+
+[show_console_buttons=yes] focus_border_in_scroll {
+  display:show;
+}
+
+table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
+[show_console_buttons=yes] :focus > focus_border,
+[show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
+[show_console_buttons=yes] :focus > itemDiv[selected=yes] > focus_border,
+[show_console_buttons=yes] :focus focus_border_in_scroll,
+[show_console_buttons=yes] [childsActivate=yes] > Button_text:focus,
+[show_console_buttons=yes] [childsActivate=yes] > button:focus,
+[show_console_buttons=yes] [childsActivate=yes] > emptyButton:focus,
+[show_console_buttons=yes] [childsActivate=yes] > emptyButton[selected=yes],
+[show_console_buttons=yes] [showSelect=yes] > Button_text[selected=yes],
+[show_console_buttons=yes] [showSelect=yes] > button[selected=yes],
+[show_console_buttons=yes] [showSelect=yes] > CheckBox[selected=yes],
+[showSelect=always] > Button_text[selected=yes],
+[show_console_buttons=yes] table[selfFocusBorder=yes] > tr[selected=yes],
+[show_console_buttons=yes] [selfFocusBorder=yes]:focus > tr[selected=yes],
+[show_console_buttons=yes] CheckBox:focus,
+[show_console_buttons=yes] RadioButton_AD:focus,
+[show_console_buttons=yes] HorizontalListBox:focus > shopFilter[selected=yes],
+[show_console_buttons=yes] VerticalListBox:focus > shopFilter[selected=yes],
+[show_console_buttons=yes] :focus > RadioButton:current,
+[show_console_buttons=yes] :focus > collapsableBlock[selected=yes],
+[show_console_buttons=yes] :focus > imgButton[selected=yes],
+[show_console_buttons=yes] buttonPlayer[selected=yes],
+[show_console_buttons=yes] [childsActivate=yes] > gameModeItem:focus,
+[show_console_buttons=yes] [childsActivate=yes] > gameModeChangeButton:focus,
+[show_console_buttons=yes] [childsActivate=yes] > div.dropDown:focus,
+[show_console_buttons=yes] MultiSelect:focus > multiOption[selected=yes],
+[show_console_buttons=yes] game_mode_block[selected=yes],
+[show_console_buttons=yes] [cluster_select_button_container=yes] > button[selected=yes],
+[show_console_buttons=yes] :focus > activateTab[selected=yes],
+[show_console_buttons=yes] promoButton:focus,
+[show_console_buttons=yes] :focus > promoButton[type=simpleList][selected=yes],
+[show_console_buttons=yes] PosOptionsNavigator > cell[selected=yes],
+[show_console_buttons=yes] gameModeChangeButton[navigatorShortcuts]:focus,
+[show_console_buttons=yes] hangarToggleButton[navigatorShortcuts]:focus,
+[show_console_buttons=yes] ComboBox[focusFrame=yes]:focus,
+[show_console_buttons=yes] pupup_actions_list > itemsList > actionListItem:focus,
+[show_console_buttons=yes] pupup_actions_list > itemsList > button:focus,
+[show_console_buttons=yes] VerticalListBox:focus > expandable[selected=yes],
+[show_console_buttons=yes] :focus > expandable[selected=yes],
+[show_console_buttons=yes] [move=no] weaponBundleBlock:focus weaponry_item[selected=yes],
+[show_console_buttons=yes] modificationsBlock:focus weaponry_item[selected=yes],
+[show_console_buttons=yes] ww_map_item[selected=yes] {
+
+  re-type:9rect;
+  foreground-color: @gamepadFocusFrameColor;
+  foreground-image: #ui/gameuiskin#item_selection;
+  foreground-position: 8, 10, 8, 8;
+  foreground-repeat: expand;
+  behavior:focusFrameTarget;
+  focusImageSource:foreground;
+  display:show;
+}
+
+shopItem > focus_border {
+  pos: -1, -2;
+  size: pw+2, ph+2;
+}
+shopItem[group=yes] > focus_border {
+  pos: -1, -8;
+  size: pw+2, ph+8;
+}
+
+focus_border.fontRow {
+  size: pw+2, 0.03@sf+2;
+}

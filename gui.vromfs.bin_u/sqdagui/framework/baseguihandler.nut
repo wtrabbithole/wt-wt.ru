@@ -1,3 +1,5 @@
+local u = require("sqStdLibs/common/u.nut")
+
 class ::BaseGuiHandler
 {
   wndType = handlerType.BASE
@@ -342,9 +344,9 @@ class ::BaseGuiHandler
 
   function getObjByConfigItem(item)
   {
-    if (::u.isFunction(item))
+    if (u.isFunction(item))
       item = item()
-    if (::u.isString(item))
+    if (u.isString(item))
       return scene.findObject(item)
     return item
   }

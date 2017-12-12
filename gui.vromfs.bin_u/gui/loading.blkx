@@ -17,6 +17,7 @@
       },
       {
         "BottomMenuPanel": {
+          "shadowSafeArea": [],
           "line": [],
           "Red_shadow_light": {
             "pos": "50%pw-50%w, 0",
@@ -25,7 +26,7 @@
           },
           "GameLogoPlate": {
             "position": "absolute",
-            "pos": "50%sw-50%w, ph-h",
+            "pos": "50%sw-50%w, ph-h+1@bh",
             "Shadow": [],
             "redPlate": {
               "pattern": {
@@ -33,7 +34,7 @@
               }
             },
             "tdiv": {
-              "pos": "50%pw-50%w, 0.5(ph-1@bh) - 50%h",
+              "pos": "50%pw-50%w, ph -0.5(1@bottomBarHeight + 1@bh)- 50%h",
               "position": "absolute",
               "animated_wait_icon": {
                 "id": "rot",
@@ -56,7 +57,7 @@
             }
           },
           "copyright": {
-            "pos": "pw-w-1@bw, 0.5(ph-1@bh) - 50%h",
+            "pos": "pw-w-1@bw, 50%ph - 50%h",
             "position": "absolute"
           }
         }

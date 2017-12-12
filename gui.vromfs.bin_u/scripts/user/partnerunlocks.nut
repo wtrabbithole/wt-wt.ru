@@ -89,4 +89,12 @@ function g_partner_unlocks::isPartnerUnlockAvailable(unlockId, durationMin = nul
   return endSec > ::get_charserver_time_sec()
 }
 
+function g_partner_unlocks::onEventSignOut(p)
+{
+  lastRequestTime = -9999999999
+  lastUpdateTime = -9999999999
+  partnerExectutedUnlocks = {}
+}
+
 ::g_script_reloader.registerPersistentDataFromRoot("g_partner_unlocks")
+::subscribe_handler(::g_partner_unlocks, ::g_listener_priority.CONFIG_VALIDATION)

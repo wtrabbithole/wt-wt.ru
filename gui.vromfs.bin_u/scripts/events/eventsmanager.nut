@@ -560,7 +560,7 @@ class Events
   function getUnitEconomicRankByEvent(event, unit)
   {
     local ediff = getEDiffByEvent(event)
-    return ::get_unit_economic_rank_by_ediff(ediff, unit)
+    return unit.getEconomicRank(ediff)
   }
 
   function getTeamData(eventData, team)
@@ -786,7 +786,7 @@ class Events
     local res = []
     foreach(event in __game_events)
       if (!isEventAllowed(event))
-        ::append_once(getEventEconomicName(event), res, true)
+        ::u.appendOnce(getEventEconomicName(event), res, true)
     return res
   }
 
@@ -924,9 +924,7 @@ class Events
 
       if ("mranks" in rule)
       {
-        local unitMRank = ediff != -1
-          ? ::get_unit_economic_rank_by_ediff(ediff, unit)
-          : 0.0
+        local unitMRank = ediff != -1 ? unit.getEconomicRank(ediff) : 0.0
         if (unitMRank < ::getTblValue("min", rule.mranks, 0) || ::getTblValue("max", rule.mranks, ::max_country_rank) < unitMRank)
           continue
       }

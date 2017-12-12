@@ -1,6 +1,6 @@
-function gui_start_eula(eulaType)
+function gui_start_eula(eulaType, isForView = false)
 {
-  ::gui_start_modal_wnd(::gui_handlers.EulaWndHandler, { eulaType = eulaType })
+  ::gui_start_modal_wnd(::gui_handlers.EulaWndHandler, { eulaType = eulaType, isForView = isForView })
 }
 
 class ::gui_handlers.EulaWndHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -10,6 +10,7 @@ class ::gui_handlers.EulaWndHandler extends ::gui_handlers.BaseGuiHandlerWT
   shouldBlurSceneBg = false
 
   eulaType = ::TEXT_EULA
+  isForView = false
 
   function initScreen()
   {
@@ -36,6 +37,10 @@ class ::gui_handlers.EulaWndHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       textObj.setValue(eulaText)
     }
+
+    showSceneBtn("accept", !isForView)
+    showSceneBtn("decline", !isForView)
+    showSceneBtn("close", isForView)
   }
 
   function onAcceptEula()

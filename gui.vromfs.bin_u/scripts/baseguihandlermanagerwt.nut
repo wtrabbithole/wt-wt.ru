@@ -3,6 +3,7 @@ local fonts = require_native("fonts")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+local focusFrame = ::require("scripts/viewUtils/focusFrameWT.nut")
 
 handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
 
@@ -45,6 +46,8 @@ function handlersManager::onClearScene(guiScene)
 {
   if (isMainGuiSceneActive()) //is_in_flight function not available before first loading screen
     lastInFlight = ::is_in_flight()
+
+  focusFrame.enable(::get_is_console_mode_enabled())
 
   if (guiScene.setCursorSizeMul) //compatibility with old exe
     guiScene.setCursorSizeMul(guiScene.calcString("@cursorSizeMul", null))
@@ -324,6 +327,16 @@ function handlersManager::onEventWaitBoxCreated(p)
 {
   _updateControlsAllowMask()
   _updateSceneBgBlur()
+}
+
+function handlersManager::beforeInitHandler(handler)
+{
+  if (!focusFrame.isEnabled
+    || handler.rootHandlerClass
+    || getHandlerType(handler) == handlerType.CUSTOM)
+    return
+
+  handler.guiScene.createElementByObject(handler.scene, "gui/focusFrameAnim.blk", "tdiv", null)
 }
 
 function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.

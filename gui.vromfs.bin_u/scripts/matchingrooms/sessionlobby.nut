@@ -839,7 +839,10 @@ function SessionLobby::switchStatus(_status)
 
   ::broadcastEvent("LobbyStatusChange")
   if (wasInRoom != isInRoom())
+  {
     ::broadcastEvent("LobbyIsInRoomChanged")
+    ::call_darg("networkIsMultiplayerUpdate", isInRoom())
+  }
 }
 
 function SessionLobby::resetParams()
@@ -2206,12 +2209,13 @@ function SessionLobby::getBattleRatingParamById(uid)
   local units = []
   if (!("crafts" in member))
     return null
-  foreach (unit in member.crafts)
+  foreach (unitName in member.crafts)
   {
+    local unit = ::getAircraftByName(unitName)
     units.append({
-      rating = ::get_unit_battle_rating_by_mode(::getAircraftByName(unit), difficulty),
-      name = ::loc(unit+"_shop")
-      rankUnused = getRankUnusedByUnitName(member, unit)
+      rating = unit ? unit.getBattleRating(difficulty) : 0
+      name = ::loc(unitName+"_shop")
+      rankUnused = getRankUnusedByUnitName(member, unitName)
     })
   }
   units.sort(function(a,b) {

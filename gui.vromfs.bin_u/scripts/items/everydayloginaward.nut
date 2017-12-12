@@ -411,7 +411,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (!curUnit || !::check_obj(obj))
       return
 
-    local params = {active = true}
+    local params = {hasActions = true}
     local unitData = ::build_aircraft_item(curUnit.name, curUnit, params)
     guiScene.replaceContentFromText(obj, unitData, unitData.len(), this)
     ::fill_unit_item_timers(obj.findObject(curUnit.name), curUnit, params)

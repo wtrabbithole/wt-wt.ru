@@ -649,10 +649,10 @@ function get_expendable_modifications_array(unit)
 
 function getPrimaryWeaponsList(air)
 {
-  if("primaryWeaponMods" in air)
+  if(air.primaryWeaponMods)
     return air.primaryWeaponMods
 
-  air.primaryWeaponMods <- [""]
+  air.primaryWeaponMods = [""]
 
   local airBlk = ::DataBlock(::get_unit_file_name(air.name))
   if(!airBlk || !airBlk.modifications)
@@ -771,9 +771,6 @@ function getBulletsSetData(air, modifName, noModList = null)
     //noModList!=null -> generate sets for fake bullets. return setsAmount
     //id of thoose sets = modifName + setNum + "_default"
 {
-  if (!("bulletsSets" in air))
-    air.bulletsSets <- {}
-
   if ((modifName in air.bulletsSets) && !noModList)
     return air.bulletsSets[modifName] //all sets saved for no need analyze blk everytime when it need.
 
@@ -1077,15 +1074,13 @@ function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
 }
 function getBulletsInfoForPrimaryGuns(air)
 {
-  if ("primaryBulletsInfo" in air)
+  if (air.primaryBulletsInfo)
     return air.primaryBulletsInfo
 
   local res = []
+  air.primaryBulletsInfo = res
   if (!air.unitType.canUseSeveralBulletsForGun)
-  {
-    air.primaryBulletsInfo <- res
     return res
-  }
 
   local airBlk = ::DataBlock(::get_unit_file_name(air.name))
   if (!airBlk)
@@ -1133,7 +1128,6 @@ function getBulletsInfoForPrimaryGuns(air)
       }
     res.append(bInfo || (clone ::default_primary_bullets_info))
   }
-  air.primaryBulletsInfo <- res
   return res
 }
 
@@ -1461,29 +1455,28 @@ function getBulletsGroupCount(air, full = false)
 {
   if (!air)
     return 0
-  if (!("bulGroups" in air))
+  if (air.bulGroups < 0)
   {
     local modList = []
     local groups = []
 
-    if ("modifications" in air)
-      foreach(m in air.modifications)
+    foreach(m in air.modifications)
+    {
+      local groupName = ::getModificationBulletsGroup(m.name)
+      if (groupName!="")
       {
-        local groupName = ::getModificationBulletsGroup(m.name)
-        if (groupName!="")
-        {
-          if (!::isInArray(groupName, groups))
-            groups.append(groupName)
-          modList.append(m.name)
-        }
+        if (!::isInArray(groupName, groups))
+          groups.append(groupName)
+        modList.append(m.name)
       }
-    air.bulModsGroups <- groups.len()
-    air.bulGroups     <- groups.len()
+    }
+    air.bulModsGroups = groups.len()
+    air.bulGroups     = groups.len()
 
     if (air.bulGroups < ::BULLETS_SETS_QUANTITY)
     {
       local add = ::getBulletsSetData(air, ::fakeBullets_prefix, modList) || 0
-      air.bulGroups = min(air.bulGroups + add, ::BULLETS_SETS_QUANTITY)
+      air.bulGroups = ::min(air.bulGroups + add, ::BULLETS_SETS_QUANTITY)
     }
   }
   return full? air.bulGroups : air.bulModsGroups

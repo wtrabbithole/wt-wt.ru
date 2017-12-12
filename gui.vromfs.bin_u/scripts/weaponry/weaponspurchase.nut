@@ -1,3 +1,5 @@
+local unitActions = require("scripts/unit/unitActions.nut")
+
 class WeaponsPurchase
 {
   static PROCESS_TIME_OUT = 60000
@@ -62,11 +64,6 @@ class WeaponsPurchase
     foreach(idx, process in activePurchaseProcess)
       if (process == this)
         activePurchaseProcess.remove(idx)
-  }
-
-  function getRepairCost()
-  {
-    return ::getUnitRepairCost__m(unit)
   }
 
   function getAllModificationsPrice()
@@ -201,7 +198,7 @@ class WeaponsPurchase
   {
     fillModItemSpecificParams(amount)
 
-    local repairCost = checkRepair? getRepairCost() : ::Cost()
+    local repairCost = checkRepair? unit.getRepairCost() : ::Cost()
     msgLocParams.cost <- (cost + repairCost)
 
     if (!canBuyItem(cost))
@@ -358,14 +355,14 @@ class WeaponsPurchase
 
   function repair(afterSuccessFunc = null, afterBalanceRefillFunc = null)
   {
-    local repairCost = getRepairCost()
+    local repairCost = unit.getRepairCost()
     if (!canBuyItem(repairCost, afterBalanceRefillFunc))
     {
       remove()
       return false
     }
 
-    ::repair_unit(unit, afterSuccessFunc)
+    unitActions.repair(unit, afterSuccessFunc)
     return true
   }
 

@@ -52,7 +52,10 @@ class ::gui_handlers.openChestWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateRewardText()
   {
-    scene.findObject("prize_desc_text").setValue(showItem.getName())
+    local textParts = []
+    textParts.push(showItem.getDescription())
+    textParts.push(::colorize("fadedTextColor",::loc("item/description/inInvetory")))
+    scene.findObject("prize_desc_text").setValue(::g_string.implode (textParts, "\n"))
   }
 
   function updateButtons()

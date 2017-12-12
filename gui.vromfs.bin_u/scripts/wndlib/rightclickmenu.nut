@@ -11,11 +11,23 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
     ...
   ]
 */
-function gui_right_click_menu(config, owner, position = null)
+
+enum RCLICK_MENU_ORIENT
+{
+  LEFT,
+  RIGHT
+}
+
+function gui_right_click_menu(config, owner, position = null, orientation = null)
 {
   if (typeof config == "array")
     config = { actions = config }
-  ::handlersManager.loadHandler(::gui_handlers.RightClickMenu, { config = config, owner = owner, position = position })
+  ::handlersManager.loadHandler(::gui_handlers.RightClickMenu, {
+    config = config,
+    owner = owner,
+    position = position,
+    orientation = orientation
+  })
 }
 
 class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
@@ -27,6 +39,8 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
   owner        = null
   config       = null
   position     = null
+  orientation  = RCLICK_MENU_ORIENT.LEFT
+
   choosenValue = -1
 
   timeOpen     = 0
@@ -86,7 +100,6 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
     guiScene.setUpdatesEnabled(false, false)
     initTimers(listObj, config.actions)
     guiScene.setUpdatesEnabled(true, true)
-    listObj.select()
 
     local rootSize = guiScene.getRoot().getSize()
     local cursorPos = position ? position : ::get_dagui_mouse_cursor_pos_RC()
@@ -99,8 +112,11 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
         else
           menuPos[i] = ((rootSize[i] - menuSize[i]) / 2).tointeger()
 
-    listObj.pos = menuPos[0] + ", " + menuPos[1]
+    local shift = orientation == RCLICK_MENU_ORIENT.RIGHT? menuSize[0] : 0
+    listObj.pos = menuPos[0] - shift + ", " + menuPos[1]
     listObj.width = listObj.getSize()[0]
+    guiScene.applyPendingChanges(false)
+    listObj.select()
   }
 
   function initTimers(listObj, actions)

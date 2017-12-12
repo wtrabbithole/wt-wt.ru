@@ -18,6 +18,9 @@ shopItem {
   timer_interval_msec:t='1000'
   unit_name:t='<<unitName>>'
 
+  <<^hasHoverMenu>>refuseOpenHoverMenu:t='yes'<</hasHoverMenu>>
+  <<#hasHoverMenu>>on_hover:t='onUnitHover'<</hasHoverMenu>>
+
   bgPlate {}
 
   itemWinkBlock {
@@ -37,8 +40,6 @@ shopItem {
     type:t='bright_texture'
     <</premiumPatternType>>
   }
-
-  focus_border {}
 
   shopStat:t='<<shopStatus>>'
   unitRarity:t='<<unitRarity>>'
@@ -157,17 +158,7 @@ shopItem {
   tooltip-float:t='horisontal'
   title:t='$tooltipObj'
 
+  focus_border {}
+
   <<@bottomButton>>
-
-  <<#hasHoverMenu>>
-  refuseOpenHoverMenu:t='yes'
-  <</hasHoverMenu>>
-
-  <<^hasHoverMenu>>
-  refuseOpenHoverMenu:t='no'
-  <</hasHoverMenu>>
-
-  <<#hasOnHover>>
-  on_hover:t='onUnitHover'
-  <</hasOnHover>>
 }

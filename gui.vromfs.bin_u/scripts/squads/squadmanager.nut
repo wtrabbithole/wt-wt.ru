@@ -1380,6 +1380,11 @@ function g_squad_manager::onEventCrewTakeUnit(params)
   updateMyMemberData()
 }
 
+function g_squad_manager::onEventUnitRepaired(p)
+{
+  ::g_squad_utils.updateMyCountryData()
+}
+
 function g_squad_manager::onEventMatchingDisconnect(params)
 {
   reset()
@@ -1416,13 +1421,14 @@ function g_squad_manager::updateCurrentWWOperation()
   if (!isSquadLeader())
     return
 
-  local wwOperationId = ::g_world_war.lastPlayedOperationId
-  local country = ::g_world_war.lastPlayedOperationCountry
-
-  if (wwOperationId < 0 || ::u.isEmpty(country))
-    return
-  if (getWwOperationId() == wwOperationId && getWwOperationCountry() == country)
-    return
+  local wwOperationId = ::ww_get_operation_id()
+  local country = ::get_profile_info().country
+  if (wwOperationId > -1)
+  {
+    local wwOperation = ::g_ww_global_status.getOperationById(wwOperationId)
+    if (wwOperation)
+      country = wwOperation.getMyAssignCountry() || country
+  }
 
   squadData.wwOperationInfo.id = wwOperationId
   squadData.wwOperationInfo.country = country

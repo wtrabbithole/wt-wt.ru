@@ -6,7 +6,7 @@ Button_text {
   noMargin:t='yes'
   text:t=''
   css-hier-invalidate:t='yes'
-  on_click:t='<<toBattleButtonPrefix>>Battle'
+  on_click:t='<<toBattleButtonAction>>'
   navButtonFont:t='yes'
 
   buttonWink {

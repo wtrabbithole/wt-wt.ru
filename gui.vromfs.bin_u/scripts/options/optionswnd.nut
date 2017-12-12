@@ -128,15 +128,17 @@ function get_main_options()
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 
       ["options/header/replaysAndSpectatorMode"],
-      [::USEROPT_AUTOSAVE_REPLAYS, "spinner", ! isInFlight],
+      [::USEROPT_AUTOSAVE_REPLAYS, "spinner", !isInFlight && ::has_feature("Replays")],
       [::USEROPT_HUE_SPECTATOR_ALLY, "spinner"],
       [::USEROPT_HUE_SPECTATOR_ENEMY, "spinner"],
-      [::USEROPT_REPLAY_ALL_INDICATORS, "spinner"],
+      [::USEROPT_REPLAY_ALL_INDICATORS, "spinner", ::has_feature("Replays")],
 
       ["options/header/otherOptions"],
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
+      [::USEROPT_UGC_USE_FORBIDDEN_TAGS, "spinner", ::has_feature("Ugc")],
+      [::USEROPT_UGC_FORBIDDEN_TAGS, "multiselect", ::has_feature("Ugc")],
     ]
   }
 }
@@ -153,6 +155,7 @@ function get_sound_options()
       [::USEROPT_VOLUME_MENU_MUSIC, "slider"],
       [::USEROPT_VOLUME_SFX, "slider"],
       [::USEROPT_VOLUME_ENGINE, "slider"],
+      [::USEROPT_VOLUME_MY_ENGINE, "slider"],
       [::USEROPT_VOLUME_GUNS, "slider"],
       [::USEROPT_VOLUME_RADIO, "slider"],
       [::USEROPT_VOLUME_DIALOGS, "slider"],

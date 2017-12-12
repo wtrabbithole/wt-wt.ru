@@ -33,8 +33,8 @@ tdiv {
       tdiv {
         id:t='image'
         size:t='<<size>>, <<size>>'
-        max-width:t='256'
-        max-height:t='256'
+        max-width:t='512@sf/@pf'
+        max-height:t='512@sf/@pf'
         pos:t='50%pw-50%w, 0'
         position:t='relative'
         background-color:t='@white'

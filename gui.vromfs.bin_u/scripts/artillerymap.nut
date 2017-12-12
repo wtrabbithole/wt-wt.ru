@@ -135,8 +135,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       objTarget.size = ::format("%d, %d", sizePx, sizePx)
       objTarget.pos = ::format("%d-w/2, %d-h/2", posX, posY)
       if (!isSuperArtillery)
-        for (local i = 0; i < objTarget.childrenCount(); i++)
-          objTarget.getChild(i)["background-color"] = valid ? "#20F020" : "#FF4B38"
+        objTarget.enable(valid)
     }
 
     ::enableBtnTable(scene, {

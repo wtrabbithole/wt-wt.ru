@@ -22,7 +22,7 @@ popup_menu {
     id:t='multi_select'
     flow:t='vertical'
 
-    navigatorShortcuts:t='full'
+    navigatorShortcuts:t='cancel'
     on_select:t='onChangeValue'
     _on_cancel_edit:t='close'
 

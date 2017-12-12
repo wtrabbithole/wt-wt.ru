@@ -4,8 +4,13 @@ function embedded_browser_event(event_type, url, error_desc, error_code,
   ::broadcastEvent(
     "EmbeddedBrowser",
     { eventType = event_type, url = url, errorDesc = error_desc,
-    errorCode = error_code, isMainFrame = is_main_frame }
+    errorCode = error_code, isMainFrame = is_main_frame, title = "" }
   );
+}
+
+function notify_browser_window(params)
+{
+  ::broadcastEvent("EmbeddedBrowser", params)
 }
 
 function is_builtin_browser_active()
@@ -89,6 +94,16 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::open_url(url, true, false, "internal_browser")
   }
 
+  function setTitle(title)
+  {
+    if (u.isEmpty(title))
+      return;
+
+    local titleObj = scene.findObject("wnd_title")
+    if (::checkObj(titleObj))
+      titleObj.setValue(title)
+  }
+
   function onEventEmbeddedBrowser(params)
   {
     switch (params.eventType)
@@ -120,11 +135,17 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         break;
       case ::BROWSER_EVENT_BEGIN_LOADING_FRAME:
         if (params.isMainFrame)
+        {
           toggleWaitAnimation(true)
+          setTitle(params.title)
+        }
         break;
       case ::BROWSER_EVENT_FINISH_LOADING_FRAME:
         if (params.isMainFrame)
+        {
           toggleWaitAnimation(false)
+          setTitle(params.title)
+        }
         break;
       case ::BROWSER_EVENT_BROWSER_CRASHED:
         showInfoMsgBox(::loc("browser/crashed"))

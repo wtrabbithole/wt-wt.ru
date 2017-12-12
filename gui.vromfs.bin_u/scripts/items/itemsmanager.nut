@@ -27,7 +27,7 @@ class BoosterEffectType
     {
       if (value == 0 && !showEmpty)
         return ""
-      return ::getRpPriceText(value, colored)
+      return ::Cost().setRp(value).toStringWithParams({isColored = colored})
     }
   }
   static WP = {
@@ -88,6 +88,7 @@ foreach (fn in [
 
 ::ItemsManager <- {
   itemsList = []
+  itemdefsList = {} //for items in external store
   inventory = []
   shopItemById = {}
 
@@ -114,7 +115,7 @@ foreach (fn in [
         {
           seenItemsData.clear()
           foreach (item in items)
-            seenItemsData[item.id] <- curDays
+            seenItemsData[item.id.tostring()] <- curDays
         }
     },
     [false] = {
@@ -127,12 +128,12 @@ foreach (fn in [
         {
           foreach (item in items)
           {
-            if (!(item.id in seenItemsData))
+            if (!(item.id.tostring() in seenItemsData))
               continue
             if (item.isCanBuy())
-              seenItemsData[item.id] <- curDays
+              seenItemsData[item.id.tostring()] <- curDays
             else
-              delete seenItemsData[item.id]
+              delete seenItemsData[item.id.tostring()]
           }
 
           // Removing old items.
@@ -215,8 +216,6 @@ function ItemsManager::fillFakeItemsList()
 /////////////////////////////////////////////////////////////////////////////////////////////
 function ItemsManager::_checkUpdateList()
 {
-  refreshExtInventory()
-
   if (!_reqUpdateList)
     return
   _reqUpdateList = false
@@ -343,6 +342,13 @@ function ItemsManager::findItemById(id, typeMask = itemType.ALL)
   return ::getTblValue(id, shopItemById, null)
 }
 
+function ItemsManager::findItemdefsById(itemdefId, typeMask = itemType.ALL)
+{
+  local itemdef = itemdefsList?[itemdefId]
+  if (!itemdef)
+    _itemdefRequest(itemdefId)
+  return itemdefsList?[itemdefId]
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------INVENTORY ITEMS-----------------------------------------//
@@ -381,6 +387,8 @@ function ItemsManager::getInventoryItemType(blkType)
 
 function ItemsManager::_checkInventoryUpdate()
 {
+  refreshExtInventory()
+
   if (!_needInventoryUpdate)
     return
   _needInventoryUpdate = false
@@ -432,16 +440,31 @@ function ItemsManager::_checkInventoryUpdate()
     }
   }
 
-  foreach (itemDesc in inventoryClient.getItems()) {
+  local extInventoryItems = []
+  foreach (itemDesc in inventoryClient.getItems())
+  {
     local type = ::getTblValue("type", itemDesc.itemdef.tags)
-    if (type) {
-      local iType = getInventoryItemType(type)
-      if (iType != itemType.UNKNOWN) {
-        local item = createItem(iType, itemDesc)
-        inventory.append(item)
+    if (!type)
+      continue
+    local iType = getInventoryItemType(type)
+    if (iType == itemType.UNKNOWN)
+      continue
+
+    local isCreate = true
+    foreach (existingItem in extInventoryItems)
+      if (existingItem.tryAddItem(itemDesc))
+      {
+        isCreate = false
+        break
       }
+    if (isCreate)
+    {
+      local item = createItem(iType, itemDesc)
+      extInventoryItems.append(item)
+      itemdefsList[item.id] <- item
     }
   }
+  inventory.extend(extInventoryItems)
 }
 
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
@@ -494,6 +517,40 @@ function ItemsManager::_getItemsFromList(list, typeMask, filterFunc = null, item
         && (!filterFunc || filterFunc(item)))
       res.append(item)
   return res
+}
+
+function ItemsManager::_itemdefRequest(itemdefId)
+{
+  inventoryClient.request("GetItemDefs", {itemdefids = itemdefId}, null,
+    function(result) {
+      local isItemDefsListChanged = false
+      local itemdef_json = inventoryClient.getResultData(result, "itemdef_json");
+      if (!itemdef_json)
+        return
+
+      foreach (itemdef in itemdef_json)
+      {
+        if (!itemdef || itemdefsList?[itemdef.itemdefid])
+          continue
+
+        itemdef.tags = inventoryClient.getTagsItemDef(itemdef)
+        local type = itemdef.tags?.type
+        if (type) {
+          local iType = getInventoryItemType(type)
+          if (iType != itemType.UNKNOWN) {
+            local item = createItem(iType, {
+              itemid = 0
+              quantity = 0
+              itemdef = itemdef})
+            itemdefsList[itemdef.itemdefid] <- item
+            isItemDefsListChanged = true
+          }
+        }
+      }
+      if (isItemDefsListChanged)
+        ::broadcastEvent("ItemDefsListUpdated")
+
+    }.bindenv(this))
 }
 
 function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc = false, preferMarkup = false, params = null)
@@ -947,7 +1004,7 @@ function ItemsManager::getNumUnseenItems(forInventoryItems)
     local hasDevItemShopFeature = ::has_feature("devItemShop")
     foreach (item in items)
     {
-      if (item.id in seenItemsData ||
+      if (item.id.tostring() in seenItemsData ||
           !forInventoryItems && !item.isCanBuy() ||
           item.isDevItem && !hasDevItemShopFeature)
         continue
@@ -980,13 +1037,13 @@ function ItemsManager::markItemSeen(item)
 
   // This will force _numUnseenItems to recalc on next access
   // as well as actually save on next saveSeenItemsData() call.
-  if (!(item.id in seenItemsData))
+  if (!(item.id.tostring() in seenItemsData))
   {
     seenItemsInfo.saveSeenItemsInvalidated = true
     seenItemsInfo.numUnseenItemsInvalidated = true
     result = true
   }
-  seenItemsData[item.id] <- curDays
+  seenItemsData[item.id.tostring()] <- curDays
   return result
 }
 
@@ -1049,7 +1106,7 @@ function ItemsManager::isItemUnseen(item)
   local seenItemsData = ::ItemsManager.getSeenItemsData(item.isInventoryItem)
   if (seenItemsData == null)
     return false
-  if (item.id in seenItemsData)
+  if (item.id.tostring() in seenItemsData)
     return false
   return item.isInventoryItem || item.isCanBuy()
 }

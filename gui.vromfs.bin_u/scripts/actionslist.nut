@@ -242,7 +242,7 @@ class ::gui_handlers.ActionsList
 
     if (obj.refuseOpenHoverMenu)
     {
-      obj.refuseOpenHoverMenu = obj.refuseOpenHoverMenu == "no"? "yes" : "no"
+      obj.refuseOpenHoverMenu = obj.refuseOpenHoverMenu == "yes"? "no" : "yes"
       return true
     }
 

@@ -1,6 +1,5 @@
 local time = require("scripts/time.nut")
 
-
 ::g_hud_messages <- {
   types = []
 }
@@ -16,16 +15,16 @@ local time = require("scripts/time.nut")
 
   scene = null
   guiScene = null
-  timersNest = null
+  timers = null
 
-  setScene = function(inScene, inGuiScene, inTimersNest)
+  setScene = function(inScene, inTimers)
   {
     scene = inScene
-    guiScene = inGuiScene
-    timersNest = inTimersNest
+    guiScene = scene.getScene()
+    timers = inTimers
     nest = scene.findObject(nestId)
   }
-  reinit  = @(inScene, inGuiScene, inTimersNest) setScene(inScene, inGuiScene, inTimersNest)
+  reinit  = @(inScene, inTimers) setScene(inScene, inTimers)
   clearStack    = @() stack.clear()
   onMessage     = function() {}
   removeMessage = function(inMessage)
@@ -132,7 +131,8 @@ local time = require("scripts/time.nut")
       {
         if (message.timer)
           message.timer.destroy()
-      } else if (!message.timer || !message.timer.isValid())
+      }
+      else if (!message.timer)
         setDestroyTimer(message)
     }
 
@@ -157,9 +157,7 @@ local time = require("scripts/time.nut")
 
     setDestroyTimer = function(message)
     {
-      message.timer = Timer(message.obj, 8, (@(message) function () {
-        animatedRemoveMessage(message)
-      })(message).bindenv(this))
+      message.timer = timers.addTimer(8, (@() animatedRemoveMessage(message)).bindenv(this)).weakref()
     }
 
     animatedRemoveMessage = function(message)
@@ -175,7 +173,7 @@ local time = require("scripts/time.nut")
       if (stack.len() || !::checkObj(nest))
         return
 
-      Timer(nest, 0.5, function () {
+      timers.addTimer(0.5, function () {
         if (stack.len() == 0)
           showNest(false)
       }.bindenv(this))
@@ -227,10 +225,11 @@ local time = require("scripts/time.nut")
         guiScene.setUpdatesEnabled(true, true)
       }
 
-      message.timer = Timer(timersNest, showSec, (@(message) function () {
-        message.obj.remove = "yes"
+      message.timer = timers.addTimer(showSec, function () {
+        if (::check_obj(message.obj))
+          message.obj.remove = "yes"
         removeMessage(message)
-      })(message).bindenv(this))
+      }.bindenv(this)).weakref()
     }
 
     refreshMessage = function (messageData, message)
@@ -238,7 +237,7 @@ local time = require("scripts/time.nut")
       local updateText = message.messageData.text != messageData.text
       message.messageData = messageData
       if (message.timer)
-        message.timer.setDelay(showSec)
+        timers.setTimerTime(message.timer, showSec)
       if (updateText && ::checkObj(message.obj))
         message.obj.findObject("text").setValue(messageData.text)
     }
@@ -250,9 +249,9 @@ local time = require("scripts/time.nut")
     showSec = 11
     messageEvent = "HudMessage"
 
-    reinit = function (inScene, inGuiScene, inTimersNest)
+    reinit = function (inScene, inTimers)
     {
-      setScene(inScene, inGuiScene, inTimersNest)
+      setScene(inScene, inTimers)
       if (!::checkObj(nest))
         return
       nest.deleteChildren()
@@ -295,14 +294,15 @@ local time = require("scripts/time.nut")
         text = ::HudBattleLog.msgMultiplayerDmgToText(messageData, true)
       }
 
-      message.timer = ::Timer(timersNest, showSec, (@(message) function () {
+      local timeToShow = timestamp
+       ? showSec - (::dagor.getCurTime() - timestamp) / 1000.0
+       : showSec
+
+      message.timer = timers.addTimer(timeToShow, function () {
         if (::checkObj(message.obj))
           message.obj.remove = "yes"
         removeMessage(message)
-      })(message).bindenv(this))
-
-      if (timestamp)
-        message.timer.setDelay(showSec - (::dagor.getCurTime() - timestamp) / 1000.0)
+      }.bindenv(this)).weakref()
 
       if (!::checkObj(nest))
         return
@@ -328,8 +328,7 @@ local time = require("scripts/time.nut")
       local lastId = 0
       if (::checkObj(stack[lastId].obj))
         stack[lastId].obj.remove = "yes"
-      if ("destroy" in stack[lastId].timer)
-        stack[lastId].timer.destroy()
+      timers.removeTimer(stack[lastId].timer)
       stack.remove(lastId)
     }
   }
@@ -393,7 +392,7 @@ local time = require("scripts/time.nut")
       captureProgressObj["sector-angle-2"] = calculateProgress(eventData)
       captureProgressObj.zone_owner = isZoneMy(eventData) ? "ally" : "enemy"
       oldMessage.messageData = eventData
-      oldMessage.timer.setDelay(::g_hud_messages.ZONE_CAPTURE.showSec)
+      setTimer(oldMessage)
     }
 
     calculateProgress = function (eventData)
@@ -443,12 +442,15 @@ local time = require("scripts/time.nut")
 
     setTimer = function (message)
     {
-      message.timer = ::Timer(timersNest, showSec,
-        (@(message) function () {
-          if (::checkObj(message.obj))
-            message.obj.remove = "yes"
-          removeMessage(message)
-        })(message).bindenv(this))
+      if (message.timer)
+        timers.setTimerTime(message.timer, showSec)
+      else
+        message.timer = timers.addTimer(showSec,
+          function () {
+            if (::checkObj(message.obj))
+              message.obj.remove = "yes"
+            removeMessage(message)
+          }.bindenv(this)).weakref()
     }
 
     function createSceneObjectForMessage(view, message)
@@ -480,16 +482,17 @@ local time = require("scripts/time.nut")
       ReinitHud        = @(ed) clearRewardMessage()
     }
 
-    rewardForSeries = ::Cost()
+    rewardWp = 0.0
+    rewardXp = 0.0
     rewardClearTimer = null
     curRewardPriority = REWARD_PRIORITY.noPriority
 
     _animTimerPid = ::dagui_propid.add_name_id("_transp-timer")
 
-    reinit = function (inScene, inGuiScene, inTimersNest)
+    reinit = function (inScene, inTimers)
     {
-      setScene(inScene, inGuiScene, inTimersNest)
-      rewardClearTimer = null
+      setScene(inScene, inTimers)
+      timers.removeTimer(rewardClearTimer)
     }
 
     onMessage = function (messageData)
@@ -500,8 +503,8 @@ local time = require("scripts/time.nut")
         return
 
       local isSeries = curRewardPriority != REWARD_PRIORITY.noPriority
-      rewardForSeries.wp += messageData.warpoints
-      rewardForSeries.frp += messageData.experience
+      rewardWp += messageData.warpoints
+      rewardXp += messageData.experience
 
       local newPriority = ::g_hud_reward_message.getMessageByCode(messageData.messageCode).priority
       if (newPriority >= curRewardPriority)
@@ -513,11 +516,9 @@ local time = require("scripts/time.nut")
       updateRewardValue(isSeries)
 
       if (rewardClearTimer)
-        rewardClearTimer.setDelay(showSec)
+        timers.setTimerTime(rewardClearTimer, showSec)
       else
-        rewardClearTimer = ::Timer(timersNest, showSec, function () {
-            clearRewardMessage()
-          }, this)
+        rewardClearTimer = timers.addTimer(showSec, clearRewardMessage.bindenv(this)).weakref()
     }
 
     showNewRewardMessage = function (newRewardMessage)
@@ -532,10 +533,13 @@ local time = require("scripts/time.nut")
       messageObj.setFloatProp(_animTimerPid, 0.0)
     }
 
+    roundRewardValue = @(val) val > 10 ? (val.tointeger() / 10 * 10) : val.tointeger()
+
     updateRewardValue = function (isSeries)
     {
+      local reward = ::Cost(roundRewardValue(rewardWp), 0, roundRewardValue(rewardXp))
       nest.findObject("reward_message").setFloatProp(_animTimerPid, 0.0)
-      nest.findObject("reward_total").setValue(rewardForSeries.getUncoloredText())
+      nest.findObject("reward_total").setValue(reward.getUncoloredText())
 
       if (isSeries)
         nest.findObject("reward_value_container")._blink = "yes"
@@ -551,8 +555,9 @@ local time = require("scripts/time.nut")
         nest.findObject("reward_value_container")._blink = "no"
       }
       curRewardPriority = REWARD_PRIORITY.noPriority
-      rewardForSeries = ::Cost()
-      rewardClearTimer = null
+      rewardWp = 0.0
+      rewardXp = 0.0
+      timers.removeTimer(rewardClearTimer)
     }
   }
 

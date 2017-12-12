@@ -3,14 +3,8 @@
   "img": {
     "position": "absolute",
     "size": "3sw, sh/3+1",
-    "pos": "-sw,sh-sh/3-sh/12+2",
+    "pos": "-sw,sh-h-1@bh",
     "background-image": "#ui/gameuiskin#optionlist_background_down"
-  },
-  "blackdiv": {
-    "position": "absolute",
-    "size": "3sw+2, sh/12+1",
-    "pos": "50%pw-50%w,sh-sh/12",
-    "background-color": "@black"
   },
   "root": [
     {
@@ -45,6 +39,10 @@
     {
       "TopMenuPanel": {
         "input-transparent": "yes",
+        "shadowSafeArea": [],
+        "TopMenuPanelBg": {
+          "width": "pw"
+        },
         "tdiv": {
           "pos": "pw-w-1@bw, 1@bh",
           "position": "absolute",
@@ -97,9 +95,10 @@
     {
       "BottomMenuPanel": {
         "input-transparent": "yes",
+        "shadowSafeArea": [],
         "line": [],
         "copyright": {
-          "pos": "pw-w-1@bw, 0.5(ph-1@bh) - 50%h",
+          "pos": "pw-w-1@bw, 50%ph - 50%h",
           "position": "absolute"
         }
       }
@@ -122,7 +121,7 @@
           "ShadeDiv": {
             "min-width": "0.35*@sf",
             "width": "100%pw",
-            "height": "ph - 1@topBarHeight - 1@bottomBarHeight + 4@dp",
+            "height": "sh - 1@topBarHeight - 1@bottomBarHeight",
             "pos": "50%pw-50%w, 1@topBarHeight",
             "position": "absolute"
           }
@@ -131,7 +130,8 @@
           "Red_shadow_light": {
             "pos": "50%pw-50%w, 0",
             "position": "absolute",
-            "size": "300%pw, 1@topBarHeight"
+            "size": "300%pw, 1@topBarHeight",
+            "class": "inverted"
           }
         },
         {
@@ -700,12 +700,10 @@
           ]
         },
         {
-          "tdiv": {
+          "Red_shadow_light": {
             "size": "300%pw, 1@bottomBarHeight",
             "position": "absolute",
-            "pos": "50%pw-50%w, ph - h + 5*@sf/@pf_outdated",
-            "background-image": "#ui/gameuiskin#bottom_bar_light",
-            "background-color": "#88888888"
+            "pos": "50%pw-50%w, ph - h"
           }
         },
         {
@@ -714,7 +712,7 @@
             "width": "pw",
             "height": "1@bottomBarHeight",
             "position": "absolute",
-            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf_outdated"
+            "pos": "50%pw-50%w, ph - h"
           }
         },
         {

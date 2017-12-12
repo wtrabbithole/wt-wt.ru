@@ -22,7 +22,7 @@ popup_menu {
     childsActivate:t='yes';
     flow:t='vertical';
     on_select:t='onClusterSelect';
-    navigatorShortcuts:t='full';
+    navigatorShortcuts:t='cancel';
     _on_cancel_edit:t='goBack';
 
     <<#clusters>>

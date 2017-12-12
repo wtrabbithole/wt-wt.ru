@@ -66,7 +66,7 @@ class WwOperationsGroup
           if (!list2)
             return list1
           foreach(country in list2)
-            ::append_once(country, list1)
+            ::u.appendOnce(country, list1)
           return list1
         }
       )

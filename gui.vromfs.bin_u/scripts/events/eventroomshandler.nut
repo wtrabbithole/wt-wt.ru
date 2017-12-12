@@ -149,7 +149,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWindow()
   {
-    ::init_slotbar(this, scene.findObject("nav-help"), true, null, { eventId = event.name, room = getCurRoom() })
+    createSlotbar({ eventId = event.name, room = getCurRoom() })
     updateDescription()
     updateButtons()
   }

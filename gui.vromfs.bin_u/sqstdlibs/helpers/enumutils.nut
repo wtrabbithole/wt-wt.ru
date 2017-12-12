@@ -1,4 +1,4 @@
-::g_script_reloader.loadOnce("sqStdLibs/common/u.nut")
+local u = require("sqStdLibs/common/u.nut")
 
 /**
  * Contains all utility functions related to creation
@@ -11,7 +11,7 @@ function g_enum_utils::getCachedType(propName, propValue, cacheTable, enumTable,
 {
   if (!caseSensitive)
   {
-    if (::u.isString(propValue))
+    if (u.isString(propValue))
       propValue = propValue.tolower()
     else
     {
@@ -22,7 +22,7 @@ function g_enum_utils::getCachedType(propName, propValue, cacheTable, enumTable,
     }
   }
 
-  local val = ::getTblValue(propValue, cacheTable, null)
+  local val = cacheTable?[propValue]
   if (val != null)
     return val
   if (cacheTable.len())
@@ -37,12 +37,12 @@ function g_enum_utils::getCachedType(propName, propValue, cacheTable, enumTable,
 
   foreach (typeTbl in enumTable.types)
   {
-    if (!::u.isTable(typeTbl))
+    if (!u.isTable(typeTbl))
       continue
 
     local value = getPropValue(propName, typeTbl)
     if (!caseSensitive)
-      if (::u.isString(value))
+      if (u.isString(value))
         value = value.tolower()
       else
       {
@@ -54,12 +54,12 @@ function g_enum_utils::getCachedType(propName, propValue, cacheTable, enumTable,
 
     cacheTable[value] <- typeTbl
   }
-  return ::getTblValue(propValue, cacheTable, defaultVal)
+  return cacheTable?[propValue] ?? defaultVal
 }
 
 function g_enum_utils::addType(enumTable, typeTemplate, typeName, typeDefinition)
 {
-  local type = ::getTblValue(typeName, enumTable) || {} //to not brake links on exist types
+  local type = enumTable?[typeName] ?? {} //to not brake links on exist types
   type.clear()
   if (typeTemplate)
     foreach(key, value in typeTemplate)
@@ -70,9 +70,9 @@ function g_enum_utils::addType(enumTable, typeTemplate, typeName, typeDefinition
 
   enumTable[typeName] <- type
 
-  local types = ::getTblValue("types", enumTable, null)
-  if (::u.isArray(types))
-    ::append_once(type, types)
+  local types = enumTable?.types
+  if (u.isArray(types))
+    u.appendOnce(type, types)
   else
   {
     ::dagor.assertf(
@@ -84,7 +84,7 @@ function g_enum_utils::addType(enumTable, typeTemplate, typeName, typeDefinition
 
 function g_enum_utils::addTypes(enumTable, typesToAdd, typeConstructor = null, addTypeNameKey = null )
 {
-  local typeTemplate = ::getTblValue("template", enumTable)
+  local typeTemplate = enumTable?.template
   foreach (typeName, typeDefinition in typesToAdd)
   {
     local type = addType(enumTable, typeTemplate, typeName, typeDefinition)
@@ -99,8 +99,8 @@ function g_enum_utils::addTypes(enumTable, typesToAdd, typeConstructor = null, a
 function g_enum_utils::addTypesByGlobalName(enumTableName, typesToAdd, typeConstructor = null, addTypeNameKey = null,
                                 registerForScriptReloader = true)
 {
-  local enumTable = ::getTblValue(enumTableName, ::getroottable())
-  if (!::u.isTable(enumTable))
+  local enumTable = ::getroottable()?[enumTableName]
+  if (!u.isTable(enumTable))
   {
     ::dagor.assertf(false, "g_enum_utils: not found enum table '" + enumTableName + "'")
     return
@@ -122,7 +122,7 @@ function g_enum_utils::collectAndRegisterTypes(enumTableName, enumTable, typesTo
   local persistentList = enumTable[PERSISTENT_DATA_PARAMS]
   foreach(typeName, data in typesToAdd)
   {
-    ::append_once(typeName, persistentList)
+    u.appendOnce(typeName, persistentList)
     if (!(typeName in enumTable))
       enumTable[typeName] <- null
   }
@@ -132,11 +132,11 @@ function g_enum_utils::collectAndRegisterTypes(enumTableName, enumTable, typesTo
 
 function g_enum_utils::getPropValue(propName, typeObject)
 {
-  local value = ::getTblValue(propName, typeObject, null)
+  local value = typeObject?[propName]
 
   // Calling 'value()' instead of 'typeObject[propName]()'
   // caused function to be called in a wrong environment.
-  return ::u.isFunction(value) ? typeObject[propName]() : value
+  return u.isFunction(value) ? typeObject[propName]() : value
 }
 
 function g_enum_utils::assertOnce(id, errorText)

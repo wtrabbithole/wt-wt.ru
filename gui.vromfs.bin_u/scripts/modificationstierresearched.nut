@@ -14,7 +14,7 @@ function gui_start_mod_tier_researched(config)
       unit = unit,
       unitInResearch = ::getTblValue("resUnit", config),
       tier = ::getTblValue("tier", config, []),
-      expReward = ::Cost(0, 0, 0, ::getTblValue("expToInvUnit", config, 0))
+      expReward = ::Cost().setRp(::getTblValue("expToInvUnit", config, 0))
   }
   ::gui_start_modal_wnd(::gui_handlers.ModificationsTierResearched, config)
 }

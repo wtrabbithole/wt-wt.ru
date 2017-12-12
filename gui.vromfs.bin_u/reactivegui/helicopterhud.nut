@@ -115,10 +115,11 @@ local GunDirLines = function(line_style) {
   local r = sh(0.625)
   
   return [
-    class extends line_style { rendObj = ROBJ_LINE; pos = [0, -1.5*r]; size = [0, r] }
+    class extends line_style { rendObj = ROBJ_CIRCLE; pos = [0, 0];       size = [r, r] }
+/*    class extends line_style { rendObj = ROBJ_LINE; pos = [0, -1.5*r]; size = [0, r] }
     class extends line_style { rendObj = ROBJ_LINE; pos = [0, 1.5*r];  size = [0, -r] }
     class extends line_style { rendObj = ROBJ_LINE; pos = [-1.5*r, 0]; size = [r, 0] }
-    class extends line_style { rendObj = ROBJ_LINE; pos = [1.5*r, 0];  size = [-r, 0] }
+    class extends line_style { rendObj = ROBJ_LINE; pos = [1.5*r, 0];  size = [-r, 0] }*/
   ]
 }
 
@@ -286,7 +287,8 @@ local helicopterHUDs = function (color) {
   return [
     HelicopterRocketAim(color)
     HelicopterFlightDirection(color)
-    //HelicopterFlightVector(color)   //Item deleted due to confussion for begginers
+    HelicopterGunDirection(color)
+//    HelicopterFlightVector(color)   //Item deleted due to confussion for begginers
     HelicopterVertSpeed(color)
   ]
 

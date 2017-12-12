@@ -14,9 +14,10 @@ function create_ObjMoveToOBj(scene, objStart, objTarget, config = null)
 
   local guiScene = ::get_gui_scene()
   local moveObj = guiScene.createElementByObject(scene, "gui/moveToObj.blk", "tdiv", handlerObj)
-  moveObj["pos-func"] = ::getTblValue("bhvFunc", config, "cube")
+  local bhvFuncName = config?.bhvFunc ?? "cube"
+  moveObj["pos-func"] = bhvFuncName
   local sizeObj = moveObj.findObject("size-part")
-  sizeObj["size-func"] = ::getTblValue("bhvFunc", config, "cube")
+  sizeObj["size-func"] = bhvFuncName
   if (config && ("createBlk" in config))
     guiScene.replaceContent(sizeObj, config.createBlk, handlerObj)
   else
@@ -25,7 +26,7 @@ function create_ObjMoveToOBj(scene, objStart, objTarget, config = null)
     cloneObj.pos = "0,0"
     cloneObj.size = "pw, ph"
   }
-  objTarget.show(::getTblValue("isTargetVisible", config, false))
+  objTarget.show(config?.isTargetVisible ?? false)
 
   local startPos = objStart.getPosRC()
   local tarPos = objTarget.getPosRC()

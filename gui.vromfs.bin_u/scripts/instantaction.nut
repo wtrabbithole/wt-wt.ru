@@ -296,25 +296,29 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function initToBattleButton()
   {
-    local centeredPlaceObj = ::top_menu_handler.scene.findObject("gamercard_center")
-    if (!::checkObj(centeredPlaceObj))
+    if (!rootHandlerWeak)
       return
 
-    centeredPlaceObj.show(true)
-    local toBattleNest = ::top_menu_handler.scene.findObject("gamercard_tobattle")
-    if (::checkObj(toBattleNest))
+    local centeredPlaceObj = ::showBtn("gamercard_center", true, rootHandlerWeak.scene)
+    if (!centeredPlaceObj)
+      return
+
+    local toBattleNest = ::showBtn("gamercard_tobattle", true, rootHandlerWeak.scene)
+    if (toBattleNest)
     {
+      rootHandlerWeak.scene.findObject("top_gamercard_bg").needRedShadow = "no"
       local toBattleBlk = ::handyman.renderCached("gui/mainmenu/toBattleButton", {
         enableEnterKey = !::is_platform_shield_tv()
       })
       guiScene.replaceContentFromText(toBattleNest, toBattleBlk, toBattleBlk.len(), this)
-      toBattleButtonObj = ::top_menu_handler.scene.findObject("to_battle_button")
+      toBattleButtonObj = rootHandlerWeak.scene.findObject("to_battle_button")
+      rootHandlerWeak.scene.findObject("gamercard_tobattle_bg")["background-color"] = "#00000000"
     }
-    ::top_menu_handler.scene.findObject("gamercard_logo").show(false)
-    gameModeChangeButtonObj = ::top_menu_handler.scene.findObject("game_mode_change_button")
-    countriesListObj = ::top_menu_handler.scene.findObject("countries_list")
+    rootHandlerWeak.scene.findObject("gamercard_logo").show(false)
+    gameModeChangeButtonObj = rootHandlerWeak.scene.findObject("game_mode_change_button")
+    countriesListObj = rootHandlerWeak.scene.findObject("countries_list")
 
-    newGameModesWidgetsPlaceObj = ::top_menu_handler.scene.findObject("new_game_modes_widget_place")
+    newGameModesWidgetsPlaceObj = rootHandlerWeak.scene.findObject("new_game_modes_widget_place")
     updateUnseenGameModesCounter()
   }
 
@@ -433,12 +437,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     checkCountries()
     ::reinitAllSlotbars()
     ::broadcastEvent("dominationModeChanged", {})
-  }
-
-  function onSlotbarSelectAction(obj)
-  {
-    base.onSlotbarSelectAction(obj)
-    checkCountries()
   }
 
   function checkCountries()
@@ -877,55 +875,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     joinQuery(null, membersData, team, event)
   }
-
-  function onSlotbarSelect(obj) {}
-  function onSlotbarDblClick(obj) {}
-
-  // This code is subject to deletion.
-  /*function validateQueryError(errorText)
-  {
-    debugTableData(getCurQueue())
-    dagor.assertf(false, "Query error: " + errorText)
-  }
-
-  function validateQuery(query)
-  {
-    if (!query)
-      return
-
-    //validate country
-    local valid = false
-    local option = ::get_option(::USEROPT_COUNTRY)
-    local value = -1
-    local enabledValue = -1
-    foreach(v, c in option.values)
-    {
-      if (c == query.country)
-      {
-        if (!option.items[v].enabled)
-        {
-          validateQueryError("Have try to query for disabled country " + query.country)
-          continue
-        }
-        value = v
-        valid = true
-        break
-      }
-      if (value < 0 && option.items[v].enabled)
-        value = v
-    }
-    if (value < 0)
-    {
-      validateQueryError("Have try to query when no any enabled countries")
-      value = 0
-    }
-    if (!valid)
-    {
-      validateQueryError("Incorrect country in query = " + query.country)
-      if (value in option.values)
-        query.country = option.values[value]
-    }
-  }*/
 
   function joinQuery(query = null, membersData = null, team = null, event = null)
   {
@@ -1509,7 +1458,8 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
     if(repairInfo.canFlyoutIfRepair)
       msgText = ::format(::loc(::format(msgText, "repared")), ::Cost(repairInfo.repairCost).tostring())
     else
-      msgText = ::format(::loc(::format(msgText, "available")), time.secondsToString(::lockTimeMaxLimitSec))
+      msgText = ::format(::loc(::format(msgText, "available")),
+        time.secondsToString(::get_warpoints_blk().lockTimeMaxLimitSec || 0))
 
     local repairBtnName = respawns ? "RepairAll" : "Repair"
     local buttons = repairInfo.canFlyoutIfRepair ?

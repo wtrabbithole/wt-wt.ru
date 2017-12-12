@@ -1,8 +1,8 @@
 tdiv {
   flow:t='vertical'
 
-  <<#rows>>
   table {
+    <<#rows>>
     tr {
       td {
         activeText {
@@ -48,18 +48,22 @@ tdiv {
         }
       }
     }
-  }
 
-  <<#bonuses>>
-  tdiv {
-    pos:t='0.03@sf, 0'
-    position:t='relative'
-    width:t='0.62@sf'
+    <<#bonuses>>
+    tr {
+      td {
+        tdiv {
+          pos:t='0.03@sf, 0'
+          position:t='relative'
+          width:t='0.07@sf'
 
-    include "gui/debriefing/rewardSources"
+          include "gui/debriefing/rewardSources"
+        }
+      }
+    }
+    <</bonuses>>
+    <</rows>>
   }
-  <</bonuses>>
-<</rows>>
 
 <<#tooltipComment>>
   _newline {}

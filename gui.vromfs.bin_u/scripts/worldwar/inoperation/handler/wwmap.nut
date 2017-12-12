@@ -117,6 +117,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     currentOperationInfoTabType = ::g_ww_map_info_type.getTypeByIndex(obj.getValue())
     showSceneBtn("content_block_2", currentOperationInfoTabType == ::g_ww_map_info_type.OBJECTIVE)
     updatePage()
+    onTabChange()
   }
 
 
@@ -129,6 +130,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     updateSecondaryBlock()
     updateSecondaryBlockTabs()
+    onTabChange()
   }
 
 
@@ -169,6 +171,15 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     mainBlockHandler = currentOperationInfoTabType.getMainBlockHandler(operationBlockObj, ::ww_get_player_side())
     if (mainBlockHandler)
       registerSubHandler(mainBlockHandler)
+  }
+
+  function onTabChange()
+  {
+    if (!mainBlockHandler.isValid())
+      return
+
+    if ("onTabChange" in mainBlockHandler)
+      mainBlockHandler.onTabChange()
   }
 
   function updateSecondaryBlockTabs()
@@ -279,10 +290,10 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function initToBattleButton()
   {
-    showSceneBtn("gamercard_center", false)
-    local toBattleNest = scene.findObject("gamercard_tobattle")
-    if (::checkObj(toBattleNest))
+    local toBattleNest = showSceneBtn("gamercard_tobattle", true)
+    if (toBattleNest)
     {
+      scene.findObject("top_gamercard_bg").needRedShadow = "no"
       local toBattleBlk = ::handyman.renderCached("gui/mainmenu/toBattleButton", {
         enableEnterKey = !::is_platform_shield_tv()
       })

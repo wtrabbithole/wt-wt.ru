@@ -1,4 +1,14 @@
-local time = require("scripts/time.nut")
+local time = ::require("scripts/time.nut")
+local Unit = ::require("scripts/unit/unit.nut")
+
+::all_units <- {}
+
+::g_script_reloader.registerPersistentData("initOptionsGlobals", ::getroottable(),
+  [ "all_units" ])
+
+//remap all units to new class on scripts reload
+foreach(name, unit in ::all_units)
+  ::all_units[name] = Unit({}).setFromUnit(unit)
 
 function init_options()
 {
@@ -12,160 +22,22 @@ function init_options()
     } while (stepStatus == PT_STEP_STATUS.SUSPEND)
 }
 
-function get_economic_rank_data(blk, name, defValue = 0.0)
-{
-  if (!blk)
-    return defValue
-
-  local value = ::getTblValue(name, blk, defValue)
-
-  return value
-}
-
 function init_all_units()
 {
-  ::all_units = {}
+  ::all_units.clear()
   local all_units_array = ::gather_and_build_aircrafts_list()
-  foreach (unit in all_units_array)
-    ::all_units[unit.name] <- unit
-}
-
-local function unitIsRecentlyReleased() //unit function
-{
-  if ("_isRecentlyReleased" in this)
-    return _isRecentlyReleased
-
-  local res = false
-  local releaseDate = ::get_unittags_blk()?[name]?.releaseDate
-  if (releaseDate)
+  foreach (unitTbl in all_units_array)
   {
-    local recentlyReleasedUnitsDays = ::configs.GUI.get().markRecentlyReleasedUnitsDays || 0
-    if (recentlyReleasedUnitsDays)
-    {
-      local releaseTime = ::get_t_from_utc_time(time.getTimeFromStringUtc(releaseDate))
-      res = releaseTime + time.daysToSeconds(recentlyReleasedUnitsDays) > ::get_charserver_time_sec()
-    }
+    local unit = Unit(unitTbl)
+    ::all_units[unit.name] <- unit
   }
-
-  this._isRecentlyReleased <- res
-  return _isRecentlyReleased
 }
 
 function update_all_units()
 {
-  //update the main table
-  local ws = ::get_warpoints_blk()
-  local ws_cost = ::get_wpcost_blk()
-  local unitTagsBlk = ::get_unittags_blk()
-
-  foreach (air in ::all_units)
-  {
-    ::all_units[air.name] <- air
-    local ws_air = ws_cost[air.name]
-    //set train cost
-    foreach(p in ["train2Cost", "train3Cost_gold", "train3Cost_exp", "gunnersCount", "rank", "reqExp", "hasDepthCharge"])
-      air[p] <- (ws_air!=null && ws_air[p]!=null)? ws_air[p] : 0
-
-    local expClass = ws_air != null ? ws_air.unitClass : null
-    if (::isInArray("ship", air.tags) || ::isInArray("type_ship", air.tags))
-      expClass = "exp_ship" // Temporary hack for Ships research tree.
-
-    local expClassType = ::g_unit_class_type.getTypeByExpClass(expClass)
-    air.expClass <- expClassType
-    air.esUnitType <- expClassType.unitTypeCode
-    air.unitType <- ::g_unit_type.getByEsUnitType(air.esUnitType)
-
-    foreach(diff in ::g_difficulty.types)
-    {
-      if (diff.egdCode == ::EGD_NONE)
-        continue
-      local mName = diff.getEgdName()
-
-      air["rewardMul" + mName] <- ::getTblValue("rewardMul" + mName, ws_air, 1.0)
-
-      foreach(modeType in ["", "Tank"])
-      {
-        local erName = "economicRank" + modeType + mName
-        air[erName] <- ::get_economic_rank_data(ws_air, erName, 0.0)
-      }
-    }
-
-    air["expMul"] <- (ws_air!=null && ws_air["expMul"]!=null)? ws_air["expMul"] : 1.0
-    air.shopCountry <- (ws_air!=null && ws_air.country!=null)? ws_air.country : ""
-
-    if (ws_air != null && ws_air.trainCost != null)
-      air.trainCost <- ws_air.trainCost
-    else if (ws.trainCostByRank != null && air.rank != null)
-      air.trainCost <- ws.trainCostByRank["rank"+air.rank.tostring()]
-    else
-      air.trainCost <- 0
-
-    air.primaryBullets <- {}
-    air.secondaryBullets <- {}
-    air.isInShop <- false
-
-    if (ws_air && ws_air.bulletsIconParam)
-      air.bulletsIconParam <- ws_air.bulletsIconParam
-
-    local customImage = ""
-    if ("customImage" in ws_air)
-      customImage = ws_air.customImage
-    else
-      customImage = ::get_unit_preset_img(air.name)
-
-    if (::u.isEmpty(customImage) && ::is_tencent_unit_image_reqired(air))
-      customImage = ::get_tomoe_unit_icon(air.name)
-
-    if (!::u.isEmpty(customImage))
-    {
-      if (!::isInArray(customImage.slice(0, 1), ["#", "!"]))
-        customImage = ::get_unit_icon_by_unit(air, customImage)
-      air.customImage <- customImage
-    }
-
-    if ("customClassIco" in ws_air)
-      air.customClassIco <- ws_air.customClassIco
-    else if (!ws_air)
-      air.customClassIco <- ""
-
-    if ("customTooltipImage" in ws_air)
-      air.customTooltipImage <- ws_air.customTooltipImage
-
-    air.isFirstBattleAward <- !!(ws_air && ws_air.isFirstBattleAward)
-
-    air.isUsable <- ::isUnitUsable
-    air.isRented <- ::isUnitRented
-    air.isBought <- ::isUnitBought
-    air.getRentTimeleft <- ::getUnitRentTimeleft
-    air.maxFlightTimeMinutes <- ::getTblValue("maxFlightTimeMinutes", ws_air, 0)
-    air.isPkgDev <- ::is_dev_version && ::getTblValue("pkgDev", ws_air, false)
-    air.isRecentlyReleased <- unitIsRecentlyReleased
-  }
-
-  foreach (airname, airblock in ws_cost)
-  {
-    local have_free = false
-    if (airblock == null)
-    {
-      debugTableData(ws_cost)
-      ::dagor.assertf(false, "Null airblock for aircraft " + airname)
-      continue
-    }
-
-    if (airblock.weapons != null)
-      foreach (weapon in airblock.weapons)
-        if (weapon.value == 0 && weapon.reqModification == null)
-          have_free = true
-
-    dagor.assertf(have_free, "No default weapon in aircraft "+airname)
-  }
-
-  ::acList = []
-  foreach(air in ::all_units)
-    foreach(tag in air.tags)
-      if ((tag.len() > 8) && (tag.slice(0, 8) == "country_")
-           && (!isInArray(tag, ::acList)))
-        ::acList.append(tag);
+  ::acList.clear()
+  foreach(unit in ::all_units)
+    ::u.appendOnce(unit.shopCountry, ::acList, true)
 
   ::update_shop_countries_list()
   ::countUsageAmountOnce()

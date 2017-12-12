@@ -22,7 +22,7 @@ function gui_start_startscreen()
   ::pause_game(false);
 
   if (::disable_network())
-    ::g_login.setState(LOGIN_STATE.AUTHORIZED)
+    ::g_login.setState(LOGIN_STATE.AUTHORIZED | LOGIN_STATE.ONLINE_BINARIES_INITED)
   ::g_login.startLoginProcess()
 }
 

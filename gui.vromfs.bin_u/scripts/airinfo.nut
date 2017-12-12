@@ -208,19 +208,18 @@ function get_full_unit_role_text(unit)
 }
 
 /*
-  typeof @source == "table"  -> @source is unit
+  typeof @source == Unit     -> @source is unit
   typeof @source == "string" -> @source is role id
 */
 function get_unit_role_icon(source)
 {
-  if (::u.isTable(source) && ::is_helicopter(source))
-    return ::unit_role_fonticons.helicopter
-  if (typeof source == "table")
-    return ::getTblValue(::get_unit_basic_role(source), ::unit_role_fonticons, "")
-  return ::getTblValue(source, ::unit_role_fonticons, "")
+  local role = ::u.isString(source) ? source
+    : ::is_helicopter(source) ? "helicopter"
+    : ::get_unit_basic_role(source)
+  return ::unit_role_fonticons?[role] ?? ""
 }
 
-function get_unit_actions_list(unit, handler, prefix, actions)
+function get_unit_actions_list(unit, handler, actions)
 {
   local res = {
     handler = handler
@@ -313,17 +312,13 @@ function get_unit_actions_list(unit, handler, prefix, actions)
     }
     else if (action == "repair")
     {
-      actionText = ::loc("mainmenu/btnRepair")+": "+::wp_get_repair_cost(unit.name)+::loc("warpoints/short")
-      if (::wp_get_repair_cost(unit.name)>profile.balance)
-        actionText = ::loc("mainmenu/btnRepair")+": <color=@redMenuButtonColor>"+::wp_get_repair_cost(unit.name)+"</color>"+::loc("warpoints/short")
-
+      local repairCost = ::wp_get_repair_cost(unit.name)
+      actionText = ::loc("mainmenu/btnRepair")+": "+::Cost(repairCost).getTextAccordingToBalance()
       icon       = "#ui/gameuiskin#slot_repair.svg"
       haveWarning = true
-      showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name) > 0 && ::SessionLobby.canChangeCrewUnits()
+      showAction = inMenu && isUsable && repairCost > 0 && ::SessionLobby.canChangeCrewUnits()
          && !::g_crews_list.isSlotbarOverrided
-      actionFunc = (@(unit, handler) function () {
-        handler.showMsgBoxRepair.call(handler, unit, (@(unit) function () {::check_and_repair_unit(unit)})(unit))
-      })(unit, handler)
+      actionFunc = @() unit.repair()
     }
     else if (action == "buy")
     {
@@ -366,7 +361,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       local needToFlushExp = handler.shopResearchMode && countryExp > 0
 
       actionText = needToFlushExp
-                   ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::getRpPriceText(getReqExp, true))
+                   ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::Cost().setRp(getReqExp).tostring())
                    : ( ::isUnitInResearch(unit) && handler.setResearchManually
                       ? ::loc("mainmenu/btnConvert")
                       : ::loc("mainmenu/btnResearch"))
@@ -387,13 +382,12 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       actionText = unit.unitType.getTestFlightText()
       icon       = unit.unitType.testFlightIcon
       showAction = inMenu && ::isTestFlightAvailable(unit)
-      actionFunc = (@(unit, handler) function () {
-        handler.checkedCrewModify((@(unit) function () {
-          ::show_aircraft = unit
-          ::test_flight_aircraft <- unit
-          ::gui_start_testflight()
-        })(unit))
-      })(unit, handler)
+      actionFunc = function () {
+        if (handler.isValid())
+          handler.checkedCrewModify(function () {
+            ::gui_start_testflight(unit)
+          })
+      }
     }
     else if (action == "info")
     {
@@ -530,7 +524,7 @@ function isUnitDefault(unit)
 
 function isUnitGift(unit)
 {
-  return "gift" in unit
+  return unit.gift != null
 }
 
 function get_unit_country_icon(unit)
@@ -550,7 +544,7 @@ function isUnitGroup(unit)
 
 function isGroupPart(unit)
 {
-  return unit && ::getTblValue("group", unit, "") != ""
+  return unit && unit.group != null
 }
 
 function canResearchUnit(unit)
@@ -648,7 +642,9 @@ function getCountryResearchUnit(countryName, unitType)
 
 function getUnitName(unit, shopName = true)
 {
-  local unitId = (typeof(unit) == "string") ? unit : (typeof(unit) == "table") ? unit.name : ""
+  local unitId = ::u.isUnit(unit) ? unit.name
+    : ::u.isString(unit) ? unit
+    : ""
   local localized = ::loc(unitId + (shopName ? "_shop" : "_0"), unitId)
   return shopName ? ::stringReplace(localized, " ", ::nbsp) : localized
 }
@@ -672,12 +668,9 @@ function getUnitCost(unit)
                 ::wp_get_cost_gold(unit.name))
 }
 
-function isUnitBought(unit = null)
+function isUnitBought(unit)
 {
-  if (unit == null)
-    unit = this
-  local unitName = ::getTblValue("name", unit)
-  return unitName ? ::shop_is_aircraft_purchased(unitName) : false
+  return unit ? unit.isBought() : false
 }
 
 function isUnitEliteByStatus(status)
@@ -700,58 +693,19 @@ function isUnitBroken(unit)
  * Returns true if unit can be installed in slotbar,
  * unit can be decorated with decals, etc...
  */
-function isUnitUsable(unit = null)
+function isUnitUsable(unit)
 {
-  if (unit == null)
-    unit = this
-  local unitName = ::getTblValue("name", unit)
-  return unitName != null ? ::shop_is_player_has_unit(unitName) : false
-}
-
-function isUnitRented(unit = null)
-{
-  if (unit == null)
-    unit = this
-  local unitName = ::getTblValue("name", unit)
-  return unitName != null ? ::shop_is_unit_rented(unitName) : false
-}
-
-/**
- * Returns time in seconds.
- */
-function getUnitRentTimeleft(unit = null)
-{
-  if (unit == null)
-    unit = this
-  local unitName = ::getTblValue("name", unit)
-  return unitName != null ? ::rented_units_get_expired_time_sec(unitName) : -1
+  return unit ? unit.isUsable() : false
 }
 
 function isUnitFeatureLocked(unit)
 {
-  local featureName = ::getUnitReqFeature(unit)
-  return (featureName != "") && !::has_feature(featureName)
-}
-
-function getUnitReqFeature(unit)
-{
-  return ::getTblValue("reqFeature", unit, "")
+  return unit.reqFeature != null && !::has_feature(unit.reqFeature)
 }
 
 function checkUnitHideFeature(unit)
 {
-  local feature = ::getTblValue("hideFeature", unit, null)
-  if (feature == null)
-    return true
-  return ::has_feature(feature)
-}
-
-function getUnitRepairCost__m(unit)
-{
-  local cost = Cost()
-  if ("name" in unit)
-    cost.wp = ::wp_get_repair_cost(unit.name)
-  return cost
+  return !unit.hideFeature || ::has_feature(unit.hideFeature)
 }
 
 function getUnitRepairCost(unit)
@@ -849,41 +803,6 @@ function impl_buyUnit(unit)
     })(unit, progressBox)
   )
   return true
-}
-
-function check_and_repair_unit(unit, onTaskSuccessInclude = null)
-{
-  if (!unit)
-    return
-
-  local price = ::getUnitRepairCost__m(unit)
-  if (price.isZero())
-    return onTaskSuccessInclude? onTaskSuccessInclude() : null
-
-  if (!::check_balance_msgBox(price))
-    return
-
-  ::repair_unit(unit, onTaskSuccessInclude)
-}
-
-function repair_unit(unit, onTaskSuccessInclude = null)
-{
-  local blk = ::DataBlock()
-  blk.setStr("name", unit.name)
-
-  local taskId = ::char_send_blk("cln_prepare_aircraft", blk)
-
-  local progBox = { showProgressBox = true }
-  local onTaskSuccess = (@(unit, onTaskSuccessInclude) function() {
-    ::update_gamercards()
-    ::g_squad_utils.updateMyCountryData()
-    ::broadcastEvent("UnitRepaired", {unit = unit})
-
-    if (onTaskSuccessInclude)
-      onTaskSuccessInclude()
-  })(unit, onTaskSuccessInclude)
-
-  ::g_tasker.addTask(taskId, progBox, onTaskSuccess)
 }
 
 function researchUnit(unit, checkCurrentUnit = true)
@@ -1055,7 +974,8 @@ function isTestFlightAvailable(unit)
       || ::canResearchUnit(unit)
       || ::isUnitGift(unit)
       || ::isUnitResearched(unit)
-      || ::isUnitSpecial(unit))
+      || ::isUnitSpecial(unit)
+      || ::g_decorator.approversUnitToPreviewUgcResource == unit)
     return true
 
   return false
@@ -1087,8 +1007,8 @@ function getMaxRankResearchingUnitByCountry(country, unitType)
 
 function _afterUpdateAirModificators(unit, callback)
 {
-  if ("secondaryWeaponMods" in unit)
-    delete unit.secondaryWeaponMods //invalidate secondary weapons cache
+  if (unit.secondaryWeaponMods)
+    unit.secondaryWeaponMods = null //invalidate secondary weapons cache
   ::broadcastEvent("UnitModsRecount", { unit = unit })
   if(callback != null)
     callback()
@@ -1097,47 +1017,47 @@ function _afterUpdateAirModificators(unit, callback)
 //return true when modificators already valid.
 function check_unit_mods_update(air, callBack = null, forceUpdate = false)
 {
-  if (::getTblValue("_modificatorsRequested", air, false))
+  if (air._modificatorsRequested)
   {
     if (forceUpdate)
       ::remove_calculate_modification_effect_jobs()
     else
       return false
-  } else
-    if (!forceUpdate && "modificators" in air)
-      return true
+  }
+  else if (!forceUpdate && air.modificators)
+    return true
 
   if (::isShip(air))
     return true //ships dosnt calculated yet
 
   if (isTank(air))
   {
-    air._modificatorsRequested <- true
+    air._modificatorsRequested = true
     calculate_tank_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
-      air._modificatorsRequested <- false
-      air.modificators <- {
+      air._modificatorsRequested = false
+      air.modificators = {
         arcade = effect.arcade
         historical = effect.historical
         fullreal = effect.fullreal
       }
-      if (!("modificatorsBase" in air)) // TODO: Needs tank params _without_ user progress here.
-        air.modificatorsBase <- air.modificators
+      if (!air.modificatorsBase) // TODO: Needs tank params _without_ user progress here.
+        air.modificatorsBase = air.modificators
 
       ::_afterUpdateAirModificators(air, callBack)
     })(air, callBack))
     return false
   }
 
-  air._modificatorsRequested <- true
+  air._modificatorsRequested = true
   ::calculate_min_and_max_parameters(air.name, this, (@(air, callBack) function(effect, ...) {
-    air._modificatorsRequested <- false
-    air.modificators <- {
+    air._modificatorsRequested = false
+    air.modificators = {
       arcade = effect.arcade
       historical = effect.historical
       fullreal = effect.fullreal
     }
-    air.minChars <- effect.min
-    air.maxChars <- effect.max
+    air.minChars = effect.min
+    air.maxChars = effect.max
 
     ::_afterUpdateAirModificators(air, callBack)
   })(air, callBack))
@@ -1173,24 +1093,24 @@ function check_secondary_weapon_mods_recount(unit, callback = null)
     return true //no need to recount secondary weapons for tanks
 
   local weaponName = ::get_last_weapon(unit.name)
-  local secondaryMods = ::getTblValue("secondaryWeaponMods", unit)
+  local secondaryMods = unit.secondaryWeaponMods
   if (secondaryMods && secondaryMods.weaponName == weaponName)
   {
     if (secondaryMods.effect)
       return true
     if (callback)
-      secondaryMods.callback <- callback
+      secondaryMods.callback = callback
     return false
   }
 
-  unit.secondaryWeaponMods <- {
+  unit.secondaryWeaponMods = {
     weaponName = weaponName
     effect = null
     callback = callback
   }
 
   ::calculate_mod_or_weapon_effect(unit.name, weaponName, false, this, (@(unit, weaponName) function(effect, ...) {
-      local secondaryMods = ::getTblValue("secondaryWeaponMods", unit)
+      local secondaryMods = unit.secondaryWeaponMods
       if (!secondaryMods || weaponName != secondaryMods.weaponName)
         return
 
@@ -1270,7 +1190,7 @@ function generateUnitShopInfo()
 
           if (air)
           {
-            ::generate_unit_shop_info_common(air, airBlk, prevAir)
+            air.applyShopBlk(airBlk, prevAir)
             prevAir = air.name
           }
           else //aircraft group
@@ -1284,9 +1204,7 @@ function generateUnitShopInfo()
               air = ::getAircraftByName(gAirBlk.getBlockName())
               if (!air)
                 continue
-              ::generate_unit_shop_info_common(air, gAirBlk, prevAir)
-              air.group <- groupName
-              air.groupImage <- airBlk.image
+              air.applyShopBlk(gAirBlk, prevAir, groupName)
               prevAir = air.name
               if (!firstIGroup)
                 firstIGroup = air
@@ -1311,32 +1229,6 @@ function has_platform_from_blk_str(blk, fieldName, defValue = false, separator =
   if (!::u.isString(listStr))
     return defValue
   return ::isInArray(::target_platform, ::split(listStr, separator))
-}
-
-function generate_unit_shop_info_common(air, air_blk, prev_air)
-{
-  local isVisibleUnbought = !air_blk.showOnlyWhenBought
-    && ::has_platform_from_blk_str(air_blk, "showByPlatform", true)
-    && !::has_platform_from_blk_str(air_blk, "hideByPlatform", false)
-
-  air.showOnlyWhenBought <- !isVisibleUnbought
-
-  air.showOnlyWhenResearch <- air_blk.showOnlyWhenResearch
-
-  if (isVisibleUnbought && ::u.isString(air_blk.hideForLangs))
-    air.hideForLangs <- ::split(air_blk.hideForLangs, "; ")
-
-  if (air_blk.gift != null)
-    air.gift <- air_blk.gift
-  if (air_blk.giftParam != null)
-    air.giftParam <- air_blk.giftParam
-
-  air.reqAir <- prev_air
-  if (::u.isString(air_blk.reqFeature))
-    air.reqFeature <- air_blk.reqFeature
-  if (air_blk.hideFeature != null)
-    air.hideFeature <- air_blk.hideFeature
-  air.isInShop = true
 }
 
 function getPrevUnit(unit)
@@ -1439,27 +1331,10 @@ function get_battle_type_by_unit(unit)
   return (::get_es_unit_type(unit) == ::ES_UNIT_TYPE_TANK)? BATTLE_TYPES.TANK : BATTLE_TYPES.AIR
 }
 
-function get_unit_wp_reward_muls(unit, difficulty = ::g_difficulty.ARCADE)
-{
-  local ws = ::get_warpoints_blk()
-  local premPart = ::isUnitSpecial(unit) ?
-    ::get_blk_value_by_path(ws, "rewardMulVisual/premRewardMulVisualPart", 0.5) : 0.0
-
-  local mode = difficulty.getEgdName()
-  local mul = ::getTblValue("rewardMul" + mode, unit, 1.0) *
-    ::get_blk_value_by_path(ws, "rewardMulVisual/rewardMulVisual" + mode, 1.0)
-
-  return {
-    wpMul   = ::round_by_value(mul * (1.0 - premPart), 0.1)
-    premMul = ::round_by_value(1.0 / (1.0 - premPart), 0.1)
-  }
-}
-
 function get_unit_tooltip_image(unit)
 {
-  local customTooltipImage = ::getTblValue("customTooltipImage", unit)
-  if (customTooltipImage)
-    return customTooltipImage
+  if (unit.customTooltipImage)
+    return unit.customTooltipImage
 
   switch (::get_es_unit_type(unit))
   {
@@ -1489,11 +1364,11 @@ function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, 
   if (!(characteristicName[0] in air.shop))
     air.shop[characteristicName[0]] <- 0;
 
-  local value = air.shop[characteristicName[0]] + ((modificators in air) ? air[modificators][modeName][characteristicName[1]] : 0)
-  local min = "minChars" in air ? air.shop[characteristicName[0]] + air.minChars[modeName][characteristicName[1]] : value
-  local max = "maxChars" in air ? air.shop[characteristicName[0]] + air.maxChars[modeName][characteristicName[1]] : value
+  local value = air.shop[characteristicName[0]] + (air[modificators] ? air[modificators][modeName][characteristicName[1]] : 0)
+  local min = air.minChars ? air.shop[characteristicName[0]] + air.minChars[modeName][characteristicName[1]] : value
+  local max = air.maxChars ? air.shop[characteristicName[0]] + air.maxChars[modeName][characteristicName[1]] : value
   local text = prepareTextFunc(value)
-  if(modificators in air && air[modificators][modeName][characteristicName[1]] == 0)
+  if(air[modificators] && air[modificators][modeName][characteristicName[1]] == 0)
   {
     text = "<color=@goodTextColor>" + text + "</color>*"
     showReferenceText = true
@@ -1681,12 +1556,16 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       if (::checkObj(labelObj))
       {
         local statusText = isResearching ? ::loc("shop/in_research") + ::loc("ui/colon") : ""
-        local slash = ::loc("ui/slash")
         local unitsText = ::loc("currency/researchPoints/sign/colored")
-        local expText = ::format("%s%d%s%d%s", statusText, expCur, slash, expTotal, unitsText)
+        local expText = ::format("%s%s%s%s",
+          statusText,
+          ::Cost().setRp(expCur).toStringWithParams({isRpAlwaysShown = true}),
+          ::loc("ui/slash"),
+          ::Cost().setRp(expTotal).tostring())
         expText = ::colorize(isResearching ? "cardProgressTextColor" : "commonTextColor", expText)
         if (expInvest > 0)
-          expText += ::colorize("cardProgressTextBonusColor", ::loc("ui/parentheses/space", { text = "+" + expInvest }))
+          expText += ::colorize("cardProgressTextBonusColor", ::loc("ui/parentheses/space",
+            { text = "+ " + ::Cost().setRp(expInvest).tostring() }))
         labelObj.setValue(expText)
       }
     }
@@ -1718,7 +1597,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
 
   //count unit ratings
-  local battleRating = ::get_unit_battle_rating_by_mode(air, ediff)
+  local battleRating = air.getBattleRating(ediff)
   holderObj.findObject("aircraft-battle_rating-header").setValue(::loc("shop/battle_rating") + ::loc("ui/colon"))
   holderObj.findObject("aircraft-battle_rating").setValue(format("%.1f", battleRating))
 
@@ -1768,7 +1647,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local showRpReq = showLocalState && !isOwn && !special && !gift && !isResearched && !canResearch
     rpObj.show(showRpReq)
     if (showRpReq)
-      rpObj.findObject("aircraft-require_rp").setValue(::getRpPriceText(air.reqExp, true))
+      rpObj.findObject("aircraft-require_rp").setValue(::Cost().setRp(air.reqExp).tostring())
   }
 
   if(showPrice)
@@ -1866,7 +1745,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
 
   local modificators = showLocalState ? "modificators" : "modificatorsBase"
-  if (isTank(air) && (modificators in air))
+  if (isTank(air) && air[modificators])
   {
     local mode = ::domination_modes[diffCode]
     local currentParams = air[modificators][mode.id]
@@ -2012,7 +1891,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local boosterEffects = ::getTblValue("boosterEffects", params,
       ::ItemsManager.getBoostersEffects(::ItemsManager.getActiveBoostersArray()))
 
-    local wpMuls = ::get_unit_wp_reward_muls(air, difficulty)
+    local wpMuls = air.getWpRewardMulList(difficulty)
     if (showAsRent)
       wpMuls.premMul = 1.0
     local wpMultText = ::format("%.1f", wpMuls.wpMul)
@@ -2175,7 +2054,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   else
   {
     if (::isUnitGift(air))
-      addInfoTextsList.append(::colorize("userlogColoredText", ::format(::loc("shop/giftAir/"+air.gift+"/info"), ("giftParam" in air)? ::loc(air.giftParam) : "")))
+      addInfoTextsList.append(::colorize("userlogColoredText",
+        ::format(::loc("shop/giftAir/"+air.gift+"/info"), air.giftParam ? ::loc(air.giftParam) : "")))
     if (::isUnitDefault(air))
       addInfoTextsList.append(::loc("shop/reserve/info"))
     if (showLocalState && !::isUnitBought(air) && ::isUnitResearched(air) && !::canBuyUnitOnline(air) && ::canBuyUnit(air))
