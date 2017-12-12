@@ -775,6 +775,13 @@ function SessionLobby::getOperationId()
   return (getMissionParams()?.customRules?.operationId ?? -1).tointeger()
 }
 
+function SessionLobby::getWwBattleId()
+{
+  if (!isInRoom())
+    return ""
+  return (getMissionParams()?.customRules?.battleId ?? "")
+}
+
 function SessionLobby::getTeamsCountries(room = null)
 {
   local res = []

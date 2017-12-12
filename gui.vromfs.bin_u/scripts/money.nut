@@ -49,14 +49,24 @@ enum money_color {
   }
 }
 
-function Money::setFromTbl(tbl)
+function Money::setFrp(value)
 {
-  if ("wp" in tbl)
-    wp = tbl.wp || 0
-  if ("gold" in tbl)
-    gold = tbl.gold || 0
-  if ("exp" in tbl)
-    frp = tbl.exp || 0
+  frp = value
+  return this
+}
+
+function Money::setRp(value)
+{
+  rp = value
+  return this
+}
+
+function Money::setFromTbl(tbl = null)
+{
+  wp = tbl?.wp ?? 0
+  gold = tbl?.gold ?? 0
+  rp = tbl?.rp ?? 0
+  frp = tbl?.exp ?? tbl?.frp ?? 0
   return this
 }
 

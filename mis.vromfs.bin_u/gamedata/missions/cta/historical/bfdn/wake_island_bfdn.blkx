@@ -443,9 +443,25 @@
       "conditions": [],
       "actions": [
         {
+          "comment": {
+            "value": "форсим воздушные спавны"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "force_air_spawn"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
           "addAirfield": [
             {
-              "runwayStart": "t1_airfield01_start"
+              "runwayStart": "t1_airfield"
             },
             {
               "runwayEnd": "t1_airfield01_end"
@@ -508,88 +524,6 @@
               "visibleOnHud": true
             }
           ]
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
-            "spawnEffect": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "offset": [-200.0,2500.0,-200.0],
-            "radius": 650.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "target": "t1_common_fighter_spawn",
-            "team": "A",
-            "tags": {
-              "type_bomber": false,
-              "type_assault": false,
-              "type_interceptor": false,
-              "type_aa_fighter": false,
-              "type_frontline_bomber": false,
-              "type_longrange_bomber": false,
-              "tank": false
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
-            "spawnEffect": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "offset": [-200.0,2500.0,-200.0],
-            "radius": 650.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "target": "t2_common_fighter_spawn",
-            "team": "B",
-            "tags": {
-              "type_bomber": false,
-              "type_assault": false,
-              "type_interceptor": false,
-              "type_aa_fighter": false,
-              "type_frontline_bomber": false,
-              "type_longrange_bomber": false,
-              "tank": false
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/airfield_spawn",
-            "spawnEffect": false,
-            "isAirfield": true,
-            "isUnit": false,
-            "offset": [-200.0,2500.0,-200.0],
-            "radius": 650.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "target": "t1_airfield01_start",
-            "team": "A",
-            "tags": {
-              "type_bomber": false,
-              "type_assault": false,
-              "type_interceptor": false,
-              "type_aa_fighter": false,
-              "tank": false
-            }
-          }
         },
         {
           "missionMarkAsRespawnPoint": [
@@ -7484,7 +7418,7 @@
       "objLayer": 4,
       "props": []
     },
-    "t1_airfield01_start": {
+    "t1_airfield": {
       "type": "Sphere",
       "tm": [
         [6.57587e-06,0.0,87.1],

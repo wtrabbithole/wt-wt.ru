@@ -2189,7 +2189,7 @@
             "limitsTable": {
               "lim1": [-180.0,-149.0,35.0,75.0],
               "lim2": [-149.0,-15.0,-7.0,75.0],
-              "lim3": [-15.0,15.0,0.0,75.0],
+              "lim3": [-15.0,15.0,-1.0,75.0],
               "lim4": [15.0,149.0,-7.0,75.0],
               "lim5": [149.0,180.0,35.0,75.0]
             }
@@ -2339,7 +2339,7 @@
             "limitsTable": {
               "lim1": [-180.0,-149.0,35.0,75.0],
               "lim2": [-149.0,-15.0,-7.0,75.0],
-              "lim3": [-15.0,15.0,0.0,75.0],
+              "lim3": [-15.0,15.0,-1.0,75.0],
               "lim4": [15.0,149.0,-7.0,75.0],
               "lim5": [149.0,180.0,35.0,75.0]
             }
@@ -2489,7 +2489,7 @@
             "limitsTable": {
               "lim1": [-160.0,-150.0,-5.0,75.0],
               "lim2": [-150.0,162.0,-7.0,75.0],
-              "lim3": [162.0,166.0,-1.0,75.0]
+              "lim3": [162.0,166.0,-5.0,75.0]
             }
           }
         ]
@@ -2632,7 +2632,7 @@
             "limitsTable": {
               "lim1": [-160.0,-150.0,-5.0,75.0],
               "lim2": [-150.0,162.0,-7.0,75.0],
-              "lim3": [162.0,166.0,-1.0,75.0]
+              "lim3": [162.0,166.0,-5.0,75.0]
             }
           }
         ]
@@ -2774,7 +2774,7 @@
           {
             "limitsTable": {
               "lim1": [-154.0,-22.0,-7.0,75.0],
-              "lim2": [-22.0,22.0,3.0,75.0],
+              "lim2": [-22.0,22.0,-3.0,75.0],
               "lim3": [22.0,152.0,-7.0,75.0]
             }
           }
@@ -2917,7 +2917,7 @@
           {
             "limitsTable": {
               "lim1": [-154.0,-22.0,-7.0,75.0],
-              "lim2": [-22.0,22.0,3.0,75.0],
+              "lim2": [-22.0,22.0,-3.0,75.0],
               "lim3": [22.0,152.0,-7.0,75.0]
             }
           }
@@ -3554,6 +3554,7 @@
           "useEmitter": true,
           "emitterGenRange": [1,4],
           "emitterGenFmt": "bone_torpedo_%02d",
+          "ammoDpGenFmt": "torpedo_%02d_dm",
           "barrelDP": "tt_01_dm",
           "brokenBarrelAllowShoot": false,
           "startFx": "start_torpedo",
@@ -3585,6 +3586,7 @@
           "useEmitter": true,
           "emitterGenRange": [5,8],
           "emitterGenFmt": "bone_torpedo_%02d",
+          "ammoDpGenFmt": "torpedo_%02d_dm",
           "barrelDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
           "startFx": "start_torpedo",
@@ -3613,7 +3615,8 @@
           "emitter": "bone_bomb_01",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 2.9
+          "dropSpeed": 2.9,
+          "ammoDP": "depth_charge_01_dm"
         }
       },
       {
@@ -3624,7 +3627,8 @@
           "emitter": "bone_bomb_02",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 2.9
+          "dropSpeed": 2.9,
+          "ammoDP": "depth_charge_02_dm"
         }
       },
       {
@@ -3635,7 +3639,8 @@
           "emitter": "bone_bomb_03",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.7
+          "dropSpeed": 3.7,
+          "ammoDP": "depth_charge_03_dm"
         }
       },
       {
@@ -3646,7 +3651,8 @@
           "emitter": "bone_bomb_04",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 3.7
+          "dropSpeed": 3.7,
+          "ammoDP": "depth_charge_04_dm"
         }
       },
       {
@@ -3657,7 +3663,8 @@
           "emitter": "bone_bomb_05",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 4.5
+          "dropSpeed": 4.5,
+          "ammoDP": "depth_charge_05_dm"
         }
       },
       {
@@ -3668,7 +3675,8 @@
           "emitter": "bone_bomb_06",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 4.5
+          "dropSpeed": 4.5,
+          "ammoDP": "depth_charge_06_dm"
         }
       },
       {
@@ -3679,7 +3687,8 @@
           "emitter": "bone_bomb_07",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 5.3
+          "dropSpeed": 5.3,
+          "ammoDP": "depth_charge_07_dm"
         }
       },
       {
@@ -3690,7 +3699,8 @@
           "emitter": "bone_bomb_08",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 5.3
+          "dropSpeed": 5.3,
+          "ammoDP": "depth_charge_08_dm"
         }
       },
       {
@@ -3701,7 +3711,8 @@
           "emitter": "bone_bomb_09",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 6.1
+          "dropSpeed": 6.1,
+          "ammoDP": "depth_charge_09_dm"
         }
       },
       {
@@ -3712,7 +3723,8 @@
           "emitter": "bone_bomb_10",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 6.1
+          "dropSpeed": 6.1,
+          "ammoDP": "depth_charge_10_dm"
         }
       },
       {
@@ -3723,7 +3735,8 @@
           "emitter": "bone_bomb_11",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 7.9
+          "dropSpeed": 7.9,
+          "ammoDP": "depth_charge_11_dm"
         }
       },
       {
@@ -3734,7 +3747,8 @@
           "emitter": "bone_bomb_12",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 7.9
+          "dropSpeed": 7.9,
+          "ammoDP": "depth_charge_12_dm"
         }
       },
       {
@@ -3745,7 +3759,8 @@
           "emitter": "bone_bomb_13",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 8.7
+          "dropSpeed": 8.7,
+          "ammoDP": "depth_charge_13_dm"
         }
       },
       {
@@ -3756,7 +3771,8 @@
           "emitter": "bone_bomb_14",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 8.7
+          "dropSpeed": 8.7,
+          "ammoDP": "depth_charge_14_dm"
         }
       },
       {
@@ -3767,7 +3783,8 @@
           "emitter": "bone_bomb_15",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 20.0
+          "dropSpeed": 20.0,
+          "ammoDP": "depth_charge_15_dm"
         }
       },
       {
@@ -3778,7 +3795,8 @@
           "emitter": "bone_bomb_16",
           "bullets": 1,
           "external": true,
-          "dropSpeed": 20.0
+          "dropSpeed": 20.0,
+          "ammoDP": "depth_charge_16_dm"
         }
       }
     ]

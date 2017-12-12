@@ -1,69 +1,91 @@
   <<#squad>>
       expandable {
+        class:t='simple'
         display:t='hide'
         selImg {
           flow:t='vertical'
+          noPadding:t='yes'
           tdiv {
-            size:t='pw, 0.055@scrn_tgt'
-
-            textAreaNoScroll {
-              id:t='leader_name'
-              width:t='fw'
-              max-height:t='ph'
-              pare-text:t='yes'
-              valign:t='center'
-              class:t='active'
-              overflow:t='hidden'
-              text:t='<<leader_name>>'
-            }
+            width:t='pw'
+            flow:t='vertical'
 
             tdiv {
-              size:t='0.6pw, ph'
-              left:t='pw-w'
-              flow:t='vertical'
+              width:t='pw'
+              height:t='1@buttonHeight'
+              margin-bottom:t='1@blockInterval'
 
-              text {
+              Button_text {
+                id:t = 'btn_user_options'
+                height:t='ph'
+                talign:t='left'
+                visualStyle:t='noFrame'
+                noMargin:t='yes'
+                btnName:t=''
+                leaderUid:t=''
+                on_click:t = 'onLeaderClick'
+                on_r_click:t='onLeaderClick'
+
+                ButtonImg {
+                  class:t='independent'
+                  iconName:t='Y'
+                  showOnSelect:t='focus'
+                }
+                activeText {
+                  id:t='leader_name'
+                  pare-text:t='yes'
+                  class:t='active'
+                  valign:t='center'
+                  overflow:t='hidden'
+                  text:t='<<leader_name>>'
+                }
+              }
+              tdiv {
+                width:t='fw'
+                height:t='ph'
+                margin:t='1@blockInterval,0'
+
+                text {
+                  id:t='application_disabled'
+                  width:t='pw'
+                  position:t='relative'
+                  pare-text:t='yes'
+                  valign:t='center'
+                  overflow:t='hidden'
+                  display:t='hide'
+                  text:t='#squad/application_disabled'
+                }
+              }
+              textareaNoTab {
                 id:t='num_members'
-                width:t='pw'
                 left:t='pw-w'
                 text:t='<<num_members>>'
                 text-align:t='right'
                 smallFont:t='yes'
               }
+            }
 
-              text {
+            tdiv {
+              width:t='pw'
+
+              tdiv {
+                id:t= 'buttons_container'
+                padding:t='-1@blockInterval'
+
+                <<#buttonsList>>
+                <<@buttonsList>>
+                <</buttonsList>>
+              }
+              textareaNoTab {
                 id:t='presence'
-                top:t='ph-h'
-                left:t='pw-w'
-                position:t='absolute'
-                width:t='pw'
+                top:t='0.5ph-0.5h'
+                position:t='relative'
+                width:t='fw'
                 text-align:t='right'
                 text:t='<<presence>>'
               }
-
-              text {
-                id:t='middle'
-                text:t=''
-                top:t='ph/2 - h/2'
-                position:t='absolute'
-                width:t='pw'
-                text-align:t='center'
-              }
-            }
-            expandImg {
-              id:t='expandImg'
-              height:t='0.01@scrn_tgt'
-              width:t='2h'
-              position:t='absolute'
-              pos:t='pw/2 - w/2, ph - h'
             }
           }
 
-          hiddenDiv {
-            width:t='pw'
-            padding:t='0.08@scrn_tgt, 0, 0.01@scrn_tgt, 0'
-            flow:t='vertical'
-          }
         }
       }
   <</squad>>

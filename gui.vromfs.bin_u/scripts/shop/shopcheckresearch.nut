@@ -260,7 +260,8 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
       local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
       local flushExp = reqExp < availableFlushExp ? reqExp : availableFlushExp
       local textSample = ::loc("shop/researchUnit", { unit = ::getUnitName(unit.name) }) + "%s"
-      local textValue = flushExp ? ::loc("ui/parentheses/space", {text = getRpPriceText(flushExp, true)}) : ""
+      local textValue = flushExp ? ::loc("ui/parentheses/space",
+        {text = ::Cost().setRp(flushExp).tostring()}) : ""
       coloredText = ::format(textSample, textValue)
     }
 

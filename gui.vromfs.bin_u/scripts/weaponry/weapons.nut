@@ -510,10 +510,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (showResearchButton)
     {
       local flushExp = item.reqExp < availableFlushExp ? item.reqExp : availableFlushExp
-      local textSample = ::loc("weaponry/research") + " (%s)"
-      local coloredText = ::format(textSample, getRpPriceText(flushExp, true))
-      local notColoredText = ::format(textSample, getRpPriceText(flushExp))
-      ::setDoubleTextToButton(scene, "btn_nav_research", notColoredText, coloredText)
+      ::set_double_text_to_button(scene, "btn_nav_research",
+        ::format(::loc("weaponry/research") + " (%s)", ::Cost().setRp(flushExp).tostring()))
     }
 
     local showPurchaseButton = researchMode

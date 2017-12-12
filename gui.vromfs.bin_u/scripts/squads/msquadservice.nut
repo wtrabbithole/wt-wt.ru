@@ -78,6 +78,11 @@ msquad <- {
     ::request_matching("msquad.get_member_data", successCallback, errorCallback, {userId = _convertIdToInt(uid)}, requestOptions)
   }
 
+  function inviteToWWBattle(data, successCallback = null, errorCallback = null, requestOptions = null)
+  {
+    ::request_matching("msquad.request_action", successCallback, errorCallback, data, requestOptions)
+  }
+
   function _convertIdToInt(id)
   {
     if (::u.isString(id))

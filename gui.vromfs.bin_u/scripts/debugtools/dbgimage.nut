@@ -75,7 +75,7 @@ function debug_svg_list(fileMask = null, size = null, bgColor = null)
   foreach (filename in filesList)
     view.files.append({
       name = ::g_string.slice(filename, 0, -4)
-      image = "#ui/gameuiskin#" + filename
+      image = "!ui/gameuiskin/" + filename
     })
 
   local handler = {

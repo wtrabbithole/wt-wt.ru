@@ -731,7 +731,7 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
   local forceNotInResearch  = ::getTblValue("forceNotInResearch", params, false)
   local isVehicleInResearch = !forceNotInResearch && ::isUnitInResearch(unit)
 
-  progressText = ::Cost(0, 0, 0, unitExpReq - unitExpCur).tostring()
+  progressText = ::Cost().setRp(unitExpReq - unitExpCur).tostring()
 
   local flushExp = ::getTblValue("flushExp", params, 0)
   local isFull = flushExp > 0 && flushExp >= unitExpReq

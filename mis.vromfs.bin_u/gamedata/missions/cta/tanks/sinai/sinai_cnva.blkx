@@ -347,23 +347,7 @@
   "imports": [
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/cta/tanks/sinai_tm.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -443,48 +427,6 @@
       "conditions": [],
       "actions": [
         {
-          "unitPutToSleep": [
-            {
-              "target": "ai_tanks_squad"
-            },
-            {
-              "target": "t2_arty_def_sq"
-            },
-            {
-              "target": "t2_arty_sq"
-            },
-            {
-              "target": "t1_arty_sq"
-            },
-            {
-              "target": "t1_arty_def_sq"
-            },
-            {
-              "target": "zone_circles_squad"
-            },
-            {
-              "target": "t2_aaa_squad"
-            },
-            {
-              "target": "t1_aaa_squad"
-            },
-            {
-              "target": "t2_dummy"
-            },
-            {
-              "target": "t1_dummy"
-            },
-            {
-              "target": "structures_01"
-            }
-          ]
-        },
-        {
-          "triggerDisable": {
-            "target": "prefix_init"
-          }
-        },
-        {
           "missionMarkAsRespawnPoint": {
             "loc_name": "missions/spawn",
             "spawnEffect": false,
@@ -492,13 +434,14 @@
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "offset": [0.0,0.0,100.0],
             "radius": 50.0,
-            "target": "convoy_waypoint00",
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t1_tanks_spawn00",
             "team": "A",
             "tags": {
               "tank": true,
@@ -518,18 +461,22 @@
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tanks_spawn",
             "team": "B",
             "tags": {
-              "type_bomber": false,
-              "type_fighter": false,
-              "type_assault": false
+              "tank": true,
+              "type_heavy_tank": true,
+              "type_medium_tank": true,
+              "type_light_tank": true,
+              "type_tank_destroyer": true,
+              "type_spaa": true
             }
           }
         }
@@ -549,6 +496,42 @@
   "airfields": [],
   "effects": [],
   "units": [
+    {
+      "tankModels": {
+        "name": "t1_player01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2346.43,48.7277,2709.35]
+        ],
+        "unit_class": "aaa_dummy",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
     {
       "tankModels": {
         "name": "tankModels_01",
@@ -1873,6 +1856,444 @@
           }
         ]
       }
+    },
+    {
+      "area_squad": {
+        "name": "t1_tanks_spawn00",
+        "tm": [
+          [-0.464053,0.0,0.885808],
+          [0.0,1.0,0.0],
+          [-0.885808,0.0,-0.464053],
+          [1560.72,631.067,3901.06]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_spawn00_01"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_02"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_03"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_04"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_05"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_06"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_07"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_08"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_09"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_10"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_11"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_12"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_13"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_14"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_15"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_16"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_17"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_18"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_19"
+          },
+          {
+            "squad_members": "t1_tanks_spawn00_20"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_tanks_spawn01",
+        "tm": [
+          [0.892312,0.0,0.451419],
+          [0.0,1.0,0.0],
+          [-0.451419,0.0,0.892312],
+          [1334.1,631.366,3258.17]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_spawn01_01"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_02"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_03"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_04"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_05"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_06"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_07"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_08"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_09"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_10"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_11"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_12"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_13"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_14"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_15"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_16"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_17"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_18"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_19"
+          },
+          {
+            "squad_members": "t1_tanks_spawn01_20"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_tanks_spawn02",
+        "tm": [
+          [0.942978,0.0,0.332857],
+          [0.0,1.0,0.0],
+          [-0.332857,0.0,0.942978],
+          [940.017,628.607,2394.78]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_spawn02_01"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_02"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_03"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_04"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_05"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_06"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_07"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_08"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_09"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_10"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_11"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_12"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_13"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_14"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_15"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_16"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_17"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_18"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_19"
+          },
+          {
+            "squad_members": "t1_tanks_spawn02_20"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_tanks_spawn03",
+        "tm": [
+          [0.928131,0.0,0.372254],
+          [0.0,1.0,0.0],
+          [-0.372254,0.0,0.928131],
+          [1600.74,630.859,1385.01]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_spawn03_01"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_02"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_03"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_04"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_05"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_06"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_07"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_08"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_09"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_10"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_11"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_12"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_13"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_14"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_15"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_16"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_17"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_18"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_19"
+          },
+          {
+            "squad_members": "t1_tanks_spawn03_20"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_tanks_spawn04",
+        "tm": [
+          [-0.499528,0.0,0.866298],
+          [0.0,1.0,0.0],
+          [-0.866298,0.0,-0.499528],
+          [1591.48,630.858,314.354]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_spawn04_01"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_02"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_03"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_04"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_05"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_06"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_07"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_08"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_09"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_10"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_11"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_12"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_13"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_14"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_15"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_16"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_17"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_18"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_19"
+          },
+          {
+            "squad_members": "t1_tanks_spawn04_20"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_tanks_spawn",
+        "tm": [
+          [-0.201236,0.0,0.979543],
+          [0.0,1.0,0.0],
+          [-0.979543,0.0,-0.201236],
+          [1891.93,631.669,2402.45]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_tanks_spawn01"
+          },
+          {
+            "squad_members": "t2_tanks_spawn02"
+          },
+          {
+            "squad_members": "t2_tanks_spawn03"
+          },
+          {
+            "squad_members": "t2_tanks_spawn04"
+          },
+          {
+            "squad_members": "t2_tanks_spawn05"
+          },
+          {
+            "squad_members": "t2_tanks_spawn06"
+          },
+          {
+            "squad_members": "t2_tanks_spawn07"
+          },
+          {
+            "squad_members": "t2_tanks_spawn08"
+          },
+          {
+            "squad_members": "t2_tanks_spawn09"
+          },
+          {
+            "squad_members": "t2_tanks_spawn10"
+          },
+          {
+            "squad_members": "t2_tanks_spawn11"
+          },
+          {
+            "squad_members": "t2_tanks_spawn12"
+          },
+          {
+            "squad_members": "t2_tanks_spawn13"
+          },
+          {
+            "squad_members": "t2_tanks_spawn14"
+          },
+          {
+            "squad_members": "t2_tanks_spawn15"
+          },
+          {
+            "squad_members": "t2_tanks_spawn16"
+          },
+          {
+            "squad_members": "t2_tanks_spawn17"
+          },
+          {
+            "squad_members": "t2_tanks_spawn18"
+          },
+          {
+            "squad_members": "t2_tanks_spawn19"
+          },
+          {
+            "squad_members": "t2_tanks_spawn20"
+          }
+        ]
+      }
     }
   ],
   "areas": {
@@ -1899,67 +2320,56 @@
       "props": []
     },
     "convoy_waypoint01": {
-      "type": "Sphere",
+      "type": "Point",
       "tm": [
         [-37.4081,0.0,-92.7396],
         [0.0,100.0,0.0],
         [92.7396,0.0,-37.4081],
-        [1163.08,630.887,2960.91]
+        [1063.77,630.887,2998.74]
       ],
       "objLayer": 0,
       "props": []
     },
     "convoy_waypoint02": {
-      "type": "Sphere",
+      "type": "Point",
       "tm": [
         [-36.388,0.0,-93.1446],
         [0.0,100.0,0.0],
         [93.1446,0.0,-36.388],
-        [972.359,630.334,2301.66]
+        [897.924,630.334,2327.09]
       ],
       "objLayer": 0,
       "props": []
     },
     "convoy_waypoint03": {
-      "type": "Sphere",
+      "type": "Point",
       "tm": [
         [85.5085,0.0,-51.8488],
         [0.0,100.0,0.0],
         [51.8488,0.0,85.5085],
-        [1618.8,632.387,1410.8]
+        [1514.99,632.387,1408.75]
       ],
       "objLayer": 0,
       "props": []
     },
     "convoy_waypoint04": {
-      "type": "Sphere",
+      "type": "Point",
       "tm": [
         [6.32057,0.0,99.8],
         [0.0,100.0,0.0],
         [-99.8,0.0,6.32057],
-        [1828.38,630.967,376.531]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_tanks_spawn": {
-      "type": "Sphere",
-      "tm": [
-        [-205.266,0.0,-192.294],
-        [0.0,281.267,0.0],
-        [192.294,0.0,-205.266],
-        [1797.21,635.774,2393.2]
+        [1706.73,630.967,401.13]
       ],
       "objLayer": 0,
       "props": []
     },
     "convoy_waypoint00": {
-      "type": "Sphere",
+      "type": "Point",
       "tm": [
         [-49.0877,0.0,-87.1229],
         [0.0,100.0,0.0],
         [87.1229,0.0,-49.0877],
-        [1537.31,633.128,3905.41]
+        [1367.26,633.128,3854.4]
       ],
       "objLayer": 0,
       "props": []
@@ -1982,6 +2392,1326 @@
         [0.0,1.0,0.0],
         [0.990879,0.0,-0.134758],
         [1333.29,632.385,3722.81]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_01": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1540.66,630.872,3855.77]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_02": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1549.11,630.901,3873.01]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_03": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1556.48,630.96,3888.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_04": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1564.91,631.173,3907.69]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_05": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1572.62,631.569,3923.27]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_06": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1581.3,632.51,3942.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_07": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1568.08,630.878,3854.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_08": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1571.15,630.911,3872.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_09": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1575.66,630.995,3889.42]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_10": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1586.64,631.258,3907.79]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_11": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1597.63,631.7,3921.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_12": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1520.37,630.891,3876.43]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_13": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1534.04,630.932,3888.82]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_14": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1543.19,631.053,3903.97]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_15": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1548.8,631.419,3923.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_16": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1550.82,632.103,3942.06]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_17": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1590.51,630.907,3864.72]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_18": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1603.99,631.092,3892.44]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_19": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1513.63,630.961,3901.04]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn00_20": {
+      "type": "Sphere",
+      "tm": [
+        [-2.6089,0.0,-5.40312],
+        [0.0,6.0,0.0],
+        [5.40312,0.0,-2.6089],
+        [1527.28,631.466,3930.32]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_01": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1335.91,631.369,3229.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_02": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1341.14,631.365,3244.86]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_03": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1345.43,631.357,3258.66]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_04": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1351.96,631.332,3278.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_05": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1357.34,631.287,3293.66]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_06": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1363.51,631.197,3310.59]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_07": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1343.64,631.536,3322.02]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_08": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1348.65,631.83,3338.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_09": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1360.67,632.822,3358.39]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_10": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1366.44,633.772,3374.56]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_11": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1367.35,631.113,3330.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_12": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1374.82,631.276,3348.09]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_13": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1382.61,630.982,3317.79]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_14": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1321.3,631.369,3240.53]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_15": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1326.92,631.369,3259.86]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_16": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1333.3,631.454,3279.36]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_17": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1339.27,631.696,3297.78]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_18": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1347.12,631.398,3213.26]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_19": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1305.33,631.37,3254.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn01_20": {
+      "type": "Sphere",
+      "tm": [
+        [-4.36587,0.0,-4.11573],
+        [0.0,6.0,0.0],
+        [4.11573,0.0,-4.36587],
+        [1314.82,631.492,3274.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_01": {
+      "type": "Sphere",
+      "tm": [
+        [1.61845,0.0,-5.77759],
+        [0.0,6.0,0.0],
+        [5.77759,0.0,1.61845],
+        [933.229,627.001,2375.17]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_02": {
+      "type": "Sphere",
+      "tm": [
+        [2.27594,0.0,-5.55158],
+        [0.0,6.0,0.0],
+        [5.55158,0.0,2.27594],
+        [942.513,627.842,2386.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_03": {
+      "type": "Sphere",
+      "tm": [
+        [2.50629,0.0,-5.45146],
+        [0.0,6.0,0.0],
+        [5.45146,0.0,2.50629],
+        [950.933,629.011,2398.83]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_04": {
+      "type": "Sphere",
+      "tm": [
+        [1.92622,0.0,-5.68239],
+        [0.0,6.0,0.0],
+        [5.68239,0.0,1.92622],
+        [955.788,630.297,2413.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_05": {
+      "type": "Sphere",
+      "tm": [
+        [1.25883,0.0,-5.86645],
+        [0.0,6.0,0.0],
+        [5.86645,0.0,1.25883],
+        [961.318,630.974,2427.63]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_06": {
+      "type": "Sphere",
+      "tm": [
+        [0.939334,0.0,-5.92601],
+        [0.0,6.0,0.0],
+        [5.92601,0.0,0.939334],
+        [969.58,631.22,2439.31]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_07": {
+      "type": "Sphere",
+      "tm": [
+        [1.91924,0.0,-5.68476],
+        [0.0,6.0,0.0],
+        [5.68476,0.0,1.91924],
+        [951.572,626.964,2374.56]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_08": {
+      "type": "Sphere",
+      "tm": [
+        [2.58038,0.0,-5.41679],
+        [0.0,6.0,0.0],
+        [5.41679,0.0,2.58038],
+        [960.433,627.955,2387.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_09": {
+      "type": "Sphere",
+      "tm": [
+        [2.39366,0.0,-5.50185],
+        [0.0,6.0,0.0],
+        [5.50185,0.0,2.39366],
+        [968.721,629.179,2399.97]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_10": {
+      "type": "Sphere",
+      "tm": [
+        [1.79661,0.0,-5.7247],
+        [0.0,6.0,0.0],
+        [5.7247,0.0,1.79661],
+        [975.072,630.395,2413.78]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_11": {
+      "type": "Sphere",
+      "tm": [
+        [0.983458,0.0,-5.91885],
+        [0.0,6.0,0.0],
+        [5.91885,0.0,0.983458],
+        [980.137,631.005,2427.53]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_12": {
+      "type": "Sphere",
+      "tm": [
+        [2.78875,0.0,-5.31251],
+        [0.0,6.0,0.0],
+        [5.31251,0.0,2.78875],
+        [940.992,626.649,2362.97]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_13": {
+      "type": "Sphere",
+      "tm": [
+        [1.76585,0.0,-5.73426],
+        [0.0,6.0,0.0],
+        [5.73426,0.0,1.76585],
+        [931.102,628.946,2398.64]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_14": {
+      "type": "Sphere",
+      "tm": [
+        [2.35124,0.0,-5.5201],
+        [0.0,6.0,0.0],
+        [5.5201,0.0,2.35124],
+        [936.217,630.263,2413.71]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_15": {
+      "type": "Sphere",
+      "tm": [
+        [1.67831,0.0,-5.76049],
+        [0.0,6.0,0.0],
+        [5.76049,0.0,1.67831],
+        [944.854,630.949,2427.42]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_16": {
+      "type": "Sphere",
+      "tm": [
+        [1.14872,0.0,-5.889],
+        [0.0,6.0,0.0],
+        [5.889,0.0,1.14872],
+        [951.722,631.189,2439.31]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_17": {
+      "type": "Sphere",
+      "tm": [
+        [2.01447,0.0,-5.65172],
+        [0.0,6.0,0.0],
+        [5.65172,0.0,2.01447],
+        [1004.33,626.674,2368.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_18": {
+      "type": "Sphere",
+      "tm": [
+        [2.40272,0.0,-5.4979],
+        [0.0,6.0,0.0],
+        [5.4979,0.0,2.40272],
+        [989.486,627.174,2379.23]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_19": {
+      "type": "Sphere",
+      "tm": [
+        [1.96228,0.0,-5.67004],
+        [0.0,6.0,0.0],
+        [5.67004,0.0,1.96228],
+        [980.78,626.661,2365.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn02_20": {
+      "type": "Sphere",
+      "tm": [
+        [1.09609,0.0,-5.89902],
+        [0.0,6.0,0.0],
+        [5.89902,0.0,1.09609],
+        [969.711,627.133,2377.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_01": {
+      "type": "Sphere",
+      "tm": [
+        [-5.54233,0.0,-2.29837],
+        [0.0,6.0,0.0],
+        [2.29837,0.0,-5.54233],
+        [1670.87,630.84,1454.23]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_02": {
+      "type": "Sphere",
+      "tm": [
+        [-5.13482,0.0,-3.10381],
+        [0.0,6.0,0.0],
+        [3.10381,0.0,-5.13482],
+        [1588.08,630.856,1422.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_03": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1608.76,630.858,1394.16]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_04": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1625.14,630.856,1400.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_05": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1632.8,630.852,1419.91]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_06": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1633.59,630.848,1443.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_07": {
+      "type": "Sphere",
+      "tm": [
+        [-5.60112,0.0,-2.15113],
+        [0.0,6.0,0.0],
+        [2.15113,0.0,-5.60112],
+        [1644.04,630.845,1454.54]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_08": {
+      "type": "Sphere",
+      "tm": [
+        [-5.80415,0.0,-1.52041],
+        [0.0,6.0,0.0],
+        [1.52041,0.0,-5.80415],
+        [1657.97,630.839,1466.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_09": {
+      "type": "Sphere",
+      "tm": [
+        [-5.16317,0.0,-3.05641],
+        [0.0,6.0,0.0],
+        [3.05641,0.0,-5.16317],
+        [1640.01,630.857,1380.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_10": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1622.05,630.858,1381.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_11": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1645.35,630.849,1430.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_12": {
+      "type": "Sphere",
+      "tm": [
+        [-4.70667,0.0,-3.72118],
+        [0.0,6.0,0.0],
+        [3.72118,0.0,-4.70667],
+        [1662.81,630.85,1415.97]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_13": {
+      "type": "Sphere",
+      "tm": [
+        [-4.66109,0.0,-3.77811],
+        [0.0,6.0,0.0],
+        [3.77811,0.0,-4.66109],
+        [1657.62,630.845,1442.58]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_14": {
+      "type": "Sphere",
+      "tm": [
+        [-5.87709,0.0,-1.20817],
+        [0.0,6.0,0.0],
+        [1.20817,0.0,-5.87709],
+        [1598.34,630.849,1463.71]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_15": {
+      "type": "Sphere",
+      "tm": [
+        [-5.0066,0.0,-3.30664],
+        [0.0,6.0,0.0],
+        [3.30664,0.0,-5.0066],
+        [1610.69,630.855,1417.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_16": {
+      "type": "Sphere",
+      "tm": [
+        [-5.67995,0.0,-1.93343],
+        [0.0,6.0,0.0],
+        [1.93343,0.0,-5.67995],
+        [1681.03,630.844,1435.46]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_17": {
+      "type": "Sphere",
+      "tm": [
+        [-5.30317,0.0,-2.8065],
+        [0.0,6.0,0.0],
+        [2.8065,0.0,-5.30317],
+        [1645.04,630.854,1401.57]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_18": {
+      "type": "Sphere",
+      "tm": [
+        [-4.90565,0.0,-3.45466],
+        [0.0,6.0,0.0],
+        [3.45466,0.0,-4.90565],
+        [1598.88,630.853,1439.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_19": {
+      "type": "Sphere",
+      "tm": [
+        [-4.01956,0.0,-4.45457],
+        [0.0,6.0,0.0],
+        [4.45457,0.0,-4.01956],
+        [1617.76,630.852,1437.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn03_20": {
+      "type": "Sphere",
+      "tm": [
+        [-4.83007,0.0,-3.55955],
+        [0.0,6.0,0.0],
+        [3.55955,0.0,-4.83007],
+        [1619.3,630.847,1460.64]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_01": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1586.83,630.863,373.44]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_02": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1578.25,630.86,360.36]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_03": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1569.67,630.857,347.269]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_04": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1561.08,630.852,334.198]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_05": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1552.51,630.845,321.107]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_06": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1543.92,630.835,308.027]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_07": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1535.35,630.821,294.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_08": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1556.05,630.854,353.686]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_09": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1543.78,630.847,337.616]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_10": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1531.51,630.835,321.545]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_11": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1519.24,630.818,305.479]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_12": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1506.95,630.796,289.393]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_13": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1599.0,630.864,355.874]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_14": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1588.69,630.86,339.223]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_15": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1579.73,630.856,322.758]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_16": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1570.8,630.848,304.706]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_17": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1561.39,630.833,287.238]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_18": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1607.22,630.863,328.111]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_19": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1593.11,630.857,305.682]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tanks_spawn04_20": {
+      "type": "Sphere",
+      "tm": [
+        [1.38524,0.0,5.8379],
+        [0.0,6.0,0.0],
+        [-5.8379,0.0,1.38524],
+        [1621.34,630.863,305.436]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn01": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99297,0.0,-0.290192],
+        [0.0,6.0,0.0],
+        [0.290192,0.0,-5.99297],
+        [1822.17,635.428,2401.13]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn02": {
+      "type": "Sphere",
+      "tm": [
+        [-5.69599,0.0,-1.88562],
+        [0.0,6.0,0.0],
+        [1.88562,0.0,-5.69599],
+        [1828.42,635.494,2378.98]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn03": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99392,0.0,0.269873],
+        [0.0,6.0,0.0],
+        [-0.269873,0.0,-5.99392],
+        [1838.21,634.858,2394.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn04": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99843,0.0,0.137056],
+        [0.0,6.0,0.0],
+        [-0.137056,0.0,-5.99843],
+        [1844.66,634.111,2373.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn05": {
+      "type": "Sphere",
+      "tm": [
+        [-5.88601,0.0,-1.16394],
+        [0.0,6.0,0.0],
+        [1.16394,0.0,-5.88601],
+        [1883.2,631.626,2353.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn06": {
+      "type": "Sphere",
+      "tm": [
+        [-5.89272,0.0,-1.12949],
+        [0.0,6.0,0.0],
+        [1.12949,0.0,-5.89272],
+        [1863.7,632.59,2407.78]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn07": {
+      "type": "Sphere",
+      "tm": [
+        [-5.98456,0.0,-0.430069],
+        [0.0,6.0,0.0],
+        [0.430069,0.0,-5.98456],
+        [1901.63,631.758,2401.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn08": {
+      "type": "Sphere",
+      "tm": [
+        [-5.98611,0.0,-0.407866],
+        [0.0,6.0,0.0],
+        [0.407866,0.0,-5.98611],
+        [1856.38,633.215,2422.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn09": {
+      "type": "Sphere",
+      "tm": [
+        [-5.98251,0.0,0.457815],
+        [0.0,6.0,0.0],
+        [-0.457815,0.0,-5.98251],
+        [1894.91,631.682,2367.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn10": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99934,0.0,0.0878232],
+        [0.0,6.0,0.0],
+        [-0.0878232,0.0,-5.99934],
+        [1882.97,631.633,2409.48]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn11": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99323,0.0,-0.284952],
+        [0.0,6.0,0.0],
+        [0.284952,0.0,-5.99323],
+        [1878.47,631.766,2374.32]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn12": {
+      "type": "Sphere",
+      "tm": [
+        [-5.98126,0.0,-0.473864],
+        [0.0,6.0,0.0],
+        [0.473864,0.0,-5.98126],
+        [1891.73,631.663,2385.88]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn13": {
+      "type": "Sphere",
+      "tm": [
+        [-5.90975,0.0,1.03672],
+        [0.0,6.0,0.0],
+        [-1.03672,0.0,-5.90975],
+        [1848.06,633.965,2407.39]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn14": {
+      "type": "Sphere",
+      "tm": [
+        [-5.999,0.0,-0.109315],
+        [0.0,6.0,0.0],
+        [0.109315,0.0,-5.999],
+        [1872.87,631.984,2394.63]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn15": {
+      "type": "Sphere",
+      "tm": [
+        [-5.9993,0.0,-0.0909591],
+        [0.0,6.0,0.0],
+        [0.0909591,0.0,-5.9993],
+        [1854.76,633.322,2392.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn16": {
+      "type": "Sphere",
+      "tm": [
+        [-5.97916,0.0,-0.499581],
+        [0.0,6.0,0.0],
+        [0.499581,0.0,-5.97916],
+        [1873.25,631.9,2424.48]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn17": {
+      "type": "Sphere",
+      "tm": [
+        [-5.98599,0.0,0.409576],
+        [0.0,6.0,0.0],
+        [-0.409576,0.0,-5.98599],
+        [1861.02,632.746,2374.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn18": {
+      "type": "Sphere",
+      "tm": [
+        [-5.94342,0.0,-0.821987],
+        [0.0,6.0,0.0],
+        [0.821987,0.0,-5.94342],
+        [1864.45,632.391,2358.46]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn19": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99353,0.0,-0.278659],
+        [0.0,6.0,0.0],
+        [0.278659,0.0,-5.99353],
+        [1894.8,631.707,2426.07]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn20": {
+      "type": "Sphere",
+      "tm": [
+        [-5.99902,0.0,-0.10846],
+        [0.0,6.0,0.0],
+        [0.10846,0.0,-5.99902],
+        [1883.89,631.638,2440.02]
       ],
       "objLayer": 0,
       "props": []
@@ -2037,7 +3767,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [1308.71,631.81,3508.7]
+            [1308.71,644.669,3508.7]
           ],
           "props": {
             "speed": 300.0,

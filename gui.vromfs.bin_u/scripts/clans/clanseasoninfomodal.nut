@@ -81,8 +81,9 @@ class ::gui_handlers.clanSeasonInfoModal extends ::gui_handlers.BaseGuiHandlerWT
       local gold = ""
       if (reward.gold)
       {
-        local value = reward.goldMin ? (reward.goldMin + ::loc("ui/mdash") + reward.goldMax) : reward.gold.tostring()
-        value = ::colorize("activeTextColor", value) + ::loc("gold/short/colored")
+        local value = reward.goldMin ?
+          (::Cost(0, reward.goldMin).tostring() + ::loc("ui/mdash") + ::Cost(0, reward.goldMax).tostring()) :
+          ::Cost(0, reward.gold).tostring()
         gold = ::loc("charServer/chapter/eagles") + ::loc("ui/colon") + value
       }
 

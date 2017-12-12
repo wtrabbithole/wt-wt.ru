@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -540,39 +543,7 @@
   "imports": [
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/cta/tanks/kursk_tm.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/templates/tank_modes_template/base_modes.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -604,7 +575,23 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/kursk/template_kursk_ground_forces.blk",
+        "file": "gameData/missions/cta/tanks/kursk/battleareas/template_kursk_Bttl.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/bttl_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -621,159 +608,7 @@
   ],
   "triggers": {
     "isCategory": true,
-    "is_enabled": true,
-    "bttl_init": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_zone_squad"
-            },
-            {
-              "object": "t2_zone_squad"
-            },
-            {
-              "targetAir": false
-            },
-            {
-              "targetGnd": true
-            },
-            {
-              "accuracy": 0.1
-            },
-            {
-              "effShootingRate": 0.0
-            },
-            {
-              "effShootingRateByPlayer": 0.2
-            },
-            {
-              "moveSpeedKAtShooting": 0.1
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_arty_sq"
-            },
-            {
-              "object": "t2_arty_sq"
-            },
-            {
-              "object": "t1_arty_def_sq"
-            },
-            {
-              "object": "t2_arty_def_sq"
-            },
-            {
-              "targetableByAi": false
-            },
-            {
-              "targetAir": false
-            },
-            {
-              "targetGnd": true
-            },
-            {
-              "accuracy": 0.3
-            },
-            {
-              "effShootingRate": 0.0
-            },
-            {
-              "effShootingRateByPlayer": 0.2
-            }
-          ]
-        },
-        {
-          "unitPutToSleep": [
-            {
-              "target": "t1_ai_tanks"
-            },
-            {
-              "target": "t2_ai_tanks"
-            },
-            {
-              "target": "t1_arty_sq"
-            },
-            {
-              "target": "t2_arty_sq"
-            },
-            {
-              "target": "t2_arty_def_sq"
-            },
-            {
-              "target": "t1_arty_def_sq"
-            }
-          ]
-        }
-      ],
-      "else_actions": []
-    },
-    "rb_Bttl_init": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": {
-        "gameWhenDifficulty": {
-          "difficulty": "arcade",
-          "is": "notEqual"
-        },
-        "missionNamePostfix": {
-          "postfix": "_Bttl"
-        }
-      },
-      "actions": {
-        "unitPutToSleep": [
-          {
-            "target": "t1_arty_def_sq"
-          },
-          {
-            "target": "t2_arty_def_sq"
-          }
-        ],
-        "unitWakeUp": [
-          {
-            "target": "t2_arty_sq"
-          },
-          {
-            "target": "t1_arty_sq"
-          },
-          {
-            "target": "t1_arty_def_sq"
-          },
-          {
-            "target": "t2_arty_def_sq"
-          }
-        ]
-      },
-      "else_actions": []
-    }
+    "is_enabled": true
   },
   "mission_objectives": {
     "isCategory": true,
@@ -783,7 +618,42 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": {
+    "tankModels": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1812.6,66.45,2984.55]
+      ],
+      "unit_class": "aaa_dummy",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "formation_type": "rows",
+        "formation_div": 3,
+        "formation_step": [2.5,2.0],
+        "formation_noise": [0.1,0.1],
+        "uniqueName": "",
+        "attack_type": "fire_at_will"
+      },
+      "way": []
+    }
+  },
   "areas": {
     "briefing_t1_tankSpawn_01": {
       "type": "Point",
@@ -813,7 +683,7 @@
         [103.92,0.0,0.0],
         [0.0,87.65,0.0],
         [0.0,0.0,103.92],
-        [1652.7,64.206,2835.25]
+        [1743.95,71.0177,2528.9]
       ],
       "objLayer": 0,
       "props": []
@@ -824,7 +694,7 @@
         [103.92,0.0,0.0],
         [0.0,87.65,0.0],
         [0.0,0.0,103.92],
-        [2538.4,53.6294,1730.55]
+        [2205.95,65.3568,1969.0]
       ],
       "objLayer": 0,
       "props": []
@@ -879,7 +749,7 @@
         [103.92,0.0,0.0],
         [0.0,87.65,0.0],
         [0.0,0.0,103.92],
-        [842.2,51.6147,2831.95]
+        [839.75,49.9601,1908.25]
       ],
       "objLayer": 0,
       "props": []
@@ -890,7 +760,7 @@
         [103.92,0.0,0.0],
         [0.0,87.65,0.0],
         [0.0,0.0,103.92],
-        [2324.45,49.0476,998.35]
+        [2989.9,5.25473,2649.55]
       ],
       "objLayer": 0,
       "props": []

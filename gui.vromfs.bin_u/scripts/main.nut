@@ -614,6 +614,7 @@ function load_scripts_after_login()
     "clans/clanLogModal.nut"
     "clans/clanSeasonInfoModal.nut"
     "clans/clanSquadsModal.nut"
+    "clans/clanSquadInfoWnd.nut"
 
     "penitentiary/banhammer.nut"
     "penitentiary/tribunal.nut"

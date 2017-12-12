@@ -1036,7 +1036,8 @@ function getCrewSpText(sp, colored=true)
 {
   if (sp == 0)
     return ""
-  return sp + ::loc("currency/skillPoints/sign" + (colored? "/colored" : ""))
+  return ::g_language.decimalFormat(sp)
+    + ::loc("currency/skillPoints/sign" + (colored? "/colored" : ""))
 }
 
 function colorTextByValues(text, val1, val2, useNeutral = true, useGood = true)

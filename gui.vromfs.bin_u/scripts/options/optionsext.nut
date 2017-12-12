@@ -1336,7 +1336,7 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_MOUSE_AIM_SENSE:
-      descr.id = "multiplier_mouse_aim"
+      descr.id = "multiplier_joy_camera_view"
       descr.controlType = optionControlType.SLIDER
       descr.min <- 5
       descr.max <- 100

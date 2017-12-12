@@ -19,6 +19,9 @@ local shipState = {
   showDepthUnderShip = Watched(false)
   depthUnderShipIsCritical = Watched(false)
 
+  obstacleIsNear = Watched(false)
+  distanceToObstacle = Watched(-1)
+
   //DM:
   enginesCount = Watched(0)
   brokenEnginesCount = Watched(0)

@@ -254,17 +254,14 @@ function get_favorite_voice_message_option(index)
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
-    { id="mouse_aim_sensitivity", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_MOUSE_AIM_SENSE
-    }
-    { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_MOUSE_SENSE
-    }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
     }
     { id = "aim_time_nonlinearity_air", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_AIM_TIME_NONLINEARITY_AIR
+    }
+    { id="joy_camera_sensitivity", type = CONTROL_TYPE.SLIDER
+      optionType = ::USEROPT_MOUSE_AIM_SENSE
     }
     { id="use_joystick_on_mouse_aim", type = CONTROL_TYPE.SWITCH_BOX,
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
@@ -966,6 +963,9 @@ function get_favorite_voice_message_option(index)
 */
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
     { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
+    { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
+      optionType = ::USEROPT_MOUSE_SENSE
+    }
     { id = "camera_mouse_speed", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))

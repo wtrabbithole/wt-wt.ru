@@ -75,11 +75,18 @@
         "initMission": []
       },
       "conditions": [],
-      "actions": [],
+      "actions": {
+        "wait": {
+          "time": 240.0
+        },
+        "triggerEnable": {
+          "target": "to_template_choosing"
+        }
+      },
       "else_actions": []
     },
     "to_template_choosing": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -88,7 +95,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 20.0
         }
       },
       "conditions": {
@@ -135,7 +142,7 @@
         },
         "varSetRandomInt": {
           "var": "to_army",
-          "from": 0,
+          "from": 1,
           "to_not_including": 3
         },
         "triggerEnable": {
@@ -299,11 +306,83 @@
         },
         {
           "triggerEnable": {
-            "target": "to_template_01_lpt_run"
+            "target": "to_template_01_lpt_choose"
           }
         }
       ],
       "else_actions": []
+    },
+    "to_template_01_lpt_choose": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "to_cur_launched_templates"
+          }
+        },
+        {
+          "comment": {
+            "value": "ставим флаг, что шаблон запустился"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "lpt_is_template_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "задаем случайное время старта"
+          }
+        },
+        {
+          "varSetRandomInt": {
+            "var": "lpt_delay_timer",
+            "from": 30,
+            "to_not_including": 120
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем событие"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "lpt_start"
+          }
+        },
+        {
+          "wait": {
+            "time": 10.0
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "to_template_01_lpt_run"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "событие уже запущено - автоматом сгенерится новое"
+        }
+      }
     },
     "to_template_01_lpt_run": {
       "is_enabled": false,
@@ -319,51 +398,14 @@
         }
       },
       "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "увеличиваем количество шаблонов на 1"
-          }
+      "actions": {
+        "comment": {
+          "value": "включаем проверку выключения шаблона"
         },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "to_cur_launched_templates"
-          }
-        },
-        {
-          "comment": {
-            "value": "ставим флаг, что шаблон запущен"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "lpt_is_template_active"
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем шаблон"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "lpt_start"
-          }
-        },
-        {
-          "comment": {
-            "value": "включаем проверку выключения шаблона"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "to_template_01_lpt_end"
-          }
+        "triggerEnable": {
+          "target": "to_template_01_lpt_end"
         }
-      ],
+      },
       "else_actions": []
     },
     "to_template_01_lpt_end": {
@@ -490,8 +532,8 @@
         {
           "varSetRandomInt": {
             "var": "bt_delay_timer",
-            "from": 60,
-            "to_not_including": 90
+            "from": 30,
+            "to_not_including": 120
           }
         },
         {
@@ -661,8 +703,8 @@
         {
           "varSetRandomInt": {
             "var": "ct_delay_timer",
-            "from": 20,
-            "to_not_including": 30
+            "from": 30,
+            "to_not_including": 120
           }
         },
         {
@@ -780,6 +822,11 @@
         "comment": {
           "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
         },
+        "varSetInt": {
+          "value": 0,
+          "var": "at_army_both_zero",
+          "input_var": "to_army"
+        },
         "triggerEnable": {
           "target": "to_template_04_at_choose"
         }
@@ -827,28 +874,13 @@
         {
           "varSetRandomInt": {
             "var": "at_assaults_delay_timer",
-            "from": 20,
-            "to_not_including": 30
+            "from": 30,
+            "to_not_including": 120
           }
         },
         {
           "comment": {
             "value": "запускаем событие"
-          }
-        },
-        {
-          "triggerEnable": [
-            {
-              "target": "to_template_04_at_check_t1"
-            },
-            {
-              "target": "to_template_04_at_check_t2"
-            }
-          ]
-        },
-        {
-          "wait": {
-            "time": 1.0
           }
         },
         {
@@ -862,68 +894,6 @@
           "value": "событие уже запущено - автоматом сгенерится новое"
         }
       }
-    },
-    "to_template_04_at_check_t1": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "varCompareInt": {
-          "var_value": "to_army",
-          "value": 2,
-          "comparasion_func": "notEqual"
-        }
-      },
-      "actions": {
-        "comment": {
-          "value": "проверили что армия не равна 2"
-        },
-        "varSetBool": {
-          "value": true,
-          "var": "at_assaults_t1_is_launch_allowed"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_04_at_check_t2": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "varCompareInt": {
-          "var_value": "to_army",
-          "value": 1,
-          "comparasion_func": "notEqual"
-        }
-      },
-      "actions": {
-        "comment": {
-          "value": "проверили что армия не равна 1"
-        },
-        "varSetBool": {
-          "value": true,
-          "var": "at_assaults_t2_is_launch_allowed"
-        }
-      },
-      "else_actions": []
     },
     "to_template_04_at_run": {
       "is_enabled": false,
@@ -940,16 +910,6 @@
       },
       "conditions": [],
       "actions": [
-        {
-          "triggerDisable": [
-            {
-              "target": "to_template_04_at_check_t1"
-            },
-            {
-              "target": "to_template_04_at_check_t2"
-            }
-          ]
-        },
         {
           "comment": {
             "value": "говорим что режим работы шаблона: jip"

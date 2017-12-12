@@ -510,9 +510,14 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       local success = ::add_tank_alt_crosshair_template()
       local message = success && unit ? ::format(::loc("hud/successUserSight"), unit.name) : ::loc("hud/failUserSight")
 
-      ::showInfoMsgBox(message)
+      guiScene.performDelayed(this, function()
+      {
+        if (!isValid())
+          return
 
-      updateOptionDelayed(USEROPT_TANK_ALT_CROSSHAIR)
+        ::showInfoMsgBox(message)
+        updateOption(USEROPT_TANK_ALT_CROSSHAIR)
+      })
     } else
       setOptionValueByControlObj(obj)
   }

@@ -313,13 +313,11 @@ function get_unit_actions_list(unit, handler, prefix, actions)
     }
     else if (action == "repair")
     {
-      actionText = ::loc("mainmenu/btnRepair")+": "+::wp_get_repair_cost(unit.name)+::loc("warpoints/short")
-      if (::wp_get_repair_cost(unit.name)>profile.balance)
-        actionText = ::loc("mainmenu/btnRepair")+": <color=@redMenuButtonColor>"+::wp_get_repair_cost(unit.name)+"</color>"+::loc("warpoints/short")
-
+      local repairCost = ::wp_get_repair_cost(unit.name)
+      actionText = ::loc("mainmenu/btnRepair")+": "+::Cost(repairCost).getTextAccordingToBalance()
       icon       = "#ui/gameuiskin#slot_repair.svg"
       haveWarning = true
-      showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name) > 0 && ::SessionLobby.canChangeCrewUnits()
+      showAction = inMenu && isUsable && repairCost > 0 && ::SessionLobby.canChangeCrewUnits()
          && !::g_crews_list.isSlotbarOverrided
       actionFunc = (@(unit, handler) function () {
         handler.showMsgBoxRepair.call(handler, unit, (@(unit) function () {::check_and_repair_unit(unit)})(unit))
@@ -366,7 +364,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       local needToFlushExp = handler.shopResearchMode && countryExp > 0
 
       actionText = needToFlushExp
-                   ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::getRpPriceText(getReqExp, true))
+                   ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::Cost().setRp(getReqExp).tostring())
                    : ( ::isUnitInResearch(unit) && handler.setResearchManually
                       ? ::loc("mainmenu/btnConvert")
                       : ::loc("mainmenu/btnResearch"))
@@ -1681,12 +1679,16 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       if (::checkObj(labelObj))
       {
         local statusText = isResearching ? ::loc("shop/in_research") + ::loc("ui/colon") : ""
-        local slash = ::loc("ui/slash")
         local unitsText = ::loc("currency/researchPoints/sign/colored")
-        local expText = ::format("%s%d%s%d%s", statusText, expCur, slash, expTotal, unitsText)
+        local expText = ::format("%s%s%s%s",
+          statusText,
+          ::Cost().setRp(expCur).toStringWithParams({isRpAlwaysShown = true}),
+          ::loc("ui/slash"),
+          ::Cost().setRp(expTotal).tostring())
         expText = ::colorize(isResearching ? "cardProgressTextColor" : "commonTextColor", expText)
         if (expInvest > 0)
-          expText += ::colorize("cardProgressTextBonusColor", ::loc("ui/parentheses/space", { text = "+" + expInvest }))
+          expText += ::colorize("cardProgressTextBonusColor", ::loc("ui/parentheses/space",
+            { text = "+ " + ::Cost().setRp(expInvest).tostring() }))
         labelObj.setValue(expText)
       }
     }
@@ -1768,7 +1770,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local showRpReq = showLocalState && !isOwn && !special && !gift && !isResearched && !canResearch
     rpObj.show(showRpReq)
     if (showRpReq)
-      rpObj.findObject("aircraft-require_rp").setValue(::getRpPriceText(air.reqExp, true))
+      rpObj.findObject("aircraft-require_rp").setValue(::Cost().setRp(air.reqExp).tostring())
   }
 
   if(showPrice)

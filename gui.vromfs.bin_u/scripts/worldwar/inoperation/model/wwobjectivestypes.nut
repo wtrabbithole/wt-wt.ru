@@ -335,7 +335,7 @@ local time = require("scripts/time.nut")
     specificClassParamConvertion = {
       num = function(value, blk, side, type) {
         local zones = ::split(blk.zone, ";")
-        return type.isDefender(blk, side) ? value - zones.len() + 1 : zones.len()
+        return type.isDefender(blk, side) ? zones.len() - value + 1 : value
       }
     }
 

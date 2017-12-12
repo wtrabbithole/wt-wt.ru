@@ -600,6 +600,15 @@
             },
             {
               "airEffShootingRate": 0.1
+            },
+            {
+              "fireRandom": true
+            },
+            {
+              "targetChangeInterval": 5.0
+            },
+            {
+              "targetChangeProf": 0.25
             }
           ]
         },
@@ -637,90 +646,13 @@
               "object": "t2_soldiers_squad"
             },
             {
-              "accuracy": 0.3
+              "accuracy": 0.1
             },
             {
-              "effShootingRate": 0.3
-            }
-          ]
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/airfield_spawn",
-            "spawnEffect": false,
-            "isAirfield": true,
-            "isUnit": false,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "target": "t1_airfield",
-            "team": "A",
-            "tags": {
-              "type_bomber": false,
-              "type_assault": false,
-              "type_interceptor": false,
-              "type_aa_fighter": false,
-              "tank": false
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/airfield_spawn",
-            "spawnEffect": false,
-            "isAirfield": true,
-            "isUnit": false,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "target": "t2_airfield",
-            "team": "B",
-            "tags": {
-              "type_bomber": false,
-              "type_assault": false,
-              "type_interceptor": false,
-              "type_aa_fighter": false,
-              "tank": false
-            }
-          }
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
+              "effShootingRate": 0.1
             },
             {
-              "object": "t1_def_aaa_squad"
-            },
-            {
-              "object": "t2_def_aaa_squad"
-            },
-            {
-              "accuracy": 0.9
-            },
-            {
-              "effShootingRate": 1.0
-            },
-            {
-              "fireRandom": true
-            },
-            {
-              "targetChangeInterval": 5.0
-            },
-            {
-              "targetChangeProf": 0.25
+              "airEffShootingRate": 0.1
             }
           ]
         },
@@ -2828,7 +2760,7 @@
           [0.300706,0.0,-0.953717],
           [0.0,1.0,0.0],
           [0.953717,0.0,0.300706],
-          [-4037.62,101.678,16972.3]
+          [-4159.91,101.678,17140.6]
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
@@ -3004,7 +2936,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-6085.41,107.813,14752.2]
+          [-6621.44,107.813,14880.0]
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
@@ -3152,7 +3084,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-6431.99,107.814,14823.8]
+          [-6968.02,107.814,14951.6]
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
@@ -3316,7 +3248,7 @@
           [0.608761,0.0,-0.793353],
           [0.0,1.0,0.0],
           [0.793353,0.0,0.608761],
-          [-4120.13,107.814,17104.2]
+          [-4242.42,107.814,17272.5]
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
@@ -3464,7 +3396,7 @@
           [0.642788,0.0,-0.766044],
           [0.0,1.0,0.0],
           [0.766044,0.0,0.642788],
-          [-5191.57,107.815,16095.7]
+          [-5369.63,107.815,16311.9]
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
@@ -3609,10 +3541,10 @@
       "tracked_vehicles": {
         "name": "t2_tank_01",
         "tm": [
-          [0.953717,0.0,-0.300706],
+          [0.999555,0.0,-0.0298448],
           [0.0,1.0,0.0],
-          [0.300706,0.0,0.953717],
-          [-8445.11,87.3984,15398.6]
+          [0.0298448,0.0,0.999555],
+          [-9082.51,87.3985,15619.6]
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
@@ -3644,7 +3576,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-8062.47,64.9581,15296.3]
+              [-8864.47,88.5989,15639.0]
             ],
             "props": {
               "speed": 18.0,
@@ -3773,10 +3705,10 @@
       "tracked_vehicles": {
         "name": "t2_tank_02",
         "tm": [
-          [0.991445,0.0,-0.130526],
+          [0.904896,0.0,0.425632],
           [0.0,1.0,0.0],
-          [0.130526,0.0,0.991445],
-          [-7267.18,123.885,17155.4]
+          [-0.425632,0.0,0.904896],
+          [-8028.23,123.885,17038.5]
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
@@ -3795,7 +3727,7 @@
           "army": 2,
           "count": 3,
           "formation_type": "rows",
-          "formation_div": 3,
+          "formation_div": 2,
           "formation_step": [16.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
@@ -3808,7 +3740,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-6945.23,125.293,17062.8]
+              [-7979.21,125.293,17064.0]
             ],
             "props": {
               "speed": 18.0,
@@ -3921,10 +3853,10 @@
       "tracked_vehicles": {
         "name": "t2_tank_03",
         "tm": [
-          [0.843391,0.0,-0.537299],
+          [0.439106,0.0,-0.898434],
           [0.0,1.0,0.0],
-          [0.537299,0.0,0.843391],
-          [-6243.32,123.884,18154.5]
+          [0.898434,0.0,0.439106],
+          [-6494.97,123.884,18812.5]
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
@@ -3956,7 +3888,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-6038.9,109.76,18003.0]
+              [-6376.24,115.892,18598.0]
             ],
             "props": {
               "speed": 20.0,
@@ -4085,10 +4017,10 @@
       "tracked_vehicles": {
         "name": "t2_tank_04",
         "tm": [
-          [-0.34202,0.0,-0.939693],
+          [0.105841,0.0,-0.994383],
           [0.0,1.0,0.0],
-          [0.939693,0.0,-0.34202],
-          [-4790.38,123.884,18396.8]
+          [0.994383,0.0,0.105841],
+          [-6362.5,123.884,19020.9]
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
@@ -4107,7 +4039,7 @@
           "army": 2,
           "count": 5,
           "formation_type": "rows",
-          "formation_div": 5,
+          "formation_div": 2,
           "formation_step": [16.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
@@ -4120,7 +4052,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-4813.63,105.418,18322.1]
+              [-6338.91,105.418,18924.1]
             ],
             "props": {
               "speed": 20.0,
@@ -4636,7 +4568,7 @@
           [0.953717,0.0,-0.300706],
           [0.0,1.0,0.0],
           [0.300706,0.0,0.953717],
-          [-7663.65,120.232,15059.1]
+          [-8805.57,120.232,15633.2]
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
@@ -4670,7 +4602,7 @@
           [0.843391,0.0,-0.5373],
           [0.0,1.0,0.0],
           [0.5373,0.0,0.843391],
-          [-6526.92,120.231,16848.4]
+          [-7754.78,120.231,17208.9]
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
@@ -4704,7 +4636,7 @@
           [-0.21644,0.0,-0.976296],
           [0.0,1.0,0.0],
           [0.976296,0.0,-0.21644],
-          [-5875.61,120.231,17467.7]
+          [-6452.15,120.231,18512.2]
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
@@ -4738,7 +4670,7 @@
           [0.461749,0.0,-0.887011],
           [0.0,1.0,0.0],
           [0.887011,0.0,0.461749],
-          [-4925.51,120.231,17996.3]
+          [-6080.72,120.231,18892.8]
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": true,
@@ -4897,10 +4829,10 @@
       "wheeled_vehicles": {
         "name": "t2_truck_01",
         "tm": [
-          [0.953717,0.0,-0.300706],
+          [0.975732,0.0,0.218967],
           [0.0,1.0,0.0],
-          [0.300706,0.0,0.953717],
-          [-8600.94,90.5756,15471.9]
+          [-0.218967,0.0,0.975732],
+          [-9301.48,90.5757,15632.6]
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
@@ -4932,7 +4864,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-8552.13,77.5505,15447.7]
+              [-9213.7,73.9466,15671.7]
             ],
             "props": {
               "speed": 18.0,
@@ -5061,10 +4993,10 @@
       "wheeled_vehicles": {
         "name": "t2_truck_02",
         "tm": [
-          [0.991445,0.0,-0.130526],
+          [0.762446,0.0,-0.647052],
           [0.0,1.0,0.0],
-          [0.130526,0.0,0.991445],
-          [-7412.7,123.885,17204.4]
+          [0.647052,0.0,0.762446],
+          [-8227.77,123.885,17089.7]
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
@@ -5096,7 +5028,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-7350.81,125.293,17169.8]
+              [-8158.3,125.293,17039.9]
             ],
             "props": {
               "speed": 18.0,
@@ -5209,10 +5141,10 @@
       "wheeled_vehicles": {
         "name": "t2_truck_03",
         "tm": [
-          [0.843391,0.0,-0.537299],
+          [0.439106,0.0,-0.898434],
           [0.0,1.0,0.0],
-          [0.537299,0.0,0.843391],
-          [-6368.6,123.884,18235.4]
+          [0.898434,0.0,0.439106],
+          [-6559.63,123.884,18946.9]
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
@@ -5244,7 +5176,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-6194.2,109.76,18118.2]
+              [-6521.25,119.609,18876.6]
             ],
             "props": {
               "speed": 20.0,
@@ -5376,7 +5308,7 @@
           [0.382684,0.0,-0.92388],
           [0.0,1.0,0.0],
           [0.92388,0.0,0.382684],
-          [-4811.43,123.884,18557.1]
+          [-6385.2,123.884,19202.8]
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
@@ -5408,7 +5340,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-4784.51,125.496,18478.1]
+              [-6373.82,125.496,19141.6]
             ],
             "props": {
               "speed": 20.0,

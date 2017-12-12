@@ -535,3 +535,8 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   get_online_client_cur_state = @() 0
 })
+
+//----------------------------wop_1_73_1_X---------------------------------//
+::apply_compatibilities({
+  SND_TYPE_MY_ENGINE = 8
+})

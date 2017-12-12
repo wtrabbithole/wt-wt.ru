@@ -79,11 +79,6 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
     onTooltipObjClose(scene)
   }
 
-  function isValid()
-  {
-    return true
-  }
-
   function startShowTooltipTimer()
   {
     onTooltipObjClose(scene)

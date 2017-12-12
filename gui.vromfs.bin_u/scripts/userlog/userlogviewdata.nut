@@ -52,10 +52,8 @@ function get_userlog_view_data(log)
     local desc = ""
     local wp = ::getTblValue("wpEarned", log, 0) + ::getTblValue("baseTournamentWp", log, 0)
     local gold = ::getTblValue("goldEarned", log, 0) + ::getTblValue("baseTournamentGold", log, 0)
-    local earnedText = ::Cost(wp, gold).toStringWithParams({isWpAlwaysShown = true})
-    local xpEarnedText = ("xpEarned" in log)? ::getFreeRpPriceText(log.xpEarned, true) : ""
-    if (xpEarnedText!="")
-      earnedText += ((earnedText!="")?", ":"") + xpEarnedText
+    local xp = ::getTblValue("xpEarned", log, 0)
+    local earnedText = ::Cost(wp, gold, xp).toStringWithParams({isWpAlwaysShown = true})
     if (earnedText!="")
     {
       earnedText = ::loc("ui/colon") + "<color=@activeTextColor>" + earnedText + "</color>"
@@ -156,28 +154,29 @@ function get_userlog_view_data(log)
       gold -= wRefillGold
     }
 
-    local rpEarnedText = ""
+    local rp = 0
     if ("rpEarned" in log)
     {
       local descUnits = ""
       local descMods = ""
-      local rpTotal = 0
 
       local idx = 0
       while (("aname"+idx) in log.rpEarned)
       {
         local unitId = log.rpEarned["aname"+idx]
         local modId = (("mname"+idx) in log.rpEarned) ? log.rpEarned["mname"+idx] : null
-        local rp = log.rpEarned["mrp"+idx]
+        local mrp = log.rpEarned["mrp"+idx]
 
         local fromExcessRP = ("merp" + idx) in log.rpEarned ? log.rpEarned["merp" + idx] : 0
-        rpTotal += rp + fromExcessRP
+        rp += mrp + fromExcessRP
 
         local title = ::getUnitName(unitId) + (modId ? (" - " + ::getModificationName(getAircraftByName(unitId), modId)) : "")
-        local item = "\n" + title + ::loc("ui/colon") + "<color=@activeTextColor>" + ::getRpPriceText(rp, true) + "</color>"
+        local item = "\n" + title + ::loc("ui/colon") + "<color=@activeTextColor>" +
+          ::Cost().setRp(mrp).tostring() + "</color>"
 
         if (fromExcessRP > 0)
-          item += " + " + ::loc("userlog/excessExpEarned") + ::loc("ui/colon") + "<color=@activeTextColor>" + ::getRpPriceText(fromExcessRP, true) + "</color>"
+          item += " + " + ::loc("userlog/excessExpEarned") + ::loc("ui/colon") +
+            "<color=@activeTextColor>" + ::Cost().setRp(fromExcessRP).tostring() + "</color>"
 
         if (!modId)
           descUnits += item
@@ -191,8 +190,6 @@ function get_userlog_view_data(log)
         desc += "\n\n<color=@activeTextColor>" + ::loc("debriefing/researched_unit") + ::loc("ui/colon") + "</color>" + descUnits
       if (descMods.len())
         desc += "\n\n<color=@activeTextColor>" + ::loc("debriefing/research_list") + ::loc("ui/colon") + "</color>" + descMods
-
-      rpEarnedText = rpTotal ? ::getRpPriceText(rpTotal, true) : ""
     }
 
     if (::getTblValue("haveTeamkills", log, false))
@@ -257,11 +254,7 @@ function get_userlog_view_data(log)
     local totalText = res.tooltip = (log.type==::EULT_SESSION_RESULT)? ::loc("debriefing/total") : ::loc("userlog/interimResults")
     totalText = "<color=@userlogColoredText>" + totalText + ::loc("ui/colon") + "</color>"
 
-    local total = ::Cost(wp, gold).toStringWithParams({isWpAlwaysShown = true})
-    if (xpEarnedText!="")
-      total += ", " + xpEarnedText
-    if (rpEarnedText!="")
-      total += ", " + rpEarnedText
+    local total = ::Cost(wp, gold, xp, rp).toStringWithParams({isWpAlwaysShown = true})
     totalText += "<color=@activeTextColor>" + total + "</color>"
 
     desc += "\n\n" + totalText
@@ -319,9 +312,8 @@ function get_userlog_view_data(log)
     res.name = ::loc(nameLoc, { mode = ::loc("multiplayer/"+log.mode+"Mode"), mission = mission }) + nameLocPostfix
 
     local desc = ""
-    local earnedText = (("wpEarned" in log) ? ::Cost(log.wpEarned).toStringWithParams({isWpAlwaysShown = true}) : "")
-    if ("xpEarned" in log)
-      earnedText += ((earnedText!="")?", ":"") + ::getRpPriceText(log.xpEarned, true)
+    local earnedText = ::Cost(log?.wpEarned ?? 0, 0, 0, log?.xpEarned ?? 0)
+      .toStringWithParams({isWpAlwaysShown = true})
     if (earnedText!="")
     {
       earnedText = ::loc("debriefing/total") + ::loc("ui/colon") + earnedText
@@ -598,7 +590,7 @@ function get_userlog_view_data(log)
       if ("count" in log && log.count > 1)
         res.description += " x" + log.count
 
-      local xpEarnedText = ("xpEarned" in log)? ::getRpPriceText(log.xpEarned, true) : ""
+      local xpEarnedText = ("xpEarned" in log)? ::Cost().setRp(log.xpEarned).tostring() : ""
       if (xpEarnedText!="")
       {
         xpEarnedText = ::loc("reward") + ::loc("ui/colon") + "<color=@activeTextColor>" + xpEarnedText + "</color>"
@@ -686,21 +678,8 @@ function get_userlog_view_data(log)
     res.name = ::loc("userlog/" + rewardType)
     res.description <- ::loc("userlog/" + ::getTblValue("name", log, ""))
 
-    local wp = 0, gold = 0, exp = 0;
-
-    if ("goldEarned" in log)
-      gold = log.goldEarned
-
-    if ("wpEarned" in log)
-      wp = log.wpEarned
-
-    if ("xpEarned" in log)
-      exp = log.xpEarned
-
-    local reward = ::Cost(wp.tointeger(), gold.tointeger()).tostring()
-    if (exp)
-      reward += ((reward!="")? ", ":"") + ::getRpPriceText(exp.tointeger(), true)
-
+    local wp = log?.wpEarned ?? 0, gold = log?.goldEarned ?? 0, exp = log?.xpEarned ?? 0
+    local reward = ::Cost(wp.tointeger(), gold.tointeger(), 0, exp.tointeger()).tostring()
     if (reward != "")
       res.description += " <color=@activeTextColor>" + reward + "</color>"
 
@@ -708,38 +687,31 @@ function get_userlog_view_data(log)
     local lineReward = ""
     while (("chardReward"+idx) in log)
     {
-      local blkName = "chardReward"+idx
-      local wp = 0, gold = 0, exp = 0;
+      local blk = log["chardReward"+idx]
 
-      if ("country" in log[blkName])
-        lineReward += ::loc(log[blkName].country) + ::loc("ui/colon")
+      if ("country" in blk)
+        lineReward += ::loc(blk.country) + ::loc("ui/colon")
 
-      if ("name" in log[blkName])
-        lineReward += ::loc(log[blkName].name)+" "
+      if ("name" in blk)
+        lineReward += ::loc(blk.name)+" "
 
-      if ("aname" in log[blkName])
+      if ("aname" in blk)
       {
-        lineReward += ::getUnitName(log[blkName].aname) + ::loc("ui/colon")
-        if ("wname" in log[blkName])
-          lineReward += ::getWeaponNameText(log[blkName].aname, false, log[blkName].wname, ::loc("ui/comma")) + " "
-        if ("mname" in log[blkName])
-          lineReward += ::getModificationName(getAircraftByName(log[blkName].aname), log[blkName].mname)+" "
+        lineReward += ::getUnitName(blk.aname) + ::loc("ui/colon")
+        if ("wname" in blk)
+          lineReward += ::getWeaponNameText(blk.aname, false, blk.wname, ::loc("ui/comma")) + " "
+        if ("mname" in blk)
+          lineReward += ::getModificationName(getAircraftByName(blk.aname), blk.mname)+" "
       }
 
-      if ("goldEarned" in log[blkName])
-        gold = log[blkName].goldEarned
-
-      if ("wpEarned" in log[blkName])
-        wp = log[blkName].wpEarned
-
-      if ("xpEarned" in log[blkName])
-        exp = log[blkName].xpEarned
-
+      local wp = blk?.wpEarned ?? 0,  gold = blk?.goldEarned ?? 0, exp = blk?.xpEarned ?? 0
       local reward = ::Cost(wp.tointeger(), gold.tointeger()).tostring()
       if (exp)
       {
-        local changeLightToXP = "name" in log[blkName] && log[blkName].name == ::MSG_FREE_EXP_DENOMINATE_OLD
-        reward += ((reward!="")? ", ":"") + (changeLightToXP? (exp + " <color=@white>" + ::loc("mainmenu/experience/oldName") + "</color>") : ::getRpPriceText(exp.tointeger(), true))
+        local changeLightToXP = blk?.name == ::MSG_FREE_EXP_DENOMINATE_OLD
+        reward += ((reward!="")? ", ":"") + ( changeLightToXP ?
+          (exp + " <color=@white>" + ::loc("mainmenu/experience/oldName") + "</color>")
+          : ::Cost().setRp(exp.tointeger()).tostring())
       }
 
       lineReward += reward
@@ -949,7 +921,7 @@ function get_userlog_view_data(log)
     local desc = ""
     if ("expToInvUnit" in log && "resUnit" in log)
     {
-      locTbl.resUnitExpInvest <- ::getRpPriceText(log.expToInvUnit, true)
+      locTbl.resUnitExpInvest <- ::Cost().setRp(log.expToInvUnit).tostring()
       locTbl.resUnitName <- ::getUnitName(log.resUnit)
       desc = "\n" + ::loc("userlog/"+logName+"/resName", locTbl)
       locTbl.exp += log.expToInvUnit
@@ -957,12 +929,12 @@ function get_userlog_view_data(log)
 
     if ("expToExcess" in log)
     {
-      locTbl.expToExcess <- ::getRpPriceText(log.expToExcess, true)
+      locTbl.expToExcess <- ::Cost().setRp(log.expToExcess).tostring()
       desc += "\n" + ::loc("userlog/"+logName+"/excessName", locTbl)
       locTbl.exp += log.expToExcess
     }
 
-    locTbl.exp = ::getRpPriceText(locTbl.exp, true)
+    locTbl.exp = ::Cost().setRp(locTbl.exp).tostring()
     res.name <- ::loc("userlog/"+logName+"/name", locTbl)
     res.description <- ::loc("userlog/"+logName+"/desc", locTbl) + desc
 
@@ -1215,7 +1187,8 @@ function get_userlog_view_data(log)
     cost.gold = ::getTblValue("costGold", log, 0)
     local exp = ::getTblValue("exp", log, 0)
 
-    res.description <- ::loc(logId+"/desc", {cost = cost.tostring(), unitName = ::getUnitName(unitName), exp = ::getFreeRpPriceText(exp, true)})
+    res.description <- ::loc(logId+"/desc", {cost = cost.tostring(), unitName = ::getUnitName(unitName),
+      exp = ::Cost().setFrp(exp).tostring()})
   }
   else if (log.type == ::EULT_SELL_BLUEPRINT)
   {

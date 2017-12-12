@@ -6,8 +6,18 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   inviteListTplName   = "gui/squads/squadInvites"
 
-  INVITE_LIST_OBJ_ID  = "invites_list"
-  NEST_OBJ_ID         = "squad_invites"
+  CONFIG_PLAYERS_LISTS = {
+    invites = { listObjId = "invites_list"
+      playersList = @() ::g_squad_manager.getInvitedPlayers()
+      headerObjId = "invited_players_header"
+    }
+    applications = { listObjId = "applications_list"
+      playersList = @() ::g_squad_manager.getApplicationsToSquad()
+      headerObjId = "applications_list_header"
+    }
+  }
+  MAX_COLUMNS = 5
+  NEST_OBJ_ID = "squad_invites"
 
   align = "top"
   alignObj = null
@@ -33,7 +43,8 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     return ::has_feature("Squad") && ::has_feature("SquadWidget")
       && ::g_squad_manager.isInSquad()
-      && (::g_squad_manager.canChangeSquadSize(false) || ::g_squad_manager.getInvitedPlayers().len() > 0)
+      && (::g_squad_manager.canChangeSquadSize(false) || ::g_squad_manager.getInvitedPlayers().len() > 0
+          || ::g_squad_manager.getApplicationsToSquad().len() > 0)
   }
 
   function initScreen()
@@ -41,35 +52,62 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
     optionsObj = scene.findObject("options_block")
 
     updateSquadSizeOption()
+    updateReceiveApplicationsOption()
     updateInviteesList()
+    updateApplicationsList()
+
+    initFocusArray()
+    restoreFocus()
   }
 
   function updateInviteesList()
   {
-    local invitedPlayers = ::g_squad_manager.getInvitedPlayers()
-    local listObj = scene.findObject(INVITE_LIST_OBJ_ID)
-    local viewData = getMembersViewData()
+    updateList(CONFIG_PLAYERS_LISTS.invites)
+  }
+
+  function updateApplicationsList()
+  {
+     updateList(CONFIG_PLAYERS_LISTS.applications)
+    ::g_squad_manager.markAllApplicationsSeen()
+  }
+
+  function updateList(configPlayersList)
+  {
+    local playersList = configPlayersList.playersList()
+    local listObj = scene.findObject(configPlayersList.listObjId)
+    local viewData = getMembersViewData(playersList)
     local viewBlk = ::handyman.renderCached(inviteListTplName, viewData)
+    local isFocused = listObj.isFocused()
+    local selectedIdx = listObj.getValue()
+    local selectedObjId = null
+    if ((selectedIdx >= 0) && (selectedIdx < listObj.childrenCount()) && isFocused)
+      selectedObjId = listObj.getChild(selectedIdx).id
 
     guiScene.replaceContentFromText(listObj, viewBlk, viewBlk.len(), this)
-
-    foreach(memberData in invitedPlayers)
+    local i = 0
+    foreach(memberData in playersList)
     {
-      local inviteObj = listObj.findObject("squad_invite_" + memberData.uid)
+      local inviteObjId = "squad_invite_" + memberData.uid
+      local inviteObj = listObj.findObject(inviteObjId)
       if (::checkObj(inviteObj))
+      {
+        if (::u.isEqual(selectedObjId, inviteObjId) && isFocused)
+          selectedIdx = i
         inviteObj.setUserData(memberData)
+      }
+      i++
     }
-
-    scene.findObject("invited_players_header").show(invitedPlayers.len() > 0)
-    updateSelectedItem()
-    updateSize()
+    if (isFocused)
+      listObj.setValue(clamp(selectedIdx, 0, listObj.childrenCount() - 1))
+    scene.findObject(configPlayersList.headerObjId).show(playersList.len() > 0)
+    updateSize(listObj, playersList)
     updatePosition()
   }
 
-  function getMembersViewData()
+  function getMembersViewData(membersData)
   {
     local items = []
-    foreach(memberData in ::g_squad_manager.getInvitedPlayers())
+    foreach(memberData in membersData)
       items.push(
         {
           id = memberData.uid
@@ -100,14 +138,24 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
     optionObj.enable(::g_squad_manager.canChangeSquadSize())
   }
 
-  function updateSize()
+  function updateReceiveApplicationsOption()
   {
-    local listObj = scene.findObject(INVITE_LIST_OBJ_ID)
+    local isAvailable = ::g_squad_manager.canChangeReceiveApplications(false)
+    local obj = showSceneBtn("receive_applications", isAvailable)
+    if (!isAvailable || !obj)
+      return
+
+    obj.setValue(::g_squad_manager.isApplicationsEnaled())
+    obj.enable(::g_squad_manager.canChangeReceiveApplications())
+  }
+
+  function updateSize(listObj, playersList)
+  {
     if (!::checkObj(listObj))
       return
 
-    local total = ::g_squad_manager.getInvitedPlayers().len()
-    local rows = total && (total <= 5 ? 1 : 2)
+    local total = playersList.len()
+    local rows = total && ::ceil(total.tofloat() / MAX_COLUMNS.tofloat())
     local columns = rows && ::ceil(total.tofloat() / rows.tofloat())
 
     local sizeFormat = "%d@mIco"
@@ -122,19 +170,6 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
       align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, nestObj)
   }
 
-  function updateSelectedItem()
-  {
-    local navigatorObj = scene.findObject(INVITE_LIST_OBJ_ID)
-    local childrenCount = navigatorObj.childrenCount()
-    if (childrenCount <= 0)
-      return
-
-    local value = navigatorObj.getValue()
-    value = (value >= childrenCount || value < 0) ? 0 : value
-    navigatorObj.setValue(value)
-    navigatorObj.select()
-  }
-
   function checkActiveForDelayedAction()
   {
     return isSceneActive()
@@ -142,16 +177,12 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onInviteMemberMenu(obj)
   {
-    local listObj = scene.findObject(INVITE_LIST_OBJ_ID)
-    if (!::checkObj(listObj))
-      return
-
-    local childrenCount = listObj.childrenCount()
+    local childrenCount = obj.childrenCount()
     if (!childrenCount)
       return
 
-    local value = ::clamp(listObj.getValue(), 0, childrenCount - 1)
-    local selectedObj = listObj.getChild(value)
+    local value = ::clamp(obj.getValue(), 0, childrenCount - 1)
+    local selectedObj = obj.getChild(value)
 
     ::g_squad_utils.showMemberMenu(selectedObj)
   }
@@ -168,9 +199,46 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::g_squad_manager.setSquadSize(::g_squad_manager.squadSizesList[idx].value)
   }
 
+  function onReceiveApplications(obj)
+  {
+    if (!obj)
+      return
+    local value = obj.getValue()
+    if (value == ::g_squad_manager.isApplicationsEnaled())
+      return
+
+    ::g_squad_manager.enableApplications(value)
+    if (!::g_squad_manager.isApplicationsEnaled() && ::g_squad_manager.getApplicationsToSquad().len() > 0)
+      msgBox("denyAllMembershipApplications", ::loc("squad/ConfirmDenyApplications"),
+        [
+          ["yes", function() { ::g_squad_manager.denyAllAplication() }],
+          ["no",  function() {} ],
+        ], "no")
+  }
+
+  function getMainFocusObj()
+  {
+    return scene.findObject(CONFIG_PLAYERS_LISTS.invites.listObjId)
+  }
+
+  function getMainFocusObj2()
+  {
+    return scene.findObject(CONFIG_PLAYERS_LISTS.applications.listObjId)
+  }
+
   /**event handlers**/
   function onEventSquadInvitesChanged(params)
   {
     doWhenActiveOnce("updateInviteesList")
+  }
+
+  function onEventSquadApplicationsChanged(params)
+  {
+    doWhenActiveOnce("updateApplicationsList")
+  }
+
+  function onEventSquadPropertiesChanged(params)
+  {
+    doWhenActiveOnce("updateReceiveApplicationsOption")
   }
 }

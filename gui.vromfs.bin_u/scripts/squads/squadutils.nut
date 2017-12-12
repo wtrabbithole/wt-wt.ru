@@ -462,6 +462,7 @@ function g_squad_utils::getMemberPopupMenu(member, handlerForChat)
     {
       text = ::loc("squad/remove_player")
       show = !isMe && meLeader && member != null && !member.isInvite && ::g_squad_manager.canManageSquad()
+        && !member.isApplication
       action = (@(member) function() {
         ::g_squad_manager.dismissFromSquad(member.uid)
       })(member)
@@ -479,6 +480,17 @@ function g_squad_utils::getMemberPopupMenu(member, handlerForChat)
       action = (@(member) function() {
         ::g_squad_manager.revokeSquadInvite(member.uid)
       })(member)
+    }
+    {
+      text = ::loc("squad/accept_membership")
+      show = meLeader && member?.isApplication
+      action = @() ::g_squad_manager.acceptMembershipAplication(member.uid)
+    }
+    {
+      text = ::loc("squad/deny_membership")
+      show = meLeader && member?.isApplication
+      action = @() ::g_squad_manager.denyMembershipAplication(member.uid,
+        @(response) ::g_squad_manager.removeApplication(member.uid))
     }
   ]
 

@@ -27,7 +27,7 @@ class BoosterEffectType
     {
       if (value == 0 && !showEmpty)
         return ""
-      return ::getRpPriceText(value, colored)
+      return ::Cost().setRp(value).toStringWithParams({isColored = colored})
     }
   }
   static WP = {

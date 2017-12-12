@@ -77,16 +77,28 @@
         {
           "unitPutToSleep": [
             {
-              "target": "lpt_t1_lookup_squad"
+              "target": "lpt_t1_lookup"
             },
             {
-              "target": "lpt_t2_lookup_squad"
+              "target": "lpt_t2_lookup"
             }
           ]
         },
         {
           "missionGetBalanceLevel": {
             "input_var": "lpt_matching_rank"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "lpt_t1_lookup",
+            "var": "lpt_t1_lookup_plane"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "lpt_t2_lookup",
+            "var": "lpt_t2_lookup_plane"
           }
         },
         {
@@ -149,49 +161,14 @@
       "actions": [
         {
           "comment": {
-            "value": "присваиваем таймерам задержки дефолтные значения"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": "lpt_t1_delay_timer"
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 0.0,
-            "var": "lpt_t1_delay_timer",
-            "use_variable": true,
-            "var_value": "lpt_t1_initial_delay_timer"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": "lpt_t2_delay_timer"
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 0.0,
-            "var": "lpt_t2_delay_timer",
-            "use_variable": true,
-            "var_value": "lpt_t2_initial_delay_timer"
-          }
-        },
-        {
-          "comment": {
             "value": "рандомизируем время старта"
           }
         },
         {
           "varSetRandomInt": {
-            "var": "lpt_randomizer",
-            "from": 0,
-            "to_not_including": 60
+            "var": "lpt_t1_delay_timer",
+            "from": 30,
+            "to_not_including": 120
           }
         },
         {
@@ -200,13 +177,18 @@
             "value": 0.0,
             "var": "lpt_t1_delay_timer",
             "use_variable": true,
-            "var_value": "lpt_randomizer"
+            "var_value": "lpt_delay_timer"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
           }
         },
         {
           "varSetRandomInt": {
-            "var": "lpt_randomizer",
-            "from": 0,
+            "var": "lpt_t2_delay_timer",
+            "from": 30,
             "to_not_including": 120
           }
         },
@@ -216,7 +198,12 @@
             "value": 0.0,
             "var": "lpt_t2_delay_timer",
             "use_variable": true,
-            "var_value": "lpt_randomizer"
+            "var_value": "lpt_delay_timer"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
           }
         },
         {
@@ -289,14 +276,29 @@
           "comparasion_func": "notEqual"
         }
       },
-      "actions": {
-        "comment": {
-          "value": "шаблон не предназначен дял запуска только дял армии Б"
+      "actions": [
+        {
+          "comment": {
+            "value": "говорим, что шаблон запущен для команды А"
+          }
         },
-        "triggerEnable": {
-          "target": "lpt_t1_delayed_start"
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "lpt_t1_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "шаблон не предназначен дял запуска только дял армии Б"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "lpt_t1_delayed_start"
+          }
         }
-      },
+      ],
       "else_actions": {
         "comment": {
           "value": "шаблон предназначен только для армии Б"
@@ -323,19 +325,21 @@
       "conditions": [],
       "actions": [
         {
+          "varSetInt": [
+            {
+              "value": 1
+            },
+            {
+              "var": "lpt_t1_def_time"
+            },
+            {
+              "var": "lpt_t1_def_players_activity_time"
+            }
+          ]
+        },
+        {
           "comment": {
             "value": "время подошло"
-          }
-        },
-        {
-          "comment": {
-            "value": "говорим, что шаблон запущен для команды А"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "lpt_t1_active"
           }
         },
         {
@@ -564,7 +568,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 20.0
+          "time": 10.0
         }
       },
       "conditions": {
@@ -582,6 +586,17 @@
           "status": 1,
           "team": "A",
           "unit_or_area": "@lpt_t1_lookup_plane"
+        },
+        "varModify": {
+          "operator": "add",
+          "value": 1.0,
+          "var": "lpt_t1_def_time"
+        },
+        "triggerActivate": {
+          "target": "lpt_t1_def_activity_change",
+          "activate_type": "checkConidtions",
+          "check_trigger_status": false,
+          "after_activation": "disable"
         }
       },
       "else_actions": []
@@ -596,7 +611,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 20.0
+          "time": 10.0
         }
       },
       "conditions": {
@@ -964,7 +979,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t2_task_completed"
+            "target": "lpt_t2_kill_activity_check"
           }
         },
         {
@@ -1314,7 +1329,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t1_task_completed"
+            "target": "lpt_t1_def_activity_calc"
           }
         },
         {
@@ -1507,14 +1522,29 @@
           "comparasion_func": "notEqual"
         }
       },
-      "actions": {
-        "comment": {
-          "value": "шаблон не предназначен дял запуска только дял армии Б"
+      "actions": [
+        {
+          "comment": {
+            "value": "говорим, что шаблон запущен для команды B"
+          }
         },
-        "triggerEnable": {
-          "target": "lpt_t2_delayed_start"
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "lpt_t2_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "шаблон не предназначен дял запуска только дял армии Б"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "lpt_t2_delayed_start"
+          }
         }
-      },
+      ],
       "else_actions": {
         "comment": {
           "value": "шаблон предназначен только для армии А"
@@ -1541,19 +1571,21 @@
       "conditions": [],
       "actions": [
         {
+          "varSetInt": [
+            {
+              "value": 1
+            },
+            {
+              "var": "lpt_t2_def_time"
+            },
+            {
+              "var": "lpt_t2_def_players_activity_time"
+            }
+          ]
+        },
+        {
           "comment": {
             "value": "время подошло"
-          }
-        },
-        {
-          "comment": {
-            "value": "говорим, что шаблон запущен для команды А"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "lpt_t2_active"
           }
         },
         {
@@ -1782,7 +1814,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 20.0
+          "time": 10.0
         }
       },
       "conditions": {
@@ -1814,7 +1846,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 20.0
+          "time": 10.0
         }
       },
       "conditions": {
@@ -1832,6 +1864,17 @@
           "status": 1,
           "team": "B",
           "unit_or_area": "@lpt_t2_lookup_plane"
+        },
+        "varModify": {
+          "operator": "add",
+          "value": 1.0,
+          "var": "lpt_t2_def_time"
+        },
+        "triggerActivate": {
+          "target": "lpt_t2_def_activity_change",
+          "activate_type": "checkConidtions",
+          "check_trigger_status": false,
+          "after_activation": "disable"
         }
       },
       "else_actions": []
@@ -2182,7 +2225,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t1_task_completed"
+            "target": "lpt_t1_kill_activity_check"
           }
         },
         {
@@ -2532,7 +2575,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t2_task_completed"
+            "target": "lpt_t2_def_activity_calc"
           }
         },
         {
@@ -2691,26 +2734,16 @@
             "comparasion_func": "less"
           }
         },
-        "actions": [
-          {
-            "varSetString": {
-              "value": "lpt_t1_lookup_rank_01",
-              "var": "lpt_t1_lookup_plane"
-            }
+        "actions": {
+          "varSetInt": {
+            "value": 1,
+            "var": "lpt_matching_type"
           },
-          {
-            "varSetString": {
-              "value": "lpt_t2_lookup_rank_01",
-              "var": "lpt_t2_lookup_plane"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 1,
-              "var": "lpt_matching_type"
-            }
+          "varSetReal": {
+            "value": 3000.0,
+            "var": "lpt_activity_distance"
           }
-        ],
+        },
         "else_actions": []
       },
       "lpt_matching_4_7": {
@@ -2742,26 +2775,16 @@
             }
           }
         ],
-        "actions": [
-          {
-            "varSetString": {
-              "value": "lpt_t1_lookup_rank_02",
-              "var": "lpt_t1_lookup_plane"
-            }
+        "actions": {
+          "varSetInt": {
+            "value": 2,
+            "var": "lpt_matching_type"
           },
-          {
-            "varSetString": {
-              "value": "lpt_t2_lookup_rank_02",
-              "var": "lpt_t2_lookup_plane"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 2,
-              "var": "lpt_matching_type"
-            }
+          "varSetReal": {
+            "value": 4500.0,
+            "var": "lpt_activity_distance"
           }
-        ],
+        },
         "else_actions": []
       },
       "lpt_matching_8_11": {
@@ -2793,26 +2816,16 @@
             }
           }
         ],
-        "actions": [
-          {
-            "varSetString": {
-              "value": "lpt_t1_lookup_rank_03",
-              "var": "lpt_t1_lookup_plane"
-            }
+        "actions": {
+          "varSetInt": {
+            "value": 3,
+            "var": "lpt_matching_type"
           },
-          {
-            "varSetString": {
-              "value": "lpt_t2_lookup_rank_03",
-              "var": "lpt_t2_lookup_plane"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 3,
-              "var": "lpt_matching_type"
-            }
+          "varSetReal": {
+            "value": 6000.0,
+            "var": "lpt_activity_distance"
           }
-        ],
+        },
         "else_actions": []
       },
       "lpt_matching_12_16": {
@@ -2844,26 +2857,16 @@
             }
           }
         ],
-        "actions": [
-          {
-            "varSetString": {
-              "value": "lpt_t1_lookup_rank_04",
-              "var": "lpt_t1_lookup_plane"
-            }
+        "actions": {
+          "varSetInt": {
+            "value": 4,
+            "var": "lpt_matching_type"
           },
-          {
-            "varSetString": {
-              "value": "lpt_t2_lookup_rank_04",
-              "var": "lpt_t2_lookup_plane"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 4,
-              "var": "lpt_matching_type"
-            }
+          "varSetReal": {
+            "value": 7500.0,
+            "var": "lpt_activity_distance"
           }
-        ],
+        },
         "else_actions": []
       },
       "lpt_matching_17_20": {
@@ -2886,26 +2889,16 @@
             "comparasion_func": "more"
           }
         },
-        "actions": [
-          {
-            "varSetString": {
-              "value": "lpt_t1_lookup_rank_05",
-              "var": "lpt_t1_lookup_plane"
-            }
+        "actions": {
+          "varSetInt": {
+            "value": 5,
+            "var": "lpt_matching_type"
           },
-          {
-            "varSetString": {
-              "value": "lpt_t2_lookup_rank_05",
-              "var": "lpt_t2_lookup_plane"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 5,
-              "var": "lpt_matching_type"
-            }
+          "varSetReal": {
+            "value": 9000.0,
+            "var": "lpt_activity_distance"
           }
-        ],
+        },
         "else_actions": []
       }
     },
@@ -3393,7 +3386,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t2_minor_task_completed"
+            "target": "t2_detection_task_completed"
           }
         }
       ],
@@ -3446,11 +3439,371 @@
         },
         {
           "triggerEnable": {
-            "target": "t1_minor_task_completed"
+            "target": "t1_detection_task_completed"
           }
         }
       ],
       "else_actions": []
+    },
+    "players_activity": {
+      "isCategory": true,
+      "is_enabled": true,
+      "lpt_t1_def_activity_change": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 1500.0,
+            "math": "2D",
+            "object_type": "isActive",
+            "object_marking": 0,
+            "target_type": "isOnline",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "@lpt_t1_lookup_plane",
+            "target": "t1_players_squad",
+            "var": "lpt_activity_distance",
+            "compareCenters": false,
+            "check_all_units": true
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "рядом есть один из игроков команды А"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "lpt_t1_def_players_activity_time"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "рядом нет игроков команды А"
+          }
+        }
+      },
+      "lpt_t2_def_activity_change": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 1500.0,
+            "math": "2D",
+            "object_type": "isActive",
+            "object_marking": 0,
+            "target_type": "isOnline",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "@lpt_t2_lookup_plane",
+            "target": "t2_players_squad",
+            "var": "lpt_activity_distance",
+            "compareCenters": false,
+            "check_all_units": true
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "рядом есть один из игроков команды Б"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "lpt_t2_def_players_activity_time"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "рядом нет игроков команды Б"
+          }
+        }
+      },
+      "lpt_t1_def_activity_calc": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "считаем процент активности от обющей активности задания"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "lpt_t1_def_player_activity_calc",
+              "input_var": "lpt_t1_def_players_activity_time"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "mul",
+              "value": 100.0,
+              "var": "lpt_t1_def_player_activity_calc"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "divAB",
+              "value": 100.0,
+              "var": "lpt_t1_def_player_activity_calc",
+              "use_variable": true,
+              "var_value": "lpt_t1_def_time"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем активность"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "lpt_t1_def_activity_check"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "lpt_t1_def_activity_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "lpt_t1_def_player_activity_calc",
+            "value": 24,
+            "comparasion_func": "more"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была 25% или выше"
+          },
+          "triggerEnable": {
+            "target": "t1_moderate_task_completed"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была ниже 25%"
+          },
+          "triggerEnable": {
+            "target": "t1_tiny_task_completed"
+          }
+        }
+      },
+      "lpt_t2_def_activity_calc": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "считаем процент активности от обющей активности задания"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "lpt_t2_def_player_activity_calc",
+              "input_var": "lpt_t2_def_players_activity_time"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "mul",
+              "value": 100.0,
+              "var": "lpt_t2_def_player_activity_calc"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "divAB",
+              "value": 100.0,
+              "var": "lpt_t2_def_player_activity_calc",
+              "use_variable": true,
+              "var_value": "lpt_t2_def_time"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем активность"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "lpt_t2_def_activity_check"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "lpt_t2_def_activity_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "lpt_t2_def_player_activity_calc",
+            "value": 24,
+            "comparasion_func": "more"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была 25% или выше"
+          },
+          "triggerEnable": {
+            "target": "t2_moderate_task_completed"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "активность игроков при выполнении задания была ниже 25%"
+          },
+          "triggerEnable": {
+            "target": "t2_tiny_task_completed"
+          }
+        }
+      },
+      "lpt_t1_kill_activity_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isKilledByPlayer",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@lpt_t2_lookup_plane"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "игроки убили самолет"
+          },
+          "triggerEnable": {
+            "target": "t1_moderate_task_completed"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "самолет убили не игроки"
+          },
+          "triggerEnable": {
+            "target": "t1_tiny_task_completed"
+          }
+        }
+      },
+      "lpt_t2_kill_activity_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isKilledByPlayer",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@lpt_t1_lookup_plane"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "игроки убили самолет"
+          },
+          "triggerEnable": {
+            "target": "t2_moderate_task_completed"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "самолет убили не игроки"
+          },
+          "triggerEnable": {
+            "target": "t2_tiny_task_completed"
+          }
+        }
+      }
     }
   },
   "mission_objectives": {
@@ -3530,11 +3883,8 @@
     "lpt_t2_spawn_name": "",
     "lpt_t1_delay_timer": 120,
     "lpt_t2_delay_timer": 120,
-    "lpt_t1_initial_delay_timer": 120,
-    "lpt_t2_initial_delay_timer": 120,
     "lpt_t1_lookup_plane": "",
     "lpt_t2_lookup_plane": "",
-    "lpt_matching_rank": 0,
     "lpt_matching_type": 0,
     "lpt_matching_t1_move_trigger_name": "",
     "lpt_matching_t2_move_trigger_name": "",
@@ -3542,7 +3892,16 @@
     "lpt_t1_players_detection_range": 5500.0,
     "lpt_t2_players_detection_range": 5500.0,
     "lpt_t1_detection_range": 0.0,
-    "lpt_t2_detection_range": 0.0
+    "lpt_t2_detection_range": 0.0,
+    "lpt_t1_def_time": 0,
+    "lpt_t2_def_time": 0,
+    "lpt_t1_def_players_activity_time": 0,
+    "lpt_t2_def_players_activity_time": 0,
+    "lpt_activity_distance": 0.0,
+    "lpt_t1_def_player_activity_calc": 0,
+    "lpt_t2_def_player_activity_calc": 0,
+    "lpt_matching_rank": 0,
+    "lpt_delay_timer": 120
   },
   "dialogs": [],
   "airfields": [],

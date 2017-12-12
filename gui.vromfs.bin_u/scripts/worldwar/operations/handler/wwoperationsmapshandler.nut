@@ -469,7 +469,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local isModeClan  = mode == WW_OM_WND_MODE.CLAN
 
     showSceneBtn("gamercard_logo", isModeClan)
-    showSceneBtn("to_battle_button", isModePlayer)
+    showSceneBtn("gamercard_tobattle", isModePlayer)
 
     local hasMap = selMap != null
     local isInQueue = ::g_ww_global_status.isMyClanInQueue()

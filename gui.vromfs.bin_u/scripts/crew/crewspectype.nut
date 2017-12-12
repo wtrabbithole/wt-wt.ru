@@ -224,8 +224,7 @@ function g_crew_spec_type::_getBaseTooltipText(crew, unit)
     {
       local specDescriptionPart = isShowExpUpgrade ?
         ::loc("crew/qualification/specDescriptionPart", {
-          expAmount = getTotalExpByUnit(unit) +
-            ::loc("currency/researchPoints/sign/colored")
+          expAmount = ::Cost().setRp(getTotalExpByUnit(unit)).tostring()
         })
         : ""
       local specDescription = ::loc(
@@ -240,11 +239,10 @@ function g_crew_spec_type::_getBaseTooltipText(crew, unit)
   if (isShowExpUpgrade)
   {
     tooltipText += ::format(
-      "\n%s: %s / %s %s",
+      "\n%s: %s / %s",
       ::loc("crew/qualification/expUpgradeLabel"),
-      getExpLeftByCrewAndUnit(crew, unit).tostring(),
-      getTotalExpByUnit(unit).tostring(),
-      ::loc("currency/researchPoints/sign/colored"))
+      ::Cost().setRp(getExpLeftByCrewAndUnit(crew, unit)).toStringWithParams({isRpAlwaysShown = true}),
+      ::Cost().setRp(getTotalExpByUnit(unit)).tostring())
   }
   return tooltipText
 }
@@ -279,7 +277,7 @@ function g_crew_spec_type::_getTooltipContent(crew, unit)
     local locParams = {
       romanNumeral = romanNumeral
       trainCost = trainCost.tostring()
-      expAmount = expAmount.tostring() + ::loc("currency/researchPoints/sign/colored")
+      expAmount = ::Cost().setRp(expAmount).toStringWithParams({isRpAlwaysShown = true})
     }
     expUpgradeText += ::loc("crew/qualification/expUpgradeMarkerCaption", locParams)
   }
@@ -295,8 +293,7 @@ function g_crew_spec_type::_getTooltipContent(crew, unit)
   local locParams = {
     romanNumeral = romanNumeral
     specName = ::colorize("activeTextColor", getNextType().getName())
-    expAmount = getTotalExpByUnit(unit).tostring() +
-      ::loc("currency/researchPoints/sign/colored")
+    expAmount = ::Cost().setRp(getTotalExpByUnit(unit)).toStringWithParams({isRpAlwaysShown = true})
   }
   expUpgradeText += ::loc("crew/qualification/expUpgradeFullUpgrade", locParams)
 

@@ -208,6 +208,31 @@
           },
           {
             "comment": {
+              "value": "заполняем имя зенитки"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bdt_t1_bomb_target_",
+              "var": "bdt_capture_t1_aaa_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@bdt_capture_t1_bombing_zone_idx",
+              "digits": 2,
+              "var": "bdt_capture_t1_aaa_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_aaa",
+              "digits": 0,
+              "var": "bdt_capture_t1_aaa_name"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем не находится ли аирфилд в искомой зоне"
             }
           },
@@ -283,7 +308,20 @@
           },
           {
             "comment": {
-              "value": "больше ничего не делаем"
+              "value": "прячем зентику"
+            }
+          },
+          {
+            "unitDamage": {
+              "power": 1.0,
+              "useEffect": false,
+              "countEffects": 1,
+              "delay": [1.0,1.0],
+              "offset": [0.0,0.0,0.0],
+              "radiusOffset": [10.0,15.0],
+              "target": "@bdt_capture_t1_aaa_name",
+              "partName": "body",
+              "delayForObjects": [2.0,5.0]
             }
           }
         ],
@@ -449,6 +487,31 @@
           },
           {
             "comment": {
+              "value": "заполняем имя зенитки"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bdt_t2_bomb_target_",
+              "var": "bdt_capture_t2_aaa_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@bdt_capture_t2_bombing_zone_idx",
+              "digits": 2,
+              "var": "bdt_capture_t2_aaa_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_aaa",
+              "digits": 0,
+              "var": "bdt_capture_t2_aaa_name"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем не находится ли аирфилд в искомой зоне"
             }
           },
@@ -524,7 +587,20 @@
           },
           {
             "comment": {
-              "value": "больше ничего не делаем"
+              "value": "прячем зенитку"
+            }
+          },
+          {
+            "unitDamage": {
+              "power": 1.0,
+              "useEffect": false,
+              "countEffects": 1,
+              "delay": [1.0,1.0],
+              "offset": [0.0,0.0,0.0],
+              "radiusOffset": [10.0,15.0],
+              "target": "@bdt_capture_t2_aaa_name",
+              "partName": "body",
+              "delayForObjects": [2.0,5.0]
             }
           }
         ],
@@ -778,7 +854,7 @@
           "var_value": "bdt_t1_cur_bases_count",
           "value": 0,
           "comparasion_func": "less",
-          "var_value_other": "bdt_t1_cur_active_bases_max_count"
+          "var_value_other": "bdt_t1_active_bases_max_count"
         }
       },
       "actions": [
@@ -1096,6 +1172,16 @@
           "triggerEnable": {
             "target": "bdt_t1_destroy_exist_zone_01"
           }
+        },
+        {
+          "comment": {
+            "value": "спавним зенитки"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t1_aaa_01_respawn"
+          }
         }
       ],
       "else_actions": {
@@ -1165,6 +1251,16 @@
           "triggerEnable": {
             "target": "bdt_t1_destroy_exist_zone_02"
           }
+        },
+        {
+          "comment": {
+            "value": "спавним зенитки"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t1_aaa_02_respawn"
+          }
         }
       ],
       "else_actions": {
@@ -1233,6 +1329,16 @@
         {
           "triggerEnable": {
             "target": "bdt_t1_destroy_exist_zone_03"
+          }
+        },
+        {
+          "comment": {
+            "value": "спавним зенитки"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t1_aaa_03_respawn"
           }
         }
       ],
@@ -1410,7 +1516,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t2_task_completed"
+            "target": "t2_minor_task_completed"
           }
         },
         {
@@ -1516,7 +1622,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t2_task_completed"
+            "target": "t2_minor_task_completed"
           }
         },
         {
@@ -1622,7 +1728,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t2_task_completed"
+            "target": "t2_minor_task_completed"
           }
         },
         {
@@ -1851,7 +1957,7 @@
           "var_value": "bdt_t2_cur_bases_count",
           "value": 0,
           "comparasion_func": "less",
-          "var_value_other": "bdt_t2_cur_active_bases_max_count"
+          "var_value_other": "bdt_t2_active_bases_max_count"
         }
       },
       "actions": [
@@ -2177,7 +2283,7 @@
         },
         {
           "triggerEnable": {
-            "target": "bdt_t1_aaa_01_respawn"
+            "target": "bdt_t2_aaa_01_respawn"
           }
         }
       ],
@@ -2256,7 +2362,7 @@
         },
         {
           "triggerEnable": {
-            "target": "bdt_t1_aaa_02_respawn"
+            "target": "bdt_t2_aaa_02_respawn"
           }
         }
       ],
@@ -2335,7 +2441,7 @@
         },
         {
           "triggerEnable": {
-            "target": "bdt_t1_aaa_03_respawn"
+            "target": "bdt_t2_aaa_03_respawn"
           }
         }
       ],
@@ -2513,7 +2619,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t1_task_completed"
+            "target": "t1_minor_task_completed"
           }
         },
         {
@@ -2619,7 +2725,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t1_task_completed"
+            "target": "t1_minor_task_completed"
           }
         },
         {
@@ -2725,7 +2831,7 @@
         },
         {
           "triggerEnable": {
-            "target": "t1_task_completed"
+            "target": "t1_minor_task_completed"
           }
         },
         {
@@ -3019,10 +3125,10 @@
           }
         ],
         "comment": {
-          "value": "5500 для истории"
+          "value": "6100 для истории"
         },
         "varSetReal": {
-          "value": 5500.0,
+          "value": 6100.0,
           "var": "bdt_base_hp"
         }
       },
@@ -3073,10 +3179,10 @@
           }
         ],
         "comment": {
-          "value": "9500 для истории"
+          "value": "10500 для истории"
         },
         "varSetReal": {
-          "value": 9500.0,
+          "value": 10500.0,
           "var": "bdt_base_hp"
         }
       },
@@ -3127,10 +3233,10 @@
           }
         ],
         "comment": {
-          "value": "14500 для истории"
+          "value": "16000 для истории"
         },
         "varSetReal": {
-          "value": 14500.0,
+          "value": 16000.0,
           "var": "bdt_base_hp"
         }
       },
@@ -3181,10 +3287,10 @@
           }
         ],
         "comment": {
-          "value": "23500 для истории"
+          "value": "25900 для истории"
         },
         "varSetReal": {
-          "value": 23500.0,
+          "value": 25900.0,
           "var": "bdt_base_hp"
         }
       },
@@ -3226,10 +3332,10 @@
           }
         ],
         "comment": {
-          "value": "23500 для истории"
+          "value": "25900 для истории"
         },
         "varSetReal": {
-          "value": 23500.0,
+          "value": 25900.0,
           "var": "bdt_base_hp"
         }
       },
@@ -3266,7 +3372,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_01_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3287,7 +3394,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_01_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3308,7 +3416,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_01_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3329,7 +3438,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_01_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3344,7 +3454,14 @@
             "object_marking": 0,
             "object": "bdt_t1_bomb_target_01_aaa",
             "stealthRadius": 1250.0,
-            "calmDetection": true
+            "calmDetection": true,
+            "accuracy": 0.6,
+            "checkVisibilityTarget": true,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6,
+            "fireRandom": true,
+            "targetChangeInterval": 5.0,
+            "targetChangeProf": 0.25
           }
         }
       ],
@@ -3381,7 +3498,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_02_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3402,7 +3520,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_02_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3423,7 +3542,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_02_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3444,7 +3564,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_02_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3459,7 +3580,14 @@
             "object_marking": 0,
             "object": "bdt_t1_bomb_target_02_aaa",
             "stealthRadius": 1250.0,
-            "calmDetection": true
+            "calmDetection": true,
+            "accuracy": 0.6,
+            "checkVisibilityTarget": true,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6,
+            "fireRandom": true,
+            "targetChangeInterval": 5.0,
+            "targetChangeProf": 0.25
           }
         }
       ],
@@ -3496,7 +3624,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_03_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3517,7 +3646,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_03_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3538,7 +3668,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_03_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3559,7 +3690,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t1_bomb_target_03_aaa",
-            "target": "@bdt_t1_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t1_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3574,7 +3706,14 @@
             "object_marking": 0,
             "object": "bdt_t1_bomb_target_03_aaa",
             "stealthRadius": 1250.0,
-            "calmDetection": true
+            "calmDetection": true,
+            "accuracy": 0.6,
+            "checkVisibilityTarget": true,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6,
+            "fireRandom": true,
+            "targetChangeInterval": 5.0,
+            "targetChangeProf": 0.25
           }
         }
       ],
@@ -3611,7 +3750,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_01_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3632,7 +3772,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_01_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3653,7 +3794,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_01_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3674,7 +3816,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_01_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3689,7 +3832,14 @@
             "object_marking": 0,
             "object": "bdt_t2_bomb_target_01_aaa",
             "stealthRadius": 1250.0,
-            "calmDetection": true
+            "calmDetection": true,
+            "accuracy": 0.6,
+            "checkVisibilityTarget": true,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6,
+            "fireRandom": true,
+            "targetChangeInterval": 5.0,
+            "targetChangeProf": 0.25
           }
         }
       ],
@@ -3726,7 +3876,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_02_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3747,7 +3898,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_02_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3768,7 +3920,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_02_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3789,7 +3942,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_02_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3804,7 +3958,14 @@
             "object_marking": 0,
             "object": "bdt_t2_bomb_target_02_aaa",
             "stealthRadius": 1250.0,
-            "calmDetection": true
+            "calmDetection": true,
+            "accuracy": 0.6,
+            "checkVisibilityTarget": true,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6,
+            "fireRandom": true,
+            "targetChangeInterval": 5.0,
+            "targetChangeProf": 0.25
           }
         }
       ],
@@ -3841,7 +4002,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_03_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3862,7 +4024,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_03_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3883,7 +4046,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_03_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3904,7 +4068,8 @@
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
             "object": "bdt_t2_bomb_target_03_aaa",
-            "target": "@bdt_t2_cur_spawn_zone_name",
+            "object_type": "isInactive",
+            "target": "@bdt_t2_cur_spawn_aaa_name",
             "randomObjectsCount": 1,
             "isStealth": true
           }
@@ -3919,7 +4084,14 @@
             "object_marking": 0,
             "object": "bdt_t2_bomb_target_03_aaa",
             "stealthRadius": 1250.0,
-            "calmDetection": true
+            "calmDetection": true,
+            "accuracy": 0.6,
+            "checkVisibilityTarget": true,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6,
+            "fireRandom": true,
+            "targetChangeInterval": 5.0,
+            "targetChangeProf": 0.25
           }
         }
       ],
@@ -4719,8 +4891,8 @@
   "variables": {
     "bdt_t1_total_bases_max_count": 5,
     "bdt_t2_total_bases_max_count": 5,
-    "bdt_t1_active_bases_max_count": 2,
-    "bdt_t2_active_bases_max_count": 2,
+    "bdt_t1_active_bases_max_count": 1,
+    "bdt_t2_active_bases_max_count": 1,
     "bdt_t1_cur_spawn_zone_name": "",
     "bdt_t2_cur_spawn_zone_name": "",
     "bdt_t1_zone_01_name": "",
@@ -4748,8 +4920,6 @@
     "bdt_balance_level": 0,
     "bdt_t1_base_as_target_for_t2_name": "",
     "bdt_t2_base_as_target_for_t1_name": "",
-    "bdt_t1_cur_active_bases_max_count": 2,
-    "bdt_t2_cur_active_bases_max_count": 2,
     "bdt_t1_frontline_col_idx": 0,
     "bdt_t1_frontline_row_idx": 0,
     "bdt_t2_frontline_col_idx": 0,
@@ -4770,7 +4940,9 @@
     "bdt_capture_t1_frontline_name": "",
     "bdt_capture_t2_frontline_name": "",
     "bdt_capture_t1_bomb_zone_name": "",
-    "bdt_capture_t2_bomb_zone_name": ""
+    "bdt_capture_t2_bomb_zone_name": "",
+    "bdt_capture_t1_aaa_name": "",
+    "bdt_capture_t2_aaa_name": ""
   },
   "dialogs": [],
   "airfields": [],

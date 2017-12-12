@@ -365,14 +365,17 @@ class ::items_classes.Wager extends ::BaseItem
     }
 
     local stakeText
+    local costParam = {isWpAlwaysShown = true}
     if (isActive())
-      stakeText = curWager.tostring()
+      stakeText =::Cost(curWager).toStringWithParams(costParam)
     else if (maxWager == 0)
       stakeText = ""
     else if (minWager == maxWager)
-      stakeText = minWager.tostring()
+      stakeText = ::Cost(minWager).toStringWithParams(costParam)
     else
-      stakeText = ::format("%s-%s", minWager.tostring(), maxWager.tostring())
+      stakeText = ::format("%s-%s",
+        ::Cost(minWager).toStringWithParams(costParam),
+        ::Cost(maxWager).toStringWithParams(costParam))
     if (stakeText != "")
       desc += ::loc("items/wager/stake", { stakeText = stakeText }) + "\n"
 

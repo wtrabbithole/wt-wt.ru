@@ -46,6 +46,14 @@ const units = {
     name: 'deg/s',
     coeff: Math.PI / 180.0
   },
+  loadFactor: {
+    name: 'G',
+    coeff: 1.0
+  },
+  time: {
+    name: 'sec',
+    coeff: 1.0
+  },  
   
   km: {
     name: 'km',
@@ -181,6 +189,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.torr,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.kgs,
     moment: units.kgsm,
@@ -199,6 +209,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.torr,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.kgs,
     moment: units.kgsm,
@@ -217,6 +229,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.atm,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.kgs,
     moment: units.kgsm,
@@ -235,6 +249,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.inHg,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.lbs,
     moment: units.lbsf,
@@ -253,6 +269,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.inHg,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.lbs,
     moment: units.lbsf,
@@ -271,6 +289,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.psi,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.lbs,
     moment: units.lbsf,
@@ -289,6 +309,8 @@ const unitSystems = [
     rotationVelocity: units.rpm,
     pressure: units.psi,
     ratio: units.ratio,
+    loadFactor: units.loadFactor,
+    time: units.time,    
     power: units.hp,
     thrust: units.lbs,
     moment: units.lbsf,
@@ -437,6 +459,11 @@ function loadParameter(param, unitSystemName)
       param.handler(param)
   }
   return true
+}
+
+function getParamValue(param, unitSystemName)
+{
+  return convertToUnit(param.value, param.unit, unitSystemName)
 }
 
 //Save

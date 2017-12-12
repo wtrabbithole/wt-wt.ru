@@ -2,6 +2,7 @@ enum presenceCheckOrder {
   IN_GAME_WW
   IN_GAME
   IN_QUEUE
+  IN_WW_BATTLE_PREPARE
   IDLE
 }
 
@@ -21,6 +22,7 @@ enum presenceCheckOrder {
   }
   updateParams = @(params) params
   getLocText = @(presenceParams) ::loc(locId)
+  canInviteToWWBattle = true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_presence_type", {
@@ -51,6 +53,7 @@ enum presenceCheckOrder {
     locId = "status/in_game"
     isMatch = @() ((::is_in_flight() && !::g_mis_custom_state.getCurMissionRules().isWorldWar)
                     || ::SessionLobby.isInRoom())
+    canInviteToWWBattle = false
     updateParams = function(params) {
       params.gameMod <- get_game_mode()
       params.eventName <- ::events.getEventEconomicName(::SessionLobby.getRoomEvent())
@@ -74,10 +77,12 @@ enum presenceCheckOrder {
     updateParams = function(params) {
       local queue = ::queues.getActiveQueueWithType(queueTypeMask)
       local operationId = ::queues.getQueueOperationId(queue)
+      local battleId = queue instanceof ::queue_classes.WwBattle ? queue.getQueueWwBattleId() : ""
       local operation = ::g_ww_global_status.getOperationById(operationId)
       if (!operation)
         return
       params.operationId <- operationId
+      params.battleId <- battleId
       params.mapId <- operation.getMapId()
       params.country <- ::queues.getQueueCountry(queue)
     }
@@ -96,12 +101,14 @@ enum presenceCheckOrder {
     checkOrder = presenceCheckOrder.IN_GAME_WW
     locId = "status/in_game_ww"
     isMatch = @() ::is_in_flight() && ::g_mis_custom_state.getCurMissionRules().isWorldWar
+    canInviteToWWBattle = false
     updateParams = function(params) {
       local operationId = ::SessionLobby.getOperationId()
       local operation = ::g_ww_global_status.getOperationById(operationId)
       if (!operation)
         return
       params.operationId <- operationId
+      params.battleId <- ::SessionLobby.getWwBattleId()
       params.mapId <- operation.getMapId()
       params.country <- operation.getMyClanCountry() || ::get_profile_info().country
     }
@@ -113,6 +120,31 @@ enum presenceCheckOrder {
             : ""
           country = ::loc(presenceParams?.country ?? "")
         })
+    }
+  }
+
+  IN_WW_BATTLE_PREPARE = {
+    checkOrder = presenceCheckOrder.IN_WW_BATTLE_PREPARE
+    locId = "status/in_prepare_ww"
+    isMatch = @() !!::g_squad_manager.getWwOperationBattle()
+    updateParams = function(params) {
+      params.operationId <- ::g_squad_manager.getWwOperationId()
+      params.battleId <- ::g_squad_manager.getWwOperationBattle()
+      params.country <- ::g_squad_manager.getWwOperationCountry()
+    }
+    getLocText = function(presenceParams) {
+      local operationId = presenceParams?.operationId
+      local operation = ::g_ww_global_status.getOperationById(operationId)
+      if (!operation)
+        return ""
+
+      local map = ::g_ww_global_status.getMapByName(operation.getMapId())
+      local text = ::loc(locId,
+        { operationName = map
+            ? ::WwOperation.getNameTextByIdAndMapName(operationId, map.getNameText()) : ""
+          country = ::loc(presenceParams?.country ?? "")
+        })
+      return text
     }
   }
 }, null, "typeName")

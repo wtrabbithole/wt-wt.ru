@@ -333,7 +333,7 @@
       },
       "else_actions": []
     },
-    "t1_task_completed": {
+    "t1_major_task_completed": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -356,7 +356,7 @@
       },
       "else_actions": []
     },
-    "t2_task_completed": {
+    "t2_major_task_completed": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -374,6 +374,144 @@
         "varModify": {
           "operator": "add",
           "value": 5000.0,
+          "var": "team2_quest_score"
+        }
+      },
+      "else_actions": []
+    },
+    "t1_moderate_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 3500.0,
+          "var": "team1_quest_score"
+        }
+      },
+      "else_actions": []
+    },
+    "t2_moderate_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 3500.0,
+          "var": "team2_quest_score"
+        }
+      },
+      "else_actions": []
+    },
+    "t1_minor_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 2000.0,
+          "var": "team1_quest_score"
+        }
+      },
+      "else_actions": []
+    },
+    "t2_minor_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 2000.0,
+          "var": "team2_quest_score"
+        }
+      },
+      "else_actions": []
+    },
+    "t1_tiny_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 1000.0,
+          "var": "team1_quest_score"
+        }
+      },
+      "else_actions": []
+    },
+    "t2_tiny_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 1000.0,
           "var": "team2_quest_score"
         }
       },
@@ -577,7 +715,7 @@
       ],
       "else_actions": []
     },
-    "t1_minor_task_completed": {
+    "t1_detection_task_completed": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -633,7 +771,7 @@
       ],
       "else_actions": []
     },
-    "t2_minor_task_completed": {
+    "t2_detection_task_completed": {
       "is_enabled": false,
       "comments": "",
       "props": {
