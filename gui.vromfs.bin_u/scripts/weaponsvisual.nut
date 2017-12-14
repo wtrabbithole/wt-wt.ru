@@ -732,6 +732,21 @@ function weaponVisual::getEffectDesc(air, effect)
   local partHpMult = [];
   local blackoutG = [];
   local redoutG = [];
+  local waterMassVelTime = [];
+  local speedYawK = [];
+  local speedPitchK = [];
+  local shipDistancePrecision = [];
+  local extinguisherMinTime = [];
+  local extinguisherMaxTime = [];
+  local turnRadius = [];
+  local turnTime = [];
+  local distToLiveTorpedo = [];
+  local maxSpeedInWaterTorpedo = [];
+  local diveDepthTorpedo = [];
+  local speedShip = [];
+  local reverseSpeed = [];
+  local timeToMaxSpeed = [];
+  local timeToMaxReverseSpeed = [];
 
   local haveMass = false;
   local haveOswalds = false;
@@ -757,6 +772,22 @@ function weaponVisual::getEffectDesc(air, effect)
   local havePartHpMult = false;
   local haveBlackoutG = false;
   local haveRedoutG = false;
+  local haveWaterMassVelTime = false;
+  local haveSpeedYawK = false;
+  local haveSpeedPitchK = false;
+  local haveShipDistancePrecision = false;
+  local haveExtinguisherMinTime = false;
+  local haveExtinguisherMaxTime = false;
+  local haveTurnRadius = false;
+  local haveTurnTime = false;
+  local haveDistToLiveTorpedo = false;
+  local haveMaxSpeedInWaterTorpedo = false;
+  local haveDiveDepthTorpedo = false;
+  local haveSpeedShip = false;
+  local haveReverseSpeed = false;
+  local haveTimeToMaxSpeed = false;
+  local haveTimeToMaxReverseSpeed = false;
+
   foreach(m in ::domination_modes)
   {
     if (m.id in effect && ::get_show_mode_info(m.modeId))
@@ -799,6 +830,21 @@ function weaponVisual::getEffectDesc(air, effect)
       local validPartHpMult = "partHpMult" in effect[m.id] && fabs(effect[m.id].partHpMult) > 0.0001;
       local validBlackoutG = "blackoutG" in effect[m.id] && fabs(effect[m.id].blackoutG) > 0.01;
       local validRedoutG = "redoutG" in effect[m.id] && fabs(effect[m.id].redoutG) > 0.01;
+      local validWaterMassVelTime = "waterMassVelTime" in effect[m.id] && fabs(effect[m.id].waterMassVelTime) > 0.01;
+      local validSpeedYawK = "speedYawK" in effect[m.id] && fabs(effect[m.id].speedYawK) > 0.0001;
+      local validSpeedPitchK = "speedPitchK" in effect[m.id] && fabs(effect[m.id].speedPitchK) > 0.0001;
+      local validShipDistancePrecision = "shipDistancePrecision" in effect[m.id] && fabs(effect[m.id].shipDistancePrecision) > 0.0001;
+      local validExtinguisherMinTime = "extinguisherMinTime" in effect[m.id] && fabs(effect[m.id].extinguisherMinTime) > 0.1;
+      local validExtinguisherMaxTime = "extinguisherMaxTime" in effect[m.id] && fabs(effect[m.id].extinguisherMaxTime) > 0.1;
+      local validTurnRadius = "turnRadius" in effect[m.id] && fabs(effect[m.id].turnRadius) > 0.01;
+      local validTurnTime = "turnTime" in effect[m.id] && fabs(effect[m.id].turnTime) > 0.01;
+      local validDistToLiveTorpedo = "distToLiveTorpedo" in effect[m.id] && fabs(effect[m.id].distToLiveTorpedo) > 0.1;
+      local validMaxSpeedInWaterTorpedo = "maxSpeedInWaterTorpedo" in effect[m.id] && fabs(effect[m.id].maxSpeedInWaterTorpedo) > 0.1;
+      local validDiveDepthTorpedo = "diveDepthTorpedo" in effect[m.id] && fabs(effect[m.id].diveDepthTorpedo) > 0.1;
+      local validSpeedShip = "speedShip" in effect[m.id] && fabs(effect[m.id].speedShip) > 0.0001;
+      local validReverseSpeed = "reverseSpeed" in effect[m.id] && fabs(effect[m.id].reverseSpeed) > 0.0001;
+      local validTimeToMaxSpeed = "timeToMaxSpeed" in effect[m.id] && fabs(effect[m.id].timeToMaxSpeed) > 0.0001;
+      local validTimeToMaxReverseSpeed = "timeToMaxReverseSpeed" in effect[m.id] && fabs(effect[m.id].timeToMaxReverseSpeed) > 0.0001;
 
       haveMass = haveMass || validMass;
       haveOswalds = haveOswalds || validOswalds;
@@ -828,6 +874,25 @@ function weaponVisual::getEffectDesc(air, effect)
         havePartHpMult = havePartHpMult || validPartHpMult;
       }
 
+      if (::has_feature("Ships"))
+      {
+        haveWaterMassVelTime = haveWaterMassVelTime || validWaterMassVelTime;
+        haveSpeedYawK = haveSpeedYawK || validSpeedYawK;
+        haveSpeedPitchK = haveSpeedPitchK || validSpeedPitchK;
+        haveShipDistancePrecision = haveShipDistancePrecision || validShipDistancePrecision;
+        haveExtinguisherMinTime = haveExtinguisherMinTime || validExtinguisherMinTime;
+        haveExtinguisherMaxTime = haveExtinguisherMaxTime || validExtinguisherMaxTime;
+        haveTurnRadius = haveTurnRadius || validTurnRadius;
+        haveTurnTime = haveTurnTime || validTurnTime;
+        haveDistToLiveTorpedo = haveDistToLiveTorpedo || validDistToLiveTorpedo;
+        haveMaxSpeedInWaterTorpedo = haveMaxSpeedInWaterTorpedo || validMaxSpeedInWaterTorpedo;
+        haveDiveDepthTorpedo = haveDiveDepthTorpedo || validDiveDepthTorpedo;
+        haveSpeedShip = haveSpeedShip || validSpeedShip;
+        haveReverseSpeed = haveReverseSpeed || validReverseSpeed;
+        haveTimeToMaxSpeed = haveTimeToMaxSpeed || validTimeToMaxSpeed;
+        haveTimeToMaxReverseSpeed = haveTimeToMaxReverseSpeed || validTimeToMaxReverseSpeed;
+      }
+
       masses.append(validMass ? effect[m.id].mass : "0");
       oswalds.append(validOswalds ? effect[m.id].oswalds : "0");
       cdMinFusel.append(validCdMinFusel ? effect[m.id].cdMinFusel : "0");
@@ -852,13 +917,31 @@ function weaponVisual::getEffectDesc(air, effect)
       partHpMult.append(havePartHpMult ? effect[m.id].partHpMult * 100.0 : "0");
       blackoutG.append(haveBlackoutG ? effect[m.id].blackoutG : "0");
       redoutG.append(haveRedoutG ? effect[m.id].redoutG : "0");
+      waterMassVelTime.append(haveWaterMassVelTime ? effect[m.id].waterMassVelTime : "0")
+      speedYawK.append(haveSpeedYawK ? effect[m.id].speedYawK * 100.0 : "0")
+      speedPitchK.append(haveSpeedPitchK ? effect[m.id].speedPitchK * 100.0 : "0")
+      shipDistancePrecision.append(haveShipDistancePrecision ? effect[m.id].shipDistancePrecision * 100.0 : "0")
+      extinguisherMinTime.append(haveExtinguisherMinTime ? effect[m.id].extinguisherMinTime: "0")
+      extinguisherMaxTime.append(haveExtinguisherMaxTime ? effect[m.id].extinguisherMaxTime: "0")
+      turnRadius.append(haveTurnRadius ? effect[m.id].turnRadius * 100.0 : "0")
+      turnTime.append(haveTurnTime ? effect[m.id].turnTime * 100.0 : "0")
+      distToLiveTorpedo.append(haveDistToLiveTorpedo ? effect[m.id].distToLiveTorpedo : "0")
+      maxSpeedInWaterTorpedo.append(haveMaxSpeedInWaterTorpedo ? effect[m.id].maxSpeedInWaterTorpedo : "0")
+      diveDepthTorpedo.append(haveDiveDepthTorpedo ? effect[m.id].diveDepthTorpedo : "0")
+      speedShip.append(haveSpeedShip ? effect[m.id].speedShip : "0")
+      reverseSpeed.append(haveReverseSpeed ? effect[m.id].reverseSpeed : "0")
+      timeToMaxSpeed.append(haveTimeToMaxSpeed ? effect[m.id].timeToMaxSpeed : "0")
+      timeToMaxReverseSpeed.append(haveTimeToMaxReverseSpeed ? effect[m.id].timeToMaxReverseSpeed : "0")
     }
   }
   local startTab = ::nbsp + ::nbsp + ::nbsp + ::nbsp;
   if (haveMass || haveOswalds || haveCdMinFusel || haveCdMinTail || haveCdMinWing || haveAilThrSpd || haveRuddThrSpd || haveElevThrSpd || haveHorsePowers || haveThrust ||
       "armor" in effect || "cutProbability" in effect || "overheadCooldown" in effect || haveTurnTurretSpeedK || haveGunPitchSpeedK || haveMaxInclination ||
       haveMaxDeltaAngleK || haveMaxDeltaAngleVerticalK || haveMaxBrakeForceK || haveSuspensionDampeningForceK || haveTimeToBrake || haveDistToBrake || haveAccelTime ||
-      haveSpeeds || haveClimbs || haveRolls || haveVirages || haveMaxInclination || havePartHpMult || haveBlackoutG || haveRedoutG)
+      haveSpeeds || haveClimbs || haveRolls || haveVirages || haveMaxInclination || havePartHpMult || haveBlackoutG || haveRedoutG ||
+      haveWaterMassVelTime || haveSpeedYawK || haveSpeedPitchK || haveShipDistancePrecision || haveExtinguisherMinTime || haveExtinguisherMaxTime ||
+      haveTurnRadius || haveTurnTime || haveDistToLiveTorpedo || haveMaxSpeedInWaterTorpedo || haveDiveDepthTorpedo|| haveSpeedShip || haveReverseSpeed || haveTimeToMaxSpeed ||
+      haveTimeToMaxReverseSpeed )
     desc += "\n" + ::loc("modifications/specs_change") + ::loc("ui/colon")
   if ("armor" in effect)
     desc += "\n" + startTab + genModEffectDescr("armor", effect.armor, "@goodTextColor", "@badTextColor", "%", 0);
@@ -926,6 +1009,36 @@ function weaponVisual::getEffectDesc(air, effect)
     desc += "\n" + startTab + genModEffectDescr("blackoutG", blackoutG, "@goodTextColor", "@badTextColor", "", 2);
   if (haveRedoutG)
     desc += "\n" + startTab + genModEffectDescr("redoutG", redoutG, "@badTextColor", "@goodTextColor", "", 2);
+  if (haveWaterMassVelTime)
+    desc += "\n" + startTab + genModEffectDescr("waterMassVelTime", waterMassVelTime, "@badTextColor", "@goodTextColor", ::loc("measureUnits/hours"), 1);
+  if (haveSpeedYawK)
+    desc += "\n" + startTab + genModEffectDescr("speedYawK", speedYawK, "@goodTextColor", "@badTextColor", "%", 0);
+  if (haveSpeedPitchK)
+    desc += "\n" + startTab + genModEffectDescr("speedPitchK", speedPitchK, "@goodTextColor", "@badTextColor", "%", 0);
+  if (haveShipDistancePrecision)
+    desc += "\n" + startTab + genModEffectDescr("shipDistancePrecision", shipDistancePrecision, "@goodTextColor", "@badTextColor", "%", 0);
+  if (haveExtinguisherMinTime)
+    desc += "\n" + startTab + genModEffectDescr("extinguisherMinTime", extinguisherMinTime, "@goodTextColor", "@badTextColor", ::loc("measureUnits/seconds"), 1);
+  if (haveExtinguisherMaxTime)
+    desc += "\n" + startTab + genModEffectDescr("extinguisherMaxTime", extinguisherMaxTime, "@goodTextColor", "@badTextColor", ::loc("measureUnits/seconds"), 1);
+  if (haveTurnRadius)
+    desc += "\n" + startTab + genModEffectDescr("turnRadius", turnRadius, "@badTextColor", "@goodTextColor", "%", 0);
+  if (haveTurnTime)
+    desc += "\n" + startTab + genModEffectDescr("turnTime", turnTime, "@badTextColor", "@goodTextColor", "%", 0);
+  if (haveDistToLiveTorpedo)
+    desc += "\n" + startTab + genModEffectDescr("distToLiveTorpedo", distToLiveTorpedo, "@activeTextColor", "@activeTextColor", ::loc("measureUnits/meters_alt"), 0);
+  if (haveMaxSpeedInWaterTorpedo)
+    desc += "\n" + startTab + genModEffectDescr("maxSpeedInWaterTorpedo", maxSpeedInWaterTorpedo, "@activeTextColor", "@activeTextColor", ::loc("measureUnits/metersPerSecond_climbSpeed"), 0);
+  if (haveDiveDepthTorpedo)
+    desc += "\n" + startTab + genModEffectDescr("diveDepthTorpedo", diveDepthTorpedo, "@activeTextColor", "@activeTextColor", ::loc("measureUnits/meters_alt"), 0);
+  if (haveSpeedShip)
+    desc += "\n" + startTab + genModEffectDescr("speedShip", speedShip, "@goodTextColor", "@badTextColor", 0, 0);
+  if (haveReverseSpeed)
+    desc += "\n" + startTab + genModEffectDescr("reverseSpeed", reverseSpeed, "@goodTextColor", "@badTextColor", 0, 0);
+  if (haveTimeToMaxSpeed)
+    desc += "\n" + startTab + genModEffectDescr("timeToMaxSpeed", timeToMaxSpeed, "@badTextColor", "@goodTextColor", ::loc("measureUnits/seconds"), 0);
+  if (haveTimeToMaxReverseSpeed)
+    desc += "\n" + startTab + genModEffectDescr("timeToMaxReverseSpeed", timeToMaxReverseSpeed, "@badTextColor", "@goodTextColor", ::loc("measureUnits/seconds"), 0);
 
   if ("weaponMods" in effect)
     foreach(w in effect.weaponMods)
