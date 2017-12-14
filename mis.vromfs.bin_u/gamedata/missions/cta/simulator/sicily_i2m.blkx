@@ -442,6 +442,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/sicily/cr_carriers_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -514,7 +530,7 @@
         },
         {
           "varSetBool": {
-            "value": true,
+            "value": false,
             "var": "ft_is_detect_on"
           }
         },
@@ -606,6 +622,17 @@
           "varSetInt": {
             "value": 5,
             "var": "ft_max_airfield_idx_to_generate"
+          }
+        },
+        {
+          "comment": {
+            "value": "разрешаем команде А спавн авианосца"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "cr_t1_carriers_alowed"
           }
         }
       ],
@@ -717,7 +744,7 @@
         "bulletsCount2": 0,
         "bulletsCount3": 0,
         "props": {
-          "army": 2,
+          "army": 1,
           "count": 1,
           "free_distance": 70.0,
           "floating_distance": 50.0,

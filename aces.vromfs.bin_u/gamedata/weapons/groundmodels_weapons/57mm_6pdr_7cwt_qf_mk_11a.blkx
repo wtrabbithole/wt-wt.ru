@@ -17,6 +17,7 @@
   "bulletsCluster": 1,
   "fxType": "big_gun_flame",
   "fxGroundDust": "water_shock_wave",
+  "fxScale": 0.7,
   "shouldCollideWithRendinsts": true,
   "sound_path": "tanks/weapon_tanks/cannons",
   "sound": "57mm_qf6",
@@ -35,7 +36,7 @@
     "caliber": 0.057,
     "speed": 655.0,
     "maxDistance": 5670.0,
-    "bulletType": "he_frag_i_t",
+    "bulletType": "he_frag_tank",
     "bulletName": "57mm_shell_mk10t",
     "hitPowerMult": 10.0,
     "nearHitPower": [1.0,50.0],
@@ -52,25 +53,30 @@
     "groundCollisionEffect": "art_ground_splash",
     "ricochetEffect": "cannon_ricochet",
     "groundFxScale": [1.2,1.3],
-    "waterCollisionEffect": "water_splash_20_76",
-    "waterFxScale": [1.0,1.0],
+    "waterCollisionEffect": "water_splash_76_00_he",
+    "waterFxScale": [0.8,0.9],
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "noColor"
+      "tracer": "50mmRed",
+      "trail": "black"
     },
     "collisions": {
       "steel": {
         "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.0,1.5]
+        "fxScale": [2.0,2.5]
       },
       "armor": {
         "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.0,1.5]
+        "fxScale": [2.0,2.5]
       },
       "wood": {
-        "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.0,2.0]
+        "fx": "old_ship_hit_ball",
+        "fxScale": [2.0,2.5]
+      },
+      "buildings": {
+        "fx": "50_75_he_hit_stone",
+        "fxScale": [2.0,2.0]
       }
     }
   },
@@ -81,14 +87,15 @@
       "caliber": 0.057,
       "speed": 883.0,
       "maxDistance": 10000.0,
-      "bulletType": "ap_t",
+      "bulletType": "apc_t",
       "bulletName": "57mm_shot_mk8t",
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [0.7,0.8],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "big_water_splash",
+      "waterCollisionEffect": "water_splash_76_00",
+      "waterFxScale": [0.8,0.9],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -110,15 +117,25 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "30mmRed",
+        "tracer": "50mmWhite",
         "trail": "black"
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_light",
+          "fxScale": [1.0,1.5]
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_armor",
+          "fxScale": [1.0,1.5]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_ap",
+          "fxScale": [1.0,2.0]
+        },
+        "buildings": {
+          "fx": "50_75_ap_hit_stone",
+          "fxScale": [1.0,1.0]
         }
       }
     }
@@ -132,7 +149,7 @@
       "caliber": 0.057,
       "speed": 655.0,
       "maxDistance": 5670.0,
-      "bulletType": "he_frag_i_t",
+      "bulletType": "he_frag_tank",
       "bulletName": "57mm_shell_mk10t",
       "hitPowerMult": 10.0,
       "nearHitPower": [1.0,50.0],
@@ -149,25 +166,30 @@
       "groundCollisionEffect": "art_ground_splash",
       "ricochetEffect": "cannon_ricochet",
       "groundFxScale": [1.2,1.3],
-      "waterCollisionEffect": "water_splash_20_76",
-      "waterFxScale": [1.0,1.0],
+      "waterCollisionEffect": "water_splash_76_00_he",
+      "waterFxScale": [0.8,0.9],
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "noColor"
+        "tracer": "50mmRed",
+        "trail": "black"
       },
       "collisions": {
         "steel": {
           "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [1.0,1.5]
+          "fxScale": [2.0,2.5]
         },
         "armor": {
           "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [1.0,1.5]
+          "fxScale": [2.0,2.5]
         },
         "wood": {
-          "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [1.0,2.0]
+          "fx": "old_ship_hit_ball",
+          "fxScale": [2.0,2.5]
+        },
+        "buildings": {
+          "fx": "50_75_he_hit_stone",
+          "fxScale": [2.0,2.0]
         }
       }
     }

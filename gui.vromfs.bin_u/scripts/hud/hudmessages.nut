@@ -493,6 +493,7 @@ local time = require("scripts/time.nut")
     {
       setScene(inScene, inTimers)
       timers.removeTimer(rewardClearTimer)
+      clearRewardMessage()
     }
 
     onMessage = function (messageData)
@@ -551,6 +552,7 @@ local time = require("scripts/time.nut")
       {
         ::showBtn("reward_message", false, nest)
         nest.findObject("reward_message_text").setValue("")
+        nest.findObject("reward_message_text").view_class = ""
         nest.findObject("reward_total").setValue("")
         nest.findObject("reward_value_container")._blink = "no"
       }
@@ -558,6 +560,7 @@ local time = require("scripts/time.nut")
       rewardWp = 0.0
       rewardXp = 0.0
       timers.removeTimer(rewardClearTimer)
+      rewardClearTimer = null
     }
   }
 

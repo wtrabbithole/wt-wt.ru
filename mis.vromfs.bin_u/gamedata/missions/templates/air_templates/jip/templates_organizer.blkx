@@ -250,723 +250,926 @@
         }
       }
     },
-    "to_template_01_lpt_check": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
+    "01 - lookup_plane": {
+      "isCategory": true,
+      "is_enabled": true,
+      "to_template_01_lpt_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "to_randomizer",
+              "value": 1,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "lpt_is_launch_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "lpt_is_template_active",
+              "value": false,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "назначаем армию"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "lpt_army_both_zero",
+              "input_var": "to_army"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем стартер шаблона"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "to_template_01_lpt_choose"
+            }
+          }
+        ],
+        "else_actions": []
       },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
+      "to_template_01_lpt_choose": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "to_cur_launched_templates"
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим флаг, что шаблон запустился"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "lpt_is_template_active"
+            }
+          },
+          {
+            "comment": {
+              "value": "задаем случайное время старта"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "lpt_delay_timer",
+              "from": 30,
+              "to_not_including": 120
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем событие"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "lpt_start"
+            }
+          },
+          {
+            "wait": {
+              "time": 10.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "to_template_01_lpt_run"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "событие уже запущено - автоматом сгенерится новое"
+          }
         }
       },
-      "conditions": [
-        {
-          "varCompareInt": {
-            "var_value": "to_randomizer",
-            "value": 1,
-            "comparasion_func": "equal"
+      "to_template_01_lpt_run": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
           }
         },
-        {
-          "varCompareBool": {
-            "var_value": "lpt_is_launch_alowed",
-            "value": true,
-            "comparasion_func": "equal"
+        "conditions": [],
+        "actions": {
+          "comment": {
+            "value": "включаем проверку выключения шаблона"
+          },
+          "triggerEnable": {
+            "target": "to_template_01_lpt_end"
           }
         },
-        {
+        "else_actions": []
+      },
+      "to_template_01_lpt_end": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
           "varCompareBool": {
             "var_value": "lpt_is_template_active",
             "value": false,
             "comparasion_func": "equal"
           }
-        }
-      ],
-      "actions": [
-        {
+        },
+        "actions": {
           "comment": {
-            "value": "назначаем армию"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": "lpt_army_both_zero",
-            "input_var": "to_army"
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем стартер шаблона"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "to_template_01_lpt_choose"
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "to_template_01_lpt_choose": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ANY",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
+            "value": "шаблон разведчиков завершил работу"
+          },
           "varModify": {
             "operator": "add",
-            "value": 1.0,
+            "value": -1.0,
             "var": "to_cur_launched_templates"
           }
         },
-        {
-          "comment": {
-            "value": "ставим флаг, что шаблон запустился"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "lpt_is_template_active"
-          }
-        },
-        {
-          "comment": {
-            "value": "задаем случайное время старта"
-          }
-        },
-        {
-          "varSetRandomInt": {
-            "var": "lpt_delay_timer",
-            "from": 30,
-            "to_not_including": 120
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем событие"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "lpt_start"
-          }
-        },
-        {
-          "wait": {
-            "time": 10.0
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "to_template_01_lpt_run"
-          }
-        }
-      ],
-      "else_actions": {
-        "comment": {
-          "value": "событие уже запущено - автоматом сгенерится новое"
-        }
+        "else_actions": []
       }
     },
-    "to_template_01_lpt_run": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "comment": {
-          "value": "включаем проверку выключения шаблона"
+    "02 - boombers": {
+      "isCategory": true,
+      "is_enabled": true,
+      "to_template_02_bt_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
         },
-        "triggerEnable": {
-          "target": "to_template_01_lpt_end"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_01_lpt_end": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "varCompareBool": {
-          "var_value": "lpt_is_template_active",
-          "value": false,
-          "comparasion_func": "equal"
-        }
-      },
-      "actions": {
-        "comment": {
-          "value": "шаблон разведчиков завершил работу"
-        },
-        "varModify": {
-          "operator": "add",
-          "value": -1.0,
-          "var": "to_cur_launched_templates"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_02_bt_check": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [
-        {
-          "varCompareInt": {
-            "var_value": "to_randomizer",
-            "value": 2,
-            "comparasion_func": "equal"
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
           }
         },
-        {
-          "varCompareBool": {
-            "var_value": "bt_is_launch_alowed",
-            "value": true,
-            "comparasion_func": "equal"
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "to_randomizer",
+              "value": 2,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "bt_is_launch_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "bt_is_template_active",
+              "value": false,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "bt_army_both_zero",
+            "input_var": "to_army"
+          },
+          "triggerEnable": {
+            "target": "to_template_02_bt_choose"
           }
         },
-        {
+        "else_actions": []
+      },
+      "to_template_02_bt_choose": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "to_cur_launched_templates"
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим флаг, что шаблон запустился"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "bt_is_template_active"
+            }
+          },
+          {
+            "comment": {
+              "value": "задаем случайное время старта"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "bt_delay_timer",
+              "from": 30,
+              "to_not_including": 120
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем событие"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bt_start"
+            }
+          },
+          {
+            "wait": {
+              "time": 10.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "to_template_02_bt_run"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "событие уже запущено - автоматом сгенерится новое"
+          }
+        }
+      },
+      "to_template_02_bt_run": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "comment": {
+            "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
+          },
+          "triggerEnable": {
+            "target": "to_template_02_bt_end"
+          }
+        },
+        "else_actions": []
+      },
+      "to_template_02_bt_end": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
           "varCompareBool": {
             "var_value": "bt_is_template_active",
             "value": false,
             "comparasion_func": "equal"
           }
-        }
-      ],
-      "actions": {
-        "comment": {
-          "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
         },
-        "varSetInt": {
-          "value": 0,
-          "var": "bt_army_both_zero",
-          "input_var": "to_army"
-        },
-        "triggerEnable": {
-          "target": "to_template_02_bt_choose"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_02_bt_choose": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ANY",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
+        "actions": {
           "varModify": {
             "operator": "add",
-            "value": 1.0,
+            "value": -1.0,
             "var": "to_cur_launched_templates"
           }
         },
-        {
-          "comment": {
-            "value": "ставим флаг, что шаблон запустился"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "bt_is_template_active"
-          }
-        },
-        {
-          "comment": {
-            "value": "задаем случайное время старта"
-          }
-        },
-        {
-          "varSetRandomInt": {
-            "var": "bt_delay_timer",
-            "from": 30,
-            "to_not_including": 120
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем событие"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bt_start"
-          }
-        },
-        {
-          "wait": {
-            "time": 10.0
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "to_template_02_bt_run"
-          }
-        }
-      ],
-      "else_actions": {
-        "comment": {
-          "value": "событие уже запущено - автоматом сгенерится новое"
-        }
+        "else_actions": []
       }
     },
-    "to_template_02_bt_run": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "comment": {
-          "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
+    "03 - land convoys": {
+      "isCategory": true,
+      "is_enabled": true,
+      "to_template_03_ct_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
         },
-        "triggerEnable": {
-          "target": "to_template_02_bt_end"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_02_bt_end": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "varCompareBool": {
-          "var_value": "bt_is_template_active",
-          "value": false,
-          "comparasion_func": "equal"
-        }
-      },
-      "actions": {
-        "varModify": {
-          "operator": "add",
-          "value": -1.0,
-          "var": "to_cur_launched_templates"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_03_ct_check": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [
-        {
-          "varCompareInt": {
-            "var_value": "to_randomizer",
-            "value": 3,
-            "comparasion_func": "equal"
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
           }
         },
-        {
-          "varCompareBool": {
-            "var_value": "ct_is_launch_alowed",
-            "value": true,
-            "comparasion_func": "equal"
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "to_randomizer",
+              "value": 3,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "ct_is_launch_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "ct_is_template_active",
+              "value": false,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
+          },
+          "triggerEnable": {
+            "target": "to_template_03_ct_choose"
           }
         },
-        {
+        "else_actions": []
+      },
+      "to_template_03_ct_choose": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "to_cur_launched_templates"
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим флаг, что шаблон запустился"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "ct_is_template_active"
+            }
+          },
+          {
+            "comment": {
+              "value": "задаем случайное время старта"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_delay_timer",
+              "from": 30,
+              "to_not_including": 120
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем событие"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "to_template_03_ct_run"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "событие уже запущено - автоматом сгенерится новое"
+          }
+        }
+      },
+      "to_template_03_ct_run": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "comment": {
+            "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
+          },
+          "triggerEnable": [
+            {
+              "target": "ct_start"
+            },
+            {
+              "target": "to_template_03_ct_end"
+            }
+          ]
+        },
+        "else_actions": []
+      },
+      "to_template_03_ct_end": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
           "varCompareBool": {
             "var_value": "ct_is_template_active",
             "value": false,
             "comparasion_func": "equal"
           }
-        }
-      ],
-      "actions": {
-        "comment": {
-          "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
         },
-        "triggerEnable": {
-          "target": "to_template_03_ct_choose"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_03_ct_choose": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ANY",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
+        "actions": {
           "varModify": {
             "operator": "add",
-            "value": 1.0,
+            "value": -1.0,
             "var": "to_cur_launched_templates"
           }
         },
-        {
-          "comment": {
-            "value": "ставим флаг, что шаблон запустился"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "ct_is_template_active"
-          }
-        },
-        {
-          "comment": {
-            "value": "задаем случайное время старта"
-          }
-        },
-        {
-          "varSetRandomInt": {
-            "var": "ct_delay_timer",
-            "from": 30,
-            "to_not_including": 120
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем событие"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "to_template_03_ct_run"
-          }
-        }
-      ],
-      "else_actions": {
-        "comment": {
-          "value": "событие уже запущено - автоматом сгенерится новое"
-        }
+        "else_actions": []
       }
     },
-    "to_template_03_ct_run": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "comment": {
-          "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
+    "04 - assaults": {
+      "isCategory": true,
+      "is_enabled": true,
+      "to_template_04_at_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
         },
-        "triggerEnable": [
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
           {
-            "target": "ct_start"
+            "varCompareInt": {
+              "var_value": "to_randomizer",
+              "value": 4,
+              "comparasion_func": "equal"
+            }
           },
           {
-            "target": "to_template_03_ct_end"
+            "varCompareBool": {
+              "var_value": "at_is_launch_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "at_is_template_active",
+              "value": false,
+              "comparasion_func": "equal"
+            }
           }
-        ]
-      },
-      "else_actions": []
-    },
-    "to_template_03_ct_end": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "varCompareBool": {
-          "var_value": "ct_is_template_active",
-          "value": false,
-          "comparasion_func": "equal"
-        }
-      },
-      "actions": {
-        "varModify": {
-          "operator": "add",
-          "value": -1.0,
-          "var": "to_cur_launched_templates"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_04_at_check": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [
-        {
-          "varCompareInt": {
-            "var_value": "to_randomizer",
-            "value": 4,
-            "comparasion_func": "equal"
+        ],
+        "actions": {
+          "comment": {
+            "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "at_army_both_zero",
+            "input_var": "to_army"
+          },
+          "triggerEnable": {
+            "target": "to_template_04_at_choose"
           }
         },
-        {
-          "varCompareBool": {
-            "var_value": "at_is_launch_alowed",
-            "value": true,
-            "comparasion_func": "equal"
+        "else_actions": []
+      },
+      "to_template_04_at_choose": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
           }
         },
-        {
+        "conditions": [],
+        "actions": [
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "to_cur_launched_templates"
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим флаг, что шаблон запустился"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "at_is_template_active"
+            }
+          },
+          {
+            "comment": {
+              "value": "задаем случайное время старта"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "at_assaults_delay_timer",
+              "from": 30,
+              "to_not_including": 120
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем событие"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "to_template_04_at_run"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "событие уже запущено - автоматом сгенерится новое"
+          }
+        }
+      },
+      "to_template_04_at_run": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "говорим что режим работы шаблона: jip"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "jip",
+              "var": "at_assault_game_type"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "at_start"
+              },
+              {
+                "target": "to_template_04_at_end"
+              }
+            ]
+          }
+        ],
+        "else_actions": []
+      },
+      "to_template_04_at_end": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
           "varCompareBool": {
             "var_value": "at_is_template_active",
             "value": false,
             "comparasion_func": "equal"
           }
-        }
-      ],
-      "actions": {
-        "comment": {
-          "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
         },
-        "varSetInt": {
-          "value": 0,
-          "var": "at_army_both_zero",
-          "input_var": "to_army"
-        },
-        "triggerEnable": {
-          "target": "to_template_04_at_choose"
-        }
-      },
-      "else_actions": []
-    },
-    "to_template_04_at_choose": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ANY",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
+        "actions": {
           "varModify": {
             "operator": "add",
-            "value": 1.0,
+            "value": -1.0,
             "var": "to_cur_launched_templates"
           }
         },
-        {
-          "comment": {
-            "value": "ставим флаг, что шаблон запустился"
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "at_is_template_active"
-          }
-        },
-        {
-          "comment": {
-            "value": "задаем случайное время старта"
-          }
-        },
-        {
-          "varSetRandomInt": {
-            "var": "at_assaults_delay_timer",
-            "from": 30,
-            "to_not_including": 120
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем событие"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "to_template_04_at_run"
-          }
-        }
-      ],
-      "else_actions": {
-        "comment": {
-          "value": "событие уже запущено - автоматом сгенерится новое"
-        }
+        "else_actions": []
       }
     },
-    "to_template_04_at_run": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
+    "05 - air domination": {
+      "isCategory": true,
+      "is_enabled": true,
+      "to_template_05_ad_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "to_randomizer",
+              "value": 5,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "ad_is_launch_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareBool": {
+              "var_value": "ad_is_template_active",
+              "value": false,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
+          },
+          "triggerEnable": {
+            "target": "to_template_05_ad_choose"
+          }
+        },
+        "else_actions": []
       },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
+      "to_template_05_ad_choose": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "to_cur_launched_templates"
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим флаг, что шаблон запустился"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "ad_is_template_active"
+            }
+          },
+          {
+            "comment": {
+              "value": "задаем случайное время старта"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ad_air_dom_delay_timer",
+              "from": 30,
+              "to_not_including": 120
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем событие"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "to_template_05_ad_run"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "событие уже запущено - автоматом сгенерится новое"
+          }
         }
       },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "говорим что режим работы шаблона: jip"
+      "to_template_05_ad_run": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
           }
         },
-        {
-          "varSetString": {
-            "value": "jip",
-            "var": "at_assault_game_type"
-          }
-        },
-        {
+        "conditions": [],
+        "actions": {
           "comment": {
             "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
-          }
-        },
-        {
+          },
           "triggerEnable": [
             {
-              "target": "at_start"
+              "target": "ad_start"
             },
             {
-              "target": "to_template_04_at_end"
+              "target": "to_template_05_ad_end"
             }
           ]
-        }
-      ],
-      "else_actions": []
-    },
-    "to_template_04_at_end": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
+        },
+        "else_actions": []
       },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
+      "to_template_05_ad_end": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "at_is_template_active",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": -1.0,
+            "var": "to_cur_launched_templates"
+          }
+        },
+        "else_actions": []
       },
-      "conditions": {
-        "varCompareBool": {
-          "var_value": "at_is_template_active",
-          "value": false,
-          "comparasion_func": "equal"
-        }
-      },
-      "actions": {
-        "varModify": {
-          "operator": "add",
-          "value": -1.0,
-          "var": "to_cur_launched_templates"
-        }
-      },
-      "else_actions": []
+      "ad_start": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [],
+        "else_actions": []
+      }
     }
   },
   "mission_objectives": {
@@ -985,7 +1188,8 @@
     "bdt_is_launch_alowed": false,
     "bt_is_launch_alowed": false,
     "ct_is_launch_alowed": false,
-    "at_is_launch_alowed": false
+    "at_is_launch_alowed": false,
+    "ad_is_launch_alowed": false
   },
   "dialogs": [],
   "airfields": [],

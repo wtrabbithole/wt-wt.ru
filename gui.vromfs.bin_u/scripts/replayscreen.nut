@@ -725,9 +725,9 @@ class ::gui_handlers.RenameReplayHandler extends ::gui_handlers.BaseGuiHandlerWT
         [["ok", function() {} ]], "ok");
       return;
     }
-    if (newName && newName != "" && newName != baseName)
+    if (newName && newName != "")
     {
-      if (afterRenameFunc)
+      if (afterRenameFunc && newName != baseName)
       {
         if (::rename_file(basePath, newName))
           afterRenameFunc.call(funcOwner, newName);

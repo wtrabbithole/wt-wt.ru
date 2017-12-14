@@ -163,9 +163,22 @@ country_exp_div[flow=horizontal] > exp_div {
 challengeDescriptionProgress {
   behaviour:progress;
   re-type:progress;
-  height:@progressHeight;
+  height:1@progressHeight;
   width:300@sf/@pf;
   margin-top:0.01@sf;
+  background-color:@cardProgressBGColor;
+  foreground-color:@cardProgressFGColor;
+  min:0;
+  max:1000;
+}
+
+battleTaskProgress {
+  behaviour:progress;
+  re-type:progress;
+  height:1@progressHeight;
+  border:yes;
+  border-offset:@dp;
+  border-color:@gray60;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
   min:0;

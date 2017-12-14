@@ -1,6 +1,6 @@
 ::g_language <- {
   currentLanguage = null
-  currentSteamSuffix = ""
+  currentSteamLanguage = ""
   shortLangName = ""
   replaceFunctionsTable = {}
 
@@ -12,24 +12,24 @@
 
   needCheckLangPack = false
 
-  steamSuffixes = {
-    English = "_english"
-    French = "_french"
-    Italian = "_italian"
-    German = "_german"
-    Spanish = "_spanish"
-    Russian = "_russian"
-    Polish = "_polish"
-    Czech = "_czech"
-    Turkish = "_turkish"
-    Chinese = "_schinese"
-    Japanese = "_japanese"
-    Portuguese = "_portuguese"
-    Ukrainian = "_ukrainian"
-    Hungarian = "_hungarian"
-    Korean = "_koreana"
-    TChinese = "_tchinese"
-    HChinese = "_schinese"
+  steamLanguages = {
+    English = "english"
+    French = "french"
+    Italian = "italian"
+    German = "german"
+    Spanish = "spanish"
+    Russian = "russian"
+    Polish = "polish"
+    Czech = "czech"
+    Turkish = "turkish"
+    Chinese = "schinese"
+    Japanese = "japanese"
+    Portuguese = "portuguese"
+    Ukrainian = "ukrainian"
+    Hungarian = "hungarian"
+    Korean = "koreana"
+    TChinese = "tchinese"
+    HChinese = "schinese"
   }
 }
 
@@ -178,7 +178,7 @@ function g_language::getCurLangInfo()
 
 function g_language::onChangeLanguage()
 {
-  ::g_language.currentSteamSuffix = ::getTblValue(currentLanguage, steamSuffixes, "_english");
+  ::g_language.currentSteamLanguage = ::getTblValue(currentLanguage, steamLanguages, "english");
   ::g_language.updateFunctions()
 }
 
@@ -374,19 +374,6 @@ function g_language::getLocTextFromConfig(config, id = "text", defaultValue = nu
   return res
 }
 
-function g_language::getLocTextFromSteamDesc(desc, key)
-{
-  local value = ::getTblValue(key + currentSteamSuffix, desc, null);
-  if (value)
-    return value;
-
-  value = ::getTblValue(key + "_english", desc, null);
-  if (value)
-    return value;
-
-  return ::getTblValue(key, desc, "");
-}
-
 function g_language::isAvailableForCurLang(block)
 {
   if (!::getTblValue("showForLangs", block))
@@ -420,6 +407,11 @@ function get_abbreviated_language_for_inventory(fullLang)
     abbrevLang = ::g_language.langsListForInventory[fullLang]
 
   return abbrevLang
+}
+
+function g_language::getCurrentSteamLanguage()
+{
+  return currentSteamLanguage
 }
 
 ::subscribe_handler(::g_language, ::g_listener_priority.DEFAULT_HANDLER)

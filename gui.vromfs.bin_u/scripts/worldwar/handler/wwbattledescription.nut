@@ -21,7 +21,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   shouldCheckCrewsReady = true
 
   inactiveGroupId = "group_inactive"
-  battle = null
+  curBattleInList = null      // selected battle in list
+  operationBattle = null      // battle to dasplay, check join enable, join, etc
   needEventHeader = true
   currViewMode = WW_BATTLE_VIEW_MODES.BATTLE_LIST
 
@@ -49,7 +50,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    ::handlersManager.loadHandler(::gui_handlers.WwBattleDescription, {battle = battle})
+    ::handlersManager.loadHandler(::gui_handlers.WwBattleDescription, {
+        curBattleInList = battle
+        operationBattle = ::WwBattle()
+      })
   }
 
   function getSceneTplContainerObj()
@@ -75,7 +79,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       local battleWithQueue = queue.getWWBattle()
       if (battleWithQueue && battleWithQueue.isValid())
-        battle = battleWithQueue
+        operationBattle = battleWithQueue
     }
 
     reinitBattlesList()
@@ -102,8 +106,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     lastBattleListMap = currentBattleListMap
 
-    if (!battle || !isBattleValid(battle.id))
-      battle = getFirstBattleInListMap()
+    if (!curBattleInList || !curBattleInList.isValid())
+      curBattleInList = getFirstBattleInListMap()
 
     if (needRefillBattleList)
       fillBattleList()
@@ -141,7 +145,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       battleDurationTimer.destroy()
 
     battleDurationTimer = ::Timer(scene, 1,
-      @() updateBattleStatus(battle.getView()), this, true)
+      @() updateBattleStatus(operationBattle.getView()), this, true)
   }
 
   selIdx = -1
@@ -224,14 +228,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       itemPrefixText = battleName + (!::u.isEmpty(sectorName) ? " " + sectorName : "")
       itemIcon = battleView.getIconImage()
       iconColor = battleView.getIconColor()
-      isSelected = battle != null && battle.isValid() && battleData.id == battle.id
+      isSelected = curBattleInList.isValid() && battleData.id == curBattleInList.id
     }
 
     if (battleData.isActive())
       view.itemText <- battleData.getLocName()
     else
     {
-      local teamsData = battleView.getTeamBlockByIconSize(
+      local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
+      local teamsData = battleView.getTeamBlockByIconSize(battleSides,
         WW_ARMY_GROUP_ICON_SIZE.SMALL, false, {hasArmyInfo = false,
                                                hasVersusText = true,
                                                canAlignRight = false})
@@ -266,41 +271,42 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSlotbar()
   {
-    showSceneBtn("nav-slotbar", battle.isActive())
-    if (!battle.isActive())
+    showSceneBtn("nav-slotbar", operationBattle.isActive())
+    if (!operationBattle.isActive())
       return
 
-    local playerTeam = battle.getTeamBySide(::ww_get_player_side())
+    local playerTeam = operationBattle.getTeamBySide(getPlayerSide())
     ::switch_profile_country(playerTeam.country)
-    local availableUnits = battle.getTeamRemainUnits(playerTeam)
+    local availableUnits = operationBattle.getTeamRemainUnits(playerTeam)
     createSlotbar(
       {
         limitCountryChoice = true
         customCountry = playerTeam.country
         availableUnits = availableUnits,
-        gameModeName = battle.getLocName()
+        gameModeName = operationBattle.getLocName()
         showEmptySlot = true
-        showPresetsPanel = true
+        needPresetsPanel = true
       }
     )
   }
 
   function updateQueueInfoPanel()
   {
-    if (!battle.isValid())
+    if (!operationBattle.isValid())
       return
 
-    local mySide = ::ww_get_player_side()
-    local battleView = battle.getView()
+    local mySide = getPlayerSide()
+    local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
+    local battleView = operationBattle.getView()
 
     local side1InfoObj = scene.findObject("SIDE_1_queue_side_info")
     local side1InfoBlk = ::handyman.renderCached(sceneTplQueueSideInfo,
-      battleView.getTeamDataBySide(mySide)
+      battleView.getTeamDataBySide(mySide, battleSides)
     )
 
     local side2InfoObj = scene.findObject("SIDE_2_queue_side_info")
     local side2InfoBlk = ::handyman.renderCached(sceneTplQueueSideInfo,
-      battleView.getTeamDataBySide(::g_world_war.getOppositeSide(mySide))
+      battleView.getTeamDataBySide(::g_world_war.getOppositeSide(mySide), battleSides)
     )
 
     guiScene.replaceContentFromText(side1InfoObj, side1InfoBlk, side1InfoBlk.len(), this)
@@ -313,49 +319,51 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(descrObj))
       return
 
-    local battleView = battle.getView()
+    local battleView = operationBattle.getView()
     local blk = ::handyman.renderCached(sceneTplDescriptionName, battleView)
 
     guiScene.replaceContentFromText(descrObj, blk, blk.len(), this)
 
-    if (!battle.isValid())
+    if (!operationBattle.isValid())
       return
 
     local noBattlesTextObj = scene.findObject("no_active_battles_full_text")
     if (::check_obj(noBattlesTextObj))
       noBattlesTextObj.show(false)
 
-    local battleSides = ::g_world_war.getSidesOrder(battle)
+    local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
     foreach(idx, side in battleSides)
     {
       local teamObjHeaderInfo = scene.findObject("team_header_info_" + idx)
       if (::check_obj(teamObjHeaderInfo))
       {
-        local teamHeaderInfoBlk = ::handyman.renderCached(sceneTplTeamHeaderInfo, battleView.getTeamDataBySide(side))
+        local teamHeaderInfoBlk = ::handyman.renderCached(sceneTplTeamHeaderInfo,
+          battleView.getTeamDataBySide(side, battleSides))
         guiScene.replaceContentFromText(teamObjHeaderInfo, teamHeaderInfoBlk, teamHeaderInfoBlk.len(), this)
       }
 
       local teamObjPlace = scene.findObject("team_unit_info_" + idx)
       if (::check_obj(teamObjPlace))
       {
-        local teamBlk = ::handyman.renderCached(sceneTplTeamRight, battleView.getTeamDataBySide(side))
+        local teamBlk = ::handyman.renderCached(sceneTplTeamRight,
+          battleView.getTeamDataBySide(side, battleSides))
         guiScene.replaceContentFromText(teamObjPlace, teamBlk, teamBlk.len(), this)
       }
     }
 
-    loadMap()
+    loadMap(battleSides[0])
     updateBattleStatus(battleView)
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
   }
 
-  function loadMap()
+  function loadMap(playerSide)
   {
     local tacticalMapObj = scene.findObject("tactical_map_single")
     if (!::checkObj(tacticalMapObj))
       return
 
     local misFileBlk = null
-    local misData = battle.missionInfo
+    local misData = operationBattle.missionInfo
     if (misData != null)
     {
       local missionBlk = ::DataBlock()
@@ -365,10 +373,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       misFileBlk.load(missionBlk.getStr("mis_file",""))
     }
     else
-      dagor.debug("Error: WWar: Battle with id=" + battle.id + ": not found mission info for mission " + battle.missionName)
+      dagor.debug("Error: WWar: Battle with id=" + operationBattle.id + ": not found mission info for mission " + operationBattle.missionName)
 
     ::g_map_preview.setMapPreview(tacticalMapObj, misFileBlk)
-    local playerTeam = battle.getTeamBySide(::ww_get_player_side())
+    local playerTeam = operationBattle.getTeamBySide(playerSide)
     if (playerTeam && "name" in playerTeam)
       ::tactical_map_set_team_for_briefing(::get_mp_team_by_team_name(playerTeam.name))
   }
@@ -397,7 +405,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onTimerUpdate(obj, dt)
   {
-    if (battle == null)
+    if (operationBattle == null)
       return
 
     local currentBattleQueue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
@@ -414,14 +422,14 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWWQueuesInfoSuccessCallback(queueInfo)
   {
-    if (!battle.isValid())
+    if (!operationBattle.isValid())
       return
 
-    local currentBattleQueueInfo = ::getTblValue(battle.id, queueInfo, null)
+    local currentBattleQueueInfo = ::getTblValue(operationBattle.id, queueInfo, null)
 
-    local mySide = ::ww_get_player_side()
-    local myTeamName = "team" + battle.getTeamNameBySide(mySide)
-    local enemyTeamName = "team" + battle.getTeamNameBySide(::g_world_war.getOppositeSide(mySide))
+    local mySide = getPlayerSide()
+    local myTeamName = "team" + operationBattle.getTeamNameBySide(mySide)
+    local enemyTeamName = "team" + operationBattle.getTeamNameBySide(::g_world_war.getOppositeSide(mySide))
 
     updateQueueSideInfoBySide("SIDE_1_queue_side_info", currentBattleQueueInfo, myTeamName)
     updateQueueSideInfoBySide("SIDE_2_queue_side_info", currentBattleQueueInfo, enemyTeamName)
@@ -463,6 +471,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateButtons()
   {
+    if (!operationBattle.isValid())
+      return
+
     local isJoinBattleVisible = currViewMode != WW_BATTLE_VIEW_MODES.QUEUE_INFO
     local isLeaveBattleVisible = currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO
     local isJoinBattleActive = true
@@ -471,9 +482,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       ? ::loc("mainmenu/toBattle")
       : ::loc("mainmenu/btnCancel")
 
-    local cantJoinReasonData = battle.getCantJoinReasonData(null,
+    local cantJoinReasonData = operationBattle.getCantJoinReasonData(getPlayerSide(),
       ::g_squad_manager.isInSquad() && ::g_squad_manager.isSquadLeader())
-    local joinWarningData = battle.getWarningReasonData()
+    local joinWarningData = operationBattle.getWarningReasonData(getPlayerSide())
     local warningText = ""
 
     if (!::g_squad_manager.isInSquad() || ::g_squad_manager.getOnlineMembersCount() == 1)
@@ -548,11 +559,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateCanJoinBattleStatus()
   {
-    local battleCanJoinStatusObj = showSceneBtn("battle_can_join_state", battle.isActive())
-    if (!battle.isActive() || !::checkObj(battleCanJoinStatusObj))
+    local battleCanJoinStatusObj = showSceneBtn("battle_can_join_state", operationBattle.isActive())
+    if (!operationBattle.isActive() || !::checkObj(battleCanJoinStatusObj))
       return
 
-    local battleView = battle.getView()
+    local battleView = operationBattle.getView()
     battleCanJoinStatusObj.setValue(battleView.getCanJoinText())
   }
 
@@ -581,7 +592,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenSquadsListModal(obj)
   {
     ::gui_handlers.WwMyClanSquadInviteModal.open(
-      ::ww_get_operation_id(), battle.id, ::get_profile_info().country)
+      ::ww_get_operation_id(), operationBattle.id, ::get_profile_info().country)
   }
 
   function onEventClusterChange(params)
@@ -623,20 +634,20 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onJoinBattle()
   {
-    local side = ::ww_get_player_side()
+    local side = getPlayerSide()
     switch (currViewMode)
     {
       case WW_BATTLE_VIEW_MODES.BATTLE_LIST:
         if (!::g_squad_manager.isInSquad() || ::g_squad_manager.getOnlineMembersCount() == 1)
-          battle.tryToJoin()
+          operationBattle.tryToJoin(side)
         else if (::g_squad_manager.isSquadLeader())
         {
           if (::g_squad_manager.readyCheck(false))
           {
             if (!::has_feature("WorldWarSquadInfo"))
-              battle.tryToJoin()
+              operationBattle.tryToJoin(side)
             else
-              ::g_squad_manager.startWWBattlePrepare(battle.id)
+              ::g_squad_manager.startWWBattlePrepare(operationBattle.id)
           }
           else
             ::showInfoMsgBox(::loc("squad/not_all_ready"))
@@ -647,10 +658,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       case WW_BATTLE_VIEW_MODES.SQUAD_INFO:
         if (::g_squad_manager.isSquadLeader())
-          battle.tryToJoin()
+          operationBattle.tryToJoin(side)
         else
         {
-          local cantJoinReasonData = battle.getCantJoinReasonData(null, false)
+          local cantJoinReasonData = operationBattle.getCantJoinReasonData(null, false)
           if (cantJoinReasonData.canJoin)
             ::g_squad_manager.setCrewsReadyFlag()
           else
@@ -684,6 +695,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onItemSelect()
   {
     refreshSelBattle()
+    operationBattle = getBattleById(curBattleInList.id)
     updateBattleSquadListData()
     updateWindow()
   }
@@ -692,11 +704,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     local country = null
     local remainUnits = null
-    if (battle && battle.isValid())
+    if (operationBattle && operationBattle.isValid())
     {
-      local team = battle.getTeamBySide(::ww_get_player_side())
+      local team = operationBattle.getTeamBySide(getPlayerSide())
       country = team.country
-      remainUnits = battle.getTeamRemainUnits(team)
+      remainUnits = operationBattle.getTeamRemainUnits(team)
     }
     if (squadListHandlerWeak)
       squadListHandlerWeak.updateBattleData(country, remainUnits)
@@ -719,7 +731,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!newBattle.isValid())
       return
 
-    battle = newBattle
+    curBattleInList = newBattle
   }
 
   function onEventSquadDataUpdated(params)
@@ -727,9 +739,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local wwBattleName = ::g_squad_manager.getWwOperationBattle()
     if (!wwBattleName)
       refreshSelBattle()
-    else if (!battle || battle.id != wwBattleName)
+    else if (!curBattleInList || curBattleInList.id != wwBattleName)
     {
-      battle = ::g_world_war.getBattleById(wwBattleName)
+      curBattleInList = getBattleById(wwBattleName)
       reinitBattlesList()
     }
 
@@ -849,7 +861,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return res
     }
 
-    local team = battleData.getTeamBySide(::ww_get_player_side())
+    local team = battleData.getTeamBySide(getPlayerSide())
     foreach(idx, unitType in team.unitTypes)
     {
       res.text += ::colorize("@wwTeamAllyColor", ::g_ww_unit_type.getUnitTypeFontIcon(unitType))
@@ -860,7 +872,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     res.groupId += "vs"
 
     foreach(idx, team in battleData.teams)
-      if (team.side != ::ww_get_player_side())
+      if (team.side != getPlayerSide())
         foreach(idx, unitType in team.unitTypes)
         {
           res.text += ::colorize("@wwTeamEnemyColor", ::g_ww_unit_type.getUnitTypeFontIcon(unitType))
@@ -868,6 +880,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         }
 
     return res
+  }
+
+  function getPlayerSide()
+  {
+    return ::ww_get_player_side()
   }
 
   function hasChangedInBattleListMap(currentBattleListMap)

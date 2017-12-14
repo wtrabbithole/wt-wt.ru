@@ -104,6 +104,7 @@
 
 @const titleLogoPlateHeight: (((1@scrn_tgt+200)\400) * 32) $max 64) $min 128;
 @const titleLogoPlateWidth: 2*@titleLogoPlateHeight;
+@const titleLogoPlatePadding: -1*@titleLogoPlateWidth / 128; 
 @const loginLogoScale: ((@sf/@pf_outdated) \ 1) $max 1;
 @const loginFramePadding: 0.015@scrn_tgt;
 
@@ -278,3 +279,4 @@
 
 @const shortcutRightDpAndStick: "J:Dpad.Right | J:L.Thumb.Right";
 @const shortcutRightDp: "J:Dpad.Right";
+@const crewUnitSpecUpgradeTooltipPadding: 9*@sf/@pf;

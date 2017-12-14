@@ -15,6 +15,12 @@
     "useBotForAi": true
   },
   {
+    "support_unit_class": "structures/germ_380mm_skc34"
+  },
+  {
+    "support_unit_tag": "artillery"
+  },
+  {
     "harmonizationSuffix": "_tomoe"
   },
   {
@@ -1357,7 +1363,7 @@
         "hp": 600.0,
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorThickness": 5.0,
+        "armorThickness": 4.0,
         "genericDamageMult": 15.0,
         "explosionDamageMult": 5.0,
         "shatterDamageMult": 10.0,
@@ -1386,7 +1392,7 @@
         "hp": 1000.0,
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorThickness": 10.0,
+        "armorThickness": 5.0,
         "genericDamageMult": 15.0,
         "fireParamsPreset": "ship_engine",
         "steering_gear_01_dm": [],
@@ -1672,71 +1678,23 @@
       },
       "torpedos": {
         "armorClass": "tank_structural_steel",
-        "hp": 500.0,
-        "armorThickness": 10.0,
+        "hp": 250.0,
+        "armorThickness": 7.5,
+        "genericDamageMult": 1.5,
+        "secondaryShatterDamageMult": 0.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_engine",
-        "torpedo_01_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_02_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_03_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_04_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_05_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_06_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_07_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_08_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_09_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "torpedo_10_dm": {
-          "hp": 250.0,
-          "armorThickness": 20.0,
-          "genericDamageMult": 1.5,
-          "secondaryShatterDamageMult": 0.0
-        }
+        "torpedo_01_dm": [],
+        "torpedo_02_dm": [],
+        "torpedo_03_dm": [],
+        "torpedo_04_dm": [],
+        "torpedo_05_dm": [],
+        "torpedo_06_dm": [],
+        "torpedo_07_dm": [],
+        "torpedo_08_dm": [],
+        "torpedo_09_dm": [],
+        "torpedo_10_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -2199,6 +2157,18 @@
           },
           {
             "name": "engine_04_dm"
+          },
+          {
+            "name": "engine_room_01_dm"
+          },
+          {
+            "name": "engine_room_02_dm"
+          },
+          {
+            "name": "engine_room_03_dm"
+          },
+          {
+            "name": "engine_room_04_dm"
           },
           {
             "onKill": {
@@ -3159,8 +3129,44 @@
     "modifications": {
       "37mm_ger_navy_universal": [],
       "manual_ship_extinguisher": [],
-      "tank_tool_kit": [],
-      "ship_smoke_screen_system_mod": []
+      "ship_tool_kit": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_engine": [],
+      "new_ship_screw": [],
+      "new_ship_hull": [],
+      "new_ship_rudder": [],
+      "new_ship_pumps": [],
+      "ship_anti_fragmentation_protection": {
+        "effects": {
+          "damagePartsOverride": {
+            "crew_sections": {
+              "genericDamageMult": 1.0,
+              "explosionDamageMult": 1.0,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.8,
+              "fireDamageMult": 1.0,
+              "cumulativeDamageMult": 1.0,
+              "collisionDamageMult": 1.0,
+              "drowningDamageMult": 1.0,
+              "compartment_01_dm": [],
+              "compartment_02_dm": [],
+              "compartment_03_dm": []
+            }
+          }
+        }
+      },
+      "ship_rangefinder": [],
+      "new_main_caliber_turrets": [],
+      "new_aux_caliber_turrets": [],
+      "new_aa_caliber_turrets": [],
+      "ship_main_caliber_support": [],
+      "torpedoes_movement_mode": {
+        "effects": {
+          "distToLive": 14000.0,
+          "maxSpeedInWater": 15.43,
+          "diveDepth": 1.0
+        }
+      }
     }
   },
   {

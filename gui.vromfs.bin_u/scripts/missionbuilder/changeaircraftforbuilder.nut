@@ -12,7 +12,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
          showEmptySlot = false,
          hasActions = false,
          afterSlotbarSelect = updateButtons
-         onSlotDblClick = onSlotDblClick
+         onSlotDblClick = @(crew) onApply()
        },
        "take-aircraft-slotbar"
      )
@@ -21,7 +21,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
      textObj.top = "1@titleLogoPlateHeight + 1@frameHeaderHeight"
      textObj.setValue(::loc("mainmenu/missionBuilderNotAvailable"))
 
-     local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
+     local crew = getCurSlotUnit()
      local airName = ("aircraft" in crew)? crew.aircraft : ""
      local air = getAircraftByName(airName)
      ::show_aircraft = air
@@ -35,7 +35,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
     goBack()
   }
 
-  function onSlotDblClick(crew)
+  function onApply()
   {
     if (::isTank(::show_aircraft))
       msgBox("not_available", ::loc("mainmenu/cantTestDrive"), [["ok", function() {} ]], "ok", { cancel_fn = function() {}})

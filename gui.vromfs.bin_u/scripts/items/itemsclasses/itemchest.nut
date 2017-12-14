@@ -4,9 +4,11 @@ local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
 class ::items_classes.Chest extends ItemExternal {
   static iType = itemType.CHEST
   static typeIcon = "#ui/gameuiskin#item_type_trophies"
-  constructor(itemDesc, invBlk = null, slotData = null)
+  static openingCaptionLocId = "mainmenu/chestConsumed/title"
+
+  function getOpenedBigIcon()
   {
-    base.constructor(itemDesc)
+    return getBigIcon()
   }
 
   function getMainActionName(colored = true, short = false)

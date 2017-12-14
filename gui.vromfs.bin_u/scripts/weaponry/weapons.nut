@@ -25,7 +25,7 @@ function enable_current_modifications(unitName)
   return ::shop_enable_modifications(db)
 }
 
-function gui_modal_weapons(afterCloseFunc = null, researchMode = false, researchBlock = null)
+function gui_modal_weapons(researchMode = false, researchBlock = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, {
                                                              researchMode = researchMode,
@@ -54,7 +54,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
     isOwn = air.isUsable()
-    wasOwn = isOwn
     is_tank = ::isTank(air)
     mainModsObj = scene.findObject("main_modifications")
     modsBgObj = mainModsObj.findObject("bg_elems")
@@ -1447,9 +1446,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterModalDestroy()
   {
-    if (isOwn!=wasOwn)
-      ::after_buy_aircraft_modal()
-
     if (!::checkNonApprovedResearches(true, false) && ::prepareUnitsForPurchaseMods.haveUnits())
       ::prepareUnitsForPurchaseMods.checkUnboughtMods()
   }
@@ -1501,7 +1497,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   airActions = ["research", "buy"]
   isOwn = true
   is_tank = false
-  wasOwn = true
   guiScene = null
   scene = null
   wndType = handlerType.MODAL

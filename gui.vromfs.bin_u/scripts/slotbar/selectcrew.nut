@@ -26,7 +26,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   takeCrewIdInCountry = -1
 
   focusArray = [
-    function() { return getCurrentAirsTable() }
+    function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
   ]
 
   function initScreen()
@@ -79,10 +79,10 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         showEmptySlot = true,
         needActionsWithEmptyCrews = false
         unitForSpecType = unit,
-        alwaysShowBorder = "yes"
+        alwaysShowBorder = true
 
         afterSlotbarSelect = onChangeUnit
-        onSlotDblClick = onSlotDblClick
+        onSlotDblClick = onApplyCrew
       },
       "take-aircraft-slotbar")
 
@@ -90,7 +90,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
     local legendObj = fillLegendData()
 
-    local airTblObj = getCurrentAirsTable()
+    local airTblObj = slotbarWeak && slotbarWeak.getCurrentAirsTable()
     if (::checkObj(airTblObj))
       airTblObj.select()
 
@@ -215,14 +215,14 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   function getTakeAirCost()
   {
     return ::CrewTakeUnitProcess.getProcessCost(
-             ::getSlotItem(curSlotCountryId, takeCrewIdInCountry),
+             getCurCrew(),
              unit
            )
   }
 
   function onChangeUnit()
   {
-    takeCrewIdInCountry = getCurSlotIdInCountry()
+    takeCrewIdInCountry = getCurCrew()?.idInCountry ?? ::get_crew_count(country)
     updateButtons()
   }
 
@@ -255,7 +255,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.applyPendingChanges(false)
     local steps = [
       {
-        obj = [::get_slotbar_box_of_airs(slotbarScene, curSlotCountryId)]
+        obj = getSlotbar() && getSlotbar().getBoxOfUnits()
         text = ::loc("help/takeAircraft", {unitName = ::getUnitName(unit)})
         bottomTextLocIdArray = ["help/NEXT_ACTION"]
         actionType = tutorAction.ANY_CLICK
@@ -263,7 +263,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         accessKey = "J:A"
       },
       {
-        obj = ["btn_set_air"]
+        obj = "btn_set_air"
         text = ::loc("help/pressOnReady")
         bottomTextLocIdArray = ["help/NEXT_ACTION"]
         actionType = tutorAction.ANY_CLICK
@@ -274,7 +274,12 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_modal_tutor(steps, this)
   }
 
-  function onSlotDblClick(crew)
+  function onApply()
+  {
+    onApplyCrew(getCurCrew())
+  }
+
+  function onApplyCrew(crew)
   {
     ::CrewTakeUnitProcess(crew, unit, ::Callback(onTakeProcessFinish, this))
   }
@@ -326,12 +331,8 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillLegendData()
   {
-    local countryCrews = ::getTblValue(curSlotCountryId, ::g_crews_list.get())
-    if (!countryCrews)
-      return null
-
     local legendData = []
-    foreach (idx, crew in countryCrews.crews)
+    foreach (idx, crew in ::get_country_crews(country))
     {
       local specType = ::g_crew_spec_type.getTypeByCode(::g_crew_spec_type.getTrainedSpecCode(crew, unit))
       if (specType != ::g_crew_spec_type.UNKNOWN)

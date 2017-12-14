@@ -77,7 +77,7 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
         if(::isInArray(value.memberName, parsedMembers))
           continue
         local parameterView = {
-          descriptionLabel = ::loc(::format("crewSkillParameter/%s", parameterName))
+          descriptionLabel = parameterName.find("weapons/") == 0 ? ::loc(parameterName) : ::loc(::format("crewSkillParameter/%s", parameterName))
           valueItems = []
         }
 
@@ -140,6 +140,43 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
       return ::get_tbl_value_by_path_array(path, parametersByRequestType, 0)
     }
   }
+
+  DIST_FUSE_PENALTY = {
+    paramName = "shipGunnerFuseDistanceError"
+
+    parseColumns = function(paramData, columnTypes,
+                            parametersByRequestType, selectedParametersByRequestType, resArray)
+    {
+      local currentDistanceErrorData = paramData.valuesArr
+      if (!currentDistanceErrorData.len())
+        return
+
+      foreach (i, parameterTable in currentDistanceErrorData[0].value)
+      {
+        local descriptionLocParams = {
+          errorText = ::g_measure_type.ALTITUDE.getMeasureUnitsText(parameterTable.error, true, true)
+        }
+        local parameterView = {
+          descriptionLabel = ::loc("crewSkillParameter/distanceEstimation", descriptionLocParams)
+          valueItems = []
+        }
+        local params = {
+          columnIndex = i
+        }
+        parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
+          ::g_measure_type.DISTANCE, parameterView, params)
+        parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
+        resArray.push(parameterView)
+      }
+    }
+
+    getValue = function (requestType, parametersByRequestType, params = null)
+    {
+      local path = [requestType, paramName, 0, "value", params.columnIndex, "distance"]
+      return ::get_tbl_value_by_path_array(path, parametersByRequestType, 0)
+    }
+  }
+
 })
 
 function g_skill_parameters_type::getTypeByParamName(paramName)

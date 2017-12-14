@@ -229,9 +229,10 @@ class ::items_classes.Trophy extends ::BaseItem
 
   function getLongDescriptionMarkup(params = null)
   {
-    if (!params)
-      params = {}
+    params = params || {}
+    params.showAsTrophyContent <- true
     params.receivedPrizes <- false
+
     return ::PrizesView.getPrizesStacksView(getContent(), _getDescHeader, params)
   }
 

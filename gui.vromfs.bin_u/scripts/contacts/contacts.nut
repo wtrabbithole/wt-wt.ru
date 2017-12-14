@@ -1069,11 +1069,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         btnTextLocId = "contacts/chooseGroup"
       else if (getSearchObj().isFocused())
         btnTextLocId = "contacts/search"
-      scene.findObject("btn_select").setValue(::loc(btnTextLocId))
+      scene.findObject("btn_contactsSelect").setValue(::loc(btnTextLocId))
     }
 
     showSceneBtn("btn_psnFriends", ::is_platform_ps4)
-    showSceneBtn("btn_select", showSelectButton)
+    showSceneBtn("btn_contactsSelect", showSelectButton)
   }
 
   function onFacebookFriendsAdd()

@@ -1156,7 +1156,9 @@ function get_userlog_view_data(log)
   else if (log.type == ::EULT_INVENTORY_ADD_ITEM)
   {
     local itemDefId = log?.itemDefId ?? ""
-    local item = ::ItemsManager.findItemdefsById(itemDefId)
+    local item = ::ItemsManager.findItemById(itemDefId)
+    if (!item)
+      ::ItemsManager.requestItemsByItemdefIds([ itemDefId ])
     local numItems = log?.quantity ?? 1
     local locId = "userlog/" + logName
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon

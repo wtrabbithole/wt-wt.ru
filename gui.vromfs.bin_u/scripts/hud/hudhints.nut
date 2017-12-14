@@ -958,6 +958,12 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     lifeTime = 3.0
   }
 
+  CHOOSE_ALIVE_TARGET_FOR_SCOUTING = {
+    locId = "HUD/TXT_CHOOSE_ALIVE_TARGET_FOR_SCOUTING"
+    showEvent = "hint:choose_alive_target_for_scouting"
+    lifeTime = 3.0
+  }
+
   TARGET_ALREADY_SCOUTED = {
     locId = "HUD/TXT_TARGET_ALREADY_SCOUTED"
     showEvent = "hint:target_already_scouted"

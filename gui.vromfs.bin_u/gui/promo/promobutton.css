@@ -134,12 +134,17 @@ promoButton[type=simpleList] {
 
 promoButton > collapsedContainer {
   behaviour: button;
-  height:1@arrowButtonHeight;
   padding-left:h;
+  flow:vertical;
 }
 
 promoButton[collapsed=no] > collapsedContainer {
   width:1@arrowButtonWidth;
+}
+
+promoButton > collapsedContainer > shortInfoBlock {
+  pos:pw-w, 0.5@arrowButtonHeight - 0.5h;
+  position:relative;
 }
 
 promoButton fillBlock > textareaFade,
@@ -207,9 +212,9 @@ promoButton:hover[type=arrowButton] fillBlock > imageFade > img {
   background-color:@white;
 }
 
-promoButton[collapsed=yes] expandable,
-promoButton[collapsed=yes] fillBlock,
-promoButton[collapsed=yes] uncollapsedContainer,
+promoButton[collapsed=yes] > expandable,
+promoButton[collapsed=yes] > fillBlock,
+promoButton[collapsed=yes] > uncollapsedContainer,
 promoButton[collapsed=no] > collapsedContainer {
   display:hide;
 }

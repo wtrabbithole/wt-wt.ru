@@ -28,19 +28,21 @@ function g_webpoll::getVotedPolls()
 
 function g_webpoll::webpollEvent(id, token, voted)
 {
-  if( ! ::u.isEmpty(id) && token != null)
-  {
-    cachedToken = token
-    if(tokenInvalidationTime == -1)
-      tokenInvalidationTime = ::dagor.getCurTime() + WEBPOLL_TOKENS_VALIDATION_TIMEOUT_MS
+  id = ::to_integer_safe(id)
+  if( ! id || token == null)
+    return
 
-    if(voted)
-    {
-      ::set_blk_value_by_path(getVotedPolls(), id, true)
-      saveVotedPolls()
-    }
+  id = id.tostring()
+  cachedToken = token
+  if(tokenInvalidationTime == -1)
+    tokenInvalidationTime = ::dagor.getCurTime() + WEBPOLL_TOKENS_VALIDATION_TIMEOUT_MS
+
+  if(voted)
+  {
+    ::set_blk_value_by_path(getVotedPolls(), id, true)
+    saveVotedPolls()
   }
-  ::broadcastEvent("WebPollAuthResult", id)
+  ::broadcastEvent("WebPollAuthResult", {pollId = id})
 }
 
 function g_webpoll::onSurveyVoteResult(params)
@@ -117,15 +119,10 @@ function g_webpoll::onEventSignOut(p)
   pollIdByFullUrl.clear()
 }
 
-function  g_webpoll::onEventBrowserOpened(p)
+function g_webpoll::onEventBrowserOpened(p)
 {
   if(getPollIdByFullUrl(p.url))
     invalidateTokensCache()
-}
-
-function webpoll_event(id, token, voted)
-{
-  ::g_webpoll.webpollEvent(id.tostring(), token, voted)
 }
 
 function g_webpoll::setPollBaseUrl(pollId, pollUrl)
@@ -141,3 +138,8 @@ function g_webpoll::getPollBaseUrl(pollId)
 
 web_rpc.register_handler("survey_vote_result", ::g_webpoll.onSurveyVoteResult.bindenv(::g_webpoll))
 ::subscribe_handler(::g_webpoll, ::g_listener_priority.CONFIG_VALIDATION)
+
+function webpoll_event(id, token, voted)
+{
+  ::g_webpoll.webpollEvent(id, token, voted)
+}

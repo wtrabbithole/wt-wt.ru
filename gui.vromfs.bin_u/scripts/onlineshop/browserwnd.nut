@@ -159,15 +159,15 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onEventWebPollAuthResult(pollId)
+  function onEventWebPollAuthResult(param)
   {
     // WebPollAuthResult event may come before browser opens the page
     local currentUrl = ::u.isEmpty(::browser_get_current_url()) ? url : ::browser_get_current_url()
     if(::u.isEmpty(currentUrl))
       return
     // we have to update externalUrl for any pollId
-    // so we don't care about pollId param
-    pollId = ::g_webpoll.getPollIdByFullUrl(currentUrl)
+    // so we don't care about pollId from param
+    local pollId = ::g_webpoll.getPollIdByFullUrl(currentUrl)
     if( ! pollId)
       return
     externalUrl = ::g_webpoll.generatePollUrl(pollId, false)

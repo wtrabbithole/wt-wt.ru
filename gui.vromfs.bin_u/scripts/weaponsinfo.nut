@@ -1151,42 +1151,6 @@ function is_bullets_group_active_by_mod(air, mod)
   return ::isBulletGroupActive(air, groupIdx)
 }
 
-function createEffValStr(value, positiveColor, negativeColor, measureType, rounding)
-{
-  local isNumeric = ::is_numeric(value)
-  local res = ""
-  if (!::u.isString(measureType))
-    res = countMeasure(measureType, isNumeric ? value : 0.0)
-  else
-    res = (isNumeric ? ::format("%." + rounding + "f", value) : value) + measureType
-  if (!isNumeric)
-    return res
-
-  if (value > 0)
-    res = "+" + res
-  if (value != 0)
-    res = ::colorize(value >= 0 ? positiveColor : negativeColor, res)
-  return res
-}
-
-function genModEffectDescr(name, val, positiveColor, negativeColor, measureType, rounding)
-{
-  local valueConvStr = "";
-  if (typeof(val) == "array")
-  {
-    for (local i = 0; i < val.len(); ++i)
-    {
-      if (i > 0)
-        valueConvStr += " / ";
-      local value = val[i];
-      valueConvStr += createEffValStr(value, positiveColor, negativeColor, measureType, rounding);
-    }
-  }
-  else
-    valueConvStr += createEffValStr(val, positiveColor, negativeColor, measureType, rounding);
-  return ::format(::loc("modification/" + name + "_change"), valueConvStr);
-}
-
 function updateRelationModificationList(air, modifName)
 {
   local mod = ::getModificationByName(air, modifName)

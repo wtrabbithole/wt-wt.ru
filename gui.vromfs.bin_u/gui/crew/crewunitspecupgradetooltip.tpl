@@ -4,14 +4,14 @@ crewUnitSpecUpgradeTooltip {
 
   textareaNoTab {
     width:t='pw'
-    padding:t='6*@sf/@pf_outdated'
+    padding:t='1@crewUnitSpecUpgradeTooltipPadding'
     text:t='<<tooltipText>>'
   }
 
   <<#tinyTooltipText>>
   textareaNoTab {
     width:t='pw'
-    padding:t='6*@sf/@pf_outdated'
+    padding:t='1@crewUnitSpecUpgradeTooltipPadding'
     smallFont:t='yes'
     text:t='<<tinyTooltipText>>'
   }
@@ -19,14 +19,15 @@ crewUnitSpecUpgradeTooltip {
 
   <<#hasExpUpgrade>>
   tdiv {
-    height:t='10*@sf/@pf_outdated'
-    width:t='pw - 30*@sf/@pf_outdated'
-    pos:t='0.5pw - 0.5w, 30*@sf/@pf_outdated'
+    height:t='14*@sf/@pf'
+    width:t='pw - 41*@sf/@pf'
+    pos:t='0.5pw - 0.5w, 0'
     position:t='relative'
-    margin-bottom:t='16*@sf/@pf_outdated'
+    margin-bottom:t='21*@sf/@pf'
+    margin-top:t='31*@sf/@pf'
 
     crewSpecProgressBar {
-      height:t='ph - 4*@sf/@pf_outdated'
+      height:t='ph - 5*@sf/@pf'
       width:t='pw'
       top:t='0.5ph-0.5h'
       position:t='relative'
@@ -40,7 +41,7 @@ crewUnitSpecUpgradeTooltip {
       left:t='<<markerRatio>> * pw - 0.5w'
       textarea {
         position:t='absolute'
-        pos:t='0.5pw - 0.5w, -h - 1*@sf/@pf_outdated'
+        pos:t='0.5pw - 0.5w, -h - 1*@sf/@pf'
         text:t='<<markerText>>'
       }
     }
@@ -48,7 +49,7 @@ crewUnitSpecUpgradeTooltip {
   }
 
   textareaNoTab {
-    padding:t='6*@sf/@pf_outdated'
+    padding:t='1@crewUnitSpecUpgradeTooltipPadding'
     text:t='<<expUpgradeText>>'
     width:t='pw'
     exp_upgrade_text_area:t='yes'

@@ -954,7 +954,7 @@
         }
       },
       "ammo": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 750.0,
         "armorThickness": 30.0,
         "armorThrough": 100.0,
@@ -998,7 +998,7 @@
         }
       },
       "depth_charges": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 500.0,
         "armorThickness": 20.0,
         "armorThrough": 15.0,
@@ -1258,7 +1258,7 @@
         }
       },
       "torpedos": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 500.0,
         "armorThickness": 20.0,
         "armorThrough": 15.0,
@@ -1326,7 +1326,7 @@
         }
       },
       "fuel_tanks": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 1000.0,
         "armorThickness": 20.0,
         "armorThrough": 200.0,
@@ -1721,11 +1721,51 @@
       {
         "part": [
           {
+            "name": "engine_dm"
+          },
+          {
+            "name": "engine_01_dm"
+          },
+          {
+            "name": "engine_02_dm"
+          },
+          {
+            "name": "engine_03_dm"
+          },
+          {
+            "name": "engine_04_dm"
+          },
+          {
             "name": "engine_room_01_dm"
           },
           {
             "name": "engine_room_02_dm"
           },
+          {
+            "name": "engine_room_03_dm"
+          },
+          {
+            "name": "engine_room_04_dm"
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.4,
+              "damage": 200.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onKill": {
+              "fire": 0.2,
+              "nothing": 0.8,
+              "fHitCritical": true
+            }
+          }
+        ]
+      },
+      {
+        "part": [
           {
             "name": "funnel_01_dm"
           },
@@ -1733,9 +1773,16 @@
             "name": "funnel_02_dm"
           },
           {
-            "onKill": {
+            "name": "funnel_03_dm"
+          },
+          {
+            "name": "funnel_04_dm"
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "fire": 0.2,
-              "nothing": 0.8,
+              "damage": 200.0,
               "fHitCritical": true
             }
           }
@@ -3886,8 +3933,40 @@
     "modifications": {
       "127mm_japan_HE": [],
       "manual_ship_extinguisher": [],
-      "tank_tool_kit": [],
-      "ship_smoke_screen_system_mod": []
+      "ship_tool_kit": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_engine": [],
+      "new_ship_screw": [],
+      "new_ship_hull": [],
+      "new_ship_rudder": [],
+      "new_ship_pumps": [],
+      "ship_anti_fragmentation_protection": {
+        "effects": {
+          "damagePartsOverride": {
+            "crew_sections": {
+              "genericDamageMult": 1.0,
+              "explosionDamageMult": 1.0,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.8,
+              "fireDamageMult": 1.0,
+              "cumulativeDamageMult": 1.0,
+              "collisionDamageMult": 1.0,
+              "drowningDamageMult": 1.0,
+              "compartment_01_dm": [],
+              "compartment_02_dm": [],
+              "compartment_03_dm": [],
+              "compartment_04_dm": [],
+              "compartment_05_dm": [],
+              "compartment_06_dm": [],
+              "compartment_07_dm": []
+            }
+          }
+        }
+      },
+      "ship_rangefinder": [],
+      "new_main_caliber_turrets": [],
+      "new_aux_caliber_turrets": [],
+      "new_aa_caliber_turrets": []
     }
   },
   {

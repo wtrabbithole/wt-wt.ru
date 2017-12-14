@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 enum PanelSide
 {
   LEFT
@@ -290,11 +292,16 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       // Used to easily backtrack corresponding game mode.
       gameMode = gameMode
       eventDescriptionValue = gameMode.id
-      inactiveColor = ::getTblValue("inactiveColor", gameMode, false)
+      inactiveColor = ::getTblValue("inactiveColor", gameMode, !isEventAvailableForCrossPlay(event))
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)
     }
+  }
+
+  function isEventAvailableForCrossPlay(event)
+  {
+    return platformModule.isCrossPlayEnabled() || ::events.isEventXboxOnlyAllowed(event)
   }
 
   function getWidgetId(gameModeId)
@@ -454,12 +461,51 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
         !::check_package_and_ask_download("pkg_main"))
       return
 
+    local event = getGameModeEvent(gameMode)
+    if (isEventAvailableForCrossPlay(event))
+    {
+      performGameModeSelect(gameMode)
+      return
+    }
+
+    restoreFromModal = true
+    ::scene_msg_box("xbox_cross_play",
+      guiScene,
+      ::loc("xbox/login/crossPlayRequest") +
+        "\n" +
+        ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
+      [
+        ["yes", ::Callback(@() onChangeCrossPlayValue(true, gameMode), this) ],
+        ["no", ::Callback(@() onChangeCrossPlayValue(false, gameMode), this) ],
+        ["cancel", @() null ]
+      ],
+      "yes",
+      {
+        cancel_fn = @() null
+      }
+    )
+  }
+
+  function performGameModeSelect(gameMode)
+  {
     if (gameMode.displayType.showInEventsWindow)
       ::gui_start_modal_events({ event = gameMode.id })
-    // RANDOM_BATTLE or REGULAR
     else
-      ::game_mode_manager.setCurrentGameModeById(obj.value)
+      ::game_mode_manager.setCurrentGameModeById(gameMode.id)
+
     goBack()
+  }
+
+  function onChangeCrossPlayValue(enable, gameMode)
+  {
+    if (enable != platformModule.isCrossPlayEnabled())
+    {
+      ::saveLocalByAccount("isCrossPlayEnabled", enable)
+      doWhenActiveOnce("updateContent")
+    }
+
+    if (enable)
+      performGameModeSelect(gameMode)
   }
 
   function markGameModeSeen(obj)

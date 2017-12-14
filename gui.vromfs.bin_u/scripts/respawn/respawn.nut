@@ -144,14 +144,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   delayAfterAutoChangeUnitMsec = 1000
 
   focusArray = [
-    function() { return getCurrentTopGCPanel() }     //gamercard
-    function() { return null }                    //gamercard menu
-    function() { return getCurrentAirsTable() }   // slotbar
+    function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
     function() { return getFocusObjUnderSlotbar() }
     "respawn_options_table"
     "mis_obj_button_header"
     "chat_tabs"
     "chat_input"
+    "gamercard_bottom_right"
   ]
   focusItemAirsTable = 2
   focusItemChatTabs  = 4
@@ -540,7 +539,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local needWaitSlotbar = !::g_mis_loading_state.isReadyToShowRespawn() && !isSpectator()
       showSceneBtn("slotbar_load_wait", needWaitSlotbar)
       if (!isSpectator() && ::g_mis_loading_state.isReadyToShowRespawn()
-          && (needRefreshSlotbarOnReinit || !::checkObj(slotbarScene)))
+          && (needRefreshSlotbarOnReinit || !slotbarWeak))
       {
         slotbarInited = false
         beforeRefreshSlotbar()
@@ -557,7 +556,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
     else
     {
-      ::destroy_slotbar(this)
+      destroySlotbar()
       local airName = ::last_ca_aircraft
       if (gameType & ::GT_COOPERATIVE)
         airName = ::getTblValue("aircraftName", mplayerTable, "")
@@ -599,6 +598,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       beforeSlotbarSelect = beforeSlotbarSelect
       afterSlotbarSelect = onChangeUnit
       onSlotDblClick = @(crew) onApply()
+      beforeFullUpdate = beforeRefreshSlotbar
+      afterFullUpdate = afterRefreshSlotbar
+      onSlotBattleBtn = onApply
     }
   }
 
@@ -663,8 +665,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if(!missionRules.isWarpointsRespawnEnabled)
       return ""
 
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
-    local slotItem = getSlotItem(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
+    local slotItem = getCurCrew()
     local airRespawnCost = (slotItem && "wpToRespawn" in slotItem) ? slotItem.wpToRespawn : 0
     local weaponPrice = (air && "name" in air) ? getWeaponPrice(air.name, getSelWeapon()) : 0
 
@@ -675,20 +677,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     return ::Cost(total).getUncoloredText()
   }
 
-  function reinitSlotbarAction(newCrewMask = -1)
-  {
-    beforeRefreshSlotbar()
-    base.reinitSlotbarAction()
-    afterRefreshSlotbar()
-    updateApplyText()
-
-    if (!needCheckSlotReady)
-      return
-
-    slotReadyAtHostMask = (newCrewMask == -1) ? getCrewSlotReadyMask() : newCrewMask
-    slotsCostSum = getSlotsSpawnCostSumNoWeapon()
-  }
-
   function isInAutoChangeDelay()
   {
     return ::dagor.getCurTime() - prevUnitAutoChangeTimeMsec < delayAfterAutoChangeUnitMsec
@@ -696,21 +684,29 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function beforeRefreshSlotbar()
   {
-    if (slotbarScene && !isInAutoChangeDelay())
-      prevAutoChangedUnit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    if (!isInAutoChangeDelay())
+      prevAutoChangedUnit = getCurSlotUnit()
   }
 
   function afterRefreshSlotbar()
   {
-    local curUnit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local curUnit = getCurSlotUnit()
     if (curUnit && curUnit != prevAutoChangedUnit)
       prevUnitAutoChangeTimeMsec = ::dagor.getCurTime()
+
+    updateApplyText()
+
+    if (!needCheckSlotReady)
+      return
+
+    slotReadyAtHostMask = getCrewSlotReadyMask()
+    slotsCostSum = getSlotsSpawnCostSumNoWeapon()
   }
 
   //hack: to check slotready changed
   function checkCrewAccessChange()
   {
-    if (!slotbarParams?.singleCountry || !slotbarInited)
+    if (!getSlotbar()?.singleCountry || !slotbarInited)
       return
 
     local needReinitSlotbar = false
@@ -731,8 +727,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       needReinitSlotbar = true
     }
 
-    if (needReinitSlotbar)
-      reinitSlotbarAction(newMask)
+    if (needReinitSlotbar && getSlotbar())
+      getSlotbar().forceUpdate()
   }
 
   function getCrewSlotReadyMask()
@@ -751,7 +747,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function getSlotsSpawnCostSumNoWeapon()
   {
     local res = 0
-    local crewsCountry = ::getTblValue(curSlotCountryId, ::g_crews_list.get())
+    local crewsCountry = ::g_crews_list.get()?[getCurCrew()?.idCountry]
     if (!crewsCountry)
       return res
 
@@ -788,7 +784,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local msgId = "not_available_aircraft"
     if (!isAvailable && ::getTblValue("useKillStreaks", missionTable) && ::get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT)
       msgId = "msg/need_more_kills_for_aircraft"
-    ::showInfoMsgBox("not_available_air", ::loc(msgId))
+    ::showInfoMsgBox(::loc(msgId), "not_available_air", true)
   }
 
   function onChangeUnit()
@@ -805,12 +801,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     onAircraftUpdate()
   }
 
-  function onSlotbarCountry(obj) {}
-  function onSlotBattle(obj) {onApply()}
-
   function updateWeaponsSelector()
   {
-    local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local unit = getCurSlotUnit()
     local missionRules = ::g_mis_custom_state.getCurMissionRules()
     local isRandomUnit = missionRules && missionRules.getRandomUnitsGroupName(unit.name)
     local shouldShowWeaponry = !isRandomUnit || !isRespawn
@@ -974,7 +967,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!obj)
       return
 
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air) return
 
     ::aircraft_for_weapons = air.name
@@ -1016,7 +1009,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function checkRocketDisctanceFuseRow()
   {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air)
       return
 
@@ -1026,7 +1019,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateSkin()
   {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air) return
 
     local data = ""
@@ -1049,7 +1042,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateUserSkins()
   {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air) return
 
     local userSkinsOption = ::get_option(::USEROPT_USER_SKIN)
@@ -1149,7 +1142,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateOtherOptions()
   {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air)
       return
 
@@ -1218,7 +1211,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateUnitOptions()
   {
-    local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local unit = getCurSlotUnit()
     local isUnitChanged = false
     if (unit)
     {
@@ -1267,7 +1260,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     {
       if (isMapForSelectedUnit == null)
         isMapForSelectedUnit = !isSpectate
-      local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
+      local unit = isMapForSelectedUnit ? getCurSlotUnit() : null
       if (unit)
         hudType = unit.unitType.hudTypeCode
     }
@@ -1288,7 +1281,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function getSelWeapon()
   {
-    local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local unit = getCurSlotUnit()
     if (unit)
       return ::get_last_weapon(unit.name)
     return null
@@ -1332,10 +1325,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function getSelectedRequestData(silent = true)
   {
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air)
     {
-      dagor.debug("getSlotAircraft(curSlotCountryId, curSlotIdInCountry) returned null?")
+      dagor.debug("getCurSlotUnit() returned null?")
       return null
     }
 
@@ -1351,9 +1344,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return null
     }
 
-    local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
+    local crew = getCurCrew()
     local weapon = ::get_last_weapon(air.name)
-    local skin = ::hangar_get_last_skin(air.name)
+    local skin = ::g_decorator.getRealSkin(air.name)
+    ::g_decorator.setCurSkinToHangar(air.name)
     if (!weapon || !skin)
     {
       dagor.debug("no weapon or skin selected?")
@@ -1579,10 +1573,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
         tooltipText += ::format(" [%s, %s]", ::loc("key/Space"), ::loc("key/Enter"))
       buttonSelectObj.tooltip = tooltipText
     }
-    local battleObj = ::get_slot_obj(scene, curSlotCountryId, curSlotIdInCountry)
+    local crew = getCurCrew()
+    local battleObj = crew && ::get_slot_obj(scene, crew.idCountry, crew.idInCountry)
     ::setDoubleTextToButton(battleObj, "slotBtn_battle", applyTextShort != "" ? applyTextShort : applyText)
 
-    local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local unit = getCurSlotUnit()
     local isAvailResp = haveRespawnBases
     local infoTexts = []
     if (missionRules.isScoreRespawnEnabled && unit)
@@ -1605,7 +1600,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local checkSlotDelay = true
     if (missionRules.isSpawnDelayEnabled)
     {
-      local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+      local unit = getCurSlotUnit()
       if (unit)
       {
         local slotDelay = ::get_slot_delay(unit.name)
@@ -1686,7 +1681,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (bulletsManager.canChangeBulletsCount())
       return checkChosenBulletsCount(applyFunc, bulletsManager)
 
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air)
       return true
 
@@ -1748,15 +1743,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     if (!(get_game_type() & ::GT_AUTO_SPAWN))
       return false;
-    if (isSpectate || curSlotIdInCountry < 0 || !::before_first_flight_in_session || missionRules.isWarpointsRespawnEnabled)
+    local crew = getCurCrew()
+    if (isSpectate || !crew || !::before_first_flight_in_session || missionRules.isWarpointsRespawnEnabled)
       return false;
 
-    local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local air = getCurSlotUnit()
     if (!air)
       return false
 
-    return !::is_spare_aircraft_in_slot(curSlotIdInCountry) &&
+    return !::is_spare_aircraft_in_slot(crew.idInCountry) &&
       ::is_crew_slot_was_ready_at_host(crew.idInCountry, air.name, false)
   }
 
@@ -1860,6 +1855,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local crews = ::get_crews_list_by_country(::get_local_player_country())
+    local currentIdInCountry = getCurCrew()?.idInCountry
     foreach(crew in crews)
     {
       local idInCountry = crew.idInCountry
@@ -1877,7 +1873,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       else if (curSlotDelay < 0)
         continue
 
-      if (curSlotIdInCountry == idInCountry)
+      if (currentIdInCountry == idInCountry)
         updateApplyText()
       updateCrewSlotText(crew)
     }
@@ -1891,14 +1887,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local idInCountry = crew.idInCountry
-    local slotObj = ::get_slot_obj(scene, curSlotCountryId, idInCountry)
+    local countryId = crew.idCountry
+    local slotObj = ::get_slot_obj(scene, countryId, idInCountry)
     if (!slotObj)
       return
 
     local params = getSlotbarParams()
     params.curSlotIdInCountry <- idInCountry
-    params.curSlotCountryId <- curSlotCountryId
-    params.unlocked <- ::isUnitUnlocked(this, unit, curSlotCountryId, idInCountry, ::get_local_player_country())
+    params.curSlotCountryId <- countryId
+    params.unlocked <- ::isUnitUnlocked(this, unit, countryId, idInCountry, ::get_local_player_country())
     params.weaponPrice <- getWeaponPrice(unit.name, ::get_last_weapon(unit.name))
     if (idInCountry in slotDelayDataByCrewIdx)
       params.slotDelayData <- slotDelayDataByCrewIdx[idInCountry]
@@ -1907,7 +1904,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (::checkObj(priceTextObj))
       priceTextObj.setValue(::get_unit_item_price_text(unit, params))
 
-    local nameObj = slotObj.findObject(::get_slot_obj_id(curSlotCountryId, idInCountry) + "_txt")
+    local nameObj = slotObj.findObject(::get_slot_obj_id(countryId, idInCountry) + "_txt")
     if (::checkObj(nameObj))
       nameObj.setValue(::get_slot_unit_name_text(unit, params))
   }
@@ -1956,7 +1953,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     foreach(id, value in buttons)
       showSceneBtn(id, value)
 
-    local slotObj = ::get_slot_obj(scene, curSlotCountryId, curSlotIdInCountry)
+    local crew = getCurCrew()
+    local slotObj = crew && ::get_slot_obj(scene, crew.idCountry, crew.idInCountry)
     showBtn("buttonsDiv", show && isRespawn, slotObj)
   }
 
@@ -2299,7 +2297,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function onEventUnitWeaponChanged(p)
   {
-    local crew = ::getSlotItem(curSlotCountryId, curSlotIdInCountry)
+    local crew = getCurCrew()
     local unit = ::g_crew.getCrewUnit(crew)
     if (!unit)
       return

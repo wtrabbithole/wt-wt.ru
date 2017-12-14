@@ -4,13 +4,17 @@ local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle
 class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescription
 {
   battlesList = null
+  operationBattle = null
 
   static function open(battle = null)
   {
     if (!battle || !battle.isValid())
       battle = WwGlobalBattle()
 
-    ::handlersManager.loadHandler(::gui_handlers.WwGlobalBattlesModal, {battle = battle})
+    ::handlersManager.loadHandler(::gui_handlers.WwGlobalBattlesModal, {
+        curBattleInList = battle
+        operationBattle = ::WwBattle()
+      })
   }
 
   function initScreen()
@@ -48,26 +52,29 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     reinitBattlesList()
   }
 
-  function getBattleById(battleId)
-  {
-    return ::u.search(battlesList, @(battle) battle.id == battleId)
-      || WwGlobalBattle()
-  }
-
   function updateWindow()
   {
     currViewMode = getViewMode()
     updateViewMode()
     updateDescription()
+    updateQueueInfoPanel()
     updateSlotbar()
+    updateButtons()
   }
 
   function updateSlotbar()
   {
+    local availableUnits = []
+    if (operationBattle.isValid())
+    {
+      local playerTeam = operationBattle.getTeamBySide(getPlayerSide())
+      availableUnits = operationBattle.getTeamRemainUnits(playerTeam)
+    }
     createSlotbar(
       {
+        availableUnits = availableUnits
         showTopPanel = false
-        gameModeName = battle.getLocName()
+        gameModeName = curBattleInList.getLocName()
         showEmptySlot = true
         showPresetsPanel = true
       }
@@ -78,12 +85,13 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   {
     refreshSelBattle()
     local cb = ::Callback(function() {
+      operationBattle = ::g_world_war.getBattleById(curBattleInList.id)
       updateBattleSquadListData()
       updateWindow()
     }, this)
 
-    if (battle.isValid())
-      ::g_world_war.updateOperationPreviewAndDo(battle.operationId, cb, true)
+    if (curBattleInList.isValid())
+      ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb, true)
     else
       cb()
   }
@@ -132,10 +140,14 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     guiScene.performDelayed(this, reinitBattlesBySelectedCountry)
   }
 
+  function onEventSquadDataUpdated(params)
+  {
+  }
+
   function reinitBattlesBySelectedCountry()
   {
     setFilteredBattles()
-    battle = getBattleById(battle.id)
+    curBattleInList = getBattleById(curBattleInList.id)
     reinitBattlesList()
   }
 
@@ -143,6 +155,17 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   {
     battlesList = globalBattlesListData.getList().filter
       (@(idx, battle) battle.hasSideCountry(::get_profile_info().country))
+  }
+
+  function getBattleById(battleId)
+  {
+    return ::u.search(battlesList, @(battle) battle.id == battleId)
+      || WwGlobalBattle()
+  }
+
+  function getPlayerSide()
+  {
+    return curBattleInList.getSideByCountry(::get_profile_info().country)
   }
 
   function updateBattleStatus(battleView)

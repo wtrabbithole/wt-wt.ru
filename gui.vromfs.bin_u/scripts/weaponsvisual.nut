@@ -1,3 +1,5 @@
+local weaponryEffects = ::require("scripts/weaponry/weaponryEffects.nut")
+
 /*
   weaponVisual API
 
@@ -695,252 +697,6 @@ function weaponVisual::isModInResearch(air, item)
   return status == ::ES_ITEM_STATUS_IN_RESEARCH
 }
 
-function weaponVisual::getEffectDesc(air, effect)
-{
-  local desc = "";
-  local speeds = [];
-  local climbs = [];
-  local rolls = [];
-  local virages = [];
-
-  local haveSpeeds = false;
-  local haveClimbs = false;
-  local haveRolls = false;
-  local haveVirages = false;
-
-  local masses = [];
-  local oswalds = [];
-  local cdMinFusel = [];
-  local cdMinTail = [];
-  local cdMinWing = [];
-  local ailThrSpd = [];
-  local ruddThrSpd = [];
-  local elevThrSpd = [];
-  local horsePowers = [];
-  local thrust = [];
-  local cdParasite = [];
-  local turnTurretSpeedK = [];
-  local gunPitchSpeedK = [];
-  local maxInclination = [];
-  local maxDeltaAngleK = [];
-  local maxDeltaAngleVerticalK = [];
-  local maxBrakeForceK = [];
-  local suspensionDampeningForceK = [];
-  local timeToBrake = [];
-  local distToBrake = [];
-  local accelTime = [];
-  local partHpMult = [];
-  local blackoutG = [];
-  local redoutG = [];
-
-  local haveMass = false;
-  local haveOswalds = false;
-  local haveCdMinFusel = false;
-  local haveCdMinTail = false;
-  local haveCdMinWing = false;
-  local haveAilThrSpd = false;
-  local haveRuddThrSpd = false;
-  local haveElevThrSpd = false;
-  local haveHorsePowers = false;
-  local haveThrust = false;
-  local haveCdParasite = false;
-  local haveTurnTurretSpeedK = false;
-  local haveGunPitchSpeedK = false;
-  local haveMaxInclination = false;
-  local haveMaxDeltaAngleK = false;
-  local haveMaxDeltaAngleVerticalK = false;
-  local haveMaxBrakeForceK = false;
-  local haveSuspensionDampeningForceK = false;
-  local haveTimeToBrake = false;
-  local haveDistToBrake = false;
-  local haveAccelTime = false;
-  local havePartHpMult = false;
-  local haveBlackoutG = false;
-  local haveRedoutG = false;
-  foreach(m in ::domination_modes)
-  {
-    if (m.id in effect && ::get_show_mode_info(m.modeId))
-    {
-      local validSpeed = "speed" in effect[m.id] && fabs(effect[m.id].speed * 3.6) > 1;
-      local validClimb = "climb" in effect[m.id] && fabs(effect[m.id].climb) > 0.1;
-      local validRoll = "roll" in effect[m.id] && fabs(effect[m.id].roll) > 1;
-      local validVirage = "virage" in effect[m.id] && fabs(effect[m.id].virage) > 0.1 && fabs(effect[m.id].virage) < 20.0;
-      haveSpeeds = haveSpeeds || validSpeed;
-      haveClimbs = haveClimbs || validClimb;
-      haveRolls = haveRolls || validRoll;
-      haveVirages = haveVirages || validVirage;
-
-      speeds.append(validSpeed ? effect[m.id].speed : "0");
-      climbs.append(validClimb ? effect[m.id].climb : "0");
-      rolls.append(validRoll ? effect[m.id].roll : "0");
-      virages.append(validVirage ? effect[m.id].virage : "0");
-
-      local validMass = "mass" in effect[m.id] && fabs(effect[m.id].mass) > 0.5;
-      local validOswalds = "oswalds" in effect[m.id] && fabs(effect[m.id].oswalds) > 0.01;
-      local validCdMinFusel = "cdMinFusel" in effect[m.id] && fabs(effect[m.id].cdMinFusel) > 0.0001;
-      local validCdMinTail = "cdMinTail" in effect[m.id] && fabs(effect[m.id].cdMinTail) > 0.0001;
-      local validCdMinWing = "cdMinWing" in effect[m.id] && fabs(effect[m.id].cdMinWing) > 0.0001;
-      local validAilThrSpd = "ailThrSpd" in effect[m.id] && fabs(effect[m.id].ailThrSpd) * 3.6 > 1.0;
-      local validRuddThrSpd = "ruddThrSpd" in effect[m.id] && fabs(effect[m.id].ruddThrSpd) * 3.6 > 1.0;
-      local validElevThrSpd = "elevThrSpd" in effect[m.id] && fabs(effect[m.id].elevThrSpd) * 3.6 > 1.0;
-      local validHorsePowers = "horsePowers" in effect[m.id] && fabs(effect[m.id].horsePowers) > 1.0;
-      local validThrust = "thrust" in effect[m.id] && fabs(effect[m.id].thrust) > 10.0;
-      local validCdParasite = "cdParasite" in effect[m.id] && fabs(effect[m.id].cdParasite) > 0.0001;
-      local validTurnTurretSpeedK = "turnTurretSpeedK" in effect[m.id] && fabs(effect[m.id].turnTurretSpeedK) > 0.0001;
-      local validGunPitchSpeedK = "gunPitchSpeedK" in effect[m.id] && fabs(effect[m.id].gunPitchSpeedK) > 0.0001;
-      local validMaxInclination = "maxInclination" in effect[m.id] && fabs(effect[m.id].maxInclination) > 0.001;
-      local validMaxDeltaAngleK = "maxDeltaAngleK" in effect[m.id] && fabs(effect[m.id].maxDeltaAngleK) > 0.001;
-      local validMaxDeltaAngleVerticalK = "maxDeltaAngleVerticalK" in effect[m.id] && fabs(effect[m.id].maxDeltaAngleVerticalK) > 0.001;
-      local validMaxBrakeForceK = "maxBrakeForceK" in effect[m.id] && fabs(effect[m.id].maxBrakeForceK) > 0.001;
-      local validSuspensionDampeningForceK = "suspensionDampeningForceK" in effect[m.id] && fabs(effect[m.id].suspensionDampeningForceK) > 0.001;
-      local validTimeToBrake = "timeToBrake" in effect[m.id] && fabs(effect[m.id].timeToBrake) > 0.0001;
-      local validDistToBrake = "distToBrake" in effect[m.id] && fabs(effect[m.id].distToBrake) > 0.0001;
-      local validAccelTime = "accelTime" in effect[m.id] && fabs(effect[m.id].accelTime) > 0.0001;
-      local validPartHpMult = "partHpMult" in effect[m.id] && fabs(effect[m.id].partHpMult) > 0.0001;
-      local validBlackoutG = "blackoutG" in effect[m.id] && fabs(effect[m.id].blackoutG) > 0.01;
-      local validRedoutG = "redoutG" in effect[m.id] && fabs(effect[m.id].redoutG) > 0.01;
-
-      haveMass = haveMass || validMass;
-      haveOswalds = haveOswalds || validOswalds;
-      haveCdMinFusel = haveCdMinFusel || validCdMinFusel;
-      haveCdMinTail = haveCdMinTail || validCdMinTail;
-      haveCdMinWing = haveCdMinWing || validCdMinWing;
-      haveAilThrSpd = haveAilThrSpd || validAilThrSpd;
-      haveRuddThrSpd = haveRuddThrSpd || validRuddThrSpd;
-      haveElevThrSpd = haveElevThrSpd || validElevThrSpd;
-      haveHorsePowers = (!isTank(air) || ::has_feature("TankModEffect")) ? (haveHorsePowers || validHorsePowers) : false;
-      haveThrust = haveThrust || validThrust;
-      haveCdParasite = haveCdParasite || validCdParasite;
-      haveBlackoutG = haveBlackoutG || validBlackoutG;
-      haveRedoutG = haveRedoutG || validRedoutG;
-      if (::has_feature("TankModEffect"))
-      {
-        haveTurnTurretSpeedK = haveTurnTurretSpeedK || validTurnTurretSpeedK;
-        haveGunPitchSpeedK = haveGunPitchSpeedK || validGunPitchSpeedK;
-        haveMaxInclination = haveMaxInclination || validMaxInclination;
-        haveMaxDeltaAngleK = haveMaxDeltaAngleK || validMaxDeltaAngleK;
-        haveMaxDeltaAngleVerticalK = haveMaxDeltaAngleVerticalK || validMaxDeltaAngleVerticalK;
-        haveMaxBrakeForceK = haveMaxBrakeForceK || validMaxBrakeForceK;
-        haveSuspensionDampeningForceK = haveSuspensionDampeningForceK || validSuspensionDampeningForceK;
-        haveTimeToBrake = haveTimeToBrake || validTimeToBrake;
-        haveDistToBrake = haveDistToBrake || validDistToBrake;
-        haveAccelTime = haveAccelTime || validAccelTime;
-        havePartHpMult = havePartHpMult || validPartHpMult;
-      }
-
-      masses.append(validMass ? effect[m.id].mass : "0");
-      oswalds.append(validOswalds ? effect[m.id].oswalds : "0");
-      cdMinFusel.append(validCdMinFusel ? effect[m.id].cdMinFusel : "0");
-      cdMinTail.append(validCdMinTail ? effect[m.id].cdMinTail : "0");
-      cdMinWing.append(validCdMinWing ? effect[m.id].cdMinWing : "0");
-      ailThrSpd.append(validAilThrSpd ? effect[m.id].ailThrSpd : "0");
-      ruddThrSpd.append(validRuddThrSpd ? effect[m.id].ruddThrSpd : "0");
-      elevThrSpd.append(validElevThrSpd ? effect[m.id].elevThrSpd : "0");
-      horsePowers.append(validHorsePowers ? effect[m.id].horsePowers : "0");
-      thrust.append(validThrust ? effect[m.id].thrust / KGF_TO_NEWTON : "0");
-      cdParasite.append(validCdParasite ? effect[m.id].cdParasite : "0");
-      turnTurretSpeedK.append(validTurnTurretSpeedK ? effect[m.id].turnTurretSpeedK * 100.0 : "0");
-      gunPitchSpeedK.append(validGunPitchSpeedK ? effect[m.id].gunPitchSpeedK * 100.0 : "0");
-      maxInclination.append(validMaxInclination ? (effect[m.id].maxInclination*180.0/PI).tointeger() : "0");
-      maxDeltaAngleK.append(haveMaxDeltaAngleK ? effect[m.id].maxDeltaAngleK * 100.0 : "0");
-      maxDeltaAngleVerticalK.append(haveMaxDeltaAngleVerticalK ? effect[m.id].maxDeltaAngleVerticalK * 100.0 : "0");
-      maxBrakeForceK.append(haveMaxBrakeForceK ? effect[m.id].maxBrakeForceK * 100.0 : "0");
-      suspensionDampeningForceK.append(haveSuspensionDampeningForceK ? effect[m.id].suspensionDampeningForceK * 100.0 : "0");
-      timeToBrake.append(haveTimeToBrake ? effect[m.id].timeToBrake : "0");
-      distToBrake.append(haveDistToBrake ? effect[m.id].distToBrake : "0");
-      accelTime.append(haveAccelTime ? effect[m.id].accelTime : "0");
-      partHpMult.append(havePartHpMult ? effect[m.id].partHpMult * 100.0 : "0");
-      blackoutG.append(haveBlackoutG ? effect[m.id].blackoutG : "0");
-      redoutG.append(haveRedoutG ? effect[m.id].redoutG : "0");
-    }
-  }
-  local startTab = ::nbsp + ::nbsp + ::nbsp + ::nbsp;
-  if (haveMass || haveOswalds || haveCdMinFusel || haveCdMinTail || haveCdMinWing || haveAilThrSpd || haveRuddThrSpd || haveElevThrSpd || haveHorsePowers || haveThrust ||
-      "armor" in effect || "cutProbability" in effect || "overheadCooldown" in effect || haveTurnTurretSpeedK || haveGunPitchSpeedK || haveMaxInclination ||
-      haveMaxDeltaAngleK || haveMaxDeltaAngleVerticalK || haveMaxBrakeForceK || haveSuspensionDampeningForceK || haveTimeToBrake || haveDistToBrake || haveAccelTime ||
-      haveSpeeds || haveClimbs || haveRolls || haveVirages || haveMaxInclination || havePartHpMult || haveBlackoutG || haveRedoutG)
-    desc += "\n" + ::loc("modifications/specs_change") + ::loc("ui/colon")
-  if ("armor" in effect)
-    desc += "\n" + startTab + genModEffectDescr("armor", effect.armor, "@goodTextColor", "@badTextColor", "%", 0);
-  if ("cutProbability" in effect)
-    desc += "\n" + startTab + genModEffectDescr("cutProbability", effect.cutProbability, "@goodTextColor", "@badTextColor", "%", 0);
-  if ("overheadCooldown" in effect)
-    desc += "\n" + startTab + genModEffectDescr("overheadCooldown", effect.overheadCooldown, "@badTextColor", "@goodTextColor", "%", 0);
-  if (haveMass)
-    desc += "\n" + startTab + genModEffectDescr("mass", masses, "@badTextColor", "@goodTextColor", ::loc("measureUnits/kg"), 1);
-  if (haveOswalds)
-    desc += "\n" + startTab + genModEffectDescr("oswalds", oswalds, "@goodTextColor", "@badTextColor", "", 3);
-  if (haveCdMinFusel)
-    desc += "\n" + startTab + genModEffectDescr("cdMinFusel", cdMinFusel, "@badTextColor", "@goodTextColor", "", 5);
-  if (haveCdMinTail)
-    desc += "\n" + startTab + genModEffectDescr("cdMinTail", cdMinTail, "@badTextColor", "@goodTextColor", "", 5);
-  if (haveCdMinWing)
-    desc += "\n" + startTab + genModEffectDescr("cdMinWing", cdMinWing, "@badTextColor", "@goodTextColor", "", 5);
-  if (haveAilThrSpd)
-    desc += "\n" + startTab + genModEffectDescr("ailThrSpd", ailThrSpd, "@goodTextColor", "@badTextColor", 0, 0);
-  if (haveRuddThrSpd)
-    desc += "\n" + startTab + genModEffectDescr("ruddThrSpd", ruddThrSpd, "@goodTextColor", "@badTextColor", 0, 0);
-  if (haveElevThrSpd)
-    desc += "\n" + startTab + genModEffectDescr("elevThrSpd", elevThrSpd, "@goodTextColor", "@badTextColor", 0, 0);
-  if (haveHorsePowers)
-  {
-    local transmission = "modifName" in effect && effect.modifName == "new_tank_transmission"
-    desc += "\n" + startTab + genModEffectDescr(transmission ? "horsePowersTransmission" : "horsePowers",
-      horsePowers, "@goodTextColor", "@badTextColor", ::loc("measureUnits/hp"), 1);
-  }
-  if (haveThrust)
-    desc += "\n" + startTab + genModEffectDescr("thrust", thrust, "@goodTextColor", "@badTextColor", ::loc("measureUnits/kgf"), 1);
-  if (haveCdParasite)
-    desc += "\n" + startTab + genModEffectDescr("cdParasite", cdParasite, "@badTextColor", "@goodTextColor", "", 5);
-  if (haveSpeeds)
-    desc += "\n" + startTab + genModEffectDescr("speed", speeds, "@goodTextColor", "@badTextColor", 0, 0);
-  if (haveClimbs)
-    desc += "\n" + startTab + genModEffectDescr("climb", climbs, "@goodTextColor", "@badTextColor", 3, 0);
-  if (haveRolls)
-    desc += "\n" + startTab + genModEffectDescr("roll", rolls, "@goodTextColor", "@badTextColor", ::loc("measureUnits/deg_per_sec"), 1);
-  if (haveVirages)
-    desc += "\n" + startTab + genModEffectDescr("virage", virages, "@badTextColor", "@goodTextColor", ::loc("measureUnits/seconds"), 1);
-  if (haveTurnTurretSpeedK)
-    desc += "\n" + startTab + genModEffectDescr("turnTurretSpeedK", turnTurretSpeedK, "@goodTextColor", "@badTextColor", "%", 0);
-  if (haveGunPitchSpeedK)
-    desc += "\n" + startTab + genModEffectDescr("gunPitchSpeedK", gunPitchSpeedK, "@goodTextColor", "@badTextColor", "%", 0);
-  if (haveMaxInclination)
-    desc += "\n" + startTab + genModEffectDescr("maxInclination", maxInclination, "@goodTextColor", "@badTextColor", ::loc("measureUnits/deg"), 0);
-  if (haveMaxDeltaAngleK)
-    desc += "\n" + startTab + genModEffectDescr("maxDeltaAngleK", maxDeltaAngleK, "@badTextColor", "@goodTextColor", "%", 0);
-  if (haveMaxDeltaAngleVerticalK)
-    desc += "\n" + startTab + genModEffectDescr("maxDeltaAngleVerticalK", maxDeltaAngleVerticalK, "@badTextColor", "@goodTextColor", "%", 0);
-  if (haveMaxBrakeForceK)
-    desc += "\n" + startTab + genModEffectDescr("maxBrakeForceK", maxBrakeForceK, "@goodTextColor", "@badTextColor", "%", 0);
-  if (haveSuspensionDampeningForceK)
-    desc += "\n" + startTab + genModEffectDescr("suspensionDampeningForceK", suspensionDampeningForceK, "@goodTextColor", "@badTextColor", "%", 0);
-  if (haveTimeToBrake)
-    desc += "\n" + startTab + genModEffectDescr("timeToBrake", timeToBrake, "@badTextColor", "@goodTextColor", ::loc("measureUnits/seconds"), 1);
-  if (haveDistToBrake)
-    desc += "\n" + startTab + genModEffectDescr("distToBrake", distToBrake, "@badTextColor", "@goodTextColor", 1, 1);
-  if (haveAccelTime)
-    desc += "\n" + startTab + genModEffectDescr("accelTime", accelTime, "@badTextColor", "@goodTextColor", ::loc("measureUnits/seconds"), 1);
-  if (havePartHpMult)
-    desc += "\n" + startTab + genModEffectDescr("partHpMult", partHpMult, "@goodTextColor", "@badTextColor", "%", 0);
-  if (haveBlackoutG)
-    desc += "\n" + startTab + genModEffectDescr("blackoutG", blackoutG, "@goodTextColor", "@badTextColor", "", 2);
-  if (haveRedoutG)
-    desc += "\n" + startTab + genModEffectDescr("redoutG", redoutG, "@badTextColor", "@goodTextColor", "", 2);
-
-  if ("weaponMods" in effect)
-    foreach(w in effect.weaponMods)
-    {
-      desc += "\n" + ::loc(w.name) + ":";
-      if ("spread" in w)
-        desc += "\n" + startTab + genModEffectDescr("spread", w.spread, "@badTextColor", "@goodTextColor", 1, 0);
-      if ("overheat" in w)
-        desc += "\n" + startTab + genModEffectDescr("overheat", -w.overheat * 100.0, "@goodTextColor", "@badTextColor", "%", 0);
-    }
-  if(desc != "")
-    desc += "\n" + "<color=@fadedTextColor>" + ::loc("weaponry/modsEffectsNotification") + "</color>"
-  return desc;
-}
-
 function weaponVisual::getItemUpgradesList(item)
 {
   if ("weaponUpgrades" in item)
@@ -1059,7 +815,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     }
 
     if (effect)
-      addDesc = getEffectDesc(air, effect)
+      addDesc = weaponryEffects.getDesc(air, effect)
     if (!effect && updateEffectFunc)
       ::calculate_mod_or_weapon_effect(air.name, item.name, false, this, updateEffectFunc, null)
   }
@@ -1088,7 +844,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     if (effect)
     {
       desc = ::getModificationInfoText(air, item.name);
-      addDesc = getEffectDesc(air, effect);
+      addDesc = weaponryEffects.getDesc(air, effect);
     }
     else
       desc = ::getModificationInfoText(air, item.name, false, false, this, updateEffectFunc)
@@ -1155,7 +911,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
           ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
       }
     if (repairText!="")
-      addDesc += "\n" + ::loc("shop/avg_repair_cost") + repairText
+      addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp + repairText
   }
 
   if (!statusTbl.amount)

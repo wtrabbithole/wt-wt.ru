@@ -8,7 +8,8 @@
   "emitTime": 0.03,
   "aimMinDist": 0.1,
   "aimMaxDist": 2500.0,
-  "maxDeltaAngle": 0.1,
+  "maxDeltaAngle": 0.06,
+  "maxDeltaAngleVertical": 0.07,
   "shotFreq": 5.0,
   "traceFreq": 5,
   "bEnablePause": false,
@@ -20,6 +21,10 @@
   "fxMultipleSpawn": true,
   "fxScale": 0.2,
   "shouldCollideWithRendinsts": true,
+  "sound_path": "tanks/weapon_tanks/mguns",
+  "sound": "13mm_l21a1",
+  "sound_inside": "13mm_l21a1_interior",
+  "soundLoop": false,
   "bullet": {
     "mass": 0.046,
     "caliber": 0.0127,
@@ -70,11 +75,5 @@
       "tracer": "12mmWhite",
       "trail": "smallTrail"
     }
-  },
-  "gunSound": {
-    "path": "tanks/weapon_tanks/mguns",
-    "outside": "13mm_l21a1",
-    "cockpit": "13mm_l21a1_interior",
-    "ai": "13mm_l21a1_ai"
   }
 }

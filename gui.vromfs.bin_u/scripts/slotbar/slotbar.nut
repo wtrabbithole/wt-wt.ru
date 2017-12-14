@@ -36,6 +36,8 @@ if need - put commented in array above
 ::unlocked_countries <- []
 ::fake_countries <- ["country_pkg6"]
 
+::g_script_reloader.registerPersistentData("SlotbarGlobals", ::getroottable(), ["selected_crews", "unlocked_countries"])
+
 function build_aircraft_item(id, air, params = {})
 {
   local res = ""
@@ -847,18 +849,6 @@ function isCountryAllCrewsUnlockedInHangar(countryId)
   return true
 }
 
-function create_slotbar_holder_obj(scene=null)
-{
-  local slotbarObj = scene.findObject("nav-slotbar")
-  if (!::check_obj(slotbarObj))
-  {
-    local data = "slotbarDiv { id:t='nav-slotbar' }"
-    scene.getScene().appendWithBlk(scene, data)
-    slotbarObj = scene.findObject("nav-slotbar")
-  }
-  return slotbarObj
-}
-
 ::defaultSlotbarActions <- [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
 
 function init_slotbar(handler, scene, params = {})
@@ -876,10 +866,9 @@ function init_slotbar(handler, scene, params = {})
 
   local singleCountry = params?.singleCountry //country name to show it alone in slotbar
   local country = singleCountry
-  local slotbarObj = ::create_slotbar_holder_obj(scene)
+  local slotbarObj = scene
   local guiScene = ::get_gui_scene()
   guiScene.setUpdatesEnabled(false, false);
-  guiScene.replaceContent(slotbarObj, "gui/slotbar/slotbar.blk", handler)
   slotbarObj["singleCountry"] = country ? "yes" : "no"
 
   local selectedIdsData = {
@@ -967,10 +956,21 @@ function init_slotbar(handler, scene, params = {})
 
       countryVisibleIdx++
       local itemName = "slotbar-country"+c
-      local itemText = format("slotsOption { id:t='%s' _on_deactivate:t='restoreFocus'} ", itemName)
-      guiScene.appendWithBlk(countriesObj, itemText, handler)
-      local itemObj = countriesObj.findObject(itemName)
-      guiScene.replaceContent(itemObj, "gui/slotbar/slotbarItem.blk", handler)
+      local itemObj = null
+      local prevObjStrIdx = null
+      if (countriesObj.childrenCount() > countryVisibleIdx)
+      {
+        itemObj = countriesObj.getChild(countryVisibleIdx)
+        prevObjStrIdx = ::getObjIdByPrefix(itemObj, "slotbar-country")
+        itemObj.id = itemName
+      }
+      else
+      {
+        local itemText = format("slotsOption { id:t='%s' _on_deactivate:t='restoreFocus'} ", itemName)
+        guiScene.appendWithBlk(countriesObj, itemText, handler)
+        itemObj = countriesObj.findObject(itemName)
+        guiScene.replaceContent(itemObj, "gui/slotbar/slotbarItem.blk", handler)
+      }
 
       local cTooltipObj = itemObj.findObject("tooltip_country_")
       if (cTooltipObj)
@@ -986,9 +986,9 @@ function init_slotbar(handler, scene, params = {})
         selectable = false
       }
       local rowData = ""
-      local tblObj = itemObj.findObject("airs_table")
+      local tblObj = itemObj.findObject(prevObjStrIdx ? "airs_table_" + prevObjStrIdx : "airs_table")
       tblObj.id = "airs_table_"+c
-      tblObj.alwaysShowBorder = ::getTblValue("alwaysShowBorder", params, "no")
+      tblObj.alwaysShowBorder = params?.alwaysShowBorder ? "yes" : "no"
 
       for(local i=0; i<::g_crews_list.get()[c].crews.len(); i++)
       {
@@ -1167,8 +1167,7 @@ function init_slotbar(handler, scene, params = {})
       foreach (unitItem in unitItems)
         ::fill_unit_item_timers(tblObj.findObject(unitItem.id), unitItem.unit, unitItem.params)
 
-      if (limitCountryChoice)
-        itemObj.enable(airShopCountry == ::g_crews_list.get()[c].country)
+      itemObj.enable(!limitCountryChoice || airShopCountry == ::g_crews_list.get()[c].country)
 
       local cUnlocked = ::isCountryAvailable(::g_crews_list.get()[c].country)
       itemObj.inactive = "no"
@@ -1236,12 +1235,6 @@ function init_slotbar(handler, scene, params = {})
         selItem.scrollToView()
     })(selItem))
 
-  if (handler && ("slotbarScene" in handler))
-  {
-    handler.slotbarScene = scene
-    handler.slotbarParams = params
-  }
-
   guiScene.setUpdatesEnabled(true, true);
   ::slotbar_oninit = false
 
@@ -1274,121 +1267,12 @@ function init_slotbar(handler, scene, params = {})
       if (("aircraft" in curCrew) && curCrew.aircraft != ::hangar_get_current_unit_name())
         handler.showAircraft(curCrew.aircraft)
     }
-
-    local needPresetsPanel = ::getTblValue("showPresetsPanel", params, fullSlotbar) &&::SessionLobby.canChangeCrewUnits()
-    handler.setSlotbarPresetsListAvailable(needPresetsPanel)
   }
 }
 
-function get_slotbar_unit_slots(handler, unitId = null, crewId = -1, withEmptySlots = false)
+function getSlotbarTags(handler) //!!FIX ME: Why it here?
 {
-  local unitSlots = []
-
-  if (!::handlersManager.isHandlerValid(handler) || !::checkObj(::getTblValue("slotbarScene", handler)))
-    return unitSlots
-
-  local slotbarObj = handler.slotbarScene
-  local country = handler.slotbarParams?.singleCountry
-  foreach(countryId, countryData in ::g_crews_list.get())
-    if (!country || countryData.country == country)
-      foreach (idInCountry, crew in countryData.crews)
-      {
-        if (crewId != -1 && crewId != crew.id)
-          continue
-        local unit = ::g_crew.getCrewUnit(crew)
-        if (unitId && unit && unitId != unit.name)
-          continue
-        local obj = ::get_slot_obj(slotbarObj, countryId, idInCountry)
-        if (obj && (unit || withEmptySlots))
-          unitSlots.append({
-            unit      = unit
-            crew      = crew
-            countryId = countryId
-            obj       = obj
-          })
-      }
-
-  return unitSlots
-}
-
-function update_slotbar_difficulty(handler, unitSlots = null)
-{
-  unitSlots = unitSlots || ::get_slotbar_unit_slots(handler)
-
-  local showBR = ::has_feature("SlotbarShowBattleRating")
-  local curEdiff = handler.getCurrentEdiff.call(handler)
-
-  foreach (slot in unitSlots)
-  {
-    local obj = slot.obj.findObject("rank_text")
-    if (::checkObj(obj))
-    {
-      local unitRankText = ::get_unit_rank_text(slot.unit, slot.crew, showBR, curEdiff)
-      obj.setValue(unitRankText)
-    }
-  }
-}
-
-function update_slotbar_crew(handler, unitSlots = null)
-{
-  if (::g_crews_list.isSlotbarOverrided)
-    return
-
-  unitSlots = unitSlots || ::get_slotbar_unit_slots(handler)
-
-  foreach (slot in unitSlots)
-  {
-    slot.obj["crewStatus"] = ::get_crew_status(slot.crew)
-
-    local obj = slot.obj.findObject("crew_level")
-    if (::checkObj(obj))
-    {
-      local crewLevelText = slot.unit ? ::g_crew.getCrewLevel(slot.crew, ::get_es_unit_type(slot.unit)).tointeger().tostring() : ""
-      obj.setValue(crewLevelText)
-    }
-
-    local obj = slot.obj.findObject("crew_spec")
-    if (::checkObj(obj))
-    {
-      local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(slot.crew, slot.unit).trainedIcon
-      obj["background-image"] = crewSpecIcon
-    }
-  }
-}
-
-function getSlotbarTags(handler)
-{
-  local tags = null
-  if (handler && ("slotbarCheckTags" in handler) && handler.slotbarCheckTags)
-    tags = ::aircrafts_filter_tags
-
-  return tags
-}
-
-function destroy_slotbar(handler)
-{
-  if (::checkObj(handler.slotbarScene))
-  {
-    local obj = handler.slotbarScene.findObject("nav-slotbar")
-    if (::checkObj(obj))
-      obj.getScene().replaceContentFromText(obj, "", 0, handler)
-  }
-
-  handler.slotbarScene = null
-  handler.slotbarParams = null
-}
-
-function get_slotbar_box_of_airs(slotbarScene, curSlotCountryId)
-{
-  local obj = slotbarScene.findObject("airs_table_" + curSlotCountryId)
-  if (!::checkObj(obj))
-    return null
-
-  local box = ::GuiBox().setFromDaguiObj(obj)
-  local pBox = ::GuiBox().setFromDaguiObj(obj.getParent())
-  if (box.c2[0] > pBox.c2[0])
-    box.c2[0] = pBox.c2[0] + pBox.c1[0] - box.c1[0]
-  return box
+  return handler?.ownerWeak?.slotbarCheckTags ? ::aircrafts_filter_tags : null
 }
 
 function getBrokenSlotsCount(country)
@@ -1492,11 +1376,7 @@ function get_crew_by_id(id)
     if ("crews" in cList)
       foreach(idx, crew in cList.crews)
        if (crew.id==id)
-       {
-         crew.country <- cList.country
-         crew.countryId <- cId
          return crew
-       }
   return null
 }
 
@@ -1517,16 +1397,6 @@ function getCrewByAir(air)
       foreach(crew in country.crews)
         if (("aircraft" in crew) && crew.aircraft==air.name)
           return crew
-  return null
-}
-
-function getCrewIdTblByAir(air)
-{
-  foreach(countryId, country in ::g_crews_list.get())
-    if (country.country == air.shopCountry)
-      foreach(idInCountry, crew in country.crews)
-        if (("aircraft" in crew) && crew.aircraft==air.name)
-          return { crewId = crew.id, countryId = countryId, idInCountry = idInCountry }
   return null
 }
 
@@ -1679,52 +1549,30 @@ function get_cur_slotbar_unit()
   return getSelAircraftByCountry(::get_profile_info().country)
 }
 
-function get_cur_available_slotbar_unit(handler)
-{
-  local unit = get_cur_slotbar_unit()
-  if (!handler || !handler.slotbarParams || ::is_unit_enabled_for_slotbar(unit, handler.slotbarParams))
-    return unit
-
-  local country = ::get_profile_info().country
-  foreach(cIdx, c in ::g_crews_list.get())
-    if (c.country == country)
-      foreach(crew in c.crews)
-      {
-        local unitName = ::getTblValue("aircraft", crew, "")
-        if (unitName == "")
-          continue
-
-        local unit = getAircraftByName(unitName)
-        if (::is_unit_enabled_for_slotbar(unit, handler.slotbarParams))
-          return unit
-      }
-  return null
-}
-
 function is_unit_enabled_for_slotbar(unit, params)
 {
   if (!unit)
     return false
 
   local res = true
-  if ("eventId" in params)
+  if (params?.eventId)
   {
     res = false
     local event = ::events.getEvent(params.eventId)
     if (event)
       res = ::events.isUnitAllowedForEventRoom(event, ::getTblValue("room", params), unit)
   }
-  else if ("availableUnits" in params)
+  else if (params?.availableUnits)
     res = unit.name in params.availableUnits
   else if (::SessionLobby.isInRoom() && !::is_in_flight())
     res = ::SessionLobby.isUnitAllowed(unit)
-  else if ("roomCreationContext" in params)
+  else if (params?.roomCreationContext)
     res = params.roomCreationContext.isUnitAllowed(unit)
 
-  if (res && "mainMenuSlotbar" in params)
+  if (res && params?.mainMenuSlotbar)
     res = ::game_mode_manager.isUnitAllowedForGameMode(unit)
 
-  if (res && "missionRules" in params)
+  if (res && params?.missionRules)
     res = params.missionRules.getUnitLeftRespawns(unit) != 0
 
   return res
@@ -1804,16 +1652,6 @@ function set_autorefill_by_obj(obj)
     ::broadcastEvent("AutorefillChanged", { id = obj.id, value = value })
     ::slotbar_oninit = false
   }
-}
-
-function nextSlotbarAir(slotbarScene, countryId, way)
-{
-  if (!::checkObj(slotbarScene))
-    return
-  local tblObj = slotbarScene.findObject("airs_table_"+countryId)
-  if (!::checkObj(tblObj))
-    return
-  ::gui_bhv.columnNavigator.selectColumn.call(::gui_bhv.columnNavigator, tblObj, way)
 }
 
 function isCountryAvailable(country)

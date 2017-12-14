@@ -107,14 +107,11 @@
     text = "multiplayer/assists"
   }
   "Critical",
-  "Scout",
-  "ScoutCriticalHit",
-  "ScoutKill",
   "Hit"
   { id = "Scouting"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
     showByModes = ::is_gamemode_versus
-    joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit" ]
+    joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit", "ScoutKillUnknown"]
   }
   { id = "Scout"
     isShowOnlyInTooltips = true
@@ -123,6 +120,9 @@
     isShowOnlyInTooltips = true
   }
   { id = "ScoutKill"
+    isShowOnlyInTooltips = true
+  }
+  { id = "ScoutKillUnknown"
     isShowOnlyInTooltips = true
   }
   { id = "Overkill"

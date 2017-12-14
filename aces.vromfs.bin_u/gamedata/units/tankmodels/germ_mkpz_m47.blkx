@@ -30,6 +30,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -478,6 +481,16 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
+        "ammo_body_l_16_dm": [],
+        "ammo_body_l_17_dm": [],
+        "ammo_body_l_18_dm": [],
+        "ammo_body_l_19_dm": [],
+        "ammo_body_l_20_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -487,7 +500,17 @@
         "ammo_body_r_07_dm": [],
         "ammo_body_r_08_dm": [],
         "ammo_body_r_09_dm": [],
-        "ammo_body_r_10_dm": []
+        "ammo_body_r_10_dm": [],
+        "ammo_body_r_11_dm": [],
+        "ammo_body_r_12_dm": [],
+        "ammo_body_r_13_dm": [],
+        "ammo_body_r_14_dm": [],
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": [],
+        "ammo_body_r_20_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -1577,7 +1600,7 @@
             "triggerGroup": "coaxial"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk"
           },
           {
             "emitter": "bone_mg_gun_twin"
@@ -1592,6 +1615,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 5.5
           },
           {
@@ -1601,7 +1627,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 4900
+            "bullets": 2200
           },
           {
             "fireConeAngle": 15.0
@@ -2442,7 +2468,7 @@
                   "triggerGroup": "coaxial"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk"
                 },
                 {
                   "emitter": "bone_mg_gun_twin"
@@ -2457,6 +2483,9 @@
                   "defaultPitch": 0.0
                 },
                 {
+                  "isBulletBelt": true
+                },
+                {
                   "speedYaw": 5.5
                 },
                 {
@@ -2466,7 +2495,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 4900
+                  "bullets": 2200
                 },
                 {
                   "fireConeAngle": 15.0
@@ -2703,6 +2732,15 @@
     ]
   },
   {
+    "default_skin_tomoe": {
+      "set_tex": {
+        "from": "m47_patton_II_turret_c*",
+        "to": "mkpz_m47_skin_turret_c_tomoe*",
+        "param": "camo_skin_tex"
+      }
+    }
+  },
+  {
     "skin": [
       {
         "name": "winter"
@@ -2724,6 +2762,33 @@
         "set_tex": {
           "from": "m47_patton_II_turret_c*",
           "to": "mkpz_m47_skin_turret_c*",
+          "param": "camo_skin_tex"
+        }
+      }
+    ]
+  },
+  {
+    "skin": [
+      {
+        "name": "winter_tomoe"
+      },
+      {
+        "replace_tex": {
+          "from": "us_camo_olive*",
+          "to": "ussr_camo_winter*"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_body_c*",
+          "to": "mkpz_m47_skin_body_c*",
+          "param": "camo_skin_tex"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_turret_c*",
+          "to": "mkpz_m47_skin_turret_c_tomoe*",
           "param": "camo_skin_tex"
         }
       }
@@ -2759,6 +2824,33 @@
   {
     "skin": [
       {
+        "name": "lederbraun_tomoe"
+      },
+      {
+        "replace_tex": {
+          "from": "us_camo_olive*",
+          "to": "ger_camo_lederbraun*"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_body_c*",
+          "to": "mkpz_m47_skin_body_c*",
+          "param": "camo_skin_tex"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_turret_c*",
+          "to": "mkpz_m47_skin_turret_c_tomoe*",
+          "param": "camo_skin_tex"
+        }
+      }
+    ]
+  },
+  {
+    "skin": [
+      {
         "name": "bronzegruen"
       },
       {
@@ -2778,6 +2870,33 @@
         "set_tex": {
           "from": "m47_patton_II_turret_c*",
           "to": "mkpz_m47_skin_turret_c*",
+          "param": "camo_skin_tex"
+        }
+      }
+    ]
+  },
+  {
+    "skin": [
+      {
+        "name": "bronzegruen_tomoe"
+      },
+      {
+        "replace_tex": {
+          "from": "us_camo_olive*",
+          "to": "ger_camo_bronzegruen*"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_body_c*",
+          "to": "mkpz_m47_skin_body_c*",
+          "param": "camo_skin_tex"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_turret_c*",
+          "to": "mkpz_m47_skin_turret_c_tomoe*",
           "param": "camo_skin_tex"
         }
       }

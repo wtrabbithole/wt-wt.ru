@@ -5,10 +5,10 @@ function gui_start_open_chest_list(items)
 
   local inventoryItems = ::ItemsManager.getInventoryList()
   while (items.len() > 0 ) {
-    local itemId = items.remove(0).itemid
+    local uid = items.remove(0).itemid
 
     foreach (item in inventoryItems) {
-      if (item.id == itemId) {
+      if (::isInArray(uid, item.uids)) {
         local afterFunc = items.len() > 0 ? function() { ::gui_start_open_chest_list(items) } : null
         ::gui_start_modal_wnd(::gui_handlers.openChestWnd, {showItem = item, afterFunc = afterFunc})
         return
@@ -29,7 +29,7 @@ class ::gui_handlers.openChestWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    scene.findObject("reward_title").setValue(::loc("mainmenu/trophyReward/title"))
+    scene.findObject("reward_title").setValue(::loc("mainmenu/chestConsumed/title"))
     updateWnd()
   }
 

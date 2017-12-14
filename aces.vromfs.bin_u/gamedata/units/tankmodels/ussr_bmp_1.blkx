@@ -185,29 +185,35 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 250.0,
+        "hp": 300.0,
         "gun_barrel_dm": {
-          "armorThickness": 25.0
+          "armorThickness": 25.0,
+          "armorEffectiveThicknessMax": 220.0
         },
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "armorEffectiveThicknessMax": 30.0
         },
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "armorEffectiveThicknessMax": 30.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "armorEffectiveThicknessMax": 30.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "armorEffectiveThicknessMax": 30.0
         },
         "gun_barrel_05_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "armorEffectiveThicknessMax": 30.0
         }
       },
       "optics": {
@@ -1591,19 +1597,6 @@
         ]
       },
       {
-        "hideDmParts": [
-          {
-            "node": "gun_barrel_02_dm"
-          },
-          {
-            "node": "gun_barrel_05_dm"
-          },
-          {
-            "node": "ammo_turret_43_dm"
-          }
-        ]
-      },
-      {
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/groundModels_weapons/73mm_2A28_user_cannon.blk",
@@ -2700,6 +2693,7 @@
       "73mm_ussr_2A28_HE": [],
       "manual_extinguisher": [],
       "tank_tool_kit": [],
+      "airstrike": [],
       "bmp_1p_turret_improvement": {
         "invertEnableLogic": false,
         "turn_it_off": false,
@@ -2740,19 +2734,6 @@
                 },
                 {
                   "node": "gun_barrel_03"
-                }
-              ]
-            },
-            {
-              "hideDmParts": [
-                {
-                  "node": "ammo_turret_42_dm"
-                },
-                {
-                  "node": "gun_barrel_04_dm"
-                },
-                {
-                  "node": "gun_barrel_03_dm"
                 }
               ]
             },
@@ -3048,7 +3029,8 @@
             }
           ]
         }
-      }
+      },
+      "improved_optics": []
     }
   },
   {

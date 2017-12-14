@@ -1,6 +1,6 @@
 function gui_choose_slotbar_preset(owner = null)
 {
-  return ::handlersManager.loadHandler(::gui_handlers.ChooseSlotbarPreset, { owner = owner })
+  return ::handlersManager.loadHandler(::gui_handlers.ChooseSlotbarPreset, { ownerWeak = owner })
 }
 
 class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
@@ -8,13 +8,15 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.MODAL
   sceneBlkName = "gui/slotbar/slotbarChoosePreset.blk"
 
-  owner = null
+  ownerWeak = null
   presets = []
   activePreset = null
   chosenValue = -1
 
   function initScreen()
   {
+    if (ownerWeak)
+      ownerWeak = ownerWeak.weakref()
     reinit(null, true)
     initFocusArray()
   }
@@ -129,6 +131,12 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     updateButtons()
+  }
+
+  function getCurrentEdiff()
+  {
+    local slotbar = ownerWeak && ownerWeak.getSlotbar()
+    return slotbar ? slotbar.getCurrentEdiff() : ::get_current_ediff()
   }
 
   function updateButtons()

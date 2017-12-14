@@ -261,11 +261,13 @@ function handlersManager::calcCurrentControlsAllowMask()
   foreach(group in handlers)
     foreach(h in group)
       if (isHandlerValid(h, true) && h.isSceneActive())
-        res = res & getHandlerControlsAllowMask(h)
+        res = (res & getHandlerControlsAllowMask(h)) |
+          (CtrlsInGui.CTRL_WINDOWS_ALL & getHandlerControlsAllowMask(h))
 
   foreach(name in ["menu_chat_handler", "contacts_handler", "game_chat_handler"])
     if (name in ::getroottable() && ::getroottable()[name])
-      res = res & ::getroottable()[name].getControlsAllowMask()
+      res = res & ::getroottable()[name].getControlsAllowMask() |
+          (CtrlsInGui.CTRL_WINDOWS_ALL & ::getroottable()[name].getControlsAllowMask())
 
   return res
 }

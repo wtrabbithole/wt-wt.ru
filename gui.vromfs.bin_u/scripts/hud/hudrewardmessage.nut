@@ -35,6 +35,7 @@ enum REWARD_PRIORITY {
   common,
   scout,
   scout_hit,
+  scout_kill_unknown,
   scout_kill,
   hit,
   critical,
@@ -166,6 +167,7 @@ enum REWARD_PRIORITY {
   INEFFECTIVE_HIT = {
     code = ::EXP_EVENT_INEFFECTIVE_HIT
     locId  = "exp_reasons/ineffective_hit"
+    priority = REWARD_PRIORITY.common
   }
 
   RESPAWN = {
@@ -209,6 +211,13 @@ enum REWARD_PRIORITY {
     locId  = "exp_reasons/scout_kill"
     viewClass = "scout"
     priority = REWARD_PRIORITY.scout_kill
+  }
+
+  SCOUT_KILL_UNKNOWN = {
+    code = ::EXP_EVENT_SCOUT_KILL_UNKNOWN
+    locId  = "exp_reasons/scout_kill_unknown"
+    viewClass = "scout"
+    priority = REWARD_PRIORITY.scout_kill_unknown
   }
 
 })

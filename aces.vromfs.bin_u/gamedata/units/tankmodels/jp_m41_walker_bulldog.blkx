@@ -2010,6 +2010,8 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_jp"
       },
+      "airstrike": [],
+      "improved_optics": [],
       "76mm_usa_M32_HE": [],
       "76mm_usa_M32_APCR": [],
       "76mm_usa_M32_APCR_ammo_pack": [],
@@ -2162,6 +2164,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
+          "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "parkInDeadzone": false,
@@ -2189,6 +2192,11 @@
           "limits": {
             "yaw": [-60.0,60.0],
             "pitch": [-10.0,70.0]
+          },
+          "limitsTable": {
+            "lim1": [-60.0,20.0,-10.0,70.0],
+            "lim2": [20.0,55.0,-5.0,70.0],
+            "lim3": [55.0,60.0,-10.0,70.0]
           }
         }
       }

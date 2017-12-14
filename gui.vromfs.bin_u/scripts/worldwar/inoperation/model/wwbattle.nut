@@ -454,11 +454,8 @@ class ::WwBattle
     }
   }
 
-  function tryToJoin(side = null)
+  function tryToJoin(side)
   {
-    if (side == null)
-      side = ::ww_get_player_side()
-
     local cantJoinReasonData = getCantJoinReasonData(side, true)
     if (!cantJoinReasonData.canJoin)
     {
@@ -467,7 +464,7 @@ class ::WwBattle
     }
 
     local joinCb = ::Callback(@() join(side), this)
-    local warningReasonData = getWarningReasonData()
+    local warningReasonData = getWarningReasonData(side)
     if (warningReasonData.needShow && !::g_squad_manager.isInSquad() &&
         !::loadLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false))
     {
@@ -494,7 +491,7 @@ class ::WwBattle
     dagor.debug("ww: join ww battle op:" + opId.tostring() + ", battle:" + id +
                 ", country:" + countryName + ", team:" + teamName)
 
-    ::WwBattleJoinProcess(this)
+    ::WwBattleJoinProcess(this, side)
     ::ww_event("JoinBattle", {battleId = id})
   }
 
@@ -538,7 +535,7 @@ class ::WwBattle
     return false
   }
 
-  function getWarningReasonData()
+  function getWarningReasonData(side)
   {
     local res = {
         needShow = false
@@ -550,7 +547,7 @@ class ::WwBattle
       return res
     }
 
-    local team = getTeamBySide(::ww_get_player_side())
+    local team = getTeamBySide(side)
     local countryCrews = ::get_country_crews(team.country)
     local hasSlotWithUnavailableUnit = false
     local availableUnits = getTeamRemainUnits(team)

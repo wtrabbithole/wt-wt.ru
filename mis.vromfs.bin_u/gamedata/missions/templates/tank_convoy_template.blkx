@@ -136,24 +136,40 @@
           }
         ]
       },
-      "else_actions": {
-        "varSetInt": {
-          "value": 0,
-          "var": "have_to_kill_count",
-          "fromDescriptor": "aiTargetCount_teamB"
-        },
-        "triggerEnable": [
-          {
-            "target": "drawTheLineB"
-          },
-          {
-            "target": "tank_convoy_template_init3"
-          },
-          {
-            "target": "show_first_point"
+      "else_actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "have_to_kill_count",
+            "fromDescriptor": "aiTargetCount_teamB"
           }
-        ]
-      }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "drawTheLineB"
+            },
+            {
+              "target": "tank_convoy_template_init3"
+            },
+            {
+              "target": "show_first_point"
+            }
+          ]
+        },
+        {
+          "varSetString": {
+            "value": "t2_tanks_spawn01",
+            "var": "current_spawnpoint_str"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_tanks_spawn00",
+            "var": "prev_spawnpoint_str"
+          }
+        }
+      ]
     },
     "tank_convoy_template_init3": {
       "is_enabled": false,
@@ -590,60 +606,11 @@
           "target": "@current_waypoint_str"
         }
       },
-      "actions": [
-        {
-          "triggerEnable": {
-            "target": "waypoint_reached_penalty"
-          }
-        },
-        {
-          "wait": {
-            "time": 1.0
-          }
-        },
-        {
-          "varSetString": {
-            "value": "",
-            "var": "prev_waypoint_str",
-            "input_var": "current_waypoint_str"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "convoy_waypoint",
-            "var": "current_waypoint_str"
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "current_waypoint"
-          }
-        },
-        {
-          "varAddString": {
-            "value": "",
-            "digits": 2,
-            "var": "current_waypoint_str",
-            "input_var": "current_waypoint"
-          }
-        },
-        {
-          "missionShowMapLine": {
-            "areaNameFrom": "@prev_waypoint_str",
-            "areaNameTo": "@current_waypoint_str",
-            "show": false
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": false,
-            "iconName": "ui/gameuiskin#radar_object_waypoint",
-            "areaName": "@prev_waypoint_str"
-          }
+      "actions": {
+        "triggerEnable": {
+          "target": "waypoint_reached_penalty"
         }
-      ],
+      },
       "else_actions": []
     },
     "waypoint_reached_penalty": {
@@ -682,14 +649,14 @@
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "offset": [0.0,0.0,100.0],
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "target": "@current_waypoint_str",
+            "target": "@current_spawnpoint_str",
             "team": "A",
             "tags": {
               "type_bomber": false,
@@ -712,14 +679,14 @@
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": false,
             "offset": [0.0,0.0,100.0],
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "target": "@prev_waypoint_str",
+            "target": "@prev_spawnpoint_str",
             "team": "A",
             "disableAfter": 0,
             "tags": {
@@ -733,6 +700,39 @@
               "type_tank_destroyer": true,
               "type_spaa": true
             }
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "prev_spawnpoint_str",
+            "input_var": "current_spawnpoint_str"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t1_tanks_spawn",
+            "var": "current_spawnpoint_str"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "current_waypoint"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "current_spawnpoint_str",
+            "input_var": "current_waypoint"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "waypoint_reached_hide_lines"
           }
         }
       ],
@@ -753,14 +753,14 @@
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "target": "@current_waypoint_str",
+            "target": "@current_spawnpoint_str",
             "team": "B",
             "tags": {
               "type_bomber": false,
@@ -783,14 +783,14 @@
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "target": "@prev_waypoint_str",
+            "target": "@prev_spawnpoint_str",
             "team": "B",
             "disableAfter": 0,
             "tags": {
@@ -805,8 +805,94 @@
               "type_spaa": true
             }
           }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "prev_spawnpoint_str",
+            "input_var": "current_spawnpoint_str"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_tanks_spawn",
+            "var": "current_spawnpoint_str"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "current_waypoint"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "current_spawnpoint_str",
+            "input_var": "current_waypoint"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "waypoint_reached_hide_lines"
+          }
         }
       ]
+    },
+    "waypoint_reached_hide_lines": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.5
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varSetString": {
+            "value": "",
+            "var": "prev_waypoint_str",
+            "input_var": "current_waypoint_str"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "convoy_waypoint",
+            "var": "current_waypoint_str"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "current_waypoint_str",
+            "input_var": "current_waypoint"
+          }
+        },
+        {
+          "missionShowMapLine": {
+            "areaNameFrom": "@prev_waypoint_str",
+            "areaNameTo": "@current_waypoint_str",
+            "show": false
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "show": false,
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@prev_waypoint_str"
+          }
+        }
+      ],
+      "else_actions": []
     },
     "convoy_unit_killed": {
       "is_enabled": false,
@@ -1126,25 +1212,14 @@
     "last_waypoint": "convoy_waypoint",
     "linePointCount": 1,
     "linePointStr": "",
-    "linPointStr_next": ""
+    "linPointStr_next": "",
+    "current_spawnpoint_str": "t1_tanks_spawn01",
+    "prev_spawnpoint_str": "t1_tanks_spawn00"
   },
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": {
-    "squad": {
-      "name": "convoy_sq",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [1320.35,4.2,1269.4]
-      ],
-      "props": {
-        "squad_members": ""
-      }
-    }
-  },
+  "units": [],
   "areas": [],
   "objLayers": [
     {

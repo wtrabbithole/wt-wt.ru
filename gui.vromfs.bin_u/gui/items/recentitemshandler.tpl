@@ -18,9 +18,11 @@ fillBlock {
 }
 
 collapsedContainer {
-  <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
-  shortHeaderText { text:t='<<collapsedText>>' }
-  shortHeaderIcon { text:t='<<collapsedIcon>>' }
+  shortInfoBlock {
+    <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
+    shortHeaderText { text:t='<<collapsedText>>' }
+    shortHeaderIcon { text:t='<<collapsedIcon>>' }
+  }
 }
 hangarToggleButton {
   id:t='<<id>>_toggle'

@@ -216,8 +216,6 @@
       "level": "levels/guam.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/guam_alt_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "alt_dom",
+      "locName": "missions/guam_alt_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2600,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -284,6 +284,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -632,6 +635,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -639,12 +643,13 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -657,6 +662,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -682,6 +688,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_carrier",
             "team": "A",
             "tags": {
@@ -696,7 +703,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -709,6 +716,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -734,6 +742,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_carrier",
             "team": "B",
             "tags": {
@@ -749,6 +758,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_art_squad"
             },
@@ -786,6 +798,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
@@ -853,6 +868,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_base_aaa_squad"
             },
             {
@@ -871,6 +889,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_carrier"
             },
@@ -1091,6 +1112,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t2_aaa_01",
           "move_type": "HALT",
           "speed": 0.0,
@@ -1136,6 +1158,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t2_aaa_02",
           "move_type": "HALT",
           "speed": 0.0,
@@ -1181,6 +1204,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t2_aaa_03",
           "move_type": "HALT",
           "speed": 0.0,
@@ -1226,6 +1250,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t2_aaa_04",
           "move_type": "HALT",
           "speed": 0.0,

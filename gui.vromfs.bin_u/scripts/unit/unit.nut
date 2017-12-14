@@ -361,6 +361,13 @@ local Unit = class
       upgradesTarget.weaponUpgrades.append(::split(blk[upgradeName], "/"))
     }
   }
+
+  function getSkins()
+  {
+    if (skins.len() == 0)
+      skins = ::get_skins_for_unit(name) //always returns at least one entry
+    return skins
+  }
 }
 
 u.registerClass("Unit", Unit, @(u1, u2) u1.name == u2.name, @(unit) !unit.name.len())

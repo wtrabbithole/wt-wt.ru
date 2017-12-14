@@ -56,7 +56,7 @@ function g_crews_list::reinitSlotbars()
 
   _isReinitSlotbarsInProgress = true
   ::init_selected_crews(true)
-  ::handlersManager.sendEventToHandlers("reinitSlotbar")
+  ::broadcastEvent("CrewsListChanged")
   _isReinitSlotbarsInProgress = false
 }
 

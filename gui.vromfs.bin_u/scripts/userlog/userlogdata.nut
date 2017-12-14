@@ -587,9 +587,10 @@ function getUserLogsList(filter)
     if (!::isUserlogVisible(blk, filter, i))
       continue
 
-    local isUnlockTypeNotSuitable = "unlockType" in blk.body
-                                    && (blk.body.unlockType == ::UNLOCKABLE_TROPHY_PSN
-                                        || ("unlocks" in filter) && !::isInArray(blk.body.unlockType, filter.unlocks))
+    local isUnlockTypeNotSuitable = "unlockType" in blk.body &&
+                                       (blk.body.unlockType == ::UNLOCKABLE_TROPHY_PSN ||
+                                        blk.body.unlockType == ::UNLOCKABLE_TROPHY_XBOXONE ||
+                                        ("unlocks" in filter) && !::isInArray(blk.body.unlockType, filter.unlocks))
 
     local unlock = ::g_unlocks.getUnlockById(::getTblValue("unlockId", blk.body))
     local hideUnlockById = unlock != null && !::is_unlock_visible(unlock)

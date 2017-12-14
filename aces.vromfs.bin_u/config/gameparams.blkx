@@ -36,7 +36,7 @@
   "bombingZoneHpToTntEquivalentTons": 0.0001,
   "maxDistForWatchXRayInSpectator": 50.0,
   "killZoneVisibilityDistance": 100.0,
-  "detectionZoneVisibilityDistance": 100.0,
+  "detectionZoneVisibilityDistance": 150.0,
   "showEnemyAtKillZone": true,
   "effectsZNearOffsetInCockpit": 2.0,
   "invisibleSupportUnits": true,
@@ -99,6 +99,7 @@
   "slowUpdateDivider": 1,
   "timeToReturnToMap": 10.0,
   "landingTimeAfterSpawnToBailout": 3600.0,
+  "spawnInAirOffset": 0.0,
   "maxTimeToReturnToMapForTanks": 25.0,
   "killDistFromBattleAreaForTanks": 20.0,
   "maxTimeToReturnToMapForShips": 40.0,
@@ -149,7 +150,7 @@
     "headArrowLen": 0.05,
     "headNoiseSmoothLen": 0.03,
     "headFadeLen": 0.5,
-    "headHdrMultiplier": 27.0,
+    "headHdrMultiplier": 15.0,
     "headLenScale": 1.0,
     "headRadiusScale": 1.0,
     "headMinPixelRadius": 2.0,
@@ -1517,6 +1518,7 @@
   "difficulty_settings": {
     "baseDifficulty": {
       "easy": {
+        "scoutPreset": "arcade",
         "mouseAimMaxAnglesSmoothness": 0.02,
         "mouseAimNoiseDirDistMul": 0.08,
         "mouseAimNoiseInvFovMul": 0.5,
@@ -1569,6 +1571,7 @@
         "shipBrokenRangefinderErrorMult": 2.0
       },
       "medium": {
+        "scoutPreset": "realistic",
         "mouseAimMaxAnglesSmoothness": 0.05,
         "mouseAimNoiseDirDistMul": 0.1,
         "mouseAimNoiseInvFovMul": 0.5,
@@ -1620,6 +1623,7 @@
         "shipBrokenRangefinderErrorMult": 2.0
       },
       "hard": {
+        "scoutPreset": "hard",
         "mouseAimMaxAnglesSmoothness": 0.25,
         "mouseAimNoiseDirDistMul": 0.5,
         "mouseAimNoiseInvFovMul": 2.0,
@@ -2599,7 +2603,7 @@
     "calmWindThreshold": [1.0,2.0]
   },
   "shadows": {
-    "hangarShadowDist": 160.0,
+    "hangarShadowDist": 200.0,
     "hangarShadowStart": 1.0,
     "hangarPowWeight": 0.9,
     "hangarCascades": 2,
@@ -3147,7 +3151,7 @@
     "horsePowersToInfraRedBrightness": 0.2,
     "thrustKgsToInfraRedBrightness": 1.0,
     "engineInfraRedBrightnessAspectMultFront": 0.01,
-    "engineInfraRedBrightnessAspectMultSide": 0.01,
+    "engineInfraRedBrightnessAspectMultSide": 0.09,
     "engineInfraRedBrightnessAspectMultRear": 1.0
   },
   "tankControls": {
@@ -6888,6 +6892,9 @@
       },
       {
         "p": "ammo_rack_body_xray"
+      },
+      {
+        "p": "ammo_rack_gun_xray"
       }
     ]
   },
@@ -7605,6 +7612,30 @@
     "hideForMode0re": [
       {
         "incRE": "_dp_"
+      },
+      {
+        "incRE": "berlin_reichstag_back_center"
+      },
+      {
+        "incRE": "berlin_reichstag_back_left"
+      },
+      {
+        "incRE": "berlin_reichstag_back_right"
+      },
+      {
+        "incRE": "berlin_reichstag_corner"
+      },
+      {
+        "incRE": "berlin_reichstag_front_center"
+      },
+      {
+        "incRE": "berlin_reichstag_front_left"
+      },
+      {
+        "incRE": "berlin_reichstag_front_right"
+      },
+      {
+        "incRE": "berlin_reichstag_side_right_center"
       },
       {
         "excRE": "factory_shop_roof"
@@ -8573,7 +8604,27 @@
   },
   "treeDestractible": {
     "heightThreshold": 7.0,
-    "impulseThresholdMult": 1000.0
+    "radiusThreshold": 0.5,
+    "impulseThresholdMult": 1000.0,
+    "canopyRestitution": 0.5,
+    "canopyStiffnessMult": 1.0,
+    "canopyAngularLimit": 0.3,
+    "canopyMaxRaduis": 5.0,
+    "canopyRollingFriction": 2.0,
+    "canopyInertia": [1.0,10.0,1.0],
+    "constraintLimitY": [0.0,1.0],
+    "maxLifeDistance": 20.0,
+    "radiusToImpulse": [
+      {
+        "row": [0.0,1.0]
+      },
+      {
+        "row": [0.5,5.0]
+      },
+      {
+        "row": [1.0,10.0]
+      }
+    ]
   },
   "ground_decals_detail": {
     "usegroundDecalsDetail": true,
@@ -8664,7 +8715,7 @@
   "rendinstLandBlend": {
     "noiseTex": "perlin_noise",
     "perlinTexScale": 0.25,
-    "blendSharpness": 8.0,
+    "blendSharpness": 1.0,
     "appearanceMinAngle": 12.0,
     "appearanceMaxAngle": 25.0
   },
@@ -8812,5 +8863,42 @@
         "p": [500.0,8.0]
       }
     ]
+  },
+  "scoutPresets": {
+    "arcade": {
+      "enabled": true,
+      "radius": 5000.0,
+      "scoutingTime": 30.0,
+      "actionBarCooldown": 6.0,
+      "killStreakBonus": 1,
+      "artStreakBonus": 1
+    },
+    "realistic": {
+      "enabled": true,
+      "showMarker": true,
+      "onlyBinocularUse": true,
+      "radius": 5000.0,
+      "scoutingTime": 30.0,
+      "markerShowTime": 2.0,
+      "markerHideTime": 0.0,
+      "actionBarCooldown": 6.0,
+      "killScore": 1.0,
+      "hitScore": 0.0,
+      "scoutScore": 0.0
+    },
+    "hard": {
+      "enabled": false
+    }
+  },
+  "highlights": {
+    "event": {
+      "id": "example",
+      "name": "highlights/example_highlight",
+      "significance": 1
+    }
+  },
+  "wreckage": {
+    "useInteractiveObject": true,
+    "interactiveObjectTTL": 60.0
   }
 }

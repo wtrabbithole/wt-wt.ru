@@ -281,7 +281,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!is_own && !access_SkinsUnrestrictedPreview && !access_SkinsUnrestrictedExport)
       return
 
-    skinList = ::g_decorator.getSkinsOption(unit.name, true)
+    skinList = ::g_decorator.getSkinsOption(unit.name, true, false)
     local curSkinId = getSelectedBuiltinSkinId()
     local curSkinIndex = ::find_in_array(skinList.values, curSkinId, 0)
 
@@ -291,7 +291,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       local access = skinList.access[i]
       local canBuy = decorator.canBuyUnlock(unit)
       local priceText = canBuy ? decorator.getCost().getTextAccordingToBalance() : ""
-      local text = decorator.getName()
+      local text = skinList.items[i]
       if (canBuy)
         text = ::loc("ui/parentheses", {text = priceText}) + " " + text
 
@@ -560,11 +560,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       tooltipText = buttonTooltip
       tooltipId = slot.isEmpty? null : ::g_tooltip_type.DECORATION.getTooltipId(decalId, decoratorType.unlockedItemType)
     }
-  }
-
-  function afterBuyAircraftModal()
-  {
-    initMainParams()
   }
 
   function onWrapUp(obj)
@@ -1836,13 +1831,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
     local crew = get_crew_by_id(::show_crew)
     if (crew)
-      ::gui_modal_crew(crew.countryId, crew.idInCountry)
+      ::gui_modal_crew(crew.idCountry, crew.idInCountry)
   }
 
   function onWeaponsInfo(obj)
   {
     ::aircraft_for_weapons = unit.name
-    ::gui_modal_weapons(afterBuyAircraftModal)
+    ::gui_modal_weapons()
   }
 
   function onMirror(obj)

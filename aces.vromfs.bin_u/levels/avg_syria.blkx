@@ -3,6 +3,8 @@
   "mandatoryLandquality": 1,
   "clipmap_tex_mips": 7,
   "z_far": 50000.0,
+  "rendinst_last_mip_mul": 0.05,
+  "impostor_last_mip_mul": 0.2,
   "mapCoord0": [-16380.0,-16380.0],
   "mapCoord1": [16380.0,16380.0],
   "minAreaSize": [4096.0,4096.0],
@@ -52,14 +54,15 @@
     "tdust_color": [0.19,0.13,0.06,0.8],
     "dust_params": [0.5,1.5,0.1,0.3],
     "dust_params2": [3.0,0.75,0.8,1.2],
-    "mud_color": [0.1,0.05,0.01,0.7]
+    "mud_color": [0.1,0.05,0.01,0.7],
+    "min_land_height": 0.1
   },
   "randomGrass": [
     {
-      "density": 4.0
+      "density": 5.0
     },
     {
-      "maxRadius": 300.0
+      "maxRadius": 160.0
     },
     {
       "sowPerlinFreq": 0.1
@@ -68,10 +71,10 @@
       "fadeDelta": 100.0
     },
     {
-      "lodFadeDelta": 30.0
+      "lodFadeDelta": 10.0
     },
     {
-      "minLodDensity": 0.2
+      "minLodDensity": 0.3
     },
     {
       "blendToLandDelta": 100.0
@@ -143,10 +146,9 @@
         "density": 1.0,
         "horScale": 1.2,
         "horMinScale": 0.5,
-        "verScale": 1.2,
-        "verMinScale": 0.9,
+        "verScale": 1.5,
+        "verMinScale": 1.2,
         "windMul": 0.05,
-        "radiusMul": 0.3,
         "color_mask_r_from": "#f7f3c87f",
         "color_mask_r_to": "#e9e9ab7f",
         "color_mask_b_from": "#e7dbad7f",
@@ -162,8 +164,8 @@
         "density": 5.0,
         "horScale": 1.2,
         "horMinScale": 0.5,
-        "verScale": 1.4,
-        "verMinScale": 1.1,
+        "verScale": 1.3,
+        "verMinScale": 1.0,
         "windMul": 0.05,
         "color_mask_r_from": "#f7f3c87f",
         "color_mask_r_to": "#e9e9ab7f",
@@ -180,8 +182,8 @@
         "density": 4.0,
         "horScale": 1.2,
         "horMinScale": 0.5,
-        "verScale": 1.9,
-        "verMinScale": 1.2,
+        "verScale": 1.7,
+        "verMinScale": 1.0,
         "windMul": 0.05,
         "color_mask_r_from": "#f7f3c87f",
         "color_mask_r_to": "#e9e9ab7f",

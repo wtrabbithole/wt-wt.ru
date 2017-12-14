@@ -1,3 +1,6 @@
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
+local time = require("scripts/time.nut")
+
 ::top_menu_handler <- null
 ::top_menu_shop_active <- false
 
@@ -27,6 +30,8 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   topMenu = true
   topMenuInited = false
   menuConfig = null /*::topMenu_config*/
+
+  shopWeak = null
 
   checkAdvertTimer = 0.0
   checkPriceTimer = 0.0
@@ -67,7 +72,13 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
       initTopMenuTimer()
       instantOpenShopWnd()
-      createSlotbar({ mainMenuSlotbar = true }, "nav-topMenu")
+      createSlotbar(
+        {
+          mainMenuSlotbar = true
+          afterFullUpdate = afterSlotbarFullUpdate
+        },
+        "nav-topMenu"
+      )
       currentFocusItem = ::top_menu_shop_active? 2 : 11 //shop : slotbar
       initFocusArray()
     }
@@ -118,11 +129,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       gmHandler.setShowGameModeSelect(false)
   }
 
-  function onEventOpenShop(params)
-  {
-    openShop(::getTblValue("unitType", params))
-  }
-
   function onTopMenuUpdate(obj, dt)
   {
     checkAdvertTimer -= dt
@@ -147,11 +153,33 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     updateAdvert()
   }
 
+  function updateAdvert()
+  {
+    local obj = scene.findObject("topmenu_advert")
+    if (!::check_obj(obj))
+      return
+
+    local blk = ::DataBlock()
+    ::get_news_blk(blk)
+    local text = ::loc(blk.advert || "", "")
+    SecondsUpdater(obj, function(obj, params)
+    {
+      local stopUpdate = text.find("{time_countdown=") == null
+      local textResult = time.processTimeStamps(text)
+      local objText = obj.findObject("topmenu_advert_text")
+      objText.setValue(textResult)
+      obj.show(textResult != "")
+      return stopUpdate
+    })
+  }
+
   function onQueue(inQueue)
   {
     isInQueue = inQueue
 
-    shadeSlotbar(inQueue)
+    local slotbar = getSlotbar()
+    if (slotbar)
+      slotbar.shade(inQueue)
     updateSceneShade()
 
     if (inQueue)
@@ -176,7 +204,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurrentEdiff()
   {
-    return (::top_menu_shop_active && ::is_shop_loaded()) ? ::shop_gui_handler.getCurrentEdiff() : ::get_current_ediff()
+    return (::top_menu_shop_active && shopWeak) ? shopWeak.getCurrentEdiff() : ::get_current_ediff()
   }
 
   function focusShopTable()
@@ -211,13 +239,19 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       shopWndSwitch()
   }
 
+  function setShopUnitType(unitType)
+  {
+    if (unitType && shopWeak)
+      shopWeak.setUnitType(unitType)
+  }
+
   function shopWndSwitch(unitType = null)
   {
-    local shopMove = getObj("shop_wnd_move")
-    if (!::checkObj(shopMove))
+    if (!isValid())
       return
 
     ::top_menu_shop_active = !::top_menu_shop_active
+    local shopMove = getObj("shop_wnd_move")
     shopMove.moveOut = ::top_menu_shop_active ? "yes" : "no"
     local closeResearch = getObj("research_closeButton")
     local showButton = shopMove.moveOut == "yes"
@@ -229,17 +263,16 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       ::play_gui_sound("menu_appear")
     if(::checkObj(closeResearch))
       closeResearch.show(showButton)
-    updateShopCountry(true, unitType)
-    if (::is_shop_loaded() && ::shop_gui_handler.getCurrentEdiff() != ::get_current_ediff())
-      ::shop_gui_handler.updateSlotbarDifficulty()
+    activateShopImpl(::top_menu_shop_active, unitType)
+    if (shopWeak && shopWeak.getCurrentEdiff() != ::get_current_ediff())
+      shopWeak.updateSlotbarDifficulty()
   }
 
   function openShop(unitType = null)
   {
+    setShopUnitType(unitType)
     if (!::top_menu_shop_active)
-      return shopWndSwitch(unitType)
-
-    updateShopCountry(true, unitType)
+      shopWndSwitch(unitType) //to load shp with correct unit type to avoid several shop updates
   }
 
   function instantOpenShopWnd()
@@ -261,7 +294,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
       guiScene.performDelayed(this, function () { updateOnShopWndAnim(true) })
 
-      updateShopCountry(true)
+      activateShopImpl(true)
     }
   }
 
@@ -291,58 +324,42 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("slotbar_buttons_place", isShow)
   }
 
-  function afterBuyAircraftModal()
+  function activateShopImpl(shouldActivate, unitType = null)
   {
-    updateShopCountry(true)
-  }
+    if (shopWeak)
+      shopWeak.onShopShow(shouldActivate)
 
-  function updateShopCountry(forceUpdate=false, unitType = null)
-  {
-    if (::is_shop_loaded())
-      ::shop_gui_handler.onShopShow(::top_menu_shop_active)
-
-    if (::top_menu_shop_active)
+    if (shouldActivate)
     {
       //instanciate shop window
-      if (!::is_shop_loaded())
+      if (!shopWeak)
       {
         local wndObj = getObj("shop_wnd_frame")
-        if (::checkObj(wndObj))
-          registerSubHandler(::gui_start_shop(wndObj))
+        local shopHandler = ::handlersManager.loadHandler(::gui_handlers.ShopMenuHandler,
+          {
+            scene = wndObj
+            closeShop = ::Callback(shopWndSwitch, this)
+            forceUnitType =unitType
+          })
+        if (shopHandler)
+        {
+          registerSubHandler(shopHandler)
+          shopWeak = shopHandler.weakref()
+        }
       }
-      else if (curSlotCountryId in ::g_crews_list.get() && ::shop_gui_handler)
-      {
-        local country = ::g_crews_list.get()[curSlotCountryId].country
-        ::shop_gui_handler.onTopmenuCountry.call(::shop_gui_handler, country, forceUpdate, unitType)
-        ::shop_gui_handler.curSlotCountryId = curSlotCountryId
-      }
+      else if (unitType)
+        shopWeak.setUnitType(unitType)
     }
 
-    enableHangarControls(!::top_menu_shop_active, false)
+    enableHangarControls(!shouldActivate, false)
   }
 
-  function reinitSlotbarAction()
+  function afterSlotbarFullUpdate()
   {
-    base.reinitSlotbarAction()
     if (::current_base_gui_handler && ("onReinitSlotbar" in ::current_base_gui_handler))
       ::current_base_gui_handler.onReinitSlotbar.call(::current_base_gui_handler)
-    if (::top_menu_shop_active && ::is_shop_loaded())
-    {
-      updateShopCountry(false)
+    if (::top_menu_shop_active)
       updateSlotbarTopPanelVisibility(false)
-    }
-  }
-
-  function onSlotbarCountryAction(obj)
-  {
-    base.onSlotbarCountryAction(obj)
-    if (!(curSlotCountryId in ::g_crews_list.get()))
-      return
-
-    local country = ::g_crews_list.get()[curSlotCountryId].country
-    if (::current_base_gui_handler && ("onTopmenuCountry" in ::current_base_gui_handler))
-      ::current_base_gui_handler.onTopmenuCountry.call(::current_base_gui_handler, country)
-    updateShopCountry()
   }
 
   function goBack(obj)
@@ -383,8 +400,8 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   {
     local id = "getMainFocusObj" + ((idx == 1)? "" : idx)
     local focusHandler = null
-    if (::top_menu_shop_active && ::handlersManager.isHandlerValid(::shop_gui_handler))
-      focusHandler = ::shop_gui_handler
+    if (::top_menu_shop_active && shopWeak)
+      focusHandler = shopWeak
     else
       focusHandler = ::handlersManager.getActiveBaseHandler()
 
@@ -412,11 +429,11 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     base.onSceneActivate(show)
-    if (::top_menu_shop_active && ::is_shop_loaded())
-      ::shop_gui_handler.onSceneActivate(show)
+    if (::top_menu_shop_active && shopWeak)
+      shopWeak.onSceneActivate(show)
     if (show)
     {
-      local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+      local air = getCurSlotUnit()
       if (air)
         showAircraft(air.name)
     }
@@ -499,25 +516,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     ]
 
     //Bottom bars
-    if (slotbarScene)
+    local slotbar = getSlotbar()
+    if (slotbar)
     {
-      local box = ::get_slotbar_box_of_airs(slotbarScene, curSlotCountryId)
-      if (box)
-        links.append(
-          { obj = box
-            msgId = "hint_my_crews"
-          })
-
-      local objList = []
-      if (::unlocked_countries.len() > 1)
-        for(local i = 0; i <= curSlotCountryId; i++)
-        {
-          local obj = scene.findObject("slotbar-country" + i)
-          if (::checkObj(obj))
-            objList.append(obj.findObject("slots_header_"))
-        }
       links.append(
-        { obj = objList
+        { obj = slotbar.getBoxOfUnits()
+          msgId = "hint_my_crews"
+        })
+
+      if (::unlocked_countries.len() > 1)
+        links.append({
+          obj = slotbar.getBoxOfCountries()
           msgId = "hint_my_country"
         })
 

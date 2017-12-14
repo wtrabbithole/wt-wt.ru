@@ -270,31 +270,22 @@
         "useAlternativeMapCoord": false
       },
       {
+        "allowedKillStreaks": true
+      },
+      {
         "randomSpawnTeams": false
       },
       {
         "remapAiTankModels": true
       },
       {
-        "useSpawnScore": true
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "customSpawnScore": {
-          "base_respawn_points_coef": 450,
-          "br_diff_mul_Air": 0.0,
-          "br_diff_mul_Tank": 0.0,
-          "max_br_diff": 0.0,
-          "spawn_pow": 0.0,
-          "exp_assault": 1.5,
-          "exp_tank": 0.0,
-          "exp_SPAA": 0.0
-        }
       },
       {
         "tags": []
@@ -322,6 +313,13 @@
           "_CnvB": false,
           "_ArtDA": false,
           "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -368,6 +366,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "tank",
               "side": "ally",
@@ -377,22 +378,8 @@
           {
             "icon": {
               "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_t1_resp02"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
               "side": "enemy",
               "target": "briefing_t2_resp01"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "enemy",
-              "target": "briefing_t2_resp02"
             }
           },
           {
@@ -409,23 +396,7 @@
   "imports": [
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/cta/tanks/middle_east_tm.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -454,6 +425,38 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/middle_east/battleareas/template_middle_east_Conq3_battlearea.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/conq_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -468,7 +471,42 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": {
+    "tankModels": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [790.213,112.808,-370.809]
+      ],
+      "unit_class": "aaa_dummy",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "formation_type": "rows",
+        "formation_div": 3,
+        "formation_step": [2.5,2.0],
+        "formation_noise": [0.1,0.1],
+        "uniqueName": "",
+        "attack_type": "fire_at_will"
+      },
+      "way": []
+    }
+  },
   "areas": {
     "briefing_t1_resp01": {
       "type": "Point",
@@ -476,18 +514,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [1398.24,154.164,-823.91]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t1_resp02": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [1448.05,110.253,-477.594]
+        [1441.8,154.164,-466.296]
       ],
       "objLayer": 0,
       "props": []
@@ -498,18 +525,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [223.309,122.158,-840.184]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t2_resp02": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [244.071,116.992,-468.531]
+        [230.732,122.158,-474.676]
       ],
       "objLayer": 0,
       "props": []
@@ -520,62 +536,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [827.65,103.45,-267.8]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t1_rb_resp02": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [1452.86,115.253,-482.631]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t1_rb_resp01": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [1401.43,117.88,-808.171]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t2_rb_resp01": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [223.31,146.737,-840.349]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t2_rb_resp02": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [231.424,116.537,-472.794]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t1_rb_capturezone": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [827.65,103.45,-267.9]
+        [829.467,119.875,-265.268]
       ],
       "objLayer": 0,
       "props": []

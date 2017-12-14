@@ -1,3 +1,13 @@
+enum validationCheckBitMask {
+  VARTYPE    = 0x01
+  EXISTENCE  = 0x02
+  INVALIDATE = 0x04
+
+  // masks
+  REQUIRED   = 0x03
+  VITAL      = 0x07
+}
+
 local InventoryClient = class {
   items = {}
   waitingItems = []
@@ -8,6 +18,52 @@ local InventoryClient = class {
   lastUpdateTime = -1
   lastRequestTime = -1
   hasChanges = false
+
+  validateResponseData = {
+    item_json = {
+      [ validationCheckBitMask.VITAL ] = {
+        itemid = ""
+        itemdef = -1
+      },
+      [ validationCheckBitMask.REQUIRED ] = {
+        accountid = ""
+        position = 0
+        quantity = 0
+        state = "none"
+        timestamp = ""
+      },
+      [ validationCheckBitMask.VARTYPE ] = {
+      },
+    }
+    itemdef_json = {
+      [ validationCheckBitMask.VITAL ] = {
+        itemdefid = -1
+      },
+      [ validationCheckBitMask.REQUIRED ] = {
+        type = ""
+        Timestamp = ""
+        marketable = false
+        tradable = false
+        exchange = ""
+        background_color = ""
+        name_color = ""
+        icon_url = ""
+        icon_url_large = ""
+        promo = ""
+        item_quality = 0
+        meta = ""
+        tags = ""
+        item_slot = ""
+      },
+      [ validationCheckBitMask.VARTYPE ] = {
+        bundle = ""
+        name = ""
+        name_english = ""
+        description = ""
+        description_english = ""
+      },
+    }
+  }
 
   function request(action, headers, data, callback)
   {
@@ -27,7 +83,88 @@ local InventoryClient = class {
 
   function getResultData(result, name)
   {
-    return ::getTblValue(name , ::getTblValue("response" , result))
+    local data = result?.response?[name]
+    return _validate(data, name)
+  }
+
+  function _validate(data, name)
+  {
+    local validation = validateResponseData?[name]
+    if (!data || !validation)
+      return data
+
+    if (!::u.isArray(data))
+      return null
+
+    local itemsBroken  = []
+    local keysMissing   = {}
+    local keysWrongType = {}
+
+    for (local i = data.len() - 1; i >= 0; i--)
+    {
+      local item = data[i]
+      local isItemValid = ::u.isTable(item)
+      local itemErrors = 0
+
+      foreach (checks, keys in validation)
+      {
+        local shouldInvalidate     = checks & validationCheckBitMask.INVALIDATE
+        local shouldCheckExistence = checks & validationCheckBitMask.EXISTENCE
+        local shouldCheckType      = checks & validationCheckBitMask.VARTYPE
+
+        if (isItemValid)
+          foreach (key, defVal in keys)
+          {
+            local isExist = (key in item)
+            local val = item?[key]
+            local isTypeCorrect = isExist && (type(val) == type(defVal) || ::is_numeric(val) == ::is_numeric(defVal))
+
+            local isMissing   = shouldCheckExistence && !isExist
+            local isWrongType = shouldCheckType && isExist && !isTypeCorrect
+            if (isMissing || isWrongType)
+            {
+              itemErrors++
+
+              if (isMissing)
+                keysMissing[key] <- true
+              if (isWrongType)
+                keysWrongType[key] <- type(val) + "," + val
+
+              if (shouldInvalidate)
+                isItemValid = false
+
+              item[key] <- defVal
+            }
+          }
+      }
+
+      if (!isItemValid || itemErrors)
+      {
+        local itemDebug = []
+        foreach (checks, keys in validation)
+          if (checks & validationCheckBitMask.INVALIDATE)
+            foreach (key, val in keys)
+              if (key in item)
+                itemDebug.append(key + "=" + item[key])
+        itemDebug.append(isItemValid ? ("err=" + itemErrors) : "INVALID")
+        itemDebug.append(::u.isTable(item) ? ("len=" + item.len()) : ("var=" + type(item)))
+
+        itemsBroken.append(::g_string.implode(itemDebug, ","))
+      }
+
+      if (!isItemValid)
+        data.remove(i)
+    }
+
+    if (itemsBroken.len() || keysMissing.len() || keysWrongType.len())
+    {
+      itemsBroken = ::g_string.implode(itemsBroken, ";")
+      keysMissing = ::g_string.implode(::u.keys(keysMissing), ";")
+      keysWrongType = ::g_string.implode(::u.map(::u.pairs(keysWrongType), @(i) i[0] + "=" + i[1]), ";")
+      ::script_net_assert_once("inventory client bad response", "InventoryClient: Response has errors: " + name)
+    }
+
+    return data
   }
 
   function requestAll()
@@ -102,10 +239,10 @@ local InventoryClient = class {
     }
   }
 
-  function requestItemDefs(cb = null) {
+  function requestItemDefs(cb = null, shouldRefreshAll = false) {
     local itemdefids = ""
     foreach(key, value in itemdefs) {
-      if (value.len() == 0) {
+      if (shouldRefreshAll || value.len() == 0) {
         if (itemdefids.len() > 0)
           itemdefids += ","
 
@@ -118,25 +255,28 @@ local InventoryClient = class {
 
     dagor.debug("Request itemdefs " + itemdefids)
 
-    request("GetItemDefs", {itemdefids = itemdefids}, null, function(result) {
-      local itemdef_json = getResultData(result, "itemdef_json");
-      if (!itemdef_json) {
+    local steamLanguage = ::g_language.getCurrentSteamLanguage()
+    request("GetItemDefsClient", {itemdefids = itemdefids, language = steamLanguage}, null,
+      function(result) {
+        local itemdef_json = getResultData(result, "itemdef_json");
+        if (!itemdef_json) {
+          if (cb) {
+            cb()
+          }
+          return
+        }
+
+        foreach (itemdef in itemdef_json) {
+          hasChanges = hasChanges ||::u.isEmpty(itemdefs?[itemdef.itemdefid])
+          addItemDef(itemdef)
+        }
+
+        processWaitingItems()
+        notifyInventoryUpdate()
         if (cb) {
           cb()
         }
-        return
-      }
-
-      foreach (itemdef in itemdef_json) {
-        addItemDef(itemdef)
-      }
-
-      processWaitingItems()
-      notifyInventoryUpdate()
-      if (cb) {
-        cb()
-      }
-    }.bindenv(this))
+      }.bindenv(this))
 
     return false
   }
@@ -161,6 +301,14 @@ local InventoryClient = class {
 
   function getItemdefs() {
     return itemdefs
+  }
+
+  function requestItemdefsByIds(itemdefIdsList, cb = null)
+  {
+    foreach (itemdefid in itemdefIdsList)
+      if (!(itemdefid in itemdefs))
+        itemdefs[itemdefid] <- {}
+    requestItemDefs(cb)
   }
 
   function addItemDef(itemdef) {
@@ -247,7 +395,9 @@ local InventoryClient = class {
   }
 
   function openChest(id, cb = null) {
-    local outputitemdefid = items[id].itemdef.itemdefid + 1
+    local outputitemdefid = ::to_integer_safe(items[id].itemdef?.used_to_create, -1)
+    if (outputitemdefid == -1)
+      return
     exchange([[id, 1]], outputitemdefid, cb)
   }
 
@@ -262,6 +412,22 @@ local InventoryClient = class {
       return false
 
     return true
+  }
+
+  function forceRefreshItemDefs()
+  {
+    requestItemDefs(function() {
+      foreach (itemid, item in items) {
+        local itemdef = ::getTblValue(item.itemdef.itemdefid, itemdefs, null)
+        if (itemdef) {
+          if (itemdef.len() > 0) {
+            item.itemdef = itemdef
+            hasChanges = true
+          }
+        }
+      }
+      notifyInventoryUpdate()
+    }, true)
   }
 }
 

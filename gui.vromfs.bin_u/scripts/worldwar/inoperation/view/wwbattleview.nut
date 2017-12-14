@@ -53,17 +53,17 @@ class ::WwBattleView
     return ::loc("worldWar/battleName", {number = battle.getOrdinalNumber()})
   }
 
-  function defineTeamBlock()
+  function defineTeamBlock(sides)
   {
-    teamBlock = getTeamBlockByIconSize(WW_ARMY_GROUP_ICON_SIZE.BASE)
+    teamBlock = getTeamBlockByIconSize(sides, WW_ARMY_GROUP_ICON_SIZE.BASE)
   }
 
-  function getTeamDataBySide(side, iconSize = null)
+  function getTeamDataBySide(playerSide, sides, iconSize = null)
   {
     iconSize = iconSize || WW_ARMY_GROUP_ICON_SIZE.BASE
 
-    local currentTeamBlock = getTeamBlockByIconSize(iconSize, true)
-    local teamName = "team" + battle.getTeamNameBySide(side)
+    local currentTeamBlock = getTeamBlockByIconSize(sides, iconSize, true)
+    local teamName = "team" + battle.getTeamNameBySide(playerSide)
 
     foreach(team in currentTeamBlock)
       if (team.teamName == teamName)
@@ -72,32 +72,32 @@ class ::WwBattleView
     return null
   }
 
-  function getTeamBlockByIconSize(iconSize, isInBattlePanel = false, param = null)
+  function getTeamBlockByIconSize(sides, iconSize, isInBattlePanel = false, param = null)
   {
     if (iconSize == WW_ARMY_GROUP_ICON_SIZE.MEDIUM)
     {
       if (largeArmyGroupIconTeamBlock == null)
-        largeArmyGroupIconTeamBlock = getTeamsData(iconSize, isInBattlePanel, param)
+        largeArmyGroupIconTeamBlock = getTeamsData(sides, iconSize, isInBattlePanel, param)
 
       return largeArmyGroupIconTeamBlock
     }
     else if (iconSize == WW_ARMY_GROUP_ICON_SIZE.SMALL)
     {
       if (mediumArmyGroupIconTeamBlock == null)
-        mediumArmyGroupIconTeamBlock = getTeamsData(iconSize, isInBattlePanel, param)
+        mediumArmyGroupIconTeamBlock = getTeamsData(sides, iconSize, isInBattlePanel, param)
 
       return mediumArmyGroupIconTeamBlock
     }
     else
     {
       if (teamBlock == null)
-        teamBlock = getTeamsData(WW_ARMY_GROUP_ICON_SIZE.BASE, isInBattlePanel, param)
+        teamBlock = getTeamsData(sides, WW_ARMY_GROUP_ICON_SIZE.BASE, isInBattlePanel, param)
 
       return teamBlock
     }
   }
 
-  function getTeamsData(iconSize, isInBattlePanel, param)
+  function getTeamsData(sides, iconSize, isInBattlePanel, param)
   {
     local teams = []
     local maxSideArmiesNumber = 0
@@ -105,7 +105,7 @@ class ::WwBattleView
     local hasArmyInfo = ::getTblValue("hasArmyInfo", param, true)
     local hasVersusText = ::getTblValue("hasVersusText", param)
     local canAlignRight = ::getTblValue("canAlignRight", param, true)
-    foreach(sideIdx, side in ::g_world_war.getSidesOrder(battle))
+    foreach(sideIdx, side in sides)
     {
       local team = battle.getTeamBySide(side)
       if (!team)

@@ -55,9 +55,9 @@ function g_tooltip::getIdBuyCrewSpec(crewId, unitName, specTypeCode = -1)
   return ::g_tooltip_type.BUY_CREW_SPEC.getTooltipId(crewId, unitName, specTypeCode)
 }
 
-function g_tooltip::getIdDecorator(decoratorId, unlockedItemType)
+function g_tooltip::getIdDecorator(decoratorId, unlockedItemType, params = null)
 {
-  return ::g_tooltip_type.DECORATION.getTooltipId(decoratorId, unlockedItemType)
+  return ::g_tooltip_type.DECORATION.getTooltipId(decoratorId, unlockedItemType, params)
 }
 
 function g_tooltip::open(obj, handler)

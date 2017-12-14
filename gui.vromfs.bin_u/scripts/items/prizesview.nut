@@ -17,6 +17,7 @@
 
 
 local time = require("scripts/time.nut")
+local guidParser = require("scripts/guidParser.nut")
 
 
 enum PRIZE_TYPE {
@@ -561,19 +562,20 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
 
   local unitPlate = ::build_aircraft_item(unitName, unit, {
     hasActions = true,
-    status = isBought ? "locked" : "canBuy",
+    status = (!receivedPrizes && isBought) ? "locked" : "canBuy",
     showAsTrophyContent = true
     isReceivedPrizes = receivedPrizes
     offerRentTimeHours = rentTimeHours
     tooltipParams = {
       rentTimeHours = rentTimeHours
+      isReceivedPrizes = receivedPrizes
     }
   })
   return {
     classIco = classIco,
     shopItemType = shopItemType,
     unitPlate = unitPlate,
-    unitInfoText = infoText.len() ? infoText : null
+    commentText = infoText.len() ? infoText : null
   }
 }
 
@@ -659,6 +661,23 @@ function PrizesView::getViewDataSpecialization(prize, params)
   }
 }
 
+function PrizesView::getViewDataDecorator(prize, params = null)
+{
+  local id = prize.resource
+  local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
+  local isGuid = guidParser.isGuid(id)
+  local canShowTooltip = !isGuid
+  local isHave = !isGuid && decoratorType.isPlayerHaveDecorator(id)
+  local isReceivedPrizes = params?.receivedPrizes ?? false
+
+  return {
+    icon  = decoratorType.userlogPurchaseIcon
+    title = decoratorType.getLocName(id, true)
+    tooltipId = canShowTooltip ? ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params) : null
+    commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
+  }
+}
+
 function PrizesView::getViewDataMultiAward(prize, params = null)
 {
   local multiAward = ::TrophyMultiAward(prize)
@@ -703,6 +722,8 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
     return getViewDataSpare(prize.spare, showCount ? prize.count : 0, params)
   if (prize.specialization)
     return getViewDataSpecialization(prize, params)
+  if (prize.resourceType)
+    return getViewDataDecorator(prize, params)
   return getViewDataDefault(prize, showCount, params)
 }
 

@@ -66,10 +66,23 @@
     "sfxReloadBullet": "grd_cannon_belt_reload"
   },
   {
+    "sound_path": "tanks/weapon_tanks/mguns"
+  },
+  {
+    "sound": "8mm_m1919"
+  },
+  {
+    "sound_inside": "8mm_m1919_interior"
+  },
+  {
+    "soundLoop": true
+  },
+  {
     "bullet": {
       "mass": 0.0109,
       "caliber": 0.0079,
       "speed": 870.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "groundCollisionEffect": "20_37_he_hit_ground",
       "groundFxScale": [0.1,0.15],
@@ -111,6 +124,7 @@
       "mass": 0.0102,
       "caliber": 0.0079,
       "speed": 880.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "ap_i_ball",
       "onHitChanceMultFire": 5.0,
@@ -147,6 +161,7 @@
       "mass": 0.0102,
       "caliber": 0.0079,
       "speed": 880.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "ap_i_ball",
       "onHitChanceMultFire": 5.0,
@@ -193,6 +208,7 @@
       "mass": 0.01,
       "caliber": 0.0079,
       "speed": 905.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "ap_t_ball",
       "relativeVelArmorShift": [200.0,1000.0],
@@ -230,6 +246,7 @@
           "mass": 0.0102,
           "caliber": 0.0079,
           "speed": 880.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_ball",
           "onHitChanceMultFire": 5.0,
@@ -265,6 +282,7 @@
           "mass": 0.0102,
           "caliber": 0.0079,
           "speed": 880.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_ball",
           "onHitChanceMultFire": 5.0,
@@ -296,13 +314,5 @@
         }
       }
     ]
-  },
-  {
-    "gunSound": {
-      "path": "tanks/weapon_tanks/mguns",
-      "outside": "8mm_m1919",
-      "cockpit": "8mm_m1919_interior",
-      "ai": "8mm_m1919_ai"
-    }
   }
 ]

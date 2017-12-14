@@ -106,6 +106,7 @@ allowed_mission_settings <- { //only this settings are allowed in room
 
      takeoffMode = 0
      currentMissionIdx = -1
+     allowedTagsPreset = ""
 
      locName = ""
      locDesc = ""

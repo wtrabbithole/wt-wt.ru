@@ -2408,7 +2408,7 @@
           "flash": "flare1",
           "shell": "emtr_shellrejection1",
           "dm": "mgun1_dm",
-          "bullets": 300,
+          "bullets": 310,
           "spread": 1.1
         }
       },
@@ -2420,7 +2420,7 @@
           "flash": "flare2",
           "shell": "emtr_shellrejection2",
           "dm": "mgun2_dm",
-          "bullets": 300,
+          "bullets": 310,
           "spread": 1.1,
           "traceOffset": 2
         }
@@ -2432,6 +2432,7 @@
           "emitter": "gun1",
           "flash": "flare3",
           "dm": "gunner1_dm",
+          "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 400,
           "turret": {
@@ -2449,8 +2450,8 @@
             "lim5": [150.0,180.0,45.0,85.0]
           },
           "limitsDeadzone": {
-            "yaw": [-1.0,1.0],
-            "pitch": [0.0,25.0]
+            "yaw": [-2.0,2.0],
+            "pitch": [-30.0,25.0]
           }
         }
       },
@@ -2461,6 +2462,7 @@
           "emitter": "gun2",
           "flash": "flare4",
           "dm": "gunner2_dm",
+          "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 500,
           "turret": {

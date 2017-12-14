@@ -1,3 +1,5 @@
+local platform = require("scripts/clientState/platform.nut")
+
 function notify_clusters_changed(params)
 {
   dagor.debug("notify_clusters_changed")
@@ -71,6 +73,9 @@ function enqueue_in_session(params, cb)
   local missionName = get_forced_network_mission()
   if (missionName.len() > 0)
     params["forced_network_mission"] <- missionName
+
+  if (!platform.isCrossPlayEnabled())
+    params["xbox_xplay"] <- false
 
   matching_api_func("match.enqueue", cb, params)
 }

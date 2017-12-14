@@ -65,7 +65,7 @@ class ::gui_handlers.ActionsList
 
   function initScreen()
   {
-    if (parentObj.refuseOpenHoverMenu == "yes")
+    if (parentObj.getFinalProp("refuseOpenHoverMenu") == "yes")
       return
 
     selfObj = guiScene.createElementByObject(parentObj,

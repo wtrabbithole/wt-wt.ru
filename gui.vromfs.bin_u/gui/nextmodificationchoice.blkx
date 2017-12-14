@@ -221,20 +221,34 @@
             }
           },
           {
-            "tdiv": {
-              "size": "sw, 1@topBarHeight + 0.015@sf",
-              "position": "root",
-              "flow": "vertical",
-              "tdiv": {
-                "size": "pw, 0.02@sf",
-                "pos": "0, ph-h",
-                "position": "absolute",
-                "background-repeat": "expand",
-                "background-image": "#ui/gameuiskin#optionlist_background_top",
-                "background-color": "#90909090",
-                "background-position": "0, 0.25h, 0, 0"
+            "tdiv": [
+              {
+                "size": "sw, 1@topBarHeight + 0.015@sf"
+              },
+              {
+                "position": "root"
+              },
+              {
+                "flow": "vertical"
+              },
+              {
+                "tdiv": {
+                  "size": "pw, ph - 0.02@sf",
+                  "background-color": "#90000000"
+                }
+              },
+              {
+                "tdiv": {
+                  "size": "pw, 0.02@sf",
+                  "pos": "0, ph-h",
+                  "position": "absolute",
+                  "background-repeat": "expand",
+                  "background-image": "#ui/gameuiskin#optionlist_background_top",
+                  "background-color": "#90909090",
+                  "background-position": "0, 0.25h, 0, 0"
+                }
               }
-            }
+            ]
           },
           {
             "GamecardPlate": {
@@ -344,7 +358,7 @@
                       "height": "ph",
                       "pos": "0,-1@bh+1@topGamercardDarkLineHeight",
                       "position": "relative",
-                      "padding": "-1@titleLogoPlateWidth / 128",
+                      "padding": "1@titleLogoPlatePadding",
                       "GameLogoPlate": {
                         "id": "gamercard_logo",
                         "redPlate": {
@@ -361,6 +375,8 @@
                   {
                     "tdiv": {
                       "id": "gamercard_tobattle_bg",
+                      "left": "-1@titleLogoPlatePadding/2",
+                      "position": "relative",
                       "height": "ph",
                       "background-color": "@gameModeColor",
                       "tdiv": {

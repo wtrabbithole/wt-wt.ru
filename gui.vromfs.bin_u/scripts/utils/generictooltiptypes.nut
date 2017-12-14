@@ -146,28 +146,32 @@
       local cObj = obj.findObject("conditions")
       cObj.show(true)
 
-      local conditionsText = config ? ::UnlockConditions.getConditionsText(config.conditions, config.curVal, config.maxVal) : ""
-      local iconName = ""
-      if (conditionsText == "")
+      local isDefaultSkin = ::g_unlocks.isDefaultSkin(id)
+      local isTrophyContent  = params?.showAsTrophyContent ?? false
+      local isReceivedPrizes = params?.receivedPrizes      ?? false
+
+      local iconName = isDefaultSkin ? ""
+        : isAllowed ? "favorite"
+        : "locked"
+
+      local conditionsText = !isTrophyContent && !isReceivedPrizes && config ?
+        ::UnlockConditions.getConditionsText(config.conditions, config.curVal, config.maxVal) : ""
+
+      if (!isDefaultSkin && conditionsText == "")
       {
         if (isAllowed)
         {
-          if (!::g_unlocks.isDefaultSkin(id))
-          {
-            iconName = "favorite"
-            conditionsText = ::loc("shop/unit_bought")
-          }
+          conditionsText = ::loc("shop/unit_bought")
+          if (isTrophyContent && !isReceivedPrizes)
+            conditionsText += "\n" + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
         }
+        else if (isTrophyContent)
+          conditionsText = ::loc("mainmenu/itemCanBeReceived")
         else if (canBuy)
           conditionsText = ::loc("shop/object/can_be_purchased")
         else
-        {
-          iconName = "locked"
           conditionsText = ::loc("multiplayer/notAvailable")
-        }
       }
-      else
-        iconName = ::is_unlocked_scripted(unlockType, unlockId) ? "favorite" : "locked"
 
       local dObj = cObj.findObject("unlock_description")
       dObj.setValue(conditionsText)
@@ -479,11 +483,21 @@
     }
   }
 
+  BATTLE_TASK = {
+    getTooltipContent = function(battleTaskId, params)
+    {
+      local battleTask = ::g_battle_tasks.getTaskById(battleTaskId)
+      local config = ::g_battle_tasks.generateUnlockConfigByTask(battleTask)
+      local view = ::g_battle_tasks.generateItemView(config, false, true)
+      return ::handyman.renderCached("gui/unlocks/battleTasksItem", {items = [view]})
+    }
+  }
+
   WW_MAP_TOOLTIP_TYPE_ARMY = { //by crewId, unitName, specTypeCode
     getTooltipContent = function(id, params)
     {
       if (!::is_worldwar_enabled())
-        return false
+        return ""
 
       local army = ::g_world_war.getArmyByName(params.currentId)
       if (army)
@@ -502,8 +516,9 @@
       if (!battle.isValid())
         return ""
 
+      local battleSides = ::g_world_war.getSidesOrder()
       local view = battle.getView()
-      view.defineTeamBlock()
+      view.defineTeamBlock(battleSides)
       view.showBattleStatus = true
       view.hideDesc = true
       return ::handyman.renderCached("gui/worldWar/battleDescription", view)

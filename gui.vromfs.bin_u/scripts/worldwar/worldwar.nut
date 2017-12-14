@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
 
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
@@ -1209,6 +1210,10 @@ function g_world_war::getSidesOrder(battle = null)
   local playerSide = (battle && ::u.isWwGlobalBattle(battle))
     ? battle.getSideByCountry(::get_profile_info().country)
     : ::ww_get_player_side()
+
+  if (playerSide == ::SIDE_NONE)
+    playerSide = ::SIDE_1
+
   local enemySide  = ::g_world_war.getOppositeSide(playerSide)
   return [ playerSide, enemySide ]
 }
@@ -1306,16 +1311,14 @@ function g_world_war::updateUserlogsAccess()
 
 function g_world_war::updateOperationPreviewAndDo(operationId, cb, hasProgressBox = false)
 {
-  local taskId = ::ww_preview_operation(operationId.tointeger())
-  local cbFunc = function() {
-    ::g_world_war.updateConfigurableValues()
-    cb()
-  }
-  if (!::g_tasker.addTask(taskId, {showProgressBox = hasProgressBox}, cbFunc))
-  {
-    cbFunc()
-    ::ww_stop_preview()
-  }
+  operationPreloader.loadPreview(operationId, cb, hasProgressBox)
+}
+
+function g_world_war::onEventWWOperationPreviewLoaded(params = {})
+{
+  isArmyGroupsValid = false
+  isBattlesValid = false
+  updateConfigurableValues()
 }
 
 function ww_event(name, params = {})

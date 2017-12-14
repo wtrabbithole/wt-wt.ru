@@ -99,12 +99,15 @@ function get_airs_stats_from_blk(blk)
 function is_unlocked_scripted(unlockType, id)
 {
   local isUnlocked = ::is_unlocked(unlockType, id)
-  if (::is_platform_ps4 && isUnlocked)
+  if (isUnlocked)
   {
     if (unlockType < 0)
       unlockType = ::get_unlock_type_by_id(id)
-    if (unlockType == ::UNLOCKABLE_TROPHY_PSN)
+
+    if (::is_platform_ps4 && unlockType == ::UNLOCKABLE_TROPHY_PSN)
       isUnlocked = ::ps4_is_trophy_unlocked(id)
+    else if (::is_platform_xboxone && unlockType == ::UNLOCKABLE_TROPHY_XBOXONE)
+      isUnlocked = ::xbox_is_achievement_unlocked(id)
   }
   return isUnlocked
 }
@@ -464,28 +467,10 @@ function is_unlock_visible(unlockBlk, needCheckVisibilityByPlatform = true)
   if(needCheckVisibilityByPlatform && ! is_unlock_visible_on_cur_platform(unlockBlk))
     return false
 
-  local name = unlockBlk.id || ""
-  local showOnlyUnlocked = unlockBlk.hideUntilUnlocked
-  if (::is_numeric(unlockBlk.visibleDays))
-  {
-    local marginTime = time.daysToSeconds(unlockBlk.visibleDays).tointeger()
-
-    foreach (cond in unlockBlk.mode % "condition")
-    {
-      if (!::isInArray(cond.type, unlock_time_range_conditions))
-      {
-        continue
-      }
-
-      local startTime = ::mktime(time.getTimeFromStringUtc(cond.beginDate)) - marginTime
-      local endTime = ::mktime(time.getTimeFromStringUtc(cond.endDate)) + marginTime
-      local currentTime = get_charserver_time_sec()
-
-      showOnlyUnlocked = (currentTime < startTime || currentTime > endTime)
-      break
-    }
-  }
-  if (showOnlyUnlocked && !::is_unlocked_scripted(-1, name))
+  local unlockId = unlockBlk.id
+  local name = unlockId || ""
+  if (!::g_unlocks.isVisibleByTime(unlockId, true, !unlockBlk.hideUntilUnlocked)
+    && !::is_unlocked_scripted(-1, name))
     return false
   if (unlockBlk.showByEntitlement && !::has_entitlement(unlockBlk.showByEntitlement))
     return false
@@ -494,7 +479,7 @@ function is_unlock_visible(unlockBlk, needCheckVisibilityByPlatform = true)
   foreach (feature in unlockBlk % "reqFeature")
     if (!::has_feature(feature))
       return false
-  if (!::g_features.hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockBlk.id, unlockBlk))
+  if (!::g_features.hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockId, unlockBlk))
     return false
   if (!::g_unlocks.checkDependingUnlocks(unlockBlk))
     return false
@@ -512,6 +497,8 @@ function is_unlock_visible_on_cur_platform(unlockBlk)
 
   local unlockType = ::get_unlock_type(unlockBlk.type || "")
   if (unlockType == ::UNLOCKABLE_TROPHY_PSN && !::is_platform_ps4)
+    return false
+  if (unlockType == ::UNLOCKABLE_TROPHY_XBOXONE && !::is_platform_xboxone)
     return false
   if (unlockType == ::UNLOCKABLE_TROPHY_STEAM && !::is_platform_pc)
     return false
@@ -1842,6 +1829,36 @@ function g_unlocks::saveFavorites()
     if( ! (unlockId in saveBlk))
       saveBlk[unlockId] = true
   ::save_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID, saveBlk)
+}
+
+function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true)
+{
+  local unlock = getUnlockById(id)
+  local isVisibleUnlock = resWhenNoTimeLimit
+  if (::is_numeric(unlock.visibleDays)
+    || ::is_numeric(unlock.visibleDaysBefore)
+    || ::is_numeric(unlock.visibleDaysAfter))
+  {
+    foreach (cond in unlock.mode % "condition")
+    {
+      if (!::isInArray(cond.type, unlock_time_range_conditions))
+      {
+        continue
+      }
+
+      local startTime = ::mktime(time.getTimeFromStringUtc(cond.beginDate)) -
+        time.daysToSeconds(hasIncludTimeBefore
+        ? unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0
+        : 0).tointeger()
+      local endTime = ::mktime(time.getTimeFromStringUtc(cond.endDate)) +
+        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local currentTime = get_charserver_time_sec()
+
+      isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
+      break
+    }
+  }
+  return isVisibleUnlock
 }
 ::g_script_reloader.registerPersistentDataFromRoot("g_unlocks")
 ::subscribe_handler(::g_unlocks, ::g_listener_priority.CONFIG_VALIDATION)

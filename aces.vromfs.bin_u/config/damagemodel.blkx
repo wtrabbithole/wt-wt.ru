@@ -183,7 +183,7 @@
     "ricochetCosinePower": 2.0
   },
   {
-    "damageToHpRicochetThreshold": 0.5
+    "damageToHpRicochetThreshold": 1.1
   },
   {
     "enableArmorDegradation": false
@@ -943,6 +943,36 @@
       },
       "track_r_01_dm": {
         "speed": 1.5,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_back_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_front_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_back_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_front_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
         "completely": true,
         "modRequired": false
       },
@@ -2480,7 +2510,7 @@
       "atgm": {
         "t1": {
           "caliberToArmor": 1.0,
-          "ricochetProbability0deg": [0.0,0.0],
+          "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability8deg": [8.0,0.5],
           "ricochetProbability10deg": [10.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
@@ -4381,7 +4411,7 @@
         "stabilityThreshold": 0.0,
         "stabilityCaliberToArmorThreshold": 10.0,
         "stabilityReductionAfterRicochet": 0.15,
-        "stabilityReductionAfterPenetration": 0.15,
+        "stabilityReductionAfterPenetration": 0.05,
         "normalizationPreset": "apcr",
         "ricochetPreset": "apds_fs",
         "slopeEffectPreset": "apds_fs",
@@ -4410,7 +4440,7 @@
         "stabilityThreshold": 0.0,
         "stabilityCaliberToArmorThreshold": 10.0,
         "stabilityReductionAfterRicochet": 0.15,
-        "stabilityReductionAfterPenetration": 0.15,
+        "stabilityReductionAfterPenetration": 0.05,
         "normalizationPreset": "apcr",
         "ricochetPreset": "apds_fs_full_body_steel",
         "slopeEffectPreset": "apds_fs_full_body_steel",
@@ -4439,7 +4469,7 @@
         "stabilityThreshold": 0.0,
         "stabilityCaliberToArmorThreshold": 10.0,
         "stabilityReductionAfterRicochet": 0.15,
-        "stabilityReductionAfterPenetration": 0.15,
+        "stabilityReductionAfterPenetration": 0.05,
         "normalizationPreset": "apcr",
         "ricochetPreset": "apds_fs",
         "slopeEffectPreset": "apds_fs_tungsten_small_core_tank",
@@ -4468,7 +4498,7 @@
         "stabilityThreshold": 0.0,
         "stabilityCaliberToArmorThreshold": 10.0,
         "stabilityReductionAfterRicochet": 0.15,
-        "stabilityReductionAfterPenetration": 0.15,
+        "stabilityReductionAfterPenetration": 0.05,
         "normalizationPreset": "apcr",
         "ricochetPreset": "apds_fs",
         "slopeEffectPreset": "apds_fs_tungsten_l10_l15_tank",
@@ -5096,13 +5126,13 @@
     "fuelMassToSplashParams": {
       "fuelMassToInnerRadius": [
         {
-          "p0": [50.0,2.0]
+          "p0": [50.0,3.0]
         },
         {
-          "p1": [100.0,3.0]
+          "p1": [100.0,4.0]
         },
         {
-          "p2": [500.0,4.0]
+          "p2": [500.0,6.0]
         },
         {
           "p2": [1000.0,7.0]
@@ -5110,22 +5140,22 @@
       ],
       "fuelMassToOuterRadius": [
         {
-          "p0": [50.0,4.5]
+          "p0": [50.0,5.5]
         },
         {
-          "p1": [100.0,5.0]
+          "p1": [100.0,7.0]
         },
         {
-          "p2": [500.0,7.0]
+          "p2": [500.0,8.0]
         },
         {
-          "p2": [1000.0,12.0]
+          "p2": [1000.0,10.0]
         }
       ],
       "fuelMassToPenetration": {
-        "p0": [50.0,8.0],
-        "p1": [100.0,10.0],
-        "p2": [500.0,15.0]
+        "p0": [50.0,5.0],
+        "p1": [100.0,6.0],
+        "p2": [500.0,7.0]
       },
       "fuelMassToDamage": {
         "p0": [50.0,40.0],

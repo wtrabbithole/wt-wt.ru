@@ -88332,6 +88332,85 @@
   {
     "unlockable": [
       {
+        "id": "ch_kill_france_tanks"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 2000
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetTag",
+              "tag": "country_france"
+            }
+          },
+          {
+            "condition": {
+              "type": "playerType",
+              "unitType": "tank"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 2000,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
         "id": "ch_kill_on_german_tanks"
       },
       {
@@ -88700,6 +88779,88 @@
             "condition": {
               "type": "playerTag",
               "tag": "country_japan"
+            }
+          },
+          {
+            "condition": {
+              "type": "playerType",
+              "unitType": "tank"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 2000,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_france_tanks"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 2000
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "playerTag",
+              "tag": "country_france"
             }
           },
           {
@@ -98826,6 +98987,71 @@
     ]
   },
   {
+    "unlockable": [
+      {
+        "id": "ch_france_rank_tank"
+      },
+      {
+        "type": "achievement"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "amount_warpoints": 0
+      },
+      {
+        "chapter": "achievements"
+      },
+      {
+        "group": "rank"
+      },
+      {
+        "mode": {
+          "type": "char_player_era",
+          "country": "country_france",
+          "era": 6,
+          "unitClass": "tank"
+        }
+      },
+      {
+        "stage": {
+          "param": 2,
+          "amount_warpoints": 0,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 3,
+          "amount_warpoints": 0,
+          "amount_exp": 250
+        }
+      },
+      {
+        "stage": {
+          "param": 4,
+          "amount_warpoints": 0,
+          "amount_exp": 1000
+        }
+      },
+      {
+        "stage": {
+          "param": 5,
+          "amount_warpoints": 0,
+          "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
+        }
+      }
+    ]
+  },
+  {
     "unlockable": {
       "id": "ch_all_rank",
       "type": "achievement",
@@ -98887,6 +99113,9 @@
         },
         {
           "unlock": "ch_japan_rank_tank"
+        },
+        {
+          "unlock": "ch_france_rank_tank"
         }
       ]
     }
@@ -99564,6 +99793,65 @@
         "mode": {
           "type": "char_aircrafts_in_era",
           "country": "country_japan",
+          "num": 20,
+          "elite": 2,
+          "unitClass": "tank"
+        }
+      },
+      {
+        "stage": {
+          "param": 1,
+          "amount_warpoints": 10000,
+          "amount_exp": 0
+        }
+      },
+      {
+        "stage": {
+          "param": 5,
+          "amount_warpoints": 25000,
+          "amount_exp": 0
+        }
+      },
+      {
+        "stage": {
+          "param": 10,
+          "amount_warpoints": 50000,
+          "amount_exp": 0
+        }
+      },
+      {
+        "stage": {
+          "param": 20,
+          "amount_warpoints": 100000,
+          "amount_exp": 50000
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_tank_exp_france"
+      },
+      {
+        "type": "achievement"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "amount_warpoints": 0
+      },
+      {
+        "chapter": "achievements"
+      },
+      {
+        "group": "tank"
+      },
+      {
+        "mode": {
+          "type": "char_aircrafts_in_era",
+          "country": "country_france",
           "num": 20,
           "elite": 2,
           "unitClass": "tank"
@@ -100810,6 +101098,71 @@
   {
     "unlockable": [
       {
+        "id": "ch_crew_level_france_tanks"
+      },
+      {
+        "type": "achievement"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "amount_warpoints": 0
+      },
+      {
+        "chapter": "achievements"
+      },
+      {
+        "group": "crew"
+      },
+      {
+        "mode": {
+          "type": "char_crew_level_float",
+          "country": "country_france",
+          "num": 140,
+          "unitClass": "tank"
+        }
+      },
+      {
+        "stage": {
+          "param": 10,
+          "amount_warpoints": 0,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 0,
+          "amount_exp": 150
+        }
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 0,
+          "amount_exp": 500
+        }
+      },
+      {
+        "stage": {
+          "param": 90,
+          "amount_warpoints": 0,
+          "amount_exp": 1250
+        }
+      },
+      {
+        "stage": {
+          "param": 140,
+          "amount_warpoints": 0,
+          "amount_exp": 5000
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
         "id": "ch_crew_level_count_ussr_tanks"
       },
       {
@@ -101039,6 +101392,58 @@
         "mode": {
           "type": "char_crew_level_count_float",
           "country": "country_britain",
+          "num": 5,
+          "level": 140,
+          "unitClass": "tank"
+        }
+      },
+      {
+        "stage": {
+          "param": 2,
+          "amount_warpoints": 0,
+          "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 3,
+          "amount_warpoints": 0,
+          "amount_exp": 25000
+        }
+      },
+      {
+        "stage": {
+          "param": 5,
+          "amount_warpoints": 0,
+          "amount_exp": 50000
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_crew_level_count_france_tanks"
+      },
+      {
+        "type": "achievement"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "amount_warpoints": 0
+      },
+      {
+        "chapter": "achievements"
+      },
+      {
+        "group": "crew"
+      },
+      {
+        "mode": {
+          "type": "char_crew_level_count_float",
+          "country": "country_france",
           "num": 5,
           "level": 140,
           "unitClass": "tank"
@@ -106009,34 +106414,6 @@
         },
         {
           "unlock": "chosen_unit_type_air"
-        },
-        {
-          "condition": [
-            {
-              "type": "char_unlocked"
-            },
-            {
-              "positive": false
-            },
-            {
-              "unlock": "first_battle_usa"
-            },
-            {
-              "unlock": "first_battle_ussr"
-            },
-            {
-              "unlock": "first_battle_germany"
-            },
-            {
-              "unlock": "first_battle_italy"
-            },
-            {
-              "unlock": "first_battle_britain"
-            },
-            {
-              "unlock": "first_battle_japan"
-            }
-          ]
         }
       ]
     }
@@ -106165,6 +106542,28 @@
         },
         {
           "unlock": "first_battle_japan"
+        },
+        {
+          "unlock": "chosen_unit_type_tank"
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_hotchkiss_h39_cambronne",
+      "type": "aircraft",
+      "popupImage": "#ui/images/fr_hotchkiss_h39_cambronne.jpg?P1",
+      "popupInDebriefing": true,
+      "mode": [
+        {
+          "type": "char_unlocks"
+        },
+        {
+          "num": 2
+        },
+        {
+          "unlock": "first_battle_france"
         },
         {
           "unlock": "chosen_unit_type_tank"
@@ -106813,40 +107212,6 @@
           "type": "char_inviter_check_invited_rank",
           "rank": 5,
           "from_unlock": "notify_invited_rank20"
-        }
-      }
-    }
-  },
-  {
-    "unlockable": {
-      "id": "notify_invited_gold1000",
-      "type": "award",
-      "popupImage": "#ui/images/invite_big.jpg?P1",
-      "for_inviter": true,
-      "hidden": true,
-      "hide_for_platform": "ps4",
-      "mode": {
-        "type": "char_notify_inviter",
-        "condition": {
-          "type": "char_invited_progress",
-          "gold": 1000
-        }
-      }
-    }
-  },
-  {
-    "unlockable": {
-      "id": "notify_invited_gold10000",
-      "type": "award",
-      "popupImage": "#ui/images/invite_big.jpg?P1",
-      "for_inviter": true,
-      "hidden": true,
-      "hide_for_platform": "ps4",
-      "mode": {
-        "type": "char_notify_inviter",
-        "condition": {
-          "type": "char_invited_progress",
-          "gold": 10000
         }
       }
     }

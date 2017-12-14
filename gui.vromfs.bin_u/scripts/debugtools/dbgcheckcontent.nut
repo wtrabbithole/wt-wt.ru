@@ -1,3 +1,5 @@
+local skinLocations = ::require("scripts/customization/skinLocations.nut")
+
 function debug_check_unlocalized_resources()
 {
   if (!::is_dev_version) return
@@ -189,4 +191,40 @@ function debug_check_unit_naming()
   foreach (str in brief)
     dagor.screenlog(str)
   return total
+}
+
+function debug_cur_level_auto_skins()
+{
+  local level = ::is_in_flight() ? ::get_current_mission_info_cached()?.level : null
+  local fullDebugtext = "Auto skins for " + (level || "TestFlight")
+  if (level)
+    fullDebugtext += " ( " + skinLocations.debugLocationMask(skinLocations.getMaskByLevel(level)) + " )"
+
+  local total = 0
+  foreach(unit in ::all_units)
+    if (unit.unitType.isSkinAutoSelectAvailable())
+    {
+      total++
+      fullDebugtext += "\n" + unit.name + " -> "
+        + ::g_string.implode(::g_decorator.getBestSkinsList(unit.name, true), ", ")
+    }
+
+  dagor.debug(fullDebugtext)
+  return "Total units found = " + total
+}
+
+function debug_all_skins_without_location_mask()
+{
+  local totalList = []
+  foreach(unit in ::all_units)
+    if (unit.unitType.isSkinAutoSelectAvailable())
+      foreach(skin in unit.getSkins())
+      {
+        if (skin.name == "")
+          continue
+        local mask = skinLocations.getSkinLocationsMask(skin.name)
+        if (!mask)
+          ::u.appendOnce(skin.name, totalList)
+      }
+  return "Total skins without location mask = " + totalList.len() + "\n" + ::g_string.implode(totalList, ", ")
 }

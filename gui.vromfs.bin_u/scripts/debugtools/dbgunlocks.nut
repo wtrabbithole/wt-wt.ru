@@ -129,3 +129,20 @@ function debug_show_unlock_popup(unlockId)
     )
   )
 }
+
+function debug_new_unit_unlock(needTutorial = false, unitName = null)
+{
+  local unit = ::getAircraftByName(unitName)
+  if (!unit)
+    unit = ::u.search(::all_units, @(u) u.isBought())
+
+  ::gui_start_modal_wnd(::gui_handlers.ShowUnlockHandler,
+    {
+      config = {
+         type = ::UNLOCKABLE_AIRCRAFT
+         id = unit.name
+         name = unit.name
+      }
+      needShowUnitTutorial = needTutorial
+    })
+}

@@ -14,33 +14,24 @@
 
 const MIN_NON_EMPTY_SLOTS_IN_COUNTRY = 1
 
-function gui_start_select_unit(countryId, idInCountry, handler, config = null)
+function gui_start_select_unit(crew, slotbar)
 {
   if (!::SessionLobby.canChangeCrewUnits())
     return
   if (!::CrewTakeUnitProcess.safeInterrupt())
     return
 
-  local slotbarObj = handler.slotbarScene
-  local slotObj = ::get_slot_obj(slotbarObj, countryId, idInCountry)
-  if (!::checkObj(slotObj))
-  {
-    handler.guiScene.performDelayed(handler, function() {
-      ::reinitAllSlotbars()
-    })
-    return
-  }
-
-  local crew = ::getSlotItem(countryId, idInCountry)
-  if (!crew)
+  local slotbarObj = slotbar.scene
+  local slotObj = ::get_slot_obj(slotbarObj, crew.idCountry, crew.idInCountry)
+  if (!::check_obj(slotObj))
     return
 
   local params = {
-    countryId = countryId,
-    idInCountry = idInCountry,
-    config = config || {},
+    countryId = crew.idCountry,
+    idInCountry = crew.idInCountry,
+    config = slotbar,
     slotObj = slotObj,
-    ownerWeak = handler,
+    slotbarWeak = slotbar,
     crew = crew
   }
   ::handlersManager.destroyPrevHandlerAndLoadNew(::gui_handlers.SelectUnit, params)
@@ -50,7 +41,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
   sceneBlkName = "gui/slotbar/slotbarChooseAircraft.blk"
-  ownerWeak = null
+  slotbarWeak = null
 
   countryId = -1
   idInCountry = -1
@@ -68,15 +59,15 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   {
     guiScene.applyPendingChanges(false) //to apply slotbar scroll before calculating positions
 
-    if (ownerWeak)
-      ownerWeak = ownerWeak.weakref() //we are miss weakref on assigning from params table
+    if (slotbarWeak)
+      slotbarWeak = slotbarWeak.weakref() //we are miss weakref on assigning from params table
 
     local tdObj = slotObj.getParent()
     local tdPos = tdObj.getPosRC()
 
     ::gui_handlers.ActionsList.removeActionsListFromObject(tdObj)
 
-    local tdClone = tdObj.getClone(scene, this)
+    local tdClone = tdObj.getClone(scene, slotbarWeak)
     tdClone.pos = tdPos[0] + ", " + tdPos[1]
     tdClone["class"] = "slotbarClone"
 
@@ -152,7 +143,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
     unitsList = []
 
-    if (ownerWeak && "canShowShop" in ownerWeak && ownerWeak.canShowShop())
+    if (slotbarWeak?.ownerWeak?.canShowShop && slotbarWeak.ownerWeak.canShowShop())
       unitsList.append(null)
 
     local needEmptyCrewButton = ("aircraft" in crew && busyUnits.len() >= MIN_NON_EMPTY_SLOTS_IN_COUNTRY)
@@ -318,9 +309,11 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   function goToShop()
   {
     goBack()
-    ::broadcastEvent("OpenShop", {unitType = "aircraft" in crew ?
-                                    ::get_es_unit_type(::getAircraftByName(crew.aircraft))
-                                    : null})
+    if (slotbarWeak?.ownerWeak?.openShop)
+    {
+      local unit = ::g_crew.getCrewUnit(crew)
+      slotbarWeak.ownerWeak.openShop(unit?.unitType)
+    }
   }
 
   function trainSlotAircraft(unit)
@@ -420,14 +413,13 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   function getGameModeNameFromParams(params)
   {
     //same order as in is_unit_enabled_for_slotbar
-    local eventId = ::getTblValue("eventId", params, null)
-    local event = eventId && ::events.getEvent(eventId)
-    if (!event && "roomCreationContext" in params)
+    local event = ::events.getEvent(params?.eventId)
+    if (!event && params?.roomCreationContext)
       event = params.roomCreationContext.mGameMode
     if (event)
       return ::events.getEventNameText(event)
 
-    if ("gameModeName" in params)
+    if (params?.gameModeName)
       return params.gameModeName
 
     if (::SessionLobby.isInRoom())
@@ -438,10 +430,10 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurrentEdiff()
   {
-    if ("getEdiffFunc" in config)
+    if (config?.getEdiffFunc)
       return config.getEdiffFunc()
-    if (ownerWeak)
-      return ownerWeak.getCurrentEdiff()
+    if (slotbarWeak)
+      return slotbarWeak.getCurrentEdiff()
     return ::get_current_ediff()
   }
 
@@ -527,8 +519,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   function onSlotChooseSideAir(dir)
   {
     wasReinited = false
-    if (ownerWeak)
-      ::nextSlotbarAir(ownerWeak.slotbarScene, countryId, dir)
+    if (slotbarWeak)
+      slotbarWeak.nextSlot(dir)
     if (!wasReinited)
       goBack()
   }

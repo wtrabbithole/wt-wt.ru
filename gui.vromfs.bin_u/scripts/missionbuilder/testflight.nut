@@ -212,7 +212,6 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
     scene.findObject("btn_builder").inactiveColor = (isBuilderAvailable() && ::isUnitInSlotbar(unit))? "no" : "yes"
     scene.findObject("btn_select").inactiveColor = isTestFlightAvailable()? "no" : "yes"
-    showSceneBtn("btn_inviteSquad", ::enable_coop_in_QMB && ::g_squad_manager.canInviteMember())
   }
 
   function onMissionBuilder()
@@ -289,6 +288,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     ::current_campaign_mission <- misName
 
     saveAircraftOptions()
+    ::g_decorator.setCurSkinToHangar(unit.name)
 
     ::mergeToBlk({
         _gameMode = ::GM_TEST_FLIGHT
@@ -433,7 +433,8 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
   function updateSceneDifficulty()
   {
-    ::update_slotbar_difficulty(this)
+    if (getSlotbar())
+      getSlotbar().updateDifficulty()
 
     local unitNestObj = unit ? scene.findObject("unit_nest") : null
     if (::checkObj(unitNestObj))

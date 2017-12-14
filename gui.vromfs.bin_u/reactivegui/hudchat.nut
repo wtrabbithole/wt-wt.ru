@@ -55,9 +55,6 @@ local chatInputCtor = function (field, send) {
   local options = {
     font = Fonts.tiny_text_hud
     margin = 0
-    hotkeys = [
-      [ "J:B", @() restoreControle() ]
-    ]
   }
   return textInput.hud(field, options, handlers)
 }
@@ -191,7 +188,7 @@ local logBox = hudLog({
 local onInputToggle = function (enable) {
   if (enable) {
     ::set_kb_focus(chat.form)
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE)
+    ::set_allowed_controls_mask(CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE | CtrlsInGui.CTRL_ALLOW_MP_CHAT)
   } else {
     ::set_kb_focus(null)
     ::set_allowed_controls_mask(CtrlsInGui.CTRL_ALLOW_FULL)

@@ -555,22 +555,6 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/abandoned_factory_tm.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
         "file": "gameData/missions/cta/tanks/abandoned_factory/template_abandoned_factory_air_spawn.blk",
         "importAreas": true,
         "importUnits": true,
@@ -599,6 +583,40 @@
   "airfields": [],
   "effects": [],
   "units": [
+    {
+      "tankModels": {
+        "name": "t1_player01",
+        "tm": [
+          [0.984807,0.0,-0.173649],
+          [0.0,1.0,0.0],
+          [0.173649,0.0,0.984807],
+          [2679.93,11.7969,1847.37]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
     {
       "area_squad": {
         "name": "dbttl_t1_spawn_01",

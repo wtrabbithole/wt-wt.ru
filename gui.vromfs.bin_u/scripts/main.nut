@@ -419,6 +419,7 @@ function load_scripts_after_login()
 
     "slotbar/crewsList.nut"
     "slotbar/slotbar.nut"
+    "slotbar/slotbarWidget.nut"
     "slotbar/selectCrew.nut"
     "slotbar/selectUnit.nut"
     "slotbar/slotbarPresetsList.nut"

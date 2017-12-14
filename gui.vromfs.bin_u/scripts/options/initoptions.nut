@@ -266,6 +266,14 @@ function countUsageAmountOnce()
 
   function()
   {
+    local blk = ::DataBlock("config/ugc.blk")
+    if (blk.presets)
+      foreach(preset in blk.presets)
+        ::ugc_tags_presets.append(preset.getBlockName())
+  }
+
+  function()
+  {
     ::broadcastEvent("InitConfigs")
   }
 ]
