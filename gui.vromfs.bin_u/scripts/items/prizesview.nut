@@ -561,12 +561,13 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
 
   local unitPlate = ::build_aircraft_item(unitName, unit, {
     hasActions = true,
-    status = isBought ? "locked" : "canBuy",
+    status = (!receivedPrizes && isBought) ? "locked" : "canBuy",
     showAsTrophyContent = true
     isReceivedPrizes = receivedPrizes
     offerRentTimeHours = rentTimeHours
     tooltipParams = {
       rentTimeHours = rentTimeHours
+      isReceivedPrizes = receivedPrizes
     }
   })
   return {
@@ -659,6 +660,16 @@ function PrizesView::getViewDataSpecialization(prize, params)
   }
 }
 
+function PrizesView::getViewDataDecorator(prize, params)
+{
+  local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
+  return {
+    icon  = decoratorType.userlogPurchaseIcon
+    title = decoratorType.getLocName(prize.resource, true)
+    tooltipId = ::g_tooltip.getIdDecorator(prize.resource, decoratorType.unlockedItemType)
+  }
+}
+
 function PrizesView::getViewDataMultiAward(prize, params = null)
 {
   local multiAward = ::TrophyMultiAward(prize)
@@ -703,6 +714,8 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
     return getViewDataSpare(prize.spare, showCount ? prize.count : 0, params)
   if (prize.specialization)
     return getViewDataSpecialization(prize, params)
+  if (prize.resourceType)
+    return getViewDataDecorator(prize, params)
   return getViewDataDefault(prize, showCount, params)
 }
 

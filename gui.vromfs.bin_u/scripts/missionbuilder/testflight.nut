@@ -212,7 +212,6 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
     scene.findObject("btn_builder").inactiveColor = (isBuilderAvailable() && ::isUnitInSlotbar(unit))? "no" : "yes"
     scene.findObject("btn_select").inactiveColor = isTestFlightAvailable()? "no" : "yes"
-    showSceneBtn("btn_inviteSquad", ::enable_coop_in_QMB && ::g_squad_manager.canInviteMember())
   }
 
   function onMissionBuilder()

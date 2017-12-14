@@ -27,6 +27,7 @@ unlockCondition {
 tdiv {
   width:t='pw'
   class:t='header'
+  <<^isOnlyInfo>>
   Button_text {
     class:t='image'
     imgSize:t='small'
@@ -34,6 +35,7 @@ tdiv {
     img { background-image:t='#ui/gameuiskin#help_tooltip' }
     on_click:t='onViewUnlocks'
   }
+  <</isOnlyInfo>>
   textareaNoTab {
     id:t='taskUnlocksListPrefix'
     text:t='<<taskUnlocksListPrefix>>'

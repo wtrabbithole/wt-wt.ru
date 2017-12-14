@@ -566,13 +566,13 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function openSelectedCrew()
   {
-    local newCrew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
+    local newCrew = getCurCrew()
     if (!newCrew || !::g_crew.getCrewUnit(newCrew)) //do not open crew for crews without unit
       return
 
     crew = newCrew
-    countryId = curSlotCountryId
-    idInCountry = curSlotIdInCountry
+    countryId = crew.idCountry
+    idInCountry = crew.idInCountry
     initMainParams(true, true)
   }
 

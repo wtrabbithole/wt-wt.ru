@@ -669,7 +669,7 @@ class ::ChatHandler
   function getControlsAllowMask()
   {
     return isActive
-      ? CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE
+      ? CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE | CtrlsInGui.CTRL_ALLOW_MP_CHAT
       : CtrlsInGui.CTRL_ALLOW_FULL
   }
 }

@@ -29,7 +29,8 @@ class ::gui_handlers.CreateEventRoomWnd extends ::gui_handlers.GenericOptionsMod
 
     createSlotbar({
       roomCreationContext = roomCreationContext
-      afterSlotbarSelect = @() updateApplyButton()
+      afterSlotbarSelect = updateApplyButton
+      afterFullUpdate = updateApplyButton
     })
     updateApplyButton()
   }
@@ -126,15 +127,8 @@ class ::gui_handlers.CreateEventRoomWnd extends ::gui_handlers.GenericOptionsMod
     return ediff != -1 ? ediff : ::get_current_ediff()
   }
 
-  function reinitSlotbarAction()
+  function onEventCountryChanged(p)
   {
-    base.reinitSlotbarAction()
-    updateApplyButton()
-  }
-
-  function onSlotbarCountryAction(obj)
-  {
-    base.onSlotbarCountryAction(obj)
     updateApplyButton()
   }
 

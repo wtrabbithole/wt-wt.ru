@@ -68,7 +68,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 
   function performLogin(useCrossPlay = false)
   {
-    updateAuthorizeButton(false) // do not allow to push ok button twice
+    ::saveLocalByAccount("isCrossPlayEnabled", useCrossPlay)
     ::xbox_on_login(
       function(result, err_code)
       {
@@ -81,16 +81,8 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
         if (result == XBOX_LOGIN_STATE_FAILED)
           msgBox("no_internet_connection", ::loc("xbox/noInternetConnection"), [["ok", function() {} ]], "ok")
 
-        updateAuthorizeButton(true)
       }.bindenv(this)
     )
-  }
-
-  function updateAuthorizeButton(isEnable = false)
-  {
-    local btnObj = scene.findObject("authorization_button")
-    if (::check_obj(btnObj))
-      btnObj.enable(isEnable)
   }
 
   function onChangeGamertag(obj = null)

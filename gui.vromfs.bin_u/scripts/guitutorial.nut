@@ -202,7 +202,10 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
                            actionType == tutorAction.FIRST_OBJ_CLICK)
     local accessKey = ::getTblValue("accessKey", stepData, needAccessKey ? "J:A" : null)
     local blocksList = []
-    foreach(obj in ::getTblValue("obj", stepData, []))
+    local objList = stepData?.obj ?? []
+    if (!::u.isArray(objList))
+      objList = [objList]
+    foreach(obj in objList)
     {
       local block = ::guiTutor.getBlockFromObjData(obj, owner.scene)
       if (!block)

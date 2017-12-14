@@ -21,7 +21,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
      textObj.top = "1@titleLogoPlateHeight + 1@frameHeaderHeight"
      textObj.setValue(::loc("mainmenu/missionBuilderNotAvailable"))
 
-     local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
+     local crew = getCurSlotUnit()
      local airName = ("aircraft" in crew)? crew.aircraft : ""
      local air = getAircraftByName(airName)
      ::show_aircraft = air

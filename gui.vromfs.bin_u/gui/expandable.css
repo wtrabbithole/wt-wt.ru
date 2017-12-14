@@ -187,6 +187,10 @@ expandable[type=battleTask]:current {
   border-color:@frameDarkLineColor;
 }
 
+tooltipObj > expandable[type=battleTask] {
+  border:no;
+}
+
 promoButton[type=battleTask] [battleTaskStatus=complete] statusImg,
 expandable[battleTaskStatus=complete] statusImg  {
   background-image:#ui/gameuiskin#new_reward_icon;

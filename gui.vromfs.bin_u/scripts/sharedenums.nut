@@ -37,6 +37,7 @@ enum CtrlsInGui
   //masks
   CTRL_ALLOW_NONE             = 0x0000,
   CTRL_ALLOW_FULL             = 0x0FFF,
+  CTRL_WINDOWS_ALL            = 0xF000,
 
   CTRL_ALLOW_VEHICLE_FULL     = 0x000F
 };

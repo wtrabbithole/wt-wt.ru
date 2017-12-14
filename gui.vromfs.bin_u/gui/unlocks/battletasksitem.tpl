@@ -2,7 +2,7 @@
 expandable {
   id:t='<<performActionId>>'
   type:t='battleTask'
-  <<#action>> on_click:t='<<action>>' <</action>>
+  <<^isOnlyInfo>><<#action>> on_click:t='<<action>>' <</action>><</isOnlyInfo>>
   <<#taskId>> task_id:t='<<taskId>>' <</taskId>>
 
   <<#taskStatus>>
@@ -98,6 +98,7 @@ expandable {
     hiddenDiv {
       width:t='pw'
       flow:t='vertical'
+      <<#isOnlyInfo>> showHidden:t='yes' <</isOnlyInfo>>
 
       <<#taskImage>>
       img {
@@ -152,6 +153,7 @@ expandable {
       }
       <</reward>>
 
+      <<^isOnlyInfo>>
       tdiv {
         width:t='pw'
 
@@ -191,6 +193,7 @@ expandable {
         }
         <</canGetReward>>
       }
+      <</isOnlyInfo>>
     }
 
     expandImg {
@@ -260,13 +263,58 @@ expandable {
 
 <<#isPromo>>
 collapsedContainer {
-  <<#taskStatus>>
-    battleTaskStatus:t='<<taskStatus>>'
-    statusImg {}
-  <</taskStatus>>
   <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
-  shortHeaderText { text:t='<<collapsedText>>' }
-  shortHeaderIcon { text:t='<<collapsedIcon>>' }
+  shortInfoBlock {
+    <<#taskStatus>>
+      battleTaskStatus:t='<<taskStatus>>'
+      statusImg {}
+    <</taskStatus>>
+    <<#taskDifficultyImage>>
+      cardImg {
+        type:t='medium'
+        background-image:t='<<taskDifficultyImage>>'
+      }
+    <</taskDifficultyImage>>
+    shortHeaderText { text:t='<<collapsedText>>' }
+
+    <<^needShowProgressBar>>
+      <<#needShowProgressValue>>
+        shortHeaderText { text:t=' (<<progressValue>>/<<progressMaxValue>>) ' }
+      <</needShowProgressValue>>
+    <</needShowProgressBar>>
+
+    shortHeaderIcon { text:t='<<collapsedIcon>>' }
+  }
+
+  <<#needShowProgressBar>>
+  progressDiv {
+    left:t='pw-w'
+    position:t='relative'
+    margin-bottom:t='0.005@sf'
+    battleTaskProgress {
+      top:t='50%ph-50%h'
+      position:t='relative'
+      width:t='0.4@arrowButtonWidth'
+      value:t='<<progressValue>>'
+    }
+    <<#needShowProgressValue>>
+    textarea {
+      text:t='( <<progressValue>> / <<progressMaxValue>> )'
+      smallFont:t='yes'
+      overlayTextColor:t='disabled'
+    }
+    <</needShowProgressValue>>
+  }
+  <</needShowProgressBar>>
+  <<#getTooltipId>>
+    title:t='$tooltipObj'
+    tooltipObj {
+      tooltipId:t='<<getTooltipId>>'
+      display:t='hide'
+      on_tooltip_open:t='onGenericTooltipOpen'
+      on_tooltip_close:t='onTooltipObjClose'
+    }
+  <</getTooltipId>>
 }
 hangarToggleButton {
   id:t='<<id>>_toggle'

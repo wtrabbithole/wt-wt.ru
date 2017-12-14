@@ -138,42 +138,45 @@ promoButton {
     <<^isMultiblock>>
       <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
     <</isMultiblock>>
-    shortHeaderText {
-      id:t='<<id>>_collapsed_text'
-      text:t='<<collapsedText>>'
-      <<#needTextShade>>textShade:t='yes'<</needTextShade>>
+
+    shortInfoBlock {
+      shortHeaderText {
+        id:t='<<id>>_collapsed_text'
+        text:t='<<collapsedText>>'
+        <<#needTextShade>>textShade:t='yes'<</needTextShade>>
+
+        <<#needCollapsedTextAnimSwitch>>
+        animation:t='show'
+        _transp-timer:t='1'
+        color-factor:t='255'
+        <</needCollapsedTextAnimSwitch>>
+      }
 
       <<#needCollapsedTextAnimSwitch>>
-      animation:t='show'
-      _transp-timer:t='1'
-      color-factor:t='255'
+      shortHeaderText {
+        id:t='<<id>>_collapsed_text2'
+        text:t='<<collapsedText>>'
+        <<#needTextShade>>textShade:t='yes'<</needTextShade>>
+
+        animation:t='hide'
+        _transp-timer:t='0'
+        color-factor:t='0'
+      }
+
+      animSizeObj {
+        id:t='<<id>>_collapsed_size_obj'
+        animation:t='hide'
+        width-base:t='0' //updated from script by text1 width
+        width-end:t='0' //updated from script by text2 width
+        width:t='0'
+        _size-timer:t='0' //hidden by default
+      }
       <</needCollapsedTextAnimSwitch>>
-    }
 
-    <<#needCollapsedTextAnimSwitch>>
-    shortHeaderText {
-      id:t='<<id>>_collapsed_text2'
-      text:t='<<collapsedText>>'
-      <<#needTextShade>>textShade:t='yes'<</needTextShade>>
-
-      animation:t='hide'
-      _transp-timer:t='0'
-      color-factor:t='0'
-    }
-
-    animSizeObj {
-      id:t='<<id>>_collapsed_size_obj'
-      animation:t='hide'
-      width-base:t='0' //updated from script by text1 width
-      width-end:t='0' //updated from script by text2 width
-      width:t='0'
-      _size-timer:t='0' //hidden by default
-    }
-    <</needCollapsedTextAnimSwitch>>
-
-    shortHeaderIcon {
-      text:t='<<collapsedIcon>>'
-      <<#needTextShade>>textShade:t='yes'<</needTextShade>>
+      shortHeaderIcon {
+        text:t='<<collapsedIcon>>'
+        <<#needTextShade>>textShade:t='yes'<</needTextShade>>
+      }
     }
   }
   hangarToggleButton {

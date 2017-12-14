@@ -2055,17 +2055,19 @@ function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = nul
     paginatorObj = guiScene.createElement(nest_obj, "paginator", handler)
     guiScene.replaceContentFromText(paginatorObj, paginatorMarkUpData, paginatorMarkUpData.len(), handler)
   }
-  else
-  {
-    paginatorObj.show(true)
-    paginatorObj.enable(true)
-  }
 
   //if by some mistake cur_page will be a float, - here can be a freeze on mac,
   //because of (cur_page - 1 <= i) can become wrong result
   cur_page = cur_page.tointeger()
   //number of last wisible page
   local lastShowPage = show_last_page ? last_page : min(max(cur_page + 1, 2), last_page)
+
+  local isSinglePage = last_page < 1
+  paginatorObj.show( ! isSinglePage)
+  paginatorObj.enable( ! isSinglePage)
+  if(isSinglePage)
+    return
+
   if (my_page != null && my_page > lastShowPage && my_page <= last_page)
     lastShowPage = my_page
 

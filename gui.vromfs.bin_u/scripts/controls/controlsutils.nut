@@ -3,7 +3,7 @@ local time = require("scripts/time.nut")
 
 function on_connected_controller()
 {
-  //calls from c++ code, no event on PS4
+  //calls from c++ code, no event on PS4 or XBoxOne
   if (!::isInMenu())
     return
   local action = function() { ::gui_start_controls_type_choice() }

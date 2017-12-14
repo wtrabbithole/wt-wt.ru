@@ -569,7 +569,8 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
     helpObj.show(shopDesc && helpText != "")
   }
 
-  obj = holderObj.findObject("item_desc")
+  local isDescTextBeforeDescDiv = !item || item.isDescTextBeforeDescDiv
+  obj = holderObj.findObject(isDescTextBeforeDescDiv ? "item_desc" : "item_desc_under_div")
   if (::checkObj(obj))
   {
     local desc = ""
@@ -607,6 +608,11 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
     if (longdescMarkup != "")
       obj.getScene().replaceContentFromText(obj, longdescMarkup, longdescMarkup.len(), handler)
   }
+
+  local obj = holderObj.findObject(isDescTextBeforeDescDiv ? "item_desc_under_div" : "item_desc")
+  if (::checkObj(obj))
+    obj.setValue("")
+
   ::ItemsManager.fillItemTableInfo(item, holderObj)
 
   obj = holderObj.findObject("item_icon")

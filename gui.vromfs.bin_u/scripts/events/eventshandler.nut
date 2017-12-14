@@ -122,15 +122,10 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     createSlotbar({
       eventId = curEventId
-      afterSlotbarSelect = @() updateButtons()
+      afterSlotbarSelect = updateButtons
+      afterFullUpdate = updateButtons
     })
     showEventDescription(curEventId)
-    updateButtons()
-  }
-
-  function reinitSlotbarAction()
-  {
-    base.reinitSlotbarAction()
     updateButtons()
   }
 
@@ -545,9 +540,8 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return ediff != -1 ? ediff : ::get_current_ediff()
   }
 
-  function onSlotbarCountryAction(obj)
+  function onEventCountryChanged(p)
   {
-    base.onSlotbarCountryAction(obj)
     updateButtons()
   }
 

@@ -724,11 +724,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     {
       buttonsArray.push([
         "#mainmenu/changeMode",
-        (@(gameMode) function () {
+        function () {
           ::game_mode_manager.setCurrentGameModeById(gameMode.id)
           checkCountries()
           onStart()
-        })(gameMode)
+        }
       ])
     }
 
@@ -736,20 +736,24 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local currentGameMode = ::game_mode_manager.getCurrentGameMode()
     local properUnitType = null
     if (currentGameMode.type == RB_GM_TYPE.EVENT)
-      foreach(unitType in ::unitTypesList)
-        if (::events.isUnitTypeAvailable(currentGameMode.getEvent(), unitType))
+    {
+      local event = currentGameMode.getEvent()
+      foreach(unitType in ::g_unit_type.types)
+        if (::events.isUnitTypeRequired(event, unitType.esUnitType))
         {
           properUnitType = unitType
           break
         }
+    }
 
-    if (properUnitType != null && ::top_menu_handler != null)
+    if (rootHandlerWeak)
     {
       buttonsArray.push([
         "#mainmenu/changeVehicle",
-        (@(properUnitType) function () {
-          ::top_menu_handler.openShop.call(::top_menu_handler, properUnitType)
-        })(properUnitType)
+        function () {
+          if (isValid() && rootHandlerWeak)
+            rootHandlerWeak.openShop(properUnitType)
+        }
       ])
     }
 
@@ -1184,15 +1188,13 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_crew.isAllCrewsMinLevel())
       return
 
-    local tutorialCrewObj = null
-    local tutorialCrewCountryId = ::top_menu_handler.getCurSlotCountryId()
-    local tutorialCrewIdInCountry = ::top_menu_handler.getCurSlotIdInCountry()
-    local curCrew = getSlotItem(tutorialCrewCountryId, tutorialCrewIdInCountry)
-    if (curCrew && ::g_crew.getCrewSkillPoints(curCrew) > MIN_UPGR_CREW_TUTORIAL_SKILL_POINTS)
-      tutorialCrewObj = getCurrentCrewSlot()
+    local curCrew = getCurCrew()
+    if (!curCrew || ::g_crew.getCrewSkillPoints(curCrew) < MIN_UPGR_CREW_TUTORIAL_SKILL_POINTS)
+      return
 
+    local tutorialCrewObj = getCurrentCrewSlot()
     if (tutorialCrewObj)
-      tutorialPressToCrewObj(tutorialCrewCountryId, tutorialCrewIdInCountry)
+      tutorialPressToCrewObj(curCrew.idCountry, curCrew.idInCountry)
   }
 
   function tutorialPressToCrewObj(tutorialCrewCountryId, tutorialCrewIdInCountry)

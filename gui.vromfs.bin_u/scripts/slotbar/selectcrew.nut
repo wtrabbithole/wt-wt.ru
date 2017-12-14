@@ -215,14 +215,14 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   function getTakeAirCost()
   {
     return ::CrewTakeUnitProcess.getProcessCost(
-             ::getSlotItem(curSlotCountryId, takeCrewIdInCountry),
+             getCurCrew(),
              unit
            )
   }
 
   function onChangeUnit()
   {
-    takeCrewIdInCountry = getCurSlotIdInCountry()
+    takeCrewIdInCountry = getCurCrew()?.idInCountry ?? ::get_crew_count(country)
     updateButtons()
   }
 
@@ -255,7 +255,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.applyPendingChanges(false)
     local steps = [
       {
-        obj = [::get_slotbar_box_of_airs(slotbarScene, curSlotCountryId)]
+        obj = [getSlotbarBoxOfUnits()]
         text = ::loc("help/takeAircraft", {unitName = ::getUnitName(unit)})
         bottomTextLocIdArray = ["help/NEXT_ACTION"]
         actionType = tutorAction.ANY_CLICK
@@ -263,7 +263,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         accessKey = "J:A"
       },
       {
-        obj = ["btn_set_air"]
+        obj = "btn_set_air"
         text = ::loc("help/pressOnReady")
         bottomTextLocIdArray = ["help/NEXT_ACTION"]
         actionType = tutorAction.ANY_CLICK
@@ -326,12 +326,8 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillLegendData()
   {
-    local countryCrews = ::getTblValue(curSlotCountryId, ::g_crews_list.get())
-    if (!countryCrews)
-      return null
-
     local legendData = []
-    foreach (idx, crew in countryCrews.crews)
+    foreach (idx, crew in ::get_country_crews(country))
     {
       local specType = ::g_crew_spec_type.getTypeByCode(::g_crew_spec_type.getTrainedSpecCode(crew, unit))
       if (specType != ::g_crew_spec_type.UNKNOWN)

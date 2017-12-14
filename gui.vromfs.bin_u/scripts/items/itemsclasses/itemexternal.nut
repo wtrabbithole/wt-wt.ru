@@ -3,6 +3,9 @@ local guidParser = require("scripts/guidParser.nut")
 
 local ItemExternal = class extends ::BaseItem
 {
+  static openingCaptionLocId = "mainmenu/itemConsumed/title"
+  static isDescTextBeforeDescDiv = false
+
   metaBlk = null
 
   constructor(itemDesc)
@@ -59,6 +62,11 @@ local ItemExternal = class extends ::BaseItem
     local url = !::u.isEmpty(itemDef.icon_url_large) ?
       itemDef.icon_url_large : itemDef.icon_url
     return ::LayersIcon.getIconData(null, url)
+  }
+
+  function getOpeningCaption()
+  {
+    return ::loc(openingCaptionLocId)
   }
 
   function canConsume()

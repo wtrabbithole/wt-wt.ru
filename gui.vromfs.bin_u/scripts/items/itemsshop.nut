@@ -466,7 +466,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       filter = filter
       curTab = checkTab
     }
-    local items = ::ItemsManager.getShopList(filter.typeMask, filterFunc.bindenv(customEnv))
+    local items = []
+    if (checkTab == itemsTab.INVENTORY)
+      items = ::ItemsManager.getInventoryList(filter.typeMask, filterFunc.bindenv(customEnv))
+    else if (checkTab == itemsTab.SHOP)
+      items = ::ItemsManager.getShopList(filter.typeMask, filterFunc.bindenv(customEnv))
     return items.len() > 0
   }
 

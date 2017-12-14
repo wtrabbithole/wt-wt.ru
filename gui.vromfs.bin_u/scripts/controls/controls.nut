@@ -86,9 +86,7 @@ function get_favorite_voice_message_option(index)
     { id = "ID_BOMBS_SERIES", checkAssign = false }
     "ID_ROCKETS"
     { id = "ID_WEAPON_LOCK",
-      showFunc = function() {
-        return ::has_feature("Missiles")
-      },
+      showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
     }
     { id="ID_SCHRAEGE_MUSIK", checkAssign = false }
@@ -1122,7 +1120,11 @@ function get_favorite_voice_message_option(index)
     { id="ID_REPLAY_FASTER", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
     { id="ID_REPLAY_PAUSE", checkGroup = ctrlGroups.REPLAY, checkAssign = false
       autobind = ["ID_SKIP_CUTSCENE", "ID_GAME_PAUSE"] }
-    { id="ID_REPLAY_AVI_WRITER", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
+    { id="ID_REPLAY_AVI_WRITER",
+      checkGroup = ctrlGroups.REPLAY,
+      checkAssign = false,
+      showFunc = @() ::has_feature("Replays")
+    }
     { id="ID_REPLAY_SHOW_MARKERS", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
     { id="ID_TOGGLE_CONTOURS", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
     { id="cam_fwd", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.REPLAY, checkAssign = false }

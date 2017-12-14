@@ -1,5 +1,6 @@
-::shop_gui_handler <- null
-::last_shop_unit_type <- null
+local shopTree = require("scripts/shop/shopTree.nut")
+
+local lastUnitType = null
 
 /*
 shopData = [
@@ -21,27 +22,6 @@ shopData = [
 ]
 */
 
-function after_buy_aircraft_modal()
-{
-  foreach(handler in [::top_menu_handler, ::current_base_gui_handler])
-    if (handler && "afterBuyAircraftModal" in handler)
-      handler.afterBuyAircraftModal.call(handler)
-}
-
-function is_shop_loaded()
-{
-  return ::handlersManager.isHandlerValid(::shop_gui_handler)
-}
-
-function gui_start_shop(sceneObj=null)
-{
-  if (::is_shop_loaded())
-    return
-
-  ::shop_gui_handler = ::handlersManager.loadHandler(::gui_handlers.ShopMenuHandler, { scene = sceneObj })
-  return ::shop_gui_handler
-}
-
 function gui_start_shop_research(config)
 {
   ::gui_start_modal_wnd(::gui_handlers.ShopCheckResearch, config)
@@ -56,6 +36,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   keepLoaded = true
   boughtVehiclesCount = null
   totalVehiclesCount = null
+
+  closeShop = null //function to hide close shop
+  forceUnitType = null //unitType to set on next pages fill
 
   curCountry = null
   curPage = ""
@@ -104,7 +87,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     initShowMode(navBarObj)
     loadFullAircraftsTable(curAirName)
 
-    selectSlotbarCountry() //select slotbarcountry will call fillAircraftsList
+    fillPagesListBox()
     skipOpenGroup = false
   }
 
@@ -156,6 +139,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
           lines = []
         }
         local selected = false
+        local hasRankPosXY =false
 
         local totalRanges = pblk.blockCount()
         for(local r = 0; r < totalRanges; r++)
@@ -200,11 +184,19 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
               airData.image <- airBlk.image
             }
-            if (airBlk.reqAir!=null) airData.reqAir <- airBlk.reqAir
-              rangeData.append(airData)
+            if (airBlk.reqAir!=null)
+              airData.reqAir <- airBlk.reqAir
+            if (airBlk?.rankPosXY)
+            {
+              airData.rankPosXY <- airBlk.rankPosXY
+              hasRankPosXY = true
+            }
+            rangeData.append(airData)
           }
           if (rangeData.len() > 0)
             pageData.airList.append(rangeData)
+          if (hasRankPosXY)
+            pageData.hasRankPosXY <- hasRankPosXY
         }
         if (selected)
         {
@@ -231,416 +223,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return ::is_unit_visible_in_shop(unit)
   }
 
-  function getReqAirPosInArray(reqName, arr)
-  {
-    foreach(r, row in arr)
-      foreach(c, item in row)
-        if (item && typeof item != "integer" && reqName == item.name)
-          return [r, c]
-    return null
-  }
-
-  //returns an array of positions of each rank in page and each vertical section in page
-  function calculateRanksAndSectionsPos(page)
-  {
-    local res = array(::max_country_rank + 1, 0)
-
-    local sectionsPos = page.airList.len() ? [0, page.airList.len()] : [ 0 ]
-    local foundPremium = false
-
-    for (local range = 0; range < page.airList.len(); range++)
-    {
-      local rangeRanks = array(::max_country_rank + 1, 0)
-      local branches = getBranchesTbl(page.airList[range])
-
-      foreach(branch in branches)
-      {
-        foreach(airItem in branch)
-          rangeRanks[airItem.rank]++
-        foreach(rankNum, rank in rangeRanks)
-          if (res[rankNum] < rank)
-            res[rankNum] = rank
-
-        if (!foundPremium)
-          foreach(airItem in branch)
-            if (("air" in airItem) && (::isUnitSpecial(airItem.air) || ::isUnitGift(airItem.air)))
-            {
-              if (range)
-                sectionsPos.insert(1, range)
-              foundPremium = true
-              break
-            }
-      }
-    }
-    //summ absolute height fr each rank
-    for (local i = res.len() - 1; i >= 0; i--)
-    {
-      local rankStartPos = 0
-      local j = 0
-      while (j <= i)
-      {
-        rankStartPos += res[j]
-        j++
-      }
-      res[i] = rankStartPos
-    }
-
-    local sectionsResearchable = array(sectionsPos.len() - 1, true)
-    if (foundPremium && sectionsResearchable.len())
-      sectionsResearchable[sectionsResearchable.len() - 1] = false
-
-    return {
-      ranksHeight = res
-      sectionsPos = sectionsPos
-      sectionsResearchable = sectionsResearchable
-    }
-  }
-
-  function generateTreeData(page)
-  {
-    if (page.tree != null) //already generated
-      return page
-
-    page.lines = []
-    page.tree = []
-
-    if (!("airList" in page) || !page.airList)
-      return page
-
-    local ranksAndSections = calculateRanksAndSectionsPos(page)
-    page.ranksHeight <- ranksAndSections.ranksHeight
-    page.sectionsPos <- ranksAndSections.sectionsPos
-    page.sectionsResearchable <- ranksAndSections.sectionsResearchable
-    local treeSize = page.ranksHeight[page.ranksHeight.len() - 1]
-    page.tree.resize(treeSize, null)
-    foreach(idx, ar in page.tree)
-      page.tree[idx] = []
-
-    for (local range = 0; range < page.airList.len(); range++)
-    {
-      local rangeData = page.airList[range]
-      local branches = getBranchesTbl(rangeData)
-      local rangeTree = array(treeSize, null)
-      foreach(idx, ar in rangeTree)
-        rangeTree[idx] = []
-
-      foreach(bIdx, branch in branches)
-      {
-        local headPos = null
-        if (bIdx != 0 && branch[0]?.reqAir)
-          headPos = getReqAirPosInArray(branch[0].reqAir, rangeTree)
-        local config = makeTblByBranch(branch, page.ranksHeight, headPos ? headPos[0] : null)
-          //config.offset, config.tbl
-        local firstCol = getGoodBranchPos(rangeTree, config.tbl, config.offset, headPos)
-
-        //merge branch to tree
-        local treeWidth = 0
-        foreach(item in config.tbl)
-          if (treeWidth < firstCol + item.len())
-            treeWidth = firstCol + item.len()
-        if (treeWidth < rangeTree[0].len())
-          treeWidth = rangeTree[0].len()
-
-        for(local i = 0; i < rangeTree.len(); i++)
-        {
-          if (rangeTree[i].len() < treeWidth)
-            rangeTree[i].resize(treeWidth, null)
-
-          local addRowIdx = i - config.offset
-          if (addRowIdx in config.tbl)
-          {
-            local addRow = config.tbl[addRowIdx]
-            foreach(j, item in addRow)
-              if (item != null)
-              {
-                if (rangeTree[i][j + firstCol] != null)
-                  dagor.debug("GP: try to fill not empty cell!!!!! ")
-                rangeTree[i][j + firstCol] = item
-              }
-          }
-        }
-        //branch merged
-      }
-
-      //merge rangesTbl into tree and fill range lines
-      foreach(r, row in page.tree)
-        page.tree[r].extend(rangeTree[r])
-    }
-
-    //clear empty last lines
-    local emptyLine = true
-    for(local idx = page.tree.len() - 1; idx > 0; idx--)
-    {
-      foreach(i, air in page.tree[idx])
-        if (air)
-        {
-          emptyLine = false
-          break
-        }
-      if (emptyLine)
-        page.tree.remove(idx)
-      else
-        break
-    }
-/*
-    //debug
-    local testText = "GP: full table:"
-    foreach(row in page.tree)
-      foreach(idx, item in row)
-      {
-        testText += ((idx==0)? "\n":"")
-        if (item==null)
-          testText+=" "
-        else
-        if (typeof(item)=="integer") testText += "."
-        else testText += "A"
-      }
-    dagor.debug(testText + "\n done.")
-*/
-    //fill Lines and clear table
-    fillLinesInPage(page)
-
-    page.rawdelete("airList")
-    return page
-  }
-
-  function fillLinesInPage(page, first = true, reqAirs=null)
-  {
-    if (!reqAirs)
-      reqAirs = {} //airName = [{ air, pos }]
-
-    for(local i = page.tree.len() - 1; i >= 0; i--)
-      for(local j = page.tree[i].len() - 1; j >= 0; j--)
-      {
-        if(page.tree[i][j] == null)
-          continue
-        if(typeof(page.tree[i][j]) == "integer")
-          page.tree[i][j] = null
-        else
-        {
-          local air = page.tree[i][j]
-          local searchName = ::isUnitGroup(air) ? air?.searchReqName : air.name
-          if (searchName in reqAirs)
-          {
-            foreach(req in reqAirs[searchName])
-              page.lines.append({
-                air = req.air,
-                line = [i, j, req.pos[0], req.pos[1]]
-                group = [::isUnitGroup(air), ::isUnitGroup(req.air)]
-              })
-            reqAirs.rawdelete(searchName)
-          }
-          if (first && air?.reqAir)
-            if (air.reqAir in reqAirs)
-              reqAirs[air.reqAir].append({ air = air, pos = [i,j] })
-            else
-              reqAirs[air.reqAir] <- [{ air = air, pos = [i,j] }]
-        }
-      }
-    if (reqAirs.len() > 0 && first)
-      fillLinesInPage(page, false, reqAirs)
-  }
-
-  function getGoodBranchPos(tree, branch, offset, headerPos)
-  {
-    //branch.
-    if (headerPos)
-    {
-      if (checkBranchPos(tree, branch, headerPos[0], headerPos[1]))
-        return headerPos[1]  //best place for header
-
-      local colOffset = 0
-      local pos = 0
-      do
-      {
-        colOffset = -colOffset + ((colOffset<=0)? 1 : 0)
-        pos = colOffset + headerPos[1]
-        if ((pos in tree[0]) && checkBranchPos(tree, branch, offset, pos))
-          return pos
-      } while (pos < tree[0].len())
-    }
-    else
-      for(local col=0; col<tree[0].len(); col++)
-        if (checkBranchPos(tree, branch, offset, col))
-          return col
-    return tree[0].len()
-  }
-
-  function checkBranchPos(tree, branch, row, col)
-  {
-    for(local i = 0; i < branch.len(); i++)
-    {
-      local max = branch[i].len()
-      if (max > tree[i+row].len() - col)
-        max = tree[i+row].len()-col
-      for(local j = 0; j < max; j++)
-        if (tree[i+row][j+col] != null && branch[i][j] != null)
-          return false
-    }
-    return true
-  }
-
-  function makeTblByBranch(branch, ranksHeight, headRow = null)
-  {
-    if (branch.len() < 1)
-      return null
-
-    local res = {
-      offset = (headRow != null) ? headRow : 0/*branch[0].air.rank //for rowIdx==rank*/
-      tbl = []
-    }
-    //if (headRow!=null)
-    //  res.tbl.append([null])  //place for headAir in rowIdx==rank generation
-
-    local prevAir = null
-    local tblWidth = 0
-    foreach(idx, item in branch)
-    {
-      local curAir = null
-      if (!::isUnitGroup(item))
-        curAir = item.air
-      else
-      {
-        curAir = item
-        local reqGroup = false
-        if (item?.reqAir)
-          prevAir = getAircraftByName(item.reqAir)
-        if (prevAir)
-          curAir.reqAir <- prevAir.name
-      }
-
-      //Line branch generation
-      if (ranksHeight[curAir.rank - 1] > res.tbl.len())
-        res.tbl.resize(ranksHeight[curAir.rank - 1], [])
-      res.tbl.append([curAir])
-
-      prevAir = curAir
-      if (::isUnitGroup(item))
-      {
-        prevAir = null
-        local unit = item.airsGroup?[0] //!!FIX ME: duplicate logic of generateUnitShopInfo
-        if (unit && !::isUnitSpecial(unit) && !::isUnitGift(unit))
-        {
-          prevAir = unit
-          item.searchReqName <- unit.name
-        }
-      }
-    }
-
-    return res
-  }
-
-  function getBranchesTbl(rangeData)
-  {
-    local branches = []
-
-    if (rangeData.len() < 2)
-      return [rangeData]
-
-    local addCount = {}
-    local brIdxTbl = {}
-    local rankK = 0.0 //the longer the tree is more important than a branched
-
-    local maxCountId = rangeData.len() - 1
-    for(local i = rangeData.len() - 1; i >= 0; i--)
-    {
-      local item = rangeData[i]
-      item.childs <- 0
-      item.used <- false
-      item.header <- i == 0
-      if ((i<rangeData.len() - 1) && !(rangeData[i + 1]?.reqAir))
-        item.childs += rangeData[i + 1].childs + (1 + rankK * rangeData[i + 1].rank)
-      if (item.name in addCount)
-        item.childs += addCount.rawdelete(item.name)
-      if (item?.reqAir)
-        if (item.reqAir == "")
-          item.header = true
-        else
-        {
-          addCount[item.reqAir] <- item.childs + (1 + rankK*item.rank) + ((item.reqAir in addCount) ? addCount[item.reqAir] : 0)
-          if (item.reqAir in brIdxTbl)
-            brIdxTbl[item.reqAir].append(i)
-          else
-            brIdxTbl[item.reqAir] <- [i]
-        }
-
-      if (item.childs > rangeData[maxCountId].childs)
-        maxCountId = i
-    }
-
-    appendBranches(rangeData, maxCountId, branches, brIdxTbl)
-    for(local i = rangeData.len() - 1; i >= 0; i--)
-      if (rangeData[i].header)
-        appendBranches(rangeData, i, branches, brIdxTbl)
-/*
-    //test debug!
-    local test = "GP: branches:"
-    foreach(b in branches)
-      foreach(idx, item in b)
-        test += ((idx==0)? "\n" : ", ") + item.air.name + " ("+item.air.rank+","+item.childs+")"
-                 + (item?.reqAir ? "("+item.reqAir+")":"")
-    dagor.debug(test)
-*/
-    return branches
-  }
-
-  function appendBranches(rangeData, headIdx, branches, brIdxTbl, prevItem=null)
-  {
-    if (rangeData[headIdx].used)
-      return
-
-    if (prevItem!=null)
-      rangeData[headIdx].reqAir <- prevItem.name
-
-    local headers = []
-    local curBranch = []
-    local idx = headIdx
-    do {
-      local item = rangeData[idx]
-      item.used = true
-      curBranch.append(item)
-
-      local next = (item.name in brIdxTbl)? brIdxTbl[item.name] : []
-      if (idx < rangeData.len()-1 && !rangeData[idx+1]?.reqAir)
-        next.append(idx+1)
-      if (next.len()==0)
-        idx=-1
-      else if (rangeData[next[0]].used)
-        ::dagor.fatal("Cycled requirements in shop!!!  look at " + rangeData[next[0]].name)
-      else if (next.len()==1)
-          idx=next[0]
-      else
-      {
-        idx = next[next.len()-1]
-        for(local i=next.len()-2; i>=0; i--)
-          if (rangeData[next[i]].childs > rangeData[idx].childs
-              || (rangeData[next[i]].childs == rangeData[idx].childs && rangeData[next[i]].rank > rangeData[idx].rank))
-            idx = next[i]
-        foreach(id in next)
-          if (id!=idx)
-            headers.append({prevItem = item, id=id})
-      }
-    } while (idx >= 0)
-
-    if (branches.len()>0 && curBranch.len()==1
-        && (!curBranch[0]?.reqAir || curBranch[0].reqAir==""))
-    {  //for line branch generation. NoReq aircrafts extends previous branch.
-      local placeFound = false
-      foreach(bIdx, bItem in branches[branches.len()-1])
-        if (bItem?.reqAir && bItem.reqAir=="" && bItem.rank >= curBranch[0].rank)
-        {
-          branches[branches.len()-1].insert(bIdx, curBranch[0])
-          placeFound = true
-          break
-        }
-      if (!placeFound)
-        branches[branches.len()-1].extend(curBranch)
-    } else
-      branches.append(curBranch)
-    for(local h=headers.len()-1; h>=0; h--)
-      appendBranches(rangeData, headers[h].id, branches, brIdxTbl, headers[h].prevItem)
-  }
-
   function getCurTreeData()
   {
     foreach(cData in shopData)
@@ -648,17 +230,17 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       {
         foreach(pageData in cData.pages)
           if (pageData.name == curPage)
-            return generateTreeData(pageData)
+            return shopTree.generateTreeData(pageData)
         if (cData.pages.len()>0)
         {
           curPage = cData.pages[0].name
-          return generateTreeData(cData.pages[0])
+          return shopTree.generateTreeData(cData.pages[0])
         }
       }
 
     curCountry = shopData[0].name
     curPage = shopData[0].pages[0].name
-    return generateTreeData(shopData[0].pages[0])
+    return shopTree.generateTreeData(shopData[0].pages[0])
   }
 
   function countFullRepairCost()
@@ -668,7 +250,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       if (cData.name == curCountry)
         foreach(pageData in cData.pages)
         {
-          local treeData = generateTreeData(pageData)
+          local treeData = shopTree.generateTreeData(pageData)
           foreach(rowArr in treeData.tree)
             for(local col = 0; col < rowArr.len(); col++)
               if (rowArr[col])
@@ -725,7 +307,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     updateBoughtVehiclesCount()
-    ::last_shop_unit_type = getCurPageUnitType()
+    lastUnitType = getCurPageUnitType()
     ::update_gamercards()
 
     if (curName=="")
@@ -942,7 +524,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                  "horizontal",  //type
                  (c1 - c0 - 1) + "@shop_width + " + interval1 + " + " + interval2, //width
                  "1@modArrowWidth", //height
-                 (c0 + 1) + "@shop_width - " + interval1, //posX
+                 (c0 + 1) + "@shop_width + 0.5*" + interval1, //posX
                  (r0 + 0.5) + "@shop_height - 0.5@modArrowWidth" // posY
                 )
     }
@@ -1442,29 +1024,18 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onCloseShop()
   {
-    ::top_menu_handler.shopWndSwitch.call(::top_menu_handler, null)
+    if (closeShop)
+      closeShop()
   }
 
-  function selectSlotbarCountry()
+  function fillPagesListBoxNoOpenGroup()
   {
-    if (!::checkObj(scene))
-      return
-
-    local slotbar = getSlotbarScene()
-    if (::checkObj(slotbar) && !(curSlotCountryId in ::g_crews_list.get() && ::g_crews_list.get()[curSlotCountryId].country == curCountry))
-      foreach(idx, country in ::g_crews_list.get())
-        if (country.country == curCountry)
-        {
-          local cObj = slotbar.findObject("slotbar-countries")
-          if (cObj)
-            cObj.setValue(idx)
-          break
-        }
-    fillCountryInfo(scene.findObject("country-rank"), curCountry)
+    skipOpenGroup = true
     fillPagesListBox()
+    skipOpenGroup = false
   }
 
-  function fillPagesListBox(unitType = null)
+  function fillPagesListBox()
   {
     if (shopResearchMode)
     {
@@ -1476,17 +1047,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (!::checkObj(pagesObj))
       return
 
-    if (unitType == null)
-      if (::last_shop_unit_type != null)
-        unitType = ::last_shop_unit_type
-      else
-      {
-        local unit = ::getAircraftByName(curAirName)
-        if (unit)
-          unitType = unit.unitType
-        else
-          unitType = ::g_unit_type.INVALID
-      }
+    local unitType = forceUnitType
+      ?? lastUnitType
+      ?? ::getAircraftByName(curAirName)?.unitType
+      ?? ::g_unit_type.INVALID
+
+    forceUnitType = null //forceUnitType applyied only once
 
     local data = ""
     local curIdx = 0
@@ -1867,15 +1433,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       unit.repair()
   }
 
-  function onTopMenuSlotRepair(obj)
-  {
-    if (!::top_menu_handler)
-      return
-    local crew = getSlotItem(::top_menu_handler.curSlotCountryId, ::top_menu_handler.curSlotIdInCountry)
-    local airName = ("aircraft" in crew)? crew.aircraft : ""
-    repairRequest(getAircraftByName(airName))
-  }
-
   function onOpenOnlineShop(obj)
   {
     OnlineShopModel.showGoods({
@@ -2135,30 +1692,23 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return isInArray(tag, aircraft.tags)
   }
 
-  function onTopmenuCountry(country, forceUpdate = false, esUnitType = null)
+  function setUnitType(unitType)
   {
-    if (country == curCountry && !forceUpdate)
+    if (unitType == lastUnitType)
       return
-    foreach(idx, tree in shopData)
-      if (tree.name == country)
-      {
-        skipOpenGroup = true
-        local countriesObj = scene.findObject("shop_filters_list")
-        if (countriesObj && countriesObj.getValue() != idx)
-          countriesObj.setValue(idx)
-        else
-        {
-          curCountry=country
-          fillCountryInfo(scene.findObject("country-rank"), curCountry)
-          local air = (country!=curCountry)? null : getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
-          if (air)
-            curAirName = air.name
-          local unitType = esUnitType != null ? ::g_unit_type.getByEsUnitType(esUnitType) : null
-          fillPagesListBox(unitType)
-        }
-        skipOpenGroup = false
-        return
-      }
+
+    forceUnitType = unitType
+    doWhenActiveOnce("fillPagesListBoxNoOpenGroup")
+  }
+
+  function onEventCountryChanged(p)
+  {
+    local country = ::get_profile_info().country
+    if (country == curCountry)
+      return
+
+    curCountry = country
+    doWhenActiveOnce("fillPagesListBoxNoOpenGroup")
   }
 
   function initShowMode(tgtNavBar)

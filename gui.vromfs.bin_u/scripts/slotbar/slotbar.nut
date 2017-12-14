@@ -36,6 +36,8 @@ if need - put commented in array above
 ::unlocked_countries <- []
 ::fake_countries <- ["country_pkg6"]
 
+::g_script_reloader.registerPersistentData("SlotbarGlobals", ::getroottable(), ["selected_crews", "unlocked_countries"])
+
 function build_aircraft_item(id, air, params = {})
 {
   local res = ""
@@ -1167,8 +1169,7 @@ function init_slotbar(handler, scene, params = {})
       foreach (unitItem in unitItems)
         ::fill_unit_item_timers(tblObj.findObject(unitItem.id), unitItem.unit, unitItem.params)
 
-      if (limitCountryChoice)
-        itemObj.enable(airShopCountry == ::g_crews_list.get()[c].country)
+      itemObj.enable(!limitCountryChoice || airShopCountry == ::g_crews_list.get()[c].country)
 
       local cUnlocked = ::isCountryAvailable(::g_crews_list.get()[c].country)
       itemObj.inactive = "no"
@@ -1378,19 +1379,6 @@ function destroy_slotbar(handler)
   handler.slotbarParams = null
 }
 
-function get_slotbar_box_of_airs(slotbarScene, curSlotCountryId)
-{
-  local obj = slotbarScene.findObject("airs_table_" + curSlotCountryId)
-  if (!::checkObj(obj))
-    return null
-
-  local box = ::GuiBox().setFromDaguiObj(obj)
-  local pBox = ::GuiBox().setFromDaguiObj(obj.getParent())
-  if (box.c2[0] > pBox.c2[0])
-    box.c2[0] = pBox.c2[0] + pBox.c1[0] - box.c1[0]
-  return box
-}
-
 function getBrokenSlotsCount(country)
 {
   local count = 0
@@ -1492,11 +1480,7 @@ function get_crew_by_id(id)
     if ("crews" in cList)
       foreach(idx, crew in cList.crews)
        if (crew.id==id)
-       {
-         crew.country <- cList.country
-         crew.countryId <- cId
          return crew
-       }
   return null
 }
 
@@ -1517,16 +1501,6 @@ function getCrewByAir(air)
       foreach(crew in country.crews)
         if (("aircraft" in crew) && crew.aircraft==air.name)
           return crew
-  return null
-}
-
-function getCrewIdTblByAir(air)
-{
-  foreach(countryId, country in ::g_crews_list.get())
-    if (country.country == air.shopCountry)
-      foreach(idInCountry, crew in country.crews)
-        if (("aircraft" in crew) && crew.aircraft==air.name)
-          return { crewId = crew.id, countryId = countryId, idInCountry = idInCountry }
   return null
 }
 

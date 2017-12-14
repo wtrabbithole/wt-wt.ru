@@ -1049,6 +1049,12 @@
         "sight_distance_max": 350.0
       },
       {
+        "shipYawDeltaThreshold": 3.0
+      },
+      {
+        "shipPitchDeltaThreshold": 0.5
+      },
+      {
         "crosshairColor": {
           "name": "white",
           "color": "#ffffffff"
@@ -1210,23 +1216,28 @@
         "ship_crosshairs": {
           "primary": {
             "size": 1.0,
-            "icon": "ship_main_caliber_sight"
+            "icon": "ship_main_caliber_sight",
+            "iconInProgress": "ship_main_caliber_sight"
           },
           "secondary": {
             "size": 1.0,
-            "icon": "ship_secondary_caliber_sight"
+            "icon": "ship_secondary_caliber_sight",
+            "iconInProgress": "ship_secondary_caliber_sight"
           },
           "coaxial": {
             "size": 1.0,
-            "icon": "gun_direction"
+            "icon": "gun_direction",
+            "iconInProgress": "gun_direction"
           },
           "machinegun": {
             "size": 1.0,
-            "icon": "ship_aa_caliber_sight"
+            "icon": "ship_aa_caliber_sight",
+            "iconInProgress": "ship_aa_caliber_sight"
           },
           "special": {
             "size": 1.0,
-            "icon": "gun_direction"
+            "icon": "gun_direction",
+            "iconInProgress": "gun_direction"
           }
         }
       },

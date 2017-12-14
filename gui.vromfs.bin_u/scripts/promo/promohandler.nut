@@ -174,7 +174,7 @@ class Promo
         btnObj.setUserData(this)
 
       if(block.pollId != null)
-        updateWebPollButton(block.pollId)
+        updateWebPollButton({pollId = block.pollId})
     }
   }
 
@@ -613,8 +613,9 @@ class Promo
 
   //------------------ <WEB POLL> -------------------------
 
-  function updateWebPollButton(pollId)
+  function updateWebPollButton(param)
   {
+    local pollId = param.pollId
     local objectId = ::getTblValue(pollId, pollIdToObjectId)
     if(objectId == null)
       return

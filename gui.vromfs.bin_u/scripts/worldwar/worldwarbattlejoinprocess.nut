@@ -1,13 +1,14 @@
 class WwBattleJoinProcess
 {
   wwBattle = null
+  side = ::SIDE_NONE
 
   static PROCESS_TIME_OUT = 60000
 
   static activeJoinProcesses = []   //cant modify staic self
   processStartTime = -1
 
-  constructor (_wwBattle)
+  constructor (_wwBattle, _side)
   {
     if (!_wwBattle || !_wwBattle.isValid())
       return
@@ -22,6 +23,7 @@ class WwBattleJoinProcess
     processStartTime = ::dagor.getCurTime()
 
     wwBattle = _wwBattle
+    side = _side
     joinStep1_squad()
   }
 
@@ -88,7 +90,7 @@ class WwBattleJoinProcess
 
   function joinStep4_repairInfo()
   {
-    local team = wwBattle.getTeamBySide(::ww_get_player_side())
+    local team = wwBattle.getTeamBySide(side)
     local remainUnits = wwBattle.getTeamRemainUnits(team)
     local repairInfo = ::getBrokenAirsInfo(
                          [team.country],
@@ -107,6 +109,7 @@ class WwBattleJoinProcess
       operationId = ::ww_get_operation_id()
       battleId = wwBattle.id
       wwBattle = wwBattle
+      side = side
     })
     onDone()
   }

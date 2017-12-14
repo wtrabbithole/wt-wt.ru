@@ -232,7 +232,7 @@ function get_unit_actions_list(unit, handler, actions)
   local inMenu = ::isInMenu()
   local isUsable  = unit.isUsable()
   local profile   = ::get_profile_info()
-  local crew = ::getCrewIdTblByAir(unit)
+  local crew = ::getCrewByAir(unit)
 
   foreach(action in actions)
   {
@@ -266,31 +266,33 @@ function get_unit_actions_list(unit, handler, actions)
       actionText = ::loc("multiplayer/changeAircraft")
       icon       = "#ui/gameuiskin#slot_change_aircraft.svg"
       showAction = inMenu && ::SessionLobby.canChangeCrewUnits()
-      actionFunc = (@(crew, handler) function () {
+      actionFunc = function () {
         if (::g_crews_list.isSlotbarOverrided)
         {
           ::showInfoMsgBox(::loc("multiplayer/slotbarOverrided"))
           return
         }
-        handler.onSlotChangeAircraft(crew)
-      })(crew, handler)
+        ::queues.checkAndStart(function()
+        {
+          if (handler.isValid())
+            ::gui_start_select_unit(crew, handler)
+        },
+        null, "isCanModifyCrew")
+      }
     }
     else if (action == "crew")
     {
       if (!crew)
         continue
 
-      local discountInfo = ::g_crew.getDiscountInfo(crew.countryId, crew.idInCountry)
+      local discountInfo = ::g_crew.getDiscountInfo(crew.idCountry, crew.idInCountry)
 
       actionText = ::loc("mainmenu/btnCrew")
       icon       = "#ui/gameuiskin#slot_crew.svg"
-      haveWarning = ::isInArray(::get_crew_status_by_id(crew.crewId), [ "ready", "full" ])
+      haveWarning = ::isInArray(::get_crew_status_by_id(crew.id), [ "ready", "full" ])
       haveDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = (@(crew) function () {
-        if (crew)
-          ::gui_modal_crew(crew.countryId, crew.idInCountry)
-      })(crew)
+      actionFunc = @() crew && ::gui_modal_crew(crew.idCountry, crew.idInCountry)
     }
     else if (action == "weapons")
     {
@@ -1521,6 +1523,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   local isRented = air.isRented()
   local rentTimeHours = ::getTblValue("rentTimeHours", params, -1)
+  local isReceivedPrizes = params?.isReceivedPrizes ??  false
   local showAsRent = showLocalState && isRented || rentTimeHours > 0
 
   local isSecondaryModsValid = ::check_unit_mods_update(air)
@@ -2045,7 +2048,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     }
     else
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("trophy/unlockables_names/trophy")))
-    if (isOwn)
+    if (isOwn && !isReceivedPrizes)
     {
       local text = ::loc("shop/unit_bought") + ::loc("ui/dot") + " " + ::loc("mainmenu/receiveOnlyOnce")
       addInfoTextsList.append(::colorize("badTextColor", text))

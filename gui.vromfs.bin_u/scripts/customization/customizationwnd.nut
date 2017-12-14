@@ -562,11 +562,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function afterBuyAircraftModal()
-  {
-    initMainParams()
-  }
-
   function onWrapUp(obj)
   {
     base.onWrapUp(obj)
@@ -1836,13 +1831,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
     local crew = get_crew_by_id(::show_crew)
     if (crew)
-      ::gui_modal_crew(crew.countryId, crew.idInCountry)
+      ::gui_modal_crew(crew.idCountry, crew.idInCountry)
   }
 
   function onWeaponsInfo(obj)
   {
     ::aircraft_for_weapons = unit.name
-    ::gui_modal_weapons(afterBuyAircraftModal)
+    ::gui_modal_weapons()
   }
 
   function onMirror(obj)

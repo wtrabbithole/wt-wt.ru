@@ -159,7 +159,10 @@
           }
         }
         else if (canBuy)
+        {
+          iconName = "locked"
           conditionsText = ::loc("shop/object/can_be_purchased")
+        }
         else
         {
           iconName = "locked"
@@ -167,7 +170,7 @@
         }
       }
       else
-        iconName = ::is_unlocked_scripted(unlockType, unlockId) ? "favorite" : "locked"
+        iconName = isAllowed ? "favorite" : "locked"
 
       local dObj = cObj.findObject("unlock_description")
       dObj.setValue(conditionsText)
@@ -479,11 +482,21 @@
     }
   }
 
+  BATTLE_TASK = {
+    getTooltipContent = function(battleTaskId, params)
+    {
+      local battleTask = ::g_battle_tasks.getTaskById(battleTaskId)
+      local config = ::g_battle_tasks.generateUnlockConfigByTask(battleTask)
+      local view = ::g_battle_tasks.generateItemView(config, false, true)
+      return ::handyman.renderCached("gui/unlocks/battleTasksItem", {items = [view]})
+    }
+  }
+
   WW_MAP_TOOLTIP_TYPE_ARMY = { //by crewId, unitName, specTypeCode
     getTooltipContent = function(id, params)
     {
       if (!::is_worldwar_enabled())
-        return false
+        return ""
 
       local army = ::g_world_war.getArmyByName(params.currentId)
       if (army)
@@ -502,8 +515,9 @@
       if (!battle.isValid())
         return ""
 
+      local battleSides = ::g_world_war.getSidesOrder()
       local view = battle.getView()
-      view.defineTeamBlock()
+      view.defineTeamBlock(battleSides)
       view.showBattleStatus = true
       view.hideDesc = true
       return ::handyman.renderCached("gui/worldWar/battleDescription", view)

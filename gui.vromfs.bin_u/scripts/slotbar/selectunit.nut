@@ -14,7 +14,7 @@
 
 const MIN_NON_EMPTY_SLOTS_IN_COUNTRY = 1
 
-function gui_start_select_unit(countryId, idInCountry, handler, config = null)
+function gui_start_select_unit(crew, handler)
 {
   if (!::SessionLobby.canChangeCrewUnits())
     return
@@ -22,23 +22,14 @@ function gui_start_select_unit(countryId, idInCountry, handler, config = null)
     return
 
   local slotbarObj = handler.slotbarScene
-  local slotObj = ::get_slot_obj(slotbarObj, countryId, idInCountry)
-  if (!::checkObj(slotObj))
-  {
-    handler.guiScene.performDelayed(handler, function() {
-      ::reinitAllSlotbars()
-    })
-    return
-  }
-
-  local crew = ::getSlotItem(countryId, idInCountry)
-  if (!crew)
+  local slotObj = ::get_slot_obj(slotbarObj, crew.idCountry, crew.idInCountry)
+  if (!::check_obj(slotObj))
     return
 
   local params = {
-    countryId = countryId,
-    idInCountry = idInCountry,
-    config = config || {},
+    countryId = crew.idCountry,
+    idInCountry = crew.idInCountry,
+    config = handler?.slotbarParams || {},
     slotObj = slotObj,
     ownerWeak = handler,
     crew = crew
@@ -318,9 +309,11 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   function goToShop()
   {
     goBack()
-    ::broadcastEvent("OpenShop", {unitType = "aircraft" in crew ?
-                                    ::get_es_unit_type(::getAircraftByName(crew.aircraft))
-                                    : null})
+    if (ownerWeak && ownerWeak?.openShop)
+    {
+      local unit = ::g_crew.getCrewUnit(crew)
+      ownerWeak.openShop(unit?.unitType)
+    }
   }
 
   function trainSlotAircraft(unit)

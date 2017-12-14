@@ -539,7 +539,7 @@ function BattleTasks::getTaskWithAvailableAward(tasksArray)
     }.bindenv(this))
 }
 
-function BattleTasks::getTaskDescription(config = null, isPromo = false)
+function BattleTasks::getTaskDescription(config = null, isPromo = false, isOnlyInfo = false)
 {
   if (!config)
     return
@@ -604,6 +604,7 @@ function BattleTasks::getTaskDescription(config = null, isPromo = false)
     taskUnlocksList = taskUnlocksList.len()
     taskConditionsList = taskConditionsList.len()? taskConditionsList : null
     isPromo = isPromo
+    isOnlyInfo = isOnlyInfo
   }
 
   return ::handyman.renderCached("gui/unlocks/battleTasksDescription", view)
@@ -697,7 +698,7 @@ function BattleTasks::getRewardMarkUpConfig(task, config)
   return rewardMarkUp
 }
 
-function BattleTasks::generateItemView(config, isPromo = false)
+function BattleTasks::generateItemView(config, isPromo = false, isOnlyInfo = false)
 {
   local task = getTaskById(config) || ::getTblValue("originTask", config)
   local isBattleTask = isBattleTask(task)
@@ -710,6 +711,7 @@ function BattleTasks::generateItemView(config, isPromo = false)
   local rankVal = isUnlock ? ::UnlockConditions.getRankValue(config.conditions) : null
 
   local id = isBattleTask? task.id : config.id
+  local progressData = config?.getProgressBarData? config.getProgressBarData() : null
 
   return {
     id = id
@@ -720,7 +722,7 @@ function BattleTasks::generateItemView(config, isPromo = false)
     isPlaybackDownloading = !::g_sound.canPlay(id)
     taskDifficultyImage = getDifficultyImage(task)
     taskRankValue = rankVal? ::loc("ui/parentheses/space", {text = rankVal}) : null
-    description = isBattleTask || isUnlock ? getTaskDescription(config, isPromo) : null
+    description = isBattleTask || isUnlock ? getTaskDescription(config, isPromo, isOnlyInfo) : null
     reward = isPromo? null : getRewardMarkUpConfig(task, config)
     newIconWidget = isBattleTask? (isTaskActive(task)? null : NewIconWidget.createLayout()) : null
     canGetReward = isBattleTask && canGetReward
@@ -729,6 +731,12 @@ function BattleTasks::generateItemView(config, isPromo = false)
     isLowWidthScreen = isPromo? ::is_low_width_screen() : null
     showAsUsualPromoButton = isPromo && task == null
     isPromo = isPromo
+    isOnlyInfo = isOnlyInfo
+    needShowProgressValue = config?.curVal >= 0 && config?.maxVal >= 0
+    progressValue = config?.curVal
+    progressMaxValue = config?.maxVal
+    needShowProgressBar = progressData?.show
+    getTooltipId = isPromo && isBattleTask? @() ::g_tooltip_type.BATTLE_TASK.getTooltipId(id) : null
   }
 }
 

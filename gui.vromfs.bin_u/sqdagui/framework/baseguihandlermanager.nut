@@ -740,15 +740,16 @@ function handlersManager::setLastBaseHandlerStartFuncByHandler(handlerClass, par
 
 function handlersManager::destroyPrevHandlerAndLoadNew(handlerClass, params, needDestroyIfAlreadyOnTop = false)
 {
+  local isNewHandlerCreated = true
   local prevHandler = findHandlerClassInScene(handlerClass)
   if (prevHandler)
     if (!needDestroyIfAlreadyOnTop && prevHandler.scene.getModalCounter() == 0)
-      return false
+      isNewHandlerCreated = false
     else
       destroyModal(prevHandler)
 
   loadHandler(handlerClass, params)
-  return true
+  return isNewHandlerCreated
 }
 
 //=======================  global functions  ==============================

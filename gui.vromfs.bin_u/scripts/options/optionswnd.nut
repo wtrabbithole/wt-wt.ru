@@ -68,7 +68,7 @@ function get_main_options()
       [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::has_feature("TankAltCrosshair")],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
-      [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
+      [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! isInFlight],

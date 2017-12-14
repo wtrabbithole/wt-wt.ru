@@ -14,6 +14,8 @@ tdiv {
 
     <<#armiesByState>>
       shopFilter {
+        tooltip:t='<<tabText>>'
+
         shopFilterText {
           text:t='<<tabIconText>> '
         }

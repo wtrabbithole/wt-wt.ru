@@ -28,6 +28,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   shrinkedConfigsArray = null
   trophyItem = null
+  isBoxOpening = true
 
   haveItems = false
   opened = false
@@ -43,7 +44,15 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     trophyItem = ::ItemsManager.findItemById(configsArray[0].id)
-    if (!trophyItem || trophyItem.iType != itemType.TROPHY)
+    isBoxOpening = trophyItem.iType == itemType.TROPHY
+
+    if (configsArray[0]?.itemDefId)
+    {
+      trophyItem = ::ItemsManager.findItemdefsById(configsArray[0]?.itemDefId)
+      isBoxOpening = trophyItem.iType == itemType.CHEST
+    }
+
+    if (!trophyItem)
       return base.goBack()
 
     scene.findObject("reward_title").setValue(trophyItem.getOpeningCaption())
@@ -106,8 +115,8 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(imageObj))
       return
 
-    local layersData = (opened || useSingleAnimation) ? trophyItem.getOpenedBigIcon() : trophyItem.getBigIcon()
-    if (opened)
+    local layersData = isBoxOpening && (opened || useSingleAnimation) ? trophyItem.getOpenedBigIcon() : trophyItem.getBigIcon()
+    if (isBoxOpening && opened)
       layersData += (opened && useSingleAnimation)? getRewardImage(trophyItem.iconStyle) : ""
 
     guiScene.replaceContentFromText(imageObj, layersData, layersData.len(), this)

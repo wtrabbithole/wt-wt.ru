@@ -210,16 +210,12 @@ class SlotbarPresetsTutorial
     if (crewId == -1)
       return false
     local crew = ::get_crew_by_id(crewId)
-    crewIdInCountry = ::getTblValue("idInCountry", crew, -1)
-    if (crewIdInCountry == -1)
+    if (!crew)
       return false
 
-    // ID for DaGUI object in slotbar related to allowed unit. (e.g. "slot_2_1")
-    local slotId = ::format("slot_%s_%s", currentHandler.getCurSlotCountryId().tostring(), crewIdInCountry.tostring())
-
-    local slotObj = currentHandler.getSlotbarScene().findObject(slotId)
+    crewIdInCountry = crew.idInCountry
     local steps = [{
-      obj = [slotObj]
+      obj = ::get_slot_obj(currentHandler.getSlotbarScene(), crew.countryId, crew.idInCountry)
       text = ::loc("slotbarPresetsTutorial/selectUnit")
       actionType = tutorAction.OBJ_CLICK
       accessKey = "J:X"
