@@ -220,7 +220,7 @@ class SlotbarPresetsTutorial
 
     crewIdInCountry = crew.idInCountry
     local steps = [{
-      obj = ::get_slot_obj(slotbarHandler.scene, crew.countryId, crew.idInCountry)
+      obj = ::get_slot_obj(slotbarHandler.scene, crew.idCountry, crew.idInCountry)
       text = ::loc("slotbarPresetsTutorial/selectUnit")
       actionType = tutorAction.OBJ_CLICK
       accessKey = "J:X"

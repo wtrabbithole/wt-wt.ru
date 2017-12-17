@@ -45,7 +45,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     scene.findObject("btn_builder").setValue(::loc("mainmenu/btnBuilder"))
     showSceneBtn("btn_select", true)
 
-    needSlotbar = ::isUnitInSlotbar(unit)
+    needSlotbar = !::g_decorator.isPreviewingUgcSkin() && ::isUnitInSlotbar(unit)
     if (needSlotbar)
     {
       scene.findObject("wnd_frame").size = "1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar"

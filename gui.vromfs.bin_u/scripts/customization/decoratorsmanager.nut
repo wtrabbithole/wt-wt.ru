@@ -1,4 +1,5 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 const DEFAULT_SKIN_NAME = "default"
 
@@ -7,6 +8,16 @@ function on_dl_content_skins_invalidate()
 {
   ::g_decorator.clearCache()
 }
+
+function update_unit_skins_list(unitName)
+{
+  local unit = ::getAircraftByName(unitName)
+  if (unit)
+    unit.resetSkins()
+}
+
+//code callbacks for UGC
+ugcPreview.registerClientCb()
 
 ::g_decorator <- {
   cache = {}
@@ -311,6 +322,12 @@ function g_decorator::onEventSignOut(p)
 function g_decorator::onEventLoginComplete(p)
 {
   ::g_decorator.clearCache()
+}
+
+
+function g_decorator::isPreviewingUgcSkin()
+{
+  return ::has_feature("EnableUgcSkins") && ::g_decorator.previewedUgcSkinId != ""
 }
 
 ::subscribe_handler(::g_decorator, ::g_listener_priority.CONFIG_VALIDATION)

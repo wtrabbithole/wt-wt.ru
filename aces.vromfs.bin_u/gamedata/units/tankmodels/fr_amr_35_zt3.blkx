@@ -96,15 +96,6 @@
     "type": "typeTankDestroyer"
   },
   {
-    "customClassIco": "!#ui/unitskin#us_m18_hellcat_black_cat_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#us_m18_hellcat_black_cat"
-  },
-  {
-    "customTooltipImage": "ui/tanks/us_m18_hellcat_black_cat"
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -144,7 +135,7 @@
           "armorThickness": 13.0
         },
         "turret_02_side_dm": {
-          "armorThickness": 25.4
+          "armorThickness": 20.0
         }
       },
       "turret": {
@@ -311,6 +302,7 @@
         "wheel_r_top_04_dm": [],
         "wheel_r_top_05_dm": [],
         "wheel_r_top_06_dm": [],
+        "wheel_support_dm": [],
         "ex_armor_01_dm": []
       },
       "tracks": {
@@ -1548,7 +1540,7 @@
             "gunnerDm": "gunner_dm"
           },
           "limits": {
-            "yaw": [-10.0,10.0],
+            "yaw": [-5.0,5.0],
             "pitch": [-10.0,20.0]
           },
           "gunStabilizer": {
@@ -1789,7 +1781,7 @@
         "cutDamage": 1000.0,
         "deviation": 0.5,
         "rotation": 0.5,
-        "collisionNode": "cls_turret"
+        "collisionNode": "cls_gun"
       }
     }
   },
@@ -2288,9 +2280,9 @@
     "cockpit": {
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
-      "headPos": [0.0,4.0,-8.5],
-      "headPosOnShooting": [0.0,3.7,0.0],
-      "detectionHeight": 2.81
+      "headPos": [0.0,2.7,-4.5],
+      "headPosOnShooting": [0.0,2.3,0.0],
+      "detectionHeight": 1.88
     }
   },
   {

@@ -21,6 +21,12 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "support_unit_class": "structures/ussr_152mm_d1"
+  },
+  {
+    "support_unit_tag": "artillery"
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -90,15 +96,6 @@
     "type": "typeMediumTank"
   },
   {
-    "customClassIco": "!#ui/unitskin#fr_lorraine_40t_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#fr_lorraine_40t"
-  },
-  {
-    "customTooltipImage": "ui/tanks/fr_lorraine_40t"
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -146,6 +143,9 @@
         },
         "turret_03_top_dm": {
           "armorThickness": 8.0
+        },
+        "turret_03_front_dm": {
+          "armorThickness": 30.0
         }
       },
       "turret": {
@@ -280,6 +280,19 @@
           "armorThickness": 33.0
         }
       },
+      "body_shields": {
+        "armorClass": "tank_structural_steel",
+        "armorThickness": 5.0,
+        "hp": 1000.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "ex_decor_l_02_dm": [],
+        "ex_decor_r_02_dm": [],
+        "ex_decor_l_06_dm": [],
+        "ex_decor_r_05_dm": [],
+        "ex_decor_l_04_dm": [],
+        "ex_decor_r_03_dm": []
+      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 300.0,
@@ -338,8 +351,8 @@
       },
       "tracks": {
         "armorClass": "tank_traks",
-        "armorThickness": 30.0,
-        "hp": 400.0,
+        "armorThickness": 20.0,
+        "hp": 200.0,
         "track_r_dm": [],
         "track_l_dm": []
       },
@@ -1608,6 +1621,7 @@
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "maxAdditionalPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
           "autoLoader": true,
@@ -1637,16 +1651,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-6.0,13.0]
+            "pitch": [-8.0,15.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-177.0,1.5,13.0],
-            "lim2": [-177.0,-155.0,3.0,13.0],
-            "lim3": [-155.0,-130.0,0.0,13.0],
-            "lim4": [-130.0,130.0,-10.0,13.0],
-            "lim5": [130.0,155.0,0.0,13.0],
-            "lim6": [155.0,177.0,3.0,13.0],
-            "lim7": [177.0,180.0,1.5,13.0]
+            "lim1": [-180.0,-150.0,-3.0,12.0],
+            "lim2": [-150.0,150.0,-8.0,7.0],
+            "lim3": [150.0,180.0,-3.0,12.0]
           }
         }
       },
@@ -1725,7 +1735,7 @@
         "trackMass": 2500.0
       },
       "tracks": {
-        "animationMultiplier": 0.63,
+        "animationMultiplier": -0.63,
         "height": 0.085,
         "width": 0.5
       },
@@ -2329,7 +2339,7 @@
       "zoomInFov": 12.3,
       "sightFov": 8.0,
       "headPos": [0.0,4.0,-8.5],
-      "headPosOnShooting": [0.0,3.7,0.0],
+      "headPosOnShooting": [0.0,3.5,0.5],
       "detectionHeight": 2.95
     }
   },
@@ -2342,6 +2352,7 @@
       "new_tank_transmission": [],
       "new_tank_engine": [],
       "tank_camouflage": [],
+      "art_support": [],
       "tank_additional_armor": [],
       "manual_extinguisher": [],
       "tank_tool_kit": [],

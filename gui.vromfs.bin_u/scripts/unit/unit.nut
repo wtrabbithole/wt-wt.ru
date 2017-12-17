@@ -362,6 +362,11 @@ local Unit = class
     }
   }
 
+  function resetSkins()
+  {
+    skins = []
+  }
+
   function getSkins()
   {
     if (skins.len() == 0)

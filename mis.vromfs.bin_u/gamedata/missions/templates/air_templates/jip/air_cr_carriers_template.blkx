@@ -423,6 +423,7 @@
               "radius": -1.0,
               "target": "@cr_t1_carrier_name",
               "team": "A",
+              "object": "@cr_t1_carrier_name",
               "tags": {
                 "carrier_take_off": true
               }
@@ -561,6 +562,7 @@
               "radius": -1.0,
               "target": "@cr_t2_carrier_name",
               "team": "B",
+              "object": "@cr_t2_carrier_name",
               "tags": {
                 "carrier_take_off": true
               }
@@ -1062,7 +1064,7 @@
           },
           {
             "varSetRandomInt": {
-              "var": "cr_t1_carrier_random_idx",
+              "var": "cr_t1_carrier_respawn_idx",
               "from": 1,
               "to_not_including": 5
             }
@@ -1093,7 +1095,7 @@
           },
           {
             "varAddString": {
-              "value": "@cr_t1_carrier_random_idx",
+              "value": "@cr_t1_carrier_respawn_idx",
               "digits": 2,
               "var": "cr_t1_carrier_route_name"
             }
@@ -1169,7 +1171,7 @@
           },
           {
             "varSetRandomInt": {
-              "var": "cr_t2_carrier_random_idx",
+              "var": "cr_t2_carrier_respawn_idx",
               "from": 1,
               "to_not_including": 5
             }
@@ -1200,7 +1202,7 @@
           },
           {
             "varAddString": {
-              "value": "@cr_t2_carrier_random_idx",
+              "value": "@cr_t2_carrier_respawn_idx",
               "digits": 2,
               "var": "cr_t2_carrier_route_name"
             }
@@ -1456,6 +1458,16 @@
               "route": "@cr_t1_fleet_03_route_name",
               "object": "@cr_t1_carrier_fleet_03_name"
             }
+          },
+          {
+            "comment": {
+              "value": "включаем отслеживание перерождения"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "cr_t1_carrier_dead_start"
+            }
           }
         ],
         "else_actions": []
@@ -1666,6 +1678,16 @@
             "unitSetRoute": {
               "route": "@cr_t2_fleet_03_route_name",
               "object": "@cr_t2_carrier_fleet_03_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "включаем отслеживание перерождения"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "cr_t2_carrier_dead_start"
             }
           }
         ],
@@ -2726,8 +2748,8 @@
     "cr_t2_fleet_01_route_name": "",
     "cr_t2_fleet_02_route_name": "",
     "cr_t2_fleet_03_route_name": "",
-    "cr_t1_carrier_respawn_time": 600,
-    "cr_t2_carrier_respawn_time": 600,
+    "cr_t1_carrier_respawn_time": 60,
+    "cr_t2_carrier_respawn_time": 60,
     "cr_is_detect_on": false,
     "cr_t1_detection_range": 0.0,
     "cr_t2_detection_range": 0.0,
@@ -2735,7 +2757,9 @@
     "cr_detection_quest_is_on": false,
     "cr_destroy_quest_is_on": false,
     "cr_t1_respawns_left": 5,
-    "cr_t2_respawns_left": 5
+    "cr_t2_respawns_left": 5,
+    "cr_t1_carrier_respawn_idx": 0,
+    "cr_t2_carrier_respawn_idx": 0
   },
   "dialogs": [],
   "airfields": [],

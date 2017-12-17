@@ -17,7 +17,6 @@
 
 
 local time = require("scripts/time.nut")
-local guidParser = require("scripts/guidParser.nut")
 
 
 enum PRIZE_TYPE {
@@ -665,15 +664,13 @@ function PrizesView::getViewDataDecorator(prize, params = null)
 {
   local id = prize.resource
   local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
-  local isGuid = guidParser.isGuid(id)
-  local canShowTooltip = !isGuid
-  local isHave = !isGuid && decoratorType.isPlayerHaveDecorator(id)
+  local isHave = decoratorType.isPlayerHaveDecorator(id)
   local isReceivedPrizes = params?.receivedPrizes ?? false
 
   return {
     icon  = decoratorType.userlogPurchaseIcon
     title = decoratorType.getLocName(id, true)
-    tooltipId = canShowTooltip ? ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params) : null
+    tooltipId = ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params)
     commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
   }
 }

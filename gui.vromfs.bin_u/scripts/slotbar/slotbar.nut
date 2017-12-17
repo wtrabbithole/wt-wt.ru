@@ -262,7 +262,7 @@ function build_aircraft_item(id, air, params = {})
       resView.isElite = false
       resView.premiumPatternType = false
       resView.unitRarity = ""
-      resView.unitRankText = missionRules.getRandomUnitsGroupLocBattleRating(groupName)
+      resView.unitRankText = ""
       resView.tooltipId = ::g_tooltip_type.RANDOM_UNIT.getTooltipId(air.name, {groupName = groupName})
     }
 

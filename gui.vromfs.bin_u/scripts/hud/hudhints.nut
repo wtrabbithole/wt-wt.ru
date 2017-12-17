@@ -682,7 +682,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   EXTINGUISH_FIRE_HINT = {
-    hintType = ::g_hud_hint_types.ACTIONBAR
+    hintType = ::g_hud_hint_types.COMMON
     locId = "hints/extinguish_fire"
     noKeyLocId = "hints/extinguish_fire_nokey"
     getShortcuts = @(data) ::g_hud_action_bar_type.EXTINGUISHER.getVisualShortcut()
@@ -950,6 +950,14 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     locId = "HUD/TXT_CHOOSE_TARGET_FOR_SCOUTING"
     showEvent = "hint:choose_target_for_scouting"
     lifeTime = 3.0
+    shortcuts = "ID_LOCK_TARGET"
+  }
+
+  SELECT_TARGET_WITH_MIDDLE_FOR_SCOUTING = {
+    locId = "HUD/TXT_SELECT_TARGET_WITH_MIDDLE_FOR_SCOUTING"
+    showEvent = "hint:select_target_with_middle_for_scouting"
+    lifeTime = 3.0
+    shortcuts = "ID_LOCK_TARGET"
   }
 
   CHOOSE_GROUND_TARGET_FOR_SCOUTING = {
@@ -1051,6 +1059,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
         return "hints/secondary_success"
       return ""
     }
+
+    buildText = function(hintData)
+    {
+      local res = ::g_hud_hints._buildText.call(this, hintData)
+      local objText = hintData?.objectiveText
+      if (objText)
+        return res + "\n" + ::loc(objText)
+      return res
+    }
   }
 
   OBJECTIVE_FAIL = {
@@ -1072,6 +1089,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
       if (objType == ::OBJECTIVE_TYPE_SECONDARY)
         return "hints/secondary_fail"
       return ""
+    }
+
+    buildText = function(hintData)
+    {
+      local res = ::g_hud_hints._buildText.call(this, hintData)
+      local objText = hintData?.objectiveText
+      if (objText)
+        return res + "\n" + ::loc(objText)
+      return res
     }
   }
 

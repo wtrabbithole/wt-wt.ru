@@ -97,6 +97,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available()
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [globalEnv.EM_MOUSE_AIM]
@@ -628,6 +629,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_TANK
       values = ["none", "gm_zoom", "gm_sight_distance"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available() && ::has_feature("Tanks")
     }
 
   { id = "ID_TANK_SUSPENSION_HEADER", type = CONTROL_TYPE.SECTION }
@@ -819,6 +821,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
       values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available() && ::has_feature("Ships")
     }
 
   { id = "ID_SHIP_OTHER_HEADER", type = CONTROL_TYPE.SECTION }

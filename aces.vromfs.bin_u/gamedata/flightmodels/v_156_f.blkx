@@ -2000,7 +2000,7 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunDarne23.blk",
+          "blk": "gameData/Weapons/gunDarne23_turret.blk",
           "emitter": "gun1",
           "flash": "flare3",
           "dm": "gunner1_dm",
@@ -2039,14 +2039,9 @@
       },
       {
         "preset": {
-          "name": "v_156_f_2x75kg",
-          "blk": "gameData/FlightModels/weaponPresets/sb2u_2x75kg.blk"
-        }
-      },
-      {
-        "preset": {
-          "name": "v_156_f_2x150kg",
-          "blk": "gameData/FlightModels/weaponPresets/sb2u_2x150kg.blk"
+          "name": "v_156_f_2x100kg",
+          "blk": "gameData/FlightModels/weaponPresets/sb2u_2x150kg.blk",
+          "reqModification": "fr_100_gp_standart"
         }
       }
     ]
@@ -2169,60 +2164,54 @@
       "new_radiator": [],
       "new_compressor": [],
       "new_engine_injection": [],
-      "50cal_universal": [],
-      "50cal_ground_targets": [],
-      "50cal_tracers": [],
-      "50cal_stealth": [],
-      "bmg50_belt_pack": {
+      "7_5mm_universal": [],
+      "7_5mm_all_tracers": [],
+      "7_5mm_stealth": [],
+      "7_5mm_belt_pack": {
         "tier": 1
       },
-      "bmg50_new_gun": {
-        "reqModification": "bmg50_belt_pack",
+      "mac39_new_gun": {
+        "reqModification": "7_5mm_belt_pack",
         "tier": 2
       },
-      "bmg50_turret_belt_pack": {
+      "7_5mm_turret_ap": [],
+      "7_5mm_turret_ap_t": [],
+      "7_5mm_turret_belt_pack": {
         "tier": 3
       },
-      "bmg50_turret_new_gun": {
-        "reqModification": "bmg50_turret_belt_pack",
+      "mac39_turret_new_gun": {
+        "reqModification": "7_5mm_turret_belt_pack",
         "tier": 4
       },
-      "50cal_turret_ap": [],
-      "50cal_turret_api": [],
-      "fsbc_mk5": {
-        "tier": 1,
-        "modClass": "weapon"
-      },
-      "flbc_mk1": {
-        "tier": 3,
+      "fr_100_gp_standart": {
         "modClass": "weapon",
-        "reqModification": "fsbc_mk5"
+        "tier": 2
       }
     }
   },
   {
     "user_skin": [
       {
-        "name": "sb2u_2"
+        "name": "v_156_f"
       },
       {
         "replace_tex": {
-          "from": "sb2u_2_a*"
+          "from": "v_156_f_a*"
         }
       },
       {
         "replace_tex": {
-          "from": "sb2u_2_a_dmg*"
+          "from": "v_156_f_a_dmg*"
         }
       },
       {
         "replace_tex": {
-          "from": "sb2u_2_n*"
+          "from": "v_156_f_n*"
         }
       },
       {
         "replace_tex": {
-          "from": "sb2u_2_n_dmg*"
+          "from": "v_156_f_n_dmg*"
         }
       }
     ]

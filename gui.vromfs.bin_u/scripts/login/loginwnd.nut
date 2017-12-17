@@ -674,7 +674,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     if (::steam_is_running())
       return ::handlersManager.loadHandler(::gui_handlers.LoginWndHandlerSteam)
 */
-    msgBox("question_quit_game", ::loc("mainmenu/questionQuitGame"),
+    msgBox("login_question_quit_game", ::loc("mainmenu/questionQuitGame"),
       [
         ["yes", ::exit_game],
         ["no"]

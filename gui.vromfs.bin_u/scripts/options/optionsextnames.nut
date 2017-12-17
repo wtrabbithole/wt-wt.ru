@@ -351,6 +351,8 @@ enum AIR_MOUSE_USAGE {
 
     "USEROPT_RANK"
     "USEROPT_QUEUE_EVENT_CUSTOM_MODE"
+
+    "USEROPT_XBOX_CROSSPLAY_ENABLE"
 ]
 
 ::options_mode_name_by_idx <- {}

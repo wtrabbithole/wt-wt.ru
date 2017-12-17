@@ -206,7 +206,7 @@
             {
               "frame": {
                 "id": "decals_wnd",
-                "width": "1@countDecalsInWidth * 1@decalIconHeight + 3@framePadding + 1@scrollBarSize",
+                "width": "1@countDecalsInWidth * 1@customizationDecoratorBlockWidth + 1@scrollBarSize",
                 "pos": "pw-w, 0",
                 "position": "relative",
                 "frame_header": {
@@ -222,8 +222,7 @@
                 "tdiv": {
                   "id": "decals_list",
                   "width": "pw",
-                  "height": "1@countDecalsInHeight * 1@decalIconHeight",
-                  "pos": "50%pw-50%w, 1@frameHeaderHeight",
+                  "pos": "0, 1@frameHeaderHeight",
                   "position": "relative",
                   "behaviour": "posNavigator",
                   "moveX": "linear",

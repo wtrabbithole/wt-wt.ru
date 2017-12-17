@@ -96,15 +96,6 @@
     "type": "typeMediumTank"
   },
   {
-    "customClassIco": "!#ui/unitskin#fr_lorraine_40t_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#fr_lorraine_40t"
-  },
-  {
-    "customTooltipImage": "ui/tanks/fr_lorraine_40t"
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -116,13 +107,13 @@
         },
         "body_top_dm": {
           "armorThickness": 30.0
-        },
-        "superstructure_front_dm": {
-          "armorThickness": 79.0
         }
       },
       "RHA_hull": {
         "armorClass": "RHA_tank",
+        "superstructure_front_dm": {
+          "armorThickness": 50.0
+        },
         "superstructure_bottom_dm": {
           "armorThickness": 9.5
         },
@@ -156,6 +147,12 @@
       },
       "turret": {
         "armorClass": "CHA_tank",
+        "turret_05_back_dm": {
+          "armorThickness": 79.0
+        },
+        "turret_04_bottom_dm": {
+          "armorThickness": 50.0
+        },
         "turret_top_dm": {
           "armorThickness": 25.4
         },
@@ -181,16 +178,16 @@
           "armorThickness": 76.0
         },
         "turret_01_front_dm": {
-          "armorThickness": 80.8
+          "armorThickness": 30.0
         },
         "turret_02_front_dm": {
-          "armorThickness": 80.8
+          "armorThickness": 30.0
         },
         "gun_barrel_armor_dm": {
           "armorThickness": 51.0
         },
         "turret_back_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 30.0
         },
         "turret_bottom_dm": {
           "armorThickness": 25.0
@@ -199,19 +196,19 @@
           "armorThickness": 20.0
         },
         "turret_commander_dm": {
-          "armorThickness": 80.0
+          "armorThickness": 60.0
         },
         "turret_03_top_dm": {
-          "armorThickness": 80.8
+          "armorThickness": 41.5
         },
         "turret_04_top_dm": {
-          "armorThickness": 57.0
+          "armorThickness": 30.0
         },
         "turret_04_side_dm": {
-          "armorThickness": 80.8
+          "armorThickness": 60.0
         },
         "turret_04_back_dm": {
-          "armorThickness": 150.0
+          "armorThickness": 80.0
         },
         "turret_03_back_dm": {
           "armorThickness": 150.0
@@ -220,7 +217,7 @@
           "armorThickness": 57.0
         },
         "turret_03_bottom_dm": {
-          "armorThickness": 63.5
+          "armorThickness": 35.0
         }
       },
       "mask": {
@@ -335,28 +332,28 @@
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
           "hp": 300.0,
-          "ex_decor_06_dm": {
+          "ex_armor_01_dm": {
             "hp": 300.0
           },
-          "ex_decor_07_dm": {
+          "ex_armor_02_dm": {
             "hp": 300.0
           },
-          "ex_decor_08_dm": {
+          "ex_armor_03_dm": {
             "hp": 300.0
           },
-          "ex_decor_09_dm": {
+          "ex_armor_04_dm": {
             "hp": 300.0
           },
-          "ex_decor_17_dm": {
+          "ex_armor_05_dm": {
             "hp": 300.0
           },
-          "ex_decor_18_dm": {
+          "ex_armor_06_dm": {
             "hp": 300.0
           },
-          "ex_decor_19_dm": {
+          "ex_armor_07_dm": {
             "hp": 300.0
           },
-          "ex_decor_20_dm": {
+          "ex_armor_08_dm": {
             "hp": 300.0
           }
         }
@@ -1206,6 +1203,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-8.0,20.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-142.0,-2.0,20.0],
+            "lim2": [-142.0,142.0,-8.0,20.0],
+            "lim3": [142.0,180.0,-2.0,20.0]
           }
         }
       },
@@ -1970,7 +1972,7 @@
       "sightFov": 6.0,
       "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [0.0,3.5,0.0],
-      "detectionHeight": 2.85
+      "detectionHeight": 3.06
     }
   },
   {
@@ -2193,6 +2195,11 @@
                 "limits": {
                   "yaw": [-180.0,180.0],
                   "pitch": [-8.0,20.0]
+                },
+                "limitsTable": {
+                  "lim1": [-180.0,-142.0,-2.0,20.0],
+                  "lim2": [-142.0,142.0,-8.0,20.0],
+                  "lim3": [142.0,180.0,-2.0,20.0]
                 }
               }
             },

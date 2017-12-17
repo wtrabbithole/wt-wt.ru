@@ -1514,7 +1514,6 @@
     },
     "collisionProps": {
       "cls_turret": "convex_hull",
-      "cls_turret_02": "convex_hull",
       "cls_body": "convex_hull"
     },
     "engine": {
@@ -1612,7 +1611,7 @@
       "cutDamage": 2000.0,
       "deviation": 0.3,
       "rotation": 0.1,
-      "collisionNode": "cls_turret_01"
+      "collisionNode": "cls_turret"
     }
   },
   "unitFx": [
@@ -2179,6 +2178,25 @@
       "to": "ger_camo_winter_dunkelgelb*"
     }
   },
+  "default_skin": [
+    {
+      "name": "default"
+    },
+    {
+      "set_tex": {
+        "from": "pzkpfw_V_ersatz_m10_body_c*",
+        "to": "pzkpfw_V_ersatz_m10_skin_body_c*",
+        "param": "camo_skin_tex"
+      }
+    },
+    {
+      "set_tex": {
+        "from": "pzkpfw_V_ersatz_m10_turret_c*",
+        "to": "pzkpfw_V_ersatz_m10_skin_turret_c*",
+        "param": "camo_skin_tex"
+      }
+    }
+  ],
   "dmgAngles": {
     "hatch_05": [45.0,90.0]
   }

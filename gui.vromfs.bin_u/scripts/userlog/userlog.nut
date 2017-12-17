@@ -201,8 +201,12 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     nextLogId = 0
     haveNext = false
     addLogsPage()
-    if (selectedIndex < listObj.childrenCount())
+    local childrenCount = listObj.childrenCount() - (haveNext ? 1 : 0)
+    if (selectedIndex < childrenCount || childrenCount > 0)
+    {
+      selectedIndex = clamp(selectedIndex, 0, childrenCount - 1)
       listObj.setValue(selectedIndex);
+    }
     listObj.select()
 
     local msgObj = scene.findObject("middle_message")
@@ -381,22 +385,30 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemSelect(obj)
   {
-    if (obj)
+    if (!obj)
+      return
+
+    local index = obj.getValue();
+    local childrenCount = obj.childrenCount()
+    if (index != selectedIndex && selectedIndex != -1)
     {
-      local index = obj.getValue();
-      if (index != selectedIndex && selectedIndex != -1)
-      {
-        markItemSeen(selectedIndex);
-        if (selectedIndex < obj.childrenCount())
-          obj.getChild(selectedIndex).status=""
-      }
-      selectedIndex = index;
+      markItemSeen(selectedIndex);
+      if (selectedIndex < childrenCount)
+        obj.getChild(selectedIndex).status=""
     }
-    if (obj && haveNext && obj.getValue() == (obj.childrenCount()-1))
+    selectedIndex = index;
+
+    if (haveNext && selectedIndex == (childrenCount-1))
     {
       addLogsPage()
-      obj.getChild(obj.childrenCount()-1).scrollToView()
+      obj.setValue(selectedIndex)
     }
+    guiScene.applyPendingChanges(false)
+    local childObj = obj.getChild(selectedIndex)
+    if (!::check_obj(childObj))
+      return
+
+    childObj.scrollToView()
   }
 
   function onChangePage(obj)

@@ -3,6 +3,7 @@ local colorCorrector = require_native("colorCorrector")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
+local platformModule = require("scripts/clientState/platform.nut")
 
 const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
@@ -3745,6 +3746,14 @@ function get_option(type, context = null)
       descr.controlName <- "switchbox"
       descr.value = ::g_gamepad_cursor_controls.getValue()
       break
+
+    case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
+      descr.id = "xbox_crossplay"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = platformModule.isCrossPlayEnabled()
+      break
+
     default:
       print("[ERROR] Unsupported type " + type)
   }
@@ -4725,6 +4734,10 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
       ::queue_classes.Event.setShouldQueueCustomMode(::getTblValue("eventName", descr.context, ""), value)
+      break
+
+    case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
+      platformModule.setIsCrossPlayEnabled(value)
       break
 
     default:

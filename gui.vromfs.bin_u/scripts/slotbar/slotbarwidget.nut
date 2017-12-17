@@ -262,7 +262,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (beforeSlotbarSelect)
       beforeSlotbarSelect(
         Callback(@() ::check_obj(obj) && applySlotSelection(obj, selSlot), this),
-        Callback(@() ::check_obj(obj) && selectTblAircraft(obj, curSlotIdInCountry), this),
+        Callback(@() curSlotCountryId == selSlot.countryId && ::check_obj(obj)
+            && selectTblAircraft(obj, curSlotIdInCountry),
+          this),
         selSlot
       )
     else
@@ -357,6 +359,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!tblObj.childrenCount())
       return -1
+    if (tblObj.id != "airs_table_" + curSlotCountryId)
+    {
+      local tblObjId = tblObj.id
+      local countryId = curSlotCountryId
+      ::script_net_assert_once("bad slot country id", "Error: Try to select crew from wrong country")
+      return -1
+    }
     local slotListObj = tblObj.getChild(0)
     if (!::checkObj(slotListObj))
       return -1

@@ -1,3 +1,5 @@
+local guidParser = require("scripts/guidParser.nut")
+
 class Decorator
 {
   id = ""
@@ -5,6 +7,7 @@ class Decorator
   decoratorType = null
   unlockId = ""
   unlockBlk = null
+  isUGC = false
 
   category = ""
   catIndex = 0
@@ -37,6 +40,9 @@ class Decorator
     unlockBlk = ::g_unlocks.getUnlockById(unlockId)
     limit = ::getTblValue("limit", blk, decoratorType.defaultLimitUsage)
     category = ::getTblValue("category", blk, "")
+
+    if (guidParser.isGuid(id))
+      isUGC = true
 
     cost = decoratorType.getCost(id)
     forceShowInCustomization = ::getTblValue("forceShowInCustomization", blk, false)

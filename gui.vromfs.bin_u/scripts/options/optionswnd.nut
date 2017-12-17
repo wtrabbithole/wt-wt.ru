@@ -30,6 +30,7 @@ function get_main_options()
       ["options/mainParameters"],
       [::USEROPT_LANGUAGE, "spinner", ! isInFlight && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! isInFlight && !::is_ps4_or_xbox],
+      [::USEROPT_XBOX_CROSSPLAY_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_FONTS_CSS, "spinner"],
       [::USEROPT_CLUSTER, "spinner", ! isInFlight && ::is_platform_ps4],
 

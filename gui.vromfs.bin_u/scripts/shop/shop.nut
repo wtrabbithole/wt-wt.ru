@@ -1906,6 +1906,14 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
   }
 
+  function onEventCurrentGameModeIdChanged(params)
+  {
+    if (curDiffCode != -1)
+      return
+
+    doWhenActiveOnce("updateTreeDifficulty")
+  }
+
   function onUnitSelect() {}
   function selectRequiredUnit() {}
   function onSpendExcessExp() {}

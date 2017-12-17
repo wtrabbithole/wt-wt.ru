@@ -410,6 +410,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   //dependence by blk
   function onToShopButton() {}
   function onLinkAction(obj) {}
+  function onItemPreview(obj) {}
 
   function onUnitHover(obj)
   {

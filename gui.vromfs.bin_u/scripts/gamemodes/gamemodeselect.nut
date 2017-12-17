@@ -500,7 +500,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (enable != platformModule.isCrossPlayEnabled())
     {
-      ::saveLocalByAccount("isCrossPlayEnabled", enable)
+      platformModule.setIsCrossPlayEnabled(enable)
       doWhenActiveOnce("updateContent")
     }
 

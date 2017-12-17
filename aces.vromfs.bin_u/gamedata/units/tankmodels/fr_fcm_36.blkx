@@ -1433,6 +1433,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/37mm_SA_18_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -1487,6 +1488,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-17.0,20.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-148.0,-3.0,20.0],
+            "lim2": [-148.0,140.0,-17.0,20.0],
+            "lim3": [140.0,180.0,-3.0,20.0]
           }
         }
       },
@@ -1626,16 +1632,16 @@
         "Empty": 12000.0,
         "Fuel": 350.0,
         "TakeOff": 12350.0,
-        "momentOfInertia": [2.5,2.5,6.0],
-        "CenterOfGravity": [0.05,0.5,0.0],
-        "CenterOfGravityClampY": [0.0,0.7],
-        "AdvancedMass": true,
-        "trackMass": 800.0
+        "momentOfInertia": [2.0,2.0,4.0],
+        "CenterOfGravity": [-0.4,0.4,0.0],
+        "CenterOfGravityClampY": [0.0,0.4],
+        "AdvancedMass": false,
+        "trackMass": 500.0
       },
       "tracks": {
         "animationMultiplier": -0.63,
-        "height": 0.085,
-        "width": 0.5
+        "height": 0.05,
+        "width": 0.55
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -1676,11 +1682,11 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.05,-0.08,0.08],
-        "defaultGearRadius": 0.04,
+        "suspensionOffsets": [-0.05,-0.05,0.05],
+        "defaultGearRadius": 0.1,
         "frontBackGearRadius": 0.23,
-        "topGearRadius": 0.1,
-        "defaultDampeningForce": [150000.0,150000.0],
+        "topGearRadius": 0.05,
+        "defaultDampeningForce": [36000.0,36000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -2259,7 +2265,7 @@
     "cockpit": {
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
-      "headPos": [0.0,4.0,-8.5],
+      "headPos": [0.0,3.0,-5.0],
       "headPosOnShooting": [0.4,2.58,0.0],
       "detectionHeight": 2.5
     }

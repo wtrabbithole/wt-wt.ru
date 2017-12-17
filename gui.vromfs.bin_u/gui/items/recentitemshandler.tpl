@@ -18,8 +18,8 @@ fillBlock {
 }
 
 collapsedContainer {
+  <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
   shortInfoBlock {
-    <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
     shortHeaderText { text:t='<<collapsedText>>' }
     shortHeaderIcon { text:t='<<collapsedIcon>>' }
   }

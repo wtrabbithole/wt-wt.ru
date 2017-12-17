@@ -1872,7 +1872,9 @@
         }
       ],
       "collisionProps": {
-        "cls_body": "convex_hull"
+        "cls_body_01": "convex_hull",
+        "cls_body_02": "convex_hull",
+        "cls_body_03": "convex_hull"
       },
       "hydrodynamics": [
         {
@@ -2881,5 +2883,64 @@
         "tankRearmOnCaptureZone": true
       }
     }
+  },
+  {
+    "wreckedParts": [
+      {
+        "part": {
+          "node": "main_caliber_turret_01",
+          "idx": 1,
+          "mass": 780.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_body_02"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_armor_01",
+          "idx": 2,
+          "mass": 1020.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_armor_01_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_decor_02",
+          "idx": 3,
+          "mass": 900.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_decor_02_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "mast_01",
+          "idx": 4,
+          "mass": 970.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_body_03"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_decor_03",
+          "idx": 5,
+          "mass": 700.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_decor_03_dm"
+        }
+      }
+    ]
   }
 ]

@@ -34,11 +34,15 @@
 
     blk = blk.regaliaTagDecorators
 
+    local decoratorLists = []
     foreach (reward in rewardsList)
-    {
-      local block = blk[reward]
-      result.extend(getDecoratorsInternal(block, true))
-    }
+      decoratorLists.append(getDecoratorsInternal(blk[reward], true))
+    decoratorLists.sort(@(a, b) b.len() <=> a.len())
+
+    foreach (list in decoratorLists)
+      foreach (decorator in list)
+        if (!::u.search(result, @(d) d.id == decorator.id))
+          result.append(decorator)
 
     return result
   }
@@ -68,6 +72,7 @@
 
 class ClanTagDecorator
 {
+  id = null
   start = null
   end = null
   free = false
@@ -75,6 +80,7 @@ class ClanTagDecorator
   constructor(decoratorString, freeChange)
   {
     local halfLength = (0.5 * decoratorString.len()).tointeger()
+    id = decoratorString
     start = decoratorString.slice(0, halfLength)
     end = decoratorString.slice(halfLength)
     free = freeChange

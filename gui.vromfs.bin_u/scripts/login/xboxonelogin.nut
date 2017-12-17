@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
@@ -49,26 +51,32 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
     }
 
     needAutoLogin = false
-    ::scene_msg_box("xbox_cross_play",
-      guiScene,
-      ::loc("xbox/login/crossPlayRequest") +
-        "\n" +
-        ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
-      [
-        ["yes", ::Callback(@() performLogin(true), this) ],
-        ["no", ::Callback(@() performLogin(), this) ],
-        ["cancel", @() null ]
-      ],
-      "yes",
-      {
-        cancel_fn = @() null
-      }
-    )
+
+    if (!platformModule.isCrossPlayEnabled())
+    {
+      ::scene_msg_box("xbox_cross_play",
+        guiScene,
+        ::loc("xbox/login/crossPlayRequest") +
+          "\n" +
+          ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
+        [
+          ["yes", ::Callback(@() performLogin(true), this) ],
+          ["no", ::Callback(@() performLogin(), this) ],
+          ["cancel", @() null ]
+        ],
+        "yes",
+        {
+          cancel_fn = @() null
+        }
+      )
+    }
+    else
+      performLogin(true)
   }
 
   function performLogin(useCrossPlay = false)
   {
-    ::saveLocalByAccount("isCrossPlayEnabled", useCrossPlay)
+    platformModule.setIsCrossPlayEnabled(useCrossPlay)
     ::xbox_on_login(
       function(result, err_code)
       {

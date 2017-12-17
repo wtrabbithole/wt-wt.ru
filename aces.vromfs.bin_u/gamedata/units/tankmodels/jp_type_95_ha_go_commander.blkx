@@ -1304,6 +1304,170 @@
     "class_tags": []
   },
   {
+    "commonWeapons": [
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/groundModels_weapons/37mm_type_94_user_cannon.blk",
+          "shotFreq": 0.3,
+          "emitter": "bone_gun_barrel",
+          "flash": "emtr_gun_flame",
+          "defaultYaw": 0.0,
+          "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_dm",
+          "breechDP": "cannon_breech_dm",
+          "speedYaw": 15.7,
+          "speedPitch": 8.0,
+          "fireConeAngle": 1.0,
+          "bullets": 119,
+          "salvoAmount": 100.0,
+          "ChainfireTime": 0.0,
+          "DelayAfterShoot": 5.0,
+          "AttackMaxDistance": 1000.0,
+          "AttackMaxRadius": 1000.0,
+          "AttackMaxHeight": 1000.0,
+          "accuracyAir": 0.0,
+          "accuracyGnd": 1.5,
+          "errMeasureVel": 0.0,
+          "errMeasureVelFast": 0.0,
+          "errMeasureVelFwdShift": 0.0,
+          "errMeasureVelDir": 0.0,
+          "errTargettingOn100kmph": 0.0,
+          "errTargetting": 3.0,
+          "errExplTime": 0.0,
+          "turret": {
+            "head": "bone_turret",
+            "gun": "bone_gun",
+            "barrel": "bone_gun_barrel",
+            "gunnerDm": "commander_dm"
+          },
+          "limits": {
+            "yaw": [-180.0,180.0],
+            "pitch": [-15.0,20.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": true,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 40.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 10.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [8.0,0.2]
+              },
+              {
+                "row": [10.0,0.4]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "Weapon": [
+          {
+            "trigger": "gunner1"
+          },
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Type_97_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_v_01"
+          },
+          {
+            "flash": "emtr_mg_flame_01"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 5.0
+          },
+          {
+            "speedPitch": 4.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 3000
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_h_01",
+              "gun": "bone_mg_v_01",
+              "gunnerDm": "machine_gunner_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-22.0,22.0],
+              "pitch": [-22.0,22.0]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "weapon_presets": {
+      "preset": {
+        "name": "jp_type_95_ha_go_default",
+        "blk": "gameData/units/tankModels/weaponPresets/jp_type_95_ha_go_default.blk"
+      }
+    }
+  },
+  {
     "VehiclePhys": {
       "Mass": {
         "Empty": 7550.0,
@@ -2009,224 +2173,6 @@
     }
   },
   {
-    "skin": {
-      "name": "brown",
-      "replace_tex": {
-        "from": "jp_camo_artillery_brown*",
-        "to": "jp_camo_brown*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "grey",
-      "replace_tex": {
-        "from": "jp_camo_artillery_brown*",
-        "to": "jp_camo_warship_grey*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "green",
-      "replace_tex": {
-        "from": "jp_camo_artillery_brown*",
-        "to": "jp_camo_willow_green*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "early_era_brown_yellow_lines",
-      "replace_tex": {
-        "from": "jp_camo_artillery_brown*",
-        "to": "jp_camo_early_brown_yellow_lines*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "post_era_winter",
-      "replace_tex": {
-        "from": "jp_camo_artillery_brown*",
-        "to": "jp_camo_post_winter*"
-      }
-    }
-  },
-  {
-    "commonWeapons": [
-      {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/37mm_type_94_user_cannon.blk",
-          "shotFreq": 0.3,
-          "emitter": "bone_gun_barrel",
-          "flash": "emtr_gun_flame",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_dm",
-          "breechDP": "cannon_breech_dm",
-          "speedYaw": 15.7,
-          "speedPitch": 8.0,
-          "fireConeAngle": 1.0,
-          "bullets": 75,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_turret",
-            "gun": "bone_gun",
-            "barrel": "bone_gun_barrel",
-            "gunnerDm": "commander_dm"
-          },
-          "limits": {
-            "yaw": [-180.0,180.0],
-            "pitch": [-15.0,20.0]
-          },
-          "gunStabilizer": {
-            "hasVerticalGunFreeMode": true,
-            "hasHorizontal": false,
-            "horizontalOmegaMult": 1.0,
-            "horizontalSpeedLimitKPH": 40.0,
-            "hasVertical": true,
-            "verticalOmegaMult": 0.7,
-            "verticalSpeedLimitKPH": 10.0,
-            "speedFromVehicleVerticalMult": -1.0,
-            "errorKPHToDegrees": [
-              {
-                "row": [5.0,0.0]
-              },
-              {
-                "row": [8.0,0.2]
-              },
-              {
-                "row": [10.0,0.4]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "Weapon": [
-          {
-            "trigger": "gunner1"
-          },
-          {
-            "triggerGroup": "coaxial"
-          },
-          {
-            "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Type_97_user_machinegun.blk"
-          },
-          {
-            "emitter": "bone_mg_v_01"
-          },
-          {
-            "flash": "emtr_mg_flame_01"
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "speedYaw": 5.0
-          },
-          {
-            "speedPitch": 4.0
-          },
-          {
-            "fireConeAngle": 1.0
-          },
-          {
-            "bullets": 3000
-          },
-          {
-            "isBulletBelt": true
-          },
-          {
-            "fireConeAngle": 15.0
-          },
-          {
-            "ChainfireTime": 3.0
-          },
-          {
-            "DelayAfterShoot": 3.0
-          },
-          {
-            "accuracyAir": 0.0
-          },
-          {
-            "accuracyGnd": 0.0
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errMeasureVelFast": 0.0
-          },
-          {
-            "errMeasureVelFwdShift": 0.0
-          },
-          {
-            "errMeasureVelDir": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errTargetting": 3.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "bone_mg_h_01",
-              "gun": "bone_mg_v_01",
-              "gunnerDm": "gunner_dm"
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-22.0,22.0],
-              "pitch": [-22.0,22.0]
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "weapon_presets": {
-      "preset": {
-        "name": "jp_type_95_ha_go_commander_default",
-        "blk": "gameData/units/tankModels/weaponPresets/jp_type_95_ha_go_commander_default.blk"
-      }
-    }
-  },
-  {
-    "default_skin": {
-      "name": "type_95_ha_go_commander",
-      "replace_tex": {
-        "from": "jp_camo_artillery_brown*",
-        "to": "jp_camo_early_curve_stripes*"
-      }
-    }
-  },
-  {
     "modifications": {
       "tank_medical_kit": {
         "image": "#ui/gameuiskin#tank_reinforcement_jp"
@@ -2267,7 +2213,7 @@
                 "speedYaw": 15.7,
                 "speedPitch": 8.0,
                 "fireConeAngle": 1.0,
-                "bullets": 75,
+                "bullets": 119,
                 "salvoAmount": 100.0,
                 "ChainfireTime": 0.0,
                 "DelayAfterShoot": 5.0,
@@ -2394,7 +2340,7 @@
                   "turret": {
                     "head": "bone_mg_h_01",
                     "gun": "bone_mg_v_01",
-                    "gunnerDm": "gunner_dm"
+                    "gunnerDm": "machine_gunner_dm"
                   }
                 },
                 {
@@ -2452,6 +2398,60 @@
             }
           ]
         }
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "brown",
+      "replace_tex": {
+        "from": "jp_camo_artillery_brown*",
+        "to": "jp_camo_brown*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "grey",
+      "replace_tex": {
+        "from": "jp_camo_artillery_brown*",
+        "to": "jp_camo_warship_grey*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "green",
+      "replace_tex": {
+        "from": "jp_camo_artillery_brown*",
+        "to": "jp_camo_willow_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "early_era_brown_yellow_lines",
+      "replace_tex": {
+        "from": "jp_camo_artillery_brown*",
+        "to": "jp_camo_early_brown_yellow_lines*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "post_era_winter",
+      "replace_tex": {
+        "from": "jp_camo_artillery_brown*",
+        "to": "jp_camo_post_winter*"
+      }
+    }
+  },
+  {
+    "default_skin": {
+      "name": "type_95_ha_go_commander",
+      "replace_tex": {
+        "from": "jp_camo_artillery_brown*",
+        "to": "jp_camo_early_curve_stripes*"
       }
     }
   }

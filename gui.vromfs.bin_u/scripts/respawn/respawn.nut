@@ -149,8 +149,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     "respawn_options_table"
     "mis_obj_button_header"
     "chat_tabs"
+    "chat_prompt_place"
     "chat_input"
-    "gamercard_bottom_right"
+    function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
   focusItemAirsTable = 2
   focusItemChatTabs  = 4

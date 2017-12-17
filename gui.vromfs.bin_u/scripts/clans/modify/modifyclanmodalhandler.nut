@@ -15,6 +15,8 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
   newClanAnnouncement = ""
   lastShownReq = null
   focusArray = [
+    function() { return getCurrentTopGCPanel() }     //gamercard top
+    function() { return getCurGCDropdownMenu() }     //gamercard menu
     "newclan_type"
     "newclan_name"
     "newclan_tag"
@@ -22,6 +24,7 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
     "newclan_region"
     "newclan_description"
     "newclan_announcement"
+    function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
 
   // Abstract method.

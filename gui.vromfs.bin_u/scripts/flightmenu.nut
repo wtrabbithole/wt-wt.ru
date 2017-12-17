@@ -380,7 +380,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function onQuitGame(obj)
   {
-    msgBox("question_quit_game", ::loc("flightmenu/questionQuitGame"),
+    msgBox("question_quit_flight", ::loc("flightmenu/questionQuitGame"),
       [
         ["yes", ::exit_game],
         ["no", selectQuitBtn]

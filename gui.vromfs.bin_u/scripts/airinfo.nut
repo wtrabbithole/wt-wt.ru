@@ -357,14 +357,17 @@ function get_unit_actions_list(unit, handler, actions)
     }
     else if (action == "research")
     {
+      if (::isUnitResearched(unit))
+        continue
+
       local countryExp = ::shop_get_country_excess_exp(::getUnitCountry(unit), ::get_es_unit_type(unit))
       local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
       local getReqExp = reqExp < countryExp ? reqExp : countryExp
-      local needToFlushExp = handler.shopResearchMode && countryExp > 0
+      local needToFlushExp = handler?.shopResearchMode && countryExp > 0 //!!FIX ME: Direct search params in the handler not a good idea
 
       actionText = needToFlushExp
                    ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::Cost().setRp(getReqExp).tostring())
-                   : ( ::isUnitInResearch(unit) && handler.setResearchManually
+                   : ( ::isUnitInResearch(unit) && handler?.setResearchManually
                       ? ::loc("mainmenu/btnConvert")
                       : ::loc("mainmenu/btnResearch"))
       //icon       = "#ui/gameuiskin#slot_research"
@@ -372,7 +375,7 @@ function get_unit_actions_list(unit, handler, actions)
       enabled = showAction
       actionFunc = needToFlushExp
                   ? (@(handler) function() {handler.onSpendExcessExp()})(handler)
-                  : ( !handler.setResearchManually?
+                  : ( !handler?.setResearchManually?
                       (@(handler) function () { handler.onCloseShop() })(handler)
                       : (::isUnitInResearch(unit) ?
                           (@(unit, handler) function () { ::gui_modal_convertExp(unit, handler) })(unit, handler)

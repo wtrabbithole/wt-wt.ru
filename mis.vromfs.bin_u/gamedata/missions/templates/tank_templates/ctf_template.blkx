@@ -194,6 +194,8 @@
             "mapArea": true,
             "killOutOfBattleArea": true,
             "newGridHorizontalCellCount": 0,
+            "killArea": false,
+            "detectionArea": false,
             "area": "battlearea"
           }
         },
@@ -211,6 +213,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_tank_spawn",
             "team": "A",
             "tags": {
@@ -232,6 +235,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tank_spawn",
             "team": "B",
             "tags": {
@@ -2192,7 +2196,7 @@
           }
         },
         "actions": {
-          "unitPlayEffect": {
+          "__unitPlayEffect": {
             "effect_type": "specify",
             "effect": "waypoint_ground_arrow",
             "offset": [0.0,4.0,0.0],
@@ -2211,6 +2215,14 @@
             "target": "t2_players",
             "useForTriggerFiltered": true,
             "team": "Both"
+          },
+          "addTextToUnit": {
+            "langID": "icon/mpstats/raceLap",
+            "fontSize": "big",
+            "set": true,
+            "target_marking": 0,
+            "target": "t2_players",
+            "useForTriggerFiltered": true
           }
         },
         "else_actions": {
@@ -2243,7 +2255,7 @@
           }
         },
         "actions": {
-          "unitPlayEffect": {
+          "__unitPlayEffect": {
             "effect_type": "specify",
             "effect": "waypoint_ground_arrow",
             "offset": [0.0,4.0,0.0],
@@ -2262,6 +2274,14 @@
             "target": "t2_players",
             "useForTriggerFiltered": true,
             "team": "Both"
+          },
+          "addTextToUnit": {
+            "langID": "icon/mpstats/raceLap",
+            "fontSize": "big",
+            "set": false,
+            "target_marking": 0,
+            "target": "t2_players",
+            "useForTriggerFiltered": true
           },
           "unitMark": {
             "target_marking": 0,
@@ -2299,7 +2319,7 @@
           }
         },
         "actions": {
-          "unitPlayEffect": {
+          "__unitPlayEffect": {
             "effect_type": "specify",
             "effect": "waypoint_ground_arrow",
             "offset": [0.0,4.0,0.0],
@@ -2318,6 +2338,14 @@
             "target": "t1_players",
             "useForTriggerFiltered": true,
             "team": "Both"
+          },
+          "addTextToUnit": {
+            "langID": "icon/mpstats/raceLap",
+            "fontSize": "big",
+            "set": true,
+            "target_marking": 0,
+            "target": "t1_players",
+            "useForTriggerFiltered": true
           }
         },
         "else_actions": {
@@ -2350,7 +2378,7 @@
           }
         },
         "actions": {
-          "unitPlayEffect": {
+          "__unitPlayEffect": {
             "effect_type": "specify",
             "effect": "waypoint_ground_arrow",
             "offset": [0.0,4.0,0.0],
@@ -2369,6 +2397,14 @@
             "target": "t1_players",
             "useForTriggerFiltered": true,
             "team": "Both"
+          },
+          "addTextToUnit": {
+            "langID": "icon/mpstats/raceLap",
+            "fontSize": "big",
+            "set": false,
+            "target_marking": 0,
+            "target": "t1_players",
+            "useForTriggerFiltered": true
           },
           "unitMark": {
             "target_marking": 0,

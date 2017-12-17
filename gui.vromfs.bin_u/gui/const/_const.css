@@ -42,7 +42,8 @@
 @const debriefingUnlockIconSize: 75@sf/@pf;
 @const unlockStageIconSize: 32*@sf/@pf_outdated;
 
-@const decalIconHeight:100*@sf/@pf;
+@const decalItemMargin:4@dp;
+@const decalIconHeight:100*@sf/@pf \ 1;
 @const mainMenuButtonWidth: 0.26@sf;
 
 @const modIcoSize: 56*@sf/@pf_outdated;
@@ -95,12 +96,13 @@
 @const frameFooterHeight:      1@buttonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
 @const frameFooterHeightBigBattle:1@battleButtonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
 
-@const userDecalsDivHeight: 1.1*@decalIconHeight;
-@const freeDecalsHeight:      sh - 1@minYposWindow - 1@bh - 1@userDecalsDivHeight - 1@bottomBarHeight - 1@buttonHeight;
-@const freeAttachablesHeight: sh - 1@minYposWindow - 1@bh - 3@userDecalsDivHeight - 1@bottomBarHeight - 1@buttonHeight;
-@const countDecalsInWidth:  ((0.35*sw \@decalIconHeight) $max 4) $min 6;
-@const countDecalsInHeight:      (1@freeDecalsHeight      - 1@frameHeaderHeight - 0.02@scrn_tgt) \@decalIconHeight;
-@const countAttachablesInHeight: (1@freeAttachablesHeight - 1@frameHeaderHeight - 0.02@scrn_tgt) \@decalIconHeight;
+@const customizationDecoratorBlockWidth: 1@decalIconHeight + 2@decalItemMargin;
+@const customizationBlockWidth: 4@customizationDecoratorBlockWidth;
+@const freeDecalsHeight:      sh - 1@minYposWindow - 1@bh - 1@customizationDecoratorBlockWidth - 1@bottomBarHeight - 1@buttonHeight;
+@const freeAttachablesHeight: sh - 1@minYposWindow - 1@bh - 2@customizationDecoratorBlockWidth - 1@bottomBarHeight - 1@buttonHeight;
+@const countDecalsInWidth:  ((0.35*sw \@customizationDecoratorBlockWidth) $max 4) $min 6;
+@const countDecalsInHeight:      (1@freeDecalsHeight      - 1@frameHeaderHeight - 0.02@scrn_tgt) \@customizationDecoratorBlockWidth;
+@const countAttachablesInHeight: (1@freeAttachablesHeight - 1@frameHeaderHeight - 0.02@scrn_tgt) \@customizationDecoratorBlockWidth;
 
 @const titleLogoPlateHeight: (((1@scrn_tgt+200)\400) * 32) $max 64) $min 128;
 @const titleLogoPlateWidth: 2*@titleLogoPlateHeight;
@@ -265,8 +267,6 @@
 @const respawnOptListContainerWidth:(1@slotbarWidth1-8*@sf/@pf_outdated) $max (1@rw * (1-1@isWide));
 
 @const topMenuHoverMenuIndent: 0.01@sf;
-
-@const customizationBlockWidth: 4(1@decalIconHeight + 8@dp);
 
 @const shortcutUpDpAndStick: "J:Dpad.Up | J:L.Thumb.Up";
 @const shortcutUpDp: "J:Dpad.Up";

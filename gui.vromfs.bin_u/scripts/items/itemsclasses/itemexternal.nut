@@ -32,6 +32,8 @@ local ItemExternal = class extends ::BaseItem
         metaBlk = null
       }
     }
+
+    addLocalization()
   }
 
   function tryAddItem(itemDefDesc, itemDesc)
@@ -91,19 +93,7 @@ local ItemExternal = class extends ::BaseItem
 
   function canConsume()
   {
-    if (!metaBlk)
-      return false
-
-    if (metaBlk.unit && ::shop_is_aircraft_purchased(metaBlk.unit))
-      return false
-
-    if (metaBlk.resource) {
-      local type = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
-      if (type.isPlayerHaveDecorator(metaBlk.resource))
-       return false
-    }
-
-    return true
+    return false
   }
 
   function getMainActionName(colored = true, short = false)
@@ -119,8 +109,6 @@ local ItemExternal = class extends ::BaseItem
     local uid = uids[0]
 
     if (metaBlk) {
-      addLocalization()
-
       local blk = ::DataBlock()
       blk.setInt("itemId", uid.tointeger())
 

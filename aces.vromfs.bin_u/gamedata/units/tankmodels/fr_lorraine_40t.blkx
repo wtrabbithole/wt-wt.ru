@@ -132,7 +132,7 @@
           "armorThickness": 8.0
         },
         "turret_03_side_dm": {
-          "armorThickness": 25.0
+          "armorThickness": 30.0
         },
         "turret_02_back_dm": {
           "armorThickness": 8.0
@@ -206,6 +206,9 @@
         },
         "body_top_dm": {
           "armorThickness": 38.1
+        },
+        "turret_03_side_dm": {
+          "armorThickness": 30.0
         }
       },
       "optics": {
@@ -277,7 +280,7 @@
         }
       },
       "chassis": {
-        "armorClass": "tank_steel_wheels",
+        "armorClass": "car_wheels",
         "hp": 300.0,
         "armorThickness": 20.0,
         "wheel_r_01_dm": [],
@@ -298,22 +301,6 @@
         "wheel_l_07_dm": [],
         "wheel_l_08_dm": [],
         "wheel_l_09_dm": [],
-        "wheel_r_drive_dm": [],
-        "wheel_l_drive_dm": [],
-        "wheel_r_front_dm": [],
-        "wheel_l_front_dm": [],
-        "wheel_l_top_01_dm": [],
-        "wheel_l_top_02_dm": [],
-        "wheel_l_top_03_dm": [],
-        "wheel_l_top_04_dm": [],
-        "wheel_l_top_05_dm": [],
-        "wheel_l_top_06_dm": [],
-        "wheel_r_top_01_dm": [],
-        "wheel_r_top_02_dm": [],
-        "wheel_r_top_03_dm": [],
-        "wheel_r_top_04_dm": [],
-        "wheel_r_top_05_dm": [],
-        "wheel_r_top_06_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 30.0,
@@ -324,6 +311,27 @@
           "ex_armor_body_02_dm": {
             "hp": 300.0
           }
+        },
+        "front_back_whells": {
+          "armorClass": "tank_steel_wheels",
+          "hp": 300.0,
+          "armorThickness": 20.0,
+          "wheel_r_drive_dm": [],
+          "wheel_l_drive_dm": [],
+          "wheel_r_front_dm": [],
+          "wheel_l_front_dm": [],
+          "wheel_l_top_01_dm": [],
+          "wheel_l_top_02_dm": [],
+          "wheel_l_top_03_dm": [],
+          "wheel_l_top_04_dm": [],
+          "wheel_l_top_05_dm": [],
+          "wheel_l_top_06_dm": [],
+          "wheel_r_top_01_dm": [],
+          "wheel_r_top_02_dm": [],
+          "wheel_r_top_03_dm": [],
+          "wheel_r_top_04_dm": [],
+          "wheel_r_top_05_dm": [],
+          "wheel_r_top_06_dm": []
         }
       },
       "tracks": {
@@ -1596,6 +1604,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/100mm_SA_47_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -1630,13 +1639,9 @@
             "pitch": [-8.0,13.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-177.0,1.5,13.0],
-            "lim2": [-177.0,-155.0,3.0,13.0],
-            "lim3": [-155.0,-130.0,0.0,13.0],
-            "lim4": [-130.0,130.0,-10.0,13.0],
-            "lim5": [130.0,155.0,0.0,13.0],
-            "lim6": [155.0,177.0,3.0,13.0],
-            "lim7": [177.0,180.0,1.5,13.0]
+            "lim1": [-180.0,-154.0,-4.0,13.0],
+            "lim2": [-154.0,154.0,-8.0,13.0],
+            "lim3": [154.0,180.0,-4.0,13.0]
           }
         }
       },
@@ -1708,7 +1713,7 @@
         "Fuel": 700.0,
         "TakeOff": 39700.0,
         "momentOfInertia": [2.5,2.5,6.0],
-        "CenterOfGravity": [-0.05,0.5,0.0],
+        "CenterOfGravity": [-0.25,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
         "AdvancedMass": false,
         "trackMass": 2500.0
@@ -1770,11 +1775,11 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.2,-0.14,0.12],
+        "suspensionOffsets": [-0.13,-0.13,0.05],
         "defaultGearRadius": 0.4,
         "frontBackGearRadius": 0.27,
         "topGearRadius": 0.15,
-        "defaultDampeningForce": [150000.0,150000.0],
+        "defaultDampeningForce": [120000.0,120000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -2332,7 +2337,7 @@
       "sightFov": 8.0,
       "headPos": [0.0,4.0,-8.5],
       "headPosOnShooting": [0.0,3.7,0.0],
-      "detectionHeight": 2.48
+      "detectionHeight": 2.83
     }
   },
   {

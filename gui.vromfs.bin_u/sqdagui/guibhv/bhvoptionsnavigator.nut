@@ -152,7 +152,7 @@ class gui_bhv.OptionsNavigator
 
     do {
       curRow += add_val
-    } while (curRow<numRows && curRow>=minVal && obj.getChild(curRow).inactive == "yes")
+    } while (curRow<numRows && curRow>=minVal && !isSelectable(obj.getChild(curRow)))
     if (curRow >= numRows)
     {
       obj.sendNotify("wrap_down")
@@ -244,6 +244,11 @@ class gui_bhv.OptionsNavigator
   function setValue(obj, value)
   {
     selectCell(obj, value, 0)
+  }
+
+  function isSelectable(obj)
+  {
+    return obj.isVisible() && obj.isEnabled() && obj.inactive!="yes"
   }
 }
 

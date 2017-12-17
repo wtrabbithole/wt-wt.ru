@@ -96,15 +96,6 @@
     "type": "typeLightTank"
   },
   {
-    "customClassIco": "!#ui/unitskin#fr_amx_13_75_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#fr_amx_13_75"
-  },
-  {
-    "customTooltipImage": "ui/tanks/fr_amx_13_75"
-  },
-  {
     "rearmSmokeTimeOnField": 60.0
   },
   {
@@ -318,9 +309,7 @@
         "createSecondaryShatters": false,
         "ex_decor_01_dm": [],
         "ex_decor_05_dm": [],
-        "ex_decor_06_dm": [],
-        "ex_decor_07_dm": [],
-        "ex_decor_08_dm": []
+        "ex_decor_06_dm": []
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -1430,7 +1419,7 @@
           "speedYaw": 30.0,
           "speedPitch": 4.5,
           "fireConeAngle": 1.0,
-          "bullets": 36,
+          "bullets": 37,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1456,9 +1445,11 @@
             "pitch": [-6.0,13.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-100.0,-6.0,8.0],
-            "lim2": [-100.0,100.0,-6.0,13.0],
-            "lim3": [100.0,180.0,-6.0,8.0]
+            "lim1": [-180.0,-22.0,-6.0,13.0],
+            "lim2": [-22.0,-15.0,-3.0,13.0],
+            "lim3": [-15.0,15.0,-6.0,13.0],
+            "lim4": [15.0,22.0,-3.0,13.0],
+            "lim5": [22.0,180.0,-6.0,13.0]
           }
         }
       },
@@ -1480,7 +1471,7 @@
             "flash": "emtr_mg_flame_01"
           },
           {
-            "barrelDP": "gun_barrel_03_dm"
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2184,116 +2175,127 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammo_turret_01_dm": {
-          "count": 1
-        },
-        "ammo_turret_02_dm": {
-          "count": 1
-        },
-        "ammo_turret_03_dm": {
-          "count": 1
-        },
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
-        },
-        "ammo_turret_06_dm": {
-          "count": 1
-        },
-        "ammo_turret_07_dm": {
-          "count": 1
-        },
-        "ammo_turret_08_dm": {
-          "count": 1
-        },
-        "ammo_turret_09_dm": {
-          "count": 1
-        },
-        "ammo_body_01_dm": {
-          "count": 1
-        },
-        "ammo_body_02_dm": {
-          "count": 1
-        },
-        "ammo_body_03_dm": {
-          "count": 1
-        },
-        "ammo_body_04_dm": {
-          "count": 1
-        },
-        "ammo_body_05_dm": {
-          "count": 1
-        },
-        "ammo_body_06_dm": {
-          "count": 1
-        },
-        "ammo_body_07_dm": {
-          "count": 1
-        },
-        "ammo_body_08_dm": {
-          "count": 1
-        },
-        "ammo_body_09_dm": {
-          "count": 1
-        },
-        "ammo_body_10_dm": {
-          "count": 1
-        },
-        "ammo_body_11_dm": {
-          "count": 1
-        },
-        "ammo_body_12_dm": {
-          "count": 1
-        },
-        "ammo_body_13_dm": {
-          "count": 1
-        },
-        "ammo_body_14_dm": {
-          "count": 1
-        },
-        "ammo_body_15_dm": {
-          "count": 1
-        },
-        "ammo_turret_10_dm": {
-          "count": 1
-        },
-        "ammo_turret_11_dm": {
-          "count": 1
-        },
-        "ammo_turret_12_dm": {
-          "count": 1
-        },
-        "ammo_turret_13_dm": {
-          "count": 1
-        },
-        "ammo_turret_14_dm": {
-          "count": 1
-        },
-        "ammo_turret_15_dm": {
-          "count": 1
-        },
-        "ammo_turret_16_dm": {
-          "count": 1
-        },
-        "ammo_turret_17_dm": {
-          "count": 1
-        },
-        "ammo_turret_18_dm": {
-          "count": 1
-        },
-        "ammo_turret_19_dm": {
-          "count": 1
-        },
-        "ammo_turret_20_dm": {
-          "count": 1
-        },
-        "ammo_turret_21_dm": {
-          "count": 1
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_04_dm": {
+            "count": 1
+          },
+          "ammo_turret_06_dm": {
+            "count": 1
+          },
+          "ammo_turret_01_dm": {
+            "count": 1
+          },
+          "ammo_turret_02_dm": {
+            "count": 1
+          },
+          "ammo_turret_03_dm": {
+            "count": 1
+          },
+          "ammo_turret_05_dm": {
+            "count": 1
+          },
+          "ammo_turret_07_dm": {
+            "count": 1
+          },
+          "ammo_turret_08_dm": {
+            "count": 1
+          },
+          "ammo_turret_09_dm": {
+            "count": 1
+          },
+          "ammo_turret_10_dm": {
+            "count": 1
+          },
+          "ammo_turret_11_dm": {
+            "count": 1
+          },
+          "ammo_turret_12_dm": {
+            "count": 1
+          },
+          "ammo_turret_13_dm": {
+            "count": 1
+          },
+          "ammo_turret_14_dm": {
+            "count": 1
+          },
+          "ammo_turret_15_dm": {
+            "count": 1
+          },
+          "ammo_turret_16_dm": {
+            "count": 1
+          },
+          "ammo_turret_17_dm": {
+            "count": 1
+          },
+          "ammo_body_01_dm": {
+            "count": 1
+          },
+          "ammo_body_02_dm": {
+            "count": 1
+          },
+          "ammo_body_03_dm": {
+            "count": 1
+          },
+          "ammo_body_04_dm": {
+            "count": 1
+          },
+          "ammo_body_05_dm": {
+            "count": 1
+          },
+          "ammo_body_06_dm": {
+            "count": 1
+          },
+          "ammo_body_07_dm": {
+            "count": 1
+          },
+          "ammo_body_08_dm": {
+            "count": 1
+          },
+          "ammo_body_09_dm": {
+            "count": 1
+          },
+          "ammo_body_10_dm": {
+            "count": 1
+          },
+          "ammo_body_11_dm": {
+            "count": 1
+          },
+          "ammo_body_12_dm": {
+            "count": 1
+          },
+          "ammo_body_13_dm": {
+            "count": 1
+          },
+          "ammo_body_14_dm": {
+            "count": 1
+          },
+          "ammo_body_15_dm": {
+            "count": 1
+          },
+          "ammo_body_16_dm": {
+            "count": 1
+          },
+          "ammo_body_17_dm": {
+            "count": 1
+          },
+          "ammo_body_18_dm": {
+            "count": 1
+          },
+          "ammo_body_19_dm": {
+            "count": 1
+          },
+          "ammo_body_20_dm": {
+            "count": 1
+          }
         }
       }
     }
@@ -2339,7 +2341,7 @@
                 "speedYaw": 30.0,
                 "speedPitch": 4.5,
                 "fireConeAngle": 1.0,
-                "bullets": 36,
+                "bullets": 37,
                 "salvoAmount": 100.0,
                 "ChainfireTime": 0.0,
                 "DelayAfterShoot": 5.0,
@@ -2365,9 +2367,11 @@
                   "pitch": [-6.0,13.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-100.0,-6.0,8.0],
-                  "lim2": [-100.0,100.0,-6.0,13.0],
-                  "lim3": [100.0,180.0,-6.0,8.0]
+                  "lim1": [-180.0,-22.0,-6.0,13.0],
+                  "lim2": [-22.0,-15.0,-3.0,13.0],
+                  "lim3": [-15.0,15.0,-6.0,13.0],
+                  "lim4": [15.0,22.0,-3.0,13.0],
+                  "lim5": [22.0,180.0,-6.0,13.0]
                 }
               }
             },
@@ -2389,7 +2393,7 @@
                   "flash": "emtr_mg_flame_01"
                 },
                 {
-                  "barrelDP": "gun_barrel_03_dm"
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "defaultYaw": 0.0

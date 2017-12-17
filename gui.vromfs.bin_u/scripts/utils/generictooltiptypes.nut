@@ -105,6 +105,8 @@
       local desc = decorator.getDesc()
       if (::getTblValue("isRevenueShare", config))
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
+      if (decorator.isUGC)
+        desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/user_generated"))
 
       local warbondId = ::getTblValue("wbId", params)
       if (warbondId)

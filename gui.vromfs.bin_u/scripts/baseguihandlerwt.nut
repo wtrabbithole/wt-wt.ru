@@ -64,6 +64,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   wndGameMode = -1
 
   wndControlsAllowMask = null //enum CtrlsInGui, when null, it set by wndType
+  widgetsList = null
 
   function constructor(gui_scene, params = {})
   {
@@ -1049,6 +1050,11 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
     wndControlsAllowMask = mask
     ::handlersManager.updateControlsAllowMask()
+  }
+
+  function getWidgetsList()
+  {
+    return widgetsList
   }
 
   function onHeaderTabSelect() {} //empty frame

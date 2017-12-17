@@ -595,4 +595,13 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   get_option_use_perfect_rangefinder = function() { return false }
   set_option_use_perfect_rangefinder = function(value) {}
+
+  is_mouse_available = @() true
 })
+
+//----------------------------wop_1_73_5_X---------------------------------//
+::apply_compatibilities({
+  encode_uri_component = function(text) { return "" }
+  encode_base64 = function(text) { return "" }
+})
+
