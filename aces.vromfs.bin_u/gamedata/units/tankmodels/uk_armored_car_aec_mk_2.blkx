@@ -90,15 +90,6 @@
     "type": "typeLightTank"
   },
   {
-    "customClassIco": "!#ui/unitskin#us_m18_hellcat_black_cat_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#us_m18_hellcat_black_cat"
-  },
-  {
-    "customTooltipImage": "ui/tanks/us_m18_hellcat_black_cat"
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -112,7 +103,7 @@
           "armorThickness": 10.0
         },
         "superstructure_front_dm": {
-          "armorThickness": 57.0
+          "armorThickness": 10.0
         },
         "superstructure_top_dm": {
           "armorThickness": 16.0
@@ -139,7 +130,7 @@
           "armorThickness": 9.0
         },
         "turret_01_bottom_dm": {
-          "armorThickness": 9.0
+          "armorThickness": 16.0
         },
         "body_front_dm": {
           "armorThickness": 25.0
@@ -149,19 +140,19 @@
         "armorClass": "RHA_tank",
         "hp": 10000.0,
         "turret_front_dm": {
-          "armorThickness": 31.75
+          "armorThickness": 57.0
         },
         "turret_side_dm": {
-          "armorThickness": 25.4
+          "armorThickness": 25.0
         },
         "turret_back_dm": {
-          "armorThickness": 25.4
+          "armorThickness": 25.0
         },
         "turret_top_dm": {
-          "armorThickness": 12.7
+          "armorThickness": 16.0
         },
         "gun_mask_dm": {
-          "armorThickness": 31.75
+          "armorThickness": 31.0
         }
       },
       "optics": {
@@ -1485,6 +1476,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-12.5,20.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-165.0,-9.0,20.0],
+            "lim2": [-165.0,165.0,-12.5,20.0],
+            "lim3": [165.0,180.0,-9.0,20.0]
           }
         }
       },
@@ -2210,6 +2206,8 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_uk"
       },
+      "airstrike": [],
+      "improved_optics": [],
       "57mm_britain_6pdr_APC": [],
       "57mm_britain_6pdr_APC_ammo_pack": [],
       "57mm_britain_6pdr_APCBC": [],

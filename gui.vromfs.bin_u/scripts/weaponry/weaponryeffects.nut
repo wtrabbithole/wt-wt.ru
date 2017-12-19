@@ -1,3 +1,5 @@
+local string = ::require("sqStdLibs/common/string.nut")
+
 const GOOD_COLOR = "@goodTextColor"
 const BAD_COLOR = "@badTextColor"
 const NEUTRAL_COLOR = "@activeTextColor"
@@ -40,7 +42,7 @@ local effectTypeTemplate = {
     if (!::u.isString(measureType))
       res = countMeasure(measureType, isNumeric ? value : 0.0)
     else
-      res = (isNumeric ? ::round_by_value(value, presize).tostring() : value)
+      res = (isNumeric ? string.roundedFloatToString(::round_by_value(value, presize), presize) : value)
         + (measureType.len() ? ::loc("measureUnits/" + measureType) : "")
     if (!isNumeric)
       return res

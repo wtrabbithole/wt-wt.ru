@@ -5888,7 +5888,7 @@
   "v_156_f": {
     "type": "aircraft",
     "hangar_place": "aircraft",
-    "testFlight": "testFlight_midway_usa",
+    "testFlight": "testFlight_france",
     "releaseDate": "2017-12-18 00:00:00",
     "info": {
       "engine1_dm": {
@@ -5902,7 +5902,7 @@
     },
     "tags": {
       "ally": true,
-      "country_usa": true,
+      "country_france": true,
       "type_bomber": true,
       "type_dive_bomber": true,
       "type_naval_bomber": true,
@@ -5961,7 +5961,7 @@
   "v_156_b1": {
     "type": "aircraft",
     "hangar_place": "aircraft",
-    "testFlight": "testFlight_midway_usa",
+    "testFlight": "testFlight_britain_navy",
     "releaseDate": "2017-12-18 00:00:00",
     "info": {
       "engine1_dm": {
@@ -5975,7 +5975,7 @@
     },
     "tags": {
       "ally": true,
-      "country_usa": true,
+      "country_britain": true,
       "type_bomber": true,
       "type_dive_bomber": true,
       "type_naval_bomber": true,
@@ -24748,8 +24748,8 @@
     "info": {
       "engine1_dm": {
         "manufacturer": "klimov",
-        "model": "rd-10",
-        "mass": 900.0
+        "model": "rd-500",
+        "mass": 567.0
       },
       "tanks_params": {
         "protected": true
@@ -24779,17 +24779,17 @@
       }
     },
     "Shop": {
-      "maxAltitude": 13250.0,
-      "maxSpeed": 209.722,
-      "turnTime": 18.531,
-      "airfieldLen": 366.119,
-      "maxSpeedAlt": 4000.0,
-      "climbSpeed": 23.0,
-      "climbTime": 175.954,
-      "climbAlt": 3000.0,
-      "wingLoading": 190.0,
-      "thrustToWeightRatio": 0.32,
-      "rollRate": 184.0
+      "maxAltitude": 14500.0,
+      "maxSpeed": 258.0,
+      "turnTime": 19.0,
+      "airfieldLen": 650.0,
+      "maxSpeedAlt": 0.0,
+      "climbSpeed": 45.0,
+      "climbTime": 170.0,
+      "climbAlt": 6000.0,
+      "wingLoading": 218.0,
+      "thrustToWeightRatio": 0.52,
+      "rollRate": 120.0
     }
   },
   "xf5f": {
@@ -32238,15 +32238,15 @@
       }
     },
     "Shop": {
-      "maxAltitude": 14965.0,
-      "maxSpeed": 259.166,
-      "turnTime": 26.0,
+      "maxAltitude": 10668.0,
+      "maxSpeed": 235.0,
+      "turnTime": 30.0,
       "airfieldLen": 2800.0,
-      "climbTime": 258.0,
-      "maxSpeedAlt": 0.0,
+      "climbTime": 400.0,
+      "maxSpeedAlt": 1524.0,
       "climbAlt": 6096.0,
-      "climbSpeed": 27.4,
-      "wingLoading": 338.0,
+      "climbSpeed": 18.75,
+      "wingLoading": 300.0,
       "thrustToWeightRatio": 0.16,
       "rollRate": 133.0
     }
@@ -46834,7 +46834,13 @@
     "tags": {
       "country_britain": true,
       "tank": true,
-      "type_light_tank": true
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
+    },
+    "Shop": {
+      "armorThicknessHull": [25.0,16.0,16.0],
+      "armorThicknessTurret": [57.0,25.0,25.0]
     }
   },
   "uk_armored_car_mk_2_aa": {
@@ -47150,6 +47156,36 @@
       "armorThicknessTurret": [0.0,0.0,0.0]
     }
   },
+  "fr_amx_30_dca": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_tank_ERA",
+    "releaseDate": "2017-12-18 00:00:00",
+    "tags": {
+      "country_france": true,
+      "tank": true,
+      "type_spaa": true
+    },
+    "Shop": {
+      "armorThicknessHull": [79.0,35.0,30.0],
+      "armorThicknessTurret": [30.0,20.0,20.0]
+    }
+  },
+  "fr_amx_13_dca_40": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_tank_ussr",
+    "releaseDate": "2017-12-18 00:00:00",
+    "tags": {
+      "country_france": true,
+      "tank": true,
+      "type_spaa": true
+    },
+    "Shop": {
+      "armorThicknessHull": [40.0,20.0,15.0],
+      "armorThicknessTurret": [20.0,20.0,20.0]
+    }
+  },
   "fr_m4a4_cn_75_50": {
     "type": "tank",
     "hangar_place": "tank",
@@ -47281,8 +47317,8 @@
       "type_tank_destroyer": true
     },
     "Shop": {
-      "armorThicknessHull": [70.0,70.0,55.0],
-      "armorThicknessTurret": [56.0,56.0,56.0]
+      "armorThicknessHull": [120.0,50.0,35.0],
+      "armorThicknessTurret": [110.0,60.0,20.0]
     }
   },
   "fr_arl_44_acl1": {
@@ -47296,8 +47332,8 @@
       "type_heavy_tank": true
     },
     "Shop": {
-      "armorThicknessHull": [70.0,70.0,55.0],
-      "armorThicknessTurret": [56.0,56.0,56.0]
+      "armorThicknessHull": [60.0,50.0,35.0],
+      "armorThicknessTurret": [100.0,60.0,30.0]
     }
   },
   "fr_amc_35": {

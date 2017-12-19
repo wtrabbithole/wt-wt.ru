@@ -1516,58 +1516,13 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.18,-0.16,0.11],
+        "suspensionOffsets": [-0.18,-0.02,0.02],
         "defaultGearRadius": 0.15,
         "topGearRadius": 0.13,
         "frontBackGearRadius": 0.28,
         "defaultDampeningForce": [120000.0,120000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
-      },
-      "physNode": [
-        {
-          "type": "verlet_string"
-        },
-        {
-          "stiffness": 1.0
-        },
-        {
-          "straightening": 0.5
-        },
-        {
-          "point": {
-            "name": "antenna",
-            "mass": 1.0,
-            "fixed": true
-          }
-        },
-        {
-          "point": {
-            "name": "bone_phx_antenna",
-            "mass": 3.0
-          }
-        }
-      ]
-    }
-  },
-  {
-    "PhysSys": {
-      "find": "^bone_suspension_(._\\d\\d)$",
-      "points": {
-        "suspension": {
-          "name": "bone_suspension_$1"
-        },
-        "wheel": {
-          "name": "bone_wheel_$1",
-          "limitMin": [-1000.0,0.0,0.0],
-          "limitMax": [1000.0,0.0,0.0]
-        }
-      },
-      "constraints": {
-        "edge": {
-          "from": "suspension",
-          "to": "wheel"
-        }
       }
     }
   },

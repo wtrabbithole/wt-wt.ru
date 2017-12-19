@@ -947,15 +947,9 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   CHOOSE_TARGET_FOR_SCOUTING = {
+    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "HUD/TXT_CHOOSE_TARGET_FOR_SCOUTING"
     showEvent = "hint:choose_target_for_scouting"
-    lifeTime = 3.0
-    shortcuts = "ID_LOCK_TARGET"
-  }
-
-  SELECT_TARGET_WITH_MIDDLE_FOR_SCOUTING = {
-    locId = "HUD/TXT_SELECT_TARGET_WITH_MIDDLE_FOR_SCOUTING"
-    showEvent = "hint:select_target_with_middle_for_scouting"
     lifeTime = 3.0
     shortcuts = "ID_LOCK_TARGET"
   }
@@ -977,6 +971,13 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     showEvent = "hint:target_already_scouted"
     lifeTime = 3.0
   }
+
+  MUST_SEE_SCOUTING_TARGET = {
+    locId = "HUD/TXT_MUST_SEE_SCOUTING_TARGET"
+    showEvent = "hint:must_see_scouting_target"
+    lifeTime = 3.0
+  }
+
 
   FUNNEL_DAMAGED = {
     locId = "HUD/TXT_FUNNEL_DAMAGED"

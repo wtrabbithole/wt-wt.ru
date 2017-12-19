@@ -792,8 +792,9 @@ function get_debriefing_result_event_id()
 function debriefing_join_rows_into_row(exp, destRowId, srcRowIdsArray)
 {
   local tables = [ exp ]
-  foreach (unitId, tbl in exp.aircrafts)
-    tables.append(tbl)
+  if (exp?.aircrafts)
+    foreach (unitId, tbl in exp.aircrafts)
+      tables.append(tbl)
 
   foreach (tbl in tables)
     foreach (prefix in [ "tbl", "wp", "exp", "num" ])

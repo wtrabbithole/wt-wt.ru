@@ -29,6 +29,9 @@ function g_mplayer_param_type::_newer(old, new) {
   printFunc = function(val, player) {
     return val != null ? val.tostring() : ""
   }
+  getTooltip = function(val, player, defText) {
+    return defText
+  }
   diffFunc = ::g_mplayer_param_type._substract
 
   width = null
@@ -169,6 +172,32 @@ function g_mplayer_param_type::_newer(old, new) {
     fontIcon = "#icon/mpstats/assists"
     tooltip = "#multiplayer/assists"
     isVisibleByGameType = @(gt) ::is_mode_with_teams(gt)
+    getVal = function(player) {
+      local res = 0
+      foreach (rowId in [ "assists", "scoutKills" ])
+        res += player?[rowId] ?? 0
+      return res
+    }
+    printFunc = function(val, player) {
+      return getVal(player).tostring()
+    }
+    getTooltip = function(val, player, defText) {
+      if (!(player?.scoutKills ?? 0))
+        return defText
+
+      local rows = [
+        { id = "assists",    label = "multiplayer/assists" }
+        { id = "scoutKills", label = "multiplayer/scout_kills" }
+      ]
+      local res = []
+      foreach (row in rows)
+      {
+        local val = player?[row.id] ?? 0
+        if (val)
+          res.append(::loc(row.label) + ::loc("ui/colon") + val)
+      }
+      return ::g_string.implode(res, "\n")
+    }
   }
 
   DEATHS = {

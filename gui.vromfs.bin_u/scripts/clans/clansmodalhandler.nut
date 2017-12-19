@@ -554,6 +554,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     local buttons = {
       btn_clan_info = clan != null && clansTableObj && clansTableObj.isFocused()
       btn_membership_req = !::is_in_clan() && clan != null && ::clan_get_requested_clan_id() != clan
+        && clansTableObj && clansTableObj.isFocused()
       mid_nav_bar = clanByRow.len() > 0
     }
 

@@ -279,13 +279,16 @@
                   "pos": "0, 0.02@scrn_tgt",
                   "position": "relative",
                   "class": "mpTable",
-                  "behavior": "TableNavigator",
+                  "behavior": "posNavigator",
                   "navigatorShortcuts": "yes",
                   "cur_row": "0",
                   "cur_col": "0",
                   "on_dbl_click": "onStart",
                   "on_click": "onSessionSelect",
-                  "selfFocusBorder": "yes"
+                  "on_select": "onSessionSelect",
+                  "clearOnFocusLost": "no",
+                  "on_wrap_up": "onWrapUp",
+                  "on_wrap_down": "onWrapDown"
                 }
               }
             ]

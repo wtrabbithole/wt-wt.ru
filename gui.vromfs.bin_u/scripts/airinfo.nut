@@ -1040,14 +1040,16 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
     air._modificatorsRequested = true
     calculate_tank_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
       air._modificatorsRequested = false
-      air.modificators = {
-        arcade = effect.arcade
-        historical = effect.historical
-        fullreal = effect.fullreal
+      if (effect)
+      {
+        air.modificators = {
+          arcade = effect.arcade
+          historical = effect.historical
+          fullreal = effect.fullreal
+        }
+        if (!air.modificatorsBase) // TODO: Needs tank params _without_ user progress here.
+          air.modificatorsBase = air.modificators
       }
-      if (!air.modificatorsBase) // TODO: Needs tank params _without_ user progress here.
-        air.modificatorsBase = air.modificators
-
       ::_afterUpdateAirModificators(air, callBack)
     })(air, callBack))
     return false
@@ -1056,14 +1058,16 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
   air._modificatorsRequested = true
   ::calculate_min_and_max_parameters(air.name, this, (@(air, callBack) function(effect, ...) {
     air._modificatorsRequested = false
-    air.modificators = {
-      arcade = effect.arcade
-      historical = effect.historical
-      fullreal = effect.fullreal
+    if (effect)
+    {
+      air.modificators = {
+        arcade = effect.arcade
+        historical = effect.historical
+        fullreal = effect.fullreal
+      }
+      air.minChars = effect.min
+      air.maxChars = effect.max
     }
-    air.minChars = effect.min
-    air.maxChars = effect.max
-
     ::_afterUpdateAirModificators(air, callBack)
   })(air, callBack))
   return false
