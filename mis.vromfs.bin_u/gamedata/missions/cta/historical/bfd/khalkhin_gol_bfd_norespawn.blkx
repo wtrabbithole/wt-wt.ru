@@ -481,7 +481,7 @@
       "conditions": [],
       "actions": [
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -507,7 +507,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -533,13 +533,13 @@
           }
         },
         {
-          "objectGroupSetAirfield": {
+          "__objectGroupSetAirfield": {
             "army": 1,
             "target": "t1_airfield"
           }
         },
         {
-          "objectGroupSetAirfield": {
+          "__objectGroupSetAirfield": {
             "army": 2,
             "target": "t2_airfield"
           }
@@ -9300,6 +9300,26 @@
         [0.0,38000.0,0.0],
         [0.0,0.0,38000.0],
         [-15935.9,473.9,3871.65]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-39.1576,0.0,297.433],
+        [0.0,300.0,0.0],
+        [-297.433,0.0,-39.1576],
+        [-8905.59,500.0,-16238.1]
+      ],
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [126.785,0.0,-271.892],
+        [0.0,300.0,0.0],
+        [271.892,0.0,126.785],
+        [-22093.1,500.0,25352.5]
       ],
       "props": []
     }

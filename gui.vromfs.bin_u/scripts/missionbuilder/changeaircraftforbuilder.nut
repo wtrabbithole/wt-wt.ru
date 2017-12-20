@@ -12,7 +12,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
          showEmptySlot = false,
          hasActions = false,
          afterSlotbarSelect = updateButtons
-         onSlotDblClick = onSlotDblClick
+         onSlotDblClick = @(crew) onApply()
        },
        "take-aircraft-slotbar"
      )
@@ -35,7 +35,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
     goBack()
   }
 
-  function onSlotDblClick(crew)
+  function onApply()
   {
     if (::isTank(::show_aircraft))
       msgBox("not_available", ::loc("mainmenu/cantTestDrive"), [["ok", function() {} ]], "ok", { cancel_fn = function() {}})

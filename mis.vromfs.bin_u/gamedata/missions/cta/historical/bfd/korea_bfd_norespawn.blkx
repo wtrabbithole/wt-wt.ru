@@ -216,8 +216,6 @@
       "level": "levels/korea.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/korea_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/korea_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -284,6 +284,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -625,7 +628,7 @@
           ]
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -638,6 +641,7 @@
             "isIndividual": false,
             "removeAreas": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -650,7 +654,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -663,6 +667,7 @@
             "isIndividual": false,
             "removeAreas": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -714,6 +719,9 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
               "target": "bridge_05"
             },
             {
@@ -727,6 +735,7 @@
         {
           "__unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "bridge_03",
             "team": "B"
           }
@@ -734,6 +743,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -741,12 +751,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
@@ -766,6 +780,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_tanks_squad"
             },
@@ -788,6 +805,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t1_trucks_squad",
             "targetGnd": false,
             "accuracy": 0.3,
@@ -796,6 +814,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_movable_units_squad"
             },
@@ -894,9 +915,6 @@
       "actions": {
         "unitDamage": [
           {
-            "partName": "body_dm"
-          },
-          {
             "power": 1.0
           },
           {
@@ -922,6 +940,9 @@
           },
           {
             "target": "bridge_04"
+          },
+          {
+            "partName": "body_dm"
           },
           {
             "doExplosion": true
@@ -11497,6 +11518,26 @@
         [10682.5,70.5,-15431.7]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-114.805,0.0,-277.164],
+        [0.0,300.0,0.0],
+        [277.164,0.0,-114.805],
+        [18475.4,500.0,11190.0]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [286.115,0.0,90.2115],
+        [0.0,300.0,0.0],
+        [-90.2115,0.0,286.115],
+        [-14196.2,500.0,-16572.7]
+      ],
       "props": []
     }
   },

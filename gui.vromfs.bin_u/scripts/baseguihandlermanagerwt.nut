@@ -289,6 +289,22 @@ function handlersManager::_updateControlsAllowMask()
   //dlog(::format("GP: controls changed to 0x%X", curControlsAllowMask))
 }
 
+function handlersManager::_updateWidgets()
+{
+  local widgetsList = []
+
+  foreach(group in handlers)
+    foreach(h in group)
+      if (isHandlerValid(h, true) && h.isSceneActive() && h?.getWidgetsList)
+      {
+        local wList = h.getWidgetsList()
+        if (wList)
+          widgetsList.extend(wList)
+      }
+
+  ::call_darg("updateWidgets", widgetsList)
+}
+
 function handlersManager::calcCurrentSceneBgBlur()
 {
   foreach(wndType, group in handlers)
@@ -321,6 +337,7 @@ function handlersManager::_updateSceneBgBlur(forced = false)
 function handlersManager::onActiveHandlersChanged()
 {
   _updateControlsAllowMask()
+  _updateWidgets()
   _updateSceneBgBlur()
   ::broadcastEvent("ActiveHandlersChanged")
 }
@@ -328,6 +345,7 @@ function handlersManager::onActiveHandlersChanged()
 function handlersManager::onEventWaitBoxCreated(p)
 {
   _updateControlsAllowMask()
+  _updateWidgets()
   _updateSceneBgBlur()
 }
 

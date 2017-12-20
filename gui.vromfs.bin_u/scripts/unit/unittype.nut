@@ -49,6 +49,7 @@ enum UNIT_TYPE_ORDER
   getLocName = function() { return ::loc(::format("unit_type/%s", tag), "") }
   canUseSeveralBulletsForGun = false
   modClassOrder = []
+  isSkinAutoSelectAvailable = @() false
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_unit_type", {
@@ -115,6 +116,7 @@ enum UNIT_TYPE_ORDER
     }
     canUseSeveralBulletsForGun = true
     modClassOrder = ["mobility", "protection", "firepower"]
+    isSkinAutoSelectAvailable = @() ::has_feature("SkinAutoSelect")
   }
 
   SHIP = {

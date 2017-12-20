@@ -41,11 +41,17 @@
           }
         }
       },
-      "listbox": {
+      "VerticalListBox": {
         "id": "items_list",
         "width": "pw",
         "height": "fh",
         "flow": "vertical",
+        "overflow-y": "auto",
+        "clearOnFocusLost": "no",
+        "mouse-focusable": "yes",
+        "focus": "yes",
+        "navigator": "posNavigator",
+        "navigatorShortcuts": "yes",
         "on_select": "onItemSelect",
         "on_wrap_up": "onWrapUp",
         "on_wrap_down": "onWrapDown"

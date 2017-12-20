@@ -361,6 +361,8 @@ function trophyReward::getRewardsListViewData(config, params = {})
       && isRewardMultiAward(singleReward))
     params.header <- ::TrophyMultiAward(::DataBlockAdapter(singleReward)).getName()
 
+  params.receivedPrizes <- true
+
   return ::PrizesView.getPrizesListView(rewardsList, params)
 }
 

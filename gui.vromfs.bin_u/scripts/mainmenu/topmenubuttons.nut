@@ -150,7 +150,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   EXIT = {
     text = "#mainmenu/btnExit"
     onClickFunc = function(...) {
-      ::add_msg_box("question_quit_game", ::loc("mainmenu/questionQuitGame"),
+      ::add_msg_box("topmenu_question_quit_game", ::loc("mainmenu/questionQuitGame"),
         [
           ["yes", ::exit_game],
           ["no", @() null ]

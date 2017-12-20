@@ -105,6 +105,8 @@
       local desc = decorator.getDesc()
       if (::getTblValue("isRevenueShare", config))
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
+      if (decorator.isUGC)
+        desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/user_generated"))
 
       local warbondId = ::getTblValue("wbId", params)
       if (warbondId)
@@ -146,31 +148,32 @@
       local cObj = obj.findObject("conditions")
       cObj.show(true)
 
-      local conditionsText = config ? ::UnlockConditions.getConditionsText(config.conditions, config.curVal, config.maxVal) : ""
-      local iconName = ""
-      if (conditionsText == "")
+      local isDefaultSkin = ::g_unlocks.isDefaultSkin(id)
+      local isTrophyContent  = params?.showAsTrophyContent ?? false
+      local isReceivedPrizes = params?.receivedPrizes      ?? false
+
+      local iconName = isDefaultSkin ? ""
+        : isAllowed ? "favorite"
+        : "locked"
+
+      local conditionsText = !isTrophyContent && !isReceivedPrizes && config ?
+        ::UnlockConditions.getConditionsText(config.conditions, config.curVal, config.maxVal) : ""
+
+      if (!isDefaultSkin && conditionsText == "")
       {
         if (isAllowed)
         {
-          if (!::g_unlocks.isDefaultSkin(id))
-          {
-            iconName = "favorite"
-            conditionsText = ::loc("shop/unit_bought")
-          }
+          conditionsText = ::loc("shop/unit_bought")
+          if (isTrophyContent && !isReceivedPrizes)
+            conditionsText += "\n" + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
         }
+        else if (isTrophyContent)
+          conditionsText = ::loc("mainmenu/itemCanBeReceived")
         else if (canBuy)
-        {
-          iconName = "locked"
           conditionsText = ::loc("shop/object/can_be_purchased")
-        }
         else
-        {
-          iconName = "locked"
           conditionsText = ::loc("multiplayer/notAvailable")
-        }
       }
-      else
-        iconName = isAllowed ? "favorite" : "locked"
 
       local dObj = cObj.findObject("unlock_description")
       dObj.setValue(conditionsText)

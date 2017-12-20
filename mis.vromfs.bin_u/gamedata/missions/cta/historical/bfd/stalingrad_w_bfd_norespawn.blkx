@@ -216,8 +216,6 @@
       "level": "levels/stalingrad_w.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/stalingrad_w_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "eastern",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "event",
+      "locName": "missions/stalingrad_w_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 3800,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -294,6 +294,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -557,9 +560,6 @@
         {
           "unitDamage": [
             {
-              "partName": "body_dm"
-            },
-            {
               "power": 1.0
             },
             {
@@ -584,13 +584,15 @@
               "target": "bridge_61"
             },
             {
+              "partName": "body_dm"
+            },
+            {
               "doExplosion": true
             }
           ]
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -598,12 +600,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_23",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -611,14 +613,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_24",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": [
-            {
-              "partName": "body_dm"
-            },
             {
               "power": 1.0
             },
@@ -644,15 +644,15 @@
               "target": "bridge_31"
             },
             {
+              "partName": "body_dm"
+            },
+            {
               "doExplosion": true
             }
           ]
         },
         {
           "unitDamage": [
-            {
-              "partName": "body_dm"
-            },
             {
               "power": 1.0
             },
@@ -678,13 +678,15 @@
               "target": "bridge_20"
             },
             {
+              "partName": "body_dm"
+            },
+            {
               "doExplosion": true
             }
           ]
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -692,12 +694,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_21",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -705,12 +707,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_06",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -718,12 +720,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_03",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -731,12 +733,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_09",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -744,12 +746,12 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_62",
+            "partName": "body_dm",
             "doExplosion": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -757,6 +759,7 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "bridge_08",
+            "partName": "body_dm",
             "doExplosion": true
           }
         }
@@ -819,6 +822,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -846,6 +852,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t1_trucks_aaa_squad",
             "targetGnd": false,
             "accuracy": 0.3,
@@ -854,6 +861,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t2_big_aaa_squad",
             "targetGnd": false,
             "accuracy": 0.3,
@@ -862,6 +870,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t2_small_aaa_squad",
             "targetGnd": false,
             "accuracy": 0.3,
@@ -870,6 +879,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_def_aaa_squad"
             },
@@ -899,6 +911,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -906,12 +919,13 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -925,6 +939,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "object": "t1_airfield_target",
@@ -939,7 +954,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -953,6 +968,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "object": "t2_airfield_target",
@@ -981,6 +997,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_movable_units_squad"
             },

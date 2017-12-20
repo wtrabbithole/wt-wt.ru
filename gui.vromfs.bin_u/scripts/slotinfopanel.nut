@@ -85,7 +85,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(unitInfoObj))
     {
       local handler = ::handlersManager.getActiveBaseHandler()
-      local hasSlotbar = handler && ::checkObj(handler.getSlotbarScene())
+      local hasSlotbar = handler && handler.getSlotbar()
       unitInfoObj["max-height"] = unitInfoObj[hasSlotbar ? "maxHeightWithSlotbar" : "maxHeightWithoutSlotbar"]
     }
 

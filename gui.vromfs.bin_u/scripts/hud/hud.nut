@@ -60,6 +60,11 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName         = "gui/hud/hud.blk"
   keepLoaded           = true
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_FULL
+  widgetsList = [
+    {
+      widgetId = DargWidgets.HUD
+    }
+  ]
 
   ucWarningActive   = false
   ucWarningTimeShow = 0.0

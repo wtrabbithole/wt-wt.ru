@@ -176,6 +176,10 @@ function get_briefing_options(gm, gt, missionBlk)
   if (missionBlk.paramExists("disableAirfields"))
     optionItems.append([::USEROPT_DISABLE_AIRFIELDS, "spinner"])
 
+  if (missionBlk.isCustomVisualFilterAllowed!= false && gm == ::GM_SKIRMISH
+      && (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")) && ::ugc_tags_presets.len() > 0)
+    optionItems.append([::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox"])
+
   if (gm == ::GM_DYNAMIC)
   {
     if (missionBlk.paramExists("takeoff_mode"))
@@ -659,6 +663,10 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       if (obj)
         ::mission_settings[option.sideTag + "_bitmask"] <- obj.getValue()
     }
+
+    value = getOptValue(::USEROPT_UGC_ALLOWED_TAGS_PRESET, false)
+    if (value!=null)
+      misBlk.setStr("allowedTagsPreset", value)
 
     if (gt & ::GT_RACE)
     {

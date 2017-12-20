@@ -152,7 +152,9 @@ class SlotbarPresetsTutorial
 
     // This update shows player that preset was
     // actually changed behind tutorial dim.
-    ::top_menu_handler.reinitSlotbarAction()
+    local slotbar = ::top_menu_handler.getSlotbar()
+    if (slotbar)
+      slotbar.forceUpdate()
 
     if (!startUnitSelectStep())
       startPressToBattleButtonStep()
@@ -199,6 +201,9 @@ class SlotbarPresetsTutorial
    */
   function startUnitSelectStep()
   {
+    local slotbarHandler = currentHandler.getSlotbar()
+    if (!slotbarHandler)
+      return false
     if (::game_mode_manager.isUnitAllowedForGameMode(::show_aircraft))
       return false
     local currentPreset = ::slotbarPresets.getCurrentPreset(currentCountry)
@@ -215,7 +220,7 @@ class SlotbarPresetsTutorial
 
     crewIdInCountry = crew.idInCountry
     local steps = [{
-      obj = ::get_slot_obj(currentHandler.getSlotbarScene(), crew.countryId, crew.idInCountry)
+      obj = ::get_slot_obj(slotbarHandler.scene, crew.idCountry, crew.idInCountry)
       text = ::loc("slotbarPresetsTutorial/selectUnit")
       actionType = tutorAction.OBJ_CLICK
       accessKey = "J:X"
@@ -230,7 +235,8 @@ class SlotbarPresetsTutorial
   {
     if (checkCurrentTutorialCanceled())
       return
-    currentHandler.selectCrew(crewIdInCountry)
+    local slotbar = currentHandler.getSlotbar()
+    slotbar.selectCrew(crewIdInCountry)
     startPressToBattleButtonStep()
   }
 

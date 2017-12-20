@@ -1298,11 +1298,11 @@ function get_shortcut_frame_for_help(shortcut)
     {
       local mouseBtnImg = "controlsHelpMouseBtn { background-image:t='#ui/gameuiskin#%s'; }"
       if (shortcut.btn[k] == 0)
-        buttonFrame = format(mouseBtnImg, "help_mouse_left");
+        buttonFrame = format(mouseBtnImg, "mouse_left");
       else if (shortcut.btn[k] == 1)
-        buttonFrame = format(mouseBtnImg, "help_mouse_right");
+        buttonFrame = format(mouseBtnImg, "mouse_right");
       else if (shortcut.btn[k] == 2)
-        buttonFrame = format(mouseBtnImg, "help_mouse_middle");
+        buttonFrame = format(mouseBtnImg, "mouse_center");
     }
 
     if (shortcut.dev[k] == ::JOYSTICK_DEVICE_ID)

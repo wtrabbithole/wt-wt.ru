@@ -58,8 +58,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     ::UNLOCKABLE_TITLE,
     ::UNLOCKABLE_MEDAL,
     ::UNLOCKABLE_DECAL,
-    ::UNLOCKABLE_TROPHY
-    ::UNLOCKABLE_TROPHY_PSN
+    ::UNLOCKABLE_TROPHY,
+    ::UNLOCKABLE_TROPHY_PSN,
+    ::UNLOCKABLE_TROPHY_XBOXONE,
     ::UNLOCKABLE_TROPHY_STEAM
   ]
 

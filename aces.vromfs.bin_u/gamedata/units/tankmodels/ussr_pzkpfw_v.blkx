@@ -1731,6 +1731,40 @@
     "headPosOnShooting": [-0.5,3.8,0.5],
     "detectionHeight": 3.0
   },
+  "ammoLoadDistribution": {
+    "primaryShells": {
+      "ammo_body_l_02_dm": {
+        "count": 9
+      },
+      "ammo_body_l_01_dm": {
+        "count": 9
+      },
+      "ammo_body_r_02_dm": {
+        "count": 9
+      },
+      "ammo_body_r_01_dm": {
+        "count": 9
+      },
+      "ammo_body_05_dm": {
+        "count": 15
+      },
+      "ammo_body_04_dm": {
+        "count": 12
+      },
+      "ammo_body_02_dm": {
+        "count": 3
+      },
+      "ammo_body_01_dm": {
+        "count": 6
+      },
+      "ammo_body_l_03_dm": {
+        "count": 4
+      },
+      "ammo_body_03_dm": {
+        "count": 3
+      }
+    }
+  },
   "DamageParts": {
     "formatVersion": 2,
     "armorClass": "RHA_tank",
@@ -2170,6 +2204,23 @@
     {
       "replace_tex": {
         "from": "ussr_camo_green*"
+      }
+    }
+  ],
+  "skin": [
+    {
+      "name": "winter"
+    },
+    {
+      "replace_tex": {
+        "from": "ger_camo_dunkelgelb*",
+        "to": "ussr_camo_winter*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter*"
       }
     }
   ],

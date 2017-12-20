@@ -493,6 +493,7 @@ local time = require("scripts/time.nut")
     {
       setScene(inScene, inTimers)
       timers.removeTimer(rewardClearTimer)
+      clearRewardMessage()
     }
 
     onMessage = function (messageData)

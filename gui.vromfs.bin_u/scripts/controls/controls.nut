@@ -97,6 +97,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available()
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [globalEnv.EM_MOUSE_AIM]
@@ -628,6 +629,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_TANK
       values = ["none", "gm_zoom", "gm_sight_distance"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available() && ::has_feature("Tanks")
     }
 
   { id = "ID_TANK_SUSPENSION_HEADER", type = CONTROL_TYPE.SECTION }
@@ -663,19 +665,11 @@ function get_favorite_voice_message_option(index)
     }
     { id="ID_SCOUT"
       checkGroup = ctrlGroups.TANK,
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_COMMA]
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_V]
       checkAssign = false
       showFunc = @() ::has_feature("ActiveScouting")
     }
 
-    { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.TANK|ctrlGroups.SHIP, checkAssign = false
-      autobind = ["ID_FIRE_GM", "ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
-    }
-    { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.TANK|ctrlGroups.SHIP, checkAssign = false
-      autobind_sc = @() get_is_console_mode_force_enabled() ?
-        [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.MOUSE_MIDDLE_BUTTON]
-    }
-    { id="ID_ARTILLERY_CANCEL", checkGroup = ctrlGroups.TANK|ctrlGroups.SHIP, checkAssign = false}
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SHORT_STOP",               checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -827,6 +821,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
       values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available() && ::has_feature("Ships")
     }
 
   { id = "ID_SHIP_OTHER_HEADER", type = CONTROL_TYPE.SECTION }
@@ -854,6 +849,13 @@ function get_favorite_voice_message_option(index)
     {
       id = "ID_SHIP_ACTION_BAR_ITEM_4",
       autobind = ["ID_ACTION_BAR_ITEM_4"]
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+
+    {
+      id = "ID_SHIP_ACTION_BAR_ITEM_5",
+      autobind = ["ID_ACTION_BAR_ITEM_5"]
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
@@ -934,6 +936,16 @@ function get_favorite_voice_message_option(index)
       condition = @() ::gchat_is_voice_enabled()
       showFunc = @() ::has_feature("Voice")
     }
+
+  { id = "ID_COMMON_ARTILLERY_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false
+      autobind = ["ID_FIRE_GM", "ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
+    }
+    { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false
+      autobind_sc = @() get_is_console_mode_force_enabled() ?
+        [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.MOUSE_MIDDLE_BUTTON]
+    }
+    { id="ID_ARTILLERY_CANCEL", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false}
 
   { id = "ID_COMMON_INTERFACE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_FLIGHTMENU_SETUP",  checkGroup = ctrlGroups.COMMON, checkAssign = false }
@@ -1345,7 +1357,11 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_ACTION_BAR_ITEM_2",
   "ID_SHIP_ACTION_BAR_ITEM_3",
   "ID_SHIP_ACTION_BAR_ITEM_4",
+  "ID_SHIP_ACTION_BAR_ITEM_5",
+  "ID_SHIP_ACTION_BAR_ITEM_6",
   "ID_SHIP_ACTION_BAR_ITEM_11",
+  "ID_REPAIR_BREACHES",
+  "ID_SHIP_ACTION_BAR_ITEM_10",
   "ID_LOCK_TARGET",
   "ID_SHOW_HERO_MODULES",
 

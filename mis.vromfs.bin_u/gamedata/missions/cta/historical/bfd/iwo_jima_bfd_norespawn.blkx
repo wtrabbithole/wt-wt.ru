@@ -216,8 +216,6 @@
       "level": "levels/iwo_jima.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/iwo_jima_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/iwo_jima_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 3000,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -284,6 +284,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -444,7 +447,7 @@
       "conditions": [],
       "actions": [
         {
-          "__missionMarkAsRespawnPoint": {
+          "missionMarkAsRespawnPoint": {
             "loc_name": "missions/air_spawn1",
             "spawnEffect": false,
             "isAirfield": false,
@@ -458,6 +461,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_common_fighters_spawn",
             "team": "A",
             "awardByBodyHp": false,
@@ -472,7 +476,7 @@
           }
         },
         {
-          "__missionMarkAsRespawnPoint": {
+          "missionMarkAsRespawnPoint": {
             "loc_name": "missions/air_spawn1",
             "spawnEffect": false,
             "isAirfield": false,
@@ -486,7 +490,8 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "target": "t2_commom_fighters_spawn",
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t2_common_fighters_spawn",
             "team": "B",
             "awardByBodyHp": false,
             "tags": {
@@ -676,7 +681,7 @@
         {
           "addAirfield": [
             {
-              "runwayStart": "t2_airfield_start"
+              "runwayStart": "t2_airfield"
             },
             {
               "runwayEnd": "t2_airfield_end"
@@ -779,6 +784,9 @@
               "showOnMap": true
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t1_carrier_01"
             },
             {
@@ -822,7 +830,7 @@
           ]
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/airfield_spawn",
             "spawnEffect": false,
             "isAirfield": true,
@@ -836,7 +844,8 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "target": "t2_airfield_start",
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t2_airfield",
             "team": "B",
             "object": "t2_airfield_target",
             "awardByBodyHp": true,
@@ -850,7 +859,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/air_spawn1",
             "spawnEffect": false,
             "isAirfield": false,
@@ -864,6 +873,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_common_fighters_spawn",
             "team": "A",
             "awardByBodyHp": false,
@@ -879,6 +889,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_carriers_squad"
             },
@@ -898,6 +911,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_navy_ships_squad"
             },
@@ -926,6 +942,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_tanks_squad"
             },
@@ -996,6 +1015,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_ai_kamikadzies_squad",
             "team": "Both"
           }
@@ -1003,6 +1023,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -1010,6 +1031,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -1329,7 +1351,6 @@
       "actions": [
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1337,13 +1358,13 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "t2_ai_kamikadzies_squad",
+            "partName": "body_dm",
             "doExplosion": true,
             "useForTriggerFiltered": true
           }
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1351,6 +1372,7 @@
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
             "target": "t1_navy_ships_squad",
+            "partName": "body_dm",
             "doExplosion": false,
             "useForTriggerFiltered": true
           }
@@ -1753,6 +1775,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_lcvp_squad",
           "useForTriggerFiltered": true,
           "speed": 0.0
@@ -1790,6 +1813,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_lcvp_squad",
           "useForTriggerFiltered": true,
           "speed": 15.0
@@ -9713,7 +9737,7 @@
       ],
       "props": []
     },
-    "t2_airfield_start": {
+    "t2_airfield": {
       "type": "Sphere",
       "tm": [
         [-73.7,0.0,1.09673e-05],
@@ -10019,13 +10043,13 @@
       ],
       "props": []
     },
-    "t2_commom_fighters_spawn": {
+    "t2_common_fighters_spawn": {
       "type": "Sphere",
       "tm": [
         [126.785,0.0,-271.892],
         [0.0,300.0,0.0],
         [271.892,0.0,126.785],
-        [157.236,1000.0,10878.3]
+        [157.236,500.0,10878.3]
       ],
       "props": []
     }

@@ -239,10 +239,10 @@ local InventoryClient = class {
     }
   }
 
-  function requestItemDefs(cb = null) {
+  function requestItemDefs(cb = null, shouldRefreshAll = false) {
     local itemdefids = ""
     foreach(key, value in itemdefs) {
-      if (value.len() == 0) {
+      if (shouldRefreshAll || value.len() == 0) {
         if (itemdefids.len() > 0)
           itemdefids += ","
 
@@ -255,25 +255,28 @@ local InventoryClient = class {
 
     dagor.debug("Request itemdefs " + itemdefids)
 
-    request("GetItemDefs", {itemdefids = itemdefids}, null, function(result) {
-      local itemdef_json = getResultData(result, "itemdef_json");
-      if (!itemdef_json) {
+    local steamLanguage = ::g_language.getCurrentSteamLanguage()
+    request("GetItemDefsClient", {itemdefids = itemdefids, language = steamLanguage}, null,
+      function(result) {
+        local itemdef_json = getResultData(result, "itemdef_json");
+        if (!itemdef_json) {
+          if (cb) {
+            cb()
+          }
+          return
+        }
+
+        foreach (itemdef in itemdef_json) {
+          hasChanges = hasChanges ||::u.isEmpty(itemdefs?[itemdef.itemdefid])
+          addItemDef(itemdef)
+        }
+
+        processWaitingItems()
+        notifyInventoryUpdate()
         if (cb) {
           cb()
         }
-        return
-      }
-
-      foreach (itemdef in itemdef_json) {
-        addItemDef(itemdef)
-      }
-
-      processWaitingItems()
-      notifyInventoryUpdate()
-      if (cb) {
-        cb()
-      }
-    }.bindenv(this))
+      }.bindenv(this))
 
     return false
   }
@@ -298,6 +301,14 @@ local InventoryClient = class {
 
   function getItemdefs() {
     return itemdefs
+  }
+
+  function requestItemdefsByIds(itemdefIdsList, cb = null)
+  {
+    foreach (itemdefid in itemdefIdsList)
+      if (!(itemdefid in itemdefs))
+        itemdefs[itemdefid] <- {}
+    requestItemDefs(cb)
   }
 
   function addItemDef(itemdef) {
@@ -384,7 +395,9 @@ local InventoryClient = class {
   }
 
   function openChest(id, cb = null) {
-    local outputitemdefid = items[id].itemdef.itemdefid + 1
+    local outputitemdefid = ::to_integer_safe(items[id].itemdef?.used_to_create, -1)
+    if (outputitemdefid == -1)
+      return
     exchange([[id, 1]], outputitemdefid, cb)
   }
 
@@ -399,6 +412,22 @@ local InventoryClient = class {
       return false
 
     return true
+  }
+
+  function forceRefreshItemDefs()
+  {
+    requestItemDefs(function() {
+      foreach (itemid, item in items) {
+        local itemdef = ::getTblValue(item.itemdef.itemdefid, itemdefs, null)
+        if (itemdef) {
+          if (itemdef.len() > 0) {
+            item.itemdef = itemdef
+            hasChanges = true
+          }
+        }
+      }
+      notifyInventoryUpdate()
+    }, true)
   }
 }
 

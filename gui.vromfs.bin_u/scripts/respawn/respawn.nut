@@ -144,13 +144,14 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   delayAfterAutoChangeUnitMsec = 1000
 
   focusArray = [
-    function() { return getCurrentAirsTable() }   // slotbar
+    function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
     function() { return getFocusObjUnderSlotbar() }
     "respawn_options_table"
     "mis_obj_button_header"
     "chat_tabs"
+    "chat_prompt_place"
     "chat_input"
-    "gamercard_bottom_right"
+    function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
   focusItemAirsTable = 2
   focusItemChatTabs  = 4
@@ -539,7 +540,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local needWaitSlotbar = !::g_mis_loading_state.isReadyToShowRespawn() && !isSpectator()
       showSceneBtn("slotbar_load_wait", needWaitSlotbar)
       if (!isSpectator() && ::g_mis_loading_state.isReadyToShowRespawn()
-          && (needRefreshSlotbarOnReinit || !::checkObj(slotbarScene)))
+          && (needRefreshSlotbarOnReinit || !slotbarWeak))
       {
         slotbarInited = false
         beforeRefreshSlotbar()
@@ -556,7 +557,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
     else
     {
-      ::destroy_slotbar(this)
+      destroySlotbar()
       local airName = ::last_ca_aircraft
       if (gameType & ::GT_COOPERATIVE)
         airName = ::getTblValue("aircraftName", mplayerTable, "")
@@ -600,6 +601,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       onSlotDblClick = @(crew) onApply()
       beforeFullUpdate = beforeRefreshSlotbar
       afterFullUpdate = afterRefreshSlotbar
+      onSlotBattleBtn = onApply
     }
   }
 
@@ -683,7 +685,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function beforeRefreshSlotbar()
   {
-    if (slotbarScene && !isInAutoChangeDelay())
+    if (!isInAutoChangeDelay())
       prevAutoChangedUnit = getCurSlotUnit()
   }
 
@@ -705,7 +707,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   //hack: to check slotready changed
   function checkCrewAccessChange()
   {
-    if (!slotbarParams?.singleCountry || !slotbarInited)
+    if (!getSlotbar()?.singleCountry || !slotbarInited)
       return
 
     local needReinitSlotbar = false
@@ -726,8 +728,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       needReinitSlotbar = true
     }
 
-    if (needReinitSlotbar)
-      reinitSlotbarAction()
+    if (needReinitSlotbar && getSlotbar())
+      getSlotbar().forceUpdate()
   }
 
   function getCrewSlotReadyMask()
@@ -799,8 +801,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     slotbarInited=true
     onAircraftUpdate()
   }
-
-  function onSlotBattle(obj) {onApply()}
 
   function updateWeaponsSelector()
   {
@@ -1347,7 +1347,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local crew = getCurCrew()
     local weapon = ::get_last_weapon(air.name)
-    local skin = ::hangar_get_last_skin(air.name)
+    local skin = ::g_decorator.getRealSkin(air.name)
+    ::g_decorator.setCurSkinToHangar(air.name)
     if (!weapon || !skin)
     {
       dagor.debug("no weapon or skin selected?")

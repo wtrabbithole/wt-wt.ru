@@ -1,71 +1,83 @@
-[
-  {
-    "cannon": true
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.1,
+  "shotFreq": 5.0,
+  "shotFreqRndK": 0.14,
+  "traceFreq": 4,
+  "bEnablePause": false,
+  "bullets": 500,
+  "bulletsCluster": 1,
+  "reloadTime": 12.0,
+  "bulletsCartridge": 40,
+  "fxType": "machine_gun_flame",
+  "fxMultipleSpawn": true,
+  "shouldCollideWithRendinsts": true,
+  "sfxReloadBullet": "grd_cannon_belt_reload",
+  "bullet": {
+    "bulletCount": 10,
+    "mass": 0.072,
+    "caliber": 0.015,
+    "speed": 850.0,
+    "maxDistance": 4000.0,
+    "bulletType": "ap_i_t",
+    "bulletName": "15mm_pzgr",
+    "onHitChanceMultFire": 3.5,
+    "relativeVelHitShift": [300.0,1000.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "groundCollisionEffect": "7_20_hit_ground",
+    "groundFxScale": [0.5,0.5],
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "water_splash",
+    "waterFxScale": [1.0,1.0],
+    "hitpower": {
+      "HitPower0m": [0.85,500.0],
+      "HitPower10000m": [0.8,10000.0]
+    },
+    "armorpower": {
+      "ArmorPower0m": [46.0,10.0],
+      "ArmorPower100m": [45.0,100.0],
+      "ArmorPower250m": [40.0,250.0],
+      "ArmorPower500m": [33.0,500.0],
+      "ArmorPower750m": [28.0,750.0],
+      "ArmorPower1000m": [23.0,1000.0],
+      "ArmorPower1250m": [19.0,1250.0],
+      "ArmorPower1500m": [15.0,1500.0],
+      "ArmorPower2000m": [11.0,2000.0],
+      "ArmorPower2500m": [7.0,2500.0],
+      "ArmorPower3000m": [5.0,3000.0],
+      "ArmorPower4000m": [3.0,4000.0]
+    },
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "12mmWhite",
+      "trail": "thin"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_light"
+      },
+      "armor": {
+        "fx": "cannon_hit_armor"
+      },
+      "wood": {
+        "fx": "cannon_hit_light"
+      },
+      "buildings": {
+        "fx": "7_20_hit_stone",
+        "fxScale": [1.5,2.0]
+      }
+    }
   },
-  {
-    "weaponType": -1
-  },
-  {
-    "bUseHookAsRel": true
-  },
-  {
-    "emitColor": [1.0,1.0,0.0]
-  },
-  {
-    "emitI": 10.0
-  },
-  {
-    "emitR": 3.0
-  },
-  {
-    "emitTime": 0.03
-  },
-  {
-    "aimMinDist": 0.1
-  },
-  {
-    "aimMaxDist": 2000.0
-  },
-  {
-    "maxDeltaAngle": 0.1
-  },
-  {
-    "shotFreq": 5.0
-  },
-  {
-    "shotFreqRndK": 0.14
-  },
-  {
-    "traceFreq": 4
-  },
-  {
-    "bEnablePause": false
-  },
-  {
-    "bullets": 500
-  },
-  {
-    "bulletsCluster": 1
-  },
-  {
-    "reloadTime": 12.0
-  },
-  {
-    "bulletsCartridge": 40
-  },
-  {
-    "fxType": "small_gun_flame"
-  },
-  {
-    "fxMultipleSpawn": true
-  },
-  {
-    "shouldCollideWithRendinsts": true
-  },
-  {
-    "sfxReloadBullet": "grd_cannon_belt_reload"
-  },
-  {
+  "15mm_ger_universal": {
     "bullet": {
       "bulletCount": 10,
       "mass": 0.072,
@@ -77,11 +89,11 @@
       "onHitChanceMultFire": 3.5,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "groundCollisionEffect": "ground_splash",
-      "groundFxScale": [0.4,0.5],
-      "waterFxScale": [1.2,1.4],
+      "groundCollisionEffect": "7_20_hit_ground",
+      "groundFxScale": [0.5,0.5],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "20_ap_water_splash",
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [1.0,1.0],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -103,8 +115,8 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "20mmGreen",
-        "trail": "curved"
+        "tracer": "12mmWhite",
+        "trail": "thin"
       },
       "collisions": {
         "steel": {
@@ -112,143 +124,40 @@
         },
         "armor": {
           "fx": "cannon_hit_armor"
-        }
-      }
-    }
-  },
-  {
-    "bullet": {
-      "bulletCount": 10,
-      "mass": 0.072,
-      "caliber": 0.015,
-      "speed": 850.0,
-      "maxDistance": 4000.0,
-      "bulletType": "ap_i_t",
-      "bulletName": "15mm_pzgr",
-      "onHitChanceMultFire": 3.5,
-      "relativeVelHitShift": [300.0,1000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "groundCollisionEffect": "ground_splash",
-      "groundFxScale": [0.4,0.5],
-      "waterFxScale": [1.2,1.4],
-      "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "20_ap_water_splash",
-      "hitpower": {
-        "HitPower0m": [0.85,500.0],
-        "HitPower10000m": [0.8,10000.0]
-      },
-      "armorpower": {
-        "ArmorPower0m": [46.0,10.0],
-        "ArmorPower100m": [45.0,100.0],
-        "ArmorPower250m": [40.0,250.0],
-        "ArmorPower500m": [33.0,500.0],
-        "ArmorPower750m": [28.0,750.0],
-        "ArmorPower1000m": [23.0,1000.0],
-        "ArmorPower1250m": [19.0,1250.0],
-        "ArmorPower1500m": [15.0,1500.0],
-        "ArmorPower2000m": [11.0,2000.0],
-        "ArmorPower2500m": [7.0,2500.0],
-        "ArmorPower3000m": [5.0,3000.0],
-        "ArmorPower4000m": [3.0,4000.0]
-      },
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "20mmGreen",
-        "trail": "curved"
-      },
-      "collisions": {
-        "steel": {
+        },
+        "wood": {
           "fx": "cannon_hit_light"
         },
-        "armor": {
-          "fx": "cannon_hit_armor"
+        "buildings": {
+          "fx": "7_20_hit_stone",
+          "fxScale": [1.5,2.0]
         }
       }
     }
   },
-  {
-    "15mm_ger_universal": {
-      "bullet": {
-        "bulletCount": 10,
-        "mass": 0.072,
-        "caliber": 0.015,
-        "speed": 850.0,
-        "maxDistance": 4000.0,
-        "bulletType": "ap_i_t",
-        "bulletName": "15mm_pzgr",
-        "onHitChanceMultFire": 3.5,
-        "relativeVelHitShift": [300.0,1000.0],
-        "relativeVelArmorShift": [200.0,1000.0],
-        "groundCollisionEffect": "ground_splash",
-        "groundFxScale": [0.4,0.5],
-        "waterFxScale": [1.2,1.4],
-        "ricochetEffect": "cannon_ricochet",
-        "waterCollisionEffect": "20_ap_water_splash",
-        "hitpower": {
-          "HitPower0m": [0.85,500.0],
-          "HitPower10000m": [0.8,10000.0]
-        },
-        "armorpower": {
-          "ArmorPower0m": [46.0,10.0],
-          "ArmorPower100m": [45.0,100.0],
-          "ArmorPower250m": [40.0,250.0],
-          "ArmorPower500m": [33.0,500.0],
-          "ArmorPower750m": [28.0,750.0],
-          "ArmorPower1000m": [23.0,1000.0],
-          "ArmorPower1250m": [19.0,1250.0],
-          "ArmorPower1500m": [15.0,1500.0],
-          "ArmorPower2000m": [11.0,2000.0],
-          "ArmorPower2500m": [7.0,2500.0],
-          "ArmorPower3000m": [5.0,3000.0],
-          "ArmorPower4000m": [3.0,4000.0]
-        },
-        "visual": {
-          "range_percent_of_ammo": [100.0,0.0],
-          "traceFreq": 1,
-          "tracer": "20mmGreen",
-          "trail": "curved"
-        },
-        "collisions": {
-          "steel": {
-            "fx": "cannon_hit_light"
-          },
-          "armor": {
-            "fx": "cannon_hit_armor"
-          }
-        }
-      }
+  "gunSound": {
+    "path": "ships/weapon_ships/cannons",
+    "outside": "20mm_mg_c38",
+    "cockpit": "20mm_mg_c38_interior",
+    "ai": "20mm_mg_c38_ai"
+  },
+  "overheat": [
+    {
+      "overheat": [2.0,0.0]
+    },
+    {
+      "overheat": [2.5,0.1]
+    },
+    {
+      "overheat": [4.0,0.5]
     }
-  },
-  {
-    "gunSound": {
-      "path": "ships/weapon_ships/cannons",
-      "outside": "20mm_mg_c38",
-      "cockpit": "20mm_mg_c38_interior",
-      "ai": "20mm_mg_c38_ai"
+  ],
+  "deviation": [
+    {
+      "deviation": [3.0,3.0]
+    },
+    {
+      "deviation": [5.0,6.0]
     }
-  },
-  {
-    "overheat": [
-      {
-        "overheat": [2.0,0.0]
-      },
-      {
-        "overheat": [2.5,0.1]
-      },
-      {
-        "overheat": [4.0,0.5]
-      }
-    ]
-  },
-  {
-    "deviation": [
-      {
-        "deviation": [3.0,3.0]
-      },
-      {
-        "deviation": [5.0,6.0]
-      }
-    ]
-  }
-]
+  ]
+}

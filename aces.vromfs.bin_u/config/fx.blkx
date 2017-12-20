@@ -30,6 +30,20 @@
   "dirtBackSpawnRateMinSpd": 0.0,
   "dirtBackSpawnRateMaxSpd": 3.0,
   "dirtBackSpawnRateSpdMult": 0.8,
+  "wreckageAircraftSplash": {
+    "groundFx": "ground_splash",
+    "waterFx": "medium_water_splash",
+    "sizeMult": 0.5,
+    "minScale": 0.5,
+    "maxScale": 1.5
+  },
+  "wreckageGmSplash": {
+    "groundFx": "ground_splash",
+    "waterFx": "water_splash",
+    "sizeMult": 0.25,
+    "minScale": 0.25,
+    "maxScale": 3.0
+  },
   "splashEffects": {
     "name": "ship_water_splashes",
     "horzVel": [1.0,5.0],
@@ -309,6 +323,17 @@
     "maxScale": 1.1,
     "group": "water_proj"
   },
+  "water_splash_76_00_he": {
+    "fx": "bulletsplash_76_00mm_he_composite_fx",
+    "lifeTime": 20.0,
+    "softnessDepth": 0.1,
+    "granularity": 8,
+    "numInstances": 80,
+    "numReserved": 30,
+    "minScale": 0.8,
+    "maxScale": 1.1,
+    "group": "water_proj"
+  },
   "water_splash_76_00": {
     "fx": "bulletsplash_76_00mm_composite_fx",
     "lifeTime": 20.0,
@@ -445,6 +470,16 @@
     "playerFadeDistScale": 2.0,
     "alphaHeightRange": [4.0,240.0],
     "numInstances": 120,
+    "numReserved": 30
+  },
+  "hydra_smoke_modern": {
+    "fx": "hydra_smoke_modern_fx",
+    "lifeTime": 100.0,
+    "isTrail": true,
+    "nonPlayerFadeDistScale": 5.0,
+    "playerFadeDistScale": 2.0,
+    "alphaHeightRange": [30.0,200.0],
+    "numInstances": 60,
     "numReserved": 30
   },
   "hydra_smoke": {
@@ -712,6 +747,21 @@
   },
   "120-203_water_splash": {
     "fx": "120_203mm_water_hit_composite_fx",
+    "group": "water_proj",
+    "farPlane": 15000.0,
+    "lifeTime": 0.0,
+    "softnessDepth": 2.0,
+    "granularity": 4,
+    "numInstances": 100,
+    "numReserved": 30,
+    "minScale": 0.8,
+    "maxScale": 1.0,
+    "onePointNumber": 8,
+    "sfxPath": "sounds/explosions",
+    "sfxEvent": "explosion_water"
+  },
+  "120-203_he_water_splash": {
+    "fx": "120_203mm_he_water_hit_composite_fx",
     "group": "water_proj",
     "farPlane": 15000.0,
     "lifeTime": 0.0,
@@ -1488,6 +1538,15 @@
     "numInstances": 50,
     "numReserved": 1
   },
+  "40mm_gun_flame": {
+    "fx": "ps_gun_flame_40mm_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 50,
+    "numReserved": 1,
+    "onePointNumber": 50
+  },
   "200mm_gun_flame": {
     "fx": "ps_gun_flame_200mm_fire_composite_fx",
     "lifeTime": 10.0,
@@ -1753,6 +1812,13 @@
     "fx": "xmass_sparkles_composite_fx",
     "lifeTime": 10.0,
     "numInstances": 30,
+    "numReserved": 5,
+    "onePointNumber": 10
+  },
+  "hangar_hmb_light_hangar_ny": {
+    "fx": "hmb_hangar_ny_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 250,
     "numReserved": 5,
     "onePointNumber": 10
   },
@@ -2126,6 +2192,16 @@
     "numReserved": 1,
     "minScale": 0.6,
     "maxScale": 1.4
+  },
+  "ground_model_gray_smoke": {
+    "fx": "graysmoke",
+    "lifeTime": 1800.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 200,
+    "numReserved": 1,
+    "minScale": 1.2,
+    "maxScale": 1.6
   },
   "ground_model_expl": {
     "fx": "grnd_expl_composite_fx",
@@ -2551,7 +2627,106 @@
     "minScale": 0.8,
     "maxScale": 1.2,
     "sfxPath": "tanks/object_crash",
-    "sfxEvent": "concrete_mid"
+    "sfxEvent": "wood_small"
+  },
+  "ad_tree_felling_leaves_green_medium": {
+    "fx": "ad_tree_felling_leaves_green_medium_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_tree_felling_leaves_fall_medium": {
+    "fx": "ad_tree_felling_leaves_fall_medium_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_tree_felling_leaves_sakura_medium": {
+    "fx": "ad_tree_felling_leaves_sakura_medium_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_tree_felling_leaves_green_small": {
+    "fx": "ad_tree_felling_leaves_green_small_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_bush_felling_leaves_green": {
+    "fx": "ad_bush_felling_leaves_green_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_bush_felling_leaves_fall": {
+    "fx": "ad_bush_felling_leaves_fall_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_bush_felling_leaves_sakura": {
+    "fx": "ad_bush_felling_leaves_sakura_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_tree_felling_medium_ground": {
+    "fx": "ad_tree_felling_medium_ground_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_tree_felling_small_ground": {
+    "fx": "ad_tree_felling_small_ground_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
   },
   "ad_metal": {
     "fx": "ad_metal_sparks_large_fx",

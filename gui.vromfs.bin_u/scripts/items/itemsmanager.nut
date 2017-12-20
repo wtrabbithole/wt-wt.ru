@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 /*
   ::ItemsManager API:
 
@@ -88,7 +89,6 @@ foreach (fn in [
 
 ::ItemsManager <- {
   itemsList = []
-  itemdefsList = {} //for items in external store
   inventory = []
   shopItemById = {}
 
@@ -164,6 +164,7 @@ foreach (fn in [
   boostersTaskUpdateFlightTime = -1
 
   inventoryClient = require("scripts/inventory/inventoryClient.nut")
+  itemsByItemdefId = {}
 }
 
 function ItemsManager::fillFakeItemsList()
@@ -263,6 +264,9 @@ function ItemsManager::_checkUpdateList()
     shopItemById[item.id] <- item
   }
 
+  foreach (id, item in itemsByItemdefId)
+    shopItemById[id] <- item
+
   ::ItemsManager.fillFakeItemsList()
   if (fakeItemsList)
     for (local i = 0; i < fakeItemsList.blockCount(); i++)
@@ -342,12 +346,9 @@ function ItemsManager::findItemById(id, typeMask = itemType.ALL)
   return ::getTblValue(id, shopItemById, null)
 }
 
-function ItemsManager::findItemdefsById(itemdefId, typeMask = itemType.ALL)
+function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
 {
-  local itemdef = itemdefsList?[itemdefId]
-  if (!itemdef)
-    _itemdefRequest(itemdefId)
-  return itemdefsList?[itemdefId]
+  inventoryClient.requestItemdefsByIds(itemdefIdsList)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,31 +441,55 @@ function ItemsManager::_checkInventoryUpdate()
     }
   }
 
+  // Collecting external inventory items
   local extInventoryItems = []
   foreach (itemDesc in inventoryClient.getItems())
   {
-    local type = ::getTblValue("type", itemDesc.itemdef.tags)
-    if (!type)
-      continue
-    local iType = getInventoryItemType(type)
+    local itemDefDesc = itemDesc.itemdef
+    local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
       continue
 
     local isCreate = true
     foreach (existingItem in extInventoryItems)
-      if (existingItem.tryAddItem(itemDesc))
+      if (existingItem.tryAddItem(itemDefDesc, itemDesc))
       {
         isCreate = false
         break
       }
     if (isCreate)
     {
-      local item = createItem(iType, itemDesc)
+      local item = createItem(iType, itemDefDesc, itemDesc)
       extInventoryItems.append(item)
-      itemdefsList[item.id] <- item
     }
   }
   inventory.extend(extInventoryItems)
+
+  // Collecting itemdefs as shop items
+  local hasNewItemdefs = false
+  foreach (itemDefDesc in inventoryClient.getItemdefs())
+  {
+    local defType = itemDefDesc?.type
+
+    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]))
+    {
+      ItemGenerators.add(itemDefDesc)
+      continue
+    }
+
+    if (defType != "item")
+      continue
+    local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
+    if (iType == itemType.UNKNOWN)
+      continue
+
+    local item = createItem(iType, itemDefDesc)
+    hasNewItemdefs = hasNewItemdefs || (!(item.id in itemsByItemdefId))
+    itemsByItemdefId[item.id] <- item
+    shopItemById[item.id] <- item
+  }
+  if (hasNewItemdefs)
+    ::broadcastEvent("ItemDefsListUpdated")
 }
 
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
@@ -517,40 +542,6 @@ function ItemsManager::_getItemsFromList(list, typeMask, filterFunc = null, item
         && (!filterFunc || filterFunc(item)))
       res.append(item)
   return res
-}
-
-function ItemsManager::_itemdefRequest(itemdefId)
-{
-  inventoryClient.request("GetItemDefs", {itemdefids = itemdefId}, null,
-    function(result) {
-      local isItemDefsListChanged = false
-      local itemdef_json = inventoryClient.getResultData(result, "itemdef_json");
-      if (!itemdef_json)
-        return
-
-      foreach (itemdef in itemdef_json)
-      {
-        if (!itemdef || itemdefsList?[itemdef.itemdefid])
-          continue
-
-        itemdef.tags = inventoryClient.getTagsItemDef(itemdef)
-        local type = itemdef.tags?.type
-        if (type) {
-          local iType = getInventoryItemType(type)
-          if (iType != itemType.UNKNOWN) {
-            local item = createItem(iType, {
-              itemid = 0
-              quantity = 0
-              itemdef = itemdef})
-            itemdefsList[itemdef.itemdefid] <- item
-            isItemDefsListChanged = true
-          }
-        }
-      }
-      if (isItemDefsListChanged)
-        ::broadcastEvent("ItemDefsListUpdated")
-
-    }.bindenv(this))
 }
 
 function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc = false, preferMarkup = false, params = null)
@@ -745,6 +736,11 @@ function ItemsManager::onEventLoadingStateChange(p)
 {
   if (!::is_in_flight())
     removeRefreshBoostersTask()
+}
+
+function ItemsManager::onEventGameLocalizationChanged(p)
+{
+  inventoryClient.forceRefreshItemDefs()
 }
 
 /**

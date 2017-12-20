@@ -1726,6 +1726,15 @@ Button_text[enableOn=hoverOrSelect] {
   enable:yes;
 }
 
+expandable Button_text[enableOn=hoverOrSelect] {
+  enable:no;
+}
+
+expandable[selected=yes] Button_text[enableOn=hoverOrSelect],
+expandable:hover Button_text[enableOn=hoverOrSelect] {
+  enable:yes;
+}
+
 Button_text.profileImg {
   reduceMinimalWidth:yes;
   height:1@profileUnlockIconSize + 2@blockInterval;

@@ -2,9 +2,10 @@
 imgButton {
   id:t='<<id>>';
   class:t='decal_image';
-  width:t='<<ratio>>@decalIconHeight';
+  width:t='<<ratio>>@decalIconHeight + ((<<ratio>> - 1)@decalItemMargin)';
   min-height:t='1@decalIconHeight';
   min-width:t='1@decalIconHeight';
+  margin:t='1@decalItemMargin'
 
   <<^tooltipId>>
   <<#tooltipText>>

@@ -13,7 +13,7 @@ frame {
     id:t='game_mode_select';
     position:t='relative';
     max-width:t='0.762@scrn_tgt';
-    max-height:t='p.p.h-0.045@sf - 2@framePadding';
+    max-height:t='p.p.h-0.045@sf - 2@framePadding - 1@bh';
     overflow-y:t='auto';
     flow:t='h-flow';
     total-input-transparent:t='yes';

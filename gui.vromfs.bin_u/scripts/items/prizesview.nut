@@ -574,7 +574,7 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
     classIco = classIco,
     shopItemType = shopItemType,
     unitPlate = unitPlate,
-    unitInfoText = infoText.len() ? infoText : null
+    commentText = infoText.len() ? infoText : null
   }
 }
 
@@ -660,13 +660,18 @@ function PrizesView::getViewDataSpecialization(prize, params)
   }
 }
 
-function PrizesView::getViewDataDecorator(prize, params)
+function PrizesView::getViewDataDecorator(prize, params = null)
 {
+  local id = prize.resource
   local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
+  local isHave = decoratorType.isPlayerHaveDecorator(id)
+  local isReceivedPrizes = params?.receivedPrizes ?? false
+
   return {
     icon  = decoratorType.userlogPurchaseIcon
-    title = decoratorType.getLocName(prize.resource, true)
-    tooltipId = ::g_tooltip.getIdDecorator(prize.resource, decoratorType.unlockedItemType)
+    title = decoratorType.getLocName(id, true)
+    tooltipId = ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params)
+    commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
   }
 }
 

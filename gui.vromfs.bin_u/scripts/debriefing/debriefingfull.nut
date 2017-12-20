@@ -107,14 +107,11 @@
     text = "multiplayer/assists"
   }
   "Critical",
-  "Scout",
-  "ScoutCriticalHit",
-  "ScoutKill",
   "Hit"
   { id = "Scouting"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
     showByModes = ::is_gamemode_versus
-    joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit" ]
+    joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit", "ScoutKillUnknown"]
   }
   { id = "Scout"
     isShowOnlyInTooltips = true
@@ -123,6 +120,9 @@
     isShowOnlyInTooltips = true
   }
   { id = "ScoutKill"
+    isShowOnlyInTooltips = true
+  }
+  { id = "ScoutKillUnknown"
     isShowOnlyInTooltips = true
   }
   { id = "Overkill"
@@ -792,8 +792,9 @@ function get_debriefing_result_event_id()
 function debriefing_join_rows_into_row(exp, destRowId, srcRowIdsArray)
 {
   local tables = [ exp ]
-  foreach (unitId, tbl in exp.aircrafts)
-    tables.append(tbl)
+  if (exp?.aircrafts)
+    foreach (unitId, tbl in exp.aircrafts)
+      tables.append(tbl)
 
   foreach (tbl in tables)
     foreach (prefix in [ "tbl", "wp", "exp", "num" ])

@@ -281,7 +281,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!is_own && !access_SkinsUnrestrictedPreview && !access_SkinsUnrestrictedExport)
       return
 
-    skinList = ::g_decorator.getSkinsOption(unit.name, true)
+    skinList = ::g_decorator.getSkinsOption(unit.name, true, false)
     local curSkinId = getSelectedBuiltinSkinId()
     local curSkinIndex = ::find_in_array(skinList.values, curSkinId, 0)
 
@@ -291,7 +291,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       local access = skinList.access[i]
       local canBuy = decorator.canBuyUnlock(unit)
       local priceText = canBuy ? decorator.getCost().getTextAccordingToBalance() : ""
-      local text = decorator.getName()
+      local text = skinList.items[i]
       if (canBuy)
         text = ::loc("ui/parentheses", {text = priceText}) + " " + text
 
@@ -995,8 +995,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local data = ::handyman.renderCached("gui/commonParts/collapsableBlock", view)
     guiScene.replaceContentFromText(wObj, data, data.len(), this)
     wObj.height = decoratorType == ::g_decorator_type.ATTACHABLES
-                  ? "1@countAttachablesInHeight * 1@decalIconHeight"
-                  : "1@countDecalsInHeight * 1@decalIconHeight"
+                  ? "1@countAttachablesInHeight * 1@customizationDecoratorBlockWidth"
+                  : "1@countDecalsInHeight * 1@customizationDecoratorBlockWidth"
     wObj.setValue(0)
 
     showDecoratorsList()
@@ -1375,7 +1375,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     return "tooltipObj {" +
          "tooltipId:t='" + tooltipId + "'; " +
          "on_tooltip_open:t='onGenericTooltipOpen'; on_tooltip_close:t='onTooltipObjClose';" +
-         "max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'; smallFont:t='yes'; display:t='hide';" +
+         "max-width:t='8@customizationDecoratorBlockWidth'; smallFont:t='yes'; display:t='hide';" +
       "} " +
       "title:t='$tooltipObj'; "
   }

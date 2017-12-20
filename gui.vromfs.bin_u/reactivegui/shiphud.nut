@@ -5,9 +5,8 @@ local obstacleRangefinder = require("shipObstacleRangefinder.nut")
 local hudLogs = require("hudLogs.nut")
 
 
-return @(){
+local shipHud = @(){
   watch = networkState.isMultiplayer
-  vplace = VALIGN_BOTTOM
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   margin = [sh(5), sh(1)] //keep gap for counters
@@ -18,4 +17,12 @@ return @(){
     obstacleRangefinder
     shipStateModule
   ]
+}
+
+
+return {
+  size = [sw(100), sh(100)]
+  valign = VALIGN_BOTTOM
+  halign = HALIGN_LEFT
+  children = [shipHud]
 }

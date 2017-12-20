@@ -676,6 +676,9 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::events.openCreateRoomWnd(event)
   }
 
+  function onSlotbarPrevAir() { slotbarWeak && slotbarWeak.onSlotbarPrevAir() }
+  function onSlotbarNextAir() { slotbarWeak && slotbarWeak.onSlotbarNextAir() }
+
   function goBackShortcut() { goBack() }
   function onRoomsList()    { goBack() }
 

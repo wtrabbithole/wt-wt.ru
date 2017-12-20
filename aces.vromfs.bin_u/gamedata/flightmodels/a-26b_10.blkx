@@ -2538,6 +2538,7 @@
           "emitter": "flare15",
           "flash": "flare15",
           "dm": "gunner1_dm",
+          "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 500,
           "traceOffset": 1,
@@ -2547,7 +2548,11 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [0.0,85.0]
+            "pitch": [0.0,90.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [0.0,25.0]
           }
         }
       },
@@ -2558,6 +2563,7 @@
           "emitter": "flare16",
           "flash": "flare16",
           "dm": "gunner1_dm",
+          "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 500,
           "traceOffset": 2,
@@ -2568,6 +2574,10 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [0.0,85.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [0.0,25.0]
           }
         }
       },
@@ -2578,6 +2588,7 @@
           "emitter": "flare17",
           "flash": "flare17",
           "dm": "gunner1_dm",
+          "gunDm": "gun3_dm",
           "partsDP": "gun3_dm",
           "bullets": 500,
           "traceOffset": 1,
@@ -2586,8 +2597,12 @@
             "gun": "gun2"
           },
           "limits": {
-            "yaw": [-110.0,110.0],
-            "pitch": [-85.0,0.0]
+            "yaw": [-180.0,180.0],
+            "pitch": [-90.0,0.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-90.0,90.0],
+            "pitch": [0.0,-90.0]
           }
         }
       },
@@ -2598,6 +2613,7 @@
           "emitter": "flare18",
           "flash": "flare18",
           "dm": "gunner1_dm",
+          "gunDm": "gun4_dm",
           "partsDP": "gun4_dm",
           "bullets": 500,
           "traceOffset": 2,
@@ -2606,8 +2622,12 @@
             "gun": "gun2"
           },
           "limits": {
-            "yaw": [-110.0,110.0],
-            "pitch": [-85.0,0.0]
+            "yaw": [-180.0,180.0],
+            "pitch": [-90.0,0.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-90.0,90.0],
+            "pitch": [0.0,-90.0]
           }
         }
       },
@@ -2930,6 +2950,7 @@
                 "emitter": "flare15",
                 "flash": "flare15",
                 "dm": "gunner1_dm",
+                "gunDm": "gun1_dm",
                 "partsDP": "gun1_dm",
                 "bullets": 500,
                 "traceOffset": 1,
@@ -2950,6 +2971,7 @@
                 "emitter": "flare16",
                 "flash": "flare16",
                 "dm": "gunner1_dm",
+                "gunDm": "gun2_dm",
                 "partsDP": "gun2_dm",
                 "bullets": 500,
                 "traceOffset": 2,
@@ -2970,6 +2992,7 @@
                 "emitter": "flare17",
                 "flash": "flare17",
                 "dm": "gunner1_dm",
+                "gunDm": "gun3_dm",
                 "partsDP": "gun3_dm",
                 "bullets": 500,
                 "traceOffset": 1,
@@ -2990,6 +3013,7 @@
                 "emitter": "flare18",
                 "flash": "flare18",
                 "dm": "gunner1_dm",
+                "gunDm": "gun4_dm",
                 "partsDP": "gun4_dm",
                 "bullets": 500,
                 "traceOffset": 2,

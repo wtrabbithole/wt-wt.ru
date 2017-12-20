@@ -419,6 +419,7 @@ function load_scripts_after_login()
 
     "slotbar/crewsList.nut"
     "slotbar/slotbar.nut"
+    "slotbar/slotbarWidget.nut"
     "slotbar/selectCrew.nut"
     "slotbar/selectUnit.nut"
     "slotbar/slotbarPresetsList.nut"
@@ -735,7 +736,6 @@ function load_scripts_after_login()
     "matching/serviceNotifications/mrooms.nut"
 
     "webpoll.nut"
-    "ugc/ugcUtils.nut"
   ])
   {
     ::g_script_reloader.loadOnce("scripts/" + fn)

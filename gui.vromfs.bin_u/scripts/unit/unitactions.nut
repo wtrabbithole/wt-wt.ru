@@ -36,7 +36,7 @@ local function repairWithMsgBox(unit, onSuccessCb = null)
     return onSuccessCb && onSuccessCb()
 
   local msgText = ::loc("msgbox/question_repair", { unitName = ::loc(::getUnitName(unit)), cost = price.tostring() })
-  ::scene_msg_box("question_quit_game", null, msgText,
+  ::scene_msg_box("question_repair", null, msgText,
   [
     ["yes", function() { repair(unit, onSuccessCb) }],
     ["no", function() {} ]

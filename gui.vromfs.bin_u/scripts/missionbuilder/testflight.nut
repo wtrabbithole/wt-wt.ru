@@ -45,7 +45,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     scene.findObject("btn_builder").setValue(::loc("mainmenu/btnBuilder"))
     showSceneBtn("btn_select", true)
 
-    needSlotbar = ::isUnitInSlotbar(unit)
+    needSlotbar = !::g_decorator.isPreviewingUgcSkin() && ::isUnitInSlotbar(unit)
     if (needSlotbar)
     {
       scene.findObject("wnd_frame").size = "1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar"
@@ -288,6 +288,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     ::current_campaign_mission <- misName
 
     saveAircraftOptions()
+    ::g_decorator.setCurSkinToHangar(unit.name)
 
     ::mergeToBlk({
         _gameMode = ::GM_TEST_FLIGHT
@@ -432,7 +433,8 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
   function updateSceneDifficulty()
   {
-    ::update_slotbar_difficulty(this)
+    if (getSlotbar())
+      getSlotbar().updateDifficulty()
 
     local unitNestObj = unit ? scene.findObject("unit_nest") : null
     if (::checkObj(unitNestObj))

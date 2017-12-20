@@ -42,7 +42,7 @@
   "VSlats": [135.0,190.0],
   "Vne": 680.0,
   "VneMach": 0.75,
-  "MaxSpeedNearGround": 350.0,
+  "MaxSpeedNearGround": 555.998,
   "MaxSpeedAtAltitude": 606.0,
   "CriticalSpeed": 50.0,
   "ArcadeLimitWepMultiplier": 1.1,
@@ -170,6 +170,11 @@
     "MultMachMax6": 0.48,
     "MultLineCoeff6": -0.1,
     "MultLimit6": 0.18,
+    "MachCrit7": 0.0,
+    "MachMax7": 1.0,
+    "MultMachMax7": 1.0,
+    "MultLineCoeff7": 0.0,
+    "MultLimit7": 1.0,
     "CombinedCl": false,
     "DownwashType": 2,
     "DownwashCoeff": 1.0,
@@ -229,6 +234,11 @@
       "MultMachMax6": 0.0,
       "MultLineCoeff6": 0.0,
       "MultLimit6": 0.0,
+      "MachCrit7": 0.0,
+      "MachMax7": 1.0,
+      "MultMachMax7": 1.0,
+      "MultLineCoeff7": 0.0,
+      "MultLimit7": 1.0,
       "CombinedCl": true,
       "Cl0": 0.0,
       "alphaCritHigh": 16.0,
@@ -275,6 +285,11 @@
       "MultMachMax6": 0.0,
       "MultLineCoeff6": 0.0,
       "MultLimit6": 0.0,
+      "MachCrit7": 0.0,
+      "MachMax7": 1.0,
+      "MultMachMax7": 1.0,
+      "MultLineCoeff7": 0.0,
+      "MultLimit7": 1.0,
       "CombinedCl": false,
       "Cl0": 0.0,
       "alphaCritHigh": 17.0,
@@ -321,6 +336,11 @@
       "MultMachMax6": 0.0,
       "MultLineCoeff6": 0.0,
       "MultLimit6": 0.0,
+      "MachCrit7": 0.0,
+      "MachMax7": 1.0,
+      "MultMachMax7": 1.0,
+      "MultLineCoeff7": 0.0,
+      "MultLimit7": 1.0,
       "CombinedCl": false,
       "Cl0": 0.0,
       "alphaCritHigh": 22.0,
@@ -448,7 +468,12 @@
         "MachMax6": 0.0,
         "MultMachMax6": 0.0,
         "MultLineCoeff6": 0.0,
-        "MultLimit6": 0.0
+        "MultLimit6": 0.0,
+        "MachCrit7": 0.0,
+        "MachMax7": 1.0,
+        "MultMachMax7": 1.0,
+        "MultLineCoeff7": 0.0,
+        "MultLimit7": 1.0
       }
     },
     "Afterburner": {
@@ -508,17 +533,24 @@
       },
       "Mode1": {
         "Altitude": 1000.0,
-        "RPM": 2550.0,
-        "ManifoldPressure": 1.283,
+        "RPM": 2500.0,
+        "ManifoldPressure": 1.05,
         "WaterTemperature": 95.0,
         "OilTemperature": 95.0
       },
       "Mode2": {
         "Altitude": 1000.0,
         "RPM": 2700.0,
-        "ManifoldPressure": 1.381,
+        "ManifoldPressure": 1.197,
         "WaterTemperature": 104.0,
         "OilTemperature": 104.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2600.0,
+        "ManifoldPressure": 1.25,
+        "WaterTemperature": 110.0,
+        "OilTemperature": 107.0
       },
       "Load0": {
         "WaterTemperature": 80.0,
@@ -575,6 +607,11 @@
         "Throttle": 1.0,
         "WaterTemperature": 110.5,
         "OilTemperature": 110.5
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 117.0,
+        "OilTemperature": 117.0
       }
     },
     "Compressor": {
@@ -601,7 +638,7 @@
       "PowerConstRPM0": 1100.0,
       "PowerConstRPMCurvature0": 1.0,
       "Ceiling0": 2001.0,
-      "PowerAtCeiling0": 1100.0,
+      "PowerAtCeiling0": 1099.86,
       "Altitude1": 4000.0,
       "AfterburnerBoostMul1": 0.0,
       "Power1": 1050.0,
@@ -609,7 +646,7 @@
       "PowerConstRPM1": 1050.0,
       "PowerConstRPMCurvature1": 1.0,
       "Ceiling1": 4000.1001,
-      "PowerAtCeiling1": 1050.0,
+      "PowerAtCeiling1": 1049.99,
       "AfterburnerManifoldPressure": 1.25,
       "SpeedManifoldMultiplier": 1.0,
       "ExternalPressureLimit": false,
@@ -775,7 +812,12 @@
         "MachMax6": 0.0,
         "MultMachMax6": 0.0,
         "MultLineCoeff6": 0.0,
-        "MultLimit6": 0.0
+        "MultLimit6": 0.0,
+        "MachCrit7": 0.0,
+        "MachMax7": 1.0,
+        "MultMachMax7": 1.0,
+        "MultLineCoeff7": 0.0,
+        "MultLimit7": 1.0
       }
     },
     "Afterburner": {
@@ -835,17 +877,24 @@
       },
       "Mode1": {
         "Altitude": 1000.0,
-        "RPM": 2550.0,
-        "ManifoldPressure": 1.283,
+        "RPM": 2500.0,
+        "ManifoldPressure": 1.05,
         "WaterTemperature": 95.0,
         "OilTemperature": 95.0
       },
       "Mode2": {
         "Altitude": 1000.0,
         "RPM": 2700.0,
-        "ManifoldPressure": 1.381,
+        "ManifoldPressure": 1.197,
         "WaterTemperature": 104.0,
         "OilTemperature": 104.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2600.0,
+        "ManifoldPressure": 1.25,
+        "WaterTemperature": 110.0,
+        "OilTemperature": 107.0
       },
       "Load0": {
         "WaterTemperature": 80.0,
@@ -902,6 +951,11 @@
         "Throttle": 1.0,
         "WaterTemperature": 110.5,
         "OilTemperature": 110.5
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 117.0,
+        "OilTemperature": 117.0
       }
     },
     "Compressor": {
@@ -928,7 +982,7 @@
       "PowerConstRPM0": 1100.0,
       "PowerConstRPMCurvature0": 1.0,
       "Ceiling0": 2001.0,
-      "PowerAtCeiling0": 1100.0,
+      "PowerAtCeiling0": 1099.86,
       "Altitude1": 4000.0,
       "AfterburnerBoostMul1": 0.0,
       "Power1": 1050.0,
@@ -936,7 +990,7 @@
       "PowerConstRPM1": 1050.0,
       "PowerConstRPMCurvature1": 1.0,
       "Ceiling1": 4000.1001,
-      "PowerAtCeiling1": 1050.0,
+      "PowerAtCeiling1": 1049.99,
       "AfterburnerManifoldPressure": 1.25,
       "SpeedManifoldMultiplier": 1.0,
       "ExternalPressureLimit": false,
@@ -990,7 +1044,6 @@
     "FuelAccumulatorCapacity0": 1.0,
     "MinimalLoadFactor": 0.0,
     "FuelAccumulatorFlowRate": 0.32,
-    "NegativeAccelerationEffect": true,
     "MaxNitro": 0.0,
     "OilMass": 64.0,
     "AdvancedMass": false,
@@ -1003,22 +1056,6 @@
     "FlapsDestructionIndSpeedP1": [0.1,380.0],
     "FlapsDestructionIndSpeedP2": [1.0,280.0],
     "Parts": {
-      "tank1_capacity": 166.0,
-      "tank1_system": 0,
-      "tank1_external": false,
-      "tank1_priority": 2,
-      "tank2_capacity": 192.0,
-      "tank2_system": 0,
-      "tank2_external": false,
-      "tank2_priority": 1,
-      "tank3_capacity": 474.5,
-      "tank3_system": 0,
-      "tank3_external": false,
-      "tank3_priority": 0,
-      "tank4_capacity": 474.5,
-      "tank4_system": 0,
-      "tank4_external": false,
-      "tank4_priority": 1,
       "oil2_dm": 12.5548,
       "water1_dm": 12.1525,
       "cover1_dm": 54.97,
@@ -1057,14 +1094,14 @@
       "tailcontrol_dm": 23.9532,
       "wingcontrol_r_dm": 5.7959,
       "wingcontrol_l_dm": 5.7957,
-      "fuse2_dm": 295.834,
       "oil1_dm": 9.2465,
-      "cannon1_dm": 14.9243,
       "mgun2_dm": 15.6268,
       "mgun3_dm": 15.6268,
       "mgun1_dm": 15.6149,
       "engine1_dm": 657.0,
-      "cannon2_dm": 15.0635
+      "cannon2_dm": 15.0635,
+      "cannon1_dm": 14.9243,
+      "fuse2_dm": 295.834
     },
     "PartsWithSurface": {
       "rudder0_dm": 20.0463,
@@ -1075,7 +1112,8 @@
       "elevator1_dm": 41.9943,
       "armor5_dm": 7.7572,
       "fin1_dm": 28.5457,
-      "fin2_dm": 28.5457
+      "fin2_dm": 28.5457,
+      "wingcontrol_dm": -2.7438
     }
   },
   "SelfSealingTanks": {
@@ -1090,7 +1128,7 @@
   },
   "Gear": {
     "SinkFactor": 1500.0,
-    "SinkRateMult": 0.3011,
+    "SinkRateMult": 0.304,
     "WaterFriction": 1.0,
     "WaterFrictionDefault": 2.5,
     "UseCenterOfGravity": true,
@@ -1100,7 +1138,7 @@
     "FullBrakeSlidingFrictionMult": 0.6,
     "FrontalSpringsHeight": 0.3,
     "TailSpringsHeight": 0.1,
-    "FrontalSpringsCoeff": 546951.5,
+    "FrontalSpringsCoeff": 546952.0,
     "TailSpringsCoeff": 955779.0,
     "HasWheels": true,
     "LeftWheelRadius": 0.469,

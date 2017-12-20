@@ -79,6 +79,8 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
 
       watch = [text_state, stateFlags]
       text = text_state.value
+      title = options?.title
+      inputType = options?.inputType
       password = options.get("password")
       key = text_state
 

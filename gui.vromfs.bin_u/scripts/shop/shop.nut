@@ -1813,7 +1813,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function updateSlotbarDifficulty()
   {
-    ::update_slotbar_difficulty(::top_menu_handler)
+    local slotbar = ::top_menu_handler && ::top_menu_handler.getSlotbar()
+    if (slotbar)
+      slotbar.updateDifficulty()
   }
 
   function updateTreeDifficulty()
@@ -1902,6 +1904,14 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       shouldBlurSceneBg = ::getTblValue("isShow", p, false)
       ::handlersManager.updateSceneBgBlur()
     }
+  }
+
+  function onEventCurrentGameModeIdChanged(params)
+  {
+    if (curDiffCode != -1)
+      return
+
+    doWhenActiveOnce("updateTreeDifficulty")
   }
 
   function onUnitSelect() {}

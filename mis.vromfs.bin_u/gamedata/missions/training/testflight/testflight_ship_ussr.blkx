@@ -8,7 +8,7 @@
     },
     "player": {
       "army": 1,
-      "wing": "armada_01"
+      "wing": "t1_player01"
     },
     "player_teamB": {
       "army": 2
@@ -101,6 +101,8 @@
           "killOutOfBattleArea": true,
           "target": "battlearea",
           "newGridHorizontalCellCount": 0,
+          "killArea": false,
+          "detectionArea": false,
           "area": "battlearea"
         }
       },
@@ -132,7 +134,7 @@
         "unitRespawn": {
           "delay": 1.0,
           "offset": [0.0,0.0,0.0],
-          "object": "armada_01",
+          "object": "t1_player01",
           "target": "spawn01"
         }
       },
@@ -150,12 +152,12 @@
   "units": [
     {
       "ships": {
-        "name": "armada_01",
+        "name": "t1_player01",
         "tm": [
-          [-1.0,0.0,2.08616e-07],
+          [0.382684,0.0,0.92388],
           [0.0,1.0,0.0],
-          [-2.08616e-07,0.0,-1.0],
-          [530.765,-9.99976,443.994]
+          [-0.92388,0.0,0.382684],
+          [662.422,-9.99976,-7.73108]
         ],
         "unit_class": "uk_dark_class",
         "closed_waypoints": false,
@@ -187,12 +189,12 @@
       "ships": {
         "name": "ai_ship",
         "tm": [
-          [-0.190324,0.0,-0.981721],
+          [-0.834158,0.0,0.551525],
           [0.0,1.0,0.0],
-          [0.981721,0.0,-0.190324],
-          [-236.778,0.000100136,404.264]
+          [-0.551525,0.0,-0.834158],
+          [919.442,0.000103951,716.59]
         ],
-        "unit_class": "germ_s_100_s_174_class",
+        "unit_class": "germ_s38",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -226,9 +228,9 @@
           [0.00754631,0.0,-0.999972],
           [0.0,1.0,0.0],
           [0.999972,0.0,0.00754631],
-          [-541.869,490.0,3933.65]
+          [1231.35,300.0,3380.11]
         ],
-        "unit_class": "fw-190a-5",
+        "unit_class": "ju-88c-6",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -264,27 +266,164 @@
         },
         "way": []
       }
+    },
+    {
+      "ships": {
+        "name": "ai_ship01",
+        "tm": [
+          [-0.917257,0.0,0.398296],
+          [0.0,1.0,0.0],
+          [-0.398296,0.0,-0.917257],
+          [1324.71,0.0,2925.29]
+        ],
+        "unit_class": "germ_destroyer_class1936_z20",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ai_ship02",
+        "tm": [
+          [-0.999644,0.0,-0.0266706],
+          [0.0,1.0,0.0],
+          [0.0266706,0.0,-0.999644],
+          [2420.69,-0.000976563,1447.03]
+        ],
+        "unit_class": "germ_s38",
+        "objLayer": 1,
+        "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": {
+          "ai_ship02_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2004.93,-0.000976563,1443.16]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "ai_ship02_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1390.5,-6.72632,1502.71]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "ai_ship02_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1009.68,0.00012207,2148.58]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "ai_ship02_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2329.7,0.0,2342.44]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          }
+        }
+      }
     }
   ],
   "areas": {
     "battlearea": {
       "type": "Box",
       "tm": [
-        [7399.29,0.0,-84.3415],
+        [5745.31,0.0,-65.4884],
         [0.0,712.125,0.0],
-        [84.3415,0.0,7399.29],
-        [-145.835,0.0,375.322]
+        [65.4884,0.0,5745.31],
+        [650.767,0.0,735.499]
       ],
-      "objLayer": 0,
+      "objLayer": 3,
       "props": []
     },
     "wp_for_plane": {
       "type": "Point",
       "tm": [
-        [-0.999935,0.0,0.0113978],
+        [0.393189,0.0,0.919458],
         [0.0,1.0,0.0],
-        [-0.0113978,0.0,-0.999935],
-        [-262.575,490.0,334.282]
+        [-0.919458,0.0,0.393189],
+        [662.4,490.0,-7.7]
       ],
       "objLayer": 0,
       "props": []
@@ -292,10 +431,10 @@
     "spawn01": {
       "type": "Sphere",
       "tm": [
-        [-39.3923,0.0,-6.94593],
+        [8.65757,0.0,39.0518],
         [0.0,40.0,0.0],
-        [6.94593,0.0,-39.3923],
-        [530.8,0.0,444.0]
+        [-39.0518,0.0,8.65757],
+        [662.413,3.8147e-06,-7.76569]
       ],
       "objLayer": 0,
       "props": []
@@ -319,7 +458,7 @@
     },
     {
       "layer": {
-        "enabled": true
+        "enabled": false
       }
     }
   ],

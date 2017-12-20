@@ -49,7 +49,7 @@ expandable.simple[fullSize=yes] {
   margin:0;
 }
 
-expandable:current > selImg {
+expandable[selected=yes] > selImg {
   background-color:@white;
 }
 
@@ -57,7 +57,7 @@ expandable:current > selImg {
   background-color:@transparent;
 }
 
-[show_console_buttons=yes] [selImgType=gamepadFocused]:focus > expandable:current > selImg {
+[show_console_buttons=yes] [selImgType=gamepadFocused]:focus > expandable[selected=yes] > selImg {
   background-color:@white;
 }
 
@@ -91,18 +91,14 @@ expandable:hover statusImg[background-image] {
   background-color:@hoverTextColor;
 }
 
-expandable:focus, expandable:current, expandable.simple[active=yes],
+expandable:focus,
+expandable.simple[active=yes],
 expandable[selected=yes] {
   background-color:@frameDarkActiveBgColor;
   border-color:@frameDarkSelectedBorderColor;
 }
 
-expandable[selected=no] {
-  background-color:@frameDarkBackgroundColor;
-  border-color:@frameDarkBorderColor;
-}
-
-expandable:current statusImg[background-image] {
+expandable[selected=yes] statusImg[background-image] {
   background-color:@activeTextColor;
 }
 
@@ -122,7 +118,7 @@ expandable[status=owned] {
   border:no;
 }
 
-expandable[status=owned]:current {
+expandable[status=owned][selected=yes] {
   background-color:@frameDarkActiveBgColor;
   border-color:@frameDarkSelectedBorderColor;
   border:yes;
@@ -137,7 +133,7 @@ expandable[status=locked], expandable[status=locked] statusImg[background-image]
   background-color:@shopItemLocked;
 }
 expandable[status=locked]:hover, expandable[status=locked]:hover statusImg[background-image],
-expandable[status=locked]:current, expandable[status=locked]:current statusImg[background-image] {
+expandable[status=locked][selected=yes], expandable[status=locked][selected=yes] statusImg[background-image] {
   background-color:@shopItemLockedFocus;
 }
 
@@ -163,7 +159,7 @@ expandable[battleTaskStatus=done] textareaNoTab {
   color-factor:128;
 }
 
-expandable:current > fgLine {
+expandable[selected=yes] > fgLine {
   size:pw, 2@dp;
   pos:0, 0;
   position:absolute;
@@ -183,7 +179,7 @@ expandable statusImg {
   position:relative;
 }
 
-expandable[type=battleTask]:current {
+expandable[type=battleTask][selected=yes] {
   border-color:@frameDarkLineColor;
 }
 
@@ -213,7 +209,7 @@ expandable hiddenDiv {
   display:hide;
 }
 
-expandable:current hiddenDiv,
+expandable[selected=yes] hiddenDiv,
 promoButton expandable hiddenDiv {
   display:show;
 }
@@ -222,7 +218,7 @@ expandable expandImg {
   input-transparent:yes;
 }
 
-expandable:current expandImg,
+expandable[selected=yes] expandImg,
 promoButton expandable expandImg {
   display:hide;
 }

@@ -290,11 +290,6 @@
       "color": "#331e5876",
       "notifyNew": true,
       "action": "tutorial"
-    },
-    "battle_tasks_mainmenu_button": {
-      "color": "#33fb4417",
-      "text": "#mainmenu/btnBattleTasks",
-      "action": "battle_tasks"
     }
   },
   "time_to_kick": {
@@ -544,6 +539,9 @@
         "condition": "role_TESTER"
       }
     ],
+    "SpendGoldForShips": {
+      "condition": "Ships"
+    },
     "Tanks": {
       "condition": "",
       "platform_lock": "android"
@@ -569,7 +567,10 @@
     "ItalyAircraftsInFirstCountryChoice": {
       "condition": ""
     },
-    "FranceAircraftsInFirstCountryChoice": [
+    "FranceAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "FranceTanksInFirstCountryChoice": [
       {
         "condition": "role_GAIJIN"
       },
@@ -722,6 +723,20 @@
         "condition": "worldwar_cbt_access"
       }
     ],
+    "WorldWarGlobalBattles": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
     "GraphicsOptions": {
       "condition": ""
     },
@@ -769,6 +784,9 @@
         "condition": "role_TESTER"
       }
     ],
+    "SkinAutoSelect": {
+      "condition": ""
+    },
     "UserMissions": {
       "condition": "",
       "platform_lock": "ps4;android;xboxOne"
@@ -801,7 +819,7 @@
     },
     "Benchmark": {
       "condition": "",
-      "platform_lock": "android"
+      "platform_lock": "ps4;android;xboxOne"
     },
     "BenchmarkPS4": [
       {
@@ -966,6 +984,9 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
+    "ActiveScouting": {
+      "condition": ""
+    },
     "Missiles": [
       {
         "condition": "role_GAIJIN"
@@ -1054,6 +1075,9 @@
       "condition": ""
     },
     "BattleTasks": {
+      "condition": ""
+    },
+    "BattleTasksHard": {
       "condition": ""
     },
     "PersonalUnlocks": {
@@ -1204,7 +1228,10 @@
     "ItalianAircraftUnlocked": {
       "condition": ""
     },
-    "FranceAircraftUnlocked": [
+    "FranceAircraftUnlocked": {
+      "condition": ""
+    },
+    "FranceTankUnlocked": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1218,7 +1245,7 @@
         "condition": "role_ALPHA_TESTER"
       },
       {
-        "condition": "wt_access_france_aircrafts_unlocks"
+        "condition": "wt_access_france_tanks_unlocks"
       }
     ],
     "CountryChina": {
@@ -1344,7 +1371,21 @@
     "Warbonds_2_0": {
       "condition": ""
     },
-    "Ugc": [
+    "EnableUgcSkins": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "EnableUgcDecals": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1370,6 +1411,14 @@
       },
       {
         "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "Ugc": [
+      {
+        "condition": "EnableUgcSkins"
+      },
+      {
+        "condition": "EnableUgcDecals"
       }
     ],
     "WikiUnitInfo": {

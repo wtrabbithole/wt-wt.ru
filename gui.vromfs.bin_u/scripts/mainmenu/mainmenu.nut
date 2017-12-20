@@ -272,7 +272,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
     if (!::is_platform_pc && !::is_platform_android)
       return
 
-    msgBox("question_quit_game", ::loc("mainmenu/questionQuitGame"),
+    msgBox("mainmenu_question_quit_game", ::loc("mainmenu/questionQuitGame"),
       [
         ["yes", ::exit_game],
         ["no", function() { }]

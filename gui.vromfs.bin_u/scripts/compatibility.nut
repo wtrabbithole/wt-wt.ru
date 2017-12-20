@@ -586,4 +586,22 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   hangar_show_model_damaged = function(state) {}
   hangar_get_loaded_model_damage_state = @() MDS_UNDAMAGED
+
+  EXP_EVENT_SCOUT_KILL_UNKNOWN = 28
+
+  xbox_is_achievement_unlocked = @(xboxId) false
+
+  UNLOCKABLE_TROPHY_XBOXONE = 28
+
+  get_option_use_perfect_rangefinder = function() { return false }
+  set_option_use_perfect_rangefinder = function(value) {}
+
+  is_mouse_available = @() true
 })
+
+//----------------------------wop_1_73_5_X---------------------------------//
+::apply_compatibilities({
+  encode_uri_component = function(text) { return "" }
+  encode_base64 = function(text) { return "" }
+})
+

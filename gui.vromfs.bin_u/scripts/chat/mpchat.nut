@@ -83,19 +83,21 @@ class ::ChatHandler
       hiddenInput = hiddenInput     // Chat is read-only
       curTab = mpChatView.CHAT
     }
+    local sceneFocusObjArray = [
+    "chat_prompt_place",
+    "chat_input",
+    "chat_log",
+    "chat_tabs"
+    ]
 
     local scene = sceneData.scene
-    local inputObj = scene.findObject("chat_input")
-    if (inputObj)
-      inputObj.setIntProp(sceneIdxPID, sceneData.idx)
 
-    local chatLog = scene.findObject("chat_log")
-    if (chatLog)
-      chatLog.setIntProp(sceneIdxPID, sceneData.idx)
-
-    local chatTabs = scene.findObject("chat_tabs")
-    if (chatTabs)
-      chatTabs.setIntProp(sceneIdxPID, sceneData.idx)
+    foreach (objName in sceneFocusObjArray)
+    {
+      local obj = scene.findObject(objName)
+      if (obj)
+        obj.setIntProp(sceneIdxPID, sceneData.idx)
+    }
 
     local timerObj = scene.findObject("chat_update")
     if (timerObj && (selfHideInput || selfHideLog))

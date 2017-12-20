@@ -3528,6 +3528,40 @@
       "leftPos": [-1.0,1.0,0.0]
     }
   },
+  "engine_char_b1": {
+    "effects": {
+      "path": "tanks/engines_tanks/char_b1",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/char_b1",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/char_b1",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
   "engine_m8": {
     "effects": {
       "path": "tanks/engines_tanks/m8",
@@ -4686,6 +4720,42 @@
           "player": 1,
           "eventsChancePlay": 1.0
         },
+        "loadBulletAPDS": {
+          "event": "voice_message_load_APDS",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletAPDSFS": {
+          "event": "voice_message_load_APDSFS",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletCanister": {
+          "event": "voice_message_load_CANISTER",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletHighExplFinStab": {
+          "event": "voice_message_load_HE_FS",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletHEP": {
+          "event": "voice_message_load_HESH",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletMissile": {
+          "event": "voice_message_load_MISSILE",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
         "reloading": {
           "event": "voice_message_reloading",
           "playerRole": "commander",
@@ -5127,11 +5197,11 @@
           "minSpeechInterval": 5.0
         },
         "aircraftInView": {
-          "event": "voice_message_air_alert_v1",
+          "event": "voice_message_air_alert",
           "playerRole": "sailor",
           "player": 1,
           "delayTime": 0.7,
-          "minSpeechInterval": 10.0
+          "minSpeechInterval": 30.0
         }
       }
     }

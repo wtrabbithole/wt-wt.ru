@@ -138,10 +138,15 @@
     unitWeaponBlkList = []
     if( ! unitBlk)
       return
-    local commonWeapons = ::getCommonWeaponsBlk(unitBlk, "")
-    if(commonWeapons != null)
-      foreach (weapon in (commonWeapons % "Weapon"))
-        unitWeaponBlkList.push(weapon)
+
+    local primaryList = ::getPrimaryWeaponsList(unit)
+    foreach(modName in primaryList)
+    {
+      local commonWeapons = ::getCommonWeaponsBlk(unitBlk, modName)
+      if(commonWeapons != null)
+        foreach (weapon in (commonWeapons % "Weapon"))
+          unitWeaponBlkList.push(weapon)
+    }
 
     foreach (preset in (unitBlk.weapon_presets % "preset"))
     {
@@ -149,7 +154,7 @@
         continue
       local presetBlk = ::DataBlock(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
-        unitWeaponBlkList.push(::DataBlock(weapon))
+        unitWeaponBlkList.push(weapon)
     }
   }
 
@@ -838,7 +843,7 @@
 
   function getWeaponByXrayPartName(partName)
   {
-    local partLinkSources = ["dm", "barrelDP", "breechDP", "maskDP"]
+    local partLinkSources = ["dm", "barrelDP", "breechDP", "maskDP", "gunDm"]
     foreach(weapon in getUnitWeaponList())
     {
       foreach(linkKey in partLinkSources)

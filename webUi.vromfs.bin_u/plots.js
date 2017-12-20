@@ -187,7 +187,7 @@ function buildMarkings(markings, xAxes, yAxes, tables, unitSystemName)
         if (marking.yAxis != undefined)
         {
           var value = convertToUnit(marking.value != undefined ? marking.value : tables[marking.tableName][marking.paramName],
-            xAxes[marking.yAxis].unit, unitSystemName)
+            yAxes[marking.yAxis].unit, unitSystemName)
           yAxis = { from: value, to: value}
         }
         result[i] = {

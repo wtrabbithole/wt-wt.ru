@@ -6,11 +6,6 @@ class ::items_classes.Chest extends ItemExternal {
   static typeIcon = "#ui/gameuiskin#item_type_trophies"
   static openingCaptionLocId = "mainmenu/chestConsumed/title"
 
-  constructor(itemDesc, invBlk = null, slotData = null)
-  {
-    base.constructor(itemDesc)
-  }
-
   function getOpenedBigIcon()
   {
     return getBigIcon()

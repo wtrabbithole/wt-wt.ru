@@ -283,12 +283,12 @@ local time = require("scripts/time.nut")
     getLocName = function(decoratorName, addUnitName = false)
     {
       if (guidParser.isGuid(decoratorName))
-        return ::loc(decoratorName)
+        return ::loc(decoratorName, ::loc("default_ugc_skin_loc"))
 
       local unitName = ::g_unlocks.getPlaneBySkinId(decoratorName)
 
       if (::g_unlocks.isDefaultSkin(decoratorName))
-        decoratorName = ::loc(unitName + "/default", "default_skin_loc")
+        decoratorName = ::loc(unitName + "/default", ::loc("default_skin_loc"))
 
       local name = ::loc(decoratorName)
       if (addUnitName && !::u.isEmpty(unitName))
@@ -298,7 +298,8 @@ local time = require("scripts/time.nut")
     }
     getLocDesc = function(decoratorName)
     {
-      return ::loc(decoratorName + "/desc", ::loc("default_skin_loc/desc"))
+      local defaultLocId = guidParser.isGuid(decoratorName) ? "default_ugc_skin_loc/desc" : "default_skin_loc/desc"
+      return ::loc(decoratorName + "/desc", ::loc(defaultLocId))
     }
 
     getCost = function(decoratorName)
@@ -333,6 +334,8 @@ local time = require("scripts/time.nut")
 
     getSpecialDecorator = function(id)
     {
+      if (guidParser.isGuid(id))
+        return ::Decorator(id, this)
       if (::g_unlocks.getSkinNameBySkinId(id) == "default")
         return ::Decorator(id, this)
       return null

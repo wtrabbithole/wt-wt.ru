@@ -81,6 +81,7 @@
     AttachablesUse = ::disable_network()
     UserSkins = true
     SkinsPreviewOnUnboughtUnits = ::disable_network()
+    SkinAutoSelect = false
     UserMissions = true
     UserMissionsSkirmishLocal = false
     UserMissionsSkirmishByUrl = false

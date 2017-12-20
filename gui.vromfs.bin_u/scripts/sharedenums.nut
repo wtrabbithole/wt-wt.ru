@@ -52,3 +52,9 @@ enum AxisInvertOption
   INVERT_HELICOPTER_Y,
   INVERT_SPECTATOR_Y
 };
+
+enum DargWidgets
+{
+  NONE = 0,
+  HUD
+};

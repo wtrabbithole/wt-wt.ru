@@ -275,7 +275,7 @@ function get_unit_actions_list(unit, handler, actions)
         ::queues.checkAndStart(function()
         {
           if (handler.isValid())
-            ::gui_start_select_unit(crew, handler)
+            ::gui_start_select_unit(crew, handler.getSlotbar() || handler)
         },
         null, "isCanModifyCrew")
       }
@@ -357,14 +357,17 @@ function get_unit_actions_list(unit, handler, actions)
     }
     else if (action == "research")
     {
+      if (::isUnitResearched(unit))
+        continue
+
       local countryExp = ::shop_get_country_excess_exp(::getUnitCountry(unit), ::get_es_unit_type(unit))
       local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
       local getReqExp = reqExp < countryExp ? reqExp : countryExp
-      local needToFlushExp = handler.shopResearchMode && countryExp > 0
+      local needToFlushExp = handler?.shopResearchMode && countryExp > 0 //!!FIX ME: Direct search params in the handler not a good idea
 
       actionText = needToFlushExp
                    ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::Cost().setRp(getReqExp).tostring())
-                   : ( ::isUnitInResearch(unit) && handler.setResearchManually
+                   : ( ::isUnitInResearch(unit) && handler?.setResearchManually
                       ? ::loc("mainmenu/btnConvert")
                       : ::loc("mainmenu/btnResearch"))
       //icon       = "#ui/gameuiskin#slot_research"
@@ -372,7 +375,7 @@ function get_unit_actions_list(unit, handler, actions)
       enabled = showAction
       actionFunc = needToFlushExp
                   ? (@(handler) function() {handler.onSpendExcessExp()})(handler)
-                  : ( !handler.setResearchManually?
+                  : ( !handler?.setResearchManually?
                       (@(handler) function () { handler.onCloseShop() })(handler)
                       : (::isUnitInResearch(unit) ?
                           (@(unit, handler) function () { ::gui_modal_convertExp(unit, handler) })(unit, handler)
@@ -1037,14 +1040,16 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
     air._modificatorsRequested = true
     calculate_tank_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
       air._modificatorsRequested = false
-      air.modificators = {
-        arcade = effect.arcade
-        historical = effect.historical
-        fullreal = effect.fullreal
+      if (effect)
+      {
+        air.modificators = {
+          arcade = effect.arcade
+          historical = effect.historical
+          fullreal = effect.fullreal
+        }
+        if (!air.modificatorsBase) // TODO: Needs tank params _without_ user progress here.
+          air.modificatorsBase = air.modificators
       }
-      if (!air.modificatorsBase) // TODO: Needs tank params _without_ user progress here.
-        air.modificatorsBase = air.modificators
-
       ::_afterUpdateAirModificators(air, callBack)
     })(air, callBack))
     return false
@@ -1053,14 +1058,16 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
   air._modificatorsRequested = true
   ::calculate_min_and_max_parameters(air.name, this, (@(air, callBack) function(effect, ...) {
     air._modificatorsRequested = false
-    air.modificators = {
-      arcade = effect.arcade
-      historical = effect.historical
-      fullreal = effect.fullreal
+    if (effect)
+    {
+      air.modificators = {
+        arcade = effect.arcade
+        historical = effect.historical
+        fullreal = effect.fullreal
+      }
+      air.minChars = effect.min
+      air.maxChars = effect.max
     }
-    air.minChars = effect.min
-    air.maxChars = effect.max
-
     ::_afterUpdateAirModificators(air, callBack)
   })(air, callBack))
   return false

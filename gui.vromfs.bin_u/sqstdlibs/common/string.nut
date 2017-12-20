@@ -522,6 +522,35 @@ local function intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3) {
   return res
 }
 
+
+//  presize is a round presize (like 0.01).
+//  value can be received by round_by_value from math.nut, or same
+local function roundedFloatToString(value, presize)
+{
+  if (presize >= 1)
+  {
+    local res = (value / presize).tointeger().tostring()
+    for(local p = presize; p > 1; p /= 10)
+      res += "0" //we no need float trash below presize
+    return res //we no need e+8 in the big numbers too
+  }
+  return ::format("%." + (-log10(presize).tointeger()) + "f", value)
+}
+/*
+  getroottable()["rfsUnitTest"] <- function()
+  {
+    local resArr = []
+    local testValArray = [1.0, 12.0, 123.0, 6548.0, 72356.0, 120.0, 4300.0, 1234567.0]
+    for(local presize = 1e+6; presize >= 1e-10; presize *= 0.1)
+      resArr.append("presize " + presize + " -> "
+        + implode(testValArray.map(@(val) roundedFloatToString(presize * val, presize)), ", "))
+    return implode(resArr, "\n")
+  }
+  //presize 1e+06 -> 1000000, 12000000, 123000000, 6547000000, 72356000000, 120000000, 4300000000, 1234567000000
+  //presize 0.001 -> 0.001, 0.012, 0.123, 6.548, 72.356, 0.120, 4.300, 1234.567
+  //presize 1e-10 -> 0.0000000001, 0.0000000012, 0.0000000123, 0.0000006548, 0.0000072356, 0.0000000120, 0.0000004300, 0.0001234567'
+*/
+
 local function stripTags(str) {
   if (!str || !str.len())
     return ""
@@ -557,6 +586,7 @@ local export = {
   hexStringToInt = hexStringToInt
   cutPrefix = cutPrefix
   intToStrWithDelimiter = intToStrWithDelimiter
+  roundedFloatToString = roundedFloatToString
   stripTags = stripTags
   tostring_any  = tostring_any
   tostring_r = tostring_r

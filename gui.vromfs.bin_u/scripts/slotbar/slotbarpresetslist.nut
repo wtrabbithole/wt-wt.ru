@@ -220,7 +220,7 @@ class SlotbarPresetsList
   function onSlotsChoosePreset(obj)
   {
     checkChangePresetAndDo(function () {
-      ::gui_choose_slotbar_preset(this)
+      ::gui_choose_slotbar_preset(ownerWeak)
     })
   }
 

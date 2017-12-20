@@ -61,8 +61,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       afterSlotbarSelect = openSelectedCrew
       onSlotDblClick = onSlotDblClick
     })
-    if (slotbarParams)
-      delete slotbarParams.crewId //it need only to correct init slotbar, but no need on reinit it.
 
     initFocusArray()
 
@@ -712,7 +710,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventCrewSkillsChanged(params)
   {
-    base.onEventCrewSkillsChanged(params)
     crew = getSlotItem(countryId, idInCountry)
     initMainParams(!::getTblValue("isOnlyPointsChanged", params, false))
   }
@@ -720,7 +717,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   /** Triggered from CrewUnitSpecHandler. */
   function onEventQualificationIncreased(params)
   {
-    base.onEventQualificationIncreased(params)
     crew = getSlotItem(countryId, idInCountry)
     initMainParams()
     updatePage()

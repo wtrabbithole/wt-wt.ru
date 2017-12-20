@@ -428,6 +428,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     initTopItems()
     fetchLbData()
     updateButtons()
+    initFocusArray()
   }
 
   //----CONTROLLER----//
@@ -623,6 +624,16 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       pos = 0
     }
     fetchLbData()
+  }
+
+  function getMainFocusObj()
+  {
+    return scene.findObject("top_holder")
+  }
+
+  function getMainFocusObj2()
+  {
+    return scene.findObject("lb_table")
   }
   //----END_CONTROLLER----//
 
@@ -874,6 +885,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
     headerName.setValue(::events.getEventNameText(eventData))
 
     updateButtons()
+    initFocusArray()
   }
 
   function getTopItemsTplView()

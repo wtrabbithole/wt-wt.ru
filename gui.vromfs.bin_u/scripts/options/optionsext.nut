@@ -3,6 +3,7 @@ local colorCorrector = require_native("colorCorrector")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
+local platformModule = require("scripts/clientState/platform.nut")
 
 const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
@@ -95,6 +96,7 @@ function image_for_air(air)
 
 ::acList <- []
 ::shopCountriesList <- []
+::ugc_tags_presets <- []
 
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
@@ -103,7 +105,7 @@ function image_for_air(air)
     "encyclopedia_data", "measure_units",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
-    "reload_cooldown_time"
+    "reload_cooldown_time", "ugc_tags_presets"
   ])
 
 ::check_aircraft_tags <- function(airtags, filtertags)
@@ -899,6 +901,13 @@ function get_option(type, context = null)
         descr.values.append(i)
       }
       descr.value = ::find_in_array(descr.values, ::get_option_depthcharge_activation_time())
+      break
+
+   case ::USEROPT_USE_PERFECT_RANGEFINDER:
+      descr.id = "use_perfect_rangefinder"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_use_perfect_rangefinder()
       break
 
     case ::USEROPT_ROCKET_FUSE_DIST:
@@ -2313,30 +2322,18 @@ function get_option(type, context = null)
       }
       break
 
-    case USEROPT_UGC_FORBIDDEN_TAGS:
-      descr.id = "ugc_forbidden_tags"
-      descr.controlType = optionControlType.BIT_LIST
-      descr.controlName <- "multiselect"
-      descr.value = 0
-      defaultValue = 0
+    case USEROPT_UGC_ALLOWED_TAGS_PRESET:
+      descr.id = "ugc_allowed_tags_preset"
+      descr.controlType = optionControlType.LIST
+      descr.controlName <- "combobox"
       descr.items = []
       descr.values = []
-      local tags = ::ugc_get_all_tags()
-      for(local i = 0; i < tags.len(); i++)
+      for(local i = 0; i < ::ugc_tags_presets.len(); i++)
       {
-        descr.items.append(::loc("ugc_tag/" + tags[i].name))
-        descr.values.append(tags[i].name)
-        if (tags[i].isForbidden)
-          descr.value = descr.value | (1 << i);
+        descr.items.append(::loc("ugc_tag_preset/" + ::ugc_tags_presets[i]))
+        descr.values.append(::ugc_tags_presets[i])
       }
       break
-
-    case USEROPT_UGC_USE_FORBIDDEN_TAGS:
-      descr.id = "ugc_use_forbidden_tags"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      defaultValue = false
-      break;
 
 
     case USEROPT_TANK_SKIN_CONDITION:
@@ -3749,6 +3746,14 @@ function get_option(type, context = null)
       descr.controlName <- "switchbox"
       descr.value = ::g_gamepad_cursor_controls.getValue()
       break
+
+    case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
+      descr.id = "xbox_crossplay"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = platformModule.isCrossPlayEnabled()
+      break
+
     default:
       print("[ERROR] Unsupported type " + type)
   }
@@ -3871,6 +3876,9 @@ function set_option(type, value, descr = null)
       break
     case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       ::set_option_depthcharge_activation_time(descr.values[value])
+      break
+    case ::USEROPT_USE_PERFECT_RANGEFINDER:
+      ::set_option_use_perfect_rangefinder(value ? 1 : 0)
       break
     case ::USEROPT_ROCKET_FUSE_DIST:
       ::set_option_rocket_fuse_dist(descr.values[value])
@@ -4283,9 +4291,9 @@ function set_option(type, value, descr = null)
         local air = (type == ::USEROPT_SKIN ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons)
         if (value >= 0 && value < descr.values.len())
         {
-          ::set_gui_option(type, descr.values[value])
+          ::set_gui_option(type, descr.values[value] || ::g_decorator.getAutoSkin(air))
           if (type == ::USEROPT_SKIN)
-            ::hangar_set_last_skin(air, descr.values[value])
+            ::g_decorator.setLastSkin(air, descr.values[value])
         }
         else
           print("[ERROR] value '" + value + "' is out of range")
@@ -4473,13 +4481,6 @@ function set_option(type, value, descr = null)
       ::set_gui_option(type, value)
       break
 
-    case ::USEROPT_UGC_FORBIDDEN_TAGS:
-      local arr = []
-      for (local i = 0; i < descr.values.len(); i++)
-        arr.append({name = descr.values[i], isForbidden = (value & (1 << i)) > 0})
-      ::ugc_set_tags_forbidden(arr);
-      break
-
     case ::USEROPT_MP_TEAM_COUNTRY_RAND:
     case ::USEROPT_MP_TEAM_COUNTRY:
       if (value >= 0 && value < descr.values.len())
@@ -4592,8 +4593,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_HELICOPTER_AIM_FIRE:
     case ::USEROPT_HELICOPTER_KEEP_HEIGHT:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
-    case ::USEROPT_UGC_USE_FORBIDDEN_TAGS:
-
+    case ::USEROPT_UGC_ALLOWED_TAGS_PRESET:
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")
@@ -4734,6 +4734,10 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
       ::queue_classes.Event.setShouldQueueCustomMode(::getTblValue("eventName", descr.context, ""), value)
+      break
+
+    case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
+      platformModule.setIsCrossPlayEnabled(value)
       break
 
     default:

@@ -1429,7 +1429,7 @@
         }
       },
       "ammo": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 750.0,
         "armorThickness": 30.0,
         "armorThrough": 100.0,
@@ -1473,7 +1473,7 @@
         }
       },
       "depth_charges": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 500.0,
         "armorThickness": 20.0,
         "armorThrough": 15.0,
@@ -1733,7 +1733,7 @@
         }
       },
       "torpedos": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 500.0,
         "armorThickness": 20.0,
         "armorThrough": 15.0,
@@ -1801,7 +1801,7 @@
         }
       },
       "fuel_tanks": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 1000.0,
         "armorThickness": 20.0,
         "armorThrough": 200.0,
@@ -2196,6 +2196,21 @@
       {
         "part": [
           {
+            "name": "engine_dm"
+          },
+          {
+            "name": "engine_01_dm"
+          },
+          {
+            "name": "engine_02_dm"
+          },
+          {
+            "name": "engine_03_dm"
+          },
+          {
+            "name": "engine_04_dm"
+          },
+          {
             "name": "engine_room_01_dm"
           },
           {
@@ -2207,6 +2222,25 @@
           {
             "name": "engine_room_04_dm"
           },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.4,
+              "damage": 200.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onKill": {
+              "fire": 0.2,
+              "nothing": 0.8,
+              "fHitCritical": true
+            }
+          }
+        ]
+      },
+      {
+        "part": [
           {
             "name": "funnel_01_dm"
           },
@@ -2220,9 +2254,10 @@
             "name": "funnel_04_dm"
           },
           {
-            "onKill": {
+            "onHit": {
+              "damageType": "explosion",
               "fire": 0.2,
-              "nothing": 0.8,
+              "damage": 200.0,
               "fHitCritical": true
             }
           }
@@ -2292,12 +2327,12 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 11
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 11
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -2307,22 +2342,22 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 31
+        "crew": 32
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 34
+        "crew": 35
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 32
+        "crew": 34
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 28
+        "crew": 29
       },
       "sailor8": {
         "dmPart": "compartment_07_dm",
@@ -2332,54 +2367,49 @@
       "sailor9": {
         "dmPart": "compartment_08_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 16
       },
       "sailor10": {
         "dmPart": "compartment_09_dm",
         "role": "sailor",
-        "crew": 11
+        "crew": 14
       },
       "sailor11": {
-        "dmPart": "superstructure_dm",
-        "role": "sailor",
-        "crew": 16
-      },
-      "sailor12": {
         "dmPart": "superstructure_bottom_dm",
         "role": "sailor",
         "crew": 18
       },
-      "sailor13": {
+      "sailor12": {
         "dmPart": "superstructure_side_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 7
       },
-      "sailor14": {
+      "sailor13": {
         "dmPart": "ex_armor_06_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 4
       },
-      "sailor15": {
+      "sailor14": {
         "dmPart": "turret_01_dm",
         "role": "sailor",
         "crew": 4
       },
-      "sailor16": {
+      "sailor15": {
         "dmPart": "turret_02_dm",
         "role": "sailor",
         "crew": 4
       },
-      "sailor17": {
+      "sailor16": {
         "dmPart": "turret_09_dm",
         "role": "sailor",
         "crew": 4
       },
-      "sailor18": {
+      "sailor17": {
         "dmPart": "turret_10_dm",
         "role": "sailor",
         "crew": 4
       },
-      "sailor19": {
+      "sailor18": {
         "dmPart": "turret_11_dm",
         "role": "sailor",
         "crew": 4
@@ -2584,7 +2614,12 @@
         "cls_body_04": "convex_hull",
         "cls_body_05": "convex_hull",
         "cls_body_06": "convex_hull",
-        "cls_body_07": "convex_hull"
+        "cls_body_07": "convex_hull",
+        "cls_turret_01": "convex_hull",
+        "cls_turret_02": "convex_hull",
+        "cls_turret_03": "convex_hull",
+        "cls_turret_04": "convex_hull",
+        "cls_turret_05": "convex_hull"
       },
       "hydrodynamics": {
         "bodyArea": 0.0,
@@ -4627,11 +4662,54 @@
   {
     "modifications": {
       "127mm_usa_HE_common": [],
+      "127mm_usa_AP_common_ammo_pack": [],
       "127mm_usa_AP_common": [],
+      "127mm_usa_AA_radio_fuse_ammo_pack": [],
       "127mm_usa_AA_radio_fuse": [],
       "manual_ship_extinguisher": [],
-      "tank_tool_kit": [],
-      "ship_smoke_screen_system_mod": []
+      "ship_tool_kit": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_engine": [],
+      "new_ship_screw": [],
+      "new_ship_hull": [],
+      "new_ship_rudder": [],
+      "new_ship_pumps": [],
+      "ship_anti_fragmentation_protection": {
+        "effects": {
+          "damagePartsOverride": {
+            "crew_sections": {
+              "genericDamageMult": 1.0,
+              "explosionDamageMult": 1.0,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.8,
+              "fireDamageMult": 1.0,
+              "cumulativeDamageMult": 1.0,
+              "collisionDamageMult": 1.0,
+              "drowningDamageMult": 1.0,
+              "compartment_01_dm": [],
+              "compartment_02_dm": [],
+              "compartment_03_dm": [],
+              "compartment_04_dm": [],
+              "compartment_05_dm": [],
+              "compartment_06_dm": [],
+              "compartment_07_dm": [],
+              "compartment_08_dm": [],
+              "compartment_09_dm": []
+            }
+          }
+        }
+      },
+      "ship_rangefinder": [],
+      "new_main_caliber_turrets": [],
+      "new_aux_caliber_turrets": [],
+      "new_aa_caliber_turrets": [],
+      "torpedoes_movement_mode": {
+        "effects": {
+          "distToLive": 9150.0,
+          "maxSpeedInWater": 16.97,
+          "diveDepth": 1.0
+        }
+      }
     }
   },
   {
@@ -5246,5 +5324,141 @@
         "tankRearmOnCaptureZone": true
       }
     }
+  },
+  {
+    "wreckedParts": [
+      {
+        "part": {
+          "node": "main_caliber_turret_01",
+          "idx": 1,
+          "mass": 800.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_01"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_02",
+          "idx": 2,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_02"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_03",
+          "idx": 3,
+          "mass": 1200.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_03"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_04",
+          "idx": 4,
+          "mass": 1100.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_04"
+        }
+      },
+      {
+        "part": {
+          "node": "main_caliber_turret_05",
+          "idx": 5,
+          "mass": 900.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_turret_05"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_armor_06",
+          "idx": 6,
+          "mass": 1000.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_armor_06_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "superstructure_front",
+          "idx": 7,
+          "mass": 670.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "cls_body_04"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_armor_r_01",
+          "idx": 8,
+          "mass": 900.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_armor_r_01_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "ex_armor_l_02",
+          "idx": 9,
+          "mass": 1000.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "ex_armor_l_02_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "auxiliary_caliber_turret_01",
+          "idx": 10,
+          "mass": 750.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "auxiliary_caliber_turret_01_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "tt_01",
+          "idx": 11,
+          "mass": 920.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "tt_01_dm"
+        }
+      },
+      {
+        "part": {
+          "node": "tt_02",
+          "idx": 12,
+          "mass": 1200.0,
+          "cutDamage": 350.0,
+          "deviation": 0.6,
+          "rotation": 2.1,
+          "collisionNode": "tt_02_dm"
+        }
+      }
+    ]
   }
 ]

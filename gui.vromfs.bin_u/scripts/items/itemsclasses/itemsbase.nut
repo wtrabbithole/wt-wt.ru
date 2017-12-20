@@ -421,6 +421,15 @@ class ::BaseItem
     return expiredTimeSec > 0
   }
 
+  function canPreview()
+  {
+    return false
+  }
+
+  function doPreview()
+  {
+  }
+
   function getTimeLeftText()
   {
     if (expiredTimeSec <= 0)

@@ -252,7 +252,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
           ::g_clans.disbandClan(isMyClan ? "-1" : clanData.id ,this)
         }],
         ["no",  function() {} ],
-      ], "no");
+      ], "no", { cancel_fn = function(){}} );
   }
 
   function getDecoratorsList()

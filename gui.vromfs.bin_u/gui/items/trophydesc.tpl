@@ -19,7 +19,7 @@ _newline{}
 tdiv {
   width:t='pw'
   max-width:t='p.p.w'
-  margin-bottom:t='1@itemPadding'
+  total-input-transparent:t='yes'
   <<#tooltip>>
   tooltip:t='<<tooltip>>'
   <</tooltip>>
@@ -28,7 +28,7 @@ tdiv {
   <<#icon>>
   img {
     size:t='1@dIco, 1@dIco'
-    pos:t='0, 0.012@sf - h/2'; position:t='absolute'
+    pos:t='0, ph/2-h/2'; position:t='absolute'
     position:t='relative'
     background-image:t='<<icon>>'
   }
@@ -36,7 +36,7 @@ tdiv {
   <<#icon2>>
   img {
     size:t='1@dIco, 1@dIco'
-    pos:t='0, 0.012@sf - h/2'; position:t='absolute'
+    pos:t='0, ph/2-h/2'; position:t='absolute'
     position:t='relative'
     background-image:t='<<icon2>>'
   }
@@ -72,20 +72,6 @@ tdiv {
       <<@unitPlate>>
     }
   }
-
-  <<#unitInfoText>>
-  _newline{}
-  textareaNoTab {
-    <<^widthByParentParent>>
-    width:t='pw -1@dIco -1@itemPadding'
-    <</widthByParentParent>>
-    max-width:t='p.p.p.w -1@dIco -1@itemPadding'
-    pos:t='<<#classIco>>1@dIco+<</classIco>> 1@itemPadding, 0'; position:t='relative'
-    text:t='<<unitInfoText>>'
-    smallFont:t='yes'
-    margin-bottom:t='20'
-  }
-  <</unitInfoText>>
   <</unitPlate>>
 
   <<#tooltipId>>
@@ -98,4 +84,27 @@ tdiv {
   title:t='$tooltipObj'
   <</tooltipId>>
 }
+
+<<#commentText>>
+_newline{}
+textareaNoTab {
+  <<^widthByParentParent>>
+  width:t='pw'
+  <</widthByParentParent>>
+  <<#widthByParentParent>>
+  max-width:t='p.p.w'
+  <</widthByParentParent>>
+  <<#title>>
+  padding-left:t='1@dIco <<#icon2>>+1@dIco<</icon2>> +1@itemPadding'
+  <</title>>
+  <<#unitPlate>>
+  padding-left:t='<<#classIco>>1@dIco +<</classIco>> 1@itemPadding'
+  <</unitPlate>>
+  text:t='<<commentText>>'
+  smallFont:t='yes'
+}
+<</commentText>>
+_interval { margin-bottom:t='1@blockInterval' }
 <</list>>
+
+_interval { margin-bottom:t='1@blockInterval' }

@@ -42,8 +42,9 @@ enum ctrlGroups {
 
   VOICE         = 0x0010
   REPLAY        = 0x0020
+  ARTILLERY     = 0x0040
 
-  HANGAR        = 0x0040
+  HANGAR        = 0x0080
 
   //complex groups mask
   NO_GROUP      = 0x0000

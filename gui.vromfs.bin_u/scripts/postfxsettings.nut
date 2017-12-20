@@ -1,4 +1,3 @@
-::fxaa_list <- ["#options/fxaa0", "#options/fxaa1", "#options/fxaa2"];
 ::tonemappingMode_list <- ["#options/hudDefault", "#options/reinard", "#options/polynom"];
 ::lut_list <- ["#options/hudDefault"];
 ::lut_textures <- [""];
@@ -103,9 +102,6 @@ class ::gui_handlers.PostFxSettings extends ::gui_handlers.BaseGuiHandlerWT
   function createObjects()
   {
     createOneSlider("vignette", (1 - get_postfx_vignette_multiplier()) * scale, "onVignetteChanged", {min = 0.01 * scale, max = scale, step = 20}, false);
-
-    if (!::is_ps4_or_xbox)
-      createOneSpinner("fxaa", ::fxaa_list, get_fxaa(), "onFXAAChanged");
 
     createOneSlider("sharpenTPS", get_sharpenTPS() * scale, "onSharpenTPSChanged", {min = 0, max = 0.4 * scale, step = 20}, false);
     createOneSlider("sharpenGunner", get_sharpenGunner() * scale, "onSharpenGunnerChanged", {min = 0, max = 0.7 * scale, step = 20}, false);

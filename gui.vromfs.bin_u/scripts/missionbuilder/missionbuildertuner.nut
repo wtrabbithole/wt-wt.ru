@@ -181,7 +181,7 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
         ::mission_settings.mission.player_class = airName
         armada.unit_class = airName
         armada.weapons = ::get_last_weapon(airName)
-        armada.skin = ::hangar_get_last_skin(airName)
+        armada.skin = ::g_decorator.getLastSkin(airName)
         listA.append([armada.unit_class])
         listW.append([armada.weapons])
         listS.append([armada.skin])

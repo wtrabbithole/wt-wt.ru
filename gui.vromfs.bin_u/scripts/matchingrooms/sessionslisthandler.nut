@@ -97,6 +97,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
 {
   sceneBlkName = "gui/sessionsList.blk"
   sceneNavBlkName = "gui/navSessionsList.blk"
+  optionsContainer = "mp_coop_options"
   isCoop = true
 
   sessionsListObj = null
@@ -138,6 +139,8 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
   {
     return sessionsListObj
   }
+
+  getMainFocusObj2 = @() optionsContainer
 
   function initRoomsPerPage()
   {
@@ -193,7 +196,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
 
     if (!options) return
 
-    local container = create_options_container("mp_coop_options", options, false, false, 0.5, true, false)
+    local container = create_options_container(optionsContainer, options, true, false, 0.5, true, false)
     guiScene.replaceContentFromText("session-options", container.tbl, container.tbl.len(), this)
     optionsContainers.push(container.descr)
     onHintUpdate()
@@ -399,7 +402,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
     if (selectedRow < 0)
       selectedRow = ::clamp(sessionsListObj.getValue(), 0, curPageRoomsList.len() - 1)
 
-    local data = ::build_mp_table(::SessionLobby.getRoomsInfoTbl(curPageRoomsList), getRoomsListMarkUpData(), getColumnsList(), 1)
+    local data = ::build_mp_table(::SessionLobby.getRoomsInfoTbl(curPageRoomsList), getRoomsListMarkUpData(), getColumnsList(), 0)
     sessionsListObj.deleteChildren()
     guiScene.appendWithBlk(sessionsListObj, data, this)
 

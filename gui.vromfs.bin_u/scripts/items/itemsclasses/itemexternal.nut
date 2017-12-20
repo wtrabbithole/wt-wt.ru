@@ -1,35 +1,44 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local guidParser = require("scripts/guidParser.nut")
 
+local emptyBlk = ::DataBlock()
+
 local ItemExternal = class extends ::BaseItem
 {
   static openingCaptionLocId = "mainmenu/itemConsumed/title"
   static isDescTextBeforeDescDiv = false
 
+  itemDef = null
   metaBlk = null
 
-  constructor(itemDesc)
+  constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
-    base.constructor(::DataBlock())
+    base.constructor(emptyBlk)
 
-    isInventoryItem = true
-    id = itemDesc.itemdef.itemdefid
-    uids = [ itemDesc.itemid ]
-    amount = itemDesc.quantity
-    itemDef = itemDesc.itemdef
+    itemDef = itemDefDesc
+    id = itemDef.itemdefid
+
+    if (itemDesc)
+    {
+      isInventoryItem = true
+      uids = [ itemDesc.itemid ]
+      amount = itemDesc.quantity
+    }
 
     local meta = getTblValue("meta", itemDef)
-    if (meta) {
+    if (meta && meta.len()) {
       metaBlk = ::DataBlock()
       if (!metaBlk.loadFromText(meta, meta.len())) {
         metaBlk = null
       }
     }
+
+    addLocalization()
   }
 
-  function tryAddItem(itemDesc)
+  function tryAddItem(itemDefDesc, itemDesc)
   {
-    if (id != itemDesc.itemdef.itemdefid)
+    if (id != itemDefDesc.itemdefid)
       return false
     uids.append(itemDesc.itemid)
     amount += itemDesc.quantity
@@ -38,7 +47,7 @@ local ItemExternal = class extends ::BaseItem
 
   function getName(colored = true)
   {
-    local text = g_language.getLocTextFromSteamDesc(itemDef, "name")
+    local text = itemDef?.name ?? ""
     if (colored && itemDef.name_color && itemDef.name_color.len() > 0)
     {
       return ::colorize("#" + itemDef.name_color, text)
@@ -49,7 +58,7 @@ local ItemExternal = class extends ::BaseItem
 
   function getDescription()
   {
-    return g_language.getLocTextFromSteamDesc(itemDef, "description")
+    return itemDef?.description ?? ""
   }
 
   function getIcon(addItemName = true)
@@ -69,21 +78,22 @@ local ItemExternal = class extends ::BaseItem
     return ::loc(openingCaptionLocId)
   }
 
-  function canConsume()
+  function getLongDescriptionMarkup(params = null)
   {
     if (!metaBlk)
-      return false
+      return ""
 
-    if (metaBlk.unit && ::shop_is_aircraft_purchased(metaBlk.unit))
-      return false
+    params = params || {}
+    params.showAsTrophyContent <- true
+    params.receivedPrizes <- false
 
-    if (metaBlk.resource) {
-      local type = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
-      if (type.isPlayerHaveDecorator(metaBlk.resource))
-       return false
-    }
+    local view = ::PrizesView.getPrizesViewData(metaBlk, true, params)
+    return ::handyman.renderCached("gui/items/trophyDesc", { list = [ view ] })
+  }
 
-    return true
+  function canConsume()
+  {
+    return false
   }
 
   function getMainActionName(colored = true, short = false)
@@ -99,8 +109,6 @@ local ItemExternal = class extends ::BaseItem
     local uid = uids[0]
 
     if (metaBlk) {
-      addLocalization()
-
       local blk = ::DataBlock()
       blk.setInt("itemId", uid.tointeger())
 
@@ -131,8 +139,6 @@ local ItemExternal = class extends ::BaseItem
 
     add_rta_localization(resource, getName(false))
   }
-
-  itemDef = null
 }
 
 return ItemExternal

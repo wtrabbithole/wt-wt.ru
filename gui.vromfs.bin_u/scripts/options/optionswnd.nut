@@ -30,6 +30,7 @@ function get_main_options()
       ["options/mainParameters"],
       [::USEROPT_LANGUAGE, "spinner", ! isInFlight && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! isInFlight && !::is_ps4_or_xbox],
+      [::USEROPT_XBOX_CROSSPLAY_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_FONTS_CSS, "spinner"],
       [::USEROPT_CLUSTER, "spinner", ! isInFlight && ::is_platform_ps4],
 
@@ -72,6 +73,7 @@ function get_main_options()
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! isInFlight],
+      [::USEROPT_USE_PERFECT_RANGEFINDER, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -137,8 +139,7 @@ function get_main_options()
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_UGC_USE_FORBIDDEN_TAGS, "spinner", ::has_feature("Ugc")],
-      [::USEROPT_UGC_FORBIDDEN_TAGS, "multiselect", ::has_feature("Ugc")],
+      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox", ::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")],
     ]
   }
 }

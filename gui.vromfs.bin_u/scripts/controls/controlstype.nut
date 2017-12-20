@@ -128,7 +128,7 @@ function setControlTypeByID(ct_id)
     if (::is_platform_ps4)
       preset = ::g_controls_presets.parsePresetName("dualshock4")
     else if (::is_platform_xboxone)
-      preset = ::g_controls_presets.parsePresetName("xboxone")
+      preset = ::g_controls_presets.parsePresetName("xboxone_ma")
     else
       preset = ::g_controls_presets.parsePresetName("keyboard_shooter")
   }

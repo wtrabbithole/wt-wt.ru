@@ -207,13 +207,15 @@ function g_unlock_view::fillUnlockPurchaseButton(unlockData, unlockObj)
   if (!::check_obj(purchButtonObj))
     return
 
-  purchButtonObj.unlockId = unlockData.id
-  local isUnlocked = ::is_unlocked_scripted(-1, unlockData.id)
+  local unlockId = unlockData.id
+  purchButtonObj.unlockId = unlockId
+  local isUnlocked = ::is_unlocked_scripted(-1, unlockId)
   local haveStages = ::getTblValue("stages", unlockData, []).len() > 1
-  local cost = ::get_unlock_cost(unlockData.id)
+  local cost = ::get_unlock_cost(unlockId)
   local canSpendGold = cost.gold == 0 || ::has_feature("SpendGold")
+  local isPurchaseTime = ::g_unlocks.isVisibleByTime(unlockId, false)
 
-  local show = canSpendGold && !haveStages && !isUnlocked && !cost.isZero()
+  local show = isPurchaseTime && canSpendGold && !haveStages && !isUnlocked && !cost.isZero()
   purchButtonObj.show(show)
   if (show)
     ::placePriceTextToButton(unlockObj, "purchase_button", ::loc("mainmenu/btnBuy"), cost)

@@ -502,7 +502,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
           leaveClan();
         }],
         ["no",  function() {} ],
-      ], "no")
+      ], "no", { cancel_fn = function(){}} )
   }
 
   function leaveClan()

@@ -21,7 +21,7 @@ class Promo
   sourceDataBlock = null
 
   widgetsTable = {}
-  widgetsWithCounter = ["events_mainmenu_button", "battle_tasks_mainmenu_button"]
+  widgetsWithCounter = ["events_mainmenu_button"]
   warbondsWidget = null
 
   pollIdToObjectId = {}
@@ -30,7 +30,6 @@ class Promo
     events_mainmenu_button = function() { return updateEventButton() }
     world_war_button = function() { return updateWorldWarButton() }
     tutorial_mainmenu_button = function() { return updateTutorialButton() }
-    battle_tasks_mainmenu_button = function() { return updateBattleTasksButton() }
     current_battle_tasks_mainmenu_button = function() { return updateCurrentBattleTaskButton() }
     invite_squad_mainmenu_button = function() { return updateSquadInviteButton() }
     recent_items_mainmenu_button = function() { return updateRecentItemsButton() }
@@ -271,30 +270,6 @@ class Promo
   {
     updatePromoBlocks()
   }
-
-  //--------------- <BATTLE TASKS> -------------------------
-  function updateBattleTasksButton()
-  {
-    local id = "battle_tasks_mainmenu_button"
-    if (isShowAllCheckBoxEnabled())
-      ::showBtn(id, true, scene)
-    else
-    {
-      local show = ::g_battle_tasks.isAvailableForUser() && ::g_promo.getVisibilityById(id)
-      ::showBtn(id, show, scene)
-      if (!show)
-        return
-    }
-
-    local widget = ::getTblValue(id, widgetsTable)
-    if (!widget)
-      return
-
-    local haveRewards = ::g_battle_tasks.canGetAnyReward()
-    widget.setValue(haveRewards? -1 : ::g_battle_tasks.getUnseenTasksCount())
-    widget.setIcon(haveRewards ? "#ui/gameuiskin#new_reward_icon" : widget.defaultIcon)
-  }
-  //--------------- </BATTLE TASKS> ------------------------
 
   //------------- <CURRENT BATTLE TASK ---------------------
   function updateCurrentBattleTaskButton()
@@ -646,20 +621,14 @@ class Promo
   //----------------- </RADIOBUTTONS> -------------------------
 
   function onEventEventsDataUpdated(p)  { updateEventButton() }
-  function onEventMyStatsUpdated(p)     {
-                                          updateEventButton()
-                                          updateBattleTasksButton()
-                                        }
+  function onEventMyStatsUpdated(p)     { updateEventButton() }
   function onEventQueueChangeState(p)   {
                                           updateSquadInviteButton()
                                         }
   function onEventUnlockedCountriesUpdate(p) { updateEventButton() }
   function onEventNewEventsChanged(p)   { updateEventButton() }
-  function onEventNewBattleTasksChanged(p) { updateBattleTasksButton() }
-  function onEventBattleTasksFinishedUpdate(p) {
-                                                  updateBattleTasksButton()
-                                                  updateCurrentBattleTaskButton()
-                                               }
+  function onEventNewBattleTasksChanged(p) { updateCurrentBattleTaskButton() }
+  function onEventBattleTasksFinishedUpdate(p) { updateCurrentBattleTaskButton() }
   function onEventCurrentGameModeIdChanged(p) { updateCurrentBattleTaskButton() }
   function onEventWarbondShopMarkSeenLevel(p) { updateCurrentBattleTaskButton() }
   function onEventWarbondViewShowProgressBarFlagUpdate(p) { updateCurrentBattleTaskButton() }

@@ -781,8 +781,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function topMenuSetCountry(country)
   {
-    if (rootHandlerWeak)
-      rootHandlerWeak.setCountry(country)
+    local slotbar = getSlotbar()
+    if (slotbar)
+      slotbar.setCountry(country)
   }
 
   function onAdvertLinkClick(obj, itype, link)
@@ -1195,6 +1196,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local tutorialCrewObj = getCurrentCrewSlot()
     if (tutorialCrewObj)
       tutorialPressToCrewObj(curCrew.idCountry, curCrew.idInCountry)
+  }
+
+  function getCurrentCrewSlot()
+  {
+    local slotbar = getSlotbar()
+    return slotbar && slotbar.getCurrentCrewSlot()
   }
 
   function tutorialPressToCrewObj(tutorialCrewCountryId, tutorialCrewIdInCountry)

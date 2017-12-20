@@ -72,10 +72,23 @@
     "sfxReloadBullet": "grd_cannon_belt_reload"
   },
   {
+    "sound_path": "tanks/weapon_tanks/mguns"
+  },
+  {
+    "sound": "8mm_maxim4"
+  },
+  {
+    "sound_inside": "8mm_maxim4_interior"
+  },
+  {
+    "soundLoop": true
+  },
+  {
     "bullet": {
       "mass": 0.0097,
       "caliber": 0.0076,
       "speed": 800.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "groundCollisionEffect": "20_37_he_hit_ground",
       "groundFxScale": [0.1,0.15],
@@ -127,6 +140,7 @@
       "mass": 0.0099,
       "caliber": 0.0076,
       "speed": 815.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "ap_i_ball",
       "onHitChanceMultFire": 5.0,
@@ -170,6 +184,7 @@
       "mass": 0.0099,
       "caliber": 0.0076,
       "speed": 815.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "ap_i_ball",
       "onHitChanceMultFire": 5.0,
@@ -205,6 +220,7 @@
       "mass": 0.0099,
       "caliber": 0.0076,
       "speed": 815.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "ap_i_ball",
       "onHitChanceMultFire": 5.0,
@@ -240,6 +256,7 @@
       "mass": 0.0094,
       "caliber": 0.0076,
       "speed": 825.0,
+      "Cx": 0.15,
       "maxDistance": 2000.0,
       "bulletType": "t_ball",
       "hitPowerMult": 2.8,
@@ -287,6 +304,7 @@
           "mass": 0.0099,
           "caliber": 0.0076,
           "speed": 815.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_ball",
           "onHitChanceMultFire": 5.0,
@@ -322,6 +340,7 @@
           "mass": 0.0099,
           "caliber": 0.0076,
           "speed": 815.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_ball",
           "onHitChanceMultFire": 5.0,
@@ -357,6 +376,7 @@
           "mass": 0.0094,
           "caliber": 0.0076,
           "speed": 825.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "t_ball",
           "hitPowerMult": 7.0,
@@ -398,6 +418,7 @@
           "mass": 0.0099,
           "caliber": 0.0076,
           "speed": 815.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_ball",
           "onHitChanceMultFire": 5.0,
@@ -433,6 +454,7 @@
           "mass": 0.0102,
           "caliber": 0.0076,
           "speed": 815.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_t_ball",
           "onHitChanceMultFire": 5.0,
@@ -469,6 +491,7 @@
           "mass": 0.0102,
           "caliber": 0.0076,
           "speed": 815.0,
+          "Cx": 0.15,
           "maxDistance": 2000.0,
           "bulletType": "ap_i_t_ball",
           "onHitChanceMultFire": 5.0,
@@ -508,6 +531,7 @@
         "mass": 0.0102,
         "caliber": 0.0076,
         "speed": 815.0,
+        "Cx": 0.15,
         "maxDistance": 2000.0,
         "bulletType": "ap_i_t_ball",
         "onHitChanceMultFire": 5.0,
@@ -538,14 +562,6 @@
           "trail": "noTrail"
         }
       }
-    }
-  },
-  {
-    "gunSound": {
-      "path": "tanks/weapon_tanks/mguns",
-      "outside": "8mm_maxim4",
-      "cockpit": "8mm_maxim4_interior",
-      "ai": "8mm_maxim4_ai"
     }
   }
 ]

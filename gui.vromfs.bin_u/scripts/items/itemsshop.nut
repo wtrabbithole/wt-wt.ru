@@ -708,6 +708,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.visualStyle = curTab == itemsTab.INVENTORY? "secondary" : "purchase"
       ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), mainActionName)
     }
+    showSceneBtn("btn_preview", item ? item.canPreview() : false)
 
     local warningText = ""
     if (!limitsCheckResult && item && !item.isInventoryItem)
@@ -725,6 +726,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
     ::open_url(link, item.forceExternalBrowser, false, "item_shop")
    }
+
+  function onItemPreview(obj)
+  {
+    local item = getCurItem()
+    if (item)
+      item.doPreview()
+  }
 
   function onItemAction(buttonObj)
   {

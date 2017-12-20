@@ -252,7 +252,7 @@ function build_mp_table(table, markupData, hdr, max_rows)
         local width = "width:t='" + ::getTblValue("width", markup[hdr[j]], "1") + "'; "
         tdData += ::format("%s activeText { text:t = '%s'; halign:t='center';} ", width, item)
       }
-      else if (::isInArray(hdr[j], [ "aiTotalKills", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime", "missionAliveTime" ]))
+      else if (::isInArray(hdr[j], [ "aiTotalKills", "assists", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime", "missionAliveTime" ]))
       {
         local txt = isEmpty ? "" : ::g_mplayer_param_type.getTypeById(hdr[j]).printFunc(item, table[i])
         tdData += ::format("activeText { text:t='%s' halign:t='center' } ", txt)
@@ -614,12 +614,13 @@ function set_mp_table(obj_tbl, table, params)
       {
         objTd.getChild(0).setValue(item)
       }
-      else if (::isInArray(hdr, [ "aiTotalKills", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime", "missionAliveTime" ]))
+      else if (::isInArray(hdr, [ "aiTotalKills", "assists", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime", "missionAliveTime" ]))
       {
-        local txt = isEmpty ? "" : ::g_mplayer_param_type.getTypeById(hdr).printFunc(item, table[i])
+        local paramType = isEmpty ? null : ::g_mplayer_param_type.getTypeById(hdr)
+        local txt = paramType ? paramType.printFunc(item, table[i]) : ""
         local objText = objTd.getChild(0)
         objText.setValue(txt)
-        objText.tooltip = txt
+        objText.tooltip = paramType ? paramType.getTooltip(item, table[i], txt) : ""
       }
       else if (hdr == "numPlayers")
       {

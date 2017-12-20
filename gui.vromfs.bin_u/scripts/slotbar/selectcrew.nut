@@ -26,7 +26,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   takeCrewIdInCountry = -1
 
   focusArray = [
-    function() { return getCurrentAirsTable() }
+    function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
   ]
 
   function initScreen()
@@ -79,10 +79,10 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         showEmptySlot = true,
         needActionsWithEmptyCrews = false
         unitForSpecType = unit,
-        alwaysShowBorder = "yes"
+        alwaysShowBorder = true
 
         afterSlotbarSelect = onChangeUnit
-        onSlotDblClick = onSlotDblClick
+        onSlotDblClick = onApplyCrew
       },
       "take-aircraft-slotbar")
 
@@ -90,7 +90,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
     local legendObj = fillLegendData()
 
-    local airTblObj = getCurrentAirsTable()
+    local airTblObj = slotbarWeak && slotbarWeak.getCurrentAirsTable()
     if (::checkObj(airTblObj))
       airTblObj.select()
 
@@ -255,7 +255,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.applyPendingChanges(false)
     local steps = [
       {
-        obj = [getSlotbarBoxOfUnits()]
+        obj = getSlotbar() && getSlotbar().getBoxOfUnits()
         text = ::loc("help/takeAircraft", {unitName = ::getUnitName(unit)})
         bottomTextLocIdArray = ["help/NEXT_ACTION"]
         actionType = tutorAction.ANY_CLICK
@@ -274,7 +274,12 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_modal_tutor(steps, this)
   }
 
-  function onSlotDblClick(crew)
+  function onApply()
+  {
+    onApplyCrew(getCurCrew())
+  }
+
+  function onApplyCrew(crew)
   {
     ::CrewTakeUnitProcess(crew, unit, ::Callback(onTakeProcessFinish, this))
   }

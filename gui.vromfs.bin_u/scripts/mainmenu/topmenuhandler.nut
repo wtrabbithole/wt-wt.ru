@@ -177,7 +177,9 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   {
     isInQueue = inQueue
 
-    shadeSlotbar(inQueue)
+    local slotbar = getSlotbar()
+    if (slotbar)
+      slotbar.shade(inQueue)
     updateSceneShade()
 
     if (inQueue)
@@ -514,18 +516,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     ]
 
     //Bottom bars
-    if (slotbarScene)
+    local slotbar = getSlotbar()
+    if (slotbar)
     {
-      local box = getSlotbarBoxOfUnits()
-      if (box)
-        links.append(
-          { obj = box
-            msgId = "hint_my_crews"
-          })
+      links.append(
+        { obj = slotbar.getBoxOfUnits()
+          msgId = "hint_my_crews"
+        })
 
       if (::unlocked_countries.len() > 1)
         links.append({
-          obj = getSlotbarBoxOfCountries()
+          obj = slotbar.getBoxOfCountries()
           msgId = "hint_my_country"
         })
 

@@ -682,7 +682,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   EXTINGUISH_FIRE_HINT = {
-    hintType = ::g_hud_hint_types.ACTIONBAR
+    hintType = ::g_hud_hint_types.COMMON
     locId = "hints/extinguish_fire"
     noKeyLocId = "hints/extinguish_fire_nokey"
     getShortcuts = @(data) ::g_hud_action_bar_type.EXTINGUISHER.getVisualShortcut()
@@ -947,9 +947,11 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   CHOOSE_TARGET_FOR_SCOUTING = {
+    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "HUD/TXT_CHOOSE_TARGET_FOR_SCOUTING"
     showEvent = "hint:choose_target_for_scouting"
     lifeTime = 3.0
+    shortcuts = "ID_LOCK_TARGET"
   }
 
   CHOOSE_GROUND_TARGET_FOR_SCOUTING = {
@@ -958,11 +960,24 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     lifeTime = 3.0
   }
 
+  CHOOSE_ALIVE_TARGET_FOR_SCOUTING = {
+    locId = "HUD/TXT_CHOOSE_ALIVE_TARGET_FOR_SCOUTING"
+    showEvent = "hint:choose_alive_target_for_scouting"
+    lifeTime = 3.0
+  }
+
   TARGET_ALREADY_SCOUTED = {
     locId = "HUD/TXT_TARGET_ALREADY_SCOUTED"
     showEvent = "hint:target_already_scouted"
     lifeTime = 3.0
   }
+
+  MUST_SEE_SCOUTING_TARGET = {
+    locId = "HUD/TXT_MUST_SEE_SCOUTING_TARGET"
+    showEvent = "hint:must_see_scouting_target"
+    lifeTime = 3.0
+  }
+
 
   FUNNEL_DAMAGED = {
     locId = "HUD/TXT_FUNNEL_DAMAGED"
@@ -1045,6 +1060,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
         return "hints/secondary_success"
       return ""
     }
+
+    buildText = function(hintData)
+    {
+      local res = ::g_hud_hints._buildText.call(this, hintData)
+      local objText = hintData?.objectiveText
+      if (objText)
+        return res + "\n" + ::loc(objText)
+      return res
+    }
   }
 
   OBJECTIVE_FAIL = {
@@ -1066,6 +1090,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
       if (objType == ::OBJECTIVE_TYPE_SECONDARY)
         return "hints/secondary_fail"
       return ""
+    }
+
+    buildText = function(hintData)
+    {
+      local res = ::g_hud_hints._buildText.call(this, hintData)
+      local objText = hintData?.objectiveText
+      if (objText)
+        return res + "\n" + ::loc(objText)
+      return res
     }
   }
 

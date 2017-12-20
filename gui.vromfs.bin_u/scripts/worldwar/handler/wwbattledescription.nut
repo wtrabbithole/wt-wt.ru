@@ -285,7 +285,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         availableUnits = availableUnits,
         gameModeName = operationBattle.getLocName()
         showEmptySlot = true
-        showPresetsPanel = true
+        needPresetsPanel = true
       }
     )
   }

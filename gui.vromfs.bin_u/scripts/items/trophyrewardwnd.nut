@@ -44,16 +44,13 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     trophyItem = ::ItemsManager.findItemById(configsArray[0].id)
-    isBoxOpening = trophyItem.iType == itemType.TROPHY
-
     if (configsArray[0]?.itemDefId)
-    {
-      trophyItem = ::ItemsManager.findItemdefsById(configsArray[0]?.itemDefId)
-      isBoxOpening = trophyItem.iType == itemType.CHEST
-    }
+      trophyItem = ::ItemsManager.findItemById(configsArray[0]?.itemDefId)
 
     if (!trophyItem)
       return base.goBack()
+
+    isBoxOpening = trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST
 
     scene.findObject("reward_title").setValue(trophyItem.getOpeningCaption())
 
