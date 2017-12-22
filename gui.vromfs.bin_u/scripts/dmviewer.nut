@@ -162,7 +162,7 @@
         continue
       local presetBlk = ::DataBlock(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
-        unitWeaponBlkList.push(weapon)
+        unitWeaponBlkList.push(::u.copy(weapon))
     }
   }
 
