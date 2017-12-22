@@ -112,7 +112,7 @@ function g_squad_manager::updateMyMemberData(data = null)
   data.isCrewsReady <- isMyCrewsReady
   data.squadsVersion <- SQUADS_VERSION
 
-  local wwOperations = {}
+  local wwOperations = []
   if (::is_worldwar_enabled())
     foreach (wwOperation in ::g_ww_global_status_type.ACTIVE_OPERATIONS.getList())
     {
@@ -121,7 +121,10 @@ function g_squad_manager::updateMyMemberData(data = null)
 
       local country = wwOperation.getMyAssignCountry() || wwOperation.getMyClanCountry()
       if (country != null)
-        wwOperations[wwOperation.id] <- country
+        wwOperations.append({
+          id = wwOperation.id
+          country = country
+        })
     }
   data.wwOperations <- wwOperations
   data.wwStartingBattle <- null
@@ -1209,7 +1212,7 @@ function g_squad_manager::onSquadDataChanged(data = null)
   if (lastCrewsReadyness != currentCrewsReadyness || !alreadyInSquad)
     setCrewsReadyFlag(currentCrewsReadyness)
 
-  ::g_world_war.checkJoinWWOperation()
+  ::g_world_war.checkOpenGlobalBattlesModal()
 }
 
 function g_squad_manager::_parseCustomSquadData(data)
@@ -1439,13 +1442,13 @@ function g_squad_manager::startWWBattlePrepare(battleId = null)
   if (!isSquadLeader())
     return
 
-  if (getWwOperationId() < 0 || ::u.isEmpty(getWwOperationCountry()))
-    return
-
   if (getWwOperationBattle() == battleId)
     return
 
   squadData.wwOperationInfo.battle <- battleId
+  squadData.wwOperationInfo.id = ::ww_get_operation_id()
+  squadData.wwOperationInfo.country = ::get_profile_info().country
+
   updatePresenceSquad()
   updateSquadData()
 }

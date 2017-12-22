@@ -81,6 +81,7 @@ foreach (fn in [
                  "itemVehicle.nut"
                  "itemSkin.nut"
                  "itemDecal.nut"
+                 "itemKey.nut"
                  "itemChest.nut"
                  "itemOrder.nut"
                  "itemUniversalSpare.nut"
@@ -351,6 +352,18 @@ function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
   inventoryClient.requestItemdefsByIds(itemdefIdsList)
 }
 
+function ItemsManager::isMarketplaceEnabled()
+{
+  return ::has_feature("ExtInventory") && ::has_feature("AllowExternalLink") &&
+    inventoryClient.getMarketplaceBaseUrl() != null
+}
+
+function ItemsManager::goToMarketplace()
+{
+  if (isMarketplaceEnabled())
+    ::open_url(inventoryClient.getMarketplaceBaseUrl(), true, false, "marketplace")
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------INVENTORY ITEMS-----------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -361,6 +374,8 @@ function ItemsManager::getInventoryItemType(blkType)
       return itemType.SKIN
     } else if (blkType == "decal") {
       return itemType.DECAL
+    } else if (blkType == "key") {
+      return itemType.KEY
     } else if (blkType == "chest") {
       return itemType.CHEST
     } else if (blkType == "aircraft") {

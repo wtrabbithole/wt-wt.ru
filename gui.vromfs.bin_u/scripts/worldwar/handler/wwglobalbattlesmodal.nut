@@ -3,6 +3,7 @@ local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle
 
 class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescription
 {
+  hasSquadsInviteButton = false
   battlesList = null
   operationBattle = null
 
@@ -19,8 +20,8 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function initScreen()
   {
-    base.initScreen()
     battlesList = []
+    base.initScreen()
     globalBattlesListData.requestList()
 
     local timerObj = scene.findObject("global_battles_update_timer")
@@ -33,13 +34,15 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     return { hasUpdateTimer = true }
   }
 
-  function updateBattleSquadListData()
-  {
-  }
-
   function onUpdate(obj, dt)
   {
     refreshList()
+  }
+
+  function goBack()
+  {
+    ::ww_stop_preview()
+    base.goBack()
   }
 
   function refreshList()
@@ -49,12 +52,15 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function onEventWWUpdateGlobalBattles(p)
   {
+    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
+    if (wwBattleName && curBattleInList.id != wwBattleName)
+      curBattleInList = getBattleById(wwBattleName)
+
     reinitBattlesList()
   }
 
   function updateWindow()
   {
-    currViewMode = getViewMode()
     updateViewMode()
     updateDescription()
     updateQueueInfoPanel()
@@ -72,13 +78,28 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     }
     createSlotbar(
       {
+        customCountry = ::get_profile_info().country
         availableUnits = availableUnits
         showTopPanel = false
         gameModeName = curBattleInList.getLocName()
         showEmptySlot = true
-        showPresetsPanel = true
+        needPresetsPanel = true
+        beforeCountrySelect = beforeCountrySelect
+        shouldCheckCrewsReady = true
       }
     )
+  }
+
+  function beforeCountrySelect(onOk, onCancel, countryData)
+  {
+    if (currViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO &&
+        countryData.country != ::g_squad_manager.getWwOperationCountry())
+    {
+      onCancel()
+      ::showInfoMsgBox(::loc("worldWar/cantChangeCountryInBattlePrepare"))
+      return
+    }
+    onOk()
   }
 
   function onItemSelect()
@@ -86,6 +107,10 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     refreshSelBattle()
     local cb = ::Callback(function() {
       operationBattle = ::g_world_war.getBattleById(curBattleInList.id)
+
+      if (currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
+        return
+
       updateBattleSquadListData()
       updateWindow()
     }, this)
@@ -99,6 +124,11 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function getFirstBattleInListMap()
   {
     return battlesList.len() ? battlesList[0] : WwGlobalBattle()
+  }
+
+  function getSelectedBattlePrefixText(battleData)
+  {
+    return ""
   }
 
   function createBattleListMap()
@@ -138,10 +168,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function onEventCountryChanged(p)
   {
     guiScene.performDelayed(this, reinitBattlesBySelectedCountry)
-  }
-
-  function onEventSquadDataUpdated(params)
-  {
   }
 
   function reinitBattlesBySelectedCountry()

@@ -78,6 +78,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   CAN_JOIN
   NOT_ACTIVE
   UNKNOWN_SIDE
+  WRONG_SIDE
   NO_TEAM
   NO_COUNTRY_IN_TEAM
   NO_COUNTRY_BY_SIDE
@@ -279,7 +280,9 @@ function g_world_war::openWarMap()
 function g_world_war::openOperationsOrQueues()
 {
   ::ww_get_configurable_values(configurableValues)
-  ::handlersManager.loadHandler(::gui_handlers.WwOperationsMapsHandler)
+
+  if (!::handlersManager.findHandlerClassInScene(::gui_handlers.WwOperationsMapsHandler))
+    ::handlersManager.loadHandler(::gui_handlers.WwOperationsMapsHandler)
 }
 
 function g_world_war::joinOperationById(operationId, country = null, isSilence = false, onSuccess = null)
@@ -415,7 +418,7 @@ function g_world_war::onEventWWGlobalStatusChanged(p)
     ::g_squad_manager.updateMyMemberData()
 }
 
-function g_world_war::checkJoinWWOperation()
+function g_world_war::checkOpenGlobalBattlesModal()
 {
   if (!::g_squad_manager.getWwOperationBattle())
     return
@@ -426,15 +429,13 @@ function g_world_war::checkJoinWWOperation()
   if (!::g_squad_manager.isSquadMember() || !::g_squad_manager.isMeReady())
     return
 
-  local squadWwOperationId = ::g_squad_manager.getWwOperationId()
-  if (squadWwOperationId < 0 || squadWwOperationId == ::ww_get_operation_id())
-    return
+  ::g_world_war.stopWar()
+  ::gui_handlers.WwGlobalBattlesModal.open()
+}
 
-  local wwOperationCountry = ::g_squad_manager.getWwOperationCountry()
-  if (::u.isEmpty(wwOperationCountry))
-    return
-
-  joinOperationById(squadWwOperationId, wwOperationCountry)
+function g_world_war::onEventSquadSetReady(params)
+{
+  checkOpenGlobalBattlesModal()
 }
 
 function g_world_war::isDebugModeEnabled()

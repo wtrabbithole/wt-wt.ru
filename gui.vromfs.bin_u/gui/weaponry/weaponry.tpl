@@ -3,7 +3,7 @@ include "gui/weaponry/weaponryBg"
 <</bgBlocks>>
 
 <<#weaponryList>>
-tdiv {
+modificationsBlock {
   id:t='weaponry_list'
   position:t='absolute'
 

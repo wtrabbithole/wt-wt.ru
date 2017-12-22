@@ -520,7 +520,7 @@
 
       local battleSides = ::g_world_war.getSidesOrder()
       local view = battle.getView()
-      view.defineTeamBlock(battleSides)
+      view.defineTeamBlock(::ww_get_player_side(), battleSides)
       view.showBattleStatus = true
       view.hideDesc = true
       return ::handyman.renderCached("gui/worldWar/battleDescription", view)

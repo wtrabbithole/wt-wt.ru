@@ -1,6 +1,8 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
+const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
+
 enum bit_unit_status
 {
   locked      = 1
@@ -1022,7 +1024,14 @@ function _afterUpdateAirModificators(unit, callback)
 //return true when modificators already valid.
 function check_unit_mods_update(air, callBack = null, forceUpdate = false)
 {
-  if (air._modificatorsRequested)
+  if (!air.isInited)
+  {
+    ::script_net_assert_once("not inited unit request", "try to call check_unit_mods_update for not inited unit")
+    return false
+  }
+
+  if (air.modificatorsRequestTime > 0
+    && air.modificatorsRequestTime + MODIFICATORS_REQUEST_TIMEOUT_MSEC > ::dagor.getCurTime())
   {
     if (forceUpdate)
       ::remove_calculate_modification_effect_jobs()
@@ -1037,9 +1046,9 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
 
   if (isTank(air))
   {
-    air._modificatorsRequested = true
+    air.modificatorsRequestTime = ::dagor.getCurTime()
     calculate_tank_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
-      air._modificatorsRequested = false
+      air.modificatorsRequestTime = -1
       if (effect)
       {
         air.modificators = {
@@ -1055,9 +1064,9 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
     return false
   }
 
-  air._modificatorsRequested = true
+  air.modificatorsRequestTime = ::dagor.getCurTime()
   ::calculate_min_and_max_parameters(air.name, this, (@(air, callBack) function(effect, ...) {
-    air._modificatorsRequested = false
+    air.modificatorsRequestTime = -1
     if (effect)
     {
       air.modificators = {

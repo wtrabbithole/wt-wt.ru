@@ -76,7 +76,7 @@ function g_hud_live_stats::init(_parentObj, _nestObjId, _isSelfTogglable)
   missionObjectives = ::g_mission_type.getCurrentObjectives()
   isMissionLastManStanding = !!(gameType & ::GT_LAST_MAN_STANDING)
 
-  isActive = false
+  show(false)
 
   hero = {
     streaks = []
@@ -164,23 +164,26 @@ function g_hud_live_stats::isVisible()
 
 function g_hud_live_stats::show(activate, viewMode = null, playerId = null)
 {
-  if (!::checkObj(scene))
-    return
-
+  local isSceneValid = ::check_obj(scene)
+  activate = activate && isSceneValid
   local isVisibilityToggle = isSelfTogglable && isActive != activate
   isActive = activate
-  scene.show(isActive)
 
-  curViewPlayerId = playerId
-  curViewMode = (viewMode != null && viewMode >= 0 && viewMode < LIVE_STATS_MODE.TOTAL) ?
-    viewMode : LIVE_STATS_MODE.WATCH
-  curColumnsOrder = ::getTblValue(curViewMode, ::getTblValue(missionMode, columnsOrder, {}), [])
+  if (isSceneValid)
+  {
+    scene.show(isActive)
 
-  local misObjs = missionObjectives
-  local gt = gameType
-  curColumnsOrder = ::u.filter(curColumnsOrder, @(id) ::g_mplayer_param_type.getTypeById(id).isVisible(misObjs, gt))
+    curViewPlayerId = playerId
+    curViewMode = (viewMode != null && viewMode >= 0 && viewMode < LIVE_STATS_MODE.TOTAL) ?
+      viewMode : LIVE_STATS_MODE.WATCH
+    curColumnsOrder = ::getTblValue(curViewMode, ::getTblValue(missionMode, columnsOrder, {}), [])
 
-  fill()
+    local misObjs = missionObjectives
+    local gt = gameType
+    curColumnsOrder = ::u.filter(curColumnsOrder, @(id) ::g_mplayer_param_type.getTypeById(id).isVisible(misObjs, gt))
+
+    fill()
+  }
 
   if (isVisibilityToggle)
     ::g_hud_event_manager.onHudEvent("LiveStatsVisibilityToggled", { visible = isActive })

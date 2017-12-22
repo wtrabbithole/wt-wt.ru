@@ -1,4 +1,5 @@
-local penalties = require("scripts/penitentiary/penalties.nut")
+local penalties = ::require("scripts/penitentiary/penalties.nut")
+local systemMsg = ::require("scripts/utils/systemMsg.nut")
 
 enum chatUpdateState {
   OUTDATED
@@ -787,7 +788,7 @@ function g_chat::haveNewMessages()
 
 function g_chat::sendLocalizedMessage(roomId, langConfig, isSeparationAllowed = true, needAssert = true)
 {
-  local message = ::g_system_msg.configToJsonString(langConfig, validateChatMessage)
+  local message = systemMsg.configToJsonString(langConfig, validateChatMessage)
   local messageLen = message.len() //to be visible in assert callstack
   if (messageLen > MAX_MSG_LEN)
   {
@@ -819,7 +820,7 @@ function g_chat::localizeReceivedMessage(message)
   if (!jsonString)
     return message
 
-  local res = ::g_system_msg.jsonStringToLang(jsonString, null, "\n   ")
+  local res = systemMsg.jsonStringToLang(jsonString, null, "\n   ")
   if (!res)
     dagor.debug("Chat: failed to localize json message: " + message)
   return res || ""

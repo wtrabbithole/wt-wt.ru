@@ -167,6 +167,33 @@ local InventoryClient = class {
     return data
   }
 
+  function getMarketplaceBaseUrl()
+  {
+    local circuit = ::get_cur_circuit_name();
+    local networkBlock = ::get_network_block();
+    if (::is_dev_version && circuit == "test")
+      return "http://inventory-test-01.gaijin.lan/marketPlace/" //TEMPORARY HACK
+    return networkBlock?[circuit]?.marketplaceURL ?? networkBlock?.marketplaceURL;
+  }
+
+  function getMarketplaceItemUrl(itemdefid, itemid = null)
+  {
+    local marketplaceBaseUrl = getMarketplaceBaseUrl()
+    if (!marketplaceBaseUrl)
+      return null
+
+    local item = itemdefid && itemdefs?[itemdefid]
+    if (item && item?.market_hash_name)
+      return marketplaceBaseUrl + "?viewitem&a=" + ::WT_APPID + "&n=" + ::encode_uri_component(item.market_hash_name)
+
+    //TODO: Remove this block, when 'market_hash_name' will be in itemdef:
+    local item = itemid && items?[itemid]
+    if (item && item?.market_hash_name)
+      return marketplaceBaseUrl + "?viewitem&a=" + ::WT_APPID + "&n=" + ::encode_uri_component(item.market_hash_name)
+
+    return null
+  }
+
   function requestAll()
   {
     if (!canRefreshData())

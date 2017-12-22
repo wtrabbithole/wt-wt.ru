@@ -8,6 +8,7 @@ class ::WwArmyView
   customId = null
   name = ""
   hasVersusText = false
+  selectedSide = ::SIDE_NONE
 
   static unitsInArmyRowsMax = 5
 
@@ -156,7 +157,11 @@ class ::WwArmyView
 
   function getTeamColor()
   {
-    return formation.isMySide(::ww_get_player_side())? "blue" : "red"
+    local side = ::ww_get_player_side()
+    if (side == ::SIDE_NONE)
+     side = selectedSide
+
+    return formation.isMySide(side) ? "blue" : "red"
   }
 
   function getReinforcementArrivalTime()
@@ -444,5 +449,10 @@ class ::WwArmyView
   function setHasVersusText(val)
   {
     hasVersusText = val
+  }
+
+  function setSelectedSide(side)
+  {
+    selectedSide = side
   }
 }

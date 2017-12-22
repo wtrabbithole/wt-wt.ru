@@ -3,8 +3,10 @@ local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
 
 class ::items_classes.Chest extends ItemExternal {
   static iType = itemType.CHEST
+  static defaultLocId = "chest"
   static typeIcon = "#ui/gameuiskin#item_type_trophies"
   static openingCaptionLocId = "mainmenu/chestConsumed/title"
+  static hasRecentItemConfirmMessageBox = true
 
   function getOpenedBigIcon()
   {

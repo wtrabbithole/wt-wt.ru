@@ -78,7 +78,7 @@ local Unit = class
    isToStringForDebug = true
 
    //!!FIX ME: params below are still set from outside of unit
-   _modificatorsRequested = false
+   modificatorsRequestTime = -1
    modificators = null //{} or null
    modificatorsBase = null //{} or null
    minChars = null //{} or null

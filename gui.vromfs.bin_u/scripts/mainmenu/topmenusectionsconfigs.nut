@@ -102,6 +102,7 @@ Params - can be whole section ('help', 'pve') or single button.
         ::g_top_menu_buttons.INVENTORY
         ::g_top_menu_buttons.ITEMS_SHOP
         ::g_top_menu_buttons.ONLINE_SHOP
+        ::g_top_menu_buttons.MARKETPLACE
       ]
     ]
   },

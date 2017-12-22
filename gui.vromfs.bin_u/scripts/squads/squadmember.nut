@@ -97,7 +97,11 @@ class SquadMember
 
   function getWwOperationCountryById(wwOperationId)
   {
-    return ::getTblValue(wwOperationId, wwOperations, null)
+    foreach (operationData in wwOperations)
+      if (operationData?.id == wwOperationId)
+        return operationData?.country
+
+    return null
   }
 
   function isEventAllowed(eventEconomicName)

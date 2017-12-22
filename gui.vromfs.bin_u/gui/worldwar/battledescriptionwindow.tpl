@@ -52,16 +52,17 @@ root {
           size:t='pw, ph'
           flow:t='vertical'
 
-          dummy {
-            id:t="ww_queue_update_timer"
-            behavior:t='Timer'
-            timer_handler_func:t='onTimerUpdate'
-            timer_interval_msec:t='5000'
+          tdiv {
+            margin:t='1@framePadding, 0.02@scrn_tgt, 0, 0.03@scrn_tgt'
+
+            activeText {
+              text:t='#worldWar/waiting_session'
+            }
           }
 
           tdiv {
             flow:t='vertical'
-            pos:t='1@framePadding, 0'; position:t='relative'
+            margin-left:t='1@framePadding'
 
             tdiv {
               id:t='SIDE_1_queue_side_info'
@@ -72,36 +73,11 @@ root {
             }
           }
 
-          tdiv {
-            pos:t='1@framePadding, ph-h-1@framePadding'; position:t='absolute'
-            flow:t='vertical'
-
-            tdiv {
-              textareaNoTab {
-                pos:t='0, 50%ph-50%h'; position:t='relative'
-                text:t='#worldWar/waiting_session'
-              }
-
-              animated_wait_icon {
-                pos:t='0, 50%ph-50%h'; position:t='relative'
-                margin-left:t='10*@sf/@pf_outdated'
-                background-rotation:t='0'
-                display:t='show'
-              }
-            }
-
-            tdiv {
-              pos:t='0, 0'; position:t='relative'
-
-              textareaNoTab {
-                text:t='#worldWar/waiting_time'
-              }
-
-              textAreaCentered {
-                id:t='ww_queue_waiting_time'
-                text:t=''
-              }
-            }
+          dummy {
+            id:t="ww_queue_update_timer"
+            behavior:t='Timer'
+            timer_handler_func:t='onTimerUpdate'
+            timer_interval_msec:t='5000'
           }
         }
 

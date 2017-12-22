@@ -5,8 +5,12 @@ local emptyBlk = ::DataBlock()
 
 local ItemExternal = class extends ::BaseItem
 {
+  static defaultLocId = ""
+  static isUseTypePrefixInName = false
+  static descHeaderLocId = ""
   static openingCaptionLocId = "mainmenu/itemConsumed/title"
   static isDescTextBeforeDescDiv = false
+  static hasRecentItemConfirmMessageBox = false
 
   itemDef = null
   metaBlk = null
@@ -17,6 +21,9 @@ local ItemExternal = class extends ::BaseItem
 
     itemDef = itemDefDesc
     id = itemDef.itemdefid
+
+    link = inventoryClient.getMarketplaceItemUrl(id, itemDesc?.itemid) || ""
+    forceExternalBrowser = true
 
     if (itemDesc)
     {
@@ -49,11 +56,10 @@ local ItemExternal = class extends ::BaseItem
   {
     local text = itemDef?.name ?? ""
     if (colored && itemDef.name_color && itemDef.name_color.len() > 0)
-    {
-      return ::colorize("#" + itemDef.name_color, text)
-    }
-
-    return text;
+      text = ::colorize("#" + itemDef.name_color, text)
+    if (isUseTypePrefixInName)
+      text = ::loc("item/" + defaultLocId) + " " + text
+    return text
   }
 
   function getDescription()
@@ -84,11 +90,11 @@ local ItemExternal = class extends ::BaseItem
       return ""
 
     params = params || {}
+    params.header <- ::colorize("grayOptionColor", ::loc(descHeaderLocId))
     params.showAsTrophyContent <- true
     params.receivedPrizes <- false
 
-    local view = ::PrizesView.getPrizesViewData(metaBlk, true, params)
-    return ::handyman.renderCached("gui/items/trophyDesc", { list = [ view ] })
+    return ::PrizesView.getPrizesListView([ metaBlk ], params)
   }
 
   function canConsume()
@@ -104,40 +110,49 @@ local ItemExternal = class extends ::BaseItem
   function doMainAction(cb, handler, params = null)
   {
     if (!uids || !uids.len())
-      return -1
+      return false
+    if (!metaBlk)
+      return false
 
-    local uid = uids[0]
+    local text = ::loc("recentItems/useItem", { itemName = ::colorize("activeTextColor", getName()) })
+    local comment = ::loc("msgBox/coupon_will_be_spent")
+    comment = ::format("textarea { overlayTextColor:t='faded'; text:t='%s' }", ::g_string.stripTags(comment))
+    ::scene_msg_box("coupon_exchange", null, text, [
+      [ "yes", ::Callback(@() doConsumeItem(cb, params), this) ],
+      [ "no" ]
+    ], "yes", { data_below_text = comment, cancel_fn = function() {} })
+    return true
+  }
 
-    if (metaBlk) {
-      local blk = ::DataBlock()
-      blk.setInt("itemId", uid.tointeger())
-
-      local taskCallback = function() {
-        inventoryClient.removeItem(uid)
-        cb({ success = true })
-      }
-
-      local taskId = ::char_send_blk("cln_consume_inventory_item", blk)
-
-      ::g_tasker.addTask(taskId, { showProgressBox = true }, taskCallback)
+  function doConsumeItem(cb = null, params = null)
+  {
+    local uid = uids?[0]
+    if (!uid)
       return
+
+    local blk = ::DataBlock()
+    blk.setInt("itemId", uid.tointeger())
+
+    local taskCallback = function() {
+      inventoryClient.removeItem(uid)
+      if (cb)
+        cb({ success = true })
     }
 
-    base.doMainAction(cb, handler, params)
+    local taskId = ::char_send_blk("cln_consume_inventory_item", blk)
+    ::g_tasker.addTask(taskId, { showProgressBox = true }, taskCallback)
   }
 
   function addLocalization() {
     if (!metaBlk)
       return
-
     local resource = metaBlk.resource
     if (!resource)
       return
-
     if (!guidParser.isGuid(resource))
       return
 
-    add_rta_localization(resource, getName(false))
+    ::add_rta_localization(resource, itemDef?.name ?? "")
   }
 }
 

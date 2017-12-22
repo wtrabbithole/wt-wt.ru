@@ -105,6 +105,9 @@
 
   function reinit()
   {
+    if (!::g_login.isLoggedIn())
+      return
+
     updateUnitInfo()
     update()
   }
@@ -117,13 +120,18 @@
     unit = ::getAircraftByName(hangarUnitName)
     if( ! unit)
       return
-    unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
+    loadUnitBlk()
     local map = ::getTblValue("xray", unitBlk)
     xrayRemap = map ? ::u.map(map, function(val) { return val }) : {}
     resetXrayCache()
     clearHint()
     updateSecondaryMods()
-    clearUnitWeaponBlkList()
+  }
+
+  function loadUnitBlk()
+  {
+    clearUnitWeaponBlkList() //unit weapons are part of unit blk, should be unloaded togeter with unitBlk
+    unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
   }
 
   function getUnitWeaponList()
