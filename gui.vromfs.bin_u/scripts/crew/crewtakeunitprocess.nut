@@ -64,7 +64,8 @@ class ::CrewTakeUnitProcess
       if (unit && !unit.isUsable())
         return remove() //rent expired
 
-      local isInvalidCrewsAllowed = ::SessionLobby.isInvalidCrewsAllowed()
+      //we cant make slotbar invalid by add crew to new hired crew
+      local isInvalidCrewsAllowed = crew == null || ::SessionLobby.isInvalidCrewsAllowed()
       local isCurUnitAllowed = unit && ::SessionLobby.isUnitAllowed(unit) && !::isUnitBroken(unit)
       local needCheckAllowed = !isInvalidCrewsAllowed  && (!unit || !isCurUnitAllowed)
       local needCheckRequired = !isInvalidCrewsAllowed && ::SessionLobby.hasUnitRequirements()
@@ -75,9 +76,9 @@ class ::CrewTakeUnitProcess
         local hasUnit = !!unit
         local hasAllowedUnit = !needCheckAllowed
         local hasRequiredUnit = !needCheckRequired
-        local crewsData = ::getTblValue(crew.idCountry, ::g_crews_list.get())
-        if (crewsData)
-          foreach(c in crewsData.crews)
+        local crews = ::g_crews_list.get()?[crew.idCountry]?.crews
+        if (crews)
+          foreach(c in crews)
           {
             if (crew.id == c.id)
               continue

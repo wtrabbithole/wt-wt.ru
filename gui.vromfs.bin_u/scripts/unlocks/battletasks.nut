@@ -712,11 +712,13 @@ function BattleTasks::generateItemView(config, isPromo = false, isOnlyInfo = fal
 
   local id = isBattleTask? task.id : config.id
   local progressData = config?.getProgressBarData? config.getProgressBarData() : null
+  local progressBarValue = config?.curVal >= 0? (config.curVal.tofloat() / (config?.maxVal ?? 1) * 1000) : 0
+  local taskStatus = getTaskStatus(task)
 
   return {
     id = id
     title = title
-    taskStatus = getTaskStatus(task)
+    taskStatus = taskStatus
     taskImage = ::getTblValue("image", task) || ::getTblValue("image", config)
     taskPlayback = ::getTblValue("playback", task) || ::getTblValue("playback", config)
     isPlaybackDownloading = !::g_sound.canPlay(id)
@@ -732,10 +734,11 @@ function BattleTasks::generateItemView(config, isPromo = false, isOnlyInfo = fal
     showAsUsualPromoButton = isPromo && task == null
     isPromo = isPromo
     isOnlyInfo = isOnlyInfo
-    needShowProgressValue = config?.curVal >= 0 && config?.maxVal >= 0
+    needShowProgressValue = taskStatus == null && config?.curVal >= 0 && config?.maxVal >= 0
     progressValue = config?.curVal
     progressMaxValue = config?.maxVal
     needShowProgressBar = progressData?.show
+    progressBarValue = progressBarValue.tointeger()
     getTooltipId = isPromo && isBattleTask? @() ::g_tooltip_type.BATTLE_TASK.getTooltipId(id) : null
   }
 }

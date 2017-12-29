@@ -45,6 +45,11 @@
     timeBarObj["sector-angle-2"] = curVal.tostring()
   }
 
+  function setValue(timeBarObj, value)
+  {
+    timeBarObj["sector-angle-2"] = (360 * value).tointeger().tostring()
+  }
+
   function getDirection(timeBarObj)
   {
     return _direction[getDirectionName(timeBarObj)]

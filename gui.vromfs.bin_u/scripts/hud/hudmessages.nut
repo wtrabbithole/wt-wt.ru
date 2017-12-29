@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 
+local heightPID = ::dagui_propid.add_name_id("height")
+
 ::g_hud_messages <- {
   types = []
 }
@@ -46,7 +48,26 @@ local time = require("scripts/time.nut")
         ::g_hud_event_manager.subscribe(name, func, this)
   }
 
-  heightPID = ::dagui_propid.add_name_id("height")
+  getCleanUpId = @(total) 0
+
+  cleanUp = function()
+  {
+    if (stack.len() < messagesMax)
+      return
+
+    local lastId = getCleanUpId(stack.len())
+    local obj = stack[lastId].obj
+    if (::check_obj(obj))
+    {
+      if (obj.isVisible())
+        stack[lastId].obj.remove = "yes"
+      else
+        obj.getScene().destroyElement(obj)
+    }
+    if (stack[lastId].timer)
+      timers.removeTimer(stack[lastId].timer)
+    stack.remove(lastId)
+  }
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_hud_messages", {
@@ -54,6 +75,8 @@ local time = require("scripts/time.nut")
     nestId = "hud_message_center_main_notification"
     messagesMax = 5
     messageEvent = "HudMessage"
+
+    getCleanUpId = @(total) total - 1
 
     onMessage = function(messageData)
     {
@@ -134,19 +157,6 @@ local time = require("scripts/time.nut")
       }
       else if (!message.timer)
         setDestroyTimer(message)
-    }
-
-    cleanUp = function()
-    {
-      if (stack.len() < messagesMax)
-        return
-
-      local lastId = stack.len() - 1
-      if (::checkObj(stack[lastId].obj))
-        stack[lastId].obj.remove = "yes"
-      if ("destroy" in stack[lastId].timer)
-        stack[lastId].timer.destroy()
-      stack.remove(lastId)
     }
 
     showNest = function(show)
@@ -319,95 +329,25 @@ local time = require("scripts/time.nut")
         guiScene.setUpdatesEnabled(true, true)
       }
     }
-
-    cleanUp = function ()
-    {
-      if (stack.len() < messagesMax)
-        return
-
-      local lastId = 0
-      if (::checkObj(stack[lastId].obj))
-        stack[lastId].obj.remove = "yes"
-      timers.removeTimer(stack[lastId].timer)
-      stack.remove(lastId)
-    }
   }
 
   ZONE_CAPTURE = {
     nestId = "hud_message_zone_capture_notification"
     showSec = 3
+    messagesMax = 2
     messageEvent = "zoneCapturingEvent"
+
+    getCleanUpId = @(total) total - 1
 
     onMessage = function (eventData)
     {
-      if (eventData.isHeroAction)
-      {
-        local lastHeroNotification = ::u.search(stack, function (notification) {
-          return notification.messageData.isHeroAction
-        })
-        if (lastHeroNotification)
-          updateHeroMessage(lastHeroNotification, eventData)
-        else
-          addHeroMessage(eventData)
-      }
-      else
-        addNotification(eventData)
-    }
-
-    addHeroMessage = function (eventData)
-    {
-      if (!::checkObj(nest))
-        return
-      if (!::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.CAPTURE_ZONE_INFO))
+      if (eventData.isHeroAction
+        && eventData.eventId != ::MISSION_CAPTURED_ZONE
+        && eventData.eventId != ::MISSION_TEAM_LEAD_ZONE)
         return
 
-      local message = createMessage(eventData)
-      local zoneCaptureing = eventData.eventId == ::MISSION_CAPTURE_ZONE_START ||
-                             eventData.eventId == ::MISSION_CAPTURING_ZONE
-
-      local view = {
-        text = eventData.text
-        team = eventData.isMyTeam ? "ally" : "enemy"
-        zoneCaptureing = zoneCaptureing
-        zoneNameText = eventData.zoneName
-        captureProgress = calculateProgress(eventData)
-        zoneOwner = isZoneMy(eventData) ? "ally" : "enemy"
-        heroAction = "yes"
-      }
-
-      createSceneObjectForMessage(view, message)
-
-      setAnimationStartValues(message)
-      setTimer(message)
-    }
-
-    updateHeroMessage = function (oldMessage, eventData)
-    {
-      if (!::checkObj(oldMessage.obj))
-        return
-
-      local captureProgressObj = oldMessage.obj.findObject("capture_progress")
-
-      oldMessage.obj.findObject("text").setValue(eventData.text)
-      captureProgressObj["sector-angle-2"] = calculateProgress(eventData)
-      captureProgressObj.zone_owner = isZoneMy(eventData) ? "ally" : "enemy"
-      oldMessage.messageData = eventData
-      setTimer(oldMessage)
-    }
-
-    calculateProgress = function (eventData)
-    {
-      local catureFinished = (eventData.eventId == ::MISSION_CAPTURED_ZONE
-                             || eventData.eventId == ::MISSION_TEAM_LEAD_ZONE)
-      local progress = eventData.captureProgress
-      if (catureFinished)
-        progress = 1
-      return (fabs(progress) * 360).tointeger()
-    }
-
-    isZoneMy = function (eventData)
-    {
-      return (::get_mp_local_team() == Team.A) == (eventData.captureProgress < 0)
+      cleanUp()
+      addNotification(eventData)
     }
 
     addNotification = function (eventData)

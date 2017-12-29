@@ -1191,6 +1191,23 @@ class Events
                      })(teamsData, ediff, roomSpecialRules).bindenv(this))
   }
 
+  function stackMemberErrors(members)
+  {
+    local res = []
+    foreach(member in members)
+    {
+      local stack = ::u.search(res, @(s) s.status == member.status)
+      if (stack)
+        stack.names.append(member.name)
+      else
+        res.append({
+          names = [member.name]
+          status = member.status
+        })
+    }
+    return res
+  }
+
   function showCantFlyMembersMsgBox(cantFlyByTeams)
   {
     local langConfig = [SQUAD_NOT_READY_LOC_TAG]
@@ -1199,12 +1216,13 @@ class Events
     foreach(idx, membersData in cantFlyByTeams)
     {
       local teamCode = ::getTblValue("team", membersData, idx)
+      local stacks = stackMemberErrors(membersData.members)
       local teamLangConfig = ::u.map(
-        membersData.members,
-        @(m) [
-          systemMsg.makeColoredValue(COLOR_TAG.USERLOG, m.name)
-          "ui/colon"
-          ::g_squad_utils.getMemberStatusLocTag(m.status)
+        stacks,
+        @(s) [
+          systemMsg.makeColoredValue(COLOR_TAG.USERLOG, ::g_string.implode(s.names, ", ")),
+          "ui/colon",
+          ::g_squad_utils.getMemberStatusLocTag(s.status)
         ]
       )
       langConfigByTeam[teamCode] <- teamLangConfig

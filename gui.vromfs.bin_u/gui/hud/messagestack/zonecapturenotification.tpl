@@ -11,16 +11,17 @@ message {
     pos:t='0, ph/2 - h/2'
   }
 
-  <<#zoneCaptureing>>
+  <<#isZoneCapturing>>
   tdiv {
+    size:t='0.07@shHud, 0.07@shHud'
     margin-left:t='0.01@shHud'
+
     textareaNoTab {
       zoneName:t='yes'
       text:t='<<zoneNameText>>'
       position:t='absolute'
       pos:t='pw/2 - w/2, ph/2 - h/2'
     }
-    size:t='0.07@shHud, 0.07@shHud'
 
     tdiv {
       position:t='absolute'
@@ -40,5 +41,5 @@ message {
       zone_owner:t='<<zoneOwner>>'
     }
   }
-  <</zoneCaptureing>>
+  <</isZoneCapturing>>
 }

@@ -87,6 +87,10 @@ local time = require("scripts/time.nut")
       icon = "#ui/gameuiskin#fire_indicator"
       needTimeText = true
     }
+    {
+      id = "capture_progress"
+      needTimeText = true
+    }
   ]
 
   scene = null
@@ -96,6 +100,10 @@ local time = require("scripts/time.nut")
   repairBreachesUpdater = null
   extinguishUpdater = null
   unitType = ::ES_UNIT_TYPE_INVALID
+
+  curZoneCaptureName = null
+  lastZoneCaptureUpdate = 0
+  zoneCaptureOutdateTimeMsec = 3000
 
   function init(_nest, _unitType)
   {
@@ -122,6 +130,8 @@ local time = require("scripts/time.nut")
 
     ::g_hud_event_manager.subscribe("LocalPlayerDead", onLocalPlayerDead, this)
     ::g_hud_event_manager.subscribe("MissionResult", onMissionResult, this)
+
+    ::g_hud_event_manager.subscribe("zoneCapturingEvent", onZoneCapturingEvent, this)
 
     if (::getTblValue("isDead", ::get_local_mplayer(), false))
       clearAllTimers()
@@ -169,7 +179,8 @@ local time = require("scripts/time.nut")
       placeObj.animation = "hide"
 
       local iconObj = placeObj.findObject("icon")
-      iconObj.wink = "no"
+      if (::check_obj(iconObj))
+        iconObj.wink = "no"
     }
 
     destoyRepairUpdater()
@@ -455,6 +466,46 @@ local time = require("scripts/time.nut")
     extinguishUpdater.remove()
     extinguishUpdater = null
   }
+
+  function onZoneCapturingEvent(eventData)
+  {
+    if (!eventData.isHeroAction && eventData.zoneName != curZoneCaptureName)
+      return
+    local placeObj = scene.findObject("capture_progress")
+    if (!::check_obj(placeObj))
+      return
+
+    local isZoneCapturing = eventData.isHeroAction
+      && (eventData.eventId == ::MISSION_CAPTURE_ZONE_START || eventData.eventId == ::MISSION_CAPTURING_ZONE)
+    placeObj.animation = isZoneCapturing ? "show" : "hide"
+    curZoneCaptureName = isZoneCapturing ? eventData.zoneName : null
+    if (!isZoneCapturing)
+      return
+
+    lastZoneCaptureUpdate = ::dagor.getCurTime()
+    local timebarObj = placeObj.findObject("timer")
+    ::g_time_bar.setPeriod(timebarObj, 0)
+    ::g_time_bar.setValue(timebarObj, fabs(eventData.captureProgress))
+
+    local color = isCapturingZoneMy(eventData) ? "hudColorBlue" : "hudColorRed"
+    timebarObj["background-color"] = guiScene.getConstantValue(color)
+
+    local timerObj = placeObj.findObject("time_text")
+    timerObj.setValue(curZoneCaptureName)
+
+    //hide timer when no progress too long.
+    //because we not receive self capture stop event, only team
+    SecondsUpdater(timerObj, function(obj, p) {
+      if (lastZoneCaptureUpdate + zoneCaptureOutdateTimeMsec > ::dagor.getCurTime())
+        return false
+
+      if (::check_obj(placeObj))
+        placeObj.animation = "hide"
+      return true
+    }.bindenv(this))
+  }
+
+  isCapturingZoneMy = @(eventData) (::get_mp_local_team() == Team.A) == (eventData.captureProgress < 0)
 
   function isValid()
   {

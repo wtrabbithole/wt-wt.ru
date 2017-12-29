@@ -9,6 +9,7 @@ local ItemExternal = class extends ::BaseItem
   static isUseTypePrefixInName = false
   static descHeaderLocId = ""
   static openingCaptionLocId = "mainmenu/itemConsumed/title"
+  static isPreferMarkupDescInTooltip = true
   static isDescTextBeforeDescDiv = false
   static hasRecentItemConfirmMessageBox = false
 
@@ -58,13 +59,26 @@ local ItemExternal = class extends ::BaseItem
     if (colored && itemDef.name_color && itemDef.name_color.len() > 0)
       text = ::colorize("#" + itemDef.name_color, text)
     if (isUseTypePrefixInName)
-      text = ::loc("item/" + defaultLocId) + " " + text
+      text = getTypeName() + " " + text
     return text
   }
 
   function getDescription()
   {
-    return itemDef?.description ?? ""
+    local desc = []
+    desc.append(itemDef?.description ?? "")
+
+    local tags = getTagsLoc()
+    if (tags.len())
+    {
+      tags = ::u.map(tags, @(txt) ::colorize("activeTextColor", txt))
+      desc.append(::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tags, ::loc("ui/comma")))
+    }
+
+    local canSell = itemDef?.marketable
+    desc.append(::colorize(canSell ? "goodTextColor" : "badTextColor",
+      ::loc("item/marketable/" + (canSell ? "yes" : "no"), { name =  getTypeName() } )))
+    return ::g_string.implode(desc, "\n\n")
   }
 
   function getIcon(addItemName = true)
@@ -93,8 +107,15 @@ local ItemExternal = class extends ::BaseItem
     params.header <- ::colorize("grayOptionColor", ::loc(descHeaderLocId))
     params.showAsTrophyContent <- true
     params.receivedPrizes <- false
+    if (metaBlk.resourceType && metaBlk.resource && guidParser.isGuid(metaBlk.resource))
+      params.tags <- itemDef?.tags
 
     return ::PrizesView.getPrizesListView([ metaBlk ], params)
+  }
+
+  function getTagsLoc()
+  {
+    return []
   }
 
   function canConsume()
@@ -115,12 +136,12 @@ local ItemExternal = class extends ::BaseItem
       return false
 
     local text = ::loc("recentItems/useItem", { itemName = ::colorize("activeTextColor", getName()) })
-    local comment = ::loc("msgBox/coupon_will_be_spent")
-    comment = ::format("textarea { overlayTextColor:t='faded'; text:t='%s' }", ::g_string.stripTags(comment))
+    if (itemDef?.marketable)
+      text += "\n" + ::loc("msgBox/coupon_will_be_spent")
     ::scene_msg_box("coupon_exchange", null, text, [
       [ "yes", ::Callback(@() doConsumeItem(cb, params), this) ],
       [ "no" ]
-    ], "yes", { data_below_text = comment, cancel_fn = function() {} })
+    ], "yes", { cancel_fn = function() {} })
     return true
   }
 

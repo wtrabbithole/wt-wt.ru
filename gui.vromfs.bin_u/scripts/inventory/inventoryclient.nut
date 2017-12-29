@@ -354,7 +354,10 @@ local InventoryClient = class {
     foreach (pair in ::split(tags, ";")) {
       local parsed = ::split(pair, ":")
       if (parsed.len() == 2) {
-        parsedTags[parsed[0]] <- parsed[1]
+        local v = parsed[1]
+        parsedTags[parsed[0]] <- v == "yes" ? true
+          : v == "no" ? false
+          : v
       }
     }
     return parsedTags

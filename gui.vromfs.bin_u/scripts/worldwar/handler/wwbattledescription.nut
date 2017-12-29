@@ -345,12 +345,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.replaceContentFromText(descrObj, blk, blk.len(), this)
 
+    fillNoBattlesText(operationBattle.isValid())
+
     if (!operationBattle.isValid())
       return
-
-    local noBattlesTextObj = scene.findObject("no_active_battles_full_text")
-    if (::check_obj(noBattlesTextObj))
-      noBattlesTextObj.show(false)
 
     local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
     foreach(idx, side in battleSides)
@@ -375,6 +373,21 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     loadMap(battleSides[0])
     updateBattleStatus(battleView)
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+  }
+
+  function fillNoBattlesText(isBattleValid)
+  {
+    local noBattlesTextObj = scene.findObject("no_active_battles_full_text")
+    if (!::check_obj(noBattlesTextObj))
+      return
+
+    noBattlesTextObj.setValue(getNoBattlesText())
+    noBattlesTextObj.show(!isBattleValid)
+  }
+
+  function getNoBattlesText()
+  {
+    return ::loc("worldwar/operation/noActiveBattlesFullText")
   }
 
   function loadMap(playerSide)

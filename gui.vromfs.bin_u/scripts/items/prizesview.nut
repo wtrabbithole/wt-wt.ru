@@ -275,7 +275,7 @@ function PrizesView::getPrizeTypeIcon(prize, unitImage = false)
   }
 
   if (prize.resourceType)
-    return ::g_decorator_type.getTypeByResourceType(prize.resourceType).userlogPurchaseIcon
+    return ::g_decorator_type.getTypeByResourceType(prize.resourceType).prizeTypeIcon
 
   if (prize.gold)
     return "#ui/gameuiskin#item_type_eagles"
@@ -668,8 +668,8 @@ function PrizesView::getViewDataDecorator(prize, params = null)
   local isReceivedPrizes = params?.receivedPrizes ?? false
 
   return {
-    icon  = decoratorType.userlogPurchaseIcon
-    title = decoratorType.getLocName(id, true)
+    icon  = decoratorType.prizeTypeIcon
+    title = ::colorize("activeTextColor", decoratorType.getLocName(id, true))
     tooltipId = ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params)
     commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
   }

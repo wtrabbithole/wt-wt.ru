@@ -7,6 +7,11 @@ class ::items_classes.Decal extends ItemExternal {
   static typeIcon = "#ui/gameuiskin#item_type_decal"
   static descHeaderLocId = "coupon/for/decal"
 
+  function getContentIconData()
+  {
+    return { contentIcon = typeIcon }
+  }
+
   function canConsume()
   {
     if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)

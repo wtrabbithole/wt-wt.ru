@@ -65,7 +65,7 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local restText = ::getTblValue("openCount", trophyInfo, 0) + ::loc("ui/slash") + trophy.numTotal
-    headerObj.setValue(::loc("shop/unit_bought") + ::loc("ui/parentheses/space", {text = restText}))
+    headerObj.setValue(::loc("mainmenu/itemReceived") + ::loc("ui/parentheses/space", {text = restText}))
   }
 
   function getMaxSizeInItems(reduceSize = false)

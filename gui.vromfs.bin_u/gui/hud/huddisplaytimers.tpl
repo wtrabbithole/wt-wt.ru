@@ -1,7 +1,7 @@
 <<#timersList>>
 animSizeObj { //place div
   id:t='<<id>>';
-  height:t='0.08@shHud';
+  height:t='ph';
 
   animation:t='hide';
   size-scale:t='selfsize';
@@ -16,6 +16,7 @@ animSizeObj { //place div
     position:t='absolute';
     _transp-timer:t='0'; //hidden by default
 
+    <<#icon>>
     tdiv {
       id:t='icon';
       size:t='0.6pw, 0.6ph';
@@ -25,22 +26,21 @@ animSizeObj { //place div
       background-image:t='<<icon>>';
       background-repeat:t='aspect-ratio';
     }
+    <</icon>>
 
-    timeBar {
-      id:t='timer';
-      size:t='1.167*pw, 1.167*ph';
-      direction:t='forward';
+    tdiv {
+      size:t='1.167*pw, 1.167*ph'
+      position:t='absolute'
+      pos:t='pw/2 - w/2, ph/2 - h/2'
+      background-color:t='#33555555'
+      background-image:t='#ui/gameuiskin#circular_progress_1'
 
-      position:t='absolute';
-      pos:t='pw/2 - w/2, ph/2 - h/2';
-
-      background-color:t='@white';
-      background-image:t='#ui/gameuiskin#circular_progress_1';
-
-      tdiv {
-        position:t='absolute';
+      timeBar {
+        id:t='timer';
         size:t='pw, ph';
-        background-color:t='#33555555';
+        direction:t='forward';
+
+        background-color:t='@white';
         background-image:t='#ui/gameuiskin#circular_progress_1';
       }
     }
@@ -53,6 +53,7 @@ animSizeObj { //place div
       hudFont:t='medium';
 
       behaviour:t='Timer';
+      timer_interval_msec:t='1000'
       text:t='';
     }
     <</needTimeText>>

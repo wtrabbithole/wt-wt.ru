@@ -114,41 +114,38 @@
   ZONE_CAPTURE = {
     eventChance = 30
 
-    hudEventsList = [
-      {
-        locId = "NET_YOU_CAPTURING_LA"
-        eventId = ::MISSION_CAPTURING_ZONE
-        isMyTeam = true
-        isHeroAction = true
-        captureProgress = 0.7
-      }
-      {
-        locId = "NET_TEAM1_CAPTURING_LA"
-        eventId = ::MISSION_CAPTURING_ZONE
-        isMyTeam = true
-        isHeroAction = false
-        captureProgress = -0.6
-      }
-      {
+    hudEventsTbl= {
+      [::MISSION_CAPTURED_ZONE] = {
         locId = "NET_TEAM1_CAPTURED_LA"
-        eventId = ::MISSION_CAPTURED_ZONE
-        isMyTeam = true
-        isHeroAction = false
-        captureProgress = 0.4
+        isHeroAction = @() ::math.frnd() < 0.2
+        captureProgress = 1
+      },
+      [::MISSION_CAPTURING_ZONE] = {
+        locId = "NET_YOU_CAPTURING_LA"
+        isHeroAction = true
+        captureProgress = @() 2.0 * ::math.frnd() - 1
+      },
+      [::MISSION_CAPTURING_STOP] = {
+        locId = "NET_TEAM_A_CAPTURING_STOP_LA"
+        isHeroAction = true
+        captureProgress = @() 2.0 * ::math.frnd() - 1
       }
-      {
-        locId = "NET_TEAM2_CAPTURED_LA"
-        eventId = ::MISSION_CAPTURED_ZONE
-        isMyTeam = false
-        isHeroAction = false
-        captureProgress = -0.3
-      }
-    ]
+    }
 
     genNewEvent = function() {
-      local hudEventData = ::u.chooseRandom(hudEventsList)
+      local drop = math.frnd()
+      local eventId = drop < 0.7 ? ::MISSION_CAPTURING_ZONE
+        : drop < 0.9 ? ::MISSION_CAPTURED_ZONE
+        : ::MISSION_CAPTURING_STOP
+
+      local hudEventData = { eventId = eventId }
+      local data = hudEventsTbl[eventId]
+      foreach(key, val in data)
+        hudEventData[key] <- ::u.isFunction(val) ? val() : val
+
       hudEventData.zoneName <- ::u.chooseRandom(["A", "B", "C"])
       hudEventData.text <- format(::loc(hudEventData.locId), hudEventData.zoneName)
+      hudEventData.isMyTeam <- ::u.chooseRandom([true, false])
       ::g_hud_event_manager.onHudEvent("zoneCapturingEvent", hudEventData)
     }
   }

@@ -128,7 +128,7 @@ function g_login::onAuthorizeChanged()
 function g_login::initConfigs(cb)
 {
   ::broadcastEvent("AuthorizeComplete")
-  ::load_scripts_after_login()
+  ::load_scripts_after_login_once()
   ::run_reactive_gui()
   ::my_user_id_str = ::get_player_user_id_str()
   ::my_user_id_int64 = ::my_user_id_str.tointeger()

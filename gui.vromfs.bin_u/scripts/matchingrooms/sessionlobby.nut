@@ -1583,18 +1583,13 @@ function SessionLobby::sendJoinRoomRequest(join_params, cb = function(...) {})
     members = []
   }
 
-  roomId = ::getTblValue("roomId", join_params, roomId)
-
   ::LAST_SESSION_DEBUG_INFO =
     ("roomId" in join_params) ? ("room:" + join_params.roomId) :
     ("battleId" in join_params) ? ("battle:" + join_params.battleId) :
     ""
 
   switchStatus(lobbyStates.JOINING_ROOM)
-  ::join_room(join_params, (@(cb) function(p) {
-                            ::SessionLobby.afterRoomJoining(p)
-                            cb(p)
-                          })(cb))
+  ::join_room(join_params, afterRoomJoining.bindenv(this))
 }
 
 function SessionLobby::joinBattle(battleId)
@@ -1768,6 +1763,8 @@ function SessionLobby::invitePlayer(uid)
   if (roomId == INVALID_ROOM_ID) // we are not in room. nothere to invite
   {
     local is_in_room = isInRoom()
+    local room_id = roomId
+    local last_session = ::LAST_SESSION_DEBUG_INFO
     ::script_net_assert("trying to invite into room without roomId")
     return
   }

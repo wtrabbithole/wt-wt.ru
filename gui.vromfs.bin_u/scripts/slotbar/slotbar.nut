@@ -727,7 +727,7 @@ function get_unit_item_price_text(unit, params)
       priceText = ::getPriceAccordingToPlayersCurrency(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name), true)
 
     if (priceText == "" && isBought && showAsTrophyContent && !isReceivedPrizes)
-      priceText = ::colorize("goodTextColor", ::loc("shop/unit_bought"))
+      priceText = ::colorize("goodTextColor", ::loc("mainmenu/itemReceived"))
   }
 
   return priceText

@@ -52,6 +52,7 @@ class ::BaseItem
   static defaultIcon = "#ui/gameuiskin#items_silver_bg"
   static defaultIconStyle = null
   static typeIcon = "#ui/gameuiskin#item_type_placeholder"
+  static isPreferMarkupDescInTooltip = false
   static isDescTextBeforeDescDiv = true
 
   static includeInRecentItems = true

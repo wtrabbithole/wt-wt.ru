@@ -8,6 +8,11 @@ class ::items_classes.ItemVehicle extends ItemExternal {
   static typeIcon = "#ui/gameuiskin#item_type_blueprints"
   static descHeaderLocId = "coupon/for/vehicle"
 
+  function getContentIconData()
+  {
+    return { contentIcon = ::image_for_air(metaBlk?.unit ?? ""), contentType = "unit" }
+  }
+
   function canConsume()
   {
     return metaBlk?.unit && !::shop_is_aircraft_purchased(metaBlk.unit)

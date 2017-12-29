@@ -3,7 +3,7 @@ textareaNoTab {
   width:t='pw'
   margin-top:t='0.01@scrn_tgt'
   text-align:t='center'
-  text:t='#worldwar/operation/noActiveBattlesFullText'
+  text:t=''
 }
 
 tdiv {

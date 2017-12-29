@@ -45,7 +45,7 @@ const IS_GAMEPAD_CURSOR_ENABLED_DEFAULT = true
 
   function canChangeValue()
   {
-    return ::has_feature("GamepadCursorControl") && ::is_cursor_visible_in_gui()
+    return ::has_feature("GamepadCursorControl") && ::is_mouse_available()
   }
 
 

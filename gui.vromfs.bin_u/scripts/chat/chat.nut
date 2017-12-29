@@ -178,12 +178,6 @@ function g_chat::getMaxRoomMsgAmount()
   return ::is_myself_anyof_moderators() ? MAX_ROOM_MSGS_FOR_MODERATOR : MAX_ROOM_MSGS
 }
 
-function g_chat::clampMsg(msg) //clamp msg by max chat message len
-{
-  //!!FIX ME: nned to slice in utf8, but this code work in current chat for a long time without troubles.
-  return (msg.len() > 2 * MAX_MSG_LEN) ? msg.slice(0, 2 * MAX_MSG_LEN) : msg
-}
-
 function g_chat::isSystemUserName(name)
 {
   return ::g_string.endsWith(name, SYSTEM_MESSAGES_USER_ENDING)

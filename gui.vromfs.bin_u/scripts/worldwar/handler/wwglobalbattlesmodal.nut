@@ -116,7 +116,11 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     }, this)
 
     if (curBattleInList.isValid())
-      ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb, true)
+    {
+      local hasProgressBox = curBattleInList.operationId != ::ww_get_operation_id() ||
+                             curBattleInList.id != operationBattle.id
+      ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb, hasProgressBox)
+    }
     else
       cb()
   }
@@ -154,6 +158,11 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     }
 
     return currentBattleListMap
+  }
+
+  function getNoBattlesText()
+  {
+    return ::loc("worldwar/noActiveGlobalBattlesFullText")
   }
 
   function getBattleArmyUnitTypesData(battleData)

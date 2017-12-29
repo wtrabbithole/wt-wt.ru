@@ -34,6 +34,17 @@ local time = require("scripts/time.nut")
     getLocName = function(decoratorName, addUnitName = false) { return ::loc(decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc(decoratorName + "/desc", "") }
 
+    getTagsLoc = function(tags)
+    {
+      local res = []
+      local blk = ::configs.GUI.get().decorator_tags_visible
+      if (blk)
+        foreach (tagBlk in blk % "i")
+          if (tags?[tagBlk.tag])
+            res.append(::loc("ugc/tag/" + tagBlk.tag))
+      return res
+    }
+
     getCost = function(decoratorName) { return ::Cost() }
     getDecoratorNameInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
 

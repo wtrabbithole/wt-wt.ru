@@ -628,7 +628,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return scene.findObject("top_holder")
+    return scene.findObject("btn_type")
   }
 
   function getMainFocusObj2()
@@ -842,7 +842,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       ::hidePaginator(nestObj)
     else
     {
-      local lastPageNumber = isLastPage ? curPage : ((maxRows-1) / rowsInPage).tointeger()
+      local lastPageNumber = curPage + (isLastPage? 0 : 1)
       local myPlace = getSelfPos()
       local myPage = myPlace >= 0 ? floor(myPlace / rowsInPage) : null
       ::generatePaginator(nestObj, this, curPage, lastPageNumber, myPage)

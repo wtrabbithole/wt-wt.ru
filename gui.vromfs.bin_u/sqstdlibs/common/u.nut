@@ -44,7 +44,7 @@ local dagorClasses =
         return false
 
       for (local i = 0; i < val1.paramCount(); i++)
-        if (val1.getParamName(i) != val2.getParamName(i) || val1.getParamValue(i) != val2.getParamValue(i))
+        if (val1.getParamName(i) != val2.getParamName(i) || ! isEqual(val1.getParamValue(i), val2.getParamValue(i)))
           return false
       for (local i = 0; i < val1.blockCount(); i++)
       {
@@ -510,10 +510,19 @@ local function chooseRandomNoRepeat(arr, prevIdx)
   return arr[nextIdx]
 }
 
-local function appendOnce(v, arr, skipNull = false)
+local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null)
 {
-  if ((!skipNull || v != null) && arr.find(v) < 0)
-    arr.append(v)
+  if(skipNull && v == null)
+    return
+
+  if (customIsEqualFunc)
+    foreach (obj in arr)
+      if (customIsEqualFunc(obj, v))
+        return
+  else if (arr.find(v) != null)
+    return
+
+  arr.append(v)
 }
 
 local export = {

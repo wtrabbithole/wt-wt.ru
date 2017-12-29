@@ -338,8 +338,13 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
 
 //------- vvv files after login vvv ----------
 
-function load_scripts_after_login()
+local isFullScriptsLoaded = false
+function load_scripts_after_login_once()
 {
+  if (isFullScriptsLoaded)
+    return
+  isFullScriptsLoaded = true
+
   foreach (fn in [
     "ranks.nut"
     "difficulty.nut"
@@ -775,7 +780,7 @@ function should_disable_menu()
 if (::g_login.isAuthorized() //scripts reload
     || ::should_disable_menu())
 {
-  ::load_scripts_after_login()
+  ::load_scripts_after_login_once()
   if (!::g_script_reloader.isInReloading)
     ::run_reactive_gui()
 }

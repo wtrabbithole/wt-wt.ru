@@ -19,6 +19,7 @@ class Decorator
 
   countries = null
   units = null
+  tags = null
 
   lockedByDLC = null
 
@@ -61,6 +62,13 @@ class Decorator
     units = []
     if ("units" in blk)
       units = ::split(blk.units, "; ")
+
+    if ("tags" in blk)
+    {
+      tags = {}
+      foreach (tag, val in blk.tags)
+        tags[tag] <- val
+    }
 
     if (!isUnlocked() && !isVisible() && ("showByEntitlement" in unlockBlk))
       lockedByDLC = ::has_entitlement(unlockBlk.showByEntitlement) ? null : unlockBlk.showByEntitlement

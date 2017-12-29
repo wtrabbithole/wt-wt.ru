@@ -153,7 +153,7 @@
       local commonWeapons = ::getCommonWeaponsBlk(unitBlk, modName)
       if(commonWeapons != null)
         foreach (weapon in (commonWeapons % "Weapon"))
-          unitWeaponBlkList.push(weapon)
+          ::u.appendOnce(weapon, unitWeaponBlkList, false, ::u.isEqual)
     }
 
     foreach (preset in (unitBlk.weapon_presets % "preset"))
@@ -162,7 +162,7 @@
         continue
       local presetBlk = ::DataBlock(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
-        unitWeaponBlkList.push(::u.copy(weapon))
+        ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
     }
   }
 

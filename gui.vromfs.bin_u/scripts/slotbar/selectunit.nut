@@ -49,6 +49,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   config = null //same as slotbarParams in BaseGuiHandlerWT
   slotObj = null
+  curClonObj = null
 
   unitsList = null
   isFocusOnUnitsList = true
@@ -70,6 +71,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local tdClone = tdObj.getClone(scene, slotbarWeak)
     tdClone.pos = tdPos[0] + ", " + tdPos[1]
     tdClone["class"] = "slotbarClone"
+    curClonObj = tdClone
 
     local curUnitCloneObj = ::get_slot_obj(tdClone, countryId, idInCountry)
     local crewUnitId = ::getTblValue("aircraft", crew, "")
@@ -89,6 +91,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function reinitScreen(params = {})
   {
+    if (::check_obj(curClonObj))
+      curClonObj.getScene().destroyElement(curClonObj)
     setParams(params)
     initScreen()
     wasReinited = true

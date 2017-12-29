@@ -1069,12 +1069,29 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function unlockToFavorites(obj)
   {
-    local unlockId = ::getTblValue("unlockId", obj)
+    local unlockId = obj?.unlockId
+
     if (::u.isEmpty(unlockId))
       return
+
     obj.tooltip = obj.getValue() ?
       ::g_unlocks.addUnlockToFavorites(unlockId) : ::g_unlocks.removeUnlockFromFavorites(unlockId)
-      ::g_unlock_view.fillUnlockFavCheckbox(obj)
+    ::g_unlock_view.fillUnlockFavCheckbox(obj)
+  }
+
+  function unlockToFavoritesByActivateItem(obj)
+  {
+    local childrenCount = obj.childrenCount()
+    local index = obj.getValue()
+    if (index < 0 || index >= childrenCount)
+      return
+
+    local checkBoxObj = obj.getChild(index).findObject("checkbox-favorites")
+    if (!::check_obj(checkBoxObj))
+      return
+
+    checkBoxObj.setValue(!checkBoxObj.getValue())
+    unlockToFavorites(checkBoxObj) //!!! FIX ME this line is needed for version client 1.75.0.X or lower
   }
 
   function onBuyUnlock(obj)
@@ -1161,7 +1178,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     }
 
     if (unlocksListObj.childrenCount() > 0)
-      unlocksListObj.getChild(0).scrollToView();
+      unlocksListObj.setValue(0)
     guiScene.setUpdatesEnabled(true, true)
   }
 
@@ -1527,12 +1544,48 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local sObj = getObj(objsList[index])
       if (::checkObj(sObj) && sObj.isVisible() && sObj.isEnabled() && sObj.childrenCount())
       {
-        sObj.select()
-        if (sObj.getValue() < 0)
-          sObj.setValue(0)
-        break
+        if (sObj.id == "unlocks_list")
+        {
+          local unlocksList = getCurUnlockList()
+          local unlocksCount = unlocksList.len()
+          if (unlocksCount <= 0)
+          {
+            obj.select()
+            return
+          }
+          sObj.select()
+        }
+        else
+        {
+          sObj.select()
+          if (sObj.getValue() < 0)
+            sObj.setValue(0)
+        }
+        return
       }
     }
+  }
+
+  function getCurUnlockList()
+  {
+    local list = scene.findObject("unlocks_group_list")
+    local index = list.getValue()
+    local unlocksList = []
+    if ((index < 0) || (index >= list.childrenCount()))
+      return unlocksList
+
+    local curObj = list.getChild(index)
+    local id = curObj.id
+    if(id in unlocksTree)
+      unlocksList = unlocksTree[id].rootItems
+    else
+      foreach(chapterName, chapterItem in unlocksTree)
+      {
+        unlocksList = chapterItem?.groups?[id.slice(chapterName.len() + 1)] ?? []
+        if (unlocksList.len()>0)
+          return unlocksList
+      }
+    return unlocksList
   }
 
   function onGroupCancel(obj)
