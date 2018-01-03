@@ -672,7 +672,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         continue
       if (!::is_unlock_visible(cb))
         continue
-      if (cb.showAsBattleTask)
+      if (cb.showAsBattleTask || ::BattleTasks.isBattleTask(cb))
         continue
 
       if (isCustomMenuTab)
@@ -1581,7 +1581,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     else
       foreach(chapterName, chapterItem in unlocksTree)
       {
-        unlocksList = chapterItem?.groups?[id.slice(chapterName.len() + 1)] ?? []
+        local subsectionName = ::g_string.cutPrefix(id, chapterName+"/", null)
+        if(!subsectionName)
+          continue
+
+        unlocksList = chapterItem?.groups?[subsectionName] ?? []
         if (unlocksList.len()>0)
           return unlocksList
       }

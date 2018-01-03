@@ -4,7 +4,7 @@ function numSpawnsByUnitType_onPlayerConnected(userId, team, country)
 
   local user_blk = ::get_user_custom_state(userId, true)
   local mis = get_current_mission_info_cached()
-  user_blk.setFrom(mis.customRules.ruleSet)
+  copyFromDataBlock(mis.customRules.ruleSet, user_blk)
 }
 
 function numSpawnsByUnitType_get_dbg_line(user_blk)

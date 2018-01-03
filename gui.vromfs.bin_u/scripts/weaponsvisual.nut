@@ -261,7 +261,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   }
   else if (isOwn && statusTbl.unlocked)
   {
-    if (!statusTbl.amount || visualItem.type == weaponsItem.spare)
+    if (!statusTbl.amount || (visualItem.type == weaponsItem.spare && statusTbl.canBuyMore))
       btnText = ::loc("mainmenu/btnBuy")
     else if (isSwitcher && !statusTbl.equipped)
       btnText = ::loc("mainmenu/btnSelect")
@@ -285,7 +285,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     altBtnText = ::loc("mainmenu/btnBuy") + ::loc("ui/parentheses/space", {text = altBtnText})
   else if (visualItem.type == weaponsItem.spare && isOwn)
   {
-    if (::ItemsManager.getInventoryList(itemType.UNIVERSAL_SPARE).len())
+    if (::ItemsManager.getInventoryList(itemType.UNIVERSAL_SPARE).len() && statusTbl.canBuyMore)
       altBtnText = ::loc("items/universalSpare/activate", { icon = ::loc("icon/universalSpare") })
   }
   else if (statusTbl.amount && statusTbl.maxAmount > 1
@@ -385,7 +385,7 @@ function weaponVisual::getItemStatusTbl(air, item)
     res.equipped = res.amount > 0
     res.maxAmount = ::max_spare_amount
     res.showMaxAmount = false
-    res.canBuyMore = true
+    res.canBuyMore = res.amount < res.maxAmount
     res.unlocked = isOwn
     res.discountType = "spare"
   }

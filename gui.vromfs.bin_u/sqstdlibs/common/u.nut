@@ -516,9 +516,11 @@ local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null)
     return
 
   if (customIsEqualFunc)
+  {
     foreach (obj in arr)
       if (customIsEqualFunc(obj, v))
         return
+  }
   else if (arr.find(v) != null)
     return
 

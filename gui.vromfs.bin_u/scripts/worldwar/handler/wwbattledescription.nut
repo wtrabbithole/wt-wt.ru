@@ -21,6 +21,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   slotbarActions = [ "autorefill", "aircraft", "weapons", "info", "repair" ]
   shouldCheckCrewsReady = true
   hasSquadsInviteButton = true
+  hasBattleFilter = false
 
   inactiveGroupId = "group_inactive"
   curBattleInList = null      // selected battle in list
@@ -185,9 +186,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     foreach(sectorNameTextObj in sectorNameTextObjs)
       sectorNameTextObj.width = sectorWidth
 
-    local noBattlesTextObj = scene.findObject("no_active_battles_text")
-    if (::check_obj(noBattlesTextObj))
-      noBattlesTextObj.show(!lastBattleListMap.len())
+    local showEmptyBattlesListInfo = !lastBattleListMap.len()
+    showSceneBtn("no_active_battles_text", showEmptyBattlesListInfo)
+    showSceneBtn("active_country_info", showEmptyBattlesListInfo)
+    if (showEmptyBattlesListInfo)
+      createActiveCountriesInfo()
   }
 
   function createBattleListGroupViewData(groupId, groupData, items)
@@ -348,7 +351,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     fillNoBattlesText(operationBattle.isValid())
 
     if (!operationBattle.isValid())
+    {
+      showSceneBtn("teams_unis", false)
       return
+    }
 
     local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
     foreach(idx, side in battleSides)
@@ -591,6 +597,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     showSceneBtn("invite_squads_button",
       hasSquadsInviteButton && ::g_world_war.isSquadsInviteEnable())
+    showSceneBtn("hide_unavailable_battles", hasBattleFilter)
   }
 
   function canPrerareSquadForBattle(cantJoinReasonData)
@@ -920,6 +927,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return currentBattleListMap
   }
 
+  function createActiveCountriesInfo()
+  {
+  }
+
   function getBattleArmyUnitTypesData(battleData)
   {
     local res = {
@@ -985,5 +996,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     return false
+  }
+
+  function onChangeFilter(obj)
+  {
   }
 }

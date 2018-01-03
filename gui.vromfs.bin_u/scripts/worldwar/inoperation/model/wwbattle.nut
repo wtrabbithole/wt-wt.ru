@@ -554,7 +554,7 @@ class ::WwBattle
     }
 
     local team = getTeamBySide(side)
-    local countryCrews = ::get_country_crews(team.country)
+    local countryCrews = ::get_crews_list_by_country(team.country)
     local hasSlotWithUnavailableUnit = false
     local availableUnits = getTeamRemainUnits(team)
     local crewNames = []

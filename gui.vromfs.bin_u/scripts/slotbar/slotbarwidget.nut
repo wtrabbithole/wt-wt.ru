@@ -32,6 +32,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   roomCreationContext = false //check enbled by roomCreation context
   availableUnits = null //available units table
   eventId = null //string. Used to check unit availability
+  gameModeName = null //string. Custom mission name for unit select option filter
 
   toBattle = false //has toBattle button
   haveRespawnCost = false //!!FIX ME: should to take this from mission rules
@@ -670,7 +671,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       if (!::check_obj(obj))
         continue
 
-      local box = ::GuiBox().setFromDaguiObj(obj.findObject("slots_header_"))
+      local box = ::GuiBox().setFromDaguiObj(obj.findObject("hdr_block"))
       if (res)
         res.addBox(box)
       else

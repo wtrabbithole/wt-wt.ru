@@ -1151,7 +1151,7 @@ class Events
   {
     local res = 0
     local isMultiSlotEnabled = isEventMultiSlotEnabled(event)
-    foreach(idx, crew in ::get_country_crews(country))
+    foreach(idx, crew in ::get_crews_list_by_country(country))
     {
       if (!isMultiSlotEnabled && idInCountry != idx)
         continue

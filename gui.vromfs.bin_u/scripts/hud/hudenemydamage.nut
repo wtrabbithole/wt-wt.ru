@@ -138,6 +138,9 @@
 
   function rebuildWidgets()
   {
+    if (!::check_obj(listObj))
+      return
+
     local markup = ""
     foreach (sectionIdx, section in partsOrder)
     {
@@ -147,8 +150,8 @@
           id = partId
           text = isStatus ? "" : ::loc("dmg_msg_short/" + partId)
         })
-      guiScene.replaceContentFromText(listObj, markup, markup.len(), this)
     }
+    guiScene.replaceContentFromText(listObj, markup, markup.len(), this)
   }
 
   function resetWidgets()

@@ -605,3 +605,9 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   encode_base64 = function(text) { return "" }
 })
 
+//----------------------------wop_1_75_0_X---------------------------------//
+::apply_compatibilities({
+  EWBAT_EXT_INVENTORY_ITEM = 9
+  is_highlights_inited = @() false
+  show_highlights = @() null
+})

@@ -54,6 +54,21 @@ local GlobalBattlesList = class
     return list
   }
 
+  function getActiveCountriesData()
+  {
+    local countriesData = {}
+    foreach (globalBattle in list)
+      foreach (country, side in globalBattle.sidesByCountry)
+      {
+        if (!(country in countriesData))
+          countriesData[country] <- 0
+
+        countriesData[country] += 1
+      }
+
+    return countriesData
+  }
+
   function requestList()
   {
     if (!canRequest())

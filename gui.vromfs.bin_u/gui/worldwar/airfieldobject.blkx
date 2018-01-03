@@ -1,0 +1,96 @@
+{
+  "tdiv": [
+    {
+      "id": "airfield_object"
+    },
+    {
+      "width": "pw"
+    },
+    {
+      "flow": "vertical"
+    },
+    {
+      "tdiv": {
+        "id": "airfields_list",
+        "pos": "50%pw-50%w, 0",
+        "position": "relative",
+        "flow": "h-flow"
+      }
+    },
+    {
+      "tdiv": [
+        {
+          "id": "free_formations_block"
+        },
+        {
+          "width": "pw"
+        },
+        {
+          "height": "@mIco+2@framePadding"
+        },
+        {
+          "position": "relative"
+        },
+        {
+          "display": "hide"
+        },
+        {
+          "background-color": "@objectiveHeaderBackground"
+        },
+        {
+          "textareaNoTab": {
+            "id": "empty_formations_text",
+            "width": "pw",
+            "top": "50%ph-50%h",
+            "position": "relative",
+            "text-align": "center",
+            "display": "hide",
+            "text": ""
+          }
+        },
+        {
+          "textareaNoTab": {
+            "id": "free_formations_text",
+            "width": "0.5pw",
+            "top": "50%ph-50%h",
+            "position": "relative",
+            "text-align": "right",
+            "display": "hide",
+            "text": ""
+          }
+        },
+        {
+          "FormationRadioButtonsList": {
+            "id": "free_formations",
+            "behavior": "Timer",
+            "top": "50%ph-50%h",
+            "position": "relative"
+          }
+        }
+      ]
+    },
+    {
+      "tdiv": {
+        "id": "cooldown_formations",
+        "size": "pw, 0.35p.p.h",
+        "position": "relative",
+        "tdiv": {
+          "size": "pw, fh",
+          "position": "absolute",
+          "overflow-y": "auto",
+          "scrollbarShortcuts": "yes",
+          "padding-left": "1@framePadding",
+          "FormationRadioButtonsList": {
+            "id": "cooldowns_list",
+            "behavior": "Timer",
+            "pos": "0, 0.01@scrn_tgt",
+            "position": "relative",
+            "width": "pw",
+            "flow": "h-flow",
+            "flow-align": "left"
+          }
+        }
+      }
+    }
+  ]
+}

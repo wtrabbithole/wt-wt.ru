@@ -84,19 +84,18 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!item.hasRecentItemConfirmMessageBox)
       return _doActivateItem(item, params)
 
-    local confirmText = item.getMainActionName(true, true)
     local msgBoxText = ::loc("recentItems/useItem", {
       itemName = item.getName()
     })
 
     msgBox("recent_item_confirmation", msgBoxText, [
-      ["ok", ::Callback((@(_doActivateItem, item, params) function() {_doActivateItem(item, params)})(_doActivateItem, item, params), this)
+      ["ok", ::Callback(@() _doActivateItem(item, params), this)
       ], ["cancel", function () {}]], "ok")
   }
 
   function _doActivateItem(item, params)
   {
-    item.doMainAction(function (result) { ::broadcastEvent("InventoryUpdate") }, this, params)
+    item.doMainAction(function(r) {}, this, params)
   }
 
   function onEventInventoryUpdate(params)

@@ -253,7 +253,7 @@ function build_aircraft_item(id, air, params = {})
     }
     local missionRules = params?.missionRules
     local groupName = missionRules ? missionRules.getRandomUnitsGroupName(air.name) : null
-    if (groupName)
+    if (groupName && (!::is_player_unit_alive() || ::get_player_unit_name() != air.name))
     {
       local missionRules = getVal("missionRules", null)
       resView.shopAirImg = missionRules.getRandomUnitsGroupIcon(groupName)
@@ -700,14 +700,15 @@ function get_unit_item_price_text(unit, params)
     }
   }
 
-  local maxSpawns = ::get_max_spawns_unit_count(unit.name)
-  if (curSlotIdInCountry >= 0 && maxSpawns > 1)
+  if (::is_in_flight())
   {
-    local leftSpawns = maxSpawns - ::get_num_used_unit_spawns(curSlotIdInCountry)
-    priceText += ::format("(%s/%s)", leftSpawns.tostring(), maxSpawns.tostring())
-  }
-
-  if (isLocalState && priceText == "" && !::is_in_flight())
+    local maxSpawns = ::get_max_spawns_unit_count(unit.name)
+    if (curSlotIdInCountry >= 0 && maxSpawns > 1)
+    {
+      local leftSpawns = maxSpawns - ::get_num_used_unit_spawns(curSlotIdInCountry)
+      priceText += ::format("(%s/%s)", leftSpawns.tostring(), maxSpawns.tostring())
+    }
+  } else if (isLocalState && priceText == "")
   {
     local gift                = ::isUnitGift(unit)
     local canBuy              = ::canBuyUnit(unit)
@@ -951,7 +952,8 @@ function init_slotbar(handler, scene, params = {})
   for(local c=0; c<::g_crews_list.get().len(); c++)
     if (country==null || country==::g_crews_list.get()[c].country)
     {
-      if (!::is_country_visible(::g_crews_list.get()[c].country))
+      local listCountry = ::g_crews_list.get()[c].country
+      if (!::is_country_visible(listCountry))
         continue
 
       countryVisibleIdx++
@@ -974,7 +976,7 @@ function init_slotbar(handler, scene, params = {})
 
       local cTooltipObj = itemObj.findObject("tooltip_country_")
       if (cTooltipObj)
-        cTooltipObj.id = "tooltip_"+::g_crews_list.get()[c].country
+        cTooltipObj.id = "tooltip_"+listCountry
 
       local unitItems = []
 
@@ -1027,7 +1029,7 @@ function init_slotbar(handler, scene, params = {})
         {
           local airParams = {
                               emptyText      = emptyText,
-                              crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
+                              crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(listCountry, 8)
                               status         = ::getUnitItemStatusText(status),
                               inactive       = ::show_console_buttons && status == bit_unit_status.locked && ::is_in_flight(),
                               hasActions     = params?.hasActions ?? true,
@@ -1073,7 +1075,7 @@ function init_slotbar(handler, scene, params = {})
         else if (air)
         {
           if ((!foundCurAir && selectedIdsData.idInCountry < 0 || !country)
-              && (!limitCountryChoice || airShopCountry == ::g_crews_list.get()[c].country))
+              && (!limitCountryChoice || airShopCountry == listCountry))
             if (curCrewId != null)
             {
               if (curCrewId == crew.id)
@@ -1122,7 +1124,7 @@ function init_slotbar(handler, scene, params = {})
           }
         }
       }
-      if ((country || airShopCountry == ::g_crews_list.get()[c].country || curPlayerCountry == ::g_crews_list.get()[c].country)
+      if ((country || airShopCountry == listCountry || curPlayerCountry == listCountry)
           && (!foundCurAir
               || (::getTblValue("shouldSelectAvailableUnit", params, ::is_in_flight())
                   && firstAvailableIdsData.selectable && !selectedIdsData.selectable)))
@@ -1134,10 +1136,10 @@ function init_slotbar(handler, scene, params = {})
         selectedIdsData.selectable = true
         foundCurAir = true
       }
-      if (::selected_crews[c] != selectedIdsData.idInCountry && airShopCountry == ::g_crews_list.get()[c].country)
+      if (::selected_crews[c] != selectedIdsData.idInCountry && airShopCountry == listCountry)
         ::select_crew(c, selectedIdsData.idInCountry)
 
-      local slotCost = ::get_crew_slot_cost(::g_crews_list.get()[c].country)
+      local slotCost = ::get_crew_slot_cost(listCountry)
       if (slotCost && showNewSlot && (slotCost.costGold == 0 || ::has_feature("SpendGold")))
       {
         local idInCountry = ::g_crews_list.get()[c].crews.len()
@@ -1145,7 +1147,7 @@ function init_slotbar(handler, scene, params = {})
                                        null,
                                        {
                                          emptyText = "#shop/recruitCrew",
-                                         crewImage = "#ui/gameuiskin#slotbar_crew_recruit_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
+                                         crewImage = "#ui/gameuiskin#slotbar_crew_recruit_" + ::g_string.slice(listCountry, 8)
                                          isCrewRecruit = true
                                          emptyCost = slotCost,
                                          inactive = true
@@ -1167,9 +1169,9 @@ function init_slotbar(handler, scene, params = {})
       foreach (unitItem in unitItems)
         ::fill_unit_item_timers(tblObj.findObject(unitItem.id), unitItem.unit, unitItem.params)
 
-      itemObj.enable(!limitCountryChoice || airShopCountry == ::g_crews_list.get()[c].country)
+      itemObj.enable(!limitCountryChoice || airShopCountry == listCountry)
 
-      local cUnlocked = ::isCountryAvailable(::g_crews_list.get()[c].country)
+      local cUnlocked = ::isCountryAvailable(listCountry)
       itemObj.inactive = "no"
       if (!cUnlocked)
       {
@@ -1177,22 +1179,23 @@ function init_slotbar(handler, scene, params = {})
         itemObj.tooltip = ::loc("mainmenu/countryLocked/tooltip")
       }
 
-      local cImg = ::get_country_icon(::g_crews_list.get()[c].country, false, !cUnlocked)
+      local cImg = ::get_country_icon(listCountry, false, !cUnlocked)
       itemObj.findObject("hdr_image")["background-image"] = cImg
-      if (!::is_first_win_reward_earned(::g_crews_list.get()[c].country, INVALID_USER_ID))
+      itemObj.findObject("hdr_block").tooltip = ::loc(listCountry)
+      if (!::is_first_win_reward_earned(listCountry, INVALID_USER_ID))
       {
         local mObj = itemObj.findObject("hdr_bonus")
-        showCountryBonus(mObj, ::g_crews_list.get()[c].country)
+        showCountryBonus(mObj, listCountry)
       }
-      fillCountryInfo(itemObj, ::g_crews_list.get()[c].country)
+      fillCountryInfo(itemObj, listCountry)
       if (showCountryName)
-        itemObj.findObject("hdr_caption").setValue(::getVerticalText(::loc(::g_crews_list.get()[c].country + "/short", "")))
+        itemObj.findObject("hdr_caption").setValue(::getVerticalText(::loc(listCountry + "/short", "")))
 
       foreach(i, crew in ::g_crews_list.get()[c].crews)
         if (("aircraft" in crew) && crew.aircraft!="")
           ::showAirExpWpBonus(tblObj.findObject(::get_slot_obj_id(c, i, true)), crew.aircraft)
 
-      if (country==::g_crews_list.get()[c].country)
+      if (country==listCountry)
         selectedIdsData.countryId = c
       if (selectedIdsData.countryId == c)
       {
@@ -1380,16 +1383,6 @@ function get_crew_by_id(id)
   return null
 }
 
-function get_country_crews(country, needRefreshCrews = false)
-{
-  if (needRefreshCrews)
-    ::g_crews_list.refresh()
-  foreach(countryData in ::g_crews_list.get())
-    if (countryData.country == country)
-      return countryData.crews
-  return []
-}
-
 function getCrewByAir(air)
 {
   foreach(country in ::g_crews_list.get())
@@ -1573,7 +1566,10 @@ function is_unit_enabled_for_slotbar(unit, params)
     res = ::game_mode_manager.isUnitAllowedForGameMode(unit)
 
   if (res && params?.missionRules)
-    res = params.missionRules.getUnitLeftRespawns(unit) != 0
+    res = (params.missionRules.getUnitLeftRespawns(unit) != 0
+      && params.missionRules.isUnitEnabledByRandomGroups(unit.name))
+      || (::is_player_unit_alive() && ::get_player_unit_name() == unit.name)
+
 
   return res
 }

@@ -37,6 +37,14 @@ root {
           text:t='#worldwar/operation/noActiveBattles'
         }
 
+        tdiv {
+          id:t='active_country_info'
+          width:t='pw'
+          margin-right:t='1@framePadding'
+          margin-top:t='0.05@scrn_tgt'
+          flow:t='vertical'
+        }
+
         listbox {
           id:t='items_list'
           size:t='pw, fh'
@@ -122,6 +130,16 @@ root {
           on_click:t='onOpenSquadsListModal'
           btnName:t='Y'
           ButtonImg {}
+        }
+
+        SwitchBox {
+          id:t='hide_unavailable_battles'
+          top:t='50%ph-50%h'
+          position:t='relative'
+          text:t='#worldwar/hide_unavailable_battles'
+          value:t='no'
+          on_change_value:t='onChangeFilter'
+          SwitchSliderBg { SwitchSliderBgOn {} SwitchSlider {} }
         }
       }
 

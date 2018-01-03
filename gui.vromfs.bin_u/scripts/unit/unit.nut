@@ -304,6 +304,14 @@ local Unit = class
     return "Unit( " + name + " )"
   }
 
+  function canAssignToCrew(country)
+  {
+    return ::getUnitCountry(this) == country &&
+           isUsable() &&
+           ::is_unit_visible_in_shop(this) &&
+           unitType.isAvailable()
+  }
+
   /*************************************************************************************************/
   /************************************PRIVATE FUNCTIONS *******************************************/
   /*************************************************************************************************/

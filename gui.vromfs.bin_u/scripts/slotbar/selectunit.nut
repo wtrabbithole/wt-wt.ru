@@ -136,12 +136,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
     local unitsArray = []
     foreach(unit in ::all_units)
-      if (!::isInArray(unit.name, busyUnits)
-           && ::getUnitCountry(unit) == country
-           && unit.isUsable()
-           && ::is_unit_visible_in_shop(unit)
-           && (!::isTank(unit) || ::check_feature_tanks())
-         )
+      if (!::isInArray(unit.name, busyUnits) && unit.canAssignToCrew(country))
          unitsArray.append(unit)
 
 

@@ -11,21 +11,18 @@ tdiv {
 frame {
   game_mode_select {
     id:t='game_mode_select';
-    position:t='relative';
-    max-width:t='0.762@scrn_tgt';
+    width:t='0.759@scrn_tgt';
     max-height:t='p.p.h-0.045@sf - 2@framePadding - 1@bh';
+    position:t='relative';
     overflow-y:t='auto';
-    flow:t='h-flow';
+    flow:t='vertical'
     total-input-transparent:t='yes';
     padding:t='0.01@scrn_tgt';
-    css-hier-invalidate:t='yes';
     re-type:t='9rect';
     background-color:t='@white';
     background-repeat:t='expand';
     background-image:t='#ui/gameuiskin#block_bg_rounded_gray';
     background-position:t='4, 4, 4, 4';
-    width:t='0.759@scrn_tgt';
-    on_activate:t='onGameModeActivate';
 
     <<#categoriesHeaderText>>
     textAreaCentered {
