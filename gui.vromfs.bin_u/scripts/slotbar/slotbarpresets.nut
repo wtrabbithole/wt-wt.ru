@@ -677,28 +677,34 @@
   function createEmptyPreset(countryId, presetIdx = 0)
   {
     ::g_crews_list.refresh()
-    foreach (tbl in ::g_crews_list.get())
-      if (tbl.country == countryId)
+    local crews = ::get_crews_list_by_country(countryId)
+    local unitToSet = null
+    local crewToSet = null
+    foreach (crew in crews)
+    {
+      foreach (unitName in crew.trained)
       {
-        local unitId = tbl.crews[0].trained[0]
-
-        if (!::has_feature("Tanks") && ::isTank(::getAircraftByName(unitId)))
-          foreach (id in tbl.crews[0].trained)
-            if (!::isTank(::getAircraftByName(id)))
-            {
-              unitId = id
-              break
-            }
-
-        local preset = _createPresetTemplate(presetIdx)
-        local crewId = tbl.crews[0].id
-        preset.units = [ unitId ]
-        preset.crews = [ crewId ]
-        preset.selected = crewId
-        _updateInfo(preset)
-        return preset
+        local unit = ::getAircraftByName(unitName)
+        if (!unit.isBought() || !unit.canAssignToCrew(countryId))
+          continue
+        if (unitToSet && unitToSet.rank > unit.rank)
+          continue
+        unitToSet = unit
+        crewToSet = crew
       }
-    return _createPresetTemplate(presetIdx)
+      if (unitToSet)
+        break
+    }
+
+    local preset = _createPresetTemplate(presetIdx)
+    if (unitToSet)
+    {
+      preset.units = [ unitToSet.name ]
+      preset.crews = [ crewToSet.id ]
+      preset.selected = crewToSet.id
+      _updateInfo(preset)
+    }
+    return preset
   }
 }
 

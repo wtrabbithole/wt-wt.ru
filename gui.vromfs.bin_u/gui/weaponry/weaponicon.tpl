@@ -16,21 +16,22 @@ modIcon{
   }
   img{
     id:t='image'
-    size:t='pw-6*@sf/@pf_outdated,ph-6*@sf/@pf_outdated'
+    size:t='pw-2@weaponIconPadding,ph-2@weaponIconPadding'
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
   }
   itemWinkBlock { buttonWink { _transp-timer:t='0';} }
   tdiv{
     id:t='bullets'
-    size:t='pw-6*@sf/@pf_outdated,ph-6*@sf/@pf_outdated'
+    size:t='pw-2@weaponIconPadding,ph-2@weaponIconPadding'
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
     css-hier-invalidate:t="yes"
   }
   warningIcon { id:t='warning_icon' }
   box {
-    pos:t='ph-w, ph-h-3*@sf/@pf_outdated'; position:t='absolute'
+    pos:t='ph-w-1@weaponIconPadding, ph-h-1@weaponIconPadding';
+    position:t='absolute'
     max-width:t='pw';
     overflow:t='hidden'
     text {
