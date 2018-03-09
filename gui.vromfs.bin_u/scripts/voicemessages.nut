@@ -1,3 +1,5 @@
+local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
+
 ::hidden_category_name <- "hidden"
 const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
 ::voice_message_names <-
@@ -228,6 +230,12 @@ function addFavoriteVoiceMessage(message_index)
 function removeFavoriteVoiceMessage(index)
 {
   set_option_favorite_voice_message(index, -1);
+}
+
+function is_voice_messages_muted(name) //used from native code
+{
+  return localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO)
+    || ::isPlayerNickInContacts(name, ::EPL_BLOCKLIST)
 }
 
 //////////////////////////////////////////////////////

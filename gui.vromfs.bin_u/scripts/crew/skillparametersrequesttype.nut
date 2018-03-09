@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_skill_parameters_request_type <- {
   types = []
 }
@@ -62,7 +63,7 @@ function g_skill_parameters_request_type::_getCachePrefix()
   getCachePrefix = ::g_skill_parameters_request_type._getCachePrefix
 }
 
-::g_enum_utils.addTypesByGlobalName("g_skill_parameters_request_type", {
+enums.addTypesByGlobalName("g_skill_parameters_request_type", {
 
   CURRENT_VALUES = {}
 

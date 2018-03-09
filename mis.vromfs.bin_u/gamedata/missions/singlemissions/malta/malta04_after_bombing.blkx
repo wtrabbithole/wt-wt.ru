@@ -27,13 +27,37 @@
       "windDirection": [1.0,0.0,0.0],
       "chapter": "malta",
       "gt_cooperative": true,
-      "tags": []
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
     },
+    "spectator_points": [],
     "missions_include": {
       "mission": {
         "filename": ""
@@ -44,6 +68,7 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
+      "viewAreaScale": 2.0,
       "part": {
         "event": "",
         "minTime": 0,
@@ -56,6 +81,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -122,6 +150,18 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "MC200_group"
             },
             {
@@ -152,11 +192,16 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player_group",
             "targetableByAi": true
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "area_reached": {
       "is_enabled": true,
@@ -177,6 +222,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "Player_Unit",
           "target": "mission_trigger"
         }
@@ -284,6 +332,18 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "target": "hurricane_mk1_group"
             },
             {
@@ -291,7 +351,8 @@
             }
           ]
         }
-      ]
+      ],
+      "else_actions": []
     },
     "indicator": {
       "is_enabled": false,
@@ -328,13 +389,23 @@
             "set": true
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "target": "hurricane_mk1_group"
           },
           {
             "target": "hurricane_mk1_group2"
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "mission_complete": {
       "is_enabled": false,
@@ -364,6 +435,15 @@
             "value": 2
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "hurricane_mk1_group"
           },
           {
@@ -379,6 +459,9 @@
           "icon": "air",
           "icon army": 2,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "hurricane_mk1_group"
         },
         "triggerDisable": {
@@ -392,7 +475,8 @@
           "timer": false,
           "debriefingTimer": 12
         }
-      }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -445,9 +529,19 @@
           [-0.737277,0.0,-0.67559],
           [14738.3,550.0,-15139.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "mc-202_italy",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "MC202_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "free_distance": 70.0,
@@ -482,9 +576,19 @@
           [-0.737277,0.0,-0.67559],
           [14806.5,550.0,-15123.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "mc-202_italy",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "MC202_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "free_distance": 70.0,
@@ -518,9 +622,19 @@
           [1.0,0.0,2.08616e-07],
           [10102.5,1209.25,-5556.15]
         ],
-        "closed_waypoints": false,
         "unit_class": "hurricane_mk1",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "free_distance": 70.0,
@@ -556,9 +670,19 @@
           [-0.5373,0.0,0.843391],
           [5897.9,700.0,-12536.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "hurricane_mk1",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "free_distance": 70.0,
@@ -594,9 +718,19 @@
           [0.707107,0.0,0.707107],
           [12194.1,452.05,-12529.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "ju-87b-2",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "free_distance": 70.0,
@@ -630,7 +764,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "Ju87_group_wp_02": {
@@ -643,7 +780,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "Ju87_group_wp_03": {
@@ -656,7 +796,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "Ju87_group_wp_04": {
@@ -669,7 +812,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "Ju87_group_wp_05": {
@@ -682,7 +828,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "Ju87_group_wp_06": {
@@ -695,7 +844,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -710,14 +862,10 @@
           [0.0,0.0,1.0],
           [14252.6,-37.0,-14708.1]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "Player_Unit",
           "object_type": "isPlayer"
-        },
-        "way": []
+        }
       }
     }
   ],
@@ -882,5 +1030,28 @@
       ],
       "props": []
     }
-  }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
 }

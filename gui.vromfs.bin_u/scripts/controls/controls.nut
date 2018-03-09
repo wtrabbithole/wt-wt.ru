@@ -2,7 +2,6 @@ local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local stdMath = require("math")
 local globalEnv = require_native("globalEnv")
 
-::JOYSTICK_DEVICE_ID <- 3
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
 ::ps4ControlsModeActivatedParamName <- "ps4ControlsAdvancedModeActivated"
@@ -84,7 +83,17 @@ function get_favorite_voice_message_option(index)
     { id = "ID_BAY_DOOR", checkAssign = false }
     "ID_BOMBS"
     { id = "ID_BOMBS_SERIES", checkAssign = false }
-    "ID_ROCKETS"
+    "ID_ROCKETS",
+//
+
+
+
+
+
+
+
+
+
     { id = "ID_WEAPON_LOCK",
       showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
@@ -255,9 +264,17 @@ function get_favorite_voice_message_option(index)
     }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
+      showFunc = ::is_mouse_available
     }
     { id = "aim_time_nonlinearity_air", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_AIM_TIME_NONLINEARITY_AIR
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR, objValue / 100.0)
+    }
+    { id = "aim_acceleration_delay_air", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR, objValue / 100.0)
     }
     { id="joy_camera_sensitivity", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_MOUSE_AIM_SENSE
@@ -333,7 +350,7 @@ function get_favorite_voice_message_option(index)
     }
     { id="ID_CENTER_MOUSE_JOYSTICK"
       filterHide = [globalEnv.EM_MOUSE_AIM]
-      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      showFunc = @() ::is_mouse_available() && getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       checkAssign = false
     }
 
@@ -623,7 +640,14 @@ function get_favorite_voice_message_option(index)
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
     { id = "aim_time_nonlinearity_tank", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_AIM_TIME_NONLINEARITY_TANK
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK, objValue / 100.0)
+    }
+    { id = "aim_acceleration_delay_tank", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_TANK)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_TANK, objValue / 100.0)
     }
     { id = "mouse_z_ground", type = CONTROL_TYPE.MOUSE_AXIS
       axis_num = MouseAxis.MOUSE_SCROLL_TANK
@@ -715,6 +739,15 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
     { id="ship_steering", type = CONTROL_TYPE.AXIS, autobind=["gm_steering"], checkGroup = ctrlGroups.SHIP }
+//
+
+
+
+
+
+
+
+
     {
       id = "ID_SHIP_FULL_STOP",
       checkGroup = ctrlGroups.SHIP,
@@ -787,6 +820,11 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
     {
+      id = "ID_SHIP_SELECT_TARGET_AI_PRIM",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+    {
       id = "ID_SHIP_SELECT_TARGET_AI_SEC",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
@@ -799,6 +837,7 @@ function get_favorite_voice_message_option(index)
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP, autobind = ["ID_TOGGLE_VIEW_GM"] }
+    { id="ID_LOCK_TARGETING_AT_POINT_SHIP", checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ship_zoom", type = CONTROL_TYPE.AXIS, autobind=["gm_zoom"], checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ship_camx", type = CONTROL_TYPE.AXIS, autobind=["gm_camx"], checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
     { id="ship_camy", type = CONTROL_TYPE.AXIS, autobind=["gm_camy"], checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
@@ -815,7 +854,14 @@ function get_favorite_voice_message_option(index)
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
     { id = "aim_time_nonlinearity_ship", type = CONTROL_TYPE.SLIDER
-      optionType = ::USEROPT_AIM_TIME_NONLINEARITY_SHIP
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP, objValue / 100.0)
+    }
+    { id = "aim_acceleration_delay_ship", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SHIP)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SHIP, objValue / 100.0)
     }
     { id = "mouse_z_ship", type = CONTROL_TYPE.MOUSE_AXIS
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
@@ -1062,6 +1108,17 @@ function get_favorite_voice_message_option(index)
     ::get_favorite_voice_message_option(12)
 
   { id = "ID_COMMON_TRACKER_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="headtrack_enable", type = CONTROL_TYPE.SWITCH_BOX
+      condition = @() ::ps4_headtrack_is_attached()
+      optionType = ::USEROPT_HEADTRACK_ENABLE
+      onChangeValue = "doControlsGroupChangeDelayed"
+    }
+    { id = "ID_TRACKER_RESET_POSITION"
+      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      checkGroup = ctrlGroups.COMMON
+      checkAssign = false
+      autobind = ["ID_CAMERA_NEUTRAL"]
+    }
     { id="tracker_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.COMMON, checkAssign = false,
       showFunc = @() ::is_tracker_joystick()
     }
@@ -1069,12 +1126,8 @@ function get_favorite_voice_message_option(index)
       showFunc = @() ::is_tracker_joystick()
     }
     { id="zoom_sens", type = CONTROL_TYPE.SLIDER
+      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
       optionType = ::USEROPT_ZOOM_SENSE
-    }
-    { id="headtrack_enable", type = CONTROL_TYPE.SWITCH_BOX
-      condition = @() ::ps4_headtrack_is_attached()
-      optionType = ::USEROPT_HEADTRACK_ENABLE
-      onChangeValue = "doControlsGroupChangeDelayed"
     }
     { id = "trackIrZoom", type = CONTROL_TYPE.SWITCH_BOX
       showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
@@ -1086,8 +1139,18 @@ function get_favorite_voice_message_option(index)
           ::set_controls_preset("")
       }
     }
+    { id = "trackIrForLateralMovement", type = CONTROL_TYPE.SWITCH_BOX
+      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      value = @(joyParams) joyParams.trackIrForLateralMovement
+      setValue = function(joyParams, objValue) {
+        local prev = joyParams.trackIrForLateralMovement
+        joyParams.trackIrForLateralMovement = objValue
+        if (prev != objValue)
+          ::set_controls_preset("")
+      }
+    }
     { id = "trackIrAsHeadInTPS", type = CONTROL_TYPE.SWITCH_BOX
-      condition = @() !::is_ps4_or_xbox
+      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
       value = @(joyParams) joyParams.trackIrAsHeadInTPS
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrAsHeadInTPS
@@ -1097,11 +1160,11 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id="headtrack_scale_x", type = CONTROL_TYPE.SLIDER
-      condition = @() ::ps4_headtrack_is_attached()
+      showFunc = @() checkOptionValue("headtrack_enable", true)
       optionType = ::USEROPT_HEADTRACK_SCALE_X
     }
     { id="headtrack_scale_y", type = CONTROL_TYPE.SLIDER
-      condition = @() ::ps4_headtrack_is_attached()
+      showFunc = @() checkOptionValue("headtrack_enable", true)
       optionType = ::USEROPT_HEADTRACK_SCALE_Y
     }
 
@@ -1353,6 +1416,10 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+//
+
+
+
   "ID_SHIP_ACTION_BAR_ITEM_1",
   "ID_SHIP_ACTION_BAR_ITEM_2",
   "ID_SHIP_ACTION_BAR_ITEM_3",
@@ -1416,12 +1483,6 @@ if (::is_platform_pc) //See AcesApp::makeScreenshot()
   ::controlsHelp_shortcuts_naval.extend(extra)
   ::controlsHelp_shortcuts_helicopter.extend(["ID_SCREENSHOT_WO_HUD"])
 }
-
-::mouse_button_texturas <- [
-  "mouse_left"
-  "mouse_right"
-  "mouse_center"
-]
 
 enum AXIS_MODIFIERS {
   NONE = 0x0,
@@ -1548,6 +1609,9 @@ function reset_default_control_settings()
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR,   0.0); //
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK,  0.0); //
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP,  0.0); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR,  0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_TANK, 0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SHIP, 0.5); //
 
   ::set_option_mouse_joystick_square(0); //mouseJoystickSquare
   ::set_option_gain(1); //::USEROPT_FORCE_GAIN
@@ -1627,7 +1691,7 @@ function isShortcutMapped(shortcut)
   foreach (button in shortcut)
     if (button && button.dev.len() >= 0)
       foreach(d in button.dev)
-        if (d > 0 && d <= ::JOYSTICK_DEVICE_ID)
+        if (d > 0 && d <= JOYSTICK_DEVICE_ID)
             return true
   return false
 }
@@ -1867,10 +1931,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local isTutorial = ::get_game_mode() == ::GM_TRAINING
     local isImportExportAllowed = !isTutorial
       && (isScriptOpenFileDialogAllowed() || ::is_platform_windows)
+
     showSceneBtn("btn_controlsHelp", ::is_platform_pc)
     showSceneBtn("btn_exportToFile", isImportExportAllowed)
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
     showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
+    showSceneBtn("btn_ps4BackupManager", ::gui_handlers.Ps4ControlsBackupManager.isAvailable())
     showSceneBtn("btn_controlsWizard", !isTutorial)
     showSceneBtn("btn_clearAll", !isTutorial)
   }
@@ -2035,16 +2101,9 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local rowId = "table_row_" + rowIdx
     local rowObj = scene.findObject(rowId)
 
+    rowObj.scrollToView(true)
     selectRowByRowIdx(rowIdx)
     shouldUpdateNavigationSection = true
-
-    // It scrolls correctly only when using two frame delays
-    guiScene.performDelayed(this, (@(rowObj) function() {
-      guiScene.performDelayed(this, (@(rowObj) function() {
-        if (::checkObj(rowObj))
-          rowObj.scrollToView(true)
-      })(rowObj))
-    })(rowObj))
   }
 
   function checkCurrentNavagationSection()
@@ -3135,7 +3194,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     ::gui_modal_controlsWizard()
   }
 
-  function onExportToFile()
+  function updateCurPresetForExport()
   {
     ::set_shortcuts(shortcuts, shortcutNames)
     doApplyJoystick()
@@ -3153,6 +3212,17 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           curPreset.params[optionName] <- value
       }
     ::set_gui_options_mode(mainOptionsMode)
+  }
+
+  function onPs4ManageBackup()
+  {
+    updateCurPresetForExport()
+    ::gui_handlers.Ps4ControlsBackupManager.open()
+  }
+
+  function onExportToFile()
+  {
+    updateCurPresetForExport()
 
     if (isScriptOpenFileDialogAllowed())
     {
@@ -3174,6 +3244,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       msgBox("errorSavingPreset", ::loc("msgbox/errorSavingPreset"),
              [["ok", function() {} ]], "ok", { cancel_fn = function() {}})
   }
+
   function onImportFromFile()
   {
     if (isScriptOpenFileDialogAllowed())
@@ -3436,7 +3507,7 @@ function get_shortcut_gamepad_textures(shortcutData)
   local res = []
   foreach(sc in shortcutData)
   {
-    if (sc.dev.len() <= 0 || sc.dev[0] != ::JOYSTICK_DEVICE_ID)
+    if (sc.dev.len() <= 0 || sc.dev[0] != JOYSTICK_DEVICE_ID)
       continue
 
     for (local i = 0; i < sc.dev.len(); i++)
@@ -3919,7 +3990,6 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   local actionBarShortcutFormat = null
 
-  local unitPath = null
   local unitBlk = null
   local blkCommonWeapons = null
   local blkWeaponPreset = null
@@ -3961,8 +4031,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.SHIP)
   {
-    unitPath = ::get_unit_file_name(unitId)
-    unitBlk = ::DataBlock(unitPath)
+    unitBlk = ::get_full_unit_blk(unitId)
     blkCommonWeapons = unitBlk.commonWeapons || ::DataBlock()
     local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
     blkWeaponPreset = ::DataBlock()
@@ -4430,6 +4499,7 @@ function compare_axis_with_blk(blk)
 
   local paramsList = ["isHatViewMouse"
                     "trackIrZoom"
+                    "trackIrForLateralMovement"
                     "trackIrAsHeadInTPS"
                     "isMouseLookHold"
                     "holdThrottleForWEP"
@@ -4494,20 +4564,6 @@ function compare_blk_axis(blk, axis)
         return false
   */
   return true
-}
-
-/*
- * @shortcut - shortcut ids
- *
- * */
-function get_shortcut_text_and_texture(shortcut)
-{
-  //!!FIX ME: better to use ::Input here
-  local shortcutData = ::get_shortcuts([shortcut])[0]
-  return {
-    text     = ::get_first_shortcut_text(shortcutData),
-    textures = ::get_shortcut_gamepad_textures(shortcutData)
-  }
 }
 
 function toggle_shortcut(shortcutName)

@@ -243,7 +243,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
   function onApply(obj)
   {
-    ::broadcastEvent("MissionBuilderApplied")
+    ::broadcastEvent("BeforeStartTestFlight")
 
     if (::g_squad_manager.isNotAloneOnline())
       return onMissionBuilder()
@@ -258,17 +258,26 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     if (unit)
       ::set_gui_option(::USEROPT_WEAPONS, ::get_last_weapon(unit.name))
 
-    applyFunc = function()
-    {
-      if (::get_gui_option(::USEROPT_DIFFICULTY) == "custom")
-      {
-        ::gui_start_cd_options(startTestFlight, this) // See "MissionDescriptor::loadFromBlk"
-        doWhenActiveOnce("updateSceneDifficulty")
-      }
-      else
-        startTestFlight()
-    }
-    applyOptions()
+    if (::SessionLobby.isInRoom())
+      return goBack()
+
+    ::queues.checkAndStart(
+      ::Callback(function() {
+        applyFunc = function()
+        {
+          if (::get_gui_option(::USEROPT_DIFFICULTY) == "custom")
+          {
+            ::gui_start_cd_options(startTestFlight, this) // See "MissionDescriptor::loadFromBlk"
+            doWhenActiveOnce("updateSceneDifficulty")
+          }
+          else
+            startTestFlight()
+        }
+        applyOptions()
+      }, this)
+      null
+      "isCanNewflight"
+    )
   }
 
   function onEventSquadStatusChanged(params)
@@ -369,7 +378,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
         local bulletsSet = ::getBulletsSetData(unit, modName)
         maxToRespawn = ::getTblValue("maxToRespawn", bulletsSet, 0)
         if (maxToRespawn <= 0)
-          maxToRespawn = ::getAmmoMaxAmount(unit.name, modName, AMMO.PRIMARY)
+          maxToRespawn = ::getAmmoMaxAmount(unit, modName, AMMO.PRIMARY)
 
         gunsData[gunIdx].leftGroups++
       }

@@ -20,7 +20,17 @@ local time = require("scripts/time.nut")
       needTimeText = true
     },
     {
-      id = "rearm_status"
+      id = "rearm_primary_status"
+      color = "@white"
+      icon = "#ui/gameuiskin#icon_weapons_in_progress"
+    },
+    {
+      id = "rearm_secondary_status"
+      color = "@white"
+      icon = "#ui/gameuiskin#icon_weapons_in_progress"
+    },
+    {
+      id = "rearm_machinegun_status"
       color = "@white"
       icon = "#ui/gameuiskin#icon_weapons_in_progress"
     },
@@ -90,6 +100,11 @@ local time = require("scripts/time.nut")
     {
       id = "capture_progress"
       needTimeText = true
+    },
+    {
+      id = "replenish_status"
+      color = "@white"
+      icon = "#ui/gameuiskin#icon_weapons_relocation_in_progress"
     }
   ]
 
@@ -117,6 +132,7 @@ local time = require("scripts/time.nut")
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
 
     ::g_hud_event_manager.subscribe("TankDebuffs:Rearm", onRearm, this)
+    ::g_hud_event_manager.subscribe("TankDebuffs:Replenish", onReplenish, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:RepairBreaches", onRepairBreaches, this)
@@ -254,6 +270,30 @@ local time = require("scripts/time.nut")
     ::g_time_bar.setDirectionForward(timebarObj)
     ::g_time_bar.setPeriod(timebarObj, debuffs_data.timeToLoadOne)
     ::g_time_bar.setCurrentTime(timebarObj, debuffs_data.currentLoadTime)
+  }
+
+
+  function onReplenish(debuffs_data)
+  {
+    local placeObj = scene.findObject("replenish_status")
+    if (!::checkObj(placeObj))
+      return
+
+    local showTimer = debuffs_data?.isReplenishActive ?? false
+    placeObj.animation = showTimer ? "show" : "hide"
+
+    local timebarObj = placeObj.findObject("timer")
+
+    if (!showTimer)
+    {
+      ::g_time_bar.setPeriod(timebarObj, 0)
+      ::g_time_bar.setCurrentTime(timebarObj, 0)
+      return
+    }
+
+    ::g_time_bar.setDirectionBackward(timebarObj)
+    ::g_time_bar.setPeriod(timebarObj, debuffs_data?.periodTime ?? 0, true)
+    ::g_time_bar.setCurrentTime(timebarObj, debuffs_data?.currentLoadTime ?? 0)
   }
 
 

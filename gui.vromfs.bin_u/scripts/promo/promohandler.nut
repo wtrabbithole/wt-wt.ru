@@ -21,7 +21,6 @@ class Promo
   sourceDataBlock = null
 
   widgetsTable = {}
-  widgetsWithCounter = ["events_mainmenu_button"]
   warbondsWidget = null
 
   pollIdToObjectId = {}
@@ -83,7 +82,7 @@ class Promo
     if (::checkObj(bottomPositionPromoPlace))
       guiScene.replaceContentFromText(bottomPositionPromoPlace, data.bottom, data.bottom.len(), this)
 
-    ::g_promo.initWidgets(scene, widgetsTable, widgetsWithCounter)
+    ::g_promo.initWidgets(scene, widgetsTable)
     updateData()
     owner.restoreFocus()
   }
@@ -130,7 +129,7 @@ class Promo
       else
         upperPromoView.promoButtons.push(blockView)
 
-      if (::getTblValue("notifyNew", block, true) && !::g_promo.isWidgetSeenById(blockView.id))
+      if (blockView?.notifyNew && !::g_promo.isWidgetSeenById(blockView.id))
         widgetsTable[blockView.id] <- {}
 
       local playlistArray = getPlaylistArray(block)
@@ -215,14 +214,14 @@ class Promo
     local objScene = obj.getScene()
     objScene.performDelayed(
       this,
-      (@(owner, obj, widgetsTable, widgetsWithCounter) function() {
+      (@(owner, obj, widgetsTable) function() {
         if (!::checkObj(obj))
           return
 
         if (!::g_promo.performAction(owner, obj))
           if (::checkObj(obj))
-            ::g_promo.setSimpleWidgetData(widgetsTable, obj.id, widgetsWithCounter)
-      })(owner, obj, widgetsTable, widgetsWithCounter)
+            ::g_promo.setSimpleWidgetData(widgetsTable, obj.id)
+      })(owner, obj, widgetsTable)
     )
   }
 
@@ -285,14 +284,8 @@ class Promo
     if (currentGameModeId == null)
       return
 
-    local typesArray = [
-      ::g_battle_task_difficulty.EASY,
-      ::g_battle_task_difficulty.MEDIUM,
-      ::g_battle_task_difficulty.HARD
-    ]
-
     // 0) Prepare: Filter tasks array by available difficulties list
-    local tasksArray = ::g_battle_tasks.getTasksArrayByDifficultyTypesArray(typesArray)
+    local tasksArray = ::g_battle_tasks.getTasksArrayByIncreasingDifficulty()
 
     // 1) Search for task with available reward
     local reqTask = ::g_battle_tasks.getTaskWithAvailableAward(tasksArray)
@@ -318,7 +311,7 @@ class Promo
       local config = ::build_conditions_config(reqTask)
       ::build_unlock_desc(config)
 
-      local itemView = ::g_battle_tasks.generateItemView(config, true)
+      local itemView = ::g_battle_tasks.generateItemView(config, { isPromo = true })
       itemView.canReroll = false
       view = ::u.tablesCombine(itemView, promoView, function(val1, val2) { return val1 != null? val1 : val2 })
       view.collapsedText <- ::g_promo.getCollapsedText(view, id)
@@ -353,7 +346,7 @@ class Promo
     else
     {
       promoView.id <- id
-      view = ::g_battle_tasks.generateItemView(promoView, true)
+      view = ::g_battle_tasks.generateItemView(promoView, { isPromo = true })
       view.collapsedText <- ::g_promo.getCollapsedText(promoView, id)
       view.refreshTimer <- true
     }
@@ -479,7 +472,6 @@ class Promo
       return
 
     ::g_promo.setButtonText(buttonObj, id, getEventsButtonText())
-    ::g_promo.updateWidgetNum(widgetsTable, id, ::events.getNewEventsCount())
   }
 
   function getEventsButtonText()
@@ -502,7 +494,7 @@ class Promo
   function updateWorldWarButton()
   {
     local id = "world_war_button"
-    local isWwEnabled = ::is_worldwar_enabled()
+    local isWwEnabled = ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar()
     local isVisible = ::g_promo.getShowAllPromoBlocks() || isWwEnabled
 
     local wwButton = ::showBtn(id, isVisible, scene)
@@ -517,7 +509,7 @@ class Promo
          text = operation.getMapText()
     }
 
-    wwButton.findObject("world_war_button_text").setValue(::loc("worldWar/iconWorldWar") + " " + text)
+    wwButton.findObject("world_war_button_text").setValue(::loc("icon/worldWar") + " " + text)
   }
   //----------------- </WORLD WAR> --------------------------
 
@@ -626,7 +618,6 @@ class Promo
                                           updateSquadInviteButton()
                                         }
   function onEventUnlockedCountriesUpdate(p) { updateEventButton() }
-  function onEventNewEventsChanged(p)   { updateEventButton() }
   function onEventNewBattleTasksChanged(p) { updateCurrentBattleTaskButton() }
   function onEventBattleTasksFinishedUpdate(p) { updateCurrentBattleTaskButton() }
   function onEventCurrentGameModeIdChanged(p) { updateCurrentBattleTaskButton() }

@@ -2360,28 +2360,68 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
-          "emitter": "gun1",
-          "flash": "flare9",
-          "dm": "gunner2_dm",
-          "gunDm": "gun1_dm",
-          "partsDP": "gun1_dm",
-          "bullets": 1000,
-          "turret": {
-            "head": "turret1",
-            "gun": "gun1"
+        "Weapon": [
+          {
+            "trigger": "gunner0"
           },
-          "limits": {
-            "yaw": [-50.0,50.0],
-            "pitch": [-7.0,55.0]
+          {
+            "blk": "gameData/Weapons/gunVikkersK_turret.blk"
           },
-          "limitsDeadzone": {
-            "yaw": [-1.0,1.0],
-            "pitch": [0.0,15.0]
+          {
+            "emitter": "gun1"
+          },
+          {
+            "flash": "flare9"
+          },
+          {
+            "dm": "gunner2_dm"
+          },
+          {
+            "gunDm": "gun1_dm"
+          },
+          {
+            "partsDP": "gun1_dm"
+          },
+          {
+            "bullets": 1000
+          },
+          {
+            "turret": {
+              "head": "turret1",
+              "gun": "gun1"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-50.0,50.0],
+              "pitch": [-7.0,55.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-1.0,1.0],
+              "pitch": [-7.0,15.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-45.0,-10.0],
+              "pitch": [-5.0,0.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [10.0,45.0],
+              "pitch": [-5.0,0.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-35.0,35.0],
+              "pitch": [-7.0,-5.0]
+            }
           }
-        }
+        ]
       }
     ]
   },
@@ -2523,7 +2563,7 @@
       "new_cover": [],
       "structure_str": [],
       "bmg303_turret_belt_pack": [],
-      "bmg303_turret_new_gun": {
+      "vikkersK_turret_new_gun": {
         "reqModification": "bmg303_turret_belt_pack"
       },
       "hispano_belt_pack": [],

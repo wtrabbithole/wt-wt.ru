@@ -77,8 +77,6 @@ Button_text {
     memberIcon {
       id:t='member_icon_<<id>>'
       pos:t='0, 2*@sf/@pf_outdated'; position:t='relative'
-      bgcolor:t='#FFFFFF'
-      background-image:t=''
       border:t='yes'
       border-color:t='@black'
     }

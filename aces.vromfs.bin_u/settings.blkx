@@ -38,9 +38,6 @@
     },
     {
       "folder": "content/tomoe_hq"
-    },
-    {
-      "folder": "content/pkg_modern"
     }
   ],
   "addons_no_check": [
@@ -79,9 +76,6 @@
     },
     {
       "folder": "content/tomoe_hq"
-    },
-    {
-      "folder": "content/pkg_modern"
     }
   ],
   "video": {
@@ -139,7 +133,7 @@
   },
   "sound": {
     "voice_country": "GB",
-    "sound_reverb": false
+    "sound_reverb": true
   },
   "gameplay": {
     "stalls_n_spins": false,
@@ -215,7 +209,8 @@
     "disableChat": false,
     "workThreadsStackSize": 131072,
     "enableMouseHints": true,
-    "replayDofFar": [100.0,400.0,0.5]
+    "replayDofFar": [100.0,400.0,0.5],
+    "enableNvHighlights": "auto"
   },
   "directx": {
     "debug": false,
@@ -392,7 +387,9 @@
     "renderer": "",
     "region": "",
     "releaseChannel": "",
+    "userHangarBlk": "",
     "hangarBlk": "",
+    "userCompatibilityHangarBlk": "",
     "compatibilityHangarBlk": "",
     "language": "",
     "enableEmbeddedBrowser": false,
@@ -431,7 +428,8 @@
       "rendinstGlobalShadows": false,
       "rendinstSecLayer": false,
       "sunVolFog": false,
-      "wake": false
+      "wake": false,
+      "staticShadowsOnEffects": false
     },
     "graphics": {
       "anisotropy": 0,
@@ -466,6 +464,8 @@
       "foamQuality": "",
       "renderAllRendinstToReflection": false,
       "waterRefractionEnabledFor": 0,
+      "contactShadowsQuality": 0,
+      "displacementQuality": 0,
       "foliageReprojection": false
     },
     "sound": {
@@ -577,7 +577,8 @@
       "coolDownWithVsync": false,
       "outgoingPacketsBinaryDump": false,
       "guiWebCache": true,
-      "webfs_no_cache_vrom": false
+      "webfs_no_cache_vrom": false,
+      "enableNvHighlights": ""
     },
     "network": {
       "stubServerIp": "",

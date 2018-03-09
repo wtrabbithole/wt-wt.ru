@@ -1,15 +1,7 @@
-::filter_options_list <- [
-  ::USEROPT_BIT_CHOOSE_UNITS_TYPE,
-  ::USEROPT_BIT_CHOOSE_UNITS_RANK,
-  ::USEROPT_BIT_CHOOSE_UNITS_OTHER,
-  ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE
-]
-
-::filter_options_mask_storage <- []
-::options_filter_choose_units <- {
-  maskUnits = {},
-  legendData = [], //format: {id = "..{id}..", imagePath = "..{fullPath}..", locId = "..{locId}.." }
-  isEmptyOptionsList = true
+enum SEL_UNIT_BUTTON {
+  EMPTY_CREW
+  SHOP
+  SHOW_MORE
 }
 
 const MIN_NON_EMPTY_SLOTS_IN_COUNTRY = 1
@@ -52,16 +44,38 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   curClonObj = null
 
   unitsList = null
+  totalUsableUnits = 0
   isFocusOnUnitsList = true
 
   wasReinited = false
 
+  filterOptionsList = [
+    ::USEROPT_BIT_CHOOSE_UNITS_TYPE,
+    ::USEROPT_BIT_CHOOSE_UNITS_RANK,
+    ::USEROPT_BIT_CHOOSE_UNITS_OTHER,
+    ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE
+  ]
+
+  curOptionsMasks = null //[]
+  optionsMaskByUnits = null //{}
+  isEmptyOptionsList = true
+  legendData = null //[]
+
+  slotsPerPage = 9 //check css
+  firstPageSlots = 20
+  curVisibleSlots = 0
+
+  showMoreObj = null
+
   function initScreen()
   {
-    guiScene.applyPendingChanges(false) //to apply slotbar scroll before calculating positions
-
+    curOptionsMasks = []
+    optionsMaskByUnits = {}
+    legendData = []
     if (slotbarWeak)
       slotbarWeak = slotbarWeak.weakref() //we are miss weakref on assigning from params table
+
+    guiScene.applyPendingChanges(false) //to apply slotbar scroll before calculating positions
 
     local tdObj = slotObj.getParent()
     local tdPos = tdObj.getPosRC()
@@ -84,9 +98,15 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if (unitsList.len() == 0)
       return goBack()
 
+    curVisibleSlots = firstPageSlots
+
     showSceneBtn("btn_emptyCrew", needEmptyCrewButton)
+    initChooseUnitsOptions()
+    fillChooseUnitsOptions()
     fillLegendData()
     fillUnitsList()
+    updateUnitsList()
+    setFocus(true)
   }
 
   function reinitScreen(params = {})
@@ -100,7 +120,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillLegendData()
   {
-    ::options_filter_choose_units.legendData = []
+    legendData.clear()
     foreach (specType in ::g_crew_spec_type.types)
       if (specType != ::g_crew_spec_type.UNKNOWN)
         addLegendData(specType.specName, specType.trainedIcon, ::loc("crew/trained") + ::loc("ui/colon") + specType.getName())
@@ -112,8 +132,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local legendNest = scene.findObject("legend_nest")
     local legendView = {
       header = ::loc("mainmenu/legend")
-      haveLegend = ::options_filter_choose_units.legendData.len() > 0,
-      legendData = ::options_filter_choose_units.legendData
+      haveLegend = legendData.len() > 0,
+      legendData = legendData
     }
     local markup = ::handyman.renderCached("gui/slotbar/legend_block", legendView)
     guiScene.replaceContentFromText(legendNest, markup, markup.len(), this)
@@ -143,14 +163,15 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     unitsList = []
 
     if (slotbarWeak?.ownerWeak?.canShowShop && slotbarWeak.ownerWeak.canShowShop())
-      unitsList.append(null)
+      unitsList.append(SEL_UNIT_BUTTON.SHOP)
 
     local needEmptyCrewButton = ("aircraft" in crew && busyUnits.len() >= MIN_NON_EMPTY_SLOTS_IN_COUNTRY)
     if (needEmptyCrewButton)
-      unitsList.append("") //empty crew
+      unitsList.append(SEL_UNIT_BUTTON.EMPTY_CREW)
 
+    unitsArray = sortUnitsList(unitsArray)
     unitsList.extend(unitsArray)
-    sortUnitsList(unitsList)
+    unitsList.append(SEL_UNIT_BUTTON.SHOW_MORE)
 
     return needEmptyCrewButton
   }
@@ -162,34 +183,34 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local getSortSpecialization = @(unit) unit.name in trained ? trained[unit.name]
                                           : unit.trainCost ? -1
                                           : 0
-    units.sort(function(a, b)
-    {
-      if (!a || !b)
-        return a <=> b
-      if (!::u.isUnit(a) || !::u.isUnit(b))
-        return ::u.isUnit(a) <=> ::u.isUnit(b)
 
-      return a.getEconomicRank(ediff) <=> b.getEconomicRank(ediff)
-        || ::is_default_aircraft(b.name) <=> ::is_default_aircraft(a.name)
-        || getSortSpecialization(a) <=> getSortSpecialization(b)
-        || a.rank <=> b.rank
-        || a.name <=> b.name
-    })
-  }
+    local unitsSortArr = units.map(@(unit)
+      {
+        economicRank = unit.getEconomicRank(ediff)
+        isDefaultAircraft = ::is_default_aircraft(unit.name)
+        sortSpecialization = getSortSpecialization(unit)
+        unit = unit
+      }
+    )
 
-  function resetFilterData()
-  {
-    ::filter_options_mask_storage = []
-    ::options_filter_choose_units.maskUnits = {}
+    unitsSortArr.sort(@(a, b)
+         a.economicRank <=> b.economicRank
+      || b.isDefaultAircraft <=> a.isDefaultAircraft
+      || a.sortSpecialization <=> b.sortSpecialization
+      || a.unit.rank <=> b.unit.rank
+      || a.unit.name <=> b.unit.name
+    )
+
+    return unitsSortArr.map(@(unit) unit.unit)
   }
 
   function addLegendData(id, imagePath, locId)
   {
-    foreach(data in ::options_filter_choose_units.legendData)
+    foreach(data in legendData)
       if (id == data.id)
         return
 
-    ::options_filter_choose_units.legendData.append({
+    legendData.append({
       id = id,
       imagePath = imagePath,
       locId = locId
@@ -202,74 +223,31 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     return bestIdx >= 0 && bestIdx != crew.idInCountry
   }
 
+  getTextSlotMarkup = @(id, text) ::build_aircraft_item(id, null, { emptyText = text })
+
   function fillUnitsList()
   {
     local data = ""
-    local selected = 0
-    local crewUnitId = ::getTblValue("aircraft", crew, "")
-    local trained = ::getTblValue("trainedSpec", crew, {})
-    local unitItems = []
-
-    resetFilterData()
-
+    totalUsableUnits = 0
     foreach(idx, unit in unitsList)
     {
-      local rowData = ""
-      if (!unit)
-        rowData = ::build_aircraft_item("shop_item", null, { emptyText = "#mainmenu/btnShop" })
-      else if (::u.isString(unit))
-        rowData = ::build_aircraft_item("empty_air", null, { emptyText = "#shop/emptyCrew" })
-      else
-      {
-        local disabled = !::is_unit_enabled_for_slotbar(unit, config)
-        local price = ::Cost(unit.name in trained? 0 : unit.trainCost)
-
-        local craftItemParams = {
-          status = disabled ? "disabled" : (price.isZero() ? "mounted" : "canBuy")
-          showWarningIcon = haveMoreQualifiedCrew(unit)
-          showBR = ::has_feature("SlotbarShowBattleRating")
-          getEdiffFunc = getCurrentEdiff.bindenv(this)
-        }
-
-        if (!price.isZero())
-          craftItemParams.overlayPrice <- price.wp
-
-        local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-        if (specType != ::g_crew_spec_type.UNKNOWN)
-          craftItemParams.specType <- specType
-
-        rowData = ::build_aircraft_item(unit.name, unit, craftItemParams)
-        unitItems.append({ id = unit.name, unit = unit, params = craftItemParams })
-        if (unit.name == crewUnitId)
-          selected = idx
-
-        local air = ::getAircraftByName(unit.name)
-        local masks = []
-        masks.append( 1 << ::get_es_unit_type(air) )
-        masks.append( 1 << (air.rank - 1) )
-        masks.append( price.isZero() ? 1 : 2 )
-        masks.append( disabled ? 1 : 2 )
-
-        ::options_filter_choose_units.maskUnits[air.name] <- masks
-        for (local i = 0; i < masks.len(); i++)
-          if (::filter_options_mask_storage.len() > i)
-            ::filter_options_mask_storage[i] = ::filter_options_mask_storage[i] | masks[i]
-          else
-            ::filter_options_mask_storage.append(masks[i])
-      }
+      local rowData = "td {}"
+      if (!::u.isInteger(unit))
+        totalUsableUnits++
+      else if (unit == SEL_UNIT_BUTTON.SHOP)
+        rowData = getTextSlotMarkup("shop_item", "#mainmenu/btnShop")
+      else if (unit == SEL_UNIT_BUTTON.EMPTY_CREW)
+        rowData = getTextSlotMarkup("empty_air", "#shop/emptyCrew")
+      else if (unit == SEL_UNIT_BUTTON.SHOW_MORE)
+        rowData = getTextSlotMarkup("show_more", "#mainmenu/showMore")
       data += "tr { " +rowData+ " }\n"
     }
 
     local tblObj = scene.findObject("airs_table")
     tblObj.alwaysShowBorder = "yes"
     guiScene.replaceContentFromText(tblObj, data, data.len(), this)
-    foreach (unitItem in unitItems)
-      ::fill_unit_item_timers(tblObj.findObject(unitItem.id), unitItem.unit, unitItem.params)
 
-    initChooseUnitsOptions()
-    if (selected!=0)
-      ::gui_bhv.columnNavigator.selectCell(tblObj, selected, 0, false, false, false)
-    setFocus(true)
+    showMoreObj = tblObj.findObject("td_show_more")
   }
 
   function onEmptyCrew()
@@ -284,11 +262,16 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local unit = unitsList[row]
-    if (!unit) //valid null element
+    if (unit == SEL_UNIT_BUTTON.SHOP)
       return goToShop()
-
-    if (::u.isString(unit))
+    if (unit == SEL_UNIT_BUTTON.EMPTY_CREW)
       return trainSlotAircraft(null) //empty slot
+    if (unit == SEL_UNIT_BUTTON.SHOW_MORE)
+    {
+      curVisibleSlots += slotsPerPage - 1 //need to all new slots be visible and current button also
+      updateUnitsList()
+      return
+    }
 
     if (::g_crew.getCrewUnit(crew) == unit)
       return goBack()
@@ -327,6 +310,32 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function initChooseUnitsOptions()
   {
+    curOptionsMasks.clear()
+    optionsMaskByUnits.clear()
+
+    local trained = ::getTblValue("trainedSpec", crew, {})
+    foreach(unit in unitsList)
+    {
+      if (!::u.isUnit(unit))
+        continue
+
+      local masks = []
+      masks.append( 1 << unit.esUnitType )
+      masks.append( 1 << (unit.rank - 1) )
+      masks.append( (unit.name in trained ? 0 : unit.trainCost) ? 2 : 1 )
+      masks.append( ::is_unit_enabled_for_slotbar(unit, config) ? 2 : 1 )
+
+      optionsMaskByUnits[unit.name] <- masks
+      for (local i = 0; i < masks.len(); i++)
+        if (curOptionsMasks.len() > i)
+          curOptionsMasks[i] = curOptionsMasks[i] | masks[i]
+        else
+          curOptionsMasks.append(masks[i])
+    }
+  }
+
+  function fillChooseUnitsOptions()
+  {
     local locParams = {
       gameModeName = ::colorize("hotkeyColor", getGameModeNameFromParams(config))
     }
@@ -335,63 +344,59 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if ( !::checkObj(objOptionsNest) )
       return
 
-    local view = {
-      rows = (@(locParams) function() {
-        local res = []
-        ::options_filter_choose_units.isEmptyOptionsList = true
-        foreach (idx, userOpt in ::filter_options_list)
-        {
-          local maskOption = ::get_option(userOpt)
-          local singleOption = ::getTblValue("singleOption", maskOption, false)
-          if (singleOption)
-          {
-            // All bits but first are set to 1.
-            maskOption.value = maskOption.value | ~1
-            ::set_option(userOpt, maskOption.value)
-          }
-          local maskStorage = getTblValue(idx, ::filter_options_mask_storage, 0)
-          if ((maskOption.value & maskStorage) == 0)
-          {
-            maskOption.value = maskStorage
-            ::set_option(userOpt, maskOption.value)
-          }
-          local hideTitle = ::getTblValue("hideTitle", maskOption, false)
-          local row = {
-            option_title = hideTitle ? "" : ::loc( maskOption.hint )
-            option_id = maskOption.id
-            option_idx = idx
-            option_uid = userOpt
-            option_value = maskOption.value
-            nums = []
-          }
-          local countVisibleOptions = 0
-          foreach (idxItem, text in maskOption.items)
-          {
-            local optionVisible = ( (1 << idxItem) & maskStorage ) != 0
-            if (optionVisible)
-              countVisibleOptions++
-            local name = text
-            if (::g_string.startsWith(name, "#"))
-              name = name.slice(1)
-            name = ::loc(name, locParams)
-            row.nums.append({
-              option_name = name,
-              visible = optionVisible && (!singleOption || idxItem == 0)
-            })
-          }
-          if (countVisibleOptions > 1 || singleOption)
-            res.append(row)
-          if (countVisibleOptions > 1)
-            ::options_filter_choose_units.isEmptyOptionsList = false
-        }
-        return res
-      })(locParams)
+    isEmptyOptionsList = true
+    local view = { rows = [] }
+    foreach (idx, userOpt in filterOptionsList)
+    {
+      local maskOption = ::get_option(userOpt)
+      local singleOption = ::getTblValue("singleOption", maskOption, false)
+      if (singleOption)
+      {
+        // All bits but first are set to 1.
+        maskOption.value = maskOption.value | ~1
+        ::set_option(userOpt, maskOption.value)
+      }
+      local maskStorage = getTblValue(idx, curOptionsMasks, 0)
+      if ((maskOption.value & maskStorage) == 0)
+      {
+        maskOption.value = maskStorage
+        ::set_option(userOpt, maskOption.value)
+      }
+      local hideTitle = ::getTblValue("hideTitle", maskOption, false)
+      local row = {
+        option_title = hideTitle ? "" : ::loc( maskOption.hint )
+        option_id = maskOption.id
+        option_idx = idx
+        option_uid = userOpt
+        option_value = maskOption.value
+        nums = []
+      }
+      local countVisibleOptions = 0
+      foreach (idxItem, text in maskOption.items)
+      {
+        local optionVisible = ( (1 << idxItem) & maskStorage ) != 0
+        if (optionVisible)
+          countVisibleOptions++
+        local name = text
+        if (::g_string.startsWith(name, "#"))
+          name = name.slice(1)
+        name = ::loc(name, locParams)
+        row.nums.append({
+          option_name = name,
+          visible = optionVisible && (!singleOption || idxItem == 0)
+        })
+      }
+      if (countVisibleOptions > 1 || singleOption)
+        view.rows.append(row)
+      if (countVisibleOptions > 1)
+        isEmptyOptionsList = false
     }
+
     local markup = ::handyman.renderCached(("gui/slotbar/choose_units_filter"), view)
     guiScene.replaceContentFromText(objOptionsNest, markup, markup.len(), this)
 
-    objOptionsNest.show(!::options_filter_choose_units.isEmptyOptionsList)
-    scene.findObject("choose_options_header").show( !::options_filter_choose_units.isEmptyOptionsList)
+    objOptionsNest.show(!isEmptyOptionsList)
+    scene.findObject("choose_options_header").show( !isEmptyOptionsList)
 
     fillLegend()
 
@@ -405,8 +410,6 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local sizeChoosePopupMenu = objChoosePopupMenu.getSize()
     local scrWidth = ::screen_width()
     objChoosePopupMenu.side = ((objChoosePopupMenu.getPosRC()[0] + sizeChoosePopupMenu[0]) > scrWidth) ? "left" : "right"
-
-    updateCrewUnitsList()
   }
 
   function getGameModeNameFromParams(params)
@@ -441,50 +444,131 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if (!checkObj(obj) || !obj.idx)
       return
 
-    local maskOptions = getTblValue(obj.idx.tointeger(), ::filter_options_mask_storage, null)
+    local maskOptions = getTblValue(obj.idx.tointeger(), curOptionsMasks, null)
     if (!maskOptions)
       return
 
     local oldOption = ::get_option((obj.uid).tointeger())
     local value = (oldOption.value.tointeger() & (~maskOptions)) + obj.getValue()
     ::set_option((obj.uid).tointeger(), value)
-    updateCrewUnitsList()
+    curVisibleSlots = firstPageSlots
+    updateUnitsList()
   }
 
-  function updateCrewUnitsList()
+  function showUnitSlot(objSlot, unit, isVisible)
+  {
+    objSlot.show(isVisible)
+    objSlot.inactive = isVisible ? "no" : "yes"
+    if (!isVisible || objSlot.childrenCount())
+      return
+
+    local isTrained = (unit.name in crew?.trainedSpec) || unit.trainCost == 0
+    local isEnabled = ::is_unit_enabled_for_slotbar(unit, config)
+
+    local unitItemParams = {
+      status = !isEnabled ? "disabled"
+        : isTrained ? "mounted"
+        : "canBuy"
+      showWarningIcon = haveMoreQualifiedCrew(unit)
+      showBR = ::has_feature("SlotbarShowBattleRating")
+      getEdiffFunc = getCurrentEdiff.bindenv(this)
+      fullBlock = false
+    }
+
+    if (!isTrained)
+      unitItemParams.overlayPrice <- unit.trainCost
+
+    local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
+    if (specType != ::g_crew_spec_type.UNKNOWN)
+      unitItemParams.specType <- specType
+
+    local id = unit.name
+    local markup = ::build_aircraft_item(id, unit, unitItemParams)
+    guiScene.replaceContentFromText(objSlot, markup, markup.len(), this)
+    ::fill_unit_item_timers(objSlot.findObject(id), unit, unitItemParams)
+  }
+
+  function updateUnitsList()
   {
     if (!::checkObj(scene))
       return
 
+    guiScene.setUpdatesEnabled(false, false)
     local optionMasks = []
-    foreach (userOpt in ::filter_options_list)
+    foreach (userOpt in filterOptionsList)
       optionMasks.append(::get_option(userOpt).value)
 
     local tblObj = scene.findObject("airs_table")
     local total = tblObj.childrenCount()
     local lenghtOptions = optionMasks.len()
+    local selected = 0
+    local crewUnitId = ::getTblValue("aircraft", crew, "")
+
+    local visibleAmount = 0
+    local isFirstPage = curVisibleSlots == firstPageSlots
+    local firstHiddenUnit = null
+    local firstHiddenUnitObj = null
+    local needShowMoreButton = false
+
     for (local i = 0; i < total; i++)
     {
       local objSlot = tblObj.getChild(i).getChild(0)
-      if ( !objSlot && objSlot.id )
+      if (!objSlot)
         continue
-      local masksUnit = null
-      local nameUnit = objSlot.id.slice(3)
-      if (nameUnit in ::options_filter_choose_units.maskUnits)
-        masksUnit = ::options_filter_choose_units.maskUnits[ nameUnit ]
-      local visible = true
+      local unit = unitsList?[i]
+      if (!::u.isUnit(unit))
+        continue
+
+      local masksUnit = optionsMaskByUnits?[unit.name]
+      local isVisible = true
       if (masksUnit)
         for (local i = 0; i < lenghtOptions; i++)
-          if ( (masksUnit[i]&optionMasks[i]) == 0 )
-            visible = false
-      objSlot.show(visible)
-      objSlot.inactive = (visible ? "no" : "yes")
+          if ( (masksUnit[i] & optionMasks[i]) == 0 )
+            isVisible = false
+
+      if (isVisible)
+      {
+        isVisible = ++visibleAmount <= curVisibleSlots
+        if (!isVisible)
+          if (visibleAmount == curVisibleSlots)
+          {
+            firstHiddenUnit = unit
+            firstHiddenUnitObj = objSlot
+          } else
+            needShowMoreButton = true
+      }
+
+      showUnitSlot(objSlot, unit, isVisible)
+
+      if (isVisible
+        && (!isFirstPage || unit.name == crewUnitId || !selected)) //on not first page always select last visible unit
+        selected = i
     }
+
+    if (!needShowMoreButton && firstHiddenUnit)
+      showUnitSlot(firstHiddenUnitObj, firstHiddenUnit, true)
+    if (showMoreObj)
+    {
+      showMoreObj.show(needShowMoreButton)
+      showMoreObj.inactive = needShowMoreButton ? "no" : "yes"
+      if (!isFirstPage && needShowMoreButton)
+        selected = total - 1
+    }
+
+    scene.findObject("filtered_units_text").setValue(
+      ::loc("mainmenu/filteredUnits", {
+        total = totalUsableUnits
+        filtered = ::colorize("activeTextColor", visibleAmount)
+      }))
+
+    guiScene.setUpdatesEnabled(true, true)
+    if (selected != 0)
+      ::gui_bhv.columnNavigator.selectCell(tblObj, selected, 0, false, false, false)
   }
 
   function canFocusOptions()
   {
-    return !::options_filter_choose_units.isEmptyOptionsList
+    return !isEmptyOptionsList
   }
 
   function setFocus(needFocusUnitsList)

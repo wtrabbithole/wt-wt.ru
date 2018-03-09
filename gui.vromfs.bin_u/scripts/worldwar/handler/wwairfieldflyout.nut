@@ -625,7 +625,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         isForceUnlocked = true
         isForceEquipped = true
         useGenericTooltip = true
-        hasMenu = true
+        hasMenu = hasPresetToChoose(unit)
       })
     modItemObj.pos = "0, 2"
 
@@ -634,9 +634,17 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       centralBlockObj.unitName = unitTable.unitName
   }
 
+  function hasPresetToChoose(unit)
+  {
+    return unit.weapons.len() > 1
+  }
+
   function onModItemClick(obj)
   {
     local unit = ::getAircraftByName(obj.unitName)
+    if (!hasPresetToChoose(unit))
+      return
+
     local cb = ::Callback(function (unitName, weaponName)
     {
       changeUnitWeapon(unitName, weaponName)

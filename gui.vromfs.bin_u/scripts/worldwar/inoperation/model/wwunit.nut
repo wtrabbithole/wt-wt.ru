@@ -94,11 +94,19 @@ class ::WwUnit
     return wwUnitType
   }
 
-  function getShortStringView(addIcon = true, addPreset = true, addCount = true, hideZeroCount = true)
+  function getShortStringView(addIcon = true, addPreset = true, addCount = true,
+                              hideZeroCount = true, needShopInfo = false)
   {
     local presetData = ::getWeaponTypeIcoByWeapon(name, addPreset ? weaponPreset : "")
     local presetText = !addPreset || weaponPreset == "" ? "" :
       ::getWeaponInfoText(unit, false, weaponPreset, " ", INFO_DETAIL.SHORT, true)
+
+    local nameText = getName()
+    if (needShopInfo && unit && !isControlledByAI() && !unit.canUseByPlayer())
+    {
+      local nameColor = ::isUnitSpecial(unit) ? "@hotkeyColor" : "@weaponWarning"
+      nameText = ::colorize(nameColor, nameText)
+    }
 
     local activeCount = getActiveCount()
     local totalCount = getCount()
@@ -106,7 +114,7 @@ class ::WwUnit
       isShow = count > 0 || !hideZeroCount
       unitType = getUnitTypeText()
       wwUnitType = wwUnitType
-      name = getName()
+      name = nameText
       activeCount = activeCount ? activeCount.tostring() : null
       count = totalCount ? totalCount.tostring() : null
       isControlledByAI = isControlledByAI()
@@ -117,7 +125,10 @@ class ::WwUnit
       hasAdditionalGuns = presetData.additionalGuns.len() > 0
       hasPresetWeapon = (presetText.len() > 0) && (weaponCount > 0)
       presetCount = addPreset && weaponCount < count ? weaponCount : null
-      tooltipId = ::g_tooltip.getIdUnit(name, { showLocalState = false })
+      tooltipId = ::g_tooltip.getIdUnit(name, {
+        showLocalState = needShopInfo
+        needShopInfo = needShopInfo
+      })
     }
 
     if (addIcon)

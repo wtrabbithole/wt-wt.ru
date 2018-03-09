@@ -1,6 +1,5 @@
 local time = require("scripts/time.nut")
 
-
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
 const MAX_WND_ASPECT_RATIO_NAVBAR_GC = 0.92
@@ -100,6 +99,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   sceneBlkName = "gui/debriefing/debriefing.blk"
   shouldBlurSceneBg = true
 
+  isFinishedresearchesWindowsAllowed = false
+
   static awardsListsConfig = {
     streaks = {
       filter = {
@@ -140,14 +141,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   isSpectator = false
   gameType = null
   gm = null
+  mGameMode = null
 
   pveRewardInfo = null
+  battleTasksConfigs = {}
+  shouldBattleTasksListUpdate = false
 
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
   function initScreen()
   {
     gm = ::get_game_mode()
+    mGameMode = ::SessionLobby.isInRoom() ? ::SessionLobby.getMGameMode() : null
     gameType = ::get_game_type()
     isTeamplay = ::is_mode_with_teams(gameType)
 
@@ -369,15 +374,15 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       res.append(::build_log_unlock_data(logsList[i]))
 
     //add debugUnlocks
-      if (debugUnlocks <= res.len())
-    return res
+    if (debugUnlocks <= res.len())
+      return res
 
     local filter = clone filter
     filter.currentRoomOnly = false
     logsList = getUserLogsList(filter)
     if (!logsList.len())
     {
-      dlog("Not found any unlocks in userlogs for debug")
+      ::dlog("Not found any unlocks in userlogs for debug")
       return res
     }
 
@@ -793,6 +798,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (state == debrState.showPlayers)
     {
       loadAwardsList()
+      loadBattleTasksList()
 
       if (!needPlayersTbl)
         return switchState()
@@ -823,8 +829,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       showTab("my_stats")
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       ::showBtnTable(scene, {
-        my_stats_awards_block = is_show_awards_list()
-        researches_block      = is_show_research_list()
+        my_stats_awards_block   = is_show_awards_list()
+        researches_scroll_block = is_show_research_list()
+        right_block             = is_show_researches_and_battle_task_block()
+        battle_tasks_block      = is_show_battle_tasks_list()
       })
       showMyPlaceInTable()
       updateMyStatsTopBarArrangement()
@@ -916,6 +924,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       initFocusArray()
       fillResearchingMods()
       fillResearchingUnits()
+      updateShortBattleTask()
       checkDestroySession()
       checkPopupWindows()
       throwBattleEndEvent()
@@ -1808,6 +1817,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     playersTbl = []
     curPlayersTbl = [[], []]
+    updateNumMaxPlayers(true)
     if (isTeamplay)
     {
       for(local t = 0; t < 2; t++)
@@ -1824,7 +1834,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       playersTbl.append([])
       foreach(i, player in ::debriefing_result.mplayers_list)
       {
-        local tblIdx = i >= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 1 : 0
+        local tblIdx = i >= numMaxPlayers ? 1 : 0
         playersTbl[tblIdx].append(player)
       }
     }
@@ -1843,6 +1853,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (needPlayersTbl)
       buildPlayersTable()
+
+    if (playersTbl)
+    {
+      numRows1 = ::min(numMaxPlayers + 1, playersTbl[0].len())//for animation visible row in debriefing
+      numRows2 = ::min(numMaxPlayers + 1, playersTbl[1].len())
+    }
 
     updatePlayersTable(0.0)
   }
@@ -2024,10 +2040,179 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
   }
 
-  function loadWwCasualtiesHistory()
+  function loadBattleTasksList()
+  {
+    if (!is_show_battle_tasks_list(false) || !mGameMode)
+      return
+
+    local tasksArray = ::g_battle_tasks.getTasksArrayByIncreasingDifficulty()
+    local filteredTasks = ::g_battle_tasks.filterTasksByGameModeId(tasksArray, mGameMode?.name)
+
+    filteredTasks = filteredTasks.filter(@(idx, task)
+      !::g_battle_tasks.isTaskDone(task) &&
+      ::g_battle_tasks.isTaskActive(task)
+    )
+
+    local currentBattleTasksConfigs = {}
+    local configsArray = filteredTasks.map(@(task) ::g_battle_tasks.generateUnlockConfigByTask(task))
+    foreach (config in configsArray)
+      currentBattleTasksConfigs[config.id] <- config
+
+    if (!::u.isEqual(currentBattleTasksConfigs, battleTasksConfigs))
+    {
+      shouldBattleTasksListUpdate = true
+      battleTasksConfigs = currentBattleTasksConfigs
+      updateBattleTasksList()
+    }
+  }
+
+  function updateBattleTasksList()
+  {
+    if (curTab != "battle_tasks_list" || !shouldBattleTasksListUpdate || !is_show_battle_tasks_list(false))
+      return
+
+    shouldBattleTasksListUpdate = false
+    local msgObj = scene.findObject("battle_tasks_list_msg")
+    if (::check_obj(msgObj))
+      msgObj.show(!is_show_battle_tasks_list())
+
+    local listObj = scene.findObject("battle_tasks_list_scroll_block")
+    if (!::check_obj(listObj))
+      return
+
+    listObj.show(is_show_battle_tasks_list())
+    if (!is_show_battle_tasks_list())
+      return
+
+    local curSelected = listObj.getValue()
+    local battleTasksArray = []
+    foreach (config in battleTasksConfigs)
+    {
+      battleTasksArray.append(::g_battle_tasks.generateItemView(config, { showUnlockImage = false }))
+    }
+    local data = ::handyman.renderCached("gui/unlocks/battleTasksItem", { items = battleTasksArray })
+    guiScene.replaceContentFromText(listObj, data, data.len(), this)
+
+    if (battleTasksArray.len() > 0)
+      listObj.setValue(::clamp(curSelected, 0, listObj.childrenCount() - 1))
+  }
+
+  function updateBattleTasksStatusImg()
+  {
+    local tabObjStatus = scene.findObject("battle_tasks_list_icon")
+    if (::check_obj(tabObjStatus))
+      tabObjStatus.show(::g_battle_tasks.canGetAnyReward())
+  }
+
+  function onSelectTask(obj)
+  {
+    updateBattleTasksRequirementsList() //need to check even if there is unlock
+
+    local val = obj.getValue()
+    local taskObj = obj.getChild(val)
+    local taskId = taskObj?.task_id
+    local task = ::g_battle_tasks.getTaskById(taskId)
+    if (!task)
+      return
+
+    local isBattleTask = ::g_battle_tasks.isBattleTask(taskId)
+
+    local isDone = ::g_battle_tasks.isTaskDone(task)
+    local canGetReward = isBattleTask && ::g_battle_tasks.canGetReward(task)
+
+    local showRerollButton = isBattleTask && !isDone && !canGetReward && !::u.isEmpty(::g_battle_tasks.rerollCost)
+    ::showBtn("btn_reroll", showRerollButton, taskObj)
+    ::showBtn("btn_recieve_reward", canGetReward, taskObj)
+    if (showRerollButton)
+      ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
+  }
+
+  function updateBattleTasksRequirementsList()
+  {
+    local config = null
+    if (curTab == "battle_tasks_list" && is_show_battle_tasks_list())
+    {
+      local taskId = getCurrentBattleTaskId()
+      config = battleTasksConfigs?[taskId]
+    }
+
+    showSceneBtn("btn_requirements_list", ::show_console_buttons && (config?.names ?? []).len() != 0)
+  }
+
+  function onTaskReroll(obj)
+  {
+    local config = battleTasksConfigs?[obj?.task_id]
+    if (!config)
+      return
+
+    local task = config?.originTask
+    if (!task)
+      return
+
+    if (::check_balance_msgBox(::g_battle_tasks.rerollCost))
+      msgBox("reroll_perform_action",
+             ::loc("msgbox/battleTasks/reroll",
+                  {cost = ::g_battle_tasks.rerollCost.tostring(),
+                    taskName = ::g_battle_tasks.getLocalizedTaskNameById(task)
+                  }),
+      [
+        ["yes", @() ::g_battle_tasks.isSpecialBattleTask(task)
+          ? ::g_battle_tasks.rerollSpecialTask(task)
+          : ::g_battle_tasks.rerollTask(task) ],
+        ["no", @() null ]
+      ], "yes", { cancel_fn = @() null})
+  }
+
+  function onGetRewardForTask(obj)
+  {
+    ::g_battle_tasks.getRewardForTask(obj?.task_id)
+  }
+
+  function getCurrentBattleTaskId()
+  {
+    local listObj = scene.findObject("battle_tasks_list_scroll_block")
+    if (::check_obj(listObj))
+      return listObj.getChild(listObj.getValue())?.task_id
+
+    return null
+  }
+
+  function onViewBattleTaskRequirements(obj)
+  {
+    local taskId = obj?.task_id
+    if (!taskId)
+      taskId = getCurrentBattleTaskId()
+
+    local config = battleTasksConfigs?[taskId]
+    if (!config)
+      return
+
+    local cfgNames = config?.names ?? []
+    if (cfgNames.len() == 0)
+      return
+
+    local awardsList = cfgNames.map(@(id) ::build_log_unlock_data(
+      ::build_conditions_config(
+        ::g_unlocks.getUnlockById(id)
+    )))
+
+    ::showUnlocksGroupWnd([{
+      unlocksList = awardsList
+      titleText = ::loc("unlocks/requirements")
+    }])
+  }
+
+  function onEventBattleTasksIncomeUpdate(params)
+  {
+    loadBattleTasksList()
+    updateBattleTasksStatusImg()
+    updateShortBattleTask()
+  }
+
+  function getWwBattleResults()
   {
     if (!is_show_ww_casualties())
-      return
+      return null
 
     local logs = ::getUserLogsList({
       show = [
@@ -2037,17 +2222,26 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     })
 
     if (!logs.len())
+      return null
+
+    return ::WwBattleResults().updateFromUserlog(logs[0])
+  }
+
+  function loadWwCasualtiesHistory()
+  {
+    local wwBattleResults = getWwBattleResults()
+    if (!wwBattleResults)
       return
 
     local taskCallback = ::Callback(function() {
-      local view = ::WwBattleResults().updateFromUserlog(logs[0]).getView()
+      local view = wwBattleResults.getView()
       local markup = ::handyman.renderCached("gui/worldWar/battleResults", view)
       local contentObj = scene.findObject("ww_casualties_div")
       if (::checkObj(contentObj))
         guiScene.replaceContentFromText(contentObj, markup, markup.len(), this)
     }, this)
 
-    local operationId = ::getTblValueByPath("wwSharedPool.operationId", logs[0])
+    local operationId = wwBattleResults.operationId
     if (operationId)
       ::g_world_war.updateOperationPreviewAndDo(operationId, taskCallback)
   }
@@ -2057,10 +2251,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local tabsObj = scene.findObject("tabs_list")
     tabsObj.show(true)
     local view = { items = [] }
-    local defaultTabValue = 0
+    local tabValue = 0
     local defaultTabName = is_show_ww_casualties() ? "ww_casualties" : ""
-    local tabCounter = 0
-    foreach(tabName in tabsList)
+    foreach(idx, tabName in tabsList)
     {
       local checkName = "is_show_" + tabName
       if (!(checkName in this) || this[checkName]())
@@ -2069,17 +2262,47 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         view.items.append({
           id = tabName
           text = title
+          image = tabName == "battle_tasks_list"? "#ui/gameuiskin#new_reward_icon" : null
         })
         if (tabName == defaultTabName)
-          defaultTabValue = tabCounter
-        tabCounter++
+          tabValue = idx
       }
     }
     local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
-    tabsObj.setValue(defaultTabValue)
+    tabsObj.setValue(tabValue)
     onChangeTab(tabsObj)
+    updateBattleTasksStatusImg()
   }
+
+    //------------- <CURRENT BATTLE TASK ---------------------
+  function updateShortBattleTask()
+  {
+    if (!is_show_battle_tasks_list(false))
+      return
+
+    local buttonObj = scene.findObject("current_battle_tasks")
+    if (!::checkObj(buttonObj))
+      return
+
+    local battleTasksArray = []
+    foreach (config in battleTasksConfigs)
+    {
+      battleTasksArray.append(::g_battle_tasks.generateItemView(config, { isShortDescription = true }))
+    }
+    if (::u.isEmpty(battleTasksArray))
+      battleTasksArray.append(::g_battle_tasks.generateItemView({
+        id = "current_battle_tasks"
+        text = "#mainmenu/btnBattleTasks"
+        shouldRefreshTimer = true
+        }, { isShortDescription = true }))
+
+    local data = ::handyman.renderCached("gui/unlocks/battleTasksShortItem", { items = battleTasksArray })
+    guiScene.replaceContentFromText(buttonObj, data, data.len(), this)
+    ::g_battle_tasks.setUpdateTimer(null, buttonObj)
+  }
+  //------------- </CURRENT BATTLE TASK --------------------
+
 
   function is_show_my_stats()
   {
@@ -2116,6 +2339,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return false
   }
 
+  function is_show_battle_tasks_list(isNeedBattleTasksList = true)
+  {
+    return (::g_battle_tasks.isAvailableForUser() && ::has_feature("DebriefingBattleTasks")) &&
+      (!isNeedBattleTasksList || battleTasksConfigs.len() > 0)
+  }
+
+  function is_show_researches_and_battle_task_block()
+  {
+    return is_show_research_list() || is_show_battle_tasks_list()
+  }
+
   function onChangeTab(obj)
   {
     local value = obj.getValue()
@@ -2123,6 +2357,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     showTab(obj.getChild(value).id)
+    updateBattleTasksList()
+    updateBattleTasksRequirementsList()
   }
 
   function updateScrollableObjects(tabObj, tabName, isEnable)
@@ -2232,21 +2468,22 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function setGoNext()
   {
-    if (::is_worldwar_enabled() && ::g_world_war.isLastFlightWasWwBattle)
+    ::go_debriefing_next_func = ::gui_start_mainmenu //default func
+    if (hasGoToOperationBtn())
     {
-      ::go_debriefing_next_func = function() {
-        ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mainmenu) //do not need to back to debriefing
-        ::g_world_war.openMainWnd()
-      }
+      if (!::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader())
+        ::go_debriefing_next_func = function() {
+          ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mainmenu) //do not need to back to debriefing
+          ::g_world_war.openOperationsOrQueues(true)
+        }
       return
     }
 
     local isMpMode = (gameType & ::GT_COOPERATIVE) || (gameType & ::GT_VERSUS)
 
-    ::go_debriefing_next_func = ::gui_start_mainmenu //default func
     if (::SessionLobby.status == lobbyStates.IN_DEBRIEFING && ::SessionLobby.haveLobby())
       return
-    if (isMpMode && !::is_connected_to_matching())
+    if (isMpMode && !::is_online_available())
       return
 
     if (isMpMode && ::go_lobby_after_statistics() && gm != ::GM_DYNAMIC)
@@ -2406,6 +2643,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local canGoToBattle = isToBattleActionEnabled()
 
+    switchWwOperationToCurrent()
     goBack()
 
     if (canGoToBattle)
@@ -2437,24 +2675,62 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       && ::go_debriefing_next_func == ::gui_start_mainmenu
   }
 
+  function hasGoToOperationBtn()
+  {
+    return ::is_worldwar_enabled() && ::g_world_war.isLastFlightWasWwBattle
+  }
+
+  function switchWwOperationToCurrent()
+  {
+    if (!hasGoToOperationBtn())
+      return
+
+    local wwBattleRes = getWwBattleResults()
+    if (wwBattleRes)
+      ::g_world_war.saveLastPlayed(wwBattleRes.getOperationId(), wwBattleRes.getPlayerCountry())
+    else
+    {
+      local missionRules = ::g_mis_custom_state.getCurMissionRules()
+      local operationId = missionRules?.missionParams?.customRules?.operationId
+      if (!operationId)
+        return
+
+      ::g_world_war.saveLastPlayed(operationId.tointeger(), ::get_profile_country_sq())
+    }
+
+    ::go_debriefing_next_func = function() {
+      ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mainmenu)
+      ::g_world_war.openMainWnd()
+    }
+  }
+
   function updateStartButton()
   {
     if (state != debrState.done)
       return
 
-    local isShowToBattleBtn = isToBattleActionEnabled()
+    local isToBattleBtnVisible = isToBattleActionEnabled()
+    local isGoToOperationBtnVisible = hasGoToOperationBtn()
 
     ::showBtnTable(scene, {
       btn_next = true
-      btn_back = isShowToBattleBtn
+      btn_back = isToBattleBtnVisible || isGoToOperationBtnVisible
     })
 
-    local btnNextLocId = !isShowToBattleBtn ? "mainmenu/btnOk"
+    local btnNextLocId = isGoToOperationBtnVisible ? "worldWar/stayInOperation"
+      : !isToBattleBtnVisible ? "mainmenu/btnOk"
       : ::g_squad_manager.isSquadMember() ? "mainmenu/btnReady"
       : "mainmenu/toBattle"
 
-     ::setDoubleTextToButton(scene, "btn_next", ::loc(btnNextLocId))
-    scene.findObject("btn_back").setValue(::loc(isShowToBattleBtn ? "mainmenu/toHangar" :"mainmenu/btnQuit"))
+    ::setDoubleTextToButton(scene, "btn_next", ::loc(btnNextLocId))
+
+    local backBtnTextLocId = "mainmenu/btnQuit"
+    if (isToBattleBtnVisible)
+      backBtnTextLocId = "mainmenu/toHangar"
+    else if (isGoToOperationBtnVisible)
+      backBtnTextLocId = (!::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader())
+        ? "worldWar/btn_all_battles" : "mainmenu/toHangar"
+    scene.findObject("btn_back").setValue(::loc(backBtnTextLocId))
   }
 
   function onEventSquadSetReady(p)
@@ -2651,16 +2927,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getMainFocusObj()
   {
-    return getObj("tabs_list")
+    return "tabs_list"
   }
 
   function getMainFocusObj2()
   {
     switch (curTab)
     {
-      case "players_stats": return getSelectedTable()
-      case "battle_log":    return getObj("battle_log_filter")
-      default:              return null
+      case "players_stats":     return getSelectedTable()
+      case "battle_log":        return "battle_log_filter"
+      case "battle_tasks_list": return "battle_tasks_list_scroll_block"
+      default:                  return null
     }
   }
 
@@ -2671,13 +2948,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   isReplay = false
   //haveCountryExp = true
 
-  tabsList = [ "my_stats", "players_stats", "ww_casualties", "awards_list", "battle_log", "chat_history" ]
-  tabsTitles = { awards_list = "#profile/awards"}
+  tabsList = [ "my_stats", "players_stats", "ww_casualties", "awards_list", "battle_tasks_list", "battle_log", "chat_history" ]
+  tabsTitles = { awards_list = "#profile/awards", battle_tasks_list = "#userlog/page/battletasks"}
   tabsScrollableObjs = {
     my_stats      = { my_stats_scroll_block = "yes", researches_scroll_block = "left" }
     players_stats = { players_stats_scroll_block = "yes" }
     ww_casualties = { ww_battle_results_scroll_block = "yes" }
     awards_list   = { awards_list_scroll_block = "yes" }
+    battle_tasks_list = { battle_tasks_list_scroll_block = "yes" }
     battle_log    = { battle_log_div = "yes" }
     chat_history  = { chat_history_scroll_block = "yes" }
   }

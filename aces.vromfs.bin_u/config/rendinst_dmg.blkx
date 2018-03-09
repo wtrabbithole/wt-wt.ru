@@ -2288,6 +2288,7 @@
       "destructionImpulse": 200000.0,
       "fx": "ad_buildings_straw_destructions_big",
       "fxScale": 0.8,
+      "dmPreset": "korean_houses",
       "apexDestructionOptionsPresetName": "apexWoodDmPreset",
       "apexDestructible": true
     }
@@ -2314,6 +2315,7 @@
       "destructionImpulse": 200000.0,
       "fx": "ad_buildings_straw_destructions_big",
       "fxScale": 0.8,
+      "dmPreset": "korean_houses",
       "apexDestructible": true,
       "apexDestructionOptionsPresetName": "apexWoodDmPreset"
     }
@@ -2380,6 +2382,7 @@
       "destructionImpulse": 200000.0,
       "fx": "ad_buildings_straw_destructions_big",
       "fxScale": 0.8,
+      "dmPreset": "korean_houses",
       "apexDestructible": true,
       "apexDestructionOptionsPresetName": "apexWoodDmPreset"
     }
@@ -2415,6 +2418,7 @@
       "destructionImpulse": 200000.0,
       "fx": "ad_buildings_straw_destructions_big",
       "fxScale": 0.8,
+      "dmPreset": "korean_houses",
       "apexDestructionOptionsPresetName": "apexWoodDmPreset",
       "apexDestructible": true
     }
@@ -2449,6 +2453,7 @@
       "destructionImpulse": 200000.0,
       "fx": "ad_buildings_straw_destructions_big",
       "fxScale": 0.8,
+      "dmPreset": "korean_houses",
       "apexDestructible": true,
       "apexDestructionOptionsPresetName": "apexWoodDmPreset"
     }
@@ -3710,6 +3715,69 @@
       "fx": "ad_dust_stucco",
       "fxScale": 1.0,
       "apexDestructible": true
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_column_a",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_column_b",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_gate_a",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_section_a",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_section_b",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_section_c",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
+    }
+  },
+  {
+    "dmg": {
+      "name": "sicily_village_fence_a_section_d",
+      "destroyedModelName": "pitchfork_a_destr_phobj",
+      "destructionImpulse": 20000.0,
+      "fx": "ad_dust_stucco",
+      "fxScale": 1.0
     }
   },
   {
@@ -7884,7 +7952,34 @@
     "dmg": {
       "name": "tree_fall_pine_a",
       "destroyedModelName": "tree_fall_pine_a_destr_phobj",
-      "destructionImpulse": 7000.0,
+      "destructionImpulse": 40000.0,
+      "fx": "ad_wood_small",
+      "material": "transparentBeton"
+    }
+  },
+  {
+    "dmg": {
+      "name": "tree_fall_pine_b",
+      "destroyedModelName": "tree_fall_pine_b_destr_phobj",
+      "destructionImpulse": 40000.0,
+      "fx": "ad_wood_small",
+      "material": "transparentBeton"
+    }
+  },
+  {
+    "dmg": {
+      "name": "tree_fall_pine_c",
+      "destroyedModelName": "tree_fall_pine_c_destr_phobj",
+      "destructionImpulse": 40000.0,
+      "fx": "ad_wood_small",
+      "material": "transparentBeton"
+    }
+  },
+  {
+    "dmg": {
+      "name": "tree_fall_pine_d",
+      "destroyedModelName": "tree_fall_pine_d_destr_phobj",
+      "destructionImpulse": 40000.0,
       "fx": "ad_wood_small",
       "material": "transparentBeton"
     }
@@ -8182,6 +8277,15 @@
       "fxScale": 1.0,
       "stopsBullets": false,
       "material": "transparentBeton"
+    }
+  },
+  {
+    "dmg": {
+      "name": "barbedwire_a",
+      "destroyedModelName": "barbedwire_a_destr_phobj",
+      "destructionImpulse": 1400.0,
+      "material": "transparentBeton",
+      "dmPreset": "unshootable_objects"
     }
   },
   {
@@ -16353,7 +16457,7 @@
         "armorClass": "RHA_tank",
         "armorThickness": 10.0,
         "restrainDamage": 0.15,
-        "armorThrough": 100.0,
+        "armorThrough": 300.0,
         "explosionDamageMult": 1.3,
         "genericDamageMult": 0.19
       },
@@ -16434,6 +16538,14 @@
         "armorThrough": 300.0,
         "explosionDamageMult": 0.2,
         "genericDamageMult": 0.4
+      },
+      "unshootable_objects": {
+        "armorClass": "RHA_tank",
+        "armorThickness": 1.0,
+        "restrainDamage": 0.0005,
+        "armorThrough": 1.0,
+        "explosionDamageMult": 0.0,
+        "genericDamageMult": 0.0
       },
       "wood_props": {
         "armorClass": "RHA_tank",
@@ -17571,12 +17683,6 @@
   },
   {
     "dmg": {
-      "name": "rail_bump_snow",
-      "immortal": true
-    }
-  },
-  {
-    "dmg": {
       "name": "finland_barn_a",
       "immortal": true
     }
@@ -17650,6 +17756,24 @@
   {
     "dmg": {
       "name": "icefloe_c_imm",
+      "immortal": true
+    }
+  },
+  {
+    "dmg": {
+      "name": "icefloe_a",
+      "immortal": true
+    }
+  },
+  {
+    "dmg": {
+      "name": "icefloe_c",
+      "immortal": true
+    }
+  },
+  {
+    "dmg": {
+      "name": "icefloe_e",
       "immortal": true
     }
   },
@@ -22435,7 +22559,6 @@
         "nextRes": "european_suburb_building_1_floors_b_abandoned_dp_01_dmg",
         "hp": 466.0,
         "impulseThreshold": 1.0,
-        "destructionImpulse": 2000000.0,
         "fx": "ad_buildings_destructions_big",
         "fxScale": 0.1,
         "apexDestructible": true,
@@ -22446,7 +22569,6 @@
         "nextRes": "european_suburb_building_1_floors_b_abandoned_dp_01_dmg",
         "hp": 466.0,
         "impulseThreshold": 1.0,
-        "destructionImpulse": 2000000.0,
         "fx": "ad_buildings_destructions_big",
         "fxScale": 0.1,
         "apexDestructible": true,
@@ -22457,7 +22579,6 @@
         "nextRes": "european_suburb_building_1_floors_b_abandoned_dp_03_dmg",
         "hp": 466.0,
         "impulseThreshold": 1.0,
-        "destructionImpulse": 2000000.0,
         "fx": "ad_buildings_destructions_big",
         "fxScale": 0.1,
         "apexDestructible": true,
@@ -22468,7 +22589,6 @@
         "nextRes": "european_suburb_building_1_floors_b_abandoned_dp_03_dmg",
         "hp": 466.0,
         "impulseThreshold": 1.0,
-        "destructionImpulse": 2000000.0,
         "fx": "ad_buildings_destructions_big",
         "fxScale": 0.1,
         "apexDestructible": true,
@@ -25118,33 +25238,6 @@
         "fx": "ad_fence_wood_small",
         "fxScale": 1.5
       },
-      "icefloe_a": {
-        "nextRes": "icefloe_a_dmg",
-        "physRes": "icefloe_a_destr_phobj",
-        "hp": 400000.0,
-        "impulseThreshold": 5.0,
-        "fx": "ad_icefloe_big",
-        "fxScale": 1.5,
-        "stopsBullets": true
-      },
-      "icefloe_c": {
-        "nextRes": "icefloe_a_dmg",
-        "physRes": "icefloe_c_destr_phobj",
-        "hp": 2000.0,
-        "impulseThreshold": 5.0,
-        "fx": "ad_icefloe_big",
-        "fxScale": 1.5,
-        "stopsBullets": true
-      },
-      "icefloe_e": {
-        "nextRes": "icefloe_a_dmg",
-        "physRes": "icefloe_e_destr_phobj",
-        "hp": 2000.0,
-        "impulseThreshold": 5.0,
-        "fx": "ad_icefloe_big",
-        "fxScale": 1.5,
-        "stopsBullets": true
-      },
       "snowman_rendinst_a": {
         "nextRes": "snowman_rendinst_dmg",
         "physRes": "snowman_rendinst_a_destr_phobj",
@@ -25284,6 +25377,14 @@
         "impulseThreshold": 5.0,
         "dmPreset": "oil_tanks_full",
         "fx": "ad_explosion_big",
+        "fxScale": 1.0
+      },
+      "rail_bump_snow": {
+        "nextRes": "rail_bump_snow_dmg",
+        "physRes": "rail_bump_snow_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 5.0,
+        "fx": "ad_metal_snow",
         "fxScale": 1.0
       },
       "railway_tank_a": {
@@ -25711,7 +25812,7 @@
       "pinzgauer_710k": {
         "nextRes": "pinzgauer_710k_dmg",
         "physRes": "pinzgauer_710k_destr_phobj",
-        "hp": 10.0,
+        "hp": 20.0,
         "impulseThreshold": 0.0,
         "dmPreset": "metal_light_explosive_props",
         "fx": "ad_car_wreck",
@@ -25915,6 +26016,33 @@
         "fx": "ad_car_wreck",
         "fxScale": 0.7
       },
+      "renault_ahn_abandoned_a": {
+        "nextRes": "renault_ahn_dmg",
+        "physRes": "renault_ahn_abandoned_a_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.7
+      },
+      "renault_ahn_abandoned_b": {
+        "nextRes": "renault_ahn_dmg",
+        "physRes": "renault_ahn_abandoned_b_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.7
+      },
+      "renault_ahn_abandoned_c": {
+        "nextRes": "renault_ahn_dmg",
+        "physRes": "renault_ahn_abandoned_c_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.7
+      },
       "uaz_452": {
         "nextRes": "uaz_452_dmg",
         "physRes": "uaz_452_destr_phobj",
@@ -26094,6 +26222,130 @@
         "dmPreset": "metal_light_explosive_props",
         "fx": "ad_wood_metal_big",
         "fxScale": 1.5
+      },
+      "uaz_452_abandoned_a": {
+        "nextRes": "uaz_452_dmg",
+        "physRes": "uaz_452_abandoned_a_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "uaz_452_abandoned_b": {
+        "nextRes": "uaz_452_dmg",
+        "physRes": "uaz_452_abandoned_b_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "uaz_31514_abandoned_a": {
+        "nextRes": "uaz_31514_dmg",
+        "physRes": "uaz_31514_abandoned_a_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "uaz_31514_abandoned_b": {
+        "nextRes": "uaz_31514_dmg",
+        "physRes": "uaz_31514_abandoned_b_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "mercedess_oil_truck_abandoned_a": {
+        "nextRes": "mercedess_oil_truck_dmg",
+        "physRes": "mercedess_oil_truck_abandoned_a_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 1.5
+      },
+      "mercedess_oil_truck_abandoned_b": {
+        "nextRes": "mercedess_oil_truck_dmg",
+        "physRes": "mercedess_oil_truck_abandoned_b_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 1.5
+      },
+      "pinzgauer_710k_abandoned_a": {
+        "nextRes": "pinzgauer_710k_dmg",
+        "physRes": "pinzgauer_710k_abandoned_a_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "pinzgauer_710k_abandoned_b": {
+        "nextRes": "pinzgauer_710k_dmg",
+        "physRes": "pinzgauer_710k_abandoned_b_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "land_rover_fc_a": {
+        "nextRes": "land_rover_fc_dmg",
+        "physRes": "land_rover_fc_a_destr_phobj",
+        "hp": 20.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "land_rover_fc_b": {
+        "nextRes": "land_rover_fc_dmg",
+        "physRes": "land_rover_fc_b_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "land_rover_fc_abandoned_a": {
+        "nextRes": "land_rover_fc_dmg",
+        "physRes": "land_rover_fc_abandoned_a_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "land_rover_fc_abandoned_b": {
+        "nextRes": "land_rover_fc_dmg",
+        "physRes": "land_rover_fc_abandoned_b_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "dmPreset": "metal_light_explosive_props",
+        "fx": "ad_car_wreck",
+        "fxScale": 0.5
+      },
+      "pine_stump_b": {
+        "nextRes": "pine_stump_b_dmg",
+        "physRes": "pine_stump_b_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "fx": "ad_wood_small",
+        "fxScale": 0.5
+      },
+      "pine_stump_d": {
+        "nextRes": "pine_stump_d_dmg",
+        "physRes": "pine_stump_d_destr_phobj",
+        "hp": 10.0,
+        "impulseThreshold": 0.0,
+        "fx": "ad_wood_small",
+        "fxScale": 0.5
       },
       "boathouse_a": {
         "nextRes": "boathouse_a_dmg",

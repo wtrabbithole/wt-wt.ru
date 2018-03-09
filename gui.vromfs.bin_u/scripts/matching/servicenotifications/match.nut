@@ -8,7 +8,7 @@ function notify_clusters_changed(params)
 
 function notify_game_modes_changed(params)
 {
-  if (!::is_connected_to_matching())
+  if (!::is_online_available())
     return
 
   if (::is_in_flight()) // do not handle while session is active

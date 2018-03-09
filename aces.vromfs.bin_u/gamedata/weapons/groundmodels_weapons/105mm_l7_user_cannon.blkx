@@ -26,22 +26,21 @@
   "isBulletBelt": false,
   "bullet": {
     "bulletCount": 40,
-    "mass": 5.84,
+    "mass": 4.0,
     "caliber": 0.105,
     "damageCaliber": 0.044,
-    "ballisticCaliber": 0.08,
+    "ballisticCaliber": 0.058,
     "speed": 1478.0,
     "maxDistance": 10000.0,
     "bulletType": "apds_tank",
     "bulletName": "105mm_l28a1",
+    "Cx": 0.155,
+    "breakingArmorThicknessEffective": true,
+    "breakingArmorThickness": [30.0,150.0],
+    "breakingCriticalSpeed": 1405.0,
+    "breakingDistance": 0.1,
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
-    "armorFragmentsDamage": true,
-    "armorFragmentsDamageRadius": 4.4,
-    "armorFragmentsDamageAngle": 22.0,
-    "armorFragmentsAmount": 45,
-    "armorFragmentsArmorPower": 4.0,
-    "armorFragmentsHit": 10.0,
     "groundCollisionEffect": "big_ground_splash",
     "groundFxScale": [0.9,1.1],
     "ricochetEffect": "cannon_ricochet",
@@ -67,15 +66,15 @@
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "30mmRed",
+      "tracer": "50mmRed",
       "trail": "black"
     },
     "collisions": {
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_apds"
       },
       "armor": {
-        "fx": "cannon_hit_armor"
+        "fx": "cannon_hit_apds"
       }
     }
   },
@@ -83,7 +82,6 @@
     "bullet": {
       "bulletCount": 25,
       "mass": 14.85,
-      "explosiveType": "comp_a",
       "explosiveMass": 2.99,
       "caliber": 0.105,
       "speed": 730.0,
@@ -95,9 +93,9 @@
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 0.4,
       "explodeTreshold": 0.1,
-      "explodeHitPower": 200.0,
-      "explodeArmorPower": 12.0,
-      "explodeRadius": [0.3,1.0],
+      "explodeHitPower": 400.0,
+      "explodeArmorPower": 19.0,
+      "explodeRadius": [0.4,1.07],
       "explosionPatchRadius": 1.1,
       "shutterDamage": true,
       "shutterDamageRadius": 15.4,

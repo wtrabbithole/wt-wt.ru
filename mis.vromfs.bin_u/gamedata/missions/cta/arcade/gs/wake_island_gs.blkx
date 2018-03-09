@@ -219,6 +219,20 @@
               "target": "t2_bombers_spawn",
               "lookAt": "area_01"
             }
+          },
+          {
+            "icon": {
+              "icontype": "ship",
+              "side": "ally",
+              "target": "briefing_t1_ship"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "ship",
+              "side": "enemy",
+              "target": "briefing_t2_ship"
+            }
           }
         ]
       }
@@ -375,6 +389,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -383,6 +400,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -401,6 +421,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -423,6 +444,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -475,6 +497,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -492,6 +523,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_destroyers_squad"
@@ -519,6 +559,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_mothership_squad"
             },
             {
@@ -542,6 +591,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_lcvp_squad"
@@ -586,6 +644,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_mothership_squad"
           }
         },
@@ -595,6 +656,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_lcvp_squad"
           }
         }
@@ -729,6 +793,9 @@
           "object_type": "isActive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_lcvp_squad",
           "target": "t1_landing_start_area"
         }
@@ -761,6 +828,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_lcvp_squad",
           "target": "t1_landing_area_01"
         }
@@ -800,6 +870,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_tanks_squad"
           }
         },
@@ -868,6 +941,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_lcvp_squad",
           "target": "t1_landing_area_02"
         }
@@ -907,6 +983,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_tanks_squad"
           }
         },
@@ -975,6 +1054,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_lcvp_squad",
           "target": "t1_landing_area_03"
         }
@@ -1014,6 +1096,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_tanks_squad"
           }
         },
@@ -1082,6 +1167,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_lcvp_squad",
           "target": "t1_landing_area_04"
         }
@@ -1121,6 +1209,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_tanks_squad"
           }
         },
@@ -1193,6 +1284,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_land_squad"
           }
         },
@@ -1204,6 +1298,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_land_squad"
           }
         }
@@ -1230,6 +1327,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_mothership_squad"
           }
         },
@@ -1239,6 +1339,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad"
           }
         }
@@ -1373,6 +1476,9 @@
           "object_type": "isActive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "t2_landing_start_area"
         }
@@ -1405,6 +1511,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "t2_landing_area_01"
         }
@@ -1444,6 +1553,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tanks_squad"
           }
         },
@@ -1512,6 +1624,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "t2_landing_area_02"
         }
@@ -1551,6 +1666,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tanks_squad"
           }
         },
@@ -1619,6 +1737,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "t2_landing_area_03"
         }
@@ -1658,6 +1779,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tanks_squad"
           }
         },
@@ -1726,6 +1850,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "t2_landing_area_04"
         }
@@ -1765,6 +1892,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tanks_squad"
           }
         },
@@ -1833,6 +1963,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_land_squad"
         }
       },
@@ -1864,6 +1997,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_land_squad"
         }
       },
@@ -6377,6 +6513,28 @@
         [52.0945,0.0,-295.442],
         [9961.3,3500.0,872.45]
       ],
+      "props": []
+    },
+    "briefing_t1_ship": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5372.07,307.631,3473.97]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_ship": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [5267.46,307.629,-3840.52]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },

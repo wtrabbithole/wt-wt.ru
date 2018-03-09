@@ -1,7 +1,8 @@
 local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
-
+local platformModule = require("scripts/clientState/platform.nut")
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 ::game_chat_handler <- null
 
@@ -41,12 +42,13 @@ class ::ChatHandler
 
   isMouseCursorVisible = false
   isActive = false // While it is true, in-game unit control shortcuts are disabled in client.
+  chatInputText = ""
 
   function constructor()
   {
     ::g_script_reloader.registerPersistentData("mpChat", this,
       ["log_text", "curMode",
-       "isActive"
+       "isActive", "chatInputText"
       ])
 
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
@@ -239,11 +241,14 @@ class ::ChatHandler
         btn_send                = show
         chat_mod_accesskey      = show
     })
-    if (show && sceneData.selfHideInput)
+    if (show && sceneData.scene.isVisible())
     {
       local obj = scene.findObject("chat_input")
       if (::checkObj(obj))
+      {
         obj.select()
+        obj.setValue(chatInputText)
+      }
     }
   }
 
@@ -338,7 +343,8 @@ class ::ChatHandler
 
   function onChatChanged(obj)
   {
-    ::chat_on_text_update(obj.getValue())
+    chatInputText = obj.getValue()
+    ::chat_on_text_update(chatInputText)
   }
 
   function onEventMpChatInputChanged(params)
@@ -458,44 +464,13 @@ class ::ChatHandler
         setMode(mode)
   }
 
-  function showPlayerRClickMenu(user)
+  function showPlayerRClickMenu(playerName)
   {
-    local isMe = user == ::my_user_name
-    local isModerator = ::is_myself_moderator() || ::is_myself_chat_moderator()
-    local curLogText = getLogText()
-    local menu = [
-      {
-        text = ::loc("contacts/message")
-        show = !isMe
-        action = (@(user) function() {
-          ::broadcastEvent("MpChatInputRequested", { activate = true })
-          ::chat_set_mode(::CHAT_MODE_PRIVATE, user)
-          })(user)
-      }
-      {
-        text = ::loc("mainmenu/btnUserCard")
-        action = (@(user) function() { ::gui_modal_userCard({ name = user }) })(user)
-      }
-      {
-        text = ::loc("mainmenu/btnComplain")
-        show = !isMe
-        action = (@(user, curLogText) function() {
-          ::gui_modal_complain({ name = user }, curLogText)
-        })(user, curLogText)
-      }
-      {
-        text = ::loc("contacts/moderator_copyname")
-        show = isModerator
-        action = (@(user) function() { ::copy_to_clipboard(user) })(user)
-      }
-      {
-        text = ::loc("contacts/moderator_ban")
-        show = ::myself_can_devoice() || ::myself_can_ban()
-        action = (@(user, curLogText) function() {
-          ::gui_modal_ban({ name = user }, curLogText? curLogText : "")
-        })(user, curLogText)
-      }
-    ]
+    local menu = playerContextMenu.getActions(null, {
+      playerName = playerName
+      isMPChat = true
+      chatLog = getLogText()
+    })
 
     ::gui_right_click_menu(menu, this)
   }
@@ -534,7 +509,7 @@ class ::ChatHandler
     local log = ingame_chat.getLog()
     log_text = ""
     for (local i = 0; i < log.len(); ++i)
-      log_text = ::g_string.join([log_text , makeTextFromMessage(log[i])], "\n")
+      log_text = ::g_string.implode([log_text , makeTextFromMessage(log[i])], "\n")
     updateAllLogs()
 
     local autoShowOpt = ::get_option(::USEROPT_AUTO_SHOW_CHAT)
@@ -569,7 +544,8 @@ class ::ChatHandler
     local senderColor = getSenderColor(message)
     local msgColor = getMessageColor(message)
     local clanTag = ::get_player_tag(message.sender)
-    local fullName = ::g_string.join([clanTag, message.sender], " ")
+    local playerName = platformModule.getPlayerName(message.sender)
+    local fullName = ::g_string.implode([clanTag, playerName], " ")
     return ::format(
       "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
       timeString
@@ -673,6 +649,17 @@ class ::ChatHandler
     return isActive
       ? CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE | CtrlsInGui.CTRL_ALLOW_MP_CHAT
       : CtrlsInGui.CTRL_ALLOW_FULL
+  }
+
+  function onEventLoadingStateChange(params)
+  {
+    clearInputChat()
+  }
+
+  function clearInputChat()
+  {
+    chatInputText = ""
+    ::chat_on_text_update(chatInputText)
   }
 }
 

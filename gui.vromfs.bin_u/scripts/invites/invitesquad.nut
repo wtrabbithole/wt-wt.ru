@@ -30,6 +30,14 @@ class ::g_invites_classes.Squad extends ::BaseInvite
       ::g_users_info_manager.requestInfo([leaderId], cb, cb)
     }
     isAccepted = false
+
+    if (initial)
+      ::add_event_listener("SquadStatusChanged",
+        function (p) {
+          if (::g_squad_manager.isInSquad()
+            && ::g_squad_manager.getLeaderUid() == squadId.tostring())
+            remove()
+        }, this)
   }
 
   function updateInviterName()
@@ -42,7 +50,6 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   function isValid()
   {
     return !isAccepted
-        && !::is_psn_player_use_same_titleId(inviterName)
   }
 
   function getInviteText()
@@ -102,6 +109,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
     ::g_squad_manager.rejectSquadInvite(squadId)
     remove()
+    ::g_invites.removeInviteToSquad(squadId)
     onSuccessfulReject()
   }
 
@@ -115,6 +123,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     ::g_squad_manager.acceptSquadInvite(squadId)
     isAccepted = true
     remove()
+    ::g_invites.removeInviteToSquad(squadId)
     onSuccessfulAccept()
   }
 }

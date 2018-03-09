@@ -176,12 +176,64 @@
       "part": {
         "event": "",
         "minTime": 0,
-        "slide": {
-          "map": true,
-          "minTime": 4,
-          "picture": "",
-          "showAirMap": false
-        }
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "showAirMap": true
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "ally",
+              "target": "t1_fighters_spawn_huge",
+              "lookAt": "small_matching_area"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_fighters_spawn_huge",
+              "lookAt": "small_matching_area"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "artillery",
+              "side": "ally",
+              "target": "briefing_t1_defence_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "artillery",
+              "side": "ally",
+              "target": "briefing_t1_defence_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "artillery",
+              "side": "enemy",
+              "target": "briefing_t2_defence_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "artillery",
+              "side": "enemy",
+              "target": "briefing_t2_defence_02"
+            }
+          }
+        ]
       }
     }
   },
@@ -349,6 +401,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_mguns_squad"
@@ -9987,6 +10048,50 @@
         [0.0,300.0,0.0],
         [-212.132,0.0,212.132],
         [-11109.4,4000.0,-5798.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t1_defence_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-2312.21,14.1309,-79.9065]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t1_defence_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5089.86,14.1309,4100.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_defence_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-3944.7,14.1309,-1620.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_defence_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-6865.34,14.1309,1213.74]
       ],
       "objLayer": 0,
       "props": []

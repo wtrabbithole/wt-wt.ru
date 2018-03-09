@@ -131,21 +131,16 @@
   "76mm_usa_M32_APDS": {
     "bullet": {
       "bulletCount": 25,
-      "mass": 3.7,
+      "mass": 1.49,
       "caliber": 0.0762,
       "damageCaliber": 0.035,
-      "ballisticCaliber": 0.07,
+      "ballisticCaliber": 0.035,
       "speed": 1231.0,
       "maxDistance": 10000.0,
       "bulletType": "apds_tank",
       "bulletName": "76mm_m331a2",
+      "Cx": 0.0001,
       "relativeVelHitShift": [300.0,1000.0],
-      "armorFragmentsDamage": true,
-      "armorFragmentsDamageRadius": 3.5,
-      "armorFragmentsDamageAngle": 22.0,
-      "armorFragmentsAmount": 25,
-      "armorFragmentsArmorPower": 3.0,
-      "armorFragmentsHit": 10.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [0.9,1.1],
@@ -177,10 +172,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         }
       }
     }

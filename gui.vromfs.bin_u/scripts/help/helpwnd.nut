@@ -700,7 +700,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local countryRelatedObjs = ::getTblValue("countryRelatedObjs", tab, null)
     if (countryRelatedObjs != null)
     {
-      local selectedCountry = ::get_profile_info().country.slice(8)
+      local selectedCountry = ::get_profile_country_sq().slice(8)
       selectedCountry = (selectedCountry in countryRelatedObjs) ? selectedCountry : tab.defaultValues.country
       local selectedCountryConfig = countryRelatedObjs[selectedCountry]
       foreach(key, countryConfig in countryRelatedObjs)
@@ -747,7 +747,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       tab.moveControlsFrames(haveIconsForControls, scene)
 
     local backImg = scene.findObject("help_background_image")
-    local curCountry = ::get_profile_info().country.slice(8)
+    local curCountry = ::get_profile_country_sq().slice(8)
     if ("hasImageByCountries" in tab)
       curCountry = ::isInArray(curCountry, tab.hasImageByCountries)
                      ? curCountry
@@ -1038,7 +1038,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           continue
 
         foreach(idx, devId in itemButton.dev)
-          if (devId == ::JOYSTICK_DEVICE_ID)
+          if (devId == JOYSTICK_DEVICE_ID)
           {
             local btnId = itemButton.btn[idx]
             if (!(btnId in joystickButtons))
@@ -1305,7 +1305,7 @@ function get_shortcut_frame_for_help(shortcut)
         buttonFrame = format(mouseBtnImg, "mouse_center");
     }
 
-    if (shortcut.dev[k] == ::JOYSTICK_DEVICE_ID)
+    if (shortcut.dev[k] == JOYSTICK_DEVICE_ID)
     {
       local btnId = shortcut.btn[k]
       if (gamepadIcons.hasTextureByButtonIdx(btnId))

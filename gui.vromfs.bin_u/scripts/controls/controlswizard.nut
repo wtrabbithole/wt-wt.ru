@@ -78,6 +78,10 @@ local globalEnv = require_native("globalEnv")
     "ID_BAY_DOOR",
     "ID_BOMBS",
     "ID_ROCKETS",
+//
+
+
+
     "ID_RELOAD_GUNS",
     "ID_GEAR",
     { id="ID_AIR_BRAKE", filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
@@ -871,9 +875,9 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     foreach(d in devs)
       if (d>0)
         if (isKbd==null)
-          isKbd = d < ::JOYSTICK_DEVICE_ID
+          isKbd = d < JOYSTICK_DEVICE_ID
         else
-          if (isKbd != (d < ::JOYSTICK_DEVICE_ID))
+          if (isKbd != (d < JOYSTICK_DEVICE_ID))
             return null
     return isKbd
   }

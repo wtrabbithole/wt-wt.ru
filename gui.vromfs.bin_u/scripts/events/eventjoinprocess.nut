@@ -119,7 +119,7 @@ class EventJoinProcess
 
   function joinStep5_repairInfo()
   {
-    local repairInfo = ::events.getCountryRepairInfo(event, room, ::get_profile_info().country)
+    local repairInfo = ::events.getCountryRepairInfo(event, room, ::get_profile_country_sq())
     ::checkBrokenAirsAndDo(repairInfo, this, joinStep6_membersForQueue, false, remove)
   }
 
@@ -137,7 +137,7 @@ class EventJoinProcess
       local joinEventParams = {
         mode    = event.name
         //team    = team //!!can choose team correct only with multiEvents support
-        country = ::get_profile_info().country
+        country = ::get_profile_country_sq()
       }
       if (checkResult.data)
         joinEventParams.members <- checkResult.data
@@ -214,11 +214,5 @@ class EventJoinProcess
   function msgBox(id, text, buttons, def_btn, options = {})
   {
     ::scene_msg_box(id, null, text, buttons, def_btn, options)
-  }
-
-  function reinitSlotbar()
-  {
-    local curHandler = ::get_cur_base_gui_handler()
-    curHandler.reinitSlotbar()
   }
 }

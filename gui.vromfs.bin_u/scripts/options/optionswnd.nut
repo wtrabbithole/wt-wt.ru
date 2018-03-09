@@ -66,7 +66,10 @@ function get_main_options()
       [::USEROPT_XRAY_KILL, "spinner", ::has_feature("Tanks") && ::has_feature("XrayKill")],
       [::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT, "spinner",
         ::has_feature("Tanks") && ( ! isInFlight || ! ::is_tank_gunner_camera_from_sight_available())],
-      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::has_feature("TankAltCrosshair")],
+      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()
+                                                && (::has_feature("TankAltCrosshair")
+                                                    || ::get_user_alt_crosshairs().len()
+                                                   )],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],
@@ -74,6 +77,8 @@ function get_main_options()
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! isInFlight],
       [::USEROPT_USE_PERFECT_RANGEFINDER, "spinner", ::has_feature("Ships")],
+      [::USEROPT_SAVE_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
+      [::USEROPT_DEFAULT_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -98,6 +103,8 @@ function get_main_options()
       [::USEROPT_MEASUREUNITS_DIST, "spinner"],
       [::USEROPT_MEASUREUNITS_CLIMBSPEED, "spinner"],
       [::USEROPT_MEASUREUNITS_TEMPERATURE, "spinner"],
+      [::USEROPT_MEASUREUNITS_WING_LOADING, "spinner", ::has_feature("CardAirplaneParameters")],
+      [::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO, "spinner", ::has_feature("CardAirplaneParameters") && ::has_feature("CardAirplanePowerParameters")],
 
       ["options/header/playersMarkers"],
       [::USEROPT_SHOW_INDICATORS, "spinner"],
@@ -139,7 +146,8 @@ function get_main_options()
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox", ::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")],
+      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox",
+        (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")) && ::ugc_tags_presets.len()],
     ]
   }
 }

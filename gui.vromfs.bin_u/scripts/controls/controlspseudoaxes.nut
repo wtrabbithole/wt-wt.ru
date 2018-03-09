@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_pseudo_axes_list <- {
   types = []
 }
@@ -8,7 +9,7 @@
   isAssigned = function () { return false }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_pseudo_axes_list", {
+enums.addTypesByGlobalName("g_pseudo_axes_list", {
   TOGGLE_VIEW = {
     id = "pseudo_toggle_view"
     translate = function ()

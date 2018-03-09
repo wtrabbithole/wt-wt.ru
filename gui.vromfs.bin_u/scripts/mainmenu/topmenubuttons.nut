@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
   EMPTY_BUTTON,
@@ -20,6 +21,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     isFeatured = false
     needDiscountIcon = false
     newIconWidget = null
+    unseenIcon = null
     onClickFunc = @(obj, handler = null) null
     onChangeValueFunc = @(value) null
     useImage = null
@@ -36,7 +38,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_top_menu_buttons", {
+enums.addTypesByGlobalName("g_top_menu_buttons", {
   UNKNOWN = {}
   SKIRMISH = {
     text = "#mainmenu/btnSkirmish"
@@ -59,10 +61,10 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
   WORLDWAR = {
     text = "#mainmenu/btnWorldwar"
-    onClickFunc = @(obj, handler) ::is_worldwar_enabled()
-      ? handler.goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false)
-      : ::show_not_available_msg_box()
-    isVisualDisabled = function() { return !::is_worldwar_enabled() }
+    onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
+    tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
+    isVisualDisabled = @() !::is_worldwar_enabled() || !::g_world_war.canPlayWorldwar()
+    unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"
@@ -95,12 +97,7 @@ enum TOP_MENU_ELEMENT_TYPE {
 
       ::scene_msg_box("question_buy_campaign", null, ::loc("mainmenu/questionBuyHistorical"),
         [
-          ["yes", function() {
-            if (::is_platform_ps4)
-              ::gui_modal_onlineShop(this)
-            else
-              ::OnlineShopModel.doBrowserPurchase("wop_starter_pack_3_gift")
-          }],
+          ["yes", ::purchase_any_campaign],
           ["no", function() {}]
         ], "yes", { cancel_fn = function() {}})
     }
@@ -222,8 +219,8 @@ enum TOP_MENU_ELEMENT_TYPE {
   ITEMS_SHOP = {
     text = "#items/shop"
     onClickFunc = @(...) ::gui_start_itemsShop()
-    image = "#ui/gameuiskin#store_icon"
-    isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
+    image = "#ui/gameuiskin#store_icon.svg"
+    isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
     newIconWidget = @() ::NewIconWidget.createLayout()
   }
   ONLINE_SHOP = {
@@ -232,7 +229,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     link = ""
     isLink = true
     isFeatured = true
-    image = "#ui/gameuiskin#store_icon"
+    image = "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
@@ -242,8 +239,8 @@ enum TOP_MENU_ELEMENT_TYPE {
     link = ""
     isLink = true
     isFeatured = true
-    image = "#ui/gameuiskin#store_icon"
-    isHidden = @(...) !::ItemsManager.isMarketplaceEnabled()
+    image = "#ui/gameuiskin#gc.svg"
+    isHidden = @(...) !::ItemsManager.isMarketplaceEnabled() || !::isInMenu()
   }
   WINDOW_HELP = {
     text = "#flightmenu/btnControlsHelp"
@@ -311,6 +308,6 @@ function() {
 
 function g_top_menu_buttons::getTypeById(id)
 {
-  return ::g_enum_utils.getCachedType("id", id, ::g_top_menu_buttons.cache.byId,
+  return enums.getCachedType("id", id, ::g_top_menu_buttons.cache.byId,
     ::g_top_menu_buttons, ::g_top_menu_buttons.UNKNOWN)
 }

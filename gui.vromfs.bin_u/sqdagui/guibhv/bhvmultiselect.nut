@@ -20,7 +20,7 @@ class gui_bhv.MultiSelect extends gui_bhv.posNavigator
   }
   function setSelectedValue(obj, value)
   {
-    selectItem(obj, value, false)
+    selectItem(obj, value, null, false)
   }
 
   function onSelectAction(obj)

@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_unit_class_type <- {
   types = []
 }
@@ -41,7 +42,7 @@ function g_unit_class_type::_getExpClass()
   getFontIcon = @() ::get_unit_role_icon(name)
 }
 
-::g_enum_utils.addTypesByGlobalName("g_unit_class_type", {
+enums.addTypesByGlobalName("g_unit_class_type", {
   UNKNOWN = {
     name = "unknown"
   }
@@ -115,7 +116,7 @@ function g_unit_class_type::getTypesFromCodeMask(codeMask)
 
 function g_unit_class_type::getTypeByExpClass(expClass)
 {
-  return ::g_enum_utils.getCachedType("getExpClass", expClass, ::g_unit_class_type_cache.byExpClass,
+  return enums.getCachedType("getExpClass", expClass, ::g_unit_class_type_cache.byExpClass,
     ::g_unit_class_type, ::g_unit_class_type.UNKNOWN)
 }
 

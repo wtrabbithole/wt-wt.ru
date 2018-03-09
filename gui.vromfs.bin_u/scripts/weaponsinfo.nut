@@ -51,20 +51,19 @@ function get_last_weapon(unitName)
   return res
 }
 
-function checkUnitWeapons(name)
+function checkUnitWeapons(unit)
 {
-  local weapon = ::get_last_weapon(name)
-  local weaponText = ::getAmmoAmountData(name, weapon, AMMO.WEAPON)
+  local weapon = ::get_last_weapon(unit.name)
+  local weaponText = ::getAmmoAmountData(unit, weapon, AMMO.WEAPON)
   if (weaponText.warning)
     return weaponText.amount? ::UNIT_WEAPONS_WARNING : ::UNIT_WEAPONS_ZERO
 
-  local air = getAircraftByName(name);
   for (local i = 0; i < ::BULLETS_SETS_QUANTITY; i++)
   {
-    local modifName = ::get_last_bullets(name, i);
-    if (modifName && modifName != "")
+    local modifName = ::get_last_bullets(unit.name, i);
+    if (modifName && modifName != "" && ::shop_is_modification_enabled(unit.name, modifName))
     {
-      local modificationText = ::getAmmoAmountData(name, modifName, AMMO.MODIFICATION)
+      local modificationText = ::getAmmoAmountData(unit, modifName, AMMO.MODIFICATION)
       if (modificationText.warning)
         return modificationText.amount? ::UNIT_WEAPONS_WARNING : ::UNIT_WEAPONS_ZERO
     }
@@ -73,25 +72,24 @@ function checkUnitWeapons(name)
   return ::UNIT_WEAPONS_READY;
 }
 
-function getUnitNotReadyAmmoList(name, readyStatus = ::UNIT_WEAPONS_WARNING)
+function getUnitNotReadyAmmoList(unit, readyStatus = ::UNIT_WEAPONS_WARNING)
 {
   local res = []
-  local addAmmoData = (@(res, readyStatus) function(ammoData) {
-      if (readyStatus == ::UNIT_WEAPONS_READY
-          || (readyStatus == ::UNIT_WEAPONS_ZERO && !ammoData.amount)
-          || (readyStatus == ::UNIT_WEAPONS_WARNING && ammoData.warning))
-        res.append(ammoData)
-    })(res, readyStatus)
+  local addAmmoData = function(ammoData) {
+    if (readyStatus == ::UNIT_WEAPONS_READY
+        || (readyStatus == ::UNIT_WEAPONS_ZERO && !ammoData.amount)
+        || (readyStatus == ::UNIT_WEAPONS_WARNING && ammoData.warning))
+      res.append(ammoData)
+  }
 
-  local weapon = ::get_last_weapon(name)
-  addAmmoData(::getAmmoAmountData(name, weapon, AMMO.WEAPON))
+  local weapon = ::get_last_weapon(unit.name)
+  addAmmoData(::getAmmoAmountData(unit, weapon, AMMO.WEAPON))
 
-  local air = getAircraftByName(name);
   for (local i = 0; i < ::BULLETS_SETS_QUANTITY; i++)
   {
-    local modifName = ::get_last_bullets(name, i);
+    local modifName = ::get_last_bullets(unit.name, i);
     if (modifName && modifName != "")
-      addAmmoData(::getAmmoAmountData(name, modifName, AMMO.MODIFICATION))
+      addAmmoData(::getAmmoAmountData(unit, modifName, AMMO.MODIFICATION))
   }
 
   return res
@@ -308,7 +306,7 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
   if (!air)
     return ""
 
-  local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+  local airBlk = ::get_full_unit_blk(air.name)
   if( !airBlk )
     return ""
 
@@ -654,7 +652,7 @@ function getPrimaryWeaponsList(air)
 
   air.primaryWeaponMods = [""]
 
-  local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+  local airBlk = ::get_full_unit_blk(air.name)
   if(!airBlk || !airBlk.modifications)
     return air.primaryWeaponMods
 
@@ -690,72 +688,74 @@ function getCommonWeaponsBlk(airBlk, primaryMod)
   return null
 }
 
-function getAmmoAmount(airName, ammoName, ammoType)
+function getAmmoAmount(unit, ammoName, ammoType)
 {
   if (!ammoName)
     return 0
   if (ammoType==AMMO.MODIFICATION)
-    return ::shop_is_modification_purchased(airName, ammoName)
-  return  ::shop_is_weapon_purchased(airName, ammoName)
+    return ::shop_is_modification_purchased(unit.name, ammoName)
+  return  ::shop_is_weapon_purchased(unit.name, ammoName)
 }
-function getAmmoMaxAmount(airName, ammoName, ammoType)
+function getAmmoMaxAmount(unit, ammoName, ammoType)
 {
   if (ammoType==AMMO.MODIFICATION)
   {
-    local res = ::wp_get_modification_max_count(airName, ammoName)
+    local res = ::wp_get_modification_max_count(unit.name, ammoName)
     //for unlimited ammo code return also 1, same as for other modifications
-    if (res == 1 && ::getAmmoCost(airName, ammoName, ammoType).isZero())
+    if (res == 1 && ::getAmmoCost(unit, ammoName, ammoType).isZero())
       res = 0 //unlimited
     return res
   }
-  return  ::wp_get_weapon_max_count(airName, ammoName)
+  return  ::wp_get_weapon_max_count(unit.name, ammoName)
 }
 
-function getAmmoMaxAmountInSession(airName, ammoName, ammoType)
+function getAmmoMaxAmountInSession(unit, ammoName, ammoType)
 {
   if (ammoType==AMMO.MODIFICATION)
-    return ::shop_get_modification_baseval(airName, ammoName)
-  return  ::shop_get_weapon_baseval(airName, ammoName)
+    return ::shop_get_modification_baseval(unit.name, ammoName)
+  return  ::shop_get_weapon_baseval(unit.name, ammoName)
 }
 
-function getAmmoCost(airName, ammoName, ammoType)
+function getAmmoCost(unit, ammoName, ammoType)
 {
   local res = ::Cost()
   if (ammoType==AMMO.MODIFICATION)
   {
-    res.wp = ::max(::wp_get_modification_cost(airName, ammoName), 0)
-    res.gold = ::max(::wp_get_modification_cost_gold(airName, ammoName), 0)
+    res.wp = ::max(::wp_get_modification_cost(unit.name, ammoName), 0)
+    res.gold = ::max(::wp_get_modification_cost_gold(unit.name, ammoName), 0)
   } else
   {
-    res.wp = ::wp_get_cost2(airName, ammoName)
-    res.gold = ::wp_get_cost_gold2(airName, ammoName)
+    res.wp = ::wp_get_cost2(unit.name, ammoName)
+    res.gold = ::wp_get_cost_gold2(unit.name, ammoName)
   }
   return  res
 }
 
-function isAmmoFree(airName, ammoName, ammoType)
+function isAmmoFree(unit, ammoName, ammoType)
 {
-  return ::getAmmoCost(airName, ammoName, ammoType) <= ::zero_money
+  return ::getAmmoCost(unit, ammoName, ammoType) <= ::zero_money
 }
 
-function getAmmoWarningMinimum(ammoType)
+function getAmmoWarningMinimum(ammoType, unit, maxAmount)
 {
+  if (unit.unitType == ::g_unit_type.SHIP)
+    return maxAmount / 10
   return (ammoType==AMMO.MODIFICATION)? ::weaponsWarningMinimumPrimary : ::weaponsWarningMinimumSecondary
 }
 
-function getAmmoAmountData(airName, ammoName, ammoType)
+function getAmmoAmountData(unit, ammoName, ammoType)
 {
   local res = {text = "", warning = false, amount = 0, buyAmount = 0,
-               airName = airName, ammoName = ammoName, ammoType = ammoType }
+               airName = unit.name, ammoName = ammoName, ammoType = ammoType }
 
-  res.amount = ::getAmmoAmount(airName, ammoName, ammoType)
-  local maxAmount = ::getAmmoMaxAmount(airName, ammoName, ammoType)
+  res.amount = ::getAmmoAmount(unit, ammoName, ammoType)
+  local maxAmount = ::getAmmoMaxAmount(unit, ammoName, ammoType)
   local text = ::getAmountAndMaxAmountText(res.amount, maxAmount)
   if (text == "")
     return res
 
   local fullText = "(" + text + ")";
-  local amountWarning = ::getAmmoWarningMinimum(ammoType)
+  local amountWarning = ::getAmmoWarningMinimum(ammoType, unit, maxAmount)
   if (res.amount < amountWarning)
   {
     res.text = "<color=@weaponWarning>" + fullText + "</color>"
@@ -775,7 +775,7 @@ function getBulletsSetData(air, modifName, noModList = null)
     return air.bulletsSets[modifName] //all sets saved for no need analyze blk everytime when it need.
 
   local res = null
-  local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+  local airBlk = ::get_full_unit_blk(air.name)
   if(!airBlk || !airBlk.modifications)
     return res
 
@@ -1001,7 +1001,7 @@ function getActiveBulletsGroupInt(air, checkPurchased = true)
       local primaryList = ::getPrimaryWeaponsList(air)
       if (primaryList.len() > 0)
       {
-        local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+        local airBlk = ::get_full_unit_blk(air.name)
         if (airBlk)
         {
           local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryWeapon)
@@ -1014,7 +1014,7 @@ function getActiveBulletsGroupInt(air, checkPurchased = true)
     if (!(secondaryWeapon in air.secondaryBullets))
     {
       local secondary = 0
-      local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+      local airBlk = ::get_full_unit_blk(air.name)
       if (airBlk && airBlk.weapon_presets)
         foreach (wp in (airBlk.weapon_presets % "preset"))
           if (wp.name == secondaryWeapon)
@@ -1082,7 +1082,7 @@ function getBulletsInfoForPrimaryGuns(air)
   if (!air.unitType.canUseSeveralBulletsForGun)
     return res
 
-  local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+  local airBlk = ::get_full_unit_blk(air.name)
   if (!airBlk)
     return res
 
@@ -1525,8 +1525,8 @@ function canBuyMod(air, mod)
 
   if (status & (::ES_ITEM_STATUS_MOUNTED | ::ES_ITEM_STATUS_OWNED))
   {
-    local amount = ::getAmmoAmount(air.name, mod.name, AMMO.MODIFICATION)
-    local maxAmount = ::getAmmoMaxAmount(air.name, mod.name, AMMO.MODIFICATION)
+    local amount = ::getAmmoAmount(air, mod.name, AMMO.MODIFICATION)
+    local maxAmount = ::getAmmoMaxAmount(air, mod.name, AMMO.MODIFICATION)
     return amount < maxAmount
   }
 
@@ -1579,16 +1579,40 @@ function is_mod_available_or_free(unitName, modName)
           || (!::wp_get_modification_cost(unitName, modName) && !wp_get_modification_cost_gold(unitName, modName)))
 }
 
+function is_mod_upgradeable(modName)
+{
+  return ::get_modifications_blk()?.modifications?[modName]?.upgradeEffect != null
+}
+
+function has_active_overdrive(unitName, modName)
+{
+  return ::get_modifications_overdrive(unitName).len() > 0
+    && ::get_modifications_blk()?.modifications?[modName]?.overdriveEffect != null
+}
+
 function is_weapon_enabled(unit, weapon)
 {
   return ::shop_is_weapon_available(unit.name, weapon.name, true, false) //no point to check purchased unit even in respawn screen
          //temporary hack: check ammo amount for forced units by mission,
          //because shop_is_weapon_available function work incorrect with them
          && (!::is_game_mode_with_spendable_weapons()
-             || ::getAmmoAmount(unit.name, weapon.name, AMMO.WEAPON)
-             || !::getAmmoMaxAmount(unit.name, weapon.name, AMMO.WEAPON)
+             || ::getAmmoAmount(unit, weapon.name, AMMO.WEAPON)
+             || !::getAmmoMaxAmount(unit, weapon.name, AMMO.WEAPON)
             )
          && (!::is_in_flight() || ::g_mis_custom_state.getCurMissionRules().isUnitWeaponAllowed(unit, weapon))
+}
+
+function is_weapon_unlocked(unit, weapon)
+{
+  foreach(rp in ["reqWeapon", "reqModification"])
+      if (rp in weapon)
+        foreach (req in weapon[rp])
+          if (rp == "reqWeapon" && !::shop_is_weapon_purchased(unit.name, req))
+            return false
+          else
+          if (rp == "reqModification" && !::shop_is_modification_purchased(unit.name, req))
+            return false
+  return true
 }
 
 function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
@@ -1610,7 +1634,7 @@ function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
   }
 
   if (onlyBought &&  !::shop_is_weapon_purchased(unit.name, weapon.name)
-      && ::getAmmoCost(unit.name, weapon.name, AMMO.WEAPON) > ::zero_money)
+      && ::getAmmoCost(unit, weapon.name, AMMO.WEAPON) > ::zero_money)
     return false
 
   return true
@@ -1621,7 +1645,7 @@ function is_unit_available_use_rocket_diffuse(unit)
   if (!unit)
     return true
 
-  local unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
+  local unitBlk = ::get_full_unit_blk(unit.name)
   if(!unitBlk)
     return true
 
@@ -1673,7 +1697,7 @@ function getAllModsPrice(unit, countGold = true)
 
   local totalPrice = ::Cost()
   foreach(modification in ::getTblValue("modifications", unit, {}))
-    if (::getAmmoMaxAmount(unit.name, modification.name, AMMO.MODIFICATION) == 1
+    if (::getAmmoMaxAmount(unit, modification.name, AMMO.MODIFICATION) == 1
       && ::wp_get_modification_cost_gold(unit.name, modification.name) == 0
       && !::shop_is_modification_purchased(unit.name, modification.name))
     {
@@ -2009,7 +2033,7 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
 
     local enabled = !only_bought || 0 != ::shop_is_modification_purchased(airName, modifName);
     local amountText = check_aircraft_purchased && ::is_game_mode_with_spendable_weapons() ?
-      getAmmoAmountData(airName, modifName, AMMO.MODIFICATION).text : "";
+      getAmmoAmountData(air, modifName, AMMO.MODIFICATION).text : "";
 
     ::append_one_bullets_item(descr, modifName, air, amountText, genTexts, enabled);
   }
@@ -2113,14 +2137,14 @@ function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_a
     if (!::is_weapon_visible(unit, weapon, only_bought, wtags))
       continue
 
-    local cost = ::getAmmoCost(aircraft, weaponName, AMMO.WEAPON)
+    local cost = ::getAmmoCost(unit, weaponName, AMMO.WEAPON)
     descr.cost.append(cost.wp)
     descr.costGold.append(cost.gold)
     descr.values.append(weaponName)
 
     local costText = (need_cost && cost > ::zero_money)? "(" + cost.getUncoloredWpText() + ") " : ""
     local amountText = check_aircraft_purchased && ::is_game_mode_with_spendable_weapons() ?
-      ::getAmmoAmountData(aircraft, weaponName, AMMO.WEAPON).text : "";
+      ::getAmmoAmountData(unit, weaponName, AMMO.WEAPON).text : "";
 
     local tooltip = costText + ::getWeaponInfoText(unit, false, weapNo, hintSeparator) + amountText
 
@@ -2132,44 +2156,6 @@ function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_a
   }
 
   return descr
-}
-
-function get_weapon_id(aircraft_id, value, tags)
-{
-  local blk = ::DataBlock()
-  blk.load(::get_unit_file_name(::get_available_aircraft(aircraft_id)))
-  local blkWeapons = blk.weapon_presets
-  if (!blkWeapons)
-    return -1
-  local index = 0
-  for (local i = 0; i < blkWeapons.blockCount(); i++)
-  {
-    local blkPreset = blkWeapons.getBlock(i)
-    local blkTags = blkPreset.getBlockByName("tags")
-    local isAdd = true
-
-    if (blkTags != null)
-    {
-      isAdd = false
-      foreach (tag in tags)
-      {
-        if (blkTags.getBool(tag, false))
-        {
-          isAdd = true
-          break
-        }
-      }
-    }
-
-    if (isAdd)
-    {
-      if (index == value)
-        return i
-      index++
-    }
-  }
-
-  return -1
 }
 
 function onWeaponOptionUpdate(obj)

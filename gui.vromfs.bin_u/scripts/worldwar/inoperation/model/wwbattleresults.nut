@@ -2,6 +2,9 @@ class ::WwBattleResults
 {
   id = ""
   winner = ::SIDE_NONE
+  operationId = null
+  playerSide = ::SIDE_NONE
+  playerCountry = ""
   time = 0
   updateAppliedOnHost = -1
   locName = ""
@@ -198,6 +201,21 @@ class ::WwBattleResults
     }
   }
 
+  function isWinner()
+  {
+    return winner != ::SIDE_NONE && winner == playerSide
+  }
+
+  function getOperationId()
+  {
+    return operationId
+  }
+
+  function getPlayerCountry()
+  {
+    return playerCountry
+  }
+
   /**
   Fills WwBattleResults with data from mission result Userlog.
   Such userlog contains most data in sub tables wwSharedPool and wwBattleResult,
@@ -220,6 +238,8 @@ class ::WwBattleResults
     local sidesOrder = ::g_world_war.getSidesOrder() // [ player, enemy ]
     local winnerSide = ::getTblValue("win", userlog) ? sidesOrder[0] : sidesOrder[1]
 
+    local sideInBattle = ::SIDE_NONE
+    local countryInBattle = ""
     local teamBySide = {}
     foreach (armyName, initialArmy in initialArmies)
     {
@@ -227,6 +247,11 @@ class ::WwBattleResults
       local side = teamName == localTeam ? sidesOrder[0] : sidesOrder[1]
       teamBySide[side] <- teamName
       initialArmy.side <- ::ww_side_val_to_name(side)
+      if (teamName == localTeam)
+      {
+        sideInBattle = side
+        countryInBattle = initialArmy.country
+      }
     }
 
     // Collecting armies
@@ -242,7 +267,7 @@ class ::WwBattleResults
       local wwUnitType = ::g_ww_unit_type.getUnitTypeByTextCode(unitTypeTextCode)
 
       local view = {
-        getTeamColor      = side == ::ww_get_player_side() ? "blue" : "red"
+        getTeamColor      = side == sideInBattle ? "blue" : "red"
         isBelongsToMyClan = clanTag == ::clan_get_my_clan_tag()
         getTextAfterIcon  = clanTag
         getUnitTypeText   = wwUnitType.fontIcon
@@ -261,8 +286,13 @@ class ::WwBattleResults
 
     // Updating
 
+    local wwOperationId = wwSharedPool?.operationId
     id = ::getTblValue("battleId", wwSharedPool, "")
+    if (wwOperationId)
+      operationId = wwOperationId.tointeger()
     winner = winnerSide
+    playerSide = sideInBattle
+    playerCountry = countryInBattle
     locName = ::getTblValue("locName", userlog, "")
     isBattleResultsIgnored = ::g_world_war.isCurrentOperationFinished()
 

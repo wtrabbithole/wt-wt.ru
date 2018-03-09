@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 ::g_ww_map_info_type <- {
   types = []
   cache = {
@@ -9,7 +11,7 @@
   getMainBlockHandler = function(placeObj, side = ::SIDE_NONE) { return null }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_map_info_type", {
+enums.addTypesByGlobalName("g_ww_map_info_type", {
   UNKNOWN = {
     index = -1
   }
@@ -40,5 +42,5 @@
 
 function g_ww_map_info_type::getTypeByIndex(index)
 {
-  return ::g_enum_utils.getCachedType("index", index, ::g_ww_map_info_type.cache.byIndex, ::g_ww_map_info_type, ::g_ww_map_info_type.UNKNOWN)
+  return enums.getCachedType("index", index, ::g_ww_map_info_type.cache.byIndex, ::g_ww_map_info_type, ::g_ww_map_info_type.UNKNOWN)
 }

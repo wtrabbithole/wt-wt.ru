@@ -2,6 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
 
 
 ::last_ca_aircraft <- null
@@ -23,7 +24,7 @@ enum ESwitchSpectatorTarget
 }
 
 ::respawn_options <- [
-  {id = "skin",        hint = "options/skin",
+  {id = "skin",        hint = "options/skin", cb = "onSkinChange",
     user_option = ::USEROPT_SKIN, isShowForRandomUnit =false },
   {id = "user_skins",  hint = "options/user_skins",
     user_option = ::USEROPT_USER_SKIN, isShowForRandomUnit =false },
@@ -121,6 +122,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   fuelDescr = null
   bombDescr = null
   rocketDescr = null
+
   skins = null
 
   missionRules = null
@@ -234,6 +236,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     restoreFocus()
 
     showSceneBtn("screen_button_back", ::use_touchscreen && !isRespawn)
+    showSceneBtn("gamercard_bottom", isRespawn)
 
     if (gameType & ::GT_RACE)
     {
@@ -667,9 +670,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return ""
 
     local air = getCurSlotUnit()
-    local slotItem = getCurCrew()
-    local airRespawnCost = (slotItem && "wpToRespawn" in slotItem) ? slotItem.wpToRespawn : 0
-    local weaponPrice = (air && "name" in air) ? getWeaponPrice(air.name, getSelWeapon()) : 0
+    local airRespawnCost = air ? ::get_unit_wp_to_respawn(air.name) : 0
+    local weaponPrice = air ? getWeaponPrice(air.name, getSelWeapon()) : 0
 
     local total = airRespawnCost + weaponPrice
     if (getInt)
@@ -806,7 +808,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local unit = getCurSlotUnit()
     local missionRules = ::g_mis_custom_state.getCurMissionRules()
-    local isRandomUnit = missionRules && missionRules.getRandomUnitsGroupName(unit.name)
+    local isRandomUnit = unit && missionRules && missionRules.getRandomUnitsGroupName(unit.name)
     local shouldShowWeaponry = !isRandomUnit || !isRespawn
     local canChangeWeaponry = canChangeAircraft && shouldShowWeaponry
 
@@ -814,7 +816,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (weaponsSelectorWeak)
     {
       weaponsSelectorWeak.setUnit(unit)
-      weaponsSelectorWeak.updateAllItems()
       weaponsSelectorWeak.setCanChangeWeaponry(canChangeWeaponry)
       weaponsSelectorObj.show(shouldShowWeaponry)
       delayedRestoreFocus()
@@ -845,7 +846,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local unit = getCurSlotUnit()
     local missionRules = ::g_mis_custom_state.getCurMissionRules()
-    local isRandomUnit = missionRules && missionRules.getRandomUnitsGroupName(unit.name)
+    local isRandomUnit = unit && missionRules && missionRules.getRandomUnitsGroupName(unit.name)
     show = show && (isShowForRandomUnit || !isRandomUnit)
     obj.show(show)
     obj.inactive = show ? null : "yes"
@@ -859,7 +860,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
        && airName in ::used_planes
        && ::isInArray(weapon, ::used_planes[airName]))
     {
-      local count = ::getAmmoMaxAmountInSession(airName, weapon, AMMO.WEAPON) - getAmmoAmount(airName, weapon, AMMO.WEAPON)
+      local unit = ::getAircraftByName(airName)
+      local count = ::getAmmoMaxAmountInSession(unit, weapon, AMMO.WEAPON) - getAmmoAmount(unit, weapon, AMMO.WEAPON)
       return (count * ::wp_get_cost2(airName, weapon))
     }
     return 0
@@ -1018,26 +1020,61 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     showOptionRow(option.id, ::is_unit_available_use_rocket_diffuse(air))
   }
 
+  function onSkinChange(obj)
+  {
+    local prevIdx = ::get_option(::USEROPT_SKIN).value
+    checkReady(obj)
+
+    local unit = getCurSlotUnit()
+    if (!unit)
+      return
+
+    local idx = ::check_obj(obj) ? obj.getValue() : 0
+    local skinId = skins?[idx]
+    if (!skinId)
+      return
+
+    local newUgcTagsPresetId = ugcTagsPreset.getPresetBySkin(unit.name, skinId)
+    if (newUgcTagsPresetId == ugcTagsPreset.getPreset())
+      return
+
+    ugcTagsPreset.showConfirmMsgbox(unit.name, skinId,
+      ::Callback(function() {
+        ugcTagsPreset.setPreset(newUgcTagsPresetId)
+      }, this)
+      ::Callback(function() {
+        if (::check_obj(obj))
+          obj.setValue(prevIdx)
+      }, this)
+    )
+  }
+
   function updateSkin()
   {
     local air = getCurSlotUnit()
-    if (!air) return
-
-    local data = ""
-    local skinsData = ::g_decorator.getSkinsOption(air.name)
-    skins = skinsData.values
-    local selIndex = skinsData.value
-
-    local items = skinsData.items
-    if(!canChangeAircraft && skins.len() > 1)
-      data = build_option_blk(items[selIndex], "", true)
-    else
-      for (local i = 0; i < skins.len(); i++)
-        data += build_option_blk(items[i], "", i == selIndex)
+    if (!air)
+      return
 
     local skinObj = scene.findObject("skin")
-    if (::checkObj(skinObj))
-      guiScene.replaceContentFromText(skinObj, data, data.len(), this)
+    if (!::check_obj(skinObj))
+      return
+
+    local data = []
+    local skinsData = ::g_decorator.getSkinsOption(air.name)
+    local selIndex = skinsData.value
+
+    skins = skinsData.values
+
+    foreach (i, item in skinsData.items)
+    {
+      if (!canChangeAircraft && i != selIndex)
+        continue
+      local tooltipObjMarkup = ::g_tooltip_type.DECORATION.getMarkup(skinsData.decorators[i].id, ::UNLOCKABLE_SKIN)
+      data.append(::build_option_blk(item.text, "", i == selIndex, true, item.textStyle, false, "", tooltipObjMarkup))
+    }
+
+    data = ::g_string.implode(data)
+    guiScene.replaceContentFromText(skinObj, data, data.len(), this)
     showOptionRow("skin", true)
   }
 
@@ -1235,7 +1272,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function preselectUnitWeapon(unit)
   {
-    if (missionRules.getRandomUnitsGroupName(unit.name))
+    if (unit && missionRules.getRandomUnitsGroupName(unit.name))
     {
       ::set_last_weapon(unit.name, missionRules.getWeaponForRandomUnit(unit, "forceWeapon"))
       return
@@ -1244,7 +1281,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!missionRules.hasWeaponLimits())
       return
 
-    foreach(weapon in unit.weapons)
+    foreach(weapon in unit?.weapons)
       if (::is_weapon_visible(unit, weapon)
           && ::is_weapon_enabled(unit, weapon)
           && missionRules.getUnitWeaponRespawnsLeft(unit, weapon) > 0) //limited and available
@@ -1320,8 +1357,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (scene.findObject("skin").getValue() > 0)
       ::req_unlock_by_client("non_standard_skin", false)
 
-    ::show_aircraft = ::getAircraftByName(requestData.name)
-    ::hangar_model_load_manager.loadModel(requestData.name)
+    ::set_show_aircraft(::getAircraftByName(requestData.name))
   }
 
   function getSelectedRequestData(silent = true)
@@ -1655,9 +1691,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local msg = ""
     if (readyCounts.status == bulletsAmountState.HAS_UNALLOCATED)
-      msg = ::format(::loc("multiplayer/someBulletsLeft"), readyCounts.unallocated.tostring())
+      msg = ::format(::loc("multiplayer/someBulletsLeft"), ::colorize("activeTextColor", readyCounts.unallocated.tostring()))
     else //status == bulletsAmountState.LOW_AMOUNT
-      msg = ::format(::loc("multiplayer/notEnoughBullets"), readyCounts.required.tostring())
+      msg = ::format(::loc("multiplayer/notEnoughBullets"), ::colorize("activeTextColor", readyCounts.required.tostring()))
 
     ::gui_start_modal_wnd(::gui_handlers.WeaponWarningHandler,
       {
@@ -1692,7 +1728,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local weapon = getSelWeapon()
     if (weapon)
     {
-      local weaponText = ::getAmmoAmountData(air.name, weapon, AMMO.WEAPON)
+      local weaponText = ::getAmmoAmountData(air, weapon, AMMO.WEAPON)
       if (weaponText.warning)
       {
         text += ::getWeaponNameText(air.name, false, -1, ", ") + weaponText.text;
@@ -1711,7 +1747,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (modifName == "")
         continue
 
-      local modificationText = ::getAmmoAmountData(air.name, modifName, AMMO.MODIFICATION)
+      local modificationText = ::getAmmoAmountData(air, modifName, AMMO.MODIFICATION)
       if (!modificationText.warning)
         continue
 
@@ -2437,7 +2473,7 @@ function has_available_slots()
 
   local team = ::get_mp_local_team()
   local country = ::get_local_player_country()
-  local crews = ::get_crews_list_by_country(country, true)
+  local crews = ::get_crews_list_by_country(country)
   if (!crews)
     return false
 
@@ -2461,12 +2497,10 @@ function has_available_slots()
         || !missionRules.getUnitLeftRespawns(air))
       continue
 
-    if (missionRules.isScoreRespawnEnabled)
-    {
-      local enoughSpawnScore = curSpawnScore < 0 || curSpawnScore >= ::shop_get_spawn_score(air.name, "")
-      if (!enoughSpawnScore)
-        continue
-    }
+    if (missionRules.isScoreRespawnEnabled
+      && curSpawnScore >= 0
+      && curSpawnScore < air.getMinimumSpawnScore())
+      continue
 
     dagor.debug("has_available_slots true: unit "+air.name+" in slot "+c.idInCountry)
     return true

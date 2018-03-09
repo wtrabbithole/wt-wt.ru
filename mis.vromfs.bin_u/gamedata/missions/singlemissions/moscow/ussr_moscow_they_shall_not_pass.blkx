@@ -35,7 +35,19 @@
         "_v1_race_straight": false,
         "_v1_race_inverted": false,
         "_v2_race_straight": false,
-        "_v2_race_inverted": false
+        "_v2_race_inverted": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
       }
     },
     "spectator_points": [],
@@ -61,6 +73,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -110,10 +125,12 @@
       "importUnits": true,
       "importTriggers": true,
       "importMissionObjectives": true,
+      "importWayPoints": true,
       "showAreas": true,
       "showUnits": true,
       "showTriggers": true,
       "showMissionObjectives": true,
+      "showWayPoints": true,
       "excludes": []
     }
   },
@@ -144,6 +161,10 @@
           }
         ],
         "unitSetProperties": {
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "bombtargets_squad",
           "stealthRadius": 0.0
         },
@@ -201,6 +222,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -241,6 +265,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "player",
             "move_type": "teleport",
             "lookat": "retreat_point"
@@ -290,6 +321,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "waypoint01"
         },
@@ -360,6 +394,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "ge_bombers_squad"
           }
         },
@@ -645,6 +683,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "ge_bombers_squad",
           "target": "moscow"
         }
@@ -662,6 +703,9 @@
           "icon": "air",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "ge_bombers_squad"
         },
         "varModify": {
@@ -712,6 +756,9 @@
           "icon": "air",
           "icon army": 2,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "ge_bombers_squad"
         },
         "wait": {
@@ -769,6 +816,9 @@
             "icon": "air",
             "icon army": 2,
             "set": false,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "ge_bombers_squad"
           }
         },
@@ -826,6 +876,9 @@
           "object_marking": 0,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "hodynskiy_airfield"
         }
@@ -862,6 +915,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 5,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_squad_name_01_str"
           }
         },
@@ -871,6 +927,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 5,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_squad_name_01_str"
           }
         }
@@ -884,10 +943,21 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bombers_squad_name_01_str"
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bombers_squad_name_01_str"
         },
         "varModify": {
@@ -918,6 +988,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 5,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_squad_name_02_str"
           }
         },
@@ -927,6 +1000,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 5,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_squad_name_02_str"
           }
         }
@@ -940,10 +1016,21 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bombers_squad_name_02_str"
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bombers_squad_name_02_str"
         },
         "varModify": {
@@ -974,6 +1061,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 5,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_squad_name_03_str"
           }
         },
@@ -983,6 +1073,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 5,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_squad_name_03_str"
           }
         }
@@ -996,10 +1089,21 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bombers_squad_name_03_str"
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bombers_squad_name_03_str"
         },
         "varModify": {
@@ -1077,10 +1181,12 @@
           [0.0,0.0,1.0],
           [32424.7,133.8,31168.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "i-16_type28",
-        "weapons": "I16_type28_default",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "I16_type28_default",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1121,10 +1227,12 @@
           [0.10674,0.0,-0.994287],
           [26091.9,11.65,31090.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_85mm_52k",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1155,10 +1263,12 @@
           [0.300324,0.0,-0.953837],
           [26716.5,11.65,28675.4]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_85mm_52k",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1189,10 +1299,12 @@
           [-0.0825622,0.0,-0.996586],
           [26218.2,11.65,32885.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_85mm_52k",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1223,10 +1335,12 @@
           [0.125962,0.0,-0.992035],
           [23754.7,11.65,34899.7]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_85mm_52k",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1257,10 +1371,12 @@
           [-0.744821,0.0,-0.667264],
           [25027.0,11.65,36461.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_85mm_52k",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1291,10 +1407,12 @@
           [0.170403,0.0,-0.985374],
           [23248.0,11.65,33101.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "searchLight",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1325,10 +1443,12 @@
           [0.170403,0.0,-0.985374],
           [24120.3,11.65,30510.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "searchLight",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1359,10 +1479,12 @@
           [0.170403,0.0,-0.985374],
           [24054.9,11.65,36300.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "searchLight",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1393,10 +1515,12 @@
           [0.170403,0.0,-0.985374],
           [25432.1,11.65,32790.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "searchLight",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1427,10 +1551,12 @@
           [0.170403,0.0,-0.985374],
           [26810.6,11.65,34382.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "searchLight",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1461,10 +1587,12 @@
           [0.170403,0.0,-0.985374],
           [25033.1,11.65,28049.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "searchLight",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1495,10 +1623,12 @@
           [0.100818,0.0,-0.994905],
           [11365.4,2476.5,30829.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "i-16_type28",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1540,10 +1670,12 @@
           [0.100818,0.0,-0.994905],
           [4869.05,2476.5,32660.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "i-16_type28",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1585,10 +1717,12 @@
           [0.0,0.0,1.0],
           [-1115.85,2451.35,27509.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1630,10 +1764,12 @@
           [0.0,0.0,1.0],
           [-2192.0,2451.35,27483.7]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1675,10 +1811,12 @@
           [0.0,0.0,1.0],
           [-1562.8,2451.35,26403.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1720,10 +1858,12 @@
           [0.34202,0.0,0.939693],
           [-3118.25,2451.35,42764.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1765,10 +1905,12 @@
           [0.0,0.0,1.0],
           [-3461.35,2842.4,27156.4]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109f-4",
-        "weapons": "Bf-109F-4_4xSC50",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "Bf-109F-4_4xSC50",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1810,18 +1952,6 @@
           [0.0,0.0,1.0],
           [-4347.2,76.4,25538.3]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ge_bombers_01"
@@ -1844,8 +1974,7 @@
           {
             "squad_members": "ge_bombers_07"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1857,18 +1986,6 @@
           [0.0,0.0,1.0],
           [-2694.95,71.3,25476.5]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ussr_fighters_01"
@@ -1879,8 +1996,7 @@
           {
             "squad_members": "ussr_fighters_03"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1892,10 +2008,12 @@
           [0.100818,0.0,-0.994905],
           [14126.9,3019.55,32446.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "i-16_type28",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1937,18 +2055,6 @@
           [0.0,0.0,1.0],
           [7136.85,63.8,27257.8]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ussr_air_def_01"
@@ -1965,8 +2071,7 @@
           {
             "squad_members": "ussr_air_def_05"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1978,18 +2083,6 @@
           [0.0,0.0,1.0],
           [7634.25,67.2,26021.9]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ussr_air_def_06"
@@ -2009,8 +2102,7 @@
           {
             "squad_members": "ussr_air_def_11"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2022,10 +2114,12 @@
           [0.0,0.0,1.0],
           [28145.7,58.55,33798.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2056,10 +2150,12 @@
           [0.0,0.0,1.0],
           [28320.5,58.55,32856.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2090,10 +2186,12 @@
           [0.0,0.0,1.0],
           [28389.3,58.55,31690.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2124,10 +2222,12 @@
           [0.0,0.0,1.0],
           [29413.0,58.55,29842.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2158,10 +2258,12 @@
           [0.0,0.0,1.0],
           [30030.6,58.55,31215.7]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2192,10 +2294,12 @@
           [0.0,0.0,1.0],
           [30012.7,58.55,34458.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2226,10 +2330,12 @@
           [0.0,0.0,1.0],
           [28900.6,58.55,35182.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2260,10 +2366,12 @@
           [0.0,0.0,1.0],
           [29541.8,58.55,36638.4]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2294,10 +2402,12 @@
           [0.0,0.0,1.0],
           [27255.5,58.55,35099.7]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2328,10 +2438,12 @@
           [0.0,0.0,1.0],
           [27257.8,58.55,32242.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2362,10 +2474,12 @@
           [0.0,0.0,1.0],
           [28456.8,58.55,29385.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2396,10 +2510,12 @@
           [0.0,0.0,1.0],
           [29534.0,58.55,27736.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2430,18 +2546,6 @@
           [0.0,0.0,1.0],
           [27200.4,37.2,27194.5]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "bombtarget_01"
@@ -2479,8 +2583,7 @@
           {
             "squad_members": "bombtarget_12"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2492,10 +2595,12 @@
           [0.100818,0.0,-0.994905],
           [28578.4,1728.55,33269.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "i-16_type28",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2537,23 +2642,12 @@
           [0.0,0.0,1.0],
           [31319.2,46.85,37586.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "dynAF_stalingrad_winter_buildings_grd_ally",
-        "weapons": "",
         "objLayer": 2,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "active": true
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2565,10 +2659,12 @@
           [0.258819,0.0,0.965926],
           [-1855.15,2451.35,43798.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2610,10 +2706,12 @@
           [0.0,0.0,1.0],
           [-3608.6,2842.4,43030.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109f-4",
-        "weapons": "Bf-109F-4_4xSC50",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "Bf-109F-4_4xSC50",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2655,10 +2753,12 @@
           [-0.67559,0.0,0.737277],
           [-2008.63,2451.35,16343.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2700,10 +2800,12 @@
           [-0.67559,0.0,0.737277],
           [316.65,2451.35,15214.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "he-111h-16_winter",
-        "weapons": "He_111H16_8x250kg",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "He_111H16_8x250kg",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2745,10 +2847,12 @@
           [0.0,0.0,1.0],
           [-2155.55,2842.4,14804.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109f-4",
-        "weapons": "Bf-109F-4_4xSC50",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "Bf-109F-4_4xSC50",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2790,18 +2894,6 @@
           [0.0,0.0,1.0],
           [16135.2,88.45,27069.1]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ge_bombers_01"
@@ -2815,8 +2907,7 @@
           {
             "squad_members": "ge_fighters_01"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2828,18 +2919,6 @@
           [0.0,0.0,1.0],
           [16166.7,79.2,27572.8]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ge_bombers_04"
@@ -2850,8 +2929,7 @@
           {
             "squad_members": "ge_fighters_02"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2863,18 +2941,6 @@
           [0.0,0.0,1.0],
           [15737.3,47.9,28701.5]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ge_bombers_06"
@@ -2888,8 +2954,7 @@
           {
             "squad_members": "ge_fighters_04"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2901,10 +2966,12 @@
           [0.0,0.0,1.0],
           [-1956.6,2842.4,13898.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109f-4",
-        "weapons": "Bf-109F-4_4xSC50",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "Bf-109F-4_4xSC50",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2946,18 +3013,6 @@
           [0.0,0.0,1.0],
           [13211.4,60.5,25990.3]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ge_fighters_01"
@@ -2971,8 +3026,7 @@
           {
             "squad_members": "ge_fighters_04"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2984,18 +3038,6 @@
           [0.0,0.0,1.0],
           [13879.2,79.8,27543.8]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ge_bombers_squad_wave01"
@@ -3006,8 +3048,7 @@
           {
             "squad_members": "ge_bombers_squad_wave03"
           }
-        ],
-        "way": []
+        ]
       }
     }
   ],

@@ -33,10 +33,11 @@
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "groundCollisionEffect": "7_20_hit_ground",
-    "groundFxScale": [0.5,0.5],
+    "groundFxScale": [1.0,1.2],
     "ricochetEffect": "cannon_ricochet",
+    "defFxScale": [0.5,0.8],
     "waterCollisionEffect": "water_splash",
-    "waterFxScale": [1.0,1.0],
+    "waterFxScale": [0.9,1.1],
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
@@ -63,17 +64,20 @@
     },
     "collisions": {
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_light",
+        "fxScale": [0.5,0.8]
       },
       "armor": {
-        "fx": "cannon_hit_armor"
+        "fx": "cannon_hit_armor",
+        "fxScale": [0.5,0.8]
       },
       "wood": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_light",
+        "fxScale": [0.5,0.8]
       },
       "buildings": {
         "fx": "7_20_hit_stone",
-        "fxScale": [1.5,2.0]
+        "fxScale": [0.4,0.6]
       }
     }
   },
@@ -90,10 +94,11 @@
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
-      "groundFxScale": [0.5,0.5],
+      "groundFxScale": [1.0,1.2],
       "ricochetEffect": "cannon_ricochet",
+      "defFxScale": [0.5,0.8],
       "waterCollisionEffect": "water_splash",
-      "waterFxScale": [1.0,1.0],
+      "waterFxScale": [0.9,1.1],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -120,17 +125,20 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_light",
+          "fxScale": [0.5,0.8]
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_armor",
+          "fxScale": [0.5,0.8]
         },
         "wood": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_light",
+          "fxScale": [0.5,0.8]
         },
         "buildings": {
           "fx": "7_20_hit_stone",
-          "fxScale": [1.5,2.0]
+          "fxScale": [0.4,0.6]
         }
       }
     }

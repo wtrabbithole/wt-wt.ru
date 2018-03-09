@@ -14,7 +14,8 @@ contactItem {
     position:t='relative'
     pos:t='0, ph/2 - h/2'
     size:t='@cIco, @cIco'
-    background-image:t='#ui/gameuiskin#<<pilotIcon>>_ico'
+    behavior:t='bhvAvatar'
+    value:t='<<pilotIcon>>'
   }
 
   tdiv {

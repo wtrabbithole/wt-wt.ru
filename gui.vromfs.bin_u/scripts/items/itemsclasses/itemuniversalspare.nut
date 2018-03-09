@@ -1,4 +1,6 @@
-class ::items_classes.UniversalSpare extends ::BaseItem
+local BaseItemModClass = ::require("scripts/items/itemsClasses/itemModBase.nut")
+
+class ::items_classes.UniversalSpare extends BaseItemModClass
 {
   static iType = itemType.UNIVERSAL_SPARE
   static defaultLocId = "universalSpare"
@@ -8,52 +10,26 @@ class ::items_classes.UniversalSpare extends ::BaseItem
   canBuy = true
   allowBigPicture = false
 
-  countries = null
-  numSpares = 0
-  minRank = 0
-  maxRank = 0
-  unitTypes = null
+  numSpares = 1
+  shouldAlwaysShowRank = true
 
-  constructor(blk, invBlk = null, slotData = null)
+  getConditionsBlk = @(configBlk) configBlk.universalSpareParams
+
+  function initConditions(conditionsBlk)
   {
-    local paramsBlk = blk.universalSpareParams
-    if (!::u.isDataBlock(paramsBlk))
-      return
-    base.constructor(blk, invBlk, slotData)
-    countries = paramsBlk % "country"
-    unitTypes = paramsBlk % "unitType"
-    numSpares = paramsBlk.numSpares || 1
-    minRank = paramsBlk.minRank || 1
-    maxRank = paramsBlk.maxRank || ::max_country_rank
+    base.initConditions(conditionsBlk)
+    numSpares = conditionsBlk.numSpares || 1
   }
 
-  function getDescription()
+  function getDescriptionIntroArray()
   {
-    local textParts = []
-    textParts.push(::loc("items/universalSpare/description/uponActivation"))
+    local res = [::loc("items/universalSpare/description/uponActivation")]
     if (numSpares > 1)
-      textParts.push(::loc("items/universalSpare/numSpares") + ::loc("ui/colon") + ::colorize("activeTextColor", numSpares))
-    if (countries.len() > 0)
-    {
-      local locCountries = ::u.map(countries, @ (country) ::loc("unlockTag/" + country))
-      textParts.push(::loc("trophy/unlockables_names/country") + ::loc("ui/colon")
-          + ::colorize("activeTextColor", ::g_string.implode(locCountries, ", ")))
-    }
-    if (unitTypes.len() > 0)
-    {
-      local locUnitTypes = ::u.map(unitTypes, @ (unitType) ::loc("mainmenu/type_" + unitType))
-      textParts.push(::loc("mainmenu/btnUnits") + ::loc("ui/colon")
-          + ::colorize("activeTextColor", ::g_string.implode(locUnitTypes, ", ")))
-    }
-    textParts.push(::loc("sm_rank") + ::loc("ui/colon") + ::colorize("activeTextColor", getRankText()))
-    textParts.push(::colorize("fadedTextColor", ::loc("items/universalSpare/description")))
-    return ::g_string.implode (textParts, "\n")
+      res.push(::loc("items/universalSpare/numSpares") + ::loc("ui/colon") + ::colorize("activeTextColor", numSpares))
+    return res
   }
 
-  function getRankText()
-  {
-    return ::getUnitRankName(minRank) + ((minRank != maxRank) ? "-" + ::getUnitRankName(maxRank) : "")
-  }
+  getDescriptionOutroArray = @() [ ::colorize("fadedTextColor", ::loc("items/universalSpare/description")) ]
 
   function getName(colored = true)
   {
@@ -62,11 +38,11 @@ class ::items_classes.UniversalSpare extends ::BaseItem
 
   function canActivateOnUnit(unit)
   {
-    if (countries.len() && !::isInArray(unit.shopCountry, countries))
+    if (countries && !::isInArray(unit.shopCountry, countries))
       return false
-    if (unit.rank < minRank || unit.rank > maxRank)
+    if (unit.rank < rankRange.x || unit.rank > rankRange.y)
       return false
-    if (unitTypes.len() && !::isInArray(unit.unitType.tag, unitTypes))
+    if (unitTypes && !::isInArray(unit.unitType.lowerName, unitTypes))
       return false
     return true
   }
@@ -109,7 +85,7 @@ class ::items_classes.UniversalSpare extends ::BaseItem
 
   function _getuUnitTypesLayer()
   {
-    if (unitTypes.len() != 1)
+    if (!unitTypes || unitTypes.len() != 1)
       return ::LayersIcon.findLayerCfg("universal_spare_all")
     return ::LayersIcon.findLayerCfg("universal_spare_" + unitTypes[0])
   }
@@ -126,7 +102,7 @@ class ::items_classes.UniversalSpare extends ::BaseItem
 
   function _getFlagLayer()
   {
-    if (countries.len() != 1)
+    if (!countries || countries.len() != 1)
       return null
     local flagLayerStyle = "universal_spare_flag"
     local layerCfg = ::LayersIcon.findLayerCfg(flagLayerStyle)

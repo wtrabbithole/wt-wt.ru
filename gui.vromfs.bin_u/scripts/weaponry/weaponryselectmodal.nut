@@ -34,10 +34,11 @@ function gui_start_choose_unit_weapon(unit, cb, itemParams = null, alignObj = nu
   local testFlight = ::get_gui_options_mode() == ::OPTIONS_MODE_TRAINING
   local checkAircraftPurchased = !testFlight
   local checkWeaponPurchased = !testFlight && !::is_game_mode_with_spendable_weapons()
+  local hasOnlyBought = !::is_in_flight() || !::g_mis_custom_state.getCurMissionRules().isWorldWar
 
   foreach(weapon in unit.weapons)
   {
-    if (!::is_weapon_visible(unit, weapon))
+    if (!::is_weapon_visible(unit, weapon, hasOnlyBought))
       continue
 
     list.append({

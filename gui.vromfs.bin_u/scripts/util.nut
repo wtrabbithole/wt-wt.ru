@@ -15,7 +15,6 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 ::current_campaign_mission <- null
 ::current_wait_screen <- null
 ::msg_box_selected_elem <- null
-::slotbar_oninit <- false
 
 ::mp_stat_handler <- null
 ::statscreen_handler <- null
@@ -364,11 +363,6 @@ function build_menu_blk(menu_items, default_text_prefix = "#mainmenu/btn", is_fl
     result += ::handyman.renderCached("gui/menuButton", itemView)
   }
   return result
-}
-
-function is_online_available()
-{
-  return ::is_connected_to_matching()
 }
 
 function close_tactical_map()
@@ -746,7 +740,6 @@ function setCrewUnlockTime(obj, air)
     return
 
   SecondsUpdater(obj, (@(air) function(obj, params) {
-    ::g_crews_list.refresh()
     local crew = air && ::getCrewByAir(air)
     local lockTime = ::getTblValue("lockedTillSec", crew, 0)
     local show = lockTime > 0 && ::isInMenu()
@@ -784,7 +777,10 @@ function setCrewUnlockTime(obj, air)
     }
     obj.show(show)
     if (!show && ::getTblValue("wasShown", params, false))
+    {
+      ::g_crews_list.invalidate()
       obj.getScene().performDelayed(this, function() { ::reinitAllSlotbars() })
+    }
     params.wasShown <- show
     return !show
   })(air))
@@ -1437,51 +1433,6 @@ function get_text_urls_data(text)
   return { text = text, urls = urls }
 }
 
-function openPlayerLbRclickMenu(nick, handler)
-{
-  local isMe = nick == ::my_user_name
-  local uid = ::getPlayerUid(nick)
-  local isFriend = uid!=null && ::isPlayerInFriendsGroup(uid)
-  local isBlock = uid!=null && ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
-
-  local menu = {
-    actions = [
-      {
-        text = ::loc("contacts/message")
-        show = !isMe
-        action = (@(nick, handler) function() { ::openChatPrivate(nick, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("mainmenu/btnUserCard")
-        action = (@(nick, handler) function() { ::gui_modal_userCard({ name = nick }) })(nick, handler)
-      }
-
-      {
-        text = ::loc("contacts/friendlist/add")
-        show = !isMe && !isFriend && !isBlock
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_FRIENDLIST, true, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("contacts/friendlist/remove")
-        show = isFriend
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_FRIENDLIST, false, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("contacts/blacklist/add")
-        show = !isMe && !isFriend && !isBlock
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_BLOCKLIST, true, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("contacts/blacklist/remove")
-        show = isBlock
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_BLOCKLIST, false, handler) })(nick, handler)
-      }
-    ]
-  }
-
-  ::gui_right_click_menu(menu, handler)
-}
-
 function invoke_multi_array(multiArray, invokeCallback)
 {
   ::_invoke_multi_array(multiArray, [], 0, invokeCallback)
@@ -2046,9 +1997,9 @@ function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = nul
   local numPageText = "activeText{ text:t='%s'; %s}"
   local paginatorObj = nest_obj.findObject("paginator_container")
 
-  local paginatorMarkUpData = ::handyman.renderCached(paginatorTpl, {hasSimpleNavButtons = hasSimpleNavButtons})
   if(!::checkObj(paginatorObj))
   {
+    local paginatorMarkUpData = ::handyman.renderCached(paginatorTpl, {hasSimpleNavButtons = hasSimpleNavButtons})
     paginatorObj = guiScene.createElement(nest_obj, "paginator", handler)
     guiScene.replaceContentFromText(paginatorObj, paginatorMarkUpData, paginatorMarkUpData.len(), handler)
   }
@@ -2105,6 +2056,20 @@ function hidePaginator(nestObj)
     return
   paginatorObj.show(false)
   paginatorObj.enable(false)
+}
+
+function paginator_set_unseen(nestObj, prevUnseen, nextUnseen)
+{
+  local paginatorObj = nestObj.findObject("paginator_container")
+  if (!::check_obj(paginatorObj))
+    return
+
+  local prevObj = paginatorObj.findObject("pag_prew_page_unseen")
+  if (prevObj)
+    prevObj.setValue(prevUnseen || "")
+  local nextObj = paginatorObj.findObject("pag_next_page_unseen")
+  if (nextObj)
+    nextObj.setValue(nextUnseen || "")
 }
 
 function on_have_to_start_chard_op(message)
@@ -2249,9 +2214,11 @@ function placePriceTextToButton(nestObj, btnId, localizedText, arg1=0, arg2=0)
   ::setDoubleTextToButton(nestObj, btnId, priceText, priceTextColored)
 }
 
+::get_profile_country_sq <- @() ::get_profile_country() ?? "country_0"
+
 function switch_profile_country(country)
 {
-  if (country == ::get_profile_info().country)
+  if (country == ::get_profile_country_sq())
     return
 
   ::set_profile_country(country)

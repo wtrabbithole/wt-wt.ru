@@ -152,14 +152,19 @@
   "122mm_ussr_APDS": {
     "bullet": {
       "bulletCount": 25,
-      "mass": 7.4,
+      "mass": 5.4,
       "caliber": 0.122,
       "damageCaliber": 0.05,
-      "ballisticCaliber": 0.052,
+      "ballisticCaliber": 0.055,
       "speed": 1620.0,
       "maxDistance": 10000.0,
       "bulletType": "apds_tank",
       "bulletName": "122mm_zbm_11",
+      "Cx": 0.33,
+      "breakingArmorThicknessEffective": true,
+      "breakingArmorThickness": [30.0,150.0],
+      "breakingCriticalSpeed": 1560.0,
+      "breakingDistance": 0.1,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
@@ -192,10 +197,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         },
         "buildings": {
           "fx": "122_ap_stone_splash",

@@ -1,5 +1,5 @@
 local hudState = require("../hudState.nut")
-local background = require("../style/hudBackground.nut")
+local setHudBg = require("../style/hudBackground.nut")
 local scrollbar = require("scrollbar.nut")
 local transition = require("../style/hudTransition.nut")
 
@@ -53,7 +53,7 @@ local hudLog = function (params) {
     ::gui_scene.setTimeout(transition.fast, fadeOutFn)
   }
 
-  return @() {
+  return @() setHudBg({
     size = flex()
     watch = visibleState
     clipChildren = true
@@ -75,7 +75,7 @@ local hudLog = function (params) {
     }
 
     transitions = [transition.make(transitionTime())]
-  }.patchComponent(background)
+  })
 }
 
 

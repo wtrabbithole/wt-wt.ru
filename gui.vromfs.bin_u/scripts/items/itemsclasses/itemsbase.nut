@@ -41,7 +41,6 @@
 
 local time = require("scripts/time.nut")
 
-
 ::items_classes <- {}
 
 class ::BaseItem
@@ -52,6 +51,8 @@ class ::BaseItem
   static defaultIcon = "#ui/gameuiskin#items_silver_bg"
   static defaultIconStyle = null
   static typeIcon = "#ui/gameuiskin#item_type_placeholder"
+  static linkActionLocId = "mainmenu/btnBrowser"
+  static linkActionIcon = ""
   static isPreferMarkupDescInTooltip = false
   static isDescTextBeforeDescDiv = true
 
@@ -69,6 +70,7 @@ class ::BaseItem
   expiredTimeSec = 0 //to comapre with 0.001 * ::dagor.getCurTime()
   expiredTimeAfterActivationH = 0
   spentInSessionTimeMin = 0
+  lastChangeTimestamp = -1
 
   amount = 1
   sellCountStep = 1
@@ -81,6 +83,7 @@ class ::BaseItem
   showBoosterInSeparateList = false
 
   link = ""
+  static linkBigQueryKey = "item_shop"
   forceExternalBrowser = false
 
   // Zero means no limit.
@@ -326,6 +329,9 @@ class ::BaseItem
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
       res.expireTime <- getTimeLeftText()
 
+    if (isRare())
+      res.rarityColor <- getRarityColor()
+
     if (isActive())
       res.active <- true
 
@@ -342,6 +348,20 @@ class ::BaseItem
   function getContentIconData()
   {
     return null
+  }
+
+  function hasLink()
+  {
+    return link != "" && ::has_feature("AllowExternalLink")
+  }
+
+  function openLink()
+  {
+    if (!hasLink())
+      return
+    local validLink = ::g_url.validateLink(link)
+    if (validLink)
+      ::open_url(validLink, forceExternalBrowser, false, linkBigQueryKey)
   }
 
   function _requestBuy(params = {})
@@ -578,4 +598,8 @@ class ::BaseItem
   {
     return false
   }
+
+  static function isRare() { return false }
+  static function getRarity() { return 0 }
+  static function getRarityColor() { return "" }
 }

@@ -28,6 +28,8 @@ tdiv {
   }
 
   tdiv {
+    margin-top:t='1@blockInterval'
+
     width:t='pw'
     flow:t='vertical'
     <<@armyViews>>

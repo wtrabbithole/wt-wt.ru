@@ -64,7 +64,7 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
 
     if (tplName)
     {
-      local data = ::handyman.render(::load_scene_template(tplName), tplParams)
+      local data = ::handyman.render(::load_template_text(tplName), tplParams)
       guiScene.replaceContentFromText(obj, data, data.len(), callbacksContext)
     }
     else

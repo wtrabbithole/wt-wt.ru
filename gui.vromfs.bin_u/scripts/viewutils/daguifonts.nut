@@ -1,4 +1,21 @@
 local fonts = ::require("fonts")
+local u = ::require("std/u.nut")
+
+local fontsList = {
+  defaults = [
+    "fontBigBold",
+    "fontMedium",
+    "fontNormalBold",
+    "fontNormal",
+    "fontSmall",
+    "fontTiny"
+  ]
+  bold = [
+    "fontBigBold",
+    "fontNormalBold",
+    "fontNormal"
+  ]
+}
 
 local daguiFonts = {
 
@@ -15,20 +32,41 @@ local daguiFonts = {
   }
 
   /**
-   * Returns width in pixels for given text string rendered in given font.
-   * @param {string} text - text string to be measured, without line breaks.
+   * Returns width in pixels for given text string rendered in given font (or max width for texts list).
+   * @param {string} text - text string to be measured, without line breaks, or array of texts
    * @param {string} fontName - font CSS const name.
    * @param {instance} [guiScene] - optional valid instance of ScriptedGuiScene.
    * @return {int} - text width in pixels, or 0 in case of error or empty string.
    */
   getStringWidthPx = function(text, fontName, guiScene = null)
   {
-    if (text == "")
+    if (!text.len())
       return 0
+
+    local res = 0
+    local textList = u.isArray(text) ? text : [text]
     guiScene = guiScene || ::get_main_gui_scene()
     local realFontName = guiScene.getConstantValue(fontName)
-    local bbox = fonts.getStringBBox(text, realFontName)
-    return bbox ? ::max(0, bbox[2] - bbox[0]).tointeger() : 0
+    foreach(t in textList)
+    {
+      local bbox = fonts.getStringBBox(t, realFontName)
+      if (bbox)
+        res = ::max(res, (bbox[2] - bbox[0] + 0.5).tointeger())
+    }
+    return res
+  }
+
+  /**
+   * Returns the maximum font from the font table by key
+     for a given text string that can be contained in the specified number of pixels
+  */
+  getMaxFontTextByWidth = function(text, WidthPx, fontKeyName)
+  {
+    foreach (font in fontsList[fontKeyName] ?? fontsList.defaults)
+    {
+      if (getStringWidthPx(text,font) < WidthPx)
+        return font
+    }
   }
 
 }

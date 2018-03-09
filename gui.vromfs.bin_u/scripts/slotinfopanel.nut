@@ -148,10 +148,14 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       return
     local currentIndex = listboxObj.getValue()
     local isPanelHidden = currentIndex == -1
-    if(isPanelHidden)
-      return
     foreach(index, tabInfo in tabsInfo)
     {
+      local discountObj = listboxObj.findObject(tabInfo.discountId)
+      if (::check_obj(discountObj))
+        discountObj.type = isPanelHidden ? "box_left" : "box_up"
+      if(isPanelHidden)
+        continue
+
       local isActive = index == currentIndex
       if (isTabSwitch)
         showSceneBtn(tabInfo.contentId, isActive)
@@ -275,7 +279,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     if ( !::checkObj(contentObj) || ( ! contentObj.isVisible() && ! force))
       return
 
-    local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_info().country, -1)
+    local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_country_sq(), -1)
     local crewIdInCountry = ::getTblValue(crewCountryId, ::selected_crews, -1)
     local crewData = ::getSlotItem(crewCountryId, crewIdInCountry)
     if (crewData == null)
@@ -389,7 +393,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onCrewButtonClicked(obj)
   {
-    local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_info().country, -1)
+    local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_country_sq(), -1)
     local crewIdInCountry = ::getTblValue(crewCountryId, ::selected_crews, -1)
     if (crewCountryId != -1 && crewIdInCountry != -1)
       ::gui_modal_crew(crewCountryId, crewIdInCountry)

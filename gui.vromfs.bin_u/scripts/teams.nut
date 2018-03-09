@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum Team //better to replace it everywhere by g_teams
 {
   Any   = 0,
@@ -33,7 +34,7 @@ enum Team //better to replace it everywhere by g_teams
   getShortName = function() { return ::loc(shortNameLocId) }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_team", {
+enums.addTypesByGlobalName("g_team", {
   ANY = {
     code = Team.Any
     opponentTeamCode = Team.none
@@ -70,10 +71,10 @@ function g_team::getTeams()
 
 function g_team::getTeamByCode(code)
 {
-  return ::g_enum_utils.getCachedType("code", code, cache.byCode, this, NONE)
+  return enums.getCachedType("code", code, cache.byCode, this, NONE)
 }
 
 function g_team::getTeamByCountriesOption(optionId)
 {
-  return ::g_enum_utils.getCachedType("teamCountriesOption", optionId, cache.byCountriesOption, this, NONE)
+  return enums.getCachedType("teamCountriesOption", optionId, cache.byCountriesOption, this, NONE)
 }

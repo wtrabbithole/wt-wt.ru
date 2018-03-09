@@ -1,5 +1,6 @@
 local penalties = ::require("scripts/penitentiary/penalties.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 enum chatUpdateState {
   OUTDATED
@@ -81,6 +82,7 @@ function g_chat::filterMessageText(text, isMyMessage)
     return ::dirty_words_filter.checkPhrase(text)
   return text
 }
+::cross_call_api.filter_chat_message <- ::g_chat.filterMessageText
 
 
 function g_chat::makeBlockedMsg(msg)
@@ -405,6 +407,7 @@ function g_chat::restoreReceivedThreadTitle(title)
   local res = ::stringReplace(title, "\\n", "\n")
   res = ::stringReplace(res, "<br>", "\n")
   res = ::g_string.clearBorderSymbolsMultiline(res)
+  res = validateChatMessage(res, true)
   return res
 }
 
@@ -545,204 +548,23 @@ function g_chat::generateInviteMenu(playerName)
     menu.append({
       text = room.getRoomName()
       show = true
-      action = (@(playerName, room) function () { ::gchat_raw_command(::format("INVITE %s %s", playerName, room.id)) })(playerName, room)
+      action = (@(playerName, room) function () {
+          ::gchat_raw_command(::format("INVITE %s %s",
+                                        ::gchat_escape_target(playerName),
+                                        ::gchat_escape_target(room.id)))
+          })(playerName, room)
     })
   }
   return menu
 }
 
-function g_chat::getPlayerRClickMenu(playerName, roomId = null, contact = null, position = null)
-{
-  if (!contact)
-    contact = ::findContactByNick(playerName)
-  local uid = contact ? contact.uid : null
-  local latestName = contact ? contact.name : playerName
-  local clanTag = ""
-  if(contact)
-    clanTag = contact.clanTag
-  else if (latestName in ::clanUserTable)
-    clanTag = ::clanUserTable[latestName]
-
-  local isMe = latestName == ::my_user_name
-  local inMySquad = ::g_squad_manager.isInMySquad(latestName, false)
-
-  local inSquad = ::g_squad_manager.isInSquad()
-  local meLeader = ::g_squad_manager.isSquadLeader()
-  local roomData = roomId && getRoomById(roomId)
-  local isSquadRoom = roomData != null && roomData.id == getMySquadRoomId()
-
-  local inviteMenu = generateInviteMenu(latestName)
-  local isFriend = uid != null && ::isPlayerInFriendsGroup(uid)
-  local isBlock = uid != null && ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
-  local isModerator = ::is_myself_anyof_moderators()
-  local isMuted = uid ? ::xbox_is_chat_player_muted(uid.tointeger()) : false
-
-  local canComplain = false
-  if (!isMe)
-  {
-    if (roomData
-        && (roomData.chatText.find("<Link=PL_"+latestName+">") != null
-            || roomData.chatText.find("<Link=PLU_"+uid+">") != null))
-      canComplain = true
-    else
-    {
-      local threadInfo = getThreadInfo(roomId)
-      if (threadInfo && (threadInfo.ownerNick == latestName || threadInfo.ownerNick == playerName))
-        canComplain = true
-    }
-  }
-
-  local menu = [
-    {
-      text = ::loc("multiplayer/invite_to_session")
-      show = uid && ::SessionLobby.canInvitePlayer(uid)
-      action = function () {
-        if (::is_psn_player_use_same_titleId(latestName))
-          ::g_psn_session_invitations.sendSkirmishInvitation(latestName)
-        ::SessionLobby.invitePlayer(uid)
-      }
-    }
-    {
-      text = ::loc("contacts/message")
-      show = !isMe && playerName != roomId && ::ps4_is_chat_enabled()
-      action = (@(latestName) function() {
-        ::openChatPrivate(latestName)
-      })(latestName)
-    }
-    {
-      text = ::loc("mainmenu/btnUserCard")
-      action = (@(uid, latestName) function() { ::gui_modal_userCard(uid?{ uid = uid } : {name = latestName}) })(uid, latestName)
-    }
-    {
-      text = ::loc("mainmenu/btnClanCard")
-      show = clanTag!="" && ::has_feature("Clans")
-      action = (@(clanTag) function() { ::showClanPage("", "", clanTag)})(clanTag)
-    }
-    {
-      text = ::loc("squad/invite_player")
-      show = !isMe && !isBlock && ::g_squad_manager.canInviteMember(uid)
-      action = function() {
-        ::find_contact_by_name_and_do(latestName, ::g_squad_manager,
-                                        function(contact)
-                                        {
-                                          if (contact)
-                                            inviteToSquad(contact.uid)
-                                        })
-      }
-    }
-    {
-      text = ::loc("squad/remove_player")
-      show = !isMe && meLeader && inMySquad
-      action = (@(uid) function() {
-        ::g_squad_manager.dismissFromSquad(uid)
-      })(uid)
-    }
-    {
-      text = ::loc("squad/tranfer_leadership")
-      show = ::g_squad_manager.canTransferLeadership(uid)
-      action = (@(uid) function() {
-        ::g_squad_manager.transferLeadership(uid)
-      })(uid)
-    }
-    {
-      text = ::loc("contacts/friendlist/add")
-      show = !isMe && ::has_feature("Friends") && !isFriend && !isBlock
-      action = (@(uid, latestName) function() { ::editContactMsgBox({uid = uid, name = latestName}, ::EPL_FRIENDLIST, true, this) })(uid, latestName)
-    }
-    {
-      text = ::loc("contacts/friendlist/remove")
-      show = isFriend
-      action = (@(uid, latestName) function() { ::editContactMsgBox({uid = uid, name = latestName}, ::EPL_FRIENDLIST, false, this) })(uid, latestName)
-    }
-    {
-      text = ::loc("contacts/blacklist/add")
-      show = !isMe && !isFriend && !isBlock
-      action = (@(uid, latestName) function() { ::editContactMsgBox({uid = uid, name = latestName}, ::EPL_BLOCKLIST, true, this) })(uid, latestName)
-    }
-    {
-      text = ::loc("contacts/blacklist/remove")
-      show = isBlock
-      action = (@(uid, latestName) function() { ::editContactMsgBox({uid = uid, name = latestName}, ::EPL_BLOCKLIST, false, this) })(uid, latestName)
-    }
-    {
-      text = ::loc("chat/invite_to_room")
-      show = inviteMenu && inviteMenu.len() > 0 && ::ps4_is_chat_enabled()
-      action = @() ::open_invite_menu(inviteMenu, position)
-    }
-    {
-      text = ::loc("chat/kick_from_room")
-      show = !isSquadRoom && isImRoomOwner(roomData)
-      action = (@(latestName) function() {
-        if (::menu_chat_handler)
-          ::menu_chat_handler.kickPlayeFromRoom(latestName)
-      })(latestName)
-    }
-    {
-      text = isMuted? ::loc("mainmenu/btnUnmute") : ::loc("mainmenu/btnMute")
-      show = uid != null && !isMe && contact.voiceStatus && ::is_player_from_xbox_one(latestName)
-      action = @() ::xbox_mute_chat_player(uid.tointeger(), !isMuted)
-    }
-    {
-      text = ::loc("mainmenu/btnComplain")
-      show = canComplain
-      action = (@(uid, latestName, clanTag, roomData, roomId) function() {
-        local chatLog = roomData ? roomData.chatText : ""
-        local config = {
-          userId = uid,
-          name = latestName,
-          clanTag = clanTag,
-          roomId = roomId,
-          roomName = roomData ? roomData.getRoomName() : ""
-        }
-
-        local threadInfo = getThreadInfo(roomId)
-        if (threadInfo)
-        {
-          chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
-            threadInfo.category,
-            threadInfo.title,
-            threadInfo.ownerUid,
-            threadInfo.ownerNick,
-            chatLog
-          )
-          if (!roomData)
-            config.roomName = ::g_chat_room_type.THREAD.getRoomName(roomId)
-        }
-
-        ::gui_modal_complain(config, chatLog)
-      })(uid, latestName, clanTag, roomData, roomId)
-    }
-    {
-      text = ::loc("contacts/copyNickToEditbox")
-      show = !isMe && ::show_console_buttons
-      action = (@(latestName) function() {
-        if (::menu_chat_handler)
-          ::menu_chat_handler.addNickToEdit(latestName)
-      })(latestName)
-    }
-    {
-      show = isModerator
-    }
-    {
-      text = ::loc("contacts/moderator_copyname")
-      show = isModerator
-      action = (@(latestName) function() { ::copy_to_clipboard(latestName) })(latestName)
-    }
-    {
-      text = ::loc("contacts/moderator_ban")
-      show = ::myself_can_devoice() || ::myself_can_ban()
-      action = (@(contact, latestName, roomData) function() {
-        ::gui_modal_ban(contact || { name = latestName }, roomData? roomData.chatText : "")
-      })(contact, latestName, roomData)
-    }
-  ]
-
-  return menu
-}
-
 function g_chat::showPlayerRClickMenu(playerName, roomId = null, contact = null, position = null)
 {
-  local menu = getPlayerRClickMenu(playerName, roomId, contact, position)
+  local menu = playerContextMenu.getActions(contact, {
+    position = position
+    roomId = roomId
+    playerName = playerName
+  })
   ::gui_right_click_menu(menu, this, position)
 }
 
@@ -804,7 +626,7 @@ function g_chat::sendLocalizedMessage(roomId, langConfig, isSeparationAllowed = 
     return res
   }
 
-  ::gchat_chat_message(roomId, LOCALIZED_MESSAGE_PREFIX + message)
+  ::gchat_chat_message(::gchat_escape_target(roomId), LOCALIZED_MESSAGE_PREFIX + message)
   return true
 }
 

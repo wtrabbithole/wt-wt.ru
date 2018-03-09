@@ -230,7 +230,6 @@
       "deathPenaltyMul": 0.0,
       "country_axis": "japan",
       "country_allies": "britain",
-      "windSpeed": [4.0,6.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -650,6 +649,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_land_squad",
             "team": "B"
           }
@@ -658,6 +660,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_land_squad",
             "team": "A"
           }
@@ -666,6 +671,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -691,6 +705,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_def_aaa_squad"
@@ -724,6 +747,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_destroyers_squad"
             },
             {
@@ -744,6 +776,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_cargo_ships_squad"
@@ -833,6 +874,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -908,6 +958,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -919,6 +972,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -944,6 +1000,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "landing_area_01"
         }
@@ -1014,6 +1073,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad",
           "target": "landing_area_02"
         }
@@ -1084,6 +1146,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_airfield_target"
         }
       },
@@ -1136,6 +1201,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_airfield_squad"
         }
       },
@@ -1188,6 +1256,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_movable_units_squad"
         }
       },
@@ -1240,6 +1311,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t1_tanks_squad"
@@ -1297,6 +1377,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ships_squad"
         }
       },
@@ -8208,7 +8291,7 @@
         [39.1577,0.0,-297.434],
         [0.0,300.0,0.0],
         [297.434,0.0,39.1577],
-        [-6352.37,1000.0,9134.01]
+        [-6009.06,1000.0,7164.55]
       ],
       "props": []
     },
@@ -8225,9 +8308,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [5908.85,0.0,1041.89],
-        [0.0,6000.0,0.0],
-        [-1041.89,0.0,5908.85],
+        [9848.08,0.0,1736.48],
+        [0.0,10000.0,0.0],
+        [-1736.48,0.0,9848.08],
         [-6873.45,1000.0,12090.7]
       ],
       "props": []
@@ -8308,7 +8391,7 @@
         [126.785,0.0,271.892],
         [0.0,300.0,0.0],
         [-271.892,0.0,126.785],
-        [-18075.6,1000.0,-15966.9]
+        [-17310.2,1000.0,-14121.5]
       ],
       "props": []
     },
@@ -8325,9 +8408,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-5543.28,0.0,2296.1],
-        [0.0,6000.0,0.0],
-        [-2296.1,0.0,-5543.28],
+        [-9238.8,0.0,3826.83],
+        [0.0,10000.0,0.0],
+        [-3826.83,0.0,-9238.8],
         [-19224.8,1000.0,-18740.5]
       ],
       "props": []
@@ -8634,23 +8717,23 @@
       "objLayer": 0,
       "props": []
     },
-    "t1_common_fighters_spawn": {
-      "type": "Sphere",
-      "tm": [
-        [39.1577,0.0,-297.434],
-        [0.0,300.0,0.0],
-        [297.434,0.0,39.1577],
-        [-6309.39,1000.0,8807.54]
-      ],
-      "props": []
-    },
     "t2_common_fighters_spawn": {
       "type": "Sphere",
       "tm": [
         [126.785,0.0,271.892],
         [0.0,300.0,0.0],
         [-271.892,0.0,126.785],
-        [-20516.1,1000.0,-21818.2]
+        [-20516.1,500.0,-21818.2]
+      ],
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [39.1577,0.0,-297.434],
+        [0.0,300.0,0.0],
+        [297.434,0.0,39.1577],
+        [-7391.38,500.0,15026.4]
       ],
       "props": []
     }

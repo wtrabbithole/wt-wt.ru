@@ -61,7 +61,7 @@ class ::gui_handlers.clanLogModal extends ::gui_handlers.BaseGuiHandlerWT
   function showLogs(logData)
   {
     local blk = ::handyman.renderCached("gui/logEntryList", logData, {
-      details = ::load_scene_template("gui/clans/clanLogDetails")
+      details = ::load_template_text("gui/clans/clanLogDetails")
     })
     guiScene.appendWithBlk(logListObj, blk, this)
   }

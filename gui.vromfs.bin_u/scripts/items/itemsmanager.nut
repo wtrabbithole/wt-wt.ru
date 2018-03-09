@@ -67,7 +67,9 @@ foreach (fn in [
                  "trophyMultiAward.nut"
                  "itemsRoulette.nut"
                  "itemLimits.nut"
-                 "universalSpareApplyWnd.nut"
+                 "listPopupWnd/itemsListWndBase.nut"
+                 "listPopupWnd/universalSpareApplyWnd.nut"
+                 "listPopupWnd/modUpgradeApplyWnd.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/" + fn)
 
@@ -78,13 +80,17 @@ foreach (fn in [
                  "itemTicket.nut"
                  "itemWager.nut"
                  "itemDiscount.nut"
+                 "itemOrder.nut"
+                 "itemUniversalSpare.nut"
+                 "itemModOverdrive.nut"
+                 "itemModUpgrade.nut"
+
+                 //external inventory items
                  "itemVehicle.nut"
                  "itemSkin.nut"
                  "itemDecal.nut"
                  "itemKey.nut"
                  "itemChest.nut"
-                 "itemOrder.nut"
-                 "itemUniversalSpare.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
@@ -92,6 +98,7 @@ foreach (fn in [
   itemsList = []
   inventory = []
   shopItemById = {}
+  itemsByItemdefId = {}
 
   itemTypeClasses = {} //itemtype = itemclass
 
@@ -101,8 +108,10 @@ foreach (fn in [
   }
 
   _reqUpdateList = true
+  _reqUpdateItemDefsList = true
   _needInventoryUpdate = true
-  _needInventoryUpdateDelayed = false
+
+  extInventoryUpdateTime = 0
 
   // Things needed to handle seen/unseen items.
   _seenItemsInfoByCategory = {
@@ -165,7 +174,6 @@ foreach (fn in [
   boostersTaskUpdateFlightTime = -1
 
   inventoryClient = require("scripts/inventory/inventoryClient.nut")
-  itemsByItemdefId = {}
 }
 
 function ItemsManager::fillFakeItemsList()
@@ -218,13 +226,33 @@ function ItemsManager::fillFakeItemsList()
 /////////////////////////////////////////////////////////////////////////////////////////////
 function ItemsManager::_checkUpdateList()
 {
-  if (!_reqUpdateList)
-    return
-  _reqUpdateList = false
+  local hasChanges = checkShopItemsUpdate()
+  if (checkItemDefsUpdate())
+    hasChanges = true
 
-  itemsList = []
-  shopItemById = {}
+  if (!hasChanges)
+    return
+
   local duplicatesId = []
+  shopItemById.clear()
+  foreach(list in [itemsList, itemsByItemdefId])
+    foreach(item in list)
+      if (item.id in shopItemById)
+        duplicatesId.append(item.id)
+      else
+        shopItemById[item.id] <- item
+
+  if (duplicatesId.len())
+    ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
+  updateSeenItemsData(false)
+}
+
+function ItemsManager::checkShopItemsUpdate()
+{
+  if (!_reqUpdateList)
+    return false
+  _reqUpdateList = false
+  itemsList.clear()
 
   local pBlk = ::get_price_blk()
   local trophyBlk = pBlk && pBlk.trophy
@@ -233,14 +261,8 @@ function ItemsManager::_checkUpdateList()
     {
       local blk = trophyBlk.getBlock(i)
       local id = blk.getBlockName()
-      if (findItemById(id))
-      {
-        duplicatesId.append(id)
-        continue
-      }
       local item = createItem(itemType.TROPHY, blk)
       itemsList.append(item)
-      shopItemById[item.id] <- item
     }
 
   local itemsBlk = ::get_items_blk()
@@ -249,11 +271,6 @@ function ItemsManager::_checkUpdateList()
   {
     local blk = itemsBlk.getBlock(i)
     local id = blk.getBlockName()
-    if (findItemById(id))
-    {
-      duplicatesId.append(id)
-      continue
-    }
     local iType = getInventoryItemType(blk.type)
     if (iType == itemType.UNKNOWN)
     {
@@ -262,11 +279,7 @@ function ItemsManager::_checkUpdateList()
     }
     local item = createItem(iType, blk)
     itemsList.append(item)
-    shopItemById[item.id] <- item
   }
-
-  foreach (id, item in itemsByItemdefId)
-    shopItemById[id] <- item
 
   ::ItemsManager.fillFakeItemsList()
   if (fakeItemsList)
@@ -274,22 +287,42 @@ function ItemsManager::_checkUpdateList()
     {
       local blk = fakeItemsList.getBlock(i)
       local id = blk.getBlockName()
-
-      if (findItemById(id))
-      {
-        duplicatesId.append(id)
-        continue
-      }
-
       local item = createItem(blk.type, blk)
       itemsList.append(item)
-      shopItemById[id] <- item
+    }
+  return true
+}
+
+function ItemsManager::checkItemDefsUpdate()
+{
+  if (!_reqUpdateItemDefsList)
+    return false
+  _reqUpdateItemDefsList = false
+
+  // Collecting itemdefs as shop items
+  foreach (itemDefDesc in inventoryClient.getItemdefs())
+  {
+    if (itemDefDesc?.itemdefid in itemsByItemdefId)
+      continue
+
+    local defType = itemDefDesc?.type
+
+    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]))
+    {
+      ItemGenerators.add(itemDefDesc)
+      continue
     }
 
-  if (duplicatesId.len())
-    ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
+    if (defType != "item")
+      continue
+    local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
+    if (iType == itemType.UNKNOWN)
+      continue
 
-  ::ItemsManager.updateSeenItemsData(false)
+    local item = createItem(iType, itemDefDesc)
+    itemsByItemdefId[item.id] <- item
+  }
+  return true
 }
 
 function ItemsManager::onEventEntitlementsUpdatedFromOnlineShop(params)
@@ -297,8 +330,7 @@ function ItemsManager::onEventEntitlementsUpdatedFromOnlineShop(params)
   local curLevel = ::get_cyber_cafe_level()
   if (genericItemsForCyberCafeLevel != curLevel)
   {
-    _reqUpdateList = true
-    _checkUpdateList()
+    markItemsListUpdate()
     markInventoryUpdate()
   }
 }
@@ -347,6 +379,14 @@ function ItemsManager::findItemById(id, typeMask = itemType.ALL)
   return ::getTblValue(id, shopItemById, null)
 }
 
+function ItemsManager::findItemByItemDefId(itemDefId)
+{
+  local item = findItemById(itemDefId)
+  if (!item)
+    requestItemsByItemdefIds([itemDefId])
+  return item
+}
+
 function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
 {
   inventoryClient.requestItemdefsByIds(itemdefIdsList)
@@ -362,6 +402,39 @@ function ItemsManager::goToMarketplace()
 {
   if (isMarketplaceEnabled())
     ::open_url(inventoryClient.getMarketplaceBaseUrl(), true, false, "marketplace")
+}
+
+function ItemsManager::markItemsListUpdate()
+{
+  _reqUpdateList = true
+  ::broadcastEvent("ItemsShopUpdate")
+}
+
+function ItemsManager::markItemsDefsListUpdate()
+{
+  _reqUpdateItemDefsList = true
+  ::broadcastEvent("ItemsShopUpdate")
+}
+
+local lastItemDefsUpdatedelayedCall = 0
+function ItemsManager::markItemsDefsListUpdateDelayed()
+{
+  if (_reqUpdateItemDefsList)
+    return
+  if (lastItemDefsUpdatedelayedCall
+      && lastItemDefsUpdatedelayedCall < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
+    return
+
+  lastItemDefsUpdatedelayedCall = ::dagor.getCurTime()
+  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+    lastItemDefsUpdatedelayedCall = 0
+    markItemsDefsListUpdate()
+  })
+}
+
+function ItemsManager::onEventItemDefChanged(p)
+{
+  markItemsDefsListUpdateDelayed()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -397,8 +470,10 @@ function ItemsManager::getInventoryItemType(blkType)
     case ::EIT_PERSONAL_DISCOUNTS:return itemType.DISCOUNT
     case ::EIT_ORDER:             return itemType.ORDER
     case ::EIT_UNIVERSAL_SPARE:   return itemType.UNIVERSAL_SPARE
+    case ::EIT_MOD_OVERDRIVE:     return itemType.MOD_OVERDRIVE
+    case ::EIT_MOD_UPGRADE:       return itemType.MOD_UPGRADE
   }
-  return itemType.UNKNOWN
+    return itemType.UNKNOWN
 }
 
 function ItemsManager::_checkInventoryUpdate()
@@ -479,32 +554,7 @@ function ItemsManager::_checkInventoryUpdate()
     }
   }
   inventory.extend(extInventoryItems)
-
-  // Collecting itemdefs as shop items
-  local hasNewItemdefs = false
-  foreach (itemDefDesc in inventoryClient.getItemdefs())
-  {
-    local defType = itemDefDesc?.type
-
-    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]))
-    {
-      ItemGenerators.add(itemDefDesc)
-      continue
-    }
-
-    if (defType != "item")
-      continue
-    local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
-    if (iType == itemType.UNKNOWN)
-      continue
-
-    local item = createItem(iType, itemDefDesc)
-    hasNewItemdefs = hasNewItemdefs || (!(item.id in itemsByItemdefId))
-    itemsByItemdefId[item.id] <- item
-    shopItemById[item.id] <- item
-  }
-  if (hasNewItemdefs)
-    ::broadcastEvent("ItemDefsListUpdated")
+  extInventoryUpdateTime = ::dagor.getCurTime()
 }
 
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
@@ -515,7 +565,6 @@ function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = nu
 
 function ItemsManager::markInventoryUpdate()
 {
-  _needInventoryUpdateDelayed = false
   if (_needInventoryUpdate)
     return
 
@@ -523,14 +572,20 @@ function ItemsManager::markInventoryUpdate()
   ::broadcastEvent("InventoryUpdate")
 }
 
+local lastInventoryUpdateDelayedCall = 0
 function ItemsManager::markInventoryUpdateDelayed()
 {
-  if (_needInventoryUpdateDelayed || _needInventoryUpdate)
+  if (_needInventoryUpdate)
+    return
+  if (lastInventoryUpdateDelayedCall
+      && lastInventoryUpdateDelayedCall < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
     return
 
-  _needInventoryUpdateDelayed = true
-  local guiScene = ::get_main_gui_scene()
-  guiScene.performDelayed(::ItemsManager, markInventoryUpdate)
+  lastInventoryUpdateDelayedCall = ::dagor.getCurTime()
+  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+    lastInventoryUpdateDelayedCall = 0
+    markInventoryUpdate()
+  })
 }
 
 
@@ -742,7 +797,13 @@ function ItemsManager::refreshExtInventory()
   ::ItemsManager.inventoryClient.requestAll()
 }
 
-function ItemsManager::onEventInventoryChanged(p)
+function ItemsManager::forceRefreshExtInventory()
+{
+  itemsByItemdefId = {}
+  inventoryClient.forceRefreshItemDefs()
+}
+
+function ItemsManager::onEventExtInventoryChanged(p)
 {
   markInventoryUpdateDelayed()
 }
@@ -755,7 +816,7 @@ function ItemsManager::onEventLoadingStateChange(p)
 
 function ItemsManager::onEventGameLocalizationChanged(p)
 {
-  inventoryClient.forceRefreshItemDefs()
+  forceRefreshExtInventory()
 }
 
 /**
@@ -1091,17 +1152,23 @@ function ItemsManager::onEventAccountReset(p)
   resetSeenItemsData(true)
 }
 
+local lastSeenItemsEventDelayCall = 0
 function ItemsManager::updateGamercardIcons(forInventoryItems = null)
 {
-  _checkUpdateList()
-  _checkInventoryUpdate()
+  if (lastSeenItemsEventDelayCall
+      && lastSeenItemsEventDelayCall < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
+    return
 
-  ::broadcastEvent("UpdatedSeenItems", {forInventoryItems = forInventoryItems})
+  lastSeenItemsEventDelayCall = ::dagor.getCurTime()
+  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+    lastSeenItemsEventDelayCall = 0
+    ::broadcastEvent("UpdatedSeenItems", {forInventoryItems = forInventoryItems})
+  })
 }
 
 function ItemsManager::updateSeenItemsData(forInventoryItems)
 {
-  local seenItemsData = ::ItemsManager.getSeenItemsData(forInventoryItems)
+  local seenItemsData = getSeenItemsData(forInventoryItems)
   if (seenItemsData == null)
     return
   local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
@@ -1112,8 +1179,8 @@ function ItemsManager::updateSeenItemsData(forInventoryItems)
   seenItemsInfo.updateSeenItemsData(items, curDays)
   seenItemsInfo.saveSeenItemsInvalidated = true
   seenItemsInfo.numUnseenItemsInvalidated = true
-  ::ItemsManager.updateGamercardIcons(forInventoryItems)
-  ::ItemsManager.saveSeenItemsData(forInventoryItems)
+  updateGamercardIcons(forInventoryItems)
+  saveSeenItemsData(forInventoryItems)
 }
 
 function ItemsManager::isItemUnseen(item)
@@ -1156,7 +1223,9 @@ function ItemsManager::itemsSortComparator(item1, item2)
   if (timer1 && item1.expiredTimeSec != item2.expiredTimeSec)
     return (item1.expiredTimeSec < item2.expiredTimeSec) ? -1 : 1
 
-  return 0
+  return item2.lastChangeTimestamp <=> item1.lastChangeTimestamp
+    || item1.iType <=> item2.iType
+    || item1.id <=> item2.id
 }
 
 ::subscribe_handler(::ItemsManager, ::g_listener_priority.DEFAULT_HANDLER)

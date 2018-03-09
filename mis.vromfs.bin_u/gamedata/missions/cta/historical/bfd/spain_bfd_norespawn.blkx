@@ -607,6 +607,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -615,6 +618,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -622,6 +628,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "bridge_11",
             "isImmortal": true
           }
@@ -630,6 +639,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_quest_units_squad"
@@ -672,6 +690,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_quest_units_squad",
           "target": "land_battle_area"
         }
@@ -689,6 +710,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_tanks_squad",
           "speed": 20.0,
           "follow_radius": 450.0
@@ -719,6 +743,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -730,6 +757,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -5201,7 +5231,7 @@
         [277.164,0.0,114.805],
         [0.0,300.0,0.0],
         [-114.805,0.0,277.164],
-        [17162.4,1000.0,-34976.5]
+        [18973.6,1000.0,-34132.1]
       ],
       "props": []
     },
@@ -5218,9 +5248,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-2535.71,0.0,5437.85],
-        [0.0,6000.0,0.0],
-        [-5437.85,0.0,-2535.71],
+        [-4226.18,0.0,9063.08],
+        [0.0,10000.0,0.0],
+        [-9063.08,0.0,-4226.18],
         [14441.4,1000.0,-36245.1]
       ],
       "props": []
@@ -5301,7 +5331,7 @@
         [-182.628,0.0,-238.006],
         [0.0,300.0,0.0],
         [238.006,0.0,-182.628],
-        [38597.4,1000.0,-3409.73]
+        [37451.4,1000.0,-5045.83]
       ],
       "props": []
     },
@@ -5318,9 +5348,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [4914.91,0.0,-3441.46],
-        [0.0,6000.0,0.0],
-        [3441.46,0.0,4914.91],
+        [8191.52,0.0,-5735.77],
+        [0.0,10000.0,0.0],
+        [5735.77,0.0,8191.52],
         [40319.7,1000.0,-950.65]
       ],
       "props": []
@@ -5625,6 +5655,26 @@
         [18226.0,1500.0,-12651.5]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [277.164,0.0,114.805],
+        [0.0,300.0,0.0],
+        [-114.805,0.0,277.164],
+        [11739.7,500.0,-37505.2]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-182.628,0.0,-238.006],
+        [0.0,300.0,0.0],
+        [238.006,0.0,-182.628],
+        [42029.3,500.0,1491.5]
+      ],
       "props": []
     }
   },

@@ -75,7 +75,7 @@ class ::WwBattleResultsView
 
   function getBattleResultText()
   {
-    local isWinner = battleRes.winner == ::ww_get_player_side()
+    local isWinner = battleRes.isWinner()
     local color = isWinner ? "wwTeamAllyColor" : "wwTeamEnemyColor"
     local result = ::loc("worldwar/log/battle_finished" + (isWinner ? "_win" : "_lose"))
     return ::colorize(color, result)

@@ -27,18 +27,43 @@
       "windDirection": [1.0,0.0,0.0],
       "chapter": "krymsk",
       "gt_cooperative": true,
-      "tags": []
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
     },
+    "spectator_points": [],
     "briefing": {
       "place_loc": "",
       "date_loc": "",
       "objective_loc": "",
       "music": "ussr_main_theme",
+      "viewAreaScale": 2.0,
       "part": {
         "event": "",
         "minTime": 0,
@@ -51,6 +76,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -110,9 +138,13 @@
       "importAreas": true,
       "importUnits": true,
       "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
       "showAreas": true,
       "showUnits": true,
       "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
       "excludes": []
     }
   },
@@ -138,6 +170,18 @@
               "avoidObstacles": true
             },
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "ships_squad"
             },
             {
@@ -151,16 +195,25 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "ships_squad"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player_himself",
             "targetableByAi": true
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "ships_count": {
       "is_enabled": true,
@@ -184,9 +237,13 @@
           "icon": "ship",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "ships_squad"
         }
-      }
+      },
+      "else_actions": []
     },
     "mission_completed": {
       "is_enabled": true,
@@ -206,6 +263,11 @@
           "object_type": "isKilled",
           "object_marking": 0,
           "check_objects": "all",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_type": "isAlive",
+          "check_period": 1.0,
           "object": "ships_squad"
         }
       },
@@ -224,7 +286,8 @@
           "timer": false,
           "debriefingTimer": 2
         }
-      }
+      },
+      "else_actions": []
     },
     "mission_failed": {
       "is_enabled": true,
@@ -245,6 +308,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "ships_squad",
           "target": "where_ships_disappearing"
         }
@@ -265,6 +331,9 @@
           "icon": "ship",
           "icon army": 2,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "ships_squad"
         },
         "moSetObjectiveStatus": {
@@ -274,7 +343,8 @@
         "missionFailed": {
           "timer": false
         }
-      }
+      },
+      "else_actions": []
     },
     "ammo_restore": {
       "is_enabled": false,
@@ -294,7 +364,8 @@
         "playerOptions": {
           "respawnHydras": true
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy_appears": {
       "is_enabled": true,
@@ -315,6 +386,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player_himself",
           "target": "enemy_plane_appears"
         }
@@ -330,6 +404,14 @@
           "useUnitHeightForTele": false,
           "shouldKeepFormation": false,
           "teleportHeightValue": 2000.0,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "horizontalDirectionForTeleport": true,
           "object": "enemy",
           "move_type": "teleport",
           "lookat": "player",
@@ -341,7 +423,8 @@
           "target": "player",
           "fireRandom": true
         }
-      }
+      },
+      "else_actions": []
     },
     "attack_player": {
       "is_enabled": true,
@@ -364,7 +447,8 @@
           "target": "player_himself",
           "playerAttractedCount": 1
         }
-      }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -398,9 +482,19 @@
           [0.707107,0.0,-0.707107],
           [900.65,1298.1,-5430.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "il-2i",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "IL2I_rs132",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "free_distance": 70.0,
@@ -435,14 +529,10 @@
           [0.0,0.0,1.0],
           [-12117.8,10.0,-3334.1]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "player",
           "object_type": "isPlayer"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -454,9 +544,19 @@
           [0.382683,0.0,0.92388],
           [-4253.2,10.0,-9790.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 2,
@@ -478,7 +578,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_02": {
@@ -491,7 +594,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_03": {
@@ -504,7 +610,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_04": {
@@ -517,7 +626,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_05": {
@@ -530,7 +642,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_06": {
@@ -543,7 +658,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_07": {
@@ -556,7 +674,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_08": {
@@ -569,7 +690,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_09": {
@@ -582,7 +706,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_10": {
@@ -595,7 +722,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat03_wp_11": {
@@ -608,7 +738,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -623,9 +756,19 @@
           [0.382683,0.0,0.92388],
           [-4285.75,10.0,-9524.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -647,7 +790,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_02": {
@@ -660,7 +806,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_03": {
@@ -673,7 +822,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_04": {
@@ -686,7 +838,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_05": {
@@ -699,7 +854,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_06": {
@@ -712,7 +870,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_07": {
@@ -725,7 +886,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_08": {
@@ -738,7 +902,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_09": {
@@ -751,7 +918,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_10": {
@@ -764,7 +934,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_11": {
@@ -777,7 +950,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_12": {
@@ -790,7 +966,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat00_wp_13": {
@@ -803,7 +982,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -818,9 +1000,19 @@
           [0.34202,0.0,0.939693],
           [-4411.45,10.0,-9851.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -842,7 +1034,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_02": {
@@ -855,7 +1050,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_03": {
@@ -868,7 +1066,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_04": {
@@ -881,7 +1082,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_05": {
@@ -894,7 +1098,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_06": {
@@ -907,7 +1114,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_07": {
@@ -920,7 +1130,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_08": {
@@ -933,7 +1146,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_09": {
@@ -946,7 +1162,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_10": {
@@ -959,7 +1178,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_11": {
@@ -972,7 +1194,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_12": {
@@ -985,7 +1210,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_13": {
@@ -998,7 +1226,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_14": {
@@ -1011,7 +1242,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_15": {
@@ -1024,7 +1258,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_16": {
@@ -1037,7 +1274,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat01_wp_17": {
@@ -1050,7 +1290,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1065,9 +1308,19 @@
           [0.34202,0.0,0.939693],
           [-4494.05,10.0,-9525.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 2,
@@ -1089,7 +1342,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_01": {
@@ -1102,7 +1358,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_02": {
@@ -1115,7 +1374,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_03": {
@@ -1128,7 +1390,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_04": {
@@ -1141,7 +1406,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_05": {
@@ -1154,7 +1422,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_06": {
@@ -1167,7 +1438,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_07": {
@@ -1180,7 +1454,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_08": {
@@ -1193,7 +1470,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_09": {
@@ -1206,7 +1486,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_10": {
@@ -1219,7 +1502,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat05_wp_11": {
@@ -1232,7 +1518,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1247,9 +1536,19 @@
           [0.34202,0.0,0.939693],
           [-4647.65,10.0,-9635.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 2,
@@ -1271,7 +1570,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_01": {
@@ -1284,7 +1586,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_02": {
@@ -1297,7 +1602,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_03": {
@@ -1310,7 +1618,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_04": {
@@ -1323,7 +1634,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_05": {
@@ -1336,7 +1650,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_06": {
@@ -1349,7 +1666,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_07": {
@@ -1362,7 +1682,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_08": {
@@ -1375,7 +1698,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_09": {
@@ -1388,7 +1714,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_10": {
@@ -1401,7 +1730,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_11": {
@@ -1414,7 +1746,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_12": {
@@ -1427,7 +1762,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_13": {
@@ -1440,7 +1778,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat04_wp_14": {
@@ -1453,7 +1794,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1468,9 +1812,19 @@
           [0.34202,0.0,0.939693],
           [-4592.35,10.0,-9809.4]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -1492,7 +1846,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_01": {
@@ -1505,7 +1862,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_02": {
@@ -1518,7 +1878,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_03": {
@@ -1531,7 +1894,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_04": {
@@ -1544,7 +1910,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_05": {
@@ -1557,7 +1926,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_06": {
@@ -1570,7 +1942,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_07": {
@@ -1583,7 +1958,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_08": {
@@ -1596,7 +1974,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_09": {
@@ -1609,7 +1990,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_10": {
@@ -1622,7 +2006,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_11": {
@@ -1635,7 +2022,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_12": {
@@ -1648,7 +2038,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_13": {
@@ -1661,7 +2054,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat06_wp_14": {
@@ -1674,7 +2070,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1689,9 +2088,19 @@
           [0.34202,0.0,0.939693],
           [-4820.35,10.0,-9801.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_patrol_boat",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -1713,7 +2122,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_03": {
@@ -1726,7 +2138,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_04": {
@@ -1739,7 +2154,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_05": {
@@ -1752,7 +2170,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_06": {
@@ -1765,7 +2186,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_07": {
@@ -1778,7 +2202,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_08": {
@@ -1791,7 +2218,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_09": {
@@ -1804,7 +2234,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_10": {
@@ -1817,7 +2250,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_11": {
@@ -1830,7 +2266,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_12": {
@@ -1843,7 +2282,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_13": {
@@ -1856,7 +2298,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           },
           "patrol_boat02_wp_14": {
@@ -1869,7 +2314,10 @@
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT"
+              "moveType": "MOVETO_STRAIGHT",
+              "tas": false,
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1884,9 +2332,6 @@
           [0.0,0.0,1.0],
           [-4112.6,10.0,-9679.3]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": [
           {
             "squad_members": "patrol_boat03"
@@ -1909,8 +2354,7 @@
           {
             "squad_members": "patrol_boat02"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1922,9 +2366,19 @@
           [0.0,0.0,1.0],
           [6636.1,2457.75,-15480.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109g-2",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Bf-109G-2_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "free_distance": 70.0,
@@ -1972,5 +2426,28 @@
       ],
       "props": []
     }
-  }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
 }

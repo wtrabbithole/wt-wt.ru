@@ -60,7 +60,13 @@ class ::gui_handlers.WwSquadList extends ::gui_handlers.BaseGuiHandlerWT
       memberData.isCrewsReady ? "yes" : "no"
 
     local alertText = ""
-    if (!memberData.isReady)
+    local fullAlertText = ""
+    if (!memberData.canPlayWorldWar)
+    {
+      alertText = ::loc("worldWar/noAccess")
+      fullAlertText = ::g_world_war.getPlayWorldwarConditionText()
+    }
+    else if (!memberData.isReady)
       alertText = ::loc("multiplayer/state/player_is_not_ready")
     else if (memberUnitsData.joinStatus != memberStatus.READY)
       alertText = ::loc(::g_squad_utils.getMemberStatusLocId(memberUnitsData.joinStatus))
@@ -69,6 +75,13 @@ class ::gui_handlers.WwSquadList extends ::gui_handlers.BaseGuiHandlerWT
 
     memberObj.findObject("cant_join_text").setValue(alertText)
     memberObj.findObject("member_name").setValue(memberData.name)
+
+    local alertIconObj =  memberObj.findObject("alert_icon")
+    if (!::check_obj(alertIconObj))
+      return
+
+    alertIconObj.show(!::u.isEmpty(fullAlertText))
+    alertIconObj.tooltip = fullAlertText
   }
 
   function updateBattleData(battleCountry, battleRemainUnits)

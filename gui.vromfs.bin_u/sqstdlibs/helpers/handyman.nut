@@ -27,7 +27,7 @@
  *  ::handyman.renderCached(template_name, view) use just temaplte file name.
  */
 
-local g_string =  require("sqStdLibs/common/string.nut")
+local g_string =  require("std/string.nut")
 
 class Context
 {
@@ -690,7 +690,7 @@ class Scanner
     checkCacheReset()
     if (templatePath in tokensByTemplatePath)
       return
-    local template = ::load_scene_template(templatePath)
+    local template = ::load_template_text(templatePath)
     template = processIncludes(template)
     templateByTemplatePath[templatePath] <- template
     tokensByTemplatePath[templatePath] <- defaultWriter.parseTemplate(template)
@@ -711,7 +711,7 @@ class Scanner
         break
 
       local fName = template.slice(fNameStart, endIdx)
-      local includeRes = ::load_scene_template(fName)
+      local includeRes = ::load_template_text(fName)
       template = template.slice(0, startIdx) + includeRes + template.slice(endIdx + 1)
     }
     return template
@@ -765,7 +765,7 @@ function testhandyman(_temaple = null, _view = null, partails = null)
   }
 <</empty>>"
 
-local partails = {
+local partials = {
   first = @"text{
     test:t='<<name>>';
   }"
@@ -792,5 +792,5 @@ local partails = {
     layout_insertion = "wink:t='yes';"
   }
   dlog("before render" + 1)
-  dlog(handyman.render(testTemplate, testView, partails))
+  dlog(handyman.render(testTemplate, testView, partials))
 }

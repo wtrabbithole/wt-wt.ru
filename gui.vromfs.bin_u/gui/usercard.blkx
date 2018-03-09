@@ -74,13 +74,20 @@
                         "id": "btn_profile_icon",
                         "_on_click": "onChangePilotIcon",
                         "class": "profileImg",
-                        "img": {
+                        "div": {
                           "id": "profile-icon",
                           "size": "pw,ph",
-                          "background-image": "#ui/images/avatars/cardicon_default"
+                          "behavior": "bhvAvatar",
+                          "isFull": "yes"
                         },
                         "ButtonImg": {
                           "style": "pos:pw - w - 4@dp, ph - h - 4@dp; height:@buttonIconHeight;"
+                        },
+                        "unseenIcon": {
+                          "id": "unseen_avatar",
+                          "pos": "4@dp, 4@dp",
+                          "position": "absolute",
+                          "unseenText": []
                         }
                       },
                       "tdiv": [
@@ -129,6 +136,12 @@
                             "css-hier-invalidate": "yes",
                             "ButtonImg": {
                               "style": "top:50%ph-50%h;"
+                            },
+                            "unseenIcon": {
+                              "id": "unseen_titles",
+                              "pos": "pw + 1@blockInterval, 50%ph-50%h",
+                              "position": "absolute",
+                              "unseenText": []
                             }
                           }
                         },
@@ -217,6 +230,7 @@
                         "tdiv": {
                           "id": "country_stats_nest",
                           "width": "75%pw",
+                          "height": "fh",
                           "pos": "50%pw-50%w, 0",
                           "position": "relative"
                         }
@@ -449,6 +463,16 @@
                 "_on_click": "onComplain",
                 "ButtonImg": []
               }
+            },
+            {
+              "Button_text": {
+                "id": "btn_xbox_profile",
+                "text": "#mainmenu/btnXboxProfile",
+                "btnName": "LB",
+                "on_click": "onOpenXboxProfile",
+                "display": "hide",
+                "ButtonImg": []
+              }
             }
           ],
           "navMiddle": {
@@ -629,7 +653,7 @@
                   {
                     "tdiv": {
                       "id": "gamercard_tobattle_bg",
-                      "left": "-1@titleLogoPlatePadding/2",
+                      "pos": "-1@titleLogoPlatePadding/2, 0",
                       "position": "relative",
                       "height": "ph",
                       "background-color": "@gameModeColor",
@@ -798,7 +822,7 @@
                               "id": "gc_profile",
                               "tooltip": "#mainmenu/btnProfile",
                               "_on_click": "onProfile",
-                              "cardImg": {
+                              "cardAvatar": {
                                 "id": "gc_icon"
                               },
                               "tdiv": {
@@ -1072,6 +1096,7 @@
       },
       {
         "gamercard": {
+          "id": "gamercard_bottom",
           "BottomMenuPanel": [
             {
               "shadowSafeArea": []

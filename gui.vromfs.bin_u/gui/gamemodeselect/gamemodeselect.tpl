@@ -69,7 +69,7 @@ frame {
       game_mode_block {
         <<#hasContent>>
         id:t='<<id>>';
-        tooltip:t='<<tooltip>>'
+        tooltip:t='<<#isCrossPlayRequired>><<?xbox/gamemode/crossPlayRequired>>\n<</isCrossPlayRequired>><<tooltip>>'
         value:t='<<value>>';
 
         <<#isFeatured>>
@@ -130,7 +130,10 @@ frame {
 
             textarea {
               game_mode_textarea:t='yes';
-              text:t='<<text>>';
+              text:t='<<#isCrossPlayRequired>><<?icon/cross_play>> <</isCrossPlayRequired>><<text>>';
+              <<#isCrossPlayRequired>>
+                overlayTextColor:t='warning'
+              <</isCrossPlayRequired>>
             }
             textarea {
               game_mode_textarea:t='yes';

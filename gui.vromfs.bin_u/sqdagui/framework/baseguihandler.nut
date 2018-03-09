@@ -1,4 +1,4 @@
-local u = require("sqStdLibs/common/u.nut")
+local u = require("std/u.nut")
 
 class ::BaseGuiHandler
 {
@@ -319,6 +319,8 @@ class ::BaseGuiHandler
     })
   }
 
+  canRestoreFocus = @() true
+
   function restoreFocus(checkPrimaryFocus = true)
   {
     if ((checkPrimaryFocus && !isPrimaryFocus) || !isSceneActiveNoModals())
@@ -328,6 +330,15 @@ class ::BaseGuiHandler
 
     if (!focusArray || !focusArray.len())
       return
+
+    if (!canRestoreFocus())
+      return
+    if (wndType == handlerType.ROOT)
+    {
+      local h = getCurActiveContentHandler()
+      if (h && !h.canRestoreFocus())
+        return
+    }
 
     checkCurrentFocusItem(guiScene.getSelectedObject())
 

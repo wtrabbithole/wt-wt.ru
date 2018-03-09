@@ -25,20 +25,45 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "saipan",
-      "windSpeed": [5.0,6.0],
       "gt_cooperative": true,
-      "tags": []
+      "windSpeed": [5.0,6.0],
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
     },
+    "spectator_points": [],
     "briefing": {
       "place_loc": "",
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
+      "viewAreaScale": 2.0,
       "part": {
         "event": "",
         "minTime": 0,
@@ -51,6 +76,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -119,9 +147,29 @@
           "useUnitHeightForTele": true,
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "horizontalDirectionForTeleport": true,
           "object": "friendly_fighters01"
         },
         "unitSetProperties": [
+          {
+            "object_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
           {
             "object": "friendly_fighters01"
           },
@@ -170,7 +218,8 @@
         "moAddMissionObjective": {
           "target": "single_saipan_m01_fly00"
         }
-      }
+      },
+      "else_actions": []
     },
     "initial_offline": {
       "is_enabled": true,
@@ -189,6 +238,10 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "targetableByAi": false
           }
@@ -200,11 +253,16 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player_himself",
             "targetableByAi": true
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "waypoint01": {
       "is_enabled": true,
@@ -225,6 +283,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "waypoint00"
         }
@@ -260,7 +321,8 @@
             "target": "waypoint02"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "waypoint02": {
       "is_enabled": false,
@@ -281,6 +343,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "waypoint01"
         }
@@ -316,7 +381,8 @@
             "target": "waypoint03"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "waypoint03": {
       "is_enabled": false,
@@ -337,6 +403,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "waypoint02"
         }
@@ -372,7 +441,8 @@
             "target": "defend_allies_objective"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "defend_allies_objective": {
       "is_enabled": false,
@@ -395,6 +465,11 @@
           "target_type": "isAlive",
           "check_objects": "any",
           "check_targets": "any",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
           "object": "player",
           "target": "waypoint03"
         }
@@ -452,6 +527,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "friendly_scouts00",
             "isImmortal": true
           }
@@ -470,6 +549,18 @@
           "unitSetIndication": [
             {
               "set": true
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "enemy_fighters00"
@@ -515,6 +606,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "friendly_scouts00",
             "isImmortal": false
           }
@@ -539,7 +634,8 @@
             "target": "more_players_more_planes"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "more_players_more_planes": {
       "is_enabled": false,
@@ -560,6 +656,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 2,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -575,7 +674,8 @@
           "playerAttractedCount": 1,
           "fightInArea": "where_to_fight"
         }
-      }
+      },
+      "else_actions": []
     },
     "friendly_scouts_indicator": {
       "is_enabled": false,
@@ -599,9 +699,13 @@
           "icon": "air",
           "icon army": 1,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "friendly_scouts00"
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy_fighters_indicator": {
       "is_enabled": false,
@@ -638,13 +742,23 @@
             "set": true
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "target": "enemy_fighters00"
           },
           {
             "target": "enemy_fighters01"
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "defence_failed": {
       "is_enabled": false,
@@ -665,6 +779,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 5,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "friendly_scouts00"
         }
       },
@@ -684,6 +801,9 @@
           "icon": "air",
           "icon army": 1,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "friendly_scouts00"
         },
         "moSetObjectiveStatus": {
@@ -697,9 +817,18 @@
           "useUnitHeightForTele": true,
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "horizontalDirectionForTeleport": true,
           "object": "friendly_scouts00"
         }
-      }
+      },
+      "else_actions": []
     },
     "defence_succeed": {
       "is_enabled": false,
@@ -720,6 +849,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 4,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "friendly_scouts00"
         }
       },
@@ -739,13 +871,17 @@
           "icon": "air",
           "icon army": 1,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "friendly_scouts00"
         },
         "moSetObjectiveStatus": {
           "target": "single_saipan_m01_def00",
           "status": 2
         }
-      }
+      },
+      "else_actions": []
     },
     "45_percent_killed": {
       "is_enabled": false,
@@ -773,6 +909,15 @@
           },
           {
             "value": 11
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "enemy_fighters00"
@@ -806,6 +951,9 @@
           "icon": "air",
           "icon army": 1,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "friendly_scouts00"
         },
         "unitMoveTo": {
@@ -815,6 +963,14 @@
           "useUnitHeightForTele": true,
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "horizontalDirectionForTeleport": true,
           "object": "friendly_scouts00"
         },
         "unitAttackTarget": [
@@ -834,7 +990,8 @@
             "playerAttractedCount": 1
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "75_percent_killed": {
       "is_enabled": false,
@@ -864,6 +1021,15 @@
             "value": 4
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "enemy_fighters00"
           },
           {
@@ -885,6 +1051,9 @@
             "icon": "air",
             "icon army": 2,
             "set": false,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "enemy_fighters00"
           }
         },
@@ -892,6 +1061,18 @@
           "unitSetIndication": [
             {
               "set": false
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "enemy_fighters00"
@@ -909,6 +1090,14 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "enemy_fighters00"
           }
         },
@@ -936,6 +1125,14 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "friendly_fighters01"
           }
         },
@@ -959,7 +1156,8 @@
             }
           ]
         }
-      ]
+      ],
+      "else_actions": []
     },
     "waypoint06": {
       "is_enabled": false,
@@ -980,6 +1178,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "waypoint05"
         }
@@ -1015,7 +1216,8 @@
             "target": "mission_completed"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "mission_completed": {
       "is_enabled": false,
@@ -1036,6 +1238,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "waypoint06"
         }
@@ -1060,7 +1265,8 @@
           "timer": false,
           "debriefingTimer": 2
         }
-      }
+      },
+      "else_actions": []
     },
     "scouts_disappear": {
       "is_enabled": false,
@@ -1083,6 +1289,11 @@
           "target_type": "isAlive",
           "check_objects": "all",
           "check_targets": "all",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
           "object": "player",
           "target": "friendly_scouts00"
         }
@@ -1091,7 +1302,8 @@
         "unitPutToSleep": {
           "target": "friendly_scouts00"
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy_disappear": {
       "is_enabled": false,
@@ -1114,6 +1326,11 @@
           "target_type": "isActive",
           "check_objects": "all",
           "check_targets": "all",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
           "object": "player",
           "target": "enemy_fighters00"
         }
@@ -1122,7 +1339,8 @@
         "unitPutToSleep": {
           "target": "enemy_fighters00"
         }
-      }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -1195,9 +1413,19 @@
           [0.34202,0.0,-0.939693],
           [-80.55,6000.0,6127.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m5_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m5_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 4,
@@ -1230,9 +1458,19 @@
           [0.34202,0.0,-0.939693],
           [25.1998,6000.0,6799.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m5_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m5_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 4,
@@ -1265,9 +1503,19 @@
           [5.96046e-08,0.0,-1.0],
           [-23418.2,5271.85,13973.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m2_n_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m2n_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 5,
@@ -1301,9 +1549,19 @@
           [0.0,0.0,1.0],
           [-28191.9,4021.9,15868.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "f6f-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f6f-3_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 16,
@@ -1338,14 +1596,10 @@
           [0.0,0.0,1.0],
           [-16311.4,-21.9,-6793.35]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "player",
           "object_type": "isPlayer"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -1357,9 +1611,19 @@
           [0.0,0.0,1.0],
           [-32614.9,4021.9,19582.4]
         ],
-        "closed_waypoints": false,
         "unit_class": "f6f-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f6f-3_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 8,
@@ -1486,5 +1750,7 @@
       ],
       "props": []
     }
-  }
+  },
+  "objLayers": [],
+  "wayPoints": []
 }

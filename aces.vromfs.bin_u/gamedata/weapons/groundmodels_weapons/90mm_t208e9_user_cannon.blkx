@@ -10,7 +10,7 @@
   "aimMaxDist": 2000.0,
   "maxDeltaAngle": 0.065,
   "maxDeltaAngleVertical": 0.065,
-  "shotFreq": 0.1166,
+  "shotFreq": 0.117,
   "traceFreq": 4,
   "bEnablePause": false,
   "bullets": -1,
@@ -27,22 +27,17 @@
   "notUseDefaultBulletInGui": true,
   "bullet": {
     "bulletCount": 25,
-    "mass": 5.0,
+    "mass": 3.6,
     "caliber": 0.09,
-    "damageCaliber": 0.05,
+    "damageCaliber": 0.04,
     "ballisticCaliber": 0.08,
     "speed": 1570.0,
-    "maxDistance": 10000.0,
+    "maxDistance": 20000.0,
     "bulletType": "apds_fs_tank",
     "bulletName": "90mm_t320",
+    "Cx": 0.01,
     "onHitChanceMultExplFuel": 0.1,
     "relativeVelHitShift": [300.0,1000.0],
-    "armorFragmentsDamage": true,
-    "armorFragmentsDamageRadius": 5.4,
-    "armorFragmentsDamageAngle": 20.0,
-    "armorFragmentsAmount": 100,
-    "armorFragmentsArmorPower": 4.0,
-    "armorFragmentsHit": 10.0,
     "relativeVelArmorShift": [200.0,1000.0],
     "groundCollisionEffect": "big_ground_splash",
     "groundFxScale": [1.1,1.2],
@@ -64,20 +59,21 @@
       "ArmorPower3500m": [206.0,3500.0],
       "ArmorPower4000m": [167.0,4000.0],
       "ArmorPower4500m": [146.0,4500.0],
+      "ArmorPower8000m": [30.0,8000.0],
       "ArmorPower10000m": [0.0,10000.0]
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "30mmWhite",
+      "tracer": "50mmWhite",
       "trail": "black"
     },
     "collisions": {
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_apds"
       },
       "armor": {
-        "fx": "cannon_hit_armor"
+        "fx": "cannon_hit_apds"
       },
       "buildings": {
         "fx": "122_ap_stone_splash",
@@ -88,22 +84,17 @@
   "90mm_us_T320_APDS_FS": {
     "bullet": {
       "bulletCount": 25,
-      "mass": 5.0,
+      "mass": 3.6,
       "caliber": 0.09,
-      "damageCaliber": 0.05,
+      "damageCaliber": 0.04,
       "ballisticCaliber": 0.08,
       "speed": 1570.0,
-      "maxDistance": 10000.0,
+      "maxDistance": 20000.0,
       "bulletType": "apds_fs_tank",
       "bulletName": "90mm_t320",
+      "Cx": 0.01,
       "onHitChanceMultExplFuel": 0.1,
       "relativeVelHitShift": [300.0,1000.0],
-      "armorFragmentsDamage": true,
-      "armorFragmentsDamageRadius": 5.4,
-      "armorFragmentsDamageAngle": 20.0,
-      "armorFragmentsAmount": 100,
-      "armorFragmentsArmorPower": 4.0,
-      "armorFragmentsHit": 10.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [1.1,1.2],
@@ -125,20 +116,21 @@
         "ArmorPower3500m": [206.0,3500.0],
         "ArmorPower4000m": [167.0,4000.0],
         "ArmorPower4500m": [146.0,4500.0],
+        "ArmorPower8000m": [30.0,8000.0],
         "ArmorPower10000m": [0.0,10000.0]
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "30mmWhite",
+        "tracer": "50mmWhite",
         "trail": "black"
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         },
         "buildings": {
           "fx": "122_ap_stone_splash",

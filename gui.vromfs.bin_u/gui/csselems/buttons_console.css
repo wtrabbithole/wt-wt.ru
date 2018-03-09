@@ -663,6 +663,7 @@ Button_text.image[imgSize=big]:pushed {
   background-color: @buttonColorPushed;
 }
 
+Button_text[visualStyle=secondary][isColoredImg=yes] > img,
 Button_text[visualStyle=noFrame][isColoredImg=yes] > img {
   background-color:@white;
 }
@@ -1021,6 +1022,7 @@ Button_text[visualStyle=noFrame] > btnImage {
   pos:5*@sf/@pf_outdated, 50%ph-50%h;
   position:absolute;
   size:@cIco, @cIco;
+  background-svg-size:@cIco, @cIco;
   background-color:@activeImageColor;
 }
 
@@ -1288,7 +1290,7 @@ rightClickMenu > Button_text {
   border-color:@transparent;
   color:@menuButtonTextColor;
   text-align:center;
-  width:"pw";
+  width:pw;
 }
 
 rightClickMenu > Button_text > textarea {
@@ -1299,6 +1301,11 @@ rightClickMenu > Button_text > textarea {
   min-width:1;
   paragraph-indent:0;
   input-transparent:yes;
+}
+
+rightClickMenu > Button_text[inactiveColor=yes],
+rightClickMenu > Button_text[inactiveColor=yes] > textarea {
+  color: @buttonFontColorDisabled;
 }
 
 rightClickMenu > Button_text:hover,
@@ -1323,13 +1330,26 @@ rightClickMenu > Button_text:pushed > textarea {
   color: @menuButtonTextColorPushed;
 }
 
+rightClickMenu > Button_text[inactiveColor=yes]:hover,
+[show_console_buttons=yes] rightClickMenu > Button_text[inactiveColor=yes]:focus,
+rightClickMenu > Button_text[inactiveColor=yes]:pushed {
+  color: @buttonFontColorDisabled;
+  background-color:@transparent;
+  border-color:@transparent;
+}
+
+rightClickMenu > Button_text[inactiveColor=yes]:hover > textarea,
+[show_console_buttons=yes] rightClickMenu > Button_text[inactiveColor=yes]:focus > textarea,
+rightClickMenu > Button_text[inactiveColor=yes]:pushed > textarea {
+  color:@buttonFontColorDisabled;
+}
+
 menuLine, topMenuLine {
   height:4@dp;
   background-repeat:expand;
   background-image:#ui/gameuiskin#separator_bottom;
   background-color:@white;
   background-position:3, 0;
-  margin-bottom:1.0*@scrn_tgt/100.0;
   input-transparent:yes;
 }
 
@@ -1337,6 +1357,7 @@ topMenuLine {
   width:0.8@bigButtonWidth;
   pos:50%pw-50%w, -25%h;
   position: absolute;
+  margin-bottom:1.0*@scrn_tgt/100.0;
 }
 
 topMenuLinePlace {
@@ -1344,9 +1365,9 @@ topMenuLinePlace {
 }
 
 menuLine {
-  width:0.8pw;
-  pos:50%pw-50%w, 0.1*@scrn_tgt/100.0;
+  pos:50%pw-50%w, 0;
   position:relative;
+  width:90%pw;
 }
 
 Button_text.title {
@@ -1369,9 +1390,14 @@ Button_text.battle, Button_text.battle > btnText {
   min-width:1@buttonWidth;
 }
 
-[allowDecreaseFont=yes] > Button_text.battle,
-[allowDecreaseFont=yes] > Button_text.battle > btnText {
-  font:@fontMedium;
+Button_text.battle[fontOverride=fontNormalBold],
+Button_text.battle[fontOverride=fontNormalBold] > btnText {
+  font:@fontNormalBold;
+}
+
+Button_text.battle[fontOverride=fontNormal],
+Button_text.battle[fontOverride=fontNormal] > btnText {
+  font:@fontNormal;
 }
 
 Button_text.battle[navButtonFont=yes], [navButtonFont=yes] > btnText,
@@ -1747,7 +1773,7 @@ expandable:hover Button_text[enableOn=hoverOrSelect] {
 
 Button_text.profileImg {
   reduceMinimalWidth:yes;
-  height:1@profileUnlockIconSize + 2@blockInterval;
+  height:1@avatarButtonSize;
   width:h;
   background-image:#ui/gameuiskin#header_button_;
   margin:0;
@@ -1839,8 +1865,8 @@ Button_text.bottomAirItem {
   pos:50%pw-50%w, 0;
   position:relative;
   min-width: 0.33@slot_width;
-  padding:0;
-  display: hide;
+  padding:1@smallButtonImgPadding;
+  padding-top:1@smallButtonImgPadding + 1@dp + 3@sf/@pf;   display: hide;
   enable:no;
   non-input-transparent:yes;
   order-popup:no;
@@ -2081,6 +2107,14 @@ Button_text.image[_isButtonWithText=yes] {
   text-align:left;
 }
 
+Button_text.image[pc_style=no][btnName][_isButtonWithText=yes] {
+  padding-left: 2h + 1@buttonTextPadding;
+}
+
+Button_text.image[pc_style=no][btnName][_isButtonWithText=yes][showButtonImageOnConsole=no] {
+  padding-left: h + 1@buttonTextPadding;
+}
+
 Button_text.squadWidgetMember {
   width:@dIco + @sIco + 2@buttonImgPadding + 2@dp;
   min-width:h;
@@ -2131,7 +2165,7 @@ authorizationBlock > Button_text {
   height: 1@navBarBattleButtonHeight;
   margin:0;
   position:relative;
-  pos:50%pw-50%w, 50%ph-50%h;
+  pos:50%pw-50%w, 0;
 }
 
 Button_text[scaleble=yes] {

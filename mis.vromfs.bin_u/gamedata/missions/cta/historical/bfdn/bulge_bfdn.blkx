@@ -533,6 +533,15 @@
             "object_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t1_aaa_squad"
           },
           {
@@ -606,6 +615,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_land_squad"
             },
             {
@@ -629,6 +647,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t2_heavy_units_squad"
@@ -657,6 +684,15 @@
             },
             {
               "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "t1_quest_units_squad"
@@ -724,6 +760,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t2_inf_squad"
@@ -902,6 +947,9 @@
             "icon": "score",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -913,6 +961,9 @@
             "icon": "score",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -943,6 +994,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_provision_column_squad",
             "target": "stop_point_for_truck01"
           }
@@ -957,6 +1011,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_provision_column_squad",
             "target": "stop_point_for_truck02"
           }
@@ -966,6 +1023,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_provision_column_squad",
             "speed": 0.0
           }
@@ -978,6 +1038,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_provision_column_squad",
             "speed": 30.0
           }
@@ -1008,6 +1071,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_atack_squad"
         }
       },
@@ -1017,6 +1083,11 @@
         },
         "triggerDisable": {
           "target": "t2_city_captured"
+        },
+        "moSetObjectiveStatus": {
+          "target": "bulge_BfDn_t1_defend",
+          "status": 2,
+          "team": "A"
         }
       },
       "else_actions": []
@@ -1046,6 +1117,11 @@
         },
         "triggerDisable": {
           "target": "t1_city_defended"
+        },
+        "moSetObjectiveStatus": {
+          "target": "bulge_BfDn_t2_capture",
+          "status": 2,
+          "team": "B"
         }
       },
       "else_actions": []
@@ -1069,12 +1145,20 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_quest_howitzers_squad"
         }
       },
       "actions": {
         "triggerEnable": {
           "target": "t1_task_completed"
+        },
+        "moSetObjectiveStatus": {
+          "target": "bulge_BfDn_t1_destroy",
+          "status": 2,
+          "team": "A"
         }
       },
       "else_actions": []
@@ -1098,12 +1182,20 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_provision_column_squad"
         }
       },
       "actions": {
         "triggerEnable": {
           "target": "t2_task_completed"
+        },
+        "moSetObjectiveStatus": {
+          "target": "bulge_BfDn_t2_destroy",
+          "status": 2,
+          "team": "B"
         }
       },
       "else_actions": []

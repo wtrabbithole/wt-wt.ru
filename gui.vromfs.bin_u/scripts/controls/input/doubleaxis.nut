@@ -7,14 +7,23 @@ class ::Input.DoubleAxis extends ::Input.InputBase
 
   function getMarkup()
   {
-    local template = "gui/shortcutAxis"
-    local view = {}
-    if (deviceId == ::JOYSTICK_DEVICE_0_ID)
-      view.buttonImage <- ::getTblValue(axisIds, ::gamepad_axes_images, "")
-    else if (deviceId == ::STD_MOUSE_DEVICE_ID)
-      view.buttonImage <- ::getTblValue(axisIds, ::mouse_axes_to_image, "")
+    local data = getMarkupData()
+    return ::handyman.renderCached(data.template, data.view)
+  }
 
-    return ::handyman.renderCached(template, view)
+  function getMarkupData()
+  {
+    local data = {
+      template = "gui/shortcutAxis"
+      view = {}
+    }
+
+    if (deviceId == ::JOYSTICK_DEVICE_0_ID)
+      data.view.buttonImage <- ::getTblValue(axisIds, ::gamepad_axes_images, "")
+    else if (deviceId == ::STD_MOUSE_DEVICE_ID)
+      data.view.buttonImage <- ::getTblValue(axisIds, ::mouse_axes_to_image, "")
+
+    return data
   }
 
   function getText()

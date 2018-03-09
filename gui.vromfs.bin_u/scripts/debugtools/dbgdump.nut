@@ -141,7 +141,7 @@ function dbg_dump::load(filename, needUnloadPrev = true)
   for (local b = 0; b < blk.blockCount(); b++)
   {
     local data = blk.getBlock(b)
-    local id = data.getBlockName()
+    local id = strToKey(data.getBlockName())
     if (!(id in backup))
       backup[id] <- ::getTblValue(id, rootTable, "__destroy")
     if (data.__function)
@@ -167,7 +167,7 @@ function dbg_dump::load(filename, needUnloadPrev = true)
   for (local p = 0; p < blk.paramCount(); p++)
   {
     local data = blk.getParamValue(p)
-    local id = blk.getParamName(p)
+    local id = strToKey(blk.getParamName(p))
     if (!(id in backup))
       backup[id] <- ::getTblValue(id, rootTable, "__destroy")
     rootTable[id] <- blkToData(data)
@@ -239,7 +239,7 @@ function dbg_dump::dataToBlk(data)
       if (isArray)
         blk.__array <- true
       foreach(key, value in data)
-        blk[(isArray ? "array" : "") + key] = dataToBlk(value)
+        blk[isArray ? ("array" + key) : keyToStr(key)] = dataToBlk(value)
       return blk
     case "DataBlock":
       local blk = ::DataBlock()
@@ -279,11 +279,30 @@ function dbg_dump::blkToData(blk)
   for (local b = 0; b < blk.blockCount(); b++)
   {
     local block = blk.getBlock(b)
-    res[block.getBlockName()] <- blkToData(block)
+    res[strToKey(block.getBlockName())] <- blkToData(block)
   }
   for (local p = 0; p < blk.paramCount(); p++)
-    res[blk.getParamName(p)] <- blkToData(blk.getParamValue(p))
+    res[strToKey(blk.getParamName(p))] <- blkToData(blk.getParamValue(p))
   return res
+}
+
+function dbg_dump::keyToStr(key)
+{
+  local t = type(key)
+  return t == "string" ? key
+    : t == "integer"   ? "__int_"   + key
+    : t == "float"     ? "__float_" + key
+    : t == "bool"      ? "__bool_"  + (key ? 1 : 0)
+    : "__unsupported"
+}
+
+function dbg_dump::strToKey(str)
+{
+  return !::g_string.startsWith(str, "__")   ? str
+    : ::g_string.startsWith(str, "__int_")   ? ::g_string.slice(str, 6).tointeger()
+    : ::g_string.startsWith(str, "__float_") ? ::g_string.slice(str, 8).tofloat()
+    : ::g_string.startsWith(str, "__bool_")  ? ::g_string.slice(str, 7) == "1"
+    : "__unsupported"
 }
 
 function dbg_dump::getFuncResult(func, a = [])

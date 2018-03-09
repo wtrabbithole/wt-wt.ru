@@ -94,7 +94,7 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
     return ::getTblValue("names", config, []).len() != 0
   }
 
-  function onViewUnlocks()
+  function onViewBattleTaskRequirements()
   {
     local config = getCurrentConfig()
     if (!isConfigHaveConditions(config))

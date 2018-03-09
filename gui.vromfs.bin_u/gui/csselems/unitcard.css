@@ -512,9 +512,8 @@ shopLockImg {
 }
 
 specIconBlock {
-  height:@dIco;
-  pos:0.002@scrn_tgt, ph-h-0.005@scrn_tgt;
-  position:absolute;
+  height:ph;
+  position:relative;
   input-transparent:yes;
 }
 
@@ -584,8 +583,8 @@ crewInfoBlock > shopItemText[wink=no] {
 repairIcon, weaponsIcon {
   height:@cIco;
   width:h;
-  pos:-50%w, 0.01@scrn_tgt;
-  position:absolute;
+  pos:0, ph-h;
+  position:relative;
   background-color:@shopInServiceImgColor;
   background-svg-size:@cIco, @cIco;
   input-transparent:yes;
@@ -596,13 +595,11 @@ warningIcon {
 }
 
 repairIcon {
-  pos:0.002@scrn_tgt, ph-h-0.005@scrn_tgt;
   background-image:#ui/gameuiskin#slot_repair.svg;
   background-color:@weaponWarning;
 }
 
 weaponsIcon {
-  pos:0.2*@scrn_tgt/100.0 + w, ph-h-0.5*@scrn_tgt/100.0;
   background-image:#ui/gameuiskin#btn_weapons.svg;
   background-color:@weaponLightWarning;
 }

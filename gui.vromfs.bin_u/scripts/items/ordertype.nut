@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -143,7 +144,7 @@ function g_order_type::_formatScore(scoreValue)
   formatScore = ::g_order_type._formatScore
 }
 
-::g_enum_utils.addTypesByGlobalName("g_order_type", {
+enums.addTypesByGlobalName("g_order_type", {
   SCORE = {
     name = "score"
   }
@@ -195,7 +196,7 @@ function g_order_type::_formatScore(scoreValue)
 
 function g_order_type::getOrderTypeByName(typeName)
 {
-  return ::g_enum_utils.getCachedType("name", typeName, ::g_order_type_cache.byName,
+  return enums.getCachedType("name", typeName, ::g_order_type_cache.byName,
     ::g_order_type, ::g_order_type.UNKNOWN)
 }
 

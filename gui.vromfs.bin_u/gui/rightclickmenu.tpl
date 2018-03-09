@@ -17,13 +17,13 @@ root {
     <<#actions>>
 
     <<^text>>
-    topMenuLine { enable:t='no' }
+    menuLine { enable:t='no' }
     <</text>>
 
     <<#text>>
     Button_text {
       id:t='<<id>>'
-      <<^enabled>>inactiveColor:t='yes'<</enabled>>
+      <<#isVisualDisabled>>inactiveColor:t='yes'<</isVisualDisabled>>
       text:t='<<textUncolored>>'
       tooltip:t='<<tooltip>>'
       btnName:t='A'
@@ -36,6 +36,7 @@ root {
       textarea {
         id:t='text'
         text:t='<<text>>'
+        <<#isVisualDisabled>>inactiveColor:t='yes'<</isVisualDisabled>>
       }
       ButtonImg{}
     }

@@ -11,6 +11,7 @@ enum MIS_LOAD { //bit enum
 function on_update_es_from_host()
 {
   dagor.debug("on_update_es_from_host called")
+  ::g_crews_list.invalidate()
   ::reinitAllSlotbars()
   ::broadcastEvent("UpdateEsFromHost")
 }
@@ -65,7 +66,7 @@ function g_mis_loading_state::checkRespawnBases()
     return
 
   local hasRespBases = false
-  foreach(crew in ::get_crews_list_by_country(::get_local_player_country(), true))
+  foreach(crew in ::get_crews_list_by_country(::get_local_player_country()))
   {
     local unit = ::g_crew.getCrewUnit(crew)
     if (!unit)

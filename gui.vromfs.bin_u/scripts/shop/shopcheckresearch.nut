@@ -37,7 +37,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
       {
         showNewSlot = true,
         showEmptySlot = true,
-        limitCountryChoice = true,
+        isCountryChoiceAllowed = false,
         customCountry = unitCountry,
         showTopPanel = false
       },

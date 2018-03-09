@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_skill_parameters_type <- {
   types = []
 }
@@ -56,14 +57,14 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
 }
 
 ::g_skill_parameters_type.template <- {
-  paramName = ""
+  paramNames = []
   parseColumns = ::g_skill_parameters_type._parseColumns
   getValue = ::g_skill_parameters_type._getValue
   parseColumnTypes = ::g_skill_parameters_type._parseColumnTypes
   getProgressBarValue = ::g_skill_parameters_type._getProgressBarValue
 }
 
-::g_enum_utils.addTypesByGlobalName("g_skill_parameters_type", {
+enums.addTypesByGlobalName("g_skill_parameters_type", {
   DEFAULT = {
     parseColumns = function(paramData, columnTypes,
                             parametersByRequestType, selectedParametersByRequestType, resArray)
@@ -105,8 +106,11 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
     }
   }
 
-  TANK_GUNNER_DISTANCE_ERROR = {
-    paramName = "tankGunnerDistanceError"
+  DISTANCE_ERROR = {
+    paramNames = [
+      "tankGunnerDistanceError",
+      "shipGunnerFuseDistanceError"
+    ]
 
     parseColumns = function(paramData, columnTypes,
                             parametersByRequestType, selectedParametersByRequestType, resArray)
@@ -121,11 +125,12 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
           errorText = ::g_measure_type.ALTITUDE.getMeasureUnitsText(parameterTable.error, true, true)
         }
         local parameterView = {
-          descriptionLabel = ::loc("crewSkillParameter/distanceEstimation", descriptionLocParams)
+          descriptionLabel = ::loc("crewSkillParameter/" + paramData.name, descriptionLocParams)
           valueItems = []
         }
         local params = {
           columnIndex = i
+          parameterName = paramData.name
         }
         parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
           ::g_measure_type.DISTANCE, parameterView, params)
@@ -136,53 +141,16 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
 
     getValue = function (requestType, parametersByRequestType, params = null)
     {
-      local path = [requestType, paramName, 0, "value", params.columnIndex, "distance"]
+      local path = [requestType, params.parameterName, 0, "value", params.columnIndex, "distance"]
       return ::get_tbl_value_by_path_array(path, parametersByRequestType, 0)
     }
   }
-
-  DIST_FUSE_PENALTY = {
-    paramName = "shipGunnerFuseDistanceError"
-
-    parseColumns = function(paramData, columnTypes,
-                            parametersByRequestType, selectedParametersByRequestType, resArray)
-    {
-      local currentDistanceErrorData = paramData.valuesArr
-      if (!currentDistanceErrorData.len())
-        return
-
-      foreach (i, parameterTable in currentDistanceErrorData[0].value)
-      {
-        local descriptionLocParams = {
-          errorText = ::g_measure_type.ALTITUDE.getMeasureUnitsText(parameterTable.error, true, true)
-        }
-        local parameterView = {
-          descriptionLabel = ::loc("crewSkillParameter/distanceEstimation", descriptionLocParams)
-          valueItems = []
-        }
-        local params = {
-          columnIndex = i
-        }
-        parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
-          ::g_measure_type.DISTANCE, parameterView, params)
-        parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
-        resArray.push(parameterView)
-      }
-    }
-
-    getValue = function (requestType, parametersByRequestType, params = null)
-    {
-      local path = [requestType, paramName, 0, "value", params.columnIndex, "distance"]
-      return ::get_tbl_value_by_path_array(path, parametersByRequestType, 0)
-    }
-  }
-
 })
 
 function g_skill_parameters_type::getTypeByParamName(paramName)
 {
-  return ::g_enum_utils.getCachedType(
-    "paramName", paramName, ::g_skill_parameters_type_cache.byParamName,
+  return enums.getCachedType(
+    "paramNames", paramName, ::g_skill_parameters_type_cache.byParamName,
     ::g_skill_parameters_type, ::g_skill_parameters_type.DEFAULT)
 }
 

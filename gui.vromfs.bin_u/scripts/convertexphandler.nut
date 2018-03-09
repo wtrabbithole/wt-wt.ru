@@ -124,7 +124,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
   function initCountriesList()
   {
     local curValue = 0
-    country = ::get_profile_info().country
+    country = ::get_profile_country_sq()
 
     local view = { items = [] }
     foreach(idx, countryItem in ::shopCountriesList)

@@ -619,6 +619,9 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       linkObj.tooltip = linkData.tooltip
       linkObj.setValue(linkData.text)
     }
+
+    if (gm == ::GM_CAMPAIGN)
+      showSceneBtn("btn_purchase_campaigns", ::has_feature("OnlineShopPacks") && ::get_not_purchased_campaigns().len() > 0)
   }
 
   function getEmptyListMsg()
@@ -980,6 +983,17 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (curMission && misListType.canDelete(curMission))
       misListType.deleteMission(curMission)
+  }
+
+  function onBuyCampaign()
+  {
+    ::purchase_any_campaign()
+  }
+
+  function onEventProfileUpdated(p)
+  {
+    if (p.transactionType == ::EATT_UPDATE_ENTITLEMENTS)
+      updateWindow()
   }
 }
 

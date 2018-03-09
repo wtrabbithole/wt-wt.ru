@@ -5,11 +5,11 @@
     "background-color": "@modalShadeColor",
     "frame": {
       "id": "wnd_frame",
-      "pos": "50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)",
+      "size": "1.2@sf, 1@maxWindowHeight - 0.1@sh",
+      "pos": "50%pw-50%w, 1@minYposWindow + 0.2*(sh - 1@minYposWindow - h)",
       "position": "relative",
       "class": "wndNav",
       "css-hier-invalidate": "yes",
-      "width": "6 * (1@profileUnlockIconSize + 2*5) + 2@framePadding",
       "frame_header": {
         "css-hier-invalidate": "yes",
         "activeText": {
@@ -24,11 +24,12 @@
       "tdiv": {
         "id": "images_list",
         "flow": "h-flow",
-        "max-width": "pw",
+        "width": "pw",
+        "height": "ph",
         "behavior": "posNavigator",
         "navigatorShortcuts": "yes",
         "showSelect": "always",
-        "on_select": "updateButtons"
+        "on_select": "onImageSelect"
       },
       "navBar": {
         "navMiddle": {
@@ -39,7 +40,7 @@
             "id": "btn_select",
             "text": "#mainmenu/btnSelect",
             "btnName": "A",
-            "_on_click": "onSelect",
+            "_on_click": "onChoose",
             "visualStyle": "secondary",
             "buttonWink": [],
             "ButtonImg": []

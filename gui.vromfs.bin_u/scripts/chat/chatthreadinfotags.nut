@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_chat_thread_tag <- {
   types = []
 }
@@ -50,7 +51,7 @@ function g_chat_thread_tag::_getTagStringBoolForBoolTag(threadInfo)
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_chat_thread_tag", {
+enums.addTypesByGlobalName("g_chat_thread_tag", {
   CUSTOM = {
     isRegular = false
   }
@@ -63,6 +64,10 @@ function g_chat_thread_tag::_getTagStringBoolForBoolTag(threadInfo)
   NICK = {
     prefix = "nick_"
     threadInfoParamName = "ownerNick"
+    setThreadInfoProperty = function(threadInfo, valueString)
+    {
+      threadInfo[threadInfoParamName] = ::gchat_unescape_target(valueString)
+    }
   }
 
   CLAN = {

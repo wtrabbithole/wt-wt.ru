@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_crew_spec_type <- {
   types = []
 }
@@ -407,7 +408,7 @@ function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
   getBtnBuyTooltipContent = ::g_crew_spec_type._getBtnBuyTooltipContent
 }
 
-::g_enum_utils.addTypesByGlobalName("g_crew_spec_type", {
+enums.addTypesByGlobalName("g_crew_spec_type", {
   UNKNOWN = {
     specName    = "unknown"
   }
@@ -491,20 +492,32 @@ function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
 
 function g_crew_spec_type::getTypeByCode(code)
 {
-  return ::g_enum_utils.getCachedType("code", code, ::g_crew_spec_type_cache.byCode,
+  return enums.getCachedType("code", code, ::g_crew_spec_type_cache.byCode,
     ::g_crew_spec_type, ::g_crew_spec_type.UNKNOWN)
 }
 
 function g_crew_spec_type::getTrainedSpecCode(crew, unit)
 {
-  local trainedSpec = ::getTblValue("trainedSpec", crew)
-  local unitName = ::getTblValue("name", unit)
-  return ::getTblValue(unitName, trainedSpec, -1)
+  if (!unit)
+    return -1
+
+  return getTrainedSpecCodeByUnitName(crew, unit.name)
+}
+
+function g_crew_spec_type::getTrainedSpecCodeByUnitName(crew, unitName)
+{
+  return crew?.trainedSpec?[unitName] ?? -1
 }
 
 function g_crew_spec_type::getTypeByCrewAndUnit(crew, unit)
 {
   local code = getTrainedSpecCode(crew, unit)
+  return ::g_crew_spec_type.getTypeByCode(code)
+}
+
+function g_crew_spec_type::getTypeByCrewAndUnitName(crew, unitName)
+{
+  local code = getTrainedSpecCodeByUnitName(crew, unitName)
   return ::g_crew_spec_type.getTypeByCode(code)
 }
 

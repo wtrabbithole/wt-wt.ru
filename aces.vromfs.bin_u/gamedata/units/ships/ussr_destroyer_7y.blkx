@@ -111,6 +111,9 @@
     "canReloadNonGuns": true
   },
   {
+    "allowForestallWithoutMarkers": true
+  },
+  {
     "depthTraceWarningDepth": 5.0
   },
   {
@@ -3649,6 +3652,7 @@
         "hp": 1500.0,
         "armorThickness": 20.0,
         "fireParamsPreset": "ship_cover",
+        "stopChanceOnDeadPart": 0.3,
         "compartment_01_dm": {
           "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
@@ -3836,7 +3840,75 @@
           {
             "onKill": {
               "fire": 1.0,
-              "fHitCritical": true
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "depth_charge_01_dm"
+          },
+          {
+            "name": "depth_charge_02_dm"
+          },
+          {
+            "name": "depth_charge_03_dm"
+          },
+          {
+            "name": "depth_charge_04_dm"
+          },
+          {
+            "name": "depth_charge_05_dm"
+          },
+          {
+            "name": "depth_charge_06_dm"
+          },
+          {
+            "name": "depth_charge_07_dm"
+          },
+          {
+            "name": "depth_charge_08_dm"
+          },
+          {
+            "name": "depth_charge_09_dm"
+          },
+          {
+            "name": "depth_charge_10_dm"
+          },
+          {
+            "name": "depth_charge_11_dm"
+          },
+          {
+            "name": "depth_charge_12_dm"
+          },
+          {
+            "onKill": {
+              "expl": 0.5,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "ammunition_storage_01_dm"
+          },
+          {
+            "name": "ammunition_storage_02_dm"
+          },
+          {
+            "name": "ammunition_storage_03_dm"
+          },
+          {
+            "name": "ammunition_storage_04_dm"
+          },
+          {
+            "onKill": {
+              "expl": 1.0,
+              "fHitCritical": false
             }
           }
         ]
@@ -3897,7 +3969,7 @@
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -3905,7 +3977,7 @@
               "damageType": "generic",
               "fire": 0.03,
               "damage": 20.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -3913,7 +3985,7 @@
               "damageType": "generic",
               "fire": 0.15,
               "damage": 70.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -3925,7 +3997,7 @@
           {
             "onKill": {
               "fire": 1.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -3964,14 +4036,14 @@
               "damageType": "explosion",
               "fire": 0.4,
               "damage": 200.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
             "onKill": {
               "fire": 0.2,
               "nothing": 0.8,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -3995,7 +4067,7 @@
               "damageType": "explosion",
               "fire": 0.2,
               "damage": 200.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -4043,7 +4115,7 @@
               "damageType": "explosion",
               "fire": 0.05,
               "damage": 50.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -4051,7 +4123,7 @@
               "damageType": "explosion",
               "fire": 0.1,
               "damage": 400.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -4140,25 +4212,7 @@
           "kill": true,
           "killEffect": "destruction"
         }
-      },
-      "ammo": [
-        {
-          "part": "ammunition_storage_01_dm"
-        },
-        {
-          "part": "ammunition_storage_02_dm"
-        },
-        {
-          "part": "ammunition_storage_03_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 1,
-            "kill": true,
-            "killEffect": "expl"
-          }
-        }
-      ]
+      }
     }
   },
   {
@@ -4356,12 +4410,7 @@
         "cls_body_04": "convex_hull",
         "cls_body_05": "convex_hull",
         "cls_body_06": "convex_hull",
-        "cls_body_07": "convex_hull",
-        "cls_turret_01": "convex_hull",
-        "cls_turret_02": "convex_hull",
-        "cls_turret_03": "convex_hull",
-        "cls_turret_04": "convex_hull",
-        "cls_turret_05": "convex_hull"
+        "cls_body_07": "convex_hull"
       },
       "hydrodynamics": {
         "bodyArea": 0.0,
@@ -4436,10 +4485,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -4584,10 +4633,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -4720,10 +4769,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -4870,10 +4919,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -4991,9 +5040,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 12.0
           },
           {
@@ -5021,10 +5067,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -5151,9 +5197,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 12.0
           },
           {
@@ -5181,10 +5224,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -5333,10 +5376,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -5482,10 +5525,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -5631,10 +5674,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -5784,10 +5827,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -5937,10 +5980,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6090,10 +6133,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6241,10 +6284,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6392,10 +6435,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6435,12 +6478,6 @@
           },
           {
             "isBulletBelt": true
-          },
-          {
-            "reuseYawTrigger": 23
-          },
-          {
-            "reusePitchTrigger": 23
           },
           {
             "turret": {
@@ -6553,10 +6590,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6596,12 +6633,6 @@
           },
           {
             "isBulletBelt": true
-          },
-          {
-            "reuseYawTrigger": 23
-          },
-          {
-            "reusePitchTrigger": 23
           },
           {
             "turret": {
@@ -6709,10 +6740,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6752,12 +6783,6 @@
           },
           {
             "isBulletBelt": true
-          },
-          {
-            "reuseYawTrigger": 24
-          },
-          {
-            "reusePitchTrigger": 24
           },
           {
             "turret": {
@@ -6870,10 +6895,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -6913,12 +6938,6 @@
           },
           {
             "isBulletBelt": true
-          },
-          {
-            "reuseYawTrigger": 24
-          },
-          {
-            "reusePitchTrigger": 24
           },
           {
             "turret": {
@@ -7026,10 +7045,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -7173,10 +7192,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -7320,10 +7339,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -7468,10 +7487,10 @@
             "fireConeAngle": 20.0
           },
           {
-            "ChainfireTime": 2.0
+            "ChainfireTime": 60.0
           },
           {
-            "DelayAfterShoot": 2.0
+            "DelayAfterShoot": 0.0
           },
           {
             "aimMinDist": 20.0
@@ -7663,9 +7682,13 @@
       "130mm_ussr_HE": [],
       "130mm_ussr_SAP_ammo_pack": [],
       "130mm_ussr_SAP": [],
+      "76mm_ussr_34k_navy_HE": [],
+      "76mm_ussr_34k_navy_AP": [],
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
+      "ship_smoke_screen_system_mod": {
+        "prevModification": "ship_rangefinder"
+      },
       "new_ship_engine": [],
       "new_ship_screw": [],
       "new_ship_hull": [],
@@ -7688,15 +7711,53 @@
           }
         }
       },
-      "ship_rangefinder": [],
-      "new_main_caliber_turrets": [],
-      "new_aux_caliber_turrets": [],
+      "ship_ammo_wetting": {
+        "effects": {
+          "damagePartsOverride": {
+            "ammo": {
+              "genericDamageMult": 0.75,
+              "explosionDamageMult": 0.75,
+              "shatterDamageMult": 0.75,
+              "secondaryShatterDamageMult": 0.75,
+              "fireDamageMult": 0.75,
+              "ammunition_storage_01_dm": [],
+              "ammunition_storage_02_dm": [],
+              "ammunition_storage_03_dm": []
+            }
+          }
+        }
+      },
+      "ship_venting": {
+        "effects": {
+          "damagePartsOverride": {
+            "crew_sections": {
+              "fireDamageMult": 0.75,
+              "compartment_01_dm": [],
+              "compartment_02_dm": [],
+              "compartment_03_dm": [],
+              "compartment_04_dm": [],
+              "compartment_05_dm": [],
+              "compartment_06_dm": [],
+              "compartment_07_dm": []
+            }
+          }
+        }
+      },
+      "ship_rangefinder": {
+        "prevModification": "130mm_ussr_SAP_ammo_pack"
+      },
+      "new_main_caliber_turrets": {
+        "reqModification": "new_aux_caliber_turrets"
+      },
+      "new_aux_caliber_turrets": {
+        "reqModification": "new_aa_caliber_turrets"
+      },
       "new_aa_caliber_turrets": [],
       "torpedoes_movement_mode": {
+        "prevModification": "new_main_caliber_turrets",
         "effects": {
-          "distToLive": 4000.0,
-          "maxSpeedInWater": 22.63,
-          "diveDepth": 1.0
+          "distToLive": -4000.0,
+          "maxSpeedInWater": 4.89
         }
       }
     }
@@ -8256,6 +8317,10 @@
         },
         {
           "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_1",
+            "fireEvent": "ammo_fire_1",
             "ammunition_storage_01_dm": {
               "count": 300
             }
@@ -8271,6 +8336,10 @@
         },
         {
           "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_3",
+            "fireEvent": "ammo_fire_3",
             "ammunition_storage_03_dm": {
               "count": 300
             }
@@ -8286,6 +8355,10 @@
         },
         {
           "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_2",
+            "fireEvent": "ammo_fire_2",
             "ammunition_storage_02_dm": {
               "count": 800
             }

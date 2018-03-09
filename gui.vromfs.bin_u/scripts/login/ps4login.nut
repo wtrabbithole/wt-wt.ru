@@ -25,7 +25,6 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
 
     guiScene.performDelayed(this, function() {
       ::ps4_initial_check_settings()
-      ::ps4_initial_save_settings()
       ::checkSquadInvitesFromPS4Friends(true, false)
     })
   }

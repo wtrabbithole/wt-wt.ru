@@ -432,11 +432,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (::top_menu_shop_active && shopWeak)
       shopWeak.onSceneActivate(show)
     if (show)
-    {
-      local air = getCurSlotUnit()
-      if (air)
-        showAircraft(air.name)
-    }
+      ::set_show_aircraft(getCurSlotUnit())
   }
 
   function onEventShowModeChange(p)

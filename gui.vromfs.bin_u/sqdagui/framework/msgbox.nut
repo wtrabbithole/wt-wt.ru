@@ -2,7 +2,7 @@
 
 //  {id, text, buttons, defBtn}
 ::gui_scene_boxes <- []
-local g_string =  require("sqStdLibs/common/string.nut")
+local g_string =  require("std/string.nut")
 
 function remove_scene_box(id)
 {

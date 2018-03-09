@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local wwTopMenuButtons = {
   template = {
     category = -1
@@ -8,6 +9,12 @@ local wwTopMenuButtons = {
   }
 
   list = {
+    WW_GLOBAL_BATTLES = {
+      text = "#worldWar/btn_all_battles"
+      onClickFunc = @(obj, handler) "goBackToOperations" in handler? handler.goBackToOperations(true) : null
+      tooltip = @() ::loc("worldWar/btn_all_battles_full_text")
+      elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
+    }
     WW_OPERATIONS = {
       text = "#worldWar/menu/selectOperation"
       onClickFunc = @(obj, handler) "goBackToOperations" in handler? handler.goBackToOperations() : null
@@ -64,4 +71,4 @@ foreach (name, buttonCfg in wwTopMenuButtons.list)
     @(val1, val2) val1 != null? val1 : val2
   )
 
-::g_enum_utils.addTypesByGlobalName("g_top_menu_buttons", wwTopMenuButtons.result, null, "id")
+enums.addTypesByGlobalName("g_top_menu_buttons", wwTopMenuButtons.result, null, "id")

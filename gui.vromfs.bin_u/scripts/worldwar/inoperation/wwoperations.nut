@@ -54,6 +54,27 @@ function g_operations::getAirArmiesNumberByGroupIdx(groupIdx)
   return armyCount
 }
 
+function g_operations::getAllOperationUnitsBySide(side)
+{
+  local operationUnits = {}
+  local blk = ::DataBlock()
+  ::ww_get_sides_info(blk)
+
+  local sidesBlk = blk["sides"]
+  if (sidesBlk == null)
+    return operationUnits
+
+  local sideBlk = sidesBlk[side.tostring()]
+  if (sideBlk == null)
+    return operationUnits
+
+  foreach (unitName in sideBlk.unitsEverSeen % "item")
+    if (::getAircraftByName(unitName))
+      operationUnits[unitName] <- 0
+
+  return operationUnits
+}
+
 /***************** Private ********************/
 
 function g_operations::getCurrentOperation()

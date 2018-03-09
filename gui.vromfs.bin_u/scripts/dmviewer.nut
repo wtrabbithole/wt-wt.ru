@@ -131,7 +131,7 @@
   function loadUnitBlk()
   {
     clearUnitWeaponBlkList() //unit weapons are part of unit blk, should be unloaded togeter with unitBlk
-    unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
+    unitBlk = ::get_full_unit_blk(unit.name)
   }
 
   function getUnitWeaponList()
@@ -730,7 +730,9 @@
       break;
 
       case "tank":                     // aircraft fuel tank (tank's fuel tank is 'fuel_tank')
-        local tankInfoTable = unit?.info?.tanks_params
+        local tankInfoTable = unit?.info?[params.name]
+        if (!tankInfoTable)
+          tankInfoTable = unit?.info?.tanks_params
         if (!tankInfoTable)
           break
 

@@ -1,13 +1,13 @@
-function notify_matching_disconnect(params)
+function on_online_unavailable()
 {
-  dagor.debug("notify_matching_disconnect")
-  ::g_matching_connect.onDisconnect(params)
+  dagor.debug("on_online_unavailable")
+  ::g_matching_connect.onDisconnect()
 }
 
-function notify_matching_connect(params)
+function on_online_available()
 {
-  dagor.debug("notify_matching_connect")
-  ::g_matching_connect.onConnect(params)
+  dagor.debug("on_online_available")
+  ::g_matching_connect.onConnect()
 }
 
 function logout_with_msgbox(params)
@@ -80,7 +80,7 @@ function checkMatchingError(params, showError = true)
   if (::checkObj(oldMsgBox))
     handler.guiScene.destroyElement(oldMsgBox)
 
-  local errorId = ::getTblValue("error_id", params) || ::matching_error_string(params.error)
+  local errorId = ::getTblValue("error_id", params) || ::matching.error_string(params.error)
 
   local text = ::loc("matching/" + g_string.replaceSym(errorId, '.', '_'))
   if ("error_message" in params)

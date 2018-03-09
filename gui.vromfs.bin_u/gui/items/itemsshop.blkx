@@ -72,27 +72,61 @@
             "size": "pw, fh"
           },
           {
-            "frameBlock": {
-              "id": "empty_items_list",
-              "size": "fw, ph",
-              "flow": "vertical",
-              "padding-left": "1@itemPadding",
-              "display": "hide",
-              "enable": "no",
-              "textarea": {
-                "id": "empty_items_list_text",
-                "width": "pw"
+            "frameBlock": [
+              {
+                "id": "empty_items_list"
               },
-              "Button_text": {
-                "id": "items_shop_to_shop_button",
-                "text": "#items/shop/emptyTab/toShopButton",
-                "on_click": "onToShopButton",
-                "btnName": "Y",
-                "visualStyle": "secondary",
-                "buttonWink": [],
-                "ButtonImg": []
+              {
+                "size": "fw, ph"
+              },
+              {
+                "flow": "vertical"
+              },
+              {
+                "padding-left": "1@itemPadding"
+              },
+              {
+                "display": "hide"
+              },
+              {
+                "enable": "no"
+              },
+              {
+                "textareaNoTab": {
+                  "id": "empty_items_list_text",
+                  "width": "pw",
+                  "padding": "1@itemPadding"
+                }
+              },
+              {
+                "Button_text": {
+                  "id": "items_shop_to_shop_button",
+                  "pos": "1@itemPadding, 0",
+                  "position": "relative",
+                  "text": "#items/shop/emptyTab/toShopButton",
+                  "on_click": "onToShopButton",
+                  "btnName": "Y",
+                  "visualStyle": "secondary",
+                  "display": "hide",
+                  "buttonWink": [],
+                  "ButtonImg": []
+                }
+              },
+              {
+                "Button_text": {
+                  "id": "items_shop_to_marketplace_button",
+                  "pos": "1@itemPadding, 0",
+                  "position": "relative",
+                  "text": "#mainmenu/marketplace",
+                  "on_click": "onToMarketplaceButton",
+                  "btnName": "Y",
+                  "visualStyle": "secondary",
+                  "display": "hide",
+                  "buttonWink": [],
+                  "ButtonImg": []
+                }
               }
-            }
+            ]
           },
           {
             "frameBlock": {
@@ -158,7 +192,7 @@
                         "id": "item_type_help",
                         "margin-left": "5@dp",
                         "type": "tiny",
-                        "background-image": "#ui/gameuiskin#help_tooltip",
+                        "background-image": "#ui/gameuiskin#btn_help.svg",
                         "tooltip": "",
                         "display": "hide"
                       }
@@ -192,10 +226,11 @@
                   {
                     "textareaNoTab": {
                       "id": "item_desc_under_div",
-                      "pos": "50%pw-50%w, 0",
+                      "pos": "50%pw-50%w, 12@sf/@pf",
                       "position": "relative",
                       "width": "@itemInfoWidth",
-                      "smallFont": "yes"
+                      "smallFont": "yes",
+                      "hideEmptyText": "yes"
                     }
                   },
                   {
@@ -373,6 +408,11 @@
                 "btnName": "RT",
                 "_on_click": "onItemPreview",
                 "display": "hide",
+                "showButtonImageOnConsole": "no",
+                "class": "image",
+                "img": {
+                  "background-image": "#ui/gameuiskin#btn_preview.svg"
+                },
                 "ButtonImg": []
               }
             },
@@ -382,12 +422,19 @@
                 "text": "#mainmenu/btnBrowser",
                 "btnName": "Y",
                 "_on_click": "onLinkAction",
+                "hideText": "yes",
                 "css-hier-invalidate": "yes",
                 "showButtonImageOnConsole": "no",
                 "display": "hide",
                 "visualStyle": "secondary",
+                "class": "",
+                "isColoredImg": "yes",
                 "buttonWink": [],
                 "buttonGlance": [],
+                "img": {
+                  "id": "img",
+                  "background-image": ""
+                },
                 "ButtonImg": [],
                 "textarea": {
                   "id": "btn_link_action_text",
@@ -592,7 +639,7 @@
                   {
                     "tdiv": {
                       "id": "gamercard_tobattle_bg",
-                      "left": "-1@titleLogoPlatePadding/2",
+                      "pos": "-1@titleLogoPlatePadding/2, 0",
                       "position": "relative",
                       "height": "ph",
                       "background-color": "@gameModeColor",
@@ -761,7 +808,7 @@
                               "id": "gc_profile",
                               "tooltip": "#mainmenu/btnProfile",
                               "_on_click": "onProfile",
-                              "cardImg": {
+                              "cardAvatar": {
                                 "id": "gc_icon"
                               },
                               "tdiv": {
@@ -1035,6 +1082,7 @@
       },
       {
         "gamercard": {
+          "id": "gamercard_bottom",
           "BottomMenuPanel": [
             {
               "shadowSafeArea": []

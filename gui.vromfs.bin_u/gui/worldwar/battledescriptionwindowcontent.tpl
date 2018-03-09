@@ -3,6 +3,7 @@ textareaNoTab {
   width:t='pw'
   margin-top:t='0.01@scrn_tgt'
   text-align:t='center'
+  hideEmptyText:t='yes'
   text:t=''
 }
 
@@ -16,7 +17,11 @@ tdiv {
     size:t='pw, ph'
     position:t='absolute'
 
-    wwBattleBackgroundBlock { wwBattleBackground {} }
+    wwBattleBackgroundBlock {
+      wwBattleBackground {
+        id:t='battle_background'
+      }
+    }
 
     tdiv {
       size:t='pw, ph'
@@ -30,6 +35,7 @@ tdiv {
   }
 
   div {
+    id:t='battle_desc_content'
     size:t='pw, ph'
     padding:t='1@framePadding'
     flow:t='vertical'
@@ -45,6 +51,13 @@ tdiv {
         text:t='<<#getBattleName>><<getBattleName>> <</getBattleName>><<getMissionName>>'
         text-align:t='center'
         mediumFont:t='yes'
+      }
+
+      textareaNoTab {
+        id:t='operation_info_text'
+        width:t='pw'
+        text:t=''
+        text-align:t='center'
       }
 
       activeText {
@@ -82,6 +95,30 @@ tdiv {
         tdiv {
           id:t='team_header_info_1'
           width:t='50%pw'
+        }
+
+        tdiv {
+          id:t='teams_info'
+          width:t='30%pw'
+          height:t='26*@sf/@pf_outdated'
+          left:t='50%pw-50%w'
+          position:t='absolute'
+          margin:t='1@blockInterval'
+          display:t='hide'
+          background-image:t='#ui/gameuiskin#option_select_odd'
+          background-position:t='1, 5'
+          background-repeat:t='expand'
+          bgcolor:t='@white'
+
+          textareaNoTab {
+            id:t='number_of_players'
+            width:t='pw'
+            top:t='50%ph-50%h'
+            position:t='relative'
+            text:t=''
+            text-align:t='center'
+            overlayTextColor:t='active'
+          }
         }
       }
 
@@ -125,10 +162,38 @@ tdiv {
           }
         }
       }
+
+      tdiv {
+        id:t='required_crafts_block'
+        width:t='pw'
+        margin-top:t='1@blockInterval'
+        display:t='hide'
+
+        Button_text {
+          showConsoleImage:t='no'
+          text:t='#events/required_crafts_no_colon'
+          reduceMinimalWidth:t='yes'
+          useParentHeight:t='yes'
+          noMargin:t='yes'
+          isPlayerSide:t='yes'
+          on_click:t = 'onShowHelp'
+        }
+        Button_text {
+          left:t='pw-2w'
+          position:t='relative'
+          showConsoleImage:t='no'
+          text:t='#events/required_crafts_no_colon'
+          reduceMinimalWidth:t='yes'
+          useParentHeight:t='yes'
+          noMargin:t='yes'
+          on_click:t = 'onShowHelp'
+        }
+      }
     }
 
     <<#isStarted>>
     tdiv {
+      id:t='tactical_map_block'
       width:t='25%pw'
       pos:t='50%pw-50%w, ph-h-0.02@scrn_tgt-0.15@wwBattleInfoScreenIncHeight'
       position:t='absolute'

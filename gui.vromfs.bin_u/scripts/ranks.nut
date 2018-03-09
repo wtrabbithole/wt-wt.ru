@@ -1,10 +1,11 @@
 ::g_script_reloader.loadOnce("scripts/ranks_common.nut")
 ::g_script_reloader.loadOnce("scripts/custom_common.nut")
 
+local avatars = ::require("scripts/user/avatars.nut")
+
 if (!("EUCT_TOTAL" in ::getroottable()))
   ::EUCT_TOTAL <- 7 //temporary to work without new exe
 
-::pilot_icons_list <- []
 ::max_player_rank <- 100
 ::max_country_rank <- 6
 ::discounts <- { //count from const in warpointsBlk by (name + "Mul")
@@ -12,19 +13,6 @@ if (!("EUCT_TOTAL" in ::getroottable()))
 ::event_muls <- {
   xpFirstWinInDayMul = 1.0
   wpFirstWinInDayMul = 1.0
-}
-
-function update_pilot_icons_list()
-{
-  ::pilot_icons_list <- []
-  local unlocksArray = ::g_unlocks.getUnlocksByTypeInBlkOrder("pilot")
-  foreach(unlock in unlocksArray)
-    ::pilot_icons_list.append(unlock.id)
-}
-
-function get_pilot_icon_by_id(id)
-{
-  return ::getTblValue(id, ::pilot_icons_list, "cardicon_default")
 }
 
 ::current_user_profile <- {
@@ -50,7 +38,6 @@ function get_pilot_icon_by_id(id)
 
 ::g_script_reloader.registerPersistentData("RanksGlobals", ::getroottable(),
   [
-    "pilot_icons_list"
     "discounts", "event_muls"
     "exp_per_rank", "max_player_rank", "prestige_by_rank"
   ])
@@ -185,7 +172,7 @@ function get_profile_info()
   ::current_user_profile.aircrafts = info.aircrafts
   ::current_user_profile.gold = info.gold
   ::current_user_profile.pilotId = info.pilotId
-  ::current_user_profile.icon = ::get_pilot_icon_by_id(info.pilotId)
+  ::current_user_profile.icon = avatars.getIconById(info.pilotId)
   ::current_user_profile.medals = ::get_num_unlocked(::UNLOCKABLE_MEDAL, true)
   //dagor.debug("unlocked medals: "+::current_user_profile.medals)
 
@@ -202,6 +189,7 @@ function get_profile_info()
   local isInClan = ::has_feature("Clans") && (::clan_get_my_clan_id() != "-1")
   ::current_user_profile.clanTag <- isInClan ? ::clan_get_my_clan_tag() : ""
   ::current_user_profile.clanName <- isInClan  ? ::clan_get_my_clan_name() : ""
+  ::current_user_profile.clanType <- isInClan  ? ::clan_get_my_clan_type() : ""
   ::clanUserTable[::my_user_name] <- ::current_user_profile.clanTag
 
   ::current_user_profile.exp <- info.exp
@@ -410,7 +398,6 @@ function get_aircraft_rank(curAir)
 
 function haveCountryRankAir(country, rank)
 {
-  ::g_crews_list.refresh()
   local crews = ::g_crews_list.get()
   foreach (c in crews)
     if (c.country == country)

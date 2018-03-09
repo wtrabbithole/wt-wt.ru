@@ -1,12 +1,11 @@
 local time = require("scripts/time.nut")
-
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
   //[::ES_UNIT_TYPE_TANK] = "",
 }
 
-const MIN_UPGR_CREW_TUTORIAL_SKILL_POINTS = 40
 
 ::req_time_in_mode <- 60 //req time in mode when no need check tutorial
 ::instant_domination_handler <- null
@@ -119,6 +118,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   static keepLoaded = true
 
   sceneBlkName = "gui/mainmenu/instantAction.blk"
+
   toBattleButtonObj = null
   gameModeChangeButtonObj = null
   newGameModesWidgetsPlaceObj = null
@@ -332,7 +332,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     onCountrySelectAction()//bad function naming. Actually this function validates your units and selected country for new mode
     setCurrentGameModeName()
-    ::reinitAllSlotbars()
+    reinitSlotbar()
   }
 
   function setCurrentGameModeName()
@@ -425,20 +425,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     obj.show(::getTblValue("update_avail", params, false))
   }
 
-  function onModeChangeAction(modeIdx)
-  {
-    if (!::checkObj(scene))
-      return
-
-    local mode = ::domination_modes[modeIdx]
-    ::mission_settings.arcadeCountry = mode.arcadeCountry
-    ::mission_settings.diff = mode.diff
-
-    checkCountries()
-    ::reinitAllSlotbars()
-    ::broadcastEvent("dominationModeChanged", {})
-  }
-
   function checkCountries()
   {
     onCountrySelectAction()
@@ -478,7 +464,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (currentGameMode == null)
       return
     local multiSlotEnabled = isCurrentGameModeMultiSlotEnabled()
-    setCurCountry(::get_profile_info().country)
+    setCurCountry(::get_profile_country_sq())
     local countryEnabled = ::isCountryAvailable(getCurCountry()) && ::events.isCountryAvailable(currentGameMode.getEvent(), getCurCountry())
     local crewsGoodForMode = testCrewsForMode(getCurCountry())
     local currentUnitGoodForMode = testCurrentUnitForMode(getCurCountry())
@@ -530,25 +516,33 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onEventRequestToggleVisibility(params)
+  function canRestoreFocus()
   {
-    local checkGameModeSelectHandler = ::handlersManager.isHandlerValid(gameModeSelectHandler)
-                                       && params.target.id == gameModeSelectHandler.scene.id
-    local checkQueueTableHandler = ::handlersManager.isHandlerValid(queueTableHandler)
-                                   && params.target.id == queueTableHandler.scene.id
+    local drawer = getGamercardDrawerHandler()
+    return !drawer || !drawer.isActive()
+  }
 
-    if ((checkGameModeSelectHandler || checkQueueTableHandler) && !params.visible)
+  function onEventGamercardDrawerAnimationStart(params)
+  {
+    if (!params.isOpening)
       restoreFocus()
 
     // This deactivates "To battle" button when game mode select is active.
-    if (checkGameModeSelectHandler)
-      setToBattleButtonAccessKeyActive(!params.visible)
+    //FIX ME: better to ask about cur handler from drawer, but he doesn't know about it atm
+    if (::handlersManager.isHandlerValid(gameModeSelectHandler))
+      setToBattleButtonAccessKeyActive(!params.isOpening
+        || gameModeSelectHandler.scene.id != getGamercardDrawerHandler()?.currentTarget?.id)
   }
 
+  _isToBattleAccessKeyActive = true
   function setToBattleButtonAccessKeyActive(value)
   {
+    if (value == _isToBattleAccessKeyActive)
+      return
     if (toBattleButtonObj == null)
       return
+
+    _isToBattleAccessKeyActive = value
     toBattleButtonObj.enable(value)
     local consoleImageObj = toBattleButtonObj.findObject("to_battle_console_image")
     if (::checkObj(consoleImageObj))
@@ -608,7 +602,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = true }))
     {
-      setCurCountry(::get_profile_info().country)
+      setCurCountry(::get_profile_country_sq())
       local gameMode = ::game_mode_manager.getCurrentGameMode()
       if (gameMode == null)
         return
@@ -846,7 +840,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       }
       else
       {
-        txt = ::loc("mainmenu/toBattle")
+        txt = ::loc("mainmenu/toBattle/short")
         isCancel = false
       }
     }
@@ -859,6 +853,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     toBattleButtonObj.setValue(txt)
     toBattleButtonObj.findObject("to_battle_button_text").setValue(txt)
     toBattleButtonObj.isCancel = isCancel ? "yes" : "no"
+
+    toBattleButtonObj.fontOverride = daguiFonts.getMaxFontTextByWidth(txt,
+      to_pixels("1@maxToBattleButtonTextWidth"), "bold")
 
     if (::top_menu_handler)
       ::top_menu_handler.onQueue.call(::top_menu_handler, inQueue)
@@ -1181,7 +1178,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     ::saveLocalByAccount(id, true)
   }
 
-  function checkUpgradeCrewTutor()
+  function checkUpgradeCrewTutorial()
   {
     if (!::g_login.isLoggedIn())
       return
@@ -1189,13 +1186,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_crew.isAllCrewsMinLevel())
       return
 
-    local curCrew = getCurCrew()
-    if (!curCrew || ::g_crew.getCrewSkillPoints(curCrew) < MIN_UPGR_CREW_TUTORIAL_SKILL_POINTS)
-      return
-
-    local tutorialCrewObj = getCurrentCrewSlot()
-    if (tutorialCrewObj)
-      tutorialPressToCrewObj(curCrew.idCountry, curCrew.idInCountry)
+    tryToStartUpgradeCrewTutorial()
   }
 
   function getCurrentCrewSlot()
@@ -1204,17 +1195,29 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return slotbar && slotbar.getCurrentCrewSlot()
   }
 
-  function tutorialPressToCrewObj(tutorialCrewCountryId, tutorialCrewIdInCountry)
+  function tryToStartUpgradeCrewTutorial()
   {
+    local curCrew = getCurCrew()
+    if (!curCrew)
+      return
+
+    local curCrewSlot = getCurrentCrewSlot()
+    if (!curCrewSlot)
+      return
+
+    local tutorialPageId = ::g_crew.getSkillPageIdToRunTutorial(curCrew)
+    if (!tutorialPageId)
+      return
+
     local inst = this
     local steps = [
       {
-        obj = [getCurrentCrewSlot()]
+        obj = [curCrewSlot]
         text = ::loc("tutorials/upg_crew/skill_points_info") + " " + ::loc("tutorials/upg_crew/press_to_crew")
         actionType = tutorAction.OBJ_CLICK
         cb = function()
         {
-          openUnitActionsList(getCurrentCrewSlot(), false, true)
+          openUnitActionsList(curCrewSlot, false, true)
         }
       },
       {
@@ -1222,14 +1225,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
         waitTime = 0.5
       },
       {
-        obj = [(@(inst) function() {
-          return inst.getCurrentCrewSlot().findObject("crew")
-        })(inst)]
+        obj = [function() {
+          return curCrewSlot.findObject("crew")
+        }]
         text = ::loc("tutorials/upg_crew/select_crew")
         actionType = tutorAction.OBJ_CLICK
-        cb = (@(tutorialCrewCountryId, tutorialCrewIdInCountry) function() {
-          ::gui_modal_crew(tutorialCrewCountryId, tutorialCrewIdInCountry, true)
-        })(tutorialCrewCountryId, tutorialCrewIdInCountry)
+        cb = function() {
+          ::gui_modal_crew(curCrew.idCountry, curCrew.idInCountry, tutorialPageId, true)
+        }
       }
     ]
     ::gui_modal_tutor(steps, this)
@@ -1315,7 +1318,6 @@ function isDiffUnlocked(diff, checkUnitType)
 
 function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
 {
-  ::g_crews_list.refresh()
   local res = {
           canFlyout = true
           canFlyoutIfRepair = true
@@ -1351,7 +1353,7 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
         if (!crew || ::is_crew_locked_by_prev_battle(crew))
           res.canFlyoutIfRepair = false
 
-        local ammoList = ::getUnitNotReadyAmmoList(airName, ::UNIT_WEAPONS_WARNING)
+        local ammoList = ::getUnitNotReadyAmmoList(air, ::UNIT_WEAPONS_WARNING)
         if (ammoList.len())
           unreadyAmmo.extend(ammoList)
         else
@@ -1367,27 +1369,23 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
         local brokenList = []
         foreach (crew in cc.crews)
         {
-          if (::is_crew_slot_empty(crew))
-            continue
-          if (checkAvailFunc && !checkAvailFunc(crew.aircraft))
+          local unit = ::g_crew.getCrewUnit(crew)
+          if (!unit || (checkAvailFunc && !checkAvailFunc(unit)))
             continue
 
-          local repairCost = ::wp_get_repair_cost(crew.aircraft)
+          local repairCost = ::wp_get_repair_cost(unit.name)
           if (repairCost > 0)
           {
-            brokenList.append(crew.aircraft)
+            brokenList.append(unit.name)
             res.repairCost += repairCost
           }
           else
-          {
-            local air = getAircraftByName(crew.aircraft)
-            if (air)
-              have_repaired_in_country = true
-          }
+            have_repaired_in_country = true
+
           if (!::is_crew_locked_by_prev_battle(crew))
             have_unlocked_in_country = true
 
-          local ammoList = ::getUnitNotReadyAmmoList(crew.aircraft, ::UNIT_WEAPONS_WARNING)
+          local ammoList = ::getUnitNotReadyAmmoList(unit, ::UNIT_WEAPONS_WARNING)
           if (ammoList.len())
             unreadyAmmo.extend(ammoList)
           else
@@ -1411,7 +1409,7 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
     res.unreadyAmmoList = unreadyAmmo
     foreach(ammo in unreadyAmmo)
     {
-      local cost = ::getAmmoCost(ammo.airName, ammo.ammoName, ammo.ammoType)
+      local cost = ::getAmmoCost(::getAircraftByName(ammo.airName), ammo.ammoName, ammo.ammoType)
       res.unreadyAmmoCost     += ammo.buyAmount * cost.wp
       res.unreadyAmmoCostGold += ammo.buyAmount * cost.gold
     }
@@ -1501,8 +1499,6 @@ function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCance
 
   if (broken_countries.len()==0)
   {
-    handler.reinitSlotbar.call(handler)
-    update_gamercards()
     afterDoneFunc.call(handler)
     return
   }
@@ -1549,8 +1545,6 @@ function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost =
 
   if (unreadyAmmoList.len()==0)
   {
-    handler.reinitSlotbar.call(handler)
-    update_gamercards()
     afterDoneFunc.call(handler)
     return
   }

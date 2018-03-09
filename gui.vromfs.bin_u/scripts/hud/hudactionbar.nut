@@ -78,9 +78,9 @@ class ActionBar
     }
 
     local partails = {
-      items           = ::load_scene_template("gui/hud/actionBarItem")
-      textShortcut    = canControl ? ::load_scene_template("gui/hud/actionBarItemTextShortcut")    : ""
-      gamepadShortcut = canControl ? ::load_scene_template("gui/hud/actionBarItemGamepadShortcut") : ""
+      items           = ::load_template_text("gui/hud/actionBarItem")
+      textShortcut    = canControl ? ::load_template_text("gui/hud/actionBarItemTextShortcut")    : ""
+      gamepadShortcut = canControl ? ::load_template_text("gui/hud/actionBarItemGamepadShortcut") : ""
     }
     local blk = ::handyman.renderCached(("gui/hud/actionBar"), view, partails)
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
@@ -100,9 +100,11 @@ class ActionBar
     local shortcutTexture = ""
     if (needShortcuts)
     {
-      local scData = ::get_shortcut_text_and_texture(actionBarType.getVisualShortcut(item, unit))
-      shortcutText = scData.text
-      shortcutTexture = ::getTblValue(0, scData.textures, "")
+      local shortcutId = actionBarType.getVisualShortcut(item, unit)
+      local shType = ::g_shortcut_type.getShortcutTypeByShortcutId(shortcutId)
+      local scInput = shType.getFirstInput(shortcutId)
+      shortcutText = scInput.getText()
+      shortcutTexture = scInput.getMarkupData()?.view?.buttonImage
     }
 
     viewItem.id                 <- __action_id_prefix + item.id
@@ -118,7 +120,7 @@ class ActionBar
 
     if (item.type == ::EII_BULLET && unit != null)
     {
-      viewItem.bullets <- ::handyman.renderNested(::load_scene_template("gui/weaponry/bullets"),
+      viewItem.bullets <- ::handyman.renderNested(::load_template_text("gui/weaponry/bullets"),
         (@(item, unit, canControl) function (text) {
           local modifName = item.modificationName != null
             ? item.modificationName
@@ -133,8 +135,9 @@ class ActionBar
     }
     else if (item.type == ::EII_ARTILLERY_TARGET)
     {
-      local activatedShortcut = ::get_shortcut_text_and_texture("ID_SHOOT_ARTILLERY")
-      viewItem.activatedButtonImg <- ::getTblValue(0, activatedShortcut.textures, "")
+      local shType = ::g_shortcut_type.getShortcutTypeByShortcutId("ID_SHOOT_ARTILLERY")
+      local scInput = shType.getFirstInput("ID_SHOOT_ARTILLERY")
+      viewItem.activatedButtonImg <- scInput.getMarkupData()?.view?.buttonImage
     }
     if (item.type != ::EII_BULLET)
     {
@@ -171,7 +174,18 @@ class ActionBar
     if (useWheelmenu)
       updateKillStreakWheel(prevKillStreaksActions)
 
-    if (prevCount != actionItems.len())
+    local fullUpdate = prevCount != actionItems.len()
+    if (!fullUpdate)
+    {
+      foreach (id, item in actionItems)
+        if (item.id != prewActionItems[id].id)
+        {
+          fullUpdate = true
+          break
+        }
+    }
+
+    if (fullUpdate)
     {
       fill()
       ::broadcastEvent("HudActionbarResized", { size = actionItems.len() })
@@ -229,6 +243,9 @@ class ActionBar
 
       local cooldownObj = itemObj.findObject("cooldown")
       cooldownObj["sector-angle-1"] = getWaitGaugeDegree(item.cooldown)
+
+      local blockedCooldownObj = itemObj.findObject("blockedCooldown")
+      blockedCooldownObj["sector-angle-1"] = getWaitGaugeDegree(item?.blockedCooldown ?? 0.0)
     }
   }
 

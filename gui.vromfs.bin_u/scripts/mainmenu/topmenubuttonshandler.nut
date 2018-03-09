@@ -126,6 +126,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
         columns = columns
         btnName = sectionData.btnName
         isLast = topMenuButtonIndex == sectionsOrder.len() - 1
+        unseenIconMainButton = sectionData.unseenIconMainButton
       })
     }
     return sectionsView

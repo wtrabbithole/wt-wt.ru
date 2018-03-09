@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_player_state <- {
   types = []
   cache = {
@@ -22,7 +23,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_player_state", {
+enums.addTypesByGlobalName("g_player_state", {
   UNKNOWN = {
     getIcon = @(playerInfo) ""
     getText = @(playerInfo) ""
@@ -80,7 +81,7 @@ function g_player_state::getStateByPlayerInfo(playerInfo)
   if (::getTblValue("isBot", playerInfo, false))
     return ::g_player_state.BOT
 
-  return ::g_enum_utils.getCachedType("state",
+  return enums.getCachedType("state",
                                       ::getTblValue("state", playerInfo, ""),
                                       ::g_player_state.cache.byState,
                                       ::g_player_state,

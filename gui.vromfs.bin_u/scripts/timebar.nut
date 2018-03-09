@@ -17,10 +17,17 @@
    * @time_bar_obj - timeBar object
    * @period_time - time in seconds
    */
-  function setPeriod(timeBarObj, periodTime)
+  function setPeriod(timeBarObj, periodTime, isCyclic = false)
   {
     local speed = periodTime ? 360.0 / periodTime : 0
     _setSpeed(timeBarObj, speed)
+
+    if (isCyclic)
+    {
+      timeBarObj["inc-min"] = "0.0"
+      timeBarObj["inc-max"] = "360.0"
+      timeBarObj["inc-is-cyclic"] = "yes"
+    }
   }
 
   function _setSpeed(timeBarObj, speed)

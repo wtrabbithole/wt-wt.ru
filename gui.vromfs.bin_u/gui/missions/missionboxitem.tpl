@@ -1,5 +1,7 @@
 <<itemTag>><<^itemTag>>mission_item_unlocked<</itemTag>> {
   id:t='<<id>>'
+  css-hier-invalidate:t='yes'
+
   <<#isSelected>>
   selected:t='yes'
   <</isSelected>>
@@ -7,6 +9,7 @@
   <<#isCollapsable>>
   collapsed:t='no'
   collapsing:t='no'
+  collapse_header:t='yes'
   <</isCollapsable>>
 
   <<#itemClass>>
@@ -56,13 +59,14 @@
 
   missionDiv {
     css-hier-invalidate:t='yes'
-    <<#newIconWidgetLayout>>
-    div {
-      id:t='new_icon_widget_<<id>>'
-      css-hier-invalidate:t='yes'
-      <<@newIconWidgetLayout>>
+
+    <<#unseenIcon>>
+    unseenIcon {
+      value:t='<<unseenIcon>>'
     }
-    <</newIconWidgetLayout>>
+    <</unseenIcon>>
+
+    <<@additionalDescription>>
 
     mission_item_text {
       id:t = 'txt_<<id>>'
@@ -78,6 +82,7 @@
   fullSizeCollapseBtn {
     id:t='btn_<<id>>'
     css-hier-invalidate:t='yes'
+    square:t='yes'
     activeText{}
   }
   <</isCollapsable>>

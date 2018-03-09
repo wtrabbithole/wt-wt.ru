@@ -70,7 +70,6 @@
       <</isBelongsToMyClan>>
       <<#isEntrenched>>
       entrenchIcon {
-        size:t='1@mIco, 1@mIco'
         pos:t='50%pw-50%w, 50%ph-50%h'
         position:t='absolute'
         background-image:t='#ui/gameuiskin#army_defense'
@@ -85,12 +84,14 @@
       }
       <<#reqUnitTypeIcon>>
         armyUnitType {
+          width:t='pw'
+          top:t='50%ph-50%h'
+          position:t='absolute'
+          text:t='<<getUnitTypeCustomText>>'
+          text-align:t='center'
         <<#battleDescriptionIconSize>>
           battleDescriptionIconSize:t='<<battleDescriptionIconSize>>'
         <</battleDescriptionIconSize>>
-          text:t='<<getUnitTypeCustomText>>'
-          pos:t='50%pw-50%w, 50%ph-50%h'
-          position:t='absolute'
         }
       <</reqUnitTypeIcon>>
       <<#showArmyGroupText>>

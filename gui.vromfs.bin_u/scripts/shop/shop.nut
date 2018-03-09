@@ -71,7 +71,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   {
     if (!curAirName.len())
     {
-      curCountry = ::get_profile_info().country
+      curCountry = ::get_profile_country_sq()
       local unit = ::getAircraftByName(::hangar_get_current_unit_name())
       if (unit && unit.shopCountry == curCountry)
         curAirName = unit.name
@@ -181,6 +181,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
               }
               if (airData.airsGroup.len()==0)
                 continue
+
+              if (airData.airsGroup.len()==1)
+              {
+                airData.air <- airData.airsGroup[0]
+                airData.rawdelete("airsGroup")
+              }
 
               airData.image <- airBlk.image
             }
@@ -1704,7 +1710,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onEventCountryChanged(p)
   {
-    local country = ::get_profile_info().country
+    local country = ::get_profile_country_sq()
     if (country == curCountry)
       return
 
@@ -1849,7 +1855,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         local unit = ::getAircraftByName(obj.unit_name)
         local actions = ::get_unit_actions_list(unit, handler, slotbarActions)
 
-        ::gui_handlers.ActionsList(obj, actions)
+        ::gui_handlers.ActionsList.open(obj, actions)
       }
     })(obj, slotbarActions, handler))
   }

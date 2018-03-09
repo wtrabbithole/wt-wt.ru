@@ -26,14 +26,19 @@
   "isBulletBelt": false,
   "bullet": {
     "bulletCount": 25,
-    "mass": 9.07,
+    "mass": 7.6,
     "caliber": 0.12,
-    "damageCaliber": 0.05,
-    "ballisticCaliber": 0.05,
+    "damageCaliber": 0.045,
+    "ballisticCaliber": 0.068,
     "speed": 1493.0,
+    "Cx": 0.22,
     "maxDistance": 10000.0,
     "bulletType": "apds_tank",
     "bulletName": "120mm_l1g",
+    "breakingArmorThicknessEffective": true,
+    "breakingArmorThickness": [30.0,150.0],
+    "breakingCriticalSpeed": 1430.0,
+    "breakingDistance": 0.1,
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "groundCollisionEffect": "big_ground_splash",
@@ -61,15 +66,15 @@
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "30mmRed",
+      "tracer": "50mmRed",
       "trail": "black"
     },
     "collisions": {
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_apds"
       },
       "armor": {
-        "fx": "cannon_hit_armor"
+        "fx": "cannon_hit_apds"
       },
       "buildings": {
         "fx": "122_ap_stone_splash",
@@ -81,7 +86,6 @@
     "bullet": {
       "bulletCount": 25,
       "mass": 15.87,
-      "explosiveType": "rdx_tnt",
       "explosiveMass": 3.1,
       "caliber": 0.12,
       "speed": 792.0,
@@ -93,9 +97,9 @@
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 0.4,
       "explodeTreshold": 0.1,
-      "explodeHitPower": 200.0,
-      "explodeArmorPower": 12.0,
-      "explodeRadius": [0.3,1.0],
+      "explodeHitPower": 400.0,
+      "explodeArmorPower": 19.0,
+      "explodeRadius": [0.4,1.07],
       "explosionPatchRadius": 1.1,
       "shutterDamage": true,
       "shutterDamageRadius": 15.4,

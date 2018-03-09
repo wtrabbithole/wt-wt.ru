@@ -71,10 +71,11 @@ class ::gui_handlers.ReqPurchaseWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::u.isDataBlock(imgBlk))
       return
 
-    if (::u.isString(imgBlk.image))
+    local rndImg = ::u.chooseRandom(imgBlk % "image")
+    if (::u.isString(rndImg))
     {
-      local country = ::get_profile_info().country
-      image = ::replaceParamsInLocalizedText(imgBlk.image,
+      local country = ::get_profile_country_sq()
+      image = ::replaceParamsInLocalizedText(rndImg,
                 {
                   country = ::g_string.cutPrefix(country, "country_", country)
                 })

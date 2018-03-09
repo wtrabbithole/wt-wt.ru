@@ -4,13 +4,13 @@ id:t='<<slotId>>'
 inactive:t='yes'
 <</slotInactive>>
 
-<<#isFullSlotbar>>
+<<#isSlotbarItem>>
 slotbarCurAir {
   pattern {
     type:t='bright_hor_lines'
   }
 }
-<</isFullSlotbar>>
+<</isSlotbarItem>>
 
 shopItem {
   id:t='<<shopItemId>>'

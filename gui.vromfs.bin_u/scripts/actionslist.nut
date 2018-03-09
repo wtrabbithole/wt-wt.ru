@@ -37,48 +37,45 @@ enum AL_ORIENT
   RIGHT      = "right"
 }
 
-class ::gui_handlers.ActionsList
+class ::gui_handlers.ActionsList extends ::BaseGuiHandler
 {
+  wndType = handlerType.CUSTOM
+  sceneBlkName = "gui/actionsList/actionsListBlock.blk"
+  sceneBlkTag = "pupup_actions_list"
+
   params    = null
   parentObj = null
-  selfObj   = null
-  guiScene  = null
 
   closeOnUnhover = false
 
-  __al_obj_blk      = "gui/actionsList/actionsListBlock.blk"
-  __al_obj_tag      = "pupup_actions_list"
-
   __al_item_obj_tpl = "gui/actionsList/actionsListItem"
 
-  function constructor(_parentObj, _params)
+  static function open(_parentObj, _params)
   {
-    if (!::checkObj(_parentObj))
+    if (!::checkObj(_parentObj)
+      || _parentObj.getFinalProp("refuseOpenHoverMenu") == "yes"
+      || ::gui_handlers.ActionsList.hasActionsListOnObject(_parentObj))
       return
-    if (::checkObj(_parentObj.findObject("actions_list"))) //duplicate protection
-      return
-    guiScene = _parentObj.getScene()
-    params = _params
-    parentObj = _parentObj
-    initScreen()
+
+    local params = {
+      scene = _parentObj
+      params = _params
+    }
+    ::handlersManager.loadHandler(::gui_handlers.ActionsList, params)
+  }
+
+  function initCustomHandlerScene()
+  {
+    parentObj = scene
+    scene = guiScene.createElementByObject(parentObj, sceneBlkName, sceneBlkTag, this)
+    return true
   }
 
   function initScreen()
   {
-    if (parentObj.getFinalProp("refuseOpenHoverMenu") == "yes")
-      return
-
-    selfObj = guiScene.createElementByObject(parentObj,
-                                             __al_obj_blk,
-                                             __al_obj_tag,
-                                             this)
-
     if (!("closeOnUnhover" in params))
       params.closeOnUnhover <- false
-
-    selfObj.closeOnUnhover = params.closeOnUnhover
-                            ? "yes"
-                            : "no"
+    scene.closeOnUnhover = params.closeOnUnhover ? "yes" : "no"
     fillList()
     setOrientation()
   }
@@ -88,7 +85,7 @@ class ::gui_handlers.ActionsList
     if (!("actions" in params) || params.actions.len() <= 0)
       return goBack()
 
-    local nest = selfObj.findObject("list_nest")
+    local nest = scene.findObject("list_nest")
 
     local isIconed = false
     foreach (idx, action in params.actions)
@@ -101,7 +98,7 @@ class ::gui_handlers.ActionsList
 
       isIconed = isIconed || (show && ::getTblValue("icon", action) != null)
     }
-    selfObj.iconed = isIconed ? "yes" : "no"
+    scene.iconed = isIconed ? "yes" : "no"
 
     local data = ::handyman.renderCached(__al_item_obj_tpl, params)
     guiScene.replaceContentFromText(nest, data, data.len(), this)
@@ -131,10 +128,10 @@ class ::gui_handlers.ActionsList
   function setOrientation()
   {
     guiScene.setUpdatesEnabled(true, true)
-    selfObj.al_align = "orientation" in params
+    scene.al_align = "orientation" in params
                      ? params.orientation
                      : AL_ORIENT.TOP
-    local selfSize = selfObj.getSize()
+    local selfSize = scene.getSize()
     local prntSize = parentObj.getSize()
     local prntPos  = parentObj.getPosRC()
     local rootSize = guiScene.getRoot().getSize()
@@ -151,13 +148,13 @@ class ::gui_handlers.ActionsList
         && prntPos[1] + prntSize[1] + selfSize[1] > rootSize[1])
       params.orientation = AL_ORIENT.TOP
 
-    selfObj.al_align = params.orientation
+    scene.al_align = params.orientation
   }
 
   function goBack()
   {
-    if (::checkObj(selfObj))
-      selfObj.close = "yes"
+    if (::checkObj(scene))
+      scene.close = "yes"
   }
 
   function onAction(obj)
@@ -168,10 +165,10 @@ class ::gui_handlers.ActionsList
       return
 
     guiScene.performDelayed(this, (@(actionName) function () {
-      if (!::checkObj(selfObj))
+      if (!::checkObj(scene))
         return
 
-      guiScene.destroyElement(selfObj)
+      guiScene.destroyElement(scene)
       local func = null
       foreach(action in params.actions)
         if (action.actionName == actionName)

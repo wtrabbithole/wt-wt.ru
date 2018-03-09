@@ -1,105 +1,125 @@
 {
   "selected_tag": "",
   "bin_dump_file": "",
-  "mission_settings": {
-    "atmosphere": {
-      "pressure": 760.0,
-      "temperature": 15.0
+  "mission_settings": [
+    {
+      "proximity": "ground_vehicle"
     },
-    "player": {
-      "army": 1,
-      "wing": "player"
+    {
+      "proximity": "ground_vehicle"
     },
-    "player_teamB": {
-      "army": 2
+    {
+      "atmosphere": {
+        "pressure": 760.0,
+        "temperature": 15.0
+      }
     },
-    "mission": {
-      "name": "benchmark_tank_battle",
-      "level": "levels/avg_poland.bin",
-      "type": "benchmark",
-      "restoreType": "attempts",
-      "optionalTakeOff": false,
-      "campaign": "UserMissions",
-      "environment": "Day",
-      "weather": "good",
-      "missionDebriefing": "",
-      "missionBriefing": "",
-      "forceSkiesInitialRandomSeed": true,
-      "skiesInitialRandomSeed": 16,
-      "tags": [],
-      "missionType": {
-        "_Dom": false,
-        "_Conq": false,
-        "_Bttl": false,
-        "_Bto": false,
-        "_Flc": false,
-        "_v1_race_straight": false,
-        "_v1_race_inverted": false,
-        "_v2_race_straight": false,
-        "_v2_race_inverted": false,
-        "_Conq1": false,
-        "_Conq2": false,
-        "_Conq3": false,
-        "_Conq4": false,
-        "_Conq5": false,
-        "_Conq6": false,
-        "_CnvA": false,
-        "_CnvB": false,
-        "_ArtDA": false,
-        "_ArtDB": false,
-        "_DBttlA": false,
-        "_DBttlB": false
-      },
-      "stars": {
-        "latitude": 50.0,
-        "longitude": 21.0,
-        "year": 1944,
-        "month": 7,
-        "day": 2,
-        "localTime": 10.0
-      },
-      "customWeather": {
-        "windDir": [0.6,0.8],
-        "wind_scale": 1.0,
-        "max_wind_strength": 6.0,
-        "sky": {
-          "mie_height": 0.9,
-          "mieG": 0.5,
-          "betaMScale": 0.5,
-          "clouds_overcast": 0.3
+    {
+      "player": {
+        "army": 1,
+        "wing": "player"
+      }
+    },
+    {
+      "player_teamB": {
+        "army": 2
+      }
+    },
+    {
+      "mission": {
+        "name": "benchmark_tank_battle",
+        "level": "levels/avg_poland.bin",
+        "type": "benchmark",
+        "restoreType": "attempts",
+        "optionalTakeOff": false,
+        "campaign": "UserMissions",
+        "environment": "Day",
+        "weather": "good",
+        "missionDebriefing": "",
+        "missionBriefing": "",
+        "forceSkiesInitialRandomSeed": true,
+        "skiesInitialRandomSeed": 16,
+        "tags": [],
+        "missionType": {
+          "_Dom": false,
+          "_Conq": false,
+          "_Bttl": false,
+          "_Bto": false,
+          "_Flc": false,
+          "_v1_race_straight": false,
+          "_v1_race_inverted": false,
+          "_v2_race_straight": false,
+          "_v2_race_inverted": false,
+          "_Conq1": false,
+          "_Conq2": false,
+          "_Conq3": false,
+          "_Conq4": false,
+          "_Conq5": false,
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false,
+          "_DBttlA": false,
+          "_DBttlB": false
         },
-        "clouds_gen": {
-          "humidity": 0.3,
-          "persistence": 0.4,
-          "asymmetry": 0.15
+        "stars": {
+          "latitude": 50.0,
+          "longitude": 21.0,
+          "year": 1944,
+          "month": 7,
+          "day": 2,
+          "localTime": 10.0
         },
-        "clouds_position": {
-          "start_altitude": 2.0,
-          "thickness": 4.5,
-          "light_extinction": 0.35,
-          "amb_extinction_mul": 0.7,
-          "sizeX": [111.0,111.0],
-          "sizeZ": [99.0,99.0]
-        },
-        "clouds_render": {
-          "silver_lining": 0.5,
-          "sun_light": 0.45,
-          "ambient": 0.35,
-          "silver_lining_eccentricity": 0.4
-        },
-        "strata_clouds": {
-          "amount": 0.5,
-          "altitude": 11.0
+        "customWeather": {
+          "windDir": [0.6,0.8],
+          "wind_scale": 1.0,
+          "max_wind_strength": 6.0,
+          "sky": {
+            "mie_height": 0.9,
+            "mieG": 0.5,
+            "betaMScale": 0.5,
+            "clouds_overcast": 0.3
+          },
+          "clouds_gen": {
+            "humidity": 0.3,
+            "persistence": 0.4,
+            "asymmetry": 0.15
+          },
+          "clouds_position": {
+            "start_altitude": 2.0,
+            "thickness": 4.5,
+            "light_extinction": 0.35,
+            "amb_extinction_mul": 0.7,
+            "sizeX": [111.0,111.0],
+            "sizeZ": [99.0,99.0]
+          },
+          "clouds_render": {
+            "silver_lining": 0.5,
+            "sun_light": 0.45,
+            "ambient": 0.35,
+            "silver_lining_eccentricity": 0.4
+          },
+          "strata_clouds": {
+            "amount": 0.5,
+            "altitude": 11.0
+          }
         }
       }
     },
-    "spectator_points": [],
-    "cover_points": [],
-    "aiParams": {
-      "aiEffectivenessViscosity": 90.0,
-      "effectivenessDistances": [2500.0,7000.0]
+    {
+      "spectator_points": []
+    },
+    {
+      "cover_points": []
+    },
+    {
+      "aiParams": {
+        "aiEffectivenessViscosity": 90.0,
+        "effectivenessDistances": [2500.0,7000.0]
+      }
     }
-  },
+  ],
   "imports": [],
   "triggers": {
     "isCategory": true,

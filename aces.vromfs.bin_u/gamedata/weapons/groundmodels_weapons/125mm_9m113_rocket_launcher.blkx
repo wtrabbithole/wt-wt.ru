@@ -6,6 +6,8 @@
   "sound_path": "tanks/weapon_tanks/rockets",
   "sound": "82mm_m8",
   "sound_inside": "82mm_m8_interior",
+  "reload_sound_path": "tanks/effects_tanks",
+  "reload_sound": "reload_rocket",
   "isBulletBelt": false,
   "helicopterGroup": 2,
   "allowHumanReload": true,
@@ -17,191 +19,78 @@
     "antiTankRocket": true,
     "antiShipRocket": true
   },
-  "rocket": [
-    {
-      "operated": true
-    },
-    {
-      "operatedDist": 3000.0
-    },
-    {
-      "autoAiming": true
-    },
-    {
-      "autoLeveling": true
-    },
-    {
-      "controlSensitivity": 0.5
-    },
-    {
-      "aimSensitivity": 50.0
-    },
-    {
-      "forceAutoAimingTimer": 1.0
-    },
-    {
-      "rotationRocketX": 5.0
-    },
-    {
-      "bulletType": "atgm_tank"
-    },
-    {
-      "bulletName": "125mm_9M113"
-    },
-    {
-      "caliber": 0.125
-    },
-    {
-      "explosiveType": "a_ix_1"
-    },
-    {
-      "explosiveMass": 2.75
-    },
-    {
-      "mass": 14.5
-    },
-    {
-      "massEnd": 10.0
-    },
-    {
-      "maxDeltaAngle": 0.03
-    },
-    {
-      "dragCx": 0.01
-    },
-    {
-      "length": 0.86
-    },
-    {
-      "distFromCmToStab": 0.01
-    },
-    {
-      "CxK": 0.1
-    },
-    {
-      "WdK": [0.1,0.1,0.1]
-    },
-    {
-      "force": 3500.0
-    },
-    {
-      "timeFire": 15.0
-    },
-    {
-      "thrustDeviation": 0.0
-    },
-    {
-      "rotationRocket": 8.5
-    },
-    {
-      "explosionEffect": "art_ground_splash"
-    },
-    {
-      "smokeEffect": "trail_smoke"
-    },
-    {
-      "maxDistance": 4000.0
-    },
-    {
-      "minDistance": 30.0
-    },
-    {
-      "spawnExplosionWreckage": false
-    },
-    {
-      "spawnExplosionFx": false
-    },
-    {
-      "explosionOffset": 0.05
-    },
-    {
-      "hitPowerMult": 1.0
-    },
-    {
-      "nearHitPower": [1.0,50.0]
-    },
-    {
-      "midHitPower": [0.9,400.0]
-    },
-    {
-      "farHitPower": [0.1,1000.0]
-    },
-    {
-      "endHitPower": [0.01,1500.0]
-    },
-    {
-      "relativeVelHitShift": [300.0,1000.0]
-    },
-    {
-      "nearArmorPower": [10.0,50.0]
-    },
-    {
-      "midArmorPower": [7.0,400.0]
-    },
-    {
-      "farArmorPower": [0.2,700.0]
-    },
-    {
-      "relativeVelArmorShift": [200.0,1000.0]
-    },
-    {
-      "distanceFuse": false
-    },
-    {
-      "explodeTreshold": 0.1
-    },
-    {
-      "explosionPatchRadius": 2.1
-    },
-    {
-      "explosionPatchRadius": 1.0
-    },
-    {
-      "rendinstDamageRadius": 4.0
-    },
-    {
-      "statType": "hydra"
-    },
-    {
-      "advancedMissiles": false
-    },
-    {
-      "useStartSpeed": true
-    },
-    {
-      "startSpeed": 100.0
-    },
-    {
-      "endSpeed": 205.0
-    },
-    {
-      "speedViscosity": 0.1
-    },
-    {
-      "timeToLive": 30.0
-    },
-    {
-      "price": 3000.0
-    },
-    {
-      "collisions": {
-        "steel": {
-          "fx": "atgm_hit",
-          "fxScale": [1.2,1.5]
-        },
-        "armor": {
-          "fx": "atgm_hit",
-          "fxScale": [1.2,1.5]
-        }
+  "rocket": {
+    "operated": true,
+    "operatedDist": 3000.0,
+    "autoAiming": true,
+    "autoLeveling": true,
+    "controlSensitivity": 0.5,
+    "aimSensitivity": 50.0,
+    "forceAutoAimingTimer": 1.0,
+    "rotationRocketX": 5.0,
+    "bulletType": "atgm_tank",
+    "bulletName": "125mm_9M113",
+    "caliber": 0.125,
+    "explosiveMass": 2.75,
+    "mass": 14.5,
+    "massEnd": 10.0,
+    "maxDeltaAngle": 0.03,
+    "dragCx": 0.01,
+    "length": 0.86,
+    "distFromCmToStab": 0.01,
+    "CxK": 0.1,
+    "WdK": [0.1,0.1,0.1],
+    "force": 3500.0,
+    "timeFire": 15.0,
+    "thrustDeviation": 0.0,
+    "rotationRocket": 8.5,
+    "explosionEffect": "art_ground_splash",
+    "smokeEffect": "trail_smoke",
+    "maxDistance": 4000.0,
+    "minDistance": 30.0,
+    "spawnExplosionWreckage": false,
+    "spawnExplosionFx": false,
+    "explosionOffset": 0.05,
+    "hitPowerMult": 1.0,
+    "nearHitPower": [1.0,50.0],
+    "midHitPower": [0.9,400.0],
+    "farHitPower": [0.1,1000.0],
+    "endHitPower": [0.01,1500.0],
+    "relativeVelHitShift": [300.0,1000.0],
+    "nearArmorPower": [10.0,50.0],
+    "midArmorPower": [7.0,400.0],
+    "farArmorPower": [0.2,700.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "distanceFuse": false,
+    "explodeTreshold": 0.1,
+    "explodeHitPower": 400.0,
+    "explodeArmorPower": 19.0,
+    "explodeRadius": [0.4,1.07],
+    "explosionPatchRadius": 2.1,
+    "rendinstDamageRadius": 4.0,
+    "statType": "hydra",
+    "advancedMissiles": false,
+    "useStartSpeed": true,
+    "startSpeed": 100.0,
+    "endSpeed": 205.0,
+    "speedViscosity": 0.1,
+    "timeToLive": 30.0,
+    "price": 3000.0,
+    "collisions": {
+      "steel": {
+        "fx": "atgm_hit",
+        "fxScale": [1.2,1.5]
+      },
+      "armor": {
+        "fx": "atgm_hit",
+        "fxScale": [1.2,1.5]
       }
     },
-    {
-      "cumulativeDamage": {
-        "armorPower": 600.0,
-        "distance": 5.5,
-        "damage": 500.0,
-        "onHitChanceMultFire": 25.0
-      }
+    "cumulativeDamage": {
+      "armorPower": 600.0,
+      "distance": 5.5,
+      "damage": 500.0,
+      "onHitChanceMultFire": 25.0
     }
-  ]
+  }
 }

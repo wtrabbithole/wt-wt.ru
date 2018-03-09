@@ -42,7 +42,7 @@ frame {
       Button_text {
         id:t = 'btn_requirements_list'
         text:t = '#unlocks/requirements'
-        _on_click:t = 'onViewUnlocks'
+        _on_click:t = 'onViewBattleTaskRequirements'
         btnName:t='Y'
         ButtonImg {}
       }

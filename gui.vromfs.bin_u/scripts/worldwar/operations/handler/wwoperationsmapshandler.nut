@@ -1,5 +1,9 @@
 local time = require("scripts/time.nut")
-
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+::dagui_propid.add_name_id("countryId")
+::dagui_propid.add_name_id("mapId")
 
 enum WW_OM_WND_MODE
 {
@@ -10,6 +14,8 @@ enum WW_OM_WND_MODE
 class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName   = "gui/worldWar/wwOperationsMaps.blk"
+
+  needToOpenBattles = false
 
   mode = WW_OM_WND_MODE.PLAYER
 
@@ -23,10 +29,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   hasClanOperation = false
   hasRightsToQueueClan = false
+  hasSelectAllCountriesBlock = false
 
   queuesJoinTime = 0
 
   isFillingList = false
+
+  isCountryCheckBoxesUpdating = false
 
   objIdPrefixCountriesOfMap = "countries_selection_"
   objIdPrefixSelectAllCountry = "select_all_"
@@ -54,6 +63,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     ::enableHangarControls(true)
     initFocusArray()
+
+    if (needToOpenBattles)
+      onStart()
   }
 
   function initToBattleButton()
@@ -67,19 +79,35 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       enableEnterKey = !::is_platform_shield_tv()
     })
     guiScene.replaceContentFromText(toBattleNest, toBattleBlk, toBattleBlk.len(), this)
+    updateToBattleButton()
+  }
+
+  function updateToBattleButton()
+  {
+    local toBattleButtonObj = scene.findObject("to_battle_button")
+    if (!::checkObj(scene) || !::checkObj(toBattleButtonObj))
+      return
+
+    local text = ::loc("worldWar/btn_all_battles")
+    toBattleButtonObj.fontOverride = daguiFonts.getMaxFontTextByWidth(text,
+      to_pixels("1@maxToBattleButtonTextWidth"), "bold")
+    toBattleButtonObj.findObject("to_battle_button_text").setValue(text)
   }
 
   function reinitScreen()
   {
     hasClanOperation = ::g_ww_global_status.getMyClanOperation() != null
     hasRightsToQueueClan = ::g_clans.hasRightsToQueueWWar()
+    hasSelectAllCountriesBlock = ::g_world_war.getSetting("isAbleToSelectAllCountries", false)
 
     collectMaps()
     collectCountryData()
 
     findMapForSelection()
     fillMapsList()
-    fillSelectAllCountriesList()
+
+    if (hasSelectAllCountriesBlock)
+      fillSelectAllCountriesList()
 
     updateWindow()
   }
@@ -108,7 +136,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       {
         if (map.getQueue().isMyClanJoined(countryId))
           countryData[countryId].selected++
-        countryData[countryId].total++
+        if (map.isActive())
+          countryData[countryId].total++
       }
   }
 
@@ -165,6 +194,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
           useImage = ::get_country_icon(countryId)
           value = map.getQueue().isMyClanJoined(countryId)
           funcName = "onMapCountrySelect"
+          specialParams = "mapId:t= '"+mapId+"'; countryId:t= '"+countryId+"';"
+          isDisable = !map.isActive()
         })
 
       local title = map.getNameText()
@@ -177,6 +208,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         hasWaitAnim = true
         checkbox = countries
         isActive = map.isActive()
+        unseenIcon = map.isAnnounceAndNotDebug() && bhvUnseen.makeConfigStr(SEEN.WW_MAPS_AVAILABLE, mapId)
       }
       mapsByChapter[chapterId].append({ weight = weight, title = title, view = view, map = map })
     }
@@ -273,6 +305,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     _wasSelectedOnce = true
 
+    updateUnseen()
     updateDescription()
     updateButtons()
   }
@@ -365,8 +398,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         countries.append({
           id = objIdPrefixSelectAllCountry + countryId
           useImage = ::get_country_icon(countryId)
-          value = countryData[countryId].selected
+          value = countryData[countryId].selected >= countryData[countryId].total
           funcName = "onCountrySelectAll"
+          specialParams = "countryId:t= '"+countryId+"';"
         })
 
     local view = { checkbox = countries }
@@ -379,32 +413,38 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::checkObj(obj))
       return
 
-    foreach (countryId, data in countryData)
+    local mapId = obj.mapId
+    if (!mapsTbl[mapId].isActive())
+      return
+
+    local value = obj.getValue()
+    local countryId = obj.countryId
+    local selected = countryData[countryId].selected + (value ? 1 : -1)
+    countryData[countryId].selected = selected
+
+    if (isCountryCheckBoxesUpdating)
+      return
+
+    isCountryCheckBoxesUpdating = true
+    local objChk = scene.findObject(objIdPrefixSelectAllCountry + countryId)
+    if (::checkObj(objChk))
     {
-      data.selected = 0
-      foreach (mapId, map in mapsTbl)
-      {
-        local objChk = scene.findObject(::format(formatCheckboxMapCountry, mapId, countryId))
-        if (::checkObj(objChk) && objChk.getValue())
-          data.selected++
-      }
+      local total = countryData[countryId].total
+      objChk.setValue(total && selected >= total)
     }
 
-    foreach (countryId, data in countryData)
-    {
-      local objChk = scene.findObject(objIdPrefixSelectAllCountry + countryId)
-      if (::checkObj(objChk))
-        objChk.setValue(data.total && data.selected >= data.total)
-    }
-
+    isCountryCheckBoxesUpdating = false
     updateButtons()
   }
 
   function onCountrySelectAll(obj)
   {
-    local countryId = ::getObjIdByPrefix(obj, objIdPrefixSelectAllCountry)
-    local newValue = countryData[countryId].selected < countryData[countryId].total
-    local selected = 0
+    if (isCountryCheckBoxesUpdating)
+      return
+
+    local countryId = obj.countryId
+    local newValue = obj.getValue()
+    isCountryCheckBoxesUpdating = true
     foreach (mapId, map in mapsTbl)
     {
       local objChk = scene.findObject(::format(formatCheckboxMapCountry, mapId, countryId))
@@ -412,13 +452,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       {
         if (objChk.getValue() != newValue && map.isActive())
           objChk.setValue(newValue)
-        if (newValue)
-          selected++
       }
     }
 
-    countryData[countryId].selected = selected
-    obj.setValue(newValue)
+    isCountryCheckBoxesUpdating = false
     updateButtons()
   }
 
@@ -546,7 +583,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         membersIconObj.show(map.getQueue().getArmyGroupsAmountTotal() > 0)
     }
 
-    local obj = ::showBtn("select_all_countries", show, scene)
+    local obj = ::showBtn("select_all_countries", isSelectAllCountriesBlockVisible(), scene)
       if (obj)
         obj.enable(isQueueJoiningEnabled)
   }
@@ -571,12 +608,18 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local containerObj = scene.findObject("panel_right")
     if (::checkObj(containerObj))
     {
+      local modeId = "Mode" + (isSelectAllCountriesBlockVisible() ? "Clans" : "Normal")
       foreach (p in [ "height", "pos" ])
-        containerObj[p] = containerObj[p + "Mode" + (isModeClan ? "Clans" : "Normal")]
+        containerObj[p] = containerObj[p + modeId]
       containerObj["width"] = containerObj["widthModeNormal"] + "+" + flagsWidth
     }
 
     updateWindow()
+  }
+
+  function isSelectAllCountriesBlockVisible()
+  {
+    return hasSelectAllCountriesBlock && mode == WW_OM_WND_MODE.CLAN
   }
 
   function getMapStatusText()
@@ -706,6 +749,19 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       switchMode(WW_OM_WND_MODE.PLAYER)
     else if (mode == WW_OM_WND_MODE.PLAYER)
       base.goBack()
+  }
+
+  function onDestroy()
+  {
+    seenWWMapsAvailable.markSeen()
+  }
+
+  function updateUnseen()
+  {
+    if (!selMap)
+      return
+
+    seenWWMapsAvailable.markSeen(selMap.name)
   }
 
   function onEventWWGlobalStatusChanged(p)

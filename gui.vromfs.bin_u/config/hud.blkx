@@ -358,6 +358,7 @@
       "iconMaxOverlapping": 0.5,
       "carrier": "objective_carrier",
       "destroyer": "objective_destroyer",
+      "ship": "objective_ship",
       "transport": "objective_cargo",
       "artillery": "objective_aa",
       "tank": "objective_tank",
@@ -399,6 +400,8 @@
       "curveMaxLinesPerSegment": 25,
       "curveMinLineLen": 10.0,
       "minDistBetweenZonesOnRespawnBases": 200.0,
+      "minDistBetweenZonesOnBoatsRespawnBases": 500.0,
+      "minDistBetweenZonesOnDestroyerRespawnBases": 2000.0,
       "icon_superartallery_target": "chat_icon_attack",
       "icon_superartillery_zone": "artillery_region",
       "icon_superartillery_skull": "objective_kill",
@@ -1042,6 +1045,9 @@
         "shipTargetingAngleThreshold": 45.0
       },
       {
+        "shipTargetingAutoSwitchAngleThreshold": 2.0
+      },
+      {
         "shipResetTargetByAngle": true
       },
       {
@@ -1051,10 +1057,10 @@
         "sight_distance_max": 350.0
       },
       {
-        "shipYawDeltaThreshold": 3.0
+        "shipYawDeltaThreshold": 1.0
       },
       {
-        "shipPitchDeltaThreshold": 0.5
+        "shipPitchDeltaThreshold": 0.1
       },
       {
         "crosshairColor": {
@@ -1219,12 +1225,12 @@
           "primary": {
             "size": 1.0,
             "icon": "ship_main_caliber_sight",
-            "iconInProgress": "ship_main_caliber_sight"
+            "iconInProgress": "ship_main_caliber_sight_aiming"
           },
           "secondary": {
             "size": 1.0,
             "icon": "ship_secondary_caliber_sight",
-            "iconInProgress": "ship_secondary_caliber_sight"
+            "iconInProgress": "ship_secondary_caliber_sight_aiming"
           },
           "coaxial": {
             "size": 1.0,
@@ -1234,7 +1240,7 @@
           "machinegun": {
             "size": 1.0,
             "icon": "ship_aa_caliber_sight",
-            "iconInProgress": "ship_aa_caliber_sight"
+            "iconInProgress": "ship_aa_caliber_sight_aiming"
           },
           "special": {
             "size": 1.0,
@@ -1381,11 +1387,19 @@
       "iconBreach": "icon_repair_in_progress",
       "iconBreachLeft": "waypoint_big",
       "iconLeakage": "leaking_icon",
+      "iconShipAiGunnersTarget0": "ship_main_caliber_sight",
       "iconShipAiGunnersTarget1": "ship_secondary_caliber_sight",
-      "iconShipAiGunnersTarget2": "ship_aa_caliber_sight",
+      "iconShipAiGunnersTarget3": "ship_aa_caliber_sight",
+      "aiTargetIconScale": 2.0,
       "iconBomb": "bomb_mark",
       "colorBomb": "#ff4646ff",
-      "iconTorpedo": "torpedo_mark",
+      "iconTorpedoTrail": "big_wheeled_radar",
+      "torpedoTrailCount": 20,
+      "torpedoTrailInterval": 0.2,
+      "torpedoTrailOpacity": [0.8,0.1],
+      "torpedoTrailScale": [0.7,0.3],
+      "isTorpedoTrailMovable": false,
+      "iconTorpedo": "big_wheeled_radar",
       "colorTorpedo": "#ff4646ff",
       "colorTorpedoFriend": "#4646ffff",
       "maxTorpedoDistanceIndicator": 400.0,
@@ -1832,8 +1846,7 @@
       "mpIconPlace2": "medal_silver",
       "mpIconPlace3": "medal_bronze",
       "posWp": [640.0,200.0],
-      "timeWpFadeOut": 1.0,
-      "timeWpTotal": 1.5
+      "timeWpFadeOut": 1.0
     }
   },
   {

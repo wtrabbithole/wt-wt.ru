@@ -1,12 +1,12 @@
-@const itemPadding:         (5/720@sf)\1;
-@const itemSpacing:        0.5@smallButtonHeight;
+@const itemPadding:        (5/720@sf)\1;
+@const itemSpacing:        (0.5@smallButtonHeight)\1;
 @const itemIconWidth:      1@itemIconHeight;
 @const itemHeight:         1@itemIconHeight + 2@itemPadding;
 @const itemWidth:          1@itemIconWidth + 2@itemPadding;
 @const periodRewardIconWidth: 0.75@itemWidth;
 @const periodRewardIconWidthInItem: 0.6@itemWidth;
-@const periodRewardProgressBarIconWidth: 36;
-@const periodRewardProgressBarIconHeight: 30;
+@const periodRewardProgressBarIconWidth: 36@sf/@pf;
+@const periodRewardProgressBarIconHeight: 30@sf/@pf;
 
 @const awardItemHeaderHeight : 70@sf/@pf;
 @const arrowOfEveryDayLoginAwardWidth : 44@sf/@pf;
@@ -135,7 +135,7 @@ frameBlock[ticketsWindow=yes] {
 
 awardItemDiv[emptyBlock=yes],
 awardItemDiv[emptyBlock=yes] > itemDiv {
-  width:7;
+  width:7@dp;
 }
 
 itemDiv > arrowNext {
@@ -338,7 +338,7 @@ roulette {
 
 recieved_reward_indicator {
   re-type:9rect;
-  size:20,10;
+  size:20@sf/@pf, 10@sf/@pf;
   background-image:#ui/gameuiskin#roulette_arrow;
   background-color:@white;
   background-repeat:expand;
@@ -370,7 +370,7 @@ everyDayRewardProgress {
   min:0;
   max:10000;
 
-  padding:2;
+  padding:2@dp;
 }
 
 everyDayRewardProgress > filledRewardProgressBox {
@@ -389,14 +389,14 @@ everyDayRewardProgress > additionalProgress {
   min:0;
   max:10000;
 
-  padding:2;
+  padding:2@dp;
 }
 
 everyDayRewardProgress > progressBoxFraming {
   background-repeat:stretch;
   background-color:@white;
 
-  height:ph+18;
+  height:ph+18@sf/@pf;
   width:1.77h;
   input-transparent:yes;
 }

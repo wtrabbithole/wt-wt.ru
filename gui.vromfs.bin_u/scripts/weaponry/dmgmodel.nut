@@ -222,7 +222,7 @@ function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, normBlk, defaultDa
       {
         res.angleProbabilityMap.push({
           probability = probability
-          angle = angle
+          angle = 90.0 - angle
         })
       }
       else
@@ -239,7 +239,7 @@ function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, normBlk, defaultDa
       {
         res.angleProbabilityMap.push({
           probability = maxProbability
-          angle = angleAtMaxProbability
+          angle = 90.0 - angleAtMaxProbability
         })
       }
     }

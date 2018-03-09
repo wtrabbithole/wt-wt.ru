@@ -1,4 +1,5 @@
 local platformModule = require("scripts/clientState/platform.nut")
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 const MAX_THREAD_LANG_VISIBLE = 3
 
@@ -202,7 +203,11 @@ class ChatThreadInfo
     ]
 
     local contact = ::getContact(ownerUid, ownerNick, ownerClanTag)
-    menu.extend(::g_chat.getPlayerRClickMenu(ownerNick, roomId, contact, position))
+    menu.extend(playerContextMenu.getActions(contact, {
+      position = position
+      roomId = roomId
+      playerName = ownerNick
+    }))
 
     ::gui_right_click_menu(menu, ::g_chat, position)
   }

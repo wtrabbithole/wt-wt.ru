@@ -1,7 +1,6 @@
 const PRESET_ACTUAL_VERSION  = 5
 const PRESET_DEFAULT_VERSION = 4
 
-const JOYSTICK_DEVICE_ID  = 3
 const BACKUP_OLD_CONTROLS_DEFAULT = 0 // false
 
 
@@ -218,6 +217,7 @@ class ControlsPreset {
       isMouseLookHold                   = false
       isHatViewMouse                    = true
       trackIrZoom                       = true
+      trackIrForLateralMovement         = true
       trackIrAsHeadInTPS                = false
       isFlightStick                     = true
       isExchangeSticksAvailable         = false
@@ -968,8 +968,7 @@ class ControlsPreset {
 
     local name = null
     local connected = false
-    if (isPlatformHaveLocalizedControllers())
-      name = ::get_button_name(deviceId, buttonId) // C++ function
+    name = ::get_button_name(deviceId, buttonId) // C++ function
 
     foreach (idx, joy in deviceMapping)
     {
@@ -977,12 +976,12 @@ class ControlsPreset {
         buttonId >= joy.buttonsOffset + joy.buttonsCount)
         continue
 
-      if (name == null)
-        name = ("J" + (idx + 1).tostring() + ":" +
-          buttonLocalized + (buttonId - joy.buttonsOffset + 1).tostring())
-
       if (!("connected" in joy) || joy.connected == true)
         connected = true
+
+      if (name == null || !connected)
+        name = ("J" + (idx + 1).tostring() + ":" +
+          buttonLocalized + (buttonId - joy.buttonsOffset + 1).tostring())
       break
     }
 
@@ -1000,24 +999,21 @@ class ControlsPreset {
 
     local name = null
     local connected = false
-    if (isPlatformHaveLocalizedControllers())
-    {
-      local defaultJoystick = ::joystick_get_default() // C++ function
-      if (defaultJoystick)
-        name = defaultJoystick.getAxisName(axisId)
-    }
+    local defaultJoystick = ::joystick_get_default() // C++ function
+    if (defaultJoystick)
+      name = defaultJoystick.getAxisName(axisId)
 
     foreach (idx, joy in deviceMapping)
     {
       if (axisId < joy.axesOffset || axisId >= joy.axesOffset + joy.axesCount)
         continue
 
-      if (name == null)
-        name = ("J" + (idx + 1).tostring() + ":" + joy.name + ":" +
-          axisLocalized + (axisId - joy.axesOffset + 1).tostring())
-
       if (!("connected" in joy) || joy.connected == true)
         connected = true
+
+      if (name == null || !connected)
+        name = ("J" + (idx + 1).tostring() + ":" + joy.name + ":" +
+          axisLocalized + (axisId - joy.axesOffset + 1).tostring())
       break
     }
 
@@ -1222,14 +1218,6 @@ class ControlsPreset {
   /****************************************************************/
   /*************************** PRIVATES ***************************/
   /****************************************************************/
-
-  // Required while Squirrel button and axis name generators
-  // do not support platforms where primary controllers
-  // have localized names, like X, O, rectangle etc.
-  static function isPlatformHaveLocalizedControllers()
-  {
-    return ::is_platform_ps4 || ::is_platform_shield_tv()
-  }
 
   static function getJoystickBlockV4(blk)
   {

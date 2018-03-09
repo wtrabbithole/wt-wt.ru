@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
+local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -30,9 +31,6 @@ class Events
   _leaderboards = null
 
   fullTeamsList        = [Team.A, Team.B]
-
-  seenEvents           = {} //eventId = lastSeenDay
-  seenEventsInited     = false
 
   brToTier = {}
 
@@ -103,6 +101,8 @@ class Events
     __game_events = mergeEventsInfo(__game_events, newEventsData)
     chapters.updateChapters()
     eventsLoaded = true
+    seenEvents.setDaysToUnseen(EVENTS_OUT_OF_DATE_DAYS)
+    seenEvents.onListChanged()
     ::broadcastEvent("EventsDataUpdated")
   }
 
@@ -330,6 +330,17 @@ class Events
   {
     return getEventsList(EVENT_TYPE.ANY & (~EVENT_TYPE.NEWBIE_BATTLES),
       @(event) getEventDisplayType(event).showInGamercardDrawer && isEventActive(event))
+  }
+
+  function getVisibleEventsList()
+  {
+    return getEventsList(EVENT_TYPE.ANY,
+      @(event) (checkEnableOnDebug(event) || getEventIsVisible(event)))
+  }
+
+  function getEventsForEventsWindow()
+  {
+    return getEventsList(EVENT_TYPE.ANY_BASE_EVENTS,  isEventVisibleInEventsWindow)
   }
 
   function getEventType(event)
@@ -870,7 +881,7 @@ class Events
     local availableTeams = []
     if (!event)
       return availableTeams
-    local playersCurCountry = ::get_profile_info().country
+    local playersCurCountry = ::get_profile_country_sq()
     if(!playersCurCountry || playersCurCountry.len() <= 0)
       return availableTeams
 
@@ -1036,7 +1047,7 @@ class Events
     if (!event)
       return false
 
-    local playersCurCountry = country ? country : ::get_profile_info().country
+    local playersCurCountry = country ? country : ::get_profile_country_sq()
     local ediff = getEDiffByEvent(event)
 
     foreach (team in getSidesList(event))
@@ -1120,7 +1131,7 @@ class Events
   {
     local mGameMode = ::events.getMGameMode(event, room)
     local roomSpecialRules = room && ::SessionLobby.getRoomSpecialRules(room)
-    local playersCurCountry = ::get_profile_info().country
+    local playersCurCountry = ::get_profile_country_sq()
     local ediff = getEDiffByEvent(event)
     foreach (team in getSidesList(mGameMode))
     {
@@ -1138,7 +1149,7 @@ class Events
     if (!roomSpecialRules)
       return true
     local ediff = getEDiffByEvent(event)
-    foreach(crew in ::get_crews_list_by_country(::get_profile_info().country))
+    foreach(crew in ::get_crews_list_by_country(::get_profile_country_sq()))
     {
       local unit = ::g_crew.getCrewUnit(crew)
       if (unit && isUnitMatchesRoomSpecialRules(unit, roomSpecialRules, ediff))
@@ -1180,15 +1191,15 @@ class Events
       teamsData.append(getTeamData(mGameMode, t))
 
     return ::getBrokenAirsInfo([country], isEventMultiSlotEnabled(event),
-                     (@(teamsData, ediff, roomSpecialRules) function(airName) {
-                       if (roomSpecialRules
-                           && !isUnitMatchesRule(::getAircraftByName(airName), roomSpecialRules, true, ediff))
-                         return false
-                       foreach(td in teamsData)
-                         if (isUnitAllowedByTeamData(td, airName, ediff))
-                           return true
-                       return false
-                     })(teamsData, ediff, roomSpecialRules).bindenv(this))
+      function(unit) {
+        if (roomSpecialRules
+            && !isUnitMatchesRule(unit, roomSpecialRules, true, ediff))
+          return false
+        foreach(td in teamsData)
+          if (isUnitAllowedByTeamData(td, unit.name, ediff))
+            return true
+        return false
+      }.bindenv(this))
   }
 
   function stackMemberErrors(members)
@@ -1255,7 +1266,7 @@ class Events
       bestTeamsData = getMembersFlyoutEventDataImpl(event, room, teams)
     else
     {
-      local myCountry = ::get_profile_info().country
+      local myCountry = ::get_profile_country_sq()
       local allSets = getAllCountriesSets(event)
       foreach(countrySet in allSets)
       {
@@ -1338,7 +1349,7 @@ class Events
   function prepareMembersForQueue(membersData)
   {
     local membersQuery = {}
-    local leaderCountry = ::get_profile_info().country
+    local leaderCountry = ::get_profile_country_sq()
     foreach(m in membersData.members)
     {
       local country = leaderCountry
@@ -1553,92 +1564,11 @@ class Events
     return "endTime" in event
   }
 
-  function isEventNew(event)
-  {
-    initSeenChecked()
-    return !(event.name in seenEvents)
-  }
-
-  function markEventSeen(event)
-  {
-    local wasNew = isEventNew(event)
-    seenEvents[event.name] <- time.getUtcDays()
-    if (wasNew)
-    {
-      saveSeenEvents()
-      ::broadcastEvent("NewEventsChanged")
-    }
-  }
-
-  function markAllEventsSeen(typeMask = EVENT_TYPE.ANY_BASE_EVENTS)
-  {
-    local wasNew = getNewEventsCount(typeMask)
-    local days = time.getUtcDays()
-    getEventsList(typeMask, (@(days) function (event) {
-        seenEvents[event.name] <- days
-      })(days))
-    saveSeenEvents()
-    if (wasNew)
-      ::broadcastEvent("NewEventsChanged")
-  }
-
-  function getNewEventsCount(typeMask = EVENT_TYPE.ANY_BASE_EVENTS)
-  {
-    return __countEventsList(typeMask, function (event) {
-      return isEventNew(event) && isEventVisibleInEventsWindow(event)
-    }.bindenv(this))
-  }
-
-  function debugClearSeenData()
-  {
-    seenEvents = {}
-    saveSeenEvents()
-  }
-
-  function initSeenChecked()
-  {
-    if (seenEventsInited)
-      return true
-    if (!::g_login.isLoggedIn())
-      return false
-
-    local blk = ::loadLocalByAccount("seen/events")
-    if (typeof(blk) == "instance" && (blk instanceof ::DataBlock))
-      for (local i = 0; i < blk.paramCount(); i++)
-      {
-        local id = blk.getParamName(i)
-        seenEvents[id] <- ::max(blk.getParamValue(i), ::getTblValue(id, seenEvents, 0))
-      }
-
-    seenEventsInited = true
-    return true
-  }
-
-  function saveSeenEvents()
-  {
-    if (!initSeenChecked())
-      return //data not loaded yet
-
-    local minDay = time.getUtcDays() - EVENTS_OUT_OF_DATE_DAYS
-    local blk = ::DataBlock()
-    foreach(eventId, day in seenEvents)
-    {
-      if (day < minDay && !getEvent(eventId))
-        continue
-
-      blk[eventId] = day
-    }
-
-    ::saveLocalByAccount("seen/events", blk)
-  }
-
   function onEventSignOut(p)
   {
     __game_events.clear()
-    seenEvents.clear()
     eventsLoaded = false
     chapters.updateChapters()
-    seenEventsInited = false
   }
 
   function getEventMission(eventId)
@@ -2693,3 +2623,22 @@ class Events
 }
 
 ::events = Events()
+
+seenEvents.setListGetter(@() ::events.getVisibleEventsList())
+
+seenEvents.setSubListGetter(SEEN.S_EVENTS_WINDOW,
+  @() ::events.getEventsForEventsWindow())
+
+seenEvents.setCompatibilityLoadData(function()
+  {
+    local res = {}
+    local savePath = "seen/events"
+    local blk = ::loadLocalByAccount(savePath)
+    if (!::u.isDataBlock(blk))
+      return res
+
+    for (local i = 0; i < blk.paramCount(); i++)
+      res[blk.getParamName(i)] <- blk.getParamValue(i)
+    ::saveLocalByAccount(savePath, null)
+    return res
+  })

@@ -34,6 +34,16 @@ itemDiv {
     wink { pattern { type:t='bright_texture'; position:t='absolute' } }
   <</active>>
 
+  <<#rarityColor>>
+  rarityBorder {
+    size:t='pw-4@dp, ph-4@dp'
+    pos:t='pw/2-w/2, ph/2-h/2'; position:t='absolute'
+    border:t='yes'
+    border-color:t='<<rarityColor>>'
+    input-transparent:t='yes'
+  }
+  <</rarityColor>>
+
   // Used in recent items handler.
   <<#onClick>>
   behavior:t='button'
@@ -43,7 +53,7 @@ itemDiv {
   <</itemIndex>>
 
   pushedBorder {
-    size:t='pw-4, ph-4'
+    size:t='pw-4@dp, ph-4@dp'
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
     border:t='yes'
@@ -52,7 +62,7 @@ itemDiv {
     display:t='hide'
 
     pushedBorder {
-      size:t='pw-2, ph-2'
+      size:t='pw-2@dp, ph-2@dp'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t='absolute'
       border:t='yes'
@@ -62,7 +72,7 @@ itemDiv {
   }
 
   hoverBorder {
-    size:t='pw-4, ph-4'
+    size:t='pw-4@dp, ph-4@dp'
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
     border:t='yes'
@@ -71,7 +81,7 @@ itemDiv {
     display:t='hide'
 
     hoverBorder {
-      size:t='pw-2, ph-2'
+      size:t='pw-2@dp, ph-2@dp'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t='absolute'
       border:t='yes'
@@ -161,7 +171,7 @@ itemDiv {
     img{
       id:t='all_bougt_icon';
       size:t='@unlockIconSize, @unlockIconSize';
-      pos:t='pw-w  -1@itemPadding +1*@sf/@pf_outdated, ph -0.5@dIco -1@dp +1@itemPadding -0.6h'
+      pos:t='pw-w  -1@itemPadding +1@dp, ph -0.5@dIco -1@dp +1@itemPadding -0.6h'
       position:t='absolute'
       background-image:t='#ui/gameuiskin#favorite';
       <<^isAllBought>>display:t='hide'<</isAllBought>>
@@ -184,7 +194,7 @@ itemDiv {
   }
 
   selBorder {
-    size:t='pw-4, ph-4'
+    size:t='pw+10@dp, ph+10@dp'
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
     border:t='yes'
@@ -192,7 +202,7 @@ itemDiv {
     input-transparent:t='yes'
 
     selBorder {
-      size:t='pw-2, ph-2'
+      size:t='pw-2@dp, ph-2@dp'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t='absolute'
       border:t='yes'

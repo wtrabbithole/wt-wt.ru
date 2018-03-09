@@ -91,15 +91,13 @@ class WwBattleJoinProcess
   function joinStep4_repairInfo()
   {
     local team = wwBattle.getTeamBySide(side)
-    local remainUnits = wwBattle.getTeamRemainUnits(team)
-    local repairInfo = ::getBrokenAirsInfo(
-                         [team.country],
-                         true,
-                         (@(remainUnits) function(airName) {
-                           return airName in remainUnits
-                         })(remainUnits)
-                       )
+    local battleUnits = wwBattle.getTeamRemainUnits(team)
+    local requiredUnits = wwBattle.getUnitsRequiredForJoin(team, side)
+    local repairInfo = ::getBrokenAirsInfo([team.country], true,
+      @(unit) unit.name in battleUnits || unit.name in requiredUnits)
 
+    if (!requiredUnits)
+      repairInfo.canFlyout = true
     ::checkBrokenAirsAndDo(repairInfo, this, joinStep5_paramsForQueue, false, remove)
   }
 

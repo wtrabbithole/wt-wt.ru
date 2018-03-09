@@ -2393,28 +2393,62 @@
       }
     },
     {
-      "Weapon": {
-        "trigger": "gunner0",
-        "blk": "gameData/Weapons/gunUB_turret.blk",
-        "emitter": "gun1",
-        "flash": "flare5",
-        "dm": "gunner1_dm",
-        "gunDm": "gun1_dm",
-        "partsDP": "gun1_dm",
-        "bullets": 150,
-        "turret": {
-          "head": "turret1",
-          "gun": "gun1"
+      "Weapon": [
+        {
+          "trigger": "gunner0"
         },
-        "limits": {
-          "yaw": [-35.0,35.0],
-          "pitch": [-12.0,45.0]
+        {
+          "blk": "gameData/Weapons/gunUB_turret.blk"
         },
-        "limitsDeadzone": {
-          "yaw": [-1.0,1.0],
-          "pitch": [-12.0,25.0]
+        {
+          "emitter": "gun1"
+        },
+        {
+          "flash": "flare5"
+        },
+        {
+          "dm": "gunner1_dm"
+        },
+        {
+          "gunDm": "gun1_dm"
+        },
+        {
+          "partsDP": "gun1_dm"
+        },
+        {
+          "bullets": 150
+        },
+        {
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          }
+        },
+        {
+          "limits": {
+            "yaw": [-35.0,35.0],
+            "pitch": [-12.0,45.0]
+          }
+        },
+        {
+          "limitsDeadzone": {
+            "yaw": [-2.0,2.0],
+            "pitch": [-12.0,25.0]
+          }
+        },
+        {
+          "limitsDeadzone": {
+            "yaw": [-28.0,28.0],
+            "pitch": [-12.0,-8.0]
+          }
+        },
+        {
+          "limitsDeadzone": {
+            "yaw": [-5.0,5.0],
+            "pitch": [-12.0,-6.0]
+          }
         }
-      }
+      ]
     }
   ],
   "gunnerFps": {

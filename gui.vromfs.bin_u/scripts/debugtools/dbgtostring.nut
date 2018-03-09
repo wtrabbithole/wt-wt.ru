@@ -6,11 +6,11 @@ function dlog(...)
     dagor.screenlog("" + vargv[i])
   }
 }
-
 function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
 {
-  return (typeof(blk) == "instance" && blk instanceof ::DataBlock)
+  return u.isDataBlock(blk)
 }
+
 
 function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets = true, silentMode = false, printFn = null)
 {
@@ -46,10 +46,10 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
         else if (typeof(val)=="float") { type = ":r"; val = val.tostring() + (val % 1 ? "" : ".0") }
         else if (typeof(val)=="bool") type = ":b"
         else if (typeof(val)=="string") { type = ":t"; val = "'" + val + "'" }
-        else if (val instanceof ::Point2) { type = ":p2"; val = ::format("%s, %s", val.x.tostring(), val.y.tostring()) }
-        else if (val instanceof ::Point3) { type = ":p3"; val = ::format("%s, %s, %s", val.x.tostring(), val.y.tostring(), val.z.tostring()) }
-        else if (val instanceof ::Color4) { type = ":c";  val = ::format("%d, %d, %d, %d", 255 * val.r, 255 * val.g, 255 * val.b, 255 * val.a) }
-        else if (val instanceof ::TMatrix) { type = ":m"
+        else if (u.isPoint2(val)) { type = ":p2"; val = ::format("%s, %s", val.x.tostring(), val.y.tostring()) }
+        else if (u.isPoint3(val)) { type = ":p3"; val = ::format("%s, %s, %s", val.x.tostring(), val.y.tostring(), val.z.tostring()) }
+        else if (u.isColor4(val)) { type = ":c";  val = ::format("%d, %d, %d, %d", 255 * val.r, 255 * val.g, 255 * val.b, 255 * val.a) }
+        else if (u.isTMatrix(val)) { type = ":m"
           local arr = []
           for (local i = 0; i < 4; i++)
             arr.append("[" + ::g_string.implode([ val[i].x, val[i].y, val[i].z ], ", ") + "]")
@@ -72,7 +72,7 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
       {
         local type = typeof(data)
         local idText = (typeof(id) == "string")? "'" + id + "'" : ::toString(id) //in table can be row 65 and '65' at the same time
-        if (type=="array" || type=="table" || (type=="instance" && (data instanceof ::DataBlock)))
+        if (type=="array" || type=="table" ||  can_be_readed_as_datablock(data))
         {
           local openBraket = ((type=="array")? "[": ((type=="table")? "{" : "DataBlock {"))
           local closeBraket = ((type=="array")? "]":"}")
@@ -135,13 +135,13 @@ function toString(val, recursion = 1, addStr = "")
         iv.append("" + val.getBlock(i).getBlockName() + " = " + ::toString(val.getBlock(i)))
       return format("DataBlock { %s }", ::g_string.implode(iv, ", "))
     }
-    else if (val instanceof ::Point2)
+    else if (u.isPoint2(val))
       return format("Point2(%s, %s)", val.x.tostring(), val.y.tostring())
-    else if (val instanceof ::Point3)
+    else if (u.isPoint3(val))
       return format("Point3(%s, %s, %s)", val.x.tostring(), val.y.tostring(), val.z.tostring())
-    else if (val instanceof ::Color4)
+    else if (u.isColor4(val))
       return format("Color4(%d/255.0, %d/255.0, %d/255.0, %d/255.0)", 255 * val.r, 255 * val.g, 255 * val.b, 255 * val.a)
-    else if (val instanceof ::TMatrix)
+    else if (u.isTMatrix(val))
     {
       local arr = []
       for (local i = 0; i < 4; i++)

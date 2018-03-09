@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
-
+local externalIDsService = require("scripts/user/externalIdsService.nut")
+local avatars = ::require("scripts/user/avatars.nut")
 
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
@@ -273,6 +274,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     obj = scene.findObject("profile-currentUser-title")
     if (::checkObj(obj))
       obj.btnName = "Y"
+    scene.findObject("unseen_titles").setValue(SEEN.TITLES)
+    scene.findObject("unseen_avatar").setValue(SEEN.AVATARS)
   }
 
   function getUnlockFiltersList(type, getCategoryFunc)
@@ -331,7 +334,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (sheet == "UnlockDecal")
         selCategory = ::loadLocalByAccount("wnd/decalsCategory", "")
       else if (sheet == "Medal")
-        selCategory = ::get_profile_info().country
+        selCategory = ::get_profile_country_sq()
 
       local selIdx = 0
       local view = { items = [] }
@@ -365,7 +368,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       {
         showSheetDiv("unlocks", true, true)
         local pageList = scene.findObject("pages_list")
-        local curCountry = ::get_profile_info().country
+        local curCountry = ::get_profile_country_sq()
         local selIdx = 0
 
         local view = { items = [] }
@@ -406,6 +409,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (::checkObj(divObj))
       {
         divObj.show(show)
+        divObj.enable(show)
         if (show)
           updateDifficultySwitch(divObj)
       }
@@ -1297,52 +1301,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getNewTitles(obj)
   {
-    local myStats = ::my_stats.getStats()
-    if(!isInMenu() || !myStats)
-      return
-
-    local availableTitles = ::my_stats.getTitles()
-    if(!availableTitles || availableTitles.len() == 0)
-    {
-      openProfileTab("UnlockAchievement", "title")
-      return
-    }
-
-    local curTitle = myStats.title
-    local titles = [{
-                     text = ::loc("title/clear_title")
-                     tooltip = ""
-                     action = function(){setNewTitle("")}
-                   }]
-    local name = ""
-    local desc = ""
-    local unlockBlk = null
-    local itemData = null
-    foreach(i, titleName in availableTitles)
-    {
-      unlockBlk = ::g_unlocks.getUnlockById(titleName)
-      if (!unlockBlk)
-        continue
-
-      itemData = build_conditions_config(unlockBlk)
-      ::build_unlock_desc(itemData)
-      name = ::loc("title/" + titleName)
-      desc = itemData.text
-      titles.append({
-                      text = name
-                      tooltip = desc
-                      action = (@(titleName) function() {setNewTitle(titleName)})(titleName)
-                   })
-    }
-    local goToTitlesListButton = {
-                                   text = ::loc("title/all_titles")
-                                   tooltip = ""
-                                   action = function(){openProfileTab("UnlockAchievement", "title")}
-                                 }
-    titles.append(goToTitlesListButton)
-
-    local position = ::show_console_buttons ? obj.getPosRC() : null
-    ::gui_right_click_menu(titles, this, position)
+    ::gui_handlers.ChooseTitle.open({
+      alignObj = obj
+      openTitlesListFunc = ::Callback(@() openProfileTab("UnlockAchievement", "title"), this)
+    })
   }
 
   function openProfileTab(tab, selectedBlock)
@@ -1358,27 +1320,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     }
   }
 
-  function setNewTitle(titleName)
-  {
-    taskId = ::select_current_title(titleName)
-    if(taskId >= 0)
-    {
-      ::set_char_cb(this, slotOpCb)
-      showTaskProgressBox()
-      afterSlotOp = (@(titleName) function() {
-        ::my_stats.clearStats()
-        updateStats()
-        fillTitleName(titleName)
-      })(titleName)
-    }
-  }
-
   function fillProfileStats(stats)
   {
     fillTitleName(stats.titles.len() > 0 ? stats.title : "no_titles")
     if ("uid" in stats && stats.uid != ::my_user_id_str)
-      ::externalIDsService.reqPlayerExternalIDsByUserId(stats.uid)
-    fillClanInfo(stats)
+      externalIDsService.reqPlayerExternalIDsByUserId(stats.uid)
+    fillClanInfo(::get_profile_info())
     fillModeListBox(scene.findObject("profile-container"), curMode)
     ::fill_gamer_card(::get_profile_info(), true, "profile-", scene)
     fillShortCountryStats(stats)
@@ -1463,7 +1410,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   }
 
   function onChangePilotIcon() {
-    ::choose_pilot_icon_wnd(onIconChoosen, this)
+    avatars.openChangePilotIconWnd(onIconChoosen, this)
   }
 
   function getPlayerLink()
@@ -1484,7 +1431,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       return
 
     local obj = scene.findObject("profile-icon")
-    if (obj) obj["background-image"] = "#ui/images/avatars/" + ::get_profile_info().icon
+    if (obj)
+      obj.setValue(::get_profile_info().icon)
 
     ::broadcastEvent(profileEvent.AVATAR_CHANGED)
   }
@@ -1495,6 +1443,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       fillAirStats()
     if (getCurSheet() == "Profile")
       updateStats()
+  }
+
+  function onEventClanInfoUpdate(params)
+  {
+    fillClanInfo(::get_profile_info())
   }
 
   function initAirStats()

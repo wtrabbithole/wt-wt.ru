@@ -225,6 +225,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_rewards_list", opened && (configsArray.len() > 1 || haveItems))
     showSceneBtn("open_chest_animation", !animFinished) //hack tooltip bug
     showSceneBtn("btn_ok", animFinished)
+    showSceneBtn("btn_back", animFinished || trophyItem.isAllowSkipOpeningAnim())
 
     showSceneBtn("btn_take_air", animFinished && unit != null && unit.isUsable() && !::isUnitInSlotbar(unit))
   }
@@ -256,6 +257,9 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (animFinished)
       return true
+
+    if (!trophyItem.isAllowSkipOpeningAnim())
+      return false
 
     local animObj = scene.findObject("open_chest_animation")
     if (::checkObj(animObj))

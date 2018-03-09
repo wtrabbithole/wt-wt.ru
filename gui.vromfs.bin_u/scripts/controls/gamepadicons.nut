@@ -91,11 +91,23 @@ local btnNameByIndex = [
   "r_stick_pressed" // 27 JOY_XBOX_REAL_BTN_R_THUMB
 ]
 
+local mouseButtonTextures = [
+  "mouse_left"
+  "mouse_right"
+  "mouse_center"
+]
+
+local ps4TouchpadImagesByMouseIdx = [
+  "touchpad"
+  "touchpad_pressed"
+]
+
 local curPreset = ::is_platform_ps4 ? ICO_PRESET_PS4
   : ::is_platform_xboxone ? ICO_PRESET_XBOXONE
   : ICO_PRESET_DEFAULT
 
 local getTexture = @(id, preset = curPreset) (id in controlsList) ? preset + id : ""
+local getTextureByButtonIdx = @(idx) getTexture(btnNameByIndex?[idx])
 
 local cssString = null
 local getCssString = function()
@@ -109,6 +121,17 @@ local getCssString = function()
   return cssString
 }
 
+local getMouseTexture = function(idx, preset = curPreset)
+{
+  if (::is_platform_ps4 && idx in ps4TouchpadImagesByMouseIdx)
+    return preset + ps4TouchpadImagesByMouseIdx[idx]
+
+  if (idx in mouseButtonTextures)
+    return "#ui/gameuiskin#" + mouseButtonTextures[idx]
+
+  return getTextureByButtonIdx(idx, preset)
+}
+
 return {
   TOTAL_BUTTON_INDEXES = btnNameByIndex.len()
   ICO_PRESET_DEFAULT       = ICO_PRESET_DEFAULT
@@ -118,7 +141,9 @@ return {
   fullIconsList = controlsList
 
   getTexture = getTexture
-  getTextureByButtonIdx = @(idx) getTexture(btnNameByIndex?[idx])
+  getTextureByButtonIdx = getTextureByButtonIdx
+  getMouseTexture = getMouseTexture
+  hasMouseTexture = @(idx) mouseButtonTextures?[idx] != null
   hasTextureByButtonIdx = @(idx) btnNameByIndex?[idx] != null
   getButtonNameByIdx = @(idx) btnNameByIndex?[idx] ?? ""
   getCssString = getCssString

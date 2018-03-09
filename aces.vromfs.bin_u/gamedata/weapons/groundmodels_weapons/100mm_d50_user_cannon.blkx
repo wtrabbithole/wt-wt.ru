@@ -314,7 +314,7 @@
   "100mm_ussr_APDS": {
     "bullet": {
       "bulletCount": 25,
-      "mass": 5.7,
+      "mass": 4.13,
       "caliber": 0.1,
       "damageCaliber": 0.05,
       "ballisticCaliber": 0.052,
@@ -323,13 +323,12 @@
       "bulletType": "apds_tank",
       "bulletName": "100mm_zbm8",
       "onHitChanceMultExplFuel": 0.1,
+      "Cx": 0.218,
+      "breakingArmorThicknessEffective": true,
+      "breakingArmorThickness": [30.0,150.0],
+      "breakingCriticalSpeed": 1400.0,
+      "breakingDistance": 0.1,
       "relativeVelHitShift": [300.0,1000.0],
-      "armorFragmentsDamage": true,
-      "armorFragmentsDamageRadius": 5.4,
-      "armorFragmentsDamageAngle": 20.0,
-      "armorFragmentsAmount": 100,
-      "armorFragmentsArmorPower": 4.0,
-      "armorFragmentsHit": 10.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [1.1,1.2],
@@ -361,10 +360,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         },
         "buildings": {
           "fx": "122_ap_stone_splash",

@@ -73,6 +73,8 @@
     WorldWarSquadInvite = false
     WorldWarGlobalBattles = false
 
+    SpecialShip = false
+
     GraphicsOptions = true
     Spectator = false
     BuyAllModifications = false
@@ -123,6 +125,8 @@
     BattleTasks = false
     BattleTasksHard = true
     PersonalUnlocks = false
+    ItemsShopInTopMenu = true
+    ItemModUpgrade = false
 
     BulletParamsForAirs = ::disable_network()
 
@@ -187,8 +191,7 @@
     AllowExternalLink = true
     TankAltCrosshair = false
 
-    EnableUgcSkins = false
-    EnableUgcDecals = false
+    DebriefingBattleTasks = false
   }
 
   cache = {}

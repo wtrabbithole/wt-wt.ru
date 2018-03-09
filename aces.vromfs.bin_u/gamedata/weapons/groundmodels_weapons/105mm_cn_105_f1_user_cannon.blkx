@@ -10,7 +10,7 @@
   "aimMaxDist": 2000.0,
   "maxDeltaAngle": 0.06,
   "maxDeltaAngleVertical": 0.08,
-  "shotFreq": 0.1333,
+  "shotFreq": 0.15,
   "traceFreq": 4,
   "bEnablePause": false,
   "bullets": -1,
@@ -229,14 +229,15 @@
   "105mm_fr_CN105_APDSFS": {
     "bullet": {
       "bulletCount": 40,
-      "mass": 3.6,
+      "mass": 3.8,
       "caliber": 0.105,
-      "damageCaliber": 0.04,
-      "ballisticCaliber": 0.075,
+      "damageCaliber": 0.026,
+      "ballisticCaliber": 0.026,
       "speed": 1525.0,
-      "maxDistance": 10000.0,
+      "maxDistance": 20000.0,
       "bulletType": "apds_fs_long_tank",
       "bulletName": "105mm_ofl_105_f1",
+      "Cx": 0.49,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [1.1,1.2],
@@ -266,10 +267,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         },
         "buildings": {
           "fx": "122_ap_stone_splash",

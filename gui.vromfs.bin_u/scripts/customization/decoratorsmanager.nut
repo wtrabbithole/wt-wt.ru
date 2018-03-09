@@ -1,4 +1,5 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local guidParser = require("scripts/guidParser.nut")
 local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 const DEFAULT_SKIN_NAME = "default"
@@ -21,6 +22,7 @@ ugcPreview.registerClientCb()
 
 ::g_decorator <- {
   cache = {}
+  ugcDecoratorsCache = {}
   previewedUgcSkinId = ""
   approversUnitToPreviewUgcResource = null
 }
@@ -76,9 +78,15 @@ function g_decorator::getDecorator(searchId, decType)
     return res
 
   local res = ::getTblValue(searchId, ::g_decorator.getCachedDecoratorsListByType(decType))
-  if (!res)
-    ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
-  return res
+  if (res)
+    return res
+
+  local res = decType.getUgcDecorator(searchId, ugcDecoratorsCache)
+  if (res)
+    return res
+
+  ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
+  return null
 }
 
 function g_decorator::getCachedDecoratorByUnlockId(unlockId, decType)
@@ -201,15 +209,15 @@ function g_decorator::getBestSkinsList(unitName, isLockedAllowed)
 {
   local unit = ::getAircraftByName(unitName)
   if (!unit)
-    return DEFAULT_SKIN_NAME
+    return [DEFAULT_SKIN_NAME]
 
   local misBlk = ::is_in_flight() ? ::get_current_mission_info_cached()
     : ::get_mission_meta_info(unit.testFlight)
   local level = misBlk?.level
   if (!level)
-    return DEFAULT_SKIN_NAME
+    return [DEFAULT_SKIN_NAME]
 
-  local skinsList = []
+  local skinsList = [DEFAULT_SKIN_NAME]
   foreach(skin in unit.getSkins())
   {
     if (skin.name == "")
@@ -223,13 +231,13 @@ function g_decorator::getBestSkinsList(unitName, isLockedAllowed)
     if (decorator && decorator.isUnlocked())
       skinsList.append(skin.name)
   }
-  return skinLocations.getBestSkinsList(skinsList, level)
+  return skinLocations.getBestSkinsList(skinsList, unitName, level)
 }
 
 function g_decorator::addSkinItemToOption(option, locName, value, decorator, shouldSetFirst = false)
 {
   local idx = shouldSetFirst ? 0 : option.items.len()
-  option.items.insert(idx, locName)
+  option.items.insert(idx, { text = locName, textStyle = ::COLORED_DROPRIGHT_TEXT_STYLE })
   option.values.insert(idx, value)
   option.decorators.insert(idx, decorator)
   option.access.insert(idx, {
@@ -324,10 +332,48 @@ function g_decorator::onEventLoginComplete(p)
   ::g_decorator.clearCache()
 }
 
+function g_decorator::onEventDecalReceived(p)
+{
+  if (!p?.decalId)
+    return
+
+  updateDecalVisible(p)
+}
+
+function g_decorator::updateDecalVisible(params)
+{
+  local decalId = params.decalId
+  local decType = ::g_decorator_type.DECALS
+  local data = ::g_decorator.getCachedDataByType(decType)
+  local decorator = data.decoratorsList?[decalId]
+  local category = decorator?.category
+
+  if (!decorator || (!decorator.isVisible() && !decorator.isForceVisible()))
+    return
+
+  foreach (i, value in data.decorators[category])
+    if (value.id == decalId)
+      return
+
+  local id = "proceedData_" + decType.name
+
+  ::g_decorator.cache[id].decorators[category].append(decorator)
+}
 
 function g_decorator::isPreviewingUgcSkin()
 {
   return ::has_feature("EnableUgcSkins") && ::g_decorator.previewedUgcSkinId != ""
+}
+
+function g_decorator::buildUgcDecoratorFromResource(resource, resourceType, itedDef = null)
+{
+  if (!resource || !resourceType)
+    return
+  if (resource in ::g_decorator.ugcDecoratorsCache)
+    return
+  local decorator = ::Decorator(resource, ::g_decorator_type.getTypeByResourceType(resourceType))
+  decorator.updateFromItemdef(itedDef)
+  ::g_decorator.ugcDecoratorsCache[resource] <- decorator
 }
 
 ::subscribe_handler(::g_decorator, ::g_listener_priority.CONFIG_VALIDATION)

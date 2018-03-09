@@ -55,6 +55,7 @@ enum AxisInvertOption
 
 enum DargWidgets
 {
-  NONE = 0,
-  HUD
+   NONE = 0
+  ,HUD
+  ,SHIP_OBSTACLE_RF
 };

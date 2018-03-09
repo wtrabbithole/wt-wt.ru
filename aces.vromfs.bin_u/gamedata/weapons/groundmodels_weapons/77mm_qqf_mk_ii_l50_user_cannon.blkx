@@ -226,14 +226,15 @@
   "76mm_britain_17pdr_APDS": {
     "bullet": {
       "bulletCount": 40,
-      "mass": 3.45,
+      "mass": 1.73,
       "caliber": 0.0762,
-      "damageCaliber": 0.035,
-      "ballisticCaliber": 0.07,
+      "damageCaliber": 0.038,
+      "ballisticCaliber": 0.038,
       "speed": 1120.0,
       "maxDistance": 10000.0,
       "bulletType": "apds_tank",
       "bulletName": "76mm_shot_sv_mk1_apds",
+      "Cx": 0.0001,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
@@ -252,10 +253,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         }
       },
       "armorpower": {

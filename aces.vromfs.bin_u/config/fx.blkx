@@ -21,7 +21,7 @@
   "aircraftExhaustFlameTime": [1.0,2.0],
   "timeForSmokingWrecks": 2.0,
   "shipWaterSplashEnabled": true,
-  "dirtTopSpawnRateMinSpd": 1.0,
+  "HdirtTopSpawnRateMinSpd": 1.0,
   "dirtTopSpawnRateMaxSpd": 5.0,
   "dirtTopSpawnRateSpdMult": 0.1,
   "dirtFrontSpawnRateMinSpd": 0.0,
@@ -245,7 +245,7 @@
     "sfxEvent": "explosion_ground"
   },
   "art_ground_splash": {
-    "fx": "50_75_he_hit_ground_composite",
+    "fx": "artillelry_he_hit_ground_composite",
     "lifeTime": 0.0,
     "softnessDepth": 1.0,
     "granularity": 4,
@@ -1689,6 +1689,15 @@
     "sfxPath": "tanks/effects_tanks",
     "sfxEvent": "rico"
   },
+  "cannon_hit_apds": {
+    "fx": "pv_hit_ricochet_ap_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 30,
+    "numReserved": 3,
+    "onePointNumber": 40,
+    "sfxPath": "tanks/effects_tanks",
+    "sfxEvent": "rico"
+  },
   "tank_engine_fire": {
     "fx": "pv_engine_fire_composite_fx",
     "lifeTime": 10.0,
@@ -1696,6 +1705,7 @@
     "numReserved": 3,
     "sfxPath": "tanks/explosions_tanks",
     "sfxEvent": "engine_burn",
+    "soundEnableDistance": 50.0,
     "lightColor": [10.0,2.0,2.0,50.0]
   },
   "tank_engine_smoke": {
@@ -1710,7 +1720,8 @@
     "numInstances": 30,
     "numReserved": 3,
     "sfxPath": "tanks/explosions_tanks",
-    "sfxEvent": "ammo_explode"
+    "sfxEvent": "ammo_explode",
+    "soundEnableDistance": 100.0
   },
   "tank_fire_small": {
     "fx": "pv_fire_small_composite_fx",
@@ -1724,7 +1735,8 @@
     "numInstances": 30,
     "numReserved": 3,
     "sfxPath": "tanks/explosions_tanks",
-    "sfxEvent": "fire_destroyed"
+    "sfxEvent": "fire_destroyed",
+    "soundEnableDistance": 50.0
   },
   "tank_smoke_small": {
     "fx": "pv_smoke_small_composite_fx",
@@ -1752,6 +1764,15 @@
     "onePointNumber": 80,
     "sfxPath": "tanks/explosions_tanks",
     "sfxEvent": "explosion_metal"
+  },
+  "bullet_HE_hit_armor": {
+    "fx": "pv_hit_cumulative_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 80,
+    "numReserved": 3,
+    "onePointNumber": 80,
+    "sfxPath": "tanks/effects_tanks",
+    "sfxEvent": "hit_mgun"
   },
   "pv_point_smoke_blue": {
     "fx": "pv_point_smoke_blue_fx",
@@ -1895,6 +1916,7 @@
     "numReserved": 3,
     "sfxPath": "tanks/explosions_tanks",
     "sfxEvent": "fire_destroyed",
+    "soundEnableDistance": 50.0,
     "minScale": 1.2,
     "maxScale": 1.5,
     "group": "water_proj"
@@ -1955,6 +1977,7 @@
     "numReserved": 3,
     "sfxPath": "tanks/explosions_tanks",
     "sfxEvent": "fire_destroyed",
+    "soundEnableDistance": 50.0,
     "farPlane": 15000.0
   },
   "ship_ammo_fire_large": {
@@ -1963,7 +1986,8 @@
     "numInstances": 30,
     "numReserved": 3,
     "sfxPath": "tanks/explosions_tanks",
-    "sfxEvent": "ammo_explode"
+    "sfxEvent": "ammo_explode",
+    "soundEnableDistance": 100.0
   },
   "start_torpedo": {
     "fx": "ps_trp_fire_composite_fx",
@@ -2200,8 +2224,8 @@
     "sortDistanceOffset": 0.0,
     "numInstances": 200,
     "numReserved": 1,
-    "minScale": 1.2,
-    "maxScale": 1.6
+    "minScale": 1.6,
+    "maxScale": 2.0
   },
   "ground_model_expl": {
     "fx": "grnd_expl_composite_fx",

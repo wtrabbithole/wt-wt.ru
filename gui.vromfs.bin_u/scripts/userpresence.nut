@@ -41,7 +41,7 @@ function g_user_presence::setBattlePresence(presenceName = null, event = null)
   {
     setPresence({status = {
       [presenceName] = {
-        country = ::get_profile_info().country
+        country = ::get_profile_country_sq()
         diff = ::events.getEventDiffCode(event)
         eventId = event.name
       }

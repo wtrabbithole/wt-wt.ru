@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
 enum chatRoomCheckOrder {
@@ -70,7 +71,7 @@ enum chatRoomTabOrder {
   isAllowed = @() true
 }
 
-::g_enum_utils.addTypesByGlobalName("g_chat_room_type", {
+enums.addTypesByGlobalName("g_chat_room_type", {
   DEFAULT_ROOM = {
     checkOrder = chatRoomCheckOrder.REGULAR
     needSave = function() { return true }

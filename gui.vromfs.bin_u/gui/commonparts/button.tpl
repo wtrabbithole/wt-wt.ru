@@ -139,5 +139,14 @@
         <<@newIconWidget>>
       }
     <</newIconWidget>>
+
+    <<#unseenIcon>>
+    unseenIcon {
+      id:t='<<id>>_new_icon'
+      value:t='<<unseenIcon>>'
+      pos:t='pw-w, 50%ph-50%h'
+      position:t='absolute'
+    }
+    <</unseenIcon>>
   }
 }

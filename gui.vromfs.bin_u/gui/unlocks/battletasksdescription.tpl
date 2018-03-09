@@ -5,9 +5,11 @@ smallFont:t='yes'
 textareaNoTab {
   id:t='taskDescription'
   padding-top:t='0.01@scrn_tgt'
-  width:t='pw'
+  max-width:t='pw'
   <<#isPromo>>
   text-align:t='right'
+  left:t='pw-w'
+  position:t='relative'
   <</isPromo>>
   text:t='<<taskDescription>>'
 }
@@ -29,11 +31,12 @@ tdiv {
   class:t='header'
   <<^isOnlyInfo>>
   Button_text {
+    task_id:t='<<id>>'
     class:t='image'
     imgSize:t='small'
     showConsoleImage:t='no'
-    img { background-image:t='#ui/gameuiskin#help_tooltip' }
-    on_click:t='onViewUnlocks'
+    img { background-image:t='#ui/gameuiskin#btn_help.svg' }
+    on_click:t='onViewBattleTaskRequirements'
   }
   <</isOnlyInfo>>
   textareaNoTab {

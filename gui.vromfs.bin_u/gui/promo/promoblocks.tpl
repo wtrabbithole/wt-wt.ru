@@ -119,6 +119,15 @@ promoButton {
             pos:t='-w, 50%ph-50%h'
           }
           <</notifyNew>>
+
+          <<#unseenIcon>>
+          unseenIcon {
+            position:t='absolute'
+            pos:t='-w-1@blockInterval, 50%ph-50%h'
+            value:t='<<unseenIcon>>'
+            unseenText {}
+          }
+          <</unseenIcon>>
         }
       }
       <<^showTextShade>>
@@ -129,6 +138,15 @@ promoButton {
         pos:t='-w, 50%ph-50%h'
       }
       <</notifyNew>>
+
+      <<#unseenIcon>>
+      unseenIcon {
+        position:t='absolute'
+        pos:t='-w-1@blockInterval, 50%ph-50%h'
+        value:t='<<unseenIcon>>'
+        unseenText {}
+      }
+      <</unseenIcon>>
       <</showTextShade>>
     }
     <</fillBlocks>>

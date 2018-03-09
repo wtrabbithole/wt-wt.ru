@@ -1,4 +1,4 @@
-local u = require("sqStdLibs/common/u.nut")
+local u = require("std/u.nut")
 ::g_script_reloader.loadOnce("sqDagui/daguiUtil.nut")  //!!FIX ME: better to make this modules too
 
 local SecondsUpdater = class

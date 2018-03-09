@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 ::g_ww_map_controls_buttons <- {
   types = []
   cache = {}
@@ -21,7 +23,7 @@
   isEnabled = function() { return true }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_map_controls_buttons",
+enums.addTypesByGlobalName("g_ww_map_controls_buttons",
 {
   MOVE = {
     id = "army_move_button"

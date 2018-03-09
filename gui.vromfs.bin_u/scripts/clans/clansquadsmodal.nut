@@ -164,7 +164,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     obj.findObject("btn_user_options").leaderUid = newSquad?.leader
     obj.findObject("btn_squad_info").leaderUid = newSquad?.leader
     obj.findObject("application_disabled").show(
-      !(newSquad?.data?.properties?.isApplicationsEnaled ?? true))
+      !(newSquad?.data?.properties?.isApplicationsEnabled ?? true))
     fillPresence(obj, newSquad)
     local buttonsContainerObj = obj.findObject("buttons_container")
     buttonsContainerObj.leaderUid = newSquad?.leader
@@ -181,7 +181,13 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
 
   function updateSquadButtons(obj, squad)
   {
-    ::showBtn("btn_application", canApplicationMembership(squad), obj)
+    local show = canApplyForMembership(squad)
+    local btnObj = ::showBtn("btn_application", show, obj)
+    if (show)
+    {
+      btnObj.tooltip = getInvitationInSquad(squad) ? ::loc("squad/join") : ::loc("squad/membership_request")
+    }
+
     ::showBtn("btn_revoke_application", canRevokeApplication(squad), obj)
   }
 
@@ -189,15 +195,15 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   {
     if (!selectedSquad)
       return
-    ::showBtn("btn_application", canApplicationMembership(selectedSquad), dummyButtonsListObj)
+    ::showBtn("btn_application", canApplyForMembership(selectedSquad), dummyButtonsListObj)
     ::showBtn("btn_revoke_application", canRevokeApplication(selectedSquad), dummyButtonsListObj)
   }
 
-  function canApplicationMembership(squad)
+  function canApplyForMembership(squad)
   {
     return !squadApplications.hasApplication(squad.leader)
       && !isMySquad(squad)
-      && (squad?.data?.properties?.isApplicationsEnaled ?? true)
+      && (squad?.data?.properties?.isApplicationsEnabled ?? true)
   }
 
   function canRevokeApplication(squad)
@@ -206,12 +212,18 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       && !::g_squad_manager.isInSquad()
   }
 
+  function getInvitationInSquad(squad)
+  {
+    local uid = ::g_invites_classes.Squad.getUidByParams({squadId = squad.leader})
+    return ::g_invites.findInviteByUid(uid)
+  }
+
   function getSquadObj(idx)
   {
     if (squadsListObj.childrenCount() > idx) {
         return squadsListObj.getChild(idx)
     }
-    return squadsListObj.getChild(idx-1).getClone()
+    return squadsListObj.getChild(idx-1).getClone(squadsListObj, this)
   }
 
   function isMySquad(squad)
@@ -220,6 +232,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       return false
 
     return ::isInArray(::my_user_id_int64, squad?.members ?? [])
+      || squad?.leader.tostring() == ::g_squad_manager.getLeaderUid()
   }
 
   function getLeaderName(squad)
@@ -333,6 +346,14 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (!actionSquad)
       return
 
+    local invite = getInvitationInSquad(actionSquad)
+    if (invite)
+    {
+      invite.accept()
+      obj.show(false)
+      return
+    }
+
     local leaderUid = actionSquad?.leader
     ::g_squad_manager.membershipAplication(leaderUid)
   }
@@ -364,21 +385,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
 
   function onEventPlayerApplicationsChanged(params)
   {
-    if (!curList.len())
-      return
-    local leadersUid = params.leadersArr
-    local leader = null
-    local obj = null
-    for (local i = 0; i < curList.len(); i++)
-    {
-      leader = curList[i].leader
-      if (::isInArray(leader, leadersUid))
-      {
-        obj = getSquadObj(i)
-        updateSquadButtons(obj, curList[i])
-      }
-    }
-    updateSquadDummyButtons()
+    updateSquadButtonsByleadersUid(params.leadersArr)
   }
 
   function onEventClanSquadsListChanged(params)
@@ -438,5 +445,45 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function isSquadOnline(squad)
   {
     return onlineUsersTable?[squad.leader] ?? false
+  }
+
+  function onEventSquadStatusChanged(params)
+  {
+    if (!::g_squad_manager.isInSquad())
+      return false
+
+    local leaderUid = ::g_squad_manager.getLeaderUid()
+    if (!leaderUid || leaderUid == "")
+      return
+
+    updateSquadButtonsByleadersUid([leaderUid.tointeger()])
+  }
+
+  function onEventInviteReceived(params)
+  {
+    local leaderUid = params.invite?.leaderId
+    if (!leaderUid)
+      return
+
+    updateSquadButtonsByleadersUid([leaderUid.tointeger()])
+  }
+
+  function updateSquadButtonsByleadersUid(leadersArr)
+  {
+    if (!curList.len())
+      return
+
+    local leader = null
+    local obj = null
+    for (local i = 0; i < curList.len(); i++)
+    {
+      leader = curList[i].leader
+      if (::isInArray(leader, leadersArr))
+      {
+        obj = getSquadObj(i)
+        updateSquadButtons(obj, curList[i])
+      }
+    }
+    updateSquadDummyButtons()
   }
 }

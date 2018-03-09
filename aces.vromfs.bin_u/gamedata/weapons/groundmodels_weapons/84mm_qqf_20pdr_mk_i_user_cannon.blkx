@@ -129,17 +129,13 @@
       "mass": 4.03,
       "caliber": 0.0834,
       "damageCaliber": 0.04,
+      "ballisticCaliber": 0.055,
       "speed": 1430.0,
       "maxDistance": 10000.0,
       "bulletType": "apds_tank",
       "bulletName": "83mm_shot_mk3",
+      "Cx": 0.0001,
       "relativeVelHitShift": [300.0,1000.0],
-      "armorFragmentsDamage": true,
-      "armorFragmentsDamageRadius": 2.5,
-      "armorFragmentsDamageAngle": 12.0,
-      "armorFragmentsAmount": 20,
-      "armorFragmentsArmorPower": 6.0,
-      "armorFragmentsHit": 8.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [0.9,1.1],
@@ -174,10 +170,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         }
       }
     }

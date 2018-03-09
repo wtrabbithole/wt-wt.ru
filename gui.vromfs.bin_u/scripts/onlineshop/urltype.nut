@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 const URL_ANY_ENDING = @"(\/.*$|\/$|$)"
 
 enum URL_CHECK_ORDER
@@ -45,7 +46,7 @@ enum URL_CHECK_ORDER
   applyLangKey = function(url, langKey) { return url }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_url_type", {
+enums.addTypesByGlobalName("g_url_type", {
   UNKNOWN = {
     sortOrder = URL_CHECK_ORDER.UNKNOWN
   }

@@ -222,7 +222,6 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "campaign": "pacific",
-      "windDirection": [1.0,0.0,0.0],
       "chapter": "base_dom",
       "locName": "missions/krymsk_BfD_norespawn",
       "locDesc": "missions/_BfD_norespawn/desc",
@@ -233,7 +232,6 @@
       "country_axis": "germany",
       "country_allies": "ussr",
       "difficulty": "",
-      "windSpeed": [2.0,5.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -712,6 +710,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -738,6 +745,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -768,6 +784,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_cargo_ships_squad",
             "targetGnd": false,
             "accuracy": 0.3,
@@ -778,6 +797,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -786,6 +808,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -893,6 +918,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -904,6 +932,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -929,6 +960,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_trucks_squad"
         }
       },
@@ -964,7 +998,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -981,7 +1018,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -1025,6 +1065,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ships_squad"
         }
       },
@@ -1060,7 +1103,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -1077,7 +1123,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -1121,6 +1170,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_zone_01_squad"
         }
       },
@@ -1166,6 +1218,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_zone_02_squad"
         }
       },
@@ -1319,6 +1374,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_trucks_01",
           "target": "t1_truck_01_catch_area"
         },
@@ -1327,6 +1385,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_01"
         }
       },
@@ -1336,6 +1397,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_01",
           "speed": 45.0
         },
@@ -1366,6 +1430,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_trucks_02",
           "target": "t1_truck_02_catch_area"
         },
@@ -1374,6 +1441,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_02"
         }
       },
@@ -1383,6 +1453,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_02",
           "speed": 45.0
         },
@@ -1413,6 +1486,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_trucks_03",
           "target": "t1_truck_03_catch_area"
         },
@@ -1421,6 +1497,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_01"
         }
       },
@@ -1430,6 +1509,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_03",
           "speed": 45.0
         },
@@ -1460,6 +1542,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_trucks_04",
           "target": "t1_truck_04_catch_area"
         },
@@ -1468,6 +1553,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_01"
         }
       },
@@ -1477,6 +1565,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_cargo_ship_04",
           "speed": 45.0
         },
@@ -13275,7 +13366,7 @@
         [-277.164,0.0,114.805],
         [0.0,300.0,0.0],
         [-114.805,0.0,-277.164],
-        [10209.5,1000.0,-9803.49]
+        [8332.35,1000.0,-9120.34]
       ],
       "props": []
     },
@@ -13292,9 +13383,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-2052.12,0.0,-5638.16],
-        [0.0,6000.0,0.0],
-        [5638.16,0.0,-2052.12],
+        [-3420.2,0.0,-9396.93],
+        [0.0,10000.0,0.0],
+        [9396.93,0.0,-3420.2],
         [13030.5,1000.0,-10830.5]
       ],
       "props": []
@@ -13375,7 +13466,7 @@
         [202.677,0.0,-221.183],
         [0.0,300.0,0.0],
         [221.183,0.0,202.677],
-        [-22874.4,1000.0,18919.2]
+        [-21467.2,1000.0,17517.9]
       ],
       "props": []
     },
@@ -13392,9 +13483,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [4242.64,0.0,4242.64],
-        [0.0,6000.0,0.0],
-        [-4242.64,0.0,4242.64],
+        [7071.07,0.0,7071.07],
+        [0.0,10000.0,0.0],
+        [-7071.07,0.0,7071.07],
         [-24997.1,1000.0,21042.3]
       ],
       "props": []
@@ -14018,6 +14109,26 @@
         [8930.8,347.05,20716.2]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-277.164,0.0,114.805],
+        [0.0,300.0,0.0],
+        [-114.805,0.0,-277.164],
+        [15832.0,500.0,-11849.9]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [202.677,0.0,-221.183],
+        [0.0,300.0,0.0],
+        [221.183,0.0,202.677],
+        [-27105.2,500.0,23150.0]
+      ],
       "props": []
     }
   },

@@ -117,31 +117,13 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
       ::gui_modal_userCard({ uid = curCandidate.uid })
   }
 
-  function clanBlacklistAction(uid, actionAdd)
-  {
-    ::gui_modal_comment(this, ::loc("clan/writeCommentary"), ::loc("msgbox/btn_ok"), (@(uid, actionAdd) function(comment) {
-      local taskId = ::clan_request_edit_black_list(uid, actionAdd, comment)
-      if (taskId >= 0)
-        ::sync_handler_simulate_signal("clan_info_reload")
-
-      local onTaskSuccess = ::Callback((@(actionAdd) function() {
-        hideCurCandidate()
-        msgBox("blacklist_action",
-          (actionAdd? ::loc("clan/blacklistAddSuccess") : ::loc("clan/blacklistRemoveSuccess")),
-          [["ok", function() { goBack() } ]], "ok")
-      })(actionAdd), this)
-
-      ::g_tasker.addTask(taskId, {showProgressBox = true}, onTaskSuccess)
-    })(uid, actionAdd))
-  }
-
   function onRequestApprove(){}
   function onRequestReject(){}
 
   function onDeleteFromBlacklist()
   {
     if (curCandidate)
-      clanBlacklistAction(curCandidate.uid, false)
+      ::g_clans.blacklistAction(curCandidate.uid, false)
   }
 
   function onUserRClick()
@@ -172,32 +154,40 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
       {
         text = ::loc("msgbox/btn_delete")
         show = ::isInArray("MEMBER_BLACKLIST", myRights)
-        action = function() { onDeleteFromBlacklist() }
+        action = onDeleteFromBlacklist
       }
       {
         text = ::loc("mainmenu/btnUserCard")
-        action = (@(curCandidate) function() { ::gui_modal_userCard({ uid = curCandidate.uid }) })(curCandidate)
+        action = @() ::gui_modal_userCard({ uid = curCandidate.uid })
       }
     ]
     ::gui_right_click_menu(menu, this, position)
   }
 
-  function hideCurCandidate()
+  function hideCandidateByName(name)
   {
-    if (!curCandidate)
-      return;
+    if (!name)
+      return
 
     memListModified = true
     foreach(idx, candidate in blacklistData)
-      if (candidate.nick == curCandidate.nick)
+      if (candidate.nick == name)
       {
-        blacklistData.remove(idx);
+        blacklistData.remove(idx)
         break
       }
+
     if (blacklistData.len() > 0)
-      updateBlacklistTable();
+      updateBlacklistTable()
     else
-      goBack();
+      goBack()
+  }
+
+  function onEventClanCandidatesListChanged(p)
+  {
+    local uid = p?.userId
+    local candidate = ::u.search(blacklistData, @(candidate) candidate.uid == uid )
+    hideCandidateByName(candidate?.nick)
   }
 
   function afterModalDestroy()

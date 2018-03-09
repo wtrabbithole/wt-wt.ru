@@ -355,59 +355,6 @@
         },
         {
           "varSetString": {
-            "value": "t1_boat_spawn_icon01",
-            "var": "t1_boat_01_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t1_boat_spawn_icon02",
-            "var": "t1_boat_02_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t2_boat_spawn_icon01",
-            "var": "t2_boat_01_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t2_boat_spawn_icon02",
-            "var": "t2_boat_02_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t1_ship_spawn_icon01",
-            "var": "t1_ship_01_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t1_ship_spawn_icon02",
-            "var": "t1_ship_02_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t2_ship_spawn_icon01",
-            "var": "t2_ship_01_icon"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "t2_ship_spawn_icon02",
-            "var": "t2_ship_02_icon"
-          }
-        },
-        {
-          "comment": {
-            "value": ""
-          }
-        },
-        {
-          "varSetString": {
             "value": "nadom_buoy_circles_squad",
             "var": "buoy_circle_squad"
           }
@@ -508,7 +455,9 @@
                 "air": false,
                 "tank": false,
                 "ship": true,
+                "boat": true,
                 "destroyer": false,
+                "type_gun_boat": true,
                 "type_destroyer": false
               }
             }
@@ -569,7 +518,9 @@
                 "air": false,
                 "tank": false,
                 "ship": true,
+                "boat": true,
                 "destroyer": false,
+                "type_gun_boat": true,
                 "type_destroyer": false
               }
             }
@@ -679,7 +630,10 @@
               "tags": {
                 "air": false,
                 "tank": false,
+                "ship": true,
+                "boat": false,
                 "destroyer": true,
+                "type_gun_boat": false,
                 "type_destroyer": true
               }
             }
@@ -739,7 +693,10 @@
               "tags": {
                 "air": false,
                 "tank": false,
+                "ship": true,
+                "boat": false,
                 "destroyer": true,
+                "type_gun_boat": false,
                 "type_destroyer": true
               }
             }
@@ -791,7 +748,9 @@
               "air": false,
               "tank": false,
               "ship": true,
+              "boat": true,
               "destroyer": false,
+              "type_gun_boat": true,
               "type_destroyer": false
             }
           }
@@ -817,7 +776,9 @@
               "air": false,
               "tank": false,
               "ship": true,
+              "boat": true,
               "destroyer": false,
+              "type_gun_boat": true,
               "type_destroyer": false
             }
           }
@@ -861,6 +822,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@buoy_circle_squad",
             "army": 0,
             "targetableByAi": false,
@@ -922,22 +886,6 @@
               "target": "nadom_check_battle_area_exist"
             }
           ]
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_ship",
-            "areaName": "@t1_boat_01_icon",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_ship",
-            "areaName": "@t2_boat_01_icon",
-            "colorCode": "Team B"
-          }
         }
       ],
       "else_actions": []
@@ -989,7 +937,9 @@
               "air": false,
               "tank": false,
               "ship": true,
+              "boat": true,
               "destroyer": false,
+              "type_gun_boat": true,
               "type_destroyer": false
             }
           }
@@ -1015,25 +965,11 @@
               "air": false,
               "tank": false,
               "ship": true,
+              "boat": true,
               "destroyer": false,
+              "type_gun_boat": true,
               "type_destroyer": false
             }
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_ship",
-            "areaName": "@t1_boat_02_icon",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_ship",
-            "areaName": "@t2_boat_02_icon",
-            "colorCode": "Team B"
           }
         }
       ],
@@ -1082,7 +1018,20 @@
       "events": {
         "initMission": []
       },
-      "conditions": [],
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_ship_spawn_01_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_ship_spawn_01_name",
+            "type": "squad"
+          }
+        }
+      ],
       "actions": [
         {
           "missionMarkAsRespawnPoint": {
@@ -1104,7 +1053,10 @@
             "tags": {
               "air": false,
               "tank": false,
+              "ship": true,
+              "boat": false,
               "destroyer": true,
+              "type_gun_boat": false,
               "type_destroyer": true
             }
           }
@@ -1129,7 +1081,10 @@
             "tags": {
               "air": false,
               "tank": false,
+              "ship": true,
+              "boat": false,
               "destroyer": true,
+              "type_gun_boat": false,
               "type_destroyer": true
             }
           }
@@ -1137,22 +1092,6 @@
         {
           "triggerEnable": {
             "target": "nadom_check_second_ship_spawn_exist"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "@t1_ship_01_icon",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "@t2_ship_01_icon",
-            "colorCode": "Team B"
           }
         }
       ],
@@ -1208,7 +1147,10 @@
             "tags": {
               "air": false,
               "tank": false,
+              "ship": true,
+              "boat": false,
               "destroyer": true,
+              "type_gun_boat": false,
               "type_destroyer": true
             }
           }
@@ -1233,25 +1175,12 @@
             "tags": {
               "air": false,
               "tank": false,
+              "ship": true,
+              "boat": false,
               "destroyer": true,
+              "type_gun_boat": false,
               "type_destroyer": true
             }
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "@t1_ship_02_icon",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "@t2_ship_02_icon",
-            "colorCode": "Team B"
           }
         }
       ],
@@ -1296,15 +1225,7 @@
     "temp_zone_03_name": "",
     "temp_effect_01_name": "",
     "temp_effect_02_name": "",
-    "temp_effect_03_name": "",
-    "t1_boat_01_icon": "",
-    "t1_boat_02_icon": "",
-    "t2_boat_01_icon": "",
-    "t2_boat_02_icon": "",
-    "t1_ship_01_icon": "",
-    "t1_ship_02_icon": "",
-    "t2_ship_01_icon": "",
-    "t2_ship_02_icon": ""
+    "temp_effect_03_name": ""
   },
   "dialogs": [],
   "airfields": [],

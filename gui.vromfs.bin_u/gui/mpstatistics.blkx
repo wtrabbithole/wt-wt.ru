@@ -15,7 +15,7 @@
         "width": "1@rw",
         "tdiv": [
           {
-            "max-height": "ph"
+            "height": "fh"
           },
           {
             "pos": "50%pw-50%w, 0"
@@ -74,7 +74,7 @@
               },
               {
                 "tdiv": {
-                  "size": "pw, 16*@rows16height+2",
+                  "size": "pw, fh",
                   "overflow-y": "auto",
                   "scroll-align": "left",
                   "scroll-padding": "no",
@@ -158,7 +158,7 @@
               },
               {
                 "tdiv": {
-                  "size": "pw, 16*@rows16height+2",
+                  "size": "pw, fh",
                   "overflow-y": "auto",
                   "table": {
                     "id": "table_kills_team2",
@@ -362,7 +362,7 @@
                   {
                     "tdiv": {
                       "id": "gamercard_tobattle_bg",
-                      "left": "-1@titleLogoPlatePadding/2",
+                      "pos": "-1@titleLogoPlatePadding/2, 0",
                       "position": "relative",
                       "height": "ph",
                       "background-color": "@gameModeColor",
@@ -531,7 +531,7 @@
                               "id": "gc_profile",
                               "tooltip": "#mainmenu/btnProfile",
                               "_on_click": "onProfile",
-                              "cardImg": {
+                              "cardAvatar": {
                                 "id": "gc_icon"
                               },
                               "tdiv": {
@@ -805,6 +805,7 @@
       },
       {
         "gamercard": {
+          "id": "gamercard_bottom",
           "BottomMenuPanel": [
             {
               "shadowSafeArea": []

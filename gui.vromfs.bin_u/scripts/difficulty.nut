@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_difficulty <- {
   types = []
 }
@@ -14,7 +15,7 @@
   crewSkillName = "" // Used in g_crew_skill_parameters.
   settingsName = "" // Used in _difficulty.blk difficulty_settings.
   clanReqOption = "" //Used in clan membership requirement
-  cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_CUSTOM)
+  cdPresetValue = ::get_cd_preset(::DIFFICULTY_CUSTOM)
   getEgdName = function(capital = true) { return ::get_name_by_gamemode(egdCode, capital) } //"none", "arcade", "historical", "simulation"
   getLocName = function() { return ::loc(locId) }
 
@@ -36,7 +37,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_difficulty", {
+enums.addTypesByGlobalName("g_difficulty", {
   UNKNOWN = {
     name = "unknown"
     isAvailable = function(...) { return false }
@@ -54,7 +55,7 @@
     crewSkillName = "arcade"
     settingsName = "easy"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES
-    cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_ARCADE)
+    cdPresetValue = ::get_cd_preset(::DIFFICULTY_ARCADE)
     abbreviation = "clan/shortArcadeBattle"
     choiceType = ["AirAB", "TankAB"]
     arcadeCountry = true
@@ -73,7 +74,7 @@
     crewSkillName = "historical"
     settingsName = "medium"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_REAL_BATTLES
-    cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_REALISTIC)
+    cdPresetValue = ::get_cd_preset(::DIFFICULTY_REALISTIC)
     abbreviation = "clan/shortHistoricalBattle"
     choiceType = ["AirRB", "TankRB"]
     arcadeCountry = true
@@ -92,7 +93,7 @@
     crewSkillName = "fullreal"
     settingsName = "hard"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_SYM_BATTLES
-    cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_HARDCORE)
+    cdPresetValue = ::get_cd_preset(::DIFFICULTY_HARDCORE)
     abbreviation = "clan/shortFullRealBattles"
     choiceType = ["AirSB", "TankSB"]
     arcadeCountry = false
@@ -114,34 +115,34 @@
 
 function g_difficulty::getDifficultyByDiffCode(diffCode)
 {
-  return ::g_enum_utils.getCachedType("diffCode", diffCode, ::g_difficulty_cache.byDiffCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
+  return enums.getCachedType("diffCode", diffCode, ::g_difficulty_cache.byDiffCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByName(name)
 {
-  return ::g_enum_utils.getCachedType("name", name, ::g_difficulty_cache.byName, ::g_difficulty, ::g_difficulty.UNKNOWN)
+  return enums.getCachedType("name", name, ::g_difficulty_cache.byName, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByEgdCode(egdCode)
 {
-  return ::g_enum_utils.getCachedType("egdCode", egdCode, ::g_difficulty_cache.byEgdCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
+  return enums.getCachedType("egdCode", egdCode, ::g_difficulty_cache.byEgdCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByEgdLowercaseName(name)
 {
-  return ::g_enum_utils.getCachedType("egdLowercaseName", name, ::g_difficulty_cache.byEgdLowercaseName,
+  return enums.getCachedType("egdLowercaseName", name, ::g_difficulty_cache.byEgdLowercaseName,
                                         ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByMatchingName(name)
 {
-  return ::g_enum_utils.getCachedType("matchingName", name, ::g_difficulty_cache.byMatchingName,
+  return enums.getCachedType("matchingName", name, ::g_difficulty_cache.byMatchingName,
                                         ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByCrewSkillName(name)
 {
-  return ::g_enum_utils.getCachedType("crewSkillName", name, ::g_difficulty_cache.byCrewSkillName,
+  return enums.getCachedType("crewSkillName", name, ::g_difficulty_cache.byCrewSkillName,
                                       ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 

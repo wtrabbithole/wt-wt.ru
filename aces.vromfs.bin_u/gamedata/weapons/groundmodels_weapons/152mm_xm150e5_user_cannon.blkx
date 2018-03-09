@@ -19,8 +19,8 @@
   "fxGroundDust": "ground_shock_wave_dust",
   "shouldCollideWithRendinsts": true,
   "sound_path": "tanks/weapon_tanks/cannons",
-  "sound": "152mm_ml20",
-  "sound_inside": "152mm_ml20_interior",
+  "sound": "152mm_XM150E5",
+  "sound_inside": "152mm_XM150E5_interior",
   "sfxReloadBullet": "grd_cannon_reload_auto",
   "fxMultipleSpawn": true,
   "isBulletBelt": false,
@@ -171,7 +171,6 @@
       "rocket": {
         "caliber": 0.152,
         "mass": 27.8,
-        "explosiveType": "comp_b",
         "explosiveMass": 3.6,
         "massEnd": 27.8,
         "bulletType": "atgm_tank",
@@ -207,9 +206,9 @@
         "relativeVelArmorShift": [200.0,1000.0],
         "distanceFuse": false,
         "explodeTreshold": 0.01,
-        "explodeHitPower": 350.0,
-        "explodeArmorPower": 29.0,
-        "explodeRadius": [0.5,1.2],
+        "explodeHitPower": 400.0,
+        "explodeArmorPower": 19.0,
+        "explodeRadius": [0.4,1.07],
         "explosionPatchRadius": 2.0,
         "rendinstDamageRadius": 5.0,
         "statType": "hydra",
@@ -315,9 +314,10 @@
       "damageCaliber": 0.04,
       "ballisticCaliber": 0.07,
       "speed": 1500.0,
-      "maxDistance": 10000.0,
+      "maxDistance": 20000.0,
       "bulletType": "apds_fs_tungsten_l10_l15_tank",
       "bulletName": "152mm_xm578e1",
+      "Cx": 0.08,
       "onHitChanceMultExplFuel": 0.1,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
@@ -348,10 +348,10 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds"
         },
         "buildings": {
           "fx": "122_ap_stone_splash",

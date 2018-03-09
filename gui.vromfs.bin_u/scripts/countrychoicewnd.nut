@@ -333,7 +333,6 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   {
     local presetDataItems = []
     local selEsUnitType = ::ES_UNIT_TYPE_INVALID
-    ::g_crews_list.refresh()
     foreach (crewData in ::g_crews_list.get())
     {
       local country = crewData.country
@@ -426,7 +425,6 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   function afterModalDestroy()
   {
     restoreMainOptions()
-    ::g_crews_list.refresh()
   }
 
   function setFrameWidth(width)

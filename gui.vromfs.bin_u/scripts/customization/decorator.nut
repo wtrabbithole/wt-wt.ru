@@ -1,4 +1,5 @@
 local guidParser = require("scripts/guidParser.nut")
+local itemRarity = require("scripts/items/itemRarity.nut")
 
 class Decorator
 {
@@ -19,7 +20,9 @@ class Decorator
 
   countries = null
   units = null
+
   tags = null
+  rarity = null
 
   lockedByDLC = null
 
@@ -70,13 +73,16 @@ class Decorator
         tags[tag] <- val
     }
 
+    rarity  = itemRarity.get(blk?.item_quality, blk?.name_color)
+
     if (!isUnlocked() && !isVisible() && ("showByEntitlement" in unlockBlk))
       lockedByDLC = ::has_entitlement(unlockBlk.showByEntitlement) ? null : unlockBlk.showByEntitlement
   }
 
   function getName()
   {
-    return decoratorType.getLocName(id)
+    local name = decoratorType.getLocName(id)
+    return isRare() ? ::colorize(getRarityColor(), name) : name
   }
 
   function getDesc()
@@ -133,6 +139,35 @@ class Decorator
     return ::get_unit_type_font_icon(::get_es_unit_type(::getAircraftByName(units[0])))
   }
 
+  function getTypeDesc()
+  {
+    return decoratorType.getTypeDesc(this)
+  }
+
+  function getRestrictionsDesc()
+  {
+    if (decoratorType == ::g_decorator_type.SKINS)
+      return ""
+
+    local res = []
+
+    if (!::u.isEmpty(units))
+    {
+      local visUnits = ::u.filter(units, @(u) ::getAircraftByName(u)?.isInShop)
+      res.append(::loc("options/unit") + ::loc("ui/colon") +
+        ::g_string.implode(::u.map(visUnits, @(u) ::getUnitName(u)), ::loc("ui/comma")))
+    }
+
+    if (countries)
+    {
+      local visCountries = ::u.filter(countries, @(c) ::isInArray(c, ::shopCountriesList))
+      res.append(::loc("events/countres") + " " +
+        ::g_string.implode(::u.map(visCountries, @(c) ::loc(c)), ::loc("ui/comma")))
+    }
+
+    return ::colorize("warningTextColor", ::g_string.implode(res, "\n"))
+  }
+
   function canBuyUnlock(unit)
   {
     return !isLockedByCountry(unit) && !isLockedByUnit(unit) && !isUnlocked() && !getCost().isZero() && ::has_feature("SpendGold")
@@ -170,6 +205,38 @@ class Decorator
       return true
 
     return limit <= getCountOfUsingDecorator(unit)
+  }
+
+  function isRare()
+  {
+    return rarity.isRare
+  }
+
+  function getRarity()
+  {
+    return rarity.value
+  }
+
+  function getRarityColor()
+  {
+    return  rarity.color
+  }
+
+  function getTagsLoc()
+  {
+    local res = rarity.tag ? [ rarity.tag ] : []
+    local blk = ::configs.GUI.get().decorator_tags_visible
+    if (blk && tags)
+      foreach (tagBlk in blk % "i")
+        if (tags?[tagBlk.tag])
+          res.append(::loc("ugc/tag/" + tagBlk.tag))
+    return res
+  }
+
+  function updateFromItemdef(itemDef)
+  {
+    rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
+    tags = itemDef?.tags
   }
 
   function tostring()

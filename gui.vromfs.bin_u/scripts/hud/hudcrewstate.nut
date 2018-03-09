@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_hud_crew_member <- {
   types = []
 }
@@ -38,7 +39,7 @@ function g_hud_crew_member::_setCrewMemberState(crewIconObj, newStateData)
   setCrewMemberState = ::g_hud_crew_member._setCrewMemberState
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_crew_member", {
+enums.addTypesByGlobalName("g_hud_crew_member", {
   GUNNER = {
     hudEventName = "CrewState:GunnerState"
     sceneId = "crew_gunner"
@@ -85,7 +86,7 @@ function g_hud_crew_member::_setCrewMemberState(crewIconObj, newStateData)
       return
 
     guiScene = scene.getScene()
-    local blk = ::load_scene_template("gui/hud/hudCrewState")
+    local blk = ::load_template_text("gui/hud/hudCrewState")
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
 
     foreach (crewMemberType in ::g_hud_crew_member.types)

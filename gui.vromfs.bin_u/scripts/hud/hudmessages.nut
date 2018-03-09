@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 local heightPID = ::dagui_propid.add_name_id("height")
@@ -70,10 +71,10 @@ local heightPID = ::dagui_propid.add_name_id("height")
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_messages", {
+enums.addTypesByGlobalName("g_hud_messages", {
   MAIN_NOTIFICATIONS = {
     nestId = "hud_message_center_main_notification"
-    messagesMax = 5
+    messagesMax = 2
     messageEvent = "HudMessage"
 
     getCleanUpId = @(total) total - 1

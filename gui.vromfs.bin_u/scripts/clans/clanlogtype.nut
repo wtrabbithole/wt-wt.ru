@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
 ::g_clan_log_type <- {
@@ -49,7 +50,7 @@ function g_clan_log_type::_getSignText(logEntry)
   getSignText = ::g_clan_log_type._getSignText
 }
 
-::g_enum_utils.addTypesByGlobalName("g_clan_log_type", {
+enums.addTypesByGlobalName("g_clan_log_type", {
   CREATE = {
     name = "create"
     logDetailsCommonFields = [
@@ -150,6 +151,6 @@ function g_clan_log_type::_getSignText(logEntry)
 
 function g_clan_log_type::getTypeByName(name)
 {
-  return ::g_enum_utils.getCachedType("name", name, ::g_clan_log_type_cache.byName,
+  return enums.getCachedType("name", name, ::g_clan_log_type_cache.byName,
                                        ::g_clan_log_type, ::g_clan_log_type.UNKNOWN)
 }

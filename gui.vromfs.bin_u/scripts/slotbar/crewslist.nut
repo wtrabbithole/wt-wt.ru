@@ -1,6 +1,7 @@
 ::g_crews_list <- {
   crewsList = !::g_login.isLoggedIn() ? [] : ::get_crew_info()
   isSlotbarOverrided = false
+  version = 0
 
   isNeedToSkipNextProfileUpdate = false
   ignoreTransactions = [
@@ -22,8 +23,19 @@ function g_crews_list::get()
   return crewsList
 }
 
+function g_crews_list::invalidate(hasSessionLobbyChanges = false)
+{
+  if (hasSessionLobbyChanges || !::SessionLobby.isSlotbarOverrided())
+  {
+    crewsList = [] //do not broke previously received crewsList if someone use link on it
+    return true
+  }
+  return false
+}
+
 function g_crews_list::refresh()
 {
+  version++
   if (::SessionLobby.isSlotbarOverrided() && !::is_in_flight())
   {
     crewsList = SessionLobby.getSlotbarOverrideData()
@@ -77,17 +89,32 @@ function g_crews_list::onEventProfileUpdated(p)
   if (p.transactionType == ::EATT_UPDATE_ENTITLEMENTS)
     ::update_shop_countries_list()
 
-  if (::g_login.isLoggedIn() && !::isInArray(p.transactionType, ignoreTransactions))
+  if (::g_login.isProfileReceived() && !::isInArray(p.transactionType, ignoreTransactions) && invalidate())
     reinitSlotbars()
 }
 
 function g_crews_list::onEventUnlockedCountriesUpdate(p)
 {
   ::update_shop_countries_list()
-  if (::g_login.isLoggedIn())
+  if (::g_login.isProfileReceived() && invalidate())
     reinitSlotbars()
 }
 
+function g_crews_list::onEventOverrideSlotbarChanged(p)
+{
+  invalidate(true)
+}
+
+function g_crews_list::onEventLobbyIsInRoomChanged(p)
+{
+  if (isSlotbarOverrided)
+    invalidate()
+}
+
+function g_crews_list::onEventSessionDestroyed(p)
+{
+  invalidate() //in session can be overrided slotbar. Also slots can be locked after the battle.
+}
 
 function g_crews_list::onEventSignOut(p)
 {
@@ -123,8 +150,6 @@ function g_crews_list::addCrewToCountryData(countryData, crewId, countryId, crew
     skillPoints = 0
     lockedTillSec = 0
     isLocked = 0
-    weaponUsed = false
-    wpToRespawn = 0
   })
 }
 

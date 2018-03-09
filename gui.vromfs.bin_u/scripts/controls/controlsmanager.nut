@@ -1,6 +1,6 @@
-::dagor.includeOnce("scripts/controls/controlsPreset.nut")
-::dagor.includeOnce("scripts/controls/controlsGlobals.nut")
-::dagor.includeOnce("scripts/controls/controlsCompatibility.nut")
+::g_script_reloader.loadOnce("scripts/controls/controlsPreset.nut")
+::g_script_reloader.loadOnce("scripts/controls/controlsGlobals.nut")
+::g_script_reloader.loadOnce("scripts/controls/controlsCompatibility.nut")
 
 ::g_controls_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["curPreset"]

@@ -54,7 +54,7 @@ class ::g_invites_classes.Friend extends ::BaseInvite
   function accept()
   {
     if (isValid())
-      ::editContactMsgBox(::getContact(inviterUid, inviterName), ::EPL_FRIENDLIST, true, null)
+      ::editContactMsgBox(::getContact(inviterUid, inviterName), ::EPL_FRIENDLIST, true)
     remove()
   }
 }

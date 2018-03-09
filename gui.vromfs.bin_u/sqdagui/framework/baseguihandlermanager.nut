@@ -21,6 +21,7 @@
   needCheckPostLoadCss = false
   isFullReloadInProgress = false
   isInLoading = true
+  restoreDataOnLoadHandler = {}
   restoreDataByTriggerHandler = {}
   lastBaseHandlerStartData = [] //functions list (by guiScenes) to start backScene or to reload current base handler
                                 //automatically set on loadbaseHandler
@@ -59,6 +60,13 @@ function handlersManager::loadHandler(handlerClass, params = {})
   local hType = getHandlerType(handlerClass)
   beforeLoadHandler(hType)
 
+  local restoreData = restoreDataOnLoadHandler?[handlerClass]
+  if (restoreData)
+    delete restoreDataOnLoadHandler[handlerClass]
+
+  if (restoreData?.openData)
+    params = ::u.extend({}, params, restoreData.openData)
+
   local startTime = ::dagor.getCurTime()
   local dbgName = onLoadHandlerDebug(handlerClass, params)
 
@@ -71,6 +79,9 @@ function handlersManager::loadHandler(handlerClass, params = {})
     handler = loadBaseHandler(handlerClass, params)
 
   ::dagor.debug(format("GuiManager: loading time = %d (%s)", (::dagor.getCurTime() - startTime),  dbgName))
+
+  if (restoreData?.stateData)
+    handler.restoreHandler(restoreData.stateData)
 
   restoreHandlers(handlerClass)
 
@@ -410,6 +421,7 @@ function handlersManager::clearScene(guiScene = null)
   if (!guiScene.isEqual(::get_cur_gui_scene()))
   {
     onClearScene(guiScene)
+    ::broadcastEvent("GuiSceneCleared")
     return
   }
 
@@ -420,6 +432,7 @@ function handlersManager::clearScene(guiScene = null)
 
   updateLoadingFlag()
   onClearScene(guiScene)
+  ::broadcastEvent("GuiSceneCleared")
 }
 
 function handlersManager::updateLoadingFlag()
@@ -657,6 +670,8 @@ function handlersManager::sendEventToHandlers(eventFuncName, guiScene = null, pa
  * @param restoreHandler Handler to be restored.
  * @param triggerHandlerClass Class of handler that triggers window restore.
  * Current base handler if used if this parameter not specified.
+ * If triggerHandlerClass is equal restoreHandler class, then this handler will not
+ * be loaded by trigger, but its data will be restored when it will be loaded next time.
  * @return False if windows restoration failed. Occures if window
  * handler was not found or getHandlerRestoreData is not implemented.
  */
@@ -670,6 +685,12 @@ function handlersManager::requestHandlerRestore(restoreHandler, triggerHandlerCl
     triggerHandlerClass = getActiveBaseHandler()
   if (!triggerHandlerClass)
     return false
+
+  if (triggerHandlerClass == restoreData.handlerClass)
+  {
+    restoreDataOnLoadHandler[restoreData.handlerClass] <- restoreData
+    return true
+  }
 
   local restoreDataArray = restoreDataByTriggerHandler?[triggerHandlerClass] || []
   restoreDataArray.push(restoreData)

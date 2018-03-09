@@ -27,10 +27,10 @@
       "campaign": "tutorials",
       "windDirection": [1.0,0.0,0.0],
       "chapter": "tutorial_adv",
-      "forceSkiesInitialRandomSeed": true,
-      "skiesInitialRandomSeed": 1,
       "isLimitedFuel": false,
       "isLimitedAmmo": false,
+      "forceSkiesInitialRandomSeed": true,
+      "skiesInitialRandomSeed": 1,
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -103,6 +103,7 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
+      "viewAreaScale": 2.0,
       "part": [
         {
           "event": ""
@@ -114,49 +115,56 @@
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_01"
+            "picture": "tutorial/tutorial_01",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_02"
+            "picture": "tutorial/tutorial_02",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_03"
+            "picture": "tutorial/tutorial_03",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_04"
+            "picture": "tutorial/tutorial_04",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_05"
+            "picture": "tutorial/tutorial_05",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_06"
+            "picture": "tutorial/tutorial_06",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "tutorial/tutorial_07"
+            "picture": "tutorial/tutorial_07",
+            "showAirMap": false
           }
         },
         {
@@ -169,6 +177,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -222,6 +233,9 @@
           "check_objects": "all",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "instructor"
         }
       },
@@ -232,6 +246,10 @@
           "target": "instructor"
         },
         "unitSetProperties": {
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "instructor",
           "isImmortal": true
         }
@@ -409,6 +427,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "speed": 0.0,
             "stabInfluenceEnabled": true
@@ -416,6 +438,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ground_squad",
             "targetableByAi": false,
             "stealthRadius": 0.0,
@@ -426,6 +452,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor",
             "isImmortal": true
           }
@@ -496,6 +526,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -518,6 +552,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor"
           }
         },
@@ -540,6 +577,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -605,6 +646,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -686,6 +731,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -706,6 +755,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor",
             "move_type": "teleport",
             "speed": 300.0,
@@ -725,6 +777,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor"
           }
         },
@@ -956,6 +1011,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "elevator",
           "shouldBlink": false
         },
@@ -1015,6 +1074,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "elevator",
           "shouldBlink": false
         },
@@ -1071,6 +1134,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -1130,6 +1197,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -1186,6 +1257,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "rudder",
           "shouldBlink": false
         },
@@ -1245,6 +1320,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "rudder",
           "shouldBlink": false
         },
@@ -1328,6 +1407,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_FLAPS",
           "shouldBlink": false
         },
@@ -1379,6 +1462,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_FLAPS",
           "shouldBlink": false
         },
@@ -1457,6 +1544,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_TOGGLE_ENGINE",
           "shouldBlink": false
         },
@@ -1493,6 +1584,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_TOGGLE_ENGINE",
           "shouldBlink": false
         },
@@ -1592,6 +1687,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -1630,6 +1729,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_TOGGLE_ENGINE",
           "shouldBlink": false
         },
@@ -1698,6 +1801,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -1745,6 +1852,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -1842,6 +1953,18 @@
               "isOverFade": false
             },
             {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "item": "rudder"
             },
             {
@@ -1866,6 +1989,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "rudder",
             "shouldBlink": false
           }
@@ -1935,6 +2062,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -2064,6 +2194,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_GEAR",
           "shouldBlink": false
         },
@@ -2124,6 +2258,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_GEAR",
           "shouldBlink": false
         },
@@ -2201,6 +2339,18 @@
             "isOverFade": false
           },
           {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "item": "ID_FLAPS"
           },
           {
@@ -2276,6 +2426,18 @@
           },
           {
             "isOverFade": false
+          },
+          {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "item": "ID_FLAPS"
@@ -2375,6 +2537,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor"
           }
         },
@@ -2417,6 +2582,18 @@
               "isOverFade": false
             },
             {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "item": "elevator=max"
             },
             {
@@ -2446,6 +2623,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "elevator=max",
             "shouldBlink": false
           }
@@ -2487,6 +2668,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "instructor_way00"
         }
       },
@@ -2543,6 +2727,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -2559,6 +2747,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor",
             "move_type": "teleport"
           }
@@ -2629,6 +2820,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ailerons",
             "shouldBlink": false
           }
@@ -2688,6 +2883,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -2714,6 +2913,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "l_stick_to_left_n_right",
             "shouldBlink": false
           }
@@ -2764,6 +2967,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -2818,6 +3025,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -2945,6 +3156,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "rudder",
           "shouldBlink": false
         },
@@ -3002,6 +3217,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "rudder",
           "shouldBlink": false
         },
@@ -3041,6 +3260,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=min",
           "shouldBlink": false
         },
@@ -3084,6 +3307,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "throttle=min",
             "shouldBlink": false
           }
@@ -3103,6 +3330,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "throttle=max",
             "shouldBlink": false
           }
@@ -3153,6 +3384,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -3192,6 +3427,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -3230,6 +3469,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -3326,6 +3569,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -3374,6 +3621,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ailerons",
             "shouldBlink": false
           }
@@ -3393,6 +3644,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "elevator=max",
             "shouldBlink": false
           }
@@ -3442,6 +3697,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "elevator=max",
           "shouldBlink": false
         },
@@ -3496,6 +3755,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "elevator=max",
           "shouldBlink": false
         },
@@ -3554,6 +3817,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -3670,6 +3937,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "mouse_aim_x",
           "shouldBlink": false
         },
@@ -3710,6 +3981,10 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ailerons",
           "shouldBlink": false
         },
@@ -3835,6 +4110,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "move_type": "teleport",
             "lookat": "instructor",
@@ -3854,6 +4132,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor",
             "move_type": "teleport",
             "lookat": "instructor",
@@ -3920,6 +4201,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -3943,6 +4228,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -3967,6 +4256,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -4027,6 +4320,10 @@
             "shouldFadeOut": false,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_SKIP_CUTSCENE",
             "shouldBlink": false
           }
@@ -4049,6 +4346,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -4104,6 +4405,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -4134,6 +4439,18 @@
             },
             {
               "isOverFade": false
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "item": "ailerons=min"
@@ -4190,6 +4507,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -4220,6 +4541,18 @@
             },
             {
               "isOverFade": false
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "item": "ailerons=max"
@@ -4286,6 +4619,18 @@
               "isOverFade": false
             },
             {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "item": "ailerons=min"
             },
             {
@@ -4321,6 +4666,18 @@
             },
             {
               "isOverFade": false
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "item": "ailerons=max"
@@ -4407,6 +4764,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "move_type": "teleport",
             "lookat": "way01",
@@ -4462,12 +4822,19 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "instructor"
           }
         },
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "instructor"
           }
         }
@@ -4526,6 +4893,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_TRIM",
             "shouldBlink": false
           }
@@ -4544,6 +4915,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_TRIM",
             "shouldBlink": false
           }
@@ -4562,6 +4937,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_TRIM_RESET",
             "shouldBlink": false
           }
@@ -4580,6 +4959,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_TRIM_RESET",
             "shouldBlink": false
           }
@@ -4635,6 +5018,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "move_type": "teleport",
           "lookat": "way01",
@@ -4664,6 +5050,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "way01"
         }
       },
@@ -4754,6 +5143,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "move_type": "teleport",
           "lookat": "way02",
@@ -4783,6 +5175,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "way02"
         }
       },
@@ -4873,6 +5268,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "move_type": "teleport",
           "lookat": "way03",
@@ -4902,6 +5300,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "way03"
         }
       },
@@ -4992,6 +5393,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "move_type": "teleport",
           "lookat": "way04",
@@ -5021,6 +5425,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "way04"
         }
       },
@@ -5071,6 +5478,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -5195,6 +5605,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "throttle",
             "shouldBlink": false
           }
@@ -5240,6 +5654,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -5338,6 +5755,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "move_type": "teleport",
             "lookat": "instructor_way00",
@@ -5380,6 +5800,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -5478,6 +5901,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "move_type": "teleport",
             "speed": 300.0,
@@ -5522,6 +5948,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },
@@ -5639,6 +6068,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "move_type": "teleport",
             "lookat": "instructor",
@@ -5662,6 +6094,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -5701,6 +6137,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player"
         }
       },

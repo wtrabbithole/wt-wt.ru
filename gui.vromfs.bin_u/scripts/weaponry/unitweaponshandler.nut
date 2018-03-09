@@ -362,9 +362,10 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function hasWeaponsToChooseFrom()
   {
     local count = 0
+    local hasOnlyBought = !::is_in_flight() || !::g_mis_custom_state.getCurMissionRules().isWorldWar
     foreach(weapon in unit.weapons)
     {
-      if (!::is_weapon_visible(unit, weapon))
+      if (!::is_weapon_visible(unit, weapon, hasOnlyBought))
         continue
       count++
       if (count > 1)

@@ -107,7 +107,7 @@ class EventRoomCreationContext
   function getCurCrewsReadyStatus()
   {
     local res = 0
-    local country = ::get_profile_info().country
+    local country = ::get_profile_country_sq()
     local ediff = ::events.getEDiffByEvent(mGameMode)
     foreach (team in ::g_team.getTeams())
     {
@@ -148,7 +148,7 @@ class EventRoomCreationContext
     if (res.reasonText.len())
       return res
 
-    if (!isCountryAvailable(::get_profile_info().country))
+    if (!isCountryAvailable(::get_profile_country_sq()))
     {
       res.reasonText = ::loc("events/no_selected_country")
     }

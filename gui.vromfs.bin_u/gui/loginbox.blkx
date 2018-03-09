@@ -285,7 +285,8 @@
                         "text": {
                           "id": "loginbox_password_layout_indicator",
                           "text": "",
-                          "text-align": "right"
+                          "text-align": "right",
+                          "padding-left": "1@blockInterval"
                         }
                       }
                     ]
@@ -542,76 +543,83 @@
               ]
             },
             {
-              "ShadeDiv": {
-                "id": "login_action_button",
-                "childsActivate": "yes",
-                "behavior": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_set_focus": "checkCurrentFocusItem",
-                "class": "authorization",
-                "Button_text": {
-                  "class": "battle",
-                  "navButtonFont": "yes",
-                  "text": "#msgbox/btn_signIn",
-                  "_on_click": "onOk",
-                  "css-hier-invalidate": "yes",
-                  "btnName": "X",
-                  "focusBtnName": "A",
-                  "pattern": {
-                    "type": "bright_texture"
-                  },
-                  "buttonWink": {
-                    "_transp-timer": "0"
-                  },
-                  "buttonGlance": [],
-                  "btnText": {
-                    "text": "#msgbox/btn_signIn"
-                  },
-                  "ButtonImg": []
+              "ShadeDiv": [
+                {
+                  "id": "login_action"
+                },
+                {
+                  "childsActivate": "yes"
+                },
+                {
+                  "flow": "vertical"
+                },
+                {
+                  "behavior": "wrapNavigator"
+                },
+                {
+                  "navigatorShortcuts": "yes"
+                },
+                {
+                  "on_wrap_up": "onWrapUp"
+                },
+                {
+                  "on_wrap_down": "onWrapDown"
+                },
+                {
+                  "on_set_focus": "checkCurrentFocusItem"
+                },
+                {
+                  "class": "authorization"
+                },
+                {
+                  "Button_text": {
+                    "id": "login_action_button",
+                    "class": "battle",
+                    "navButtonFont": "yes",
+                    "text": "#msgbox/btn_signIn",
+                    "_on_click": "onOk",
+                    "css-hier-invalidate": "yes",
+                    "btnName": "X",
+                    "focusBtnName": "A",
+                    "pattern": {
+                      "type": "bright_texture"
+                    },
+                    "buttonWink": {
+                      "_transp-timer": "0"
+                    },
+                    "buttonGlance": [],
+                    "btnText": {
+                      "text": "#msgbox/btn_signIn"
+                    },
+                    "ButtonImg": []
+                  }
+                },
+                {
+                  "Button_text": {
+                    "id": "steam_login_action_button",
+                    "text": "#mainmenu/loginWithSteam",
+                    "margin-top": "0.01@scrn_tgt",
+                    "css-hier-invalidate": "yes",
+                    "btnName": "LB",
+                    "focusBtnName": "A",
+                    "_on_click": "onSteamAuthorization",
+                    "visualStyle": "secondary",
+                    "buttonWink": [],
+                    "ButtonImg": []
+                  }
                 }
-              }
-            },
-            {
-              "ShadeDiv": {
-                "id": "steam_login_action_button",
-                "childsActivate": "yes",
-                "behavior": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_set_focus": "checkCurrentFocusItem",
-                "class": "authorization",
-                "Button_text": {
-                  "id": "btn_steam_auth",
-                  "text": "#mainmenu/loginWithSteam",
-                  "css-hier-invalidate": "yes",
-                  "btnName": "LB",
-                  "focusBtnName": "A",
-                  "_on_click": "onSteamAuthorization",
-                  "visualStyle": "secondary",
-                  "buttonWink": [],
-                  "ButtonImg": []
-                }
-              }
+              ]
             },
             {
               "tdiv": {
                 "flow": "vertical",
                 "width": "pw-0.03@scrn_tgt",
-                "pos": "50%pw-50%w, 0",
+                "pos": "50%pw-50%w, 1@framePadding",
                 "position": "relative",
-                "padding": "1@framePadding",
+                "padding": "1@framePadding, 0",
                 "tdiv": [
                   {
                     "id": "links_block"
-                  },
-                  {
-                    "pos": "0, 0.02@sf"
-                  },
-                  {
-                    "position": "relative"
                   },
                   {
                     "width": "pw"

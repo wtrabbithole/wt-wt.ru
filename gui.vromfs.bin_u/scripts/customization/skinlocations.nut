@@ -1,4 +1,4 @@
-local string = require("sqStdLibs/common/string.nut")
+local string = require("std/string.nut")
 
 const MAX_LOCATION_TYPES = 64
 
@@ -55,10 +55,10 @@ local function loadSkinMasksOnce()
   }
 }
 
-local function getSkinLocationsMask(skinName)
+local function getSkinLocationsMask(skinName, unitName)
 {
   loadSkinMasksOnce()
-  return skinsMask?[skinName] ?? 0
+  return skinsMask?[unitName + "/" + skinName] ?? skinsMask?[skinName] ?? 0
 }
 
 local function getMaskByLevel(level)
@@ -76,14 +76,14 @@ local function getMaskByLevel(level)
   return res
 }
 
-local function getBestSkinsList(skinsList, level)
+local function getBestSkinsList(skinsList, unitName, level)
 {
   local res = []
   local bestMatch = 0
   local locationMask = getMaskByLevel(level)
   foreach(skin in skinsList)
   {
-    local match = ::number_of_set_bits(locationMask & getSkinLocationsMask(skin))
+    local match = ::number_of_set_bits(locationMask & getSkinLocationsMask(skin, unitName))
     if (!match)
       continue
     if (match > bestMatch)

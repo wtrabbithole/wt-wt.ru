@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 // Priority for separation on buttons.
 enum topMenuLeftSideMergeIndex {
   MENU
@@ -19,7 +20,7 @@ enum topMenuLeftSideMergeIndex {
 Columns are each array in buttons array.
 Params - can be whole section ('help', 'pve') or single button.
 */
-::g_enum_utils.addTypesByGlobalName("g_top_menu_left_side_sections", [
+enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
   {
     name = "menu"
     btnName = "start"
@@ -43,6 +44,7 @@ Params - can be whole section ('help', 'pve') or single button.
     name = "pvp"
     getText = function(totalSections = 0) { return "#topmenu/battle" }
     mergeIndex = topMenuLeftSideMergeIndex.PVP
+    unseenIconMainButton = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
     buttons = [
       [
         ::g_top_menu_buttons.SKIRMISH
@@ -84,13 +86,13 @@ Params - can be whole section ('help', 'pve') or single button.
   getSectionByName = ::g_top_menu_sections.getSectionByName
 }
 
-::g_enum_utils.addTypesByGlobalName("g_top_menu_right_side_sections", [
+enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
   {
     name = "shop"
     visualStyle = "noFrameGold"
     hoverMenuPos = "pw-w-"
     getText = function(totalSections = 0) { return ::is_low_width_screen()? null : "#mainmenu/btnOnlineShop" }
-    getImage = function(totalSections = 0) { return "#ui/gameuiskin#store_icon" }
+    getImage = function(totalSections = 0) { return "#ui/gameuiskin#store_icon.svg" }
     getWinkImage = function () { return "#ui/gameuiskin#hovermenu_shop_button_glow" }
     haveTmDiscount = true
     buttons = [

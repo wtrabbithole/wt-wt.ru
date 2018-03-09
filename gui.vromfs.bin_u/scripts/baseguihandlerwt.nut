@@ -6,13 +6,15 @@ const MAIN_FOCUS_ITEM_IDX = 4
 
 ::stickedDropDown <- null
 
+local defaultSlotbarActions = [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
+
 class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 {
   defaultFocusArray = [
     function() { return getCurrentTopGCPanel() }     //gamercard top
     function() { return getCurGCDropdownMenu() }                    //gamercard menu
     function() { return ::get_menuchat_focus_obj() }
-    function() { return ::get_contact_focus_obj() }
+    function() { return ::contacts_handler? ::contacts_handler.getCurFocusObj() : null }
     function() { return getMainFocusObj() }       //main focus obj of handler
     function() { return getMainFocusObj2() }      //main focus obj of handler
     function() { return getMainFocusObj3() }      //main focus obj of handler
@@ -278,7 +280,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function goForwardIfOnline(start_func, skippable, start_without_forward = false)
   {
-    if (::is_connected_to_matching())
+    if (::is_online_available())
     {
       goForwardOrJustStart(start_func, start_without_forward)
       return
@@ -419,7 +421,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return notAvailableYetMsgBox()
 
     if (!::isContactsWindowActive())
+    {
       ::update_ps4_friends()
+      ::g_contacts.updateXboxOneFriends()
+    }
 
     onSwitchContacts()
   }
@@ -430,16 +435,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onInviteSquad(obj)
   {
     ::gui_start_search_squadPlayer()
-  }
-
-  function showAircraft(airName)
-  {
-    local air = getAircraftByName(airName)
-    if (!air)
-      return
-    ::show_aircraft = air
-    if (wndType != handlerType.MODAL)
-      ::hangar_model_load_manager.loadModel(airName)
   }
 
   function getSlotbar()
@@ -519,7 +514,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function getSlotbarActions()
   {
-    return slotbarActions || ::defaultSlotbarActions
+    return slotbarActions || defaultSlotbarActions
   }
 
   function openUnitActionsList(unitObj, closeOnUnhover, ignoreSelect = false)
@@ -540,7 +535,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     actions.closeOnUnhover <- closeOnUnhover
-    ::gui_handlers.ActionsList(unitObj, actions)
+    ::gui_handlers.ActionsList.open(unitObj, actions)
   }
 
   function onUnitHover(obj)
@@ -1017,10 +1012,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onModalWndDestroy()
   {
-    ::restoreHangarControls()
+    if (!::handlersManager.isAnyModalHandlerActive())
+      ::restoreHangarControls()
     base.onModalWndDestroy()
     ::checkMenuChatBack()
-    ::checkContactsBack()
   }
 
   function onSceneActivate(show)
@@ -1054,8 +1049,29 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function getWidgetsList()
   {
-    return widgetsList
+    local result = []
+    if (widgetsList)
+      foreach (widgetDesc in widgetsList)
+      {
+        result.append({ widgetId = widgetDesc.widgetId })
+        if ("placeholderId" in widgetDesc)
+          result.top()["transform"] <- getWidgetParams(widgetDesc.placeholderId)
+      }
+    return result
   }
+
+  function getWidgetParams(placeholderId)
+  {
+    local placeholderObj = scene.findObject(placeholderId)
+    if (!::checkObj(placeholderObj))
+      return null
+
+    return {
+      pos = placeholderObj.getPosRC()
+      size = placeholderObj.getSize()
+    }
+  }
+
 
   function onHeaderTabSelect() {} //empty frame
   function dummyCollapse(obj) {}

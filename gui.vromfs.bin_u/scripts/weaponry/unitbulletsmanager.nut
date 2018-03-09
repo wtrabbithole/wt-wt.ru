@@ -158,7 +158,7 @@ class UnitBulletsManager
 
       local status = bulletsAmountState.READY
       local totalBullets = gInfo.total
-      local minBullets = ::clamp((0.2 * totalBullets).tointeger(), 1, ::weaponsWarningMinimumPrimary)
+      local minBullets = ::clamp((0.2 * totalBullets).tointeger(), 1, ::getAmmoWarningMinimum(AMMO.MODIFICATION, unit, totalBullets))
       if (totalBullets - unallocated >= minBullets)
         status = bulletsAmountState.HAS_UNALLOCATED
       else
@@ -168,9 +168,9 @@ class UnitBulletsManager
         continue
 
       res.status = status
-      res.unallocated = unallocated
+      res.unallocated = unallocated * gInfo.guns
       if (status == bulletsAmountState.LOW_AMOUNT)
-        res.required = ::min(minBullets, totalBullets)
+        res.required = ::min(minBullets, totalBullets) * gInfo.guns
     }
     return res
   }
@@ -385,5 +385,11 @@ class UnitBulletsManager
   {
     if (unit && unit.name == ::getTblValue("unitName", p))
       updateGroupsActiveMask()
+  }
+
+  function onEventUnitBulletsChanged(p)
+  {
+    if (unit && unit.name == p.unit?.name)
+      changeBulletsValue(bulGroups[p.groupIdx], p.bullet.name)
   }
 }

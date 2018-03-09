@@ -8,14 +8,11 @@
   "aiMapCoord1": [32768.0,32768.0],
   "minAreaSize": [12000.0,12000.0],
   "gridSteps": [2048.0,2048.0],
-  "gridZeroPoint": [-32768.0,-32768.0],
   "gridSize": [16384.0,16384.0],
   "aiTanksMapCoord0": [0.0,0.0],
   "aiTanksMapCoord1": [4096.0,4096.0],
   "tankMapCoord0": [0.0,0.0],
   "tankMapCoord1": [4096.0,4096.0],
-  "dirtMapCoord0": [1500.0,1565.0],
-  "dirtMapCoord1": [3480.0,3960.0],
   "tankGridSteps": [410.0,410.0],
   "tankGridSize": [4096.0,4096.0],
   "numBorderCellsXPos": 16,
@@ -36,8 +33,12 @@
   "soundAmbientEvent": "global_amb_europe",
   "max_wind_strength": 4.5,
   "average_ground_level": 67.0,
-  "wetnessPowerScale": 1.0,
-  "wetnessFreq": 0.5,
+  "puddlesPowerScale": 1.0,
+  "puddlesSpread": 0.9,
+  "puddlesSeed": 25.0,
+  "layeredFogThicknessScale100": 80.0,
+  "layeredFogHeightOffset": 12.0,
+  "layeredFogDensityMul": 0.8,
   "alternativeMapCoord": {
     "aiTanksMapCoord0": [1350.0,1902.0],
     "aiTanksMapCoord1": [3298.0,4096.0],
@@ -45,6 +46,57 @@
     "tankGridSteps": [205.0,205.0],
     "tankGridSize": [2048.0,2048.0]
   },
+  "micro_details": [
+    {
+      "micro_detail": "microdetail_stone_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_sand_c_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_sand_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_soil_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_grass_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_forest_floor_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_fabric_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_wood_b_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_metal_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n"
+    },
+    {
+      "land_micro_details_uv_scale": 0.73
+    },
+    {
+      "microdetail_sand_c_tex_n": {
+        "puddles": 0.0
+      }
+    },
+    {
+      "microdetail_sand_a_tex_n": {
+        "puddles": 0.0
+      }
+    }
+  ],
   "stars": {
     "latitude": 49.0,
     "longitude": 0.0,
@@ -70,7 +122,8 @@
     "river0": [0.5,0.45,0.08,0.0],
     "river1": [0.44,0.45,0.19,0.0],
     "water_aces_params": [5.0,0.4,3.0,0.0],
-    "water_aces_color_and_density": [0.282,0.604,0.416,1.0]
+    "water_aces_color_and_density": [0.282,0.604,0.416,1.0],
+    "min_land_height": 0.2
   },
   "randomGrass": [
     {

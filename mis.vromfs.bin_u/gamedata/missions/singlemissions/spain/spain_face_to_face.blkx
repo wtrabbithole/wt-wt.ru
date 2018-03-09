@@ -25,19 +25,36 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "spain",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      },
       "stars": {
         "latitude": 40.4,
         "longitude": 3.7,
         "year": 1936,
         "month": 10,
-        "day": 11,
-        "time": 12.0
-      },
-      "tags": [],
-      "missionType": {
-        "_Dom": false,
-        "_Conq": false,
-        "_Bttl": false
+        "day": 11
       }
     },
     "spectator_points": [],
@@ -51,6 +68,7 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
+      "viewAreaScale": 2.0,
       "part": {
         "event": "",
         "minTime": 0,
@@ -63,6 +81,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -153,11 +174,22 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "ussr_bombers_01"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "airdef_sq",
             "accuracy": 0.1,
             "effShootingRate": 0.3
@@ -178,6 +210,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "germ_vehicles_sq"
           }
         },
@@ -226,6 +262,9 @@
           "icon": "truck",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "germ_vehicles_sq"
         }
       },
@@ -250,6 +289,9 @@
           "object_type": "isActive",
           "object_marking": 0,
           "check_objects": "all",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "germ_vehicles_sq",
           "target": "germ_villa"
         }
@@ -257,6 +299,10 @@
       "actions": {
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "germ_vehicles_sq"
         },
         "triggerDisable": {
@@ -269,6 +315,9 @@
           "icon": "truck",
           "icon army": 2,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "germ_vehicles_sq"
         },
         "moSetObjectiveStatus": {
@@ -306,6 +355,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "germ_vehicles_sq"
         }
       },
@@ -361,6 +413,15 @@
             "set": true
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "target": "germ_planes_sq"
           },
           {
@@ -404,6 +465,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "germ_planes_sq"
           }
         },
@@ -456,6 +524,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "germ_planes_sq"
           }
         },
@@ -466,6 +538,12 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         },
@@ -481,6 +559,12 @@
             "action": "hide",
             "shouldFadeOut": false,
             "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         }
@@ -523,6 +607,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "germ_planes_sq"
         }
       },
@@ -569,6 +660,15 @@
               "check_targets": "any"
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "germ_planes_sq"
             },
             {
@@ -604,6 +704,15 @@
             },
             {
               "check_targets": "any"
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "germ_vehicles_sq"
@@ -657,6 +766,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "germ_planes_sq"
         }
       },
@@ -706,6 +818,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "germ_planes_sq02"
           }
         },
@@ -742,6 +861,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "germ_planes_sq02"
           }
         },
@@ -757,6 +880,12 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         },
@@ -772,6 +901,12 @@
             "action": "hide",
             "shouldFadeOut": false,
             "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         }
@@ -814,6 +949,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "germ_planes_sq02"
         }
       },
@@ -838,6 +980,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "germ_planes_sq02"
         }
       },
@@ -853,6 +998,18 @@
         "unitSetIndication": [
           {
             "set": false
+          },
+          {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "target": "germ_planes_sq"
@@ -879,6 +1036,15 @@
           },
           {
             "set": false
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "target": "germ_planes_sq"
@@ -917,6 +1083,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "airdef_sq"
           }
         },
@@ -926,6 +1095,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ussr_bombers_01"
           }
         }
@@ -962,6 +1134,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "airdef_sq",
           "target": "ussr_bombers_01"
         }
@@ -1006,6 +1181,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "ussr_bombers_01"
         }
       },
@@ -1099,10 +1277,12 @@
           [0.953717,0.0,0.300706],
           [362.8,700.0,9185.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "i-15_1934",
-        "weapons": "I-15_2bomb_fab50",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "I-15_2bomb_fab50",
         "bullets0": "pv1_new_gun",
         "bullets1": "shkas_universal",
         "bullets2": "",
@@ -1144,10 +1324,12 @@
           [0.819152,0.0,-0.573576],
           [10423.3,869.65,3470.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1190,10 +1372,12 @@
           [0.819152,0.0,-0.573576],
           [10494.5,819.133,3403.19]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42_marcolin",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1236,18 +1420,6 @@
           [-0.300706,0.0,-0.953717],
           [10189.3,801.0,3806.8]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "germ_plane01"
@@ -1261,8 +1433,7 @@
           {
             "squad_members": "germ_plane04"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1274,10 +1445,12 @@
           [-0.991445,0.0,-0.130526],
           [4584.5,83.55,6581.85]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_sdKfz_7",
-        "weapons": "",
         "objLayer": 0,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1300,15 +1473,17 @@
           "tracked_vehicles_01_wp_01": {
             "type": "normal",
             "tm": [
-              [0.67559,0.0,-0.737277],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.737277,0.0,0.67559],
+              [0.0,0.0,1.0],
               [4579.93,65.27,6755.88]
             ],
             "props": {
               "speed": 20.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tracked_vehicles_01_wp_02": {
@@ -1322,7 +1497,9 @@
             "props": {
               "speed": 20.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1337,10 +1514,12 @@
           [-0.991445,0.0,-0.130526],
           [4583.48,83.57,6603.83]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_motobike",
-        "weapons": "",
         "objLayer": 0,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1363,15 +1542,17 @@
           "germ_vehicles02_wp_01": {
             "type": "normal",
             "tm": [
-              [0.67559,0.0,-0.737277],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.737277,0.0,0.67559],
+              [0.0,0.0,1.0],
               [4579.89,65.2901,6755.85]
             ],
             "props": {
               "speed": 20.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_vehicles02_wp_02": {
@@ -1385,7 +1566,9 @@
             "props": {
               "speed": 20.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1400,10 +1583,12 @@
           [-0.991445,0.0,-0.130526],
           [4589.82,83.57,6540.74]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_motobike",
-        "weapons": "",
         "objLayer": 0,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1426,15 +1611,17 @@
           "germ_vehicles03_wp_01": {
             "type": "normal",
             "tm": [
-              [0.67559,0.0,-0.737277],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.737277,0.0,0.67559],
+              [0.0,0.0,1.0],
               [4579.89,65.2901,6755.85]
             ],
             "props": {
               "speed": 20.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_vehicles03_wp_02": {
@@ -1448,7 +1635,9 @@
             "props": {
               "speed": 20.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1463,18 +1652,6 @@
           [0.737277,0.0,0.67559],
           [4670.03,99.52,6517.6]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "germ_vehicles01"
@@ -1485,8 +1662,7 @@
           {
             "squad_members": "germ_vehicles03"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1498,10 +1674,12 @@
           [0.0,0.0,1.0],
           [2222.15,122.3,8404.75]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_88mm_flak36_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1533,10 +1711,12 @@
           [0.0,0.0,1.0],
           [2323.85,110.25,8105.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_88mm_flak36_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1568,10 +1748,12 @@
           [0.0,0.0,1.0],
           [2737.9,119.8,8314.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_88mm_flak36_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1603,10 +1785,12 @@
           [0.0,0.0,1.0],
           [2599.95,85.25,8031.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_88mm_flak36_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1638,18 +1822,6 @@
           [0.0,0.0,1.0],
           [2505.0,89.55,8020.15]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "air_defence_01"
@@ -1669,8 +1841,7 @@
           {
             "squad_members": "air_defence_06"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1682,10 +1853,12 @@
           [0.819152,0.0,-0.573576],
           [10584.7,865.0,3394.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1728,10 +1901,12 @@
           [0.819152,0.0,-0.573576],
           [10626.9,902.05,3360.55]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1774,10 +1949,12 @@
           [0.0,0.0,1.0],
           [2603.65,148.4,8587.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_88mm_flak36_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1809,10 +1986,12 @@
           [0.0,0.0,1.0],
           [2431.2,148.4,8362.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_88mm_flak36_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1844,10 +2023,12 @@
           [0.0436198,0.0,-0.999048],
           [11090.4,738.3,391.15]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1890,10 +2071,12 @@
           [-0.216439,0.0,-0.976296],
           [11065.2,655.4,432.75]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1936,10 +2119,12 @@
           [0.0436198,0.0,-0.999048],
           [11142.8,738.3,400.95]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -1982,10 +2167,12 @@
           [0.0436198,0.0,-0.999048],
           [11165.4,738.3,448.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "fiat_cr42",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2028,18 +2215,6 @@
           [0.0,0.0,1.0],
           [10715.8,112.05,574.4]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "germ_plane05"
@@ -2053,8 +2228,7 @@
           {
             "squad_members": "germ_plane08"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2066,10 +2240,12 @@
           [0.707107,0.0,-0.707107],
           [7104.2,1000.0,13721.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "sb_2m_100",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2111,10 +2287,12 @@
           [-0.843391,0.0,0.5373],
           [-195.0,194.2,7212.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2148,10 +2326,12 @@
           [-0.843391,0.0,0.5373],
           [-154.6,213.187,7078.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2185,10 +2365,12 @@
           [-0.843391,0.0,0.5373],
           [-25.5,201.926,6959.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2222,10 +2404,12 @@
           [-0.843391,0.0,0.5373],
           [97.75,167.677,6752.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2259,10 +2443,12 @@
           [-0.843391,0.0,0.5373],
           [514.45,136.376,6558.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2296,10 +2482,12 @@
           [-0.843391,0.0,0.5373],
           [704.35,146.449,6166.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2333,10 +2521,12 @@
           [-0.843391,0.0,0.5373],
           [954.45,159.958,6027.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2370,10 +2560,12 @@
           [-0.843391,0.0,0.5373],
           [1366.0,144.696,6093.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2407,10 +2599,12 @@
           [-0.843391,0.0,0.5373],
           [1765.3,220.295,5682.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_quest_large_art_noground",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2444,10 +2638,12 @@
           [0.0,0.0,1.0],
           [2523.05,129.9,8445.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy_bombtarget",
-        "weapons": "",
         "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -2480,18 +2676,6 @@
           [0.0,0.0,1.0],
           [58.9,175.02,7058.9]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "objLayer": 3,
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ussr_arty01"
@@ -2520,8 +2704,7 @@
           {
             "squad_members": "ussr_arty09"
           }
-        ],
-        "way": []
+        ]
       }
     }
   ],
@@ -2581,5 +2764,6 @@
         "enabled": true
       }
     }
-  ]
+  ],
+  "wayPoints": []
 }

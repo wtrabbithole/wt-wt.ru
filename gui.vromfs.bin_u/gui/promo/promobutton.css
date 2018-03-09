@@ -19,6 +19,8 @@
 
 @const airInfoToggleButtonSize: @mIco + 2@buttonImgPadding;
 
+@const promoButtonPadding: (1@offsetBetweenScreenAndAirinfo - 1@cIco) $max (1@overflowScreenButton + 1@blockInterval);
+
 promoButton {
   background-image: #ui/gameuiskin#expandable_item_ww_transp;
   background-position: 5,2;
@@ -36,7 +38,7 @@ promoButton {
 
   min-height: @promoButtonMinHeight;
 
-  padding-right:1@offsetBetweenScreenAndAirinfo - 1@cIco;
+  padding-right:1@promoButtonPadding;
 }
 
 promoButton:hover {

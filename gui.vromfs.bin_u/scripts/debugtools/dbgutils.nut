@@ -136,6 +136,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "get_local_player_country", value = ::getTblValue("country", ::debriefing_result, "") }
     { id = "get_mp_session_id", value = ::getTblValue("sessionId", ::debriefing_result, ::get_mp_session_id()) }
     { id = "get_mp_tbl_teams", value = ::getTblValue("mpTblTeams", ::debriefing_result, ::get_mp_tbl_teams()) }
+    { id = "_fake_sessionlobby_unit_type_mask", value = ::debriefing_result?.unitTypesMask }
     { id = "stat_get_benchmark", value = ::getTblValue("benchmark", ::debriefing_result, ::stat_get_benchmark()) }
     { id = "get_race_winners_count", value = ::getTblValue("numberOfWinningPlaces", ::debriefing_result, 0) }
     { id = "get_race_best_lap_time", value = ::getTblValueByPath("exp.ptmBestLap", ::debriefing_result, -1) }
@@ -249,6 +250,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   }, false)
 
   ::SessionLobby.settings = ::_fake_sessionlobby_settings
+  ::SessionLobby.getUnitTypesMask = @() ::getroottable()?._fake_sessionlobby_unit_type_mask ?? 0
   ::HudBattleLog.battleLog = ::_fake_battlelog
 
   local _is_in_flight = ::is_in_flight
@@ -262,6 +264,31 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
   ::broadcastEvent("SessionDestroyed")
   return "Debriefing result loaded from " + filename
+}
+
+function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")
+{
+  local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+  ::dbg_dump.save(filename, [
+    { id = "_inventoryClient_items",    value = inventoryClient.items }
+    { id = "_inventoryClient_itemdefs", value = inventoryClient.itemdefs }
+  ])
+  return "Saved " + filename
+}
+
+function debug_dump_inventory_load(filename = "debug_dump_inventory.blk")
+{
+  if (!::dbg_dump.load(filename))
+    return "File not found: " + filename
+  ::dbg_dump.loadFuncs({
+    inventory = { request  = @(...) null }
+  }, false)
+  local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+  inventoryClient.itemdefs = ::_inventoryClient_itemdefs
+  inventoryClient.items    = ::_inventoryClient_items
+  ::broadcastEvent("ItemDefChanged")
+  ::broadcastEvent("ExtInventoryChanged")
+  return "Loaded " + filename
 }
 
 function show_hotas_window_image()
@@ -514,4 +541,9 @@ function debug_get_last_userlogs(num = 1)
 function to_pixels(value)
 {
   return ::g_dagui_utils.toPixels(::get_cur_gui_scene(), value)
+}
+
+function debug_reset_unseen()
+{
+  ::require("scripts/seen/seenList.nut").clearAllSeenData()
 }

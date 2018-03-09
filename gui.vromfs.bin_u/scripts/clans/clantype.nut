@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_clan_type <- {
   types = []
 }
@@ -162,7 +163,7 @@ function g_clan_type::_getMembersUpgradeStep()
   getMembersUpgradeStep = ::g_clan_type._getMembersUpgradeStep
 }
 
-::g_enum_utils.addTypesByGlobalName("g_clan_type", {
+enums.addTypesByGlobalName("g_clan_type", {
   NORMAL = {
     code = ::ECT_NORMAL // 0
     color = "activeTextColor"
@@ -183,7 +184,7 @@ function g_clan_type::_getMembersUpgradeStep()
 
 function g_clan_type::getTypeByCode(code)
 {
-  return ::g_enum_utils.getCachedType("code", code, ::g_clan_type_cache.byCode,
+  return enums.getCachedType("code", code, ::g_clan_type_cache.byCode,
                                        ::g_clan_type, ::g_clan_type.UNKNOWN)
 }
 

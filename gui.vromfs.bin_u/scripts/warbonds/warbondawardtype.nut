@@ -1,47 +1,9 @@
+local enums = ::require("std/enums.nut")
 ::g_wb_award_type<- {
   types = []
 }
 
-function g_wb_award_type::_getLayeredImageItem(blk, warbond)
-{
-  local item = ::ItemsManager.findItemById(blk.name)
-  if (!item)
-    return ""
-  return item.getIcon()
-}
-
-function g_wb_award_type::_getContentIconDataItem(blk)
-{
-  local item = ::ItemsManager.findItemById(blk.name)
-  if (!item)
-    return ""
-  return item.getContentIconData()
-}
-
-function g_wb_award_type::_getNameTextItem(blk)
-{
-  local item = ::ItemsManager.findItemById(blk.name)
-  if (!item)
-    return ""
-  return item.getName()
-}
-
-function g_wb_award_type::_getTooltipIdItem(blk, warbond)
-{
-  return ::g_tooltip.getIdItem(blk.name || "", { wbId = warbond.id, wbListId = warbond.listId })
-}
-
-function g_wb_award_type::_getUserlogBuyTextItem(blk, priceText)
-{
-  local item = ::ItemsManager.findItemById(blk.name)
-  return ::loc("userlog/buy_item",
-               {
-                 itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
-                 price = priceText
-               })
-}
-
-function g_wb_award_type::_requestBuyByName(warbond, blk)
+local function requestBuyByName(warbond, blk)
 {
   local reqBlk = ::DataBlock()
   reqBlk.warbond = warbond.id
@@ -52,7 +14,7 @@ function g_wb_award_type::_requestBuyByName(warbond, blk)
   return ::char_send_blk("cln_exchange_warbonds", reqBlk)
 }
 
-function g_wb_award_type::_requestBuyByAmount(warbond, blk)
+local function requestBuyByAmount(warbond, blk)
 {
   local reqBlk = ::DataBlock()
   reqBlk.warbond = warbond.id
@@ -63,15 +25,11 @@ function g_wb_award_type::_requestBuyByAmount(warbond, blk)
   return ::char_send_blk("cln_exchange_warbonds", reqBlk)
 }
 
-function g_wb_award_type::_getBoughtCountByName(warbond, blk)
-{
-  return ::get_warbond_item_bought_count_with_name(warbond.id, warbond.listId, blk.type, blk.name || "")
-}
+local getBoughtCountByName = @(warbond, blk)
+  ::get_warbond_item_bought_count_with_name(warbond.id, warbond.listId, blk.type, blk.name || "")
+local getBoughtCountByAmount = @(warbond, blk)
+  ::get_warbond_item_bought_count_with_amount(warbond.id, warbond.listId, blk.type, blk.amount || 1)
 
-function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
-{
-  return ::get_warbond_item_bought_count_with_amount(warbond.id, warbond.listId, blk.type, blk.amount || 1)
-}
 
 ::g_wb_award_type.template <- {
   id = ::EWBAT_INVALID //filled by type id.used from code enum EWBAT
@@ -86,8 +44,8 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   getDescriptionImage = function(blk, warbond) { return getLayeredImage(blk, warbond) }
   getDescItem = function(blk) { return null } //show description as item description
 
-  requestBuy = ::g_wb_award_type._requestBuyByName //warbond, blk
-  getBoughtCount = ::g_wb_award_type._getBoughtCountByName //warbond, blk
+  requestBuy = requestBuyByName //warbond, blk
+  getBoughtCount = getBoughtCountByName //warbond, blk
 
   canBuy = @(blk) true
   getMaxBoughtCount = function(blk) { return blk.maxBoughtCount || 0 }
@@ -108,7 +66,53 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_wb_award_type", {
+local makeWbAwardItem = function(changesTbl = null)
+{
+  local res = {
+    hasCommonDesc = false
+
+    getItem = @(blk) ::ItemsManager.findItemById(blk.name)
+    getDescItem = @(blk) getItem(blk)
+
+    getNameText = function(blk)
+    {
+      local item = getItem(blk)
+      return item ? item.getName() : ""
+    }
+
+    getLayeredImage = function(blk, warbond)
+    {
+      local item = getItem(blk)
+      return item ? item.getIcon() : ""
+    }
+
+    getContentIconData = function(blk)
+    {
+      local item = getItem(blk)
+      return item ? item.getContentIconData() : ""
+    }
+
+    getTooltipId = @(blk, warbond)
+      ::g_tooltip.getIdItem(blk.name || "", { wbId = warbond.id, wbListId = warbond.listId })
+
+    getUserlogBuyText = function(blk, priceText)
+    {
+      local item = getItem(blk)
+      return ::loc("userlog/buy_item",
+        {
+          itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
+          price = priceText
+        })
+    }
+  }
+
+  if (changesTbl)
+    foreach(key, value in changesTbl)
+      res[key] <- value
+  return res
+}
+
+enums.addTypesByGlobalName("g_wb_award_type", {
   [::EWBAT_INVALID] = {
     requestBuy = function(...) { return -1 }
   },
@@ -159,25 +163,11 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     }
   },
 
-  [::EWBAT_ITEM] = {
-    getLayeredImage = ::g_wb_award_type._getLayeredImageItem
-    getContentIconData = ::g_wb_award_type._getContentIconDataItem
-    getTooltipId = ::g_wb_award_type._getTooltipIdItem
-    getNameText = ::g_wb_award_type._getNameTextItem
-    hasCommonDesc = false
-    getDescItem = function(blk) { return ::ItemsManager.findItemById(blk.name) }
-    getUserlogBuyText = ::g_wb_award_type._getUserlogBuyTextItem
-  },
-
-  [::EWBAT_TROPHY] = {
-    getLayeredImage = ::g_wb_award_type._getLayeredImageItem
-    getContentIconData = ::g_wb_award_type._getContentIconDataItem
-    getTooltipId = ::g_wb_award_type._getTooltipIdItem
-    getNameText = ::g_wb_award_type._getNameTextItem
-    hasCommonDesc = false
-    getDescItem = function(blk) { return ::ItemsManager.findItemById(blk.name) }
-    getUserlogBuyText = ::g_wb_award_type._getUserlogBuyTextItem
-  },
+  [::EWBAT_ITEM]                 = makeWbAwardItem(),
+  [::EWBAT_TROPHY]               = makeWbAwardItem(),
+  [::EWBAT_EXT_INVENTORY_ITEM]   = makeWbAwardItem({
+    getItem = @(blk) ::ItemsManager.findItemByItemDefId(::to_integer_safe(blk.name))
+  }),
 
   [::EWBAT_SKIN] = {
     userlogResourceTypeText = "skin"
@@ -279,8 +269,8 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     {
       return ::Balance(blk.amount || 0).tostring()
     }
-    requestBuy = ::g_wb_award_type._requestBuyByAmount
-    getBoughtCount = ::g_wb_award_type._getBoughtCountByAmount
+    requestBuy = requestBuyByAmount
+    getBoughtCount = getBoughtCountByAmount
   },
 
   [::EWBAT_GOLD] = {
@@ -292,8 +282,8 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     {
       return ::Balance(0, blk.amount || 0).tostring()
     }
-    requestBuy = ::g_wb_award_type._requestBuyByAmount
-    getBoughtCount = ::g_wb_award_type._getBoughtCountByAmount
+    requestBuy = requestBuyByAmount
+    getBoughtCount = getBoughtCountByAmount
   },
 
   [::EWBAT_BATTLE_TASK] = {
@@ -308,7 +298,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
                                                                                 wbId = warbond.id,
                                                                                 wbListId = warbond.listId
                                                                               })
-  }
+  },
 }
 null, "id")
 

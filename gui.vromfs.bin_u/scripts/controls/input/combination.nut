@@ -1,3 +1,5 @@
+local u = require("std/u.nut")
+
 /**
  * Input combination.
  * Container for several elements, which represets single input.
@@ -16,17 +18,19 @@ class ::Input.Combination extends ::Input.InputBase
 
   function getMarkup()
   {
-    local template = "gui/combination"
-    local view = {
-      elements = []
+    local data = getMarkupData()
+    return ::handyman.renderCached(data.template, data.view)
+  }
+
+  function getMarkupData()
+  {
+    local data = {
+      template = "gui/combination"
+      view = { elements = u.map(elements, @(element) { element = element.getMarkup()}) }
     }
 
-    foreach (element in elements)
-      view.elements.append({ element = element.getMarkup() })
-
-    view.elements.top().last <- true
-
-    return ::handyman.renderCached(template, view)
+    data.view.elements.top().last <- true
+    return data
   }
 
   function getText()

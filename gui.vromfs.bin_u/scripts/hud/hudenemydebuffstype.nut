@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum PART_STATE
 {
   OFF      = "off"
@@ -94,7 +95,7 @@ local getStateByValue = function(cur, max, crit, min)
   getInfo = @(camInfo, unitInfo, partName = null, dmgParams = null) null
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_enemy_debuffs", {
+enums.addTypesByGlobalName("g_hud_enemy_debuffs", {
   UNKNOWN = {
   }
 
@@ -220,7 +221,7 @@ local getStateByValue = function(cur, max, crit, min)
 
 function g_hud_enemy_debuffs::getTypeById(id)
 {
-  return ::g_enum_utils.getCachedType("id", id, cache.byId, this, UNKNOWN)
+  return enums.getCachedType("id", id, cache.byId, this, UNKNOWN)
 }
 
 function g_hud_enemy_debuffs::getTypesArrayByUnitType(unitType)

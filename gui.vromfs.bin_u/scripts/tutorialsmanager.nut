@@ -15,14 +15,19 @@
     if (!actions.len() || !canAct())
       return
 
-    foreach (action in actions)
-      if (action())
-        return
+    while(actions.len())
+      if (actions.remove(0)())
+        break
   }
 
   function onEventModalWndDestroy(params)
   {
     processActions()
+  }
+
+  function onEventSignOut(p)
+  {
+    actions.clear()
   }
 
   function onEventCrewTakeUnit(params)

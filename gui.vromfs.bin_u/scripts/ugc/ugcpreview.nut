@@ -15,11 +15,14 @@ local function showUnitSkin(unitId, skinId = null, isForApprove = false)
   if (!unit)
     return false
 
-  ::broadcastEvent("ShowroomOpened")
+  ::broadcastEvent("BeforeStartShowroom")
   ::show_aircraft = unit
-  ::gui_start_decals()
-  if (skinId)
+  local startFunc = function() {
+    ::gui_start_decals()
     ::broadcastEvent("SelectUGCSkinForPreview", { unitName = unitId, skinName = skinId, isForApprove = isForApprove })
+  }
+  startFunc()
+  ::handlersManager.setLastBaseHandlerStartFunc(startFunc)
 
   return true
 }

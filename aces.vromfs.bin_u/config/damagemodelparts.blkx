@@ -66,7 +66,10 @@
     "deckhouse_side": [],
     "superstructure": [],
     "compartment_NN": {
-      "template": "compartment_#10#"
+      "template": "compartment_#15#"
+    },
+    "cover_NN": {
+      "template": "cover_#16#"
     },
     "hydrofoil_NN": {
       "template": "hydrofoil_#10#"
@@ -333,18 +336,6 @@
         "vital": true
       }
     },
-    "sailor_NN": {
-      "template": "sailor_#70#"
-    },
-    "motorist": [],
-    "era": [],
-    "era_NN": {
-      "template": "era_#10#"
-    },
-    "motorist_NN": {
-      "template": "motorist_#10#"
-    },
-    "operator": [],
     "bridge": {
       "bridge": []
     }
@@ -393,6 +384,9 @@
     "radiator_r": []
   },
   "radio_station": {
+    "hitTestType": "inner"
+  },
+  "sonar": {
     "hitTestType": "inner"
   },
   "gun_mask": [],
@@ -514,7 +508,7 @@
     }
   },
   "ex_armor_NN": {
-    "template": "ex_armor_#10#"
+    "template": "ex_armor_#20#"
   },
   "ex_armor_r_NN": {
     "template": "ex_armor_r_#10#"
@@ -648,6 +642,10 @@
     "aileron1_r": [],
     "elevon_l": [],
     "elevon_r": [],
+    "flaperon_l": [],
+    "flaperon1_l": [],
+    "flaperon_r": [],
+    "flaperon1_r": [],
     "aileron_interceptor_l": [],
     "aileron_interceptor1_l": [],
     "aileron_interceptor_r": [],
@@ -668,19 +666,16 @@
   "airbrake": {
     "airbrake_l": [],
     "airbrake_r": [],
-    "airbrake_c": []
-  },
-  "rod": {
-    "rudder_rod": [],
-    "rudder0_rod": [],
-    "rudder1_rod": [],
-    "elevator_rod": [],
-    "elevator0_rod": [],
-    "elevator1_rod": [],
-    "aileron_l_rod": [],
-    "aileron_r_rod": [],
-    "aileron1_l_rod": [],
-    "aileron1_r_rod": []
+    "airbrake_c": [],
+    "airbrake_lN": {
+      "template": "airbrake_l#1:4#"
+    },
+    "airbrake_rN": {
+      "template": "airbrake_r#1:4#"
+    },
+    "airbrake_cN": {
+      "template": "airbrake_c#1:4#"
+    }
   },
   "spar_l": {
     "spar_l": []

@@ -1,6 +1,13 @@
+local xboxNameRegexp = ::regexp2(@"^['^']")
+local isXBoxPlayerName = @(name) xboxNameRegexp.match(name)
+
+local ps4NameRegexp = ::regexp2(@"^['*']")
+local isPS4PlayerName = @(name) ps4NameRegexp.match(name)
+
+local getPlayerNameNoSpecSymbol = @(name) ::g_string.cutPrefix(name, "*", ::g_string.cutPrefix(name, ::XBOX_ONE_PLAYER_PREFIX, name))
 local getPlayerName = @(name) name
 if (::is_platform_xboxone)
-  getPlayerName = @(name) ::g_string.cutPrefix(name, "*", name)
+  getPlayerName = getPlayerNameNoSpecSymbol
 
 //required, when we not logged in, but know player gamertag, so we can identify
 //for whom need read this param
@@ -15,7 +22,12 @@ local function setIsCrossPlayEnabled(useCrossPlay)
 }
 
 return {
+  xboxNameRegexp = xboxNameRegexp
+  isXBoxPlayerName = isXBoxPlayerName
+  ps4NameRegexp = ps4NameRegexp
+  isPS4PlayerName = isPS4PlayerName
   getPlayerName = getPlayerName
+  getPlayerNameNoSpecSymbol = getPlayerNameNoSpecSymbol
   isCrossPlayEnabled = isCrossPlayEnabled
   setIsCrossPlayEnabled = setIsCrossPlayEnabled
 }

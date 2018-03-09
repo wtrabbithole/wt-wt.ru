@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_tooltip_type <- {
   types = []
 }
@@ -17,6 +18,15 @@
   {
     return _buildId(id, params)
   }
+  getMarkup = @(id, params = null, p2 = null, p3 = null)
+    format(@"title:t='$tooltipObj'
+      tooltipObj {
+        tooltipId:t='%s'
+        display:t='hide'
+        on_tooltip_open:t='onGenericTooltipOpen'
+        on_tooltip_close:t='onTooltipObjClose'
+      }",
+      getTooltipId(id, params, p2, p3))
 
   getTooltipContent = function(id, params) { return "" }
   isCustomTooltipFill = false //if true, need to use fillTooltip instead of getTooltipContent
@@ -26,7 +36,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_tooltip_type", {
+enums.addTypesByGlobalName("g_tooltip_type", {
   EMPTY = {
   }
 
@@ -105,10 +115,13 @@
       local desc = decorator.getDesc()
       if (::getTblValue("isRevenueShare", config))
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
-      if (decorator.isUGC)
-        desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/user_generated"))
 
-      local tags = decoratorType.getTagsLoc(decorator.tags || params?.tags || {})
+      desc += (desc.len() ? "\n\n" : "") + decorator.getTypeDesc()
+      local restricionsDesc = decorator.getRestrictionsDesc()
+      if (restricionsDesc.len())
+        desc += (desc.len() ? "\n" : "") + restricionsDesc
+
+      local tags = decorator.getTagsLoc()
       if (tags.len())
       {
         tags = ::u.map(tags, @(txt) ::colorize("activeTextColor", txt))
@@ -411,7 +424,7 @@
       local unitTypeName = ::getTblValue("unitTypeName", params, "")
       local unitType = ::getUnitTypeByText(unitTypeName)
       local skillCategory = ::g_crew_skills.getSkillCategoryByName(categoryName)
-      local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_info().country, -1)
+      local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_country_sq(), -1)
       local crewIdInCountry = ::getTblValue(crewCountryId, ::selected_crews, -1)
       local crewData = ::getSlotItem(crewCountryId, crewIdInCountry)
       if (skillCategory != null && unitType != ::ES_UNIT_TYPE_INVALID && crewData != null)
@@ -498,7 +511,7 @@
     {
       local battleTask = ::g_battle_tasks.getTaskById(battleTaskId)
       local config = ::g_battle_tasks.generateUnlockConfigByTask(battleTask)
-      local view = ::g_battle_tasks.generateItemView(config, false, true)
+      local view = ::g_battle_tasks.generateItemView(config, { isOnlyInfo = true})
       return ::handyman.renderCached("gui/unlocks/battleTasksItem", {items = [view]})
     }
   }

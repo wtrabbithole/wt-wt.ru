@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -254,11 +255,18 @@ function get_unit_actions_list(unit, handler, actions)
       showAction = inMenu
       actionFunc = (@(unit, handler) function () {
         handler.checkedCrewModify((@(unit, handler) function () {
-          ::broadcastEvent("ShowroomOpened")
+          ::broadcastEvent("BeforeStartShowroom")
           ::show_aircraft = unit
           handler.goForward(::gui_start_decals)
         })(unit, handler))
       })(unit, handler)
+    }
+    if (action == "preview")
+    {
+      actionText = ::loc("mainmenu/btnPreview")
+      icon       = "#ui/gameuiskin#btn_preview.svg"
+      showAction = inMenu
+      actionFunc = @() ugcPreview.showUnitSkin(unit.name, "")
     }
     else if (action == "aircraft")
     {
@@ -300,7 +308,7 @@ function get_unit_actions_list(unit, handler, actions)
     {
       actionText = ::loc("mainmenu/btnWeapons")
       icon       = "#ui/gameuiskin#btn_weapons.svg"
-      haveWarning = ::checkUnitWeapons(unit.name) != ::UNIT_WEAPONS_READY
+      haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
       actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit) })(unit)
@@ -344,7 +352,7 @@ function get_unit_actions_list(unit, handler, actions)
       }
 
       actionText = ::loc("mainmenu/btnOrder") + priceText
-      icon       = isGift ? "#ui/gameuiskin#store_icon" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
+      icon       = isGift ? "#ui/gameuiskin#store_icon.svg" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
       showAction = inMenu && (canBuyIngame || canBuyOnline)
       if (canBuyOnline)
         actionFunc = (@(unit) function () {
@@ -390,10 +398,7 @@ function get_unit_actions_list(unit, handler, actions)
       icon       = unit.unitType.testFlightIcon
       showAction = inMenu && ::isTestFlightAvailable(unit)
       actionFunc = function () {
-        if (handler.isValid())
-          handler.checkedCrewModify(function () {
-            ::gui_start_testflight(unit)
-          })
+        ::queues.checkAndStart(@() ::gui_start_testflight(unit), null, "isCanNewflight")
       }
     }
     else if (action == "info")
@@ -935,7 +940,11 @@ function getCantBuyUnitReason(unit, isShopTooltip = false)
   {
     if (isShopTooltip)
       return ::loc("mainmenu/needResearchPreviousVehicle")
-    return ::loc("msgbox/need_unlock_prev_unit/research", {name = ::colorize("userlogColoredText", ::getUnitName(::getPrevUnit(unit), true))})
+    if (!::isUnitResearched(unit))
+      return ::loc("msgbox/need_unlock_prev_unit/research",
+        {name = ::colorize("userlogColoredText", ::getUnitName(::getPrevUnit(unit), true))})
+    return ::loc("msgbox/need_unlock_prev_unit/researchAndPurchase",
+      {name = ::colorize("userlogColoredText", ::getUnitName(::getPrevUnit(unit), true))})
   }
   else if (!::isPrevUnitBought(unit))
   {
@@ -1492,6 +1501,14 @@ function get_show_aircraft()
   return ::show_aircraft? ::show_aircraft : ::getAircraftByName(::hangar_get_current_unit_name())
 }
 
+function set_show_aircraft(unit)
+{
+  if (!unit)
+    return
+  ::show_aircraft = unit
+  ::hangar_model_load_manager.loadModel(unit.name)
+}
+
 function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 {
   handler = handler || ::handlersManager.getActiveBaseHandler()
@@ -1592,10 +1609,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   obj = holderObj.findObject("aircraft-countryImg")
   if (::checkObj(obj))
-  {
     obj["background-image"] = ::get_unit_country_icon(air)
-    holderObj.findObject("aircraft-countryRank").setValue(get_player_rank_by_country(air.shopCountry).tostring())
-  }
 
   if (::has_feature("UnitTooltipImage"))
   {
@@ -1730,8 +1744,11 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 //    holderObj.findObject("aircraft-climbAlt").setValue(::countMeasure(1, air.shop.climbAlt))
   holderObj.findObject("aircraft-altitude").setValue(::countMeasure(1, air.shop.maxAltitude))
   holderObj.findObject("aircraft-airfieldLen").setValue(::countMeasure(1, air.shop.airfieldLen))
-
+  holderObj.findObject("aircraft-wingLoading").setValue(::countMeasure(5, air.shop.wingLoading))
 //  holderObj.findObject("aircraft-range").setValue(::countMeasure(2, air.shop.range * 1000.0))
+
+  local airplaneParameters = ::has_feature("CardAirplaneParameters")
+  local airplanePowerParameters = airplaneParameters && ::has_feature("CardAirplanePowerParameters")
 
   local showCharacteristics = {
     ["aircraft-turnTurretTime-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
@@ -1753,6 +1770,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-maxInclination-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
+    ["aircraft-wingLoading-tr"]           = [ airplaneParameters ? ::ES_UNIT_TYPE_AIRCRAFT : -1 ],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
   }
 
@@ -1762,6 +1780,24 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     if (obj)
       obj.show(::isInArray(unitType, showForTypes))
   }
+
+  local powerToWeightRatioObject = holderObj.findObject("aircraft-powerToWeightRatio-tr")
+  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && "powerToWeightRatio" in air.shop)
+  {
+    holderObj.findObject("aircraft-powerToWeightRatio").setValue(::countMeasure(6, air.shop.powerToWeightRatio))
+    powerToWeightRatioObject.show(true)
+  }
+  else
+    powerToWeightRatioObject.show(false)
+
+  local thrustToWeightRatioObject = holderObj.findObject("aircraft-thrustToWeightRatio-tr")
+  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && "thrustToWeightRatio" in air.shop)
+  {
+    holderObj.findObject("aircraft-thrustToWeightRatio").setValue(format("%.2f", air.shop.thrustToWeightRatio))
+    thrustToWeightRatioObject.show(true)
+  }
+  else
+    thrustToWeightRatioObject.show(false)
 
   local modificators = showLocalState ? "modificators" : "modificatorsBase"
   if (isTank(air) && air[modificators])
@@ -1780,11 +1816,19 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local angles = currentParams.angleVerticalGuidance;
     holderObj.findObject("aircraft-angleVerticalGuidance").setValue(format("%d / %d%s", angles[0].tointeger(), angles[1].tointeger(), ::loc("measureUnits/deg")))
     local armorPiercing = currentParams.armorPiercing;
-    if (armorPiercing.len() > 2)
+    if (armorPiercing.len() > 0)
     {
-      holderObj.findObject("aircraft-armorPiercing").setValue(format("%d / %d / %d %s", armorPiercing[0].tointeger(), armorPiercing[1].tointeger(), armorPiercing[2].tointeger(), ::loc("measureUnits/mm")))
+      local textParts = []
+      local countOutputValue = min(armorPiercing.len(), 3)
+      for(local i = 0; i < countOutputValue; i++)
+        textParts.append(armorPiercing[i].tointeger())
+      holderObj.findObject("aircraft-armorPiercing").setValue(format("%s %s", ::g_string.implode(textParts, " / "), ::loc("measureUnits/mm")))
       local armorPiercingDist = currentParams.armorPiercingDist;
-      holderObj.findObject("aircraft-armorPiercingDist").setValue(format("%d / %d / %d %s", armorPiercingDist[0].tointeger(), armorPiercingDist[1].tointeger(), armorPiercingDist[2].tointeger(), ::loc("measureUnits/meters_alt")))
+      textParts.clear()
+      countOutputValue = min(armorPiercingDist.len(), 3)
+      for(local i = 0; i < countOutputValue; i++)
+        textParts.append(armorPiercingDist[i].tointeger())
+      holderObj.findObject("aircraft-armorPiercingDist").setValue(format("%s %s", ::g_string.implode(textParts, " / "), ::loc("measureUnits/meters_alt")))
     }
     else
     {
@@ -1819,7 +1863,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if(unitType == ::ES_UNIT_TYPE_SHIP)
   {
     local unitTags = ::getTblValue(air.name, ::get_unittags_blk(), {})
-    local unitBlk = ::DataBlock(::get_unit_file_name(air.name))
+    local unitBlk = ::get_full_unit_blk(air.name)
     if(unitBlk == null)
       unitBlk = {}
 
@@ -1870,7 +1914,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (::is_helicopter(air))
   {
-    local unutBlk = ::DataBlock(::get_unit_file_name(air.name))
+    local unutBlk = ::get_full_unit_blk(air.name)
     local blk = unutBlk.ui || ::DataBlock()
 
     local rows = {
@@ -1883,6 +1927,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       speedAlt      = ""
       turnTime      = ""
       airfieldLen   = ""
+      wingLoading   = ""
+      powerToWeightRatio = ""
+      thrustToWeightRatio = ""
     }
 
     foreach (id, val in rows)
@@ -1976,12 +2023,12 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local repairCostData = ""
     local discountsList = {}
     local freeRepairsUnlimited = ::isUnitDefault(air)
+    local egdCode = difficulty.egdCode
     if (freeRepairsUnlimited)
       repairCostData = ::format("textareaNoTab { smallFont:t='yes'; text:t='%s' }", ::loc("shop/free"))
     else
     {
       local avgRepairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
-      local egdCode = difficulty.egdCode
       local avgCost = (avgRepairMul * ::wp_get_repair_cost_by_mode(air.name, egdCode, showLocalState)).tointeger()
       local modeName = ::get_name_by_gamemode(egdCode, false)
       discountsList[modeName] <- modeName + "-discount"
@@ -1999,11 +2046,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
     if (!freeRepairsUnlimited)
     {
-      local repairTimeText = ::getTextByModes((@(air, showLocalState) function(mode) {
-          local hours = showLocalState ? ::shop_get_full_repair_time_by_mode(air.name, mode.modeId)
-              : ::getTblValue("repairTimeHrs" + ::get_name_by_gamemode(mode.modeId, true), air, 0)
-          return time.hoursToString(hours, false)
-        })(air, showLocalState))
+      local hours = showLocalState ? ::shop_get_full_repair_time_by_mode(air.name, egdCode)
+        : ::getTblValue("repairTimeHrs" + ::get_name_by_gamemode(egdCode, true), air, 0)
+      local repairTimeText = time.hoursToString(hours, false)
       local label = ::loc(showLocalState && crew ? "shop/full_repair_time_crew" : "shop/full_repair_time")
       holderObj.findObject("aircraft-full_repair_time_crew-tr").show(true)
       holderObj.findObject("aircraft-full_repair_time_crew-tr").tooltip = label
@@ -2035,14 +2080,23 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if (air.isRecentlyReleased())
     addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
 
-  if (isInFlight && ::g_mis_custom_state.getCurMissionRules().hasCustomUnitRespawns())
+  if (isInFlight)
   {
-    local respawnsleft = ::g_mis_custom_state.getCurMissionRules().getUnitLeftRespawns(air)
-    if (respawnsleft >= 0)
+    local missionRules = ::g_mis_custom_state.getCurMissionRules()
+    if (missionRules.isWorldWarUnit(air.name))
     {
-      local respText = ::loc("unitInfo/team_left_respawns") + ::loc("ui/colon") + respawnsleft
-      local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
-      addInfoTextsList.append(::colorize(color, respText))
+      addInfoTextsList.append(::loc("icon/worldWar/colored") + ::colorize("activeTextColor",::loc("worldwar/unit")))
+      addInfoTextsList.append(::loc("worldwar/unit/desc"))
+    }
+    if (missionRules.hasCustomUnitRespawns())
+    {
+      local respawnsleft = missionRules.getUnitLeftRespawns(air)
+      if (respawnsleft >= 0)
+      {
+        local respText = missionRules.getRespawnInfoTextForUnitInfo(air)
+        local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
+        addInfoTextsList.append(::colorize(color, respText))
+      }
     }
   }
 
@@ -2437,11 +2491,25 @@ function find_units_by_loc_name(unitLocName, searchIds = false, needIncludeNotIn
   )
 }
 
+{
+  local unitCacheName = null
+  local unitCacheBlk = null
+  function get_full_unit_blk(unitName) //better to not use this funtion, and collect all data from wpcost and unittags
+  {
+    if (unitName != unitCacheName)
+    {
+      unitCacheName = unitName
+      unitCacheBlk = ::DataBlock(::get_unit_file_name(unitName))
+    }
+    return unitCacheBlk
+  }
+}
+
 function get_fm_file(unitId, unitBlkData = null)
 {
   local unitPath = ::get_unit_file_name(unitId)
   if (unitBlkData == null)
-    unitBlkData = ::DataBlock(unitPath)
+    unitBlkData = ::get_full_unit_blk(unitId)
   local nodes = ::split(unitPath, "/")
   if (nodes.len())
     nodes.pop()

@@ -230,7 +230,6 @@
       "deathPenaltyMul": 0.0,
       "country_axis": "germany",
       "country_allies": "britain",
-      "windSpeed": [0.0,0.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -572,6 +571,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_aaa_sq"
             },
             {
@@ -600,6 +608,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_attack_ships_squad",
             "targetGnd": false,
             "accuracy": 0.3,
@@ -610,6 +621,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_tanks_sq"
@@ -648,6 +668,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -656,6 +679,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -676,6 +702,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_movable_units_squad"
@@ -759,6 +794,9 @@
             "icon": "ship",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         },
@@ -770,6 +808,9 @@
             "icon": "cannon",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         }
@@ -795,6 +836,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_defend_ships_squad"
         }
       },
@@ -878,6 +922,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tanks_squad"
           }
         },
@@ -894,6 +941,15 @@
             },
             {
               "value": 1
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t2_attack_ships_squad"
@@ -9641,7 +9697,7 @@
         [259.808,0.0,-150.0],
         [0.0,300.0,0.0],
         [150.0,0.0,259.808],
-        [13257.7,1000.0,15401.3]
+        [15029.8,1000.0,14480.3]
       ],
       "props": []
     },
@@ -9658,9 +9714,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [2770.49,0.0,5322.07],
-        [0.0,6000.0,0.0],
-        [-5322.07,0.0,2770.49],
+        [4617.48,0.0,8870.11],
+        [0.0,10000.0,0.0],
+        [-8870.11,0.0,4617.48],
         [10594.8,1000.0,16787.8]
       ],
       "props": []
@@ -9738,10 +9794,10 @@
     "t2_assault_spawn": {
       "type": "Sphere",
       "tm": [
-        [-64.9317,0.0,292.888],
+        [-76.3616,0.0,290.118],
         [0.0,300.0,0.0],
-        [-292.888,0.0,-64.9317],
-        [28383.3,1000.0,-7265.31]
+        [-290.118,0.0,-76.3616],
+        [27865.6,999.998,-5335.29]
       ],
       "props": []
     },
@@ -9758,9 +9814,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-5795.55,0.0,-1552.91],
-        [0.0,6000.0,0.0],
-        [1552.91,0.0,-5795.55],
+        [-9659.26,0.0,-2588.19],
+        [0.0,10000.0,0.0],
+        [2588.19,0.0,-9659.26],
         [29160.0,1000.0,-10165.3]
       ],
       "props": []
@@ -10396,7 +10452,17 @@
         [-64.9317,0.0,292.888],
         [0.0,300.0,0.0],
         [-292.888,0.0,-64.9317],
-        [29931.8,1000.0,-13044.8]
+        [29931.8,500.0,-13044.8]
+      ],
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [259.808,0.0,-150.0],
+        [0.0,300.0,0.0],
+        [150.0,0.0,259.808],
+        [7950.41,500.0,18164.0]
       ],
       "props": []
     }

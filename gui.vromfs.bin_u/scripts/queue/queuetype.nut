@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum qTypeCheckOrder {
   COMMON
   ANY_EVENT
@@ -34,7 +35,7 @@ enum qTypeCheckOrder {
   isParamsCorresponds = @(params) true
 }
 
-::g_enum_utils.addTypesByGlobalName("g_queue_type",
+enums.addTypesByGlobalName("g_queue_type",
   {
     UNKNOWN = {
       checkOrder = qTypeCheckOrder.UNKNOWN
@@ -85,7 +86,8 @@ enum qTypeCheckOrder {
             local queuesInfo = {}
             local responseQueues = ::getTblValue("queues", response, [])
             foreach(battleQueueInfo in responseQueues)
-              queuesInfo[battleQueueInfo.battleId] <- battleQueueInfo
+              if (battleQueueInfo?.battleId)
+                queuesInfo[battleQueueInfo.battleId] <- battleQueueInfo
 
             if (successCallback != null)
               successCallback(queuesInfo)

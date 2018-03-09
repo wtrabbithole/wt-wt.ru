@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::unitTypesList <- [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK] //!!FIX ME: use g_unit_type instead
 
 enum UNIT_TYPE_ORDER
@@ -23,6 +24,7 @@ enum UNIT_TYPE_ORDER
 ::g_unit_type.template <- {
   typeName = "" //filled automatically by typeName
   name = ""
+  lowerName = "" //filled automatically by name.tolower()
   tag = ""
   armyId = ""
   esUnitType = ::ES_UNIT_TYPE_INVALID
@@ -52,7 +54,7 @@ enum UNIT_TYPE_ORDER
   isSkinAutoSelectAvailable = @() false
 }
 
-::g_enum_utils.addTypesByGlobalName("g_unit_type", {
+enums.addTypesByGlobalName("g_unit_type", {
   INVALID = {
     name = "Invalid"
     armyId = ""
@@ -142,6 +144,7 @@ function()
 {
   if (esUnitType != ::ES_UNIT_TYPE_INVALID)
     bit = 1 << esUnitType
+  lowerName = name.tolower()
 }, "typeName")
 
 
@@ -154,28 +157,28 @@ function()
 
 function g_unit_type::getByEsUnitType(esUnitType)
 {
-  return ::g_enum_utils.getCachedType("esUnitType", esUnitType, cache.byEsUnitType, this, INVALID)
+  return enums.getCachedType("esUnitType", esUnitType, cache.byEsUnitType, this, INVALID)
 }
 
 function g_unit_type::getByBit(bit)
 {
-  return ::g_enum_utils.getCachedType("bit", bit, cache.byBit, this, INVALID)
+  return enums.getCachedType("bit", bit, cache.byBit, this, INVALID)
 }
 
 function g_unit_type::getByName(typeName, caseSensitive = true)
 {
   local cacheTbl = caseSensitive ? cache.byName : cache.byNameNoCase
-  return ::g_enum_utils.getCachedType("name", typeName, cacheTbl, this, INVALID, caseSensitive)
+  return enums.getCachedType("name", typeName, cacheTbl, this, INVALID, caseSensitive)
 }
 
 function g_unit_type::getByArmyId(armyId)
 {
-  return ::g_enum_utils.getCachedType("armyId", armyId, cache.byArmyId, this, INVALID)
+  return enums.getCachedType("armyId", armyId, cache.byArmyId, this, INVALID)
 }
 
 function g_unit_type::getByTag(tag)
 {
-  return ::g_enum_utils.getCachedType("tag", tag, cache.byTag, this, INVALID)
+  return enums.getCachedType("tag", tag, cache.byTag, this, INVALID)
 }
 
 function g_unit_type::getByUnitName(unitId)

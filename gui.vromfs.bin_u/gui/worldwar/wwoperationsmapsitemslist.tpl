@@ -1,9 +1,6 @@
 <<#items>>
   <<itemTag>><<^itemTag>>mission_item_unlocked<</itemTag>> {
     id:t='<<id>>'
-    <<#isSelected>>
-    selected:t='yes'
-    <</isSelected>>
 
     <<#isCollapsable>>
     collapse_header:t='yes'
@@ -37,13 +34,12 @@
 
     missionDiv {
       css-hier-invalidate:t='yes'
-      <<#newIconWidgetLayout>>
-      div {
-        id:t='new_icon_widget_<<id>>'
-        css-hier-invalidate:t='yes'
-        <<@newIconWidgetLayout>>
+
+      <<#unseenIcon>>
+      unseenIcon {
+        value:t='<<unseenIcon>>'
       }
-      <</newIconWidgetLayout>>
+      <</unseenIcon>>
 
       img{
         id:t='queue_members_<<id>>'
@@ -66,10 +62,6 @@
       }
     }
 
-    <<#isSpecial>>
-    img { medalIcon:t='dlc' }
-    <</isSpecial>>
-
     <<#isCollapsable>>
     fullSizeCollapseBtn {
       id:t='btn_<<id>>'
@@ -77,13 +69,6 @@
       activeText{}
     }
     <</isCollapsable>>
-
-    <<#discountText>>
-    discount {
-      id:t='mis-discount'
-      text:t='<<discountText>>'
-    }
-    <</discountText>>
 
     div {
       id:t='countries_selection_<<id>>'

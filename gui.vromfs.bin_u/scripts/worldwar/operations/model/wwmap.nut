@@ -6,6 +6,8 @@ class WwMap
   name = ""
   data = null
 
+  DEFAULT_OPERATION_ANNOUNCE_TIME_SEC = TIME_DAY_IN_SECONDS
+
   constructor(_name, _data)
   {
     data = _data
@@ -121,9 +123,14 @@ class WwMap
     return getMapChangeStateTimeText()
   }
 
+  function getChangeStateTime()
+  {
+    return data?.changeStateTime ?? -1
+  }
+
   function getMapChangeStateTimeText()
   {
-    local changeStateTimeStamp = ::getTblValue("changeStateTime", data, -1)
+    local changeStateTimeStamp = getChangeStateTime()
     local text = ""
     if (changeStateTimeStamp >= 0)
     {
@@ -143,6 +150,21 @@ class WwMap
       text = ::loc("worldwar/operation/unavailable")
 
     return text
+  }
+
+  function isWillAvailable(isNearFuture = true)
+  {
+    local changeStateTime = getChangeStateTime() - ::get_charserver_time_sec()
+    local operationAnnounceTimeSec = ::get_game_settings_blk()?.operationAnnounceTimeSec
+      ?? DEFAULT_OPERATION_ANNOUNCE_TIME_SEC
+    return !isActive()
+      && changeStateTime > 0
+      && (!isNearFuture || changeStateTime < operationAnnounceTimeSec)
+  }
+
+  function isAnnounceAndNotDebug()
+  {
+    return (isActive() || isWillAvailable()) && !isDebugChapter()
   }
 
   function getCountryToSideTbl()
@@ -253,5 +275,11 @@ class WwMap
   function getClansNumberInQueueText()
   {
     return ""
+  }
+
+  function getBackground()
+  {
+    // it is assumed that each map will have its background specified in data
+    return "#ui/images/worldwar_window_bg_image.jpg?P1"
   }
 }

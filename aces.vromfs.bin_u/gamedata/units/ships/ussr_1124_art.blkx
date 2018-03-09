@@ -32,6 +32,7 @@
   "smokeScreenEffectTime": 20.0,
   "smokeScreenRad": 20.0,
   "smokeScreenOffset": [-3.0,0.0,2.0],
+  "allowForestallWithoutMarkers": true,
   "default_skin_tomoe": {
     "replace_tex": {
       "from": "flag_ussr_01_c*",
@@ -69,22 +70,22 @@
       "hp": 1000.0,
       "createSecondaryShatters": false,
       "ex_armor_body_l_01_dm": {
-        "armorThickness": 7.0
+        "armorThickness": 27.0
       },
       "ex_armor_body_r_01_dm": {
-        "armorThickness": 7.0
+        "armorThickness": 27.0
       },
       "ex_armor_body_l_02_dm": {
-        "armorThickness": 7.0
+        "armorThickness": 27.0
       },
       "ex_armor_body_r_02_dm": {
-        "armorThickness": 7.0
+        "armorThickness": 27.0
       },
       "ex_armor_body_l_03_dm": {
-        "armorThickness": 7.0
+        "armorThickness": 27.0
       },
       "ex_armor_body_r_03_dm": {
-        "armorThickness": 7.0
+        "armorThickness": 27.0
       },
       "bulkhead_07_dm": {
         "armorThickness": 4.0
@@ -194,21 +195,6 @@
       "driver_dm": {
         "genericDamageMult": 4.0
       },
-      "era_dm": {
-        "genericDamageMult": 4.0
-      },
-      "era_01_dm": {
-        "genericDamageMult": 4.0
-      },
-      "era_02_dm": {
-        "genericDamageMult": 4.0
-      },
-      "era_03_dm": {
-        "genericDamageMult": 4.0
-      },
-      "operator_dm": {
-        "genericDamageMult": 4.0
-      },
       "loader_dm": {
         "genericDamageMult": 4.0
       },
@@ -276,123 +262,6 @@
         "genericDamageMult": 4.0
       },
       "commander_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_01_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_02_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_03_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_04_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_05_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_06_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_07_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_08_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_09_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_10_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_11_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_12_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_13_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_14_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_15_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_16_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_17_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_18_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_19_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_20_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_21_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_22_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_23_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_24_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_25_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_26_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_27_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_28_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_29_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_30_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_31_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_32_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_33_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_34_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_35_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_36_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_37_dm": {
-        "genericDamageMult": 4.0
-      },
-      "sailor_38_dm": {
-        "genericDamageMult": 4.0
-      },
-      "motorist_dm": {
         "genericDamageMult": 4.0
       },
       "machine_gunner_dm": {
@@ -582,6 +451,9 @@
       "explosionDamageMult": 5.0,
       "shatterDamageMult": 10.0,
       "shatterArmorQuality": 0.3,
+      "explosionArmorQuality": 0.03,
+      "cumulativeArmorQuality": 0.01,
+      "genericArmorQuality": 0.02,
       "fireParamsPreset": "ship_engine",
       "engine_room_01_dm": [],
       "engine_room_02_dm": [],
@@ -915,6 +787,10 @@
       "hp": 200.0,
       "armorThickness": 5.0,
       "armorThrough": 50.0,
+      "shatterArmorQuality": 0.1,
+      "explosionArmorQuality": 0.01,
+      "cumulativeArmorQuality": 0.01,
+      "genericArmorQuality": 0.01,
       "fireProtectionHp": 15.0,
       "fireParamsPreset": "ship_fuel_tank",
       "fuel_tank_dm": [
@@ -1036,7 +912,7 @@
         {
           "onKill": {
             "expl": 0.9,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         }
       ]
@@ -1153,8 +1029,7 @@
         },
         {
           "onKill": {
-            "expl": 0.5,
-            "fHitCritical": true
+            "expl": 0.5
           }
         }
       ]
@@ -1215,7 +1090,7 @@
             "expl": 0.3,
             "fire": 0.7,
             "damage": 250.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         },
         {
@@ -1223,7 +1098,7 @@
             "damageType": "generic",
             "fire": 0.03,
             "damage": 20.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         },
         {
@@ -1231,7 +1106,7 @@
             "damageType": "generic",
             "fire": 0.15,
             "damage": 70.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         },
         {
@@ -1243,7 +1118,7 @@
         {
           "onKill": {
             "fire": 1.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         }
       ]
@@ -1281,7 +1156,7 @@
           "onKill": {
             "fire": 0.5,
             "nothing": 0.5,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         }
       ]
@@ -1320,7 +1195,7 @@
             "damageType": "explosion",
             "fire": 0.02,
             "damage": 13.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         },
         {
@@ -1328,7 +1203,7 @@
             "damageType": "explosion",
             "fire": 0.05,
             "damage": 50.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         },
         {
@@ -1336,7 +1211,7 @@
             "damageType": "explosion",
             "fire": 0.2,
             "damage": 120.0,
-            "fHitCritical": true
+            "fHitCritical": false
           }
         }
       ]
@@ -1354,8 +1229,7 @@
         },
         {
           "onKill": {
-            "expl": 0.25,
-            "fHitCritical": true
+            "expl": 0.25
           }
         }
       ]
@@ -1457,7 +1331,7 @@
       "Empty": 39800.0,
       "Fuel": 4000.0,
       "TakeOff": 43800.0,
-      "momentOfInertia": [10.0,44.0,27.0],
+      "momentOfInertia": [10.0,43.0,27.0],
       "CenterOfGravity": [-0.8,0.1,0.0]
     },
     "engines": [
@@ -1465,31 +1339,31 @@
         "maxSpeed": 10.8
       },
       {
-        "maxReverseSpeed": 3.0
+        "maxReverseSpeed": 4.8
       },
       {
         "speedToTime": [
           {
-            "row": [2.0,4.0]
+            "row": [3.0,3.5]
           },
           {
-            "row": [5.0,9.0]
+            "row": [6.5,7.8]
           },
           {
-            "row": [10.8,18.0]
+            "row": [10.8,13.6]
           }
         ]
       },
       {
         "reverseSpeedToTime": [
           {
-            "row": [0.0,2.0]
+            "row": [1.0,2.0]
           },
           {
-            "row": [2.0,5.0]
+            "row": [2.0,3.5]
           },
           {
-            "row": [3.0,8.0]
+            "row": [4.8,6.5]
           }
         ]
       },
@@ -1527,16 +1401,16 @@
       {
         "rudder": {
           "pos": [-10.7,-0.35,1.0],
-          "area": 0.4,
-          "deflection": 40.0,
+          "area": 0.7,
+          "deflection": 37.0,
           "dmPart": "steering_gear_01_dm"
         }
       },
       {
         "rudder": {
           "pos": [-10.7,-0.35,-1.0],
-          "area": 0.4,
-          "deflection": 40.0,
+          "area": 0.7,
+          "deflection": 37.0,
           "dmPart": "steering_gear_01_dm"
         }
       }
@@ -1600,10 +1474,10 @@
           "fireConeAngle": 20.0
         },
         {
-          "ChainfireTime": 2.0
+          "ChainfireTime": 60.0
         },
         {
-          "DelayAfterShoot": 2.0
+          "DelayAfterShoot": 0.0
         },
         {
           "aimMinDist": 20.0
@@ -1714,10 +1588,10 @@
           "fireConeAngle": 20.0
         },
         {
-          "ChainfireTime": 2.0
+          "ChainfireTime": 60.0
         },
         {
-          "DelayAfterShoot": 2.0
+          "DelayAfterShoot": 0.0
         },
         {
           "aimMinDist": 20.0
@@ -1834,10 +1708,10 @@
           "fireConeAngle": 20.0
         },
         {
-          "ChainfireTime": 2.0
+          "ChainfireTime": 60.0
         },
         {
-          "DelayAfterShoot": 2.0
+          "DelayAfterShoot": 0.0
         },
         {
           "aimMinDist": 20.0
@@ -1953,10 +1827,10 @@
           "fireConeAngle": 20.0
         },
         {
-          "ChainfireTime": 2.0
+          "ChainfireTime": 60.0
         },
         {
-          "DelayAfterShoot": 2.0
+          "DelayAfterShoot": 0.0
         },
         {
           "aimMinDist": 20.0
@@ -2666,8 +2540,11 @@
     "new_ship_screw": [],
     "new_ship_hull": [],
     "new_ship_rudder": [],
-    "new_ship_pumps": [],
+    "new_ship_pumps": {
+      "prevModification": "manual_ship_extinguisher"
+    },
     "ship_anti_fragmentation_protection": {
+      "prevModification": "ship_tool_kit",
       "effects": {
         "damagePartsOverride": {
           "crew_sections": {
@@ -2688,9 +2565,13 @@
       }
     },
     "ship_rangefinder": [],
-    "new_main_caliber_turrets": [],
+    "new_main_caliber_turrets": {
+      "reqModification": "new_aa_caliber_turrets"
+    },
     "new_aa_caliber_turrets": [],
-    "ship_main_caliber_support": []
+    "ship_main_caliber_support": {
+      "prevModification": "new_main_caliber_turrets"
+    }
   },
   "breaches": {
     "repairSpeed": 30.0,

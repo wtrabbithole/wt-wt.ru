@@ -32,6 +32,23 @@
   },
   {
     "unlockable": {
+      "id": "test_inventory_4542_dedicated",
+      "type": "inventory",
+      "userLogId": "4542",
+      "hidden": true,
+      "loggingEnabled": true,
+      "mode": {
+        "type": "sessionsStarted",
+        "num": 1,
+        "condition": {
+          "type": "playerHasFeature",
+          "feature": "ExtInventory"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
       "id": "title_high_roller",
       "type": "title",
       "chapter": "officers_club",
@@ -1120,6 +1137,175 @@
   {
     "unlockable": {
       "id": "cardicon_combat",
+      "type": "pilot",
+      "hideUntilUnlocked": true
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_fem_06",
+      "type": "pilot",
+      "mode": {
+        "type": "killedPlayersScore",
+        "mulArcade": 1,
+        "mulRealistic": 2,
+        "mulHardcore": 3,
+        "num": 500,
+        "condition": {
+          "type": "online"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_30",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_germany"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_afro_06",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_jp_03",
+      "type": "pilot",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 500
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_japan"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_fem_04",
+      "type": "pilot",
+      "hideUntilUnlocked": true
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_29",
       "type": "pilot",
       "hideUntilUnlocked": true
     }
@@ -10933,6 +11119,80 @@
   },
   {
     "unlockable": {
+      "id": "he-177a-5/2color_stock",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "amountDamagesZone"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 31850
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "he-177a-5"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "he-177a-5/a5r2_night",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "amountDamagesZone"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 45500
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "he-177a-5"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "hellcat_fmk1/palembang",
       "type": "skin",
       "chapter": "skins",
@@ -19905,6 +20165,114 @@
   },
   {
     "unlockable": {
+      "id": "fr_amx_30/fr_camo_jaune_sahara",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 490
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fr_amx_30"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_amx_30/fr_camo_green_brown",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 910
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fr_amx_30"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_amx_30/fr_camo_winter_green_white",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fr_amx_30"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "fr_amx_30_1972/fr_camo_jaune_sahara",
       "type": "skin",
       "chapter": "skins",
@@ -20114,6 +20482,114 @@
           "condition": {
             "type": "playerUnit",
             "class": "fr_amx_30_b2"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_amx_30_b2_brenus/fr_camo_jaune_sahara",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 504
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fr_amx_30_b2_brenus"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_amx_30_b2_brenus/fr_camo_green_brown",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 936
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fr_amx_30_b2_brenus"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_amx_30_b2_brenus/fr_camo_winter_green_white",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 720
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fr_amx_30_b2_brenus"
           }
         }
       ]
@@ -22821,6 +23297,42 @@
   },
   {
     "unlockable": {
+      "id": "us_m4a2_1944_germ/ger_camo_winter_waves",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 220
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m4a2_1944_germ"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "germ_begleitpanzer_57/lederbraun",
       "type": "skin",
       "chapter": "skins",
@@ -24441,6 +24953,78 @@
   },
   {
     "unlockable": {
+      "id": "germ_leopard_2k/lederbraun",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 490
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_leopard_2k"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_leopard_2k/winter",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_leopard_2k"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "germ_mkpz_m47/winter",
       "type": "skin",
       "chapter": "skins",
@@ -24974,6 +25558,42 @@
           "condition": {
             "type": "playerUnit",
             "class": "germ_panzerbefelhswagen_jagdpanther"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_panzerbefelhswagen_VI_P/ger_camo_winter_waves",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 370
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_panzerbefelhswagen_VI_P"
           }
         }
       ]
@@ -27321,6 +27941,78 @@
   },
   {
     "unlockable": {
+      "id": "germ_pzkpfw_II_ausf_H/blots",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 169
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_pzkpfw_II_ausf_H"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_pzkpfw_II_ausf_H/green",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 91
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_pzkpfw_II_ausf_H"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "germ_pzkpfw_II_ausf_H/winter",
       "type": "skin",
       "chapter": "skins",
@@ -27638,6 +28330,114 @@
           "condition": {
             "type": "playerUnit",
             "class": "germ_pzkpfw_IV_ausf_F2"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_pzkpfw_IV_ausf_G/blots",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 250
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_pzkpfw_IV_ausf_G"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_pzkpfw_IV_ausf_G/green",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 154
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_pzkpfw_IV_ausf_G"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_pzkpfw_IV_ausf_G/lines",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 286
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_pzkpfw_IV_ausf_G"
           }
         }
       ]
@@ -29729,6 +30529,18 @@
           }
         }
       ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_pzkpfw_V_ersatz_m10/germ_ersatz_m10_skin",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": {
+        "type": "char_unit_exist",
+        "unit": "germ_pzkpfw_V_ersatz_m10"
+      }
     }
   },
   {
@@ -37401,6 +38213,114 @@
   },
   {
     "unlockable": {
+      "id": "uk_challenger_1/uk_camo_standart_modern_light_stone",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 490
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_challenger_1"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_challenger_1/uk_camo_standart_modern_bicolor",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 910
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_challenger_1"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_challenger_1/uk_camo_winter_olive",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_challenger_1"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "uk_charioteer_mk_7/uk_camo_earth_yellow",
       "type": "skin",
       "chapter": "skins",
@@ -41030,6 +41950,438 @@
           "condition": {
             "type": "playerUnit",
             "class": "us_lvt_a_1"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_dark_green_dark_earth",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 420
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_desert_pink_dark_khaki",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 490
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_desert_pink_lines",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 560
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_desert_pink_olive",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 630
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_desert_pink_olive_drab",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_desert_pink_olive_drab_dark_earth",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 770
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_olive_drab",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 840
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_olive_drab_olive",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 910
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_magach_3/us_camo_winter_olive",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 980
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_magach_3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m1_abrams/us_camo_modern_desert_tan",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 511
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m1_abrams"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m1_abrams/modern_seventh_army",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 949
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m1_abrams"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m1_abrams/modern_snow_temperate",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 730
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m1_abrams"
           }
         }
       ]
@@ -69273,6 +70625,114 @@
   },
   {
     "unlockable": {
+      "id": "ussr_t_64_b_1984/modern_forest",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 504
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_t_64_b_1984"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_t_64_b_1984/modern_winter",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 720
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_t_64_b_1984"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_t_64_b_1984/ussr_camo_desert_yellow_brown",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 936
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_t_64_b_1984"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "ussr_t_70_1942/forest",
       "type": "skin",
       "chapter": "skins",
@@ -87791,7 +89251,7 @@
         {
           "condition": {
             "type": "playerTag",
-            "tag": "country_usa"
+            "tag": "country_france"
           }
         },
         {
@@ -88248,7 +89708,7 @@
         {
           "condition": {
             "type": "playerTag",
-            "tag": "country_usa"
+            "tag": "country_france"
           }
         },
         {
@@ -89077,7 +90537,7 @@
         {
           "condition": {
             "type": "playerTag",
-            "tag": "country_usa"
+            "tag": "country_france"
           }
         },
         {
@@ -89119,7 +90579,7 @@
         {
           "condition": {
             "type": "playerTag",
-            "tag": "country_usa"
+            "tag": "country_france"
           }
         },
         {
@@ -89251,7 +90711,7 @@
         {
           "condition": {
             "type": "playerTag",
-            "tag": "country_usa"
+            "tag": "country_france"
           }
         },
         {
@@ -89444,6 +90904,276 @@
           "condition": {
             "type": "playerType",
             "unitType": "tank"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_1st_bat_3rd_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 4,
+        "premium": true
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_1st_bat_2nd_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 5,
+        "premium": true
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_2nd_bat_1st_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 6,
+        "premium": true
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_2nd_bat_4th_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 350
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_france"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_1st_bat_3rd_company_2nd_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 500
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_france"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_2nd_bat_2nd_company_4th_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 200
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_france"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_1st_bat_2nd_company_1st_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 400
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_france"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_2nd_bat_1st_company_3rd_platoon",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france_tanks",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 600
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_france"
           }
         }
       ]
@@ -90881,10 +92611,20 @@
           }
         },
         {
-          "condition": {
-            "type": "location",
-            "location": "stalingrad"
-          }
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "stalingrad"
+            },
+            {
+              "location": "stalingrad_w"
+            },
+            {
+              "location": "avg_stalingrad_factory"
+            }
+          ]
         },
         {
           "condition": {
@@ -95622,6 +97362,9 @@
               },
               {
                 "class": "uk_centurion_mk_3_ss11"
+              },
+              {
+                "class": "uk_centurion_mk_1"
               }
             ]
           }
@@ -95702,6 +97445,9 @@
               },
               {
                 "class": "uk_centurion_mk_3_ss11"
+              },
+              {
+                "class": "uk_centurion_mk_1"
               }
             ]
           }
@@ -96638,6 +98384,504 @@
       {
         "stage": {
           "param": 500,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_fr_amx_13"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 500
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "fr_amx_13_75"
+              },
+              {
+                "class": "fr_amx_13_75_ss11"
+              },
+              {
+                "class": "fr_amx_13_90"
+              },
+              {
+                "class": "fr_amx_13_fl_11"
+              },
+              {
+                "class": "fr_amx_13_hot"
+              },
+              {
+                "class": "fr_amx_13_dca_40"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_fr_amx_13_75"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 500
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "fr_amx_13_75"
+              },
+              {
+                "class": "fr_amx_13_75_ss11"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_fr_arl_44"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "fr_arl_44"
+              },
+              {
+                "class": "fr_arl_44_acl1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 300,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_fr_arl_44"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "fr_arl_44"
+              },
+              {
+                "class": "fr_arl_44_acl1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 300,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_fr_amx_30"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 1000
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "fr_amx_30_b2"
+              },
+              {
+                "class": "fr_amx_30_dca"
+              },
+              {
+                "class": "fr_amx_30_1972"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 100,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 1000,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_fr_amx_30"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 1000
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "fr_amx_30_b2"
+              },
+              {
+                "class": "fr_amx_30_dca"
+              },
+              {
+                "class": "fr_amx_30_1972"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 100,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 1000,
           "amount_warpoints": 10000,
           "amount_exp": 500
         }
@@ -101381,6 +103625,162 @@
             "condition": {
               "type": "playerUnit",
               "class": "d_520_france"
+            }
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 5,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 15,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_morane_saulnier"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 30
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "ms_405c1"
+              },
+              {
+                "class": "ms_406c1"
+              },
+              {
+                "class": "ms_410c1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 5,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 15,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_ms_406c1"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "france"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 3
+          },
+          {
+            "num": 30
+          },
+          {
+            "condition": {
+              "type": "activity",
+              "percent": 50
+            }
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "playerUnit",
+              "class": "ms_406c1"
             }
           }
         ]
@@ -107387,7 +109787,7 @@
       "stage": {
         "param": 3,
         "amount_exp": 0,
-        "amount_warpoints": 0
+        "amount_warpoints": 150
       },
       "mode": {
         "type": "killedGroundTimed",
@@ -111261,6 +113661,21 @@
   },
   {
     "unlockable": {
+      "id": "chat_for_xboxOne",
+      "type": "achievement",
+      "hidden": true,
+      "mode": {
+        "type": "char_login_count",
+        "num": 1,
+        "condition": {
+          "type": "playerPlatform",
+          "platform": "xboxOne"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
       "id": "chat_had_logins_before_feature",
       "type": "challenge",
       "hidden": true,
@@ -111328,6 +113743,9 @@
         },
         {
           "unlock": "chat_have_wons_to_post"
+        },
+        {
+          "unlock": "chat_for_xboxOne"
         }
       ]
     }
@@ -111384,6 +113802,9 @@
         },
         {
           "unlock": "chat_have_wons_to_spawn"
+        },
+        {
+          "unlock": "chat_for_xboxOne"
         }
       ]
     }

@@ -1,6 +1,6 @@
 local penalty = require("penalty")
 local stdStr = require("string")
-local time = require("sqStdLibs/common/time.nut")
+local time = require("std/time.nut")
 
 
 local currentPenaltyDesc = Watched({})

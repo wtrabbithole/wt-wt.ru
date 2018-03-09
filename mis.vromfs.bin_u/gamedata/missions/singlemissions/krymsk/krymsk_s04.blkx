@@ -44,7 +44,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       },
       "customWeather": {
         "windDir": [0.6,0.8],
@@ -94,6 +100,7 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "ussr_main_theme",
+      "viewAreaScale": 2.0,
       "part": {
         "event": "",
         "minTime": 0,
@@ -106,6 +113,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -160,6 +170,18 @@
       "actions": [
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "friendly_fighters00"
             },
@@ -271,6 +293,18 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "friendly_idle_tanks00"
             },
             {
@@ -280,10 +314,10 @@
               "object": "hostile_lazy_tanks02"
             },
             {
-              "speed": 40.0
+              "isImmortal": true
             },
             {
-              "isImmortal": true
+              "speed": 40.0
             }
           ]
         },
@@ -355,11 +389,19 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "marker"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "marker",
             "isImmortal": true
           }
@@ -424,6 +466,9 @@
             "check_objects": "all",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         },
@@ -444,6 +489,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "all",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "target": "crash_area"
           }
@@ -461,6 +509,9 @@
             "check_objects": "all",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         }
@@ -482,6 +533,10 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "marker"
           }
         },
@@ -499,6 +554,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "survivor"
           }
         },
@@ -609,6 +671,9 @@
           "object_marking": 0,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "airfield00"
         }
@@ -650,6 +715,9 @@
             "check_objects": "all",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         },
@@ -670,6 +738,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "all",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "target": "crash_area"
           }
@@ -687,6 +758,9 @@
             "check_objects": "all",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         }
@@ -708,6 +782,10 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "marker"
           }
         },
@@ -731,6 +809,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "survivor"
           }
         },
@@ -830,6 +915,9 @@
           "object_marking": 0,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "airfield00"
         }
@@ -881,6 +969,9 @@
             "check_objects": "any",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "survivor"
           }
         },
@@ -898,6 +989,9 @@
             "check_objects": "all",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         }
@@ -919,6 +1013,10 @@
         ],
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "marker"
         },
         "moSetObjectiveStatus": {
@@ -1142,6 +1240,8 @@
         ],
         "unit_class": "i-16_type28",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1185,6 +1285,8 @@
         ],
         "unit_class": "la-7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "LA7_default",
         "bullets0": "",
         "bullets1": "",
@@ -1229,6 +1331,8 @@
         ],
         "unit_class": "la-7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "LA7_default",
         "bullets0": "",
         "bullets1": "",
@@ -1273,6 +1377,8 @@
         ],
         "unit_class": "bf-109k-4",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Bf_109K4_default",
         "bullets0": "",
         "bullets1": "",
@@ -1317,6 +1423,8 @@
         ],
         "unit_class": "bf-109k-4",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Bf_109K4_default",
         "bullets0": "",
         "bullets1": "",
@@ -1361,6 +1469,8 @@
         ],
         "unit_class": "bf-109k-4",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Bf_109K4_default",
         "bullets0": "",
         "bullets1": "",
@@ -1405,6 +1515,8 @@
         ],
         "unit_class": "germ_tigerI",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1438,6 +1550,8 @@
         ],
         "unit_class": "ussr_t34_85",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1471,6 +1585,8 @@
         ],
         "unit_class": "ussr_t34_85",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1504,6 +1620,8 @@
         ],
         "unit_class": "germ_tigerI",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1537,6 +1655,8 @@
         ],
         "unit_class": "yak-3",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1584,6 +1704,8 @@
         ],
         "unit_class": "dummy",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1618,6 +1740,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1646,6 +1770,8 @@
         ],
         "unit_class": "ussr_isu152",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1679,6 +1805,8 @@
         ],
         "unit_class": "germ_tigerI",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1712,6 +1840,8 @@
         ],
         "unit_class": "germ_88mm_pak43",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1745,6 +1875,8 @@
         ],
         "unit_class": "germ_88mm_pak43",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1778,6 +1910,8 @@
         ],
         "unit_class": "germ_88mm_pak43",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1811,6 +1945,8 @@
         ],
         "unit_class": "germ_tigerI",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1842,7 +1978,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_02": {
@@ -1856,7 +1994,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_03": {
@@ -1870,7 +2010,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_04": {
@@ -1884,7 +2026,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_05": {
@@ -1898,7 +2042,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_06": {
@@ -1912,7 +2058,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_07": {
@@ -1926,7 +2074,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_08": {
@@ -1940,7 +2090,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_09": {
@@ -1954,7 +2106,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_10": {
@@ -1968,7 +2122,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_11": {
@@ -1982,7 +2138,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "hostile_lazy_tanks02_wp_12": {
@@ -1996,7 +2154,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2013,6 +2173,8 @@
         ],
         "unit_class": "germ_88mm_pak43",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2046,6 +2208,8 @@
         ],
         "unit_class": "ussr_57mm_zis2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2079,6 +2243,8 @@
         ],
         "unit_class": "ussr_57mm_zis2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2112,6 +2278,8 @@
         ],
         "unit_class": "ussr_57mm_zis2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2145,6 +2313,8 @@
         ],
         "unit_class": "ussr_57mm_zis2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2178,6 +2348,8 @@
         ],
         "unit_class": "ussr_57mm_zis2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2211,6 +2383,8 @@
         ],
         "unit_class": "ussr_122mm_m30",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2244,6 +2418,8 @@
         ],
         "unit_class": "ussr_122mm_m30",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2277,6 +2453,8 @@
         ],
         "unit_class": "ussr_122mm_m30",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2310,6 +2488,8 @@
         ],
         "unit_class": "ussr_122mm_m30",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2343,6 +2523,8 @@
         ],
         "unit_class": "ussr_zis5_med",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

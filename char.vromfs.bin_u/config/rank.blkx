@@ -32,9 +32,13 @@
   "maxXPLimit": 200000000,
   "expForHitTimeout": 5.0,
   "expForIneffectiveTankHitTimeout": 1.0,
+  "expForShipHitTimeout": 2.0,
   "ineffectiveHitMinCount": 10,
   "ineffectiveHitMinPart": 0.001,
   "expForAssistTime": 30.0,
+  "expForAssistDmg": 0.0,
+  "expForAssistTimeShip": 10000.0,
+  "expForAssistDmgShip": 0.0001,
   "denominateFreeExp": 10.0,
   "units": {
     "exp_bomber": 1.0,
@@ -141,9 +145,9 @@
       "needBuyToOpenNextInEraTank3": 6,
       "needBuyToOpenNextInEraTank4": 6,
       "needBuyToOpenNextInEraTank5": 5,
-      "needBuyToOpenNextInEraShip1": 1,
-      "needBuyToOpenNextInEraShip2": 1,
-      "needBuyToOpenNextInEraShip3": 1,
+      "needBuyToOpenNextInEraShip1": 5,
+      "needBuyToOpenNextInEraShip2": 2,
+      "needBuyToOpenNextInEraShip3": 4,
       "needBuyToOpenNextInEraShip4": 1
     },
     "country_usa": {
@@ -156,9 +160,9 @@
       "needBuyToOpenNextInEraTank3": 6,
       "needBuyToOpenNextInEraTank4": 6,
       "needBuyToOpenNextInEraTank5": 5,
-      "needBuyToOpenNextInEraShip1": 1,
-      "needBuyToOpenNextInEraShip2": 1,
-      "needBuyToOpenNextInEraShip3": 1,
+      "needBuyToOpenNextInEraShip1": 5,
+      "needBuyToOpenNextInEraShip2": 2,
+      "needBuyToOpenNextInEraShip3": 4,
       "needBuyToOpenNextInEraShip4": 1
     },
     "country_germany": {
@@ -171,9 +175,9 @@
       "needBuyToOpenNextInEraTank3": 6,
       "needBuyToOpenNextInEraTank4": 6,
       "needBuyToOpenNextInEraTank5": 5,
-      "needBuyToOpenNextInEraShip1": 1,
-      "needBuyToOpenNextInEraShip2": 1,
-      "needBuyToOpenNextInEraShip3": 1,
+      "needBuyToOpenNextInEraShip1": 5,
+      "needBuyToOpenNextInEraShip2": 2,
+      "needBuyToOpenNextInEraShip3": 6,
       "needBuyToOpenNextInEraShip4": 1
     },
     "country_britain": {
@@ -186,9 +190,9 @@
       "needBuyToOpenNextInEraTank3": 6,
       "needBuyToOpenNextInEraTank4": 6,
       "needBuyToOpenNextInEraTank5": 4,
-      "needBuyToOpenNextInEraShip1": 1,
-      "needBuyToOpenNextInEraShip2": 1,
-      "needBuyToOpenNextInEraShip3": 1,
+      "needBuyToOpenNextInEraShip1": 5,
+      "needBuyToOpenNextInEraShip2": 2,
+      "needBuyToOpenNextInEraShip3": 5,
       "needBuyToOpenNextInEraShip4": 1
     },
     "country_japan": {
@@ -349,6 +353,10 @@
     "prestige6": 72,
     "prestige7": 84,
     "prestige8": 100
+  },
+  "ww_settings": {
+    "checkUnitAvailability": "allow",
+    "minCraftRank": 3
   },
   "crew_parameters": {
     "mechanicHangarRepairSpeedLow": 1.0,

@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_dbg_hud_object_type <- {
   types = []
 }
@@ -15,7 +16,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_dbg_hud_object_type", {
+enums.addTypesByGlobalName("g_dbg_hud_object_type", {
   REWARD_MESSAGE = { //visible by prioriy
     eventChance = 50
     genNewEvent = function() {
@@ -40,7 +41,7 @@
   }
 
   STREAK = {
-    eventChance = 50
+    eventChance = 2
     genNewEvent = ::hud_debug_streak
   }
 

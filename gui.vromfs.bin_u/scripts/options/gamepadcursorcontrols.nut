@@ -7,7 +7,7 @@ const IS_GAMEPAD_CURSOR_ENABLED_DEFAULT = true
 
   function init()
   {
-    currentOptionValue = ::getSystemConfigOption(GAMEPAD_CURSOR_CONTROL_CONFIG_NAME, IS_GAMEPAD_CURSOR_ENABLED_DEFAULT)
+    currentOptionValue = getValue()
     ::set_use_gamepad_cursor_control(currentOptionValue)
   }
 

@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
@@ -238,7 +239,7 @@ local time = require("scripts/time.nut")
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_objective_type", {
+enums.addTypesByGlobalName("g_ww_objective_type", {
   UNKNOWN = {}
 
   OT_CAPTURE_ZONE = {
@@ -483,7 +484,7 @@ local time = require("scripts/time.nut")
 
 function g_ww_objective_type::getTypeByTypeName(typeName)
 {
-  return ::g_enum_utils.getCachedType("typeName", typeName, ::g_ww_objective_type.cache.byTypeName, ::g_ww_objective_type, ::g_ww_objective_type.UNKNOWN)
+  return enums.getCachedType("typeName", typeName, ::g_ww_objective_type.cache.byTypeName, ::g_ww_objective_type, ::g_ww_objective_type.UNKNOWN)
 }
 
 function g_ww_objective_type::getTimerUpdateFuncByParam(type, param)

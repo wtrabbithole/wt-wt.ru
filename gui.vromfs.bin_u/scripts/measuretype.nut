@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 /**
  * Measure type is a useful abstraction above
  * customizable and hard-coded measure units.
@@ -36,7 +37,7 @@ function g_measure_type::_getMeasureUnitsName()
   getMeasureUnitsName = ::g_measure_type._getMeasureUnitsName
 }
 
-::g_enum_utils.addTypesByGlobalName("g_measure_type", {
+enums.addTypesByGlobalName("g_measure_type", {
   UNKNOWN = {
     name = "unknown"
 
@@ -98,6 +99,18 @@ function g_measure_type::_getMeasureUnitsName()
     name = "temperature"
     userOptCode = ::USEROPT_MEASUREUNITS_TEMPERATURE
     orderCode = 4
+  }
+
+  WING_LOADING = {
+    name = "wingLoading"
+    userOptCode = ::USEROPT_MEASUREUNITS_WING_LOADING
+    orderCode = 5
+  }
+
+  POWER_TO_WEIGHT_RATIO = {
+    name = "powerToWeightRatio"
+    userOptCode = ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO
+    orderCode = 6
   }
 
   HOURS = {
@@ -178,7 +191,7 @@ function g_measure_type::_getMeasureUnitsName()
 
 function g_measure_type::getTypeByName(name, createIfNotFound = false)
 {
-  local type = ::g_enum_utils.getCachedType("name", name, ::g_measure_type_cache.byName,
+  local type = enums.getCachedType("name", name, ::g_measure_type_cache.byName,
                                       ::g_measure_type, ::g_measure_type.UNKNOWN)
   if (type == UNKNOWN && createIfNotFound)
   {

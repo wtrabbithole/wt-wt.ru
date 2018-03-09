@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 const FONTS_SAVE_PATH = "fonts_css"
 const FONTS_SAVE_PATH_CONFIG = "video/fonts"
 
@@ -73,7 +74,7 @@ local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72"
   getFontExample = @() "small_text" + fontGenId
 }
 
-::g_enum_utils.addTypesByGlobalName("g_font",
+enums.addTypesByGlobalName("g_font",
 {
   TINY = {
     fontGenId = "_set_tiny"
@@ -127,7 +128,7 @@ null,
 
 function g_font::getAvailableFontBySaveId(saveId)
 {
-  local res = ::g_enum_utils.getCachedType("saveId", saveId, cache.bySaveId, this, null)
+  local res = enums.getCachedType("saveId", saveId, cache.bySaveId, this, null)
   if (res && res.isAvailable(::screen_width(), ::screen_height()))
     return res
 

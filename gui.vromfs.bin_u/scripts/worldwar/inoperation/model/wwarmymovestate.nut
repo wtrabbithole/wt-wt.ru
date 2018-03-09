@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 ::g_ww_army_move_state <- {
   types = []
   cache = {
@@ -10,7 +12,7 @@
   name = ""
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_army_move_state", {
+enums.addTypesByGlobalName("g_ww_army_move_state", {
   ES_UNKNOWN = {
     isMove = false
   }
@@ -33,5 +35,5 @@
 
 function g_ww_army_move_state::getMoveParamsByName(name)
 {
-  return ::g_enum_utils.getCachedType("name", name, ::g_ww_army_move_state.cache.byName, this, ES_UNKNOWN)
+  return enums.getCachedType("name", name, ::g_ww_army_move_state.cache.byName, this, ES_UNKNOWN)
 }

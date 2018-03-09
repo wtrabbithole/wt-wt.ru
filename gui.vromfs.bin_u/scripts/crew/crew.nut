@@ -1,3 +1,5 @@
+const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
+
 ::g_crew <- {
   crewLevelBySkill = 5 //crew level from any maxed out skill
   totalSkillsSteps = 5 //steps available for leveling.
@@ -18,6 +20,21 @@ function g_crew::isAllCrewsMinLevel()
         if (::g_crew.getCrewLevel(crew, uType) > ::g_crew.getMinCrewLevel(uType))
           return false
       }
+  return true
+}
+
+function g_crew::isAllCrewsHasBasicSpec()
+{
+  local basicCrewSpecType = ::g_crew_spec_type.BASIC
+  foreach(checkedCountrys in ::g_crews_list.get())
+    foreach(crew in checkedCountrys.crews)
+      foreach(unitName, value in crew.trainedSpec)
+      {
+        local crewUnitSpecType = ::g_crew_spec_type.getTypeByCrewAndUnitName(crew, unitName)
+        if (crewUnitSpecType != basicCrewSpecType)
+          return false
+      }
+
   return true
 }
 
@@ -467,7 +484,6 @@ function g_crew::_upgradeUnitSpec(crew, unit, upgradesAmount = 1)
   local progBox = { showProgressBox = true }
   upgradesAmount--
   local onTaskSuccess = (@(crew, unit, upgradesAmount) function() {
-    ::g_crews_list.refresh()
     ::updateAirAfterSwitchMod(unit)
     ::update_gamercards()
     ::broadcastEvent("QualificationIncreased", { unit = unit})
@@ -514,7 +530,6 @@ function g_crew::getBestTrainedCrewIdxForUnit(unit, mustBeEmpty, compareToCrew =
 
 function g_crew::onEventCrewSkillsChanged(params)
 {
-  ::g_crews_list.refresh()
   ::update_crew_skills_available(true)
 }
 
@@ -569,6 +584,41 @@ function g_crew::maximazeAllSkillsImpl(crew, esUnitType)
     ::g_crews_list.suspendSlotbarUpdates()
 }
 
+function g_crew::getSkillPageIdToRunTutorial(crew)
+{
+  local unit = ::g_crew.getCrewUnit(crew)
+  if (!unit)
+    return null
+
+  local esUnitType = unit.esUnitType
+  foreach(skillPage in ::crew_skills)
+    if (skillPage.isVisible(esUnitType))
+      if (hasSkillPointsToRunTutorial(crew, esUnitType, skillPage))
+        return skillPage.id
+
+  return null
+}
+
+function g_crew::hasSkillPointsToRunTutorial(crew, esUnitType, skillPage)
+{
+  local skillCount = 0
+  local skillPointsNeeded = 0
+  foreach(idx, item in skillPage.items)
+    if (item.isVisible(esUnitType))
+    {
+      local itemSkillValue = getSkillValue(crew.id, skillPage.id, item.name)
+      skillPointsNeeded += getNextSkillStepCost(item, itemSkillValue)
+      skillCount ++
+      if (skillCount >= UPGR_CREW_TUTORIAL_SKILL_NUMBER)
+        break
+    }
+
+  if (skillCount < UPGR_CREW_TUTORIAL_SKILL_NUMBER)
+    return false
+
+  return getCrewSkillPoints(crew) >= skillPointsNeeded
+}
+
 ::subscribe_handler(::g_crew, ::g_listener_priority.UNIT_CREW_CACHE_UPDATE)
 
 ::min_steps_for_crew_status <- [1, 2, 3]
@@ -589,7 +639,6 @@ function load_crew_skills()
 {
   ::crew_skills=[]
   ::crew_air_train_req <- {}
-  ::g_crews_list.refresh()
 
   local blk = ::get_skills_blk()
   ::g_crew.crewLevelBySkill = blk.skill_to_level_ratio || ::g_crew.crewLevelBySkill
@@ -789,7 +838,7 @@ function is_crew_slot_empty(crew)
 function get_first_empty_crew_slot(country = null)
 {
   if (!country)
-    country = ::get_profile_info().country
+    country = ::get_profile_country_sq()
 
   local crew = null
   foreach (idx, crewBlock in ::g_crews_list.get())

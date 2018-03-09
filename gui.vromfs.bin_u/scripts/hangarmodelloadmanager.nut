@@ -27,6 +27,8 @@ class HangarModelLoadManager
 
   function loadModel(modelName)
   {
+    if (modelName == ::hangar_get_current_unit_name())
+      return
     _isLoading = true
     hangar_load_model(modelName)
     ::broadcastEvent("HangarModelLoading")

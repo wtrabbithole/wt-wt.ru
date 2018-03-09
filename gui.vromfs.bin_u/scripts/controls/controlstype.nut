@@ -1,4 +1,5 @@
 local globalEnv = require_native("globalEnv")
+local avatars = ::require("scripts/user/avatars.nut")
 
 function gui_start_controls_type_choice(onlyDevicesChoice = true)
 {
@@ -35,7 +36,7 @@ class ::gui_handlers.ControlType extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onChangePilotIcon() {
-    ::choose_pilot_icon_wnd(onIconChoosen, this)
+    avatars.openChangePilotIconWnd(onIconChoosen, this)
   }
 
   function onIconChoosen(option)

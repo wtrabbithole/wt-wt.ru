@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_top_menu_sections <- {
   template = {
     name = "unknown"
@@ -12,6 +13,7 @@
     mergeIndex = -1
     haveTmDiscount = false
     forceHoverWidth = null
+    unseenIconMainButton = null
 
     getTopMenuButtonDivId = function() { return "topmenu_" + name }
     getTopMenuDiscountId = function() { return getTopMenuButtonDivId() + "_discount" }
@@ -82,5 +84,5 @@ function g_top_menu_sections::clearEmptyColumns(itemsArray)
 
 function g_top_menu_sections::getSectionByName(name)
 {
-  return ::g_enum_utils.getCachedType("name", name, cache.byName, this, template)
+  return enums.getCachedType("name", name, cache.byName, this, template)
 }

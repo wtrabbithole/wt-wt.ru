@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -139,7 +140,7 @@ const COMPARE_NO_COMPARE = "no"
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_unit_info_type", [
+enums.addTypesByGlobalName("g_unit_info_type", [
   {
     id = "name"
     getValueText = function(value, unit) { return ::getUnitName(unit) }

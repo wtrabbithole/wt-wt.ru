@@ -4,9 +4,10 @@ local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
 local platformModule = require("scripts/clientState/platform.nut")
+local avatars = ::require("scripts/user/avatars.nut")
 
 const TANK_ALT_CROSSHAIR_ADD_NEW = -2
-const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
+const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
 ::BOMB_ASSAULT_FUSE_TIME_OPT_VALUE <- -1
 ::SPEECH_COUNTRY_UNIT_VALUE <- 2
 
@@ -23,7 +24,9 @@ enum misCountries
   ::USEROPT_MEASUREUNITS_ALT,
   ::USEROPT_MEASUREUNITS_DIST,
   ::USEROPT_MEASUREUNITS_CLIMBSPEED,
-  ::USEROPT_MEASUREUNITS_TEMPERATURE
+  ::USEROPT_MEASUREUNITS_TEMPERATURE,
+  ::USEROPT_MEASUREUNITS_WING_LOADING,
+  ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO
 ]
 
 function is_measure_unit_user_option(user_opt)
@@ -1244,6 +1247,8 @@ function get_option(type, context = null)
     case ::USEROPT_MEASUREUNITS_DIST:
     case ::USEROPT_MEASUREUNITS_CLIMBSPEED:
     case ::USEROPT_MEASUREUNITS_TEMPERATURE:
+    case ::USEROPT_MEASUREUNITS_WING_LOADING:
+    case ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO:
       local unitNo = 0
       if (type == ::USEROPT_MEASUREUNITS_SPEED)
       {
@@ -1269,6 +1274,16 @@ function get_option(type, context = null)
       {
         unitNo = 4
         descr.id = "measure_units_temperature"
+      }
+      else if (type == ::USEROPT_MEASUREUNITS_WING_LOADING)
+      {
+        unitNo = 5
+        descr.id = "measure_units_wing_loading"
+      }
+      else if (type == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
+      {
+        unitNo = 6
+        descr.id = "measure_units_power_to_weight_ratio"
       }
       descr.items = []
       descr.values = []
@@ -1363,36 +1378,6 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_option_mouse_smooth() != 0
-      break
-
-    case ::USEROPT_AIM_TIME_NONLINEARITY_AIR:
-      descr.id = "aim_time_nonlinearity_air"
-      descr.value = (::get_option_multiplier(
-        ::OPTION_AIM_TIME_NONLINEARITY_AIR) * 100).tointeger()
-      if (descr.value < 0)
-        descr.value = 0
-      else if (descr.value > 100)
-        descr.value = 100
-      break
-
-    case ::USEROPT_AIM_TIME_NONLINEARITY_TANK:
-      descr.id = "aim_time_nonlinearity_tank"
-      descr.value = (::get_option_multiplier(
-        ::OPTION_AIM_TIME_NONLINEARITY_TANK) * 100).tointeger()
-      if (descr.value < 0)
-        descr.value = 0
-      else if (descr.value > 100)
-        descr.value = 100
-      break
-
-    case ::USEROPT_AIM_TIME_NONLINEARITY_SHIP:
-      descr.id = "aim_time_nonlinearity_ship"
-      descr.value = (::get_option_multiplier(
-        ::OPTION_AIM_TIME_NONLINEARITY_SHIP) * 100).tointeger()
-      if (descr.value < 0)
-        descr.value = 0
-      else if (descr.value > 100)
-        descr.value = 100
       break
 
     case ::USEROPT_FORCE_GAIN:
@@ -2033,6 +2018,20 @@ function get_option(type, context = null)
       descr.value = get_option_autorearm_on_airfield()
       break
 
+    case ::USEROPT_SAVE_AI_TARGET_TYPE:
+      descr.id = "save_ai_target_type"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = get_option_ai_target_type()
+      break
+
+    case ::USEROPT_DEFAULT_AI_TARGET_TYPE:
+      descr.id = "default_ai_target_type"
+      descr.items = ["#options/ai_gunner_disabled", "#options/ai_gunner_all", "#options/ai_gunner_air", "#options/ai_gunner_ground"]
+      descr.values = [0, 1, 2, 3]
+      descr.value = get_option_default_ai_target_type()
+      break
+
     case ::USEROPT_SHOW_INDICATORS_TYPE:
       descr.id = "show_indicators_type"
       descr.items = ["#options/selected", "#options/centered", "#options/all"]
@@ -2330,7 +2329,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 0; i < ::ugc_tags_presets.len(); i++)
       {
-        descr.items.append(::loc("ugc_tag_preset/" + ::ugc_tags_presets[i]))
+        descr.items.append(::loc("ugc/tag/" + ::ugc_tags_presets[i]))
         descr.values.append(::ugc_tags_presets[i])
       }
       break
@@ -3179,7 +3178,7 @@ function get_option(type, context = null)
           descr.values.append(country)
         }
         descr.value = 0
-        local c = ::get_profile_info().country
+        local c = ::get_profile_country_sq()
         for (local nc = 0; nc < descr.values.len(); nc++)
           if (c == descr.values[nc])
           {
@@ -3262,16 +3261,23 @@ function get_option(type, context = null)
       descr.values = []
       descr.trParams <- "iconType:t='pilot';"
       local curPilotImgId = ::get_cur_rank_info().pilotId
-      for (local nc = 0; nc < ::pilot_icons_list.len(); nc++)
+      local icons = avatars.getIcons()
+      for (local nc = 0; nc < icons.len(); nc++)
       {
-        local unlockId = ::pilot_icons_list[nc]
-        descr.items.append({
+        local unlockId = icons[nc]
+        local item = {
           idx = nc
           image = "#ui/images/avatars/" + unlockId
           show = ::is_unlock_visible(::g_unlocks.getUnlockById(unlockId))
           enabled = ::is_unlocked_scripted(::UNLOCKABLE_PILOT, unlockId)
           tooltipId = ::g_tooltip.getIdUnlock(unlockId, { showProgress = true })
-        })
+        }
+        if (item.show && item.enabled)
+        {
+          item.seenListId <- SEEN.AVATARS
+          item.seenEntity <- unlockId
+        }
+        descr.items.append(item)
         descr.values.append(nc)
         if (curPilotImgId == nc)
           descr.value = descr.values.len() - 1
@@ -3572,14 +3578,16 @@ function get_option(type, context = null)
     case ::USEROPT_HEADTRACK_SCALE_X:
       descr.id = "headtrack_scale_x"
       descr.controlType = optionControlType.SLIDER
-      descr.value = clamp(::ps4_headtrack_get_xscale(), 5, 100)
+      descr.value = clamp(::ps4_headtrack_get_xscale(), 5, 200)
       descr.min <- 5
+      descr.max <- 200
       break
     case ::USEROPT_HEADTRACK_SCALE_Y:
       descr.id = "headtrack_scale_y"
       descr.controlType = optionControlType.SLIDER
-      descr.value = clamp(::ps4_headtrack_get_yscale(), 5, 100)
+      descr.value = clamp(::ps4_headtrack_get_yscale(), 5, 200)
       descr.min <- 5
+      descr.max <- 200
       break
 
     case ::USEROPT_HUE_ALLY:
@@ -3734,8 +3742,11 @@ function get_option(type, context = null)
         descr.values.append(presets[i]);
       }
 
-      descr.items.append(::loc("options/addUserSight"))
-      descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
+      if (::has_feature("TankAltCrosshair"))
+      {
+        descr.items.append(::loc("options/addUserSight"))
+        descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
+      }
 
       local unit = ::show_aircraft
       descr.value = unit ? ::find_in_array(descr.values, ::get_option_tank_alt_crosshair(unit.name), 0) : 0
@@ -4036,6 +4047,8 @@ function set_option(type, value, descr = null)
     case ::USEROPT_MEASUREUNITS_DIST:
     case ::USEROPT_MEASUREUNITS_CLIMBSPEED:
     case ::USEROPT_MEASUREUNITS_TEMPERATURE:
+    case ::USEROPT_MEASUREUNITS_WING_LOADING:
+    case ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO:
       if (typeof descr.values == "array" && value >= 0 && value < descr.values.len())
       {
         local unitType = 0
@@ -4047,6 +4060,10 @@ function set_option(type, value, descr = null)
           unitType = 3
         else if (type == ::USEROPT_MEASUREUNITS_TEMPERATURE)
           unitType = 4
+        else if (type == ::USEROPT_MEASUREUNITS_WING_LOADING)
+          unitType = 5
+        else if (type == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
+          unitType = 6
         ::set_option_unit_type(unitType, descr.values[value])
       }
       break
@@ -4109,21 +4126,6 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_MOUSE_SMOOTH:
       ::set_option_mouse_smooth(value ? 1 : 0)
-      break
-
-    case ::USEROPT_AIM_TIME_NONLINEARITY_AIR:
-      local val = value / 100.0
-      ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR, val)
-      break
-
-    case ::USEROPT_AIM_TIME_NONLINEARITY_TANK:
-      local val = value / 100.0
-      ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK, val)
-      break
-
-    case ::USEROPT_AIM_TIME_NONLINEARITY_SHIP:
-      local val = value / 100.0
-      ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP, val)
       break
 
     case ::USEROPT_VOLUME_MASTER:
@@ -4233,6 +4235,12 @@ function set_option(type, value, descr = null)
       break;
     case ::USEROPT_AUTOREARM_ON_AIRFIELD:
       ::set_option_autorearm_on_airfield(value)
+      break;
+    case ::USEROPT_SAVE_AI_TARGET_TYPE:
+      ::set_option_ai_target_type(value ? 1 : 0)
+      break;
+    case ::USEROPT_DEFAULT_AI_TARGET_TYPE:
+      ::set_option_default_ai_target_type(value)
       break;
     case ::USEROPT_SHOW_INDICATORS_TYPE:
       local val = ::get_option_indicators_mode() & ~(::HUD_INDICATORS_SELECT|::HUD_INDICATORS_CENTER|::HUD_INDICATORS_ALL);

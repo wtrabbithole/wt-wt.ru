@@ -5,7 +5,7 @@ class ::g_invites_classes.PsnSquad extends ::g_invites_classes.Squad
 
   static function getUidByParams(params)
   {
-    return "PSN_SQ_" + ::getTblValue("invitationId", params, "")
+    return "PSN_SQ_" + ::getTblValue("squadId", params, "")
   }
 
   function updateCustomParams(params, initial = false)

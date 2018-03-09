@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 ::g_ww_map_reinforcement_tab_type <- {
   types = []
   cache = {
@@ -14,7 +16,7 @@
 }
 
 
-::g_enum_utils.addTypesByGlobalName("g_ww_map_reinforcement_tab_type", {
+enums.addTypesByGlobalName("g_ww_map_reinforcement_tab_type", {
   UNKNOWN = {
     code = -1
   }
@@ -104,7 +106,7 @@
 
 function g_ww_map_reinforcement_tab_type::getTypeByCode(code)
 {
-  return ::g_enum_utils.getCachedType(
+  return enums.getCachedType(
     "code",
     code,
     cache.byCode,

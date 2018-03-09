@@ -1,10 +1,11 @@
-function gui_modal_crew(countryId, idInCountry, showTutorial = false)
+function gui_modal_crew(countryId, idInCountry, pageId = null, showTutorial = false)
 {
   if (::has_feature("CrewSkills"))
   {
     local params = {
       countryId = countryId
       idInCountry = idInCountry
+      curPageId = pageId
       showTutorial = showTutorial
     }
     ::gui_start_modal_wnd(::gui_handlers.CrewModalHandler, params)
@@ -52,6 +53,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!crew)
       return goBack()
 
+    local country = ::g_crews_list.get()?[countryId].country
+    if (country)
+      ::switch_profile_country(country)
+
     initMainParams(true, true)
     createSlotbar({
       crewId = crew.id
@@ -66,6 +71,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (showTutorial)
       onUpgrCrewSkillsTutorial()
+    else if (!::g_crew.isAllCrewsMinLevel()
+             && ::g_crew.isAllCrewsHasBasicSpec()
+             && canUpgradeCrewSpec(crew))
+      onUpgrCrewSpec1Tutorial()
   }
 
   function getMainFocusObj()
@@ -198,7 +207,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local maxDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo, false)
     local discountText = maxDiscount > 0? ("-" + maxDiscount + "%") : ""
-    local discountTooltip = ::g_string.stripTags(::g_crew.getDiscountsTooltipByInfo(discountInfo, false))
+    local discountTooltip = ::g_crew.getDiscountsTooltipByInfo(discountInfo, false)
 
     curPage = 0
 
@@ -235,7 +244,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(pagesObj, data, data.len(), this)
 
     pagesObj.setValue(curPage)
-    onCrewPage(pagesObj)
     updateAvailableSkillsIcons()
   }
 
@@ -626,22 +634,31 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         cb = function()
         {
           onApply()
-          local unit = ::g_crew.getCrewUnit(crew)
-          local unitType = ::get_es_unit_type(unit)
-          local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-          local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit)
-          local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
-          local crewLevel = ::g_crew.getCrewLevel(crew, unitType)
-          if (::get_cur_warpoints() < wpSpecCost.wp ||
-              curSpecType != ::g_crew_spec_type.BASIC ||
-              crewLevel >= reqLevel)
-            onUpgrCrewTutorFinalStep()
-          else
+          if (canUpgradeCrewSpec(crew))
             onUpgrCrewSpec1Tutorial()
+          else
+            onUpgrCrewTutorFinalStep()
         }
       }
     ]
     ::gui_modal_tutor(steps, this)
+  }
+
+  function canUpgradeCrewSpec(crew)
+  {
+    local unit = ::g_crew.getCrewUnit(crew)
+    if (!unit)
+      return false
+
+    local esUnitType = unit.esUnitType
+    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
+    local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit)
+    local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
+    local crewLevel = ::g_crew.getCrewLevel(crew, esUnitType)
+
+    return ::get_cur_warpoints() >= wpSpecCost.wp &&
+           curSpecType == ::g_crew_spec_type.BASIC &&
+           crewLevel >= reqLevel
   }
 
   function onUpgrCrewSpec1Tutorial()
@@ -719,13 +736,17 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     crew = getSlotItem(countryId, idInCountry)
     initMainParams()
-    updatePage()
   }
 
   function onEventCrewTakeUnit(p)
   {
-    crew = getSlotItem(countryId, idInCountry)
-    initMainParams(false, true)
+    if (!p?.prevUnit)
+      openSelectedCrew()
+    else
+    {
+      crew = getSlotItem(countryId, idInCountry)
+      initMainParams(false, true)
+    }
     updatePage()
   }
 

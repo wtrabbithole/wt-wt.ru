@@ -240,12 +240,12 @@
                   "refuseOpenHoverMenu": "no",
                   "textarea": {
                     "id": "cluster_select_button_text",
-                    "text": "#options/cluster",
                     "height": "ph",
                     "width": "pw",
+                    "text": "#options/cluster",
                     "pare-text": "yes",
-                    "style": "wrap-indent:0; paragraph-indent:0;",
-                    "input-transparent": "yes"
+                    "input-transparent": "yes",
+                    "class": "buttonText"
                   },
                   "ButtonImg": []
                 }
@@ -376,6 +376,18 @@
                   "class": "buttonText",
                   "text": "#events/join_event"
                 }
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_collapsed_chapter",
+                "text": "#mainmenu/btnExpand",
+                "_on_click": "onCollapsedChapter",
+                "css-hier-invalidate": "yes",
+                "btnName": "A",
+                "display": "hide",
+                "enable": "no",
+                "ButtonImg": []
               }
             },
             {
@@ -577,7 +589,7 @@
                     {
                       "tdiv": {
                         "id": "gamercard_tobattle_bg",
-                        "left": "-1@titleLogoPlatePadding/2",
+                        "pos": "-1@titleLogoPlatePadding/2, 0",
                         "position": "relative",
                         "height": "ph",
                         "background-color": "@gameModeColor",
@@ -746,7 +758,7 @@
                                 "id": "gc_profile",
                                 "tooltip": "#mainmenu/btnProfile",
                                 "_on_click": "onProfile",
-                                "cardImg": {
+                                "cardAvatar": {
                                   "id": "gc_icon"
                                 },
                                 "tdiv": {
@@ -1020,6 +1032,7 @@
         },
         {
           "gamercard": {
+            "id": "gamercard_bottom",
             "BottomMenuPanel": [
               {
                 "shadowSafeArea": []

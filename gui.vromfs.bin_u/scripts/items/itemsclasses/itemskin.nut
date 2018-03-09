@@ -15,13 +15,11 @@ class ::items_classes.Skin extends ItemExternal {
 
   function getTagsLoc()
   {
-    local res = []
-    if (!metaBlk?.resourceType)
-      return res
+    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+      return false
     local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
-    res.append(::loc("trophy/unlockables_names/" + metaBlk.resourceType))
-    res.extend(decoratorType.getTagsLoc(itemDef.tags))
-    return res
+    local decorator = ::g_decorator.getDecorator(metaBlk.resource, decoratorType)
+    return decorator ? decorator.getTagsLoc() : []
   }
 
   function canConsume()

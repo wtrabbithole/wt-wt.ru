@@ -1,0 +1,157 @@
+{
+  "damage": [
+    {
+      "preset": {
+        "param": "bulletType",
+        "presets": "config/damageModel.blk:bulletTypes",
+        "target": ""
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:kineticEnergyToDamage/default",
+        "target": "damage/kinetic/kineticEnergyToDamage"
+      }
+    },
+    {
+      "alias": {
+        "param": "hitPowerMult",
+        "alias": "damage/kinetic/damage"
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:defaultKineticDamageProps",
+        "target": "damage/kinetic",
+        "checkTargetExists": true
+      }
+    },
+    {
+      "alias": {
+        "param": "cumulativeDamage/armorPower",
+        "alias": "damage/cumulative/penetration"
+      }
+    },
+    {
+      "alias": {
+        "param": "cumulativeDamage/damage",
+        "alias": "damage/cumulative/damage"
+      }
+    },
+    {
+      "alias": {
+        "param": "cumulativeDamage/distance",
+        "alias": "damage/cumulative/distance"
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:defaultCumulativeDamageProps",
+        "target": "damage/cumulative",
+        "checkTargetExists": true
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:defaultSplashDamageProps",
+        "target": "damage/splash",
+        "checkTargetExists": true
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:defaultShatterDamageProps",
+        "target": "damage/shatter",
+        "checkTargetExists": true
+      }
+    },
+    {
+      "preset": {
+        "param": "secondaryShattersPreset",
+        "presets": "config/damageModel.blk:secondaryShatters",
+        "target": "damage/secondaryShatter"
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:defaultSecondaryShatterDamageProps",
+        "target": "damage/secondaryShatter",
+        "checkTargetExists": true
+      }
+    },
+    {
+      "extends": {
+        "source": "config/damageModel.blk:explosiveTypeToSplashParams",
+        "target": "damage/explosive/explosiveTypeToSplash",
+        "checkTargetExists": true
+      }
+    },
+    {
+      "preset": {
+        "param": "explosiveType",
+        "presets": "config/damageModel.blk:explosiveTypes",
+        "target": "damage/explosive"
+      }
+    }
+  ],
+  "ballistics": [
+    {
+      "preset": {
+        "param": "bulletType",
+        "presets": "config/damageModel.blk:bulletTypes",
+        "target": ""
+      }
+    },
+    {
+      "preset": {
+        "param": "slopeEffectPreset",
+        "presets": "config/damageModel.blk:slopeEffectPresets",
+        "target": "ballistics/slopeEffect/table"
+      }
+    },
+    {
+      "preset": {
+        "param": "normalizationPreset",
+        "presets": "config/damageModel.blk:normalizationPresets",
+        "target": "ballistics/normalization/table"
+      }
+    },
+    {
+      "preset": {
+        "param": "ricochetPreset",
+        "presets": "config/damageModel.blk:ricochetPresets",
+        "target": "ballistics/ricochet/table"
+      }
+    },
+    {
+      "alias": {
+        "block": "stabilityRicochetModifier",
+        "alias": "ballistics/stability/stabilityRicochetModifier"
+      }
+    },
+    {
+      "alias": {
+        "param": "stabilityThreshold",
+        "alias": "ballistics/stability/stabilityThreshold"
+      }
+    },
+    {
+      "alias": {
+        "param": "stabilityCaliberToArmorThreshold",
+        "alias": "ballistics/stability/stabilityCaliberToArmorThreshold"
+      }
+    },
+    {
+      "alias": {
+        "param": "stabilityReductionAfterRicochet",
+        "alias": "ballistics/stability/stabilityReductionAfterRicochet"
+      }
+    },
+    {
+      "alias": {
+        "param": "stabilityReductionAfterPenetration",
+        "alias": "ballistics/stability/stabilityReductionAfterPenetration"
+      }
+    }
+  ]
+}

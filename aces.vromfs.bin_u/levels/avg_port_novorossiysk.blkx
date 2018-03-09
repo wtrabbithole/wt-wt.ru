@@ -9,6 +9,9 @@
     "mandatoryLandquality": 1
   },
   {
+    "impostorsDistAdditionalMul": 2.0
+  },
+  {
     "tag": "avg_port_novorossiysk"
   },
   {
@@ -28,9 +31,6 @@
   },
   {
     "gridSteps": [2048.0,2048.0]
-  },
-  {
-    "gridZeroPoint": [-32768.0,-32768.0]
   },
   {
     "gridSize": [16384.0,16384.0]
@@ -102,10 +102,53 @@
     "vsmAngleThreshold": 20.0
   },
   {
-    "wetnessPowerScale": 1.0
+    "puddlesPowerScale": 1.0
   },
   {
-    "wetnessFreq": 0.75
+    "puddlesSpread": 0.75
+  },
+  {
+    "micro_details": [
+      {
+        "micro_detail": "microdetail_stone_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_scan_gravel_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_sand_c_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_scan_mud_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_generic_granules_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_scan_grass_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_forest_floor_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_fabric_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_wood_b_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_metal_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_sand_c_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_generic_granules_a_tex_n*"
+      },
+      {
+        "land_micro_details_uv_scale": 0.51
+      }
+    ]
   },
   {
     "weather": {
@@ -135,7 +178,8 @@
       "ocean0": [0.27,0.68,0.53,0.0],
       "ocean1": [0.57,0.91,0.84,0.0],
       "river0": [0.5,0.35,0.12,0.0],
-      "river1": [0.36,0.41,0.17,0.0]
+      "river1": [0.36,0.41,0.17,0.0],
+      "min_land_height": 0.2
     }
   },
   {
@@ -355,38 +399,38 @@
         "lod2": 2280.0
       },
       "nvrsk_op_ussr_freight_car_1926": {
-        "lod0": 90.0,
-        "lod1": 420.0,
+        "lod0": 590.0,
+        "lod1": 820.0,
         "lod2": 1700.0,
         "lod3": 3700.0
       },
       "nvrsk_op_ussr_freight_car_1926_dmg": {
-        "lod0": 90.0,
-        "lod1": 310.0,
+        "lod0": 490.0,
+        "lod1": 810.0,
         "lod2": 1510.0,
         "lod3": 3200.0
       },
       "nvrsk_op_t_34_1941_57_turret": {
-        "lod0": 80.0,
-        "lod1": 420.0,
+        "lod0": 380.0,
+        "lod1": 620.0,
         "lod2": 1600.0,
         "lod3": 3300.0
       },
       "nvrsk_op_t_34_1941_57_hull": {
-        "lod0": 90.0,
-        "lod1": 430.0,
+        "lod0": 390.0,
+        "lod1": 630.0,
         "lod2": 1500.0,
         "lod3": 3150.0
       },
       "nvrsk_op_pzkpfw_V_ausf_a_panther_turret": {
-        "lod0": 82.0,
-        "lod1": 450.0,
+        "lod0": 382.0,
+        "lod1": 650.0,
         "lod2": 1600.0,
         "lod3": 3300.0
       },
       "nvrsk_op_pzkpfw_V_ausf_a_panther_hull": {
-        "lod0": 90.0,
-        "lod1": 430.0,
+        "lod0": 390.0,
+        "lod1": 630.0,
         "lod2": 1500.0,
         "lod3": 3150.0
       },
@@ -973,81 +1017,81 @@
         "lod0": 0.0
       },
       "nvrsk_op_1_floors_a": {
-        "lod0": 200.0,
-        "lod1": 300.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_1_floors_b": {
-        "lod0": 200.0,
-        "lod1": 300.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_1_floors_c": {
-        "lod0": 200.0,
-        "lod1": 300.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_2_floors_a": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_2_floors_b": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_2_floors_c": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_2_floors_d": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_3_floors_a": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_3_floors_b": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1700.0,
+        "lod0": 1000.0,
+        "lod1": 1300.0,
+        "lod2": 2300.0,
         "lod3": 3600.0
       },
       "nvrsk_op_3_floors_c": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1800.0,
+        "lod0": 1000.0,
+        "lod1": 1500.0,
+        "lod2": 2500.0,
         "lod3": 3800.0
       },
       "nvrsk_op_port_authority": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1800.0,
+        "lod0": 1000.0,
+        "lod1": 1500.0,
+        "lod2": 2500.0,
         "lod3": 3800.0
       },
       "nvrsk_op_power_station": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1800.0,
+        "lod0": 1000.0,
+        "lod1": 1500.0,
+        "lod2": 2500.0,
         "lod3": 3800.0
       },
       "nvrsk_op_railroad_station": {
-        "lod0": 200.0,
-        "lod1": 500.0,
-        "lod2": 1800.0,
+        "lod0": 1000.0,
+        "lod1": 1500.0,
+        "lod2": 2500.0,
         "lod3": 3800.0
       }
     }

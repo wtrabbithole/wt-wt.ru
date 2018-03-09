@@ -1,8 +1,6 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-const PLAYERS_IN_FIRST_TABLE_IN_FFA = 16
-
 ::team_aircraft_list <- null
 
 
@@ -188,16 +186,14 @@ function build_mp_table(table, markupData, hdr, max_rows)
       }
       else if (hdr[j] == "name")
       {
-        local textDiv = "textareaNoTab"
-        local nameWidth = ((hdr[j] in markup)&&("width" in markup[hdr[j]]))?markup[hdr[j]].width:"0.5pw-0.035sh"
-        local nameAlign = isRowInvert ? "text-align:t='right' " : ""
-
         local nameText = platformModule.getPlayerName(item) || ""
-        if (!isEmpty && "clanTag" in table[i] && table[i].clanTag != "")
-          nameText = table[i].clanTag + " " + nameText
+        if (!isEmpty)
+          nameText = ::g_string.implode([table[i]?.clanTag ?? "", nameText], " ")
 
+        local nameWidth = markup?[hdr[j]]?.width ?? "0.5pw-0.035sh"
+        local nameAlign = isRowInvert ? "text-align:t='right' " : ""
         tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s'; pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s"
-          nameWidth, textDiv, nameAlign, nameText, textPadding
+          nameWidth, "textareaNoTab", nameAlign, nameText, textPadding
         )
 
         if (!isEmpty)
@@ -361,11 +357,12 @@ function set_mp_table(obj_tbl, table, params)
     else
       objTr = obj_tbl.getChild(i)
 
-    objTr.inactive = (i >= numTblRows)? "yes" : "no"
+    local isEmpty = i >= numTblRows
+    objTr.inactive = isEmpty? "yes" : "no"
+    objTr.show(!isEmpty || i < max_rows)
     if (i >= numRows)
       continue
 
-    local isEmpty = i >= numTblRows
     local isInGame = true
     if (!isEmpty && needColorizeNotInGame)
     {
@@ -451,16 +448,13 @@ function set_mp_table(obj_tbl, table, params)
       }
       else if (hdr == "name")
       {
-        local objName = objTd.findObject("name-text")
-        local objDlcImg = objTd.findObject("dlc-ico")
         local nameText = ""
 
         if (!isEmpty)
         {
-          nameText = item
-          local prepPlayer = false
-          if ("clanTag" in table[i] && table[i].clanTag != "")
-            nameText = table[i].clanTag + " " + platformModule.getPlayerName(nameText)
+          nameText = platformModule.getPlayerName(item)
+          nameText = ::g_string.implode([table[i]?.clanTag ?? "", nameText], " ")
+
           if (("invitedName" in table[i]) && table[i].invitedName != item)
           {
             local color = ""
@@ -470,23 +464,18 @@ function set_mp_table(obj_tbl, table, params)
               else if (obj_tbl.team == "blue")
                 color = "teamBlueInactiveColor"
 
-            local playerName = table[i].invitedName
-            if (color != "")
-              playerName = ::colorize(color, platformModule.getPlayerName(table[i].invitedName))
+            local playerName = ::colorize(color, platformModule.getPlayerName(table[i].invitedName))
             nameText = ::format("%s... %s", platformModule.getPlayerName(nameText), playerName)
           }
-
-          if (objName)
-            objName.setValue(nameText)
-
-          if (objDlcImg)
-            objDlcImg.show(false)
         }
-        else
-        {
-          if (objName)     objName.setValue("")
-          if (objDlcImg)   objDlcImg.show(false)
-        }
+
+        local objName = objTd.findObject("name-text")
+        if (::check_obj(objName))
+          objName.setValue(nameText)
+
+        local objDlcImg = objTd.findObject("dlc-ico")
+        if (::check_obj(objDlcImg))
+          objDlcImg.show(false)
 
         if (!isEmpty)
         {
@@ -587,7 +576,7 @@ function set_mp_table(obj_tbl, table, params)
             else
             {
               local unitId = !isEmpty ? ::getTblValue("aircraftName", table[i], "") : ""
-              text = (unitId != "") ? ::loc(::getUnitName(unitId, true)) : ""
+              text = (unitId != "") ? ::loc(::getUnitName(unitId, true)) : "..."
               tooltip = (unitId != "") ? ::loc(::getUnitName(unitId, false)) : ""
             }
           }
@@ -1204,10 +1193,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         sortTable(commonTbl)
         if (commonTbl.len() > 0)
         {
-          local lastRow = PLAYERS_IN_FIRST_TABLE_IN_FFA - 1
+          local lastRow = numMaxPlayers - 1
           if (objTbl.id == "table_kills_team2")
           {
-            minRow = commonTbl.len() <= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 0 : PLAYERS_IN_FIRST_TABLE_IN_FFA
+            minRow = commonTbl.len() <= numMaxPlayers ? 0 : numMaxPlayers
             lastRow = commonTbl.len()
           }
 
@@ -1228,7 +1217,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         tbl = ::get_mplayers_list(team, true)
     }
     else if (!isTeamplay && customTbl && objTbl.id == "table_kills_team2")
-      minRow = PLAYERS_IN_FIRST_TABLE_IN_FFA
+      minRow = numMaxPlayers
 
     if (objTbl.id == "table_kills_team2")
     {
@@ -1292,6 +1281,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local tblObj1 = scene.findObject("table_kills_team1")
     local tblObj2 = scene.findObject("table_kills_team2")
     local team1Root = scene.findObject("team1-root")
+    updateNumMaxPlayers()
 
     if (!isTeamplay)
     {
@@ -1301,11 +1291,11 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       local tbl2 = []
       numRows1 = tbl1.len()
       numRows2 = 0
-      if (tbl1.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA)
+      if (tbl1.len() >= numMaxPlayers)
       {
-        numRows1 = numRows2 = PLAYERS_IN_FIRST_TABLE_IN_FFA
+        numRows1 = numRows2 = numMaxPlayers
 
-        for(local i = tbl1.len()-1; i >= PLAYERS_IN_FIRST_TABLE_IN_FFA; --i)
+        for(local i = tbl1.len()-1; i >= numMaxPlayers; --i)
         {
           if (!(i in tbl1))
             continue
@@ -1331,7 +1321,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         local tbl = ::get_mplayers_list(playerTeam, true)
         numRows1 = numMaxPlayers
         numRows2 = 0
-        createKillsTbl(tblObj1, tbl, {num_rows = numMaxPlayers, showAircrafts = showAircrafts})
+        createKillsTbl(tblObj1, tbl, {num_rows = numRows1, showAircrafts = showAircrafts})
       }
       else
       {
@@ -2003,6 +1993,37 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                                    "activeTextColor"))
     }
   }
+
+  function updateNumMaxPlayers(shouldHideRows = false)
+  {
+     local tblObj1 = scene.findObject("table_kills_team1")
+     if (!::checkObj(tblObj1))
+       return
+
+     local curValue = numMaxPlayers
+     numMaxPlayers = ::ceil(tblObj1.getParent().getSize()[1]/(::to_pixels("1@rows16height") || 1)).tointeger()
+     if (!shouldHideRows || curValue <= numMaxPlayers)
+       return
+
+     hideTableRows(tblObj1, numMaxPlayers, curValue)
+     tblObj1 = scene.findObject("table_kills_team2")
+     if (!::checkObj(tblObj1))
+       return
+     hideTableRows(tblObj1, numMaxPlayers, curValue)
+  }
+
+  function hideTableRows(tblObj, minRow, maxRow)
+  {
+    for (local i = minRow; i < maxRow; i++)
+    {
+      if (tblObj.childrenCount() < i)
+        return
+
+      tblObj.getChild(i).show(false)
+    }
+
+  }
+
 }
 
 class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics

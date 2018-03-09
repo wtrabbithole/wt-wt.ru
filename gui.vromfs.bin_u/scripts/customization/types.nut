@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local guidParser = require("scripts/guidParser.nut")
 local time = require("scripts/time.nut")
 
@@ -34,15 +35,12 @@ local time = require("scripts/time.nut")
     getLocName = function(decoratorName, addUnitName = false) { return ::loc(decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc(decoratorName + "/desc", "") }
 
-    getTagsLoc = function(tags)
+    function getTypeDesc(decorator)
     {
-      local res = []
-      local blk = ::configs.GUI.get().decorator_tags_visible
-      if (blk)
-        foreach (tagBlk in blk % "i")
-          if (tags?[tagBlk.tag])
-            res.append(::loc("ugc/tag/" + tagBlk.tag))
-      return res
+      local text = ::loc("trophy/unlockables_names/" + resourceType)
+      if (decorator.category != "" && categoryPathPrefix != "")
+        text += ::loc("ui/comma") + ::loc(categoryPathPrefix + decorator.category)
+      return text
     }
 
     getCost = function(decoratorName) { return ::Cost() }
@@ -82,6 +80,7 @@ local time = require("scripts/time.nut")
 
     getBlk = function() { return ::DataBlock() }
     getSpecialDecorator = function(id) { return null }
+    getUgcDecorator = @(id, cache) null
 
     specifyEditableSlot = function(slotIdx) {}
     addDecorator = function(decoratorName) {}
@@ -100,7 +99,7 @@ local time = require("scripts/time.nut")
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_decorator_type", {
+enums.addTypesByGlobalName("g_decorator_type", {
   UNKNOWN = {
   }
 
@@ -111,7 +110,7 @@ local time = require("scripts/time.nut")
     listId = "slots_list"
     listHeaderLocId = "decals"
     currentOpenedCategoryLocalSafePath = "wnd/decalsCategory"
-    categoryPathPrefix = "#decals/category/"
+    categoryPathPrefix = "decals/category/"
     removeDecoratorLocId = "mainmenu/requestDeleteDecal"
     emptySlotLocId = "mainmenu/decalFreeSlot"
     prizeTypeIcon = "#ui/gameuiskin#item_type_decal"
@@ -210,7 +209,7 @@ local time = require("scripts/time.nut")
     listId = "slots_attachable_list"
     listHeaderLocId = "decorators"
     currentOpenedCategoryLocalSafePath = "wnd/attachablesCategory"
-    categoryPathPrefix = "#attachables/category/"
+    categoryPathPrefix = "attachables/category/"
     removeDecoratorLocId = "mainmenu/requestDeleteDecorator"
     emptySlotLocId = "mainmenu/attachableFreeSlot"
     userlogPurchaseIcon = "#ui/gameuiskin#unlock_attachable"
@@ -313,6 +312,15 @@ local time = require("scripts/time.nut")
       return ::loc(decoratorName + "/desc", ::loc(defaultLocId))
     }
 
+    function getTypeDesc(decorator)
+    {
+      local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decorator.id))
+      if (!unit)
+        return ::loc("trophy/unlockables_names/skin")
+      return ::loc("reward/skin_for") + " " +
+        ::getUnitName(unit) + ::loc("ui/comma") + ::loc(::getUnitCountry(unit))
+    }
+
     getCost = function(decoratorName)
     {
       local unitName = ::g_unlocks.getPlaneBySkinId(decoratorName)
@@ -345,26 +353,38 @@ local time = require("scripts/time.nut")
 
     getSpecialDecorator = function(id)
     {
-      if (guidParser.isGuid(id))
-        return ::Decorator(id, this)
       if (::g_unlocks.getSkinNameBySkinId(id) == "default")
         return ::Decorator(id, this)
       return null
+    }
+
+    getUgcDecorator = function(id, cache)
+    {
+      if (id in cache)
+        return cache[id]
+
+      local isUgcDownloaded = guidParser.isGuid(::g_unlocks.getSkinNameBySkinId(id))
+      local isUgcItemContent = !isUgcDownloaded && guidParser.isGuid(id)
+      if (!isUgcDownloaded && !isUgcItemContent)
+        return null
+
+      cache[id] <- ::Decorator(getBlk()[id] || id, this)
+      return cache[id]
     }
   }
 }, null, "name")
 
 function g_decorator_type::getTypeByListId(listId)
 {
-  return ::g_enum_utils.getCachedType("listId", listId, ::g_decorator_type.cache.byListId, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
+  return enums.getCachedType("listId", listId, ::g_decorator_type.cache.byListId, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }
 
 function g_decorator_type::getTypeByUnlockedItemType(UnlockedItemType)
 {
-  return ::g_enum_utils.getCachedType("unlockedItemType", UnlockedItemType, ::g_decorator_type.cache.byUnlockedItemType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
+  return enums.getCachedType("unlockedItemType", UnlockedItemType, ::g_decorator_type.cache.byUnlockedItemType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }
 
 function g_decorator_type::getTypeByResourceType(resourceType)
 {
-  return ::g_enum_utils.getCachedType("resourceType", resourceType, ::g_decorator_type.cache.byResourceType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
+  return enums.getCachedType("resourceType", resourceType, ::g_decorator_type.cache.byResourceType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }

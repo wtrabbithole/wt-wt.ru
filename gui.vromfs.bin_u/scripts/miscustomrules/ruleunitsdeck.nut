@@ -7,6 +7,12 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
     return ::RESPAWNS_UNLIMITED
   }
 
+  function getRespawnInfoTextForUnitInfo(unit)
+  {
+    return ::loc("multiplayer/leftTeamUnit",
+                 { num = getUnitLeftRespawns(unit) })
+  }
+
   function getUnitLeftRespawns(unit, teamDataBlk = null)
   {
     if (!unit)
@@ -21,7 +27,7 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
     local leftRespawns = getUnitLeftRespawns(unit)
     if (leftRespawns)
       return null
-    return ::loc("multiplayer/noTeamUnitLeft", { unitName = ::colorize("userlogColoredText", ::getUnitName(unit)) })
+    return ::loc("respawn/noUnitLeft", { unitName = ::colorize("userlogColoredText", ::getUnitName(unit)) })
   }
 
   function hasCustomUnitRespawns()

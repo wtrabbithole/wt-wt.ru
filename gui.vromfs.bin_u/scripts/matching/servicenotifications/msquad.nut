@@ -54,15 +54,10 @@ foreach (notificationName, callback in
             ["msquad.notify_member_joined"] = function(params)
               {
                 local userId = ::getTblValue("userId", params, "")
-                if (userId.tostring() != ::my_user_id_str && ::g_squad_manager.isInSquad())
+                if (userId != ::my_user_id_int64 && ::g_squad_manager.isInSquad())
                 {
                   ::g_squad_manager.addMember(userId.tostring())
                   ::g_squad_manager.joinSquadChatRoom()
-                  return
-                }
-                if (userId == ::my_user_id_str && !::g_squad_manager.isInSquad())
-                {
-                  ::g_squad_manager.requestSquadData()
                 }
               },
 
@@ -159,6 +154,21 @@ foreach (notificationName, callback in
               {
                 if (params?.action == "join_ww_battle" && ::is_worldwar_enabled())
                   ::g_world_war.addSquadInviteToWWBattle(params)
+              },
+
+            ["msquad.notify_applications_denied"] = function(params)
+              {
+                local applications = params?.applications
+
+                if (!::u.isArray(applications))
+                  return
+
+                ::g_squad_manager.removeApplication(applications)
+              },
+
+            ["msquad.notify_application_accepted"] = function(params)
+              {
+                ::g_squad_manager.requestSquadData()
               }
           }
         )

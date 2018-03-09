@@ -241,6 +241,15 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     reasonTextObj.setValue(reasonData.reasonText)
 
     showSceneBtn("btn_create_room", ::events.canCreateCustomRoom(event))
+
+    local isHeader = curChapterId != "" && curRoomId == ""
+    local collapsedButtonObj = showSceneBtn("btn_collapsed_chapter", isHeader)
+    if (isHeader)
+    {
+      local isCollapsedChapter = ::isInArray(curChapterId, collapsedChapterNamesArray)
+      startText = ::loc(isCollapsedChapter ? "mainmenu/btnExpand" : "mainmenu/btnCollapse")
+      collapsedButtonObj.setValue(startText)
+    }
   }
 
   function getCurFilter()
@@ -513,6 +522,12 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
             )
   }
 
+  function onCollapsedChapter()
+  {
+    collapse(curChapterId)
+    updateButtons()
+  }
+
   function onCollapse(obj)
   {
     if (!obj)
@@ -532,6 +547,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
         break
       }
     }
+    updateButtons()
   }
 
   function updateCollapseChaptersStatuses()

@@ -99,6 +99,7 @@ function on_mainmenu_return(handler, isAfterLogin)
   ::ItemsManager.updateGamercardIcons()
   ::sysopt.configMaintain()
 
+  ::checkNewNotificationUserlogs()
   ::checkNonApprovedResearches(true, true)
   if (isAllowPopups)
   {
@@ -171,7 +172,7 @@ function on_mainmenu_return(handler, isAfterLogin)
   if (isAllowPopups)
   {
     handler.doWhenActiveOnce("checkNoviceTutor")
-    //handler.doWhenActiveOnce("checkUpgradeCrewTutor") // TODO: Fix the bug 58031
+    handler.doWhenActiveOnce("checkUpgradeCrewTutorial")
     handler.doWhenActiveOnce("initPromoBlock")
 
     local hasModalObjectVal = guiScene.hasModalObject()
@@ -207,8 +208,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
     if (::g_login.isAuthorized())
       base.initScreen()
 
-    if (::check_tutorial_reward())
-      ::reinitAllSlotbars()
+    ::check_tutorial_reward()
 
     updateLowQualityModelWarning()
 
@@ -358,10 +358,5 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
       }
       return !isVisible
     })
-  }
-
-  function onEventBattleTasksFinishedUpdate(p)
-  {
-    ::g_battle_tasks.checkNewSpecialTasks()
   }
 }

@@ -140,7 +140,6 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
           itemIcon = getItemIcon(name)
           id = name
           isSelected = first
-          newIconWidgetLayout = ::NewIconWidget.createLayout()
           discountText = discount > 0? ("-" + discount + "%") : null
         }
         data += ::handyman.renderCached("gui/missions/missionBoxItem", view)
@@ -549,7 +548,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onOnlinePurchase(task)
   {
     local payMethods = yuplay2_get_payment_methods()
-    if (!payMethods || !::has_feature("PaymentMethods"))
+    if (!payMethods || ::steam_is_running() || !::has_feature("PaymentMethods"))
       return ::OnlineShopModel.doBrowserPurchase(task)
 
     local items = []

@@ -22,29 +22,38 @@ class ::Input.Axis extends ::Input.InputBase
 
   function getMarkup()
   {
-    local template = ""
-    local view = {}
+    local data = getMarkupData()
+    return ::handyman.renderCached(data.template, data.view)
+  }
+
+  function getMarkupData()
+  {
+    local data = {
+      template = ""
+      view = {}
+    }
+
     if (deviceId == ::JOYSTICK_DEVICE_0_ID)
     {
       local axis = GAMEPAD_AXIS.NOT_AXIS
       if (axisId >= 0)
         axis = 1 << axisId
-      view.buttonImage <- ::getTblValue(axis | axisModifyer, ::gamepad_axes_images, "")
+      data.view.buttonImage <- ::getTblValue(axis | axisModifyer, ::gamepad_axes_images, "")
 
-      template = "gui/shortcutAxis"
+      data.template = "gui/shortcutAxis"
     }
     else if (deviceId == ::STD_MOUSE_DEVICE_ID)
     {
-      template = "gui/shortcutAxis"
-      view.buttonImage <- ::getTblValue(mouseAxis | axisModifyer, ::mouse_axes_to_image, "")
+      data.template = "gui/shortcutAxis"
+      data.view.buttonImage <- ::getTblValue(mouseAxis | axisModifyer, ::mouse_axes_to_image, "")
     }
     else
     {
-      view.text <- getText()
-      template = "gui/keyboardButton"
+      data.view.text <- getText()
+      data.template = "gui/keyboardButton"
     }
 
-    return ::handyman.renderCached(template, view)
+    return data
   }
 
   function getText()

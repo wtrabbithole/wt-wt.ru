@@ -157,6 +157,17 @@ tdiv {
       <<^isLast>>
       gcBtnLine {}
       <</isLast>>
+
+      <<#unseenIconMainButton>>
+      unseenIcon {
+        id:t='<<tmId>>_new_icon'
+        value:t='<<unseenIconMainButton>>'
+        pos:t='0, 50%ph-50%h'
+        position:t='relative'
+        noMargin:t='yes'
+        margin-left:t='1@blockInterval'
+      }
+      <</unseenIconMainButton>>
     }
   }
   <</section>>

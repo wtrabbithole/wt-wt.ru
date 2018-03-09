@@ -43,3 +43,45 @@ newIconWidget[widgetClass=text] > newIconWidgetImg, [widgetClass=text] > newIcon
   pos:0, 50%ph-50%h;
   position:relative;
 }
+
+
+unseenIcon {
+  behaviour:bhvUnseen;
+  height:1@newWidgetIconHeight;
+  min-width:1@newWidgetIconHeight;
+  margin:@blockInterval;
+  padding:0.5h, 0, 0, 0;
+  re-type:fgPict;
+  foreground-color:@white;
+  foreground-image:#ui/gameuiskin#new_icon;
+  foreground-repeat:aspect-ratio;
+  foreground-align:left;
+  display:hide;
+}
+
+unseenIcon[position=absolute],
+unseenIcon[noMargin=yes] {
+  margin:0;
+}
+
+unseenIcon[isActive=yes] {
+  display:show;
+}
+
+unseenText {
+  height:ph;
+  re-type:text;
+  padding:0.5h + 3@sf/@pf, 3@dp + 3@sf/@pf, 6@dp + 3@sf/@pf, 3@dp;
+  background-color:@white;
+  background-image:#ui/gameuiskin#new_icon_bg;
+  background-repeat:expand;
+  background-position:5;
+
+  color:@black;
+  font:@fontSmall;
+  display:hide;
+}
+
+unseenText[isActive=yes] {
+  display:show;
+}

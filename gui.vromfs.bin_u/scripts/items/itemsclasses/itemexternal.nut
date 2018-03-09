@@ -1,5 +1,8 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local guidParser = require("scripts/guidParser.nut")
+local itemRarity = require("scripts/items/itemRarity.nut")
+local time = require("scripts/time.nut")
 
 local emptyBlk = ::DataBlock()
 
@@ -9,9 +12,15 @@ local ItemExternal = class extends ::BaseItem
   static isUseTypePrefixInName = false
   static descHeaderLocId = ""
   static openingCaptionLocId = "mainmenu/itemConsumed/title"
+  static linkActionLocId = "msgbox/btn_find_on_marketplace"
+  static linkActionIcon = "#ui/gameuiskin#gc.svg"
+  static userlogOpenLoc = "coupon_exchanged"
+  static linkBigQueryKey = "marketplace_item"
   static isPreferMarkupDescInTooltip = true
   static isDescTextBeforeDescDiv = false
   static hasRecentItemConfirmMessageBox = false
+
+  rarity = null
 
   itemDef = null
   metaBlk = null
@@ -23,6 +32,8 @@ local ItemExternal = class extends ::BaseItem
     itemDef = itemDefDesc
     id = itemDef.itemdefid
 
+    rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
+
     link = inventoryClient.getMarketplaceItemUrl(id, itemDesc?.itemid) || ""
     forceExternalBrowser = true
 
@@ -31,6 +42,7 @@ local ItemExternal = class extends ::BaseItem
       isInventoryItem = true
       uids = [ itemDesc.itemid ]
       amount = itemDesc.quantity
+      lastChangeTimestamp = time.getTimestampFromIso8601(itemDesc?.timestamp)
     }
 
     local meta = getTblValue("meta", itemDef)
@@ -41,7 +53,7 @@ local ItemExternal = class extends ::BaseItem
       }
     }
 
-    addLocalization()
+    addResources()
   }
 
   function tryAddItem(itemDefDesc, itemDesc)
@@ -50,23 +62,25 @@ local ItemExternal = class extends ::BaseItem
       return false
     uids.append(itemDesc.itemid)
     amount += itemDesc.quantity
+    lastChangeTimestamp = ::max(lastChangeTimestamp, time.getTimestampFromIso8601(itemDesc?.timestamp))
     return true
   }
 
   function getName(colored = true)
   {
     local text = itemDef?.name ?? ""
-    if (colored && itemDef.name_color && itemDef.name_color.len() > 0)
-      text = ::colorize("#" + itemDef.name_color, text)
     if (isUseTypePrefixInName)
       text = getTypeName() + " " + text
+    if (colored)
+      text = ::colorize(getRarityColor(), text)
     return text
   }
 
   function getDescription()
   {
-    local desc = []
-    desc.append(itemDef?.description ?? "")
+    local desc = [
+      getResourceDesc()
+    ]
 
     local tags = getTagsLoc()
     if (tags.len())
@@ -75,9 +89,8 @@ local ItemExternal = class extends ::BaseItem
       desc.append(::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tags, ::loc("ui/comma")))
     }
 
-    local canSell = itemDef?.marketable
-    desc.append(::colorize(canSell ? "goodTextColor" : "badTextColor",
-      ::loc("item/marketable/" + (canSell ? "yes" : "no"), { name =  getTypeName() } )))
+    desc.append(itemDef?.description ?? "")
+
     return ::g_string.implode(desc, "\n\n")
   }
 
@@ -98,24 +111,70 @@ local ItemExternal = class extends ::BaseItem
     return ::loc(openingCaptionLocId)
   }
 
+  function isAllowSkipOpeningAnim()
+  {
+    return true
+  }
+
   function getLongDescriptionMarkup(params = null)
   {
-    if (!metaBlk)
-      return ""
-
     params = params || {}
-    params.header <- ::colorize("grayOptionColor", ::loc(descHeaderLocId))
-    params.showAsTrophyContent <- true
-    params.receivedPrizes <- false
-    if (metaBlk.resourceType && metaBlk.resource && guidParser.isGuid(metaBlk.resource))
-      params.tags <- itemDef?.tags
+    local content = []
+    local desc = [ getMarketablePropDesc() ]
 
-    return ::PrizesView.getPrizesListView([ metaBlk ], params)
+    if (metaBlk)
+    {
+      desc.append(::colorize("grayOptionColor", ::loc(descHeaderLocId)))
+      content = [ metaBlk ]
+      params.showAsTrophyContent <- true
+      params.receivedPrizes <- false
+      params.relatedItem <- id
+    }
+
+    params.header <- ::u.map(desc, @(par) { header = par })
+    return ::PrizesView.getPrizesListView(content, params)
+  }
+
+  function getMarketablePropDesc()
+  {
+    local canSell = itemDef?.marketable
+    return ::loc("currency/gc/sign/colored", "") + " " +
+      ::colorize(canSell ? "userlogColoredText" : "badTextColor",
+      ::loc("item/marketable/" + (canSell ? "yes" : "no"), { name =  ::g_string.utf8ToLower(getTypeName()) } ))
+  }
+
+  function getResourceDesc()
+  {
+    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+      return ""
+    local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
+    local decorator = ::g_decorator.getDecorator(metaBlk.resource, decoratorType)
+    if (!decorator)
+      return ""
+    return ::g_string.implode([
+      decorator.getTypeDesc()
+      decorator.getRestrictionsDesc()
+    ], "\n")
+  }
+
+  function isRare()
+  {
+    return rarity.isRare
+  }
+
+  function getRarity()
+  {
+    return rarity.value
+  }
+
+  function getRarityColor()
+  {
+    return  rarity.color
   }
 
   function getTagsLoc()
   {
-    return []
+    return rarity.tag ? [ rarity.tag ] : []
   }
 
   function canConsume()
@@ -135,13 +194,19 @@ local ItemExternal = class extends ::BaseItem
     if (!metaBlk)
       return false
 
+    local canSell = itemDef?.marketable
     local text = ::loc("recentItems/useItem", { itemName = ::colorize("activeTextColor", getName()) })
-    if (itemDef?.marketable)
-      text += "\n" + ::loc("msgBox/coupon_will_be_spent")
+      + "\n" + ::loc("msgBox/coupon_exchange")
+    local msgboxParams = {
+      cancel_fn = @() null
+      baseHandler = ::get_cur_base_gui_handler()
+      data_below_text = ::PrizesView.getPrizesListView([ metaBlk ], { showAsTrophyContent = true, widthByParentParent = true })
+      data_below_buttons = canSell ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent"))) : null
+    }
     ::scene_msg_box("coupon_exchange", null, text, [
       [ "yes", ::Callback(@() doConsumeItem(cb, params), this) ],
       [ "no" ]
-    ], "yes", { cancel_fn = function() {} })
+    ], "yes", msgboxParams)
     return true
   }
 
@@ -164,16 +229,27 @@ local ItemExternal = class extends ::BaseItem
     ::g_tasker.addTask(taskId, { showProgressBox = true }, taskCallback)
   }
 
-  function addLocalization() {
-    if (!metaBlk)
+  function addResources() {
+    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
       return
     local resource = metaBlk.resource
-    if (!resource)
-      return
     if (!guidParser.isGuid(resource))
       return
 
-    ::add_rta_localization(resource, itemDef?.name ?? "")
+    ::g_decorator.buildUgcDecoratorFromResource(metaBlk.resource, metaBlk.resourceType, itemDef)
+    ::add_rta_localization(metaBlk.resource, itemDef?.name ?? "")
+  }
+
+  function getRelatedRecipes()
+  {
+    local res = []
+    foreach (genItemdefId in inventoryClient.getChestGeneratorItemdefIds(id))
+    {
+      local gen = ItemGenerators.get(genItemdefId)
+      if (gen)
+        res.extend(gen.getRecipesWithComponent(id))
+    }
+    return res
   }
 }
 

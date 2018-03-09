@@ -1,10 +1,10 @@
 local textInputBase = require("daRg/components/textInput.nut")
 local colors = require("../style/colors.nut")
-local background = require("../style/hudBackground.nut")
+local setHudBg = require("../style/hudBackground.nut")
 
 
 local hudFrame = function(inputObj, group, sf) {
-  return {
+  return setHudBg({
     size = [flex(), SIZE_TO_CONTENT]
     fillColor = colors.hud.componentFill
     borderColor = colors.hud.componentBorder
@@ -12,7 +12,7 @@ local hudFrame = function(inputObj, group, sf) {
     padding = [hdpx(5) , hdpx(15)]
 
     children = inputObj
-  }.patchComponent(background)
+  })
 }
 
 

@@ -1,7 +1,41 @@
+tostring_r <- require("std/string.nut").tostring_r
+vlog_r <- function(val, maxdeeplevel=null) {
+  local out = tostring_r(val, " ", maxdeeplevel)
+  vlog(out.slice(0,min(out.len(),200)))
+}
+print_r <- function(val, maxdeeplevel=null) {
+  print(tostring_r(val," ", maxdeeplevel) + "\n")
+}
+dlog <- function(val, maxdeeplevel=null) { vlog_r(val, maxdeeplevel); print_r(val, maxdeeplevel) }
+
+function isDargComponent(comp) {
+//better to have natived daRg function to check if it is valid component!
+  local c = comp
+  if (::type(c) == "function") {
+    local info = c.getinfos()
+    if (info?.parameters && info?.parameters.len() > 1)
+      return false
+    c = c()
+  }
+  local c_type = ::type(c)
+  if (c_type == "null")
+    return true
+  if (c_type != "table" && c_type != "class")
+    return false
+  local knownProps = ["size","rendObj","children","watch","behavior","halign","valign","flow","pos","hplace","vplace"]
+  foreach(k,val in c) {
+    if (knownProps.find(k) != null)
+      return true
+    else
+      return false
+  }
+}
+
+
 function with_table(tbl, func) {
   local roottbl = ::getroottable()
   local accessor = class {
-    _get = @(field) tbl.get(field) || roottbl[field]
+    _get = @(field) tbl?[field] ?? roottbl[field]
     _set = @(field, val) tbl[field] <- val
   }()
 
@@ -11,7 +45,7 @@ function with_table(tbl, func) {
 }
 
 /*
-  this function is safe wrapper to arraya.extend(). Can handle obj and val of any type.
+  this function is safe wrapper to array.extend(). Can handle obj and val of any type.
 */
 function extend_to_array (obj, val) {
   if (obj != null) {
@@ -103,12 +137,12 @@ function insert_array(array, index, value) {
   } else {
     local prev_len = array.len()
     local head_len = index
-    local add_elems = value.len()
+    local add_elems = (type(value)=="array") ? value.len() : 1
     local tail = array.slice(index)
     array.resize(prev_len + add_elems)
     foreach (idx, val in array) {
       if (idx >= head_len && idx < head_len + add_elems)
-        array[idx] = value[idx - head_len]
+        array[idx] = (type(value)=="array") ? value[idx - head_len] : value
       if (idx >= head_len + add_elems)
         array[idx] = tail[idx - head_len - add_elems]
     }

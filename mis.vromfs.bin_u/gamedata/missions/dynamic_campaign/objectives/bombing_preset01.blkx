@@ -24,7 +24,6 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "campaign": "pacific",
-      "windDirection": [1.0,0.0,0.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -61,6 +60,7 @@
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
+      "viewAreaScale": 2.0,
       "part": [
         {
           "event": ""
@@ -192,6 +192,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "enemy_all"
             },
             {
@@ -215,6 +224,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "#ally_bombers_group"
@@ -255,6 +273,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "#bomb_target_cover"
             },
             {
@@ -268,6 +295,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#bomb_targets",
             "targetableByAi": false
           }
@@ -356,6 +386,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_fighters_group",
             "speed": 250.0
           }
@@ -373,6 +406,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_bombers_group",
             "speed": 250.0
           }
@@ -457,6 +493,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#player_cut.any",
             "speed": 250.0
           }
@@ -476,6 +515,9 @@
             "time": -1.0,
             "priority": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -529,6 +571,9 @@
             "time": -1.0,
             "priority": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -573,6 +618,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#player.bomber",
             "move_type": "teleport",
             "lookat": "target_waypoint_bombers",
@@ -613,7 +661,10 @@
           "isOverFade": false,
           "time": -1.0,
           "priority": 0,
-          "target_marking": 0
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "missionSetFade": {
           "mode": "fadeOut",
@@ -641,6 +692,9 @@
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
           "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#player.bomber",
           "move_type": "teleport",
           "lookat": "target_waypoint_bombers",
@@ -698,6 +752,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_bombers_group",
             "speed": 250.0
           }
@@ -715,6 +772,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_fighters_group",
             "speed": 250.0
           }
@@ -783,6 +843,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "#ally_bombers_group",
             "target_type": "isFormationLeader"
           }
@@ -884,6 +947,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "#enemy_fighters_group01"
           },
           {
@@ -926,6 +998,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#ally_bombers_group"
         }
       },
@@ -965,6 +1040,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#enemy_fighters_group02"
         }
       },
@@ -1075,6 +1153,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "#enemy_fighters_group02"
           },
           {
@@ -1146,6 +1233,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "#player.bomber"
           },
           {
@@ -1201,6 +1297,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "#ally_bombers_group"
           }
         },
@@ -1220,6 +1319,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#bomb_target_cover",
             "effShootingRate": 0.8
           }
@@ -1242,6 +1344,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_bombers_group"
           }
         },
@@ -1255,6 +1360,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_bombers_group",
             "effShootingRate": 0.1
           }
@@ -1268,6 +1376,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "#bomb_targets"
           }
         },
@@ -1334,6 +1445,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "#enemy_fighters_group03"
           },
           {
@@ -1376,6 +1496,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#bomb_targets"
         },
         "varCompareInt": {
@@ -1408,6 +1531,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "#bomb_targets"
           }
         },
@@ -1548,6 +1674,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#bomb_targets"
         }
       },
@@ -1622,6 +1751,9 @@
             "time": -1.0,
             "priority": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1646,6 +1778,9 @@
             "time": -1.0,
             "priority": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1699,7 +1834,10 @@
           "isOverFade": false,
           "time": -1.0,
           "priority": 0,
-          "target_marking": 0
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "triggerEnable": {
           "target": "evac_start"
@@ -1758,6 +1896,9 @@
             "icon": "air",
             "icon army": 2,
             "set": false,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "#bomb_targets",
             "var": "indicator_count"
           }
@@ -1810,6 +1951,9 @@
           "check_objects": "any",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#bomb_targets"
         }
       },
@@ -1887,6 +2031,9 @@
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
           "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "enemy_all"
         }
       },
@@ -1920,6 +2067,9 @@
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#player_cut.any",
             "move_type": "teleport",
             "lookat": "evac",
@@ -1965,6 +2115,9 @@
             "time": -1.0,
             "priority": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1989,6 +2142,9 @@
             "time": -1.0,
             "priority": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -2049,7 +2205,10 @@
           "isOverFade": false,
           "time": -1.0,
           "priority": 0,
-          "target_marking": 0
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "triggerEnable": {
           "target": "miss_complete"
@@ -2152,6 +2311,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#player.bomber"
         }
       },
@@ -2196,6 +2358,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#player.bomber"
         }
       },
@@ -2241,6 +2406,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#bomb_targets",
             "var": "kill_count"
           }
@@ -2251,6 +2419,9 @@
             "object_marking": 0,
             "func": "notLess",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#bomb_targets",
             "var": "indicator_count"
           }
@@ -2293,6 +2464,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#bomb_targets",
           "var": "indicator_count"
         }
@@ -2331,6 +2505,9 @@
           "icon": "air",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "#bomb_targets",
           "var": "indicator_count"
         }
@@ -2452,6 +2629,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "#ally_bombers_group",
             "plane": {
               "targetDeviation": {
@@ -2556,6 +2736,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#player.bomber"
         }
       },
@@ -2591,6 +2774,9 @@
           "object_marking": 0,
           "func": "notMore",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "#player.bomber"
         }
       },
@@ -2626,6 +2812,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "enemy_all",
           "var": "fighters_kill_count"
         }

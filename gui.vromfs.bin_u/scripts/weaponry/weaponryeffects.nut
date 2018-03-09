@@ -1,4 +1,5 @@
-local string = ::require("sqStdLibs/common/string.nut")
+local enums = ::require("std/enums.nut")
+local string = ::require("std/string.nut")
 
 const GOOD_COLOR = "@goodTextColor"
 const BAD_COLOR = "@badTextColor"
@@ -117,7 +118,7 @@ local effectsType = {
   template = effectTypeTemplate
 }
 
-::g_enum_utils.addTypes(effectsType, [
+enums.addTypes(effectsType, [
   { id = "armor",                  measureType = "percent" }
   { id = "cutProbability",         measureType = "percent" }
   { id = "overheadCooldown",       measureType = "percent", isInverted = true }
@@ -255,7 +256,7 @@ local weaponEffectsType = {
   template = effectTypeTemplate
 }
 
-::g_enum_utils.addTypes(weaponEffectsType, [
+enums.addTypes(weaponEffectsType, [
   { id = "spread",                 measureType = MEASURE_UNIT_ALT, isInverted = true }
   { id = "overheat",               preset = "PERCENT_FLOAT" }
 ],

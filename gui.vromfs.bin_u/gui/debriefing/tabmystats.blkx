@@ -359,14 +359,37 @@
             },
             {
               "debrBlock": {
-                "id": "researches_block",
+                "id": "right_block",
                 "size": "2@slot_width +2@debrPad +1@scrollBarSize, ph",
+                "flow": "vertical",
                 "debrSeparator": {
                   "class": "left"
                 },
+                "debrBlock": {
+                  "id": "battle_tasks_block",
+                  "width": "pw",
+                  "max-height": "0.5ph",
+                  "margin": "1@debrPad, 0",
+                  "flow": "vertical",
+                  "activeText": {
+                    "text": "#debriefing/battletasks",
+                    "margin-top": "1@debrPad"
+                  },
+                  "listbox": {
+                    "id": "current_battle_tasks",
+                    "width": "pw",
+                    "margin-bottom": "1@debrPad",
+                    "overflow-y": "auto",
+                    "flow": "vertical",
+                    "scrollbarShortcuts": "left"
+                  },
+                  "debrSeparator": {
+                    "class": "bottom"
+                  }
+                },
                 "tdiv": {
                   "id": "researches_scroll_block",
-                  "size": "pw, ph",
+                  "size": "pw, fh",
                   "overflow-y": "auto",
                   "scrollbarShortcuts": "left",
                   "tdiv": [

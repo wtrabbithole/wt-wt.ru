@@ -59,16 +59,9 @@ local tabs = function (holder, tab) {
       return tab(item, item == items.currentTab, @() items.onChange(item))
     })
 
-    return holder.patchComponent(function (comp) {
-      return function () {
-        local result = comp
-        if (typeof comp == "function") {
-          result = comp()
-        }
-        result.children <- extend_to_array(result?.children, children)
-        return result
-      }
-    })
+    local result = (typeof holder == "function") ? holder() : holder
+    result.children <- extend_to_array(result?.children, children)
+    return result
   }
 }
 
