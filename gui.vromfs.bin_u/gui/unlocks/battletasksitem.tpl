@@ -295,7 +295,7 @@ collapsedContainer {
       top:t='50%ph-50%h'
       position:t='relative'
       width:t='0.4@arrowButtonWidth'
-      value:t='<<progressValue>>'
+      value:t='<<progressBarValue>>'
     }
     <<#needShowProgressValue>>
     textarea {

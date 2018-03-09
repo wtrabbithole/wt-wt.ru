@@ -132,18 +132,19 @@ enum itemType { //bit values for easy multitype search
   DISCOUNT       = 0x0010
   ORDER          = 0x0020
   FAKE_BOOSTER   = 0x0040
-  SKIN           = 0x0080
-  DECAL          = 0x0100
-  CHEST          = 0x0200
-  VEHICLE        = 0x0400
-  UNIVERSAL_SPARE = 0x0800
+  UNIVERSAL_SPARE= 0x0080
+  VEHICLE        = 0x0100
+  SKIN           = 0x0200
+  DECAL          = 0x0400
+  KEY            = 0x0800
+  CHEST          = 0x1000
 
   //entitlement items
   //WARPOINTS    = 0x0002
   //PREMIUM      = 0x0004
   //GOLD         = 0x0008
 
-  ALL          = 0x0FFF
+  ALL          = 0xFFFF
 }
 
 enum prizesStack {
@@ -201,6 +202,19 @@ enum squadMemberState
 const PS4_CHUNK_HISTORICAL_CAMPAIGN = 11
 const PS4_CHUNK_FULL_CLIENT_DOWNLOADED = 19
 const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
+
+enum COLOR_TAG {
+  ACTIVE = "av"
+  USERLOG = "ul"
+  TEAM_BLUE = "tb"
+  TEAM_RED = "tr"
+}
+local colorTagToColors = {
+  [COLOR_TAG.ACTIVE] = "activeTextColor",
+  [COLOR_TAG.USERLOG] = "userlogColoredText",
+  [COLOR_TAG.TEAM_BLUE] = "teamBlueColor",
+  [COLOR_TAG.TEAM_RED] = "teamRedColor",
+}
 
 function randomize()
 {
@@ -324,8 +338,13 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
 
 //------- vvv files after login vvv ----------
 
-function load_scripts_after_login()
+local isFullScriptsLoaded = false
+function load_scripts_after_login_once()
 {
+  if (isFullScriptsLoaded)
+    return
+  isFullScriptsLoaded = true
+
   foreach (fn in [
     "ranks.nut"
     "difficulty.nut"
@@ -334,7 +353,6 @@ function load_scripts_after_login()
     "airInfo.nut"
     "options/optionsExt.nut"
     "options/initOptions.nut"
-    "utils/systemMsg.nut"
 
     "gamercard.nut"
     "popups/popups.nut"
@@ -747,6 +765,8 @@ function load_scripts_after_login()
   // Independed Modules
   ::require("scripts/social/playerInfoUpdater.nut")
   // end of Independed Modules
+
+  ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)
 }
 
 //app does not exist on script load, so we cant to use ::app->shouldDisableMenu
@@ -760,7 +780,7 @@ function should_disable_menu()
 if (::g_login.isAuthorized() //scripts reload
     || ::should_disable_menu())
 {
-  ::load_scripts_after_login()
+  ::load_scripts_after_login_once()
   if (!::g_script_reloader.isInReloading)
     ::run_reactive_gui()
 }

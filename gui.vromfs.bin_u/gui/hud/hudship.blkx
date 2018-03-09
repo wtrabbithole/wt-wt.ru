@@ -14,14 +14,6 @@
     }
   },
   {
-    "div": {
-      "id": "display_timers",
-      "position": "root",
-      "left": "sw/2 - w/2",
-      "bottom": "@bhHud + 0.15@shHud"
-    }
-  },
-  {
     "tdiv": {
       "position": "absolute",
       "pos": "pw - w, ph - h",
@@ -502,10 +494,16 @@
         "id": "hud_hints_nest"
       },
       {
-        "size": "pw, ph"
+        "width": "(2/3) * sw"
+      },
+      {
+        "pos": "0.5pw-0.5w, @hintAboveActionBarPos -h"
       },
       {
         "position": "absolute"
+      },
+      {
+        "flow": "vertical"
       },
       {
         "css-hier-invalidate": "yes"
@@ -516,13 +514,13 @@
       {
         "tdiv": [
           {
-            "width": "(2/3) * sw"
+            "width": "pw"
           },
           {
             "position": "absolute"
           },
           {
-            "pos": "pw/2 - w/2, 0.67@shHud - h"
+            "pos": "pw/2 - w/2, -h"
           },
           {
             "flow": "vertical"
@@ -550,21 +548,54 @@
         ]
       },
       {
-        "tdiv": {
-          "id": "tutorial_hints",
+        "hudMessages": {
+          "id": "hud_message_zone_capture_notification",
           "width": "pw",
-          "position": "absolute",
-          "pos": "pw/2 - w/2, 0.67@shHud",
-          "flow": "vertical"
+          "height": "0.065@shHud",
+          "message_style": "zone_capture_notification"
         }
       },
       {
-        "hudMessages": {
-          "id": "hud_message_zone_capture_notification",
-          "position": "absolute",
-          "pos": "pw/2 - w/2, 0.67@shHud",
+        "div": {
+          "id": "display_timers",
+          "height": "0.08@shHud",
+          "position": "relative",
+          "left": "pw/2 - w/2"
+        }
+      },
+      {
+        "tdiv": {
+          "width": "1@shHud",
+          "height": "0.065@shHud",
+          "left": "0.5pw-0.5w",
+          "position": "relative",
+          "tdiv": {
+            "width": "pw",
+            "position": "absolute",
+            "pos": "0, ph-h",
+            "flow": "vertical",
+            "textAreaCentered": {
+              "id": "low-quality-model-warning",
+              "width": "pw",
+              "style": "color:@warningTextColor; font:@fontHudNormal;",
+              "text": "#low_quality_model_in_hangar",
+              "display": "hide"
+            },
+            "tdiv": {
+              "id": "actionbar_hints",
+              "width": "pw",
+              "flow": "vertical"
+            }
+          }
+        }
+      },
+      {
+        "tdiv": {
+          "id": "tutorial_hints",
           "width": "pw",
-          "message_style": "zone_capture_notification"
+          "position": "root",
+          "pos": "50%sw-50%w, 1@bhHud + 0.67@shHud",
+          "flow": "vertical"
         }
       },
       {
@@ -572,28 +603,8 @@
           "id": "minor_priority_hints",
           "width": "pw",
           "position": "root",
-          "pos": "0, @shHud - h",
+          "pos": "50%sw-50%w, @shHud - h",
           "flow": "vertical"
-        }
-      },
-      {
-        "tdiv": {
-          "width": "1@shHud",
-          "pos": "0.5sw-0.5w, @hintAboveActionBarPos -h",
-          "position": "root",
-          "flow": "vertical",
-          "textAreaCentered": {
-            "id": "low-quality-model-warning",
-            "width": "pw",
-            "style": "color:@warningTextColor; font:@fontHudNormal;",
-            "text": "#low_quality_model_in_hangar",
-            "display": "hide"
-          },
-          "tdiv": {
-            "id": "actionbar_hints",
-            "width": "pw",
-            "flow": "vertical"
-          }
         }
       }
     ]

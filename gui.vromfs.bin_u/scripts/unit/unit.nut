@@ -78,7 +78,7 @@ local Unit = class
    isToStringForDebug = true
 
    //!!FIX ME: params below are still set from outside of unit
-   _modificatorsRequested = false
+   modificatorsRequestTime = -1
    modificators = null //{} or null
    modificatorsBase = null //{} or null
    minChars = null //{} or null
@@ -302,6 +302,14 @@ local Unit = class
   function _tostring()
   {
     return "Unit( " + name + " )"
+  }
+
+  function canAssignToCrew(country)
+  {
+    return ::getUnitCountry(this) == country &&
+           isUsable() &&
+           ::is_unit_visible_in_shop(this) &&
+           unitType.isAvailable()
   }
 
   /*************************************************************************************************/

@@ -105,6 +105,9 @@
 
   function reinit()
   {
+    if (!::g_login.isLoggedIn())
+      return
+
     updateUnitInfo()
     update()
   }
@@ -117,13 +120,18 @@
     unit = ::getAircraftByName(hangarUnitName)
     if( ! unit)
       return
-    unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
+    loadUnitBlk()
     local map = ::getTblValue("xray", unitBlk)
     xrayRemap = map ? ::u.map(map, function(val) { return val }) : {}
     resetXrayCache()
     clearHint()
     updateSecondaryMods()
-    clearUnitWeaponBlkList()
+  }
+
+  function loadUnitBlk()
+  {
+    clearUnitWeaponBlkList() //unit weapons are part of unit blk, should be unloaded togeter with unitBlk
+    unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
   }
 
   function getUnitWeaponList()
@@ -145,7 +153,7 @@
       local commonWeapons = ::getCommonWeaponsBlk(unitBlk, modName)
       if(commonWeapons != null)
         foreach (weapon in (commonWeapons % "Weapon"))
-          unitWeaponBlkList.push(weapon)
+          ::u.appendOnce(weapon, unitWeaponBlkList, false, ::u.isEqual)
     }
 
     foreach (preset in (unitBlk.weapon_presets % "preset"))
@@ -154,7 +162,7 @@
         continue
       local presetBlk = ::DataBlock(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
-        unitWeaponBlkList.push(weapon)
+        ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
     }
   }
 

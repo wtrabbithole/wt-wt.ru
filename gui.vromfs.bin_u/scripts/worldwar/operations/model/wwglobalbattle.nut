@@ -48,6 +48,28 @@ local WwGlobalBattle = class extends ::WwBattle
   {
     return sidesByCountry?[country] ?? ::SIDE_NONE
   }
+
+  function hasUnitsToFight(country)
+  {
+    local side = getSideByCountry(country)
+    foreach(teamData in teams)
+    {
+      if (teamData.side != side)
+        continue
+
+      foreach(unitData in teamData.unitsRemain)
+      {
+        local unit = ::all_units?[unitData.name]
+        if (!unit)
+          continue
+
+        if (unit.canAssignToCrew(country))
+          return true
+      }
+    }
+
+    return false
+  }
 }
 
 u.registerClass("WwGlobalBattle", WwGlobalBattle, @(b1, b2) b1.id == b2.id)

@@ -28,6 +28,8 @@ local WwOperationPreloader = class
     isRequestInProgress = true
     lastRequestTimeMsec = ::dagor.getCurTime()
 
+    ::ww_stop_preview()
+
     local operationId = curTask.operationId
     local taskId = ::ww_preview_operation(operationId)
     local accessCb = ::Callback(

@@ -1,25 +1,24 @@
 local MRoomsHandlers = class {
-  hostId = null
-  roomId = null
+  [PERSISTENT_DATA_PARAMS] = [
+    "hostId", "roomId", "room", "roomMembers", "isConnectAllowed", "roomOps", "isHostReady", "isSelfReady", "isLeaving"
+  ]
+
+  hostId = null //user host id
+  roomId = INVALID_ROOM_ID
   room   = null
-  roomMembers = []
-  connectAllowed = null
-  roomOps = {}
-  hostReady = null
-  selfReady = null
-  leaving = null
+  roomMembers = null //[]
+  isConnectAllowed = false
+  roomOps = null //{}
+  isHostReady = false
+  isSelfReady = false
+  isLeaving = false
 
   constructor()
   {
-    hostId = null
-    roomId = null
-    room   = null
     roomMembers = []
-    connectAllowed = null
     roomOps = {}
-    hostReady = null
-    selfReady = null
-    leaving = null
+
+    ::g_script_reloader.registerPersistentData("MRoomsHandlers", this, this[PERSISTENT_DATA_PARAMS])
 
     foreach (notificationName, callback in
               {
@@ -57,29 +56,29 @@ local MRoomsHandlers = class {
       return
 
     hostId = null
-    roomId = null
+    roomId = INVALID_ROOM_ID
     room   = null
     roomMembers = []
     roomOps = {}
-    connectAllowed = null
-    hostReady = null
-    selfReady = null
-    leaving = null
+    isConnectAllowed = false
+    isHostReady = false
+    isSelfReady = false
+    isLeaving = false
 
     notify_room_destroyed({})
   }
 
   function __onHostConnectReady()
   {
-    hostReady = true
-    if (selfReady)
+    isHostReady = true
+    if (isSelfReady)
       __connectToHost()
   }
 
   function __onSelfReady()
   {
-    selfReady = true
-    if (hostReady)
+    isSelfReady = true
+    if (isHostReady)
       __connectToHost()
   }
 
@@ -130,8 +129,8 @@ local MRoomsHandlers = class {
     if (user_id == hostId)
     {
       hostId = null
-      connectAllowed = null
-      hostReady = null
+      isConnectAllowed = false
+      isHostReady = false
     }
 
     if (user_id in roomOps)
@@ -164,7 +163,7 @@ local MRoomsHandlers = class {
       if (readyStatus == true)
         __onSelfReady()
       else if (readyStatus == false)
-        selfReady = false
+        isSelfReady = false
     }
   }
 
@@ -202,12 +201,8 @@ local MRoomsHandlers = class {
 
   function __isNotifyForCurrentRoom(notify)
   {
-    if (leaving) // ignore all room notifcations after leave has been called
-      return true
-
-    if (roomId == notify.roomId)
-      return true
-    return false
+    // ignore all room notifcations after leave has been called
+    return !isLeaving && roomId != INVALID_ROOM_ID && roomId == notify.roomId
   }
 
   function __connectToHost()
@@ -341,7 +336,7 @@ local MRoomsHandlers = class {
 
     if (notify.message == "connect-allowed")
     {
-      connectAllowed = true
+      isConnectAllowed = true
       __connectToHost()
     }
   }
@@ -358,7 +353,7 @@ local MRoomsHandlers = class {
     if (getTblValue("connect_on_join", room.public))
     {
       dagor.debug("room with auto-connect feature")
-      selfReady = true
+      isSelfReady = true
       __onSelfReady()
     }
   }
@@ -417,7 +412,7 @@ function join_room(params, cb)
 function leave_room(params, cb)
 {
   local oldRoomId = g_mrooms_handlers.getRoomId()
-  g_mrooms_handlers.leaving = true
+  g_mrooms_handlers.isLeaving = true
 
   matching_api_func("mrooms.leave_room",
                     function(resp)
@@ -506,13 +501,12 @@ function serialize_dyncampaign(params, cb)
 
 function get_current_room()
 {
-  local roomId = ::g_mrooms_handlers.getRoomId()
-  return roomId ? roomId : INVALID_ROOM_ID
+  return ::g_mrooms_handlers.getRoomId()
 }
 
 function leave_session()
 {
-  if (::g_mrooms_handlers.getRoomId())
+  if (::g_mrooms_handlers.getRoomId() != INVALID_ROOM_ID)
     leave_room({}, function(resp) {})
 }
 

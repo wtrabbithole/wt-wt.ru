@@ -429,6 +429,9 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   {
     base.onDifficultyChange(obj)
     updateSceneDifficulty()
+
+    ::set_option(::USEROPT_DIFFICULTY, obj.getValue(), findOptionInContainers(::USEROPT_DIFFICULTY))
+    updateOption(::USEROPT_LOAD_FUEL_AMOUNT)
   }
 
   function updateSceneDifficulty()

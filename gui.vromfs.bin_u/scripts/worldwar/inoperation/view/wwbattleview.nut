@@ -53,16 +53,16 @@ class ::WwBattleView
     return ::loc("worldWar/battleName", {number = battle.getOrdinalNumber()})
   }
 
-  function defineTeamBlock(sides)
+  function defineTeamBlock(playerSide, sides)
   {
-    teamBlock = getTeamBlockByIconSize(sides, WW_ARMY_GROUP_ICON_SIZE.BASE)
+    teamBlock = getTeamBlockByIconSize(playerSide, sides, WW_ARMY_GROUP_ICON_SIZE.BASE)
   }
 
   function getTeamDataBySide(playerSide, sides, iconSize = null)
   {
     iconSize = iconSize || WW_ARMY_GROUP_ICON_SIZE.BASE
 
-    local currentTeamBlock = getTeamBlockByIconSize(sides, iconSize, true)
+    local currentTeamBlock = getTeamBlockByIconSize(playerSide, sides, iconSize, true)
     local teamName = "team" + battle.getTeamNameBySide(playerSide)
 
     foreach(team in currentTeamBlock)
@@ -72,32 +72,32 @@ class ::WwBattleView
     return null
   }
 
-  function getTeamBlockByIconSize(sides, iconSize, isInBattlePanel = false, param = null)
+  function getTeamBlockByIconSize(playerSide, sides, iconSize, isInBattlePanel = false, param = null)
   {
     if (iconSize == WW_ARMY_GROUP_ICON_SIZE.MEDIUM)
     {
       if (largeArmyGroupIconTeamBlock == null)
-        largeArmyGroupIconTeamBlock = getTeamsData(sides, iconSize, isInBattlePanel, param)
+        largeArmyGroupIconTeamBlock = getTeamsData(playerSide, sides, iconSize, isInBattlePanel, param)
 
       return largeArmyGroupIconTeamBlock
     }
     else if (iconSize == WW_ARMY_GROUP_ICON_SIZE.SMALL)
     {
       if (mediumArmyGroupIconTeamBlock == null)
-        mediumArmyGroupIconTeamBlock = getTeamsData(sides, iconSize, isInBattlePanel, param)
+        mediumArmyGroupIconTeamBlock = getTeamsData(playerSide, sides, iconSize, isInBattlePanel, param)
 
       return mediumArmyGroupIconTeamBlock
     }
     else
     {
       if (teamBlock == null)
-        teamBlock = getTeamsData(sides, WW_ARMY_GROUP_ICON_SIZE.BASE, isInBattlePanel, param)
+        teamBlock = getTeamsData(playerSide, sides, WW_ARMY_GROUP_ICON_SIZE.BASE, isInBattlePanel, param)
 
       return teamBlock
     }
   }
 
-  function getTeamsData(sides, iconSize, isInBattlePanel, param)
+  function getTeamsData(playerSide, sides, iconSize, isInBattlePanel, param)
   {
     local teams = []
     local maxSideArmiesNumber = 0
@@ -124,7 +124,11 @@ class ::WwBattleView
         armies.countryIcon = ::get_country_icon(country)
         armies.countryIconBig = ::get_country_icon(country, true)
         foreach(army in armiesArray)
-          armyViews.append(army.getView())
+        {
+          local armyView = army.getView()
+          armyView.setSelectedSide(playerSide)
+          armyViews.append(armyView)
+        }
       }
 
       if (armyViews.len())

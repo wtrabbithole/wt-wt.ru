@@ -1480,10 +1480,10 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
             {
               local src = db.message.slice(1, idxLast)
               local text = db.message.slice(idxLast+1)
-              addRoomMsg(roomId, src, ::g_chat.clampMsg(text), false, false, mpostColor)
+              addRoomMsg(roomId, src, text, false, false, mpostColor)
             }
             else
-              addRoomMsg(roomId, "", ::g_chat.clampMsg(db.message), false, false, xpostColor)
+              addRoomMsg(roomId, "", db.message, false, false, xpostColor)
           }
     }
     else if (db.type == "groupchat" || db.type == "chat")
@@ -1556,7 +1556,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
             ::sync_handler_simulate_signal("profile_reload")
         }
       }
-      addRoomMsg(roomId, userContact || user, ::g_chat.clampMsg(message),
+      addRoomMsg(roomId, userContact || user, message,
                  privateMsg, myPrivate, null, important)
     }
     else if (db.type == "error")

@@ -9733,10 +9733,7 @@
       "type": "skin",
       "chapter": "skins",
       "group": "aircraft_germany",
-      "mode": {
-        "type": "char_unit_exist",
-        "unit": "fw-189a-1"
-      }
+      "hideUntilUnlocked": true
     }
   },
   {
@@ -29732,6 +29729,18 @@
           }
         }
       ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_pzkpfw_V_ersatz_m10/germ_ersatz_m10_skin",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": {
+        "type": "char_unit_exist",
+        "unit": "germ_pzkpfw_V_ersatz_m10"
+      }
     }
   },
   {
@@ -101735,79 +101744,6 @@
             "condition": {
               "type": "location",
               "location": "midway"
-            }
-          }
-        ]
-      },
-      {
-        "stage": {
-          "param": 10,
-          "amount_warpoints": 100,
-          "amount_exp": 50
-        }
-      },
-      {
-        "stage": {
-          "param": 50,
-          "amount_warpoints": 1000,
-          "amount_exp": 100
-        }
-      },
-      {
-        "stage": {
-          "param": 200,
-          "amount_warpoints": 10000,
-          "amount_exp": 500
-        }
-      }
-    ]
-  },
-  {
-    "unlockable": [
-      {
-        "id": "ch_missions_coral"
-      },
-      {
-        "type": "challenge"
-      },
-      {
-        "amount_exp": 0
-      },
-      {
-        "chapter": "challenges"
-      },
-      {
-        "mode": [
-          {
-            "type": "missionsWonScore"
-          },
-          {
-            "mulArcade": 1
-          },
-          {
-            "mulRealistic": 2
-          },
-          {
-            "mulHardcore": 3
-          },
-          {
-            "num": 200
-          },
-          {
-            "condition": {
-              "type": "activity",
-              "percent": 50
-            }
-          },
-          {
-            "condition": {
-              "type": "online"
-            }
-          },
-          {
-            "condition": {
-              "type": "location",
-              "location": "water"
             }
           }
         ]

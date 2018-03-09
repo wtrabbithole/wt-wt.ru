@@ -32,6 +32,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   roomCreationContext = false //check enbled by roomCreation context
   availableUnits = null //available units table
   eventId = null //string. Used to check unit availability
+  gameModeName = null //string. Custom mission name for unit select option filter
 
   toBattle = false //has toBattle button
   haveRespawnCost = false //!!FIX ME: should to take this from mission rules
@@ -45,6 +46,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
                              //must call one of listed callbacks on finidh.
                              //when onContinueCb will be called, slotbar will aplly unit selection
                              //when onCancelCb will be called, slotbar will return selection to previous state
+  beforeCountrySelect = null //similar beforeSlotbarSelect method applied before country select
   afterSlotbarSelect = null //function() will be called after unit selection applied.
   onSlotDblClick = null //function(crew) when not set will open unit modifications window
   onCountryChanged = null //function()
@@ -125,7 +127,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     //update callbacks
     foreach(funcName in ["beforeSlotbarSelect", "afterSlotbarSelect", "onSlotDblClick", "onCountryChanged",
-        "beforeFullUpdate", "afterFullUpdate", "onSlotBattleBtn"])
+        "beforeFullUpdate", "afterFullUpdate", "onSlotBattleBtn", "beforeCountrySelect"])
       if (this[funcName])
         this[funcName] = callback.make(this[funcName], ownerWeak)
   }
@@ -412,15 +414,32 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSlotbarCountry(obj)
   {
+    local countryData = getCountryDataByObject(obj)
     if (::slotbar_oninit || skipCheckCountrySelect)
     {
-      onSlotbarCountryImpl(obj)
+      onSlotbarCountryImpl(obj, countryData)
       skipCheckCountrySelect = false
     }
-    else if (!shouldCheckQueue)
+    else if (beforeCountrySelect)
+      beforeCountrySelect(
+        ::Callback(function () {
+          switchSlotbarCountry(obj, countryData)
+        }, this),
+        ::Callback(function () {
+          setCountry(::get_profile_info().country)
+        }, this),
+        countryData
+      )
+    else
+      switchSlotbarCountry(obj, countryData)
+  }
+
+  function switchSlotbarCountry(obj, countryData)
+  {
+    if (!shouldCheckQueue)
     {
       if (checkSelectCountryByIdx(obj))
-        onSlotbarCountryImpl(obj)
+        onSlotbarCountryImpl(obj, countryData)
     }
     else
     {
@@ -429,7 +448,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
       checkedCrewModify((@(obj) function() {
           if (::checkObj(obj))
-            onSlotbarCountryImpl(obj)
+            onSlotbarCountryImpl(obj, countryData)
         })(obj),
         (@(obj) function() {
           if (::checkObj(obj))
@@ -454,29 +473,40 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       }
   }
 
-  function onSlotbarCountryImpl(obj)
+  function getCountryDataByObject(obj)
   {
-    if (!::checkObj(obj))
-      return
+    if (!::check_obj(obj))
+      return null
 
     local curValue = obj.getValue()
     if (obj.childrenCount() <= curValue)
-      return
+      return null
 
     local countryIdx = ::to_integer_safe(
       ::getObjIdByPrefix(obj.getChild(curValue), "slotbar-country"), curSlotCountryId)
+    local country = ::g_crews_list.get()[countryIdx].country
+
+    return {
+      idx = countryIdx
+      country = country
+    }
+  }
+
+  function onSlotbarCountryImpl(obj, countryData)
+  {
+    if (!::check_obj(obj) || !countryData)
+      return
 
     if (!singleCountry)
     {
       if (!checkSelectCountryByIdx(obj))
         return
 
-      onSlotbarSelect(obj.findObject("airs_table_"+countryIdx))
-      local c = ::g_crews_list.get()[countryIdx].country
-      ::switch_profile_country(c)
+      onSlotbarSelect(obj.findObject("airs_table_" + countryData.idx))
+      ::switch_profile_country(countryData.country)
     }
     else
-      onSlotbarSelect(obj.findObject("airs_table_"+countryIdx))
+      onSlotbarSelect(obj.findObject("airs_table_" + countryData.idx))
 
     onSlotbarCountryChanged()
   }
@@ -641,7 +671,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       if (!::check_obj(obj))
         continue
 
-      local box = ::GuiBox().setFromDaguiObj(obj.findObject("slots_header_"))
+      local box = ::GuiBox().setFromDaguiObj(obj.findObject("hdr_block"))
       if (res)
         res.addBox(box)
       else

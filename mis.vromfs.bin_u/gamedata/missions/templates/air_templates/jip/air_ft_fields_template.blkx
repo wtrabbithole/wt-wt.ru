@@ -81,6 +81,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "all_bomb_targets_squad",
             "targetableByAi": false,
             "isImmortal": true,
@@ -92,6 +95,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "ft_t1_small_aaa_squad"
@@ -123,6 +135,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "ft_t1_big_aaa_squad"
@@ -968,6 +989,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ft_distance_check_t1_airfield_name",
             "target": "@ft_generate_t1_target_name",
             "compareCenters": false
@@ -2089,6 +2113,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ft_distance_check_t2_airfield_name",
             "target": "@ft_generate_t2_target_name",
             "compareCenters": false
@@ -5223,6 +5250,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ft_detect_t1_bomb_target_name",
             "target": "t2_players_squad",
             "var": "ft_t2_detection_range",
@@ -6044,6 +6074,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ft_detect_t2_bomb_target_name",
             "target": "t1_players_squad",
             "var": "ft_t1_detection_range",
@@ -7230,6 +7263,9 @@
               "object_type": "isActive",
               "object_marking": 0,
               "check_objects": "any",
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ft_capture_t1_airfield_target_name",
               "target": "@ft_capture_t1_frontline_name"
             }
@@ -7240,6 +7276,9 @@
               "object_type": "isActive",
               "object_marking": 0,
               "check_objects": "any",
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ft_capture_t1_airfield_target_name",
               "target": "@ft_capture_t1_prev_frontline_name"
             }
@@ -7483,6 +7522,9 @@
               "object_type": "isActive",
               "object_marking": 0,
               "check_objects": "any",
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ft_capture_t2_airfield_target_name",
               "target": "@ft_capture_t2_frontline_name"
             }
@@ -7493,6 +7535,9 @@
               "object_type": "isActive",
               "object_marking": 0,
               "check_objects": "any",
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ft_capture_t2_airfield_target_name",
               "target": "@ft_capture_t2_prev_frontline_name"
             }
@@ -7771,14 +7816,9 @@
             }
           },
           {
-            "triggerEnable": [
-              {
-                "target": "st_t1_fuel_rotator"
-              },
-              {
-                "target": "st_t1_rearm_rotator"
-              }
-            ]
+            "triggerEnable": {
+              "target": "st_t1_landing_start"
+            }
           }
         ]
       },
@@ -7801,6 +7841,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@st_t1_generate_name"
           }
         },
@@ -7874,6 +7917,9 @@
           {
             "unitSetProperties": {
               "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_t1_generate_name",
               "realisticAI": false,
               "stabInfluenceEnabled": true
@@ -7892,6 +7938,9 @@
               "shouldKeepFormation": false,
               "teleportHeightValue": 1000.0,
               "horizontalDirectionForTeleport": true,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_t1_generate_name",
               "altRange": [2500.0,3000.0]
             }
@@ -8061,6 +8110,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@st_t1_despawn_name"
           }
         },
@@ -8230,14 +8282,9 @@
             }
           },
           {
-            "triggerEnable": [
-              {
-                "target": "st_t2_fuel_rotator"
-              },
-              {
-                "target": "st_t2_rearm_rotator"
-              }
-            ]
+            "triggerEnable": {
+              "target": "st_t2_landing_start"
+            }
           }
         ]
       },
@@ -8260,6 +8307,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@st_t2_generate_name"
           }
         },
@@ -8333,6 +8383,9 @@
           {
             "unitSetProperties": {
               "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_t2_generate_name",
               "realisticAI": false,
               "stabInfluenceEnabled": true
@@ -8351,6 +8404,9 @@
               "shouldKeepFormation": false,
               "teleportHeightValue": 1000.0,
               "horizontalDirectionForTeleport": true,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_t2_generate_name",
               "altRange": [2500.0,3000.0]
             }
@@ -8514,6 +8570,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@st_t2_despawn_name"
           }
         },
@@ -8538,6 +8597,76 @@
       "sentinells_landing": {
         "isCategory": true,
         "is_enabled": true,
+        "st_t1_landing_start": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 1.0
+            }
+          },
+          "conditions": {
+            "varCompareBool": {
+              "var_value": "st_is_landing_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          "actions": {
+            "comment": {
+              "value": "разрешены посадки на аэродром"
+            },
+            "triggerEnable": [
+              {
+                "target": "st_t1_fuel_rotator"
+              },
+              {
+                "target": "st_t1_rearm_rotator"
+              }
+            ]
+          },
+          "else_actions": []
+        },
+        "st_t2_landing_start": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 1.0
+            }
+          },
+          "conditions": {
+            "varCompareBool": {
+              "var_value": "st_is_landing_alowed",
+              "value": true,
+              "comparasion_func": "equal"
+            }
+          },
+          "actions": {
+            "comment": {
+              "value": "разрешены посадки на аэродром"
+            },
+            "triggerEnable": [
+              {
+                "target": "st_t2_fuel_rotator"
+              },
+              {
+                "target": "st_t2_rearm_rotator"
+              }
+            ]
+          },
+          "else_actions": []
+        },
         "st_t1_fuel_rotator": {
           "is_enabled": false,
           "comments": "",
@@ -8728,6 +8857,11 @@
               "comment": {
                 "value": "проверяем уровень топлива"
               }
+            },
+            {
+              "triggerEnable": {
+                "target": "st_t2_fuel_check"
+              }
             }
           ],
           "else_actions": {
@@ -8767,6 +8901,9 @@
                 "object_marking": 0,
                 "target_type": "isAlive",
                 "check_period": 1.0,
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
                 "object": "@st_fuel_t1_sentinell_name"
               }
             },
@@ -8777,6 +8914,9 @@
                 "object_marking": 0,
                 "target_type": "isAlive",
                 "check_period": 1.0,
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
                 "object": "@st_fuel_t1_sentinell_name"
               }
             }
@@ -8856,6 +8996,9 @@
                 "object_marking": 0,
                 "target_type": "isAlive",
                 "check_period": 1.0,
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
                 "object": "@st_fuel_t2_sentinell_name"
               }
             },
@@ -8866,6 +9009,9 @@
                 "object_marking": 0,
                 "target_type": "isAlive",
                 "check_period": 1.0,
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
                 "object": "@st_fuel_t2_sentinell_name"
               }
             }
@@ -8927,7 +9073,7 @@
           },
           "events": {
             "periodicEvent": {
-              "time": 1.0
+              "time": 60.0
             }
           },
           "conditions": [],
@@ -8952,7 +9098,7 @@
           },
           "events": {
             "periodicEvent": {
-              "time": 1.0
+              "time": 60.0
             }
           },
           "conditions": [],
@@ -9228,6 +9374,9 @@
               "object_marking": 0,
               "check_objects": "any",
               "afterRepaired": true,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_rearm_t1_sentinell_name",
               "target": "@st_rearm_t1_airfield_name"
             }
@@ -9245,6 +9394,9 @@
               "shouldKeepFormation": false,
               "teleportHeightValue": 1000.0,
               "horizontalDirectionForTeleport": true,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_rearm_t1_sentinell_name",
               "altRange": [2500.0,3000.0]
             },
@@ -9290,6 +9442,9 @@
               "object_marking": 0,
               "check_objects": "any",
               "afterRepaired": true,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_rearm_t2_sentinell_name",
               "target": "@st_rearm_t2_airfield_name"
             }
@@ -9307,6 +9462,9 @@
               "shouldKeepFormation": false,
               "teleportHeightValue": 1000.0,
               "horizontalDirectionForTeleport": true,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@st_rearm_t2_sentinell_name",
               "altRange": [2500.0,3000.0]
             },
@@ -9601,6 +9759,9 @@
             "object_marking": 0,
             "check_objects": "any",
             "afterRepaired": false,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_players_squad",
             "target": "@ft_land_enemy_t1_airfield_name"
           }
@@ -9798,6 +9959,9 @@
             "object_marking": 0,
             "check_objects": "any",
             "afterRepaired": false,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_players_squad",
             "target": "@ft_land_enemy_t2_airfield_name"
           }
@@ -10135,7 +10299,8 @@
     "st_rearm_t1_airfield_target_name": "",
     "st_rearm_t2_airfield_target_name": "",
     "st_rearm_t1_airfield_var_name": "",
-    "st_rearm_t2_airfield_var_name": ""
+    "st_rearm_t2_airfield_var_name": "",
+    "st_is_landing_alowed": false
   },
   "dialogs": [],
   "airfields": [],

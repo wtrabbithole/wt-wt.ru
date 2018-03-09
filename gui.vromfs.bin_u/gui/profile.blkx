@@ -352,7 +352,8 @@
                 "navigatorShortcuts": "yes",
                 "childsActivate": "yes",
                 "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown"
+                "on_wrap_down": "onWrapDown",
+                "on_wrap_right": "onWrapDown"
               }
             },
             {
@@ -366,7 +367,8 @@
                 "navigatorShortcuts": "yes",
                 "childsActivate": "yes",
                 "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown"
+                "on_wrap_down": "onWrapDown",
+                "on_wrap_left": "onWrapUp"
               }
             }
           ],
@@ -484,11 +486,12 @@
                 "overflow": "auto",
                 "itemInterval": "@unlocksListboxItemInterval",
                 "padding": "@blockInterval",
-                "navigatorShortcuts": "cancel",
+                "navigatorShortcuts": "full",
                 "scrollbarShortcuts": "yes",
                 "on_wrap_left": "switchAchiFocusObj",
                 "on_wrap_right": "switchAchiFocusObj",
-                "on_cancel_edit": "switchAchiFocusObj"
+                "on_cancel_edit": "switchAchiFocusObj",
+                "on_dbl_click": "unlockToFavoritesByActivateItem"
               }
             },
             {
@@ -529,9 +532,13 @@
                     "class": "checkBoxRow",
                     "CheckBox": {
                       "id": "checkbox_only_for_bought",
+                      "behaviour": "wrapBroadcast",
                       "text": "#profile/only_for_bought",
                       "tooltip": "#profile/only_for_bought/hint",
                       "on_change_value": "onOnlyForBoughtCheck",
+                      "navigatorShortcuts": "yes",
+                      "on_wrap_up": "onWrapUp",
+                      "on_wrap_down": "onWrapDown",
                       "CheckBoxImg": []
                     }
                   }

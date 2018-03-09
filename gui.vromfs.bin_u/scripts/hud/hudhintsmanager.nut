@@ -98,7 +98,10 @@ enum HintShowState {
     foreach (hint in ::g_hud_hints.types)
     {
       if(!hint.isEnabled() || isHintShowCountExceeded(hint))
+      {
+        dagor.debug("Hints: " + (hint?.showEvent ?? "_") + " is disabled")
         continue
+      }
 
       if (!::u.isNull(hint.showEvent))
         ::g_hud_event_manager.subscribe(hint.showEvent, (@(hint) function (eventData) {
@@ -376,6 +379,12 @@ enum HintShowState {
 
   function isHintShowCountExceeded(hint)
   {
+    if(hint.maskId >= 0 || (hint?.totalCount ?? 0) > 0)
+      dagor.debug("Hints: " + (hint?.showEvent ?? "_")
+      + " maskId = " + hint.maskId
+      + " totalCount = " + (hint?.totalCount ?? "_")
+      + " showedCount = " + ::get_hint_seen_count(hint.maskId))
+
     return (hint.totalCount > 0
       && ::get_hint_seen_count(hint.maskId) > hint.totalCount)
   }

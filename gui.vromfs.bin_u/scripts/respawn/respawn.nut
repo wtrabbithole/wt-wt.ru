@@ -432,7 +432,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function calcCrewSpawnScoreMask()
   {
     local res = 0
-    foreach(idx, crew in ::get_country_crews(::get_local_player_country()))
+    foreach(idx, crew in ::get_crews_list_by_country(::get_local_player_country()))
     {
       local unit = ::g_crew.getCrewUnit(crew)
       if (unit && ::shop_get_spawn_score(unit.name, "") >= curSpawnScore)

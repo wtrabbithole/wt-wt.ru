@@ -236,6 +236,15 @@ enum TOP_MENU_ELEMENT_TYPE {
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
+  MARKETPLACE = {
+    text = "#mainmenu/marketplace"
+    onClickFunc = @(obj, handler) ::ItemsManager.goToMarketplace()
+    link = ""
+    isLink = true
+    isFeatured = true
+    image = "#ui/gameuiskin#store_icon"
+    isHidden = @(...) !::ItemsManager.isMarketplaceEnabled()
+  }
   WINDOW_HELP = {
     text = "#flightmenu/btnControlsHelp"
     onClickFunc = function(obj, handler) {

@@ -1,3 +1,7 @@
+local systemMsg = ::require("scripts/utils/systemMsg.nut")
+
+const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
+
 enum memberStatus {
   READY
   SELECTED_AIRS_BROKEN
@@ -7,26 +11,23 @@ enum memberStatus {
   AIRS_NOT_AVAILABLE
 }
 
-::g_squad_utils <- {}
+local memberStatusLocId = {
+  [memberStatus.READY]                          = "status/squad_ready",
+  [memberStatus.AIRS_NOT_AVAILABLE]             = "squadMember/airs_not_available",
+  [memberStatus.ALL_AVAILABLE_AIRS_BROKEN]      = "squadMember/all_available_airs_broken",
+  [memberStatus.SELECTED_AIRS_NOT_AVAILABLE]    = "squadMember/selected_airs_not_available",
+  [memberStatus.SELECTED_AIRS_BROKEN]           = "squadMember/selected_airs_broken",
+  [memberStatus.NO_REQUIRED_UNITS]              = "squadMember/no_required_units",
+}
 
-function g_squad_utils::getMemberStatusLocId(status)
-{
-  switch (status)
-  {
-    case memberStatus.READY:
-      return "status/squad_ready"
-    case memberStatus.AIRS_NOT_AVAILABLE:
-      return "squadMember/airs_not_available"
-    case memberStatus.ALL_AVAILABLE_AIRS_BROKEN:
-      return "squadMember/all_available_airs_broken"
-    case memberStatus.SELECTED_AIRS_NOT_AVAILABLE:
-      return "squadMember/selected_airs_not_available"
-    case memberStatus.SELECTED_AIRS_BROKEN:
-      return "squadMember/selected_airs_broken"
-    case memberStatus.NO_REQUIRED_UNITS:
-      return "squadMember/no_required_units"
-  }
-  return "unknown"
+local locTags = { [MEMBER_STATUS_LOC_TAG_PREFIX] = "unknown" }
+foreach(status, locId in memberStatusLocId)
+  locTags[MEMBER_STATUS_LOC_TAG_PREFIX + status] <- locId
+systemMsg.registerLocTags(locTags)
+
+::g_squad_utils <- {
+  getMemberStatusLocId = @(status) memberStatusLocId?[status] ?? "unknown"
+  getMemberStatusLocTag = @(status) MEMBER_STATUS_LOC_TAG_PREFIX + (status in memberStatusLocId ? status : "")
 }
 
 function g_squad_utils::canJoinFlightMsgBox(options = null,
@@ -378,6 +379,9 @@ function g_squad_utils::canJoinByMySquad(operationId = null, controlCountry = ""
   local squadMembers = ::g_squad_manager.getMembers()
   foreach(uid, member in squadMembers)
   {
+    if (!member.online)
+      continue
+
     local memberCountry = member.getWwOperationCountryById(operationId)
     if (!::u.isEmpty(memberCountry))
       if (controlCountry == "")

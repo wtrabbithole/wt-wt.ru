@@ -1,4 +1,5 @@
-local penalties = require("scripts/penitentiary/penalties.nut")
+local penalties = ::require("scripts/penitentiary/penalties.nut")
+local systemMsg = ::require("scripts/utils/systemMsg.nut")
 
 enum chatUpdateState {
   OUTDATED
@@ -175,12 +176,6 @@ function g_chat::addRoom(room)
 function g_chat::getMaxRoomMsgAmount()
 {
   return ::is_myself_anyof_moderators() ? MAX_ROOM_MSGS_FOR_MODERATOR : MAX_ROOM_MSGS
-}
-
-function g_chat::clampMsg(msg) //clamp msg by max chat message len
-{
-  //!!FIX ME: nned to slice in utf8, but this code work in current chat for a long time without troubles.
-  return (msg.len() > 2 * MAX_MSG_LEN) ? msg.slice(0, 2 * MAX_MSG_LEN) : msg
 }
 
 function g_chat::isSystemUserName(name)
@@ -787,7 +782,7 @@ function g_chat::haveNewMessages()
 
 function g_chat::sendLocalizedMessage(roomId, langConfig, isSeparationAllowed = true, needAssert = true)
 {
-  local message = ::g_system_msg.configToJsonString(langConfig, validateChatMessage)
+  local message = systemMsg.configToJsonString(langConfig, validateChatMessage)
   local messageLen = message.len() //to be visible in assert callstack
   if (messageLen > MAX_MSG_LEN)
   {
@@ -819,7 +814,7 @@ function g_chat::localizeReceivedMessage(message)
   if (!jsonString)
     return message
 
-  local res = ::g_system_msg.jsonStringToLang(jsonString, null, "\n   ")
+  local res = systemMsg.jsonStringToLang(jsonString, null, "\n   ")
   if (!res)
     dagor.debug("Chat: failed to localize json message: " + message)
   return res || ""

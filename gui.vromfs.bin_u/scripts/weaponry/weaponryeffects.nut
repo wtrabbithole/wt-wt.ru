@@ -21,6 +21,28 @@ local presetsList = {
     measureType = "percent"
     validateValue = @(v) 100.0 * v
   }
+  TANK_RESPAWN_COST = {
+    measureType = "percent"
+    validateValue = @(v) 100.0 * v
+    isInverted = true
+    canShowForUnit = @(unit) ::has_feature("TankModEffect")
+    getText = function (unit, effects, modeId)
+    {
+      if (!canShowForUnit(unit))
+        return ""
+      local value = getValue(unit, effects, modeId)
+      local value2 = effects?[modeId]?[id+"_base"]
+      if (value2 != null)
+        value2 = validateValue(value2)
+      if (value != null && value2 != null)
+        return ::loc(getLocId(unit, effects),
+                  {
+                    valueWithMod = valueToString(value),
+                    valueWithoutMod = valueToString(value2)
+                  })
+      return ""
+    }
+  }
 }
 
 local effectTypeTemplate = {
@@ -166,12 +188,21 @@ local effectsType = {
   { id = "partHpMult",             preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
-  { id = "respawnCost",            preset = "PERCENT_FLOAT"
-    canShowForUnit = @(unit) ::has_feature("TankModEffect")
-  }
   { id = "viewDist",               preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
+  { id = "respawnCost_killScore_exp_fighter",  preset = "TANK_RESPAWN_COST" }
+  { id = "respawnCost_killScore_exp_assault", preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_killScore_exp_bomber",  preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_hitScore_exp_fighter",  preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_hitScore_exp_assault",  preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_hitScore_exp_bomber",   preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_scoutScore_exp_fighter", preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_scoutScore_exp_assault", preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_scoutScore_exp_bomber",  preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_killScore_aircrafts",  preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_hitScore_aircrafts",  preset = "TANK_RESPAWN_COST"  }
+  { id = "respawnCost_scoutScore_aircrafts", preset = "TANK_RESPAWN_COST"  }
 
   /****************************** SHIP EFFECTS ***********************************************/
   { id = "waterMassVelTime",       measureType = "hours", isInverted = true, presize = 0.1

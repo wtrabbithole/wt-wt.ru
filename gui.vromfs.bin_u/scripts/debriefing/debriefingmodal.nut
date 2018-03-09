@@ -2144,6 +2144,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       btn_view_replay = isAnimDone && isReplayReady && !isMp
       btn_save_replay = isAnimDone && isReplayReady && !::is_replay_saved()
       btn_user_options = isAnimDone && (curTab == "players_stats") && player && !player.isBot && ::show_console_buttons
+      btn_view_highlights = isAnimDone && ::is_highlights_inited()
     }
 
     foreach(btn, show in buttonsList)
@@ -2213,6 +2214,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       updateListsButtons()
     }
     ::gui_modal_name_and_save_replay(this, afterFunc);
+  }
+
+  function onViewHighlights()
+  {
+    if (!::is_highlights_inited())
+      return
+
+    ::show_highlights()
   }
 
   function checkDestroySession()

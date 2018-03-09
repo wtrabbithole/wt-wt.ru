@@ -121,7 +121,7 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
           errorText = ::g_measure_type.ALTITUDE.getMeasureUnitsText(parameterTable.error, true, true)
         }
         local parameterView = {
-          descriptionLabel = ::loc("crewSkillParameter/distanceEstimation", descriptionLocParams)
+          descriptionLabel = ::loc("crewSkillParameter/" + paramData.name, descriptionLocParams)
           valueItems = []
         }
         local params = {
@@ -157,7 +157,7 @@ function g_skill_parameters_type::_getProgressBarValue(parametersByRequestType, 
           errorText = ::g_measure_type.ALTITUDE.getMeasureUnitsText(parameterTable.error, true, true)
         }
         local parameterView = {
-          descriptionLabel = ::loc("crewSkillParameter/distanceEstimation", descriptionLocParams)
+          descriptionLabel = ::loc("crewSkillParameter/" + paramData.name, descriptionLocParams)
           valueItems = []
         }
         local params = {

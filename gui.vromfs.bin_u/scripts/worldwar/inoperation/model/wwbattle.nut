@@ -1,4 +1,6 @@
 local time = require("scripts/time.nut")
+local systemMsg = ::require("scripts/utils/systemMsg.nut")
+
 class ::WwBattle
 {
   id = ""
@@ -251,7 +253,7 @@ class ::WwBattle
     }
   }
 
-  function getCantJoinReasonData(side = null, needCheckSquad = true, needSendMessageToSquad = false)
+  function getCantJoinReasonData(side, needCheckSquad = true)
   {
     local res = {
       code = WW_BATTLE_CANT_JOIN_REASON.CAN_JOIN
@@ -274,8 +276,12 @@ class ::WwBattle
       return res
     }
 
-    if (side == null)
-      side = ::ww_get_player_side()
+    if (::ww_get_player_side() != ::SIDE_NONE && ::ww_get_player_side() != side)
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.WRONG_SIDE
+      res.reasonText = ::loc("worldWar/cant_fight_for_enemy_side")
+      return res
+    }
 
     if (side == ::SIDE_NONE)
     {
@@ -416,13 +422,13 @@ class ::WwBattle
       if (data.joinStatus != memberStatus.READY && data.memberData.online == true)
       {
         local memberLangConfig = [
-          ::g_system_msg.makeColoredValue(COLOR_TAG.USERLOG, data.memberData.name),
+          systemMsg.makeColoredValue(COLOR_TAG.USERLOG, data.memberData.name),
           "ui/colon",
           ::g_squad_utils.getMemberStatusLocId(data.joinStatus)
         ]
         langConfig.append(memberLangConfig)
         if (!shortMessage.len())
-          shortMessage = ::g_system_msg.configToLang(memberLangConfig) || ""
+          shortMessage = systemMsg.configToLang(memberLangConfig) || ""
       }
 
       if (!langConfig.len())
@@ -433,7 +439,7 @@ class ::WwBattle
     if (langConfig.len())
     {
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_MEMBER_ERROR
-      reasonData.reasonText = ::g_system_msg.configToLang(langConfig, null, "\n") || ""
+      reasonData.reasonText = systemMsg.configToLang(langConfig, null, "\n") || ""
       reasonData.shortReasonText = shortMessage
       return reasonData
     }
@@ -548,7 +554,7 @@ class ::WwBattle
     }
 
     local team = getTeamBySide(side)
-    local countryCrews = ::get_country_crews(team.country)
+    local countryCrews = ::get_crews_list_by_country(team.country)
     local hasSlotWithUnavailableUnit = false
     local availableUnits = getTeamRemainUnits(team)
     local crewNames = []

@@ -1,33 +1,33 @@
 /*
-   g_system_msg allow to send messages via config to localize and color on receiver side.
+   systemMsg  allow to send messages via config to localize and color on receiver side.
    It has short keys to be compact in json format allowed to use in irc chat etc.
    Also it save enough to be user generated.
 
   langConfig (table or array of tables):
   {
-    [::g_system_msg.LOC_ID] - locId used to localize this config
+    [systemMsg.LOC_ID] - locId used to localize this config
                               when it set, all other keys in config are used as params for localizaation
                               but any param also can be langConfig
-    [::g_system_msg.VALUE_ID] - exact value to show. used only when ::g_system_msg.LOC_ID not set
-    [::g_system_msg.COLOR_ID] - colorTag to colorize result of localize this config
+    [systemMsg.VALUE_ID] - exact value to show. used only when systemMsg.LOC_ID not set
+    [systemMsg.COLOR_ID] - colorTag to colorize result of localize this config
                                 can be used only colors from COLOR_TAG enum
                                 to avoid broken markup by mistake or by users
   }
     also langConfig can be a simple string.
-    it will be equal to { [::g_system_msg.LOC_ID] = "string" }
+    it will be equal to { [systemMsg.LOC_ID] = "string" }
 
   example:
 ****  [
 ****    {
-****      [::g_system_msg.LOC_ID] = "multiplayer/enemyTeamTooLowMembers",
-****      [::g_system_msg.COLOR_ID] = COLOR_TAG.ACTIVE,
+****      [systemMsg.LOC_ID] = "multiplayer/enemyTeamTooLowMembers",
+****      [systemMsg.COLOR_ID] = COLOR_TAG.ACTIVE,
 ****      chosenTeam =  {
-****        [::g_system_msg.VALUE_ID] = "A",
-****        [::g_system_msg.COLOR_ID] = COLOR_TAG.TEAM_BLUE,
+****        [systemMsg.VALUE_ID] = "A",
+****        [systemMsg.COLOR_ID] = COLOR_TAG.TEAM_BLUE,
 ****      }
 ****      otherTeam = {
-****        [::g_system_msg.LOC_ID] = ::g_team.B.shortNameLocId,
-****        [::g_system_msg.COLOR_ID] = COLOR_TAG.TEAM_RED,
+****        [systemMsg.LOC_ID] = ::g_team.B.shortNameLocId,
+****        [systemMsg.COLOR_ID] = COLOR_TAG.TEAM_RED,
 ****      }
 ****      chosenTeamCount = 5
 ****      otherTeamCount =  3
@@ -35,11 +35,11 @@
 ****    }
 ****    "simpleLocIdNotColored"
 ****    {
-****      [::g_system_msg.VALUE_ID] = "\nsome unlocalized text"
+****      [systemMsg.VALUE_ID] = "\nsome unlocalized text"
 ****    }
 ****  ]
 
-also you can find example function below - g_system_msg::dbgExample
+also you can find example function below - dbgExample
 
 
   API:
@@ -65,151 +65,147 @@ also you can find example function below - g_system_msg::dbgExample
       { [COLOR_ID] = colorTag, [LOC_ID] = locId }
 */
 
-enum COLOR_TAG {
-  ACTIVE = "av"
-  USERLOG = "ul"
-  TEAM_BLUE = "tb"
-  TEAM_RED = "tr"
-}
 
-::g_system_msg <- {
-  LOC_ID = "l"
-  VALUE_ID = "t"
-  COLOR_ID = "c"
 
-  colors = {
-    [COLOR_TAG.ACTIVE] = "activeTextColor",
-    [COLOR_TAG.USERLOG] = "userlogColoredText",
-    [COLOR_TAG.TEAM_BLUE] = "teamBlueColor",
-    [COLOR_TAG.TEAM_RED] = "teamRedColor",
+local LOC_ID = "l"
+local VALUE_ID = "t"
+local COLOR_ID = "c"
+
+local colors = {}
+local getColorByTag = @(tag) colors?[tag] ?? ""
+
+local locTags = {}
+local getLocId = @(locTag) locTags?[locTag] ?? locTag
+
+local function registerColors(colorsTable) //tag = color
+{
+  foreach(tag, color in colorsTable)
+  {
+    ::dagor.assertf(!(tag in colors), "SystemMsg: Duplicate color tag: " + tag + " = " + color)
+    colors[tag] <- color
   }
 }
 
-function g_system_msg::configToJsonString(langConfig, textValidateFunction = null)
+local function registerLocTags(locTagsTable) //tag = locId
 {
-  if (textValidateFunction)
-    langConfig = validateLangConfig(langConfig, textValidateFunction)
-
-  local jsonString = ::save_to_json(langConfig)
-  return jsonString
-}
-
-function g_system_msg::validateLangConfig(langConfig, valueValidateFunction)
-{
-  return ::u.map(
-    langConfig,
-    function(value) {
-      if (::u.isString(value))
-        return valueValidateFunction(value)
-      else if (::u.isTable(value) || ::u.isArray(value))
-        return validateLangConfig(value, valueValidateFunction)
-      return value
-    }.bindenv(this)
-  )
-}
-
-function g_system_msg::jsonStringToLang(jsonString, paramValidateFunction = null, separator = "")
-{
-  local langConfig = ::parse_json(jsonString)
-  return configToLang(langConfig, paramValidateFunction, separator)
-}
-
-function g_system_msg::configToLang(langConfig, paramValidateFunction = null, separator = "", defaultLocValue = null)
-{
-  if (::u.isTable(langConfig))
-    return configTblToLang(langConfig, paramValidateFunction)
-  if (::u.isArray(langConfig))
+  foreach(tag, locId in locTagsTable)
   {
-    local resArray = ::u.map(langConfig,
-      (@(cfg) configToLang(cfg, paramValidateFunction) || "").bindenv(this))
-    return ::g_string.implode(resArray, separator)
+    ::dagor.assertf(!(tag in locTags), "SystemMsg: Duplicate locId tag: " + tag + " = " + locId)
+    locTags[tag] <- locId
   }
-  if (::u.isString(langConfig))
-    return ::loc(langConfig, defaultLocValue)
-  return null
 }
 
-function g_system_msg::configTblToLang(configTbl, paramValidateFunction = null)
-{
-  local res = ""
-  local locId = ::getTblValue(LOC_ID, configTbl, null)
-  if (!::u.isString(locId)) //res by value
+local systemMsg = { //functons here need to be able recursive call self
+  function validateLangConfig(langConfig, valueValidateFunction)
   {
-    local value = ::getTblValue(VALUE_ID, configTbl, null)
-    if (value == null)
-      return res
-
-    res = value.tostring()
-    if (paramValidateFunction)
-      res = paramValidateFunction(res)
+    return ::u.map(
+      langConfig,
+      function(value) {
+        if (::u.isString(value))
+          return valueValidateFunction(value)
+        else if (::u.isTable(value) || ::u.isArray(value))
+          return validateLangConfig(value, valueValidateFunction)
+        return value
+      }.bindenv(this)
+    )
   }
-  else //res by locId with params
+
+  function configToJsonString(langConfig, textValidateFunction = null)
   {
-    local params = {}
-    foreach(key, param in configTbl)
+    if (textValidateFunction)
+      langConfig = validateLangConfig(langConfig, textValidateFunction)
+
+    local jsonString = ::save_to_json(langConfig)
+    return jsonString
+  }
+
+  function convertAny(langConfig, paramValidateFunction = null, separator = "", defaultLocValue = null)
+  {
+    if (::u.isTable(langConfig))
+      return convertTable(langConfig, paramValidateFunction)
+    if (::u.isArray(langConfig))
     {
-      local text = configToLang(param, paramValidateFunction, "", "")
-      if (!::u.isEmpty(text))
-      {
-        params[key] <- text
-        continue
-      }
-
-      if (paramValidateFunction && ::u.isString(param))
-        param = paramValidateFunction(param)
-      params[key] <- param
+      local resArray = ::u.map(langConfig,
+        (@(cfg) convertAny(cfg, paramValidateFunction) || "").bindenv(this))
+      return ::g_string.implode(resArray, separator)
     }
-    res = ::loc(locId, params)
+    if (::u.isString(langConfig))
+      return ::loc(getLocId(langConfig), defaultLocValue)
+    return null
   }
 
-  local colorName = getColorByTag(::getTblValue(COLOR_ID, configTbl))
-  res = ::colorize(colorName, res)
-  return res
-}
+  function convertTable(configTbl, paramValidateFunction = null)
+  {
+    local res = ""
+    local locId = configTbl?[LOC_ID]
+    if (!::u.isString(locId)) //res by value
+    {
+      local value = configTbl?[VALUE_ID]
+      if (value == null)
+        return res
 
-function g_system_msg::getColorByTag(tag)
-{
-  return ::getTblValue(tag, colors, "")
-}
+      res = value.tostring()
+      if (paramValidateFunction)
+        res = paramValidateFunction(res)
+    }
+    else //res by locId with params
+    {
+      local params = {}
+      foreach(key, param in configTbl)
+      {
+        local text = convertAny(param, paramValidateFunction, "", "")
+        if (!::u.isEmpty(text))
+        {
+          params[key] <- text
+          continue
+        }
 
-//return config of value which will be colored in result
-function g_system_msg::makeColoredValue(colorTag, value)
-{
-  return { [COLOR_ID] = colorTag, [VALUE_ID] = value }
-}
+        if (paramValidateFunction && ::u.isString(param))
+          param = paramValidateFunction(param)
+        params[key] <- param
+      }
+      res = ::loc(getLocId(locId), params)
+    }
 
-//return config of localizationId which will be colored in result
-function g_system_msg::makeColoredLocId(colorTag, locId)
-{
-  return { [COLOR_ID] = colorTag, [LOC_ID] = locId }
+    local colorName = getColorByTag(configTbl?[COLOR_ID])
+    res = ::colorize(colorName, res)
+    return res
+  }
+
+  function jsonStringToLang(jsonString, paramValidateFunction = null, separator = "")
+  {
+    local langConfig = ::parse_json(jsonString)
+    return convertAny(langConfig, paramValidateFunction, separator)
+  }
 }
 
 /*
-function g_system_msg::dbgExample(textObjId = "menu_chat_text")
+getroottable().dbgExample <- function(textObjId = "menu_chat_text")
 {
-  local json = ::g_system_msg.configToJsonString([
+  local systemMsg = ::require("scripts/utils/systemMsg.nut")
+  local json = systemMsg.configToJsonString([
     {
-      [::g_system_msg.LOC_ID] = "multiplayer/enemyTeamTooLowMembers",
-      [::g_system_msg.COLOR_ID] = COLOR_TAG.ACTIVE,
-      chosenTeam = ::g_system_msg.makeColoredValue(COLOR_TAG.TEAM_BLUE, ::g_team.A.getShortName())
-      otherTeam = ::g_system_msg.makeColoredValue(COLOR_TAG.TEAM_RED, ::g_team.B.getShortName())
+      [systemMsg.LOC_ID] = "multiplayer/enemyTeamTooLowMembers",
+      [systemMsg.COLOR_ID] = COLOR_TAG.ACTIVE,
+      chosenTeam = systemMsg.makeColoredValue(COLOR_TAG.TEAM_BLUE, ::g_team.A.getShortName())
+      otherTeam = systemMsg.makeColoredValue(COLOR_TAG.TEAM_RED, ::g_team.B.getShortName())
       chosenTeamCount = 5
       otherTeamCount =  3
       reqOtherteamCount = 4
     }
     {
-      [::g_system_msg.VALUE_ID] = "\n-------------------------------------\n"
+      [systemMsg.VALUE_ID] = "\n-------------------------------------\n"
     }
     {
-      [::g_system_msg.LOC_ID] = "multiplayer/enemyTeamTooLowMembers",
-      [::g_system_msg.COLOR_ID] = COLOR_TAG.ACTIVE,
+      [systemMsg.LOC_ID] = "multiplayer/enemyTeamTooLowMembers",
+      [systemMsg.COLOR_ID] = COLOR_TAG.ACTIVE,
       chosenTeam = {
-        [::g_system_msg.LOC_ID] = ::g_team.A.shortNameLocId,
-        [::g_system_msg.COLOR_ID] = COLOR_TAG.TEAM_BLUE,
+        [systemMsg.LOC_ID] = ::g_team.A.shortNameLocId,
+        [systemMsg.COLOR_ID] = COLOR_TAG.TEAM_BLUE,
       }
       otherTeam = {
-        [::g_system_msg.LOC_ID] = ::g_team.B.shortNameLocId,
-        [::g_system_msg.COLOR_ID] = COLOR_TAG.TEAM_RED,
+        [systemMsg.LOC_ID] = ::g_team.B.shortNameLocId,
+        [systemMsg.COLOR_ID] = COLOR_TAG.TEAM_RED,
       }
       chosenTeamCount = 5
       otherTeamCount =  3
@@ -217,10 +213,31 @@ function g_system_msg::dbgExample(textObjId = "menu_chat_text")
     }
   ])
 
-  local res = ::g_system_msg.jsonStringToLang(json)
+  local res = systemMsg.jsonStringToLang(json)
   local testObj = get_gui_scene()[textObjId]
   if (::check_obj(testObj))
     testObj.setValue(res)
   return json
 }
 */
+
+return {
+  LOC_ID = LOC_ID
+  VALUE_ID = VALUE_ID
+  COLOR_ID = COLOR_ID
+
+  registerColors = registerColors
+  registerLocTags = registerLocTags
+
+  configToJsonString  = @(langConfig, textValidateFunction = null)
+    systemMsg.configToJsonString(langConfig, textValidateFunction)
+  jsonStringToLang    = @(jsonString, paramValidateFunction = null, separator = "")
+    systemMsg.jsonStringToLang(jsonString, paramValidateFunction, separator)
+  configToLang        = @(langConfig, paramValidateFunction = null, separator = "", defaultLocValue = null)
+    systemMsg.convertAny(langConfig, paramValidateFunction, separator, defaultLocValue)
+
+  //return config of value which will be colored in result
+  makeColoredValue = @(colorTag, value) { [COLOR_ID] = colorTag, [VALUE_ID] = value }
+  //return config of localizationId which will be colored in result
+  makeColoredLocId = @(colorTag, locId) { [COLOR_ID] = colorTag, [LOC_ID] = locId }
+}

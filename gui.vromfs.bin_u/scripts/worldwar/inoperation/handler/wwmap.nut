@@ -73,8 +73,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_timer").setUserData(this)
     if (::g_world_war_render.isCategoryEnabled(::ERC_ARMY_RADIUSES))
       ::g_world_war_render.setCategory(::ERC_ARMY_RADIUSES, false)
-
-    checkToOpenSquadBattleModal()
   }
 
   function initMapName()
@@ -1192,28 +1190,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     tabsObj.setValue(::g_ww_map_reinforcement_tab_type.REINFORCEMENT.code)
     reinforcementBlockHandler.selectFirstArmyBySide(params.side)
-  }
-
-  function onEventSquadDataUpdated(params)
-  {
-    checkToOpenSquadBattleModal()
-  }
-
-  function checkToOpenSquadBattleModal()
-  {
-    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
-    if (!wwBattleName)
-      return
-
-    if (::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE))
-      return
-
-    if (::g_squad_manager.isSquadMember() && !::g_squad_manager.isMeReady())
-      return
-
-    local wwBattle = ::g_world_war.getBattleById(wwBattleName)
-    if (wwBattle)
-      ::gui_handlers.WwBattleDescription.open(wwBattle)
   }
 
   function onEventMyClanIdChanged(p)

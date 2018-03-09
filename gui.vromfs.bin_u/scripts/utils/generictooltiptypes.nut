@@ -108,6 +108,13 @@
       if (decorator.isUGC)
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/user_generated"))
 
+      local tags = decoratorType.getTagsLoc(decorator.tags || params?.tags || {})
+      if (tags.len())
+      {
+        tags = ::u.map(tags, @(txt) ::colorize("activeTextColor", txt))
+        desc += (desc.len() ? "\n\n" : "") + ::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tags, ::loc("ui/comma"))
+      }
+
       local warbondId = ::getTblValue("wbId", params)
       if (warbondId)
       {
@@ -156,14 +163,15 @@
         : isAllowed ? "favorite"
         : "locked"
 
-      local conditionsText = !isTrophyContent && !isReceivedPrizes && config ?
+      local canShowProgress = !isTrophyContent && !isReceivedPrizes
+      local conditionsText = canShowProgress && config ?
         ::UnlockConditions.getConditionsText(config.conditions, config.curVal, config.maxVal) : ""
 
       if (!isDefaultSkin && conditionsText == "")
       {
         if (isAllowed)
         {
-          conditionsText = ::loc("shop/unit_bought")
+          conditionsText = ::loc("mainmenu/itemReceived")
           if (isTrophyContent && !isReceivedPrizes)
             conditionsText += "\n" + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
         }
@@ -178,7 +186,7 @@
       local dObj = cObj.findObject("unlock_description")
       dObj.setValue(conditionsText)
 
-      if (!isAllowed && config)
+      if (!isAllowed && canShowProgress && config)
       {
         local progressData = config.getProgressBarData()
         if (progressData.show)
@@ -207,7 +215,7 @@
       if (!item)
         return false
 
-      local preferMarkup = item.iType == itemType.TROPHY
+      local preferMarkup = item.isPreferMarkupDescInTooltip
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)
       ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup, params)
       return true
@@ -225,7 +233,7 @@
       if (!item)
         return false
 
-      local preferMarkup = item.iType == itemType.TROPHY
+      local preferMarkup = item.isPreferMarkupDescInTooltip
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)
       ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup)
       return true
@@ -520,7 +528,7 @@
 
       local battleSides = ::g_world_war.getSidesOrder()
       local view = battle.getView()
-      view.defineTeamBlock(battleSides)
+      view.defineTeamBlock(::ww_get_player_side(), battleSides)
       view.showBattleStatus = true
       view.hideDesc = true
       return ::handyman.renderCached("gui/worldWar/battleDescription", view)

@@ -1,3 +1,6 @@
+tostring_r <- require("std/string.nut", false)?.tostring_r || require("sqStdLibs/common/string.nut", false)?.tostring_r || require("common/string.nut", false)?.tostring_r || @(val) val.tostring
+vlog_r <- @(val) vlog(tostring_r(val))
+
 function with_table(tbl, func) {
   local roottbl = ::getroottable()
   local accessor = class {
@@ -11,7 +14,7 @@ function with_table(tbl, func) {
 }
 
 /*
-  this function is safe wrapper to arraya.extend(). Can handle obj and val of any type.
+  this function is safe wrapper to array.extend(). Can handle obj and val of any type.
 */
 function extend_to_array (obj, val) {
   if (obj != null) {

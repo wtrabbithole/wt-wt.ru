@@ -4,6 +4,7 @@ class ::items_classes.Trophy extends ::BaseItem
   static defaultLocId = "trophy"
   static defaultIconStyle = "default_chest_debug"
   static typeIcon = "#ui/gameuiskin#item_type_trophies"
+  static isPreferMarkupDescInTooltip = true
 
   canBuy = true
 

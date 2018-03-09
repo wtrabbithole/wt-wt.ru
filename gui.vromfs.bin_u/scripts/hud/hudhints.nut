@@ -411,44 +411,25 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     lifeTime = 5.0
   }
 
-  MORE_KILLS_FOR_KILL_STREAK_HINT = {
+  ACTION_NOT_AVAILABLE_HINT = {
     hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/more_kills_for_kill_streak"
-    showEvent = "hint:more_kills_for_kill_streak:show"
+    showEvent = [ "hint:action_not_available",
+      //events below are compatibility with 1_75_0_X
+      "hint:more_kills_for_kill_streak:show", "hint:needs_kills_streak_event:show", "hint:active_event:show",
+      "hint:already_participating:show", "hint:no_event_slots:show"]
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
-  }
 
-  NEED_KILLS_STREAK_EVENT_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/needs_kills_streak_event"
-    showEvent = "hint:needs_kills_streak_event:show"
-    lifeTime = 5.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-  }
+    eventToLocId = { //this table only compatibility with 1_75_0_X
+      ["hint:more_kills_for_kill_streak:show"]   = "hints/more_kills_for_kill_streak",
+      ["hint:needs_kills_streak_event:show"]     = "hints/needs_kills_streak_event",
+      ["hint:active_event:show"]                 = "hints/active_event",
+      ["hint:already_participating:show"]        = "hints/already_participating",
+      ["hint:no_event_slots:show"]               = "hints/no_event_slots"
+    }
 
-  ACTIVE_EVENT_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/active_event"
-    showEvent = "hint:active_event:show"
-    lifeTime = 5.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-  }
-
-  ALREADY_PARTICIPATING_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/already_participating"
-    showEvent = "hint:already_participating:show"
-    lifeTime = 5.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-  }
-
-  NO_EVENT_SLOTS_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/no_event_slots"
-    showEvent = "hint:no_event_slots:show"
-    lifeTime = 5.0
-    priority = CATASTROPHIC_HINT_PRIORITY
+    getLocId = @(data) "hintId" in data ? ::loc("hints/" + data.hintId)
+      : eventToLocId?[::g_hud_event_manager.getCurHudEventName()] ?? "" //compatibility with 1_75_0_X
   }
 
   INEFFECTIVE_HIT_HINT = {
@@ -835,29 +816,22 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
       local playerTeam = ::get_local_team_for_mpstats()
       foreach (participant in participantList)
       {
-        local pIdArray = ::u.isArray(participant.participantId)? participant.participantId : [participant.participantId]
-        local imageArray = ::u.isArray(participant?.image)? participant?.image : [participant?.image]
+        local participantPlayer = participant?.participantId ? ::get_mplayer_by_id(participant.participantId) : null
+        if (!(participant?.image && participantPlayer))
+          continue
 
-        foreach (idx, participantId in pIdArray)
+        local icon = "#ui/gameuiskin#" + participant.image
+        local color = "@" + ::get_mplayer_color(participantPlayer)
+        local pStr = makeSmallImageStr(icon, color)
+        if (playerTeam == participantPlayer.team)
         {
-          local participantPlayer = participantId ? ::get_mplayer_by_id(participantId) : null
-          local image = imageArray[idx]
-          if (image && participantPlayer)
-          {
-            local icon = "#ui/gameuiskin#" + image
-            local color = "@" + (participantPlayer ? ::get_mplayer_color(participantPlayer) : "hudColorHero")
-            local pStr = makeSmallImageStr(icon, color)
-            if (playerTeam == participantPlayer.team)
-            {
-              participantsAStr += pStr + " "
-              ++reservedSlotsCountA
-            }
-            else
-            {
-              participantsBStr = " " + pStr + participantsBStr
-              ++reservedSlotsCountB
-            }
-          }
+          participantsAStr += pStr + " "
+          ++reservedSlotsCountA
+        }
+        else
+        {
+          participantsBStr = " " + pStr + participantsBStr
+          ++reservedSlotsCountB
         }
       }
 

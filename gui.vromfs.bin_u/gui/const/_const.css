@@ -198,7 +198,7 @@
 @const researchNotificationWidth: @sf $max 750;
 
 @const actionBarBottomPos: sh - 1@bhHud;
-@const hintAboveActionBarPos: 1@actionBarBottomPos - 0.09@shHud;
+@const hintAboveActionBarPos: 1@actionBarBottomPos - 0.1@shHud;
 
 @const framePadding: 1@blockInterval + 1@dp;
 @const unlockBlockWidth: 0.55@sf\1;
@@ -225,8 +225,11 @@
 @const paymentIconWidth: 270@sf/@pf;
 @const paymentIconHeight: 90@sf/@pf;
 
-@const discountBoxDownHeight: 26*@sf/@pf_outdated;
-@const discountBoxHeight: 17*@sf/@pf_outdated;
+@const discountBoxDownHeight: 35*@sf/@pf;
+@const discountBoxUnitTop: 23*@sf/@pf;
+@const discountBoxPadding: 1@blockInterval;
+@const discountBoxDownArrowHeight: 14*@sf/@pf;
+@const discountBoxHeight: 23*@sf/@pf;
 
 @const eventTacticalMapSize: 0.3@scrn_tgt;
 @const eventRewardWidth:  0.4@scrn_tgt;
@@ -280,3 +283,5 @@
 @const shortcutRightDpAndStick: "J:Dpad.Right | J:L.Thumb.Right";
 @const shortcutRightDp: "J:Dpad.Right";
 @const crewUnitSpecUpgradeTooltipPadding: 9*@sf/@pf;
+
+@const weaponIconPadding: 4*@sf/@pf;

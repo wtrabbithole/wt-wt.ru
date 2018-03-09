@@ -51,10 +51,7 @@
               "navigatorShortcuts": "yes",
               "childsActivate": "yes",
               "on_wrap_up": "onWrapUp",
-              "on_wrap_down": "onWrapDown",
-              "focus_border": {
-                "class": "fontRow"
-              }
+              "on_wrap_down": "onWrapDown"
             },
             "div": {
               "position": "relative",
@@ -235,10 +232,7 @@
                         "on_change_value": "onConvertChanged"
                       },
                       {
-                        "behaviour": "wrapNavigator"
-                      },
-                      {
-                        "navigatorShortcuts": "yes"
+                        "canWrap": "yes"
                       },
                       {
                         "on_wrap_up": "onWrapUp"
@@ -248,7 +242,7 @@
                       },
                       {
                         "focus_border": {
-                          "class": "fontRow"
+                          "class": "expanded"
                         }
                       },
                       {

@@ -65,7 +65,7 @@ function g_mis_loading_state::checkRespawnBases()
     return
 
   local hasRespBases = false
-  foreach(crew in ::get_country_crews(::get_local_player_country(), true))
+  foreach(crew in ::get_crews_list_by_country(::get_local_player_country(), true))
   {
     local unit = ::g_crew.getCrewUnit(crew)
     if (!unit)

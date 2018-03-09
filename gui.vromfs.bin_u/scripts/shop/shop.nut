@@ -1117,9 +1117,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         local discountData = getDiscountByCountryAndArmyId(curCountry, page.name)
 
         local max = ::getTblValue("maxDiscount", discountData, 0)
-
-        tabObj.tooltip = ::getTblValue("discountTooltip", discountData, "")
+        local discountTooltip = ::getTblValue("discountTooltip", discountData, "")
+        tabObj.tooltip = discountTooltip
         discountObj.setValue(max > 0? ("-" + max + "%") : "")
+        discountObj.tooltip = discountTooltip
       }
       break
     }

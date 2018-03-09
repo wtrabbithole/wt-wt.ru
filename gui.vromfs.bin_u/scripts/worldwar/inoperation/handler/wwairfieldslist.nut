@@ -1,19 +1,21 @@
 class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 {
   wndType = handlerType.CUSTOM
-  sceneTplName = "gui/worldWar/airfieldObject"
-  sceneBlkName = null
+  sceneTplName = null
+  sceneBlkName = "gui/worldWar/airfieldObject"
   airfieldBlockTplName = "gui/worldWar/worldWarMapArmyItem"
 
   airfieldIdPrefix = "airfield_"
 
   side = ::SIDE_NONE
 
+  ownedAirfieldsNumber = -1
   updateTimer = null
   updateDelay = 1
 
   function initScreen()
   {
+    updateAirfields()
     if (::ww_get_selected_airfield() >= 0)
     {
       updateSelectedAirfield(::ww_get_selected_airfield())
@@ -24,13 +26,6 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
   function getSceneTplContainerObj()
   {
     return scene
-  }
-
-  function getSceneTplView()
-  {
-    return {
-      airfields = getAirfields()
-    }
   }
 
   function isValid()
@@ -53,6 +48,16 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     }
 
     return airfields
+  }
+
+  function updateAirfields()
+  {
+    local airfields = getAirfields()
+    local placeObj = scene.findObject("airfields_list")
+    local view = { airfields = airfields }
+    local data = ::handyman.renderCached("gui/worldWar/wwAirfieldsList", view)
+    guiScene.replaceContentFromText(placeObj, data, data.len(), this)
+    ownedAirfieldsNumber = airfields.len()
   }
 
   function fillTimer(airfieldIdx, cooldownView)
@@ -202,6 +207,8 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     if (!::check_obj(emptyDescTextObj))
       return
 
+    formationTextObj.setValue(::loc("worldwar/state/ready_to_fly") +
+                              ::loc("ui/colon"))
     local airfield = ::g_world_war.getAirfieldByIndex(index)
     if (!airfield)
     {
@@ -211,12 +218,16 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     }
 
     local hasFormationUnits = hasFormationsForFly(airfield)
+    local hasCooldownUnits = hasArmyOnCooldown(airfield)
     formationTextObj.show(hasFormationUnits)
     emptyDescTextObj.show(!hasFormationUnits)
-    if (hasArmyOnCooldown(airfield))
+    if (hasCooldownUnits)
       emptyDescTextObj.setValue(::loc("worldwar/state/no_units_to_fly"))
     else
       emptyDescTextObj.setValue(::loc("worldwar/state/airfield_empty"))
+
+    if (!hasFormationUnits && !hasCooldownUnits)
+      ::ww_event("MapClearSelection", {})
   }
 
   function getAirfieldId(index)
@@ -273,6 +284,9 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 
   function updateSelectedAirfield(selectedAirfield = -1)
   {
+    if (ownedAirfieldsNumber != getAirfields().len())
+      updateAirfields()
+
     for (local index = 0; index < ::ww_get_airfields_count(); index++)
     {
       local airfieldObj = scene.findObject(getAirfieldId(index))

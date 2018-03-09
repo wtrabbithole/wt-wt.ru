@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local systemMsg = ::require("scripts/utils/systemMsg.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -11,9 +11,13 @@ const EVENTS_SHORT_LB_VISIBLE_ROWS = 3
 const EVENTS_SHORT_LB_REQUIRED_PARTICIPANTS_TO_SHOW = 50
 const EVENT_DEFAULT_TEAM_SIZE = 16
 
+const SQUAD_NOT_READY_LOC_TAG = "#snr"
+
 ::events <- null
 
 ::allUnitTypesMask <- (1 << ::ES_UNIT_TYPE_TOTAL_RELEASED) - 1
+
+systemMsg.registerLocTags({ [SQUAD_NOT_READY_LOC_TAG] = "msgbox/squad_not_ready_for_event" })
 
 class Events
 {
@@ -1147,7 +1151,7 @@ class Events
   {
     local res = 0
     local isMultiSlotEnabled = isEventMultiSlotEnabled(event)
-    foreach(idx, crew in ::get_country_crews(country))
+    foreach(idx, crew in ::get_crews_list_by_country(country))
     {
       if (!isMultiSlotEnabled && idInCountry != idx)
         continue
@@ -1187,20 +1191,38 @@ class Events
                      })(teamsData, ediff, roomSpecialRules).bindenv(this))
   }
 
+  function stackMemberErrors(members)
+  {
+    local res = []
+    foreach(member in members)
+    {
+      local stack = ::u.search(res, @(s) s.status == member.status)
+      if (stack)
+        stack.names.append(member.name)
+      else
+        res.append({
+          names = [member.name]
+          status = member.status
+        })
+    }
+    return res
+  }
+
   function showCantFlyMembersMsgBox(cantFlyByTeams)
   {
-    local langConfig = ["msgbox/squad_not_ready_for_event"]
+    local langConfig = [SQUAD_NOT_READY_LOC_TAG]
     local langConfigByTeam = {}
     local singleLangConfig = null
     foreach(idx, membersData in cantFlyByTeams)
     {
       local teamCode = ::getTblValue("team", membersData, idx)
+      local stacks = stackMemberErrors(membersData.members)
       local teamLangConfig = ::u.map(
-        membersData.members,
-        @(m) [
-          ::g_system_msg.makeColoredValue(COLOR_TAG.USERLOG, m.name)
-          "ui/colon"
-          ::g_squad_utils.getMemberStatusLocId(m.status)
+        stacks,
+        @(s) [
+          systemMsg.makeColoredValue(COLOR_TAG.USERLOG, ::g_string.implode(s.names, ", ")),
+          "ui/colon",
+          ::g_squad_utils.getMemberStatusLocTag(s.status)
         ]
       )
       langConfigByTeam[teamCode] <- teamLangConfig
@@ -1215,11 +1237,11 @@ class Events
     else
       foreach(teamCode, teamLangConfig in langConfigByTeam)
       {
-        langConfig.append({ [::g_system_msg.LOC_ID] = "events/" + ::g_team.getTeamByCode(teamCode).name })
+        langConfig.append({ [systemMsg.LOC_ID] = "events/" + ::g_team.getTeamByCode(teamCode).name })
         langConfig.extend(teamLangConfig)
       }
 
-    ::showInfoMsgBox(::g_system_msg.configToLang(langConfig, null, "\n"), "members_cant_fly")
+    ::showInfoMsgBox(systemMsg.configToLang(langConfig, null, "\n"), "members_cant_fly")
     ::g_chat.sendLocalizedMessageToSquadRoom(langConfig)
   }
 

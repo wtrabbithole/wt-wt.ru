@@ -536,13 +536,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     ::featured_modes[obj.value.tointeger()].startFunction()
   }
 
-  function onGameModeActivate(obj)
-  {
-    local value = obj.getValue()
-    if (0 <= value && value < obj.childrenCount())
-      onGameModeSelect(obj.getChild(value))
-  }
-
   function onEventCurrentGameModeIdChanged(params)
   {
     if (scene.isVisible())

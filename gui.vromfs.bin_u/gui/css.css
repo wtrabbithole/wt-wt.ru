@@ -390,13 +390,15 @@ notificationText {
 }
 
 discount {
-  re-type:9rect;
+  re-type:text;
+  height:ph;
+  min-width:1.5h+2@discountBoxPadding;
+  padding:1@discountBoxPadding;
   color:@discountTextColor;
   font:@fontNormal;
   textShade:yes;
   background-image:#ui/gameuiskin#discount;
   background-color:@white;
-  padding:0.01@scrn_tgt,0.01@scrn_tgt;
   input-transparent:yes;
 }
 
@@ -415,7 +417,8 @@ discount[type=new] {
 }
 
 discount[type=inTab] {
-  pos:0.005@sf, 50%ph-50%h-1;
+  pos:0, 50%ph-50%h;
+  margin-left: 1@blockInterval;
   position:relative;
   rotation:0;
 }
@@ -468,7 +471,7 @@ discount[type=weaponryItem] {
   background-color:@discountBGColor;
   background-repeat:expand;
   background-position:21,2,2,6;
-  padding:0, 3*@sf/@pf_outdated, 0, 8*@sf/@pf_outdated;
+  padding:1@discountBoxPadding, 1@discountBoxPadding, 1@discountBoxPadding, 1@discountBoxDownArrowHeight;
   height:1@discountBoxDownHeight;
   font:@fontSmall;
   color:@discountTextColor;
@@ -478,8 +481,9 @@ discount_notification[type=line] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_bg;
   background-position:7,7,3,3;
-  padding:4,2,0,0;
-  height:1@discountBoxHeight;
+  padding:2@dp,2@dp,0,0;
+  height:1@discountBoxHeight+2@dp;
+  min-width:h;
   text:"%";
   tooltip:"#discount/notification";
 }
@@ -488,24 +492,25 @@ discount_notification[type=lineText] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_bg;
   background-position:7,7,3,3;
-  padding:4,2,0,0;
+  padding:2@dp,2@dp,0,0;
   height:1@discountBoxHeight;
+  min-width:2h;
 }
 
 Button_text > discount_notification[type=lineText] {
-  pos:pw-w-4, 5;
+  pos:pw-w-1@blockInterval, 1@blockInterval;
   position:absolute;
-  height:ph - 11;
+  height:ph-2@blockInterval;
 }
 
 discount_notification[type=box_down] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_down_bg;
   background-position:21,2,2,6;
-  padding:0, 3*@sf/@pf_outdated, 0, 8*@sf/@pf_outdated;
+  padding:1@discountBoxPadding,1@discountBoxPadding,1@discountBoxPadding,1@discountBoxDownArrowHeight;
   height:1@discountBoxDownHeight;
-  left:pw-w-5*@sf/@pf_outdated;
-  top:-16*@sf/@pf_outdated;
+  left:pw-w-8*@sf/@pf;
+  top:-1@discountBoxUnitTop;
   position:absolute;
 }
 
@@ -513,10 +518,11 @@ discount_notification[type=box_left] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_bg;
   background-position:7,7,3,3;
-  padding:4,2,0,0;
-  height:1@discountBoxHeight;
-  right:pw-w-16*@sf/@pf_outdated;
-  top:16*@sf/@pf_outdated;
+  padding:2@dp,2@dp,0,0;
+  height:1@discountBoxHeight+2@dp;
+  min-width:2h;
+  left:25%pw;
+  top:50%ph;
   position:absolute;
 }
 
@@ -525,20 +531,20 @@ discount_notification[type=box_down][noShift] {
 }
 
 discount_notification[place=unit] {
-  pos:pw-w, -16*@sf/@pf_outdated;
+  pos:pw-w, -1@discountBoxUnitTop;
 }
 
 discount_notification[place=unitGroup] {
-  pos:pw-w, -12*@sf/@pf_outdated;
+  pos:pw-w, -1@discountBoxUnitTop;
 }
 
 discount_notification[type=box_up] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_up_bg;
   background-position:21,6,2,2;
-  padding:0, 13*@sf/@pf_outdated, 0, 2*@sf/@pf_outdated;
-  height:26*@sf/@pf_outdated;
-  pos:pw-w-5*@sf/@pf_outdated, ph - 6*@sf/@pf_outdated;
+  padding:1@discountBoxPadding, 1@discountBoxDownArrowHeight, 1@discountBoxPadding, 0;
+  height:1@discountBoxDownHeight;
+  pos:50%pw-50%w, ph - 6*@sf/@pf;
   position:absolute;
 }
 

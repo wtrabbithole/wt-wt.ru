@@ -3,7 +3,15 @@ local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 class ::items_classes.ItemVehicle extends ItemExternal {
   static iType = itemType.VEHICLE
+  static defaultLocId = "coupon"
+  static isUseTypePrefixInName = true
   static typeIcon = "#ui/gameuiskin#item_type_blueprints"
+  static descHeaderLocId = "coupon/for/vehicle"
+
+  function getContentIconData()
+  {
+    return { contentIcon = ::image_for_air(metaBlk?.unit ?? ""), contentType = "unit" }
+  }
 
   function canConsume()
   {

@@ -78,6 +78,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       typeMask = itemType.DECAL
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
     } {
+      key = "keys"
+      typeMask = itemType.KEY
+      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
+    } {
       key = "chests"
       typeMask = itemType.CHEST
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []

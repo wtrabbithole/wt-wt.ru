@@ -68,7 +68,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(bDiv))
       guiScene.destroyElement(bDiv)
 
-    local crew = ::get_country_crews(country)?[takeCrewIdInCountry]
+    local crew = ::get_crews_list_by_country(country)?[takeCrewIdInCountry]
     createSlotbar(
       {
         crewId = crew?.id
@@ -332,7 +332,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   function fillLegendData()
   {
     local legendData = []
-    foreach (idx, crew in ::get_country_crews(country))
+    foreach (idx, crew in ::get_crews_list_by_country(country))
     {
       local specType = ::g_crew_spec_type.getTypeByCode(::g_crew_spec_type.getTrainedSpecCode(crew, unit))
       if (specType != ::g_crew_spec_type.UNKNOWN)

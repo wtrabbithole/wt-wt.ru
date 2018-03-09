@@ -91,7 +91,7 @@ class WeaponsPurchase
       local statusTbl = ::weaponVisual.getItemStatusTbl(unit, modItem)
       if (!statusTbl.canBuyMore)
       {
-        ::showInfoMsgBox(::loc("weaponry/enoughAmount"), "enough_amount")
+        ::g_popups.add("", ::loc("weaponry/enoughAmount"), null, null, null, "enough_amount")
         return remove()
       }
 

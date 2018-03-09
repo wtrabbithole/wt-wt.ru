@@ -37,13 +37,6 @@ function g_recent_items::getNumOtherItems()
   return inactiveItems.len()
 }
 
-function g_recent_items::_createConfirmMessageText(item)
-{
-  return ::loc("recentItems/useItem", {
-    itemName = item.getName()
-  })
-}
-
 function g_recent_items::reset()
 {
   wasCreated = false
