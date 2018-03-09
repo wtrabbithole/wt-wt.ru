@@ -414,4 +414,10 @@ function g_language::getCurrentSteamLanguage()
   return currentSteamLanguage
 }
 
+// used in native code
+function get_current_steam_language()
+{
+  return g_language.getCurrentSteamLanguage()
+}
+
 ::subscribe_handler(::g_language, ::g_listener_priority.DEFAULT_HANDLER)

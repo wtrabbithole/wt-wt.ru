@@ -262,6 +262,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
   local ignoreRentItems = []
   local total = get_user_logs_count()
   local unlocksNeedsPopupWnd = false
+  local hasDebriefingModalInScene = ::isHandlerInScene(::gui_handlers.DebriefingModal)
+  local isFinishedresearchesWindowsAllowed = handler?.isFinishedresearchesWindowsAllowed ?? true
 
   for(local i = 0; i < total; i++)
   {
@@ -290,7 +292,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         local nameLoc = "userlog/"+logName + (blk.body.win? "/win":"/lose")
         msg = format(::loc(nameLoc), mission) //need more info in log, maybe title.
         ::my_stats.markStatsReset()
-        if (!::isHandlerInScene(::gui_handlers.DebriefingModal))
+        if (isFinishedresearchesWindowsAllowed)
           ::checkNonApprovedResearches(true, true)
         ::broadcastEvent("BattleEnded", {eventId = blk.body.eventId})
       }
@@ -358,7 +360,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
 
       if ((! ::is_unlock_need_popup(blk.body.unlockId)
           && ! ::is_unlock_need_popup_in_menu(blk.body.unlockId))
-        || ::isHandlerInScene(::gui_handlers.DebriefingModal))
+        || hasDebriefingModalInScene)
         continue
 
       if (::is_unlock_need_popup_in_menu(blk.body.unlockId))
@@ -413,7 +415,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     }
     else if (blk.type == ::EULT_OPEN_ALL_IN_TIER)
     {
-      if (onStartAwards)
+      if (onStartAwards || !isFinishedresearchesWindowsAllowed)
         continue
       ::combineUserLogs(combinedUnitTiersUserLogs, blk, "unit", ["expToInvUnit", "expToExcess"])
       markDisabled = true
@@ -466,10 +468,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
 
   if (trophyRewardsTable.len() > 0)
   {
-    if (onStartAwards)
-      handler.doWhenActive((@(trophyRewardsTable) function() { ::gui_start_open_trophy(trophyRewardsTable) })(trophyRewardsTable))
-    else
-      ::gui_start_open_trophy(trophyRewardsTable)
+    ::gui_start_open_trophy(trophyRewardsTable)
   }
 
   foreach(key, config in rentsTable)
@@ -481,14 +480,10 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         ::showUnlockWnd(config)
     }
 
-  if (handler)
-    foreach(name, table in combinedUnitTiersUserLogs)
-    {
-      if (onStartAwards)
-        handler.doWhenActive((@(table) function() {::gui_start_mod_tier_researched(table)})(table))
-      else
-        ::gui_start_mod_tier_researched(table)
-    }
+  foreach(name, table in combinedUnitTiersUserLogs)
+  {
+    ::gui_start_mod_tier_researched(table)
+  }
 }
 
 function combineUserLogs(currentData, newUserLog, combineKey = null, sumParamsArray = [])

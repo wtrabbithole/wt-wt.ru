@@ -1,5 +1,7 @@
 const PSN_MAPPER_UPDATE_DELAY = 60000
 ::g_psn_mapper <- {
+  [PERSISTENT_DATA_PARAMS] = ["cache", "lastUpdate"]
+
   cache = {} // onlineId(nick) = accountId(psn id)
 
   lastUpdate = -PSN_MAPPER_UPDATE_DELAY
@@ -78,4 +80,5 @@ function g_psn_mapper::onEventContactsGroupUpdate(params)
     ::g_psn_mapper.updateAccountIdsList(true)
 }
 
+::g_script_reloader.registerPersistentDataFromRoot("g_psn_mapper")
 ::subscribe_handler(::g_psn_mapper, ::g_listener_priority.DEFAULT_HANDLER)

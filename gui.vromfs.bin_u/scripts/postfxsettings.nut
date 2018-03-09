@@ -8,6 +8,8 @@
     "lut_list", "lut_textures"
   ])
 
+local firstColumnWidth = 0.45
+
 function get_lut_index_by_texture(texture)
 {
   foreach(index, listName in ::lut_textures)
@@ -71,32 +73,34 @@ class ::gui_handlers.PostFxSettings extends ::gui_handlers.BaseGuiHandlerWT
     valueObj.setValue(valueText)
   }
 
+  function createRowMarkup(name, controlMarkup)
+  {
+    local controlCell = ::format("td { width:t='%.3fpw'; padding-left:t='@optPad'; %s }", 1.0 - firstColumnWidth, controlMarkup)
+    local res = ::format("tr{ id:t='%s'; td { width:t='%.3fpw'; overflow:t='hidden'; optiontext {text:t='%s'; } } %s }"
+      name, firstColumnWidth, "#options/" + name, controlCell)
+    return res
+  }
+
   function createOneSlider(name, value, cb, params, showValue)
   {
-    local txt = "tr{ id:t='" + name + "'; td { width:t='0.5pw'; overflow:t='hidden'; optiontext {text:t='#options/" + name + "'; } }"
-    txt += " td { width:t='0.5pw'; padding-left:t='@optPad'; ";
-    txt += ::create_option_slider("postfx_settings_" + name, value.tointeger(), cb, true, "slider", params);
+    local markuo = ::create_option_slider("postfx_settings_" + name, value.tointeger(), cb, true, "slider", params)
+    if (showValue)
+      markuo += format(" optionValueText { id:t='%s' } ", name+"_value");
+    markuo = createRowMarkup(name, markuo)
+
+    local dObj = scene.findObject("postfx_table")
+    guiScene.appendWithBlk(dObj, markuo, this)
 
     if (showValue)
-      txt += format(" activeText{ id:t='%s' } ", name+"_value");
-
-    txt += " } }";
-    local dObj = scene.findObject("postfx_table");
-
-    guiScene.appendWithBlk(dObj, txt, this);
-
-    if (showValue)
-      updateSliderValue(name, value * recScale);
+      updateSliderValue(name, value * recScale)
   }
+
   function createOneSpinner(name, list, value, cb)
   {
-    local txt = "tr{ id:t='" + name + "'; td { width:t='0.5pw'; overflow:t='hidden'; optiontext {text:t='#options/" + name + "'; } }"
-    txt += " td { width:t='0.5pw'; padding-left:t='@optPad';";
-    txt += ::create_option_list("postfx_settings_" + name, list, value, cb, true)
-    txt += " } }";
-    local dObj = scene.findObject("postfx_table");
-
-    guiScene.appendWithBlk(dObj, txt, this);
+    local markuo = ::create_option_list("postfx_settings_" + name, list, value, cb, true)
+    markuo = createRowMarkup(name, markuo)
+    local dObj = scene.findObject("postfx_table")
+    guiScene.appendWithBlk(dObj, markuo, this)
   }
 
   function createObjects()

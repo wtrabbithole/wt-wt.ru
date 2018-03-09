@@ -125,26 +125,25 @@ enum itemsTab {
 enum itemType { //bit values for easy multitype search
   UNKNOWN      = 0
 
-  TROPHY         = 0x0001  //chest
-  BOOSTER        = 0x0002
-  TICKET         = 0x0004  //tournament ticket
-  WAGER          = 0x0008
-  DISCOUNT       = 0x0010
-  ORDER          = 0x0020
-  FAKE_BOOSTER   = 0x0040
-  UNIVERSAL_SPARE= 0x0080
-  VEHICLE        = 0x0100
-  SKIN           = 0x0200
-  DECAL          = 0x0400
-  KEY            = 0x0800
-  CHEST          = 0x1000
+  TROPHY          = 0x00000001  //chest
+  BOOSTER         = 0x00000002
+  TICKET          = 0x00000004  //tournament ticket
+  WAGER           = 0x00000008
+  DISCOUNT        = 0x00000010
+  ORDER           = 0x00000020
+  FAKE_BOOSTER    = 0x00000040
+  UNIVERSAL_SPARE = 0x00000080
+  MOD_OVERDRIVE   = 0x00000100
+  MOD_UPGRADE     = 0x00000200
 
-  //entitlement items
-  //WARPOINTS    = 0x0002
-  //PREMIUM      = 0x0004
-  //GOLD         = 0x0008
+  //external inventory
+  VEHICLE         = 0x00010000
+  SKIN            = 0x00020000
+  DECAL           = 0x00040000
+  KEY             = 0x00080000
+  CHEST           = 0x00100000
 
-  ALL          = 0xFFFF
+  ALL             = 0xFFFFFFFF
 }
 
 enum prizesStack {
@@ -216,6 +215,15 @@ local colorTagToColors = {
   [COLOR_TAG.TEAM_RED] = "teamRedColor",
 }
 
+enum SEEN {
+  TITLES = "titles"
+  AVATARS = "avatars"
+  EVENTS = "events"
+
+  //sublists
+  S_EVENTS_WINDOW = "##events_window##"
+}
+
 function randomize()
 {
   local tm = ::get_local_time()
@@ -225,15 +233,14 @@ randomize()
 
 //------- vvv files before login vvv ----------
 
-::g_string <- ::require("sqStdLibs/common/string.nut") //put g_string to root_table
-::u <- ::require("sqStdLibs/common/u.nut") //put u to roottable
+::g_string <- ::require("std/string.nut") //put g_string to root_table
+::u <- ::require("std/u.nut") //put u to roottable
 ::Callback <- ::require("sqStdLibs/helpers/callback.nut").Callback
 
 foreach (fn in [
   "scripts/sharedEnums.nut"
 
-  "sqStdLibs/common/math.nut"
-  "sqStdLibs/helpers/enumUtils.nut"
+  "std/math.nut"
 
   "sqDagui/guiBhv/allBhv.nut"
   "scripts/bhvCreditsScroll.nut"
@@ -259,7 +266,6 @@ foreach (fn in [
   "scripts/options/optionsExtNames.nut"
   "scripts/options/fonts.nut"
   "scripts/options/consoleMode.nut"
-  "scripts/options/gamepadCursorControls.nut"
   "scripts/options/optionsManager.nut"
   "scripts/options/optionsBeforeLogin.nut"
 
@@ -282,6 +288,7 @@ foreach (fn in [
   "scripts/pseudoThread.nut"
   "scripts/loginWT.nut"
 
+  "scripts/options/gamepadCursorControls.nut"
   "scripts/unit/unitType.nut"
   "scripts/loading/loadingTips.nut"
   "scripts/options/countryFlagsPreset.nut"
@@ -305,6 +312,7 @@ foreach (fn in [
   "scripts/debugTools/dbgUtils.nut"
   "scripts/debugTools/dbgImage.nut"
   "scripts/debugTools/dbgFonts.nut"
+  "scripts/debugTools/dbgAvatarsList.nut"
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"
@@ -548,7 +556,9 @@ function load_scripts_after_login_once()
     "user/userCard.nut"
     "user/profileHandler.nut"
     "user/viralAcquisition.nut"
+    "user/chooseTitle.nut"
 
+    "contacts/contact.nut"
     "contacts/contactPresence.nut"
     "contacts/contacts.nut"
     "contacts/playerStateTypes.nut"
@@ -663,7 +673,6 @@ function load_scripts_after_login_once()
     "items/itemsShop.nut"
     "items/trophyReward.nut"
     "items/trophyGroupShopWnd.nut"
-    "items/chestOpenWnd.nut"
     "items/trophyRewardWnd.nut"
     "items/trophyRewardList.nut"
     "items/everyDayLoginAward.nut"
@@ -764,6 +773,8 @@ function load_scripts_after_login_once()
 
   // Independed Modules
   ::require("scripts/social/playerInfoUpdater.nut")
+  ::require("scripts/seen/bhvUnseen.nut")
+  ::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

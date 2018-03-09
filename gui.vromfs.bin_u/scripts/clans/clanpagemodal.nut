@@ -159,10 +159,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       clanTitleObj.setValue(::colorize(clanData.type.color, clanName))
 
     local clanDate = clanData.getCreationDateText()
-    scene.findObject("clan-creationDate").setValue(::loc("clan/creationDate")+" "+clanDate);
+    scene.findObject("clan-creationDate").setValue(::loc("clan/creationDate") + " "
+      + ::colorize("activeTextColor", clanDate));
 
     local membersCountText = ::g_clans.getClanMembersCountText(clanData)
-    local text = ::loc("clan/memberListTitle") + ::loc("ui/parentheses/space", {text = membersCountText})
+    local text = ::loc("clan/memberListTitle")
+      + ::loc("ui/parentheses/space", { text = ::colorize("activeTextColor", membersCountText) })
     scene.findObject("clan-memberCount").setValue(text)
 
     fillClanRequirements()
@@ -195,7 +197,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (isVisible)
     {
       text += ::loc("clan/lastChanges") + ::loc("ui/colon")
-      local color = ::my_user_id_str == clanData.changedByUid? "mainPlayerColor" : ""
+      local color = ::my_user_id_str == clanData.changedByUid? "mainPlayerColor" : "activeTextColor"
       text += ::colorize(color, platformModule.getPlayerName(clanData.changedByNick))
       text += ::loc("ui/comma") + clanData.getInfoChangeDateText()
     }
@@ -846,27 +848,24 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       return;
     local uid = getClanMemberUid(curPlayer);
 
-    ::gui_modal_comment(this, ::loc("clan/writeCommentary"), ::loc("clan/btnDismissMember"), (@(uid) function(comment) {
-      taskId = ::clan_request_dismiss_member(uid, comment);
+    ::gui_modal_comment(
+      null,
+      ::loc("clan/writeCommentary"),
+      ::loc("clan/btnDismissMember"),
+      function(comment) {
+        local onSuccess = function() {
+          ::broadcastEvent("ClanMemberDismissed")
+          ::g_popups.add("", ::loc("clan/memberDismissed"))
+        }
 
-      if (taskId >= 0)
-      {
-        ::set_char_cb(this, slotOpCb)
-        showTaskProgressBox()
+        local taskId = ::clan_request_dismiss_member(uid, comment)
+
         if (!::clan_get_admin_editor_mode())
           ::sync_handler_simulate_signal("clan_info_reload")
-        afterSlotOp = function()
-          {
-            if(clan_get_admin_editor_mode())
-              reinitClanWindow()
 
-            if (isMyClan)
-              ::sync_handler_simulate_signal("clan_info_reload")
-
-            msgBox("member_dismissed", ::loc("clan/memberDismissed"), [["ok"]], "ok")
-          }
+        ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
       }
-    })(uid))
+    )
   }
 
   function onChangeMembershipRequirementsWnd()
@@ -903,7 +902,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_start_modal_wnd(::gui_handlers.clanChangeRoleModal,
       {
         changeRolePlayer = changeRolePlayer,
-        owner = this,
         clanType = clanData.type
       });
   }
@@ -1077,7 +1075,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     local curClan = getCurClan()
     if (curClan)
-      ::clan_membership_request(curClan, this)
+      ::g_clans.requestMembership(curClan)
   }
 
   function onClanSquads(obj = null)
@@ -1101,6 +1099,15 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function onEventClanMembershipRequested(p)
   {
     fillClanManagment()
+  }
+
+  function onEventClanMemberDismissed(p)
+  {
+    if (!::clan_get_admin_editor_mode())
+      ::sync_handler_simulate_signal("clan_info_reload")
+
+    if (::clan_get_admin_editor_mode())
+      reinitClanWindow()
   }
 
   function complainToClan(clanId)
@@ -1196,6 +1203,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function onEventClanMembersUpgraded(p)
   {
     if (clan_get_admin_editor_mode() && p.clanId == clanIdStrReq)
+      reinitClanWindow()
+  }
+
+  function onEventClanMemberRoleChanged(p)
+  {
+    if (::clan_get_admin_editor_mode())
       reinitClanWindow()
   }
 

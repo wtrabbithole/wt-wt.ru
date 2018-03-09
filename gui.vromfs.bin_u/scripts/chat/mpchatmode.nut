@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum mpChatModeSort {
   TEAM
   SQUAD
@@ -23,7 +24,7 @@ enum mpChatModeSort {
   isEnabled   = function() { return false }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_mp_chat_mode", {
+enums.addTypesByGlobalName("g_mp_chat_mode", {
   ALL = {
     id = ::CHAT_MODE_ALL
     name = "all"
@@ -69,7 +70,7 @@ enum mpChatModeSort {
 
 function g_mp_chat_mode::getModeById(modeId)
 {
-  return ::g_enum_utils.getCachedType("id", modeId, cache.byId, this, ALL)
+  return enums.getCachedType("id", modeId, cache.byId, this, ALL)
 }
 
 

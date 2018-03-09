@@ -97,6 +97,14 @@ class ::mission_rules.Base
     return ::loc("respawn/leftTeamUnit", { num = unitLeftRespawns })
   }
 
+  function getRespawnInfoTextForUnitInfo(unit)
+  {
+    local unitLeftRespawns = getUnitLeftRespawns(unit)
+    if (unitLeftRespawns == ::RESPAWNS_UNLIMITED)
+      return ""
+    return ::loc("unitInfo/team_left_respawns") + ::loc("ui/colon") + unitLeftRespawns
+  }
+
   function getSpecialCantRespawnMessage(unit)
   {
     return null
@@ -148,7 +156,6 @@ class ::mission_rules.Base
   {
     local country = ::get_local_player_country()
 
-    ::g_crews_list.refresh()
     local crewsInfo = ::g_crews_list.get()
     foreach(crew in crewsInfo)
       if (crew.country == country)
@@ -178,26 +185,27 @@ class ::mission_rules.Base
 
   function getMinimalRequiredSpawnScore()
   {
-    local minScore = -1
+    local res = -1
     if (!isScoreRespawnEnabled)
-      return minScore
+      return res
 
-    local country = ::get_local_player_country()
-    ::g_crews_list.refresh()
-    local crewsInfo = ::g_crews_list.get()
-    foreach(crew in crewsInfo)
-      if (crew.country == country)
-        foreach (slot in crew.crews)
-        {
-          local airName = ("aircraft" in slot) ? slot.aircraft : ""
-          local air = ::getAircraftByName(airName)
-          if (air && ::is_crew_available_in_session(slot.idInCountry, false) && ::is_crew_slot_was_ready_at_host(slot.idInCountry, airName, true))
-          {
-            local reqScore = ::shop_get_spawn_score(airName, "")
-            minScore = minScore >= 0? ::min(reqScore, minScore) : reqScore
-          }
-        }
-    return minScore
+    local crews = ::get_crews_list_by_country(::get_local_player_country())
+    if (!crews)
+      return res
+
+    foreach(crew in crews)
+    {
+      local unit = ::g_crew.getCrewUnit(crew)
+      if (!unit
+        || !::is_crew_available_in_session(crew.idInCountry, false)
+        || !::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, true))
+        continue
+
+      local minScore = unit.getMinimumSpawnScore()
+      if (res < 0 || res > minScore)
+        res = minScore
+    }
+    return res
   }
 
   /*
@@ -221,7 +229,7 @@ class ::mission_rules.Base
     if (getLeftRespawns() == 0)
       return res
 
-    local crews = ::get_crews_list_by_country(::get_local_player_country(), true)
+    local crews = ::get_crews_list_by_country(::get_local_player_country())
     if (!crews)
       return res
 
@@ -239,11 +247,12 @@ class ::mission_rules.Base
           || !getUnitLeftRespawns(unit))
         continue
 
-      if (isScoreRespawnEnabled && curSpawnScore >= 0)
+      if (isScoreRespawnEnabled && curSpawnScore >= 0
+        && curSpawnScore < unit.getSpawnScore())
       {
-        if (curSpawnScore < ::shop_get_spawn_score(unit.name, ""))
+        if (curSpawnScore < unit.getMinimumSpawnScore())
           continue
-        if (curSpawnScore < ::shop_get_spawn_score(unit.name, ::get_last_weapon(unit.name)))
+        else
           comment = ::loc("respawn/withCheaperWeapon")
       }
 
@@ -343,7 +352,7 @@ class ::mission_rules.Base
   //return -1 when unlimited
   function getWeaponRespawnsLeftByLimitsBlk(unit, weapon, weaponLimitsBlk)
   {
-    if (::getAmmoCost(unit.name, weapon.name, AMMO.WEAPON).isZero())
+    if (::getAmmoCost(unit, weapon.name, AMMO.WEAPON).isZero())
       return -1
 
     foreach(blk in weaponLimitsBlk % unit.name)
@@ -458,6 +467,16 @@ class ::mission_rules.Base
       minValue = minValue ?? 0
       maxValue = maxValue ?? 0
     }
+  }
+
+  function isUnitForcedVisible(unitName)
+  {
+    return getMyStateBlk()?.ownAvailableUnits?[unitName] == true
+  }
+
+  function isWorldWarUnit(unitName)
+  {
+    return isWorldWar && getMyStateBlk()?.ownAvailableUnits?[unitName] == false
   }
 }
 

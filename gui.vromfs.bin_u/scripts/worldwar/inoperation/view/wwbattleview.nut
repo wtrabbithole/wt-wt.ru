@@ -195,7 +195,7 @@ class ::WwBattleView
       return ::loc("worldWar/unavailable_for_team")
 
     local curPlayers = ::getTblValue("players", team)
-    return battle.isConfirmed() ?
+    return battle.isConfirmed() && battle.getMyAssignCountry() ?
       ::loc("worldwar/battle/playersCurMax", { cur = curPlayers, max = maxPlayers }) :
       ::loc("worldwar/battle/playersMinMax", { min = minPlayers, max = maxPlayers })
   }
@@ -203,7 +203,8 @@ class ::WwBattleView
   function unitsList(wwUnits, isReflected, hasLineSpacing)
   {
     wwUnits.sort(::g_world_war.sortUnitsBySortCodeAndCount)
-    wwUnits = ::u.map( wwUnits, function(wwUnit) { return wwUnit.getShortStringView(true, false) })
+    wwUnits = ::u.map( wwUnits, @(wwUnit)
+      wwUnit.getShortStringView(true, true, true, true, true) )
 
     local view = {
       columns = [{unitString = wwUnits}]
@@ -360,5 +361,16 @@ class ::WwBattleView
   function isAutoBattle()
   {
     return battle.isAutoBattle()
+  }
+
+  function hasTeamsInfo()
+  {
+    return battle.isValid() && battle.isConfirmed()
+  }
+
+  function getTotalPlayersInfoText()
+  {
+    return ::loc("worldwar/totalPlayers") + ::loc("ui/colon") +
+      ::colorize("newTextColor", battle.getTotalPlayersNumber())
   }
 }

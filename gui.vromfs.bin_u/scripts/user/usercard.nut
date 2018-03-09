@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
-
+local externalIDsService = require("scripts/user/externalIdsService.nut")
+local avatars = ::require("scripts/user/avatars.nut")
 
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
@@ -114,7 +115,40 @@ function gui_modal_userCard(playerInfo)  // uid, id (in session), name
 
 class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
+  wndType = handlerType.MODAL
+  sceneBlkName = "gui/userCard.blk"
   sceneCheckBoxListTpl = "gui/profile/checkBoxList"
+
+  isOwnStats = false
+
+  info = null
+  sheetsList = ["Profile", "Statistics"]
+
+  tabImageNameTemplate = "#ui/gameuiskin#sh_%s.svg"
+  tabLocalePrefix = "#mainmenu/btn"
+
+  statsPerPage = 0
+  showLbPlaces = 0
+
+  airStatsInited = false
+  profileInited = false
+
+  airStatsList = null
+  statsType = ::ETTI_VALUE_INHISORY
+  statsMode = ""
+  statsCountries = null
+  statsUnits = []
+  statsSortBy = ""
+  statsSortReverse = false
+  curStatsPage = 0
+
+  player = null
+  searchPlayerByNick = false
+  infoReady = false
+
+  curMode = ::DIFFICULTY_ARCADE
+  lbMode  = ""
+  lbModesList = null
 
   function initScreen()
   {
@@ -143,7 +177,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::my_user_id_str == player.uid)
         isMyPage = true
       else
-      ::externalIDsService.reqPlayerExternalIDsByUserId(player.uid)
+        externalIDsService.reqPlayerExternalIDsByUserId(player.uid)
     }
     else if ("id" in player)
     {
@@ -152,7 +186,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (selfPlayerId != null && selfPlayerId == player.id)
         isMyPage = true
       else
-        ::externalIDsService.reqPlayerExternalIDsByPlayerId(player.id)
+        externalIDsService.reqPlayerExternalIDsByPlayerId(player.id)
     }
     else
     {
@@ -161,7 +195,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (isMyPage)
-      fillExternalIds(::externalIDsService.getSelfExternalIds())
+      fillExternalIds(externalIDsService.getSelfExternalIds())
 
     if (taskId < 0)
       return notFoundPlayerMsg()
@@ -369,7 +403,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillClanInfo(playerData)
   {
     local clanTagObj = scene.findObject("profile-clanTag");
-    if (playerData.clanTag != "" && clanTagObj)
+    if (clanTagObj)
     {
       local clanType = ::g_clan_type.getTypeByCode(playerData.clanType)
       local text = ::checkClanTagForDirtyWords(playerData.clanTag);
@@ -597,7 +631,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillCountriesCheckBoxes(sObj)
   {
     if (!statsCountries)
-      statsCountries = [::get_profile_info().country]
+      statsCountries = [::get_profile_country_sq()]
 
     local countriesObj = sObj.findObject("countries_boxes")
     local countriesView = { checkBoxes = [] }
@@ -1066,75 +1100,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (focusObj)
       focusObj.select()
   }
-
-  isOwnStats = false
-
-  scene = null
-  info = null
-  sheetsList = ["Profile", "Statistics"]
-
-  tabImageNameTemplate = "#ui/gameuiskin#sh_%s.svg"
-  tabLocalePrefix = "#mainmenu/btn"
-
-  statsPerPage = 0
-  showLbPlaces = 0
-
-  airStatsInited = false
-  profileInited = false
-
-  airStatsList = null
-  statsType = ::ETTI_VALUE_INHISORY
-  statsMode = ""
-  statsCountries = null
-  statsUnits = []
-  statsSortBy = ""
-  statsSortReverse = false
-  curStatsPage = 0
-
-  player = null
-  searchPlayerByNick = false
-  infoReady = false
-
-  curMode = ::DIFFICULTY_ARCADE
-  lbMode  = ""
-  lbModesList = null
-
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/userCard.blk"
-}
-
-function fill_countries_exp(cObj, profileData=null)
-{
-  if (!::checkObj(cObj)) return
-
-  local guiScene = cObj.getScene()
-  guiScene.replaceContentFromText(cObj, "", 0, this)
-  foreach(country in ::shopCountriesList)
-  {
-    local id = country + "_exp"
-    local data = format("country_exp_div { id:t='%s' }", id)
-    guiScene.appendWithBlk(cObj, data, this)
-    local countryObj = cObj.findObject(id)
-    guiScene.replaceContent(countryObj, "gui/countryExpItem.blk", this)
-    fillCountryInfo(countryObj, country, 0, true, profileData)
-  }
-}
-
-function calcStat(func, diff, mode, fm_idx = null) {
-  local value = 0
-
-  for (local idx = 0; idx < 3; idx++) //difficulty
-    if (idx == diff || diff < 0)
-
-      for(local pm=0; pm < 2; pm++)  //players
-        if (mode == pm || mode < 0)
-
-          if (fm_idx!=null)
-            value += func(idx, fm_idx, pm)
-          else
-            value += func(idx, pm)
-
-  return value
 }
 
 function build_profile_summary_rowData(config, summary, diff, textId = "")
@@ -1263,7 +1228,7 @@ function get_player_stats_from_blk(blk)
 
   player.icon <- "cardicon_default"
   if (blk.icon != null)
-    player.icon = ::get_pilot_icon_by_id(blk.icon)
+    player.icon = avatars.getIconById(blk.icon)
 
   //aircrafts list
   player.aircrafts <- []
@@ -1289,86 +1254,4 @@ function get_player_stats_from_blk(blk)
   player.leaderboard <- blk.leaderboard? ::buildTableFromBlk(blk.leaderboard) : {}
 
   return player
-}
-
-::externalIDsService <- {
-  function reqPlayerExternalIDsByPlayerId(playerId)
-  {
-    local taskId = ::req_player_external_ids_by_player_id(playerId)
-    ::externalIDsService.requestExternalIDsFromServer(taskId, {playerId = playerId})
-  }
-
-  function reqPlayerExternalIDsByUserId(uid)
-  {
-    local taskId = ::req_player_external_ids(uid)
-    ::externalIDsService.requestExternalIDsFromServer(taskId, {uid = uid})
-  }
-
-  function getSelfExternalIds()
-  {
-    local table = {}
-
-  //STEAM
-    local steamId = ::get_my_external_id(::EPL_STEAM)
-    if (steamId != null)
-      table.steamName <- ::steam_get_name_by_id(steamId)
-
-  //FACEBOOK
-    if (::facebook_is_logged_in() && ::no_dump_facebook_friends)
-    {
-      local fId = ::get_my_external_id(::EPL_FACEBOOK)
-      if (fId in ::no_dump_facebook_friends)
-        table.facebookName <- ::no_dump_facebook_friends[fId]
-    }
-
-  //PLAYSTATION NETWORK
-    local psnId = ::get_my_external_id(::EPL_PSN)
-    if (psnId != null)
-      table.psnName <- psnId
-
-    return table
-  }
-
-  function requestExternalIDsFromServer(taskId, request, noisy = false)
-  {
-    local progressBox = null
-    if (noisy)
-      progressBox = ::scene_msg_box("char_connecting", null,
-                                    ::loc("charServer/purchase"),
-                                    null, null)
-    ::add_bg_task_cb(taskId, (@(progressBox, request) function() {
-        ::externalIDsService.updateExternalIDsTable(request)
-        ::destroyMsgBox(progressBox)
-      })(progressBox, request)
-    )
-  }
-
-  function updateExternalIDsTable(request)
-  {
-    local blk = ::DataBlock()
-    ::get_player_external_ids(blk)
-
-    local eIDtable = ::getTblValue("externalIds", blk, null)
-    if (!eIDtable)
-      return
-
-    local table = {}
-  //STEAM
-    if (::EPL_STEAM in eIDtable && "id" in eIDtable[::EPL_STEAM] && ::steam_is_running())
-      table.steamName <- ::steam_get_name_by_id(blk.externalIds[::EPL_STEAM].id)
-
-  //FACEBOOK
-    if (::EPL_FACEBOOK in eIDtable && "id" in eIDtable[::EPL_FACEBOOK] && ::facebook_is_logged_in() && ::no_dump_facebook_friends)
-    {
-      local fId = eIDtable[::EPL_FACEBOOK].id
-      if (fId in ::no_dump_facebook_friends)
-        table.facebookName <- ::no_dump_facebook_friends[fId]
-    }
-
-  //PLAYSTATION NETWORK
-    if (::EPL_PSN in eIDtable && "id" in eIDtable[::EPL_PSN])
-      table.psnName <- eIDtable[::EPL_PSN].id
-
-    ::broadcastEvent("UpdateExternalsIDsTexts", {externalIds = table, request = request})
-  }
 }

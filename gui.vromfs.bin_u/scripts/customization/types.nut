@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local guidParser = require("scripts/guidParser.nut")
 local time = require("scripts/time.nut")
 
@@ -33,17 +34,6 @@ local time = require("scripts/time.nut")
 
     getLocName = function(decoratorName, addUnitName = false) { return ::loc(decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc(decoratorName + "/desc", "") }
-
-    getTagsLoc = function(tags)
-    {
-      local res = []
-      local blk = ::configs.GUI.get().decorator_tags_visible
-      if (blk)
-        foreach (tagBlk in blk % "i")
-          if (tags?[tagBlk.tag])
-            res.append(::loc("ugc/tag/" + tagBlk.tag))
-      return res
-    }
 
     getCost = function(decoratorName) { return ::Cost() }
     getDecoratorNameInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
@@ -82,6 +72,7 @@ local time = require("scripts/time.nut")
 
     getBlk = function() { return ::DataBlock() }
     getSpecialDecorator = function(id) { return null }
+    getUgcDecorator = @(id, cache) null
 
     specifyEditableSlot = function(slotIdx) {}
     addDecorator = function(decoratorName) {}
@@ -100,7 +91,7 @@ local time = require("scripts/time.nut")
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_decorator_type", {
+enums.addTypesByGlobalName("g_decorator_type", {
   UNKNOWN = {
   }
 
@@ -345,26 +336,38 @@ local time = require("scripts/time.nut")
 
     getSpecialDecorator = function(id)
     {
-      if (guidParser.isGuid(id))
-        return ::Decorator(id, this)
       if (::g_unlocks.getSkinNameBySkinId(id) == "default")
         return ::Decorator(id, this)
       return null
+    }
+
+    getUgcDecorator = function(id, cache)
+    {
+      if (id in cache)
+        return cache[id]
+
+      local isUgcDownloaded = guidParser.isGuid(::g_unlocks.getSkinNameBySkinId(id))
+      local isUgcItemContent = !isUgcDownloaded && guidParser.isGuid(id)
+      if (!isUgcDownloaded && !isUgcItemContent)
+        return null
+
+      cache[id] <- ::Decorator(getBlk()[id] || id, this)
+      return cache[id]
     }
   }
 }, null, "name")
 
 function g_decorator_type::getTypeByListId(listId)
 {
-  return ::g_enum_utils.getCachedType("listId", listId, ::g_decorator_type.cache.byListId, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
+  return enums.getCachedType("listId", listId, ::g_decorator_type.cache.byListId, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }
 
 function g_decorator_type::getTypeByUnlockedItemType(UnlockedItemType)
 {
-  return ::g_enum_utils.getCachedType("unlockedItemType", UnlockedItemType, ::g_decorator_type.cache.byUnlockedItemType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
+  return enums.getCachedType("unlockedItemType", UnlockedItemType, ::g_decorator_type.cache.byUnlockedItemType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }
 
 function g_decorator_type::getTypeByResourceType(resourceType)
 {
-  return ::g_enum_utils.getCachedType("resourceType", resourceType, ::g_decorator_type.cache.byResourceType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
+  return enums.getCachedType("resourceType", resourceType, ::g_decorator_type.cache.byResourceType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }

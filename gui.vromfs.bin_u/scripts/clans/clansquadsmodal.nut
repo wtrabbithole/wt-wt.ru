@@ -211,7 +211,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (squadsListObj.childrenCount() > idx) {
         return squadsListObj.getChild(idx)
     }
-    return squadsListObj.getChild(idx-1).getClone()
+    return squadsListObj.getChild(idx-1).getClone(squadsListObj, this)
   }
 
   function isMySquad(squad)

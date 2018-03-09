@@ -1,3 +1,6 @@
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local seenList = ::require("scripts/seen/seenList.nut")
+
 /*
   config = {
     options = [{ image = img1 }, { image = img2, height = 50 }]
@@ -27,8 +30,12 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
   choosenValue = null
 
   currentPage  = -1
-  itemsPerPage = 24
+  itemsPerPage = 1
   valueInited = false
+  isPageFill = false
+  imageButtonSize = "1@avatarButtonSize"
+  imageButtonInterval = 0
+  minAmountButtons = 8
 
   value = -1
   contentObj = null
@@ -50,6 +57,9 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
         value = options.len()
       options.append(option)
     }
+
+    initItemsPerPage()
+
     currentPage = ::max(0, (value / itemsPerPage).tointeger())
 
     contentObj = scene.findObject("images_list")
@@ -57,6 +67,31 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
     fillPage()
 
     showSceneBtn("btn_select", ::show_console_buttons)
+  }
+
+  function initItemsPerPage()
+  {
+    guiScene.applyPendingChanges(false)
+    local listObj = scene.findObject("images_list")
+    local config = ::g_dagui_utils.countSizeInItems(listObj, imageButtonSize, imageButtonSize, imageButtonInterval, imageButtonInterval)
+
+    //update size for single page
+    if (config.itemsCountX * config.itemsCountY > options.len())
+    {
+      local total = ::max(options.len(), minAmountButtons)
+      local columns = ::min(::calc_golden_ratio_columns(total), config.itemsCountX)
+      local rows = ::ceil(total.tofloat() / columns).tointeger()
+      if (rows > config.itemsCountY)
+      {
+        rows = config.itemsCountY
+        columns = ::ceil(total.tofloat() / rows).tointeger()
+      }
+      config.itemsCountX = columns
+      config.itemsCountY = rows
+    }
+
+    ::g_dagui_utils.adjustWindowSizeByConfig(scene.findObject("wnd_frame"), listObj, config)
+    itemsPerPage = config.itemsCountX * config.itemsCountY
   }
 
   function fillPage()
@@ -68,6 +103,8 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
     local haveCustomTooltip = getTooltipObjFunc() != null
     local start = currentPage * itemsPerPage
     local end = ::min((currentPage + 1) * itemsPerPage, options.len()) - 1
+    local selIdx = valueInited ? ::min(contentObj.getValue(), end - start)
+      : ::clamp(value - start, 0, end - start)
     for (local i = start; i <= end; i++)
     {
       local item = options[i]
@@ -77,25 +114,40 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
         enabled     = item.enabled
         haveCustomTooltip = haveCustomTooltip
         tooltipId   = haveCustomTooltip ? null : ::getTblValue("tooltipId", item)
+        unseenIcon = item?.seenListId && bhvUnseen.makeConfigStr(item?.seenListId, item?.seenEntity)
       }
       view.avatars.append(avatar)
     }
 
+    isPageFill = true
     local blk = ::handyman.renderCached("gui/avatars", view)
     guiScene.replaceContentFromText(contentObj, blk, blk.len(), this)
-    ::generatePaginator(scene.findObject("paginator_place"), this, currentPage, (options.len() - 1) / itemsPerPage)
+    updatePaginator()
 
-    local sel = ::min(contentObj.getValue(), end - start)
-    if (!valueInited && value >= start && value <= end)
-      sel = value - start
-    contentObj.setValue(sel)
+    contentObj.setValue(selIdx)
     valueInited = true
+    isPageFill = false
 
     updateButtons()
   }
 
+  function updatePaginator()
+  {
+    local paginatorObj = scene.findObject("paginator_place")
+    ::generatePaginator(paginatorObj, this, currentPage, (options.len() - 1) / itemsPerPage)
+
+    local prevUnseen = currentPage ? getSeenConfig(0, currentPage * itemsPerPage - 1) : null
+    local nextFirstIdx = (currentPage + 1) * itemsPerPage
+    local nextUnseen = nextFirstIdx >= options.len() ? null
+      : getSeenConfig(nextFirstIdx, options.len() - 1)
+    ::paginator_set_unseen(paginatorObj,
+      prevUnseen && bhvUnseen.makeConfigStr(prevUnseen.listId, prevUnseen.entities),
+      nextUnseen && bhvUnseen.makeConfigStr(nextUnseen.listId, nextUnseen.entities))
+  }
+
   function goToPage(obj)
   {
+    markCurPageSeen()
     currentPage = obj.to_page.tointeger()
     fillPage()
   }
@@ -112,7 +164,18 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
       chooseImage(obj.id.tointeger())
   }
 
-  function onSelect()
+  function onImageSelect()
+  {
+    if (isPageFill)
+      return
+
+    updateButtons()
+    local item = options?[getSelIconIdx()]
+    if (item?.seenListId)
+      seenList.get(item.seenListId).markSeen(item?.seenEntity)
+  }
+
+  function onChoose()
   {
     chooseImage(getSelIconIdx())
   }
@@ -156,5 +219,37 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
     local res = func(obj, id.tointeger())
     if (!res)
       obj["class"] = "empty"
+  }
+
+  function goBack()
+  {
+    markCurPageSeen()
+    base.goBack()
+  }
+
+  function getSeenConfig(start, end)
+  {
+    local res = {
+      listId = null
+      entities = []
+    }
+    for(local i = end; i >= start; i--)
+    {
+      local item = options[i]
+      if (!item?.seenListId || !item?.seenEntity)
+        continue
+
+      res.listId = item.seenListId
+      res.entities.append(item.seenEntity)
+    }
+    return res.listId ? res : null
+  }
+
+  function markCurPageSeen()
+  {
+    local seenConfig = getSeenConfig(currentPage * itemsPerPage,
+      ::min((currentPage + 1) * itemsPerPage, options.len()) - 1)
+    if (seenConfig)
+      seenList.get(seenConfig.listId).markSeen(seenConfig.entities)
   }
 }

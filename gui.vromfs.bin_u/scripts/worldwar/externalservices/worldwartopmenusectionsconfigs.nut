@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_ww_top_menu_left_side_sections <- {
   types = []
   cache = {
@@ -8,7 +9,7 @@
   getSectionByName = ::g_top_menu_sections.getSectionByName
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_top_menu_left_side_sections", [
+enums.addTypesByGlobalName("g_ww_top_menu_left_side_sections", [
   {
     name = "ww_menu"
     btnName = "ww_menu"
@@ -16,6 +17,7 @@
     getImage = function(totalSections = 0) { return ::is_low_width_screen()? "#ui/gameuiskin#btn_info.svg" : null }
     buttons = [
       [
+        ::g_top_menu_buttons.WW_GLOBAL_BATTLES
         ::g_top_menu_buttons.WW_OPERATIONS
         ::g_top_menu_buttons.WW_HANGAR
       ]

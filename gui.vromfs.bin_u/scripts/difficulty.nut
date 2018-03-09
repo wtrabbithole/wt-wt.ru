@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_difficulty <- {
   types = []
 }
@@ -36,7 +37,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_difficulty", {
+enums.addTypesByGlobalName("g_difficulty", {
   UNKNOWN = {
     name = "unknown"
     isAvailable = function(...) { return false }
@@ -114,34 +115,34 @@
 
 function g_difficulty::getDifficultyByDiffCode(diffCode)
 {
-  return ::g_enum_utils.getCachedType("diffCode", diffCode, ::g_difficulty_cache.byDiffCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
+  return enums.getCachedType("diffCode", diffCode, ::g_difficulty_cache.byDiffCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByName(name)
 {
-  return ::g_enum_utils.getCachedType("name", name, ::g_difficulty_cache.byName, ::g_difficulty, ::g_difficulty.UNKNOWN)
+  return enums.getCachedType("name", name, ::g_difficulty_cache.byName, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByEgdCode(egdCode)
 {
-  return ::g_enum_utils.getCachedType("egdCode", egdCode, ::g_difficulty_cache.byEgdCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
+  return enums.getCachedType("egdCode", egdCode, ::g_difficulty_cache.byEgdCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByEgdLowercaseName(name)
 {
-  return ::g_enum_utils.getCachedType("egdLowercaseName", name, ::g_difficulty_cache.byEgdLowercaseName,
+  return enums.getCachedType("egdLowercaseName", name, ::g_difficulty_cache.byEgdLowercaseName,
                                         ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByMatchingName(name)
 {
-  return ::g_enum_utils.getCachedType("matchingName", name, ::g_difficulty_cache.byMatchingName,
+  return enums.getCachedType("matchingName", name, ::g_difficulty_cache.byMatchingName,
                                         ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
 function g_difficulty::getDifficultyByCrewSkillName(name)
 {
-  return ::g_enum_utils.getCachedType("crewSkillName", name, ::g_difficulty_cache.byCrewSkillName,
+  return enums.getCachedType("crewSkillName", name, ::g_difficulty_cache.byCrewSkillName,
                                       ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 

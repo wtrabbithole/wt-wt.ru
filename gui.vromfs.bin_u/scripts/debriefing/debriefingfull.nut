@@ -373,6 +373,7 @@ function gather_debriefing_result()
   ::debriefing_result.sessionId <- ::get_mp_session_id()
   ::debriefing_result.useFinalResults <- ::getTblValue("useFinalResults", ::get_current_mission_info_cached(), false)
   ::debriefing_result.mpTblTeams <- ::get_mp_tbl_teams()
+  ::debriefing_result.unitTypesMask <- ::SessionLobby.getUnitTypesMask()
 
   if (::get_game_mode() == ::GM_BENCHMARK)
     ::debriefing_result.benchmark <- ::stat_get_benchmark()

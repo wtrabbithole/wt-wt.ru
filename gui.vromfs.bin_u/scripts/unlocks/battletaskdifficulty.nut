@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -46,7 +47,7 @@ function g_battle_task_difficulty::_getTimeLeftText()
   hasTimer = true
 }
 
-::g_enum_utils.addTypesByGlobalName("g_battle_task_difficulty", {
+enums.addTypesByGlobalName("g_battle_task_difficulty", {
   EASY = {
     image = "#ui/gameuiskin#battle_tasks_easy"
     timeParamId = "daily"
@@ -90,7 +91,7 @@ g_battle_task_difficulty.types.sort(function(a,b){
 
 function g_battle_task_difficulty::getDifficultyTypeByName(typeName)
 {
-  return ::g_enum_utils.getCachedType("name", typeName, ::g_battle_task_difficulty.cache.byName,
+  return enums.getCachedType("name", typeName, ::g_battle_task_difficulty.cache.byName,
     ::g_battle_task_difficulty, ::g_battle_task_difficulty.UNKNOWN)
 }
 

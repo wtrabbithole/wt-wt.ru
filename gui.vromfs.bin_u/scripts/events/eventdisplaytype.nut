@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_event_display_type <- {
   types = []
   cache = {
@@ -11,7 +12,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_event_display_type", {
+enums.addTypesByGlobalName("g_event_display_type", {
   //hidden event
   NONE = {
     name = "none"
@@ -53,6 +54,6 @@
 
 function g_event_display_type::getTypeByName(name)
 {
-  return ::g_enum_utils.getCachedType("name", name, ::g_event_display_type.cache.byName,
+  return enums.getCachedType("name", name, ::g_event_display_type.cache.byName,
     ::g_event_display_type, ::g_event_display_type.REGULAR)
 }

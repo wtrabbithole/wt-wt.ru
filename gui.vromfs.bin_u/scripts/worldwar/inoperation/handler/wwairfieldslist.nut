@@ -108,7 +108,7 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 
   function updateAirfieldFormation(index = -1)
   {
-    local blockObj = scene.findObject("free_formations_block")
+    local blockObj = scene.findObject("airfield_block")
     if (!::check_obj(blockObj))
       return
     local placeObj = blockObj.findObject("free_formations")
@@ -200,31 +200,37 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 
   function updateAirfieldDescription(index = -1)
   {
-    local formationTextObj = scene.findObject("free_formations_text")
-    if (!::check_obj(formationTextObj))
-      return
-    local emptyDescTextObj = scene.findObject("empty_formations_text")
-    if (!::check_obj(emptyDescTextObj))
+    local airfieldBlockObj = scene.findObject("airfield_block")
+    if (!::check_obj(airfieldBlockObj))
       return
 
-    formationTextObj.setValue(::loc("worldwar/state/ready_to_fly") +
-                              ::loc("ui/colon"))
     local airfield = ::g_world_war.getAirfieldByIndex(index)
-    if (!airfield)
-    {
-      formationTextObj.show(false)
-      emptyDescTextObj.show(false)
+    local isAirfielValid = airfield.isValid()
+
+    airfieldBlockObj.show(isAirfielValid)
+    if (!isAirfielValid)
       return
-    }
+
+    local airfieldInfoObj = airfieldBlockObj.findObject("airfield_info_text")
+    if (!::check_obj(airfieldInfoObj))
+      return
+
+    local airfieldInfoText = ::loc("worldwar/airfield_capacity") + ::loc("ui/colon")
+    local airfieldInfoValue = airfield.getUnitsNumber() + "/" +
+                              airfield.getSize() + " " +
+                              ::g_ww_unit_type.AIR.fontIcon
+    airfieldInfoObj.setValue(airfieldInfoText + ::colorize("@white", airfieldInfoValue))
 
     local hasFormationUnits = hasFormationsForFly(airfield)
     local hasCooldownUnits = hasArmyOnCooldown(airfield)
-    formationTextObj.show(hasFormationUnits)
-    emptyDescTextObj.show(!hasFormationUnits)
-    if (hasCooldownUnits)
-      emptyDescTextObj.setValue(::loc("worldwar/state/no_units_to_fly"))
-    else
-      emptyDescTextObj.setValue(::loc("worldwar/state/airfield_empty"))
+    local formationTextObj = airfieldBlockObj.findObject("free_formations_text")
+    if (!::check_obj(formationTextObj))
+      return
+
+    local text = hasFormationUnits ? ::loc("worldwar/state/ready_to_fly") + ::loc("ui/colon")
+      : hasCooldownUnits ? ::loc("worldwar/state/no_units_to_fly")
+      : ::loc("worldwar/state/airfield_empty")
+    formationTextObj.setValue(text)
 
     if (!hasFormationUnits && !hasCooldownUnits)
       ::ww_event("MapClearSelection", {})

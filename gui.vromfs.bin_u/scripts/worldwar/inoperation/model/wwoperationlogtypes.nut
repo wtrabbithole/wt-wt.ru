@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 ::g_ww_log_type <- {
   types = []
   cache = {
@@ -11,7 +13,7 @@
       iconColor = ""
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_log_type", {
+enums.addTypesByGlobalName("g_ww_log_type", {
     [WW_LOG_TYPES.UNKNOWN] = {
     },
 
@@ -116,7 +118,7 @@
 
 function g_ww_log_type::getLogTypeByName(logName)
 {
-  return ::g_enum_utils.getCachedType(
+  return enums.getCachedType(
     "name",
     logName,
     cache.byName,

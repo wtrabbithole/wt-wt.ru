@@ -446,6 +446,9 @@
               "radius": -1.0
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "@t1_spawn_01_name"
             },
             {
@@ -498,6 +501,9 @@
             },
             {
               "radius": -1.0
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "@t2_spawn_01_name"
@@ -554,6 +560,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_01_name",
             "team": "A",
             "tags": {
@@ -575,6 +582,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_01_name",
             "team": "B",
             "tags": {
@@ -654,6 +662,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_02_name",
             "team": "A",
             "tags": {
@@ -675,6 +684,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_02_name",
             "team": "B",
             "tags": {
@@ -710,6 +720,8 @@
           "killOutOfBattleArea": true,
           "target": "@battle_area_name",
           "newGridHorizontalCellCount": 0,
+          "killArea": false,
+          "detectionArea": false,
           "area": "@battle_area_name"
         }
       },
@@ -809,13 +821,13 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 0.5
         }
       },
       "conditions": [],
       "actions": {
         "gameMPChangeScore": {
-          "value": -5,
+          "value": -20,
           "valueSystem": "percentage",
           "team": "B"
         }
@@ -832,13 +844,13 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 0.5
         }
       },
       "conditions": [],
       "actions": {
         "gameMPChangeScore": {
-          "value": -5,
+          "value": -20,
           "valueSystem": "percentage",
           "team": "A"
         }

@@ -394,6 +394,10 @@ upgradeImg{
   background-color: @white;
 }
 
+upgradeImg[upgradeStatus=""] {
+  display:hide;
+}
+
 upgradeImg[upgradeStatus = full]{
   background-image: #ui/gameuiskin#weapon_upgrade;
 }

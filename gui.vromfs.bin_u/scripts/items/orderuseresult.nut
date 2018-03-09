@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_order_use_result <- {
   types = []
 }
@@ -19,7 +20,7 @@ function g_order_use_result::_createResultMessage(addErrorHeader)
   createResultMessage = ::g_order_use_result._createResultMessage
 }
 
-::g_enum_utils.addTypesByGlobalName("g_order_use_result", {
+enums.addTypesByGlobalName("g_order_use_result", {
   OK = {
     code = ::ORDER_USE_RESULT_OK
     name = "ok"
@@ -83,7 +84,7 @@ function g_order_use_result::_createResultMessage(addErrorHeader)
 
 function g_order_use_result::getOrderUseResultByCode(useResultCode)
 {
-  return ::g_enum_utils.getCachedType("code", useResultCode, ::g_order_use_result_cache.byCode,
+  return enums.getCachedType("code", useResultCode, ::g_order_use_result_cache.byCode,
     ::g_order_use_result, ::g_order_use_result.UNKNOWN)
 }
 

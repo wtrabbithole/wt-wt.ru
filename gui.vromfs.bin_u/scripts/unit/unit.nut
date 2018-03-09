@@ -1,4 +1,4 @@
-local u = ::require("sqStdLibs/common/u.nut")
+local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 
@@ -306,8 +306,12 @@ local Unit = class
 
   function canAssignToCrew(country)
   {
-    return ::getUnitCountry(this) == country &&
-           isUsable() &&
+    return ::getUnitCountry(this) == country && canUseByPlayer()
+  }
+
+  function canUseByPlayer()
+  {
+    return isUsable() &&
            ::is_unit_visible_in_shop(this) &&
            unitType.isAvailable()
   }
@@ -330,6 +334,7 @@ local Unit = class
     weaponry.tier <- blk?.tier? blk.tier.tointeger() : 1
     weaponry.modClass <- weaponBlk?.modClass || blk?.modClass || ""
     weaponry.image <- ::get_weapon_image(esUnitType, weaponBlk, blk)
+    weaponry.requiresModelReload <- weaponBlk?.requiresModelReload ?? false
 
     if (weaponry.name == "tank_additional_armor")
       weaponry.requiresModelReload <- true
@@ -380,6 +385,21 @@ local Unit = class
     if (skins.len() == 0)
       skins = ::get_skins_for_unit(name) //always returns at least one entry
     return skins
+  }
+
+  getSpawnScore = @(weaponName = null) ::shop_get_spawn_score(name, weaponName || ::get_last_weapon(name))
+
+  function getMinimumSpawnScore()
+  {
+    local res = -1
+    foreach (weapon in weapons)
+      if (::is_weapon_visible(this, weapon) && ::is_weapon_enabled(this, weapon))
+      {
+        local spawnScore = getSpawnScore(weapon.name)
+        if (res < 0 || res > spawnScore)
+          res = spawnScore
+      }
+    return ::max(res, 0)
   }
 }
 

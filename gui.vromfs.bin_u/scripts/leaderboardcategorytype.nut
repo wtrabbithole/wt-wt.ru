@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum LB_MODE
 {
   ARCADE           = 0x0001
@@ -54,13 +55,13 @@ enum LB_MODE
 
 function g_lb_category::getTypeById(id)
 {
-  return ::g_enum_utils.getCachedType("id", id, ::g_lb_category.cache.byId,
+  return enums.getCachedType("id", id, ::g_lb_category.cache.byId,
     ::g_lb_category, UNKNOWN)
 }
 
 function g_lb_category::getTypeByField(field)
 {
-  return ::g_enum_utils.getCachedType("field", field, ::g_lb_category.cache.byField,
+  return enums.getCachedType("field", field, ::g_lb_category.cache.byField,
     ::g_lb_category, UNKNOWN)
 }
 
@@ -173,7 +174,7 @@ function g_lb_category::_typeConstructor ()
   headerTooltip = "#multiplayer/" + (headerTooltip != "" ? headerTooltip : visualKey)
 }
 
-::g_enum_utils.addTypesByGlobalName("g_lb_category", {
+enums.addTypesByGlobalName("g_lb_category", {
     UNKNOWN = {
     }
 

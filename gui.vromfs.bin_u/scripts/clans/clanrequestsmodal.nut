@@ -142,28 +142,6 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       ::gui_modal_userCard({ uid = curCandidate.uid })
   }
 
-  function clanBlacklistAction(uid, actionAdd)
-  {
-    ::gui_modal_comment(this, ::loc("clan/writeCommentary"), ::loc("msgbox/btn_ok"), (@(uid, actionAdd) function(comment) {
-      taskId = ::clan_request_edit_black_list(uid, actionAdd, comment)
-      ::sync_handler_simulate_signal("clan_info_reload")
-
-      if (taskId >= 0)
-      {
-        ::set_char_cb(this, slotOpCb)
-        showTaskProgressBox()
-        local msgText = actionAdd? ::loc("clan/blacklistAddSuccess") : ::loc("clan/blacklistRemoveSuccess")
-        afterSlotOp = (@(msgText) function() {
-            hideCurCandidate()
-
-            msgBox("blacklist_action",
-              msgText,
-              [["ok", function() { goBack() } ]], "ok")
-          })(msgText)
-      }
-    })(uid, actionAdd))
-  }
-
   function onUserRClick()
   {
     openUserPopupMenu()
@@ -202,7 +180,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       {
         text = ::loc("clan/blacklistAdd")
         show = isInArray("MEMBER_BLACKLIST", myRights)
-        action = (@(curCandidate) function() { clanBlacklistAction(curCandidate.uid, true) })(curCandidate)
+        action = @() ::g_clans.blacklistAction(curCandidate.uid, true)
       }
       {
         text = ::loc("contacts/message")
@@ -218,63 +196,36 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onRequestApprove()
   {
-    if (!curCandidate)
-      return
-
-    taskId = clan_request_accept_membership_request(clanId, curCandidate.uid, "REGULAR", false);
-    if (taskId >= 0)
-    {
-      ::set_char_cb(this, slotOpCb)
-      showTaskProgressBox()
-      ::sync_handler_simulate_signal("clan_info_reload")
-      afterSlotOp = function()
-        {
-          msgBox("request_approved", ::loc("clan/requestApproved"), [["ok", function() { hideCurCandidate() } ]], "ok")
-        }
-    }
+    ::g_clans.approvePlayerRequest(curCandidate.uid, clanId)
   }
 
   function onRequestReject()
   {
-    if (!curCandidate)
-      return;
-    local uid = curCandidate.uid
-
-    ::gui_modal_comment(this, ::loc("clan/writeCommentary"), ::loc("clan/requestReject"), (@(uid) function(comment) {
-      taskId = clan_request_reject_membership_request(uid, comment);
-
-      if (taskId >= 0)
-      {
-        ::set_char_cb(this, slotOpCb)
-        showTaskProgressBox()
-        ::sync_handler_simulate_signal("clan_info_reload")
-        afterSlotOp = function()
-          {
-            msgBox("request_rejected", ::loc("clan/requestRejected"), [["ok", function() { hideCurCandidate() } ]], "ok")
-          }
-      }
-    })(uid))
+    ::g_clans.rejectPlayerRequest(curCandidate.uid)
   }
 
-  function hideCurCandidate()
+  function hideCandidateByName(name)
   {
-    if (!curCandidate)
-      return;
+    if (!name)
+      return
 
     memListModified = true
     foreach(idx, candidate in rowTexts)
-      if (candidate.nick.value == curCandidate.nick)
+      if (candidate.nick.value == name)
       {
         rowTexts.remove(idx);
         foreach(idx, player in candidatesList)
-          if (player.nick == curCandidate.nick)
-            candidatesList.remove(idx);
+          if (player.nick == name)
+          {
+            candidatesList.remove(idx)
+            break
+          }
       }
 
     if (rowTexts.len() > 0)
       updateRequestList()
     else
-      goBack();
+      goBack()
   }
 
   function afterModalDestroy()
@@ -293,5 +244,12 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
   function getMainFocusObj()
   {
     return scene.findObject("candidatesList")
+  }
+
+  function onEventClanCandidatesListChanged(p)
+  {
+    local uid = p?.userId
+    local candidate = ::u.search(candidatesList, @(candidate) candidate.uid == uid )
+    hideCandidateByName(candidate?.nick)
   }
 }

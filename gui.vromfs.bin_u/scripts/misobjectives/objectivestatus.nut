@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_objective_status <- {
   types = []
 }
@@ -9,7 +10,7 @@
   wwMissionObjImg = ""
 }
 
-::g_enum_utils.addTypesByGlobalName("g_objective_status", {
+enums.addTypesByGlobalName("g_objective_status", {
   DELAYED = {
     code = ::MISSION_OBJECTIVE_STATUS_DELAYED
     name = "delayed"
@@ -39,7 +40,7 @@
 
 function g_objective_status::getObjectiveStatusByCode(statusCode)
 {
-  return ::g_enum_utils.getCachedType("code", statusCode, ::g_objective_status_cache.byCode,
+  return enums.getCachedType("code", statusCode, ::g_objective_status_cache.byCode,
     ::g_objective_status, ::g_objective_status.UNKNOWN)
 }
 

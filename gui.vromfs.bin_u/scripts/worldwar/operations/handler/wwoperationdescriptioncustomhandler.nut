@@ -5,7 +5,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function setDescItem(newDescItem)
   {
-    if (!(newDescItem instanceof ::WwOperation))
+    if (newDescItem && !(newDescItem instanceof ::WwOperation))
       return
 
     base.setDescItem(newDescItem)
@@ -23,14 +23,29 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     if (::u.isEmpty(map))
       return
 
+    fillOperationBackground()
     updateStatus()
     updateTeamsInfo()
-    updateMap()
+    // to get corrct preview Map size updateMap() calls with delay
+    // because Map size based on size of other objects
+    guiScene.performDelayed(this, function() {
+      if (isValid())
+        updateMap()
+    })
   }
 
   function isVisible()
   {
     return descItem != null || map != null
+  }
+
+  function fillOperationBackground()
+  {
+    local operationBgObj = scene.findObject("operation_background")
+    if (!::check_obj(operationBgObj))
+      return
+
+    operationBgObj["background-image"] = map.getBackground()
   }
 
   function updateDescription()
@@ -175,9 +190,8 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     local wwUnitsList = u.filter(::WwUnit.loadUnitsFromNameCountTbl(unitsList),
       @(unit) !unit.isControlledByAI())
     wwUnitsList.sort(::g_world_war.sortUnitsBySortCodeAndCount)
-    wwUnitsList = ::u.map(wwUnitsList, function(wwUnit) {
-      return wwUnit.getShortStringView(true, false)
-    })
+    wwUnitsList = ::u.map(wwUnitsList, @(wwUnit)
+      wwUnit.getShortStringView(true, false, true, true, true))
 
     return {
       sideName = ::ww_side_val_to_name(side)

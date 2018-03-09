@@ -1,4 +1,5 @@
 <<#header>>
+_newline{ size:t='0' }
 textareaNoTab {
   id:t='item_desc'
 
@@ -15,7 +16,7 @@ textareaNoTab {
 }
 <</header>>
 <<#list>>
-_newline{}
+_newline{ size:t='0' }
 tdiv {
   width:t='pw'
   max-width:t='p.p.w'
@@ -28,7 +29,7 @@ tdiv {
   <<#icon>>
   img {
     size:t='1@dIco, 1@dIco'
-    pos:t='0, ph/2-h/2'; position:t='absolute'
+    pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon>>'
   }
@@ -36,7 +37,7 @@ tdiv {
   <<#icon2>>
   img {
     size:t='1@dIco, 1@dIco'
-    pos:t='0, ph/2-h/2'; position:t='absolute'
+    pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon2>>'
   }
@@ -44,9 +45,9 @@ tdiv {
 
   textareaNoTab {
     <<^widthByParentParent>>
-    width:t='pw -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>>'
+    width:t='pw -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>> <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
     <</widthByParentParent>>
-    max-width:t='p.p.p.w -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>>'
+    max-width:t='p.p.p.w -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>> <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
     pos:t='1@itemPadding, ph/2-h/2'; position:t='relative'
     font-bold:t='@fontSmall'
     text:t='<<title>>'
@@ -74,6 +75,17 @@ tdiv {
   }
   <</unitPlate>>
 
+  <<#buttons>>
+  hoverButton {
+    pos:t='0, ph/2-h/2'; position:t='relative'
+    tooltip:t = '<<tooltip>>'
+    on_click:t='onDescAction'
+    no_text:t='yes'
+    actionData:t='<<actionData>>'
+    icon { background-image:t='<<icon>>' }
+  }
+  <</buttons>>
+
   <<#tooltipId>>
   tooltipObj {
     id:t='tooltip_<<tooltipId>>'
@@ -86,7 +98,7 @@ tdiv {
 }
 
 <<#commentText>>
-_newline{}
+_newline{ size:t='0' }
 textareaNoTab {
   <<^widthByParentParent>>
   width:t='pw'
@@ -95,16 +107,15 @@ textareaNoTab {
   max-width:t='p.p.w'
   <</widthByParentParent>>
   <<#title>>
+  pos:t='0, -4@sf/@pf'; position:t='relative'
   padding-left:t='1@dIco <<#icon2>>+1@dIco<</icon2>> +1@itemPadding'
   <</title>>
   <<#unitPlate>>
+  pos:t='0, 2@sf/@pf'; position:t='relative'
   padding-left:t='<<#classIco>>1@dIco +<</classIco>> 1@itemPadding'
   <</unitPlate>>
   text:t='<<commentText>>'
-  smallFont:t='yes'
+  tinyFont:t='yes'
 }
 <</commentText>>
-_interval { margin-bottom:t='1@blockInterval' }
 <</list>>
-
-_interval { margin-bottom:t='1@blockInterval' }

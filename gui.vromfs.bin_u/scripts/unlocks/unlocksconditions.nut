@@ -38,7 +38,7 @@ local time = require("scripts/time.nut")
     "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
     "crewsUnit", "crewsUnitRank", "crewsTag", "activity",
     "minStat", "statPlace", "statScore", "statPlaceInSession", "statScoreInSession",
-    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country"
+    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets"
   ]
 
   condWithValuesInside = [
@@ -444,6 +444,21 @@ function UnlockConditions::loadCondition(blk)
     res.values = blk % "personalUnlocksType"
   else if (t == "offenderIsSupportGun")
     res.values = ["actionBarItem/artillery_target"]
+  else if (t == "targetIsPlayer")
+  {
+    res.values = []
+    foreach(key in ["includePlayers", "includeBots", "includeAI"])
+      if (blk[key])
+        res.values.append(key)
+
+    if (blk?.includePlayers == null)
+      res.values.append("includePlayers")
+
+    if (res.values.len() > 1 || (res.values.len() == 1 && res.values[0] != "includePlayers"))
+      res.locGroup <- "targets"
+    else
+      res.values = null
+  }
   else if (::isInArray(t, additionalTypes))
   {
     res.type = "additional"

@@ -33,11 +33,11 @@ local calcBarSize = function(bar_class, axis) {
 
 local scrollbar = function(scroll_handler, options={}) {
   local stateFlags = ::Watched(0)
-  local styling   = options.get("styling", defStyling)
-  local barClass  = options.get("barStyle", styling.Bar)
-  local knobClass = options.get("knobStyle", styling.Knob)
+  local styling   = options?.styling ?? defStyling
+  local barClass  = options?.barStyle ?? styling.Bar
+  local knobClass = options?.knobStyle ?? styling.Knob
 
-  local orientation = options.get("orientation", O_VERTICAL)
+  local orientation = options?.orientation ?? O_VERTICAL
   local axis        = (orientation==O_VERTICAL) ? 1 : 0
 
   return function() {
@@ -131,9 +131,9 @@ local scrollbar = function(scroll_handler, options={}) {
 
 
 local makeSideScroll = function(content, options={}) {
-  local styling = options.get("styling", defStyling)
-  local scrollHandler = options.get("scrollHandler") || ::ScrollHandler()
-  local rootBase = options.get("rootBase", styling.ContentRoot)
+  local styling = options?.styling ?? defStyling
+  local scrollHandler = options?.scrollHandler ?? ::ScrollHandler()
+  local rootBase = options?.rootBase ?? styling.ContentRoot
 
   local contentRoot = function() {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
@@ -162,9 +162,9 @@ local makeSideScroll = function(content, options={}) {
 
 
 local makeHVScrolls = function(content, options={}) {
-  local styling = options.get("styling", defStyling)
-  local scrollHandler = options.get("scrollHandler") || ::ScrollHandler()
-  local rootBase = options.get("rootBase", styling.ContentRoot)
+  local styling = options?.styling ?? defStyling
+  local scrollHandler = options?.scrollHandler ?? ::ScrollHandler()
+  local rootBase = options?.rootBase ?? styling.ContentRoot
 
   local contentRoot = function() {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []

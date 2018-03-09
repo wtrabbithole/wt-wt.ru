@@ -28,7 +28,7 @@
             "id": "map-background"
           },
           {
-            "size": "180%sh,sh"
+            "size": "1@briefingBackgroundWidth,sh"
           },
           {
             "pos": "0,50%sh-50%h"
@@ -44,7 +44,7 @@
           },
           {
             "img": {
-              "size": "180%sh,sh",
+              "size": "1@briefingBackgroundWidth,sh",
               "pos": "0, 0",
               "position": "absolute",
               "style": "background-image:ui/images/flags/campaign_back.jpg?P1;background-color:@white;"
@@ -52,7 +52,7 @@
           },
           {
             "img": {
-              "size": "70%sh,65%sh",
+              "size": "1@briefingMapWidth,65%sh",
               "pos": "12%sw, 50%ph-50%h",
               "position": "absolute",
               "background-image": "ui/map_back",
@@ -68,7 +68,7 @@
           {
             "img": {
               "size": "30%sh,15%sh",
-              "pos": "15%sw+61%sh,18%sh",
+              "pos": "10%sw + 1@briefingMapWidth,18%sh",
               "position": "absolute",
               "background-image": "ui/decor2"
             }
@@ -76,7 +76,7 @@
           {
             "img": {
               "size": "25%sh,64%sh",
-              "pos": "sw-90%w,18%sh",
+              "pos": "1@briefingScreenWidth -90%w,18%sh",
               "position": "absolute",
               "background-image": "ui/decor3"
             }
@@ -135,7 +135,7 @@
           },
           {
             "img": {
-              "size": "40%sw,64%sh+1",
+              "size": "0.4@briefingScreenWidth,64%sh+1",
               "pos": "-25%sh,50%sh-50%h+1",
               "position": "absolute",
               "rotation": "180",
@@ -144,8 +144,8 @@
           },
           {
             "img": {
-              "size": "40%sw,64%sh+1",
-              "pos": "sw+25%sh-w,50%sh-50%h+1",
+              "size": "0.4@briefingScreenWidth,64%sh+1",
+              "pos": "1@briefingScreenWidth+25%sh-w,50%sh-50%h+1",
               "position": "absolute",
               "background-repeat": "expand",
               "background-image": "ui/shadeside"
@@ -486,7 +486,7 @@
                       {
                         "tdiv": {
                           "id": "gamercard_tobattle_bg",
-                          "left": "-1@titleLogoPlatePadding/2",
+                          "pos": "-1@titleLogoPlatePadding/2, 0",
                           "position": "relative",
                           "height": "ph",
                           "background-color": "@gameModeColor",
@@ -929,6 +929,7 @@
           },
           {
             "gamercard": {
+              "id": "gamercard_bottom",
               "BottomMenuPanel": [
                 {
                   "shadowSafeArea": []

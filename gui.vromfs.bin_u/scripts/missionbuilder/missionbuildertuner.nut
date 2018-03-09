@@ -96,7 +96,9 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
     {
       ret += (
         "option { " +
-        "optiontext { text:t = '" + ::locOrStrip(skins.items[i]) + "'} " +
+          "optiontext { text:t = '" + ::locOrStrip(skins.items[i].text) + "'; " +
+            skins.items[i].textStyle +
+          "} " +
         (curS == skins.values[i] ? "selected:t = 'yes'; " : "") +
         " max-width:t='p.p.w'; pare-text:t='yes'} " //-10%sh
       )
@@ -387,7 +389,9 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
         {
           optlist += (
             "option { " +
-            "optiontext { text:t = '" + ::locOrStrip(skins.items[j]) + "'} " +
+              "optiontext { text:t = '" + ::locOrStrip(skins.items[j].text) + "'; " +
+                skins.items[j].textStyle +
+              "} " +
             ((j==0) ? "selected:t = 'yes'; " : "") +
             " max-width:t='p.p.w-10%sh'; pare-text:t='yes'} "
           )

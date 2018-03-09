@@ -25,6 +25,11 @@
     getImpl = function() { return ::DataBlock("config/gui.blk") || ::DataBlock() }
     needScriptedCache = true
   }
+
+  AVATARS = {
+    getImpl = function() { return ::DataBlock("config/avatars.blk") || ::DataBlock() }
+    needScriptedCache = true
+  }
 }
 
 foreach(id, cData in ::configs_init_tbl)

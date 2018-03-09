@@ -254,4 +254,10 @@ class WwMap
   {
     return ""
   }
+
+  function getBackground()
+  {
+    // it is assumed that each map will have its background specified in data
+    return "#ui/images/worldwar_window_bg_image.jpg?P1"
+  }
 }

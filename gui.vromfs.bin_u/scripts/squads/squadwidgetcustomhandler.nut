@@ -176,7 +176,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
   function onSquadMemberMenu(obj)
   {
-    ::g_squad_utils.showMemberMenu(obj, parentHandlerWeak)
+    ::g_squad_utils.showMemberMenu(obj)
   }
 
   function updateVisibleNewApplications()

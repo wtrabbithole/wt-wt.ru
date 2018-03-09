@@ -15,7 +15,7 @@ local function showUnitSkin(unitId, skinId = null, isForApprove = false)
   if (!unit)
     return false
 
-  ::broadcastEvent("ShowroomOpened")
+  ::broadcastEvent("BeforeStartShowroom")
   ::show_aircraft = unit
   ::gui_start_decals()
   if (skinId)

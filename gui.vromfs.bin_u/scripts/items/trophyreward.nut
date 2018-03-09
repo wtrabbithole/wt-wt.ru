@@ -56,6 +56,8 @@ function trophyReward::processUserlogData(configsArray = [])
       ::broadcastEvent("UnitBought", { unitName = typeVal, receivedFromTrophy = true })
     else if (type == "rentedUnit")
       ::broadcastEvent("UnitRented", { unitName = typeVal, receivedFromTrophy = true })
+    else if (type == "resourceType" && typeVal == "decal")
+      ::broadcastEvent("DecalReceived", { decalId = config?.resource })
   }
 
   local res = []
@@ -289,7 +291,7 @@ function trophyReward::getCommonRewardText(configsArray)
     result[rewType].num++;
   }
 
-  local returnData = [totalReward]
+  local returnData = [totalReward.tostring()]
   foreach(data in result)
   {
     if (data.type == "item")

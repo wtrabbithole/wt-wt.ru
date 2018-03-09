@@ -2,9 +2,9 @@ local shipState = require("shipState.nut")
 local crewState = require("crewState.nut")
 local dmModule = require("dmModule.nut")
 local colors = require("style/colors.nut")
-local background = require("style/hudBackground.nut")
+local setHudBg = require("style/hudBackground.nut")
 
-local mathEx = require("sqStdLibs/common/math.nut")
+local mathEx = require("std/math.nut")
 
 const STATE_ICON_MARGIN = 1
 const STATE_ICON_SIZE = 54
@@ -425,7 +425,7 @@ local shipStateDisplay = {
 }
 
 
-return {
+return setHudBg({
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   padding = hdpx(10)
@@ -434,4 +434,4 @@ return {
     speed
     shipStateDisplay
   ]
-}.patchComponent(background)
+})

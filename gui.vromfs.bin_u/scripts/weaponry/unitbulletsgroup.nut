@@ -104,9 +104,9 @@ class BulletGroup
       return false
 
     maxBulletsCount = gunInfo.total
-    if (!isAmmoFree(unit.name, selectedName, AMMO.PRIMARY))
+    if (!isAmmoFree(unit, selectedName, AMMO.PRIMARY))
     {
-      local boughtCount = (::getAmmoAmount(unit.name, selectedName, AMMO.PRIMARY) / guns).tointeger()
+      local boughtCount = (::getAmmoAmount(unit, selectedName, AMMO.PRIMARY) / guns).tointeger()
       maxBulletsCount = ::min(boughtCount, gunInfo.total)
 
       local bulletsSet = ::getBulletsSetData(unit, selectedName)

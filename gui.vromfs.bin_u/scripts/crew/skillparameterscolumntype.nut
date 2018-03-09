@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum skillColumnOrder {
   TOTAL
   EQUALS_SIGN
@@ -120,7 +121,7 @@ function g_skill_parameters_column_type::_isSkillNotOnlyForTotalAndTop(memberNam
   getDiffText = ::g_skill_parameters_column_type._getDiffText
 }
 
-::g_enum_utils.addTypesByGlobalName("g_skill_parameters_column_type", {
+enums.addTypesByGlobalName("g_skill_parameters_column_type", {
 
   /**
    * Represents column with base values.

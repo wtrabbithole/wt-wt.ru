@@ -80,15 +80,29 @@ tdiv {
       }
     }
 
-    textareaNoTab {
-      id:t='cant_join_text'
+    tdiv {
       width:t='pw'
       margin:t='1@framePadding'
-      text-align:t='right'
-      smallFont:t='yes'
-      overlayTextColor:t='warning'
-      hideEmptyText:t='yes'
-      text:t=''
+
+      textareaNoTab {
+        id:t='cant_join_text'
+        width:t='fw'
+        top:t='50%ph-50%h'
+        position:t='relative'
+        padding-right:t='1@blockInterval'
+        text-align:t='right'
+        smallFont:t='yes'
+        overlayTextColor:t='warning'
+        hideEmptyText:t='yes'
+        text:t=''
+      }
+
+      cardImg {
+        id:t='alert_icon'
+        display:t='hide'
+        background-image:t='#ui/gameuiskin#btn_help.svg'
+        tooltip:t=''
+      }
     }
 
     separatorLine {}

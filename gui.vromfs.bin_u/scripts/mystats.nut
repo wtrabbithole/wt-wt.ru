@@ -1,3 +1,5 @@
+local seenTitles = ::require("scripts/seen/seenList.nut").get(SEEN.TITLES)
+
 /*
 my_stats API
    getStats()  - return stats or null if stats not recived yet, and request stats update when needed.
@@ -77,6 +79,7 @@ my_stats API
 
     _my_stats = ::get_player_stats_from_blk(blk)
 
+    seenTitles.onListChanged()
     ::broadcastEvent("MyStatsUpdated")
   }
 
@@ -346,7 +349,7 @@ my_stats API
   {
     checkRecountNewbie()
     if (!country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
 
     if (unitType == null)
     {
@@ -399,7 +402,6 @@ my_stats API
 
     local saveBlk = ::DataBlock()
     saveBlk.setFrom(loadedBlk)
-    ::g_crews_list.refresh()
     local countryCrewsList = ::g_crews_list.get()
     foreach(idx, countryCrews in countryCrewsList)
       foreach (idx, crew in ::getTblValue("crews", countryCrews, []))
@@ -418,6 +420,8 @@ my_stats API
     return saveBlk
   }
 }
+
+seenTitles.setListGetter(@() ::my_stats.getTitles())
 
 ::subscribe_handler(::my_stats, ::g_listener_priority.DEFAULT_HANDLER)
 

@@ -1,3 +1,6 @@
+local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+
 const COLLAPSED_CHAPTERS_SAVE_ID = "events_collapsed_chapters"
 const ROOMS_LIST_OPEN_COUNT_SAVE_ID = "tutor/roomsListOpenCount"
 const SHOW_RLIST_ASK_DELAY_DEFAULT = 10
@@ -31,9 +34,13 @@ function gui_start_modal_events(options = {})
   {
     local lastPlayedEvent = ::events.getLastPlayedEvent()
     eventId = ::getTblValue("name", lastPlayedEvent, ::events.getFeaturedEvent())
+    chapterId = ::events.getEventsChapter(eventId)
   }
 
-  ::gui_start_modal_wnd(::gui_handlers.EventsHandler, {curEventId = eventId})
+  ::gui_start_modal_wnd(::gui_handlers.EventsHandler, {
+    curEventId = eventId
+    curChapterId = chapterId
+  })
 }
 
 class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -42,12 +49,12 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName   = "gui/events/eventsModal.blk"
   eventsListObj  = null
   curEventId     = ""
+  curChapterId = ""
   slotbarActions = ["aircraft", "crew", "weapons", "showroom", "repair"]
 
   queueToShow    = null
   skipCheckQueue = false
   queueInfoHandlerWeak = null
-  newIconWidgetByEventId = null
 
   eventDescription = null
   collapsedChapters = null
@@ -87,13 +94,6 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     onItemSelectAction()
   }
 
-  function hideNewIconWidgetByEventId(eventId)
-  {
-    local widget = ::getTblValue(eventId, newIconWidgetByEventId, null)
-    if (widget != null)
-      widget.setWidgetVisible(false)
-  }
-
   function onItemSelectAction(onlyChanged = true)
   {
     local curEventIdx = eventsListObj.getValue()
@@ -103,15 +103,18 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     curEventItemObj = eventsListObj.getChild(curEventIdx)
     if(!::checkObj(curEventItemObj))
       return
-    if(onlyChanged && curEventId == curEventItemObj.id)
-      return
 
     local newEventId = ::events.getEvent(curEventItemObj.id) ? curEventItemObj.id : ""
-    hideNewIconWidgetByEventId(newEventId)
-    if (curEventId==newEventId)
+    local newChapterId = newEventId == "" ? curEventItemObj.id : ::events.getEventsChapter(newEventId)
+
+    if(onlyChanged && newChapterId == curChapterId && curEventId == newEventId)
+      return
+
+    if (newChapterId == curChapterId && curEventId==newEventId)
       return updateWindow()
 
     checkQueue((@(newEventId) function () {
+        curChapterId = newChapterId
         curEventId = newEventId
         updateWindow()
       })(newEventId),
@@ -257,11 +260,6 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
   }
 
-  function afterModalDestroy()
-  {
-    ::reinitAllSlotbars()
-  }
-
   function goBack()
   {
     checkedForward(base.goBack)
@@ -312,7 +310,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDestroy()
   {
-    ::events.markAllEventsSeen()
+    seenEvents.markSeen(::events.getEventsForEventsWindow())
   }
 
   function getHandlerRestoreData()
@@ -366,7 +364,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local event = ::events.getEvent(eventId)
     eventDescription.selectEvent(event)
     if (event != null)
-      markEventSeenAndUpdate(event)
+      seenEvents.markSeen(event.name)
   }
 
   function onEventItemBought(params)
@@ -374,14 +372,6 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local item = ::getTblValue("item", params)
     if (item && item.isForEvent(curEventId))
       updateButtons()
-  }
-
-  function markEventSeenAndUpdate(event)
-  {
-    ::events.markEventSeen(event)
-    local txtObj = scene.findObject("txt_" + event.name)
-    if (::checkObj(txtObj))
-      txtObj.setValue(getEventNameForListBox(event))
   }
 
   function checkQueueInfoBox()
@@ -420,7 +410,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isReady = ::g_squad_manager.isMeReady()
     local isSquadMember = ::g_squad_manager.isSquadMember()
 
-    local showJoinBtn = isValid && (!isInQueue || (isSquadMember && !isReady))
+    local showJoinBtn = (isValid && (!isInQueue || (isSquadMember && !isReady)))
     local joinButtonObj = scene.findObject("btn_join_event")
     joinButtonObj.show(showJoinBtn)
     joinButtonObj.enable(showJoinBtn)
@@ -448,6 +438,15 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local leaveButtonObj = scene.findObject("btn_leave_event")
     leaveButtonObj.show(isInQueue)
     leaveButtonObj.enable(isInQueue)
+
+    local isHeader = curChapterId != "" && curEventId == ""
+    local collapsedButtonObj = showSceneBtn("btn_collapsed_chapter", isHeader)
+    if (isHeader)
+    {
+      local isCollapsedChapter = getCollapsedChapters()[curChapterId]
+      startText = ::loc(isCollapsedChapter ? "mainmenu/btnExpand" : "mainmenu/btnCollapse")
+      collapsedButtonObj.setValue(startText)
+    }
 
     local reasonTextObj = scene.findObject("cant_join_reason")
     reasonTextObj.setValue(reasonData.reasonText)
@@ -497,7 +496,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
           itemIcon = ::events.getDifficultyImg(eventName)
           id = eventName
           itemText = getEventNameForListBox(event)
-          newIconWidgetLayout = ::NewIconWidget.createLayout()
+          unseenIcon = bhvUnseen.makeConfigStr(SEEN.EVENTS, eventName)
         })
       }
     }
@@ -505,25 +504,13 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local data = ::handyman.renderCached("gui/missions/missionBoxItemsList", view)
     guiScene.replaceContentFromText(eventsListObj, data, data.len(), this)
 
-    newIconWidgetByEventId = {}
-    foreach(chapter in chapters)
-    {
-      foreach (eventName in chapter.getEvents())
-      {
-        local newIconWidgetContainer = eventsListObj.findObject("new_icon_widget_" + eventName)
-        if (!::checkObj(newIconWidgetContainer))
-          continue
-        local widget = NewIconWidget(guiScene, newIconWidgetContainer)
-        newIconWidgetByEventId[eventName] <- widget
-        local event = ::events.getEvent(eventName)
-        widget.setWidgetVisible(::events.isEventNew(event) && ::events.isEventActive(event))
-      }
-    }
-
     if (selIdx >= 0)
       eventsListObj.setValue(selIdx - 1)
     else
+    {
       curEventId = "" //curEvent not found
+      curChapterId = ""
+    }
     onItemSelectAction(false)
 
     foreach (chapterId, value in getCollapsedChapters())
@@ -555,6 +542,13 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if ( ! obj || ! obj.id)
       return
     collapseChapter(::g_string.cutPrefix(obj.id, "btn_", obj.id))
+    updateButtons()
+  }
+
+  function onCollapsedChapter()
+  {
+    collapseChapter(curChapterId)
+    updateButtons()
   }
 
   function collapseChapter(chapterId)
@@ -563,16 +557,37 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if ( ! chapterObj)
       return
     local collapsed = chapterObj.collapsed == "yes" ? true : false
-    local chapter = ::events.chapters.getChapter(chapterId)
-    if( ! chapter)
+    local curChapter = ::events.chapters.getChapter(chapterId)
+    if( ! curChapter)
       return
-    foreach (eventName in chapter.getEvents())
+    foreach (eventName in curChapter.getEvents())
     {
       local eventObj = eventsListObj.findObject(eventName)
       if( ! ::checkObj(eventObj))
         continue
       eventObj.show(collapsed)
       eventObj.enable(collapsed)
+    }
+
+    if (chapterId == curChapterId)
+    {
+      local chapters = ::events.getChapters()
+      local totalRows = -1
+      foreach(chapter in chapters)
+        if (chapter.getEvents().len() > 0)
+        {
+          totalRows++
+          if (chapter.name == curChapterId)
+          {
+            eventsListObj.setValue(totalRows)
+            break
+          }
+
+          foreach (eventName in chapter.getEvents())
+          {
+            totalRows++
+          }
+        }
     }
 
     chapterObj.collapsed = collapsed ? "no" : "yes"

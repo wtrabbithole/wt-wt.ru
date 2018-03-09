@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 const ALL_WW_UNITS_CODE = -2
 
 ::g_ww_unit_type <- {
@@ -23,7 +25,7 @@ const ALL_WW_UNITS_CODE = -2
   canBeControlledByPlayer = false
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_unit_type", {
+enums.addTypesByGlobalName("g_ww_unit_type", {
   UNKNOWN = {
   }
   AIR = {
@@ -87,7 +89,7 @@ const ALL_WW_UNITS_CODE = -2
 
 function g_ww_unit_type::getUnitTypeByCode(wwUnitTypeCode)
 {
-  return ::g_enum_utils.getCachedType(
+  return enums.getCachedType(
     "code",
     wwUnitTypeCode,
     cache.byCode,
@@ -99,7 +101,7 @@ function g_ww_unit_type::getUnitTypeByCode(wwUnitTypeCode)
 
 function g_ww_unit_type::getUnitTypeByTextCode(wwUnitTypeTextCode)
 {
-  return ::g_enum_utils.getCachedType(
+  return enums.getCachedType(
     "textCode",
     wwUnitTypeTextCode,
     cache.byTextCode,
@@ -111,7 +113,7 @@ function g_ww_unit_type::getUnitTypeByTextCode(wwUnitTypeTextCode)
 
 function g_ww_unit_type::getUnitTypeByEsUnitCode(esUnitCode)
 {
-  return ::g_enum_utils.getCachedType(
+  return enums.getCachedType(
     "esUnitCode",
     esUnitCode,
     cache.byEsUnitCode,

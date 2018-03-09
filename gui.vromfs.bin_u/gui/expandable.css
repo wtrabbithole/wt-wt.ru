@@ -172,7 +172,8 @@ promoButton[type=battleTask] expandable {
 }
 
 promoButton[type=battleTask] statusImg,
-expandable statusImg {
+expandable statusImg,
+shortInfoBlock statusImg {
   size:1@modStatusHeight, 1@modStatusHeight;
   background-color:@transparent;
   pos:0, 50%ph-50%h;
@@ -185,10 +186,16 @@ expandable[type=battleTask][selected=yes] {
 
 tooltipObj > expandable[type=battleTask] {
   border:no;
+  background-color:@transparent;
+  width:1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
+  pos: 0, 0;
+  position: relative;
+  padding:0;
 }
 
 promoButton[type=battleTask] [battleTaskStatus=complete] statusImg,
-expandable[battleTaskStatus=complete] statusImg  {
+expandable[battleTaskStatus=complete] statusImg,
+shortInfoBlock[battleTaskStatus=complete] statusImg {
   background-image:#ui/gameuiskin#new_reward_icon;
   background-color:@white;
 }
@@ -210,7 +217,8 @@ expandable hiddenDiv {
 }
 
 expandable[selected=yes] hiddenDiv,
-promoButton expandable hiddenDiv {
+promoButton expandable hiddenDiv,
+hiddenDiv[showHidden=yes] {
   display:show;
 }
 
@@ -219,7 +227,8 @@ expandable expandImg {
 }
 
 expandable[selected=yes] expandImg,
-promoButton expandable expandImg {
+promoButton expandable expandImg,
+expandImg[hideExpandImg=yes] {
   display:hide;
 }
 

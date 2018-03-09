@@ -45,8 +45,8 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
   {
     if (::xbox_get_active_user_gamertag() == "")
     {
-      onChangeGamertag()
       needAutoLogin = true
+      onChangeGamertag()
       return
     }
 

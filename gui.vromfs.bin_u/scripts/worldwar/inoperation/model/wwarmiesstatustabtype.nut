@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_ww_map_armies_status_tab_type <- {
   types = []
   cache = {
@@ -64,7 +65,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_map_armies_status_tab_type", {
+enums.addTypesByGlobalName("g_ww_map_armies_status_tab_type", {
   UNKNOWN = {
     status = WW_ARMY_ACTION_STATUS.UNKNOWN
   }
@@ -97,7 +98,7 @@
 
 function g_ww_map_armies_status_tab_type::getTypeByStatus(status)
 {
-  return ::g_enum_utils.getCachedType(
+  return enums.getCachedType(
     "status",
     status,
     cache.byStatus,

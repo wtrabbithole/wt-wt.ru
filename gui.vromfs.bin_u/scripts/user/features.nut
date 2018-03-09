@@ -123,6 +123,7 @@
     BattleTasks = false
     BattleTasksHard = true
     PersonalUnlocks = false
+    ItemsShopInTopMenu = true
 
     BulletParamsForAirs = ::disable_network()
 
@@ -187,8 +188,7 @@
     AllowExternalLink = true
     TankAltCrosshair = false
 
-    EnableUgcSkins = false
-    EnableUgcDecals = false
+    DebriefingBattleTasks = false
   }
 
   cache = {}

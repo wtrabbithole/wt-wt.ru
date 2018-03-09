@@ -104,6 +104,8 @@ function BattleTasks::updateTasksData()
     return a._sort_order > b._sort_order? 1 : -1
   })
 
+  if (::isInMenu())
+    checkNewSpecialTasks()
   ::broadcastEvent("BattleTasksFinishedUpdate")
 }
 
@@ -384,7 +386,7 @@ function BattleTasks::isBattleTask(task)
     task = getTaskById(task)
 
   local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
-  return diff.name != "UNKNOWN"
+  return diff != ::g_battle_task_difficulty.UNKNOWN
 }
 
 function BattleTasks::isUserlogForBattleTasksGroup(body)
@@ -539,7 +541,7 @@ function BattleTasks::getTaskWithAvailableAward(tasksArray)
     }.bindenv(this))
 }
 
-function BattleTasks::getTaskDescription(config = null, isPromo = false, isOnlyInfo = false)
+function BattleTasks::getTaskDescription(config = null, paramsCfg = {})
 {
   if (!config)
     return
@@ -554,7 +556,7 @@ function BattleTasks::getTaskDescription(config = null, isPromo = false, isOnlyI
   if (showAllTasksValue)
     taskDescription.append("*Debug info: id - " + config.id)
 
-  if (isPromo)
+  if (paramsCfg?.isPromo)
   {
     if (::getTblValue("locDescId", config, "") != "")
       taskDescription.append(::loc(config.locDescId))
@@ -597,14 +599,15 @@ function BattleTasks::getTaskDescription(config = null, isPromo = false, isOnlyI
   }
 
   local view = {
+    id = config.id
     taskDescription = ::g_string.implode(taskDescription, "\n")
     taskSpecialDescription = getRefreshTimeTextForTask(task)
     taskUnlocksListPrefix = taskUnlocksListPrefix
     taskUnlocks = taskUnlocksList
     taskUnlocksList = taskUnlocksList.len()
     taskConditionsList = taskConditionsList.len()? taskConditionsList : null
-    isPromo = isPromo
-    isOnlyInfo = isOnlyInfo
+    isPromo = paramsCfg?.isPromo ?? false
+    isOnlyInfo = paramsCfg?.isOnlyInfo ?? false
   }
 
   return ::handyman.renderCached("gui/unlocks/battleTasksDescription", view)
@@ -698,8 +701,11 @@ function BattleTasks::getRewardMarkUpConfig(task, config)
   return rewardMarkUp
 }
 
-function BattleTasks::generateItemView(config, isPromo = false, isOnlyInfo = false)
+function BattleTasks::generateItemView(config, paramsCfg = {})
 {
+  local isPromo = paramsCfg?.isPromo ?? false
+  local isShortDescription = paramsCfg?.isShortDescription ?? false
+
   local task = getTaskById(config) || ::getTblValue("originTask", config)
   local isBattleTask = isBattleTask(task)
   local canGetReward = canGetReward(task)
@@ -719,12 +725,12 @@ function BattleTasks::generateItemView(config, isPromo = false, isOnlyInfo = fal
     id = id
     title = title
     taskStatus = taskStatus
-    taskImage = ::getTblValue("image", task) || ::getTblValue("image", config)
+    taskImage = (paramsCfg?.showUnlockImage ?? true) && (::getTblValue("image", task) || ::getTblValue("image", config))
     taskPlayback = ::getTblValue("playback", task) || ::getTblValue("playback", config)
     isPlaybackDownloading = !::g_sound.canPlay(id)
     taskDifficultyImage = getDifficultyImage(task)
     taskRankValue = rankVal? ::loc("ui/parentheses/space", {text = rankVal}) : null
-    description = isBattleTask || isUnlock ? getTaskDescription(config, isPromo, isOnlyInfo) : null
+    description = isBattleTask || isUnlock ? getTaskDescription(config, paramsCfg) : null
     reward = isPromo? null : getRewardMarkUpConfig(task, config)
     newIconWidget = isBattleTask? (isTaskActive(task)? null : NewIconWidget.createLayout()) : null
     canGetReward = isBattleTask && canGetReward
@@ -733,13 +739,15 @@ function BattleTasks::generateItemView(config, isPromo = false, isOnlyInfo = fal
     isLowWidthScreen = isPromo? ::is_low_width_screen() : null
     showAsUsualPromoButton = isPromo && task == null
     isPromo = isPromo
-    isOnlyInfo = isOnlyInfo
+    isOnlyInfo = paramsCfg?.isOnlyInfo ?? false
     needShowProgressValue = taskStatus == null && config?.curVal >= 0 && config?.maxVal >= 0
     progressValue = config?.curVal
     progressMaxValue = config?.maxVal
     needShowProgressBar = progressData?.show
     progressBarValue = progressBarValue.tointeger()
-    getTooltipId = isPromo && isBattleTask? @() ::g_tooltip_type.BATTLE_TASK.getTooltipId(id) : null
+    getTooltipId = (isPromo || isShortDescription) && isBattleTask? @() ::g_tooltip_type.BATTLE_TASK.getTooltipId(id) : null
+    isShortDescription = isShortDescription
+    shouldRefreshTimer = config?.shouldRefreshTimer ?? false
   }
 }
 
@@ -765,10 +773,16 @@ function BattleTasks::getDifficultyImage(task)
   return difficulty.image
 }
 
-function BattleTasks::getTasksArrayByDifficultyTypesArray(diffsArray)
+function BattleTasks::getTasksArrayByIncreasingDifficulty()
 {
+  local typesArray = [
+    ::g_battle_task_difficulty.EASY,
+    ::g_battle_task_difficulty.MEDIUM,
+    ::g_battle_task_difficulty.HARD
+  ]
+
   local result = []
-  foreach(type in diffsArray)
+  foreach(type in typesArray)
   {
     local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type, currentTasksArray)
     if (array.len() == 0)
@@ -809,29 +823,52 @@ function BattleTasks::filterTasksByGameModeId(tasksArray, gameModeId)
   return res
 }
 
-function BattleTasks::getTasksArrayByGameModeDiffCode(searchArray, gameModeDiff = null)
+function BattleTasks::getTasksArrayByDifficulty(searchArray, difficulty = null)
 {
   if (::u.isEmpty(searchArray))
     searchArray = currentTasksArray
 
-  if (::u.isEmpty(gameModeDiff))
+  if (::u.isEmpty(difficulty))
     return searchArray
 
-  local array = []
-  foreach(task in searchArray)
-  {
-    if (!isBattleTask(task))
-    {
-      array.append(task)
-      continue
-    }
+  return searchArray.filter(@(idx, task) ::g_battle_tasks.isTaskSameDifficulty(task, difficulty))
+}
 
-    local choiceType = ::getTblValue("_choiceType", task, "")
-    if (::isInArray(choiceType, gameModeDiff.choiceType))
-      array.append(task)
+function BattleTasks::isTaskSameDifficulty(task, difficulty)
+{
+  if (!isBattleTask(task))
+    return true
+
+  return ::isInArray(task?._choiceType ?? "", difficulty.choiceType)
+}
+
+function BattleTasks::isTaskSuitableForUnitTypeMask(task, unitTypeMask)
+{
+  if (!isBattleTask(task))
+    return false
+
+  local blk = ::build_conditions_config(task)
+  foreach(condition in blk.conditions)
+  {
+    local values = ::getTblValue("values", condition)
+    if (::u.isEmpty(values))
+      continue
+
+    foreach (value in values)
+    {
+      local gameMode = ::game_mode_manager.getGameModeById(value)
+      if (!gameMode)
+        continue
+
+      foreach (unitType in gameMode.unitTypes)
+        if (::is_bit_set(unitTypeMask, unitType))
+          return true
+
+      break
+    }
   }
 
-  return array
+  return false
 }
 
 function BattleTasks::getRewardForTask(battleTaskId)
@@ -887,7 +924,11 @@ function BattleTasks::rerollSpecialTask(task)
   blk.metaTypeName = specialTasksId
 
   local taskId = ::char_send_blk("cln_reroll_all_battle_tasks_for_meta", blk)
-  ::g_tasker.addTask(taskId, {showProgressBox = true})
+  ::g_tasker.addTask(taskId, {showProgressBox = true},
+    function() {
+      ::statsd_counter("battle_tasks.special_reroll" + task._base_id)
+      ::broadcastEvent("BattleTasksIncomeUpdate")
+    })
 }
 
 function BattleTasks::canActivateHardTasks()

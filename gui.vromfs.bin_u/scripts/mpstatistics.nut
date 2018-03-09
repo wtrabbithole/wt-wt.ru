@@ -1,8 +1,6 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-const PLAYERS_IN_FIRST_TABLE_IN_FFA = 16
-
 ::team_aircraft_list <- null
 
 
@@ -361,11 +359,12 @@ function set_mp_table(obj_tbl, table, params)
     else
       objTr = obj_tbl.getChild(i)
 
-    objTr.inactive = (i >= numTblRows)? "yes" : "no"
+    local isEmpty = i >= numTblRows
+    objTr.inactive = isEmpty? "yes" : "no"
+    objTr.show(!isEmpty || i < max_rows)
     if (i >= numRows)
       continue
 
-    local isEmpty = i >= numTblRows
     local isInGame = true
     if (!isEmpty && needColorizeNotInGame)
     {
@@ -1204,10 +1203,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         sortTable(commonTbl)
         if (commonTbl.len() > 0)
         {
-          local lastRow = PLAYERS_IN_FIRST_TABLE_IN_FFA - 1
+          local lastRow = numMaxPlayers - 1
           if (objTbl.id == "table_kills_team2")
           {
-            minRow = commonTbl.len() <= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 0 : PLAYERS_IN_FIRST_TABLE_IN_FFA
+            minRow = commonTbl.len() <= numMaxPlayers ? 0 : numMaxPlayers
             lastRow = commonTbl.len()
           }
 
@@ -1228,7 +1227,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         tbl = ::get_mplayers_list(team, true)
     }
     else if (!isTeamplay && customTbl && objTbl.id == "table_kills_team2")
-      minRow = PLAYERS_IN_FIRST_TABLE_IN_FFA
+      minRow = numMaxPlayers
 
     if (objTbl.id == "table_kills_team2")
     {
@@ -1292,6 +1291,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local tblObj1 = scene.findObject("table_kills_team1")
     local tblObj2 = scene.findObject("table_kills_team2")
     local team1Root = scene.findObject("team1-root")
+    updateNumMaxPlayers()
 
     if (!isTeamplay)
     {
@@ -1301,11 +1301,11 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       local tbl2 = []
       numRows1 = tbl1.len()
       numRows2 = 0
-      if (tbl1.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA)
+      if (tbl1.len() >= numMaxPlayers)
       {
-        numRows1 = numRows2 = PLAYERS_IN_FIRST_TABLE_IN_FFA
+        numRows1 = numRows2 = numMaxPlayers
 
-        for(local i = tbl1.len()-1; i >= PLAYERS_IN_FIRST_TABLE_IN_FFA; --i)
+        for(local i = tbl1.len()-1; i >= numMaxPlayers; --i)
         {
           if (!(i in tbl1))
             continue
@@ -1331,7 +1331,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         local tbl = ::get_mplayers_list(playerTeam, true)
         numRows1 = numMaxPlayers
         numRows2 = 0
-        createKillsTbl(tblObj1, tbl, {num_rows = numMaxPlayers, showAircrafts = showAircrafts})
+        createKillsTbl(tblObj1, tbl, {num_rows = numRows1, showAircrafts = showAircrafts})
       }
       else
       {
@@ -2003,6 +2003,37 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                                    "activeTextColor"))
     }
   }
+
+  function updateNumMaxPlayers(shouldHideRows = false)
+  {
+     local tblObj1 = scene.findObject("table_kills_team1")
+     if (!::checkObj(tblObj1))
+       return
+
+     local curValue = numMaxPlayers
+     numMaxPlayers = ::ceil(tblObj1.getParent().getSize()[1]/(::to_pixels("1@rows16height") || 1)).tointeger()
+     if (!shouldHideRows || curValue <= numMaxPlayers)
+       return
+
+     hideTableRows(tblObj1, numMaxPlayers, curValue)
+     tblObj1 = scene.findObject("table_kills_team2")
+     if (!::checkObj(tblObj1))
+       return
+     hideTableRows(tblObj1, numMaxPlayers, curValue)
+  }
+
+  function hideTableRows(tblObj, minRow, maxRow)
+  {
+    for (local i = minRow; i < maxRow; i++)
+    {
+      if (tblObj.childrenCount() < i)
+        return
+
+      tblObj.getChild(i).show(false)
+    }
+
+  }
+
 }
 
 class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics

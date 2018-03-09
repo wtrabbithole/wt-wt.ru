@@ -84,6 +84,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     updateBattleTasksData()
     updatePersonalUnlocks()
+    updateButtons()
 
     local tabType = findTabSheetByTaskId(currentTaskId)
     getTabsListObj().setValue(tabType)
@@ -161,10 +162,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
         gameModeDifficulty = ::g_difficulty.getDifficultyByDiffCode(diffCode)
       }
 
-      local filteredByModeArray = ::g_battle_tasks.getTasksArrayByGameModeDiffCode(filteredByDiffArray, gameModeDifficulty)
+      local filteredByModeArray = ::g_battle_tasks.getTasksArrayByDifficulty(filteredByDiffArray, gameModeDifficulty)
 
-      resultArray = ::u.filter(filteredByModeArray,
-        @(task) (
+      resultArray = filteredByModeArray.filter(@(idx, task) (
           ::g_battle_tasks.showAllTasksValue
           || ::g_battle_tasks.isTaskDone(task)
           || ::g_battle_tasks.isTaskActive(task)
@@ -172,14 +172,12 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       )
     }
 
-    configsArrayByTabType[tabType] = ::u.map(resultArray, ::g_battle_tasks.generateUnlockConfigByTask)
+    configsArrayByTabType[tabType] = resultArray.map(@(task) ::g_battle_tasks.generateUnlockConfigByTask(task))
   }
 
   function buildPersonalUnlocksArray(tabType)
   {
-    configsArrayByTabType[tabType] = []
-    foreach(unlockBlk in personalUnlocksArray)
-      configsArrayByTabType[tabType].append(::g_battle_tasks.generateUnlockConfigByTask(unlockBlk))
+    configsArrayByTabType[tabType] = personalUnlocksArray.map(@(task) ::g_battle_tasks.generateUnlockConfigByTask(task))
   }
 
   function fillBattleTasksList()
@@ -227,9 +225,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(listBoxObj))
       return
 
-    local view = {items = []}
-    foreach (idx, config in configsArrayByTabType[BattleTasksWndTab.PERSONAL_UNLOCKS])
-      view.items.append(::g_battle_tasks.generateItemView(config))
+    local view = {items = configsArrayByTabType[BattleTasksWndTab.PERSONAL_UNLOCKS].map(@(config) ::g_battle_tasks.generateItemView(config))}
 
     updateNoTasksText(view.items)
     local data = ::handyman.renderCached(battleTaskItemTpl, view)
@@ -450,6 +446,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     local showRerollButton = isBattleTask && !isDone && !canGetReward && !::u.isEmpty(::g_battle_tasks.rerollCost)
     local taskObj = getCurrentTaskObj()
+    if (!::check_obj(taskObj))
+      return
+
     ::showBtn("btn_reroll", showRerollButton, taskObj)
     ::showBtn("btn_recieve_reward", canGetReward, taskObj)
     if (showRerollButton)
@@ -522,7 +521,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       if (diff.diffCode < 0 || !diff.isAvailable(::GM_DOMINATION))
         continue
 
-      local array = ::g_battle_tasks.getTasksArrayByGameModeDiffCode(::g_battle_tasks.getTasksArray(), diff)
+      local array = ::g_battle_tasks.getTasksArrayByDifficulty(::g_battle_tasks.getTasksArray(), diff)
       if (array.len() == 0)
         continue
 
@@ -573,7 +572,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onGetRewardForTask(obj)
   {
-    ::g_battle_tasks.getRewardForTask(obj.task_id)
+    ::g_battle_tasks.getRewardForTask(obj?.task_id)
   }
 
   function madeTaskAction(mode)
@@ -592,7 +591,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onTaskReroll(obj)
   {
-    local taskId = ::getTblValue("taskId", obj)
+    local taskId = obj?.task_id
     if (!taskId)
       return
 
@@ -748,7 +747,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     return getConfigByValue(listBoxObj.getValue())
   }
 
-  function onViewUnlocks()
+  function onViewBattleTaskRequirements()
   {
     local config = getCurrentConfig()
     if (::getTblValue("names", config, []).len() == 0)

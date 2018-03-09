@@ -41,3 +41,15 @@ button
     background-image:t='#ui/gameuiskin#spinnerListBox_arrow_up.svg'; rotation:t='270'
   }
 }
+unseenIcon {
+  id:t='pag_prew_page_unseen'
+  pos:t='-w - @blockInterval - 1@buttonHeight, 50%ph-50%h'
+  position:t='absolute'
+  unseenText{}
+}
+unseenIcon {
+  id:t='pag_next_page_unseen'
+  pos:t='pw + @blockInterval + 1@buttonHeight, 50%ph-50%h'
+  position:t='absolute'
+  unseenText{}
+}

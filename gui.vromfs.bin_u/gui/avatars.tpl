@@ -17,6 +17,14 @@ Button_text {
     pos:t='50%pw-50%w,50%ph-50%h';
   }
 
+  <<#unseenIcon>>
+  unseenIcon {
+    pos:t='4@dp, 4@dp'
+    position:t='absolute'
+    value:t='<<unseenIcon>>'
+  }
+  <</unseenIcon>>
+
   <<#haveCustomTooltip>>
   title:t='$tooltipObj'
   tooltipObj {

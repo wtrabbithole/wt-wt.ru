@@ -1523,17 +1523,6 @@ function is_any_award_received_by_mode_type(modeType)
   return false
 }
 
-function choose_pilot_icon_wnd(cb, handler)
-{
-  local pilotsOpt = ::get_option(::USEROPT_PILOT)
-  local config = {
-    options = pilotsOpt.items
-    value = pilotsOpt.value
-  }
-
-  ::gui_choose_image(config, cb, handler)
-}
-
 function req_unlock_by_client(id, disableLog)
 {
   local unlock = ::g_unlocks.getUnlockById(id)
@@ -1672,7 +1661,6 @@ function g_unlocks::onEventSignOut(p)
 function g_unlocks::onEventLoginComplete(p)
 {
   invalidateUnlocksCache()
-  ::update_pilot_icons_list() //pilot icons are unlocks. But maybe we will find a better place for icons initialization in future
 }
 
 function g_unlocks::onEventProfileUpdated(p)
@@ -1834,6 +1822,9 @@ function g_unlocks::saveFavorites()
 function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true)
 {
   local unlock = getUnlockById(id)
+  if (!unlock)
+    return false
+
   local isVisibleUnlock = resWhenNoTimeLimit
   if (::is_numeric(unlock.visibleDays)
     || ::is_numeric(unlock.visibleDaysBefore)

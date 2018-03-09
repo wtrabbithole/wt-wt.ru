@@ -2,10 +2,9 @@ local time = require("scripts/time.nut")
 local penalty = require("penalty")
 
 
-::show_aircraft <- null
 ::show_crew <- null
 
-::g_script_reloader.registerPersistentData("DecalMenuGlobals", ::getroottable(), ["show_aircraft", "show_crew"])
+::g_script_reloader.registerPersistentData("DecalMenuGlobals", ::getroottable(), ["show_crew"])
 
 enum decoratorEditState
 {
@@ -66,8 +65,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   isDecoratorsListOpen = false
   isDecoratorItemUsed = false
 
-  is_unit_tank = false
-  is_own = false
+  isUnitTank = false
+  isUnitOwn = false
   isUnitBought = false
 
   currentState = decoratorEditState.NONE
@@ -107,15 +106,14 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     access_Decals = ::g_decorator_type.DECALS.isAvailable(unit)
     access_Attachables = ::g_decorator_type.ATTACHABLES.isAvailable(unit)
 
-    is_unit_tank = ::isTank(unit)
-    is_own = unit.isUsable()
+    isUnitTank = ::isTank(unit)
+    isUnitOwn = unit.isUsable()
     isUnitBought = unit.isBought()
-    setSceneTitle(::loc(is_own ? "mainmenu/showroom" : "mainmenu/btnPreview") + ::loc("ui/parentheses/space", { text = ::getUnitName(unit.name) }))
+    setSceneTitle(::loc(isUnitOwn ? "mainmenu/showroom" : "mainmenu/btnPreview") + ::loc("ui/parentheses/space", { text = ::getUnitName(unit.name) }))
 
-    ::hangar_show_model_damaged(::hangar_get_loaded_model_damage_state())
     local cObj = scene.findObject("btn_toggle_damaged")
     if (::checkObj(cObj))
-      cObj.setValue(::hangar_get_loaded_model_damage_state() == MDS_DAMAGED)
+      cObj.setValue(::hangar_get_loaded_model_damage_state(unit.name) == MDS_DAMAGED)
 
     local bObj = scene.findObject("btn_testflight")
     if (::checkObj(bObj))
@@ -170,7 +168,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj2()
   {
-    if (!isDecoratorsListOpen && is_unit_tank)
+    if (!isDecoratorsListOpen && isUnitTank)
       return getObj("tank_skin_settings")
     return null
   }
@@ -278,7 +276,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSkinList()
   {
-    if (!is_own && !access_SkinsUnrestrictedPreview && !access_SkinsUnrestrictedExport)
+    if (!isUnitOwn && !access_SkinsUnrestrictedPreview && !access_SkinsUnrestrictedExport)
       return
 
     skinList = ::g_decorator.getSkinsOption(unit.name, true, false)
@@ -291,16 +289,16 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       local access = skinList.access[i]
       local canBuy = decorator.canBuyUnlock(unit)
       local priceText = canBuy ? decorator.getCost().getTextAccordingToBalance() : ""
-      local text = skinList.items[i]
+      local text = skinList.items[i].text
       if (canBuy)
         text = ::loc("ui/parentheses", {text = priceText}) + " " + text
 
       if (!access.isVisible)
-        text = ::colorize("comboExpandedLockedTextColor", text)
+        text = ::colorize("comboExpandedLockedTextColor", "(" + ::loc("worldWar/hided_logs") + ") ") + text
 
       skinItems.append({
         text = text
-        textStyle = "textStyle:t='textarea';"
+        textStyle = skinList.items[i].textStyle
         addDiv = getDecorationTooltipObjText(decorator.id, ::UNLOCKABLE_SKIN)
         image = decorator.isUnlocked() ? null : "#ui/gameuiskin#locked"
       })
@@ -336,7 +334,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function createSkinSliders()
   {
-    if (!is_own || !is_unit_tank)
+    if (!isUnitOwn || !isUnitTank)
       return
 
     local options = [::USEROPT_TANK_CAMO_SCALE,
@@ -364,7 +362,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSkinSliders()
   {
-    if (!is_own || !is_unit_tank)
+    if (!isUnitOwn || !isUnitTank)
       return
 
     local have_premium = ::havePremium()
@@ -534,13 +532,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getViewButtonTable(slotIdx, decoratorType)
   {
-    local canEditDecals = is_own && previewSkinId == null
+    local canEditDecals = isUnitOwn && previewSkinId == null
     local slot = getSlotInfo(slotIdx, false, decoratorType)
     local decalId = slot.decalId
     local decorator = ::g_decorator.getDecorator(decalId, decoratorType)
     local slotRatio = ::clamp(decoratorType.getRatio(decorator), 1, 2)
     local buttonTooltip = slot.isEmpty ? ::loc(decoratorType.emptySlotLocId) : ""
-    if (!is_own)
+    if (!isUnitOwn)
       buttonTooltip = "#mainmenu/decalUnitLocked"
     else if (!canEditDecals)
       buttonTooltip = "#mainmenu/decalSkinLocked"
@@ -604,7 +602,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       local canBuySkin = false
       local price = ::Cost()
 
-      if (is_own && previewSkinId && skinList)
+      if (isUnitOwn && previewSkinId && skinList)
       {
         local skinIndex = ::find_in_array(skinList.values, previewSkinId, 0)
         local decorator = skinList.decorators[skinIndex]
@@ -649,9 +647,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           btn_decal_edit   = ::show_console_buttons && !isInEditMode && !isDecoratorsListOpen && !focusedSlot.isEmpty && focusedSlot.unlocked
           btn_decal_delete = ::show_console_buttons && !isInEditMode && !isDecoratorsListOpen && !focusedSlot.isEmpty && focusedSlot.unlocked
 
-          skins_div = !isInEditMode && !isDecoratorsListOpen && (is_own || access_SkinsUnrestrictedPreview || access_SkinsUnrestrictedExport)
+          skins_div = !isInEditMode && !isDecoratorsListOpen && (isUnitOwn || access_SkinsUnrestrictedPreview || access_SkinsUnrestrictedExport)
           user_skins_block = access_UserSkins
-          tank_skin_settings = is_unit_tank
+          tank_skin_settings = isUnitTank
 
           slot_info = !isInEditMode && !isDecoratorsListOpen
           btn_dm_viewer = !isInEditMode && !isDecoratorsListOpen && ::dmViewer.canUse()
@@ -732,10 +730,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateSlotsDivsVisibility(decoratorType = null)
   {
     local inBasicMode = currentState & decoratorEditState.NONE
-    local showDecalsSlotDiv = access_Decals && is_own
+    local showDecalsSlotDiv = access_Decals && isUnitOwn
       && (inBasicMode || (decoratorType == ::g_decorator_type.DECALS && currentState & decoratorEditState.SELECT))
 
-    local showAttachableSlotsDiv = access_Attachables && is_own
+    local showAttachableSlotsDiv = access_Attachables && isUnitOwn
       && (inBasicMode || (decoratorType == ::g_decorator_type.ATTACHABLES && currentState & decoratorEditState.SELECT))
 
     ::showBtnTable(scene, {
@@ -855,7 +853,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkCurrentUnit()
   {
-    if (is_own)
+    if (isUnitOwn)
       return true
 
     local onOkFunc = function() {}

@@ -134,14 +134,16 @@ local function appendBranches(rangeData, headIdx, branches, brIdxTbl, prevItem=n
     }
   } while (idx >= 0)
 
-  if (branches.len()>0 && curBranch.len()==1
-      && (!curBranch[0]?.reqAir || curBranch[0].reqAir==""))
-  {  //for line branch generation. NoReq aircrafts extends previous branch.
+  local lastItemCurBranch = curBranch.top()
+  if (branches.len()>0 && curBranch[0].rank == lastItemCurBranch.rank
+      && (!lastItemCurBranch?.reqAir || lastItemCurBranch.reqAir==""))
+  {  //for line branch generation. If NoReq aircrafts or all aircrafts curBranch have one rank then last extends previous branch.
     local placeFound = false
     foreach(bIdx, bItem in branches[branches.len()-1])
       if (bItem?.reqAir && bItem.reqAir=="" && bItem.rank >= curBranch[0].rank)
       {
-        branches[branches.len()-1].insert(bIdx, curBranch[0])
+        foreach(k, curItem in curBranch)
+          branches[branches.len()-1].insert(bIdx+k, curBranch[k])
         placeFound = true
         break
       }

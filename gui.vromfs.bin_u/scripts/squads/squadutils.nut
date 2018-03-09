@@ -289,7 +289,7 @@ function g_squad_utils::getMemberAvailableUnitsCheckingData(memberData, remainUn
       else
         memberAvailableUnits.append(name)
 
-  if (memberAvailableUnits.len() == 0)
+  if (remainUnits && memberAvailableUnits.len() == 0)
   {
     memberCantJoinData.canFlyout = false
     memberCantJoinData.joinStatus = hasBrokenUnits ? memberStatus.ALL_AVAILABLE_AIRS_BROKEN
@@ -416,7 +416,7 @@ function g_squad_utils::isEventAllowedForAllMembers(eventEconomicName, isSilent 
   return res
 }
 
-function g_squad_utils::showMemberMenu(obj, handlerForChat = null)
+function g_squad_utils::showMemberMenu(obj)
 {
   if (!::checkObj(obj))
     return
@@ -425,12 +425,12 @@ function g_squad_utils::showMemberMenu(obj, handlerForChat = null)
   if (member == null)
       return
 
-  local menu = getMemberPopupMenu(member, handlerForChat)
+  local menu = getMemberPopupMenu(member)
   local position = obj.getPosRC()
   ::gui_right_click_menu(menu, this, position)
 }
 
-function g_squad_utils::getMemberPopupMenu(member, handlerForChat)
+function g_squad_utils::getMemberPopupMenu(member)
 {
   local meLeader = ::g_squad_manager.isSquadLeader()
   local isMe = member.uid == ::my_user_id_str
@@ -446,9 +446,7 @@ function g_squad_utils::getMemberPopupMenu(member, handlerForChat)
     {
       text = ::loc("squadAction/openChat")
       show = ::g_chat.getMySquadRoomId() && ::ps4_is_chat_enabled()
-      action = (@(handlerForChat) function() {
-        ::g_chat.openChatRoom(::g_chat.getMySquadRoomId(), handlerForChat)
-      })(handlerForChat)
+      action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
     }
     {
       text = ::loc("mainmenu/btnUserCard")

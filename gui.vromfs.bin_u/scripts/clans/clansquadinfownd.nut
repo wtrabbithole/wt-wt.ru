@@ -101,7 +101,7 @@ class ::gui_handlers.clanSquadInfoWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (membersObj.childrenCount() > idx) {
       return membersObj.getChild(idx)
     }
-    return membersObj.getChild(idx-1).getClone()
+    return membersObj.getChild(idx-1).getClone(membersObj, this)
   }
 
   function updatePosition()

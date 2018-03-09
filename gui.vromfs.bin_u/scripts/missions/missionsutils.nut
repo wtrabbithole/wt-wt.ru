@@ -267,6 +267,21 @@ function is_any_campaign_available()
   return false
 }
 
+function get_not_purchased_campaigns()
+{
+  local res = []
+  local mbc = ::get_meta_missions_info_by_campaigns(::GM_CAMPAIGN)
+  foreach(item in mbc)
+    if (!::has_entitlement(item.name) && !::has_feature(item.name))
+      res.append(item.name)
+  return res
+}
+
+function purchase_any_campaign()
+{
+  OnlineShopModel.openBrowserForFirstFoundEntitlement(::get_not_purchased_campaigns())
+}
+
 function gui_start_singleplayer_from_coop()
 {
   ::select_game_mode(::GM_SINGLE_MISSION);

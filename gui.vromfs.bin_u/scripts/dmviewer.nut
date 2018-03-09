@@ -131,7 +131,7 @@
   function loadUnitBlk()
   {
     clearUnitWeaponBlkList() //unit weapons are part of unit blk, should be unloaded togeter with unitBlk
-    unitBlk = ::DataBlock(::get_unit_file_name(unit.name))
+    unitBlk = ::get_full_unit_blk(unit.name)
   }
 
   function getUnitWeaponList()

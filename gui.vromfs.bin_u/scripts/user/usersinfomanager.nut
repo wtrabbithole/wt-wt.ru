@@ -1,3 +1,5 @@
+local avatars = ::require("scripts/user/avatars.nut")
+
 /**
   client api:
       requestInfo(users, successCb = null, errorCb = null)
@@ -108,7 +110,7 @@ function g_users_info_manager::_convertServerResponse(response)
     local convertedData = {
       uid = uid
       name = ::getTblValue("nick", userInfo, "")
-      pilotIcon = ::get_pilot_icon_by_id(pilotId)
+      pilotIcon = avatars.getIconById(pilotId)
     }
 
     res[uid] <- convertedData

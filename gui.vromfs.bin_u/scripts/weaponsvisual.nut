@@ -248,6 +248,14 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if (visualHasMenuObj)
     visualHasMenuObj.show(showMenuIcon)
 
+  local upgradesObj = itemObj.findObject("upgrade_img")
+  if (upgradesObj)
+    upgradesObj.upgradeStatus = getItemUpgradesStatus(air, visualItem)
+
+  local iconObj = itemObj.findObject("status_icon")
+  if (::checkObj(iconObj))
+    iconObj["background-image"] = getStatusIcon(air, item)
+
   if (!showButtons)
     return
 
@@ -292,6 +300,11 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
             && statusTbl.amount < statusTbl.maxAmount
             && !isBundle)
     altBtnText = ::loc("mainmenu/btnBuy")
+  else if (visualItem.type == weaponsItem.modification
+      && isOwn
+      && statusTbl.curUpgrade < statusTbl.maxUpgrade
+      && ::ItemsManager.getInventoryList(itemType.MOD_UPGRADE).len())
+    altBtnText = ::loc("mainmenu/btnUpgrade")
 
   altBtn.canShow = (altBtnText == "") ? "no" : "yes"
   local textObj = altBtn.findObject("item_buy_text")
@@ -314,17 +327,19 @@ function weaponVisual::getItemStatusTbl(air, item)
     unlocked = false
     showPrice = true
     discountType = ""
+    curUpgrade = 0
+    maxUpgrade = 0
   }
 
   if (item.type == weaponsItem.weapon)
   {
-    res.maxAmount = ::getAmmoMaxAmount(air.name, item.name, AMMO.WEAPON)
-    res.amount = ::getAmmoAmount(air.name, item.name, AMMO.WEAPON)
+    res.maxAmount = ::getAmmoMaxAmount(air, item.name, AMMO.WEAPON)
+    res.amount = ::getAmmoAmount(air, item.name, AMMO.WEAPON)
     res.showMaxAmount = res.maxAmount > 1
-    res.amountWarningValue = ::weaponsWarningMinimumSecondary
+    res.amountWarningValue = ::getAmmoWarningMinimum(AMMO.WEAPON, air, res.maxAmount)
     res.canBuyMore = res.amount < res.maxAmount
     res.equipped = res.amount && ::get_last_weapon(air.name) == item.name
-    res.unlocked = ::is_weapon_enabled(air, item)
+    res.unlocked = ::is_weapon_enabled(air, item) || (isOwn && ::is_weapon_unlocked(air, item) )
     res.discountType = "weapons"
   }
   else if (item.type == weaponsItem.primaryWeapon)
@@ -354,7 +369,7 @@ function weaponVisual::getItemStatusTbl(air, item)
     {
       res.unlocked = res.amount || ::canBuyMod(air, item)
       res.maxAmount = ::wp_get_modification_max_count(air.name, item.name)
-      res.amountWarningValue = ::weaponsWarningMinimumPrimary
+      res.amountWarningValue = ::getAmmoWarningMinimum(AMMO.MODIFICATION, air, res.maxAmount)
       res.canBuyMore = res.amount < res.maxAmount
       res.modExp = ::shop_get_module_exp(air.name, item.name)
       res.discountType = "mods"
@@ -366,6 +381,13 @@ function weaponVisual::getItemStatusTbl(air, item)
           res.showPrice = !res.amount || ::canBuyMod(air, item)
         else
           res.showPrice = !res.amount && ::canBuyMod(air, item)
+
+        if (isOwn && res.amount && ::is_mod_upgradeable(item.name))
+        {
+          res.curUpgrade = ::get_modification_level(air.name, item.name)
+          res.maxUpgrade = 1 //only 1 upgrade level planned to be used atm.
+                             //so no point to add complex logic about max upgrade detection right now.
+        }
       }
       else
       {
@@ -697,13 +719,35 @@ function weaponVisual::isModInResearch(air, item)
   return status == ::ES_ITEM_STATUS_IN_RESEARCH
 }
 
+function weaponVisual::getItemUpgradesStatus(unit, item)
+{
+  if (item.type == weaponsItem.primaryWeapon)
+  {
+    local countData = countWeaponsUpgrade(unit, item)
+    return !countData?[1] ? ""
+      : countData[0] >= countData[1] ? "full"
+      : "part"
+  }
+  if (item.type == weaponsItem.modification)
+  {
+    local curPrimWeaponName = ::get_last_primary_weapon(unit)
+    local weapMod = ::getModificationByName(unit, curPrimWeaponName)
+    local upgradesList = getItemUpgradesList(weapMod || unit) //default weapon upgrades stored in unit
+    if (upgradesList)
+      foreach(list in upgradesList)
+        if (::isInArray(item.name, list))
+          return "mod"
+  }
+  return ""
+}
+
 function weaponVisual::getItemUpgradesList(item)
 {
   if ("weaponUpgrades" in item)
     return item.weaponUpgrades
   else if ("weaponMod" in item && item.weaponMod != null && "weaponUpgrades" in item.weaponMod)
     return item.weaponMod.weaponUpgrades
-  return false
+  return null
 }
 
 function weaponVisual::countWeaponsUpgrade(air, item)
@@ -774,6 +818,8 @@ function weaponVisual::getReqModsText(air, item)
 function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect = null, updateEffectFunc = null)
 {
   local res = { name = "", desc = "", delayed = false }
+  local needShowWWSecondaryWeapons = item.type==weaponsItem.weapon && ::is_in_flight() &&
+    ::g_mis_custom_state.getCurMissionRules().isWorldWar
 
   if (item.type==weaponsItem.bundle)
     return ::weaponVisual.getByCurBundle(air, item, (@(canDisplayInfo, effect, updateEffectFunc) function(air, item) { return getItemDescTbl(air, item, canDisplayInfo, effect, updateEffectFunc) })(canDisplayInfo, effect, updateEffectFunc), res)
@@ -786,7 +832,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   local statusTbl = getItemStatusTbl(air, item)
   local currentPrice = statusTbl.showPrice? getFullItemCostText(air, item) : ""
 
-  if (!::weaponVisual.isTierAvailable(air, curTier) && curTier > 1)
+  if (!::weaponVisual.isTierAvailable(air, curTier) && curTier > 1 && !needShowWWSecondaryWeapons)
   {
     local reqMods = ::getNextTierModsCount(air, curTier - 1)
     if(reqMods > 0)
@@ -827,7 +873,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     if(upgradesList)
     {
       local upgradesCount = countWeaponsUpgrade(air, item)
-      if (upgradesCount)
+      if (upgradesCount?[1])
         addDesc = "\n" + ::loc("weaponry/weaponsUpgradeInstalled",
                                { current = upgradesCount[0], total = upgradesCount[1] })
       foreach(array in upgradesList)
@@ -914,7 +960,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
       addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp + repairText
   }
 
-  if (!statusTbl.amount)
+  if (!statusTbl.amount && !needShowWWSecondaryWeapons)
   {
     local reqMods = getReqModsText(air, item)
     if(reqMods != "")
@@ -923,6 +969,9 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   if (isBullets(item) && !::is_bullets_group_active_by_mod(air, item))
     reqText += ((reqText=="")?"":"\n") + ::loc("msg/weaponSelectRequired")
   reqText = reqText!=""? ("<color=@badTextColor>" + reqText + "</color>") : ""
+
+  if (needShowWWSecondaryWeapons)
+    reqText = getReqTextWorldWarArmy(air, item)
   res.reqText <- reqText
 
   if (currentPrice != "")
@@ -1295,6 +1344,33 @@ function weaponVisual::isTierAvailable(air, tierNum)
   }
 
   return isAvailable
+}
+
+function weaponVisual::getReqTextWorldWarArmy(unit, item)
+{
+  local text = ""
+  local isEnabledByMission = ::g_mis_custom_state.getCurMissionRules().isUnitWeaponAllowed(unit, item)
+  local isEnabledForUnit = ::is_weapon_enabled(unit, item)
+  if (!isEnabledByMission)
+    text = "<color=@badTextColor>" + ::loc("worldwar/weaponry/inArmyIsDisabled") + "</color>"
+  else if (isEnabledByMission && !isEnabledForUnit)
+    text = "<color=@badTextColor>" + ::loc("worldwar/weaponry/inArmyIsEnabled/weaponRequired") + "</color>"
+  else if (isEnabledByMission && isEnabledForUnit)
+    text = "<color=@goodTextColor>" + ::loc("worldwar/weaponry/inArmyIsEnabled") + "</color>"
+
+  return text
+}
+
+function weaponVisual::getStatusIcon(unit, item)
+{
+  local misRules = ::g_mis_custom_state.getCurMissionRules()
+  if (item.type==weaponsItem.weapon
+    && ::is_in_flight()
+    && misRules.isWorldWar
+    && misRules.isUnitWeaponAllowed(unit, item))
+    return "#ui/gameuiskin#ww_icon.svg"
+
+  return ""
 }
 
 function weaponVisual::getDiscountPath(air, item, discountType)

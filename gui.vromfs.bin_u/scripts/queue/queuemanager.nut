@@ -258,7 +258,7 @@ class QueueManager {
   {
     joinQueue({
       mode = eventId
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
       slots = ::getSelSlotsTable()
       clusters = ::get_current_clusters()
       queueSelfActivated = true
@@ -322,7 +322,7 @@ class QueueManager {
 
   function _getOnLeaveQueueErrorCallback(postAction, postCancelAction, silent)
   {
-    return (@(postAction, postCancelAction, silent) function(response) {
+    return function(response) {
         ::queues.showProgressBox(false)
         if (response.error == SERVER_ERROR_REQUEST_REJECTED)
         {
@@ -338,7 +338,8 @@ class QueueManager {
           // This check is a workaround that fixes
           // player being able to perform some action
           // split second before battle begins.
-          if (!::SessionLobby.isWaitForQueueRoom())
+          if (!::SessionLobby.isWaitForQueueRoom()
+            && !::SessionLobby.isInRoom())
           {
             if (postAction)
               postAction()
@@ -349,7 +350,7 @@ class QueueManager {
               postCancelAction()
           }
         }
-      })(postAction, postCancelAction, silent)
+      }
   }
 
   function leaveAllQueuesSilent()

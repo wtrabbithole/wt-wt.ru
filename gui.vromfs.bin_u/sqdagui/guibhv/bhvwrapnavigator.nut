@@ -23,7 +23,7 @@ class gui_bhv.wrapNavigator
     {
       //push another focus right inside from current focus update can broke scene update.
       if (!checkWrapFrom(obj))
-        obj.getScene().performDelayed(this, @() ::check_obj(obj) && obj.isFocused() && selectItem(obj, 1))
+        obj.getScene().performDelayed(this, @() ::check_obj(obj) && obj.isFocused() && selectItem(obj, 1,false))
       ::play_gui_sound("focus")
     }
     obj.sendNotify("set_focus")
@@ -37,8 +37,13 @@ class gui_bhv.wrapNavigator
 
   function setValue(obj, value)
   {
+    local prevIdx = getValue(obj)
+    local needSound = true
+    if (prevIdx == value)
+      needSound = false
+
     obj.setIntProp(curItemPID, value)
-    selectItem(obj)
+    selectItem(obj, 0, needSound)
   }
 
   function isActiveObj(obj)
@@ -95,7 +100,7 @@ class gui_bhv.wrapNavigator
     }
   }
 
-  function selectItem(obj, moveIfInactive = 0)
+  function selectItem(obj, moveIfInactive = 0, needSound = true)
   {
     local idx = getValue(obj)
     if (idx < 0) idx = 0
@@ -109,6 +114,8 @@ class gui_bhv.wrapNavigator
       cObj.select()
       cObj.scrollToView()
       obj.setIntProp(skipFocusPID, 0)
+
+    if (needSound)
       ::play_gui_sound("choose")
     } else
       if (obj.childrenCount())

@@ -30,6 +30,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   _defaultFilter = {
     typeMask = itemType.ALL
     devItemsTab = false
+    isMarketplace = false
     emptyTabLocId = "items/shop/emptyTab/default"
   }
 
@@ -63,27 +64,33 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       key = "orders"
       typeMask = itemType.ORDER
     } {
-      key = "universalSpare"
-      typeMask = itemType.UNIVERSAL_SPARE
+      key = "modifications"
+      text = "#mainmenu/btnWeapons"
+      typeMask = itemType.UNIVERSAL_SPARE | itemType.MOD_UPGRADE | itemType.MOD_OVERDRIVE
     } {
       key = "vehicles"
       typeMask = itemType.VEHICLE
+      isMarketplace = true
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
     } {
       key = "skins"
       typeMask = itemType.SKIN
+      isMarketplace = true
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
     } {
       key = "decals"
       typeMask = itemType.DECAL
+      isMarketplace = true
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
     } {
       key = "keys"
       typeMask = itemType.KEY
+      isMarketplace = true
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
     } {
       key = "chests"
       typeMask = itemType.CHEST
+      isMarketplace = true
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
     } {
       key = "devItems"
@@ -536,17 +543,20 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local emptyListObj = scene.findObject("empty_items_list")
     if (::checkObj(emptyListObj))
     {
+      local adviseMarketplace = curTab == itemsTab.INVENTORY && ::ItemsManager.isMarketplaceEnabled()
       local adviseShop = ::has_feature("ItemsShop") && curTab != itemsTab.SHOP
-      if (adviseShop)
+      if (adviseMarketplace || adviseShop)
         foreach (t in _types)
           if (compareFilters(filter, t))
           {
-            adviseShop = checkItemTab(t, itemsTab.SHOP)
+            adviseMarketplace = adviseMarketplace && t?.isMarketplace != null
+            adviseShop = adviseShop && !adviseMarketplace && checkItemTab(t, itemsTab.SHOP)
             break
           }
 
       emptyListObj.show(data.len() == 0)
       emptyListObj.enable(data.len() == 0)
+      showSceneBtn("items_shop_to_marketplace_button", adviseMarketplace)
       showSceneBtn("items_shop_to_shop_button", adviseShop)
       local emptyListTextObj = scene.findObject("empty_items_list_text")
       if (::checkObj(emptyListTextObj))
@@ -555,9 +565,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         local caption = ::loc(emptyTabLocId, ::loc(_defaultFilter.emptyTabLocId, ""))
         if (caption.len() > 0)
         {
-          local noItemsAdviceLocId = adviseShop
-            ? "items/shop/emptyTab/noItemsAdvice/shopEnabled"
-            : "items/shop/emptyTab/noItemsAdvice/shopDisabled"
+          local noItemsAdviceLocId =
+              adviseMarketplace ? "items/shop/emptyTab/noItemsAdvice/marketplaceEnabled"
+            : adviseShop        ? "items/shop/emptyTab/noItemsAdvice/shopEnabled"
+            :                     "items/shop/emptyTab/noItemsAdvice/shopDisabled"
           caption += " " + ::loc(noItemsAdviceLocId)
         }
         emptyListTextObj.setValue(caption)
@@ -718,18 +729,27 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!limitsCheckResult && item && !item.isInventoryItem)
       warningText = limitsCheckData.reason
     setWarningText(warningText)
-    showSceneBtn("btn_link_action", item && item.link.len() && ::has_feature("AllowExternalLink"))
+
+    local showLinkAction = item && item.hasLink()
+    local buttonObj = showSceneBtn("btn_link_action", showLinkAction)
+    if (showLinkAction)
+    {
+      local linkActionText = ::loc(item.linkActionLocId)
+      ::setDoubleTextToButton(scene, "btn_link_action", linkActionText, linkActionText)
+      if (item.linkActionIcon != "")
+      {
+        buttonObj["class"] = "image"
+        buttonObj.findObject("img")["background-image"] = item.linkActionIcon
+      }
+    }
   }
 
   function onLinkAction(obj)
   {
     local item = getCurItem()
-    local link = ::g_url.validateLink(item.link)
-    if (!link)
-      return
-
-    ::open_url(link, item.forceExternalBrowser, false, "item_shop")
-   }
+    if (item)
+      item.openLink()
+  }
 
   function onItemPreview(obj)
   {
@@ -773,6 +793,15 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     return result.success
   }
 
+  function onDescAction(obj)
+  {
+    local data = ::check_obj(obj) && obj.actionData && ::parse_json(obj.actionData)
+    local item = ::ItemsManager.findItemById(data?.itemId)
+    local action = data?.action
+    if (item && action && (action in item) && ::u.isFunction(item[action]))
+      item[action]()
+  }
+
   function onUnitHover(obj)
   {
     openUnitActionsList(obj, true, true)
@@ -798,6 +827,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     curTab = itemsTab.SHOP
     fillTabs()
+  }
+
+  function onToMarketplaceButton(obj)
+  {
+    ::ItemsManager.goToMarketplace()
   }
 
   function goBack()
@@ -862,12 +896,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     getItemsListObj().setValue(itemIndex % itemsPerPage)
   }
 
-  function onEventShowroomOpened(params)
+  function onEventBeforeStartShowroom(params)
   {
     ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
   }
 
-  function onEventMissionBuilderApplied(params)
+  function onEventBeforeStartTestFlight(params)
   {
     ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
   }

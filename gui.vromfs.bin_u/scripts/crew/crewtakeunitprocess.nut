@@ -152,7 +152,7 @@ class ::CrewTakeUnitProcess
         return nextStep()
       local purchaseCb = ::Callback(function()
         {
-          local crews = ::get_crews_list_by_country(country, true)
+          local crews = ::get_crews_list_by_country(country)
           if (!crews.len())
             return remove()
 
@@ -342,13 +342,11 @@ class ::CrewTakeUnitProcess
   function onComplete()
   {
     isSuccess = true
-    ::g_crews_list.refresh()
     if (unit)
     {
       ::updateAirAfterSwitchMod(unit)
       ::select_crew(crew.idCountry, crew.idInCountry, true)
-      ::show_aircraft = unit
-      ::hangar_model_load_manager.loadModel(unit.name)
+      ::set_show_aircraft(unit)
     }
     ::g_crews_list.flushSlotbarUpdate()
     ::broadcastEvent("CrewTakeUnit", { unit = unit, prevUnit = prevUnit })

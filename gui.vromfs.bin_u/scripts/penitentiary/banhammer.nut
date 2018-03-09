@@ -152,9 +152,8 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!canBan())
       return goBack()
 
-    local comment = scene.findObject("complaint_text").getValue()
-    local clearedComment = ::g_string.clearBorderSymbolsMultiline(comment)
-    if (clearedComment.len() < 10)
+    local comment = ::g_string.clearBorderSymbolsMultiline(  scene.findObject("complaint_text").getValue()  )
+    if (comment.len() < 10)
     {
       msgBox("need_text", ::loc("msg/complain/needDetailedComment"),
         [["ok", function() {} ]], "ok")
@@ -304,9 +303,8 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!isValid())
       return
 
-    local user_comment = scene.findObject("complaint_text").getValue()
-    local clearedComment = ::clearBorderSymbols(user_comment, [" ", 0x0A.tochar(), 0x0D.tochar()])
-    if (clearedComment.len() < 10)
+    local user_comment = ::g_string.clearBorderSymbolsMultiline( scene.findObject("complaint_text").getValue() )
+    if (user_comment.len() < 10)
     {
       msgBox("need_text", ::loc("msg/complain/needDetailedComment"),
         [["ok", function() {} ]], "ok")

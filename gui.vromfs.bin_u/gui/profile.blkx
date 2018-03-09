@@ -79,6 +79,12 @@
                         },
                         "ButtonImg": {
                           "style": "pos:pw - w - 4@dp, ph - h - 4@dp; height:@buttonIconHeight;"
+                        },
+                        "unseenIcon": {
+                          "id": "unseen_avatar",
+                          "pos": "4@dp, 4@dp",
+                          "position": "absolute",
+                          "unseenText": []
                         }
                       },
                       "tdiv": [
@@ -127,6 +133,12 @@
                             "css-hier-invalidate": "yes",
                             "ButtonImg": {
                               "style": "top:50%ph-50%h;"
+                            },
+                            "unseenIcon": {
+                              "id": "unseen_titles",
+                              "pos": "pw + 1@blockInterval, 50%ph-50%h",
+                              "position": "absolute",
+                              "unseenText": []
                             }
                           }
                         },
@@ -435,6 +447,7 @@
             "position": "relative",
             "overflow-y": "auto",
             "navigatorShortcuts": "yes",
+            "scrollbarShortcuts": "yes",
             "tdiv": {
               "pos": "50%pw-50%w, 0",
               "position": "relative",
@@ -832,7 +845,7 @@
                   {
                     "tdiv": {
                       "id": "gamercard_tobattle_bg",
-                      "left": "-1@titleLogoPlatePadding/2",
+                      "pos": "-1@titleLogoPlatePadding/2, 0",
                       "position": "relative",
                       "height": "ph",
                       "background-color": "@gameModeColor",
@@ -1275,6 +1288,7 @@
       },
       {
         "gamercard": {
+          "id": "gamercard_bottom",
           "BottomMenuPanel": [
             {
               "shadowSafeArea": []

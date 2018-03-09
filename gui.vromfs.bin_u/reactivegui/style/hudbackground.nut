@@ -1,9 +1,6 @@
 local bg = Picture("!ui/gameuiskin#debriefing_bg_grad@@ss")
 local setHudBg = function (component) {
-  local result = component
-  if (typeof component == "function") {
-    result = component()
-  }
+  local result = (typeof component == "function") ? component() : component
   result.rendObj <- ROBJ_9RECT
   result.texOffs <- [0,30]
   result.screenOffs <- [0, hdpx(10)]

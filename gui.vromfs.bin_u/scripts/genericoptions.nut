@@ -82,10 +82,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkBotsOption()
     updateTripleAerobaticsSmokeOptions()
     updateVerticalTargetingOption()
-
-    local option = findOptionInContainers(USEROPT_TANK_ALT_CROSSHAIR)
-    if (option)
-      showOptionRow(option, ::can_add_tank_alt_crosshair())
   }
 
   function applyReturn()

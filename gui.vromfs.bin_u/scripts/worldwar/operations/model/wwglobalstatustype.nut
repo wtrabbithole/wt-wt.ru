@@ -1,3 +1,5 @@
+local enums = ::require("std/enums.nut")
+
 ::g_ww_global_status_type <- {
   types = []
 }
@@ -33,7 +35,7 @@
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_ww_global_status_type", {
+enums.addTypesByGlobalName("g_ww_global_status_type", {
   QUEUE = {
     type = WW_GLOBAL_STATUS_TYPE.QUEUE
     charDataId = "queue"

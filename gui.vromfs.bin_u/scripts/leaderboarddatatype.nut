@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -13,7 +14,7 @@ function g_lb_data_type::_getStandartTooltip(type, value)
 {
   local shortText = type.getShortTextByValue(value)
   local fullText = type.getFullTextByValue(value)
-  return fullText != shortText ? (::loc("leaderboards/exactValue") + ::loc("ui/colon") + ::g_string.stripTags(fullText)) : ""
+  return fullText != shortText ? (::loc("leaderboards/exactValue") + ::loc("ui/colon") + fullText) : ""
 }
 
 ::g_lb_data_type.template <- {
@@ -35,7 +36,7 @@ function g_lb_data_type::_getStandartTooltip(type, value)
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_lb_data_type", {
+enums.addTypesByGlobalName("g_lb_data_type", {
   NUM = {
 
     getFullTextByValue = function (value, allowNegative = false) {
@@ -49,7 +50,7 @@ function g_lb_data_type::_getStandartTooltip(type, value)
       if (typeof value == "string")
         value = ::to_integer_safe(value)
 
-      return (!allowNegative && value < 0) ? ::loc("leaderboards/notAvailable") : ::getShortTextFromNum(::to_integer_safe(value))
+      return (!allowNegative && value < 0) ? ::loc("leaderboards/notAvailable") : ::getShortTextFromNum(::round_by_value(value, 1))
     }
 
     getPrimaryTooltipText = function (value, allowNegative = false) {
@@ -187,6 +188,6 @@ function g_lb_data_type::_getStandartTooltip(type, value)
 
 function g_lb_data_type::getTypeById(id)
 {
-  return ::g_enum_utils.getCachedType("id", id, ::g_lb_data_type_cache.byId,
+  return enums.getCachedType("id", id, ::g_lb_data_type_cache.byId,
                                        ::g_lb_data_type, ::g_lb_data_type.UNKNOWN)
 }

@@ -1,10 +1,12 @@
-tostring_r <- require("std/string.nut", false)?.tostring_r || require("sqStdLibs/common/string.nut", false)?.tostring_r || require("common/string.nut", false)?.tostring_r || @(val) val.tostring
+tostring_r <- require("std/string.nut").tostring_r
 vlog_r <- @(val) vlog(tostring_r(val))
+print_r <- @(val) print(tostring_r(val) + "\n")
+dlog <- function(val) { vlog_r(val); print_r(val) }
 
 function with_table(tbl, func) {
   local roottbl = ::getroottable()
   local accessor = class {
-    _get = @(field) tbl.get(field) || roottbl[field]
+    _get = @(field) tbl?[field] ?? roottbl[field]
     _set = @(field, val) tbl[field] <- val
   }()
 

@@ -1,4 +1,4 @@
-local u = require("sqStdLibs/common/u.nut")
+local u = require("std/u.nut")
 /**
  * Callback - wrapper for regular callback functions with context validation.
  *

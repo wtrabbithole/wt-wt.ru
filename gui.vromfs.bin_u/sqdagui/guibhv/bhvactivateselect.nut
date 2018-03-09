@@ -6,7 +6,7 @@ class gui_bhv.ActivateSelect extends gui_bhv.posNavigator
 
   function setValue(obj, value)
   {
-    if (chooseItem(obj, value))
+    if (chooseItem(obj, value, false))
       setSelectedValue(obj, value)
   }
 
@@ -17,7 +17,7 @@ class gui_bhv.ActivateSelect extends gui_bhv.posNavigator
 
   function setSelectedValue(obj, value)
   {
-    selectItem(obj, value, false)
+    selectItem(obj, value, null, false)
   }
 
   function onSelectAction(obj)

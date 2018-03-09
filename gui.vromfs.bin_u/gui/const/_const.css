@@ -38,7 +38,8 @@
 @const lIco: (64*@sf/@pf_outdated) \ 1;
 @const slotBtnIco: 23*@sf/@pf_outdated;
 @const profileMedalSize: 128*@sf/@pf_outdated;
-@const profileUnlockIconSize: 100*@sf/@pf_outdated;
+@const profileUnlockIconSize: (100*@sf/@pf_outdated) \ 1;
+@const avatarButtonSize: 1@profileUnlockIconSize + 2@blockInterval;
 @const debriefingUnlockIconSize: 75@sf/@pf;
 @const unlockStageIconSize: 32*@sf/@pf_outdated;
 
@@ -113,6 +114,7 @@
 @const gcBattleBlockPadding: 0.04@scrn_tgt*1@isWide;
 @const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@sf;
 @const gcToBattleButtonPlaceWidth: 1@titleLogoPlateWidth + 2@gcBattleBlockPadding;
+@const maxToBattleButtonTextWidth: 1@gcToBattleButtonPlaceWidth - 2@buttonTextPadding;
 @const gcWidthFull: sw - 2@offsetBetweenScreenAndAirinfo;
 @const topGcPanelWidth: 0.5@gcWidthFull - 0.5@gcToBattleButtonPlaceWidth;
 @const bottomGcWidth: @gcWidthFull;
@@ -175,7 +177,7 @@
 @const slotbarWidth5:    (1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries +1)\2*2;
 @const slotbarWidthFull: 1@slotbarWidth5;
 @const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
-@const slotbarInvisPad: 1@buttonHeight;
+@const slotbarInvisPad:  18*@sf/@pf;
 @const offsetBetweenScreenAndAirinfo: (1@bw + 1@mIco + 2@listboxPad + 2@airInfoPadding) $min  0.5 * (sw - 1@slotbarWidthFull);
 @const airInfoPanelRightSide: 1@bw + 1@mIco + 2@listboxPad + 2@airInfoPadding;
 @const airInfoPanelWidth: 0.4@sf;
@@ -236,7 +238,7 @@
 @const eventRewardHeight: 0.1@scrn_tgt;
 @const eventRewardIconHeight: 0.08@scrn_tgt;
 
-@const blockInterval:    6@sf/@pf;
+@const blockInterval:    (6@sf/@pf) \ 1;
 @const airInfoPadding:   10@sf/@pf;
 @const helpInterval:     0.01@sf;
 @const helpLineInterval: @helpInterval;
@@ -257,6 +259,7 @@
 @const framedMessageMaxWidth: 0.5@sf;
 
 @const infoPanelVertPosition: 1@titleLogoPlateHeight + 1@bh + 0.04@sf;
+@const maxInfoPanelContentHeightWithSlotbar: sh - 1@infoPanelVertPosition - 1@airInfoToggleButtonSize - 2@framePadding - 1@wndWithSlotbarBottomOffset - 0.04@sf;
 
 @const gameModeSelectPaddingTop: 1@topMenuBattleButtonHeight + 0.5@buttonIconHeight + 3@dp';
 @const gameModeSelectPaddingBottom: 3@dp;
@@ -285,3 +288,7 @@
 @const crewUnitSpecUpgradeTooltipPadding: 9*@sf/@pf;
 
 @const weaponIconPadding: 4*@sf/@pf;
+@const briefingBackgroundWidth: 1.8*sh;
+@const briefingScreenWidth: 1@briefingBackgroundWidth $min sw;
+@const briefingMapWidth: 0.39*@briefingBackgroundWidth;
+@const weaponStatusIconSize: 16*@sf/@pf;

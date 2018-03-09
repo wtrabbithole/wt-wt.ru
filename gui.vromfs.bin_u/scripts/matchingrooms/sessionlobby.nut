@@ -815,6 +815,7 @@ function SessionLobby::switchStatus(_status)
     return
 
   local wasInRoom = isInRoom()
+  local wasStatus = status
   status = _status  //for easy notify other handlers about change status
   //dlog("GP: status changed to " + ::getEnumValName("lobbyStates", status))
   if (needJoiningWnd())
@@ -833,7 +834,11 @@ function SessionLobby::switchStatus(_status)
   if (status == lobbyStates.NOT_IN_ROOM || status == lobbyStates.IN_DEBRIEFING)
     setReady(false, true)
   if (status == lobbyStates.NOT_IN_ROOM)
+  {
     resetParams()
+    if (wasStatus == lobbyStates.JOINING_SESSION)
+      ::destroy_session_scripted()
+  }
   if (status == lobbyStates.JOINING_SESSION)
     ::add_squad_to_contacts()
   updateMyState()
@@ -1126,7 +1131,7 @@ function SessionLobby::getMemberInfo(member)
   local pub = ("public" in member)? member.public : {}
   local res = {
     memberId = member.memberId
-    userId = member.userId
+    userId = member.userId.tostring() //member info same format as get_mplayers_list
     name = member.name
     isLocal = member.userId == ::my_user_id_str
     spectator = ::getTblValue("spectator", member, false)
@@ -1246,7 +1251,7 @@ function SessionLobby::getAvailableTeam()
   if (spectator)
     return (crsSetTeamTo == Team.none) ? Team.Any : crsSetTeamTo
 
-  local myCountry = ::get_profile_info().country
+  local myCountry = ::get_profile_country_sq()
   local aTeams = [crsSetTeamTo != Team.B, //Team.A or Team.none
                   crsSetTeamTo != Team.A
                  ]
@@ -1442,7 +1447,7 @@ function SessionLobby::isInvalidCrewsAllowed()
 
 function SessionLobby::isMpSquadChatAllowed()
 {
-  return !isEventRoom && getGameMode() != ::GM_SKIRMISH
+  return getGameMode() != ::GM_SKIRMISH
 }
 
 function SessionLobby::startCoopBySquad(missionSettings)

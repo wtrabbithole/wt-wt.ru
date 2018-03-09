@@ -41,12 +41,13 @@ class ::ChatHandler
 
   isMouseCursorVisible = false
   isActive = false // While it is true, in-game unit control shortcuts are disabled in client.
+  chatInputText = ""
 
   function constructor()
   {
     ::g_script_reloader.registerPersistentData("mpChat", this,
       ["log_text", "curMode",
-       "isActive"
+       "isActive", "chatInputText"
       ])
 
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
@@ -239,11 +240,14 @@ class ::ChatHandler
         btn_send                = show
         chat_mod_accesskey      = show
     })
-    if (show && sceneData.selfHideInput)
+    if (show && sceneData.scene.isVisible())
     {
       local obj = scene.findObject("chat_input")
       if (::checkObj(obj))
+      {
         obj.select()
+        obj.setValue(chatInputText)
+      }
     }
   }
 
@@ -338,7 +342,8 @@ class ::ChatHandler
 
   function onChatChanged(obj)
   {
-    ::chat_on_text_update(obj.getValue())
+    chatInputText = obj.getValue()
+    ::chat_on_text_update(chatInputText)
   }
 
   function onEventMpChatInputChanged(params)
@@ -673,6 +678,17 @@ class ::ChatHandler
     return isActive
       ? CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE | CtrlsInGui.CTRL_ALLOW_MP_CHAT
       : CtrlsInGui.CTRL_ALLOW_FULL
+  }
+
+  function onEventLoadingStateChange(params)
+  {
+    clearInputChat()
+  }
+
+  function clearInputChat()
+  {
+    chatInputText = ""
+    ::chat_on_text_update(chatInputText)
   }
 }
 

@@ -129,6 +129,12 @@ class ::WwBattle
     return status == ::EBS_ACTIVE_CONFIRMED
   }
 
+  function isFinished()
+  {
+    return status == ::EBS_FINISHED ||
+           status == ::EBS_FINISHED_APPLIED
+  }
+
   function isFullSessionByTeam(side = null)
   {
     side = side || ::ww_get_player_side()
@@ -260,6 +266,15 @@ class ::WwBattle
       canJoin = false
       reasonText = ""
       shortReasonText = ""
+      fullReasonText = ""
+    }
+
+    if (!::g_world_war.canJoinWorldwarBattle())
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.NO_WW_ACCESS
+      res.reasonText = ::loc("worldWar/noAccess")
+      res.fullReasonText = ::g_world_war.getPlayWorldwarConditionText()
+      return res
     }
 
     if (!isValid())
@@ -336,8 +351,9 @@ class ::WwBattle
       return res
     }
 
-    local remainUnits = getTeamRemainUnits(team)
-    local myCheckingData = ::g_squad_utils.getMemberAvailableUnitsCheckingData(::g_user_utils.getMyStateData(), remainUnits, team.country)
+    local remainUnits = getUnitsRequiredForJoin(team, side)
+    local myCheckingData = ::g_squad_utils.getMemberAvailableUnitsCheckingData(
+      ::g_user_utils.getMyStateData(), remainUnits, team.country)
     if (myCheckingData.joinStatus != memberStatus.READY)
     {
       res.code = WW_BATTLE_CANT_JOIN_REASON.UNITS_NOT_ENOUGH_AVAILABLE
@@ -347,7 +363,7 @@ class ::WwBattle
 
     if (needCheckSquad && ::g_squad_manager.isInSquad())
     {
-      updateCantJoinReasonDataBySquad(team, res)
+      updateCantJoinReasonDataBySquad(team, side, res)
       if (!::u.isEmpty(res.reasonText))
         return res
     }
@@ -375,7 +391,7 @@ class ::WwBattle
     return battles.len() > 0
   }
 
-  function updateCantJoinReasonDataBySquad(team, reasonData)
+  function updateCantJoinReasonDataBySquad(team, side, reasonData)
   {
     if (!::g_squad_manager.isSquadLeader())
     {
@@ -412,7 +428,7 @@ class ::WwBattle
       return reasonData
     }
 
-    local remainUnits = getTeamRemainUnits(team)
+    local remainUnits = getUnitsRequiredForJoin(team, side)
     local membersCheckingDatas = ::g_squad_utils.getMembersAvailableUnitsCheckingData(remainUnits, team.country)
 
     local langConfig = []
@@ -471,13 +487,15 @@ class ::WwBattle
 
     local joinCb = ::Callback(@() join(side), this)
     local warningReasonData = getWarningReasonData(side)
-    if (warningReasonData.needShow && !::g_squad_manager.isInSquad() &&
+    if (warningReasonData.needShow &&
         !::loadLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false))
     {
       ::gui_start_modal_wnd(::gui_handlers.SkipableMsgBox,
         {
           parentHandler = this
-          message = warningReasonData.warningText
+          message = ::u.isEmpty(warningReasonData.fullWarningText)
+            ? warningReasonData.warningText
+            : warningReasonData.fullWarningText
           ableToStartAndSkip = true
           onStartPressed = joinCb
           skipFunc = @(value) ::saveLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, value)
@@ -546,6 +564,7 @@ class ::WwBattle
     local res = {
         needShow = false
         warningText = ""
+        fullWarningText = ""
       }
 
     if (!isValid())
@@ -555,7 +574,6 @@ class ::WwBattle
 
     local team = getTeamBySide(side)
     local countryCrews = ::get_crews_list_by_country(team.country)
-    local hasSlotWithUnavailableUnit = false
     local availableUnits = getTeamRemainUnits(team)
     local crewNames = []
     foreach(idx, crew in countryCrews)
@@ -563,21 +581,33 @@ class ::WwBattle
       local crewUnit = ::g_crew.getCrewUnit(crew)
       if (crewUnit != null)
         crewNames.append(crewUnit.name)
-
-      if (crewUnit == null || !(crewUnit.name in availableUnits))
-        hasSlotWithUnavailableUnit = true
     }
 
-    if (hasSlotWithUnavailableUnit)
-      foreach(unitName, count in availableUnits)
-        if (!isInArray(unitName, crewNames) && ::can_crew_take_unit(::getAircraftByName(unitName)))
-        {
-          res.needShow = true
-          res.warningText = ::loc("worldWar/warning/can_insert_more available_units")
-          return res
-        }
+    foreach(unitName, count in availableUnits)
+      if (!isInArray(unitName, crewNames) && ::can_crew_take_unit(::getAircraftByName(unitName)))
+      {
+        res.needShow = true
+        res.warningText = ::loc("worldWar/warning/can_insert_more_available_units")
+        res.fullWarningText = ::loc("worldWar/warning/can_insert_more_available_units_full")
+        return res
+      }
 
     return res
+  }
+
+  function getUnitsRequiredForJoin(team, side)
+  {
+    local unitAvailability = ::g_world_war.getSetting("checkUnitAvailability",
+      WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
+
+    if (unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
+      return getTeamRemainUnits(team)
+    else if (unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.OPERATION_UNITS)
+      return ::g_operations.getAllOperationUnitsBySide(side)
+    else if (unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.NO_MATCHING_UNITS)
+      return {}
+
+    return null
   }
 
   function getTeamRemainUnits(team)
@@ -686,5 +716,21 @@ class ::WwBattle
     }
 
     return false
+  }
+
+  function getTotalPlayersNumber()
+  {
+    local playersNumber = 0
+    if (teams)
+      foreach(teamData in teams)
+        playersNumber += teamData?.players ?? 0
+
+    return playersNumber
+  }
+
+  function getMyAssignCountry()
+  {
+    local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    return operation ? operation.getMyAssignCountry() : null
   }
 }

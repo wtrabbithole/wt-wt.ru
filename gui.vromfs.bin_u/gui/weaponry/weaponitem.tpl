@@ -39,6 +39,15 @@ weaponry_item {
 
     include "gui/weaponry/weaponIcon"
 
+    img {
+      id:t='status_icon'
+      size:t='1@weaponStatusIconSize, 1@weaponStatusIconSize'
+      pos:t='1@weaponIconPadding, 1@weaponIconPadding'
+      position:t='absolute'
+      background-image:t=''
+      background-svg-size:t='1@weaponStatusIconSize, 1@weaponStatusIconSize'
+    }
+
     tdiv{
       size:t='fw, ph'
       pos:t='0,50%ph-50%h'

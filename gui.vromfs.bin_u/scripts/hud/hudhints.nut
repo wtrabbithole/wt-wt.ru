@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 const DEFAULT_MISSION_HINT_PRIORITY = 100
 const CATASTROPHIC_HINT_PRIORITY = 0
@@ -351,7 +352,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_hints", {
+enums.addTypesByGlobalName("g_hud_hints", {
   UNKNOWN = {}
 
   OFFER_BAILOUT = {
@@ -921,11 +922,12 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   CHOOSE_TARGET_FOR_SCOUTING = {
-    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "HUD/TXT_CHOOSE_TARGET_FOR_SCOUTING"
     showEvent = "hint:choose_target_for_scouting"
     lifeTime = 3.0
     shortcuts = "ID_LOCK_TARGET"
+    maskId = 14
+    totalCount = 10
   }
 
   CHOOSE_GROUND_TARGET_FOR_SCOUTING = {
@@ -1137,5 +1139,5 @@ function() {
 
 function g_hud_hints::getByName(hintName)
 {
-  return ::g_enum_utils.getCachedType("name", hintName, cache.byName, this, UNKNOWN)
+  return enums.getCachedType("name", hintName, cache.byName, this, UNKNOWN)
 }

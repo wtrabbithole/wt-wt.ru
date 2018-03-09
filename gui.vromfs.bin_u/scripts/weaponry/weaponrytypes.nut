@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_weaponry_types <- {
   types = []
   cache = {
@@ -48,7 +49,7 @@ function g_weaponry_types::_getAmount(unit, item)
   return ::shop_is_modification_purchased(unit.name, item.name)
 }
 
-::g_enum_utils.addTypesByGlobalName("g_weaponry_types", {
+enums.addTypesByGlobalName("g_weaponry_types", {
   UNKNOWN = {}
 
 //************************* WEAPON *********************************************
@@ -181,5 +182,5 @@ function g_weaponry_types::getUpgradeTypeByItem(item)
   if (!("type" in item))
     return ::g_weaponry_types.UNKNOWN
 
-  return ::g_enum_utils.getCachedType("type", item.type, ::g_weaponry_types.cache.byType, ::g_weaponry_types, ::g_weaponry_types.UNKNOWN)
+  return enums.getCachedType("type", item.type, ::g_weaponry_types.cache.byType, ::g_weaponry_types, ::g_weaponry_types.UNKNOWN)
 }

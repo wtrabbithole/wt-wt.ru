@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
-
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+::dagui_propid.add_name_id("countryId")
+::dagui_propid.add_name_id("mapId")
 
 enum WW_OM_WND_MODE
 {
@@ -10,6 +12,8 @@ enum WW_OM_WND_MODE
 class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName   = "gui/worldWar/wwOperationsMaps.blk"
+
+  needToOpenBattles = false
 
   mode = WW_OM_WND_MODE.PLAYER
 
@@ -27,6 +31,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   queuesJoinTime = 0
 
   isFillingList = false
+
+  isCountryCheckBoxesUpdating = false
 
   objIdPrefixCountriesOfMap = "countries_selection_"
   objIdPrefixSelectAllCountry = "select_all_"
@@ -54,6 +60,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     ::enableHangarControls(true)
     initFocusArray()
+
+    if (needToOpenBattles)
+      onStart()
   }
 
   function initToBattleButton()
@@ -67,6 +76,19 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       enableEnterKey = !::is_platform_shield_tv()
     })
     guiScene.replaceContentFromText(toBattleNest, toBattleBlk, toBattleBlk.len(), this)
+    updateToBattleButton()
+  }
+
+  function updateToBattleButton()
+  {
+    local toBattleButtonObj = scene.findObject("to_battle_button")
+    if (!::checkObj(scene) || !::checkObj(toBattleButtonObj))
+      return
+
+    local text = ::loc("worldWar/btn_all_battles")
+    toBattleButtonObj.fontOverride = daguiFonts.getMaxFontTextByWidth(text,
+      to_pixels("1@maxToBattleButtonTextWidth"), "bold")
+    toBattleButtonObj.findObject("to_battle_button_text").setValue(text)
   }
 
   function reinitScreen()
@@ -108,7 +130,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       {
         if (map.getQueue().isMyClanJoined(countryId))
           countryData[countryId].selected++
-        countryData[countryId].total++
+        if (map.isActive())
+          countryData[countryId].total++
       }
   }
 
@@ -165,6 +188,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
           useImage = ::get_country_icon(countryId)
           value = map.getQueue().isMyClanJoined(countryId)
           funcName = "onMapCountrySelect"
+          specialParams = "mapId:t= '"+mapId+"'; countryId:t= '"+countryId+"';"
+          isDisable = !map.isActive()
         })
 
       local title = map.getNameText()
@@ -365,8 +390,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         countries.append({
           id = objIdPrefixSelectAllCountry + countryId
           useImage = ::get_country_icon(countryId)
-          value = countryData[countryId].selected
+          value = countryData[countryId].selected >= countryData[countryId].total
           funcName = "onCountrySelectAll"
+          specialParams = "countryId:t= '"+countryId+"';"
         })
 
     local view = { checkbox = countries }
@@ -379,32 +405,38 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::checkObj(obj))
       return
 
-    foreach (countryId, data in countryData)
+    local mapId = obj.mapId
+    if (!mapsTbl[mapId].isActive())
+      return
+
+    local value = obj.getValue()
+    local countryId = obj.countryId
+    local selected = countryData[countryId].selected + (value ? 1 : -1)
+    countryData[countryId].selected = selected
+
+    if (isCountryCheckBoxesUpdating)
+      return
+
+    isCountryCheckBoxesUpdating = true
+    local objChk = scene.findObject(objIdPrefixSelectAllCountry + countryId)
+    if (::checkObj(objChk))
     {
-      data.selected = 0
-      foreach (mapId, map in mapsTbl)
-      {
-        local objChk = scene.findObject(::format(formatCheckboxMapCountry, mapId, countryId))
-        if (::checkObj(objChk) && objChk.getValue())
-          data.selected++
-      }
+      local total = countryData[countryId].total
+      objChk.setValue(total && selected >= total)
     }
 
-    foreach (countryId, data in countryData)
-    {
-      local objChk = scene.findObject(objIdPrefixSelectAllCountry + countryId)
-      if (::checkObj(objChk))
-        objChk.setValue(data.total && data.selected >= data.total)
-    }
-
+    isCountryCheckBoxesUpdating = false
     updateButtons()
   }
 
   function onCountrySelectAll(obj)
   {
-    local countryId = ::getObjIdByPrefix(obj, objIdPrefixSelectAllCountry)
-    local newValue = countryData[countryId].selected < countryData[countryId].total
-    local selected = 0
+    if (isCountryCheckBoxesUpdating)
+      return
+
+    local countryId = obj.countryId
+    local newValue = obj.getValue()
+    isCountryCheckBoxesUpdating = true
     foreach (mapId, map in mapsTbl)
     {
       local objChk = scene.findObject(::format(formatCheckboxMapCountry, mapId, countryId))
@@ -412,13 +444,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       {
         if (objChk.getValue() != newValue && map.isActive())
           objChk.setValue(newValue)
-        if (newValue)
-          selected++
       }
     }
 
-    countryData[countryId].selected = selected
-    obj.setValue(newValue)
+    isCountryCheckBoxesUpdating = false
     updateButtons()
   }
 

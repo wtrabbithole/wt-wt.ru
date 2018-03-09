@@ -3,7 +3,7 @@
 //   int - image size on 1080p big fonts
 //   null - various image sizes
 //   string - daguiConstant
-local g_path = require("sqStdLibs/common/path.nut")
+local g_path = require("std/path.nut")
 
 function debug_svg(image, size = null, bgColor = "#808080")
 {

@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum hintTagCheckOrder {
   EXACT_WORD //single word tags
   REGULAR
@@ -18,7 +19,7 @@ enum hintTagCheckOrder {
   makeFullTag = @(params = null) ::g_hints.hintTags[0] + makeTag(params) + ::g_hints.hintTags[1]
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hint_tag", {
+enums.addTypesByGlobalName("g_hint_tag", {
   TIMER = {
     typeName = "@"
     getViewSlices = function(tagName, params)

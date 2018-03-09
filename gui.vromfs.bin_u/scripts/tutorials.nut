@@ -128,6 +128,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
     sendTutorialChoiceStatisticOnce("start", obj)
     ::save_tutorial_to_check_reward(tutorialMission)
     ::saveLocalByAccount("firstRunTutorial_"+tutorialMission.name, true)
+    ::destroy_session_scripted()
 
     ::set_mp_mode(::GM_TRAINING)
     ::select_mission(tutorialMission, true)

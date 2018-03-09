@@ -54,7 +54,7 @@ Button_text {
   pos:t='50%pw-50%w, 3';
   noMargin:t='yes'
   class:t='battle';
-  text:t='#mainmenu/toBattle';
+  text:t='#mainmenu/toBattle/short';
   on_click:t='onStart';
   css-hier-invalidate:t='yes';
   iconPos:t='middleBottom';
@@ -76,7 +76,7 @@ Button_text {
 
   btnText {
     id:t='to_battle_button_text';
-    text:t='#mainmenu/toBattle';
+    text:t='#mainmenu/toBattle/short';
     style:t='text-shade-color: #55000000; color: #ffffff; text-shade:smooth:48; text-shade-x:0; text-shade-y:0;';
   }
 

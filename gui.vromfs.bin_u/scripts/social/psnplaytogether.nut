@@ -17,9 +17,11 @@
 *
 ************************************************************/
 ::g_play_together <- {
+  [PERSISTENT_DATA_PARAMS] = ["suspendedInviteesData", "cachedUsersData", "cachedInvitees", "canSendInvites"]
+
   suspendedInviteesData = null
   cachedUsersData = null
-  cachedInviteeUids = null
+  cachedInvitees = null
 
   canSendInvites = false
 }
@@ -29,10 +31,12 @@ function g_play_together::onNewInviteesDataIncome(inviteesArray)
   if (!::is_platform_ps4)
     return
 
-  if (!::isInMenu())
+  if (!::isInMenu() || !::g_login.isLoggedIn())
   {
     suspendedInviteesData = ::u.copy(inviteesArray)
-    ::g_popups.add(::loc("playTogether/name"), ::loc("playTogether/squad/sendLater"))
+    ::broadcastEvent("PS4AvailableNewInvite")
+    if (::is_in_flight())
+      ::g_popups.add(::loc("playTogether/name"), ::loc("playTogether/squad/sendLater"))
     return
   }
 
@@ -64,8 +68,8 @@ function g_play_together::requestUsersList(inviteesArray)
   }
   ::g_tasker.addTask(taskId,
                      taskOptions,
-                     gatherUsersDataAndCheck.bindenv(this),
-                     @() ::g_popups.add(::loc("playTogether/name"), ::loc("playTogether/noUsers")))
+                     ::Callback(gatherUsersDataAndCheck, this),
+                     @(err) ::g_popups.add(::loc("playTogether/name"), ::loc("playTogether/noUsers")))
 }
 
 function g_play_together::gatherUsersDataAndCheck()
@@ -94,7 +98,7 @@ function g_play_together::checkUsersAndProceed()
 
 function g_play_together::filterUsers()
 {
-  cachedInviteeUids = []
+  cachedInvitees = {}
 
   for (local i = 0; i < cachedUsersData.blockCount(); i++)
   {
@@ -103,14 +107,17 @@ function g_play_together::filterUsers()
 
     local playerStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
     if (playerStatus == squadMemberState.NOT_IN_SQUAD)
-      cachedInviteeUids.append(uid)
+      cachedInvitees[uid] <- user.nick
   }
 }
 
 function g_play_together::sendInvitesToSquad()
 {
-  foreach (uid in cachedInviteeUids)
+  foreach (uid, userName in cachedInvitees)
+  {
     ::g_squad_manager.inviteToSquad(uid)
+    ::g_psn_session_invitations.sendSquadInvitation(userName)
+  }
 }
 
 function g_play_together::checkMeAsSquadMember()
@@ -144,7 +151,7 @@ function g_play_together::checkMeAsSquadLeader()
     return false
 
   local availableSlots = ::g_squad_manager.getMaxSquadSize() - ::g_squad_manager.getSquadSize()
-  if (availableSlots >= cachedInviteeUids.len())
+  if (availableSlots >= cachedInvitees.len())
     return false
 
   ::showCantJoinSquadMsgBox(
@@ -177,6 +184,7 @@ function g_play_together::onEventSquadStatusChanged(params)
   canSendInvites = false
 }
 
+::g_script_reloader.registerPersistentDataFromRoot("g_play_together")
 ::subscribe_handler(::g_play_together, ::g_listener_priority.DEFAULT_HANDLER)
 
 //called from C++

@@ -69,7 +69,6 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
         {
           view.items.append({
             id = "active_group"
-            itemTag = "group"
             itemText = ::colorize(itemColor, ::loc("worldwar/operation/active"))
             isCollapsable = true
           })
@@ -80,7 +79,6 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       {
         view.items.append({
           id = "finished_group"
-          itemTag = "group"
           itemText = ::colorize(itemColor, ::loc("worldwar/operation/finished"))
           isCollapsable = true
         })
@@ -137,7 +135,8 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     if(!::checkObj(opObj))
       return false
 
-    local newOperation = ::g_ww_global_status.getOperationById(::to_integer_safe(opObj.id))
+    local newOperation = opObj.collapse_header ? null
+      : ::g_ww_global_status.getOperationById(::to_integer_safe(opObj.id))
     if (newOperation == selOperation)
       return false
     local isChanged = !newOperation || !selOperation || !selOperation.isEqual(newOperation)
@@ -240,7 +239,9 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     {
       ::showBtn("btn_create_operation", isClanQueueAvaliable(), scene)
       local operationDescText = scene.findObject("operation_short_info_text")
-      operationDescText.setValue(::loc("worldwar/msg/noActiveOperations"))
+      operationDescText.setValue(getOpGroup().getOperationsList().len() == 0
+        ? ::loc("worldwar/msg/noActiveOperations")
+        : "" )
       return
     }
 

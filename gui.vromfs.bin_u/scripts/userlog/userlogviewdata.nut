@@ -995,19 +995,24 @@ function get_userlog_view_data(log)
     res.tooltip = res.description
   } else if (log.type == ::EULT_OPEN_TROPHY)
   {
-    local itemId = ::getTblValue("id", log, "")
+    if (log?.itemDefId && !::ItemsManager.findItemById(log.itemDefId))
+      ::ItemsManager.findItemByItemDefId(log.itemDefId)
+
+    local itemId = log?.itemDefId || log?.id || ""
     local item = ::ItemsManager.findItemById(itemId)
 
     if (item)
     {
+      logName = item?.userlogOpenLoc ?? logName
+
+      local usedText = ::loc("userlog/" + logName + "/short")
       local rewardText = ::trophyReward.getRewardText(log)
       local reward = ::loc("reward") + ::loc("ui/colon") + rewardText
 
-      res.name = ::loc("userlog/"+logName, { trophy = item? ::colorize("activeTextColor", item.getName()) : "", reward = reward })
-      res.logImg = ::items_classes.Trophy.typeIcon
+      res.name = usedText + " " + ::colorize("activeTextColor", item.getName()) + " " + ::loc("ui/parentheses/space", { text = reward })
+      res.logImg = item.typeIcon
 
-
-      res.descriptionBlk <- ::format(textareaFormat, ::g_string.stripTags(::loc("userlog/open_trophy/short") + ::loc("ui/colon")))
+      res.descriptionBlk <- ::format(textareaFormat, ::g_string.stripTags(usedText) + ::loc("ui/colon"))
       res.descriptionBlk += item.getNameMarkup()
       res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon")))
       res.descriptionBlk += ::trophyReward.getRewardsListViewData(log)
@@ -1156,9 +1161,7 @@ function get_userlog_view_data(log)
   else if (log.type == ::EULT_INVENTORY_ADD_ITEM)
   {
     local itemDefId = log?.itemDefId ?? ""
-    local item = ::ItemsManager.findItemById(itemDefId)
-    if (!item)
-      ::ItemsManager.requestItemsByItemdefIds([ itemDefId ])
+    local item = ::ItemsManager.findItemByItemDefId(itemDefId)
     local numItems = log?.quantity ?? 1
     local locId = "userlog/" + logName
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon

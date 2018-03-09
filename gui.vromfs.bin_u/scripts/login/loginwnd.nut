@@ -25,8 +25,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     "loginbox_code_remember_this_device",
     "login_boxes_block",
     "sharding_dropright_block",
-    "login_action_button",
-    "steam_login_action_button",
+    "login_action",
     "links_block"
   ]
   currentFocusItem = 0
@@ -81,7 +80,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     setDisableSslCertBox(disableSSLCheck)
     showSceneBtn("steam_login_action_button", ::steam_is_running())
-    showSceneBtn("btn_steam_auth", ::steam_is_running())
 
     if (lp.login != "")
       currentFocusItem = 1
@@ -277,7 +275,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         selected    = lang.id == curLangId
       })
     }
-    ::gui_handlers.ActionsList(obj, menu)
+    ::gui_handlers.ActionsList.open(obj, menu)
   }
 
   function onClosePopups()

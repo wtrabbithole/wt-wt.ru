@@ -1,5 +1,5 @@
 local math = require("math")
-local timeBase = require("sqStdLibs/common/time.nut")
+local timeBase = require("std/time.nut")
 
 
 /**
@@ -131,23 +131,26 @@ local validateTime = function (timeTbl) {
   timeTbl.day -= (timeTbl.day == check.day) ? 0 : check.day
 }
 
+local reTimeHmsAtEnd = regexp2(@"\d:\d+:\d+$")
+local reNotNumeric = regexp2(@"\D+")
 
 local getTimeFromString = function(str, fillMissedByTimeTable = null) {
   local timeArray = ::split(str, ":- ")
-  local haveSeconds = regexp2(@"\d:\d+:\d+$").match(str)
+  local haveSeconds = reTimeHmsAtEnd.match(str)
   if (!haveSeconds) {
     timeArray.append("0")
   }
 
   local res = {}
-  local lenDiff = timeArray.len() - timeOrder.len()
-  for(local p = timeOrder.len() - 1; p >= 0; --p) {
+  local timeOrderLen = timeOrder.len()
+  local lenDiff = timeArray.len() - timeOrderLen
+  for(local p = timeOrderLen - 1; p >= 0; --p) {
     local i = p + lenDiff
     if (i < 0) {
       break
     }
 
-    if (!(regexp2(@"\D+").match(timeArray[i]))) {
+    if (! reNotNumeric.match(timeArray[i])) {
       res[timeOrder[p]] <- timeArray[i].tointeger()
     } else {
       return null
@@ -171,8 +174,28 @@ local getTimeFromStringUtc = function(str) {
 }
 
 
+local reIso8601FullUtc = ::regexp2(@"^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z$")
+
+
+local getIso8601FromTimestamp = function(timestamp) {
+  local t = ::get_utc_time_from_t(timestamp)
+  return format("%04d-%02d-%02dT%02d:%02d:%02dZ", t.year, t.month + 1, t.day, t.hour, t.min, t.sec)
+}
+
+local getTimestampFromIso8601 = function(str) {
+  if (!str || !reIso8601FullUtc.match(str))
+    return -1
+  local timeArray = ::split(str, "-T:Z")
+  local timeTbl = {}
+  foreach (i, k in timeOrder)
+    timeTbl[k] <- timeArray[i].tointeger()
+  timeTbl.month -= 1
+  return ::get_t_from_utc_time(timeTbl)
+}
+
+
 local getTimestampFromStringUtc = function(str) {
-  return ::mktime(getTimeFromStringUtc(str))
+  return ::get_t_from_utc_time(getTimeFromStringUtc(str))
 }
 
 
@@ -289,6 +312,8 @@ timeBase.__update({
   preciseSecondsToString = preciseSecondsToString
   getRaceTimeFromSeconds = getRaceTimeFromSeconds
 
+  getIso8601FromTimestamp = getIso8601FromTimestamp
+  getTimestampFromIso8601 = getTimestampFromIso8601
   buildIso8601DateTimeStr = buildIso8601DateTimeStr
 })
 

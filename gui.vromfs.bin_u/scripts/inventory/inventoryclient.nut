@@ -17,7 +17,9 @@ local InventoryClient = class {
   REQUEST_DELTA_MSEC = 5000
   lastUpdateTime = -1
   lastRequestTime = -1
-  hasChanges = false
+
+  hasInventoryChanges = false
+  hasItemDefChanges = false
 
   validateResponseData = {
     item_json = {
@@ -78,7 +80,9 @@ local InventoryClient = class {
       request["data"] <- data;
     }
 
-    ::inventory.request(request, callback)
+    callback = ::Callback(callback, this)
+
+    ::inventory.request(request, @(res) callback(res))
   }
 
   function getResultData(result, name)
@@ -171,8 +175,6 @@ local InventoryClient = class {
   {
     local circuit = ::get_cur_circuit_name();
     local networkBlock = ::get_network_block();
-    if (::is_dev_version && circuit == "test")
-      return "http://inventory-test-01.gaijin.lan/marketPlace/" //TEMPORARY HACK
     return networkBlock?[circuit]?.marketplaceURL ?? networkBlock?.marketplaceURL;
   }
 
@@ -183,11 +185,6 @@ local InventoryClient = class {
       return null
 
     local item = itemdefid && itemdefs?[itemdefid]
-    if (item && item?.market_hash_name)
-      return marketplaceBaseUrl + "?viewitem&a=" + ::WT_APPID + "&n=" + ::encode_uri_component(item.market_hash_name)
-
-    //TODO: Remove this block, when 'market_hash_name' will be in itemdef:
-    local item = itemid && items?[itemid]
     if (item && item?.market_hash_name)
       return marketplaceBaseUrl + "?viewitem&a=" + ::WT_APPID + "&n=" + ::encode_uri_component(item.market_hash_name)
 
@@ -213,7 +210,7 @@ local InventoryClient = class {
         local oldItem = ::getTblValue(item.itemid, oldItems)
         if (oldItem) {
           if (oldItem.timestamp != item.timestamp) {
-            hasChanges = true
+            hasInventoryChanges = true
           }
 
           item.itemdef = oldItem.itemdef
@@ -230,7 +227,7 @@ local InventoryClient = class {
       }
 
       if (oldItems.len() > 0) {
-        hasChanges = true
+        hasInventoryChanges = true
       }
 
       processWaitingItems();
@@ -241,7 +238,7 @@ local InventoryClient = class {
       else {
         notifyInventoryUpdate()
       }
-    }.bindenv(this))
+    })
   }
 
   function requestInventory(callback) {
@@ -257,7 +254,7 @@ local InventoryClient = class {
           item.itemdef = itemdef
           items[item.itemid] <- item
           waitingItems.remove(i)
-          hasChanges = true
+          hasInventoryChanges = true
         }
       }
       else {
@@ -294,7 +291,7 @@ local InventoryClient = class {
         }
 
         foreach (itemdef in itemdef_json) {
-          hasChanges = hasChanges ||::u.isEmpty(itemdefs?[itemdef.itemdefid])
+          hasItemDefChanges = hasItemDefChanges || shouldRefreshAll || ::u.isEmpty(itemdefs?[itemdef.itemdefid])
           addItemDef(itemdef)
         }
 
@@ -303,22 +300,27 @@ local InventoryClient = class {
         if (cb) {
           cb()
         }
-      }.bindenv(this))
+      })
 
     return false
   }
 
   function removeItem(itemid) {
     delete items[itemid]
-    hasChanges = true
+    hasInventoryChanges = true
     notifyInventoryUpdate()
   }
 
   function notifyInventoryUpdate() {
-    if (hasChanges) {
-      hasChanges = false
+    if (hasItemDefChanges) {
+      hasItemDefChanges = false
+      ::dagor.debug("ExtInventory itemDef changed")
+      ::broadcastEvent("ItemDefChanged")
+    }
+    if (hasInventoryChanges) {
+      hasInventoryChanges = false
       ::dagor.debug("ExtInventory changed")
-      ::broadcastEvent("InventoryChanged")
+      ::broadcastEvent("ExtInventoryChanged")
     }
   }
 
@@ -363,6 +365,27 @@ local InventoryClient = class {
     return parsedTags
   }
 
+  function parseRecipesString(recipesStr)
+  {
+    local recipes = []
+    foreach (recipe in ::split(recipesStr || "", ";"))
+    {
+      local components = []
+      foreach (component in ::split(recipe, ","))
+      {
+        local pair = ::split(component, "x")
+        if (!pair.len())
+          continue
+        components.append({
+          itemdefid = ::to_integer_safe(pair[0])
+          quantity  = (1 in pair) ? ::to_integer_safe(pair[1]) : 1
+        })
+      }
+      recipes.append(components)
+    }
+    return recipes
+  }
+
   function handleItemsDelta(result, cb = null) {
     local itemJson = getResultData(result, "item_json")
     if (!itemJson)
@@ -374,7 +397,7 @@ local InventoryClient = class {
       if (item.quantity == 0) {
         if (oldItem) {
           delete items[item.itemid]
-          hasChanges = true
+          hasInventoryChanges = true
         }
 
         continue
@@ -383,7 +406,7 @@ local InventoryClient = class {
       if (oldItem) {
         item.itemdef = oldItem.itemdef
         items[item.itemid] <- item
-        hasChanges = true
+        hasInventoryChanges = true
         continue
       }
 
@@ -403,7 +426,7 @@ local InventoryClient = class {
 
           cb(newItems)
         }
-      });
+      })
     }
     else {
       notifyInventoryUpdate()
@@ -421,14 +444,21 @@ local InventoryClient = class {
 
     request("ExchangeItems", {}, req, function(result) {
       handleItemsDelta(result, cb)
-    }.bindenv(this))
+    })
   }
 
-  function openChest(id, cb = null) {
-    local outputitemdefid = ::to_integer_safe(items[id].itemdef?.used_to_create, -1)
-    if (outputitemdefid == -1)
-      return
-    exchange([[id, 1]], outputitemdefid, cb)
+  function getChestGeneratorItemdefIds(itemdefid) {
+    local usedToCreate = itemdefs?[itemdefid]?.used_to_create
+    local parsedRecipes = parseRecipesString(usedToCreate)
+
+    local res = []
+    foreach (recipeCfg in parsedRecipes)
+    {
+      local id = ::to_integer_safe(recipeCfg?[0]?.itemdefid ?? "", -1)
+      if (id != -1)
+        res.append(id)
+    }
+    return res
   }
 
   function canRefreshData()
@@ -452,7 +482,7 @@ local InventoryClient = class {
         if (itemdef) {
           if (itemdef.len() > 0) {
             item.itemdef = itemdef
-            hasChanges = true
+            hasInventoryChanges = true
           }
         }
       }

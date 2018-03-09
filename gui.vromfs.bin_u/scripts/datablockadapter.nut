@@ -52,6 +52,18 @@ class DataBlockAdapter
     return (key in ___originData___) ? true : null
   }
 
+  function _nexti(prevKey)
+  {
+    local isFound = prevKey == null
+    foreach (key, val in ___originData___)
+    {
+      if (isFound)
+        return key
+      isFound = prevKey == key
+    }
+    return null
+  }
+
   function _get(key)
   {
     if (!(key in ___originData___))

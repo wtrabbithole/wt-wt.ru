@@ -25,22 +25,47 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "philippine_sea",
-      "windSpeed": [2.0,3.0],
       "gt_cooperative": true,
       "gt_reload_explosives": true,
       "locationName": "philippine_sea",
-      "tags": []
+      "windSpeed": [2.0,3.0],
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
     },
+    "spectator_points": [],
     "briefing": {
       "place_loc": "",
       "date_loc": "",
       "objective_loc": "",
       "music": "action_01",
+      "viewAreaScale": 2.0,
       "part": {
         "event": "",
         "minTime": 0,
@@ -53,6 +78,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -204,6 +232,27 @@
               "horizontalDirectionForTeleport": true
             },
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "waypointReachedDist": 10.0
+            },
+            {
+              "recalculatePathDist": -1.0
+            },
+            {
               "object": "attackers_squad"
             },
             {
@@ -213,6 +262,18 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "fr_fighters_squad"
             },
@@ -258,6 +319,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "en_fighters_squad",
             "effShootingRate": 0.5,
             "plane": [
@@ -280,6 +345,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ijn_squad",
             "effShootingRate": 0.1
           }
@@ -301,7 +370,8 @@
             "target": "ijn_squad"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "initial_offline": {
       "is_enabled": true,
@@ -320,17 +390,26 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player",
             "targetableByAi": false
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player_himself",
             "targetableByAi": true
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "attackers_attack_fleet": {
       "is_enabled": true,
@@ -351,6 +430,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "attackers_squad",
           "target": "fleet_waypoint"
         }
@@ -365,6 +447,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "attackers_squad"
           }
         },
@@ -414,13 +503,21 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "ijn_squad",
             "zzPeriod": 10.0,
             "zzAmp": 2000.0,
             "speed": 30.0
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "player_near_ijn_fleet": {
       "is_enabled": true,
@@ -441,6 +538,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "fleet_waypoint"
         }
@@ -455,6 +555,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "ijn_squad",
             "zzPeriod": 10.0,
             "zzAmp": 2000.0,
@@ -566,7 +673,8 @@
             }
           ]
         }
-      ]
+      ],
+      "else_actions": []
     },
     "players_counter_trigger": {
       "is_enabled": false,
@@ -587,17 +695,21 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "var": "players_counter_var"
         }
       },
       "actions": {
         "varModify": {
-          "var": "players_counter_var",
           "operator": "add",
-          "value": 1.0
+          "value": 1.0,
+          "var": "players_counter_var"
         }
-      }
+      },
+      "else_actions": []
     },
     "carriers_counter_trigger": {
       "is_enabled": false,
@@ -621,10 +733,14 @@
           "icon": "ship",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "target_carriers_squad",
           "var": "players_counter_var"
         }
-      }
+      },
+      "else_actions": []
     },
     "dead_carriers_counter": {
       "is_enabled": false,
@@ -645,6 +761,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "target_carriers_squad",
           "killedByObject": "player",
           "var": "dead_carriers_var"
@@ -653,19 +772,20 @@
       "actions": [
         {
           "varModify": {
-            "var": "dead_carriers_var",
             "operator": "add",
-            "value": 1.0
+            "value": 1.0,
+            "var": "dead_carriers_var"
           }
         },
         {
           "varModify": {
-            "var": "players_counter_var",
             "operator": "subAB",
-            "value": 1.0
+            "value": 1.0,
+            "var": "players_counter_var"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "carrier_destroyed": {
       "is_enabled": false,
@@ -701,6 +821,10 @@
         ],
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "target_carriers_squad"
         },
         "missionSetTargetsIndicator": {
@@ -710,6 +834,9 @@
           "icon": "ship",
           "icon army": 2,
           "set": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "target_carriers_squad",
           "var": "players_counter_var"
         },
@@ -734,7 +861,8 @@
         "triggerEnable": {
           "target": "teleport_cutscene"
         }
-      }
+      },
+      "else_actions": []
     },
     "teleport_cutscene": {
       "is_enabled": false,
@@ -755,6 +883,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "way_to_home"
         }
@@ -822,6 +953,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 300.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "player",
             "move_type": "teleport",
             "lookat": "usn_fleet_area",
@@ -847,6 +985,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "cutscene_fighters_squad"
           }
         },
@@ -891,6 +1036,12 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -912,6 +1063,12 @@
             "action": "hide",
             "shouldFadeOut": false,
             "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -931,7 +1088,8 @@
             "target": "mission_completed"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "teleport_cutscene_skip": {
       "is_enabled": false,
@@ -961,6 +1119,12 @@
           "action": "hide",
           "shouldFadeOut": false,
           "time": -1.0,
+          "isOverFade": false,
+          "priority": 0,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "item": "ID_LOCK_TARGET",
           "shouldBlink": false
         },
@@ -968,7 +1132,8 @@
         "triggerEnable": {
           "target": "mission_completed"
         }
-      }
+      },
+      "else_actions": []
     },
     "mission_completed": {
       "is_enabled": false,
@@ -1001,7 +1166,8 @@
         "triggerEnable": {
           "target": "secondary_objective_completed"
         }
-      }
+      },
+      "else_actions": []
     },
     "secondary_objective_completed": {
       "is_enabled": false,
@@ -1022,6 +1188,9 @@
           "object_marking": 0,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player",
           "target": "usn_carrier03"
         }
@@ -1039,7 +1208,8 @@
           "time": 4.0
         },
         "missionDebriefing": []
-      }
+      },
+      "else_actions": []
     },
     "permanent_attack": {
       "is_enabled": false,
@@ -1112,7 +1282,8 @@
             }
           ]
         }
-      ]
+      ],
+      "else_actions": []
     },
     "mission_failed_offline": {
       "is_enabled": false,
@@ -1134,6 +1305,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         },
@@ -1143,6 +1317,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player"
           }
         },
@@ -1151,6 +1328,11 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_type": "isAlive",
+            "check_period": 1.0,
             "object": "ijn_carrier00"
           }
         },
@@ -1159,6 +1341,11 @@
             "object_type": "noTorpedoesInWorld",
             "object_marking": 0,
             "check_objects": "all",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_type": "isAlive",
+            "check_period": 1.0,
             "object": "player"
           }
         }
@@ -1170,6 +1357,10 @@
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "ijn_carrier00"
         },
         "wait": {
@@ -1178,7 +1369,8 @@
         "missionFailed": {
           "timer": false
         }
-      }
+      },
+      "else_actions": []
     },
     "1player": {
       "is_enabled": false,
@@ -1219,6 +1411,10 @@
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "ijn_carrier00"
         },
         "unitDamage": {
@@ -1231,7 +1427,8 @@
           "radiusOffset": [10.0,15.0],
           "target": "ijn_carrier00"
         }
-      }
+      },
+      "else_actions": []
     },
     "2players": {
       "is_enabled": false,
@@ -1284,6 +1481,18 @@
             "set": true
           },
           {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "target": "ijn_carrier00"
           },
           {
@@ -1319,7 +1528,8 @@
             "target": "ijn_carrier05"
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "3players": {
       "is_enabled": false,
@@ -1375,6 +1585,18 @@
             "set": true
           },
           {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "target": "ijn_carrier00"
           },
           {
@@ -1416,7 +1638,8 @@
             "target": "ijn_carrier06"
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "4players": {
       "is_enabled": false,
@@ -1475,6 +1698,18 @@
             "set": true
           },
           {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "target": "ijn_carrier00"
           },
           {
@@ -1522,7 +1757,8 @@
             "target": "ijn_carrier07"
           }
         ]
-      }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -1598,8 +1834,10 @@
           [0.173648,0.0,-0.984808],
           [-27007.8,1000.0,-3755.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_mk13_torpedo",
         "bullets0": "",
         "bullets1": "",
@@ -1643,22 +1881,10 @@
           [0.173648,0.0,-0.984808],
           [-34274.9,0.000244141,2104.16]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
           "squad_members": "player",
           "object_type": "isPlayer"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -1670,8 +1896,10 @@
           [-0.999048,0.0,0.0436196],
           [-48229.8,0.0,-4714.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cvl_ryujo",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1703,8 +1931,10 @@
           [-0.999048,0.0,0.0436196],
           [-49768.4,0.0,-3321.05]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cv_soryu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1736,8 +1966,10 @@
           [-0.999048,0.0,0.0436196],
           [-46395.6,0.0,-4627.99]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cv_zuikaku",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1769,8 +2001,10 @@
           [-0.999048,0.0,0.0436196],
           [-50932.7,0.0,-5454.89]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cv_soryu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1802,8 +2036,10 @@
           [-0.999048,0.0,0.0436196],
           [-51912.9,0.0,-3621.33]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cv_akagi",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1835,8 +2071,10 @@
           [-0.999048,0.0,0.0436196],
           [-50796.1,0.0,-2507.23]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_ca_myoko",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1868,8 +2106,10 @@
           [-0.999048,0.0,0.0436196],
           [-48565.0,0.0,-2271.58]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_ca_nagara",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1901,8 +2141,10 @@
           [-0.999048,0.0,0.0436196],
           [-49083.6,0.0,-6504.44]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_ca_nagara",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1934,8 +2176,10 @@
           [-0.999048,0.0,0.0436196],
           [-46610.7,0.0,-1704.82]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1967,8 +2211,10 @@
           [-0.999048,0.0,0.0436196],
           [-52339.0,0.0,-5714.54]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2000,8 +2246,10 @@
           [-0.999048,0.0,0.0436196],
           [-53660.8,0.0,-4293.42]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2033,8 +2281,10 @@
           [-0.999048,0.0,0.0436196],
           [-52363.5,0.0,-2946.32]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2066,8 +2316,10 @@
           [-0.999048,0.0,0.0436196],
           [-50408.5,0.0,-7084.98]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2099,8 +2351,10 @@
           [-0.999048,0.0,0.0436196],
           [-49101.3,0.0,-7999.37]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2132,8 +2386,10 @@
           [-0.999048,0.0,0.0436196],
           [-47662.0,0.0,-5821.82]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2165,8 +2421,10 @@
           [-0.999048,0.0,0.0436196],
           [-45308.4,0.0,-6095.58]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2198,8 +2456,10 @@
           [-0.999048,0.0,0.0436196],
           [-44659.6,0.0,-4908.72]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2231,8 +2491,10 @@
           [-0.999048,0.0,0.0436196],
           [-46841.9,0.0,-3291.69]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_bb_nagato",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2264,8 +2526,10 @@
           [-0.999048,0.0,0.0436196],
           [-49276.8,0.0,-4960.64]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2297,8 +2561,10 @@
           [-0.999048,0.0,0.0436196],
           [-49207.6,0.0,-1281.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2330,17 +2596,6 @@
           [-0.984808,0.0,0.173648],
           [-45790.3,0.0,-3462.9]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ijn_carrier00"
@@ -2432,8 +2687,7 @@
           {
             "squad_members": "ijn_destroyer14"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2445,8 +2699,10 @@
           [0.0436191,0.0,-0.999048],
           [31906.1,0.0,-1640.55]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_cv_enterprise",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2478,8 +2734,10 @@
           [0.0436191,0.0,-0.999048],
           [35505.6,0.0,-3218.55]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_cv_lexington",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2511,8 +2769,10 @@
           [0.0436191,0.0,-0.999048],
           [34866.7,0.0,-3171.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_cv_lexington",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2544,8 +2804,10 @@
           [0.0436191,0.0,-0.999048],
           [33783.5,0.0,-7757.75]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_bb_arizona",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2577,8 +2839,10 @@
           [0.0436191,0.0,-0.999048],
           [32897.8,0.0,-1591.95]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_brooklyn",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2610,8 +2874,10 @@
           [0.0436191,0.0,-0.999048],
           [34921.1,0.0,409.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_georgetown",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2643,8 +2909,10 @@
           [0.0436191,0.0,-0.999048],
           [37200.7,0.0,-6271.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_sims",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2676,8 +2944,10 @@
           [0.0436191,0.0,-0.999048],
           [39142.4,0.0,-3535.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_georgetown",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2709,8 +2979,10 @@
           [0.0436191,0.0,-0.999048],
           [37163.2,0.0,-835.7]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_sims",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2742,8 +3014,10 @@
           [0.0436191,0.0,-0.999048],
           [31391.2,0.0,2030.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_sims",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2775,17 +3049,6 @@
           [0.0,0.0,1.0],
           [29637.8,0.0,2040.65]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "usn_carrier00"
@@ -2820,8 +3083,7 @@
           {
             "squad_members": "usn_carrier03"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2833,8 +3095,10 @@
           [-0.999048,0.0,0.0436196],
           [-46742.2,0.0,-6292.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cvl_ryujo",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2866,8 +3130,10 @@
           [-0.999048,0.0,0.0436196],
           [-52389.7,0.0,-7762.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cvl_ryujo",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2899,8 +3165,10 @@
           [-0.999048,0.0,0.0436196],
           [-50350.5,0.0,-5079.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_cvl_ryujo",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2932,8 +3200,10 @@
           [-0.999048,0.0,0.0436196],
           [-48044.1,0.0,-8740.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2965,8 +3235,10 @@
           [-0.999048,0.0,0.0436196],
           [-47133.9,0.0,-8120.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2998,8 +3270,10 @@
           [-0.999048,0.0,0.0436196],
           [-50438.9,0.0,-8802.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_ca_nagara",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3031,8 +3305,10 @@
           [-0.999048,0.0,0.0436196],
           [-48607.1,0.0,-10485.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_ca_nagara",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3064,8 +3340,10 @@
           [-0.999048,0.0,0.0436196],
           [-53321.1,0.0,-6570.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3097,8 +3375,10 @@
           [-0.999048,0.0,0.0436196],
           [-50779.6,0.0,-11123.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3130,8 +3410,10 @@
           [-0.999048,0.0,0.0436196],
           [-48109.9,0.0,-12350.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "ijn_dd_shiratsuyu",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3163,8 +3445,10 @@
           [0.258819,0.0,-0.965926],
           [-27827.9,1219.75,-4266.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_mk13_torpedo",
         "bullets0": "",
         "bullets1": "",
@@ -3208,8 +3492,10 @@
           [0.258819,0.0,-0.965926],
           [-27731.7,1075.55,-3352.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_mk13_torpedo",
         "bullets0": "",
         "bullets1": "",
@@ -3253,8 +3539,10 @@
           [0.258819,0.0,-0.965926],
           [-28250.2,1258.65,-2415.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_mk13_torpedo",
         "bullets0": "",
         "bullets1": "",
@@ -3298,8 +3586,10 @@
           [0.258819,0.0,-0.965926],
           [-28901.9,900.0,-1843.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_mk13_torpedo",
         "bullets0": "",
         "bullets1": "",
@@ -3343,8 +3633,10 @@
           [0.173648,0.0,-0.984808],
           [-29171.2,1000.0,-3250.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "f6f-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f6f-3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3389,8 +3681,10 @@
           [0.173648,0.0,-0.984808],
           [-28972.1,1000.0,-5506.05]
         ],
-        "closed_waypoints": false,
         "unit_class": "f6f-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f6f-3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3435,8 +3729,10 @@
           [0.173648,0.0,-0.984808],
           [-30179.0,1000.0,-2196.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "f6f-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f6f-3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3481,8 +3777,10 @@
           [0.173648,0.0,-0.984808],
           [-30520.7,1000.0,-1884.4]
         ],
-        "closed_waypoints": false,
         "unit_class": "f6f-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f6f-3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3527,8 +3825,10 @@
           [0.258819,0.0,-0.965926],
           [-29640.8,900.0,-824.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "sbd-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "sbd_3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3572,8 +3872,10 @@
           [0.258819,0.0,-0.965926],
           [-28381.9,900.0,-5335.15]
         ],
-        "closed_waypoints": false,
         "unit_class": "sbd-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "sbd_3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3617,8 +3919,10 @@
           [0.258819,0.0,-0.965926],
           [-28412.6,900.0,-2936.25]
         ],
-        "closed_waypoints": false,
         "unit_class": "sbd-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "sbd_3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3662,8 +3966,10 @@
           [-0.216439,0.0,0.976296],
           [-55480.4,1218.8,-5656.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3707,8 +4013,10 @@
           [-0.216439,0.0,0.976296],
           [-56725.7,1218.8,-4764.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3752,8 +4060,10 @@
           [-0.216439,0.0,0.976296],
           [-55522.6,1218.8,-4846.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3797,8 +4107,10 @@
           [-0.216439,0.0,0.976296],
           [-54897.1,1218.8,-6662.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3842,8 +4154,10 @@
           [-0.216439,0.0,0.976296],
           [-55674.7,1218.8,-7550.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3887,8 +4201,10 @@
           [-0.216439,0.0,0.976296],
           [-55380.3,1218.8,-8178.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3932,8 +4248,10 @@
           [-0.216439,0.0,0.976296],
           [-55959.2,1218.8,-3953.75]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m3_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m3_default",
         "bullets0": "",
         "bullets1": "",
@@ -3977,17 +4295,6 @@
           [0.0,0.0,1.0],
           [-28373.5,0.0,-1504.2]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "attackers01"
@@ -4010,8 +4317,7 @@
           {
             "squad_members": "attackers07"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -4023,17 +4329,6 @@
           [0.0,0.0,1.0],
           [-29111.2,0.0,-272.65]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "fr_fighters00"
@@ -4047,8 +4342,7 @@
           {
             "squad_members": "fr_fighters03"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -4060,17 +4354,6 @@
           [0.0,0.0,1.0],
           [-41267.8,0.0,-2920.3]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "en_fighters00"
@@ -4093,8 +4376,7 @@
           {
             "squad_members": "en_fighters06"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -4106,17 +4388,6 @@
           [0.0,0.0,1.0],
           [-43526.3,0.0,-2411.45]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ijn_carrier00"
@@ -4142,8 +4413,7 @@
           {
             "squad_members": "ijn_carrier07"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -4155,8 +4425,10 @@
           [0.0,0.0,1.0],
           [22174.7,2100.0,-3035.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_default",
         "bullets0": "",
         "bullets1": "",
@@ -4200,8 +4472,10 @@
           [0.0,0.0,1.0],
           [22747.5,2500.0,-2276.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_default",
         "bullets0": "",
         "bullets1": "",
@@ -4245,8 +4519,10 @@
           [0.0,0.0,1.0],
           [21183.0,2100.0,-3443.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "tbf-1c",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tbf_1c_default",
         "bullets0": "",
         "bullets1": "",
@@ -4290,17 +4566,6 @@
           [0.0,0.0,1.0],
           [18223.5,0.0,-1534.5]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "cutscene_fighters00"
@@ -4311,8 +4576,7 @@
           {
             "squad_members": "cutscene_fighters02"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -4324,8 +4588,10 @@
           [0.0436191,0.0,-0.999048],
           [33086.3,0.0,-4448.75]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_cv_immortal",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4357,17 +4623,6 @@
           [0.0,0.0,1.0],
           [-45797.5,0.0,-8317.98]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "ijn_carrier00"
@@ -4381,8 +4636,7 @@
           {
             "squad_members": "ijn_carrier07"
           }
-        ],
-        "way": []
+        ]
       }
     }
   ],
@@ -4438,5 +4692,6 @@
       "props": []
     }
   },
-  "objLayers": []
+  "objLayers": [],
+  "wayPoints": []
 }

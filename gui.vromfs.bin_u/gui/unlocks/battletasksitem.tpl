@@ -3,7 +3,7 @@ expandable {
   id:t='<<performActionId>>'
   type:t='battleTask'
   <<^isOnlyInfo>><<#action>> on_click:t='<<action>>' <</action>><</isOnlyInfo>>
-  <<#taskId>> task_id:t='<<taskId>>' <</taskId>>
+  task_id:t='<<id>>'
 
   <<#taskStatus>>
   battleTaskStatus:t='<<taskStatus>>'
@@ -100,6 +100,7 @@ expandable {
       flow:t='vertical'
       <<#isOnlyInfo>> showHidden:t='yes' <</isOnlyInfo>>
 
+      <<^isOnlyInfo>>
       <<#taskImage>>
       img {
         width:t='pw'
@@ -116,6 +117,7 @@ expandable {
           padding:t='1@framePadding'
           playbackCheckbox {
             id:t='<<id>>_sound'
+            task_id:t='<<id>>'
             on_change_value:t='switchPlaybackMode'
             playback:t='<<taskPlayback>>'
             downloading:t='<<#isPlaybackDownloading>>yes<</isPlaybackDownloading>><<^isPlaybackDownloading>>no<</isPlaybackDownloading>>'
@@ -136,6 +138,7 @@ expandable {
         <</taskPlayback>>
       }
       <</taskImage>>
+      <</isOnlyInfo>>
 
       <<@description>>
 
@@ -162,12 +165,12 @@ expandable {
         <<#canReroll>>
         Button_text {
           id:t = 'btn_reroll'
-          taskId:t='<<id>>'
+          task_id:t='<<id>>'
           visualStyle:t='purchase'
           text:t = '#battletask/reroll'
           on_click:t = 'onTaskReroll'
           hideText:t='yes'
-          btnName:t='A'
+          btnName:t='X'
           buttonGlance{}
           buttonWink{}
           ButtonImg {}
@@ -186,7 +189,7 @@ expandable {
           position:t='relative'
           text:t = '#mainmenu/battleTasks/receiveReward'
           on_click:t = 'onGetRewardForTask'
-          btnName:t='A'
+          btnName:t='X'
           visualStyle:t='secondary'
           buttonWink {}
           ButtonImg{}
@@ -203,6 +206,7 @@ expandable {
       pos:t='50%pw-50%w, ph-h'; position:t='absolute'
       background-image:t='#ui/gameuiskin#expand_info'
       background-color:t='@premiumColor'
+      <<#isOnlyInfo>> hideExpandImg:t='yes' <</isOnlyInfo>>
     }
 
     <<#isPromo>>

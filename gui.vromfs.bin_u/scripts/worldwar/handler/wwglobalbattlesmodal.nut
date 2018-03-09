@@ -33,6 +33,8 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     local timerObj = scene.findObject("global_battles_update_timer")
     if (::check_obj(timerObj))
       timerObj.setUserData(this)
+
+    ::checkNonApprovedResearches(true, true)
   }
 
   function updateBattlesFilter()
@@ -79,9 +81,14 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   {
     updateViewMode()
     updateDescription()
-    updateQueueInfoPanel()
     updateSlotbar()
     updateButtons()
+    updateDurationTimer()
+  }
+
+  function getTitleText()
+  {
+    return ::loc("worldwar/global_battle/title", {country = ::loc(::get_profile_country_sq())})
   }
 
   function updateSlotbar()
@@ -94,7 +101,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     }
     createSlotbar(
       {
-        customCountry = ::get_profile_info().country
+        customCountry = ::get_profile_country_sq()
         availableUnits = availableUnits
         showTopPanel = false
         gameModeName = curBattleInList.getLocName()
@@ -133,12 +140,16 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
     if (curBattleInList.isValid())
     {
-      local hasProgressBox = curBattleInList.operationId != ::ww_get_operation_id() ||
-                             curBattleInList.id != operationBattle.id
-      ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb, hasProgressBox)
+      updateDescription()
+      ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb)
     }
     else
       cb()
+  }
+
+  function getOperationBackground()
+  {
+    return WW_OPERATION_DEFAULT_BG_IMAGE
   }
 
   function getFirstBattleInListMap()
@@ -208,15 +219,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     return ::loc("worldwar/noActiveGlobalBattlesFullText")
   }
 
-  function getBattleArmyUnitTypesData(battleData)
-  {
-    return {
-      text = ::colorize("@userlogColoredText", ::loc("userlog/page/battle"))
-      groupId = "group_total"
-      isInactiveBattles = false
-    }
-  }
-
   function onEventCountryChanged(p)
   {
     guiScene.performDelayed(this, updateBattlesWithFilter)
@@ -241,10 +243,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function setFilteredBattles()
   {
-    local country = ::get_profile_info().country
+    local country = ::get_profile_country_sq()
 
-    battlesList = globalBattlesListData.getList().filter
-      (@(idx, battle) battle.hasSideCountry(country))
+    battlesList = globalBattlesListData.getList().filter(@(idx, battle)
+      battle.hasSideCountry(country)
+      && !battle.isHiddenByExcessPlayers(country)
+      && battle.isOperationMapAvaliable())
 
     if (!filterFlag || currViewMode != WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       return
@@ -259,12 +263,24 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       || WwGlobalBattle()
   }
 
-  function getPlayerSide()
+  function getPlayerSide(battle = null)
   {
-    return curBattleInList.getSideByCountry(::get_profile_info().country)
+    if (!battle)
+      battle = curBattleInList
+
+    return battle.getSideByCountry(::get_profile_country_sq())
   }
 
-  function updateBattleStatus(battleView)
+  function fillOperationInfoText()
   {
+    local operationInfoTextObj = scene.findObject("operation_info_text")
+    if (!::check_obj(operationInfoTextObj))
+      return
+
+    local operation = ::g_ww_global_status.getOperationById(curBattleInList.getOperationId())
+    if (!operation)
+      return
+
+    operationInfoTextObj.setValue(operation.getNameText())
   }
 }

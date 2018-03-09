@@ -464,14 +464,14 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
       for(local i=0; i<nextLogId; i++)
       {
         log = logs[i]
-        if (log.type == ::EULT_INVENTORY_ADD_ITEM)
+        if (::isInArray(log.type, [ ::EULT_INVENTORY_ADD_ITEM, ::EULT_OPEN_TROPHY ]))
         {
           fillLog(log)
         }
       }
   }
 
-  function onEventItemDefsListUpdated(params)
+  function onEventItemsShopUpdate(params)
   {
     doWhenActiveOnce("onUpdateItemsDef")
   }

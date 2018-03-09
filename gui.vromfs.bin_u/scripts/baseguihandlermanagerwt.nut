@@ -53,8 +53,6 @@ function handlersManager::onClearScene(guiScene)
     guiScene.setCursorSizeMul(guiScene.calcString("@cursorSizeMul", null))
   if (guiScene.setPatternSizeMul) //compatibility with old exe
     guiScene.setPatternSizeMul(guiScene.calcString("@dp", null))
-
-  ::broadcastEvent("GuiSceneCleared")
 }
 
 function handlersManager::isNeedFullReloadAfterClearScene()
@@ -177,12 +175,12 @@ function handlersManager::generateColorConstantsConfig()
 
   local config = [
     { style = "squad", baseColor = "3E9E2F", names = [ "mySquadColor", "hudColorSquad", "chatSenderMySquadColor", "chatTextSquadVoiceColor" ] }
-    { style = "squad", baseColor = "C6FFBD", names = [ "chatTextSquadColor" ] }
+    { style = "squad", baseColor = "65FF4D", names = [ "chatTextSquadColor" ] }
     { style = "ally",  baseColor = "527AFF", names = [ "teamBlueColor", "hudColorBlue", "chatSenderFriendColor", "chatTextTeamVoiceColor" ] }
     { style = "ally",  baseColor = "99B1FF", names = [ "teamBlueLightColor", "hudColorDeathEnemy" ] }
     { style = "ally",  baseColor = "5C637A", names = [ "teamBlueInactiveColor", "hudColorDarkBlue" ] }
     { style = "ally",  baseColor = "0F1834", names = [ "teamBlueDarkColor" ] }
-    { style = "ally",  baseColor = "BDCCFF", names = [ "chatTextTeamColor" ] }
+    { style = "ally",  baseColor = "82C2FF", names = [ "chatTextTeamColor" ] }
     { style = "enemy", baseColor = "FF5A52", names = [ "teamRedColor", "hudColorRed", "chatSenderEnemyColor", "chatTextEnemyVoiceColor" ] }
     { style = "enemy", baseColor = "FFA29D", names = [ "teamRedLightColor", "hudColorDeathAlly" ] }
     { style = "enemy", baseColor = "7C5F5D", names = [ "teamRedInactiveColor", "hudColorDarkRed" ] }

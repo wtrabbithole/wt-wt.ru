@@ -1,8 +1,9 @@
 local globalState = require("globalState.nut")
 local widgetsState = require("widgetsState.nut")
 local hudState = require("hudState.nut")
-local helicopterHud = require("reactiveGui/helicopterHud.nut")
-local shipHud = require("reactiveGui/shipHud.nut")
+local helicopterHud = require("helicopterHud.nut")
+local shipHud = require("shipHud.nut")
+local shipObstacleRf = require("shipObstacleRangefinder.nut")
 
 
 local widgetsMap = {
@@ -16,6 +17,14 @@ local widgetsMap = {
       return shipHud
     else
       return null
+  },
+
+  [DargWidgets.SHIP_OBSTACLE_RF] = function () {
+    return {
+      size = flex()
+      halign = HALIGN_CENTER
+      children = shipObstacleRf
+    }
   }
 }
 

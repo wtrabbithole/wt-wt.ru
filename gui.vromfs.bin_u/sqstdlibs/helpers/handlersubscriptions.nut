@@ -1,4 +1,4 @@
-local u = require("sqStdLibs/common/u.nut")
+local u = require("std/u.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 
 const SUBSCRIPTIONS_AMOUNT_TO_CLEAR = 50

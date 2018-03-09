@@ -15,6 +15,9 @@ ItemsRoulette API:
   insertCurrentReward() - insert into randomly generated strip
                                                  rewards which player really recieved;
 */
+
+local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
+
 ::ItemsRoulette <- {
   debugData = {}
   mainAnimation = null
@@ -186,14 +189,14 @@ function ItemsRoulette::skipAnimation(obj)
 
 function ItemsRoulette::generateItemsArray(trophyName)
 {
-  local trophy = ::ItemsManager.findItemById(trophyName)
+  local trophy = ::ItemsManager.findItemById(trophyName) || ItemGenerators.get(trophyName)
   if (!trophy)
   {
     ::dagor.debug("ItemsRoulette: Cannot find trophy by name " + trophyName)
     return {}
   }
 
-  if (trophy.iType != itemType.TROPHY)
+  if (trophy?.iType != itemType.TROPHY && trophy?.iType != itemType.CHEST && !trophy?.genType)
   {
     ::dagor.debug("ItemsRoulette: Founded item is not a trophy")
     ::dagor.debug(trophy.tostring())

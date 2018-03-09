@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum MISSION_OBJECTIVE
 {
   KILLS_AIR           = 0x0001
@@ -39,7 +40,7 @@ enum MISSION_OBJECTIVE
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_mission_type", {
+enums.addTypesByGlobalName("g_mission_type", {
   UNKNOWN = {
   }
 

@@ -19,9 +19,15 @@ CheckBox {
     enable:t='no'
   <</isHidden>>
 
+  <<#isDisable>>
+    enable:t='no'
+  <</isDisable>>
+
   <<#useImage>>
     infoImg { background-image:t='<<useImage>>' }
   <</useImage>>
+
+  <<@specialParams>>
 
   CheckBoxImg {}
 }

@@ -113,7 +113,7 @@ class gui_bhv.posNavigator
   {
     local value = getSelectedValue(obj)
     local valObj = getChildObj(obj, value)
-    if (valObj && selectItem(obj, value, valObj, false))
+    if (valObj && isSelectable(valObj) && selectItem(obj, value, valObj, false))
       return
 
     local coords = valObj? getMiddleCoords(valObj) : obj.getPos()

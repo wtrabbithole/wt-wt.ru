@@ -13,25 +13,34 @@ class ::Input.Button extends ::Input.InputBase
 
   function getMarkup()
   {
-    local view = {}
-    local template = ""
-    if (deviceId == ::JOYSTICK_DEVICE_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
-    {
-      template = "gui/gamepadButton"
-      view.buttonImage <- gamepadIcons.getTextureByButtonIdx(buttonId)
+    local data = getMarkupData()
+    return ::handyman.renderCached(data.template, data.view)
+  }
+
+  function getMarkupData()
+  {
+    local data = {
+      template = ""
+      view = {}
     }
-    else if (deviceId == ::STD_MOUSE_DEVICE_ID && buttonId in mouse_button_texturas)
+
+    if (deviceId == JOYSTICK_DEVICE_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
     {
-      template = "gui/gamepadButton"
-      view.buttonImage <- "#ui/gameuiskin#" + ::mouse_button_texturas[buttonId]
+      data.template = "gui/gamepadButton"
+      data.view.buttonImage <- gamepadIcons.getTextureByButtonIdx(buttonId)
+    }
+    else if (deviceId == ::STD_MOUSE_DEVICE_ID && gamepadIcons.hasMouseTexture(buttonId))
+    {
+      data.template = "gui/gamepadButton"
+      data.view.buttonImage <- gamepadIcons.getMouseTexture(buttonId)
     }
     else
     {
-      template = "gui/keyboardButton"
-      view.text <- getText()
+      data.template = "gui/keyboardButton"
+      data.view.text <- getText()
     }
 
-    return ::handyman.renderCached(template, view)
+    return data
   }
 
   function getText()

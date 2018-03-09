@@ -140,7 +140,6 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
           itemIcon = getItemIcon(name)
           id = name
           isSelected = first
-          newIconWidgetLayout = ::NewIconWidget.createLayout()
           discountText = discount > 0? ("-" + discount + "%") : null
         }
         data += ::handyman.renderCached("gui/missions/missionBoxItem", view)

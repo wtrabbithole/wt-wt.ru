@@ -467,7 +467,6 @@ function g_crew::_upgradeUnitSpec(crew, unit, upgradesAmount = 1)
   local progBox = { showProgressBox = true }
   upgradesAmount--
   local onTaskSuccess = (@(crew, unit, upgradesAmount) function() {
-    ::g_crews_list.refresh()
     ::updateAirAfterSwitchMod(unit)
     ::update_gamercards()
     ::broadcastEvent("QualificationIncreased", { unit = unit})
@@ -514,7 +513,6 @@ function g_crew::getBestTrainedCrewIdxForUnit(unit, mustBeEmpty, compareToCrew =
 
 function g_crew::onEventCrewSkillsChanged(params)
 {
-  ::g_crews_list.refresh()
   ::update_crew_skills_available(true)
 }
 
@@ -589,7 +587,6 @@ function load_crew_skills()
 {
   ::crew_skills=[]
   ::crew_air_train_req <- {}
-  ::g_crews_list.refresh()
 
   local blk = ::get_skills_blk()
   ::g_crew.crewLevelBySkill = blk.skill_to_level_ratio || ::g_crew.crewLevelBySkill
@@ -789,7 +786,7 @@ function is_crew_slot_empty(crew)
 function get_first_empty_crew_slot(country = null)
 {
   if (!country)
-    country = ::get_profile_info().country
+    country = ::get_profile_country_sq()
 
   local crew = null
   foreach (idx, crewBlock in ::g_crews_list.get())

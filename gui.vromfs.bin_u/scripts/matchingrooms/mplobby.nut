@@ -1,3 +1,6 @@
+local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
+local avatars = ::require("scripts/user/avatars.nut")
+
 mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDebug option enabled
 ::back_from_lobby <- ::gui_start_mainmenu
 
@@ -184,7 +187,7 @@ function set_mplayer_info(scene, player, is_team, teamCountry=false)
   ::fill_gamer_card({
                     name = player? player.name : ""
                     clanTag = player? player.clanTag : ""
-                    icon = (!player || player.isBot)? "cardicon_bot" : ::get_pilot_icon_by_id(player.pilotId)
+                    icon = (!player || player.isBot)? "cardicon_bot" : avatars.getIconById(player.pilotId)
                     country = player? player.country : ""
                   },
                   true, "player_", scene)
@@ -201,7 +204,7 @@ function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
   local playerClan = playerInfo.clanTag + (playerInfo.clanTag != ""? " " : "")
   local playerName = playerClan + playerNick
   local playerCountry = "country" in playerInfo? playerInfo.country : ""
-  local playerIcon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : ::get_pilot_icon_by_id(playerInfo.pilotId)
+  local playerIcon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
 
   local titleObj = mainObj.findObject("player_title")
   if (::checkObj(titleObj))
@@ -334,7 +337,15 @@ function session_player_rmenu(handler, player, chatText = "", position = null, o
       show = isBlock
       action = (@(name, uid) function() { ::editContactMsgBox({uid = uid, name = name}, ::EPL_BLOCKLIST, false, this) })(name, uid)
     }
-    //{}
+    {
+      text = ::loc(localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO) ? "mpRadio/enable" : "mpRadio/disable")
+      show = !isMe && !isBlock
+      action = function() {
+        localDevoice.switchMuted(name, localDevoice.DEVOICE_RADIO)
+        local popupLocId = localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO) ? "mpRadio/disabled/msg" : "mpRadio/enabled/msg"
+        ::g_popups.add(null, ::loc(popupLocId, { player = ::colorize("activeTextColor", name) }))
+      }
+    }
     {
       text = ::loc("mainmenu/btnComplain")
       show = !isMe

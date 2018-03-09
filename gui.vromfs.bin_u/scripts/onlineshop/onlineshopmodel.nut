@@ -226,6 +226,19 @@ function OnlineShopModel::getAllFeaturePurchases(feature)
   return res
 }
 
+function OnlineShopModel::openBrowserForFirstFoundEntitlement(entitlementsList)
+{
+  foreach(entitlement in entitlementsList)
+  {
+    local purchase = getPurchaseData(entitlement)
+    if (purchase.canBePurchased)
+    {
+      openBrowserByPurchaseData(purchase)
+      break
+    }
+  }
+}
+
 function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
 {
   if (!purchaseData.canBePurchased)

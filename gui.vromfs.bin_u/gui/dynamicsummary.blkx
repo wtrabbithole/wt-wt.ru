@@ -7,7 +7,7 @@
       "type": "big",
       "img": [
         {
-          "size": "180%sh,sh"
+          "size": "sw,sh"
         },
         {
           "pos": "0,47%sh-50%h"
@@ -23,7 +23,7 @@
         },
         {
           "img": {
-            "size": "180%sh,sh",
+            "size": "sw,sh",
             "pos": "0, 0",
             "position": "absolute",
             "style": "background-repeat:expand;background-image:ui/images/flags/campaign_back.jpg?P1;background-color:@white;"
@@ -712,7 +712,7 @@
                   {
                     "tdiv": {
                       "id": "gamercard_tobattle_bg",
-                      "left": "-1@titleLogoPlatePadding/2",
+                      "pos": "-1@titleLogoPlatePadding/2, 0",
                       "position": "relative",
                       "height": "ph",
                       "background-color": "@gameModeColor",
@@ -1155,6 +1155,7 @@
       },
       {
         "gamercard": {
+          "id": "gamercard_bottom",
           "BottomMenuPanel": [
             {
               "shadowSafeArea": []

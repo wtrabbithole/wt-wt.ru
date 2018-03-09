@@ -102,6 +102,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
     ::g_squad_manager.rejectSquadInvite(squadId)
     remove()
+    ::g_invites.removeInviteToSquad(squadId)
     onSuccessfulReject()
   }
 
@@ -115,6 +116,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     ::g_squad_manager.acceptSquadInvite(squadId)
     isAccepted = true
     remove()
+    ::g_invites.removeInviteToSquad(squadId)
     onSuccessfulAccept()
   }
 }

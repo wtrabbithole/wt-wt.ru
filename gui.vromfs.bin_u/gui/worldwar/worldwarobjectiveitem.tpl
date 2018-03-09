@@ -15,6 +15,7 @@ objectiveBlock {
       valign:t='center'
     }
     text {
+      margin-left:t='1@blockInterval'
       text:t='#worldWar/objectivesHeader/<<id>>'
       valign:t='center'
     }

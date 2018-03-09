@@ -267,10 +267,6 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
     }
   }
 
-  local battleButtonObj = getObj("gamercard_tobattle")
-  if (::checkObj(battleButtonObj))
-    battleButtonObj.allowDecreaseFont = ::is_low_width_screen()? "yes" : "no"
-
   ::update_discount_notifications(scene)
   ::setVersionText(scene)
   ::server_message_update_scene(scene)

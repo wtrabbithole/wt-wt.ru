@@ -34,7 +34,7 @@ local styling = ::with_table({}, function() {
       children = {
         rendObj = ROBJ_STEXT
         margin = sh(1)
-        text = desc.get("text", "???")
+        text = desc?.text ?? "???"
         group = buttonGrp
       }
 
@@ -51,7 +51,7 @@ local styling = ::with_table({}, function() {
       padding = [sh(2), 0]
       children = {
         rendObj = ROBJ_STEXT
-        text = params.get("text")
+        text = params?.text
       }
     }
   }

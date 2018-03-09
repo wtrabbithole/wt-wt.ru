@@ -144,6 +144,7 @@
   "timeBlinkingOfDeadIcon": 2.5,
   "opacityOfDeadIcon": 70,
   "timeIconForDeadOnMap": 12.0,
+  "stabilizerMaxDeltaAngle": 10.0,
   "tracers": {
     "headFadeTime": 2.0,
     "headSpeedScale": [400.0,900.0,0.1,1.0],
@@ -1623,7 +1624,8 @@
         "shipCollisionDamageGround": 1.0,
         "radioGunnerRadioDistanceMult": 2.0,
         "hudDrawBombingZoneThroughCloud": true,
-        "shipBrokenRangefinderErrorMult": 2.0
+        "shipBrokenRangefinderErrorMult": 2.0,
+        "multTorpedoDistanceIndicator": 0.375
       },
       "hard": {
         "scoutPreset": "hard",
@@ -1845,14 +1847,14 @@
         "shellLoadingTimeMult": 1.0,
         "arcadeTurnPowerMult": 1.7,
         "tankTurretPitchInc": 10.0,
-        "shipRudderAreaMult": 1.2,
+        "shipRudderAreaMult": 1.1,
         "shipRudderDeflectionMult": 1.1,
         "shipThrustMultShip": 1.0,
         "shipThrustMultTorpedoBoat": 1.2,
         "shipThrustMultGunBoat": 1.15,
         "shipThrustMultTorpedoGunBoat": 1.2,
         "shipThrustMultSubmarineChaser": 1.3,
-        "shipThrustMultDestroyer": 1.1,
+        "shipThrustMultDestroyer": 1.05,
         "shipThrustMultFerryBarge": 1.3
       },
       "on": {
@@ -2615,9 +2617,9 @@
     "depthBias": 0.25,
     "depthSlopeBias": 0.7,
     "depthConstBias": 0.0,
-    "staticCascadeForcedRiExtraLod": -1,
     "bigShipForShadowsFrom": 50.0,
     "occlusionSunDirThreshold": 0.5,
+    "staticCascadeForcedRiExtraLod": -1,
     "ultralow": {
       "staticCascadeTexWidth": 512,
       "staticCascadeSlices": 10,
@@ -2643,7 +2645,6 @@
       "fadeOut": 30.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 512,
-      "staticCascadeSlices": 10,
       "staticCascadeRegWidth": 500.0,
       "staticCascadeStarting": 0,
       "useOcclusion": true
@@ -2666,7 +2667,6 @@
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 1024,
-      "staticCascadeSlices": 16,
       "staticCascadeRegWidth": 750.0,
       "staticCascadeStarting": 3,
       "useOcclusion": true
@@ -2689,11 +2689,12 @@
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 1024,
-      "staticCascadeSlices": 16,
       "staticCascadeRegWidth": 750.0,
       "staticCascadeStarting": 3,
       "renderHeightmap": true,
-      "useOcclusion": false
+      "useOcclusion": false,
+      "staticCascadeDepthSlopeBias": -1.0,
+      "staticCascadeDepthBias": -0.0001
     },
     "high": {
       "cascadeWidth": 1024,
@@ -2713,7 +2714,6 @@
       "fadeOut": 100.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 2048,
-      "staticCascadeSlices": 20,
       "staticCascadeRegWidth": 1000.0,
       "staticCascadeStarting": 3,
       "renderHeightmap": true,
@@ -2738,11 +2738,12 @@
       "rotationMargin": 0.1,
       "vsmSize": 2048,
       "staticCascadeTexWidth": 4096,
-      "staticCascadeSlices": 20,
       "staticCascadeRegWidth": 1250.0,
       "staticCascadeStarting": 4,
       "renderHeightmap": true,
-      "useOcclusion": false
+      "useOcclusion": false,
+      "staticCascadeDepthSlopeBias": -1.0,
+      "staticCascadeDepthBias": -0.0001
     }
   },
   "ambShadows": {
@@ -3038,7 +3039,7 @@
   "guiSettings": {
     "KeyRepeater": {
       "useKeyRepeater": true,
-      "keyRepeaterRepeatKeyboard": false,
+      "keyRepeaterRepeatKeyboard": true,
       "keyRepeaterRepeatJoystick": true,
       "repeatDelay": 5,
       "repeatFrequency": 2,
@@ -8904,18 +8905,74 @@
     {
       "event": {
         "id": "death",
-        "name": "highlights/death"
+        "name": "highlights/death",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
       }
     },
     {
       "event": {
         "id": "kill",
-        "name": "highlights/kill"
+        "name": "highlights/kill",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
+      }
+    },
+    {
+      "event": {
+        "id": "kill_of_ally_player",
+        "name": "highlights/kill_of_ally_player",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
+      }
+    },
+    {
+      "event": {
+        "id": "destroy_of_ally_minibase",
+        "name": "highlights/destroy_of_ally_minibase",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
+      }
+    },
+    {
+      "event": {
+        "id": "destroy_of_ally_airfield",
+        "name": "highlights/destroy_of_ally_airfield",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
+      }
+    },
+    {
+      "event": {
+        "id": "destroy_of_enemy_minibase",
+        "name": "highlights/destroy_of_enemy_minibase",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
+      }
+    },
+    {
+      "event": {
+        "id": "destroy_of_enemy_airfield",
+        "name": "highlights/destroy_of_enemy_airfield",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
+      }
+    },
+    {
+      "event": {
+        "id": "capture_zone",
+        "name": "highlights/capture_zone",
+        "startDeltaTime": 20000,
+        "endDeltaTime": 20000
       }
     }
   ],
   "wreckage": {
     "useInteractiveObject": false,
     "interactiveObjectTTL": 60.0
+  },
+  "depthAO": {
+    "tanksDistanceAround": 256.0,
+    "shipsDistanceAround": 400.0
   }
 }

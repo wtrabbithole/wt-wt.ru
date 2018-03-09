@@ -288,6 +288,11 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWeaponPurchased(params) { updateAllItems() }
   function onEventSparePurchased(params) { updateAllItems() }
 
+  function onEventUnitWeaponChanged(params)
+  {
+    updateAllItems()
+  }
+
   function isItemTypeUnit(type)
   {
     return type == weaponsItem.curUnit
@@ -378,13 +383,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
                                                                researchMode = researchMode
                                                                visualDisabled = isVisualDisabled
                                                               })
-
-    local upgradeImgNest = itemObj.findObject("image")
-    if (upgradeImgNest && (visualItem.type == weaponsItem.weapon || visualItem.type == weaponsItem.primaryWeapon))
-      setWeaponsUpgradeStatus(upgradeImgNest, visualItem)
-
-    if (visualItem.type == weaponsItem.modification && !::weaponVisual.isBullets(visualItem))
-      setModsUpgradeStatus(itemObj, visualItem)
   }
 
   function updateBuyAllButton()
@@ -445,7 +443,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local item = items[index]
     local showResearchButton = researchMode
-                       && ::getAmmoCost(airName, item.name, AMMO.MODIFICATION).gold == 0
+                       && ::getAmmoCost(air, item.name, AMMO.MODIFICATION).gold == 0
                        && !::isModClassPremium(item)
                        && ::weaponVisual.canBeResearched(air, item, false)
                        && availableFlushExp > 0
@@ -459,7 +457,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local showPurchaseButton = researchMode
-                               && ::getAmmoCost(airName, item.name, AMMO.MODIFICATION).gold == 0
+                               && ::getAmmoCost(air, item.name, AMMO.MODIFICATION).gold == 0
                                && !::isModClassPremium(item)
                                && ::canBuyMod(air, item)
 
@@ -722,7 +720,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillWeaponsAndBullets(offsetX, offsetY)
   {
     local columnsList = []
-    curWeaponModsRequest = []
     //add primary weapons bundle
     local primaryWeaponsNames = ::getPrimaryWeaponsList(air)
     local primaryWeaponsList = []
@@ -743,9 +740,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         if("weaponUpgrades" in air)
           item.weaponUpgrades <- air.weaponUpgrades
       }
-      if(item.name == curPrimWeapon)
-        curWeaponModsRequest = getRequirementsArray(item)
-
       primaryWeaponsList.append(item)
     }
     createBundle(primaryWeaponsList, weaponsItem.primaryWeapon, 0, mainModsObj, offsetX, offsetY)
@@ -817,14 +811,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     createTreeBlocks(modsBgObj, columnsList, 1, 0, offsetY)
   }
 
-  function getRequirementsArray(item)
-  {
-    if("weaponUpgrades" in item)
-      return item.weaponUpgrades
-    else if("weaponMod" in item && "weaponUpgrades" in item.weaponMod)
-      return item.weaponMod.weaponUpgrades
-  }
-
   function canBomb(checkPurchase)
   {
     return ::isAirHaveAnyWeaponsTags(air, ["bomb", "rocket"], checkPurchase)
@@ -838,48 +824,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           if (item.name == searchItem.name && item.type==searchItem.type)
             return bundle
     return null
-  }
-
-  function setWeaponsUpgradeStatus(obj, item)
-  {
-    local upgradesCount = ::weaponVisual.countWeaponsUpgrade(air, item)
-    if (!upgradesCount)
-      return ""
-    if (upgradesCount[0] >= upgradesCount[1])
-      return setUpgradeImg(obj, "full")
-    else if (upgradesCount[0] > 0)
-      return setUpgradeImg(obj, "part")
-    return ""
-  }
-
-  function setModsUpgradeStatus(itemObj, item)
-  {
-    local upgradeObj = itemObj.findObject("upgrade_img")
-    if(::checkObj(upgradeObj)) guiScene.destroyElement(upgradeObj)
-
-    local upgradeImgNest = itemObj.findObject("image")
-    if (::checkObj(upgradeImgNest) && curWeaponModsRequest)
-      foreach(modArray in curWeaponModsRequest)
-        if(::isInArray(item.name, modArray))
-        {
-          setUpgradeImg(upgradeImgNest, "mod")
-          break
-        }
-  }
-
-  function setUpgradeImg(obj, status)
-  {
-    local upgradeImg = getUpgradeImg(status)
-    guiScene.replaceContentFromText(obj, upgradeImg, upgradeImg.len(), this)
-  }
-
-  function getUpgradeImg(status)
-  {
-    if(status == "")
-      return ""
-
-    local object = "upgradeImg{id:t='upgrade_img'; upgradeStatus:t='%s'; }"
-    return ::format(object, status)
   }
 
   function onModificationTooltipOpen(obj)
@@ -1114,7 +1058,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (!onlyBuy)
       {
-        curWeaponModsRequest = getRequirementsArray(item)
         setLastPrimary(item)
         return
       }
@@ -1248,10 +1191,19 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (idx < 0)
       return
 
-    if (items[idx].type==weaponsItem.spare)
+    local item = items[idx]
+    if (item.type==weaponsItem.spare)
     {
       ::gui_handlers.UniversalSpareApplyWnd.open(air, getItemObj(idx))
       return
+    }
+    else if (item.type == weaponsItem.modification)
+    {
+      if (::weaponVisual.getItemAmount(air, item) && ::is_mod_upgradeable(item.name))
+      {
+        ::gui_handlers.ModUpgradeApplyWnd.open(air, item, getItemObj(idx))
+        return
+      }
     }
 
     onBuy(idx)
@@ -1323,9 +1275,12 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local curBullets = ::get_last_bullets(airName, groupIdx)
     local isChanged = curBullets != item.name && !("isDefaultForGroup" in item && curBullets == "")
-    if (isChanged)
-      ::play_gui_sound("check")
     ::set_unit_last_bullets(air, groupIdx, item.name)
+    if (isChanged)
+    {
+      ::play_gui_sound("check")
+      ::broadcastEvent("UnitBulletsChanged", { unit = air, groupIdx = groupIdx, bullet = item })
+    }
     updateItemBundle(item)
     return isChanged
   }
@@ -1486,7 +1441,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   airName = ""
   lastWeapon = ""
   lastBullets = null
-  curWeaponModsRequest = null
 
   researchMode = false
   researchBlock = null

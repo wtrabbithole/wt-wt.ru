@@ -407,6 +407,20 @@
             },
             {
               "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_t1_tankSpawn_ab_01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_t2_tankSpawn_ab_01"
+              }
+            },
+            {
+              "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
                 "target": "briefing_t1_captureZone_Bto01"
@@ -461,10 +475,13 @@
                   "side": "ally"
                 },
                 {
-                  "point": "briefing_t1_captureZone_Bto01"
+                  "point": "briefing_t1_captureZone_Rb_Bto01"
                 },
                 {
-                  "point": "briefing_t1_captureZone_Bto_final"
+                  "point": "briefing_t1_captureZone_Rb_Bto02"
+                },
+                {
+                  "point": "briefing_t1_captureZone_Rb_Bto_final"
                 }
               ]
             },
@@ -477,39 +494,70 @@
                   "side": "enemy"
                 },
                 {
-                  "point": "briefing_t2_captureZone_Bto01"
+                  "point": "briefing_t2_captureZone_Rb_Bto01"
                 },
                 {
-                  "point": "briefing_t2_captureZone_Bto_final"
+                  "point": "briefing_t2_captureZone_Rb_Bto02"
+                },
+                {
+                  "point": "briefing_t2_captureZone_Rb_Bto_final"
                 }
               ]
             },
             {
               "icon": {
-                "icontype": "basezone_A",
+                "icontype": "tank",
                 "side": "ally",
-                "target": "briefing_t1_captureZone_Bto01"
+                "target": "briefing_t1_tankSpawn_rb_01"
               }
             },
             {
               "icon": {
-                "icontype": "basezone_C",
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_t2_tankSpawn_rb_01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone_A",
                 "side": "ally",
-                "target": "briefing_t1_captureZone_Bto_final"
+                "target": "briefing_t1_captureZone_Rb_Bto01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone",
+                "side": "ally",
+                "target": "briefing_t1_captureZone_Rb_Bto02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone",
+                "side": "ally",
+                "target": "briefing_t1_captureZone_Rb_Bto_final"
               }
             },
             {
               "icon": {
                 "icontype": "basezone_B",
                 "side": "enemy",
-                "target": "briefing_t2_captureZone_Bto01"
+                "target": "briefing_t2_captureZone_Rb_Bto01"
               }
             },
             {
               "icon": {
                 "icontype": "basezone",
                 "side": "enemy",
-                "target": "briefing_t2_captureZone_Bto_final"
+                "target": "briefing_t2_captureZone_Rb_Bto02"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "basezone",
+                "side": "enemy",
+                "target": "briefing_t2_captureZone_Rb_Bto_final"
               }
             }
           ]
@@ -568,6 +616,20 @@
                   "point": "briefing_t2_captureZone_Rb_Bto_final"
                 }
               ]
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_t1_tankSpawn_rb_01"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_t2_tankSpawn_rb_01"
+              }
             },
             {
               "icon": {
@@ -776,46 +838,24 @@
     }
   },
   "areas": {
-    "briefing_t1_tankSpawn_Rb_01": {
+    "briefing_t1_tankSpawn_ab_01": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2691.45,7.25,2098.75]
+        [2693.62,7.25,2214.22]
       ],
       "objLayer": 0,
       "props": []
     },
-    "briefing_t2_tankSpawn_Rb_01": {
+    "briefing_t2_tankSpawn_ab_01": {
       "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [1310.6,15.55,2036.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t1_tankSpawn_Rb_02": {
-      "type": "Point",
-      "tm": [
-        [0.996195,0.0,0.0871554],
-        [0.0,1.0,0.0],
-        [-0.0871554,0.0,0.996195],
-        [3176.55,14.0,1554.55]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t2_tankSpawn_Rb_02": {
-      "type": "Point",
-      "tm": [
-        [0.906308,0.0,-0.422618],
-        [0.0,1.0,0.0],
-        [0.422618,0.0,0.906308],
-        [1129.6,4.3,1399.3]
+        [1336.24,15.55,1883.96]
       ],
       "objLayer": 0,
       "props": []
@@ -926,6 +966,28 @@
         [0.0,90.0,0.0],
         [0.0,0.0,50.0],
         [1642.7,2.7,2079.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t1_tankSpawn_rb_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1086.53,15.55,3461.89]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_tankSpawn_rb_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2100.53,26.7673,422.409]
       ],
       "objLayer": 0,
       "props": []

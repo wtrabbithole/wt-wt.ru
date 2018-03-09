@@ -226,6 +226,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     else //newHudType == HUD_TYPE.NONE
       currentHud = null
 
+    showSceneBtn("ship_obstacle_rf", newHudType == HUD_TYPE.SHIP)
+
     hudType = newHudType
 
     onHudSwitched()
@@ -780,6 +782,12 @@ class HudShip extends ::gui_handlers.BaseUnitHud
 {
   actionBar    = null
   sceneBlkName = "gui/hud/hudShip.blk"
+  widgetsList = [
+    {
+      widgetId = DargWidgets.SHIP_OBSTACLE_RF
+      placeholderId = "ship_obstacle_rf"
+    }
+  ]
 
   function initScreen()
   {

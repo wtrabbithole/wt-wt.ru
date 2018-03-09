@@ -20,6 +20,14 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
     getObj("gamercard_drawer").setUserData(this)
   }
 
+  function isActive() //opening, opened, or closing to open again
+  {
+    if (currentState == GamercardDrawerState.STATE_OPENED
+        || currentState == GamercardDrawerState.STATE_OPENING)
+      return true
+    return currentVisible && ::check_obj(currentTarget)
+  }
+
   function closeDrawer()
   {
     if (currentState == GamercardDrawerState.STATE_CLOSED
@@ -27,6 +35,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
       return
     currentState = GamercardDrawerState.STATE_CLOSING
     setOpenAnim(false)
+    ::broadcastEvent("GamercardDrawerAnimationStart", { isOpening = false })
   }
 
   function openDrawer()
@@ -36,6 +45,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
       return
     currentState = GamercardDrawerState.STATE_OPENING
     setOpenAnim(true)
+    ::broadcastEvent("GamercardDrawerAnimationStart", { isOpening = true })
   }
 
   function setOpenAnim(open)

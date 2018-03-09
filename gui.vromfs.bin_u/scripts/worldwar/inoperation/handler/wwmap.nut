@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 
 class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
@@ -73,6 +74,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_timer").setUserData(this)
     if (::g_world_war_render.isCategoryEnabled(::ERC_ARMY_RADIUSES))
       ::g_world_war_render.setCategory(::ERC_ARMY_RADIUSES, false)
+
+    guiScene.performDelayed(this, function() {
+      if (isValid())
+        ::checkNonApprovedResearches(true, true)
+    })
   }
 
   function initMapName()
@@ -312,7 +318,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local isInQueue = isOperationContinue && ::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE)
     local isSquadMember = isOperationContinue && ::g_squad_manager.isSquadMember()
 
-    local txt = ::loc("mainmenu/toBattle")
+    local txt = ::loc("worldWar/btn_battles")
     local isCancel = false
 
     if (isSquadMember)
@@ -332,6 +338,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     toBattleButtonObj.setValue(txt)
     toBattleButtonObj.findObject("to_battle_button_text").setValue(txt)
     toBattleButtonObj.isCancel = isCancel ? "yes" : "no"
+    toBattleButtonObj.fontOverride = daguiFonts.getMaxFontTextByWidth(txt,
+      to_pixels("1@maxToBattleButtonTextWidth"), "bold")
   }
 
   function hasBattlesToPlay()
@@ -358,25 +366,15 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       return ::showInfoMsgBox(::loc("msgbox/internal_error_header"))
 
     local allBattles = ::g_world_war.getBattles()
-    local availableBattles = ::g_world_war.getAvailableBattles(playerSide)
-    if (availableBattles.len() > 0)
-    {
-      local battle = ::u.chooseRandom(availableBattles)
-      ::gui_handlers.WwBattleDescription.open(battle)
-      if (availableBattles.len() == 1)
-        battle.tryToJoin(playerSide)
-      return
-    }
-
     ::gui_handlers.WwBattleDescription.open(allBattles.len() ?
       allBattles[0] : ::WwBattle())
   }
 
-  function goBackToOperations()
+  function goBackToOperations(openBattles = false)
   {
     backSceneFunc = function()
     {
-      ::g_world_war.openOperationsOrQueues()
+      ::g_world_war.openOperationsOrQueues(openBattles)
     }
     goBackToHangar()
   }
@@ -564,10 +562,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
       for (local i = WW_MAP_HIGHLIGHT.LAYER_0; i<= WW_MAP_HIGHLIGHT.LAYER_2; i++)
       {
-        local zonesArray = ::u.map(zones, (@(i) function(zone) {
-          if (zone.mapLayer == i)
-            return zone.id
-        })(i))
+        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == i)
+        local zonesArray = ::u.map(filteredZones, @(zone) zone.id)
         ::ww_highlight_zones_by_name(zonesArray, i)
       }
     }

@@ -553,7 +553,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   {
     local rowData = getSelectedRowData()
     if (rowData)
-      ::clan_membership_request(getLbClanUid(rowData), this)
+      ::g_clans.requestMembership(getLbClanUid(rowData))
   }
 
   function onEventClanMembershipRequested(p)

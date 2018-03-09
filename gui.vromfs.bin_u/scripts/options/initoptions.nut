@@ -2,13 +2,16 @@ local time = ::require("scripts/time.nut")
 local Unit = ::require("scripts/unit/unit.nut")
 
 ::all_units <- {}
+::show_aircraft <- null
 
 ::g_script_reloader.registerPersistentData("initOptionsGlobals", ::getroottable(),
-  [ "all_units" ])
+  [ "all_units", "show_aircraft"])
 
 //remap all units to new class on scripts reload
 foreach(name, unit in ::all_units)
   ::all_units[name] = Unit({}).setFromUnit(unit)
+if (::show_aircraft)
+  ::show_aircraft = ::all_units?[::show_aircraft.name]
 
 function init_options()
 {
@@ -266,7 +269,7 @@ function countUsageAmountOnce()
 
   function()
   {
-    local blk = ::DataBlock("config/ugc.blk")
+    local blk = ::get_ugc_blk()
     if (blk.presets)
       foreach(preset in blk.presets)
         ::ugc_tags_presets.append(preset.getBlockName())

@@ -226,4 +226,13 @@ class ::WwFormation
   {
     mapObjectName = name
   }
+
+  function getUnitsNumber()
+  {
+    local count = 0
+    foreach (unit in units)
+      count += unit.getCount()
+
+    return count
+  }
 }

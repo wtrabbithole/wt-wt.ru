@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum mislistTabsOrder {
   BASE
   UGM
@@ -288,7 +289,7 @@ function g_mislist_type::_getMissionNameText(mission)
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_mislist_type", {
+enums.addTypesByGlobalName("g_mislist_type", {
   BASE = {
     tabsOrder = mislistTabsOrder.BASE
     canBeEmpty = false

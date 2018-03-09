@@ -308,8 +308,6 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   save_common_local_settings = function() {}
   get_common_local_settings_blk = function() { return ::DataBlock() }
 
-  correct_color_lightness = function(colorStr, lightness) { return colorStr }
-
   ps4_get_account_id = @() ""
 
   EII_TORPEDO = 10
@@ -610,4 +608,88 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   EWBAT_EXT_INVENTORY_ITEM = 9
   is_highlights_inited = @() false
   show_highlights = @() null
+
+  EPL_XBOXONE = "x"
+
+  get_char_error_msg = function() { return "" }
+
+  load_template_text = @(name) ::load_scene_template(name)
+
+  set_hint_options_by_blk = function(blk) {}
+  get_profile_country = @() ::get_cur_rank_info().country
+
+  gchat_escape_target = function( target )  {
+    local reserved = "\r\n\t ,;%'";
+    local result = "";
+    foreach( ch in target )  {
+      if ( reserved.find(ch.tochar()) == null )
+        result += ch.tochar();
+      else
+        result += ::format("%%%02X", ch);
+    }
+    return result
+  }
+  gchat_unescape_target = function ( target )  {
+    local result = "";
+    local sym = 0;
+    local cnt = 0;
+    foreach( ch in target )  {
+      if ( cnt == 0 )  {
+        if ( ch != '%' )
+          result += ch.tochar();
+        else  {
+          cnt = 2;  sym = 0;
+        }
+      }  else  {
+        sym *= 16;  cnt--;
+
+        if ( ch >= '0' && ch <= '9' )
+          sym += ch-'0';
+        else  if ( ch >= 'A' && ch <= 'F' )
+          sym += ch-'A'+10;
+        else  if ( ch >= 'a' && ch <= 'f' )
+          sym += ch-'a'+10;
+        else  {
+          cnt = 0;  continue;
+        }
+        if ( cnt == 0 )
+          result += sym.tochar();
+      }
+    }
+    return result
+  }
+  get_option_ai_target_type = @() 1
+  set_option_ai_target_type = @(v) null
+  get_ugc_blk = @() ::DataBlock("config/ugc.blk")
+  get_option_default_ai_target_type = @() 1
+  set_option_default_ai_target_type = @(v) null
+
+  get_modification_level = @(unit, mod) 0
+  get_modifications_overdrive = @(unitName) []
+
+  EIT_MOD_OVERDRIVE = 7
+  EIT_MOD_UPGRADE = 8
 })
+
+::dagui_propid.add_name_id("inc-min")
+::dagui_propid.add_name_id("inc-max")
+::dagui_propid.add_name_id("inc-is-cyclic")
+
+if (!("get_unit_wp_to_respawn" in getroottable()))
+{
+  local lastRefreshTime = 0
+  local crewsCache = null
+  ::get_unit_wp_to_respawn <- function(unitName)
+  {
+    if (!crewsCache || (::dagor.getCurTime() > lastRefreshTime + 1000))
+    {
+      lastRefreshTime = ::dagor.getCurTime()
+      crewsCache = ::get_crew_info()
+    }
+    foreach(countryData in crewsCache)
+      foreach(crew in countryData.crews)
+        if (unitName == crew?.aircraft)
+          return crew?.wpToRespawn ?? 0
+    return 0
+  }
+}

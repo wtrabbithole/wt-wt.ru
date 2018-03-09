@@ -222,7 +222,7 @@ function debug_all_skins_without_location_mask()
       {
         if (skin.name == "")
           continue
-        local mask = skinLocations.getSkinLocationsMask(skin.name)
+        local mask = skinLocations.getSkinLocationsMask(skin.name, unit.name)
         if (!mask)
           ::u.appendOnce(skin.name, totalList)
       }

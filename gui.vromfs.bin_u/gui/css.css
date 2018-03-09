@@ -521,8 +521,8 @@ discount_notification[type=box_left] {
   padding:2@dp,2@dp,0,0;
   height:1@discountBoxHeight+2@dp;
   min-width:2h;
-  left:25%pw;
-  top:50%ph;
+  left:pw-1@blockInterval;
+  top:50%ph-50%h;
   position:absolute;
 }
 
@@ -544,7 +544,7 @@ discount_notification[type=box_up] {
   background-position:21,6,2,2;
   padding:1@discountBoxPadding, 1@discountBoxDownArrowHeight, 1@discountBoxPadding, 0;
   height:1@discountBoxDownHeight;
-  pos:50%pw-50%w, ph - 6*@sf/@pf;
+  pos:50%pw-50%w, ph -h + 8*@sf/@pf;
   position:absolute;
 }
 
@@ -1977,7 +1977,7 @@ briefingglow[needAnim=yes] {
 }
 
 text[overlayTextColor=active], textareaNoTab[overlayTextColor=active], textarea[overlayTextColor=active],
-textAreaCentered[overlayTextColor=active] {
+textAreaCentered[overlayTextColor=active], optiontext[overlayTextColor=active] {
   color:@activeTextColor;
 }
 text[overlayTextColor=minor], textareaNoTab[overlayTextColor=minor] {
@@ -2529,7 +2529,7 @@ ShadeDiv {
 ShadeDiv.authorization {
   position:relative;
   pos:50%pw-50%w;
-  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding; }
+  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding,0.015@scrn_tgt; }
 
 debriefingTab {
   size:pw, ph;

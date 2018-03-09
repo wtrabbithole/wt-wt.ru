@@ -1,4 +1,4 @@
-::g_script_reloader.loadOnce("sqStdLibs/helpers/enumUtils.nut")
+local enums = ::require("std/enums.nut")
 
 ::g_wrap_dir <- {
   types = []
@@ -10,7 +10,7 @@
   isPositive = true
 }
 
-::g_enum_utils.addTypes(::g_wrap_dir, {
+enums.addTypes(::g_wrap_dir, {
   UP = {
     notifyId = "wrap_up"
     isVertical = true

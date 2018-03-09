@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_skills_page_status <-
 {
   types = []
@@ -14,7 +15,7 @@
   wink = false
 }
 
-::g_enum_utils.addTypesByGlobalName("g_skills_page_status", {
+enums.addTypesByGlobalName("g_skills_page_status", {
   NONE = {
     show = false
   }

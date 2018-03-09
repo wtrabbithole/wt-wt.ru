@@ -21,9 +21,10 @@ tdiv {
           }
         <</armyCountryImg>>
         text {
-          text:t='<<teamText>>'
           pos:t='0, 50%ph-50%h'
           position:t='relative'
+          margin-left:t='1@blockInterval'
+          text:t='<<teamText>>'
         }
       }
 

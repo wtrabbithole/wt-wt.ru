@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
 
 ::g_promo <- {
@@ -27,12 +28,7 @@ local time = require("scripts/time.nut")
     url = function(handler, params, obj) { return openLink(handler, params) }
     items = function(handler, params, obj) { return openItemsWnd(handler, params) }
     squad_contacts = function(handler, params, obj) { return ::open_search_squad_player() }
-    world_war = function(handler, params, obj) {
-                  if (!::is_worldwar_enabled())
-                    return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
-
-                  ::g_world_war.openMainWnd()
-                }
+    world_war = function(handler, params, obj) { ::g_world_war.openMainWnd() }
     content_pack = function(handler, params, obj)
     {
       ::check_package_and_ask_download(::getTblValue(0, params, ""))
@@ -40,7 +36,7 @@ local time = require("scripts/time.nut")
   }
 
   collapsedParams = {
-    world_war_button = { collapsedIcon = ::loc("worldWar/iconWorldWar") }
+    world_war_button = { collapsedIcon = ::loc("icon/worldWar") }
     events_mainmenu_button = { collapsedIcon = ::loc("icon/events") }
     tutorial_mainmenu_button = { collapsedIcon = ::loc("icon/tutorial") }
     current_battle_tasks_mainmenu_button = {
@@ -58,6 +54,11 @@ local time = require("scripts/time.nut")
       return ::has_feature("Packages") && !::have_package(::getTblValue(0, params, ""))
     }
   }
+
+  customSeenId = {
+    events_mainmenu_button = @() bhvUnseen.makeConfigStr(SEEN.EVENTS, SEEN.S_EVENTS_WINDOW)
+  }
+  getCustomSeenId = @(blockId) customSeenId?[blockId] && customSeenId[blockId]()
 
   actionParamsByBlockId = {}
   showAllPromoBlocks = false
@@ -222,9 +223,13 @@ function g_promo::generateBlockView(block)
   view.id <- id
   view.type <- ::g_promo.getType(block)
   view.collapsed <- ::g_promo.isCollapsed(id)? "yes" : "no"
-  view.notifyNew <- ::getTblValue("notifyNew", view) == null
   view.aspect_ratio <- countMaxSize(block)
   view.fillBlocks <- []
+
+  local unseenIcon = getCustomSeenId(id)
+  if (unseenIcon)
+    view.unseenIcon <- unseenIcon
+  view.notifyNew <- !unseenIcon && (view?.notifyNew ?? true)
 
   local isDebugModeEnabled = getShowAllPromoBlocks()
   local blocksCount = block.blockCount()
@@ -522,21 +527,13 @@ function g_promo::initNewWidget(id, obj, widgetsWithCounter = [])
   return newIconWidget
 }
 
-function g_promo::updateWidgetNum(widgetsTable, id, value)
-{
-  if (::getTblValue(id, widgetsTable) == null)
-    return
-
-  widgetsTable[id].setValue(value)
-}
-
 function g_promo::isWidgetSeenById(id)
 {
   local blk = ::loadLocalByAccount("seen/promo")
   return id in blk
 }
 
-function g_promo::setSimpleWidgetData(widgetsTable, id, widgetsWithCounter)
+function g_promo::setSimpleWidgetData(widgetsTable, id, widgetsWithCounter = [])
 {
   if (::isInArray(id, widgetsWithCounter))
     return

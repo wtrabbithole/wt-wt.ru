@@ -222,4 +222,10 @@ function g_chat_latest_threads::onEventChatSearchCategoriesChanged(p)
   refresh()
 }
 
+function g_chat_latest_threads::onEventGameLocalizationChanged(p)
+{
+  if (!isCustomLangsList)
+    ::g_chat_latest_threads.forceAutoRefreshInSecond()
+}
+
 ::subscribe_handler(::g_chat_latest_threads, ::g_listener_priority.DEFAULT_HANDLER)

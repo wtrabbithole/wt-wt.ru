@@ -44,20 +44,20 @@ local show = function(params, styling=defStyling) {
       params.onClose()
   }
 
-  local btnsDesc = params.get("buttons") || [{text="OK"}]
+  local btnsDesc = params?.buttons || [{text="OK"}]
   local curBtnIdx = Watched(0)
   local defCancel = null
 
   foreach (idx, bd in btnsDesc) {
-    if (bd.get("isCurrent"))
+    if (bd?.isCurrent)
       curBtnIdx.update(idx)
-    if (bd.get("isCancel"))
+    if (bd?.isCancel)
       defCancel = bd
   }
 
 
   local buttons = btnsDesc.map(function(desc) {
-    return styling.button(desc, @() doClose(desc.get("action")))
+    return styling.button(desc, @() doClose(desc?.action))
   })
 
   local buttonsBlock = function() {
@@ -97,7 +97,7 @@ local show = function(params, styling=defStyling) {
       ]
 
       hotkeys = [
-        ["Esc", @() doClose(defCancel ? defCancel.get("action") : null)],
+        ["Esc", @() doClose(defCancel?.action)],
         ["Right | Tab", @() moveBtnFocus(1)],
         ["Left", @() moveBtnFocus(-1)],
       ]

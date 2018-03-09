@@ -9,6 +9,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   filterFunc = null
 
   wbList = null
+  curWbIdx = 0
   curWb = null
   curPage = 0
   curPageAwards = null
@@ -27,7 +28,9 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
     scene.findObject("filter_block").show(false)
     curPageAwards = []
-    curWb = wbList[0]
+    if (!(curWbIdx in wbList))
+      curWbIdx = 0
+    curWb = wbList[curWbIdx]
 
     local obj = scene.findObject("warbond_shop_progress_block")
     if (::check_obj(obj))
@@ -90,8 +93,9 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
     markCurrentPageSeen()
 
-    local value = obj.getValue()
-    curWb = ::getTblValue(value, wbList, wbList[0])
+    local i = obj.getValue()
+    curWbIdx = (i in wbList) ? i : 0
+    curWb = wbList[curWbIdx]
     curPage = 0
     initItemsProgress()
     fillPage()
@@ -181,7 +185,12 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function goToPage(obj)
   {
     markCurrentPageSeen()
-    curPage = obj.to_page.tointeger()
+    goToPageIdx(obj.to_page.tointeger())
+  }
+
+  function goToPageIdx(idx)
+  {
+    curPage = idx
     fillPage()
   }
 
@@ -399,6 +408,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     updateItemInfo()
   }
 
+  function onEventItemsShopUpdate(p)
+  {
+    doWhenActiveOnce("fillPage")
+  }
+
   function onDestroy()
   {
     markCurrentPageSeen()
@@ -407,10 +421,55 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
       activeWb.markSeenLastResearchShopLevel()
   }
 
+  function onEventBeforeStartShowroom(params)
+  {
+    ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
+  }
+
+  function onEventBeforeStartTestFlight(params)
+  {
+    ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
+  }
+
+  function getHandlerRestoreData()
+  {
+    return {
+      openData = {
+        filterFunc = filterFunc
+        curWbIdx   = curWbIdx
+      }
+      stateData = {
+        curAwardId = getCurAward()?.id
+      }
+    }
+  }
+
+  function restoreHandler(stateData)
+  {
+    local fullList = curWb.getAwardsList()
+    foreach (i, v in fullList)
+      if (v.id == stateData.curAwardId)
+      {
+        goToPageIdx(::ceil(i / itemsPerPage).tointeger())
+        getItemsListObj().setValue(i % itemsPerPage)
+        break
+      }
+  }
+
+  function onDescAction(obj)
+  {
+    local data = ::check_obj(obj) && obj.actionData && ::parse_json(obj.actionData)
+    local item = ::ItemsManager.findItemById(data?.itemId)
+    local action = data?.action
+    if (item && action && (action in item) && ::u.isFunction(item[action]))
+      item[action]()
+  }
+
   //dependence by blk
-  function onToShopButton() {}
-  function onLinkAction(obj) {}
+  function onToShopButton(obj) {}
+  function onToMarketplaceButton(obj) {}
   function onItemPreview(obj) {}
+  function onLinkAction(obj) {}
 
   function onUnitHover(obj)
   {

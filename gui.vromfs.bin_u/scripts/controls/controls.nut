@@ -2,7 +2,6 @@ local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local stdMath = require("math")
 local globalEnv = require_native("globalEnv")
 
-::JOYSTICK_DEVICE_ID <- 3
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
 ::ps4ControlsModeActivatedParamName <- "ps4ControlsAdvancedModeActivated"
@@ -255,6 +254,7 @@ function get_favorite_voice_message_option(index)
     }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
+      showFunc = ::is_mouse_available
     }
     { id = "aim_time_nonlinearity_air", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_AIM_TIME_NONLINEARITY_AIR
@@ -1417,12 +1417,6 @@ if (::is_platform_pc) //See AcesApp::makeScreenshot()
   ::controlsHelp_shortcuts_helicopter.extend(["ID_SCREENSHOT_WO_HUD"])
 }
 
-::mouse_button_texturas <- [
-  "mouse_left"
-  "mouse_right"
-  "mouse_center"
-]
-
 enum AXIS_MODIFIERS {
   NONE = 0x0,
   MIN = 0x8000,
@@ -1627,7 +1621,7 @@ function isShortcutMapped(shortcut)
   foreach (button in shortcut)
     if (button && button.dev.len() >= 0)
       foreach(d in button.dev)
-        if (d > 0 && d <= ::JOYSTICK_DEVICE_ID)
+        if (d > 0 && d <= JOYSTICK_DEVICE_ID)
             return true
   return false
 }
@@ -3436,7 +3430,7 @@ function get_shortcut_gamepad_textures(shortcutData)
   local res = []
   foreach(sc in shortcutData)
   {
-    if (sc.dev.len() <= 0 || sc.dev[0] != ::JOYSTICK_DEVICE_ID)
+    if (sc.dev.len() <= 0 || sc.dev[0] != JOYSTICK_DEVICE_ID)
       continue
 
     for (local i = 0; i < sc.dev.len(); i++)
@@ -3919,7 +3913,6 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   local actionBarShortcutFormat = null
 
-  local unitPath = null
   local unitBlk = null
   local blkCommonWeapons = null
   local blkWeaponPreset = null
@@ -3961,8 +3954,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.SHIP)
   {
-    unitPath = ::get_unit_file_name(unitId)
-    unitBlk = ::DataBlock(unitPath)
+    unitBlk = ::get_full_unit_blk(unitId)
     blkCommonWeapons = unitBlk.commonWeapons || ::DataBlock()
     local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
     blkWeaponPreset = ::DataBlock()
@@ -4494,20 +4486,6 @@ function compare_blk_axis(blk, axis)
         return false
   */
   return true
-}
-
-/*
- * @shortcut - shortcut ids
- *
- * */
-function get_shortcut_text_and_texture(shortcut)
-{
-  //!!FIX ME: better to use ::Input here
-  local shortcutData = ::get_shortcuts([shortcut])[0]
-  return {
-    text     = ::get_first_shortcut_text(shortcutData),
-    textures = ::get_shortcut_gamepad_textures(shortcutData)
-  }
 }
 
 function toggle_shortcut(shortcutName)

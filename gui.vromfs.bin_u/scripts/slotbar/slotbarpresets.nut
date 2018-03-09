@@ -106,7 +106,7 @@
   function list(countryId = null)
   {
     if (!countryId)
-      countryId = ::get_profile_info().country
+      countryId = ::get_profile_country_sq()
     local res = []
     if (!(countryId in presets))
     {
@@ -128,7 +128,7 @@
   function getCurrent(country = null, defValue = null)
   {
     if (!country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
     return (country in selected) ? selected[country] : defValue
   }
 
@@ -140,7 +140,7 @@
   function getCurrentPreset(country = null)
   {
     if (!country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
     local index = getCurrent(country, -1)
     local currentPresets = ::getTblValue(country, presets)
     return ::getTblValue(index, currentPresets)
@@ -148,14 +148,14 @@
 
   function canCreate()
   {
-    local countryId = ::get_profile_info().country
+    local countryId = ::get_profile_country_sq()
     return (countryId in presets) && presets[countryId].len() < getMaxPresetsCount(countryId)
   }
 
   function getPresetsReseveTypesText(country = null)
   {
     if ( ! country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
     local unitTypes = getUnitTypesWithNotActivePresetBonus(country)
     local typeNames = ::u.map(unitTypes, function(u) { return u.getArmyLocName()})
     return ::g_string.implode(typeNames, ", ")
@@ -164,14 +164,14 @@
   function havePresetsReserve(country = null)
   {
     if ( ! country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
     return getUnitTypesWithNotActivePresetBonus(country).len() > 0
   }
 
   function getMaxPresetsCount(country = null)
   {
     if ( ! country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
     validateSlotsCountCache()
     local result = baseCountryPresetsAmount
     foreach (unitType, typeStatus in ::getTblValue(country, activeTypeBonusByCountry, {}))
@@ -188,7 +188,7 @@
   function getUnitTypesWithNotActivePresetBonus(country = null)
   {
     if ( ! country)
-      country = ::get_profile_info().country
+      country = ::get_profile_country_sq()
     validateSlotsCountCache()
     local result = []
     foreach (unitType, typeStatus in ::getTblValue(country, activeTypeBonusByCountry, {}))
@@ -242,7 +242,7 @@
   {
     if (!canCreate())
       return false
-    local countryId = ::get_profile_info().country
+    local countryId = ::get_profile_country_sq()
     presets[countryId].append(createEmptyPreset(countryId, presets[countryId].len()))
     save(countryId)
     ::broadcastEvent("SlotbarPresetsChanged", { showPreset = presets[countryId].len()-1 })
@@ -251,7 +251,7 @@
 
   function canErase()
   {
-    local countryId = ::get_profile_info().country
+    local countryId = ::get_profile_country_sq()
     return (countryId in presets) && presets[countryId].len() > minCountryPresets
   }
 
@@ -259,7 +259,7 @@
   {
     if (!canErase())
       return false
-    local countryId = ::get_profile_info().country
+    local countryId = ::get_profile_country_sq()
     if (idx == selected[countryId])
       return
     presets[countryId].remove(idx)
@@ -272,7 +272,7 @@
 
   function move(idx, offset)
   {
-    local countryId = ::get_profile_info().country
+    local countryId = ::get_profile_country_sq()
     local newIdx = ::clamp(idx + offset, 0, presets[countryId].len() - 1)
     if (newIdx == idx)
       return false
@@ -298,7 +298,7 @@
 
   function rename(idx)
   {
-    local countryId = ::get_profile_info().country
+    local countryId = ::get_profile_country_sq()
     if (!(countryId in presets) || !(idx in presets[countryId]))
       return
 
@@ -343,14 +343,14 @@
   function save(countryId = null, shouldSaveProfile = true)
   {
     if (!countryId)
-      countryId = ::get_profile_info().country
+      countryId = ::get_profile_country_sq()
     if (!(countryId in presets))
       return false
     local blk = null
     if (presets[countryId].len() > 0)
     {
       local curPreset = ::getTblValue(selected[countryId], presets[countryId])
-      if (curPreset && countryId == ::get_profile_info().country)
+      if (curPreset && countryId == ::get_profile_country_sq())
         updatePresetFromSlotbar(curPreset, countryId)
 
       local list = []
@@ -378,7 +378,7 @@
   {
     if (isLoading)
       return false
-    country = (country == null) ? ::get_profile_info().country : country
+    country = (country == null) ? ::get_profile_country_sq() : country
     if (!(country in presets) || !::isInMenu() || !::queues.isCanModifyCrew())
       return false
     if (!::isCountryAllCrewsUnlockedInHangar(country))
@@ -416,7 +416,7 @@
       return false
 
     if (countryId == null)
-      countryId = ::get_profile_info().country
+      countryId = ::get_profile_country_sq()
 
     save(countryId) //save current preset slotbar changes
 
@@ -429,7 +429,6 @@
 
     local countryIdx = -1
     local countryCrews = []
-    ::g_crews_list.refresh()
     foreach (cIdx, tbl in ::g_crews_list.get())
       if (tbl.country == countryId)
       {
@@ -512,7 +511,6 @@
   {
     selected[countryId] = idx
 
-    ::g_crews_list.refresh() //slotbar updates suspended, so no one to refresh this list.
     ::select_crew(countryIdx, selCrewIdx, true)
     ::g_crews_list.flushSlotbarUpdate()
 
@@ -658,7 +656,7 @@
           }
       }
 
-    if (countryId == ::get_profile_info().country)
+    if (countryId == ::get_profile_country_sq())
     {
       local curGameModeId = ::game_mode_manager.getCurrentGameModeId()
       if (curGameModeId)
@@ -676,7 +674,6 @@
 
   function createEmptyPreset(countryId, presetIdx = 0)
   {
-    ::g_crews_list.refresh()
     local crews = ::get_crews_list_by_country(countryId)
     local unitToSet = null
     local crewToSet = null
@@ -685,7 +682,7 @@
       foreach (unitName in crew.trained)
       {
         local unit = ::getAircraftByName(unitName)
-        if (!unit.isBought() || !unit.canAssignToCrew(countryId))
+        if (!unit || !unit.isBought() || !unit.canAssignToCrew(countryId))
           continue
         if (unitToSet && unitToSet.rank > unit.rank)
           continue

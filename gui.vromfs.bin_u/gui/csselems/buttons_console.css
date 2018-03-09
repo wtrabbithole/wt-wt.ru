@@ -663,6 +663,7 @@ Button_text.image[imgSize=big]:pushed {
   background-color: @buttonColorPushed;
 }
 
+Button_text[visualStyle=secondary][isColoredImg=yes] > img,
 Button_text[visualStyle=noFrame][isColoredImg=yes] > img {
   background-color:@white;
 }
@@ -1329,7 +1330,6 @@ menuLine, topMenuLine {
   background-image:#ui/gameuiskin#separator_bottom;
   background-color:@white;
   background-position:3, 0;
-  margin-bottom:1.0*@scrn_tgt/100.0;
   input-transparent:yes;
 }
 
@@ -1337,6 +1337,7 @@ topMenuLine {
   width:0.8@bigButtonWidth;
   pos:50%pw-50%w, -25%h;
   position: absolute;
+  margin-bottom:1.0*@scrn_tgt/100.0;
 }
 
 topMenuLinePlace {
@@ -1344,9 +1345,9 @@ topMenuLinePlace {
 }
 
 menuLine {
-  width:0.8pw;
-  pos:50%pw-50%w, 0.1*@scrn_tgt/100.0;
+  pos:50%pw-50%w, 0;
   position:relative;
+  width:90%pw;
 }
 
 Button_text.title {
@@ -1369,9 +1370,14 @@ Button_text.battle, Button_text.battle > btnText {
   min-width:1@buttonWidth;
 }
 
-[allowDecreaseFont=yes] > Button_text.battle,
-[allowDecreaseFont=yes] > Button_text.battle > btnText {
-  font:@fontMedium;
+Button_text.battle[fontOverride=fontNormalBold],
+Button_text.battle[fontOverride=fontNormalBold] > btnText {
+  font:@fontNormalBold;
+}
+
+Button_text.battle[fontOverride=fontNormal],
+Button_text.battle[fontOverride=fontNormal] > btnText {
+  font:@fontNormal;
 }
 
 Button_text.battle[navButtonFont=yes], [navButtonFont=yes] > btnText,
@@ -1747,7 +1753,7 @@ expandable:hover Button_text[enableOn=hoverOrSelect] {
 
 Button_text.profileImg {
   reduceMinimalWidth:yes;
-  height:1@profileUnlockIconSize + 2@blockInterval;
+  height:1@avatarButtonSize;
   width:h;
   background-image:#ui/gameuiskin#header_button_;
   margin:0;
@@ -1839,8 +1845,8 @@ Button_text.bottomAirItem {
   pos:50%pw-50%w, 0;
   position:relative;
   min-width: 0.33@slot_width;
-  padding:0;
-  display: hide;
+  padding:1@smallButtonImgPadding;
+  padding-top:1@smallButtonImgPadding + 1@dp + 3@sf/@pf;   display: hide;
   enable:no;
   non-input-transparent:yes;
   order-popup:no;
@@ -2081,6 +2087,14 @@ Button_text.image[_isButtonWithText=yes] {
   text-align:left;
 }
 
+Button_text.image[pc_style=no][btnName][_isButtonWithText=yes] {
+  padding-left: 2h + 1@buttonTextPadding;
+}
+
+Button_text.image[pc_style=no][btnName][_isButtonWithText=yes][showButtonImageOnConsole=no] {
+  padding-left: h + 1@buttonTextPadding;
+}
+
 Button_text.squadWidgetMember {
   width:@dIco + @sIco + 2@buttonImgPadding + 2@dp;
   min-width:h;
@@ -2131,7 +2145,7 @@ authorizationBlock > Button_text {
   height: 1@navBarBattleButtonHeight;
   margin:0;
   position:relative;
-  pos:50%pw-50%w, 50%ph-50%h;
+  pos:50%pw-50%w, 0;
 }
 
 Button_text[scaleble=yes] {

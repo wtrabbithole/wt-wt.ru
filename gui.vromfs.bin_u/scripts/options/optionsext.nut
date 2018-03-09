@@ -4,9 +4,10 @@ local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
 local platformModule = require("scripts/clientState/platform.nut")
+local avatars = ::require("scripts/user/avatars.nut")
 
 const TANK_ALT_CROSSHAIR_ADD_NEW = -2
-const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
+const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
 ::BOMB_ASSAULT_FUSE_TIME_OPT_VALUE <- -1
 ::SPEECH_COUNTRY_UNIT_VALUE <- 2
 
@@ -2330,7 +2331,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 0; i < ::ugc_tags_presets.len(); i++)
       {
-        descr.items.append(::loc("ugc_tag_preset/" + ::ugc_tags_presets[i]))
+        descr.items.append(::loc("ugc/tag/" + ::ugc_tags_presets[i]))
         descr.values.append(::ugc_tags_presets[i])
       }
       break
@@ -3179,7 +3180,7 @@ function get_option(type, context = null)
           descr.values.append(country)
         }
         descr.value = 0
-        local c = ::get_profile_info().country
+        local c = ::get_profile_country_sq()
         for (local nc = 0; nc < descr.values.len(); nc++)
           if (c == descr.values[nc])
           {
@@ -3262,16 +3263,23 @@ function get_option(type, context = null)
       descr.values = []
       descr.trParams <- "iconType:t='pilot';"
       local curPilotImgId = ::get_cur_rank_info().pilotId
-      for (local nc = 0; nc < ::pilot_icons_list.len(); nc++)
+      local icons = avatars.getIcons()
+      for (local nc = 0; nc < icons.len(); nc++)
       {
-        local unlockId = ::pilot_icons_list[nc]
-        descr.items.append({
+        local unlockId = icons[nc]
+        local item = {
           idx = nc
           image = "#ui/images/avatars/" + unlockId
           show = ::is_unlock_visible(::g_unlocks.getUnlockById(unlockId))
           enabled = ::is_unlocked_scripted(::UNLOCKABLE_PILOT, unlockId)
           tooltipId = ::g_tooltip.getIdUnlock(unlockId, { showProgress = true })
-        })
+        }
+        if (item.show && item.enabled)
+        {
+          item.seenListId <- SEEN.AVATARS
+          item.seenEntity <- unlockId
+        }
+        descr.items.append(item)
         descr.values.append(nc)
         if (curPilotImgId == nc)
           descr.value = descr.values.len() - 1
@@ -3734,8 +3742,11 @@ function get_option(type, context = null)
         descr.values.append(presets[i]);
       }
 
-      descr.items.append(::loc("options/addUserSight"))
-      descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
+      if (::has_feature("TankAltCrosshair"))
+      {
+        descr.items.append(::loc("options/addUserSight"))
+        descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
+      }
 
       local unit = ::show_aircraft
       descr.value = unit ? ::find_in_array(descr.values, ::get_option_tank_alt_crosshair(unit.name), 0) : 0

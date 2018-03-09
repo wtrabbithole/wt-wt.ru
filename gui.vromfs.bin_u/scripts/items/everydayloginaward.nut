@@ -76,6 +76,11 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     local data = guiBlk.every_day_login_award
     if (!data)
       return
+    local imageSectionName = "image"
+    local imageSectionNameAlt = "tencent_image"
+    if (::is_vendor_tencent() && ::u.isDataBlock(data[imageSectionNameAlt]))
+      imageSectionName = imageSectionNameAlt
+
 
     savePeriodAwardData(data)
 
@@ -95,7 +100,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
                              })
 
     updateObjectByData(data, {
-                                name = "image",
+                                name = imageSectionName,
                                 objId = "award_image",
                                 param = "background-image",
                              })
@@ -349,6 +354,9 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenChest()
   {
+    if (!isValid()) //onOpenchest is delayed callback
+      return
+
     isOpened = true
     if (callItemsRoulette())
       useSingleAnimation = false

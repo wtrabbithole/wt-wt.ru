@@ -8,8 +8,15 @@ class ::Input.InputImage extends ::Input.InputBase
 
   function getMarkup()
   {
-    local view = { buttonImage = image }
-    local template = "gui/gamepadButton"
-    return ::handyman.renderCached(template, view)
+    local data = getMarkupData()
+    return ::handyman.renderCached(data.template, data.view)
+  }
+
+  function getMarkupData()
+  {
+    return {
+      template = "gui/gamepadButton"
+      view = { buttonImage = image }
+    }
   }
 }

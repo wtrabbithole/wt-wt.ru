@@ -1,7 +1,7 @@
 focus_border {
   position: absolute;
-  pos: -1, -1;
-  size: pw + 2, ph + 2;
+  pos: -1@dp, -1@dp;
+  size: pw +2@dp, ph +2@dp;
   display: hide;
   input-transparent:yes;
 }
@@ -78,12 +78,17 @@ table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_b
 }
 
 shopItem > focus_border {
-  pos: -1, -2;
-  size: pw+2, ph+2;
+  pos: -1@dp, -2@dp;
+  size: pw +2@dp, ph +2@dp;
 }
 shopItem[group=yes] > focus_border {
-  pos: -1, -8;
-  size: pw+2, ph+8;
+  pos: -1@dp, -8@dp;
+  size: pw +2@dp, ph +8@dp;
+}
+
+itemDiv > focus_border {
+  pos: -2@dp, -2@dp;
+  size: pw +4@dp, ph +4@dp;
 }
 
 focus_border.expanded {

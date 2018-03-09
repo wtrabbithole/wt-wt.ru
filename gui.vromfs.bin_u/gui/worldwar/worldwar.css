@@ -8,6 +8,8 @@
 @const objectiveHeight: 0.06@sf + 2@wwMapInterlinePadding;
 @const unitStringHeight: 0.026@sf + 1@wwMapInterlinePadding;
 
+@const wwArmyIco: (36*@sf/@pf_outdated) \ 1;
+
 @const statusPanelHeight: 0.035@sf;
 @const ownerPanelHeight: 0.03@sf;
 @const flyOutSliderWidth: 0.2@scrn_tgt;
@@ -222,7 +224,7 @@ wwBattleIcon[status=Full] {
 }
 
 armyIcon {
-  size:1@mIco, 1@mIco;
+  size:1@wwArmyIco, 1@wwArmyIco;
   css-hier-invalidate:yes;
 }
 
@@ -534,7 +536,6 @@ wwBattleBackgroundBlock > wwBattleBackground {
   min-width:2ph;
   position:absolute;
   pos:50%pw-50%w, 50%ph-50%h;
-  background-image:#ui/images/worldwar_window_bg_image.jpg?P1;
   background-color:@white;
 }
 

@@ -192,9 +192,7 @@ class ::ww_gui_bhv.worldWarMapControls
       local hoverBattleId = null
       local hoverBattle = findHoverBattle(mousePos[0], mousePos[1])
       if (hoverBattle)
-      {
         hoverBattleId = hoverBattle.id
-      }
 
       local lastSavedBattleName = ::getTblValue("battleName", params)
       if (hoverBattleId != lastSavedBattleName)
@@ -466,7 +464,7 @@ class ::ww_gui_bhv.worldWarMapControls
     local battleIconRadSquare = getBattleIconRadius() * getBattleIconRadius()
     local filterFunc = (@(mapPos, battleIconRadSquare) function(battle) {
       local diff = battle.pos - mapPos
-      return diff.lengthSq() <= battleIconRadSquare
+      return diff.lengthSq() <= battleIconRadSquare && !battle.isFinished()
     })(mapPos, battleIconRadSquare)
     local battles = ::g_world_war.getBattles(filterFunc)
     local haveAnyBattles = battles.len() > 0

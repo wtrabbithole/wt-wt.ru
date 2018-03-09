@@ -1,5 +1,6 @@
 local callback = ::require("sqStdLibs/helpers/callback.nut")
-local u = ::require("sqStdLibs/common/u.nut")
+local enums = ::require("std/enums.nut")
+local u = ::require("std/u.nut")
 
 local netAssertsList = []
 function script_net_assert_once(id, msg)
@@ -45,3 +46,5 @@ callback.setAssertFunction(function(callback, assertText)
     )
   )
 })
+
+enums.setAssertFunction(::script_net_assert_once)

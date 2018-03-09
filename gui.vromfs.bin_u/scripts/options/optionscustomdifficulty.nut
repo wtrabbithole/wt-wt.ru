@@ -144,7 +144,7 @@ class ::gui_handlers.OptionsCustomDifficultyModal extends ::gui_handlers.Generic
         })(cdPresetValue)
       })
     }
-    ::gui_handlers.ActionsList(obj, menu)
+    ::gui_handlers.ActionsList.open(obj, menu)
   }
 
   function applyCdPreset(cdValue)

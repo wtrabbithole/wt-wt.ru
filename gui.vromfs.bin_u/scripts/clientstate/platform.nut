@@ -1,6 +1,6 @@
 local getPlayerName = @(name) name
 if (::is_platform_xboxone)
-  getPlayerName = @(name) ::g_string.cutPrefix(name, "*", name)
+  getPlayerName = @(name) ::g_string.cutPrefix(name, "*", ::g_string.cutPrefix(name, ::XBOX_ONE_PLAYER_PREFIX, name))
 
 //required, when we not logged in, but know player gamertag, so we can identify
 //for whom need read this param

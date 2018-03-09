@@ -80,7 +80,7 @@ local valign_bottom = function(...) {
 
 
 local elem = function(elem, ...) {
-  local children = elem.get("children",[])
+  local children = elem?.children ?? []
   local add_children = []
   local default_style = {}//{flow = FLOW_HORIZONTAL size = SIZE_TO_CONTENT}
   foreach (v in vargv) {
@@ -109,7 +109,7 @@ local elemFlex = function(elem_, ...) {
 }
 
 local elemH = function(elem, ...) {
-  local children = elem.get("children",[])
+  local children = elem?.children ?? []
   local add_children = []
   local default_style = {flow = FLOW_HORIZONTAL size = flex() }
   foreach (v in vargv) {
@@ -126,7 +126,7 @@ local elemH = function(elem, ...) {
 }
 
 local elemV = function(elem, ...) {
-  local children = elem.get("children",[])
+  local children = elem?.children ?? []
   local add_children = []
   local default_style = {size = flex() flow = FLOW_VERTICAL }
   foreach (v in vargv) {

@@ -1,3 +1,6 @@
+@const popupArrowSize: 12@dp;
+@const popupOffset: 0.7@popupArrowSize;
+
 popup_menu {
   background-color:@frameDarkBackgroundColor;
   border-color:@frameDarkBorderColor;
@@ -14,7 +17,7 @@ popup_menu_arrow {
   background-repeat: expand;
   background-position:11, 1;
   width: 22@dp;
-  height: 12@dp;
+  height: @popupArrowSize;
   position: absolute;
 }
 

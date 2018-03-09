@@ -131,9 +131,12 @@ frame {
       Button_text {
         id:t = 'btn_requirements_list'
         text:t = '#unlocks/requirements'
-        _on_click:t = 'onViewUnlocks'
+        _on_click:t = 'onViewBattleTaskRequirements'
         btnName:t='Y'
         ButtonImg {}
+        display:t = 'hide'
+        enable:t='no'
+
       }
 
       textareaNoTab {
@@ -151,9 +154,11 @@ frame {
       Button_text {
         id:t = 'btn_warbonds_shop'
         _on_click:t = 'onWarbondsShop'
-        btnName:t='X'
+        btnName:t='A'
         ButtonImg {}
         valign:t='center'
+        display:t = 'hide'
+        enable:t='no'
         <<@warbondNewIconWidget>>
         text {
           text:t='#mainmenu/btnWarbondsShop'
@@ -164,16 +169,20 @@ frame {
         id:t = 'btn_activate'
         text:t = '#item/activate'
         _on_click:t = 'onActivate'
-        btnName:t='A'
+        btnName:t='X'
         ButtonImg {}
+        display:t = 'hide'
+        enable:t='no'
       }
 
       Button_text {
         id:t = 'btn_cancel'
         text:t = '#mainmenu/btnCancel'
         _on_click:t = 'onCancel'
-        btnName:t='A'
+        btnName:t='X'
         ButtonImg {}
+        display:t = 'hide'
+        enable:t='no'
       }
     }
   }

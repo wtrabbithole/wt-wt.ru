@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -64,7 +65,7 @@ local time = require("scripts/time.nut")
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_action_bar_type", {
+enums.addTypesByGlobalName("g_hud_action_bar_type", {
   UNKNOWN = {
     _name = "unknown"
   }
@@ -158,6 +159,8 @@ local time = require("scripts/time.nut")
     _icon = "#ui/gameuiskin#extinguisher"
     _title = ::loc("hotkeys/ID_ACTION_BAR_ITEM_6")
     needAnimOnIncrementCount = true
+    getIcon = @(killStreakTag = null)
+      ::isShip(::get_player_cur_unit()) ? "#ui/gameuiskin#manual_ship_extinguisher" : "#ui/gameuiskin#extinguisher"
   }
 
   TOOLKIT = {
@@ -166,6 +169,8 @@ local time = require("scripts/time.nut")
     _name = "toolkit"
     _icon = "#ui/gameuiskin#tank_tool_kit"
     _title = ::loc("hotkeys/ID_SHIP_ACTION_BAR_ITEM_11")
+    getIcon = @(killStreakTag = null)
+      ::isShip(::get_player_cur_unit()) ? "#ui/gameuiskin#ship_tool_kit" : "#ui/gameuiskin#tank_tool_kit"
   }
 
   MEDICALKIT = {
@@ -263,7 +268,7 @@ local time = require("scripts/time.nut")
 
 function g_hud_action_bar_type::getTypeByCode(code)
 {
-  return ::g_enum_utils.getCachedType("code", code, cache.byCode, this, UNKNOWN)
+  return enums.getCachedType("code", code, cache.byCode, this, UNKNOWN)
 }
 
 function g_hud_action_bar_type::getByActionItem(actionItem)

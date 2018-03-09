@@ -1,7 +1,6 @@
 local networkState = require("networkState.nut")
 local activeOrder = require("activeOrder.nut")
 local shipStateModule = require("shipStateModule.nut")
-local obstacleRangefinder = require("shipObstacleRangefinder.nut")
 local hudLogs = require("hudLogs.nut")
 
 
@@ -14,7 +13,6 @@ local shipHud = @(){
   children = [
     activeOrder
     networkState.isMultiplayer.value ? hudLogs : null
-    obstacleRangefinder
     shipStateModule
   ]
 }

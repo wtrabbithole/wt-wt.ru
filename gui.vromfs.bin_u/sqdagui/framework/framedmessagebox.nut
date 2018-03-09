@@ -1,4 +1,4 @@
-local u = require("sqStdLibs/common/u.nut")
+local u = require("std/u.nut")
 
 /*
   FramedMessageBox is a message box, with visible frame.

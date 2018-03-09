@@ -15,7 +15,6 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 ::current_campaign_mission <- null
 ::current_wait_screen <- null
 ::msg_box_selected_elem <- null
-::slotbar_oninit <- false
 
 ::mp_stat_handler <- null
 ::statscreen_handler <- null
@@ -746,7 +745,6 @@ function setCrewUnlockTime(obj, air)
     return
 
   SecondsUpdater(obj, (@(air) function(obj, params) {
-    ::g_crews_list.refresh()
     local crew = air && ::getCrewByAir(air)
     local lockTime = ::getTblValue("lockedTillSec", crew, 0)
     local show = lockTime > 0 && ::isInMenu()
@@ -784,7 +782,10 @@ function setCrewUnlockTime(obj, air)
     }
     obj.show(show)
     if (!show && ::getTblValue("wasShown", params, false))
+    {
+      ::g_crews_list.invalidate()
       obj.getScene().performDelayed(this, function() { ::reinitAllSlotbars() })
+    }
     params.wasShown <- show
     return !show
   })(air))
@@ -2046,9 +2047,9 @@ function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = nul
   local numPageText = "activeText{ text:t='%s'; %s}"
   local paginatorObj = nest_obj.findObject("paginator_container")
 
-  local paginatorMarkUpData = ::handyman.renderCached(paginatorTpl, {hasSimpleNavButtons = hasSimpleNavButtons})
   if(!::checkObj(paginatorObj))
   {
+    local paginatorMarkUpData = ::handyman.renderCached(paginatorTpl, {hasSimpleNavButtons = hasSimpleNavButtons})
     paginatorObj = guiScene.createElement(nest_obj, "paginator", handler)
     guiScene.replaceContentFromText(paginatorObj, paginatorMarkUpData, paginatorMarkUpData.len(), handler)
   }
@@ -2105,6 +2106,20 @@ function hidePaginator(nestObj)
     return
   paginatorObj.show(false)
   paginatorObj.enable(false)
+}
+
+function paginator_set_unseen(nestObj, prevUnseen, nextUnseen)
+{
+  local paginatorObj = nestObj.findObject("paginator_container")
+  if (!::check_obj(paginatorObj))
+    return
+
+  local prevObj = paginatorObj.findObject("pag_prew_page_unseen")
+  if (prevObj)
+    prevObj.setValue(prevUnseen || "")
+  local nextObj = paginatorObj.findObject("pag_next_page_unseen")
+  if (nextObj)
+    nextObj.setValue(nextUnseen || "")
 }
 
 function on_have_to_start_chard_op(message)
@@ -2249,9 +2264,11 @@ function placePriceTextToButton(nestObj, btnId, localizedText, arg1=0, arg2=0)
   ::setDoubleTextToButton(nestObj, btnId, priceText, priceTextColored)
 }
 
+::get_profile_country_sq <- @() ::get_profile_country() ?? "country_0"
+
 function switch_profile_country(country)
 {
-  if (country == ::get_profile_info().country)
+  if (country == ::get_profile_country_sq())
     return
 
   ::set_profile_country(country)

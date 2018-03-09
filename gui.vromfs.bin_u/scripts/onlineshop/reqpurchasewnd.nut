@@ -73,7 +73,7 @@ class ::gui_handlers.ReqPurchaseWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::u.isString(imgBlk.image))
     {
-      local country = ::get_profile_info().country
+      local country = ::get_profile_country_sq()
       image = ::replaceParamsInLocalizedText(imgBlk.image,
                 {
                   country = ::g_string.cutPrefix(country, "country_", country)

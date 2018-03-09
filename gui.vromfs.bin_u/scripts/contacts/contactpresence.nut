@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum PRESENCE_SORT
 {
   UNKNOWN
@@ -28,7 +29,7 @@ enum PRESENCE_SORT
   }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_contact_presence", {
+enums.addTypesByGlobalName("g_contact_presence", {
   UNKNOWN = {
     sortOrder = PRESENCE_SORT.UNKNOWN
     iconName = "player_unknown"

@@ -590,6 +590,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     updateButtons()
   }
 
+  function onEventClanMembershipCanceled(p)
+  {
+    showMyClanPage()
+  }
+
   function onClanInfo()
   {
     local clan = getCurClan()
@@ -656,18 +661,15 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onCancelRequest()
   {
-    msgBox("cancel_request_question", ::loc("clan/cancel_request_question"), [["ok", function() {
-      taskId = clan_request_membership_request("", "", "", "")
-      if (taskId >= 0)
-      {
-        ::set_char_cb(this, slotOpCb)
-        showTaskProgressBox()
-        afterSlotOp = function()
-        {
-          showMyClanPage()
-        }
-      }
-    }], ["cancel", function(){}]], "ok", { cancel_fn = function() {}})
+    msgBox("cancel_request_question",
+           ::loc("clan/cancel_request_question"),
+           [
+             ["ok", @() ::g_clans.cancelMembership()],
+             ["cancel", @() null]
+           ],
+           "ok",
+           { cancel_fn = @() null }
+          )
   }
 
   function fillClanReward()

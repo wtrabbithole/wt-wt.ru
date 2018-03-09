@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_shortcut_type <- {
   types = []
 }
@@ -149,7 +150,7 @@ function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPri
 
 }
 
-::g_enum_utils.addTypesByGlobalName("g_shortcut_type", {
+enums.addTypesByGlobalName("g_shortcut_type", {
   COMMON_SHORTCUT = {
     isMe = function (shortcutId)
     {

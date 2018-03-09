@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_order_award_mode <- {
   types = []
 }
@@ -38,7 +39,7 @@ function g_order_award_mode::_getAwardTextByDifficultyMultipliers(difficulty, or
   getAwardTextByDifficulty = function(difficulty, orderItem) { return "" }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_order_award_mode", {
+enums.addTypesByGlobalName("g_order_award_mode", {
   RAW = {
     name = "awardModeRaw"
     getAwardTextByDifficulty = ::g_order_award_mode._getAwardTextByDifficultyCost

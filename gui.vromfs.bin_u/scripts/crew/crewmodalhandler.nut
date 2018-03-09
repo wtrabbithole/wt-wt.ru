@@ -52,6 +52,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!crew)
       return goBack()
 
+    local country = ::g_crews_list.get()?[countryId].country
+    if (country)
+      ::switch_profile_country(country)
+
     initMainParams(true, true)
     createSlotbar({
       crewId = crew.id
@@ -198,7 +202,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local maxDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo, false)
     local discountText = maxDiscount > 0? ("-" + maxDiscount + "%") : ""
-    local discountTooltip = ::g_string.stripTags(::g_crew.getDiscountsTooltipByInfo(discountInfo, false))
+    local discountTooltip = ::g_crew.getDiscountsTooltipByInfo(discountInfo, false)
 
     curPage = 0
 
@@ -235,7 +239,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(pagesObj, data, data.len(), this)
 
     pagesObj.setValue(curPage)
-    onCrewPage(pagesObj)
     updateAvailableSkillsIcons()
   }
 
@@ -719,13 +722,17 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     crew = getSlotItem(countryId, idInCountry)
     initMainParams()
-    updatePage()
   }
 
   function onEventCrewTakeUnit(p)
   {
-    crew = getSlotItem(countryId, idInCountry)
-    initMainParams(false, true)
+    if (!p?.prevUnit)
+      openSelectedCrew()
+    else
+    {
+      crew = getSlotItem(countryId, idInCountry)
+      initMainParams(false, true)
+    }
     updatePage()
   }
 

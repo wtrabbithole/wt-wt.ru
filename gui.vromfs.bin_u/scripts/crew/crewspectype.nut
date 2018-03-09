@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_crew_spec_type <- {
   types = []
 }
@@ -407,7 +408,7 @@ function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
   getBtnBuyTooltipContent = ::g_crew_spec_type._getBtnBuyTooltipContent
 }
 
-::g_enum_utils.addTypesByGlobalName("g_crew_spec_type", {
+enums.addTypesByGlobalName("g_crew_spec_type", {
   UNKNOWN = {
     specName    = "unknown"
   }
@@ -491,7 +492,7 @@ function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
 
 function g_crew_spec_type::getTypeByCode(code)
 {
-  return ::g_enum_utils.getCachedType("code", code, ::g_crew_spec_type_cache.byCode,
+  return enums.getCachedType("code", code, ::g_crew_spec_type_cache.byCode,
     ::g_crew_spec_type, ::g_crew_spec_type.UNKNOWN)
 }
 

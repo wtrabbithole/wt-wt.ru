@@ -498,8 +498,7 @@ function g_clans::showClanRewardLog(clanData)
 
 function g_clans::getClanCreationDateText(clanData)
 {
-  local t = ::get_time_from_t(clanData.cdate)
-  return t.day + "/" + (t.month + 1) + "/" + t.year
+  return time.buildDateStr(::get_time_from_t(clanData.cdate))
 }
 
 function g_clans::getClanInfoChangeDateText(clanData)
@@ -514,6 +513,103 @@ function g_clans::getClanMembersCountText(clanData)
     return ::format("%d/%d", clanData.members.len(), clanData.mlimit)
 
   return ::format("%d", clanData.members.len())
+}
+
+function g_clans::requestMembership(clanId)
+{
+  if (::clan_get_requested_clan_id() == "-1" || ::clan_get_my_clan_name() == "")
+  {
+    membershipRequestSend(clanId)
+    return
+  }
+
+  ::scene_msg_box("new_request_cancels_old",
+                  null,
+                  ::loc("msg/clan/clan_request_cancel_previous",
+                    { prevClanName = ::colorize("hotkeyColor", ::clan_get_my_clan_name())}),
+                  [
+                    ["ok", @() ::g_clans.membershipRequestSend(clanId) ],
+                    ["cancel", @() null ]
+                  ], "ok", { cancel_fn = @() null })
+}
+
+function g_clans::cancelMembership()
+{
+  membershipRequestSend("")
+}
+
+function g_clans::membershipRequestSend(clanId)
+{
+  local taskId = ::clan_request_membership_request(clanId, "", "", "")
+  local onSuccess = function()
+  {
+    if (clanId == "") //Means that membership was canceled
+    {
+      ::broadcastEvent("ClanMembershipCanceled")
+      return
+    }
+
+    ::g_popups.add("", ::loc("clan/requestSent"))
+    ::broadcastEvent("ClanMembershipRequested")
+  }
+  ::g_tasker.addTask(taskId, {showProgressBox = true}, onSuccess)
+}
+
+function g_clans::approvePlayerRequest(playerUid, clanId)
+{
+  if (::u.isEmpty(playerUid) || ::u.isEmpty(clanId))
+    return
+
+  local onSuccess = function() {
+    ::g_popups.add("", ::loc("clan/requestApproved"))
+    ::broadcastEvent("ClanCandidatesListChanged", {userId = playerUid})
+  }
+
+  local taskId = ::clan_request_accept_membership_request(clanId, playerUid, "REGULAR", false)
+  ::sync_handler_simulate_signal("clan_info_reload")
+  ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
+}
+
+function g_clans::rejectPlayerRequest(playerUid)
+{
+  if (::u.isEmpty(playerUid))
+    return
+
+  ::gui_modal_comment(
+    null,
+    ::loc("clan/writeCommentary"),
+    ::loc("clan/requestReject"),
+    function(comment) {
+      local onSuccess = function() {
+        ::g_popups.add("", ::loc("clan/requestRejected"))
+        ::broadcastEvent("ClanCandidatesListChanged", { userId = playerUid })
+      }
+
+      local taskId = ::clan_request_reject_membership_request(playerUid, comment)
+      ::sync_handler_simulate_signal("clan_info_reload")
+      ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
+    }
+  )
+}
+
+function g_clans::blacklistAction(playerUid, actionAdd)
+{
+  ::gui_modal_comment(
+    null,
+    ::loc("clan/writeCommentary"),
+    ::loc("msgbox/btn_ok"),
+    function(comment) {
+      local onSuccess = function() {
+        local text = actionAdd? ::loc("clan/blacklistAddSuccess") : ::loc("clan/blacklistRemoveSuccess")
+        ::g_popups.add("", text)
+        ::broadcastEvent("ClanCandidatesListChanged", { userId = playerUid })
+      }
+
+      local taskId = ::clan_request_edit_black_list(playerUid, actionAdd, comment)
+      ::sync_handler_simulate_signal("clan_info_reload")
+      ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
+    }
+  )
 }
 
 ::ranked_column_prefix <- "dr_era"
@@ -667,32 +763,6 @@ function is_in_my_clan(name = null, uid = null)
           return true
     }
   return false
-}
-
-//handler - instance of BaseGuiHandler
-function clan_membership_request(clanId, handler)
-{
-  local processRequest = function()
-  {
-    handler.taskId = clan_request_membership_request(clanId, "", "", "")
-    if (handler.taskId < 0)
-      return
-
-    ::set_char_cb(handler, handler.slotOpCb)
-    handler.showTaskProgressBox()
-    handler.afterSlotOp = function()
-    {
-      msgBox("clan_membership", ::loc("clan/requestSent"), [["ok"]], "ok")
-      ::broadcastEvent("ClanMembershipRequested")
-    }
-  }
-  if(::clan_get_requested_clan_id() != "-1" && clan_get_my_clan_name() != "")
-    handler.msgBox("new_request_cancels_old",
-      ::loc("msg/clan/clan_request_cancel_previous",
-        {prevClanName = ::colorize("hotkeyColor", clan_get_my_clan_name())}),
-      [["ok", processRequest], ["cancel", function(){}]], "ok", { cancel_fn = function() {}})
-  else
-    processRequest()
 }
 
 ::clan_candidate_list <- [

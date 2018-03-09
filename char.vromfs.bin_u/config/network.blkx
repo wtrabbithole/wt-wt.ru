@@ -216,14 +216,9 @@
       }
     },
     {
-      "ugc_settings": [
-        {
-          "ugcServerUrl": "https://ugcinfo-lw-nl-01.gaijin.net/char"
-        },
-        {
-          "ugcServerUrl": "https://ugcinfo-lw-nl-02.gaijin.net/char"
-        }
-      ]
+      "ugc_settings": {
+        "ugcServerUrl": "https://ugcinfo-proxy.gaijin.net/char"
+      }
     }
   ],
   "production.skinsDecalsCDN.baseUrls": [
@@ -410,18 +405,23 @@
     },
     {
       "inventory": {
-        "servers": {
-          "url": "https://inventory-proxy.gaijin.net/char"
-        }
+        "servers": [
+          {
+            "url": "https://inventory-dev-stable-01.gaijin.net:8443/char"
+          },
+          {
+            "url": "https://inventory-dev-stable-02.gaijin.net:8443/char"
+          }
+        ]
       }
     },
     {
       "ugc_settings": [
         {
-          "ugcServerUrl": "https://ugcinfo-lw-nl-01.gaijin.net/char"
+          "ugcServerUrl": "https://inventory-dev-stable-01.gaijin.net:8443/char"
         },
         {
-          "ugcServerUrl": "https://ugcinfo-lw-nl-02.gaijin.net/char"
+          "ugcServerUrl": "https://inventory-dev-stable-01.gaijin.net:8443/char"
         }
       ]
     }
@@ -461,7 +461,7 @@
       "enableApex": true
     },
     {
-      "marketplaceURL": "https://trade.gaijin.net/"
+      "marketplaceURL": "https://trade-dev.gaijin.net/"
     },
     {
       "enableUGC": true
@@ -474,18 +474,23 @@
     },
     {
       "inventory": {
-        "servers": {
-          "url": "https://inventory-proxy.gaijin.net/char"
-        }
+        "servers": [
+          {
+            "url": "https://inventory-dev-01.gaijin.net:6443/char"
+          },
+          {
+            "url": "https://inventory-dev-01.gaijin.net:6443/char"
+          }
+        ]
       }
     },
     {
       "ugc_settings": [
         {
-          "ugcServerUrl": "https://ugcinfo-lw-nl-01.gaijin.net/char"
+          "ugcServerUrl": "https://ugcinfo-dev-01.gaijin.net:7443/char"
         },
         {
-          "ugcServerUrl": "https://ugcinfo-lw-nl-02.gaijin.net/char"
+          "ugcServerUrl": "https://ugcinfo-dev-02.gaijin.net:7443/char"
         }
       ]
     }
@@ -624,6 +629,41 @@
   "experimental": [
     {
       "matchServer": "matchserver.gaijin.lan:7870"
+    },
+    {
+      "ircServer": "chat-test.gaijin.lan:7001"
+    },
+    {
+      "useTamVoice": true
+    },
+    {
+      "vivoxServerURL": "https://not.used"
+    },
+    {
+      "vivoxEcho": "tamvchn://echo123"
+    },
+    {
+      "charServer": "https://wtdb.gaijin.lan:2443/char"
+    },
+    {
+      "charServer": "https://wtdb.gaijin.lan:12443/char"
+    },
+    {
+      "circuitPostfix": "-test"
+    },
+    {
+      "queryTimeoutMs": 180000
+    },
+    {
+      "disableScaleWPByPlayers": true
+    },
+    {
+      "enableApex": true
+    }
+  ],
+  "experimental2": [
+    {
+      "matchServer": "matchserver.gaijin.lan:7872"
     },
     {
       "ircServer": "chat-test.gaijin.lan:7001"

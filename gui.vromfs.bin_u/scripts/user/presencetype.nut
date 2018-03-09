@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum presenceCheckOrder {
   IN_GAME_WW
   IN_GAME
@@ -25,7 +26,7 @@ enum presenceCheckOrder {
   canInviteToWWBattle = true
 }
 
-::g_enum_utils.addTypesByGlobalName("g_presence_type", {
+enums.addTypesByGlobalName("g_presence_type", {
   IDLE = {
     checkOrder = presenceCheckOrder.IDLE
     locId = "status/idle"
@@ -57,7 +58,7 @@ enum presenceCheckOrder {
     updateParams = function(params) {
       params.gameMod <- get_game_mode()
       params.eventName <- ::events.getEventEconomicName(::SessionLobby.getRoomEvent())
-      params.country <- ::get_profile_info().country
+      params.country <- ::get_profile_country_sq()
     }
     getLocText = function (presenceParams) {
       local eventName = presenceParams?.eventName ?? ""
@@ -110,7 +111,7 @@ enum presenceCheckOrder {
       params.operationId <- operationId
       params.battleId <- ::SessionLobby.getWwBattleId()
       params.mapId <- operation.getMapId()
-      params.country <- operation.getMyClanCountry() || ::get_profile_info().country
+      params.country <- operation.getMyClanCountry() || ::get_profile_country_sq()
     }
     getLocText = function(presenceParams) {
       local map = ::g_ww_global_status.getMapByName(presenceParams?.mapId)

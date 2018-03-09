@@ -6,13 +6,15 @@ const MAIN_FOCUS_ITEM_IDX = 4
 
 ::stickedDropDown <- null
 
+local defaultSlotbarActions = [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
+
 class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 {
   defaultFocusArray = [
     function() { return getCurrentTopGCPanel() }     //gamercard top
     function() { return getCurGCDropdownMenu() }                    //gamercard menu
     function() { return ::get_menuchat_focus_obj() }
-    function() { return ::get_contact_focus_obj() }
+    function() { return ::contacts_handler? ::contacts_handler.getCurFocusObj() : null }
     function() { return getMainFocusObj() }       //main focus obj of handler
     function() { return getMainFocusObj2() }      //main focus obj of handler
     function() { return getMainFocusObj3() }      //main focus obj of handler
@@ -432,16 +434,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     ::gui_start_search_squadPlayer()
   }
 
-  function showAircraft(airName)
-  {
-    local air = getAircraftByName(airName)
-    if (!air)
-      return
-    ::show_aircraft = air
-    if (wndType != handlerType.MODAL)
-      ::hangar_model_load_manager.loadModel(airName)
-  }
-
   function getSlotbar()
   {
     return rootHandlerWeak ? rootHandlerWeak.slotbarWeak : slotbarWeak
@@ -519,7 +511,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function getSlotbarActions()
   {
-    return slotbarActions || ::defaultSlotbarActions
+    return slotbarActions || defaultSlotbarActions
   }
 
   function openUnitActionsList(unitObj, closeOnUnhover, ignoreSelect = false)
@@ -540,7 +532,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     actions.closeOnUnhover <- closeOnUnhover
-    ::gui_handlers.ActionsList(unitObj, actions)
+    ::gui_handlers.ActionsList.open(unitObj, actions)
   }
 
   function onUnitHover(obj)
@@ -1020,7 +1012,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     ::restoreHangarControls()
     base.onModalWndDestroy()
     ::checkMenuChatBack()
-    ::checkContactsBack()
   }
 
   function onSceneActivate(show)

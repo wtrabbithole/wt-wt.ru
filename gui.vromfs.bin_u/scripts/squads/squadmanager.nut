@@ -65,6 +65,7 @@ g_squad_manager <- {
     }
     properties = clone DEFAULT_SQUAD_PROPERTIES
     presence = clone DEFAULT_SQUAD_PRESENCE
+    psnSessionId = ""
   }
 
   meReady = false
@@ -110,6 +111,7 @@ function g_squad_manager::updateMyMemberData(data = null)
 
   data.isReady <- isMeReady()
   data.isCrewsReady <- isMyCrewsReady
+  data.canPlayWorldWar <- ::g_world_war.canJoinWorldwarBattle()
   data.squadsVersion <- SQUADS_VERSION
 
   local wwOperations = []
@@ -176,6 +178,11 @@ function g_squad_manager::getSquadLeaderData()
 function g_squad_manager::getMembers()
 {
   return squadData.members
+}
+
+function g_squad_manager::getPsnSessionId()
+{
+  return squadData?.psnSessionId ?? ""
 }
 
 function g_squad_manager::getInvitedPlayers()
@@ -258,10 +265,9 @@ function g_squad_manager::isMemberReady(uid)
 
 function g_squad_manager::isInMySquad(name, checkAutosquad = true)
 {
-  if (!isInSquad())
-    return checkAutosquad && ::SessionLobby.isMemberInMySquadByName(name)
-
-  return _getSquadMemberByName(name) != null
+  if (isInSquad() && _getSquadMemberByName(name) != null)
+    return true
+  return checkAutosquad && ::SessionLobby.isMemberInMySquadByName(name)
 }
 
 function g_squad_manager::canInviteMember(uid = null)
@@ -561,6 +567,7 @@ function g_squad_manager::updateSquadData()
     battle = getWwOperationBattle() }
   data.properties <- clone squadData.properties
   data.presence <- clone squadData.presence
+  data.psnSessionId <- ::g_psn_session_invitations.getSessionId(PSN_SESSION_TYPE.SQUAD)
 
   ::g_squad_manager.setSquadData(data)
 }
@@ -741,15 +748,7 @@ function g_squad_manager::denyAllAplication()
   if (!isSquadLeader())
     return
 
-  foreach (uid, memberData in getApplicationsToSquad())
-    denyMembershipAplication(uid);
-
-  squadData.applications.clear()
-  if (getSquadSize(true) == 1)
-    disbandSquad()
-  checkNewApplications()
-  ::broadcastEvent(squadEvent.APPLICATIONS_CHANGED, {})
-  ::broadcastEvent(squadEvent.DATA_UPDATED)
+  ::request_matching("msquad.deny_all_membership_requests", null, null, null, null)
 }
 
 function g_squad_manager::denyMembershipAplication(uid, callback = null)
@@ -987,6 +986,7 @@ function g_squad_manager::reset()
   squadData.wwOperationInfo = { id = -1, country = "", battle = null }
   squadData.properties = clone DEFAULT_SQUAD_PROPERTIES
   squadData.presence = clone DEFAULT_SQUAD_PRESENCE
+  squadData.psnSessionId = ""
   setMaxSquadSize(COMMON_SQUAD_SIZE)
 
   lastUpdateStatus = squadStatusUpdateState.NONE
@@ -1077,12 +1077,22 @@ function g_squad_manager::addApplication(uid)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
 }
 
-function g_squad_manager::removeApplication(uid)
+function g_squad_manager::removeApplication(applications)
 {
-  if (!(uid in squadData.applications))
+  if (!::u.isArray(applications))
+    applications = [applications]
+  local isApplicationsChanged = false
+  foreach (uid in applications)
+  {
+    if (!(uid in squadData.applications))
+      continue
+    squadData.applications.rawdelete(uid)
+    isApplicationsChanged = true
+  }
+
+  if (!isApplicationsChanged)
     return
 
-  squadData.applications.rawdelete(uid)
   if (getSquadSize(true) == 1)
     ::g_squad_manager.disbandSquad()
   checkNewApplications()
@@ -1245,6 +1255,7 @@ function g_squad_manager::_parseCustomSquadData(data)
   if (isPropertyChange)
     ::broadcastEvent(squadEvent.PROPERTIES_CHANGED)
   squadData.presence = data?.presence ?? clone DEFAULT_SQUAD_PRESENCE
+  squadData.psnSessionId = data?.psnSessionId ?? ""
 }
 
 function g_squad_manager::checkMembersPkg(pack) //return list of members dont have this pack
@@ -1281,9 +1292,6 @@ function g_squad_manager::checkUpdateStatus(newStatus)
 {
   if (lastUpdateStatus == newStatus || !isInSquad())
     return
-
-  if (lastUpdateStatus == squadStatusUpdateState.BATTLE)
-    ::g_crews_list.refresh()
 
   lastUpdateStatus = newStatus
   ::g_squad_utils.updateMyCountryData()
@@ -1425,7 +1433,7 @@ function g_squad_manager::updateCurrentWWOperation()
     return
 
   local wwOperationId = ::ww_get_operation_id()
-  local country = ::get_profile_info().country
+  local country = ::get_profile_country_sq()
   if (wwOperationId > -1)
   {
     local wwOperation = ::g_ww_global_status.getOperationById(wwOperationId)
@@ -1447,7 +1455,7 @@ function g_squad_manager::startWWBattlePrepare(battleId = null)
 
   squadData.wwOperationInfo.battle <- battleId
   squadData.wwOperationInfo.id = ::ww_get_operation_id()
-  squadData.wwOperationInfo.country = ::get_profile_info().country
+  squadData.wwOperationInfo.country = ::get_profile_country_sq()
 
   updatePresenceSquad()
   updateSquadData()
@@ -1488,10 +1496,9 @@ function g_squad_manager::onEventLobbyStatusChange(params)
 
 function g_squad_manager::onEventQueueChangeState(params)
 {
-  if (::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
-    cancelWwBattlePrepare()
-  else
+  if (!::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
     setCrewsReadyFlag(false)
+
   updatePresenceSquad(true)
 }
 

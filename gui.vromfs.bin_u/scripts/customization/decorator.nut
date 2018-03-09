@@ -1,4 +1,5 @@
 local guidParser = require("scripts/guidParser.nut")
+local itemRarity = require("scripts/items/itemRarity.nut")
 
 class Decorator
 {
@@ -19,7 +20,9 @@ class Decorator
 
   countries = null
   units = null
+
   tags = null
+  rarity = null
 
   lockedByDLC = null
 
@@ -70,13 +73,16 @@ class Decorator
         tags[tag] <- val
     }
 
+    rarity  = itemRarity.get(blk?.item_quality, blk?.name_color)
+
     if (!isUnlocked() && !isVisible() && ("showByEntitlement" in unlockBlk))
       lockedByDLC = ::has_entitlement(unlockBlk.showByEntitlement) ? null : unlockBlk.showByEntitlement
   }
 
   function getName()
   {
-    return decoratorType.getLocName(id)
+    local name = decoratorType.getLocName(id)
+    return isRare() ? ::colorize(getRarityColor(), name) : name
   }
 
   function getDesc()
@@ -170,6 +176,38 @@ class Decorator
       return true
 
     return limit <= getCountOfUsingDecorator(unit)
+  }
+
+  function isRare()
+  {
+    return rarity.isRare
+  }
+
+  function getRarity()
+  {
+    return rarity.value
+  }
+
+  function getRarityColor()
+  {
+    return  rarity.color
+  }
+
+  function getTagsLoc()
+  {
+    local res = rarity.tag ? [ rarity.tag ] : []
+    local blk = ::configs.GUI.get().decorator_tags_visible
+    if (blk && tags)
+      foreach (tagBlk in blk % "i")
+        if (tags?[tagBlk.tag])
+          res.append(::loc("ugc/tag/" + tagBlk.tag))
+    return res
+  }
+
+  function updateFromItemdef(itemDef)
+  {
+    rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
+    tags = itemDef?.tags
   }
 
   function tostring()

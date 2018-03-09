@@ -17,7 +17,7 @@ root {
     <<#actions>>
 
     <<^text>>
-    topMenuLine { enable:t='no' }
+    menuLine { enable:t='no' }
     <</text>>
 
     <<#text>>

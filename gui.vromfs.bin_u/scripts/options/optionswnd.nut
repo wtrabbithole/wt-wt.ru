@@ -66,7 +66,10 @@ function get_main_options()
       [::USEROPT_XRAY_KILL, "spinner", ::has_feature("Tanks") && ::has_feature("XrayKill")],
       [::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT, "spinner",
         ::has_feature("Tanks") && ( ! isInFlight || ! ::is_tank_gunner_camera_from_sight_available())],
-      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::has_feature("TankAltCrosshair")],
+      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()
+                                                && (::has_feature("TankAltCrosshair")
+                                                    || ::get_user_alt_crosshairs().len()
+                                                   )],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],
@@ -139,7 +142,8 @@ function get_main_options()
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox", ::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")],
+      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox",
+        (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")) && ::ugc_tags_presets.len()],
     ]
   }
 }

@@ -410,6 +410,7 @@ function handlersManager::clearScene(guiScene = null)
   if (!guiScene.isEqual(::get_cur_gui_scene()))
   {
     onClearScene(guiScene)
+    ::broadcastEvent("GuiSceneCleared")
     return
   }
 
@@ -420,6 +421,7 @@ function handlersManager::clearScene(guiScene = null)
 
   updateLoadingFlag()
   onClearScene(guiScene)
+  ::broadcastEvent("GuiSceneCleared")
 }
 
 function handlersManager::updateLoadingFlag()

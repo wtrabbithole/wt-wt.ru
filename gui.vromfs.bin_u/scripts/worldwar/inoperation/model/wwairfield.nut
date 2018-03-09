@@ -27,6 +27,11 @@ class ::WwAirfield
     update()
   }
 
+  function isValid()
+  {
+    return index >= 0
+  }
+
   function update()
   {
     createArmyMorale = ::g_world_war.getWWConfigurableValue("airfieldCreateArmyMorale", 0)
@@ -102,9 +107,26 @@ class ::WwAirfield
     return side
   }
 
+  function getSize()
+  {
+    return size
+  }
+
   function getPos()
   {
     return pos
+  }
+
+  function getUnitsNumber()
+  {
+    local count = 0
+    foreach (formation in formations)
+      count += formation.getUnitsNumber()
+
+    foreach (formation in cooldownFormations)
+      count += formation.getUnitsNumber()
+
+    return count
   }
 
   function isMySide(checkSide)

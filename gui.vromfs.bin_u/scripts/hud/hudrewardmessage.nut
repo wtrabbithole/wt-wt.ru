@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_hud_reward_message <- {
   types = []
 
@@ -8,7 +9,7 @@
 
 function g_hud_reward_message::getMessageByCode(code)
 {
-  return ::g_enum_utils.getCachedType("code", code, cache.byCode,
+  return enums.getCachedType("code", code, cache.byCode,
     ::g_hud_reward_message, ::g_hud_reward_message.UNKNOWN)
 }
 
@@ -53,7 +54,7 @@ enum REWARD_PRIORITY {
   getText = ::g_hud_reward_message._getText
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_reward_message", {
+enums.addTypesByGlobalName("g_hud_reward_message", {
   UNKNOWN = {}
 
   LANDING = {

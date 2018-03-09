@@ -39,12 +39,12 @@ local failAnim = @(trigger) {
 local textInput = function(text_state, options={}, handlers={}, frameCtor=defaultFrame) {
   local group = ::ElemGroup()
   local stateFlags = ::Watched(0)
-  local font = options.get("font", Fonts.medium_text)
+  local font = options?.font ?? Fonts.medium_text
   local colors = {}
 
   if ("colors" in options) {
     foreach (colorName, color in defaultColors) {
-      colors[colorName] <- options.colors.get(colorName, color)
+      colors[colorName] <- options.colors?[colorName] ?? color
     }
   } else {
     colors = defaultColors
@@ -53,7 +53,7 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
   local inputObj = function() {
     local placeholder = null
 
-    if (options.get("placeholder") && !text_state.value.len()) {
+    if (options?.placeholder && !text_state.value.len()) {
       placeholder = {
         rendObj = ROBJ_STEXT
         font = font
@@ -81,24 +81,24 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
       text = text_state.value
       title = options?.title
       inputType = options?.inputType
-      password = options.get("password")
+      password = options?.password
       key = text_state
 
       hotkeys = options?.hotkeys
 
       onChange = function () {
-        local changeHook = handlers.get("onChange", function (newVal) {})
+        local changeHook = handlers?.onChange ?? function (newVal) {}
         return function(new_val) {
           changeHook(new_val)
           text_state.update(new_val)
         }
       }()
 
-      onFocus = handlers.get("onFocus")
-      onBlur = handlers.get("onBlur")
-      onAttach = handlers.get("onAttach")
-      onReturn = handlers.get("onReturn")
-      onEscape = handlers.get("onEscape")
+      onFocus  = handlers?.onFocus
+      onBlur   = handlers?.onBlur
+      onAttach = handlers?.onAttach
+      onReturn = handlers?.onReturn
+      onEscape = handlers?.onEscape
 
       onElemState = @(sf) stateFlags.update(sf)
 
@@ -107,7 +107,7 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
   }
 
   return {
-    margin = options.get("margin", [sh(1), 0])
+    margin = options?.margin ?? [sh(1), 0]
 
     rendObj = ROBJ_SOLID
     color = colors.backGroundColor

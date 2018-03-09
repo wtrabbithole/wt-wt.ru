@@ -8,6 +8,7 @@ Button_text {
   css-hier-invalidate:t='yes'
   on_click:t='<<toBattleButtonAction>>'
   navButtonFont:t='yes'
+  showConsoleImage:t='no'
 
   buttonWink {
     _transp-timer:t='0'
@@ -26,6 +27,12 @@ Button_text {
   }
 }
 <</hasToBattleButton>>
+
+tdiv {
+  height:t='@dIco'
+  pos:t='0.002@scrn_tgt, ph-h-0.005@scrn_tgt'
+  position:t='absolute'
+  input-transparent:t='yes'
 
 <<#specIconBlock>>
 specIconBlock {
@@ -57,6 +64,7 @@ weaponsIcon {
   _transp-timer:t='0'
 }
 <</hasWeaponsStatus>>
+}
 
 <<#hasRentIcon>>
 rentIcon {

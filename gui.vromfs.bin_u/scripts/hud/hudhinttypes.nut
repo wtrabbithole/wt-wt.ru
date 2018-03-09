@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 ::g_hud_hint_types <- {
   types = []
 }
@@ -12,7 +13,7 @@
   isSameReplaceGroup = function (hint1, hint2) { return hint1 == hint2 }
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_hint_types", {
+enums.addTypesByGlobalName("g_hud_hint_types", {
   COMMON = {
     nestId = "common_priority_hints"
     hintStyle = "hudHintCommon"

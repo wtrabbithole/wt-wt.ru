@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-local stdpath = require("sqStdLibs/common/path.nut")
+local stdpath = require("std/path.nut")
 
 class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 {

@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -63,7 +64,7 @@ function g_mplayer_param_type::_newer(old, new) {
   isVisibleByGameType = @(gt) true
 }
 
-::g_enum_utils.addTypesByGlobalName("g_mplayer_param_type", {
+enums.addTypesByGlobalName("g_mplayer_param_type", {
   UNKNOWN = {
   }
 
@@ -217,6 +218,7 @@ function g_mplayer_param_type::_newer(old, new) {
     id = "damageZone"
     fontIcon = "#icon/mpstats/damageZone"
     tooltip = "#debriefing/Damage"
+    relWidth = 15
     missionObjective = MISSION_OBJECTIVE.ZONE_BOMBING
     printFunc = function(val, player) {
       return ::roundToDigits(val * ::KG_TO_TONS, 3).tostring()
@@ -328,6 +330,6 @@ function g_mplayer_param_type::_newer(old, new) {
 
 function g_mplayer_param_type::getTypeById(id)
 {
-  return ::g_enum_utils.getCachedType("id", id, ::g_mplayer_param_type.cache.byId,
+  return enums.getCachedType("id", id, ::g_mplayer_param_type.cache.byId,
     ::g_mplayer_param_type, ::g_mplayer_param_type.UNKNOWN)
 }

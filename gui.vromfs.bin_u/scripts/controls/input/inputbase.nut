@@ -23,6 +23,10 @@ class ::Input.InputBase
     return ""
   }
 
+  function getMarkupData()
+  {
+    return {}
+  }
 
 
   /**

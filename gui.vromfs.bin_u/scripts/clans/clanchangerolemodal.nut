@@ -1,5 +1,12 @@
 class ::gui_handlers.clanChangeRoleModal extends ::gui_handlers.BaseGuiHandlerWT
 {
+  wndType = handlerType.MODAL
+  sceneBlkName = "gui/clans/clanChangeRoleWindow.blk"
+  changeRolePlayer = null
+  roles = []
+  adminMode = false
+  clanType = ::g_clan_type.UNKNOWN
+
   function initScreen()
   {
     roles = [];
@@ -78,27 +85,18 @@ class ::gui_handlers.clanChangeRoleModal extends ::gui_handlers.BaseGuiHandlerWT
       return;
     }
 
-    local msg = ::loc("clan/roleChanged")+" "+::loc("clan/"+roles[newRoleIdx].name)
+    local msg = ::loc("clan/roleChanged") + " " + ::loc("clan/"+roles[newRoleIdx].name)
     local taskId = clan_request_change_member_role(changeRolePlayer.uid, roles[newRoleIdx].name)
 
     if (taskId >= 0 && !adminMode)
       ::sync_handler_simulate_signal("clan_info_reload")
 
-    local onTaskSuccess = ::Callback((@(msg, adminMode) function() {
-      if (adminMode && owner && "reinitClanWindow" in owner)
-        owner.reinitClanWindow()
-
-      msgBox("role_changed", msg, [["ok", function() { goBack() } ]], "ok")
-    })(msg, adminMode), this)
+    local onTaskSuccess = function() {
+      ::broadcastEvent("ClanMemberRoleChanged")
+      ::g_popups.add(null, msg)
+    }
 
     ::g_tasker.addTask(taskId, {showProgressBox = true}, onTaskSuccess)
+    goBack()
   }
-
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/clans/clanChangeRoleWindow.blk";
-  changeRolePlayer = null;
-  roles = [];
-  owner = null
-  adminMode = false
-  clanType = ::g_clan_type.UNKNOWN
 }

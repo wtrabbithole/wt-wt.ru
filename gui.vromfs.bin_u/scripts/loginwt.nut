@@ -325,11 +325,11 @@ function g_login::firstMainMenuLoad()
     return //was error on load mainmenu, and was called signout on such error
 
   ::updateContentPacks()
-  ::tribunal.checkComplaintCounts()
 
   ::update_start_mission_instead_of_queue()
 
   handler.doWhenActive(checkAwardsOnStartFrom)
+  handler.doWhenActive(@() ::tribunal.checkComplaintCounts())
 
   if (!fetch_profile_inited_once())
   {

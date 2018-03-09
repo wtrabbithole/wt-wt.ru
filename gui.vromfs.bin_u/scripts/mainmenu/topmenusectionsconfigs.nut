@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 // Priority for separation on buttons.
 enum topMenuLeftSideMergeIndex {
   MENU
@@ -19,7 +20,7 @@ enum topMenuLeftSideMergeIndex {
 Columns are each array in buttons array.
 Params - can be whole section ('help', 'pve') or single button.
 */
-::g_enum_utils.addTypesByGlobalName("g_top_menu_left_side_sections", [
+enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
   {
     name = "menu"
     btnName = "start"
@@ -84,7 +85,7 @@ Params - can be whole section ('help', 'pve') or single button.
   getSectionByName = ::g_top_menu_sections.getSectionByName
 }
 
-::g_enum_utils.addTypesByGlobalName("g_top_menu_right_side_sections", [
+enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
   {
     name = "shop"
     visualStyle = "noFrameGold"

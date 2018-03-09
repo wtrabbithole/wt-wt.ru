@@ -4,6 +4,8 @@ enum PSN_SESSION_TYPE {
 }
 
 ::g_psn_session_invitations <- {
+  [PERSISTENT_DATA_PARAMS] = ["existingSession", "curSessionParams", "lastUpdateTable", "suspendedInvitationData"]
+
   existingSession = {}
   curSessionParams = {}
   lastUpdateTable = {}
@@ -278,6 +280,50 @@ function g_psn_session_invitations::setInvitationUsed(invitationId)
   }
 }
 
+function g_psn_session_invitations::getInvitationsList()
+{
+  if (!::is_platform_ps4)
+    return
+
+  local blk = ::DataBlock()
+  blk.apiGroup = "sessionInvitation"
+  blk.method = ::HTTP_METHOD_GET
+  blk.path = "/v1/users/me/invitations?fields=@default,sessionId"
+
+  local ret = ::ps4_web_api_request(blk)
+  if ("error" in ret)
+  {
+    ::dagor.debug("Error: " + ret.error)
+    ::dagor.debug("Error text: " + ret.errorStr)
+  }
+  else if ("response" in ret)
+  {
+    ::dagor.debug("Response: " + ret.response)
+    return ::parse_json(ret.response)
+  }
+  return null
+}
+
+function g_psn_session_invitations::setInvitationsUsed()
+{
+  if (!::is_platform_ps4)
+    return
+
+  local squadSessionId = ::g_squad_manager.getPsnSessionId()
+  local invitationsData = ::g_psn_session_invitations.getInvitationsList()
+  local invitations = invitationsData?.invitations ?? []
+  foreach (invit in invitations)
+  {
+    if (invit.usedFlag)
+      continue
+
+    if (squadSessionId != "" && invit.sessionId != squadSessionId)
+      continue
+
+    setInvitationUsed(invit.invitationId)
+  }
+}
+
 function g_psn_session_invitations::sendInvitation(key, onlineId)
 {
   local sessionId = getSessionId(key)
@@ -289,6 +335,8 @@ function g_psn_session_invitations::sendInvitation(key, onlineId)
 
   onlineId = onlineId.slice(0, 1) == "*"? onlineId.slice(1) : onlineId
 
+  //TODO: Remove psn_mapper using, accountId's are known
+  //At least, in playTogether cachedUsersData accountIds are known
   local accountId = ::g_psn_mapper.getAccountIdByOnlineId(onlineId)
   if (!accountId)
     return
@@ -469,19 +517,29 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
   if (!::is_platform_ps4)
     return
 
-  if (::g_squad_manager.isInSquad() && ::g_squad_manager.canInviteMember())
+  if (::g_squad_manager.isInSquad())
   {
-    if (getSessionId(PSN_SESSION_TYPE.SQUAD) != "")
+    if (::g_squad_manager.isSquadMember())
+    {
+      setInvitationsUsed()
       return
+    }
 
-    sendCreateSession(PSN_SESSION_TYPE.SQUAD,
-                      getJsonRequestForSession(PSN_SESSION_TYPE.SQUAD,
-                                               getCurrentSquadInfo()),
-                      "ui/images/reward05.jpg",
-                      ::save_to_json({
-                        squadId = ::g_squad_manager.getLeaderUid()
-                        key = PSN_SESSION_TYPE.SQUAD
-                      }))
+    if (::g_squad_manager.canInviteMember())
+    {
+      if (getSessionId(PSN_SESSION_TYPE.SQUAD) != "")
+        return
+
+      sendCreateSession(PSN_SESSION_TYPE.SQUAD,
+                        getJsonRequestForSession(PSN_SESSION_TYPE.SQUAD,
+                                                 getCurrentSquadInfo()),
+                        "ui/images/reward05.jpg",
+                        ::save_to_json({
+                          squadId = ::g_squad_manager.getLeaderUid()
+                          leaderId = ::g_squad_manager.getLeaderUid()
+                          key = PSN_SESSION_TYPE.SQUAD
+                        }))
+    }
   }
   else if (!::g_squad_manager.isInSquad())
     sendDestroySession(PSN_SESSION_TYPE.SQUAD)
@@ -503,15 +561,12 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
     return
   }
 
-  if (!::getTblValue("accepted", invitationData, false))
-    return
-
   local sessionId = ::getTblValue("sessionId", invitationData, "")
   if (sessionId == "")
     return
 
   local sessionData = getSessionData(sessionId)
-  if (!sessionData)
+  if (::u.isEmpty(sessionData))
   {
     ::dagor.debug("PSN SessionInvitation: Could not receive data by sessionId " + sessionId)
     return
@@ -525,6 +580,7 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
     ::g_invites.addPsnSquadInvite(sessionData)
 }
 
+::g_script_reloader.registerPersistentDataFromRoot("g_psn_session_invitations")
 ::subscribe_handler(::g_psn_session_invitations, ::g_listener_priority.DEFAULT_HANDLER)
 
 //Called from C++

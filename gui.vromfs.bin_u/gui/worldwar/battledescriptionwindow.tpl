@@ -26,7 +26,7 @@ root {
       chapterListPlace {
         id:t='chapter_place'
         height:t='ph'
-        flow:t = 'vertical'
+        flow:t='vertical'
         increaseWidthForWide:t='yes'
 
         textareaNoTab {
@@ -55,38 +55,23 @@ root {
           on_wrap_down:t='onWrapDown'
         }
 
+        <<#hasGotoGlobalBattlesBtn>>
+        Button_text {
+          id:t='goto_global_battles_btn'
+          width:t='pw'
+          margin-top:t='1@blockInterval'
+          text:t='#worldWar/btn_all_battles_full_text'
+          on_click:t='onOpenGlobalBattlesModal'
+          visualStyle:t='noFrame'
+          btnName:t='LT'
+          ButtonImg {}
+        }
+        <</hasGotoGlobalBattlesBtn>>
+
         tdiv {
           id:t='queue_info'
           size:t='pw, ph'
           flow:t='vertical'
-
-          tdiv {
-            margin:t='1@framePadding, 0.02@scrn_tgt, 0, 0.03@scrn_tgt'
-
-            activeText {
-              text:t='#worldWar/waiting_session'
-            }
-          }
-
-          tdiv {
-            flow:t='vertical'
-            margin-left:t='1@framePadding'
-
-            tdiv {
-              id:t='SIDE_1_queue_side_info'
-            }
-
-            tdiv {
-              id:t='SIDE_2_queue_side_info'
-            }
-          }
-
-          dummy {
-            id:t="ww_queue_update_timer"
-            behavior:t='Timer'
-            timer_handler_func:t='onTimerUpdate'
-            timer_interval_msec:t='5000'
-          }
         }
 
         tdiv {
@@ -99,9 +84,33 @@ root {
       blockSeparator { margin:t='1, 0' }
 
       tdiv {
-        id:t='item_desc'
         size:t='fw, ph'
-        flow:t='vertical'
+
+        tdiv {
+          id:t='item_desc'
+          size:t='pw, ph'
+          flow:t='vertical'
+        }
+
+        tdiv {
+          id:t='operation_loading_wait_anim'
+          pos:t='50%pw-50%w, 50%ph-50%h'
+          position:t='absolute'
+          display:t='hide'
+
+          textareaNoTab {
+            text:t='#loading'
+            margin-right:t='1@framePadding'
+            top:t='50%ph-50%h'
+            position:t='relative'
+          }
+
+          animated_wait_icon
+          {
+            background-rotation:t='0'
+            display:t='show'
+          }
+        }
       }
     }
 
@@ -110,17 +119,19 @@ root {
         Button_text {
           id:t='cluster_select_button'
           width:t='1@bigButtonWidth'
-          textareaNoTab {
+          on_click:t='onOpenClusterSelect'
+          btnName:t='X'
+          refuseOpenHoverMenu:t='no'
+
+          textarea {
             id:t='cluster_select_button_text'
             text:t='#options/cluster'
             height:t='ph'
             width:t='pw'
             pare-text:t='yes'
             input-transparent:t='yes'
+            class:t='buttonText'
           }
-          on_click:t='onOpenClusterSelect'
-          btnName:t='X'
-          refuseOpenHoverMenu:t='no'
           ButtonImg {}
         }
 
@@ -146,9 +157,17 @@ root {
       navRight {
         activeText {
           id:t='cant_join_reason_txt'
-          pos:t='0, 50%ph-50%h'; position:t='relative'
-          padding-right:t='5*@sf/@pf_outdated'
+          top:t='50%ph-50%h'
+          position:t='relative'
+          padding-right:t='1@blockInterval'
           text:t=''
+        }
+        cardImg {
+          id:t='warning_icon'
+          padding-right:t='1@blockInterval'
+          display:t='hide'
+          background-image:t='#ui/gameuiskin#btn_help.svg'
+          tooltip:t=''
         }
         Button_text {
           id:t='btn_join_battle'

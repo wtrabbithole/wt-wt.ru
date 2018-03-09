@@ -73,9 +73,18 @@ enum WW_UNIT_CLASS
   COMBINED = 0x0003
 }
 
+enum WW_BATTLE_UNITS_REQUIREMENTS
+{
+  NO_REQUIREMENTS   = "allow"
+  BATTLE_UNITS      = "battle"
+  OPERATION_UNITS   = "global"
+  NO_MATCHING_UNITS = "deny"
+}
+
 enum WW_BATTLE_CANT_JOIN_REASON
 {
   CAN_JOIN
+  NO_WW_ACCESS
   NOT_ACTIVE
   UNKNOWN_SIDE
   WRONG_SIDE
@@ -201,12 +210,14 @@ foreach (fn in [
                  "operations/handler/wwOperationsListModal.nut"
                  "operations/handler/wwOperationsMapsHandler.nut"
                  "handler/wwMapTooltip.nut"
+                 "handler/wwQueueInfo.nut"
                  "handler/wwSquadList.nut"
                  "handler/wwBattleDescription.nut"
                  "handler/wwGlobalBattlesModal.nut"
                  "handler/wwAirfieldFlyOut.nut"
                  "handler/wwObjectivesInfo.nut"
                  "handler/wwMyClanSquadInviteModal.nut"
+                 "handler/wwJoinBattleCondition.nut"
                  "worldWarRender.nut"
                  "worldWarBattleJoinProcess.nut"
                ])
@@ -243,10 +254,42 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_world_war")
 
+function g_world_war::getSetting(settingName, defaultValue)
+{
+  return ::get_game_settings_blk()?.ww_settings?[settingName] ?? defaultValue
+}
+
+function g_world_war::canPlayWorldwar()
+{
+  local minRankRequired = getSetting("minCraftRank", 0)
+  local unit = ::u.search(::all_units, @(unit)
+    unit.canUseByPlayer() && unit.rank >= minRankRequired
+  )
+
+  return !!unit
+}
+
+function g_world_war::canJoinWorldwarBattle()
+{
+  return ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar()
+}
+
+function g_world_war::getPlayWorldwarConditionText()
+{
+  local rankText = ::colorize("@unlockHeaderColor",
+    ::getUnitRankName(getSetting("minCraftRank", 0)))
+  return ::loc("worldWar/playCondition", {rank = rankText})
+}
+
+function g_world_war::getCantPlayWorldwarReasonText()
+{
+  return !canPlayWorldwar() ? getPlayWorldwarConditionText() : ""
+}
+
 function g_world_war::openMainWnd()
 {
-  if (!::has_feature("WorldWar"))
-    return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
+  if (!checkPlayWorldwarAccess())
+    return
 
   if (::g_world_war.lastPlayedOperationId)
   {
@@ -277,12 +320,31 @@ function g_world_war::openWarMap()
   ::handlersManager.loadHandler(::gui_handlers.WwMap)
 }
 
-function g_world_war::openOperationsOrQueues()
+function g_world_war::checkPlayWorldwarAccess()
 {
+  if (!::is_worldwar_enabled())
+  {
+    ::show_not_available_msg_box()
+    return false
+  }
+  if (!canPlayWorldwar())
+  {
+    ::showInfoMsgBox(getPlayWorldwarConditionText())
+    return false
+  }
+  return true
+}
+
+function g_world_war::openOperationsOrQueues(openBattles = false)
+{
+  if (!checkPlayWorldwarAccess())
+    return
+
   ::ww_get_configurable_values(configurableValues)
 
   if (!::handlersManager.findHandlerClassInScene(::gui_handlers.WwOperationsMapsHandler))
-    ::handlersManager.loadHandler(::gui_handlers.WwOperationsMapsHandler)
+    ::handlersManager.loadHandler(::gui_handlers.WwOperationsMapsHandler,
+      {needToOpenBattles = openBattles})
 }
 
 function g_world_war::joinOperationById(operationId, country = null, isSilence = false, onSuccess = null)
@@ -298,7 +360,7 @@ function g_world_war::joinOperationById(operationId, country = null, isSilence =
   stopWar()
 
   if (::u.isEmpty(country))
-    country = operation.getMyAssignCountry() || ::get_profile_info().country
+    country = operation.getMyAssignCountry() || ::get_profile_country_sq()
 
   operation.join(country, null, isSilence, onSuccess)
 }
@@ -350,7 +412,10 @@ function g_world_war::openJoinOperationByIdWnd()
 function g_world_war::onEventLoadingStateChange(p)
 {
   if (::is_in_flight())
+  {
+    ::g_squad_manager.cancelWwBattlePrepare()
     isLastFlightWasWwBattle = ::g_mis_custom_state.getCurMissionRules().isWorldWar
+  }
 }
 
 function g_world_war::stopWar()
@@ -378,7 +443,7 @@ function g_world_war::loadLastPlayed()
 {
   lastPlayedOperationId = ::loadLocalByAccount(WW_CUR_OPERATION_SAVE_ID)
   if (lastPlayedOperationId)
-    lastPlayedOperationCountry = ::loadLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, ::get_profile_info().country)
+    lastPlayedOperationCountry = ::loadLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, ::get_profile_country_sq())
 }
 
 function g_world_war::onEventSignOut(p)
@@ -402,6 +467,8 @@ function g_world_war::leaveWWBattleQueues(battle = null)
 {
   if (::g_squad_manager.isSquadMember())
     return
+
+  ::g_squad_manager.cancelWwBattlePrepare()
 
   if (battle)
   {
@@ -755,14 +822,14 @@ function g_world_war::getBattleForArmy(army, playerSide = ::SIDE_NONE)
 
   return ::u.search(getBattles(),
     (@(army) function (battle) {
-      return battle.isArmyJoined(army.name)
+      return !battle.isFinished() && battle.isArmyJoined(army.name)
     })(army)
   )
 }
 
 function g_world_war::isBattleAvailableToPlay(wwBattle)
 {
-  return wwBattle && wwBattle.isValid() && !wwBattle.isAutoBattle()
+  return wwBattle && wwBattle.isValid() && !wwBattle.isAutoBattle() && !wwBattle.isFinished()
 }
 
 
@@ -948,7 +1015,15 @@ function g_world_war::moveSelectedArmyToCell(cellIdx, params = {})
     blk.addStr("targetName", target)
 
   playArmyActionSound("moveSound", army)
-  ::ww_send_operation_request("cln_ww_move_army_to", blk)
+
+  local taskId = ::ww_send_operation_request("cln_ww_move_army_to", blk)
+  ::g_tasker.addTask(taskId, null, @() null,
+    function (errorCode) {
+      local errorText = blk.moveType == "EMT_BACK_TO_AIRFIELD"
+        ? ::loc("worldWar/error/cantChangeAirfield")
+        : ::loc("worldWar/error/cantSentAirArmy")
+      ::g_popups.add("", errorText, null, null, null, "send_air_army_error")
+    })
 }
 
 
@@ -1182,11 +1257,6 @@ function g_world_war::sortUnitsBySortCodeAndCount(a, b)
   return aCount.tointeger() - bCount.tointeger()
 }
 
-function g_world_war::getAvailableBattles(playerSide)
-{
-  return getBattles(@(battle) battle.getCantJoinReasonData(playerSide).canJoin)
-}
-
 function g_world_war::getOperationTimeSec()
 {
   return time.millisecondsToSecondsInt(::ww_get_operation_time_millisec())
@@ -1209,7 +1279,7 @@ function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)
 function g_world_war::getSidesOrder(battle = null)
 {
   local playerSide = (battle && ::u.isWwGlobalBattle(battle))
-    ? battle.getSideByCountry(::get_profile_info().country)
+    ? battle.getSideByCountry(::get_profile_country_sq())
     : ::ww_get_player_side()
 
   if (playerSide == ::SIDE_NONE)
@@ -1265,6 +1335,9 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
 
 function g_world_war::addOperationInvite(operationId, clanName, isStarted, inviteTime)
 {
+  if (!::is_worldwar_enabled() || !canPlayWorldwar())
+    return
+
   if (operationId != ::ww_get_operation_id())
     ::g_invites.addInvite(::g_invites_classes.WwOperation,
       { operationId = operationId,

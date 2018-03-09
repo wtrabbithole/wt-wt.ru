@@ -924,7 +924,7 @@ function checkNotBoughtModsAfterFinishedResearches(handler, afterFunc = null)
     local isUnitHaveNBMods = false
     foreach(mod in unit.modifications)
       if (::canBuyMod(unit, mod)
-          && ::getAmmoMaxAmount(unit.name, mod.name, AMMO.MODIFICATION) == 1
+          && ::getAmmoMaxAmount(unit, mod.name, AMMO.MODIFICATION) == 1
           && !::wp_get_modification_cost_gold(unitName, mod.name))
       {
         isUnitHaveNBMods = true

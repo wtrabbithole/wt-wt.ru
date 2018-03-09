@@ -3,9 +3,9 @@ local transition = require("style/hudTransition.nut")
 local teamColors = require("style/teamColors.nut")
 local chatBase = require("daRg/components/chat.nut")
 local textInput =  require("components/textInput.nut")
-local background = require("style/hudBackground.nut")
+local setHudBg = require("style/hudBackground.nut")
 local penalty = require("penitentiary/penalty.nut")
-local time = require("sqStdLibs/common/time.nut")
+local time = require("std/time.nut")
 local state = require("hudChatState.nut")
 local hudState = require("hudState.nut")
 local hudLog = require("components/hudLog.nut")
@@ -68,7 +68,7 @@ local getHintText = function () {
 }
 
 
-local chatHint = {
+local chatHint = setHudBg({
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
   valign = VALIGN_MIDDLE
@@ -100,7 +100,7 @@ local chatHint = {
       }
     ]
   ]
-}.patchComponent(background)
+})
 
 
 local inputField = @() {
@@ -158,7 +158,7 @@ local messageComponent = function(message) {
       ::cross_call.mp_chat_mode.getModeNameText(message.mode),
       message.sender,
       getMessageColor(message),
-      message.text
+      ::cross_call.filter_chat_message(message.text, message.isMyself)
     )
   }
   return @() {

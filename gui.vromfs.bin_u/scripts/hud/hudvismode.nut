@@ -1,3 +1,4 @@
+local enums = ::require("std/enums.nut")
 enum HUD_VIS_PART //bit enum
 {
   DMG_PANEL           = 0x0001
@@ -32,7 +33,7 @@ enum HUD_VIS_PART //bit enum
   isPartVisible = function(part) { return (parts & part) != 0}
 }
 
-::g_enum_utils.addTypesByGlobalName("g_hud_vis_mode", {
+enums.addTypesByGlobalName("g_hud_vis_mode", {
   DEFAULT = {
     hudGm = ::HUD_GAME_MODE_DEFAULT
     locId = "options/hudDefault"
@@ -66,7 +67,7 @@ enum HUD_VIS_PART //bit enum
 
 function g_hud_vis_mode::getModeByHudGm(hudGm, defValue = ::g_hud_vis_mode.DEFAULT)
 {
-  return ::g_enum_utils.getCachedType("hudGm", hudGm, ::g_hud_vis_mode.cache.byHudGm,
+  return enums.getCachedType("hudGm", hudGm, ::g_hud_vis_mode.cache.byHudGm,
     ::g_hud_vis_mode, defValue)
 }
 
