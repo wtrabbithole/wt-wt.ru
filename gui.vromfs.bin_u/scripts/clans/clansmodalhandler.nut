@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
 
 // how many top places rewards are displayed in clans list window
 ::CLAN_SEASONS_TOP_PLACES_REWARD_PREVIEW <- 3
@@ -635,27 +636,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onClanRclick(position = null)
   {
-    local clan = getCurClan()
-    if (!clan)
+    local clanId = getCurClan()
+    if (!clanId)
       return
-    local menu = [
-      {
-        text = ::loc("clan/btn_clan_info")
-        show = true
-        action = @() showClanPage(clan, "", "")
-      }
-      {
-        text = ::loc("clan/btn_membership_req")
-        show = (::clan_get_my_clan_id() == "-1" && clan_get_requested_clan_id() != clan)
-        action = @() onMembershipReq()
-      }
-      {
-        text = ::loc("mainmenu/btnComplain")
-        show = (::clan_get_my_clan_id() != clan)
-        action = @() complainToClan(clan)
-      }
-    ]
 
+    local menu = clanContextMenu.getClanActions(clanId)
     ::gui_right_click_menu(menu, this, position)
   }
 

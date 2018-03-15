@@ -280,7 +280,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function goForwardIfOnline(start_func, skippable, start_without_forward = false)
   {
-    if (::is_connected_to_matching())
+    if (::is_online_available())
     {
       goForwardOrJustStart(start_func, start_without_forward)
       return
@@ -421,7 +421,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return notAvailableYetMsgBox()
 
     if (!::isContactsWindowActive())
+    {
       ::update_ps4_friends()
+      ::g_contacts.updateXboxOneFriends()
+    }
 
     onSwitchContacts()
   }
@@ -1009,7 +1012,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onModalWndDestroy()
   {
-    ::restoreHangarControls()
+    if (!::handlersManager.isAnyModalHandlerActive())
+      ::restoreHangarControls()
     base.onModalWndDestroy()
     ::checkMenuChatBack()
   }
@@ -1045,8 +1049,29 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function getWidgetsList()
   {
-    return widgetsList
+    local result = []
+    if (widgetsList)
+      foreach (widgetDesc in widgetsList)
+      {
+        result.append({ widgetId = widgetDesc.widgetId })
+        if ("placeholderId" in widgetDesc)
+          result.top()["transform"] <- getWidgetParams(widgetDesc.placeholderId)
+      }
+    return result
   }
+
+  function getWidgetParams(placeholderId)
+  {
+    local placeholderObj = scene.findObject(placeholderId)
+    if (!::checkObj(placeholderObj))
+      return null
+
+    return {
+      pos = placeholderObj.getPosRC()
+      size = placeholderObj.getSize()
+    }
+  }
+
 
   function onHeaderTabSelect() {} //empty frame
   function dummyCollapse(obj) {}

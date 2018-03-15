@@ -14,7 +14,7 @@ enum REASON_DOMAIN {
   onDisconnectCb = null
 }
 
-function g_matching_connect::onConnect(params = null)
+function g_matching_connect::onConnect()
 {
   destroyProgressBox()
   if (onConnectCb) onConnectCb()
@@ -24,7 +24,7 @@ function g_matching_connect::onConnect(params = null)
   ::broadcastEvent("MatchingConnect")
 }
 
-function g_matching_connect::onDisconnect(params = null)
+function g_matching_connect::onDisconnect()
 {
   //we still trying to reconnect after this event
   ::broadcastEvent("MatchingDisconnect")
@@ -39,7 +39,7 @@ function g_matching_connect::onFailToReconnect()
 
 function g_matching_connect::connect(successCb = null, errorCb = null, needProgressBox = true)
 {
-  if (::is_connected_to_matching())
+  if (::is_online_available())
   {
     if (successCb) successCb()
     return
@@ -58,7 +58,6 @@ function g_matching_connect::connect(successCb = null, errorCb = null, needProgr
     }
     showProgressBox(cancelFunc)
   }
-  ::connect_to_matching()
 }
 
 function g_matching_connect::resetCallbacks()

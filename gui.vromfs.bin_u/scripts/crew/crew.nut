@@ -1,3 +1,5 @@
+const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
+
 ::g_crew <- {
   crewLevelBySkill = 5 //crew level from any maxed out skill
   totalSkillsSteps = 5 //steps available for leveling.
@@ -18,6 +20,21 @@ function g_crew::isAllCrewsMinLevel()
         if (::g_crew.getCrewLevel(crew, uType) > ::g_crew.getMinCrewLevel(uType))
           return false
       }
+  return true
+}
+
+function g_crew::isAllCrewsHasBasicSpec()
+{
+  local basicCrewSpecType = ::g_crew_spec_type.BASIC
+  foreach(checkedCountrys in ::g_crews_list.get())
+    foreach(crew in checkedCountrys.crews)
+      foreach(unitName, value in crew.trainedSpec)
+      {
+        local crewUnitSpecType = ::g_crew_spec_type.getTypeByCrewAndUnitName(crew, unitName)
+        if (crewUnitSpecType != basicCrewSpecType)
+          return false
+      }
+
   return true
 }
 
@@ -513,6 +530,12 @@ function g_crew::getBestTrainedCrewIdxForUnit(unit, mustBeEmpty, compareToCrew =
 
 function g_crew::onEventCrewSkillsChanged(params)
 {
+  if (!params?.isOnlyPointsChanged)
+  {
+    local unit = getCrewUnit(params.crew)
+    if (unit)
+      unit.invalidateModificators()
+  }
   ::update_crew_skills_available(true)
 }
 
@@ -565,6 +588,41 @@ function g_crew::maximazeAllSkillsImpl(crew, esUnitType)
 
   if (isTaskCreated)
     ::g_crews_list.suspendSlotbarUpdates()
+}
+
+function g_crew::getSkillPageIdToRunTutorial(crew)
+{
+  local unit = ::g_crew.getCrewUnit(crew)
+  if (!unit)
+    return null
+
+  local esUnitType = unit.esUnitType
+  foreach(skillPage in ::crew_skills)
+    if (skillPage.isVisible(esUnitType))
+      if (hasSkillPointsToRunTutorial(crew, esUnitType, skillPage))
+        return skillPage.id
+
+  return null
+}
+
+function g_crew::hasSkillPointsToRunTutorial(crew, esUnitType, skillPage)
+{
+  local skillCount = 0
+  local skillPointsNeeded = 0
+  foreach(idx, item in skillPage.items)
+    if (item.isVisible(esUnitType))
+    {
+      local itemSkillValue = getSkillValue(crew.id, skillPage.id, item.name)
+      skillPointsNeeded += getNextSkillStepCost(item, itemSkillValue)
+      skillCount ++
+      if (skillCount >= UPGR_CREW_TUTORIAL_SKILL_NUMBER)
+        break
+    }
+
+  if (skillCount < UPGR_CREW_TUTORIAL_SKILL_NUMBER)
+    return false
+
+  return getCrewSkillPoints(crew) >= skillPointsNeeded
 }
 
 ::subscribe_handler(::g_crew, ::g_listener_priority.UNIT_CREW_CACHE_UPDATE)

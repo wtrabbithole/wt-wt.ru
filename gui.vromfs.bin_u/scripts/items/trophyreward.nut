@@ -69,7 +69,29 @@ function trophyReward::processUserlogData(configsArray = [])
     res.append(result)
   }
 
+  res.sort(rewardsSortComparator)
   return res
+}
+
+function trophyReward::rewardsSortComparator(a, b)
+{
+  if (!a || !b)
+    return b <=> a
+
+  local typeA = ::trophyReward.getType(a)
+  local typeB = ::trophyReward.getType(b)
+  if (typeA != typeB)
+    return typeA <=> typeB
+
+  if (typeA == "item")
+  {
+    local itemA = ::ItemsManager.findItemById(a.item)
+    local itemB = ::ItemsManager.findItemById(b.item)
+    if (itemA && itemB)
+      return ::ItemsManager.itemsSortComparator(itemA, itemB)
+  }
+
+  return a?[typeA] <=> b?[typeB]
 }
 
 function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCfgName = "item_place_single", imageAsItem = false)

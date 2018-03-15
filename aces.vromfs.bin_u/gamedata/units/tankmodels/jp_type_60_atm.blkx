@@ -936,7 +936,7 @@
     "tank_crew": {
       "changeTimeMult": 1.0,
       "machine_gunner": {
-        "dmPart": "gunner_dm",
+        "dmPart": "machine_gunner_dm",
         "role": "radio_gunner"
       },
       "driver": [
@@ -968,13 +968,13 @@
       },
       "commander": [
         {
-          "dmPart": "commander_dm"
-        },
-        {
-          "role": "commander"
+          "dmPart": "gunner_dm"
         },
         {
           "role": "tank_gunner"
+        },
+        {
+          "role": "commander"
         },
         {
           "substitute": "machine_gunner"
@@ -990,34 +990,6 @@
   },
   {
     "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 4
-        },
-        {
-          "part": "loader_01_dm"
-        },
-        {
-          "part": "loader_02_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": true
-          }
-        }
-      ],
       "turret": [
         {
           "hp": 10000.0
@@ -1090,7 +1062,7 @@
           "dummy": true,
           "trigger": "gunner0",
           "triggerGroup": "primary",
-          "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG3_user_machinegun.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
           "emitter": "bone_gun_03",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -1102,7 +1074,7 @@
             "gun": "bone_gun_03"
           },
           "limits": {
-            "yaw": [-5.0,5.0],
+            "yaw": [-10.0,10.0],
             "pitch": [-10.0,20.0]
           }
         }
@@ -1118,9 +1090,11 @@
           "emitter": "bone_rocket_01",
           "reloadAnimVar": "type_60_atm_01_action",
           "parkForReload": true,
+          "circleAim": true,
           "createGunEffects": true,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "allowableDelta": 20.0,
           "barrelDP": "gun_barrel_05_dm",
           "breechDP": "gun_barrel_01_dm",
           "speedYaw": 25.0,
@@ -1146,7 +1120,7 @@
           "turret": {
             "head": "bone_gun_barrel_01",
             "gun": "bone_gun_barrel_01",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "gunner_dm"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -1165,9 +1139,11 @@
           "emitter": "bone_rocket_02",
           "reloadAnimVar": "type_60_atm_02_action",
           "parkForReload": true,
+          "circleAim": true,
           "createGunEffects": true,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "allowableDelta": 20.0,
           "barrelDP": "gun_barrel_06_dm",
           "breechDP": "gun_barrel_02_dm",
           "speedYaw": 25.0,
@@ -1193,7 +1169,7 @@
           "turret": {
             "head": "bone_gun_barrel_02",
             "gun": "bone_gun_barrel_02",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "gunner_dm"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -1230,7 +1206,7 @@
           "turret": {
             "head": "bone_mg_aa_h_01",
             "gun": "bone_mg_aa_v_01",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "gunner_dm"
           },
           "limits": {
             "yaw": [-45.0,45.0],
@@ -1316,7 +1292,7 @@
             "turret": {
               "head": "bone_mg_h_01",
               "gun": "bone_mg_v_01",
-              "gunnerDm": "gunner_dm"
+              "gunnerDm": "machine_gunner_dm"
             }
           },
           {
@@ -1954,26 +1930,51 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammo_turret_03_dm": {
-          "count": 1
-        },
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
-        },
-        "ammo_turret_06_dm": {
-          "count": 1
-        },
-        "ammo_turret_01_dm": {
-          "count": 1
-        },
-        "ammo_turret_02_dm": {
-          "count": 1
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner1",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_03_dm": {
+            "count": 1
+          },
+          "ammo_turret_05_dm": {
+            "count": 1
+          },
+          "gun_barrel_05_dm": {
+            "count": 1,
+            "fatalFire": false,
+            "fatalExplosion": false,
+            "removeLoadedAmmo": false
+          }
+        }
+      },
+      "ammo2": {
+        "weaponTrigger": "gunner2",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_04_dm": {
+            "count": 1
+          },
+          "ammo_turret_06_dm": {
+            "count": 1
+          },
+          "gun_barrel_06_dm": {
+            "count": 1,
+            "fatalFire": false,
+            "fatalExplosion": false,
+            "removeLoadedAmmo": false
+          }
         }
       }
     }

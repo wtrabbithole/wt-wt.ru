@@ -311,7 +311,8 @@
     "checkUnitAvailability": "allow",
     "minCraftRank": 3,
     "maxBattlePlayersDisbalance": 2,
-    "operationAnnounceTimeSec": 86400
+    "operationAnnounceTimeSec": 86400,
+    "joinBattleDelayTimeSec": 240
   },
   "features": {
     "SpendGold": {
@@ -340,7 +341,7 @@
     },
     "Radio": {
       "condition": "",
-      "platform_lock": "android"
+      "platform_lock": "android;xboxOne"
     },
     "Twitch": {
       "condition": "",
@@ -411,6 +412,28 @@
     "UserExterior": {
       "condition": ""
     },
+    "CardAirplaneParameters": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "CardAirplanePowerParameters": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "AnyTankEntitlements": [
       {
         "condition": "tank_advanced_pack_t-34_m4a2_ru"
@@ -502,6 +525,17 @@
         "reqPack": "pkg_ships"
       }
     ],
+    "SpecialShips": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "ShipsVisibleInShop": [
       {
         "condition": "role_GAIJIN"
@@ -577,17 +611,9 @@
     "FranceAircraftsInFirstCountryChoice": {
       "condition": ""
     },
-    "FranceTanksInFirstCountryChoice": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "FranceTanksInFirstCountryChoice": {
+      "condition": ""
+    },
     "Helicopters": [
       {
         "condition": "role_GAIJIN"
@@ -626,9 +652,20 @@
     "SingleMissionsCoopPs4": {
       "condition": ""
     },
-    "CustomBattlesPc": {
-      "condition": ""
-    },
+    "CustomBattlesPc": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "XBoxPlatformRestriction"
+      }
+    ],
     "CustomBattlesPs4": {
       "condition": ""
     },
@@ -761,7 +798,8 @@
       "condition": ""
     },
     "Spectator": {
-      "condition": ""
+      "condition": "",
+      "platform_lock": "xboxOne"
     },
     "TouchScreen": {
       "condition": ""
@@ -894,23 +932,9 @@
     "ClanBattleSeasonAvailable": {
       "condition": ""
     },
-    "ClanSquads": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      }
-    ],
+    "ClanSquads": {
+      "condition": ""
+    },
     "ShowNextUnlockInfo": [],
     "extendedReplayInfo": {
       "condition": ""
@@ -981,6 +1005,17 @@
     "Items": {
       "condition": ""
     },
+    "ItemModUpgrade": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "ModUpgradeDifference": {
+      "condition": "role_DEVELOPER"
+    },
     "enableApex": {
       "platform_lock": "android;iOS"
     },
@@ -1050,6 +1085,9 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
+    "ItemsShopInTopMenu": {
+      "condition": ""
+    },
     "CanBuyDiscountItems": {
       "condition": "role_DEVELOPER"
     },
@@ -1112,6 +1150,9 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
       }
     ],
     "BulletParamsForAirs": {
@@ -1251,23 +1292,9 @@
     "FranceAircraftUnlocked": {
       "condition": ""
     },
-    "FranceTankUnlocked": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "wt_access_france_tanks_unlocks"
-      }
-    ],
+    "FranceTankUnlocked": {
+      "condition": ""
+    },
     "CountryChina": {
       "condition": "role_DEVELOPER"
     },
@@ -1338,6 +1365,9 @@
     "QaTestTiketLocker": {
       "condition": "qa_tiket_locker1"
     },
+    "xboxOneAccess": {
+      "platform_unlock": "xboxOne"
+    },
     "ShipEventTicketAccess": [
       {
         "condition": "role_GAIJIN"
@@ -1356,6 +1386,9 @@
       },
       {
         "reqPack": "pkg_ships"
+      },
+      {
+        "condition": "xboxOneAccess"
       }
     ],
     "ShipEventGamescomAccess": [
@@ -1400,6 +1433,9 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
       }
     ],
     "EnableUgcDecals": [
@@ -1411,9 +1447,12 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
       }
     ],
-    "UgcAfterbattleTrophy": [
+    "UgcAfterBattleTrophy": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1422,6 +1461,9 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
       }
     ],
     "Ugc": [
@@ -1443,6 +1485,21 @@
     "TankAltCrosshair": {
       "condition": "",
       "platform_lock": "ps4;android;xboxOne"
+    },
+    "DebriefingBattleTasks": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "XBoxPlatformRestriction": {
+      "condition": "",
+      "platform_lock": "xboxOne"
     }
   }
 }

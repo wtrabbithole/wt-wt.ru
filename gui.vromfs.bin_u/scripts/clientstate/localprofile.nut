@@ -83,6 +83,32 @@ function saveLocalByScreenSize(name, value)
   ::save_profile_offline_limited()
 }
 
+//remove all data by screen size from all size blocks
+//also clear empty size blocks
+local screenSizeRegexp = regexp2(@"^\d+x\d+$")
+function clear_local_by_screen_size(name)
+{
+  local cdb = ::get_local_custom_settings_blk()
+  local hasChanges = false
+  for(local idx = cdb.blockCount() - 1; idx >= 0; idx--)
+  {
+    local blk = cdb.getBlock(idx)
+    if (!(name in blk))
+      continue
+
+    hasChanges = true
+    if (::u.isDataBlock(blk[name]))
+      blk.removeBlock(name)
+    else
+      blk.removeParam(name)
+
+    if (!blk.blockCount() && !blk.paramCount())
+      cdb.removeBlockById(idx)
+  }
+  if (hasChanges)
+    ::save_profile_offline_limited()
+}
+
 // Deprecated, for storing new data use load_local_account_settings() instead.
 function loadLocalByAccount(path, defValue=null)
 {

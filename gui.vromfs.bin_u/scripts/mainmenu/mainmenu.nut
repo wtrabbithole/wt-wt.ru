@@ -106,7 +106,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(::gui_handlers.FontChoiceWnd.openIfRequired)
 
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })
-    handler.doWhenActive(@() ::g_psn_session_invitations.checkReceievedInvitation() )
+    handler.doWhenActive(@() ::g_psn_session_invitations.checkAfterFlight() )
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
     handler.doWhenActive(@() ::g_battle_tasks.checkNewSpecialTasks() )
   }
@@ -164,7 +164,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(function () { ::checkRemnantPremiumAccount() })
   if (handler.unitInfoPanel == null)
   {
-    handler.unitInfoPanel = ::create_slot_info_panel(handler.scene, true)
+    handler.unitInfoPanel = ::create_slot_info_panel(handler.scene, true, "mainmenu")
     handler.registerSubHandler(handler.unitInfoPanel)
   }
   ::g_user_presence.init()
@@ -172,7 +172,7 @@ function on_mainmenu_return(handler, isAfterLogin)
   if (isAllowPopups)
   {
     handler.doWhenActiveOnce("checkNoviceTutor")
-    //handler.doWhenActiveOnce("checkUpgradeCrewTutor") // TODO: Fix the bug 58031
+    handler.doWhenActiveOnce("checkUpgradeCrewTutorial")
     handler.doWhenActiveOnce("initPromoBlock")
 
     local hasModalObjectVal = guiScene.hasModalObject()

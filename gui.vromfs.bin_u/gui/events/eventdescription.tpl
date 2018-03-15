@@ -78,7 +78,7 @@ tdiv {
           cardImg {
             margin-left:t='5*@sf/@pf_outdated'
             type:t='tiny'
-            background-image:t='#ui/gameuiskin#help_tooltip'
+            background-image:t='#ui/gameuiskin#btn_help.svg'
             tooltip:t='#events/clan_event_help'
           }
         }

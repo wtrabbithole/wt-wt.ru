@@ -600,6 +600,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_back_squad"
             },
             {
@@ -855,6 +864,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -881,6 +899,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_truck_aaa_squad"
@@ -914,6 +941,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_movable_units_squad"
             },
             {
@@ -928,6 +964,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -936,6 +975,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -981,6 +1023,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -992,6 +1037,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -1017,6 +1065,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad"
         }
       },
@@ -1118,6 +1169,15 @@
           },
           {
             "set": true
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "target": "t1_quest_units_squad"
@@ -1306,7 +1366,7 @@
           [0.906307,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,0.906307],
-          [-6738.4,323.55,5555.4]
+          [-6721.91,323.55,5581.6]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -1325,8 +1385,8 @@
           "army": 1,
           "count": 3,
           "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,14.0],
+          "formation_div": 3,
+          "formation_step": [16.0,6.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -2650,7 +2710,7 @@
           [0.866026,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866026],
-          [-7293.05,287.2,13222.5]
+          [-7253.66,287.2,13166.3]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -2669,7 +2729,7 @@
           "army": 1,
           "count": 2,
           "formation_type": "rows",
-          "formation_div": 1,
+          "formation_div": 2,
           "formation_step": [16.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
@@ -2682,7 +2742,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-7195.3,284.35,13127.5]
+              [-7195.3,287.261,13127.5]
             ],
             "props": {
               "speed": 30.0,
@@ -4746,10 +4806,10 @@
       "wheeled_vehicles": {
         "name": "t1_trucks_02",
         "tm": [
-          [0.887011,0.0,-0.461749],
+          [0.055713,0.0,-0.998447],
           [0.0,1.0,0.0],
-          [0.461749,0.0,0.887011],
-          [-7591.85,287.8,13341.4]
+          [0.998447,0.0,0.055713],
+          [-7711.28,287.8,13506.2]
         ],
         "unit_class": "us_m8_greyhound",
         "closed_waypoints": false,
@@ -4781,7 +4841,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-7491.45,280.25,13262.0]
+              [-7706.23,280.25,13416.2]
             ],
             "props": {
               "speed": 30.0,
@@ -5054,10 +5114,10 @@
       "air_defence": {
         "name": "t1_aaa_03",
         "tm": [
-          [-0.0871564,0.0,-0.996195],
+          [0.553891,0.0,-0.83259],
           [0.0,1.0,0.0],
-          [0.996195,0.0,-0.0871564],
-          [-7603.35,284.25,13556.5]
+          [0.83259,0.0,0.553891],
+          [-7749.0,284.25,13749.2]
         ],
         "unit_class": "us_m16_truck",
         "closed_waypoints": false,
@@ -5076,7 +5136,7 @@
           "army": 1,
           "count": 3,
           "formation_type": "rows",
-          "formation_div": 4,
+          "formation_div": 3,
           "formation_step": [12.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
@@ -5089,7 +5149,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-7711.45,274.2,13411.9]
+              [-7638.92,274.2,13563.4]
             ],
             "props": {
               "speed": 30.0,
@@ -5545,7 +5605,7 @@
           [0.866026,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866026],
-          [-4819.15,91.1891,17116.4]
+          [-4694.74,103.582,17040.4]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -5564,8 +5624,8 @@
           "army": 1,
           "count": 3,
           "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,14.0],
+          "formation_div": 3,
+          "formation_step": [16.0,6.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -5577,7 +5637,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-4650.4,101.35,16993.0]
+              [-4639.82,95.778,16983.7]
             ],
             "props": {
               "speed": 30.0,
@@ -5773,7 +5833,7 @@
           [0.887011,0.0,-0.461749],
           [0.0,1.0,0.0],
           [0.461749,0.0,0.887011],
-          [-5254.6,112.4,17357.8]
+          [-5328.27,117.83,17389.1]
         ],
         "unit_class": "us_m8_greyhound",
         "closed_waypoints": false,
@@ -5792,8 +5852,8 @@
           "army": 1,
           "count": 4,
           "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [12.0,14.0],
+          "formation_div": 2,
+          "formation_step": [12.0,6.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -5805,7 +5865,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-5094.0,89.75,17252.8]
+              [-5270.37,119.807,17369.0]
             ],
             "props": {
               "speed": 30.0,
@@ -6235,10 +6295,10 @@
       "wheeled_vehicles": {
         "name": "t1_trucks_01",
         "tm": [
-          [0.793353,0.0,0.608761],
+          [0.905605,0.0,0.424121],
           [0.0,1.0,0.0],
-          [-0.608761,0.0,0.793353],
-          [-7092.75,323.55,5390.9]
+          [-0.424121,0.0,0.905605],
+          [-7389.21,323.55,5329.72]
         ],
         "unit_class": "us_willys_mb_7mm",
         "closed_waypoints": false,
@@ -6258,7 +6318,7 @@
           "count": 3,
           "formation_type": "rows",
           "formation_div": 3,
-          "formation_step": [12.0,14.0],
+          "formation_step": [12.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -6514,7 +6574,7 @@
           [0.923879,0.0,0.382683],
           [0.0,1.0,0.0],
           [-0.382683,0.0,0.923879],
-          [-7424.55,323.55,5198.1]
+          [-7600.18,323.55,5253.67]
         ],
         "unit_class": "us_m16_truck",
         "closed_waypoints": false,
@@ -7432,7 +7492,7 @@
           [0.906307,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,0.906307],
-          [-6852.45,323.55,5524.45]
+          [-6947.85,323.55,5479.92]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -7451,8 +7511,8 @@
           "army": 1,
           "count": 3,
           "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,14.0],
+          "formation_div": 3,
+          "formation_step": [16.0,6.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -7984,7 +8044,7 @@
           [0.866026,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866026],
-          [-7362.6,287.2,13256.9]
+          [-7383.52,287.2,13273.3]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -8003,7 +8063,7 @@
           "army": 1,
           "count": 2,
           "formation_type": "rows",
-          "formation_div": 1,
+          "formation_div": 2,
           "formation_step": [16.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
@@ -8016,7 +8076,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-7195.3,284.35,13127.5]
+              [-7350.6,284.35,13226.8]
             ],
             "props": {
               "speed": 30.0,
@@ -8292,7 +8352,7 @@
           [0.866026,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866026],
-          [-4872.55,91.2,17149.2]
+          [-4918.77,84.8523,17153.5]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -8311,8 +8371,8 @@
           "army": 1,
           "count": 3,
           "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,14.0],
+          "formation_div": 3,
+          "formation_step": [16.0,6.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -8324,7 +8384,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-4650.4,101.361,16993.0]
+              [-4864.54,89.4494,17162.1]
             ],
             "props": {
               "speed": 30.0,
@@ -8520,7 +8580,7 @@
           [0.906307,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,0.906307],
-          [-6920.4,323.55,5504.35]
+          [-7172.15,323.55,5394.15]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -8539,8 +8599,8 @@
           "army": 1,
           "count": 2,
           "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,14.0],
+          "formation_div": 2,
+          "formation_step": [16.0,6.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -9072,7 +9132,7 @@
           [0.866026,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866026],
-          [-7452.5,287.2,13298.9]
+          [-7590.6,287.2,13338.6]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -9091,7 +9151,7 @@
           "army": 1,
           "count": 2,
           "formation_type": "rows",
-          "formation_div": 1,
+          "formation_div": 2,
           "formation_step": [16.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
@@ -9104,7 +9164,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-7195.3,284.35,13127.5]
+              [-7563.15,284.35,13301.5]
             ],
             "props": {
               "speed": 30.0,
@@ -9380,7 +9440,7 @@
           [0.866026,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866026],
-          [-4965.85,91.2,17208.9]
+          [-5116.79,99.5454,17303.6]
         ],
         "unit_class": "us_m4a2_76w",
         "closed_waypoints": false,
@@ -9399,8 +9459,8 @@
           "army": 1,
           "count": 2,
           "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,14.0],
+          "formation_div": 2,
+          "formation_step": [16.0,8.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -9412,7 +9472,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [-4650.4,101.361,16993.0]
+              [-5093.22,79.5336,17252.1]
             ],
             "props": {
               "speed": 30.0,
@@ -12544,7 +12604,7 @@
         [292.889,0.0,-64.932],
         [0.0,300.0,0.0],
         [64.932,0.0,292.889],
-        [-18431.4,1000.0,14624.6]
+        [-16482.4,1000.0,14285.1]
       ],
       "props": []
     },
@@ -12561,9 +12621,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [1041.89,0.0,5908.85],
-        [0.0,6000.0,0.0],
-        [-5908.85,0.0,1041.89],
+        [1736.48,0.0,9848.08],
+        [0.0,10000.0,0.0],
+        [-9848.08,0.0,1736.48],
         [-21388.0,1000.0,15146.2]
       ],
       "props": []
@@ -12644,7 +12704,7 @@
         [-277.163,0.0,-114.805],
         [0.0,300.0,0.0],
         [114.805,0.0,-277.163],
-        [13530.6,1000.0,17053.4]
+        [11713.6,1000.0,16210.4]
       ],
       "props": []
     },
@@ -12661,9 +12721,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [2535.71,0.0,-5437.85],
-        [0.0,6000.0,0.0],
-        [5437.85,0.0,2535.71],
+        [4226.18,0.0,-9063.08],
+        [0.0,10000.0,0.0],
+        [9063.08,0.0,4226.18],
         [16251.6,1000.0,18322.0]
       ],
       "props": []
@@ -13334,6 +13394,26 @@
         [6987.6,239.7,8869.55]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-277.163,0.0,-114.805],
+        [0.0,300.0,0.0],
+        [114.805,0.0,-277.163],
+        [18953.3,500.0,19582.1]
+      ],
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [292.889,0.0,-64.932],
+        [0.0,300.0,0.0],
+        [64.932,0.0,292.889],
+        [-24323.8,500.0,15663.5]
+      ],
       "props": []
     }
   },

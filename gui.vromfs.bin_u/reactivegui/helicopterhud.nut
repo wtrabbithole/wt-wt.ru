@@ -9,23 +9,18 @@ style.helicopterHudText <- class {
 }
 
 
-local images = {
-  dot = ::Picture("ui/dot")
-}
-
-
-const LINE_WIDTH = 4
+const LINE_WIDTH = 1.6
 
 style.lineBackground <- class {
   color = Color(0, 0, 0, 80)
-  lineWidth = LINE_WIDTH
-  image = images.dot
+  fillColor = Color(0, 0, 0, 0)
+  lineWidth = LINE_WIDTH + 2.0
 }
 
 style.lineForeground <- class {
-  color = Color(255, 255, 255, 150)
+  color = Color(255, 255, 255, 255)
+  fillColor = Color(0, 0, 0, 0)
   lineWidth = LINE_WIDTH
-  image = images.dot
 }
 
 
@@ -33,39 +28,38 @@ style.lineForeground <- class {
   indicatorsVisible = 1
   ias = 0
   alt = 0
-  distanceToGround = 100
+  distanceToGround = 0.0
   verticalSpeed = 0
   forwardSpeed = 0
   leftSpeed = 0
   forwardAccel = 0
   leftAccel = 0
 
-  rocketAimX = 0
-  rocketAimY = 0
+  rocketAimX = 100
+  rocketAimY = 200
   rocketAimVisible = 1
 
-  flightDirectionX = 0
-  flightDirectionY = 0
+  flightDirectionX = 150
+  flightDirectionY = 200
   flightDirectionVisible = 1
 
-  gunDirectionX = 0
-  gunDirectionY = 0
-  gunDirectionVisible = 0
+  gunDirectionX = 200
+  gunDirectionY = 200
+  gunDirectionVisible = 1
 }
 
-
-local RocketAimLines = function(line_style) {
-  local w = sh(0.8)
-  local h = sh(2)
-  return [
-    class extends line_style { rendObj = ROBJ_LINE; pos = [0, -h]; size = [2*w, 0] }
-    class extends line_style { rendObj = ROBJ_LINE; pos = [0, h];  size = [2*w, 0] }
-    class extends line_style { rendObj = ROBJ_LINE; pos = [0, 0];  size = [0, 2*h] }
-  ]
-}
 
 local HelicopterRocketAim = function(line_style) {
-  local lines = RocketAimLines(line_style)
+
+  local lines = class extends line_style {
+      rendObj = ROBJ_VECTOR_CANVAS
+      size = [sh(0.8), sh(2)]
+      commands = [
+        [VECTOR_LINE, -100, -100, 100, -100],
+        [VECTOR_LINE, -100, 100, 100, 100],
+        [VECTOR_LINE, 0, -100, 0, 100],
+      ]
+    }
 
   return {
     halign = HALIGN_CENTER
@@ -78,24 +72,23 @@ local HelicopterRocketAim = function(line_style) {
         translate = [::interop.state.rocketAimX, ::interop.state.rocketAimY]
       }
     }
-    children = lines
+    children = [lines]
   }
-}
-
-local FlightDirLines = function(line_style) {
-  local r = sh(0.75)
-
-  return [
-    class extends line_style { rendObj = ROBJ_LINE;   pos = [0, -1.5*r];  size = [0, r] }
-    class extends line_style { rendObj = ROBJ_LINE;   pos = [-1.5*r, 0];  size = [r, 0] }
-    class extends line_style { rendObj = ROBJ_LINE;   pos = [1.5*r, 0];   size = [r, 0] }
-    class extends line_style { rendObj = ROBJ_CIRCLE; pos = [0, 0];       size = [2*r, 2*r] }
-  ]
 }
 
 
 local HelicopterFlightDirection = function(line_style) {
-  local lines = FlightDirLines(line_style)
+  local lines = class extends line_style {
+      rendObj = ROBJ_VECTOR_CANVAS
+      size = [sh(0.75), sh(0.75)]
+      commands = [
+        [VECTOR_LINE, -100, 0, -200, 0],
+        [VECTOR_LINE, 100, 0, 200, 0],
+        [VECTOR_LINE, 0, -100, 0, -200],
+        [VECTOR_ELLIPSE, 0, 0, 100, 100],
+      ]
+    }
+
   return @(){
     size = [0, 0]
     behavior = Behaviors.RtPropUpdate
@@ -107,25 +100,24 @@ local HelicopterFlightDirection = function(line_style) {
         translate = [::interop.state.flightDirectionX, ::interop.state.flightDirectionY]
       }
     }
-    children = lines
+    children = [lines]
   }
-}
-
-local GunDirLines = function(line_style) {
-  local r = sh(0.625)
-  
-  return [
-    class extends line_style { rendObj = ROBJ_CIRCLE; pos = [0, 0];       size = [r, r] }
-/*    class extends line_style { rendObj = ROBJ_LINE; pos = [0, -1.5*r]; size = [0, r] }
-    class extends line_style { rendObj = ROBJ_LINE; pos = [0, 1.5*r];  size = [0, -r] }
-    class extends line_style { rendObj = ROBJ_LINE; pos = [-1.5*r, 0]; size = [r, 0] }
-    class extends line_style { rendObj = ROBJ_LINE; pos = [1.5*r, 0];  size = [-r, 0] }*/
-  ]
 }
 
 
 local HelicopterGunDirection = function(line_style) {
-  local lines = GunDirLines(line_style)
+
+  local lines = class extends line_style {
+      rendObj = ROBJ_VECTOR_CANVAS
+      size = [sh(0.625), sh(0.625)]
+      commands = [
+        [VECTOR_LINE, 0, 50, 0, 150],
+        [VECTOR_LINE, 0, -50, 0, -150],
+        [VECTOR_LINE, 50, 0, 150, 0],
+        [VECTOR_LINE, -50, 0, -150, 0],
+      ]
+    }
+
   return @() {
     size = [0, 0]
     halign = HALIGN_CENTER
@@ -137,90 +129,38 @@ local HelicopterGunDirection = function(line_style) {
         translate = [::interop.state.gunDirectionX, ::interop.state.gunDirectionY]
       }
     }
-    children = lines
+    children = [lines]
   }
 }
 
-
-/*
-local HelicopterFlightVector = function(elemStyle)
-{
-  return @() {
-    size = [sh(10), sh(10)]
-    hplace = HALIGN_CENTER
-    vplace = VALIGN_BOTTOM
-    pos = [0, sh(40)]
-    behavior = Behaviors.RtPropUpdate
-    update = @(){
-      isHidden = !::interop.state.indicatorsVisible
-    }
-
-    children = [
-      class extends elemStyle {
-        rendObj = ROBJ_CIRCLE
-        pos = @() [pw(100) * 0.5 - elemStyle.lineWidth * 0.25, ph(100) - elemStyle.lineWidth * 0.25]
-        size = [elemStyle.lineWidth * 0.5, elemStyle.lineWidth * 0.5]
-      }
-      class extends elemStyle {
-        rendObj = ROBJ_LINE
-        pos = @() [pw(100) * 0.5, ph(100)]
-        behavior = Behaviors.RtPropUpdate
-        update = @(){
-          size = @() [pw(100) * -::interop.state.leftSpeed * 0.01, pw(100) * -::interop.state.forwardSpeed * 0.01]
-        }
-      }
-      class extends elemStyle {
-        rendObj = ROBJ_CIRCLE
-        behavior = Behaviors.RtPropUpdate
-        update = @() {
-          pos = @() [
-            pw(100) * 0.5 + pw(100) * -::interop.state.leftSpeed * 0.01 - elemStyle.lineWidth * 0.25,
-            ph(100) + pw(100) * -::interop.state.forwardSpeed * 0.01 - elemStyle.lineWidth * 0.25]
-        }
-        size = @() [elemStyle.lineWidth * 0.5, elemStyle.lineWidth * 0.5]
-      }
-      class extends elemStyle {
-        rendObj = ROBJ_CIRCLE
-        behavior = Behaviors.RtPropUpdate
-        update = @() {
-          pos = @() [
-            pw(100) * 0.5 + pw(100) * -::interop.state.leftSpeed * 0.01 + pw(100) * -::interop.state.leftAccel * 0.02 - sh(1.1),
-            ph(100) + pw(100) * -::interop.state.forwardSpeed * 0.01 + pw(100) * -::interop.state.forwardAccel * 0.02 - sh(1.1)]
-        }
-        size = [sh(2.2), sh(2.2)]
-      }
-    ]
-  }
-}
-*/
 
 local verticalSpeedInd = function(line_style, height) {
-  return {
-    size =[height,height]
-    pos = [0,-height*0.5]
-    children = [
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, 0]   size = [height, 0.5*height]  subPixel = true}
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height] size = [height, -0.5*height] subPixel = true}
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, 0]   size = [0, height]  subPixel = true}
-   ]
- }
+  return class extends line_style {
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [height, height]
+    pos = [0, -height*0.5]
+    commands = [
+      [VECTOR_LINE, 0, 0, 100, 50, 0, 100, 0, 0],
+    ]
+  }
 }
 
 local verticalSpeedScale = function(line_style, width, height) {
-  return {
-    size = [width,height]
+  return class extends line_style {
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [width, height]
     halign = HALIGN_RIGHT
-    children = [ 
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, 0]           size = [width,0]  }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height*0.125] size = [width*0.5, 0] }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height*0.25]  size = [width*0.5, 0] }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height*0.375]size = [width*0.5, 0]  }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height*0.50] size = [width*0.5,0]  }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height*0.75] size = [width*0.5, 0]  }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height*0.9]  size = [width*0.5, 0]  }
-      class extends line_style { rendObj = ROBJ_LINE pos = [0, height]      size = [width,0]  }
+    commands = [
+      [VECTOR_LINE, 0, 0, 100, 0],
+      [VECTOR_LINE, 0, 12.5, 50, 12.5],
+      [VECTOR_LINE, 0, 25, 50, 25],
+      [VECTOR_LINE, 0, 37.5, 50, 37.5],
+      [VECTOR_LINE, 0, 50, 100, 50],
+      [VECTOR_LINE, 0, 75, 50, 75],
+      [VECTOR_LINE, 0, 90, 50, 90],
+      [VECTOR_LINE, 0, 100, 100, 100],
     ]
- }
+  }
 }
 
 local HelicopterVertSpeed = function(elemStyle) {
@@ -242,14 +182,17 @@ local HelicopterVertSpeed = function(elemStyle) {
         halign = HALIGN_RIGHT
         size = [scaleWidth, height]
         children = class extends elemStyle {
-          rendObj = ROBJ_9RECT
-          screenOffs = 4
-          texOffs = 4
+          rendObj = ROBJ_VECTOR_CANVAS
           behavior = Behaviors.RtPropUpdate
-          pos = [LINE_WIDTH,LINE_WIDTH*0.5]
+          pos = [LINE_WIDTH, 0]
+          size = [LINE_WIDTH, height]
+          tmpHeight = 0
+          fillColor = Color(255, 255, 255, 255)
+          commands = [[VECTOR_RECTANGLE, 0, 0, 100, 100]]
           update = @() {
             isHidden = ::interop.state.distanceToGround > 50.0
-            size = @() [LINE_WIDTH, (height+LINE_WIDTH) * ::clamp(::interop.state.distanceToGround * 2, 0, 100)/100]
+            tmpHeight = ::clamp(::interop.state.distanceToGround * 2.0, 0, 100)
+            commands = [[VECTOR_RECTANGLE, 0, 100 - tmpHeight, 100, tmpHeight]]
           }
         }
       }
@@ -258,8 +201,7 @@ local HelicopterVertSpeed = function(elemStyle) {
         valign = VALIGN_MIDDLE
         size = [-scaleWidth-sh(0.5),height]
         children = class extends style.helicopterHudText {
-          valign = VALIGN_MIDDLE
-          rendObj = ROBJ_DTEXT
+          rendObj = ROBJ_STEXT
           behavior = Behaviors.RtPropUpdate
           update = @() {
             isHidden = ::interop.state.distanceToGround > 350.0

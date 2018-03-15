@@ -23,7 +23,14 @@ local customIsEmpty = {}
 */
 local function registerClass(className, classRef, isEqualFunc = null, isEmptyFunc = null) {
   local funcName = "is" + className.slice(0, 1).toupper() + className.slice(1)
-  this[funcName] <- @(value) value instanceof classRef
+  this[funcName] <- function(value)
+  {
+    if (value instanceof classRef)
+      return true
+    if ("dagor2" in rootTable && className in ::dagor2)
+      return value instanceof dagor2[className]
+    return false
+  }
 
   if (isEqualFunc)
     customIsEqual[classRef] <- isEqualFunc
@@ -183,6 +190,19 @@ local function indexBy(array, iteratee) {
       res[iteratee(val, idx, array)] <- val
   }
 
+  return res
+}
+
+/**
+ * Merges together the values of each of the arrays (or tables) with the values
+ * at the corresponding position. Useful when you have separate
+ * data sources that are coordinated through matching array indexes.
+ */
+local function zip(...) {
+  local res = map(vargv[0], @(v) [v])
+  for (local i = 1; i < vargv.len(); ++i)
+    foreach (idx, v in res)
+      v.append(vargv[i]?[idx])
   return res
 }
 
@@ -487,6 +507,21 @@ local function last(arr, n = 1)
     return arr[arr.len() - n]
 }
 
+/**
+ * Safely returns the element of an array. Passing negative number will return element from end. 
+ * If number is more than length array will return last one (first one for negative)
+ */
+local function safeIndex(arr, n) {
+  if (n > arr.len()-1 && n >= 0)
+    return arr[arr.len()-1]
+  if (arr.len() > n && n >= 0)
+    return arr[n]
+  if (-n >= arr.len() && n < 0)
+    return arr[0]
+  if (arr.len() >= -n && n < 0)
+    return arr[arr.len() + n]
+}
+
 // * Returns random element of the given array
 local function chooseRandom(arr)
 {
@@ -557,6 +592,7 @@ local export = {
   getFirstFound = getFirstFound
   search = search
   indexBy = indexBy
+  zip = zip
   searchIndex = searchIndex
   getFirstFound = getFirstFound
   removeFrom = removeFrom
@@ -569,6 +605,7 @@ local export = {
   isEmpty = isEmpty
   pick = pick
   last = last
+  safeIndex=safeIndex
   invert = invert
   pairs = pairs
   values = values

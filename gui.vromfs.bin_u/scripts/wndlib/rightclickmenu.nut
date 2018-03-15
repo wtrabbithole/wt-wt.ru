@@ -74,10 +74,11 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
 
         actionData = {
           id = idPrefix + idx.tostring()
-          text = item.text
+          text = item.text == ""? null : item.text
           textUncolored = ::g_dagui_utils.removeTextareaTags(item.text)
           tooltip = ::getTblValue("tooltip", item, "")
           enabled = enabled
+          isVisualDisabled = item?.isVisualDisabled ?? false
           needTimer = ::u.isFunction(::getTblValue("onUpdateButton", item))
         }
       }

@@ -107,22 +107,9 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
         gameModeName = curBattleInList.getLocName()
         showEmptySlot = true
         needPresetsPanel = true
-        beforeCountrySelect = beforeCountrySelect
         shouldCheckCrewsReady = true
       }
     )
-  }
-
-  function beforeCountrySelect(onOk, onCancel, countryData)
-  {
-    if (currViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO &&
-        countryData.country != ::g_squad_manager.getWwOperationCountry())
-    {
-      onCancel()
-      ::showInfoMsgBox(::loc("worldWar/cantChangeCountryInBattlePrepare"))
-      return
-    }
-    onOk()
   }
 
   function onItemSelect()
@@ -193,7 +180,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     if (!::check_obj(battlesListObj))
       return
 
-    local countriesInfo = globalBattlesListData.getActiveCountriesData()
+    local countriesInfo = getActiveCountriesData()
 
     local view = { countries = [] }
     foreach (country, data in countriesInfo)
@@ -212,6 +199,22 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       if (::check_obj(titleText))
         titleText.setValue(::loc("worldWar/noParticipatingCountries"))
     }
+  }
+
+  function getActiveCountriesData()
+  {
+    local countriesData = {}
+    foreach (country in ::shopCountriesList)
+    {
+      local globalBattlesList = globalBattlesListData.getList().filter(@(idx, battle)
+        battle.hasSideCountry(country) && battle.isVisibleInBattlesList(country))
+
+      local battlesNumber = globalBattlesList.len()
+      if (battlesNumber)
+        countriesData[country] <- battlesNumber
+    }
+
+    return countriesData
   }
 
   function getNoBattlesText()
@@ -246,15 +249,20 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     local country = ::get_profile_country_sq()
 
     battlesList = globalBattlesListData.getList().filter(@(idx, battle)
-      battle.hasSideCountry(country)
-      && !battle.isHiddenByExcessPlayers(country)
-      && battle.isOperationMapAvaliable())
+      battle.hasSideCountry(country) && battle.isVisibleInBattlesList(country))
 
     if (!filterFlag || currViewMode != WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       return
 
     battlesList = battlesList.filter(@(idx, battle)
       battle.hasUnitsToFight(country))
+  }
+
+  function battlesSort(battleA, battleB)
+  {
+    return battleB.isConfirmed <=> battleA.isConfirmed
+        || battleB.sortTimeFactor <=> battleA.sortTimeFactor
+        || battleB.sortFullnessFactor <=> battleA.sortFullnessFactor
   }
 
   function getBattleById(battleId)

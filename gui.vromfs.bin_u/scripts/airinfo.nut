@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -260,6 +261,13 @@ function get_unit_actions_list(unit, handler, actions)
         })(unit, handler))
       })(unit, handler)
     }
+    if (action == "preview")
+    {
+      actionText = ::loc("mainmenu/btnPreview")
+      icon       = "#ui/gameuiskin#btn_preview.svg"
+      showAction = inMenu
+      actionFunc = @() ugcPreview.showUnitSkin(unit.name, "")
+    }
     else if (action == "aircraft")
     {
       if (!crew)
@@ -344,7 +352,7 @@ function get_unit_actions_list(unit, handler, actions)
       }
 
       actionText = ::loc("mainmenu/btnOrder") + priceText
-      icon       = isGift ? "#ui/gameuiskin#store_icon" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
+      icon       = isGift ? "#ui/gameuiskin#store_icon.svg" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
       showAction = inMenu && (canBuyIngame || canBuyOnline)
       if (canBuyOnline)
         actionFunc = (@(unit) function () {
@@ -1601,10 +1609,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   obj = holderObj.findObject("aircraft-countryImg")
   if (::checkObj(obj))
-  {
     obj["background-image"] = ::get_unit_country_icon(air)
-    holderObj.findObject("aircraft-countryRank").setValue(get_player_rank_by_country(air.shopCountry).tostring())
-  }
 
   if (::has_feature("UnitTooltipImage"))
   {
@@ -1739,8 +1744,11 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 //    holderObj.findObject("aircraft-climbAlt").setValue(::countMeasure(1, air.shop.climbAlt))
   holderObj.findObject("aircraft-altitude").setValue(::countMeasure(1, air.shop.maxAltitude))
   holderObj.findObject("aircraft-airfieldLen").setValue(::countMeasure(1, air.shop.airfieldLen))
-
+  holderObj.findObject("aircraft-wingLoading").setValue(::countMeasure(5, air.shop.wingLoading))
 //  holderObj.findObject("aircraft-range").setValue(::countMeasure(2, air.shop.range * 1000.0))
+
+  local airplaneParameters = ::has_feature("CardAirplaneParameters")
+  local airplanePowerParameters = airplaneParameters && ::has_feature("CardAirplanePowerParameters")
 
   local showCharacteristics = {
     ["aircraft-turnTurretTime-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
@@ -1762,6 +1770,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-maxInclination-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
+    ["aircraft-wingLoading-tr"]           = [ airplaneParameters ? ::ES_UNIT_TYPE_AIRCRAFT : -1 ],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
   }
 
@@ -1771,6 +1780,24 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     if (obj)
       obj.show(::isInArray(unitType, showForTypes))
   }
+
+  local powerToWeightRatioObject = holderObj.findObject("aircraft-powerToWeightRatio-tr")
+  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && "powerToWeightRatio" in air.shop)
+  {
+    holderObj.findObject("aircraft-powerToWeightRatio").setValue(::countMeasure(6, air.shop.powerToWeightRatio))
+    powerToWeightRatioObject.show(true)
+  }
+  else
+    powerToWeightRatioObject.show(false)
+
+  local thrustToWeightRatioObject = holderObj.findObject("aircraft-thrustToWeightRatio-tr")
+  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && "thrustToWeightRatio" in air.shop)
+  {
+    holderObj.findObject("aircraft-thrustToWeightRatio").setValue(format("%.2f", air.shop.thrustToWeightRatio))
+    thrustToWeightRatioObject.show(true)
+  }
+  else
+    thrustToWeightRatioObject.show(false)
 
   local modificators = showLocalState ? "modificators" : "modificatorsBase"
   if (isTank(air) && air[modificators])
@@ -1900,6 +1927,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       speedAlt      = ""
       turnTime      = ""
       airfieldLen   = ""
+      wingLoading   = ""
+      powerToWeightRatio = ""
+      thrustToWeightRatio = ""
     }
 
     foreach (id, val in rows)
@@ -2212,7 +2242,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     }
   }
 
-  local weaponsInfoText = ::getWeaponInfoText(air, null, showLocalState ? -1 : 0)
+  local weaponsInfoText = ::getWeaponInfoText(air,
+    { weaponPreset = showLocalState ? -1 : 0, ediff = ediff, isLocalState = showLocalState })
   obj = holderObj.findObject("weaponsInfo")
   if (obj) obj.setValue(weaponsInfoText)
 

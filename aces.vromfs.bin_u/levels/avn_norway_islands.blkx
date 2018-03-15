@@ -24,9 +24,6 @@
     "gridSteps": [2048.0,2048.0]
   },
   {
-    "gridZeroPoint": [-32768.0,-32768.0]
-  },
-  {
     "gridSize": [16384.0,16384.0]
   },
   {
@@ -93,7 +90,10 @@
     "water_level": 0.0
   },
   {
-    "wind_scale": 0.9
+    "wind_scale": 1.17
+  },
+  {
+    "layeredFogDensityMul": 0.7
   },
   {
     "earth": {
@@ -111,6 +111,54 @@
     }
   },
   {
+    "customWeather": {
+      "scatteringEffect": [1.5,0.0]
+    }
+  },
+  {
+    "micro_details": [
+      {
+        "micro_detail": "microdetail_stone_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_soil_b_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_sand_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_snow_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_generic_granules_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_grass_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_forest_floor_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_generic_granules_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_wood_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_metal_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_snow_a_tex_n*"
+      },
+      {
+        "micro_detail": "microdetail_generic_granules_a_tex_n*"
+      },
+      {
+        "land_micro_details_uv_scale": 0.52
+      }
+    ]
+  },
+  {
     "shader_vars": {
       "parallax_shadow_strength": 7.0,
       "parallax_shadow_length": 4.0,
@@ -120,8 +168,8 @@
       "water_color_noise_size": 1737.0,
       "ocean_density": 0.4,
       "river_density": 1.0,
-      "ocean0": [0.11,0.25,0.12,0.0],
-      "ocean1": [0.19,0.28,0.14,0.0],
+      "ocean0": [0.58,0.624,0.71,0.0],
+      "ocean1": [0.4,0.522,0.537,0.0],
       "river0": [0.4,0.34,0.22,0.0],
       "river1": [0.53,0.41,0.31,0.0]
     }
@@ -300,7 +348,7 @@
   {
     "technicsSkins": [
       {
-        "groundSkin": "jungle"
+        "groundSkin": "forest"
       },
       {
         "groundSkin": "default"

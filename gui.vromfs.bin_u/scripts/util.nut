@@ -365,11 +365,6 @@ function build_menu_blk(menu_items, default_text_prefix = "#mainmenu/btn", is_fl
   return result
 }
 
-function is_online_available()
-{
-  return ::is_connected_to_matching()
-}
-
 function close_tactical_map()
 {
   if (::tactical_map_handler != null)
@@ -727,15 +722,6 @@ function is_game_mode_with_spendable_weapons()
 {
   local mode = ::get_mp_mode();
   return mode == ::GM_DOMINATION || mode == ::GM_TOURNAMENT;
-}
-
-function getTextByModes(textFunc, separator = " / ")
-{
-  local text = ""
-  foreach(m in ::domination_modes)
-    if (::get_show_mode_info(m.modeId))
-      text += ((text!="")? separator : "") + textFunc(m)
-  return text
 }
 
 ::skip_crew_unlock_assert <- false
@@ -1436,51 +1422,6 @@ function get_text_urls_data(text)
   if (!urls.len())
     return null
   return { text = text, urls = urls }
-}
-
-function openPlayerLbRclickMenu(nick, handler)
-{
-  local isMe = nick == ::my_user_name
-  local uid = ::getPlayerUid(nick)
-  local isFriend = uid!=null && ::isPlayerInFriendsGroup(uid)
-  local isBlock = uid!=null && ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
-
-  local menu = {
-    actions = [
-      {
-        text = ::loc("contacts/message")
-        show = !isMe
-        action = (@(nick, handler) function() { ::openChatPrivate(nick, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("mainmenu/btnUserCard")
-        action = (@(nick, handler) function() { ::gui_modal_userCard({ name = nick }) })(nick, handler)
-      }
-
-      {
-        text = ::loc("contacts/friendlist/add")
-        show = !isMe && !isFriend && !isBlock
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_FRIENDLIST, true, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("contacts/friendlist/remove")
-        show = isFriend
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_FRIENDLIST, false, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("contacts/blacklist/add")
-        show = !isMe && !isFriend && !isBlock
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_BLOCKLIST, true, handler) })(nick, handler)
-      }
-      {
-        text = ::loc("contacts/blacklist/remove")
-        show = isBlock
-        action = (@(nick, handler) function() { ::editContactMsgBox({name = nick}, ::EPL_BLOCKLIST, false, handler) })(nick, handler)
-      }
-    ]
-  }
-
-  ::gui_right_click_menu(menu, handler)
 }
 
 function invoke_multi_array(multiArray, invokeCallback)

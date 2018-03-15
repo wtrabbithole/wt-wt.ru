@@ -74,9 +74,9 @@ local function tostring_any(input) {
     return "#USERDATA#"
 }
 
-local function tostring_r(input, indent = "  ") {
+local function tostring_r(input, indent = "  ", maxdeeplevel = null) {
   local out = ""
-
+  local deeplevel = 0
   local table_types = ["class","table","instance"]
   local simple_types = ["string", "float", "bool", "integer"]
   local complex_types = ["userdata","weakreference"]
@@ -103,8 +103,10 @@ local function tostring_r(input, indent = "  ") {
     return out
   }
 
-  local sub_tostring_r = function(input, indent, arrayElem = false, separator = "\n") {
+  local sub_tostring_r = function(input, indent, curdeeplevel, maxdeeplevel = null, arrayElem = false, separator = "\n") {
     local out = ""
+    if (maxdeeplevel != null && curdeeplevel == maxdeeplevel)
+      return out
     foreach (key, value in input) {
       if (simple_types.find(::type(value)) != null && function_types.find(::type(value)) != -1) {
         out += separator
@@ -133,14 +135,14 @@ local function tostring_r(input, indent = "  ") {
         if (!arrayElem) {
           out += indent + key.tostring() +  " = "
         }
-        out += "[" + callee()(value, indent + "  ", true, " ") + " ]"
+        out += "[" + callee()(value, indent + "  ", curdeeplevel+1, maxdeeplevel=maxdeeplevel, true, " ") + " ]"
       }
       else if (table_types.find(::type(value)) != null && table_types.find(::type(value)) != -1) {
         out += "\n" + indent
         if (!arrayElem) {
           out += tostring_any(key) +  " = "
         }
-        out += "{" + callee()(value, indent + "  ") + "\n" + indent + "}"
+        out += "{" + callee()(value, indent + "  ", curdeeplevel+1, maxdeeplevel) + "\n" + indent + "}"
         if (arrayElem)
           out += "\n"
       }
@@ -152,20 +154,21 @@ local function tostring_r(input, indent = "  ") {
         out += tostring_any(value) + "\n"
       }
     }
+    
     return out
   }
   if (table_types.find(::type(input)) != null && table_types.find(::type(input)) != -1) {
     out += input.tostring() + " { "
-    out += sub_tostring_r(input, indent, false,"\n")
+    out += sub_tostring_r(input, indent, 0, maxdeeplevel, false,"\n")
     out += "\n}"
   } else if (::type(input)=="array"){
     out += input.tostring() + " ["
-    out += sub_tostring_r(input, "  ", true, " ")
+    out += sub_tostring_r(input, "  ", 0, maxdeeplevel, true, " ")
     if (out.slice(-1) != "\n")
       out += " "
     out += "]"
   } else {
-    out += sub_tostring_r([input], "", true, "")
+    out += sub_tostring_r([input], "", 0, maxdeeplevel, true, "")
   }
 
   return out +"\n"

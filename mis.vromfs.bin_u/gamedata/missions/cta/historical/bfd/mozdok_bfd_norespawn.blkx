@@ -660,6 +660,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_truck_squad"
             },
             {
@@ -686,6 +695,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_quest_units_squad"
@@ -719,6 +737,15 @@
             },
             {
               "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "t1_quest_units_squad"
@@ -807,6 +834,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -818,6 +848,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -844,6 +877,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_main_column_squad"
           }
         },
@@ -853,6 +889,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_back_atack_squad"
           }
         }
@@ -901,6 +940,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_center_cover_squad"
         }
       },
@@ -944,6 +986,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_main_column_squad"
         }
       },
@@ -987,6 +1032,9 @@
           "object_type": "isActive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_main_column_squad",
           "target": "area_of_war"
         }
@@ -1036,6 +1084,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_back_atack_squad"
         }
       },
@@ -1079,6 +1130,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_back_atack_squad",
           "target": "area_of_war"
         }
@@ -7256,7 +7310,7 @@
         [-286.115,0.0,90.2119],
         [0.0,300.0,0.0],
         [-90.2119,0.0,-286.115],
-        [16281.3,1000.0,-120.974]
+        [14340.9,999.999,392.674]
       ],
       "props": []
     },
@@ -7273,9 +7327,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-1552.92,0.0,-5795.56],
-        [0.0,6000.0,0.0],
-        [5795.56,0.0,-1552.92],
+        [-2588.2,0.0,-9659.26],
+        [0.0,10000.0,0.0],
+        [9659.26,0.0,-2588.2],
         [19181.1,1000.0,-898.25]
       ],
       "props": []
@@ -7356,7 +7410,7 @@
         [298.858,0.0,26.1465],
         [0.0,300.0,0.0],
         [-26.1465,0.0,298.858],
-        [-17473.2,1000.0,-4903.13]
+        [-15487.5,1000.0,-4647.77]
       ],
       "props": []
     },
@@ -7373,9 +7427,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-783.157,0.0,5948.67],
-        [0.0,6000.0,0.0],
-        [-5948.67,0.0,-783.157],
+        [-1305.26,0.0,9914.45],
+        [0.0,10000.0,0.0],
+        [-9914.45,0.0,-1305.26],
         [-20449.8,1000.0,-5294.7]
       ],
       "props": []
@@ -7713,6 +7767,26 @@
         [-7894.7,549.8,-6544.85]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [298.858,0.0,26.1465],
+        [0.0,300.0,0.0],
+        [-26.1465,0.0,298.858],
+        [-23405.4,500.0,-5684.11]
+      ],
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-286.115,0.0,90.2119],
+        [0.0,300.0,0.0],
+        [-90.2119,0.0,-286.115],
+        [22060.7,500.0,-1669.56]
+      ],
       "props": []
     }
   },

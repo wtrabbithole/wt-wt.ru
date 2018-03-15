@@ -44,6 +44,7 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
     name = "pvp"
     getText = function(totalSections = 0) { return "#topmenu/battle" }
     mergeIndex = topMenuLeftSideMergeIndex.PVP
+    unseenIconMainButton = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
     buttons = [
       [
         ::g_top_menu_buttons.SKIRMISH
@@ -91,7 +92,7 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
     visualStyle = "noFrameGold"
     hoverMenuPos = "pw-w-"
     getText = function(totalSections = 0) { return ::is_low_width_screen()? null : "#mainmenu/btnOnlineShop" }
-    getImage = function(totalSections = 0) { return "#ui/gameuiskin#store_icon" }
+    getImage = function(totalSections = 0) { return "#ui/gameuiskin#store_icon.svg" }
     getWinkImage = function () { return "#ui/gameuiskin#hovermenu_shop_button_glow" }
     haveTmDiscount = true
     buttons = [

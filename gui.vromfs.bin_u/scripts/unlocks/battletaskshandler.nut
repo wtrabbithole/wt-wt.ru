@@ -83,7 +83,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     updateBattleTasksData()
-    updatePersonalUnlocks()
     updateButtons()
 
     local tabType = findTabSheetByTaskId(currentTaskId)
@@ -100,7 +99,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (taskId)
       foreach (tabType, tasksArray in configsArrayByTabType)
       {
-        local task = ::u.search(tasksArray, @(task) taskId == task.id )
+        local task = tasksArray && ::u.search(tasksArray, @(task) taskId == task.id )
         if (!task)
           continue
 
@@ -225,6 +224,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(listBoxObj))
       return
 
+    updatePersonalUnlocks()
     local view = {items = configsArrayByTabType[BattleTasksWndTab.PERSONAL_UNLOCKS].map(@(config) ::g_battle_tasks.generateItemView(config))}
 
     updateNoTasksText(view.items)
@@ -272,7 +272,11 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function updatePersonalUnlocks()
   {
-    personalUnlocksArray = ::g_personal_unlocks.getUnlocksArray()
+    local newPersonalUnlocksArray = ::g_personal_unlocks.getUnlocksArray()
+    if (::u.isEqual(personalUnlocksArray, newPersonalUnlocksArray))
+      return
+
+    personalUnlocksArray = newPersonalUnlocksArray
     buildPersonalUnlocksArray(BattleTasksWndTab.PERSONAL_UNLOCKS)
   }
 
@@ -347,12 +351,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onEventBattleTasksFinishedUpdate(params)
   {
     updateBattleTasksData()
-    onChangeTab(getTabsListObj())
-  }
-
-  function onEventPersonalUnlocksFinishedUpdate(params)
-  {
-    updatePersonalUnlocks()
     onChangeTab(getTabsListObj())
   }
 

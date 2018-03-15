@@ -762,7 +762,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           ::set_last_weapon(airName, air.weapons[j].name)
       }
       createBundle(weaponsList, weaponsItem.weapon, 0, mainModsObj, offsetX, offsetY)
-      columnsList.append(getWeaponsColumnData(::loc("options/secondary_weapons")))
+      columnsList.append(getWeaponsColumnData(::g_weaponry_types.WEAPON.getHeader(air)))
       offsetX++
     }
 
@@ -1428,6 +1428,16 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, item in items)
       if (item.type == weaponsItem.spare)
         updateItem(idx)
+  }
+
+  function onEventModUpgraded(p)
+  {
+    if (p.unit != air)
+      return
+    local modName = p.mod.name
+    local itemidx = ::u.searchIndex(items, @(item) item.name == modName)
+    if (itemidx != -1)
+      updateItem(itemidx)
   }
 
   items = null

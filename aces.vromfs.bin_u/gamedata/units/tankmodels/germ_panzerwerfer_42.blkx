@@ -1011,6 +1011,7 @@
         ]
       },
       "suspension": {
+        "maxDisplacementOffsets": [0.0,0.0],
         "suspensionOffsets": [-0.12,-0.12,0.15],
         "defaultGearRadius": 0.24,
         "topGearRadius": 0.12,
@@ -1028,27 +1029,6 @@
         "wheels": {
           "wheel_r_01": true,
           "wheel_l_01": true
-        }
-      }
-    }
-  },
-  {
-    "PhysSys": {
-      "find": "^bone_suspension_(._\\d\\d)$",
-      "points": {
-        "suspension": {
-          "name": "bone_suspension_$1"
-        },
-        "wheel": {
-          "name": "bone_wheel_$1",
-          "limitMin": [-1000.0,0.0,0.0],
-          "limitMax": [1000.0,0.0,0.0]
-        }
-      },
-      "constraints": {
-        "edge": {
-          "from": "suspension",
-          "to": "wheel"
         }
       }
     }
@@ -1622,15 +1602,6 @@
   },
   {
     "skin": {
-      "name": "blots_small",
-      "replace_tex": {
-        "from": "ger_camo_dunkelgelb*",
-        "to": "ger_camo_dunkelgelb_green_braun_blots_small*"
-      }
-    }
-  },
-  {
-    "skin": {
       "name": "lines",
       "replace_tex": {
         "from": "ger_camo_dunkelgelb*",
@@ -1644,6 +1615,24 @@
       "replace_tex": {
         "from": "ger_camo_dunkelgelb*",
         "to": "ger_camo_winter_dunkelgelb*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_winter_waves",
+      "replace_tex": {
+        "from": "ger_camo_dunkelgelb*",
+        "to": "ger_camo_winter_waves_bicolor*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "blots_small",
+      "replace_tex": {
+        "from": "ger_camo_dunkelgelb*",
+        "to": "ger_camo_dunkelgelb_green_braun_blots_small*"
       }
     }
   },

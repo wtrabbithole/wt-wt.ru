@@ -102,6 +102,9 @@
     "canReloadNonGuns": true
   },
   {
+    "allowForestallWithoutMarkers": true
+  },
+  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_italy_01_c*",
@@ -662,21 +665,6 @@
         "driver_dm": {
           "genericDamageMult": 4.0
         },
-        "era_dm": {
-          "genericDamageMult": 4.0
-        },
-        "era_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "era_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "era_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "operator_dm": {
-          "genericDamageMult": 4.0
-        },
         "loader_dm": {
           "genericDamageMult": 4.0
         },
@@ -744,123 +732,6 @@
           "genericDamageMult": 4.0
         },
         "commander_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_04_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_05_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_06_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_07_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_08_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_09_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_10_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_11_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_12_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_13_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_14_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_15_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_16_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_17_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_18_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_19_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_20_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_21_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_22_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_23_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_24_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_25_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_26_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_27_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_28_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_29_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_30_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_31_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_32_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_33_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_34_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_35_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_36_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_37_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_38_dm": {
-          "genericDamageMult": 4.0
-        },
-        "motorist_dm": {
           "genericDamageMult": 4.0
         },
         "machine_gunner_dm": {
@@ -1050,6 +921,9 @@
         "explosionDamageMult": 5.0,
         "shatterDamageMult": 10.0,
         "shatterArmorQuality": 0.3,
+        "explosionArmorQuality": 0.03,
+        "cumulativeArmorQuality": 0.01,
+        "genericArmorQuality": 0.02,
         "fireParamsPreset": "ship_engine",
         "engine_room_01_dm": [],
         "engine_room_02_dm": [],
@@ -1383,6 +1257,10 @@
         "hp": 200.0,
         "armorThickness": 5.0,
         "armorThrough": 50.0,
+        "shatterArmorQuality": 0.1,
+        "explosionArmorQuality": 0.01,
+        "cumulativeArmorQuality": 0.01,
+        "genericArmorQuality": 0.01,
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "fuel_tank_dm": [
@@ -1582,14 +1460,14 @@
             "onHit": {
               "expl": 0.9,
               "damage": 350.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
             "onHit": {
               "expl": 0.2,
               "damage": 200.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -1611,7 +1489,7 @@
           {
             "onKill": {
               "expl": 0.9,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -1728,8 +1606,7 @@
           },
           {
             "onKill": {
-              "expl": 0.5,
-              "fHitCritical": true
+              "expl": 0.5
             }
           }
         ]
@@ -1790,7 +1667,7 @@
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -1798,7 +1675,7 @@
               "damageType": "generic",
               "fire": 0.03,
               "damage": 20.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -1806,7 +1683,7 @@
               "damageType": "generic",
               "fire": 0.15,
               "damage": 70.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -1818,7 +1695,7 @@
           {
             "onKill": {
               "fire": 1.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -1856,7 +1733,7 @@
             "onKill": {
               "fire": 0.5,
               "nothing": 0.5,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -1895,7 +1772,7 @@
               "damageType": "explosion",
               "fire": 0.02,
               "damage": 13.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -1903,7 +1780,7 @@
               "damageType": "explosion",
               "fire": 0.05,
               "damage": 50.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -1911,7 +1788,7 @@
               "damageType": "explosion",
               "fire": 0.2,
               "damage": 120.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2008,8 +1885,8 @@
         "Empty": 61000.0,
         "Fuel": 2000.0,
         "TakeOff": 63000.0,
-        "momentOfInertia": [12.0,48.0,32.0],
-        "CenterOfGravity": [-0.5,-0.1,0.0]
+        "momentOfInertia": [12.0,46.0,32.0],
+        "CenterOfGravity": [-0.5,0.0,0.0]
       },
       "settings": {
         "speedLossOnManeuver": 0.15
@@ -2019,31 +1896,31 @@
           "maxSpeed": 17.0
         },
         {
-          "maxReverseSpeed": 7.0
+          "maxReverseSpeed": 6.5
         },
         {
           "speedToTime": [
             {
-              "row": [5.0,5.0]
+              "row": [4.0,3.7]
             },
             {
-              "row": [8.0,8.0]
+              "row": [8.5,6.6]
             },
             {
-              "row": [17.0,16.0]
+              "row": [17.0,14.0]
             }
           ]
         },
         {
           "reverseSpeedToTime": [
             {
-              "row": [0.0,2.0]
+              "row": [2.0,2.3]
             },
             {
-              "row": [2.0,4.0]
+              "row": [4.0,4.5]
             },
             {
-              "row": [7.0,8.0]
+              "row": [6.5,9.5]
             }
           ]
         },
@@ -2089,7 +1966,7 @@
           "rudder": {
             "pos": [-12.3,-0.5,0.5],
             "area": 0.4,
-            "deflection": 26.0,
+            "deflection": 31.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
@@ -2097,7 +1974,7 @@
           "rudder": {
             "pos": [-12.0,-0.5,-0.5],
             "area": 0.4,
-            "deflection": 26.0,
+            "deflection": 31.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
@@ -2105,7 +1982,7 @@
           "rudder": {
             "pos": [-12.3,-0.58,0.0],
             "area": 0.6,
-            "deflection": 28.0,
+            "deflection": 31.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
@@ -2269,9 +2146,9 @@
           {
             "limitsTable": {
               "lim1": [-180.0,-155.0,28.0,70.0],
-              "lim2": [-155.0,-35.0,-1.0,70.0],
+              "lim2": [-155.0,-35.0,-4.0,70.0],
               "lim3": [-35.0,35.0,-7.0,70.0],
-              "lim4": [35.0,155.0,-1.0,70.0],
+              "lim4": [35.0,155.0,-4.0,70.0],
               "lim5": [155.0,180.0,28.0,70.0]
             }
           }
@@ -2394,9 +2271,9 @@
           {
             "limitsTable": {
               "lim1": [-180.0,-147.0,44.0,70.0],
-              "lim2": [-147.0,-12.0,-7.0,70.0],
+              "lim2": [-147.0,-12.0,-10.0,70.0],
               "lim3": [-12.0,12.0,-5.0,70.0],
-              "lim4": [12.0,147.0,-7.0,70.0],
+              "lim4": [12.0,147.0,-10.0,70.0],
               "lim5": [147.0,180.0,44.0,70.0]
             }
           }
@@ -2662,9 +2539,8 @@
       "ship_main_caliber_support": [],
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": 4000.0,
-          "maxSpeedInWater": 23.66,
-          "diveDepth": 1.0
+          "distToLive": -5200.0,
+          "maxSpeedInWater": 8.23
         }
       }
     }

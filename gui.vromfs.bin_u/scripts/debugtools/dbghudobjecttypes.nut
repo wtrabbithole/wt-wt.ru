@@ -11,7 +11,7 @@ local enums = ::require("std/enums.nut")
   {
     if (!hudEventsList)
       return
-    local hudEventData = ::u.chooseRandom(hudEventsList)
+    local hudEventData = ::u.map(::u.chooseRandom(hudEventsList), @(val) ::u.isFunction(val) ? val() : val)
     ::g_hud_event_manager.onHudEvent(hudEventData.eventId, hudEventData)
   }
 }
@@ -209,6 +209,20 @@ enums.addTypesByGlobalName("g_dbg_hud_object_type", {
       { eventId = "hint:missionHint:objectiveAdded" }
       { eventId = "hint:missionHint:objectiveFail" }
       { eventId = "hint:missionHint:remove", hintType = "standard" }
+    ]
+  }
+
+  HUD_MSG_DEATH_REASON = {
+    eventChance = 50
+
+    hudEventsList = [
+      {
+        eventId = "HudMessage"
+        type = ::HUD_MSG_DEATH_REASON
+        text = ::loc("death/ammoExplosion")
+        id = @() math.rnd()
+        showInDamageLog = true
+      }
     ]
   }
 

@@ -355,10 +355,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
 function gui_start_artillery_map(params = {})
 {
-  // Temporary fix for wop_1_73_1_X, required, while client executable has no commit 111108.
-  if (params && ::is_version_equals_or_older("1.73.1.78"))
-    params.mapSizeMeters <- ::max(1400, (params?.mapSizeMeters ?? 0))
-
   ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
   {
     mapSizeMeters = params?.mapSizeMeters ?? 1400

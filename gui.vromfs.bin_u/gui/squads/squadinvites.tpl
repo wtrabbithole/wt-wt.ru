@@ -7,8 +7,8 @@ emptyButton {
   on_click:t='onMemberClicked'
   on_r_click:t='onMemberClicked'
 
-  img {
-    background-image:t='<<pilotIcon>>'
+  memberIcon {
+    value:t='<<pilotIcon>>'
   }
 
   animated_wait_icon {

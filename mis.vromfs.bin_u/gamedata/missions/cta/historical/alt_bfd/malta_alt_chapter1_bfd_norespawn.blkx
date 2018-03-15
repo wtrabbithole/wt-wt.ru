@@ -222,13 +222,13 @@
       "missionBriefing": "",
       "environment": "Day",
       "weather": "hazy",
+      "locName": "missions/malta_alt_chapter1_BfD_norespawn",
+      "locDesc": "missions/malta_alt_chapter1_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
       "country_axis": "britain",
       "country_allies": "usa",
-      "locName": "missions/malta_alt_chapter1_BfD_norespawn",
-      "locDesc": "missions/malta_alt_chapter1_BfD_norespawn/desc",
       "missionType": {
         "_Dom": false,
         "_Conq": false,
@@ -519,6 +519,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_naval_ships_squad"
             },
             {
@@ -559,6 +568,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t2_bunkers_squad"
             },
             {
@@ -596,6 +614,15 @@
               "set": true
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "target": "t1_quest_units_squad"
             },
             {
@@ -625,6 +652,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad"
         }
       },
@@ -680,6 +710,9 @@
           "object_type": "isActive",
           "object_marking": 0,
           "check_objects": "all",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad",
           "target": "cargo_safe_zone"
         }
@@ -741,6 +774,9 @@
           "object_type": "isActive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad",
           "target": "cargo_safe_zone"
         }
@@ -781,6 +817,9 @@
             "icon": "score",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -792,6 +831,9 @@
             "icon": "score",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -817,6 +859,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_quest_units_squad"
         }
       },
@@ -4570,7 +4615,7 @@
         [-84.0319,0.0,-287.99],
         [0.0,300.0,0.0],
         [287.99,0.0,-84.0319],
-        [20365.8,1000.01,12846.2]
+        [19879.3,1000.01,10916.1]
       ],
       "props": []
     },
@@ -4587,9 +4632,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [5827.64,0.0,-1427.8],
-        [0.0,6000.0,0.0],
-        [1427.8,0.0,5827.64],
+        [9712.73,0.0,-2379.67],
+        [0.0,10000.0,0.0],
+        [2379.67,0.0,9712.73],
         [21080.5,1000.01,15762.1]
       ],
       "props": []
@@ -4670,7 +4715,7 @@
         [166.743,0.0,249.392],
         [0.0,300.0,0.0],
         [-249.392,0.0,166.743],
-        [7375.88,1000.01,-16187.6]
+        [8413.21,1000.01,-14480.4]
       ],
       "props": []
     },
@@ -4687,9 +4732,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-5128.57,0.0,3114.12],
-        [0.0,6000.0,0.0],
-        [-3114.12,0.0,-5128.57],
+        [-8547.62,0.0,5190.2],
+        [0.0,10000.0,0.0],
+        [-5190.2,0.0,-8547.62],
         [5817.38,1000.01,-18753.6]
       ],
       "props": []
@@ -4795,6 +4840,16 @@
         [16530.5,26.8467,1723.97]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [166.743,0.0,249.392],
+        [0.0,300.0,0.0],
+        [-249.392,0.0,166.743],
+        [4270.4,500.01,-21301.8]
+      ],
       "props": []
     }
   },

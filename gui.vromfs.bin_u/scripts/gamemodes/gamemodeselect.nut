@@ -267,6 +267,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local id = ::game_mode_manager.getGameModeItemId(gameMode.id)
     local hasNewIconWidget = !::game_mode_manager.isSeen(id)
     local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
+    local isCrossPlayRequired = !isEventAvailableForCrossPlay(event)
 
     return {
       hasContent = true
@@ -292,7 +293,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       // Used to easily backtrack corresponding game mode.
       gameMode = gameMode
       eventDescriptionValue = gameMode.id
-      inactiveColor = ::getTblValue("inactiveColor", gameMode, !isEventAvailableForCrossPlay(event))
+      inactiveColor = ::getTblValue("inactiveColor", gameMode, isCrossPlayRequired)
+      isCrossPlayRequired = isCrossPlayRequired
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)

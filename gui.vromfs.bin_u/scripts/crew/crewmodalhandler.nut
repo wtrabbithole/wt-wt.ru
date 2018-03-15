@@ -1,10 +1,11 @@
-function gui_modal_crew(countryId, idInCountry, showTutorial = false)
+function gui_modal_crew(countryId, idInCountry, pageId = null, showTutorial = false)
 {
   if (::has_feature("CrewSkills"))
   {
     local params = {
       countryId = countryId
       idInCountry = idInCountry
+      curPageId = pageId
       showTutorial = showTutorial
     }
     ::gui_start_modal_wnd(::gui_handlers.CrewModalHandler, params)
@@ -70,6 +71,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (showTutorial)
       onUpgrCrewSkillsTutorial()
+    else if (!::g_crew.isAllCrewsMinLevel()
+             && ::g_crew.isAllCrewsHasBasicSpec()
+             && canUpgradeCrewSpec(crew))
+      onUpgrCrewSpec1Tutorial()
   }
 
   function getMainFocusObj()
@@ -527,11 +532,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return action()
 
     local msgOptions = [
-      ["yes", (@(action, updateAfterApply) function() {
+      ["yes", function() {
         afterApplyAction = action
         updateAfterApplyAction = updateAfterApply
         onApply()
-      })(action, updateAfterApply)],
+      }],
       ["no", action]
     ]
 
@@ -629,22 +634,31 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         cb = function()
         {
           onApply()
-          local unit = ::g_crew.getCrewUnit(crew)
-          local unitType = ::get_es_unit_type(unit)
-          local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-          local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit)
-          local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
-          local crewLevel = ::g_crew.getCrewLevel(crew, unitType)
-          if (::get_cur_warpoints() < wpSpecCost.wp ||
-              curSpecType != ::g_crew_spec_type.BASIC ||
-              crewLevel >= reqLevel)
-            onUpgrCrewTutorFinalStep()
-          else
+          if (canUpgradeCrewSpec(crew))
             onUpgrCrewSpec1Tutorial()
+          else
+            onUpgrCrewTutorFinalStep()
         }
       }
     ]
     ::gui_modal_tutor(steps, this)
+  }
+
+  function canUpgradeCrewSpec(crew)
+  {
+    local unit = ::g_crew.getCrewUnit(crew)
+    if (!unit)
+      return false
+
+    local esUnitType = unit.esUnitType
+    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
+    local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit)
+    local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
+    local crewLevel = ::g_crew.getCrewLevel(crew, esUnitType)
+
+    return ::get_cur_warpoints() >= wpSpecCost.wp &&
+           curSpecType == ::g_crew_spec_type.BASIC &&
+           crewLevel >= reqLevel
   }
 
   function onUpgrCrewSpec1Tutorial()

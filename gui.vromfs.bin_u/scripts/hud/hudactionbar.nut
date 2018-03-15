@@ -174,7 +174,18 @@ class ActionBar
     if (useWheelmenu)
       updateKillStreakWheel(prevKillStreaksActions)
 
-    if (prevCount != actionItems.len())
+    local fullUpdate = prevCount != actionItems.len()
+    if (!fullUpdate)
+    {
+      foreach (id, item in actionItems)
+        if (item.id != prewActionItems[id].id)
+        {
+          fullUpdate = true
+          break
+        }
+    }
+
+    if (fullUpdate)
     {
       fill()
       ::broadcastEvent("HudActionbarResized", { size = actionItems.len() })
@@ -232,6 +243,9 @@ class ActionBar
 
       local cooldownObj = itemObj.findObject("cooldown")
       cooldownObj["sector-angle-1"] = getWaitGaugeDegree(item.cooldown)
+
+      local blockedCooldownObj = itemObj.findObject("blockedCooldown")
+      blockedCooldownObj["sector-angle-1"] = getWaitGaugeDegree(item?.blockedCooldown ?? 0.0)
     }
   }
 

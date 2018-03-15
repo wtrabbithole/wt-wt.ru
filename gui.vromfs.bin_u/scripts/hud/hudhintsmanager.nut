@@ -56,6 +56,12 @@ enum HintShowState {
     {
       activeHints.clear()
       timers.reset()
+    } else
+    {
+      local hintOptionsBlk = ::DataBlock()
+      foreach (hint in ::g_hud_hints.types)
+        hint.updateHintOptionsBlk(hintOptionsBlk)
+      ::set_hint_options_by_blk(hintOptionsBlk)
     }
     animatedRemovedHints.clear()
   }

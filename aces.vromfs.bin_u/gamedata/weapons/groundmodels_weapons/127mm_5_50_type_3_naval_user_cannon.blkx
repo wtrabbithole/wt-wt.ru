@@ -33,10 +33,10 @@
       "mass": 23.0
     },
     {
-      "explosiveType": "lyddit"
+      "explosiveType": "shimose"
     },
     {
-      "explosiveMass": 1.88
+      "explosiveMass": 1.78
     },
     {
       "caliber": 0.127
@@ -78,22 +78,22 @@
       "fuseDelayDist": 0.0
     },
     {
-      "explosionPatchRadius": 2.1
-    },
-    {
       "groundCollisionEffect": "art_ground_splash"
     },
     {
-      "ricochetEffect": "cannon_ricochet"
+      "groundFxScale": [1.5,1.7]
     },
     {
-      "groundFxScale": [1.4,1.5]
+      "ricochetEffect": "cannon_hit_apds"
     },
     {
       "waterCollisionEffect": "120-203_he_water_splash"
     },
     {
-      "waterFxScale": [1.3,1.4]
+      "waterFxScale": [1.1,1.2]
+    },
+    {
+      "explosionPatchRadius": 4.0
     },
     {
       "hitpower": {
@@ -114,21 +114,17 @@
     },
     {
       "collisions": {
-        "steel": {
-          "fx": "ps_hit_150mm_cumulative",
-          "fxScale": [6.0,5.0]
-        },
-        "armor": {
-          "fx": "ps_hit_150mm_cumulative",
-          "fxScale": [6.0,5.0]
-        },
-        "wood": {
-          "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [5.0,6.0]
-        },
         "buildings": {
           "fx": "122_he_stone_splash",
-          "fxScale": [0.8,1.2]
+          "fxScale": [1.3,1.7]
+        },
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
         }
       }
     }
@@ -142,10 +138,10 @@
         "mass": 23.0
       },
       {
-        "explosiveType": "lyddit"
+        "explosiveType": "shimose"
       },
       {
-        "explosiveMass": 1.88
+        "explosiveMass": 1.78
       },
       {
         "caliber": 0.127
@@ -187,22 +183,22 @@
         "fuseDelayDist": 0.0
       },
       {
-        "explosionPatchRadius": 2.1
-      },
-      {
         "groundCollisionEffect": "art_ground_splash"
       },
       {
-        "ricochetEffect": "cannon_ricochet"
+        "groundFxScale": [1.5,1.7]
       },
       {
-        "groundFxScale": [1.4,1.5]
+        "ricochetEffect": "cannon_hit_apds"
       },
       {
         "waterCollisionEffect": "120-203_he_water_splash"
       },
       {
-        "waterFxScale": [1.3,1.4]
+        "waterFxScale": [1.1,1.2]
+      },
+      {
+        "explosionPatchRadius": 4.0
       },
       {
         "hitpower": {
@@ -223,21 +219,17 @@
       },
       {
         "collisions": {
-          "steel": {
-            "fx": "ps_hit_150mm_cumulative",
-            "fxScale": [6.0,5.0]
-          },
-          "armor": {
-            "fx": "ps_hit_150mm_cumulative",
-            "fxScale": [6.0,5.0]
-          },
-          "wood": {
-            "fx": "cannon_hit_ship_cumulative",
-            "fxScale": [5.0,6.0]
-          },
           "buildings": {
             "fx": "122_he_stone_splash",
-            "fxScale": [0.8,1.2]
+            "fxScale": [1.3,1.7]
+          },
+          "steel": {
+            "fx": "cannon_hit_armor_cumulative",
+            "fxScale": [4.0,5.0]
+          },
+          "armor": {
+            "fx": "cannon_hit_armor_cumulative",
+            "fxScale": [4.0,5.0]
           }
         }
       }

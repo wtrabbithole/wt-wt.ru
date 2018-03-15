@@ -1146,17 +1146,13 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local mouse_aim_x = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "controls/mouse_aim_x" : "controls/gm_mouse_aim_x"
       local mouse_aim_y = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "controls/mouse_aim_y" : "controls/gm_mouse_aim_y"
-      local checkOptionId = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "useJoystickOnMouseAim" : "useJoystickOnTankMouseAim"
 
       local joyParams = ::joystick_get_cur_settings()
-      local enabled = ::getTblValue(checkOptionId, joyParams, false)
-      local titleX = enabled? ::loc(mouse_aim_x) : "---"
-      local titleY = enabled? ::loc(mouse_aim_y) : "---"
-      local title = enabled? (titleX + " + " + titleY) : "---"
-      local tooltipX = enabled? ::loc(mouse_aim_x) : ::loc("controls/unmapped")
-      tooltipX = ::loc("controls/help/mouse_aim_x") + ::loc("ui/colon") + "\n" + tooltipX
-      local tooltipY = enabled? ::loc(mouse_aim_y) : ::loc("controls/unmapped")
-      tooltipY = ::loc("controls/help/mouse_aim_y") + ::loc("ui/colon") + "\n" + tooltipY
+      local titleX = ::loc(mouse_aim_x)
+      local titleY = ::loc(mouse_aim_y)
+      local title = titleX + " + " + titleY
+      local tooltipX = ::loc("controls/help/mouse_aim_x") + ::loc("ui/colon") + "\n" + ::loc(mouse_aim_x)
+      local tooltipY = ::loc("controls/help/mouse_aim_y") + ::loc("ui/colon") + "\n" + ::loc(mouse_aim_y)
       local tooltip = tooltipX + "\n\n" + tooltipY
       tObj.setValue(title)
       tObj.tooltip = tooltip

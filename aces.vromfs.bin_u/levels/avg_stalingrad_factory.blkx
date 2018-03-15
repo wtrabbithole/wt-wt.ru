@@ -38,8 +38,11 @@
   "wind_scale": 0.6,
   "max_wind_strength": 2.0,
   "average_ground_level": 16.0,
-  "wetnessPowerScale": 0.0,
-  "wetnessFreq": 0.75,
+  "puddlesPowerScale": 0.0,
+  "puddlesSpread": 0.75,
+  "layeredFogThicknessScale100": 50.0,
+  "layeredFogHeightOffset": -12.0,
+  "layeredFogDensityMul": 0.5,
   "alternativeMapCoord": {
     "aiTanksMapCoord0": [2470.0,1200.0],
     "aiTanksMapCoord1": [4020.0,2870.0],
@@ -47,6 +50,47 @@
     "tankGridZeroPoint": [2400.0,2800.0],
     "tankGridSize": [1600.0,1600.0]
   },
+  "micro_details": [
+    {
+      "micro_detail": "microdetail_sand_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_sand_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_b_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_b_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_forest_floor_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_fabric_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_wood_b_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_metal_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n*"
+    },
+    {
+      "land_micro_details_uv_scale": 1.11
+    }
+  ],
   "stars": {
     "latitude": 36.0,
     "longitude": 44.0,
@@ -58,6 +102,7 @@
     "detail_bump_scale": 0.01,
     "parallax_shadow_length": 0.0,
     "land_smoothness_detect_color": [0.23,0.23,0.22,0.5],
+    "displacement_hardness": 0.6,
     "max_river_width": 550.0,
     "ocean_density": 4.0,
     "river_density": 6.0,

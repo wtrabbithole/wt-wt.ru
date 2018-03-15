@@ -143,9 +143,6 @@
         "turret_back_dm": {
           "armorThickness": 10.0
         },
-        "turret_06_top_dm": {
-          "armorThickness": 50.0
-        },
         "body_top_dm": {
           "armorThickness": 12.7
         },
@@ -163,9 +160,6 @@
         },
         "turret_05_top_dm": {
           "armorThickness": 12.7
-        },
-        "turret_08_top_dm": {
-          "armorThickness": 50.0
         }
       },
       "hull_turret_ex_shields": {
@@ -255,7 +249,7 @@
           "armorThickness": 10.0
         },
         "gun_barrel_02_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 50.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
@@ -1141,7 +1135,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "allowableDelta": 20.0,
-          "barrelDP": "gun_barrel_dm",
+          "barrelDP": "gun_barrel_02_dm",
           "brokenBarrelAllowShoot": true,
           "speedYaw": 18.0,
           "speedPitch": 4.0,
@@ -1972,7 +1966,7 @@
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "allowableDelta": 20.0,
-                "barrelDP": "gun_barrel_dm",
+                "barrelDP": "gun_barrel_02_dm",
                 "brokenBarrelAllowShoot": true,
                 "speedYaw": 18.0,
                 "speedPitch": 4.0,
@@ -2127,16 +2121,7 @@
     "user_skin": {
       "name": "fv102_striker",
       "replace_tex": {
-        "from": "us_camo_olive*"
-      }
-    }
-  },
-  {
-    "default_skin": {
-      "name": "default",
-      "replace_tex": {
-        "from": "us_camo_olive*",
-        "to": "uk_camo_very_dark_drab*"
+        "from": "uk_camo_very_dark_drab*"
       }
     }
   },
@@ -2144,8 +2129,8 @@
     "skin": {
       "name": "uk_camo_earth_yellow",
       "replace_tex": {
-        "from": "us_camo_olive*",
-        "to": "uk_camo_earth_yellow*"
+        "from": "uk_camo_very_dark_drab*",
+        "to": "uk_camo_standart_modern_light_stone*"
       }
     }
   },
@@ -2153,7 +2138,7 @@
     "skin": {
       "name": "uk_camo_light_mud_blue_black",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "uk_camo_very_dark_drab*",
         "to": "uk_camo_light_mud_blue_black*"
       }
     }
@@ -2162,7 +2147,7 @@
     "skin": {
       "name": "uk_camo_light_mud_slate_grey",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "uk_camo_very_dark_drab*",
         "to": "uk_camo_light_mud_slate_grey*"
       }
     }
@@ -2171,8 +2156,17 @@
     "skin": {
       "name": "uk_camo_middle_deep_bronze_greens",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "uk_camo_very_dark_drab*",
         "to": "uk_camo_middle_deep_bronze_greens*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "uk_camo_standart_modern_bicolor",
+      "replace_tex": {
+        "from": "uk_camo_very_dark_drab*",
+        "to": "uk_camo_standart_modern_bicolor*"
       }
     }
   },
@@ -2180,8 +2174,17 @@
     "skin": {
       "name": "uk_camo_winter_olive",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "uk_camo_very_dark_drab*",
         "to": "us_camo_winter_olive*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "fr_camo_winter_green_white",
+      "replace_tex": {
+        "from": "uk_camo_very_dark_drab*",
+        "to": "fr_camo_winter_green_white*"
       }
     }
   }

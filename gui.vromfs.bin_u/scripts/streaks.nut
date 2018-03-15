@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 const STREAK_LIFE_TIME = 5.0
 const STREAK_FADE_OUT_TIME = 1.5
 const STREAK_DELAY_TIME = 0.5
@@ -221,6 +223,6 @@ function get_loc_for_streak(StreakNameType, name, stageparam, playerNick = "", c
 
   text = format(text, stageparam)
   if (!isMyStreak)
-    text = ::format("\x1b%03d%s\x1b %s", colorId, playerNick, text)
+    text = ::format("\x1b%03d%s\x1b %s", colorId, platformModule.getPlayerName(playerNick), text)
   return text
 }

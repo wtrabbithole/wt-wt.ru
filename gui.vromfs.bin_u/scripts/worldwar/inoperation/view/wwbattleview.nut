@@ -189,11 +189,14 @@ class ::WwBattleView
 
   function getTeamSizeText(team)
   {
-    local minPlayers = ::getTblValue("minPlayers", team)
-    local maxPlayers = ::getTblValue("maxPlayers", team)
-    if (!minPlayers || !maxPlayers)
+    if (battle.isAutoBattle())
       return ::loc("worldWar/unavailable_for_team")
 
+    local maxPlayers = ::getTblValue("maxPlayers", team)
+    if (!maxPlayers)
+      return ::loc("worldWar/unavailable_for_team")
+
+    local minPlayers = ::getTblValue("minPlayers", team)
     local curPlayers = ::getTblValue("players", team)
     return battle.isConfirmed() && battle.getMyAssignCountry() ?
       ::loc("worldwar/battle/playersCurMax", { cur = curPlayers, max = maxPlayers }) :
@@ -226,9 +229,23 @@ class ::WwBattleView
     return battle.getBattleDurationTime() > 0
   }
 
+  function hasBattleActivateLeftTime()
+  {
+    return battle.getBattleActivateLeftTime() > 0
+  }
+
   function getBattleDurationTime()
   {
     local durationTime = battle.getBattleDurationTime()
+    if (durationTime > 0)
+      return time.hoursToString(time.secondsToHours(durationTime), false, true)
+
+    return ""
+  }
+
+  function getBattleActivateLeftTime()
+  {
+    local durationTime = battle.getBattleActivateLeftTime()
     if (durationTime > 0)
       return time.hoursToString(time.secondsToHours(durationTime), false, true)
 
@@ -271,16 +288,22 @@ class ::WwBattleView
     return battle.isValid() ? ::loc(getBattleStatusTextLocId() + "/desc") : ""
   }
 
-  function getCanJoinText()
+  function getCanJoinText(side)
   {
+    if (side == ::SIDE_NONE)
+      return ""
+
     local currentBattleQueue = ::queues.findQueueByName(battle.getQueueId(), true)
     local canJoinLocKey = ""
     if (currentBattleQueue != null)
       canJoinLocKey = "worldWar/canJoinStatus/in_queue"
     else if (battle.isStarted())
-      canJoinLocKey = battle.isPlayerTeamFull() ?
-        "worldWar/canJoinStatus/no_free_places" :
-        "worldWar/canJoinStatus/can_join"
+    {
+      local cantJoinReasonData = battle.getCantJoinReasonData(side, false)
+      if (cantJoinReasonData.canJoin)
+        canJoinLocKey = battle.isPlayerTeamFull() ? "worldWar/canJoinStatus/no_free_places"
+          : "worldWar/canJoinStatus/can_join"
+    }
 
     return ::u.isEmpty(canJoinLocKey) ? "" : ::loc(canJoinLocKey)
   }
@@ -295,13 +318,13 @@ class ::WwBattleView
     return text
   }
 
-  function getBattleStatusWithCanJoinText()
+  function getBattleStatusWithCanJoinText(side)
   {
     if (!battle.isValid())
       return ""
 
     local text = getBattleStatusText()
-    local canJoinText = getCanJoinText()
+    local canJoinText = getCanJoinText(side)
     if (!::u.isEmpty(canJoinText))
       text += ::loc("ui/dot") + " " + canJoinText
 

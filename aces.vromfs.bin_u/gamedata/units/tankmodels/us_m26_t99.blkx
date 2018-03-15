@@ -357,12 +357,14 @@
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
         "drive_turret_v_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
+          "hp": 150.0,
+          "armorThrough": 1.0,
+          "armorThickness": 12.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
+          "hp": 150.0,
+          "armorThrough": 1.0,
+          "armorThickness": 12.0
         },
         "drive_turret_v_01_dm": {
           "hp": 40.0,
@@ -381,14 +383,14 @@
           "armorThrough": 15.0
         },
         "cannon_breech_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 100.0,
-          "hp": 100.0
+          "armorThickness": 10.0,
+          "armorThrough": 300.0,
+          "hp": 150.0
         },
         "cannon_breech_01_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 100.0,
-          "hp": 100.0
+          "armorThickness": 10.0,
+          "armorThrough": 15.0,
+          "hp": 150.0
         },
         "radiator_dm": {
           "hp": 40.0,
@@ -1328,6 +1330,15 @@
     }
   },
   {
+    "skin": {
+      "name": "us_camo_winter_grid",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "us_camo_winter_grid*"
+      }
+    }
+  },
+  {
     "commonWeapons": [
       {
         "Weapon": {
@@ -2224,39 +2235,57 @@
     ]
   },
   {
-    "ammoLoadDistribution": {
-      "primaryShells": {
-        "ammo_turret_dm": {
-          "count": 10
-        },
-        "ammo_body_01_dm": {
-          "count": 6
-        },
-        "ammo_body_08_dm": {
-          "count": 6
-        },
-        "ammo_body_02_dm": {
-          "count": 8
-        },
-        "ammo_body_03_dm": {
-          "count": 8
-        },
-        "ammo_body_04_dm": {
-          "count": 8
-        },
-        "ammo_body_05_dm": {
-          "count": 8
-        },
-        "ammo_body_06_dm": {
-          "count": 8
-        },
-        "ammo_body_07_dm": {
-          "count": 8
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_dm": {
+            "count": 10
+          },
+          "ammo_body_01_dm": {
+            "count": 6
+          },
+          "ammo_body_08_dm": {
+            "count": 6
+          },
+          "ammo_body_02_dm": {
+            "count": 8
+          },
+          "ammo_body_03_dm": {
+            "count": 8
+          },
+          "ammo_body_04_dm": {
+            "count": 8
+          },
+          "ammo_body_05_dm": {
+            "count": 8
+          },
+          "ammo_body_06_dm": {
+            "count": 8
+          },
+          "ammo_body_07_dm": {
+            "count": 8
+          }
         }
       },
-      "special": {
-        "ammo_turret_02_dm": {
-          "count": 44
+      "ammo2": {
+        "weaponTrigger": "gunner2",
+        "removeLoadedAmmo": false,
+        "fatalFire": false,
+        "fatalExplosion": false,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_02_dm": {
+            "count": 44
+          }
         }
       }
     }

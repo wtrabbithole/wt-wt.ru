@@ -139,6 +139,35 @@ class Decorator
     return ::get_unit_type_font_icon(::get_es_unit_type(::getAircraftByName(units[0])))
   }
 
+  function getTypeDesc()
+  {
+    return decoratorType.getTypeDesc(this)
+  }
+
+  function getRestrictionsDesc()
+  {
+    if (decoratorType == ::g_decorator_type.SKINS)
+      return ""
+
+    local res = []
+
+    if (!::u.isEmpty(units))
+    {
+      local visUnits = ::u.filter(units, @(u) ::getAircraftByName(u)?.isInShop)
+      res.append(::loc("options/unit") + ::loc("ui/colon") +
+        ::g_string.implode(::u.map(visUnits, @(u) ::getUnitName(u)), ::loc("ui/comma")))
+    }
+
+    if (countries)
+    {
+      local visCountries = ::u.filter(countries, @(c) ::isInArray(c, ::shopCountriesList))
+      res.append(::loc("events/countres") + " " +
+        ::g_string.implode(::u.map(visCountries, @(c) ::loc(c)), ::loc("ui/comma")))
+    }
+
+    return ::colorize("warningTextColor", ::g_string.implode(res, "\n"))
+  }
+
   function canBuyUnlock(unit)
   {
     return !isLockedByCountry(unit) && !isLockedByUnit(unit) && !isUnlocked() && !getCost().isZero() && ::has_feature("SpendGold")

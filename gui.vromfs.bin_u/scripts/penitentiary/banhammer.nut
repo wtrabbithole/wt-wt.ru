@@ -38,7 +38,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
     playerName = ::getTblValue("name", player, "")
     if (!::getTblValue("uid", player))
     {
-      taskId = ::find_contact_by_name_and_do(playerName, this, onPlayerFound)
+      taskId = ::find_contact_by_name_and_do(playerName, ::Callback(onPlayerFound, this))
       if (taskId!=null && taskId<0)
       {
         notFoundPlayerMsg()
@@ -186,7 +186,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
       afterSlotOp = function()
         {
           dagor.debug("[IRC] sending /reauth " + playerName)
-          ::gchat_raw_command("reauth " + playerName)
+          ::gchat_raw_command("reauth " + ::gchat_escape_target(playerName))
           goBack()
         }
     }

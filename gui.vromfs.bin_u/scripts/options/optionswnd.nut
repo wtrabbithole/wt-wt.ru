@@ -77,6 +77,8 @@ function get_main_options()
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! isInFlight],
       [::USEROPT_USE_PERFECT_RANGEFINDER, "spinner", ::has_feature("Ships")],
+      [::USEROPT_SAVE_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
+      [::USEROPT_DEFAULT_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -101,6 +103,8 @@ function get_main_options()
       [::USEROPT_MEASUREUNITS_DIST, "spinner"],
       [::USEROPT_MEASUREUNITS_CLIMBSPEED, "spinner"],
       [::USEROPT_MEASUREUNITS_TEMPERATURE, "spinner"],
+      [::USEROPT_MEASUREUNITS_WING_LOADING, "spinner", ::has_feature("CardAirplaneParameters")],
+      [::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO, "spinner", ::has_feature("CardAirplaneParameters") && ::has_feature("CardAirplanePowerParameters")],
 
       ["options/header/playersMarkers"],
       [::USEROPT_SHOW_INDICATORS, "spinner"],

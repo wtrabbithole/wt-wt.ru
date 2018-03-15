@@ -101,6 +101,18 @@ enums.addTypesByGlobalName("g_measure_type", {
     orderCode = 4
   }
 
+  WING_LOADING = {
+    name = "wingLoading"
+    userOptCode = ::USEROPT_MEASUREUNITS_WING_LOADING
+    orderCode = 5
+  }
+
+  POWER_TO_WEIGHT_RATIO = {
+    name = "powerToWeightRatio"
+    userOptCode = ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO
+    orderCode = 6
+  }
+
   HOURS = {
     name = "hours"
 

@@ -102,6 +102,9 @@
     "canReloadNonGuns": true
   },
   {
+    "allowForestallWithoutMarkers": true
+  },
+  {
     "depthTraceWarningDepth": 5.0
   },
   {
@@ -2034,6 +2037,7 @@
         "hp": 1500.0,
         "armorThickness": 20.0,
         "fireParamsPreset": "ship_cover",
+        "stopChanceOnDeadPart": 0.3,
         "compartment_01_dm": {
           "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
@@ -2221,7 +2225,75 @@
           {
             "onKill": {
               "fire": 1.0,
-              "fHitCritical": true
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "depth_charge_01_dm"
+          },
+          {
+            "name": "depth_charge_02_dm"
+          },
+          {
+            "name": "depth_charge_03_dm"
+          },
+          {
+            "name": "depth_charge_04_dm"
+          },
+          {
+            "name": "depth_charge_05_dm"
+          },
+          {
+            "name": "depth_charge_06_dm"
+          },
+          {
+            "name": "depth_charge_07_dm"
+          },
+          {
+            "name": "depth_charge_08_dm"
+          },
+          {
+            "name": "depth_charge_09_dm"
+          },
+          {
+            "name": "depth_charge_10_dm"
+          },
+          {
+            "name": "depth_charge_11_dm"
+          },
+          {
+            "name": "depth_charge_12_dm"
+          },
+          {
+            "onKill": {
+              "expl": 0.5,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "ammunition_storage_01_dm"
+          },
+          {
+            "name": "ammunition_storage_02_dm"
+          },
+          {
+            "name": "ammunition_storage_03_dm"
+          },
+          {
+            "name": "ammunition_storage_04_dm"
+          },
+          {
+            "onKill": {
+              "expl": 1.0,
+              "fHitCritical": false
             }
           }
         ]
@@ -2282,7 +2354,7 @@
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2290,7 +2362,7 @@
               "damageType": "generic",
               "fire": 0.03,
               "damage": 20.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2298,7 +2370,7 @@
               "damageType": "generic",
               "fire": 0.15,
               "damage": 70.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2310,7 +2382,7 @@
           {
             "onKill": {
               "fire": 1.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2349,14 +2421,14 @@
               "damageType": "explosion",
               "fire": 0.4,
               "damage": 200.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
             "onKill": {
               "fire": 0.2,
               "nothing": 0.8,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2380,7 +2452,7 @@
               "damageType": "explosion",
               "fire": 0.2,
               "damage": 200.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2428,7 +2500,7 @@
               "damageType": "explosion",
               "fire": 0.05,
               "damage": 50.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2436,7 +2508,7 @@
               "damageType": "explosion",
               "fire": 0.1,
               "damage": 400.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2610,25 +2682,7 @@
           "kill": true,
           "killEffect": "destruction"
         }
-      },
-      "ammo": [
-        {
-          "part": "ammunition_storage_01_dm"
-        },
-        {
-          "part": "ammunition_storage_02_dm"
-        },
-        {
-          "part": "ammunition_storage_03_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 1,
-            "kill": true,
-            "killEffect": "expl"
-          }
-        }
-      ]
+      }
     }
   },
   {
@@ -2652,39 +2706,39 @@
         "Empty": 1980000.0,
         "Fuel": 600000.0,
         "TakeOff": 2580000.0,
-        "momentOfInertia": [51.0,560.0,360.0],
+        "momentOfInertia": [51.0,580.0,380.0],
         "CenterOfGravity": [-3.0,-0.2,0.0]
       },
       "engines": [
         {
-          "maxSpeed": 19.54
+          "maxSpeed": 19.5
         },
         {
-          "maxReverseSpeed": 10.0
+          "maxReverseSpeed": 8.0
         },
         {
           "speedToTime": [
             {
-              "row": [5.0,7.0]
+              "row": [5.0,7.3]
             },
             {
-              "row": [9.0,14.0]
+              "row": [10.0,13.5]
             },
             {
-              "row": [19.5,28.0]
+              "row": [19.5,27.5]
             }
           ]
         },
         {
           "reverseSpeedToTime": [
             {
-              "row": [0.0,2.0]
+              "row": [2.0,2.0]
             },
             {
-              "row": [5.0,6.0]
+              "row": [4.0,5.0]
             },
             {
-              "row": [10.0,12.0]
+              "row": [8.0,12.0]
             }
           ]
         },
@@ -2733,8 +2787,8 @@
         "bodyArea": 0.0,
         "rudder": {
           "pos": [-49.3,-1.5,0.0],
-          "area": 15.0,
-          "deflection": 44.0,
+          "area": 19.0,
+          "deflection": 38.0,
           "dmPart": "steering_gear_01_dm"
         }
       }
@@ -2865,7 +2919,7 @@
           {
             "limitsTable": {
               "lim1": [-150.0,-25.0,-7.0,45.0],
-              "lim2": [-25.0,25.0,-3.0,45.0],
+              "lim2": [-25.0,25.0,-4.0,45.0],
               "lim3": [25.0,150.0,-7.0,45.0]
             }
           },
@@ -3008,7 +3062,7 @@
           {
             "limitsTable": {
               "lim1": [-150.0,-25.0,-7.0,45.0],
-              "lim2": [-25.0,25.0,-3.0,45.0],
+              "lim2": [-25.0,25.0,-4.0,45.0],
               "lim3": [25.0,150.0,-7.0,45.0]
             }
           },
@@ -3151,7 +3205,7 @@
           {
             "limitsTable": {
               "lim1": [-144.0,-33.0,-8.0,45.0],
-              "lim2": [-33.0,33.0,-3.0,45.0],
+              "lim2": [-33.0,33.0,-5.0,45.0],
               "lim3": [33.0,144.0,-8.0,45.0]
             }
           },
@@ -3294,7 +3348,7 @@
           {
             "limitsTable": {
               "lim1": [-144.0,-33.0,-8.0,45.0],
-              "lim2": [-33.0,33.0,-3.0,45.0],
+              "lim2": [-33.0,33.0,-5.0,45.0],
               "lim3": [33.0,144.0,-8.0,45.0]
             }
           },
@@ -4623,7 +4677,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,24.0,-84.0],
+      "headPos": [0.0,24.0,-79.0],
       "headPosOnShooting": [28.6,17.8,0.0],
       "detectionHeight": 25.5
     }
@@ -4670,9 +4724,8 @@
       "new_aa_caliber_turrets": [],
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": 4000.0,
-          "maxSpeedInWater": 23.66,
-          "diveDepth": 1.0
+          "distToLive": -5200.0,
+          "maxSpeedInWater": 8.23
         }
       }
     }
@@ -5226,6 +5279,10 @@
       "ammo1": {
         "weaponTrigger": "gunner0",
         "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "explosionEvent": "ammo_explosion_1",
+          "fireEvent": "ammo_fire_1",
           "ammunition_storage_01_dm": {
             "count": 360
           }
@@ -5234,6 +5291,10 @@
       "ammo2": {
         "weaponTrigger": "gunner1",
         "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "explosionEvent": "ammo_explosion_2",
+          "fireEvent": "ammo_fire_2",
           "ammunition_storage_02_dm": {
             "count": 360
           }

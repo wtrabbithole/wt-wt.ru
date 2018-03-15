@@ -35,10 +35,11 @@
     "bulletName": "40mm_shot_mk1_apt",
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
-    "groundCollisionEffect": "big_ground_splash",
-    "groundFxScale": [0.6,0.7],
+    "groundCollisionEffect": "37_50_ap_hit_ground",
+    "groundFxScale": [0.5,0.7],
     "ricochetEffect": "cannon_ricochet",
     "waterCollisionEffect": "water_splash",
+    "waterFxScale": [1.5,1.7],
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
@@ -63,14 +64,21 @@
       "trail": "black"
     },
     "collisions": {
+      "buildings": {
+        "fx": "20_37_he_hit_stone",
+        "fxScale": [0.5,0.7]
+      },
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_apds",
+        "fxScale": [1.1,1.2]
       },
       "armor": {
-        "fx": "cannon_hit_armor"
+        "fx": "cannon_hit_apds",
+        "fxScale": [1.1,1.2]
       },
       "wood": {
-        "fx": "old_ship_hit_ball"
+        "fx": "20_ap_wood_splash",
+        "fxScale": [0.9,1.1]
       }
     }
   },
@@ -85,10 +93,11 @@
       "bulletName": "40mm_shot_mk1_apt",
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "groundCollisionEffect": "big_ground_splash",
-      "groundFxScale": [0.6,0.7],
+      "groundCollisionEffect": "37_50_ap_hit_ground",
+      "groundFxScale": [0.5,0.7],
       "ricochetEffect": "cannon_ricochet",
       "waterCollisionEffect": "water_splash",
+      "waterFxScale": [1.5,1.7],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -113,14 +122,21 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "20_37_he_hit_stone",
+          "fxScale": [0.5,0.7]
+        },
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds",
+          "fxScale": [1.1,1.2]
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds",
+          "fxScale": [1.1,1.2]
         },
         "wood": {
-          "fx": "old_ship_hit_ball"
+          "fx": "20_ap_wood_splash",
+          "fxScale": [0.9,1.1]
         }
       }
     }
@@ -144,15 +160,16 @@
       "explodeHitPower": 55.0,
       "explodeArmorPower": 5.0,
       "explodeRadius": [0.3,1.4],
-      "explosionPatchRadius": 1.1,
       "shutterDamage": true,
       "shutterDamageRadius": 7.5,
       "shutterAmount": 120,
       "shutterArmorPower": 3.0,
       "shutterHit": 10.0,
-      "groundCollisionEffect": "20_37_he_hit_ground",
+      "groundCollisionEffect": "37_50_he_hit_ground",
+      "groundFxScale": [0.5,0.6],
       "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [1.0,1.1],
+      "waterCollisionEffect": "big_water_splash",
+      "waterFxScale": [1.0,1.2],
       "hitpower": {
         "HitPower0m": [1.0,500.0],
         "HitPower1000m": [0.9,1000.0],
@@ -177,17 +194,21 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "20_37_he_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [1.0,2.0]
+          "fxScale": [1.0,1.1]
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [1.0,2.0]
+          "fxScale": [1.0,1.1]
         },
         "wood": {
-          "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [0.8,1.0]
+          "fx": "20_ap_wood_splash",
+          "fxScale": [0.9,1.1]
         }
       }
     }
@@ -203,10 +224,11 @@
       "bulletName": "40mm_shot_mk1_apcbct",
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "groundCollisionEffect": "big_ground_splash",
-      "groundFxScale": [0.6,0.7],
+      "groundCollisionEffect": "37_50_ap_hit_ground",
+      "groundFxScale": [0.5,0.7],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "big_water_splash",
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [1.5,1.7],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -231,11 +253,21 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "20_37_he_hit_stone",
+          "fxScale": [0.5,0.7]
+        },
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds",
+          "fxScale": [1.1,1.2]
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds",
+          "fxScale": [1.1,1.2]
+        },
+        "wood": {
+          "fx": "20_ap_wood_splash",
+          "fxScale": [0.9,1.1]
         }
       }
     }
@@ -251,10 +283,11 @@
       "bulletName": "40mm_shot_mk1_aphv",
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "groundCollisionEffect": "big_ground_splash",
-      "groundFxScale": [0.6,0.7],
+      "groundCollisionEffect": "37_50_ap_hit_ground",
+      "groundFxScale": [0.5,0.7],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "big_water_splash",
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [1.5,1.7],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -279,11 +312,21 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "20_37_he_hit_stone",
+          "fxScale": [0.5,0.7]
+        },
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_apds",
+          "fxScale": [1.1,1.2]
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_apds",
+          "fxScale": [1.1,1.2]
+        },
+        "wood": {
+          "fx": "20_ap_wood_splash",
+          "fxScale": [0.9,1.1]
         }
       }
     }

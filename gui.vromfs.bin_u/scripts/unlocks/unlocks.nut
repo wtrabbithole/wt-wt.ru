@@ -1080,8 +1080,8 @@ function build_log_unlock_data(config, showProgress = false, needTitle = true) /
     case ::UNLOCKABLE_MEDAL:
       if (id != "")
       {
-        local imagePath = "!@#ui/medalskin#" + id + "_big"
-        res.image = "!@#ui/medalskin#" + id + "_big"
+        local imagePath = "!@#ui/medalskin#" + id
+        res.image = "!@#ui/medalskin#" + id
         res.descrImage <- ::getTblValue("image", cond, imagePath + "_big")
         res.descrImageSize <- "128, 128"
       }
@@ -1672,6 +1672,7 @@ function g_unlocks::invalidateUnlocksCache()
 {
   isCacheValid = false
   isFavUnlockCacheValid = null
+  ::broadcastEvent("UnlocksCacheInvalidate")
 }
 
 function g_unlocks::isUnlockMultiStageLocId(unlockId)

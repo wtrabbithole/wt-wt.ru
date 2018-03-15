@@ -563,6 +563,8 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
   local receivedPrizes = ::getTblValue("receivedPrizes", params, true)
   local classIco = ::getTblValue("singlePrize", params, false) ? null : ::getUnitClassIco(unit)
   local shopItemType = ::get_unit_role(unit)
+  local isShowLocalState = receivedPrizes || rentTimeHours > 0
+  local buttons = getPrizeActionButtonsView(null, params)
 
   local infoText = ""
   if (rentTimeHours > 0)
@@ -573,12 +575,14 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
   local unitPlate = ::build_aircraft_item(unitName, unit, {
     hasActions = true,
     status = (!receivedPrizes && isBought) ? "locked" : "canBuy",
+    isLocalState = isShowLocalState
     showAsTrophyContent = true
     isReceivedPrizes = receivedPrizes
     offerRentTimeHours = rentTimeHours
     tooltipParams = {
       rentTimeHours = rentTimeHours
       isReceivedPrizes = receivedPrizes
+      showLocalState = isShowLocalState
     }
   })
   return {
@@ -586,6 +590,8 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
     shopItemType = shopItemType,
     unitPlate = unitPlate,
     commentText = infoText.len() ? infoText : null
+    buttons = buttons
+    buttonsCount = buttons.len()
   }
 }
 
@@ -677,12 +683,15 @@ function PrizesView::getViewDataDecorator(prize, params = null)
   local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
   local isHave = decoratorType.isPlayerHaveDecorator(id)
   local isReceivedPrizes = params?.receivedPrizes ?? false
+  local buttons = getPrizeActionButtonsView(prize, params)
 
   return {
     icon  = decoratorType.prizeTypeIcon
     title = getPrizeText(prize)
     tooltipId = ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params)
     commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
+    buttons = buttons
+    buttonsCount = buttons.len()
   }
 }
 
@@ -834,23 +843,24 @@ function PrizesView::getPrizesStacksView(content, fixedAmountHeaderFunc = null, 
 function PrizesView::getPrizeActionButtonsView(prize, params = null)
 {
   local view = []
-  if (!params?.shopDesc || !prize)
+  if (!params?.shopDesc)
     return view
 
-  if (prize.item)
+  local itemId = prize && prize.item || params?.relatedItem
+  if (itemId)
   {
-    local item = ::ItemsManager.findItemById(prize.item)
+    local item = ::ItemsManager.findItemById(itemId)
     if (!item)
       return view
     if (item.canPreview())
       view.append({
-        icon = "#ui/gameuiskin#slot_showroom.svg"
+        icon = "#ui/gameuiskin#btn_preview.svg"
         tooltip = "#mainmenu/btnPreview"
         actionData = ::save_to_json({ itemId = item.id, action = "doPreview" })
       })
     if (item.hasLink())
       view.append({
-        icon = "#ui/gameuiskin#store_icon"
+        icon = "#ui/gameuiskin#gc.svg"
         tooltip = "#" + item.linkActionLocId
         actionData = ::save_to_json({ itemId = item.id, action = "openLink" })
       })

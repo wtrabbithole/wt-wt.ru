@@ -219,6 +219,7 @@ enum SEEN {
   TITLES = "titles"
   AVATARS = "avatars"
   EVENTS = "events"
+  WW_MAPS_AVAILABLE = "wwMapsAvailable"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"
@@ -450,7 +451,10 @@ function load_scripts_after_login_once()
     "slotbar/selectUnit.nut"
     "slotbar/slotbarPresetsList.nut"
 
-    "onlineInfo.nut"
+    "onlineInfo/onlineInfo.nut"
+    "onlineInfo/clustersManagement.nut"
+    "matching/matchingGameModes.nut"
+
     "user/presenceType.nut"
     "squads/msquadService.nut"
     "squads/squadMember.nut"
@@ -558,10 +562,7 @@ function load_scripts_after_login_once()
     "user/viralAcquisition.nut"
     "user/chooseTitle.nut"
 
-    "contacts/contact.nut"
-    "contacts/contactPresence.nut"
     "contacts/contacts.nut"
-    "contacts/playerStateTypes.nut"
     "userPresence.nut"
 
     "unlocks/unlocksConditions.nut"
@@ -656,7 +657,6 @@ function load_scripts_after_login_once()
     "social/friends.nut"
     "social/activityFeed.nut"
     "social/facebook.nut"
-    "social/psnMapper.nut"
 
     "gamercardDrawer.nut"
 
@@ -751,8 +751,10 @@ function load_scripts_after_login_once()
     "debugTools/dbgHudObjectTypes.nut"
 
     "utils/popupMessages.nut"
-    "utils/fileDialog.nut"
     "utils/soundManager.nut"
+    "fileDialog/fileDialog.nut"
+    "fileDialog/ps4SaveDataDialog.nut"
+    "controls/ps4ControlsBackupManager.nut"
 
     "matching/serviceNotifications/match.nut"
     "matching/serviceNotifications/mlogin.nut"

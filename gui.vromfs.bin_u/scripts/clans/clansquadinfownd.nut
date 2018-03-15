@@ -77,12 +77,10 @@ class ::gui_handlers.clanSquadInfoWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     local memeberUidStr = memberUid.tostring()
     local contact = getContact(memeberUidStr)
-    local presence = contact?.presence ?? ::g_contact_presence.UNKNOWN
     if (!contact)
       ::g_users_info_manager.requestInfo([memeberUidStr])
     memberObj["id"] = "member_" + memeberUidStr
-    memberObj.findObject("pilotIconImg")["background-image"] =
-      "#ui/gameuiskin#" + (contact?.pilotIcon ?? "cardicon_bot") + "_ico"
+    memberObj.findObject("pilotIconImg").setValue(contact?.pilotIcon ?? "cardicon_bot")
     memberObj.findObject("clanTag").setValue(contact?.clanTag ?? "")
     memberObj.findObject("contactName").setValue(contact? contact.getName(): "")
     memberObj.findObject("tooltip")["uid"] = memeberUidStr
@@ -90,6 +88,7 @@ class ::gui_handlers.clanSquadInfoWnd extends ::gui_handlers.BaseGuiHandlerWT
     local statusObj = memberObj.findObject("statusImg")
     if (::checkObj(statusObj))
     {
+      local presence = contact?.presence ?? ::g_contact_presence.UNKNOWN
       statusObj["background-image"] = presence.getIcon()
       statusObj["background-color"] = presence.getIconColor()
       statusObj["tooltip"] = presence.getText()

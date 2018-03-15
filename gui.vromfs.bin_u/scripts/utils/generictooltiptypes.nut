@@ -18,6 +18,15 @@ local enums = ::require("std/enums.nut")
   {
     return _buildId(id, params)
   }
+  getMarkup = @(id, params = null, p2 = null, p3 = null)
+    format(@"title:t='$tooltipObj'
+      tooltipObj {
+        tooltipId:t='%s'
+        display:t='hide'
+        on_tooltip_open:t='onGenericTooltipOpen'
+        on_tooltip_close:t='onTooltipObjClose'
+      }",
+      getTooltipId(id, params, p2, p3))
 
   getTooltipContent = function(id, params) { return "" }
   isCustomTooltipFill = false //if true, need to use fillTooltip instead of getTooltipContent
@@ -106,8 +115,11 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       local desc = decorator.getDesc()
       if (::getTblValue("isRevenueShare", config))
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
-      if (decorator.isUGC)
-        desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/user_generated"))
+
+      desc += (desc.len() ? "\n\n" : "") + decorator.getTypeDesc()
+      local restricionsDesc = decorator.getRestrictionsDesc()
+      if (restricionsDesc.len())
+        desc += (desc.len() ? "\n" : "") + restricionsDesc
 
       local tags = decorator.getTagsLoc()
       if (tags.len())

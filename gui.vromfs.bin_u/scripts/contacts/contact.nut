@@ -1,11 +1,16 @@
 local platformModule = require("scripts/clientState/platform.nut")
+local externalIDsService = require("scripts/user/externalIdsService.nut")
 
 class Contact
 {
   name = ""
   uid = ""
   clanTag = ""
+
   presence = null
+  forceOffline = false
+  isForceOfflineChecked = !::is_platform_xboxone
+
   voiceStatus = null
 
   online = null
@@ -14,11 +19,17 @@ class Contact
   gameConfig = null
   inGameEx = null
 
+  psnName = ""
+  xboxId = ""
+  steamName = ""
+  facebookName = ""
+
   pilotIcon = "cardicon_bot"
   wins = -1
   rank = -1
 
   update = false
+  afterSuccessUpdateFunc = null
 
   constructor(contactData)
   {
@@ -28,8 +39,8 @@ class Contact
     local newName = ::getTblValue(name, contactData, "")
     if (newName.len()
         && ::u.isEmpty(::getTblValue("clanTag", contactData))
-        && newName in clanUserTable)
-      contactData.clanTag <- clanUserTable[newName]
+        && newName in ::clanUserTable)
+      contactData.clanTag <- ::clanUserTable[newName]
 
     update(contactData)
   }
@@ -40,18 +51,12 @@ class Contact
       if (name in this)
         this[name] = val
     refreshClanTagsTable()
-  }
 
-  function getWinsText() {
-    if (wins >= 0)
-      return wins
-    return ::loc("leaderboards/notAvailable")
-  }
-
-  function getRankText() {
-    if (rank >= 0)
-      return rank
-    return ::loc("leaderboards/notAvailable")
+    if (afterSuccessUpdateFunc)
+    {
+      afterSuccessUpdateFunc()
+      afterSuccessUpdateFunc = null
+    }
   }
 
   function setClanTag(_clanTag)
@@ -68,11 +73,6 @@ class Contact
       clanUserTable[name] <- clanTag
   }
 
-  function getName()
-  {
-    return platformModule.getPlayerName(name)
-  }
-
   function getPresenceText()
   {
     local res = presence.getText()
@@ -84,9 +84,59 @@ class Contact
         gameMode = event ? ::events.getEventNameText(event) : ""
         country = ::loc(::getTblValue("country", gameConfig, ""))
       }
-      res = ::replaceParamsInLocalizedText(res, locParams)
+      return ::replaceParamsInLocalizedText(res, locParams)
     }
 
     return res
+  }
+
+  function canOpenXBoxFriendsWindow()
+  {
+    return ::is_player_from_xbox_one(name)
+  }
+
+  function openXBoxFriendsEdit()
+  {
+    if (!canOpenXBoxFriendsWindow())
+      return
+
+    if (xboxId != "")
+      ::xbox_show_add_remove_friend(xboxId)
+    else
+      getXboxId(@() ::xbox_show_add_remove_friend(xboxId))
+  }
+
+  function getXboxId(afterSuccessCb = null)
+  {
+    if (xboxId != "")
+      return xboxId
+
+    externalIDsService.reqPlayerExternalIDsByUserId(uid, {showProgressBox = true}, afterSuccessCb)
+  }
+
+  function getWinsText()
+  {
+    return wins >= 0? wins : ::loc("leaderboards/notAvailable")
+  }
+
+  function getRankText()
+  {
+    return rank >= 0? rank : ::loc("leaderboards/notAvailable")
+  }
+
+  function getName()
+  {
+    return platformModule.getPlayerName(name)
+  }
+
+  function needCheckForceOffline()
+  {
+    if (isForceOfflineChecked)
+      return false
+
+    if (!::isPlayerInFriendsGroup(uid))
+      return false
+
+    return ::is_player_from_xbox_one(name)
   }
 }

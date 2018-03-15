@@ -178,7 +178,7 @@ class ::gui_handlers.CreateRoomWnd extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::menu_chat_handler.joinRoom.call(::menu_chat_handler, name, pass, (@(name, invitationsOnly) function () {
         if(invitationsOnly)
-          ::gchat_raw_command(::format("MODE %s +i", name))
+          ::gchat_raw_command(::format("MODE %s +i", ::gchat_escape_target(name)))
       })(name, invitationsOnly))
     }
   }

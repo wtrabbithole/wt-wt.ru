@@ -2,6 +2,8 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 
 ::last_ca_aircraft <- null
@@ -23,7 +25,7 @@ enum ESwitchSpectatorTarget
 }
 
 ::respawn_options <- [
-  {id = "skin",        hint = "options/skin",
+  {id = "skin",        hint = "options/skin", cb = "onSkinChange",
     user_option = ::USEROPT_SKIN, isShowForRandomUnit =false },
   {id = "user_skins",  hint = "options/user_skins",
     user_option = ::USEROPT_USER_SKIN, isShowForRandomUnit =false },
@@ -121,6 +123,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   fuelDescr = null
   bombDescr = null
   rocketDescr = null
+
   skins = null
 
   missionRules = null
@@ -1018,26 +1021,61 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     showOptionRow(option.id, ::is_unit_available_use_rocket_diffuse(air))
   }
 
+  function onSkinChange(obj)
+  {
+    local prevIdx = ::get_option(::USEROPT_SKIN).value
+    checkReady(obj)
+
+    local unit = getCurSlotUnit()
+    if (!unit)
+      return
+
+    local idx = ::check_obj(obj) ? obj.getValue() : 0
+    local skinId = skins?[idx]
+    if (!skinId)
+      return
+
+    local newUgcTagsPresetId = ugcTagsPreset.getPresetBySkin(unit.name, skinId)
+    if (newUgcTagsPresetId == ugcTagsPreset.getPreset())
+      return
+
+    ugcTagsPreset.showConfirmMsgbox(unit.name, skinId,
+      ::Callback(function() {
+        ugcTagsPreset.setPreset(newUgcTagsPresetId)
+      }, this)
+      ::Callback(function() {
+        if (::check_obj(obj))
+          obj.setValue(prevIdx)
+      }, this)
+    )
+  }
+
   function updateSkin()
   {
     local air = getCurSlotUnit()
-    if (!air) return
-
-    local data = ""
-    local skinsData = ::g_decorator.getSkinsOption(air.name)
-    skins = skinsData.values
-    local selIndex = skinsData.value
-
-    local items = skinsData.items
-    if(!canChangeAircraft && skins.len() > 1)
-      data = build_option_blk(items[selIndex].text, "", true, true, items[selIndex].textStyle)
-    else
-      for (local i = 0; i < skins.len(); i++)
-        data += build_option_blk(items[i].text, "", i == selIndex, true, items[i].textStyle)
+    if (!air)
+      return
 
     local skinObj = scene.findObject("skin")
-    if (::checkObj(skinObj))
-      guiScene.replaceContentFromText(skinObj, data, data.len(), this)
+    if (!::check_obj(skinObj))
+      return
+
+    local data = []
+    local skinsData = ::g_decorator.getSkinsOption(air.name)
+    local selIndex = skinsData.value
+
+    skins = skinsData.values
+
+    foreach (i, item in skinsData.items)
+    {
+      if (!canChangeAircraft && i != selIndex)
+        continue
+      local tooltipObjMarkup = ::g_tooltip_type.DECORATION.getMarkup(skinsData.decorators[i].id, ::UNLOCKABLE_SKIN)
+      data.append(::build_option_blk(item.text, "", i == selIndex, true, item.textStyle, false, "", tooltipObjMarkup))
+    }
+
+    data = ::g_string.implode(data)
+    guiScene.replaceContentFromText(skinObj, data, data.len(), this)
     showOptionRow("skin", true)
   }
 
@@ -2100,6 +2138,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     scene.findObject("flight_menu_bgd").show(!status)
     scene.findObject("bg-shade").show(!status)
     scene.findObject("spectator_controls").show(status)
+    scene.findObject("btn_show_hud").enable(status)
     updateButtons()
   }
 
@@ -2128,8 +2167,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!::checkObj(scene))
       return
 
-    local name = ::get_spectator_target_name()
-    scene.findObject("spectator_name").setValue(name)
+    scene.findObject("spectator_name").setValue(
+      platformModule.getPlayerName(::get_spectator_target_name())
+    )
   }
 
   function onChatCancel()

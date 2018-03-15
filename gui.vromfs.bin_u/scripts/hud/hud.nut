@@ -89,7 +89,6 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     [::USEROPT_DAMAGE_INDICATOR_SIZE] = {
       objectsToScale = {
         hud_tank_damage_indicator = "@sizeDamageIndicatorFull"
-        hud_ship_damage_indicator = "@sizeDamageIndicatorFull"
         xray_render_dmg_indicator = "@sizeDamageIndicator"
       }
       onChangedFunc = @(obj) ::g_hud_event_manager.onHudEvent("DamageIndicatorSizeChanged")
@@ -281,10 +280,12 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       return
     curHudVisMode = visMode
 
+    local isDmgPanelVisible = visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
+
     local objsToShow = {
-      xray_render_dmg_indicator = visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
-      hud_tank_damage_indicator = visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
-      hud_ship_damage_indicator = visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
+      xray_render_dmg_indicator = isDmgPanelVisible
+      hud_tank_damage_indicator = isDmgPanelVisible
+      tank_background = ::is_dmg_indicator_visible() && isDmgPanelVisible
       hud_tank_tactical_map     = visMode.isPartVisible(HUD_VIS_PART.MAP)
       hud_kill_log              = visMode.isPartVisible(HUD_VIS_PART.KILLLOG)
       chatPlace                 = visMode.isPartVisible(HUD_VIS_PART.CHAT)
@@ -548,7 +549,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
   _missionProgressOffset = -1
   function updateMissionProgressOffset()
   {
-    local isVisibleByParts = is_dmg_indicator_visible()
+    local isVisibleByParts = ::is_dmg_indicator_visible()
     local isShifted = isVisibleByParts
                       && ::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.MAP)
                       && !::g_hud_live_stats.isVisible()
@@ -653,6 +654,9 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_event_manager.subscribe("DamageIndicatorSizeChanged",
       @(eventData) updateMissionProgressOffset(),
       this)
+    ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
+      @(eventData) updateDamageIndicatorBackground(),
+      this)
   }
 
   function reinitScreen(params = {})
@@ -680,6 +684,15 @@ class HudTank extends ::gui_handlers.BaseUnitHud
 
     ::hud_set_progress_left_margin(offset)
     _missionProgressOffset = offset
+  }
+
+  function updateDamageIndicatorBackground()
+  {
+    local visMode = ::g_hud_vis_mode.getCurMode()
+    local isDmgPanelVisible = ::is_dmg_indicator_visible() && visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
+    ::showBtn("tank_background", isDmgPanelVisible, scene)
+
+    updateMissionProgressOffset()
   }
 }
 

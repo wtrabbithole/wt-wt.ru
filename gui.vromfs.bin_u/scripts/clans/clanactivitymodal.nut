@@ -1,38 +1,28 @@
+local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+
+function gui_start_clan_activity_wnd(playerName = null, clanData = null)
+{
+  if (!playerName || !clanData)
+    return
+
+  local memberData = u.search(clanData.members, @(member) member.nick == playerName)
+  if (memberData)
+    ::gui_start_modal_wnd(::gui_handlers.clanActivityModal, {memberData = memberData })
+}
 
 class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
   sceneBlkName = "gui/clans/clanActivityModal.blk"
 
-  clanData         = null
-  curPlayerName    = null
+  memberData = null
 
   function initScreen()
   {
-    if (!clanData || !curPlayerName)
-    {
-      goBack()
-      return
-    }
-
-    local memberData = null
-    foreach (member in clanData.members)
-      if (member.nick == curPlayerName)
-      {
-        memberData = member
-        break
-      }
-
-    if (!memberData)
-    {
-      goBack()
-      return
-    }
-
     local headerTextObj = scene.findObject("clan_activity_header_text")
-    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"), platformModule.getPlayerName(curPlayerName)))
+    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"), platformModule.getPlayerName(memberData.nick)))
 
     local history = memberData.activityHistory
 

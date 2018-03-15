@@ -359,10 +359,19 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function getPlayerNick(player, colored = false)
   {
-    local name = player ? format("%s%s", (player.clanTag != "" ?  player.clanTag + " " : ""), player.name) : ""
-    local color = !colored ? "" : !player ? "hudColorRed" : player.isLocal ? "hudColorHero" : player.isInHeroSquad ? "hudColorSquad" :
-      player.team == ::get_player_army_for_hud() ? "hudColorBlue" : "hudColorRed"
-    return colored ? ::colorize(color, name) : name
+    local name = player ? ::g_string.implode([player.clanTag, player.name], " ") : ""
+    local color = getPlayerColor(player, colored)
+    return ::colorize(color, name)
+  }
+
+  function getPlayerColor(player, colored)
+  {
+    return !colored ? ""
+    : !player ? "hudColorRed"
+    : player.isLocal ? "hudColorHero"
+    : player.isInHeroSquad ? "hudColorSquad"
+    : player.team == ::get_player_army_for_hud() ? "hudColorBlue"
+    : "hudColorRed"
   }
 
   function getPlayerStateDesc(player)
@@ -655,7 +664,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function switchTargetPlayer(id = null, index = null)
   {
-    if (id)
+    if (id >= 0)
       ::switch_spectator_target_by_id(id)
     else if (index)
       ::switch_spectator_target(index > 0)

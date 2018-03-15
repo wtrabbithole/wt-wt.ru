@@ -32,6 +32,13 @@ hintRow > timeBar {
   top: @hintRowCenterOffsetY - 50%h;
 }
 
+hintRow > combination > gamepadButton,
+hintRow > combination > shortcutAxis,
+hintRow > combination > keyboardButton {
+  position: relative;
+  top: 50%ph - 50%h;
+}
+
 hintRow textareaNoTab {
   font: @fontHudMedium;
   shadeStyle:'HudHeader3D';

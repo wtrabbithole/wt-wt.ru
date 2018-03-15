@@ -48,9 +48,11 @@
   "wreckedPartsCollision": true,
   "wreckedDecoratorsCollision": false,
   "multipointVisibilityAgainstTreesWithoutMarkers": true,
+  "multipointVisibilityMarkersAgainstTrees": false,
   "multipointVisibilityTreeTrunkOpacity": 1.0,
   "multipointVisibilityTreeCanopyOpacity": 0.5,
   "multipointVisibilityTreeTransparencyThreshold": 1.5,
+  "multipointVisibilityMarkersTreeTransparencyThreshold": 0.01,
   "multipointVisibilityForMarkersDistK": 2.0,
   "multipointVisibilityOnePointBackDistK": 2.0,
   "bombDropDownOnRendInstCollision": false,
@@ -135,7 +137,6 @@
   "supportUnitTagForTutorial": "artillery",
   "maxContrailTemperature": -20.0,
   "use_uav_feedback": true,
-  "cloudShadowIntensityTankMul": 0.95,
   "shipDepthTraceWarningDepth": 1.0,
   "shipDepthTraceCriticalDepth": 0.5,
   "enableNetShipPhysOnClient": true,
@@ -1392,7 +1393,9 @@
       "damageModel": 0,
       "hudTankRangefinder": 0,
       "noviceDM": false,
-      "crewHealingOnlyOnCaptureZone": false
+      "crewHealingOnlyOnCaptureZone": false,
+      "showBombSight": true,
+      "visibleNotTraceableIndicators": true
     },
     "realistic": {
       "baseDifficulty": 1,
@@ -1443,7 +1446,9 @@
       "hudSendSquareNumPlayers": 3,
       "hudSendSquareTimeFromStart": 900,
       "noviceDM": false,
-      "crewHealingOnlyOnCaptureZone": true
+      "crewHealingOnlyOnCaptureZone": true,
+      "showBombSight": false,
+      "visibleNotTraceableIndicators": true
     },
     "hardcore": {
       "baseDifficulty": 2,
@@ -1491,7 +1496,9 @@
       "damageModel": 2,
       "hudTankRangefinder": 2,
       "noviceDM": false,
-      "crewHealingOnlyOnCaptureZone": true
+      "crewHealingOnlyOnCaptureZone": true,
+      "showBombSight": false,
+      "visibleNotTraceableIndicators": true
     }
   },
   "difficulty_check": {
@@ -1526,7 +1533,6 @@
         "mouseAimMaxAnglesSmoothness": 0.02,
         "mouseAimNoiseDirDistMul": 0.08,
         "mouseAimNoiseInvFovMul": 0.5,
-        "showBombSight": true,
         "showZoneIcons": true,
         "instructorCritAngle": 0.9,
         "isArcadeGunnerBehavior": true,
@@ -1562,6 +1568,7 @@
         "tankFriendlyFireDamage": false,
         "tankMainGearRatioMult": 0.9,
         "maxBombDamageHeight": 5.0,
+        "bombToAirplaneCollision": 1,
         "automaticBayDoor": true,
         "allowCrewHealing": true,
         "allowAutoCrewHealing": true,
@@ -1572,14 +1579,14 @@
         "shipCollisionDamageGround": 1.0,
         "radioGunnerRadioDistanceMult": 1.0,
         "hudDrawBombingZoneThroughCloud": true,
-        "shipBrokenRangefinderErrorMult": 2.0
+        "shipBrokenRangefinderErrorMult": 2.0,
+        "blockCooldownAfterEarlyAttemptToAirstreak": 10.0
       },
       "medium": {
         "scoutPreset": "realistic",
         "mouseAimMaxAnglesSmoothness": 0.05,
         "mouseAimNoiseDirDistMul": 0.1,
         "mouseAimNoiseInvFovMul": 0.5,
-        "showBombSight": false,
         "showZoneIcons": true,
         "instructorCritAngle": 0.7,
         "isArcadeGunnerBehavior": false,
@@ -1612,6 +1619,7 @@
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": false,
         "maxBombDamageHeight": 200.0,
+        "bombToAirplaneCollision": 3,
         "automaticBayDoor": false,
         "bombAssaultFuseTime": 1.5,
         "fusePreset": "fuse_air_rb",
@@ -1625,6 +1633,7 @@
         "radioGunnerRadioDistanceMult": 2.0,
         "hudDrawBombingZoneThroughCloud": true,
         "shipBrokenRangefinderErrorMult": 2.0,
+        "blockCooldownAfterEarlyAttemptToAirstreak": 10.0,
         "multTorpedoDistanceIndicator": 0.375
       },
       "hard": {
@@ -1632,7 +1641,6 @@
         "mouseAimMaxAnglesSmoothness": 0.25,
         "mouseAimNoiseDirDistMul": 0.5,
         "mouseAimNoiseInvFovMul": 2.0,
-        "showBombSight": false,
         "showZoneIcons": false,
         "instructorCritAngle": 0.6,
         "isArcadeGunnerBehavior": false,
@@ -1665,6 +1673,7 @@
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": true,
         "maxBombDamageHeight": 200.0,
+        "bombToAirplaneCollision": 3,
         "automaticBayDoor": false,
         "bombAssaultFuseTime": 1.5,
         "fusePreset": "fuse_air_rb",
@@ -1677,7 +1686,8 @@
         "shipCollisionDamageGround": 1.0,
         "radioGunnerRadioDistanceMult": 2.0,
         "hudDrawBombingZoneThroughCloud": true,
-        "shipBrokenRangefinderErrorMult": 2.0
+        "shipBrokenRangefinderErrorMult": 2.0,
+        "blockCooldownAfterEarlyAttemptToAirstreak": 10.0
       }
     },
     "engineControl": {
@@ -2064,7 +2074,8 @@
         "offenderUnmaskingTime": 0.0,
         "victimUnmaskingTime": 0.0,
         "shotSpawnTime": 0.0,
-        "hitSpawnTime": 0.0
+        "hitSpawnTime": 0.0,
+        "allowForestallWithoutMarkers": true
       },
       "team": {
         "hudMarkers": 1,
@@ -2076,7 +2087,8 @@
         "offenderUnmaskingTime": 0.0,
         "victimUnmaskingTime": 0.0,
         "shotSpawnTime": 0.0,
-        "hitSpawnTime": 5.0
+        "hitSpawnTime": 5.0,
+        "allowForestallWithoutMarkers": true
       },
       "all": {
         "hudMarkers": 2,
@@ -2089,7 +2101,8 @@
         "offenderUnmaskingTime": 0.0,
         "victimUnmaskingTime": 10.0,
         "shotSpawnTime": 0.0,
-        "hitSpawnTime": 0.0
+        "hitSpawnTime": 0.0,
+        "allowForestallWithoutMarkers": true
       },
       "team_air_sb": {
         "hudMarkers": 3,
@@ -2101,12 +2114,15 @@
         "offenderUnmaskingTime": 10.0,
         "victimUnmaskingTime": 10.0,
         "shotSpawnTime": 0.0,
-        "hitSpawnTime": 0.0
+        "hitSpawnTime": 0.0,
+        "allowForestallWithoutMarkers": true
       }
     },
     "hudAircraftMarkersMaxDist": {
       "near": {
-        "hudAircraftMarkersMaxDist": 900.0
+        "hudAircraftMarkersMaxDist": 900.0,
+        "hudShipsMarkersMaxDist": 20000.0,
+        "hudTanksMarkersMaxDist": 3000.0
       },
       "normal": {
         "hudAircraftMarkersMaxDist": 2000.0
@@ -2447,6 +2463,8 @@
         "brokenTransmissionGearPenalty": 0.5,
         "brokenTransmissionCooldownTimer": 10.0,
         "bombShatterDamageScaleForAircraft": [1.0,1.0,1.0],
+        "crashDamagePlayers": false,
+        "crashDamageBots": true,
         "shipBrokenFunnelMaxRedynessMult": 0.3
       },
       "realistic": {
@@ -2457,6 +2475,8 @@
         "brokenHorTurretDriveSpeed": 0.0,
         "brokenVerTurretDriveAngle": 0.0,
         "bombShatterDamageScaleForAircraft": [0.5,0.55,0.6],
+        "crashDamagePlayers": true,
+        "crashDamageBots": true,
         "shipBrokenFunnelMaxRedynessMult": 0.3
       },
       "simulator": {
@@ -2467,6 +2487,8 @@
         "brokenHorTurretDriveSpeed": 0.0,
         "brokenVerTurretDriveAngle": 0.0,
         "bombShatterDamageScaleForAircraft": [0.5,0.55,0.6],
+        "crashDamagePlayers": true,
+        "crashDamageBots": true,
         "shipBrokenFunnelMaxRedynessMult": 0.3
       }
     },
@@ -2488,6 +2510,22 @@
       },
       "on": {
         "crewHealingOnlyOnCaptureZone": true
+      }
+    },
+    "showBombSight": {
+      "off": {
+        "showBombSight": false
+      },
+      "on": {
+        "showBombSight": true
+      }
+    },
+    "visibleNotTraceableIndicators": {
+      "off": {
+        "hudColorMultNotTraceableIndicators": 0.0
+      },
+      "on": {
+        "hudColorMultNotTraceableIndicators": 1.0
       }
     }
   },
@@ -2620,11 +2658,15 @@
     "bigShipForShadowsFrom": 50.0,
     "occlusionSunDirThreshold": 0.5,
     "staticCascadeForcedRiExtraLod": -1,
+    "staticCascadeConstDepthBias": 0.004,
     "ultralow": {
+      "staticCascadeCount": 1,
+      "staticCascadeRegMul": 1.0,
       "staticCascadeTexWidth": 512,
       "staticCascadeSlices": 10,
       "staticCascadeRegWidth": 500.0,
       "staticCascadeStarting": 0,
+      "staticCascadeFxaaStr": 1.0,
       "useOcclusion": true
     },
     "low": {
@@ -2644,9 +2686,12 @@
       "bigShipsPowWeight": 0.4,
       "fadeOut": 30.0,
       "rotationMargin": 0.1,
+      "staticCascadeCount": 1,
+      "staticCascadeRegMul": 1.0,
       "staticCascadeTexWidth": 512,
       "staticCascadeRegWidth": 500.0,
       "staticCascadeStarting": 0,
+      "staticCascadeFxaaStr": 1.0,
       "useOcclusion": true
     },
     "medium": {
@@ -2666,9 +2711,12 @@
       "bigShipsPowWeight": 0.66,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
+      "staticCascadeCount": 2,
+      "staticCascadeRegMul": 5.0,
       "staticCascadeTexWidth": 1024,
-      "staticCascadeRegWidth": 750.0,
-      "staticCascadeStarting": 3,
+      "staticCascadeRegWidth": 150.0,
+      "staticCascadeStarting": 0,
+      "staticCascadeFxaaStr": 3.0,
       "useOcclusion": true
     },
     "ps4shadows": {
@@ -2688,13 +2736,16 @@
       "bigShipsPowWeight": 0.68,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
+      "staticCascadeCount": 2,
+      "staticCascadeRegMul": 5.0,
       "staticCascadeTexWidth": 1024,
-      "staticCascadeRegWidth": 750.0,
-      "staticCascadeStarting": 3,
+      "staticCascadeRegWidth": 150.0,
+      "staticCascadeStarting": 0,
       "renderHeightmap": true,
       "useOcclusion": false,
       "staticCascadeDepthSlopeBias": -1.0,
-      "staticCascadeDepthBias": -0.0001
+      "staticCascadeDepthBias": -0.0001,
+      "staticCascadeFxaaStr": 5.0
     },
     "high": {
       "cascadeWidth": 1024,
@@ -2713,9 +2764,12 @@
       "bigShipsPowWeight": 0.92,
       "fadeOut": 100.0,
       "rotationMargin": 0.1,
+      "staticCascadeCount": 2,
+      "staticCascadeRegMul": 6.0,
       "staticCascadeTexWidth": 2048,
-      "staticCascadeRegWidth": 1000.0,
-      "staticCascadeStarting": 3,
+      "staticCascadeRegWidth": 150.0,
+      "staticCascadeStarting": 0,
+      "staticCascadeFxaaStr": 5.0,
       "renderHeightmap": true,
       "useOcclusion": false
     },
@@ -2737,13 +2791,16 @@
       "fadeOut": 250.0,
       "rotationMargin": 0.1,
       "vsmSize": 2048,
+      "staticCascadeCount": 2,
+      "staticCascadeRegMul": 7.0,
       "staticCascadeTexWidth": 4096,
-      "staticCascadeRegWidth": 1250.0,
-      "staticCascadeStarting": 4,
+      "staticCascadeRegWidth": 150.0,
+      "staticCascadeStarting": 0,
       "renderHeightmap": true,
       "useOcclusion": false,
       "staticCascadeDepthSlopeBias": -1.0,
-      "staticCascadeDepthBias": -0.0001
+      "staticCascadeDepthBias": -0.0001,
+      "staticCascadeFxaaStr": 10.0
     }
   },
   "ambShadows": {
@@ -2813,6 +2870,11 @@
   },
   "overload": {
     "useGOverload": true
+  },
+  "radarGroundBackScattering": {
+    "maxValue": 0.07,
+    "angle2": 80.0,
+    "value2": 0.003
   },
   "common": {
     "explosionWreckageSpeed": 24.0,
@@ -3089,7 +3151,7 @@
     "angleMult": 15.0,
     "posUpOffsetForTanks": 4.0,
     "posUpOffsetForAiTanks": 1.5,
-    "distanceMultForMovingTanks": 1.5,
+    "distanceMultForMovingUnit": 1.5,
     "distanceMultForUnmaskingItself": 2.5,
     "distanceMultForTargetingView": 3.0,
     "distanceMultForBinocularView": 3.0,
@@ -4296,276 +4358,6 @@
       "machine_gunner_02": {
         "my": "tank_machine_gunner",
         "enemy": "tank_machine_gunner"
-      }
-    },
-    {
-      "operator": {
-        "my": "ship_operator",
-        "enemy": "ship_operator"
-      }
-    },
-    {
-      "motorist": {
-        "my": "ship_motorist",
-        "enemy": "ship_motorist"
-      }
-    },
-    {
-      "era": {
-        "my": "ship_motorist",
-        "enemy": "ship_motorist"
-      }
-    },
-    {
-      "era_01": {
-        "my": "ship_motorist",
-        "enemy": "ship_motorist"
-      }
-    },
-    {
-      "era_02": {
-        "my": "ship_motorist",
-        "enemy": "ship_motorist"
-      }
-    },
-    {
-      "sailor_01": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_02": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_03": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_04": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_05": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_06": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_07": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_08": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_09": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_10": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_11": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_12": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_13": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_14": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_15": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_16": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_17": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_18": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_19": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_20": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_21": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_22": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_23": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_24": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_25": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_26": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_27": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_28": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_29": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_30": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_31": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_32": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_33": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_34": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_35": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_36": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_37": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_38": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_39": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
-      }
-    },
-    {
-      "sailor_40": {
-        "my": "ship_sailor",
-        "enemy": "ship_sailor"
       }
     },
     {
@@ -5813,6 +5605,12 @@
       },
       {
         "p": {
+          "name": "cover",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
           "name": "cannon_breech_",
           "useThicknessThrough": true
         }
@@ -5833,15 +5631,6 @@
       },
       {
         "p": "gunner_"
-      },
-      {
-        "p": "sailor_"
-      },
-      {
-        "p": "era_"
-      },
-      {
-        "p": "operator_"
       },
       {
         "p": "optic_"
@@ -5866,6 +5655,9 @@
       },
       {
         "p": "radio_station_"
+      },
+      {
+        "p": "sonar_"
       },
       {
         "p": "engine_"
@@ -6168,6 +5960,14 @@
       },
       {
         "p": {
+          "name": "cover",
+          "color_h": 0.1,
+          "unit": "ship",
+          "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
           "name": "main_caliber_gun",
           "color_h": 0.1,
           "unit": "ship",
@@ -6247,6 +6047,606 @@
           "color_h": 0.0,
           "dmgThreshold": 0.3
         }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "citroen_kegresse_p4t"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "citroen_kegresse_p4t"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_06_",
+          "modelNames": "citroen_kegresse_p4t"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_06_",
+          "modelNames": "citroen_kegresse_p4t"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "cckw_353_bofors"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "cckw_353_bofors"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "cckw_353_bofors"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "cckw_353_bofors"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "cckw_353_bofors"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "cckw_353_bofors"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "flak_37_sdkfz_9"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "flak_37_sdkfz_9"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "flak_36_sdkfz_6_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "flak_36_sdkfz_6_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "panzerwerfer_42"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "panzerwerfer_42"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "sdkfz_234_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "sdkfz_234_3"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "sdkfz_234_4"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "halftrack_m3_t48"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "halftrack_m3_t48"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "halftrack_m13"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "halftrack_m13"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "halftrack_m15"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "halftrack_m15"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "halftrack_m16"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "halftrack_m16"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "m8_greyhound"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "m8_greyhound"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "m8_greyhound"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "m8_greyhound"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "m8_greyhound"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "m8_greyhound"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "type_94"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "type_94"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "type_94"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "type_94"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "type_94"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "type_94"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "armored_car_mk_2_aa"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "armored_car_mk_2_aa"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "armored_car_aec_mk_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "armored_car_aec_mk_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "t17e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "t17e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "daimler_mk_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "daimler_mk_2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "bm_13n"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "bm_13n"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "bm_13n"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "bm_13n"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "btr_152a"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "btr_152a"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "btr_152a"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "btr_152a"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "btr_152a"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "btr_152a"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "zsu_29k"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "zsu_29k"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "zsu_29k"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "zsu_29k"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "zis_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "zis_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_06_",
+          "modelNames": "zis_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_06_",
+          "modelNames": "zis_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "su_57"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "su_57"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "94_km_zis_12_1945"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "94_km_zis_12_1945"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "gaz_mm_72k"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "gaz_mm_72k"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "gaz_aa_dshk"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "gaz_aa_dshk"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "gaz_aa_dshk"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "gaz_aa_dshk"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "gaz_aa_4m"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "gaz_aa_4m"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "gaz_aa_4m"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "gaz_aa_4m"
+        }
       }
     ],
     "crew": [
@@ -6277,24 +6677,6 @@
       {
         "p": {
           "name": "gunner_",
-          "color_h": 1.0
-        }
-      },
-      {
-        "p": {
-          "name": "sailor_",
-          "color_h": 1.0
-        }
-      },
-      {
-        "p": {
-          "name": "era_",
-          "color_h": 1.0
-        }
-      },
-      {
-        "p": {
-          "name": "operator_",
           "color_h": 1.0
         }
       }
@@ -6354,6 +6736,12 @@
       {
         "p": {
           "name": "radio_station_",
+          "color_h": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "sonar_",
           "color_h": 0.3
         }
       },
@@ -8721,7 +9109,7 @@
     "perlinTexScale": 0.25,
     "blendSharpness": 1.0,
     "appearanceMinAngle": 12.0,
-    "appearanceMaxAngle": 25.0
+    "appearanceMaxAngle": 50.0
   },
   "camoFires": {
     "octaveUVscale": [0.2,0.5],
@@ -8743,8 +9131,8 @@
     "starGlowMul": 1.0
   },
   "tank": {
-    "glowMul": 1.0,
-    "starGlowMul": 1.0,
+    "glowMul": 0.7,
+    "starGlowMul": 0.5,
     "adaptationMultiplierMul": 0.64
   },
   "scene": {
@@ -8764,7 +9152,7 @@
     "night": [-0.01,-0.99],
     "dawn": [0.0,0.01],
     "morning": [0.05,0.1],
-    "day": [0.25,0.42],
+    "day": [0.33,0.33],
     "noon": [0.55,0.8],
     "evening": [0.9,0.95],
     "dusk": [0.99,1.0]
@@ -8974,5 +9362,24 @@
   "depthAO": {
     "tanksDistanceAround": 256.0,
     "shipsDistanceAround": 400.0
+  },
+  "taa": {
+    "frameWeightMotionMax": 0.01,
+    "frameWeightMotionThreshold": 0.0003,
+    "clampingGamma": 1.2,
+    "frameWeightMinDynamicStill": 0.11,
+    "frameWeightMinDynamicMotion": 0.2,
+    "newframeFalloffDynamicStill": 0.15
+  },
+  "MicrodetailMultipliers": {
+    "airplane": 0.37,
+    "tank": 1.0,
+    "ship": 1.0
+  },
+  "DropSplashes": {
+    "distance": 50.0,
+    "timeToLive": 0.3,
+    "iterationTime": 2.0,
+    "scale": 1.0
   }
 }

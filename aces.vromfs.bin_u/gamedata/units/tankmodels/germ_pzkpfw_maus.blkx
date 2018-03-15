@@ -325,6 +325,8 @@
         "shatterArmorQuality": 0.35,
         "drive_turret_v_dm": [],
         "drive_turret_h_dm": [],
+        "drive_turret_h_01_dm": [],
+        "drive_turret_v_01_dm": [],
         "radio_station_dm": []
       },
       "cannon_breech": {
@@ -1535,6 +1537,7 @@
             "loaderDm": "loader_01_dm",
             "verDriveDm": "drive_turret_v_dm",
             "horDriveDm": "drive_turret_h_dm",
+            "rotatedTurret": "bone_turret",
             "linkedAnimPart": {
               "verNode": "bone_camera_gunner",
               "verLimits": [-180.0,180.0],
@@ -1625,7 +1628,8 @@
             "turret": {
               "head": "bone_mg_gun_twin_h",
               "gun": "bone_mg_gun_twin_v",
-              "gunnerDm": "gunner_dm"
+              "gunnerDm": "gunner_dm",
+              "rotatedTurret": "bone_turret"
             }
           },
           {
@@ -1674,7 +1678,8 @@
             "gun": "bone_gun_02",
             "barrel": "bone_gun_barrel_02",
             "gunnerDm": "gunner_dm",
-            "loaderDm": "loader_02_dm"
+            "loaderDm": "loader_02_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -2672,6 +2677,7 @@
                   "loaderDm": "loader_01_dm",
                   "verDriveDm": "drive_turret_v_dm",
                   "horDriveDm": "drive_turret_h_dm",
+                  "rotatedTurret": "bone_turret",
                   "linkedAnimPart": {
                     "verNode": "bone_camera_gunner",
                     "verLimits": [-180.0,180.0],
@@ -2762,7 +2768,8 @@
                   "turret": {
                     "head": "bone_mg_gun_twin_h",
                     "gun": "bone_mg_gun_twin_v",
-                    "gunnerDm": "gunner_dm"
+                    "gunnerDm": "gunner_dm",
+                    "rotatedTurret": "bone_turret"
                   }
                 },
                 {
@@ -2811,7 +2818,8 @@
                   "gun": "bone_gun_02",
                   "barrel": "bone_gun_barrel_02",
                   "gunnerDm": "gunner_dm",
-                  "loaderDm": "loader_02_dm"
+                  "loaderDm": "loader_02_dm",
+                  "rotatedTurret": "bone_turret"
                 },
                 "limits": {
                   "yaw": [-0.0,0.0],
@@ -2947,6 +2955,15 @@
       "replace_tex": {
         "from": "ger_camo_dunkelgelb*",
         "to": "ger_camo_winter_dunkelgelb*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_winter_waves",
+      "replace_tex": {
+        "from": "ger_camo_dunkelgelb*",
+        "to": "ger_camo_winter_waves_bicolor*"
       }
     }
   }

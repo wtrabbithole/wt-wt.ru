@@ -100,7 +100,7 @@ class ::gui_handlers.OptionsCustomDifficultyModal extends ::gui_handlers.Generic
   function onApply(obj)
   {
     // init custom difficulty by BaseDifficulty
-    ::set_cd_value(::get_cd_preset_value(curBaseDifficulty))
+    ::set_cd_preset(::get_cd_preset(curBaseDifficulty))
     base.onApply(obj)
   }
 
@@ -149,7 +149,7 @@ class ::gui_handlers.OptionsCustomDifficultyModal extends ::gui_handlers.Generic
 
   function applyCdPreset(cdValue)
   {
-    ::set_cd_value(cdValue)
+    ::set_cd_preset(cdValue)
     reinitScreen()
   }
 }
@@ -204,7 +204,7 @@ function gui_start_cd_options(afterApplyFunc, owner = null)
   {
     local curDiff = ::SessionLobby.getMissionParam("custDifficulty", null)
     if (curDiff)
-      ::set_cd_value(curDiff)
+      ::set_cd_preset(curDiff)
   }
 
   ::handlersManager.loadHandler(::gui_handlers.OptionsCustomDifficultyModal, {
@@ -215,8 +215,8 @@ function gui_start_cd_options(afterApplyFunc, owner = null)
 
 function get_custom_difficulty_tooltip_text(custDifficulty)
 {
-  local wasDiff = ::get_cd_value()
-  ::set_cd_value(custDifficulty)
+  local wasDiff = ::get_cd_preset(::DIFFICULTY_CUSTOM)
+  ::set_cd_preset(custDifficulty)
 
   local text = ""
   local options = ::get_custom_difficulty_options()
@@ -230,6 +230,6 @@ function get_custom_difficulty_tooltip_text(custDifficulty)
     text += ::loc("options/" + opt.id) + ::loc("ui/colon") + ::colorize("userlogColoredText", valueText)
   }
 
-  ::set_cd_value(wasDiff)
+  ::set_cd_preset(wasDiff)
   return text
 }

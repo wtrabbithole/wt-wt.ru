@@ -64,6 +64,10 @@ enums.addTypesByGlobalName("g_chat_thread_tag", {
   NICK = {
     prefix = "nick_"
     threadInfoParamName = "ownerNick"
+    setThreadInfoProperty = function(threadInfo, valueString)
+    {
+      threadInfo[threadInfoParamName] = ::gchat_unescape_target(valueString)
+    }
   }
 
   CLAN = {

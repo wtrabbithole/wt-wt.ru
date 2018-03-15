@@ -96,16 +96,9 @@ local WwGlobalBattle = class extends ::WwBattle
     return operation ? operation.getMyAssignCountry() : null
   }
 
-  function isHiddenByExcessPlayers(country)
+  function isVisibleInBattlesList(country)
   {
-    if (getMyAssignCountry())
-      return false
-
-    local excessPlayersSide = getExcessPlayersSide()
-    if (excessPlayersSide == ::SIDE_NONE)
-      return false
-
-    return excessPlayersSide == sidesByCountry?[country]
+    return !isLockedByExcessPlayers(country) && isOperationMapAvaliable()
   }
 
   function isOperationMapAvaliable()
@@ -119,22 +112,6 @@ local WwGlobalBattle = class extends ::WwBattle
       return false
 
     return map.isVisible()
-  }
-
-  function getExcessPlayersSide()
-  {
-    if (!isConfirmed())
-      return ::SIDE_NONE
-
-    local team1Players = getTeamBySide(::SIDE_1)?.players ?? 0
-    local team2Players = getTeamBySide(::SIDE_2)?.players ?? 0
-    local maxPlayersDisbalance = ::g_world_war.getSetting(
-      "maxBattlePlayersDisbalance", WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
-
-    if (::abs(team1Players - team2Players) <= maxPlayersDisbalance)
-      return ::SIDE_NONE
-
-    return team1Players > team2Players ? ::SIDE_1 : ::SIDE_2
   }
 
   function setOperationId(operId)
@@ -152,8 +129,16 @@ local WwGlobalBattle = class extends ::WwBattle
     return ""
   }
 
-  function getSideByCountry(country)
+  function getSide(country = null)
   {
+    return getSideByCountry(country)
+  }
+
+  function getSideByCountry(country = null)
+  {
+    if (!country)
+      return ::SIDE_NONE
+
     return sidesByCountry?[country] ?? ::SIDE_NONE
   }
 

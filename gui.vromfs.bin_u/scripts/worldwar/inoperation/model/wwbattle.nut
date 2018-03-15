@@ -1,6 +1,8 @@
 local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 
+const WW_BATTLES_SORT_TIME_STEP = 60000
+
 class ::WwBattle
 {
   id = ""
@@ -14,6 +16,7 @@ class ::WwBattle
   missionName = ""
   localizeConfig = null
   missionInfo = null
+  battleActivateMillisec = 0
   battleStartMillisec = 0
   ordinalNumber = 0
   sessionId = ""
@@ -27,7 +30,8 @@ class ::WwBattle
     pos = blk.pos ? ::Point2(blk.pos.x, blk.pos.y) : ::Point2()
     maxPlayersPerArmy = blk.maxPlayersPerArmy || 0
     minPlayersPerArmy = blk.minTeamSize || 0
-    battleStartMillisec = blk.battleStartTimestamp || 0
+    battleActivateMillisec = (blk.activationTime || 0).tointeger()
+    battleStartMillisec = (blk.battleStartTimestamp || 0).tointeger()
     ordinalNumber = blk.ordinalNumber || 0
     opponentsType = blk.opponentsType || -1
     updateAppliedOnHost = blk.updateAppliedOnHost || -1
@@ -303,6 +307,20 @@ class ::WwBattle
       ::script_net_assert_once("WW check battle without player side", "ww: check battle without player side")
       res.code = WW_BATTLE_CANT_JOIN_REASON.UNKNOWN_SIDE
       res.reasonText = ::loc("msgbox/internal_error_header")
+      return res
+    }
+
+    if (isLockedByExcessPlayers())
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
+      res.reasonText = ::loc("worldWar/battle_is_unbalanced")
+      return res
+    }
+
+    if (getBattleActivateLeftTime() > 0)
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
+      res.reasonText = ::loc("worldWar/battle_activate_countdown")
       return res
     }
 
@@ -683,15 +701,40 @@ class ::WwBattle
     return sectorIdx >= 0 ? ::ww_get_zone_name(sectorIdx) : ""
   }
 
+  function getSortByTimeFactor()
+  {
+    return -battleStartMillisec / WW_BATTLES_SORT_TIME_STEP
+  }
+
+  function getSortByFullnessFactor()
+  {
+    return getTotalPlayersNumber() / ::floor(getMaxPlayersNumber())
+  }
+
+  function getBattleActivateLeftTime()
+  {
+    if (!isStarted() || isConfirmed())
+      return 0
+
+    if (getMyAssignCountry())
+      return 0
+
+    if (battleActivateMillisec <= 0)
+      return 0
+
+    local waitTimeSec = ::g_world_war.getSetting("joinBattleDelayTimeSec", 0)
+    local passedSec = ::get_charserver_time_sec() -
+      time.millisecondsToSecondsInt(battleActivateMillisec)
+
+    return waitTimeSec - passedSec
+  }
+
   function getBattleDurationTime()
   {
-    if (battleStartMillisec)
-    {
-      local millisec = ::ww_get_operation_time_millisec() - battleStartMillisec
-      return time.millisecondsToSeconds(millisec).tointeger()
-    }
+    if (!battleStartMillisec)
+      return 0
 
-    return 0
+    return ::get_charserver_time_sec() - time.millisecondsToSecondsInt(battleStartMillisec)
   }
 
   function isTanksCompatible()
@@ -720,12 +763,55 @@ class ::WwBattle
 
   function getTotalPlayersNumber()
   {
+    return getPlayersNumberByParam("players")
+  }
+
+  function getMaxPlayersNumber()
+  {
+    return getPlayersNumberByParam("maxPlayers")
+  }
+
+  function getPlayersNumberByParam(paramName)
+  {
     local playersNumber = 0
     if (teams)
       foreach(teamData in teams)
-        playersNumber += teamData?.players ?? 0
+        playersNumber += teamData?[paramName] ?? 0
 
     return playersNumber
+  }
+
+  function getExcessPlayersSide()
+  {
+    if (!isConfirmed())
+      return ::SIDE_NONE
+
+    local team1Players = getTeamBySide(::SIDE_1)?.players ?? 0
+    local team2Players = getTeamBySide(::SIDE_2)?.players ?? 0
+    local maxPlayersDisbalance = ::g_world_war.getSetting(
+      "maxBattlePlayersDisbalance", WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
+
+    if (::abs(team1Players - team2Players) <= maxPlayersDisbalance)
+      return ::SIDE_NONE
+
+    return team1Players > team2Players ? ::SIDE_1 : ::SIDE_2
+  }
+
+  function isLockedByExcessPlayers(country = null)
+  {
+    if (getMyAssignCountry())
+      return false
+
+    local excessPlayersSide = getExcessPlayersSide()
+    if (excessPlayersSide == ::SIDE_NONE)
+      return false
+
+    return excessPlayersSide == getSide(country)
+  }
+
+  function getSide(country = null)
+  {
+    return ::ww_get_player_side()
   }
 
   function getMyAssignCountry()

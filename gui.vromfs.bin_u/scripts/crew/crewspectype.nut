@@ -498,14 +498,26 @@ function g_crew_spec_type::getTypeByCode(code)
 
 function g_crew_spec_type::getTrainedSpecCode(crew, unit)
 {
-  local trainedSpec = ::getTblValue("trainedSpec", crew)
-  local unitName = ::getTblValue("name", unit)
-  return ::getTblValue(unitName, trainedSpec, -1)
+  if (!unit)
+    return -1
+
+  return getTrainedSpecCodeByUnitName(crew, unit.name)
+}
+
+function g_crew_spec_type::getTrainedSpecCodeByUnitName(crew, unitName)
+{
+  return crew?.trainedSpec?[unitName] ?? -1
 }
 
 function g_crew_spec_type::getTypeByCrewAndUnit(crew, unit)
 {
   local code = getTrainedSpecCode(crew, unit)
+  return ::g_crew_spec_type.getTypeByCode(code)
+}
+
+function g_crew_spec_type::getTypeByCrewAndUnitName(crew, unitName)
+{
+  local code = getTrainedSpecCodeByUnitName(crew, unitName)
   return ::g_crew_spec_type.getTypeByCode(code)
 }
 

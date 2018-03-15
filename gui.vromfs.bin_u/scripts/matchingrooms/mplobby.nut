@@ -1,5 +1,7 @@
 local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 local avatars = ::require("scripts/user/avatars.nut")
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDebug option enabled
 ::back_from_lobby <- ::gui_start_mainmenu
@@ -39,7 +41,8 @@ function session_fill_info(scene, sessionInfo)
   local isEventRoom = ::SessionLobby.isInRoom() && ::SessionLobby.isEventRoom
 
   local nameObj = scene.findObject("session_creator")
-  setTextToObj(nameObj, ::loc("multiplayer/game_host") + ::loc("ui/colon"), ::getTblValue("creator", sessionInfo, null))
+  local creatorName = platformModule.getPlayerName(sessionInfo?.creator ?? "")
+  setTextToObj(nameObj, ::loc("multiplayer/game_host") + ::loc("ui/colon"), creatorName)
 
   local teams = ::SessionLobby.getTeamsCountries(sessionInfo)
   local isEqual = teams.len() == 1 || ::u.isEqual(teams[0], teams[1])
@@ -199,13 +202,6 @@ function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
   if (!::checkObj(mainObj) || !playerInfo)
     return
 
-  local guiScene = scene.getScene()
-  local playerNick = playerInfo.name
-  local playerClan = playerInfo.clanTag + (playerInfo.clanTag != ""? " " : "")
-  local playerName = playerClan + playerNick
-  local playerCountry = "country" in playerInfo? playerInfo.country : ""
-  local playerIcon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
-
   local titleObj = mainObj.findObject("player_title")
   if (::checkObj(titleObj))
     titleObj.setValue((playerInfo.title != "") ? (::loc("title/title") + ::loc("ui/colon") + ::loc("title/" + playerInfo.title)) : "")
@@ -243,11 +239,12 @@ function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
     teamIcoObj.tooltip = ::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt
   }
 
+  local playerIcon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
   ::fill_gamer_card({
-                    name = playerNick
-                    clanTag = playerClan
+                    name = playerInfo.name
+                    clanTag = playerInfo.clanTag
                     icon = playerIcon
-                    country = playerCountry
+                    country = playerInfo?.country ?? ""
                   },
                   true, "player_", mainObj)
 
@@ -267,6 +264,8 @@ function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
       airObj.show(false)
       return
     }
+
+    local guiScene = scene.getScene()
     local existingAirObj = airObj.findObject("curAircraft_place")
     if (::checkObj(existingAirObj))
       guiScene.destroyElement(existingAirObj)
@@ -291,86 +290,17 @@ enum SessionStatus
 function session_player_rmenu(handler, player, chatText = "", position = null, orientation = null)
 {
   if (!player || player.isBot || !("userId" in player) || !::g_login.isLoggedIn())
-      return
+    return
 
-  local name = player.name
-  local clanTag = player.clanTag
-  local isMe = player.isLocal
-  local uid = player.userId.tostring()
-  local isFriend = ::isPlayerInFriendsGroup(uid)
-  local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
-  local owner = ::SessionLobby.isRoomOwner
+  local menu = playerContextMenu.getActions(null, {
+    playerName = player.name
+    uid = player.userId.tostring()
+    clanTag = player.clanTag
+    position = position
+    chatLog = chatText
+    isMPLobby = true
+  })
 
-  local menu =[
-    {
-      text = ::loc("contacts/message")
-      show = !isMe
-      action = (@(name) function() {
-        if ("changePrivateTo" in this)
-          changePrivateTo(name)
-        else
-          ::openChatPrivate(name, this)
-      })(name)
-    }
-    {
-      text = ::loc("mainmenu/btnUserCard")
-      action = (@(name, uid) function() { ::gui_modal_userCard({ name = name, uid = uid }) })(name, uid)
-    }
-
-    {
-      text = ::loc("contacts/friendlist/add")
-      show = !isMe && !isFriend && !isBlock
-      action = (@(name, uid) function() { ::editContactMsgBox({uid = uid, name = name}, ::EPL_FRIENDLIST, true, this) })(name, uid)
-    }
-    {
-      text = ::loc("contacts/friendlist/remove")
-      show = isFriend
-      action = (@(name, uid) function() { ::editContactMsgBox({uid = uid, name = name}, ::EPL_FRIENDLIST, false, this) })(name, uid)
-    }
-    {
-      text = ::loc("contacts/blacklist/add")
-      show = !isMe && !isFriend && !isBlock
-      action = (@(name, uid) function() { ::editContactMsgBox({uid = uid, name = name}, ::EPL_BLOCKLIST, true, this) })(name, uid)
-    }
-    {
-      text = ::loc("contacts/blacklist/remove")
-      show = isBlock
-      action = (@(name, uid) function() { ::editContactMsgBox({uid = uid, name = name}, ::EPL_BLOCKLIST, false, this) })(name, uid)
-    }
-    {
-      text = ::loc(localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO) ? "mpRadio/enable" : "mpRadio/disable")
-      show = !isMe && !isBlock
-      action = function() {
-        localDevoice.switchMuted(name, localDevoice.DEVOICE_RADIO)
-        local popupLocId = localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO) ? "mpRadio/disabled/msg" : "mpRadio/enabled/msg"
-        ::g_popups.add(null, ::loc(popupLocId, { player = ::colorize("activeTextColor", name) }))
-      }
-    }
-    {
-      text = ::loc("mainmenu/btnComplain")
-      show = !isMe
-      action = (@(player, chatText) function() {
-        ::gui_modal_complain(player, chatText)
-      })(player, chatText)
-    }
-    {
-      text = ::loc("mainmenu/btnKick")
-      show = !isMe && owner && !::SessionLobby.isEventRoom
-      action = (@(player) function() { ::SessionLobby.kickPlayer(::SessionLobby.getMemberByName(player.name)) })(player)
-    }
-    {
-      text = ::loc("contacts/moderator_copyname")
-      show = ::is_myself_moderator() || ::is_myself_chat_moderator()
-      action = (@(name) function() { ::copy_to_clipboard(name) })(name)
-    }
-    {
-      text = ::loc("contacts/moderator_ban")
-      show = ::myself_can_devoice() || ::myself_can_ban()
-      action = (@(uid, clanTag, name, chatText) function() {
-        ::gui_modal_ban({ uid = uid, name = name, clanTag = clanTag }, chatText? chatText : "")
-      })(uid, clanTag, name, chatText)
-    }
-  ]
   ::gui_right_click_menu(menu, handler, position, orientation)
 }
 

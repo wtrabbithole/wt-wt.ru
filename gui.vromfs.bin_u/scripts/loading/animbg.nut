@@ -74,6 +74,7 @@ local createBgData = @() {
   DEFAULT_VALUE_KEY = "default_chance"
   BLOCK_BEFORE_LOGIN_KEY = "beforeLogin"
 
+  isDebugMode = false
   debugLastModified = null
 }
 
@@ -117,7 +118,7 @@ function g_anim_bg::load(animBgBlk = "", obj = null)
     return
   }
 
-  if (!fileCheck.isAllBlkImagesPrefetched(bgBlk)
+  if (!isDebugMode && !fileCheck.isAllBlkImagesPrefetched(bgBlk)
     && curBgData.reserveBg.len())
     bgBlk = loadBgBlk(curBgData.reserveBg) || bgBlk
 
@@ -314,8 +315,12 @@ function g_anim_bg::onDebugTimerUpdate(obj, dt)
   load(lastBg)
 }
 
+//animBgBlk == null - swith debug mode off.
 function g_anim_bg::debugLoading(animBgBlk = "")
 {
+  isDebugMode = animBgBlk != null
+  if (!isDebugMode)
+    return
   ::gui_start_loading()
   load(animBgBlk)
   enableDebugUpdate()

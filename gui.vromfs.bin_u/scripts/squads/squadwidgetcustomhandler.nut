@@ -90,7 +90,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
     memberObj["uid"] = member.uid
     memberObj.setUserData(member)
-    memberObj.findObject("member_icon_" + indexStr)["background-image"] = "#ui/gameuiskin#" + member.pilotIcon + "_ico"
+    memberObj.findObject("member_icon_" + indexStr).setValue(member.pilotIcon)
     memberObj.findObject("member_tooltip_" + indexStr)["uid"] = member.uid
 
     if (member.isActualData())

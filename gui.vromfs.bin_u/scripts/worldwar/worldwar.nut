@@ -88,6 +88,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   NOT_ACTIVE
   UNKNOWN_SIDE
   WRONG_SIDE
+  EXCESS_PLAYERS
   NO_TEAM
   NO_COUNTRY_IN_TEAM
   NO_COUNTRY_BY_SIDE
@@ -227,7 +228,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   ::replace_script_gui_behaviour(bhvName, bhvClass)
 
 ::g_world_war <- {
-  [PERSISTENT_DATA_PARAMS] = ["configurableValues"]
+  [PERSISTENT_DATA_PARAMS] = ["configurableValues", "curOperationCountry"]
 
   armyGroups = []
   isArmyGroupsValid = false
@@ -241,6 +242,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   artilleryUnits = null
 
   rearZones = null
+  curOperationCountry = null
   lastPlayedOperationId = null
   lastPlayedOperationCountry = null
 
@@ -267,6 +269,17 @@ function g_world_war::canPlayWorldwar()
   )
 
   return !!unit
+}
+
+function g_world_war::getLockedCountryData()
+{
+  if (!curOperationCountry)
+    return null
+
+  return {
+    country = curOperationCountry
+    reasonText = ::loc("worldWar/cantChangeCountryInOperation")
+  }
 }
 
 function g_world_war::canJoinWorldwarBattle()
@@ -337,6 +350,8 @@ function g_world_war::checkPlayWorldwarAccess()
 
 function g_world_war::openOperationsOrQueues(openBattles = false)
 {
+  stopWar()
+
   if (!checkPlayWorldwarAccess())
     return
 
@@ -376,10 +391,10 @@ function g_world_war::onJoinOperationSuccess(operationId, country, isSilence, on
     else
       sideSelectSuccess = ::ww_select_player_side_for_regular_user(country)
   }
+  curOperationCountry = country
 
   if (!sideSelectSuccess)
   {
-    stopWar()
     openOperationsOrQueues()
     return
   }
@@ -421,6 +436,7 @@ function g_world_war::onEventLoadingStateChange(p)
 function g_world_war::stopWar()
 {
   rearZones = null
+  curOperationCountry = null
 
   ::g_tooltip.removeAll()
   ::g_ww_logs.clear()

@@ -38,9 +38,6 @@
     },
     {
       "folder": "content/tomoe_hq"
-    },
-    {
-      "folder": "content/pkg_modern"
     }
   ],
   "addons_no_check": [
@@ -79,9 +76,6 @@
     },
     {
       "folder": "content/tomoe_hq"
-    },
-    {
-      "folder": "content/pkg_modern"
     }
   ],
   "video": {
@@ -104,15 +98,17 @@
     "backgroundAptiveSharpenQuality": 12.0
   },
   "ps4": {
-    "garlic_size_mb": 2048,
-    "neo_garlic_size_mb": 2464,
-    "onion_size_mb": 768,
+    "garlic_size_mb": 2304,
+    "neo_garlic_size_mb": 2720,
+    "onion_size_mb": 512,
     "dcb_size_mb": 8,
     "ccb_size_mb": 8,
     "onion_blocks": 16384,
     "max_genmip_tex_sz": 2052,
     "mem_reserve_mb": 256,
+    "emergency_buffer_pages": 20,
     "enable_deferred_mipgen": true,
+    "neo_4k_scale": 167,
     "guiWebCacheCircuit": "production",
     "reserve": {
       "max_tex": 2048,
@@ -139,7 +135,7 @@
   },
   "sound": {
     "voice_country": "GB",
-    "sound_reverb": false
+    "sound_reverb": true
   },
   "gameplay": {
     "stalls_n_spins": false,
@@ -393,7 +389,9 @@
     "renderer": "",
     "region": "",
     "releaseChannel": "",
+    "userHangarBlk": "",
     "hangarBlk": "",
+    "userCompatibilityHangarBlk": "",
     "compatibilityHangarBlk": "",
     "language": "",
     "enableEmbeddedBrowser": false,
@@ -432,7 +430,8 @@
       "rendinstGlobalShadows": false,
       "rendinstSecLayer": false,
       "sunVolFog": false,
-      "wake": false
+      "wake": false,
+      "staticShadowsOnEffects": false
     },
     "graphics": {
       "anisotropy": 0,
@@ -467,6 +466,8 @@
       "foamQuality": "",
       "renderAllRendinstToReflection": false,
       "waterRefractionEnabledFor": 0,
+      "contactShadowsQuality": 0,
+      "displacementQuality": 0,
       "foliageReprojection": false
     },
     "sound": {

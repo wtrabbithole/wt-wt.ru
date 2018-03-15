@@ -503,7 +503,7 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   EII_SMOKE_GRENADE = 13
   EII_SMOKE_SCREEN = 15
 
-  // return max rank to allow for player to purchase items in warbond's shop
+  // return max rank to allow for player to purchase items in warbonds shop
   // if no support in code, but item have restriction parametrs in config
   get_max_unit_rank = function()  {return ::max_country_rank}
   EAF_NO_COOLDOWN_ON_LANDING = 1
@@ -556,11 +556,6 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   HANGAR_ENTERED = 16
 
   get_online_client_cur_state = @() 0
-})
-
-//----------------------------wop_1_73_1_X---------------------------------//
-::apply_compatibilities({
-  SND_TYPE_MY_ENGINE = 8
 
   ugc_get_all_tags = @() []
   ugc_set_tags_forbidden = function(arr) {}
@@ -603,7 +598,7 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   encode_base64 = function(text) { return "" }
 })
 
-//----------------------------wop_1_75_0_X---------------------------------//
+//----------------------------wop_1_75_1_X---------------------------------//
 ::apply_compatibilities({
   EWBAT_EXT_INVENTORY_ITEM = 9
   is_highlights_inited = @() false
@@ -669,6 +664,12 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   EIT_MOD_OVERDRIVE = 7
   EIT_MOD_UPGRADE = 8
+
+  is_opengl_driver = @() false
+
+  xbox_is_player_in_chat = @(uid) false
+
+  is_online_available = @() ::is_connected_to_matching()
 })
 
 ::dagui_propid.add_name_id("inc-min")

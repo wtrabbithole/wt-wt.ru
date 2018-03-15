@@ -548,7 +548,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onOnlinePurchase(task)
   {
     local payMethods = yuplay2_get_payment_methods()
-    if (!payMethods || !::has_feature("PaymentMethods"))
+    if (!payMethods || ::steam_is_running() || !::has_feature("PaymentMethods"))
       return ::OnlineShopModel.doBrowserPurchase(task)
 
     local items = []

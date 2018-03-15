@@ -1,4 +1,7 @@
 local enums = ::require("std/enums.nut")
+local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
+
+const MAPS_OUT_OF_DATE_DAYS = 1
 
 ::g_ww_global_status_type <- {
   types = []
@@ -85,11 +88,19 @@ enums.addTypesByGlobalName("g_ww_global_status_type", {
     {
       cachedList = {}
       local data = getData()
-      if (!::u.isTable(data))
+      if (!::u.isTable(data) || (data.len() <= 0))
         return
 
       foreach(name, mapData in data)
         cachedList[name] <-::WwMap(name, mapData)
+
+      local guiScene = ::get_cur_gui_scene()
+      if (guiScene) //need all other configs invalidate too before push event
+        guiScene.performDelayed(this,
+          function() {
+            seenWWMapsAvailable.setDaysToUnseen(MAPS_OUT_OF_DATE_DAYS)
+            seenWWMapsAvailable.onListChanged()
+          })
     }
   }
 
@@ -103,4 +114,10 @@ enums.addTypesByGlobalName("g_ww_global_status_type", {
       cachedList = ::u.map(mapsList, function(map) { return ::WwOperationsGroup(map.name) })
     }
   }
+})
+
+seenWWMapsAvailable.setListGetter(function() {
+  return ::u.map(
+    ::g_ww_global_status_type.MAPS.getList().filter(@(idx, map) map.isAnnounceAndNotDebug()),
+    @(map) map.name)
 })

@@ -35,9 +35,6 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
     if (::checkObj(obj))
       switch(name)
       {
-        case "icon":
-          obj["background-image"] = prefix == "gc_" ? ("#ui/gameuiskin#" + val + "_ico") : ("#ui/images/avatars/" + val)
-          break
         case "country":
           obj["background-image"] = ::get_country_icon(val)
           break
@@ -71,9 +68,12 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           showClanTag = show
           if (show)
           {
-            local btnText = obj.findObject("gc_clanTag_name")
-            if (::checkObj(btnText))
-              btnText.setValue(::checkClanTagForDirtyWords(val.tostring()))
+            local clanTagName = ::checkClanTagForDirtyWords(val.tostring())
+            local btnText = obj.findObject(prefix + name + "_name")
+            if (::check_obj(btnText))
+              btnText.setValue(clanTagName)
+            else
+              obj.setValue(clanTagName)
           }
           break
         case "gold":

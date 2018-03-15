@@ -1,5 +1,19 @@
 local platformModule = require("scripts/clientState/platform.nut")
 
+local multiplayerSessionPrivelegeCallback = null
+local function checkMultiplayerSessionsPrivilegeSq(showMarket, cb)
+{
+  multiplayerSessionPrivelegeCallback = cb
+  ::check_multiplayer_sessions_privilege(showMarket)
+}
+
+function check_multiplayer_sessions_privilege_callback(isAllowed)
+{
+  if (multiplayerSessionPrivelegeCallback)
+    multiplayerSessionPrivelegeCallback(isAllowed)
+  multiplayerSessionPrivelegeCallback = null
+}
+
 class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
@@ -43,6 +57,11 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 
   function onOk()
   {
+    loginStep1_checkGamercard()
+  }
+
+  function loginStep1_checkGamercard()
+  {
     if (::xbox_get_active_user_gamertag() == "")
     {
       needAutoLogin = true
@@ -50,6 +69,23 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
       return
     }
 
+    loginStep2_checkMultiplayerPrivelege()
+  }
+
+  function loginStep2_checkMultiplayerPrivelege()
+  {
+    checkMultiplayerSessionsPrivilegeSq(true,
+      ::Callback(function(res)
+      {
+        if (res)
+          ::get_gui_scene().performDelayed(this, loginStep3_checkCrossPlay)
+      }, this))
+    //callback check_multiplayer_sessions_privilege_callback
+    //will call checkCrossPlay if allowed
+  }
+
+  function loginStep3_checkCrossPlay()
+  {
     needAutoLogin = false
 
     if (!platformModule.isCrossPlayEnabled())
@@ -118,7 +154,4 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 }
 
 //Calling from C++
-function xbox_on_gamertag_changed()
-{
-  ::broadcastEvent("XboxActiveUserGamertagChanged")
-}
+::xbox_on_gamertag_changed <- @() ::broadcastEvent("XboxActiveUserGamertagChanged")

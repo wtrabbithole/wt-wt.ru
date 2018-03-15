@@ -13,6 +13,7 @@ local enums = ::require("std/enums.nut")
     mergeIndex = -1
     haveTmDiscount = false
     forceHoverWidth = null
+    unseenIconMainButton = null
 
     getTopMenuButtonDivId = function() { return "topmenu_" + name }
     getTopMenuDiscountId = function() { return getTopMenuButtonDivId() + "_discount" }

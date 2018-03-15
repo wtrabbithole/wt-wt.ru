@@ -410,6 +410,18 @@ upgradeImg[upgradeStatus = mod]{
   background-image: #ui/gameuiskin#weapon_required_mod;
 }
 
+modUpgradeImg {
+  size:@cIco, @cIco;
+  position:absolute;
+  re-type: fgPict;
+  background-image:#ui/gameuiskin#item_type_upgrade;
+  background-repeat:aspect-ratio;
+  foreground-image:#ui/gameuiskin#items_orders_revenge;
+  foreground-repeat:aspect-ratio;
+  behaviour:bhvUpdater;
+  input-transparent:yes;
+}
+
 modResearchProgress {
   behaviour:progress;
   re-type:progress;

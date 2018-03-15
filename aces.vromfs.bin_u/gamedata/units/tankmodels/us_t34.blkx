@@ -374,12 +374,14 @@
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
         "drive_turret_v_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
+          "hp": 150.0,
+          "armorThrough": 1.0,
+          "armorThickness": 12.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
+          "hp": 150.0,
+          "armorThrough": 1.0,
+          "armorThickness": 12.0
         },
         "drive_turret_v_01_dm": {
           "hp": 40.0,
@@ -398,14 +400,14 @@
           "armorThrough": 15.0
         },
         "cannon_breech_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 100.0,
-          "hp": 100.0
+          "armorThickness": 10.0,
+          "armorThrough": 300.0,
+          "hp": 150.0
         },
         "cannon_breech_01_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 100.0,
-          "hp": 100.0
+          "armorThickness": 10.0,
+          "armorThrough": 15.0,
+          "hp": 150.0
         },
         "radiator_dm": {
           "hp": 40.0,
@@ -1297,6 +1299,7 @@
         "cls_body": "convex_hull"
       },
       "suspension": {
+        "maxDisplacementOffsets": [0.0,0.05],
         "suspensionOffsets": [-0.2,-0.16,0.14],
         "defaultGearRadius": 0.3,
         "frontBackGearRadius": 0.27,
@@ -1318,7 +1321,7 @@
         "neutralGearRatio": 10.0,
         "gearRatios": [
           {
-            "ratio": -2.9
+            "ratio": -1.9
           },
           {
             "ratio": -5.64
@@ -1902,7 +1905,7 @@
   },
   {
     "user_skin": {
-      "name": "t32",
+      "name": "t29",
       "replace_tex": {
         "from": "us_camo_olive*"
       }
@@ -1986,6 +1989,15 @@
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "us_camo_olive_drab_olive*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "us_camo_winter_grid",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "us_camo_winter_grid*"
       }
     }
   },

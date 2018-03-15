@@ -64,21 +64,22 @@ local images = {
 
 local fontFxColor = Color(80, 80, 80)
 local fontFx = FFT_GLOW
-local font = Fonts.small_text_hud
+local font = Fonts.tiny_text_hud
 
 local speed = function () {
   local speedValue = @() {
     watch = shipState.speed
     rendObj = ROBJ_TEXT
     text = shipState.speed.value.tostring()
-    font = font
+    font = Fonts.tiny_text_hud
     margin = [0,0,0,sh(1)]
   }
 
   local speedUnits = @() {
     rendObj = ROBJ_STEXT
     font = font
-    fontSize = hdpx(18)
+    fontSize = hdpx(13)
+    fontFitIntoBox = [hdpx(40), hdpx(13)]
     text = ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
     margin = [0,0,0,sh(0.5)]
   }
@@ -93,7 +94,8 @@ local speed = function () {
           rendObj = ROBJ_STEXT
           font = font
           color = stopping.value ? Color(255, 100, 100) : Color(200, 200, 200)
-          fontSize = hdpx(18)
+          fontSize = hdpx(13)
+          fontFitIntoBox = [hdpx(200), hdpx(13)]
           text = machineSpeedLoc[averageSpeed] + " " + machineDirectionLoc[averageSpeed]
         }
       }
@@ -109,12 +111,12 @@ local speed = function () {
 
     children = [
       {
-        size = [flex(3), SIZE_TO_CONTENT]
+        size = [flex(4), SIZE_TO_CONTENT]
         children = [machine(shipState.portSideMachine, shipState.sideboardSideMachine, shipState.stopping)]
         halign = HALIGN_RIGHT
       }
       {
-        size = [flex(2), SIZE_TO_CONTENT]
+        size = [flex(1.8), SIZE_TO_CONTENT]
         flow = FLOW_HORIZONTAL
         valign = VALIGN_BOTTOM
 
@@ -382,7 +384,7 @@ local fov = function (pivot) {
 
 local doll = {
   color = Color(0, 255, 0)
-  size = [sh(12), sh(30)]
+  size = [sh(16), sh(32)]
   rendObj = ROBJ_XRAYDOLL
   rotateWithCamera = false
 

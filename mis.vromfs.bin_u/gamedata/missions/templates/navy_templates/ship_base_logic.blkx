@@ -190,14 +190,42 @@
         "initMission": []
       },
       "conditions": [],
-      "actions": {
-        "unitPutToSleep": {
-          "target": "all_players_squad"
+      "actions": [
+        {
+          "unitPutToSleep": {
+            "target": "all_players_squad"
+          }
         },
-        "unitWakeUp": {
-          "target": "t1_player01"
+        {
+          "unitWakeUp": {
+            "target": "t1_player01"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t1_start",
+            "var": "t1_boat_field_start"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t1_end",
+            "var": "t1_boat_field_end"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_start",
+            "var": "t2_boat_field_start"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_end",
+            "var": "t2_boat_field_end"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "t1_task_completed": {
@@ -243,6 +271,60 @@
           "valueSystem": "percentage",
           "team": "A"
         }
+      },
+      "else_actions": []
+    },
+    "hide_aaa_squad": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "t1_airfield_aaa_squad",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "t2_airfield_aaa_squad",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": {
+        "unitSetProperties": [
+          {
+            "object_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
+            "object": "t1_airfield_aaa_squad"
+          },
+          {
+            "object": "t2_airfield_aaa_squad"
+          },
+          {
+            "stealthRadius": 0.0
+          }
+        ]
       },
       "else_actions": []
     },
@@ -369,6 +451,71 @@
         ],
         "else_actions": []
       }
+    },
+    "air_boats_field": {
+      "isCategory": true,
+      "is_enabled": true,
+      "check_boat_field_exist": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "objectExists": {
+              "target": "@t1_boat_field_start",
+              "type": "area"
+            }
+          },
+          {
+            "objectExists": {
+              "target": "@t2_boat_field_start",
+              "type": "area"
+            }
+          },
+          {
+            "objectExists": {
+              "target": "@t1_boat_field_end",
+              "type": "area"
+            }
+          },
+          {
+            "objectExists": {
+              "target": "@t2_boat_field_end",
+              "type": "area"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "addAirfield": {
+              "runwayStart": "t1_start",
+              "runwayEnd": "t1_end",
+              "runwayWidth": 400.0,
+              "army": 1,
+              "visibleOnHud": true
+            }
+          },
+          {
+            "addAirfield": {
+              "runwayStart": "t2_start",
+              "runwayEnd": "t2_end",
+              "runwayWidth": 400.0,
+              "army": 2,
+              "visibleOnHud": true
+            }
+          }
+        ],
+        "else_actions": []
+      }
     }
   },
   "mission_objectives": {
@@ -378,7 +525,11 @@
   "variables": {
     "enableExitZones": false,
     "t1_exitZoneName": "",
-    "t2_exitZoneName": ""
+    "t2_exitZoneName": "",
+    "t1_boat_field_start": "",
+    "t2_boat_field_start": "",
+    "t1_boat_field_end": "",
+    "t2_boat_field_end": ""
   },
   "dialogs": [],
   "airfields": [],

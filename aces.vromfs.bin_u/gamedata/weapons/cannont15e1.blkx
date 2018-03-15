@@ -62,16 +62,17 @@
       "explodeHitPower": 30.0,
       "explodeArmorPower": 6.0,
       "explodeRadius": [0.2,0.32],
-      "explosionPatchRadius": 1.1,
       "shutterDamage": true,
       "shutterDamageRadius": 1.2,
       "shutterAmount": 30,
       "shutterArmorPower": 8.0,
       "shutterHit": 7.0,
-      "groundCollisionEffect": "big_ground_splash",
+      "groundCollisionEffect": "art_ground_splash",
       "groundFxScale": [0.9,1.1],
-      "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "big_water_splash",
+      "ricochetEffect": "cannon_hit_apds",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [0.7,0.8],
+      "explosionPatchRadius": 1.8,
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -98,11 +99,17 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [0.9,1.3]
+        },
         "steel": {
-          "fx": "cannon_hit_light"
+          "fx": "cannon_hit_light",
+          "fxScale": [1.5,1.7]
         },
         "armor": {
-          "fx": "cannon_hit_armor"
+          "fx": "cannon_hit_light",
+          "fxScale": [1.5,1.7]
         }
       }
     }
@@ -186,16 +193,17 @@
         "explodeHitPower": 30.0,
         "explodeArmorPower": 6.0,
         "explodeRadius": [0.2,0.32],
-        "explosionPatchRadius": 1.1,
         "shutterDamage": true,
         "shutterDamageRadius": 1.2,
         "shutterAmount": 30,
         "shutterArmorPower": 8.0,
         "shutterHit": 7.0,
-        "groundCollisionEffect": "big_ground_splash",
+        "groundCollisionEffect": "art_ground_splash",
         "groundFxScale": [0.9,1.1],
-        "ricochetEffect": "cannon_ricochet",
-        "waterCollisionEffect": "big_water_splash",
+        "ricochetEffect": "cannon_hit_apds",
+        "waterCollisionEffect": "120-203_he_water_splash",
+        "waterFxScale": [0.7,0.8],
+        "explosionPatchRadius": 1.8,
         "hitpower": {
           "HitPower0m": [0.85,500.0],
           "HitPower10000m": [0.8,10000.0]
@@ -222,11 +230,17 @@
           "trail": "black"
         },
         "collisions": {
+          "buildings": {
+            "fx": "122_he_stone_splash",
+            "fxScale": [0.9,1.3]
+          },
           "steel": {
-            "fx": "cannon_hit_light"
+            "fx": "cannon_hit_light",
+            "fxScale": [1.5,1.7]
           },
           "armor": {
-            "fx": "cannon_hit_armor"
+            "fx": "cannon_hit_light",
+            "fxScale": [1.5,1.7]
           }
         }
       }

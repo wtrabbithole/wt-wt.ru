@@ -691,6 +691,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_front_artillery_squad"
             },
             {
@@ -750,6 +759,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_front_aaa_squad"
             },
             {
@@ -787,6 +805,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -795,6 +816,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -812,6 +836,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_il2_01",
             "speed": 300.0
           }
@@ -884,6 +911,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -895,6 +925,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -966,6 +999,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_il2_01",
           "target": "il2_attack_point_01"
         }
@@ -1061,6 +1097,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_il2_01"
         }
       },
@@ -1089,6 +1128,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_il2_01",
           "target": "il2_01_retreat_point"
         }
@@ -1120,6 +1162,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 6,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_il2_01"
         }
       },
@@ -1139,6 +1184,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ju_87"
         },
         "triggerEnable": {
@@ -1170,6 +1218,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ju_87",
           "target": "ju87_attack_point"
         }
@@ -17459,7 +17510,7 @@
         [0.000152588,0.0,300.0],
         [0.0,300.0,0.0],
         [-300.0,0.0,0.000152588],
-        [12921.3,1000.0,-7651.44]
+        [12838.4,1000.0,-5654.89]
       ],
       "props": []
     },
@@ -17476,9 +17527,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-5994.29,0.0,-261.715],
-        [0.0,6000.0,0.0],
-        [261.715,0.0,-5994.29],
+        [-9990.48,0.0,-436.192],
+        [0.0,10000.0,0.0],
+        [436.192,0.0,-9990.48],
         [13052.0,1000.0,-10650.8]
       ],
       "props": []
@@ -17559,7 +17610,7 @@
         [192.836,0.0,-229.813],
         [0.0,300.0,0.0],
         [229.813,0.0,192.836],
-        [-14561.1,1000.0,12999.4]
+        [-13207.3,1000.0,11521.9]
       ],
       "props": []
     },
@@ -17576,9 +17627,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [4423.66,0.0,4053.54],
-        [0.0,6000.0,0.0],
-        [-4053.54,0.0,4423.66],
+        [7372.77,0.0,6755.9],
+        [0.0,10000.0,0.0],
+        [-6755.9,0.0,7372.77],
         [-16589.2,1000.0,15213.0]
       ],
       "props": []
@@ -18101,6 +18152,26 @@
         [7628.05,70.25,9299.7]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [0.000152588,0.0,300.0],
+        [0.0,300.0,0.0],
+        [-300.0,0.0,0.000152588],
+        [13182.3,500.0,-13629.0]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [192.836,0.0,-229.813],
+        [0.0,300.0,0.0],
+        [229.813,0.0,192.836],
+        [-18603.4,500.0,17410.7]
+      ],
       "props": []
     }
   },

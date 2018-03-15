@@ -183,7 +183,7 @@ local SeenList = class {
       else
         return
 
-    local entityList = u.isArray(entityOrList) ? entityOrList : [entityOrList]
+    local entityList = (u.isArray(entityOrList) || u.isTable(entityOrList)) ? entityOrList : [entityOrList]
     local changedList = []
     local curDays = time.getUtcDays()
     foreach(entity in entityList)

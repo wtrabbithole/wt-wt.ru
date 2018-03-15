@@ -592,6 +592,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -600,6 +603,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -608,6 +614,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_tanks_squad"
@@ -660,6 +675,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_aaa_squad"
             },
             {
@@ -680,6 +704,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_movable_units_squad"
@@ -776,6 +809,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -787,6 +823,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -854,6 +893,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_long_range_artillery_squad"
         }
       },
@@ -901,6 +943,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "bridges_squad"
         }
       },
@@ -959,6 +1004,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "bridge_01"
           }
         },
@@ -968,6 +1016,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "bridge_02"
           }
         }
@@ -1028,6 +1079,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "bridge_units_squad",
             "target": "bridge_after_area_01"
           }
@@ -1038,6 +1092,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "bridge_units_squad",
             "target": "bridge_after_area_02"
           }
@@ -1048,6 +1105,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "bridge_units_squad",
             "target": "bridge_after_area_03"
           }
@@ -1107,6 +1167,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_tanks_squad"
         }
       },
@@ -1159,6 +1222,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_long_range_artillery_squad"
         }
       },
@@ -10647,7 +10713,7 @@
         [-289.778,0.0,77.6459],
         [0.0,300.0,0.0],
         [-77.6459,0.0,-289.778],
-        [6958.36,1000.0,-3934.55]
+        [5007.35,1000.0,-3502.11]
       ],
       "props": []
     },
@@ -10664,9 +10730,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-1298.64,0.0,-5857.78],
-        [0.0,6000.0,0.0],
-        [5857.78,0.0,-1298.64],
+        [-2164.4,0.0,-9762.96],
+        [0.0,10000.0,0.0],
+        [9762.96,0.0,-2164.4],
         [9889.35,1000.0,-4584.6]
       ],
       "props": []
@@ -10747,7 +10813,7 @@
         [192.836,0.0,-229.813],
         [0.0,300.0,0.0],
         [229.813,0.0,192.836],
-        [-20019.8,1000.0,11184.9]
+        [-18670.4,1000.0,9711.82]
       ],
       "props": []
     },
@@ -10764,9 +10830,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [4423.66,0.0,4053.54],
-        [0.0,6000.0,0.0],
-        [-4053.54,0.0,4423.66],
+        [7372.77,0.0,6755.9],
+        [0.0,10000.0,0.0],
+        [-6755.9,0.0,7372.77],
         [-22047.9,1000.0,13398.5]
       ],
       "props": []
@@ -11146,6 +11212,26 @@
         [-14489.5,88.7831,-11722.1]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-289.778,0.0,77.6459],
+        [0.0,300.0,0.0],
+        [-77.6459,0.0,-289.778],
+        [12799.8,500.0,-5229.57]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [192.836,0.0,-229.813],
+        [0.0,300.0,0.0],
+        [229.813,0.0,192.836],
+        [-24062.1,500.0,15596.2]
+      ],
       "props": []
     }
   },

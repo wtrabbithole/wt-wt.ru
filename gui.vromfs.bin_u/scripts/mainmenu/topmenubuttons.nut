@@ -21,6 +21,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     isFeatured = false
     needDiscountIcon = false
     newIconWidget = null
+    unseenIcon = null
     onClickFunc = @(obj, handler = null) null
     onChangeValueFunc = @(value) null
     useImage = null
@@ -63,6 +64,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
     tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
     isVisualDisabled = @() !::is_worldwar_enabled() || !::g_world_war.canPlayWorldwar()
+    unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"
@@ -217,7 +219,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   ITEMS_SHOP = {
     text = "#items/shop"
     onClickFunc = @(...) ::gui_start_itemsShop()
-    image = "#ui/gameuiskin#store_icon"
+    image = "#ui/gameuiskin#store_icon.svg"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
     newIconWidget = @() ::NewIconWidget.createLayout()
   }
@@ -227,7 +229,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     link = ""
     isLink = true
     isFeatured = true
-    image = "#ui/gameuiskin#store_icon"
+    image = "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
@@ -237,7 +239,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     link = ""
     isLink = true
     isFeatured = true
-    image = "#ui/gameuiskin#store_icon"
+    image = "#ui/gameuiskin#gc.svg"
     isHidden = @(...) !::ItemsManager.isMarketplaceEnabled() || !::isInMenu()
   }
   WINDOW_HELP = {
@@ -252,7 +254,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   FAQ = {
     text = "#mainmenu/faq"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/faq"
     isLink = true
@@ -261,7 +263,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   FORUM = {
     text = "#mainmenu/forum"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/forum"
     isLink = true
@@ -270,7 +272,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   SUPPORT = {
     text = "#mainmenu/support"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/support"
     isLink = true
@@ -279,7 +281,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   WIKI = {
     text = "#mainmenu/wiki"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/wiki"
     isLink = true

@@ -55,6 +55,10 @@ Button_text.squadWidgetMember[status=leader] squadMemberVoipStatus {
   pos:4*@sf/@pf_outdated, 0; position:absolute;
 }
 
+memberIcon {
+  behavior:bhvAvatar;
+}
+
 Button_text.squadWidgetMember memberIcon {
   size:@dIco, @dIco;
   pos:0, 50%ph-50%h;
@@ -65,7 +69,7 @@ emptyButton.squadWidgetInvite {
   size:@mIco, @mIco;
 }
 
-emptyButton.squadWidgetInvite  > img {
+.squadWidgetInvite  > memberIcon {
   size:pw-@squadInvitesWidgetPadding, ph-@squadInvitesWidgetPadding;
   pos:0.5*(pw-w), 0.5*(ph-h);
   position:absolute;

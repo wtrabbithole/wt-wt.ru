@@ -1,10 +1,13 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 enum PSN_SESSION_TYPE {
   SKIRMISH = "skirmish"
   SQUAD = "squad"
 }
 
 ::g_psn_session_invitations <- {
-  [PERSISTENT_DATA_PARAMS] = ["existingSession", "curSessionParams", "lastUpdateTable", "suspendedInvitationData"]
+  [PERSISTENT_DATA_PARAMS] = ["existingSession", "curSessionParams", "lastUpdateTable", "suspendedInvitationData",
+                              "suspendedSquadDisband"]
 
   existingSession = {}
   curSessionParams = {}
@@ -17,13 +20,14 @@ enum PSN_SESSION_TYPE {
 
   updateTimerLimit = 60000
   suspendedInvitationData = null
+  suspendedSquadDisband = false
 }
 
 function g_psn_session_invitations::saveSessionId(key, sessionId)
 {
   if (key in existingSession)
   {
-    ::dagor.debug("psnSessionInvitations: Can't save existing session in " + key)
+    ::dagor.debug("[PSSI] saveSessionId: Can't save existing session in " + key)
     return false
   }
 
@@ -70,7 +74,7 @@ function g_psn_session_invitations::sendCreateSession(key, sessionInfo, image, s
 
   local blk = ::DataBlock()
   blk.multipart = true
-  blk.apiGroup = "sessionInvitation"
+  blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_POST
   blk.path = "/v1/sessions"
 
@@ -165,17 +169,17 @@ function g_psn_session_invitations::sendCreateSession(key, sessionInfo, image, s
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
     saveSessionId(key, ::parse_json(ret.response).sessionId)
   }
 }
 
-function g_psn_session_invitations::updateExistedSessionInfo(key, sessionInfo)
+function g_psn_session_invitations::updateExistingSessionInfo(key, sessionInfo)
 {
   if (!::is_platform_ps4)
     return
@@ -187,14 +191,14 @@ function g_psn_session_invitations::updateExistedSessionInfo(key, sessionInfo)
   local lastUpdate = ::getTblValue(sessionId, lastUpdateTable, 0)
   if (::dagor.getCurTime() - lastUpdate < updateTimerLimit)
   {
-    ::dagor.debug("psnSessionInvitations: Too often update call")
+    ::dagor.debug("[PSSI] updateExsitingSessionInfo: Too often update call")
     return
   }
 
   lastUpdateTable[sessionId] <- ::dagor.getCurTime()
 
   local blk = ::DataBlock()
-  blk.apiGroup = "sessionInvitation"
+  blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_PUT
   blk.path = "/v1/sessions/" + sessionId
   blk.request = getJsonRequestForSession(key, sessionInfo, true)
@@ -202,23 +206,24 @@ function g_psn_session_invitations::updateExistedSessionInfo(key, sessionInfo)
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
   }
 }
 
 function g_psn_session_invitations::sendDestroySession(key)
 {
+  dagor.debug("[PSSI] sendDestroySession "+key)
   local sessionId = getSessionId(key)
   if (::u.isEmpty(sessionId))
     return
 
   local blk = ::DataBlock()
-  blk.apiGroup = "sessionInvitation"
+  blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_DELETE
   blk.path = "/v1/sessions/" + sessionId
 
@@ -226,31 +231,32 @@ function g_psn_session_invitations::sendDestroySession(key)
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
   }
 }
 
 function g_psn_session_invitations::getSessionData(sessionId)
 {
+  dagor.debug("[PSSI] getSessionData: "+sessionId)
   local blk = ::DataBlock()
-  blk.apiGroup = "sessionInvitation"
+  blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_GET
   blk.path = "/v1/sessions/" + sessionId + "/sessionData"
 
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
     return ::parse_json(ret.response)
   }
 
@@ -262,8 +268,10 @@ function g_psn_session_invitations::setInvitationUsed(invitationId)
   if (!::is_platform_ps4 || invitationId == "")
     return
 
+  dagor.debug("[PSSI] setInvitationUsed: "+invitationId)
+
   local blk = ::DataBlock()
-  blk.apiGroup = "sessionInvitation"
+  blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_PUT
   blk.path = "/v1/users/me/invitations/" + invitationId
   blk.request = "{\r\n\"usedFlag\":true\r\n}"
@@ -271,12 +279,12 @@ function g_psn_session_invitations::setInvitationUsed(invitationId)
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
   }
 }
 
@@ -285,20 +293,21 @@ function g_psn_session_invitations::getInvitationsList()
   if (!::is_platform_ps4)
     return
 
+  dagor.debug("[PSSI] getInvitationsList")
   local blk = ::DataBlock()
-  blk.apiGroup = "sessionInvitation"
+  blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_GET
   blk.path = "/v1/users/me/invitations?fields=@default,sessionId"
 
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
     return ::parse_json(ret.response)
   }
   return null
@@ -324,23 +333,22 @@ function g_psn_session_invitations::setInvitationsUsed()
   }
 }
 
-function g_psn_session_invitations::sendInvitation(key, onlineId)
+function g_psn_session_invitations::sendInvitation(key, psnAccountId)
 {
-  local sessionId = getSessionId(key)
-  if (sessionId == "")
+  if (!psnAccountId)
   {
-    ::dagor.debug("PSN Invitation: Error: empty sessionId for " + key)
+    ::script_net_assert_once("no PSN AcccountID", "[PSSI] Abort invite to "+key+" session")
     return
   }
 
-  onlineId = onlineId.slice(0, 1) == "*"? onlineId.slice(1) : onlineId
-
-  //TODO: Remove psn_mapper using, accountId's are known
-  //At least, in playTogether cachedUsersData accountIds are known
-  local accountId = ::g_psn_mapper.getAccountIdByOnlineId(onlineId)
-  if (!accountId)
+  local sessionId = getSessionId(key)
+  if (sessionId == "")
+  {
+    ::dagor.debug("[PSSI] Error: empty sessionId for " + key)
     return
+  }
 
+  dagor.debug("[PSSI] sendInvitation to "+key)
   local blk = ::DataBlock()
   blk.apiGroup = "sdk:sessionInvitation"
   blk.method = ::HTTP_METHOD_POST
@@ -369,19 +377,19 @@ function g_psn_session_invitations::sendInvitation(key, onlineId)
 
   local jsonBlockPart = ::DataBlock()
   jsonBlockPart.reqHeaders = headers
-  jsonBlockPart.data = "{\r\n\"to\":[\"" + accountId + "\"]\r\n}"
+  jsonBlockPart.data = "{\r\n\"to\":[\"" + psnAccountId + "\"]\r\n}"
   blk.part <- jsonBlockPart
 //********************* </Block Request> *******************************/
 
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
-    ::dagor.debug("Error: " + ret.error)
-    ::dagor.debug("Error text: " + ret.errorStr)
+    ::dagor.debug("[PSSI] Error: " + ret.error)
+    ::dagor.debug("[PSSI] Error text: " + ret.errorStr)
   }
   else if ("response" in ret)
   {
-    ::dagor.debug("Response: " + ret.response)
+    ::dagor.debug("[PSSI] Response: " + ret.response)
   }
 }
 
@@ -397,22 +405,12 @@ function g_psn_session_invitations::getCurrentSessionInfo()
   else
     locIdsArray = ["missions/" + ::SessionLobby.getMissionName(true)]
 
+  local isFriendOnly = ::SessionLobby.getPublicParam("friendOnly", false)
+  local isJipAllowed = ::SessionLobby.getPublicParam("allowJIP", false)
   return {
     locIdsArray = locIdsArray
-    isFriendsOnly = ::SessionLobby.getPublicParam("friendOnly", false)
+    isPrivate = isFriendOnly || !isJipAllowed
     maxUsers = ::SessionLobby.getMaxMembersCount()
-  }
-}
-
-function g_psn_session_invitations::getCurrentSquadInfo()
-{
-  if (!::g_squad_manager.isInSquad())
-    return {}
-
-  return {
-    locIdsArray = ["ps4/session/squad"]
-    isFriendsOnly = false
-    maxUsers = ::g_squad_manager.getMaxSquadSize()
   }
 }
 
@@ -423,7 +421,7 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
   local data = getSavedSessionData(key)
   if (::u.isEmpty(data))
   {
-    ::dagor.debug("Session Invitation: No data for key " + key)
+    ::dagor.debug("[PSSI] Session Invitation: No data for key " + key)
     return {}
   }
 
@@ -431,43 +429,65 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
   local feedTextsArray = ::g_localization.getFilledFeedTextByLang(data.locIdsArray)
   local sessionNames = ::g_localization.formatLangTextsInJsonStyle(feedTextsArray)
 
+  local isForSquad = key == PSN_SESSION_TYPE.SQUAD
   local jsonRequest = []
-  jsonRequest.append("\"sessionPrivacy\":\"" + (data.isFriendsOnly? "private" : "public") + "\"")
+  jsonRequest.append("\"sessionPrivacy\":\"" + (data.isPrivate ? "private" : "public") + "\"")
   jsonRequest.append("\"sessionMaxUser\": " + data.maxUsers + "")
   jsonRequest.append("\"sessionName\":\"" + sessionName + "\"")
   jsonRequest.append("\"localizedSessionNames\": [" + sessionNames + "]")
-  jsonRequest.append("\"sessionLockFlag\":" + data.isFriendsOnly)
+  jsonRequest.append("\"sessionLockFlag\":" + false)
 
   if (!isForUpdate)
   {
     jsonRequest.append("\"index\": " + ::getTblValue(key, sessionTypeToIndex, -1))
-    jsonRequest.append("\"sessionType\":\"owner-bind\"")
+    jsonRequest.append("\"sessionType\":\"" + (isForSquad ? "owner-migration" : "owner-bind") + "\"")
     jsonRequest.append("\"availablePlatforms\": [\"PS4\"]")
   }
 
   return "{\r\n" + ::g_string.implode(jsonRequest, ",\r\n") + "\r\n}\r\n"
 }
 
-function g_psn_session_invitations::sendSkirmishInvitation(userName)
+function g_psn_session_invitations::sendSkirmishInvitation(psnAccountId)
 {
-  return sendInvitation(PSN_SESSION_TYPE.SKIRMISH, userName)
+  return sendInvitation(PSN_SESSION_TYPE.SKIRMISH, psnAccountId)
 }
 
-function g_psn_session_invitations::sendSquadInvitation(userName)
+function g_psn_session_invitations::createSquadSession(leaderUid)
 {
-  if (!::g_squad_manager.isInSquad())
-    return ::g_squad_manager.createSquad(@() ::g_psn_session_invitations.sendSquadInvitation(userName))
+  local squadInfo = {
+    locIdsArray = ["ps4/session/squad"]
+    isPrivate = true
+    maxUsers = ::g_squad_manager.getMaxSquadSize()
+  }
 
-  if (!::g_squad_manager.isSquadLeader())
-    return
+  dagor.debug("[PSSI] createSquadSession: from "+leaderUid)
+  sendCreateSession(PSN_SESSION_TYPE.SQUAD,
+                    getJsonRequestForSession(PSN_SESSION_TYPE.SQUAD, squadInfo),
+                    "ui/images/reward05.jpg",
+                    ::save_to_json({
+                      squadId = leaderUid
+                      leaderId = leaderUid
+                      key = PSN_SESSION_TYPE.SQUAD
+                    }))
+}
 
-  if (::g_squad_manager.isSquadFull())
-    return ::g_popups.add(null, ::loc("matching/SQUAD_FULL"))
+function g_psn_session_invitations::destroySquadSession()
+{
+  if (isInMenu())
+  {
+    suspendedSquadDisband = false
+    sendDestroySession(PSN_SESSION_TYPE.SQUAD)
+  }
+  else
+    suspendedSquadDisband = true
+}
 
-  if (::g_squad_manager.isInvitedMaxPlayers())
-    return ::g_popups.add(null, ::loc("squad/maximum_intitations_sent"))
+function g_psn_session_invitations::sendSquadInvitation(psnAccountId)
+{
+  if (getSessionId(PSN_SESSION_TYPE.SQUAD) == "")
+    createSquadSession(::my_user_id_str) //because we are creating the squad via invite
 
-  return sendInvitation(PSN_SESSION_TYPE.SQUAD, userName)
+  return sendInvitation(PSN_SESSION_TYPE.SQUAD, psnAccountId)
 }
 
 function g_psn_session_invitations::onEventLobbyStatusChange(params)
@@ -476,7 +496,7 @@ function g_psn_session_invitations::onEventLobbyStatusChange(params)
       || ::get_game_mode() != ::GM_SKIRMISH)
     return
 
-  if (::SessionLobby.isInRoom()) //because roomId is existed
+  if (::SessionLobby.isInRoom()) //because roomId exists
   {
     if (getSessionId(PSN_SESSION_TYPE.SKIRMISH) != "" || ::SessionLobby.roomId == "")
       return
@@ -509,7 +529,7 @@ function g_psn_session_invitations::onEventLobbySettingsChange(params)
   if (isSessionParamsEqual(PSN_SESSION_TYPE.SKIRMISH, getCurrentSessionInfo()))
     return
 
-  updateExistedSessionInfo(PSN_SESSION_TYPE.SKIRMISH, getCurrentSessionInfo())
+  updateExistingSessionInfo(PSN_SESSION_TYPE.SKIRMISH, getCurrentSessionInfo())
 }
 
 function g_psn_session_invitations::onEventSquadStatusChanged(params)
@@ -525,28 +545,18 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
       return
     }
 
-    if (::g_squad_manager.canInviteMember())
-    {
-      if (getSessionId(PSN_SESSION_TYPE.SQUAD) != "")
-        return
-
-      sendCreateSession(PSN_SESSION_TYPE.SQUAD,
-                        getJsonRequestForSession(PSN_SESSION_TYPE.SQUAD,
-                                                 getCurrentSquadInfo()),
-                        "ui/images/reward05.jpg",
-                        ::save_to_json({
-                          squadId = ::g_squad_manager.getLeaderUid()
-                          leaderId = ::g_squad_manager.getLeaderUid()
-                          key = PSN_SESSION_TYPE.SQUAD
-                        }))
-    }
+    if (::g_squad_manager.canInviteMember() && getSessionId(PSN_SESSION_TYPE.SQUAD) == "")
+      createSquadSession(::g_squad_manager.getLeaderUid())
   }
-  else if (!::g_squad_manager.isInSquad())
-    sendDestroySession(PSN_SESSION_TYPE.SQUAD)
+  else
+    destroySquadSession()
 }
 
-function g_psn_session_invitations::checkReceievedInvitation()
+function g_psn_session_invitations::checkAfterFlight()
 {
+  if (suspendedSquadDisband)
+    destroySquadSession()
+
   if (suspendedInvitationData)
     onReceiveInvite(suspendedInvitationData)
   suspendedInvitationData = null
@@ -568,7 +578,7 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
   local sessionData = getSessionData(sessionId)
   if (::u.isEmpty(sessionData))
   {
-    ::dagor.debug("PSN SessionInvitation: Could not receive data by sessionId " + sessionId)
+    ::dagor.debug("[PSSI] onReceiveInvite: Could not receive data by sessionId " + sessionId)
     return
   }
 

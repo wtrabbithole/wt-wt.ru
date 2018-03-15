@@ -102,7 +102,7 @@ function check_mission_params(mission_decl)
                       type = "string"
                       anyOf = ["arcade", "realistic", "hardcore", "custom"]
                     }
-    custDifficulty = { type = "string" }
+    custDifficulty = { type = "table" }
 
     environment   = {
                       type = "string"

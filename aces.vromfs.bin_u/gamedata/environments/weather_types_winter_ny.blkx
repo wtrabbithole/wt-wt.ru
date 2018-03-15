@@ -58,25 +58,30 @@
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
-      "droplets_speed": 0.9
+      "droplets_speed": 1.5
     },
-    "wetnessPower": [
+    "puddlesPower": [
       {
         "p": {
-          "min": 0.75,
-          "max": 1.0
+          "value": [0.0,0.1],
+          "weight": 1.0
         }
       },
       {
         "p": {
-          "min": 0.25,
-          "max": 0.75
+          "value": [0.1,0.5]
         }
       },
       {
         "p": {
-          "min": 0.0,
-          "max": 0.0
+          "value": [0.5,0.7],
+          "weight": 4.0
+        }
+      },
+      {
+        "p": {
+          "value": [0.7,0.98],
+          "weight": 3.0
         }
       }
     ],
@@ -155,25 +160,30 @@
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
-      "droplets_speed": 0.9
+      "droplets_speed": 1.5
     },
-    "wetnessPower": [
+    "puddlesPower": [
       {
         "p": {
-          "min": 0.75,
-          "max": 1.0
+          "value": [0.0,0.1],
+          "weight": 1.0
         }
       },
       {
         "p": {
-          "min": 0.25,
-          "max": 0.75
+          "value": [0.1,0.5]
         }
       },
       {
         "p": {
-          "min": 0.0,
-          "max": 0.0
+          "value": [0.5,0.7],
+          "weight": 4.0
+        }
+      },
+      {
+        "p": {
+          "value": [0.7,0.98],
+          "weight": 3.0
         }
       }
     ],

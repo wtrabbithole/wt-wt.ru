@@ -1431,7 +1431,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       return
 
     local obj = scene.findObject("profile-icon")
-    if (obj) obj["background-image"] = "#ui/images/avatars/" + ::get_profile_info().icon
+    if (obj)
+      obj.setValue(::get_profile_info().icon)
 
     ::broadcastEvent(profileEvent.AVATAR_CHANGED)
   }

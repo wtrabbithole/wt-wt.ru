@@ -186,16 +186,14 @@ function build_mp_table(table, markupData, hdr, max_rows)
       }
       else if (hdr[j] == "name")
       {
-        local textDiv = "textareaNoTab"
-        local nameWidth = ((hdr[j] in markup)&&("width" in markup[hdr[j]]))?markup[hdr[j]].width:"0.5pw-0.035sh"
-        local nameAlign = isRowInvert ? "text-align:t='right' " : ""
-
         local nameText = platformModule.getPlayerName(item) || ""
-        if (!isEmpty && "clanTag" in table[i] && table[i].clanTag != "")
-          nameText = table[i].clanTag + " " + nameText
+        if (!isEmpty)
+          nameText = ::g_string.implode([table[i]?.clanTag ?? "", nameText], " ")
 
+        local nameWidth = markup?[hdr[j]]?.width ?? "0.5pw-0.035sh"
+        local nameAlign = isRowInvert ? "text-align:t='right' " : ""
         tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s'; pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s"
-          nameWidth, textDiv, nameAlign, nameText, textPadding
+          nameWidth, "textareaNoTab", nameAlign, nameText, textPadding
         )
 
         if (!isEmpty)
@@ -450,16 +448,13 @@ function set_mp_table(obj_tbl, table, params)
       }
       else if (hdr == "name")
       {
-        local objName = objTd.findObject("name-text")
-        local objDlcImg = objTd.findObject("dlc-ico")
         local nameText = ""
 
         if (!isEmpty)
         {
-          nameText = item
-          local prepPlayer = false
-          if ("clanTag" in table[i] && table[i].clanTag != "")
-            nameText = table[i].clanTag + " " + platformModule.getPlayerName(nameText)
+          nameText = platformModule.getPlayerName(item)
+          nameText = ::g_string.implode([table[i]?.clanTag ?? "", nameText], " ")
+
           if (("invitedName" in table[i]) && table[i].invitedName != item)
           {
             local color = ""
@@ -469,23 +464,18 @@ function set_mp_table(obj_tbl, table, params)
               else if (obj_tbl.team == "blue")
                 color = "teamBlueInactiveColor"
 
-            local playerName = table[i].invitedName
-            if (color != "")
-              playerName = ::colorize(color, platformModule.getPlayerName(table[i].invitedName))
+            local playerName = ::colorize(color, platformModule.getPlayerName(table[i].invitedName))
             nameText = ::format("%s... %s", platformModule.getPlayerName(nameText), playerName)
           }
-
-          if (objName)
-            objName.setValue(nameText)
-
-          if (objDlcImg)
-            objDlcImg.show(false)
         }
-        else
-        {
-          if (objName)     objName.setValue("")
-          if (objDlcImg)   objDlcImg.show(false)
-        }
+
+        local objName = objTd.findObject("name-text")
+        if (::check_obj(objName))
+          objName.setValue(nameText)
+
+        local objDlcImg = objTd.findObject("dlc-ico")
+        if (::check_obj(objDlcImg))
+          objDlcImg.show(false)
 
         if (!isEmpty)
         {
@@ -586,7 +576,7 @@ function set_mp_table(obj_tbl, table, params)
             else
             {
               local unitId = !isEmpty ? ::getTblValue("aircraftName", table[i], "") : ""
-              text = (unitId != "") ? ::loc(::getUnitName(unitId, true)) : ""
+              text = (unitId != "") ? ::loc(::getUnitName(unitId, true)) : "..."
               tooltip = (unitId != "") ? ::loc(::getUnitName(unitId, false)) : ""
             }
           }

@@ -13,7 +13,7 @@ local ItemExternal = class extends ::BaseItem
   static descHeaderLocId = ""
   static openingCaptionLocId = "mainmenu/itemConsumed/title"
   static linkActionLocId = "msgbox/btn_find_on_marketplace"
-  static linkActionIcon = "#ui/gameuiskin#gaijin_coin.svg"
+  static linkActionIcon = "#ui/gameuiskin#gc.svg"
   static userlogOpenLoc = "coupon_exchanged"
   static linkBigQueryKey = "marketplace_item"
   static isPreferMarkupDescInTooltip = true
@@ -78,7 +78,9 @@ local ItemExternal = class extends ::BaseItem
 
   function getDescription()
   {
-    local desc = []
+    local desc = [
+      getResourceDesc()
+    ]
 
     local tags = getTagsLoc()
     if (tags.len())
@@ -109,6 +111,11 @@ local ItemExternal = class extends ::BaseItem
     return ::loc(openingCaptionLocId)
   }
 
+  function isAllowSkipOpeningAnim()
+  {
+    return true
+  }
+
   function getLongDescriptionMarkup(params = null)
   {
     params = params || {}
@@ -121,6 +128,7 @@ local ItemExternal = class extends ::BaseItem
       content = [ metaBlk ]
       params.showAsTrophyContent <- true
       params.receivedPrizes <- false
+      params.relatedItem <- id
     }
 
     params.header <- ::u.map(desc, @(par) { header = par })
@@ -130,9 +138,23 @@ local ItemExternal = class extends ::BaseItem
   function getMarketablePropDesc()
   {
     local canSell = itemDef?.marketable
-    return ::loc("currency/gaijin_coin/sign/colored") + " " +
+    return ::loc("currency/gc/sign/colored", "") + " " +
       ::colorize(canSell ? "userlogColoredText" : "badTextColor",
       ::loc("item/marketable/" + (canSell ? "yes" : "no"), { name =  ::g_string.utf8ToLower(getTypeName()) } ))
+  }
+
+  function getResourceDesc()
+  {
+    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+      return ""
+    local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
+    local decorator = ::g_decorator.getDecorator(metaBlk.resource, decoratorType)
+    if (!decorator)
+      return ""
+    return ::g_string.implode([
+      decorator.getTypeDesc()
+      decorator.getRestrictionsDesc()
+    ], "\n")
   }
 
   function isRare()
@@ -214,8 +236,7 @@ local ItemExternal = class extends ::BaseItem
     if (!guidParser.isGuid(resource))
       return
 
-    local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
-    ::g_decorator.buildUgcDecoratorFromResource(metaBlk.resource, decoratorType, itemDef)
+    ::g_decorator.buildUgcDecoratorFromResource(metaBlk.resource, metaBlk.resourceType, itemDef)
     ::add_rta_localization(metaBlk.resource, itemDef?.name ?? "")
   }
 

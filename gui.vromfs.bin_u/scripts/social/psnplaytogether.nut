@@ -93,6 +93,7 @@ function g_play_together::checkUsersAndProceed()
   if (checkMeAsSquadLeader())
     return
 
+  ::update_ps4_friends()
   sendInvitesToSquad()
 }
 
@@ -104,6 +105,7 @@ function g_play_together::filterUsers()
   {
     local user = cachedUsersData.getBlock(i)
     local uid = user.getBlockName()
+    local name = user.nick
 
     local playerStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
     if (playerStatus == squadMemberState.NOT_IN_SQUAD)
@@ -113,11 +115,8 @@ function g_play_together::filterUsers()
 
 function g_play_together::sendInvitesToSquad()
 {
-  foreach (uid, userName in cachedInvitees)
-  {
-    ::g_squad_manager.inviteToSquad(uid)
-    ::g_psn_session_invitations.sendSquadInvitation(userName)
-  }
+  foreach (uid, name in cachedInvitees)
+    ::g_squad_manager.inviteToSquad(uid, name)
 }
 
 function g_play_together::checkMeAsSquadMember()
@@ -190,5 +189,7 @@ function g_play_together::onEventSquadStatusChanged(params)
 //called from C++
 function on_ps4_play_together_host(inviteesArray)
 {
+  dagor.debug("[PSPT] got host event")
+  debugTableData(inviteesArray)
   ::g_play_together.onNewInviteesDataIncome(inviteesArray)
 }

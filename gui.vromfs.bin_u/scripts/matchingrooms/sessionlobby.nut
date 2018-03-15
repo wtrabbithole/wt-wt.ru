@@ -371,7 +371,7 @@ function SessionLobby::prepareSettings(missionSettings)
   if (::getTblValue("coop", _settings) == null)
     _settings.coop <- ::is_gamemode_coop(_settings.mission._gameMode)
   if (("difficulty" in _settings.mission) && _settings.mission.difficulty == "custom")
-    _settings.mission.custDifficulty <- ::get_cd_value()
+    _settings.mission.custDifficulty <- ::get_cd_preset(::DIFFICULTY_CUSTOM)
 
   //validate Countries
   local countriesType = ::getTblValue("countriesType", missionSettings, misCountries.ALL)
@@ -497,7 +497,7 @@ function SessionLobby::UpdateCrsSettings()
       continue
 
     foreach(uid in players)
-      if (uid.tostring() == ::my_user_id_str)
+      if (is_my_userid(uid))
       {
         crsSetTeamTo = team
         break
@@ -1013,7 +1013,7 @@ function SessionLobby::onMemberInfoUpdate(params)
       else
         member[tblName] <- params[tblName]
 
-  if (member.userId == ::my_user_id_str)
+  if (is_my_userid(member.userId))
   {
     isRoomOwner = isMemberOperator(member)
     isInLobbySession = isMemberInSession(member)
@@ -1031,7 +1031,7 @@ function SessionLobby::onMemberInfoUpdate(params)
 function SessionLobby::initMyParamsByMemberInfo(me = null)
 {
   if (!me)
-    me = ::u.search(members, function(m) { return m.userId == ::my_user_id_str })
+    me = ::u.search(members, function(m) { return is_my_userid(m.userId) })
   if (!me)
     return
 
@@ -1133,7 +1133,7 @@ function SessionLobby::getMemberInfo(member)
     memberId = member.memberId
     userId = member.userId.tostring() //member info same format as get_mplayers_list
     name = member.name
-    isLocal = member.userId == ::my_user_id_str
+    isLocal = is_my_userid(member.userId)
     spectator = ::getTblValue("spectator", member, false)
     isBot = false
   }
@@ -1621,7 +1621,7 @@ function SessionLobby::joinRoom(_roomId, senderId = "", _password = null,
     return
   }
 
-  isRoomOwner = senderId == ::my_user_id_str
+  isRoomOwner = is_my_userid(senderId)
   isRoomByQueue = senderId == null
 
   if (isRoomByQueue)
@@ -1710,7 +1710,7 @@ function SessionLobby::afterRoomJoining(params)
       updateMemberHostParams(members[i])
       members.remove(i)
     } else
-      if (members[i].userId == ::my_user_id_str)
+      if (is_my_userid(members[i].userId))
         isRoomOwner = isMemberOperator(members[i])
 
   returnStatusToRoom()
@@ -1878,6 +1878,11 @@ function SessionLobby::getChatRoomId()
   return ::g_chat_room_type.MP_LOBBY.getRoomId(roomId)
 }
 
+function SessionLobby::isLobbyRoom(roomId)
+{
+  return ::g_chat_room_type.MP_LOBBY.checkRoomId(roomId)
+}
+
 function SessionLobby::getChatRoomPassword()
 {
   return getPublicParam("chatPassword", "")
@@ -1986,7 +1991,7 @@ function SessionLobby::onMemberLeave(params, kicked = false)
     if (params.memberId == m.memberId)
     {
       members.remove(idx)
-      if (m.userId == ::my_user_id_str)
+      if (is_my_userid(m.userId))
       {
         afterLeaveRoom({})
         if (kicked)
@@ -2136,7 +2141,7 @@ function SessionLobby::getMembersReadyStatus()
 
 function SessionLobby::canInvitePlayer(uid)
 {
-  return isInRoom() && ::my_user_id_str != uid && haveLobby()
+  return isInRoom() && !is_my_userid(uid) && haveLobby()
 }
 
 function SessionLobby::needAutoInviteSquad()
@@ -2391,7 +2396,7 @@ function SessionLobby::getRankCalcMode()
 
 function SessionLobby::rpcJoinBattle(params)
 {
-  if (!::is_connected_to_matching())
+  if (!::is_online_available())
     return "client not ready"
   local battleId = params.battleId
   if (typeof (battleId) != "string")

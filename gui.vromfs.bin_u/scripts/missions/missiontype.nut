@@ -53,7 +53,7 @@ enums.addTypesByGlobalName("g_mission_type", {
 
   A_AFD = {  // Air: Airfield Domination
     reMisName = ::regexp2(@"_AfD(n|to)?(_|$)")
-    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND_AI | MISSION_OBJECTIVE.KILLS_NAVAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
     objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
     helpBlkPath = "gui/help/missionAirfieldCapture.blk"
   }

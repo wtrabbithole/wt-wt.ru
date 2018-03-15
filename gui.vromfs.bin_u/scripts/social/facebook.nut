@@ -143,7 +143,8 @@ function start_facebook_login()
 
 function show_facebook_login_reminder()
 {
-  if (::is_unlocked(::UNLOCKABLE_ACHIEVEMENT, "facebook_like"))
+  if (::is_unlocked(::UNLOCKABLE_ACHIEVEMENT, "facebook_like")
+    || ::disable_network())
     return;
 
   local gmBlk = ::get_game_settings_blk()

@@ -156,7 +156,7 @@ local Unit = class
     gift                      = uWpCost.gift
     giftParam                 = uWpCost.giftParam
     premPackAir               = uWpCost.premPackAir ?? false
-    hasDepthCharge            = uWpCost.hasDepthCharge ?? false
+    hasDepthCharge            = uWpCost.hasDepthCharge ?? shop_is_modification_enabled(name, "ship_depth_charge")
     commonWeaponImage         = uWpCost.commonWeaponImage ?? commonWeaponImage
     customClassIco            = uWpCost.customClassIco
     customTooltipImage        = uWpCost.customTooltipImage
@@ -238,6 +238,10 @@ local Unit = class
     gift = shopUnitBlk.gift //we already got it from wpCost. is we still need it here?
     giftParam = shopUnitBlk.giftParam
   }
+
+  isAir                 = @() esUnitType == ::ES_UNIT_TYPE_AIRCRAFT
+  isTank                = @() esUnitType == ::ES_UNIT_TYPE_TANK
+  isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
 
   getUnitWpCostBlk      = @() ::get_wpcost_blk()[name]
   isBought              = @() ::shop_is_aircraft_purchased(name)
@@ -400,6 +404,16 @@ local Unit = class
           res = spawnScore
       }
     return ::max(res, 0)
+  }
+
+  function invalidateModificators()
+  {
+    if (modificatorsRequestTime > 0)
+    {
+      ::remove_calculate_modification_effect_jobs()
+      modificatorsRequestTime = -1
+    }
+    modificators = null
   }
 }
 

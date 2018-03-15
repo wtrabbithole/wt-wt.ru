@@ -4,8 +4,8 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
 {
   static iType = itemType.MOD_UPGRADE
   static defaultLocId = "modUpgrade"
-  static defaultIcon = "#ui/gameuiskin#itemtype_modifications"
-  static typeIcon = "#ui/gameuiskin#itemtype_modifications"
+  static defaultIcon = "#ui/gameuiskin#overdrive_upgrade_bg"
+  static typeIcon = "#ui/gameuiskin#item_type_upgrade"
 
   canBuy = true
   allowBigPicture = false
@@ -26,6 +26,8 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
       return [ ::loc("multiplayer/level") + ::loc("ui/colon") + ::colorize("activeTextColor", level) ]
     return null
   }
+
+  getIconMainLayer = @() ::LayersIcon.findLayerCfg("mod_upgrade")
 
   function canActivateOnMod(unit, mod)
   {
@@ -51,7 +53,7 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
     local successCb = function() {
       if (extSuccessCb)
         extSuccessCb()
-      ::broadcastEvent("ModUpgraded")
+      ::broadcastEvent("ModUpgraded", { unit = unit, mod = mod })
     }
 
     local blk = ::DataBlock()

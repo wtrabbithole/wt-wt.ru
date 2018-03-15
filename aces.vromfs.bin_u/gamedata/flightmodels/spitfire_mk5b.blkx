@@ -2,6 +2,8 @@
   "model": "spitfire_mk5b",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "gearSinkRangeLR": 0.15,
+  "gearSinkRangeC": 0.075,
   "type": "typeFighter",
   "paratrooper": "raf_para",
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
@@ -49,9 +51,6 @@
     "armor4": {
       "armor5_dm": {
         "hp": 35.0
-      },
-      "armor6_dm": {
-        "hp": 35.0
       }
     },
     "armor6": {
@@ -67,17 +66,17 @@
     "armor_engine": {
       "engine1_dm": {
         "genericDamageMult": 1.6,
-        "hp": 20.3
+        "hp": 26.1
       }
     },
     "c_dural3": {
       "aileron_l_dm": {
         "genericDamageMult": 0.3,
-        "hp": 20.2
+        "hp": 21.7
       },
       "aileron_r_dm": {
         "genericDamageMult": 0.3,
-        "hp": 20.4
+        "hp": 21.6
       },
       "elevator_dm": {
         "genericDamageMult": 0.3,
@@ -93,17 +92,17 @@
         "hp": 14.5
       },
       "flap_l_dm": {
-        "hp": 14.5
+        "hp": 16.7
       },
       "flap_r_dm": {
-        "hp": 14.5
+        "hp": 16.4
       },
       "rudder_dm": {
         "genericDamageMult": 0.3,
         "hp": 19.2
       },
       "stab_dm": {
-        "hp": 18.8
+        "hp": 18.6
       }
     },
     "c_dural7": {
@@ -114,27 +113,27 @@
         "hp": 44.5
       },
       "fuse_dm": {
-        "hp": 44.5
+        "hp": 46.4
       },
       "tail_dm": {
         "genericDamageMult": 0.5,
-        "hp": 76.5
+        "hp": 89.4
       },
       "wing1_l_dm": {
         "genericDamageMult": 0.3,
-        "hp": 80.3
+        "hp": 80.5
       },
       "wing1_r_dm": {
         "genericDamageMult": 0.3,
-        "hp": 80.3
+        "hp": 80.5
       },
       "wing2_l_dm": {
         "genericDamageMult": 0.3,
-        "hp": 66.0
+        "hp": 68.3
       },
       "wing2_r_dm": {
         "genericDamageMult": 0.3,
-        "hp": 66.0
+        "hp": 68.9
       },
       "wing_l_dm": {
         "genericDamageMult": 0.3,
@@ -149,43 +148,34 @@
       "cover1_dm": {
         "hp": 19.5
       },
-      "cover2_dm": {
-        "hp": 19.5
-      },
       "cover3_dm": {
         "hp": 19.5
       },
       "cover4_dm": {
         "hp": 19.5
       },
-      "cover5_dm": {
-        "hp": 19.5
-      },
       "cover6_dm": {
-        "hp": 19.5
-      },
-      "cover7_dm": {
         "hp": 19.5
       }
     },
     "dural40": {
       "spar1_l_dm": {
-        "hp": 30.2
+        "hp": 28.4
       },
       "spar1_r_dm": {
-        "hp": 30.2
+        "hp": 28.4
       },
       "spar2_l_dm": {
-        "hp": 19.5
+        "hp": 22.6
       },
       "spar2_r_dm": {
-        "hp": 19.5
+        "hp": 22.6
       },
       "spar_l_dm": {
-        "hp": 31.3
+        "hp": 28.7
       },
       "spar_r_dm": {
-        "hp": 31.3
+        "hp": 28.7
       }
     },
     "glass38": {
@@ -198,10 +188,10 @@
         "hp": 60.5
       },
       "wingcontrol_l_dm": {
-        "hp": 55.1
+        "hp": 53.7
       },
       "wingcontrol_r_dm": {
-        "hp": 55.1
+        "hp": 53.7
       }
     },
     "steel": {
@@ -226,10 +216,10 @@
         "hp": 17.5
       },
       "water1_dm": {
-        "hp": 11.5
-      },
-      "water2_dm": {
         "hp": 17.5
+      },
+      "water3_dm": {
+        "hp": 11.5
       }
     },
     "steel_pilot": {
@@ -243,16 +233,7 @@
         "hp": 39.5
       },
       "tank2_dm": {
-        "hp": 42.3
-      },
-      "tank3_dm": {
-        "hp": 39.5
-      },
-      "tank4_dm": {
-        "hp": 39.5
-      },
-      "tank5_dm": {
-        "hp": 39.5
+        "hp": 42.9
       }
     }
   },
@@ -398,11 +379,6 @@
     },
     {
       "part": {
-        "name": "armor6_dm"
-      }
-    },
-    {
-      "part": {
         "name": "armor7_dm"
       }
     },
@@ -433,11 +409,6 @@
     },
     {
       "part": {
-        "name": "cover2_dm"
-      }
-    },
-    {
-      "part": {
         "name": "cover3_dm"
       }
     },
@@ -448,17 +419,7 @@
     },
     {
       "part": {
-        "name": "cover5_dm"
-      }
-    },
-    {
-      "part": {
         "name": "cover6_dm"
-      }
-    },
-    {
-      "part": {
-        "name": "cover7_dm"
       }
     },
     {
@@ -1570,162 +1531,6 @@
       ]
     },
     {
-      "part": [
-        {
-          "name": "tank3_dm"
-        },
-        {
-          "onHit": {
-            "fire": 0.03,
-            "leak": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "fire": 0.5,
-            "leak": 0.7
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "fire": 0.8,
-            "leak": 0.9
-          }
-        },
-        {
-          "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
-          }
-        }
-      ]
-    },
-    {
-      "part": [
-        {
-          "name": "tank4_dm"
-        },
-        {
-          "onHit": {
-            "fire": 0.03,
-            "leak": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "fire": 0.5,
-            "leak": 0.7
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "fire": 0.8,
-            "leak": 0.9
-          }
-        },
-        {
-          "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
-          }
-        }
-      ]
-    },
-    {
-      "part": [
-        {
-          "name": "tank5_dm"
-        },
-        {
-          "onHit": {
-            "fire": 0.03,
-            "leak": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "fire": 0.5,
-            "leak": 0.7
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "fire": 0.8,
-            "leak": 0.9
-          }
-        },
-        {
-          "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
-          }
-        }
-      ]
-    },
-    {
       "part": {
         "name": "water1_dm",
         "onHit": {
@@ -1738,7 +1543,7 @@
     },
     {
       "part": {
-        "name": "water2_dm",
+        "name": "water3_dm",
         "onHit": {
           "leak_water": 0.5
         },
@@ -2254,12 +2059,12 @@
     "gun": "gun_spitfire"
   },
   "cockpit": {
-    "headPos": [-1.3,0.582,0.0],
-    "headPosOnShooting": [-1.331,0.582,0.0],
+    "headPos": [-1.55,0.59,0.0],
+    "headPosOnShooting": [-1.45,0.59,0.0],
     "mirror": true,
-    "mirrorPos": [-0.923,0.791,0.0],
-    "mirrorNorm": [-0.968,-0.25,0.0],
-    "lightPos": [-0.831422,0.257869,-0.331674],
+    "mirrorPos": [-1.205,0.813,0.0],
+    "mirrorNorm": [-0.966,-0.259,0.0],
+    "lightPos": [-1.0942,0.238344,-0.340718],
     "lightColor": [0.62,0.3,0.21],
     "lightAttenuation": 6.0,
     "devices": {
@@ -2526,23 +2331,6 @@
       "tier": 4
     }
   },
-  "skin": [
-    {
-      "name": "nevile_duke_live"
-    },
-    {
-      "replace_tex": {
-        "from": "spitfire_mk5b_a*",
-        "to": "spitfire_mk5b_duke_live_a*"
-      }
-    },
-    {
-      "replace_tex": {
-        "from": "spitfire_mk5b_a_dmg*",
-        "to": "spitfire_mk5b_duke_live_a_dmg*"
-      }
-    }
-  ],
   "user_skin": [
     {
       "name": "spitfire_mk5b"

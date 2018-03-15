@@ -33,8 +33,11 @@
   "soundAmbientPath": "sounds/ambient",
   "soundAmbientEvent": "global_amb_europe",
   "average_ground_level": 60.0,
-  "wetnessPowerScale": 0.5,
-  "wetnessFreq": 0.5,
+  "puddlesPowerScale": 1.0,
+  "puddlesSpread": 0.5,
+  "layeredFogThicknessScale100": 120.0,
+  "layeredFogHeightOffset": 20.0,
+  "layeredFogDensityMul": 0.7,
   "shader_vars": {
     "detail_bump_scale": 0.01,
     "land_bump_scale": 4.0,
@@ -235,10 +238,51 @@
   ],
   "technicsSkins": [
     {
-      "groundSkin": "jungle"
+      "groundSkin": "forest"
     },
     {
       "groundSkin": "default"
+    }
+  ],
+  "micro_details": [
+    {
+      "micro_detail": "microdetail_stone_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_scan_gravel_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_sand_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_soil_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_none_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_grass_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_forest_floor_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_wood_b_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_metal_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n*"
+    },
+    {
+      "land_micro_details_uv_scale": 0.35
     }
   ]
 }

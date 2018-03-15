@@ -735,21 +735,25 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (focusObj) focusObj.select()
   }
 
-  function validateRoomName(roomName)
+  function loadRoomParams(roomName, joinParams)
   {
     foreach(r in ::default_chat_rooms) //validate incorrect created default chat rooms by cur lang
-      if (roomName == "#" + r + "_" + ::cur_chat_lang)
-      {
+      if (roomName == "#" + r + "_" + ::cur_chat_lang)  {
         local rList = ::getGlobalRoomsListByLang(::cur_chat_lang, [r])
-        return rList.len()? "#" + rList[0] : roomName
+        // default rooms should have empty joinParams
+        return {  roomName = (rList.len()? "#" + rList[0] : roomName)
+                  joinParams = ""  }
       }
 
     local idx = roomName.find(" ")
-    local clearedName = idx ? roomName.slice(0, idx) : roomName
-    if (clearedName.len())
-      clearedName = clearedName.slice(1)
-    clearedName = ::g_chat.validateRoomName(clearedName)
-    return "#" + clearedName + (idx? roomName.slice(idx) : "")
+    if ( idx )  {
+      //  loading legacy record like '#some_chat password'
+      return {  roomName = "#"+::g_chat.validateRoomName( roomName.slice(0, idx) )
+                joinParams = roomName.slice(idx+1)  }
+    }
+
+    return {  roomName = roomName
+              joinParams = joinParams  }
   }
 
   function rejoinDefaultRooms(initRooms = false)
@@ -766,19 +770,25 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::ps4_is_chat_enabled())
     {
-      local cdb = ::get_local_custom_settings_blk()
+      local chatRooms = ::get_local_custom_settings_blk().chatRooms
       local roomIdx = 0
-      if (cdb.chatRooms!=null)
-        for(roomIdx = 0; cdb.chatRooms["room"+roomIdx]; roomIdx++)
+      if (chatRooms!=null)
+      {
+        local storedRooms = []
+        for(roomIdx = 0; chatRooms["room"+roomIdx]; roomIdx++)
+          storedRooms.append( loadRoomParams(chatRooms["room"+roomIdx],
+                                             chatRooms["params"+roomIdx]) )
+
+        foreach (it in storedRooms)
         {
-          local roomName = validateRoomName(cdb.chatRooms["room"+roomIdx])
-          local roomType = ::g_chat_room_type.getRoomType(roomName)
+          local roomType = ::g_chat_room_type.getRoomType(it.roomName)
           if (!roomType.needSave()) //"needSave" has changed
             continue
 
-          ::gchat_raw_command("join " + roomName)
-          addChatJoinParams(roomName)
+          ::gchat_raw_command(::format("join %s%s",  it.roomName,  (it.joinParams==""?"":" "+it.joinParams) ))
+          addChatJoinParams(it.roomName, it.joinParams)
         }
+      }
 
       if (roomIdx==0 && !roomsInited && !::g_chat.isThreadsView)
       {
@@ -801,10 +811,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach(room in ::g_chat.rooms)
       if (!room.hidden && room.type.needSave())
       {
+        cdb.chatRooms["room" + saveIdx] = ::gchat_escape_target(room.id)
         if (room.joinParams != "")
-          cdb.chatRooms["room" + saveIdx] = room.id + " " + room.joinParams
-        else
-          cdb.chatRooms["room" + saveIdx] = room.id
+          cdb.chatRooms["params" + saveIdx] = room.joinParams
         saveIdx++
       }
     ::save_profile_offline_limited()
@@ -1246,7 +1255,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (::g_chat.isRoomSquad(roomData.id))
           onSquadListMember(nick, false)
         else if("isOwner" in u && u.isOwner == true)
-          ::gchat_list_names(roomData.id)
+          ::gchat_list_names(::gchat_escape_target(roomData.id))
         roomData.users.remove(idx)
         if (curRoom == roomData)
           updateUsersList()
@@ -1584,6 +1593,12 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       else if (errorName == chatErrorName.CANNOT_JOIN_THE_CHANNEL && roomId.len() > 1)
       {
+        if (::g_chat.isRoomSquad(roomId))
+        {
+          ::g_popups.add(null, ::loc("squad/join_chat_failed"), null, null, null, "squad_chat_failed")
+          return
+        }
+
         local wasPasswordEntered = ::getTblValue(roomId, roomJoinParamsTable, "") != ""
         local locId = wasPasswordEntered ? "chat/wrongPassword" : "chat/enterPassword"
         local params = {
@@ -1651,16 +1666,16 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       roomData.canBeClosed = false
 
     if (roomData && roomData.joinParams != "")
-      return ::gchat_raw_command("join " + id + " " + roomData.joinParams)
+      return ::gchat_raw_command("join " + ::gchat_escape_target(id) + " " + roomData.joinParams)
 
     if (roomData && reconnect && roomData.joined) //reconnect only to joined rooms
       return
 
-    addChatJoinParams(id + (password == "" ? "" : " " + password))
+    addChatJoinParams(::gchat_escape_target(id), password)
     if (customScene && !roomData)
       addRoom(id, customScene, ownerHandler) //for correct reconnect
 
-    local task = ::gchat_join_room(id, password) //FIX ME: better to remove this and work via gchat_raw_command always
+    local task = ::gchat_join_room(::gchat_escape_target(id), password) //FIX ME: better to remove this and work via gchat_raw_command always
     if (task != "")
       chatTasks.append({ task = task, handler = onJoinRoom, roomId = id,
                          onJoinFunc = onJoinFunc, customScene = customScene,
@@ -1701,6 +1716,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (roomType != ::g_chat_room_type.PRIVATE)
       ::play_gui_sound("chat_join")
 
+    local safeId = ::gchat_escape_target(id);
     local r = {
       id = id
       type = roomType
@@ -1713,7 +1729,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       chatText = ""
       msgCount = 0
       newImportantMessagesCount = 0
-      joinParams = ""
+      joinParams = roomJoinParamsTable?[safeId] ??  ""
       lastTextInput = ""
 
       customScene = customScene
@@ -1721,8 +1737,6 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       hidden = customScene != null
       existOnlyInCustom = customScene != null
     }
-    if (roomJoinParamsTable.rawin(id))
-      r.joinParams <- roomJoinParamsTable[id]
 
     ::g_chat.addRoom(r)
 
@@ -1828,7 +1842,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (roomData.id.slice(0, 1) == "#" && roomData.joined)
-      ::gchat_raw_command("part " + roomData.id)
+      ::gchat_raw_command("part " + ::gchat_escape_target(roomData.id))
 
     ::g_chat.rooms.remove(roomIdx)
     saveJoinedRooms()
@@ -1917,14 +1931,17 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
               }
 
               local paramStr = msg.slice(cmd.len()+2)
-              local roomName = ""
-              if (paramStr.slice(0, 1) != "#")
-                paramStr = "#" + paramStr
-              addChatJoinParams(paramStr)
+              local spaceidx = paramStr.find(" ")
+              local roomName = spaceidx ? paramStr.slice(0,spaceidx) : paramStr
+              if (roomName.slice(0, 1) != "#")
+                roomName = "#" + roomName
+              local pass = spaceidx ? paramStr.slice(spaceidx+1) : ""
+
+              addChatJoinParams(::gchat_escape_target(roomName), pass)
             }
             if (msg.len() > cmd.len()+2)
               if (msg.slice(cmd.len()+2, cmd.len()+3)!="#")
-                ::gchat_raw_command(msg.slice(1, cmd.len()+2) + "#" + msg.slice(cmd.len()+2))
+                ::gchat_raw_command(msg.slice(1, cmd.len()+2) + "#" + ::gchat_escape_target(msg.slice(cmd.len()+2)))
               else
                 ::gchat_raw_command(msg.slice(1))
             return null
@@ -1944,7 +1961,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
                 inviteToSquadRoom(msg.slice(cmd.len()+2))
               }
               else
-                ::gchat_raw_command(msg.slice(1) + " " + curRoom.id)
+                ::gchat_raw_command(msg.slice(1) + " " + ::gchat_escape_target(curRoom.id))
             } else
               addRoomMsg(curRoom.id, "", ::loc(::g_chat.CHAT_ERROR_NO_CHANNEL))
           }
@@ -1993,9 +2010,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       if (msg.len() > cmd.len()+2)
-        ::gchat_raw_command(msg.slice(1, cmd.len()+2) + curRoom.id + " " + msg.slice(cmd.len()+2))
+        ::gchat_raw_command(msg.slice(1, cmd.len()+2) + ::gchat_escape_target(curRoom.id) + " " + msg.slice(cmd.len()+2))
       else
-        ::gchat_raw_command(msg.slice(1) + " " + curRoom.id)
+        ::gchat_raw_command(msg.slice(1) + " " + ::gchat_escape_target(curRoom.id))
     }
   }
 
@@ -2006,7 +2023,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (curRoom.id == ::g_chat.getMySquadRoomId())
       return ::g_squad_manager.dismissFromSquadByName(playerName)
 
-    ::gchat_raw_command("kick " + curRoom.id + " " + playerName)
+    ::gchat_raw_command("kick " + ::gchat_escape_target(curRoom.id) + " " + ::gchat_escape_target(playerName))
   }
 
   function squadMsg(msg)
@@ -2025,7 +2042,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (room.type != ::g_chat_room_type.SQUAD || !room.joined)
         continue
 
-      ::gchat_raw_command("part " + room.id)
+      ::gchat_raw_command("part " + ::gchat_escape_target(room.id))
       room.joined = false //becoase can be disconnected from chat, but this info is still important.
       room.canBeClosed = true
       room.users.clear()
@@ -2073,12 +2090,12 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (delayed)
     {
-      local dcmd = "xinvite " + playerName + " " + ::g_chat.getMySquadRoomId()
+      local dcmd = "xinvite " + ::gchat_escape_target(playerName) + " " + ::gchat_escape_target(::g_chat.getMySquadRoomId())
       dagor.debug(dcmd)
       ::gchat_raw_command(dcmd)
     }
 
-    ::gchat_raw_command("invite " + playerName + " " + ::g_chat.getMySquadRoomId())
+    ::gchat_raw_command("invite " + ::gchat_escape_target(playerName) + " " + ::gchat_escape_target(::g_chat.getMySquadRoomId()))
     return true
   }
 
@@ -2215,7 +2232,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
           addRoomMsg(roomId, "", ::loc("chat/cantWriteInSystem"))
         else {
           skipMyMessages = !needLocalEcho
-          gchat_chat_message(roomId, msg)
+          ::gchat_chat_message(::gchat_escape_target(roomId), msg)
           skipMyMessages = false
           ::play_gui_sound("chat_send")
         }
@@ -2253,7 +2270,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!curRoom)
       return
 
-    if (gchat_chat_private_message(curRoom.id, data.user, data.msg))
+    if (::gchat_chat_private_message(::gchat_escape_target(curRoom.id), ::gchat_escape_target(data.user), data.msg))
     {
       if (needLocalEcho)
         addRoomMsg(curRoom.id, data.user, data.msg, true, true)
@@ -2550,7 +2567,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     searchInProgress = true
     defaultRoomsInSearch = false
     searchRoomList = []
-    ::gchat_list_rooms(value)
+    ::gchat_list_rooms(::gchat_escape_target(value))
     fillSearchList()
 
     last_search_time = ::dagor.getCurTime()
@@ -2650,13 +2667,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     return checkScene() && ::last_chat_scene_show;
   }
 
-  function addChatJoinParams(request)
+  function addChatJoinParams(roomName, pass)
   {
-    if(request.find(" "))
-    {
-      local roomName = request.slice(0, request.find(" "))
-      roomJoinParamsTable[roomName] <- request.slice(roomName.len() + 1)
-    }
+    roomJoinParamsTable[roomName] <- pass
   }
 
   function showRoomPopup(from, msg, roomId)
@@ -2960,9 +2973,6 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   roomJoinParamsTable = {} //roomName : paramString
 
-  roomHost = "@conference.char2.yuplay.com"
-  userHost = "@char2.yuplay.com"
-
   curRoom = null
   curChatText = ""
   lastActionRoom = ""
@@ -3102,11 +3112,6 @@ function getChatDiv(scene)
   return chatObj
 }
 
-function addChatJoinParams(request)
-{
-  if (::menu_chat_handler)
-    ::menu_chat_handler.addChatJoinParams.call(::menu_chat_handler, request)
-}
 
 function open_invite_menu(menu, position)
 {

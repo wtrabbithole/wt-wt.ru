@@ -308,6 +308,28 @@
             },
             {
               "frame": {
+                "id": "unit_status",
+                "min-width": "1@customizationBlockWidth",
+                "style": "flow:horizontal",
+                "display": "hide",
+                "img": {
+                  "id": "icon",
+                  "size": "@cIco, @cIco",
+                  "pos": "0, ph/2-h/2",
+                  "position": "relative",
+                  "background-image": "#ui/gameuiskin#locked"
+                },
+                "textareaNoTab": {
+                  "id": "text",
+                  "pos": "1@blockInterval, ph/2-h/2",
+                  "position": "relative",
+                  "text": "#weaponry/unit_not_bought",
+                  "overlayTextColor": "bad"
+                }
+              }
+            },
+            {
+              "frame": {
                 "id": "toggle_damaged_div",
                 "min-width": "1@customizationBlockWidth",
                 "display": "hide",
@@ -468,7 +490,7 @@
                 "buttonWink": [],
                 "buttonGlance": [],
                 "img": {
-                  "background-image": "#ui/gameuiskin#store_icon"
+                  "background-image": "#ui/gameuiskin#store_icon.svg"
                 },
                 "ButtonImg": [],
                 "discount": {
@@ -1012,7 +1034,7 @@
                               "id": "gc_profile",
                               "tooltip": "#mainmenu/btnProfile",
                               "_on_click": "onProfile",
-                              "cardImg": {
+                              "cardAvatar": {
                                 "id": "gc_icon"
                               },
                               "tdiv": {

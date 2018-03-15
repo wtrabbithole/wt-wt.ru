@@ -64,9 +64,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       key = "orders"
       typeMask = itemType.ORDER
     } {
+      key = "universalSpare"
+      typeMask = itemType.UNIVERSAL_SPARE
+      tabEnable = @() !::has_feature("ItemModUpgrade") && [itemsTab.INVENTORY, itemsTab.SHOP]
+    } {
       key = "modifications"
       text = "#mainmenu/btnWeapons"
       typeMask = itemType.UNIVERSAL_SPARE | itemType.MOD_UPGRADE | itemType.MOD_OVERDRIVE
+      tabEnable = @() ::has_feature("ItemModUpgrade") && [itemsTab.INVENTORY, itemsTab.SHOP]
     } {
       key = "vehicles"
       typeMask = itemType.VEHICLE
@@ -119,7 +124,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   _lastItem = null //last selected item to restore selection after change list
 
-  slotbarActions = [ "showroom", "testflight", "weapons", "info" ]
+  slotbarActions = [ "preview", "testflight", "weapons", "info" ]
   widgetByItem = {}
   widgetByFilter = {}
   widgetByTab = {}

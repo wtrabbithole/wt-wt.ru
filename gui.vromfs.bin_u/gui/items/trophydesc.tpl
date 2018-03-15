@@ -65,7 +65,10 @@ tdiv {
   <</classIco>>
 
   tdiv {
-    max-width:t='pw -1@dIco -1@itemPadding'
+    <<^widthByParentParent>>
+    width:t='pw <<#classIco>>-1@dIco<</classIco>> -1@itemPadding <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
+    <</widthByParentParent>>
+    max-width:t='p.p.p.w <<#classIco>>-1@dIco<</classIco>> -1@itemPadding <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
     padding:t='-1@slot_interval, -1@slot_vert_pad'
     pos:t='1@itemPadding, ph/2-h/2'; position:t='relative'
     tdiv {

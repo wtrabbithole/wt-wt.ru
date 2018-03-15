@@ -205,9 +205,10 @@ function on_battle_trophy(param, blk) {
 
   local day_in_seconds = 24 * 60 * 60
   local currentDay = (::get_charserver_time_sec() / day_in_seconds).tointeger() + 1
-  local ugcRewardTimePeriod = econWpBlk.getInt("ugcRewardTimePeriod", 480)
+  local ugcRewardTimePeriodMinutes = econWpBlk.getInt("ugcRewardTimePeriodMinutes", 480)
   local ugcMaxTrophiesPerDay = econWpBlk.getInt("ugcMaxTrophiesPerDay", 0)
   local ugcMaxTrophiesPerWeek = econWpBlk.getInt("ugcMaxTrophiesPerWeek", 0)
+  local ugcMinSetupRank = econWpBlk.getInt("ugcMinSetupRank", 6)
   if (ugcMaxTrophiesPerWeek < ugcMaxTrophiesPerDay)
     ugcMaxTrophiesPerWeek = ugcMaxTrophiesPerDay 
 
@@ -226,7 +227,7 @@ function on_battle_trophy(param, blk) {
     blk.ugcNumByWeek.num = 0
   }
 
-  if (player_has_feature(param.userId, "UgcAfterBattleTrophy", false))
+  if (player_has_feature(param.userId, "UgcAfterBattleTrophy", false) && max_unit_rank >= ugcMinSetupRank)
     if (blk.ugcNumByDate.num < ugcMaxTrophiesPerDay && blk.ugcNumByWeek.num < ugcMaxTrophiesPerWeek)
     {
       if (blk.ugcSessionTime != null)
@@ -234,7 +235,7 @@ function on_battle_trophy(param, blk) {
       else 
         blk.ugcSessionTime <- (param.sessionTime).tointeger()
 
-      if (blk.ugcSessionTime > ugcRewardTimePeriod) {
+      if (blk.ugcSessionTime > ugcRewardTimePeriodMinutes * 60) {
         dagor.debug("Give ugc trophy. combined session time "+blk.ugcSessionTime+", todays trophies count "+blk.ugcNumByDate.num+", this week "+blk.ugcNumByWeek.num)
         blk.ugcSessionTime = 0
         blk.ugcNumByDate.num++

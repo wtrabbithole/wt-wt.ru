@@ -2483,7 +2483,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (::SessionLobby.status == lobbyStates.IN_DEBRIEFING && ::SessionLobby.haveLobby())
       return
-    if (isMpMode && !::is_connected_to_matching())
+    if (isMpMode && !::is_online_available())
       return
 
     if (isMpMode && ::go_lobby_after_statistics() && gm != ::GM_DYNAMIC)

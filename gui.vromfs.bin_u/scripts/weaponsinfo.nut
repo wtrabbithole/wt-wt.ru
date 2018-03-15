@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 const KGF_TO_NEWTON = 9.807
 
 ::UNIT_WEAPONS_ZERO    <- 0
@@ -292,14 +294,22 @@ enum EWeaponType {          // weapon type for getWeaponInfoText
   additional= 0x80 // additional weapons, it's all weapons, exclude common
 }
 
-function getWeaponNameText(air, isPrimary = null, weaponPresetNo=-1, newLine=", ")
+function getWeaponNameText(air, isPrimary = null, weaponPreset=-1, newLine=", ")
 {
-  return getWeaponInfoText(air, isPrimary, weaponPresetNo, newLine, INFO_DETAIL.SHORT)
+  return getWeaponInfoText(air,
+    { isPrimary = isPrimary, weaponPreset = weaponPreset, newLine = newLine, detail = INFO_DETAIL.SHORT })
 }
 
-// Generate text description for air.weapons[weaponPresetNo]
-function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n",
-  detail = INFO_DETAIL.FULL, emptyNoWeapons = false) //isPrimary: null, true, false
+local WEAPON_TEXT_PARAMS = { //const
+  isPrimary = null //bool or null. When null return descripton for all weaponry.
+  weaponPreset = -1 //int weaponIndex or string weapon name
+  newLine="\n" //weapons delimeter
+  detail = INFO_DETAIL.FULL
+  needTextWhenNoWeapons = true
+  ediff = null //int. when not set, uses get_current_ediff() function
+  isLocalState = true //should apply my local parameters to unit (modifications, crew skills, etc)
+}
+function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
 {
   if (typeof(air) == "string")
     air = getAircraftByName(air)
@@ -310,44 +320,48 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
   if( !airBlk )
     return ""
 
+  p = WEAPON_TEXT_PARAMS.__merge(p)
+
   local text = ""
   local unitType = ::get_es_unit_type(air)
   local primaryMod = ""
-  if ((typeof(weaponPresetNo)=="string") || weaponPresetNo<0)
+  local weaponPresetIdx = -1
+  if ((typeof(p.weaponPreset)=="string") || p.weaponPreset<0)
   {
-    if (!isPrimary)
+    if (!p.isPrimary)
     {
-      local curWeap = (typeof(weaponPresetNo)=="string")? weaponPresetNo : ::get_last_weapon(air.name)
-      weaponPresetNo = -1
+      local curWeap = (typeof(p.weaponPreset)=="string")? p.weaponPreset : ::get_last_weapon(air.name)
+      weaponPresetIdx = -1
       foreach(idx, w in air.weapons)
-        if (w.name == curWeap || (weaponPresetNo < 0 && !::isWeaponAux(w)))
-          weaponPresetNo = idx
-      if (weaponPresetNo < 0)
+        if (w.name == curWeap || (weaponPresetIdx < 0 && !::isWeaponAux(w)))
+          weaponPresetIdx = idx
+      if (weaponPresetIdx < 0)
         return ""
     }
-    if (isPrimary && typeof(weaponPresetNo)=="string")
-      primaryMod = weaponPresetNo
+    if (p.isPrimary && typeof(p.weaponPreset)=="string")
+      primaryMod = p.weaponPreset
     else
       primaryMod = ::get_last_primary_weapon(air)
-  }
+  } else
+    weaponPresetIdx = p.weaponPreset
 
   local weapons = {}
 
-  if (isPrimary || isPrimary==null)
+  if (p.isPrimary || p.isPrimary==null)
   {
     local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryMod)
     if (primaryBlk)
       weapons = addWeaponsFromBlk({}, primaryBlk, unitType)
-    else if (!emptyNoWeapons)
+    else if (p.needTextWhenNoWeapons)
       text += ::loc("weapon/noPrimaryWeapon")
   }
 
-  if (airBlk.weapon_presets != null && !isPrimary)
+  if (airBlk.weapon_presets != null && !p.isPrimary)
   {
     local wpBlk = null
     foreach (wp in (airBlk.weapon_presets % "preset"))
     {
-      if (wp.name == air.weapons[weaponPresetNo].name)
+      if (wp.name == air.weapons[weaponPresetIdx].name)
       {
         wpBlk = ::DataBlock(wp.blk)
         break
@@ -405,7 +419,7 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
       }
     }
 
-    local isShortDesc = detail <= INFO_DETAIL.SHORT //for weapons SHORT == LIMITED_11
+    local isShortDesc = p.detail <= INFO_DETAIL.SHORT //for weapons SHORT == LIMITED_11
     local weapTypeCount = 0; //for shortDesc only
     foreach (trigger in triggers)
     {
@@ -414,7 +428,7 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
         if (typeof(weapon) == "table")
         {
           if (tText != "" && weapTypeCount==0)
-            tText += newLine
+            tText += p.newLine
 
           if (::isInArray(weaponType, consumableWeapons))
           {
@@ -427,7 +441,7 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
             else
             {
               tText += ::loc("weapons" + weaponName) + ::format(::loc("weapons/counter"), weapon.ammo)
-              if (weaponType == "torpedoes" && isPrimary != null &&
+              if (weaponType == "torpedoes" && p.isPrimary != null &&
                   unitType == ::ES_UNIT_TYPE_AIRCRAFT) // torpedoes drop for air only
               {
                 if (weapon.dropSpeedRange)
@@ -435,8 +449,8 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
                 if (weapon.dropHeightRange)
                   tText += "\n"+::format(::loc("weapons/drop_height_range"), ::countMeasure(1, [weapon.dropHeightRange.x, weapon.dropHeightRange.y]))
               }
-              if (detail >= INFO_DETAIL.EXTENDED && unitType != ::ES_UNIT_TYPE_TANK)
-                tText += _get_weapon_extended_info(weapon, weaponType, newLine + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
+              if (p.detail >= INFO_DETAIL.EXTENDED && unitType != ::ES_UNIT_TYPE_TANK)
+                tText += _get_weapon_extended_info(weapon, weaponType, p.newLine + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
             }
           }
           else
@@ -454,9 +468,19 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
 
               if (!air.unitType.canUseSeveralBulletsForGun)
               {
-                local time = ::getReloadCooldownTimeByCaliber(weapon.caliber)
-                if (time)
-                  tText += " " + ::format("%s %d%s", ::loc("bullet_properties/cooldown"), time, ::loc("measureUnits/seconds"))
+                local rTime = ::get_reload_time_by_caliber(weapon.caliber, p.ediff)
+                if (rTime)
+                {
+                  if (p.isLocalState)
+                  {
+                    local difficulty = ::get_difficulty_by_ediff(p.ediff ?? ::get_current_ediff())
+                    local key = ::isCaliberCannon(weapon.caliber) ? "cannonReloadSpeedK" : "gunReloadSpeedK"
+                    local speedK = air.modificators?[difficulty.crewSkillName]?[key] ?? 1.0
+                    if (speedK)
+                      rTime = ::round_by_value(rTime / speedK, 1.0).tointeger()
+                  }
+                  tText += " " + ::loc("bullet_properties/cooldown") + " " + time.secondsToString(rTime, true, true)
+                }
               }
             }
           }
@@ -476,11 +500,11 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
       }
 
       if (tText!="")
-        text += ((text!="")? newLine : "") + tText
+        text += ((text!="")? p.newLine : "") + tText
     }
     if (weapTypeCount>0)
     {
-      if (text!="") text += newLine
+      if (text!="") text += p.newLine
       if (isShortDesc)
         text += ::loc("weapons_types/" + weaponType) + ::nbsp + ::format(::loc("weapons/counter/right/short"), weapTypeCount)
       else
@@ -488,8 +512,11 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
     }
   }
 
-  if (!isPrimary && text=="" && !emptyNoWeapons)
-    text = ::loc("weapon/noSecondaryWeapon")
+  if (text=="" && p.needTextWhenNoWeapons)
+    if (p.isPrimary)
+      text = ::loc("weapon/noPrimaryWeapon")
+    else
+      text = air.isAir() ? ::loc("weapon/noSecondaryWeapon") : ::loc("weapon/noAdditionalWeapon")
 
   return text
 }
@@ -634,7 +661,7 @@ function isAirHaveSecondaryWeapons(air)
         return true
       else
         foundWeapon = true
-  return "" != getWeaponInfoText(air, false, 0, "\n", INFO_DETAIL.FULL, true)
+  return "" != getWeaponInfoText(air, { isPrimary = false, weaponPreset = 0, needTextWhenNoWeapons = false })
 }
 
 function get_expendable_modifications_array(unit)
@@ -1499,12 +1526,12 @@ function check_bad_weapons()
   }
 }
 
-function getReloadCooldownTimeByCaliber(caliber)
+function get_reload_time_by_caliber(caliber, ediff = null)
 {
-  if ((caliber in ::reload_cooldown_time) && ::get_current_domination_mode_shop().id == "arcade")
-    return ::reload_cooldown_time[caliber]
-  else
+  local diff = ::get_difficulty_by_ediff(ediff ?? ::get_current_ediff())
+  if (diff != ::g_difficulty.ARCADE)
     return null
+  return ::reload_cooldown_time?[caliber]
 }
 
 function isModMaxExp(air, mod)
@@ -1582,6 +1609,12 @@ function is_mod_available_or_free(unitName, modName)
 function is_mod_upgradeable(modName)
 {
   return ::get_modifications_blk()?.modifications?[modName]?.upgradeEffect != null
+}
+
+function has_active_overdrive(unitName, modName)
+{
+  return ::get_modifications_overdrive(unitName).len() > 0
+    && ::get_modifications_blk()?.modifications?[modName]?.overdriveEffect != null
 }
 
 function is_weapon_enabled(unit, weapon)
@@ -2140,7 +2173,8 @@ function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_a
     local amountText = check_aircraft_purchased && ::is_game_mode_with_spendable_weapons() ?
       ::getAmmoAmountData(unit, weaponName, AMMO.WEAPON).text : "";
 
-    local tooltip = costText + ::getWeaponInfoText(unit, false, weapNo, hintSeparator) + amountText
+    local tooltip = costText + ::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapNo, newLine = hintSeparator })
+      + amountText
 
     descr.items.append({
       text = costText + ::getWeaponNameText(unit, false, weapNo, optionSeparator) + amountText

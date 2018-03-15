@@ -822,15 +822,8 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
     if ( ! ::check_obj(rowObj))
       return
 
+    rowObj.scrollToView(true)
     objTbl.setValue(::getNearestSelectableChildIndex(objTbl, index, 1))
-
-    // It scrolls correctly only when using two frame delays
-    guiScene.performDelayed(this, (@(rowObj) function() {
-      guiScene.performDelayed(this, (@(rowObj) function() {
-        if (::checkObj(rowObj))
-          rowObj.scrollToView(true)
-      })(rowObj))
-    })(rowObj))
   }
 
   function resetNavigation()

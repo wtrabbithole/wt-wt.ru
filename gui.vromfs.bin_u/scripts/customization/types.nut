@@ -35,6 +35,14 @@ local time = require("scripts/time.nut")
     getLocName = function(decoratorName, addUnitName = false) { return ::loc(decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc(decoratorName + "/desc", "") }
 
+    function getTypeDesc(decorator)
+    {
+      local text = ::loc("trophy/unlockables_names/" + resourceType)
+      if (decorator.category != "" && categoryPathPrefix != "")
+        text += ::loc("ui/comma") + ::loc(categoryPathPrefix + decorator.category)
+      return text
+    }
+
     getCost = function(decoratorName) { return ::Cost() }
     getDecoratorNameInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
 
@@ -102,7 +110,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     listId = "slots_list"
     listHeaderLocId = "decals"
     currentOpenedCategoryLocalSafePath = "wnd/decalsCategory"
-    categoryPathPrefix = "#decals/category/"
+    categoryPathPrefix = "decals/category/"
     removeDecoratorLocId = "mainmenu/requestDeleteDecal"
     emptySlotLocId = "mainmenu/decalFreeSlot"
     prizeTypeIcon = "#ui/gameuiskin#item_type_decal"
@@ -201,7 +209,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     listId = "slots_attachable_list"
     listHeaderLocId = "decorators"
     currentOpenedCategoryLocalSafePath = "wnd/attachablesCategory"
-    categoryPathPrefix = "#attachables/category/"
+    categoryPathPrefix = "attachables/category/"
     removeDecoratorLocId = "mainmenu/requestDeleteDecorator"
     emptySlotLocId = "mainmenu/attachableFreeSlot"
     userlogPurchaseIcon = "#ui/gameuiskin#unlock_attachable"
@@ -302,6 +310,15 @@ enums.addTypesByGlobalName("g_decorator_type", {
     {
       local defaultLocId = guidParser.isGuid(decoratorName) ? "default_ugc_skin_loc/desc" : "default_skin_loc/desc"
       return ::loc(decoratorName + "/desc", ::loc(defaultLocId))
+    }
+
+    function getTypeDesc(decorator)
+    {
+      local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decorator.id))
+      if (!unit)
+        return ::loc("trophy/unlockables_names/skin")
+      return ::loc("reward/skin_for") + " " +
+        ::getUnitName(unit) + ::loc("ui/comma") + ::loc(::getUnitCountry(unit))
     }
 
     getCost = function(decoratorName)

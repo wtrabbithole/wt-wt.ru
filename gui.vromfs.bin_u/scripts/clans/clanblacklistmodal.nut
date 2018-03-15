@@ -154,11 +154,11 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
       {
         text = ::loc("msgbox/btn_delete")
         show = ::isInArray("MEMBER_BLACKLIST", myRights)
-        action = function() { onDeleteFromBlacklist() }
+        action = onDeleteFromBlacklist
       }
       {
         text = ::loc("mainmenu/btnUserCard")
-        action = (@(curCandidate) function() { ::gui_modal_userCard({ uid = curCandidate.uid }) })(curCandidate)
+        action = @() ::gui_modal_userCard({ uid = curCandidate.uid })
       }
     ]
     ::gui_right_click_menu(menu, this, position)

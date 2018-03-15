@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local penalty = require("penalty")
+local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
 
 
 ::show_crew <- null
@@ -59,6 +60,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   curAttachSlot = 0
   previewSkinId = null
 
+  initialAppliedSkinId = null
+  initialUserSkinId = null
+
   currentType = ::g_decorator_type.UNKNOWN
 
   isLoadingRot = false
@@ -67,28 +71,33 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   isUnitTank = false
   isUnitOwn = false
-  isUnitBought = false
 
   currentState = decoratorEditState.NONE
   currentFocusItem = MAIN_FOCUS_ITEM_IDX + 2
   needToRestoreFocusOnTypeList = false
 
+  isModePreview = false
+
   function initScreen()
   {
     owner = this
     unit = ::show_aircraft
+    ::cur_aircraft_name = unit.name
 
     access_WikiOnline = ::has_feature("WikiUnitInfo")
     access_UserSkins = ::is_platform_pc && ::has_feature("UserSkins")
     access_SkinsUnrestrictedPreview = ::has_feature("SkinsPreviewOnUnboughtUnits")
     access_SkinsUnrestrictedExport  = access_UserSkins && access_SkinsUnrestrictedExport
 
+    initialAppliedSkinId   = ::hangar_get_last_skin(unit.name)
+    initialUserSkinId      = ::get_user_skins_profile_blk()[unit.name] || ""
+
     ::enableHangarControls(true)
     scene.findObject("timer_update").setUserData(this)
 
     ::hangar_focus_model(true)
 
-    registerSubHandler(::create_slot_info_panel(scene, false))
+    registerSubHandler(::create_slot_info_panel(scene, false, "showroom"))
     initMainParams()
     showDecoratorsList()
 
@@ -99,17 +108,34 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     initFocusArray()
   }
 
+  function getHandlerRestoreData()
+  {
+    local data = {
+      openData = {
+      }
+      stateData = {
+        initialAppliedSkinId = initialAppliedSkinId
+        initialUserSkinId    = initialUserSkinId
+      }
+    }
+    return data
+  }
+
+  function restoreHandler(stateData)
+  {
+    initialAppliedSkinId = stateData.initialAppliedSkinId
+    initialUserSkinId    = stateData.initialUserSkinId
+  }
+
   function initMainParams()
   {
-    ::cur_aircraft_name = unit.name
-
     access_Decals = ::g_decorator_type.DECALS.isAvailable(unit)
     access_Attachables = ::g_decorator_type.ATTACHABLES.isAvailable(unit)
 
     isUnitTank = ::isTank(unit)
     isUnitOwn = unit.isUsable()
-    isUnitBought = unit.isBought()
-    setSceneTitle(::loc(isUnitOwn ? "mainmenu/showroom" : "mainmenu/btnPreview") + ::loc("ui/parentheses/space", { text = ::getUnitName(unit.name) }))
+
+    updateTitle()
 
     local cObj = scene.findObject("btn_toggle_damaged")
     if (::checkObj(cObj))
@@ -132,7 +158,21 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateSkinList()
     updateUserSkinList()
     updateSkinSliders()
+    updateUnitStatus()
     updateButtons()
+  }
+
+  function updateTitle()
+  {
+    local title = ::loc(isUnitOwn && !isModePreview? "mainmenu/showroom" : "mainmenu/btnPreview") + " " + ::loc("ui/mdash") + " " + ::getUnitName(unit.name)
+    if (isModePreview && previewSkinId)
+    {
+      local skinId = ::g_unlocks.getSkinId(unit.name, previewSkinId)
+      local skin = ::g_decorator.getDecorator(skinId, ::g_decorator_type.SKINS)
+      if (skin)
+        title += ::loc("ui/comma") + ::loc("options/skin") + " " + ::colorize(skin.getRarityColor(), skin.getName())
+    }
+    setSceneTitle(title)
   }
 
   function getCurDecalsListObj(onlyDecalsList = true)
@@ -299,7 +339,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       skinItems.append({
         text = text
         textStyle = skinList.items[i].textStyle
-        addDiv = getDecorationTooltipObjText(decorator.id, ::UNLOCKABLE_SKIN)
+        addDiv = ::g_tooltip_type.DECORATION.getMarkup(decorator.id, ::UNLOCKABLE_SKIN)
         image = decorator.isUnlocked() ? null : "#ui/gameuiskin#locked"
       })
     }
@@ -648,8 +688,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           btn_decal_delete = ::show_console_buttons && !isInEditMode && !isDecoratorsListOpen && !focusedSlot.isEmpty && focusedSlot.unlocked
 
           skins_div = !isInEditMode && !isDecoratorsListOpen && (isUnitOwn || access_SkinsUnrestrictedPreview || access_SkinsUnrestrictedExport)
-          user_skins_block = access_UserSkins
-          tank_skin_settings = isUnitTank
+          user_skins_block = !isModePreview && access_UserSkins
+          tank_skin_settings = !isModePreview && isUnitTank
 
           slot_info = !isInEditMode && !isDecoratorsListOpen
           btn_dm_viewer = !isInEditMode && !isDecoratorsListOpen && ::dmViewer.canUse()
@@ -730,16 +770,30 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateSlotsDivsVisibility(decoratorType = null)
   {
     local inBasicMode = currentState & decoratorEditState.NONE
-    local showDecalsSlotDiv = access_Decals && isUnitOwn
+    local showDecalsSlotDiv = access_Decals && isUnitOwn && !isModePreview
       && (inBasicMode || (decoratorType == ::g_decorator_type.DECALS && currentState & decoratorEditState.SELECT))
 
-    local showAttachableSlotsDiv = access_Attachables && isUnitOwn
+    local showAttachableSlotsDiv = access_Attachables && isUnitOwn && !isModePreview
       && (inBasicMode || (decoratorType == ::g_decorator_type.ATTACHABLES && currentState & decoratorEditState.SELECT))
 
     ::showBtnTable(scene, {
       decalslots_div = showDecalsSlotDiv
       attachable_div = showAttachableSlotsDiv
     })
+  }
+
+  function updateUnitStatus()
+  {
+    local obj = scene.findObject("unit_status")
+    if (!::check_obj(obj))
+      return
+    obj.show(isModePreview)
+    if (!isModePreview)
+      return
+    obj.findObject("icon")["background-image"] = isUnitOwn ? "ui/gameuiskin#favorite" : "ui/gameuiskin#locked"
+    local textObj = obj.findObject("text")
+    textObj.setValue(::loc(isUnitOwn ? "conditions/unitExists" : "weaponry/unit_not_bought"))
+    textObj.overlayTextColor = isUnitOwn ? "good" : "bad"
   }
 
   function onUpdate(obj, dt)
@@ -982,7 +1036,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach (idx, category in categoriesOrder)
       view.collapsableBlocks.append({
         id = decoratorType.categoryWidgetIdPrefix + category
-        headerText = decoratorType.categoryPathPrefix + category
+        headerText = "#" + decoratorType.categoryPathPrefix + category
         collapsed = true
         type = "decoratorsList"
         onSelect = "onDecoratorItemSelect"
@@ -1115,8 +1169,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDecoratorItemSelect(obj)
   {
-    local categoryId = ::getObjIdByPrefix(obj, "collapse_content_" + currentType.categoryWidgetIdPrefix)
-    scrollDecalsCategory(categoryId, currentType)
     updateButtons(null, false)
   }
 
@@ -1302,7 +1354,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
         decalsListObj.setValue(index)
         setCurrentFocusObj(decalsListObj)
-
         scrollDecalsCategory(categoryId, decoratorType)
       }
     }
@@ -1315,36 +1366,18 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local categoryBlockId = decoratorType.categoryWidgetIdPrefix + categoryId
     local categoryObj = scene.findObject(categoryBlockId)
-    if (!::checkObj(categoryObj))
+    if (!::check_obj(categoryObj))
       return
 
-    guiScene.setUpdatesEnabled(true, true)
+    local headerObj = categoryObj.findObject("btn_" + categoryBlockId)
+    if (::check_obj(headerObj))
+      headerObj.scrollToView(true)
 
     local decalsListObj = categoryObj.findObject("collapse_content_" + categoryBlockId)
     local index = (::checkObj(decalsListObj) && decalsListObj.childrenCount()) ? decalsListObj.getValue() : -1
     local itemObj = (index >= 0) ? decalsListObj.getChild(index) : null
-
     if (::checkObj(itemObj))
-    {
-      local id = itemObj.id
-      guiScene.performDelayed(this, (@(id) function() {
-        if (!::checkObj(scene))
-          return
-
-        local itemObj = scene.findObject(id)
-        if (!::checkObj(itemObj))
-          return
-
-        guiScene.setUpdatesEnabled(true, true)
-        itemObj.scrollToView()
-      })(id))
-    }
-    else
-    {
-      local headerObj = categoryObj.findObject("btn_" + categoryBlockId)
-      if (::checkObj(headerObj))
-        headerObj.scrollToView()
-    }
+      itemObj.scrollToView()
   }
 
   function onBtnAccept()
@@ -1355,7 +1388,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onBtnBack()
   {
     if (currentState & decoratorEditState.NONE)
-      return goBack()
+      checkUgcTagsPresetRestoreAndQuit()
 
     if (currentState & decoratorEditState.SELECT)
       return onBtnCloseDecalsMenu()
@@ -1367,15 +1400,28 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     stopDecalEdition()
   }
 
-  function getDecorationTooltipObjText(id, decoratorType)
+  function checkUgcTagsPresetRestoreAndQuit()
   {
-    local tooltipId = ::g_tooltip_type.DECORATION.getTooltipId(id, decoratorType)
-    return "tooltipObj {" +
-         "tooltipId:t='" + tooltipId + "'; " +
-         "on_tooltip_open:t='onGenericTooltipOpen'; on_tooltip_close:t='onTooltipObjClose';" +
-         "max-width:t='8@customizationDecoratorBlockWidth'; smallFont:t='yes'; display:t='hide';" +
-      "} " +
-      "title:t='$tooltipObj'; "
+    local unitId = unit.name
+    local curSkinId = ::hangar_get_last_skin(unitId)
+    if (curSkinId == initialAppliedSkinId)
+      return goBack()
+
+    local newUgcTagsPresetId = ugcTagsPreset.getPresetBySkin(unitId, curSkinId)
+    if (newUgcTagsPresetId == ugcTagsPreset.getPreset())
+      return goBack()
+
+    ugcTagsPreset.showConfirmMsgbox(unitId, curSkinId,
+      ::Callback(function() {
+        ugcTagsPreset.setPreset(newUgcTagsPresetId)
+        goBack()
+      }, this),
+      ::Callback(function() {
+        applySkin(initialAppliedSkinId)
+        goBack()
+      }, this)
+    )
+    return true
   }
 
   function buyDecorator(decorator, afterPurchDo = null)
@@ -1600,15 +1646,20 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local skinId = skinList.values[skinNum]
     local isSkinOwn = skinList.access[skinNum].isOwn
 
-    if (isSkinOwn)
+    if (isSkinOwn && !isModePreview)
     {
       local curSkinId = ::hangar_get_last_skin(unit.name)
-      if (previewSkinId
-        || skinId != curSkinId && (skinId != "" || curSkinId != "default"))
+      if (!previewSkinId && (skinId == curSkinId || (skinId == "" && curSkinId == "default")))
+        return
+
+      resetUserSkin(false)
       applySkin(skinId)
     }
     else if (skinId != previewSkinId)
+    {
+      resetUserSkin(false)
       applySkin(skinId, true)
+    }
   }
 
   function onUserSkinChanged(obj)
@@ -1620,6 +1671,20 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     ::set_option(::USEROPT_USER_SKIN, value)
     ::hangar_force_reload_model()
+  }
+
+  function resetUserSkin(needReloadModel = true)
+  {
+    if (isModePreview)
+      return
+
+    initialUserSkinId = ""
+    ::set_option(::USEROPT_USER_SKIN, 0)
+
+    if (needReloadModel)
+      ::hangar_force_reload_model()
+    else
+      updateUserSkinList()
   }
 
   function applySkin(skinId, previewSkin = false)
@@ -1717,12 +1782,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = true }))
       return
 
+    // TestFlight wnd can have a Slotbar, where unit can be changed.
     local afterCloseFunc = (@(owner, unit) function() {
-      owner.previewSkinId = null
       local newUnitName = ::get_show_aircraft_name()
       if (unit.name != newUnitName)
       {
         owner.unit = ::getAircraftByName(newUnitName)
+        owner.previewSkinId = null
         if (owner && ("initMainParams" in owner) && owner.initMainParams)
           owner.initMainParams.call(owner)
       }
@@ -1959,6 +2025,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (currentState & decoratorEditState.EDITING)
         currentType.exitEditMode(false, false)
 
+      if (previewSkinId && initialUserSkinId != "")
+        ::get_user_skins_profile_blk()[unit.name] = initialUserSkinId
+
       saveDecorators(true)
       ::save_profile(true)
 
@@ -2025,14 +2094,25 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     obj.setValue(txt)
   }
 
+  function onEventBeforeStartTestFlight(params)
+  {
+    ::handlersManager.requestHandlerRestore(this, this.getclass())
+  }
+
   function onEventSelectUGCSkinForPreview(params)
   {
+    isModePreview = true
     local skinBlockName = params.unitName + "/" + params.skinName
     ::g_decorator.previewedUgcSkinId = skinBlockName;
+    if (initialUserSkinId != "")
+      ::get_user_skins_profile_blk()[unit.name] = ""
     applySkin(params.skinName, true)
     local isForApprove = params?.isForApprove ?? false
     ::g_decorator.approversUnitToPreviewUgcResource = isForApprove ? ::show_aircraft : null
     showSceneBtn("toggle_damaged_div", isForApprove)
+    updateTitle()
+    updateUnitStatus()
     updateSkinList()
+    updateButtons()
   }
 }

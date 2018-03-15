@@ -30,12 +30,6 @@ class ::items_classes.Chest extends ItemExternal {
     return getBigIcon()
   }
 
-  function getLongDescriptionMarkup(params = null)
-  {
-    return base.getLongDescriptionMarkup()
-      + ExchangeRecipes.getRequirementsMarkup(getRelatedRecipes(), this, params)
-  }
-
   function canConsume()
   {
     return true

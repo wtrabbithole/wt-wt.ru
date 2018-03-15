@@ -57,13 +57,25 @@
     "fxMultipleSpawn": true
   },
   {
-    "fxScale": 0.2
+    "fxScale": 1.0
   },
   {
     "shouldCollideWithRendinsts": true
   },
   {
     "sfxReloadBullet": "grd_cannon_belt_reload"
+  },
+  {
+    "sound_path": "tanks/weapon_tanks/mguns"
+  },
+  {
+    "sound": "8mm_vz37"
+  },
+  {
+    "sound_inside": "8mm_vz37_interior"
+  },
+  {
+    "soundLoop": true
   },
   {
     "bullet": {
@@ -78,6 +90,9 @@
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
+      "groundFxScale": [0.5,0.7],
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [0.5,0.8],
       "hitpower": {
         "HitPower10m": [1.45,10.0],
         "HitPower100m": [1.43,100.0],
@@ -101,13 +116,17 @@
         "trail": "noTrail"
       },
       "collisions": {
+        "buildings": {
+          "fx": "7_20_hit_stone",
+          "fxScale": [0.3,0.4]
+        },
         "steel": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [0.3,0.5]
+          "fx": "bullet_HE_hit_armor",
+          "fxScale": [0.1,0.3]
         },
         "armor": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [0.3,0.5]
+          "fx": "bullet_HE_hit_armor",
+          "fxScale": [0.3,0.4]
         }
       }
     }
@@ -125,6 +144,9 @@
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
+      "groundFxScale": [0.5,0.7],
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [0.5,0.8],
       "hitpower": {
         "HitPower10m": [1.45,10.0],
         "HitPower100m": [1.43,100.0],
@@ -148,13 +170,17 @@
         "trail": "noTrail"
       },
       "collisions": {
+        "buildings": {
+          "fx": "7_20_hit_stone",
+          "fxScale": [0.3,0.4]
+        },
         "steel": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [0.3,0.5]
+          "fx": "bullet_HE_hit_armor",
+          "fxScale": [0.1,0.3]
         },
         "armor": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [0.3,0.5]
+          "fx": "bullet_HE_hit_armor",
+          "fxScale": [0.3,0.4]
         }
       }
     }
@@ -171,6 +197,9 @@
       "effectiveDistance": 400.0,
       "relativeVelHitShift": [300.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
+      "groundFxScale": [0.5,0.7],
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [0.4,0.6],
       "armorpower": {
         "ArmorPower0m": [13.0,10.0],
         "ArmorPower100m": [12.0,100.0],
@@ -192,6 +221,12 @@
         "traceFreq": 1,
         "tracer": "7mmGreen",
         "trail": "noTrail"
+      },
+      "collisions": {
+        "buildings": {
+          "fx": "7_20_hit_stone",
+          "fxScale": [0.3,0.4]
+        }
       }
     }
   },
@@ -270,13 +305,5 @@
         }
       }
     ]
-  },
-  {
-    "gunSound": {
-      "path": "tanks/weapon_tanks/mguns",
-      "outside": "8mm_vz37",
-      "cockpit": "8mm_vz37_interior",
-      "ai": "8mm_vz37_ai"
-    }
   }
 ]

@@ -71,6 +71,16 @@ action_bar_item {
       text-align:t='right';
       text:t='<<amount>>';
     }
+    tdiv {
+      id:t='BlockedCooldown'
+      re-type:t='sector';
+      sector-angle-1:t='360';
+      sector-angle-2:t='360';
+      size:t='pw, ph';
+      position:t='absolute';
+      pos:t='0, 0';
+      background-color:t='#ee090909';
+    }
     <<#isXinput>>
       <<>gamepadShortcut>>
     <</isXinput>>

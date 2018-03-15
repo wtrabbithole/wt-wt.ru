@@ -255,7 +255,7 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
           logEntryTable.time = time.buildDateTimeStr(::get_time_from_t(logEntryTable.time))
 
         logEntryTable.header <- logType.getLogHeader(logEntryTable)
-        if (logType.showDetails)
+        if (logType.needDetails(logEntryTable))
         {
           local commonFields = logType.getLogDetailsCommonFields()
           local shortCommonDetails = ::u.pick(logEntryTable, commonFields)
@@ -377,7 +377,7 @@ function g_clans::markClanCandidatesAsViewed()
   local clanCandidates = getMyClanCandidates()
   foreach (clanCandidate in clanCandidates)
   {
-    if(seenCandidatesBlk[clanCandidate.uid] == true)
+    if (seenCandidatesBlk[clanCandidate.uid] == true)
       continue
 
     seenCandidatesBlk[clanCandidate.uid] = true
@@ -515,6 +515,75 @@ function g_clans::getClanMembersCountText(clanData)
   return ::format("%d", clanData.members.len())
 }
 
+function g_clans::haveRankToChangeRoles(clanData)
+{
+  if (clanData?.id != ::clan_get_my_clan_id())
+    return
+
+  local myRank = ::clan_get_role_rank(::clan_get_my_role())
+
+  local rolesNumber = 0
+  for (local role = 0; role < ::ECMR_MAX_TOTAL; role++)
+  {
+     local rank = ::clan_get_role_rank(role)
+     if (rank != 0 && rank < myRank)
+       rolesNumber++
+  }
+
+  return (rolesNumber > 1)
+}
+
+function g_clans::getMyClanRights()
+{
+  return ::clan_get_role_rights(::clan_get_admin_editor_mode() ? ::ECMR_CLANADMIN : ::clan_get_my_role())
+}
+
+function g_clans::getClanMemberRank(clanData, name)
+{
+  foreach(member in (clanData?.members ?? []))
+    if (member.nick == name)
+      return ::clan_get_role_rank(member.role)
+
+  return 0
+}
+
+function g_clans::getLeadersCount(clanData)
+{
+  local count = 0
+  foreach(member in clanData.members)
+  {
+    local rights = ::clan_get_role_rights(member.role)
+    if (::isInArray("LEADER", rights) ||
+        ::isInArray("DEPUTY", rights))
+      count++
+  }
+  return count
+}
+
+function g_clans::dismissMember(contact, clanData)
+{
+  local isMyClan = clanData?.id == ::clan_get_my_clan_id()
+  local myClanRights = ::g_clans.getMyClanRights()
+
+  if ((!isMyClan || !::isInArray("MEMBER_DISMISS", myClanRights)) && !::clan_get_admin_editor_mode())
+    return
+
+  ::gui_modal_comment(
+    null,
+    ::loc("clan/writeCommentary"),
+    ::loc("clan/btnDismissMember"),
+    function(comment) {
+      local onSuccess = function() {
+        ::broadcastEvent("ClanMemberDismissed")
+        ::g_popups.add("", ::loc("clan/memberDismissed"))
+      }
+
+      local taskId = ::clan_request_dismiss_member(contact.uid, comment)
+      ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
+    }
+  )
+}
+
 function g_clans::requestMembership(clanId)
 {
   if (::clan_get_requested_clan_id() == "-1" || ::clan_get_my_clan_name() == "")
@@ -610,6 +679,28 @@ function g_clans::blacklistAction(playerUid, actionAdd)
       ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
     }
   )
+}
+
+function g_clans::requestOpenComplainWnd(clanId)
+{
+  if (!::tribunal.canComplaint())
+    return
+
+  local taskId = ::clan_request_info(clanId, "", "")
+  local onSuccess = function() {
+    local clanData = ::get_clan_info_table()
+    ::g_clans.openComplainWnd(clanData)
+  }
+
+  ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
+}
+
+function g_clans::openComplainWnd(clanData)
+{
+  local leader = ::u.search(clanData.members, @(member) member.role == ::ECMR_LEADER)
+  if (leader == null)
+    leader = clanData.members[0]
+  ::gui_modal_complain({name = leader.nick, userId = leader.uid, clanData = clanData})
 }
 
 ::ranked_column_prefix <- "dr_era"
@@ -1304,7 +1395,11 @@ function getMyClanMemberPresence(nick)
     }
 
   if (::isInArray(nick, clanActiveUsers))
-    return ::g_contact_presence.ONLINE
+  {
+    local contact = ::findContactByNick(nick)
+    if (!(contact?.forceOffline ?? false))
+      return ::g_contact_presence.ONLINE
+  }
   return ::g_contact_presence.OFFLINE
 }
 

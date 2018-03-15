@@ -1,4 +1,5 @@
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
 
@@ -425,78 +426,17 @@ function g_squad_utils::showMemberMenu(obj)
   if (member == null)
       return
 
-  local menu = getMemberPopupMenu(member)
   local position = obj.getPosRC()
+  local menu = playerContextMenu.getActions(
+    null,
+    {
+      playerName = member.name
+      uid = member.uid
+      clanTag = member.clanTag
+      squadMemberData = member
+      position = position
+  })
   ::gui_right_click_menu(menu, this, position)
-}
-
-function g_squad_utils::getMemberPopupMenu(member)
-{
-  local meLeader = ::g_squad_manager.isSquadLeader()
-  local isMe = member.uid == ::my_user_id_str
-
-  local menu = [
-    {
-      text = ::loc("contacts/message")
-      show = !isMe && ::ps4_is_chat_enabled() && !::u.isEmpty(member.name)
-      action = (@(member) function() {
-        ::openChatPrivate(member.name)
-      })(member)
-    }
-    {
-      text = ::loc("squadAction/openChat")
-      show = ::g_chat.getMySquadRoomId() && ::ps4_is_chat_enabled()
-      action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
-    }
-    {
-      text = ::loc("mainmenu/btnUserCard")
-      action = (@(member) function() {
-        ::gui_modal_userCard({ uid = member.uid })
-      })(member)
-    }
-    {
-      text = ::loc("mainmenu/btnClanCard")
-      show = !::u.isEmpty(member.clanTag) && ::has_feature("Clans")
-      action = (@(member) function() {
-        ::showClanPage("", "", member.clanTag)
-      })(member)
-    }
-    {
-      text = ::loc("squad/remove_player")
-      show = !isMe && meLeader && member != null && !member.isInvite && ::g_squad_manager.canManageSquad()
-        && !member.isApplication
-      action = (@(member) function() {
-        ::g_squad_manager.dismissFromSquad(member.uid)
-      })(member)
-    }
-    {
-      text = ::loc("squad/tranfer_leadership")
-      show = ::g_squad_manager.canTransferLeadership(member.uid)
-      action = (@(member) function() {
-        ::g_squad_manager.transferLeadership(member.uid)
-      })(member)
-    }
-    {
-      text = ::loc("squad/revoke_invite")
-      show = meLeader && member != null && member.isInvite
-      action = (@(member) function() {
-        ::g_squad_manager.revokeSquadInvite(member.uid)
-      })(member)
-    }
-    {
-      text = ::loc("squad/accept_membership")
-      show = meLeader && member?.isApplication
-      action = @() ::g_squad_manager.acceptMembershipAplication(member.uid)
-    }
-    {
-      text = ::loc("squad/deny_membership")
-      show = meLeader && member?.isApplication
-      action = @() ::g_squad_manager.denyMembershipAplication(member.uid,
-        @(response) ::g_squad_manager.removeApplication(member.uid))
-    }
-  ]
-
-  return menu
 }
 
 /*use by client .cpp code*/

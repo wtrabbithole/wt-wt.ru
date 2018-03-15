@@ -264,6 +264,60 @@
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
+    },
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "showAirMap": true
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "ally",
+              "target": "t1_airfield",
+              "lookAt": "area_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_airfield",
+              "lookAt": "area_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "briefing_t1_tanks"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "artillery",
+              "side": "enemy",
+              "target": "briefing_t2_defence"
+            }
+          }
+        ]
+      }
     }
   },
   "imports": [
@@ -396,6 +450,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "Both"
           }
@@ -404,6 +461,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "Both"
           }
@@ -425,6 +485,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_quest_units_squad"
@@ -450,6 +519,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -491,6 +569,9 @@
             "icon": "score",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -502,6 +583,9 @@
             "icon": "score",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -16010,7 +16094,7 @@
         [240.403,0.0,179.46],
         [0.0,300.0,0.0],
         [-179.46,0.0,240.403],
-        [-12784.5,1033.3,-15226.3]
+        [-11238.3,1033.3,-13961.9]
       ],
       "objLayer": 4,
       "props": []
@@ -16029,9 +16113,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-3795.52,0.0,4646.94],
-        [0.0,6000.0,0.0],
-        [-4646.94,0.0,-3795.52],
+        [-6325.86,0.0,7744.9],
+        [0.0,10000.0,0.0],
+        [-7744.9,0.0,-6325.86],
         [-15110.0,1033.3,-17125.3]
       ],
       "objLayer": 4,
@@ -16120,7 +16204,7 @@
         [-225.972,0.0,-197.323],
         [0.0,300.0,0.0],
         [197.323,0.0,-225.972],
-        [12252.3,1128.78,10318.1]
+        [10806.2,1128.78,8938.76]
       ],
       "objLayer": 4,
       "props": []
@@ -16139,9 +16223,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [4139.84,0.0,-4343.01],
-        [0.0,6000.0,0.0],
-        [4343.01,0.0,4139.84],
+        [6899.73,0.0,-7238.35],
+        [0.0,10000.0,0.0],
+        [7238.35,0.0,6899.73],
         [14425.6,1128.78,12389.4]
       ],
       "objLayer": 4,
@@ -16410,6 +16494,50 @@
       ],
       "objLayer": 0,
       "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [240.403,0.0,179.46],
+        [0.0,300.0,0.0],
+        [-179.46,0.0,240.403],
+        [-17418.5,533.0,-19011.3]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-225.972,0.0,-197.323],
+        [0.0,300.0,0.0],
+        [197.323,0.0,-225.972],
+        [16583.1,628.0,14446.4]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "briefing_t1_tanks": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-2100.85,16.4719,-5507.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_defence": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2336.75,16.4775,3344.26]
+      ],
+      "objLayer": 0,
+      "props": []
     }
   },
   "objLayers": [
@@ -16435,7 +16563,7 @@
     },
     {
       "layer": {
-        "enabled": false
+        "enabled": true
       }
     }
   ],

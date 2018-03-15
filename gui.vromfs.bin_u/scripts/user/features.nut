@@ -73,6 +73,8 @@
     WorldWarSquadInvite = false
     WorldWarGlobalBattles = false
 
+    SpecialShip = false
+
     GraphicsOptions = true
     Spectator = false
     BuyAllModifications = false
@@ -124,6 +126,8 @@
     BattleTasksHard = true
     PersonalUnlocks = false
     ItemsShopInTopMenu = true
+    ItemModUpgrade = false
+    ModUpgradeDifference = false
 
     BulletParamsForAirs = ::disable_network()
 
@@ -148,7 +152,6 @@
     SlotbarShowCountryName = false
     SlotbarShowBattleRating = true
     GlobalShowBattleRating = false
-    GamercardDrawerSwitchBR = false
     VideoPreview = ::disable_network()
 
     ClanRegions = false

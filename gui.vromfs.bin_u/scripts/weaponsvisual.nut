@@ -1,4 +1,5 @@
 local weaponryEffects = ::require("scripts/weaponry/weaponryEffects.nut")
+local modUpgradeElem = ::require("scripts/weaponry/elems/modUpgradeElem.nut")
 
 /*
   weaponVisual API
@@ -28,6 +29,7 @@ function weaponVisual::createItemLayout(id, item, type, params = {})
     useGenericTooltip = ::getTblValue("useGenericTooltip", params, false)
     needSliderButtons = ::getTblValue("needSliderButtons", params, false)
     wideItemWithSlider = ::getTblValue("wideItemWithSlider", params, false)
+    modUpgradeIcon = ::has_feature("ItemModUpgrade") ? modUpgradeElem.createMarkup("mod_upgrade_icon") : null
   }
   return ::handyman.renderCached("gui/weaponry/weaponItem", view)
 }
@@ -255,6 +257,8 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   local iconObj = itemObj.findObject("status_icon")
   if (::checkObj(iconObj))
     iconObj["background-image"] = getStatusIcon(air, item)
+
+  modUpgradeElem.setValueToObj(itemObj.findObject("mod_upgrade_icon"), air.name, visualItem.name)
 
   if (!showButtons)
     return
@@ -778,27 +782,8 @@ function weaponVisual::countWeaponsUpgrade(air, item)
 
 function weaponVisual::getRepairCostCoef(item)
 {
-  local ret = null
-
-  foreach(m in ::domination_modes)
-    if (::get_show_mode_info(m.modeId))
-    {
-      local modeName = ::get_name_by_gamemode(m.modeId, true)
-      if ((("repairCostCoef"+modeName) in item) && item["repairCostCoef"+modeName])
-      {
-        if (ret == null)
-          ret = {}
-        ret[modeName] <- item["repairCostCoef"+modeName]
-      }
-      else if (("repairCostCoef" in item) && item.repairCostCoef)
-      {
-        if (ret == null)
-          ret = {}
-        ret[modeName] <- item.repairCostCoef
-      }
-    }
-
-  return ret
+  local modeName = ::get_current_shop_difficulty().getEgdName(true)
+  return item?["repairCostCoef" + modeName] ?? item?.repairCostCoef ?? 0
 }
 
 function weaponVisual::getReqModsText(air, item)
@@ -852,7 +837,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   if (item.type==weaponsItem.weapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, false, item.name, "\n", INFO_DETAIL.EXTENDED)
+    desc = ::getWeaponInfoText(air, { isPrimary = false, weaponPreset = item.name, detail = INFO_DETAIL.EXTENDED })
 
     if(item.rocket || item.bomb)
     {
@@ -868,7 +853,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   else if (item.type==weaponsItem.primaryWeapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, true, item.name, "\n", INFO_DETAIL.EXTENDED)
+    desc = ::getWeaponInfoText(air, { isPrimary = true, weaponPreset = item.name, detail = INFO_DETAIL.EXTENDED })
     local upgradesList = getItemUpgradesList(item)
     if(upgradesList)
     {
@@ -934,30 +919,17 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     }
   }
 
-  local repairCostCoefTbl = getRepairCostCoef(item)
-  if (repairCostCoefTbl)
+  local repairCostCoef = getRepairCostCoef(item)
+  if (repairCostCoef)
   {
-    local wBlk = ::get_warpoints_blk()
-    local repairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
-    local repairText = ""
-    foreach(m in ::domination_modes)
-      if (::get_show_mode_info(m.modeId))
-      {
-        local modeName = ::get_name_by_gamemode(m.modeId, true)
-
-        local repairCostCoef = 0.0
-        if (modeName in repairCostCoefTbl)
-          repairCostCoef = repairCostCoefTbl[modeName] * repairMul
-
-        local rcost = ::wp_get_repair_cost_by_mode(air.name, m.modeId, false)
-        local avgCost = (repairCostCoef * rcost).tointeger()
-        if (!avgCost)
-          continue
-        repairText += ((repairText!="")?" / ":"") + (avgCost > 0? "+" : "") +
-          ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
-      }
-    if (repairText!="")
-      addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp + repairText
+    local avgRepairMul = ::get_warpoints_blk().avgRepairMul ?? 1.0
+    local egdCode = ::get_current_shop_difficulty().egdCode
+    local rCost = ::wp_get_repair_cost_by_mode(air.name, egdCode, false)
+    local avgCost = (rCost * repairCostCoef * avgRepairMul).tointeger()
+    if (avgCost)
+      addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp
+        + (avgCost > 0? "+" : "")
+        + ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
   }
 
   if (!statusTbl.amount && !needShowWWSecondaryWeapons)
@@ -1082,14 +1054,8 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
         if (armor == null)
           continue
 
-        /*!!!HACK, Change headers - angle of attack. Don't cause calculation mistakes in data itself
-          Better be in code, but require too much changes, for changing only header.
-        */
-        local armorClone = {}
-        foreach(distance, value in armor)
-          armorClone[90 - distance] <- value
-        param.armorPiercing[ind] = (!param.armorPiercing[ind]) ? armorClone
-                                   : ::u.tablesCombine(param.armorPiercing[ind], armorClone, ::max)
+        param.armorPiercing[ind] = (!param.armorPiercing[ind]) ? armor
+                                   : ::u.tablesCombine(param.armorPiercing[ind], armor, ::max)
       }
     }
 
@@ -1178,13 +1144,10 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     local needRicochetData = !isSmokeGrenade && !isSmokeShell
     local ricochetData = needRicochetData && ::g_dmg_model.getRicochetData(param.bulletType)
     if (ricochetData)
-      for (local i = ricochetData.angleProbabilityMap.len() - 1; i >= 0; --i)
-      {
-        local item = ricochetData.angleProbabilityMap[i]
+      foreach(item in ricochetData.angleProbabilityMap)
         addProp(p, ::loc("bullet_properties/angleByProbability",
                          { probability = ::roundToDigits(100.0 * item.probability, 2) }),
                    ::roundToDigits(item.angle, 2) + ::loc("measureUnits/deg"))
-      }
 
     if ("reloadTimes" in param)
     {
@@ -1243,7 +1206,7 @@ function weaponVisual::getArmorPiercingViewData(armorPiercing, dist)
     {
       res = []
       angles = ::u.keys(armorTbl)
-      angles.sort(function(a,b) { return a > b ? -1 : (a < b ? 1 : 0)})
+      angles.sort(@(a,b) a <=> b)
       local headRow = {
         text = ""
         values = ::u.map(angles, function(v) { return { value = v + ::loc("measureUnits/deg") } })

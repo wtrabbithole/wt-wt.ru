@@ -153,7 +153,8 @@
       "hangarPlace": "tank",
       "modelPos": [1806.65,58.9,-1099.33],
       "modelRotation": 75.8,
-      "unitOffset": [0.0,1.0,0.0]
+      "unitOffset": [0.0,1.0,0.0],
+      "cameraEllipsoidWeights": [0.3,0.0,0.0,0.9]
     }
   },
   {
@@ -175,6 +176,12 @@
       },
       {
         "unitOnWater": true
+      },
+      {
+        "cameraEllipsoidWeights": [0.1,0.0,0.0,0.6]
+      },
+      {
+        "cameraMinDistanceToModel": 10.0
       }
     ]
   },
@@ -2007,7 +2014,7 @@
   },
   {
     "backgroundModel": {
-      "fmName": "h-75a-2_france",
+      "fmName": "h-75a-1_france",
       "pos": [2164.0,17.7,-796.3],
       "rotation": 130.0,
       "tag": "country_france",

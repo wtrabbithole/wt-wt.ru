@@ -33,7 +33,7 @@ const SQUAD_REQEST_TIMEOUT = 45000
 
 local DEFAULT_SQUAD_PROPERTIES = {
   maxMembers = 4
-  isApplicationsEnaled = true
+  isApplicationsEnabled = true
 }
 local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
@@ -190,9 +190,25 @@ function g_squad_manager::getInvitedPlayers()
   return squadData.invitedPlayers
 }
 
+function g_squad_manager::isPlayerInvited(uid, name = null)
+{
+  if (uid)
+    return uid in getInvitedPlayers()
+
+  return ::u.search(getInvitedPlayers(), @(player) player.name == name) != null
+}
+
 function g_squad_manager::getApplicationsToSquad()
 {
   return squadData.applications
+}
+
+function g_squad_manager::hasApplicationInMySquad(uid, name = null)
+{
+  if (uid)
+    return uid in getApplicationsToSquad()
+
+  return ::u.search(getApplicationsToSquad(), @(player) player.name == name) != null
 }
 
 function g_squad_manager::getLeaderNick()
@@ -370,17 +386,17 @@ function g_squad_manager::isInvitedMaxPlayers()
   return isSquadFull() || getInvitedPlayers().len() >= maxInvitesCount
 }
 
-function g_squad_manager::isApplicationsEnaled()
+function g_squad_manager::isApplicationsEnabled()
 {
-  return squadData.properties.isApplicationsEnaled
+  return squadData.properties.isApplicationsEnabled
 }
 
 function g_squad_manager::enableApplications(shouldEnable)
 {
-  if (shouldEnable == isApplicationsEnaled())
+  if (shouldEnable == isApplicationsEnabled())
     return
 
-  squadData.properties.isApplicationsEnaled = shouldEnable
+  squadData.properties.isApplicationsEnabled = shouldEnable
 
   updateSquadData()
 }
@@ -657,7 +673,7 @@ function g_squad_manager::leaveSquad(cb = null)
   })
 }
 
-function g_squad_manager::inviteToSquad(uid)
+function g_squad_manager::inviteToSquad(uid, name = null, cb = null)
 {
   if (isInSquad() && !isSquadLeader())
     return
@@ -668,7 +684,12 @@ function g_squad_manager::inviteToSquad(uid)
   if (isInvitedMaxPlayers())
     return ::g_popups.add(null, ::loc("squad/maximum_intitations_sent"))
 
-  local callback = function(response){ ::g_squad_manager.requestSquadData() }
+  local callback = function(response) {
+    if (name && ::isPlayerPS4Friend(name))
+      ::g_psn_session_invitations.sendSquadInvitation(::get_psn_account_id(name));
+
+    ::g_squad_manager.requestSquadData(cb)
+  }
   ::msquad.invitePlayer(uid, callback)
 }
 
@@ -1459,6 +1480,17 @@ function g_squad_manager::startWWBattlePrepare(battleId = null)
 
   updatePresenceSquad()
   updateSquadData()
+}
+
+function g_squad_manager::getLockedCountryData()
+{
+  if (!isPrepareToWWBattle())
+    return null
+
+  return {
+    country = getWwOperationCountry()
+    reasonText = ::loc("worldWar/cantChangeCountryInBattlePrepare")
+  }
 }
 
 function g_squad_manager::cancelWwBattlePrepare()

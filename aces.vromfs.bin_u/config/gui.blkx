@@ -319,17 +319,56 @@
       }
     },
     {
-      "tencent": {
-        "default_chance": 1.0,
-        "login_layer_g1": 0.0,
-        "login_layer_k1": 0.0,
-        "login_layer_e1": 3.25,
-        "login_layer_m1": 3.25,
-        "login_layer_n1": 3.25,
-        "login_layer_r1": 3.25,
-        "login_bkg_1_67_nolayers_jp": 0.0,
-        "login_bkg_1_67_nolayers_ger": 0.0
-      }
+      "tencent": [
+        {
+          "default_chance": 1.0
+        },
+        {
+          "login_layer_a1": 0.0
+        },
+        {
+          "login_layer_g1": 0.0
+        },
+        {
+          "login_layer_k1": 0.0
+        },
+        {
+          "login_layer_l1": 0.0
+        },
+        {
+          "login_layer_n1": 0.0
+        },
+        {
+          "login_layer_p1": 0.0
+        },
+        {
+          "login_layer_v1": 0.0
+        },
+        {
+          "login_layer_e1": 0.0
+        },
+        {
+          "login_layer_m1": 1.0
+        },
+        {
+          "login_layer_n1": 0.0
+        },
+        {
+          "login_layer_r1": 0.0
+        },
+        {
+          "login_layer_u1": 0.0
+        },
+        {
+          "login_bkg_1_63_nolayers_jp": 0.0
+        },
+        {
+          "login_bkg_1_67_nolayers_jp": 0.0
+        },
+        {
+          "login_bkg_1_67_nolayers_ger": 0.0
+        }
+      ]
     }
   ],
   "bullet_icons": {
@@ -382,6 +421,7 @@
     "ac_shell_tank": "ac_shell_tank",
     "apcr_tank": "apcr_tank",
     "apds_tank": "apds_tank",
+    "apds_l15_tank": "apds_tank",
     "apds_fs_tank": "apdsfs_tank",
     "apds_fs_long_tank": "apdsfs_tank",
     "apds_fs_full_body_steel_tank": "apdsfs_tank",
@@ -409,7 +449,9 @@
     "atgm_tank": "atgm",
     "rocket_tank": "rocket_tank",
     "smoke_tank": "smoke_tank",
-    "smoke_grenade_tank": "smoke_screen"
+    "smoke_grenade_tank": "smoke_screen",
+    "he_frag_radio_fuse": "he_frag_proxi_fuze_ship",
+    "he_frag_dist_fuse": "he_frag_dist_fuse_ship"
   },
   "bullets_locId_by_caliber": [
     {
@@ -3155,6 +3197,34 @@
         "h": 0.85,
         "img": "#ui/images/cybercafe"
       },
+      "mod_upgrade_bg": {
+        "w": 1.0,
+        "h": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "img": "#ui/gameuiskin#overdrive_upgrade_bg"
+      },
+      "mod_upgrade": {
+        "w": 0.52,
+        "h": 0.58,
+        "x": 0.24,
+        "y": 0.21,
+        "img": "#ui/gameuiskin#item_upgrade"
+      },
+      "mod_overdrive": {
+        "w": 0.52,
+        "h": 0.58,
+        "x": 0.24,
+        "y": 0.21,
+        "img": "#ui/gameuiskin#item_overdrive"
+      },
+      "mod_upgrade_rank": {
+        "w": 0.24,
+        "h": 0.26,
+        "x": "0.89pw-w",
+        "y": "0.89ph-h",
+        "img": "#ui/gameuiskin#item_rank_1"
+      },
       "clan_medal_bg_diff0": {
         "img": "!#ui/gameuiskin#ca_bg_diff0.png"
       },
@@ -3416,7 +3486,7 @@
       "first_choice_country_japan_army": "#ui/first_choice/japan_army.png",
       "first_choice_country_italy_army": "#ui/first_choice/italy_aviation.png",
       "first_choice_country_france_army": "#ui/first_choice/france_army.png",
-      "first_choice_country_china_army": "#ui/first_choice/china_aviation.png",
+      "first_choice_country_china_army": "#ui/first_choice/china_army.png",
       "first_choice_country_usa_fleet": "#ui/first_choice/usa_fleet.png",
       "first_choice_country_germany_fleet": "#ui/first_choice/germany_fleet.png",
       "first_choice_country_ussr_fleet": "#ui/first_choice/ussr_fleet.png",
@@ -3533,7 +3603,7 @@
       "first_choice_country_japan_army": "#ui/first_choice/japan_army_alt.png",
       "first_choice_country_italy_army": "#ui/first_choice/italy_aviation_alt.png",
       "first_choice_country_france_army": "#ui/first_choice/france_army_alt.png",
-      "first_choice_country_china_army": "#ui/first_choice/china_aviation_alt.png",
+      "first_choice_country_china_army": "#ui/first_choice/china_army_alt.png",
       "first_choice_country_usa_fleet": "#ui/first_choice/usa_fleet_alt.png",
       "first_choice_country_germany_fleet": "#ui/first_choice/germany_fleet_alt.png",
       "first_choice_country_ussr_fleet": "#ui/first_choice/ussr_fleet_alt.png",
@@ -3822,6 +3892,9 @@
         },
         {
           "name": "Germany/air/img_germany_air_10"
+        },
+        {
+          "name": "Germany/air/img_germany_air_11"
         }
       ],
       "Tank": [
@@ -3929,6 +4002,9 @@
         },
         {
           "name": "USA/tanks/img_usa_tank_06"
+        },
+        {
+          "name": "USA/tanks/img_usa_tank_07"
         }
       ],
       "Ship": {
@@ -3984,6 +4060,9 @@
         },
         {
           "name": "USSR/air/img_ussr_air_16"
+        },
+        {
+          "name": "USSR/air/img_ussr_air_17"
         }
       ],
       "Tank": [
@@ -4137,51 +4216,42 @@
         }
       ]
     },
-    "country_france": [
-      {
-        "Aircraft": [
-          {
-            "name": "France/air/img_france_air_01"
-          },
-          {
-            "name": "France/air/img_france_air_02"
-          },
-          {
-            "name": "France/air/img_france_air_03"
-          },
-          {
-            "name": "France/air/img_france_air_04"
-          },
-          {
-            "name": "France/air/img_france_air_05"
-          }
-        ]
-      },
-      {
-        "Tank": [
-          {
-            "name": "France/air/img_france_tank_01"
-          },
-          {
-            "name": "France/air/img_france_tank_02"
-          },
-          {
-            "name": "France/air/img_france_tank_03"
-          },
-          {
-            "name": "France/air/img_france_tank_04"
-          },
-          {
-            "name": "France/air/img_france_tank_05"
-          }
-        ]
-      },
-      {
-        "Tank": {
-          "name": "UK/tanks/img_uk_tank_01"
+    "country_france": {
+      "Aircraft": [
+        {
+          "name": "France/air/img_france_air_01"
+        },
+        {
+          "name": "France/air/img_france_air_02"
+        },
+        {
+          "name": "France/air/img_france_air_03"
+        },
+        {
+          "name": "France/air/img_france_air_04"
+        },
+        {
+          "name": "France/air/img_france_air_05"
         }
-      }
-    ],
+      ],
+      "Tank": [
+        {
+          "name": "France/air/img_france_tank_01"
+        },
+        {
+          "name": "France/air/img_france_tank_02"
+        },
+        {
+          "name": "France/air/img_france_tank_03"
+        },
+        {
+          "name": "France/air/img_france_tank_04"
+        },
+        {
+          "name": "France/air/img_france_tank_05"
+        }
+      ]
+    },
     "other": {
       "CLAN_DUEL_REWARD": "img_eagle"
     }
@@ -4211,6 +4281,13 @@
     },
     "image": {
       "0": "#ui/images/login_award.jpg?P1",
+      "1": "#ui/images/login_award_1.jpg?P1",
+      "2": "#ui/images/login_award_2.jpg?P1",
+      "3": "#ui/images/login_award_3.jpg?P1",
+      "4": "#ui/images/login_award_4.jpg?P1"
+    },
+    "tencent_image": {
+      "0": "#ui/images/login_award_alt.jpg?P1",
       "1": "#ui/images/login_award_1.jpg?P1",
       "2": "#ui/images/login_award_2.jpg?P1",
       "3": "#ui/images/login_award_3.jpg?P1",
@@ -4331,5 +4408,32 @@
       "icon": "!#ui/unitskin#random_bomber",
       "name": "mainmenu/type_bomber"
     }
-  }
+  },
+  "decorator_tags_visible": [
+    {
+      "i": {
+        "tag": "historical"
+      }
+    },
+    {
+      "i": {
+        "tag": "semihistorical"
+      }
+    },
+    {
+      "i": {
+        "tag": "fictional"
+      }
+    },
+    {
+      "i": {
+        "tag": "thunderleague"
+      }
+    },
+    {
+      "i": {
+        "tag": "usergenerated"
+      }
+    }
+  ]
 }

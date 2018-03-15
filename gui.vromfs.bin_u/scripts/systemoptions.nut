@@ -91,19 +91,20 @@
       ::set_blk_value_by_path(blk, desc.blk, anis)
     }
   }
-  antialias = { widgetType="list" def="off" blk="directx/maxaa" restart=true
-    values = [ "off", "2X", "4X" ]
+  msaa = { widgetType="list" def="off" blk="directx/maxaa" restart=true
+    values = [ "off", "on"]
     getFromBlk = function(blk, desc) {
-      local maxaa = ::get_blk_value_by_path(blk, desc.blk, 0)
-      return (maxaa==4)? "4X" : (maxaa==2)? "2X" : "off"
+      local msaa = ::get_blk_value_by_path(blk, desc.blk, 0)
+      return (msaa>0)? "on" :"off"
     }
     setToBlk = function(blk, desc, val) {
-      local maxaa = (val=="4X")? 4 : (val=="2X")? 2 : 0
-      ::set_blk_value_by_path(blk, desc.blk, maxaa)
+      local msaa = (val=="on")? 2 : 0
+      ::set_blk_value_by_path(blk, desc.blk, msaa)
     }
   }
-  postfx_antialiasing = { widgetType="list" def="none" blk="video/postfx_antialiasing" restart=false
-    values = [ "none", "fxaa", "high_fxaa" ]
+  antialiasing = { widgetType="list" def="none" blk="video/postfx_antialiasing" restart=false
+    values = ::is_opengl_driver() ? [ "none", "fxaa", "high_fxaa"] : [ "none", "fxaa", "high_fxaa", "low_taa", "high_taa", "ssaa4x" ]
+    onChanged = "aaClick"
   }
   texQuality = { widgetType="list" def="high" blk="graphics/texquality" restart=true
     init = function(blk, desc) {
@@ -133,10 +134,14 @@
     blkValues = [ 0.7, 0.85, 1.0 ]
     getFromBlk = function(blk, desc) {
       local val = ::get_blk_value_by_path(blk, desc.blk, 1.0)
+      if (::sysopt.getGuiValue("antialiasing") == "ssaa4x")
+        val = 2.0
       return ::find_nearest(val, desc.blkValues)
     }
     setToBlk = function(blk, desc, val) {
       local res = ::getTblValue(val, desc.blkValues, desc.def)
+      if (::sysopt.getGuiValue("antialiasing") == "ssaa4x")
+        res = 2.0
       ::set_blk_value_by_path(blk, desc.blk, res)
     }
   }
@@ -215,15 +220,11 @@
   }
   waterReflection = { widgetType="checkbox" def=true blk="render/waterReflection" restart=false
   }
-  wake = { widgetType="checkbox" def=true blk="render/wake" restart=false
-  }
   shadows = { widgetType="checkbox" def=true blk="render/shadows" restart=false
   }
   rendinstGlobalShadows = { widgetType="checkbox" def=true blk="render/rendinstGlobalShadows" restart=false
   }
   advancedShore = { widgetType="checkbox" def=false blk="graphics/advancedShore" restart=false
-  }
-  motionBlur = { widgetType="checkbox" def=false blk="render/motionBlur" restart=false
   }
   haze = { widgetType="checkbox" def=false blk="render/haze" restart=false
   }
@@ -243,6 +244,12 @@
   }
   foliageReprojection = { widgetType="checkbox" def=true blk="graphics/foliageReprojection" restart=false
   }
+  displacementQuality = { widgetType="slider" def=1 min=0 max=2 blk="graphics/displacementQuality" restart=false
+  }
+  contactShadowsQuality = { widgetType="slider" def=0 min=0 max=2 blk="graphics/contactShadowsQuality" restart=false
+  }
+  staticShadowsOnEffects = { widgetType="checkbox" def=false blk="render/staticShadowsOnEffects" restart=false
+  }
 }
 //------------------------------------------------------------------------------
 /*
@@ -255,18 +262,19 @@
   {k="rendinstGlobalShadows",v={ultralow=false,low=false,medium=false,high=true, max=true, movie=true}}
   {k="ssaoQuality",          v={ultralow=0,low=0,medium=0,high=1,max=2,movie=2}}
   {k="ssrQuality",           v={ultralow=0,low=0,medium=0,high=0,max=0,movie=1}}
+  {k="contactShadowsQuality",v={ultralow=0,low=0,medium=0,high=0, max=1, movie=2}}
   {k="lenseFlares",          v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="shadows",              v={ultralow=false,low=true,medium=true ,high=true ,max=true, movie=true}}
   {k="waterReflection",      v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
-  {k="wake",                 v={ultralow=false, low=false, medium=false, high=true, max=true, movie=true}}
-  {k="motionBlur",           v={ultralow=false,low=false,medium=false,high=false,max=false, movie=false}}
   {k="grass",                v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
+  {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=1, movie=2}}
   {k="tireTracksQuality"     v={ultralow="none",low="none",medium="medium", high="high", max="high", movie="ultrahigh"}, compMode=true}
   {k="waterFoamQuality"      v={ultralow="low",low="low",medium="medium", high="high", max="high", movie="high"}, compMode=true}
   {k="alpha_to_coverage",    v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
-  {k="antialias",            v={ultralow="off",low="off",medium="off",high="off", max="off", movie="2X"}, compMode=true}
-  {k="postfx_antialiasing",  v={ultralow="none",low="none",medium="fxaa", high="fxaa", max="high_fxaa",movie="high_fxaa"}}
+  {k="msaa",                 v={ultralow="off",low="off",medium="off",high="off", max="off", movie="off"}, compMode=true, fullMode=false}
+  {k="antialiasing",         v={ultralow="none",low="none",medium="fxaa", high="high_fxaa",
+    max= ::is_opengl_driver() ? "high_fxaa" : "high_taa",movie= ::is_opengl_driver() ? "high_fxaa" : "high_taa"}}
   {k="enableSuspensionAnimation",v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="haze",                 v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="fxReflection",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
@@ -285,6 +293,7 @@
   {k="advancedShore",        v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
   {k="compatibilityMode",    v={ultralow=true,low=false,medium=false,high=false ,max=false, movie=false}, compMode=true}
   {k="physicsQuality",       v={ultralow=0, low=1, medium=2, high=3, max=4, movie=5}}
+  {k="staticShadowsOnEffects", v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
 ]
 //------------------------------------------------------------------------------
 ::sysopt.mShared =
@@ -363,31 +372,24 @@
     ::sysopt.setGuiValue("grass", (grassRadiusMul > 10))
   }
 
-  setCompatibilityMode = function()
-  {
-    if (::sysopt.getGuiValue("compatibilityMode"))
-    {
-      //::sysopt.mShared.setQualityPreset("ultralow")
+  setCompatibilityMode = function() {
+
+    if (::sysopt.getGuiValue("compatibilityMode")) {
       ::sysopt.setGuiValue("backgroundScale",2)
-      //::sysopt.setGuiValue("texQuality","low")
-      foreach (i in ::sysopt.mQualityPresets)
-      {
+      foreach (i in ::sysopt.mQualityPresets) {
         local enabled = ::getTblValue("compMode", i, false)
         ::sysopt.mShared.enableByCompMode(i.k, enabled)
       }
-      //::sysopt.mShared.enableByCompMode("compatibilityMode", true)
-      //::sysopt.mShared.enableByCompMode("antialias", true)
-    }
-    else
-    {
-      foreach (i in ::sysopt.mQualityPresets)
-        ::sysopt.mShared.enableByCompMode(i.k, true)
+    } else {
+      foreach (i in ::sysopt.mQualityPresets) {
+        local enabled = ::getTblValue("fullMode", i, true)
+        ::sysopt.mShared.enableByCompMode(i.k, enabled)
+      }
       ::sysopt.setGuiValue("compatibilityMode", false)
     }
   }
-
-  enableByCompMode = function(id, enable)
-  {
+  
+  enableByCompMode = function(id, enable) {
     local desc = ::sysopt.getOptionDesc(id)
     local enabled = enable && ::getTblValue("enabled", desc, true)
     ::sysopt.enableGuiOption(id, enabled)
@@ -417,6 +419,29 @@
   {
     if ((::sysopt.getGuiValue("ssrQuality") > 0) && (::sysopt.getGuiValue("ssaoQuality")==0))
       ::sysopt.setGuiValue("ssaoQuality",1)
+  }
+
+  aaClick = function()
+  {
+    if (::sysopt.getGuiValue("antialiasing") == "ssaa4x")
+    {
+      local okFunc = function() {
+        ::sysopt.setGuiValue("backgroundScale", 2)
+        ::sysopt.mShared.presetCheck()
+        ::sysopt.updateGuiNavbar(true)
+      }
+      local cancelFunc = function() {
+        local desc = ::sysopt.getOptionDesc("antialiasing")
+        local restoreVal = desc.prevGuiValue || desc.def
+        ::sysopt.setGuiValue("antialiasing", restoreVal)
+        ::sysopt.mShared.presetCheck()
+        ::sysopt.updateGuiNavbar(true)
+      }
+      ::sysopt.mHandler.msgBox("sysopt_ssaa4x", ::loc("msgbox/ssaa_warning"), [
+          ["ok", okFunc],
+          ["cancel", cancelFunc],
+        ], "cancel", { cancel_fn = cancelFunc })
+    }
   }
 
   compatibilityModeClick = function()
@@ -559,8 +584,8 @@
     container = "sysopt_bottom_left"
     items = [
       "anisotropy"
-      "antialias"
-      "postfx_antialiasing"
+      "msaa"
+      "antialiasing"
       "texQuality"
       "shadowQuality"
       "backgroundScale"
@@ -571,13 +596,15 @@
       "fxDensityMul"
       "grassRadiusMul"
       "ssaoQuality"
+      "contactShadowsQuality"
       "ssrQuality"
       "waterReflectionTexDiv"
       "waterRefraction"
+      "waterFoamQuality"
       "physicsQuality"
+      "displacementQuality"
       "dirtSubDiv"
       "tireTracksQuality"
-      "waterFoamQuality"
     ]
   }
   {
@@ -585,20 +612,19 @@
     items = [
       "shadows"
       "rendinstGlobalShadows"
+      "staticShadowsOnEffects"
       "advancedShore"
       "fxReflection"
-      "wake"
       "waterReflection"
-//      "motionBlur" //temporary disabled
       "haze"
       "softFx"
       "lastClipSize"
       "lenseFlares"
       "enableSuspensionAnimation"
       "alpha_to_coverage"
+      "foliageReprojection"
       "jpegShots"
       "compatibilityMode"
-	  "foliageReprojection"
     ]
   }
 ]
@@ -623,6 +649,7 @@ function sysopt::init()
     desc.uiType <- uiType
     desc.widgetId <- null
     desc.ignoreNextUiCallback <- false
+    desc.prevGuiValue <- null
   }
 
   validateInternalConfigs()
@@ -691,7 +718,7 @@ function sysopt::localize(optionId, valueId)
         return valueId
     }
     case "anisotropy":
-    case "antialias":
+    case "msaa":
       return ::loc("options/" + valueId)
     case "graphicsQuality":
     case "texQuality":
@@ -1019,6 +1046,7 @@ function sysopt::onGuiOptionChanged(obj)
   if (value == curValue)
     return
 
+  desc.prevGuiValue = curValue
   setGuiValue(id, value, true)
   if (("onChanged" in desc) && desc.onChanged)
     desc.onChanged()

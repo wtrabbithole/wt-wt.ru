@@ -11,6 +11,7 @@ local enums = ::require("std/enums.nut")
     isPremium = false
 
     getLocName = function(unit, item, limitedName = false) { return "" }
+    getHeader = @(unit) ""
 
     canBuy = function(unit, item) { return false }
     getAmount = function(unit, item) { return 0 }
@@ -56,6 +57,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
   WEAPON = {
     type = weaponsItem.weapon
     getLocName = function(unit, item, limitedName = false) { return ::getWeaponNameText(unit, false, item.name, " ") }
+    getHeader = @(unit) unit.isAir() ? ::loc("options/secondary_weapons") : ::loc("options/additional_weapons")
     getCost = function(unit, item) {
       return ::Cost(
         ::wp_get_cost2(unit.name, item.name),

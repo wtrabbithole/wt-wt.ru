@@ -1114,10 +1114,15 @@ function is_unit_enabled_for_slotbar(unit, params)
     res = ::game_mode_manager.isUnitAllowedForGameMode(unit)
 
   if (res && params?.missionRules)
-    res = (params.missionRules.getUnitLeftRespawns(unit) != 0
-      && params.missionRules.isUnitEnabledByRandomGroups(unit.name))
-      || (::is_player_unit_alive() && ::get_player_unit_name() == unit.name)
+  {
+    local isAvaliableUnit = params.missionRules.getUnitLeftRespawns(unit) != 0
+      && params.missionRules.isUnitEnabledByRandomGroups(unit.name)
+    local isControlledUnit = !::is_respawn_screen()
+      && ::is_player_unit_alive()
+      && ::get_player_unit_name() == unit.name
 
+    res = isAvaliableUnit || isControlledUnit
+  }
 
   return res
 }

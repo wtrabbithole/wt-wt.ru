@@ -3,6 +3,7 @@ g_personal_unlocks <- {
 
   unlocksArray = []
   newIconWidgetById = {}
+  isArrayValid = false
 
   showAllUnlocksValue = false
 }
@@ -26,11 +27,16 @@ function g_personal_unlocks::update()
       unlocksArray.append(unlockBlk)
       newIconWidgetById[unlockBlk.id] <- null
     }
-
-  ::broadcastEvent("PersonalUnlocksFinishedUpdate")
+  isArrayValid = true
 }
 
-function g_personal_unlocks::getUnlocksArray() { return unlocksArray }
+function g_personal_unlocks::getUnlocksArray()
+{
+  if(!isArrayValid)
+    update()
+
+  return unlocksArray
+}
 
 function g_personal_unlocks::onEventBattleTasksShowAll(params)
 {
@@ -45,17 +51,22 @@ function g_personal_unlocks::onEventSignOut(p)
 
 function g_personal_unlocks::onEventLoginComplete(p)
 {
-  update()
-}
-
-function g_personal_unlocks::onEventPersonalUnlocksRequestUpdate(p)
-{
-  update()
+  invalidateArray()
 }
 
 function g_personal_unlocks::isAvailableForUser()
 {
   return ::has_feature("PersonalUnlocks") && !::u.isEmpty(getUnlocksArray())
+}
+
+function g_personal_unlocks::invalidateArray()
+{
+  isArrayValid = false
+}
+
+function g_personal_unlocks::onEventUnlocksCacheInvalidate(p)
+{
+  invalidateArray()
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_personal_unlocks")

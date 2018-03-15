@@ -57,10 +57,15 @@ local function notifyChanged(listId, entitiesList)
 {
   local subList = getListSubscriptions(listId)
   local notifyList = []
-  gatherCbFromList(subList?[ANY_CHANGED_ID], notifyList)
   if (entitiesList)
+  {
+    gatherCbFromList(subList?[ANY_CHANGED_ID], notifyList)
     foreach(entity in entitiesList)
       gatherCbFromList(subList?[entity], notifyList)
+  }
+  else
+    foreach(entity, list in subList)
+      gatherCbFromList(subList[entity], notifyList)
 
   foreach(cb in notifyList)
     cb()

@@ -252,7 +252,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local res = getEmptyColumnsConfig()
     if (::isAirHaveSecondaryWeapons(unit))
-      res.columns.append([getCellConfig(weaponItemId, ::loc("options/secondary_weapons"), weaponsItem.weapon)])
+      res.columns.append([getCellConfig(weaponItemId, ::g_weaponry_types.WEAPON.getHeader(unit), weaponsItem.weapon)])
 
     local groups = bulletsManager.getBulletsGroups()
     local offset = res.columns.len() < modsInRow ? res.columns.len() : 0
@@ -301,7 +301,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
         local header = !gIdx ? bulGroup.getHeader() : null
         res.columns[col].append(getCellConfig(getBulletsItemId(gIdx), header, weaponsItem.modification, gIdx))
       }
-      return res
+      return addSecondaryWeaponToTankColumns(res)
     }
 
     local totalColumns = gunsCount
@@ -317,6 +317,28 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local maxColumns = (modsInRow / res.itemWidth) || 1
+    if (gunsCount == 3 && maxColumns == 2)
+    {
+      local newColumns = [[], []]
+      local singleItemIdx = -1
+      foreach(idx, column in res.columns)
+      {
+        if (column.len() > 1)
+        {
+          newColumns[0].append(column[0])
+          newColumns[1].append(column[1])
+        } else if (singleItemIdx == -1)
+        {
+          newColumns[0].append(column[0])
+          newColumns[1].append(null)
+          singleItemIdx = idx
+        } else
+          newColumns[1][singleItemIdx] = column[0]
+      }
+      res.columns = newColumns
+      totalColumns = 2
+    }
+
     if (maxColumns < totalColumns)
       for(local i = res.columns.len() - 1; i >= maxColumns; i--)
       {
@@ -324,7 +346,22 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
         res.columns.remove(i)
       }
 
-    return res
+    return addSecondaryWeaponToTankColumns(res)
+  }
+
+  function addSecondaryWeaponToTankColumns(colData)
+  {
+    if (!::isAirHaveSecondaryWeapons(unit))
+      return colData
+
+    local weaponCell = getCellConfig(weaponItemId, ::g_weaponry_types.WEAPON.getHeader(unit), weaponsItem.weapon)
+    local maxColumns = (modsInRow / colData.itemWidth) || 1
+    if (colData.columns.len() < maxColumns)
+      colData.columns.insert(0, [weaponCell])
+    else
+      foreach(idx, column in colData.columns)
+        column.insert(0, idx ? null : weaponCell)
+    return colData
   }
 
   function clearScene()

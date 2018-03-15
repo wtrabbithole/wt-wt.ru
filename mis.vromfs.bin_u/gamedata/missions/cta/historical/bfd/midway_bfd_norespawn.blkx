@@ -216,8 +216,6 @@
       "level": "levels/midway.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/midway_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,12 +223,13 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/midway_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2100,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
       "country_axis": "japan",
       "country_allies": "usa",
-      "windSpeed": [3.0,4.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -285,6 +284,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -475,7 +477,8 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
-            "target": "t1_common_fighter_spawn",
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t1_common_fighters_spawn",
             "team": "A",
             "tags": {
               "type_bomber": false,
@@ -503,7 +506,8 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
-            "target": "t2_common_fighter_spawn",
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t2_common_fighters_spawn",
             "team": "B",
             "tags": {
               "type_bomber": false,
@@ -557,6 +561,9 @@
             },
             {
               "isIndividual": false
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "t1_carrier_01"
@@ -634,6 +641,9 @@
               "isIndividual": false
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t2_carrier_01"
             },
             {
@@ -696,6 +706,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_sq",
             "accuracy": 0.3,
             "effShootingRate": 0.0,
@@ -704,6 +718,18 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "t2_destroyer_add_sq"
             },
@@ -727,6 +753,18 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_aaa_squad"
             },
             {
@@ -745,6 +783,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_airfield_aaa_squad",
             "targetGnd": false,
             "accuracy": 1.0,
@@ -753,6 +795,18 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "t1_artillery_sq"
             },
@@ -786,6 +840,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -793,12 +851,28 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "t1_carrier_sq"
             },
@@ -920,6 +994,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -931,6 +1008,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -1062,6 +1142,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_carrier_sq"
         }
       },
@@ -1091,6 +1174,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_carrier_sq"
         }
       },
@@ -1235,6 +1321,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_sq",
             "target": "landing_area_01"
           }
@@ -1245,6 +1334,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_sq",
             "target": "landing_area_02"
           }
@@ -1293,6 +1385,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_airfield_sq",
           "target": "landing_area_03"
         }
@@ -1341,6 +1436,9 @@
           "check_objects": "one",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_sq"
         }
       },
@@ -1383,6 +1481,9 @@
           "check_objects": "one",
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_airfield_sq"
         }
       },
@@ -1424,6 +1525,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_fleet_squad"
         }
       },
@@ -1458,6 +1562,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_fleet_squad"
         }
       },
@@ -1492,6 +1599,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_airfield_sq"
         }
       },
@@ -1521,6 +1631,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_tank_02"
         }
       },
@@ -1592,6 +1705,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_sq"
         }
       },
@@ -1621,6 +1737,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_sq"
         }
       },
@@ -1693,6 +1812,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_sq",
             "target": "landing_area_01"
           }
@@ -1703,6 +1825,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_sq",
             "target": "landing_area_02"
           }
@@ -1742,6 +1867,9 @@
           "object_type": "isMarked",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_airfield_sq",
           "target": "landing_area_03"
         }
@@ -8172,7 +8300,7 @@
         [-26.1469,0.0,-298.858],
         [0.0,300.0,0.0],
         [298.858,0.0,-26.1469],
-        [1570.39,1000.0,20753.4]
+        [1483.14,1000.0,18757.3]
       ],
       "props": []
     },
@@ -8189,9 +8317,9 @@
     "t1_assault_area": {
       "type": "Sphere",
       "tm": [
-        [5994.29,0.0,-261.719],
-        [0.0,6000.0,0.0],
-        [261.719,0.0,5994.29],
+        [9990.48,0.0,-436.198],
+        [0.0,10000.0,0.0],
+        [436.198,0.0,9990.48],
         [1701.6,1000.0,23752.7]
       ],
       "props": []
@@ -8272,7 +8400,7 @@
         [0.000152588,0.0,300.0],
         [0.0,300.0,0.0],
         [-300.0,0.0,0.000152588],
-        [1525.05,1000.0,-22347.8]
+        [1425.96,1000.0,-20354.6]
       ],
       "props": []
     },
@@ -8289,9 +8417,9 @@
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [-5994.29,0.0,-261.715],
-        [0.0,6000.0,0.0],
-        [261.715,0.0,-5994.29],
+        [-9990.48,0.0,-436.192],
+        [0.0,10000.0,0.0],
+        [436.192,0.0,-9990.48],
         [1655.7,1000.0,-25347.2]
       ],
       "props": []
@@ -8894,23 +9022,23 @@
       "objLayer": 0,
       "props": []
     },
-    "t1_common_fighter_spawn": {
+    "t1_common_fighters_spawn": {
       "type": "Sphere",
       "tm": [
         [-26.1469,0.0,-298.858],
         [0.0,300.0,0.0],
         [298.858,0.0,-26.1469],
-        [1831.35,1000.0,26731.0]
+        [1831.35,500.0,26731.0]
       ],
       "props": []
     },
-    "t2_common_fighter_spawn": {
+    "t2_common_fighters_spawn": {
       "type": "Sphere",
       "tm": [
         [0.000152588,0.0,300.0],
         [0.0,300.0,0.0],
         [-300.0,0.0,0.000152588],
-        [1786.05,1000.0,-28325.4]
+        [1786.03,500.0,-28325.4]
       ],
       "props": []
     }

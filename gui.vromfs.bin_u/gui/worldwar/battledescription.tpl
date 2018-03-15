@@ -50,26 +50,28 @@ tdiv {
             commonTextColor:t='yes'
           }
           activeText {
+            id:t='battle_status_text'
             width:t='fw'
-            text:t='<<getBattleStatusWithCanJoinText>>'
+            text:t=''
             parseTags:t='yes'
           }
         }
         <</showBattleStatus>>
 
         tdiv {
-          id:t='battle_duration'
+          id:t='battle_timer'
           width:t='pw'
           <<^hasBattleDurationTime>>
           display:t='hide'
           <</hasBattleDurationTime>>
           activeText {
-            text:t='<<?debriefing/BattleTime>><<?ui/colon>>'
+            id:t='battle_timer_desc'
+            text:t=''
             commonTextColor:t='yes'
           }
           activeText {
-            id:t='battle_duration_text'
-            text:t='<<getBattleDurationTime>>'
+            id:t='battle_timer_value'
+            text:t=''
           }
         }
       }

@@ -6,7 +6,6 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
   //[::ES_UNIT_TYPE_TANK] = "",
 }
 
-const MIN_UPGR_CREW_TUTORIAL_SKILL_POINTS = 40
 
 ::req_time_in_mode <- 60 //req time in mode when no need check tutorial
 ::instant_domination_handler <- null
@@ -1179,7 +1178,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     ::saveLocalByAccount(id, true)
   }
 
-  function checkUpgradeCrewTutor()
+  function checkUpgradeCrewTutorial()
   {
     if (!::g_login.isLoggedIn())
       return
@@ -1187,13 +1186,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_crew.isAllCrewsMinLevel())
       return
 
-    local curCrew = getCurCrew()
-    if (!curCrew || ::g_crew.getCrewSkillPoints(curCrew) < MIN_UPGR_CREW_TUTORIAL_SKILL_POINTS)
-      return
-
-    local tutorialCrewObj = getCurrentCrewSlot()
-    if (tutorialCrewObj)
-      tutorialPressToCrewObj(curCrew.idCountry, curCrew.idInCountry)
+    tryToStartUpgradeCrewTutorial()
   }
 
   function getCurrentCrewSlot()
@@ -1202,17 +1195,29 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return slotbar && slotbar.getCurrentCrewSlot()
   }
 
-  function tutorialPressToCrewObj(tutorialCrewCountryId, tutorialCrewIdInCountry)
+  function tryToStartUpgradeCrewTutorial()
   {
+    local curCrew = getCurCrew()
+    if (!curCrew)
+      return
+
+    local curCrewSlot = getCurrentCrewSlot()
+    if (!curCrewSlot)
+      return
+
+    local tutorialPageId = ::g_crew.getSkillPageIdToRunTutorial(curCrew)
+    if (!tutorialPageId)
+      return
+
     local inst = this
     local steps = [
       {
-        obj = [getCurrentCrewSlot()]
+        obj = [curCrewSlot]
         text = ::loc("tutorials/upg_crew/skill_points_info") + " " + ::loc("tutorials/upg_crew/press_to_crew")
         actionType = tutorAction.OBJ_CLICK
         cb = function()
         {
-          openUnitActionsList(getCurrentCrewSlot(), false, true)
+          openUnitActionsList(curCrewSlot, false, true)
         }
       },
       {
@@ -1220,14 +1225,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
         waitTime = 0.5
       },
       {
-        obj = [(@(inst) function() {
-          return inst.getCurrentCrewSlot().findObject("crew")
-        })(inst)]
+        obj = [function() {
+          return curCrewSlot.findObject("crew")
+        }]
         text = ::loc("tutorials/upg_crew/select_crew")
         actionType = tutorAction.OBJ_CLICK
-        cb = (@(tutorialCrewCountryId, tutorialCrewIdInCountry) function() {
-          ::gui_modal_crew(tutorialCrewCountryId, tutorialCrewIdInCountry, true)
-        })(tutorialCrewCountryId, tutorialCrewIdInCountry)
+        cb = function() {
+          ::gui_modal_crew(curCrew.idCountry, curCrew.idInCountry, tutorialPageId, true)
+        }
       }
     ]
     ::gui_modal_tutor(steps, this)

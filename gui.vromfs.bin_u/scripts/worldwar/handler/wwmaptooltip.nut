@@ -145,6 +145,7 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
         descriptionTimer = ::Timer(
           scene, 1, @() updateSelectedBattle(hoveredBattle), this, true
         )
+        updateSelectedBattle(hoveredBattle)
       }
     }
   }
@@ -178,16 +179,34 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene) || !hoveredBattle)
       return
 
-    local durationContainerObj = scene.findObject("battle_duration")
-    if (!::check_obj(durationContainerObj))
+    local battleTimerObj = scene.findObject("battle_timer")
+    if (!::check_obj(battleTimerObj))
       return
-    local durationTimerObj = durationContainerObj.findObject("battle_duration_text")
-    if (!::check_obj(durationTimerObj))
+    local battleTimerDescObj = battleTimerObj.findObject("battle_timer_desc")
+    if (!::check_obj(battleTimerDescObj))
+      return
+    local battleTimerValueObj = battleTimerObj.findObject("battle_timer_value")
+    if (!::check_obj(battleTimerValueObj))
       return
 
     local battleView = hoveredBattle.getView()
-    durationTimerObj.setValue(battleView.getBattleDurationTime())
-    durationContainerObj.show(battleView.hasBattleDurationTime())
+    local hasDurationTime = battleView.hasBattleDurationTime()
+    local hasActivateLeftTime = battleView.hasBattleActivateLeftTime()
+
+    local descText = hasDurationTime ? ::loc("debriefing/BattleTime")
+      : hasActivateLeftTime ? ::loc("worldWar/can_join_countdown")
+      : ""
+    local descValue = hasDurationTime ? battleView.getBattleDurationTime()
+      : hasActivateLeftTime ? battleView.getBattleActivateLeftTime()
+      : ""
+
+    battleTimerDescObj.setValue(descText + ::loc("ui/colon"))
+    battleTimerValueObj.setValue(descValue)
+    battleTimerObj.show(hasDurationTime || hasActivateLeftTime)
+
+    local statusObj = scene.findObject("battle_status_text")
+    if (::check_obj(statusObj))
+      statusObj.setValue(battleView.getBattleStatusWithCanJoinText(::ww_get_player_side()))
   }
 
   function getWWMapIdHoveredObjectId()

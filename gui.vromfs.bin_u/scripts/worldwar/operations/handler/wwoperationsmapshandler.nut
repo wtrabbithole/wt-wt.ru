@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 ::dagui_propid.add_name_id("countryId")
 ::dagui_propid.add_name_id("mapId")
 
@@ -27,6 +29,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   hasClanOperation = false
   hasRightsToQueueClan = false
+  hasSelectAllCountriesBlock = false
 
   queuesJoinTime = 0
 
@@ -95,13 +98,16 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   {
     hasClanOperation = ::g_ww_global_status.getMyClanOperation() != null
     hasRightsToQueueClan = ::g_clans.hasRightsToQueueWWar()
+    hasSelectAllCountriesBlock = ::g_world_war.getSetting("isAbleToSelectAllCountries", false)
 
     collectMaps()
     collectCountryData()
 
     findMapForSelection()
     fillMapsList()
-    fillSelectAllCountriesList()
+
+    if (hasSelectAllCountriesBlock)
+      fillSelectAllCountriesList()
 
     updateWindow()
   }
@@ -202,6 +208,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         hasWaitAnim = true
         checkbox = countries
         isActive = map.isActive()
+        unseenIcon = map.isAnnounceAndNotDebug() && bhvUnseen.makeConfigStr(SEEN.WW_MAPS_AVAILABLE, mapId)
       }
       mapsByChapter[chapterId].append({ weight = weight, title = title, view = view, map = map })
     }
@@ -298,6 +305,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     _wasSelectedOnce = true
 
+    updateUnseen()
     updateDescription()
     updateButtons()
   }
@@ -575,7 +583,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         membersIconObj.show(map.getQueue().getArmyGroupsAmountTotal() > 0)
     }
 
-    local obj = ::showBtn("select_all_countries", show, scene)
+    local obj = ::showBtn("select_all_countries", isSelectAllCountriesBlockVisible(), scene)
       if (obj)
         obj.enable(isQueueJoiningEnabled)
   }
@@ -600,12 +608,18 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local containerObj = scene.findObject("panel_right")
     if (::checkObj(containerObj))
     {
+      local modeId = "Mode" + (isSelectAllCountriesBlockVisible() ? "Clans" : "Normal")
       foreach (p in [ "height", "pos" ])
-        containerObj[p] = containerObj[p + "Mode" + (isModeClan ? "Clans" : "Normal")]
+        containerObj[p] = containerObj[p + modeId]
       containerObj["width"] = containerObj["widthModeNormal"] + "+" + flagsWidth
     }
 
     updateWindow()
+  }
+
+  function isSelectAllCountriesBlockVisible()
+  {
+    return hasSelectAllCountriesBlock && mode == WW_OM_WND_MODE.CLAN
   }
 
   function getMapStatusText()
@@ -735,6 +749,19 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       switchMode(WW_OM_WND_MODE.PLAYER)
     else if (mode == WW_OM_WND_MODE.PLAYER)
       base.goBack()
+  }
+
+  function onDestroy()
+  {
+    seenWWMapsAvailable.markSeen()
+  }
+
+  function updateUnseen()
+  {
+    if (!selMap)
+      return
+
+    seenWWMapsAvailable.markSeen(selMap.name)
   }
 
   function onEventWWGlobalStatusChanged(p)

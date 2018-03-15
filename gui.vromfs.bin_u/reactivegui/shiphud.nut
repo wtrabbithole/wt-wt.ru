@@ -19,7 +19,7 @@ local shipHud = @(){
 
 
 return {
-  size = [sw(100), sh(100)]
+  size = flex()
   valign = VALIGN_BOTTOM
   halign = HALIGN_LEFT
   children = [shipHud]

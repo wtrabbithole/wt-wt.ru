@@ -20,6 +20,7 @@ modIcon{
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
 
+    <<@modUpgradeIcon>>
     upgradeImg { id:t='upgrade_img'; upgradeStatus:t=''; }
   }
   itemWinkBlock { buttonWink { _transp-timer:t='0';} }

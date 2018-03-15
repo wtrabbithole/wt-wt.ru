@@ -34,7 +34,7 @@ local BhvUnseen = class
     {
       valueTbl = ::parse_json(value)
       if (!valueTbl.len())
-        valueTbl = { listId = value}
+        valueTbl = value.len() ? { listId = value } : null
     }
 
     if (!valueTbl?.listId)

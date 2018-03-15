@@ -111,7 +111,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
       items.push(
         {
           id = memberData.uid
-          pilotIcon = "#ui/images/avatars/" + memberData.pilotIcon
+          pilotIcon = memberData.pilotIcon
         }
       )
 
@@ -145,7 +145,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!isAvailable || !obj)
       return
 
-    obj.setValue(::g_squad_manager.isApplicationsEnaled())
+    obj.setValue(::g_squad_manager.isApplicationsEnabled())
     obj.enable(::g_squad_manager.canChangeReceiveApplications())
   }
 
@@ -204,11 +204,11 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!obj)
       return
     local value = obj.getValue()
-    if (value == ::g_squad_manager.isApplicationsEnaled())
+    if (value == ::g_squad_manager.isApplicationsEnabled())
       return
 
     ::g_squad_manager.enableApplications(value)
-    if (!::g_squad_manager.isApplicationsEnaled() && ::g_squad_manager.getApplicationsToSquad().len() > 0)
+    if (!::g_squad_manager.isApplicationsEnabled() && ::g_squad_manager.getApplicationsToSquad().len() > 0)
       msgBox("denyAllMembershipApplications", ::loc("squad/ConfirmDenyApplications"),
         [
           ["yes", function() { ::g_squad_manager.denyAllAplication() }],

@@ -99,7 +99,8 @@ class ::WwUnit
   {
     local presetData = ::getWeaponTypeIcoByWeapon(name, addPreset ? weaponPreset : "")
     local presetText = !addPreset || weaponPreset == "" ? "" :
-      ::getWeaponInfoText(unit, false, weaponPreset, " ", INFO_DETAIL.SHORT, true)
+      ::getWeaponInfoText(unit,
+        { isPrimary = false, weaponPreset = weaponPreset, detail = INFO_DETAIL.SHORT, needTextWhenNoWeapons = false })
 
     local nameText = getName()
     if (needShopInfo && unit && !isControlledByAI() && !unit.canUseByPlayer())

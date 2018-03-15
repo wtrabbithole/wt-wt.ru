@@ -70,6 +70,7 @@
 
     mission_item_text {
       id:t = 'txt_<<id>>'
+      top:t='50%ph-50%h'
       text:t = '<<itemText>>'
     }
   }

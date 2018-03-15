@@ -9,7 +9,6 @@
   "aiMapCoord1": [32768.0,32768.0],
   "minAreaSize": [12000.0,12000.0],
   "gridSteps": [2048.0,2048.0],
-  "gridZeroPoint": [-32768.0,-32768.0],
   "gridSize": [16384.0,16384.0],
   "aiTanksMapCoord0": [0.0,0.0],
   "aiTanksMapCoord1": [2048.0,2048.0],
@@ -33,8 +32,9 @@
   "lastclip_horizon": true,
   "wind_scale": 0.8,
   "max_wind_strength": 2.5,
-  "wetnessPowerScale": 0.5,
-  "wetnessFreq": 0.5,
+  "puddlesPowerScale": 1.0,
+  "puddlesSpread": 0.5,
+  "layeredFogHeightOffset": 342.0,
   "earth": {
     "earthWorldEnabled": true,
     "earthWorldMin": [-32768.0,-32768.0],
@@ -352,6 +352,47 @@
     },
     {
       "groundSkin": "default"
+    }
+  ],
+  "micro_details": [
+    {
+      "micro_detail": "microdetail_stone_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_scan_gravel_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_sand_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_soil_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_none_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_grass_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_forest_floor_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_fabric_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_wood_b_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_metal_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n*"
+    },
+    {
+      "land_micro_details_uv_scale": 0.75
     }
   ],
   "forceTexLQ": [

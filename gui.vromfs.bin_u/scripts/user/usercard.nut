@@ -4,7 +4,17 @@ local avatars = ::require("scripts/user/avatars.nut")
 
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
+::stats_ships <- [
+  "ship"
+  "torpedo_boat"
+  "gun_boat"
+  "torpedo_gun_boat"
+  "submarine_chaser"
+  "destroyer"
+  "naval_ferry_barge"
+]
 ::stats_fm.extend(::stats_tanks)
+::stats_fm.extend(::stats_ships)
 ::stats_config <- [
   {
     name = "mainmenu/titleVersus"
@@ -150,6 +160,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   lbMode  = ""
   lbModesList = null
 
+  curPlayerExternalIds = null
+
   function initScreen()
   {
     if (!scene || !info || !(("uid" in info) || ("id" in info) || ("name" in info)))
@@ -157,7 +169,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     player = {}
     foreach(pName in ["name", "uid", "id"])
-      if (pName in info)
+      if (pName in info && info[pName] != "")
         player[pName] <- info[pName]
     if (!("name" in player))
       player.name <- ""
@@ -195,7 +207,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (isMyPage)
-      fillExternalIds(externalIDsService.getSelfExternalIds())
+      updateExternalIdsData(externalIDsService.getSelfExternalIds())
 
     if (taskId < 0)
       return notFoundPlayerMsg()
@@ -369,22 +381,32 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::fill_profile_summary(scene.findObject("stats_table"), player.summary, curMode)
   }
 
-  function onEventUpdateExternalsIDsTexts(params)
+  function onEventContactsGroupUpdate(p)
   {
-    if (!("request" in params) || !("externalIds"in params))
-      return
-
-    if (("uid" in player && "uid" in params.request && player.uid == params.request.uid) ||
-        ("id" in player && "playerId" in params.request && player.id == params.request.playerId))
-      fillExternalIds(params.externalIds)
+    updateButtons()
   }
 
-  function fillExternalIds(externalIds)
+  function onEventUpdateExternalsIDs(params)
   {
-    fillAdditionalName(::getTblValue("steamName", externalIds, ""), "steamName")
-    fillAdditionalName(::getTblValue("facebookName", externalIds, ""), "facebookName")
-//    if (::get_platform() == "ps4")
-//      fillAdditionalName(::getTblValue("psnName", externalIds, ""), "psnName")
+    if (!(params?.externalIds))
+      return
+
+    if (player?.uid != params?.request?.uid && player?.id != params?.request?.playerId)
+      return
+
+    updateExternalIdsData(params.externalIds)
+  }
+
+  function updateExternalIdsData(externalIdsData)
+  {
+    curPlayerExternalIds = externalIdsData
+
+    fillAdditionalName(curPlayerExternalIds?.steamName ?? "", "steamName")
+    fillAdditionalName(curPlayerExternalIds?.facebookName ?? "", "facebookName")
+//    if (::is_platform_ps4)
+//      fillAdditionalName(curPlayerExternalIds?.psnName ?? "", "psnName")
+
+    showSceneBtn("btn_xbox_profile", ::is_platform_xboxone && (curPlayerExternalIds?.xboxId ?? "") != "")
   }
 
   function fillAdditionalName(name, link)
@@ -393,11 +415,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local nameObj = scene.findObject("profile-currentUser-" + link)
-    local data = ""
-    if (name != "")
-      data = format(::loc("profile/" + link), name)
-    if (::checkObj(nameObj))
-      nameObj.setValue(data)
+    if (!::check_obj(nameObj))
+      return
+
+    local data = name == "" ? "" : ::format(::loc("profile/" + link), name)
+    nameObj.setValue(data)
   }
 
   function fillClanInfo(playerData)
@@ -971,13 +993,15 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!isFriend) bText = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
       }
 
+    local isXBoxOnePlayer = ::is_player_from_xbox_one(player.name)
+    local needShowPlayerContactAction = !::is_platform_xboxone || isXBoxOnePlayer
     local sheet = getCurSheet()
     local showStatBar = infoReady && sheet=="Statistics"
     local showProfBar = infoReady && !showStatBar
     local buttonsList = {
                           paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
-                          btn_friendAdd = showProfBar && fText!=""
-                          btn_blacklistAdd = showProfBar && bText!=""
+                          btn_friendAdd = showProfBar && needShowPlayerContactAction && !::isPlayerPS4Friend(player.name) && fText!=""
+                          btn_blacklistAdd = showProfBar && needShowPlayerContactAction && bText!=""
                           btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
                           btn_complain = showProfBar && !isMe
                         }
@@ -1009,8 +1033,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function modifyPlayerInList(listName)
   {
-    ::editContactMsgBox(player, listName, !::isPlayerInContacts(player.uid, listName),
-                        this, updateButtons)
+    ::editContactMsgBox(player, listName, !::isPlayerInContacts(player.uid, listName))
   }
 
   function onFriendAdd()
@@ -1027,6 +1050,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (infoReady && ("uid" in player))
       ::gui_modal_complain(player)
+  }
+
+  function onOpenXboxProfile()
+  {
+    ::xbox_show_profile_card(curPlayerExternalIds?.xboxId ?? "")
   }
 
   function onStatsCountryChange(obj)
@@ -1082,7 +1110,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (curSheet == "Statistics")
       return getObj("countries_boxes")
     if (curSheet == "Profile")
-      return getObj("leaderboards_stats_row")
+      return getObj("country_stats")
     return null
   }
 
@@ -1091,6 +1119,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local curSheet = getCurSheet()
     if (curSheet == "Statistics")
       return getObj("units_boxes")
+    if (curSheet == "Profile")
+      return getObj("leaderboards_stats_row")
     return null
   }
 
@@ -1155,6 +1185,9 @@ function fill_profile_summary(sObj, summary, diff)
       {
         if (::isInArray(::stats_fm[i], ::stats_tanks) && !::has_feature("Tanks"))
           continue
+        if (::isInArray(::stats_fm[i], ::stats_ships) && !::has_feature("Ships"))
+          continue
+
         local rowId = "row_" + idx + "_" + i
         item.fm = ::stats_fm[i]
         data += ::build_profile_summary_rowData(item, summary, diff, rowId)

@@ -1,4 +1,5 @@
 local platformModule = require("scripts/clientState/platform.nut")
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 function showClanPage(id, name, tag)
 {
@@ -293,7 +294,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     local buttonsList = {
       btn_showRequests = ((isMyClan && (isInArray("MEMBER_ADDING", myRights) || isInArray("MEMBER_REJECT", myRights))) || adminMode) && clanData.candidates.len() > 0,
-      btn_leaveClan = isMyClan && (!hasLeaderRight || getLeadersCount() > 1),
+      btn_leaveClan = isMyClan && (!hasLeaderRight || ::g_clans.getLeadersCount(clanData) > 1),
       btn_edit_clan_info = ::ps4_is_ugc_enabled() && ((isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode)
       btn_upgrade_clan = clanData.type.getNextType() != ::g_clan_type.UNKNOWN && (adminMode || isMyClan && hasLeaderRight)
       btn_showBlacklist = isMyClan && isInArray("MEMBER_BLACKLIST", myRights) && clanData.blacklist.len()
@@ -840,34 +841,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       curPlayer = row.player_nick
   }
 
-  function onDismissMember()
-  {
-    if ((!isMyClan || !isInArray("MEMBER_DISMISS", myRights)) && !clan_get_admin_editor_mode())
-      return;
-    if (!curPlayer)
-      return;
-    local uid = getClanMemberUid(curPlayer);
-
-    ::gui_modal_comment(
-      null,
-      ::loc("clan/writeCommentary"),
-      ::loc("clan/btnDismissMember"),
-      function(comment) {
-        local onSuccess = function() {
-          ::broadcastEvent("ClanMemberDismissed")
-          ::g_popups.add("", ::loc("clan/memberDismissed"))
-        }
-
-        local taskId = ::clan_request_dismiss_member(uid, comment)
-
-        if (!::clan_get_admin_editor_mode())
-          ::sync_handler_simulate_signal("clan_info_reload")
-
-        ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess)
-      }
-    )
-  }
-
   function onChangeMembershipRequirementsWnd()
   {
     if (::has_feature("Clans") && ::has_feature("ClansMembershipEditor")){
@@ -879,41 +852,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
       notAvailableYetMsgBox();
-  }
-
-  function onChangeRole()
-  {
-    if ((!isMyClan || !isInArray("MEMBER_ROLE_CHANGE", myRights)) && !clan_get_admin_editor_mode())
-      return;
-
-    if (!curPlayer)
-      return;
-
-    if (!clan_get_admin_editor_mode() && curPlayer == ::my_user_name
-        && ::isInArray("LEADER", myRights) && getLeadersCount()<=1)
-      return msgBox("clan_cant_change_role", ::loc("clan/leader/cant_change_my_role"), [["ok"]], "ok")
-
-    local changeRolePlayer = {
-      uid = getClanMemberUid(curPlayer),
-      name = curPlayer,
-      rank = getClanMemberRank(curPlayer)
-    };
-
-    ::gui_start_modal_wnd(::gui_handlers.clanChangeRoleModal,
-      {
-        changeRolePlayer = changeRolePlayer,
-        clanType = clanData.type
-      });
-  }
-
-  function onShowMemberActivity()
-  {
-    if (curPlayer)
-      ::gui_start_modal_wnd(::gui_handlers.clanActivityModal,
-      {
-        clanData = clanData,
-        curPlayerName = curPlayer
-      })
   }
 
   function onOpenClanBlacklist()
@@ -937,138 +875,18 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!curPlayer)
       return
 
-    local isMe     = curPlayer == ::my_user_name
-    local uid      = getPlayerUid(curPlayer)
-    local isFriend = uid !=null && ::isPlayerInFriendsGroup(uid)
-    local isBlock  = uid !=null && ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
+    local curMember = ::u.search(clanData.members, (@(member) member.nick == curPlayer).bindenv(this))
+    if (!curMember)
+      return
 
-    local inSquad = ::g_squad_manager.isInSquad()
-    local meLeader = ::g_squad_manager.isSquadLeader()
-    local inMySquad = ::g_squad_manager.isInMySquad(curPlayer, false)
-
-    local menu = [
-      {
-        text = ::loc("contacts/message")
-        show = !isMe
-        action = (@(curPlayer) function() { ::openChatPrivate(curPlayer, this) })(curPlayer)
-      }
-      {
-        text = ::loc("mainmenu/btnUserCard")
-        action = (@(curPlayer) function() { ::gui_modal_userCard({ name = curPlayer }) })(curPlayer)
-      }
-      {
-        text = ::loc("clan/activity")
-        show = ::has_feature("ClanActivity")
-        action = (@(curPlayer) function() { onShowMemberActivity() })(curPlayer)
-      }
-      {
-        text = ::loc("squad/invite_player")
-        show = !isMe && !isBlock && ::g_squad_manager.canInviteMember(uid)
-        action = function() {
-          ::find_contact_by_name_and_do(curPlayer, ::g_squad_manager,
-                                        function(contact)
-                                        {
-                                          if (contact)
-                                            inviteToSquad(contact.uid)
-                                        })
-        }
-      }
-      {
-        text = ::loc("squad/remove_player")
-        show = !isMe && meLeader && inMySquad
-        action = (@(curPlayer) function() { ::g_squad_manager.dismissFromSquadByName(curPlayer) })(curPlayer)
-      }
-      {
-        text = ::loc("contacts/friendlist/add")
-        show = !isMe && ::has_feature("Friends") && !isFriend && !isBlock
-        action = (@(curPlayer) function() { ::editContactMsgBox({name = curPlayer}, ::EPL_FRIENDLIST, true, this) })(curPlayer)
-      }
-      {
-        text = ::loc("contacts/friendlist/remove")
-        show = isFriend
-        action = (@(curPlayer) function() { ::editContactMsgBox({name = curPlayer}, ::EPL_FRIENDLIST, false, this) })(curPlayer)
-      }
-      {
-        text = ::loc("contacts/blacklist/add")
-        show = !isMe && !isFriend && !isBlock
-        action = (@(curPlayer) function() { ::editContactMsgBox({name = curPlayer}, ::EPL_BLOCKLIST, true, this) })(curPlayer)
-      }
-      {
-        text = ::loc("contacts/blacklist/remove")
-        show = isBlock
-        action = (@(curPlayer) function() { ::editContactMsgBox({name = curPlayer}, ::EPL_BLOCKLIST, false, this) })(curPlayer)
-      }
-      {
-        text = ::loc("clan/btnChangeRole")
-        show = (isMyClan
-                && isInArray("MEMBER_ROLE_CHANGE", myRights)
-                && hasRankToChangeRoles()
-                && getClanMemberRank(curPlayer) < clan_get_role_rank(clan_get_my_role())
-               )
-               || clan_get_admin_editor_mode()
-        action = (@(curPlayer) function() { onChangeRole() })(curPlayer)
-      }
-      {
-        text = ::loc("clan/btnDismissMember")
-        show = !isMe && isMyClan && isInArray("MEMBER_DISMISS", myRights) && (getClanMemberRank(curPlayer) < clan_get_role_rank(clan_get_my_role()))
-               || clan_get_admin_editor_mode()
-        action = (@(curPlayer) function() { onDismissMember() })(curPlayer)
-      }
-    ]
+    local menu = playerContextMenu.getActions(null, {
+      uid = curMember.uid
+      playerName = curMember.nick
+      position = position
+      clanData = clanData
+    })
 
     ::gui_right_click_menu(menu, this, position)
-  }
-
-  function getClanMemberUid(name)
-  {
-    local uid = ""
-    foreach(member in clanData.members)
-      if (member.nick == name)
-      {
-        uid = member.uid
-        break
-      }
-    return uid
-  }
-
-  function getLeadersCount()
-  {
-    local count = 0
-    foreach(member in clanData.members)
-    {
-      local rights = ::clan_get_role_rights(member.role)
-      if (::isInArray("LEADER", rights) ||
-          ::isInArray("DEPUTY", rights))
-        count++
-    }
-    return count
-  }
-
-  function getClanMemberRank(name)
-  {
-    local rank = 0
-    foreach(member in clanData.members)
-      if (member.nick == name)
-      {
-        rank = ::clan_get_role_rank(member.role)
-        break
-      }
-    return rank
-  }
-
-  function hasRankToChangeRoles()
-  {
-    local myRank = clan_get_role_rank(clan_get_my_role());
-    local rolesNumber = 0;
-
-    for (local role = 0; role<::ECMR_MAX_TOTAL; role++)
-    {
-       local rank = clan_get_role_rank(role);
-       if (rank != 0 && rank < myRank)
-         rolesNumber++;
-    }
-
-    return (rolesNumber > 1);
   }
 
   function onMembershipReq(obj = null)
@@ -1103,42 +921,11 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventClanMemberDismissed(p)
   {
-    if (!::clan_get_admin_editor_mode())
+    if (::clan_get_admin_editor_mode())
       ::sync_handler_simulate_signal("clan_info_reload")
 
     if (::clan_get_admin_editor_mode())
       reinitClanWindow()
-  }
-
-  function complainToClan(clanId)
-  {
-    if (!::tribunal.canComplaint())
-      return
-    taskId = ::clan_request_info(clanId, "", "")
-    if (taskId >= 0)
-    {
-      ::set_char_cb(this, slotOpCb)
-      showTaskProgressBox()
-      afterSlotOp = function(){
-        local clanData = ::get_clan_info_table()
-        openClanComplainWnd(clanData)
-      }
-    }
-  }
-
-  function openClanComplainWnd(clanData)
-  {
-    local leaderRoleId = ::ECMR_LEADER
-    local leader = null
-    foreach(member in clanData.members)
-      if(member.role == leaderRoleId)
-      {
-        leader = member
-        break
-      }
-    if(leader == null)
-      leader = clanData.members[0]
-    ::gui_modal_complain({name = leader.nick, userId = leader.uid, clanData = clanData})
   }
 
   function onEditClanInfo()
@@ -1153,7 +940,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onClanComplain()
   {
-    openClanComplainWnd(clanData)
+    ::g_clans.openComplainWnd(clanData)
   }
 
   function onClanAction(obj)

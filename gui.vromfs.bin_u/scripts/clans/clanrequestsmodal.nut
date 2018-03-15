@@ -1,3 +1,5 @@
+local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
+
 function showClanRequests(candidatesData, clanId, owner)
 {
   ::gui_start_modal_wnd(::gui_handlers.clanRequestsModal,
@@ -26,7 +28,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    myRights = clan_get_role_rights(clan_get_admin_editor_mode() ? ::ECMR_CLANADMIN : clan_get_my_role())
+    myRights = ::g_clans.getMyClanRights()
     memListModified = false
     local isMyClan = !::my_clan_info ? false : (::my_clan_info.id == clanId ? true : false)
     clanId = isMyClan ? "-1" : clanId
@@ -166,32 +168,8 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!curCandidate)
       return
 
-    local menu = [
-      {
-        text = ::loc("clan/requestApprove")
-        show = isInArray("MEMBER_ADDING", myRights) || clan_get_admin_editor_mode()
-        action = function() { onRequestApprove() }
-      }
-      {
-        text = ::loc("clan/requestReject")
-        show = isInArray("MEMBER_REJECT", myRights) || clan_get_admin_editor_mode()
-        action = function() { onRequestReject() }
-      }
-      {
-        text = ::loc("clan/blacklistAdd")
-        show = isInArray("MEMBER_BLACKLIST", myRights)
-        action = @() ::g_clans.blacklistAction(curCandidate.uid, true)
-      }
-      {
-        text = ::loc("contacts/message")
-        action = (@(curCandidate) function() { ::openChatPrivate(curCandidate.nick, this) })(curCandidate)
-      }
-      {
-        text = ::loc("mainmenu/btnUserCard")
-        action = (@(curCandidate) function() { ::gui_modal_userCard({ uid = curCandidate.uid }) })(curCandidate)
-      }
-    ]
-    ::gui_right_click_menu(menu, this, position);
+    local menu = clanContextMenu.getRequestActions(clanId, curCandidate.uid)
+    ::gui_right_click_menu(menu, this, position)
   }
 
   function onRequestApprove()
@@ -213,13 +191,14 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, candidate in rowTexts)
       if (candidate.nick.value == name)
       {
-        rowTexts.remove(idx);
+        rowTexts.remove(idx)
         foreach(idx, player in candidatesList)
           if (player.nick == name)
           {
             candidatesList.remove(idx)
             break
           }
+        break
       }
 
     if (rowTexts.len() > 0)

@@ -28,10 +28,11 @@
                 "id": "btn_profile_icon",
                 "_on_click": "onChangePilotIcon",
                 "class": "profileImg",
-                "img": {
+                "div": {
                   "id": "profile-icon",
                   "size": "pw,ph",
-                  "background-image": "#ui/images/avatars/cardicon_default"
+                  "behavior": "bhvAvatar",
+                  "isFull": "yes"
                 },
                 "ButtonImg": {
                   "style": "pos:pw - w - 4@dp, ph - h - 4@dp; height:@buttonIconHeight;"
@@ -183,6 +184,7 @@
                 "tdiv": {
                   "id": "country_stats_nest",
                   "width": "75%pw",
+                  "height": "fh",
                   "pos": "50%pw-50%w, 0",
                   "position": "relative"
                 }

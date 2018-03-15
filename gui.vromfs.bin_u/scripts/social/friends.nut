@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 ::no_dump_facebook_friends <- {}
 ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS <- 200
 ::PS4_UPDATE_TIMER_LIMIT <- 300000
@@ -9,7 +11,7 @@
 
 local ps4TitleId = ::is_platform_ps4? ::ps4_get_title_id() : ""
 
-function addSocialFriends(blk, group)
+function addSocialFriends(blk, group, silent = false)
 {
   local addedFriendsNumber = 0
   local resultMessage = ""
@@ -24,6 +26,11 @@ function addSocialFriends(blk, group)
       ::addContactGroup(group)
     addedFriendsNumber = ::addPlayersToContacts(players, group)
   }
+
+  ::on_facebook_destroy_waitbox()
+  if (silent)
+    return
+
   if (addedFriendsNumber == 0)
     resultMessage = ::loc("msgbox/no_friends_added");
   else if (addedFriendsNumber == 1)
@@ -31,7 +38,6 @@ function addSocialFriends(blk, group)
   else
     resultMessage = format(::loc("msgbox/added_friends_number"), addedFriendsNumber)
 
-  ::on_facebook_destroy_waitbox()
   ::showInfoMsgBox(resultMessage, "friends_added")
 }
 
@@ -50,7 +56,16 @@ function addPsnFriends()
       local blk = ::DataBlock()
       blk = ::ps4_find_friends_result()
       if (blk.paramCount() || blk.blockCount())
+      {
         ::addSocialFriends(blk, ::EPLX_PS4_FRIENDS)
+        foreach(userId, info in blk)
+        {
+          local friend = {}
+          friend["accountId"] <- info.id
+          friend["onlineId"] <- info.nick.slice(1)
+          ::ps4_console_friends[info.nick] <- friend
+        }
+      }
       else
       {
         local selectedPlayerName = ""
@@ -109,7 +124,6 @@ function update_ps4_friends()
   {
     ::last_update_ps4_friends = ::dagor.getCurTime()
     ::getPS4FriendsFromIndex(0)
-    ::g_psn_mapper.updateAccountIdsList()
     ::broadcastEvent(contactEvent.CONTACTS_UPDATED)
   }
 }
@@ -117,10 +131,10 @@ function update_ps4_friends()
 function getPS4FriendsFromIndex(index)
 {
   local blk = ::DataBlock()
-  blk.apiGroup = "userProfile"
+  blk.apiGroup = "sdk:userProfile"
   blk.method = ::HTTP_METHOD_GET
   local query = ::format("/v1/users/%s/friendList?friendStatus=friend&presenceType=incontext&offset=%d&limit=%d",
-    ::ps4_get_online_id(), index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS)
+    ::ps4_get_account_id(), index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS)
   blk.path = query
   blk.respSize = 8*1024
 
@@ -132,6 +146,9 @@ function getPS4FriendsFromIndex(index)
   }
   else if ("response" in ret)
   {
+    if (index == 0) // Initial chunk of friends from WebAPI
+      ::resetPS4ContactsGroup()
+
     dagor.debug("json Response: "+ret.response);
     local parsedRetTable = ::parse_json(ret.response)
 
@@ -147,12 +164,24 @@ function getPS4FriendsFromIndex(index)
 function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
 {
   foreach (idx, playerBlock in ps4FriendsArray)
-    ::ps4_console_friends["*" + playerBlock.onlineId] <- playerBlock
+  {
+    local name = "*" + playerBlock.user.onlineId
+    ::ps4_console_friends[name] <- playerBlock.user
+    ::ps4_console_friends[name].presence <- playerBlock.presence
+  }
 
   if (ps4FriendsArray.len() == 0 || lastIndex == 0)
     ::movePS4ContactsToSpecificGroup()
   else
     ::getPS4FriendsFromIndex(lastIndex+1)
+}
+
+function resetPS4ContactsGroup()
+{
+  ::u.extend(::contacts[::EPL_FRIENDLIST], ::contacts[::EPLX_PS4_FRIENDS])
+  ::contacts[::EPL_FRIENDLIST].sort(::sortContacts)
+  ::g_contacts.removeContactGroup(::EPLX_PS4_FRIENDS)
+  ::ps4_console_friends.clear()
 }
 
 function movePS4ContactsToSpecificGroup()
@@ -177,26 +206,12 @@ function isPlayerPS4Friend(playerName)
   return ::is_platform_ps4 && playerName in ::ps4_console_friends
 }
 
-function is_player_from_xbox_one(playerName)
-{
-  return ::is_platform_xboxone && ::g_string.startsWith(playerName, ::XBOX_ONE_PLAYER_PREFIX)
-}
-
-function is_psn_player_use_same_titleId(playerName)
+function get_psn_account_id(playerName)
 {
   if (!::is_platform_ps4)
-    return false
+    return null
 
-  local player = ::getTblValue(playerName, ::ps4_console_friends)
-  if (!player)
-    return false
-
-  local infoList = ::getTblValue("incontextInfoList", player.presence, ::DataBlock())
-  foreach (block in infoList)
-    if (::getTblValue("npTitleId", ::getTblValue("gameTitleInfo", block), "") == ps4TitleId)
-      return true
-
-  return false
+  return ::ps4_console_friends?[playerName]?.accountId
 }
 //--------------- </PlayStation> ----------------------
 
@@ -277,3 +292,51 @@ function on_facebook_friends_loaded(blk)
       })
 }
 //-------------------- </Facebook> ----------------------------
+
+//----------------- <XBox One> --------------------------
+
+function is_player_from_xbox_one(playerName)
+{
+  return ::is_platform_xboxone && ::g_string.startsWith(playerName, ::XBOX_ONE_PLAYER_PREFIX)
+}
+
+function xbox_on_add_remove_friend_closed(playerStatus)
+{
+  if (playerStatus == XBOX_PERSON_STATUS_CANCELED || playerStatus == XBOX_PERSON_STATUS_FAVORITE)
+    return
+
+  ::xbox_get_people_list_async()
+}
+
+function xbox_get_people_list_callback(playersList = [])
+{
+  local taskId = ::xbox_find_friends(playersList)
+
+  ::g_tasker.addTask(taskId, null, function() {
+    local blk = ::DataBlock()
+    blk = ::xbox_find_friends_result()
+
+    local existedXBoxContacts = ::get_contacts_array_by_regexp(::EPL_FRIENDLIST, platformModule.xboxNameRegexp)
+
+    for (local i = existedXBoxContacts.len() - 1; i >= 0; i--)
+    {
+      if (existedXBoxContacts[i].uid in blk)
+      {
+        local contact = existedXBoxContacts.remove(i)
+        blk.removeBlock(contact.uid)
+      }
+    }
+
+    local xboxFriendsList = []
+    foreach(uid, data in blk)
+      xboxFriendsList.append(::getContact(uid, data.nick))
+
+    local requestTable = {}
+    requestTable[true] <- xboxFriendsList
+    requestTable[false] <- existedXBoxContacts
+
+    ::edit_players_list_in_contacts(requestTable, ::EPL_FRIENDLIST)
+  })
+}
+
+//---------------- </XBox One> --------------------------

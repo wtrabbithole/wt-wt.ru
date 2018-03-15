@@ -65,7 +65,14 @@ tdiv {
         left:t='50%pw-50%w'
         position:t='relative'
         margin-top:t='1@framePadding'
-        text:t='<<getBattleStatusWithCanJoinText>>'
+        text:t=''
+      }
+
+      textareaNoTab {
+        id:t='battle_time_text'
+        left:t='50%pw-50%w'
+        position:t='relative'
+        text:t=''
       }
 
       textareaNoTab {
@@ -209,12 +216,6 @@ tdiv {
           size:t='pw, ph'
           display:t='hide'
         }
-      }
-
-      textareaNoTab {
-        id:t='battle_time_text'
-        pos:t='50%pw-50%w, 0'; position:t='relative'
-        text:t=''
       }
     }
     <</isStarted>>

@@ -63,10 +63,7 @@
       "groundCollisionEffect": "cannon_air_hit",
       "hitPowerMult": 1.5,
       "onHitChanceMultFire": 2.5,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,300.0],
-      "farHitPower": [0.1,700.0],
-      "endHitPower": [0.008,1500.0],
+      "effectiveDistance": 800.0,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "explodeTreshold": 0.1,
@@ -79,6 +76,12 @@
       "shutterAmount": 14,
       "shutterArmorPower": 6.0,
       "shutterHit": 4.5,
+      "hitpower": {
+        "HitPower10m": [1.0,300.0],
+        "HitPower1000m": [0.7,600.0],
+        "HitPower1500m": [0.5,800.0],
+        "HitPower2000m": [0.1,1500.0]
+      },
       "armorpower": {
         "ArmorPower0m": [2.0,10.0],
         "ArmorPower100m": [2.0,100.0],
@@ -104,10 +107,7 @@
       "groundCollisionEffect": "cannon_air_hit",
       "hitPowerMult": 1.5,
       "onHitChanceMultFire": 2.5,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,300.0],
-      "farHitPower": [0.1,700.0],
-      "endHitPower": [0.008,1500.0],
+      "effectiveDistance": 800.0,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "explodeTreshold": 0.1,
@@ -120,6 +120,12 @@
       "shutterAmount": 14,
       "shutterArmorPower": 6.0,
       "shutterHit": 4.5,
+      "hitpower": {
+        "HitPower10m": [1.0,300.0],
+        "HitPower1000m": [0.7,600.0],
+        "HitPower1500m": [0.5,800.0],
+        "HitPower2000m": [0.1,1500.0]
+      },
       "armorpower": {
         "ArmorPower0m": [2.0,10.0],
         "ArmorPower100m": [2.0,100.0],
@@ -148,12 +154,15 @@
       "bulletType": "i_t",
       "hitPowerMult": 10.0,
       "onHitChanceMultFire": 7.0,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,300.0],
-      "farHitPower": [0.5,700.0],
-      "endHitPower": [0.1,1500.0],
+      "effectiveDistance": 700.0,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
+      "hitpower": {
+        "HitPower10m": [1.0,50.0],
+        "HitPower1000m": [0.9,300.0],
+        "HitPower1500m": [0.5,700.0],
+        "HitPower2000m": [0.1,1500.0]
+      },
       "armorpower": {
         "ArmorPower0m": [16.0,10.0],
         "ArmorPower100m": [12.0,100.0],

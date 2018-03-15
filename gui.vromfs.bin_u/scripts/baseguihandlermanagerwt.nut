@@ -296,8 +296,7 @@ function handlersManager::_updateWidgets()
       if (isHandlerValid(h, true) && h.isSceneActive() && h?.getWidgetsList)
       {
         local wList = h.getWidgetsList()
-        if (wList)
-          widgetsList.extend(wList)
+        widgetsList.extend(wList)
       }
 
   ::call_darg("updateWidgets", widgetsList)
@@ -321,6 +320,7 @@ function handlersManager::updateSceneBgBlur(forced = false)
   if (!_loadHandlerRecursionLevel)
     _updateSceneBgBlur(forced)
 }
+
 
 function handlersManager::_updateSceneBgBlur(forced = false)
 {

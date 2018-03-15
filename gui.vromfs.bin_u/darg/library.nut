@@ -1,7 +1,47 @@
+require("string")
 tostring_r <- require("std/string.nut").tostring_r
-vlog_r <- @(val) vlog(tostring_r(val))
-print_r <- @(val) print(tostring_r(val) + "\n")
-dlog <- function(val) { vlog_r(val); print_r(val) }
+vlog_r <- function(val, maxdeeplevel=null, splitlines=false) {
+  local out = tostring_r(val, " ", maxdeeplevel)
+  if (splitlines) {
+    local s = string.split(out,"\n")
+    for (local i=0; i < min(50,s.len()); i++) {
+      vlog_r(s[i])
+    }
+  }
+  else
+    vlog(out.slice(0,min(out.len(),200)))
+}
+print_r <- function(val, maxdeeplevel=null) {
+  print(tostring_r(val," ", maxdeeplevel) + "\n")
+}
+dlog <- function(val, maxdeeplevel=null, splitlines=false) { 
+  vlog_r(val, maxdeeplevel, splitlines); 
+  print_r(val, maxdeeplevel) 
+}
+
+function isDargComponent(comp) {
+//better to have natived daRg function to check if it is valid component!
+  local c = comp
+  if (::type(c) == "function") {
+    local info = c.getinfos()
+    if (info?.parameters && info?.parameters.len() > 1)
+      return false
+    c = c()
+  }
+  local c_type = ::type(c)
+  if (c_type == "null")
+    return true
+  if (c_type != "table" && c_type != "class")
+    return false
+  local knownProps = ["size","rendObj","children","watch","behavior","halign","valign","flow","pos","hplace","vplace"]
+  foreach(k,val in c) {
+    if (knownProps.find(k) != null)
+      return true
+    else
+      return false
+  }
+}
+
 
 function with_table(tbl, func) {
   local roottbl = ::getroottable()
@@ -91,6 +131,22 @@ function deep_clone(source) {
   return deep_clone_unsafe(source)
 }
 
+function mergeRecursive (target, source) {
+  function sub_update_r(target, source) {
+    local res = {}.__update(target)
+    foreach (key, value in source) {
+      if (type(value) =="table" && key in target) {
+        res[key] = sub_update_r({}.__update(target[key]), value)
+      } else {
+        res[key] <- source[key]
+      }
+    }
+    return res
+  }
+  return sub_update_r(target, source)
+}
+
+
 /*
   defensive function - try to not to fail in all ways (for example for data driven function)
   you can insert array in a certain index of another array safely
@@ -108,12 +164,12 @@ function insert_array(array, index, value) {
   } else {
     local prev_len = array.len()
     local head_len = index
-    local add_elems = value.len()
+    local add_elems = (type(value)=="array") ? value.len() : 1
     local tail = array.slice(index)
     array.resize(prev_len + add_elems)
     foreach (idx, val in array) {
       if (idx >= head_len && idx < head_len + add_elems)
-        array[idx] = value[idx - head_len]
+        array[idx] = (type(value)=="array") ? value[idx - head_len] : value
       if (idx >= head_len + add_elems)
         array[idx] = tail[idx - head_len - add_elems]
     }

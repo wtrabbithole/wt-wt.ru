@@ -1,6 +1,6 @@
 <<#role_old>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?clan/log/old_members_role>><<?ui/colon>>'
   }
   activeText {
@@ -10,7 +10,7 @@ tdiv {
 <</role_old>>
 <<#role_new>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?clan/log/new_members_role>><<?ui/colon>>'
   }
   activeText {
@@ -20,7 +20,7 @@ tdiv {
 <</role_new>>
 <<#name>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?clan/clan_name>><<?ui/colon>>'
   }
   activeText {
@@ -30,7 +30,7 @@ tdiv {
 <</name>>
 <<#tag>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?clan/clan_tag>><<?ui/colon>>'
   }
   activeText {
@@ -43,17 +43,17 @@ tdiv {
   width:t='pw'
   textareaNoTab {
     width:t='pw'
-    text:t='<<?clan/clan_slogan>><<?ui/colon>><<slogan>>'
+    text:t='<<?clan/clan_slogan>><<?ui/colon>><color=@activeTextColor><<slogan>></color>'
   }
 }
 <</slogan>>
 <<#region>>
 tdiv {
   width:t='pw'
-  activeText {
+  text {
     text:t='<<?clan/clan_region>><<?ui/colon>>'
   }
-  textareaNoTab {
+  activeText {
     width:t='fw'
     text:t='<<region>>'
   }
@@ -64,7 +64,7 @@ tdiv {
   width:t='pw'
   textareaNoTab {
     width:t='pw'
-    text:t='<color=@white><<?clan/clan_description>><<?ui/colon>></color><<desc>>'
+    text:t='<<?clan/clan_description>><<?ui/colon>>\n<<desc>>'
   }
 }
 <</desc>>
@@ -73,13 +73,13 @@ tdiv {
   width:t='pw'
   textareaNoTab {
     width:t='pw'
-    text:t='<color=@white><<?clan/clan_announcement>><<?ui/colon>></color><<announcement>>'
+    text:t='<<?clan/clan_announcement>><<?ui/colon>>\n<<announcement>>'
   }
 }
 <</announcement>>
 <<#type>>
 tdiv {
-  activeText{
+  text{
     text:t='<<?clan/clan_type>><<?ui/colon>>'
   }
   activeText {
@@ -89,7 +89,7 @@ tdiv {
 <</type>>
 <<#status>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?caln/log/membership_applications>><<?ui/colon>>'
   }
   activeText {
@@ -97,19 +97,9 @@ tdiv {
   }
 }
 <</status>>
-<<#signText>>
-tdiv {
-  position:t='relative'
-  pos:t='pw - w, 0'
-
-  activeText {
-    text:t='<<signText>>'
-  }
-}
-<</signText>>
 <<#upgrade_members_old>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?clan/log/old_members_limit>><<?ui/colon>>'
   }
   activeText {
@@ -119,7 +109,7 @@ tdiv {
 <</upgrade_members_old>>
 <<#upgrade_members_new>>
 tdiv {
-  activeText {
+  text {
     text:t='<<?clan/log/new_members_limit>><<?ui/colon>>'
   }
   activeText {
@@ -127,3 +117,13 @@ tdiv {
   }
 }
 <</upgrade_members_new>>
+<<#signText>>
+tdiv {
+  position:t='relative'
+  pos:t='pw - w, 0'
+
+  textareaNoTab {
+    text:t='<<signText>>'
+  }
+}
+<</signText>>

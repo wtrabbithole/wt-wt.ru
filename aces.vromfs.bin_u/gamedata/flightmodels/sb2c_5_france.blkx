@@ -368,6 +368,13 @@
           "blk": "gameData/FlightModels/weaponPresets/sb2c_4_5in_rockets.blk",
           "reqModification": "frc_mk2"
         }
+      },
+      {
+        "preset": {
+          "name": "sb2c_4_dgp_1",
+          "blk": "gameData/FlightModels/weaponPresets/sb2c_4_dgp_1.blk",
+          "reqModification": "dgp-1_gunpod"
+        }
       }
     ]
   },
@@ -496,6 +503,7 @@
       "new_engine_injection": [],
       "an_m2_universal": [],
       "an_m2_ground_targets": [],
+      "an_m2_air_targets": [],
       "an_m2_stealth": [],
       "30cal_turret_ap": [],
       "tbf_itc": {
@@ -527,6 +535,10 @@
       "bmg30_turret_new_gun": {
         "reqModification": "bmg30_turret_belt_pack",
         "tier": 3
+      },
+      "dgp-1_gunpod": {
+        "tier": 1,
+        "modClass": "weapon"
       },
       "anm2_belt_pack": {
         "tier": 2
@@ -635,6 +647,22 @@
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 42.8
+        },
+        "airbrake_l_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 21.3
+        },
+        "airbrake_l1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 21.3
+        },
+        "airbrake_r_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 21.3
+        },
+        "airbrake_r1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 21.3
         },
         "elevator0_dm": {
           "genericDamageMult": 0.3,
@@ -821,6 +849,234 @@
         "part": [
           {
             "name": "aileron_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "airbrake_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "airbrake_l1_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "airbrake_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "airbrake_r1_dm"
           },
           {
             "onHit": {

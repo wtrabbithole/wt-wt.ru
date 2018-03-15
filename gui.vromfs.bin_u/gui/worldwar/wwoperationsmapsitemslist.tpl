@@ -35,6 +35,12 @@
     missionDiv {
       css-hier-invalidate:t='yes'
 
+      <<#unseenIcon>>
+      unseenIcon {
+        value:t='<<unseenIcon>>'
+      }
+      <</unseenIcon>>
+
       img{
         id:t='queue_members_<<id>>'
         size:t='@cIco, @cIco'

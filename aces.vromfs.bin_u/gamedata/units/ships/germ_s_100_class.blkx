@@ -102,6 +102,9 @@
     "canReloadNonGuns": true
   },
   {
+    "allowForestallWithoutMarkers": true
+  },
+  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -980,21 +983,6 @@
         "driver_dm": {
           "genericDamageMult": 4.0
         },
-        "era_dm": {
-          "genericDamageMult": 4.0
-        },
-        "era_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "era_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "era_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "operator_dm": {
-          "genericDamageMult": 4.0
-        },
         "loader_dm": {
           "genericDamageMult": 4.0
         },
@@ -1062,123 +1050,6 @@
           "genericDamageMult": 4.0
         },
         "commander_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_04_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_05_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_06_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_07_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_08_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_09_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_10_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_11_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_12_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_13_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_14_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_15_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_16_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_17_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_18_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_19_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_20_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_21_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_22_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_23_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_24_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_25_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_26_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_27_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_28_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_29_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_30_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_31_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_32_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_33_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_34_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_35_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_36_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_37_dm": {
-          "genericDamageMult": 4.0
-        },
-        "sailor_38_dm": {
-          "genericDamageMult": 4.0
-        },
-        "motorist_dm": {
           "genericDamageMult": 4.0
         },
         "machine_gunner_dm": {
@@ -1368,6 +1239,9 @@
         "explosionDamageMult": 5.0,
         "shatterDamageMult": 10.0,
         "shatterArmorQuality": 0.3,
+        "explosionArmorQuality": 0.03,
+        "cumulativeArmorQuality": 0.01,
+        "genericArmorQuality": 0.02,
         "fireParamsPreset": "ship_engine",
         "engine_room_01_dm": [],
         "engine_room_02_dm": [],
@@ -1701,6 +1575,10 @@
         "hp": 200.0,
         "armorThickness": 5.0,
         "armorThrough": 50.0,
+        "shatterArmorQuality": 0.1,
+        "explosionArmorQuality": 0.01,
+        "cumulativeArmorQuality": 0.01,
+        "genericArmorQuality": 0.01,
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "fuel_tank_dm": [
@@ -1900,14 +1778,14 @@
             "onHit": {
               "expl": 0.9,
               "damage": 350.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
             "onHit": {
               "expl": 0.2,
               "damage": 200.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -1929,7 +1807,7 @@
           {
             "onKill": {
               "expl": 0.9,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2046,8 +1924,7 @@
           },
           {
             "onKill": {
-              "expl": 0.5,
-              "fHitCritical": true
+              "expl": 0.5
             }
           }
         ]
@@ -2108,7 +1985,7 @@
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2116,7 +1993,7 @@
               "damageType": "generic",
               "fire": 0.03,
               "damage": 20.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2124,7 +2001,7 @@
               "damageType": "generic",
               "fire": 0.15,
               "damage": 70.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2136,7 +2013,7 @@
           {
             "onKill": {
               "fire": 1.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2174,7 +2051,7 @@
             "onKill": {
               "fire": 0.5,
               "nothing": 0.5,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2213,7 +2090,7 @@
               "damageType": "explosion",
               "fire": 0.02,
               "damage": 13.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2221,7 +2098,7 @@
               "damageType": "explosion",
               "fire": 0.05,
               "damage": 50.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           },
           {
@@ -2229,7 +2106,7 @@
               "damageType": "explosion",
               "fire": 0.2,
               "damage": 120.0,
-              "fHitCritical": true
+              "fHitCritical": false
             }
           }
         ]
@@ -2341,8 +2218,8 @@
         "Empty": 103700.0,
         "Fuel": 13300.0,
         "TakeOff": 117000.0,
-        "momentOfInertia": [16.0,44.0,31.0],
-        "CenterOfGravity": [-1.5,-0.6,0.0]
+        "momentOfInertia": [15.0,47.0,34.0],
+        "CenterOfGravity": [-1.5,-0.1,0.0]
       },
       "settings": {
         "speedLossOnManeuver": 0.15
@@ -2352,31 +2229,31 @@
           "maxSpeed": 21.6
         },
         {
-          "maxReverseSpeed": 4.0
+          "maxReverseSpeed": 6.6
         },
         {
           "speedToTime": [
             {
-              "row": [0.0,2.0]
+              "row": [5.0,4.0]
             },
             {
-              "row": [10.0,8.0]
+              "row": [10.0,7.0]
             },
             {
-              "row": [21.6,17.0]
+              "row": [21.6,16.5]
             }
           ]
         },
         {
           "reverseSpeedToTime": [
             {
-              "row": [0.0,2.0]
+              "row": [2.0,2.1]
             },
             {
-              "row": [2.5,5.0]
+              "row": [4.0,4.2]
             },
             {
-              "row": [4.0,6.0]
+              "row": [6.6,9.5]
             }
           ]
         },
@@ -2418,24 +2295,24 @@
         {
           "rudder": {
             "pos": [-16.4,-0.5,0.7],
-            "area": 0.6,
-            "deflection": 32.0,
+            "area": 1.4,
+            "deflection": 38.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
         {
           "rudder": {
             "pos": [-16.4,-0.5,-0.7],
-            "area": 0.6,
-            "deflection": 32.0,
+            "area": 1.4,
+            "deflection": 38.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
         {
           "rudder": {
             "pos": [-16.6,-0.6,0.0],
-            "area": 1.4,
-            "deflection": 32.0,
+            "area": 1.9,
+            "deflection": 38.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
@@ -2449,8 +2326,8 @@
                 "maxV": 44.0,
                 "polar": {
                   "Cl0": 0.28,
-                  "CdMin": 0.0015,
-                  "lineClCoeff": 0.092,
+                  "CdMin": 0.0013,
+                  "lineClCoeff": 0.062,
                   "ClCritHigh": 0.8,
                   "ClCritLow": -0.72,
                   "alphaCritHigh": 8.0,
@@ -2466,8 +2343,8 @@
                 "maxV": 44.0,
                 "polar": {
                   "Cl0": 0.28,
-                  "CdMin": 0.0015,
-                  "lineClCoeff": 0.092,
+                  "CdMin": 0.0013,
+                  "lineClCoeff": 0.062,
                   "ClCritHigh": 0.8,
                   "ClCritLow": -0.72,
                   "alphaCritHigh": 8.0,
@@ -2602,14 +2479,33 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-3.0,60.0]
+              "pitch": [-5.0,60.0]
             }
           },
           {
             "limitsTable": {
               "lim1": [-180.0,-140.0,20.0,60.0],
-              "lim2": [-140.0,140.0,-3.0,60.0],
+              "lim2": [-140.0,140.0,-5.0,60.0],
               "lim3": [140.0,180.0,20.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -2881,6 +2777,25 @@
               "lim4": [25.0,135.0,-5.0,60.0],
               "lim5": [135.0,180.0,20.0,60.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3010,6 +2925,25 @@
               "lim4": [25.0,135.0,-5.0,60.0],
               "lim5": [135.0,180.0,20.0,60.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3128,6 +3062,25 @@
             "limits": {
               "yaw": [-16.0,16.0],
               "pitch": [-1.0,40.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -3248,6 +3201,25 @@
               "yaw": [-16.0,16.0],
               "pitch": [-1.0,40.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3319,7 +3291,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,6.0,-31.0],
+      "headPos": [0.0,6.0,-28.0],
       "headPosOnShooting": [3.5,6.2,0.0],
       "detectionHeight": 3.6
     }
@@ -3968,9 +3940,24 @@
   {
     "modifications": {
       "37mm_ger_navy_universal": [],
+      "37mm_ger_flak_navy_he": [],
+      "37mm_ger_flak_navy_he_ammo_pack": [],
+      "37mm_ger_flak_navy_ap": [],
+      "37mm_ger_flak_navy_ap_ammo_pack": {
+        "reqModification": "37mm_ger_flak_navy_he_ammo_pack"
+      },
+      "20mm_ger_c38_universal": [],
+      "20mm_ger_c38_navy_he": [],
+      "20mm_ger_c38_navy_he_ammo_pack": [],
+      "20mm_ger_c38_navy_ap": [],
+      "20mm_ger_c38_navy_ap_ammo_pack": {
+        "reqModification": "20mm_ger_c38_navy_he_ammo_pack"
+      },
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
+      "ship_smoke_screen_system_mod": {
+        "prevModification": "20mm_ger_c38_navy_ap_ammo_pack"
+      },
       "new_ship_engine": [],
       "new_ship_screw": [],
       "new_ship_hull": [],
@@ -3995,16 +3982,24 @@
           }
         }
       },
-      "ship_rangefinder": [],
-      "new_main_caliber_turrets": [],
-      "new_aux_caliber_turrets": [],
+      "ship_rangefinder": {
+        "prevModification": "37mm_ger_flak_navy_ap_ammo_pack"
+      },
+      "new_main_caliber_turrets": {
+        "reqModification": "new_aux_caliber_turrets"
+      },
+      "new_aux_caliber_turrets": {
+        "reqModification": "new_aa_caliber_turrets"
+      },
       "new_aa_caliber_turrets": [],
-      "ship_main_caliber_support": [],
+      "ship_main_caliber_support": {
+        "prevModification": "new_main_caliber_turrets"
+      },
       "torpedoes_movement_mode": {
+        "prevModification": "ship_rangefinder",
         "effects": {
-          "distToLive": 14000.0,
-          "maxSpeedInWater": 15.43,
-          "diveDepth": 1.0
+          "distToLive": 8000.0,
+          "maxSpeedInWater": -4.57
         }
       }
     }

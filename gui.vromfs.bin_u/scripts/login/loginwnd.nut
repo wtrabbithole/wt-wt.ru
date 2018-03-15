@@ -1,3 +1,5 @@
+const MAX_GET_2STEP_CODE_ATTEMPTS = 10
+
 class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBox.blk"
@@ -11,6 +13,8 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
   initial_autologin = false
   stoken = "" //note: it's safe to keep it here even if it's dumped to log
   was_using_stoken = false
+  isLoginRequestInprogress = false
+  requestGet2stepCodeAtempt = 0
 
   tabFocusArray = [
     "loginbox_username",
@@ -328,12 +332,17 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function requestLogin(no_dump_login)
   {
+    return requestLoginWithCode(no_dump_login, check2StepAuthCode? ::get_object_value(scene, "loginbox_code", "") : "");
+  }
+
+  function requestLoginWithCode(no_dump_login, code)
+  {
     ::statsd_counter("gameStart.request_login.regular")
     ::dagor.debug("Login: check_login_pass")
     return ::check_login_pass(no_dump_login,
                               ::get_object_value(scene, "loginbox_password", ""),
                               check2StepAuthCode? "" : stoken, //after trying use stoken it's set to "", but to be sure - use "" for 2stepAuth
-                              check2StepAuthCode? ::get_object_value(scene, "loginbox_code", "") : "",
+                              code,
                               check2StepAuthCode
                                 ? ::get_object_value(scene, "loginbox_code_remember_this_device", false)
                                 : !::get_object_value(scene, "loginbox_disable_ssl_cert", false),
@@ -428,11 +437,14 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onOk()
   {
+    isLoginRequestInprogress = true
+    requestGet2stepCodeAtempt = MAX_GET_2STEP_CODE_ATTEMPTS
     doLoginWaitJob()
   }
 
   function doLoginDelayed()
   {
+    isLoginRequestInprogress = true
     guiScene.performDelayed(this, doLoginWaitJob)
   }
 
@@ -466,6 +478,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onSteamAuthorization()
   {
+    isLoginRequestInprogress = true
     ::disable_autorelogin_once <- false
     local result = -1
     if (::get_object_value(scene, "loginbox_username", "") == ""
@@ -480,8 +493,35 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     proceedAuthorizationResult(result, ::get_object_value(scene, "loginbox_username", ""))
   }
 
+  function proceedGetTwoStepCode(data)
+  {
+    if (!isValid() || isLoginRequestInprogress)
+    {
+      return
+    }
+
+    local result = data.status
+    local code = data.code
+    local codeInBox = ::get_object_value(scene, "loginbox_code", "");
+    local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
+
+    if (result == YU2_TIMEOUT && codeInBox == "" && requestGet2stepCodeAtempt-- > 0)
+    {
+      doLoginDelayed()
+      return
+    }
+
+    if (result == ::YU2_OK)
+    {
+      isLoginRequestInprogress = true
+      local result = requestLoginWithCode(no_dump_login, code)
+      proceedAuthorizationResult(result, no_dump_login);
+    }
+  }
+
   function proceedAuthorizationResult(result, no_dump_login)
   {
+    isLoginRequestInprogress = false
     if (!::checkObj(scene)) //check_login_pass is not instant
       return
 
@@ -513,8 +553,10 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
           guiScene.performDelayed(this, (@(scene) function() {
             if (!::checkObj(scene))
               return
+
             scene.findObject("loginbox_code").select();
             currentFocusItem = 2
+            ::get_two_step_code_async(this, proceedGetTwoStepCode)
           })(scene))
         }
         break

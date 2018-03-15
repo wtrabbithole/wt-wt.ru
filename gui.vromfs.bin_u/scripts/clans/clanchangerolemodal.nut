@@ -1,3 +1,29 @@
+function gui_start_change_role_wnd(contact, clanData)
+{
+  if (!::clan_get_admin_editor_mode())
+  {
+    local myClanRights = ::g_clans.getMyClanRights()
+    local leadersCount = ::g_clans.getLeadersCount(clanData)
+    if (contact.name == ::my_user_name
+        && ::isInArray("LEADER", myClanRights)
+        && leadersCount <= 1)
+      return ::g_popups.add("", ::loc("clan/leader/cant_change_my_role"))
+  }
+
+  local changeRolePlayer = {
+    uid = contact.uid,
+    name = contact.name,
+    rank = ::g_clans.getClanMemberRank(clanData, contact.name)
+  }
+
+  ::gui_start_modal_wnd(::gui_handlers.clanChangeRoleModal,
+    {
+      changeRolePlayer = changeRolePlayer,
+      owner = this,
+      clanType = clanData.type
+    })
+}
+
 class ::gui_handlers.clanChangeRoleModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL

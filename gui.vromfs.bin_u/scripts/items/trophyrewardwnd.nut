@@ -14,6 +14,7 @@ function gui_start_open_trophy(configsTable = {})
   }
 
   local configsArray = configsTable.rawdelete(tKey)
+  configsArray.sort(::trophyReward.rewardsSortComparator)
   local afterFunc = (@(configsTable) function() { ::gui_start_open_trophy(configsTable) })(configsTable)
   ::gui_start_modal_wnd(::gui_handlers.trophyRewardWnd, {configsArray = configsArray, afterFunc = afterFunc})
 }

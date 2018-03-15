@@ -3,6 +3,13 @@ table {
   position:t='relative';
   pos:t='0.5pw - 0.5w, 0';
   width:t='pw';
+  behavior:t = 'PosNavigator';
+  class:t='lbTable';
+  selfFocusBorder:t='yes'
+  overflow-y:t='auto';
+  scrollbarShortcuts:t='yes';
+  on_wrap_up:t='onWrapUp';
+  on_wrap_down:t='onWrapDown';
 
   tr {
     height:t='@cIco'
@@ -43,6 +50,7 @@ table {
   }
   <<#rows>>
   tr{
+    inactive:t='yes'
     td {
       img {
         size:t='@cIco, @cIco';

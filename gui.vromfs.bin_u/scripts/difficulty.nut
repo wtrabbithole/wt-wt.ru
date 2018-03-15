@@ -15,7 +15,7 @@ local enums = ::require("std/enums.nut")
   crewSkillName = "" // Used in g_crew_skill_parameters.
   settingsName = "" // Used in _difficulty.blk difficulty_settings.
   clanReqOption = "" //Used in clan membership requirement
-  cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_CUSTOM)
+  cdPresetValue = ::get_cd_preset(::DIFFICULTY_CUSTOM)
   getEgdName = function(capital = true) { return ::get_name_by_gamemode(egdCode, capital) } //"none", "arcade", "historical", "simulation"
   getLocName = function() { return ::loc(locId) }
 
@@ -55,7 +55,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     crewSkillName = "arcade"
     settingsName = "easy"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES
-    cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_ARCADE)
+    cdPresetValue = ::get_cd_preset(::DIFFICULTY_ARCADE)
     abbreviation = "clan/shortArcadeBattle"
     choiceType = ["AirAB", "TankAB"]
     arcadeCountry = true
@@ -74,7 +74,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     crewSkillName = "historical"
     settingsName = "medium"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_REAL_BATTLES
-    cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_REALISTIC)
+    cdPresetValue = ::get_cd_preset(::DIFFICULTY_REALISTIC)
     abbreviation = "clan/shortHistoricalBattle"
     choiceType = ["AirRB", "TankRB"]
     arcadeCountry = true
@@ -93,7 +93,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     crewSkillName = "fullreal"
     settingsName = "hard"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_SYM_BATTLES
-    cdPresetValue = ::get_cd_preset_value(::DIFFICULTY_HARDCORE)
+    cdPresetValue = ::get_cd_preset(::DIFFICULTY_HARDCORE)
     abbreviation = "clan/shortFullRealBattles"
     choiceType = ["AirSB", "TankSB"]
     arcadeCountry = false
@@ -171,14 +171,6 @@ function g_difficulty::getDifficultyByChoiceType(searchChoiceType = "")
 
 function get_current_ediff()
 {
-
-  if (! ::has_feature("GamercardDrawerSwitchBR"))
-  {
-    local gameMode = ::game_mode_manager.getCurrentGameMode()
-    local battleType = ::get_battle_type_by_ediff(gameMode ? gameMode.ediff : 0)
-    return ::get_current_shop_difficulty().getEdiff(battleType)
-  }
-
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   return gameMode && gameMode.ediff != -1 ? gameMode.ediff : EDifficulties.ARCADE
 }
@@ -199,14 +191,6 @@ function get_difficulty_by_ediff(ediff)
 
 function get_current_shop_difficulty()
 {
-  if (! ::has_feature("GamercardDrawerSwitchBR"))
-  {
-    foreach(diff in ::g_difficulty.types)
-      if (::get_show_mode_info(diff.egdCode))
-        return diff
-    return ::g_difficulty.ARCADE
-  }
-
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   local diffCode = gameMode ? gameMode.diffCode : ::DIFFICULTY_ARCADE
   return ::g_difficulty.getDifficultyByDiffCode(diffCode)

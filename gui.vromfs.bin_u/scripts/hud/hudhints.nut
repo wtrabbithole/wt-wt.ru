@@ -350,6 +350,8 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
       }
     return interval
   }
+
+  updateHintOptionsBlk = function(blk) {} //special options for native hints
 }
 
 enums.addTypesByGlobalName("g_hud_hints", {
@@ -629,6 +631,12 @@ enums.addTypesByGlobalName("g_hud_hints", {
     lifeTime = 5.0
     delayTime = 5.0
     maskId = 10
+
+    updateHintOptionsBlk = function(blk) {
+       //float params only.
+       blk.shotTooFarMaxAngle = 5.0
+       blk.shotTooFarDistanceFactor = 21.5
+    }
   }
 
   SHOT_FORESTALL_HINT = {
@@ -653,6 +661,12 @@ enums.addTypesByGlobalName("g_hud_hints", {
     lifeTime = 5.0
     delayTime = 5.0
     maskId = 10
+
+    updateHintOptionsBlk = function(blk) {
+      //float params only
+      blk.forestallMaxTargetAngle = 2.0
+      blk.forestallMaxAngle = 4.0
+    }
   }
 
   PARTIAL_DOWNLOAD = {
@@ -817,7 +831,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
       local playerTeam = ::get_local_team_for_mpstats()
       foreach (participant in participantList)
       {
-        local participantPlayer = participant?.participantId ? ::get_mplayer_by_id(participant.participantId) : null
+        local  participantPlayer = (participant?.participantId ?? -1) >= 0 ? ::get_mplayer_by_id(participant.participantId) : null
         if (!(participant?.image && participantPlayer))
           continue
 
@@ -855,6 +869,29 @@ enums.addTypesByGlobalName("g_hud_hints", {
     }
   }
 
+  UI_MESSAGE_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    showEvent = "hint:ui_message:show"
+    lifeTime = 3.0
+    buildText = function(eventData)
+    {
+      local res = eventData?.locId
+      if (!res)
+        return ""
+      res = ::loc(res)
+      if (eventData?.param)
+      {
+        local param = eventData.param
+        if (eventData?.paramTeamId)
+          param = ::colorize(::get_team_color(eventData.paramTeamId), param)
+        res = ::format(res, param)
+      }
+      if (eventData?.teamId && eventData.teamId > 0)
+        res = ::colorize(::get_team_color(eventData.teamId), res)
+      return res
+    }
+  }
+
   RESTORING_IN_HINT = {
     hintType = ::g_hud_hint_types.COMMON
     showEvent = "hint:restoring_in:show"
@@ -864,28 +901,24 @@ enums.addTypesByGlobalName("g_hud_hints", {
 
   AVAILABLE_GUNNER_HINT = {
     locId = "hints/manual_change_crew_available_gunner"
-    noKeyLocId ="hints/manual_change_crew_available_gunner_nokey"
     showEvent = "hint:available_gunner:show"
     hideEvent = "hint:available_gunner:hide"
   }
 
   AVAILABLE_DRIVER_HINT = {
     locId = "hints/manual_change_crew_available_driver"
-    noKeyLocId ="hints/manual_change_crew_available_driver_nokey"
     showEvent = "hint:available_driver:show"
     hideEvent = "hint:available_driver:hide"
   }
 
   NECESSARY_GUNNER_HINT = {
     locId = "hints/manual_change_crew_necessary_gunner"
-    noKeyLocId ="hints/manual_change_crew_necessary_gunner_nokey"
     showEvent = "hint:necessary_gunner:show"
     hideEvent = "hint:necessary_gunner:hide"
   }
 
   NECESSARY_DRIVER_HINT = {
     locId = "hints/manual_change_crew_necessary_driver"
-    noKeyLocId ="hints/manual_change_crew_necessary_driver_nokey"
     showEvent = "hint:necessary_driver:show"
     hideEvent = "hint:necessary_driver:hide"
   }
@@ -959,6 +992,27 @@ enums.addTypesByGlobalName("g_hud_hints", {
     locId = "HUD/TXT_FUNNEL_DAMAGED"
     showEvent = "hint:funnel_damaged"
     lifeTime = 3.0
+  }
+
+  REPLENISHMENT_IN_PROGRESS = {
+    hintType = ::g_hud_hint_types.ACTIONBAR
+    locId = "hints/replenishment_of_ammo_stowage"
+    showEvent = "hint:replenishment_in_progress:show"
+    hideEvent = "hint:replenishment_in_progress:hide"
+    maskId = 13
+    totalCount = 5
+  }
+
+  DROWNING_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    showEvent = "hint:drowning:show"
+    hideEvent = "hint:drowning:hide"
+    buildText = function(eventData)
+    {
+      local res = ::loc("hints/drowning_in") + " "
+      + time.secondsToString(eventData?.timeTo ?? 0, false)
+      return res
+    }
   }
 
   MISSION_COMPLETE_HINT = {
@@ -1126,6 +1180,13 @@ enums.addTypesByGlobalName("g_hud_hints", {
     lifeTime = 3.0
   }
 
+  NO_BULLETS = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/have_not_bullets"
+    showEvent = "hint:no_bullets"
+    lifeTime = 5.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+  }
 },
 function() {
   name = "hint_" + typeName.tolower()
