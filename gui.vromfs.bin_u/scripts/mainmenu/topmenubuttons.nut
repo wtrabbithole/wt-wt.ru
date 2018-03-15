@@ -254,7 +254,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   FAQ = {
     text = "#mainmenu/faq"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/faq"
     isLink = true
@@ -263,7 +263,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   FORUM = {
     text = "#mainmenu/forum"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/forum"
     isLink = true
@@ -272,7 +272,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   SUPPORT = {
     text = "#mainmenu/support"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/support"
     isLink = true
@@ -281,7 +281,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   WIKI = {
     text = "#mainmenu/wiki"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/wiki"
     isLink = true

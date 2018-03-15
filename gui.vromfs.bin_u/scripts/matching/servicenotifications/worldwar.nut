@@ -21,7 +21,11 @@ foreach (notificationName, callback in
       {
         local queue = ::queues.findQueueByName(::queue_classes.WwBattle.getName(params))
         if (queue)
-          ::queues.afterLeaveQueue(queue, null)
+        {
+          local reason = params?.reason
+          local msg = reason ? ::loc("worldWar/leaveBattle/" + reason, "") : ""
+          ::queues.afterLeaveQueue(queue, msg.len() ? msg : null)
+        }
       },
     ["worldwar.notify"] = function(params)
       {

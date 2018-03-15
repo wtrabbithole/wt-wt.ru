@@ -724,15 +724,6 @@ function is_game_mode_with_spendable_weapons()
   return mode == ::GM_DOMINATION || mode == ::GM_TOURNAMENT;
 }
 
-function getTextByModes(textFunc, separator = " / ")
-{
-  local text = ""
-  foreach(m in ::domination_modes)
-    if (::get_show_mode_info(m.modeId))
-      text += ((text!="")? separator : "") + textFunc(m)
-  return text
-}
-
 ::skip_crew_unlock_assert <- false
 function setCrewUnlockTime(obj, air)
 {

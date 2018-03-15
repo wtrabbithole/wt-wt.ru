@@ -1672,6 +1672,7 @@ function g_unlocks::invalidateUnlocksCache()
 {
   isCacheValid = false
   isFavUnlockCacheValid = null
+  ::broadcastEvent("UnlocksCacheInvalidate")
 }
 
 function g_unlocks::isUnlockMultiStageLocId(unlockId)

@@ -56,7 +56,16 @@ function addPsnFriends()
       local blk = ::DataBlock()
       blk = ::ps4_find_friends_result()
       if (blk.paramCount() || blk.blockCount())
+      {
         ::addSocialFriends(blk, ::EPLX_PS4_FRIENDS)
+        foreach(userId, info in blk)
+        {
+          local friend = {}
+          friend["accountId"] <- info.id
+          friend["onlineId"] <- info.nick.slice(1)
+          ::ps4_console_friends[info.nick] <- friend
+        }
+      }
       else
       {
         local selectedPlayerName = ""
@@ -137,6 +146,9 @@ function getPS4FriendsFromIndex(index)
   }
   else if ("response" in ret)
   {
+    if (index == 0) // Initial chunk of friends from WebAPI
+      ::resetPS4ContactsGroup()
+
     dagor.debug("json Response: "+ret.response);
     local parsedRetTable = ::parse_json(ret.response)
 
@@ -162,6 +174,14 @@ function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
     ::movePS4ContactsToSpecificGroup()
   else
     ::getPS4FriendsFromIndex(lastIndex+1)
+}
+
+function resetPS4ContactsGroup()
+{
+  ::u.extend(::contacts[::EPL_FRIENDLIST], ::contacts[::EPLX_PS4_FRIENDS])
+  ::contacts[::EPL_FRIENDLIST].sort(::sortContacts)
+  ::g_contacts.removeContactGroup(::EPLX_PS4_FRIENDS)
+  ::ps4_console_friends.clear()
 }
 
 function movePS4ContactsToSpecificGroup()

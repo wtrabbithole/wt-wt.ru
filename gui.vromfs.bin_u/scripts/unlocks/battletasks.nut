@@ -552,11 +552,12 @@ function BattleTasks::getTaskDescription(config = null, paramsCfg = {})
   local taskUnlocksListPrefix = ""
   local taskUnlocksList = []
   local taskConditionsList = []
+  local isPromo = paramsCfg?.isPromo ?? false
 
   if (showAllTasksValue)
     taskDescription.append("*Debug info: id - " + config.id)
 
-  if (paramsCfg?.isPromo)
+  if (isPromo)
   {
     if (::getTblValue("locDescId", config, "") != "")
       taskDescription.append(::loc(config.locDescId))
@@ -598,6 +599,9 @@ function BattleTasks::getTaskDescription(config = null, paramsCfg = {})
     }
   }
 
+  local progressData = config?.getProgressBarData? config.getProgressBarData() : null
+  local progressBarValue = config?.curVal >= 0? (config.curVal.tofloat() / (config?.maxVal ?? 1) * 1000) : 0
+
   local view = {
     id = config.id
     taskDescription = ::g_string.implode(taskDescription, "\n")
@@ -606,7 +610,9 @@ function BattleTasks::getTaskDescription(config = null, paramsCfg = {})
     taskUnlocks = taskUnlocksList
     taskUnlocksList = taskUnlocksList.len()
     taskConditionsList = taskConditionsList.len()? taskConditionsList : null
-    isPromo = paramsCfg?.isPromo ?? false
+    needShowProgressBar = isPromo && progressData?.show
+    progressBarValue = progressBarValue.tointeger()
+    isPromo = isPromo
     isOnlyInfo = paramsCfg?.isOnlyInfo ?? false
   }
 

@@ -5,8 +5,8 @@ class ::items_classes.ModOverdrive extends BaseItemModClass
 {
   static iType = itemType.MOD_OVERDRIVE
   static defaultLocId = "modOverdrive"
-  static defaultIcon = "#ui/gameuiskin#items_orders_revenge"
-  static typeIcon = "#ui/gameuiskin#items_orders_revenge"
+  static defaultIcon = "#ui/gameuiskin#overdrive_upgrade_bg"
+  static typeIcon = "#ui/gameuiskin#item_type_overdrive"
 
   canBuy = true
   allowBigPicture = false
@@ -22,6 +22,8 @@ class ::items_classes.ModOverdrive extends BaseItemModClass
   getConditionsBlk = @(configBlk) configBlk.modOverdriveParams
   canActivate = @() isInventoryItem && !isActive()
   isActive = @(...) isActiveOverdrive
+
+  getIconMainLayer = @() ::LayersIcon.findLayerCfg("mod_overdrive")
 
   function getMainActionName(isColored = true, isShort = false)
   {

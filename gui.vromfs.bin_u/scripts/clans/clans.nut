@@ -255,7 +255,7 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
           logEntryTable.time = time.buildDateTimeStr(::get_time_from_t(logEntryTable.time))
 
         logEntryTable.header <- logType.getLogHeader(logEntryTable)
-        if (logType.showDetails)
+        if (logType.needDetails(logEntryTable))
         {
           local commonFields = logType.getLogDetailsCommonFields()
           local shortCommonDetails = ::u.pick(logEntryTable, commonFields)

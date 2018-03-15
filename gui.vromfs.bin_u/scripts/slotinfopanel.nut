@@ -1,6 +1,6 @@
-const SLOT_INFO_TAB_SAVE_ID = "show_slot_info_panel_tab"
+const SLOT_INFO_CFG_SAVE_PATH = "show_slot_info_panel_tab"
 
-function create_slot_info_panel(parent_scene, show_tabs)
+function create_slot_info_panel(parent_scene, show_tabs, configSaveId)
 {
   if (!::checkObj(parent_scene))
     return null
@@ -10,6 +10,7 @@ function create_slot_info_panel(parent_scene, show_tabs)
   local params = {
     scene = containerObj
     showTabs = show_tabs
+    configSavePath = SLOT_INFO_CFG_SAVE_PATH + "/" + configSaveId
   }
   return ::handlersManager.loadHandler(::gui_handlers.SlotInfoPanel, params)
 }
@@ -19,6 +20,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/slotInfoPanel.blk"
   showTabs = false
+  configSavePath = ""
   isSceneForceHidden = false
   listboxObj = null
 
@@ -56,14 +58,14 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     scene.show(true)
     ::dmViewer.init(this)
 
+    local showTabsCount = showTabs ? tabsInfo.len() : 1
+
     listboxObj = scene.findObject("slot_info_listbox")
     if (::checkObj(listboxObj))
     {
       local view = { items = [] }
-      for(local i=0; i < tabsInfo.len(); i++)
+      for(local i = 0; i < showTabsCount; i++)
       {
-        if( ! showTabs && i)
-          break
         view.items.push({
           tooltip = tabsInfo[i].tooltip,
           imgId = tabsInfo[i].imgId,
@@ -75,7 +77,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(listboxObj, data, data.len(), this)
 
       updateUnitIcon()
-      listboxObj.setValue(showTabs ? ::load_local_account_settings(SLOT_INFO_TAB_SAVE_ID, 0) : 0)
+      listboxObj.setValue(::min(::load_local_account_settings(configSavePath, 0), showTabsCount))
       updateContentVisibility()
 
       listboxObj.show(view.items.len() > 1)
@@ -138,8 +140,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       collapseBtnContainer.collapsed = isPanelHidden ? "yes" : "no"
     showSceneBtn("slot_info_content", ! isPanelHidden)
     updateVisibleTabContent(true)
-    if(showTabs)
-      ::save_local_account_settings(SLOT_INFO_TAB_SAVE_ID, currentIndex)
+    ::save_local_account_settings(configSavePath, currentIndex)
   }
 
   function updateVisibleTabContent(isTabSwitch = false)
@@ -232,15 +233,6 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventCurrentGameModeIdChanged(params)
   {
-    if (! ::has_feature("GamercardDrawerSwitchBR"))
-      return
-    doWhenActiveOnce("updateAirInfo")
-  }
-
-  function onEventShowModeChange(params)
-  {
-    if (::has_feature("GamercardDrawerSwitchBR"))
-      return
     doWhenActiveOnce("updateAirInfo")
   }
 

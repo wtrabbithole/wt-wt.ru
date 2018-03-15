@@ -105,6 +105,12 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
 
   local totalLen = ::to_integer_safe(placeObj.totalLen, 1)
   local insertRewardFromEnd = ::to_integer_safe(placeObj.insertRewardFromEnd, 1)
+  local insertRewardIdx = totalLen - insertRewardFromEnd - 1
+  if (insertRewardIdx < 0 || insertRewardIdx >= totalLen)
+  {
+    ::dagor.assertf(false, "Insert index is wrong: " + insertRewardIdx + " / " + totalLen)
+    return false
+  }
 
   local retTable = ::ItemsRoulette.generateItemsArray(trophyName)
   local itemsArray = ::getTblValue("itemsArray", retTable, [])
@@ -117,14 +123,12 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
 
   ::ItemsRoulette.soundStart()
 
+
   local count = ::getTblValue("count", retTable, 1)
-  local processedItemsArray = ::ItemsRoulette.gatherItemsArray(itemsArray, totalLen, insertRewardFromEnd, count)
-  processedItemsArray = ::ItemsRoulette.insertCurrentReward(processedItemsArray, rewardsArray, insertRewardFromEnd)
+  local processedItemsArray = ::ItemsRoulette.gatherItemsArray(itemsArray, totalLen, insertRewardIdx, count)
+  processedItemsArray = ::ItemsRoulette.insertCurrentReward(processedItemsArray, rewardsArray, insertRewardIdx)
 
-  local arrayLen = processedItemsArray.len()
-  local endPos = arrayLen > insertRewardFromEnd? (arrayLen - insertRewardFromEnd) : arrayLen
-
-  local readyImagesTable = ::ItemsRoulette.createDataLine(processedItemsArray, endPos)
+  local readyImagesTable = ::ItemsRoulette.createDataLine(processedItemsArray, insertRewardIdx)
   local guiScene = placeObj.getScene()
 
   local endPos = guiScene.calcString(readyImagesTable.endString, null)
@@ -251,7 +255,7 @@ function ItemsRoulette::getUniqueTableKey(rewardBlock)
   return tKey + "_" + tVal
 }
 
-function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, insertRewardFromEnd, count = 1)
+function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, insertRewardIdx, count = 1)
 {
   ::ItemsRoulette.debugData.commonInfo["mainLength"] <- mainLength
 
@@ -279,11 +283,13 @@ function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, insertRewardFro
 
   if (!topRewardFounded)
   {
-    local insertIdx = mainLength-insertRewardFromEnd
+    local insertIdx = insertRewardIdx + 1 // Interting teaser item next to reward.
+    if (insertIdx >= mainLength)
+      insertIdx = 0
     ::dagor.debug("ItemsRoulette: Top reward by key " + topRewardKey + " not founded." +
          "Insert manually into " + insertIdx + ".")
     local table = ::ItemsRoulette.getRandomItem([searchKeyTable], 0)
-    local slot = resultArray[insertIdx > 0? insertIdx : 0]
+    local slot = resultArray[insertIdx]
     if (slot.len() == 0)
       slot.append(table)
     else
@@ -465,42 +471,33 @@ function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray, inser
     array.append(reward)
   }
 
-  local insertNum = readyItemsArray.len() - insertIdx-1
-  if (insertNum < 0)
-  {
-    ::dagor.debug("insertNum = " + insertNum)
-    ::dagor.debug("roulette length = " + readyItemsArray.len())
-    ::dagor.assertf(false, "Insert index is negative")
-    insertNum = 0
-  }
-
-  readyItemsArray[insertNum].clear()
-  readyItemsArray[insertNum] = array
+  readyItemsArray[insertIdx].clear()
+  readyItemsArray[insertIdx] = array
   return readyItemsArray
 }
 
-function ItemsRoulette::createDataLine(completeArray, rewardSlotIdx)
+function ItemsRoulette::createDataLine(completeArray, insertRewardIdx)
 {
   local total = 0
   local endPos = 0
   local result = ""
   foreach(idx, slot in completeArray)
   {
-    local slotRes = ""
+    local slotRes = []
     foreach(idx, item in slot)
-      slotRes += ::getTblValueByPath("reward.layout", item, ::getTblValue("layout", item, ""))
+      slotRes.insert(0, ::getTblValueByPath("reward.layout", item, ::getTblValue("layout", item, "")))
 
     local layerCfg = ::LayersIcon.findLayerCfg("roulette_slot")
     local width = 1
     if (slot.len() > 1)
-      width = 1.5
+      width += 0.1 * (slot.len() - 1)
     layerCfg.w <- width + "@itemWidth"
 
     total += width
-    if (idx <= rewardSlotIdx-1)
-      endPos += width * (idx == rewardSlotIdx-1? 0.5 : 1)
+    if (idx <= insertRewardIdx)
+      endPos += width * (idx == insertRewardIdx ? 0.5 : 1)
 
-    result += ::LayersIcon.genDataFromLayer(layerCfg, slotRes)
+    result += ::LayersIcon.genDataFromLayer(layerCfg, ::g_string.implode(slotRes))
   }
 
   return {data = result, endString = endPos + "@itemWidth", totalString = total + "@itemWidth"}

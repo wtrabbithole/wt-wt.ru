@@ -427,13 +427,7 @@ function unitsDeck_init(userId, team, country, minRating, maxRating, playerRatin
   if (unitsCount == 0 && unitsCountInSharedGroup > 0) {
     dagor.debug("unitsDeck_init don't give unit. sharedGroup " + sharedGroup + " already have "
                 + unitsCountInSharedGroup + " units and unitsDeckShort is empty")
-    local user_blk = ::get_user_custom_state(userId, true)
-    if (user_blk) {
-      if (!user_blk.limitedUnits) user_blk.limitedUnits <- DataBlock()
-      user_blk.limitedUnits.setFrom(userSharedGroup.limitedUnits)
-      if (!user_blk.weaponList) user_blk.weaponList <- DataBlock()
-      user_blk.weaponList.setFrom(userSharedGroup.weaponList)
-    }
+    updateUserBlk(userId)
   }
   else {
     for (local i = 0; i < startUnitsCount; i++) {
@@ -699,14 +693,16 @@ function unitsDeck_unitDraw(userId, team, country, minRating, maxRating, playerR
   local rulesBlk = ::get_mission_custom_state(false)
   local teamsBlk = rulesBlk.teams
   local teamName = get_team_name_by_mp_team(team)
-  local hasPreferredUnit = checkUserListOnPreferredUnit(userId, team)
 
   local sharedGroup = usersSharedGroupList?[userId]
   if (!sharedGroup) {
     dagor.debug("unitsDeck_unitDraw. ERROR: user " + userId + " haven't sharedGroup.")
     return
   }
+
   local userSharedGroup = unitsSharedGroups[sharedGroup]
+  updateUserBlk(userId)
+
   local unitsCountInSharedGroup = getUnitListUnitCount(userSharedGroup.limitedUnits)
   local usersInSharedGroup = 0
   local startUnitsCount = teamsBlk[teamName].getInt("startUnitsCount", 0)
@@ -714,6 +710,7 @@ function unitsDeck_unitDraw(userId, team, country, minRating, maxRating, playerR
   foreach(userId, userSharedGroup in usersSharedGroupList)
     if (sharedGroup == userSharedGroup) usersInSharedGroup++
 
+  local hasPreferredUnit = checkUserListOnPreferredUnit(userId, team)
   if (hasPreferredUnit && (unitsCountInSharedGroup >= startUnitsCount * usersInSharedGroup)) {
     dagor.debug("unitsDeck_unitDraw. sharedGroup " + sharedGroup + " already have enough units count (" + 
                 unitsCountInSharedGroup + ") for " + usersInSharedGroup + " players. Don't give unit.")
@@ -988,25 +985,7 @@ function modUnitListInSharedGroup(userId, unit, num, team, weapon, needReturnUni
       unitsSharedGroups[sharedGroup].limitedUnits[unit] += num
 
       foreach(childId, childGroup in usersSharedGroupList)
-        if (childGroup == sharedGroup)
-        {
-          local user_blk = ::get_user_custom_state(childId, true)
-          if (user_blk != null)
-          {
-            if (user_blk.limitedUnits == null)
-              user_blk.limitedUnits <- DataBlock()
-
-            user_blk.limitedUnits.setFrom(unitsSharedGroups[sharedGroup].limitedUnits)
-
-            if (weaponName != null)
-            {
-              if (user_blk.weaponList == null)
-                user_blk.weaponList <- DataBlock()
-
-              user_blk.weaponList.setFrom(unitsSharedGroups[sharedGroup].weaponList)
-            }
-          }
-        }
+        if (childGroup == sharedGroup) updateUserBlk(childId)
 
       modDistributedUnitsBlk(unit, team, num, needReturnUnitsToDeck)
     }
@@ -1065,6 +1044,23 @@ function checkUnitListInUserState(userId, unit, num)
   }
 
   return true
+}
+
+function updateUserBlk(userId)
+{
+  local sharedGroup = usersSharedGroupList?[userId]
+  if (!sharedGroup) {
+    dagor.debug("updateUserBlk. ERROR: user " + userId + " haven't sharedGroup.")
+    return
+  }
+  local userSharedGroup = unitsSharedGroups?[sharedGroup]
+  local user_blk = ::get_user_custom_state(userId, true)
+  if (userSharedGroup && user_blk) {
+    if (!user_blk.limitedUnits) user_blk.limitedUnits <- DataBlock()
+    if (userSharedGroup.limitedUnits) user_blk.limitedUnits.setFrom(userSharedGroup.limitedUnits)
+    if (!user_blk.weaponList) user_blk.weaponList <- DataBlock()
+    if (userSharedGroup.weaponList) user_blk.weaponList.setFrom(userSharedGroup.weaponList)
+  }
 }
 
 //---- Unit deck END ----

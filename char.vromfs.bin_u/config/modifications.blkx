@@ -3192,6 +3192,14 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "30mm_ussr_ags17_he": {
+      "image": "#ui/gameuiskin#shrapnel_tank",
+      "isReserve": true,
+      "group": "30mm_HE",
+      "effects": {
+        "additiveBulletMod": "30mm_ussr_ags17_he"
+      }
+    },
     "37mm_ussr_Sh37_HE": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "37mm_ussr_Sh37_HE_ammo_pack",
@@ -4033,6 +4041,34 @@
       "effects": {
         "additiveBulletMod": "20mm_it_breda_universal"
       }
+    },
+    "20mm_it_breda_he": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "20mm_it_breda_he_ammo_pack",
+      "group": "20mm_HE",
+      "effects": {
+        "additiveBulletMod": "20mm_it_breda_he"
+      }
+    },
+    "20mm_it_breda_he_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 1,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "20mm_it_breda_ap": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "20mm_it_breda_ap_ammo_pack",
+      "group": "20mm_AP",
+      "effects": {
+        "additiveBulletMod": "20mm_it_breda_ap"
+      }
+    },
+    "20mm_it_breda_ap_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 2,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
     },
     "40mm_vickers_terni_he": {
       "image": "#ui/gameuiskin#tank_ammo",
@@ -6816,6 +6852,20 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "120mm_britain_L23A1_APDSFS": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "120mm_britain_L23A1_APDSFS_ammo_pack",
+      "group": "120mm_AP",
+      "effects": {
+        "additiveBulletMod": "120mm_britain_L23A1_APDSFS"
+      }
+    },
+    "120mm_britain_L23A1_APDSFS_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 4,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "120mm_britain_Smoke": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "120mm_britain_Smoke_ammo_pack",
@@ -8770,20 +8820,30 @@
       }
     },
     "25mm_2m3_he": {
-      "reqModification": "25mm_2m3_belt_pack",
+      "reqModification": "25mm_2m3_he_ammo_pack",
       "group": "25mm_2m3",
-      "isReserve": true,
       "effects": {
         "bulletMod": "25mm_2m3_he"
       }
     },
+    "25mm_2m3_he_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "modClass": "firepower",
+      "tier": 1,
+      "deactivationIsAllowed": false
+    },
     "25mm_2m3_ap": {
-      "reqModification": "25mm_2m3_belt_pack",
+      "reqModification": "25mm_2m3_ap_ammo_pack",
       "group": "25mm_2m3",
-      "isReserve": true,
       "effects": {
         "bulletMod": "25mm_2m3_ap"
       }
+    },
+    "25mm_2m3_ap_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "modClass": "firepower",
+      "tier": 2,
+      "deactivationIsAllowed": false
     },
     "25mm_2m3_belt_pack": {
       "image": "#ui/gameuiskin#ammo",
@@ -10049,6 +10109,11 @@
       "modClass": "firepower",
       "requiresModelReload": true,
       "image": "#ui/gameuiskin#smoke_screen"
+    },
+    "fr_50_dt": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
     },
     "fr_100_gp_standart": {
       "image": "#ui/gameuiskin#pilon_bomb",

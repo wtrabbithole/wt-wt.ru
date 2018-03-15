@@ -9,45 +9,40 @@ local platformModule = require("scripts/clientState/platform.nut")
   byName = {}
 }
 
-function g_clan_log_type::_getLogHeader(logEntry)
-{
-  return ""
-}
-
-function g_clan_log_type::_getLogDetailsCommonFields()
-{
-  local fields = ["admin"]
-  fields.extend(logDetailsCommonFields)
-  return fields
-}
-
-function g_clan_log_type::_getLogDetailsIndividualFields()
-{
-  local fields = []
-  fields.extend(logDetailsIndividualFields)
-  return fields
-}
-
-function g_clan_log_type::_getSignText(logEntry)
-{
-  if (!("uN" in logEntry))
-    return null
-
-  if (::getTblValue("admin", logEntry, false))
-    return ::loc("clan/log/initiated_by_admin", { nick = logEntry.uN })
-  else
-    return ::loc("clan/log/initiated_by", { nick = logEntry.uN })
-}
+local isSelfLog = @(logEntry) logEntry?.uN == logEntry?.nick
+local getColoredNick = @(logEntry)
+  ::colorize(
+    logEntry.uid == ::my_user_id_str ? "mainPlayerColor" : "userlogColoredText",
+    platformModule.getPlayerName(logEntry.nick)
+  )
 
 ::g_clan_log_type.template <- {
   name = ""
-  showDetails = true
   logDetailsCommonFields = []
   logDetailsIndividualFields = []
-  getLogHeader = ::g_clan_log_type._getLogHeader
-  getLogDetailsCommonFields = ::g_clan_log_type._getLogDetailsCommonFields
-  getLogDetailsIndividualFields = ::g_clan_log_type._getLogDetailsIndividualFields
-  getSignText = ::g_clan_log_type._getSignText
+
+  needDetails = @(logEntry) true
+  getLogHeader = @(logEntry) ""
+
+  getLogDetailsCommonFields = function()
+  {
+    local fields = ["admin"]
+    fields.extend(logDetailsCommonFields)
+    return fields
+  }
+
+  getLogDetailsIndividualFields = @() logDetailsIndividualFields
+
+  getSignText = function(logEntry)
+  {
+    local name = logEntry?.uN
+    if (!name)
+      return null
+
+    local locId = logEntry?.admin ? "clan/log/initiated_by_admin" : "clan/log/initiated_by"
+    local color = logEntry?.uId == ::my_user_id_str ? "mainPlayerColor" : "userlogColoredText"
+    return ::loc(locId, { nick = ::colorize(color, platformModule.getPlayerName(name)) })
+  }
 }
 
 enums.addTypesByGlobalName("g_clan_log_type", {
@@ -102,22 +97,23 @@ enums.addTypesByGlobalName("g_clan_log_type", {
       "nick"
       "role"
     ]
-    showDetails = false
+    needDetails = @(logEntry) !isSelfLog(logEntry)
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/add_new_member_log", {nick = platformModule.getPlayerName(logEntry.nick)})
+      return ::loc("clan/log/add_new_member_log", {nick = getColoredNick(logEntry) })
     }
   }
   REMOVE = {
     name = "rem"
-    showDetails = false
     logDetailsCommonFields = [
       "uid"
       "nick"
     ]
+    needDetails = @(logEntry) !isSelfLog(logEntry)
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/remove_member_log", {nick = platformModule.getPlayerName(logEntry.nick)})
+      local locId = isSelfLog(logEntry) ? "clan/log/leave_member_log" :"clan/log/remove_member_log"
+      return ::loc(locId, {nick = getColoredNick(logEntry) })
     }
   }
   ROLE = {
@@ -128,11 +124,11 @@ enums.addTypesByGlobalName("g_clan_log_type", {
     ]
     logDetailsIndividualFields = [
       "old"
-      "new"
     ]
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/change_role_log", {nick = platformModule.getPlayerName(logEntry.nick)})
+      return ::loc("clan/log/change_role_log",
+        { nick = getColoredNick(logEntry), role = ::colorize("@userlogColoredText", ::loc("clan/" + logEntry?.new)) })
     }
   }
   UPGRADE_MEMBERS = {

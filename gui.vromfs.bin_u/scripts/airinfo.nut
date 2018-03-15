@@ -1569,10 +1569,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   obj = holderObj.findObject("aircraft-type")
   if (::checkObj(obj))
   {
-    local fonticon = ::colorize("activeTextColor", ::get_unit_role_icon(air))
+    local fonticon = ::get_unit_role_icon(air)
     local typeText = ::get_full_unit_role_text(air)
     obj.show(typeText != "")
-    obj.setValue(fonticon + " " + ::colorize(::getUnitClassColor(air), typeText))
+    obj.setValue(::colorize(::getUnitClassColor(air), fonticon + " " + typeText))
   }
 
   obj = holderObj.findObject("player_country_exp")
@@ -2242,7 +2242,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     }
   }
 
-  local weaponsInfoText = ::getWeaponInfoText(air, null, showLocalState ? -1 : 0)
+  local weaponsInfoText = ::getWeaponInfoText(air,
+    { weaponPreset = showLocalState ? -1 : 0, ediff = ediff, isLocalState = showLocalState })
   obj = holderObj.findObject("weaponsInfo")
   if (obj) obj.setValue(weaponsInfoText)
 

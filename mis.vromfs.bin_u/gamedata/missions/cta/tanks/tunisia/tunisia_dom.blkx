@@ -410,6 +410,11 @@
                 "side": "neutral",
                 "target": "briefing_captureZone03"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea"
+              }
             }
           ]
         },
@@ -434,14 +439,28 @@
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
-                "target": "briefing_dom_t1_spawn_01_hardcore"
+                "target": "briefing_dom_t1_spawn_01_realistic"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_dom_t1_spawn_02_realistic"
               }
             },
             {
               "icon": {
                 "icontype": "tank",
                 "side": "enemy",
-                "target": "briefing_dom_t2_spawn_01_hardcore"
+                "target": "briefing_dom_t2_spawn_01_realistic"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_dom_t2_spawn_02_realistic"
               }
             },
             {
@@ -463,6 +482,11 @@
                 "icontype": "basezone_C",
                 "side": "neutral",
                 "target": "briefing_captureZone03"
+              }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea"
               }
             }
           ]
@@ -494,8 +518,22 @@
             {
               "icon": {
                 "icontype": "tank",
+                "side": "ally",
+                "target": "briefing_dom_t1_spawn_02_hardcore"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
                 "side": "enemy",
                 "target": "briefing_dom_t2_spawn_01_hardcore"
+              }
+            },
+            {
+              "icon": {
+                "icontype": "tank",
+                "side": "enemy",
+                "target": "briefing_dom_t2_spawn_02_hardcore"
               }
             },
             {
@@ -1191,7 +1229,7 @@
         [0.984808,0.0,0.173648],
         [0.0,1.0,0.0],
         [-0.173648,0.0,0.984808],
-        [2013.94,11.45,580.928]
+        [348.609,11.45,411.655]
       ],
       "objLayer": 0,
       "props": []
@@ -1202,7 +1240,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2242.15,14.5,3225.75]
+        [244.565,14.5,3838.9]
       ],
       "objLayer": 0,
       "props": []
@@ -1271,6 +1309,83 @@
         [1390.2,-1.65,2123.4]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_dom_t1_spawn_01_realistic": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [2513.14,11.45,1443.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_dom_t1_spawn_02_realistic": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [3431.69,11.4501,1468.96]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_dom_t2_spawn_01_realistic": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2115.31,14.4999,2626.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_dom_t2_spawn_02_realistic": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [3303.46,14.4998,2746.62]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_dom_t1_spawn_02_hardcore": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [3496.53,11.45,682.381]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_dom_t2_spawn_02_hardcore": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [3136.37,14.5,3565.01]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea": {
+      "type": "Box",
+      "tm": [
+        [-1590.0,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,-1590.0],
+        [2715.95,45.3927,2043.9]
+      ],
+      "objLayer": 4,
       "props": []
     }
   },

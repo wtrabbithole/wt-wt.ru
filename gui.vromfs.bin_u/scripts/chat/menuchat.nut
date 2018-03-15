@@ -1593,6 +1593,12 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       else if (errorName == chatErrorName.CANNOT_JOIN_THE_CHANNEL && roomId.len() > 1)
       {
+        if (::g_chat.isRoomSquad(roomId))
+        {
+          ::g_popups.add(null, ::loc("squad/join_chat_failed"), null, null, null, "squad_chat_failed")
+          return
+        }
+
         local wasPasswordEntered = ::getTblValue(roomId, roomJoinParamsTable, "") != ""
         local locId = wasPasswordEntered ? "chat/wrongPassword" : "chat/enterPassword"
         local params = {

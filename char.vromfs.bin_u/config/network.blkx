@@ -763,6 +763,12 @@
         "yupConfUrl": "",
         "noIndex": true
       }
+    },
+    {
+      "skinsDecalsCDN": {
+        "replaceUrls": "chinatest.skinsDecalsCDN.baseUrls",
+        "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata.info"
+      }
     }
   ],
   "china-dev": {
@@ -775,82 +781,18 @@
     "guiWebCache": {
       "yupConfUrl": "",
       "noIndex": true
+    },
+    "skinsDecalsCDN": {
+      "replaceUrls": "chinatest.skinsDecalsCDN.baseUrls",
+      "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata.info"
     }
   },
-  "china-precoop": [
-    {
-      "matchServer": "46.46.160.79:7852"
-    },
-    {
-      "matchServer": "46.46.160.80:7852"
-    },
-    {
-      "ircServer": "46.46.160.80:6668"
-    },
-    {
-      "charServer": "https://46.46.160.79:10443/char"
-    },
-    {
-      "charServer": "https://46.46.160.80:10443/char"
-    },
-    {
-      "skinsDecalsCDN_useCommon": false
-    },
-    {
-      "skinsDecalsCDN": "http://down.qq.com/warthunder/decals/production/"
-    },
-    {
-      "hashesReqUrl": "http://down.qq.com/warthunder/decals/dldata.info"
-    },
-    {
-      "yuplay": {
-        "loginURL": "https://46.46.160.79/login.php"
-      }
-    },
-    {
-      "guiWebCache": {
-        "yupConfUrl": "",
-        "noIndex": true
-      }
-    },
-    {
-      "skinsDecalsCDN": {
-        "replaceUrls": "china.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://down.qq.com/warthunder/decals/dldata.info"
-      }
-    }
-  ],
+  "chinatest.skinsDecalsCDN.baseUrls": {
+    "url": "http://adminkas-cn-01.gaijin.lan/"
+  },
   "china.skinsDecalsCDN.baseUrls": {
     "url": "http://down.qq.com/warthunder/decals/production/"
   },
-  "china-coop": [
-    {
-      "matchServer": "183.60.118.35:7852"
-    },
-    {
-      "matchServer": "183.60.118.78:7852"
-    },
-    {
-      "ircServer": "183.60.118.64:12123"
-    },
-    {
-      "charServer": "https://183.60.118.68:1443/char"
-    },
-    {
-      "charServer": "https://183.60.118.66:1443/char"
-    },
-    {
-      "yuplay": {
-        "loginURL": "https://183.60.118.35:2001/login.php"
-      }
-    },
-    {
-      "guiWebCache": {
-        "yupConfUrl": "",
-        "noIndex": true
-      }
-    }
-  ],
   "china-gov": [
     {
       "matchServer": "183.61.232.31:7852"
@@ -934,12 +876,6 @@
       }
     }
   ],
-  "china-formal": {
-    "yuplay": []
-  },
-  "china-exp": {
-    "yuplay": []
-  },
   "china-test-1": [
     {
       "matchServer": "183.61.160.139:7852"

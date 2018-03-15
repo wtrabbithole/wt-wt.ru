@@ -666,6 +666,10 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   EIT_MOD_UPGRADE = 8
 
   is_opengl_driver = @() false
+
+  xbox_is_player_in_chat = @(uid) false
+
+  is_online_available = @() ::is_connected_to_matching()
 })
 
 ::dagui_propid.add_name_id("inc-min")

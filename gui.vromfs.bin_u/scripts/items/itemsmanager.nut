@@ -1205,6 +1205,9 @@ function ItemsManager::isEnabled()
 
 function ItemsManager::itemsSortComparator(item1, item2)
 {
+  if (!item1 || !item2)
+    return item2 <=> item1
+
   local active1 = item1.isActive()
   local active2 = item2.isActive()
   if (active1 != active2)
@@ -1225,6 +1228,7 @@ function ItemsManager::itemsSortComparator(item1, item2)
 
   return item2.lastChangeTimestamp <=> item1.lastChangeTimestamp
     || item1.iType <=> item2.iType
+    || item2.getRarity() <=> item1.getRarity()
     || item1.id <=> item2.id
 }
 

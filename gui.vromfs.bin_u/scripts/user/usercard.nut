@@ -993,13 +993,15 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!isFriend) bText = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
       }
 
+    local isXBoxOnePlayer = ::is_player_from_xbox_one(player.name)
+    local needShowPlayerContactAction = !::is_platform_xboxone || isXBoxOnePlayer
     local sheet = getCurSheet()
     local showStatBar = infoReady && sheet=="Statistics"
     local showProfBar = infoReady && !showStatBar
     local buttonsList = {
                           paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
-                          btn_friendAdd = showProfBar && fText!=""
-                          btn_blacklistAdd = showProfBar && bText!=""
+                          btn_friendAdd = showProfBar && needShowPlayerContactAction && !::isPlayerPS4Friend(player.name) && fText!=""
+                          btn_blacklistAdd = showProfBar && needShowPlayerContactAction && bText!=""
                           btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
                           btn_complain = showProfBar && !isMe
                         }

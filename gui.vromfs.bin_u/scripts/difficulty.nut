@@ -171,14 +171,6 @@ function g_difficulty::getDifficultyByChoiceType(searchChoiceType = "")
 
 function get_current_ediff()
 {
-
-  if (! ::has_feature("GamercardDrawerSwitchBR"))
-  {
-    local gameMode = ::game_mode_manager.getCurrentGameMode()
-    local battleType = ::get_battle_type_by_ediff(gameMode ? gameMode.ediff : 0)
-    return ::get_current_shop_difficulty().getEdiff(battleType)
-  }
-
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   return gameMode && gameMode.ediff != -1 ? gameMode.ediff : EDifficulties.ARCADE
 }
@@ -199,14 +191,6 @@ function get_difficulty_by_ediff(ediff)
 
 function get_current_shop_difficulty()
 {
-  if (! ::has_feature("GamercardDrawerSwitchBR"))
-  {
-    foreach(diff in ::g_difficulty.types)
-      if (::get_show_mode_info(diff.egdCode))
-        return diff
-    return ::g_difficulty.ARCADE
-  }
-
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   local diffCode = gameMode ? gameMode.diffCode : ::DIFFICULTY_ARCADE
   return ::g_difficulty.getDifficultyByDiffCode(diffCode)

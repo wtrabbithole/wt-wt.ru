@@ -41,15 +41,17 @@
     "explodeHitPower": 200.0,
     "explodeArmorPower": 18.0,
     "explodeRadius": [0.4,1.0],
-    "explosionPatchRadius": 1.1,
     "shutterDamage": true,
     "shutterDamageRadius": 16.4,
     "shutterAmount": 200,
     "shutterArmorPower": 5.0,
     "shutterHit": 8.0,
     "groundCollisionEffect": "art_ground_splash",
-    "ricochetEffect": "cannon_ricochet",
-    "groundFxScale": [1.4,1.5],
+    "groundFxScale": [1.5,1.7],
+    "ricochetEffect": "cannon_hit_apds",
+    "waterCollisionEffect": "120-203_he_water_splash",
+    "waterFxScale": [1.1,1.2],
+    "explosionPatchRadius": 4.0,
     "hitpower": {
       "HitPower0m": [1.0,500.0],
       "HitPower1000m": [0.9,1000.0],
@@ -79,13 +81,17 @@
       "trail": "black"
     },
     "collisions": {
+      "buildings": {
+        "fx": "122_he_stone_splash",
+        "fxScale": [1.3,1.7]
+      },
       "steel": {
         "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [2.5,3.5]
+        "fxScale": [4.0,5.0]
       },
       "armor": {
         "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [2.5,3.5]
+        "fxScale": [4.0,5.0]
       }
     }
   },
@@ -111,15 +117,17 @@
       "explodeHitPower": 500.0,
       "explodeArmorPower": 42.0,
       "explodeRadius": [0.3,1.1],
-      "explosionPatchRadius": 2.1,
       "shutterDamage": true,
       "shutterDamageRadius": 42.0,
       "shutterAmount": 1000,
       "shutterArmorPower": 10.0,
       "shutterHit": 10.0,
       "groundCollisionEffect": "art_ground_splash",
-      "ricochetEffect": "cannon_ricochet",
-      "defFxScale": [1.9,2.0],
+      "groundFxScale": [1.5,1.7],
+      "ricochetEffect": "cannon_hit_apds",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [1.1,1.2],
+      "explosionPatchRadius": 4.0,
       "hitpower": {
         "HitPower0m": [1.0,500.0],
         "HitPower1000m": [0.9,1000.0],
@@ -134,13 +142,17 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [1.3,1.7]
+        },
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [3.0,4.0]
+          "fxScale": [4.0,5.0]
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [3.0,4.0]
+          "fxScale": [4.0,5.0]
         }
       }
     }
@@ -151,9 +163,9 @@
       "bulletName": "152mm_mgm_61b",
       "mass": 27.8,
       "caliber": 0.152,
-      "sound_path": "tanks/weapon_tanks/rockets",
-      "sound": "82mm_m8",
-      "sound_inside": "82mm_m8_interior",
+      "sound_path": "tanks/weapon_tanks/atgm",
+      "sound": "atgm",
+      "sound_inside": "atgm_interior",
       "mesh": "mgm_61b_rocket",
       "recoilMultiplier": 0.05,
       "rocket": {
@@ -208,7 +220,7 @@
         "shutterHit": 12.0,
         "advancedMissiles": false,
         "useStartSpeed": true,
-        "startSpeed": 323.0,
+        "startSpeed": 75.0,
         "endSpeed": 323.0,
         "speedViscosity": 0.2,
         "timeToLive": 20.0,

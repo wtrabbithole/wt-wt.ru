@@ -20,7 +20,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   sceneTplTeamRight = "gui/worldWar/wwBattleDescriptionTeamUnitsInfo"
   sceneTplTeamHeaderInfo = "gui/worldWar/wwBattleDescriptionTeamInfo"
 
-  slotbarActions = [ "autorefill", "aircraft", "weapons", "info", "repair" ]
+  slotbarActions = [ "autorefill", "aircraft", "weapons", "crew", "info", "repair" ]
   shouldCheckCrewsReady = true
   hasSquadsInviteButton = true
   hasBattleFilter = false
@@ -30,6 +30,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   operationBattle = null      // battle to dasplay, check join enable, join, etc
   needEventHeader = true
   currViewMode = WW_BATTLE_VIEW_MODES.BATTLE_LIST
+  isSelectedBattleActive = false
 
   battlesListObj = null
   lastBattleListMap = null
@@ -255,23 +256,18 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
     items.append(view)
 
-    local createBattleViewCallback = ::Callback(createBattleListItemView, this)
-    local battles = ::u.map(
-        groupData.childrenBattles,
-        (@(createBattleViewCallback) function(battleData) {
-          return createBattleViewCallback(battleData)
-        })(createBattleViewCallback)
-      )
+    local wwBattlesView = ::u.map(groupData.childrenBattles,
+      function(battle) {
+        return createBattleListItemView(battle)
+      }.bindenv(this))
 
-    battles.sort(
-      function(battleA, battleB) {
-        if (battleA.itemPrefixText != battleB.itemPrefixText)
-          return battleA.itemPrefixText < battleB.itemPrefixText ? -1 : 1
-        return 0
-      }
-    )
+    wwBattlesView.sort(battlesSort)
+    items.extend(wwBattlesView)
+  }
 
-    items.extend(battles)
+  function battlesSort(battleA, battleB)
+  {
+    return battleA.itemPrefixText <=> battleB.itemPrefixText
   }
 
   function createBattleListItemView(battleData)
@@ -284,6 +280,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       itemIcon = battleView.getIconImage()
       iconColor = battleView.getIconColor()
       isSelected = curBattleInList.isValid() && battleData.id == curBattleInList.id
+      isConfirmed = battleData.isConfirmed()
+      sortTimeFactor = battleData.getSortByTimeFactor()
+      sortFullnessFactor = battleData.getSortByFullnessFactor()
     }
 
     if (battleData.isActive())
@@ -348,22 +347,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         gameModeName = operationBattle.getLocName()
         showEmptySlot = true
         needPresetsPanel = true
-        beforeCountrySelect = beforeCountrySelect
         shouldCheckCrewsReady = true
       }
     )
-  }
-
-  function beforeCountrySelect(onOk, onCancel, countryData)
-  {
-    local playerTeam = operationBattle.getTeamBySide(getPlayerSide())
-    if (countryData.country != playerTeam.country)
-    {
-      onCancel()
-      ::showInfoMsgBox(::loc("worldWar/cantChangeCountryInOperation"))
-      return
-    }
-    onOk()
   }
 
   function updateDescription()
@@ -640,22 +626,36 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local battleView = operationBattle.getView()
-    battleCanJoinStatusObj.setValue(battleView.getCanJoinText())
+    battleCanJoinStatusObj.setValue(battleView.getCanJoinText(getPlayerSide()))
   }
 
   function updateBattleStatus(battleView)
   {
     local statusObj = scene.findObject("battle_status_text")
     if (::check_obj(statusObj))
-      statusObj.setValue(battleView.getBattleStatusWithCanJoinText())
+      statusObj.setValue(battleView.getBattleStatusWithCanJoinText(getPlayerSide()))
 
     local battleTimeObj = scene.findObject("battle_time_text")
     if (::check_obj(battleTimeObj) && battleView)
     {
-      local battleTimeText = ::loc("worldwar/battleNotActive")
+      local battleTimeText = ""
       if (battleView.hasBattleDurationTime())
-        battleTimeText = ::loc("debriefing/BattleTime") + ::loc("ui/colon") + battleView.getBattleDurationTime()
+        battleTimeText = ::loc("debriefing/BattleTime") + ::loc("ui/colon") +
+          battleView.getBattleDurationTime()
+      else if (battleView.hasBattleActivateLeftTime())
+      {
+        isSelectedBattleActive = false
+        battleTimeText = ::loc("worldWar/can_join_countdown") + ::loc("ui/colon") +
+          battleView.getBattleActivateLeftTime()
+      }
       battleTimeObj.setValue(battleTimeText)
+
+      if (!isSelectedBattleActive && !battleView.hasBattleActivateLeftTime())
+      {
+        isSelectedBattleActive = true
+        updateDescription()
+        updateButtons()
+      }
     }
 
     local hasTeamsInfo = battleView.hasTeamsInfo()

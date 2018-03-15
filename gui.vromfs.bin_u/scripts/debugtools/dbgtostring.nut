@@ -15,7 +15,7 @@ function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
 function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets = true, silentMode = false, printFn = null)
 {
   if (printFn == null)
-    printFn = silentMode ? ::print : ::dagor.debug;
+    printFn = silentMode ? @(t) ::print(t + "\n") : ::dagor.debug;
 
   if (addStr=="" && !silentMode)
     printFn("DD: START")

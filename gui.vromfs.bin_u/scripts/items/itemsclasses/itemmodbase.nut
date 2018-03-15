@@ -90,6 +90,28 @@ local ModificationBase = class extends ::BaseItem
       return ::getUnitRankName(rankRange.x) + ((rankRange.x != rankRange.y) ? "-" + ::getUnitRankName(rankRange.y) : "")
     return ""
   }
+
+  function getIcon(addItemName = true)
+  {
+    local res = ::LayersIcon.genDataFromLayer(getIconBgLayer())
+    res += ::LayersIcon.genDataFromLayer(getIconMainLayer())
+    res += ::LayersIcon.genDataFromLayer(getIconRankLayer())
+    return res
+  }
+
+  getIconBgLayer = @() ::LayersIcon.findLayerCfg("mod_upgrade_bg")
+  getIconMainLayer = @() null
+
+  getIconRankLayer = function()
+  {
+    if (!rankRange)
+      return null
+
+    local res = ::LayersIcon.findLayerCfg("mod_upgrade_rank")
+    if (res)
+      res.img = "#ui/gameuiskin#item_rank_" + ::clamp(rankRange.y, 1, 6)
+    return res
+  }
 }
 
 return ModificationBase

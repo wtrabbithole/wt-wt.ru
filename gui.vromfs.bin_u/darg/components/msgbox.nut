@@ -87,6 +87,7 @@ local show = function(params, styling=defStyling) {
   self = class extends styling.BgOverlay {
     cursor = styling.cursor
     stopHotkeys = true
+    stopHover = true
 
     children = class extends styling.Root {
       flow = FLOW_VERTICAL

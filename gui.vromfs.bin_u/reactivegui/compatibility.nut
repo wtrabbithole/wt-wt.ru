@@ -26,3 +26,8 @@
   TRIGGER_GROUP_MINE = 8
   TRIGGER_GROUP_SMOKE_GRENADE = 9
 })
+
+//1.77.0.X
+::apply_compatibilities({
+  get_platform = function() { return "win64" }
+})

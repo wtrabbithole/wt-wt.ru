@@ -111,6 +111,12 @@
     "smokeScreenOffset": [-3.0,0.0,2.0]
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
     "tags": {
       "country_ussr": true,
       "tank": true,
@@ -1595,7 +1601,7 @@
         },
         "body_top_dm": {
           "armorThickness": 30.0,
-          "genericArmorQuality": 1.8,
+          "genericArmorQuality": 1.3,
           "createSecondaryShatters": false
         },
         "superstructure_bottom_dm": {
@@ -1677,7 +1683,7 @@
         "armorClass": "tank_textolite",
         "composite_armor_hull_01_dm": {
           "armorThickness": 35.0,
-          "cumulativeArmorQuality": 0.1
+          "cumulativeArmorQuality": 0.4
         }
       },
       "turret_composite_armor": {
@@ -1790,7 +1796,7 @@
       "body_side_screens": {
         "armorClass": "t_90_rubber_fabric_screens",
         "hp": 100.0,
-        "armorThickness": 3.0,
+        "armorThickness": 12.0,
         "createSecondaryShatters": false,
         "ex_armor_l_01_dm": [],
         "ex_armor_l_02_dm": [],
@@ -2236,8 +2242,13 @@
     "xray_viewer_data": {
       "armorArrayHull": {
         "xrayDmPart": "composite_armor_hull_01_dm",
-        "kineticProtectionEquivalent": 480.0,
-        "cumulativeProtectionEquivalent": 480.0,
+        "referenceProtectionTable": {
+          "i": {
+            "angles": [0.0,0.0],
+            "kineticProtectionEquivalent": 440.0,
+            "cumulativeProtectionEquivalent": 500.0
+          }
+        },
         "armorArrayText": [
           {
             "layer": {
@@ -2268,8 +2279,22 @@
       },
       "armorArrayTurret": {
         "xrayDmPart": "composite_armor_turret_01_dm",
-        "kineticProtectionEquivalent": 400.0,
-        "cumulativeProtectionEquivalent": 450.0,
+        "referenceProtectionTable": [
+          {
+            "i": {
+              "angles": [0.0,0.0],
+              "kineticProtectionEquivalent": 440.0,
+              "cumulativeProtectionEquivalent": 500.0
+            }
+          },
+          {
+            "i": {
+              "angles": [-30.0,30.0],
+              "kineticProtectionEquivalent": 400.0,
+              "cumulativeProtectionEquivalent": 450.0
+            }
+          }
+        ],
         "armorArrayText": [
           {
             "layer": {
@@ -2629,6 +2654,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-10.0,60.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-145.0,-10.0,60.0],
+            "lim2": [-145.0,-125.0,-1.0,60.0],
+            "lim3": [-125.0,180.0,-10.0,60.0]
           }
         }
       }
@@ -2640,6 +2670,11 @@
         "name": "ussr_t_64_b_1984_default",
         "blk": "gameData/units/tankModels/weaponPresets/ussr_t_64_b_1984_default.blk"
       }
+    }
+  },
+  {
+    "trackEffects": {
+      "top": false
     }
   },
   {
@@ -2665,6 +2700,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
+      "tank_engine_smoke_screen_system": [],
       "125mm_ussr_3BK12_HEAT_FS_ammo_pack": [],
       "125mm_ussr_ATGM_ammo_pack": {
         "tier": 3
@@ -2906,6 +2942,11 @@
                 "limits": {
                   "yaw": [-180.0,180.0],
                   "pitch": [-10.0,60.0]
+                },
+                "limitsTable": {
+                  "lim1": [-180.0,-145.0,-10.0,60.0],
+                  "lim2": [-145.0,-125.0,-1.0,60.0],
+                  "lim3": [-125.0,180.0,-10.0,60.0]
                 }
               }
             },

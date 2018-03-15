@@ -9,6 +9,15 @@ const MEASURE_UNIT_SPEED = 0
 const MEASURE_UNIT_ALT = 1
 const MEASURE_UNIT_CLIMB_SPEED = 3
 
+
+/**************************************** CACHED PARAMS FOR SINLGE CALCULATION ******************************************************/
+local UPGRADES_ORDER = ["withLevel", "withOverdrive"] //const
+local upgradesKeys = []
+local needToShowDiff = false
+
+
+/**************************************** EFFECTS PRESETS ******************************************************/
+
 local presetsList = {
   SPEED = {
     measureType = MEASURE_UNIT_SPEED
@@ -46,6 +55,9 @@ local presetsList = {
   }
 }
 
+
+/**************************************** EFFECT TEMPLATE ******************************************************/
+
 local effectTypeTemplate = {
   id = ""
   measureType = ""
@@ -58,19 +70,16 @@ local effectTypeTemplate = {
   validateValue = @(value) value  //return null if no need to show effect
   canShowForUnit = @(unit) true
 
-  valueToString = function(value)
+  valueToString = function(value, needAdditionToZero = false)
   {
-    local isNumeric = ::is_numeric(value)
     local res = ""
     if (!::u.isString(measureType))
-      res = countMeasure(measureType, isNumeric ? value : 0.0)
+      res = countMeasure(measureType, value)
     else
-      res = (isNumeric ? string.roundedFloatToString(::round_by_value(value, presize), presize) : value)
+      res = string.roundedFloatToString(::round_by_value(value, presize), presize)
         + (measureType.len() ? ::loc("measureUnits/" + measureType) : "")
-    if (!isNumeric)
-      return res
 
-    if (value > 0)
+    if (value > 0 || (needAdditionToZero && value == 0))
       res = "+" + res
     if (value != 0)
       res = ::colorize(
@@ -81,15 +90,27 @@ local effectTypeTemplate = {
     return res
   }
 
-  getValue = function(unit, effects, modeId)
+  getValuePart = function(unit, effects, modeId)
   {
     local value = effects?[modeId]?[id] ?? effects?[id]
     if (value == null)
       return value
     value = validateValue(value)
-    if (value == null)
-      return value
-    return ::fabs(value / presize) > 0.5 ? value : null
+    return value
+  }
+
+  getValue = function(unit, effects, modeId)
+  {
+    local res = getValuePart(unit, effects, modeId)
+    if (res == null)
+      return res
+    foreach(key in upgradesKeys)
+    {
+      local value = getValuePart(unit, effects?[key], modeId)
+      if (value != null)
+        res += value
+    }
+    return ::fabs(res / presize) > 0.5 ? res : null
   }
 
   getText = function(unit, effects, modeId)
@@ -97,9 +118,28 @@ local effectTypeTemplate = {
     if (!canShowForUnit(unit))
       return ""
     local value = getValue(unit, effects, modeId)
-    if (value != null)
-      return ::format(::loc(getLocId(unit, effects)), valueToString(value))
-    return ""
+    if (value == null)
+      return ""
+
+    local res = ::format(::loc(getLocId(unit, effects)), valueToString(value))
+    if (!needToShowDiff)
+      return res
+
+    local hasAddValues = false
+    local addValueText = ""
+    foreach(key in upgradesKeys)
+    {
+      local addVal = getValuePart(unit, effects?[key], modeId) ?? 0.0
+      hasAddValues = hasAddValues || addVal != 0
+      addValueText += " " + valueToString(addVal, true)
+    }
+    if (!hasAddValues)
+      return res
+
+    addValueText = valueToString(getValuePart(unit, effects, modeId) ?? 0.0) + addValueText
+    res += ::loc("ui/parentheses/space", { text = addValueText })
+
+    return res
   }
 }
 
@@ -276,11 +316,34 @@ local getEffectsStackFunc = function(unit, effectsConfig, modeId)
   }
 }
 
+local function hasNotZeroDiff(effects1, effects2)
+{
+  if (!effects1 || !effects2)
+    return false
+
+  foreach(key, value in effects1)
+    if (::is_numeric(value) && ::is_numeric(effects2?[key])
+        && value != 0 && (effects2[key] / value > 0.01))
+      return true
+  return false
+}
+
+local function prepareCalculationParams(unit, effects, modeId)
+{
+  upgradesKeys.clear()
+  foreach(key in UPGRADES_ORDER)
+    if (hasNotZeroDiff(effects, effects?[key])
+        || hasNotZeroDiff(effects?[modeId], effects?[key]?[modeId]))
+      upgradesKeys.append(key)
+  needToShowDiff = upgradesKeys.len() > 0 && ::has_feature("ModUpgradeDifference")
+}
+
 local function getDesc(unit, effects)
 {
-  local res = ""
   local modeId = ::get_current_shop_difficulty().crewSkillName
+  prepareCalculationParams(unit, effects, modeId)
 
+  local res = ""
   local desc = ::u.reduce(effectsType.types, getEffectsStackFunc(unit, effects, modeId), "")
   if (desc != "")
     res = "\n" + ::loc("modifications/specs_change") + ::loc("ui/colon") + desc

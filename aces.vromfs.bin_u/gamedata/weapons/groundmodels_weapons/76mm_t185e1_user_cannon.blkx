@@ -41,9 +41,11 @@
     "armorFragmentsHit": 10.0,
     "relativeVelArmorShift": [200.0,1000.0],
     "groundCollisionEffect": "big_ground_splash",
-    "groundFxScale": [0.9,1.1],
-    "ricochetEffect": "cannon_ricochet",
-    "waterCollisionEffect": "big_water_splash",
+    "groundFxScale": [0.6,0.8],
+    "ricochetEffect": "cannon_hit_apds",
+    "waterCollisionEffect": "120-203_water_splash",
+    "waterFxScale": [0.5,0.7],
+    "explosionPatchRadius": 0.8,
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
@@ -69,11 +71,15 @@
       "trail": "black"
     },
     "collisions": {
+      "buildings": {
+        "fx": "122_ap_stone_splash",
+        "fxScale": [0.7,1.1]
+      },
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_apds"
       },
       "armor": {
-        "fx": "cannon_hit_armor"
+        "fx": "cannon_hit_apds"
       }
     }
   },
@@ -108,22 +114,29 @@
       "shutterAmount": 140,
       "shutterArmorPower": 7.5,
       "shutterHit": 11.0,
-      "groundCollisionEffect": "50_75_he_hit_ground",
-      "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [1.1,1.2],
+      "groundCollisionEffect": "art_ground_splash",
+      "groundFxScale": [1.1,1.3],
+      "ricochetEffect": "cannon_hit_apds",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [0.7,0.8],
+      "explosionPatchRadius": 2.1,
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
         "tracer": "noColor"
       },
       "collisions": {
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [0.9,1.3]
+        },
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.0,3.0]
+          "fxScale": [2.5,3.0]
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.0,3.0]
+          "fxScale": [2.5,3.0]
         }
       }
     }
@@ -143,9 +156,11 @@
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
-      "groundFxScale": [0.9,1.1],
-      "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "big_water_splash",
+      "groundFxScale": [0.6,0.8],
+      "ricochetEffect": "cannon_hit_apds",
+      "waterCollisionEffect": "120-203_water_splash",
+      "waterFxScale": [0.5,0.7],
+      "explosionPatchRadius": 0.8,
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -171,6 +186,10 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "122_ap_stone_splash",
+          "fxScale": [0.7,1.1]
+        },
         "steel": {
           "fx": "cannon_hit_apds"
         },
@@ -198,15 +217,17 @@
       "explodeHitPower": 100.0,
       "explodeArmorPower": 9.0,
       "explodeRadius": [0.3,1.1],
-      "explosionPatchRadius": 1.1,
       "shutterDamage": true,
       "shutterDamageRadius": 5.4,
       "shutterAmount": 200,
       "shutterArmorPower": 4.0,
       "shutterHit": 4.0,
       "groundCollisionEffect": "art_ground_splash",
-      "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [1.4,1.5],
+      "groundFxScale": [1.1,1.3],
+      "ricochetEffect": "cannon_hit_apds",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [0.7,0.8],
+      "explosionPatchRadius": 2.1,
       "hitpower": {
         "HitPower0m": [1.0,500.0],
         "HitPower1000m": [0.9,1000.0],
@@ -236,13 +257,17 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [0.9,1.3]
+        },
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.5,3.5]
+          "fxScale": [2.5,3.0]
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.5,3.5]
+          "fxScale": [2.5,3.0]
         }
       }
     }

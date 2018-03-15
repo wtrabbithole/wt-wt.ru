@@ -6,7 +6,8 @@ enum PSN_SESSION_TYPE {
 }
 
 ::g_psn_session_invitations <- {
-  [PERSISTENT_DATA_PARAMS] = ["existingSession", "curSessionParams", "lastUpdateTable", "suspendedInvitationData"]
+  [PERSISTENT_DATA_PARAMS] = ["existingSession", "curSessionParams", "lastUpdateTable", "suspendedInvitationData",
+                              "suspendedSquadDisband"]
 
   existingSession = {}
   curSessionParams = {}
@@ -19,6 +20,7 @@ enum PSN_SESSION_TYPE {
 
   updateTimerLimit = 60000
   suspendedInvitationData = null
+  suspendedSquadDisband = false
 }
 
 function g_psn_session_invitations::saveSessionId(key, sessionId)
@@ -403,9 +405,11 @@ function g_psn_session_invitations::getCurrentSessionInfo()
   else
     locIdsArray = ["missions/" + ::SessionLobby.getMissionName(true)]
 
+  local isFriendOnly = ::SessionLobby.getPublicParam("friendOnly", false)
+  local isJipAllowed = ::SessionLobby.getPublicParam("allowJIP", false)
   return {
     locIdsArray = locIdsArray
-    isFriendsOnly = ::SessionLobby.getPublicParam("friendOnly", false)
+    isPrivate = isFriendOnly || !isJipAllowed
     maxUsers = ::SessionLobby.getMaxMembersCount()
   }
 }
@@ -427,11 +431,11 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
 
   local isForSquad = key == PSN_SESSION_TYPE.SQUAD
   local jsonRequest = []
-  jsonRequest.append("\"sessionPrivacy\":\"" + ((data.isFriendsOnly || isForSquad) ? "private" : "public") + "\"")
+  jsonRequest.append("\"sessionPrivacy\":\"" + (data.isPrivate ? "private" : "public") + "\"")
   jsonRequest.append("\"sessionMaxUser\": " + data.maxUsers + "")
   jsonRequest.append("\"sessionName\":\"" + sessionName + "\"")
   jsonRequest.append("\"localizedSessionNames\": [" + sessionNames + "]")
-  jsonRequest.append("\"sessionLockFlag\":" + data.isFriendsOnly)
+  jsonRequest.append("\"sessionLockFlag\":" + false)
 
   if (!isForUpdate)
   {
@@ -452,7 +456,7 @@ function g_psn_session_invitations::createSquadSession(leaderUid)
 {
   local squadInfo = {
     locIdsArray = ["ps4/session/squad"]
-    isFriendsOnly = false
+    isPrivate = true
     maxUsers = ::g_squad_manager.getMaxSquadSize()
   }
 
@@ -465,6 +469,17 @@ function g_psn_session_invitations::createSquadSession(leaderUid)
                       leaderId = leaderUid
                       key = PSN_SESSION_TYPE.SQUAD
                     }))
+}
+
+function g_psn_session_invitations::destroySquadSession()
+{
+  if (isInMenu())
+  {
+    suspendedSquadDisband = false
+    sendDestroySession(PSN_SESSION_TYPE.SQUAD)
+  }
+  else
+    suspendedSquadDisband = true
 }
 
 function g_psn_session_invitations::sendSquadInvitation(psnAccountId)
@@ -534,11 +549,14 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
       createSquadSession(::g_squad_manager.getLeaderUid())
   }
   else
-    sendDestroySession(PSN_SESSION_TYPE.SQUAD)
+    destroySquadSession()
 }
 
-function g_psn_session_invitations::checkReceievedInvitation()
+function g_psn_session_invitations::checkAfterFlight()
 {
+  if (suspendedSquadDisband)
+    destroySquadSession()
+
   if (suspendedInvitationData)
     onReceiveInvite(suspendedInvitationData)
   suspendedInvitationData = null

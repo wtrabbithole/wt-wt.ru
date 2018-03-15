@@ -2522,7 +2522,7 @@
     },
     "visibleNotTraceableIndicators": {
       "off": {
-        "hudColorMultNotTraceableIndicators": 1.0
+        "hudColorMultNotTraceableIndicators": 0.0
       },
       "on": {
         "hudColorMultNotTraceableIndicators": 1.0
@@ -9365,7 +9365,11 @@
   },
   "taa": {
     "frameWeightMotionMax": 0.01,
-    "frameWeightMotionThreshold": 0.0003
+    "frameWeightMotionThreshold": 0.0003,
+    "clampingGamma": 1.2,
+    "frameWeightMinDynamicStill": 0.11,
+    "frameWeightMinDynamicMotion": 0.2,
+    "newframeFalloffDynamicStill": 0.15
   },
   "MicrodetailMultipliers": {
     "airplane": 0.37,
@@ -9377,5 +9381,56 @@
     "timeToLive": 0.3,
     "iterationTime": 2.0,
     "scale": 1.0
-  }
+  },
+  "default_micro_details": [
+    {
+      "micro_detail": "microdetail_stone_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_sand_c_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_sand_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_soil_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_grass_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_forest_floor_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_fabric_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_wood_b_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_metal_a_tex_n*"
+    },
+    {
+      "micro_detail": "microdetail_snow_a_tex_n"
+    },
+    {
+      "micro_detail": "microdetail_generic_granules_a_tex_n"
+    },
+    {
+      "land_micro_details_uv_scale": 0.73
+    },
+    {
+      "microdetail_sand_c_tex_n": {
+        "puddles": 0.0
+      }
+    },
+    {
+      "microdetail_sand_a_tex_n": {
+        "puddles": 0.0
+      }
+    }
+  ]
 }

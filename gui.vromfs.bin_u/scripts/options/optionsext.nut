@@ -2403,65 +2403,21 @@ function get_option(type, context = null)
       descr.values = []
       descr.idxValues <- []
       descr.cb = "onDifficultyChange"
-      local numModes = 0
-      if (::is_unlocked_scripted(::UNLOCKABLE_DIFFICULTY, "arcade"))
-      {
-        descr.items.append("#difficulty0")
-        descr.values.append("arcade")
-        descr.idxValues.append(0)
-        numModes++
-      }
-      if (::is_unlocked_scripted(::UNLOCKABLE_DIFFICULTY, "realistic"))
-      {
-        descr.items.append("#difficulty1")
-        descr.values.append("realistic")
-        descr.idxValues.append(1)
-        numModes++
-      }
-      if (::is_unlocked_scripted(::UNLOCKABLE_DIFFICULTY, "hardcore") && has_feature("SimulatorDifficulty"))
-      {
-        descr.items.append("#difficulty2")
-        descr.values.append("hardcore")
-        descr.idxValues.append(2)
-        numModes++
-      }
 
-      if (numModes > 1)
+      foreach (idx, diff in ::g_difficulty.types)
+        if (diff.isAvailable())
+        {
+          descr.items.append("#" + diff.locId)
+          descr.values.append(diff.name)
+          descr.idxValues.append(diff.diffCode)
+        }
+
+      if (descr.items.len() > 1)
       {
         descr.items.insert(0, "#options/any")
         descr.values.insert(0, "any")
         descr.idxValues.insert(0, -1)
         defaultValue = "any"
-      }
-
-      break
-    case ::USEROPT_PREFERRED_DIFFICULTY:
-      descr.id = "preferred_difficulty"
-      descr.items = [
-        {
-          text = "#options/any"
-          enabled = true
-        },
-        {
-          text = "#difficulty0"
-          enabled = false
-        },
-        {
-          text = "#difficulty1"
-          enabled = false
-        },
-        {
-          text = "#difficulty2"
-          enabled = false
-        },
-      ]
-      descr.values = ["any", "arcade","realistic", "hardcore"]
-      descr.value = 0
-      {
-        local v = ::get_option_global(type)
-        for (local j = 1; j < descr.values.len(); j++)
-          if (v == descr.values[j])
-            descr.value = j
       }
 
       break
@@ -3322,8 +3278,16 @@ function get_option(type, context = null)
 
     case ::USEROPT_CD_ENGINE:
       descr.id = "engineControl"
-      descr.items = ["#difficulty0", "#difficulty1", "#difficulty2"]
-      descr.values = [0, 1, 2]
+      descr.items = []
+      descr.values = []
+
+      foreach (idx, diff in ::g_difficulty.types)
+        if (diff.isAvailable())
+        {
+          descr.items.append("#" + diff.locId)
+          descr.values.append(diff.diffCode)
+        }
+
       descr.cb = "onCDChange"
       descr.value = get_cd_option(::USEROPT_CD_ENGINE)
       break
@@ -3470,8 +3434,16 @@ function get_option(type, context = null)
       break
     case ::USEROPT_CD_DM_ICON:
       descr.id = "hudDamageModel"
-      descr.items = ["#difficulty0", "#difficulty1", "#difficulty2"]
-      descr.values = [0, 1, 2]
+      descr.items = []
+      descr.values = []
+
+      foreach (idx, diff in ::g_difficulty.types)
+        if (diff.isAvailable())
+        {
+          descr.items.append("#" + diff.locId)
+          descr.values.append(diff.diffCode)
+        }
+
       descr.cb = "onCDChange"
       descr.value = get_cd_option(::USEROPT_CD_DM_ICON)
       break
@@ -4327,10 +4299,6 @@ function set_option(type, value, descr = null)
       }
       break
 
-    case ::USEROPT_PREFERRED_DIFFICULTY:
-      ::set_option_global(type, descr.values[value])
-      break
-
     case ::USEROPT_FONTS_CSS:
       local selFont = ::getTblValue(value, descr.values)
       if (selFont && ::g_font.setCurrent(selFont))
@@ -4798,14 +4766,6 @@ function get_current_domination_mode()
 
 function get_current_domination_mode_shop()
 {
-  if (! ::has_feature("GamercardDrawerSwitchBR"))
-  {
-    foreach(mode in ::domination_modes)
-      if(::get_show_mode_info(mode.modeId))
-        return mode
-    return ::domination_modes[0]
-  }
-
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   local diffCode = gameMode ? gameMode.diffCode : ::DIFFICULTY_ARCADE
   return ::getTblValue(diffCode, ::domination_modes, ::domination_modes[0])
@@ -4832,32 +4792,6 @@ function set_current_wnd_difficulty(mode = 0)
   ::saveLocalByAccount("wnd/diffMode", mode)
 }
 
-function get_show_mode_info(modeId)
-{
-  if (! ::has_feature("GamercardDrawerSwitchBR"))
-  {
-    if (modeId < 0 || modeId >= ::EGD_TOTAL)
-      return false
-
-    local cdb = ::get_local_custom_settings_blk()
-    local showMode = cdb.useropt_show_modes_info || (1 << ::EGD_ARCADE)
-
-    //backward compatibility
-    local isValid = false
-    foreach(idx, m in ::domination_modes)
-      if (showMode == (1 << m.modeId))
-      {
-        isValid = true
-        break
-      }
-    if (!isValid) showMode = (1 << ::EGD_ARCADE)
-
-    return showMode == (1 << modeId)
-  }
-
-  return modeId == ::get_current_shop_difficulty().egdCode
-}
-
 function get_diff_icon_by_name(diffName)
 {
   local difficulty = ::g_difficulty.getDifficultyByName(diffName)
@@ -4868,24 +4802,6 @@ function get_diff_icon_by_name(diffName)
     return "#ui/gameuiskin#mission_" + diffName
 
   return ""
-}
-
-function set_show_mode_info(modeId)
-{
-  if (::has_feature("GamercardDrawerSwitchBR"))
-    return
-
-  if (modeId < 0 || modeId >= ::EGD_TOTAL)
-    return
-
-  local value = (1 << modeId)
-  local cdb = ::get_local_custom_settings_blk()
-  if (value == cdb.useropt_show_modes_info)
-    return
-
-  cdb.useropt_show_modes_info = value
-  ::save_profile_offline_limited()
-  ::broadcastEvent("ShowModeChange")
 }
 
 function get_option_by_bit(type, idx)

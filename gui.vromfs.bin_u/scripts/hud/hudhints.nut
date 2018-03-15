@@ -869,6 +869,29 @@ enums.addTypesByGlobalName("g_hud_hints", {
     }
   }
 
+  UI_MESSAGE_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    showEvent = "hint:ui_message:show"
+    lifeTime = 3.0
+    buildText = function(eventData)
+    {
+      local res = eventData?.locId
+      if (!res)
+        return ""
+      res = ::loc(res)
+      if (eventData?.param)
+      {
+        local param = eventData.param
+        if (eventData?.paramTeamId)
+          param = ::colorize(::get_team_color(eventData.paramTeamId), param)
+        res = ::format(res, param)
+      }
+      if (eventData?.teamId && eventData.teamId > 0)
+        res = ::colorize(::get_team_color(eventData.teamId), res)
+      return res
+    }
+  }
+
   RESTORING_IN_HINT = {
     hintType = ::g_hud_hint_types.COMMON
     showEvent = "hint:restoring_in:show"

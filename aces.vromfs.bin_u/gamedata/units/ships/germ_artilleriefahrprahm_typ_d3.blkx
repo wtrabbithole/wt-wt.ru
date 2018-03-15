@@ -5215,17 +5215,34 @@
             "errExplTime": 0.0
           },
           {
-            "turret": {
-              "head": "turret_h_03",
-              "gun": "main_caliber_gun_01",
-              "barrel": "gun_barrel_09",
-              "gunnerDm": "main_caliber_turret_01_dm",
-              "linkedAnimPart": {
-                "verNode": "optic_turret_03",
-                "verLimits": [-1.0,70.0],
-                "verOriginLimits": [-5.0,80.0]
+            "turret": [
+              {
+                "head": "turret_h_03"
+              },
+              {
+                "gun": "main_caliber_gun_01"
+              },
+              {
+                "barrel": "gun_barrel_09"
+              },
+              {
+                "gunnerDm": "main_caliber_turret_01_dm"
+              },
+              {
+                "linkedAnimPart": {
+                  "horNode": "ex_decor_03",
+                  "horLimits": [-100.0,100.0],
+                  "horOriginLimits": [-100.0,100.0]
+                }
+              },
+              {
+                "linkedAnimPart": {
+                  "verNode": "optic_turret_03",
+                  "verLimits": [-1.0,70.0],
+                  "verOriginLimits": [-5.0,80.0]
+                }
               }
-            }
+            ]
           },
           {
             "limits": {

@@ -719,7 +719,8 @@
             "head": "bone_turret",
             "gun": "bone_gun",
             "barrel": "bone_gun_barrel",
-            "loaderDm": "loader_01_dm"
+            "loaderDm": "loader_01_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-180.0,180.0],
@@ -844,7 +845,8 @@
           "turret": {
             "head": "bone_mg_turret_01",
             "gun": "bone_mg_turret_01",
-            "gunnerDm": "gunner_dm"
+            "gunnerDm": "gunner_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -1495,6 +1497,7 @@
         ]
       },
       "suspension": {
+        "maxDisplacementOffsets": [-0.01,0.05],
         "suspensionOffsets": [-0.15,-0.115,0.14],
         "defaultGearRadius": 0.305,
         "topGearRadius": 0.15,

@@ -435,13 +435,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       ::set_show_aircraft(getCurSlotUnit())
   }
 
-  function onEventShowModeChange(p)
-  {
-    if (::has_feature("GamercardDrawerSwitchBR"))
-      return
-    reinitSlotbar()
-  }
-
   function getWndHelpConfig()
   {
     local res = {

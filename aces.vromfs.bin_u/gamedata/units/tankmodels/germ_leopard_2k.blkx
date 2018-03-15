@@ -172,8 +172,7 @@
           "armorThickness": 29.0
         },
         "turret_07_back_dm": {
-          "armorThickness": 15.0,
-          "armorClass": "RHAHH_tank"
+          "armorThickness": 15.0
         },
         "turret_07_bottom_dm": {
           "armorThickness": 8.0,
@@ -809,7 +808,7 @@
             },
             {
               "layer": {
-                "dmPart": "auperstructure_top_dm"
+                "dmPart": "turret_07_back_dm"
               }
             }
           ]
@@ -1799,30 +1798,60 @@
       "mechanics": {
         "maxBrakeForce": 250000.0,
         "driveGearRadius": 0.34,
-        "mainGearRatio": 1.19,
-        "sideGearRatio": 4.02,
+        "mainGearRatio": 1.55,
+        "sideGearRatio": 6.25,
         "neutralGearRatio": 10.0,
         "gearRatios": [
           {
-            "ratio": -2.19
+            "ratio": -0.49
           },
           {
-            "ratio": -4.47
+            "ratio": -0.68
+          },
+          {
+            "ratio": -0.97
+          },
+          {
+            "ratio": -1.47
+          },
+          {
+            "ratio": -1.74
+          },
+          {
+            "ratio": -2.4
+          },
+          {
+            "ratio": -3.43
+          },
+          {
+            "ratio": -4.95
           },
           {
             "ratio": 0.0
           },
           {
-            "ratio": 4.47
+            "ratio": 4.95
           },
           {
-            "ratio": 2.19
+            "ratio": 3.43
           },
           {
-            "ratio": 1.51
+            "ratio": 2.4
           },
           {
-            "ratio": 1.0
+            "ratio": 1.74
+          },
+          {
+            "ratio": 1.47
+          },
+          {
+            "ratio": 0.97
+          },
+          {
+            "ratio": 0.68
+          },
+          {
+            "ratio": 0.49
           }
         ]
       },
@@ -1910,7 +1939,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true

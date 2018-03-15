@@ -7,8 +7,8 @@ local comboStyle = {}
 
   Root = class {}
 
-  label = function(text, group) {
-    local color = Color(255,255,255,255)
+  label = function(text, group, params=null) {
+    local color = params?.disabled ? Color(160,160,160,255) : Color(255,255,255,255)
     local labelText = {
       group = group
       rendObj = ROBJ_STEXT

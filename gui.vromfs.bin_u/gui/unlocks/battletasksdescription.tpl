@@ -15,6 +15,20 @@ textareaNoTab {
 }
 <</taskDescription>>
 
+<<#needShowProgressBar>>
+progressDiv {
+  left:t='pw-w'
+  position:t='relative'
+  margin-top:t='0.005@sf'
+  battleTaskProgress {
+    top:t='50%ph-50%h'
+    position:t='relative'
+    width:t='0.4@arrowButtonWidth'
+    value:t='<<progressBarValue>>'
+  }
+}
+<</needShowProgressBar>>
+
 <<#taskConditionsList>>
 unlockCondition {
   unlocked:t='<<#unlocked>>yes<</unlocked>><<^unlocked>>no<</unlocked>>'

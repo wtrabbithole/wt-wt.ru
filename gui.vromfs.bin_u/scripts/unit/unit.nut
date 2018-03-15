@@ -239,6 +239,10 @@ local Unit = class
     giftParam = shopUnitBlk.giftParam
   }
 
+  isAir                 = @() esUnitType == ::ES_UNIT_TYPE_AIRCRAFT
+  isTank                = @() esUnitType == ::ES_UNIT_TYPE_TANK
+  isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
+
   getUnitWpCostBlk      = @() ::get_wpcost_blk()[name]
   isBought              = @() ::shop_is_aircraft_purchased(name)
   isUsable              = @() ::shop_is_player_has_unit(name)
@@ -400,6 +404,16 @@ local Unit = class
           res = spawnScore
       }
     return ::max(res, 0)
+  }
+
+  function invalidateModificators()
+  {
+    if (modificatorsRequestTime > 0)
+    {
+      ::remove_calculate_modification_effect_jobs()
+      modificatorsRequestTime = -1
+    }
+    modificators = null
   }
 }
 

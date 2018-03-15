@@ -5,39 +5,15 @@ expandable {
   selImg {
     tdiv {
       size:t='pw, 0.055@scrn_tgt'
-      padding-left:t='0.08@scrn_tgt'
-      padding-right:t='0.01@scrn_tgt'
+      padding:t='0.01@scrn_tgt, 0'
 
-      tdiv {
-        position:t='absolute'
-        pos:t='0.04@scrn_tgt - w/2, ph/2 - h/2'
-
-        cardImg {
-          id:t='log_icon'
-        }
-
-        cardImg {
-          id:t='log_icon2'
-          margin-left:t='0.005@scrn_tgt'
-          background-image:t=''
-        }
-      }
-
-      tdiv {
-        position:t='absolute'
-        pos:t='-1, -2'
-        bonus {
-          id:t='log_bonus'
-        }
-      }
-
-      textAreaNoScroll {
+      textareaNoTab {
         id:t='name'
         width:t='fw'
         max-height:t='ph'
         pare-text:t='yes'
         valign:t='center'
-        class:t='active'
+        overlayTextColor:t='active'
         overflow:t='hidden'
         padding-top:t='-0.005@scrn_tgt'
         text:t='<<header>>'
@@ -61,6 +37,7 @@ expandable {
         text-align:t='center'
       }
 
+      <<#details>>
       expandImg {
         id:t='expandImg'
         height:t='0.01@scrn_tgt'
@@ -70,11 +47,12 @@ expandable {
         background-image:t='#ui/gameuiskin#expand_info'
         background-color:t='@premiumColor'
       }
+      <</details>>
     }
 
     hiddenDiv {
       width:t='pw'
-      padding:t='0.08@scrn_tgt, 0, 0.01@scrn_tgt, 0'
+      padding:t='0.01@scrn_tgt, 0'
       flow:t='vertical'
 
       <<#details>>

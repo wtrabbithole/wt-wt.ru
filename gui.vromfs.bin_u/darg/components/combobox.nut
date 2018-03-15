@@ -1,10 +1,19 @@
 local comboStyle = require("combobox.style.nut")
 
 
-local combobox = function(wdata, options, combo_style=comboStyle) {
+local combobox = function(watches, options, combo_style=comboStyle) {
   local comboOpen = ::Watched(false)
   local group = ::ElemGroup()
   local doClose = @() comboOpen.update(false)
+  local wdata, wdisable
+
+  if (type(watches) == "table") {
+    wdata = watches.value
+    wdisable = watches.disable
+  } else {
+    wdata = watches
+    wdisable = {value=false}
+  }
 
   local dropdownList = function() {
     local children = options.map(function(item) {
@@ -106,23 +115,23 @@ local combobox = function(wdata, options, combo_style=comboStyle) {
     }
 
     local children = [
-      combo_style.label(labelText, group)
+      combo_style.label(labelText, group, {disabled=wdisable.value})
     ]
 
-    if (comboOpen.value) {
+    if (comboOpen.value && !wdisable.value) {
       children.append(dropdownList)
     }
 
+    local clickHandler = wdisable.value ? null : @() comboOpen.update(!comboOpen.value)
+
     local desc = class extends combo_style.Root {
       size = flex()
-      behavior = Behaviors.Button
-      watch = [comboOpen]
+      behavior = wdisable.value ? null : Behaviors.Button
+      watch = [comboOpen, watches?.disable]
       group = group
 
       children = children
-      onClick = function() {
-        comboOpen.update(!comboOpen.value)
-      }
+      onClick = clickHandler
     }
 
     return desc

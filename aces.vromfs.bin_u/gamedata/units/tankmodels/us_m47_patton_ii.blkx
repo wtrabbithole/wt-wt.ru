@@ -245,6 +245,10 @@
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0
         }
       },
       "chassis": {
@@ -1765,6 +1769,9 @@
             "flash": "emtr_mg_flame_01"
           },
           {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -1843,6 +1850,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
+          "barrelDP": "gun_barrel_02_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "parkInDeadzone": false,
@@ -1942,6 +1950,7 @@
         ]
       },
       "suspension": {
+        "maxDisplacementOffsets": [0.0,0.05],
         "suspensionOffsets": [-0.16,-0.12,0.1],
         "defaultGearRadius": 0.34,
         "frontBackGearRadius": 0.24,

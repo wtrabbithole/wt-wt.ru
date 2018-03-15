@@ -223,8 +223,6 @@ class ControlsPreset {
       isExchangeSticksAvailable         = false
       holdThrottleForWEP                = true
       holdThrottleForFlankSpeed         = false
-      useJoystickOnMouseAim             = false
-      useJoystickOnTankMouseAim         = false
       useMouseAim                       = false
       useJoystickMouseForVoiceMessage   = false
       useMouseForVoiceMessage           = false
@@ -1302,8 +1300,6 @@ class ControlsPreset {
       "isExchangeSticksAvailable"
       "holdThrottleForWEP"
       "holdThrottleForFlankSpeed"
-      "useJoystickOnMouseAim"
-      "useJoystickOnTankMouseAim"
       "useMouseAim"
       "useJoystickMouseForVoiceMessage"
       "useMouseForVoiceMessage"

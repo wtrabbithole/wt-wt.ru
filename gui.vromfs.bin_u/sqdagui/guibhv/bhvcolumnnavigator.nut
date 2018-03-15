@@ -21,7 +21,7 @@ class gui_bhv.columnNavigator
   function selectCurItem(obj)
   {
     local found = selectCell(obj, obj.cur_row.tointeger(), obj.cur_col.tointeger())
-    if (found)
+    if (found || !::is_obj_have_active_childs(obj))
       return
     found = selectCell(obj, 0, 0)
     if (found)

@@ -762,7 +762,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           ::set_last_weapon(airName, air.weapons[j].name)
       }
       createBundle(weaponsList, weaponsItem.weapon, 0, mainModsObj, offsetX, offsetY)
-      columnsList.append(getWeaponsColumnData(::loc("options/secondary_weapons")))
+      columnsList.append(getWeaponsColumnData(::g_weaponry_types.WEAPON.getHeader(air)))
       offsetX++
     }
 

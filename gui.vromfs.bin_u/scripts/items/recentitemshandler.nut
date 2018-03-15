@@ -88,9 +88,13 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
       itemName = item.getName()
     })
 
-    msgBox("recent_item_confirmation", msgBoxText, [
-      ["ok", ::Callback(@() _doActivateItem(item, params), this)
-      ], ["cancel", function () {}]], "ok")
+    guiScene.performDelayed(this, function()
+    {
+      if (isValid())
+        msgBox("recent_item_confirmation", msgBoxText, [
+          ["ok", ::Callback(@() _doActivateItem(item, params), this)
+          ], ["cancel", function () {}]], "ok")
+    })
   }
 
   function _doActivateItem(item, params)

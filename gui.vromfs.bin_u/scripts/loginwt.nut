@@ -293,7 +293,7 @@ function g_login::onEventGuiSceneCleared(p)
     })
 }
 
-function g_login::onEventScriptsReloaded(p)
+function g_login::afterScriptsReload()
 {
   if (initOptionsPseudoThread)
     shouldRestartPseudoThread = true

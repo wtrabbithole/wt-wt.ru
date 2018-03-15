@@ -38,8 +38,9 @@ local shipState = {
   aiGunnersState = Watched(0)
   hasAiGunners = Watched(true)
 
-  depth = Watched(0)
-  subBuoyancy = Watched(0)
+  waterDist = Watched(0)
+  buoyancyEx = Watched(0)
+  depthLevel = Watched(0)
 }
 
 

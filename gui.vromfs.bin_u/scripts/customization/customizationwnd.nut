@@ -97,7 +97,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     ::hangar_focus_model(true)
 
-    registerSubHandler(::create_slot_info_panel(scene, false))
+    registerSubHandler(::create_slot_info_panel(scene, false, "showroom"))
     initMainParams()
     showDecoratorsList()
 

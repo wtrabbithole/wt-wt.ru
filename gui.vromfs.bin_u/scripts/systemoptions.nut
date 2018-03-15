@@ -105,6 +105,18 @@
   antialiasing = { widgetType="list" def="none" blk="video/postfx_antialiasing" restart=false
     values = ::is_opengl_driver() ? [ "none", "fxaa", "high_fxaa"] : [ "none", "fxaa", "high_fxaa", "low_taa", "high_taa" ]
   }
+  ssaa = { widgetType="list" def="none" blk="graphics/ssaa" restart=false
+    values = [ "none", "4X" ]
+    onChanged = "ssaaClick"
+    getFromBlk = function(blk, desc) {
+      local val = ::get_blk_value_by_path(blk, desc.blk, 1.0)
+      return (val == 4.0) ? "4X" : "none"
+    }
+    setToBlk = function(blk, desc, val) {
+      local res = (val == "4X") ? 4.0 : 1.0
+      ::set_blk_value_by_path(blk, desc.blk, res)
+    }
+  }
   texQuality = { widgetType="list" def="high" blk="graphics/texquality" restart=true
     init = function(blk, desc) {
       local dgsTQ = ::get_dgs_tex_quality() // 2=low, 1-medium, 0=high.
@@ -133,10 +145,14 @@
     blkValues = [ 0.7, 0.85, 1.0 ]
     getFromBlk = function(blk, desc) {
       local val = ::get_blk_value_by_path(blk, desc.blk, 1.0)
+      if (::sysopt.getGuiValue("ssaa") == "4X" && !::sysopt.getGuiValue("compatibilityMode"))
+        val = 2.0
       return ::find_nearest(val, desc.blkValues)
     }
     setToBlk = function(blk, desc, val) {
       local res = ::getTblValue(val, desc.blkValues, desc.def)
+      if (::sysopt.getGuiValue("ssaa") == "4X" && !::sysopt.getGuiValue("compatibilityMode"))
+        res = 2.0
       ::set_blk_value_by_path(blk, desc.blk, res)
     }
   }
@@ -270,6 +286,7 @@
   {k="msaa",                 v={ultralow="off",low="off",medium="off",high="off", max="off", movie="off"}, compMode=true, fullMode=false}
   {k="antialiasing",         v={ultralow="none",low="none",medium="fxaa", high="high_fxaa",
     max= ::is_opengl_driver() ? "high_fxaa" : "high_taa",movie= ::is_opengl_driver() ? "high_fxaa" : "high_taa"}}
+  {k="ssaa",                 v={ultralow="none", low="none", medium="none", high="none", max="none", movie="none"}}
   {k="enableSuspensionAnimation",v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="haze",                 v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="fxReflection",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
@@ -416,6 +433,27 @@
       ::sysopt.setGuiValue("ssaoQuality",1)
   }
 
+  ssaaClick = function()
+  {
+    if (::sysopt.getGuiValue("ssaa") == "4X")
+    {
+      local okFunc = function() {
+        ::sysopt.setGuiValue("backgroundScale", 2)
+        ::sysopt.mShared.presetCheck()
+        ::sysopt.updateGuiNavbar(true)
+      }
+      local cancelFunc = function() {
+        ::sysopt.setGuiValue("ssaa", "none")
+        ::sysopt.mShared.presetCheck()
+        ::sysopt.updateGuiNavbar(true)
+      }
+      ::sysopt.mHandler.msgBox("sysopt_ssaa", ::loc("msgbox/ssaa_warning"), [
+          ["ok", okFunc],
+          ["cancel", cancelFunc],
+        ], "cancel", { cancel_fn = cancelFunc })
+    }
+  }
+
   compatibilityModeClick = function()
   {
     local isEnable = ::sysopt.getGuiValue("compatibilityMode")
@@ -558,6 +596,7 @@
       "anisotropy"
       "msaa"
       "antialiasing"
+      "ssaa"
       "texQuality"
       "shadowQuality"
       "backgroundScale"
@@ -568,15 +607,15 @@
       "fxDensityMul"
       "grassRadiusMul"
       "ssaoQuality"
-	  "contactShadowsQuality"
+      "contactShadowsQuality"
       "ssrQuality"
       "waterReflectionTexDiv"
       "waterRefraction"
+      "waterFoamQuality"
       "physicsQuality"
       "displacementQuality"
       "dirtSubDiv"
       "tireTracksQuality"
-      "waterFoamQuality"
     ]
   }
   {
@@ -594,9 +633,9 @@
       "lenseFlares"
       "enableSuspensionAnimation"
       "alpha_to_coverage"
+      "foliageReprojection"
       "jpegShots"
       "compatibilityMode"
-	  "foliageReprojection"
     ]
   }
 ]
@@ -689,6 +728,7 @@ function sysopt::localize(optionId, valueId)
         return valueId
     }
     case "anisotropy":
+    case "ssaa":
     case "msaa":
       return ::loc("options/" + valueId)
     case "graphicsQuality":

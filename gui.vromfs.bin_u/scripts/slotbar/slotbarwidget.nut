@@ -48,7 +48,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
                              //must call one of listed callbacks on finidh.
                              //when onContinueCb will be called, slotbar will aplly unit selection
                              //when onCancelCb will be called, slotbar will return selection to previous state
-  beforeCountrySelect = null //similar beforeSlotbarSelect method applied before country select
   afterSlotbarSelect = null //function() will be called after unit selection applied.
   onSlotDblClick = null //function(crew) when not set will open unit modifications window
   onCountryChanged = null //function()
@@ -134,7 +133,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     //update callbacks
     foreach(funcName in ["beforeSlotbarSelect", "afterSlotbarSelect", "onSlotDblClick", "onCountryChanged",
-        "beforeFullUpdate", "afterFullUpdate", "onSlotBattleBtn", "beforeCountrySelect"])
+        "beforeFullUpdate", "afterFullUpdate", "onSlotBattleBtn"])
       if (this[funcName])
         this[funcName] = callback.make(this[funcName], ownerWeak)
   }
@@ -709,13 +708,26 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (beforeSlotbarSelect)
+    {
+      ignoreCheckSlotbar = true
       beforeSlotbarSelect(
-        Callback(@() ::check_obj(obj) && applySlotSelection(obj, selSlot), this),
-        Callback(@() curSlotCountryId == selSlot.countryId && ::check_obj(obj)
-            && selectTblAircraft(obj, curSlotIdInCountry),
-          this),
+        Callback(function()
+        {
+          ignoreCheckSlotbar = false
+          if (::check_obj(obj))
+            applySlotSelection(obj, selSlot)
+        }, this),
+        Callback(function()
+        {
+          ignoreCheckSlotbar = false
+          if (curSlotCountryId != selSlot.countryId)
+            setCountry(::g_crews_list.get()?[curSlotCountryId]?.country)
+          else if (::check_obj(obj))
+            selectTblAircraft(obj, curSlotIdInCountry)
+        }, this),
         selSlot
       )
+    }
     else
       applySlotSelection(obj, selSlot)
   }
@@ -873,17 +885,17 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     {
       onSlotbarCountryImpl(obj, countryData)
       skipCheckCountrySelect = false
+      return
     }
-    else if (beforeCountrySelect)
-      beforeCountrySelect(
-        ::Callback(function () {
-          switchSlotbarCountry(obj, countryData)
-        }, this),
-        ::Callback(function () {
-          setCountry(::get_profile_country_sq())
-        }, this),
-        countryData
-      )
+
+    local lockedCountryData = ::g_world_war.getLockedCountryData()
+      || ::g_squad_manager.getLockedCountryData()
+
+    if (lockedCountryData && lockedCountryData.country != countryData.country)
+    {
+      setCountry(::get_profile_country_sq())
+      ::showInfoMsgBox(lockedCountryData.reasonText)
+    }
     else
       switchSlotbarCountry(obj, countryData)
   }

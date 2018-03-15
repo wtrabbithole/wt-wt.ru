@@ -3256,6 +3256,79 @@
     ]
   },
   {
+    "ikGunner": [
+      {
+        "model": "german_sailor_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
+        "suffix": "12"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
     "attach": {
       "Bip01 Pelvis_1": "german_officer_standing",
       "Bip01 Pelvis_2": "german_sailor_sit",
@@ -3267,7 +3340,8 @@
       "Bip01 Pelvis_8": "german_sailor_sit",
       "Bip01 Pelvis_9": "german_sailor_sit",
       "Bip01 Pelvis_10": "german_sailor_sit",
-      "Bip01 Pelvis_11": "german_sailor_sit"
+      "Bip01 Pelvis_11": "german_sailor_sit",
+      "Bip01 Pelvis_12": "german_sailor_sit"
     }
   },
   {
@@ -3428,7 +3502,12 @@
               "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
               "barrel": "gun_barrel_01",
-              "gunnerDm": "main_caliber_turret_01_dm"
+              "gunnerDm": "main_caliber_turret_01_dm",
+              "linkedAnimPart": {
+                "horNode": "ex_decor_22",
+                "horLimits": [-180.0,180.0],
+                "horOriginLimits": [-180.0,180.0]
+              }
             }
           },
           {

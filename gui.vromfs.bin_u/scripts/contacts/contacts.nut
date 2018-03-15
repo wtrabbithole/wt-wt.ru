@@ -137,6 +137,13 @@ function g_contacts::onEventSignOut(p)
   isInitedXboxContacts = false
 }
 
+function g_contacts::removeContactGroup(group)
+{
+  ::u.removeFrom(::contacts, group)
+  ::u.removeFrom(::contacts_groups, group)
+}
+
+
 ::missed_contacts_data <- {}
 
 ::g_script_reloader.registerPersistentData("ContactsGlobals", ::getroottable(),
@@ -396,13 +403,8 @@ function addPlayersToContacts(players, groupName) //{ uid = name, uid2 = name2 }
     local player = ::getContact(uid, nick)
     if ((groupName in ::contacts) && !::isPlayerInContacts(uid, groupName))
     {
-      if (groupName == ::EPL_FRIENDLIST || groupName == ::EPLX_PS4_FRIENDS)
-      {
-        if (::isPlayerInFriendsGroup(uid))
-          continue
-        else if (groupName == ::EPLX_PS4_FRIENDS && !platformModule.isPS4PlayerName(nick))
-          groupName = ::EPL_FRIENDLIST
-      }
+      if (groupName == ::EPLX_PS4_FRIENDS && !platformModule.isPS4PlayerName(nick))
+        groupName = ::EPL_FRIENDLIST
 
       ::contacts[groupName].append(player)
       if (groupName == ::EPLX_PS4_FRIENDS)

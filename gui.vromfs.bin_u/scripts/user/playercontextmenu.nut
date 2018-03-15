@@ -181,13 +181,10 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("squad/remove_player")
-        show = squadMemberData
-               && !isMe
+        show = !isMe
                && meLeader
                && inMySquad
                && ::g_squad_manager.canManageSquad()
-               && !squadMemberData?.isInvite
-               && !squadMemberData?.isApplication
         action = @() ::g_squad_manager.dismissFromSquad(uid)
       }
       {
@@ -205,7 +202,7 @@ local getActions = function(_contact, params)
     local isXboxPlayerMuted = ::xbox_is_chat_player_muted(uidInt64)
     actions.append({
       text = isXboxPlayerMuted? ::loc("mainmenu/btnUnmute") : ::loc("mainmenu/btnMute")
-      show = !isMe
+      show = !isMe && ::xbox_is_player_in_chat(uidInt64)
       action = @() ::xbox_mute_chat_player(uidInt64, !isXboxPlayerMuted)
     })
   }
@@ -337,7 +334,7 @@ local getActions = function(_contact, params)
         }
       ])
 
-    local canComplain = false
+    local canComplain = !isMe && (params?.canComplain ?? false)
     if (!isMe)
     {
       if (roomData

@@ -208,6 +208,32 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return result
     }
 
+    getUseAxisShortcuts = function (axisIdsArray, axisInput)
+    {
+      local buttons = []
+      local activeAxes = ::get_shortcuts(axisIdsArray)
+      foreach (activeAxis in activeAxes)
+      {
+        if (activeAxis.len() < 1)
+          continue
+
+        for (local i = 0; i < activeAxis[0].btn.len(); ++i)
+          buttons.append(::Input.Button(activeAxis[0].dev[i], activeAxis[0].btn[i]))
+
+        if (buttons.len() > 0)
+          break
+      }
+
+      local inputs = []
+      buttons.append(axisInput)
+      if (buttons.len() > 1)
+        inputs.append(::Input.Combination(buttons))
+      else
+        inputs.extend(buttons)
+
+      return inputs
+    }
+
     isAssigned = function (shortcutId)
     {
       return isAssignedToAxis(shortcutId) || isAssignedToShortcuts(shortcutId)
@@ -246,7 +272,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
     getInputs = function (shortcutId)
     {
       local axisDescription = ::g_shortcut_type._getDeviceAxisDescription(shortcutId)
-      return [::Input.Axis(axisDescription)]
+      return getUseAxisShortcuts([shortcutId], ::Input.Axis(axisDescription))
     }
   }
 
@@ -415,7 +441,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       else if (::g_shortcut_type._isAxisBoundToMouse(axes[0]))
         doubleAxis.deviceId = ::STD_MOUSE_DEVICE_ID
 
-      return [doubleAxis]
+      return ::g_shortcut_type.AXIS.getUseAxisShortcuts(axes, doubleAxis)
     }
   }
 

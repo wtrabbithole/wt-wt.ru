@@ -530,6 +530,12 @@ function g_crew::getBestTrainedCrewIdxForUnit(unit, mustBeEmpty, compareToCrew =
 
 function g_crew::onEventCrewSkillsChanged(params)
 {
+  if (!params?.isOnlyPointsChanged)
+  {
+    local unit = getCrewUnit(params.crew)
+    if (unit)
+      unit.invalidateModificators()
+  }
   ::update_crew_skills_available(true)
 }
 

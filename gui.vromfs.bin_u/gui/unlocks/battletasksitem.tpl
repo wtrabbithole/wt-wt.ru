@@ -189,7 +189,7 @@ expandable {
           position:t='relative'
           text:t = '#mainmenu/battleTasks/receiveReward'
           on_click:t = 'onGetRewardForTask'
-          btnName:t='X'
+          btnName:t=<<#isPromo>>'R3'<</isPromo>><<^isPromo>>'X'<</isPromo>>
           visualStyle:t='secondary'
           buttonWink {}
           ButtonImg{}
@@ -212,7 +212,7 @@ expandable {
     <<#isPromo>>
     <<#otherTasksNum>>
       textareaNoTab {
-        text:t='<<?mainmenu/battleTasks/OtherTasksCount>> (<<otherTasksNum>>)'
+        text:t='<<?mainmenu/battleTasks/OtherTasksCount>>'
         position:t='relative'
         pos:t='pw-w, 0'
       }

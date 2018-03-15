@@ -46,8 +46,13 @@ local time = require("scripts/time.nut")
 
   getDesc = function(dataBlk, statusBlk, side)
   {
-    return getLocText(dataBlk, side, prefixNameLocId, "/desc",
-      getTitleLocId(dataBlk, statusBlk))
+    local additionalTextLocId = dataBlk?.additionalDescriptionTextLocId
+    local descList = [
+      additionalTextLocId ? ::loc(additionalTextLocId, "") : "",
+      getLocText(dataBlk, side, prefixNameLocId, "/desc", getTitleLocId(dataBlk, statusBlk))
+    ]
+
+    return ::g_string.implode(descList, "\n")
   }
 
   getParamName = function(blk, side, paramName)

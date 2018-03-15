@@ -1,12 +1,23 @@
+require("string")
 tostring_r <- require("std/string.nut").tostring_r
-vlog_r <- function(val, maxdeeplevel=null) {
+vlog_r <- function(val, maxdeeplevel=null, splitlines=false) {
   local out = tostring_r(val, " ", maxdeeplevel)
-  vlog(out.slice(0,min(out.len(),200)))
+  if (splitlines) {
+    local s = string.split(out,"\n")
+    for (local i=0; i < min(50,s.len()); i++) {
+      vlog_r(s[i])
+    }
+  }
+  else
+    vlog(out.slice(0,min(out.len(),200)))
 }
 print_r <- function(val, maxdeeplevel=null) {
   print(tostring_r(val," ", maxdeeplevel) + "\n")
 }
-dlog <- function(val, maxdeeplevel=null) { vlog_r(val, maxdeeplevel); print_r(val, maxdeeplevel) }
+dlog <- function(val, maxdeeplevel=null, splitlines=false) { 
+  vlog_r(val, maxdeeplevel, splitlines); 
+  print_r(val, maxdeeplevel) 
+}
 
 function isDargComponent(comp) {
 //better to have natived daRg function to check if it is valid component!
@@ -119,6 +130,22 @@ function deep_clone(source) {
 
   return deep_clone_unsafe(source)
 }
+
+function mergeRecursive (target, source) {
+  function sub_update_r(target, source) {
+    local res = {}.__update(target)
+    foreach (key, value in source) {
+      if (type(value) =="table" && key in target) {
+        res[key] = sub_update_r({}.__update(target[key]), value)
+      } else {
+        res[key] <- source[key]
+      }
+    }
+    return res
+  }
+  return sub_update_r(target, source)
+}
+
 
 /*
   defensive function - try to not to fail in all ways (for example for data driven function)

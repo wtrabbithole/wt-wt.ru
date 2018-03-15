@@ -1482,6 +1482,17 @@ function g_squad_manager::startWWBattlePrepare(battleId = null)
   updateSquadData()
 }
 
+function g_squad_manager::getLockedCountryData()
+{
+  if (!isPrepareToWWBattle())
+    return null
+
+  return {
+    country = getWwOperationCountry()
+    reasonText = ::loc("worldWar/cantChangeCountryInBattlePrepare")
+  }
+}
+
 function g_squad_manager::cancelWwBattlePrepare()
 {
   startWWBattlePrepare() // cancel battle prepare if no args

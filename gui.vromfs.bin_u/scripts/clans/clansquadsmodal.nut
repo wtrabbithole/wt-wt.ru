@@ -84,7 +84,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     scene.findObject("squad_list_update").setUserData(this)
 
     refreshOnlineUsersTable()
-    refreshList()
+    updateSquadsList()
     updateSquadsListInfo(curList.len())
     initFocusArray()
     restoreFocus()
@@ -350,7 +350,6 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (invite)
     {
       invite.accept()
-      obj.show(false)
       return
     }
 

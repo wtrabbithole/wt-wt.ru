@@ -82,6 +82,15 @@ local globalEnv = require_native("globalEnv")
 
 
 
+
+
+
+
+
+
+
+
+
     "ID_RELOAD_GUNS",
     "ID_GEAR",
     { id="ID_AIR_BRAKE", filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }

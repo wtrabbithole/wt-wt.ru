@@ -532,11 +532,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return action()
 
     local msgOptions = [
-      ["yes", (@(action, updateAfterApply) function() {
+      ["yes", function() {
         afterApplyAction = action
         updateAfterApplyAction = updateAfterApply
         onApply()
-      })(action, updateAfterApply)],
+      }],
       ["no", action]
     ]
 

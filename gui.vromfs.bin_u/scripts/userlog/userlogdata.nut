@@ -351,13 +351,6 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       if (blk.body.unlockType == ::UNLOCKABLE_TITLE && !onStartAwards)
         ::my_stats.markStatsReset()
 
-      if (blk.body.unlockType == ::UNLOCKABLE_CHALLENGE)
-      {
-        local unlock = ::g_unlocks.getUnlockById(blk.body.unlockId)
-        if (unlock?.showAsBattleTask)
-          ::broadcastEvent("PersonalUnlocksRequestUpdate")
-      }
-
       if ((! ::is_unlock_need_popup(blk.body.unlockId)
           && ! ::is_unlock_need_popup_in_menu(blk.body.unlockId))
         || hasDebriefingModalInScene)

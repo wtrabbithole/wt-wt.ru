@@ -199,8 +199,20 @@ function g_font::getCurrent()
       || getDefault()
   }
 
-  local fontSaveId = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
-  return getAvailableFontBySaveId(fontSaveId) || getDefault()
+  local fontSaveId = ::load_local_account_settings(FONTS_SAVE_PATH)
+  local res = getAvailableFontBySaveId(fontSaveId)
+  if (!res) //compatibility with 1.77.0.X
+  {
+    fontSaveId = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
+    if (fontSaveId)
+    {
+      res = getAvailableFontBySaveId(fontSaveId)
+      if (res)
+        ::save_local_account_settings(FONTS_SAVE_PATH, fontSaveId)
+      ::clear_local_by_screen_size(FONTS_SAVE_PATH)
+    }
+  }
+  return res || getDefault()
 }
 
 //return isChanged
@@ -209,10 +221,10 @@ function g_font::setCurrent(font)
   if (!canChange())
     return false
 
-  local fontSaveId = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
+  local fontSaveId = ::load_local_account_settings(FONTS_SAVE_PATH)
   local isChanged = font.saveId != fontSaveId
   if (isChanged)
-    ::saveLocalByScreenSize(FONTS_SAVE_PATH, font.saveId)
+    ::save_local_account_settings(FONTS_SAVE_PATH, font.saveId)
 
   saveFontToConfig(font)
   return isChanged

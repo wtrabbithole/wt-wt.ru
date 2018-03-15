@@ -782,27 +782,8 @@ function weaponVisual::countWeaponsUpgrade(air, item)
 
 function weaponVisual::getRepairCostCoef(item)
 {
-  local ret = null
-
-  foreach(m in ::domination_modes)
-    if (::get_show_mode_info(m.modeId))
-    {
-      local modeName = ::get_name_by_gamemode(m.modeId, true)
-      if ((("repairCostCoef"+modeName) in item) && item["repairCostCoef"+modeName])
-      {
-        if (ret == null)
-          ret = {}
-        ret[modeName] <- item["repairCostCoef"+modeName]
-      }
-      else if (("repairCostCoef" in item) && item.repairCostCoef)
-      {
-        if (ret == null)
-          ret = {}
-        ret[modeName] <- item.repairCostCoef
-      }
-    }
-
-  return ret
+  local modeName = ::get_current_shop_difficulty().getEgdName(true)
+  return item?["repairCostCoef" + modeName] ?? item?.repairCostCoef ?? 0
 }
 
 function weaponVisual::getReqModsText(air, item)
@@ -856,7 +837,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   if (item.type==weaponsItem.weapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, false, item.name, "\n", INFO_DETAIL.EXTENDED)
+    desc = ::getWeaponInfoText(air, { isPrimary = false, weaponPreset = item.name, detail = INFO_DETAIL.EXTENDED })
 
     if(item.rocket || item.bomb)
     {
@@ -872,7 +853,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   else if (item.type==weaponsItem.primaryWeapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, true, item.name, "\n", INFO_DETAIL.EXTENDED)
+    desc = ::getWeaponInfoText(air, { isPrimary = true, weaponPreset = item.name, detail = INFO_DETAIL.EXTENDED })
     local upgradesList = getItemUpgradesList(item)
     if(upgradesList)
     {
@@ -938,30 +919,17 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     }
   }
 
-  local repairCostCoefTbl = getRepairCostCoef(item)
-  if (repairCostCoefTbl)
+  local repairCostCoef = getRepairCostCoef(item)
+  if (repairCostCoef)
   {
-    local wBlk = ::get_warpoints_blk()
-    local repairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
-    local repairText = ""
-    foreach(m in ::domination_modes)
-      if (::get_show_mode_info(m.modeId))
-      {
-        local modeName = ::get_name_by_gamemode(m.modeId, true)
-
-        local repairCostCoef = 0.0
-        if (modeName in repairCostCoefTbl)
-          repairCostCoef = repairCostCoefTbl[modeName] * repairMul
-
-        local rcost = ::wp_get_repair_cost_by_mode(air.name, m.modeId, false)
-        local avgCost = (repairCostCoef * rcost).tointeger()
-        if (!avgCost)
-          continue
-        repairText += ((repairText!="")?" / ":"") + (avgCost > 0? "+" : "") +
-          ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
-      }
-    if (repairText!="")
-      addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp + repairText
+    local avgRepairMul = ::get_warpoints_blk().avgRepairMul ?? 1.0
+    local egdCode = ::get_current_shop_difficulty().egdCode
+    local rCost = ::wp_get_repair_cost_by_mode(air.name, egdCode, false)
+    local avgCost = (rCost * repairCostCoef * avgRepairMul).tointeger()
+    if (avgCost)
+      addDesc += "\n" + ::loc("shop/avg_repair_cost") + ::nbsp
+        + (avgCost > 0? "+" : "")
+        + ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
   }
 
   if (!statusTbl.amount && !needShowWWSecondaryWeapons)

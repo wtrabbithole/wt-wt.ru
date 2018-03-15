@@ -155,8 +155,8 @@ class WwMap
   function isWillAvailable(isNearFuture = true)
   {
     local changeStateTime = getChangeStateTime() - ::get_charserver_time_sec()
-    local operationAnnounceTimeSec = ::get_game_settings_blk()?.operationAnnounceTimeSec
-      ?? DEFAULT_OPERATION_ANNOUNCE_TIME_SEC
+    local operationAnnounceTimeSec = ::g_world_war.getSetting("operationAnnounceTimeSec",
+      DEFAULT_OPERATION_ANNOUNCE_TIME_SEC)
     return !isActive()
       && changeStateTime > 0
       && (!isNearFuture || changeStateTime < operationAnnounceTimeSec)

@@ -107,22 +107,9 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
         gameModeName = curBattleInList.getLocName()
         showEmptySlot = true
         needPresetsPanel = true
-        beforeCountrySelect = beforeCountrySelect
         shouldCheckCrewsReady = true
       }
     )
-  }
-
-  function beforeCountrySelect(onOk, onCancel, countryData)
-  {
-    if (currViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO &&
-        countryData.country != ::g_squad_manager.getWwOperationCountry())
-    {
-      onCancel()
-      ::showInfoMsgBox(::loc("worldWar/cantChangeCountryInBattlePrepare"))
-      return
-    }
-    onOk()
   }
 
   function onItemSelect()
@@ -269,6 +256,13 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
     battlesList = battlesList.filter(@(idx, battle)
       battle.hasUnitsToFight(country))
+  }
+
+  function battlesSort(battleA, battleB)
+  {
+    return battleB.isConfirmed <=> battleA.isConfirmed
+        || battleB.sortTimeFactor <=> battleA.sortTimeFactor
+        || battleB.sortFullnessFactor <=> battleA.sortFullnessFactor
   }
 
   function getBattleById(battleId)

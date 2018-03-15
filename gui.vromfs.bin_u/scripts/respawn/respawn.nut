@@ -3,6 +3,7 @@ local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 
 ::last_ca_aircraft <- null
@@ -2137,6 +2138,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     scene.findObject("flight_menu_bgd").show(!status)
     scene.findObject("bg-shade").show(!status)
     scene.findObject("spectator_controls").show(status)
+    scene.findObject("btn_show_hud").enable(status)
     updateButtons()
   }
 
@@ -2165,8 +2167,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!::checkObj(scene))
       return
 
-    local name = ::get_spectator_target_name()
-    scene.findObject("spectator_name").setValue(name)
+    scene.findObject("spectator_name").setValue(
+      platformModule.getPlayerName(::get_spectator_target_name())
+    )
   }
 
   function onChatCancel()

@@ -759,19 +759,25 @@
 
         local strUnits = ::nbsp + ::loc("measureUnits/mm")
         local strBullet = ::loc("ui/bullet")
+        local strColon  = ::loc("ui/colon")
 
         if (info.titleLoc != "")
           params.nameId <- info.titleLoc
 
-        if (info.kineticProtectionEquivalent || info.cumulativeProtectionEquivalent)
+        foreach (data in info.referenceProtectionArray)
         {
-          desc.push(::loc("shop/armorThicknessEquivalent"))
-          if (info.kineticProtectionEquivalent)
-            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/kinetic") + ::loc("ui/colon") +
-              info.kineticProtectionEquivalent + strUnits)
-          if (info.cumulativeProtectionEquivalent)
-            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/cumulative") + ::loc("ui/colon") +
-              info.cumulativeProtectionEquivalent + strUnits)
+          if (::u.isPoint2(data.angles))
+            desc.push(::loc("shop/armorThicknessEquivalent/angles",
+              { angle1 = ::abs(data.angles.y), angle2 = ::abs(data.angles.x) }))
+          else
+            desc.push(::loc("shop/armorThicknessEquivalent"))
+
+          if (data.kineticProtectionEquivalent)
+            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/kinetic") + strColon +
+              data.kineticProtectionEquivalent + strUnits)
+          if (data.cumulativeProtectionEquivalent)
+            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/cumulative") + strColon +
+              data.cumulativeProtectionEquivalent + strUnits)
         }
 
         local blockSep = desc.len() ? "\n" : ""
@@ -871,8 +877,7 @@
       isComposite = ::g_string.startsWith(partName, "composite_armor")
       titleLoc = ""
       armorClass = ""
-      kineticProtectionEquivalent = 0
-      cumulativeProtectionEquivalent = 0
+      referenceProtectionArray = []
       layersArray = []
     }
 
@@ -880,8 +885,15 @@
     if (blk)
     {
       res.titleLoc = blk.titleLoc || ""
-      res.kineticProtectionEquivalent = blk.kineticProtectionEquivalent || 0
-      res.cumulativeProtectionEquivalent = blk.cumulativeProtectionEquivalent || 0
+
+      local referenceProtectionBlocks = blk.referenceProtectionTable ? (blk.referenceProtectionTable % "i")
+        : (blk.kineticProtectionEquivalent || blk.cumulativeProtectionEquivalent) ? [ blk ]
+        : []
+      res.referenceProtectionArray = ::u.map(referenceProtectionBlocks, @(b) {
+        angles = b.angles
+        kineticProtectionEquivalent    = b.kineticProtectionEquivalent    || 0
+        cumulativeProtectionEquivalent = b.cumulativeProtectionEquivalent || 0
+      })
 
       local armorParams = { armorClass = "", armorThickness = 0.0 }
       local armorLayersArray = blk.armorArrayText ? (blk.armorArrayText % "layer") : []
@@ -898,6 +910,11 @@
     {
       local armorParams = { armorClass = "", kineticProtectionEquivalent = 0, cumulativeProtectionEquivalent = 0 }
       local info = getDamagePartParamsByDmPartName(partName, armorParams)
+      res.referenceProtectionArray = [{
+        angles = null
+        kineticProtectionEquivalent    = info.kineticProtectionEquivalent
+        cumulativeProtectionEquivalent = info.cumulativeProtectionEquivalent
+      }]
       res = ::u.tablesCombine(res, info, @(a, b) b == null ? a : b, null, false)
     }
 

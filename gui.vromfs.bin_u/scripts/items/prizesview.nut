@@ -846,7 +846,7 @@ function PrizesView::getPrizeActionButtonsView(prize, params = null)
   if (!params?.shopDesc)
     return view
 
-  local itemId = prize?.item || params?.relatedItem
+  local itemId = prize && prize.item || params?.relatedItem
   if (itemId)
   {
     local item = ::ItemsManager.findItemById(itemId)

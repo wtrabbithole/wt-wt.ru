@@ -259,7 +259,7 @@
       obj_prim = []
       obj_sec = []
 
-      if ('objectives' in mission) {
+      if ('objectives' in mission && mission['objectives'] != null) {
         for (var i=0; i<mission['objectives'].length; ++i) {
           var obj = mission['objectives'][i];
           if (obj['status'] != "undefined") {
