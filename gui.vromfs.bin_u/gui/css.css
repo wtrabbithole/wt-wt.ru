@@ -2195,23 +2195,13 @@ Red_shadow_light.inverted {
 }
 
 GameLogoPlate {
-  size:1@titleLogoPlateWidth, 1@titleLogoPlateHeight + 1@bh;
   total-input-transparent:yes;
-}
-
-GameLogoPlate > ShadeOnPanel {
-  width:110%pw;
-  height:1@topBarHeight;
-  pos:50%pw-50%w, 0;
-  position:absolute;
-  background-color:@shadeBackgroundColor;
 }
 
 GameLogoPlate > Shadow {
   re-type:9rect;
-  pos:50%pw-50%w, 0;
-  position:absolute;
-  size:pw+6*@sf/@pf_outdated, ph+5*@sf/@pf_outdated;
+  position:relative;
+  padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#window_body_shadow;
   background-color:@white;
   background-position:6;
@@ -2220,23 +2210,11 @@ GameLogoPlate > Shadow {
 
 GameLogoPlate redPlate {
   re-type:9rect;
-  size:pw, ph;
   padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#red_plate;
   background-color:@white;
   background-position:6;
   background-repeat:expand;
-}
-
-GameLogoPlate GameLogoImg {
-  id:"titleLogo";
-  re-type:9rect;
-  pos:50%pw-50%w, ph-h;
-  position:absolute;
-  size:pw, ph- 1@bh;
-  background-position:0;
-  background-repeat:expand;
-  background-color:@white;
 }
 
 GameLogoPlate > infoBlock {

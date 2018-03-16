@@ -147,20 +147,24 @@
           "GameLogoPlate": {
             "position": "absolute",
             "pos": "50%pw-50%w, -4",
-            "style": "size:90%pw,20%ph;",
-            "Shadow": [],
-            "redPlate": {
-              "pattern": {
-                "type": "dark_diag_lines"
+            "size": "90%pw,20%ph",
+            "Shadow": {
+              "size": "pw, ph",
+              "redPlate": {
+                "size": "pw, ph",
+                "pattern": {
+                  "type": "dark_diag_lines",
+                  "size": "pw, ph",
+                  "img": {
+                    "id": "titleLogo",
+                    "pos": "50%pw-50%w, 50%ph-50%h",
+                    "position": "relative",
+                    "size": "256*@loginLogoScale,128*@loginLogoScale",
+                    "background-image": "#ui/title128",
+                    "background-repeat": "expand"
+                  }
+                }
               }
-            },
-            "img": {
-              "id": "titleLogo",
-              "position": "absolute",
-              "pos": "50%pw-50%w,50%ph-50%h",
-              "size": "256*@loginLogoScale,128*@loginLogoScale",
-              "background-image": "#ui/title128",
-              "background-repeat": "expand"
             },
             "tdiv": {
               "width": "pw",
@@ -725,22 +729,26 @@
         },
         {
           "GameLogoPlate": {
-            "style": "size:90%pw,15%ph",
+            "size": "90%pw,15%ph",
             "pos": "50%pw-50%w, 85%ph+4",
             "position": "absolute",
-            "Shadow": [],
-            "redPlate": {
-              "pattern": {
-                "type": "dark_diag_lines"
+            "Shadow": {
+              "size": "pw, ph",
+              "redPlate": {
+                "size": "pw, ph",
+                "pattern": {
+                  "size": "pw, ph",
+                  "type": "dark_diag_lines",
+                  "img": {
+                    "id": "gaijinLogo",
+                    "pos": "50%pw-50%w, 50%ph-50%h",
+                    "position": "relative",
+                    "size": "256*@loginLogoScale, 128*@loginLogoScale",
+                    "background-image": "ui/gaijin_logo",
+                    "background-repeat": "expand"
+                  }
+                }
               }
-            },
-            "img": {
-              "id": "gaijinLogo",
-              "position": "absolute",
-              "pos": "50%pw-50%w, 50%ph - 50%h",
-              "size": "256*@loginLogoScale, 128*@loginLogoScale",
-              "background-image": "ui/gaijin_logo",
-              "background-repeat": "expand"
             }
           }
         }

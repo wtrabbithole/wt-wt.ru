@@ -437,7 +437,7 @@ function on_player_event_target_mp(evType, tbl, userId) {
 
   dagor.debug("on_player_event "+actionType+" - Exp = "+ret.rank+", eventMul "+eventMul)
 
-  return on_action_award_exp_return(ret, userId)
+  return  on_action_award_exp_return(ret, userId, curAir)
 }
 
 function on_player_event_mp(evType, tbl, userId) {
@@ -604,7 +604,7 @@ function on_player_event_mp(evType, tbl, userId) {
 
   dagor.debug("on_player_event_mp - Exp calc step 3. Exp: "+ret.rank+" ret.delay "+ret.delay)
 
-  return on_action_award_exp_return(ret, userId)
+  return on_action_award_exp_return(ret, userId, curAir)
 }
 
 function on_mission_objective_mp(param) {
@@ -702,11 +702,11 @@ function unit_kill_exp_award(userId, evType, tbl) {
 
 function on_unit_killed_mp(evType, tbl, userId) {
   local ret = unit_kill_exp_award(userId, evType, tbl)
-  return on_action_award_exp_return(ret, userId)
+  return on_action_award_exp_return(ret, userId, tbl.curAir)
 }
 
-function on_action_award_exp_return(award, userId) {
-  award = roguelike_mode_awards(award, "exp", userId)
+function on_action_award_exp_return(award, userId, airname) {
+  award = roguelike_mode_awards(award, "exp", userId, airname)
   return award
 }
 

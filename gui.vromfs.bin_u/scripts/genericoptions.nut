@@ -1385,9 +1385,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
 
   function onSystemOptionsRestartClient(obj)
   {
-    ::sysopt.configWrite()
-    ::sysopt.configFree()
-    ::sysopt.applyRestartClient()
+    ::sysopt.onRestartClient()
   }
 
   function passValueToParent(obj)

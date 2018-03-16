@@ -79,7 +79,7 @@ action_bar_item {
       size:t='pw, ph';
       position:t='absolute';
       pos:t='0, 0';
-      background-color:t='#ee090909';
+      background-color:t='#99020202';
     }
     <<#isXinput>>
       <<>gamepadShortcut>>

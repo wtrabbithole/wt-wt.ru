@@ -433,6 +433,9 @@ function g_login::statsdOnLogin()
       ::add_big_query_record("ps4.restrictions.ugc", "")
   }
 
+  local bg_update = ::getSystemConfigOption("launcher/bg_update", true)
+  ::add_big_query_record("login", bg_update ? "bg_update" : "")
+
   if (::is_platform_windows)
   {
     local anyUG = false

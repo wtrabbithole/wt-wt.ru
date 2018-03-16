@@ -14,6 +14,7 @@ local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
 //  - chatLog
 //  - squadMemberData
 //  - position
+//  - canComplain
 // ----------------------------
 
 local verifyContact = function(params)
@@ -58,6 +59,7 @@ local getActions = function(_contact, params)
   local roomData = roomId? ::g_chat.getRoomById(roomId) : null
 
   local isMPChat = params?.isMPChat ?? false
+  local isMPLobby = params?.isMPLobby ?? false
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
   local chatLog = params?.chatLog ?? roomData?.chatText ?? ""
@@ -286,7 +288,7 @@ local getActions = function(_contact, params)
 //---- </Contacts> ------------------
 
 //---- <MP Lobby> -------------------
-  if (params?.isMPLobby)
+  if (isMPLobby)
     actions.append({
       text = ::loc("mainmenu/btnKick")
       show = !isMe && ::SessionLobby.isRoomOwner && !::SessionLobby.isEventRoom
@@ -388,7 +390,7 @@ local getActions = function(_contact, params)
 //---- </Chat> ----------------------
 
 //---- <Moderator> ------------------
-  if (::is_myself_anyof_moderators() && (roomData != null || isMPChat))
+  if (::is_myself_anyof_moderators() && (roomId || isMPChat || isMPLobby))
     actions.extend([
       {
         text = "" //for separator

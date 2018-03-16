@@ -3,8 +3,8 @@ function set_wp_award(award) {
   return award
 }
 
-function on_action_award_wp_return(award, userId) {
-  award = roguelike_mode_awards(award, "wp", userId)
+function on_action_award_wp_return(award, userId, airname) {
+  award = roguelike_mode_awards(award, "wp", userId, airname)
   return award
 }
 
@@ -280,7 +280,7 @@ function versus_air_kill_award(userId, tbl) {
     return set_wp_award(0)
 
   local award = kill_award_calc(userId, airname, myairname, wpBoosterPercents, friendly, ai, "air", rented)
-  return on_action_award_wp_return(award, userId)
+  return on_action_award_wp_return(award, userId, myairname)
 }
 
 function versus_ground_kill_award(userId, tbl) {
@@ -296,7 +296,7 @@ function versus_ground_kill_award(userId, tbl) {
   }
 
   local award = kill_award_calc(userId, expclass, airname, wpBoosterPercents, friendly, ai, "ground", rented, damageTbl)
-  return on_action_award_wp_return(award, userId)
+  return on_action_award_wp_return(award, userId, airname)
 }
 
 function on_warpoint_event_mp(evType, tbl, userId) {
@@ -502,7 +502,7 @@ function on_warpoint_event_mp(evType, tbl, userId) {
 
   dagor.debug("on_warpoint_event_mp - Wp calc final WP = " + award.wp+" unit "+curAir+" mul "+mul.wp+" effCoef "+award.effCoef)
 
-  return on_action_award_wp_return(award, userId)
+  return on_action_award_wp_return(award, userId, curAir)
 }
 
 function versus_battle_time_award(param, userId) {

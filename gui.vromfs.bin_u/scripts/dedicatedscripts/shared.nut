@@ -319,7 +319,7 @@ function on_mission_started_mp()
   ::cur_mission_mode <- -1
 }
 
-function roguelike_mode_awards(award, reward_type, userId)
+function roguelike_mode_awards(award, reward_type, userId, airname)
 {
   local landing_award_part = 0
   local misBlk = ::get_current_mission_info_cached()
@@ -333,6 +333,12 @@ function roguelike_mode_awards(award, reward_type, userId)
 
   if (landing_award_part > 1)
     landing_award_part = 1
+
+  local exp_class = getWpcostUnitClass(airname)
+
+  if (misBlk.roguelikeModeAircrafts != null && misBlk.roguelikeModeAircrafts.paramCount() > 0 && !misBlk.roguelikeModeAircrafts?[exp_class]) {
+    return award
+  }
 
   local multiplier_function = multiply_exp_award
   local mainAwardName = "rank"

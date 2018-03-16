@@ -420,13 +420,12 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateRoomTabByIdx(idx, room, listObj = null)
   {
+    if (!checkScene())
+      return
     if (!listObj)
-    {
-      if (!checkScene())
-        return
       listObj = scene.findObject("rooms_list")
-    }
-
+    if (listObj.childrenCount() <= idx)
+      return
     local roomTab = listObj.getChild(idx)
     if (!::checkObj(roomTab))
       return
