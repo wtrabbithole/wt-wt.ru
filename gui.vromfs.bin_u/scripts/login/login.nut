@@ -23,6 +23,7 @@ enum LOGIN_STATE //bit mask
   onLoggedInChanged  = function() {}
   loadLoginHandler   = function() {}
   initConfigs        = function(cb) { cb() }
+  afterScriptsReload = function() {}
 }
 
 function g_login::init()
@@ -109,6 +110,7 @@ function g_login::onEventScriptsReloaded(p)
 {
   if (!isLoggedIn() && isAuthorized())
     startLoginProcess(true)
+  afterScriptsReload()
 }
 
 

@@ -470,6 +470,7 @@ class ::ChatHandler
       playerName = playerName
       isMPChat = true
       chatLog = getLogText()
+      canComplain = true
     })
 
     ::gui_right_click_menu(menu, this)

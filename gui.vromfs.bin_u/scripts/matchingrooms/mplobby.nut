@@ -299,6 +299,7 @@ function session_player_rmenu(handler, player, chatText = "", position = null, o
     position = position
     chatLog = chatText
     isMPLobby = true
+    canComplain = true
   })
 
   ::gui_right_click_menu(menu, handler, position, orientation)

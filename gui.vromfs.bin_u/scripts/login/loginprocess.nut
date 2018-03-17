@@ -49,6 +49,8 @@ class ::LoginProcess
 
   function nextStep()
   {
+    if (showVersionMsgBox())
+      return
     curProgress++
 
     if (curProgress == LOGIN_PROGRESS.IN_LOGIN_WND)
@@ -113,5 +115,16 @@ class ::LoginProcess
   {
     if (isValid())
       curProgress = LOGIN_PROGRESS.NOT_STARTED
+  }
+
+  function showVersionMsgBox()
+  {
+    if (::is_version_equals_or_newer("1.77.0.0"))
+      return false
+
+    ::scene_msg_box("old exe version", null, ::loc("charServer/updateError/75"),
+      [["exit", ::exit_game ]], "exit",
+      { saved = true })
+    return true
   }
 }

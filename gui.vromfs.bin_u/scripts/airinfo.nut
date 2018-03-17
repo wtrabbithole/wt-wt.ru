@@ -1569,10 +1569,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   obj = holderObj.findObject("aircraft-type")
   if (::checkObj(obj))
   {
-    local fonticon = ::colorize("activeTextColor", ::get_unit_role_icon(air))
+    local fonticon = ::get_unit_role_icon(air)
     local typeText = ::get_full_unit_role_text(air)
     obj.show(typeText != "")
-    obj.setValue(fonticon + " " + ::colorize(::getUnitClassColor(air), typeText))
+    obj.setValue(::colorize(::getUnitClassColor(air), fonticon + " " + typeText))
   }
 
   obj = holderObj.findObject("player_country_exp")

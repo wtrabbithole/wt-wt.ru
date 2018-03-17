@@ -293,7 +293,7 @@ function g_login::onEventGuiSceneCleared(p)
     })
 }
 
-function g_login::onEventScriptsReloaded(p)
+function g_login::afterScriptsReload()
 {
   if (initOptionsPseudoThread)
     shouldRestartPseudoThread = true
@@ -432,6 +432,9 @@ function g_login::statsdOnLogin()
     if (!::ps4_is_ugc_enabled())
       ::add_big_query_record("ps4.restrictions.ugc", "")
   }
+
+  local bg_update = ::getSystemConfigOption("launcher/bg_update", true)
+  ::add_big_query_record("login", bg_update ? "bg_update" : "")
 
   if (::is_platform_windows)
   {

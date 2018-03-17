@@ -1136,7 +1136,7 @@ function get_favorite_voice_message_option(index)
     ::get_favorite_voice_message_option(12)
 
   { id = "ID_COMMON_TRACKER_HEADER", type = CONTROL_TYPE.SECTION
-    showFunc = @() !::is_ps4_or_xbox || ::ps4_headtrack_is_attached() || ::is_tracker_joystick()
+    showFunc = @() !::is_platform_xboxone || ::ps4_headtrack_is_attached() || ::is_tracker_joystick()
   }
     { id="headtrack_enable", type = CONTROL_TYPE.SWITCH_BOX
       showFunc = @() ::ps4_headtrack_is_attached()
@@ -1144,7 +1144,7 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "doControlsGroupChangeDelayed"
     }
     { id = "ID_TRACKER_RESET_POSITION"
-      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
       checkGroup = ctrlGroups.COMMON
       checkAssign = false
       autobind = ["ID_CAMERA_NEUTRAL"]
@@ -1156,11 +1156,11 @@ function get_favorite_voice_message_option(index)
       showFunc = @() ::is_tracker_joystick()
     }
     { id="zoom_sens", type = CONTROL_TYPE.SLIDER
-      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      showFunc = @() !::is_platform_xboxone
       optionType = ::USEROPT_ZOOM_SENSE
     }
     { id = "trackIrZoom", type = CONTROL_TYPE.SWITCH_BOX
-      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
       value = @(joyParams) joyParams.trackIrZoom
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrZoom
@@ -1170,7 +1170,7 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id = "trackIrForLateralMovement", type = CONTROL_TYPE.SWITCH_BOX
-      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      showFunc = @() !::is_platform_xboxone
       value = @(joyParams) joyParams.trackIrForLateralMovement
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrForLateralMovement
@@ -1180,7 +1180,7 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id = "trackIrAsHeadInTPS", type = CONTROL_TYPE.SWITCH_BOX
-      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
+      showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
       value = @(joyParams) joyParams.trackIrAsHeadInTPS
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrAsHeadInTPS

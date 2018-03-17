@@ -334,7 +334,7 @@ local getActions = function(_contact, params)
         }
       ])
 
-    local canComplain = false
+    local canComplain = !isMe && (params?.canComplain ?? false)
     if (!isMe)
     {
       if (roomData

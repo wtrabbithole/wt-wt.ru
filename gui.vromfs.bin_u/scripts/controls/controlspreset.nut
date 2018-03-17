@@ -217,7 +217,7 @@ class ControlsPreset {
       isMouseLookHold                   = false
       isHatViewMouse                    = true
       trackIrZoom                       = true
-      trackIrForLateralMovement         = true
+      trackIrForLateralMovement         = false
       trackIrAsHeadInTPS                = false
       isFlightStick                     = true
       isExchangeSticksAvailable         = false
