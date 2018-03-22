@@ -9,24 +9,10 @@ expandable {
   battleTaskStatus:t='<<taskStatus>>'
   <</taskStatus>>
 
-  <<#showAsUsualPromoButton>>
-    setStandartWidth:t='yes'
-  <</showAsUsualPromoButton>>
-
   fullSize:t='yes'
   selImg {
     header {
-      <<^isPromo>>
       width:t='pw'
-      <</isPromo>>
-
-      <<#isPromo>>
-      left:t='pw-w'
-      position:t='relative'
-        <<#taskStatus>>
-          statusImg {}
-        <</taskStatus>>
-      <</isPromo>>
 
       <<#newIconWidget>>
       tdiv {
@@ -46,31 +32,14 @@ expandable {
       textareaNoTab {
         text:t='<<title>>'
         top:t='50%ph-50%h'
+        width:t='fw'
         position:t='relative'
+        overlayTextColor:t='active'
 
-        <<^showAsUsualPromoButton>>
-          overlayTextColor:t='active'
-          <<#isLowWidthScreen>>
-            normalFont:t='yes'
-          <</isLowWidthScreen>>
-        <</showAsUsualPromoButton>>
-
-        <<^isPromo>>
-          width:t='fw'
-        <</isPromo>>
+        <<#isLowWidthScreen>>
+        normalFont:t='yes'
+        <</isLowWidthScreen>>
       }
-
-      <<#isPromo>>
-      <<#refreshTimer>>
-        textareaNoTab {
-          id:t='tasks_refresh_timer'
-          behavior:t='Timer'
-          top:t='50%ph-50%h'
-          position:t='relative'
-          text:t=''
-        }
-      <</refreshTimer>>
-      <</isPromo>>
 
       <<#taskRankValue>>
       textareaNoTab {
@@ -78,21 +47,17 @@ expandable {
         overlayTextColor:t='active'
         top:t='50%ph-50%h'
         position:t='relative'
+        overlayTextColor:t='active'
 
-        <<^showAsUsualPromoButton>>
-          overlayTextColor:t='active'
-          <<#isLowWidthScreen>>
-            normalFont:t='yes'
-          <</isLowWidthScreen>>
-        <</showAsUsualPromoButton>>
+        <<#isLowWidthScreen>>
+        normalFont:t='yes'
+        <</isLowWidthScreen>>
       }
       <</taskRankValue>>
 
-      <<^isPromo>>
       <<#taskStatus>>
         statusImg {}
       <</taskStatus>>
-      <</isPromo>>
     }
 
     hiddenDiv {
@@ -189,7 +154,7 @@ expandable {
           position:t='relative'
           text:t = '#mainmenu/battleTasks/receiveReward'
           on_click:t = 'onGetRewardForTask'
-          btnName:t=<<#isPromo>>'R3'<</isPromo>><<^isPromo>>'X'<</isPromo>>
+          btnName:t='X'
           visualStyle:t='secondary'
           buttonWink {}
           ButtonImg{}
@@ -208,123 +173,8 @@ expandable {
       background-color:t='@premiumColor'
       <<#isOnlyInfo>> hideExpandImg:t='yes' <</isOnlyInfo>>
     }
-
-    <<#isPromo>>
-    <<#otherTasksNum>>
-      textareaNoTab {
-        text:t='<<?mainmenu/battleTasks/OtherTasksCount>>'
-        position:t='relative'
-        pos:t='pw-w, 0'
-      }
-    <</otherTasksNum>>
-    <</isPromo>>
-
-    <<#isPromo>>
-    <<#warbondLevelPlace>>
-      progressBoxPlace {
-        id:t='progress_box_place'
-        left:t='pw-w - 0.4@warbondShopLevelItemHeight'
-        position:t='relative'
-        margin:t='0, 0.015@scrn_tgt'
-        size:t='75%pw, 1@warbondShopLevelProgressHeight'
-
-        <<@warbondLevelPlace>>
-      }
-    <</warbondLevelPlace>>
-
-    <<#newItemsAvailable>>
-      tdiv {
-        width:t='pw'
-        flow:t='vertical'
-        margin:t='0, 0.01@scrn_tgt'
-        tdiv {
-          left:t='pw-w'
-          position:t='relative'
-          <<@warbondsNewIconWidget>>
-          textarea {
-            text:t='#mainmenu/newItemsAvailable'
-            overlayTextColor:t='warning'
-          }
-        }
-      <<^isConsoleMode>>
-        Button_text {
-          id:t = 'btn_warbond_shop'
-          left:t='pw-w'
-          position:t='relative'
-          text:t = '#mainmenu/btnWarbondsShop'
-          on_click:t = 'onWarbondsShop'
-          visualStyle:t='secondary'
-          buttonWink {}
-        }
-      <</isConsoleMode>>
-      }
-    <</newItemsAvailable>>
-    <</isPromo>>
   }
 
   fgLine {}
 }
-
-<<#isPromo>>
-collapsedContainer {
-  <<#collapsedAction>> on_click:t='<<collapsedAction>>Collapsed' <</collapsedAction>>
-  shortInfoBlock {
-    <<#taskStatus>>
-      battleTaskStatus:t='<<taskStatus>>'
-      statusImg {}
-    <</taskStatus>>
-    <<#taskDifficultyImage>>
-      cardImg {
-        type:t='medium'
-        background-image:t='<<taskDifficultyImage>>'
-      }
-    <</taskDifficultyImage>>
-    shortHeaderText { text:t='<<collapsedText>>' }
-
-    <<^needShowProgressBar>>
-      <<#needShowProgressValue>>
-        shortHeaderText { text:t=' (<<progressValue>>/<<progressMaxValue>>) ' }
-      <</needShowProgressValue>>
-    <</needShowProgressBar>>
-
-    shortHeaderIcon { text:t='<<collapsedIcon>>' }
-  }
-
-  <<#needShowProgressBar>>
-  progressDiv {
-    left:t='pw-w'
-    position:t='relative'
-    margin-bottom:t='0.005@sf'
-    battleTaskProgress {
-      top:t='50%ph-50%h'
-      position:t='relative'
-      width:t='0.4@arrowButtonWidth'
-      value:t='<<progressBarValue>>'
-    }
-    <<#needShowProgressValue>>
-    textarea {
-      text:t='( <<progressValue>> / <<progressMaxValue>> )'
-      smallFont:t='yes'
-      overlayTextColor:t='disabled'
-    }
-    <</needShowProgressValue>>
-  }
-  <</needShowProgressBar>>
-  <<#getTooltipId>>
-    title:t='$tooltipObj'
-    tooltipObj {
-      tooltipId:t='<<getTooltipId>>'
-      display:t='hide'
-      on_tooltip_open:t='onGenericTooltipOpen'
-      on_tooltip_close:t='onTooltipObjClose'
-    }
-  <</getTooltipId>>
-}
-hangarToggleButton {
-  id:t='<<id>>_toggle'
-  on_click:t='onToggleItem'
-  type:t='right'
-  directionImg {}
-}
-<</isPromo>>
 <</items>>

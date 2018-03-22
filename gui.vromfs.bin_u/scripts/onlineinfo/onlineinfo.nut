@@ -39,11 +39,6 @@ const MAX_FETCH_RETRIES = 5
 ::g_script_reloader.registerPersistentData("onlineInfoGlobals", ::getroottable(),
   ["online_stats", "online_info_server_time_param", "online_info_server_time_recieved"])
 
-function get_mode_by_diff(diff)
-{
-  return ::g_difficulty.getDifficultyByDiffCode(diff).gameTypeName
-}
-
 function get_matching_server_time()
 {
   return ::online_info_server_time_param + (dagor.getCurTime()/1000 - ::online_info_server_time_recieved)

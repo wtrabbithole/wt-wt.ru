@@ -1,4 +1,4 @@
-local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 enum PanelSide
 {
@@ -303,7 +303,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function isEventAvailableForCrossPlay(event)
   {
-    return platformModule.isCrossPlayEnabled() || ::events.isEventXboxOnlyAllowed(event)
+    return crossplayModule.isCrossPlayEnabled() || ::events.isEventXboxOnlyAllowed(event)
   }
 
   function getWidgetId(gameModeId)
@@ -500,9 +500,9 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChangeCrossPlayValue(enable, gameMode)
   {
-    if (enable != platformModule.isCrossPlayEnabled())
+    if (enable != crossplayModule.isCrossPlayEnabled())
     {
-      platformModule.setIsCrossPlayEnabled(enable)
+      crossplayModule.setIsCrossPlayEnabled(enable)
       doWhenActiveOnce("updateContent")
     }
 

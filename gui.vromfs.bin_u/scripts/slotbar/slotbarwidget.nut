@@ -178,11 +178,15 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     local canSelectEmptyCrew = shouldSelectCrewRecruit || !needActionsWithEmptyCrews
     data.isSelectable <- (data.isUnlocked || !shouldSelectAvailableUnit) && (canSelectEmptyCrew || data.unit != null)
+    local isControlledUnit = !::is_respawn_screen()
+      && ::is_player_unit_alive()
+      && ::get_player_unit_name() == data.unit?.name
     if (haveRespawnCost
         && data.isSelectable
         && data.unit
         && totalSpawnScore >= 0
-        && (totalSpawnScore < data.unit.getSpawnScore() || totalSpawnScore < data.unit.getMinimumSpawnScore()))
+        && (totalSpawnScore < data.unit.getSpawnScore() || totalSpawnScore < data.unit.getMinimumSpawnScore())
+        && !isControlledUnit)
       data.isSelectable = false
 
     list.append(data)

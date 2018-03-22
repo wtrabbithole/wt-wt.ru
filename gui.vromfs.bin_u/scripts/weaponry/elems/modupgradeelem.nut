@@ -3,9 +3,23 @@ local elemViewType = ::require("sqDagui/elemUpdater/elemViewType.nut")
 
 elemModelType.addTypes({
   MOD_UPGRADE = {
+    hasUpgradeItems = null
+
     init = @() ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
     onEventModUpgraded = @(p) notify([p.unit.name, p.mod.name])
     onEventOverdriveActivated = @(p) notify([])
+    onEventInventoryUpdate = function(p)
+    {
+      hasUpgradeItems = null
+      notify([])
+    }
+
+    needShowAvailableUpgrades = function()
+    {
+      if (hasUpgradeItems == null)
+        hasUpgradeItems = ::ItemsManager.getInventoryList(itemType.MOD_UPGRADE).len() > 0
+      return hasUpgradeItems
+    }
   }
 })
 
@@ -29,7 +43,7 @@ elemViewType.addTypes({
       local modName = params?.mod
       local color = !modName ? "#00000000"
         : ::get_modification_level(unitName, modName) ? "#FFFFFFFF"
-        : ::is_mod_upgradeable(modName) ? "#80808080"
+        : model.needShowAvailableUpgrades() && ::is_mod_upgradeable(modName) ? "#80808080"
         : "#00000000"
       obj.set_prop_latent("background-color", color)
       obj.set_prop_latent("foreground-color",

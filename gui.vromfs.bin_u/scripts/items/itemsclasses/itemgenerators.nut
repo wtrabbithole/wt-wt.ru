@@ -12,6 +12,8 @@ local ItemGenerator = class {
 
   isPack = false
   hasHiddenItems = false
+  hiddenTopPrizeParams = null
+  tags = null
 
   _contentUnpacked = null
 
@@ -25,6 +27,7 @@ local ItemGenerator = class {
     exchange = itemDefDesc?.exchange ?? ""
     bundle   = itemDefDesc?.bundle ?? ""
     isPack   = genType == "bundle"
+    tags     = itemDefDesc?.tags ?? null
     timestamp = itemDefDesc?.Timestamp ?? ""
   }
 
@@ -62,11 +65,14 @@ local ItemGenerator = class {
         {
           local content = generator.getContent()
           hasHiddenItems = hasHiddenItems || generator.hasHiddenItems
+          hiddenTopPrizeParams = hiddenTopPrizeParams || generator.hiddenTopPrizeParams
           _contentUnpacked.extend(content)
         }
       }
 
-    hasHiddenItems = hasHiddenItems || !_contentUnpacked.len()
+    local isBundleHidden = !_contentUnpacked.len()
+    hasHiddenItems = hasHiddenItems || isBundleHidden
+    hiddenTopPrizeParams = isBundleHidden ? tags : hiddenTopPrizeParams
   }
 
   function getContent()
@@ -74,6 +80,17 @@ local ItemGenerator = class {
     if (!_contentUnpacked)
       _unpackContent()
     return _contentUnpacked
+  }
+
+  function isHiddenTopPrize(prize)
+  {
+    local content = getContent()
+    if (!hasHiddenItems || !prize?.item)
+      return false
+    foreach (v in content)
+      if (prize.item == v?.item)
+        return false
+    return true
   }
 }
 

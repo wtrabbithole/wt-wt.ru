@@ -14,8 +14,8 @@
   "AileronSens": 0.098,
   "GearActuatorSpeed": 0.2,
   "WingActuatorSpeed": 0.1,
-  "CockpitDoorSpeedOpen": [100.0,250.0,0.5,0.02],
-  "CockpitDoorSpeedClose": [100.0,250.0,0.5,0.8],
+  "CockpitDoorSpeedOpen": [150.0,300.0,2.0,18.0],
+  "CockpitDoorSpeedClose": [150.0,300.0,4.0,0.06],
   "CockpitDoorBlockSpeed": 201.0,
   "CockpitOpenedDoorBreakSpeed": 247.0,
   "AirBrakeSpeed": 0.5,
@@ -346,11 +346,11 @@
       "CarbureutorCapacity": 0.32,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
-      "MinThrMult": 0.145,
+      "MinThrMult": 0.148,
       "MaxThrMult": 1.0,
       "IsWaterCooled": true,
       "EngineInertiaMoment": 1.0,
-      "EngineAcceleration": 3.0,
+      "EngineAcceleration": 3.5,
       "RPMAmplitude0": [3500.0,0.0],
       "RPMAmplitude1": [0.0,5.0],
       "ConsumptionOmegaMax": 1.05,
@@ -623,6 +623,38 @@
       "hasRadiatorControl": true,
       "hasOilRadiatorControl": false,
       "hasCommonRadiator": true
+    },
+    "Stages": {
+      "Stage1": {
+        "minTime": 0.5,
+        "maxTime": 0.9,
+        "fromRPM": 0.0,
+        "toRPM": 20.0
+      },
+      "Stage2": {
+        "minTime": 0.5,
+        "maxTime": 1.5,
+        "fromRPM": 20.0,
+        "toRPM": 30.0
+      },
+      "Stage3": {
+        "minTime": 0.6,
+        "maxTime": 1.0,
+        "fromRPM": 30.0,
+        "toRPM": 120.0
+      },
+      "Stage4": {
+        "minTime": 1.0,
+        "maxTime": 1.5,
+        "fromRPM": 120.0,
+        "toRPM": 350.0
+      },
+      "Stage5": {
+        "minTime": 1.5,
+        "maxTime": 2.0,
+        "fromRPM": 350.0,
+        "toRPM": 850.0
+      }
     }
   },
   "Mass": {

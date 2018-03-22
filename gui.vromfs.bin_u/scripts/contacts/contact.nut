@@ -1,4 +1,4 @@
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 
 class Contact
@@ -92,7 +92,7 @@ class Contact
 
   function canOpenXBoxFriendsWindow()
   {
-    return ::is_player_from_xbox_one(name)
+    return platformModule.isPlayerFromXboxOne(name)
   }
 
   function openXBoxFriendsEdit()
@@ -137,6 +137,6 @@ class Contact
     if (!::isPlayerInFriendsGroup(uid))
       return false
 
-    return ::is_player_from_xbox_one(name)
+    return platformModule.isPlayerFromXboxOne(name)
   }
 }

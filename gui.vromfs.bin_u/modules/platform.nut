@@ -1,4 +1,4 @@
-local string =  require("std/string.nut")
+local string = require("std/string.nut")
 
 local XBOX_ONE_PLAYER_PREFIX = "^"
 
@@ -15,17 +15,7 @@ local getPlayerName = @(name) name
 if (isPlatformXboxOne)
   getPlayerName = getPlayerNameNoSpecSymbol
 
-//required, when we not logged in, but know player gamertag, so we can identify
-//for whom need read this param
-local getXboxPlayerCrossPlaySaveId = @() "isCrossPlayEnabled/" + ::xbox_get_active_user_gamertag()
-
-local isCrossPlayEnabled = @() (!isPlatformXboxOne || ::load_local_shared_settings(getXboxPlayerCrossPlaySaveId(), false))
-
-local function setIsCrossPlayEnabled(useCrossPlay)
-{
-  if (isPlatformXboxOne)
-    ::save_local_shared_settings(getXboxPlayerCrossPlaySaveId(), useCrossPlay)
-}
+local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
 return {
   xboxNameRegexp = xboxNameRegexp
@@ -34,6 +24,5 @@ return {
   isPS4PlayerName = isPS4PlayerName
   getPlayerName = getPlayerName
   getPlayerNameNoSpecSymbol = getPlayerNameNoSpecSymbol
-  isCrossPlayEnabled = isCrossPlayEnabled
-  setIsCrossPlayEnabled = setIsCrossPlayEnabled
+  isPlayerFromXboxOne = isPlayerFromXboxOne
 }

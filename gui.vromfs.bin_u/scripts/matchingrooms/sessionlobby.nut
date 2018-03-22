@@ -2213,7 +2213,7 @@ function SessionLobby::getBattleRatingParamById(uid)
   local member = getMemberPlayerInfo(uid)
   if (!member)
     return null
-  local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_domination_mode().diff
+  local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
   local units = []
   if (!("crafts" in member))
     return null

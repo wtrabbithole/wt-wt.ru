@@ -1,4 +1,4 @@
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 function showClanPage(id, name, tag)
@@ -46,7 +46,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function setDefaultSort()
   {
-    statsSortBy = ::ranked_column_prefix + curEra + ::domination_modes[curMode].clanDataEnding
+    statsSortBy = ::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
   }
 
   function reinitClanWindow()
@@ -176,7 +176,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     updStatsText = format(::loc("clan/updateStatsTime"), updStatsText)
     scene.findObject("update_stats_info_text").setValue(updStatsText)
 
-    fillModeListBox(scene.findObject("clan_container"), getCurDMode(), true, false, ::get_show_in_squadron_statistics)
+    fillModeListBox(scene.findObject("clan_container"), getCurDMode(), ::get_show_in_squadron_statistics)
     fillClanManagment()
 
     showSceneBtn("clan_main_stats", true)
@@ -355,7 +355,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanElo()
   {
-    local clanElo = ::getTblValue(::ranked_column_prefix + curEra + ::domination_modes[curMode].clanDataEnding, clanData.astat, 0)
+    local clanElo = clanData.astat?[::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding] ?? 0
     local eloTextObj = scene.findObject("clan_elo_value")
     if (::check_obj(eloTextObj))
       eloTextObj.setValue(clanElo.tostring())
@@ -401,9 +401,11 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function cp_onStatsModeChange(obj)
   {
     local value = obj.getValue()
-    if(value in ::domination_modes)
-      curMode = value
+    local diff = ::g_difficulty.getDifficultyByDiffCode(value)
+    if(!::get_show_in_squadron_statistics(diff.crewSkillName))
+      return
 
+    curMode = value
     setCurDMode(curMode)
     updateSortingField()
     fillClanMemberList(clanData.members)
@@ -415,7 +417,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (statsSortBy.len() >= ::ranked_column_prefix.len() &&
         statsSortBy.slice(0, ::ranked_column_prefix.len()) == ::ranked_column_prefix)
-      statsSortBy = ::ranked_column_prefix + curEra + ::domination_modes[curMode].clanDataEnding
+      statsSortBy = ::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
   }
 
   function updateAdminModeSwitch()
@@ -553,22 +555,21 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     rowIdx++
 
     /*body*/
-    local diffItems = ::get_option(::USEROPT_DOMINATION_MODE).items
-    foreach(block in diffItems)
+    foreach(diff in ::g_difficulty.types)
     {
-      if (!::get_show_in_squadron_statistics(::getTblValue("id", block)))
+      if (!diff.isAvailable() || !::get_show_in_squadron_statistics(diff.crewSkillName))
         continue
 
       local rowParams = []
       rowParams.append({
-                         text = "#" + block.name,
+                         text = diff.getLocName(),
                          active = false,
                          tdAlign="right"
                       })
 
       foreach(item in ::clan_data_list)
       {
-        local dataId = item.field + block.clanDataEnding
+        local dataId = item.field + diff.clanDataEnding
         local value = dataId in data? data[dataId] : "0"
         local textCell = item.type.getShortTextByValue(value)
 
@@ -653,7 +654,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (columnId.len() >= ::ranked_column_prefix.len() &&
         columnId.slice(0, ::ranked_column_prefix.len()) == ::ranked_column_prefix)
     {
-      fieldName = ::ranked_column_prefix + curEra + ::domination_modes[curMode].clanDataEnding
+      fieldName = ::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
     }
     else
     {
@@ -704,7 +705,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (column.field == ::ranked_column_prefix)
       fieldId += curEra
     if (column.byDifficulty)
-      fieldId += ::domination_modes[curMode].clanDataEnding
+      fieldId += ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
     return fieldId
   }
 

@@ -1,5 +1,5 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 
 ::menu_chat_handler <- null
 ::menu_chat_sizes <- null
@@ -548,10 +548,10 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         fillList(listObj, userFormat, users.len())
         foreach(idx, user in users)
         {
-          local fullName = ""
-          if((user.name in ::clanUserTable) && ::clanUserTable[user.name]!="")
-            fullName = ::clanUserTable[user.name] + " "
-          fullName += user.name
+          local fullName = ::g_string.implode([
+            ::clanUserTable?[user.name] ?? "",
+            platformModule.getPlayerName(user.name)
+          ], " ")
           listObj.findObject("user_name_"+idx).setValue(fullName)
         }
       }

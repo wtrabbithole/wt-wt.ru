@@ -3,7 +3,7 @@ local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 
 
 ::last_ca_aircraft <- null

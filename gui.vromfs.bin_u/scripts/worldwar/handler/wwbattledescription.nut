@@ -176,7 +176,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateDescription()
     updateSlotbar()
     updateButtons()
-    updateCanJoinBattleStatus()
     updateDurationTimer()
   }
 
@@ -477,7 +476,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("items_list", currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
     showSceneBtn("squad_info", currViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO)
 
-    updateCanJoinBattleStatus()
     updateTitle()
   }
 
@@ -617,16 +615,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return !cantJoinReasonData.canJoin &&
            (cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.WRONG_SIDE ||
             cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.NOT_ACTIVE)
-  }
-
-  function updateCanJoinBattleStatus()
-  {
-    local battleCanJoinStatusObj = showSceneBtn("battle_can_join_state", operationBattle.isActive())
-    if (!operationBattle.isActive() || !::checkObj(battleCanJoinStatusObj))
-      return
-
-    local battleView = operationBattle.getView()
-    battleCanJoinStatusObj.setValue(battleView.getCanJoinText(getPlayerSide()))
   }
 
   function updateBattleStatus(battleView)

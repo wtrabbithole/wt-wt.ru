@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 ::game_chat_handler <- null

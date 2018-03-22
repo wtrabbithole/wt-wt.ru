@@ -1,3 +1,4 @@
+local platformModule = require("modules/platform.nut")
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = ::require("scripts/user/avatars.nut")
@@ -468,11 +469,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateCurrentStatsMode(value)
   {
-    local diffItems = ::get_option(::USEROPT_DOMINATION_MODE).items
-    if (!(value in diffItems))
-      return
-
-    statsMode = diffItems[value].leaderboardsId
+    statsMode = ::g_difficulty.getDifficultyByDiffCode(value).egdLowercaseName
   }
 
   function updateDifficultySwitch(parentObj)
@@ -588,26 +585,25 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local modesObj = sObj.findObject("modes_list")
     local data = ""
-    local sel = -1
-    local diffItems = ::get_option(::USEROPT_DOMINATION_MODE).items
-
+    local selDiff = null
+    local selIdx = -1
     local view = { items = [] }
-    foreach(idx, mode in diffItems)
+    foreach(diff in ::g_difficulty.types)
     {
-      view.items.append({ text = mode.text })
-      if (statsMode == mode.leaderboardsId)
-        sel = idx
+      if (!diff.isAvailable())
+        continue
+      view.items.append({ text = diff.getLocName() })
+      if (!selDiff || statsMode == diff.egdLowercaseName)
+      {
+        selDiff = diff
+        selIdx = view.items.len() - 1
+      }
     }
-
-    if (sel < 0)
-    {
-      sel = 0
-      statsMode = diffItems[0].leaderboardsId
-    }
+    statsMode = selDiff.egdLowercaseName
 
     local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
-    modesObj.setValue(sel)
+    modesObj.setValue(selIdx)
 
     fillUnitListCheckBoxes(sObj)
     fillCountriesCheckBoxes(sObj)
@@ -993,7 +989,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!isFriend) bText = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
       }
 
-    local isXBoxOnePlayer = ::is_player_from_xbox_one(player.name)
+    local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(player.name)
     local needShowPlayerContactAction = !::is_platform_xboxone || isXBoxOnePlayer
     local sheet = getCurSheet()
     local showStatBar = infoReady && sheet=="Statistics"
@@ -1132,34 +1128,35 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function build_profile_summary_rowData(config, summary, diff, textId = "")
+function build_profile_summary_rowData(config, summary, diffCode, textId = "")
 {
   local row = [{ id = textId, text = "#" + config.name, tdAlign = "left" }]
   local modeList = (typeof config.mode == "array") ? config.mode : [config.mode]
-  if (diff < 0)
+  local diff = ::g_difficulty.getDifficultyByDiffCode(diffCode)
+  if (diff == ::g_difficulty.UNKNOWN)
     return
 
-  local diffItems = ::get_option(::USEROPT_DOMINATION_MODE).items
   local value = 0
   foreach(mode in modeList)
-    if ((mode in summary) && (diffItems[diff].statisticsId in summary[mode]))
-    {
-      local sumData = summary[mode][diffItems[diff].statisticsId]
+  {
+    local sumData = summary?[mode]?[diff.name]
+    if (!sumData)
+      continue
 
-      if (config.fm == null)
-      {
-        if (config.id in sumData)
-          value += sumData[config.id]
-        else
-          for (local i = 0; i < ::stats_fm.len(); i++)
-            if ((::stats_fm[i] in sumData) && (config.id in sumData[::stats_fm[i]]))
-              value += sumData[::stats_fm[i]][config.id]
-      } else
-        if ((config.fm in sumData) && (config.id in sumData[config.fm]))
-          value += sumData[config.fm][config.id]
-    }
+    if (config.fm == null)
+    {
+      if (config.id in sumData)
+        value += sumData[config.id]
+      else
+        for (local i = 0; i < ::stats_fm.len(); i++)
+          if ((::stats_fm[i] in sumData) && (config.id in sumData[::stats_fm[i]]))
+            value += sumData[::stats_fm[i]][config.id]
+    } else
+      if ((config.fm in sumData) && (config.id in sumData[config.fm]))
+        value += sumData[config.fm][config.id]
+  }
   local s = config.timeFormat? time.hoursToString(time.secondsToHours(value), false) : value
-  local tooltip = diffItems[diff].text
+  local tooltip = diff.getLocName()
   row.append({text = s.tostring(), tooltip = tooltip})
   return buildTableRowNoPad("", row)
 }

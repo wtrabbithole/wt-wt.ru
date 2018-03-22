@@ -3849,7 +3849,7 @@ function getUnmappedControlsForCurrentMission()
 
 function getCurrentHelpersMode()
 {
-  local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_domination_mode().diff
+  local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
   if (difficulty == 2)
     return (::is_platform_pc ? globalEnv.EM_FULL_REAL : globalEnv.EM_REALISTIC)
   local option = ::get_option_in_mode(::USEROPT_HELPERS_MODE, ::OPTIONS_MODE_GAMEPLAY)

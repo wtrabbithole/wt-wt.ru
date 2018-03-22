@@ -595,24 +595,7 @@ function canBuyUnit(unit)
 
 function is_unit_visible_in_shop(unit)
 {
-  if (!unit.isInShop || !unit.unitType.isVisibleInShop())
-    return false
-
-  if (::is_debug_mode_enabled)
-    return true
-
-  local showOnlyBought = ::getTblValue("showOnlyWhenBought", unit, false)
-  if (!showOnlyBought)
-  {
-    local langs = ::getTblValue("hideForLangs", unit)
-    if (langs)
-      showOnlyBought = langs.find(::g_language.getLanguageName()) >= 0
-  }
-
-  local showOnlyWhenResearch = getTblValue("showOnlyWhenResearch", unit, false)
-  return unit.isUsable() ||
-    (!showOnlyBought &&
-    (!showOnlyWhenResearch || isUnitInResearch(unit) || getUnitExp(unit) > 0))
+  return unit.isVisibleInShop()
 }
 
 function can_crew_take_unit(unit)
@@ -742,7 +725,7 @@ function buyUnit(unit, silent = false)
   if (!::canBuyUnit(unit))
   {
     if (::isUnitResearched(unit) && !silent)
-      ::checkPrevUnit(unit)
+      ::show_cant_buy_or_research_unit_msgbox(unit)
     return false
   }
 
@@ -833,19 +816,16 @@ function researchUnit(unit, checkCurrentUnit = true)
   )
 }
 
-function checkPrevUnit(unit)
+function show_cant_buy_or_research_unit_msgbox(unit)
 {
-  local prevUnit = ::getPrevUnit(unit)
-  if (!prevUnit)
-    return true
-
   local reason = ::getCantBuyUnitReason(unit)
   if (::u.isEmpty(reason))
     return true
 
   local selectButton = "ok"
   local buttons = [["ok", function () {}]]
-  if (::canBuyUnit(prevUnit))
+  local prevUnit = ::getPrevUnit(unit)
+  if (prevUnit && ::canBuyUnit(prevUnit))
   {
     selectButton = "purchase"
     reason += " " + ::loc("mainmenu/canBuyThisVehicle", {price = ::colorize("activeTextColor", ::getUnitCost(prevUnit))})
@@ -885,9 +865,7 @@ function checkForResearch(unit)
     ::showInfoMsgBox(getCantBuyUnitReason(unit), "need_unlock_rank")
     return false
   }
-  if (!checkPrevUnit(unit))
-    return false
-  return true
+  return ::show_cant_buy_or_research_unit_msgbox(unit)
 }
 
 /**
@@ -951,6 +929,12 @@ function getCantBuyUnitReason(unit, isShopTooltip = false)
     if (isShopTooltip)
       return ::loc("mainmenu/needBuyPreviousVehicle")
     return ::loc("msgbox/need_unlock_prev_unit/purchase", {name = ::colorize("userlogColoredText", ::getUnitName(::getPrevUnit(unit), true))})
+  }
+  else if (unit.reqUnlock && !::is_unlocked_scripted(-1, unit.reqUnlock))
+  {
+    local unlockBlk = ::g_unlocks.getUnlockById(unit.reqUnlock)
+    local conditions = ::build_conditions_config(unlockBlk)
+    return ::loc("mainmenu/needUnlock") + "\n" + ::build_unlock_desc(conditions, {showProgress = true }).text
   }
   else if (!special && !::canBuyUnit(unit) && ::canResearchUnit(unit))
     return ::loc(::isUnitInResearch(unit) ? "mainmenu/needResearch/researching" : "mainmenu/needResearch")
@@ -1802,8 +1786,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   local modificators = showLocalState ? "modificators" : "modificatorsBase"
   if (isTank(air) && air[modificators])
   {
-    local mode = ::domination_modes[diffCode]
-    local currentParams = air[modificators][mode.id]
+    local currentParams = air[modificators][difficulty.crewSkillName]
     local horsePowers = currentParams.horsePowers;
     local horsePowersRPM = currentParams.maxHorsePowersRPM;
     holderObj.findObject("aircraft-horsePowers").setValue(
@@ -1838,9 +1821,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
     local shotFreq = ("shotFreq" in currentParams && currentParams.shotFreq > 0) ? currentParams.shotFreq : null;
     local reloadTime = ("reloadTime" in currentParams && currentParams.reloadTime > 0) ? currentParams.reloadTime : null;
-    if ("reloadTimeByDiff" in currentParams && mode.diff in currentParams.reloadTimeByDiff &&
-      currentParams.reloadTimeByDiff[mode.diff] > 0)
-      reloadTime = currentParams.reloadTimeByDiff[mode.diff];
+    if ((currentParams?.reloadTimeByDiff?[diffCode] ?? 0) > 0)
+      reloadTime = currentParams.reloadTimeByDiff[diffCode]
     local visibilityFactor = ("visibilityFactor" in currentParams && currentParams.visibilityFactor > 0) ? currentParams.visibilityFactor : null;
 
     holderObj.findObject("aircraft-shotFreq-tr").show(shotFreq);

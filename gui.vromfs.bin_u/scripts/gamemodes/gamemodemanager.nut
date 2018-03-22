@@ -422,21 +422,6 @@ class GameModeManager
         if (gameMode != null)
           return gameMode.id
       }
-
-      // Step 3. Trying to get information from old parameters.
-      //                    This provides smooth switch for current players.
-      local battleType = ::loadLocalByAccount("battle_type", BATTLE_TYPES.UNKNOWN)
-      if (battleType != BATTLE_TYPES.UNKNOWN)
-      {
-        local oldParamUnitType = battleType == BATTLE_TYPES.AIR
-          ? ::ES_UNIT_TYPE_AIRCRAFT
-          : ::ES_UNIT_TYPE_TANK
-        local dmId = ::get_gui_option(::USEROPT_DOMINATION_MODE)
-        local diffCode = ::getTblValue("diff", _getDominationModeById(dmId), -1)
-        local gameMode = getGameModeByUnitType(oldParamUnitType, diffCode, true)
-        if (gameMode != null)
-          return gameMode.id
-      }
     }
 
     // Step 4. Attempting to retrieve current game mode id from newbie event.
@@ -457,18 +442,6 @@ class GameModeManager
         && firstUnitType != ::ES_UNIT_TYPE_INVALID
         && ::my_stats.isMeNewbie())
       unitType = firstUnitType
-
-    // Step 7. Player is not newbie or has not chosen unit type yet.
-    //         Attempting to get unit type from previous game mode id.
-    if (unitType == ::ES_UNIT_TYPE_INVALID && idFromAccount != null)
-    {
-      unitType = ::ES_UNIT_TYPE_TANK
-      foreach (dm in ::domination_modes)
-      {
-        if (dm.id == idFromAccount)
-          unitType = ::ES_UNIT_TYPE_AIRCRAFT
-      }
-    }
 
     // Step 8. We have unit type. Selecting easiest game mode.
     local gameModeByUnitType = null
@@ -639,16 +612,6 @@ class GameModeManager
       local save = _currentGameModeId == null && ::events.eventsLoaded
       _setCurrentGameModeId(currentGameModeId, save)
     }
-  }
-
-  function _getDominationModeById(id)
-  {
-    foreach (mode in ::domination_modes)
-    {
-      if (mode.id == id)
-        return mode
-    }
-    return null
   }
 
   function _getUnitTypesByGameMode(gameMode)

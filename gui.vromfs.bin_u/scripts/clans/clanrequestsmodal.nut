@@ -168,7 +168,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!curCandidate)
       return
 
-    local menu = clanContextMenu.getRequestActions(clanId, curCandidate.uid)
+    local menu = clanContextMenu.getRequestActions(clanId, curCandidate.uid, curCandidate?.nick)
     ::gui_right_click_menu(menu, this, position)
   }
 

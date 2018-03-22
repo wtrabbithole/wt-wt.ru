@@ -21,6 +21,14 @@ local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 ::ItemsRoulette <- {
   debugData = {}
   mainAnimation = null
+
+  rouletteObj = null
+  ownerHandler = null
+
+  trophyItem = null
+  insertRewardIdx = 0
+  isGotTopPrize = false
+  topPrizeLayout = null
 }
 
 function ItemsRoulette::reinitParams()
@@ -96,16 +104,18 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   if (!::checkObj(placeObj))
     return false
 
-  local rouletteObj = placeObj.findObject("rewards_list")
+  rouletteObj = placeObj.findObject("rewards_list")
   if (!::checkObj(rouletteObj))
     return false
+
+  ownerHandler = handler
 
   ::ItemsRoulette.refreshDebugTable()
   ::ItemsRoulette.reinitParams()
 
   local totalLen = ::to_integer_safe(placeObj.totalLen, 1)
   local insertRewardFromEnd = ::to_integer_safe(placeObj.insertRewardFromEnd, 1)
-  local insertRewardIdx = totalLen - insertRewardFromEnd - 1
+  insertRewardIdx = totalLen - insertRewardFromEnd - 1
   if (insertRewardIdx < 0 || insertRewardIdx >= totalLen)
   {
     ::dagor.assertf(false, "Insert index is wrong: " + insertRewardIdx + " / " + totalLen)
@@ -117,18 +127,23 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   if (!::has_feature("ItemsRoulette") || itemsArray.len() <= 1)
     return false
 
-  local trophy = ::ItemsManager.findItemById(trophyName)
-  if (!trophy || trophy.skipRoulette())
+  trophyItem = ::ItemsManager.findItemById(trophyName)
+  if (!trophyItem || trophyItem.skipRoulette())
     return false
+
+  topPrizeLayout = null
+  isGotTopPrize = false
+  foreach (prize in rewardsArray)
+    isGotTopPrize = isGotTopPrize || trophyItem.isHiddenTopPrize(prize)
 
   ::ItemsRoulette.soundStart()
 
-
   local count = ::getTblValue("count", retTable, 1)
-  local processedItemsArray = ::ItemsRoulette.gatherItemsArray(itemsArray, totalLen, insertRewardIdx, count)
-  processedItemsArray = ::ItemsRoulette.insertCurrentReward(processedItemsArray, rewardsArray, insertRewardIdx)
+  local processedItemsArray = ::ItemsRoulette.gatherItemsArray(itemsArray, totalLen, count)
+  ::ItemsRoulette.insertCurrentReward(processedItemsArray, rewardsArray)
+  ::ItemsRoulette.insertHiddenTopPrize(processedItemsArray)
 
-  local readyImagesTable = ::ItemsRoulette.createDataLine(processedItemsArray, insertRewardIdx)
+  local readyImagesTable = ::ItemsRoulette.createDataLine(processedItemsArray)
   local guiScene = placeObj.getScene()
 
   local endPos = guiScene.calcString(readyImagesTable.endString, null)
@@ -151,13 +166,19 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   if (::checkObj(blackoutObj))
     blackoutObj.animation = "show"
 
+  local afterDoneCb = function() {
+    ::ItemsRoulette.showTopPrize()
+    afterDoneFunc()
+  }
+
   local delay = ::to_integer_safe(rouletteObj["pos-time"], 0)
-  mainAnimation = ::Timer(placeObj, 0.001 * delay, (@(placeObj, afterDoneFunc, handler, rouletteObj, end) function () {
-    rouletteObj["pos-time"] = -500
-    rouletteObj["left-base"] = (-1 * end).tostring()
-    ::Timer(placeObj, 0.001 * 500, afterDoneFunc, handler)
+  local animObj = rouletteObj
+  mainAnimation = ::Timer(placeObj, 0.001 * delay, function () {
+    animObj["pos-time"] = -500
+    animObj["left-base"] = (-1 * end).tostring()
+    ::Timer(placeObj, 0.001 * 500, afterDoneCb, handler)
     ::ItemsRoulette.soundEnd()
-  })(placeObj, afterDoneFunc, handler, rouletteObj, end), handler).weakref()
+  }, handler).weakref()
 
   return true
 }
@@ -255,7 +276,7 @@ function ItemsRoulette::getUniqueTableKey(rewardBlock)
   return tKey + "_" + tVal
 }
 
-function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, insertRewardIdx, count = 1)
+function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, count)
 {
   ::ItemsRoulette.debugData.commonInfo["mainLength"] <- mainLength
 
@@ -263,17 +284,19 @@ function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, insertRewardIdx
   if ("trophy" in searchKeyTable)
     searchKeyTable = searchKeyTable.trophy[0]
 
+  local shouldSearchTopReward = trophyItem.hasTopRewardAsFirstItem
   local topRewardKey = ::ItemsRoulette.getUniqueTableKey(::getTblValue("reward", searchKeyTable, searchKeyTable))
 
   local dropChanceSum = ::ItemsRoulette.fillDropChances(itemsArray)
-  local topRewardFounded = false
+  local topRewardFound = false
   local resultArray = []
   for (local i = 0; i < mainLength; i++)
   {
     local tablesArray = ::ItemsRoulette.getRandomItemsSlot(itemsArray, dropChanceSum, searchKeyTable, count)
     foreach(table in tablesArray)
     {
-      topRewardFounded = topRewardFounded || topRewardKey == ::getTblValue("tKey", table)
+      if (shouldSearchTopReward)
+        topRewardFound = topRewardFound || topRewardKey == ::getTblValue("tKey", table)
       dropChanceSum = ::getTblValue("dropChanceSum", table, dropChanceSum)
     }
 
@@ -281,7 +304,7 @@ function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, insertRewardIdx
     resultArray.append(tablesArray)
   }
 
-  if (!topRewardFounded)
+  if (shouldSearchTopReward && !topRewardFound)
   {
     local insertIdx = insertRewardIdx + 1 // Interting teaser item next to reward.
     if (insertIdx >= mainLength)
@@ -462,7 +485,7 @@ function ItemsRoulette::getRandomItem(array, dropChanceSum, count = 1, trophyTab
   return returnTable
 }
 
-function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray, insertIdx)
+function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
 {
   local array = []
   foreach(reward in rewardsArray)
@@ -470,13 +493,69 @@ function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray, inser
     reward.layout <- ::ItemsRoulette.getRewardLayout(reward)
     array.append(reward)
   }
-
-  readyItemsArray[insertIdx].clear()
-  readyItemsArray[insertIdx] = array
-  return readyItemsArray
+  readyItemsArray[insertRewardIdx] = array
 }
 
-function ItemsRoulette::createDataLine(completeArray, insertRewardIdx)
+function ItemsRoulette::getHiddenTopPrizeReward(params)
+{
+  local showType = params?.show_type ?? "vehicle"
+  local layerCfg = clone ::LayersIcon.findLayerCfg("item_place_single")
+  layerCfg.img <- "#ui/gameuiskin#item_" + showType
+  local image = ::LayersIcon.genDataFromLayer(layerCfg)
+  local layout = ::LayersIcon.genDataFromLayer(::LayersIcon.findLayerCfg("roulette_item_place"), image)
+
+  return {
+    id = trophyItem.id
+    item = null
+    layout = layout
+  }
+}
+
+function ItemsRoulette::insertHiddenTopPrize(readyItemsArray)
+{
+  local hiddenTopPrizeParams = trophyItem.getHiddenTopPrizeParams()
+  if (!hiddenTopPrizeParams)
+    return
+
+  local showFreq = (hiddenTopPrizeParams?.showFreq ?? "0").tointeger() / 100.0
+  local shouldShowTeaser = ::math.frnd() >= 1.0 - showFreq
+  if (!isGotTopPrize && !shouldShowTeaser)
+    return
+
+  if (isGotTopPrize)
+    topPrizeLayout = ::g_string.implode(::u.map(readyItemsArray[insertRewardIdx], @(p) p.layout))
+
+  local totalLen = readyItemsArray.len()
+  local insertIdx = 0
+  if (isGotTopPrize)
+    insertIdx = insertRewardIdx
+  else
+  {
+    local idxMax = insertRewardIdx
+    local idxMin = ::max(insertRewardIdx /5*4, 0)
+    insertIdx = idxMin + ((idxMax - idxMin) * ::math.frnd()).tointeger()
+    if (insertIdx == insertRewardIdx)
+      insertIdx++
+  }
+
+  local slot = readyItemsArray[insertIdx]
+  if (!slot.len())
+    slot.append({})
+  slot[0] = { reward = ::ItemsRoulette.getHiddenTopPrizeReward(hiddenTopPrizeParams) }
+}
+
+function ItemsRoulette::showTopPrize()
+{
+  if (!topPrizeLayout)
+    return
+  local obj = ::check_obj(rouletteObj) && rouletteObj.findObject("roulette_slot_" + insertRewardIdx)
+  if (!::check_obj(obj))
+    return
+  local guiScene = rouletteObj.getScene()
+  guiScene.replaceContentFromText(obj, topPrizeLayout, topPrizeLayout.len(), ownerHandler)
+}
+
+function ItemsRoulette::createDataLine(completeArray)
 {
   local total = 0
   local endPos = 0
@@ -492,6 +571,7 @@ function ItemsRoulette::createDataLine(completeArray, insertRewardIdx)
     if (slot.len() > 1)
       width += 0.1 * (slot.len() - 1)
     layerCfg.w <- width + "@itemWidth"
+    layerCfg.id <- "roulette_slot_" + idx
 
     total += width
     if (idx <= insertRewardIdx)

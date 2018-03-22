@@ -1,11 +1,9 @@
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 
 ::no_dump_facebook_friends <- {}
 ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS <- 200
 ::PS4_UPDATE_TIMER_LIMIT <- 300000
 ::last_update_ps4_friends <- -::PS4_UPDATE_TIMER_LIMIT
-
-::XBOX_ONE_PLAYER_PREFIX <- "^"
 
 ::g_script_reloader.registerPersistentData("SocialGlobals", ::getroottable(), ["no_dump_facebook_friends"])
 
@@ -295,14 +293,9 @@ function on_facebook_friends_loaded(blk)
 
 //----------------- <XBox One> --------------------------
 
-function is_player_from_xbox_one(playerName)
-{
-  return ::is_platform_xboxone && ::g_string.startsWith(playerName, ::XBOX_ONE_PLAYER_PREFIX)
-}
-
 function xbox_on_add_remove_friend_closed(playerStatus)
 {
-  if (playerStatus == XBOX_PERSON_STATUS_CANCELED || playerStatus == XBOX_PERSON_STATUS_FAVORITE)
+  if (playerStatus == XBOX_PERSON_STATUS_CANCELED)
     return
 
   ::xbox_get_people_list_async()

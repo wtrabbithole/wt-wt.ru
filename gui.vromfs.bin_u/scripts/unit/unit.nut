@@ -49,9 +49,11 @@ local Unit = class
    group = null //name of units group in shop
    showOnlyWhenBought = false
    showOnlyWhenResearch = false
+   showOnlyIfPlayerHasUnlock = null //"" or null
    hideForLangs = null //[] or null when no lang restrictions
-   reqFeature = null //""
-   hideFeature = null //""
+   reqFeature = null //"" or null
+   hideFeature = null //"" or null
+   reqUnlock = null //"" or null
 
    customImage = null //""
    customClassIco = null //""
@@ -231,10 +233,10 @@ local Unit = class
     if (isVisibleUnbought && u.isString(shopUnitBlk.hideForLangs))
       hideForLangs = ::split(shopUnitBlk.hideForLangs, "; ")
 
-    if (!u.isEmpty(shopUnitBlk.reqFeature))
-      reqFeature = shopUnitBlk.reqFeature
-    if (!u.isEmpty(shopUnitBlk.hideFeature))
-      hideFeature = shopUnitBlk.hideFeature
+    foreach(key in ["reqFeature", "hideFeature", "showOnlyIfPlayerHasUnlock", "reqUnlock"])
+      if (!u.isEmpty(shopUnitBlk[key]))
+        this[key] = shopUnitBlk[key]
+
     gift = shopUnitBlk.gift //we already got it from wpCost. is we still need it here?
     giftParam = shopUnitBlk.giftParam
   }
@@ -315,9 +317,24 @@ local Unit = class
 
   function canUseByPlayer()
   {
-    return isUsable() &&
-           ::is_unit_visible_in_shop(this) &&
-           unitType.isAvailable()
+    return isUsable() && isVisibleInShop() && unitType.isAvailable()
+  }
+
+  function isVisibleInShop()
+  {
+    if (!isInShop || !unitType.isVisibleInShop())
+      return false
+    if (::is_debug_mode_enabled || isUsable())
+      return true
+    if (showOnlyWhenBought)
+      return false
+    if (hideForLangs && hideForLangs.find(::g_language.getLanguageName()) >= 0)
+      return false
+    if (showOnlyIfPlayerHasUnlock && !::is_unlocked_scripted(-1, showOnlyIfPlayerHasUnlock))
+      return false
+    if (showOnlyWhenResearch && !isUnitInResearch(this) && getUnitExp(this) <= 0)
+      return false
+    return true
   }
 
   /*************************************************************************************************/

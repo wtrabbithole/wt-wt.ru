@@ -1,4 +1,5 @@
 local u = ::require("std/u.nut")
+local platformModule = ::require("modules/platform.nut")
 local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
 
 //-----------------------------
@@ -50,7 +51,7 @@ local getActions = function(_contact, params)
   local clanTag = contact?.clanTag ?? params?.clanTag
 
   local isMe = uid == ::my_user_id_str
-  local isXBoxOnePlayer = ::is_player_from_xbox_one(name)
+  local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(name)
   local canInvitePlayer = !::is_platform_xboxone || isXBoxOnePlayer
 
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
@@ -191,7 +192,7 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("squad/tranfer_leadership")
-        show = squadMemberData && ::g_squad_manager.canTransferLeadership(uid)
+        show = !isMe && ::g_squad_manager.canTransferLeadership(uid)
         action = @() ::g_squad_manager.transferLeadership(uid)
       }
     ])

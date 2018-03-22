@@ -240,7 +240,7 @@
     "eventAlarmBattle": "alarm_battle",
     "eventAlarmDepth": "alarm_depth",
     "bulletPassByRadius": 80.0,
-    "aircraftPassByTreshold": 90.0,
+    "aircraftPassByTreshold": 300.0,
     "eventBulletHitShipMgun": "hit_mgun",
     "eventBulletHitShipSmall": "hit_small",
     "eventBulletHitShipMid": "hit_mid",
@@ -388,24 +388,24 @@
   "tank_engines": {
     "lods": {
       "lod_0": {
-        "radius": 50.0,
-        "maxSounds": 2
+        "radius": 10.0,
+        "maxSounds": 1
       },
       "lod_1": {
-        "radius": 100.0,
-        "maxSounds": 4
+        "radius": 50.0,
+        "maxSounds": 3
       }
     }
   },
   "tracks": {
     "lods": {
       "lod_0": {
-        "radius": 50.0,
-        "maxSounds": 2
+        "radius": 10.0,
+        "maxSounds": 1
       },
       "lod_1": {
-        "radius": 100.0,
-        "maxSounds": 4
+        "radius": 50.0,
+        "maxSounds": 3
       }
     }
   },
@@ -424,11 +424,11 @@
   "guns": {
     "lods": {
       "lod_0": {
-        "radius": 400.0,
+        "radius": 300.0,
         "maxSounds": 5
       },
       "lod_1": {
-        "radius": 2500.0,
+        "radius": 1000.0,
         "maxSounds": 8
       }
     }
@@ -632,8 +632,8 @@
       "dive": "engine_dive",
       "timeFallingDown": 2.0,
       "engineVolumeOnOverheat": 0.8,
-      "eventStart": "engine_ai_start",
-      "eventStop": "engine_ai_stop"
+      "eventStart": "engine_jet_ai_start",
+      "eventStop": "engine_jet_ai_stop"
     },
     "outside": {
       "path": "sounds/engines",

@@ -355,7 +355,7 @@ class Promo
     view.taskId <- ::getTblValue("id", reqTask)
     view.action <- ::g_promo.PERFORM_ACTON_NAME
     view.collapsedIcon <- ::g_promo.getCollapsedIcon(view, id)
-    setTplView("gui/unlocks/battleTasksItem", buttonObj, { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
+    setTplView("gui/promo/promoBattleTasks", buttonObj, { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
     ::g_battle_tasks.setUpdateTimer(reqTask, buttonObj)
     if (showProgressBar && currentWarbond)
       ::g_warbonds_view.updateProgressBar(currentWarbond, buttonObj, true)
