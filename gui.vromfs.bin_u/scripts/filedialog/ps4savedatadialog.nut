@@ -30,10 +30,28 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
+    requestEntries()
     selectedEntry = createEntry()
     loadSaveDataContents()
   }
 
+  function requestEntries()
+  {
+    guiScene.performDelayed(this, function() {
+      local entries = getSaveDataContents()
+      if (!isValid())
+        return
+
+      tableEntries.clear()
+
+      foreach (idx, e in entries)
+      {
+        tableEntries["file_row_" + idx] <- e
+      }
+
+      loadSaveDataContents()
+    })
+  }
 
   function updateButtons()
   {
@@ -50,9 +68,6 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     if (!fileTableObj)
       return
 
-    local entries = getSaveDataContents()
-    tableEntries.clear()
-
     local view = {rows = [{
       row_id = "file_header_row"
       isHeaderRow = true
@@ -61,11 +76,10 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     }]}
 
     local isEven = false
-    foreach (idx, e in entries)
+    foreach (rowId, e in tableEntries)
     {
       local timeView = ::get_time_from_t(e.mtime)
       timeView.sec = -1
-      local rowId = "file_row_" + idx
 
       local rowView = {
         row_id = rowId
@@ -74,7 +88,6 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
                  {text=time.buildIso8601DateTimeStr(timeView, " "), width="0.18@sf"}]
       }
       view.rows.append(rowView)
-      tableEntries[rowId] <- e
       isEven = !isEven
     }
 
@@ -82,11 +95,9 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(fileTableObj, data, data.len(), this)
 
     fileTableObj.select()
-    updateSelectedEntry(false)
-    guiScene.performDelayed(this, function() {
-      if (isValid())
-        updateButtons()
-    })
+    if (tableEntries.len() > 0)
+      fileTableObj.setValue(1)
+    updateButtons()
   }
 
 
@@ -170,9 +181,7 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     dagor.debug("PS4 SAVE Dialog: onBtnDelete for " + selectedEntry.path)
     local onConfirm = function() {
       doDelete(selectedEntry)
-      loadSaveDataContents()
-      if (tableEntries.len()) // Force proper visual selection on PS4, hack
-        getObj("file_table").setValue(1)
+      requestEntries()
     }
 
     ::scene_msg_box("savedata_delete_msg_box",

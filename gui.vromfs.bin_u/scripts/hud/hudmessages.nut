@@ -194,6 +194,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
   PLAYER_DAMAGE = {
     nestId = "hud_message_player_damage_notification"
     showSec = 5
+    messagesMax = 2
     messageEvent = "HudMessage"
 
     onMessage = function (messageData)
@@ -204,9 +205,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
         return
 
       local checkField = (messageData.id != -1) ? "id" : "text"
-      local oldMessage = ::u.search(stack, (@(messageData, checkField) function (message) {
-        return message.messageData[checkField] == messageData[checkField]
-      })(messageData, checkField))
+      local oldMessage = ::u.search(stack, @(message) message.messageData[checkField] == messageData[checkField])
       if (oldMessage)
         refreshMessage(messageData, oldMessage)
       else
@@ -215,6 +214,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
 
     addMessage = function (messageData)
     {
+      cleanUp()
       local message = {
         timer = null
         messageData = messageData

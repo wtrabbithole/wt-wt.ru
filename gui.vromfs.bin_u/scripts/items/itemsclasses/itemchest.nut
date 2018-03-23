@@ -10,6 +10,7 @@ class ::items_classes.Chest extends ItemExternal {
   static openingCaptionLocId = "mainmenu/chestConsumed/title"
   static isPreferMarkupDescInTooltip = false
   static userlogOpenLoc = "open_trophy"
+  static hasTopRewardAsFirstItem = false
 
   _isInitialized = false
   generator = null
@@ -95,6 +96,18 @@ class ::items_classes.Chest extends ItemExternal {
   {
     local generator = getGenerator()
     return !generator || generator.hasHiddenItems ? ::colorize("grayOptionColor", ::loc("trophy/chest_contents/other")) : null
+  }
+
+  function getHiddenTopPrizeParams()
+  {
+    local generator = getGenerator()
+    return generator ? generator.hiddenTopPrizeParams : null
+  }
+
+  function isHiddenTopPrize(prize)
+  {
+    local generator = getGenerator()
+    return generator != null && generator.isHiddenTopPrize(prize)
   }
 
   function doMainAction(cb, handler, params = null)

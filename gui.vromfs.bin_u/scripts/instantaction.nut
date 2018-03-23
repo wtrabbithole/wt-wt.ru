@@ -23,76 +23,6 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
   }
 */
 
-/* ::domination_modes are DEPRECATED, use ::g_difficulty instead */
-::domination_modes <-
-[
-  {
-    id = "arcade"
-    modeId = ::EGD_ARCADE
-    diff = ::DIFFICULTY_ARCADE
-    diffName = ::get_difficulty_name(::DIFFICULTY_ARCADE)
-    diffIcon = "#ui/gameuiskin#mission_complete_arcade"
-    subId = "arcade"
-    name = "mainmenu/arcadeInstantAction"
-    desc = "encyclopedia/arcade_battles/desc"
-    locId = "missions/air_event_arcade"
-    clanDataEnding = "_arc"
-    leaderboardsId = "arcade"
-    statisticsId = "arcade"
-    arcadeCountry = true
-    respawns = true
-    availableMissionTypes = ["ground_strike", "airfield_dom"]
-    tankEventName     = "tank_event_in_random_battles_arcade"
-    displayWide = !::has_feature("Tanks")
-    rankCalcMode = "average"
-  }
-  {
-    id = "historical"
-    modeId = ::EGD_HISTORICAL
-    diff = ::DIFFICULTY_REALISTIC
-    diffName = ::get_difficulty_name(::DIFFICULTY_REALISTIC)
-    diffIcon = "#ui/gameuiskin#mission_complete_realistic"
-    name = "mainmenu/instantAction"
-    desc = "encyclopedia/historical_battles/desc"
-    locId = "missions/air_event_historical"
-    clanDataEnding = "_hist"
-    leaderboardsId = "historical"
-    statisticsId = "realistic"
-    arcadeCountry = true
-    respawns = false
-    checkTutorial = true
-    availableMissionTypes = ["base_dom", "airfield_dom"]
-    tankEventName     = "tank_event_in_random_battles_historical"
-    displayWide = !::has_feature("Tanks")
-    rankCalcMode = "maximum"
-  }
-  {
-    id = "fullreal"
-    modeId = ::EGD_SIMULATION
-    diff = ::DIFFICULTY_HARDCORE
-    diffName = ::get_difficulty_name(::DIFFICULTY_HARDCORE)
-    diffIcon = "#ui/gameuiskin#mission_complete_simulator"
-    name = "mainmenu/fullRealInstantAction"
-    desc = "encyclopedia/realistic_battles/desc"
-    locId = "missions/air_event_simulator"
-    clanDataEnding = "_sim"
-    leaderboardsId = "simulation"
-    statisticsId = "hardcore"
-    arcadeCountry = false
-    respawns = false
-    checkTutorial = true
-    availableMissionTypes = ["base_dom", "airfield_dom"]
-    tankEventName     = "tank_event_in_random_battles_simulation"
-    displayWide = !::has_feature("Tanks")
-    rankCalcMode = "maximum"
-  }
-]
-
-foreach(idx, mode in ::domination_modes)
-  mode.modeIdx <- idx
-
-::domination_rank_groups <- [-1, 4, 10, 20]
-
 function update_start_mission_instead_of_queue()
 {
   local rBlk = ::get_ranks_blk()
@@ -205,14 +135,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     initToBattleButton()
     setCurrentGameModeName()
-
-    for(local i = 1; i< ::domination_rank_groups.len(); i++)
-    {
-      local obj = scene.findObject("rankLimit"+i)
-      if (obj)
-        obj.text = ::loc("mainmenu/rankLimit",
-                         { rank1 = ::domination_rank_groups[i-1]+1, rank2 = ::domination_rank_groups[i]})
-    }
 
     setCurQueue(::queues.findQueue({}, queueMask))
 
@@ -986,21 +908,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       if (qCountry != getCurCountry() || value != obj.getValue())
         obj.setValue(value)
     }
-
-    local battleMode = ::queues.getQueueBattleType(getCurQueue(), BATTLE_TYPES.AIR)
-  }
-
-  function selectFirstMode()
-  {
-    local modesObj = scene.findObject("modes_list")
-    if (!::checkObj(modesObj))
-      return
-    foreach(idx, mode in ::domination_modes)
-      if (!("checkTutorial" in mode) || !mode.checkTutorial)
-      {
-        modesObj.setValue(idx)
-        return
-      }
   }
 
   function offsetSettingsBeforeInstantAction()

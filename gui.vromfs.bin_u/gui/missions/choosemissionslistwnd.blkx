@@ -230,19 +230,23 @@
                   },
                   {
                     "tdiv": {
-                      "height": "ph",
-                      "pos": "0,-1@bh+1@topGamercardDarkLineHeight",
+                      "pos": "0, 50%ph-50%h",
                       "position": "relative",
                       "padding": "1@titleLogoPlatePadding",
                       "GameLogoPlate": {
                         "id": "gamercard_logo",
-                        "redPlate": {
-                          "pattern": {
-                            "type": "dark_diag_lines"
+                        "Shadow": {
+                          "redPlate": {
+                            "pattern": {
+                              "type": "dark_diag_lines",
+                              "padding-top": "0.5@bh",
+                              "img": {
+                                "id": "titleLogo",
+                                "size": "1@titleLogoPlateWidth, 1@titleLogoPlateHeight",
+                                "background-image": "ui/title128"
+                              }
+                            }
                           }
-                        },
-                        "GameLogoImg": {
-                          "background-image": "ui/title128"
                         }
                       }
                     }

@@ -1590,9 +1590,9 @@ class Events
   {
     if (__game_events == null)
       return ""
-    local curDominationMode = ::get_current_domination_mode()
+    local diff = ::get_current_shop_difficulty()
     foreach(eventName, event in __game_events)
-      if (getEventDiffName(eventName) == curDominationMode.diffName &&
+      if (getEventDifficulty(eventName) == diff &&
           isEventEnabled(event))
         return eventName
     return ""

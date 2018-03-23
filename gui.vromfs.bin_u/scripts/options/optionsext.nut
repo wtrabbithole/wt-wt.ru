@@ -3,7 +3,7 @@ local colorCorrector = require_native("colorCorrector")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
-local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 
 const TANK_ALT_CROSSHAIR_ADD_NEW = -2
@@ -3116,7 +3116,8 @@ function get_option(type, context = null)
 
         local start = 0; //skip country_0
         local isDominationMode = ::get_gui_options_mode() == ::OPTIONS_MODE_MP_DOMINATION
-        local dMode = ::get_current_domination_mode()
+        local dMode = ::game_mode_manager.getCurrentGameMode()
+        local event = isDominationMode && dMode && dMode.getEvent()
 
         for (local nc = start; nc < ::shopCountriesList.len(); nc++)
         {
@@ -3125,7 +3126,7 @@ function get_option(type, context = null)
 
           local country = (nc < 0) ? "country_0" : ::shopCountriesList[nc]
           local enabled = (country == "country_0" || ::isCountryAvailable(country))
-                          && (!isDominationMode || ::events.isCountryAvailable(dMode, country))
+                          && (!event || ::events.isCountryAvailable(event, country))
           descr.items.append({
             text = "#" + country
             image = ::get_country_icon(country, true, !enabled)
@@ -3193,21 +3194,6 @@ function get_option(type, context = null)
           descr.value = ::get_bit_value_by_array(split(prevValue, ";"), descr.values)
         if (!descr.value)
           descr.value = ::get_bit_value_by_array(split(defaultValue, ";"), descr.values) || 1
-      }
-      break
-
-    case ::USEROPT_DOMINATION_MODE:
-      descr.id = "domination_mode"
-      descr.items = []
-      descr.values = []
-      local len = ::get_domination_max_difficulties()
-      for(local i = 0; i < len; i++)
-      {
-        local mode = ::domination_modes[i]
-        mode.text <- "#" + mode.name
-        mode.tooltip <- "#" + mode.desc
-        descr.items.append(mode)
-        descr.values.append(mode.id)
       }
       break
 
@@ -3734,7 +3720,7 @@ function get_option(type, context = null)
       descr.id = "xbox_crossplay"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = platformModule.isCrossPlayEnabled()
+      descr.value = crossplayModule.isCrossPlayEnabled()
       break
 
     default:
@@ -4557,7 +4543,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_COMPLAINT_CATEGORY:
     case ::USEROPT_BAN_PENALTY:
     case ::USEROPT_BAN_TIME:
-    case ::USEROPT_DOMINATION_MODE:
     case ::USEROPT_ONLY_FRIENDLIST_CONTACT:
     case ::USEROPT_RACE_LAPS:
     case ::USEROPT_RACE_WINNERS:
@@ -4713,7 +4698,7 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
-      platformModule.setIsCrossPlayEnabled(value)
+      crossplayModule.setIsCrossPlayEnabled(value)
       break
 
     default:
@@ -4755,36 +4740,13 @@ function show_selected_clusters(textObj)
   textObj.setValue(clustersText)
 }
 
-function get_current_domination_mode()
-{
-  local mode = ::get_gui_option(::USEROPT_DOMINATION_MODE)
-  foreach(idx, m in ::domination_modes)
-    if (mode == m.id)
-      return m
-  return ::domination_modes[0]
-}
-
-function get_current_domination_mode_shop()
-{
-  local gameMode = ::game_mode_manager.getCurrentGameMode()
-  local diffCode = gameMode ? gameMode.diffCode : ::DIFFICULTY_ARCADE
-  return ::getTblValue(diffCode, ::domination_modes, ::domination_modes[0])
-}
-
-function get_domination_max_difficulties()
-{
-  if (!::has_feature("AllModesInRandomBattles"))
-    return 1
-  if (!::g_difficulty.SIMULATOR.isAvailable(::GM_DOMINATION)) //!!FIX ME: need to get full options list from g_difficulty
-    return 2
-  return ::domination_modes.len()
-}
-
 function get_current_wnd_difficulty()
 {
-  return ::min(::loadLocalByAccount("wnd/diffMode", ::get_current_shop_difficulty().diffCode),
-               ::get_domination_max_difficulties() - 1
-              )
+  local diffCode = ::loadLocalByAccount("wnd/diffMode", ::get_current_shop_difficulty().diffCode)
+  local diff = ::g_difficulty.getDifficultyByDiffCode(diffCode)
+  if (!diff.isAvailable())
+    diff = ::g_difficulty.ARCADE
+  return diff.diffCode
 }
 
 function set_current_wnd_difficulty(mode = 0)

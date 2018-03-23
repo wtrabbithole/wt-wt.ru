@@ -552,7 +552,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (contentSet == HELP_CONTENT_SET.MISSION || contentSet == HELP_CONTENT_SET.CONTROLS)
     {
-      local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_domination_mode_shop().diff
+      local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
       local isNewbie = ::is_me_newbie()
       local isAdvanced = difficulty == ::DIFFICULTY_HARDCORE
 

@@ -419,8 +419,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     local unitType = ::getTblValue("curUnitType", crewModalHandlerWeak, ::ES_UNIT_TYPE_AIRCRAFT)
     local memberName = obj.memberName || ""
     local skillName = obj.skillName || ""
-    local dominationId = ::get_current_domination_mode_shop().id
-    local difficulty = ::g_difficulty.getDifficultyByCrewSkillName(dominationId)
+    local difficulty = ::get_current_shop_difficulty()
     local view = ::g_crew_skill_parameters.getSkillDescriptionView(
       crew, difficulty, memberName, skillName, unitType)
     local data = ::handyman.renderCached("gui/crew/crewSkillParametersTooltip", view)

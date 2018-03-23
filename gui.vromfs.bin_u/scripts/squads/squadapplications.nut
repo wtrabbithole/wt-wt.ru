@@ -121,7 +121,7 @@ local SquadApplicationsList = class
                             {
                               application.leaderName <- getLeaderName(leaderId)
                             }, this)
-      ::g_users_info_manager.requestInfo([leaderId], cb, cb)
+      ::g_users_info_manager.requestInfo([leaderId.tostring()], cb, cb)
     }
   }
 

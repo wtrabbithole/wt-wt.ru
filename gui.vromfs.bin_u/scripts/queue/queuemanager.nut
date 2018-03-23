@@ -551,29 +551,6 @@ class QueueManager {
     return (::getTblValue("typeBit", queue, 0) & typeMask) != 0
   }
 
-  function getQueueDominationMode(queue)
-  {
-    local name = getQueueMode(queue)
-    foreach(m in ::domination_modes)
-      if (name == ::get_mode_by_diff(m.diff) ||
-          (name.len() >= m.tankEventName.len() &&
-           name.slice(0, m.tankEventName.len()) == m.tankEventName))
-        return m
-    return null
-  }
-
-  function getQueueBattleType(queue, defValue = BATTLE_TYPES.UNKNOWN)
-  {
-    if (getQueueType(queue) != QUEUE_TYPE_BIT.DOMINATION)
-      return defValue
-
-    local name = getQueueMode(queue)
-    foreach(m in ::domination_modes)
-      if (name == ::get_mode_by_diff(m.diff))
-        return BATTLE_TYPES.AIR
-    return BATTLE_TYPES.TANK
-  }
-
   function getQueuePreferredViewClass(queue)
   {
     local defaultHandler = ::gui_handlers.QiHandlerByTeams

@@ -1,4 +1,5 @@
 local u = ::require("std/u.nut")
+local platformModule = ::require("modules/platform.nut")
 local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
 
 //-----------------------------
@@ -14,6 +15,7 @@ local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
 //  - chatLog
 //  - squadMemberData
 //  - position
+//  - canComplain
 // ----------------------------
 
 local verifyContact = function(params)
@@ -49,7 +51,7 @@ local getActions = function(_contact, params)
   local clanTag = contact?.clanTag ?? params?.clanTag
 
   local isMe = uid == ::my_user_id_str
-  local isXBoxOnePlayer = ::is_player_from_xbox_one(name)
+  local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(name)
   local canInvitePlayer = !::is_platform_xboxone || isXBoxOnePlayer
 
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
@@ -58,6 +60,7 @@ local getActions = function(_contact, params)
   local roomData = roomId? ::g_chat.getRoomById(roomId) : null
 
   local isMPChat = params?.isMPChat ?? false
+  local isMPLobby = params?.isMPLobby ?? false
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
   local chatLog = params?.chatLog ?? roomData?.chatText ?? ""
@@ -189,7 +192,7 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("squad/tranfer_leadership")
-        show = squadMemberData && ::g_squad_manager.canTransferLeadership(uid)
+        show = !isMe && ::g_squad_manager.canTransferLeadership(uid)
         action = @() ::g_squad_manager.transferLeadership(uid)
       }
     ])
@@ -286,7 +289,7 @@ local getActions = function(_contact, params)
 //---- </Contacts> ------------------
 
 //---- <MP Lobby> -------------------
-  if (params?.isMPLobby)
+  if (isMPLobby)
     actions.append({
       text = ::loc("mainmenu/btnKick")
       show = !isMe && ::SessionLobby.isRoomOwner && !::SessionLobby.isEventRoom
@@ -388,7 +391,7 @@ local getActions = function(_contact, params)
 //---- </Chat> ----------------------
 
 //---- <Moderator> ------------------
-  if (::is_myself_anyof_moderators() && (roomData != null || isMPChat))
+  if (::is_myself_anyof_moderators() && (roomId || isMPChat || isMPLobby))
     actions.extend([
       {
         text = "" //for separator

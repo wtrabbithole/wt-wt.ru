@@ -365,7 +365,7 @@ local fov = function (pivot) {
       scale = [::math.sin(shipState.fov.value), 1.0]
     }
     children = [
-      {    
+      {
         size = [flex(),flex()]
         rendObj = ROBJ_IMAGE
         image = images.sightCone
@@ -381,14 +381,14 @@ local fov = function (pivot) {
   }
 }
 
-
+local dollSize = [sh(16), sh(32)]
 local doll = {
   color = Color(0, 255, 0)
-  size = [sh(16), sh(32)]
+  size = dollSize
   rendObj = ROBJ_XRAYDOLL
   rotateWithCamera = false
 
-  children = fov([sh(12)/2, sh(30+4)/2])
+  children = fov([dollSize[0]/2, (dollSize[1] + sh(4))/2])
 }
 
 

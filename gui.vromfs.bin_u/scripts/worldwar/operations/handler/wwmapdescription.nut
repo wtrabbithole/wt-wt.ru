@@ -151,7 +151,7 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
   function updateAvailableText()
   {
     local obj = scene.findObject("available_text")
-    if (!::check_obj(obj))
+    if (!::check_obj(obj) || !descItem)
       return
 
     obj.setValue(descItem.getChangeStateTimeText())

@@ -165,7 +165,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
        (::my_clan_info != null && myClanLbData == null))
       initClanLeaderboards()
 
-    fillModeListBox(curPageObj, getCurDMode(), true, false, get_show_in_squadron_statistics)
+    fillModeListBox(curPageObj, getCurDMode(), get_show_in_squadron_statistics)
     initFocusArray()
   }
 
@@ -173,8 +173,12 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     if (!::checkObj(obj))
       return
-    if(obj.getValue() in ::domination_modes)
-      curMode = obj.getValue()
+    local value = obj.getValue()
+    local diff = ::g_difficulty.getDifficultyByDiffCode(value)
+    if(!::get_show_in_squadron_statistics(diff.crewSkillName))
+      return
+
+    curMode = value
     setCurDMode(curMode)
     fillClanReward()
     calculateRowNumber()
@@ -216,7 +220,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     else {
       clanData = ::my_clan_info
-      fillModeListBox(curPageObj, getCurDMode(), true, false, ::get_show_in_squadron_statistics)
+      fillModeListBox(curPageObj, getCurDMode(), ::get_show_in_squadron_statistics)
     }
     initFocusArray()
   }
@@ -226,7 +230,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     local actualCategory = lbCategory || clansLbSort
     local fieldName = ("field" in actualCategory ? actualCategory.field : actualCategory.id)
     if (actualCategory.byDifficulty)
-      fieldName += domination_modes[(mode == null) ? curMode : mode].clanDataEnding
+      fieldName += ::g_difficulty.getDifficultyByDiffCode(mode ?? curMode).clanDataEnding
     return fieldName
   }
 
@@ -779,8 +783,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       return
     local curMode = getCurDMode()
     local topPlayersRewarded = ::get_blk_value_by_path(blk, "clanDuel/reward/topPlayersRewarded", 10)
-    local diffItems = ::get_option(::USEROPT_DOMINATION_MODE).items
-    local rewardPath = "clanDuel/reward/" + diffItems[curMode].leaderboardsId + "/era5"
+    local diff = ::g_difficulty.getDifficultyByDiffCode(curMode)
+    local rewardPath = "clanDuel/reward/" + diff.egdLowercaseName + "/era5"
     local rewards = ::get_blk_value_by_path(blk, rewardPath)
     if (!rewards)
       return

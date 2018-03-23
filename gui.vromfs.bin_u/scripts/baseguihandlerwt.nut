@@ -132,7 +132,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
    * @param filterFunc Optional filter function with mode id
    *                   as parameter and boolean return type.
    */
-  function fillModeListBox(nest, select=0, needCallback = true, needNavImages = false, filterFunc = null)
+  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null)
   {
     if (!::checkObj(nest))
       return
@@ -140,30 +140,25 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::checkObj(modesObj))
       return
 
-    local modesList = ::get_option(::USEROPT_DOMINATION_MODE).items
-    if (!(select in modesList))
-    {
-      select = 0
-      needCallback = true
-    }
     local view = { tabs = [] }
-    foreach(idx, mode in modesList)
+    local isFoundSelected = false
+    foreach(diff in ::g_difficulty.types)
     {
-      if (filterFunc != null && !filterFunc(mode.id))
+      if (!diff.isAvailable() || (filterFunc && !filterFunc(diff.crewSkillName)))
         continue
 
+      local isSelected = selectedDiffCode == diff.diffCode
+      isFoundSelected = isFoundSelected || isSelected
       view.tabs.append({
-        tabName = mode.text,
-        selected = select == idx,
-        navImagesText = needNavImages? ::get_navigation_images_text(idx, modesList.len()) : ""
+        tabName = diff.getLocName(),
+        selected = isSelected,
       })
     }
+    if (!isFoundSelected && view.tabs.len())
+      view.tabs[0].selected = true
 
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
-
-    if (!needCallback)
-      return
 
     local selectCb = modesObj.on_select
     if (selectCb && (selectCb in this))

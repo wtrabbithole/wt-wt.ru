@@ -199,8 +199,7 @@ function g_crew_skills::getSkillCategoryView(crewData, unit)
 
 function g_crew_skills::getCategoryParameterRows(skillCategory, unitType, crew)
 {
-  local dominationId = ::get_current_domination_mode_shop().id
-  local difficulty = ::g_difficulty.getDifficultyByCrewSkillName(dominationId)
+  local difficulty = ::get_current_shop_difficulty()
   return ::g_crew_skill_parameters.getSkillListParameterRowsView(crew, difficulty, skillCategory.skillItems, unitType)
 }
 

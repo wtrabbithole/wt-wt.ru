@@ -32,23 +32,26 @@
         },
         {
           "tdiv": {
-            "width": "pw",
+            "left": "pw-w-0.02@scrn_tgt",
+            "position": "relative",
             "textareaNoTab": {
               "id": "clan_activity_today_text",
-              "width": "pw*0.7",
               "overlayTextColor": "active",
               "text": "#clan/activity_today",
               "caption": "yes"
             },
             "tdiv": {
+              "padding-left": "0.01@scrn_tgt",
               "cardImg": {
                 "id": "clan_activity_today_icon",
                 "background-image": "#ui/gameuiskin#lb_activity.svg",
                 "type": "medium",
                 "tooltip": "#clan/activity"
               },
-              "textareaNoTab": {
+              "textarea": {
                 "id": "clan_activity_today_value",
+                "top": "50%ph-50%h",
+                "position": "relative",
                 "text": "",
                 "overlayTextColor": "userlog",
                 "caption": "yes"
@@ -58,23 +61,26 @@
         },
         {
           "tdiv": {
-            "width": "pw",
+            "left": "pw-w-0.02@scrn_tgt",
+            "position": "relative",
             "textareaNoTab": {
               "id": "clan_activity_total_text",
-              "width": "pw*0.7",
               "overlayTextColor": "active",
               "text": "#clan/activity_total",
               "caption": "yes"
             },
             "tdiv": {
+              "padding-left": "0.01@scrn_tgt",
               "cardImg": {
                 "id": "clan_activity_total_icon",
                 "background-image": "#ui/gameuiskin#lb_activity.svg",
                 "tooltip": "#clan/activity",
                 "type": "medium"
               },
-              "textareaNoTab": {
+              "textarea": {
                 "id": "clan_activity_total_value",
+                "top": "50%ph-50%h",
+                "position": "relative",
                 "text": "",
                 "overlayTextColor": "userlog",
                 "caption": "yes"
@@ -97,7 +103,6 @@
         {
           "tdiv": {
             "size": "pw, fh",
-            "flow": "vertical",
             "overflow-y": "auto",
             "scrollbarShortcuts": "yes",
             "table": {

@@ -44,7 +44,6 @@
     }
   }
   mode = { widgetType="list" def="fullscreen" blk="video/mode" restart=true
-    onChanged = "modeClick"
     init = function(blk, desc)
     {
       desc.values <- ["windowed"]
@@ -55,11 +54,9 @@
       desc.def = desc.values.top()
       desc.restart <- !::is_platform_windows
     }
-  }
-  windowed = { widgetType="checkbox" def=false blk="video/windowed" restart=true
-    onChanged = "modeClick"
-    init = function(blk, desc) {
-      desc.restart <- !::is_platform_windows
+    setToBlk = function(blk, desc, val) {
+      ::set_blk_value_by_path(blk, desc.blk, val)
+      ::set_blk_value_by_path(blk, "video/windowed", val == "windowed")
     }
   }
   vsync = { widgetType="list" def="vsync_off" blk="video/vsync" restart=true
@@ -141,6 +138,8 @@
   shadowQuality= { widgetType="list" def="high" blk="graphics/shadowQuality" restart=false
     values = [ "ultralow", "low", "medium", "high", "ultrahigh" ]
   }
+  selfReflection = { widgetType="checkbox" def=true blk="render/selfReflection" restart=false
+  }
   backgroundScale = { widgetType="slider" def=2 min=0 max=2 blk="graphics/backgroundScale" restart=false
     blkValues = [ 0.7, 0.85, 1.0 ]
     getFromBlk = function(blk, desc) {
@@ -167,7 +166,12 @@
     getFromBlk = function(blk, desc) { return (::get_blk_value_by_path(blk, desc.blk, desc.def/100.0) * 100).tointeger() }
     setToBlk = function(blk, desc, val) { ::set_blk_value_by_path(blk, desc.blk, val/100.0) }
   }
+  skyQuality = { widgetType="slider" def=1 min=0 max=2 blk="graphics/skyQuality" restart=false
+    getFromBlk = function(blk, desc) { return (2 - ::get_blk_value_by_path(blk, desc.blk, 2-desc.def)).tointeger() }
+    setToBlk = function(blk, desc, val) { ::set_blk_value_by_path(blk, desc.blk, 2-val) }
+  }
   cloudsQuality = { widgetType="slider" def=1 min=0 max=2 blk="graphics/cloudsQuality" restart=false
+    onChanged = "cloudsQualityClick"
     getFromBlk = function(blk, desc) { return (2 - ::get_blk_value_by_path(blk, desc.blk, 2-desc.def)).tointeger() }
     setToBlk = function(blk, desc, val) { ::set_blk_value_by_path(blk, desc.blk, 2-val) }
   }
@@ -218,10 +222,10 @@
     }
   }
   ssaoQuality = { widgetType="slider" def=0 min=0 max=2 blk="render/ssaoQuality" restart=false
-    onChanged = "setSsaoQuality"
+    onChanged = "ssaoQualityClick"
   }
   ssrQuality = { widgetType="slider" def=0 min=0 max=2 blk="render/ssrQuality" restart=false
-    onChanged = "setSsrQuality"
+    onChanged = "ssrQualityClick"
   }
   waterReflectionTexDiv = { widgetType="slider" def=8 min=0 max=14 blk="graphics/waterReflectionTexDiv" restart=false
     getFromBlk = function(blk, desc) { return (16 - ::get_blk_value_by_path(blk, desc.blk, (16-desc.def))).tointeger() }
@@ -258,6 +262,7 @@
   displacementQuality = { widgetType="slider" def=1 min=0 max=2 blk="graphics/displacementQuality" restart=false
   }
   contactShadowsQuality = { widgetType="slider" def=0 min=0 max=2 blk="graphics/contactShadowsQuality" restart=false
+    onChanged = "contactShadowsQualityClick"
   }
   staticShadowsOnEffects = { widgetType="checkbox" def=false blk="render/staticShadowsOnEffects" restart=false
   }
@@ -276,22 +281,23 @@
   {k="contactShadowsQuality",v={ultralow=0,low=0,medium=0,high=0, max=1, movie=2}}
   {k="lenseFlares",          v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="shadows",              v={ultralow=false,low=true,medium=true ,high=true ,max=true, movie=true}}
+  {k="selfReflection",       v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
   {k="waterReflection",      v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
+  {k="waterFoamQuality",     v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="high"}, compMode=true}
   {k="grass",                v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
-  {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
   {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=1, movie=2}}
+  {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
   {k="tireTracksQuality"     v={ultralow="none",low="none",medium="medium", high="high", max="high", movie="ultrahigh"}, compMode=true}
-  {k="waterFoamQuality"      v={ultralow="low",low="low",medium="medium", high="high", max="high", movie="high"}, compMode=true}
   {k="alpha_to_coverage",    v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="msaa",                 v={ultralow="off",low="off",medium="off",high="off", max="off", movie="off"}, compMode=true, fullMode=false}
   {k="antialiasing",         v={ultralow="none",low="none",medium="fxaa", high="high_fxaa",
     max= ::is_opengl_driver() ? "high_fxaa" : "high_taa",movie= ::is_opengl_driver() ? "high_fxaa" : "high_taa"}}
-  {k="ssaa",                 v={ultralow="none", low="none", medium="none", high="none", max="none", movie="none"}}
+  {k="ssaa",                 v={ultralow="none",low="none",medium="none", high="none", max="none",movie="none"}}
   {k="enableSuspensionAnimation",v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="haze",                 v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
+  {k="foliageReprojection",  v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="fxReflection",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
   {k="softFx",               v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
-  {k="foliageReprojection",  v={ultralow=false,low=false,medium=false ,high=false ,max=true, movie=true}}
   {k="lastClipSize",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}, compMode=true}
   {k="landquality",          v={ultralow=0,low=0,medium=0 ,high=2,max=3,movie=4}}
   {k="rendinstDistMul",      v={ultralow=50,low=50,medium=85 ,high=100,max=130,movie=180}}
@@ -299,13 +305,14 @@
   {k="grassRadiusMul",       v={ultralow=10, low=10, medium=45,high=75,max=100,movie=135}}
   {k="backgroundScale",      v={ultralow=2, low=1, medium=2,high=2,max=2,movie=2}}
   {k="waterReflectionTexDiv",v={ultralow=4, low=6, medium=8,high=10,max=11,movie=12}}
+  {k="physicsQuality",       v={ultralow=0, low=1, medium=2,high=3,max=4,movie=5}}
   {k="waterRefraction",      v={ultralow=0, low=1, medium=1,high=1,max=2,movie=2}}
+  {k="advancedShore",        v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
   {k="panoramaResolution",   v={ultralow=4,low=4,medium=6,high=8,max=10, movie=12}}
   {k="cloudsQuality",        v={ultralow=0,low=0,medium=1,high=1,max=1, movie=2}}
-  {k="advancedShore",        v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
-  {k="compatibilityMode",    v={ultralow=true,low=false,medium=false,high=false ,max=false, movie=false}, compMode=true}
-  {k="physicsQuality",       v={ultralow=0, low=1, medium=2, high=3, max=4, movie=5}}
+  {k="skyQuality",           v={ultralow=0,low=0,medium=1,high=1,max=1, movie=1}}
   {k="staticShadowsOnEffects", v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
+  {k="compatibilityMode",    v={ultralow=true,low=false,medium=false,high=false ,max=false, movie=false}, compMode=true}
 ]
 //------------------------------------------------------------------------------
 ::sysopt.mShared =
@@ -323,7 +330,6 @@
 
   setGraphicsQuality = function()
   {
-    ::sysopt.mShared.modeClick()
     local quality = ::sysopt.getGuiValue("graphicsQuality", "high")
     if ((!::sysopt.mQualityPresets[0].v.rawin(quality)) && quality!="custom")
     {
@@ -337,7 +343,6 @@
     else
     {
       ::sysopt.mShared.setQualityPreset(quality)
-      ::sysopt.mShared.modeClick()
     }
   }
 
@@ -361,8 +366,13 @@
           ["no", cancel_func],
         ], "no", { cancel_fn = cancel_func })
     }
-    ::sysopt.mShared.setLandquality()
+    ::sysopt.mShared.setCustomSettings()
+  }
+
+  setCustomSettings = function()
+  {
     ::sysopt.mShared.setGraphicsQuality()
+    ::sysopt.mShared.setLandquality()
     ::sysopt.mShared.setCompatibilityMode()
   }
 
@@ -372,10 +382,10 @@
     ::sysopt.setGuiValue("graphicsQuality", preset)
   }
 
-  modeClick = function()
+  cloudsQualityClick = function()
   {
-    local mode = ::sysopt.getGuiValue("mode", "fullscreen")
-    ::sysopt.setGuiValue("windowed", (mode != "fullscreen"))
+    local cloudsQualityVal = ::sysopt.getGuiValue("cloudsQuality", 1)
+    ::sysopt.setGuiValue("skyQuality", cloudsQualityVal == 0 ? 0 : 1)
   }
 
   grassClick = function()
@@ -419,18 +429,25 @@
     ::sysopt.setGuiValue("clipmapScale",cs)
   }
 
-  setSsaoQuality = function()
+  ssaoQualityClick = function()
   {
     if (::sysopt.getGuiValue("ssaoQuality") == 0)
     {
       ::sysopt.setGuiValue("ssrQuality", 0)
+      ::sysopt.setGuiValue("contactShadowsQuality", 0)
     }
   }
 
-  setSsrQuality = function()
+  ssrQualityClick = function()
   {
     if ((::sysopt.getGuiValue("ssrQuality") > 0) && (::sysopt.getGuiValue("ssaoQuality")==0))
       ::sysopt.setGuiValue("ssaoQuality",1)
+  }
+
+  contactShadowsQualityClick = function()
+  {
+    if (::sysopt.getGuiValue("contactShadowsQuality") > 0 && ::sysopt.getGuiValue("ssaoQuality") == 0)
+      ::sysopt.setGuiValue("ssaoQuality", 1)
   }
 
   ssaaClick = function()
@@ -695,9 +712,12 @@ function sysopt::configWrite()
   if (! ::is_platform_pc)
     return;
   if (!mBlk) return
+  dagor.debug("[sysopt] Saving config:")
   foreach (id, _ in mCfgCurrent)
   {
     local value = getGuiValue(id)
+    if (mCfgInitial?[id] != value)
+      dagor.debug("[sysopt]  " + id + ": " + mCfgInitial?[id] + " -> " + value)
     local desc = getOptionDesc(id)
     if ("setToBlk" in desc)
       desc.setToBlk(mBlk, desc, value)
@@ -705,6 +725,7 @@ function sysopt::configWrite()
       ::set_blk_value_by_path(mBlk, desc.blk, value)
   }
   mBlk.saveToTextFile(::get_config_name())
+  dagor.debug("[sysopt] Config saved.")
 }
 
 function sysopt::configFree()
@@ -818,6 +839,7 @@ function sysopt::fillGuiOptions(containerObj, handler)
           break
         case "slider":
           option = ::create_option_slider(desc.widgetId, mCfgCurrent[id], cb, true, "slider", desc)
+          option += format(" optionValueText { id:t='%s' text = '%s'} ", desc.widgetId + "_value", mCfgCurrent[id].tostring())
           break
         case "list":
           local raw = ::find_in_array(desc.values, mCfgCurrent[id])
@@ -920,6 +942,8 @@ function sysopt::setGuiValue(id, value, skipUI=false)
     {
       desc.ignoreNextUiCallback = desc.widgetType != "checkbox"
       obj.setValue(raw)
+      if (desc.widgetType == "slider")
+        updateOptionValueTextByObj(obj)
     }
   }
 }
@@ -969,6 +993,13 @@ function sysopt::enableGuiOption(id, state)
   if (mSkipUI) return
   local rowObj = ::checkObj(mContainerObj) ? mContainerObj.findObject(id + "_tr") : null
   if (::checkObj(rowObj)) rowObj.enable(state)
+}
+
+function sysopt::updateOptionValueTextByObj(obj)
+{
+  local textObj = ::check_obj(obj) && obj.getParent().findObject(obj.id + "_value")
+  if (::check_obj(textObj))
+    textObj.setValue(obj.getValue().tostring())
 }
 
 function sysopt::pickQualityPreset()
@@ -1058,6 +1089,8 @@ function sysopt::onGuiOptionChanged(obj)
     return
 
   setGuiValue(id, value, true)
+  if (desc.widgetType == "slider")
+    updateOptionValueTextByObj(obj)
   if (("onChanged" in desc) && desc.onChanged)
     desc.onChanged()
 
@@ -1070,11 +1103,8 @@ function sysopt::onGuiLoaded()
 {
   if (!mScriptValid) return
 
-  mShared.setGraphicsQuality()
-  mShared.setCompatibilityMode()
-  mShared.modeClick()
+  mShared.setCustomSettings()
   mShared.presetCheck()
-
   updateGuiNavbar(true)
 }
 
@@ -1130,15 +1160,12 @@ function sysopt::configMaintain()
 
   configRead()
 
-  mShared.setLandquality()
-  mShared.setGraphicsQuality()
-  mShared.setCompatibilityMode()
-  mShared.modeClick()
+  mShared.setCustomSettings()
   mShared.presetCheck()
 
   if (isSavePending())
   {
-    dagor.debug("Graphics Settings validation. Saving repaired config.blk.")
+    dagor.debug("[sysopt] Graphics settings maintenance, config.blk repaired.")
     configWrite()
   }
 
@@ -1146,6 +1173,13 @@ function sysopt::configMaintain()
   //  applyRestartEngine()
 
   configFree()
+}
+
+function sysopt::onRestartClient()
+{
+  configWrite()
+  configFree()
+  applyRestartClient()
 }
 
 function sysopt::onConfigApply()
@@ -1202,7 +1236,7 @@ function sysopt::applyRestartClient(forced=false)
     return
   }
 
-  dagor.debug("Graphics Settings changed. Restarting client.")
+  dagor.debug("[sysopt] Restarting client.")
   ::save_profile(false)
   ::save_short_token()
   ::restart_game()
@@ -1214,7 +1248,7 @@ function sysopt::applyRestartEngine(reloadScene = false)
   foreach (id, value in mCfgCurrent)
     mCfgApplied[id] <- value
 
-  dagor.debug("Graphics Settings changed. Resetting renderer.")
+  dagor.debug("[sysopt] Resetting renderer.")
   ::on_renderer_settings_change()
   ::handlersManager.updateSceneBgBlur(true)
 

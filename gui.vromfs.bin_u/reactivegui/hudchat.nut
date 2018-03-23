@@ -1,4 +1,4 @@
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 local colors = require("style/colors.nut")
 local transition = require("style/hudTransition.nut")
 local teamColors = require("style/teamColors.nut")

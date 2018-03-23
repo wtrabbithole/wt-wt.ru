@@ -15,6 +15,7 @@ local enums = ::require("std/enums.nut")
   crewSkillName = "" // Used in g_crew_skill_parameters.
   settingsName = "" // Used in _difficulty.blk difficulty_settings.
   clanReqOption = "" //Used in clan membership requirement
+  clanDataEnding = ""
   cdPresetValue = ::get_cd_preset(::DIFFICULTY_CUSTOM)
   getEgdName = function(capital = true) { return ::get_name_by_gamemode(egdCode, capital) } //"none", "arcade", "historical", "simulation"
   getLocName = function() { return ::loc(locId) }
@@ -55,6 +56,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     crewSkillName = "arcade"
     settingsName = "easy"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES
+    clanDataEnding = "_arc"
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_ARCADE)
     abbreviation = "clan/shortArcadeBattle"
     choiceType = ["AirAB", "TankAB"]
@@ -74,6 +76,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     crewSkillName = "historical"
     settingsName = "medium"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_REAL_BATTLES
+    clanDataEnding = "_hist"
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_REALISTIC)
     abbreviation = "clan/shortHistoricalBattle"
     choiceType = ["AirRB", "TankRB"]
@@ -93,6 +96,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     crewSkillName = "fullreal"
     settingsName = "hard"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_SYM_BATTLES
+    clanDataEnding = "_sim"
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_HARDCORE)
     abbreviation = "clan/shortFullRealBattles"
     choiceType = ["AirSB", "TankSB"]
@@ -192,6 +196,7 @@ function get_difficulty_by_ediff(ediff)
 function get_current_shop_difficulty()
 {
   local gameMode = ::game_mode_manager.getCurrentGameMode()
-  local diffCode = gameMode ? gameMode.diffCode : ::DIFFICULTY_ARCADE
-  return ::g_difficulty.getDifficultyByDiffCode(diffCode)
+  if (gameMode)
+    return ::g_difficulty.getDifficultyByDiffCode(gameMode.diffCode)
+  return ::g_difficulty.ARCADE
 }

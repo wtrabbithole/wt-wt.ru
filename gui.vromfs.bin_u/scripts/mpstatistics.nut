@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-local platformModule = require("scripts/clientState/platform.nut")
+local platformModule = require("modules/platform.nut")
 
 ::team_aircraft_list <- null
 
@@ -677,13 +677,8 @@ function getCurMpTitle(withMissionName = true, withOperationName = false)
 
   if (gm == ::GM_DOMINATION)
   {
-    local diff = ::get_mission_difficulty_int()
-    foreach(mode in ::domination_modes)
-      if (diff == mode.diff)
-      {
-        text = ::loc(mode.name)
-        break
-      }
+    local diffCode = ::get_mission_difficulty_int()
+    text = ::g_difficulty.getDifficultyByDiffCode(diffCode).getLocName()
   }
   else if (gm==::GM_SKIRMISH)         text = ::loc("multiplayer/skirmishMode")
   else if (gm==::GM_CAMPAIGN)         text = ::loc("mainmenu/btnCampaign")

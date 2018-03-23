@@ -313,6 +313,11 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
     updateLowQualityModelWarning()
   }
 
+  function onEventCrewsListChanged(p)
+  {
+    doWhenActiveOnce("forceUpdateSelUnitInfo")
+  }
+
   function updateLowQualityModelWarning()
   {
     local lowQuality = !::is_loaded_model_high_quality()
@@ -324,10 +329,11 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
       ::check_package_and_ask_download_once("pkg_main", "air_in_hangar")
   }
 
-  function updateSelUnitInfo()
+  forceUpdateSelUnitInfo = @() updateSelUnitInfo(true)
+  function updateSelUnitInfo(isForced = false)
   {
     local unitName = ::hangar_get_current_unit_name()
-    if (unitName == visibleUnitInfoName)
+    if (!isForced && unitName == visibleUnitInfoName)
       return
     visibleUnitInfoName = unitName
 

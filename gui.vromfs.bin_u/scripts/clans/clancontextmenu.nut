@@ -24,7 +24,7 @@ local getClanActions = function(clanId)
   ]
 }
 
-local getRequestActions = function(clanId, playerUid)
+local getRequestActions = function(clanId, playerUid, playerName = "")
 {
   if (!playerUid)
     return []
@@ -33,6 +33,11 @@ local getRequestActions = function(clanId, playerUid)
   local isClanAdmin = ::clan_get_admin_editor_mode()
 
   return [
+    {
+      text = ::loc("contacts/message")
+      show = playerUid != ::my_user_id_str && ::ps4_is_chat_enabled() && !u.isEmpty(playerName)
+      action = @() ::openChatPrivate(playerName)
+    }
     {
       text = ::loc("mainmenu/btnUserCard")
       action = @() ::gui_modal_userCard({uid = playerUid})

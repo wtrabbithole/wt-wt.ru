@@ -6,6 +6,7 @@ class ::items_classes.Trophy extends ::BaseItem
   static typeIcon = "#ui/gameuiskin#item_type_trophies"
   static isPreferMarkupDescInTooltip = true
   static userlogOpenLoc = "open_trophy"
+  static hasTopRewardAsFirstItem = true
 
   canBuy = true
 
@@ -305,4 +306,7 @@ class ::items_classes.Trophy extends ::BaseItem
   {
     return ::loc(openingCaptionLocId || "mainmenu/trophyReward/title")
   }
+
+  function getHiddenTopPrizeParams() { return null }
+  function isHiddenTopPrize(prize) { return false }
 }

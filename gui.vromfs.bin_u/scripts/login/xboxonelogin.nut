@@ -1,4 +1,4 @@
-local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 local multiplayerSessionPrivelegeCallback = null
 local function checkMultiplayerSessionsPrivilegeSq(showMarket, cb)
@@ -88,7 +88,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
   {
     needAutoLogin = false
 
-    if (!platformModule.isCrossPlayEnabled())
+    if (!crossplayModule.isCrossPlayEnabled())
     {
       ::scene_msg_box("xbox_cross_play",
         guiScene,
@@ -112,7 +112,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 
   function performLogin(useCrossPlay = false)
   {
-    platformModule.setIsCrossPlayEnabled(useCrossPlay)
+    crossplayModule.setIsCrossPlayEnabled(useCrossPlay)
     ::xbox_on_login(
       function(result, err_code)
       {
