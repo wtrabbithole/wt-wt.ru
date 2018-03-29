@@ -127,6 +127,56 @@
       }
     }
   },
+  "125mm_ussr_3OF26_HE": {
+    "bullet": {
+      "mass": 23.0,
+      "explosiveType": "a_ix_2",
+      "explosiveMass": 3.402,
+      "caliber": 0.125,
+      "Cx": 0.025,
+      "speed": 850.0,
+      "maxDistance": 10000.0,
+      "bulletType": "he_frag_fs_tank",
+      "bulletName": "125mm_3of_26",
+      "hitPowerMult": 100.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [27.0,150.0],
+      "midArmorPower": [24.0,600.0],
+      "farArmorPower": [20.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.5,
+      "fuseDelayDist": 0.1,
+      "groundCollisionEffect": "art_ground_splash",
+      "groundFxScale": [1.5,1.7],
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [1.1,1.2],
+      "explosionPatchRadius": 4.0,
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
+      },
+      "collisions": {
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [1.3,1.7]
+        },
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        }
+      }
+    }
+  },
   "125mm_ussr_3BM22_APDS_FS": {
     "bullet": {
       "mass": 4.83,
@@ -217,6 +267,67 @@
       },
       "cumulativeDamage": {
         "armorPower": 440.0,
+        "distance": 10.0,
+        "damage": 500.0,
+        "onHitChanceMultFire": 35.0
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "100mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [1.3,1.7]
+        },
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        }
+      }
+    }
+  },
+  "125mm_ussr_3BK18M_HEAT_FS": {
+    "bullet": {
+      "mass": 19.0,
+      "explosiveType": "ocfol",
+      "explosiveMass": 1.754,
+      "caliber": 0.125,
+      "Cx": 0.025,
+      "speed": 905.0,
+      "maxDistance": 7000.0,
+      "bulletType": "heat_fs_tank",
+      "bulletName": "125mm_3bk_18m",
+      "hitPowerMult": 100.0,
+      "onHitChanceMultExplFuel": 0.3,
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.1,
+      "groundCollisionEffect": "art_ground_splash",
+      "groundFxScale": [1.5,1.7],
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [1.1,1.2],
+      "explosionPatchRadius": 4.0,
+      "hitpower": {
+        "HitPower0m": [1.0,500.0],
+        "HitPower1000m": [0.9,1000.0],
+        "HitPower1500m": [0.65,1500.0],
+        "HitPower2500m": [0.5,2500.0],
+        "HitPower7000m": [0.0,7000.0]
+      },
+      "armorpower": {
+        "ArmorPower0m": [2.0,10.0],
+        "ArmorPower7000m": [1.0,7000.0]
+      },
+      "cumulativeDamage": {
+        "armorPower": 550.0,
         "distance": 10.0,
         "damage": 500.0,
         "onHitChanceMultFire": 35.0
