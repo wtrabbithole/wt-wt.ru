@@ -6,7 +6,7 @@ local downloadProgressBox = null
 /**
  * Starts Customization scene with given unit and optional skin.
  * @param {string} unitId - Unit to show.
- * @param {string|null} [skinId] - Skin to apply. Use null for current skin.
+ * @param {string|null} [skinId] - Skin to apply. Use null for default skin.
  * @param {boolean} [isForApprove] - Enables UI for skin approvement.
  */
 local function showUnitSkin(unitId, skinId = null, isForApprove = false)
@@ -14,6 +14,8 @@ local function showUnitSkin(unitId, skinId = null, isForApprove = false)
   local unit = ::getAircraftByName(unitId)
   if (!unit)
     return false
+
+  skinId = skinId || unit.getPreviewSkinId()
 
   ::broadcastEvent("BeforeStartShowroom")
   ::show_aircraft = unit

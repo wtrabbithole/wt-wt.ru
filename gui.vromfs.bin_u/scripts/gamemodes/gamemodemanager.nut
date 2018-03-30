@@ -569,14 +569,14 @@ class GameModeManager
     _clearGameModes()
 
     local newbieGmByUnitType = {}
-    foreach(unitType in ::unitTypesList)
+    foreach (unitType in ::g_unit_type.types)
     {
-      local event = ::my_stats.getNextNewbieEvent(null, unitType, false)
+      local event = ::my_stats.getNextNewbieEvent(null, unitType.esUnitType, false)
       if (event)
-        newbieGmByUnitType[unitType] <- _createEventGameMode(event)
+        newbieGmByUnitType[unitType.esUnitType] <- _createEventGameMode(event)
     }
 
-    for(local idx = 0; idx < ::custom_game_modes_battles.len(); idx++)
+    for (local idx = 0; idx < ::custom_game_modes_battles.len(); idx++)
     {
       local dm = ::custom_game_modes_battles[idx]
       if (!("isVisible" in dm) || dm.isVisible())
@@ -618,16 +618,16 @@ class GameModeManager
   {
     if (!gameMode)
       return []
-    if (gameMode.type != RB_GM_TYPE.EVENT)
-      return ::unitTypesList
 
-    local unitTypes = []
-    foreach (unitType in ::unitTypesList)
-    {
-      if (::events.isUnitTypeAvailable(gameMode.getEvent(), unitType))
-        unitTypes.push(unitType)
-    }
-    return unitTypes
+    local filteredUnitTypes = ::u.filter(::g_unit_type.types, @(unitType) unitType.isAvailable())
+    if (gameMode.type != RB_GM_TYPE.EVENT)
+      return ::u.map(filteredUnitTypes, @(unitType) unitType.esUnitType)
+
+    return ::u.map(
+      ::u.filter(filteredUnitTypes,
+        @(unitType) ::events.isUnitTypeAvailable(gameMode.getEvent(), unitType.esUnitType)
+      ),
+      @(unitType) unitType.esUnitType)
   }
 
   function getGameModesPartitions()

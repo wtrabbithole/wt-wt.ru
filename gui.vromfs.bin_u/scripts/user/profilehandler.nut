@@ -12,9 +12,9 @@ enum OwnUnitsType
   BOUGHT = "only_bought",
 }
 
-function gui_start_profile(curPage = "")
+function gui_start_profile(params = {})
 {
-  ::gui_start_modal_wnd(::gui_handlers.Profile, { initialSheet = curPage })
+  ::gui_start_modal_wnd(::gui_handlers.Profile, params)
 }
 
 class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
@@ -77,6 +77,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   unlocksTree = {}
   skinsCache = null
   uncollapsedChapterName = null
+  curAchievementGroupName = ""
 
   unlockFilters = {
     Medal = []
@@ -455,8 +456,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local subSwitch = getObj("unit_type_list")
     if (::check_obj(subSwitch))
     {
-      curSubFilter = ::getTblValue(subSwitch.getValue(), ::unitTypesList, ::ES_UNIT_TYPE_INVALID)
-      refreshOwnUnitControl(subSwitch.getValue())
+      local value = subSwitch.getValue()
+      local unitType = ::g_unit_type.getByEsUnitType(value)
+      curSubFilter = unitType.esUnitType
+      refreshOwnUnitControl(value)
     }
     fillUnlocksList()
   }
@@ -475,8 +478,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if ( ! unitypeListObj.childrenCount())
     {
       local view = { items = [] }
-      foreach(unitType in ::unitTypesList)
-        view.items.append({text = ::get_unit_type_army_text(unitType)})
+      foreach(unitType in ::g_unit_type.types)
+        if (unitType.isAvailable())
+          view.items.append({text = unitType.getArmyLocName()})
 
       local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
       guiScene.replaceContentFromText(unitypeListObj, data, data.len(), this)
@@ -488,8 +492,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     for(local i = 0; i < total; i++)
     {
       local obj = unitypeListObj.getChild(i)
-      local unitType = ::getTblValue(i, ::unitTypesList, ::ES_UNIT_TYPE_INVALID)
-      local isVisible = getSkinsCache(curFilter, unitType, OwnUnitsType.ALL).len() > 0
+      local unitType = ::g_unit_type.getByEsUnitType(i)
+      local isVisible = getSkinsCache(curFilter, unitType.esUnitType, OwnUnitsType.ALL).len() > 0
       if (isVisible && (indexForSelection == -1 || previousSelectedIndex == i))
         indexForSelection = i;
       obj.enable(isVisible)
@@ -621,9 +625,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     }
 
     local unlocksObj = scene.findObject(iconsListStyle ? "decals_zone" : "unlocks_group_list")
+    local curIndex = 0
+    local isAchievementPage = lowerCurPage == "achievement"
     local view = { items = [] }
     foreach (chapterName, chapterItem in unlocksTree)
     {
+      if (isAchievementPage && chapterName == curAchievementGroupName)
+        curIndex = view.items.len()
+
       view.items.append({
         itemTag = "campaign_item"
         id = chapterName
@@ -633,20 +642,26 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
       if (chapterItem.groups.len() > 0)
         foreach (groupName, groupItem in chapterItem.groups)
+        {
+          local id = chapterName + "/" + groupName
+          if (isAchievementPage && id == curAchievementGroupName)
+            curIndex = view.items.len()
+
           view.items.append({
-            id = chapterName + "/" + groupName
+            id = id
             itemText = "#unlocks/group/" + groupName
           })
+        }
     }
     data += ::handyman.renderCached("gui/missions/missionBoxItemsList", view)
     guiScene.replaceContentFromText(unlocksObj, data, data.len(), this)
     guiScene.setUpdatesEnabled(true, true)
 
     if (unlocksObj.childrenCount() > 0)
-      unlocksObj.setValue(0)
+      unlocksObj.setValue(curIndex)
 
-    onUnlockSelect(null)
     collapse()
+    onUnlockSelect(null)
   }
 
   function getSkinsMarkup()
@@ -786,7 +801,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     local chapterRegexp = regexp2("/[^\\s]+")
     local chapterName = itemName && chapterRegexp.replace("", itemName)
-    uncollapsedChapterName = (chapterName == uncollapsedChapterName)? null : chapterName
+    uncollapsedChapterName = chapterName?
+      (chapterName == uncollapsedChapterName)? null : chapterName
+      : uncollapsedChapterName
     local newValue = -1
 
     guiScene.setUpdatesEnabled(false, false)
@@ -795,11 +812,13 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     {
       local obj = listObj.getChild(i)
       local iName = obj.id
+      local isUncollapsedChapter = iName == uncollapsedChapterName
+      if (iName == (isUncollapsedChapter ? curAchievementGroupName : chapterName))
+        newValue = i
+
       if (iName in unlocksTree) //chapter
       {
-        obj.collapsed = (iName == uncollapsedChapterName)? "no" : "yes"
-        if (iName == chapterName)
-          newValue = i
+        obj.collapsed = isUncollapsedChapter? "no" : "yes"
         continue
       }
 
@@ -1240,6 +1259,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
               break
             }
         printUnlocksList(unlocksList)
+        if (curPage == "Achievement")
+          curAchievementGroupName = id
       }
     }
   }

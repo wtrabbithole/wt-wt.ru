@@ -28,7 +28,7 @@ class ::items_classes.Chest extends ItemExternal {
 
   function getOpenedBigIcon()
   {
-    return getBigIcon()
+    return ""
   }
 
   function canConsume()

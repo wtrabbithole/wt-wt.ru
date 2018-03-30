@@ -360,6 +360,32 @@ function g_decorator::updateDecalVisible(params)
   ::g_decorator.cache[id].decorators[category].append(decorator)
 }
 
+function g_decorator::onEventUnitBought(p)
+{
+  applyPreviewSkin(p)
+}
+
+function g_decorator::onEventUnitRented(p)
+{
+  applyPreviewSkin(p)
+}
+
+function g_decorator::applyPreviewSkin(params)
+{
+  local unit = ::getAircraftByName(params?.unitName)
+  if (!unit)
+    return
+
+  local previewSkinId = unit.getPreviewSkinId()
+  if (previewSkinId == "")
+    return
+
+  setLastSkin(unit.name, previewSkinId)
+
+  ::save_online_single_job(3210)
+  ::save_profile(false)
+}
+
 function g_decorator::isPreviewingUgcSkin()
 {
   return ::has_feature("EnableUgcSkins") && ::g_decorator.previewedUgcSkinId != ""

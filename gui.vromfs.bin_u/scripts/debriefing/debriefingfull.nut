@@ -421,6 +421,13 @@ function gather_debriefing_result()
       ::debriefing_result.roomUserlogs.append(blk)
     }
 
+  local inventoryGiftLogs = getUserLogsList({
+    show = [ ::EULT_INVENTORY_ADD_ITEM ]
+    currentRoomOnly = true
+    disableVisible = true
+  })
+  ::debriefing_result.inventoryGiftItemId <- inventoryGiftLogs?[0]?.itemDefId
+
   if (!("aircrafts" in ::debriefing_result.exp))
     ::debriefing_result.exp.aircrafts <- []
   local aircraftsForDelete = []

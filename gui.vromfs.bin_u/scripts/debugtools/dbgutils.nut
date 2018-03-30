@@ -220,7 +220,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
     is_user_log_for_current_room = function(idx) { return true }
     get_user_log_blk_body = function(idx, outBlk) { outBlk.setFrom(::getTblValue(idx, ::_fake_userlogs, ::DataBlock())) }
     get_user_log_time = function(idx) { return ::get_local_time() }
-    disable_user_log_entry = function(idx) {}
+    disable_user_log_entry = function(idx) { if (idx in ::_fake_userlogs) ::_fake_userlogs[idx].disabled = true }
     autosave_replay = @() null
     on_save_replay = @(fn) true
     is_era_available = function(...) { return true }
@@ -264,6 +264,34 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
   ::broadcastEvent("SessionDestroyed")
   return "Debriefing result loaded from " + filename
+}
+
+function debug_dump_userlogs_save(filename = "debug_dump_userlogs.blk")
+{
+  local userlogs = []
+  for (local i = 0; i < ::get_user_logs_count(); i++) {
+    local blk = ::DataBlock()
+    ::get_user_log_blk_body(i, blk)
+    userlogs.append(blk)
+  }
+  ::dbg_dump.save(filename, [
+    { id = "_fake_userlogs", value = userlogs }
+  ])
+  return "Saved " + filename
+}
+
+function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
+{
+  if (!::dbg_dump.load(filename))
+    return "File not found: " + filename
+  ::dbg_dump.loadFuncs({
+    get_user_logs_count = function() { return ::_fake_userlogs.len() }
+    is_user_log_for_current_room = function(idx) { return ::SessionLobby.roomId && ::SessionLobby.roomId == ::_fake_userlogs?[idx]?.roomId }
+    get_user_log_blk_body = function(idx, outBlk) { outBlk.setFrom(::_fake_userlogs?[idx] ?? ::DataBlock()) }
+    get_user_log_time = function(idx) { return ::get_time_from_t(::_fake_userlogs?[idx]?.timeStamp ?? 0) }
+    disable_user_log_entry = function(idx) { if (idx in ::_fake_userlogs) ::_fake_userlogs[idx].disabled = true }
+  }, false)
+  return "Loaded " + filename
 }
 
 function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")

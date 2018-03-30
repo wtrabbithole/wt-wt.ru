@@ -1,7 +1,6 @@
 local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
-
 ::g_battle_task_difficulty <- {
   types = []
   template = {}
@@ -9,11 +8,6 @@ local time = require("scripts/time.nut")
     byName = {}
     byExecOrder = {}
   }
-}
-
-function g_battle_task_difficulty::_getLocName()
-{
-  return ::loc("battletask/" + timeParamId + "/name")
 }
 
 function g_battle_task_difficulty::_getTimeLeftText()
@@ -26,8 +20,9 @@ function g_battle_task_difficulty::_getTimeLeftText()
 }
 
 ::g_battle_task_difficulty.template <- {
-  getLocName = ::g_battle_task_difficulty._getLocName
+  getLocName = @() ::loc("battleTasks/" + timeParamId + "/name")
   getTimeLeftText = ::g_battle_task_difficulty._getTimeLeftText
+  getDifficultyGroup = @() timeParamId
 
   name = ""
   timeParamId = ""
@@ -65,7 +60,7 @@ enums.addTypesByGlobalName("g_battle_task_difficulty", {
   }
 
   HARD = {
-    image = "#ui/gameuiskin#battle_tasks_hard"
+    image = "#ui/gameuiskin#hard_task_medal3"
     showSeasonIcon = true
     canIncreaseShopLevel = false
     timeParamId = "specialTasks"
@@ -207,4 +202,9 @@ function g_battle_task_difficulty::checkAvailabilityByProgress(task, overrideSta
 function g_battle_task_difficulty::withdrawTasksArrayByDifficulty(diff, array)
 {
   return ::u.filter(array, @(task) diff == ::g_battle_task_difficulty.getDifficultyTypeByTask(task) )
+}
+
+function g_battle_task_difficulty::getDefaultDifficultyGroup()
+{
+  return EASY.getDifficultyGroup()
 }

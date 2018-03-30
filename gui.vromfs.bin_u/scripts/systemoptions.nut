@@ -839,7 +839,6 @@ function sysopt::fillGuiOptions(containerObj, handler)
           break
         case "slider":
           option = ::create_option_slider(desc.widgetId, mCfgCurrent[id], cb, true, "slider", desc)
-          option += format(" optionValueText { id:t='%s' text = '%s'} ", desc.widgetId + "_value", mCfgCurrent[id].tostring())
           break
         case "list":
           local raw = ::find_in_array(desc.values, mCfgCurrent[id])
@@ -942,8 +941,6 @@ function sysopt::setGuiValue(id, value, skipUI=false)
     {
       desc.ignoreNextUiCallback = desc.widgetType != "checkbox"
       obj.setValue(raw)
-      if (desc.widgetType == "slider")
-        updateOptionValueTextByObj(obj)
     }
   }
 }
@@ -993,13 +990,6 @@ function sysopt::enableGuiOption(id, state)
   if (mSkipUI) return
   local rowObj = ::checkObj(mContainerObj) ? mContainerObj.findObject(id + "_tr") : null
   if (::checkObj(rowObj)) rowObj.enable(state)
-}
-
-function sysopt::updateOptionValueTextByObj(obj)
-{
-  local textObj = ::check_obj(obj) && obj.getParent().findObject(obj.id + "_value")
-  if (::check_obj(textObj))
-    textObj.setValue(obj.getValue().tostring())
 }
 
 function sysopt::pickQualityPreset()
@@ -1089,8 +1079,6 @@ function sysopt::onGuiOptionChanged(obj)
     return
 
   setGuiValue(id, value, true)
-  if (desc.widgetType == "slider")
-    updateOptionValueTextByObj(obj)
   if (("onChanged" in desc) && desc.onChanged)
     desc.onChanged()
 

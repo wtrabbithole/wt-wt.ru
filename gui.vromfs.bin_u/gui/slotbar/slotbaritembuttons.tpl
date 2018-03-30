@@ -22,7 +22,7 @@ Button_text {
 
   textarea {
     id:t='slotBtn_battle_text'
-    font-bold:t='@fontSmall'
+    font-bold:t='@fontTiny'
     text:t=''
   }
 }

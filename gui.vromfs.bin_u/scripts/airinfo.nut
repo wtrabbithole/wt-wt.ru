@@ -266,7 +266,7 @@ function get_unit_actions_list(unit, handler, actions)
       actionText = ::loc("mainmenu/btnPreview")
       icon       = "#ui/gameuiskin#btn_preview.svg"
       showAction = inMenu
-      actionFunc = @() ugcPreview.showUnitSkin(unit.name, "")
+      actionFunc = @() ugcPreview.showUnitSkin(unit.name)
     }
     else if (action == "aircraft")
     {
@@ -467,18 +467,6 @@ function isCountryHaveUnitType(country, unitType)
     if (unit.shopCountry == country && ::get_es_unit_type(unit) == unitType)
       return true
   return false
-}
-
-function getSumByUnitTypeText(dataTbl, keyFormat = "")
-{
-  local sum = 0.0
-  foreach(t in ::unitTypesList)
-  {
-    local typeText = getUnitTypeText(t)
-    local key = (keyFormat=="")? typeText : format(keyFormat, typeText)
-    sum += ::getTblValue(key, dataTbl, 0)
-  }
-  return sum
 }
 
 function getUnitRarity(unit)
@@ -716,11 +704,8 @@ function buyUnit(unit, silent = false)
     return false
 
   local unitCost = ::getUnitCost(unit)
-  if (::isTank(unit) && unitCost.gold > 0 && !::has_feature("SpendGoldForTanks"))
-  {
-    ::showInfoMsgBox(::loc("msgbox/tanksRestrictFromSpendGold"), "not_available_goldspend")
+  if (unitCost.gold > 0 && !::can_spend_gold_on_unit_with_popup(unit))
     return false
-  }
 
   if (!::canBuyUnit(unit))
   {
@@ -814,6 +799,15 @@ function researchUnit(unit, checkCurrentUnit = true)
       ::broadcastEvent("UnitResearch", {unitName = unitName, prevUnitName = prevUnitName})
     })(unitName, prevUnitName, progressBox)
   )
+}
+
+function can_spend_gold_on_unit_with_popup(unit)
+{
+  if (unit.unitType.canSpendGold())
+    return true
+
+  ::g_popups.add(::getUnitName(unit), ::loc("msgbox/unitTypeRestrictFromSpendGold"))
+  return false
 }
 
 function show_cant_buy_or_research_unit_msgbox(unit)

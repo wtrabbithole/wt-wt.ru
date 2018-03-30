@@ -345,7 +345,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onAchievementsButtonClicked(obj)
   {
-    ::gui_start_profile("UnlockAchievement")
+    ::gui_start_profile({ initialSheet = "UnlockAchievement" })
   }
 
   function onEventCrewChanged(params)

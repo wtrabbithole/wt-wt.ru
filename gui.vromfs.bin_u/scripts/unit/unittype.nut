@@ -1,5 +1,4 @@
 local enums = ::require("std/enums.nut")
-::unitTypesList <- [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK] //!!FIX ME: use g_unit_type instead
 
 enum UNIT_TYPE_ORDER
 {
@@ -52,6 +51,8 @@ enum UNIT_TYPE_ORDER
   canUseSeveralBulletsForGun = false
   modClassOrder = []
   isSkinAutoSelectAvailable = @() false
+  canSpendGold = @() isAvailable()
+  haveAnyUnitInCountry = @(countryName) ::isCountryHaveUnitType(countryName, esUnitType)
 }
 
 enums.addTypesByGlobalName("g_unit_type", {
@@ -60,6 +61,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     armyId = ""
     esUnitType = ::ES_UNIT_TYPE_INVALID
     sortOrder = UNIT_TYPE_ORDER.INVALID
+    haveAnyUnitInCountry = @() false
   }
 
   AIRCRAFT = {
@@ -73,7 +75,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestFlight"
     hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_air"
-    isAvailable = function() { return true }
+    isAvailable = @() true
     isAvailableForFirstChoice = function(country = null)
     {
       if (!isAvailable())
@@ -119,6 +121,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     canUseSeveralBulletsForGun = true
     modClassOrder = ["mobility", "protection", "firepower"]
     isSkinAutoSelectAvailable = @() ::has_feature("SkinAutoSelect")
+    canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForTanks")
   }
 
   SHIP = {
@@ -138,6 +141,7 @@ enums.addTypesByGlobalName("g_unit_type", {
       { return isAvailable() && ::has_feature("ShipsFirstChoice") }
     canUseSeveralBulletsForGun = true
     modClassOrder = ["seakeeping", "unsinkability", "firepower"]
+    canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForShips")
   }
 },
 function()

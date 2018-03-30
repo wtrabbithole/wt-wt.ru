@@ -2,6 +2,7 @@
 
 @const arrowButtonHeight: 0.042@sf;
 @const arrowButtonWidth: 0.35@sf;
+@const hangarToggleButtonWidth: 1@dIco;
 
 @const arrowButtonWithImageHeight: 0.17@sf;
 
@@ -41,6 +42,10 @@ promoButton {
   padding-right:1@promoButtonPadding;
 }
 
+promoButton[type=battleTask] {
+  flow:vertical;
+}
+
 promoButton:hover {
   color-factor:255;
   background-image: #ui/gameuiskin#expandable_item_sub_transp;
@@ -57,7 +62,8 @@ promoButton[type=battleTask] expandable {
   width:1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
   pos: 0, 0;
   position: relative;
-  padding:0;
+  padding:0, 1@blockInterval, 0, 0;
+  padding-right:1@hangarToggleButtonWidth + 1@blockInterval;
 }
 
 promoButton[collapsed=no][type=imageButton],
@@ -138,6 +144,12 @@ promoButton > collapsedContainer {
   behaviour: button;
   padding-left:h;
   flow:vertical;
+}
+
+promoButton[type=battleTask] > collapsedContainer {
+  position:relative;
+  pos:pw-w;
+  padding-right:1@hangarToggleButtonWidth + 1@blockInterval;
 }
 
 promoButton[collapsed=no] > collapsedContainer {
@@ -363,7 +375,7 @@ shortHeaderText[needAnim=yes] {
 
 hangarToggleButton {
   behaviour:button;
-  size:@dIco, @dIco;
+  size:1@hangarToggleButtonWidth, 1@hangarToggleButtonWidth;
   snd_click:click;
   tooltip:"#mainmenu/btnCollapse";
   display:show;
@@ -378,6 +390,11 @@ hangarToggleButton[alwaysShow=yes] {
   size:@airInfoToggleButtonSize, @airInfoToggleButtonSize;
   margin-left: 0;
   background-image:'';
+}
+
+promoButton[type=battleTask] > hangarToggleButton {
+  pos: pw - w - 1@promoButtonPadding - 1@blockInterval,1@promoButtonMinHeight/2 - h/2;
+  position:absolute;
 }
 
 promoButton[invisibleHover=yes] > hangarToggleButton {
@@ -433,3 +450,12 @@ hangarToggleButton:hover > directionImg, hangarToggleButton:focus > directionImg
 hangarToggleButton[type=right] > directionImg { rotation:90; }
 [collapsed=yes] > hangarToggleButton > directionImg { rotation:90; }
 [collapsed=yes] > hangarToggleButton[type=right] > directionImg { rotation:270; }
+
+promoButton[type=battleTask] > RadioButtonList {
+  position:relative;
+  pos:pw-w - 1@hangarToggleButtonWidth - 1@blockInterval, 0;
+  margin-bottom: 0.01@scrn_tgt;
+  navigatorShortcuts:yes;
+  on_wrap_up:onWrapUp;
+  on_wrap_down:onWrapDown;
+}

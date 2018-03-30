@@ -1,4 +1,7 @@
 ::dagui_propid.add_name_id("task_id")
+::dagui_propid.add_name_id("difficultyGroup")
+
+local SAVE_PATH_BATTLE_TASKS_DIFF = "promo/battleTasksDiff"
 
 function create_promo_blocks(handler)
 {
@@ -284,6 +287,8 @@ class Promo
     if (currentGameModeId == null)
       return
 
+    local difficultyGroupArray = []
+
     // 0) Prepare: Filter tasks array by available difficulties list
     local tasksArray = ::g_battle_tasks.getTasksArrayByIncreasingDifficulty()
 
@@ -297,8 +302,20 @@ class Promo
     // 2) Search for task by selected gameMode
     if (!reqTask)
     {
-      local filteredByGameMode = ::g_battle_tasks.filterTasksByGameModeId(tasksArray, currentGameModeId)
-      reqTask = ::u.search(filteredByGameMode, @(task) !::g_battle_tasks.isTaskDone(task) && ::g_battle_tasks.isTaskActive(task))
+      local curDifficultyGroup = ::load_local_account_settings(SAVE_PATH_BATTLE_TASKS_DIFF,
+        ::g_battle_task_difficulty.getDefaultDifficultyGroup())
+      local activeTasks = ::u.filter(::g_battle_tasks.filterTasksByGameModeId(tasksArray, currentGameModeId),
+        @(task) !::g_battle_tasks.isTaskDone(task)
+          && ::g_battle_tasks.isTaskActive(task))
+
+              //get difficulty list
+      difficultyGroupArray = getDifficultyRadioButtonsListByTasks(activeTasks,
+        ::g_battle_tasks.getDifficultyTypeGroup(),
+        curDifficultyGroup)
+      if (difficultyGroupArray.len() == 1)
+        curDifficultyGroup = difficultyGroupArray[0].difficultyGroup
+      reqTask = ::u.search(activeTasks,
+        @(task) (::g_battle_task_difficulty.getDifficultyTypeByTask(task).getDifficultyGroup() == curDifficultyGroup))
     }
 
     local showProgressBar = false
@@ -355,6 +372,9 @@ class Promo
     view.taskId <- ::getTblValue("id", reqTask)
     view.action <- ::g_promo.PERFORM_ACTON_NAME
     view.collapsedIcon <- ::g_promo.getCollapsedIcon(view, id)
+
+    view.isShowRadioButtons <- (difficultyGroupArray.len() > 1 && ::has_feature("PromoBattleTasksRadioButtons"))
+    view.radioButtons <- difficultyGroupArray
     setTplView("gui/promo/promoBattleTasks", buttonObj, { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
     ::g_battle_tasks.setUpdateTimer(reqTask, buttonObj)
     if (showProgressBar && currentWarbond)
@@ -387,6 +407,46 @@ class Promo
   {
     ::g_warbonds.openShop()
   }
+
+  function onSelectDifficultyBattleTasks(obj)
+  {
+    local index = obj.getValue()
+    if (index < 0 || index >= obj.childrenCount())
+      return
+
+    local difficultyGroup = obj.getChild(index)?.difficultyGroup
+
+    if (!difficultyGroup)
+      return
+
+    ::save_local_account_settings(SAVE_PATH_BATTLE_TASKS_DIFF, difficultyGroup)
+
+    guiScene.performDelayed(this, function()
+    {
+      updateCurrentBattleTaskButton()
+    })
+  }
+
+  function getDifficultyRadioButtonsListByTasks(tasksArray, difficultyTypeArray, curDifficultyGroup)
+  {
+    local result = []
+    foreach(type in difficultyTypeArray)
+    {
+      local difficultyGroup = type.getDifficultyGroup()
+      local tasksByDiff = ::u.search(tasksArray,
+          @(task) (::g_battle_task_difficulty.getDifficultyTypeByTask(task) == type))
+
+      if (!tasksByDiff)
+        continue
+
+      result.append({ radioButtonImage = ::g_battle_tasks.getDifficultyImage(tasksByDiff)
+        difficultyGroup = difficultyGroup
+        difficultyLocName = type.getLocName()
+        selected = (curDifficultyGroup == difficultyGroup) })
+    }
+    return result
+  }
+
   //------------- </CURRENT BATTLE TASK --------------------
 
   //-------------- <TUTORIAL> ------------------------------

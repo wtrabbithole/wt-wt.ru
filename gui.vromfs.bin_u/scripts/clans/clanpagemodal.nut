@@ -209,34 +209,30 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     local rawRanksCond = clanData.membershipRequirements.getBlockByName("ranks") || ::DataBlock();
 
-    local ranksConditionTypeText =  (rawRanksCond.type == "or") ?
-                                      ::loc("clan/rankReqInfoCondType_or") :
-                                      ::loc("clan/rankReqInfoCondType_and");
+    local ranksConditionTypeText = (rawRanksCond.type == "or")
+                                   ? ::loc("clan/rankReqInfoCondType_or")
+                                   : ::loc("clan/rankReqInfoCondType_and")
 
-    local ranksReqText = "";
-    local haveRankReq = false;
-    foreach( ut in ::unitTypesList )
+    local ranksReqText = []
+    foreach (unitType in ::g_unit_type.types)
     {
-      local unitType = getUnitTypeText(ut);        // Aircraft, Tank
-      local req = rawRanksCond.getBlockByName("rank_"+unitType);
-      if ( req &&  (req.type == "rank")  &&  (req.unitType == unitType) )
-      {
-        local ranksRequired = req.getInt("rank",0);
-        if ( ranksRequired > 0 )
-        {
-          if ( !haveRankReq )
-            ranksReqText = ::loc("clan/rankReqInfoHead");
-          else
-            ranksReqText += " "+ranksConditionTypeText;
+      local req = rawRanksCond.getBlockByName("rank_" + unitType.name)
+      if (!req || req.type != "rank" || req.unitType != unitType.name)
+        continue
 
-          haveRankReq = true;
-          ranksReqText += ( " " + ::loc("clan/rankReqInfoRank"+unitType) + " " +
-                            ::colorize("activeTextColor", ::getUnitRankName(ranksRequired)) );
-        }
-      }
+      local ranksRequired = req.getInt("rank", 0)
+      if (ranksRequired > 0)
+        ranksReqText.append(::loc("clan/rankReqInfoRank" + unitType.name) + " " + ::colorize("activeTextColor", ::getUnitRankName(ranksRequired)))
     }
 
-    scene.findObject("clan-membershipReqRank").setValue( ranksReqText );
+    local text = ""
+    if (ranksReqText.len())
+    {
+      text = ::g_string.implode(ranksReqText, " " + ranksConditionTypeText + " ")
+      text = ::loc("clan/rankReqInfoHead") + ::loc("ui/colon") + text
+    }
+
+    scene.findObject("clan-membershipReqRank").setValue(text)
 
     local battlesConditionTypeText = ::loc("clan/battlesReqInfoCondType_and");
     local battlesReqText = "";

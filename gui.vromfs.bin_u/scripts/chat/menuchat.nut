@@ -2103,7 +2103,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_squad_manager.isInSquad())
       return
 
-    addRoomMsg(::g_chat.getMySquadRoomId(), "", format(::loc(join? "squad/player_join" : "squad/player_leave"), name))
+    addRoomMsg(::g_chat.getMySquadRoomId(),
+      "",
+      ::format(::loc(join? "squad/player_join" : "squad/player_leave"),
+          platformModule.getPlayerName(name)
+    ))
   }
 
   function squadReady()
@@ -2449,7 +2453,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(inputObj))
       return
 
-    ::add_text_to_editbox(inputObj, user + " ")
+    ::add_text_to_editbox(inputObj, platformModule.getPlayerName(user) + " ")
     inputObj.select()
   }
 

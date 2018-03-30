@@ -398,7 +398,7 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("contacts/moderator_copyname")
-        action = @() ::copy_to_clipboard(name)
+        action = @() ::copy_to_clipboard(platformModule.getPlayerName(name))
       }
       {
         text = ::loc("contacts/moderator_ban")

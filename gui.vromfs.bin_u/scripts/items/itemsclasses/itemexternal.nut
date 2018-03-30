@@ -189,9 +189,12 @@ local ItemExternal = class extends ::BaseItem
 
   function doMainAction(cb, handler, params = null)
   {
-    if (!uids || !uids.len())
-      return false
-    if (!metaBlk)
+    return consume(cb, params)
+  }
+
+  function consume(cb, params)
+  {
+    if (!uids || !uids.len() || !metaBlk || !canConsume())
       return false
 
     local canSell = itemDef?.marketable
@@ -199,18 +202,21 @@ local ItemExternal = class extends ::BaseItem
       + "\n" + ::loc("msgBox/coupon_exchange")
     local msgboxParams = {
       cancel_fn = @() null
-      baseHandler = ::get_cur_base_gui_handler()
+      baseHandler = ::get_cur_base_gui_handler() //FIX ME: handler used only for prizes tooltips
       data_below_text = ::PrizesView.getPrizesListView([ metaBlk ], { showAsTrophyContent = true, widthByParentParent = true })
-      data_below_buttons = canSell ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent"))) : null
+      data_below_buttons = canSell
+        ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent")))
+        : null
     }
+    local item = this //we need direct link, to not lose action on items list refresh.
     ::scene_msg_box("coupon_exchange", null, text, [
-      [ "yes", ::Callback(@() doConsumeItem(cb, params), this) ],
+      [ "yes", @() item.consumeImpl(cb, params) ],
       [ "no" ]
     ], "yes", msgboxParams)
     return true
   }
 
-  function doConsumeItem(cb = null, params = null)
+  function consumeImpl(cb = null, params = null)
   {
     local uid = uids?[0]
     if (!uid)

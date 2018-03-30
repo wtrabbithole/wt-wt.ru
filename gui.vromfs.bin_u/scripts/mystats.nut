@@ -117,16 +117,19 @@ my_stats API
     if (!blk)
       return
 
-    foreach(unitType in ::unitTypesList)
+    foreach (unitType in ::g_unit_type.types)
     {
+      if (!unitType.isAvailable())
+        continue
+
       local data = {
         minKills = 0
         battles = []
       }
-      local list = blk % ::getUnitTypeText(unitType).tolower()
+      local list = blk % unitType.lowerName
       foreach(ev in list)
       {
-        _unitTypeByNewbieEventId[ev.event] <- unitType
+        _unitTypeByNewbieEventId[ev.event] <- unitType.esUnitType
         if (!ev.event)
           continue
 
@@ -139,7 +142,7 @@ my_stats API
         data.minKills = ::max(data.minKills, ev.kills)
       }
       if (data.minKills)
-        _newPlayersBattles[unitType] <- data
+        _newPlayersBattles[unitType.esUnitType] <- data
     }
   }
 
@@ -201,11 +204,14 @@ my_stats API
    */
   function __isNewbie()
   {
-    foreach (unitType in ::unitTypesList)
+    foreach (unitType in ::g_unit_type.types)
     {
-      local newbieProgress = ::getTblValue(unitType, _newPlayersBattles)
+      if (!unitType.isAvailable())
+        continue
+
+      local newbieProgress = ::getTblValue(unitType.esUnitType, _newPlayersBattles)
       local killsReq = (newbieProgress && newbieProgress.minKills) || 0
-      local kills = getKillsOnUnitType(unitType)
+      local kills = getKillsOnUnitType(unitType.esUnitType)
       if (kills >= killsReq)
         return false
     }
@@ -390,8 +396,9 @@ my_stats API
   {
     local needRecalculate = false
     local loadedBlk = ::loadLocalByAccount("tutor/newbieBattles/unitsRank", ::DataBlock())
-    foreach(idx, unitType in ::unitTypesList)
-      if (::getTblValue(unitType.tostring(), loadedBlk, 0) < ::max_country_rank)
+    foreach (unitType in ::g_unit_type.types)
+      if (unitType.isAvailable()
+        && (loadedBlk[unitType.esUnitType.tostring()] ?? 0) < ::max_country_rank)
       {
         needRecalculate = true
         break

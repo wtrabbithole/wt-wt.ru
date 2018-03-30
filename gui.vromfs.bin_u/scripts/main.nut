@@ -142,8 +142,11 @@ enum itemType { //bit values for easy multitype search
   DECAL           = 0x00040000
   KEY             = 0x00080000
   CHEST           = 0x00100000
+  CRAFT_PART      = 0x00200000
 
+  //masks
   ALL             = 0xFFFFFFFF
+  INVENTORY_ALL   = 0x001F03FF //~CRAFT_PART
 }
 
 enum prizesStack {

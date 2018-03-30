@@ -7,11 +7,8 @@ enum windowState
 
 function gui_modal_convertExp(unit = null, owner = null)
 {
-  if(unit && ::isTank(unit) && !::has_feature("SpendGoldForTanks"))
-  {
-    ::showInfoMsgBox(::loc("msgbox/tanksRestrictFromSpendGold"), "not_available_goldspend")
+  if (unit && !::can_spend_gold_on_unit_with_popup(unit))
     return
-  }
 
   ::gui_start_modal_wnd(::gui_handlers.ConvertExpHandler, {unit = unit, owner = owner})
 }
@@ -41,6 +38,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
   unitListDisplay = false
   unitList        = null
   listType        = 0
+  unitTypesList   = null
   currentState    = windowState.noUnit
 
   isRefreshingAfterConvert = false
@@ -50,6 +48,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!scene)
       return goBack()
 
+    initUnitTypes()
     initCountriesList()
     updateData()
 
@@ -75,6 +74,11 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function getMainFocusObj2()
+  {
+    return getObj("unit_types_list")
+  }
+
+  function getMainFocusObj3()
   {
     return getObj("convert_slider")
   }
@@ -135,8 +139,6 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
         image = ::get_country_icon(countryItem)
         tooltip = "#" + countryItem
         discountNotification = true
-        type = "box_up"
-        params = "padding-left:t='0.01@scrn_tgt'; padding-right:t='0.01@scrn_tgt'"
       })
 
       if (country == countryItem)
@@ -178,7 +180,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillContent()
     updateButtons()
     fillUnitList()
-    updateSwitchButtons()
+    updateUnitTypesList()
   }
 
   function showConversionUnit()
@@ -197,32 +199,47 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("available_exp").setValue(::g_language.decimalFormat(availableExp))
   }
 
-  function updateSwitchButtons()
+  function initUnitTypes()
   {
-    local switchTankObj = scene.findObject("switchTank")
-    local switchAirObj = scene.findObject("switchAir")
-
-    if (currentState == windowState.noUnit)
-    {
-      switchTankObj.show(false)
-      switchAirObj.show(false)
+    local listObj = scene.findObject("unit_types_list")
+    if (!::check_obj(listObj))
       return
+
+    unitTypesList = ::u.filter(::g_unit_type.types, @(unitType) unitType.isVisibleInShop())
+    local view = { items = [] }
+    foreach (idx, unitType in unitTypesList)
+    {
+      view.items.append({
+        id = unitType.armyId
+        text = unitType.fontIcon + " " + unitType.getArmyLocName()
+        disabled = !unitType.canSpendGold()
+      })
     }
 
-    local showTank = ::has_feature("SpendGoldForTanks")
-        && ::isCountryHaveUnitType(country, ::ES_UNIT_TYPE_TANK)
+    local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
+    guiScene.replaceContentFromText(listObj, data, data.len(), this)
+  }
 
-    local showAir =::has_feature("SpendGoldForTanks")
-        && ::isCountryHaveUnitType(country, ::ES_UNIT_TYPE_AIRCRAFT)
+  function updateUnitTypesList()
+  {
+    local listObj = scene.findObject("unit_types_list")
+    if (!::check_obj(listObj))
+      return
 
-    switchTankObj.show(showTank)
-    switchAirObj.show(showAir)
+    local curIdx = 0
+    foreach (idx, unitType in unitTypesList)
+    {
+      local isShow = unitType.haveAnyUnitInCountry(country)
+      local selected = isShow && listType == unitType.esUnitType
+      if (selected)
+        curIdx = idx
 
-    switchTankObj.enable(showTank && getCountryResearchUnit(country, ::ES_UNIT_TYPE_TANK) != null)
-    switchAirObj.enable(showAir && getCountryResearchUnit(country, ::ES_UNIT_TYPE_AIRCRAFT) != null)
+      local btnObj = ::showBtn(unitType.armyId, isShow, listObj)
+      if (btnObj)
+        btnObj.inactive = ::getCountryResearchUnit(country, unitType.esUnitType)? "no" : "yes"
+    }
 
-    switchTankObj.selected = (showTank && listType == ::ES_UNIT_TYPE_TANK) ? "yes" : "no"
-    switchAirObj.selected = (showAir && listType == ::ES_UNIT_TYPE_AIRCRAFT) ? "yes" : "no"
+    listObj.setValue(curIdx)
   }
 
   function fillSlider()
@@ -427,14 +444,17 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::showDiscount(scene.findObject("convert-discount"), "exp_to_gold_rate", country, null, true)
   }
 
-  function onSwithcSelectTank()
+  function onSwitchUnitType(obj)
   {
-    handleSwitchUnitList(::ES_UNIT_TYPE_TANK)
-  }
+    local value = obj.getValue()
+    if (value < 0 || value >= obj.childrenCount())
+      value = 0
 
-  function onSwithcSelectAir()
-  {
-    handleSwitchUnitList(::ES_UNIT_TYPE_AIRCRAFT)
+    local selObj = obj.getChild(value)
+
+    local unitType = ::g_unit_type.getByArmyId(selObj.id)
+    if (unitType != ::g_unit_type.INVALID)
+      handleSwitchUnitList(unitType.esUnitType)
   }
 
   function handleSwitchUnitList(unitType)
@@ -464,16 +484,16 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
       newUnit = ::getCountryResearchUnit(country, ::get_es_unit_type(unit))
     if (!newUnit)
     {
-      foreach (unitType in ::unitTypesList)
+      foreach (unitType in ::g_unit_type.types)
       {
-        if (unitType == ::ES_UNIT_TYPE_TANK && !::has_feature("SpendGoldForTanks"))
+        if (!unitType.canSpendGold())
           continue
-        if (::isCountryHaveUnitType(country, unitType))
-        {
-          newUnit = ::getCountryResearchUnit(country, unitType)
-          if (newUnit)
-            break
-        }
+
+        if (unitType.haveAnyUnitInCountry(country))
+          newUnit = ::getCountryResearchUnit(country, unitType.esUnitType)
+
+        if (newUnit)
+          break
       }
     }
     return newUnit

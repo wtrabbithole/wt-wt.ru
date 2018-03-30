@@ -192,6 +192,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     handleActiveWager()
     handlePveReward()
+    handleInventoryGift()
 
     //update title
     local resTitle = ""
@@ -588,6 +589,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     fillPveRewardTrophyContent(trophyItemReceived, pveRewardInfo.isRewardReceivedEarlier)
   }
 
+  function handleInventoryGift()
+  {
+    local itemId = ::debriefing_result?.inventoryGiftItemId
+    if (!itemId)
+      return
+
+    local obj = scene.findObject("inventory_gift_icon")
+    local markup = ::trophyReward.getImageByConfig({ item = itemId }, false)
+    guiScene.replaceContentFromText(obj, markup, markup.len(), this)
+  }
+
   function fillPveRewardProgressBar()
   {
     local pveTrophyPlaceObj = showSceneBtn("pve_trophy_progress", true)
@@ -829,10 +841,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       showTab("my_stats")
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       ::showBtnTable(scene, {
+        left_block              = is_show_left_block()
+        inventory_gift_block    = is_show_inventory_gift()
         my_stats_awards_block   = is_show_awards_list()
-        researches_scroll_block = is_show_research_list()
-        right_block             = is_show_researches_and_battle_task_block()
+        right_block             = is_show_right_block()
         battle_tasks_block      = is_show_battle_tasks_list()
+        researches_scroll_block = is_show_research_list()
       })
       showMyPlaceInTable()
       updateMyStatsTopBarArrangement()
@@ -921,10 +935,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       updateBuyPremiumAwardButton()
       showTabsList()
       updateListsButtons()
-      initFocusArray()
       fillResearchingMods()
       fillResearchingUnits()
       updateShortBattleTask()
+
+      initFocusArray()
       checkDestroySession()
       checkPopupWindows()
       throwBattleEndEvent()
@@ -2320,9 +2335,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     return needPlayersTbl && ::getTblValue("chatLog", ::debriefing_result, "") != ""
   }
+  function is_show_left_block()
+  {
+    return is_show_awards_list() || is_show_inventory_gift()
+  }
   function is_show_awards_list()
   {
     return !::u.isEmpty(awardsList)
+  }
+  function is_show_inventory_gift()
+  {
+    return ::debriefing_result?.inventoryGiftItemId != null
   }
   function is_show_ww_casualties()
   {
@@ -2345,7 +2368,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       (!isNeedBattleTasksList || battleTasksConfigs.len() > 0)
   }
 
-  function is_show_researches_and_battle_task_block()
+  function is_show_right_block()
   {
     return is_show_research_list() || is_show_battle_tasks_list()
   }

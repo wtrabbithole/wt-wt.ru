@@ -34,7 +34,15 @@ foreach (notificationName, callback in
           return
 
         if (messageType == "operation_finished")
-          ::chat_system_message(::loc("worldwar/operation_complete_battle_results_ignored"))
+        {
+          local operationId = ::g_world_war.lastPlayedOperationId
+          local operation = ::g_ww_global_status.getOperationById(operationId)
+          local text = operation
+            ? ::loc("worldwar/operation_complete_battle_results_ignored_full_text",
+              {operationInfo = operation.getNameText()})
+            : ::loc("worldwar/operation_complete_battle_results_ignored")
+          ::chat_system_message(text)
+        }
         else (messageType == "wwNotification")
           ::ww_process_server_notification(params)
       }

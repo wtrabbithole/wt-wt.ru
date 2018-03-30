@@ -819,4 +819,32 @@ class ::WwBattle
     local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
     return operation ? operation.getMyAssignCountry() : null
   }
+
+  function hasEnoughSpaceInTeam(team)
+  {
+    if (::g_squad_manager.isInSquad())
+      return team.players + ::g_squad_manager.getOnlineMembersCount() <= team.maxPlayers
+
+    return team.players < team.maxPlayers
+  }
+
+  function hasUnitsToFight(country, team, side)
+  {
+    local requiredUnits = getUnitsRequiredForJoin(team, side)
+
+    if (!requiredUnits)
+      return true
+
+    foreach(unitName, value in requiredUnits)
+    {
+      local unit = ::all_units?[unitName]
+      if (!unit)
+        continue
+
+      if (unit.canAssignToCrew(country))
+        return true
+    }
+
+    return false
+  }
 }

@@ -33,6 +33,15 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
     {
       ::check_package_and_ask_download(::getTblValue(0, params, ""))
     }
+    achievements = function(handler, params, obj)
+    {
+      local chapterName = params?[0] ?? ""
+      local groupName = params?[1] ?? ""
+      ::gui_start_profile({
+        initialSheet = "UnlockAchievement"
+        uncollapsedChapterName = groupName != ""? chapterName : null
+        curAchievementGroupName = chapterName + (groupName != ""? ("/" + groupName) : "") })
+    }
   }
 
   collapsedParams = {
@@ -197,7 +206,7 @@ function g_promo::gatherActionParamsData(block)
   if (::u.isEmpty(actionStr))
     return null
 
-  local params = ::split(actionStr, paramsSeparator)
+  local params = ::g_string.split(actionStr, paramsSeparator)
   local action = params.remove(0)
   return createActionParamsData(action, params)
 }
@@ -643,11 +652,11 @@ function g_promo::openEventsWnd(owner, params = [])
 
 function g_promo::openItemsWnd(owner, params = [])
 {
-  local filter = ::ItemsManager.getInventoryItemType(::item_get_type_id_by_type_name(params.len() > 0? params[0] : ""))
+  local filter = ::ItemsManager.getInventoryItemType(::item_get_type_id_by_type_name(params?[0] ?? ""))
 
-  local curTab = params.len() > 1? params[1] : "shop"
-  local tab = itemsTab.SHOP
-  if (curTab != "shop")
+  local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
+
+  if (tab >= itemsTab.TOTAL)
     tab = itemsTab.INVENTORY
 
   ::gui_start_items_list(tab, {filter = {

@@ -91,6 +91,7 @@ foreach (fn in [
                  "itemDecal.nut"
                  "itemKey.nut"
                  "itemChest.nut"
+                 "itemCraftPart.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
@@ -307,11 +308,8 @@ function ItemsManager::checkItemDefsUpdate()
 
     local defType = itemDefDesc?.type
 
-    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]))
-    {
+    if (!::u.isEmpty(itemDefDesc?.exchange))
       ItemGenerators.add(itemDefDesc)
-      continue
-    }
 
     if (defType != "item")
       continue
@@ -443,20 +441,16 @@ function ItemsManager::onEventItemDefChanged(p)
 function ItemsManager::getInventoryItemType(blkType)
 {
   if (typeof(blkType) == "string") {
-    if (blkType == "skin") {
-      return itemType.SKIN
-    } else if (blkType == "decal") {
-      return itemType.DECAL
-    } else if (blkType == "key") {
-      return itemType.KEY
-    } else if (blkType == "chest") {
-      return itemType.CHEST
-    } else if (blkType == "aircraft") {
-      return itemType.VEHICLE
-    } else if (blkType == "tank") {
-      return itemType.VEHICLE
-    } else if (blkType == "ship") {
-      return itemType.VEHICLE
+    switch (blkType)
+    {
+      case "skin":                return itemType.SKIN
+      case "decal":               return itemType.DECAL
+      case "key":                 return itemType.KEY
+      case "chest":               return itemType.CHEST
+      case "aircraft":
+      case "tank":
+      case "ship":                return itemType.VEHICLE
+      case "craft_part":          return itemType.CRAFT_PART
     }
 
     blkType = ::item_get_type_id_by_type_name(blkType)
@@ -473,7 +467,7 @@ function ItemsManager::getInventoryItemType(blkType)
     case ::EIT_MOD_OVERDRIVE:     return itemType.MOD_OVERDRIVE
     case ::EIT_MOD_UPGRADE:       return itemType.MOD_UPGRADE
   }
-    return itemType.UNKNOWN
+  return itemType.UNKNOWN
 }
 
 function ItemsManager::_checkInventoryUpdate()

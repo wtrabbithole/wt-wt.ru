@@ -63,6 +63,7 @@ local Unit = class
    weapons = null //[]
    modifications = null //[]
    skins = null //[]
+   previewSkinId = null //""
    weaponUpgrades = null //[]
    spare = null //{} or null
    needBuyToOpenNextInTier = null //[]
@@ -406,6 +407,18 @@ local Unit = class
     if (skins.len() == 0)
       skins = ::get_skins_for_unit(name) //always returns at least one entry
     return skins
+  }
+
+  function getPreviewSkinId()
+  {
+    if (!previewSkinId)
+    {
+      previewSkinId = ""
+      foreach (skin in getSkins())
+        if (::g_decorator.getDecorator(name + "/" + skin.name, ::g_decorator_type.SKINS)?.blk?.useByDefault)
+          previewSkinId = skin.name
+    }
+    return previewSkinId
   }
 
   getSpawnScore = @(weaponName = null) ::shop_get_spawn_score(name, weaponName || ::get_last_weapon(name))

@@ -969,5 +969,20 @@ function BattleTasks::checkNewSpecialTasks()
   ::gui_start_battle_tasks_select_new_task_wnd(array)
 }
 
+function BattleTasks::getDifficultyTypeGroup()
+{
+  local result = []
+  local difficultyGroupArr = []
+  foreach(type in ::g_battle_task_difficulty.types)
+  {
+    local difficultyGroup = type.getDifficultyGroup()
+    if (difficultyGroup =="")
+      continue
+
+    result.append(type)
+  }
+  return result
+}
+
 ::g_battle_tasks = ::BattleTasks()
 ::g_battle_tasks.updateTasksData()

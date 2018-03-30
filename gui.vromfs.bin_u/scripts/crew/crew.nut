@@ -6,20 +6,19 @@ const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
   minCrewLevel = {
     [::ES_UNIT_TYPE_AIRCRAFT] = 1.5,
     [::ES_UNIT_TYPE_TANK] = 1,
-    [::ES_UNIT_TYPE_SHIP] = 0
+    [::ES_UNIT_TYPE_SHIP] = 1
   }
 }
 
 function g_crew::isAllCrewsMinLevel()
 {
-  foreach(checkedCountrys in ::g_crews_list.get())
-    foreach(crew in checkedCountrys.crews)
-      for (local i = 0; i < ::unitTypesList.len(); i++)
-      {
-        local uType = ::unitTypesList[i]
-        if (::g_crew.getCrewLevel(crew, uType) > ::g_crew.getMinCrewLevel(uType))
+  foreach (checkedCountrys in ::g_crews_list.get())
+    foreach (crew in checkedCountrys.crews)
+      foreach (unitType in ::g_unit_type.types)
+        if (unitType.isAvailable()
+            && ::g_crew.getCrewLevel(crew, unitType.esUnitType) > ::g_crew.getMinCrewLevel(unitType.esUnitType))
           return false
-      }
+
   return true
 }
 
@@ -446,8 +445,8 @@ function g_crew::upgradeUnitSpec(crew, unit, unitTypeToCheck = null, nextSpecTyp
   }
 
   local cost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit, nextSpecType.code)
-  if (cost.gold > 0 && ::isTank(unit) && !::has_feature("SpendGoldForTanks"))
-    return ::showInfoMsgBox(::loc("msgbox/tanksRestrictFromSpendGold"))
+  if (cost.gold > 0 && !::can_spend_gold_on_unit_with_popup(unit))
+    return
 
   msgLocParams.cost <- ::colorize("activeTextColor", cost.tostring())
 
@@ -792,14 +791,13 @@ function update_crew_skills_available(forceUpdate = false)
   ::load_crew_skills_once()
   ::crew_skills_available = {}
   foreach(cList in ::g_crews_list.get())
-    if ("crews" in cList)
-      foreach(idx, crew in cList.crews)
-      {
-        local data = {}
-        foreach(unitType in ::unitTypesList)
-          data[unitType] <- ::count_available_skills(crew, unitType)
-        ::crew_skills_available[crew.id] <- data
-      }
+    foreach(idx, crew in cList?.crews || [])
+    {
+      local data = {}
+      foreach (unitType in ::g_unit_type.types)
+        data[unitType.esUnitType] <- ::count_available_skills(crew, unitType.esUnitType)
+      ::crew_skills_available[crew.id] <- data
+    }
 }
 
 function get_crew_status(crew)

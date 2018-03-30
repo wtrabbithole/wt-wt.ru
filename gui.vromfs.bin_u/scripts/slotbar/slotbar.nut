@@ -242,6 +242,7 @@ function build_aircraft_item(id, air, params = {})
       showInService       = getVal("showInService", false) && isUsable
       isMounted           = isMounted
       priceText           = priceText
+      isLongPriceText     = ::is_unit_price_text_long(priceText)
       isElite             = isLocalState && (isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
       isItemLocked        = isLocalState && !isUsable && !special && !::isUnitsEraUnlocked(air)
@@ -642,6 +643,8 @@ function get_slot_unit_name_text(unit, params)
   }
   return res
 }
+
+::is_unit_price_text_long <- @(text) ::utf8_strlen(text) > 13
 
 function get_unit_item_price_text(unit, params)
 {

@@ -329,7 +329,7 @@ class ::BaseItem
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
       res.expireTime <- getTimeLeftText()
 
-    if (isRare())
+    if ((params?.needRarity ?? true) && isRare())
       res.rarityColor <- getRarityColor()
 
     if (isActive())

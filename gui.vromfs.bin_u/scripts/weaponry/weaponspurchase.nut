@@ -139,7 +139,7 @@ class WeaponsPurchase
       if (!::has_feature("SpendGold"))
         return false
 
-      if (::isTank(unit) && !::has_feature("SpendGoldForTanks"))
+      if ( ! unit.unitType.canSpendGold())
         return false
     }
 

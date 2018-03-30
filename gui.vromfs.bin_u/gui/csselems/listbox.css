@@ -168,7 +168,8 @@ shopFilterText {
   pos:0, 50%ph-50%h;
   position:relative;
 }
-shopFilter:disabled > shopFilterText, shopFilter[inactive=yes] > shopFilterText {
+shopFilter:disabled > shopFilterText,
+shopFilter[inactive=yes] > shopFilterText {
   color:@disabledTextColor;
 }
 
@@ -186,10 +187,6 @@ HorizontalListBox > shopFilter {
   height: 0.1@sf;
   flow:vertical;
   padding:0,0;
-}
-
-.countries_battle > shopFilter {
- padding:0,0;
 }
 
 .countryChoice > shopFilter {
@@ -407,16 +404,15 @@ shopFilterImg {
   height: @shopFilterTextCountryHeight;
 }
 
-.countries_battle shopFilterImg {
+.countries_small shopFilterImg {
   pos:50%pw-50%w, 50%ph-50%h;
   size:@cIco, @cIco;
-  background-color:@imageNotSelCountryColor;
   background-svg-size:@cIco, @cIco;
 }
 
 .countryChoice :hover shopFilterImg,
 .countries :hover shopFilterImg,
-.countries_battle :hover shopFilterImg {
+.countries_small :hover shopFilterImg {
   background-color:@imageHoverCountryColor;
 }
 
@@ -439,7 +435,7 @@ shopFilter[selected=yes] > shopFilterImg {
 }
 
 shopFilterImg:disabled {
-  background-color:#80808080;
+  background-color:@fadedImageColor;
 }
 
 cornerImg {

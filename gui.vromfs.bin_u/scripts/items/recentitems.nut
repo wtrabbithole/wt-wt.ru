@@ -5,7 +5,7 @@
 
 function g_recent_items::getRecentItems()
 {
-  local items = ::ItemsManager.getInventoryList(itemType.ALL, function (item) {
+  local items = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL, function (item) {
     return item.includeInRecentItems
   })
   items.sort(::ItemsManager.itemsSortComparator)
@@ -31,7 +31,7 @@ function g_recent_items::createHandler(owner, containerObj)
 
 function g_recent_items::getNumOtherItems()
 {
-  local inactiveItems = ::ItemsManager.getInventoryList(itemType.ALL, function (item) {
+  local inactiveItems = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL, function (item) {
     return item.getMainActionName() != ""
   })
   return inactiveItems.len()

@@ -222,7 +222,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getImage = function(decorator)
     {
       return decorator
-        ? "#ui/images/attachables/" + decorator.id
+        ? decorator.blk?.image || "#ui/images/attachables/" + decorator.id
         : ""
     }
     getImageSize = function(...) { return "128, 128" }

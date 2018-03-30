@@ -41,21 +41,29 @@ local chatInputCtor = function (field, send) {
     ::toggle_ingame_chat(false)
   }
 
+  local onReturn = function () {
+    send()
+    restoreControle()
+  }
+
+  local onEscape = function () {
+    restoreControle()
+  }
+
   local handlers = {
-    onReturn = function () {
-      send()
-      restoreControle()
-    }
+    onReturn = onReturn
+    onEscape = onEscape
     onChange = function (new_val) {
       ::chat_on_text_update(new_val)
-    }
-    onEscape = function () {
-      restoreControle()
     }
   }
   local options = {
     font = Fonts.tiny_text_hud
     margin = 0
+    hotkeys = [
+      [ "J:A", onReturn],
+      [ "J:B", onEscape],
+    ]
   }
   return textInput.hud(field, options, handlers)
 }
@@ -77,16 +85,16 @@ local chatHint = setHudBg({
   gap = { size = flex() }
   children = [
     {
-      rendObj = ROBJ_STEXT
+      rendObj = ROBJ_DTEXT
+      font = Fonts.tiny_text_hud
       text = getHintText()
-      fontSize = 10
     }
     @() {
-      rendObj = ROBJ_STEXT
+      rendObj = ROBJ_DTEXT
       watch = state.modeId
       text = ::cross_call.mp_chat_mode.getModeNameText(state.modeId.value)
       color = modeColor(state.modeId.value)
-      fontSize = 14
+      font = Fonts.small_text_hud
     }
   ]
 

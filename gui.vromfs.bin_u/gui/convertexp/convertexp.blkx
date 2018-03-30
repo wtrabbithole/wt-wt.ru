@@ -35,62 +35,41 @@
           "padding": "0.01@sf"
         },
         {
-          "frameBlock": {
-            "flow": "vertical",
-            "width": "pw",
-            "margin-bottom": "0.01@sf",
-            "HorizontalListBox": {
-              "id": "countries_list",
-              "position": "relative",
-              "pos": "0.5pw - 0.5w, 0.01@scrn_tgt",
-              "height": "0.038@scrn_tgt",
-              "activeAccesskeys": "RLB",
-              "class": "countries_battle",
-              "on_select": "onCountrySelect",
-              "margin": "0, 10*@sf/@pf_outdated, 0, 20*@sf/@pf_outdated",
-              "navigatorShortcuts": "yes",
-              "childsActivate": "yes",
-              "on_wrap_up": "onWrapUp",
-              "on_wrap_down": "onWrapDown"
+          "frameBlock": [
+            {
+              "flow": "vertical"
             },
-            "div": {
-              "position": "relative",
-              "pos": "0.5pw - 0.5w, 0.01@scrn_tgt",
-              "width": "pw",
-              "background-image": "#ui/gameuiskin#selectbox_bg",
-              "background-position": "6",
-              "background-repeat": "expand",
-              "bgcolor": "@white",
-              "flow": "vertical",
-              "tdiv": [
-                {
-                  "id": "choose_unit_button_nest"
-                },
-                {
-                  "width": "pw"
-                },
-                {
-                  "switch_unit_button": {
-                    "id": "switchTank",
-                    "text": "#exp/convert/tank",
-                    "_on_click": "onSwithcSelectTank",
-                    "display": "hide",
-                    "ButtonImg": {
-                      "iconName": "Y"
-                    }
-                  }
-                },
-                {
-                  "switch_unit_button": {
-                    "id": "switchAir",
-                    "_on_click": "onSwithcSelectAir",
-                    "text": "#exp/convert/air",
-                    "ButtonImg": {
-                      "iconName": "Y"
-                    }
-                  }
-                }
-              ],
+            {
+              "width": "pw"
+            },
+            {
+              "padding": "4@sf/@pf"
+            },
+            {
+              "HorizontalListBox": {
+                "id": "countries_list",
+                "position": "relative",
+                "pos": "0.5pw - 0.5w, 0.02@scrn_tgt",
+                "class": "countries_small",
+                "on_select": "onCountrySelect",
+                "navigatorShortcuts": "yes",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown"
+              }
+            },
+            {
+              "HorizontalListBox": {
+                "id": "unit_types_list",
+                "position": "relative",
+                "pos": "50%pw-50%w, 0.03@scrn_tgt",
+                "navigatorShortcuts": "yes",
+                "on_select": "onSwitchUnitType",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown",
+                "focus": "yes"
+              }
+            },
+            {
               "convertUnitList": {
                 "id": "choose_unit_list",
                 "overflow": "auto",
@@ -101,10 +80,14 @@
                 "moveOut": "no",
                 "on_activate": "onHoverSizeMove",
                 "class": "rankUpList",
-                "flow": "h-flow"
+                "flow": "h-flow",
+                "background-image": "#ui/gameuiskin#selectbox_bg",
+                "background-position": "6",
+                "background-repeat": "expand",
+                "background-color": "@white"
               }
             }
-          }
+          ]
         },
         {
           "frameBlock": [
@@ -518,24 +501,12 @@
                 "shadowSafeArea": []
               },
               {
-                "tdiv": [
+                "TopMenuPanelBGPlace": [
                   {
                     "id": "top_gamercard_bg"
                   },
                   {
-                    "size": "pw, ph-1@bh+1@topGamercardDarkLineHeight"
-                  },
-                  {
-                    "pos": "0, 1@bh-1@topGamercardDarkLineHeight"
-                  },
-                  {
-                    "position": "absolute"
-                  },
-                  {
                     "needRedShadow": "yes"
-                  },
-                  {
-                    "css-hier-invalidate": "yes"
                   },
                   {
                     "TopMenuPanelBg": {

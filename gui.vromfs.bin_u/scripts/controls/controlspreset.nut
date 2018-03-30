@@ -1,3 +1,5 @@
+::g_script_reloader.loadOnce("scripts/controls/controlsPresets.nut")
+
 const PRESET_ACTUAL_VERSION  = 5
 const PRESET_DEFAULT_VERSION = 4
 

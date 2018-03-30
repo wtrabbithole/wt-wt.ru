@@ -129,7 +129,13 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
       }
     }
     else if (!curResearchingUnit || ::isUnitResearched(curResearchingUnit))
-      unit = ::getMaxRankUnboughtUnitByCountry(unitCountry, unitType)
+    {
+      local nextResearchingUnit = ::getMaxRankResearchingUnitByCountry(unitCountry, unitType)
+      if (nextResearchingUnit)
+        unit = nextResearchingUnit
+      else
+        unit = ::getMaxRankUnboughtUnitByCountry(unitCountry, unitType)
+    }
     else
       unit = curResearchingUnit
 

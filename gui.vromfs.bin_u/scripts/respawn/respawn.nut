@@ -3,8 +3,6 @@ local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
-local platformModule = require("modules/platform.nut")
-
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -665,20 +663,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
   }
 
-  function getRespawnTotalCost(getInt = false)
+  function getRespawnWpTotalCost()
   {
     if(!missionRules.isWarpointsRespawnEnabled)
-      return ""
+      return 0
 
     local air = getCurSlotUnit()
     local airRespawnCost = air ? ::get_unit_wp_to_respawn(air.name) : 0
     local weaponPrice = air ? getWeaponPrice(air.name, getSelWeapon()) : 0
-
-    local total = airRespawnCost + weaponPrice
-    if (getInt)
-      return total
-
-    return ::Cost(total).getUncoloredText()
+    return airRespawnCost + weaponPrice
   }
 
   function isInAutoChangeDelay()
@@ -1409,7 +1402,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     if (missionRules.isWarpointsRespawnEnabled && isRespawn)
     {
-      local respawnPrice = getRespawnTotalCost(true)
+      local respawnPrice = getRespawnWpTotalCost()
       if (respawnPrice > 0 && respawnPrice > sessionWpBalance)
       {
         if (!silent)
@@ -1590,76 +1583,86 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateApplyText()
   {
-    local buttonSelectObj = scene.findObject("btn_select")
-    local applyTextShort = ""
+    local unit = getCurSlotUnit()
+    local isAvailResp = haveRespawnBases
+    local tooltipText = ""
+    local infoTextsArr = []
+    local costTextArr = []
+    local shortCostText = "" //for slot battle button
+
     if (isApplyPressed)
-    {
       applyText = ::loc("mainmenu/btnCancel")
-      buttonSelectObj.tooltip = ""
-    }
     else
     {
       applyText = ::loc("mainmenu/toBattle")
-      local respawnCostText = getRespawnTotalCost()
-      if (respawnCostText != "") {
-        applyText = ::format("%s (%s)", applyText, respawnCostText)
-        applyTextShort = ::format("%s<b> %s</b>", ::loc("mainmenu/toBattle/short"), respawnCostText)
-      }
-
-      local tooltipText = ::loc("mainmenu/selectAircraftTooltip")
+      tooltipText = ::loc("mainmenu/selectAircraftTooltip")
       if (::is_platform_pc)
         tooltipText += ::format(" [%s, %s]", ::loc("key/Space"), ::loc("key/Enter"))
-      buttonSelectObj.tooltip = tooltipText
-    }
-    local crew = getCurCrew()
-    local battleObj = crew && ::get_slot_obj(scene, crew.idCountry, crew.idInCountry)
-    ::setDoubleTextToButton(battleObj, "slotBtn_battle", applyTextShort != "" ? applyTextShort : applyText)
 
-    local unit = getCurSlotUnit()
-    local isAvailResp = haveRespawnBases
-    local infoTexts = []
-    if (missionRules.isScoreRespawnEnabled && unit)
-    {
-      local curScore = ::shop_get_spawn_score(unit.name, getSelWeapon() || "")
-      isAvailResp = isAvailResp && (curScore <= curSpawnScore)
-      if (!isApplyPressed && curScore > 0)
-        infoTexts.append(::loc("respawn/costRespawn", {cost = curScore}))
-    }
-    if (leftRespawns > 0 && !isApplyPressed)
-      infoTexts.append(::loc("respawn/leftRespawns", {num = leftRespawns.tostring()}))
+      local wpCost = getRespawnWpTotalCost()
+      if (wpCost > 0)
+      {
+        shortCostText = ::Cost(wpCost).getUncoloredText()
+        costTextArr.append(shortCostText)
+      }
 
-    infoTexts.append(missionRules.getRespawnInfoTextForUnit(unit))
+      if (missionRules.isScoreRespawnEnabled && unit)
+      {
+        local curScore = ::shop_get_spawn_score(unit.name, getSelWeapon() || "")
+        isAvailResp = isAvailResp && (curScore <= curSpawnScore)
+        if (curScore > 0)
+          costTextArr.append(::loc("shop/spawnScore", { cost = curScore }))
+      }
+
+      if (leftRespawns > 0)
+        infoTextsArr.append(::loc("respawn/leftRespawns", { num = leftRespawns.tostring() }))
+    }
+
+    infoTextsArr.append(missionRules.getRespawnInfoTextForUnit(unit))
     isAvailResp = isAvailResp && missionRules.getUnitLeftRespawns(unit) != 0
 
-    local infoText = ::g_string.implode(infoTexts, ", ")
-    if (infoText.len())
-      applyText += ::loc("ui/parentheses/space", { text = infoText })
-
-    local checkSlotDelay = true
+    local isCrewDelayed = false
     if (missionRules.isSpawnDelayEnabled)
     {
       local unit = getCurSlotUnit()
       if (unit)
       {
         local slotDelay = ::get_slot_delay(unit.name)
-        checkSlotDelay = slotDelay <= 0
+        isCrewDelayed = slotDelay > 0
       }
     }
 
-    if (::checkObj(battleObj))
+    //******************** combine final texts ********************************
+
+    local applyTextShort = applyText //for slot battle button
+    if (shortCostText.len())
+      applyTextShort = ::format("%s<b> %s</b>", ::loc("mainmenu/toBattle/short"), shortCostText)
+
+    local costText = ::g_string.implode(costTextArr, ", ")
+    if (costText.len())
+      applyText = ::format("%s (%s)", applyText, costText)
+
+    local infoText = ::g_string.implode(infoTextsArr, ", ")
+    if (infoText.len())
+      applyText += ::loc("ui/parentheses/space", { text = infoText })
+
+    //******************  uodate buttons objects ******************************
+
+    local buttonSelectObj = ::set_double_text_to_button(scene.findObject("nav-help"), "btn_select", applyText)
+    buttonSelectObj.tooltip = tooltipText
+    buttonSelectObj.isCancel = isApplyPressed ? "yes" : "no"
+    buttonSelectObj.inactiveColor = (isAvailResp && !isCrewDelayed) ? "no" : "yes"
+
+    local crew = getCurCrew()
+    local slotObj = crew && ::get_slot_obj(scene, crew.idCountry, crew.idInCountry)
+    local slotBtnObj = ::set_double_text_to_button(slotObj, "slotBtn_battle", applyTextShort)
+    if (slotBtnObj)
     {
-      local slotBtnObj = battleObj.findObject("slotBtn_battle")
-      if (::checkObj(slotBtnObj))
-      {
-        slotBtnObj.isCancel = isApplyPressed ? "yes" : "no"
-        slotBtnObj.inactiveColor = (isAvailResp && checkSlotDelay) ? "no" : "yes"
-      }
-      buttonSelectObj.isCancel = isApplyPressed ? "yes" : "no"
-      buttonSelectObj.inactiveColor = (isAvailResp && checkSlotDelay) ? "no" : "yes"
+      slotBtnObj.isCancel = isApplyPressed ? "yes" : "no"
+      slotBtnObj.inactiveColor = (isAvailResp && !isCrewDelayed) ? "no" : "yes"
     }
-    ::set_double_text_to_button(scene.findObject("nav-help"), "btn_select", applyText)
 
-    showRespawnTr(isAvailResp && checkSlotDelay)
+    showRespawnTr(isAvailResp && !isCrewDelayed)
   }
 
   function setApplyPressed()
@@ -1940,7 +1943,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local priceTextObj = slotObj.findObject("bottom_item_price_text")
     if (::checkObj(priceTextObj))
-      priceTextObj.setValue(::get_unit_item_price_text(unit, params))
+    {
+      local bottomText = ::get_unit_item_price_text(unit, params)
+      priceTextObj.tinyFont = ::is_unit_price_text_long(bottomText) ? "yes" : "no"
+      priceTextObj.setValue(bottomText)
+    }
 
     local nameObj = slotObj.findObject(::get_slot_obj_id(countryId, idInCountry) + "_txt")
     if (::checkObj(nameObj))
@@ -2167,9 +2174,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!::checkObj(scene))
       return
 
-    scene.findObject("spectator_name").setValue(
-      platformModule.getPlayerName(::get_spectator_target_name())
-    )
+    local name = ::get_spectator_target_name()
+    scene.findObject("spectator_name").setValue(name)
   }
 
   function onChatCancel()

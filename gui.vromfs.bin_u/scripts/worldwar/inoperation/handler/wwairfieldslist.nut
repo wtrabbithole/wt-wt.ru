@@ -215,11 +215,30 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     if (!::check_obj(airfieldInfoObj))
       return
 
-    local airfieldInfoText = ::loc("worldwar/airfield_capacity") + ::loc("ui/colon")
-    local airfieldInfoValue = airfield.getUnitsNumber() + "/" +
-                              airfield.getSize() + " " +
-                              ::g_ww_unit_type.AIR.fontIcon
-    airfieldInfoObj.setValue(airfieldInfoText + ::colorize("@white", airfieldInfoValue))
+    local airfieldUnitsText = ::loc("worldwar/airfield_units") + ::loc("ui/colon")
+    local airfieldInFlyText = ::loc("worldwar/airfield_in_fly") + ::loc("ui/colon")
+    local airfieldCapacityText = ::loc("worldwar/airfield_capacity") + ::loc("ui/colon")
+    local iconText = ::g_ww_unit_type.AIR.fontIcon
+
+    local airfieldUnitsNumber = airfield.getUnitsNumber()
+    local inFlyUnitsNumber = airfield.getUnitsInFlyNumber()
+    local airfieldCapacityNumber = airfield.getSize()
+
+    local airfieldInfoValue = airfieldUnitsNumber
+    local airfieldTooltip = airfieldUnitsText +
+      ::colorize("@white", airfieldUnitsNumber + " " + iconText)
+    if (inFlyUnitsNumber > 0)
+    {
+      airfieldInfoValue += "+" + inFlyUnitsNumber
+      airfieldTooltip += "\n" + airfieldInFlyText +
+        ::colorize("@white", inFlyUnitsNumber + " " + iconText)
+    }
+    airfieldInfoValue += "/" + airfieldCapacityNumber + " " + iconText
+    airfieldTooltip += "\n" + airfieldCapacityText +
+      ::colorize("@white", airfieldCapacityNumber + " " + iconText)
+
+    airfieldInfoObj.setValue(airfieldCapacityText + ::colorize("@white", airfieldInfoValue))
+    airfieldInfoObj.tooltip = airfieldTooltip
 
     local hasFormationUnits = hasFormationsForFly(airfield)
     local hasCooldownUnits = hasArmyOnCooldown(airfield)

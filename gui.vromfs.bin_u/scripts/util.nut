@@ -946,10 +946,7 @@ function check_balance_msgBox(cost, afterCheck = null, silent = false)
   {
     local purchaseBtn = "#mainmenu/btnBuy"
     defButton = purchaseBtn
-    buttons.insert(0, [purchaseBtn, (@(shopType, afterCheck) function() {
-        ::gui_modal_onlineShop(null, shopType, afterCheck)
-      })(shopType, afterCheck)
-    ])
+    buttons.insert(0, [purchaseBtn, @() ::OnlineShopModel.launchOnlineShop(null, shopType, afterCheck)])
   }
 
   ::scene_msg_box("no_money", null, text, buttons, defButton)
@@ -2169,25 +2166,26 @@ function checkAndCreateGamemodeWnd(handler, gm)
 function setDoubleTextToButton(nestObj, firstBtnId, firstText, secondText = null)
 {
   if (!::checkObj(nestObj) || firstBtnId == "")
-    return
+    return null
 
   if (!secondText)
     secondText = firstText
 
-  local secondBtnId = firstBtnId + "_text"
   local fObj = nestObj.findObject(firstBtnId)
   if(!::checkObj(fObj))
-    return
+    return null
   fObj.setValue(firstText)
+
+  local secondBtnId = firstBtnId + "_text"
   local sObj = fObj.findObject(secondBtnId)
-  if(!::checkObj(sObj))
-    return
-  sObj.setValue(secondText)
+  if(::checkObj(sObj))
+    sObj.setValue(secondText)
+  return fObj
 }
 
 function set_double_text_to_button(nestObj, btnId, coloredText)
 {
-  ::setDoubleTextToButton(nestObj, btnId, ::g_dagui_utils.removeTextareaTags(coloredText), coloredText)
+  return ::setDoubleTextToButton(nestObj, btnId, ::g_dagui_utils.removeTextareaTags(coloredText), coloredText)
 }
 
 //instead of wpCost you can use direc Cost  (instance of money)
@@ -2476,8 +2474,10 @@ function checkRemnantPremiumAccount()
   {
     ::saveLocalByAccount("premium/lastDayBuyPremiumReminder", currDays)
     ::scene_msg_box("no_premium", null,  msgText,
-          [["ok", function (){ ::gui_modal_onlineShop(null, "premium") }],
-          ["cancel", function () {} ]], "ok",
+          [
+            ["ok", @() ::OnlineShopModel.launchOnlineShop(null, "premium")],
+            ["cancel", @() null ]
+          ], "ok",
           {saved = true})
   }
 }
