@@ -292,10 +292,10 @@
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
-          "armorThrough": 60.0
+          "armorThrough": 300.0
         },
         "cannon_breech_02_dm": {
-          "armorThrough": 60.0
+          "armorThrough": 300.0
         },
         "cannon_breech_03_dm": {
           "armorThrough": 10.0
@@ -2265,6 +2265,33 @@
       "headPos": [0.0,4.5,-8.5],
       "headPosOnShooting": [-2.0,3.9,0.0],
       "detectionHeight": 2.945
+    }
+  },
+  {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": true,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_body_l_02_dm": {
+            "count": 17
+          },
+          "ammo_body_r_02_dm": {
+            "count": 17
+          },
+          "ammo_body_l_01_dm": {
+            "count": 8
+          },
+          "ammo_body_r_01_dm": {
+            "count": 8
+          }
+        }
+      }
     }
   },
   {
