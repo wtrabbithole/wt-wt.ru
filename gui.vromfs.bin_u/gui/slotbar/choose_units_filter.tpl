@@ -10,7 +10,7 @@ options_list {
       uid:t='<<option_uid>>';
       idx:t='<<option_idx>>';
       value:t='<<option_value>>';
-      on_select:t='onSelectedOptionChooseUnit';
+      on_select:t='<<#cb>><<cb>><</cb>><<^cb>>onSelectedOptionChooseUnit<</cb>>'
       flow:t='horizontal';
       smallFont:t='yes';
       optionsShortcuts:t='yes';

@@ -203,54 +203,16 @@ function on_battle_trophy(param, blk) {
   else
     blk.avgSesssionTime <- (param.sessionTime).tointeger()
 
-  local day_in_seconds = 24 * 60 * 60
-  local currentDay = (::get_charserver_time_sec() / day_in_seconds).tointeger() + 1
-  local ugcRewardTimePeriodMinutes = econWpBlk.getInt("ugcRewardTimePeriodMinutes", 480)
-  local ugcMaxTrophiesPerDay = econWpBlk.getInt("ugcMaxTrophiesPerDay", 0)
-  local ugcMaxTrophiesPerWeek = econWpBlk.getInt("ugcMaxTrophiesPerWeek", 0)
-  local ugcMinSetupRank = econWpBlk.getInt("ugcMinSetupRank", 6)
-  if (ugcMaxTrophiesPerWeek < ugcMaxTrophiesPerDay)
-    ugcMaxTrophiesPerWeek = ugcMaxTrophiesPerDay 
-
-  if (blk.ugcNumByDate == null)
-    blk.ugcNumByDate <- DataBlock()
-  if (blk.ugcNumByWeek == null)
-    blk.ugcNumByWeek <- DataBlock()
-  
-  if (blk.ugcNumByDate.day < currentDay) {
-    blk.ugcNumByDate.day = currentDay
-    blk.ugcNumByDate.num = 0
+  if(checkTimeLimitedFeaturedTrophy("craft", max_unit_rank, param, blk)) {
+    gotAward = true
+    blk.rewardMap = get_updated_reward_map(rewardMap, gotAward)
+    return res
   }
-
-  if (blk.ugcNumByWeek.day <= currentDay - 7) {
-    blk.ugcNumByWeek.day = currentDay
-    blk.ugcNumByWeek.num = 0
+  if (checkTimeLimitedFeaturedTrophy("ugc", max_unit_rank, param, blk)) {
+    gotAward = true
+    blk.rewardMap = get_updated_reward_map(rewardMap, gotAward)
+    return res
   }
-
-  if (player_has_feature(param.userId, "UgcAfterBattleTrophy", false) && max_unit_rank >= ugcMinSetupRank)
-    if (blk.ugcNumByDate.num < ugcMaxTrophiesPerDay && blk.ugcNumByWeek.num < ugcMaxTrophiesPerWeek)
-    {
-      if (blk.ugcSessionTime != null)
-        blk.ugcSessionTime += (param.sessionTime).tointeger()
-      else 
-        blk.ugcSessionTime <- (param.sessionTime).tointeger()
-
-      if (blk.ugcSessionTime > ugcRewardTimePeriodMinutes * 60) {
-        dagor.debug("Give ugc trophy. combined session time "+blk.ugcSessionTime+", todays trophies count "+blk.ugcNumByDate.num+", this week "+blk.ugcNumByWeek.num)
-        blk.ugcSessionTime = 0
-        blk.ugcNumByDate.num++
-        blk.ugcNumByWeek.num++
-        blk.avgSesssionTime = 0
-
-        local itemDefId = econWpBlk.ugcMainTrophyId
-
-        if (itemDefId > 0)
-          gotAward = inventory_add_item(param.userId, itemDefId)
-
-        blk.rewardMap = get_updated_reward_map(rewardMap, gotAward)
-        return res
-      }
-    }
 
   if (timesGotNoAwardAtAll > trophyMaxNoAwardStreak && blk.avgSesssionTime > trophyMinNoAwardSessionsTime) {
     trophyNoAwardChance = -1
@@ -301,6 +263,83 @@ function on_battle_trophy(param, blk) {
     test_dump_blk(blk)
 
   return res
+}
+
+function checkTimeLimitedFeaturedTrophy(trophyType, max_unit_rank, param, blk) {
+  local econWpBlk = get_economy_config_block("warpoints")
+
+  local trophyParams = econWpBlk[trophyType]
+  if (!trophyParams) {
+    return false
+  }
+  local day_in_seconds = 24 * 60 * 60
+  local currentDay = (::get_charserver_time_sec() / day_in_seconds).tointeger() + 1
+  local rewardTimePeriodMinutes = trophyParams.getInt("rewardTimePeriodMinutes", 480)
+  local maxTrophiesPerDay = trophyParams.getInt("maxTrophiesPerDay", 0)
+  local maxTrophiesPerWeek = trophyParams.getInt("maxTrophiesPerWeek", 0)
+  local minSetupRank = trophyParams.getInt("minSetupRank", 6)
+  local requiredFeature = trophyParams["reqFeature"]
+  local numByDateParamName = trophyType+"numByDate"
+  local numByWeekParamName = trophyType+"NumByWeek"
+  local sessionTimeParamName = trophyType+"SessionTime"
+  local itemDefId = trophyParams.getInt("mainTrophyId", 0)
+  local matching_info = get_matching_game_mode_info()
+  local eventName = matching_info.name
+  if (trophyParams.availableIn && eventName != null && eventName != "") {
+    local isTrophyAvailable = false
+    foreach (evGroup in (trophyParams.availableIn % "eventsGroup")) {
+      if (evGroup.name?.tostring().find("'"+eventName+"'") > -1) {
+        itemDefId = evGroup.getInt("mainTrophyId", 0)
+        isTrophyAvailable = true
+        dagor.debug("checkTimeLimitedFeaturedTrophy custom trophy for "+eventName+" trophy id: "+itemDefId)
+        break
+      }
+    }
+    if (!isTrophyAvailable) {
+      return false
+    }
+  }
+  if (maxTrophiesPerWeek < maxTrophiesPerDay)
+    maxTrophiesPerWeek = maxTrophiesPerDay
+
+  if (blk[numByDateParamName] == null)
+    blk[numByDateParamName] <- DataBlock()
+  if (blk[numByWeekParamName] == null)
+    blk[numByWeekParamName] <- DataBlock()
+
+  if (blk[numByDateParamName]?.day < currentDay) {
+    blk[numByDateParamName].day = currentDay
+    blk[numByDateParamName].num = 0
+  }
+
+  if (blk[numByWeekParamName]?.day <= currentDay - 7) {
+    blk[numByWeekParamName].day = currentDay
+    blk[numByWeekParamName].num = 0
+  }
+
+  if (player_has_feature(param.userId, requiredFeature, false) && max_unit_rank >= minSetupRank) {
+    if (blk[numByDateParamName].num < maxTrophiesPerDay && blk[numByWeekParamName].num < maxTrophiesPerWeek) {
+      if (blk[sessionTimeParamName] != null)
+        blk[sessionTimeParamName] += (param.sessionTime).tointeger()
+      else
+        blk[sessionTimeParamName] <- (param.sessionTime).tointeger()
+
+      if (blk[sessionTimeParamName] > rewardTimePeriodMinutes * 60) {
+        dagor.debug("Give "+trophyType+" trophy. combined session time "+blk[sessionTimeParamName]+", todays trophies count "+blk[numByDateParamName].num+", this week "+blk[numByWeekParamName].num)
+        blk[sessionTimeParamName] = 0
+        blk[numByDateParamName].num++
+        blk[numByWeekParamName].num++
+        blk.avgSesssionTime = 0
+
+        local gotAward = false
+
+        if (itemDefId > 0)
+          gotAward = inventory_add_item(param.userId, itemDefId)
+
+        return gotAward
+      }
+    }
+  }
 }
 
 dagor.debug("battleTrophy script loaded")

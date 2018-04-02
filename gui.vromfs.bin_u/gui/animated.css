@@ -371,3 +371,19 @@ animSizeObj[_size-timer=0][animation=hide] {
 animSizeObj[needAnim=yes] {
   behaviour:basicSize;
 }
+
+animText {
+  behaviour:basicTransparency;
+  transp-base:0;
+  transp-end:255;
+  transp-func:square;
+  transp-backfunc: squareInv;
+}
+
+animText[fade=in] {
+  transp-time:100;
+}
+
+animText[fade=out] {
+  transp-time:-300;
+}

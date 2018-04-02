@@ -272,6 +272,12 @@ function get_userlog_view_data(log)
       if (ecSpawnScore > 0)
         desc += "\n" + "<color=@userlogColoredText>" + ::loc("debriefing/total/ecSpawnScore") +  ::loc("ui/colon") + "</color>"
                 + "<color=@activeTextColor>" + ecSpawnScore + "</color>"
+      local wwSpawnScore = log?.wwSpawnScore ?? 0
+      if (wwSpawnScore > 0)
+        desc += "\n"
+          + ::colorize("@userlogColoredText", ::loc("debriefing/total/wwSpawnScore")
+            + ::loc("ui/colon"))
+          + ::colorize("@activeTextColor", wwSpawnScore)
     }
 
     if (desc!="")

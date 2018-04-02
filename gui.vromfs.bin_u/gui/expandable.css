@@ -187,10 +187,20 @@ expandable[type=battleTask][selected=yes] {
 tooltipObj > expandable[type=battleTask] {
   border:no;
   background-color:@transparent;
-  width:1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
+  width:pw;
+  min-width: 1@battleTaskTooltipMinWidth - 1@framePadding;
   pos: 0, 0;
   position: relative;
   padding:0;
+}
+
+tooltipObj > expandable[type=battleTask] > selImg {
+  width: pw;
+  padding : 0;
+}
+
+tooltipObj > expandable[type=battleTask] hiddenDiv {
+  min-width: 1@battleTaskTooltipMinWidth - 1@framePadding;
 }
 
 promoButton[type=battleTask] [battleTaskStatus=complete] statusImg,

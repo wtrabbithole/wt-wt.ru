@@ -1065,6 +1065,13 @@ function get_option(type, context = null)
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y) != 0
       break
 
+    case ::USEROPT_INVERTY_SUBMARINE:
+      descr.id = "invertY_submarine"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y) != 0
+      break
+
     case ::USEROPT_INVERTY_SPECTATOR:
       descr.id = "invertY_spectator"
       descr.controlType = optionControlType.CHECKBOX
@@ -2327,6 +2334,7 @@ function get_option(type, context = null)
       descr.controlName <- "combobox"
       descr.items = []
       descr.values = []
+      defaultValue = "historical"
       for(local i = 0; i < ::ugc_tags_presets.len(); i++)
       {
         descr.items.append(::loc("ugc/tag/" + ::ugc_tags_presets[i]))
@@ -2711,6 +2719,18 @@ function get_option(type, context = null)
       descr.id = "chooseUnitsShowUnsupported"
       descr.items = ["#options/chooseUnitsShowUnsupported/show_unsupported",
                      "#options/chooseUnitsShowUnsupported/show_supported"
+                    ]
+      defaultValue = 3
+      descr.singleOption <- true
+      descr.hideTitle <- true
+      descr.controlType = optionControlType.BIT_LIST
+      descr.cb = "onSelectedOptionChooseUnsapportedUnit"
+      break
+
+    case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST:
+      descr.id = "chooseUnitsNotInCustomList"
+      descr.items = ["#options/chooseUnitsNotInCustomList/show_unsupported",
+                     "#options/chooseUnitsNotInCustomList/show_supported"
                     ]
       defaultValue = 3
       descr.singleOption <- true
@@ -3895,6 +3915,9 @@ function set_option(type, value, descr = null)
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
       break
+    case ::USEROPT_INVERTY_SUBMARINE:
+      ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
+      break
     case ::USEROPT_INVERTY_SPECTATOR:
       ::set_option_invertY(AxisInvertOption.INVERT_SPECTATOR_Y, value ? 1 : 0)
       break
@@ -4439,6 +4462,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_BIT_CHOOSE_UNITS_RANK:
     case ::USEROPT_BIT_CHOOSE_UNITS_OTHER:
     case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE:
+    case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST:
     case ::USEROPT_BOTS_RANKS:
       ::set_gui_option(type, value)
       break

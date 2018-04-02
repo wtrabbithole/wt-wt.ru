@@ -17,9 +17,6 @@ local ItemGenerator = class {
 
   _contentUnpacked = null
 
-  _exchangeRecipes = null
-  _exchangeRecipesUpdateTime = 0
-
   constructor(itemDefDesc)
   {
     id = itemDefDesc.itemdefid
@@ -31,7 +28,9 @@ local ItemGenerator = class {
     timestamp = itemDefDesc?.Timestamp ?? ""
   }
 
-  function getRecipesWithComponent(componentItemdefId)
+  _exchangeRecipes = null
+  _exchangeRecipesUpdateTime = 0
+  function getRecipes()
   {
     if (!_exchangeRecipes || _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime)
     {
@@ -40,8 +39,12 @@ local ItemGenerator = class {
       _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes(parsedRecipe, generatorId))
       _exchangeRecipesUpdateTime = ::dagor.getCurTime()
     }
+    return _exchangeRecipes
+  }
 
-    return ::u.filter(_exchangeRecipes, @(ec) ec.hasComponent(componentItemdefId))
+  function getRecipesWithComponent(componentItemdefId)
+  {
+    return ::u.filter(getRecipes(), @(ec) ec.hasComponent(componentItemdefId))
   }
 
   function _unpackContent()

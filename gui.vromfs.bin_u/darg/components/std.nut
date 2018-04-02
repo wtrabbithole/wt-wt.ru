@@ -13,9 +13,6 @@
   ? consider add default fonts to darg itself (fontawesome and some std utf font. However - we definitely need better font render\layout system first, cause in other case size of font is something not defined)
   
   add widgets for:
-    stext
-    dtext
-    text
     image
     ninerect
     select
@@ -30,7 +27,7 @@
 local textArea = require("textArea.nut")
 local text = require("text.nut").text
 local stext = require("text.nut").stext
-local dtext = require("text.nut").dtex
+local dtext = require("text.nut").dtext
 local contextMenu = require("contextMenu.nut")
 local textInput = require("textInput.nut")
 local scrollbar = require("scrollbar.nut")
@@ -38,6 +35,8 @@ local combobox = require("combobox.nut")
 local msgbox = require("msgbox.nut")
 local textButton = require("textButton.nut")
 local tabs = require("tabs.nut")
+local image = require("image.nut")
+local panel = require("panel.nut")
 
 return {
   textArea = textArea
@@ -48,4 +47,21 @@ return {
   msgbox = msgbox
   textButton = textButton
   tabs = tabs
+  text = text
+  dtext = dtext
+  stext = stext
+  image = image
+  panel = panel
+  
+  red = Color(255,0,0)
+  blue = Color(0,0,255)
+  green = Color(0,255,0)
+  magenta = Color(255,0,255)
+  yellow = Color(255,255,0)
+  cyan = Color(0,255,255)
+  gray = Color(128,128,128)
+  lightgray = Color(192,192,192)
+  darkgray = Color(64,64,64)
+  black = Color(0,0,0)
+  white = Color(255,255,255)
 }

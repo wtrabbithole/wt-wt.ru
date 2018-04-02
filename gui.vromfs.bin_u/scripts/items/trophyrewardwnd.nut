@@ -44,8 +44,10 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    trophyItem = ::ItemsManager.findItemById(configsArray[0].id)
-    if (configsArray[0]?.itemDefId)
+    showBlackBackground(true)
+
+    trophyItem = ::ItemsManager.findItemById(configsArray?[0]?.id)
+    if (configsArray?[0]?.itemDefId)
       trophyItem = ::ItemsManager.findItemById(configsArray[0]?.itemDefId)
 
     if (!trophyItem)
@@ -53,7 +55,9 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     isBoxOpening = trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST
 
-    scene.findObject("reward_title").setValue(trophyItem.getOpeningCaption())
+    local title = (configsArray[0]?.item == trophyItem.id) ? ::loc("mainmenu/itemCreated/title")
+      : trophyItem.getOpeningCaption()
+    scene.findObject("reward_title").setValue(title)
 
     shrinkedConfigsArray = ::trophyReward.processUserlogData(configsArray)
     checkConfigsArray()
@@ -84,20 +88,29 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
         ::play_gui_sound("chest_open")
         local delay = ::to_integer_safe(animObj.chestReplaceDelay, 0)
         ::Timer(animObj, 0.001 * delay, openChest, this)
+        ::Timer(animObj, 1.0, onOpenAnimFinish, this) //!!FIX ME: Some times animation finish not apply css, and we miss onOpenAnimFinish
       }
     }
     else
       openChest()
   }
 
+  function showBlackBackground(isShow)
+  {
+    local bObj = guiScene["black_screen"]
+    if (::check_obj(bObj))
+      bObj.show(isShow)
+  }
+
   function openChest()
   {
     if (opened)
-      return
+      return false
     local obj = scene.findObject("rewards_list")
     ItemsRoulette.skipAnimation(obj)
     opened = true
     updateWnd()
+    return true
   }
 
   function updateWnd()
@@ -180,11 +193,9 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     local layersData = ""
     for (local i = 0; i < ::trophyReward.maxRewardsShow; i++)
     {
-      if (!(i in configsArray))
-        break
-
-      local config = configsArray[i]
-      layersData += ::trophyReward.getImageByConfig(config, false)
+      local config = shrinkedConfigsArray?[i]
+      if (config)
+        layersData += ::trophyReward.getImageByConfig(config, false)
     }
 
     if (layersData == "")
@@ -222,7 +233,6 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     ::show_facebook_screenshot_button(scene, opened)
-
     showSceneBtn("btn_rewards_list", opened && (configsArray.len() > 1 || haveItems))
     showSceneBtn("open_chest_animation", !animFinished) //hack tooltip bug
     showSceneBtn("btn_ok", animFinished)
@@ -245,6 +255,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (trophyItem && !checkSkipAnim())
       return
 
+    showBlackBackground(false)
     base.goBack()
   }
 
@@ -274,6 +285,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenAnimFinish()
   {
     animFinished = true
-    updateButtons()
+    if (!openChest())
+      updateButtons()
   }
 }

@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
-
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 
 ::shown_userlog_notifications <- []
 
@@ -440,6 +441,34 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     {
       ::broadcastEvent("BattleTasksIncomeUpdate")
       markDisabled = true
+    }
+    else if (blk.type == ::EULT_INVENTORY_ADD_ITEM)
+    {
+      local item = ::ItemsManager.findItemByItemDefId(blk.body?.itemDefId)
+      if (item)
+      {
+        local locId = "userlog/" + ::getLogNameByType(blk.type)
+        local numItems = blk.body?.quantity ?? 1
+        local name = ::loc(locId, {
+          numItemsColored = numItems
+          numItems = numItems
+          numItemsAdd = numItems
+          itemName = ""
+        })
+
+        local button = null
+        local wSet = workshop.getSetByItemId(item.id)
+        if (wSet)
+          button = [{
+            id = "workshop_button",
+            text = ::loc("items/workshop"),
+            func = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
+              : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+          }]
+
+        ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
+        markDisabled = true
+      }
     }
 
     if (markDisabled)

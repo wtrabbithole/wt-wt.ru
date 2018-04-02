@@ -96,11 +96,6 @@ local WwGlobalBattle = class extends ::WwBattle
     return operation ? operation.getMyAssignCountry() : null
   }
 
-  function isVisibleInBattlesList(country)
-  {
-    return !isLockedByExcessPlayers(country) && isOperationMapAvaliable()
-  }
-
   function isOperationMapAvaliable()
   {
     local operation = ::g_ww_global_status.getOperationById(operationId)
@@ -140,28 +135,6 @@ local WwGlobalBattle = class extends ::WwBattle
       return ::SIDE_NONE
 
     return sidesByCountry?[country] ?? ::SIDE_NONE
-  }
-
-  function hasUnitsToFight(country)
-  {
-    local side = getSideByCountry(country)
-    foreach(teamData in teams)
-    {
-      if (teamData.side != side)
-        continue
-
-      foreach(unitData in teamData.unitsRemain)
-      {
-        local unit = ::all_units?[unitData.name]
-        if (!unit)
-          continue
-
-        if (unit.canAssignToCrew(country))
-          return true
-      }
-    }
-
-    return false
   }
 }
 

@@ -71,22 +71,24 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
       }
   }
 
-
   function loadRequirementsRanks( rawClanMemberRequirementsBlk )
   {
-    local rawRanksCond = rawClanMemberRequirementsBlk.getBlockByName("ranks")
-    if ( !rawRanksCond )
-      rawRanksCond = ::DataBlock();
-
-    foreach( ut in ::unitTypesList )
+    local rawRanksCond = rawClanMemberRequirementsBlk.getBlockByName("ranks") || ::DataBlock()
+    foreach (unitType in ::g_unit_type.types)
     {
-      local unitType = getUnitTypeText(ut)
-      local ranksRequired = 0;
-      local req = rawRanksCond.getBlockByName("rank_" + unitType);
-      if ( req &&  (req.type == "rank")  &&  (req.unitType == unitType) )
-        ranksRequired = req.getInt("rank",0)
+      if (!unitType.isAvailable())
+        continue
 
-      scene.findObject("rankReq" + unitType).setValue(ranksRequired);
+      local obj = scene.findObject("rankReq" + unitType.name)
+      if (!::check_obj(obj))
+        continue
+
+      local ranksRequired = 0
+      local req = rawRanksCond.getBlockByName("rank_" + unitType.name)
+      if (req && req.type == "rank" && req.unitType == unitType.name)
+        ranksRequired = req.getInt("rank", 0)
+
+      obj.setValue(ranksRequired)
     }
 
     minRankCondTypeObject.setValue(rawRanksCond.type != "or")
@@ -95,10 +97,16 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
   function getNonEmptyRankReqCount()
   {
     local nonEmptyRankReqCount = 0
-    foreach( ut in ::unitTypesList )
+    foreach (unitType in ::g_unit_type.types)
     {
-      local unitType = getUnitTypeText(ut)
-      local ranksRequired = scene.findObject("rankReq" + unitType).getValue()
+      if (!unitType.isAvailable())
+        continue
+
+      local obj = scene.findObject("rankReq" + unitType.name)
+      if (!::check_obj(obj))
+        continue
+
+      local ranksRequired = obj.getValue()
       if (ranksRequired > 0)
         nonEmptyRankReqCount++
     }
@@ -179,13 +187,18 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
   function appendRequirementsRanks( newRequirements )
   {
     local rankCondType = minRankCondTypeObject.getValue() ? "and" : "or"
-    local ranksSubBlk = null;
+    local ranksSubBlk = null
 
-    foreach( ut in ::unitTypesList )
+    foreach (unitType in ::g_unit_type.types)
     {
-      local unitType = getUnitTypeText(ut)
-      local rankVal = scene.findObject("rankReq" + unitType).getValue()
+      if (!unitType.isAvailable())
+        continue
 
+      local obj = scene.findObject("rankReq" + unitType.name)
+      if (!::check_obj(obj))
+        continue
+
+      local rankVal = obj.getValue()
       if ( rankVal > 0 )
       {
         if ( !ranksSubBlk )
@@ -194,11 +207,11 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
           ranksSubBlk.setStr( "type", rankCondType )
         }
 
-        local condBlk = ranksSubBlk.addNewBlock("rank_" + unitType)
+        local condBlk = ranksSubBlk.addNewBlock("rank_" + unitType.name)
         condBlk.setStr( "type", "rank" )
         condBlk.setInt( "rank", rankVal )
         condBlk.setInt( "count", 1 )
-        condBlk.setStr( "unitType", unitType )
+        condBlk.setStr( "unitType", unitType.name )
       }
     }
   }

@@ -202,6 +202,12 @@ textareaNoTab, titleTextArea,textAreaSmall, notificationText, tooltipDesc {
   color:@commonTextColor;
 }
 
+animText {
+  behaviour:textArea;
+  re-type:textarea;
+  color:@commonTextColor;
+}
+
 CheckBox[enable=no] > textarea {
   color:@minorTextColor;
 }
@@ -2190,8 +2196,15 @@ Red_shadow_light.inverted {
   background-position:0,h,0,h;
 }
 
-[needRedShadow=no] > * > Red_shadow_light {
+TopMenuPanelBGPlace[needRedShadow=no] > * > Red_shadow_light {
   background-color:@transparent;
+}
+
+TopMenuPanel > TopMenuPanelBGPlace {
+  size:"pw, ph-1@bh+1@topGamercardDarkLineHeight";
+  pos:"0, 1@bh-1@topGamercardDarkLineHeight";
+  position:absolute;
+  css-hier-invalidate:yes;
 }
 
 GameLogoPlate {

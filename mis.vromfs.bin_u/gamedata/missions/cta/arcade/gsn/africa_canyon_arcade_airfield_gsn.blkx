@@ -292,7 +292,7 @@
               "icontype": "fighter",
               "side": "ally",
               "target": "t1_bombers_spawn",
-              "lookAt": "area_06"
+              "lookAt": "fighters_area"
             }
           },
           {
@@ -321,7 +321,7 @@
               "icontype": "fighter",
               "side": "enemy",
               "target": "t2_bombers_spawn",
-              "lookAt": "area_06"
+              "lookAt": "fighters_area"
             }
           },
           {
@@ -612,6 +612,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -643,6 +652,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_aaa_squad"
             },
             {
@@ -666,6 +684,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_trucks_squad"
@@ -701,6 +728,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -709,6 +739,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -739,6 +772,9 @@
             "icon": "truck",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -750,6 +786,9 @@
             "icon": "truck",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -11016,10 +11055,10 @@
     "t1_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [424.264,0.0,-424.264],
-        [0.0,600.0,0.0],
-        [424.264,0.0,424.264],
-        [-4586.7,4000.0,1237.3]
+        [282.843,0.0,-282.843],
+        [0.0,400.0,0.0],
+        [282.843,0.0,282.843],
+        [-4586.7,2700.0,1237.3]
       ],
       "objLayer": 0,
       "props": []
@@ -11027,10 +11066,10 @@
     "t2_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [-424.264,0.0,424.264],
-        [0.0,600.0,0.0],
-        [-424.264,0.0,-424.264],
-        [3736.25,4000.0,-7410.4]
+        [-282.843,0.0,282.843],
+        [0.0,400.0,0.0],
+        [-282.843,0.0,-282.843],
+        [3736.25,2700.0,-7410.4]
       ],
       "objLayer": 0,
       "props": []
@@ -11185,7 +11224,7 @@
       ],
       "props": []
     },
-    "area_06": {
+    "fighters_area": {
       "type": "Sphere",
       "tm": [
         [5764.41,0.0,5547.22],
@@ -11218,13 +11257,13 @@
       "objLayer": 0,
       "props": []
     },
-    "area_07": {
+    "bombers_area": {
       "type": "Sphere",
       "tm": [
         [8646.62,0.0,8320.82],
         [0.0,12000.0,0.0],
         [-8320.82,0.0,8646.62],
-        [-428.2,4000.0,-3086.2]
+        [-428.2,2700.0,-3086.2]
       ],
       "objLayer": 0,
       "props": []

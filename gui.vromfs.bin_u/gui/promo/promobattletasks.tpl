@@ -304,5 +304,28 @@ hangarToggleButton {
   type:t='right'
   directionImg {}
 }
-<</items>>
 
+<<#isShowRadioButtons>>
+  RadioButtonList {
+    position:t='relative'
+    pos:t='pw-w, 0'
+    on_select:t = 'onSelectDifficultyBattleTasks'
+
+    <<#radioButtons>>
+    RadioButton {
+      difficultyGroup:t='<<difficultyGroup>>'
+      tooltip:t='<<difficultyLocName>>'
+      <<#selected>>
+      selected:t='yes'
+      <</selected>>
+      RadioButtonImg{}
+      <<#radioButtonImage>>
+      RadioButtonDescImg {
+        background-image:t='<<radioButtonImage>>';
+      }
+      <</radioButtonImage>>
+    }
+    <</radioButtons>>
+  }
+<</isShowRadioButtons>>
+<</items>>

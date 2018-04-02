@@ -71,9 +71,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (showTutorial)
       onUpgrCrewSkillsTutorial()
-    else if (!::g_crew.isAllCrewsMinLevel()
-             && ::g_crew.isAllCrewsHasBasicSpec()
-             && canUpgradeCrewSpec(crew))
+    else if (!::loadLocalByAccount("upgradeCrewSpecTutorialPassed", false)
+          && !::g_crew.isAllCrewsMinLevel()
+          && ::g_crew.isAllCrewsHasBasicSpec()
+          && canUpgradeCrewSpec(crew))
       onUpgrCrewSpec1Tutorial()
   }
 
@@ -698,18 +699,16 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local specMsgBox = ::scene_msg_boxes_list.top()
     local steps = [
       {
-        obj = [specMsgBox.findObject("yes"), specMsgBox.findObject("msgText")]
+        obj = [[specMsgBox.findObject("buttons_holder"), specMsgBox.findObject("msgText")]]
         text = ::loc("tutorials/upg_crew/confirm_spec1")
-        actionType = tutorAction.FIRST_OBJ_CLICK
+        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        actionType = tutorAction.ANY_CLICK
+        haveArrow = false
         accessKey = "J:A"
-        cb = (@(specMsgBox) function() {
-          ::destroyMsgBox(specMsgBox)
-          ::g_crew._upgradeUnitSpec(crew, ::g_crew.getCrewUnit(crew), 1)
-          onUpgrCrewTutorFinalStep()
-        })(specMsgBox)
       }
     ]
     ::gui_modal_tutor(steps, this)
+    ::saveLocalByAccount("upgradeCrewSpecTutorialPassed", true)
   }
 
   function onUpgrCrewTutorFinalStep()

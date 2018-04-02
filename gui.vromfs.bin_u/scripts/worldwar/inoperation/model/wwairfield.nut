@@ -129,6 +129,22 @@ class ::WwAirfield
     return count
   }
 
+  function getUnitsInFlyNumber()
+  {
+    local unitsNumber = 0
+    foreach (armyName in armies)
+    {
+      local army = ::g_world_war.getArmyByName(armyName)
+      if (army.isValid())
+      {
+        army.updateUnits()
+        unitsNumber += army.getUnitsNumber()
+      }
+    }
+
+    return unitsNumber
+  }
+
   function isMySide(checkSide)
   {
     return getSide() == checkSide

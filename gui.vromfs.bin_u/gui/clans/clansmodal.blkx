@@ -1140,24 +1140,12 @@
                     "shadowSafeArea": []
                   },
                   {
-                    "tdiv": [
+                    "TopMenuPanelBGPlace": [
                       {
                         "id": "top_gamercard_bg"
                       },
                       {
-                        "size": "pw, ph-1@bh+1@topGamercardDarkLineHeight"
-                      },
-                      {
-                        "pos": "0, 1@bh-1@topGamercardDarkLineHeight"
-                      },
-                      {
-                        "position": "absolute"
-                      },
-                      {
                         "needRedShadow": "yes"
-                      },
-                      {
-                        "css-hier-invalidate": "yes"
                       },
                       {
                         "TopMenuPanelBg": {
@@ -1642,6 +1630,24 @@
           {
             "gamercard": {
               "id": "gamercard_bottom",
+              "systemMsg": {
+                "pos": "1@systemMsgIndent, 0",
+                "position": "root",
+                "flow": "vertical",
+                "dlDataStat": {
+                  "behavior": "bhvUpdater",
+                  "pos": "50%pw-50%w,0",
+                  "position": "relative",
+                  "value": "{\"viewId\": \"DL_DATA_STATE_TEXT\"}",
+                  "css-hier-invalidate": "yes",
+                  "animText": {
+                    "text": "",
+                    "font": "@fontTiny",
+                    "color-factor": "0",
+                    "fade": "out"
+                  }
+                }
+              },
               "BottomMenuPanel": [
                 {
                   "shadowSafeArea": []

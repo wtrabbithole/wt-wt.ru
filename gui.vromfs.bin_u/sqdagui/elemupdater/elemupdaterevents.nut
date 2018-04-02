@@ -102,11 +102,32 @@ local function notifyChanged(pathArray)
   }
 }
 
+local clearInvalidSubscriptions
+clearInvalidSubscriptions = function(subs) //this function will never remove from memory, but can recursive call.
+{
+  foreach(key, list in subs)
+  {
+    if (key != SUBSCRPTIONS_LIST_ID)
+    {
+      clearInvalidSubscriptions(list)
+      if (list.len() == 0)
+        subs.rawdelete(key)
+      continue
+    }
+
+    if (list.len() > 0)
+      validateSubscriptionsArray(list)
+
+    if (list.len() == 0)
+      subs.rawdelete(key)
+  }
+}
+
 if ("add_event_listener" in getroottable())
 {
   //all subscriptions for dagui objects, so we can clear all on full scene reload.
   ::add_event_listener("GuiSceneCleared",
-    @(p) subscriptions.clear()
+    @(p) clearInvalidSubscriptions(subscriptions)
     null,
     ::g_listener_priority.CONFIG_VALIDATION)
 }

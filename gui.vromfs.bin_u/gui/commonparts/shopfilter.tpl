@@ -17,6 +17,10 @@
       <</selected>>
     <</disabled>>
 
+    <<#inactive>>
+      inactive:t='yes'
+    <</inactive>>
+
     <<#newIconWidget>>
     tdiv {
       id:t='filter_new_icon_widget'

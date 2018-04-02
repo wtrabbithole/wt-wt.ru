@@ -116,7 +116,7 @@ class ActionBar
     viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_SHORCUT_LEN
     viewItem.gamepadButtonImg   <- shortcutTexture
     viewItem.cancelButton       <- shortcutTexture
-    viewItem.isXinput           <- ::is_xinput_device()
+    viewItem.isXinput           <- shortcutTexture && ::is_xinput_device()
 
     if (item.type == ::EII_BULLET && unit != null)
     {

@@ -1,3 +1,5 @@
+::g_script_reloader.loadOnce("scripts/controls/controlsPresets.nut")
+
 const PRESET_ACTUAL_VERSION  = 5
 const PRESET_DEFAULT_VERSION = 4
 
@@ -31,7 +33,7 @@ class ControlsPreset {
   /**************************** PUBLIC ****************************/
   /****************************************************************/
 
-  constructor(data = null, presetChain = null)
+  constructor(data = null, presetChain = [])
   {
     basePresetPaths = {}
     hotkeys         = {}
@@ -41,9 +43,9 @@ class ControlsPreset {
     deviceMapping   = []
 
     if (::u.isString(data))
-      loadFromPreset(data)
+      loadFromPreset(data, presetChain)
     else if (::u.isDataBlock(data))
-      loadFromBlk(data)
+      loadFromBlk(data, presetChain)
     else if ((typeof data == "instance") && (data instanceof ::ControlsPreset))
     {
       basePresetPaths = ::u.copy(data.basePresetPaths)
@@ -583,10 +585,16 @@ class ControlsPreset {
   {
     if (version >= PRESET_ACTUAL_VERSION)
     {
+      if (!("basePresetPaths" in blk))
+        blk["basePresetPaths"] = ::DataBlock()
       local blkBasePresetPaths = blk["basePresetPaths"]
 
-      if (!::u.isDataBlock(blkBasePresetPaths))
-        return
+      if (presetChain.len() == 0 && blkBasePresetPaths.paramCount() == 0)
+      {
+        blkBasePresetPaths["default"] <-
+          ::g_controls_presets.getControlsPresetFilename("keyboard_updates")
+        ::dagor.debug("ControlsPreset: Compatibility preset added to base presets")
+      }
 
       foreach (presetGroup, presetPath in blkBasePresetPaths)
       {
@@ -709,8 +717,9 @@ class ControlsPreset {
       local blkMouseAxes = blkAxes["mouse"]
       local mouseAxes = ::u.copy(compatibility.mouseAxesDefaults)
 
-      foreach (idx, axisId in blkMouseAxes % "axis")
-        mouseAxes[idx] = ::u.isInteger(axisId) ? ::get_axis_name(axisId) : ""
+      if (::u.isDataBlock(blkMouseAxes))
+        foreach (idx, axisId in blkMouseAxes % "axis")
+          mouseAxes[idx] = ::u.isInteger(axisId) ? ::get_axis_name(axisId) : ""
 
       foreach (idx, axisName in mouseAxes)
         if (::u.isString(axisName) && axisName.len() > 0)
@@ -1247,7 +1256,7 @@ class ControlsPreset {
     }
 
     mouseAxesDefaults = [
-      "ailerons", "elevator", "throttle", "gm_zoom", "ship_sight_distance"
+      "ailerons", "elevator", "throttle", "gm_zoom", "ship_sight_distance", "submarine_zoom"
     ]
   }
 

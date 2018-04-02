@@ -22,6 +22,14 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
     return ::getTblValue(unit.name, limitedUnits, 0)
   }
 
+  function getUnitLeftRespawnsByTeamDataBlk(unit, teamDataBlk)
+  {
+    if (!unit)
+      return 0
+
+    return teamDataBlk?.limitedUnits?[unit.name] ?? ::RESPAWNS_UNLIMITED
+  }
+
   function getSpecialCantRespawnMessage(unit)
   {
     local leftRespawns = getUnitLeftRespawns(unit)
@@ -71,5 +79,12 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
         res.unitLimits.append(limit)
       }
     return res
+  }
+
+  function isUnitAvailableForWWSpawnScore(unit)
+  {
+    return unit && isWorldWar && isUnitForcedVisible(unit.name)
+      && getUnitLeftRespawns(unit) == 0
+      && getUnitLeftRespawnsByTeamDataBlk(unit, getMyTeamDataBlk()) != 0
   }
 }

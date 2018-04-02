@@ -457,307 +457,369 @@
                     ]
                   }
                 ],
-                "tdiv": {
-                  "size": "pw, fh",
-                  "debrBlock": {
-                    "id": "my_stats_awards_block",
-                    "size": "2@debriefingUnlockIconSize +3@debrPad, ph",
-                    "class": "button",
-                    "behaviour": "button",
-                    "on_click": "onViewAwards",
+                "tdiv": [
+                  {
+                    "size": "pw, fh"
+                  },
+                  {
                     "tdiv": [
                       {
-                        "height": "ph"
+                        "id": "left_block"
                       },
                       {
-                        "pos": "pw/2-w/2, 0"
+                        "size": "2@debriefingUnlockIconSize +3@debrPad, ph"
                       },
                       {
-                        "position": "relative"
+                        "flow": "vertical"
                       },
                       {
-                        "tdiv": {
-                          "id": "awards_list_unlocks",
-                          "width": "1@debriefingUnlockIconSize",
-                          "height": "ph",
-                          "margin": "1@debrPad",
-                          "overflow": "visible",
-                          "flow": "vertical",
-                          "display": "hide"
-                        }
-                      },
-                      {
-                        "tdiv": {
-                          "id": "awards_list_streaks",
-                          "width": "1@debriefingUnlockIconSize",
-                          "height": "ph",
-                          "margin": "1@debrPad",
-                          "overflow": "visible",
-                          "flow": "vertical",
-                          "display": "hide"
-                        }
-                      }
-                    ],
-                    "debrSeparator": {
-                      "class": "right"
-                    }
-                  },
-                  "tdiv": [
-                    {
-                      "size": "fw, ph"
-                    },
-                    {
-                      "flow": "vertical"
-                    },
-                    {
-                      "debrBlock": [
-                        {
-                          "id": "pve_trophy_block"
-                        },
-                        {
-                          "size": "pw, 0.75@itemHeight"
-                        },
-                        {
-                          "padding": "1@debrPad"
-                        },
-                        {
-                          "display": "hide"
-                        },
-                        {
+                        "debrBlock": {
+                          "id": "inventory_gift_block",
+                          "size": "pw, pw",
                           "tdiv": {
-                            "id": "pve_trophy_progress",
-                            "pos": "0, ph/2-h/2",
+                            "pos": "pw/2-w/2, ph/2-h/2",
                             "position": "relative",
-                            "width": "75%pw"
-                          }
-                        },
-                        {
-                          "tdiv": {
-                            "id": "pve_trophy_chest",
-                            "size": "0.75@itemHeight, 0.75@itemHeight",
-                            "pos": "pw-w, ph/2-h/2",
-                            "position": "absolute"
-                          }
-                        },
-                        {
-                          "tdiv": {
-                            "size": "0.75@itemHeight, 0.75@itemHeight",
-                            "pos": "pw-w-0.25w, ph/2-h/2",
-                            "position": "absolute",
-                            "tdiv": {
-                              "id": "pve_trophy_content",
-                              "size": "1@itemHeight, 1@itemHeight",
-                              "pos": "pw/2-w/2, ph/2-h/2",
-                              "position": "absolute"
+                            "flow": "vertical",
+                            "div": {
+                              "id": "inventory_gift_icon",
+                              "size": "1@itemWidth, 1@itemHeight",
+                              "pos": "pw/2-w/2, 0",
+                              "position": "relative"
+                            },
+                            "Button_text": {
+                              "id": "btn_inventory_gift_action",
+                              "pos": "pw/2-w/2, 0",
+                              "position": "relative",
+                              "class": "battle",
+                              "navButtonFont": "yes",
+                              "btnName": "Y",
+                              "css-hier-invalidate": "yes",
+                              "_on_click": "onInventoryGiftAction",
+                              "display": "hide",
+                              "enable": "no",
+                              "pattern": [],
+                              "buttonWink": {
+                                "_transp-timer": "0"
+                              },
+                              "buttonGlance": [],
+                              "ButtonImg": [],
+                              "btnText": {
+                                "id": "btn_inventory_gift_action_text"
+                              }
                             }
-                          }
-                        },
-                        {
-                          "activeText": {
-                            "id": "pve_award_already_received",
-                            "pos": "pw-w- 1@debrPad, 50%ph",
-                            "position": "absolute",
-                            "text": "#debriefing/awardHasAlreadyBeenReceived",
-                            "display": "hide"
-                          }
-                        },
-                        {
+                          },
                           "debrSeparator": {
                             "class": "bottom"
                           }
                         }
-                      ]
-                    },
-                    {
-                      "debrBlock": {
-                        "id": "no_awards_block",
-                        "size": "pw, 0.12@scrn_tgt",
-                        "padding": "1@debrPad",
-                        "display": "hide",
-                        "textarea": {
-                          "id": "no_awards_caption",
-                          "width": "pw",
-                          "pos": "0, ph/2-h/2",
-                          "position": "absolute",
-                          "overlayTextColor": "userlog",
-                          "text": ""
-                        },
+                      },
+                      {
+                        "debrBlock": {
+                          "id": "my_stats_awards_block",
+                          "size": "pw, fh",
+                          "class": "button",
+                          "behaviour": "button",
+                          "on_click": "onViewAwards",
+                          "tdiv": [
+                            {
+                              "height": "ph"
+                            },
+                            {
+                              "pos": "pw/2-w/2, 0"
+                            },
+                            {
+                              "position": "relative"
+                            },
+                            {
+                              "tdiv": {
+                                "id": "awards_list_unlocks",
+                                "width": "1@debriefingUnlockIconSize",
+                                "height": "ph",
+                                "margin": "1@debrPad",
+                                "overflow": "visible",
+                                "flow": "vertical",
+                                "display": "hide"
+                              }
+                            },
+                            {
+                              "tdiv": {
+                                "id": "awards_list_streaks",
+                                "width": "1@debriefingUnlockIconSize",
+                                "height": "ph",
+                                "margin": "1@debrPad",
+                                "overflow": "visible",
+                                "flow": "vertical",
+                                "display": "hide"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
                         "debrSeparator": {
-                          "class": "bottom"
+                          "class": "right"
                         }
                       }
-                    },
-                    {
-                      "tdiv": [
-                        {
-                          "size": "pw, fh"
-                        },
-                        {
-                          "debrBlock": {
-                            "id": "my_stats_scroll_block",
-                            "size": "fw, ph",
-                            "flow": "vertical",
-                            "overflow-y": "auto",
-                            "scrollbarShortcuts": "yes",
-                            "css-hier-invalidate": "yes",
+                    ]
+                  },
+                  {
+                    "tdiv": [
+                      {
+                        "size": "fw, ph"
+                      },
+                      {
+                        "flow": "vertical"
+                      },
+                      {
+                        "debrBlock": [
+                          {
+                            "id": "pve_trophy_block"
+                          },
+                          {
+                            "size": "pw, 0.75@itemHeight"
+                          },
+                          {
+                            "padding": "1@debrPad"
+                          },
+                          {
+                            "display": "hide"
+                          },
+                          {
                             "tdiv": {
-                              "width": "pw",
-                              "min-height": "ph",
-                              "margin": "1@debrPad",
-                              "flow": "vertical",
-                              "table": {
-                                "id": "stat_table",
-                                "width": "pw",
-                                "baseRow": "rows16",
-                                "flow": "vertical",
-                                "total-input-transparent": "yes"
-                              },
+                              "id": "pve_trophy_progress",
+                              "pos": "0, ph/2-h/2",
+                              "position": "relative",
+                              "width": "75%pw"
+                            }
+                          },
+                          {
+                            "tdiv": {
+                              "id": "pve_trophy_chest",
+                              "size": "0.75@itemHeight, 0.75@itemHeight",
+                              "pos": "pw-w, ph/2-h/2",
+                              "position": "absolute"
+                            }
+                          },
+                          {
+                            "tdiv": {
+                              "size": "0.75@itemHeight, 0.75@itemHeight",
+                              "pos": "pw-w-0.25w, ph/2-h/2",
+                              "position": "absolute",
                               "tdiv": {
-                                "id": "leaderbord_stats",
-                                "width": "pw",
-                                "pos": "0, 1@debrPad",
-                                "position": "relative",
-                                "flow": "h-flow",
-                                "display": "hide"
-                              },
-                              "textareaNoTab": {
-                                "id": "stat_info_text",
-                                "width": "pw",
-                                "pos": "0, 3@debrPad",
-                                "position": "relative",
-                                "overlayTextColor": "",
-                                "text-align": "right",
-                                "text": "",
-                                "display": "hide"
+                                "id": "pve_trophy_content",
+                                "size": "1@itemHeight, 1@itemHeight",
+                                "pos": "pw/2-w/2, ph/2-h/2",
+                                "position": "absolute"
                               }
+                            }
+                          },
+                          {
+                            "activeText": {
+                              "id": "pve_award_already_received",
+                              "pos": "pw-w- 1@debrPad, 50%ph",
+                              "position": "absolute",
+                              "text": "#debriefing/awardHasAlreadyBeenReceived",
+                              "display": "hide"
+                            }
+                          },
+                          {
+                            "debrSeparator": {
+                              "class": "bottom"
                             }
                           }
-                        },
-                        {
-                          "debrBlock": {
-                            "id": "right_block",
-                            "size": "2@slot_width +2@debrPad +1@scrollBarSize, ph",
-                            "flow": "vertical",
-                            "debrSeparator": {
-                              "class": "left"
-                            },
-                            "debrBlock": {
-                              "id": "battle_tasks_block",
-                              "width": "pw",
-                              "max-height": "0.5ph",
-                              "margin": "1@debrPad, 0",
-                              "flow": "vertical",
-                              "activeText": {
-                                "text": "#debriefing/battletasks",
-                                "margin-top": "1@debrPad"
-                              },
-                              "listbox": {
-                                "id": "current_battle_tasks",
-                                "width": "pw",
-                                "margin-bottom": "1@debrPad",
-                                "overflow-y": "auto",
-                                "flow": "vertical",
-                                "scrollbarShortcuts": "left"
-                              },
-                              "debrSeparator": {
-                                "class": "bottom"
-                              }
-                            },
-                            "tdiv": {
-                              "id": "researches_scroll_block",
-                              "size": "pw, fh",
-                              "overflow-y": "auto",
-                              "scrollbarShortcuts": "left",
-                              "tdiv": [
-                                {
-                                  "width": "pw"
-                                },
-                                {
-                                  "min-height": "ph"
-                                },
-                                {
-                                  "margin": "1@debrPad"
-                                },
-                                {
-                                  "flow": "vertical"
-                                },
-                                {
-                                  "activeText": {
-                                    "text": "#debriefing/researched_unit"
-                                  }
-                                },
-                                {
-                                  "tdiv": [
-                                    {
-                                      "width": "pw"
-                                    },
-                                    {
-                                      "textAreaCentered": {
-                                        "id": "no_air_text",
-                                        "width": "pw",
-                                        "pos": "pw/2-w/2, ph/2-h/2",
-                                        "position": "absolute",
-                                        "smallFont": "yes",
-                                        "text": ""
-                                      }
-                                    },
-                                    {
-                                      "textAreaCentered": {
-                                        "id": "air_item_text",
-                                        "width": "pw",
-                                        "pos": "pw/2-w/2, ph/2-h/2",
-                                        "position": "absolute",
-                                        "smallFont": "yes",
-                                        "text": ""
-                                      }
-                                    },
-                                    {
-                                      "tdiv": {
-                                        "id": "air_item_place",
-                                        "width": "pw",
-                                        "min-height": "@slot_height + 2@slot_vert_pad",
-                                        "class": "rankUpList",
-                                        "flow": "h-flow"
-                                      }
-                                    }
-                                  ]
-                                },
-                                {
-                                  "activeText": {
-                                    "pos": "0, 0.67@debrPad",
-                                    "position": "relative",
-                                    "text": "#debriefing/research_list"
-                                  }
-                                },
-                                {
-                                  "tdiv": {
-                                    "id": "research_list",
-                                    "width": "pw",
-                                    "flow": "vertical",
-                                    "textAreaCentered": {
-                                      "id": "research_list_text",
-                                      "width": "pw",
-                                      "pos": "pw/2-w/2, (@slot_height + 2@slot_vert_pad)/2-h/2",
-                                      "position": "absolute",
-                                      "smallFont": "yes",
-                                      "text": ""
-                                    },
-                                    "tdiv": {
-                                      "id": "modifications_objects_place",
-                                      "width": "pw",
-                                      "min-height": "1@slot_height + 2@slot_vert_pad",
-                                      "flow": "vertical"
-                                    }
-                                  }
-                                }
-                              ]
-                            }
+                        ]
+                      },
+                      {
+                        "debrBlock": {
+                          "id": "no_awards_block",
+                          "size": "pw, 0.12@scrn_tgt",
+                          "padding": "1@debrPad",
+                          "display": "hide",
+                          "textarea": {
+                            "id": "no_awards_caption",
+                            "width": "pw",
+                            "pos": "0, ph/2-h/2",
+                            "position": "absolute",
+                            "overlayTextColor": "userlog",
+                            "text": ""
+                          },
+                          "debrSeparator": {
+                            "class": "bottom"
                           }
                         }
-                      ]
-                    }
-                  ]
-                }
+                      },
+                      {
+                        "tdiv": [
+                          {
+                            "size": "pw, fh"
+                          },
+                          {
+                            "debrBlock": {
+                              "id": "my_stats_scroll_block",
+                              "size": "fw, ph",
+                              "flow": "vertical",
+                              "overflow-y": "auto",
+                              "scrollbarShortcuts": "yes",
+                              "css-hier-invalidate": "yes",
+                              "tdiv": {
+                                "width": "pw",
+                                "min-height": "ph",
+                                "margin": "1@debrPad",
+                                "flow": "vertical",
+                                "table": {
+                                  "id": "stat_table",
+                                  "width": "pw",
+                                  "baseRow": "rows16",
+                                  "flow": "vertical",
+                                  "total-input-transparent": "yes"
+                                },
+                                "tdiv": {
+                                  "id": "leaderbord_stats",
+                                  "width": "pw",
+                                  "pos": "0, 1@debrPad",
+                                  "position": "relative",
+                                  "flow": "h-flow",
+                                  "display": "hide"
+                                },
+                                "textareaNoTab": {
+                                  "id": "stat_info_text",
+                                  "width": "pw",
+                                  "pos": "0, 3@debrPad",
+                                  "position": "relative",
+                                  "overlayTextColor": "",
+                                  "text-align": "right",
+                                  "text": "",
+                                  "display": "hide"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "debrBlock": {
+                              "id": "right_block",
+                              "size": "2@slot_width +2@debrPad +1@scrollBarSize, ph",
+                              "flow": "vertical",
+                              "debrSeparator": {
+                                "class": "left"
+                              },
+                              "debrBlock": {
+                                "id": "battle_tasks_block",
+                                "width": "pw",
+                                "max-height": "0.5ph",
+                                "margin": "1@debrPad, 0",
+                                "flow": "vertical",
+                                "activeText": {
+                                  "text": "#debriefing/battletasks",
+                                  "margin-top": "1@debrPad"
+                                },
+                                "listbox": {
+                                  "id": "current_battle_tasks",
+                                  "width": "pw",
+                                  "margin-bottom": "1@debrPad",
+                                  "overflow-y": "auto",
+                                  "flow": "vertical",
+                                  "scrollbarShortcuts": "left"
+                                },
+                                "debrSeparator": {
+                                  "class": "bottom"
+                                }
+                              },
+                              "tdiv": {
+                                "id": "researches_scroll_block",
+                                "size": "pw, fh",
+                                "overflow-y": "auto",
+                                "scrollbarShortcuts": "left",
+                                "tdiv": [
+                                  {
+                                    "width": "pw"
+                                  },
+                                  {
+                                    "min-height": "ph"
+                                  },
+                                  {
+                                    "margin": "1@debrPad"
+                                  },
+                                  {
+                                    "flow": "vertical"
+                                  },
+                                  {
+                                    "activeText": {
+                                      "text": "#debriefing/researched_unit"
+                                    }
+                                  },
+                                  {
+                                    "tdiv": [
+                                      {
+                                        "width": "pw"
+                                      },
+                                      {
+                                        "textAreaCentered": {
+                                          "id": "no_air_text",
+                                          "width": "pw",
+                                          "pos": "pw/2-w/2, ph/2-h/2",
+                                          "position": "absolute",
+                                          "smallFont": "yes",
+                                          "text": ""
+                                        }
+                                      },
+                                      {
+                                        "textAreaCentered": {
+                                          "id": "air_item_text",
+                                          "width": "pw",
+                                          "pos": "pw/2-w/2, ph/2-h/2",
+                                          "position": "absolute",
+                                          "smallFont": "yes",
+                                          "text": ""
+                                        }
+                                      },
+                                      {
+                                        "tdiv": {
+                                          "id": "air_item_place",
+                                          "width": "pw",
+                                          "min-height": "@slot_height + 2@slot_vert_pad",
+                                          "class": "rankUpList",
+                                          "flow": "h-flow"
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "activeText": {
+                                      "pos": "0, 0.67@debrPad",
+                                      "position": "relative",
+                                      "text": "#debriefing/research_list"
+                                    }
+                                  },
+                                  {
+                                    "tdiv": {
+                                      "id": "research_list",
+                                      "width": "pw",
+                                      "flow": "vertical",
+                                      "textAreaCentered": {
+                                        "id": "research_list_text",
+                                        "width": "pw",
+                                        "pos": "pw/2-w/2, (@slot_height + 2@slot_vert_pad)/2-h/2",
+                                        "position": "absolute",
+                                        "smallFont": "yes",
+                                        "text": ""
+                                      },
+                                      "tdiv": {
+                                        "id": "modifications_objects_place",
+                                        "width": "pw",
+                                        "min-height": "1@slot_height + 2@slot_vert_pad",
+                                        "flow": "vertical"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             },
             {
@@ -1078,24 +1140,12 @@
                   "shadowSafeArea": []
                 },
                 {
-                  "tdiv": [
+                  "TopMenuPanelBGPlace": [
                     {
                       "id": "top_gamercard_bg"
                     },
                     {
-                      "size": "pw, ph-1@bh+1@topGamercardDarkLineHeight"
-                    },
-                    {
-                      "pos": "0, 1@bh-1@topGamercardDarkLineHeight"
-                    },
-                    {
-                      "position": "absolute"
-                    },
-                    {
                       "needRedShadow": "yes"
-                    },
-                    {
-                      "css-hier-invalidate": "yes"
                     },
                     {
                       "TopMenuPanelBg": {
@@ -1580,6 +1630,24 @@
         {
           "gamercard": {
             "id": "gamercard_bottom",
+            "systemMsg": {
+              "pos": "1@systemMsgIndent, 0",
+              "position": "root",
+              "flow": "vertical",
+              "dlDataStat": {
+                "behavior": "bhvUpdater",
+                "pos": "50%pw-50%w,0",
+                "position": "relative",
+                "value": "{\"viewId\": \"DL_DATA_STATE_TEXT\"}",
+                "css-hier-invalidate": "yes",
+                "animText": {
+                  "text": "",
+                  "font": "@fontTiny",
+                  "color-factor": "0",
+                  "fade": "out"
+                }
+              }
+            },
             "BottomMenuPanel": [
               {
                 "shadowSafeArea": []

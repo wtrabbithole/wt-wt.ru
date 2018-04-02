@@ -135,9 +135,9 @@ class ::items_classes.Ticket extends ::BaseItem
     local unitTypeMask = ::events.getEventUnitTypesMask(event)
 
     local unitsString = ""
-    foreach(unitType in ::unitTypesList)
-      if ((1 << unitType) & unitTypeMask)
-        unitsString += "_" + ::getUnitTypeText(unitType)
+    foreach(unitType in ::g_unit_type.types)
+      if (unitType.bit & unitTypeMask)
+        unitsString += "_" + unitType.name
 
     return unitsString
   }

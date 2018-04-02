@@ -9,6 +9,13 @@ enum WW_BATTLE_VIEW_MODES
   SQUAD_INFO,
   QUEUE_INFO
 }
+enum UNAVAILABLE_BATTLES_CATEGORIES
+{
+  NO_AVAILABLE_UNITS  = 0x0001
+  NO_FREE_SPACE       = 0x0002
+  IS_UNBALANCED       = 0x0004
+  LOCK_BY_TIMER       = 0x0008
+}
 
 class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -40,6 +47,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   queueInfoHandlerWeak = null
 
   idPrefix = "btn_"
+  filterMask = 0
 
   static function open(battle)
   {
@@ -94,6 +102,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     syncSquadCountry()
     reinitBattlesList()
     initSquadList()
+    initFocusArray()
+  }
+
+  function getMainFocusObj()
+  {
+    return battlesListObj
   }
 
   function initQueueInfo()
@@ -177,6 +191,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateSlotbar()
     updateButtons()
     updateDurationTimer()
+    updateNoAvailableBattleInfo()
   }
 
   function updateTitle()
@@ -201,6 +216,42 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     battleDurationTimer = ::Timer(scene, 1,
       @() updateBattleStatus(operationBattle.getView()), this, true)
+  }
+
+  function updateNoAvailableBattleInfo()
+  {
+    local country = ::g_world_war.curOperationCountry
+    local availableBattlesList = ::g_world_war.getBattles().filter(
+      function(idx, battle) {
+        return ::g_world_war.isBattleAvailableToPlay(battle)
+          && isMatchFilterMask(battle, country)
+      }.bindenv(this))
+
+    showSceneBtn("no_available_battles_alert_text", !availableBattlesList.len())
+  }
+
+  function isMatchFilterMask(battle, country)
+  {
+    local side = getPlayerSide(battle)
+    local team = battle.getTeamBySide(side)
+
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS & filterMask)
+        && !battle.hasUnitsToFight(country, team, side))
+      return false
+
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NO_FREE_SPACE & filterMask)
+        && !battle.hasEnoughSpaceInTeam(team))
+      return false
+
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & filterMask)
+        && battle.isLockedByExcessPlayers(country))
+      return false
+
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER & filterMask)
+        && battle.getBattleActivateLeftTime() > 0)
+      return false
+
+    return true
   }
 
   selIdx = -1
@@ -249,7 +300,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     local view = {
       id = groupId
-      itemTag = "group"
+      itemTag = "WwBattlesGroup"
       itemText = groupData.text
       isCollapsable = true
     }
@@ -335,20 +386,39 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!operationBattle.isActive())
       return
 
-    local playerTeam = operationBattle.getTeamBySide(getPlayerSide())
+    local side = getPlayerSide()
+    local playerTeam = operationBattle.getTeamBySide(side)
     ::switch_profile_country(playerTeam.country)
     local availableUnits = operationBattle.getTeamRemainUnits(playerTeam)
+    local operationUnits = ::g_world_war.getAllOperationUnitsBySide(side)
+
     createSlotbar(
       {
         customCountry = playerTeam.country
         availableUnits = availableUnits,
         showTopPanel = false
-        gameModeName = operationBattle.getLocName()
+        gameModeName = getGameModeNameText()
         showEmptySlot = true
         needPresetsPanel = true
         shouldCheckCrewsReady = true
+        customUnitsList = operationUnits
+        customUnitsListName = getCustomUnitsListNameText()
       }
     )
+  }
+
+  function getGameModeNameText()
+  {
+    return operationBattle.getView().getBattleName() + " " + curBattleInList.getLocName()
+  }
+
+  function getCustomUnitsListNameText()
+  {
+    local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    if (operation)
+      return ::loc("mainmenu/operationTitle", {operation = operation.getMapText()})
+
+    return ""
   }
 
   function updateDescription()
@@ -583,7 +653,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     showSceneBtn("invite_squads_button",
       hasSquadsInviteButton && ::g_world_war.isSquadsInviteEnable())
-    showSceneBtn("hide_unavailable_battles", hasBattleFilter)
+    showSceneBtn("btn_battles_filters", hasBattleFilter)
     showSceneBtn("goto_global_battles_btn", currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
 
     if (!operationBattle.isValid())
@@ -643,6 +713,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         isSelectedBattleActive = true
         updateDescription()
         updateButtons()
+        updateNoAvailableBattleInfo()
       }
     }
 
@@ -1086,7 +1157,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return false
   }
 
-  function onChangeFilter(obj)
+  function onOpenBattlesFilters(obj)
   {
   }
 }

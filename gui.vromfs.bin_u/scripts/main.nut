@@ -116,10 +116,11 @@ enum bit_activity {
 }
 
 enum itemsTab {
-  INVENTORY = 0,
-  SHOP = 1,
+  INVENTORY
+  SHOP
+  WORKSHOP
 
-  TOTAL = 2
+  TOTAL
 }
 
 enum itemType { //bit values for easy multitype search
@@ -140,10 +141,17 @@ enum itemType { //bit values for easy multitype search
   VEHICLE         = 0x00010000
   SKIN            = 0x00020000
   DECAL           = 0x00040000
-  KEY             = 0x00080000
-  CHEST           = 0x00100000
+  ATTACHABLE      = 0x00080000
+  KEY             = 0x00100000
+  CHEST           = 0x00200000
+  WARBONDS        = 0x00400000
 
+  //workshop
+  CRAFT_PART      = 0x10000000
+
+  //masks
   ALL             = 0xFFFFFFFF
+  INVENTORY_ALL   = 0x0FFFFFFF //~CRAFT_PART
 }
 
 enum prizesStack {
@@ -342,6 +350,10 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   @(obj) !obj.isValid()
 )
 
+  // Independed Modules
+::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
+::require("scripts/clientState/elems/dlDataStatElem.nut")
+  // end of Independed Modules
 //------- ^^^ files before login ^^^ ----------
 
 
@@ -776,7 +788,6 @@ function load_scripts_after_login_once()
   // Independed Modules
   ::require("scripts/social/playerInfoUpdater.nut")
   ::require("scripts/seen/bhvUnseen.nut")
-  ::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

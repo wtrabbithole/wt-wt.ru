@@ -30,16 +30,25 @@ function OnlineShopModel::showGoods(searchRequest)
   if (!::has_feature("OnlineShopPacks"))
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
 
-  __assyncActionWrap((@(searchRequest) function () {
-      if (!::is_ps4_or_xbox)
-      {
-        local searchResult = __searchEntitlement(searchRequest)
-        foreach (goodsName in searchResult)
-          if (getGuidForGoods(goodsName) != "")
-            return doBrowserPurchase(goodsName)
-      }
+  if (searchRequest?.unitName)
+  {
+    local customUrl = ::loc("url/custom_purchase/unit", searchRequest, "")
+    if (customUrl.len())
+      return openShopUrl(customUrl)
+  }
+
+  if (::is_ps4_or_xbox)
+    return launchPS4Store() || launchXboxMarketplace()
+
+  __assyncActionWrap(function ()
+    {
+      local searchResult = __searchEntitlement(searchRequest)
+      foreach (goodsName in searchResult)
+        if (getGuidForGoods(goodsName) != "")
+          return doBrowserPurchase(goodsName)
+
       return ::gui_modal_onlineShop()
-    })(searchRequest).bindenv(OnlineShopModel))
+    }.bindenv(OnlineShopModel))
 }
 /*end API methods*/
 
@@ -245,10 +254,7 @@ function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
     return false
 
   if (::is_ps4_or_xbox)
-  {
-    ::gui_modal_onlineShop()
-    return true
-  }
+    return launchPS4Store() || launchXboxMarketplace()
 
   if (purchaseData.customPurchaseLink)
   {
@@ -272,7 +278,7 @@ function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
 function OnlineShopModel::doBrowserPurchase(goodsName)
 {
   if (::is_ps4_or_xbox)
-    return ::gui_modal_onlineShop()
+    return launchPS4Store() || launchXboxMarketplace()
   //just to avoid bugs, when users, who should to purchase goods in regional
   //web shops, accidentally uses ingame online shop
   local customUrl = getCustomPurchaseUrl(getGoodsChapter(goodsName))
@@ -438,6 +444,42 @@ function OnlineShopModel::startEntitlementsUpdater()
   ).weakref()
 }
 
+function OnlineShopModel::launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null)
+{
+  if (!::isInMenu())
+    return
+
+  if (launchPS4Store(chapter))
+    return
+
+  if (launchXboxMarketplace(chapter))
+    return
+
+  ::gui_modal_onlineShop(owner, chapter, afterCloseFunc)
+}
+
+function OnlineShopModel::launchPS4Store(chapter = null)
+{
+  if (::is_platform_ps4 && ::isInArray(chapter, [null, "", "eagles"]))
+  {
+    ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter),
+      null, "isCanUseOnlineShop")
+    return true
+  }
+  return false
+}
+
+function OnlineShopModel::launchXboxMarketplace(chapter = null)
+{
+  if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
+  {
+    ::queues.checkAndStart(@() ::launch_xbox_one_store_by_chapter(chapter),
+      null, "isCanUseOnlineShop")
+    return true
+  }
+  return false
+}
+
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
@@ -551,23 +593,6 @@ function update_purchases_return_mainmenu()
 
 function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
 {
-  if (!::isInMenu())
-    return
-
-  if (::is_platform_ps4 && ::isInArray(chapter, [null, "", "eagles"]))
-  {
-    ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter),
-      null, "isCanUseOnlineShop")
-    return
-  }
-
-  if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
-  {
-    ::queues.checkAndStart(@() ::launch_xbox_one_store_by_chapter(chapter),
-      null, "isCanUseOnlineShop")
-    return
-  }
-
   if (::OnlineShopModel.checkAndOpenCustomPurchaseUrl(chapter, true))
     return
 

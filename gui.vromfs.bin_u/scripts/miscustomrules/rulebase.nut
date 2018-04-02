@@ -92,7 +92,7 @@ class ::mission_rules.Base
   function getRespawnInfoTextForUnit(unit)
   {
     local unitLeftRespawns = getUnitLeftRespawns(unit)
-    if (unitLeftRespawns == ::RESPAWNS_UNLIMITED)
+    if (unitLeftRespawns == ::RESPAWNS_UNLIMITED || isUnitAvailableForWWSpawnScore(unit))
       return ""
     return ::loc("respawn/leftTeamUnit", { num = unitLeftRespawns })
   }
@@ -477,6 +477,11 @@ class ::mission_rules.Base
   function isWorldWarUnit(unitName)
   {
     return isWorldWar && getMyStateBlk()?.ownAvailableUnits?[unitName] == false
+  }
+
+  function isUnitAvailableForWWSpawnScore(unit)
+  {
+    return false
   }
 }
 

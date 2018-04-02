@@ -3,10 +3,7 @@ local widgetsState = require("widgetsState.nut")
 local hudState = require("hudState.nut")
 local helicopterHud = require("helicopterHud.nut")
 local shipHud = require("shipHud.nut")
-//
-
-
-
+local shipExHud = require("shipExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
 
 
@@ -19,11 +16,8 @@ local widgetsMap = {
       return helicopterHud
     else if (hudState.unitType.value == "ship")
       return shipHud
-//
-
-
-
-
+    else if (hudState.unitType.value == "shipEx")
+      return shipExHud
     else
       return null
   },

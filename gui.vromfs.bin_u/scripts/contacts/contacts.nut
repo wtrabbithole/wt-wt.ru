@@ -143,6 +143,32 @@ function g_contacts::removeContactGroup(group)
   ::u.removeFrom(::contacts_groups, group)
 }
 
+function g_contacts::xboxUpdateContactsList(friendsResult = null)
+{
+  if (!friendsResult)
+    return
+
+  local existedXBoxContacts = ::get_contacts_array_by_regexp(::EPL_FRIENDLIST, platformModule.xboxNameRegexp)
+  for (local i = existedXBoxContacts.len() - 1; i >= 0; i--)
+  {
+    if (existedXBoxContacts[i].uid in friendsResult)
+    {
+      local contact = existedXBoxContacts.remove(i)
+      friendsResult.removeBlock(contact.uid)
+    }
+  }
+
+  local xboxFriendsList = []
+  foreach(uid, data in friendsResult)
+    xboxFriendsList.append(::getContact(uid, data.nick))
+
+  local requestTable = {}
+  requestTable[true] <- xboxFriendsList
+  requestTable[false] <- existedXBoxContacts
+
+  ::edit_players_list_in_contacts(requestTable, ::EPL_FRIENDLIST)
+}
+
 
 ::missed_contacts_data <- {}
 
@@ -351,7 +377,7 @@ function editContactMsgBox(player, groupName, add) //playerConfig: { uid, name }
   }
 
   local contact = ::getContact(player.uid, player.name)
-  if (contact.canOpenXBoxFriendsWindow())
+  if (contact.canOpenXBoxFriendsWindow(groupName))
   {
     contact.openXBoxFriendsEdit()
     return

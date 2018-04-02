@@ -155,7 +155,7 @@ class ::items_classes.Booster extends ::BaseItem
   {
     if (isCanBuy())
       return getBuyText(colored, short)
-    if (isInventoryItem && !isActive())
+    if (isInventoryItem && amount && !isActive())
       return ::loc("item/activate")
     return ""
   }

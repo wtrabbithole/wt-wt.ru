@@ -558,6 +558,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -566,6 +569,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -574,6 +580,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_tanks_squad"
@@ -599,6 +614,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_trucks_squad"
@@ -649,6 +673,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -660,6 +687,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -6950,7 +6980,7 @@
         [12000.0,0.0,0.0],
         [0.0,12000.0,0.0],
         [0.0,0.0,12000.0],
-        [-5.96046e-08,3000.0,-83.0499]
+        [-5.96046e-08,1700.0,-83.0499]
       ],
       "objLayer": 0,
       "props": []
@@ -6991,10 +7021,10 @@
     "t1_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [2.26494e-05,0.0,300.0],
-        [0.0,300.0,0.0],
-        [-300.0,0.0,2.26494e-05],
-        [-0.0500001,3000.0,-6082.5]
+        [3.01992e-05,0.0,400.0],
+        [0.0,400.0,0.0],
+        [-400.0,0.0,3.01992e-05],
+        [-0.0500001,1700.0,-6082.5]
       ],
       "objLayer": 0,
       "props": []
@@ -7002,10 +7032,10 @@
     "t2_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [2.26494e-05,0.0,-300.0],
-        [0.0,300.0,0.0],
-        [300.0,0.0,2.26494e-05],
-        [0.35,3000.0,5917.5]
+        [3.01992e-05,0.0,-400.0],
+        [0.0,400.0,0.0],
+        [400.0,0.0,3.01992e-05],
+        [0.35,1700.0,5917.5]
       ],
       "objLayer": 0,
       "props": []

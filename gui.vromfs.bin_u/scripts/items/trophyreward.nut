@@ -1,11 +1,11 @@
 ::trophyReward <- {
-  maxRewardsShow = 3
+  maxRewardsShow = 5
 
   //!!FIX ME: need to convert reward type by enum_utils
   rewardTypes = [ "multiAwardsOnWorthGold", "modsForBoughtUnit",
                   "unit", "rentedUnit",
                   "trophy", "item", "unlock", "unlockType", "resource", "resourceType",
-                  "entitlement", "gold", "warpoints", "exp"]
+                  "entitlement", "gold", "warpoints", "exp", "warbonds"]
   iconsRequired = [ "trophy", "item", "unlock", "entitlement", "resource" ]
   specialPrizeParams = {
     rentedUnit = function(config, prize) {
@@ -37,6 +37,7 @@ function trophyReward::processUserlogData(configsArray = [])
   {
     local type = ::trophyReward.getType(config)
     local typeVal = ::getTblValue(type, config)
+    local count = config?.count ?? 1
 
     local checkBuffer = typeVal
     if (typeof typeVal != "string")
@@ -45,19 +46,21 @@ function trophyReward::processUserlogData(configsArray = [])
     if (!::getTblValue(checkBuffer, tempBuffer))
     {
       tempBuffer[checkBuffer] <- {
-          count = 1
+          count = count
           arrayIdx = idx
         }
     }
     else
-      tempBuffer[checkBuffer].count++
+      tempBuffer[checkBuffer].count += count
 
     if (type == "unit")
       ::broadcastEvent("UnitBought", { unitName = typeVal, receivedFromTrophy = true })
     else if (type == "rentedUnit")
       ::broadcastEvent("UnitRented", { unitName = typeVal, receivedFromTrophy = true })
-    else if (type == "resourceType" && typeVal == "decal")
-      ::broadcastEvent("DecalReceived", { decalId = config?.resource })
+    else if (type == "resourceType" && typeVal == g_decorator_type.DECALS.resourceType)
+      ::broadcastEvent("DecalReceived", { id = config?.resource })
+    else if (type == "resourceType" && typeVal == g_decorator_type.ATTACHABLES.resourceType)
+      ::broadcastEvent("AttachableReceived", { id = config?.resource })
   }
 
   local res = []
@@ -122,6 +125,7 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
             enableBackground = false,
             showAction = false,
             showPrice = false,
+            needRarity = false,
             contentIcon = false,
             count = ::getTblValue("count", config, 0)
           })
@@ -146,6 +150,8 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
   }
   else if (rewardType == "warpoints")
     image = getFullWPIcon(rewardValue)
+  else if (rewardType == "warbonds")
+    image = getFullWarbondsIcon(rewardValue)
 
   if (image == "")
     image = ::LayersIcon.getIconData(style)
@@ -162,14 +168,15 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
 
 function trophyReward::getMoneyLayer(config)
 {
-  local money = getMoneyReward(config)
-  if (money <= ::zero_money)
-    return ""
+  local currencyCfg = ::PrizesView.getPrizeCurrencyCfg(config)
+  if (!currencyCfg)
+    return  ""
+
   local layerCfg = ::LayersIcon.findLayerCfg("roulette_money_text")
   if (!layerCfg)
     return ""
 
-  layerCfg.text <- money.tostring()
+  layerCfg.text <- currencyCfg.printFunc(currencyCfg.val)
   return ::LayersIcon.getTextDataFromLayer(layerCfg)
 }
 
@@ -188,6 +195,13 @@ function trophyReward::getFullWPIcon(wp)
   local wpLayer = ::LayersIcon.findLayerCfg(getWPIcon(wp))
   if (layer && wpLayer)
     layer.img <- ::getTblValue("img", wpLayer, "")
+  return ::LayersIcon.genDataFromLayer(layer)
+}
+
+function trophyReward::getFullWarbondsIcon(wbId)
+{
+  local layer = ::LayersIcon.findLayerCfg("item_warpoints")
+  layer.img <- "#ui/gameuiskin#item_warbonds"
   return ::LayersIcon.genDataFromLayer(layer)
 }
 
@@ -259,16 +273,6 @@ function trophyReward::getDecription(config, isFull = false)
   return ""
 }
 
-function trophyReward::getMoneyReward(config)
-{
-  local count = ::getTblValue("count", config, 1)
-  return ::Cost(
-                  ::getTblValue("warpoints", config, 0)*count,
-                  ::getTblValue("gold", config, 0)*count,
-                  ::getTblValue("exp", config, 0)*count
-                )
-}
-
 function trophyReward::getRewardText(config, isFull = false)
 {
   return ::PrizesView.getPrizeText(::DataBlockAdapter(config), true, false, true, isFull)
@@ -277,14 +281,17 @@ function trophyReward::getRewardText(config, isFull = false)
 function trophyReward::getCommonRewardText(configsArray)
 {
   local result = {}
-  local totalReward = ::Cost()
+  local currencies = {}
 
   foreach(config in configsArray)
   {
-    local money = ::trophyReward.getMoneyReward(config)
-    if (money > ::zero_money)
+    local currencyCfg = ::PrizesView.getPrizeCurrencyCfg(config)
+    if (currencyCfg)
     {
-      totalReward += money
+      if (!(currencyCfg.type in currencies))
+        currencies[currencyCfg.type] <- currencyCfg
+      else
+        currencies[currencyCfg.type].val += currencyCfg.val
       continue
     }
 
@@ -313,7 +320,13 @@ function trophyReward::getCommonRewardText(configsArray)
     result[rewType].num++;
   }
 
-  local returnData = [totalReward.tostring()]
+  currencies = ::u.values(currencies)
+  currencies.sort(@(a, b) a.type <=> b.type)
+  currencies = ::u.map(currencies, @(c) c.printFunc(c.val))
+  currencies = ::g_string.implode(currencies, ::loc("ui/comma"))
+
+  local returnData = [ currencies ]
+
   foreach(data in result)
   {
     if (data.type == "item")

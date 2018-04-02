@@ -242,6 +242,7 @@ function build_aircraft_item(id, air, params = {})
       showInService       = getVal("showInService", false) && isUsable
       isMounted           = isMounted
       priceText           = priceText
+      isLongPriceText     = ::is_unit_price_text_long(priceText)
       isElite             = isLocalState && (isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
       isItemLocked        = isLocalState && !isUsable && !special && !::isUnitsEraUnlocked(air)
@@ -632,7 +633,11 @@ function get_slot_unit_name_text(unit, params)
   {
     local leftRespawns = missionRules.getUnitLeftRespawns(unit)
     local leftWeaponPresetsText = missionRules.getUnitLeftWeaponShortText(unit)
-    local text = leftRespawns != ::RESPAWNS_UNLIMITED ? leftRespawns.tostring() : ""
+    local text = leftRespawns != ::RESPAWNS_UNLIMITED
+      ? missionRules.isUnitAvailableForWWSpawnScore(unit)
+        ? ::loc("icon/star/white")
+        : leftRespawns.tostring()
+      : ""
 
     if (leftWeaponPresetsText.len())
       text += (text.len() ? "/" : "") + leftWeaponPresetsText
@@ -642,6 +647,8 @@ function get_slot_unit_name_text(unit, params)
   }
   return res
 }
+
+::is_unit_price_text_long <- @(text) ::utf8_strlen(::g_dagui_utils.removeTextareaTags(text)) > 13
 
 function get_unit_item_price_text(unit, params)
 {
@@ -826,7 +833,7 @@ function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, cou
     local tags = ::getSlotbarTags(handler)
     unlocked = unlocked && (!tags || ::check_aircraft_tags(unit.tags, tags))
     unlocked = unlocked && (!country || ::is_crew_available_in_session(curSlotIdInCountry, needDbg))
-    unlocked = unlocked && ::isUnitAvailableForGM(unit, ::get_game_mode())
+    unlocked = unlocked && (::isUnitAvailableForGM(unit, ::get_game_mode()) || ::is_in_flight())
     if (unlocked && !::SessionLobby.canChangeCrewUnits() && !::is_in_flight()
         && ::SessionLobby.getMaxRespawns() == 1)
       unlocked = ::SessionLobby.getMyCurUnit() == unit
@@ -1125,6 +1132,14 @@ function is_unit_enabled_for_slotbar(unit, params)
   }
 
   return res
+}
+
+function isUnitInCustomList(unit, params)
+{
+  if (!unit)
+    return false
+
+  return params?.customUnitsList ? unit.name in params.customUnitsList : true
 }
 
 function getSelSlotsTable()

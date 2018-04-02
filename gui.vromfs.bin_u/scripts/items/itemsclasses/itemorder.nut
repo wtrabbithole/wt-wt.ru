@@ -68,11 +68,13 @@ class ::items_classes.Order extends ::BaseItem
   {
     if (isCanBuy())
       return getBuyText(colored, short)
+    if (!isInventoryItem || !amount)
+      return ""
     local currentEvent = ::SessionLobby.getRoomEvent()
     local diffCode = ::events.getEventDiffCode(currentEvent)
     local diff = ::g_difficulty.getDifficultyByDiffCode(diffCode)
     local checkDifficulty = !::isInArray(diff, disabledDifficulties)
-    if (isInventoryItem && !isActive() && ::g_orders.orderCanBeActivated() && checkDifficulty)
+    if (!isActive() && ::g_orders.orderCanBeActivated() && checkDifficulty)
       return ::loc("item/activate")
     return ""
   }

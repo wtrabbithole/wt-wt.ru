@@ -5027,6 +5027,73 @@
       "rollRate": 118.0
     }
   },
+  "spitfire_mk9c_4cannons": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_britain",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "rolls-royce",
+        "model": "merlin-61",
+        "mass": 605.0
+      },
+      "tanks_params": {
+        "protected_boost": true,
+        "tank1_dm": {
+          "protected": false
+        },
+        "tank2_dm": {
+          "protected": true
+        }
+      }
+    },
+    "tags": {
+      "ally": true,
+      "country_britain": true,
+      "type_fighter": true,
+      "bulge": true,
+      "malta": true,
+      "sicily": true,
+      "mediterranean": true,
+      "western_front": true,
+      "pacific": true,
+      "air": true,
+      "not_in_dynamic_campaign": true
+    },
+    "years_active": {
+      "year1942": {
+        "britain": 1.0,
+        "malta": 1.0,
+        "port_moresby": 1.0,
+        "sicily": 1.0
+      },
+      "year1943": {
+        "britain": 0.7,
+        "malta": 0.7,
+        "port_moresby": 0.7,
+        "sicily": 0.7
+      },
+      "year1944": {
+        "britain": 0.3,
+        "malta": 0.3,
+        "port_moresby": 0.3,
+        "sicily": 0.3
+      }
+    },
+    "Shop": {
+      "maxAltitude": 11500.0,
+      "maxSpeed": 180.5,
+      "turnTime": 17.2,
+      "airfieldLen": 380.0,
+      "maxSpeedAlt": 8537.0,
+      "climbSpeed": 19.3,
+      "climbTime": 400.0,
+      "climbAlt": 6098.0,
+      "wingLoading": 149.0,
+      "powerToWeightRatio": 0.42,
+      "rollRate": 118.0
+    }
+  },
   "spitfire_ix_early": {
     "type": "aircraft",
     "hangar_place": "aircraft",
@@ -16184,6 +16251,66 @@
       "climbSpeed": 19.6,
       "wingLoading": 172.0,
       "powerToWeightRatio": 0.37,
+      "rollRate": 138.0
+    }
+  },
+  "p-63c-5_kingcobra_animal_version": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_zhengzhou",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "allison",
+        "model": "1710-117",
+        "mass": 594.0
+      }
+    },
+    "tags": {
+      "ally": true,
+      "type_fighter": true,
+      "country_china": true,
+      "mediterranean": true,
+      "western_front": true,
+      "not_in_dynamic_campaign": true,
+      "air": true
+    },
+    "years_active": {
+      "year1944": {
+        "guadalcanal": 1.0,
+        "guam": 1.0,
+        "honolulu": 1.0,
+        "iwo_jima": 1.0,
+        "midway": 1.0,
+        "peleliu": 1.0,
+        "saipan": 1.0,
+        "wake_island": 1.0,
+        "bulge": 1.0,
+        "ruhr": 1.0
+      },
+      "year1945": {
+        "guadalcanal": 0.7,
+        "guam": 0.7,
+        "honolulu": 0.7,
+        "iwo_jima": 0.7,
+        "midway": 0.7,
+        "peleliu": 0.7,
+        "saipan": 0.7,
+        "wake_island": 0.7,
+        "bulge": 0.7,
+        "ruhr": 0.7
+      }
+    },
+    "Shop": {
+      "maxAltitude": 12500.0,
+      "maxSpeed": 184.16,
+      "turnTime": 23.0,
+      "airfieldLen": 289.105,
+      "climbTime": 156.0,
+      "climbAlt": 3000.0,
+      "maxSpeedAlt": 4572.0,
+      "climbSpeed": 21.7,
+      "wingLoading": 172.0,
+      "powerToWeightRatio": 0.46,
       "rollRate": 138.0
     }
   },
@@ -44325,6 +44452,20 @@
       "armorThicknessTurret": [50.0,30.0,30.0]
     }
   },
+  "germ_pzkpfw_VI_ausf_h1_tiger_animal_version": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_tank_germany",
+    "tags": {
+      "country_germany": true,
+      "tank": true,
+      "type_heavy_tank": true
+    },
+    "Shop": {
+      "armorThicknessHull": [102.0,82.0,82.0],
+      "armorThicknessTurret": [100.0,82.0,82.0]
+    }
+  },
   "germ_pzkpfw_VI_ausf_h1_tiger": {
     "type": "tank",
     "hangar_place": "tank",
@@ -50178,6 +50319,63 @@
       "pacific": true,
       "mediterran": true,
       "westernfront": true
+    }
+  },
+  "uk_s30_vigilant": {
+    "type": "ship",
+    "hangar_place": "ship",
+    "testFlight": "testFlight_ship_event",
+    "tags": {
+      "country_britain": true,
+      "type_ship": true,
+      "ship": true,
+      "destroyer": true,
+      "pacific": true,
+      "mediterran": true,
+      "westernfront": true,
+      "submarine": true
+    },
+    "Shop": {
+      "maxSpeed": 21.0,
+      "maxDepth": 510.0
+    }
+  },
+  "us_ssn_774_virginia": {
+    "type": "ship",
+    "hangar_place": "ship",
+    "testFlight": "testFlight_ship_event",
+    "tags": {
+      "country_usa": true,
+      "type_ship": true,
+      "ship": true,
+      "destroyer": true,
+      "pacific": true,
+      "mediterran": true,
+      "westernfront": true,
+      "submarine": true
+    },
+    "Shop": {
+      "maxSpeed": 22.0,
+      "maxDepth": 450.0
+    }
+  },
+  "ussr_p885_yasen": {
+    "type": "ship",
+    "hangar_place": "ship",
+    "testFlight": "testFlight_ship_event",
+    "tags": {
+      "country_ussr": true,
+      "type_ship": true,
+      "ship": true,
+      "destroyer": true,
+      "pacific": true,
+      "mediterran": true,
+      "westernfront": true,
+      "submarine": true
+    },
+    "Shop": {
+      "maxSpeed": 25.0,
+      "maxDepth": 550.0
     }
   }
 }

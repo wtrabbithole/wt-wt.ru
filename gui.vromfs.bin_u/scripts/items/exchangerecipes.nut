@@ -1,8 +1,8 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+local u = ::require("std/u.nut")
 
 local ExchangeRecipes = class {
   components = null
-  materials = null
   generatorId = null
 
   isUsable = false
@@ -19,30 +19,26 @@ local ExchangeRecipes = class {
     isMultipleExtraItems = isMultipleExtraItems || componentsCount > 2
 
     components = []
-    materials = []
     foreach (component in parsedRecipe)
     {
       local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
       local inventoryItem = items?[0] ?? null
 
       local curQuantity = inventoryItem ? inventoryItem.amount : 0
-      local isHave = curQuantity >= component.quantity
+      local reqQuantity = component.quantity
+      local isHave = curQuantity >= reqQuantity
       isUsable = isUsable && isHave
 
       components.append({
         has = isHave
         itemdefId = component.itemdefid
-        reqQuantity = component.quantity
+        reqQuantity = reqQuantity
         curQuantity = curQuantity
       })
 
-      if (isUsable)
-        for (local i = 0; i < component.quantity; i++)
-          materials.append([ inventoryItem.uids[i], 1 ])
+      if (reqQuantity > 1)
+        isMultipleItems = true
     }
-
-    if (!isUsable)
-      materials = null
   }
 
   function hasComponent(itemdefid)
@@ -93,7 +89,9 @@ local ExchangeRecipes = class {
     if (!isMultipleRecipes && !isMultipleItems)
       return ""
 
-    local headerPrefix = componentItem.iType == itemType.CHEST ? "chest/requires/" : "key/requires/"
+    local headerPrefix = componentItem.iType == itemType.CHEST ? "chest/requires/"
+      : componentItem.iType == itemType.KEY ? "key/requires/"
+      : "item/requires/"
     local headerSuffix = isMultipleRecipes && isMultipleExtraItems  ? "any_of_item_sets"
       : !isMultipleRecipes && isMultipleExtraItems ? "items_set"
       : isMultipleRecipes && !isMultipleExtraItems ? "any_of_items"
@@ -141,14 +139,17 @@ local ExchangeRecipes = class {
         break
       }
 
+    local iType = componentItem.iType
     if (recipe)
     {
-      local text = ::loc("msgBox/chestOpen/confirm", { itemName = ::colorize("activeTextColor", componentItem.getName()) })
+      local locId = iType == itemType.CHEST ? "msgBox/chestOpen/confirm"
+        : "msgBox/assembleItem/confirm"
+      local text = ::loc(locId, { itemName = ::colorize("activeTextColor", componentItem.getName()) })
       local markup = ""
       local handler = null
       if (recipe.isMultipleItems)
       {
-        text += "\n" + ::loc("msgBox/extra_items_will_be_spent")
+        text += "\n" + ::loc(iType == itemType.CHEST ? "msgBox/extra_items_will_be_spent" : "msgBox/items_will_be_spent")
         markup = recipe.getExchangeMarkup(componentItem, { widthByParentParent = true })
         handler = ::get_cur_base_gui_handler()
       }
@@ -160,58 +161,76 @@ local ExchangeRecipes = class {
       ], "yes", msgboxParams)
       return true
     }
-    else
-    {
-      local text = ::colorize("badTextColor", ::loc("msgBox/chestOpen/cant"))
-      local markupParams = { widthByParentParent = true }
-      local markup = getRequirementsMarkup(recipes, componentItem, markupParams)
-      local handler = ::get_cur_base_gui_handler()
-      local msgboxParams = { data_below_text = markup, baseHandler = handler, cancel_fn = function() {} }
 
-      // If only one item is required (usually a Key for a Chest), suggest to buy it now.
-      local requiredItem = null
-      if (::ItemsManager.isMarketplaceEnabled() && recipes.len() == 1 && recipes[0].components.len() == 2)
-        foreach (c in recipes[0].components)
-          if (c.itemdefId != componentItem.id)
-          {
-            local item = ::ItemsManager.findItemById(c.itemdefId)
-            if (item && item.link != "")
-              requiredItem = item
-            break
-          }
-
-      local buttons = [ ["cancel"] ]
-      local defBtn = "cancel"
-      if (requiredItem)
-      {
-        buttons.insert(0, [ "find_on_marketplace", ::Callback(@() requiredItem.openLink(), this) ])
-        defBtn = "find_on_marketplace"
-      }
-
-      ::scene_msg_box("cant_open_chest", null, text, buttons, defBtn, msgboxParams)
-      return false
+    local locId = iType == itemType.CHEST ? "msgBox/chestOpen/cant" : "msgBox/assembleItem/cant"
+    local text = ::colorize("badTextColor", ::loc(locId))
+    local msgboxParams = {
+      data_below_text = getRequirementsMarkup(recipes, componentItem, { widthByParentParent = true }),
+      baseHandler = ::get_cur_base_gui_handler(), //FIX ME: used only for tooltip
+      cancel_fn = function() {}
     }
+
+    // If only one item is required (usually a Key for a Chest), suggest to buy it now.
+    local requiredItem = null
+    if (::ItemsManager.isMarketplaceEnabled() && recipes.len() == 1 && recipes[0].components.len() == 2)
+      foreach (c in recipes[0].components)
+        if (c.itemdefId != componentItem.id)
+        {
+          local item = ::ItemsManager.findItemById(c.itemdefId)
+          if (item && item.link != "")
+            requiredItem = item
+          break
+        }
+
+    local buttons = [ ["cancel"] ]
+    local defBtn = "cancel"
+    if (requiredItem)
+    {
+      buttons.insert(0, [ "find_on_marketplace", ::Callback(@() requiredItem.openLink(), this) ])
+      defBtn = "find_on_marketplace"
+    }
+
+    ::scene_msg_box("cant_open_chest", null, text, buttons, defBtn, msgboxParams)
+    return false
   }
 
 
   //////////////////////////////////// Internal functions ////////////////////////////////////
 
+  function getMaterialsListForExchange()
+  {
+    local res = []
+    foreach (component in components)
+    {
+      local item = u.search(::ItemsManager.getInventoryList(), @(item) item.id == component.itemdefId)
+      if (!item)
+        continue
+
+      local leftCount = component.reqQuantity
+      foreach(uid in item.uids)
+      {
+        local count = ::min(leftCount, item.amountByUids[uid])
+        res.append([ uid, count ])
+        leftCount -= count
+        if (!leftCount)
+          break
+      }
+    }
+    return res
+  }
 
   function doExchange(componentItem)
   {
-    inventoryClient.exchange(materials, generatorId, function(items) {
+
+    inventoryClient.exchange(getMaterialsListForExchange(), generatorId, function(items) {
       ::ItemsManager.markInventoryUpdate()
 
       local configsArray = []
       foreach (extItem in items)
-      {
-        local item = ::ItemsManager.findItemByUid(extItem?.itemid)
-        if (item?.uids?[0])
-          configsArray.append({
-            id = componentItem.id
-            item = item.id
-          })
-      }
+        configsArray.append({
+          id = componentItem.id
+          item = extItem?.itemdef?.itemdefid
+        })
       ::gui_start_open_trophy({ [componentItem.id] = configsArray })
     })
   }

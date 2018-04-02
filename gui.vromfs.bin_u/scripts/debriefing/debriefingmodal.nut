@@ -1,4 +1,6 @@
 local time = require("scripts/time.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
@@ -146,6 +148,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   pveRewardInfo = null
   battleTasksConfigs = {}
   shouldBattleTasksListUpdate = false
+
+  inventoryGiftItemId = null
 
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
@@ -588,6 +592,23 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     fillPveRewardTrophyContent(trophyItemReceived, pveRewardInfo.isRewardReceivedEarlier)
   }
 
+  function handleInventoryGift()
+  {
+    local inventoryGiftLogs = ::getUserLogsList({
+      show = [ ::EULT_INVENTORY_ADD_ITEM ]
+      currentRoomOnly = true
+      disableVisible = true
+    })
+
+    inventoryGiftItemId = inventoryGiftLogs?[0]?.itemDefId
+    if (!inventoryGiftItemId)
+      return
+
+    local obj = scene.findObject("inventory_gift_icon")
+    local markup = ::trophyReward.getImageByConfig({ item = inventoryGiftItemId }, false)
+    guiScene.replaceContentFromText(obj, markup, markup.len(), this)
+  }
+
   function fillPveRewardProgressBar()
   {
     local pveTrophyPlaceObj = showSceneBtn("pve_trophy_progress", true)
@@ -823,16 +844,19 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.showMyStats)
     {
+      handleInventoryGift()
       if (!is_show_my_stats())
         return switchState()
 
       showTab("my_stats")
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       ::showBtnTable(scene, {
+        left_block              = is_show_left_block()
+        inventory_gift_block    = is_show_inventory_gift()
         my_stats_awards_block   = is_show_awards_list()
-        researches_scroll_block = is_show_research_list()
-        right_block             = is_show_researches_and_battle_task_block()
+        right_block             = is_show_right_block()
         battle_tasks_block      = is_show_battle_tasks_list()
+        researches_scroll_block = is_show_research_list()
       })
       showMyPlaceInTable()
       updateMyStatsTopBarArrangement()
@@ -921,10 +945,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       updateBuyPremiumAwardButton()
       showTabsList()
       updateListsButtons()
-      initFocusArray()
       fillResearchingMods()
       fillResearchingUnits()
       updateShortBattleTask()
+      updateInventoryButton()
+
+      initFocusArray()
       checkDestroySession()
       checkPopupWindows()
       throwBattleEndEvent()
@@ -2320,9 +2346,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     return needPlayersTbl && ::getTblValue("chatLog", ::debriefing_result, "") != ""
   }
+  function is_show_left_block()
+  {
+    return is_show_awards_list() || is_show_inventory_gift()
+  }
   function is_show_awards_list()
   {
     return !::u.isEmpty(awardsList)
+  }
+  function is_show_inventory_gift()
+  {
+    return inventoryGiftItemId != null
   }
   function is_show_ww_casualties()
   {
@@ -2345,7 +2379,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       (!isNeedBattleTasksList || battleTasksConfigs.len() > 0)
   }
 
-  function is_show_researches_and_battle_task_block()
+  function is_show_right_block()
   {
     return is_show_research_list() || is_show_battle_tasks_list()
   }
@@ -2923,6 +2957,37 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         boostersArray.append(item)
     }
     return ::ItemsManager.getBoostersEffects(boostersArray)
+  }
+
+  function getInvetoryGiftActionData()
+  {
+    if (!inventoryGiftItemId)
+      return null
+
+    local wSet = workshop.getSetByItemId(inventoryGiftItemId)
+    if (wSet)
+      return {
+        btnText = ::loc("items/workshop")
+        action = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
+          : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+      }
+
+    return null
+  }
+
+  function updateInventoryButton()
+  {
+    local actionData = getInvetoryGiftActionData()
+    local actionBtn = showSceneBtn("btn_inventory_gift_action", actionData != null)
+    if (actionData && actionBtn)
+      ::set_double_text_to_button(scene, "btn_inventory_gift_action", actionData.btnText)
+  }
+
+  function onInventoryGiftAction()
+  {
+    local actionData = getInvetoryGiftActionData()
+    if (actionData)
+      actionData.action()
   }
 
   function getMainFocusObj()

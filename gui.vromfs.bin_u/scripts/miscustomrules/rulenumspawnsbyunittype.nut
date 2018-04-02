@@ -36,7 +36,7 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
 
   function getRespawnInfoTextForUnit(unit)
   {
-    return ::loc("multiplayer/leftRespawns",
+    return ::loc("respawn/leftRespawns",
                  { num = getRespawnInfoText(getMyStateBlk(), getCustomRulesBlk().ruleSet) })
   }
 

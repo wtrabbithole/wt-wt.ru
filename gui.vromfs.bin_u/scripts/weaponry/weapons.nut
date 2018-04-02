@@ -1254,20 +1254,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     })(air, forceOpen, silent), this))
   }
 
-  function isSpendGoldOnTankRestricted(curUnit = null)
-  {
-    if (curUnit == null)
-      curUnit = air
-
-    if(::isTank(curUnit) && !::has_feature("SpendGoldForTanks"))
-    {
-      msgBox("not_available_goldspend", ::loc("msgbox/tanksRestrictFromSpendGold"), [["ok", function () {}]], "ok")
-      return true
-    }
-
-    return false
-  }
-
   function setLastBullets(item, groupIdx)
   {
     if (!(groupIdx in lastBullets))

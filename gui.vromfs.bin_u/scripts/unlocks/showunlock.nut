@@ -146,7 +146,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
                                  && ::getTblValue("showPostLink", config, false))
 
     local linkText = ::g_promo.getLinkText(config)
-    local show = linkText != ""
+    local show = ::has_feature("AllowExternalLink") && linkText != ""
     local linkObj = showSceneBtn("btn_link_to_site", show)
     if (show)
     {
@@ -180,6 +180,12 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
       local unitCost = canBuyOnline? ::Cost() : ::getUnitCost(unit)
       ::placePriceTextToButton(scene, "btn_buy_unit", locText, unitCost)
     }
+
+    local actionText = ::g_language.getLocTextFromConfig(config, "actionText", "")
+    local showActionBtn = actionText != "" && config?.action
+    local actionObj = showSceneBtn("btn_action", showActionBtn)
+    if (showActionBtn)
+      actionObj.setValue(actionText)
 
     ::show_facebook_screenshot_button(scene, ::getTblValue("showShareBtn", config, false))
   }
@@ -301,5 +307,18 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
       onTake()
     else
       base.goBack()
+  }
+
+  function onAction()
+  {
+    local actionData = ::g_promo.gatherActionParamsData(config)
+    if (!actionData)
+      return
+
+    local action = ::g_promo.performActionTable?[actionData?.action]
+    if (!action)
+      return
+
+    action(this,actionData.paramsArray, "btn_action")
   }
 }

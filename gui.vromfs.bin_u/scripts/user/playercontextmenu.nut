@@ -108,7 +108,7 @@ local getActions = function(_contact, params)
   actions.extend([
     {
       text = ::loc("contacts/message")
-      show = !isMe && ::ps4_is_chat_enabled() && !u.isEmpty(name)
+      show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
       action = function() {
         if (isMPChat)
         {
@@ -398,7 +398,7 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("contacts/moderator_copyname")
-        action = @() ::copy_to_clipboard(name)
+        action = @() ::copy_to_clipboard(platformModule.getPlayerName(name))
       }
       {
         text = ::loc("contacts/moderator_ban")

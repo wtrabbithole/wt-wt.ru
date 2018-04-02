@@ -194,6 +194,8 @@ function get_full_unit_role_text(unit)
 
   if (::is_helicopter(unit))
     return ::get_role_text("helicopter")
+  if (::is_submarine(unit))
+    return ::get_role_text("submarine")
 
   local basicRoles = ::getTblValue(::get_es_unit_type(unit), ::basic_unit_roles, [])
   local textsList = []
@@ -266,7 +268,7 @@ function get_unit_actions_list(unit, handler, actions)
       actionText = ::loc("mainmenu/btnPreview")
       icon       = "#ui/gameuiskin#btn_preview.svg"
       showAction = inMenu
-      actionFunc = @() ugcPreview.showUnitSkin(unit.name, "")
+      actionFunc = @() ugcPreview.showUnitSkin(unit.name)
     }
     else if (action == "aircraft")
     {
@@ -451,6 +453,11 @@ function is_helicopter(unit)
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT && ::isInArray("helicopter", ::getTblValue("tags", unit, []))
 }
 
+function is_submarine(unit)
+{
+  return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
+}
+
 function get_es_unit_type(unit)
 {
   return ::getTblValue("esUnitType", unit, ::ES_UNIT_TYPE_INVALID)
@@ -467,18 +474,6 @@ function isCountryHaveUnitType(country, unitType)
     if (unit.shopCountry == country && ::get_es_unit_type(unit) == unitType)
       return true
   return false
-}
-
-function getSumByUnitTypeText(dataTbl, keyFormat = "")
-{
-  local sum = 0.0
-  foreach(t in ::unitTypesList)
-  {
-    local typeText = getUnitTypeText(t)
-    local key = (keyFormat=="")? typeText : format(keyFormat, typeText)
-    sum += ::getTblValue(key, dataTbl, 0)
-  }
-  return sum
 }
 
 function getUnitRarity(unit)
@@ -716,11 +711,8 @@ function buyUnit(unit, silent = false)
     return false
 
   local unitCost = ::getUnitCost(unit)
-  if (::isTank(unit) && unitCost.gold > 0 && !::has_feature("SpendGoldForTanks"))
-  {
-    ::showInfoMsgBox(::loc("msgbox/tanksRestrictFromSpendGold"), "not_available_goldspend")
+  if (unitCost.gold > 0 && !::can_spend_gold_on_unit_with_popup(unit))
     return false
-  }
 
   if (!::canBuyUnit(unit))
   {
@@ -814,6 +806,15 @@ function researchUnit(unit, checkCurrentUnit = true)
       ::broadcastEvent("UnitResearch", {unitName = unitName, prevUnitName = prevUnitName})
     })(unitName, prevUnitName, progressBox)
   )
+}
+
+function can_spend_gold_on_unit_with_popup(unit)
+{
+  if (unit.unitType.canSpendGold())
+    return true
+
+  ::g_popups.add(::getUnitName(unit), ::loc("msgbox/unitTypeRestrictFromSpendGold"))
+  return false
 }
 
 function show_cant_buy_or_research_unit_msgbox(unit)
@@ -1748,6 +1749,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-mass-tr"]                  = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-horsePowers-tr"]           = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK ],
+    ["aircraft-maxDepth-tr"]              = [ ::ES_UNIT_TYPE_SHIP],
     ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
@@ -1864,6 +1866,12 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("aircraft-maxSpeed-tr").show(speedValue > 0)
     if(speedValue > 0)
       holderObj.findObject("aircraft-maxSpeed").setValue(::g_measure_type.SPEED.getMeasureUnitsText(speedValue))
+
+    // submarine-depth
+    local depthValue = unitTags?.Shop?.maxDepth ?? 0
+    holderObj.findObject("aircraft-maxDepth-tr").show(depthValue > 0)
+    if(depthValue > 0)
+      holderObj.findObject("aircraft-maxDepth").setValue(depthValue + ::loc("measureUnits/meters_alt"))
 
     // ship-citadelArmor
     local armorThicknessCitadel = ::getTblValueByPath("Shop.armorThicknessCitadel", unitTags, null)
@@ -2075,9 +2083,17 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local respawnsleft = missionRules.getUnitLeftRespawns(air)
       if (respawnsleft >= 0)
       {
-        local respText = missionRules.getRespawnInfoTextForUnitInfo(air)
-        local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
-        addInfoTextsList.append(::colorize(color, respText))
+        if (missionRules.isUnitAvailableForWWSpawnScore(air))
+        {
+          addInfoTextsList.append(::loc("icon/star/white") + ::colorize("activeTextColor",::loc("worldWar/unit/wwSpawnScore")))
+          addInfoTextsList.append(::loc("worldWar/unit/wwSpawnScore/desc"))
+        }
+        else
+        {
+          local respText = missionRules.getRespawnInfoTextForUnitInfo(air)
+          local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
+          addInfoTextsList.append(::colorize(color, respText))
+        }
       }
     }
   }

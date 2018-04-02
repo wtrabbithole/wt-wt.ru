@@ -621,9 +621,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         canShowStatusImage = false
         canShowResearch = false
         canShowPrice = false
-        isForceHideAmount = true
-        isForceUnlocked = true
-        isForceEquipped = true
+        isForceHidePlayerInfo = true
         useGenericTooltip = true
         hasMenu = hasPresetToChoose(unit)
       })
@@ -653,9 +651,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         canShowStatusImage = false
         canShowResearch = false
         canShowPrice = false
-        isForceHideAmount = true
-        isForceUnlocked = true
-        isForceEquipped = true
+        isForceHidePlayerInfo = true
         useGenericTooltip = true
       }, obj, "right")
   }

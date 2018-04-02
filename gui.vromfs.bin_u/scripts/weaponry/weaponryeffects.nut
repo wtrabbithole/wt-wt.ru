@@ -53,6 +53,21 @@ local presetsList = {
       return ""
     }
   }
+  COLORED_PLURAL_VALUE = {
+    getText = function (unit, effects, modeId)
+    {
+      if (!canShowForUnit(unit))
+        return ""
+      local value = getValue(unit, effects, modeId)
+      if (value != null)
+        return ::loc(getLocId(unit, effects),
+                  {
+                    value = value,
+                    valueColored = valueToString(value)
+                  })
+      return ""
+    }
+  }
 }
 
 
@@ -244,6 +259,12 @@ enums.addTypes(effectsType, [
   { id = "respawnCost_killScore_aircrafts",  preset = "TANK_RESPAWN_COST"  }
   { id = "respawnCost_hitScore_aircrafts",  preset = "TANK_RESPAWN_COST"  }
   { id = "respawnCost_scoutScore_aircrafts", preset = "TANK_RESPAWN_COST"  }
+
+  { id = "healingTimeMultiplier", preset = "PERCENT_FLOAT" }
+  { id = "repairSpeedMultiplier", preset = "PERCENT_FLOAT" }
+  { id = "extinguisherReductionTime", measureType = "seconds", presize = 0.1, isInverted = true }
+  { id = "extinguisherActivationAdditionalCount", preset = "COLORED_PLURAL_VALUE" }
+  { id = "medicalkitAdditionalCount", preset = "COLORED_PLURAL_VALUE" }
 
   /****************************** SHIP EFFECTS ***********************************************/
   { id = "waterMassVelTime",       measureType = "hours", isInverted = true, presize = 0.1

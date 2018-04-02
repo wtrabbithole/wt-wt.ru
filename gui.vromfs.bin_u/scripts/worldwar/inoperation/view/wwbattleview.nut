@@ -333,7 +333,7 @@ class ::WwBattleView
 
   function getStatus()
   {
-    if (!battle.isStillInOperation())
+    if (!battle.isStillInOperation() || battle.status == ::EBS_FINISHED_APPLIED)
       return "Finished"
     if (battle.status == ::EBS_ACTIVE_STARTING || battle.status == ::EBS_ACTIVE_MATCHING)
       return "Active"

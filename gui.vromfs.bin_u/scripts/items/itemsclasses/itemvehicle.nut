@@ -26,6 +26,6 @@ class ::items_classes.ItemVehicle extends ItemExternal {
   function doPreview()
   {
     if (canPreview())
-      ugcPreview.showUnitSkin(metaBlk.unit, "")
+      ugcPreview.showUnitSkin(metaBlk.unit)
   }
 }

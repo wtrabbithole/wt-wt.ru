@@ -666,6 +666,7 @@
       "streak_battle_royale_first_place_lost": "streaks_event_bg;streaks_last_man_standing",
       "streak_battle_royale_second_place": "streaks_survivance_bg;streaks_last_man_standing",
       "streak_battle_royale_third_place": "streaks_trophy_near_bg;streaks_last_man_standing",
+      "streak_tank_help_with_repairing": "streaks_tank_bg;streaks_tank_help_with_repairing",
       "reward_multiAwardsOnWorthGold": "item_multiaward",
       "reward_warpoints": "item_warpoints",
       "reward_gold": "item_eagles",
@@ -683,6 +684,7 @@
       "reward_battle_task_hard_task_medal1": "item_hard_task_1",
       "reward_battle_task_hard_task_medal2": "item_hard_task_2",
       "reward_battle_task_hard_task_medal3": "item_hard_task_3",
+      "reward_battle_task_cheerful_task_medal1": "item_cheerful_task_1",
       "shop_trophy_test_warpoints": "small_wooden_box_big;",
       "shop_trophy_test_warpoints_opened": "small_wooden_box_opened_big;",
       "shop_trophy_test_warpoints_shop": "small_wooden_box;",
@@ -739,6 +741,7 @@
       "default_personal_discount": "item_personal_discount",
       "default_order_debug": "order",
       "cybercafebonus_shop": "cyber_cafe_bonus",
+      "disguised_item": "1a_event_unknown_item",
       "clan_season_logo_arcade": "clan_medal_bg_diff0;clan_medal_cup_g;clan_medal_g_diff0_txt;clan_medal_g_season_txt",
       "clan_season_logo_historical": "clan_medal_bg_diff1;clan_medal_cup_g;clan_medal_g_diff1_txt;clan_medal_g_season_txt",
       "clan_medal_place1_arcade": "clan_medal_bg_diff0;clan_medal_cup_g;clan_medal_top001;clan_medal_g_diff0_txt;clan_medal_g_season_txt",
@@ -1345,6 +1348,11 @@
         "h": 0.68,
         "img": "#ui/gameuiskin#streaks_last_man_standing"
       },
+      "streaks_tank_help_with_repairing": {
+        "w": 0.52,
+        "h": 0.52,
+        "img": "#ui/gameuiskin#streaks_tank_help_with_repairing"
+      },
       "chest_placeholder": {
         "x": 0.08,
         "h": 0.548,
@@ -1883,6 +1891,12 @@
         "position": "relative",
         "img": "#ui/gameuiskin#item_hard_task_medal3"
       },
+      "item_cheerful_task_1": {
+        "w": "0.4@chestRewardWidth",
+        "h": "0.4@chestRewardHeight",
+        "position": "relative",
+        "img": "#ui/gameuiskin#item_cheerful_task_medal1"
+      },
       "item_place_single": {
         "w": "1@itemWidth",
         "h": "1@itemHeight",
@@ -1926,6 +1940,11 @@
         "color": "@activeTextColor",
         "x": "0.5pw-0.5w",
         "y": "0.85ph-0.5h"
+      },
+      "1a_event_unknown_item": {
+        "w": 1.0,
+        "h": 1.0,
+        "img": "https://static-ggc.gaijin.net/events/1anim_craft_unknown_item.png"
       },
       "item_multiaward0": {
         "w": "1@awardIconHeight",
@@ -4373,7 +4392,7 @@
     "medalIcons": {
       "dateblock_jan": "hard_task_medal1",
       "dateblock_feb": "hard_task_medal2",
-      "dateblock_march": "hard_task_medal3",
+      "dateblock_march": "cheerful_task_medal1",
       "dateblock_aprl": "hard_task_medal1",
       "dateblock_may": "hard_task_medal2",
       "dateblock_jun": "hard_task_medal3",

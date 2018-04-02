@@ -170,11 +170,23 @@ function checkUnitFuel(unit, fuel)
 
 function unitsDeck_canPlayerSpawnCommon(userId, team, country, unit, weapon, fuel)
 {
-  local canSpawn = checkUnitListInUserState(userId, unit, -1) && checkUnitFuel(unit, fuel) &&
-                   checkWeaponListInUserState(userId, unit, weapon)
-  dagor.debug("unitsDeck_canPlayerSpawn userId " + userId + " " + unit + " canSpawn " + canSpawn +
-              " fuel " + fuel + " weapon " + weapon)
-  return canSpawn
+  local canSpawnForFree = checkUnitListInUserState(userId, unit, -1)
+                          && checkWeaponListInUserState(userId, unit, weapon)
+
+  local canSpawnForSpawnScore = false
+  local unitSpawnScore = wwGetSpawnScore(userId, unit)
+  if (!canSpawnForFree && (unitSpawnScore > 0)) {
+    local userSpawnScore = get_player_spawn_score(userId)
+    local unitsDeckFull = getBlockFromTeamBlkByName(team, "limitedUnits")
+    local unitCount = unitsDeckFull?[unit]
+    local weaponCount = modParamInUnitsParamsList(team, unit, "weapon.count", 0, false)
+
+    canSpawnForSpawnScore = ((userSpawnScore >= unitSpawnScore) && (unitCount > 0) && (weaponCount != 0))
+  }
+
+  dagor.debug("unitsDeck_canPlayerSpawn userId " + userId + " " + unit + " canSpawnForFree " + canSpawnForFree +
+              " canSpawnForSpawnScore " + canSpawnForSpawnScore + " fuel " + fuel + " weapon " + weapon)
+  return ((canSpawnForFree || canSpawnForSpawnScore) && checkUnitFuel(unit, fuel))
 }
 
 function getCountryForUnit(unit)
@@ -259,7 +271,15 @@ function unitsDeck_onPlayerSpawn(userId, team, country, unit, weapon, cost)
     wwarEconTbl.userTeam <- {}
   wwarEconTbl.userTeam[userId] <- team
 
-  modUnitListInSharedGroup(userId, unit, -1, team, weapon)
+  local user_blk = ::get_user_custom_state(userId, false)
+  if (user_blk?.ownAvailableUnits?[unit] && user_blk?.limitedUnits?[unit] <= 0) {
+    local unitsDeckShort = getUnitsDeckShortBlk(team, country)
+    local unitsDeckFull = getBlockFromTeamBlkByName(team, "limitedUnits")
+    if (unitsDeckShort?[unit] > 0) unitsDeckShort[unit]--
+    if (unitsDeckFull?[unit] > 0) unitsDeckFull[unit]--
+    modParamInUnitsParamsList(team, unit, "weapon.count", -1, true)
+  }
+  else modUnitListInSharedGroup(userId, unit, -1, team, weapon)
   dagor.debug("unitsDeck_onPlayerSpawn userId " + userId + " " + unit + " team " + team +
               ", cost " + wwarEconTbl.teamSpawnCost[team] + " weapon " + weapon)
 }
@@ -1063,5 +1083,29 @@ function updateUserBlk(userId)
   }
 }
 
+function wwInitSpawnScore(userId, sessionRank)
+{
+  local userSpawnScore = 0
+  local esBlk = get_es_custom_blk(userId)
+  if (esBlk?.wwSpawnScore) {
+    dagor.debug("wwInitSpawnScore " + userId + " added spawn score = " + esBlk.wwSpawnScore)
+    userSpawnScore += esBlk.wwSpawnScore
+    esBlk.wwSpawnScore = 0
+  }
+  return userSpawnScore
+}
+
+function wwGetSpawnScore(userId, unitname)
+{
+  local unitSpawnScore = 0
+  local user_blk = ::get_user_custom_state(userId, false)
+
+  if (user_blk?.ownAvailableUnits?[unitname] && user_blk?.limitedUnits?[unitname] <= 0) {
+    unitSpawnScore = get_unit_spawn_score(userId, unitname)
+  }
+
+  dagor.debug("wwGetSpawnScore userId " + userId + " unitname " + unitname + " unitSpawnScore " + unitSpawnScore)
+  return unitSpawnScore
+}
 //---- Unit deck END ----
 dagor.debug("unitsDeck loaded")

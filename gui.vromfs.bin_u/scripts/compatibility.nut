@@ -670,6 +670,9 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   xbox_is_player_in_chat = @(uid) false
 
   is_online_available = @() ::is_connected_to_matching()
+  hangar_get_attachable_group = @() ""
+  EII_SUBMARINE_SONAR = 17
+  EII_TORPEDO_SENSOR = 18
 })
 
 ::dagui_propid.add_name_id("inc-min")

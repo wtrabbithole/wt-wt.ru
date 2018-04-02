@@ -56,15 +56,30 @@ root {
         }
 
         <<#hasGotoGlobalBattlesBtn>>
-        Button_text {
-          id:t='goto_global_battles_btn'
+        tdiv {
           width:t='pw'
-          margin-top:t='1@blockInterval'
-          text:t='#worldWar/btn_all_battles_full_text'
-          on_click:t='onOpenGlobalBattlesModal'
-          visualStyle:t='noFrame'
-          btnName:t='LT'
-          ButtonImg {}
+          flow:t='vertical'
+
+          textareaNoTab {
+            id:t='no_available_battles_alert_text'
+            width:t='pw'
+            padding:t='1@framePadding'
+            text-align:t='center'
+            smallFont:t='yes'
+            bgcolor:t='@surrenderPanelColorBG'
+            text:t='#worldwar/no_available_battle_in_operation'
+          }
+
+          Button_text {
+            id:t='goto_global_battles_btn'
+            width:t='pw'
+            margin-top:t='1@blockInterval'
+            text:t='#worldWar/btn_all_battles_full_text'
+            on_click:t='onOpenGlobalBattlesModal'
+            visualStyle:t='secondary'
+            btnName:t='LT'
+            ButtonImg {}
+          }
         }
         <</hasGotoGlobalBattlesBtn>>
 
@@ -143,14 +158,12 @@ root {
           ButtonImg {}
         }
 
-        SwitchBox {
-          id:t='hide_unavailable_battles'
-          top:t='50%ph-50%h'
-          position:t='relative'
-          text:t='#worldwar/hide_unavailable_battles'
-          value:t='no'
-          on_change_value:t='onChangeFilter'
-          SwitchSliderBg { SwitchSliderBgOn {} SwitchSlider {} }
+        Button_text {
+          id:t='btn_battles_filters'
+          text:t='<<?worldwar/battleFilters>>'
+          _on_click:t='onOpenBattlesFilters'
+          btnName:t='Y'
+          ButtonImg {}
         }
       }
 

@@ -1475,13 +1475,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onConvert(obj)
   {
     local unit = getCurAircraft()
-    if (!unit)
+    if (!unit || !::can_spend_gold_on_unit_with_popup(unit))
       return
-    if(::isTank(unit) && !::has_feature("SpendGoldForTanks"))
-    {
-      msgBox("not_available_goldspend", ::loc("msgbox/tanksRestrictFromSpendGold"), [["ok", function () {}]], "ok")
-      return
-    }
 
     local unitName = unit.name
     local handler = this

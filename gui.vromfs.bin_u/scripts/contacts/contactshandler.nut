@@ -1,4 +1,5 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local platformModule = require("modules/platform.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -462,17 +463,23 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     groupObject.enable(value)
   }
 
-  function onSearchEditBoxActivate()
+  function onSearchEditBoxActivate(obj)
   {
-    local searchText = ::clearBorderSymbols(getSearchObj().getValue() || "")
-    if (searchText == "" || searchText == "*")
-      return
-
-    doSearch()
+    doSearch(obj)
   }
 
-  function doSearch()
+  function doSearch(editboxObj = null)
   {
+    if (!editboxObj)
+      editboxObj = scene.findObject("search_edit_box")
+    if (!::check_obj(editboxObj))
+      return
+
+    local searchText = ::clearBorderSymbols(editboxObj.getValue())
+    searchText = platformModule.getPlayerNameNoSpecSymbol(searchText)
+    if (searchText == "")
+      return
+
     local contactsGroups = scene.findObject("contacts_groups")
     if (::checkObj(contactsGroups))
     {
@@ -500,14 +507,10 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       obj.setValue("")
   }
 
-  function onSearchEditBoxChangeValue(target)
+  function onSearchEditBoxChangeValue(obj)
   {
-    local searchEditBox = scene.findObject("search_edit_box")
-    if (::checkObj(searchEditBox))
-    {
-      setSearchText(searchEditBox.text, false)
-      applyContactFilter()
-    }
+    setSearchText(platformModule.getPlayerName(obj.getValue()), false)
+    applyContactFilter()
   }
 
   _lastFocusdelayedCall = 0
@@ -563,7 +566,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local contactName = ::english_russian_to_lower_case(contact_data.name)
-      local searchResult = (contactName.find(searchText) == 0)
+      contactName = platformModule.getPlayerName(contactName)
+      local searchResult = searchText == "" || contactName.find(searchText) != null
       contactObject.show(searchResult)
       contactObject.enable(searchResult)
     }
@@ -712,7 +716,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return obj
   }
 
-  function onSearchButtonClick(target)
+  function onSearchButtonClick(obj)
   {
     doSearch()
   }
@@ -1112,15 +1116,14 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local searchGroupActiveTextObject = scene.findObject("search_group_active_text")
     searchGroupActiveTextObject.text = ::loc("contacts/" + searchGroup) + ": " + value
 
-    taskId = find_nicks_by_prefix(value, maxSearchPlayers, true)
+    local taskId = ::find_nicks_by_prefix(value, maxSearchPlayers, true)
     if (taskId >= 0)
     {
-      ::set_char_cb(this, slotOpCb)
-      afterSlotOp = onSearchCb
       searchInProgress = true
       ::contacts[searchGroup] <- []
       updateSearchList()
     }
+    ::g_tasker.addTask(taskId, null, onSearchCb.bindenv(this))
   }
 
   function onSearchCb()
@@ -1132,11 +1135,14 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::contacts[searchGroup] <- []
 
     local brokenData = false
-    for(local i = 0; i < searchRes.paramCount(); i++)
+    for (local i = 0; i < searchRes.paramCount(); i++)
     {
       local contact = ::getContact(searchRes.getParamName(i), searchRes.getParamValue(i))
       if (contact)
-        ::contacts[searchGroup].append(contact)
+      {
+        if (!contact.isMe() && !contact.isInFriendsGroup())
+          ::contacts[searchGroup].append(contact)
+      }
       else
         brokenData = true
     }

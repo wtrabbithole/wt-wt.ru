@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local platformModule = require("modules/platform.nut")
 
 enum POPUP_VIEW_TYPES {
   NEVER = "never"
@@ -24,51 +24,55 @@ function getTimeIntByString(stringDate, defaultValue = 0)
   return ::get_t_from_utc_time(timeTbl)
 }
 
-function g_popup_msg::verifyPopupBlk(blk, hasModalObject)
+function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = true)
 {
   local popupId = blk.getBlockName()
-  if (popupId in passedPopups)
-    return null
 
-  if (hasModalObject && !blk.getBool("showOverModalObject", false))
-    return null
-
-  if (blk.reqFeature && !::has_feature(blk.reqFeature))
-    return null
-
-  if (blk.reqUnlock && !::is_unlocked_scripted(-1, blk.reqUnlock))
-    return null
-
-  if (!::g_partner_unlocks.isPartnerUnlockAvailable(blk.partnerUnlock, blk.partnerUnlockDurationMin))
-    return null
-
-  if (!::g_language.isAvailableForCurLang(blk))
-    return null
-
-  local viewType = blk.viewType || POPUP_VIEW_TYPES.NEVER
-  local viewDay = ::loadLocalByAccount("popup/" + popupId, 0)
-  local canShow = viewType == POPUP_VIEW_TYPES.EVERY_SESSION ||
-                  viewType == POPUP_VIEW_TYPES.ONCE && !viewDay ||
-                  viewType == POPUP_VIEW_TYPES.EVERY_DAY && viewDay < days
-  if (!canShow)
+  if (needDisplayCheck)
   {
-    passedPopups[popupId] <- true
-    return null
+    if (popupId in passedPopups)
+      return null
+
+    if (hasModalObject && !blk.getBool("showOverModalObject", false))
+      return null
+
+    if (blk.reqFeature && !::has_feature(blk.reqFeature))
+      return null
+
+    if (blk.reqUnlock && !::is_unlocked_scripted(-1, blk.reqUnlock))
+      return null
+
+    if (!::g_partner_unlocks.isPartnerUnlockAvailable(blk.partnerUnlock, blk.partnerUnlockDurationMin))
+      return null
+
+    if (!::g_language.isAvailableForCurLang(blk))
+      return null
+
+    local viewType = blk.viewType || POPUP_VIEW_TYPES.NEVER
+    local viewDay = ::loadLocalByAccount("popup/" + popupId, 0)
+    local canShow = viewType == POPUP_VIEW_TYPES.EVERY_SESSION ||
+                    viewType == POPUP_VIEW_TYPES.ONCE && !viewDay ||
+                    viewType == POPUP_VIEW_TYPES.EVERY_DAY && viewDay < days
+    if (!canShow)
+    {
+      passedPopups[popupId] <- true
+      return null
+    }
+
+    local secs = ::get_t_from_utc_time(::get_local_time())
+    if (getTimeIntByString(blk.startTime, 0) > secs)
+      return null
+
+    if (getTimeIntByString(blk.endTime, 2114380800) < secs)
+    {
+      passedPopups[popupId] <- true
+      return null
+    }
   }
 
-  local secs = ::get_t_from_utc_time(::get_local_time())
-  if (getTimeIntByString(blk.startTime, 0) > secs)
-    return null
-
-  if (getTimeIntByString(blk.endTime, 2114380800) < secs)
-  {
-    passedPopups[popupId] <- true
-    return null
-  }
-
-  local localizedTbl = {name = ::my_user_name, uid = ::my_user_id_str}
+  local localizedTbl = {name = platformModule.getPlayerName(::my_user_name), uid = ::my_user_id_str}
   local popupTable = { name = "" }
-  foreach (key in ["name", "desc", "link", "linkText"])
+  foreach (key in ["name", "desc", "link", "linkText", "actionText"])
   {
     local text = ::g_language.getLocTextFromConfig(blk, key, "")
     if (text != "")
@@ -77,6 +81,7 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject)
   popupTable.popupImage <- ::g_language.getLocTextFromConfig(blk, "image", "")
   popupTable.ratioHeight <- blk.imageRatio || null
   popupTable.forceExternalBrowser <- blk.forceExternalBrowser || false
+  popupTable.action <- blk.action
 
   return popupTable
 }
@@ -101,12 +106,36 @@ function g_popup_msg::showPopupWndIfNeed(hasModalObject)
     {
       passedPopups[popupId] <- true
       popupConfig["type"] <- "regionalPromoPopup"
-      showUnlockWnd(popupConfig)
+      ::showUnlockWnd(popupConfig)
       ::saveLocalByAccount("popup/" + popupId, days)
       result = true
     }
   }
   return result
+}
+
+function g_popup_msg::showPopupDebug(dbgId)
+{
+  local popupsBlk = ::get_gui_regional_blk().popupItems
+  if (!::u.isDataBlock(popupsBlk))
+  {
+    dlog("POPUP ERROR: No popupItems in gui_regional_blk")
+    return false
+  }
+
+  for (local i = 0; i < popupsBlk.blockCount(); i++)
+  {
+    local popupBlk = popupsBlk.getBlock(i)
+    local popupId = popupBlk.getBlockName()
+    if (popupId != dbgId)
+      continue
+
+    local popupConfig = verifyPopupBlk(popupBlk, false, false)
+    ::showUnlockWnd(popupConfig)
+    return true
+  }
+  dlog("POPUP ERROR: Not found " + dbgId)
+  return false
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_popup_msg")

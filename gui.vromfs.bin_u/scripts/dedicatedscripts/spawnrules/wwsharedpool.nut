@@ -316,6 +316,17 @@ function wwSharedPool_onPlayerConnected(userId, team, country)
 
   wwBattleSendUpdateIfNeeded()
 }
+function wwSharedPool_onPlayerFinished(userId, country, log)
+{
+  local rulesBlk = ::get_mission_custom_state(false)
+  local maxSpawnScore = rulesBlk.getInt("maxSpawnScore", 0)
+  local userSpawnScore = get_player_spawn_score(userId)
+  if (userSpawnScore > maxSpawnScore) userSpawnScore = maxSpawnScore
+  local esBlk = get_es_custom_blk(userId)
+  esBlk.wwSpawnScore = userSpawnScore
+  log.wwSpawnScore = userSpawnScore
+  dagor.debug("wwSharedPool_onPlayerFinished user " + userId + " stored spawn score = " + esBlk.wwSpawnScore)
+}
 function wwSharedPool_onPlayerDisconnected(userId)
 {
   dagor.debug("wwSharedPool_onPlayerDisconnected")

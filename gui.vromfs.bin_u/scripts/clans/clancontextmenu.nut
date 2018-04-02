@@ -24,7 +24,7 @@ local getClanActions = function(clanId)
   ]
 }
 
-local getRequestActions = function(clanId, playerUid, playerName = "")
+local getRequestActions = function(clanId, playerUid, playerName = "", handler = null)
 {
   if (!playerUid)
     return []
@@ -35,8 +35,8 @@ local getRequestActions = function(clanId, playerUid, playerName = "")
   return [
     {
       text = ::loc("contacts/message")
-      show = playerUid != ::my_user_id_str && ::ps4_is_chat_enabled() && !u.isEmpty(playerName)
-      action = @() ::openChatPrivate(playerName)
+      show = playerUid != ::my_user_id_str && ::ps4_is_chat_enabled() && !u.isEmpty(playerName) && ::has_feature("Chat")
+      action = @() ::openChatPrivate(playerName, handler)
     }
     {
       text = ::loc("mainmenu/btnUserCard")

@@ -215,13 +215,14 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   }
 
   local iconObj = itemObj.findObject("icon")
-  local optEquipped = statusTbl.equipped || ::getTblValue("isForceEquipped", params, false) ? "yes" : "no"
+  local isForceHidePlayerInfo = params?.isForceHidePlayerInfo ?? false
+  local optEquipped = isForceHidePlayerInfo || statusTbl.equipped ? "yes" : "no"
   local optStatus = "locked"
   if (::getTblValue("visualDisabled", params, false))
     optStatus = "disabled"
   else if (statusTbl.amount)
     optStatus = "owned"
-  else if (statusTbl.unlocked || ::getTblValue("isForceUnlocked", params, false))
+  else if (isForceHidePlayerInfo || statusTbl.unlocked)
     optStatus = "unlocked"
   else if (isModInResearch(air, visualItem) && visualItem.type == weaponsItem.modification)
     optStatus = canShowResearch? "research" : "researchable"
@@ -233,7 +234,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   iconObj.equipped = optEquipped
   iconObj.status = optStatus
 
-  if (!::getTblValue("isForceHideAmount", params, false))
+  if (!isForceHidePlayerInfo)
   {
     local amountText = getAmountAndMaxAmountText(statusTbl.amount, statusTbl.maxAmount, statusTbl.showMaxAmount);
     local amountObject = itemObj.findObject("amount");
@@ -241,7 +242,11 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     amountObject.overlayTextColor = statusTbl.amount < statusTbl.amountWarningValue ? "weaponWarning" : "";
   }
 
-  itemObj.findObject("warning_icon").show(statusTbl.unlocked && statusTbl.showMaxAmount && statusTbl.amount < statusTbl.amountWarningValue)
+  local isWarningIconVisible = !isForceHidePlayerInfo
+                            && statusTbl.unlocked
+                            && statusTbl.showMaxAmount
+                            && statusTbl.amount < statusTbl.amountWarningValue
+  itemObj.findObject("warning_icon").show(isWarningIconVisible)
 
   updateItemBulletsSliderByItem(itemObj, ::getTblValue("selectBulletsByManager", params), visualItem)
 

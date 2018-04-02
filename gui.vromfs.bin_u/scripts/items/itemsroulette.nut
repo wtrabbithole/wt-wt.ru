@@ -16,6 +16,8 @@ ItemsRoulette API:
                                                  rewards which player really recieved;
 */
 
+const CHANCE_TO_STOP_ON_BORDER = 0.5
+
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 
 ::ItemsRoulette <- {
@@ -190,10 +192,13 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
 function ItemsRoulette::getRandomEndDisplacement()
 {
   local sign = ::math.frnd() > 0.5 ? 1.0 : -1.0
+  if (::math.frnd() <= CHANCE_TO_STOP_ON_BORDER)
+    return sign
+
   local mean = ::math.frnd()
   // Chance of further displacement is higher.
   mean = 1 - mean * mean
-  return 0.5 * sign * mean
+  return 1.0 * sign * mean
 }
 
 function ItemsRoulette::skipAnimation(obj)

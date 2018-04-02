@@ -41,6 +41,7 @@ local shipState = {
   waterDist = Watched(0)
   buoyancyEx = Watched(0)
   depthLevel = Watched(0)
+  wishDist = Watched(0)
 }
 
 

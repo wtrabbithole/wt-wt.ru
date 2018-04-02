@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local stdpath = require("std/path.nut")
 
+
 class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 {
   static wndType = handlerType.MODAL
@@ -35,22 +36,43 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     loadSaveDataContents()
   }
 
+  function showWaitAnimation(show)
+  {
+    local waitSpinner = scene.findObject("saveDataDialogWaitAnimation");
+
+    if (::checkObj(waitSpinner))
+      waitSpinner.show(show);
+  }
+
+  function onReceivedSaveDataListing(blk)
+  {
+    if (!isValid())
+      return
+
+    local entries = []
+    foreach (id, meta in blk)
+    {
+      if (::u.isDataBlock(meta))
+        entries.append({path=meta.path, comment=meta.comment, mtime=meta.mtime})
+    }
+
+    tableEntries.clear()
+
+    foreach (idx, e in entries)
+    {
+      tableEntries["file_row_" + idx] <- e
+    }
+
+    loadSaveDataContents()
+
+    showWaitAnimation(false)
+  }
+
   function requestEntries()
   {
-    guiScene.performDelayed(this, function() {
-      local entries = getSaveDataContents()
-      if (!isValid())
-        return
-
-      tableEntries.clear()
-
-      foreach (idx, e in entries)
-      {
-        tableEntries["file_row_" + idx] <- e
-      }
-
-      loadSaveDataContents()
-    })
+    local cb = ::Callback(onReceivedSaveDataListing, this)
+    getSaveDataContents(@(blk) cb(blk))
+    showWaitAnimation(true)
   }
 
   function updateButtons()
@@ -180,8 +202,8 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     dagor.debug("PS4 SAVE Dialog: onBtnDelete for " + selectedEntry.path)
     local onConfirm = function() {
+      showWaitAnimation(true)
       doDelete(selectedEntry)
-      requestEntries()
     }
 
     ::scene_msg_box("savedata_delete_msg_box",
@@ -205,8 +227,8 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local onConfirmedSave = function()
     {
+      showWaitAnimation(true)
       doSave(selectedEntry)
-      goBack()
     }
 
     if (selectedEntry.path == "")
@@ -227,8 +249,8 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     dagor.debug("PS4 SAVE Dialog: onBtnLoad for entry:")
     debugTableData(selectedEntry)
+    showWaitAnimation(true)
     doLoad(selectedEntry)
-    goBack()
   }
 
 

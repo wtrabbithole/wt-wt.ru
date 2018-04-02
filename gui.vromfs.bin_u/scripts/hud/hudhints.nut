@@ -942,6 +942,12 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:torpedo_broken:hide"
   }
 
+  CRITICAL_LEVEL = {
+    locId = "hints/critical_level"
+    showEvent = "hint:critical_level:show"
+    hideEvent = "hint:critical_level:hide"
+  }
+
   USE_BINOCULAR_SCOUTING = {
     locId = "HUD/TXT_USE_BINOCULAR_SCOUTING"
     showEvent = "hint:use_binocular_scouting"
@@ -1012,6 +1018,19 @@ enums.addTypesByGlobalName("g_hud_hints", {
       local res = ::loc("hints/drowning_in") + " "
       + time.secondsToString(eventData?.timeTo ?? 0, false)
       return res
+    }
+  }
+
+  HUD_MESSAGE_HINT = {
+    hintType = ::g_hud_hint_types.HUDMESSAGE
+    showEvent = "HudMessage"
+    hideEvent = "HudMessageHide"
+    lifeTime = 5.0
+    buildText = @(eventData) eventData.text
+    isCurrent = function(eventData, isHideEvent){
+      return (eventData?.type == ::HUD_MSG_UNDER_RADAR
+      || eventData?.type == ::HUD_MSG_DEATH_REASON
+      || isHideEvent)
     }
   }
 

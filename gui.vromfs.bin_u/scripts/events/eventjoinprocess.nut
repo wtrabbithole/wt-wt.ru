@@ -68,6 +68,13 @@ class EventJoinProcess
     if (!::events.checkEventFeature(event))
       return remove()
 
+    if (!::events.isEventAllowedByComaptibilityMode(event))
+    {
+      ::showInfoMsgBox(::loc("events/noCompatibilityMode/msg"))
+      remove()
+      return
+    }
+
     if (!::g_squad_utils.isEventAllowedForAllMembers(::events.getEventEconomicName(event)))
       return remove()
 

@@ -1,5 +1,5 @@
 HorizontalListBox {
-  id:t='item_type_filter'
+  id:t='sheets_list'
   max-width:t='pw'
   smallFont:t='yes'
 

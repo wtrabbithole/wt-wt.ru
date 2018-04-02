@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+
 //prize - blk or table in format of trophy prizes from trophies.blk
 //content - array of prizes (better to rename it)
 //
@@ -14,10 +17,6 @@
 //                                                  receivedPrizes (true) - show prizes as received.
 //  getPrizesListView(content, params = null) - get full prizes list not stacked.
 //
-
-
-local time = require("scripts/time.nut")
-
 
 enum PRIZE_TYPE {
   UNKNOWN
@@ -36,6 +35,7 @@ enum PRIZE_TYPE {
   GOLD
   WARPOINTS
   EXP
+  WARBONDS
   RESOURCE
 }
 
@@ -83,6 +83,8 @@ function PrizesView::getPrizeType(prize)
     return PRIZE_TYPE.WARPOINTS
   if (prize.exp)
     return PRIZE_TYPE.EXP
+  if (prize.warbonds)
+    return PRIZE_TYPE.WARBONDS
   if (prize.resource)
     return PRIZE_TYPE.RESOURCE
   return PRIZE_TYPE.UNKNOWN
@@ -93,7 +95,7 @@ function PrizesView::getStackType(prize)
   local prizeType = getPrizeType(prize)
   if (prizeType == PRIZE_TYPE.ITEM)
     return STACK_TYPE.ITEM
-  if (::isInArray(prizeType, [ PRIZE_TYPE.GOLD, PRIZE_TYPE.WARPOINTS, PRIZE_TYPE.EXP ]))
+  if (::isInArray(prizeType, [ PRIZE_TYPE.GOLD, PRIZE_TYPE.WARPOINTS, PRIZE_TYPE.EXP, PRIZE_TYPE.WARBONDS ]))
     return STACK_TYPE.CURRENCY
   if (::isInArray(prizeType, [ PRIZE_TYPE.UNIT, PRIZE_TYPE.RENTED_UNIT ]))
     return STACK_TYPE.VEHICLE
@@ -147,7 +149,8 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
   }
   else if (prize.item || prize.trophy)
   {
-    local item = ::ItemsManager.findItemById(prize.item || prize.trophy)
+    local id = prize.item || prize.trophy
+    local item = ::ItemsManager.findItemById(id)
     if (_typeName)
     {
       name = _getItemTypeName(item)
@@ -155,7 +158,17 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
     }
     else
     {
-      name = item ? item.getShortDescription(colored) : (prize.item || prize.trophy)
+      if (!item)
+        name = id
+      else
+      {
+        if (workshop.shouldDisguiseItem(item))
+        {
+          item = item.makeEmptyInventoryItem()
+          item.setDisguise(true)
+        }
+        name = item.getShortDescription(colored)
+      }
       color = item ? "activeTextColor" : "red"
     }
   }
@@ -226,6 +239,12 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
     name = ::Cost(prize.warpoints).toStringWithParams({isWpAlwaysShown = true, isColored = colored})
   else if (prize.exp)
     name = ::Cost().setFrp(prize.exp).toStringWithParams({isColored = colored})
+  else if (prize.warbonds)
+  {
+    local wb = ::g_warbonds.findWarbond(prize.warbonds)
+    name = wb && prize.count ? wb.getPriceText(prize.count, true, false) : ""
+    showCount = false
+  }
   else
   {
     name = ::loc("item/unknown")
@@ -294,6 +313,8 @@ function PrizesView::getPrizeTypeIcon(prize, unitImage = false)
     return "#ui/gameuiskin#item_type_warpoints"
   if (prize.exp)
     return "#ui/gameuiskin#item_type_Free_RP"
+  if (prize.warbonds)
+    return "#ui/gameuiskin#item_type_warbonds"
   return "#ui/gameuiskin#item_type_placeholder"
 }
 
@@ -396,14 +417,19 @@ function PrizesView::_findAndStackPrizeItem(prize, stackList, stackLevel)
   return true
 }
 
-function PrizesView::getPrizeCurrency(prize)
+function PrizesView::getPrizeCurrencyCfg(prize)
 {
-  if (prize.gold)
-    return ::Cost(0, prize.gold)
-  if (prize.warpoints)
-    return ::Cost(prize.warpoints)
-  if (prize.exp)
-    return ::Cost().setFrp(prize.exp)
+  if (prize?.gold > 0)
+    return { type = PRIZE_TYPE.GOLD, val = prize.gold, printFunc = @(val) ::Cost(0, val).tostring() }
+  if (prize?.warpoints > 0)
+    return {  type = PRIZE_TYPE.WARPOINTS, val = prize.warpoints, printFunc = @(val) ::Cost(val).tostring() }
+  if (prize?.exp > 0)
+    return {  type = PRIZE_TYPE.EXP, val = prize.exp, printFunc = @(val) ::Cost().setFrp(val).tostring() }
+  if (prize?.warbonds && prize?.count > 0)
+  {
+    local wbId = prize.warbonds
+    return {  type = PRIZE_TYPE.WARBONDS, val = prize.count, printFunc = @(val) ::g_warbonds.findWarbond(wbId).getPriceText(val, true, false) }
+  }
   return null
 }
 
@@ -413,27 +439,32 @@ function PrizesView::_findAndStackPrizeCurrency(prize, stackList)
 
   local stack = _findOneStack(stackList, prizeType)
 
-  local cost = getPrizeCurrency(prize)
+  local cfg = getPrizeCurrencyCfg(prize)
+  if (!cfg)
+    return false
+
   if (stack)
   {
-    stack.countMin = ::min(stack.countMin, cost)
-    stack.countMax = ::max(stack.countMax, cost)
+    stack.countMin = ::min(stack.countMin, cfg.val)
+    stack.countMax = ::max(stack.countMax, cfg.val)
     stack.level = prizesStack.DETAILED
     return true
   }
 
   stack = _createStack(prize)
-  stack.countMin = cost
-  stack.countMax = cost
+  stack.countMin = cfg.val
+  stack.countMax = cfg.val
+  stack.params = { printFunc = cfg.printFunc }
   stackList.append(stack)
   return true
 }
 
 function PrizesView::getStackCurrencyText(stack)
 {
-  local res = stack.countMin.tostring()
+  local printFunc = stack.params.printFunc
+  local res = printFunc(stack.countMin)
   if (stack.countMin != stack.countMax)
-    res += " - " + stack.countMax.tostring()
+    res += " - " + printFunc(stack.countMax)
   return ::colorize("activeTextColor", res)
 }
 
@@ -757,6 +788,8 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
     return getViewDataDecorator(prize, params)
   if (prize.item)
     return getViewDataItem(prize, showCount, params)
+  if (prize.warbonds)
+    return getViewDataDefault(prize, false, params)
   return getViewDataDefault(prize, showCount, params)
 }
 
@@ -850,7 +883,7 @@ function PrizesView::getPrizeActionButtonsView(prize, params = null)
   if (itemId)
   {
     local item = ::ItemsManager.findItemById(itemId)
-    if (!item)
+    if (!item || workshop.shouldDisguiseItem(item))
       return view
     if (item.canPreview())
       view.append({

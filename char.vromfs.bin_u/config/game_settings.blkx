@@ -525,17 +525,9 @@
         "reqPack": "pkg_ships"
       }
     ],
-    "SpecialShips": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "SpecialShips": {
+      "condition": ""
+    },
     "ShipsVisibleInShop": [
       {
         "condition": "role_GAIJIN"
@@ -829,7 +821,7 @@
     },
     "UserSkins": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "ps4;xboxOne"
     },
     "SkinsPreviewOnUnboughtUnits": [
       {
@@ -1053,6 +1045,9 @@
         "condition": "role_TESTER"
       }
     ],
+    "1Animcraft": {
+      "condition": ""
+    },
     "AdvancedInstructor": {
       "condition": ""
     },
@@ -1141,23 +1136,13 @@
     "PersonalUnlocks": {
       "condition": ""
     },
-    "ExtInventory": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "platform_lock": "ps4;android;xboxOne"
-      }
-    ],
+    "ExtInventory": {
+      "condition": ""
+    },
+    "Marketplace": {
+      "condition": "!DMMAccount;!PS4Account",
+      "platform_lock": "ps4;android;xboxOne"
+    },
     "BulletParamsForAirs": {
       "condition": ""
     },
@@ -1427,66 +1412,24 @@
     "Warbonds_2_0": {
       "condition": ""
     },
-    "EnableUgcSkins": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "platform_lock": "ps4;android;xboxOne"
-      }
-    ],
-    "EnableUgcDecals": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "platform_lock": "ps4;android;xboxOne"
-      }
-    ],
-    "UgcAfterBattleTrophy": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "platform_lock": "ps4;android;xboxOne"
-      }
-    ],
+    "EnableUgcSkins": {
+      "condition": "!DMMAccount;!PS4Account",
+      "platform_lock": "ps4;android;xboxOne"
+    },
+    "EnableUgcDecals": {
+      "condition": "!DMMAccount;!PS4Account",
+      "platform_lock": "ps4;android;xboxOne"
+    },
+    "UgcAfterBattleTrophy": {
+      "condition": "!DMMAccount;!PS4Account",
+      "platform_lock": "ps4;android;xboxOne"
+    },
     "Ugc": [
       {
         "condition": "EnableUgcSkins"
       },
       {
         "condition": "EnableUgcDecals"
-      },
-      {
-        "platform_lock": "ps4;android;xboxOne"
       }
     ],
     "WikiUnitInfo": {
@@ -1501,17 +1444,12 @@
       "condition": "",
       "platform_lock": "ps4;android;xboxOne"
     },
-    "DebriefingBattleTasks": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "DebriefingBattleTasks": {
+      "condition": ""
+    },
+    "PromoBattleTasksRadioButtons": {
+      "condition": ""
+    },
     "XBoxPlatformRestriction": {
       "condition": "",
       "platform_lock": "xboxOne"

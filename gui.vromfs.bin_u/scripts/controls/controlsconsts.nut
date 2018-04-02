@@ -41,14 +41,15 @@ enum ctrlGroups {
   TANK          = 0x0002
   SHIP          = 0x0004
   HELICOPTER    = 0x0008
+  SUBMARINE     = 0x0010
 
-  VOICE         = 0x0010
-  REPLAY        = 0x0020
-  ARTILLERY     = 0x0040
+  VOICE         = 0x0100
+  REPLAY        = 0x0200
+  ARTILLERY     = 0x0400
 
-  HANGAR        = 0x0080
+  HANGAR        = 0x0800
 
   //complex groups mask
   NO_GROUP      = 0x0000
-  COMMON        = 0x000F
+  COMMON        = 0x00FF
 }

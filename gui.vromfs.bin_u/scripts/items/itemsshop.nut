@@ -1,3 +1,6 @@
+local sheets = ::require("scripts/items/itemsShopSheets.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+
 function gui_start_itemsShop(params = null)
 {
   ::gui_start_items_list(itemsTab.SHOP, params)
@@ -24,100 +27,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.MODAL
   sceneBlkName = "gui/items/itemsShop.blk"
 
-  filter = null
   curTab = 0 //first itemsTab
+  visibleTabs = null //[]
+  curSheet = null
 
-  _defaultFilter = {
-    typeMask = itemType.ALL
-    devItemsTab = false
-    isMarketplace = false
-    emptyTabLocId = "items/shop/emptyTab/default"
-  }
-
-  _types = [{
-      key = "all"
-      typeMask = itemType.ALL
-      text = "#userlog/page/all"
-    } {
-      key = "trophy"
-      typeMask = itemType.TROPHY
-      tabEnable = [itemsTab.SHOP]
-    } {
-      key = "booster"
-      typeMask = itemType.BOOSTER
-    } {
-      key = "wagers"
-      typeMask = itemType.WAGER
-    } {
-      key = "discount"
-      typeMask = itemType.DISCOUNT
-      tabEnable = function () {
-        local result = [itemsTab.INVENTORY]
-        if (::has_feature("CanBuyDiscountItems"))
-          result.push(itemsTab.SHOP)
-        return result
-      }
-    } {
-      key = "tickets"
-      typeMask = itemType.TICKET
-    } {
-      key = "orders"
-      typeMask = itemType.ORDER
-    } {
-      key = "universalSpare"
-      typeMask = itemType.UNIVERSAL_SPARE
-      tabEnable = @() !::has_feature("ItemModUpgrade") && [itemsTab.INVENTORY, itemsTab.SHOP]
-    } {
-      key = "modifications"
-      text = "#mainmenu/btnWeapons"
-      typeMask = itemType.UNIVERSAL_SPARE | itemType.MOD_UPGRADE | itemType.MOD_OVERDRIVE
-      tabEnable = @() ::has_feature("ItemModUpgrade") && [itemsTab.INVENTORY, itemsTab.SHOP]
-    } {
-      key = "vehicles"
-      typeMask = itemType.VEHICLE
-      isMarketplace = true
-      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
-    } {
-      key = "skins"
-      typeMask = itemType.SKIN
-      isMarketplace = true
-      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
-    } {
-      key = "decals"
-      typeMask = itemType.DECAL
-      isMarketplace = true
-      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
-    } {
-      key = "keys"
-      typeMask = itemType.KEY
-      isMarketplace = true
-      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
-    } {
-      key = "chests"
-      typeMask = itemType.CHEST
-      isMarketplace = true
-      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
-    } {
-      key = "devItems"
-      typeMask = itemType.ALL
-      devItemsTab = true
-      tabEnable = @() ::has_feature("devItemShop") ? [itemsTab.SHOP] : []
-    }
-    /*
-    { typeMask = itemType.WARPOINTS
-      text = ::loc("warpoints/short/colored") + " " + ::loc("charServer/chapter/warpoints")
-    }
-    { typeMask = itemType.PREMIUM
-      text = ::loc("charServer/chapter/premium")
-    }
-    { typeMask = itemType.GOLD
-      text = ::loc("gold/short/colored") + " " + ::loc("shop/recharge")
-    }
-    */
-  ]
-
-  filtersInited = false
-  filtersInUpdate = false
+  isSheetsInited = false
+  isSheetsInUpdate = false
   itemsPerPage = -1
   itemsList = null
   curPage = 0
@@ -126,27 +41,26 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   slotbarActions = [ "preview", "testflight", "weapons", "info" ]
   widgetByItem = {}
-  widgetByFilter = {}
+  widgetBySheet = {}
   widgetByTab = {}
 
-  // This table holds array of filters that makes
+  // This table holds array of sheets that makes
   // sense to check for item with specified item type.
-  // This optimizes numUnseenItemsByTab calculation.
-  filtersByItemType = {}
+  // This optimizes numUnseenItemsBySheet calculation.
+  sheetsByItemType = null
+  numUnseenItemsBySheet = null //{ <sheet> = amount }
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
 
   function initScreen()
   {
-    prepareFilterTypes(_types)
-    if (!filter)
-      filter = clone _defaultFilter
+    sheets.updateWorkshopSheets()
+    initUnseenTables()
+    if (curSheet)
+      curSheet = sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
     else
-      validateFilter(filter)
-
-    if (curTab < 0 || curTab >= itemsTab.TOTAL)
-      curTab = 0
+      curSheet = sheets.ALL
 
     fillTabs()
 
@@ -156,65 +70,37 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_timer").setUserData(this)
 
     // If items shop was opened not in menu - player should not
-    // be able to navigate through filters and tabs.
+    // be able to navigate through sheets and tabs.
     local checkIsInMenu = ::isInMenu() || ::has_feature("devItemShop")
     local checkEnableShop = checkIsInMenu && ::has_feature("ItemsShop")
     scene.findObject("wnd_title").show(!checkEnableShop)
     getTabsListObj().show(checkEnableShop)
     getTabsListObj().enable(checkEnableShop)
-    getItemTypeFilterObj().show(isInMenu)
-    getItemTypeFilterObj().enable(isInMenu)
+    getSheetsListObj().show(isInMenu)
+    getSheetsListObj().enable(isInMenu)
   }
 
-  function validateFilter(checkFilter)
+  function initUnseenTables()
   {
-    local newFilter = clone checkFilter
-    if ("typeMask" in newFilter)
-      foreach(idx, type in _types)
-        if (type.typeMask == newFilter.typeMask)
-        {
-          newFilter = ::combine_tables(newFilter, type)
-          break
-        }
+    sheetsByItemType = {}
+    numUnseenItemsBySheet = {}
+    foreach (sh in sheets.types)
+      numUnseenItemsBySheet[sh] <- 0
 
-    newFilter = ::combine_tables(newFilter, _defaultFilter)
-
-    if (!checkShopItemsWithFilter(newFilter, curTab))
-      validateFilter(_types[0])
-    else
-      filter = newFilter
-  }
-
-  function prepareFilterTypes(types)
-  {
-    foreach (type in types)
-    {
-      type.id <- "shop_filter_" + type.key
-      if (!("text" in type))
-        type.text <- "#itemTypes/" + type.key
-      if (!("emptyTabLocId" in type))
-        type.emptyTabLocId <- "items/shop/emptyTab/" + type.key
-      type.numUnseenItemsByTab <- {
-        [itemsTab.INVENTORY] = 0,
-        [itemsTab.SHOP] = 0
-      }
-    }
     foreach(itemClass in ::items_classes)
     {
       local itemType = itemClass.iType
-      local filters = []
-      foreach (type in types)
-      {
-        if ((type.typeMask & itemType) != 0)
-          filters.push(type)
-      }
-      filtersByItemType[itemType] <- filters
+      local list = []
+      foreach (sh in sheets.types)
+        if (sh.typeMask & itemType)
+          list.push(sh)
+      sheetsByItemType[itemType] <- list
     }
   }
 
   function getMainFocusObj()
   {
-    return getItemTypeFilterObj()
+    return getSheetsListObj()
   }
 
   function getMainFocusObj2()
@@ -223,9 +109,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     return obj.childrenCount() ? obj : null
   }
 
-  function focusFilters()
+  function focusSheetsList()
   {
-    local obj = getItemTypeFilterObj()
+    local obj = getSheetsListObj()
     obj.select()
     checkCurrentFocusItem(obj)
   }
@@ -236,33 +122,64 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     {
       case itemsTab.SHOP:          return "items/shop"
       case itemsTab.INVENTORY:     return "items/inventory"
+      case itemsTab.WORKSHOP:      return "items/workshop"
     }
     return ""
   }
 
+  isTabVisible = @(tabIdx) tabIdx != itemsTab.WORKSHOP || workshop.isAvailable()
+
+  function getTabNumUnseenItems(tabIdx)
+  {
+    if (tabIdx == itemsTab.WORKSHOP)
+    {
+      local res = 0
+      foreach(wSet in workshop.getSetsList())
+        res += wSet.getNumUnseenItems()
+      return res
+    }
+    return ::ItemsManager.getNumUnseenItems(tabIdx == itemsTab.INVENTORY)
+  }
+
   function fillTabs()
   {
+    visibleTabs = []
+    for (local i = 0; i < itemsTab.TOTAL; i++)
+      if (isTabVisible(i))
+        visibleTabs.append(i)
+
     local view = {
       tabs = []
     }
-    for (local i = 0; i < itemsTab.TOTAL; ++i)
-      view.tabs.push({
+    local selIdx = -1
+    foreach(idx, tabIdx in visibleTabs)
+    {
+      view.tabs.append({
+        tabName = ::loc(getTabName(tabIdx))
         newIconWidget = NewIconWidget.createLayout()
-        tabName = ::loc(getTabName(i))
-        navImagesText = ::get_navigation_images_text(i, itemsTab.TOTAL)
+        navImagesText = ::get_navigation_images_text(idx, visibleTabs.len())
       })
+      if (tabIdx == curTab)
+        selIdx = idx
+    }
+    if (selIdx < 0)
+    {
+      selIdx = 0
+      curTab = visibleTabs[selIdx]
+    }
 
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     local tabsObj = getTabsListObj()
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
-    for (local i = 0; i < itemsTab.TOTAL; ++i)
+
+    foreach(idx, tabIdx in visibleTabs)
     {
-      local tabObj = tabsObj.getChild(i)
+      local tabObj = tabsObj.getChild(idx)
       local newIconWidgetObj = tabObj.findObject("tab_new_icon_widget")
       if (::checkObj(newIconWidgetObj))
-        widgetByTab[i] <- NewIconWidget(guiScene, newIconWidgetObj)
+        widgetByTab[tabIdx] <- NewIconWidget(guiScene, newIconWidgetObj)
     }
-    tabsObj.setValue(curTab)
+    tabsObj.setValue(selIdx)
   }
 
   function onTabChange()
@@ -270,80 +187,80 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     markCurrentPageSeen()
 
     local value = getTabsListObj().getValue()
-    if (value >= 0 && value < itemsTab.TOTAL)
-      curTab = value
+    curTab = visibleTabs?[value] ?? curTab
 
     itemsListValid = false
-    updateFilters()
+    updateSheets()
     updateTabNewIconWidgets()
   }
 
-  function initFilters()
+  function initSheetsOnce()
   {
-    if (filtersInited)
+    if (isSheetsInited)
       return
 
+    local newIconWidgetLayout = NewIconWidget.createLayout()
     local view = {
-      items = _types
+      items = sheets.types.map(@(sh) {
+        text = ::loc(sh.locId)
+        newIconWidget = newIconWidgetLayout
+      })
     }
-    for (local i = view.items.len() - 1; i >= 0; --i)
-      view.items[i].newIconWidget <- NewIconWidget.createLayout()
 
     local data = ::handyman.renderCached(("gui/items/shopFilters"), view)
     guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
 
-    local typesObj = getItemTypeFilterObj()
+    local typesObj = getSheetsListObj()
     if (::checkObj(typesObj))
     {
-      for (local i = view.items.len() - 1; i >= 0; --i)
+      foreach(idx, sh in sheets.types)
       {
-        local filterObj = typesObj.getChild(i)
-        local newIconWidgetObj = filterObj.findObject("filter_new_icon_widget")
-        if (::checkObj(newIconWidgetObj))
-          widgetByFilter[_types[i]] <- NewIconWidget(guiScene, newIconWidgetObj)
+        local sheetObj = typesObj.getChild(idx)
+        local newIconWidgetObj = sheetObj.findObject("filter_new_icon_widget")
+        if (::check_obj(newIconWidgetObj))
+          widgetBySheet[sh] <- NewIconWidget(guiScene, newIconWidgetObj)
       }
     }
 
-    filtersInited = true
+    isSheetsInited = true
   }
 
-  function updateFilters()
+  function updateSheets()
   {
-    filtersInUpdate = true //there can be multiple filters changed on switch tab, so no need to update items several times.
+    isSheetsInUpdate = true //there can be multiple sheets changed on switch tab, so no need to update items several times.
     guiScene.setUpdatesEnabled(false, false)
-    initFilters()
+    initSheetsOnce()
 
-    local typesObj = getItemTypeFilterObj()
+    local typesObj = getSheetsListObj()
     local curValue = -1
-    foreach(idx, t in _types)
+    foreach(idx, sh in sheets.types)
     {
-      local enable = checkItemTab(t, curTab)
-      if (enable)
-        if (curValue < 0 || compareFilters(filter, t))
+      local isEnabled = sh.isEnabled(curTab)
+      if (isEnabled)
+        if (curValue < 0 || curSheet == sh)
           curValue = idx
 
       local child = typesObj.getChild(idx)
-      child.show(enable)
-      child.enable(enable)
+      child.show(isEnabled)
+      child.enable(isEnabled)
     }
     if (curValue >= 0)
       typesObj.setValue(curValue)
 
     guiScene.setUpdatesEnabled(true, true)
-    filtersInUpdate = false
+    isSheetsInUpdate = false
 
     applyFilters()
-    updateFilterNewIconWidgets()
+    updateSheetsNewIconWidgets()
   }
 
   function updateTabNewIconWidgets()
   {
-    for (local i = 0; i < itemsTab.TOTAL; ++i)
+    foreach(tabIdx in visibleTabs)
     {
-      local widget = ::getTblValue(i, widgetByTab, null)
-      if (widget == null)
-        continue
-      widget.setValue(::ItemsManager.getNumUnseenItems(i == itemsTab.INVENTORY))
+      local widget = widgetByTab?[tabIdx]
+      if (widget)
+        widget.setValue(getTabNumUnseenItems(tabIdx))
     }
   }
 
@@ -352,83 +269,44 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
    *        seen\unseen state actually changed. Passing null will force
    *        complete recalculation.
    */
-  function updateFilterNewIconWidgets(changedItem = null)
+  function updateSheetsNewIconWidgets(changedItem = null)
   {
-    local filtersToUpdate = changedItem == null
-      ? _types
-      : filtersByItemType[changedItem.iType]
-    foreach (filter in filtersToUpdate)
-      filter.numUnseenItemsByTab[curTab] = 0
+    local sheetsToUpdate = changedItem == null
+      ? sheets.types
+      : sheetsByItemType[changedItem.iType]
+    foreach (sh in sheetsToUpdate)
+      numUnseenItemsBySheet[sh] = 0
 
-    local customEnv = {
-      curTab = curTab
-      filter = null
-    }
-    local items = curTab == itemsTab.INVENTORY
-      ? ::ItemsManager.inventory
-      : ::ItemsManager.itemsList
-    foreach (item in items)
+    local typeMask = ::ItemsManager.checkItemsMaskFeatures(itemType.ALL)
+    local fullItemsList = curTab == itemsTab.SHOP ? ::ItemsManager.getShopList(typeMask)
+      : ::ItemsManager.getInventoryList(typeMask)
+
+    foreach (item in fullItemsList)
+      if (::ItemsManager.isItemUnseen(item))
+        foreach (sh in sheetsToUpdate)
+          if ((item.iType & sh.typeMask) && sh.getItemFilterFunc(curTab).call(sh, item))
+            numUnseenItemsBySheet[sh]++
+
+    foreach (sh in sheets.types)
     {
-      if (!::ItemsManager.isItemUnseen(item))
-        continue
-      foreach (filter in filtersToUpdate)
-      {
-        customEnv.filter = filter
-        if ((item.iType & filter.typeMask) != 0 && filterFunc.bindenv(customEnv)(item))
-          ++filter.numUnseenItemsByTab[curTab]
-      }
+      local widget = widgetBySheet?[sh]
+      if (widget)
+        widget.setValue(numUnseenItemsBySheet[sh])
     }
-
-    foreach (type in _types)
-    {
-      local widget = ::getTblValue(type, widgetByFilter, null)
-      if (widget == null)
-        continue
-      widget.setValue(type.numUnseenItemsByTab[curTab])
-    }
-  }
-
-  function compareFilters(filter1, filter2)
-  {
-    return ::getTblValue("typeMask", filter1, itemType.ALL) == ::getTblValue("typeMask", filter2, itemType.ALL) &&
-      ::getTblValue("devItemsTab", filter1, false) == ::getTblValue("devItemsTab", filter2, false)
-  }
-
-  function checkItemTab(itemTabData, curTab)
-  {
-    if (curTab == itemsTab.SHOP &&
-        !checkShopItemsWithFilter(itemTabData, itemsTab.SHOP))
-      return false
-
-    if (!::ItemsManager.checkItemsMaskFeatures(itemTabData.typeMask))
-      return false
-
-    if (!("tabEnable" in itemTabData))
-      return true
-    local tabEnable = itemTabData.tabEnable
-    if (tabEnable == null)
-      return false
-    if (typeof(tabEnable) == "function")
-      tabEnable = tabEnable()
-    if (typeof(tabEnable) == "array")
-      return ::isInArray(curTab, tabEnable)
-    return false
   }
 
   function onItemTypeChange(obj)
   {
     markCurrentPageSeen()
 
-    local value = obj.getValue()
-    if (!(value in _types))
+    local newSheet = sheets.types?[obj.getValue()]
+    if (!newSheet)
       return
 
-    filter.typeMask = _types[value].typeMask
-    filter.devItemsTab <- ::getTblValue("devItemsTab", _types[value], false)
-    filter.emptyTabLocId <- ::getTblValue("emptyTabLocId", _types[value], "")
+    curSheet = newSheet
     itemsListValid = false
 
-    if (!filtersInUpdate)
+    if (!isSheetsInUpdate)
       applyFilters()
   }
 
@@ -442,12 +320,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     itemsPerPage = sizes.itemsCountX * sizes.itemsCountY
   }
 
-  function filterFunc(item)
-  {
-    return (curTab != itemsTab.SHOP || item.isCanBuy()) &&
-      (::getTblValue("devItemsTab", filter, false) == item.isDevItem)
-  }
-
   function applyFilters(resetPage = true)
   {
     initItemsListSizeOnce()
@@ -455,39 +327,23 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!itemsListValid)
     {
       itemsListValid = true
-      local typeMask = ::ItemsManager.checkItemsMaskFeatures(filter.typeMask)
+      itemsList = curSheet.getItemsList(curTab)
       if (curTab == itemsTab.INVENTORY)
-      {
-        itemsList = ::ItemsManager.getInventoryList(typeMask, filterFunc.bindenv(this))
         itemsList.sort(::ItemsManager.itemsSortComparator)
-      }
-      else //if (curTab == itemsTab.SHOP)
-        itemsList = ::ItemsManager.getShopList(typeMask, filterFunc.bindenv(this))
     }
 
     if (resetPage)
       curPage = 0
-    else if (curPage * itemsPerPage > itemsList.len())
-      curPage = ::max(0, ((itemsList.len() - 1) / itemsPerPage).tointeger())
+    else
+    {
+      local lastIdx = getLastSelItemIdx()
+      if (lastIdx >= 0)
+        curPage = (lastIdx / itemsPerPage).tointeger()
+      else if (curPage * itemsPerPage > itemsList.len())
+        curPage = ::max(0, ((itemsList.len() - 1) / itemsPerPage).tointeger())
+    }
 
     fillPage()
-  }
-
-  /**
-   * Returns true if user has some items in shop with specified filter.
-   */
-  function checkShopItemsWithFilter(filter, checkTab = itemsTab.SHOP)
-  {
-    local customEnv = {
-      filter = filter
-      curTab = checkTab
-    }
-    local items = []
-    if (checkTab == itemsTab.INVENTORY)
-      items = ::ItemsManager.getInventoryList(filter.typeMask, filterFunc.bindenv(customEnv))
-    else if (checkTab == itemsTab.SHOP)
-      items = ::ItemsManager.getShopList(filter.typeMask, filterFunc.bindenv(customEnv))
-    return items.len() > 0
   }
 
   function fillPage()
@@ -548,16 +404,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local emptyListObj = scene.findObject("empty_items_list")
     if (::checkObj(emptyListObj))
     {
-      local adviseMarketplace = curTab == itemsTab.INVENTORY && ::ItemsManager.isMarketplaceEnabled()
-      local adviseShop = ::has_feature("ItemsShop") && curTab != itemsTab.SHOP
-      if (adviseMarketplace || adviseShop)
-        foreach (t in _types)
-          if (compareFilters(filter, t))
-          {
-            adviseMarketplace = adviseMarketplace && t?.isMarketplace != null
-            adviseShop = adviseShop && !adviseMarketplace && checkItemTab(t, itemsTab.SHOP)
-            break
-          }
+      local adviseMarketplace = curTab == itemsTab.INVENTORY && curSheet.isMarketplace && ::ItemsManager.isMarketplaceEnabled()
+      local adviseShop = ::has_feature("ItemsShop") && curTab != itemsTab.SHOP && !adviseMarketplace
 
       emptyListObj.show(data.len() == 0)
       emptyListObj.enable(data.len() == 0)
@@ -566,8 +414,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       local emptyListTextObj = scene.findObject("empty_items_list_text")
       if (::checkObj(emptyListTextObj))
       {
-        local emptyTabLocId = ::getTblValue("emptyTabLocId", filter, "")
-        local caption = ::loc(emptyTabLocId, ::loc(_defaultFilter.emptyTabLocId, ""))
+        local caption = ::loc(curSheet.emptyTabLocId, "")
+        if (!caption.len())
+          caption = ::loc("items/shop/emptyTab/default")
         if (caption.len() > 0)
         {
           local noItemsAdviceLocId =
@@ -591,7 +440,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       curPage, ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
 
     if (!itemsList.len())
-      focusFilters()
+      focusSheetsList()
   }
 
   function isItemLocked(item)
@@ -618,16 +467,40 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!total)
       return -1
 
-    for(local i = 0; i < total; i++)
-      if (isLastItemSame(itemsList[offset + i]))
-        return i
-    return ::max(0, ::min(total - 1, prevValue))
+    local res = ::clamp(prevValue, 0, total - 1)
+    if (_lastItem)
+      for(local i = 0; i < total; i++)
+      {
+        local item = itemsList[offset + i]
+        if (_lastItem.id != item.id)
+          continue
+        res = i
+        if (isLastItemSame(item))
+          break
+      }
+    return res
+  }
+
+  function getLastSelItemIdx()
+  {
+    local res = -1
+    if (!_lastItem)
+      return res
+
+    foreach(idx, item in itemsList)
+      if (_lastItem.id == item.id)
+      {
+        res = idx
+        if (isLastItemSame(item))
+          break
+      }
+    return res
   }
 
   function onEventInventoryUpdate(p)
   {
     updateTabNewIconWidgets()
-    if (curTab == itemsTab.INVENTORY)
+    if (curTab != itemsTab.SHOP)
     {
       itemsListValid = false
       applyFilters(false)
@@ -684,11 +557,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       widget.setWidgetVisible(false)
     if (result)
     {
-      updateFilterNewIconWidgets()
+      ::ItemsManager.saveSeenItemsData(item.isInventoryItem)
+      updateSheetsNewIconWidgets()
       updateTabNewIconWidgets()
       ::ItemsManager.updateGamercardIcons(item.isInventoryItem)
     }
-    ::ItemsManager.saveSeenItemsData(item.isInventoryItem)
   }
 
   function markCurrentPageSeen()
@@ -708,11 +581,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     }
     if (result)
     {
-      updateFilterNewIconWidgets()
+      ::ItemsManager.saveSeenItemsData(curTab == itemsTab.INVENTORY)
+      updateSheetsNewIconWidgets()
       updateTabNewIconWidgets()
       ::ItemsManager.updateGamercardIcons(curTab == itemsTab.INVENTORY)
     }
-    ::ItemsManager.saveSeenItemsData(curTab == itemsTab.INVENTORY)
   }
 
   function updateButtons()
@@ -729,6 +602,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), mainActionName)
     }
     showSceneBtn("btn_preview", item ? item.canPreview() : false)
+
+    local altActionText = item ? item.getAltActionName() : ""
+    local actionBtn = showSceneBtn("btn_alt_action", altActionText != "")
+    ::set_double_text_to_button(scene, "btn_alt_action", altActionText)
 
     local warningText = ""
     if (!limitsCheckResult && item && !item.isInventoryItem)
@@ -798,6 +675,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     return result.success
   }
 
+  function onAltAction()
+  {
+    local item = getCurItem()
+    if (item)
+      item.doAltAction()
+  }
+
   function onDescAction(obj)
   {
     local data = ::check_obj(obj) && obj.actionData && ::parse_json(obj.actionData)
@@ -855,21 +739,21 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     return scene.findObject("tabs_list")
   }
 
-  function getItemTypeFilterObj()
+  function getSheetsListObj()
   {
-    return scene.findObject("item_type_filter")
+    return scene.findObject("sheets_list")
   }
 
   /**
    * Returns all the data required to restore current window state:
-   * filter tab, items tab, current page, selected item, etc...
+   * curSheet, curTab, selected item, etc...
    */
   function getHandlerRestoreData()
   {
     local data = {
       openData = {
         curTab = curTab
-        filter = filter
+        curSheet = curSheet
       }
       stateData = {
         currentItemId = ::getTblValue("id", getCurItem(), null)

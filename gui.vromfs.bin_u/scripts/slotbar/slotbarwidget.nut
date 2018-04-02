@@ -33,6 +33,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   mainMenuSlotbar = false //is slotbar in mainmenu
   roomCreationContext = false //check enbled by roomCreation context
   availableUnits = null //available units table
+  customUnitsList = null //custom units table to filter unsuitable units in unit selecting
+  customUnitsListName = null //string. Custom list name for unit select option filter
   eventId = null //string. Used to check unit availability
   gameModeName = null //string. Custom mission name for unit select option filter
 
@@ -397,6 +399,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ::initSlotbarTopBar(scene, true) //show autorefill checkboxes
 
     local countriesObj = scene.findObject("slotbar-countries")
+    countriesObj.hasBackground = isFullSlotbar ? "no" : "yes"
     local hObj = scene.findObject("slotbar_background")
     hObj.show(isFullSlotbar)
     if (::show_console_buttons)

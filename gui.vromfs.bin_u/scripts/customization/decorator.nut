@@ -9,6 +9,7 @@ class Decorator
   unlockId = ""
   unlockBlk = null
   isUGC = false
+  group = ""
 
   category = ""
   catIndex = 0
@@ -44,6 +45,7 @@ class Decorator
     unlockBlk = ::g_unlocks.getUnlockById(unlockId)
     limit = ::getTblValue("limit", blk, decoratorType.defaultLimitUsage)
     category = ::getTblValue("category", blk, "")
+    group = ::getTblValue("group", blk, "")
 
     if (guidParser.isGuid(id))
       isUGC = true
@@ -190,7 +192,7 @@ class Decorator
 
     local numUse = 0
     for (local i = 0; i < decoratorType.getAvailableSlots(unit); i++)
-      if (id == decoratorType.getDecoratorNameInSlot(i))
+      if (id == decoratorType.getDecoratorNameInSlot(i) || (group != "" && group == decoratorType.getDecoratorGroupInSlot(i)))
         numUse++
 
     return numUse
@@ -250,5 +252,10 @@ class Decorator
       string.append("unlockId = " + unlockId)
 
     return "Decorator: " + ::g_string.implode(string, "; ")
+  }
+
+  function getLocParamsDesc()
+  {
+    return decoratorType.getLocParamsDesc(this)
   }
 }

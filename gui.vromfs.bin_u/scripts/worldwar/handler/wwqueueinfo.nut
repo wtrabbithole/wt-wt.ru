@@ -38,12 +38,14 @@ class ::gui_handlers.WwQueueInfo extends ::gui_handlers.BaseGuiHandlerWT
   function onEventQueueInfoRecived(params)
   {
     local queueInfo = params?.queue_info
-    if (!queueInfo)
+    if (!queueInfo || !::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE))
       return
 
     foreach (battleInfo in queueInfo)
     {
-      local wwBattle = ::g_world_war.getBattleById(battleInfo.battleId)
+      if (!("battleId" in battleInfo))
+        continue
+      local wwBattle = ::g_world_war.getBattleById(battleInfo?.battleId)
       foreach (idx, sideInfo in getSidesInfo(wwBattle))
       {
         local sideObj = scene.findObject(getSidesObjName(idx))

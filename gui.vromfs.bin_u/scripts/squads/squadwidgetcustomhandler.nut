@@ -1,3 +1,5 @@
+local platformModule = require("modules/platform.nut")
+
 const SQUAD_MEMBERS_TO_HIDE_TITLE = 3
 
 function init_squad_widget_handler(parentHandler, nestObj)
@@ -108,7 +110,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       memberVoipObj["isVoipActive"] = contact.voiceStatus == voiceChatStats.talking ? "yes" : "no"
 
       local speakingMemberNickTextObj = memberObj.findObject("speaking_member_nick_text_" + indexStr)
-      speakingMemberNickTextObj.setValue(member.name)
+      speakingMemberNickTextObj.setValue(platformModule.getPlayerName(member.name))
     }
   }
 

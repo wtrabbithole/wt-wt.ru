@@ -401,143 +401,160 @@
         ]
       },
       {
-        "tdiv": {
-          "pos": "pw/2 - w/2, 0.06@shHud",
-          "position": "absolute",
-          "flow": "vertical",
-          "tdiv": {
-            "min-height": "0.15@shHud",
-            "position": "relative",
-            "pos": "pw/2 - w/2, 0",
-            "flow": "vertical",
-            "animSizeObj": {
-              "id": "hud_streaks",
+        "tdiv": [
+          {
+            "pos": "pw/2 - w/2, 0.06@shHud"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "tdiv": {
+              "min-height": "0.15@shHud",
               "position": "relative",
               "pos": "pw/2 - w/2, 0",
-              "width": "45%sw",
-              "animation": "hide",
-              "height-base": "1",
-              "height-end": "100",
-              "height": "1",
-              "_size-timer": "0",
-              "tdiv": [
-                {
-                  "id": "streak_content"
-                },
-                {
-                  "width": "pw"
-                },
-                {
-                  "flow": "vertical"
-                },
-                {
-                  "display": "hide"
-                },
-                {
-                  "enable": "no"
-                },
-                {
-                  "behaviour": "massTransparency"
-                },
-                {
-                  "transp-base": "255"
-                },
-                {
-                  "transp-end": "0"
-                },
-                {
-                  "transp-func": "cube"
-                },
-                {
-                  "transp-time": "2000"
-                },
-                {
-                  "_transp-timer": "1"
-                },
-                {
-                  "_blink": "no"
-                },
-                {
-                  "img": {
-                    "id": "streak_icon",
-                    "size": "0.06@shHud, 0.06@shHud",
-                    "pos": "pw/2-w/2, 0",
-                    "position": "relative"
+              "flow": "vertical",
+              "animSizeObj": {
+                "id": "hud_streaks",
+                "position": "relative",
+                "pos": "pw/2 - w/2, 0",
+                "width": "45%sw",
+                "animation": "hide",
+                "height-base": "1",
+                "height-end": "100",
+                "height": "1",
+                "_size-timer": "0",
+                "tdiv": [
+                  {
+                    "id": "streak_content"
+                  },
+                  {
+                    "width": "pw"
+                  },
+                  {
+                    "flow": "vertical"
+                  },
+                  {
+                    "display": "hide"
+                  },
+                  {
+                    "enable": "no"
+                  },
+                  {
+                    "behaviour": "massTransparency"
+                  },
+                  {
+                    "transp-base": "255"
+                  },
+                  {
+                    "transp-end": "0"
+                  },
+                  {
+                    "transp-func": "cube"
+                  },
+                  {
+                    "transp-time": "2000"
+                  },
+                  {
+                    "_transp-timer": "1"
+                  },
+                  {
+                    "_blink": "no"
+                  },
+                  {
+                    "img": {
+                      "id": "streak_icon",
+                      "size": "0.06@shHud, 0.06@shHud",
+                      "pos": "pw/2-w/2, 0",
+                      "position": "relative"
+                    }
+                  },
+                  {
+                    "textareaNoTab": {
+                      "id": "streak_header",
+                      "width": "pw",
+                      "style": "color:@streakTextColor; font:@fontHudMedium; text-align:center;",
+                      "text": "",
+                      "shadeStyle": "HudHeader3D",
+                      "pos": "0, -0.004*@shHud",
+                      "position": "relative"
+                    }
+                  },
+                  {
+                    "textareaNoTab": {
+                      "id": "streak_score",
+                      "width": "pw",
+                      "style": "color:@white; font:@fontHudSmall; text-align:center;",
+                      "shadeStyle": "HudTinyLight",
+                      "text": ""
+                    }
                   }
-                },
-                {
-                  "textareaNoTab": {
-                    "id": "streak_header",
-                    "width": "pw",
-                    "style": "color:@streakTextColor; font:@fontHudMedium; text-align:center;",
-                    "text": "",
-                    "shadeStyle": "HudHeader3D",
-                    "pos": "0, -0.004*@shHud",
-                    "position": "relative"
-                  }
-                },
-                {
-                  "textareaNoTab": {
-                    "id": "streak_score",
-                    "width": "pw",
-                    "style": "color:@white; font:@fontHudSmall; text-align:center;",
-                    "shadeStyle": "HudTinyLight",
-                    "text": ""
-                  }
-                }
-              ]
-            },
-            "hudMessages": {
-              "id": "hud_message_center_main_notification",
-              "pos": "pw/2 - w/2, 0",
-              "position": "relative",
-              "message_style": "center_main_notification",
-              "display": "hide"
+                ]
+              },
+              "hudMessages": {
+                "id": "hud_message_center_main_notification",
+                "pos": "pw/2 - w/2, 0",
+                "position": "relative",
+                "message_style": "center_main_notification",
+                "display": "hide"
+              }
             }
           },
-          "hudMessages": {
-            "id": "hud_messages_reward_messages",
-            "width": "@shHud",
-            "position": "relative",
-            "pos": "pw/2 - w/2, 0",
-            "flow": "vertical",
-            "message_style": "reward_notification",
-            "message": {
-              "id": "reward_message",
-              "css-hier-invalidate": "yes",
+          {
+            "tdiv": {
+              "id": "hud_messages_hints",
+              "pos": "pw/2 - w/2, 0",
+              "position": "relative"
+            }
+          },
+          {
+            "hudMessages": {
+              "id": "hud_messages_reward_messages",
+              "width": "@shHud",
               "position": "relative",
-              "pos": "pw/2 - w/2",
-              "padding": "0.2@shHud, 0",
-              "display": "hide",
-              "enable": "no",
-              "behaviour": "massTransparency",
-              "transp-base": "255",
-              "transp-end": "0",
-              "transp-func": "square",
-              "transp-time": "2000",
-              "blend-time": "0",
-              "rewardMessageText": {
-                "id": "reward_message_text",
-                "position": "relative",
-                "text": "",
-                "view_class": ""
-              },
-              "rewardMessageValueContainer": {
-                "id": "reward_value_container",
-                "position": "absolute",
-                "pos": "pw/2 - w/2, ph - h/2 + 0.01@shHud",
+              "pos": "pw/2 - w/2, 0",
+              "flow": "vertical",
+              "message_style": "reward_notification",
+              "message": {
+                "id": "reward_message",
                 "css-hier-invalidate": "yes",
-                "_blink": "no",
-                "rewardMessageValue": {
-                  "id": "reward_total",
+                "position": "relative",
+                "pos": "pw/2 - w/2",
+                "padding": "0.2@shHud, 0",
+                "display": "hide",
+                "enable": "no",
+                "behaviour": "massTransparency",
+                "transp-base": "255",
+                "transp-end": "0",
+                "transp-func": "square",
+                "transp-time": "2000",
+                "blend-time": "0",
+                "rewardMessageText": {
+                  "id": "reward_message_text",
+                  "position": "relative",
+                  "text": "",
+                  "view_class": ""
+                },
+                "rewardMessageValueContainer": {
+                  "id": "reward_value_container",
                   "position": "absolute",
-                  "pos": "pw/2-w/2, ph/2-h/2",
-                  "text": ""
+                  "pos": "pw/2 - w/2, ph - h/2 + 0.01@shHud",
+                  "css-hier-invalidate": "yes",
+                  "_blink": "no",
+                  "rewardMessageValue": {
+                    "id": "reward_total",
+                    "position": "absolute",
+                    "pos": "pw/2-w/2, ph/2-h/2",
+                    "text": ""
+                  }
                 }
               }
             }
           }
-        }
+        ]
       },
       {
         "hudMessages": {

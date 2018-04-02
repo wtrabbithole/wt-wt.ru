@@ -1,4 +1,6 @@
 local enums = ::require("std/enums.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+
 ::g_tooltip_type <- {
   types = []
 }
@@ -117,6 +119,10 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
 
       desc += (desc.len() ? "\n\n" : "") + decorator.getTypeDesc()
+      local paramsDesc = decorator.getLocParamsDesc()
+      if (paramsDesc != "")
+        desc += (desc.len() ? "\n" : "") + paramsDesc
+
       local restricionsDesc = decorator.getRestrictionsDesc()
       if (restricionsDesc.len())
         desc += (desc.len() ? "\n" : "") + restricionsDesc
@@ -227,6 +233,12 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       local item = ::ItemsManager.findItemById(itemName)
       if (!item)
         return false
+
+      if (params?.isDisguised || workshop.shouldDisguiseItem(item))
+      {
+        item = item.makeEmptyInventoryItem()
+        item.setDisguise(true)
+      }
 
       local preferMarkup = item.isPreferMarkupDescInTooltip
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)

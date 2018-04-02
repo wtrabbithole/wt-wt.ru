@@ -34,7 +34,7 @@ function gui_start_modal_events(options = {})
   {
     local lastPlayedEvent = ::events.getLastPlayedEvent()
     eventId = ::getTblValue("name", lastPlayedEvent, ::events.getFeaturedEvent())
-    chapterId = ::events.getEventsChapter(eventId)
+    chapterId = ::events.getEventsChapter(::events.getEvent(eventId))
   }
 
   ::gui_start_modal_wnd(::gui_handlers.EventsHandler, {
@@ -104,8 +104,10 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if(!::checkObj(curEventItemObj))
       return
 
-    local newEventId = ::events.getEvent(curEventItemObj.id) ? curEventItemObj.id : ""
-    local newChapterId = newEventId == "" ? curEventItemObj.id : ::events.getEventsChapter(newEventId)
+    local newEvent = ::events.getEvent(curEventItemObj.id)
+    local newEventId = newEvent ? newEvent.name : ""
+    local newChapterId = newEvent ? ::events.getEventsChapter(newEvent)
+      : curEventItemObj.id
 
     if(onlyChanged && newChapterId == curChapterId && curEventId == newEventId)
       return

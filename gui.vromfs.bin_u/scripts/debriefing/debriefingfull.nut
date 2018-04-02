@@ -300,6 +300,31 @@
                               return result
                             }
   }
+  { id = "wwSpawnScore"
+    text = "debriefing/total/wwSpawnScore"
+    showByValue = function (value) {return value > 0}
+    rowProps = { totalColor="yes", totalRowStyle="last" }
+    tooltipComment = function() {return ::loc("debriefing/wwSpawnScore")}
+    getValueFunc = function() {
+                              local logs = ::getUserLogsList({
+                                show = [
+                                  ::EULT_SESSION_RESULT
+                                  ::EULT_EARLY_SESSION_LEAVE
+                                ]
+                                currentRoomOnly = true
+                              })
+
+                              local result = 0
+                              foreach (log in logs)
+                              {
+                                result = log?[id] ?? 0
+                                if (result > 0)
+                                  break
+                              }
+
+                              return result
+                            }
+  }
   { id = "sessionTime"
     customValueName = "sessionTime"
     type = "tim"

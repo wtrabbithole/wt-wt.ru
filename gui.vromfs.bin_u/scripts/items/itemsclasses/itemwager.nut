@@ -485,7 +485,7 @@ class ::items_classes.Wager extends ::BaseItem
   {
     if (isCanBuy())
       return getBuyText(colored, short)
-    if (isInventoryItem && !isActive() && curWager >= 0)
+    if (isInventoryItem && amount && !isActive() && curWager >= 0)
       return ::loc("item/activate")
     return ""
   }

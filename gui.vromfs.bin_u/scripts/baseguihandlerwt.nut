@@ -317,15 +317,15 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function startOnlineShop(type=null, afterCloseShop = null)
   {
     local handler = this
-    goForwardIfOnline((@(handler, type, afterCloseShop) function() {
+    goForwardIfOnline(function() {
         local closeFunc = null
         if (afterCloseShop)
-          closeFunc = (@(handler, afterCloseShop) function() {
+          closeFunc = function() {
             if (handler)
               afterCloseShop.call(handler)
-          })(handler, afterCloseShop)
-        ::gui_modal_onlineShop(handler, type, closeFunc)
-      })(handler, type, afterCloseShop), false, true)
+          }
+        ::OnlineShopModel.launchOnlineShop(handler, type, closeFunc)
+      }, false, true)
   }
 
   function onOnlineShop(obj)          { startOnlineShop() }

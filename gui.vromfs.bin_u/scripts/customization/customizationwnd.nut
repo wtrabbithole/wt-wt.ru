@@ -78,6 +78,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   isModePreview = false
 
+  needRemoveDecoratorNotSuitableByUgcTagsPreset = false
+
   function initScreen()
   {
     owner = this
@@ -308,7 +310,12 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventHangarModelLoaded(params = {})
   {
     updateMainGuiElements()
-
+    if (needRemoveDecoratorNotSuitableByUgcTagsPreset)
+    {
+      removeDecoratorNotSuitableByUgcTagsPreset()
+      needRemoveDecoratorNotSuitableByUgcTagsPreset = false
+      goBack()
+    }
     if (::hangar_get_loaded_unit_name() == unit.name
         && !::is_loaded_model_high_quality())
       ::check_package_and_ask_download("pkg_main", null, null, this, "air_in_hangar", goBack)
@@ -1402,23 +1409,62 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkUgcTagsPresetRestoreAndQuit()
   {
+    local curUgcTagsPresetId = ugcTagsPreset.getPreset()
+    local newUgcTagsPresetId = curUgcTagsPresetId
     local unitId = unit.name
     local curSkinId = ::hangar_get_last_skin(unitId)
-    if (curSkinId == initialAppliedSkinId)
+    local decoratorSlotPresetChangedArr = []
+    local decoratorType = ::g_decorator_type.ATTACHABLES
+    for (local i = 0; i < decoratorType.getAvailableSlots(unit); i++)
+    {
+      local slot = getSlotInfo(i, false, decoratorType)
+      if (slot.isEmpty)
+        continue
+
+      local decorator = ::g_decorator.getDecorator(slot.decalId, decoratorType)
+      if (!decorator)
+        continue
+
+      local newUgcTagsPresetIdByDecor = ugcTagsPreset.getUgcTagsPresetByTags(decorator.tags)
+      if (newUgcTagsPresetIdByDecor != curUgcTagsPresetId)
+      {
+        decoratorSlotPresetChangedArr.append(slot)
+        newUgcTagsPresetId = ugcTagsPreset.getMaxUgcTagsPresetId(newUgcTagsPresetId,
+          newUgcTagsPresetIdByDecor)
+      }
+    }
+
+    local isChangeUgcTagsPresetByDecor = decoratorSlotPresetChangedArr.len() > 0
+    if (curSkinId == initialAppliedSkinId && !isChangeUgcTagsPresetByDecor)
       return goBack()
 
-    local newUgcTagsPresetId = ugcTagsPreset.getPresetBySkin(unitId, curSkinId)
-    if (newUgcTagsPresetId == ugcTagsPreset.getPreset())
+    local newUgcTagsPresetIdBySkin = ugcTagsPreset.getPresetBySkin(unitId, curSkinId)
+    local isChangeUgcTagsPresetBySkin = newUgcTagsPresetIdBySkin != curUgcTagsPresetId
+    newUgcTagsPresetId = ugcTagsPreset.getMaxUgcTagsPresetId(newUgcTagsPresetId,
+      newUgcTagsPresetIdBySkin)
+
+    if (newUgcTagsPresetId == curUgcTagsPresetId)
       return goBack()
 
-    ugcTagsPreset.showConfirmMsgbox(unitId, curSkinId,
+    local keyMessageDesc = isChangeUgcTagsPresetBySkin ? ""
+      : isChangeUgcTagsPresetByDecor ? "decorator"
+      : ""
+
+    ugcTagsPreset.showConfirmMsgbox(newUgcTagsPresetId, keyMessageDesc,
       ::Callback(function() {
         ugcTagsPreset.setPreset(newUgcTagsPresetId)
         goBack()
       }, this),
       ::Callback(function() {
-        applySkin(initialAppliedSkinId)
-        goBack()
+        foreach(slotInfo in decoratorSlotPresetChangedArr)
+          decoratorType.removeDecorator(slotInfo.id, true)
+        if (isChangeUgcTagsPresetBySkin)
+        {
+          needRemoveDecoratorNotSuitableByUgcTagsPreset = true
+          applySkin(initialAppliedSkinId)
+        }
+        else
+          goBack()
       }, this)
     )
     return true
@@ -2114,5 +2160,25 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateUnitStatus()
     updateSkinList()
     updateButtons()
+  }
+
+  function removeDecoratorNotSuitableByUgcTagsPreset()
+  {
+    local curUgcTagsPresetId = ugcTagsPreset.getPreset()
+    local decoratorType = ::g_decorator_type.ATTACHABLES
+    for (local i = 0; i < decoratorType.getAvailableSlots(unit); i++)
+    {
+      local slot = getSlotInfo(i, false, decoratorType)
+      if (slot.isEmpty)
+        continue
+
+      local decorator = ::g_decorator.getDecorator(slot.decalId, decoratorType)
+      if (!decorator)
+        continue
+
+      local newUgcTagsPresetIdByDecor = ugcTagsPreset.getUgcTagsPresetByTags(decorator.tags)
+      if (newUgcTagsPresetIdByDecor != curUgcTagsPresetId)
+        decoratorType.removeDecorator(slot.id, true)
+    }
   }
 }

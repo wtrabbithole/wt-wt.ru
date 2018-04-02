@@ -693,7 +693,7 @@ function BattleTasks::getRewardMarkUpConfig(task, config)
   local itemId = ::getTblValue("userLogId", task)
   if (itemId)
   {
-    local item = ::ItemsManager.findItemById(itemId)
+    local item = ::ItemsManager.findItemByItemDefId(::to_integer_safe(itemId, itemId, false))
     if (item)
       rewardMarkUp.itemMarkUp <- item.getNameMarkup(::getTblValue("amount_trophies", task))
   }
@@ -967,6 +967,21 @@ function BattleTasks::checkNewSpecialTasks()
 
   local array = ::u.filter(proposedTasksArray, ::Callback(isSpecialBattleTask, this) )
   ::gui_start_battle_tasks_select_new_task_wnd(array)
+}
+
+function BattleTasks::getDifficultyTypeGroup()
+{
+  local result = []
+  local difficultyGroupArr = []
+  foreach(type in ::g_battle_task_difficulty.types)
+  {
+    local difficultyGroup = type.getDifficultyGroup()
+    if (difficultyGroup =="")
+      continue
+
+    result.append(type)
+  }
+  return result
 }
 
 ::g_battle_tasks = ::BattleTasks()

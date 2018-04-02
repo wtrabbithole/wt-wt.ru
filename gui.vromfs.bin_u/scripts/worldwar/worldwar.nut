@@ -669,6 +669,27 @@ function g_world_war::getSidesStrenghtInfo()
   return unitsStrenghtBySide
 }
 
+function g_world_war::getAllOperationUnitsBySide(side)
+{
+  local allOperationUnits = {}
+  local blk = ::DataBlock()
+  ::ww_get_sides_info(blk)
+
+  local sidesBlk = blk["sides"]
+  if (sidesBlk == null)
+    return allOperationUnits
+
+  local sideBlk = sidesBlk[side.tostring()]
+  if (sideBlk == null)
+    return allOperationUnits
+
+  foreach (unitName in sideBlk.unitsEverSeen % "item")
+    if (::getAircraftByName(unitName))
+      allOperationUnits[unitName] <- true
+
+  return allOperationUnits
+}
+
 function g_world_war::filterArmiesByManagementAccess(armiesArray)
 {
   return ::u.filter(armiesArray, function(army) { return army.hasManageAccess() })

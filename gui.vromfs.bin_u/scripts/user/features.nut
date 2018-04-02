@@ -34,6 +34,7 @@
     Ships = ::disable_network()
     ShipsVisibleInShop = ::disable_network()
     ShipsFirstChoice = false
+    SpendGoldForShips = false
     Tanks = true
     TanksPs4 = true
     TanksInCustomBattles = false
@@ -192,6 +193,7 @@
     TankAltCrosshair = false
 
     DebriefingBattleTasks = false
+    PromoBattleTasksRadioButtons = false
   }
 
   cache = {}

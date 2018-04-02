@@ -1,5 +1,6 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
+local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
 local time = require("scripts/time.nut")
@@ -21,9 +22,12 @@ local ItemExternal = class extends ::BaseItem
   static hasRecentItemConfirmMessageBox = false
 
   rarity = null
+  expireTimestamp = -1
 
   itemDef = null
   metaBlk = null
+
+  amountByUids = null //{ <uid> = <amount> }, need for recipe materials
 
   constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
@@ -31,6 +35,7 @@ local ItemExternal = class extends ::BaseItem
 
     itemDef = itemDefDesc
     id = itemDef.itemdefid
+    blkType  = itemDefDesc?.tags?.type ?? ""
 
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
 
@@ -40,10 +45,15 @@ local ItemExternal = class extends ::BaseItem
     if (itemDesc)
     {
       isInventoryItem = true
-      uids = [ itemDesc.itemid ]
       amount = itemDesc.quantity
+      uids = [ itemDesc.itemid ]
+      amountByUids = { [itemDesc.itemid] = amount }
       lastChangeTimestamp = time.getTimestampFromIso8601(itemDesc?.timestamp)
     }
+
+    expireTimestamp = getExpireTimestamp(itemDefDesc, itemDesc)
+    if (expireTimestamp != -1)
+      expiredTimeSec = (::dagor.getCurTime() * 0.001) + (expireTimestamp - ::get_charserver_time_sec())
 
     local meta = getTblValue("meta", itemDef)
     if (meta && meta.len()) {
@@ -58,26 +68,43 @@ local ItemExternal = class extends ::BaseItem
 
   function tryAddItem(itemDefDesc, itemDesc)
   {
-    if (id != itemDefDesc.itemdefid)
+    if (id != itemDefDesc.itemdefid || expireTimestamp != getExpireTimestamp(itemDefDesc, itemDesc))
       return false
-    uids.append(itemDesc.itemid)
     amount += itemDesc.quantity
+    uids.append(itemDesc.itemid)
+    amountByUids[itemDesc.itemid] <- itemDesc.quantity
     lastChangeTimestamp = ::max(lastChangeTimestamp, time.getTimestampFromIso8601(itemDesc?.timestamp))
     return true
   }
 
+  function getExpireTimestamp(itemDefDesc, itemDesc)
+  {
+    local tShop = time.getTimestampFromIso8601(itemDefDesc?.expireAt ?? "")
+    local tInv  = time.getTimestampFromIso8601(itemDesc?.expireAt ?? "")
+    return (tShop != -1 && (tInv == -1 || tShop < tInv)) ? tShop : tInv
+  }
+
   function getName(colored = true)
   {
-    local text = itemDef?.name ?? ""
-    if (isUseTypePrefixInName)
-      text = getTypeName() + " " + text
+    local res = ""
+    if (isDisguised)
+      res = ::loc("item/disguised")
+    else
+    {
+      res = itemDef?.name ?? ""
+      if (isUseTypePrefixInName)
+        res = getTypeName() + " " + res
+    }
     if (colored)
-      text = ::colorize(getRarityColor(), text)
-    return text
+      res = ::colorize(getRarityColor(), res)
+    return res
   }
 
   function getDescription()
   {
+    if (isDisguised)
+      return ""
+
     local desc = [
       getResourceDesc()
     ]
@@ -96,11 +123,15 @@ local ItemExternal = class extends ::BaseItem
 
   function getIcon(addItemName = true)
   {
-    return ::LayersIcon.getIconData(null, itemDef.icon_url)
+    return isDisguised ? ::LayersIcon.getIconData("disguised_item")
+      : ::LayersIcon.getIconData(null, itemDef.icon_url)
   }
 
   function getBigIcon()
   {
+    if (isDisguised)
+      return ::LayersIcon.getIconData("disguised_item")
+
     local url = !::u.isEmpty(itemDef.icon_url_large) ?
       itemDef.icon_url_large : itemDef.icon_url
     return ::LayersIcon.getIconData(null, url)
@@ -119,8 +150,16 @@ local ItemExternal = class extends ::BaseItem
   function getLongDescriptionMarkup(params = null)
   {
     params = params || {}
+    params.receivedPrizes <- false
+
+    if (isDisguised)
+      return ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
+
     local content = []
-    local desc = [ getMarketablePropDesc() ]
+    local desc = [
+      getMarketablePropDesc()
+      getCurExpireTimeText()
+    ]
 
     if (metaBlk)
     {
@@ -133,10 +172,14 @@ local ItemExternal = class extends ::BaseItem
 
     params.header <- ::u.map(desc, @(par) { header = par })
     return ::PrizesView.getPrizesListView(content, params)
+      + ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
   }
 
   function getMarketablePropDesc()
   {
+    if (!::has_feature("Marketplace"))
+      return ""
+
     local canSell = itemDef?.marketable
     return ::loc("currency/gc/sign/colored", "") + " " +
       ::colorize(canSell ? "userlogColoredText" : "badTextColor",
@@ -157,41 +200,33 @@ local ItemExternal = class extends ::BaseItem
     ], "\n")
   }
 
-  function isRare()
-  {
-    return rarity.isRare
-  }
+  isRare              = @() isDisguised ? base.isRare() : rarity.isRare
+  getRarity           = @() isDisguised ? base.getRarity() :rarity.value
+  getRarityColor      = @() isDisguised ? base.getRarityColor() :rarity.color
+  getTagsLoc          = @() rarity.tag && !isDisguised ? [ rarity.tag ] : []
 
-  function getRarity()
-  {
-    return rarity.value
-  }
-
-  function getRarityColor()
-  {
-    return  rarity.color
-  }
-
-  function getTagsLoc()
-  {
-    return rarity.tag ? [ rarity.tag ] : []
-  }
-
-  function canConsume()
-  {
-    return false
-  }
+  canConsume          = @() false
+  canAssemble         = @() getMyRecipes().len() > 0
 
   function getMainActionName(colored = true, short = false)
   {
-    return canConsume() ? ::loc("item/consume") : ""
+    return amount && canConsume() ? ::loc("item/consume")
+      : canAssemble() ? ::loc("item/assemble")
+      : ""
   }
 
   function doMainAction(cb, handler, params = null)
   {
-    if (!uids || !uids.len())
-      return false
-    if (!metaBlk)
+    return consume(cb, params)
+      || assemble(cb, params)
+  }
+
+  getAltActionName   = @() amount && canConsume() && canAssemble() ? ::loc("item/assemble") : ""
+  doAltAction        = @() assemble()
+
+  function consume(cb, params)
+  {
+    if (!uids || !uids.len() || !metaBlk || !canConsume())
       return false
 
     local canSell = itemDef?.marketable
@@ -199,18 +234,21 @@ local ItemExternal = class extends ::BaseItem
       + "\n" + ::loc("msgBox/coupon_exchange")
     local msgboxParams = {
       cancel_fn = @() null
-      baseHandler = ::get_cur_base_gui_handler()
+      baseHandler = ::get_cur_base_gui_handler() //FIX ME: handler used only for prizes tooltips
       data_below_text = ::PrizesView.getPrizesListView([ metaBlk ], { showAsTrophyContent = true, widthByParentParent = true })
-      data_below_buttons = canSell ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent"))) : null
+      data_below_buttons = canSell
+        ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent")))
+        : null
     }
+    local item = this //we need direct link, to not lose action on items list refresh.
     ::scene_msg_box("coupon_exchange", null, text, [
-      [ "yes", ::Callback(@() doConsumeItem(cb, params), this) ],
+      [ "yes", @() item.consumeImpl(cb, params) ],
       [ "no" ]
     ], "yes", msgboxParams)
     return true
   }
 
-  function doConsumeItem(cb = null, params = null)
+  function consumeImpl(cb = null, params = null)
   {
     local uid = uids?[0]
     if (!uid)
@@ -227,6 +265,20 @@ local ItemExternal = class extends ::BaseItem
 
     local taskId = ::char_send_blk("cln_consume_inventory_item", blk)
     ::g_tasker.addTask(taskId, { showProgressBox = true }, taskCallback)
+  }
+
+  function assemble(cb = null, params = null)
+  {
+    if (!canAssemble())
+      return false
+
+    ExchangeRecipes.tryUse(getMyRecipes(), this)
+    return true
+  }
+
+  function hasLink()
+  {
+    return !isDisguised && base.hasLink() && ::has_feature("Marketplace")
   }
 
   function addResources() {
@@ -250,6 +302,12 @@ local ItemExternal = class extends ::BaseItem
         res.extend(gen.getRecipesWithComponent(id))
     }
     return res
+  }
+
+  function getMyRecipes()
+  {
+    local gen = ItemGenerators.get(id)
+    return gen ? gen.getRecipes() : []
   }
 }
 

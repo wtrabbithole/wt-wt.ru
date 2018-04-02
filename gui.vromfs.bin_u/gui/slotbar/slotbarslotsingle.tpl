@@ -111,6 +111,9 @@ shopItem {
 
     shopItemPrice {
       id:t='bottom_item_price_text'
+      <<#isLongPriceText>>
+      tinyFont:t='yes'
+      <</isLongPriceText>>
       text:t='<<priceText>>'
     }
 
@@ -118,10 +121,13 @@ shopItem {
       id:t='rank_text'
       text:t='<<unitRankText>>'
 
+      <<#isLongPriceText>>
+      tinyFont:t='yes'
+      <</isLongPriceText>>
+
       <<#isItemLocked>>
       locked:t='yes'
       <</isItemLocked>>
-
       <<^isItemLocked>>
       locked:t='no'
       <</isItemLocked>>

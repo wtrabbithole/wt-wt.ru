@@ -47,6 +47,8 @@ local time = require("scripts/time.nut")
     if (shortcutIdx < 0)
       return null
 
+    if (::is_submarine(unit))
+      return "ID_SUBMARINE_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     if (::isShip(unit))
       return "ID_SHIP_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     return "ID_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
@@ -59,6 +61,8 @@ local time = require("scripts/time.nut")
 
     if (!unit)
       unit = ::get_player_cur_unit()
+    if (::is_submarine(unit))
+      return "ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
     if (::isShip(unit))
       return "ID_SHIP_KILLSTREAK_WHEEL_MENU"
     return "ID_KILLSTREAK_WHEEL_MENU"
@@ -80,14 +84,16 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     code = ::EII_TORPEDO
     _name = "torpedo"
     _icon = "#ui/gameuiskin#torpedo"
-    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_TORPEDOES"
+    getShortcut = @(actionItem, unit = null)
+      ::is_submarine(unit) ? "ID_SUBMARINE_WEAPON_TORPEDOES" : "ID_SHIP_WEAPON_TORPEDOES"
   }
 
   DEPTH_CHARGE = {
     code = ::EII_DEPTH_CHARGE
     _name = "deapth_charge"
     _icon = "#ui/gameuiskin#depth_charge"
-    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_DEPTH_CHARGE"
+    getShortcut = @(actionItem, unit = null)
+      ::is_submarine(unit) ? "ID_SUBMARINE_WEAPON_DEPTH_CHARGE" : "ID_SHIP_WEAPON_DEPTH_CHARGE"
   }
 
   ROCKET = {
@@ -98,6 +104,8 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     {
       if (::is_helicopter(unit))
         return "ID_ROCKETS_HELICOPTER"
+      if (::is_submarine(unit))
+        return "ID_SUBMARINE_WEAPON_ROCKETS"
       if (::isShip(unit))
         return "ID_SHIP_WEAPON_ROCKETS"
       if (::isTank(unit))
@@ -123,10 +131,22 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _title = ::loc("hotkeys/ID_SMOKE_SCREEN_GENERATOR")
     getShortcut = function(actionItem, unit = null)
     {
+      if (::is_submarine(unit))
+        return "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"
       if (::isShip(unit))
         return "ID_SHIP_SMOKE_SCREEN_GENERATOR"
       return "ID_SMOKE_SCREEN_GENERATOR"
     }
+    getIcon = @(killStreakTag = null)
+      ::is_submarine(::get_player_cur_unit()) ? "#ui/gameuiskin#acoustic_countermeasures" : _icon
+    getTitle = @(killStreakTag = null)
+      ::is_submarine(::get_player_cur_unit())
+        ? ::loc("hotkeys/ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES")
+        : _title
+    getName = @(killStreakTag = null)
+      ::is_submarine(::get_player_cur_unit())
+        ? "acoustic_countermeasure"
+        : _name
   }
 
   SCOUT = {
@@ -136,6 +156,24 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _icon = "#ui/gameuiskin#scouting"
     _title = ::loc("hotkeys/ID_SCOUT")
     getShortcut = @(actionItem, unit = null) "ID_SCOUT"
+  }
+
+  SONAR = {
+    code = ::EII_SUBMARINE_SONAR
+    isForWheelMenu = @() true
+    _name = "sonar_active"
+    _icon = "#ui/gameuiskin#sonar_indicator"
+    _title = ::loc("hotkeys/ID_SUBMARINE_SWITCH_ACTIVE_SONAR")
+    getShortcut = @(actionItem, unit = null) "ID_SUBMARINE_SWITCH_ACTIVE_SONAR"
+  }
+
+  TORPEDO_SENSOR = {
+    code = ::EII_TORPEDO_SENSOR
+    isForWheelMenu = @() true
+    _name = "torpedo_sensor"
+    _icon = "#ui/gameuiskin#torpedo_active_sonar"
+    _title = ::loc("hotkeys/ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR")
+    getShortcut = @(actionItem, unit = null) "ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR"
   }
 
   ARTILLERY_TARGET = {
@@ -262,7 +300,8 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _name = "repair_breaches"
     _icon = "#ui/gameuiskin#unwatering"
     _title = ::loc("hotkeys/ID_REPAIR_BREACHES")
-    getShortcut = @(actionItem, unit = null) "ID_REPAIR_BREACHES"
+    getShortcut = @(actionItem, unit = null)
+      ::is_submarine(unit) ? "ID_SUBMARINE_REPAIR_BREACHES" : "ID_REPAIR_BREACHES"
   }
 })
 

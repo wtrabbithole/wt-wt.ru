@@ -78,6 +78,7 @@ class ::BaseItem
   // Empty string means no purchase feature.
   purchaseFeature = ""
   isDevItem = false
+  isDisguised = false //used to override name, icon and some description for item.
 
   locId = null
   showBoosterInSeparateList = false
@@ -126,6 +127,15 @@ class ::BaseItem
       limitPersonalTotal = blk.limitPersonalTotal || 0
       limitPersonalAtTime = blk.limitPersonalAtTime || 0
     }
+  }
+
+  function makeEmptyInventoryItem()
+  {
+    local res = clone this
+    res.isInventoryItem = true
+    res.uids = []
+    res.amount = 0
+    return res
   }
 
   function getLimitData()
@@ -224,7 +234,7 @@ class ::BaseItem
     return ::handyman.renderCached("gui/items/itemString", {
       title = showTitle? colorize("activeTextColor",getName()) : null
       icon = typeIcon
-      tooltipId = ::g_tooltip.getIdItem(id)
+      tooltipId = ::g_tooltip.getIdItem(id, { isDisguised = isDisguised })
       count = count > 1? (colorize("activeTextColor", " x") + colorize("userlogColoredText", count)) : null
     })
   }
@@ -286,6 +296,8 @@ class ::BaseItem
 
   function isActive(...) { return false }
 
+  shouldShowAmount = @(count) count > 1 || count == 0
+
   function getViewData(params = {})
   {
     local openedPicture = ::getTblValue("openedPicture", params, false)
@@ -294,13 +306,12 @@ class ::BaseItem
     local res = {
       layered_image = openedPicture? (bigPicture? getOpenedBigIcon() : getOpenedIcon()) : bigPicture? getBigIcon() : getIcon(addItemName)
       enableBackground = ::getTblValue("enableBackground", params, true)
-      isItemLocked = ::getTblValue("isItemLocked", params, false)
     }
 
     if (::getTblValue("showTooltip", params, true))
       res.tooltipId <- isInventoryItem && uids && uids.len()
                        ? ::g_tooltip.getIdInventoryItem(uids[0])
-                       : ::g_tooltip.getIdItem(id)
+                       : ::g_tooltip.getIdItem(id, { isDisguised = isDisguised })
 
     if (::getTblValue("showPrice", params, true))
       res.price <- getCost().getTextAccordingToBalance()
@@ -315,9 +326,9 @@ class ::BaseItem
     foreach(paramName, value in params)
       res[paramName] <- value
 
-    local amountVal = ::getTblValue("count", params) || getAmount()
-    if (amountVal > 1)
-      res.amount <- amountVal
+    local amountVal = params?.count || getAmount()
+    if (shouldShowAmount(amountVal))
+      res.amount <- amountVal.tostring()
 
     if (::getTblValue("showSellAmount", params, false))
     {
@@ -329,7 +340,7 @@ class ::BaseItem
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
       res.expireTime <- getTimeLeftText()
 
-    if (isRare())
+    if ((params?.needRarity ?? true) && isRare())
       res.rarityColor <- getRarityColor()
 
     if (isActive())
@@ -341,6 +352,9 @@ class ::BaseItem
 
     if (::getTblValue("contentIcon", params, true))
       res.contentIconData <- getContentIconData()
+
+    if (!res?.isItemLocked)
+      res.isItemLocked <- isInventoryItem && !amount
 
     return res
   }
@@ -436,6 +450,9 @@ class ::BaseItem
   {
     return buy(cb, handler, params)
   }
+
+  getAltActionName   = @() ""
+  doAltAction        = @() false
 
   function hasTimer()
   {
@@ -599,7 +616,15 @@ class ::BaseItem
     return false
   }
 
-  static function isRare() { return false }
-  static function getRarity() { return 0 }
-  static function getRarityColor() { return "" }
+  function setDisguise(shouldDisguise)
+  {
+    isDisguised = shouldDisguise
+    allowBigPicture = false
+  }
+
+  isRare                      = @() false
+  getRarity                   = @() 0
+  getRarityColor              = @() ""
+  getRelatedRecipes           = @() [] //recipes with this item in materials
+  getMyRecipes                = @() [] //recipes with this item in result
 }
