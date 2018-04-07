@@ -23,6 +23,8 @@
 
 ::is_dev_version <- false // WARNING : this is unsecure
 
+::april_fools_day_event_end_t <- 1522756800
+
 ::RESPAWNS_UNLIMITED <- -1
 
 ::quick_match_flag <- false;
@@ -419,6 +421,7 @@ function load_scripts_after_login_once()
     "options/framedOptionsWnd.nut"
     "options/optionsCustomDifficulty.nut"
     "options/fontChoiceWnd.nut"
+    "options/enableGiganticHatsWnd.nut"
 
     "leaderboardDataType.nut"
     "leaderboardCategoryType.nut"

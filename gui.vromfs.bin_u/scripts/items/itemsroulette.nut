@@ -204,7 +204,7 @@ function ItemsRoulette::getRandomEndDisplacement()
 function ItemsRoulette::skipAnimation(obj)
 {
   local timePID = ::dagui_propid.add_name_id("_pos-timer")
-  local posTime = obj["pos-time"]
+  local posTime = ::check_obj(obj) && obj["pos-time"]
   if (!posTime)
     return
 

@@ -519,7 +519,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurItem()
   {
-    local value = getItemsListObj().getValue() + curPage * itemsPerPage
+    local obj = getItemsListObj()
+    if (!::check_obj(obj))
+      return
+
+    local value = obj.getValue() + curPage * itemsPerPage
     _lastItem = ::getTblValue(value, itemsList)
     return _lastItem
   }
@@ -704,7 +708,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (!itemsList[i].hasTimer())
         continue
-      local listObj = ::checkObj(scene) && getItemsListObj()
+      local listObj = getItemsListObj()
       local itemObj = ::checkObj(listObj) && listObj.getChild(i - curPage * itemsPerPage)
       local timeTxtObj = ::checkObj(itemObj) && itemObj.findObject("expire_time")
       if (::checkObj(timeTxtObj))
@@ -731,7 +735,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function getItemsListObj()
   {
-    return scene.findObject("items_list")
+    return ::check_obj(scene) && scene.findObject("items_list")
   }
 
   function getTabsListObj()

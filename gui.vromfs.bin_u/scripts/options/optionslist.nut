@@ -143,8 +143,7 @@ local getMainOptions = function()
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox",
-        (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")) && ::ugc_tags_presets.len()],
+      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox", ::ugc_tags_presets.len()],
     ]
   }
 }

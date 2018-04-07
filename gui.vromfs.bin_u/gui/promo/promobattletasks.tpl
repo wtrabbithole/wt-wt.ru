@@ -328,4 +328,27 @@ hangarToggleButton {
     <</radioButtons>>
   }
 <</isShowRadioButtons>>
+
+<<#isShowGiganticHatsAnnounce>>
+  tdiv {
+    left:t='pw-w'
+    position:t='relative'
+    image {
+      size:t='2.5@cIco, 2.5@cIco'
+      top:t='ph/2-h/2'; position:t='relative'
+      background-image:t="https://static-ggc.gaijin.net/attachables/items_magic_hat.png"
+      background-color:t='@white'
+    }
+    Button_text {
+      id:t = 'btn_gigantic_hats'
+      top:t='ph/2-h/2'; position:t='relative'
+      text:t = '#msgbox/btn_more'
+      on_click:t = 'onBtnGiganticHats'
+      visualStyle:t='secondary'
+      style:t='padding:0; margin:0;'
+      buttonWink {}
+    }
+  }
+<</isShowGiganticHatsAnnounce>>
+
 <</items>>

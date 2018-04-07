@@ -73,7 +73,11 @@ local function showConfirmMsgbox(newPreset, keyMessageDesc, onConfirmCb, onCance
     ("\n" + ::loc(pathMessage+"/"+keyMessageDesc,
       {oldValue = ::colorize("userlogColoredText", ::loc("ugc/tag/" + curPreset))})) : "")
 
-  ::scene_msg_box("ugc_tags_preset", null, message, [ ["ok", onConfirmCb], ["cancel", onCancelCb] ], "ok")
+  local msgboxParams = {
+    data_below_buttons = ::format("textarea{ text:t='%s'}", ::g_string.stripTags(::loc("msgbox/optionWillBeChanged/comment")))
+  }
+
+  ::scene_msg_box("ugc_tags_preset", null, message, [ ["ok", onConfirmCb], ["cancel", onCancelCb] ], "ok", msgboxParams)
 }
 
 return {

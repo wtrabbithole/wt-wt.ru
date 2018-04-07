@@ -309,6 +309,21 @@ local ItemExternal = class extends ::BaseItem
     local gen = ItemGenerators.get(id)
     return gen ? gen.getRecipes() : []
   }
+
+  function getTimeLeftText()
+  {
+    return ::colorize("badTextColor", base.getTimeLeftText())
+  }
+
+  function getCurExpireTimeText()
+  {
+    if (expireTimestamp == -1)
+      return ""
+    return ::colorize("badTextColor", ::loc("items/expireDate", {
+      datetime = time.buildDateTimeStr(::get_time_from_t(expireTimestamp))
+      timeleft = getTimeLeftText()
+    }))
+  }
 }
 
 return ItemExternal

@@ -479,7 +479,8 @@ class ::BaseItem
       ::ItemsManager.markInventoryUpdateDelayed()
       return ::loc("items/expired")
     }
-    return ::loc("icon/hourglass") + " " + time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true)
+    return ::loc("icon/hourglass") + ::nbsp +
+      ::stringReplace(time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true), " ", ::nbsp)
   }
 
   function getExpireAfterActivationText(withTitle = true)

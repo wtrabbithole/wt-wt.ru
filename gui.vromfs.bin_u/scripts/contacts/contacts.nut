@@ -337,7 +337,7 @@ function find_contact_by_name_and_do(playerName, func) //return taskId if delaye
       foreach(uid, nick in searchRes)
         if (nick == playerName)
         {
-          func.call(::getContact(uid, playerName))
+          func(::getContact(uid, playerName))
           return
         }
     }
