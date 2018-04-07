@@ -533,52 +533,48 @@
           "armorThickness": 2.0
         }
       },
-      "bridge": {
-        "armorClass": "ship_wood",
-        "genericDamageMult": 0.1,
-        "armorThickness": 40.0,
-        "hp": 600.0,
-        "superstructure_top_dm": {
+      "bridge": [
+        {
+          "armorClass": "ship_wood"
+        },
+        {
           "genericDamageMult": 0.1
         },
-        "superstructure_back_dm": {
+        {
+          "armorThickness": 40.0
+        },
+        {
+          "hp": 600.0
+        },
+        {
           "genericDamageMult": 0.1
         },
-        "superstructure_front_dm": {
-          "genericDamageMult": 0.1
+        {
+          "superstructure_top_dm": []
         },
-        "superstructure_bottom_dm": {
-          "genericDamageMult": 0.1
+        {
+          "superstructure_back_dm": []
+        },
+        {
+          "superstructure_front_dm": []
+        },
+        {
+          "superstructure_bottom_dm": []
         }
-      },
+      ],
       "bulkheads": {
         "armorClass": "ship_wood",
         "hp": 250.0,
         "genericDamageMult": 0.1,
-        "bulkhead_01_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_02_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_03_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_04_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_05_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_06_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_07_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_08_dm": {
-          "armorThickness": 15.0
-        }
+        "armorThickness": 15.0,
+        "bulkhead_01_dm": [],
+        "bulkhead_02_dm": [],
+        "bulkhead_03_dm": [],
+        "bulkhead_04_dm": [],
+        "bulkhead_05_dm": [],
+        "bulkhead_06_dm": [],
+        "bulkhead_07_dm": [],
+        "bulkhead_08_dm": []
       },
       "turrets_armor": {
         "hp": 200.0,
@@ -589,15 +585,10 @@
       "armor_parts": {
         "armorClass": "RHA_tank",
         "hp": 600.0,
-        "turret_h_01_dm": {
-          "armorThickness": 7.0
-        },
-        "superstructure_side_dm": {
-          "armorThickness": 7.0
-        },
-        "turret_06_front_dm": {
-          "armorThickness": 7.0
-        }
+        "armorThickness": 7.0,
+        "turret_h_01_dm": [],
+        "superstructure_side_dm": [],
+        "turret_06_front_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -1810,13 +1801,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -1825,7 +1813,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -1960,13 +1948,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -1975,7 +1960,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2110,13 +2095,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2125,7 +2107,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2259,13 +2241,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2274,7 +2253,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2411,13 +2390,10 @@
             "speedPitch": 35.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 660
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2426,7 +2402,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2476,7 +2452,6 @@
               "gun": "auxiliary_caliber_gun_01",
               "barrel": "gun_barrel_01",
               "gunnerDm": "auxiliary_caliber_turret_01_dm",
-              "allowableDelta": 10.0,
               "linkedAnimPart": {
                 "verNode": "bone_radius_foot",
                 "verLimits": [0.0,16.0],
@@ -2541,7 +2516,6 @@
           "startFx": "start_torpedo",
           "startFxOffset": [2.0,0.0,0.0],
           "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
           "turret": {
             "head": "bone_torpedo_01",
             "gun": "bone_torpedo_01"
@@ -2566,7 +2540,6 @@
           "startFx": "start_torpedo",
           "startFxOffset": [2.0,0.0,0.0],
           "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
           "turret": {
             "head": "bone_torpedo_02",
             "gun": "bone_torpedo_02"

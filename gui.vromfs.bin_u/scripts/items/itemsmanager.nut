@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
+
 /*
   ::ItemsManager API:
 
@@ -113,6 +114,8 @@ foreach (fn in [
   _reqUpdateList = true
   _reqUpdateItemDefsList = true
   _needInventoryUpdate = true
+
+  shouldCheckAutoConsume = false
 
   extInventoryUpdateTime = 0
 
@@ -437,6 +440,7 @@ function ItemsManager::onEventItemDefChanged(p)
   markItemsDefsListUpdateDelayed()
 }
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------INVENTORY ITEMS-----------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -558,6 +562,11 @@ function ItemsManager::_checkInventoryUpdate()
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
 {
   _checkInventoryUpdate()
+  if (shouldCheckAutoConsume)
+  {
+    shouldCheckAutoConsume = false
+    autoConsumeItems()
+  }
   return _getItemsFromList(inventory, typeMask, filterFunc)
 }
 
@@ -585,6 +594,27 @@ function ItemsManager::markInventoryUpdateDelayed()
     markInventoryUpdate()
   })
 }
+
+local isAutoConsumeInProgress = false
+function ItemsManager::autoConsumeItems()
+{
+  if (isAutoConsumeInProgress)
+    return
+
+  local onConsumeFinish = function(...) {
+    isAutoConsumeInProgress = false
+    autoConsumeItems()
+  }.bindenv(this)
+
+  foreach(item in getInventoryList())
+    if (item.shouldAutoConsume && item.consume(onConsumeFinish, {}))
+    {
+      isAutoConsumeInProgress = true
+      break
+    }
+}
+
+function ItemsManager::onEventLoginComplete(p) { shouldCheckAutoConsume = true }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////

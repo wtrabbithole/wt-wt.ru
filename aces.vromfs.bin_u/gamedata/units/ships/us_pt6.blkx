@@ -523,73 +523,30 @@
       "bulkheads": {
         "armorClass": "ship_wood",
         "hp": 250.0,
-        "bulkhead_01_dm": {
-          "armorThickness": 40.0,
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "bulkhead_02_dm": {
-          "armorThickness": 40.0,
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "bulkhead_03_dm": {
-          "armorThickness": 40.0,
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "bulkhead_04_dm": {
-          "armorThickness": 40.0,
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "bulkhead_05_dm": {
-          "armorThickness": 40.0,
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "bulkhead_06_dm": {
-          "armorThickness": 40.0,
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        }
+        "armorThickness": 40.0,
+        "genericDamageMult": 0.1,
+        "secondaryShatterDamageMult": 0.0,
+        "bulkhead_01_dm": [],
+        "bulkhead_02_dm": [],
+        "bulkhead_03_dm": [],
+        "bulkhead_04_dm": [],
+        "bulkhead_05_dm": [],
+        "bulkhead_06_dm": []
       },
       "deck": {
         "armorClass": "ship_wood",
         "hp": 1000.0,
         "armorThickness": 50.0,
-        "stern_bottom_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "mid_bottom_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "bow_bottom_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "ex_armor_01_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "ex_armor_02_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "ex_armor_03_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "ex_armor_04_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        },
-        "ex_armor_05_dm": {
-          "genericDamageMult": 0.1,
-          "secondaryShatterDamageMult": 0.0
-        }
+        "genericDamageMult": 0.1,
+        "secondaryShatterDamageMult": 0.0,
+        "stern_bottom_dm": [],
+        "mid_bottom_dm": [],
+        "bow_bottom_dm": [],
+        "ex_armor_01_dm": [],
+        "ex_armor_02_dm": [],
+        "ex_armor_03_dm": [],
+        "ex_armor_04_dm": [],
+        "ex_armor_05_dm": []
       },
       "masts": {
         "armorClass": "ship_structural_steel",
@@ -2010,13 +1967,10 @@
             "speedPitch": 20.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2025,7 +1979,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2142,13 +2096,10 @@
             "speedPitch": 20.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2157,7 +2108,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2250,7 +2201,6 @@
           "startSpeed": 2.0,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
           "barrelDP": "tt_01_dm",
           "breechDP": "torpedo_01_dm",
           "brokenBarrelAllowShoot": false,
@@ -2280,7 +2230,6 @@
           "startSpeed": 2.0,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
           "barrelDP": "tt_02_dm",
           "breechDP": "torpedo_02_dm",
           "brokenBarrelAllowShoot": false,

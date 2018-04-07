@@ -747,24 +747,35 @@
         "mid_bottom_dm": [],
         "stern_bottom_dm": []
       },
-      "bridge": {
-        "armorClass": "ship_wood",
-        "genericDamageMult": 0.1,
-        "armorThickness": 40.0,
-        "hp": 600.0,
-        "superstructure_top_dm": {
+      "bridge": [
+        {
+          "armorClass": "ship_wood"
+        },
+        {
           "genericDamageMult": 0.1
         },
-        "superstructure_back_dm": {
+        {
+          "armorThickness": 40.0
+        },
+        {
+          "hp": 600.0
+        },
+        {
           "genericDamageMult": 0.1
         },
-        "superstructure_front_dm": {
-          "genericDamageMult": 0.1
+        {
+          "superstructure_top_dm": []
         },
-        "superstructure_bottom_dm": {
-          "genericDamageMult": 0.1
+        {
+          "superstructure_back_dm": []
+        },
+        {
+          "superstructure_front_dm": []
+        },
+        {
+          "superstructure_bottom_dm": []
         }
-      },
+      ],
       "masts": {
         "armorClass": "ship_structural_steel",
         "hp": 500.0,
@@ -779,60 +790,32 @@
         "armorClass": "ship_wood",
         "hp": 250.0,
         "genericDamageMult": 0.1,
-        "bulkhead_01_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_02_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_03_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_04_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_05_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_06_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_07_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_08_dm": {
-          "armorThickness": 15.0
-        }
+        "armorThickness": 15.0,
+        "bulkhead_01_dm": [],
+        "bulkhead_02_dm": [],
+        "bulkhead_03_dm": [],
+        "bulkhead_04_dm": [],
+        "bulkhead_05_dm": [],
+        "bulkhead_06_dm": [],
+        "bulkhead_07_dm": [],
+        "bulkhead_08_dm": []
       },
       "turrets_armor": {
         "hp": 50.0,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 2.0,
-        "turret_01_dm": {
-          "armorThickness": 7.0
-        },
-        "turret_02_dm": {
-          "armorThickness": 7.0
-        },
-        "turret_03_dm": {
-          "armorThickness": 7.0
-        },
-        "turret_04_dm": {
-          "armorThickness": 7.0
-        },
-        "turret_06_front_dm": {
-          "armorThickness": 7.0
-        }
+        "armorThickness": 7.0,
+        "turret_01_dm": [],
+        "turret_02_dm": [],
+        "turret_03_dm": [],
+        "turret_04_dm": [],
+        "turret_06_front_dm": []
       },
       "armor_parts": {
         "armorClass": "RHA_tank",
         "hp": 600.0,
-        "superstructure_side_dm": {
-          "armorThickness": 7.0
-        },
-        "ex_armor_02_dm": {
-          "armorThickness": 7.0
-        }
+        "armorThickness": 7.0,
+        "superstructure_side_dm": [],
+        "ex_armor_02_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -2038,13 +2021,10 @@
             "speedPitch": 25.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 420
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2053,7 +2033,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2180,13 +2160,10 @@
             "speedPitch": 20.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2195,7 +2172,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2333,13 +2310,10 @@
             "speedPitch": 20.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2348,7 +2322,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2486,13 +2460,10 @@
             "speedPitch": 30.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2501,7 +2472,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2638,13 +2609,10 @@
             "speedPitch": 30.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2653,7 +2621,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2790,13 +2758,10 @@
             "speedPitch": 25.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 420
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2805,7 +2770,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2922,9 +2887,6 @@
             "recoilOffset": 0.4
           },
           {
-            "allowableDelta": 10.0
-          },
-          {
             "barrelDP": "main_caliber_gun_01_dm"
           },
           {
@@ -2943,13 +2905,10 @@
             "speedPitch": 26.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2958,7 +2917,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -3043,7 +3002,6 @@
           "startSpeed": 2.0,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
           "turret": {
             "head": "bone_launch_torpedo_01",
             "gun": "bone_launch_torpedo_01"
@@ -3072,7 +3030,6 @@
           "startSpeed": 2.0,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
           "turret": {
             "head": "bone_launch_torpedo_02",
             "gun": "bone_launch_torpedo_02"

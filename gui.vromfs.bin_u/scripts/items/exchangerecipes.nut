@@ -1,15 +1,6 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local u = ::require("std/u.nut")
-
-local callAsyncActionsList = null
-callAsyncActionsList = function(actionsList)
-{
-  if (!actionsList.len())
-    return
-
-  local action = actionsList.remove(0)
-  action(@(...) callAsyncActionsList(actionsList))
-}
+local asyncActions = ::require("std/asyncActions.nut")
 
 local ExchangeRecipes = class {
   components = null
@@ -253,30 +244,21 @@ local ExchangeRecipes = class {
     local exchangeActions = array(amount, exchangeAction)
     exchangeActions.append(@(cb) recipe.onExchangeComplete(componentItem, resultItems))
 
-    callAsyncActionsList(exchangeActions)
+    asyncActions.callAsyncActionsList(exchangeActions)
   }
 
   function onExchangeComplete(componentItem, resultItems)
   {
     ::ItemsManager.markInventoryUpdate()
 
-    local actionsList = []
-    local openTrophyWndConfigs = []
-    foreach (extItem in resultItems)
-    {
-      local item = ::ItemsManager.findItemByUid(extItem?.itemid)
-      if (item?.shouldAutoConsume)
-        actionsList.append(@(cb) item.consume(cb, {}) || cb())
-
-      openTrophyWndConfigs.append({
-        id = componentItem.id
-        item = extItem?.itemdef?.itemdefid
-      })
-    }
-
+    local openTrophyWndConfigs = u.map(resultItems, @(extItem) {
+      id = componentItem.id
+      item = extItem?.itemdef?.itemdefid
+    })
     if (openTrophyWndConfigs.len())
       ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs })
-    callAsyncActionsList(actionsList)
+
+    ::ItemsManager.autoConsumeItems()
   }
 }
 
