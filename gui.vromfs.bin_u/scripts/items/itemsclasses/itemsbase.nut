@@ -16,6 +16,7 @@
   getDescription()
   getShortDescription()        - assume that it will be name and short decription info
                                better up to 30 letters approximatly
+  getPrizeDescription(count)   - special prize description. when return null, will be used getShortDescription
   getLongDescription()         - unlimited length description as text.
   getLongDescriptionMarkup(params)   - unlimited length description as markup.
   getDescriptionTitle()
@@ -93,6 +94,8 @@ class ::BaseItem
   limitPersonalAtTime = 0
 
   isToStringForDebug = true
+
+  shouldAutoConsume = false //if true, should to have "consume" function
 
   constructor(blk, invBlk = null, slotData = null)
   {
@@ -293,6 +296,7 @@ class ::BaseItem
   function getLongDescription() { return getDescription() }
 
   function getShortDescription(colored = true) { return getName(colored) }
+  getPrizeDescription = @(count) null
 
   function isActive(...) { return false }
 
@@ -320,7 +324,10 @@ class ::BaseItem
     {
       local actionText = getMainActionName(true, true)
       if (actionText != "" && getLimitsCheckData().result)
+      {
         res.modActionName <- actionText
+        res.needShowActionText <- needShowActionText()
+      }
     }
 
     foreach(paramName, value in params)
@@ -452,7 +459,7 @@ class ::BaseItem
   }
 
   getAltActionName   = @() ""
-  doAltAction        = @() false
+  doAltAction        = @(params = null) false
 
   function hasTimer()
   {
@@ -623,9 +630,12 @@ class ::BaseItem
     allowBigPicture = false
   }
 
+  getCreationCaption          = @() ::loc("mainmenu/itemCreated/title")
+
   isRare                      = @() false
   getRarity                   = @() 0
   getRarityColor              = @() ""
   getRelatedRecipes           = @() [] //recipes with this item in materials
   getMyRecipes                = @() [] //recipes with this item in result
+  needShowActionText          = @() false
 }

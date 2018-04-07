@@ -403,6 +403,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(true, true)
   }
 
+  function onEventProfileUpdated(p)
+  {
+    updateBalance()
+  }
+
   function onEventBattleTasksFinishedUpdate(p)
   {
     updateItemInfo()

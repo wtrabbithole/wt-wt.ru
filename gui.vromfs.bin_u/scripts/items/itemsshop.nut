@@ -78,6 +78,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     getTabsListObj().enable(checkEnableShop)
     getSheetsListObj().show(isInMenu)
     getSheetsListObj().enable(isInMenu)
+
+    updateWarbondsBalance()
   }
 
   function initUnseenTables()
@@ -639,6 +641,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemPreview(obj)
   {
+    if (!isValid())
+      return
+
     local item = getCurItem()
     if (item)
       item.doPreview()
@@ -679,11 +684,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     return result.success
   }
 
-  function onAltAction()
+  function onAltAction(obj)
   {
     local item = getCurItem()
     if (item)
-      item.doAltAction()
+      item.doAltAction({ obj = obj, align = "top" })
   }
 
   function onDescAction(obj)
@@ -735,7 +740,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function getItemsListObj()
   {
-    return ::check_obj(scene) && scene.findObject("items_list")
+    return scene.findObject("items_list")
   }
 
   function getTabsListObj()
@@ -809,5 +814,25 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local warningTextObj = scene.findObject("warning_text")
     if (::checkObj(warningTextObj))
       warningTextObj.setValue(::colorize("redMenuButtonColor", text))
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    showSceneBtn("black_screen", ::handlersManager.findHandlerClassInScene(::gui_handlers.trophyRewardWnd) != null)
+  }
+
+  function updateWarbondsBalance()
+  {
+    if (!::has_feature("Warbonds"))
+      return
+
+    local warbondsObj = scene.findObject("balance_text")
+    warbondsObj.setValue(::g_warbonds.getBalanceText())
+    warbondsObj.tooltip = ::loc("warbonds/maxAmount", {warbonds = ::g_warbonds.getLimit()})
+  }
+
+  function onEventProfileUpdated(p)
+  {
+    updateWarbondsBalance()
   }
 }

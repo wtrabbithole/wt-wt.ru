@@ -1,6 +1,16 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local u = ::require("std/u.nut")
 
+local callAsyncActionsList = null
+callAsyncActionsList = function(actionsList)
+{
+  if (!actionsList.len())
+    return
+
+  local action = actionsList.remove(0)
+  action(@(...) callAsyncActionsList(actionsList))
+}
+
 local ExchangeRecipes = class {
   components = null
   generatorId = null
@@ -197,7 +207,7 @@ local ExchangeRecipes = class {
 
   //////////////////////////////////// Internal functions ////////////////////////////////////
 
-  function getMaterialsListForExchange()
+  function getMaterialsListForExchange(usedUidsList)
   {
     local res = []
     foreach (component in components)
@@ -209,8 +219,13 @@ local ExchangeRecipes = class {
       local leftCount = component.reqQuantity
       foreach(uid in item.uids)
       {
-        local count = ::min(leftCount, item.amountByUids[uid])
+        local leftByUid = usedUidsList?[uid] ?? item.amountByUids[uid]
+        if (leftByUid <= 0)
+          continue
+
+        local count = ::min(leftCount, leftByUid)
         res.append([ uid, count ])
+        usedUidsList[uid] <- leftByUid - count
         leftCount -= count
         if (!leftCount)
           break
@@ -219,20 +234,49 @@ local ExchangeRecipes = class {
     return res
   }
 
-  function doExchange(componentItem)
+  function doExchange(componentItem, amount = 1)
   {
+    local resultItems = []
+    local usedUidsList = {}
+    local recipe = this //to not remove recipe until operation complete
+    local leftAmount = amount
+    local exchangeAction = (@(cb) inventoryClient.exchange(
+      getMaterialsListForExchange(usedUidsList),
+      generatorId,
+      function(items) {
+        resultItems.extend(items)
+        cb()
+      },
+      --leftAmount <= 0
+    )).bindenv(recipe)
 
-    inventoryClient.exchange(getMaterialsListForExchange(), generatorId, function(items) {
-      ::ItemsManager.markInventoryUpdate()
+    local exchangeActions = array(amount, exchangeAction)
+    exchangeActions.append(@(cb) recipe.onExchangeComplete(componentItem, resultItems))
 
-      local configsArray = []
-      foreach (extItem in items)
-        configsArray.append({
-          id = componentItem.id
-          item = extItem?.itemdef?.itemdefid
-        })
-      ::gui_start_open_trophy({ [componentItem.id] = configsArray })
-    })
+    callAsyncActionsList(exchangeActions)
+  }
+
+  function onExchangeComplete(componentItem, resultItems)
+  {
+    ::ItemsManager.markInventoryUpdate()
+
+    local actionsList = []
+    local openTrophyWndConfigs = []
+    foreach (extItem in resultItems)
+    {
+      local item = ::ItemsManager.findItemByUid(extItem?.itemid)
+      if (item?.shouldAutoConsume)
+        actionsList.append(@(cb) item.consume(cb, {}) || cb())
+
+      openTrophyWndConfigs.append({
+        id = componentItem.id
+        item = extItem?.itemdef?.itemdefid
+      })
+    }
+
+    if (openTrophyWndConfigs.len())
+      ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs })
+    callAsyncActionsList(actionsList)
   }
 }
 

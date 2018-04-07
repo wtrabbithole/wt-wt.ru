@@ -44,8 +44,6 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    showBlackBackground(true)
-
     trophyItem = ::ItemsManager.findItemById(configsArray?[0]?.id)
     if (configsArray?[0]?.itemDefId)
       trophyItem = ::ItemsManager.findItemById(configsArray[0]?.itemDefId)
@@ -55,7 +53,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     isBoxOpening = trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST
 
-    local title = (configsArray[0]?.item == trophyItem.id) ? ::loc("mainmenu/itemCreated/title")
+    local title = (configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
     scene.findObject("reward_title").setValue(title)
 
@@ -93,13 +91,6 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
       openChest()
-  }
-
-  function showBlackBackground(isShow)
-  {
-    local bObj = guiScene["black_screen"]
-    if (::check_obj(bObj))
-      bObj.show(isShow)
   }
 
   function openChest()
@@ -255,7 +246,6 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (trophyItem && !checkSkipAnim())
       return
 
-    showBlackBackground(false)
     base.goBack()
   }
 

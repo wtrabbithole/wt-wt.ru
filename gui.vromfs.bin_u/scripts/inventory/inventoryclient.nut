@@ -1,3 +1,5 @@
+local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
+
 enum validationCheckBitMask {
   VARTYPE    = 0x01
   EXISTENCE  = 0x02
@@ -7,6 +9,8 @@ enum validationCheckBitMask {
   REQUIRED   = 0x03
   VITAL      = 0x07
 }
+
+const INVENTORY_PROGRESS_MSG_ID = "INVENTORY_REQUEST"
 
 local InventoryClient = class {
   items = {}
@@ -67,22 +71,28 @@ local InventoryClient = class {
     }
   }
 
-  function request(action, headers, data, callback)
+  function request(action, headers, data, callback, progressBoxData = null)
   {
     headers.appid <- WT_APPID
-    local request = {
+    local requestData = {
       add_token = true,
       headers = headers,
       action = action
     }
 
     if (data) {
-      request["data"] <- data;
+      requestData["data"] <- data;
     }
 
+    if (progressBoxData)
+      progressMsg.create(INVENTORY_PROGRESS_MSG_ID, progressBoxData)
     callback = ::Callback(callback, this)
 
-    ::inventory.request(request, @(res) callback(res))
+    ::inventory.request(requestData, function(res) {
+      callback(res)
+      if (progressBoxData)
+        progressMsg.destroy(INVENTORY_PROGRESS_MSG_ID, true)
+    })
   }
 
   function getResultData(result, name)
@@ -306,7 +316,8 @@ local InventoryClient = class {
   }
 
   function removeItem(itemid) {
-    delete items[itemid]
+    if (itemid in items)
+      delete items[itemid]
     hasInventoryChanges = true
     notifyInventoryUpdate()
   }
@@ -386,7 +397,7 @@ local InventoryClient = class {
     return recipes
   }
 
-  function handleItemsDelta(result, cb = null) {
+  function handleItemsDelta(result, cb = null, shouldCheckInventory = true) {
     local itemJson = getResultData(result, "item_json")
     if (!itemJson)
       return
@@ -414,6 +425,9 @@ local InventoryClient = class {
       waitingItems.append(item);
     }
 
+    if (!shouldCheckInventory)
+      return cb(newItems)
+
     processWaitingItems()
     if (waitingItems.len() > 0) {
       requestItemDefs(function() {
@@ -436,15 +450,18 @@ local InventoryClient = class {
     }
   }
 
-  function exchange(materials, outputitemdefid, cb = null) {
+  function exchange(materials, outputitemdefid, cb = null, shouldCheckInventory = true) {
     local req = {
         outputitemdefid = outputitemdefid,
         materials = materials
     }
 
-    request("ExchangeItems", {}, req, function(result) {
-      handleItemsDelta(result, cb)
-    })
+    request("ExchangeItems", {}, req,
+      function(result) {
+        handleItemsDelta(result, cb, shouldCheckInventory)
+      },
+      { }
+    )
   }
 
   function getChestGeneratorItemdefIds(itemdefid) {

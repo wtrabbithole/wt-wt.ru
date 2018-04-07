@@ -4,6 +4,7 @@ local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
 local time = require("scripts/time.nut")
+local chooseAmountWnd = ::require("scripts/wndLib/chooseAmountWnd.nut")
 
 local emptyBlk = ::DataBlock()
 
@@ -38,6 +39,7 @@ local ItemExternal = class extends ::BaseItem
     blkType  = itemDefDesc?.tags?.type ?? ""
 
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
+    shouldAutoConsume = !!itemDefDesc?.tags?.autoConsume
 
     link = inventoryClient.getMarketplaceItemUrl(id, itemDesc?.itemid) || ""
     forceExternalBrowser = true
@@ -207,6 +209,7 @@ local ItemExternal = class extends ::BaseItem
 
   canConsume          = @() false
   canAssemble         = @() getMyRecipes().len() > 0
+  canConvertToWarbonds= @() ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
 
   function getMainActionName(colored = true, short = false)
   {
@@ -221,13 +224,21 @@ local ItemExternal = class extends ::BaseItem
       || assemble(cb, params)
   }
 
-  getAltActionName   = @() amount && canConsume() && canAssemble() ? ::loc("item/assemble") : ""
-  doAltAction        = @() assemble()
+  getAltActionName   = @() amount && canConsume() && canAssemble() ? ::loc("item/assemble")
+    : canConvertToWarbonds() ? ::loc("items/exchangeTo", { currency = getWarbondExchangeAmountText() })
+    : ""
+  doAltAction        = @(params) canConsume() && assemble(null, params) || convertToWarbonds(params)
 
   function consume(cb, params)
   {
     if (!uids || !uids.len() || !metaBlk || !canConsume())
       return false
+
+    if (shouldAutoConsume)
+    {
+      consumeImpl(cb, params)
+      return true
+    }
 
     local canSell = itemDef?.marketable
     local text = ::loc("recentItems/useItem", { itemName = ::colorize("activeTextColor", getName()) })
@@ -257,14 +268,21 @@ local ItemExternal = class extends ::BaseItem
     local blk = ::DataBlock()
     blk.setInt("itemId", uid.tointeger())
 
+    local item = this //to not remove item while in progress
     local taskCallback = function() {
-      inventoryClient.removeItem(uid)
+      item.amountByUids[uid]--
+      if (item.amountByUids[uid] <= 0)
+      {
+        inventoryClient.removeItem(uid)
+        if (item.uids?[0] == uid)
+          item.uids.remove(0)
+      }
       if (cb)
         cb({ success = true })
     }
 
     local taskId = ::char_send_blk("cln_consume_inventory_item", blk)
-    ::g_tasker.addTask(taskId, { showProgressBox = true }, taskCallback)
+    ::g_tasker.addTask(taskId, { showProgressBox = !shouldAutoConsume }, taskCallback)
   }
 
   function assemble(cb = null, params = null)
@@ -274,6 +292,80 @@ local ItemExternal = class extends ::BaseItem
 
     ExchangeRecipes.tryUse(getMyRecipes(), this)
     return true
+  }
+
+  function getWarbondExchangeAmountText()
+  {
+    local recipe = getWarbondRecipe()
+    if (amount <= 0 || !recipe)
+      return ""
+    local warbondItem = ::ItemsManager.findItemByItemDefId(recipe.generatorId)
+    local warbond = warbondItem && warbondItem.getWarbond()
+    if (!warbond)
+      return ""
+    return warbondItem.getWarbondsAmount() + ::loc(warbond.fontIcon)
+  }
+
+  function convertToWarbonds(params = null)
+  {
+    if (!canConvertToWarbonds())
+      return false
+    local recipe = getWarbondRecipe()
+    if (amount <= 0 || !recipe)
+      return false
+
+    local warbondItem = ::ItemsManager.findItemByItemDefId(recipe.generatorId)
+    local warbond = warbondItem && warbondItem.getWarbond()
+    if (!warbond)
+      return false
+
+    local leftWbAmount = ::g_warbonds.getLimit() - warbond.getBalance()
+    if (leftWbAmount <= 0)
+    {
+      ::showInfoMsgBox(::loc("items/cantExchangeToWarbondsMessage"))
+      return true
+    }
+
+    local maxAmount = ::ceil(leftWbAmount.tofloat() / warbondItem.getWarbondsAmount()).tointeger()
+    maxAmount = ::min(maxAmount, amount)
+    if (maxAmount == 1 || !::has_feature("ItemConvertToWarbondMultiple"))
+    {
+      convertToWarbondsImpl(recipe, warbondItem, 1)
+      return true
+    }
+
+    local item = this
+    local icon = ::loc(warbond.fontIcon)
+    chooseAmountWnd.open({
+      parentObj = params?.obj
+      align = params?.align ?? "bottom"
+      minValue = 1
+      maxValue = maxAmount
+      curValue = maxAmount
+      valueStep = 1
+
+      headerText = ::loc("items/exchangeTo", { currency = icon })
+      buttonText = ::loc("items/btnExchange")
+      getValueText = @(value) value + " x " + warbondItem.getWarbondsAmount() + icon
+        + " = " + value * warbondItem.getWarbondsAmount() + icon
+
+      onAcceptCb = @(value) item.convertToWarbondsImpl(recipe, warbondItem, value)
+      onCancelCb = null
+    })
+    return true
+  }
+
+  function convertToWarbondsImpl(recipe, warbondItem, convertAmount)
+  {
+    local msg = ::loc("items/exchangeMessage", {
+      amount = convertAmount
+      item = getName()
+      currency = convertAmount * warbondItem.getWarbondsAmount() + ::loc(warbondItem.getWarbond()?.fontIcon)
+    })
+    ::scene_msg_box("warbond_exchange", null, msg, [
+      [ "yes", @() recipe.doExchange(warbondItem, convertAmount) ],
+      [ "no" ]
+    ], "yes", { cancel_fn = @() null })
   }
 
   function hasLink()
@@ -304,6 +396,23 @@ local ItemExternal = class extends ::BaseItem
     return res
   }
 
+  function getWarbondRecipe()
+  {
+    foreach (genItemdefId in inventoryClient.getChestGeneratorItemdefIds(id))
+    {
+      local item = ::ItemsManager.findItemByItemDefId(genItemdefId)
+      if (item?.iType != itemType.WARBONDS)
+        continue
+      local gen = ItemGenerators.get(genItemdefId)
+      if (!gen)
+        continue
+      local recipes = gen.getRecipesWithComponent(id)
+      if (recipes.len())
+        return recipes[0]
+    }
+    return null
+  }
+
   function getMyRecipes()
   {
     local gen = ItemGenerators.get(id)
@@ -323,6 +432,18 @@ local ItemExternal = class extends ::BaseItem
       datetime = time.buildDateTimeStr(::get_time_from_t(expireTimestamp))
       timeleft = getTimeLeftText()
     }))
+  }
+
+  function needShowActionText()
+  {
+    if (!canAssemble())
+      return false
+
+    foreach (recipes in getMyRecipes())
+      if (recipes.isUsable)
+        return true
+
+    return false
   }
 }
 

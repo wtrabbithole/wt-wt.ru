@@ -1016,10 +1016,9 @@ function ItemsManager::sortByParam(array, param)
 
 function ItemsManager::findItemByUid(uid, filterType = itemType.ALL)
 {
-  local itemsArray = ::ItemsManager.getInventoryList(filterType,
-                (@(uid) function (item) { return ::isInArray(uid, item.uids)})(uid) )
-
-  return itemsArray.len() > 0? itemsArray[0] : null
+  local itemsArray = ::ItemsManager.getInventoryList(filterType)
+  local res = u.search(itemsArray, @(item) ::isInArray(uid, item.uids) )
+  return res
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

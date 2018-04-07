@@ -167,7 +167,11 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
           item = item.makeEmptyInventoryItem()
           item.setDisguise(true)
         }
-        name = item.getShortDescription(colored)
+        name = item.getPrizeDescription(prize.count || 1)
+        if (name)
+          showCount = false
+        else
+          name = item.getShortDescription(colored)
       }
       color = item ? "activeTextColor" : "red"
     }
@@ -731,11 +735,12 @@ function PrizesView::getViewDataItem(prize, showCount, params = null)
   local primaryIcon = prize.primaryIcon
   local itemIcon = getPrizeTypeIcon(prize)
   local buttons = getPrizeActionButtonsView(prize, params)
+  local item = ::ItemsManager.findItemById(prize.item)
   return {
     icon  = primaryIcon ? primaryIcon : itemIcon
     icon2 = primaryIcon ? itemIcon : null
     title = getPrizeText(prize, true, false, showCount, true)
-    tooltipId = ::g_tooltip.getIdItem(prize.item, params)
+    tooltipId = item && !item.shouldAutoConsume ? ::g_tooltip.getIdItem(prize.item, params) : null
     buttons = buttons
     buttonsCount = buttons.len()
   }

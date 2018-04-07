@@ -23,8 +23,6 @@
 
 ::is_dev_version <- false // WARNING : this is unsecure
 
-::april_fools_day_event_end_t <- 1522756800
-
 ::RESPAWNS_UNLIMITED <- -1
 
 ::quick_match_flag <- false;
@@ -153,7 +151,7 @@ enum itemType { //bit values for easy multitype search
 
   //masks
   ALL             = 0xFFFFFFFF
-  INVENTORY_ALL   = 0x0FFFFFFF //~CRAFT_PART
+  INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~WARBONDS
 }
 
 enum prizesStack {
@@ -355,6 +353,7 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   // Independed Modules
 ::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
 ::require("scripts/clientState/elems/dlDataStatElem.nut")
+::require("sqDagui/framework/progressMsg.nut").setTextLocIdDefault("charServer/purchase0")
   // end of Independed Modules
 //------- ^^^ files before login ^^^ ----------
 
@@ -421,7 +420,6 @@ function load_scripts_after_login_once()
     "options/framedOptionsWnd.nut"
     "options/optionsCustomDifficulty.nut"
     "options/fontChoiceWnd.nut"
-    "options/enableGiganticHatsWnd.nut"
 
     "leaderboardDataType.nut"
     "leaderboardCategoryType.nut"

@@ -368,8 +368,6 @@ class Promo
       view.refreshTimer <- true
     }
 
-    view.isShowGiganticHatsAnnounce <- ::get_charserver_time_sec() < ::april_fools_day_event_end_t
-
     view.performActionId <- ::g_promo.getActionParamsKey(id)
     view.taskId <- ::getTblValue("id", reqTask)
     view.action <- ::g_promo.PERFORM_ACTON_NAME
@@ -408,17 +406,6 @@ class Promo
   function onWarbondsShop(obj)
   {
     ::g_warbonds.openShop()
-  }
-
-  function onBtnGiganticHats(obj)
-  {
-    ::gui_handlers.EnableGiganticHatsWnd.open()
-
-    if (::get_charserver_time_sec() > ::april_fools_day_event_end_t)
-      guiScene.performDelayed(this, function()
-      {
-        updateCurrentBattleTaskButton()
-      })
   }
 
   function onSelectDifficultyBattleTasks(obj)

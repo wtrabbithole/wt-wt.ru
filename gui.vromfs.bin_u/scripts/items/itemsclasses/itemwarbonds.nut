@@ -7,21 +7,19 @@ class ::items_classes.Warbonds extends ItemExternal {
   static typeIcon = "#ui/gameuiskin#item_type_warbonds"
   static descHeaderLocId = "coupon/for"
 
-  function getContentIconData()
-  {
-    return { contentIcon = typeIcon }
-  }
+  getContentIconData   = @() { contentIcon = typeIcon }
+  getResourceDesc      = @() ""
+  getCreationCaption   = @() shouldAutoConsume ? ::loc("unlocks/entitlement") : base.getCreationCaption()
 
-  function getResourceDesc()
-  {
-    return ""
-  }
+  getWarbond           = @() ::g_warbonds.findWarbond(metaBlk?.warbonds)
+  getWarbondsAmount    = @() metaBlk?.count || 0
+  canConsume           = @() getWarbond() != null && getWarbondsAmount() > 0
 
-  function canConsume()
+  function getPrizeDescription(count)
   {
-    if (!metaBlk || !metaBlk.warbonds  || metaBlk.warbonds == "" || !metaBlk.count)
-      return false
-    local wb = ::g_warbonds.findWarbond(metaBlk.warbonds)
-    return wb != null
+    if (!shouldAutoConsume)
+      return null
+    local wb = getWarbond()
+    return wb && (count * getWarbondsAmount())  //prize already has type icon, so we no need 2 warbond icons near amount number
   }
 }

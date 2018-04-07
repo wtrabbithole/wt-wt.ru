@@ -424,11 +424,14 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         continue
 
       local key = blk.body.id + "" + ::getTblValue("parentTrophyRandId", blk.body, "")
-      if (!(key in trophyRewardsTable))
-        trophyRewardsTable[key] <- []
-
-      trophyRewardsTable[key].append(buildTableFromBlk(blk.body))
-      markDisabled = true
+      local item = ::ItemsManager.findItemById(blk.body.itemDefId)
+      if (!item?.shouldAutoConsume)
+      {
+        if (!(key in trophyRewardsTable))
+          trophyRewardsTable[key] <- []
+        trophyRewardsTable[key].append(buildTableFromBlk(blk.body))
+        markDisabled = true
+      }
     }
     else if (blk.type == ::EULT_CHARD_AWARD
              && ::getTblValue("rewardType", blk.body, "") == "EveryDayLoginAward"

@@ -215,6 +215,15 @@ itemDiv {
 
   <<#hasButton>>
   <<#modActionName>>
+  <<#needShowActionText>>
+  textareaNoTab {
+      pos:t='50%pw-50%w, ph - h/2'
+      position:t='absolute'
+      overlayTextColor:t='active'
+      text:t='<<modActionName>>'
+  }
+  <</needShowActionText>>
+
   Button_text {
     id:t='actionBtn'
     pos:t='50%pw-50%w, ph-h/2' //empty zone in button texture

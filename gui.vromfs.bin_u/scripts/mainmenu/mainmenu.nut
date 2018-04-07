@@ -103,7 +103,6 @@ function on_mainmenu_return(handler, isAfterLogin)
   ::checkNonApprovedResearches(true, true)
   if (isAllowPopups)
   {
-    handler.doWhenActive(::gui_handlers.EnableGiganticHatsWnd.openIfRequired)
     handler.doWhenActive(::gui_handlers.FontChoiceWnd.openIfRequired)
 
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })

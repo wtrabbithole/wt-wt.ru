@@ -166,6 +166,8 @@
 
     Warbonds = false
     WarbondsShop = false
+    ItemConvertToWarbond = false
+    ItemConvertToWarbondMultiple = false
 
     CountryChina = false
 
