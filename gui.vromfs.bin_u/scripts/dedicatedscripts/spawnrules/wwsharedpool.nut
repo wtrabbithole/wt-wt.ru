@@ -3,6 +3,10 @@
 
 ::wwSharedPoolInitialArmiesBlk <- null
 ::wwSharedPoolTotalWpReward <- 0
+::wwBattleUpdatesEnabled <- false
+::wwSharedPoolPeriodicTaskId <- -1
+::wwLastUpdateApplied <- -1
+
 
 function wwBattleChangePlayerTeam(suid, playersBlk, teamName)
 {
@@ -216,6 +220,29 @@ function wwBattlePeriodicUpdateTask(dt)
 }
 
 
+function wwBattleEnableUpdates()
+{
+  if (::wwBattleUpdatesEnabled)
+    return
+
+  local currentTime = ::get_charserver_time_sec()
+  ::wwBattleLastPeriodicSendTime <- currentTime
+
+  local misblk = ::get_mission_custom_state(false)
+  local sendMaxPeriodSec = misblk.getInt("sendMaxPeriodSec", 60)
+  ::wwSharedPoolPeriodicTaskId <-
+      ::periodic_task_register_ex(this,
+                                  wwBattlePeriodicUpdateTask,
+                                  sendMaxPeriodSec,
+                                  ::EPTF_EXECUTE_IMMEDIATELY | ::EPTF_IN_FLIGHT,
+                                  ::EPTT_BEST_EFFORT,
+                                  true)
+  dagor.debug(format("wwSharedPool periodic update task: %d", ::wwSharedPoolPeriodicTaskId))
+
+  ::wwBattleUpdatesEnabled = true
+}
+
+
 function wwBattleCopyStat(dstBlk, srcBlk, statName)
 {
   dstBlk.addInt(statName, srcBlk ? srcBlk.getInt(statName, 0) : 0)
@@ -278,27 +305,12 @@ function wwSharedPool_onSessionStart()
     misInfoBlk.setInt("timeLimitSec", timeLimitMinutes * 60)
   }
 
-  ::wwBattleLastPeriodicSendTime <- currentTime
-
   ::wwBattleSendMinPeriodSec <- misblk.getInt("sendMinPeriodSec", 10)
-  local sendMaxPeriodSec = misblk.getInt("sendMaxPeriodSec", 60)
 
   if (::wwSharedPoolInitialArmiesBlk == null)
     ::wwSharedPoolInitialArmiesBlk <- ::DataBlock()
   if ("initialArmies" in misblk)
     ::wwSharedPoolInitialArmiesBlk.setFrom(misblk.initialArmies)
-
-  ::wwSharedPoolPeriodicTaskId <-
-      ::periodic_task_register_ex(this,
-                                  wwBattlePeriodicUpdateTask,
-                                  sendMaxPeriodSec,
-                                  ::EPTF_EXECUTE_IMMEDIATELY | ::EPTF_IN_FLIGHT,
-                                  ::EPTT_BEST_EFFORT,
-                                  true)
-  dagor.debug(format("wwSharedPool periodic update task: %d", ::wwSharedPoolPeriodicTaskId))
-
-  ::wwBattleUpdatesEnabled <- true
-  ::wwLastUpdateApplied <- -1
 }
 function wwSharedPool_onSessionEnd()
 {
@@ -308,12 +320,21 @@ function wwSharedPool_onSessionEnd()
   ::periodic_task_unregister(::wwSharedPoolPeriodicTaskId)
   ::wwBattleUpdatesEnabled = false
 }
+function wwSharedPool_onSetMatchingPlayerInfo(userId, team, country)
+{
+  dagor.debug("wwSharedPool_onSetMatchingPlayerInfo")
+  wwBattleSetPlayerTeam(userId, team)
+  wwBattleSendUpdateIfNeeded()
+}
 function wwSharedPool_onPlayerConnected(userId, team, country)
 {
   dagor.debug("wwSharedPool_onPlayerConnected")
-  wwBattleSetPlayerTeam(userId, team)
   unitsDeck_init(userId, team, country, 0, 0, 0) //rating. to be implemented later
-
+  if (!::wwBattleUpdatesEnabled)
+  {
+    dagor.debug("Got first player connected, enable battle updates")
+    wwBattleEnableUpdates()
+  }
   wwBattleSendUpdateIfNeeded()
 }
 function wwSharedPool_onPlayerFinished(userId, country, log)
@@ -331,9 +352,12 @@ function wwSharedPool_onPlayerDisconnected(userId)
 {
   dagor.debug("wwSharedPool_onPlayerDisconnected")
   unitsDeck_onPlayerDisconnected(userId)
-
+  wwBattleSendUpdateIfNeeded()
+}
+function wwSharedPool_onFreePlayerSlot(userId)
+{
+  dagor.debug("wwSharedPool_onFreePlayerSlot")
   wwBattleRemovePlayer(userId)
-
   wwBattleSendUpdateIfNeeded()
 }
 function wwSharedPool_onBotSpawn(playerIdx, team, country, unit, weapon)

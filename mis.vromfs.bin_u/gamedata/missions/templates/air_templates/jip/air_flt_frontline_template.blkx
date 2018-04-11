@@ -4774,10 +4774,10 @@
         ],
         "else_actions": {
           "comment": {
-            "value": "армии совпадают - не надо рисовать линию. проверяем правую"
+            "value": "проверяем не нулевые-ли армии"
           },
           "triggerEnable": {
-            "target": "flt_draw_bottom_start"
+            "target": "flt_draw_left_drawing_line_zero_both_check"
           }
         }
       },
@@ -4857,6 +4857,116 @@
             }
           }
         ]
+      },
+      "flt_draw_left_drawing_line_zero_both_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_cur_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_check_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "обе армии нулевые - не надо рисовать"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_bottom_start"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "одна из армий не нулевая - проверяем на нейтральность"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_left_drawing_line_zero"
+          }
+        }
+      },
+      "flt_draw_left_drawing_line_zero": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_cur_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_check_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "Армия Б слева. рисуем линию сверху вниз"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_cur_cell_name",
+              "areaNameTo": "@flt_draw_cur_cell_name",
+              "areaFromSide": "top_left",
+              "areaToSide": "bottom_left",
+              "colorCode": "White",
+              "transparency": 75,
+              "scale": 1.2,
+              "curve": true
+            }
+          },
+          {
+            "comment": {
+              "value": "идем проверять левую"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_draw_bottom_start"
+            }
+          }
+        ],
+        "else_actions": {
+          "triggerEnable": {
+            "target": "flt_draw_bottom_start"
+          }
+        }
       },
       "flt_draw_bottom_start": {
         "is_enabled": false,
@@ -5063,10 +5173,10 @@
         ],
         "else_actions": {
           "comment": {
-            "value": "армиис овпадают - не надо рисовать линию. идем дальше по циклу"
+            "value": "проверяем не нулевые-ли армии"
           },
           "triggerEnable": {
-            "target": "flt_draw_frontline_col"
+            "target": "flt_draw_bottom_drawing_zero_both_check"
           }
         }
       },
@@ -5146,6 +5256,119 @@
             }
           }
         ]
+      },
+      "flt_draw_bottom_drawing_zero_both_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_cur_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_check_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "обе армии нулевые ничего не рисуем"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_col"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "одна из армий не нулевая проверяем может стоит рисовать нейтральную линию"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_bottom_drawing_zero_check"
+          }
+        }
+      },
+      "flt_draw_bottom_drawing_zero_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_cur_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_check_army",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "граница с пустйо ячейкой рисуем белую линию"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_cur_cell_name",
+              "areaNameTo": "@flt_draw_cur_cell_name",
+              "areaFromSide": "bottom_left",
+              "areaToSide": "bottom_right",
+              "colorCode": "White",
+              "transparency": 75,
+              "scale": 1.2,
+              "curve": true
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_draw_frontline_col"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "идем дальше по циклу"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_col"
+          }
+        }
       }
     },
     "flt_find_army_for_area": {

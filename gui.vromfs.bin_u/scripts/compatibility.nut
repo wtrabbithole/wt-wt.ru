@@ -697,3 +697,15 @@ if (!("get_unit_wp_to_respawn" in getroottable()))
     return 0
   }
 }
+
+if (!("min" in getroottable())) 
+  function min(a, b) { return (a < b)? a : b }
+
+if (!("max" in getroottable())) 
+  function max(a, b) { return (a > b)? a : b }
+
+if (!("clamp" in getroottable())) {
+  function clamp(value, min, max) {
+    return (value < min) ? min : (value > max) ? max : value
+  }
+}
