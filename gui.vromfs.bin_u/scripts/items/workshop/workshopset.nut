@@ -97,7 +97,7 @@ local WorkshopSet = class {
 
     foreach(itemdef, sortId in requiredList)
     {
-      local item = ItemsManager.findItemByItemDefId(itemdef)
+      local item = ItemsManager.findItemById(itemdef)
       if (item)
       {
         local newItem = item.makeEmptyInventoryItem()

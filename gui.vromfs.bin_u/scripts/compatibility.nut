@@ -698,6 +698,8 @@ if (!("get_unit_wp_to_respawn" in getroottable()))
   }
 }
 
+//----------------------------wop_1_77_2_X---------------------------------//
+
 if (!("min" in getroottable())) 
   function min(a, b) { return (a < b)? a : b }
 
@@ -709,3 +711,9 @@ if (!("clamp" in getroottable())) {
     return (value < min) ? min : (value > max) ? max : value
   }
 }
+
+if (!("logerr" in ::dagor))
+  ::dagor.logerr <- ::dagor.debug
+
+::apply_compatibilities({
+})

@@ -1054,8 +1054,13 @@ tr[queueTableTitleRow=yes] text {
   position:absolute;
 }
 
+[baseRow=yes] > tr > td > textareaNoTab {
+  word-wrap:no;
+}
+
 [baseRow=rows16] > tr > td > textareaNoTab {
   max-height:@rows16height;
+  word-wrap:no;
 }
 
 .optionsTable > tr, .headerTable > tr, .transpTable > tr {

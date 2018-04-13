@@ -98,6 +98,7 @@ local ItemGenerator = class {
 }
 
 local get = function(itemdefId) {
+  ::ItemsManager.findItemById(itemdefId) // calls pending generators list update
   return collection?[itemdefId]
 }
 

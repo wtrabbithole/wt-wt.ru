@@ -421,6 +421,9 @@ function unitsDeck_init(userId, team, country, minRating, maxRating, playerRatin
   local rulesBlk = ::get_mission_custom_state(false)
   local teamsBlk = rulesBlk.teams
   local teamName = get_team_name_by_mp_team(team)
+
+  addOwnAvailableUnitsBlockToUserBlk(userId, teamsBlk, teamName)
+
   local unitDeckFull = getBlockFromTeamBlkByName(team, "limitedUnits")
   if (unitDeckFull == null)
     dagor.debug("unitsDeck spawn config is broken, can't find limitedUnits block for " +
@@ -455,7 +458,6 @@ function unitsDeck_init(userId, team, country, minRating, maxRating, playerRatin
       else unitsDeck_unitDraw(userId, team, country, minRating, maxRating, playerRating, false)
     }
   }
-  addOwnAvailableUnitsBlockToUserBlk(userId, teamsBlk, teamName)
 }
 
 function addOwnAvailableUnitsBlockToUserBlk(userId, teamsBlk, teamName)
@@ -1005,7 +1007,10 @@ function modUnitListInSharedGroup(userId, unit, num, team, weapon, needReturnUni
       unitsSharedGroups[sharedGroup].limitedUnits[unit] += num
 
       foreach(childId, childGroup in usersSharedGroupList)
-        if (childGroup == sharedGroup) updateUserBlk(childId)
+        if (childGroup == sharedGroup) {
+          updateUserBlk(childId)
+          update_spawn_score(childId)
+        }
 
       modDistributedUnitsBlk(unit, team, num, needReturnUnitsToDeck)
     }

@@ -379,15 +379,15 @@ function ItemsManager::getShopList(typeMask = itemType.ALL, filterFunc = null)
 function ItemsManager::findItemById(id, typeMask = itemType.ALL)
 {
   _checkUpdateList()
-  return ::getTblValue(id, shopItemById, null)
+  local item = shopItemById?[id]
+  if (!item && isItemdefId(id))
+    requestItemsByItemdefIds([id])
+  return item
 }
 
-function ItemsManager::findItemByItemDefId(itemDefId)
+function ItemsManager::isItemdefId(id)
 {
-  local item = findItemById(itemDefId)
-  if (!item)
-    requestItemsByItemdefIds([itemDefId])
-  return item
+  return typeof id == "integer"
 }
 
 function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
@@ -540,7 +540,10 @@ function ItemsManager::_checkInventoryUpdate()
     local itemDefDesc = itemDesc.itemdef
     local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
+    {
+      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemDefDesc?.itemdefid)
       continue
+    }
 
     local isCreate = true
     foreach (existingItem in extInventoryItems)
@@ -1049,6 +1052,18 @@ function ItemsManager::findItemByUid(uid, filterType = itemType.ALL)
   local itemsArray = ::ItemsManager.getInventoryList(filterType)
   local res = u.search(itemsArray, @(item) ::isInArray(uid, item.uids) )
   return res
+}
+
+function ItemsManager::collectUserlogItemdefs()
+{
+  for(local i = 0; i < ::get_user_logs_count(); i++)
+  {
+    local blk = ::DataBlock()
+    ::get_user_log_blk_body(i, blk)
+    local itemDefId = blk?.body?.itemDefId
+    if (itemDefId)
+      ::ItemsManager.findItemById(itemDefId) // Requests itemdef, if it is not found.
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

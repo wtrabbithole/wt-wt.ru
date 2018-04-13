@@ -447,7 +447,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     }
     else if (blk.type == ::EULT_INVENTORY_ADD_ITEM)
     {
-      local item = ::ItemsManager.findItemByItemDefId(blk.body?.itemDefId)
+      local item = ::ItemsManager.findItemById(blk.body?.itemDefId)
       if (item)
       {
         local locId = "userlog/" + ::getLogNameByType(blk.type)

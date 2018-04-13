@@ -693,7 +693,7 @@ function BattleTasks::getRewardMarkUpConfig(task, config)
   local itemId = ::getTblValue("userLogId", task)
   if (itemId)
   {
-    local item = ::ItemsManager.findItemByItemDefId(::to_integer_safe(itemId, itemId, false))
+    local item = ::ItemsManager.findItemById(::to_integer_safe(itemId, itemId, false))
     if (item)
       rewardMarkUp.itemMarkUp <- item.getNameMarkup(::getTblValue("amount_trophies", task))
   }

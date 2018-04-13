@@ -245,6 +245,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup, params)
       return true
     }
+    onEventItemsShopUpdate = function(eventParams, obj, handler, id, params) {
+      fillTooltip(obj, handler, id, params)
+    }
   }
 
   INVENTORY = { //by inventory item uid
@@ -262,6 +265,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)
       ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup)
       return true
+    }
+    onEventItemsShopUpdate = function(eventParams, obj, handler, id, params) {
+      fillTooltip(obj, handler, id, params)
     }
   }
 

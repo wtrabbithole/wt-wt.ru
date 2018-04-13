@@ -18,9 +18,13 @@ local InventoryClient = class {
   itemdefs = {}
 
   REQUEST_TIMEOUT_MSEC = 15000
-  REQUEST_DELTA_MSEC = 5000
+  REQUEST_DELTA_MSEC = 7000
   lastUpdateTime = -1
   lastRequestTime = -1
+
+  lastItemdefsRequestTime = -1
+  itemdefidsRequested = {} // Failed ids stays here, to avoid repeated requests.
+  pendingItemDefRequest = null
 
   hasInventoryChanges = false
   hasItemDefChanges = false
@@ -243,7 +247,7 @@ local InventoryClient = class {
       processWaitingItems();
 
       if (waitingItems.len() > 0) {
-        requestItemDefs();
+        requestItemDefs(notifyInventoryUpdate);
       }
       else {
         notifyInventoryUpdate()
@@ -273,46 +277,89 @@ local InventoryClient = class {
     }
   }
 
-  function requestItemDefs(cb = null, shouldRefreshAll = false) {
-    local itemdefids = ""
-    foreach(key, value in itemdefs) {
-      if (shouldRefreshAll || value.len() == 0) {
-        if (itemdefids.len() > 0)
-          itemdefids += ","
+  isItemdefRequestInProgress = @() lastItemdefsRequestTime >= 0
+    && lastItemdefsRequestTime + REQUEST_TIMEOUT_MSEC < ::dagor.getCurTime()
 
-        itemdefids += key.tostring()
+  function updatePendingItemDefRequest(cb, shouldRefreshAll)
+  {
+    if (!pendingItemDefRequest)
+      pendingItemDefRequest = {
+        cbList = [],
+        shouldRefreshAll = false,
+        fireCb = function() {
+          foreach(cb in cbList)
+            cb()
+        }
       }
+    pendingItemDefRequest.shouldRefreshAll = shouldRefreshAll || pendingItemDefRequest.shouldRefreshAll
+    if (cb)
+      pendingItemDefRequest.cbList.append(::Callback(cb, this))
+  }
+
+  _lastDelayedItemdefsRequestTime = 0
+  function requestItemDefs(cb = null, shouldRefreshAll = false) {
+    updatePendingItemDefRequest(cb, shouldRefreshAll)
+    if (isItemdefRequestInProgress()
+        || _lastDelayedItemdefsRequestTime && _lastDelayedItemdefsRequestTime < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
+      return
+    _lastDelayedItemdefsRequestTime = ::dagor.getCurTime()
+    ::get_main_gui_scene().performDelayed(this, function() {
+      _lastDelayedItemdefsRequestTime = 0
+      requestItemDefsImpl()
+    })
+  }
+
+  function requestItemDefsImpl() {
+    if (isItemdefRequestInProgress() || !pendingItemDefRequest)
+      return
+    local requestData = pendingItemDefRequest
+    pendingItemDefRequest = null
+
+    if (requestData.shouldRefreshAll)
+      itemdefidsRequested.clear()
+
+    local itemdefidsRequest = []
+    foreach(itemdefid, value in itemdefs)
+    {
+      if (!requestData.shouldRefreshAll && (!::u.isEmpty(value) || itemdefidsRequested?[itemdefid]))
+        continue
+
+      itemdefidsRequest.append(itemdefid)
+      itemdefidsRequested[itemdefid] <- true
     }
 
-    if (itemdefids.len() == 0)
-      return;
+    if (!itemdefidsRequest.len())
+      return requestData.fireCb()
 
-    dagor.debug("Request itemdefs " + itemdefids)
+    local itemdefidsString = ::g_string.implode(itemdefidsRequest, ",")
+    dagor.debug("Request itemdefs " + itemdefidsString)
 
+    lastItemdefsRequestTime = ::dagor.getCurTime()
     local steamLanguage = ::g_language.getCurrentSteamLanguage()
-    request("GetItemDefsClient", {itemdefids = itemdefids, language = steamLanguage}, null,
+    request("GetItemDefsClient", {itemdefids = itemdefidsString, language = steamLanguage}, null,
       function(result) {
+        lastItemdefsRequestTime = -1
         local itemdef_json = getResultData(result, "itemdef_json");
-        if (!itemdef_json) {
-          if (cb) {
-            cb()
-          }
+        if (!itemdef_json || steamLanguage != ::g_language.getCurrentSteamLanguage())
+        {
+          requestData.fireCb()
+          requestItemDefsImpl()
           return
         }
 
         foreach (itemdef in itemdef_json) {
-          hasItemDefChanges = hasItemDefChanges || shouldRefreshAll || ::u.isEmpty(itemdefs?[itemdef.itemdefid])
+          local itemdefid = itemdef.itemdefid
+          if (itemdefid in itemdefidsRequested)
+            delete itemdefidsRequested[itemdefid]
+          hasItemDefChanges = hasItemDefChanges || requestData.shouldRefreshAll || ::u.isEmpty(itemdefs?[itemdefid])
           addItemDef(itemdef)
         }
 
         processWaitingItems()
         notifyInventoryUpdate()
-        if (cb) {
-          cb()
-        }
+        requestData.fireCb()
+        requestItemDefsImpl()
       })
-
-    return false
   }
 
   function removeItem(itemid) {

@@ -461,10 +461,8 @@ class ::BaseItem
   getAltActionName   = @() ""
   doAltAction        = @(params = null) false
 
-  function hasTimer()
-  {
-    return expiredTimeSec > 0
-  }
+  isExpired          = @() expiredTimeSec != 0 && (expiredTimeSec - ::dagor.getCurTime() * 0.001) < 0
+  hasTimer           = @() expiredTimeSec != 0
 
   function canPreview()
   {
@@ -475,6 +473,8 @@ class ::BaseItem
   {
   }
 
+  onItemExpire = @() ::ItemsManager.markInventoryUpdateDelayed()
+
   function getTimeLeftText()
   {
     if (expiredTimeSec <= 0)
@@ -483,7 +483,8 @@ class ::BaseItem
     local deltaSeconds = (expiredTimeSec - curSeconds).tointeger()
     if (deltaSeconds < 0)
     {
-      ::ItemsManager.markInventoryUpdateDelayed()
+      if (isInventoryItem && amount > 0)
+        onItemExpire()
       return ::loc("items/expired")
     }
     return ::loc("icon/hourglass") + ::nbsp +

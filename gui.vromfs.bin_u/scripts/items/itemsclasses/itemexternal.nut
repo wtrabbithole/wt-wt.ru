@@ -79,6 +79,8 @@ local ItemExternal = class extends ::BaseItem
     return true
   }
 
+  onItemExpire = @() ::ItemsManager.refreshExtInventory()
+
   function getExpireTimestamp(itemDefDesc, itemDesc)
   {
     local tShop = time.getTimestampFromIso8601(itemDefDesc?.expireAt ?? "")
@@ -208,8 +210,8 @@ local ItemExternal = class extends ::BaseItem
   getTagsLoc          = @() rarity.tag && !isDisguised ? [ rarity.tag ] : []
 
   canConsume          = @() false
-  canAssemble         = @() getMyRecipes().len() > 0
-  canConvertToWarbonds= @() ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
+  canAssemble         = @() !isExpired() && getMyRecipes().len() > 0
+  canConvertToWarbonds= @() !isExpired() && ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
 
   function getMainActionName(colored = true, short = false)
   {
@@ -268,14 +270,21 @@ local ItemExternal = class extends ::BaseItem
     local blk = ::DataBlock()
     blk.setInt("itemId", uid.tointeger())
 
-    local item = this //to not remove item while in progress
+    local itemAmountByUid = amountByUids[uid] //to not remove item while in progress
     local taskCallback = function() {
-      item.amountByUids[uid]--
-      if (item.amountByUids[uid] <= 0)
+      local item = ::ItemsManager.findItemByUid(uid)
+      //items list refreshed, but ext inventory only requested.
+      //so update item amount to avoid repeated request before real update
+      if (item && item.amountByUids[uid] == itemAmountByUid)
       {
-        inventoryClient.removeItem(uid)
-        if (item.uids?[0] == uid)
-          item.uids.remove(0)
+        item.amountByUids[uid]--
+        item.amount--
+        if (item.amountByUids[uid] <= 0)
+        {
+          inventoryClient.removeItem(uid)
+          if (item.uids?[0] == uid)
+            item.uids.remove(0)
+        }
       }
       if (cb)
         cb({ success = true })
@@ -299,7 +308,7 @@ local ItemExternal = class extends ::BaseItem
     local recipe = getWarbondRecipe()
     if (amount <= 0 || !recipe)
       return ""
-    local warbondItem = ::ItemsManager.findItemByItemDefId(recipe.generatorId)
+    local warbondItem = ::ItemsManager.findItemById(recipe.generatorId)
     local warbond = warbondItem && warbondItem.getWarbond()
     if (!warbond)
       return ""
@@ -314,7 +323,7 @@ local ItemExternal = class extends ::BaseItem
     if (amount <= 0 || !recipe)
       return false
 
-    local warbondItem = ::ItemsManager.findItemByItemDefId(recipe.generatorId)
+    local warbondItem = ::ItemsManager.findItemById(recipe.generatorId)
     local warbond = warbondItem && warbondItem.getWarbond()
     if (!warbond)
       return false
@@ -400,7 +409,7 @@ local ItemExternal = class extends ::BaseItem
   {
     foreach (genItemdefId in inventoryClient.getChestGeneratorItemdefIds(id))
     {
-      local item = ::ItemsManager.findItemByItemDefId(genItemdefId)
+      local item = ::ItemsManager.findItemById(genItemdefId)
       if (item?.iType != itemType.WARBONDS)
         continue
       local gen = ItemGenerators.get(genItemdefId)

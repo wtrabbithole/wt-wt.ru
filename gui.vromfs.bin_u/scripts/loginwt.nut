@@ -201,6 +201,9 @@ function g_login::initConfigs(cb)
       ::check_bad_weapons()
     }
     function() {
+      ::ItemsManager.collectUserlogItemdefs()
+    }
+    function() {
       ::updateDiscountData(true)
     }
     function() {
