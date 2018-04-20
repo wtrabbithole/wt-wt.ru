@@ -29,20 +29,35 @@ frame {
     Button_close {}
   }
 
-  tdiv {
+  modificationsBlock {
     id:t='unit_blocks_place'
     overflow-y:t='auto'
     flow:t='vertical'
 
+    behavior:t='posNavigator'
+    navigatorShortcuts:t='yes'
+    moveY:t='linear'
+    on_wrap_up:t='onWrapUp'
+    on_wrap_down:t='onWrapDown'
+    on_wrap_left:t='onUnitAmountDec'
+    on_wrap_right:t='onUnitAmountInc'
+
     <<#unitString>>
-      <<#unitClassText>>
-        textareaNoTab {
-          text:t='#worldwar/airfield/<<unitClassText>>'
-        }
-      <</unitClassText>>
-      frameBlock {
+      weaponry_item {
         id:t='<<unitName>>_<<armyGroupIdx>>'
-        margin-top:t='1@framePadding'
+        css-hier-invalidate:t='yes'
+
+        <<#unitClassText>>
+          margin-top:t='1@wwFlyOutAirTypeTitleHeight'
+          textareaNoTab {
+            top:t='-0.5@wwFlyOutAirTypeTitleHeight - h/2'
+            position:t='absolute'
+            text:t='#worldwar/airfield/<<unitClassText>>'
+          }
+        <</unitClassText>>
+        <<^unitClassText>>
+          margin-top:t='1@framePadding'
+        <</unitClassText>>
 
         textareaNoTab {
           pos:t='1@flyOutSliderWidth + 2@sliderButtonSquareHeight + 1@buttonWidth - w, 2@framePadding'
@@ -58,6 +73,7 @@ frame {
           width:t='1@flyOutSliderWidth + 2@sliderButtonSquareHeight + 1@buttonWidth'
           unitName:t='<<unitName>>'
           armyGroupIdx:t='<<armyGroupIdx>>'
+          css-hier-invalidate:t='yes'
           <<#disable>>
             inactive:t='yes'
           <</disable>>
@@ -72,6 +88,7 @@ frame {
           id:t='secondary_weapon'
           width:t='1@modItemWidth'
           height:t='1@modItemHeight'
+          css-hier-invalidate:t="yes"
         }
       }
     <</unitString>>
@@ -98,4 +115,16 @@ frame {
   }
 
   navBar{}
+
+  dummy {
+    behavior:t='accesskey'
+    accessKey:t = 'J:Y'
+    on_click:t = 'onUnitAmountMax'
+  }
+
+  dummy {
+    behavior:t='accesskey'
+    accessKey:t = 'J:X'
+    on_click:t = 'onOpenPresetsList'
+  }
 }

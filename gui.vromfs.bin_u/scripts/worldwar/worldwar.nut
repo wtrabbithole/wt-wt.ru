@@ -669,6 +669,27 @@ function g_world_war::getSidesStrenghtInfo()
   return unitsStrenghtBySide
 }
 
+function g_world_war::getAllOperationUnitsBySide(side)
+{
+  local allOperationUnits = {}
+  local blk = ::DataBlock()
+  ::ww_get_sides_info(blk)
+
+  local sidesBlk = blk["sides"]
+  if (sidesBlk == null)
+    return allOperationUnits
+
+  local sideBlk = sidesBlk[side.tostring()]
+  if (sideBlk == null)
+    return allOperationUnits
+
+  foreach (unitName in sideBlk.unitsEverSeen % "item")
+    if (::getAircraftByName(unitName))
+      allOperationUnits[unitName] <- true
+
+  return allOperationUnits
+}
+
 function g_world_war::filterArmiesByManagementAccess(armiesArray)
 {
   return ::u.filter(armiesArray, function(army) { return army.hasManageAccess() })
@@ -1035,10 +1056,7 @@ function g_world_war::moveSelectedArmyToCell(cellIdx, params = {})
   local taskId = ::ww_send_operation_request("cln_ww_move_army_to", blk)
   ::g_tasker.addTask(taskId, null, @() null,
     function (errorCode) {
-      local errorText = blk.moveType == "EMT_BACK_TO_AIRFIELD"
-        ? ::loc("worldWar/error/cantChangeAirfield")
-        : ::loc("worldWar/error/cantSentAirArmy")
-      ::g_popups.add("", errorText, null, null, null, "send_air_army_error")
+      ::g_world_war.popupCharErrorMsg("move_army_error")
     })
 }
 
@@ -1173,9 +1191,7 @@ function g_world_war::startArtilleryFire(mapPos, army)
       ::ww_event("ArmyStatusChanged")
     },
     function (errorCode) {
-      ::g_popups.add(::loc("worldwar/artillery/cant_fire"),
-                     ::loc("worldwar/artillery/invalidTarget"),
-                     null, null, null, "cant_fire")
+      ::g_world_war.popupCharErrorMsg("cant_fire", ::loc("worldwar/artillery/cant_fire"))
     })
 }
 
@@ -1409,6 +1425,18 @@ function g_world_war::onEventWWOperationPreviewLoaded(params = {})
   isArmyGroupsValid = false
   isBattlesValid = false
   updateConfigurableValues()
+}
+
+function g_world_war::popupCharErrorMsg(groupName = null, titleText = "")
+{
+  local errorMsgId = get_char_error_msg()
+  if (!errorMsgId)
+    return
+
+  local popupText = ::loc("worldwar/charError/" + errorMsgId,
+    ::loc("worldwar/charError/defaultError", ""))
+  if (popupText.len() || titleText.len())
+    ::g_popups.add(titleText, popupText, null, null, null, groupName)
 }
 
 function ww_event(name, params = {})

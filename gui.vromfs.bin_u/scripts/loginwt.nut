@@ -85,7 +85,7 @@ function gui_start_logout()
 function go_to_account_web_page(bqKey = "")
 {
   local urlBase = ::format("/user.php?skin_lang=%s", ::g_language.getShortName())
-  ::open_url(get_authenticated_url(urlBase), false, false, bqKey)
+  ::open_url(::get_authenticated_url_table(urlBase).url, false, false, bqKey)
 }
 
 function g_login::debugState(shouldShowNotSetBits = false)
@@ -199,6 +199,9 @@ function g_login::initConfigs(cb)
       ::shown_userlog_notifications.clear()
       ::collectOldNotifications()
       ::check_bad_weapons()
+    }
+    function() {
+      ::ItemsManager.collectUserlogItemdefs()
     }
     function() {
       ::updateDiscountData(true)

@@ -30,6 +30,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   shrinkedConfigsArray = null
   trophyItem = null
   isBoxOpening = true
+  isDisassemble = false
 
   haveItems = false
   opened = false
@@ -44,16 +45,19 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    trophyItem = ::ItemsManager.findItemById(configsArray[0].id)
-    if (configsArray[0]?.itemDefId)
+    trophyItem = ::ItemsManager.findItemById(configsArray?[0]?.id)
+    if (configsArray?[0]?.itemDefId)
       trophyItem = ::ItemsManager.findItemById(configsArray[0]?.itemDefId)
 
     if (!trophyItem)
       return base.goBack()
 
-    isBoxOpening = trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST
+    isDisassemble = trophyItem.iType == itemType.RECIPES_BUNDLE && trophyItem.isDisassemble()
+    isBoxOpening = !isDisassemble && (trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST)
 
-    scene.findObject("reward_title").setValue(trophyItem.getOpeningCaption())
+    local title = (!isDisassemble && configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
+      : trophyItem.getOpeningCaption()
+    scene.findObject("reward_title").setValue(title)
 
     shrinkedConfigsArray = ::trophyReward.processUserlogData(configsArray)
     checkConfigsArray()
@@ -84,6 +88,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
         ::play_gui_sound("chest_open")
         local delay = ::to_integer_safe(animObj.chestReplaceDelay, 0)
         ::Timer(animObj, 0.001 * delay, openChest, this)
+        ::Timer(animObj, 1.0, onOpenAnimFinish, this) //!!FIX ME: Some times animation finish not apply css, and we miss onOpenAnimFinish
       }
     }
     else
@@ -93,11 +98,12 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   function openChest()
   {
     if (opened)
-      return
+      return false
     local obj = scene.findObject("rewards_list")
     ItemsRoulette.skipAnimation(obj)
     opened = true
     updateWnd()
+    return true
   }
 
   function updateWnd()
@@ -113,9 +119,18 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(imageObj))
       return
 
-    local layersData = isBoxOpening && (opened || useSingleAnimation) ? trophyItem.getOpenedBigIcon() : trophyItem.getBigIcon()
-    if (isBoxOpening && opened)
-      layersData += (opened && useSingleAnimation)? getRewardImage(trophyItem.iconStyle) : ""
+    local itemToShow = trophyItem
+    if (isDisassemble && configsArray[0]?.item)
+      itemToShow = ::ItemsManager.findItemById(configsArray[0].item)
+
+    local layersData = ""
+    if (isBoxOpening && (opened || useSingleAnimation))
+    {
+      layersData = itemToShow.getOpenedBigIcon()
+      if (opened && useSingleAnimation)
+        layersData += getRewardImage(itemToShow.iconStyle)
+    } else
+      layersData = itemToShow.getBigIcon()
 
     guiScene.replaceContentFromText(imageObj, layersData, layersData.len(), this)
   }
@@ -180,11 +195,9 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     local layersData = ""
     for (local i = 0; i < ::trophyReward.maxRewardsShow; i++)
     {
-      if (!(i in configsArray))
-        break
-
-      local config = configsArray[i]
-      layersData += ::trophyReward.getImageByConfig(config, false)
+      local config = shrinkedConfigsArray?[i]
+      if (config)
+        layersData += ::trophyReward.getImageByConfig(config, false)
     }
 
     if (layersData == "")
@@ -222,7 +235,6 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     ::show_facebook_screenshot_button(scene, opened)
-
     showSceneBtn("btn_rewards_list", opened && (configsArray.len() > 1 || haveItems))
     showSceneBtn("open_chest_animation", !animFinished) //hack tooltip bug
     showSceneBtn("btn_ok", animFinished)
@@ -274,6 +286,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenAnimFinish()
   {
     animFinished = true
-    updateButtons()
+    if (!openChest())
+      updateButtons()
   }
 }

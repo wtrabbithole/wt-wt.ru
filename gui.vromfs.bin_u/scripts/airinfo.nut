@@ -194,6 +194,8 @@ function get_full_unit_role_text(unit)
 
   if (::is_helicopter(unit))
     return ::get_role_text("helicopter")
+  if (::is_submarine(unit))
+    return ::get_role_text("submarine")
 
   local basicRoles = ::getTblValue(::get_es_unit_type(unit), ::basic_unit_roles, [])
   local textsList = []
@@ -449,6 +451,11 @@ function isTank(unit)
 function is_helicopter(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT && ::isInArray("helicopter", ::getTblValue("tags", unit, []))
+}
+
+function is_submarine(unit)
+{
+  return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
 }
 
 function get_es_unit_type(unit)
@@ -1742,6 +1749,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-mass-tr"]                  = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-horsePowers-tr"]           = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK ],
+    ["aircraft-maxDepth-tr"]              = [ ::ES_UNIT_TYPE_SHIP],
     ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
@@ -1858,6 +1866,12 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("aircraft-maxSpeed-tr").show(speedValue > 0)
     if(speedValue > 0)
       holderObj.findObject("aircraft-maxSpeed").setValue(::g_measure_type.SPEED.getMeasureUnitsText(speedValue))
+
+    // submarine-depth
+    local depthValue = unitTags?.Shop?.maxDepth ?? 0
+    holderObj.findObject("aircraft-maxDepth-tr").show(depthValue > 0)
+    if(depthValue > 0)
+      holderObj.findObject("aircraft-maxDepth").setValue(depthValue + ::loc("measureUnits/meters_alt"))
 
     // ship-citadelArmor
     local armorThicknessCitadel = ::getTblValueByPath("Shop.armorThicknessCitadel", unitTags, null)
@@ -2069,9 +2083,17 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local respawnsleft = missionRules.getUnitLeftRespawns(air)
       if (respawnsleft >= 0)
       {
-        local respText = missionRules.getRespawnInfoTextForUnitInfo(air)
-        local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
-        addInfoTextsList.append(::colorize(color, respText))
+        if (missionRules.isUnitAvailableBySpawnScore(air))
+        {
+          addInfoTextsList.append(::loc("icon/star/white") + ::colorize("activeTextColor",::loc("worldWar/unit/wwSpawnScore")))
+          addInfoTextsList.append(::loc("worldWar/unit/wwSpawnScore/desc"))
+        }
+        else
+        {
+          local respText = missionRules.getRespawnInfoTextForUnitInfo(air)
+          local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
+          addInfoTextsList.append(::colorize(color, respText))
+        }
       }
     }
   }
@@ -2408,7 +2430,7 @@ function getNotResearchedUnitByFeature(country = null, unitType = null)
 {
   foreach(unit in ::all_units)
     if (    (!country || ::getUnitCountry(unit) == country)
-         && (!unitType || ::get_es_unit_type(unit) == unitType)
+         && (unitType == null || ::get_es_unit_type(unit) == unitType)
          && ::isUnitFeatureLocked(unit)
        )
       return unit

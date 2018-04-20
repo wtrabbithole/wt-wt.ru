@@ -115,7 +115,16 @@ invisSlider {
       ButtonImg {}
     <</shortcut>>
     <<^shortcut>>
-      showConsoleImage:t='no'
+      <<#shortcutIcon>>
+        hasConsoleImage:t='yes'
+        ButtonImg {
+          showOnSelect:t='yes'
+          iconName:t='<<shortcutIcon>>'
+        }
+      <</shortcutIcon>>
+      <<^shortcutIcon>>
+        showConsoleImage:t='no'
+      <</shortcutIcon>>
     <</shortcut>>
   }
 <</btnOnMax>>

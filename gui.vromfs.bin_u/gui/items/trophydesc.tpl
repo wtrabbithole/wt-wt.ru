@@ -1,7 +1,10 @@
 <<#header>>
 _newline{ size:t='0' }
 textareaNoTab {
-  id:t='item_desc'
+  <<#timerId>>
+  id:t='<<timerId>>'
+  behavior:t='Timer'
+  <</timerId>>
 
   <<^widthByParentParent>>
   width:t='pw'

@@ -78,19 +78,17 @@ local globalEnv = require_native("globalEnv")
     "ID_BAY_DOOR",
     "ID_BOMBS",
     "ID_ROCKETS",
-//
-
-
-
-
-
-
-
-
-
-
-
-
+    "ID_WEAPON_LOCK",
+    "ID_FUEL_TANKS",
+    "ID_AIR_DROP",
+    "ID_SENSOR_SWITCH",
+    "ID_SENSOR_MODE_SWITCH",
+    "ID_SENSOR_SCAN_PATTERN_SWITCH",
+    "ID_SENSOR_RANGE_SWITCH",
+    "ID_SENSOR_TARGET_LOCK",
+    { id="sensor_designation_x", buttonRelative = true }
+    { id="sensor_designation_y", buttonRelative = true }
+    { id="sensor_designation_z", buttonRelative = true }
     "ID_RELOAD_GUNS",
     "ID_GEAR",
     { id="ID_AIR_BRAKE", filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }

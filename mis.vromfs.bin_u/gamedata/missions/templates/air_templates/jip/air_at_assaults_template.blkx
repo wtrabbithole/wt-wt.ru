@@ -739,7 +739,7 @@
           "comparasion_func": "equal"
         },
         "varCompareBool": {
-          "var_value": "flt_battles_is_active",
+          "var_value": "lbt_battles_is_active",
           "value": true,
           "comparasion_func": "equal"
         }
@@ -764,13 +764,13 @@
         },
         {
           "varSetString": {
-            "value": "flt_battles_t2_squad_",
+            "value": "lbt_battles_t2_squad_",
             "var": "at_assaults_t1_target_name"
           }
         },
         {
           "varAddString": {
-            "value": "@flt_battles_cur_idx",
+            "value": "@lbt_battles_cur_idx",
             "digits": 2,
             "var": "at_assaults_t1_target_name"
           }
@@ -831,7 +831,7 @@
           "comparasion_func": "equal"
         },
         "varCompareBool": {
-          "var_value": "flt_battles_is_active",
+          "var_value": "lbt_battles_is_active",
           "value": true,
           "comparasion_func": "equal"
         }
@@ -856,13 +856,13 @@
         },
         {
           "varSetString": {
-            "value": "flt_battles_t1_squad_",
+            "value": "lbt_battles_t1_squad_",
             "var": "at_assaults_t2_target_name"
           }
         },
         {
           "varAddString": {
-            "value": "@flt_battles_cur_idx",
+            "value": "@lbt_battles_cur_idx",
             "digits": 2,
             "var": "at_assaults_t2_target_name"
           }
@@ -1140,6 +1140,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_target_name"
         }
       },
@@ -1197,6 +1200,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_target_name"
         }
       },
@@ -1323,6 +1329,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_cover_name",
             "stealthRadius": 3500.0,
             "accuracy": 0.6,
@@ -1340,6 +1349,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name",
             "accuracy": 0.6,
             "effShootingRate": 0.6,
@@ -1454,6 +1466,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_cover_name",
             "stealthRadius": 3500.0,
             "accuracy": 0.6,
@@ -1471,6 +1486,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name",
             "accuracy": 0.6,
             "effShootingRate": 0.6,
@@ -1516,6 +1534,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_target_name"
         }
       },
@@ -1538,6 +1559,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name",
             "speed": 320.0,
             "altRange": [1200.0,1500.0]
@@ -1561,6 +1585,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_cover_name",
             "follow_offset": [0.0,500.0,0.0]
           }
@@ -1578,9 +1605,9 @@
             "fireRandom": true,
             "targetTypeName": "airplane",
             "targetDistMax": 4000.0,
+            "maxNumAttackersPerTarget": 1,
             "anchorTarget": "@at_assaults_t1_name",
             "targetToAnchorDist": [3000.0,4000.0],
-            "maxNumAttackersPerTarget": 1,
             "resetObjectToFollow": false
           }
         },
@@ -1603,6 +1630,9 @@
           "unitSetIndication": {
             "target_marking": 0,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t1_name",
             "team": "Both"
           }
@@ -1729,6 +1759,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_target_name"
         }
       },
@@ -1751,6 +1784,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name",
             "speed": 320.0,
             "altRange": [1200.0,1500.0]
@@ -1774,6 +1810,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_cover_name",
             "follow_offset": [0.0,500.0,0.0]
           }
@@ -1791,9 +1830,9 @@
             "fireRandom": true,
             "targetTypeName": "airplane",
             "targetDistMax": 4000.0,
+            "maxNumAttackersPerTarget": 1,
             "anchorTarget": "@at_assaults_t2_name",
             "targetToAnchorDist": [3000.0,4000.0],
-            "maxNumAttackersPerTarget": 1,
             "resetObjectToFollow": false
           }
         },
@@ -1816,6 +1855,9 @@
           "unitSetIndication": {
             "target_marking": 0,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t2_name",
             "team": "Both"
           }
@@ -1941,6 +1983,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name",
           "target": "@at_assaults_t1_target_name",
           "compareCenters": false
@@ -1980,6 +2025,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name",
             "altRange": [350.0,500.0]
           }
@@ -2044,6 +2092,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name",
           "target": "@at_assaults_t2_target_name",
           "compareCenters": false
@@ -2083,6 +2134,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name",
             "altRange": [350.0,500.0]
           }
@@ -2147,6 +2201,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name",
           "target": "at_assaults_t1_retreat_point",
           "compareCenters": false
@@ -2211,6 +2268,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name"
         }
       },
@@ -2415,6 +2475,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name",
           "target": "at_assaults_t2_retreat_point",
           "compareCenters": false
@@ -2479,6 +2542,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name"
         }
       },
@@ -2688,6 +2754,9 @@
           "icon": "bomber",
           "icon army": 1,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@at_assaults_t1_name"
         }
       },
@@ -2721,6 +2790,9 @@
           "icon": "bomber",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@at_assaults_t2_name"
         }
       },
@@ -2961,6 +3033,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name"
         }
       },
@@ -3171,6 +3246,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name"
         }
       },
@@ -3381,6 +3459,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_target_name"
         }
       },
@@ -3450,6 +3531,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_target_name"
         }
       },
@@ -3523,6 +3607,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name"
         }
       },
@@ -3545,6 +3632,9 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name",
             "altRange": [350.0,500.0]
           }
@@ -3593,6 +3683,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name"
         }
       },
@@ -3615,6 +3708,9 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name",
             "altRange": [350.0,500.0]
           }
@@ -3994,6 +4090,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t1_name",
             "team": "A"
           }
@@ -4002,6 +4101,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t1_name",
             "team": "B"
           }
@@ -4075,6 +4177,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t1_name",
             "team": "Both"
           }
@@ -4125,6 +4230,9 @@
           "enemy_type": "isTeamB",
           "distance": 5500.0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name",
           "use_variable": true,
           "distance_var": "at_t2_detection_range"
@@ -4150,6 +4258,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@at_assaults_t1_name"
         },
         "moAddMissionObjective": {
@@ -4183,6 +4294,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_name",
           "target": "t2_players_squad",
           "var": "at_t2_player_detection_bonus",
@@ -4218,6 +4332,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t1_name"
           }
         },
@@ -4301,6 +4418,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t2_name",
             "team": "B"
           }
@@ -4309,6 +4429,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t2_name",
             "team": "A"
           }
@@ -4382,6 +4505,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t2_name",
             "team": "Both"
           }
@@ -4432,6 +4558,9 @@
           "enemy_type": "isTeamB",
           "distance": 5500.0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name",
           "use_variable": true,
           "distance_var": "at_t1_detection_range"
@@ -4457,6 +4586,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@at_assaults_t2_name"
         },
         "moAddMissionObjective": {
@@ -4490,6 +4622,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_name",
           "target": "t1_players_squad",
           "var": "at_t1_player_detection_bonus",
@@ -4525,6 +4660,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@at_assaults_t2_name"
           }
         },
@@ -4575,6 +4713,9 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_cover_name"
         },
         "triggerEnable": {
@@ -4610,6 +4751,9 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_cover_name"
         },
         "triggerEnable": {
@@ -4641,6 +4785,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t1_cover_name",
           "target": "@at_assaults_t1_spawn_name",
           "compareCenters": false
@@ -4677,6 +4824,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@at_assaults_t2_cover_name",
           "target": "@at_assaults_t2_spawn_name",
           "compareCenters": false
@@ -4955,6 +5105,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name",
             "target": "t1_players_squad",
             "var": "at_activity_distance",
@@ -5000,6 +5153,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name",
             "target": "t1_players_squad",
             "var": "at_activity_distance",
@@ -5045,6 +5201,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name",
             "target": "t2_players_squad",
             "var": "at_activity_distance",
@@ -5090,6 +5249,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name",
             "target": "t2_players_squad",
             "var": "at_activity_distance",
@@ -5378,6 +5540,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t2_name"
           }
         },
@@ -5478,6 +5643,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@at_assaults_t1_name"
           }
         },

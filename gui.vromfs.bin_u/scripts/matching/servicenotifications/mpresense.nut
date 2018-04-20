@@ -67,7 +67,7 @@ function on_presences_update(params)
         {
           player.pilotIcon <- avatars.getIconById(p.presences.profile?.pilotId ?? -1)
           player.wins <- p.presences.profile?.wins ?? 0
-          player.rank <- ::get_rank_by_exp(p.presences.profile?.expTotal ?? 0)
+          player.expTotal <- p.presences.profile?.expTotal ?? -1
         }
 
         if ("in_game_ex" in p.presences)

@@ -30,14 +30,17 @@ enum help_tab_types
   IMAGE_TANK
   IMAGE_SHIP
   IMAGE_HELICOPTER
+  IMAGE_SUBMARINE
   CONTROLLER_AIR
   CONTROLLER_TANK
   CONTROLLER_SHIP
   CONTROLLER_HELICOPTER
+  CONTROLLER_SUBMARINE
   KEYBOARD_AIR
   KEYBOARD_TANK
   KEYBOARD_SHIP
   KEYBOARD_HELICOPTER
+  KEYBOARD_SUBMARINE
   HOTAS4_COMMON
 }
 
@@ -48,7 +51,8 @@ function gui_modal_help(isStartedFromMenu, contentSet)
     contentSet = contentSet
   })
 
-  if (::is_in_flight() && ::is_helicopter(::get_player_cur_unit()))
+  local unitId = ::get_player_cur_unit()
+  if (::is_in_flight() && (::is_helicopter(unitId) || ::is_submarine(unitId)))
     ::g_hud_event_manager.onHudEvent("hint:controlsHelp:remove", {})
 }
 
@@ -96,6 +100,10 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       title = "#hotkeys/ID_HELICOPTER_CONTROL_HEADER",
       list = [help_tab_types.IMAGE_HELICOPTER, help_tab_types.CONTROLLER_HELICOPTER, help_tab_types.KEYBOARD_HELICOPTER]
+    },
+    {
+      title = "#hotkeys/ID_SUBMARINE_CONTROL_HEADER",
+      list = [help_tab_types.IMAGE_SUBMARINE, help_tab_types.CONTROLLER_SUBMARINE, help_tab_types.KEYBOARD_SUBMARINE]
     },
     { // if title is not set - the title of the first list element will be taken
       list = [help_tab_types.MISSION_OBJECTIVES]
@@ -148,7 +156,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         ["ID_LOCK_TARGET_controls_help_0"] = "ID_LOCK_TARGET",
         ["ID_ZOOM_TOGGLE_controls_help_0"] = "ID_ZOOM_TOGGLE",
         ["ID_BOMBS_controls_help_0"] = "ID_BOMBS",
-        ["ID_CAMERA_NEUTRAL_controls_help_0"] = "ID_CAMERA_NEUTRAL",
+        ["ID_CAMERA_VIEW"] = "camx+camy",
         ["ID_SHOW_VOICE_MESSAGE_LIST_controls_help_0"] = "ID_SHOW_VOICE_MESSAGE_LIST"
       }
       defaultControlsIds = [ //for default constrols we can see frameId, but for not default custom shortcut
@@ -218,12 +226,15 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "real_speed_value", start = "base_hud_param_label"}
           {end = "throttle_target_point", start = "throttle_label"}
           {end = "turn_right_target_point", start = "turn_right_label"}
-          {end = "ammo_target_point_1", start = "controller_switching_ammo"}
-          {end = "ammo_target_point_2", start = "controller_switching_ammo"}
-          {end = "ammo_target_point_1", start = "keyboard_switching_ammo"}
-          {end = "ammo_target_point_2", start = "keyboard_switching_ammo"}
-          {end = "call_artillery_strike_target_point", start = "call_artillery_strike_label"}
-          {end = "fire_extinguisher_target_point", start = "fire_extinguisher_label"}
+          {end = "ammo_1_target_point", start = "controller_switching_ammo"}
+          {end = "ammo_2_target_point", start = "controller_switching_ammo"}
+          {end = "ammo_1_target_point", start = "keyboard_switching_ammo"}
+          {end = "ammo_2_target_point", start = "keyboard_switching_ammo"}
+          {end = "artillery_target_point", start = "call_artillery_strike_label"}
+          {end = "scout_target_point", start = "scout_label"}
+          {end = "smoke_grenade_target_point", start = "smoke_grenade_lable"}
+          {end = "smoke_screen_target_point", start = "smoke_screen_label"}
+          {end = "medicalkit_target_point", start = "medicalkit_label"}
           {end = "tank_cannon_direction_target_point", start = "tank_sight_label"}
           {end = "tank_cannon_realy_target_point", start = "tank_sight_label"}
           {end = "place_loader_target_point_1", start = "place_loader_label"}
@@ -253,17 +264,54 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         ["gm_steering_controls_help_0"] = "gm_steering=min",//d
         ["ID_FIRE_MGUNS_controls_help_0"] = "ID_FIRE_GM",
         ["ID_TOGGLE_VIEW_GM_controls_help_0"] = "ID_TOGGLE_VIEW_GM",
-        ["ID_REPAIR_TANK_controls_help_0"] = "ID_REPAIR_TANK",
-        ["ID_CAMERA_NEUTRAL_controls_help_0"] = "ID_CAMERA_NEUTRAL",
+        ["ID_CAMERA_VIEW"] = "gm_camx+gm_camy",
         ["ID_SHOW_VOICE_MESSAGE_LIST_controls_help_0"] = "ID_SHOW_VOICE_MESSAGE_LIST",
+        ["ID_AIM_CAMERA"] = "gm_mouse_aim_x+gm_mouse_aim_y",
         ID_ACTION_BAR_ITEM_1_controls_help_0 = "ID_ACTION_BAR_ITEM_1"
         ID_ACTION_BAR_ITEM_2_controls_help_0 = "ID_ACTION_BAR_ITEM_2"
         ID_ACTION_BAR_ITEM_3_controls_help_0 = "ID_ACTION_BAR_ITEM_3"
         ID_ACTION_BAR_ITEM_4_controls_help_0 = "ID_ACTION_BAR_ITEM_4"
         ID_ACTION_BAR_ITEM_5_controls_help_0 = "ID_ACTION_BAR_ITEM_5"
-        ID_ACTION_BAR_ITEM_6_controls_help_0 = "ID_ACTION_BAR_ITEM_6"
         ID_TARGETING_HOLD_GM_controls_help_0 = "ID_TARGETING_HOLD_GM"
+        ID_SCOUT                             = "ID_SCOUT"
+        ID_SMOKE_SCREEN                      = "ID_SMOKE_SCREEN"
+        ID_SMOKE_SCREEN_GENERATOR            = "ID_SMOKE_SCREEN_GENERATOR"
+        ID_ACTION_BAR_ITEM_12                = "ID_ACTION_BAR_ITEM_12"
       }
+      actionBarItems = [
+        {
+          type = ::EII_BULLET
+          active = true
+          id = "ammo_1"
+          selected = true
+          icon = "#ui/gameuiskin#apcbc_tank"
+        },
+        {
+          type = ::EII_BULLET
+          id = "ammo_2"
+          icon = "#ui/gameuiskin#he_frag_tank"
+        },
+        {
+          type = ::EII_SCOUT
+          id = "scout"
+        },
+        {
+          type = ::EII_ARTILLERY_TARGET
+          id = "artillery"
+        },
+        {
+          type = ::EII_SMOKE_GRENADE
+          id = "smoke_grenade"
+        },
+        {
+          type = ::EII_SMOKE_SCREEN
+          id = "smoke_screen"
+        },
+        {
+          type = ::EII_MEDICALKIT
+          id = "medicalkit"
+        }
+      ]
     },
 
     [help_tab_types.IMAGE_SHIP] = {
@@ -314,7 +362,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         ["ship_binoculars_controls_help"] = "ID_TOGGLE_VIEW_SHIP",
         ["ship_torpedo_controls_help"] = "ID_SHIP_WEAPON_TORPEDOES",
         ["ship_rocket_controls_help"] = "ID_SHIP_WEAPON_ROCKETS",
-        ["ship_bombs_controls_help"] = "ID_SHIP_WEAPON_DEPTH_CHARGE"
+        ["ship_bombs_controls_help"] = "ID_SHIP_WEAPON_DEPTH_CHARGE",
+        ["ID_AIM_CAMERA"] = "ship_mouse_aim_x+ship_mouse_aim_y"
       }
     },
 
@@ -369,6 +418,62 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         ["missile_guidance_hold_target"] = "ID_TARGETING_HOLD_HELICOPTER",
         ["missile_guidance_launch_missle"] = "ID_MISSLE_HELICOPTER",
         ["missile_guidance_hold_target_until_hit"] = "ID_TARGETING_HOLD_HELICOPTER",
+        ["ID_AIM_CAMERA"] = "helicopter_mouse_aim_x+helicopter_mouse_aim_y"
+      }
+    },
+
+    [help_tab_types.IMAGE_SUBMARINE] = {
+       defaultValues = {
+        country = "ussr"
+      }
+      title = "#hotkeys/ID_COMMON_CONTROL_HEADER"
+      showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+      isShow = @(handler, params) !!params?.showControlsSubmarine
+      pageUnitType = ::g_unit_type.SHIP
+      pageUnitTag = "submarine"
+      pageBlkName = "gui/help/controlsSubmarine.blk"
+      imagePattern = "#ui/images/country_%s_submarine_controls_help.jpg?P1"
+      hasImageByCountries = ["ussr"]
+      countryRelatedObjs = {
+        ussr = [
+        ]
+      }
+      linkLines = {
+        links = [
+          { start = "sonar_detected_hud_label", end = "sonar_detected_hud_point" }
+          { start = "sonar_detected_sonar_label", end = "sonar_detected_sonar_point" }
+          { start = "sonar_detected_sonar_label", end = "sonar_detected_map_point" }
+          { start = "sonar_detected_direction_label", end = "sonar_detected_direction_point" }
+          { start = "depth_current_label", end = "depth_current_point" }
+          { start = "depth_selected_label", end = "depth_selected_point" }
+          { start = "depth_change_label", end = "depth_change_point" }
+          { start = "torpedo_distance_label", end = "torpedo_distance_point" }
+          { start = "torpedo_control_mode_label", end = "torpedo_control_mode_point" }
+          { start = "torpedo_sonar_mode_label", end = "torpedo_sonar_mode_point" }
+          { start = "map_sonar_passive_label", end = "map_sonar_passive_point" }
+          { start = "map_sonar_active_label", end = "map_sonar_active_point" }
+          { start = "map_acoustic_contermeasures_label", end = "map_acoustic_contermeasures_point" }
+        ]
+      }
+      shortcuts = {
+        // moving
+        ["submarine_main_engine_rangeMax"] = "submarine_main_engine=max",
+        ["submarine_main_engine_rangeMin"] = "submarine_main_engine=min",
+        ["submarine_steering_rangeMin"] = "submarine_steering=min",
+        ["submarine_steering_rangeMax"] = "submarine_steering=max",
+        ["submarine_depth_rangeMax"] = "submarine_depth=max",
+        ["submarine_depth_rangeMin"] = "submarine_depth=min",
+        ["ID_SUBMARINE_FULL_STOP"] = "ID_SUBMARINE_FULL_STOP",
+        ["ID_AIM_CAMERA"] = "submarine_mouse_aim_x+submarine_mouse_aim_y",
+        // torpedoes
+        ["ID_SUBMARINE_WEAPON_TORPEDOES"] = "ID_SUBMARINE_WEAPON_TORPEDOES",
+        ["ID_TOGGLE_VIEW_SUBMARINE"] = "ID_TOGGLE_VIEW_SUBMARINE",
+        ["ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR"] = "ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR",
+        ["ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING"] = "ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING",
+        ["ID_AIM_CAMERA_torpedo"] = "submarine_mouse_aim_x+submarine_mouse_aim_y",
+        // detection
+        ["ID_SUBMARINE_SWITCH_ACTIVE_SONAR"] = "ID_SUBMARINE_SWITCH_ACTIVE_SONAR",
+        ["ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"] = "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"
       }
     },
 
@@ -418,6 +523,16 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageFillfuncName = "initGamepadPage"
     },
 
+    [help_tab_types.CONTROLLER_SUBMARINE] = {
+      title = controllerMarkup.title
+      showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+      isShow = @(handler, params) !!params?.showControlsSubmarine && !!params.hasController
+      pageUnitType = ::g_unit_type.SHIP
+      pageUnitTag = "submarine"
+      pageBlkName = controllerMarkup.blk
+      pageFillfuncName = "initGamepadPage"
+    },
+
     [help_tab_types.KEYBOARD_AIR] = {
       title = "#controlType/mouse"
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
@@ -462,6 +577,15 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageBlkName = "gui/help/controllerKeyboard.blk"
       pageFillfuncName = "fillAllTexts"
     },
+    [help_tab_types.KEYBOARD_SUBMARINE] = {
+      title = "#controlType/mouse"
+      showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+      isShow = @(handler, params) !!params?.showControlsSubmarine && !!params.hasKeyboard
+      pageUnitType = ::g_unit_type.SHIP
+      pageUnitTag = "submarine"
+      pageBlkName = "gui/help/controllerKeyboard.blk"
+      pageFillfuncName = "fillAllTexts"
+    },
 
     [help_tab_types.MISSION_OBJECTIVES] = {
       title = "#mission_objectives"
@@ -494,7 +618,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isContentLoading  = contentSet == HELP_CONTENT_SET.LOADING
 
     local hasFeatureTanks = ::has_feature("Tanks")
-    local hasFeatureShips = ::has_feature("Ships")
+    local hasFeatureShips = ::has_feature("Ships") || ::has_feature("SpecialShips")
 
     local currentUnit = ::get_player_cur_unit()
 
@@ -504,10 +628,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (pageUnitType == ::g_unit_type.SHIP && !hasFeatureShips)
       pageUnitType = ::g_unit_type.AIRCRAFT
 
-    pageUnitTag = currentUnit && ::is_helicopter(currentUnit) ? "helicopter" : null
+    pageUnitTag = currentUnit && ::is_helicopter(currentUnit) ? "helicopter"
+      : currentUnit && ::is_submarine(currentUnit) ? "submarine"
+      : null
 
-    local hasHelicopterControls = ::has_feature("Helicopters") ||
-      pageUnitTag == "helicopter"
+    local hasHelicopterControls = ::has_feature("Helicopters")  || pageUnitTag == "helicopter"
+    local hasSubmarineControls  = ::has_feature("SpecialShips") || pageUnitTag == "submarine"
 
     local basePresets = ::g_controls_manager.getCurPreset().getBasePresetNames()
     local isPresetCustomForPs4 = ::is_platform_ps4 &&
@@ -532,6 +658,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       showControlsShip = (isContentControls || pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null) && hasFeatureShips
       showControlsHelicopter = (isContentControls || pageUnitType == ::g_unit_type.AIRCRAFT &&
         pageUnitTag == "helicopter") && hasHelicopterControls
+      showControlsSubmarine = (isContentControls || pageUnitType == ::g_unit_type.SHIP &&
+        pageUnitTag == "submarine") && hasSubmarineControls
       hasController    = ::is_platform_ps4  || ::show_console_buttons
       hasKeyboard      = ::is_platform_pc || ::is_platform_ps4 && isPresetCustomForPs4
       misHelpBlkPath = misHelpBlkPath
@@ -568,6 +696,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.IMAGE_SHIP]
       if (!isAdvanced && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter")
         return tabsCfg[help_tab_types.IMAGE_HELICOPTER]
+      if (!isAdvanced && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
+        return tabsCfg[help_tab_types.IMAGE_SUBMARINE]
       if (params.hasController && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
         return tabsCfg[help_tab_types.CONTROLLER_AIR]
       if (params.hasController && pageUnitType == ::g_unit_type.TANK && pageUnitTag == null)
@@ -576,6 +706,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.CONTROLLER_SHIP]
       if (params.hasController && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter")
         return tabsCfg[help_tab_types.CONTROLLER_HELICOPTER]
+      if (params.hasController && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
+        return tabsCfg[help_tab_types.CONTROLLER_SUBMARINE]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
         return tabsCfg[help_tab_types.KEYBOARD_AIR]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.TANK && pageUnitTag == null)
@@ -584,6 +716,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.KEYBOARD_SHIP]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter")
         return tabsCfg[help_tab_types.KEYBOARD_HELICOPTER]
+      if (params.hasKeyboard && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
+        return tabsCfg[help_tab_types.KEYBOARD_SUBMARINE]
     }
 
     return null
@@ -728,7 +862,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       startObjContainer = linkContainer
       endObjContainer = linkContainer
       lineInterval = ::getTblValue("lineInterval", linkLines, defaultLinkLinesInterval)
-      links = linkLines.links
+      links = linkLines?.links ?? []
       obstacles = ::getTblValue("obstacles", linkLines, null)
     }
     local linesData = ::LinesGenerator.getLinkLinesMarkup(linkLinesConfig)
@@ -754,7 +888,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
                      : tab.defaultValues.country
 
     backImg["background-image"] = ::format(::getTblValue("imagePattern", tab, ""), curCountry)
-
+    fillActionBar(tab)
     foreach (objectId, shortcutId in tab.shortcuts)
     {
       local obj = scene.findObject(objectId)
@@ -764,7 +898,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local markUp = ::g_shortcut_type.getShortcutMarkup(shortcutId)
       guiScene.replaceContentFromText(obj, markUp, markUp.len(), this)
     }
-
     updatePlatformControls()
   }
 
@@ -823,6 +956,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       (pageUnitType == ::g_unit_type.TANK     && pageUnitTag == null) ? ::controlsHelp_shortcuts_ground :
       (pageUnitType == ::g_unit_type.SHIP     && pageUnitTag == null) ? ::controlsHelp_shortcuts_naval :
       (pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter") ? ::controlsHelp_shortcuts_helicopter :
+      (pageUnitType == ::g_unit_type.SHIP     && pageUnitTag == "submarine")  ? ::controlsHelp_shortcuts_submarine :
       []
     for(local i=0; i<shortcutsList.len(); i++)
     {
@@ -1202,16 +1336,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local kbdAmmoSwitchObj = scene.findObject("keyboard_switching_ammo")
     if (::checkObj(kbdAmmoSwitchObj))
       kbdAmmoSwitchObj.show(!isGamepadPreset)
-
-    local cursorControlImg = isGamepadPreset ?  gamepadIcons.getTexture("r_stick_4", controllerMarkup.iconsPreset)
-      : "#ui/gameuiskin#mouse_move_4_sides"
-    foreach (frameObjId in [ "CURSOR_controls_frame", "ID_CAMERA_NEUTRAL_controls_frame" ])
-    {
-      local frameObj = scene.findObject(frameObjId)
-      local obj = ::checkObj(frameObj) ? frameObj.findObject("cursor_control") : null
-      if (::checkObj(obj))
-        obj["background-image"] = cursorControlImg
-    }
   }
 
   function fillMissionObjectivesTexts()
@@ -1272,6 +1396,41 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (curHandler != null && curHandler instanceof ::gui_handlers.FlightMenu)
         curHandler.onResumeRaw()
     }
+  }
+
+  function fillActionBar(tab)
+  {
+    local actionBarItems = tab?.actionBarItems
+    if (!actionBarItems || actionBarItems.len() <= 0)
+      return
+
+    local nest = scene.findObject("action_bar_place")
+    local items = []
+    foreach (item in actionBarItems)
+      items.append(buildItemView(item))
+
+    local view = {
+      items = items
+    }
+    local blk = ::handyman.renderCached(("gui/help/helpActionBarItem"), view)
+    guiScene.replaceContentFromText(nest, blk, blk.len(), this)
+  }
+
+  function buildItemView(item)
+  {
+    local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
+    local viewItem = {}
+
+    viewItem.id                 <- item.id
+    viewItem.selected           <- item?.selected ? "yes" : "no"
+    viewItem.active             <- item?.active ? "yes" : "no"
+
+    if (item.type == ::EII_BULLET)
+      viewItem.icon <- item.icon
+    else
+      viewItem.icon <- actionBarType.getIcon()
+
+    return viewItem
   }
 }
 

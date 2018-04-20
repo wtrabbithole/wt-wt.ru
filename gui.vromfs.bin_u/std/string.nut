@@ -510,7 +510,7 @@ local function cutPrefix(id, prefix, defValue = null) {
     return defValue
 
   local pLen = prefix.len()
-  if ((id.len() > pLen) && (id.slice(0, pLen) == prefix))
+  if ((id.len() >= pLen) && (id.slice(0, pLen) == prefix))
     return id.slice(pLen)
   return defValue
 }

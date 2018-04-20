@@ -48,7 +48,6 @@
   "wreckedPartsCollision": true,
   "wreckedDecoratorsCollision": false,
   "multipointVisibilityAgainstTreesWithoutMarkers": true,
-  "multipointVisibilityMarkersAgainstTrees": false,
   "multipointVisibilityTreeTrunkOpacity": 1.0,
   "multipointVisibilityTreeCanopyOpacity": 0.5,
   "multipointVisibilityTreeTransparencyThreshold": 1.5,
@@ -1395,7 +1394,8 @@
       "noviceDM": false,
       "crewHealingOnlyOnCaptureZone": false,
       "showBombSight": true,
-      "visibleNotTraceableIndicators": true
+      "visibleNotTraceableIndicators": true,
+      "checkTreesForIndicators": false
     },
     "realistic": {
       "baseDifficulty": 1,
@@ -2526,6 +2526,14 @@
       },
       "on": {
         "hudColorMultNotTraceableIndicators": 1.0
+      }
+    },
+    "checkTreesForIndicators": {
+      "off": {
+        "checkTreesForIndicators": false
+      },
+      "on": {
+        "checkTreesForIndicators": true
       }
     }
   },
@@ -9432,5 +9440,16 @@
         "puddles": 0.0
       }
     }
-  ]
+  ],
+  "underwaterRainX7": {
+    "alphaFadeSpeedBegin": 50.0,
+    "alphaFadeSpeedEnd": 200.0,
+    "length": 0.1,
+    "speed": 0.0,
+    "width": 0.05,
+    "density": 0.3,
+    "wind": 2.0,
+    "alpha": 0.3,
+    "lighting": [0.5,1.0,0.5]
+  }
 }

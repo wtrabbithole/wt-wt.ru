@@ -595,6 +595,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -603,6 +606,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -643,6 +649,15 @@
               "target_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_boats_squad"
             },
             {
@@ -660,6 +675,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_boats_squad"
@@ -696,6 +720,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "boat_swim_point"
             },
             {
@@ -713,6 +746,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -737,6 +779,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_def_aaa_squad"
             },
             {
@@ -757,6 +808,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_tanks_squad"
@@ -788,6 +848,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "boat_swim_point"
@@ -822,6 +891,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_movable_units_squad",
           "target": "tanks_battle_area"
         }
@@ -857,6 +929,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_movable_units_squad",
           "target": "tanks_battle_area"
         }
@@ -896,6 +971,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -907,6 +985,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -936,6 +1017,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_boats_squad",
           "target": "t2_boats_squad"
         }
@@ -974,6 +1058,15 @@
           },
           {
             "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t1_boats_squad"
@@ -8369,7 +8462,7 @@
         [-829.863,0.0,11971.2],
         [0.0,12000.0,0.0],
         [-12000.0,0.0,34.2959],
-        [2844.99,3500.0,1110.9]
+        [2844.99,2200.0,1110.9]
       ],
       "objLayer": 3,
       "props": []
@@ -8397,20 +8490,20 @@
     "t1_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [299.43,0.0,-18.4946],
-        [0.0,300.0,0.0],
-        [18.4946,0.0,299.43],
-        [-3148.75,3500.0,1391.01]
+        [399.239,0.0,-24.6594],
+        [0.0,400.0,0.0],
+        [24.6594,0.0,399.239],
+        [-3148.75,2200.0,1391.01]
       ],
       "props": []
     },
     "t2_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [-299.43,0.0,18.4947],
-        [0.0,300.0,0.0],
-        [-18.4947,0.0,-299.43],
-        [8840.57,3500.0,829.99]
+        [-399.239,0.0,24.6595],
+        [0.0,400.0,0.0],
+        [-24.6595,0.0,-399.239],
+        [8840.57,2200.0,829.99]
       ],
       "props": []
     },
@@ -8547,7 +8640,7 @@
     },
     {
       "layer": {
-        "enabled": false
+        "enabled": true
       }
     }
   ],

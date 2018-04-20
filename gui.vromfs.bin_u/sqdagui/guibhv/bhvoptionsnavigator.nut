@@ -2,6 +2,7 @@ class gui_bhv.OptionsNavigator
 {
   eventMask = ::EV_JOYSTICK | ::EV_PROCESS_SHORTCUTS | ::EV_MOUSE_L_BTN | ::EV_MOUSE_EXT_BTN |
                 ::EV_MOUSE_DBL_CLICK | ::EV_ON_FOCUS_SET | ::EV_ON_FOCUS_LOST | ::EV_ON_CMD
+  skipFocusPID = ::dagui_propid.add_name_id("_skipFocus")
 
   function onAttach(obj)
   {
@@ -19,12 +20,16 @@ class gui_bhv.OptionsNavigator
 
   function onFocus(obj, event)
   {
+    if (obj.getIntProp(skipFocusPID, 0))
+      return ::RETCODE_HALT
+
     if (event == ::EV_ON_FOCUS_SET)
     {
       selectCurItem(obj)
       ::play_gui_sound("focus")
     } else if (event == ::EV_ON_FOCUS_LOST)
       viewDeselect(obj)
+
     return ::RETCODE_NOTHING
   }
 
@@ -209,7 +214,11 @@ class gui_bhv.OptionsNavigator
       {
         local td = tr.getChild(1)
         if (td.childrenCount())
+        {
+          obj.setIntProp(skipFocusPID, 1)
           td.getChild(0).select()
+          obj.setIntProp(skipFocusPID, 0)
+        }
       }
     }
 

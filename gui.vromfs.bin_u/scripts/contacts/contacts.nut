@@ -143,6 +143,35 @@ function g_contacts::removeContactGroup(group)
   ::u.removeFrom(::contacts_groups, group)
 }
 
+function g_contacts::xboxUpdateContactsList(friendsResult = null)
+{
+  if (!friendsResult)
+    return
+
+  local existedXBoxContacts = ::get_contacts_array_by_regexp(::EPL_FRIENDLIST, platformModule.xboxNameRegexp)
+  for (local i = existedXBoxContacts.len() - 1; i >= 0; i--)
+  {
+    if (existedXBoxContacts[i].uid in friendsResult)
+    {
+      local contact = existedXBoxContacts.remove(i)
+      friendsResult.removeBlock(contact.uid)
+    }
+  }
+
+  local xboxFriendsList = []
+  foreach(uid, data in friendsResult)
+    xboxFriendsList.append(::getContact(uid, data.nick))
+
+  local requestTable = {}
+  requestTable[true] <- xboxFriendsList
+  requestTable[false] <- existedXBoxContacts
+
+  ::edit_players_list_in_contacts(requestTable, ::EPL_FRIENDLIST)
+
+  //To remove from blacklist players, that was added in game. But added to friendslist in XBOX overlay
+  ::edit_players_list_in_contacts({[false] = xboxFriendsList}, ::EPL_BLOCKLIST)
+}
+
 
 ::missed_contacts_data <- {}
 
@@ -311,7 +340,7 @@ function find_contact_by_name_and_do(playerName, func) //return taskId if delaye
       foreach(uid, nick in searchRes)
         if (nick == playerName)
         {
-          func.call(::getContact(uid, playerName))
+          func(::getContact(uid, playerName))
           return
         }
     }
@@ -351,7 +380,7 @@ function editContactMsgBox(player, groupName, add) //playerConfig: { uid, name }
   }
 
   local contact = ::getContact(player.uid, player.name)
-  if (contact.canOpenXBoxFriendsWindow())
+  if (contact.canOpenXBoxFriendsWindow(groupName))
   {
     contact.openXBoxFriendsEdit()
     return
@@ -495,15 +524,16 @@ function getContact(uid, nick = null, clanTag = "", forceUpdate = false)
       return null
   }
 
-  if(forceUpdate)
+  local contact = ::contacts_players[uid]
+  if (forceUpdate || contact.name == "")
   {
     if(::u.isString(nick))
-      ::contacts_players[uid].name = nick
+      contact.name = nick
     if(::u.isString(clanTag))
-      ::contacts_players[uid].setClanTag(clanTag)
+      contact.setClanTag(clanTag)
   }
 
-  return ::contacts_players[uid]
+  return contact
 }
 
 function clearContactPresence(uid)
@@ -596,17 +626,8 @@ function getFriendsOnlineNum()
         continue
 
       foreach(f in ::contacts[groupName])
-      {
-        local contactOnline = !::isInArray(
-          f.presence,
-          [
-            ::g_contact_presence.OFFLINE,
-            ::g_contact_presence.UNKNOWN
-          ]
-        )
-        if (contactOnline)
+        if (f.online)
           online++
-      }
     }
   }
   return online

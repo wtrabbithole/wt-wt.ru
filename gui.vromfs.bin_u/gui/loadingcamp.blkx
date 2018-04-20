@@ -31,7 +31,7 @@
             "size": "1@briefingBackgroundWidth,sh"
           },
           {
-            "pos": "0,50%sh-50%h"
+            "pos": "50%sw-50%@briefingScreenWidth,50%sh-50%h"
           },
           {
             "position": "absolute"
@@ -53,7 +53,7 @@
           {
             "img": {
               "size": "1@briefingMapWidth,65%sh",
-              "pos": "12%sw, 50%ph-50%h",
+              "pos": "1@briefingMapLeftPos, 50%ph-50%h",
               "position": "absolute",
               "background-image": "ui/map_back",
               "tacticalMap": {
@@ -96,9 +96,9 @@
               "behavior": "textarea",
               "style": "font:@fontNormal;color:@white;",
               "_transp-timer": "0",
-              "width": "75%sw-62%sh",
+              "max-width": "1@briefingScreenWidth - 1@briefingMissionTextLeftPos - 13%sh",
               "max-height": "ph-57%sh",
-              "pos": "18%sw+61%sh, 37%sh",
+              "pos": "1@briefingMissionTextLeftPos, 37%sh",
               "position": "absolute",
               "overflow-y": "auto",
               "scrollbarShortcuts": "yes"
@@ -922,6 +922,24 @@
           {
             "gamercard": {
               "id": "gamercard_bottom",
+              "systemMsg": {
+                "pos": "1@systemMsgIndent, 0",
+                "position": "root",
+                "flow": "vertical",
+                "dlDataStat": {
+                  "behavior": "bhvUpdater",
+                  "pos": "50%pw-50%w,0",
+                  "position": "relative",
+                  "value": "{\"viewId\": \"DL_DATA_STATE_TEXT\"}",
+                  "css-hier-invalidate": "yes",
+                  "animText": {
+                    "text": "",
+                    "font": "@fontTiny",
+                    "color-factor": "0",
+                    "fade": "out"
+                  }
+                }
+              },
               "BottomMenuPanel": [
                 {
                   "shadowSafeArea": []

@@ -169,6 +169,11 @@ itemDiv > Button_text {
   enable:no;
 }
 
+itemDiv[showButtonAlways=yes] > Button_text {
+  display:show;
+  enable:yes;
+}
+
 [show_console_buttons=yes] :focus > itemDiv[selected=yes] > Button_text,
 itemDiv:hover > Button_text, itemDiv > Button_text:hover {
   display:show;
@@ -354,7 +359,7 @@ rewards_fade {
 }
 
 [animation=show] > roulette roulette_scroll{
-  behaviour:basicPos;
+  behaviour:bhvRoulette;
 }
 
 everyDayRewardProgress {
@@ -446,4 +451,19 @@ warbondShopLevel[status=current] {
 
 warbondShopLevel[status=current] > textareaNoTab {
   color:@userlogColoredText;
+}
+
+itemAmountText {
+  pos:pw-w-1@itemPadding, 1@itemPadding;
+  position:absolute;
+
+  behaviour:textArea;
+  re-type:textarea;
+  font:@fontSmall;
+  color:@activeTextColor;
+  shadeStyle:textOnIcon;
+}
+
+[smallItems=yes] itemAmountText {
+  pos:pw-w, 0;
 }

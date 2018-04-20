@@ -96,6 +96,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
           btnOnDec = "onButtonDec"
           btnOnInc = "onButtonInc"
           btnOnMax = "onButtonMax"
+          shortcutIcon = "Y"
           onChangeSliderValue = "onChangeSliderValue"
           needOldSlider = true
           needNewSlider = true
@@ -180,6 +181,12 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     //--- After all units filled ---
     fillFlyOutDescription()
     fillArmyLimitDescription()
+    initFocusArray()
+  }
+
+  function getMainFocusObj()
+  {
+    return scene.findObject("unit_blocks_place")
   }
 
   function onTabSelect(obj)
@@ -572,6 +579,34 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     onButtonChangeValue(obj, 1)
   }
 
+  function getSelectedItemObj()
+  {
+    local itemsContainerObj = scene.findObject("unit_blocks_place")
+    if (!::check_obj(itemsContainerObj))
+      return null
+
+    local itemObjIdx = itemsContainerObj.getValue()
+    return itemsContainerObj.getChild(itemObjIdx)
+  }
+
+  function onUnitAmountDec(obj)
+  {
+    local itemObj = getSelectedItemObj()
+    if (!::check_obj(itemObj))
+      return
+
+    onButtonDec(itemObj.findObject("btn_dec"))
+  }
+
+  function onUnitAmountInc(obj)
+  {
+    local itemObj = getSelectedItemObj()
+    if (!::check_obj(itemObj))
+      return
+
+    onButtonInc(itemObj.findObject("btn_inc"))
+  }
+
   function onButtonChangeValue(obj, diff)
   {
     local unitIndex = getUnitIndex(obj)
@@ -590,6 +625,15 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
     local value = unitsList[unitIndex].maxValue
     updateUnitValue(unitIndex, value)
+  }
+
+  function onUnitAmountMax(obj)
+  {
+    local itemObj = getSelectedItemObj()
+    if (!::check_obj(itemObj))
+      return
+
+    onButtonMax(itemObj.findObject("btn_max"))
   }
 
   function fillUnitWeaponPreset(unitTable)
@@ -614,6 +658,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       modItemObj = ::weaponVisual.createItem(
         unit.name, weapon, weapon.type, containerObj, this, {
           useGenericTooltip = true
+          shortcutIcon = "X"
         })
 
     ::weaponVisual.updateItem(
@@ -621,9 +666,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         canShowStatusImage = false
         canShowResearch = false
         canShowPrice = false
-        isForceHideAmount = true
-        isForceUnlocked = true
-        isForceEquipped = true
+        isForceHidePlayerInfo = true
         useGenericTooltip = true
         hasMenu = hasPresetToChoose(unit)
       })
@@ -653,11 +696,18 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         canShowStatusImage = false
         canShowResearch = false
         canShowPrice = false
-        isForceHideAmount = true
-        isForceUnlocked = true
-        isForceEquipped = true
+        isForceHidePlayerInfo = true
         useGenericTooltip = true
       }, obj, "right")
+  }
+
+  function onOpenPresetsList(obj)
+  {
+    local itemObj = getSelectedItemObj()
+    if (!::check_obj(itemObj))
+      return
+
+    onModItemClick(itemObj.findObject("centralBlock"))
   }
 
   function changeUnitWeapon(unitName, weaponName)

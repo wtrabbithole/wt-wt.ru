@@ -274,7 +274,7 @@ class ::items_classes.Trophy extends ::BaseItem
 
   function getMainActionName(colored = true, short = false)
   {
-    if (needOpenTrophyGroupOnBuy())
+    if (!isInventoryItem && needOpenTrophyGroupOnBuy())
       return ::loc("mainmenu/btnExpand")
 
     return base.getMainActionName(colored, short)
@@ -282,7 +282,7 @@ class ::items_classes.Trophy extends ::BaseItem
 
   function doMainAction(cb, handler, params = null)
   {
-    if (needOpenTrophyGroupOnBuy())
+    if (!isInventoryItem && needOpenTrophyGroupOnBuy())
       return ::gui_start_open_trophy_group_shop_wnd(this)
     return base.doMainAction(cb, handler, params)
   }

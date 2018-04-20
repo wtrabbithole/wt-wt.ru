@@ -51,8 +51,8 @@ local getActions = function(_contact, params)
   local clanTag = contact?.clanTag ?? params?.clanTag
 
   local isMe = uid == ::my_user_id_str
-  local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(name)
-  local canInvitePlayer = !::is_platform_xboxone || isXBoxOnePlayer
+  local isXBoxOnePlayer = platformModule.isXBoxPlayerName(name)
+  local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
 
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
 
@@ -108,7 +108,7 @@ local getActions = function(_contact, params)
   actions.extend([
     {
       text = ::loc("contacts/message")
-      show = !isMe && ::ps4_is_chat_enabled() && !u.isEmpty(name)
+      show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
       action = function() {
         if (isMPChat)
         {
@@ -261,9 +261,9 @@ local getActions = function(_contact, params)
       {
         text = ::loc("contacts/friendlist/add")
         show = !isMe && !isFriend && !isBlock
-        isVisualDisabled = !canInvitePlayer
+        isVisualDisabled = ::is_platform_xboxone && !isXBoxOnePlayer
         action = function() {
-          if (!canInvitePlayer)
+          if (::is_platform_xboxone && !isXBoxOnePlayer)
             showNotAvailableActionPopup()
           else
             ::editContactMsgBox(contact, ::EPL_FRIENDLIST, true)
@@ -356,12 +356,6 @@ local getActions = function(_contact, params)
       actions.append({
         text = ::loc("mainmenu/btnComplain")
         action = function() {
-          if (isMPChat)
-          {
-            ::gui_modal_complain(contact, chatLog)
-            return
-          }
-
           local config = {
             userId = uid,
             name = name,
@@ -370,18 +364,21 @@ local getActions = function(_contact, params)
             roomName = roomData ? roomData.getRoomName() : ""
           }
 
-          local threadInfo = ::g_chat.getThreadInfo(roomId)
-          if (threadInfo)
+          if (!isMPChat)
           {
-            chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
-              threadInfo.category,
-              threadInfo.title,
-              threadInfo.ownerUid,
-              threadInfo.ownerNick,
-              chatLog
-            )
-            if (!roomData)
-              config.roomName = ::g_chat_room_type.THREAD.getRoomName(roomId)
+            local threadInfo = ::g_chat.getThreadInfo(roomId)
+            if (threadInfo)
+            {
+              chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
+                threadInfo.category,
+                threadInfo.title,
+                threadInfo.ownerUid,
+                threadInfo.ownerNick,
+                chatLog
+              )
+              if (!roomData)
+                config.roomName = ::g_chat_room_type.THREAD.getRoomName(roomId)
+            }
           }
 
           ::gui_modal_complain(config, chatLog)

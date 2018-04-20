@@ -17,9 +17,6 @@ local ItemGenerator = class {
 
   _contentUnpacked = null
 
-  _exchangeRecipes = null
-  _exchangeRecipesUpdateTime = 0
-
   constructor(itemDefDesc)
   {
     id = itemDefDesc.itemdefid
@@ -31,7 +28,9 @@ local ItemGenerator = class {
     timestamp = itemDefDesc?.Timestamp ?? ""
   }
 
-  function getRecipesWithComponent(componentItemdefId)
+  _exchangeRecipes = null
+  _exchangeRecipesUpdateTime = 0
+  function getRecipes()
   {
     if (!_exchangeRecipes || _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime)
     {
@@ -40,8 +39,12 @@ local ItemGenerator = class {
       _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes(parsedRecipe, generatorId))
       _exchangeRecipesUpdateTime = ::dagor.getCurTime()
     }
+    return _exchangeRecipes
+  }
 
-    return ::u.filter(_exchangeRecipes, @(ec) ec.hasComponent(componentItemdefId))
+  function getRecipesWithComponent(componentItemdefId)
+  {
+    return ::u.filter(getRecipes(), @(ec) ec.hasComponent(componentItemdefId))
   }
 
   function _unpackContent()
@@ -59,11 +62,13 @@ local ItemGenerator = class {
         {
           local b = ::DataBlock()
           b.item =  item.id
+          if (cfg.quantity > 1)
+            b.count = cfg.quantity
           _contentUnpacked.append(b)
         }
         else if (generator)
         {
-          local content = generator.getContent()
+          local content = generator.getContent(cfg.quantity)
           hasHiddenItems = hasHiddenItems || generator.hasHiddenItems
           hiddenTopPrizeParams = hiddenTopPrizeParams || generator.hiddenTopPrizeParams
           _contentUnpacked.extend(content)
@@ -75,10 +80,12 @@ local ItemGenerator = class {
     hiddenTopPrizeParams = isBundleHidden ? tags : hiddenTopPrizeParams
   }
 
-  function getContent()
+  function getContent(quantityMul = 1)
   {
     if (!_contentUnpacked)
       _unpackContent()
+    if (quantityMul > 1)
+      return ::u.map(_contentUnpacked, @(v) ::PrizesView.miltiplyPrizeCount(v, quantityMul))
     return _contentUnpacked
   }
 
@@ -95,6 +102,7 @@ local ItemGenerator = class {
 }
 
 local get = function(itemdefId) {
+  ::ItemsManager.findItemById(itemdefId) // calls pending generators list update
   return collection?[itemdefId]
 }
 

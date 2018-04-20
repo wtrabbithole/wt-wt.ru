@@ -1,5 +1,6 @@
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+local contentPreset = require("scripts/customization/contentPreset.nut")
 
 local getSystemOptions = @() {
   name = "graphicsParameters"
@@ -143,8 +144,7 @@ local getMainOptions = function()
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox",
-        (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")) && ::ugc_tags_presets.len()],
+      [::USEROPT_CONTENT_ALLOWED_PRESET, "combobox", contentPreset.getContentPresets().len()],
     ]
   }
 }

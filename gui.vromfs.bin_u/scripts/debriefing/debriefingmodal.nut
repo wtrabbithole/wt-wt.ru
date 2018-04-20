@@ -1,4 +1,6 @@
 local time = require("scripts/time.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
@@ -147,6 +149,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   battleTasksConfigs = {}
   shouldBattleTasksListUpdate = false
 
+  inventoryGiftItemId = null
+
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
   function initScreen()
@@ -192,7 +196,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     handleActiveWager()
     handlePveReward()
-    handleInventoryGift()
 
     //update title
     local resTitle = ""
@@ -591,12 +594,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function handleInventoryGift()
   {
-    local itemId = ::debriefing_result?.inventoryGiftItemId
-    if (!itemId)
+    local inventoryGiftLogs = ::getUserLogsList({
+      show = [ ::EULT_INVENTORY_ADD_ITEM ]
+      currentRoomOnly = true
+      disableVisible = true
+    })
+
+    inventoryGiftItemId = inventoryGiftLogs?[0]?.itemDefId
+    if (!inventoryGiftItemId)
       return
 
     local obj = scene.findObject("inventory_gift_icon")
-    local markup = ::trophyReward.getImageByConfig({ item = itemId }, false)
+    local markup = ::trophyReward.getImageByConfig({ item = inventoryGiftItemId }, false)
     guiScene.replaceContentFromText(obj, markup, markup.len(), this)
   }
 
@@ -835,6 +844,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.showMyStats)
     {
+      handleInventoryGift()
       if (!is_show_my_stats())
         return switchState()
 
@@ -938,6 +948,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       fillResearchingMods()
       fillResearchingUnits()
       updateShortBattleTask()
+      updateInventoryButton()
 
       initFocusArray()
       checkDestroySession()
@@ -2345,7 +2356,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   }
   function is_show_inventory_gift()
   {
-    return ::debriefing_result?.inventoryGiftItemId != null
+    return inventoryGiftItemId != null
   }
   function is_show_ww_casualties()
   {
@@ -2566,7 +2577,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       } else
         ::go_debriefing_next_func = ::gui_start_dynamic_summary_f
     } else if (gm == ::GM_SINGLE_MISSION)
-      ::go_debriefing_next_func = ::gui_start_menuSingleMissions
+    {
+      local mission = ::mission_settings?.mission ?? ::get_current_mission_info_cached()
+      ::go_debriefing_next_func = ::is_user_mission(mission)
+        ? ::gui_start_menuUserMissions
+        : ::gui_start_menuSingleMissions
+    }
     else if (gm == ::GM_BUILDER)
       ::go_debriefing_next_func = ::gui_start_menu_builder
     else
@@ -2946,6 +2962,37 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         boostersArray.append(item)
     }
     return ::ItemsManager.getBoostersEffects(boostersArray)
+  }
+
+  function getInvetoryGiftActionData()
+  {
+    if (!inventoryGiftItemId)
+      return null
+
+    local wSet = workshop.getSetByItemId(inventoryGiftItemId)
+    if (wSet)
+      return {
+        btnText = ::loc("items/workshop")
+        action = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
+          : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+      }
+
+    return null
+  }
+
+  function updateInventoryButton()
+  {
+    local actionData = getInvetoryGiftActionData()
+    local actionBtn = showSceneBtn("btn_inventory_gift_action", actionData != null)
+    if (actionData && actionBtn)
+      ::set_double_text_to_button(scene, "btn_inventory_gift_action", actionData.btnText)
+  }
+
+  function onInventoryGiftAction()
+  {
+    local actionData = getInvetoryGiftActionData()
+    if (actionData)
+      actionData.action()
   }
 
   function getMainFocusObj()

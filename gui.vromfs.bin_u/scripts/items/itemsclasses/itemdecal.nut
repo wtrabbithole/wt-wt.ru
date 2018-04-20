@@ -3,7 +3,7 @@ local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
 class ::items_classes.Decal extends ItemExternal {
   static iType = itemType.DECAL
   static defaultLocId = "coupon"
-  static isUseTypePrefixInName = true
+  static combinedNameLocId = "coupon/name"
   static typeIcon = "#ui/gameuiskin#item_type_decal"
   static descHeaderLocId = "coupon/for/decal"
 

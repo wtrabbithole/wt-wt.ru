@@ -7,7 +7,7 @@ local time = require("scripts/time.nut")
 ::unmapped_controls_warning_time_show <- 30.0
 ::unmapped_controls_warning_time_wink <- 3.0
 
-::need_offer_helicopter_controls_help <- true
+::need_offer_controls_help <- true
 
 ::air_hud_actions <- {
   flaps = {
@@ -513,6 +513,8 @@ class HudAir extends ::gui_handlers.BaseUnitHud
 
   function initScreen()
   {
+    ::g_hud_display_timers.init(scene, ::ES_UNIT_TYPE_AIRCRAFT)
+
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
 
@@ -529,6 +531,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
 
   function reinitScreen(params = {})
   {
+    ::g_hud_display_timers.reinit()
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
   }
@@ -714,9 +717,9 @@ class HudHelicopter extends ::gui_handlers.BaseUnitHud
     ::hudEnemyDamage.reinit()
     ::g_hud_crew_state.reinit()
 
-    if (::need_offer_helicopter_controls_help)
+    if (::need_offer_controls_help)
     {
-      ::need_offer_helicopter_controls_help = false
+      ::need_offer_controls_help = false
       ::g_hud_event_manager.onHudEvent("hint:controlsHelp:offer", {})
     }
   }
@@ -818,6 +821,13 @@ class HudShip extends ::gui_handlers.BaseUnitHud
     ::g_hud_display_timers.reinit()
     ::g_hud_ship_debuffs.reinit()
     ::g_hud_crew_state.reinit()
+
+    if (::need_offer_controls_help)
+    {
+      ::need_offer_controls_help = false
+      if (::is_submarine(::get_player_cur_unit()))
+        ::g_hud_event_manager.onHudEvent("hint:controlsHelp:offer", {})
+    }
   }
 }
 

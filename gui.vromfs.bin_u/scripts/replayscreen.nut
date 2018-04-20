@@ -374,7 +374,8 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       foreach (name in replayResultsTable.tablesArray)
       {
         local rows = replayResultsTable.playersRows[name]
-        tables += ::format("table{id:t='%s_table'; width:t='pw'; %s}", name, rows + ::getTblValue(name, replayResultsTable.addTableParams, ""))
+        tables += ::format("table{id:t='%s_table'; width:t='pw'; baseRow:t='yes' %s}",
+          name, rows + ::getTblValue(name, replayResultsTable.addTableParams, ""))
       }
     }
     local tablesObj = scene.findObject("session_results")

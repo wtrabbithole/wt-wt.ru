@@ -110,7 +110,7 @@
       {
         "controlsHelpFrame": [
           {
-            "pos": "80/1760pw, 260/900ph"
+            "pos": "80/1760pw, 205/900ph"
           },
           {
             "position": "absolute"
@@ -171,7 +171,7 @@
             "id": "backward_label"
           },
           {
-            "pos": "565/1760pw, 210/900ph-h"
+            "pos": "565/1760pw, 235/900ph-h"
           },
           {
             "position": "absolute"
@@ -201,113 +201,24 @@
         ]
       },
       {
-        "controlsHelpFrame": {
-          "id": "ID_REPAIR_TANK_controls_frame",
-          "pos": "73/1760pw, 420/900ph-h",
+        "tdiv": {
+          "id": "action_bar_place",
+          "pos": "350/1760pw, 410/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "ID_REPAIR_TANK_controls_help_0",
-            "margin-right": "0.01@sf"
-          },
-          "textareaNoTab": {
-            "max-width": "190/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
-            "text": "#controls/help/tank_repair"
-          }
+          "height": "30/900ph"
         }
       },
       {
         "tdiv": {
-          "id": "action_bar_texts_frame",
-          "pos": "530/1760pw, 433/900ph-h",
+          "id": "action_bar_texts_frame_1",
+          "pos": "20/1760pw, 405/900ph-h",
           "position": "absolute",
           "tdiv": [
             {
               "flow": "vertical"
             },
             {
-              "width": "200*@sf/@pf_outdated"
-            },
-            {
-              "controlsHelpFrame": {
-                "id": "controller_switching_ammo",
-                "width": "pw",
-                "tooltip": "#controls/help/tank_switching_ammo",
-                "buttonsLine": {
-                  "controlsHelpJoystickBtn": {
-                    "background-image": "@control_dirpad"
-                  }
-                },
-                "textareaNoTab": {
-                  "text-valign": "center",
-                  "padding-left": "5*@sf/@pf_outdated",
-                  "controlsHelp": "yes",
-                  "width": "fw",
-                  "text": "#controls/help/tank_switching_ammo"
-                }
-              }
-            },
-            {
-              "controlsHelpFrame": [
-                {
-                  "id": "keyboard_switching_ammo"
-                },
-                {
-                  "width": "pw"
-                },
-                {
-                  "tooltip": "#controls/help/tank_switching_ammo"
-                },
-                {
-                  "tdiv": [
-                    {
-                      "flow": "vertical"
-                    },
-                    {
-                      "tdiv": {
-                        "id": "ID_ACTION_BAR_ITEM_1_controls_help_0",
-                        "margin-right": "0.01@sf"
-                      }
-                    },
-                    {
-                      "tdiv": {
-                        "id": "ID_ACTION_BAR_ITEM_3_controls_help_0",
-                        "margin-right": "0.01@sf"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "tdiv": [
-                    {
-                      "flow": "vertical"
-                    },
-                    {
-                      "tdiv": {
-                        "id": "ID_ACTION_BAR_ITEM_2_controls_help_0",
-                        "margin-right": "0.01@sf"
-                      }
-                    },
-                    {
-                      "tdiv": {
-                        "id": "ID_ACTION_BAR_ITEM_4_controls_help_0",
-                        "margin-right": "0.01@sf"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "textareaNoTab": {
-                    "width": "fw",
-                    "pos": "0, 50%ph-50%h",
-                    "position": "relative",
-                    "controlsHelp": "yes",
-                    "text": "#controls/help/tank_switching_ammo"
-                  }
-                }
-              ]
+              "width": "340*@sf/@pf"
             },
             {
               "controlsHelpFrame": {
@@ -329,18 +240,77 @@
             },
             {
               "controlsHelpFrame": {
-                "id": "fire_extinguisher_label",
+                "id": "scout_label",
                 "width": "pw",
-                "tooltip": "#controls/help/tank_fire_extinguisher",
+                "tooltip": "#hotkeys/ID_SCOUT",
                 "tdiv": {
-                  "id": "ID_ACTION_BAR_ITEM_6_controls_help_0",
+                  "id": "ID_SCOUT",
                   "margin-right": "0.01@sf"
                 },
                 "textareaNoTab": {
                   "text-valign": "center",
                   "controlsHelp": "yes",
                   "width": "fw",
-                  "text": "#controls/help/tank_fire_extinguisher"
+                  "text": "#hotkeys/ID_SCOUT"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "controller_switching_ammo",
+                "width": "pw",
+                "tooltip": "#controls/help/tank_switching_ammo",
+                "buttonsLine": {
+                  "controlsHelpJoystickBtn": {
+                    "background-image": "@control_dirpad"
+                  }
+                },
+                "textareaNoTab": {
+                  "text-valign": "center",
+                  "padding-left": "5*@sf/@pf_outdated",
+                  "controlsHelp": "yes",
+                  "width": "fw",
+                  "text": "#controls/help/tank_switching_ammo"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "keyboard_switching_ammo",
+                "width": "pw",
+                "tooltip": "#controls/help/tank_switching_ammo",
+                "tdiv": [
+                  {
+                    "tdiv": {
+                      "id": "ID_ACTION_BAR_ITEM_1_controls_help_0",
+                      "margin-right": "0.01@sf"
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "ID_ACTION_BAR_ITEM_2_controls_help_0",
+                      "margin-right": "0.01@sf"
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "ID_ACTION_BAR_ITEM_3_controls_help_0",
+                      "margin-right": "0.01@sf"
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "ID_ACTION_BAR_ITEM_4_controls_help_0",
+                      "margin-right": "0.01@sf"
+                    }
+                  }
+                ],
+                "textareaNoTab": {
+                  "width": "fw",
+                  "pos": "0, 50%ph-50%h",
+                  "position": "relative",
+                  "controlsHelp": "yes",
+                  "text": "#controls/help/tank_switching_ammo"
                 }
               }
             }
@@ -349,34 +319,70 @@
       },
       {
         "tdiv": {
-          "id": "ammo_target_point_1",
-          "pos": "395/1760pw, 410/900ph",
+          "id": "action_bar_texts_frame_2",
+          "pos": "850/1760pw-w, 405/900ph-h",
           "position": "absolute",
-          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
-        }
-      },
-      {
-        "tdiv": {
-          "id": "ammo_target_point_2",
-          "pos": "425/1760pw, 410/900ph",
-          "position": "absolute",
-          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
-        }
-      },
-      {
-        "tdiv": {
-          "id": "call_artillery_strike_target_point",
-          "pos": "455/1760pw, 410/900ph",
-          "position": "absolute",
-          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
-        }
-      },
-      {
-        "tdiv": {
-          "id": "fire_extinguisher_target_point",
-          "pos": "498/1760pw, 425/900ph",
-          "position": "absolute",
-          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
+          "tdiv": [
+            {
+              "flow": "vertical"
+            },
+            {
+              "width": "270*@sf/@pf"
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "smoke_grenade_lable",
+                "width": "pw",
+                "tooltip": "#hotkeys/ID_SMOKE_SCREEN",
+                "margin": "0, 1",
+                "tdiv": {
+                  "id": "ID_SMOKE_SCREEN",
+                  "margin-right": "0.01@sf"
+                },
+                "textareaNoTab": {
+                  "width": "fw",
+                  "controlsHelp": "yes",
+                  "text-valign": "center",
+                  "text": "#hotkeys/ID_SMOKE_SCREEN"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "smoke_screen_label",
+                "width": "pw",
+                "tooltip": "#hotkeys/ID_SMOKE_SCREEN_GENERATOR",
+                "tdiv": {
+                  "id": "ID_SMOKE_SCREEN_GENERATOR",
+                  "margin-right": "0.01@sf"
+                },
+                "textareaNoTab": {
+                  "text-valign": "center",
+                  "controlsHelp": "yes",
+                  "width": "fw",
+                  "text": "#hotkeys/ID_SMOKE_SCREEN_GENERATOR"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "medicalkit_label",
+                "width": "pw",
+                "tooltip": "#hotkeys/ID_ACTION_BAR_ITEM_12",
+                "tdiv": {
+                  "id": "ID_ACTION_BAR_ITEM_12",
+                  "margin-right": "0.01@sf"
+                },
+                "textareaNoTab": {
+                  "text-valign": "center",
+                  "padding-left": "5*@sf/@pf_outdated",
+                  "controlsHelp": "yes",
+                  "width": "fw",
+                  "text": "#hotkeys/ID_ACTION_BAR_ITEM_12"
+                }
+              }
+            }
+          ]
         }
       },
       {
@@ -407,15 +413,12 @@
       },
       {
         "controlsHelpFrame": {
-          "id": "CURSOR_controls_frame",
           "pos": "570/1760pw, 490/900ph",
           "position": "absolute",
-          "img": {
-            "id": "cursor_control",
-            "size": "1@kbh, 1@kbh",
-            "pos": "0, 0.5*ph-0.5*h",
+          "tdiv": {
             "position": "relative",
-            "background-image": "#ui/gameuiskin#mouse_move_4_sides"
+            "id": "ID_AIM_CAMERA",
+            "margin-right": "0.01@sf"
           },
           "textareaNoTab": {
             "max-width": "250/1760p.p.w - 1@kbh",
@@ -429,26 +432,12 @@
       },
       {
         "controlsHelpFrame": {
-          "id": "ID_CAMERA_NEUTRAL_controls_frame",
           "pos": "400/1760pw, 870/900ph-h",
           "position": "absolute",
           "tdiv": {
             "position": "relative",
-            "id": "ID_CAMERA_NEUTRAL_controls_help_0",
+            "id": "ID_CAMERA_VIEW",
             "margin-right": "0.01@sf"
-          },
-          "text": {
-            "pos": "0, 0.5*ph-0.5*h",
-            "position": "relative",
-            "text": "+",
-            "text-align": "center"
-          },
-          "img": {
-            "id": "cursor_control",
-            "size": "1@kbh, 1@kbh",
-            "pos": "0, 0.5*ph-0.5*h",
-            "position": "relative",
-            "background-image": "#ui/gameuiskin#mouse_move_4_sides"
           },
           "textareaNoTab": {
             "max-width": "228/1760p.p.w",

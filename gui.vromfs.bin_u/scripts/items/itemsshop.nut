@@ -1,4 +1,5 @@
 local sheets = ::require("scripts/items/itemsShopSheets.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 function gui_start_itemsShop(params = null)
 {
@@ -27,6 +28,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName = "gui/items/itemsShop.blk"
 
   curTab = 0 //first itemsTab
+  visibleTabs = null //[]
   curSheet = null
 
   isSheetsInited = false
@@ -53,14 +55,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
+    sheets.updateWorkshopSheets()
     initUnseenTables()
     if (curSheet)
       curSheet = sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
     else
       curSheet = sheets.ALL
-
-    if (curTab < 0 || curTab >= itemsTab.TOTAL)
-      curTab = 0
 
     fillTabs()
 
@@ -78,6 +78,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     getTabsListObj().enable(checkEnableShop)
     getSheetsListObj().show(isInMenu)
     getSheetsListObj().enable(isInMenu)
+
+    updateWarbondsBalance()
   }
 
   function initUnseenTables()
@@ -122,33 +124,64 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     {
       case itemsTab.SHOP:          return "items/shop"
       case itemsTab.INVENTORY:     return "items/inventory"
+      case itemsTab.WORKSHOP:      return "items/workshop"
     }
     return ""
   }
 
+  isTabVisible = @(tabIdx) tabIdx != itemsTab.WORKSHOP || workshop.isAvailable()
+
+  function getTabNumUnseenItems(tabIdx)
+  {
+    if (tabIdx == itemsTab.WORKSHOP)
+    {
+      local res = 0
+      foreach(wSet in workshop.getSetsList())
+        res += wSet.getNumUnseenItems()
+      return res
+    }
+    return ::ItemsManager.getNumUnseenItems(tabIdx == itemsTab.INVENTORY)
+  }
+
   function fillTabs()
   {
+    visibleTabs = []
+    for (local i = 0; i < itemsTab.TOTAL; i++)
+      if (isTabVisible(i))
+        visibleTabs.append(i)
+
     local view = {
       tabs = []
     }
-    for (local i = 0; i < itemsTab.TOTAL; ++i)
-      view.tabs.push({
+    local selIdx = -1
+    foreach(idx, tabIdx in visibleTabs)
+    {
+      view.tabs.append({
+        tabName = ::loc(getTabName(tabIdx))
         newIconWidget = NewIconWidget.createLayout()
-        tabName = ::loc(getTabName(i))
-        navImagesText = ::get_navigation_images_text(i, itemsTab.TOTAL)
+        navImagesText = ::get_navigation_images_text(idx, visibleTabs.len())
       })
+      if (tabIdx == curTab)
+        selIdx = idx
+    }
+    if (selIdx < 0)
+    {
+      selIdx = 0
+      curTab = visibleTabs[selIdx]
+    }
 
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     local tabsObj = getTabsListObj()
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
-    for (local i = 0; i < itemsTab.TOTAL; ++i)
+
+    foreach(idx, tabIdx in visibleTabs)
     {
-      local tabObj = tabsObj.getChild(i)
+      local tabObj = tabsObj.getChild(idx)
       local newIconWidgetObj = tabObj.findObject("tab_new_icon_widget")
       if (::checkObj(newIconWidgetObj))
-        widgetByTab[i] <- NewIconWidget(guiScene, newIconWidgetObj)
+        widgetByTab[tabIdx] <- NewIconWidget(guiScene, newIconWidgetObj)
     }
-    tabsObj.setValue(curTab)
+    tabsObj.setValue(selIdx)
   }
 
   function onTabChange()
@@ -156,8 +189,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     markCurrentPageSeen()
 
     local value = getTabsListObj().getValue()
-    if (value >= 0 && value < itemsTab.TOTAL)
-      curTab = value
+    curTab = visibleTabs?[value] ?? curTab
 
     itemsListValid = false
     updateSheets()
@@ -226,12 +258,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateTabNewIconWidgets()
   {
-    for (local i = 0; i < itemsTab.TOTAL; ++i)
+    foreach(tabIdx in visibleTabs)
     {
-      local widget = ::getTblValue(i, widgetByTab, null)
-      if (widget == null)
-        continue
-      widget.setValue(::ItemsManager.getNumUnseenItems(i == itemsTab.INVENTORY))
+      local widget = widgetByTab?[tabIdx]
+      if (widget)
+        widget.setValue(getTabNumUnseenItems(tabIdx))
     }
   }
 
@@ -305,8 +336,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
     if (resetPage)
       curPage = 0
-    else if (curPage * itemsPerPage > itemsList.len())
-      curPage = ::max(0, ((itemsList.len() - 1) / itemsPerPage).tointeger())
+    else
+    {
+      local lastIdx = getLastSelItemIdx()
+      if (lastIdx >= 0)
+        curPage = (lastIdx / itemsPerPage).tointeger()
+      else if (curPage * itemsPerPage > itemsList.len())
+        curPage = ::max(0, ((itemsList.len() - 1) / itemsPerPage).tointeger())
+    }
 
     fillPage()
   }
@@ -432,16 +469,40 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!total)
       return -1
 
-    for(local i = 0; i < total; i++)
-      if (isLastItemSame(itemsList[offset + i]))
-        return i
-    return ::max(0, ::min(total - 1, prevValue))
+    local res = ::clamp(prevValue, 0, total - 1)
+    if (_lastItem)
+      for(local i = 0; i < total; i++)
+      {
+        local item = itemsList[offset + i]
+        if (_lastItem.id != item.id)
+          continue
+        res = i
+        if (isLastItemSame(item))
+          break
+      }
+    return res
+  }
+
+  function getLastSelItemIdx()
+  {
+    local res = -1
+    if (!_lastItem)
+      return res
+
+    foreach(idx, item in itemsList)
+      if (_lastItem.id == item.id)
+      {
+        res = idx
+        if (isLastItemSame(item))
+          break
+      }
+    return res
   }
 
   function onEventInventoryUpdate(p)
   {
     updateTabNewIconWidgets()
-    if (curTab == itemsTab.INVENTORY)
+    if (curTab != itemsTab.SHOP)
     {
       itemsListValid = false
       applyFilters(false)
@@ -460,7 +521,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurItem()
   {
-    local value = getItemsListObj().getValue() + curPage * itemsPerPage
+    local obj = getItemsListObj()
+    if (!::check_obj(obj))
+      return
+
+    local value = obj.getValue() + curPage * itemsPerPage
     _lastItem = ::getTblValue(value, itemsList)
     return _lastItem
   }
@@ -498,11 +563,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       widget.setWidgetVisible(false)
     if (result)
     {
+      ::ItemsManager.saveSeenItemsData(item.isInventoryItem)
       updateSheetsNewIconWidgets()
       updateTabNewIconWidgets()
       ::ItemsManager.updateGamercardIcons(item.isInventoryItem)
     }
-    ::ItemsManager.saveSeenItemsData(item.isInventoryItem)
   }
 
   function markCurrentPageSeen()
@@ -522,11 +587,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     }
     if (result)
     {
+      ::ItemsManager.saveSeenItemsData(curTab == itemsTab.INVENTORY)
       updateSheetsNewIconWidgets()
       updateTabNewIconWidgets()
       ::ItemsManager.updateGamercardIcons(curTab == itemsTab.INVENTORY)
     }
-    ::ItemsManager.saveSeenItemsData(curTab == itemsTab.INVENTORY)
   }
 
   function updateButtons()
@@ -543,6 +608,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), mainActionName)
     }
     showSceneBtn("btn_preview", item ? item.canPreview() : false)
+
+    local altActionText = item ? item.getAltActionName() : ""
+    local actionBtn = showSceneBtn("btn_alt_action", altActionText != "")
+    ::set_double_text_to_button(scene, "btn_alt_action", altActionText)
 
     local warningText = ""
     if (!limitsCheckResult && item && !item.isInventoryItem)
@@ -572,6 +641,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemPreview(obj)
   {
+    if (!isValid())
+      return
+
     local item = getCurItem()
     if (item)
       item.doPreview()
@@ -612,6 +684,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     return result.success
   }
 
+  function onAltAction(obj)
+  {
+    local item = getCurItem()
+    if (item)
+      item.doAltAction({ obj = obj, align = "top" })
+  }
+
   function onDescAction(obj)
   {
     local data = ::check_obj(obj) && obj.actionData && ::parse_json(obj.actionData)
@@ -634,7 +713,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (!itemsList[i].hasTimer())
         continue
-      local listObj = ::checkObj(scene) && getItemsListObj()
+      local listObj = getItemsListObj()
       local itemObj = ::checkObj(listObj) && listObj.getChild(i - curPage * itemsPerPage)
       local timeTxtObj = ::checkObj(itemObj) && itemObj.findObject("expire_time")
       if (::checkObj(timeTxtObj))
@@ -735,5 +814,25 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local warningTextObj = scene.findObject("warning_text")
     if (::checkObj(warningTextObj))
       warningTextObj.setValue(::colorize("redMenuButtonColor", text))
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    showSceneBtn("black_screen", ::handlersManager.findHandlerClassInScene(::gui_handlers.trophyRewardWnd) != null)
+  }
+
+  function updateWarbondsBalance()
+  {
+    if (!::has_feature("Warbonds"))
+      return
+
+    local warbondsObj = scene.findObject("balance_text")
+    warbondsObj.setValue(::g_warbonds.getBalanceText())
+    warbondsObj.tooltip = ::loc("warbonds/maxAmount", {warbonds = ::g_warbonds.getLimit()})
+  }
+
+  function onEventProfileUpdated(p)
+  {
+    updateWarbondsBalance()
   }
 }

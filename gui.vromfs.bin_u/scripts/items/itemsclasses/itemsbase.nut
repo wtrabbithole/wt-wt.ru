@@ -16,6 +16,7 @@
   getDescription()
   getShortDescription()        - assume that it will be name and short decription info
                                better up to 30 letters approximatly
+  getPrizeDescription(count)   - special prize description. when return null, will be used getShortDescription
   getLongDescription()         - unlimited length description as text.
   getLongDescriptionMarkup(params)   - unlimited length description as markup.
   getDescriptionTitle()
@@ -78,6 +79,7 @@ class ::BaseItem
   // Empty string means no purchase feature.
   purchaseFeature = ""
   isDevItem = false
+  isDisguised = false //used to override name, icon and some description for item.
 
   locId = null
   showBoosterInSeparateList = false
@@ -92,6 +94,8 @@ class ::BaseItem
   limitPersonalAtTime = 0
 
   isToStringForDebug = true
+
+  shouldAutoConsume = false //if true, should to have "consume" function
 
   constructor(blk, invBlk = null, slotData = null)
   {
@@ -126,6 +130,15 @@ class ::BaseItem
       limitPersonalTotal = blk.limitPersonalTotal || 0
       limitPersonalAtTime = blk.limitPersonalAtTime || 0
     }
+  }
+
+  function makeEmptyInventoryItem()
+  {
+    local res = clone this
+    res.isInventoryItem = true
+    res.uids = []
+    res.amount = 0
+    return res
   }
 
   function getLimitData()
@@ -224,7 +237,7 @@ class ::BaseItem
     return ::handyman.renderCached("gui/items/itemString", {
       title = showTitle? colorize("activeTextColor",getName()) : null
       icon = typeIcon
-      tooltipId = ::g_tooltip.getIdItem(id)
+      tooltipId = ::g_tooltip.getIdItem(id, { isDisguised = isDisguised })
       count = count > 1? (colorize("activeTextColor", " x") + colorize("userlogColoredText", count)) : null
     })
   }
@@ -283,8 +296,11 @@ class ::BaseItem
   function getLongDescription() { return getDescription() }
 
   function getShortDescription(colored = true) { return getName(colored) }
+  getPrizeDescription = @(count) null
 
   function isActive(...) { return false }
+
+  shouldShowAmount = @(count) count > 1 || count == 0
 
   function getViewData(params = {})
   {
@@ -294,13 +310,12 @@ class ::BaseItem
     local res = {
       layered_image = openedPicture? (bigPicture? getOpenedBigIcon() : getOpenedIcon()) : bigPicture? getBigIcon() : getIcon(addItemName)
       enableBackground = ::getTblValue("enableBackground", params, true)
-      isItemLocked = ::getTblValue("isItemLocked", params, false)
     }
 
     if (::getTblValue("showTooltip", params, true))
       res.tooltipId <- isInventoryItem && uids && uids.len()
                        ? ::g_tooltip.getIdInventoryItem(uids[0])
-                       : ::g_tooltip.getIdItem(id)
+                       : ::g_tooltip.getIdItem(id, { isDisguised = isDisguised })
 
     if (::getTblValue("showPrice", params, true))
       res.price <- getCost().getTextAccordingToBalance()
@@ -309,15 +324,18 @@ class ::BaseItem
     {
       local actionText = getMainActionName(true, true)
       if (actionText != "" && getLimitsCheckData().result)
+      {
         res.modActionName <- actionText
+        res.needShowActionButtonAlways <- needShowActionButtonAlways()
+      }
     }
 
     foreach(paramName, value in params)
       res[paramName] <- value
 
-    local amountVal = ::getTblValue("count", params) || getAmount()
-    if (amountVal > 1)
-      res.amount <- amountVal
+    local amountVal = params?.count || getAmount()
+    if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
+      res.amount <- amountVal.tostring()
 
     if (::getTblValue("showSellAmount", params, false))
     {
@@ -341,6 +359,9 @@ class ::BaseItem
 
     if (::getTblValue("contentIcon", params, true))
       res.contentIconData <- getContentIconData()
+
+    if (!res?.isItemLocked)
+      res.isItemLocked <- isInventoryItem && !amount
 
     return res
   }
@@ -437,10 +458,11 @@ class ::BaseItem
     return buy(cb, handler, params)
   }
 
-  function hasTimer()
-  {
-    return expiredTimeSec > 0
-  }
+  getAltActionName   = @() ""
+  doAltAction        = @(params = null) false
+
+  isExpired          = @() expiredTimeSec != 0 && (expiredTimeSec - ::dagor.getCurTime() * 0.001) < 0
+  hasTimer           = @() expiredTimeSec != 0
 
   function canPreview()
   {
@@ -451,6 +473,8 @@ class ::BaseItem
   {
   }
 
+  onItemExpire = @() ::ItemsManager.markInventoryUpdateDelayed()
+
   function getTimeLeftText()
   {
     if (expiredTimeSec <= 0)
@@ -459,10 +483,12 @@ class ::BaseItem
     local deltaSeconds = (expiredTimeSec - curSeconds).tointeger()
     if (deltaSeconds < 0)
     {
-      ::ItemsManager.markInventoryUpdateDelayed()
+      if (isInventoryItem && amount > 0)
+        onItemExpire()
       return ::loc("items/expired")
     }
-    return ::loc("icon/hourglass") + " " + time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true)
+    return ::loc("icon/hourglass") + ::nbsp +
+      ::stringReplace(time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true), " ", ::nbsp)
   }
 
   function getExpireAfterActivationText(withTitle = true)
@@ -599,7 +625,25 @@ class ::BaseItem
     return false
   }
 
-  static function isRare() { return false }
-  static function getRarity() { return 0 }
-  static function getRarityColor() { return "" }
+  function setDisguise(shouldDisguise)
+  {
+    isDisguised = shouldDisguise
+    allowBigPicture = false
+  }
+
+  getCreationCaption          = @() ::loc("mainmenu/itemCreated/title")
+  getOpeningAnimId            = @() "DEFAULT"
+
+  isRare                      = @() false
+  getRarity                   = @() 0
+  getRarityColor              = @() ""
+  getRelatedRecipes           = @() [] //recipes with this item in materials
+  getMyRecipes                = @() [] //recipes with this item in result
+  needShowActionButtonAlways  = @() false
+
+  getMaxRecipesToShow         = @() 0 //if 0, all recipes will be shown.
+  getRecipeListHeader         = @(showAmount, totalAmount, isMultipleExtraItems) ""
+  getCantAssembleLocId        = @() ""
+  static getEmptyAssembleMessageData = @() { text = "", needRecipeMarkup = false }
+  getAssembleMessageData      = @(recipe) getEmptyAssembleMessageData()
 }

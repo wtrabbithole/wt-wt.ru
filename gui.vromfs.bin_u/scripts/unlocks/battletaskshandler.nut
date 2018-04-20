@@ -687,16 +687,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     warbondsAwardsNewIconWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
   }
 
-  function onEventWarbondAwardBought(p)
+  function onEventProfileUpdated(p)
   {
     updateWarbondsBalance()
-  }
-
-  function onEventBattleTasksRewardReceived(p)
-  {
-    guiScene.setUpdatesEnabled(false, false)
-    updateWarbondsBalance()
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function onEventPlaybackDownloaded(p)

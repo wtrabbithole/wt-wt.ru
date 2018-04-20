@@ -192,7 +192,8 @@ function build_mp_table(table, markupData, hdr, max_rows)
 
         local nameWidth = markup?[hdr[j]]?.width ?? "0.5pw-0.035sh"
         local nameAlign = isRowInvert ? "text-align:t='right' " : ""
-        tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s'; pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s"
+        tdData += format ("width:t='%s'; %s { id:t='name-text'; %s text:t = '%s';" +
+          "pare-text:t='yes'; width:t='pw'; halign:t='center'; top:t='(ph-h)/2';} %s",
           nameWidth, "textareaNoTab", nameAlign, nameText, textPadding
         )
 

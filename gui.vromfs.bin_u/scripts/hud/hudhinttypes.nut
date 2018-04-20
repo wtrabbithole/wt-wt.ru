@@ -55,4 +55,9 @@ enums.addTypesByGlobalName("g_hud_hint_types", {
     nestId = "actionbar_hints"
     hintStyle = "hudMinor"
   }
+
+  HUDMESSAGE = {
+    nestId = "hud_messages_hints"
+    hintStyle = "hudHintCommon"
+  }
 })

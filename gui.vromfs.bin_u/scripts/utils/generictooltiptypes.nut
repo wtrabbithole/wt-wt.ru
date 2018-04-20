@@ -1,4 +1,6 @@
 local enums = ::require("std/enums.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
+
 ::g_tooltip_type <- {
   types = []
 }
@@ -117,6 +119,10 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
 
       desc += (desc.len() ? "\n\n" : "") + decorator.getTypeDesc()
+      local paramsDesc = decorator.getLocParamsDesc()
+      if (paramsDesc != "")
+        desc += (desc.len() ? "\n" : "") + paramsDesc
+
       local restricionsDesc = decorator.getRestrictionsDesc()
       if (restricionsDesc.len())
         desc += (desc.len() ? "\n" : "") + restricionsDesc
@@ -228,10 +234,19 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       if (!item)
         return false
 
+      if (params?.isDisguised || workshop.shouldDisguiseItem(item))
+      {
+        item = item.makeEmptyInventoryItem()
+        item.setDisguise(true)
+      }
+
       local preferMarkup = item.isPreferMarkupDescInTooltip
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)
       ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup, params)
       return true
+    }
+    onEventItemsShopUpdate = function(eventParams, obj, handler, id, params) {
+      fillTooltip(obj, handler, id, params)
     }
   }
 
@@ -250,6 +265,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)
       ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup)
       return true
+    }
+    onEventItemsShopUpdate = function(eventParams, obj, handler, id, params) {
+      fillTooltip(obj, handler, id, params)
     }
   }
 
@@ -372,9 +390,11 @@ enums.addTypesByGlobalName("g_tooltip_type", {
   }
 
   WEAPON = { //by unitName, weaponName
-    getTooltipId = function(unitName, weaponName = "", p2 = null, p3 = null)
+    getTooltipId = function(unitName, weaponName = "", params = null, p3 = null)
     {
-      return _buildId(unitName, { weaponName = weaponName })
+      local p = params ? clone params : {}
+      p.weaponName <- weaponName
+      return _buildId(unitName, p)
     }
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, unitName, params)
@@ -387,11 +407,13 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         return false
 
       local weaponName = ::getTblValue("weaponName", params, "")
+      local hasPlayerInfo = params?.hasPlayerInfo ?? true
       local weapon = ::u.search(unit.weapons, (@(weaponName) function(w) { return w.name == weaponName })(weaponName))
       if (!weapon)
         return false
 
-      ::weaponVisual.updateWeaponTooltip(obj, unit, weapon, handler)
+      ::weaponVisual.updateWeaponTooltip(obj, unit, weapon, handler,
+        { hasPlayerInfo = hasPlayerInfo })
       return true
     }
   }

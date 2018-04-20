@@ -55,16 +55,16 @@
             "flow": "vertical"
           },
           {
-            "text": {
-              "pos": "0, 0",
+            "textareaNoTab": {
+              "id": "chat_room_name_text",
+              "pos": "0, 1@blockInterval",
               "position": "relative",
-              "text": "#chat/roomName"
+              "text": ""
             }
           },
           {
             "EditBox": {
               "id": "room_name",
-              "pos": "0, 5",
               "position": "relative",
               "width": "pw",
               "max-len": "15",
@@ -78,8 +78,8 @@
             }
           },
           {
-            "text": {
-              "pos": "0, 7",
+            "textareaNoTab": {
+              "pos": "0, 1@blockInterval",
               "position": "relative",
               "text": "#chat/roomPassword"
             }
@@ -87,7 +87,6 @@
           {
             "EditBox": {
               "id": "room_password",
-              "pos": "0, 5",
               "position": "relative",
               "width": "pw",
               "max-len": "16",

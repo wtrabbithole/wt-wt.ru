@@ -104,27 +104,6 @@
             "flow": "vertical"
           },
           {
-            "behaviour": "wrapNavigator"
-          },
-          {
-            "navigatorShortcuts": "cancel"
-          },
-          {
-            "childsActivate": "yes"
-          },
-          {
-            "on_wrap_up": "onWrapUp"
-          },
-          {
-            "on_wrap_down": "onWrapDown"
-          },
-          {
-            "on_set_focus": "onContactsFocus"
-          },
-          {
-            "on_cancel_edit": "goBack"
-          },
-          {
             "Button_text": {
               "id": "btn_psnFriends",
               "width": "pw",
@@ -132,7 +111,13 @@
               "display": "hide",
               "enable": "no",
               "text": "#mainmenu/btnPsnFriends",
-              "_on_click": "onPsnFriends"
+              "_on_click": "onPsnFriends",
+              "behaviour": "wrapBroadcast",
+              "navigatorShortcuts": "full",
+              "on_wrap_up": "onWrapUp",
+              "on_wrap_down": "onWrapDown",
+              "on_set_focus": "onContactsFocus",
+              "on_cancel_edit": "goBack"
             }
           },
           {

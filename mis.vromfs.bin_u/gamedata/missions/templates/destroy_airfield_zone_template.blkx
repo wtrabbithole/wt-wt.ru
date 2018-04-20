@@ -448,7 +448,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -465,18 +468,31 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
-          "triggerEnable": {
-            "target": "t1_check_bombing_zones_true"
+          "comment": {
+            "value": "дополнительно ждем 10 секунд"
           }
         },
         {
-          "triggerEnable": {
-            "target": "t2_check_bombing_zones_true"
+          "wait": {
+            "time": 10.0
           }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "t1_check_bombing_zones_true"
+            },
+            {
+              "target": "t2_check_bombing_zones_true"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -955,6 +971,9 @@
           "use_variable": true,
           "var_value": "dazt_arcade_hp_mul"
         },
+        "comment": {
+          "value": ""
+        },
         "triggerEnable": [
           {
             "target": "check_bombing_zones_false"
@@ -995,6 +1014,9 @@
           "operator": "mul",
           "value": 1.0,
           "var": "dazt_airfield_max_hp"
+        },
+        "comment": {
+          "value": ""
         },
         "triggerEnable": [
           {
@@ -1079,6 +1101,9 @@
       "actions": {
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@def_aaa_t1_name",
           "accuracy": 0.6,
           "checkVisibilityTarget": true,
@@ -1113,6 +1138,9 @@
       "actions": {
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@def_aaa_t2_name",
           "accuracy": 0.6,
           "checkVisibilityTarget": true,

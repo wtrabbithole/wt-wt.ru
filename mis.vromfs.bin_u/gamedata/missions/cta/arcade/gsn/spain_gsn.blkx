@@ -615,6 +615,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -623,6 +626,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -631,6 +637,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_tanks_squad"
@@ -665,6 +680,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -723,6 +747,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -734,6 +761,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -760,6 +790,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_tank01_sq",
             "target": "war_area01"
           }
@@ -770,6 +803,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tank01_sq",
             "target": "war_area01"
           }
@@ -811,6 +847,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_tank01_sq",
             "target": "war_area01"
           }
@@ -821,6 +860,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_tank01_sq",
             "target": "war_area01"
           }
@@ -865,6 +907,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_tank01_sq",
           "target": "t2_bomb_area_01"
         }
@@ -900,6 +945,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_tank02_sq",
           "target": "t2_bomb_area_02"
         }
@@ -935,6 +983,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_tank01_sq",
           "target": "t1_bomb_area_01"
         }
@@ -970,6 +1021,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_tank02_sq",
           "target": "t1_bomb_area_02"
         }
@@ -5865,10 +5919,10 @@
     "t2_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [295.442,0.0,52.0941],
-        [0.0,300.0,0.0],
-        [-52.0941,0.0,295.442],
-        [-9594.7,3500.0,-50403.2]
+        [393.923,0.0,69.4589],
+        [0.0,400.0,0.0],
+        [-69.4589,0.0,393.923],
+        [-9594.7,2200.0,-50403.2]
       ],
       "objLayer": 4,
       "props": []
@@ -5887,10 +5941,10 @@
     "t1_bombers_spawn": {
       "type": "Sphere",
       "tm": [
-        [-295.442,0.0,-52.0941],
-        [0.0,300.0,0.0],
-        [52.0941,0.0,-295.442],
-        [2224.95,3500.0,-48319.1]
+        [-393.923,0.0,-69.4589],
+        [0.0,400.0,0.0],
+        [69.4589,0.0,-393.923],
+        [2224.95,2200.0,-48319.1]
       ],
       "objLayer": 4,
       "props": []
@@ -6094,7 +6148,7 @@
         [-2083.79,0.0,11817.7],
         [0.0,12000.0,0.0],
         [-11817.7,0.0,-2083.79],
-        [-3683.95,3500.0,-49360.6]
+        [-3683.95,2200.0,-49360.6]
       ],
       "objLayer": 4,
       "props": []

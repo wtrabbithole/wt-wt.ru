@@ -1,6 +1,19 @@
 local loc = ("loc" in ::getroottable()) ? loc : @(text) text
 
-local function text(text, params={}) {
+local function text(text, params={}, addchildren = null) {
+  if (text == null)
+    return null
+
+  local children = params?.children
+  if (children && type(children) !="array")
+    children = [children]
+  if (addchildren && children) {
+    if (type(addchildren)=="array")
+      children.extend(addchildren)
+    else
+      children.append(addchildren)
+  }
+
   local localize = params?.localize ?? true
   local watch = params?.watch
   local watchedtext = false
@@ -19,20 +32,18 @@ local function text(text, params={}) {
     halign = HALIGN_LEFT
     font = Fonts.medium_text
   }.__update(params).__update({text = txt, rendObj = rendObj})
-
+  ret.__update({children=children})
   if (watch || watchedtext) 
     return @() ret
   else
     return ret
 }
 
-local function stext(text_val, params={}) {
-  local params_ = {}.__update(params).__update({rendObj = ROBJ_DTEXT})
-  return text(text_val, params_)  
+local function dtext(text_val, params={}, children=[]) {
+  return text(text_val, params.__merge({rendObj = ROBJ_DTEXT}), children)  
 }
-local function dtext(text_val, params={}) {
-  local params_ = {}.__update(params).__update({rendObj = ROBJ_STEXT})
-  return text(text_val, params_)  
+local function stext(text_val, params={}, children = []) {
+  return text(text_val, params.__merge({rendObj = ROBJ_STEXT}), children)  
 }
 return {
   text = text

@@ -11,7 +11,8 @@
       "saveLimitTime": 65000,
       "saveWaitTime": 4000,
       "curlConnectionTimeout": 10,
-      "curlProcessingTimeout": 60
+      "curlProcessingTimeout": 60,
+      "fastModeTimeout": 3
     },
     "client": {
       "loadLimitTime": 35000,
@@ -19,7 +20,8 @@
       "saveLimitTime": 35000,
       "saveWaitTime": 4000,
       "curlConnectionTimeout": 10,
-      "curlProcessingTimeout": 20
+      "curlProcessingTimeout": 20,
+      "fastModeTimeout": 3
     }
   },
   "_common": {
@@ -393,40 +395,6 @@
     },
     {
       "enableSslCertCheck": true
-    },
-    {
-      "marketplaceURL": "https://trade.gaijin.net/"
-    },
-    {
-      "enableUGC": true
-    },
-    {
-      "ugcSkinsDecalsCDN_useCommon": false
-    },
-    {
-      "ugcSkinsDecalsCDN": "http://dldata.warthunder.com/production/"
-    },
-    {
-      "inventory": {
-        "servers": [
-          {
-            "url": "https://inventory-dev-stable-01.gaijin.net:8443/char"
-          },
-          {
-            "url": "https://inventory-dev-stable-02.gaijin.net:8443/char"
-          }
-        ]
-      }
-    },
-    {
-      "ugc_settings": [
-        {
-          "ugcServerUrl": "https://inventory-dev-stable-01.gaijin.net:8443/char"
-        },
-        {
-          "ugcServerUrl": "https://inventory-dev-stable-01.gaijin.net:8443/char"
-        }
-      ]
     }
   ],
   "dev": [
@@ -533,9 +501,43 @@
       "enableApex": true
     },
     {
+      "marketplaceURL": "https://trade.gaijin.net/"
+    },
+    {
+      "enableUGC": true
+    },
+    {
+      "ugcSkinsDecalsCDN_useCommon": false
+    },
+    {
+      "ugcSkinsDecalsCDN": "http://dldata.warthunder.com/production/"
+    },
+    {
       "ps4updater": {
-        "enabled": false
+        "enabled": true
       }
+    },
+    {
+      "inventory": {
+        "servers": [
+          {
+            "url": "https://inventory-dev-stable-01.gaijin.net:8443/char"
+          },
+          {
+            "url": "https://inventory-dev-stable-02.gaijin.net:8443/char"
+          }
+        ]
+      }
+    },
+    {
+      "ugc_settings": [
+        {
+          "ugcServerUrl": "https://inventory-dev-stable-01.gaijin.net:8443/char"
+        },
+        {
+          "ugcServerUrl": "https://inventory-dev-stable-01.gaijin.net:8443/char"
+        }
+      ]
     }
   ],
   "ps4submission": {
@@ -770,7 +772,7 @@
     {
       "skinsDecalsCDN": {
         "replaceUrls": "chinatest.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata.info"
+        "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata_s.info"
       }
     }
   ],
@@ -786,99 +788,28 @@
       "noIndex": true
     },
     "skinsDecalsCDN": {
-      "replaceUrls": "chinatest.skinsDecalsCDN.baseUrls",
+      "replaceUrls": "chinadev.skinsDecalsCDN.baseUrls",
       "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata.info"
     }
   },
   "chinatest.skinsDecalsCDN.baseUrls": {
+    "url": "http://adminkas-cn-01.gaijin.lan/new/"
+  },
+  "chinadev.skinsDecalsCDN.baseUrls": {
     "url": "http://adminkas-cn-01.gaijin.lan/"
   },
   "china.skinsDecalsCDN.baseUrls": {
     "url": "http://down.qq.com/warthunder/decals/production/"
   },
-  "china-gov": [
-    {
-      "matchServer": "183.61.232.31:7852"
-    },
-    {
-      "ircServer": "183.61.232.31:12123"
-    },
-    {
-      "chatNotificatorURL": "http://183.61.227.41:7000"
-    },
-    {
-      "charServer": "https://183.61.232.31:1443/char"
-    },
-    {
-      "skinsDecalsCDN_useCommon": false
-    },
-    {
-      "skinsDecalsCDN": "http://down.qq.com/warthunder/decals/production_obt/"
-    },
-    {
-      "hashesReqUrl": "http://down.qq.com/warthunder/decals/dldata_obt.info"
-    },
-    {
-      "yuplay": {
-        "loginURL": "https://183.61.227.41:2001/login.php"
-      }
-    },
-    {
-      "guiWebCache": {
-        "yupConfUrl": "",
-        "noIndex": true
-      }
-    },
-    {
-      "skinsDecalsCDN": {
-        "replaceUrls": "china_obt.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://down.qq.com/warthunder/decals/dldata_obt.info"
-      }
-    }
-  ],
+  "china_exp.skinsDecalsCDN.baseUrls": {
+    "url": "http://down.qq.com/warthunder/decals/production_exp/"
+  },
   "china_obt.skinsDecalsCDN.baseUrls": {
     "url": "http://down.qq.com/warthunder/decals/production_obt/"
   },
-  "china-antibot": [
-    {
-      "matchServer": "119.147.117.147:7852"
-    },
-    {
-      "ircServer": "119.147.109.80:12123"
-    },
-    {
-      "chatNotificatorURL": "http://119.147.109.80:7000"
-    },
-    {
-      "charServer": "https://119.147.117.147:1443/char"
-    },
-    {
-      "skinsDecalsCDN_useCommon": false
-    },
-    {
-      "skinsDecalsCDN": "http://down.qq.com/warthunder/decals/production/"
-    },
-    {
-      "hashesReqUrl": "http://down.qq.com/warthunder/decals/dldata.info"
-    },
-    {
-      "yuplay": {
-        "loginURL": "https://119.147.109.80:2001/login.php"
-      }
-    },
-    {
-      "guiWebCache": {
-        "yupConfUrl": "",
-        "noIndex": true
-      }
-    },
-    {
-      "skinsDecalsCDN": {
-        "replaceUrls": "china.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://down.qq.com/warthunder/decals/dldata.info"
-      }
-    }
-  ],
+  "china_test.skinsDecalsCDN.baseUrls": {
+    "url": "http://down.qq.com/warthunder/decals/production_test/"
+  },
   "china-test-1": [
     {
       "matchServer": "183.61.160.139:7852"
@@ -922,9 +853,6 @@
       }
     }
   ],
-  "china_test.skinsDecalsCDN.baseUrls": {
-    "url": "http://down.qq.com/warthunder/decals/production_test/"
-  },
   "china-test-2": [
     {
       "matchServer": "121.14.134.57:7852"
@@ -962,61 +890,6 @@
     {
       "yuplay": {
         "loginURL": "https://121.12.114.242:2001/login.php"
-      }
-    },
-    {
-      "guiWebCache": {
-        "yupConfUrl": "",
-        "noIndex": true
-      }
-    },
-    {
-      "skinsDecalsCDN": {
-        "replaceUrls": "china_exp.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://down.qq.com/warthunder/decals/production_exp/dldata_obt.info"
-      }
-    }
-  ],
-  "china_exp.skinsDecalsCDN.baseUrls": {
-    "url": "http://down.qq.com/warthunder/decals/production_exp/"
-  },
-  "china-test-3": [
-    {
-      "matchServer": "125.39.211.144:7852"
-    },
-    {
-      "matchServer": "123.126.124.108:7852"
-    },
-    {
-      "ircServer": "125.39.211.144:12123"
-    },
-    {
-      "ircServer": "123.126.124.108:12123"
-    },
-    {
-      "chatNotificatorURL": "http://10.170.6.99:7000"
-    },
-    {
-      "charServer": "https://111.161.91.112:1443/char"
-    },
-    {
-      "charServer": "https://111.161.91.113:1443/char"
-    },
-    {
-      "skinsDecalsCDN_useCommon": false
-    },
-    {
-      "skinsDecalsCDN": "http://down.qq.com/warthunder/decals/production_exp/"
-    },
-    {
-      "hashesReqUrl": "http://down.qq.com/warthunder/decals/production_exp/dldata_obt.info"
-    },
-    {
-      "circuitTencentId": "1000"
-    },
-    {
-      "yuplay": {
-        "loginURL": "https://125.39.211.144:2001/login.php"
       }
     },
     {

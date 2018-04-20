@@ -200,11 +200,37 @@
             "debrBlock": {
               "id": "inventory_gift_block",
               "size": "pw, pw",
-              "div": {
-                "id": "inventory_gift_icon",
+              "tdiv": {
                 "pos": "pw/2-w/2, ph/2-h/2",
-                "position": "absolute",
-                "size": "1@itemWidth, 1@itemHeight"
+                "position": "relative",
+                "flow": "vertical",
+                "div": {
+                  "id": "inventory_gift_icon",
+                  "size": "1@itemWidth, 1@itemHeight",
+                  "pos": "pw/2-w/2, 0",
+                  "position": "relative"
+                },
+                "Button_text": {
+                  "id": "btn_inventory_gift_action",
+                  "pos": "pw/2-w/2, 0",
+                  "position": "relative",
+                  "class": "battle",
+                  "navButtonFont": "yes",
+                  "btnName": "Y",
+                  "css-hier-invalidate": "yes",
+                  "_on_click": "onInventoryGiftAction",
+                  "display": "hide",
+                  "enable": "no",
+                  "pattern": [],
+                  "buttonWink": {
+                    "_transp-timer": "0"
+                  },
+                  "buttonGlance": [],
+                  "ButtonImg": [],
+                  "btnText": {
+                    "id": "btn_inventory_gift_action_text"
+                  }
+                }
               },
               "debrSeparator": {
                 "class": "bottom"

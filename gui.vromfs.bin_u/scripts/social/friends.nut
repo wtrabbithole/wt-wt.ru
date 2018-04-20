@@ -304,32 +304,22 @@ function xbox_on_add_remove_friend_closed(playerStatus)
 function xbox_get_people_list_callback(playersList = [])
 {
   local taskId = ::xbox_find_friends(playersList)
+  if (taskId < 0 && !playersList.len())
+  {
+    //Need to update contacts list, because empty list - means no users,
+    //and returns -1, for not to send empty array to char.
+    //So, contacts list must be cleared in this case from xbox users.
+    local blk = ::DataBlock()
+    ::g_contacts.xboxUpdateContactsList(blk)
+    return
+  }
 
   ::g_tasker.addTask(taskId, null, function() {
-    local blk = ::DataBlock()
-    blk = ::xbox_find_friends_result()
-
-    local existedXBoxContacts = ::get_contacts_array_by_regexp(::EPL_FRIENDLIST, platformModule.xboxNameRegexp)
-
-    for (local i = existedXBoxContacts.len() - 1; i >= 0; i--)
-    {
-      if (existedXBoxContacts[i].uid in blk)
-      {
-        local contact = existedXBoxContacts.remove(i)
-        blk.removeBlock(contact.uid)
-      }
+      local blk = ::DataBlock()
+      blk = ::xbox_find_friends_result()
+      ::g_contacts.xboxUpdateContactsList(blk)
     }
-
-    local xboxFriendsList = []
-    foreach(uid, data in blk)
-      xboxFriendsList.append(::getContact(uid, data.nick))
-
-    local requestTable = {}
-    requestTable[true] <- xboxFriendsList
-    requestTable[false] <- existedXBoxContacts
-
-    ::edit_players_list_in_contacts(requestTable, ::EPL_FRIENDLIST)
-  })
+  )
 }
 
 //---------------- </XBox One> --------------------------

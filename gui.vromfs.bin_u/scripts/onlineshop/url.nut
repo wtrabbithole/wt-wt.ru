@@ -34,13 +34,12 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
       && urlType.needAutoLogin && ::isInArray(URL_TAG_AUTO_LOGIN, urlTags)
       && canAutoLogin())
   {
-    url = ::get_authenticated_url(url)
-    if (url == "" || url == null)
-    {
-      ::showInfoMsgBox("Could not get authenticated URL", "errorMessageBox")
-      dagor.debug("get_authenticated_url have returned empty URL for base URL: " + baseUrl)
-      return
-    }
+    local authData = ::get_authenticated_url_table(url)
+
+    if (authData.yuplayResult != ::YU2_OK)
+      ::script_net_assert_once("Faile auth url", "Open url: failed to get authenticated url with error " + authData.yuplayResult)
+    else
+      url = authData.url
   }
 
   local hasFeature = urlType.isOnlineShop

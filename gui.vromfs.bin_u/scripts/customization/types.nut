@@ -19,6 +19,7 @@ local time = require("scripts/time.nut")
     listHeaderLocId = ""
     currentOpenedCategoryLocalSafePath = "wnd/unknownCategory"
     categoryPathPrefix = ""
+    groupPathPrefix = ""
     removeDecoratorLocId = ""
     emptySlotLocId = ""
     userlogPurchaseIcon = "#ui/gameuiskin#unlock_decal"
@@ -34,17 +35,21 @@ local time = require("scripts/time.nut")
 
     getLocName = function(decoratorName, addUnitName = false) { return ::loc(decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc(decoratorName + "/desc", "") }
+    getLocParamsDesc = @(decorator) ""
 
     function getTypeDesc(decorator)
     {
       local text = ::loc("trophy/unlockables_names/" + resourceType)
       if (decorator.category != "" && categoryPathPrefix != "")
         text += ::loc("ui/comma") + ::loc(categoryPathPrefix + decorator.category)
+      if (decorator.group != "" && groupPathPrefix != "")
+        text += ::loc("ui/comma") + ::loc(groupPathPrefix + decorator.group)
       return text
     }
 
     getCost = function(decoratorName) { return ::Cost() }
     getDecoratorNameInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
+    getDecoratorGroupInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
 
     isAvailable = function(unit) { return false }
     isAllowed = function(decoratorName) { return true }
@@ -111,6 +116,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     listHeaderLocId = "decals"
     currentOpenedCategoryLocalSafePath = "wnd/decalsCategory"
     categoryPathPrefix = "decals/category/"
+    groupPathPrefix = "decals/group/"
     removeDecoratorLocId = "mainmenu/requestDeleteDecal"
     emptySlotLocId = "mainmenu/decalFreeSlot"
     prizeTypeIcon = "#ui/gameuiskin#item_type_decal"
@@ -210,6 +216,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     listHeaderLocId = "decorators"
     currentOpenedCategoryLocalSafePath = "wnd/attachablesCategory"
     categoryPathPrefix = "attachables/category/"
+    groupPathPrefix = "attachables/group/"
     removeDecoratorLocId = "mainmenu/requestDeleteDecorator"
     emptySlotLocId = "mainmenu/attachableFreeSlot"
     userlogPurchaseIcon = "#ui/gameuiskin#unlock_attachable"
@@ -229,6 +236,15 @@ enums.addTypesByGlobalName("g_decorator_type", {
 
     getLocName = function(decoratorName, ...) { return ::loc("attachables/" + decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc("attachables/" + decoratorName + "/desc", "") }
+    getLocParamsDesc = function(decorator)
+    {
+      local paramPathPrefix = "attachables/param/"
+      local angle = decorator.blk?.maxSurfaceAngle
+      if (!angle)
+        return ""
+
+      return ::loc(paramPathPrefix + "maxSurfaceAngle", {value = angle})
+    }
 
     getCost = function(decoratorName)
     {
@@ -236,6 +252,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
                     ::max(0, ::get_attachable_cost_gold(decoratorName)))
     }
     getDecoratorNameInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_name(slotIdx) }
+    getDecoratorGroupInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_group(slotIdx) }
 
     isAvailable = function(unit) { return ::has_feature("AttachablesUse") && ::isUnitBought(unit) && ::isTank(unit) }
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_attachable(decoratorName) }

@@ -1,4 +1,5 @@
 local enums = ::require("std/enums.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 local shopSheets = {
   types = []
@@ -8,6 +9,7 @@ local isOnlyExtInventory = @(shopTab) shopTab == itemsTab.INVENTORY && ::has_fea
 
 shopSheets.template <- {
   id = "" //used from type name
+  sortId = 0
   locId = null //default: "itemTypes/" + id.tolower()
   emptyTabLocId = null //default: "items/shop/emptyTab/" + id.tolower()
 
@@ -15,7 +17,7 @@ shopSheets.template <- {
   isDevItemsTab = false
   isMarketplace = false
 
-  isAllowedForTab = @(shopTab) true
+  isAllowedForTab = @(shopTab) shopTab != itemsTab.WORKSHOP
   isEnabled = @(shopTab) isAllowedForTab(shopTab)
     && ::ItemsManager.checkItemsMaskFeatures(typeMask) != 0
     && (shopTab != itemsTab.SHOP || getItemsList(shopTab).len() > 0)
@@ -47,6 +49,7 @@ shopSheets.addSheets <- function(sheetsTable)
         emptyTabLocId = "items/shop/emptyTab/" + id.tolower()
     },
     "id")
+  shopSheets.types.sort(@(a, b) a.sortId <=> b.sortId)
 }
 
 shopSheets.findSheet <- function(config, defSheet = null)
@@ -116,13 +119,13 @@ shopSheets.addSheets({
     emptyTabLocId = "items/shop/emptyTab/universalSpare"
     typeMask = itemType.UNIVERSAL_SPARE
     sortId = sortId++
-    isAllowedForTab = @(shopTab) !::has_feature("ItemModUpgrade")
+    isAllowedForTab = @(shopTab) shopTab != itemsTab.WORKSHOP && !::has_feature("ItemModUpgrade")
   }
   MODIFICATIONS = {
     locId = "mainmenu/btnWeapons"
     typeMask = itemType.UNIVERSAL_SPARE | itemType.MOD_UPGRADE | itemType.MOD_OVERDRIVE
     sortId = sortId++
-    isAllowedForTab = @(shopTab) ::has_feature("ItemModUpgrade")
+    isAllowedForTab = @(shopTab) shopTab != itemsTab.WORKSHOP && ::has_feature("ItemModUpgrade")
   }
   VEHICLES = {
     typeMask = itemType.VEHICLE
@@ -137,7 +140,8 @@ shopSheets.addSheets({
     isAllowedForTab = isOnlyExtInventory
   }
   DECALS = {
-    typeMask = itemType.DECAL
+    locId = "unlocks/chapter/attachable"
+    typeMask = itemType.DECAL | itemType.ATTACHABLE
     isMarketplace = true
     sortId = sortId++
     isAllowedForTab = isOnlyExtInventory
@@ -154,6 +158,13 @@ shopSheets.addSheets({
     sortId = sortId++
     isAllowedForTab = isOnlyExtInventory
   }
+  OTHER = {
+    locId = "attachables/category/other"
+    typeMask = itemType.WARBONDS
+    isMarketplace = true
+    sortId = sortId++
+    isAllowedForTab = isOnlyExtInventory
+  }
   DEV_ITEMS = {
     locId = "itemTypes/devItems"
     emptyTabLocId = "items/shop/emptyTabdevItems/"
@@ -164,6 +175,38 @@ shopSheets.addSheets({
   }
 })
 
-shopSheets.types.sort(@(a, b) a.sortId <=> b.sortId)
+shopSheets.updateWorkshopSheets <- function()
+{
+  local sets = workshop.getSetsList()
+  local newSheets = {}
+  foreach(idx, set in sets)
+  {
+    local id = set.getShopTabId()
+    if (id in this)
+      continue
+
+    newSheets[id] <- {
+      locId = set.locId
+      typeMask = itemType.ALL
+      isMarketplace = true
+      sortId = sortId++
+
+      setIdx = idx
+      getSet = @() workshop.getSetsList()?[setIdx] ?? workshop.emptySet
+      isAllowedForTab = @(shopTab) shopTab == itemsTab.WORKSHOP
+      isEnabled = @(shopTab) isAllowedForTab(shopTab)&& getSet().isVisible()
+
+      getItemFilterFunc = function(shopTab) {
+        local set = getSet()
+        return set.isItemInSet.bindenv(set)
+      }
+
+      getItemsList = @(shopTab) getSet().getItemsList()
+    }
+  }
+
+  if (newSheets.len())
+    shopSheets.addSheets(newSheets)
+}
 
 return shopSheets

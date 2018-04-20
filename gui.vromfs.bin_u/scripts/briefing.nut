@@ -1,3 +1,5 @@
+local contentPreset = require("scripts/customization/contentPreset.nut")
+
 ::back_from_briefing <- ::gui_start_mainmenu
 
 ::g_script_reloader.registerPersistentData("BriefingGlobals", ::getroottable(), ["back_from_briefing"])
@@ -177,8 +179,9 @@ function get_briefing_options(gm, gt, missionBlk)
     optionItems.append([::USEROPT_DISABLE_AIRFIELDS, "spinner"])
 
   if (missionBlk.isCustomVisualFilterAllowed!= false && gm == ::GM_SKIRMISH
-      && (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals")) && ::ugc_tags_presets.len() > 0)
-    optionItems.append([::USEROPT_UGC_ALLOWED_TAGS_PRESET, "combobox"])
+      && (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals"))
+      && contentPreset.getContentPresets().len() > 0)
+    optionItems.append([::USEROPT_CONTENT_ALLOWED_PRESET, "combobox"])
 
   if (gm == ::GM_DYNAMIC)
   {
@@ -664,7 +667,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
         ::mission_settings[option.sideTag + "_bitmask"] <- obj.getValue()
     }
 
-    value = getOptValue(::USEROPT_UGC_ALLOWED_TAGS_PRESET, false)
+    value = getOptValue(::USEROPT_CONTENT_ALLOWED_PRESET, false)
     if (value!=null)
       misBlk.setStr("allowedTagsPreset", value)
 

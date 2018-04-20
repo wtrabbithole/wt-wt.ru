@@ -763,7 +763,10 @@ class Events
   {
     return getEventDisplayType(event) != ::g_event_display_type.NONE
            && checkEventFeature(event, true)
+           && isEventAllowedByComaptibilityMode(event)
   }
+
+  isEventAllowedByComaptibilityMode = @(event) event?.isAllowedForCompatibility != false || !sysopt.isCompatibiliyMode()
 
   function getEventsVisibleInEventsWindowCount()
   {
@@ -1990,6 +1993,8 @@ class Events
           { entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem)) })
       }
     }
+    else if (!isEventAllowedByComaptibilityMode(event))
+      data.reasonText = ::loc("events/noCompatibilityMode")
     else if (!isCreationCheck && !isEventEnabled(event))
     {
       local startTime = ::events.getEventStartTime(event)

@@ -118,7 +118,7 @@ class ::ww_gui_bhv.worldWarMapControls
         ::gui_handlers.WwAirfieldFlyOut.open(
           airfieldIdx, clickPos, armyTargetName, ::Callback(checkFlewOutArmy, this))
       else
-        ::g_popups.add("", ::loc("worldWar/error/cantSentAirArmy"),
+        ::g_popups.add("", ::loc("worldwar/charError/MOVE_REJECTED"),
           null, null, null, "send_air_army_error")
     }
     else if (currentSelectedObject == mapObjectSelect.ARMY)

@@ -1281,6 +1281,8 @@ function sysopt::logError(from="", msg="")
   return msg
 }
 
+sysopt.isCompatibiliyMode <- @() mCfgStartup?.compatibilityMode ?? ::getSystemConfigOption("video/compatibilityMode", false)
+
 function sysopt::validateInternalConfigs()
 {
   local errorsList = []

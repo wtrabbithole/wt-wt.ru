@@ -226,6 +226,7 @@
       "scoreLimit": 15000,
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
+      "allowEmptyTeams": false,
       "country_axis": "japan",
       "country_allies": "ussr",
       "tags": [],
@@ -519,6 +520,18 @@
           }
         },
         {
+          "varSetBool": {
+            "value": true,
+            "var": "ad_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "lbt_is_launch_alowed"
+          }
+        },
+        {
           "comment": {
             "value": "включение разведки"
           }
@@ -750,12 +763,12 @@
           [0.887011,0.0,0.461749],
           [-10733.0,2401.9,18716.5]
         ],
-        "unit_class": "b-29",
+        "unit_class": "bf-109g-2",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
-        "weapons": "B29_8x2000lbs",
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -765,7 +778,7 @@
         "bulletsCount2": 0,
         "bulletsCount3": 0,
         "props": {
-          "army": 1,
+          "army": 2,
           "count": 1,
           "free_distance": 70.0,
           "floating_distance": 50.0,

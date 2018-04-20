@@ -70,10 +70,20 @@ shopFilter {
   height: ph;
 }
 
-HorizontalListBox.slotbar {
+SlotbarBackground {
   background-color:@slotbarBgColor;
   background-position:1, 2, 1, 0;
   padding:0, 2, 0, 0;
+}
+
+HorizontalListBox.slotbar {
+  background-color:@transparent;
+  background-position:1, 2, 1, 0;
+  padding:0, 2, 0, 0;
+}
+
+HorizontalListBox.slotbar[hasBackground=yes] {
+  background-color:@slotbarBgColor;
 }
 
 VerticalListBox > shopFilter,

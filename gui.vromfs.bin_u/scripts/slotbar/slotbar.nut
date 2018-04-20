@@ -633,7 +633,11 @@ function get_slot_unit_name_text(unit, params)
   {
     local leftRespawns = missionRules.getUnitLeftRespawns(unit)
     local leftWeaponPresetsText = missionRules.getUnitLeftWeaponShortText(unit)
-    local text = leftRespawns != ::RESPAWNS_UNLIMITED ? leftRespawns.tostring() : ""
+    local text = leftRespawns != ::RESPAWNS_UNLIMITED
+      ? missionRules.isUnitAvailableBySpawnScore(unit)
+        ? ::loc("icon/star/white")
+        : leftRespawns.tostring()
+      : ""
 
     if (leftWeaponPresetsText.len())
       text += (text.len() ? "/" : "") + leftWeaponPresetsText
@@ -644,7 +648,7 @@ function get_slot_unit_name_text(unit, params)
   return res
 }
 
-::is_unit_price_text_long <- @(text) ::utf8_strlen(text) > 13
+::is_unit_price_text_long <- @(text) ::utf8_strlen(::g_dagui_utils.removeTextareaTags(text)) > 13
 
 function get_unit_item_price_text(unit, params)
 {
@@ -829,7 +833,7 @@ function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, cou
     local tags = ::getSlotbarTags(handler)
     unlocked = unlocked && (!tags || ::check_aircraft_tags(unit.tags, tags))
     unlocked = unlocked && (!country || ::is_crew_available_in_session(curSlotIdInCountry, needDbg))
-    unlocked = unlocked && ::isUnitAvailableForGM(unit, ::get_game_mode())
+    unlocked = unlocked && (::isUnitAvailableForGM(unit, ::get_game_mode()) || ::is_in_flight())
     if (unlocked && !::SessionLobby.canChangeCrewUnits() && !::is_in_flight()
         && ::SessionLobby.getMaxRespawns() == 1)
       unlocked = ::SessionLobby.getMyCurUnit() == unit
@@ -1116,10 +1120,12 @@ function is_unit_enabled_for_slotbar(unit, params)
   if (res && params?.mainMenuSlotbar)
     res = ::game_mode_manager.isUnitAllowedForGameMode(unit)
 
-  if (res && params?.missionRules)
+  local missionRules = params?.missionRules
+  if (res && missionRules)
   {
-    local isAvaliableUnit = params.missionRules.getUnitLeftRespawns(unit) != 0
-      && params.missionRules.isUnitEnabledByRandomGroups(unit.name)
+    local isAvaliableUnit = (missionRules.getUnitLeftRespawns(unit) != 0
+      || missionRules.isUnitAvailableBySpawnScore(unit))
+      && missionRules.isUnitEnabledByRandomGroups(unit.name)
     local isControlledUnit = !::is_respawn_screen()
       && ::is_player_unit_alive()
       && ::get_player_unit_name() == unit.name
@@ -1128,6 +1134,14 @@ function is_unit_enabled_for_slotbar(unit, params)
   }
 
   return res
+}
+
+function isUnitInCustomList(unit, params)
+{
+  if (!unit)
+    return false
+
+  return params?.customUnitsList ? unit.name in params.customUnitsList : true
 }
 
 function getSelSlotsTable()

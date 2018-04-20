@@ -12,7 +12,8 @@
     "minRelHpSelfRepair": 0.5,
     "maxRelHpSelfRepair": 0.5,
     "selfRepairDelay": 0.0,
-    "selfRepairTime": -1.0
+    "selfRepairTime": -1.0,
+    "ignoreDeadWithSplash": false
   },
   "body": {
     "externalArmor": true,
@@ -386,8 +387,14 @@
   "radio_station": {
     "hitTestType": "inner"
   },
-  "sonar": {
-    "hitTestType": "inner"
+  "sensor": {
+    "sonar": {
+      "hitTestType": "inner"
+    },
+    "sensor_NN": {
+      "template": "sonar_#10#",
+      "hitTestType": "inner"
+    }
   },
   "gun_mask": [],
   "gun_mask_NN": {

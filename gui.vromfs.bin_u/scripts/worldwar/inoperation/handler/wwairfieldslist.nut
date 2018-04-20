@@ -1,8 +1,8 @@
 class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 {
   wndType = handlerType.CUSTOM
-  sceneTplName = null
-  sceneBlkName = "gui/worldWar/airfieldObject"
+  sceneTplName = "gui/worldWar/airfieldObject"
+  sceneBlkName = null
   airfieldBlockTplName = "gui/worldWar/worldWarMapArmyItem"
 
   airfieldIdPrefix = "airfield_"
@@ -12,6 +12,16 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
   ownedAirfieldsNumber = -1
   updateTimer = null
   updateDelay = 1
+
+  function getSceneTplView()
+  {
+    return {
+      isCentered = true
+      consoleButtonsIconName = ::show_console_buttons ? WW_MAP_CONSPLE_SHORTCUTS.MOVE : null
+      controlHelpText = ::show_console_buttons ? null : ::loc("key/RMB")
+      controlHelpDesc = ::loc("worldwar/state/air_fly_out_control")
+    }
+  }
 
   function initScreen()
   {
@@ -223,6 +233,7 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     local airfieldUnitsNumber = airfield.getUnitsNumber()
     local inFlyUnitsNumber = airfield.getUnitsInFlyNumber()
     local airfieldCapacityNumber = airfield.getSize()
+    local isFull = airfieldUnitsNumber + inFlyUnitsNumber >= airfieldCapacityNumber
 
     local airfieldInfoValue = airfieldUnitsNumber
     local airfieldTooltip = airfieldUnitsText +
@@ -236,8 +247,11 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     airfieldInfoValue += "/" + airfieldCapacityNumber + " " + iconText
     airfieldTooltip += "\n" + airfieldCapacityText +
       ::colorize("@white", airfieldCapacityNumber + " " + iconText)
+    if (isFull)
+      airfieldTooltip += "\n" + ::colorize("@badTextColor", ::loc("worldwar/airfield_is_full"))
 
-    airfieldInfoObj.setValue(airfieldCapacityText + ::colorize("@white", airfieldInfoValue))
+    airfieldInfoObj.setValue(airfieldCapacityText +
+      ::colorize(isFull ? "@badTextColor" : "@white", airfieldInfoValue))
     airfieldInfoObj.tooltip = airfieldTooltip
 
     local hasFormationUnits = hasFormationsForFly(airfield)

@@ -1,12 +1,3 @@
-textareaNoTab {
-  id:t='no_active_battles_full_text'
-  width:t='pw'
-  margin-top:t='0.01@scrn_tgt'
-  text-align:t='center'
-  hideEmptyText:t='yes'
-  text:t=''
-}
-
 tdiv {
   id:t='battle_desc'
   size:t='pw, ph'

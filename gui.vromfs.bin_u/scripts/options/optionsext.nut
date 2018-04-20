@@ -5,6 +5,7 @@ local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local avatars = ::require("scripts/user/avatars.nut")
+local contentPreset = require("scripts/customization/contentPreset.nut")
 
 const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -99,7 +100,6 @@ function image_for_air(air)
 
 ::acList <- []
 ::shopCountriesList <- []
-::ugc_tags_presets <- []
 
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
@@ -108,7 +108,7 @@ function image_for_air(air)
     "encyclopedia_data", "measure_units",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
-    "reload_cooldown_time", "ugc_tags_presets"
+    "reload_cooldown_time"
   ])
 
 ::check_aircraft_tags <- function(airtags, filtertags)
@@ -1063,6 +1063,13 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y) != 0
+      break
+
+    case ::USEROPT_INVERTY_SUBMARINE:
+      descr.id = "invertY_submarine"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y) != 0
       break
 
     case ::USEROPT_INVERTY_SPECTATOR:
@@ -2321,16 +2328,18 @@ function get_option(type, context = null)
       }
       break
 
-    case USEROPT_UGC_ALLOWED_TAGS_PRESET:
-      descr.id = "ugc_allowed_tags_preset"
+    case USEROPT_CONTENT_ALLOWED_PRESET:
+      descr.id = "content_allowed_preset"
       descr.controlType = optionControlType.LIST
       descr.controlName <- "combobox"
       descr.items = []
       descr.values = []
-      for(local i = 0; i < ::ugc_tags_presets.len(); i++)
+      defaultValue = "historical"
+
+      foreach (value in contentPreset.getContentPresets())
       {
-        descr.items.append(::loc("ugc/tag/" + ::ugc_tags_presets[i]))
-        descr.values.append(::ugc_tags_presets[i])
+        descr.items.append(::loc("content/tag/" + value))
+        descr.values.append(value)
       }
       break
 
@@ -2711,6 +2720,18 @@ function get_option(type, context = null)
       descr.id = "chooseUnitsShowUnsupported"
       descr.items = ["#options/chooseUnitsShowUnsupported/show_unsupported",
                      "#options/chooseUnitsShowUnsupported/show_supported"
+                    ]
+      defaultValue = 3
+      descr.singleOption <- true
+      descr.hideTitle <- true
+      descr.controlType = optionControlType.BIT_LIST
+      descr.cb = "onSelectedOptionChooseUnsapportedUnit"
+      break
+
+    case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST:
+      descr.id = "chooseUnitsNotInCustomList"
+      descr.items = ["#options/chooseUnitsNotInCustomList/show_unsupported",
+                     "#options/chooseUnitsNotInCustomList/show_supported"
                     ]
       defaultValue = 3
       descr.singleOption <- true
@@ -3611,14 +3632,12 @@ function get_option(type, context = null)
 
     case ::USEROPT_FREE_CAMERA_INERTIA:
       descr.id = "free_camera_inertia"
-      if (::is_option_free_camera_inertia_exist)
-        descr.value = clamp((::get_option_multiplier(::OPTION_FREE_CAMERA_INERTIA) * 100.0).tointeger(), 0, 100)
+      descr.value = clamp((::get_option_multiplier(::OPTION_FREE_CAMERA_INERTIA) * 100.0).tointeger(), 0, 100)
       break
 
     case ::USEROPT_REPLAY_CAMERA_WIGGLE:
       descr.id = "replay_camera_wiggle"
-      if (::is_option_replay_camera_wiggle_exist)
-        descr.value = clamp((::get_option_multiplier(::OPTION_REPLAY_CAMERA_WIGGLE) * 100.0).tointeger(), 0, 100)
+      descr.value = clamp((::get_option_multiplier(::OPTION_REPLAY_CAMERA_WIGGLE) * 100.0).tointeger(), 0, 100)
       break
 
     case ::USEROPT_CLAN_REQUIREMENTS_MIN_AIR_RANK:
@@ -3721,6 +3740,7 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = crossplayModule.isCrossPlayEnabled()
+      descr.cb = "onChangeCrossPlayOption"
       break
 
     default:
@@ -3894,6 +3914,9 @@ function set_option(type, value, descr = null)
       break
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
+      break
+    case ::USEROPT_INVERTY_SUBMARINE:
+      ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
       break
     case ::USEROPT_INVERTY_SPECTATOR:
       ::set_option_invertY(AxisInvertOption.INVERT_SPECTATOR_Y, value ? 1 : 0)
@@ -4439,6 +4462,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_BIT_CHOOSE_UNITS_RANK:
     case ::USEROPT_BIT_CHOOSE_UNITS_OTHER:
     case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE:
+    case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST:
     case ::USEROPT_BOTS_RANKS:
       ::set_gui_option(type, value)
       break
@@ -4554,7 +4578,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_HELICOPTER_AIM_FIRE:
     case ::USEROPT_HELICOPTER_KEEP_HEIGHT:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
-    case ::USEROPT_UGC_ALLOWED_TAGS_PRESET:
+    case ::USEROPT_CONTENT_ALLOWED_PRESET:
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")
@@ -4670,14 +4694,12 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_FREE_CAMERA_INERTIA:
       local val = value / 100.0
-      if (::is_option_free_camera_inertia_exist)
-        ::set_option_multiplier(::OPTION_FREE_CAMERA_INERTIA, val)
+      ::set_option_multiplier(::OPTION_FREE_CAMERA_INERTIA, val)
       break
 
     case ::USEROPT_REPLAY_CAMERA_WIGGLE:
       local val = value / 100.0
-      if (::is_option_replay_camera_wiggle_exist)
-        ::set_option_multiplier(::OPTION_REPLAY_CAMERA_WIGGLE, val)
+      ::set_option_multiplier(::OPTION_REPLAY_CAMERA_WIGGLE, val)
       break
 
     case ::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT:

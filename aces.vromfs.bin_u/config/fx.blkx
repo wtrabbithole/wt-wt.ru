@@ -60,6 +60,14 @@
     "velSq": [2.0,10.0],
     "velSqScale": [0.0,1.0]
   },
+  "propSplashEffects_underwater": {
+    "name": "ship_propeller_underwater_splashes",
+    "horzVel": [0.5,0.8],
+    "horzVelScale": [0.7,0.8],
+    "vertVel": [0.7,0.8],
+    "velSq": [0.5,0.8],
+    "velSqScale": [0.5,0.8]
+  },
   "propSplashEffects": {
     "name": "ship_propeller_water_splashes",
     "horzVel": [0.2,1.0],
@@ -424,6 +432,16 @@
     "numReserved": 0,
     "softnessDepth": 5.0
   },
+  "rocket_fire_cruisemissile": {
+    "fx": "rocketflame_cruisemissile_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 80,
+    "numReserved": 5,
+    "isTrail": true,
+    "nonPlayerFadeDistScale": 2.0,
+    "playerFadeDistScale": 1.1,
+    "sortDistanceOffset": 0.2
+  },
   "rocket_fire": {
     "fx": "rocketflame_fx",
     "lifeTime": 100.0,
@@ -482,6 +500,24 @@
     "playerFadeDistScale": 2.0,
     "alphaHeightRange": [4.0,240.0],
     "numInstances": 120,
+    "numReserved": 30
+  },
+  "hydra_bubbles": {
+    "fx": "hydra_bubbles_fx",
+    "lifeTime": 20.0,
+    "numInstances": 30,
+    "numReserved": 3,
+    "onePointNumber": 15,
+    "group": "underwater"
+  },
+  "hydra_smoke_cruisemissile": {
+    "fx": "hydra_smoke_cruisemissile_fx",
+    "lifeTime": 100.0,
+    "isTrail": true,
+    "nonPlayerFadeDistScale": 2.0,
+    "playerFadeDistScale": 1.0,
+    "alphaHeightRange": [10.0,230.0],
+    "numInstances": 90,
     "numReserved": 30
   },
   "hydra_smoke_modern": {
@@ -546,6 +582,13 @@
     "nonPlayerFadeDistScale": 2.0,
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 0.2
+  },
+  "pylon_smoke_cruisemissile": {
+    "fx": "pv_rl_cruisemissile_fire_composite_fx",
+    "lifeTime": 4.0,
+    "numInstances": 40,
+    "numReserved": 10,
+    "onePointNumber": 40
   },
   "pylon_smoke": {
     "fx": "pv_rl_fire_composite_fx",
@@ -684,6 +727,17 @@
     "sfxPath": "sounds/explosions",
     "sfxEvent": "explosion_water",
     "soundEnableDistance": 3000.0
+  },
+  "torpedo_explosion_unit_bubble": {
+    "fx": "torpedo_explosion_unit_bubble_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "numInstances": 15,
+    "numReserved": 3,
+    "sfxPath": "sounds/explosions",
+    "sfxEvent": "torpedo_explosion_unit",
+    "soundEnableDistance": 1000.0,
+    "group": "underwater"
   },
   "torpedo_explosion_unit": {
     "fx": "bomb_water_med_expl_composite_fx",
@@ -1638,7 +1692,7 @@
   },
   "machine_gun_flame": {
     "fx": "pv_mg_flame_composite_fx",
-    "lifeTime": 10.0,
+    "lifeTime": 3.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
     "numInstances": 80,
@@ -1647,7 +1701,7 @@
   },
   "small_gun_flame": {
     "fx": "pv_gun_sc_flame_fire_composite_fx",
-    "lifeTime": 10.0,
+    "lifeTime": 3.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
     "numInstances": 50,
@@ -1656,7 +1710,7 @@
   },
   "small_gun_mb_flame": {
     "fx": "pv_aa_quadruple_gun_mb_composite_fx",
-    "lifeTime": 10.0,
+    "lifeTime": 3.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
     "numInstances": 50,
@@ -1665,7 +1719,7 @@
   },
   "23mm_aa_gun_flame": {
     "fx": "pv_aa_gun_front_composite_fx",
-    "lifeTime": 10.0,
+    "lifeTime": 3.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
     "numInstances": 50,
@@ -1721,12 +1775,12 @@
   "cannon_hit_apds": {
     "fx": "pv_hit_ricochet_ap_composite_fx",
     "lifeTime": 10.0,
-    "numInstances": 30,
+    "numInstances": 80,
     "numReserved": 3,
-    "onePointNumber": 40,
+    "onePointNumber": 80,
     "sfxPath": "tanks/effects_tanks",
     "sfxEvent": "rico",
-    "soundEnableDistance": 50.0
+    "soundEnableDistance": 200.0
   },
   "tank_engine_fire": {
     "fx": "pv_engine_fire_composite_fx",
@@ -1961,6 +2015,18 @@
     "sfxPath": "sounds/explosions",
     "sfxEvent": "explosion_old_ship_cr"
   },
+  "ship_engine_fire_underwater": {
+    "fx": "ps_engine_fire_underwater_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 30,
+    "numReserved": 3,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "fire_destroyed",
+    "soundEnableDistance": 50.0,
+    "minScale": 1.0,
+    "maxScale": 1.5,
+    "group": "underwater"
+  },
   "ship_engine_fire": {
     "fx": "ps_engine_fire_composite_fx",
     "lifeTime": 10.0,
@@ -2033,6 +2099,16 @@
     "soundEnableDistance": 50.0,
     "farPlane": 15000.0
   },
+  "ship_ammo_fire_underwater": {
+    "fx": "ps_ammo_fire_underwater_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 30,
+    "numReserved": 3,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "ammo_explode",
+    "soundEnableDistance": 100.0,
+    "group": "underwater"
+  },
   "ship_ammo_fire_large": {
     "fx": "ps_ammo_fire_large_composite_fx",
     "lifeTime": 10.0,
@@ -2041,6 +2117,14 @@
     "sfxPath": "tanks/explosions_tanks",
     "sfxEvent": "ammo_explode",
     "soundEnableDistance": 100.0
+  },
+  "start_torpedo_submerged": {
+    "fx": "ps_trp_submerged_fire_composite_fx",
+    "lifeTime": 3.0,
+    "numInstances": 10,
+    "numReserved": 4,
+    "onePointNumber": 4,
+    "group": "underwater"
   },
   "start_torpedo": {
     "fx": "ps_trp_fire_composite_fx",
@@ -2377,6 +2461,15 @@
     "numInstances": 0,
     "numReserved": 0
   },
+  "haze_cruisemissile": {
+    "fx": "trail_haze_fx",
+    "lifeTime": 2.0,
+    "isTrail": true,
+    "numInstances": 12,
+    "numReserved": 5,
+    "minScale": 6.3,
+    "maxScale": 10.8
+  },
   "haze": {
     "fx": "trail_haze_fx",
     "lifeTime": 0.0,
@@ -2418,11 +2511,11 @@
     "sfxEvent": "building_fall"
   },
   "tree_expl": {
-    "fx": "tree_expl_fx",
+    "fx": "ad_tree_felling_leaves_green_medium_composite_fx",
     "numInstances": 15,
     "numReserved": 2,
-    "minScale": 0.8,
-    "maxScale": 1.1,
+    "minScale": 5.0,
+    "maxScale": 5.2,
     "sfxEvent": "tree_falling"
   },
   "ground_model_hit": {
@@ -2499,6 +2592,24 @@
     "numInstances": 50,
     "numReserved": 8,
     "farPlane": 15000.0
+  },
+  "ps_bubbles": {
+    "fx": "trp_propeller_splashes_layer1_fx",
+    "numInstances": 50,
+    "numReserved": 20,
+    "onePointNumber": 20,
+    "minScale": 1.1,
+    "maxScale": 1.8,
+    "group": "underwater"
+  },
+  "ps_bubbles_dust": {
+    "fx": "water_bubbles_dust_composite_fx",
+    "numInstances": 50,
+    "numReserved": 20,
+    "onePointNumber": 20,
+    "minScale": 1.1,
+    "maxScale": 1.8,
+    "group": "underwater"
   },
   "boat_exhaust": {
     "fx": "boat_exhaust_fx",
@@ -3134,6 +3245,26 @@
     "granularity": 8,
     "group": "water_proj"
   },
+  "trp_propeller_water_splashes": {
+    "fx": "trp_propeller_water_splashes_composite_fx",
+    "lifeTime": 2.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 20,
+    "granularity": 2,
+    "group": "underwater"
+  },
+  "ship_propeller_underwater_splashes": {
+    "fx": "ps_propeller_underwater_splash_composite",
+    "lifeTime": 4.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 20,
+    "granularity": 8,
+    "group": "underwater"
+  },
   "ship_propeller_water_splashes": {
     "fx": "ps_propeller_water_splash_composite",
     "lifeTime": 2.0,
@@ -3222,6 +3353,22 @@
     "softnessDepth": 5.0,
     "numInstances": 10,
     "numReserved": 5
+  },
+  "ship_collision_unit_steel_underwater": {
+    "fx": "ps_collision_steel_underwater_composite_fx",
+    "lifeTime": 4.0,
+    "softnessDepth": 5.0,
+    "numInstances": 10,
+    "numReserved": 5,
+    "group": "underwater"
+  },
+  "ship_collision_unit_ground_underwater": {
+    "fx": "ps_collision_ground_underwater_composite_fx",
+    "lifeTime": 4.0,
+    "softnessDepth": 5.0,
+    "numInstances": 10,
+    "numReserved": 5,
+    "group": "underwater"
   },
   "ship_collision_unit_steel": {
     "fx": "ps_collision_sparks_composite_fx",

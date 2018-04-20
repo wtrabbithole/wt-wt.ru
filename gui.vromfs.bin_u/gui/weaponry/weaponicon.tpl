@@ -8,9 +8,6 @@ modIcon{
   css-hier-invalidate:t="yes"
 
   wallpaper{
-    pos:t='50%pw-50%w, 50%ph-50%h'
-    position:t='absolute'
-    size:t='pw, ph';
     css-hier-invalidate:t='yes'
     pattern{type:t='bright_texture';}
   }

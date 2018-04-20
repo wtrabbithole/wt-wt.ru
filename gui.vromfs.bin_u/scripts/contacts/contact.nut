@@ -5,6 +5,7 @@ class Contact
 {
   name = ""
   uid = ""
+  uidInt64 = null
   clanTag = ""
 
   presence = null
@@ -26,7 +27,7 @@ class Contact
 
   pilotIcon = "cardicon_bot"
   wins = -1
-  rank = -1
+  expTotal = -1
 
   update = false
   afterSuccessUpdateFunc = null
@@ -50,6 +51,9 @@ class Contact
     foreach (name, val in contactData)
       if (name in this)
         this[name] = val
+
+    uidInt64 = uid != "" ? uid.tointeger() : null
+
     refreshClanTagsTable()
 
     if (afterSuccessUpdateFunc)
@@ -90,9 +94,9 @@ class Contact
     return res
   }
 
-  function canOpenXBoxFriendsWindow()
+  function canOpenXBoxFriendsWindow(forGroupName = null)
   {
-    return platformModule.isPlayerFromXboxOne(name)
+    return forGroupName != ::EPL_BLOCKLIST && platformModule.isPlayerFromXboxOne(name)
   }
 
   function openXBoxFriendsEdit()
@@ -119,9 +123,14 @@ class Contact
     return wins >= 0? wins : ::loc("leaderboards/notAvailable")
   }
 
+  function getRank()
+  {
+    return ::get_rank_by_exp(expTotal > 0? expTotal : 0)
+  }
+
   function getRankText()
   {
-    return rank >= 0? rank : ::loc("leaderboards/notAvailable")
+    return expTotal >= 0? getRank().tostring() : ::loc("leaderboards/notAvailable")
   }
 
   function getName()
@@ -138,5 +147,31 @@ class Contact
       return false
 
     return platformModule.isPlayerFromXboxOne(name)
+  }
+
+  function isMe()
+  {
+    return uidInt64 == ::my_user_id_int64
+      || uid == ::my_user_id_str
+      || name == ::my_user_name
+  }
+
+  function getGroupsList()
+  {
+    local groupsList = {}
+    foreach (groupName, group in ::contacts)
+      foreach (player in group)
+        if (player.uid == uid
+          || player?.uidInt64 == uidInt64
+          || player.name == name)
+          groupsList[groupName] <- true
+
+    return groupsList
+  }
+
+  function isInFriendsGroup()
+  {
+    local groupsList = getGroupsList()
+    return ::EPL_FRIENDLIST in groupsList || ::EPLX_PS4_FRIENDS in groupsList
   }
 }

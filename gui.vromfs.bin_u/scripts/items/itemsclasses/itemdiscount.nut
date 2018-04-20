@@ -97,7 +97,7 @@ class ::items_classes.Discount extends ::BaseItem
   function getMainActionName(colored = true, short = false)
   {
     local name = base.getMainActionName(colored, short);
-    if (name == "" && isInventoryItem && !isActive())
+    if (name == "" && isInventoryItem && amount && !isActive())
       name = ::loc("item/activate")
     return name
   }

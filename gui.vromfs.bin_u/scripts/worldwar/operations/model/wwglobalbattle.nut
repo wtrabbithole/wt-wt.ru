@@ -1,8 +1,5 @@
 local u = ::require("std/u.nut")
 
-
-const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
-
 local WwGlobalBattle = class extends ::WwBattle
 {
   operationId = -1

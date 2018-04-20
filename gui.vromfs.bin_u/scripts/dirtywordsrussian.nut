@@ -553,7 +553,6 @@ excludescoreRussian <-
   { key = "неб",    value = "неб[еиоу]" },
   { key = "пасиб",  value = "пасиб" },
   { key = "псих",   value = "психу" },
-  { key = "теб",    value = "[с|т][е|и]б" },
   { key = "хлеб",   value = "^.{0,3}хлеб" },
   { key = "хули",   value = "хулиган([^х])" },
   { key = "шлеп",   value = "шлеп" },
@@ -1212,3 +1211,7 @@ badphrasesRussian <-
   @"отс[ао]сатьу",
   @"отс[ао]сичлен",
 ];
+
+badcombinationRussian <-
+[
+]

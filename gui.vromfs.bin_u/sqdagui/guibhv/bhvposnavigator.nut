@@ -94,8 +94,8 @@ class gui_bhv.posNavigator
   {
     local pos = obj.getPos()
     local size = obj.getSize()
-    return [::clamp(point[0], pos[0], pos[0] + size[0])
-            ::clamp(point[1], pos[1], pos[1] + size[1])
+    return [::clamp(point[0], pos[0], pos[0] + (size[0] < 0 ? 0 : size[0]))
+            ::clamp(point[1], pos[1], pos[1] + (size[1] < 0 ? 0 : size[1]))
            ]
   }
 
@@ -105,7 +105,9 @@ class gui_bhv.posNavigator
     local size = obj.getSize()
     local res = []
     for(local a= 0; a < 2; a++)
-      res.append(a == axis ? ::clamp(point[a], pos[a], pos[a] + size[a]) : pos[a] + 0.5*size[a])
+      res.append(a == axis
+        ? ::clamp(point[a], pos[a], pos[a] + (size[a] < 0 ? 0 : size[a]))
+        : pos[a] + 0.5*size[a])
     return res
   }
 
@@ -210,11 +212,8 @@ class gui_bhv.posNavigator
   function onShortcutActivate(obj, is_down)
   {
     if (!is_down)
-    {
       activateAction(obj)
-      return ::RETCODE_HALT;
-    }
-    return ::RETCODE_NOTHING;
+    return ::RETCODE_HALT;
   }
 
   function findClickedObj(obj, mx, my)
@@ -476,9 +475,13 @@ class gui_bhv.posNavigator
     if (!childObj || !childObj.isValid())
       return false
 
-    local canSelect = obj.isFocused() || !canSelectOnlyFocused(obj)
-    childObj["selected"] = canSelect && isSelected ? "yes" : "no"
+    childObj["selected"] = canSelectChild(obj) && isSelected ? "yes" : "no"
     return true
+  }
+
+  function canSelectChild(obj)
+  {
+    return obj.isFocused() || !canSelectOnlyFocused(obj)
   }
 
   function clearSelect(obj)

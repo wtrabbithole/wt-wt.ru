@@ -11,6 +11,8 @@ class ::items_classes.Chest extends ItemExternal {
   static isPreferMarkupDescInTooltip = false
   static userlogOpenLoc = "open_trophy"
   static hasTopRewardAsFirstItem = false
+  static includeInRecentItems = false
+  static descReceipesListHeaderPrefix = "chest/requires/"
 
   _isInitialized = false
   generator = null
@@ -38,18 +40,18 @@ class ::items_classes.Chest extends ItemExternal {
 
   function getMainActionName(colored = true, short = false)
   {
-    return ::loc("item/open")
+    return amount ? ::loc("item/open") : ""
   }
 
-  function skipRoulette()
-  {
-    return false
-  }
-
-  function isAllowSkipOpeningAnim()
-  {
-    return ::is_dev_version
-  }
+  skipRoulette              = @() false
+  isAllowSkipOpeningAnim    = @() ::is_dev_version
+  getOpeningAnimId          = @() itemDef?.tags?.isLongOpenAnim ? "LONG" : "DEFAULT"
+  getCantAssembleLocId      = @() "msgBox/chestOpen/cant"
+  getAssembleMessageData    = @(recipe) getEmptyAssembleMessageData().__update({
+    text = ::loc("msgBox/chestOpen/confirm", { itemName = ::colorize("activeTextColor", getName()) })
+      + (recipe.isMultipleItems ? "\n" + ::loc("msgBox/extra_items_will_be_spent") : "")
+    needRecipeMarkup = recipe.isMultipleItems
+  })
 
   function getContent()
   {
@@ -57,15 +59,22 @@ class ::items_classes.Chest extends ItemExternal {
     return generator ? generator.getContent() : []
   }
 
+  getDescRecipesText    = @(params) ExchangeRecipes.getRequirementsText(getRelatedRecipes(), this, params)
+  getDescRecipesMarkup  = @(params) ExchangeRecipes.getRequirementsMarkup(getRelatedRecipes(), this, params)
+
   function getDescription()
   {
     local params = { receivedPrizes = false }
 
+    local content = getContent()
+    local hasContent = content.len() != 0
+
     return ::g_string.implode([
-      getMarketablePropDesc()
-      ExchangeRecipes.getRequirementsText(getRelatedRecipes(), this, params)
-      ::PrizesView.getPrizesListText(getContent(), _getDescHeader)
-      getHiddenItemsDesc() || ""
+      getMarketablePropDesc(),
+      getCurExpireTimeText(),
+      getDescRecipesText(params),
+      (hasContent ? ::PrizesView.getPrizesListText(content, _getDescHeader) : ""),
+      getHiddenItemsDesc() || "",
     ], "\n")
   }
 
@@ -79,10 +88,14 @@ class ::items_classes.Chest extends ItemExternal {
     params = params || {}
     params.receivedPrizes <- false
 
+    local content = getContent()
+    local hasContent = content.len() != 0
+
     return ::PrizesView.getPrizesListView([], { header = getMarketablePropDesc() })
-      + ExchangeRecipes.getRequirementsMarkup(getRelatedRecipes(), this, params)
-      + ::PrizesView.getPrizesStacksView(getContent(), _getDescHeader, params)
-      + ::PrizesView.getPrizesListView([], { header = getHiddenItemsDesc() })
+      + (hasTimer() ? ::PrizesView.getPrizesListView([], { header = getCurExpireTimeText(), timerId = "expire_timer" }) : "")
+      + getDescRecipesMarkup(params)
+      + (hasContent ? ::PrizesView.getPrizesStacksView(content, _getDescHeader, params) : "")
+      + (hasContent ? ::PrizesView.getPrizesListView([], { header = getHiddenItemsDesc() }) : "")
   }
 
   function _getDescHeader(fixedAmount = 1)
@@ -95,7 +108,9 @@ class ::items_classes.Chest extends ItemExternal {
   function getHiddenItemsDesc()
   {
     local generator = getGenerator()
-    return !generator || generator.hasHiddenItems ? ::colorize("grayOptionColor", ::loc("trophy/chest_contents/other")) : null
+    if (!generator || !generator.hasHiddenItems || !getContent().len())
+      return null
+    return ::colorize("grayOptionColor", ::loc("trophy/chest_contents/other"))
   }
 
   function getHiddenTopPrizeParams()

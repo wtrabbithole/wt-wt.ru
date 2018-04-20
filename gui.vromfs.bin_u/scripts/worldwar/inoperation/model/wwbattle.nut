@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 
 const WW_BATTLES_SORT_TIME_STEP = 60000
+const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
 
 class ::WwBattle
 {
@@ -310,7 +311,7 @@ class ::WwBattle
       return res
     }
 
-    if (isLockedByExcessPlayers())
+    if (isLockedByExcessPlayers(side))
     {
       res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
       res.reasonText = ::loc("worldWar/battle_is_unbalanced")
@@ -797,7 +798,7 @@ class ::WwBattle
     return team1Players > team2Players ? ::SIDE_1 : ::SIDE_2
   }
 
-  function isLockedByExcessPlayers(country = null)
+  function isLockedByExcessPlayers(side)
   {
     if (getMyAssignCountry())
       return false
@@ -806,7 +807,7 @@ class ::WwBattle
     if (excessPlayersSide == ::SIDE_NONE)
       return false
 
-    return excessPlayersSide == getSide(country)
+    return excessPlayersSide == side
   }
 
   function getSide(country = null)

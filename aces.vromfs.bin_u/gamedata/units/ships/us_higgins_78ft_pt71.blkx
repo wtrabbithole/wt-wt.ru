@@ -695,27 +695,14 @@
           "armorClass": "ship_wood",
           "hp": 250.0,
           "genericDamageMult": 0.1,
-          "bulkhead_01_dm": {
-            "armorThickness": 15.0
-          },
-          "bulkhead_02_dm": {
-            "armorThickness": 15.0
-          },
-          "bulkhead_03_dm": {
-            "armorThickness": 15.0
-          },
-          "bulkhead_04_dm": {
-            "armorThickness": 15.0
-          },
-          "bulkhead_05_dm": {
-            "armorThickness": 15.0
-          },
-          "bulkhead_06_dm": {
-            "armorThickness": 15.0
-          },
-          "bulkhead_07_dm": {
-            "armorThickness": 15.0
-          }
+          "armorThickness": 15.0,
+          "bulkhead_01_dm": [],
+          "bulkhead_02_dm": [],
+          "bulkhead_03_dm": [],
+          "bulkhead_04_dm": [],
+          "bulkhead_05_dm": [],
+          "bulkhead_06_dm": [],
+          "bulkhead_07_dm": []
         }
       },
       {
@@ -723,15 +710,10 @@
           "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "armorThickness": 15.0,
-          "mast_01_dm": {
-            "genericDamageMult": 1.0
-          },
-          "mast_02_dm": {
-            "genericDamageMult": 1.0
-          },
-          "mast_03_dm": {
-            "genericDamageMult": 1.0
-          },
+          "genericDamageMult": 1.0,
+          "mast_01_dm": [],
+          "mast_02_dm": [],
+          "mast_03_dm": [],
           "radio_station_dm": {
             "armorThickness": 2.0
           }
@@ -2779,13 +2761,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2794,7 +2773,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -2928,13 +2907,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2943,7 +2919,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -3077,13 +3053,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -3092,7 +3065,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -3226,13 +3199,10 @@
             "speedPitch": 60.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 2000
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -3241,7 +3211,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -3339,7 +3309,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "primary"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
@@ -3375,13 +3345,10 @@
             "speedPitch": 35.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 1200
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -3390,7 +3357,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -3440,7 +3407,6 @@
               "gun": "main_caliber_gun_01",
               "barrel": "gun_barrel_01",
               "gunnerDm": "main_caliber_turret_01_dm",
-              "allowableDelta": 10.0,
               "linkedAnimPart": {
                 "verNode": "bone_radius_foot",
                 "verLimits": [0.0,16.0],

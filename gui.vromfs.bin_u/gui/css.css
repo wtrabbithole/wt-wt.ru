@@ -202,6 +202,12 @@ textareaNoTab, titleTextArea,textAreaSmall, notificationText, tooltipDesc {
   color:@commonTextColor;
 }
 
+animText {
+  behaviour:textArea;
+  re-type:textarea;
+  color:@commonTextColor;
+}
+
 CheckBox[enable=no] > textarea {
   color:@minorTextColor;
 }
@@ -1048,8 +1054,13 @@ tr[queueTableTitleRow=yes] text {
   position:absolute;
 }
 
+[baseRow=yes] > tr > td > textareaNoTab {
+  word-wrap:no;
+}
+
 [baseRow=rows16] > tr > td > textareaNoTab {
   max-height:@rows16height;
+  word-wrap:no;
 }
 
 .optionsTable > tr, .headerTable > tr, .transpTable > tr {
@@ -1981,7 +1992,8 @@ briefingglow[needAnim=yes] {
 }
 
 text[overlayTextColor=active], textareaNoTab[overlayTextColor=active], textarea[overlayTextColor=active],
-textAreaCentered[overlayTextColor=active], optiontext[overlayTextColor=active] {
+textAreaCentered[overlayTextColor=active], optiontext[overlayTextColor=active],
+animText[overlayTextColor=active] {
   color:@activeTextColor;
 }
 text[overlayTextColor=minor], textareaNoTab[overlayTextColor=minor] {

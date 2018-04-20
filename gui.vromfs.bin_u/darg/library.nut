@@ -1,8 +1,21 @@
-require("string")
+local string = require("string")
 tostring_r <- require("std/string.nut").tostring_r
-vlog_r <- function(val, maxdeeplevel=null, splitlines=false) {
-  local out = tostring_r(val, " ", maxdeeplevel)
-  if (splitlines) {
+
+_Log <- class {
+  splitlines = null
+  level = null
+  defaultParams = {splitlines=null level=null}
+  constructor(params={}) {
+    level=params?.level ?? defaultParams.level
+    splitlines=params?.splitlines ?? defaultParams.splitlines
+  }
+}
+
+vlog_r <- function(...) {
+  local params_ = (vargv.len()==1) ? null : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
+  local out = vargv.filter(@(i,v) !(v instanceof _Log))
+  local out = tostring_r(out.len()==1 ? out[0] : out, " ", params_?.level)
+  if (params_?.splitlines) {
     local s = string.split(out,"\n")
     for (local i=0; i < min(50,s.len()); i++) {
       vlog_r(s[i])
@@ -11,12 +24,17 @@ vlog_r <- function(val, maxdeeplevel=null, splitlines=false) {
   else
     vlog(out.slice(0,min(out.len(),200)))
 }
-print_r <- function(val, maxdeeplevel=null) {
-  print(tostring_r(val," ", maxdeeplevel) + "\n")
+print_r <- function(...) {
+  local params_ = (vargv.len()==1) ? null : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
+  local out = vargv.filter(@(i,v) !(v instanceof _Log))
+  print(tostring_r(out.len()==1 ? out[0] : out, " ", params_?.level) + "\n")
 }
-dlog <- function(val, maxdeeplevel=null, splitlines=false) { 
-  vlog_r(val, maxdeeplevel, splitlines); 
-  print_r(val, maxdeeplevel) 
+
+dlog <- function(...) { 
+  local logparams = (vargv.len()==1) ? null : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
+  local out = vargv.filter(@(i,v) !(v instanceof _Log))
+  vlog_r((out.len() == 1) ? out[0] : out, _Log(logparams))
+  print_r((out.len() == 1) ? out[0] : out, _Log(logparams))
 }
 
 function isDargComponent(comp) {

@@ -272,6 +272,12 @@ function get_userlog_view_data(log)
       if (ecSpawnScore > 0)
         desc += "\n" + "<color=@userlogColoredText>" + ::loc("debriefing/total/ecSpawnScore") +  ::loc("ui/colon") + "</color>"
                 + "<color=@activeTextColor>" + ecSpawnScore + "</color>"
+      local wwSpawnScore = log?.wwSpawnScore ?? 0
+      if (wwSpawnScore > 0)
+        desc += "\n"
+          + ::colorize("@userlogColoredText", ::loc("debriefing/total/wwSpawnScore")
+            + ::loc("ui/colon"))
+          + ::colorize("@activeTextColor", wwSpawnScore)
     }
 
     if (desc!="")
@@ -995,9 +1001,6 @@ function get_userlog_view_data(log)
     res.tooltip = res.description
   } else if (log.type == ::EULT_OPEN_TROPHY)
   {
-    if (log?.itemDefId && !::ItemsManager.findItemById(log.itemDefId))
-      ::ItemsManager.findItemByItemDefId(log.itemDefId)
-
     local itemId = log?.itemDefId || log?.id || ""
     local item = ::ItemsManager.findItemById(itemId)
 
@@ -1161,7 +1164,7 @@ function get_userlog_view_data(log)
   else if (log.type == ::EULT_INVENTORY_ADD_ITEM)
   {
     local itemDefId = log?.itemDefId ?? ""
-    local item = ::ItemsManager.findItemByItemDefId(itemDefId)
+    local item = ::ItemsManager.findItemById(itemDefId)
     local numItems = log?.quantity ?? 1
     local locId = "userlog/" + logName
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon

@@ -365,9 +365,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     if (playerSide == ::SIDE_NONE)
       return ::showInfoMsgBox(::loc("msgbox/internal_error_header"))
 
-    local allBattles = ::g_world_war.getBattles()
-    ::gui_handlers.WwBattleDescription.open(allBattles.len() ?
-      allBattles[0] : ::WwBattle())
+    openBattleDescriptionModal(::WwBattle())
   }
 
   function goBackToOperations(openBattles = false)
@@ -1113,26 +1111,19 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWWShowRearZones(params)
   {
-    local reinforcement = ::g_world_war.getReinforcementByName(::getTblValue("name", params))
+    local reinforcement = ::g_world_war.getReinforcementByName(params?.name)
     if (!reinforcement)
       return
 
-    local popupText = ""
     local reinforcementSide = reinforcement.getArmySide()
     local highlightedZones = []
     if (::g_ww_unit_type.isAir(reinforcement.getUnitType()))
-    {
-      local airfields = ::g_world_war.getAirfieldsArrayBySide(reinforcementSide)
-      highlightedZones = ::u.map(airfields, function(airfield) {
-        return ::ww_get_zone_name(::ww_get_zone_idx_world(airfield.getPos()))
-      })
-      popupText = ::loc("worldwar/error/reinforcement/wrongAirfieldCell")
-    }
+      highlightedZones = ::u.map(::g_world_war.getAirfieldsArrayBySide(reinforcementSide),
+        function(airfield) {
+          return ::ww_get_zone_name(::ww_get_zone_idx_world(airfield.getPos()))
+        })
     else
-    {
       highlightedZones = ::g_world_war.getRearZonesOwnedToSide(reinforcementSide)
-      popupText = ::loc("worldwar/error/reinforcement/wrongCell")
-    }
 
     ::ww_mark_zones_as_outlined_by_name(highlightedZones)
 
@@ -1144,8 +1135,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       {
         ::ww_clear_outlined_zones()
       }, this, false)
-
-    ::g_popups.add("", popupText, null, null, null, "reinforcement_deploy_error")
   }
 
   function onEventWWArmyStatusChanged(params)

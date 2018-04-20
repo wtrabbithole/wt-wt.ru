@@ -139,17 +139,6 @@
       "raceWinners": 1,
       "raceForceCannotShoot": true,
       "difficulty": "",
-      "editSlotbar": {
-        "keepOwnUnits": false,
-        "country_usa": {
-          "us_m18_hellcat_black_cat_race": {
-            "crewSkillsPercent": 100,
-            "crewSpecialization": 2,
-            "allWeapons": true,
-            "allModifications": true
-          }
-        }
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -303,6 +292,11 @@
                 "side": "player",
                 "target": "spawn03"
               }
+            },
+            {
+              "battleArea": {
+                "target": "battlearea"
+              }
             }
           ]
         },
@@ -414,6 +408,11 @@
                 "icontype": "tank",
                 "side": "player",
                 "target": "spawn03"
+              }
+            },
+            {
+              "battleArea": {
+                "target": "battlearea"
               }
             }
           ]
@@ -527,6 +526,11 @@
                 "side": "player",
                 "target": "spawn03"
               }
+            },
+            {
+              "battleArea": {
+                "target": "battlearea"
+              }
             }
           ]
         }
@@ -586,6 +590,9 @@
           },
           {
             "showOnMap": true
+          },
+          {
+            "onlyOnePlayerPerSpawnPoint": false
           },
           {
             "target": "spawn01"
@@ -698,6 +705,8 @@
           "mapArea": true,
           "killOutOfBattleArea": true,
           "newGridHorizontalCellCount": 0,
+          "killArea": false,
+          "detectionArea": false,
           "area": "battlearea"
         }
       },
@@ -742,6 +751,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "players_squad",
           "targetableByAi": false,
           "isImmortal": true,
@@ -771,6 +783,9 @@
           "object_marking": 0,
           "target_type": "isAlive",
           "check_period": 1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "players_squad"
         }
       },
@@ -816,6 +831,9 @@
           "priority": 0,
           "isOverFade": false,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "shouldBlink": false
         },
         "varModify": {
@@ -835,6 +853,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "players_squad",
           "targetableByAi": false,
           "isImmortal": true,
@@ -853,6 +874,9 @@
           "priority": 0,
           "isOverFade": false,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "shouldBlink": false
         },
         "triggerDisable": {
@@ -877,6 +901,9 @@
       "actions": {
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "players_squad",
           "cannotShoot": false
         }

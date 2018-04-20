@@ -1,3 +1,5 @@
+local crossplayModule = require("scripts/social/crossplay.nut")
+
 ::generic_options <- null
 
 function check_disable_saving_options()
@@ -736,6 +738,12 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     local obj = scene.findObject("value_" + option.id)
     if (::check_obj(obj))
       obj.setValue(option.getValueLocText(value))
+  }
+
+  function onChangeCrossPlayOption(obj)
+  {
+    if (::checkIsInQueue() && obj.getValue() != crossplayModule.isCrossPlayEnabled())
+      ::g_popups.add("", ::loc("options/onChangeValue/inQueue"))
   }
 
   function onMissionChange(obj) {}

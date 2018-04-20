@@ -1,6 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-
+local platformModule = require("modules/platform.nut")
 
 function create_event_description(parent_scene, event = null, needEventHeader = true)
 {
@@ -422,7 +422,14 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     local rowName = "row_" + rowIdx
     local forClan = ::events.isClanLbRequest(newSelfRowRequest)
-    local nameField = forClan ? "tag" : "name"
+
+    local name = row?.name ?? ""
+    name = platformModule.getPlayerName(name)
+
+    local text = name
+    if (forClan)
+      text = row?.tag ?? ""
+
     local rowData = [
       {
         text = (row.pos + 1).tostring()
@@ -433,8 +440,8 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
         width = "3fw"
         textRawParam = "width:t='pw'; pare-text:t='yes';"
         tdAlign = "left"
-        text = ::g_string.stripTags(::getTblValue(nameField, row, ""))
-        tooltip = forClan ? ::g_string.stripTags(::getTblValue("name", row, "")) : ""
+        text = text
+        tooltip = forClan ? name : ""
         active = false
       }
     ]

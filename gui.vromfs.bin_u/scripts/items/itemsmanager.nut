@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
+
 /*
   ::ItemsManager API:
 
@@ -58,18 +60,17 @@ class BoosterEffectType
 //events from code:
 function on_items_loaded()
 {
-  ::ItemsManager.refreshExtInventory()
   ::ItemsManager.markInventoryUpdate()
 }
 
 foreach (fn in [
                  "discountItemSortMethod.nut"
                  "trophyMultiAward.nut"
-                 "itemsRoulette.nut"
                  "itemLimits.nut"
                  "listPopupWnd/itemsListWndBase.nut"
                  "listPopupWnd/universalSpareApplyWnd.nut"
                  "listPopupWnd/modUpgradeApplyWnd.nut"
+                 "roulette/itemsRoulette.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/" + fn)
 
@@ -89,9 +90,12 @@ foreach (fn in [
                  "itemVehicle.nut"
                  "itemSkin.nut"
                  "itemDecal.nut"
+                 "itemAttachable.nut"
                  "itemKey.nut"
                  "itemChest.nut"
+                 "itemWarbonds.nut"
                  "itemCraftPart.nut"
+                 "itemRecipesBundle.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
@@ -112,6 +116,8 @@ foreach (fn in [
   _reqUpdateItemDefsList = true
   _needInventoryUpdate = true
 
+  shouldCheckAutoConsume = false
+
   extInventoryUpdateTime = 0
 
   // Things needed to handle seen/unseen items.
@@ -119,7 +125,7 @@ foreach (fn in [
     [true] = {
       name = "seen_inventory_items" // Used as data block name.
       seenItemsData = null // Use ItemsManager::getSeenItemsData() to access.
-      numUnseenItems = -1 // Use ItemsManager::getNumUnseenItems() to access.
+      numUnseenItems = -1 // Use ItemsManager::getNumUnseenItems() to access. count by itemType.INVENTORY_ALL
       numUnseenItemsInvalidated = true // Num unseen shop items invalidation flag.
       saveSeenItemsInvalidated = false // Raised when seen shop items data save required.
       updateSeenItemsData = function (items, curDays)
@@ -308,7 +314,7 @@ function ItemsManager::checkItemDefsUpdate()
 
     local defType = itemDefDesc?.type
 
-    if (!::u.isEmpty(itemDefDesc?.exchange))
+    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]) || !::u.isEmpty(itemDefDesc?.exchange))
       ItemGenerators.add(itemDefDesc)
 
     if (defType != "item")
@@ -374,15 +380,15 @@ function ItemsManager::getShopList(typeMask = itemType.ALL, filterFunc = null)
 function ItemsManager::findItemById(id, typeMask = itemType.ALL)
 {
   _checkUpdateList()
-  return ::getTblValue(id, shopItemById, null)
+  local item = shopItemById?[id]
+  if (!item && isItemdefId(id))
+    requestItemsByItemdefIds([id])
+  return item
 }
 
-function ItemsManager::findItemByItemDefId(itemDefId)
+function ItemsManager::isItemdefId(id)
 {
-  local item = findItemById(itemDefId)
-  if (!item)
-    requestItemsByItemdefIds([itemDefId])
-  return item
+  return typeof id == "integer"
 }
 
 function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
@@ -390,9 +396,27 @@ function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
   inventoryClient.requestItemdefsByIds(itemdefIdsList)
 }
 
+function ItemsManager::getItemOrRecipeBundleById(id)
+{
+  local item = findItemById(id)
+  if (item || !ItemGenerators.get(id))
+    return item
+
+  local itemDefDesc = inventoryClient.getItemdefs()?[id]
+  if (!itemDefDesc)
+    return item
+
+  item = createItem(itemType.RECIPES_BUNDLE, itemDefDesc)
+  //this item is not visible in inventory or shop, so no need special event about it creation
+  //but we need to be able find it by id to correct work with it later.
+  itemsByItemdefId[item.id] <- item
+  shopItemById[item.id] <- item
+  return item
+}
+
 function ItemsManager::isMarketplaceEnabled()
 {
-  return ::has_feature("ExtInventory") && ::has_feature("AllowExternalLink") &&
+  return ::has_feature("Marketplace") && ::has_feature("AllowExternalLink") &&
     inventoryClient.getMarketplaceBaseUrl() != null
 }
 
@@ -435,6 +459,7 @@ function ItemsManager::onEventItemDefChanged(p)
   markItemsDefsListUpdateDelayed()
 }
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------INVENTORY ITEMS-----------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -445,11 +470,13 @@ function ItemsManager::getInventoryItemType(blkType)
     {
       case "skin":                return itemType.SKIN
       case "decal":               return itemType.DECAL
+      case "attachable":          return itemType.ATTACHABLE
       case "key":                 return itemType.KEY
       case "chest":               return itemType.CHEST
       case "aircraft":
       case "tank":
       case "ship":                return itemType.VEHICLE
+      case "warbonds":            return itemType.WARBONDS
       case "craft_part":          return itemType.CRAFT_PART
     }
 
@@ -472,8 +499,6 @@ function ItemsManager::getInventoryItemType(blkType)
 
 function ItemsManager::_checkInventoryUpdate()
 {
-  refreshExtInventory()
-
   if (!_needInventoryUpdate)
     return
   _needInventoryUpdate = false
@@ -530,9 +555,14 @@ function ItemsManager::_checkInventoryUpdate()
   foreach (itemDesc in inventoryClient.getItems())
   {
     local itemDefDesc = itemDesc.itemdef
+    if (!itemDefDesc.len()) //item not full updated, or itemDesc no more exist.
+      continue
     local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
+    {
+      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemDefDesc?.itemdefid)
       continue
+    }
 
     local isCreate = true
     foreach (existingItem in extInventoryItems)
@@ -554,6 +584,11 @@ function ItemsManager::_checkInventoryUpdate()
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
 {
   _checkInventoryUpdate()
+  if (shouldCheckAutoConsume)
+  {
+    shouldCheckAutoConsume = false
+    autoConsumeItems()
+  }
   return _getItemsFromList(inventory, typeMask, filterFunc)
 }
 
@@ -581,6 +616,27 @@ function ItemsManager::markInventoryUpdateDelayed()
     markInventoryUpdate()
   })
 }
+
+local isAutoConsumeInProgress = false
+function ItemsManager::autoConsumeItems()
+{
+  if (isAutoConsumeInProgress)
+    return
+
+  local onConsumeFinish = function(...) {
+    isAutoConsumeInProgress = false
+    autoConsumeItems()
+  }.bindenv(this)
+
+  foreach(item in getInventoryList())
+    if (item.shouldAutoConsume && item.consume(onConsumeFinish, {}))
+    {
+      isAutoConsumeInProgress = true
+      break
+    }
+}
+
+function ItemsManager::onEventLoginComplete(p) { shouldCheckAutoConsume = true }
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -681,6 +737,18 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
     item.setIcon(obj, iconSetParams)
   }
   obj.scrollToView()
+
+  if (item && item.hasTimer())
+  {
+    local timerObj = holderObj.findObject("expire_timer")
+    if (::check_obj(timerObj))
+      SecondsUpdater(timerObj, ::Callback(function(obj, params)
+      {
+        local text = item.getCurExpireTimeText()
+        obj.setValue(text)
+        return text == ""
+      }, this))
+  }
 }
 
 function ItemsManager::fillItemTableInfo(item, holderObj)
@@ -788,7 +856,7 @@ function ItemsManager::removeRefreshBoostersTask()
 
 function ItemsManager::refreshExtInventory()
 {
-  ::ItemsManager.inventoryClient.requestAll()
+  ::ItemsManager.inventoryClient.refreshItems()
 }
 
 function ItemsManager::forceRefreshExtInventory()
@@ -1012,10 +1080,21 @@ function ItemsManager::sortByParam(array, param)
 
 function ItemsManager::findItemByUid(uid, filterType = itemType.ALL)
 {
-  local itemsArray = ::ItemsManager.getInventoryList(filterType,
-                (@(uid) function (item) { return ::isInArray(uid, item.uids)})(uid) )
+  local itemsArray = ::ItemsManager.getInventoryList(filterType)
+  local res = u.search(itemsArray, @(item) ::isInArray(uid, item.uids) )
+  return res
+}
 
-  return itemsArray.len() > 0? itemsArray[0] : null
+function ItemsManager::collectUserlogItemdefs()
+{
+  for(local i = 0; i < ::get_user_logs_count(); i++)
+  {
+    local blk = ::DataBlock()
+    ::get_user_log_blk_body(i, blk)
+    local itemDefId = blk?.body?.itemDefId
+    if (itemDefId)
+      ::ItemsManager.findItemById(itemDefId) // Requests itemdef, if it is not found.
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -1075,14 +1154,11 @@ function ItemsManager::getNumUnseenItems(forInventoryItems)
       : itemsList
     local hasDevItemShopFeature = ::has_feature("devItemShop")
     foreach (item in items)
-    {
-      if (item.id.tostring() in seenItemsData ||
-          !forInventoryItems && !item.isCanBuy() ||
-          item.isDevItem && !hasDevItemShopFeature)
-        continue
-
-      ++seenItemsInfo.numUnseenItems
-    }
+      if (item.iType & itemType.INVENTORY_ALL
+          && !(item.id.tostring() in seenItemsData)
+          && (forInventoryItems || item.isCanBuy())
+          && (!item.isDevItem || hasDevItemShopFeature))
+        ++seenItemsInfo.numUnseenItems
   }
   return seenItemsInfo.numUnseenItems
 }
@@ -1128,6 +1204,7 @@ function ItemsManager::saveSeenItemsData(forInventoryItems)
   if (!seenItemsInfo.saveSeenItemsInvalidated)
     return
   seenItemsInfo.saveSeenItemsInvalidated = false
+  ::broadcastEvent("SeenItemsChanged", {forInventoryItems = forInventoryItems})
   ::saveLocalByAccount(seenItemsInfo.name, seenItemsData)
 }
 
@@ -1154,7 +1231,7 @@ function ItemsManager::updateGamercardIcons(forInventoryItems = null)
     return
 
   lastSeenItemsEventDelayCall = ::dagor.getCurTime()
-  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+  ::get_main_gui_scene().performDelayed(::ItemsManager, function() { //!!FIX ME: Why it here???
     lastSeenItemsEventDelayCall = 0
     ::broadcastEvent("UpdatedSeenItems", {forInventoryItems = forInventoryItems})
   })
@@ -1179,7 +1256,7 @@ function ItemsManager::updateSeenItemsData(forInventoryItems)
 
 function ItemsManager::isItemUnseen(item)
 {
-  if (item == null)
+  if (item == null || item.isDisguised || (item.isInventoryItem && item.amount <= 0))
     return false
   local seenItemsData = ::ItemsManager.getSeenItemsData(item.isInventoryItem)
   if (seenItemsData == null)

@@ -868,6 +868,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t1_bomber_name",
             "team": "A"
           }
@@ -876,6 +879,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t1_bomber_name",
             "team": "B"
           }
@@ -888,6 +894,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "stealthRadius": 3500.0,
             "accuracy": 0.4,
@@ -898,6 +907,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_fighter_name",
             "stealthRadius": 3500.0,
             "accuracy": 0.6,
@@ -953,6 +965,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_fighter_name",
             "follow_offset": [0.0,500.0,0.0]
           }
@@ -965,9 +980,9 @@
             "fireRandom": true,
             "targetTypeName": "airplane",
             "targetDistMax": 4000.0,
+            "maxNumAttackersPerTarget": 1,
             "anchorTarget": "@bt_t1_bomber_name",
             "targetToAnchorDist": [3000.0,4000.0],
-            "maxNumAttackersPerTarget": 1,
             "resetObjectToFollow": false
           }
         },
@@ -1046,6 +1061,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name"
         }
       },
@@ -1068,6 +1086,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_fighter_name"
           }
         },
@@ -1107,6 +1128,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_fighter_name",
           "target": "bt_t1_retreat_point",
           "compareCenters": false,
@@ -1154,6 +1178,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name",
           "target": "@bt_t1_target_point_name",
           "compareCenters": false,
@@ -1176,13 +1203,16 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name"
         },
         "unitAttackTarget": {
           "playerAttracted": false,
           "object": "@bt_t1_bomber_name",
           "target": "@bt_t1_target_name",
-          "attackTimeMax": 120.0
+          "attackNumMax": 2
         },
         "triggerEnable": [
           {
@@ -1238,6 +1268,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name"
         },
         "triggerEnable": {
@@ -1297,6 +1330,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name"
         },
         "unitDistanceBetween": {
@@ -1308,6 +1344,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name",
           "target": "bt_t1_retreat_point",
           "compareCenters": false,
@@ -1363,6 +1402,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name"
           }
         },
@@ -1372,6 +1414,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_fighter_name"
           }
         }
@@ -1453,6 +1498,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t1_bomber_name",
             "team": "A"
           }
@@ -1461,6 +1509,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t1_bomber_name",
             "team": "B"
           }
@@ -1529,6 +1580,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t1_bomber_name",
             "team": "Both"
           }
@@ -1666,6 +1720,9 @@
           "enemy_type": "isTeamB",
           "distance": 5500.0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name",
           "use_variable": true,
           "distance_var": "bt_t2_detection_range"
@@ -1691,6 +1748,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bt_t1_bomber_name"
         },
         "moAddMissionObjective": {
@@ -1724,6 +1784,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name"
         }
       },
@@ -1802,6 +1865,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name"
         }
       },
@@ -1828,6 +1894,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t1_bomber_name"
           }
         },
@@ -2282,6 +2351,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t2_bomber_name",
             "team": "B"
           }
@@ -2290,6 +2362,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t2_bomber_name",
             "team": "A"
           }
@@ -2302,6 +2377,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "stealthRadius": 3500.0,
             "accuracy": 0.4,
@@ -2312,6 +2390,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_fighter_name",
             "stealthRadius": 3500.0,
             "accuracy": 0.6,
@@ -2367,6 +2448,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_fighter_name",
             "follow_offset": [0.0,500.0,0.0]
           }
@@ -2379,9 +2463,9 @@
             "fireRandom": true,
             "targetTypeName": "airplane",
             "targetDistMax": 4000.0,
+            "maxNumAttackersPerTarget": 1,
             "anchorTarget": "@bt_t2_bomber_name",
             "targetToAnchorDist": [3000.0,4000.0],
-            "maxNumAttackersPerTarget": 1,
             "resetObjectToFollow": false
           }
         },
@@ -2460,6 +2544,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name"
         }
       },
@@ -2482,6 +2569,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_fighter_name"
           }
         },
@@ -2521,6 +2611,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_fighter_name",
           "target": "bt_t2_retreat_point",
           "compareCenters": false,
@@ -2568,6 +2661,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name",
           "target": "@bt_t2_target_point_name",
           "compareCenters": false,
@@ -2590,13 +2686,16 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name"
         },
         "unitAttackTarget": {
           "playerAttracted": false,
           "object": "@bt_t2_bomber_name",
           "target": "@bt_t2_target_name",
-          "attackTimeMax": 120.0
+          "attackNumMax": 2
         },
         "triggerEnable": [
           {
@@ -2652,6 +2751,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name"
         },
         "triggerEnable": {
@@ -2711,6 +2813,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name"
         },
         "unitDistanceBetween": {
@@ -2722,6 +2827,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name",
           "target": "bt_t2_retreat_point",
           "compareCenters": false,
@@ -2777,6 +2885,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name"
           }
         },
@@ -2786,6 +2897,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_fighter_name"
           }
         }
@@ -2867,6 +2981,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t2_bomber_name",
             "team": "B"
           }
@@ -2875,6 +2992,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t2_bomber_name",
             "team": "A"
           }
@@ -2943,6 +3063,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t2_bomber_name",
             "team": "Both"
           }
@@ -3080,6 +3203,9 @@
           "enemy_type": "isTeamB",
           "distance": 5500.0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name",
           "use_variable": true,
           "distance_var": "bt_t1_detection_range"
@@ -3105,6 +3231,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bt_t2_bomber_name"
         },
         "moAddMissionObjective": {
@@ -3138,6 +3267,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name"
         }
       },
@@ -3216,6 +3348,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name"
         }
       },
@@ -3242,6 +3377,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@bt_t2_bomber_name"
           }
         },
@@ -3903,6 +4041,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "speed": 300.0,
             "altRange": [1500.0,1700.0]
@@ -3943,6 +4084,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "speed": 315.0,
             "altRange": [2300.0,2500.0]
@@ -3983,6 +4127,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "speed": 330.0,
             "altRange": [3200.0,3500.0]
@@ -4023,6 +4170,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "speed": 345.0,
             "altRange": [4000.0,4200.0]
@@ -4063,6 +4213,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "speed": 360.0,
             "altRange": [5200.0,5400.0]
@@ -4103,6 +4256,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "speed": 300.0,
             "altRange": [1500.0,1700.0]
@@ -4143,6 +4299,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "speed": 315.0,
             "altRange": [2300.0,2500.0]
@@ -4183,6 +4342,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "speed": 330.0,
             "altRange": [3200.0,3500.0]
@@ -4223,6 +4385,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "speed": 345.0,
             "altRange": [4000.0,4200.0]
@@ -4263,6 +4428,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "speed": 360.0,
             "altRange": [5200.0,5400.0]
@@ -4294,6 +4462,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t1_bomber_name",
           "target": "t2_players_squad",
           "var": "bt_t2_player_detection_range",
@@ -4321,6 +4492,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bt_t1_bomber_name"
         },
         "moAddMissionObjective": {
@@ -4357,6 +4531,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bt_t2_bomber_name",
           "target": "t1_players_squad",
           "var": "bt_t1_player_detection_range",
@@ -4384,6 +4561,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@bt_t2_bomber_name"
         },
         "moAddMissionObjective": {
@@ -4423,6 +4603,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "target": "t1_players_squad",
             "var": "bt_activity_distance",
@@ -4469,6 +4652,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "target": "t1_players_squad",
             "var": "bt_activity_distance",
@@ -4515,6 +4701,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name",
             "target": "t2_players_squad",
             "var": "bt_activity_distance",
@@ -4561,6 +4750,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name",
             "target": "t2_players_squad",
             "var": "bt_activity_distance",
@@ -4850,6 +5042,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t2_bomber_name"
           }
         },
@@ -4950,6 +5145,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bt_t1_bomber_name"
           }
         },

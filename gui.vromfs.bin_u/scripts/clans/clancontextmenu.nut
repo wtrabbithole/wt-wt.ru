@@ -35,7 +35,7 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
   return [
     {
       text = ::loc("contacts/message")
-      show = playerUid != ::my_user_id_str && ::ps4_is_chat_enabled() && !u.isEmpty(playerName)
+      show = playerUid != ::my_user_id_str && ::ps4_is_chat_enabled() && !u.isEmpty(playerName) && ::has_feature("Chat")
       action = @() ::openChatPrivate(playerName, handler)
     }
     {

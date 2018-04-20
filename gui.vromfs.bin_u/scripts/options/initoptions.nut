@@ -269,14 +269,6 @@ function countUsageAmountOnce()
 
   function()
   {
-    local blk = ::get_ugc_blk()
-    if (blk.presets)
-      foreach(preset in blk.presets)
-        ::ugc_tags_presets.append(preset.getBlockName())
-  }
-
-  function()
-  {
     ::broadcastEvent("InitConfigs")
   }
 ]

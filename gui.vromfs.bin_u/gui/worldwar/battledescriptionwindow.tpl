@@ -162,6 +162,8 @@ root {
           id:t='btn_battles_filters'
           text:t='<<?worldwar/battleFilters>>'
           _on_click:t='onOpenBattlesFilters'
+          btnName:t='Y'
+          ButtonImg {}
         }
       }
 
@@ -179,6 +181,13 @@ root {
           display:t='hide'
           background-image:t='#ui/gameuiskin#btn_help.svg'
           tooltip:t=''
+        }
+        Button_text {
+          id:t='btn_collapsed_chapter'
+          text:t='#mainmenu/btnCollapse'
+          _on_click:t='onCollapsedChapter'
+          btnName:t='A'
+          ButtonImg {}
         }
         Button_text {
           id:t='btn_join_battle'

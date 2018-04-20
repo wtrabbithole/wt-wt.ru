@@ -575,3 +575,21 @@ function debug_reset_unseen()
 {
   ::require("scripts/seen/seenList.nut").clearAllSeenData()
 }
+
+function debug_check_dirty_words(path = null)
+{
+  local blk = ::DataBlock()
+  blk.load(path || "debugDirtyWords.blk")
+  local failed = 0
+  for (local i = 0; i < blk.paramCount(); i++)
+  {
+    local text = blk.getParamValue(i)
+    local filteredText = ::dirty_words_filter.checkPhrase(text)
+    if (text == filteredText)
+    {
+      ::dagor.debug("DIRTYWORDS: PASSED " + text)
+      failed++
+    }
+  }
+  dlog("DIRTYWORDS: FINISHED, checked " + blk.paramCount() + ", failed check " + failed)
+}

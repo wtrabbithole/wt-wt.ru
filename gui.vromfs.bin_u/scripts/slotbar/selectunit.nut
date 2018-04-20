@@ -53,7 +53,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     ::USEROPT_BIT_CHOOSE_UNITS_TYPE,
     ::USEROPT_BIT_CHOOSE_UNITS_RANK,
     ::USEROPT_BIT_CHOOSE_UNITS_OTHER,
-    ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE
+    ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE,
+    ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST
   ]
 
   curOptionsMasks = null //[]
@@ -107,6 +108,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     fillUnitsList()
     updateUnitsList()
     setFocus(true)
+    updateOptionShowUnsupportedForCustomList()
   }
 
   function reinitScreen(params = {})
@@ -324,6 +326,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       masks.append( 1 << (unit.rank - 1) )
       masks.append( (unit.name in trained ? 0 : unit.trainCost) ? 2 : 1 )
       masks.append( ::is_unit_enabled_for_slotbar(unit, config) ? 2 : 1 )
+      masks.append( ::isUnitInCustomList(unit, config) ? 2 : 1 )
 
       optionsMaskByUnits[unit.name] <- masks
       for (local i = 0; i < masks.len(); i++)
@@ -338,6 +341,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   {
     local locParams = {
       gameModeName = ::colorize("hotkeyColor", getGameModeNameFromParams(config))
+      customListName = ::colorize("hotkeyColor", getCustomListNameFromParams(config))
     }
 
     local objOptionsNest = scene.findObject("choose_options_nest")
@@ -371,6 +375,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
         option_value = maskOption.value
         nums = []
       }
+      row.cb <- maskOption?.cb
+
       local countVisibleOptions = 0
       foreach (idxItem, text in maskOption.items)
       {
@@ -430,6 +436,11 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     return ::getTblValue("text", ::game_mode_manager.getCurrentGameMode(), "")
   }
 
+  function getCustomListNameFromParams(params)
+  {
+    return params?.customUnitsListName ?? ""
+  }
+
   function getCurrentEdiff()
   {
     if (config?.getEdiffFunc)
@@ -437,6 +448,12 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if (slotbarWeak)
       return slotbarWeak.getCurrentEdiff()
     return ::get_current_ediff()
+  }
+
+  function onSelectedOptionChooseUnsapportedUnit(obj)
+  {
+    onSelectedOptionChooseUnit(obj)
+    updateOptionShowUnsupportedForCustomList()
   }
 
   function onSelectedOptionChooseUnit(obj)
@@ -449,10 +466,30 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local oldOption = ::get_option((obj.uid).tointeger())
-    local value = (oldOption.value.tointeger() & (~maskOptions)) + obj.getValue()
+    local value = (oldOption.value.tointeger() & (~maskOptions)) | (obj.getValue() & maskOptions)
     ::set_option((obj.uid).tointeger(), value)
     curVisibleSlots = firstPageSlots
     updateUnitsList()
+  }
+
+  function updateOptionShowUnsupportedForCustomList()
+  {
+    local modeOption = ::get_option(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE)
+    local customOption = ::get_option(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST)
+
+    local customOptionObj = scene.findObject(customOption.id)
+    if (!::check_obj(customOptionObj))
+      return
+
+    local isModeOptionChecked = modeOption.value & 1
+    if (!isModeOptionChecked)
+    {
+      local idx = filterOptionsList.find(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE)
+      local maskOptions = curOptionsMasks?[idx]
+      if (maskOptions)
+        customOptionObj.setValue(modeOption.value - (modeOption.value & (~maskOptions)))
+    }
+    customOptionObj.show(isModeOptionChecked)
   }
 
   function showUnitSlot(objSlot, unit, isVisible)

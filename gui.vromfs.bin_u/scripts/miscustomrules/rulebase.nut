@@ -92,7 +92,7 @@ class ::mission_rules.Base
   function getRespawnInfoTextForUnit(unit)
   {
     local unitLeftRespawns = getUnitLeftRespawns(unit)
-    if (unitLeftRespawns == ::RESPAWNS_UNLIMITED)
+    if (unitLeftRespawns == ::RESPAWNS_UNLIMITED || isUnitAvailableBySpawnScore(unit))
       return ""
     return ::loc("respawn/leftTeamUnit", { num = unitLeftRespawns })
   }
@@ -181,6 +181,11 @@ class ::mission_rules.Base
     if (isTeamScoreRespawnEnabled)
       return ::getTblValue("teamSpawnScore", ::get_local_mplayer(), 0)
     return isScoreRespawnEnabled ? ::getTblValue("spawnScore", ::get_local_mplayer(), 0) : 0
+  }
+
+  function canRespawnOnUnitBySpawnScore(unit)
+  {
+    return isScoreRespawnEnabled ? unit.getSpawnScore() <= getCurSpawnScore() : true
   }
 
   function getMinimalRequiredSpawnScore()
@@ -477,6 +482,11 @@ class ::mission_rules.Base
   function isWorldWarUnit(unitName)
   {
     return isWorldWar && getMyStateBlk()?.ownAvailableUnits?[unitName] == false
+  }
+
+  function isUnitAvailableBySpawnScore(unit)
+  {
+    return false
   }
 }
 

@@ -1267,9 +1267,10 @@ function build_log_unlock_data(config, showProgress = false, needTitle = true) /
     rewardsWasLoadedFromLog = rewardsWasLoadedFromLog || unlockBlk.aircraftPresentExtMoneyback == true
 
     // stage >= 0 means there are stages.
-    // isMultiStage=false means stages are hard-coded (used for challenges and achievements).
-    // isMultiStage=true means stages are auto-generated (used only for streaks).
-    if (stage >= 0 && !isMultiStage)
+    // isMultiStage=false means stages are hard-coded (usually used for challenges and achievements).
+    // isMultiStage=true means stages are auto-generated (usually used only for streaks).
+    // there are streaks with stages and isMultiStage=false and they should have own name, icon, etc
+    if (stage >= 0 && !isMultiStage && type != ::UNLOCKABLE_STREAK)
     {
       local curStage = -1
       for (local j = 0; j < unlockBlk.blockCount(); j++)

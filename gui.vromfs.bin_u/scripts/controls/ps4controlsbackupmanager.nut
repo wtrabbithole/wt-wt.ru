@@ -5,9 +5,10 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
     if (!isAvailable())
       return
 
-    getSaveDataContents = ::ps4_list_controls_backup
+    getSaveDataContents = ::ps4_request_list_controls_backup
     base.initScreen()
   }
+
 
   function doSave(descr)
   {
@@ -15,9 +16,19 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
     blk.comment = descr.comment
     blk.path = descr.path
 
-    if (!::ps4_save_controls_backup(blk))
-      ::showInfoMsgBox(::loc("msgbox/errorSavingPreset"))
+    local cb = ::Callback(onBackupSaved, this)
+    ::ps4_request_save_controls_backup(@(result) cb(result), blk)
   }
+
+
+  function onBackupSaved(params)
+  {
+    showWaitAnimation(false)
+    if (!params.success)
+      ::showInfoMsgBox(::loc("msgbox/errorSavingPreset"))
+    goBack()
+  }
+
 
   function doLoad(descr)
   {
@@ -25,25 +36,43 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
     blk.path = descr.path
     blk.comment = descr.comment
 
-    if (::ps4_load_controls_backup(blk))
+    local cb = ::Callback(onBackupLoaded, this)
+    ::ps4_request_load_controls_backup(@(result) cb(result), blk)
+  }
+
+
+  function onBackupLoaded(params)
+  {
+    showWaitAnimation(false)
+    if (params.success)
       ::preset_changed = true
     else
-      ::showInfoMsgBox(::loc("msgbox/errorLoadingPreset"))
+      ::showInfoMsgBox(::loc("msgbox/errorSavingPreset"))
+    goBack()
   }
+
 
   function doDelete(descr)
   {
     local blk = ::DataBlock()
     blk.path = descr.path
     blk.comment = descr.comment
-    if (!::ps4_delete_controls_backup(blk))
-      ::showInfoMsgBox(::loc("save/deleteFailed"))
+
+    local cb = ::Callback(onBackupDeleted, this)
+    ::ps4_request_delete_controls_backup(@(result) cb(result), blk)
+  }
+
+
+  function onBackupDeleted(params)
+  {
+    showWaitAnimation(false)
+    requestEntries()
   }
 
 
   static function isAvailable()
   {
-    return ::is_platform_ps4 && "ps4_list_controls_backup" in ::getroottable()
+    return ::is_platform_ps4 && "ps4_request_list_controls_backup" in ::getroottable()
   }
 
 

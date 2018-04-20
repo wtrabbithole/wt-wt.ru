@@ -47,4 +47,9 @@ class ::gui_bhv.PosOptionsNavigator extends ::gui_bhv.posNavigator
     obj.setIntProp(skipFocusPID, 0)
     return res
   }
+
+  function canSelectChild(obj)
+  {
+    return true
+  }
 }

@@ -142,7 +142,7 @@ function session_fill_info(scene, sessionInfo)
 
   setTextToObjByOption("spawn_ai_tank_on_tank_maps", ::USEROPT_SPAWN_AI_TANK_ON_TANK_MAPS, ::getTblValue("spawnAiTankOnTankMaps", missionInfo))
 
-  setTextToObjByOption("ugc_allowed_tags_preset", ::USEROPT_UGC_ALLOWED_TAGS_PRESET, missionInfo?.allowedTagsPreset)
+  setTextToObjByOption("content_allowed_preset", ::USEROPT_CONTENT_ALLOWED_PRESET, missionInfo?.allowedTagsPreset)
 
   local slotOverrideText = ""
   if (::SessionLobby.isSlotbarOverrided(sessionInfo))
@@ -159,7 +159,7 @@ function session_clear_info(scene)
                     "limited_fuel", "limited_ammo", "session_teamLimit",
                     "session_battleRating", "session_cluster", "disable_airfields",
                     "session_laps", "session_winners", "session_can_shoot",
-                    "spawn_ai_tank_on_tank_maps", "ugc_allowed_tags_preset"])
+                    "spawn_ai_tank_on_tank_maps", "content_allowed_preset"])
   {
     local obj = scene.findObject(name)
     if (::checkObj(obj)) obj.setValue("")

@@ -300,6 +300,31 @@
                               return result
                             }
   }
+  { id = "wwSpawnScore"
+    text = "debriefing/total/wwSpawnScore"
+    showByValue = function (value) {return value > 0}
+    rowProps = { totalColor="yes", totalRowStyle="last" }
+    tooltipComment = function() {return ::loc("debriefing/wwSpawnScore")}
+    getValueFunc = function() {
+                              local logs = ::getUserLogsList({
+                                show = [
+                                  ::EULT_SESSION_RESULT
+                                  ::EULT_EARLY_SESSION_LEAVE
+                                ]
+                                currentRoomOnly = true
+                              })
+
+                              local result = 0
+                              foreach (log in logs)
+                              {
+                                result = log?[id] ?? 0
+                                if (result > 0)
+                                  break
+                              }
+
+                              return result
+                            }
+  }
   { id = "sessionTime"
     customValueName = "sessionTime"
     type = "tim"
@@ -420,13 +445,6 @@ function gather_debriefing_result()
       ::get_user_log_blk_body(i, blk)
       ::debriefing_result.roomUserlogs.append(blk)
     }
-
-  local inventoryGiftLogs = getUserLogsList({
-    show = [ ::EULT_INVENTORY_ADD_ITEM ]
-    currentRoomOnly = true
-    disableVisible = true
-  })
-  ::debriefing_result.inventoryGiftItemId <- inventoryGiftLogs?[0]?.itemDefId
 
   if (!("aircrafts" in ::debriefing_result.exp))
     ::debriefing_result.exp.aircrafts <- []

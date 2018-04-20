@@ -15,6 +15,7 @@ enum presenceCheckOrder {
   typeName = "" //Generic from type.
   checkOrder = presenceCheckOrder.IDLE
   locId = ""
+  isInBattle = false
   isMatch = @() false
   getParams = function() {
     local params = { presenceId = typeName }
@@ -52,6 +53,7 @@ enums.addTypesByGlobalName("g_presence_type", {
   IN_GAME = {
     checkOrder = presenceCheckOrder.IN_GAME
     locId = "status/in_game"
+    isInBattle = true
     isMatch = @() ((::is_in_flight() && !::g_mis_custom_state.getCurMissionRules().isWorldWar)
                     || ::SessionLobby.isInRoom())
     canInviteToWWBattle = false
@@ -101,6 +103,7 @@ enums.addTypesByGlobalName("g_presence_type", {
   IN_GAME_WW = {
     checkOrder = presenceCheckOrder.IN_GAME_WW
     locId = "status/in_game_ww"
+    isInBattle = true
     isMatch = @() ::is_in_flight() && ::g_mis_custom_state.getCurMissionRules().isWorldWar
     canInviteToWWBattle = false
     updateParams = function(params) {

@@ -57,10 +57,15 @@ class ::gui_handlers.CreateRoomWnd extends ::gui_handlers.BaseGuiHandlerWT
     roomNameBoxObj["max-len"] = ::g_chat.MAX_ALLOWED_CHARACTERS_IN_ROOM_NAME
 
     scene.findObject("thread_title_header").setValue(::loc("chat/threadTitle/limits",
-                                              {
-                                                min = ::g_chat.threadTitleLenMin
-                                                max = ::g_chat.threadTitleLenMax
-                                              }))
+      {
+        min = ::g_chat.threadTitleLenMin
+        max = ::g_chat.threadTitleLenMax
+      }))
+    scene.findObject("chat_room_name_text").setValue(::loc("chat/roomName/limits",
+      {
+        maxSymbols = ::g_chat.MAX_ALLOWED_CHARACTERS_IN_ROOM_NAME
+        maxDigits = ::g_chat.MAX_ALLOWED_DIGITS_IN_ROOM_NAME
+      }))
 
     initCategories()
   }

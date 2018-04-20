@@ -1586,7 +1586,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         local userName = roomId
         if (!roomRegexp.match(userName)) //private room
         {
-          addRoomMsg(lastActionRoom, "", format(::loc("chat/error/401/userNotConnected"), platformModule.getPlayerName(userName)))
+          addRoomMsg(lastActionRoom, "",
+                     format(::loc("chat/error/401/userNotConnected"),
+                            ::gchat_unescape_target(platformModule.getPlayerName(userName)) ))
           return
         }
       }
@@ -1867,7 +1869,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!curRoom || curRoom.users.len() <= value || !checkScene())
       return
 
-    ::g_chat.showPlayerRClickMenu(curRoom.users[value].name, curRoom.id, null, obj.getChild(value).getPosRC())
+    local playerName = curRoom.users[value].name
+    local roomId = curRoom.id
+    local position = obj.getChild(value).getPosRC()
+    ::find_contact_by_name_and_do(playerName,
+      @(contact) ::g_chat.showPlayerRClickMenu(playerName, roomId, contact, position))
   }
 
   function onChatCancel(obj)
@@ -2420,7 +2426,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (lclick)
       addNickToEdit(name, sceneData.scene)
     else
-      ::g_chat.showPlayerRClickMenu(name, sceneData.room)
+      ::find_contact_by_name_and_do(name, @(contact) ::g_chat.showPlayerRClickMenu(name, sceneData.room, contact))
   }
 
   function changePrivateTo(user)

@@ -2,7 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
-local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
+local contentPreset = require("scripts/customization/contentPreset.nut")
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -26,7 +26,8 @@ enum ESwitchSpectatorTarget
   {id = "skin",        hint = "options/skin", cb = "onSkinChange",
     user_option = ::USEROPT_SKIN, isShowForRandomUnit =false },
   {id = "user_skins",  hint = "options/user_skins",
-    user_option = ::USEROPT_USER_SKIN, isShowForRandomUnit =false },
+    user_option = ::USEROPT_USER_SKIN, isShowForRandomUnit =false,
+    isVisible = @() ::has_feature("UserSkins") },
   {id = "gundist",     hint = "options/gun_target_dist",
     user_option = ::USEROPT_GUN_TARGET_DISTANCE},
   {id = "gunvertical", hint = "options/gun_vertical_targeting", user_option = ::USEROPT_GUN_VERTICAL_TARGETING},
@@ -497,6 +498,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     foreach (option in ::respawn_options)
     {
+      local isShow = option?.isVisible ? option.isVisible() : true
+      if (!isShow)
+        continue
+
       local newOptLableObj = null
       local newDroprightObj = null
       newOptionObj = optionObj.getClone(dObj, this)
@@ -1028,13 +1033,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!skinId)
       return
 
-    local newUgcTagsPresetId = ugcTagsPreset.getPresetBySkin(unit.name, skinId)
-    if (newUgcTagsPresetId == ugcTagsPreset.getPreset())
+    local newPresetId = contentPreset.getPresetIdBySkin(unit.name, skinId)
+    if (newPresetId == contentPreset.getCurPresetId())
       return
 
-    ugcTagsPreset.showConfirmMsgbox(unit.name, skinId,
+    contentPreset.showConfirmMsgbox(newPresetId, "",
       ::Callback(function() {
-        ugcTagsPreset.setPreset(newUgcTagsPresetId)
+        contentPreset.setPreset(newPresetId)
       }, this)
       ::Callback(function() {
         if (::check_obj(obj))
@@ -1619,7 +1624,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     infoTextsArr.append(missionRules.getRespawnInfoTextForUnit(unit))
-    isAvailResp = isAvailResp && missionRules.getUnitLeftRespawns(unit) != 0
+    isAvailResp = isAvailResp
+      && (missionRules.getUnitLeftRespawns(unit) != 0
+        || (missionRules.isUnitAvailableBySpawnScore(unit)
+          && missionRules.canRespawnOnUnitBySpawnScore(unit)))
 
     local isCrewDelayed = false
     if (missionRules.isSpawnDelayEnabled)

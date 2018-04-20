@@ -360,6 +360,12 @@
     "volume": 0.5,
     "pitch": 0.0
   },
+  "dsp_underwater": {
+    "cutoff": 1000.0,
+    "resonance": 1.0,
+    "volume": 1.0,
+    "pitch": 1.0
+  },
   "dsp_overload": {
     "cutoff": 3000.0,
     "resonance": 1.0
@@ -371,17 +377,18 @@
   },
   "reverb": {
     "field": "field",
-    "cockpit": "cockpit"
+    "cockpit": "cockpit",
+    "underwater": "underwater"
   },
   "engines": {
     "lods": {
       "lod_0": {
-        "radius": 200.0,
+        "radius": 100.0,
         "maxSounds": 1
       },
       "lod_1": {
-        "radius": 3000.0,
-        "maxSounds": 3
+        "radius": 2000.0,
+        "maxSounds": 5
       }
     }
   },
@@ -421,6 +428,10 @@
       }
     }
   },
+  "guns_manager": {
+    "maxSounds": 8,
+    "radius": 1000.0
+  },
   "guns": {
     "lods": {
       "lod_0": {
@@ -431,6 +442,46 @@
         "radius": 1000.0,
         "maxSounds": 8
       }
+    }
+  },
+  "crossWater": {
+    "path": "ships/effects_ships",
+    "sound": "camera_cross_water"
+  },
+  "cthulhu": {
+    "effects": {
+      "path": "ships/engines_ships/ai_ctr",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/cthulhu",
+      "eventBack": "engine",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "cthulhu_ai": {
+    "effects": {
+      "path": "ships/engines_ships/ai_ctr",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/cthulhu",
+      "eventBack": "engine",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
     }
   },
   "engine_ai": {
@@ -1607,6 +1658,23 @@
     },
     "outside": {
       "path": "ships/engines_ships/ai_light",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_submarine_ai": {
+    "effects": {
+      "path": "ships/engines_ships/ai_submarine",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/ai_submarine",
       "eventBack": "engine",
       "rpmScale": 0.88,
       "rpmSmooth": 0.02,
@@ -4316,6 +4384,67 @@
     ],
     "cockpit": {
       "path": "ships/engines_ships/shipmid01",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_submarine": {
+    "effects": {
+      "path": "ships/engines_ships/submarine",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "ships/engines_ships/submarine"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "ships/engines_ships/submarine",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",

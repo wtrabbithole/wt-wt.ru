@@ -42,7 +42,7 @@
   "VSlats": [120.0,140.0],
   "Vne": 740.0,
   "VneMach": 0.7,
-  "MaxSpeedNearGround": 504.0,
+  "MaxSpeedNearGround": 529.2,
   "MaxSpeedAtAltitude": 406.0,
   "CriticalSpeed": 40.0,
   "ArcadeLimitWepMultiplier": 1.1,
@@ -551,35 +551,42 @@
         "Altitude": 1000.0,
         "RPM": 2050.0,
         "ManifoldPressure": 1.05,
-        "WaterTemperature": 211.0,
+        "WaterTemperature": 195.0,
         "OilTemperature": 71.0
       },
       "Mode4": {
         "Altitude": 1000.0,
         "RPM": 2200.0,
         "ManifoldPressure": 1.1316,
-        "WaterTemperature": 228.0,
-        "OilTemperature": 93.0
+        "WaterTemperature": 200.0,
+        "OilTemperature": 85.0
+      },
+      "Mode5": {
+        "Altitude": 1000.0,
+        "RPM": 2200.0,
+        "ManifoldPressure": 1.2636,
+        "WaterTemperature": 280.0,
+        "OilTemperature": 110.0
       },
       "Load0": {
-        "WaterTemperature": 140.0,
-        "OilTemperature": 60.0
+        "WaterTemperature": 220.0,
+        "OilTemperature": 85.0
       },
       "Load1": {
-        "WaterTemperature": 180.0,
-        "OilTemperature": 70.0,
+        "WaterTemperature": 225.0,
+        "OilTemperature": 88.0,
         "WorkTime": 7200.0,
         "RecoverTime": 3600.0
       },
       "Load2": {
-        "WaterTemperature": 206.0,
-        "OilTemperature": 75.0,
+        "WaterTemperature": 230.0,
+        "OilTemperature": 90.0,
         "WorkTime": 3600.0,
         "RecoverTime": 1800.0
       },
       "Load3": {
-        "WaterTemperature": 225.0,
-        "OilTemperature": 80.0,
+        "WaterTemperature": 235.0,
+        "OilTemperature": 95.0,
         "WorkTime": 1800.0,
         "RecoverTime": 900.0
       },
@@ -590,10 +597,10 @@
         "RecoverTime": 605.0
       },
       "Load5": {
-        "WaterTemperature": 250.0,
-        "OilTemperature": 120.0,
-        "WorkTime": 120.0,
-        "RecoverTime": 60.0
+        "WaterTemperature": 240.0,
+        "OilTemperature": 105.0,
+        "WorkTime": 60.0,
+        "RecoverTime": 30.0
       },
       "RadiatorMode0": {
         "Throttle": 0.85,
@@ -607,8 +614,13 @@
       },
       "RadiatorMode2": {
         "Throttle": 1.0,
-        "WaterTemperature": 237.0,
-        "OilTemperature": 100.0
+        "WaterTemperature": 230.0,
+        "OilTemperature": 90.0
+      },
+      "RadiatorMode3": {
+        "Throttle": 1.1,
+        "WaterTemperature": 260.0,
+        "OilTemperature": 110.0
       }
     },
     "Compressor": {
@@ -705,14 +717,58 @@
     "Parts": {
       "tank1_capacity": 130.0,
       "tank1_system": 0,
-      "tank1_priority": 1,
       "tank1_external": false,
+      "tank1_priority": 1,
       "tank2_capacity": 130.0,
       "tank2_system": 0,
+      "tank2_external": false,
       "tank2_priority": 0,
-      "tank2_external": false
+      "engine1_dm": 735.0
     },
-    "PartsWithSurface": []
+    "PartsWithSurface": {
+      "fuse_dm": 109.271,
+      "tailcontrol_dm": 14.9405,
+      "wingcontrol_l_dm": 2.3005,
+      "wingcontrol_r_dm": 2.3005,
+      "wingcontrol_dm": 1.693,
+      "mgun2_dm": 15.2059,
+      "oil1_dm": 2.0176,
+      "oil2_dm": 3.0207,
+      "mgun1_dm": 15.0805,
+      "rudder_dm": 19.2763,
+      "aileron_l_dm": 17.478,
+      "flap2_l_dm": 10.3772,
+      "flap1_l_dm": 18.3554,
+      "flap1_r_dm": 18.3543,
+      "flap2_r_dm": 10.3772,
+      "aileron_r_dm": 17.478,
+      "gear_c_dm": 5.006,
+      "elevator1_dm": 17.9014,
+      "elevator0_dm": 17.9014,
+      "tail_dm": 37.123,
+      "wing2_r_dm": 46.472,
+      "fuse1_dm": 80.6419,
+      "cover1_dm": 102.566,
+      "cover2_dm": 5.1718,
+      "cover6_dm": 4.9283,
+      "gear_l_dm": 16.155,
+      "gear_r_dm": 16.155,
+      "fin_dm": 22.8323,
+      "stab_dm": 39.5304,
+      "cover5_dm": 10.6917,
+      "pilot_dm": 21.8727,
+      "spar1_l_dm": 29.6776,
+      "spar2_l_dm": 11.9659,
+      "spar_l_dm": 33.0342,
+      "spar_r_dm": 33.0342,
+      "spar1_r_dm": 29.6776,
+      "spar2_r_dm": 11.9659,
+      "wing1_l_dm": 78.6037,
+      "wing2_l_dm": 46.472,
+      "wing_l_dm": 45.5097,
+      "wing_r_dm": 45.5097,
+      "wing1_r_dm": 78.6037
+    }
   },
   "SelfSealingTanks": {
     "tank1_dm": true,

@@ -1,5 +1,13 @@
 local enums = ::require("std/enums.nut")
 
+enum WW_MAP_CONSPLE_SHORTCUTS
+{
+  MOVE = "A"
+  ENTRENCH = "RB"
+  STOP = "Y"
+  PREPARE_FIRE = "LB"
+}
+
 ::g_ww_map_controls_buttons <- {
   types = []
   cache = {}
@@ -28,7 +36,7 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
   MOVE = {
     id = "army_move_button"
     funcName = "onArmyMove"
-    shortcut = "A"
+    shortcut = WW_MAP_CONSPLE_SHORTCUTS.MOVE
     text = function () {
       if (::g_ww_map_controls_buttons.selectedObjectCode == mapObjectSelect.AIRFIELD)
         return ::loc("worldWar/armyFlyOut")
@@ -47,7 +55,7 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
   ENTRENCH = {
     id = "army_entrench_button"
     funcName = "onArmyEntrench"
-    shortcut = "RB"
+    shortcut = WW_MAP_CONSPLE_SHORTCUTS.ENTRENCH
     style = "accessKey:'J:RB | E';"
     text = function () { return ::loc("worldWar/armyEntrench") + (::show_console_buttons ? "" : " (E)")}
     isHidden = function () {
@@ -79,7 +87,7 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
   STOP = {
     id = "army_stop_button"
     funcName = "onArmyStop"
-    shortcut = "Y"
+    shortcut = WW_MAP_CONSPLE_SHORTCUTS.STOP
     style = "accessKey:'J:Y | S';"
     text = function () { return ::loc("worldWar/armyStop") + (::show_console_buttons ? "" : " (S)")}
     isHidden = function () {
@@ -93,7 +101,7 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
   PREPARE_FIRE = {
     id = "army_prepare_fire_button"
     funcName = "onArtilleryArmyPrepareToFire"
-    shortcut = "LB"
+    shortcut = WW_MAP_CONSPLE_SHORTCUTS.PREPARE_FIRE
     style = "accessKey:'J:LB | A';"
     text = function () {
       if (::ww_artillery_strike_mode_on())

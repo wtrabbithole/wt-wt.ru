@@ -18,7 +18,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   widgetByAward = {}
   widgetByTab = {}
 
-  slotbarActions = [ "showroom", "testflight", "weapons", "info" ]
+  slotbarActions = [ "preview", "testflight", "weapons", "info" ]
 
   function initScreen()
   {
@@ -403,6 +403,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(true, true)
   }
 
+  function onEventProfileUpdated(p)
+  {
+    updateBalance()
+  }
+
   function onEventBattleTasksFinishedUpdate(p)
   {
     updateItemInfo()
@@ -470,6 +475,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function onToMarketplaceButton(obj) {}
   function onItemPreview(obj) {}
   function onLinkAction(obj) {}
+  function onAltAction(obj) {}
 
   function onUnitHover(obj)
   {

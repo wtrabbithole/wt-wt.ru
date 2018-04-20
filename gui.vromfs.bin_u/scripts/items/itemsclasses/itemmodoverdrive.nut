@@ -27,7 +27,7 @@ class ::items_classes.ModOverdrive extends BaseItemModClass
 
   function getMainActionName(isColored = true, isShort = false)
   {
-    if (canActivate())
+    if (amount && canActivate())
       return ::loc("item/activate")
     return base.getMainActionName(isColored, isShort)
   }

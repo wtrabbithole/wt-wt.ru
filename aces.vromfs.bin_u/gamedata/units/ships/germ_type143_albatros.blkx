@@ -496,37 +496,52 @@
       "formatVersion": 2,
       "armorClass": "ship_structural_steel",
       "hp": 1000.0,
-      "cover": {
-        "armorClass": "ship_structural_steel",
-        "genericDamageMult": 0.1,
-        "armorThickness": 20.0,
-        "hp": 400.0,
-        "fireParamsPreset": "ship_cover",
-        "compartment_01_dm": {
-          "genericDamageMult": 0.05
+      "cover": [
+        {
+          "armorClass": "ship_structural_steel"
         },
-        "compartment_02_dm": {
-          "genericDamageMult": 0.05
-        },
-        "compartment_03_dm": {
-          "genericDamageMult": 0.05
-        },
-        "compartment_04_dm": {
-          "genericDamageMult": 0.05
-        },
-        "compartment_05_dm": {
-          "genericDamageMult": 0.05
-        },
-        "compartment_06_dm": {
-          "genericDamageMult": 0.05
-        },
-        "compartment_07_dm": {
-          "genericDamageMult": 0.05
-        },
-        "bridge_dm": {
+        {
           "genericDamageMult": 0.1
+        },
+        {
+          "armorThickness": 20.0
+        },
+        {
+          "hp": 400.0
+        },
+        {
+          "fireParamsPreset": "ship_cover"
+        },
+        {
+          "genericDamageMult": 0.05
+        },
+        {
+          "compartment_01_dm": []
+        },
+        {
+          "compartment_02_dm": []
+        },
+        {
+          "compartment_03_dm": []
+        },
+        {
+          "compartment_04_dm": []
+        },
+        {
+          "compartment_05_dm": []
+        },
+        {
+          "compartment_06_dm": []
+        },
+        {
+          "compartment_07_dm": []
+        },
+        {
+          "bridge_dm": {
+            "genericDamageMult": 0.1
+          }
         }
-      },
+      ],
       "deck": {
         "armorClass": "ship_structural_steel",
         "genericDamageMult": 0.1,
@@ -537,131 +552,96 @@
         "mid_bottom_dm": [],
         "stern_bottom_dm": []
       },
-      "bridge": {
-        "armorClass": "ship_structural_steel",
-        "genericDamageMult": 0.1,
-        "armorThickness": 40.0,
-        "hp": 600.0,
-        "superstructure_top_dm": {
+      "bridge": [
+        {
+          "armorClass": "ship_structural_steel"
+        },
+        {
           "genericDamageMult": 0.1
         },
-        "superstructure_front_dm": {
+        {
+          "armorThickness": 40.0
+        },
+        {
+          "hp": 600.0
+        },
+        {
           "genericDamageMult": 0.1
         },
-        "superstructure_side_dm": {
-          "genericDamageMult": 0.1
+        {
+          "superstructure_top_dm": []
+        },
+        {
+          "superstructure_front_dm": []
+        },
+        {
+          "superstructure_side_dm": []
         }
-      },
+      ],
       "bulkheads": {
         "armorClass": "ship_structural_steel",
         "hp": 250.0,
         "genericDamageMult": 0.1,
-        "bulkhead_01_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_02_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_03_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_04_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_05_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_06_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_07_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_08_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_09_dm": {
-          "armorThickness": 15.0
-        },
-        "bulkhead_10_dm": {
-          "armorThickness": 15.0
-        }
+        "armorThickness": 15.0,
+        "bulkhead_01_dm": [],
+        "bulkhead_02_dm": [],
+        "bulkhead_03_dm": [],
+        "bulkhead_04_dm": [],
+        "bulkhead_05_dm": [],
+        "bulkhead_06_dm": [],
+        "bulkhead_07_dm": [],
+        "bulkhead_08_dm": [],
+        "bulkhead_09_dm": [],
+        "bulkhead_10_dm": []
       },
       "cannon_mountings": {
         "armorClass": "ship_structural_steel",
         "hp": 600.0,
-        "turret_01_dm": {
-          "armorThickness": 15.0
-        },
-        "turret_02_dm": {
-          "armorThickness": 15.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThickness": 15.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThickness": 15.0
-        }
+        "armorThickness": 15.0,
+        "turret_01_dm": [],
+        "turret_02_dm": [],
+        "gun_barrel_01_dm": [],
+        "gun_barrel_02_dm": []
       },
       "armor_parts": {
         "armorClass": "ship_structural_steel",
         "genericDamageMult": 0.1,
         "armorThickness": 10.0,
         "hp": 600.0,
-        "ex_armor_01_dm": {
-          "genericDamageMult": 0.1
-        },
-        "ex_armor_02_dm": {
-          "genericDamageMult": 0.1
-        },
-        "ex_armor_03_dm": {
-          "genericDamageMult": 0.1
-        },
-        "ex_armor_04_dm": {
-          "genericDamageMult": 0.1
-        },
-        "ex_armor_05_dm": {
-          "genericDamageMult": 0.1
-        },
+        "ex_armor_01_dm": [],
+        "ex_armor_02_dm": [],
+        "ex_armor_03_dm": [],
+        "ex_armor_04_dm": [],
+        "ex_armor_05_dm": [],
         "ex_armor_06_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_07_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_08_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_09_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_body_01_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_body_02_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_body_03_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "ex_armor_body_04_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "mast_01_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         },
         "mast_02_dm": {
-          "armorThickness": 18.0,
-          "genericDamageMult": 0.1
+          "armorThickness": 18.0
         }
       },
       "crew": {
@@ -1846,13 +1826,10 @@
             "speedPitch": 35.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 360
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -1861,7 +1838,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0
@@ -1995,13 +1972,10 @@
             "speedPitch": 35.0
           },
           {
-            "fireConeAngle": 1.0
-          },
-          {
             "bullets": 360
           },
           {
-            "allowableDelta": 1.0
+            "allowableDelta": 2.0
           },
           {
             "speedYaw": 45.0
@@ -2010,7 +1984,7 @@
             "speedPitch": 45.0
           },
           {
-            "fireConeAngle": 20.0
+            "fireConeAngle": 2.0
           },
           {
             "ChainfireTime": 60.0

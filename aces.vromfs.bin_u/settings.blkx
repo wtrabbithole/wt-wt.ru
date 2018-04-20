@@ -219,6 +219,9 @@
     "disableNvapi": false,
     "nvVbBugWorkaround": false
   },
+  "openGL": {
+    "nvGLShaderAVWorkaround": true
+  },
   "render": {
     "heightmap": true,
     "environment": true,
@@ -392,6 +395,9 @@
       }
     }
   ],
+  "dlData": {
+    "timeoutSec": 20
+  },
   "__allowedConfigOverrides": {
     "graphicsQuality": "",
     "renderer": "",
@@ -418,7 +424,8 @@
       "immVbSize": 0,
       "immIbSize": 0,
       "gldll": "",
-      "maxThreads": 0
+      "maxThreads": 0,
+      "nvGLShaderAVWorkaround": false
     },
     "render": {
       "selfReflection": false,
@@ -631,6 +638,9 @@
     },
     "export": {
       "__allow_all_params": true
+    },
+    "dlData": {
+      "timeoutSec": 0
     }
   },
   "ugc": {

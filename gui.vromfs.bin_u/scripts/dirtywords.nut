@@ -12,7 +12,7 @@
 
 // Collect language tables
 root_ <- getroottable()
-foreach (varName in [ "excludesdata", "excludescore", "foulcore", "fouldata", "badphrases", "badsegments" ])
+foreach (varName in [ "excludesdata", "excludescore", "foulcore", "fouldata", "badphrases", "badsegments", "badcombination" ])
 {
   root_[varName] <- []
   foreach (lang in [ "Russian", "English", "Japanese" ])
@@ -111,6 +111,10 @@ prepareword <-
   {
     pattern = ::regexp2(@"[\!\:\_]")
     replace = ""
+  },
+  {
+    pattern = ::regexp2(@"[u]{3,}")
+    replace = "u"
   }
 ];
 
@@ -138,6 +142,14 @@ class DirtyWords
     {
       if (pattern.match(phrase))
         phrase = pattern.replace(getMaskedWord(), phrase)
+    }
+
+    local lowerPhrase = phrase.tolower()
+    //To match a whole combination of words
+    foreach (pattern in ::badcombination)
+    {
+      if (pattern.match(lowerPhrase))
+        phrase = pattern.replace(getMaskedWord(lowerPhrase), lowerPhrase)
     }
 
     local words = prepare ( phrase );

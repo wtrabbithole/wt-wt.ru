@@ -30,6 +30,7 @@ function weaponVisual::createItemLayout(id, item, type, params = {})
     needSliderButtons = ::getTblValue("needSliderButtons", params, false)
     wideItemWithSlider = ::getTblValue("wideItemWithSlider", params, false)
     modUpgradeIcon = ::has_feature("ItemModUpgrade") ? modUpgradeElem.createMarkup("mod_upgrade_icon") : null
+    shortcutIcon = params?.shortcutIcon
   }
   return ::handyman.renderCached("gui/weaponry/weaponItem", view)
 }
@@ -105,8 +106,10 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
 
   local limitedName = ::getTblValue("limitedName", params, true)
   itemObj.findObject("name").setValue(getItemName(air, visualItem, limitedName))
+
+  local isForceHidePlayerInfo = params?.isForceHidePlayerInfo ?? false
   if (::getTblValue("useGenericTooltip", params))
-    updateGenericTooltipId(itemObj, air, item)
+    updateGenericTooltipId(itemObj, air, item, { hasPlayerInfo = !isForceHidePlayerInfo })
 
   local bIcoItem = getBulletsIconItem(air, visualItem)
   if (bIcoItem)
@@ -215,13 +218,13 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   }
 
   local iconObj = itemObj.findObject("icon")
-  local optEquipped = statusTbl.equipped || ::getTblValue("isForceEquipped", params, false) ? "yes" : "no"
+  local optEquipped = isForceHidePlayerInfo || statusTbl.equipped ? "yes" : "no"
   local optStatus = "locked"
   if (::getTblValue("visualDisabled", params, false))
     optStatus = "disabled"
   else if (statusTbl.amount)
     optStatus = "owned"
-  else if (statusTbl.unlocked || ::getTblValue("isForceUnlocked", params, false))
+  else if (isForceHidePlayerInfo || statusTbl.unlocked)
     optStatus = "unlocked"
   else if (isModInResearch(air, visualItem) && visualItem.type == weaponsItem.modification)
     optStatus = canShowResearch? "research" : "researchable"
@@ -233,7 +236,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   iconObj.equipped = optEquipped
   iconObj.status = optStatus
 
-  if (!::getTblValue("isForceHideAmount", params, false))
+  if (!isForceHidePlayerInfo)
   {
     local amountText = getAmountAndMaxAmountText(statusTbl.amount, statusTbl.maxAmount, statusTbl.showMaxAmount);
     local amountObject = itemObj.findObject("amount");
@@ -241,7 +244,11 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     amountObject.overlayTextColor = statusTbl.amount < statusTbl.amountWarningValue ? "weaponWarning" : "";
   }
 
-  itemObj.findObject("warning_icon").show(statusTbl.unlocked && statusTbl.showMaxAmount && statusTbl.amount < statusTbl.amountWarningValue)
+  local isWarningIconVisible = !isForceHidePlayerInfo
+                            && statusTbl.unlocked
+                            && statusTbl.showMaxAmount
+                            && statusTbl.amount < statusTbl.amountWarningValue
+  itemObj.findObject("warning_icon").show(isWarningIconVisible)
 
   updateItemBulletsSliderByItem(itemObj, ::getTblValue("selectBulletsByManager", params), visualItem)
 
@@ -423,7 +430,7 @@ function weaponVisual::isItemSwitcher(item)
   return (item.type == weaponsItem.weapon) || (item.type == weaponsItem.primaryWeapon) || isBullets(item)
 }
 
-function weaponVisual::updateGenericTooltipId(itemObj, unit, item)
+function weaponVisual::updateGenericTooltipId(itemObj, unit, item, params = null)
 {
   local tooltipObj = itemObj.findObject("tooltip_" + itemObj.id)
   if (!tooltipObj)
@@ -433,7 +440,7 @@ function weaponVisual::updateGenericTooltipId(itemObj, unit, item)
   if (item.type == weaponsItem.modification)
     tooltipId = ::g_tooltip_type.MODIFICATION.getTooltipId(unit.name, item.name)
   else if (item.type == weaponsItem.weapon)
-    tooltipId = ::g_tooltip_type.WEAPON.getTooltipId(unit.name, item.name)
+    tooltipId = ::g_tooltip_type.WEAPON.getTooltipId(unit.name, item.name, params)
   else if (item.type == weaponsItem.spare)
     tooltipId = ::g_tooltip_type.SPARE.getTooltipId(unit.name)
   tooltipObj.tooltipId = tooltipId
@@ -463,8 +470,9 @@ function weaponVisual::updateItemBulletsSlider(itemObj, bulletsManager, bulGroup
   if (::checkObj(textObj))
   {
     local restText = ""
-    if (unallocated)
-      restText = ::colorize("userlogColoredText", ::loc("ui/parentheses", { text = "+" + unallocated * guns }))
+    if (unallocated && curVal < maxVal)
+      restText = ::colorize("userlogColoredText",
+        ::loc("ui/parentheses", { text = "+" + min(unallocated * guns,maxVal - curVal ) }))
     local valColor = "activeTextColor"
     if (!curVal || maxVal == 0)
       valColor = "badTextColor"
@@ -800,14 +808,17 @@ function weaponVisual::getReqModsText(air, item)
   return reqText
 }
 
-function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect = null, updateEffectFunc = null)
+function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, updateEffectFunc = null)
 {
   local res = { name = "", desc = "", delayed = false }
   local needShowWWSecondaryWeapons = item.type==weaponsItem.weapon && ::is_in_flight() &&
     ::g_mis_custom_state.getCurMissionRules().isWorldWar
 
   if (item.type==weaponsItem.bundle)
-    return ::weaponVisual.getByCurBundle(air, item, (@(canDisplayInfo, effect, updateEffectFunc) function(air, item) { return getItemDescTbl(air, item, canDisplayInfo, effect, updateEffectFunc) })(canDisplayInfo, effect, updateEffectFunc), res)
+    return ::weaponVisual.getByCurBundle(air, item,
+      function(air, item) {
+        return getItemDescTbl(air, item, params, effect, updateEffectFunc)
+      }, res)
 
   local name = "<color=@activeTextColor>" + getItemName(air, item, false) + "</color>"
   local desc = ""
@@ -817,7 +828,10 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   local statusTbl = getItemStatusTbl(air, item)
   local currentPrice = statusTbl.showPrice? getFullItemCostText(air, item) : ""
 
-  if (!::weaponVisual.isTierAvailable(air, curTier) && curTier > 1 && !needShowWWSecondaryWeapons)
+  local hasPlayerInfo = params?.hasPlayerInfo ?? true
+  if (hasPlayerInfo
+    && !::weaponVisual.isTierAvailable(air, curTier) && curTier > 1
+    && !needShowWWSecondaryWeapons)
   {
     local reqMods = ::getNextTierModsCount(air, curTier - 1)
     if(reqMods > 0)
@@ -827,7 +841,8 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
       reqText = ::loc("weaponry/unlockTier/reqPrevTiers")
     reqText = "<color=@badTextColor>" + reqText + "</color>"
     res.reqText <- reqText
-    if(!canDisplayInfo)
+
+    if(!(params?.canDisplayInfo ?? true))
     {
       res.delayed = true
       return res
@@ -885,7 +900,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   else if (item.type==weaponsItem.spare)
     desc = ::loc("spare/"+item.name + "/desc")
 
-  if (statusTbl.unlocked && currentPrice != "")
+  if (hasPlayerInfo && statusTbl.unlocked && currentPrice != "")
   {
     local amountText = ::getAmountAndMaxAmountText(statusTbl.amount, statusTbl.maxAmount, statusTbl.showMaxAmount)
     if (amountText != "")
@@ -932,18 +947,21 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
         + ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
   }
 
-  if (!statusTbl.amount && !needShowWWSecondaryWeapons)
+  if (hasPlayerInfo)
   {
-    local reqMods = getReqModsText(air, item)
-    if(reqMods != "")
-      reqText += (reqText==""? "" : "\n") + reqMods
-  }
-  if (isBullets(item) && !::is_bullets_group_active_by_mod(air, item))
-    reqText += ((reqText=="")?"":"\n") + ::loc("msg/weaponSelectRequired")
-  reqText = reqText!=""? ("<color=@badTextColor>" + reqText + "</color>") : ""
+    if (!statusTbl.amount && !needShowWWSecondaryWeapons)
+    {
+      local reqMods = getReqModsText(air, item)
+      if(reqMods != "")
+        reqText += (reqText==""? "" : "\n") + reqMods
+    }
+    if (isBullets(item) && !::is_bullets_group_active_by_mod(air, item))
+      reqText += ((reqText=="")?"":"\n") + ::loc("msg/weaponSelectRequired")
+    reqText = reqText!=""? ("<color=@badTextColor>" + reqText + "</color>") : ""
 
-  if (needShowWWSecondaryWeapons)
-    reqText = getReqTextWorldWarArmy(air, item)
+    if (needShowWWSecondaryWeapons)
+      reqText = getReqTextWorldWarArmy(air, item)
+  }
   res.reqText <- reqText
 
   if (currentPrice != "")
@@ -1251,11 +1269,11 @@ function weaponVisual::updateSpareType(spare)
 
 function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, effect=null)
 {
-  local canDisplayInfo = ::getTblValue("canDisplayInfo", params, true)
-  local descTbl = getItemDescTbl(air, item, canDisplayInfo, effect, (@(obj, air, item, handler, params) function(effect, ...) {
-          if (::checkObj(obj) && obj.isVisible())
-            ::weaponVisual.updateWeaponTooltip(obj, air, item, handler, params, effect)
-        })(obj, air, item, handler, params))
+  local descTbl = getItemDescTbl(air, item, params, effect,
+    function(effect, ...) {
+      if (::checkObj(obj) && obj.isVisible())
+        ::weaponVisual.updateWeaponTooltip(obj, air, item, handler, params, effect)
+    })
 
   local curExp = ::shop_get_module_exp(air.name, item.name)
   local is_researched = !isResearchableItem(item) || ((item.name.len() > 0) && ::isModResearched(air, item))
@@ -1281,7 +1299,8 @@ function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, e
         expText += " (+" + diffExp + ")"
       descTbl.expText <- expText
     }
-  } else
+  }
+  else if (params?.hasPlayerInfo ?? true)
     descTbl.showPrice <- ("currentPrice" in descTbl) || ("noDiscountPrice" in descTbl)
 
   local data = ::handyman.renderCached(("gui/weaponry/weaponTooltip"), descTbl)

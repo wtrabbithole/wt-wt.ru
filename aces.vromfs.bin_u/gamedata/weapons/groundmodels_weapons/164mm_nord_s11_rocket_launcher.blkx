@@ -26,6 +26,13 @@
     "controlSensitivity": 0.5,
     "aimSensitivity": 55.0,
     "forceAutoAimingTimer": 1.2,
+    "explosionEffect": "atgm_hit",
+    "groundCollisionEffect": "art_ground_splash",
+    "groundFxScale": [1.5,1.7],
+    "ricochetEffect": "cannon_hit_apds",
+    "waterCollisionEffect": "120-203_he_water_splash",
+    "waterFxScale": [1.2,1.4],
+    "explosionPatchRadius": 5.0,
     "bulletType": "atgm_tank",
     "bulletName": "164mm_nord_ss11",
     "caliber": 0.164,
@@ -42,7 +49,6 @@
     "timeFire": 20.0,
     "thrustDeviation": 0.0,
     "rotationRocket": 4.0,
-    "explosionEffect": "art_ground_splash",
     "smokeEffect": "trail_smoke",
     "maxDistance": 6500.0,
     "minDistance": 30.0,
@@ -64,7 +70,6 @@
     "explodeHitPower": 400.0,
     "explodeArmorPower": 19.0,
     "explodeRadius": [0.4,1.07],
-    "explosionPatchRadius": 2.1,
     "rendinstDamageRadius": 4.0,
     "statType": "hydra",
     "advancedMissiles": false,
@@ -76,12 +81,20 @@
     "price": 3000.0,
     "collisions": {
       "steel": {
-        "fx": "atgm_hit",
-        "fxScale": [1.2,1.5]
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [4.0,5.0]
       },
       "armor": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [4.0,5.0]
+      },
+      "buildings": {
         "fx": "atgm_hit",
-        "fxScale": [1.2,1.5]
+        "fxScale": [1.2,1.4]
+      },
+      "wood": {
+        "fx": "atgm_hit",
+        "fxScale": [1.2,1.4]
       }
     },
     "cumulativeDamage": {

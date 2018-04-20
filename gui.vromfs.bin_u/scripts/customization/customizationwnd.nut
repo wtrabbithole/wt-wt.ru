@@ -1,6 +1,6 @@
 local time = require("scripts/time.nut")
 local penalty = require("penalty")
-local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
+local contentPreset = require("scripts/customization/contentPreset.nut")
 
 
 ::show_crew <- null
@@ -77,6 +77,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   needToRestoreFocusOnTypeList = false
 
   isModePreview = false
+
+  needRemoveDecoratorNotSuitableByContentPreset = false
 
   function initScreen()
   {
@@ -308,7 +310,12 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventHangarModelLoaded(params = {})
   {
     updateMainGuiElements()
-
+    if (needRemoveDecoratorNotSuitableByContentPreset)
+    {
+      removeDecoratorNotSuitableByContentPreset()
+      needRemoveDecoratorNotSuitableByContentPreset = false
+      goBack()
+    }
     if (::hangar_get_loaded_unit_name() == unit.name
         && !::is_loaded_model_high_quality())
       ::check_package_and_ask_download("pkg_main", null, null, this, "air_in_hangar", goBack)
@@ -1388,7 +1395,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onBtnBack()
   {
     if (currentState & decoratorEditState.NONE)
-      checkUgcTagsPresetRestoreAndQuit()
+      checkContentPresetRestoreAndQuit()
 
     if (currentState & decoratorEditState.SELECT)
       return onBtnCloseDecalsMenu()
@@ -1400,25 +1407,62 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     stopDecalEdition()
   }
 
-  function checkUgcTagsPresetRestoreAndQuit()
+  function checkContentPresetRestoreAndQuit()
   {
+    local curPresetId = contentPreset.getCurPresetId()
+    local newPresetId = curPresetId
     local unitId = unit.name
     local curSkinId = ::hangar_get_last_skin(unitId)
-    if (curSkinId == initialAppliedSkinId)
+    local decoratorSlotPresetChangedArr = []
+    local decoratorType = ::g_decorator_type.ATTACHABLES
+    for (local i = 0; i < decoratorType.getAvailableSlots(unit); i++)
+    {
+      local slot = getSlotInfo(i, false, decoratorType)
+      if (slot.isEmpty)
+        continue
+
+      local decorator = ::g_decorator.getDecorator(slot.decalId, decoratorType)
+      if (!decorator)
+        continue
+
+      local newPresetIdByDecor = contentPreset.getPresetIdByTags(decorator.tags)
+      if (newPresetIdByDecor != curPresetId)
+      {
+        decoratorSlotPresetChangedArr.append(slot)
+        newPresetId = contentPreset.getMaxPresetId(newPresetId, newPresetIdByDecor)
+      }
+    }
+
+    local isChangePresetByDecor = decoratorSlotPresetChangedArr.len() > 0
+    if (curSkinId == initialAppliedSkinId && !isChangePresetByDecor)
       return goBack()
 
-    local newUgcTagsPresetId = ugcTagsPreset.getPresetBySkin(unitId, curSkinId)
-    if (newUgcTagsPresetId == ugcTagsPreset.getPreset())
+    local newPresetIdBySkin = contentPreset.getPresetIdBySkin(unitId, curSkinId)
+    local isChangePresetBySkin = newPresetIdBySkin != curPresetId
+    newPresetId = contentPreset.getMaxPresetId(newPresetId, newPresetIdBySkin)
+
+    if (newPresetId == curPresetId)
       return goBack()
 
-    ugcTagsPreset.showConfirmMsgbox(unitId, curSkinId,
+    local keyMessageDesc = isChangePresetBySkin ? ""
+      : isChangePresetByDecor ? "decorator"
+      : ""
+
+    contentPreset.showConfirmMsgbox(newPresetId, keyMessageDesc,
       ::Callback(function() {
-        ugcTagsPreset.setPreset(newUgcTagsPresetId)
+        contentPreset.setPreset(newPresetId)
         goBack()
       }, this),
       ::Callback(function() {
-        applySkin(initialAppliedSkinId)
-        goBack()
+        foreach(slotInfo in decoratorSlotPresetChangedArr)
+          decoratorType.removeDecorator(slotInfo.id, true)
+        if (isChangePresetBySkin)
+        {
+          needRemoveDecoratorNotSuitableByContentPreset = true
+          applySkin(initialAppliedSkinId)
+        }
+        else
+          goBack()
       }, this)
     )
     return true
@@ -2114,5 +2158,25 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateUnitStatus()
     updateSkinList()
     updateButtons()
+  }
+
+  function removeDecoratorNotSuitableByContentPreset()
+  {
+    local curPresetId = contentPreset.getCurPresetId()
+    local decoratorType = ::g_decorator_type.ATTACHABLES
+    for (local i = 0; i < decoratorType.getAvailableSlots(unit); i++)
+    {
+      local slot = getSlotInfo(i, false, decoratorType)
+      if (slot.isEmpty)
+        continue
+
+      local decorator = ::g_decorator.getDecorator(slot.decalId, decoratorType)
+      if (!decorator)
+        continue
+
+      local newPresetIdByDecor = contentPreset.getPresetIdByTags(decorator.tags)
+      if (newPresetIdByDecor != curPresetId)
+        decoratorType.removeDecorator(slot.id, true)
+    }
   }
 }

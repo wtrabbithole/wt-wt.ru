@@ -52,7 +52,7 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "onAircraftHelpersChanged"
     }
     { id="mouse_usage_no_aim", type = CONTROL_TYPE.SPINNER
-      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.AIM
+      showFunc = @() ::has_feature("SimulatorDifficulty") && (getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
       optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
       onChangeValue = "onAircraftHelpersChanged"
     }
@@ -84,55 +84,53 @@ function get_favorite_voice_message_option(index)
     "ID_BOMBS"
     { id = "ID_BOMBS_SERIES", checkAssign = false }
     "ID_ROCKETS",
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    { id = "ID_FUEL_TANKS",
+      showFunc = @() ::has_feature("Payload"),
+      checkAssign = false
+    }
+    { id = "ID_AIR_DROP",
+      showFunc = @() ::has_feature("Payload"),
+      checkAssign = false
+    }
+    { id = "ID_WEAPON_LOCK",
+      showFunc = @() ::has_feature("Missiles"),
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_SWITCH"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_MODE_SWITCH"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_SCAN_PATTERN_SWITCH"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_RANGE_SWITCH"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_TARGET_LOCK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "sensor_designation_x"
+      type = CONTROL_TYPE.AXIS
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "sensor_designation_y"
+      type = CONTROL_TYPE.AXIS
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "sensor_designation_z"
+      type = CONTROL_TYPE.AXIS
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
     { id="ID_SCHRAEGE_MUSIK", checkAssign = false }
     { id="ID_RELOAD_GUNS", checkAssign = false, autobind = ["ID_REPAIR_TANK"] }
 
@@ -141,7 +139,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
-      showFunc = @() ::is_mouse_available()
+      showFunc = @() !::is_platform_xboxone
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [globalEnv.EM_MOUSE_AIM]
@@ -164,7 +162,6 @@ function get_favorite_voice_message_option(index)
           ::set_controls_preset("");
       }
     }
-    { id="ID_IGNITE_BOOSTERS", reqInMouseAim = false, checkAssign = false }
     { id="ailerons", type = CONTROL_TYPE.AXIS, reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
@@ -200,6 +197,7 @@ function get_favorite_voice_message_option(index)
       optionType = ::USEROPT_FORCE_GAIN
     }
   { id = "ID_PLANE_MECHANIZATION_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="ID_IGNITE_BOOSTERS", reqInMouseAim = false, checkAssign = false }
     { id="ID_FLAPS", reqInMouseAim = false }
     { id="ID_FLAPS_DOWN", reqInMouseAim = false }
     { id="ID_FLAPS_UP", reqInMouseAim = false }
@@ -299,7 +297,7 @@ function get_favorite_voice_message_option(index)
     }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
-      showFunc = ::is_mouse_available
+      showFunc = @() !::is_platform_xboxone
     }
     { id = "aim_time_nonlinearity_air", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR)
@@ -678,7 +676,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_TANK
       values = ["none", "gm_zoom", "gm_sight_distance"]
       onChangeValue = "onMouseWheel"
-      showFunc = @() ::is_mouse_available() && ::has_feature("Tanks")
+      showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
     }
 
   { id = "ID_TANK_SUSPENSION_HEADER", type = CONTROL_TYPE.SECTION }
@@ -764,15 +762,6 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
     { id="ship_steering", type = CONTROL_TYPE.AXIS, autobind=["gm_steering"], checkGroup = ctrlGroups.SHIP }
-//
-
-
-
-
-
-
-
-
     {
       id = "ID_SHIP_FULL_STOP",
       checkGroup = ctrlGroups.SHIP,
@@ -892,7 +881,7 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
       values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
-      showFunc = @() ::is_mouse_available() && ::has_feature("Ships")
+      showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
     }
 
   { id = "ID_SHIP_OTHER_HEADER", type = CONTROL_TYPE.SECTION }
@@ -991,6 +980,133 @@ function get_favorite_voice_message_option(index)
       autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_G]
     }
 
+  { id = "ID_SUBMARINE_CONTROL_HEADER"
+    type = CONTROL_TYPE.HEADER
+    unitType = ::g_unit_type.SHIP
+    unitTag = "submarine"
+    showFunc = @() ::has_feature("SpecialShips") || ::is_submarine(::get_player_cur_unit())
+  }
+  { id = "ID_SUBMARINE_MOVE_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "submarine_main_engine"
+      type = CONTROL_TYPE.AXIS
+      def_relative = true
+      checkGroup = ctrlGroups.SUBMARINE
+    }
+    { id = "submarine_steering"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+    }
+    { id = "submarine_depth"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+    }
+    { id = "ID_SUBMARINE_FULL_STOP"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+
+  { id = "ID_SUBMARINE_FIRE_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "ID_TOGGLE_VIEW_SUBMARINE"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+    { id = "ID_SUBMARINE_WEAPON_TORPEDOES"
+      checkGroup = ctrlGroups.SUBMARINE
+    }
+    { id = "ID_SUBMARINE_SWITCH_ACTIVE_SONAR"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+    { id = "ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+    { id = "ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+
+  { id = "ID_SUBMARINE_VIEW_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id="submarine_zoom"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+    { id="submarine_camx"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+      reqInMouseAim = false
+    }
+    { id="submarine_camy"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+      reqInMouseAim = false
+    }
+    { id="invert_y_submarine"
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_INVERTY_SUBMARINE
+    }
+    { id="submarine_mouse_aim_x"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+      reqInMouseAim = false
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
+    { id="submarine_mouse_aim_y"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.SUBMARINE
+      reqInMouseAim = false
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
+    { id = "aim_time_nonlinearity_submarine"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SUBMARINE)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SUBMARINE, objValue / 100.0)
+    }
+    { id = "aim_acceleration_delay_submarine"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SUBMARINE)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SUBMARINE, objValue / 100.0)
+    }
+    { id = "mouse_z_submarine"
+      type = CONTROL_TYPE.MOUSE_AXIS
+      axis_num = MouseAxis.MOUSE_SCROLL_SUBMARINE
+      values = ["none", "submarine_main_engine", "submarine_zoom"]
+      onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available()
+    }
+
+  { id = "ID_SUBMARINE_OTHER_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+    { id="ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
+      checkGroup = ctrlGroups.SUBMARINE
+      autobind = ["ID_SHIP_KILLSTREAK_WHEEL_MENU"]
+      showFunc = @() !(::is_platform_pc && !::is_xinput_device())
+      checkAssign = false
+    }
+    { id = "ID_SUBMARINE_ACTION_BAR_ITEM_11",
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+    { id = "ID_SUBMARINE_REPAIR_BREACHES"
+      checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
+    }
+
+
   { id = "ID_COMMON_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   { id = "ID_COMMON_BASIC_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TACTICAL_MAP",      checkGroup = ctrlGroups.COMMON }
@@ -1024,7 +1140,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_GAME_PAUSE",        checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_HIDE_HUD",          checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.COMMON, checkAssign = false
-      showFunc = ::is_mouse_available
+      showFunc = @() !::is_platform_xboxone
       condition = @() ::is_platform_pc || ::is_ps4_or_xbox
     }
     { id="ID_SCREENSHOT",        checkGroup = ctrlGroups.COMMON, checkAssign = false
@@ -1051,14 +1167,16 @@ function get_favorite_voice_message_option(index)
     }
 */
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
-    { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
+    { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false
+      showFunc = @() !::is_platform_xboxone
+	}
     { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_MOUSE_SENSE
     }
     { id = "camera_mouse_speed", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
-      showFunc = ::is_mouse_available
+      showFunc = @() !::is_platform_xboxone
     }
     { id = "camera_smooth", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_CAMERA_SMOOTH) / max_camera_smooth
@@ -1102,7 +1220,7 @@ function get_favorite_voice_message_option(index)
     }
     { id="use_mouse_for_voice_message", type = CONTROL_TYPE.SWITCH_BOX,
       value = @(joyParams) joyParams.useMouseForVoiceMessage
-      showFunc = ::is_mouse_available
+      showFunc = @() !::is_platform_xboxone
       setValue = function(joyParams, objValue) {
         local old  = joyParams.useMouseForVoiceMessage
         joyParams.useMouseForVoiceMessage = objValue
@@ -1214,11 +1332,9 @@ function get_favorite_voice_message_option(index)
     { id="ID_REPLAY_CAMERA_FREE_PARENTED", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="free_camera_inertia", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_FREE_CAMERA_INERTIA,
-      showFunc = @() ::is_option_free_camera_inertia_exist
     }
     { id="replay_camera_wiggle", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_REPLAY_CAMERA_WIGGLE,
-      showFunc = @() ::is_option_replay_camera_wiggle_exist
     }
     { id="ID_REPLAY_CAMERA_HOVER", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="ID_REPLAY_CAMERA_ZOOM_IN", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
@@ -1356,13 +1472,11 @@ function get_shortcut_by_id(shortcutId)
   "ID_BAY_DOOR",
   "ID_BOMBS",
   "ID_ROCKETS",
-//
-
-
-
-
-
-
+  "ID_SENSOR_SWITCH",
+  "ID_SENSOR_MODE_SWITCH",
+  "ID_SENSOR_SCAN_PATTERN_SWITCH",
+  "ID_SENSOR_RANGE_SWITCH",
+  "ID_SENSOR_TARGET_LOCK",
   "ID_SCHRAEGE_MUSIK",
   "ID_GEAR",
   { id="ailerons", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -1455,10 +1569,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-//
-
-
-
+  { id="submarine_depth", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   "ID_SHIP_ACTION_BAR_ITEM_1",
   "ID_SHIP_ACTION_BAR_ITEM_2",
   "ID_SHIP_ACTION_BAR_ITEM_3",
@@ -1514,13 +1625,40 @@ function get_shortcut_by_id(shortcutId)
   "ID_HIDE_HUD"
 ]
 
+::controlsHelp_shortcuts_submarine <- [
+  { id ="ID_SUBMARINE_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
+  { id="submarine_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="submarine_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="submarine_depth", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  "ID_SUBMARINE_FULL_STOP",
+  "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES",
+  "ID_SUBMARINE_ACTION_BAR_ITEM_11",
+  "ID_SUBMARINE_REPAIR_BREACHES",
+
+  { id ="ID_SUBMARINE_FIRE_HEADER", type = CONTROL_TYPE.HEADER }
+  "ID_SUBMARINE_SWITCH_ACTIVE_SONAR",
+  "ID_SUBMARINE_WEAPON_TORPEDOES",
+  "ID_TOGGLE_VIEW_SUBMARINE",
+  "ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR",
+  "ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING",
+
+  { id ="ID_MISC_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
+  "ID_HELP"
+  "ID_TACTICAL_MAP", "ID_MPSTATSCREEN",
+  "ID_TOGGLE_CHAT_TEAM",
+  "ID_SHOW_VOICE_MESSAGE_LIST"
+  "ID_SHOW_VOICE_MESSAGE_LIST_SQUAD"
+  "ID_HIDE_HUD"
+]
+
 if (::is_platform_pc) //See AcesApp::makeScreenshot()
 {
   local extra = ["ID_SCREENSHOT", "ID_SCREENSHOT_WO_HUD",]
   ::controlsHelp_shortcuts.extend(extra)
   ::controlsHelp_shortcuts_ground.extend(extra)
   ::controlsHelp_shortcuts_naval.extend(extra)
-  ::controlsHelp_shortcuts_helicopter.extend(["ID_SCREENSHOT_WO_HUD"])
+  ::controlsHelp_shortcuts_helicopter.extend(extra)
+  ::controlsHelp_shortcuts_submarine.extend(extra)
 }
 
 enum AXIS_MODIFIERS {
@@ -1648,9 +1786,11 @@ function reset_default_control_settings()
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR,   0.0); //
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK,  0.0); //
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP,  0.0); //
+  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SUBMARINE,  0.0); //
   ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR,  0.5); //
   ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_TANK, 0.5); //
   ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SHIP, 0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SUBMARINE, 0.5); //
 
   ::set_option_mouse_joystick_square(0); //mouseJoystickSquare
   ::set_option_gain(1); //::USEROPT_FORCE_GAIN
@@ -1735,36 +1875,44 @@ function isShortcutMapped(shortcut)
   return false
 }
 
-function is_axis_mapped_on_mouse(shortcutId, helpersMode, joyParams)
+local axisMappedOnMouse = {
+  mouse_aim_x            = @(isMouseAimMode) isMouseAimMode ? MOUSE_AXIS.HORIZONTAL_AXIS : MOUSE_AXIS.NOT_AXIS
+  mouse_aim_y            = @(isMouseAimMode) isMouseAimMode ? MOUSE_AXIS.VERTICAL_AXIS : MOUSE_AXIS.NOT_AXIS
+  gm_mouse_aim_x         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  gm_mouse_aim_y         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  ship_mouse_aim_x       = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  ship_mouse_aim_y       = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  helicopter_mouse_aim_x = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  helicopter_mouse_aim_y = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  submarine_mouse_aim_x  = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  submarine_mouse_aim_y  = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  camx                   = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  camy                   = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  gm_camx                = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  gm_camy                = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  ship_camx              = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  ship_camy              = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  helicopter_camx        = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  helicopter_camy        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  submarine_camx         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  submarine_camy         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+}
+function is_axis_mapped_on_mouse(shortcutId, helpersMode = null, joyParams = null)
 {
-  local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
-  if (shortcutId == "gm_mouse_aim_x" || shortcutId == "gm_mouse_aim_y")
-    return true
-  if (shortcutId == "mouse_aim_x" || shortcutId == "mouse_aim_y")
-    return true
-  local start = isMouseAimMode ? 2 : 0
-  for (local i = start; i < MouseAxis.NUM_MOUSE_AXIS_TOTAL; i++)
-    if (joyParams.getMouseAxis(i) == shortcutId)
-      return true
-  return false
+  return get_mouse_axis(shortcutId, helpersMode, joyParams) != MOUSE_AXIS.NOT_AXIS
 }
 
-function get_mouse_axis(shortcutId)
+function get_mouse_axis(shortcutId, helpersMode = null, joyParams = null)
 {
-  local joyParams = ::JoystickParams()
-  joyParams.setFrom(::joystick_get_cur_settings())
+  local axis = axisMappedOnMouse?[shortcutId]
+  if (axis)
+    return axis((helpersMode ?? ::getCurrentHelpersMode()) == globalEnv.EM_MOUSE_AIM)
 
-  if (shortcutId == "gm_mouse_aim_x")
-    return MOUSE_AXIS.HORIZONTAL_AXIS
-  if (shortcutId == "gm_mouse_aim_y")
-    return MOUSE_AXIS.VERTICAL_AXIS
-
-  local isMouseAimMode = ::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM
-  if (shortcutId == "mouse_aim_x" && isMouseAimMode)
-    return MOUSE_AXIS.HORIZONTAL_AXIS
-  if (shortcutId == "mouse_aim_y" && isMouseAimMode)
-    return MOUSE_AXIS.VERTICAL_AXIS
-
+  if (!joyParams)
+  {
+    joyParams = ::JoystickParams()
+    joyParams.setFrom(::joystick_get_cur_settings())
+  }
   for (local i = 0; i < MouseAxis.NUM_MOUSE_AXIS_TOTAL; ++i)
   {
     if (shortcutId == joyParams.getMouseAxis(i))
@@ -4003,6 +4151,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
   local unitBlk = null
   local blkCommonWeapons = null
   local blkWeaponPreset = null
+  local blkSensors = null
 
   local preset = ::g_controls_manager.getCurPreset()
 
@@ -4052,6 +4201,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
           blkWeaponPreset = ::DataBlock(preset.blk)
           break
         }
+    blkSensors = unitBlk.sensors
   }
 
   if (unitType == ::g_unit_type.AIRCRAFT)
@@ -4103,15 +4253,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
     local gotBombs = false
     local gotTorpedoes = false
     local gotRockets = false
-//
-
-
+    local gotWeaponLock = false
     local gotSmoke = false
     local gotGunnerTurrets = false
     local gotSchraegeMusik = false
-//
-
-
 
     foreach (weaponSet in [ blkCommonWeapons, blkWeaponPreset ])
     {
@@ -4129,12 +4274,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
           gotTorpedoes = true
         if (weapon.trigger == "rockets")
           gotRockets = true
-//
-
-
-
-
-
+        local weaponBlk = ::DataBlock(weapon.blk)
+        if ("rocket" in weaponBlk)
+          if ("guidance" in weaponBlk.rocket)
+            gotWeaponLock = true
         if (weapon.trigger == "smoke")
           gotSmoke = true
         if (type(weapon.trigger) == "string" && weapon.trigger.len() > 6 && weapon.trigger.slice(0, 6) == "gunner")
@@ -4142,12 +4285,11 @@ function getRequiredControlsForUnit(unit, helpersMode)
         if (::is_platform_pc && weapon.schraegeMusikAngle != null)
           gotSchraegeMusik = true
       }
-//
-
-
-
     }
-
+    local gotSensors = false
+    if (blkSensors != null)
+      foreach (sensor in (blkSensors % "sensor"))
+        gotSensors = true;
     if (preset.getAxis("fire").axisId == -1)
     {
       if (gotMachineGuns || !gotCannons && (gotGunnerTurrets || gotSchraegeMusik)) // Gunners require either Mguns or Cannons shortcut.
@@ -4161,18 +4303,16 @@ function getRequiredControlsForUnit(unit, helpersMode)
       controls.append("ID_BOMBS")
     if (gotRockets)
       controls.append("ID_ROCKETS")
-//
-
-
-
-
-
-
-
-
-
-
-
+    if (gotWeaponLock)
+      controls.append("ID_WEAPON_LOCK")
+    if (gotSensors)
+    {
+      controls.append("ID_SENSOR_SWITCH")
+      controls.append("ID_SENSOR_MODE_SWITCH")
+      controls.append("ID_SENSOR_SCAN_PATTERN_SWITCH")
+      controls.append("ID_SENSOR_RANGE_SWITCH")
+      controls.append("ID_SENSOR_TARGET_LOCK")
+    }
     if (gotSchraegeMusik)
       controls.append("ID_SCHRAEGE_MUSIK")
   }
