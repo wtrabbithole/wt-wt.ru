@@ -42,6 +42,29 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
         uncollapsedChapterName = groupName != ""? chapterName : null
         curAchievementGroupName = chapterName + (groupName != ""? ("/" + groupName) : "") })
     }
+    show_unit = function(handler, params, obj)
+    {
+      local unitName = params?[0] ?? ""
+      local unit = ::getAircraftByName(unitName)
+      if (!unit)
+        return
+
+      local country = unit.shopCountry
+      local showUnitInShop = @() ::gui_handlers.ShopViewWnd.open({
+        curAirName = unitName
+        forceUnitType = unit?.unitType })
+
+      local acceptCallback = ::Callback( function() {
+        ::switch_profile_country(country)
+        showUnitInShop() }, this)
+      if (country != ::get_profile_country_sq())
+        ::queues.checkAndStart(
+          acceptCallback,
+          null,
+          "isCanModifyCrew")
+      else
+        showUnitInShop()
+    }
   }
 
   collapsedParams = {

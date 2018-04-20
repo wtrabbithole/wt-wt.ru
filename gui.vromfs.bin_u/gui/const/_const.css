@@ -52,13 +52,13 @@
 @const modStatusHeight: 22*@sf/@pf_outdated;
 @const modStatusCheckboxHeight: 18@sf/@pf;
 @const modArrowLen: 15*@sf/@pf_outdated;
-@const modPadSize: (0.20@modIcoSize-2*@sf/@pf_outdated) \ 1;
+@const modPadSize: (10@sf/@pf) \ 1;
 
 @const battleModeSwitchHeight: 30*@sf/@pf_outdated;
 
 @const chestRewardHeight: 227*@sf/@pf_outdated;
 @const chestRewardWidth:  227*@sf/@pf_outdated;
-@const itemIconHeight:    (120*@sf/@pf_outdated)\1;
+@const itemIconHeight:    ((120*@sf/@pf_outdated)\2)*2;
 @const awardIconHeight:   50*@sf/@pf_outdated;
 
 @const tableIcoSize:1@cIco;
@@ -155,7 +155,7 @@
 @const slot_interval: 3*@sf/@pf_outdated;
 @const slot_vert_pad: 0.005*@scrn_tgt\1;
 @const slot_height:   @shopAirHeight + 10*@sf/@pf_outdated;
-@const slot_hdr_width:@cIco +12@sf/@pf;
+@const slot_hdr_width:@cIco +12@sf/@pf\1;
 @const shop_vert_arrow_width: 15*@sf/@pf_outdated;
 @const shop_hor_arrow_height: 15*@sf/@pf_outdated;
 @const slotScrollButtonWidth: (0.025@sf)\1;
@@ -246,7 +246,7 @@
 @const itemsInterval:    0.015@scrn_tgt;
 @const itemsIntervalBig: 0.03@scrn_tgt;
 
-@const modItemWidth: (1@modIcoSize + 0.105@sf) \ 1;
+@const modItemWidth: (1@modIcoSize + 116@sf/@pf) \ 1;
 
 @const tutorArrowSize: 25*@sf/@pf_outdated;
 
@@ -291,6 +291,8 @@
 @const briefingBackgroundWidth: 1.8*sh;
 @const briefingScreenWidth: 1@briefingBackgroundWidth $min sw;
 @const briefingMapWidth: 0.39*@briefingBackgroundWidth;
+@const briefingMapLeftPos: 0.12sw;
+@const briefingMissionTextLeftPos: 1@briefingMapLeftPos + 1@briefingMapWidth + 0.01@scrn_tgt;
 @const weaponStatusIconSize: 16*@sf/@pf;
 @const systemMsgIndent: 0.11@rw;
 @const battleTaskTooltipMinWidth: 1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;

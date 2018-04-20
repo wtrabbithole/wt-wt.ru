@@ -17,6 +17,9 @@ enums.addTypesByGlobalName("g_ww_top_menu_left_side_sections", [
     getImage = function(totalSections = 0) { return ::is_low_width_screen()? "#ui/gameuiskin#btn_info.svg" : null }
     buttons = [
       [
+        ::g_top_menu_buttons.OPTIONS
+        ::g_top_menu_buttons.CONTROLS
+        ::g_top_menu_buttons.LINE_SEPARATOR
         ::g_top_menu_buttons.WW_GLOBAL_BATTLES
         ::g_top_menu_buttons.WW_OPERATIONS
         ::g_top_menu_buttons.WW_HANGAR

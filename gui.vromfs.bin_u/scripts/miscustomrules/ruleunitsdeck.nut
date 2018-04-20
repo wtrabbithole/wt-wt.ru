@@ -33,7 +33,7 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
   function getSpecialCantRespawnMessage(unit)
   {
     local leftRespawns = getUnitLeftRespawns(unit)
-    if (leftRespawns)
+    if (leftRespawns || isUnitAvailableBySpawnScore(unit))
       return null
     return ::loc("respawn/noUnitLeft", { unitName = ::colorize("userlogColoredText", ::getUnitName(unit)) })
   }
@@ -81,10 +81,12 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
     return res
   }
 
-  function isUnitAvailableForWWSpawnScore(unit)
+  function isUnitAvailableBySpawnScore(unit)
   {
-    return unit && isWorldWar && isUnitForcedVisible(unit.name)
+    return unit
       && getUnitLeftRespawns(unit) == 0
       && getUnitLeftRespawnsByTeamDataBlk(unit, getMyTeamDataBlk()) != 0
+      && isScoreRespawnEnabled
+      && unit.getSpawnScore() > 0
   }
 }

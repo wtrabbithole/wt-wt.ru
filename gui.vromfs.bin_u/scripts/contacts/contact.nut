@@ -27,7 +27,7 @@ class Contact
 
   pilotIcon = "cardicon_bot"
   wins = -1
-  rank = -1
+  expTotal = -1
 
   update = false
   afterSuccessUpdateFunc = null
@@ -123,9 +123,14 @@ class Contact
     return wins >= 0? wins : ::loc("leaderboards/notAvailable")
   }
 
+  function getRank()
+  {
+    return ::get_rank_by_exp(expTotal > 0? expTotal : 0)
+  }
+
   function getRankText()
   {
-    return rank >= 0? rank : ::loc("leaderboards/notAvailable")
+    return expTotal >= 0? getRank().tostring() : ::loc("leaderboards/notAvailable")
   }
 
   function getName()

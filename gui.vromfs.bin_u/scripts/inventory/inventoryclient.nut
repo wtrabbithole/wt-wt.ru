@@ -14,7 +14,6 @@ const INVENTORY_PROGRESS_MSG_ID = "INVENTORY_REQUEST"
 
 local InventoryClient = class {
   items = {}
-  waitingItems = []
   itemdefs = {}
 
   REQUEST_TIMEOUT_MSEC = 15000
@@ -73,6 +72,13 @@ local InventoryClient = class {
         description_english = ""
       },
     }
+  }
+
+  tagsValueRemap = {
+    yes         = true,
+    no          = false,
+    ["true"]    = true,
+    ["false"]   = false,
   }
 
   function request(action, headers, data, callback, progressBoxData = null)
@@ -205,6 +211,14 @@ local InventoryClient = class {
     return null
   }
 
+  function addInventoryItem(item)
+  {
+    local shouldUpdateItemdDefs = addItemDefIdToRequest(item.itemdef)
+    item.itemdef = itemdefs[item.itemdef] //fix me: why we use same field name for other purposes?
+    items[item.itemid] <- item
+    return shouldUpdateItemdDefs
+  }
+
   function requestAll()
   {
     if (!canRefreshData())
@@ -219,6 +233,7 @@ local InventoryClient = class {
         return
 
       local oldItems = items
+      local shouldUpdateItemdefs = false
       items = {}
       foreach (item in itemJson) {
         local oldItem = ::getTblValue(item.itemid, oldItems)
@@ -227,26 +242,24 @@ local InventoryClient = class {
             hasInventoryChanges = true
           }
 
-          item.itemdef = oldItem.itemdef
-          items[item.itemid] <- item
-
+          addInventoryItem(item)
           delete oldItems[item.itemid]
 
           continue
         }
 
-        if (item.quantity > 0) {
-          waitingItems.append(item);
-        }
+        if (item.quantity <= 0)
+          continue
+
+        hasInventoryChanges = true
+        shouldUpdateItemdefs = addInventoryItem(item) || shouldUpdateItemdefs
       }
 
       if (oldItems.len() > 0) {
         hasInventoryChanges = true
       }
 
-      processWaitingItems();
-
-      if (waitingItems.len() > 0) {
+      if (shouldUpdateItemdefs) {
         requestItemDefs(notifyInventoryUpdate);
       }
       else {
@@ -257,24 +270,6 @@ local InventoryClient = class {
 
   function requestInventory(callback) {
     request("GetInventory", {}, null, callback)
-  }
-
-  function processWaitingItems() {
-    for (local i = waitingItems.len() - 1; i >= 0; --i) {
-      local item = waitingItems[i]
-      local itemdef = ::getTblValue(item.itemdef, itemdefs, null)
-      if (itemdef) {
-        if (itemdef.len() > 0) {
-          item.itemdef = itemdef
-          items[item.itemid] <- item
-          waitingItems.remove(i)
-          hasInventoryChanges = true
-        }
-      }
-      else {
-        itemdefs[item.itemdef] <- {}
-      }
-    }
   }
 
   isItemdefRequestInProgress = @() lastItemdefsRequestTime >= 0
@@ -355,7 +350,6 @@ local InventoryClient = class {
           addItemDef(itemdef)
         }
 
-        processWaitingItems()
         notifyInventoryUpdate()
         requestData.fireCb()
         requestItemDefsImpl()
@@ -390,18 +384,27 @@ local InventoryClient = class {
     return itemdefs
   }
 
+  function addItemDefIdToRequest(itemdefid)
+  {
+    if (itemdefid in itemdefs)
+      return false
+    itemdefs[itemdefid] <- {}
+    return true
+  }
+
   function requestItemdefsByIds(itemdefIdsList, cb = null)
   {
     foreach (itemdefid in itemdefIdsList)
-      if (!(itemdefid in itemdefs))
-        itemdefs[itemdefid] <- {}
+      addItemDefIdToRequest(itemdefid)
     requestItemDefs(cb)
   }
 
   function addItemDef(itemdef) {
-    itemdef.tags = getTagsItemDef(itemdef)
-
-    itemdefs[itemdef.itemdefid] <- itemdef
+    local originalItemDef = itemdefs?[itemdef.itemdefid] || {}
+    originalItemDef.clear()
+    originalItemDef.__update(itemdef)
+    originalItemDef.tags = getTagsItemDef(originalItemDef)
+    itemdefs[itemdef.itemdefid] <- originalItemDef
   }
 
   function getTagsItemDef(itemdef)
@@ -415,9 +418,7 @@ local InventoryClient = class {
       local parsed = ::split(pair, ":")
       if (parsed.len() == 2) {
         local v = parsed[1]
-        parsedTags[parsed[0]] <- v == "yes" ? true
-          : v == "no" ? false
-          : v
+        parsedTags[parsed[0]] <- tagsValueRemap?[v] ?? v
       }
     }
     return parsedTags
@@ -450,6 +451,7 @@ local InventoryClient = class {
       return
 
     local newItems = []
+    local shouldUpdateItemdefs = false
     foreach (item in itemJson) {
       local oldItem = ::getTblValue(item.itemid, items)
       if (item.quantity == 0) {
@@ -462,21 +464,20 @@ local InventoryClient = class {
       }
 
       if (oldItem) {
-        item.itemdef = oldItem.itemdef
-        items[item.itemid] <- item
+        addInventoryItem(item)
         hasInventoryChanges = true
         continue
       }
 
       newItems.append(item)
-      waitingItems.append(item);
+      hasInventoryChanges = true
+      shouldUpdateItemdefs = addInventoryItem(item) || shouldUpdateItemdefs
     }
 
     if (!shouldCheckInventory)
       return cb(newItems)
 
-    processWaitingItems()
-    if (waitingItems.len() > 0) {
+    if (shouldUpdateItemdefs) {
       requestItemDefs(function() {
         if (cb) {
           for (local i = newItems.len() - 1; i >= 0; --i) {
@@ -541,15 +542,6 @@ local InventoryClient = class {
   function forceRefreshItemDefs()
   {
     requestItemDefs(function() {
-      foreach (itemid, item in items) {
-        local itemdef = ::getTblValue(item.itemdef.itemdefid, itemdefs, null)
-        if (itemdef) {
-          if (itemdef.len() > 0) {
-            item.itemdef = itemdef
-            hasInventoryChanges = true
-          }
-        }
-      }
       notifyInventoryUpdate()
     }, true)
   }

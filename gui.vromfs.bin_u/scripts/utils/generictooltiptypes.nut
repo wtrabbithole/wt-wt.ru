@@ -390,9 +390,11 @@ enums.addTypesByGlobalName("g_tooltip_type", {
   }
 
   WEAPON = { //by unitName, weaponName
-    getTooltipId = function(unitName, weaponName = "", p2 = null, p3 = null)
+    getTooltipId = function(unitName, weaponName = "", params = null, p3 = null)
     {
-      return _buildId(unitName, { weaponName = weaponName })
+      local p = params ? clone params : {}
+      p.weaponName <- weaponName
+      return _buildId(unitName, p)
     }
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, unitName, params)
@@ -405,11 +407,13 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         return false
 
       local weaponName = ::getTblValue("weaponName", params, "")
+      local hasPlayerInfo = params?.hasPlayerInfo ?? true
       local weapon = ::u.search(unit.weapons, (@(weaponName) function(w) { return w.name == weaponName })(weaponName))
       if (!weapon)
         return false
 
-      ::weaponVisual.updateWeaponTooltip(obj, unit, weapon, handler)
+      ::weaponVisual.updateWeaponTooltip(obj, unit, weapon, handler,
+        { hasPlayerInfo = hasPlayerInfo })
       return true
     }
   }

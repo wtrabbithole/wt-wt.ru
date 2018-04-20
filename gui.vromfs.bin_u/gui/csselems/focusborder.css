@@ -21,6 +21,7 @@ focus_border_in_scroll {
 }
 
 table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
+recipe[selected=yes],
 [show_console_buttons=yes] :focus > focus_border,
 [show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
 [show_console_buttons=yes] :focus > itemDiv[selected=yes] > focus_border,
@@ -33,6 +34,7 @@ table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_b
 [show_console_buttons=yes] [showSelect=yes] > button[selected=yes],
 [show_console_buttons=yes] [showSelect=yes] > CheckBox[selected=yes],
 [showSelect=always] > Button_text[selected=yes],
+[show_console_buttons=yes] verticalCellsOptions[selfFocusBorder=yes] > tr[selected=yes],
 [show_console_buttons=yes] table[selfFocusBorder=yes] > tr[selected=yes],
 [show_console_buttons=yes] table[focusSelectedRow=yes]:focus > tr[selected=yes],
 [show_console_buttons=yes] [selfFocusBorder=yes]:focus > tr[selected=yes],

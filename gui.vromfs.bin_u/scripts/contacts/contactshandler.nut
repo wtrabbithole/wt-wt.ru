@@ -17,7 +17,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   focusArray = [
     "search_edit_box"
     function() { return getListFocusObj() }
-    "contacts_buttons_console"
+    "btn_psnFriends"
   ]
   currentFocusItem = 0
 
@@ -1045,17 +1045,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         ::g_squad_manager.acceptMembershipAplication(uid.tointeger())
       else
         ::g_squad_manager.inviteToSquad(uid, name)
-  }
-
-  function onSquadRemove(obj)
-  {
-    updateCurPlayer(obj)
-    if (!curPlayer || !owner)
-      return
-    if (::has_feature("Squad"))
-      ::g_squad_manager.dismissFromSquadByName(curPlayer.name)
-    else
-      msgBox("not_available", ::loc("msgbox/notAvailbleYet"), [["ok", function() {} ]], "ok")
   }
 
   function onUsercard(obj)

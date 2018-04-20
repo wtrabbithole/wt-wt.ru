@@ -148,10 +148,7 @@ itemDiv {
     <</expireTime>>
 
     <<#amount>>
-    textareaNoTab {
-      pos:t='pw-w - 1@itemPadding, 1@itemPadding'
-      position:t='absolute'
-      overlayTextColor:t='active'
+    itemAmountText {
       text:t='<<amount>>'
     }
     <</amount>>
@@ -215,14 +212,9 @@ itemDiv {
 
   <<#hasButton>>
   <<#modActionName>>
-  <<#needShowActionText>>
-  textareaNoTab {
-      pos:t='50%pw-50%w, ph - h/2'
-      position:t='absolute'
-      overlayTextColor:t='active'
-      text:t='<<modActionName>>'
-  }
-  <</needShowActionText>>
+  <<#needShowActionButtonAlways>>
+  showButtonAlways:t='yes'
+  <</needShowActionButtonAlways>>
 
   Button_text {
     id:t='actionBtn'
@@ -235,8 +227,11 @@ itemDiv {
     holderId:t='<<itemIndex>>'
     <</itemIndex>>
     on_click:t='onItemAction'
-    btnName:t='A'
-    ButtonImg {}
+    btnName:t=''
+    ButtonImg {
+      iconName:t='A'
+      showOnSelect:t='focus'
+    }
   }
   <</modActionName>>
   <</hasButton>>

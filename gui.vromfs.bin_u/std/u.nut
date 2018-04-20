@@ -584,6 +584,20 @@ local function setTblValueByPath(path, tbl, value, separator = ".") {
     tbl[path] <- value
 }
 
+local function getTblValueByPath(table, path, separator = ".") {
+  if (type(path) == "string") {
+    path = split(path, separator)
+  }
+  assert(type(path)=="array", "Path should be array or string with separator")
+  local ret = table
+  foreach(i,p in path) {
+    if (ret==null)
+      return null
+    ret = ret?[p]
+  }
+  return ret
+}
+
 local export = {
   appendOnce = appendOnce
   chooseRandom = chooseRandom
@@ -611,6 +625,7 @@ local export = {
   values = values
   keys = keys
   setTblValueByPath = setTblValueByPath
+  getTblValueByPath = getTblValueByPath
 //obsolete?
   map = map
   reduce = reduce 

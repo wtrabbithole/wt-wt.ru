@@ -399,7 +399,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
       if (selectedRow < 0 && ::u.isEqual(room, selectedRoom))
          selectedRow = curPageRoomsList.len() - 1
     }
-    if (selectedRow < 0)
+    if (selectedRow < 0 && curPageRoomsList.len())
       selectedRow = ::clamp(sessionsListObj.getValue(), 0, curPageRoomsList.len() - 1)
 
     local data = ::build_mp_table(::SessionLobby.getRoomsInfoTbl(curPageRoomsList), getRoomsListMarkUpData(), getColumnsList(), 0)

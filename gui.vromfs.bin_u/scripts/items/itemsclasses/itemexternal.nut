@@ -5,13 +5,14 @@ local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
 local time = require("scripts/time.nut")
 local chooseAmountWnd = ::require("scripts/wndLib/chooseAmountWnd.nut")
+local recipesListWnd = ::require("scripts/items/listPopupWnd/recipesListWnd.nut")
 
 local emptyBlk = ::DataBlock()
 
 local ItemExternal = class extends ::BaseItem
 {
   static defaultLocId = ""
-  static isUseTypePrefixInName = false
+  static combinedNameLocId = null
   static descHeaderLocId = ""
   static openingCaptionLocId = "mainmenu/itemConsumed/title"
   static linkActionLocId = "msgbox/btn_find_on_marketplace"
@@ -21,6 +22,7 @@ local ItemExternal = class extends ::BaseItem
   static isPreferMarkupDescInTooltip = true
   static isDescTextBeforeDescDiv = false
   static hasRecentItemConfirmMessageBox = false
+  static descReceipesListHeaderPrefix = "item/requires/"
 
   rarity = null
   expireTimestamp = -1
@@ -88,17 +90,16 @@ local ItemExternal = class extends ::BaseItem
     return (tShop != -1 && (tInv == -1 || tShop < tInv)) ? tShop : tInv
   }
 
+  updateNameLoc = @(locName) combinedNameLocId ? ::loc(combinedNameLocId, { name = locName }) : locName
+
   function getName(colored = true)
   {
     local res = ""
     if (isDisguised)
       res = ::loc("item/disguised")
     else
-    {
-      res = itemDef?.name ?? ""
-      if (isUseTypePrefixInName)
-        res = getTypeName() + " " + res
-    }
+      res = updateNameLoc(itemDef?.name ?? "")
+
     if (colored)
       res = ::colorize(getRarityColor(), res)
     return res
@@ -160,21 +161,23 @@ local ItemExternal = class extends ::BaseItem
       return ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
 
     local content = []
-    local desc = [
-      getMarketablePropDesc()
-      getCurExpireTimeText()
+    local headers = [
+      { header = getMarketablePropDesc() }
     ]
+
+    if (hasTimer())
+      headers.append({ header = getCurExpireTimeText(), timerId = "expire_timer" })
 
     if (metaBlk)
     {
-      desc.append(::colorize("grayOptionColor", ::loc(descHeaderLocId)))
+      headers.append({ header = ::colorize("grayOptionColor", ::loc(descHeaderLocId)) })
       content = [ metaBlk ]
       params.showAsTrophyContent <- true
       params.receivedPrizes <- false
       params.relatedItem <- id
     }
 
-    params.header <- ::u.map(desc, @(par) { header = par })
+    params.header <- headers
     return ::PrizesView.getPrizesListView(content, params)
       + ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
   }
@@ -204,6 +207,24 @@ local ItemExternal = class extends ::BaseItem
     ], "\n")
   }
 
+  function getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems)
+  {
+    if (showAmount < totalAmount)
+      return ::loc("item/create_recipes",
+        {
+          count = totalAmount
+          countColored = ::colorize("activeTextColor", totalAmount)
+          exampleCount = showAmount
+        })
+
+    local isMultipleRecipes = showAmount > 1
+    local headerSuffix = isMultipleRecipes && isMultipleExtraItems  ? "any_of_item_sets"
+      : !isMultipleRecipes && isMultipleExtraItems ? "items_set"
+      : isMultipleRecipes && !isMultipleExtraItems ? "any_of_items"
+      : "item"
+    return ::loc(descReceipesListHeaderPrefix + headerSuffix)
+  }
+
   isRare              = @() isDisguised ? base.isRare() : rarity.isRare
   getRarity           = @() isDisguised ? base.getRarity() :rarity.value
   getRarityColor      = @() isDisguised ? base.getRarityColor() :rarity.color
@@ -216,7 +237,7 @@ local ItemExternal = class extends ::BaseItem
   function getMainActionName(colored = true, short = false)
   {
     return amount && canConsume() ? ::loc("item/consume")
-      : canAssemble() ? ::loc("item/assemble")
+      : canAssemble() ? getAssembleText()
       : ""
   }
 
@@ -294,12 +315,39 @@ local ItemExternal = class extends ::BaseItem
     ::g_tasker.addTask(taskId, { showProgressBox = !shouldAutoConsume }, taskCallback)
   }
 
+  getAssembleHeader       = @() ::loc("item/create_header", { itemName = getName() })
+  getAssembleText         = @() ::loc("item/assemble")
+  getCantAssembleLocId    = @() "msgBox/assembleItem/cant"
+  getAssembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
+    text = ::loc("msgBox/assembleItem/confirm", { itemName = ::colorize("activeTextColor", getName()) })
+      + (recipe.isMultipleItems ? "\n" + ::loc("msgBox/items_will_be_spent") : "")
+    needRecipeMarkup = recipe.isMultipleItems
+  })
+
   function assemble(cb = null, params = null)
   {
     if (!canAssemble())
       return false
 
-    ExchangeRecipes.tryUse(getMyRecipes(), this)
+    local recipesList = getMyRecipes()
+    if (recipesList.len() == 1)
+    {
+      ExchangeRecipes.tryUse(recipesList, this)
+      return true
+    }
+
+    local item = this
+    recipesListWnd.open({
+      recipesList = recipesList
+      headerText = getAssembleHeader()
+      buttonText = getAssembleText()
+      alignObj = params?.obj
+      onAcceptCb = function(recipe)
+      {
+        ExchangeRecipes.tryUse([recipe], item)
+        return !recipe.isUsable
+      }
+    })
     return true
   }
 
@@ -443,7 +491,7 @@ local ItemExternal = class extends ::BaseItem
     }))
   }
 
-  function needShowActionText()
+  function needShowActionButtonAlways()
   {
     if (!canAssemble())
       return false

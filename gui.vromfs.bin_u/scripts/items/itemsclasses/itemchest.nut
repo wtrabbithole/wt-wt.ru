@@ -12,6 +12,7 @@ class ::items_classes.Chest extends ItemExternal {
   static userlogOpenLoc = "open_trophy"
   static hasTopRewardAsFirstItem = false
   static includeInRecentItems = false
+  static descReceipesListHeaderPrefix = "chest/requires/"
 
   _isInitialized = false
   generator = null
@@ -42,21 +43,24 @@ class ::items_classes.Chest extends ItemExternal {
     return amount ? ::loc("item/open") : ""
   }
 
-  function skipRoulette()
-  {
-    return false
-  }
-
-  function isAllowSkipOpeningAnim()
-  {
-    return ::is_dev_version
-  }
+  skipRoulette              = @() false
+  isAllowSkipOpeningAnim    = @() ::is_dev_version
+  getOpeningAnimId          = @() itemDef?.tags?.isLongOpenAnim ? "LONG" : "DEFAULT"
+  getCantAssembleLocId      = @() "msgBox/chestOpen/cant"
+  getAssembleMessageData    = @(recipe) getEmptyAssembleMessageData().__update({
+    text = ::loc("msgBox/chestOpen/confirm", { itemName = ::colorize("activeTextColor", getName()) })
+      + (recipe.isMultipleItems ? "\n" + ::loc("msgBox/extra_items_will_be_spent") : "")
+    needRecipeMarkup = recipe.isMultipleItems
+  })
 
   function getContent()
   {
     local generator = getGenerator()
     return generator ? generator.getContent() : []
   }
+
+  getDescRecipesText    = @(params) ExchangeRecipes.getRequirementsText(getRelatedRecipes(), this, params)
+  getDescRecipesMarkup  = @(params) ExchangeRecipes.getRequirementsMarkup(getRelatedRecipes(), this, params)
 
   function getDescription()
   {
@@ -68,7 +72,7 @@ class ::items_classes.Chest extends ItemExternal {
     return ::g_string.implode([
       getMarketablePropDesc(),
       getCurExpireTimeText(),
-      ExchangeRecipes.getRequirementsText(getRelatedRecipes(), this, params),
+      getDescRecipesText(params),
       (hasContent ? ::PrizesView.getPrizesListText(content, _getDescHeader) : ""),
       getHiddenItemsDesc() || "",
     ], "\n")
@@ -88,8 +92,8 @@ class ::items_classes.Chest extends ItemExternal {
     local hasContent = content.len() != 0
 
     return ::PrizesView.getPrizesListView([], { header = getMarketablePropDesc() })
-      + (hasTimer() ? ::PrizesView.getPrizesListView([], { header = getCurExpireTimeText() }) : "")
-      + ExchangeRecipes.getRequirementsMarkup(getRelatedRecipes(), this, params)
+      + (hasTimer() ? ::PrizesView.getPrizesListView([], { header = getCurExpireTimeText(), timerId = "expire_timer" }) : "")
+      + getDescRecipesMarkup(params)
       + (hasContent ? ::PrizesView.getPrizesStacksView(content, _getDescHeader, params) : "")
       + (hasContent ? ::PrizesView.getPrizesListView([], { header = getHiddenItemsDesc() }) : "")
   }

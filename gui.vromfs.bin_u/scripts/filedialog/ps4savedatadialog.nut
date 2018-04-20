@@ -249,8 +249,19 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     dagor.debug("PS4 SAVE Dialog: onBtnLoad for entry:")
     debugTableData(selectedEntry)
-    showWaitAnimation(true)
-    doLoad(selectedEntry)
+
+    local onConfirmedLoad = function()
+    {
+      showWaitAnimation(true)
+      doLoad(selectedEntry)
+    }
+
+    ::scene_msg_box("savedata_confirm_load_msg_box",
+                    null,
+                    ::loc("save/confirmLoad", {name=selectedEntry.comment}),
+                    [["yes", ::Callback(onConfirmedLoad, this)], ["no", function(){}]],
+                    "no",
+                    {})
   }
 
 

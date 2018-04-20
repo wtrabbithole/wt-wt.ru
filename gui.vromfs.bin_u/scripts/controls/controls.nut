@@ -1332,11 +1332,9 @@ function get_favorite_voice_message_option(index)
     { id="ID_REPLAY_CAMERA_FREE_PARENTED", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="free_camera_inertia", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_FREE_CAMERA_INERTIA,
-      showFunc = @() ::is_option_free_camera_inertia_exist
     }
     { id="replay_camera_wiggle", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_REPLAY_CAMERA_WIGGLE,
-      showFunc = @() ::is_option_replay_camera_wiggle_exist
     }
     { id="ID_REPLAY_CAMERA_HOVER", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="ID_REPLAY_CAMERA_ZOOM_IN", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
@@ -1877,36 +1875,44 @@ function isShortcutMapped(shortcut)
   return false
 }
 
-function is_axis_mapped_on_mouse(shortcutId, helpersMode, joyParams)
+local axisMappedOnMouse = {
+  mouse_aim_x            = @(isMouseAimMode) isMouseAimMode ? MOUSE_AXIS.HORIZONTAL_AXIS : MOUSE_AXIS.NOT_AXIS
+  mouse_aim_y            = @(isMouseAimMode) isMouseAimMode ? MOUSE_AXIS.VERTICAL_AXIS : MOUSE_AXIS.NOT_AXIS
+  gm_mouse_aim_x         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  gm_mouse_aim_y         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  ship_mouse_aim_x       = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  ship_mouse_aim_y       = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  helicopter_mouse_aim_x = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  helicopter_mouse_aim_y = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  submarine_mouse_aim_x  = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  submarine_mouse_aim_y  = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  camx                   = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  camy                   = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  gm_camx                = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  gm_camy                = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  ship_camx              = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  ship_camy              = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  helicopter_camx        = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  helicopter_camy        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  submarine_camx         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  submarine_camy         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+}
+function is_axis_mapped_on_mouse(shortcutId, helpersMode = null, joyParams = null)
 {
-  local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
-  if (shortcutId == "gm_mouse_aim_x" || shortcutId == "gm_mouse_aim_y")
-    return true
-  if (shortcutId == "mouse_aim_x" || shortcutId == "mouse_aim_y")
-    return true
-  local start = isMouseAimMode ? 2 : 0
-  for (local i = start; i < MouseAxis.NUM_MOUSE_AXIS_TOTAL; i++)
-    if (joyParams.getMouseAxis(i) == shortcutId)
-      return true
-  return false
+  return get_mouse_axis(shortcutId, helpersMode, joyParams) != MOUSE_AXIS.NOT_AXIS
 }
 
-function get_mouse_axis(shortcutId)
+function get_mouse_axis(shortcutId, helpersMode = null, joyParams = null)
 {
-  local joyParams = ::JoystickParams()
-  joyParams.setFrom(::joystick_get_cur_settings())
+  local axis = axisMappedOnMouse?[shortcutId]
+  if (axis)
+    return axis((helpersMode ?? ::getCurrentHelpersMode()) == globalEnv.EM_MOUSE_AIM)
 
-  if (shortcutId == "gm_mouse_aim_x")
-    return MOUSE_AXIS.HORIZONTAL_AXIS
-  if (shortcutId == "gm_mouse_aim_y")
-    return MOUSE_AXIS.VERTICAL_AXIS
-
-  local isMouseAimMode = ::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM
-  if (shortcutId == "mouse_aim_x" && isMouseAimMode)
-    return MOUSE_AXIS.HORIZONTAL_AXIS
-  if (shortcutId == "mouse_aim_y" && isMouseAimMode)
-    return MOUSE_AXIS.VERTICAL_AXIS
-
+  if (!joyParams)
+  {
+    joyParams = ::JoystickParams()
+    joyParams.setFrom(::joystick_get_cur_settings())
+  }
   for (local i = 0; i < MouseAxis.NUM_MOUSE_AXIS_TOTAL; ++i)
   {
     if (shortcutId == joyParams.getMouseAxis(i))

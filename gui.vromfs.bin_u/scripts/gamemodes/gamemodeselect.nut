@@ -267,7 +267,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local id = ::game_mode_manager.getGameModeItemId(gameMode.id)
     local hasNewIconWidget = !::game_mode_manager.isSeen(id)
     local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
-    local isCrossPlayRequired = !isEventAvailableForCrossPlay(event)
+    local crossPlayRestricted = !isCrossPlayEventAvailable(event)
 
     return {
       hasContent = true
@@ -293,17 +293,23 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       // Used to easily backtrack corresponding game mode.
       gameMode = gameMode
       eventDescriptionValue = gameMode.id
-      inactiveColor = ::getTblValue("inactiveColor", gameMode, isCrossPlayRequired)
-      isCrossPlayRequired = isCrossPlayRequired
+      inactiveColor = ::getTblValue("inactiveColor", gameMode, crossPlayRestricted)
+      crossPlayRestricted = crossPlayRestricted
+      isCrossPlayRequired = ::is_platform_xboxone && !isEventXboxOnlyAllowed(event)
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)
     }
   }
 
-  function isEventAvailableForCrossPlay(event)
+  function isEventXboxOnlyAllowed(event)
   {
-    return crossplayModule.isCrossPlayEnabled() || ::events.isEventXboxOnlyAllowed(event)
+    return ::events.isEventXboxOnlyAllowed(event)
+  }
+
+  function isCrossPlayEventAvailable(event)
+  {
+    return crossplayModule.isCrossPlayEnabled() || isEventXboxOnlyAllowed(event)
   }
 
   function getWidgetId(gameModeId)
@@ -464,7 +470,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local event = getGameModeEvent(gameMode)
-    if (isEventAvailableForCrossPlay(event))
+    if (isCrossPlayEventAvailable(event))
     {
       performGameModeSelect(gameMode)
       return

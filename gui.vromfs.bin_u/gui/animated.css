@@ -372,7 +372,8 @@ animSizeObj[needAnim=yes] {
   behaviour:basicSize;
 }
 
-animText {
+animText,
+animWaitMsg > animated_wait_icon {
   behaviour:basicTransparency;
   transp-base:0;
   transp-end:255;
@@ -387,3 +388,16 @@ animText[fade=in] {
 animText[fade=out] {
   transp-time:-300;
 }
+
+animWaitMsg[fade=in] > animated_wait_icon,
+animWaitMsg[fade=in] animText {
+  fade:in;
+  transp-time:300;
+}
+
+animWaitMsg[fade=out] > animated_wait_icon,
+animWaitMsg[fade=out] animText {
+  fade:out;
+  transp-time:-50;
+}
+

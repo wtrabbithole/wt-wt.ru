@@ -301,6 +301,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     player = ::get_player_stats_from_blk(blk);
+    if ("uid" in player)
+      externalIDsService.reqPlayerExternalIDsByUserId(player.uid)
 
     infoReady = true
     scene.findObject("profile-container").show(true)

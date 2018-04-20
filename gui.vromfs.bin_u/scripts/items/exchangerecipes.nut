@@ -2,7 +2,9 @@ local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local u = ::require("std/u.nut")
 local asyncActions = ::require("std/asyncActions.nut")
 
+local lastRecipeUid = 0
 local ExchangeRecipes = class {
+  uid = 0
   components = null
   generatorId = null
 
@@ -12,13 +14,14 @@ local ExchangeRecipes = class {
 
   constructor(parsedRecipe, _generatorId)
   {
+    uid = lastRecipeUid++
     generatorId = _generatorId
 
     local componentsCount = parsedRecipe.len()
     isUsable = componentsCount > 0
-    isMultipleItems = isMultipleItems || componentsCount > 1
-    isMultipleExtraItems = isMultipleExtraItems || componentsCount > 2
+    isMultipleItems = componentsCount > 1
 
+    local extraItemsCount = 0
     components = []
     foreach (component in parsedRecipe)
     {
@@ -39,7 +42,11 @@ local ExchangeRecipes = class {
 
       if (reqQuantity > 1)
         isMultipleItems = true
+      if (component.itemdefid != _generatorId)
+        extraItemsCount++
     }
+
+    isMultipleExtraItems = extraItemsCount > 1
   }
 
   function hasComponent(itemdefid)
@@ -65,6 +72,50 @@ local ExchangeRecipes = class {
     return ::PrizesView.getPrizesListView(list, params)
   }
 
+  function getItemsListForPrizesView(componentIdToHide = null)
+  {
+    local res = []
+    foreach (component in components)
+      if (component.itemdefId != componentIdToHide)
+        res.append(::DataBlockAdapter({
+          item  = component.itemdefId
+          commentText = getComponentQuantityText(component)
+        }))
+    return res
+  }
+
+  function getTextMarkup(params = null)
+  {
+    local list = getItemsListForPrizesView(params?.componentToHide?.id)
+    return ::PrizesView.getPrizesListView(list, params)
+  }
+
+  function getText(params = null)
+  {
+    local list = getItemsListForPrizesView(params?.componentToHide?.id)
+    local headerFunc = params?.header && @(...) params.header
+    return ::PrizesView.getPrizesListText(list, headerFunc)
+  }
+
+  function getIconedMarkup()
+  {
+    local itemsViewData = []
+    foreach (component in components)
+    {
+      local item = ItemsManager.findItemById(component.itemdefId)
+      if (item)
+        itemsViewData.append(item.getViewData({
+          count = getComponentQuantityText(component)
+          contentIcon = false
+          hasTimer = false
+          addItemName = false
+          showPrice = false
+          showAction = false
+        }))
+    }
+    return ::handyman.renderCached("gui/items/item", { items = itemsViewData })
+  }
+
   static function getRequirementsMarkup(recipes, componentItem, params)
   {
     return _getRequirements(recipes, componentItem, params, true)
@@ -77,11 +128,30 @@ local ExchangeRecipes = class {
 
   static function _getRequirements(recipes, componentItem, params, shouldReturnMarkup)
   {
+    local maxRecipes = (params?.maxRecipes ?? componentItem.getMaxRecipesToShow()) || recipes.len()
+    local isFullRecipesList = recipes.len() <= maxRecipes
+
     local isMultipleRecipes = recipes.len() > 1
     local isMultipleItems = false
     local isMultipleExtraItems = false
 
-    foreach (recipe in recipes)
+    local recipesToShow = recipes
+    if (!isFullRecipesList)
+    {
+      recipesToShow = u.filter(recipes, @(r) r.isUsable)
+      if (recipesToShow.len() > maxRecipes)
+        recipesToShow = recipesToShow.slice(0, maxRecipes)
+      else if (recipesToShow.len() < maxRecipes)
+        foreach(r in recipes)
+          if (!r.isUsable)
+          {
+            recipesToShow.append(r)
+            if (recipesToShow.len() == maxRecipes)
+              break
+          }
+    }
+
+    foreach (recipe in recipesToShow)
     {
       isMultipleItems      = isMultipleItems      || recipe.isMultipleItems
       isMultipleExtraItems = isMultipleExtraItems || recipe.isMultipleExtraItems
@@ -90,35 +160,20 @@ local ExchangeRecipes = class {
     if (!isMultipleRecipes && !isMultipleItems)
       return ""
 
-    local headerPrefix = componentItem.iType == itemType.CHEST ? "chest/requires/"
-      : componentItem.iType == itemType.KEY ? "key/requires/"
-      : "item/requires/"
-    local headerSuffix = isMultipleRecipes && isMultipleExtraItems  ? "any_of_item_sets"
-      : !isMultipleRecipes && isMultipleExtraItems ? "items_set"
-      : isMultipleRecipes && !isMultipleExtraItems ? "any_of_items"
-      : "item"
-    local headerFirst = ::colorize("grayOptionColor", ::loc(headerPrefix + headerSuffix))
+    local headerFirst = ::colorize("grayOptionColor",
+      componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(), isMultipleExtraItems))
     local headerNext = isMultipleRecipes && isMultipleExtraItems ?
       ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
 
+    params.componentToHide <- componentItem
     local res = []
-    foreach (recipe in recipes)
+    foreach (recipe in recipesToShow)
     {
-      local list = []
-      foreach (component in recipe.components)
-      {
-        if (component.itemdefId == componentItem.id)
-          continue
-        list.append(::DataBlockAdapter({
-          item  = component.itemdefId
-          commentText = getComponentQuantityText(component)
-        }))
-      }
       params.header <- !res.len() ? headerFirst : headerNext
       if (shouldReturnMarkup)
-        res.append(::PrizesView.getPrizesListView(list, params))
+        res.append(recipe.getTextMarkup(params))
       else
-        res.append(::PrizesView.getPrizesListText(list, @(...) params.header))
+        res.append(recipe.getText(params))
     }
 
     return ::g_string.implode(res, shouldReturnMarkup ? "" : "\n")
@@ -143,27 +198,21 @@ local ExchangeRecipes = class {
     local iType = componentItem.iType
     if (recipe)
     {
-      local locId = iType == itemType.CHEST ? "msgBox/chestOpen/confirm"
-        : "msgBox/assembleItem/confirm"
-      local text = ::loc(locId, { itemName = ::colorize("activeTextColor", componentItem.getName()) })
-      local markup = ""
-      local handler = null
-      if (recipe.isMultipleItems)
-      {
-        text += "\n" + ::loc(iType == itemType.CHEST ? "msgBox/extra_items_will_be_spent" : "msgBox/items_will_be_spent")
-        markup = recipe.getExchangeMarkup(componentItem, { widthByParentParent = true })
-        handler = ::get_cur_base_gui_handler()
-      }
-      local msgboxParams = { data_below_text = markup, baseHandler = handler, cancel_fn = function() {} }
-
-      ::scene_msg_box("chest_exchange", null, text, [
+      local msgData = componentItem.getAssembleMessageData(recipe)
+      local msgboxParams = { cancel_fn = function() {} }
+      if (msgData.needRecipeMarkup)
+        msgboxParams.__update({
+          data_below_text = recipe.getExchangeMarkup(componentItem, { widthByParentParent = true })
+          baseHandler = ::get_cur_base_gui_handler()
+        })
+      ::scene_msg_box("chest_exchange", null, msgData.text, [
         [ "yes", ::Callback(@() recipe.doExchange(componentItem), this) ],
         [ "no" ]
       ], "yes", msgboxParams)
       return true
     }
 
-    local locId = iType == itemType.CHEST ? "msgBox/chestOpen/cant" : "msgBox/assembleItem/cant"
+    local locId = componentItem.getCantAssembleLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
     local msgboxParams = {
       data_below_text = getRequirementsMarkup(recipes, componentItem, { widthByParentParent = true }),

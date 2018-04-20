@@ -391,7 +391,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     if (::getTblValue("isExtinguisherActive", player, false))
       list.append(::loc("fire_extinguished"))
     else if (::getTblValue("isBurning", player, false))
-      list.append(::loc("fire_in_tank"))
+      list.append(::loc("fire_in_unit"))
     if (briefMalfunctionState & ::BMS_ENGINE_BROKEN)
       list.append(::loc("my_dmg_msg/tank_engine"))
     if (briefMalfunctionState & ::BMS_MAIN_GUN_BROKEN)

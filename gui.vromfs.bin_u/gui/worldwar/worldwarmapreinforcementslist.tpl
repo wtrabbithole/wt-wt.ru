@@ -5,13 +5,18 @@ tdiv {
   flow:t='vertical'
   background-color:t='@objectiveHeaderBackground'
 
-  textareaNoTab {
-    id:t='ready_label_text'
-    pos:t='0, 0'
-    position:t='relative'
-    text:t='#worldwar/state/reinforcement_ready'
-    overlayTextColor:t='active'
-    smallFont:t='yes'
+  tdiv {
+    id:t='ready_label'
+    flow:t='vertical'
+
+    textareaNoTab {
+      pos:t='0, 0'
+      position:t='relative'
+      text:t='#worldwar/state/reinforcement_ready'
+      overlayTextColor:t='active'
+      smallFont:t='yes'
+    }
+    include "gui/worldWar/wwControlHelp"
   }
 
   ReinforcementsRadioButtonsList {

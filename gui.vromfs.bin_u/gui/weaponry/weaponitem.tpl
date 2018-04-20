@@ -48,11 +48,11 @@ weaponry_item {
       background-svg-size:t='1@weaponStatusIconSize, 1@weaponStatusIconSize'
     }
 
-    tdiv{
+    weaponInfoBg {
       size:t='fw, ph'
       pos:t='0,50%ph-50%h'
       position:t='relative'
-      padding-top:t='2@dp'
+      padding:t='1@dp, 2@dp'
       flow:t='vertical'
       css-hier-invalidate:t='yes'
 
@@ -189,10 +189,11 @@ weaponry_item {
 
         tdiv {
           id:t='mod_research_block';
-          pos:t='0, ph-h-3';
+          width:t='p.p.w - 4@dp'
+          pos:t='pw-w-1@dp, ph-h-3@dp';
           position:t='relative';
           flow:t='vertical';
-          margin-right:t='0.01@scrn_tgt';
+
           textareaNoTab {
             id:t='mod_research_text';
             pos:t='0.5pw - 0.5w, 0';
@@ -201,8 +202,7 @@ weaponry_item {
             text:t=''
           }
           tdiv {
-            pos:t='2@dp, 0';
-            position:t='relative'
+            width:t='pw'
 
             modResearchProgress {
               id:t='mod_research_progress';
@@ -298,6 +298,13 @@ weaponry_item {
     }
     ButtonImg {}
   }
+
+  <<#shortcutIcon>>
+  ButtonImg{
+    iconName:t='<<shortcutIcon>>'
+    showOnSelect:t='yes'
+  }
+  <</shortcutIcon>>
 
   title:t='$tooltipObj';
   tooltipObj {

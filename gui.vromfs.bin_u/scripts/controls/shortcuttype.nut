@@ -51,27 +51,23 @@ function g_shortcut_type::getShortcutMarkup(shortcutId)
 
 function g_shortcut_type::_isAxisBoundToMouse(shortcutId)
 {
-  local joyParams = ::JoystickParams()
-  joyParams.setFrom(::joystick_get_cur_settings())
-  return ::is_axis_mapped_on_mouse(shortcutId, ::getCurrentHelpersMode(), joyParams)
+  return ::is_axis_mapped_on_mouse(shortcutId)
 }
 
 function g_shortcut_type::_getBitArrayAxisIdByShortcutId(shortcutId)
 {
-  if (_isAxisBoundToMouse(shortcutId))
-    return ::get_mouse_axis(shortcutId)
-  else
-  {
-    local joyParams = ::JoystickParams()
-    joyParams.setFrom(::joystick_get_cur_settings())
-    local shortcutData = ::get_shortcut_by_id(shortcutId)
-    local axis = joyParams.getAxis(shortcutData.axisIndex)
+  local joyParams = ::JoystickParams()
+  joyParams.setFrom(::joystick_get_cur_settings())
+  local shortcutData = ::get_shortcut_by_id(shortcutId)
+  local axis = joyParams.getAxis(shortcutData.axisIndex)
 
-    if (axis.axisId < 0)
+  if (axis.axisId < 0)
+    if (_isAxisBoundToMouse(shortcutId))
+      return ::get_mouse_axis(shortcutId, null, joyParams)
+    else
       return GAMEPAD_AXIS.NOT_AXIS
 
-    return 1 << axis.axisId
-  }
+  return 1 << axis.axisId
 }
 
 
@@ -97,10 +93,10 @@ function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPri
   result.inverse = axis.inverse
 
   if ((result.axisId == -1 || isMouseHigherPriority) &&
-    ::is_axis_mapped_on_mouse(shortcutId, ::getCurrentHelpersMode(), joyParams))
+    ::is_axis_mapped_on_mouse(shortcutId, null, joyParams))
   {
     result.deviceId = ::STD_MOUSE_DEVICE_ID
-    result.mouseAxis = ::get_mouse_axis(shortcutId)
+    result.mouseAxis = ::get_mouse_axis(shortcutId, null, joyParams)
   }
   if (::is_xinput_device())
     result.deviceId = ::JOYSTICK_DEVICE_0_ID
@@ -212,6 +208,13 @@ enums.addTypesByGlobalName("g_shortcut_type", {
     {
       local buttons = []
       local activeAxes = ::get_shortcuts(axisIdsArray)
+
+      if (axisInput.deviceId == ::STD_MOUSE_DEVICE_ID && axisIdsArray.len() > 0)
+      {
+        local hotKey = commonShortcutActiveAxis?[axisIdsArray[0]]
+        if (hotKey)
+          activeAxes.extend(hotKey())
+      }
       foreach (activeAxis in activeAxes)
       {
         if (activeAxis.len() < 1)
@@ -273,6 +276,20 @@ enums.addTypesByGlobalName("g_shortcut_type", {
     {
       local axisDescription = ::g_shortcut_type._getDeviceAxisDescription(shortcutId)
       return getUseAxisShortcuts([shortcutId], ::Input.Axis(axisDescription))
+    }
+
+    commonShortcutActiveAxis =    //when axis are activated by common shortcut
+    {
+      camx            = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      camy            = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      gm_camx         = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      gm_camy         = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      ship_camx       = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      ship_camy       = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      helicopter_camx = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      helicopter_camy = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      submarine_camx  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      submarine_camy  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
     }
   }
 

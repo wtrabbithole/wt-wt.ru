@@ -97,8 +97,9 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
       }
       i++
     }
-    if (isFocused)
-      listObj.setValue(clamp(selectedIdx, 0, listObj.childrenCount() - 1))
+    local countPlayers = listObj.childrenCount()
+    if (isFocused && countPlayers > 0)
+      listObj.setValue(clamp(selectedIdx, 0, countPlayers - 1))
     scene.findObject(configPlayersList.headerObjId).show(playersList.len() > 0)
     updateSize(listObj, playersList)
     updatePosition()

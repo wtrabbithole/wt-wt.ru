@@ -30,6 +30,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   shrinkedConfigsArray = null
   trophyItem = null
   isBoxOpening = true
+  isDisassemble = false
 
   haveItems = false
   opened = false
@@ -51,9 +52,10 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!trophyItem)
       return base.goBack()
 
-    isBoxOpening = trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST
+    isDisassemble = trophyItem.iType == itemType.RECIPES_BUNDLE && trophyItem.isDisassemble()
+    isBoxOpening = !isDisassemble && (trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST)
 
-    local title = (configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
+    local title = (!isDisassemble && configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
     scene.findObject("reward_title").setValue(title)
 
@@ -117,9 +119,18 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(imageObj))
       return
 
-    local layersData = isBoxOpening && (opened || useSingleAnimation) ? trophyItem.getOpenedBigIcon() : trophyItem.getBigIcon()
-    if (isBoxOpening && opened)
-      layersData += (opened && useSingleAnimation)? getRewardImage(trophyItem.iconStyle) : ""
+    local itemToShow = trophyItem
+    if (isDisassemble && configsArray[0]?.item)
+      itemToShow = ::ItemsManager.findItemById(configsArray[0].item)
+
+    local layersData = ""
+    if (isBoxOpening && (opened || useSingleAnimation))
+    {
+      layersData = itemToShow.getOpenedBigIcon()
+      if (opened && useSingleAnimation)
+        layersData += getRewardImage(itemToShow.iconStyle)
+    } else
+      layersData = itemToShow.getBigIcon()
 
     guiScene.replaceContentFromText(imageObj, layersData, layersData.len(), this)
   }

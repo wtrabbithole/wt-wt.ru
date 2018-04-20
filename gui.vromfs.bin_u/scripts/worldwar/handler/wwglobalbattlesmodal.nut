@@ -157,11 +157,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     return WW_OPERATION_DEFAULT_BG_IMAGE
   }
 
-  function getFirstBattleInListMap()
-  {
-    return battlesList.len() ? battlesList[0] : WwGlobalBattle()
-  }
-
   function getSelectedBattlePrefixText(battleData)
   {
     return ""
@@ -235,11 +230,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     return countriesData
   }
 
-  function getNoBattlesText()
-  {
-    return ::loc("worldwar/noActiveGlobalBattlesFullText")
-  }
-
   function onEventCountryChanged(p)
   {
     guiScene.performDelayed(this, updateBattlesWithFilter)
@@ -254,11 +244,15 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function onOpenBattlesFilters(obj)
   {
+    local unitAvailability = ::g_world_war.getSetting("checkUnitAvailability",
+      WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
+
     local curFilterMask = filterMask
     local battlesFiltersView = ::u.map(battlesFilters,
       @(filterData) {
         selected = filterData.value & curFilterMask
-        show = true
+        show = filterData.value != UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS ||
+               unitAvailability != WW_BATTLE_UNITS_REQUIREMENTS.NO_REQUIREMENTS
         text = ::loc(filterData.textLocId)
       })
 
@@ -311,6 +305,11 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       battle = curBattleInList
 
     return battle.getSideByCountry(::get_profile_country_sq())
+  }
+
+  function getEmptyBattle()
+  {
+    return WwGlobalBattle()
   }
 
   function fillOperationInfoText()

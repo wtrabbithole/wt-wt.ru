@@ -34,11 +34,12 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
       && urlType.needAutoLogin && ::isInArray(URL_TAG_AUTO_LOGIN, urlTags)
       && canAutoLogin())
   {
-    local authUrl = ::get_authenticated_url(url)
-    if (!authUrl || authUrl == "")
-      ::script_net_assert_once("Faile auth url", "Open url: failed to get authenticated url.")
+    local authData = ::get_authenticated_url_table(url)
+
+    if (authData.yuplayResult != ::YU2_OK)
+      ::script_net_assert_once("Faile auth url", "Open url: failed to get authenticated url with error " + authData.yuplayResult)
     else
-      url = authUrl
+      url = authData.url
   }
 
   local hasFeature = urlType.isOnlineShop

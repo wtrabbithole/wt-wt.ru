@@ -634,7 +634,7 @@ function get_slot_unit_name_text(unit, params)
     local leftRespawns = missionRules.getUnitLeftRespawns(unit)
     local leftWeaponPresetsText = missionRules.getUnitLeftWeaponShortText(unit)
     local text = leftRespawns != ::RESPAWNS_UNLIMITED
-      ? missionRules.isUnitAvailableForWWSpawnScore(unit)
+      ? missionRules.isUnitAvailableBySpawnScore(unit)
         ? ::loc("icon/star/white")
         : leftRespawns.tostring()
       : ""
@@ -1120,10 +1120,12 @@ function is_unit_enabled_for_slotbar(unit, params)
   if (res && params?.mainMenuSlotbar)
     res = ::game_mode_manager.isUnitAllowedForGameMode(unit)
 
-  if (res && params?.missionRules)
+  local missionRules = params?.missionRules
+  if (res && missionRules)
   {
-    local isAvaliableUnit = params.missionRules.getUnitLeftRespawns(unit) != 0
-      && params.missionRules.isUnitEnabledByRandomGroups(unit.name)
+    local isAvaliableUnit = (missionRules.getUnitLeftRespawns(unit) != 0
+      || missionRules.isUnitAvailableBySpawnScore(unit))
+      && missionRules.isUnitEnabledByRandomGroups(unit.name)
     local isControlledUnit = !::is_respawn_screen()
       && ::is_player_unit_alive()
       && ::get_player_unit_name() == unit.name

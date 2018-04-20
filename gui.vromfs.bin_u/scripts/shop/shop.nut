@@ -460,6 +460,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     doWhenActiveOnce("fillAircraftsList")
   }
 
+  function onEventProfileUpdated(p)
+  {
+    if (p.transactionType == ::EATT_UPDATE_ENTITLEMENTS || p.transactionType == ::EATT_BUY_ENTITLEMENT)
+      doWhenActiveOnce("fillAircraftsList")
+  }
+
   function onUpdate(obj, dt)
   {
     _timer -= dt

@@ -217,6 +217,9 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
 
   buildText = function (hintData) {
     local res = ::g_hud_hints._buildText.call(this, hintData)
+    local varValue = ::getTblValue("variable_value", hintData)
+    if (varValue != null)
+      res = ::loc(res, {var = varValue})
     if (!getShortcuts(hintData))
       return res
     res = ::g_hint_tag.TIMER.makeFullTag() + " " + res

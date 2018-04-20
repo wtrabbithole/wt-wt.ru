@@ -62,11 +62,13 @@ local ItemGenerator = class {
         {
           local b = ::DataBlock()
           b.item =  item.id
+          if (cfg.quantity > 1)
+            b.count = cfg.quantity
           _contentUnpacked.append(b)
         }
         else if (generator)
         {
-          local content = generator.getContent()
+          local content = generator.getContent(cfg.quantity)
           hasHiddenItems = hasHiddenItems || generator.hasHiddenItems
           hiddenTopPrizeParams = hiddenTopPrizeParams || generator.hiddenTopPrizeParams
           _contentUnpacked.extend(content)
@@ -78,10 +80,12 @@ local ItemGenerator = class {
     hiddenTopPrizeParams = isBundleHidden ? tags : hiddenTopPrizeParams
   }
 
-  function getContent()
+  function getContent(quantityMul = 1)
   {
     if (!_contentUnpacked)
       _unpackContent()
+    if (quantityMul > 1)
+      return ::u.map(_contentUnpacked, @(v) ::PrizesView.miltiplyPrizeCount(v, quantityMul))
     return _contentUnpacked
   }
 

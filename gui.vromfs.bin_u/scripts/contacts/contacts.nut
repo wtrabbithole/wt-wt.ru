@@ -167,6 +167,9 @@ function g_contacts::xboxUpdateContactsList(friendsResult = null)
   requestTable[false] <- existedXBoxContacts
 
   ::edit_players_list_in_contacts(requestTable, ::EPL_FRIENDLIST)
+
+  //To remove from blacklist players, that was added in game. But added to friendslist in XBOX overlay
+  ::edit_players_list_in_contacts({[false] = xboxFriendsList}, ::EPL_BLOCKLIST)
 }
 
 
@@ -521,15 +524,16 @@ function getContact(uid, nick = null, clanTag = "", forceUpdate = false)
       return null
   }
 
-  if(forceUpdate)
+  local contact = ::contacts_players[uid]
+  if (forceUpdate || contact.name == "")
   {
     if(::u.isString(nick))
-      ::contacts_players[uid].name = nick
+      contact.name = nick
     if(::u.isString(clanTag))
-      ::contacts_players[uid].setClanTag(clanTag)
+      contact.setClanTag(clanTag)
   }
 
-  return ::contacts_players[uid]
+  return contact
 }
 
 function clearContactPresence(uid)
@@ -622,17 +626,8 @@ function getFriendsOnlineNum()
         continue
 
       foreach(f in ::contacts[groupName])
-      {
-        local contactOnline = !::isInArray(
-          f.presence,
-          [
-            ::g_contact_presence.OFFLINE,
-            ::g_contact_presence.UNKNOWN
-          ]
-        )
-        if (contactOnline)
+        if (f.online)
           online++
-      }
     }
   }
   return online

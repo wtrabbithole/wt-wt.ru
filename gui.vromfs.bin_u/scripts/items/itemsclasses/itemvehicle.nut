@@ -4,7 +4,7 @@ local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 class ::items_classes.ItemVehicle extends ItemExternal {
   static iType = itemType.VEHICLE
   static defaultLocId = "coupon"
-  static isUseTypePrefixInName = true
+  static combinedNameLocId = "coupon/name"
   static typeIcon = "#ui/gameuiskin#item_type_blueprints"
   static descHeaderLocId = "coupon/for/vehicle"
 

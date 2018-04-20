@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 
 /*
@@ -66,11 +67,11 @@ function on_items_loaded()
 foreach (fn in [
                  "discountItemSortMethod.nut"
                  "trophyMultiAward.nut"
-                 "itemsRoulette.nut"
                  "itemLimits.nut"
                  "listPopupWnd/itemsListWndBase.nut"
                  "listPopupWnd/universalSpareApplyWnd.nut"
                  "listPopupWnd/modUpgradeApplyWnd.nut"
+                 "roulette/itemsRoulette.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/" + fn)
 
@@ -95,6 +96,7 @@ foreach (fn in [
                  "itemChest.nut"
                  "itemWarbonds.nut"
                  "itemCraftPart.nut"
+                 "itemRecipesBundle.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
@@ -395,6 +397,24 @@ function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
   inventoryClient.requestItemdefsByIds(itemdefIdsList)
 }
 
+function ItemsManager::getItemOrRecipeBundleById(id)
+{
+  local item = findItemById(id)
+  if (item || !ItemGenerators.get(id))
+    return item
+
+  local itemDefDesc = inventoryClient.getItemdefs()?[id]
+  if (!itemDefDesc)
+    return item
+
+  item = createItem(itemType.RECIPES_BUNDLE, itemDefDesc)
+  //this item is not visible in inventory or shop, so no need special event about it creation
+  //but we need to be able find it by id to correct work with it later.
+  itemsByItemdefId[item.id] <- item
+  shopItemById[item.id] <- item
+  return item
+}
+
 function ItemsManager::isMarketplaceEnabled()
 {
   return ::has_feature("Marketplace") && ::has_feature("AllowExternalLink") &&
@@ -538,6 +558,8 @@ function ItemsManager::_checkInventoryUpdate()
   foreach (itemDesc in inventoryClient.getItems())
   {
     local itemDefDesc = itemDesc.itemdef
+    if (!itemDefDesc.len()) //item not full updated, or itemDesc no more exist.
+      continue
     local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
     {
@@ -718,6 +740,18 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
     item.setIcon(obj, iconSetParams)
   }
   obj.scrollToView()
+
+  if (item && item.hasTimer())
+  {
+    local timerObj = holderObj.findObject("expire_timer")
+    if (::check_obj(timerObj))
+      SecondsUpdater(timerObj, ::Callback(function(obj, params)
+      {
+        local text = item.getCurExpireTimeText()
+        obj.setValue(text)
+        return text == ""
+      }, this))
+  }
 }
 
 function ItemsManager::fillItemTableInfo(item, holderObj)

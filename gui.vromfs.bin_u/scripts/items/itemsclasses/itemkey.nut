@@ -5,6 +5,7 @@ class ::items_classes.Key extends ItemExternal {
   static iType = itemType.KEY
   static defaultLocId = "key"
   static typeIcon = "#ui/gameuiskin#item_type_key"
+  static descReceipesListHeaderPrefix = "key/requires/"
 
   function getLongDescriptionMarkup(params = null)
   {

@@ -183,6 +183,13 @@ root {
           tooltip:t=''
         }
         Button_text {
+          id:t='btn_collapsed_chapter'
+          text:t='#mainmenu/btnCollapse'
+          _on_click:t='onCollapsedChapter'
+          btnName:t='A'
+          ButtonImg {}
+        }
+        Button_text {
           id:t='btn_join_battle'
           class:t='battle'
           navButtonFont:t='yes'

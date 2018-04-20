@@ -21,9 +21,6 @@ tdiv {
           size:t='@modIcoSize, @modIcoSize'
           ignoreStatus:t='yes'
           wallpaper{
-            size:t='pw, ph'
-            pos:t='50%pw-50%w, 50%ph-50%h'
-            position:t='absolute'
             pattern{type:t='bright_texture';}
           }
           tdiv{

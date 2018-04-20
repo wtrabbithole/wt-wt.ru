@@ -326,7 +326,7 @@ class ::BaseItem
       if (actionText != "" && getLimitsCheckData().result)
       {
         res.modActionName <- actionText
-        res.needShowActionText <- needShowActionText()
+        res.needShowActionButtonAlways <- needShowActionButtonAlways()
       }
     }
 
@@ -334,7 +334,7 @@ class ::BaseItem
       res[paramName] <- value
 
     local amountVal = params?.count || getAmount()
-    if (shouldShowAmount(amountVal))
+    if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
       res.amount <- amountVal.tostring()
 
     if (::getTblValue("showSellAmount", params, false))
@@ -632,11 +632,18 @@ class ::BaseItem
   }
 
   getCreationCaption          = @() ::loc("mainmenu/itemCreated/title")
+  getOpeningAnimId            = @() "DEFAULT"
 
   isRare                      = @() false
   getRarity                   = @() 0
   getRarityColor              = @() ""
   getRelatedRecipes           = @() [] //recipes with this item in materials
   getMyRecipes                = @() [] //recipes with this item in result
-  needShowActionText          = @() false
+  needShowActionButtonAlways  = @() false
+
+  getMaxRecipesToShow         = @() 0 //if 0, all recipes will be shown.
+  getRecipeListHeader         = @(showAmount, totalAmount, isMultipleExtraItems) ""
+  getCantAssembleLocId        = @() ""
+  static getEmptyAssembleMessageData = @() { text = "", needRecipeMarkup = false }
+  getAssembleMessageData      = @(recipe) getEmptyAssembleMessageData()
 }

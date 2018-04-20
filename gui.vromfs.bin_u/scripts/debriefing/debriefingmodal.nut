@@ -2577,7 +2577,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       } else
         ::go_debriefing_next_func = ::gui_start_dynamic_summary_f
     } else if (gm == ::GM_SINGLE_MISSION)
-      ::go_debriefing_next_func = ::gui_start_menuSingleMissions
+    {
+      local mission = ::mission_settings?.mission ?? ::get_current_mission_info_cached()
+      ::go_debriefing_next_func = ::is_user_mission(mission)
+        ? ::gui_start_menuUserMissions
+        : ::gui_start_menuSingleMissions
+    }
     else if (gm == ::GM_BUILDER)
       ::go_debriefing_next_func = ::gui_start_menu_builder
     else

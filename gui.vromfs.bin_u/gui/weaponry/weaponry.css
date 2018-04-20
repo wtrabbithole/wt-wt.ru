@@ -1,27 +1,27 @@
 weaponry_item[isBundle=yes]{
   }
 
-weaponBody {
+weaponInfoBg {
   background-image:#ui/gameuiskin#block_bg_rounded_flat@@vs;
   background-position:4;
   background-repeat:expand;
   background-color:@weaponryItem;
 }
 
-weaponry_item > weaponBody:hover,
-weaponry_item[equipped=yes] > weaponBody {
+weaponry_item > weaponBody > weaponInfoBg:hover,
+weaponry_item[equipped=yes] > weaponBody > weaponInfoBg {
   background-color:@weaponryItemFocus;
 }
-weaponry_item[selected=yes] > weaponBody,
-.weaponryTable > tr > td[selected=yes] > weaponry_item > weaponBody {
+weaponry_item[selected=yes] > weaponBody > weaponInfoBg,
+.weaponryTable > tr > td[selected=yes] > weaponry_item > weaponBody > weaponInfoBg {
   background-color:@weaponryItemSelected;
 }
 
-weaponry_item[selected=yes] > weaponBody:hover{
+weaponry_item[selected=yes] > weaponBody > weaponInfoBg:hover{
   background-color:@weaponryItemSelectedFocus;
 }
 
-weaponry_item[isBundle=yes] > weaponBody{
+weaponry_item[isBundle=yes] > weaponBody > weaponInfoBg{
   background-color:@black;
 }
 
@@ -111,10 +111,14 @@ modIcon > warningIcon{
 }
 
 modIcon > wallpaper{
+  size:pw, ph+2@dp;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+
   re-type:9rect;
   background-image:#ui/gameuiskin#item;
   background-repeat:expand;
-  background-position:4;
+  background-position:4, 4, 4, 9;
   background-color:@shopItemOwned;
   input-transparent:yes;
 }
@@ -130,6 +134,8 @@ modIcon[hoverStyle=yes] > wallpaper{
 }
 
 modIcon itemWinkBlock {
+  size:pw, ph+2@dp;
+  pos:50%pw-50%w, 50%ph-50%h;
   background-color:@shopItemResearchFocus;
 }
 
@@ -426,7 +432,7 @@ modResearchProgress {
   behaviour:progress;
   re-type:progress;
   height:1@progressHeightSlot;
-  width: 1@modItemWidth - 1@modIcoSize - 4@dp;
+  width:pw;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
   min:0;

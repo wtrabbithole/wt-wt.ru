@@ -131,9 +131,9 @@ frame {
             textarea {
               game_mode_textarea:t='yes';
               text:t='<<#isCrossPlayRequired>><<?icon/cross_play>> <</isCrossPlayRequired>><<text>>';
-              <<#isCrossPlayRequired>>
+              <<#crossPlayRestricted>>
                 overlayTextColor:t='warning'
-              <</isCrossPlayRequired>>
+              <</crossPlayRestricted>>
             }
             textarea {
               game_mode_textarea:t='yes';
@@ -157,12 +157,14 @@ frame {
           textareaNoTab {
             pos:t='0, 50%(ph-h)'; position:t='relative'
             text:t="#reward/everyDay"
-            <<#isTrophyRecieved>>
-              overlayTextColor:t='silver'
-            <</isTrophyRecieved>>
-            <<^isTrophyRecieved>>
-              overlayTextColor:t='active'
-            <</isTrophyRecieved>>
+            <<^inactiveColor>>
+              <<#isTrophyRecieved>>
+                overlayTextColor:t='silver'
+              <</isTrophyRecieved>>
+              <<^isTrophyRecieved>>
+                overlayTextColor:t='active'
+              <</isTrophyRecieved>>
+            <</inactiveColor>>
           }
 
           tdiv {

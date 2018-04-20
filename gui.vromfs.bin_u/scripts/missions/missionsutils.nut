@@ -253,6 +253,12 @@ function gui_start_userMissions()
   ::gui_start_mislist(true, ::GM_SINGLE_MISSION, { misListType = ::g_mislist_type.UGM })
 }
 
+function gui_start_menuUserMissions()
+{
+  ::gui_start_mainmenu()
+  ::gui_start_userMissions()
+}
+
 function gui_create_skirmish()
 {
   ::gui_start_mislist(true, ::GM_SKIRMISH)

@@ -286,9 +286,15 @@ function g_squad_manager::isInMySquad(name, checkAutosquad = true)
   return checkAutosquad && ::SessionLobby.isMemberInMySquadByName(name)
 }
 
+function g_squad_manager::isMe(uid)
+{
+  return uid == ::my_user_id_str
+}
+
 function g_squad_manager::canInviteMember(uid = null)
 {
-  return canManageSquad()
+  return !isMe(uid)
+    && canManageSquad()
     && (canJoinSquad() || isSquadLeader())
     && !isInvitedMaxPlayers()
     && (!uid || !getMemberData(uid))
@@ -785,7 +791,8 @@ function g_squad_manager::dismissFromSquad(uid)
   if (!isSquadLeader())
     return
 
-  ::msquad.dismissMember(uid)
+  if (squadData.members?[uid])
+    ::msquad.dismissMember(uid)
 }
 
 function g_squad_manager::dismissFromSquadByName(name)
@@ -1221,6 +1228,8 @@ function g_squad_manager::onSquadDataChanged(data = null)
       updatePresenceSquad()
       updateSquadData()
     }
+    if (getPresence().isInBattle)
+      ::g_popups.add(::loc("squad/name"), ::loc("squad/wait_until_battle_end"))
   }
   updateCurrentWWOperation()
   joinSquadChatRoom()
@@ -1336,6 +1345,11 @@ function g_squad_manager::updatePresenceSquad(shouldUpdateSquadData = false)
     if (shouldUpdateSquadData)
       updateSquadData()
   }
+}
+
+function g_squad_manager::getPresence()
+{
+  return ::g_presence_type.getByPresenceParams(squadData?.presence ?? {})
 }
 
 function g_squad_manager::onEventUpdateEsFromHost(p)
@@ -1531,6 +1545,11 @@ function g_squad_manager::onEventQueueChangeState(params)
   if (!::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
     setCrewsReadyFlag(false)
 
+  updatePresenceSquad(true)
+}
+
+function g_squad_manager::onEventLoadingStateChange(p)
+{
   updatePresenceSquad(true)
 }
 

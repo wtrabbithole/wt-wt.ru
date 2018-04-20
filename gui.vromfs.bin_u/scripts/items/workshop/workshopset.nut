@@ -97,7 +97,7 @@ local WorkshopSet = class {
 
     foreach(itemdef, sortId in requiredList)
     {
-      local item = ItemsManager.findItemById(itemdef)
+      local item = ItemsManager.getItemOrRecipeBundleById(itemdef)
       if (item)
       {
         local newItem = item.makeEmptyInventoryItem()

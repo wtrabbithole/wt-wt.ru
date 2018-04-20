@@ -231,7 +231,7 @@ class Decorator
     if (blk && tags)
       foreach (tagBlk in blk % "i")
         if (tags?[tagBlk.tag])
-          res.append(::loc("ugc/tag/" + tagBlk.tag))
+          res.append(::loc("content/tag/" + tagBlk.tag))
     return res
   }
 

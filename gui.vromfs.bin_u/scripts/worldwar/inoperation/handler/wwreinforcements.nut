@@ -16,7 +16,11 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
 
   function getSceneTplView()
   {
-    return {}
+    return {
+      consoleButtonsIconName = ::show_console_buttons ? WW_MAP_CONSPLE_SHORTCUTS.MOVE : null
+      controlHelpText = ::show_console_buttons ? null : ::loc("key/RMB")
+      controlHelpDesc = ::loc("worldwar/state/reinforcement_control")
+    }
   }
 
   function getSceneTplContainerObj()
@@ -98,20 +102,10 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     if (!currentReinforcementName)
       return
 
-    local army = ::g_world_war.getReinforcementByName(currentReinforcementName)
-    if (!army)
-      return ::g_popups.add("", ::loc("worldwar/error/reinforcement/badName"),
-        null, null, null, "reinforcement_deploy_error")
-
-    if (!army.hasManageAccess())
-      return
-
-    if (!army.isReady())
-      return ::g_popups.add("", ::loc("worldwar/error/reinforcement/notReady"),
-        null, null, null, "reinforcement_deploy_error")
-
-    local taskId = ::g_world_war.sendReinforcementRequest(params.cellIdx, currentReinforcementName)
-    ::g_tasker.addTask(taskId, null, ::Callback(afterSendReinforcement, this), ::Callback(onWrongCellIdx, this))
+    local taskId = ::g_world_war.sendReinforcementRequest(
+      params.cellIdx, currentReinforcementName)
+    ::g_tasker.addTask(taskId, null, ::Callback(afterSendReinforcement, this),
+      ::Callback(onSendReinforcementError, this))
   }
 
   function afterSendReinforcement()
@@ -132,11 +126,9 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
       ::g_world_war.playArmyActionSound("deploySound", wwArmy)
   }
 
-  function onWrongCellIdx(error)
+  function onSendReinforcementError(error)
   {
-    if (!currentReinforcementName)
-      return
-
+    ::g_world_war.popupCharErrorMsg("reinforcement_deploy_error")
     ::ww_event("ShowRearZones", {name = currentReinforcementName})
   }
 
@@ -157,7 +149,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     fillArmiesList(readyArmies, "ready_reinforcements_list", true)
     fillArmiesList(otherArmies, "reinforcements_list", false)
     showSceneBtn("no_ready_reinforcements_text", readyArmies.len() == 0)
-    showSceneBtn("ready_label_text", readyArmies.len() > 0)
+    showSceneBtn("ready_label", readyArmies.len() > 0)
     showSceneBtn("ready_reinforcements_block", armiesBlocks.len() > 0)
     showSceneBtn("coming_reinforcements_block", otherArmies.len() > 0)
 

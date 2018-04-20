@@ -766,7 +766,7 @@ function isAmmoFree(unit, ammoName, ammoType)
 function getAmmoWarningMinimum(ammoType, unit, maxAmount)
 {
   if (unit.unitType == ::g_unit_type.SHIP)
-    return maxAmount / 10
+    return max(1, maxAmount / 10)
   return (ammoType==AMMO.MODIFICATION)? ::weaponsWarningMinimumPrimary : ::weaponsWarningMinimumSecondary
 }
 

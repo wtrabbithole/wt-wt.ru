@@ -23,6 +23,7 @@
 
 ::is_dev_version <- false // WARNING : this is unsecure
 
+::INVALID_USER_ID <- ::make_invalid_user_id()
 ::RESPAWNS_UNLIMITED <- -1
 
 ::quick_match_flag <- false;
@@ -148,6 +149,7 @@ enum itemType { //bit values for easy multitype search
 
   //workshop
   CRAFT_PART      = 0x10000000
+  RECIPES_BUNDLE  = 0x20000000
 
   //masks
   ALL             = 0xFFFFFFFF
@@ -597,6 +599,7 @@ function load_scripts_after_login_once()
 
     "shop/shop.nut"
     "shop/shopCheckResearch.nut"
+    "shop/shopViewWnd.nut"
     "convertExpHandler.nut"
 
     "weaponry/dmgModel.nut"
@@ -789,6 +792,7 @@ function load_scripts_after_login_once()
   // Independed Modules
   ::require("scripts/social/playerInfoUpdater.nut")
   ::require("scripts/seen/bhvUnseen.nut")
+  ::require("scripts/items/roulette/bhvRoulette.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

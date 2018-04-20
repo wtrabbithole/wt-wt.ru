@@ -1,6 +1,6 @@
 local time = require("scripts/time.nut")
 local penalty = require("penalty")
-local ugcTagsPreset = require("scripts/ugc/ugcTagsPreset.nut")
+local contentPreset = require("scripts/customization/contentPreset.nut")
 
 
 ::show_crew <- null
@@ -78,7 +78,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   isModePreview = false
 
-  needRemoveDecoratorNotSuitableByUgcTagsPreset = false
+  needRemoveDecoratorNotSuitableByContentPreset = false
 
   function initScreen()
   {
@@ -310,10 +310,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventHangarModelLoaded(params = {})
   {
     updateMainGuiElements()
-    if (needRemoveDecoratorNotSuitableByUgcTagsPreset)
+    if (needRemoveDecoratorNotSuitableByContentPreset)
     {
-      removeDecoratorNotSuitableByUgcTagsPreset()
-      needRemoveDecoratorNotSuitableByUgcTagsPreset = false
+      removeDecoratorNotSuitableByContentPreset()
+      needRemoveDecoratorNotSuitableByContentPreset = false
       goBack()
     }
     if (::hangar_get_loaded_unit_name() == unit.name
@@ -1395,7 +1395,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onBtnBack()
   {
     if (currentState & decoratorEditState.NONE)
-      checkUgcTagsPresetRestoreAndQuit()
+      checkContentPresetRestoreAndQuit()
 
     if (currentState & decoratorEditState.SELECT)
       return onBtnCloseDecalsMenu()
@@ -1407,10 +1407,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     stopDecalEdition()
   }
 
-  function checkUgcTagsPresetRestoreAndQuit()
+  function checkContentPresetRestoreAndQuit()
   {
-    local curUgcTagsPresetId = ugcTagsPreset.getPreset()
-    local newUgcTagsPresetId = curUgcTagsPresetId
+    local curPresetId = contentPreset.getCurPresetId()
+    local newPresetId = curPresetId
     local unitId = unit.name
     local curSkinId = ::hangar_get_last_skin(unitId)
     local decoratorSlotPresetChangedArr = []
@@ -1425,42 +1425,40 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!decorator)
         continue
 
-      local newUgcTagsPresetIdByDecor = ugcTagsPreset.getUgcTagsPresetByTags(decorator.tags)
-      if (newUgcTagsPresetIdByDecor != curUgcTagsPresetId)
+      local newPresetIdByDecor = contentPreset.getPresetIdByTags(decorator.tags)
+      if (newPresetIdByDecor != curPresetId)
       {
         decoratorSlotPresetChangedArr.append(slot)
-        newUgcTagsPresetId = ugcTagsPreset.getMaxUgcTagsPresetId(newUgcTagsPresetId,
-          newUgcTagsPresetIdByDecor)
+        newPresetId = contentPreset.getMaxPresetId(newPresetId, newPresetIdByDecor)
       }
     }
 
-    local isChangeUgcTagsPresetByDecor = decoratorSlotPresetChangedArr.len() > 0
-    if (curSkinId == initialAppliedSkinId && !isChangeUgcTagsPresetByDecor)
+    local isChangePresetByDecor = decoratorSlotPresetChangedArr.len() > 0
+    if (curSkinId == initialAppliedSkinId && !isChangePresetByDecor)
       return goBack()
 
-    local newUgcTagsPresetIdBySkin = ugcTagsPreset.getPresetBySkin(unitId, curSkinId)
-    local isChangeUgcTagsPresetBySkin = newUgcTagsPresetIdBySkin != curUgcTagsPresetId
-    newUgcTagsPresetId = ugcTagsPreset.getMaxUgcTagsPresetId(newUgcTagsPresetId,
-      newUgcTagsPresetIdBySkin)
+    local newPresetIdBySkin = contentPreset.getPresetIdBySkin(unitId, curSkinId)
+    local isChangePresetBySkin = newPresetIdBySkin != curPresetId
+    newPresetId = contentPreset.getMaxPresetId(newPresetId, newPresetIdBySkin)
 
-    if (newUgcTagsPresetId == curUgcTagsPresetId)
+    if (newPresetId == curPresetId)
       return goBack()
 
-    local keyMessageDesc = isChangeUgcTagsPresetBySkin ? ""
-      : isChangeUgcTagsPresetByDecor ? "decorator"
+    local keyMessageDesc = isChangePresetBySkin ? ""
+      : isChangePresetByDecor ? "decorator"
       : ""
 
-    ugcTagsPreset.showConfirmMsgbox(newUgcTagsPresetId, keyMessageDesc,
+    contentPreset.showConfirmMsgbox(newPresetId, keyMessageDesc,
       ::Callback(function() {
-        ugcTagsPreset.setPreset(newUgcTagsPresetId)
+        contentPreset.setPreset(newPresetId)
         goBack()
       }, this),
       ::Callback(function() {
         foreach(slotInfo in decoratorSlotPresetChangedArr)
           decoratorType.removeDecorator(slotInfo.id, true)
-        if (isChangeUgcTagsPresetBySkin)
+        if (isChangePresetBySkin)
         {
-          needRemoveDecoratorNotSuitableByUgcTagsPreset = true
+          needRemoveDecoratorNotSuitableByContentPreset = true
           applySkin(initialAppliedSkinId)
         }
         else
@@ -2162,9 +2160,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateButtons()
   }
 
-  function removeDecoratorNotSuitableByUgcTagsPreset()
+  function removeDecoratorNotSuitableByContentPreset()
   {
-    local curUgcTagsPresetId = ugcTagsPreset.getPreset()
+    local curPresetId = contentPreset.getCurPresetId()
     local decoratorType = ::g_decorator_type.ATTACHABLES
     for (local i = 0; i < decoratorType.getAvailableSlots(unit); i++)
     {
@@ -2176,8 +2174,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!decorator)
         continue
 
-      local newUgcTagsPresetIdByDecor = ugcTagsPreset.getUgcTagsPresetByTags(decorator.tags)
-      if (newUgcTagsPresetIdByDecor != curUgcTagsPresetId)
+      local newPresetIdByDecor = contentPreset.getPresetIdByTags(decorator.tags)
+      if (newPresetIdByDecor != curPresetId)
         decoratorType.removeDecorator(slot.id, true)
     }
   }

@@ -96,6 +96,13 @@ button > ButtonImg {
   position:'absolute';
 }
 
+weaponry_item > ButtonImg {
+  height:1@buttonHeight-3*@sf/@pf_outdated;
+  left:2@sf/@pf_outdated;
+  top:ph-h-2@sf/@pf_outdated;
+  position:'absolute';
+}
+
 ButtonImg.independent {
   height:1@cIco;
   top:0;
@@ -287,6 +294,7 @@ Button_text:pushed underline {
 }
 
 Button_text[pc_style=no][btnName],
+Button_text[pc_style=no][hasConsoleImage=yes],
 [show_console_buttons=yes] rightClickMenu > Button_text
 {
   padding-left:h+1@buttonTextPadding;
@@ -2136,7 +2144,7 @@ navLeft > Button_text,
 navRight > Button_text,
 navMiddle > Button_text {
   position:relative;
-  pos:0, ph - h - 1@buttonMargin;
+  pos:0, ph - h;
   margin-top:0;
   margin-bottom:0;
 }

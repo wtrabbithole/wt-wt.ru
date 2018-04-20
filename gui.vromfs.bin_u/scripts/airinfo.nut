@@ -2083,7 +2083,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local respawnsleft = missionRules.getUnitLeftRespawns(air)
       if (respawnsleft >= 0)
       {
-        if (missionRules.isUnitAvailableForWWSpawnScore(air))
+        if (missionRules.isUnitAvailableBySpawnScore(air))
         {
           addInfoTextsList.append(::loc("icon/star/white") + ::colorize("activeTextColor",::loc("worldWar/unit/wwSpawnScore")))
           addInfoTextsList.append(::loc("worldWar/unit/wwSpawnScore/desc"))
@@ -2430,7 +2430,7 @@ function getNotResearchedUnitByFeature(country = null, unitType = null)
 {
   foreach(unit in ::all_units)
     if (    (!country || ::getUnitCountry(unit) == country)
-         && (!unitType || ::get_es_unit_type(unit) == unitType)
+         && (unitType == null || ::get_es_unit_type(unit) == unitType)
          && ::isUnitFeatureLocked(unit)
        )
       return unit

@@ -99,6 +99,15 @@ elemViewType.addTypes({
       objAnimText.setValue(model.getLocText())
     }
   }
+
+  DL_DATA_WAIT_MSG = {
+    model = elemModelType.DL_DATA_STATE
+
+    updateView = function(obj, params)
+    {
+      obj.fade = ((model.curStat?.filesInFlight ?? 0) !=0) ? "in" : "out"
+    }
+  }
 })
 
 return {

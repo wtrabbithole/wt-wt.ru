@@ -3,7 +3,7 @@ local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
 class ::items_classes.Attachable extends ItemExternal {
   static iType = itemType.ATTACHABLE
   static defaultLocId = "coupon"
-  static isUseTypePrefixInName = true
+  static combinedNameLocId = "coupon/name"
   static typeIcon = "#ui/gameuiskin#item_type_attachable"
   static descHeaderLocId = "coupon/for/attachable"
 

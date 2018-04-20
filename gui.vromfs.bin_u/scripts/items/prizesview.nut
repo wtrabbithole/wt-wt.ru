@@ -328,6 +328,15 @@ function PrizesView::isPrizeMultiAward(prize)
          || prize.modsForBoughtUnit != null
 }
 
+function PrizesView::miltiplyPrizeCount(prize, countMul)
+{
+  local b = ::DataBlock()
+  b.setFrom(prize)
+  if (countMul > 1)
+    b.count = (prize?.count ?? 1) * countMul
+  return b
+}
+
 function PrizesView::_getContentFixedAmount(content)
 {
   local res = -1
