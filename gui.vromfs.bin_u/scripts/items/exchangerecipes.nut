@@ -303,6 +303,7 @@ local ExchangeRecipes = class {
     local openTrophyWndConfigs = u.map(resultItems, @(extItem) {
       id = componentItem.id
       item = extItem?.itemdef?.itemdefid
+      count = extItem?.quantity ?? 0
     })
     if (openTrophyWndConfigs.len())
       ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs })
@@ -310,5 +311,7 @@ local ExchangeRecipes = class {
     ::ItemsManager.autoConsumeItems()
   }
 }
+
+u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.uid == r2.uid)
 
 return ExchangeRecipes

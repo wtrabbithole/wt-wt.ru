@@ -13,6 +13,8 @@
 @const arrowOfEveryDayLoginAwardHeight: 19@sf/@pf;
 
 @const itemInfoWidth:  0.5@sf;
+@const itemsSeparatorSize: 1@dp;
+@const recipeInterval: (14@sf/@pf) \ 1;
 
 @const rewardItemDesc: 0.15@sf;
 @const rewardItemWidth: 1@itemWidth + 0.4@sf;
@@ -71,15 +73,6 @@ itemDiv[previousDay = yes] iconLayer {
   background-color: @itemLockedColor;
 }
 
-itemDiv > selBorder {
-  display:hide;
-}
-
-itemDiv[selected=yes] > selBorder,
-iconLayer[selected=yes] > itemDiv > selBorder {
-  display:show;
-}
-
 itemDiv > wink {
   size:pw, ph+2px;
   position:absolute;
@@ -119,18 +112,12 @@ itemDiv[ticketBuyWindow=yes] {
 
 [itemShopList=yes] > itemDiv,
 [itemShopList=yes] > iconLayer {
-  margin:0, 0, 1@itemSpacing, 1@itemSpacing;
+  margin:1@itemSpacing;
   pos:0,0;
-}
-frameBlock[itemShopList=yes] {
-  padding:1@itemSpacing, 1@itemSpacing, 0, 0;
 }
 
 frameBlock[ticketsWindow=yes] > itemDiv {
-  margin:0, 0, 4@itemSpacing, 2@itemSpacing;
-}
-frameBlock[ticketsWindow=yes] {
-  padding:4@itemSpacing, 2@itemSpacing, 0, 0;
+  margin:4@itemSpacing, 2@itemSpacing;
 }
 
 awardItemDiv[emptyBlock=yes],
@@ -466,4 +453,13 @@ itemAmountText {
 
 [smallItems=yes] itemAmountText {
   pos:pw-w, 0;
+}
+
+itemsSeparator {
+  width:@itemsSeparatorSize;
+  pos:0, 50%ph-50%h;
+  position:relative;
+  background-color:@frameSeparatorColor;
+  input-transparent:yes;
+  enable:no;
 }

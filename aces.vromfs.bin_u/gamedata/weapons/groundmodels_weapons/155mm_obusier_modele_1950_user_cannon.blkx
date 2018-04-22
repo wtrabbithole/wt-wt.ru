@@ -1,0 +1,209 @@
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.06,
+  "maxDeltaAngleVertical": 0.06,
+  "shotFreq": 0.05,
+  "traceFreq": 4,
+  "bEnablePause": false,
+  "bullets": -1,
+  "bulletsCluster": 1,
+  "fxType": "big_gun_mb_flame",
+  "fxGroundDust": "ground_shock_wave_dust",
+  "shouldCollideWithRendinsts": true,
+  "sound_path": "tanks/weapon_tanks/cannons",
+  "sound": "152mm_ml20",
+  "sound_inside": "152mm_ml20_interior",
+  "sfxReloadBullet": "grd_cannon_reload",
+  "fxMultipleSpawn": true,
+  "isBulletBelt": false,
+  "notUseDefaultBulletInGui": true,
+  "bullet": {
+    "bulletCount": 40,
+    "mass": 40.8,
+    "explosiveType": "tnt",
+    "explosiveMass": 6.62,
+    "caliber": 0.155,
+    "speed": 563.0,
+    "maxDistance": 10000.0,
+    "bulletType": "he_frag_tank",
+    "bulletName": "155mm_m107",
+    "hitPowerMult": 50.0,
+    "nearHitPower": [1.0,50.0],
+    "midHitPower": [0.9,300.0],
+    "farHitPower": [0.1,700.0],
+    "endHitPower": [0.008,1500.0],
+    "relativeVelHitShift": [300.0,1000.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "fuseDelayDist": 0.1,
+    "explodeTreshold": 0.5,
+    "explodeHitPower": 600.0,
+    "explodeArmorPower": 75.0,
+    "explodeRadius": [0.8,1.5],
+    "rendinstDamageRadius": 15.0,
+    "shutterDamage": true,
+    "shutterDamageRadius": 35.0,
+    "shutterAmount": 1500,
+    "shutterArmorPower": 10.0,
+    "shutterHit": 10.0,
+    "groundCollisionEffect": "art_ground_splash",
+    "groundFxScale": [1.5,1.7],
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "120-203_he_water_splash",
+    "waterFxScale": [1.1,1.2],
+    "explosionPatchRadius": 4.0,
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "noColor"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [4.0,5.0]
+      },
+      "armor": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [4.0,5.0]
+      },
+      "buildings": {
+        "fx": "atgm_hit",
+        "fxScale": [1.0,1.1]
+      },
+      "wood": {
+        "fx": "atgm_hit",
+        "fxScale": [1.0,1.1]
+      }
+    }
+  },
+  "155mm_M107_HE": {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 40.8,
+      "explosiveType": "tnt",
+      "explosiveMass": 6.62,
+      "caliber": 0.155,
+      "speed": 563.0,
+      "maxDistance": 10000.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "155mm_m107",
+      "hitPowerMult": 50.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.1,
+      "explodeTreshold": 0.5,
+      "explodeHitPower": 600.0,
+      "explodeArmorPower": 75.0,
+      "explodeRadius": [0.8,1.5],
+      "rendinstDamageRadius": 15.0,
+      "shutterDamage": true,
+      "shutterDamageRadius": 35.0,
+      "shutterAmount": 1500,
+      "shutterArmorPower": 10.0,
+      "shutterHit": 10.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "groundFxScale": [1.5,1.7],
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "waterFxScale": [1.1,1.2],
+      "explosionPatchRadius": 4.0,
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        },
+        "buildings": {
+          "fx": "atgm_hit",
+          "fxScale": [1.0,1.1]
+        },
+        "wood": {
+          "fx": "atgm_hit",
+          "fxScale": [1.0,1.1]
+        }
+      }
+    }
+  },
+  "155mm_M110_Smoke": {
+    "bullet": {
+      "bulletCount": 25,
+      "mass": 40.8,
+      "damageMass": 0.945,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.05,
+      "caliber": 0.155,
+      "speed": 563.0,
+      "maxDistance": 10000.0,
+      "bulletType": "smoke_tank",
+      "bulletName": "155mm_m110",
+      "hitPowerMult": 40.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [3.0,600.0],
+      "farArmorPower": [3.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.5,
+      "explodeHitPower": 90.0,
+      "explodeArmorPower": 8.0,
+      "explodeRadius": [0.4,0.8],
+      "fuseDelayDist": 0.4,
+      "shutterDamage": true,
+      "shutterDamageRadius": 18.5,
+      "shutterAmount": 130,
+      "shutterArmorPower": 7.5,
+      "shutterHit": 11.0,
+      "smokeShell": true,
+      "smokeShellRad": 25.0,
+      "smokeActivateTime": 5.0,
+      "smokeTime": 30.0,
+      "groundCollisionEffect": "smoke_shell_explosion",
+      "groundFxScale": [1.2,1.4],
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "120-203_smoke_water_splash",
+      "waterFxScale": [0.7,0.9],
+      "explosionPatchRadius": 1.9,
+      "collisions": {
+        "steel": {
+          "fx": "smoke_shell_explosion"
+        },
+        "armor": {
+          "fx": "smoke_shell_explosion"
+        },
+        "buildings": {
+          "fx": "smoke_shell_explosion"
+        },
+        "wood": {
+          "fx": "smoke_shell_explosion"
+        }
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
+      }
+    }
+  }
+}

@@ -616,6 +616,16 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       ::g_tasker.addTask(taskId, {showProgressBox = false}, onTaskSuccess, onTaskError)
     }
   }
+
+
+  WW_LOG_BATTLE_TOOLTIP = {
+    getTooltipContent = function(id, params)
+    {
+      local battle = ::g_world_war.getBattleById(params.currentId)
+      local battleView = battle.isValid() ? battle.getView() : ::WwBattleView()
+      return ::handyman.renderCached("gui/worldWar/wwControlHelp", battleView)
+    }
+  }
 }, null, "typeName")
 
 function g_tooltip_type::getTypeByName(typeName)

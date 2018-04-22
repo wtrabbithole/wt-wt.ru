@@ -175,6 +175,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
+    ::g_world_war_render.setCategory(::ERC_AIRFIELD_ARROW, false)
+
     sendButtonObj = scene.findObject("send_aircrafts_button")
     updateVisibleUnits()
 
@@ -634,6 +636,11 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     onButtonMax(itemObj.findObject("btn_max"))
+  }
+
+  function onDestroy()
+  {
+    ::g_world_war_render.setCategory(::ERC_AIRFIELD_ARROW, true)
   }
 
   function fillUnitWeaponPreset(unitTable)

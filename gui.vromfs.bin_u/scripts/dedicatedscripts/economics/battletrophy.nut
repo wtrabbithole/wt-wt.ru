@@ -203,15 +203,14 @@ function on_battle_trophy(param, blk) {
   else
     blk.avgSesssionTime <- (param.sessionTime).tointeger()
 
-  if(checkTimeLimitedFeaturedTrophy("craft", max_unit_rank, param, blk)) {
-    gotAward = true
-    blk.rewardMap = get_updated_reward_map(rewardMap, gotAward)
-    return res
-  }
-  if (checkTimeLimitedFeaturedTrophy("ugc", max_unit_rank, param, blk)) {
-    gotAward = true
-    blk.rewardMap = get_updated_reward_map(rewardMap, gotAward)
-    return res
+  if (econWpBlk.customAfterBattleTrophies) {
+    foreach (trophyType, trophyParams in econWpBlk.customAfterBattleTrophies){
+      if(checkTimeLimitedFeaturedTrophy(trophyType, trophyParams, max_unit_rank, param, blk)) {
+        gotAward = true
+        blk.rewardMap = get_updated_reward_map(rewardMap, gotAward)
+        return res
+      }
+    }
   }
 
   if (timesGotNoAwardAtAll > trophyMaxNoAwardStreak && blk.avgSesssionTime > trophyMinNoAwardSessionsTime) {
@@ -265,33 +264,26 @@ function on_battle_trophy(param, blk) {
   return res
 }
 
-function checkTimeLimitedFeaturedTrophy(trophyType, max_unit_rank, param, blk) {
-  local econWpBlk = get_economy_config_block("warpoints")
-
-  local trophyParams = econWpBlk[trophyType]
-  if (!trophyParams) {
-    return false
-  }
+function checkTimeLimitedFeaturedTrophy(trophyType, trophyParams, max_unit_rank, param, blk) {
   local day_in_seconds = 24 * 60 * 60
   local currentDay = (::get_charserver_time_sec() / day_in_seconds).tointeger() + 1
-  local rewardTimePeriodMinutes = trophyParams.getInt("rewardTimePeriodMinutes", 480)
-  local maxTrophiesPerDay = trophyParams.getInt("maxTrophiesPerDay", 0)
-  local maxTrophiesPerWeek = trophyParams.getInt("maxTrophiesPerWeek", 0)
-  local minSetupRank = trophyParams.getInt("minSetupRank", 6)
-  local requiredFeature = trophyParams["reqFeature"]
+  local rewardTimePeriodMinutes = trophyParams?.getInt("rewardTimePeriodMinutes", 480)
+  local maxTrophiesPerDay = trophyParams?.getInt("maxTrophiesPerDay", 0)
+  local maxTrophiesPerWeek = trophyParams?.getInt("maxTrophiesPerWeek", 0)
+  local minSetupRank = trophyParams?.getInt("minSetupRank", 6)
+  local requiredFeature = trophyParams?["reqFeature"]
   local numByDateParamName = trophyType+"numByDate"
   local numByWeekParamName = trophyType+"NumByWeek"
   local sessionTimeParamName = trophyType+"SessionTime"
-  local itemDefId = trophyParams.getInt("mainTrophyId", 0)
+  local itemDefId = trophyParams?.getInt("mainTrophyId", 0)
   local matching_info = get_matching_game_mode_info()
   local eventName = matching_info.name
   if (trophyParams.availableIn && eventName != null && eventName != "") {
     local isTrophyAvailable = false
-    foreach (evGroup in (trophyParams.availableIn % "eventsGroup")) {
+    foreach (evGroup in (trophyParams?.availableIn % "eventsGroup")) {
       if (evGroup.name?.tostring().find("'"+eventName+"'") > -1) {
         itemDefId = evGroup.getInt("mainTrophyId", 0)
         isTrophyAvailable = true
-        dagor.debug("checkTimeLimitedFeaturedTrophy custom trophy for "+eventName+" trophy id: "+itemDefId)
         break
       }
     }
@@ -299,6 +291,7 @@ function checkTimeLimitedFeaturedTrophy(trophyType, max_unit_rank, param, blk) {
       return false
     }
   }
+  dagor.debug("checkTimeLimitedFeaturedTrophy "+trophyType+" trophy for "+eventName+" trophy id: "+itemDefId)
   if (maxTrophiesPerWeek < maxTrophiesPerDay)
     maxTrophiesPerWeek = maxTrophiesPerDay
 
@@ -316,8 +309,8 @@ function checkTimeLimitedFeaturedTrophy(trophyType, max_unit_rank, param, blk) {
     blk[numByWeekParamName].day = currentDay
     blk[numByWeekParamName].num = 0
   }
-
-  if (player_has_feature(param.userId, requiredFeature, false) && max_unit_rank >= minSetupRank) {
+  local hasFeature = !requiredFeature ? true : player_has_feature(param.userId, requiredFeature, false)
+  if (hasFeature && max_unit_rank >= minSetupRank) {
     if (blk[numByDateParamName].num < maxTrophiesPerDay && blk[numByWeekParamName].num < maxTrophiesPerWeek) {
       if (blk[sessionTimeParamName] != null)
         blk[sessionTimeParamName] += (param.sessionTime).tointeger()
@@ -338,8 +331,16 @@ function checkTimeLimitedFeaturedTrophy(trophyType, max_unit_rank, param, blk) {
 
         return gotAward
       }
+      else {
+        dagor.debug("checkTimeLimitedFeaturedTrophy don't give trophy: session time not enough "+blk[sessionTimeParamName]+" of: "+(rewardTimePeriodMinutes * 60)+" seconds required")
+        return false
+      }
     }
+    dagor.debug("checkTimeLimitedFeaturedTrophy don't give trophy: limit exceeded "+blk[numByDateParamName].num+" of: "+maxTrophiesPerDay+" trophies per day received, "+blk[numByWeekParamName].num+" of "+maxTrophiesPerWeek+" trophies per week")
+    return false
   }
+  dagor.debug("checkTimeLimitedFeaturedTrophy don't give trophy: player has feature: "+requiredFeature+" : "+hasFeature+". Player rank "+max_unit_rank+", required rank "+minSetupRank)
+  return false
 }
 
 dagor.debug("battleTrophy script loaded")

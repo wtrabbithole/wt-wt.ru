@@ -313,7 +313,7 @@ local InventoryClient = class {
   }
 
   isItemdefRequestInProgress = @() lastItemdefsRequestTime >= 0
-    && lastItemdefsRequestTime + REQUEST_TIMEOUT_MSEC < ::dagor.getCurTime()
+    && lastItemdefsRequestTime + REQUEST_TIMEOUT_MSEC > ::dagor.getCurTime()
 
   function updatePendingItemDefRequest(cb, shouldRefreshAll)
   {

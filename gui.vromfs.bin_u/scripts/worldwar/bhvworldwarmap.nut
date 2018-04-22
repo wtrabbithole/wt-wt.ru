@@ -174,7 +174,12 @@ class ::ww_gui_bhv.worldWarMapControls
     if (!("isMapHovered" in params))
       params.isMapHovered <- isMapObjHovered
 
-    if (!isMapObjHovered)
+    if (isMapObjHovered)
+    {
+      if (!params.isMapHovered)
+        onMapHover(obj)
+    }
+    else
     {
       if (params.isMapHovered)
         onMapUnhover(obj)
@@ -251,12 +256,18 @@ class ::ww_gui_bhv.worldWarMapControls
     sendMapEvent("UpdateCursorByTimer", params)
   }
 
+  function onMapHover(obj)
+  {
+    ::g_world_war_render.setCategory(::ERC_AIRFIELD_ARROW, true)
+  }
+
   function onMapUnhover(obj)
   {
     local params = {isMapHovered = false}
     updateHoveredObjects(params)
     sendMapEvent("UpdateCursorByTimer", params)
     obj.setUserData(params)
+    ::g_world_war_render.setCategory(::ERC_AIRFIELD_ARROW, false)
   }
 
   function onMouseWheel(obj, mx, my, is_up, buttons)

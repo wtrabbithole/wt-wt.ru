@@ -597,6 +597,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       showSceneBtn("btn_join_battle", false)
       showSceneBtn("btn_leave_battle", false)
+      showSceneBtn("warning_icon", false)
       return
     }
 

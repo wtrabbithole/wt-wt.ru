@@ -106,7 +106,6 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
 
   local rewardValue = config[rewardType]
   local style = "reward_" + rewardType
-  local isItem = false
 
   if (rewardType == "multiAwardsOnWorthGold" || rewardType == "modsForBoughtUnit")
     image = ::TrophyMultiAward(::DataBlockAdapter(config)).getRewardImage()
@@ -119,7 +118,6 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
     if (onlyImage)
       return item.getIcon()
 
-    isItem = true
     image = ::handyman.renderCached(("gui/items/item"), {
       items = item.getViewData({
             enableBackground = false,
@@ -130,6 +128,7 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
             count = ::getTblValue("count", config, 0)
           })
       })
+    return image
   }
   else if (rewardType == "unit" || rewardType == "rentedUnit")
     style += "_" + ::getUnitTypeText(::get_es_unit_type(::getAircraftByName(rewardValue))).tolower()
@@ -160,7 +159,7 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
     image += getMoneyLayer(config)
 
   local resultImage = ::LayersIcon.genDataFromLayer(::LayersIcon.findLayerCfg(layerCfgName), image)
-  if (!imageAsItem || isItem)
+  if (!imageAsItem)
     return resultImage
 
   return ::handyman.renderCached(("gui/items/item"), {items = [{layered_image = resultImage}]})

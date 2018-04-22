@@ -368,15 +368,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     openBattleDescriptionModal(::WwBattle())
   }
 
-  function goBackToOperations(openBattles = false)
-  {
-    backSceneFunc = function()
-    {
-      ::g_world_war.openOperationsOrQueues(openBattles)
-    }
-    goBackToHangar()
-  }
-
   function goBackToHangar()
   {
     ::ww_service.unsubscribeOperation(::ww_get_operation_id())

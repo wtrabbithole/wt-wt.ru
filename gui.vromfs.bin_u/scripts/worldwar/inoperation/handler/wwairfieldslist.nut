@@ -16,7 +16,7 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
   function getSceneTplView()
   {
     return {
-      isCentered = true
+      isControlHelpCentered = true
       consoleButtonsIconName = ::show_console_buttons ? WW_MAP_CONSPLE_SHORTCUTS.MOVE : null
       controlHelpText = ::show_console_buttons ? null : ::loc("key/RMB")
       controlHelpDesc = ::loc("worldwar/state/air_fly_out_control")

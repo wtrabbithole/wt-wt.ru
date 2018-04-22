@@ -1,4 +1,5 @@
-local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
+local ExchangeRecipes = ::require("scripts/items/exchangeRecipes.nut")
+local u = ::require("std/u.nut")
 
 local MIN_ITEMS_IN_COLUMN = 7
 
@@ -33,11 +34,25 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::calc_golden_ratio_columns(recipesList.len(), recipeWidthPx / (recipeHeightPx || 1)))
     local rows = ::ceil(recipesList.len().tofloat() / columns).tointeger()
 
+    local itemsInRow = 0 //some columns are thinner than max
+    local columnWidth = 0
+    foreach(i, recipe in recipesList)
+    {
+      columnWidth = ::max(columnWidth, recipe.components.len())
+      if ((i + 1) % (rows + 1))
+        continue
+      itemsInRow += columnWidth
+      columnWidth = 0
+      recipesList.insert(i, { isSeparator = true })
+    }
+    itemsInRow += columnWidth
+
     local res = {
       maxRecipeLen = maxRecipeLen
       recipesList = recipesList
       columns = columns
       rows = rows
+      itemsInRow = itemsInRow
     }
 
     foreach(key in ["headerText", "buttonText"])
@@ -65,7 +80,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onRecipeSelect(obj)
   {
     local newRecipe = recipesList?[obj.getValue()]
-    if (!newRecipe || newRecipe == curRecipe)
+    if (!u.isRecipe(newRecipe) || newRecipe == curRecipe)
       return
     curRecipe = newRecipe
     updateCurRecipeInfo()

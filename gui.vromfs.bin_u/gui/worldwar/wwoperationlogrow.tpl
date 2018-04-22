@@ -107,12 +107,19 @@ tdiv {
           wwBattleIcon{
             id:t='battle_icon'
             status:t=''
-            tooltip:t=''
             battleId:t=''
             behavior:t='button'
             on_click:t ='onClickBattle'
             on_hover:t='onHoverBattle'
             on_unhover:t='onHoverLostBattle'
+
+            title:t='$tooltipObj'
+            tooltipObj {
+              id:t='battle_icon_tooltip'
+              on_tooltip_open:t='onGenericTooltipOpen'
+              on_tooltip_close:t='onTooltipObjClose'
+              display:t='hide'
+            }
           }
         }
 
