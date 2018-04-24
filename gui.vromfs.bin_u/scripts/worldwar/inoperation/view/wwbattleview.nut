@@ -20,6 +20,14 @@ class ::WwBattleView
 
   sceneTplArmyViewsName = "gui/worldWar/worldWarMapArmyItem"
 
+  static isControlHelpCentered = true
+  static controlHelpDesc = @() hasControlTooltip()
+    ? ::loc("worldwar/battle_open_info") : getBattleStatusText()
+  static consoleButtonsIconName = @() ::show_console_buttons && hasControlTooltip()
+    ? WW_MAP_CONSPLE_SHORTCUTS.LMB_IMITATION : null
+  static controlHelpText = @() !::show_console_buttons && hasControlTooltip()
+    ? ::loc("key/LMB") : null
+
   constructor(_battle = null)
   {
     battle = _battle || ::WwBattle()
@@ -362,18 +370,18 @@ class ::WwBattleView
     return "@battleColorInactive"
   }
 
-  function getTooltip()
+  function hasControlTooltip()
   {
     if (battle.isStillInOperation())
     {
       local status = getStatus()
       if (status == "Active" || status == "Full")
-        return ::loc("worldwar/battle_open_info")
+        return true
     }
     else
-      return ::loc("worldwar/battle_open_info")
+      return true
 
-    return getBattleStatusText()
+    return false
   }
 
   function getReplayBtnTooltip()

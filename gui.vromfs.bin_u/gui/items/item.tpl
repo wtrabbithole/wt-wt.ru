@@ -190,24 +190,6 @@ itemDiv {
     <<@getWarbondMedalImage>>
   }
 
-  selBorder {
-    size:t='pw+10@dp, ph+10@dp'
-    pos:t='50%pw-50%w, 50%ph-50%h'
-    position:t='absolute'
-    border:t='yes'
-    border-color:t='#40606060'
-    input-transparent:t='yes'
-
-    selBorder {
-      size:t='pw-2@dp, ph-2@dp'
-      pos:t='50%pw-50%w, 50%ph-50%h'
-      position:t='absolute'
-      border:t='yes'
-      border-color:t='#55555555'
-      input-transparent:t='yes'
-    }
-  }
-
   focus_border {}
 
   <<#hasButton>>

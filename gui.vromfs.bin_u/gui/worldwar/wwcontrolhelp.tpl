@@ -1,8 +1,8 @@
 tdiv {
-  <<#isCentered>>
+  <<#isControlHelpCentered>>
     left:t='50%pw-50%w'
     position:t='relative'
-  <</isCentered>>
+  <</isControlHelpCentered>>
 
   <<#consoleButtonsIconName>>
     ButtonImg {

@@ -33,7 +33,6 @@ popup_menu {
     width:t='<<columns>>*(@itemWidth + @itemSpacing) + 1@itemSpacing'
     pos:t='50%pw-50%w, 0'
     position:t='relative'
-    padding:t='1@itemSpacing, 1@itemSpacing, 0, 0' //FIX ME: specific items margin
     itemShopList:t='yes'
     mouse-focusable:t='yes'
     clearOnFocusLost:t='no'

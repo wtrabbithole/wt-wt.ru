@@ -60,7 +60,6 @@ class BoosterEffectType
 //events from code:
 function on_items_loaded()
 {
-  ::ItemsManager.refreshExtInventory()
   ::ItemsManager.markInventoryUpdate()
 }
 
@@ -500,8 +499,6 @@ function ItemsManager::getInventoryItemType(blkType)
 
 function ItemsManager::_checkInventoryUpdate()
 {
-  refreshExtInventory()
-
   if (!_needInventoryUpdate)
     return
   _needInventoryUpdate = false
@@ -859,7 +856,7 @@ function ItemsManager::removeRefreshBoostersTask()
 
 function ItemsManager::refreshExtInventory()
 {
-  ::ItemsManager.inventoryClient.requestAll()
+  ::ItemsManager.inventoryClient.refreshItems()
 }
 
 function ItemsManager::forceRefreshExtInventory()

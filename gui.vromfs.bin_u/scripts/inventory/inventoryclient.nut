@@ -17,7 +17,6 @@ local InventoryClient = class {
   itemdefs = {}
 
   REQUEST_TIMEOUT_MSEC = 15000
-  REQUEST_DELTA_MSEC = 7000
   lastUpdateTime = -1
   lastRequestTime = -1
 
@@ -25,6 +24,7 @@ local InventoryClient = class {
   itemdefidsRequested = {} // Failed ids stays here, to avoid repeated requests.
   pendingItemDefRequest = null
 
+  needRefreshItems = false
   hasInventoryChanges = false
   hasItemDefChanges = false
 
@@ -79,6 +79,18 @@ local InventoryClient = class {
     no          = false,
     ["true"]    = true,
     ["false"]   = false,
+  }
+
+
+  function constructor()
+  {
+    ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
+    refreshItems()
+  }
+
+  function onEventAuthorizeComplete(p)
+  {
+    refreshItems()
   }
 
   function request(action, headers, data, callback, progressBoxData = null)
@@ -219,8 +231,36 @@ local InventoryClient = class {
     return shouldUpdateItemdDefs
   }
 
-  function requestAll()
+  function handleRpc(params)
   {
+    if (params.func == "changed")
+    {
+      refreshItems()
+    }
+  }
+
+  function refreshItems()
+  {
+    if (needRefreshItems)
+      return
+
+    if (!canRefreshData())
+      return
+
+    needRefreshItems = true
+    dagor.debug("schedule requestItems")
+    g_delayed_actions.add(requestItemsInternal.bindenv(this), 100)
+  }
+
+  function refreshItemsRun()
+  {
+    if (needRefreshItems)
+      requestItems()
+  }
+
+  function requestItemsInternal()
+  {
+    needRefreshItems = false
     if (!canRefreshData())
       return
 
@@ -273,7 +313,7 @@ local InventoryClient = class {
   }
 
   isItemdefRequestInProgress = @() lastItemdefsRequestTime >= 0
-    && lastItemdefsRequestTime + REQUEST_TIMEOUT_MSEC < ::dagor.getCurTime()
+    && lastItemdefsRequestTime + REQUEST_TIMEOUT_MSEC > ::dagor.getCurTime()
 
   function updatePendingItemDefRequest(cb, shouldRefreshAll)
   {
@@ -528,15 +568,7 @@ local InventoryClient = class {
 
   function canRefreshData()
   {
-    if (!::has_feature("ExtInventory"))
-      return false
-
-    if (lastRequestTime > lastUpdateTime && lastRequestTime + REQUEST_TIMEOUT_MSEC > ::dagor.getCurTime())
-      return false
-    if (lastUpdateTime > 0 && lastUpdateTime + REQUEST_DELTA_MSEC > ::dagor.getCurTime())
-      return false
-
-    return true
+    return ::has_feature("ExtInventory")
   }
 
   function forceRefreshItemDefs()

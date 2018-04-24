@@ -217,8 +217,13 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
     if (wwBattleView)
       setObjParamsById(battleObj, "battle_icon", {
         status = wwBattleView.getStatus(),
-        tooltip = wwBattleView.getTooltip(),
         battleId = wwBattleView.getId() })
+
+    local tooltipId = ::g_tooltip_type.WW_LOG_BATTLE_TOOLTIP.getTooltipId("",
+      {currentId = wwBattleView.getId()})
+    local tooltipObj = bodyObj.findObject("battle_icon_tooltip")
+    if (::check_obj(tooltipObj))
+      tooltipObj.tooltipId = tooltipId
 
     foreach (side in ::g_world_war.getCommonSidesOrder())
     {

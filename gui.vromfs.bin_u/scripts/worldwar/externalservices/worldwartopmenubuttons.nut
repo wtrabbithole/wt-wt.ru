@@ -9,20 +9,33 @@ local wwTopMenuButtons = {
   }
 
   list = {
+    WW_MAIN_MENU = {
+      text = "#worldWar/menu/mainMenu"
+      onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
+      elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
+    }
     WW_GLOBAL_BATTLES = {
       text = "#worldWar/btn_all_battles"
-      onClickFunc = @(obj, handler) "goBackToOperations" in handler? handler.goBackToOperations(true) : null
+      onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues(true)
       tooltip = @() ::loc("worldWar/btn_all_battles_full_text")
       elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
     }
     WW_OPERATIONS = {
       text = "#worldWar/menu/selectOperation"
-      onClickFunc = @(obj, handler) "goBackToOperations" in handler? handler.goBackToOperations() : null
+      onClickFunc = function(obj, handler)
+      {
+        local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+        if (!curOperation)
+          return ::g_world_war.openOperationsOrQueues()
+
+        ::g_world_war.openOperationsOrQueues(false,
+          ::g_ww_global_status.getMapByName(curOperation.data.map))
+      }
       elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
     }
     WW_HANGAR = {
       text = "#worldWar/menu/quitToHangar"
-      onClickFunc = @(obj, handler) "goBackToHangar" in handler? handler.goBackToHangar() : null
+      onClickFunc = @(obj, handler) ::g_world_war.stopWar()
       elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
     }
     WW_FILTER_RENDER_ZONES = {

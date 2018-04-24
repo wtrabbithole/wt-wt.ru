@@ -347,20 +347,19 @@ function g_decorator::onEventAttachableReceived(p)
 function g_decorator::updateDecalVisible(params, decType)
 {
   local decorId = params.id
-  local data = ::g_decorator.getCachedDataByType(decType)
+  local data = getCachedDataByType(decType)
   local decorator = data.decoratorsList?[decorId]
   local category = decorator?.category
 
   if (!decorator || (!decorator.isVisible() && !decorator.isForceVisible()))
     return
 
-  foreach (i, value in data.decorators[category])
-    if (value.id == decorId)
-      return
-
-  local id = "proceedData_" + decType.name
-
-  ::g_decorator.cache[id].decorators[category].append(decorator)
+  if (!(category in data.decorators))
+  {
+    data.decorators[category] <- []
+    data.categories.append(category)
+  }
+  ::u.appendOnce(decorator, data.decorators[category])
 }
 
 function g_decorator::onEventUnitBought(p)

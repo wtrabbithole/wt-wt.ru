@@ -470,7 +470,6 @@ function checkNewNotificationUserlogs(onStartAwards = false)
           }]
 
         ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
-        ::ItemsManager.refreshExtInventory()
         markDisabled = true
       }
     }

@@ -348,7 +348,7 @@ function g_world_war::checkPlayWorldwarAccess()
   return true
 }
 
-function g_world_war::openOperationsOrQueues(openBattles = false)
+function g_world_war::openOperationsOrQueues(needToOpenBattles = false, map = null)
 {
   stopWar()
 
@@ -359,7 +359,8 @@ function g_world_war::openOperationsOrQueues(openBattles = false)
 
   if (!::handlersManager.findHandlerClassInScene(::gui_handlers.WwOperationsMapsHandler))
     ::handlersManager.loadHandler(::gui_handlers.WwOperationsMapsHandler,
-      {needToOpenBattles = openBattles})
+      { needToOpenBattles = needToOpenBattles
+        autoOpenMapOperation = map })
 }
 
 function g_world_war::joinOperationById(operationId, country = null, isSilence = false, onSuccess = null)

@@ -145,12 +145,7 @@ tdiv {
     }
 
     <<^isAutoBattle>>
-    textareaNoTab {
-      width:t='pw'
-      text:t='#worldwar/battle_open_info'
-      text-align:t='center'
-      smallFont:t='yes'
-    }
+    include "gui/worldWar/wwControlHelp"
     <</isAutoBattle>>
   }
 }

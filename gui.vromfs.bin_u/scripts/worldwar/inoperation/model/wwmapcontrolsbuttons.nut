@@ -2,6 +2,7 @@ local enums = ::require("std/enums.nut")
 
 enum WW_MAP_CONSPLE_SHORTCUTS
 {
+  LMB_IMITATION = "RT"
   MOVE = "A"
   ENTRENCH = "RB"
   STOP = "Y"

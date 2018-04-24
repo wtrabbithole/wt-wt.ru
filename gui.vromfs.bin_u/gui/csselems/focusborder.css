@@ -1,3 +1,5 @@
+@const inactiveFocusBorderColor: #55555555;
+
 focus_border {
   position: absolute;
   pos: -1@dp, -1@dp;
@@ -15,16 +17,28 @@ focus_border_in_scroll {
   display:hide;
 }
 
+itemDiv > focus_border, recipe > focus_border {
+  alwaysVisible:yes;
+}
+
+[selected=yes] > focus_border[alwaysVisible=yes] {
+  re-type:9rect;
+  foreground-color: @inactiveFocusBorderColor;
+  foreground-image: #ui/gameuiskin#item_selection;
+  foreground-position:8;
+  foreground-repeat: expand;
+  display:show;
+}
+
 
 [show_console_buttons=yes] focus_border_in_scroll {
   display:show;
 }
 
 table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
-recipe[selected=yes],
 [show_console_buttons=yes] :focus > focus_border,
 [show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
-[show_console_buttons=yes] :focus > itemDiv[selected=yes] > focus_border,
+[show_console_buttons=yes] :focus > [selected=yes] > focus_border,
 [show_console_buttons=yes] :focus focus_border_in_scroll,
 [show_console_buttons=yes] [childsActivate=yes] > Button_text:focus,
 [show_console_buttons=yes] [childsActivate=yes] > button:focus,
@@ -89,9 +103,9 @@ shopItem[group=yes] > focus_border {
   size: pw +2@dp, ph +8@dp;
 }
 
-itemDiv > focus_border {
-  pos: -2@dp, -2@dp;
-  size: pw +4@dp, ph +4@dp;
+itemDiv > focus_border, recipe > focus_border {
+  pos: -3@dp, -3@dp;
+  size: pw +6@dp, ph +6@dp;
 }
 
 focus_border.expanded {

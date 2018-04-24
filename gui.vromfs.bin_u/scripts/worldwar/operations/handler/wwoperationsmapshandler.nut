@@ -16,6 +16,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   sceneBlkName   = "gui/worldWar/wwOperationsMaps.blk"
 
   needToOpenBattles = false
+  autoOpenMapOperation = null
 
   mode = WW_OM_WND_MODE.PLAYER
 
@@ -66,6 +67,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     if (needToOpenBattles)
       onStart()
+    else if (autoOpenMapOperation)
+      openOperationsListByMap(autoOpenMapOperation)
   }
 
   function initToBattleButton()
@@ -738,9 +741,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!selMap || mode != WW_OM_WND_MODE.PLAYER)
       return
 
-    local operationGroup = selMap.getOpGroup()
+    openOperationsListByMap(selMap)
+  }
+
+  function openOperationsListByMap(map)
+  {
     ::handlersManager.loadHandler(::gui_handlers.WwOperationsListModal,
-      { map = selMap })
+      { map = map })
   }
 
   function goBack()
@@ -843,6 +850,47 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local cursorPos = ::get_dagui_mouse_cursor_pos_RC()
     cursorPos[0] += "+0.04sh"
     ::g_dagui_utils.setObjPosition(obj, cursorPos, ["@bw", "@bh"])
+  }
+
+  function getWndHelpConfig()
+  {
+    local res = {
+      textsBlk = "gui/worldWar/wwOperationsMapsModalHelp.blk"
+      objContainer = scene.findObject("root-box")
+    }
+
+    local links = [
+      { obj = ["to_battle_button"]
+        msgId = "hint_to_battle_button"
+      }
+
+      { obj = ["item_desc"]
+        msgId = "hint_item_desc"
+      }
+
+      { obj = ["maps_list"]
+        msgId = "hint_maps_list"
+      }
+
+      { obj = ["btn_join_operation"]
+        msgId = "hint_btn_join_operation"
+      }
+
+      { obj = ["btn_clans_queue"]
+        msgId = "hint_btn_clans_queue"
+      }
+
+      { obj = ["btn_join_queue"]
+        msgId = "hint_btn_join_queue"
+      }
+
+      { obj = ["btn_back"]
+        msgId = "hint_btn_back"
+      }
+    ]
+
+    res.links <- links
+    return res
   }
 }
 
