@@ -1434,6 +1434,9 @@ function g_world_war::popupCharErrorMsg(groupName = null, titleText = "")
   if (!errorMsgId)
     return
 
+  if (errorMsgId == "WRONG_REINFORCEMENT_NAME")
+    return
+
   local popupText = ::loc("worldwar/charError/" + errorMsgId,
     ::loc("worldwar/charError/defaultError", ""))
   if (popupText.len() || titleText.len())

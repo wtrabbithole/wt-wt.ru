@@ -1,3 +1,4 @@
+local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 
@@ -43,13 +44,14 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
 
   getAssembleHeader     = @() isDisassemble() ? getName() : base.getAssembleHeader()
   getAssembleText       = @() isDisassemble() ? ::loc("item/disassemble") : ::loc("item/assemble")
+  getAssembleButtonText = @() isDisassemble() ? ::loc("item/disassemble") : base.getAssembleButtonText()
   getCantAssembleLocId  = @() isDisassemble() ? "msgBox/disassembleItem/cant" : "msgBox/assembleItem/cant"
-  getAssembleMessageData    = @(recipe) !isDisassemble() ? base.getAssembleMessageData(recipe)
+  getAssembleMessageData    = @(recipe) !isDisassemble() ? ItemExternal.getAssembleMessageData.call(this, recipe)
     : getEmptyAssembleMessageData().__update({
         text = ::loc("msgBox/disassembleItem/confirm")
         needRecipeMarkup = true
       })
 
-  getMainActionName     = @(colored = true, short = false) canAssemble() ? getAssembleText() : ""
+  getMainActionName     = @(colored = true, short = false) canAssemble() ? getAssembleButtonText() : ""
   doMainAction          = @(cb, handler, params = null) assemble(cb, params)
 }

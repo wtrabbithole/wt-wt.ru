@@ -498,13 +498,14 @@
     }
   }
 
-  getVideoModes = function(curResolution = null)
+  getVideoModes = function(curResolution = null, isNeedAuto = true)
   {
     local minW = 1024
     local minH = 720
 
     local list = ::get_video_modes()
-    list.append("auto");
+    if (isNeedAuto)
+      list.append("auto")
     if (curResolution && ::find_in_array(list, curResolution) == -1)
       list.append(curResolution)
 

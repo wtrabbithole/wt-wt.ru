@@ -684,7 +684,6 @@ function load_scripts_after_login_once()
     "items/prizesView.nut"
     "items/recentItems.nut"
     "items/recentItemsHandler.nut"
-    "items/wagerStakeSelect.nut"
     "items/ticketBuyWindow.nut"
     "items/itemsShop.nut"
     "items/trophyReward.nut"

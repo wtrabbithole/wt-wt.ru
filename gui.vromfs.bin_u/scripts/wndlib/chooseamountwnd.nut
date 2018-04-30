@@ -76,8 +76,8 @@ class ::gui_handlers.ChooseAmountWnd extends ::gui_handlers.BaseGuiHandlerWT
       scene.findObject("amount_slider").setValue(newValue)
   }
 
-  function onButtonDec(obj) { changeSliderValue(curValue - 1) }
-  function onButtonInc(obj) { changeSliderValue(curValue + 1) }
+  function onButtonDec(obj) { changeSliderValue(curValue - valueStep) }
+  function onButtonInc(obj) { changeSliderValue(curValue + valueStep) }
 
   function onMainButton(obj)
   {

@@ -1205,12 +1205,12 @@ tr > td > optiontext {
 }
 tr:hover > td > optiontext {
   color:@hoverTextColor;
-  auto-scroll:slow;
+  auto-scroll:yes;
 }
 tr[selected=yes] > td > optiontext {
   color:@activeTextColor;
   font:@option_selected_font;
-  auto-scroll:slow;
+  auto-scroll:yes;
 }
 td[cellType=top] > optiontext {
   color:@grayOptionColor;
@@ -2439,7 +2439,7 @@ autosize[display=none] {
   height:1;
 }
 
-autoScroll {
+autoScroll, optiontext[auto-scroll=yes] {
   behaviour:OverflowScroller;
   move-pixel-per-sec:50*@scrn_tgt/100.0;
   move-sleep-time:1000;

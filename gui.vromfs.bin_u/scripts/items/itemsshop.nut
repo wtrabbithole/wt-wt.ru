@@ -30,14 +30,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   curTab = 0 //first itemsTab
   visibleTabs = null //[]
   curSheet = null
+  curItem = null //last selected item to restore selection after change list
 
   isSheetsInited = false
   isSheetsInUpdate = false
   itemsPerPage = -1
   itemsList = null
   curPage = 0
-
-  _lastItem = null //last selected item to restore selection after change list
+  currentFocusItem = 2
 
   slotbarActions = [ "preview", "testflight", "weapons", "info" ]
   widgetByItem = {}
@@ -56,6 +56,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     sheets.updateWorkshopSheets()
+    if (curTab < 0)
+      curTab = getTabByCurItem()
     initUnseenTables()
     if (curSheet)
       curSheet = sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
@@ -64,7 +66,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
     fillTabs()
 
-    currentFocusItem++  //main focus obj 2
     initFocusArray()
 
     scene.findObject("update_timer").setUserData(this)
@@ -80,6 +81,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     getSheetsListObj().enable(isInMenu)
 
     updateWarbondsBalance()
+  }
+
+  function reinitScreen(params = {})
+  {
+    setParams(params)
+    initScreen()
   }
 
   function initUnseenTables()
@@ -116,6 +123,22 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local obj = getSheetsListObj()
     obj.select()
     checkCurrentFocusItem(obj)
+  }
+
+  function getTabByCurItem()
+  {
+    if (!curItem)
+      return 0
+
+    local iType = curItem.iType
+    for (local tab = 0; tab < itemsTab.TOTAL; tab++)
+      if (isTabVisible(tab))
+        foreach (sh in sheets.types)
+          if ((sh.typeMask & iType)
+              && sh.isAllowedForTab(tab)
+              && sh.getItemsList(tab).find(@(idx, item) curItem.isEqual(item)) != null)
+            return tab
+    return 0
   }
 
   function getTabName(tabIdx)
@@ -452,11 +475,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function isLastItemSame(item)
   {
-    if (!_lastItem || _lastItem.id != item.id)
+    if (!curItem || curItem.id != item.id)
       return false
-    if (!_lastItem.uids || !item.uids)
+    if (!curItem.uids || !item.uids)
       return true
-    foreach(uid in _lastItem.uids)
+    foreach(uid in curItem.uids)
       if (::isInArray(uid, item.uids))
         return true
     return false
@@ -470,11 +493,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return -1
 
     local res = ::clamp(prevValue, 0, total - 1)
-    if (_lastItem)
+    if (curItem)
       for(local i = 0; i < total; i++)
       {
         local item = itemsList[offset + i]
-        if (_lastItem.id != item.id)
+        if (curItem.id != item.id)
           continue
         res = i
         if (isLastItemSame(item))
@@ -486,11 +509,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function getLastSelItemIdx()
   {
     local res = -1
-    if (!_lastItem)
+    if (!curItem)
       return res
 
     foreach(idx, item in itemsList)
-      if (_lastItem.id == item.id)
+      if (curItem.id == item.id)
       {
         res = idx
         if (isLastItemSame(item))
@@ -526,8 +549,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local value = obj.getValue() + curPage * itemsPerPage
-    _lastItem = ::getTblValue(value, itemsList)
-    return _lastItem
+    curItem = ::getTblValue(value, itemsList)
+    return curItem
   }
 
   function getCurItemObj()

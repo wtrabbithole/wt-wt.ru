@@ -1,5 +1,6 @@
 local enums = ::require("std/enums.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
+local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
 ::g_tooltip_type <- {
   types = []
@@ -126,6 +127,16 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       local restricionsDesc = decorator.getRestrictionsDesc()
       if (restricionsDesc.len())
         desc += (desc.len() ? "\n" : "") + restricionsDesc
+
+      if (decoratorType == ::g_decorator_type.SKINS)
+      {
+        local mask = skinLocations.getSkinLocationsMask(::g_unlocks.getSkinNameBySkinId(id),
+          ::g_unlocks.getPlaneBySkinId(id))
+        local locations = mask ? skinLocations.getLocationsLoc(mask) : []
+        if (locations.len())
+          desc += (desc.len() ? "\n" : "") + ::loc("camouflage/for_environment_conditions") +
+            ::loc("ui/colon") + ::g_string.implode(locations, ", ")
+      }
 
       local tags = decorator.getTagsLoc()
       if (tags.len())

@@ -506,7 +506,7 @@ class ::WwBattle
 
     local joinCb = ::Callback(@() join(side), this)
     local warningReasonData = getWarningReasonData(side)
-    if (warningReasonData.needShow &&
+    if (warningReasonData.needMsgBox &&
         !::loadLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false))
     {
       ::gui_start_modal_wnd(::gui_handlers.SkipableMsgBox,
@@ -582,6 +582,7 @@ class ::WwBattle
   {
     local res = {
         needShow = false
+        needMsgBox = false
         warningText = ""
         fullWarningText = ""
       }
@@ -602,14 +603,28 @@ class ::WwBattle
         crewNames.append(crewUnit.name)
     }
 
+    local isAllBattleUnitsInSlots = true
     foreach(unitName, count in availableUnits)
-      if (!isInArray(unitName, crewNames) && ::can_crew_take_unit(::getAircraftByName(unitName)))
+      if (!isInArray(unitName, crewNames))
       {
-        res.needShow = true
-        res.warningText = ::loc("worldWar/warning/can_insert_more_available_units")
-        res.fullWarningText = ::loc("worldWar/warning/can_insert_more_available_units_full")
-        return res
+        if (::can_crew_take_unit(::getAircraftByName(unitName)))
+        {
+          res.needShow = true
+          res.needMsgBox = true
+          res.warningText = ::loc("worldWar/warning/can_insert_more_available_units")
+          res.fullWarningText = ::loc("worldWar/warning/can_insert_more_available_units_full")
+          return res
+        }
+        else
+          isAllBattleUnitsInSlots = false
       }
+
+    if (!isAllBattleUnitsInSlots)
+    {
+      res.needShow = true
+      res.warningText = ::loc("worldWar/warning/has_not_all_battle_units")
+      res.fullWarningText = ::loc("worldWar/warning/has_not_all_battle_units_full")
+    }
 
     return res
   }

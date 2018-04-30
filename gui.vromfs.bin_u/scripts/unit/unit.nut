@@ -354,7 +354,7 @@ local Unit = class
       weaponry.cost <- 0
     }
     weaponry.tier <- blk?.tier? blk.tier.tointeger() : 1
-    weaponry.modClass <- weaponBlk?.modClass || blk?.modClass || ""
+    weaponry.modClass <- blk?.modClass || weaponBlk?.modClass || ""
     weaponry.image <- ::get_weapon_image(esUnitType, weaponBlk, blk)
     weaponry.requiresModelReload <- weaponBlk?.requiresModelReload ?? false
 

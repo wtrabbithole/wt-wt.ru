@@ -141,6 +141,19 @@ class ::BaseItem
     return res
   }
 
+  function isEqual(item)
+  {
+    if (item.isInventoryItem != isInventoryItem || item.id != id)
+      return false
+    if (!isInventoryItem)
+      return true
+
+    foreach(uid in item.uids)
+      if (uids.find(uid) != null)
+        return true
+    return false
+  }
+
   function getLimitData()
   {
     return ::g_item_limits.getLimitDataByItemName(id)

@@ -220,7 +220,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     foreach (country in ::shopCountriesList)
     {
       local globalBattlesList = globalBattlesListData.getList().filter(@(idx, battle)
-        battle.hasSideCountry(country))
+        battle.hasSideCountry(country) && battle.isOperationMapAvaliable())
 
       local battlesNumber = globalBattlesList.len()
       if (battlesNumber)
@@ -275,7 +275,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     local country = ::get_profile_country_sq()
 
     battlesList = globalBattlesListData.getList().filter(@(idx, battle)
-      battle.hasSideCountry(country))
+      battle.hasSideCountry(country) && battle.isOperationMapAvaliable())
 
     if (currViewMode != WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       return

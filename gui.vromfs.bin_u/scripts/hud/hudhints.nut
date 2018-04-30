@@ -58,7 +58,7 @@ function g_hud_hints::_buildText(data)
   local shortcuts = getShortcuts(data)
   if (shortcuts == null)
   {
-    local res = ::loc(getLocId(data))
+    local res = ::loc(getLocId(data), getLocParams(data))
     if (image)
       res = ::g_hint_tag.IMAGE.makeFullTag({ image = image }) + res
     return res
@@ -75,7 +75,8 @@ function g_hud_hints::_buildText(data)
 
   local expandedShortcutArray = ::g_shortcut_type.expandShortcuts(rawShortcutsArray)
   local shortcutTag = ::g_hud_hints._wrapShortsCutIdWithTags(expandedShortcutArray)
-  local result = ::loc(getLocId(data), { shortcut = shortcutTag })
+  local locParams = getLocParams(data).__update({shortcut = shortcutTag})
+  local result = ::loc(getLocId(data), locParams)
 
   //If shortcut not specified in localization string it should
   //be placed at the beginig
@@ -282,6 +283,8 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
 
   getLocId = ::g_hud_hints._getLocId
   getNoKeyLocId = ::g_hud_hints._getNoKeyLocId
+
+  getLocParams = @(hintData) {}
 
   getPriority = function(eventData) { return ::getTblValue("priority", eventData, priority) }
   isCurrent = @(eventData, isHideEvent) true
@@ -499,6 +502,16 @@ enums.addTypesByGlobalName("g_hud_hints", {
     priority = CATASTROPHIC_HINT_PRIORITY
     totalCount = 5
     maskId = 29
+  }
+
+  ATGM_AIM_HINT_TORPEDO = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/atgm_aim_torpedo"
+    showEvent = "hint:atgm_aim_torpedo:show"
+    lifeTime = 10.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+    totalCount = 5
+    maskId = 30
   }
 
   DEAD_PILOT_HINT = {
@@ -1106,21 +1119,17 @@ enums.addTypesByGlobalName("g_hud_hints", {
     getLocId = function(hintData)
     {
       local objType = ::getTblValue("objectiveType", hintData, ::OBJECTIVE_TYPE_SECONDARY)
+      local result = ""
       if (objType == ::OBJECTIVE_TYPE_PRIMARY)
-        return "hints/objective_success"
+        result = "hints/objective_success"
       if (objType == ::OBJECTIVE_TYPE_SECONDARY)
-        return "hints/secondary_success"
-      return ""
+        result = "hints/secondary_success"
+      if (hintData.objectiveText != "")
+        result += "_extended"
+      return result
     }
 
-    buildText = function(hintData)
-    {
-      local res = ::g_hud_hints._buildText.call(this, hintData)
-      local objText = hintData?.objectiveText
-      if (objText)
-        return res + "\n" + ::loc(objText)
-      return res
-    }
+    getLocParams = @(hintData) { missionObj = ::loc(hintData.objectiveText) }
   }
 
   OBJECTIVE_FAIL = {
@@ -1137,21 +1146,17 @@ enums.addTypesByGlobalName("g_hud_hints", {
     getLocId = function(hintData)
     {
       local objType = ::getTblValue("objectiveType", hintData, ::OBJECTIVE_TYPE_PRIMARY)
+      local result = ""
       if (objType == ::OBJECTIVE_TYPE_PRIMARY)
-        return "hints/objective_fail"
+        result = "hints/objective_fail"
       if (objType == ::OBJECTIVE_TYPE_SECONDARY)
-        return "hints/secondary_fail"
-      return ""
+        result = "hints/secondary_fail"
+      if (hintData.objectiveText != "")
+        result += "_extended"
+      return result
     }
 
-    buildText = function(hintData)
-    {
-      local res = ::g_hud_hints._buildText.call(this, hintData)
-      local objText = hintData?.objectiveText
-      if (objText)
-        return res + "\n" + ::loc(objText)
-      return res
-    }
+    getLocParams = @(hintData) { missionObj = ::loc(hintData.objectiveText) }
   }
 
   OFFER_REPAIR = {

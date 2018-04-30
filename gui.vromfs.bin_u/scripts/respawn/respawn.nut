@@ -426,7 +426,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (!isOnInit && isRespawn)
         return reinitScreen({})
       else
-        updateAllCrewSlotTexts()
+        updateAllCrewSlots()
     }
 
     updateCurSpawnScoreText()
@@ -1624,10 +1624,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     infoTextsArr.append(missionRules.getRespawnInfoTextForUnit(unit))
-    isAvailResp = isAvailResp
-      && (missionRules.getUnitLeftRespawns(unit) != 0
-        || (missionRules.isUnitAvailableBySpawnScore(unit)
-          && missionRules.canRespawnOnUnitBySpawnScore(unit)))
+    isAvailResp = isAvailResp && missionRules.isRespawnAvailable(unit)
 
     local isCrewDelayed = false
     if (missionRules.isSpawnDelayEnabled)
@@ -1924,12 +1921,12 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
       if (currentIdInCountry == idInCountry)
         updateApplyText()
-      updateCrewSlotText(crew)
+      updateCrewSlot(crew)
     }
   }
 
   //only for crews of current country
-  function updateCrewSlotText(crew)
+  function updateCrewSlot(crew)
   {
     local unit = ::g_crew.getCrewUnit(crew)
     if (!unit)
@@ -1960,12 +1957,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local nameObj = slotObj.findObject(::get_slot_obj_id(countryId, idInCountry) + "_txt")
     if (::checkObj(nameObj))
       nameObj.setValue(::get_slot_unit_name_text(unit, params))
+
+    if (!missionRules.isRespawnAvailable(unit))
+      slotObj.shopStat = "disabled"
   }
 
-  function updateAllCrewSlotTexts()
+  function updateAllCrewSlots()
   {
     foreach(crew in ::get_crews_list_by_country(::get_local_player_country()))
-      updateCrewSlotText(crew)
+      updateCrewSlot(crew)
   }
 
   function get_mp_autostart_countdown()
@@ -2357,7 +2357,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     if (missionRules.hasRespawnCost)
-      updateCrewSlotText(crew)
+      updateCrewSlot(crew)
 
     checkRocketDisctanceFuseRow()
     updateOtherOptions()
@@ -2440,13 +2440,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function onEventMissionCustomStateChanged(p)
   {
     doWhenActiveOnce("checkUpdateCustomStateRespawns")
-    doWhenActiveOnce("updateAllCrewSlotTexts")
+    doWhenActiveOnce("updateAllCrewSlots")
   }
 
   function onEventMyCustomStateChanged(p)
   {
     doWhenActiveOnce("checkUpdateCustomStateRespawns")
-    doWhenActiveOnce("updateAllCrewSlotTexts")
+    doWhenActiveOnce("updateAllCrewSlots")
   }
 }
 

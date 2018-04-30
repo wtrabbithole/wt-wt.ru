@@ -5,6 +5,7 @@ const MAX_LOCATION_TYPES = 64
 local locationTypeNameToId = {} //forest = 1, bitId to easy use in mask
 local skinsMask = {} //<skinName> = <locationTypeMask>
 local levelsMask = {} //<levelName> = <locationTypeMask>
+local camoTypesVisibleList = []
 
 local function getLocationTypeId(typeName)
 {
@@ -21,6 +22,17 @@ local function getLocationTypeId(typeName)
   local res = 1 << idx
   locationTypeNameToId[typeName] <- res
   return res
+}
+
+local function getLocationsLoc(mask)
+{
+  local list = []
+  if (!mask)
+    return list
+  foreach(name in camoTypesVisibleList)
+    if (mask & getLocationTypeId(name))
+      list.append(::loc("camoType/" + name))
+  return list
 }
 
 local function debugLocationMask(mask)
@@ -53,6 +65,10 @@ local function loadSkinMasksOnce()
     local blk = skinsBlk.getBlock(i)
     skinsMask[blk.getBlockName()] <- getLocationMaskByNamesArray(blk % "camoType")
   }
+  camoTypesVisibleList = []
+  if (skinsBlk.camo_type_visible)
+    foreach(b in skinsBlk.camo_type_visible % "camoType")
+      camoTypesVisibleList.append(b.name)
 }
 
 local function getSkinLocationsMask(skinName, unitName)
@@ -102,5 +118,6 @@ return {
   getMaskByLevel = getMaskByLevel
   getLocationMaskByNamesArray = getLocationMaskByNamesArray
   getBestSkinsList = getBestSkinsList
+  getLocationsLoc = getLocationsLoc
   debugLocationMask = debugLocationMask
 }

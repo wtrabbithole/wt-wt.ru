@@ -237,7 +237,7 @@ local ItemExternal = class extends ::BaseItem
   function getMainActionName(colored = true, short = false)
   {
     return amount && canConsume() ? ::loc("item/consume")
-      : canAssemble() ? getAssembleText()
+      : canAssemble() ? getAssembleButtonText()
       : ""
   }
 
@@ -317,6 +317,7 @@ local ItemExternal = class extends ::BaseItem
 
   getAssembleHeader       = @() ::loc("item/create_header", { itemName = getName() })
   getAssembleText         = @() ::loc("item/assemble")
+  getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc("item/recipes") : getAssembleText()
   getCantAssembleLocId    = @() "msgBox/assembleItem/cant"
   getAssembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
     text = ::loc("msgBox/assembleItem/confirm", { itemName = ::colorize("activeTextColor", getName()) })

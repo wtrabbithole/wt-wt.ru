@@ -30,9 +30,10 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   shrinkedConfigsArray = null
   trophyItem = null
   isBoxOpening = true
-  isDisassemble = false
+  shouldShowRewardItem = false
 
   haveItems = false
+  rewardItem = null //reward item to show button "go to item"
   opened = false
   animFinished = false
 
@@ -52,17 +53,20 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!trophyItem)
       return base.goBack()
 
-    isDisassemble = trophyItem.iType == itemType.RECIPES_BUNDLE && trophyItem.isDisassemble()
-    isBoxOpening = !isDisassemble && (trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST)
+    shouldShowRewardItem = trophyItem.iType == itemType.RECIPES_BUNDLE
+    isBoxOpening = !shouldShowRewardItem && (trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST)
 
-    local title = (!isDisassemble && configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
+    local title = (!shouldShowRewardItem && configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
     scene.findObject("reward_title").setValue(title)
 
     shrinkedConfigsArray = ::trophyReward.processUserlogData(configsArray)
     checkConfigsArray()
+    updateRewardItem()
     updateWnd()
     startOpening()
+
+    scene.findObject("update_timer").setUserData(this)
   }
 
   function startOpening()
@@ -120,7 +124,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local itemToShow = trophyItem
-    if (isDisassemble && configsArray[0]?.item)
+    if (shouldShowRewardItem && configsArray[0]?.item)
       itemToShow = ::ItemsManager.findItemById(configsArray[0].item)
 
     local layersData = ""
@@ -241,6 +245,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_back", animFinished || trophyItem.isAllowSkipOpeningAnim())
 
     showSceneBtn("btn_take_air", animFinished && unit != null && unit.isUsable() && !::isUnitInSlotbar(unit))
+    showSceneBtn("btn_go_to_item", animFinished && !!rewardItem)
   }
 
   function onViewRewards()
@@ -288,5 +293,29 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     animFinished = true
     if (!openChest())
       updateButtons()
+  }
+
+  function updateRewardItem() //ext item will come later, so need to wait until it received to show button
+  {
+    if (!haveItems || rewardItem)
+      return false
+
+    foreach(reward in configsArray)
+      if (reward?.item)
+      {
+        rewardItem = ItemsManager.getInventoryItemById(reward.item)
+        if (rewardItem)
+          return true
+      }
+    return false
+  }
+
+  onTimer = @(obj, dt) updateRewardItem() && updateButtons()
+
+  function onGoToItem()
+  {
+    goBack()
+    if (rewardItem)
+      ::gui_start_items_list(-1, { curItem = rewardItem })
   }
 }
