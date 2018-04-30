@@ -55,7 +55,7 @@ popup_menu {
 
       min:t='<<minValue>>'
       max:t='<<maxValue>>'
-      step:t='<<valueStep>>'
+      optionAlign:t='<<valueStep>>'
       value:t='<<curValue>>'
       on_change_value:t='onValueChange'
     }

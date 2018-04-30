@@ -285,10 +285,10 @@ enums.addTypes(effectsType, [
   { id = "turnTime",               preset = "PERCENT_FLOAT", isInverted = true
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "distToLiveTorpedo",      measureType = "meters_alt", shouldColorByValue = false
+  { id = "distToLiveTorpedo",      measureType = "meters_alt"
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "maxSpeedInWaterTorpedo", measureType = "metersPerSecond_climbSpeed", shouldColorByValue = false
+  { id = "maxSpeedInWaterTorpedo", measureType = "metersPerSecond_climbSpeed"
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
   { id = "diveDepthTorpedo",       measureType = "meters_alt", shouldColorByValue = false

@@ -718,7 +718,7 @@ function SessionLobby::getTeamData(teamCode, room = null)
   return ::events.getTeamData(getPublicData(room), teamCode)
 }
 
-function SessionLobby::getRequiredCratfs(teamCode = Team.A, room = null)
+function SessionLobby::getRequiredCrafts(teamCode = Team.A, room = null)
 {
   local teamData = getTeamData(teamCode, room)
   return ::events.getRequiredCrafts(teamData)

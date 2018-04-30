@@ -209,4 +209,24 @@ shopSheets.updateWorkshopSheets <- function()
     shopSheets.addSheets(newSheets)
 }
 
+shopSheets.isTabVisible <- @(tabIdx) tabIdx != itemsTab.WORKSHOP || workshop.isAvailable() //!!FIX ME: move tabs to separate enum
+
+shopSheets.getTabByItem <- function(item, defaultTab = -1)
+{
+  if (item.shouldAutoConsume)
+    return defaultTab
+
+  updateWorkshopSheets()
+
+  local iType = item.iType
+  for (local tab = 0; tab < itemsTab.TOTAL; tab++)
+    if (isTabVisible(tab))
+      foreach (sh in types)
+        if ((sh.typeMask & iType)
+            && sh.isAllowedForTab(tab)
+            && ::u.search(sh.getItemsList(tab), @(it) item.isEqual(it)) != null)
+          return tab
+  return defaultTab
+}
+
 return shopSheets

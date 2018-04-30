@@ -217,7 +217,7 @@ local InventoryClient = class {
       return null
 
     local item = itemdefid && itemdefs?[itemdefid]
-    if (item && item?.market_hash_name)
+    if ((item?.market_hash_name ?? "") != "")
       return marketplaceBaseUrl + "?viewitem&a=" + ::WT_APPID + "&n=" + ::encode_uri_component(item.market_hash_name)
 
     return null

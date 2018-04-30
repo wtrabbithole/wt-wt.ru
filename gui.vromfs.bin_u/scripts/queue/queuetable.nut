@@ -104,9 +104,12 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   {
     local txtPlayersWaiting = ""
     local curQueue = getCurQueue()
-    if (curQueue && curQueue.queueStats)
+    local queueStats = curQueue?.queueStats
+    if (queueStats)
     {
-      local playersOfMyRank = curQueue.queueStats.getPlayersCountOfMyRank()
+      local playersOfMyRank = queueStats?.isClanStats
+        ? queueStats.getClansCount()
+        : queueStats.getPlayersCountOfMyRank()
       txtPlayersWaiting = ::loc("multiplayer/playersInQueue") + ::loc("ui/colon") + playersOfMyRank
     }
     scene.findObject("queue_players_total").setValue(txtPlayersWaiting)

@@ -197,7 +197,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 
   function count_misObj_add(blk)
   {
-    local res = ""
+    local res = []
 
     local m_aircraft = blk.getStr("player_class", "")
     local m_weapon = blk.getStr("player_weapons", "")
@@ -208,9 +208,9 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       m_weapon = ::get_gui_option(::USEROPT_WEAPONS)
     }
     if ((m_aircraft != "") && !(gt & ::GT_VERSUS))
-      res += "\n" + ::loc("options/aircraft") + ::loc("ui/colon") +
+      res.append(::loc("options/aircraft") + ::loc("ui/colon") +
                     " " + ::getUnitName(m_aircraft) + "; " +
-                    ::getWeaponNameText(m_aircraft, null, m_weapon, ", ")
+                    ::getWeaponNameText(m_aircraft, null, m_weapon, ", "))
 
     local m_condition = ""
     if (::current_campaign_mission)
@@ -232,8 +232,8 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
     if (m_condition != "")
-      res += "\n" + ::loc("sm_conditions") + ::loc("ui/colon") + " " + m_condition
-    return res
+      res.append(::loc("sm_conditions") + ::loc("ui/colon") + " " + m_condition)
+    return ::g_string.implode(res, "\n")
   }
 
   function onUpdate(obj, dt)
@@ -445,7 +445,10 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
         if (misObj == "")
           misObj = ::loc(briefing.getStr("objective_loc", ""))
         if (misObj_add != "")
-          misObj += "\n" + misObj_add
+          misObj += (misObj.len() ? "\n\n" : "") + misObj_add
+
+        misObj = ::colorize("userlogColoredText", ::loc_current_mission_name(false)) +
+          "\n\n" + ::g_string.clearBorderSymbolsMultiline(misObj)
         setMissionObjective(misObj)
       }
 

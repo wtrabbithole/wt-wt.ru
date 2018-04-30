@@ -320,7 +320,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
           flags = flags | eRoomFlags.HAS_PLACES_IN_MY_TEAM
       }
 
-      local reqUnits = ::SessionLobby.getRequiredCratfs(Team.A, room)
+      local reqUnits = ::SessionLobby.getRequiredCrafts(Team.A, room)
       if (reqUnits)
         foreach(rule in reqUnits)
         {
@@ -356,7 +356,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       isLocked = true
 
     local text = ::SessionLobby.getMissionNameLoc(room)
-    local reqUnits = ::SessionLobby.getRequiredCratfs(Team.A, room)
+    local reqUnits = ::SessionLobby.getRequiredCrafts(Team.A, room)
     if (reqUnits)
     {
       local color = ""

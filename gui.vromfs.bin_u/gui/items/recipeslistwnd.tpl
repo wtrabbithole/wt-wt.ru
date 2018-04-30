@@ -11,8 +11,7 @@ div {
 
 popup_menu {
   id:t='main_frame'
-  width:t='1@sliderWidth + 2@buttonHeight + 4@blockInterval'
-  min-width:t='<<itemsInRow>> * 0.5@itemWidth +  <<columns>> * 2@recipeInterval + (<<columns>> - 1) * @itemsSeparatorSize+ 2@dp'
+  width:t='<<itemsInRow>> * 0.5@itemWidth +  <<columns>> * 2@recipeInterval + (<<columns>> - 1) * @itemsSeparatorSize+ 2@dp'
   position:t='root'
   pos:t='<<position>>'
   menu_align:t='<<align>>'

@@ -334,6 +334,35 @@
         },
         {
           "varSetString": {
+            "value": "nadom_t1_cruiser_spawn_01",
+            "var": "t1_cruiser_spawn_01_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "nadom_t1_cruiser_spawn_02",
+            "var": "t1_cruiser_spawn_02_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "nadom_t2_cruiser_spawn_01",
+            "var": "t2_cruiser_spawn_01_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "nadom_t2_cruiser_spawn_02",
+            "var": "t2_cruiser_spawn_02_name"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "varSetString": {
             "value": "nadom_battle_area",
             "var": "battle_area_name"
           }
@@ -345,6 +374,9 @@
             },
             {
               "target": "nadom_check_random_ship_spawn"
+            },
+            {
+              "target": "nadom_check_random_cruiser_spawn"
             }
           ]
         },
@@ -458,7 +490,8 @@
                 "boat": true,
                 "destroyer": false,
                 "type_gun_boat": true,
-                "type_destroyer": false
+                "type_destroyer": false,
+                "light_cruiser": false
               }
             }
           ]
@@ -521,7 +554,8 @@
                 "boat": true,
                 "destroyer": false,
                 "type_gun_boat": true,
-                "type_destroyer": false
+                "type_destroyer": false,
+                "light_cruiser": false
               }
             }
           ]
@@ -634,7 +668,8 @@
                 "boat": false,
                 "destroyer": true,
                 "type_gun_boat": false,
-                "type_destroyer": true
+                "type_destroyer": true,
+                "light_cruiser": false
               }
             }
           ]
@@ -697,7 +732,8 @@
                 "boat": false,
                 "destroyer": true,
                 "type_gun_boat": false,
-                "type_destroyer": true
+                "type_destroyer": true,
+                "light_cruiser": false
               }
             }
           ]
@@ -711,6 +747,184 @@
       "else_actions": {
         "triggerEnable": {
           "target": "nadom_start_ship_spawn"
+        }
+      }
+    },
+    "nadom_check_random_cruiser_spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_cruiser_spawn_01_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_cruiser_spawn_01_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t1_cruiser_spawn_02_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_cruiser_spawn_02_name",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "missionMarkAsRespawnPoint": [
+            {
+              "loc_name": "missions/spawn_random"
+            },
+            {
+              "spawnEffect": false
+            },
+            {
+              "isStrictSpawn": false
+            },
+            {
+              "isAirfield": false
+            },
+            {
+              "isUnit": false
+            },
+            {
+              "useExisting": false
+            },
+            {
+              "isIndividual": true
+            },
+            {
+              "removeAreas": false
+            },
+            {
+              "canSpawnOnNeutral": false
+            },
+            {
+              "showOnMap": true
+            },
+            {
+              "offset": [0.0,0.0,0.0]
+            },
+            {
+              "radius": -1.0
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "target": "@t1_cruiser_spawn_01_name"
+            },
+            {
+              "target": "@t1_cruiser_spawn_02_name"
+            },
+            {
+              "team": "A"
+            },
+            {
+              "tags": {
+                "air": false,
+                "tank": false,
+                "ship": true,
+                "boat": false,
+                "destroyer": false,
+                "type_gun_boat": false,
+                "type_destroyer": false,
+                "light_cruiser": true
+              }
+            }
+          ]
+        },
+        {
+          "missionMarkAsRespawnPoint": [
+            {
+              "loc_name": "missions/spawn_random"
+            },
+            {
+              "spawnEffect": false
+            },
+            {
+              "isStrictSpawn": false
+            },
+            {
+              "isAirfield": false
+            },
+            {
+              "isUnit": false
+            },
+            {
+              "useExisting": false
+            },
+            {
+              "isIndividual": true
+            },
+            {
+              "removeAreas": false
+            },
+            {
+              "canSpawnOnNeutral": false
+            },
+            {
+              "showOnMap": true
+            },
+            {
+              "offset": [0.0,0.0,0.0]
+            },
+            {
+              "radius": -1.0
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "target": "@t2_cruiser_spawn_01_name"
+            },
+            {
+              "target": "@t2_cruiser_spawn_02_name"
+            },
+            {
+              "team": "B"
+            },
+            {
+              "tags": {
+                "air": false,
+                "tank": false,
+                "ship": true,
+                "boat": false,
+                "destroyer": false,
+                "type_gun_boat": false,
+                "type_destroyer": false,
+                "light_cruiser": true
+              }
+            }
+          ]
+        },
+        {
+          "triggerEnable": {
+            "target": "nadom_start_cruiser_spawn"
+          }
+        }
+      ],
+      "else_actions": {
+        "triggerEnable": {
+          "target": "nadom_start_cruiser_spawn"
         }
       }
     },
@@ -751,7 +965,8 @@
               "boat": true,
               "destroyer": false,
               "type_gun_boat": true,
-              "type_destroyer": false
+              "type_destroyer": false,
+              "light_cruiser": false
             }
           }
         },
@@ -779,7 +994,8 @@
               "boat": true,
               "destroyer": false,
               "type_gun_boat": true,
-              "type_destroyer": false
+              "type_destroyer": false,
+              "light_cruiser": false
             }
           }
         },
@@ -940,7 +1156,8 @@
               "boat": true,
               "destroyer": false,
               "type_gun_boat": true,
-              "type_destroyer": false
+              "type_destroyer": false,
+              "light_cruiser": false
             }
           }
         },
@@ -968,7 +1185,8 @@
               "boat": true,
               "destroyer": false,
               "type_gun_boat": true,
-              "type_destroyer": false
+              "type_destroyer": false,
+              "light_cruiser": false
             }
           }
         }
@@ -1057,7 +1275,8 @@
               "boat": false,
               "destroyer": true,
               "type_gun_boat": false,
-              "type_destroyer": true
+              "type_destroyer": true,
+              "light_cruiser": false
             }
           }
         },
@@ -1085,7 +1304,8 @@
               "boat": false,
               "destroyer": true,
               "type_gun_boat": false,
-              "type_destroyer": true
+              "type_destroyer": true,
+              "light_cruiser": false
             }
           }
         },
@@ -1151,7 +1371,8 @@
               "boat": false,
               "destroyer": true,
               "type_gun_boat": false,
-              "type_destroyer": true
+              "type_destroyer": true,
+              "light_cruiser": false
             }
           }
         },
@@ -1179,7 +1400,191 @@
               "boat": false,
               "destroyer": true,
               "type_gun_boat": false,
-              "type_destroyer": true
+              "type_destroyer": true,
+              "light_cruiser": false
+            }
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "nadom_start_cruiser_spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_cruiser_spawn_01_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_cruiser_spawn_01_name",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_01",
+            "spawnEffect": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "isStrictSpawn": false,
+            "useExisting": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "@t1_cruiser_spawn_01_name",
+            "team": "A",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": false,
+              "destroyer": false,
+              "type_gun_boat": false,
+              "type_destroyer": false,
+              "light_cruiser": true
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_01",
+            "spawnEffect": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "isStrictSpawn": false,
+            "useExisting": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "@t2_cruiser_spawn_01_name",
+            "team": "B",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": false,
+              "destroyer": false,
+              "type_gun_boat": false,
+              "type_destroyer": false,
+              "light_cruiser": true
+            }
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "nadom_check_second_cruiser_spawn_exist"
+          }
+        }
+      ],
+      "else_actions": {
+        "triggerEnable": {
+          "target": "nadom_check_second_cruiser_spawn_exist"
+        }
+      }
+    },
+    "nadom_check_second_cruiser_spawn_exist": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_cruiser_spawn_02_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_cruiser_spawn_02_name",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_02",
+            "spawnEffect": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "isStrictSpawn": false,
+            "useExisting": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "@t1_cruiser_spawn_02_name",
+            "team": "A",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": false,
+              "destroyer": false,
+              "type_gun_boat": false,
+              "type_destroyer": false,
+              "light_cruiser": true
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_02",
+            "spawnEffect": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "isStrictSpawn": false,
+            "useExisting": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "@t2_cruiser_spawn_02_name",
+            "team": "B",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": false,
+              "destroyer": false,
+              "type_gun_boat": false,
+              "type_destroyer": false,
+              "light_cruiser": true
             }
           }
         }
@@ -1219,6 +1624,10 @@
     "t1_ship_spawn_02_name": "",
     "t2_ship_spawn_01_name": "",
     "t2_ship_spawn_02_name": "",
+    "t1_cruiser_spawn_01_name": "",
+    "t1_cruiser_spawn_02_name": "",
+    "t2_cruiser_spawn_01_name": "",
+    "t2_cruiser_spawn_02_name": "",
     "battle_area_name": "",
     "temp_zone_01_name": "",
     "temp_zone_02_name": "",

@@ -592,6 +592,8 @@ function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = nu
   return _getItemsFromList(inventory, typeMask, filterFunc)
 }
 
+ItemsManager.getInventoryItemById <- @(id) ::u.search(getInventoryList(), @(item) item.id == id)
+
 function ItemsManager::markInventoryUpdate()
 {
   if (_needInventoryUpdate)

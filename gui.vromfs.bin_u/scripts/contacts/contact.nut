@@ -156,22 +156,22 @@ class Contact
       || name == ::my_user_name
   }
 
-  function getGroupsList()
+  function isInGroup(groupName)
   {
-    local groupsList = {}
-    foreach (groupName, group in ::contacts)
-      foreach (player in group)
-        if (player.uid == uid
-          || player?.uidInt64 == uidInt64
-          || player.name == name)
-          groupsList[groupName] <- true
-
-    return groupsList
+    if (groupName in ::contacts)
+      foreach (p in ::contacts[groupName])
+        if (p.uid == uid)
+          return true
+    return false
   }
 
-  function isInFriendsGroup()
+  function isInFriendGroup()
   {
-    local groupsList = getGroupsList()
-    return ::EPL_FRIENDLIST in groupsList || ::EPLX_PS4_FRIENDS in groupsList
+    return isInGroup(::EPL_FRIENDLIST) || isInGroup(::EPLX_PS4_FRIENDS)
+  }
+
+  function isInBlockGroup()
+  {
+    return isInGroup(::EPL_BLOCKLIST)
   }
 }

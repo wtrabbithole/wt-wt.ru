@@ -252,7 +252,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
       return ::events.getEventNameText(selectedEvent) + " " + ::events.getRespawnsText(selectedEvent)
 
     local res = ""
-    local reqUnits = ::SessionLobby.getRequiredCratfs(Team.A, room)
+    local reqUnits = ::SessionLobby.getRequiredCrafts(Team.A, room)
     local tierText = ::events.getTierTextByRules(reqUnits)
     if (tierText.len())
       res += tierText + " "

@@ -544,6 +544,21 @@ function debug_change_language(isNext = true)
   dlog("Set language: " + newLang.id)
 }
 
+function debug_change_resolution(shouldIncrease = true)
+{
+  local curResolution = ::format("%d x %d", ::screen_width(), ::screen_height())
+  local list = ::sysopt.mShared.getVideoModes(curResolution, false)
+  local curIdx = list.find(curResolution) || 0
+  local newIdx = ::clamp(curIdx + (shouldIncrease ? 1 : -1), 0, list.len() - 1)
+  local newResolution = list[newIdx]
+  if (newResolution != curResolution) {
+    ::setSystemConfigOption("video/resolution", newResolution)
+    ::on_renderer_settings_change()
+    ::handlersManager.markfullReloadOnSwitchScene()
+  }
+  dlog("Set resolution: " + newResolution)
+}
+
 function debug_multiply_color(colorStr, multiplier)
 {
   local res = ::g_dagui_utils.multiplyDaguiColorStr(colorStr, multiplier)

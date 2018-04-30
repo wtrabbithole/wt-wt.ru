@@ -1,6 +1,7 @@
 @const shopFilterHFlowHeight: 0.04*@sf;
 @const shopFilterTextCountryHeight: 28@sf/@pf;
 @const listboxItemsInterval:1@dp;
+@const listboxHPadding: 0.015@sf;
 
 @const listboxBgColor:              #CC03070C;
 
@@ -184,7 +185,7 @@ shopFilter[inactive=yes] > shopFilterText {
 }
 
 HorizontalListBox > shopFilter {
-  padding:0.015@scrn_tgt, 0;
+  padding:1@listboxHPadding, 0;
 }
 
 [onlyImages=yes] > shopFilter {

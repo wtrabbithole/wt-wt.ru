@@ -488,6 +488,13 @@ class ::mission_rules.Base
   {
     return false
   }
+
+  function isRespawnAvailable(unit)
+  {
+    return getUnitLeftRespawns(unit) != 0
+      || (isUnitAvailableBySpawnScore(unit)
+        && canRespawnOnUnitBySpawnScore(unit))
+  }
 }
 
 //just for case when empty rules will not the same as base

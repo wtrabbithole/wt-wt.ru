@@ -82,7 +82,7 @@ function session_fill_info(scene, sessionInfo)
                isEventRoom && rangeData.isValid ? rangeData.value : null)
 
   local craftsObj = scene.findObject("session_battleRating")
-  local reqUnits = ::SessionLobby.getRequiredCratfs(Team.A, sessionInfo)
+  local reqUnits = ::SessionLobby.getRequiredCrafts(Team.A, sessionInfo)
   setTextToObj(craftsObj, ::loc("events/required_crafts"), ::events.getRulesText(reqUnits))
 
   local envObj = scene.findObject("session_environment")

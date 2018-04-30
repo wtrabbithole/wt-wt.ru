@@ -1,3 +1,5 @@
+local chooseAmountWnd = ::require("scripts/wndLib/chooseAmountWnd.nut")
+
 class ::items_classes.Wager extends ::BaseItem
 {
   static iType = itemType.WAGER
@@ -490,17 +492,7 @@ class ::items_classes.Wager extends ::BaseItem
     return ""
   }
 
-  function _requestActivate()
-  {
-    if (!uids || !uids.len())
-      return -1
-
-    local blk = ::DataBlock()
-    blk.setStr("name", uids[0])
-    blk.setInt("wager", curWager)
-
-    return ::char_send_blk("cln_set_current_wager", blk)
-  }
+  getWagerCost = @(value) isGoldWager ? ::Cost(0, value) : ::Cost(value)
 
   function doMainAction(cb, handler, params = null)
   {
@@ -512,47 +504,69 @@ class ::items_classes.Wager extends ::BaseItem
       return false
 
     if (minWager == maxWager || maxWager == 0)
-      activate(cb, handler)
+      activate(minWager, cb)
     else
     {
-      local obj = ::getTblValue("obj", params, null)
-      local hasStakeSelectArrow = ::getTblValue("hasStakeSelectArrow", params, true)
-      local stakeSelectAlign = ::getTblValue("stakeSelectAlign", params, "bottom")
-      ::gui_handlers.WagerStakeSelect.open(obj, stakeSelectAlign, this, cb, hasStakeSelectArrow)
+      local item = this
+      chooseAmountWnd.open({
+        parentObj = params?.obj
+        align = params?.align ?? "bottom"
+        minValue = minWager
+        maxValue = maxWager
+        curValue = maxWager
+        valueStep = wagerStep
+
+        headerText = ::loc("items/wager/stake/header")
+        buttonText = ::loc("items/wager/stake/button")
+        getValueText = @(value) value ? item.getWagerCost(value).getTextAccordingToBalance() : "0"
+
+        onAcceptCb = @(value) item.activate(value, cb)
+        onCancelCb = null
+      })
     }
     return true
   }
 
-  function activate(cb, handler = null, checkConflict = true)
+  function activate(wagerValue, cb)
   {
-    if (!::handlersManager.isHandlerValid(handler))
-      handler = ::get_cur_base_gui_handler()
+    if (!uids || !uids.len())
+      return false
 
-    if (!checkStake())
+    if (getWagerCost(wagerValue) > ::get_gui_balance())
     {
-      showNotEnoughMoneyMsgBox(cb, handler)
-      return
+      showNotEnoughMoneyMsgBox(cb)
+      return false
     }
 
-    if (checkConflict && ::get_current_wager_uid() != "")
+    if (::get_current_wager_uid() == "")
     {
-      showConflictWagerMsgBox(cb, handler)
-      return
+      activateImpl(wagerValue, cb)
+      return true
     }
 
-    handler.taskId = _requestActivate()
-    if (handler.taskId < 0)
-    {
+    local bodyText = ::format(::loc("msgbox/conflictingWager"), getWagerDescriptionForMessageBox(uids[0]))
+    bodyText += "\n" + getWagerDescriptionForMessageBox(::get_current_wager_uid())
+    local item = this
+    ::scene_msg_box("conflicting_wager_message_box", null, bodyText,
+      [
+        [ "continue", @() item.activateImpl(wagerValue, cb) ],
+        [ "cancel", @() cb({success=false}) ]
+      ],
+      "cancel")
+    return true
+  }
+
+  function activateImpl(wagerValue, cb)
+  {
+    local blk = ::DataBlock()
+    blk.setStr("name", uids[0])
+    blk.setInt("wager", wagerValue)
+    local taskId = ::char_send_blk("cln_set_current_wager", blk)
+
+    local isTaskSend = ::g_tasker.addTask(taskId, { showProgressBox = true },
+      @() cb({ success = true }), @(res) cb({ success = false }))
+    if (!isTaskSend)
       cb({success=false})
-      return
-    }
-    ::set_char_cb(handler, handler.slotOpCb)
-    handler.showTaskProgressBox.call(handler)
-    handler.afterSlotOp = (@(cb) function() {
-      ::update_gamercards()
-      cb({success=true})
-    })(cb)
-    return
   }
 
   function getWagerDescriptionForMessageBox(uid)
@@ -561,32 +575,14 @@ class ::items_classes.Wager extends ::BaseItem
     return wager == null ? "" : wager.getShortDescription()
   }
 
-  function showConflictWagerMsgBox(cb, handler)
-  {
-    local bodyText = ::format(::loc("msgbox/conflictingWager"), getWagerDescriptionForMessageBox(uids[0]))
-    bodyText += "\n" + getWagerDescriptionForMessageBox(::get_current_wager_uid())
-    handler.msgBox("conflicting_wager_message_box", bodyText, [
-    [
-      "continue", ::Callback((@(cb, handler) function () {
-         activate(cb, handler, false)
-       })(cb, handler), this)
-    ], [
-      "cancel", (@(cb, handler) function () {
-        cb({success=false})
-      })(cb, handler)
-    ]], "cancel")
-  }
-
-  function showNotEnoughMoneyMsgBox(cb, handler)
+  function showNotEnoughMoneyMsgBox(cb)
   {
     local bodyTextLocString = "msgbox/notEnoughMoneyWager/"
     bodyTextLocString += isGoldWager ? "gold" : "wp"
     local bodyText = ::loc(bodyTextLocString)
-    handler.msgBox("not_enough_money_message_box", bodyText, [
-      ["ok", (@(cb) function () {
-        cb({success=false})
-      })(cb)]
-    ], "ok")
+    ::scene_msg_box("not_enough_money_message_box", null, bodyText,
+      [["ok", @() cb({success=false}) ]],
+      "ok")
   }
 
   function getShortDescription(colored = true)

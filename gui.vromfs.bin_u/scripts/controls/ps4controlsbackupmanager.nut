@@ -12,6 +12,7 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
 
   function doSave(descr)
   {
+    showWaitAnimation(true)
     local blk = ::DataBlock()
     blk.comment = descr.comment
     blk.path = descr.path
@@ -32,6 +33,7 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
 
   function doLoad(descr)
   {
+    showWaitAnimation(true)
     local blk = ::DataBlock()
     blk.path = descr.path
     blk.comment = descr.comment
@@ -54,6 +56,7 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
 
   function doDelete(descr)
   {
+    showWaitAnimation(true)
     local blk = ::DataBlock()
     blk.path = descr.path
     blk.comment = descr.comment

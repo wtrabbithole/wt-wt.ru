@@ -1687,7 +1687,7 @@ function loc_current_operation_name()
   return ::loc("worldWar/map/" + operationMap)
 }
 
-function loc_current_mission_name()
+function loc_current_mission_name(needComment = true)
 {
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
@@ -1698,7 +1698,7 @@ function loc_current_mission_name()
     ret = ::loc("missions/" + misBlk.loc_name, "")
   if (ret == "")
     ret = get_combine_loc_name_mission(misBlk)
-  if (::get_game_type() & ::GT_VERSUS)
+  if (needComment && (::get_game_type() & ::GT_VERSUS))
   {
     if (misBlk.maxRespawns == 1)
       ret = ret + " " + ::loc("template/noRespawns")

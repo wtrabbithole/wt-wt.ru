@@ -1,0 +1,150 @@
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 4000.0,
+  "maxDeltaAngle": 0.12,
+  "maxDeltaAngleVertical": 0.13,
+  "shotFreq": 0.33,
+  "traceFreq": 1,
+  "bEnablePause": false,
+  "bullets": -1,
+  "bulletsCluster": 1,
+  "fxType": "big_gun_flame",
+  "fxGroundDust": "water_shock_wave",
+  "shouldCollideWithRendinsts": true,
+  "sound_path": "tanks/weapon_tanks/cannons",
+  "sound": "50mm_kwk39",
+  "sound_inside": "50mm_kwk39_interior",
+  "sfxReloadBullet": "grd_cannon_reload",
+  "fxMultipleSpawn": true,
+  "isBulletBelt": false,
+  "notUseDefaultBulletInGui": true,
+  "bullet": {
+    "bulletCount": 40,
+    "mass": 1.5,
+    "explosiveType": "tnt",
+    "explosiveMass": 0.96,
+    "caliber": 0.0762,
+    "speed": 571.0,
+    "maxDistance": 3657.0,
+    "bulletType": "he_frag_tank",
+    "bulletName": "47mm_pdr_he",
+    "hitPowerMult": 2.0,
+    "nearHitPower": [1.0,50.0],
+    "midHitPower": [0.9,300.0],
+    "farHitPower": [0.1,700.0],
+    "endHitPower": [0.008,1500.0],
+    "relativeVelHitShift": [300.0,1000.0],
+    "nearArmorPower": [3.0,150.0],
+    "midArmorPower": [2.0,600.0],
+    "farArmorPower": [1.0,1000.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "explodeTreshold": 0.5,
+    "explodeHitPower": 60.0,
+    "explodeArmorPower": 7.0,
+    "explodeRadius": [0.3,0.5],
+    "fuseDelayDist": 0.4,
+    "shutterDamage": true,
+    "shutterDamageRadius": 12.5,
+    "shutterAmount": 90,
+    "shutterArmorPower": 7.5,
+    "shutterHit": 10.0,
+    "groundCollisionEffect": "art_ground_splash",
+    "ricochetEffect": "cannon_ricochet",
+    "groundFxScale": [0.6,0.7],
+    "waterCollisionEffect": "water_splash_76_00_he",
+    "waterFxScale": [0.85,0.8],
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "37mmRed",
+      "trail": "black"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.5,2.5]
+      },
+      "armor": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.5,2.5]
+      },
+      "wood": {
+        "fx": "cannon_hit_ship_cumulative",
+        "fxScale": [1.1,1.1]
+      },
+      "buildings": {
+        "fx": "50_75_he_hit_stone",
+        "fxScale": [0.7,0.7]
+      }
+    }
+  },
+  "47mm_uk_3pdr_HE": {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 1.5,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.96,
+      "caliber": 0.0762,
+      "speed": 571.0,
+      "maxDistance": 3657.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "47mm_pdr_he",
+      "hitPowerMult": 2.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [2.0,600.0],
+      "farArmorPower": [1.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.5,
+      "explodeHitPower": 60.0,
+      "explodeArmorPower": 7.0,
+      "explodeRadius": [0.3,0.5],
+      "fuseDelayDist": 0.4,
+      "shutterDamage": true,
+      "shutterDamageRadius": 12.5,
+      "shutterAmount": 90,
+      "shutterArmorPower": 7.5,
+      "shutterHit": 10.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "groundFxScale": [0.6,0.7],
+      "waterCollisionEffect": "water_splash_76_00_he",
+      "waterFxScale": [0.85,0.8],
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "37mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,2.5]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,2.5]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.1,1.1]
+        },
+        "buildings": {
+          "fx": "50_75_he_hit_stone",
+          "fxScale": [0.7,0.7]
+        }
+      }
+    }
+  }
+}

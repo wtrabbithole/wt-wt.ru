@@ -187,7 +187,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent()
   }
   EAGLES = {
-    text = "#shop/recharge"
+    text = "#charServer/chapter/eagles"
     onClickFunc = @(obj, handler) ::has_feature("EnableGoldPurchase")
       ? handler.startOnlineShop("eagles")
       : ::showInfoMsgBox(::loc("msgbox/notAvailbleGoldPurchase"))

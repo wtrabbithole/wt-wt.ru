@@ -882,7 +882,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function tryToSetCrewsReadyFlag()
   {
     local warningData = operationBattle.getWarningReasonData(getPlayerSide())
-    if (warningData.needShow && !::loadLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false))
+    if (warningData.needMsgBox && !::loadLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false))
     {
       ::gui_start_modal_wnd(::gui_handlers.SkipableMsgBox,
         {

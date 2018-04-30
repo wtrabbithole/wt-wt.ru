@@ -69,10 +69,8 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local params = {
-      // Prevents stage select popup
-      // from going off-screen.
-      stakeSelectAlign = "left"
-      hasStakeSelectArrow = false
+      // Prevents popup from going off-screen.
+      align = "left"
       obj = obj
     }
 

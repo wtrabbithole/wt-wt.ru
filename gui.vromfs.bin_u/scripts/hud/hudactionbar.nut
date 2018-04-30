@@ -323,7 +323,8 @@ class ActionBar
     if (action)
     {
       local shortcut = ::g_hud_action_bar_type.getByActionItem(action).getShortcut(action, getActionBarUnit())
-      toggle_shortcut(shortcut)
+      if (shortcut)
+        toggle_shortcut(shortcut)
     }
   }
 

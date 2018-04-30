@@ -2216,6 +2216,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       local controlTblObj = scene.findObject("controls_tbl")
       if (::checkObj(controlTblObj))
         controlTblObj.setValue(::getNearestSelectableChildIndex(controlTblObj, -1, 1))
+      updateButtonsChangeValue()
     }
   }
 
@@ -2273,7 +2274,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (navigationHandlerWeak)
     {
       navigationHandlerWeak.setNavItems(navigationItems)
-      checkCurrentNavagationSection()
+      updateButtonsChangeValue()
     }
     updateSceneOptions()
     optionsFilterApply()
@@ -2817,6 +2818,11 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   }
 
   function onTblSelect()
+  {
+    updateButtonsChangeValue()
+  }
+
+  function updateButtonsChangeValue()
   {
     local item = getCurItem()
     if (!item)

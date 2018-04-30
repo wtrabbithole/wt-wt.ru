@@ -65,6 +65,9 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       fillClanPage()
       return
     }
+    if (clanIdStrReq == "" && clanNameReq == "" && clanTagReq == "")
+      return
+
     taskId = ::clan_request_info(clanIdStrReq, clanNameReq, clanTagReq)
     if (taskId >= 0)
     {
@@ -207,6 +210,9 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanRequirements()
   {
+    if (!clanData)
+      return
+
     local rawRanksCond = clanData.membershipRequirements.getBlockByName("ranks") || ::DataBlock();
 
     local ranksConditionTypeText = (rawRanksCond.type == "or")

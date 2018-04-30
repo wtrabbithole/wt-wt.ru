@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 local stdpath = require("std/path.nut")
+local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
+const SAVEDATA_PROGRESS_MSG_ID = "SAVEDATA_IO_OPERATION"
 
 
 class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
@@ -38,10 +40,11 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 
   function showWaitAnimation(show)
   {
-    local waitSpinner = scene.findObject("saveDataDialogWaitAnimation");
-
-    if (::checkObj(waitSpinner))
-      waitSpinner.show(show);
+    dagor.debug("SAVE: waitany "+show)
+    if (show)
+      progressMsg.create(SAVEDATA_PROGRESS_MSG_ID, null)
+    else
+      progressMsg.destroy(SAVEDATA_PROGRESS_MSG_ID)
   }
 
   function onReceivedSaveDataListing(blk)
@@ -63,16 +66,16 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
       tableEntries["file_row_" + idx] <- e
     }
 
-    loadSaveDataContents()
-
     showWaitAnimation(false)
+
+    loadSaveDataContents()
   }
 
   function requestEntries()
   {
+    showWaitAnimation(true)
     local cb = ::Callback(onReceivedSaveDataListing, this)
     getSaveDataContents(@(blk) cb(blk))
-    showWaitAnimation(true)
   }
 
   function updateButtons()
@@ -202,7 +205,6 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     dagor.debug("PS4 SAVE Dialog: onBtnDelete for " + selectedEntry.path)
     local onConfirm = function() {
-      showWaitAnimation(true)
       doDelete(selectedEntry)
     }
 
@@ -227,7 +229,6 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local onConfirmedSave = function()
     {
-      showWaitAnimation(true)
       doSave(selectedEntry)
     }
 
@@ -252,7 +253,6 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local onConfirmedLoad = function()
     {
-      showWaitAnimation(true)
       doLoad(selectedEntry)
     }
 

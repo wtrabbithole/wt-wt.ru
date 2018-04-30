@@ -1,3 +1,5 @@
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+
 function gui_modal_crew(countryId, idInCountry, pageId = null, showTutorial = false)
 {
   if (::has_feature("CrewSkills"))
@@ -181,7 +183,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       data += ::format("RadioButton { id:t='%s'; text:t='%s'; %s RadioButtonImg{} }",
                      "unit_type_" + esUnitType,
-                     unitType.getLocName(),
+                     unitType.getArmyLocName(),
                      curUnitType == esUnitType ? "selected:t='yes';" : "")
     }
     guiScene.replaceContentFromText(rbObj, data, data.len(), this)
@@ -223,7 +225,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local tabData = {
         id = page.id
-        tabName = "#crew/"+ page.id
+        tabName = ::loc("crew/"+ page.id)
         navImagesText = ::get_navigation_images_text(index, pages.len())
       }
 
@@ -240,12 +242,26 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       view.tabs.push(tabData)
     }
-    local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     local pagesObj = scene.findObject("crew_pages_list")
+    pagesObj.smallFont = needSmallerHeaderFont(pagesObj.getSize(), view.tabs) ? "yes" : "no"
+    local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(pagesObj, data, data.len(), this)
 
     pagesObj.setValue(curPage)
     updateAvailableSkillsIcons()
+  }
+
+  function needSmallerHeaderFont(targetSize, viewTabs)
+  {
+    local width = 0
+    foreach(tab in viewTabs)
+      width += daguiFonts.getStringWidthPx(tab.tabName, "fontNormal", guiScene)
+
+    width += viewTabs.len() * ::to_pixels("2@listboxHPadding + 1@listboxItemsInterval")
+    if (::show_console_buttons)
+      width += 2*targetSize[1] //gamepad navigation icons width = ph
+
+    return width > targetSize[0]
   }
 
   function onChangeUnitType(obj)

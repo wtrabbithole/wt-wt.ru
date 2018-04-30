@@ -68,7 +68,7 @@
           {
             "img": {
               "size": "30%sh,15%sh",
-              "pos": "10%sw + 1@briefingMapWidth,18%sh",
+              "pos": "1@briefingMapLeftPos + 1@briefingMapWidth -2%sw, 18%sh",
               "position": "absolute",
               "background-image": "ui/decor2"
             }
@@ -97,8 +97,8 @@
               "style": "font:@fontNormal;color:@white;",
               "_transp-timer": "0",
               "max-width": "1@briefingScreenWidth - 1@briefingMissionTextLeftPos - 13%sh",
-              "max-height": "ph-57%sh",
-              "pos": "1@briefingMissionTextLeftPos, 37%sh",
+              "max-height": "ph - 52%sh",
+              "pos": "1@briefingMissionTextLeftPos, 35%sh",
               "position": "absolute",
               "overflow-y": "auto",
               "scrollbarShortcuts": "yes"
@@ -118,7 +118,7 @@
             "img": {
               "id": "briefing_shadow_top",
               "position": "absolute",
-              "size": "sw, 35%sh",
+              "size": "sw, 20%sh",
               "pos": "0,10%sh",
               "background-image": "#ui/gameuiskin#optionlist_background_top"
             }
@@ -127,7 +127,7 @@
             "img": {
               "id": "briefing_shadow_down",
               "position": "absolute",
-              "size": "sw, 35%sh",
+              "size": "sw, 20%sh",
               "pos": "0,90%sh-h",
               "rotation": "180",
               "background-image": "#ui/gameuiskin#optionlist_background_top"

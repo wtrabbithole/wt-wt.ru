@@ -19,15 +19,33 @@ local globalEnv = require_native("globalEnv")
       type= CONTROL_TYPE.MSG_BOX
       options = ["#msgbox/btn_classic", "#msgbox/btn_shooter"],
       defValue = 1,
-      onButton = function(value) {
-        if (value==0)
-          applyPreset("config/hotkeys/hotkey.keyboard.blk")
+      onButton = function(value)
+      {
+        local preset = ""
+        if (value == 0)
+        {
+          preset = ::is_platform_ps4
+          ? "default"
+          : ::is_platform_xboxone
+            ? "xboxone_simulator"
+            : "keyboard"
+        }
         else
-          applyPreset("config/hotkeys/hotkey.keyboard_shooter.blk")
+        {
+          preset = ::is_platform_ps4
+          ? "dualshock4"
+          : ::is_platform_xboxone
+            ? "xboxone_ma"
+            : "keyboard_shooter"
+        }
+        preset = ::g_controls_presets.parsePresetName(preset)
+        preset = ::g_controls_presets.getHighestVersionPreset(preset)
+        applyPreset(preset.fileName)
       }
     }
   { id="msg/use_mouse_for_control", type= CONTROL_TYPE.MSG_BOX
     filterHide = [globalEnv.EM_MOUSE_AIM]
+    needSkip = @() ::is_ps4_or_xbox
     options = ["controls/useMouseControl", "controls/useMouseView", "controls/UseMouseNone"],
     skip = [null, null, ["msg/mouseWheelAction", "ID_CAMERA_NEUTRAL"]]
     onButton = function(value)
@@ -502,6 +520,9 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       if (filter!=null &&
            ((("filterShow" in curItem) && !::isInArray(filter, curItem.filterShow))
              || (("filterHide" in curItem) && ::isInArray(filter, curItem.filterHide))))
+        return nextItem()
+
+      if ("needSkip" in curItem && curItem.needSkip && curItem.needSkip())
         return nextItem()
     }
 

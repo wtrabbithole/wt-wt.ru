@@ -291,7 +291,7 @@
 @const briefingBackgroundWidth: 1.8*sh;
 @const briefingScreenWidth: 1@briefingBackgroundWidth $min sw;
 @const briefingMapWidth: 0.39*@briefingBackgroundWidth;
-@const briefingMapLeftPos: 0.12sw;
+@const briefingMapLeftPos: (0.12@isWide)sw;
 @const briefingMissionTextLeftPos: 1@briefingMapLeftPos + 1@briefingMapWidth + 0.01@scrn_tgt;
 @const weaponStatusIconSize: 16*@sf/@pf;
 @const systemMsgIndent: 0.11@rw;

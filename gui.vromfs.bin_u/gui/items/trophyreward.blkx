@@ -292,6 +292,15 @@
         "navRight": [
           {
             "Button_text": {
+              "id": "btn_go_to_item",
+              "text": "#item/goToItem",
+              "btnName": "Y",
+              "_on_click": "onGoToItem",
+              "ButtonImg": []
+            }
+          },
+          {
+            "Button_text": {
               "id": "btn_take_air",
               "btnName": "X",
               "text": "#mainmenu/btnTakeAircraft",
@@ -325,5 +334,11 @@
         ]
       }
     }
+  },
+  "dummy": {
+    "id": "update_timer",
+    "behavior": "Timer",
+    "timer_handler_func": "onTimer",
+    "timer_interval_msec": "1000"
   }
 }
