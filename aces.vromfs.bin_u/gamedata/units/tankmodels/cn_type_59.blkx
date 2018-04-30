@@ -2308,6 +2308,33 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-4.0,17.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": true,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 75.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 1.0,
+            "verticalSpeedLimitKPH": 75.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [25.0,0.015]
+              },
+              {
+                "row": [35.0,0.02]
+              },
+              {
+                "row": [45.0,0.1]
+              },
+              {
+                "row": [50.0,0.3]
+              }
+            ]
           }
         }
       },
@@ -2472,7 +2499,9 @@
       "100mm_APCBC_ammo_pack": [],
       "100mm_APCR_ammo_pack": [],
       "100mm_APDS_ammo_pack": [],
-      "100mm_HEAT_ammo_pack": [],
+      "100mm_cn_HEAT_ammo_pack": {
+        "tier": 4
+      },
       "100mm_ussr_APHE": [],
       "100mm_ussr_APCBC": {
         "modCostMul": 2.0
@@ -2483,7 +2512,7 @@
       "100mm_ussr_APDS": {
         "modCostMul": 1.6
       },
-      "100mm_ussr_HEAT": {
+      "100mm_cn_HEAT": {
         "modCostMul": 4.5
       },
       "100mm_ussr_HE": []

@@ -5732,6 +5732,71 @@
       "rollRate": 90.0
     }
   },
+  "whirlwind_p9": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_britain",
+    "releaseDate": "2017-12-18 00:00:00",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "rolls-royce",
+        "model": "peregrine_1",
+        "mass": 520.0
+      },
+      "engine2_dm": {
+        "manufacturer": "rolls-royce",
+        "model": "peregrine_1",
+        "mass": 520.0
+      },
+      "tanks_params": {
+        "protected": true
+      }
+    },
+    "tags": {
+      "ally": true,
+      "country_britain": true,
+      "type_fighter": true,
+      "type_aa_fighter": true,
+      "type_heavy_fighter": true,
+      "type_strike_fighter": true,
+      "mediterranean": true,
+      "western_front": true,
+      "air": true
+    },
+    "years_active": {
+      "year1943": {
+        "britain": 1.0,
+        "malta": 1.0,
+        "port_moresby": 1.0,
+        "sicily": 1.0
+      },
+      "year1944": {
+        "britain": 0.7,
+        "malta": 0.7,
+        "port_moresby": 0.7,
+        "sicily": 0.7
+      },
+      "year1945": {
+        "britain": 0.3,
+        "malta": 0.3,
+        "port_moresby": 0.3,
+        "sicily": 0.3
+      }
+    },
+    "Shop": {
+      "maxAltitude": 9144.0,
+      "maxSpeed": 161.0,
+      "turnTime": 23.0,
+      "airfieldLen": 650.0,
+      "climbTime": 460.0,
+      "maxSpeedAlt": 4876.7998,
+      "climbAlt": 6096.0,
+      "climbSpeed": 15.0,
+      "wingLoading": 210.0,
+      "powerToWeightRatio": 0.366,
+      "rollRate": 90.0
+    }
+  },
   "ms_405c1": {
     "type": "aircraft",
     "hangar_place": "aircraft",
@@ -12531,6 +12596,74 @@
       "wingLoading": 145.0,
       "powerToWeightRatio": 0.26,
       "rollRate": 89.0
+    }
+  },
+  "tandem_mai": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_stalingrad",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "tumansky",
+        "model": "M-87",
+        "mass": 640.0
+      },
+      "tanks_params": {
+        "protected": true,
+        "protected_boost": true
+      }
+    },
+    "tags": {
+      "ally": true,
+      "country_ussr": true,
+      "type_assault": true,
+      "bomberview": true,
+      "berlin": true,
+      "korsun": true,
+      "eastern_front": true,
+      "air": true
+    },
+    "years_active": {
+      "year1942": {
+        "berlin": 1.0,
+        "korsun": 1.0,
+        "krymsk": 1.0,
+        "mozdok": 1.0,
+        "stalingrad": 1.0,
+        "stalingrad_w": 1.0,
+        "kursk": 1.0
+      },
+      "year1943": {
+        "berlin": 0.5,
+        "korsun": 0.5,
+        "krymsk": 0.5,
+        "mozdok": 0.5,
+        "stalingrad": 0.5,
+        "stalingrad_w": 0.5,
+        "kursk": 0.5
+      },
+      "year1944": {
+        "berlin": 0.2,
+        "korsun": 0.2,
+        "krymsk": 0.2,
+        "mozdok": 0.2,
+        "stalingrad": 0.2,
+        "stalingrad_w": 0.2,
+        "kursk": 0.3
+      }
+    },
+    "Shop": {
+      "maxAltitude": 8000.0,
+      "maxSpeed": 135.5,
+      "turnTime": 22.0,
+      "airfieldLen": 500.0,
+      "climbTime": 510.0,
+      "maxSpeedAlt": 4250.0,
+      "climbAlt": 5000.0,
+      "climbSpeed": 10.6,
+      "wingLoading": 150.0,
+      "powerToWeightRatio": 0.288,
+      "rollRate": 82.0
     }
   },
   "su-2_m82": {
@@ -48290,6 +48423,20 @@
       "armorThicknessTurret": [38.0,38.0,38.0]
     }
   },
+  "fr_lorraine_155": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_tank_ussr",
+    "tags": {
+      "country_france": true,
+      "tank": true,
+      "type_tank_destroyer": true
+    },
+    "Shop": {
+      "armorThicknessHull": [30.0,20.0,20.0],
+      "armorThicknessTurret": [30.0,20.0,20.0]
+    }
+  },
   "fr_lorraine_100": {
     "type": "tank",
     "hangar_place": "tank",
@@ -50319,6 +50466,22 @@
       "pacific": true,
       "mediterran": true,
       "westernfront": true
+    }
+  },
+  "us_t18_e2": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_tank_ussr",
+    "tags": {
+      "country_usa": true,
+      "tank": true,
+      "type_light_tank": true,
+      "scout": true,
+      "canRepairAnyAlly": true
+    },
+    "Shop": {
+      "armorThicknessHull": [50.0,31.0,25.0],
+      "armorThicknessTurret": [38.0,38.0,38.0]
     }
   }
 }
