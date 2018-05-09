@@ -23,6 +23,10 @@ function Color(r,g,b,a=255) {
   return (a << 24) + (r << 16) + (g << 8) + b;
 }
 
+function fontH(height) {
+  return height
+}
+
 function flex(weight=1) {
   return weight*100
 }

@@ -2093,7 +2093,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDestroy()
   {
-    ::hangar_exit_decal_mode(false)
+    ::hangar_exit_decal_mode(false, false)
     ::hangar_set_current_decal_slot(-1)
     ::hangar_apply_skin_preview(::hangar_get_last_skin(unit.name))
     ::hangar_show_model_damaged(MDS_ORIGINAL)

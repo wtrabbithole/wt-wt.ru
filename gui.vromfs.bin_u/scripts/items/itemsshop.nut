@@ -57,7 +57,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     sheets.updateWorkshopSheets()
     if (curTab < 0)
-      curTab = getTabByCurItem()
+      curTab = curItem ? sheets.getTabByItem(curItem, 0) : 0
+
     initUnseenTables()
     if (curSheet)
       curSheet = sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
@@ -123,22 +124,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local obj = getSheetsListObj()
     obj.select()
     checkCurrentFocusItem(obj)
-  }
-
-  function getTabByCurItem()
-  {
-    if (!curItem)
-      return 0
-
-    local iType = curItem.iType
-    for (local tab = 0; tab < itemsTab.TOTAL; tab++)
-      if (isTabVisible(tab))
-        foreach (sh in sheets.types)
-          if ((sh.typeMask & iType)
-              && sh.isAllowedForTab(tab)
-              && sh.getItemsList(tab).find(@(idx, item) curItem.isEqual(item)) != null)
-            return tab
-    return 0
   }
 
   function getTabName(tabIdx)

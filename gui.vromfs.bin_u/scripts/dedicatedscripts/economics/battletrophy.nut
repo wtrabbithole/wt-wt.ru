@@ -277,7 +277,7 @@ function checkTimeLimitedFeaturedTrophy(trophyType, trophyParams, max_unit_rank,
   local sessionTimeParamName = trophyType+"SessionTime"
   local itemDefId = trophyParams?.getInt("mainTrophyId", 0)
   local matching_info = get_matching_game_mode_info()
-  local eventName = matching_info.name
+  local eventName = matching_info?.name
   if (trophyParams.availableIn && eventName != null && eventName != "") {
     local isTrophyAvailable = false
     foreach (evGroup in (trophyParams?.availableIn % "eventsGroup")) {
@@ -318,17 +318,16 @@ function checkTimeLimitedFeaturedTrophy(trophyType, trophyParams, max_unit_rank,
         blk[sessionTimeParamName] <- (param.sessionTime).tointeger()
 
       if (blk[sessionTimeParamName] > rewardTimePeriodMinutes * 60) {
-        dagor.debug("Give "+trophyType+" trophy. combined session time "+blk[sessionTimeParamName]+", todays trophies count "+blk[numByDateParamName].num+", this week "+blk[numByWeekParamName].num)
-        blk[sessionTimeParamName] = 0
-        blk[numByDateParamName].num++
-        blk[numByWeekParamName].num++
-        blk.avgSesssionTime = 0
-
         local gotAward = false
-
-        if (itemDefId > 0)
-          gotAward = inventory_add_item(param.userId, itemDefId)
-
+        if (itemDefId > 0) gotAward = inventory_add_item(param.userId, itemDefId)
+        if (gotAward) {
+          dagor.debug("Give "+trophyType+" trophy. combined session time "+blk[sessionTimeParamName]+", todays trophies count "+blk[numByDateParamName].num+", this week "+blk[numByWeekParamName].num)
+          blk[sessionTimeParamName] = 0
+          blk[numByDateParamName].num++
+          blk[numByWeekParamName].num++
+          blk.avgSesssionTime = 0
+        }
+        else dagor.debug("checkTimeLimitedFeaturedTrophy ERROR: couldn't give trophy: " + itemDefId)
         return gotAward
       }
       else {

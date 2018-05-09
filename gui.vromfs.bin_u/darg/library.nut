@@ -37,6 +37,14 @@ dlog <- function(...) {
   print_r((out.len() == 1) ? out[0] : out, _Log(logparams))
 }
 
+dlogs <- function(...) { 
+  local logparams = (vargv.len()==1) ? _Log({splitlines=true}) : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
+  logparams.splitlines=true
+  local out = vargv.filter(@(i,v) !(v instanceof _Log))
+  vlog_r((out.len() == 1) ? out[0] : out, _Log(logparams))
+  print_r((out.len() == 1) ? out[0] : out, _Log(logparams))
+}
+
 function isDargComponent(comp) {
 //better to have natived daRg function to check if it is valid component!
   local c = comp
@@ -55,9 +63,8 @@ function isDargComponent(comp) {
   foreach(k,val in c) {
     if (knownProps.find(k) != null)
       return true
-    else
-      return false
   }
+  return false
 }
 
 
@@ -195,45 +202,108 @@ function insert_array(array, index, value) {
   }
 }
 
+local wrapParams= {width=0, flowElemProto={}, hGap=null, vGap=null, height=null, flow=FLOW_HORIZONTAL}
+function wrap(elems, params=wrapParams) {
+  //TODO: move this to native code
+  local paddingLeft=params?.paddingLeft
+  local paddingRight=params?.paddingRight
+  local paddingTop=params?.paddingTop
+  local paddingBottom=params?.paddingBottom
+  local flow = params?.flow ?? FLOW_HORIZONTAL
+  assert([FLOW_HORIZONTAL, FLOW_VERTICAL].find(flow)!=null, "flow should be correct")
+  local isFlowHor = flow==FLOW_HORIZONTAL
+  local height = params?.height ?? SIZE_TO_CONTENT
+  local width = params?.width ?? SIZE_TO_CONTENT
+  local dimensionLim = isFlowHor ? width : height
+  local secondaryDimensionLim = isFlowHor ? height : width
+  assert(["array"].find(type(elems))!=null, "elems should be array")
+  assert(["float","integer"].find(type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst([isFlowHor ? "width" :"height"]))
+
+  local gap = isFlowHor ? params?.hGap : params?.vGap
+  local secondaryGap = isFlowHor ? params?.vGap : params?.hGap
+  if (["float","integer"].find(type(gap)) !=null)
+    gap = isFlowHor ? {size=[gap,0]} : {size=[0,gap]}
+  local flowElemProto = params?.flowElemProto ?? {}
+  local flowSizeIdx = isFlowHor ? 0 : 1
+  local secondaryFlowSizeIdx = isFlowHor ? 1 : 0
+  local flowElems = []
+  if (paddingTop && isFlowHor)
+    flowElem.append(paddingTop)
+  if (paddingLeft && !isFlowHor)
+    flowElem.append(paddingLeft)
+  local ret = {}
+  local tail = elems
+  function buildFlowElem(elems, gap, flowElemProto, dimensionLim) {
+    local children = []
+    local curwidth=0.0
+    local tailidx = 0
+    foreach (i, elem in elems) {
+      local esize = calc_comp_size(elem)[flowSizeIdx]
+      local gapsize = calc_comp_size(gap)[flowSizeIdx]
+      if (i==0 && curwidth + esize < dimensionLim) {
+        children.append(elem)
+        curwidth = curwidth + esize
+        tailidx = i
+      }
+      else if (curwidth + esize + gapsize < dimensionLim) {
+        children.extend([gap, elem])
+        curwidth = curwidth + esize + gapsize
+        tailidx = i
+      }
+      else {
+        tail = elems.slice(tailidx+1)
+        break
+      }
+      if (i==elems.len()-1)
+        tail = []
+    }
+    flowElems.append(flowElemProto.__merge({children=children flow=isFlowHor ? FLOW_HORIZONTAL : FLOW_VERTICAL size=SIZE_TO_CONTENT}))
+  }
+  do {
+    buildFlowElem(tail,gap,flowElemProto, dimensionLim)
+  } while (tail.len()>0)
+  if (paddingTop && isFlowHor)
+    flowElem.append(paddingBottom)
+  if (paddingLeft && !isFlowHor)
+    flowElem.append(paddingRight)
+  return {flow=isFlowHor ? FLOW_VERTICAL : FLOW_HORIZONTAL gap=secondaryGap children=flowElems halign = params?.halign valign=params?.valign hplace=params?.hplace vplace=params?.vplace size=[width?? SIZE_TO_CONTENT, height ?? SIZE_TO_CONTENT]}
+}
+
 
 function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []}) {
-  local compare_only_keys = []
-  if (params.rawin("compare_only_keys")) {
-    compare_only_keys = params.compare_only_keys
-  }
-  local ignore_keys = []
-  if (params.rawin("ignore_keys"))
-    ignore_keys = params.ignore_keys
+  local compare_only_keys = params?.compare_only_keys ?? []
+  local ignore_keys = params?.ignore_keys ?? []
+  local type_a = ::type(a)
+  local type_b = ::type(b)
 
-  if (::type(a) != ::type(b)) {
+  if (type_a != type_b)
     return false
-  }
-  if (::type(a) == "integer" || ::type(a) == "float" ||
-    ::type(a) == "bool" || ::type(a) == "string") {
+
+  if (type_a == "integer" || type_a == "float" || type_a == "bool" || type_a == "string")
     return a == b
-  }
-  if (::type(a) == "array") {
-    if (a.len() != b.len()) {
+
+  if (type_a == "array") {
+    if (a.len() != b.len())
       return false
-    }
+
     foreach (idx, val in a) {
       if (!deep_compare(val, b[idx], params)) {
         return false
       }
     }
-  } else if (::type(a) == "table" || ::type(a) == "class") {
-    if (a.len() != b.len()) {
+  } else if (type_a == "table" || type_a == "class") {
+    if (a.len() != b.len())
       return false
-    }
+
     foreach (key, val in a) {
       if (!b.rawin(key)) {
         return false
       }
       if (compare_only_keys.len() > 0) {
-        if (compare_only_keys.find(key) > -1 && !deep_compare(val, b[key], params)) {
+        if (compare_only_keys.find(key)!=null && !deep_compare(val, b[key], params)) {
           return false
         }
-      } else if (!deep_compare(val, b[key], params) && ignore_keys.find(key) < 0) {
+      } else if (ignore_keys.find(key)==null && !deep_compare(val, b[key], params)) {
         return false
       }
     }

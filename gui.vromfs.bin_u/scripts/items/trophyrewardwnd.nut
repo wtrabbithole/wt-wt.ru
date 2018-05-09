@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local sheets = ::require("scripts/items/itemsShopSheets.nut")
 
 function gui_start_open_trophy(configsTable = {})
 {
@@ -34,6 +34,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   haveItems = false
   rewardItem = null //reward item to show button "go to item"
+  isRewardItemActual = false //reward item cn be received, but not visible.
   opened = false
   animFinished = false
 
@@ -297,15 +298,20 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateRewardItem() //ext item will come later, so need to wait until it received to show button
   {
-    if (!haveItems || rewardItem)
+    if (!haveItems || isRewardItemActual)
       return false
 
     foreach(reward in configsArray)
       if (reward?.item)
       {
         rewardItem = ItemsManager.getInventoryItemById(reward.item)
-        if (rewardItem)
-          return true
+        if (!rewardItem)
+          continue
+
+        isRewardItemActual = true
+        if (sheets.getTabByItem(rewardItem) < 0)
+          rewardItem = null
+        return true
       }
     return false
   }

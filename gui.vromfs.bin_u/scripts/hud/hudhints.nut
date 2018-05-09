@@ -1129,7 +1129,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
       return result
     }
 
-    getLocParams = @(hintData) { missionObj = ::loc(hintData.objectiveText) }
+    getLocParams = @(hintData) { missionObj = hintData.objectiveText }
   }
 
   OBJECTIVE_FAIL = {
@@ -1156,7 +1156,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
       return result
     }
 
-    getLocParams = @(hintData) { missionObj = ::loc(hintData.objectiveText) }
+    getLocParams = @(hintData) { missionObj = hintData.objectiveText }
   }
 
   OFFER_REPAIR = {

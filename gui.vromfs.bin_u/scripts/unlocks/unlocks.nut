@@ -1821,7 +1821,7 @@ function g_unlocks::saveFavorites()
   ::save_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID, saveBlk)
 }
 
-function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true)
+function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true, shouldDebugTime = false)
 {
   local unlock = getUnlockById(id)
   if (!unlock)
@@ -1848,6 +1848,18 @@ function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTim
       local currentTime = get_charserver_time_sec()
 
       isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
+
+      if (shouldDebugTime)
+      {
+        dagor.debug("unlock " + id + " is visible by time ? " + isVisibleUnlock)
+        dagor.debug("curTime = " + currentTime + ", visibleDiapason = " + startTime + ", " + endTime
+          + ", beginDate = " + cond.beginDate + ", endDate = " + cond.endDate
+          + ", visibleDaysBefore = " + unlock?.visibleDaysBefore
+          + ", visibleDays = " + unlock?.visibleDays
+          + ", visibleDaysAfter = " + unlock?.visibleDaysAfter
+        )
+      }
+
       break
     }
   }

@@ -1086,7 +1086,7 @@ function get_userlog_view_data(log)
                      itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
                      amount = log.count
                    })
-    res.descriptionBlk <- ::get_userlog_image_item(item)
+    res.descriptionBlk <- ::get_userlog_image_item(item, { count = log.count })
   }
   else if (log.type == ::EULT_ACTIVATE_ITEM)
   {

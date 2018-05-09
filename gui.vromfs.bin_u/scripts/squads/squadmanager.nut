@@ -1453,6 +1453,8 @@ function g_squad_manager::onEventLoadingStateChange(params)
 {
   if (::is_in_flight())
     setReadyFlag(false)
+
+  updatePresenceSquad(true)
 }
 
 function g_squad_manager::onEventWWLoadOperation(params)
@@ -1545,11 +1547,6 @@ function g_squad_manager::onEventQueueChangeState(params)
   if (!::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
     setCrewsReadyFlag(false)
 
-  updatePresenceSquad(true)
-}
-
-function g_squad_manager::onEventLoadingStateChange(p)
-{
   updatePresenceSquad(true)
 }
 

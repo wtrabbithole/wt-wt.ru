@@ -83,6 +83,9 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     canChangeWeaponry = newValue
     updateShowItemParams()
+    if(!unit)
+      return
+
     updateAllItems()
   }
 
@@ -432,7 +435,12 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     showItemParams.hasMenu <- canChangeWeaponry && hasWeaponsToChooseFrom()
-    ::weaponVisual.updateItem(unit, getCurWeapon(), itemObj, false, this, showItemParams)
+    local curWeapon = getCurWeapon()
+    itemObj.show(curWeapon)
+    if (!curWeapon)
+      return
+
+    ::weaponVisual.updateItem(unit, curWeapon, itemObj, false, this, showItemParams)
     showItemParams.hasMenu =false
   }
 

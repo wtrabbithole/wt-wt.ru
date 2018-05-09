@@ -219,4 +219,21 @@ function g_unlock_view::fillUnlockPurchaseButton(unlockData, unlockObj)
   purchButtonObj.show(show)
   if (show)
     ::placePriceTextToButton(unlockObj, "purchase_button", ::loc("mainmenu/btnBuy"), cost)
+
+  if (!show && !cost.isZero())
+  {
+    local msg = "UnlocksPurchase: can't purchase " + unlockId + ": "
+    if (!canSpendGold)
+      msg += "can't spend gold"
+    else if (haveStages)
+      msg += "has stages = " + unlockData.stages.len()
+    else if (isUnlocked)
+      msg += "already unlocked"
+    else if (!isPurchaseTime)
+    {
+      msg += "not purchase time. see time before."
+      ::g_unlocks.isVisibleByTime(unlockId, false, true, true)
+    }
+    dagor.debug(msg)
+  }
 }

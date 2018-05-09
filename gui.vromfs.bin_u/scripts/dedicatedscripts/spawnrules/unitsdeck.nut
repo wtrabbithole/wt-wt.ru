@@ -463,8 +463,12 @@ function unitsDeck_init(userId, team, country, minRating, maxRating, playerRatin
 function addOwnAvailableUnitsBlockToUserBlk(userId, teamsBlk, teamName)
 {
   local user_blk = ::get_user_custom_state(userId, true)
-  local userUnits = ::get_player_matching_info(userId).userUnits
   if (!user_blk.ownAvailableUnits) user_blk.ownAvailableUnits <- DataBlock()
+  local userUnits = ::get_player_matching_info(userId)?.userUnits
+  if (!userUnits) {
+    dagor.debug("addOwnAvailableUnitsBlockToUserBlk ERROR: userUnits is NULL")
+    return
+  }
   if (teamsBlk[teamName].limitedUnits) {
     foreach(unitname, unitCount in teamsBlk[teamName].limitedUnits) {
       if (userUnits.find(unitname) > -1) user_blk.ownAvailableUnits.setBool(unitname, true)

@@ -1,7 +1,7 @@
 local ExchangeRecipes = ::require("scripts/items/exchangeRecipes.nut")
 local u = ::require("std/u.nut")
 
-local MIN_ITEMS_IN_COLUMN = 7
+local MIN_ITEMS_IN_ROW = 7
 
 class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -29,7 +29,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     local recipeWidthPx = maxRecipeLen * ::to_pixels("0.5@itemWidth")
     local recipeHeightPx = ::to_pixels("0.5@itemHeight")
-    local minColumns = ::ceil(MIN_ITEMS_IN_COLUMN.tofloat() / maxRecipeLen).tointeger()
+    local minColumns = ::ceil(MIN_ITEMS_IN_ROW.tofloat() / maxRecipeLen).tointeger()
     local columns = ::max(minColumns,
       ::calc_golden_ratio_columns(recipesList.len(), recipeWidthPx / (recipeHeightPx || 1)))
     local rows = ::ceil(recipesList.len().tofloat() / columns).tointeger()
@@ -52,7 +52,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
       recipesList = recipesList
       columns = columns
       rows = rows
-      itemsInRow = itemsInRow
+      itemsInRow = ::max(itemsInRow, MIN_ITEMS_IN_ROW)
     }
 
     foreach(key in ["headerText", "buttonText"])
