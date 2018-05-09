@@ -172,7 +172,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
     enterEditMode = function(decoratorName) { return ::hangar_enter_decal_mode(decoratorName) }
     exitEditMode = function(apply, save = false, callback = function () {}) {
-      local taskId = ::hangar_exit_decal_mode(apply, apply)
+      local taskId = ::hangar_exit_decal_mode(apply)
       local res = taskId != -1
       if (res)
         jobCallbacksStack[taskId] <- callback

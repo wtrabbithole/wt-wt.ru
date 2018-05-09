@@ -11,9 +11,6 @@
         "army": 1
       },
       {
-        "wing": "dummy"
-      },
-      {
         "wing": "player_01"
       },
       {
@@ -211,11 +208,13 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t1_tank_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -233,11 +232,13 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t2_tank_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -304,6 +305,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_flag_home"
             },
             {
@@ -323,6 +333,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_flag"
             },
             {
@@ -340,6 +359,15 @@
             },
             {
               "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "t1_flag"
@@ -376,6 +404,9 @@
             "object_marking": 1,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_players",
             "unit_type_ex": "isKilled"
           }
@@ -387,6 +418,9 @@
             "object_marking": 1,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_players",
             "unit_type_ex": "isOffline"
           }
@@ -398,6 +432,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "movable": true
         },
@@ -413,6 +450,9 @@
           "horizontalDirectionForTeleport": true,
           "object_marking": 0,
           "target_marking": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "object_type": "any",
           "target_type": "isMarked",
@@ -421,6 +461,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "t1_flag",
           "team": "Both"
         },
@@ -463,6 +506,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "target": "battlearea"
         }
@@ -504,6 +550,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "target": "t1_players"
         }
@@ -521,6 +570,9 @@
           "horizontalDirectionForTeleport": true,
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "move_type": "teleport"
         },
@@ -551,6 +603,9 @@
             "object_marking": 2,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_players",
             "unit_type_ex": "isKilled"
           }
@@ -562,6 +617,9 @@
             "object_marking": 2,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_players",
             "unit_type_ex": "isOffline"
           }
@@ -573,6 +631,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "movable": true
         },
@@ -588,6 +649,9 @@
           "horizontalDirectionForTeleport": true,
           "object_marking": 0,
           "target_marking": 2,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "object_type": "any",
           "target_type": "isMarked",
@@ -596,6 +660,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "t2_flag",
           "team": "Both"
         },
@@ -638,6 +705,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "target": "battlearea"
         }
@@ -679,6 +749,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "target": "t2_players"
         }
@@ -696,6 +769,9 @@
           "horizontalDirectionForTeleport": true,
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "move_type": "teleport"
         },
@@ -728,6 +804,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "target": "t2_players"
         }
@@ -757,6 +836,9 @@
         ],
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "movable": true
         },
@@ -772,6 +854,9 @@
           "horizontalDirectionForTeleport": true,
           "object_marking": 0,
           "target_marking": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_flag",
           "object_type": "any",
           "move_type": "teleport"
@@ -805,6 +890,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "target": "t1_players"
         }
@@ -834,6 +922,9 @@
         ],
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "movable": true
         },
@@ -849,6 +940,9 @@
           "horizontalDirectionForTeleport": true,
           "object_marking": 0,
           "target_marking": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_flag",
           "object_type": "any",
           "move_type": "teleport"
@@ -878,6 +972,9 @@
           "object_type": "isMarked",
           "object_marking": 1,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_players",
           "target": "t2_flag_area",
           "unit_type_ex": "isAlive"
@@ -951,7 +1048,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -964,6 +1064,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         },
@@ -977,6 +1080,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "B"
           }
         },
@@ -995,6 +1101,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         },
@@ -1008,6 +1117,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "B"
           }
         },
@@ -1025,6 +1137,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_flag"
@@ -1050,6 +1171,9 @@
             "horizontalDirectionForTeleport": true,
             "object_marking": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_flag",
             "move_type": "teleport"
           }
@@ -1067,6 +1191,9 @@
             "horizontalDirectionForTeleport": true,
             "object_marking": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_flag",
             "move_type": "teleport"
           }
@@ -1097,6 +1224,15 @@
             },
             {
               "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "t2_flag"
@@ -1141,6 +1277,9 @@
           "object_type": "isMarked",
           "object_marking": 2,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_players",
           "target": "t1_flag_area",
           "unit_type_ex": "isAlive"
@@ -1214,7 +1353,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -1227,6 +1369,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         },
@@ -1240,6 +1385,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "B"
           }
         },
@@ -1258,6 +1406,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "A"
           }
         },
@@ -1271,6 +1422,9 @@
             "priority": 0,
             "isOverFade": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "team": "B"
           }
         },
@@ -1278,6 +1432,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_flag"
@@ -1313,6 +1476,9 @@
             "horizontalDirectionForTeleport": true,
             "object_marking": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_flag",
             "move_type": "teleport"
           }
@@ -1330,6 +1496,9 @@
             "horizontalDirectionForTeleport": true,
             "object_marking": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_flag",
             "move_type": "teleport"
           }
@@ -1360,6 +1529,15 @@
             },
             {
               "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "t2_flag"
@@ -1423,6 +1601,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1436,6 +1617,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1454,6 +1638,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1467,6 +1654,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1518,6 +1708,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1531,6 +1724,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1549,6 +1745,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1562,6 +1761,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1613,6 +1815,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1626,6 +1831,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1644,6 +1852,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1657,6 +1868,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1708,6 +1922,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1721,6 +1938,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1739,6 +1959,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1752,6 +1975,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1803,6 +2029,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1816,6 +2045,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1834,6 +2066,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1847,6 +2082,9 @@
               "priority": 1,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1898,6 +2136,9 @@
               "priority": 0,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1911,6 +2152,9 @@
               "priority": 0,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1929,6 +2173,9 @@
               "priority": 0,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "A"
             }
           },
@@ -1942,6 +2189,9 @@
               "priority": 0,
               "isOverFade": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "team": "B"
             }
           },
@@ -1978,6 +2228,9 @@
             "object_marking": 1,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_players",
             "unit_type_ex": "isAlive"
           }
@@ -1993,6 +2246,9 @@
             "priority": 3,
             "targets": "player_01",
             "target_marking": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_players",
             "target_type": "isMarked"
           }
@@ -2019,6 +2275,9 @@
             "object_marking": 2,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_players",
             "unit_type_ex": "isAlive"
           }
@@ -2034,6 +2293,9 @@
             "priority": 3,
             "targets": "player_01",
             "target_marking": 2,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_players",
             "target_type": "isMarked"
           }
@@ -2063,6 +2325,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_flag",
             "target": "t1_flag_area"
           }
@@ -2127,6 +2392,9 @@
             "object_type": "isAlive",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_flag",
             "target": "t2_flag_area"
           }
@@ -2192,6 +2460,9 @@
             "object_marking": 1,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_players"
           }
         },
@@ -2212,6 +2483,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_players",
             "useForTriggerFiltered": true,
             "team": "Both"
@@ -2251,6 +2525,9 @@
             "object_marking": 1,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_players"
           }
         },
@@ -2271,6 +2548,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_players",
             "useForTriggerFiltered": true,
             "team": "Both"
@@ -2315,6 +2595,9 @@
             "object_marking": 2,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_players"
           }
         },
@@ -2335,6 +2618,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_players",
             "useForTriggerFiltered": true,
             "team": "Both"
@@ -2374,6 +2660,9 @@
             "object_marking": 2,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_players"
           }
         },
@@ -2394,6 +2683,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_players",
             "useForTriggerFiltered": true,
             "team": "Both"
@@ -2458,42 +2750,6 @@
   "airfields": [],
   "effects": [],
   "units": [
-    {
-      "tankModels": {
-        "name": "dummy",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2089.69,51.3465,1039.04]
-        ],
-        "unit_class": "germ_ru251",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
     {
       "armada": {
         "name": "player_01",
