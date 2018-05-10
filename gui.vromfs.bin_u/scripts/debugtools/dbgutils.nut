@@ -221,6 +221,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
     get_user_log_blk_body = function(idx, outBlk) { outBlk.setFrom(::getTblValue(idx, ::_fake_userlogs, ::DataBlock())) }
     get_user_log_time = function(idx) { return ::get_local_time() }
     disable_user_log_entry = function(idx) { if (idx in ::_fake_userlogs) ::_fake_userlogs[idx].disabled = true }
+    shown_userlog_notifications = []
     autosave_replay = @() null
     on_save_replay = @(fn) true
     is_era_available = function(...) { return true }
@@ -290,6 +291,7 @@ function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
     get_user_log_blk_body = function(idx, outBlk) { outBlk.setFrom(::_fake_userlogs?[idx] ?? ::DataBlock()) }
     get_user_log_time = function(idx) { return ::get_time_from_t(::_fake_userlogs?[idx]?.timeStamp ?? 0) }
     disable_user_log_entry = function(idx) { if (idx in ::_fake_userlogs) ::_fake_userlogs[idx].disabled = true }
+    shown_userlog_notifications = []
   }, false)
   return "Loaded " + filename
 }

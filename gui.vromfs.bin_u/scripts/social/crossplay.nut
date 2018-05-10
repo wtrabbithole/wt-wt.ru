@@ -6,13 +6,24 @@ local persistentData = {
 //required, when we not logged in, but know player gamertag, so we can identify
 //for whom need read this param
 local getXboxPlayerCrossPlaySaveId = @() "isCrossPlayEnabled/" + ::xbox_get_active_user_gamertag()
+local getXboxPlayerCrossNetworkChatSaveId = @() "isCrossNetworkChatEnabled/" + ::xbox_get_active_user_gamertag()
 
 local isCrossPlayEnabled = @() (!::is_platform_xboxone || ::load_local_account_settings(getXboxPlayerCrossPlaySaveId(), false))
+local isCrossNetworkChatEnabled = @() (!::is_platform_xboxone || ::load_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), true))
 
 local function setIsCrossPlayEnabled(useCrossPlay)
 {
   if (::is_platform_xboxone)
     ::save_local_account_settings(getXboxPlayerCrossPlaySaveId(), useCrossPlay)
+}
+
+local function setIsCrossNetworkChatEnabled(useCrossNetwork)
+{
+  if (::is_platform_xboxone)
+  {
+    ::save_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), useCrossNetwork)
+    ::broadcastEvent("CrossNetworkChatOptionChanged", {value = useCrossNetwork})
+  }
 }
 
 local function showXboxCrossPlayNotificationOnce()
@@ -37,6 +48,8 @@ local function showXboxCrossPlayNotificationOnce()
 
 return {
   isCrossPlayEnabled = isCrossPlayEnabled
+  isCrossNetworkChatEnabled = isCrossNetworkChatEnabled
   setIsCrossPlayEnabled = setIsCrossPlayEnabled
+  setIsCrossNetworkChatEnabled = setIsCrossNetworkChatEnabled
   showXboxCrossPlayNotificationOnce = showXboxCrossPlayNotificationOnce
 }

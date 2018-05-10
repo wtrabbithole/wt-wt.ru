@@ -1258,7 +1258,7 @@ function ItemsManager::updateSeenItemsData(forInventoryItems)
 
 function ItemsManager::isItemUnseen(item)
 {
-  if (item == null || item.isDisguised || (item.isInventoryItem && item.amount <= 0))
+  if (item == null || item.isDisguised)
     return false
   local seenItemsData = ::ItemsManager.getSeenItemsData(item.isInventoryItem)
   if (seenItemsData == null)
@@ -1280,26 +1280,10 @@ function ItemsManager::itemsSortComparator(item1, item2)
 {
   if (!item1 || !item2)
     return item2 <=> item1
-
-  local active1 = item1.isActive()
-  local active2 = item2.isActive()
-  if (active1 != active2)
-    return active1 ? -1 : 1
-
-  local unseen1 = ::ItemsManager.isItemUnseen(item1)
-  local unseen2 = ::ItemsManager.isItemUnseen(item2)
-  if (unseen1 != unseen2)
-    return unseen1 ? -1 : 1
-
-  local timer1 = item1.hasTimer()
-  local timer2 = item2.hasTimer()
-  if (timer1 != timer2)
-    return timer1 ? -1 : 1
-
-  if (timer1 && item1.expiredTimeSec != item2.expiredTimeSec)
-    return (item1.expiredTimeSec < item2.expiredTimeSec) ? -1 : 1
-
-  return item2.lastChangeTimestamp <=> item1.lastChangeTimestamp
+  return item2.isActive() <=> item1.isActive()
+    || ::ItemsManager.isItemUnseen(item2) <=> ::ItemsManager.isItemUnseen(item1)
+    || item2.hasTimer() <=> item1.hasTimer()
+    || (item1.hasTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
     || item1.iType <=> item2.iType
     || item2.getRarity() <=> item1.getRarity()
     || item1.id <=> item2.id

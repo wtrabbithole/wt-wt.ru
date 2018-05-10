@@ -64,7 +64,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
             ::g_language.decimalFormat(cfg.exp)
           break
         case "clanTag":
-          local show = val != ""
+          local show = val != "" && ::has_feature("Clans")
           showClanTag = show
           if (show)
           {
@@ -249,7 +249,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
                                 gc_clanTag = showClanTag && is_in_menu
                                 gc_profile = disableForPs4Temporary
                                 gc_contacts = canHaveFriends && disableForPs4Temporary
-                                gc_chat_btn = canChat && ::ps4_is_chat_enabled() && disableForPs4Temporary
+                                gc_chat_btn = canChat && ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled() && disableForPs4Temporary
                                 gc_userlog_btn = disableForPs4Temporary
                                 gc_free_exp = canSpendGold && is_in_menu
                                 gc_warpoints = canSpendGold && is_in_menu

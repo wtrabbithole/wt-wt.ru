@@ -327,7 +327,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::check_obj(obj))
         continue
 
-      local fullName = ::g_string.implode([f.clanTag, f.getName()], " ")
+      local fullName = ::g_contacts.getPlayerFullName(f.getName(), f.clanTag)
       local contactNameObj = obj.findObject("contactName")
       contactNameObj.setValue(fullName)
       local contactPresenceObj = obj.findObject("contactPresence")
@@ -386,18 +386,25 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isMe = contact? contact.isMe() : false
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contact?.name ?? "")
     local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
+    local canInteractWithPlayer = contact? contact.canInteract() : true
 
     showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInvitePlayer, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
     showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock, contact_buttons_holder)
     showBtn("btn_blacklistRemove", isBlock, contact_buttons_holder)
-    showBtn("btn_message", owner && !isBlock && ::ps4_is_chat_enabled(), contact_buttons_holder)
+    showBtn("btn_message", owner
+                           && !isBlock
+                           && ::ps4_is_chat_enabled()
+                           && ::g_chat.xboxIsChatEnabled()
+                           && canInteractWithPlayer, contact_buttons_holder)
 
     local showSquadInvite = !isMe
       && !isBlock
       && canInvitePlayer
       && ::g_squad_manager.canInviteMember(contact?.uid ?? "")
       && !::g_squad_manager.isPlayerInvited(contact?.uid ?? "", contact?.name ?? "")
+      && canInteractWithPlayer
+      && ::g_chat.xboxIsChatEnabled()
 
     local btnObj = showBtn("btn_squadInvite", showSquadInvite, contact_buttons_holder)
     if (btnObj && showSquadInvite && contact?.uidInt64)
@@ -596,7 +603,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::contacts[gName].sort(::sortContacts)
       local activateEvent = "onPlayerMsg"
-      if (::show_console_buttons || !::ps4_is_chat_enabled())
+      if (::show_console_buttons || !::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
         activateEvent = "onPlayerMenu"
       local gData = buildPlayersList(gName)
       data += format(groupFormat, "#contacts/" + gName,
@@ -903,8 +910,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function showCurPlayerRClickMenu(position = null)
   {
-    local menu = playerContextMenu.getActions(curPlayer, { position = position })
-    ::gui_right_click_menu(menu, this, position)
+    playerContextMenu.showMenu(curPlayer, this, {position = position} )
   }
 
   function isContactsWindowActive()

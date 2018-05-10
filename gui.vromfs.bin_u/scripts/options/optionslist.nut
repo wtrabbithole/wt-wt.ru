@@ -113,6 +113,7 @@ local getMainOptions = function()
       [::USEROPT_SHOW_INDICATORS_DIST, "spinner"],
 
       ["options/header/chatAndVoiceChat"],
+      [::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_ONLY_FRIENDLIST_CONTACT, "spinner", ! ::is_in_flight()],
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],

@@ -16,6 +16,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
   needAutoLogin = false
+  isLoginInProcess = false
 
   function initScreen()
   {
@@ -51,10 +52,17 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
     guiScene.prependWithBlk(scene.findObject("authorization_button_place"), data, this)
     scene.findObject("user_notify_text").setValue(::loc("xbox/reqInstantConnection"))
     updateGamertag()
+
+    if (::xbox_is_game_started_by_invite())
+      onOk()
   }
 
   function onOk()
   {
+    if (isLoginInProcess)
+      return
+
+    isLoginInProcess = true
     loginStep1_checkGamercard()
   }
 
@@ -62,6 +70,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
   {
     if (::xbox_get_active_user_gamertag() == "")
     {
+      isLoginInProcess = false
       needAutoLogin = true
       onChangeGamertag()
       return
@@ -77,6 +86,8 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
       {
         if (res)
           ::get_gui_scene().performDelayed(this, performLogin)
+        else
+          isLoginInProcess = false
       }, this))
     //callback check_multiplayer_sessions_privilege_callback
     //will call checkCrossPlay if allowed
@@ -95,7 +106,10 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
         }
 
         if (result == XBOX_LOGIN_STATE_FAILED)
+        {
           msgBox("no_internet_connection", ::loc("xbox/noInternetConnection"), [["ok", function() {} ]], "ok")
+          isLoginInProcess = false
+        }
 
       }.bindenv(this)
     )
@@ -120,6 +134,11 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
     updateGamertag()
     if (needAutoLogin && ::xbox_get_active_user_gamertag() != "")
       onOk()
+  }
+
+  function onEventXboxInviteAccepted(p)
+  {
+    onOk()
   }
 
   function goBack(obj) {}

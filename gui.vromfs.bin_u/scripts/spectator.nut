@@ -359,7 +359,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function getPlayerNick(player, colored = false)
   {
-    local name = player ? ::g_string.implode([player.clanTag, player.name], " ") : ""
+    local name = player ? ::g_contacts.getPlayerFullName(player.name, player.clanTag) : ""
     local color = getPlayerColor(player, colored)
     return ::colorize(color, name)
   }

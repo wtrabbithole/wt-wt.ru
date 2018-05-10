@@ -231,7 +231,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::add_tags_for_mp_players()
 
     currentFocusItem = canChangeAircraft && !isSpectate ? focusItemAirsTable :
-      ::ps4_is_chat_enabled() ? focusItemChatInput :
+      ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled()? focusItemChatInput :
       focusItemChatTabs
     restoreFocus()
 

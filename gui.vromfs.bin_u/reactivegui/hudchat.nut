@@ -97,18 +97,6 @@ local chatHint = setHudBg({
       font = Fonts.small_text_hud
     }
   ]
-
-  hotkeys = [
-    [
-      "Tab",
-      function () {
-        if (!state.inputEnabled.value) {
-          return
-        }
-        ::chat_set_mode(::cross_call.mp_chat_mode.getNextMode(state.modeId.value), "")
-      }
-    ]
-  ]
 })
 
 

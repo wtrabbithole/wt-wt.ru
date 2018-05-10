@@ -131,6 +131,8 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
   is_opengl_driver = @() false
 
   xbox_is_player_in_chat = @(uid) false
+  xbox_is_game_started_by_invite = @() false
+  xbox_on_local_player_leave_squad = @() null
 
   is_online_available = @() ::is_connected_to_matching()
   hangar_get_attachable_group = @() ""
@@ -189,4 +191,8 @@ if (!("logerr" in ::dagor))
   }
 
   get_preset_by_skin_tags = @(unitId, skinId) ::get_ugc_tags_preset_by_skin_tags(unitId, skinId)
+  can_use_text_chat_with_target = @(...) 2
+  XBOX_COMMUNICATIONS_BLOCKED = 0
+  XBOX_COMMUNICATIONS_ONLY_FRIENDS = 1
+  XBOX_COMMUNICATIONS_ALLOWED = 2
 })

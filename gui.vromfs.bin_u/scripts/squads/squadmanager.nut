@@ -1,4 +1,5 @@
 local squadApplications = require("scripts/squads/squadApplications.nut")
+local platformModule = require("modules/platform.nut")
 
 enum squadEvent
 {
@@ -298,6 +299,14 @@ function g_squad_manager::canInviteMember(uid = null)
     && (canJoinSquad() || isSquadLeader())
     && !isInvitedMaxPlayers()
     && (!uid || !getMemberData(uid))
+}
+
+function g_squad_manager::canDismissMember(uid = null)
+{
+  return isSquadLeader()
+         && canManageSquad()
+         && !isMe(uid)
+         && getPlayerStatusInMySquad(uid) >= squadMemberState.SQUAD_MEMBER
 }
 
 function g_squad_manager::canSwitchReadyness()
@@ -677,6 +686,8 @@ function g_squad_manager::leaveSquad(cb = null)
     if (cb)
       cb()
   })
+
+  xbox_on_local_player_leave_squad()
 }
 
 function g_squad_manager::inviteToSquad(uid, name = null, cb = null)
@@ -692,9 +703,15 @@ function g_squad_manager::inviteToSquad(uid, name = null, cb = null)
 
   local callback = function(response) {
     if (name && ::isPlayerPS4Friend(name))
-      ::g_psn_session_invitations.sendSquadInvitation(::get_psn_account_id(name));
+      ::g_psn_session_invitations.sendSquadInvitation(::get_psn_account_id(name))
 
     ::g_squad_manager.requestSquadData(cb)
+
+    local contact = ::getContact(uid, name)
+    if (contact.needCheckXboxId())
+      contact.getXboxId(@() ::xbox_invite_user(contact.xboxId) )
+    else if (contact.xboxId != "")
+      ::xbox_invite_user(contact.xboxId)
   }
   ::msquad.invitePlayer(uid, callback)
 }
@@ -800,11 +817,12 @@ function g_squad_manager::dismissFromSquadByName(name)
   if (!isSquadLeader())
     return
 
-  local memeberData = _getSquadMemberByName(name)
-  if (memeberData == null)
+  local memberData = _getSquadMemberByName(name)
+  if (memberData == null)
     return
 
-  ::msquad.dismissMember(memeberData.uid)
+  if (canDismissMember(memberData.uid))
+    dismissFromSquad(memberData.uid)
 }
 
 function g_squad_manager::_getSquadMemberByName(name)
@@ -1100,7 +1118,9 @@ function g_squad_manager::addApplication(uid)
   checkNewApplications()
   if (isSquadLeader())
     ::g_popups.add(null, ::colorize("chatTextInviteColor",
-      format(::loc("squad/player_application"), squadData.applications[uid]?.name ?? "")))
+      ::format(::loc("squad/player_application"),
+        platformModule.getPlayerName(squadData.applications[uid]?.name ?? ""))))
+
   ::broadcastEvent(squadEvent.APPLICATIONS_CHANGED, { uid = uid })
   ::broadcastEvent(squadEvent.DATA_UPDATED)
 }
@@ -1453,6 +1473,8 @@ function g_squad_manager::onEventLoadingStateChange(params)
 {
   if (::is_in_flight())
     setReadyFlag(false)
+
+  updatePresenceSquad(true)
 }
 
 function g_squad_manager::onEventWWLoadOperation(params)
@@ -1545,11 +1567,6 @@ function g_squad_manager::onEventQueueChangeState(params)
   if (!::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
     setCrewsReadyFlag(false)
 
-  updatePresenceSquad(true)
-}
-
-function g_squad_manager::onEventLoadingStateChange(p)
-{
   updatePresenceSquad(true)
 }
 

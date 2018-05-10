@@ -1606,16 +1606,19 @@ function is_mod_available_or_free(unitName, modName)
           || (!::wp_get_modification_cost(unitName, modName) && !wp_get_modification_cost_gold(unitName, modName)))
 }
 
-function is_mod_upgradeable(modName)
+local getModBlock = function(modName, blockName, templateKey)
 {
-  return ::get_modifications_blk()?.modifications?[modName]?.upgradeEffect != null
+  local modsBlk = ::get_modifications_blk()
+  local modBlock = modsBlk?.modifications?[modName]
+  if (!modBlock || modBlock?[blockName])
+    return modBlock?[blockName]
+  local tName = modBlock?[templateKey]
+  return tName ? modsBlk?.templates?[tName]?[blockName] : null
 }
 
-function has_active_overdrive(unitName, modName)
-{
-  return ::get_modifications_overdrive(unitName).len() > 0
-    && ::get_modifications_blk()?.modifications?[modName]?.overdriveEffect != null
-}
+::is_mod_upgradeable <- @(modName) getModBlock(modName, "upgradeEffect", "modUpgradeType")
+::has_active_overdrive <- @(unitName, modName) ::get_modifications_overdrive(unitName).len() > 0
+  && getModBlock(modName, "overdriveEffect", "modOverdriveType")
 
 function is_weapon_enabled(unit, weapon)
 {

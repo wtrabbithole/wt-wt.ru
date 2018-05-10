@@ -3743,6 +3743,14 @@ function get_option(type, context = null)
       descr.cb = "onChangeCrossPlayOption"
       break
 
+    case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
+      descr.id = "xbox_crossnetwork_chat"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = crossplayModule.isCrossNetworkChatEnabled()
+      descr.cb = "onInstantOptionApply"
+      break
+
     default:
       print("[ERROR] Unsupported type " + type)
   }
@@ -4721,6 +4729,10 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
       crossplayModule.setIsCrossPlayEnabled(value)
+      break
+
+    case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
+      crossplayModule.setIsCrossNetworkChatEnabled(value)
       break
 
     default:

@@ -109,6 +109,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })
     handler.doWhenActive(@() ::g_psn_session_invitations.checkAfterFlight() )
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
+    handler.doWhenActive(@() ::g_xbox_squad_manager.checkAfterFlight() )
     handler.doWhenActive(@() ::g_battle_tasks.checkNewSpecialTasks() )
   }
 

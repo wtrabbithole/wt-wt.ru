@@ -11,7 +11,7 @@ enum MIS_LOAD { //bit enum
 function on_update_es_from_host()
 {
   dagor.debug("on_update_es_from_host called")
-  ::g_crews_list.invalidate()
+  ::g_crews_list.invalidate(true)
   ::reinitAllSlotbars()
   ::broadcastEvent("UpdateEsFromHost")
 }

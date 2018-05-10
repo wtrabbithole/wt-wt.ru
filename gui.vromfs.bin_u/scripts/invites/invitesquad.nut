@@ -6,6 +6,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   squadId = 0
   leaderId = 0
   isAccepted = false
+  leaderContact = null
 
   static function getUidByParams(params)
   {
@@ -17,14 +18,14 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     squadId = ::getTblValue("squadId", params, squadId)
     leaderId = ::getTblValue("leaderId", params, leaderId)
 
-    updateInviterName()
+    updateInviterContact()
 
     if (inviterName.len() == 0)
     {
       setDelayed(true)
       local cb = ::Callback(function(r)
                             {
-                              updateInviterName()
+                              updateInviterContact()
                               setDelayed(false)
                             }, this)
       ::g_users_info_manager.requestInfo([leaderId], cb, cb)
@@ -40,11 +41,52 @@ class ::g_invites_classes.Squad extends ::BaseInvite
         }, this)
   }
 
+  function updateInviterContact()
+  {
+    leaderContact = ::getContact(leaderId)
+    updateInviterName()
+    checkAutoAcceptXboxInvite()
+    checkAutoRejectXboxInvite()
+  }
+
   function updateInviterName()
   {
-    local leaderContact = ::getContact(leaderId)
     if (leaderContact)
       inviterName = leaderContact.name
+  }
+
+  function checkAutoAcceptXboxInvite()
+  {
+    if (!::is_platform_xboxone || !leaderContact)
+      return
+
+    if (leaderContact.xboxId != "")
+      autoacceptXboxInvite(leaderContact.xboxId)
+    else
+      leaderContact.getXboxId(::Callback(@() autoacceptXboxInvite(leaderContact.xboxId), this))
+  }
+
+  function checkAutoRejectXboxInvite()
+  {
+    if (!::is_platform_xboxone || !leaderContact || isAccepted)
+      return
+
+    if (leaderContact.xboxId != "")
+      autorejectXboxInvite()
+    else
+      leaderContact.getXboxId(::Callback(@() autorejectXboxInvite(), this))
+  }
+
+  function autoacceptXboxInvite(leaderXboxId = "")
+  {
+    if (::g_xbox_squad_manager.isPlayerFromXboxSquadList(leaderXboxId))
+      accept()
+  }
+
+  function autorejectXboxInvite()
+  {
+    if (!::g_chat.xboxIsChatEnabled() || !leaderContact.canInteract())
+      reject()
   }
 
   function isValid()
@@ -107,6 +149,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     if (isOutdated())
       return remove()
 
+    isRejected = true
     ::g_squad_manager.rejectSquadInvite(squadId)
     remove()
     ::g_invites.removeInviteToSquad(squadId)

@@ -803,7 +803,7 @@ function get_favorite_voice_message_option(index)
       id = "ID_SHIP_WEAPON_DEPTH_CHARGE",
       checkGroup = ctrlGroups.SHIP
       autobind = ["ID_SHIP_WEAPON_MINE"]
-      autobind_sc = [SHORTCUT.KEY_LCTRL]
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_LCTRL]
       checkAssign = false
     }
 
@@ -818,7 +818,7 @@ function get_favorite_voice_message_option(index)
       id = "ID_SHIP_WEAPON_MINE",
       checkGroup = ctrlGroups.SHIP
       autobind = ["ID_SHIP_WEAPON_DEPTH_CHARGE"]
-      autobind_sc = [SHORTCUT.KEY_LCTRL]
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_LCTRL]
       checkAssign = false
     }
     {
@@ -1118,6 +1118,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_NEXT_TARGET",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_TOGGLE_CHAT_TEAM",  checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
     { id="ID_TOGGLE_CHAT",       checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
+    { id="ID_TOGGLE_CHAT_MODE",  checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
 
     { id="ID_PTT", checkGroup = ctrlGroups.COMMON, checkAssign = false,
       condition = @() ::gchat_is_voice_enabled()
@@ -1922,11 +1923,6 @@ function get_mouse_axis(shortcutId, helpersMode = null, joyParams = null)
   return MOUSE_AXIS.NOT_AXIS
 }
 
-function gui_start_controls_console()
-{
-  ::gui_start_modal_wnd(::gui_handlers.ControlsConsole)
-}
-
 function gui_start_controls()
 {
   if (::is_ps4_or_xbox || ::is_platform_shield_tv())
@@ -2124,7 +2120,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
     showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
     showSceneBtn("btn_ps4BackupManager", ::gui_handlers.Ps4ControlsBackupManager.isAvailable())
-    showSceneBtn("btn_controlsWizard", !isTutorial)
+    showSceneBtn("btn_controlsWizard", !isTutorial && !::is_platform_xboxone)
+    showSceneBtn("btn_controlsDefault", !isTutorial && ::is_platform_xboxone)
     showSceneBtn("btn_clearAll", !isTutorial)
   }
 
@@ -2324,15 +2321,15 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function onUpdate(obj, dt)
   {
-    if (::preset_changed)
+    if (!::preset_changed)
+      return
+
+    initMainParams()
+    ::preset_changed = false
+    if (forceLoadWizard)
     {
-      initMainParams()
-      ::preset_changed = false
-      if (forceLoadWizard)
-      {
-        forceLoadWizard = false
-        onControlsWizard()
-      }
+      forceLoadWizard = false
+      onControlsWizard()
     }
   }
 
@@ -2732,42 +2729,39 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     msgBox(
       "controls_restore_question", msg,
       [
-        ["yes", (@(presetSelected, askKeyboardDefault) function() {
+        ["yes", function() {
           if (askKeyboardDefault)
           {
-            if (::is_platform_ps4)
-              applyChoosedPreset("config/hotkeys/hotkey.dualshock4.blk")
-            else if (::is_platform_xboxone)
-              applyChoosedPreset("config/hotkeys/hotkey.xboxone_ma.blk")
-            else
-              msgBox("ask_kbd_type", ::loc("controls/askKeyboardWasdType"),
-              [
-                ["classic", function() {
-                  applyChoosedPreset("config/hotkeys/hotkey.keyboard.blk")
-                }],
-                ["shooter", function() {
-                  applyChoosedPreset("config/hotkeys/hotkey.keyboard_shooter.blk")
-                }]
-              ], "classic")
+            msgBox("ask_kbd_type", ::loc("controls/askKeyboardWasdType"),
+            [
+              ["classic", function() {
+                applyChoosedPreset(::get_controls_preset_by_selected_type("classic").fileName)
+              }],
+              ["shooter", function() {
+                applyChoosedPreset(::get_controls_preset_by_selected_type("shooter").fileName)
+              }]
+            ], "classic")
             return
           }
 
-          local preset = "config/hotkeys/hotkey.empty_ver1.blk"
+          local preset = "empty_ver1"
           local opdata = ::get_option(::USEROPT_CONTROLS_PRESET)
           if (presetSelected in opdata.values)
-            preset = "config/hotkeys/hotkey." + opdata.values[presetSelected] + ".blk"
+            preset = opdata.values[presetSelected]
           else
           {
             if (::is_platform_ps4)
-              preset = "config/hotkeys/hotkey.empty.ps4.blk"
+              preset = "empty.ps4"
             else if (::is_platform_xboxone)
-              preset = "config/hotkeys/hotkey.empty.xboxone.blk"
-
-            forceLoadWizard = true
+              preset = "empty.xboxone"
+            else
+              forceLoadWizard = true
           }
-          applyChoosedPreset(preset)
-        })(presetSelected, askKeyboardDefault)],
-        ["cancel", function() {}],
+          preset = ::g_controls_presets.parsePresetName(preset)
+          preset = ::g_controls_presets.getHighestVersionPreset(preset)
+          applyChoosedPreset(preset.fileName)
+        }],
+        ["cancel", @() null],
       ], "cancel"
     )
   }
@@ -3679,122 +3673,6 @@ function get_shortcut_gamepad_textures(shortcutData)
     return res
   }
   return res
-}
-
-class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
-{
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/controlsConsole.blk"
-  sceneNavBlkName = null
-
-  changeControlsMode = false
-  options = null
-  lastHeadtrackActive = false
-
-  function initScreen()
-  {
-    local options = [
-      [::USEROPT_INVERTY, "spinner"],
-      [::USEROPT_INVERTY_TANK, "spinner", ::has_feature("Tanks")],
-      [::USEROPT_INVERTCAMERAY, "spinner"],
-      [::USEROPT_MOUSE_AIM_SENSE, "slider"],
-      [::USEROPT_ZOOM_SENSE,"slider"],
-      [::USEROPT_GUNNER_INVERTY, "spinner"],
-      [::USEROPT_GUNNER_VIEW_SENSE, "slider"],
-      [::USEROPT_HEADTRACK_ENABLE, "spinner", ::ps4_headtrack_is_attached()],
-      [::USEROPT_HEADTRACK_SCALE_X, "slider", ::ps4_headtrack_is_attached()],
-      [::USEROPT_HEADTRACK_SCALE_Y, "slider", ::ps4_headtrack_is_attached()]
-    ]
-
-    local guiScene = ::get_gui_scene()
-    local container = create_options_container("controls", options, true, true)
-    guiScene.replaceContentFromText("optionslist", container.tbl, container.tbl.len(), this)
-    optionsContainers = [container.descr]
-
-    checkHeadtrackRows()
-    updateButtons()
-
-    lastHeadtrackActive = ::ps4_headtrack_is_active()
-    scene.findObject("controls_update").setUserData(this)
-  }
-
-  function onControlsWizard()
-  {
-    ::gui_modal_controlsWizard()
-  }
-
-  function onControlsHelp()
-  {
-    applyFunc = function() {
-      ::gui_modal_help(false, HELP_CONTENT_SET.CONTROLS)
-      applyFunc = null
-    }
-    applyOptions()
-  }
-
-  function onHeadtrackEnableChange(obj)
-  {
-    local option = get_option_by_id(obj.id)
-    if (!option) return
-
-    ::set_option(option.type, obj.getValue(), option)
-    checkHeadtrackRows()
-  }
-
-  function checkHeadtrackRows()
-  {
-    local show = ::ps4_headtrack_is_attached() && ::ps4_headtrack_get_enable()
-    foreach(o in [::USEROPT_HEADTRACK_SCALE_X, ::USEROPT_HEADTRACK_SCALE_Y])
-      showOptionRow(get_option(o), show)
-    showSceneBtn("btn_calibrate", show)
-  }
-
-  function onSwitchModeButton()
-  {
-    changeControlsMode = true
-    ::switchControlsMode(false)
-    goBack()
-  }
-
-  function updateButtons()
-  {
-    showSceneBtn("btn_switchMode", true)
-    showSceneBtn("btn_controlsWizard" , ::get_game_mode() != ::GM_TRAINING)
-    local btnObj = scene.findObject("btn_calibrate")
-    if (::checkObj(btnObj))
-      btnObj.inactiveColor = ::ps4_headtrack_is_active()? "no" : "yes"
-  }
-
-  function onUpdate(obj, dt)
-  {
-    if (lastHeadtrackActive == ::ps4_headtrack_is_active())
-      return
-
-    lastHeadtrackActive = ::ps4_headtrack_is_active()
-    updateButtons()
-  }
-
-  function onCalibrate()
-  {
-    if (!::ps4_headtrack_is_attached())
-      return
-
-    if (!::ps4_headtrack_is_active())
-    {
-      msgBox("not_available", ::loc("options/headtrack_camera_not_work"), [["ok", function() {} ]], "ok", { cancel_fn = function() {}})
-      return
-    }
-
-    msgBox("calibrate", ::loc("msg/headtrack_calibrate"),
-      [["ok", function() { ::ps4_headtrack_calibrate() } ]],
-      "ok", { cancel_fn = function() {}})
-  }
-
-  function afterModalDestroy()
-  {
-    if (changeControlsMode)
-      ::gui_start_advanced_controls()
-  }
 }
 
 //*************************Functions***************************//

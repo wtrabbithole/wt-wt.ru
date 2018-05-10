@@ -235,7 +235,7 @@ enums.addTypes(effectsType, [
   { id = "timeToBrake",            measureType = "seconds", isInverted = true, presize = 0.1
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
-  { id = "distToBrake",            measureType = MEASURE_UNIT_ALT, isInverted = true, presize = 0.1
+  { id = "distToBrake",            measureType = "meters_alt", isInverted = true, presize = 0.1
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
   { id = "accelTime",              measureType = "seconds", isInverted = true, presize = 0.1
@@ -318,7 +318,7 @@ local weaponEffectsType = {
 }
 
 enums.addTypes(weaponEffectsType, [
-  { id = "spread",                 measureType = MEASURE_UNIT_ALT, isInverted = true }
+  { id = "spread",                 measureType = "meters_alt", isInverted = true, presize = 0.1 }
   { id = "overheat",               preset = "PERCENT_FLOAT" }
 ],
 effectTypeConstructor)

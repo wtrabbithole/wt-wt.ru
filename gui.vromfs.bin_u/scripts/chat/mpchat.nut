@@ -205,7 +205,7 @@ class ::ChatHandler
 
   function canEnableChatInput()
   {
-    if (!::ps4_is_chat_enabled())
+    if (!::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
       return false
     foreach(sceneData in scenes)
       if (!sceneData.hiddenInput && ::checkObj(sceneData.scene) && sceneData.scene.isVisible())
@@ -229,7 +229,11 @@ class ::ChatHandler
     if (isActive && !sceneData.scene.isVisible())
       return
 
-    local show = (isActive || !sceneData.selfHideInput) && !sceneData.hiddenInput && ::ps4_is_chat_enabled() && getCurView(sceneData) == mpChatView.CHAT
+    local show = (isActive || !sceneData.selfHideInput)
+                 && !sceneData.hiddenInput
+                 && ::ps4_is_chat_enabled()
+                 && ::g_chat.xboxIsChatEnabled()
+                 && getCurView(sceneData) == mpChatView.CHAT
     local scene = sceneData.scene
 
     ::showBtnTable(scene, {
@@ -466,14 +470,12 @@ class ::ChatHandler
 
   function showPlayerRClickMenu(playerName)
   {
-    local menu = playerContextMenu.getActions(null, {
+    playerContextMenu.showMenu(null, this, {
       playerName = playerName
       isMPChat = true
       chatLog = getLogText()
       canComplain = true
     })
-
-    ::gui_right_click_menu(menu, this)
   }
 
   function onChatLinkClick(obj, itype, link)  { onChatLink(obj, link, ::is_platform_pc) }
@@ -541,12 +543,16 @@ class ::ChatHandler
     local text = ::g_chat.filterMessageText(message.text, message.isMyself)
     if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
       text = ::g_chat.makeBlockedMsg(message.text)
+    else if (!::g_chat.xboxIsChatAvailableForFriend(messageAuthor))
+      text = ::g_chat.makeXBoxRestrictedMsg(message.text)
 
     local senderColor = getSenderColor(message)
     local msgColor = getMessageColor(message)
-    local clanTag = ::get_player_tag(message.sender)
-    local playerName = platformModule.getPlayerName(message.sender)
-    local fullName = ::g_string.implode([clanTag, playerName], " ")
+    local fullName = ::g_contacts.getPlayerFullName(
+      platformModule.getPlayerName(message.sender),
+      ::get_player_tag(message.sender)
+    )
+
     return ::format(
       "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
       timeString

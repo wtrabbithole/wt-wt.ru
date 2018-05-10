@@ -31,7 +31,8 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
 
   function canActivateOnMod(unit, mod)
   {
-    if (modsList && !::isInArray(mod.name, modsList))
+    if (modsList && !::isInArray(mod.name, modsList)
+      && !::isInArray(::get_modifications_blk()?.modifications?[mod.name]?.modUpgradeType, modsList))
       return false
     if (countries && !::isInArray(unit.shopCountry, countries))
       return false
