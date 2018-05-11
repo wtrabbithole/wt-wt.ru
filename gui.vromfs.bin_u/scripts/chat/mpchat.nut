@@ -543,7 +543,7 @@ class ::ChatHandler
     local text = ::g_chat.filterMessageText(message.text, message.isMyself)
     if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
       text = ::g_chat.makeBlockedMsg(message.text)
-    else if (!::g_chat.xboxIsChatAvailableForFriend(messageAuthor))
+    else if (!::g_chat.xboxIsChatAvailableForFriend(message.sender))
       text = ::g_chat.makeXBoxRestrictedMsg(message.text)
 
     local senderColor = getSenderColor(message)

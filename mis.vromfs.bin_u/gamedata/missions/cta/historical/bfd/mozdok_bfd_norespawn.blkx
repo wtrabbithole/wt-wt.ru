@@ -566,7 +566,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -575,8 +574,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -592,7 +594,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -601,8 +602,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -982,7 +986,7 @@
       },
       "conditions": {
         "unitWhenCountMatches": {
-          "object_type": "isAlive",
+          "object_type": "isActive",
           "object_marking": 0,
           "func": "less",
           "value": 1,
@@ -1080,7 +1084,7 @@
       },
       "conditions": {
         "unitWhenCountMatches": {
-          "object_type": "isAlive",
+          "object_type": "isActive",
           "object_marking": 0,
           "func": "less",
           "value": 1,
