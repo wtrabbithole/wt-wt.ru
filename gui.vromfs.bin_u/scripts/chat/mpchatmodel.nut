@@ -94,6 +94,9 @@ local mpChatModel = {
 
   function onModeSwitched() {
     local newModeId = ::g_mp_chat_mode.getNextMode(mpChatState.currentModeId)
+    if (newModeId == null)
+      return
+
     ::chat_set_mode(newModeId, "")
   }
 }

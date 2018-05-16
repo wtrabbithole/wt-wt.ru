@@ -289,7 +289,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function battlesSort(battleA, battleB)
   {
     return battleB.isConfirmed <=> battleA.isConfirmed
-        || battleB.sortTimeFactor <=> battleA.sortTimeFactor
+        || battleA.sortTimeFactor <=> battleB.sortTimeFactor
         || battleB.sortFullnessFactor <=> battleA.sortFullnessFactor
   }
 

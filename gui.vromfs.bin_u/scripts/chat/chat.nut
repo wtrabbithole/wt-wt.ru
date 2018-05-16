@@ -123,14 +123,14 @@ function g_chat::xboxIsChatAvailableForFriend(playerName)
     return true
 
   if (res == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
-    return ::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
+    return !platformModule.isPlayerFromXboxOne(playerName) || ::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
 
   return false
 }
 
 function g_chat::checkBlockedLink(link)
 {
-  return (link.len() > 6 && link.slice(0, 3) == "BL_")
+  return !::is_platform_xboxone && (link.len() > 6 && link.slice(0, 3) == "BL_")
 }
 
 

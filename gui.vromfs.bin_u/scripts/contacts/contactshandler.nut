@@ -266,6 +266,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return listObj.childrenCount() != count
   }
 
+  needShowContactHoverButtons = @() !::is_ps4_or_xbox
+
   function buildPlayersList(gName, showOffline=true)
   {
     local playerListView = {
@@ -273,6 +275,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       playerButton = []
       searchAdvice = gName != searchGroup
       searchAdviceID = "group_" + gName + "_search_advice"
+      needHoverButtons = needShowContactHoverButtons()
     }
 
     foreach(idx, contactData in ::contacts[gName])
@@ -369,9 +372,13 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     foreach (idx, contact in ::contacts[gName])
     {
-      local contactObject = scene.findObject(format("player_%s_%s", gName.tostring(), idx.tostring()))
+      local contactObject = scene.findObject(::format("player_%s_%s", gName.tostring(), idx.tostring()))
+      contactObject.contact_buttons_contact_uid = contact.uid
+
       local contactButtonsHolder = contactObject.findObject("contact_buttons_holder")
-      contactButtonsHolder.contact_buttons_contact_uid = contact.uid
+      if (!::check_obj(contactButtonsHolder))
+        continue
+
       updateContactButtonsVisibility(contact, contactButtonsHolder)
     }
   }
@@ -830,7 +837,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       curPlayer = ::contacts[curGroup][value]
     else
       curPlayer = null
-    updateContactButtonsVisibility(curPlayer, scene)
+
+    if (needShowContactHoverButtons())
+      updateContactButtonsVisibility(curPlayer, scene)
   }
 
   function onPlayerMenu(obj)
@@ -967,7 +976,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(button_object))
       return
 
-    local contactButtonsObject = button_object.getParent()
+    local contactButtonsObject = button_object.getParent().getParent()
     local contactUID = contactButtonsObject.contact_buttons_contact_uid
     if (!contactUID)
       return
@@ -1214,6 +1223,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onEventContactsUpdated(params)
+  {
+    updateContactsGroup(null)
+  }
+
+  function onEventSquadStatusChanged(p)
   {
     updateContactsGroup(null)
   }

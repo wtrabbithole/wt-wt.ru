@@ -205,9 +205,9 @@ enums.addTypesByGlobalName("g_dbg_hud_object_type", {
         isOverFade = true
         hintType = "standard"
       }
-      { eventId = "hint:missionHint:objectiveSuccess", objectiveType = ::OBJECTIVE_TYPE_PRIMARY }
+      { eventId = "hint:missionHint:objectiveSuccess", objectiveType = ::OBJECTIVE_TYPE_PRIMARY, objectiveText = "" }
       { eventId = "hint:missionHint:objectiveAdded" }
-      { eventId = "hint:missionHint:objectiveFail" }
+      { eventId = "hint:missionHint:objectiveFail", objectiveType = ::OBJECTIVE_TYPE_PRIMARY, objectiveText = "" }
       { eventId = "hint:missionHint:remove", hintType = "standard" }
     ]
   }

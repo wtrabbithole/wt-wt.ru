@@ -410,7 +410,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateSpawnScore(isOnInit = false)
   {
-    if (!missionRules.isScoreRespawnEnabled)
+    if (!missionRules.isScoreRespawnEnabled ||
+      !::g_mis_loading_state.isReadyToShowRespawn())
       return
 
     local newSpawnScore = missionRules.getCurSpawnScore()

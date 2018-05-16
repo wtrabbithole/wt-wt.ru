@@ -53,8 +53,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     )
     registerSubHandler(leftSectionHandlerWeak)
 
-    savedReinforcements = {}
-
+    clearSavedData()
     initMapName()
     initOperationStatus(false)
     initGCBottomBar()
@@ -79,6 +78,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       if (isValid())
         ::checkNonApprovedResearches(true, true)
     })
+  }
+
+  function clearSavedData()
+  {
+    savedReinforcements = {}
   }
 
   function initMapName()
@@ -153,7 +157,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     {
       local reinforcement = ::g_ww_map_reinforcement_tab_type.REINFORCEMENT
       updateSecondaryBlockTab(reinforcement)
-      if (reinforcement.hasTabAlert() && reinforcement.isTabAlertVisible())
+      if (reinforcement.needAutoSwitch())
         defaultTabId = reinforcement.code
     }
 
@@ -196,7 +200,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       updateSecondaryBlockTab(tab, blockObj)
   }
 
-  function updateSecondaryBlockTab(tab, blockObj = null)
+  function updateSecondaryBlockTab(tab, blockObj = null, hasUnseenIcon = false)
   {
     blockObj = blockObj || scene.findObject("reinforcement_pages_list")
     if (!::checkObj(blockObj))
@@ -213,12 +217,14 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     tabObj.setValue(tabName + tab.getTabTextPostfix())
 
-    if (tab.hasTabAlert())
-    {
-      local tabAlertObj = blockObj.findObject(tabId + "_alert")
-      if (::check_obj(tabAlertObj))
-        tabAlertObj.show(tab.isTabAlertVisible())
-    }
+    local tabAlertObj = blockObj.findObject(tabId + "_alert")
+    if (!::check_obj(tabAlertObj))
+      return
+
+    if (currentReinforcementInfoTabType == tab)
+      tabAlertObj.show(false)
+    else if (hasUnseenIcon)
+      tabAlertObj.show(true)
   }
 
   function updateSecondaryBlock()
@@ -772,8 +778,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateReinforcements()
   {
-    updateSecondaryBlockTab(::g_ww_map_reinforcement_tab_type.REINFORCEMENT)
-    updateRearZonesHighlight()
+    local hasUnseenIcon = updateRearZonesHighlight()
+    updateSecondaryBlockTab(::g_ww_map_reinforcement_tab_type.REINFORCEMENT, null, hasUnseenIcon)
     return ::g_world_war.hasSuspendedReinforcements()
   }
 
@@ -784,6 +790,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     foreach (sideName, zones in rearZones)
       emptySidesReinforcementList[::ww_side_name_to_val(sideName)] <- true
 
+    local hasUnseenIcon = false
     local arrivingReinforcementSides = {}
     local reinforcements = ::g_world_war.getMyReadyReinforcementsArray()
     foreach (reinforcement in reinforcements)
@@ -797,6 +804,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
       if (name && !(name in savedReinforcements))
       {
+        hasUnseenIcon = true
         savedReinforcements[name] <- side
         if (!(side in arrivingReinforcementSides))
           arrivingReinforcementSides[side] <- null
@@ -815,6 +823,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     foreach (side, value in arrivingReinforcementSides)
       ::ww_turn_on_sector_sprites("Reinforcement", ::g_world_war.getRearZonesOwnedToSide(side), 5000)
+
+    return hasUnseenIcon
   }
 
   function updateArmyStrenght()
@@ -862,6 +872,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
         statusText = getTimeToStartOperationText(activationTime)
         operationPauseTimer = ::Timer(scene, 1,
           @() fullTimeToStartOperation(), this, true)
+
+        clearSavedData()
       }
       else
         statusText = ::loc("debriefing/pause")

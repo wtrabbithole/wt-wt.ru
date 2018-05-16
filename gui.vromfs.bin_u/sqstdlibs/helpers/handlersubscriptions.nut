@@ -166,3 +166,9 @@ function subscribe_handler(handler, listener_priority = -1)
     ::add_event_listener(event_name, property, handler, listener_priority)
   }
 }
+
+function subscribe_events(eventsList, listenerPriority = -1)
+{
+  foreach (eventName, func in eventsList)
+    ::add_event_listener(eventName, func, null, listenerPriority)
+}

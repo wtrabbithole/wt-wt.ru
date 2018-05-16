@@ -2314,7 +2314,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_defend",
             "status": 2,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2356,7 +2359,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_defend",
             "status": 0,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2402,6 +2408,11 @@
       },
       "actions": [
         {
+          "triggerDisable": {
+            "target": "at_assaults_t1_check_evacuate"
+          }
+        },
+        {
           "comment": {
             "value": "изменяем обжективы"
           }
@@ -2410,7 +2421,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_attack",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2432,7 +2446,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_attack",
             "status": 0,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2588,7 +2605,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_defend",
             "status": 2,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2630,7 +2650,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_defend",
             "status": 0,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2676,6 +2699,11 @@
       },
       "actions": [
         {
+          "triggerDisable": {
+            "target": "at_assaults_t2_check_evacuate"
+          }
+        },
+        {
           "comment": {
             "value": "изменяем обжективы"
           }
@@ -2684,7 +2712,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_attack",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2706,7 +2737,9 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_attack",
             "status": 0,
-            "team": "B"
+            "team": "B",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2822,6 +2855,7 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_defend",
             "status": 1,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@at_assaults_t1_name",
             "unit_type": "isActive"
@@ -2876,6 +2910,7 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_attack",
             "status": 1,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@at_assaults_t2_name",
             "unit_type": "isActive"
@@ -2930,6 +2965,7 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_defend",
             "status": 1,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@at_assaults_t2_name",
             "unit_type": "isActive"
@@ -2984,6 +3020,7 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_attack",
             "status": 1,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@at_assaults_t1_name",
             "unit_type": "isActive"
@@ -3094,7 +3131,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_defend",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3121,7 +3161,9 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_defend",
             "status": 0,
-            "team": "A"
+            "team": "A",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3175,7 +3217,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_attack",
             "status": 2,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3202,7 +3247,9 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_attack",
             "status": 0,
-            "team": "B"
+            "team": "B",
+            "unit_or_area": "@at_assaults_t1_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3307,7 +3354,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_defend",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3334,7 +3384,9 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t2_assaults_defend",
             "status": 0,
-            "team": "B"
+            "team": "B",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3388,7 +3440,10 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_attack",
             "status": 2,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3415,7 +3470,9 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_attack",
             "status": 0,
-            "team": "A"
+            "team": "A",
+            "unit_or_area": "@at_assaults_t2_name",
+            "unit_type": "any"
           }
         },
         {
@@ -4789,7 +4846,7 @@
           "object_var_comp_op": "equal",
           "object_var_value": 0,
           "object": "@at_assaults_t1_cover_name",
-          "target": "@at_assaults_t1_spawn_name",
+          "target": "at_assaults_t1_retreat_point",
           "compareCenters": false
         }
       },
@@ -4828,7 +4885,7 @@
           "object_var_comp_op": "equal",
           "object_var_value": 0,
           "object": "@at_assaults_t2_cover_name",
-          "target": "@at_assaults_t2_spawn_name",
+          "target": "at_assaults_t2_retreat_point",
           "compareCenters": false
         }
       },

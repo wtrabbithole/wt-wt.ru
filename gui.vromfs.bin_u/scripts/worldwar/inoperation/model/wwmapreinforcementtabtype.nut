@@ -10,8 +10,7 @@ local enums = ::require("std/enums.nut")
 
 ::g_ww_map_reinforcement_tab_type.template <- {
   getHandler = function (placeObj) { return null }
-  hasTabAlert = @() false
-  isTabAlertVisible = @() false
+  needAutoSwitch = @() false
   getTabTextPostfix = function() { return "" }
 }
 
@@ -41,8 +40,7 @@ enums.addTypesByGlobalName("g_ww_map_reinforcement_tab_type", {
     tabId = "reinforcements_block"
     tabIcon = "worldWar/iconReinforcement"
     tabText = "worldWar/Reinforcements"
-    hasTabAlert = @() true
-    isTabAlertVisible = @() ::g_world_war.getMyReadyReinforcementsArray().len() > 0
+    needAutoSwitch = @() ::g_world_war.getMyReadyReinforcementsArray().len() > 0
     getTabTextPostfix = function() {
       local availReinf = ::g_world_war.getMyReadyReinforcementsArray().len()
       if (availReinf > 0)

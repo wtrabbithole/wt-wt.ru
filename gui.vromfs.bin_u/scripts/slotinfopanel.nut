@@ -388,6 +388,6 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_country_sq(), -1)
     local crewIdInCountry = ::getTblValue(crewCountryId, ::selected_crews, -1)
     if (crewCountryId != -1 && crewIdInCountry != -1)
-      ::gui_modal_crew(crewCountryId, crewIdInCountry)
+      ::gui_modal_crew({ countryId = crewCountryId, idInCountry = crewIdInCountry })
   }
 }

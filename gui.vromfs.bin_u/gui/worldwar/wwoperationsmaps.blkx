@@ -142,21 +142,11 @@
             "id": "select_all_countries_checkboxes"
           }
         },
-        "tdiv": {
+        "wwMainMenuBackgroundShadow": {
           "id": "panel_right",
           "width": "50%sh",
           "widthModeNormal": "50%sh",
-          "height": "ph -1@navBarBattleButtonHeight -9@sf/@pf_outdated",
-          "heightModeNormal": "ph -1@navBarBattleButtonHeight -9@sf/@pf_outdated",
-          "heightModeClans": "ph -1@navBarBattleButtonHeight -9@sf/@pf_outdated -40@sf/@pf_outdated",
-          "pos": "pw-w, 0",
-          "posModeNormal": "pw-w, 0",
-          "posModeClans": "pw-w, 40@sf/@pf_outdated",
-          "position": "absolute",
-          "background-repeat": "expand",
-          "background-image": "#ui/gameuiskin#expandable_item_ww_transp",
-          "background-position": "2",
-          "background-color": "@white",
+          "type": "right",
           "div": {
             "id": "maps_list",
             "size": "pw -10%sh, ph",
@@ -233,6 +223,24 @@
                 "navButtonFont": "yes",
                 "text": "#worldwar/operationsList",
                 "_on_click": "onJoinOperation",
+                "css-hier-invalidate": "yes",
+                "isCancel": "no",
+                "btnName": "A",
+                "display": "hide",
+                "enable": "no",
+                "buttonWink": {
+                  "_transp-timer": "0"
+                },
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_map_action",
+                "visualStyle": "secondary",
+                "navButtonFont": "yes",
+                "text": "",
+                "_on_click": "onMapAction",
                 "css-hier-invalidate": "yes",
                 "isCancel": "no",
                 "btnName": "A",

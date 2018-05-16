@@ -41,6 +41,7 @@ local getPlayerCardInfoTable = function(uid, name)
 
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
 local showPrivacySettingsRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableOnlinePrivacy"))
+local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = playerName}))
 
 local showMenu = function(_contact, handler, params)
 {
@@ -64,7 +65,7 @@ local getActions = function(_contact, params)
   local isMe = uid == ::my_user_id_str
   local isXBoxOnePlayer = platformModule.isXBoxPlayerName(name)
   local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
-  local canInteract = ::g_chat.xboxIsChatEnabled() && (!contact || contact.canInteract())
+  local canInteract = ::g_chat.xboxIsChatAvailableForFriend(name) && (!contact || contact.canInteract())
 
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
 
@@ -121,10 +122,13 @@ local getActions = function(_contact, params)
     {
       text = ::loc("contacts/message")
       show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
-      isVisualDisabled = !canInteract
+      isVisualDisabled = !canInteract || isBlock
       action = function() {
         if (!canInteract)
           return showPrivacySettingsRestrictionPopup()
+
+        if (isBlock)
+          return showBlockedPlayerPopup(name)
 
         if (isMPChat)
         {
@@ -428,4 +432,6 @@ local getActions = function(_contact, params)
 return {
   getActions = getActions
   showMenu = showMenu
+  showNotAvailableActionPopup = showNotAvailableActionPopup
+  showPrivacySettingsRestrictionPopup = showPrivacySettingsRestrictionPopup
 }

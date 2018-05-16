@@ -27,24 +27,55 @@ function enable_current_modifications(unitName)
   return ::shop_enable_modifications(db)
 }
 
-function gui_modal_weapons(researchMode = false, researchBlock = null)
+function gui_modal_weapons(params = {})
 {
-  ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, {
-                                                             researchMode = researchMode,
-                                                             researchBlock = researchBlock
-                                                            })
+  ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, params)
 }
 
-function open_weapons_for_unit(unit)
+function open_weapons_for_unit(unit, curEdiff = -1)
 {
   if (!("name" in unit))
     return
   ::aircraft_for_weapons = unit.name
-  ::gui_modal_weapons()
+  ::gui_modal_weapons({curEdiff = curEdiff})
 }
 
 class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
+  items = null
+
+  wndWidth = 6
+  mainModsObj = null
+  modsBgObj = null
+  curBundleTblObj = null
+
+  air = null
+  airName = ""
+  lastWeapon = ""
+  lastBullets = null
+
+  researchMode = false
+  researchBlock = null
+  availableFlushExp = 0
+  lastResearchMod = null
+  setResearchManually = false
+
+  airActions = ["research", "buy"]
+  isOwn = true
+  is_tank = false
+  guiScene = null
+  scene = null
+  wndType = handlerType.MODAL
+  sceneBlkName = "gui/weaponry/weapons.blk"
+  tierIdPrefix = "tierLine_"
+
+  tooltipOpenTime = -1
+
+  shownTiers = []
+
+  needCheckTutorial = false
+  curEdiff = -1
+
   function initScreen()
   {
     setResearchManually = !researchMode
@@ -479,6 +510,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local params = {
       slotbarActions = airActions
+      getEdiffFunc  = getCurrentEdiff.bindenv(this)
     }
     local unitBlk = ::build_aircraft_item("unit_item", unit, params)
     guiScene.replaceContentFromText(itemObj, unitBlk, unitBlk.len(), this)
@@ -1437,38 +1469,10 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       updateItem(itemidx)
   }
 
-  items = null
-
-  wndWidth = 6
-  mainModsObj = null
-  modsBgObj = null
-  curBundleTblObj = null
-
-  air = null
-  airName = ""
-  lastWeapon = ""
-  lastBullets = null
-
-  researchMode = false
-  researchBlock = null
-  availableFlushExp = 0
-  lastResearchMod = null
-  setResearchManually = false
-
-  airActions = ["research", "buy"]
-  isOwn = true
-  is_tank = false
-  guiScene = null
-  scene = null
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/weaponry/weapons.blk"
-  tierIdPrefix = "tierLine_"
-
-  tooltipOpenTime = -1
-
-  shownTiers = []
-
-  needCheckTutorial = false
+  function getCurrentEdiff()
+  {
+    return curEdiff == -1 ? ::get_current_ediff() : curEdiff
+  }
 }
 
 function isWeaponAux(weapon)

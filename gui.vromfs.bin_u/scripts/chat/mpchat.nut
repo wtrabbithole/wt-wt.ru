@@ -243,7 +243,7 @@ class ::ChatHandler
     ::enableBtnTable(scene, {
         chat_input              = show
         btn_send                = show
-        chat_mod_accesskey      = show
+        chat_mod_accesskey      = show && (sceneData.handler?.isSpectate || !::is_hud_visible)
     })
     if (show && sceneData.scene.isVisible())
     {
@@ -434,7 +434,19 @@ class ::ChatHandler
 
     local hint = scene.findObject("chat_hint")
     if (hint)
-      hint.setValue(::get_gamepad_specific_localization(::g_squad_manager.isInSquad() ? "chat/help/squad" : "chat/help/short"))
+      hint.setValue(getChatHint())
+  }
+
+  function getChatHint()
+  {
+    local hasIME = ::is_ps4_or_xbox || ::is_platform_android || ::is_steam_big_picture()
+    return ::loc("chat/help/modeSwitch",
+        { modeSwitchShortcuts = "{{ID_TOGGLE_CHAT_MODE}}"
+          modeList = ::g_mp_chat_mode.getTextAvailableMode()
+        })
+      + (hasIME ? ""
+        : ::loc("ui/comma")
+          + ::loc("chat/help/send", { sendShortcuts = "{{INPUT_BUTTON KEY_ENTER}}" }))
   }
 
   function onEventMpChatModeChanged(params)
@@ -541,10 +553,13 @@ class ::ChatHandler
         ::loc(message.text))
 
     local text = ::g_chat.filterMessageText(message.text, message.isMyself)
-    if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
-      text = ::g_chat.makeBlockedMsg(message.text)
-    else if (!::g_chat.xboxIsChatAvailableForFriend(message.sender))
-      text = ::g_chat.makeXBoxRestrictedMsg(message.text)
+    if (!message.isMyself)
+    {
+      if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
+        text = ::g_chat.makeBlockedMsg(message.text)
+      else if (!::g_chat.xboxIsChatAvailableForFriend(message.sender))
+        text = ::g_chat.makeXBoxRestrictedMsg(message.text)
+    }
 
     local senderColor = getSenderColor(message)
     local msgColor = getMessageColor(message)

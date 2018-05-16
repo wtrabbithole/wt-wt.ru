@@ -238,6 +238,7 @@ function get_unit_actions_list(unit, handler, actions)
   local isUsable  = unit.isUsable()
   local profile   = ::get_profile_info()
   local crew = ::getCrewByAir(unit)
+  local curEdiff = handler?.getCurrentEdiff ? handler.getCurrentEdiff() : -1
 
   foreach(action in actions)
   {
@@ -304,7 +305,11 @@ function get_unit_actions_list(unit, handler, actions)
       haveWarning = ::isInArray(::get_crew_status_by_id(crew.id), [ "ready", "full" ])
       haveDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = @() crew && ::gui_modal_crew(crew.idCountry, crew.idInCountry)
+      actionFunc = @() crew && ::gui_modal_crew({
+        countryId = crew.idCountry,
+        idInCountry = crew.idInCountry,
+        curEdiff = curEdiff
+      })
     }
     else if (action == "weapons")
     {
@@ -313,7 +318,7 @@ function get_unit_actions_list(unit, handler, actions)
       haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit) })(unit)
+      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit, curEdiff) })(unit)
     }
     else if (action == "take")
     {

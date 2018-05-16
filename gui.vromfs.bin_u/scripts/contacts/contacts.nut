@@ -106,8 +106,7 @@ function g_contacts::updateXboxOneFriends(needIgnoreInitedFlag = false)
     return
 
   isInitedXboxContacts = true
-  ::xbox_get_people_list_async()
-  ::xbox_get_avoid_list_async()
+  ::g_contacts.xboxFetchContactsList()
 }
 
 function g_contacts::proceedXboxPlayersListFromCallback(playersList, group)
@@ -143,6 +142,14 @@ function g_contacts::onReturnFromXBoxOneOverlay()
   updateXboxOneFriends(true)
 }
 
+function g_contacts::xboxFetchContactsList()
+{
+  //Because update contacts better make consistent,
+  //make separate function, to call it where update required
+  //first called friends update, after it - blacklist.
+  ::xbox_get_people_list_async()
+}
+
 function g_contacts::onEventContactsUpdated(params)
 {
   if (!::is_platform_xboxone)
@@ -156,6 +163,8 @@ function g_contacts::onEventContactsUpdated(params)
     else
       contact.getXboxId(@() ::can_view_target_presence(contact.xboxId))
   }
+
+  updateXboxOneFriends()
 }
 
 function g_contacts::onEventSignOut(p)

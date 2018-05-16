@@ -517,6 +517,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
 
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
+    updateShowHintsNest()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
       function(ed) { updateDmgIndicatorVisibility() },
@@ -534,6 +535,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     ::g_hud_display_timers.reinit()
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
+    updateShowHintsNest()
   }
 
   function updateTacticalMapVisibility()
@@ -547,6 +549,11 @@ class HudAir extends ::gui_handlers.BaseUnitHud
   {
     updateMissionProgressOffset()
     updateChatOffset()
+  }
+
+  function updateShowHintsNest()
+  {
+    showSceneBtn("actionbar_hints_nest", false)
   }
 
   _missionProgressOffset = -1
@@ -653,6 +660,7 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
     updateMissionProgressOffset()
+    updateShowHintsNest()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorSizeChanged",
       @(eventData) updateMissionProgressOffset(),
@@ -670,6 +678,7 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_tank_debuffs.reinit()
     ::g_hud_crew_state.reinit()
     updateMissionProgressOffset()
+    updateShowHintsNest()
   }
 
   _missionProgressOffset = -1
@@ -696,6 +705,11 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::showBtn("tank_background", isDmgPanelVisible, scene)
 
     updateMissionProgressOffset()
+  }
+
+  function updateShowHintsNest()
+  {
+    showSceneBtn("actionbar_hints_nest", true)
   }
 }
 

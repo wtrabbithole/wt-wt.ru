@@ -49,8 +49,8 @@ local function shouldDisguiseItem(item)
   return false
 }
 
-::subscribe_handler({
-  onEventSignOut = @(p) invalidateCache()
+::subscribe_events({
+  SignOut = @(p) invalidateCache()
 }, ::g_listener_priority.CONFIG_VALIDATION)
 
 return {

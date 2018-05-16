@@ -101,7 +101,7 @@ local ClanSquadsList = class
 
   function updateClanSquadsList(squads) //can be called each update
   {
-    if (squads.len() > MAX_SESSIONS_LIST_LEN)
+    if (squads.len() > MAX_SQUADS_LIST_LEN)
     {
       local message = ::format("Error in clanSquads::updateClanSquadsList:\nToo long clan squads list - %d",
                                 squads.len())

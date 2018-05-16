@@ -226,9 +226,11 @@
       "scoreLimit": 15000,
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
-      "allowEmptyTeams": false,
+      "allowEmptyTeams": true,
       "country_axis": "germany",
       "country_allies": "ussr",
+      "windSpeed": [4.0,8.0],
+      "windDirectionDeg": [220.0,250.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -295,7 +297,7 @@
   "imports": [
     {
       "import_record": {
-        "file": "gameData/missions/bridges/stalingrad_bridges.blk",
+        "file": "gameData/missions/bridges/stalingrad_bridges_without_airfield.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": false,
@@ -680,7 +682,7 @@
     "isCategory": true,
     "is_enabled": true,
     "I2M_main_objective": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
       "props": {
@@ -766,7 +768,7 @@
           [0.887011,0.0,0.461749],
           [-10733.0,2401.9,18716.5]
         ],
-        "unit_class": "i-15bis",
+        "unit_class": "yak-9u",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,

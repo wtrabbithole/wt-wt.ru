@@ -161,15 +161,34 @@
     ::xbox_get_people_list_callback(notFoundIds)
   }
 
+  function sendSystemInvite(uid, name)
+  {
+    //Check, if player not in system lobby already.
+    //Because, no need to send system invitation if he is there already.
+
+    local contact = ::getContact(uid, name)
+    if (contact.needCheckXboxId())
+      contact.getXboxId(::Callback(function() {
+        if (!::isInArray(contact.xboxId, currentUsersListCache))
+          @() ::xbox_invite_user(contact.xboxId)
+      }, this))
+    else if (contact.xboxId != "")
+    {
+      if (!::isInArray(contact.xboxId, currentUsersListCache))
+        ::xbox_invite_user(contact.xboxId)
+    }
+  }
+
   function onEventFriendsXboxContactsUpdated(p)
   {
     if (!notFoundIds.len())
       return
 
+    local isLeader = isMeLeader(currentUsersListCache)
     foreach(uid, data in p)
     {
       local contact = ::getContact(uid, data.nick)
-      if (!proceedContact(contact))
+      if (isLeader && !proceedContact(contact))
         ::dagor.debug("XBOX_SQUAD_MANAGER: Not found xboxId " + data.id + " after charServer call")
 
       if (contact)

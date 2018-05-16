@@ -25,7 +25,11 @@ class ::gui_handlers.ItemsListWndBase extends ::gui_handlers.BaseGuiHandlerWT
   {
     setCurItem(itemsList[0])
     delayedRestoreFocus()
+    updateWndAlign()
+  }
 
+  function updateWndAlign()
+  {
     if (::check_obj(alignObj))
       align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("frame_obj"))
   }

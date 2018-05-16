@@ -8,6 +8,7 @@ local SeenList = class {
   id = "" //unique list id
 
   listGetter = null
+  canBeNew = null
 
   isInited = false
   entitiesData = null
@@ -21,6 +22,7 @@ local SeenList = class {
   {
     id = listId
     activeSeenLists[id] <- this
+    setCanBeNewFunc(@(entity) true)
 
     entitiesData = {}
     subListGetters = {}
@@ -60,6 +62,12 @@ local SeenList = class {
     compatibilityLoadData = func
   }
 
+  //func = (bool) function(entity). Returns can entity from the list be marked as new or not
+  function setCanBeNewFunc(func)
+  {
+    canBeNew = func
+  }
+
   //call this when list which can be received by listGetter has changed
   function onListChanged()
   {
@@ -67,10 +75,9 @@ local SeenList = class {
     seenListEvents.notifyChanged(id, null)
   }
 
-  function isNew(entity)
-  {
-    return !(entity in entitiesData)
-  }
+  isNew      = @(entity) !(entity in entitiesData) && canBeNew(entity)
+  isNewSaved = @(entity) !(entity in entitiesData)
+  hasSeen    = @() entitiesData.len() > 0
 
   //when null, will mark all entities received by listGetter
   markSeen   = @(entityOrList = null) setSeen(entityOrList, true)
@@ -193,7 +200,10 @@ local SeenList = class {
         ::script_net_assert_once("Seen " + id + ": try to setSeen for subList " + entity)
         continue
       }
-      if (isNew(entity) == shouldSeen)
+      if (!canBeNew(entity))
+        continue //no need to hcange seen state for entities that can't be new.
+                 //they need to be marked unseen when they become can be new.
+      if (isNewSaved(entity) == shouldSeen)
         changedList.append(entity)
       if (shouldSeen)
         entitiesData[entity] <- curDays

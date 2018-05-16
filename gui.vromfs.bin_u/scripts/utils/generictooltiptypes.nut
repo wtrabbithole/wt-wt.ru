@@ -607,24 +607,35 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         local clanInfo = ::my_clan_info
         local content = ::handyman.renderCached("gui/worldWar/worldWarClanTooltip", clanInfo)
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-        return
+        return true
       }
 
       local taskId = ::clan_request_info(clanId, "", "")
-      local onTaskSuccess = (@(obj, handler) function() {
+      local onTaskSuccess = function() {
+        if (!::check_obj(obj))
+          return
+
         local clanInfo = ::get_clan_info_table()
         if (!clanInfo)
           return
 
         local content = ::handyman.renderCached("gui/worldWar/worldWarClanTooltip", clanInfo)
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-      })(obj, handler)
+      }
 
-      local onTaskError = (@(obj, handler) function(error) {
+      local onTaskError = function(error) {
+        if (!::check_obj(obj))
+          return
+
         local content = ::handyman.renderCached("gui/commonParts/errorFrame", {errorNum = error})
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-      })(obj, handler)
+      }
       ::g_tasker.addTask(taskId, {showProgressBox = false}, onTaskSuccess, onTaskError)
+
+      local content = ::handyman.renderCached("gui/worldWar/worldWarClanTooltip",
+        { isLoading = true })
+      obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
+      return true
     }
   }
 

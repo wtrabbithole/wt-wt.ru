@@ -1409,7 +1409,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       foreach(idx, btn in msgButtons)
       {
         local text = (btn.len()>0 && btn.slice(0, 1)!="#") ? "#"+btn : btn
-        data += format("Button_text { id:t='%d'; text:t='%s'; on_click:t='onMsgButton'; showConsoleImage:t='no'}",
+        data += format("Button_text { id:t='%d'; text:t='%s'; on_click:t='onMsgButton'; }",
                   idx, text)
       }
       local btnsHolder = scene.findObject("msgBox_buttons")

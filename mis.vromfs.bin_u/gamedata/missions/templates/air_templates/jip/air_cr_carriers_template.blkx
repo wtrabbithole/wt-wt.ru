@@ -422,11 +422,13 @@
               "removeAreas": false,
               "canSpawnOnNeutral": false,
               "showOnMap": true,
-              "offset": [0.0,0.0,0.0],
               "radius": -1.0,
+              "separate_fuel_time": false,
+              "modular_airfield": false,
               "target": "@cr_t1_carrier_name",
               "team": "A",
               "object": "@cr_t1_carrier_name",
+              "offset": [0.0,0.0,0.0],
               "tags": {
                 "carrier_take_off": true
               }
@@ -564,11 +566,13 @@
               "removeAreas": false,
               "canSpawnOnNeutral": false,
               "showOnMap": true,
-              "offset": [0.0,0.0,0.0],
               "radius": -1.0,
+              "separate_fuel_time": false,
+              "modular_airfield": false,
               "target": "@cr_t2_carrier_name",
               "team": "B",
               "object": "@cr_t2_carrier_name",
+              "offset": [0.0,0.0,0.0],
               "tags": {
                 "carrier_take_off": true
               }
@@ -2671,7 +2675,10 @@
             "moSetObjectiveStatus": {
               "target": "cr_t1_destroy_carrier_quest",
               "status": 2,
-              "team": "A"
+              "extendedEnding": true,
+              "team": "A",
+              "unit_or_area": "@cr_t1_carrier_name",
+              "unit_type": "any"
             }
           },
           {
@@ -2727,7 +2734,10 @@
             "moSetObjectiveStatus": {
               "target": "cr_t2_destroy_carrier_quest",
               "status": 2,
-              "team": "B"
+              "extendedEnding": true,
+              "team": "B",
+              "unit_or_area": "@cr_t2_carrier_name",
+              "unit_type": "any"
             }
           },
           {

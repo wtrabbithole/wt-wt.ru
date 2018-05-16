@@ -34,28 +34,19 @@ local function openChangePilotIconWnd(cb, handler)
   ::gui_choose_image(config, cb, handler)
 }
 
-local avatars = {
-  function invalidateIcons()
-  {
-    icons = null
-    allowedIcons = null
-    local guiScene = ::get_cur_gui_scene()
-    if (guiScene) //need all other configs invalidate too before push event
-      guiScene.performDelayed(this, @() seenAvatars.onListChanged())
-  }
-
-  function onEventLoginComplete(p)
-  {
-    invalidateIcons()
-  }
-
-  function onEventProfileUpdated(p)
-  {
-    invalidateIcons()
-  }
+local function invalidateIcons()
+{
+  icons = null
+  allowedIcons = null
+  local guiScene = ::get_cur_gui_scene()
+  if (guiScene) //need all other configs invalidate too before push event
+    guiScene.performDelayed(this, @() seenAvatars.onListChanged())
 }
 
-::subscribe_handler(avatars, ::g_listener_priority.CONFIG_VALIDATION)
+::subscribe_events({
+  LoginComplete    = @(p) invalidateIcons()
+  ProfileUpdated   = @(p) invalidateIcons()
+}, ::g_listener_priority.CONFIG_VALIDATION)
 
 bhvAvatar.init({
   intIconToString = getIconById

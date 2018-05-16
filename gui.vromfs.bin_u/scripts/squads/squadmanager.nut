@@ -705,14 +705,11 @@ function g_squad_manager::inviteToSquad(uid, name = null, cb = null)
     if (name && ::isPlayerPS4Friend(name))
       ::g_psn_session_invitations.sendSquadInvitation(::get_psn_account_id(name))
 
-    ::g_squad_manager.requestSquadData(cb)
+    ::g_xbox_squad_manager.sendSystemInvite(uid, name)
 
-    local contact = ::getContact(uid, name)
-    if (contact.needCheckXboxId())
-      contact.getXboxId(@() ::xbox_invite_user(contact.xboxId) )
-    else if (contact.xboxId != "")
-      ::xbox_invite_user(contact.xboxId)
+    ::g_squad_manager.requestSquadData(cb)
   }
+
   ::msquad.invitePlayer(uid, callback)
 }
 

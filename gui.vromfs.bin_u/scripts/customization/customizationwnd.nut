@@ -1939,7 +1939,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
     local crew = get_crew_by_id(::show_crew)
     if (crew)
-      ::gui_modal_crew(crew.idCountry, crew.idInCountry)
+      ::gui_modal_crew({ countryId = crew.idCountry, idInCountry = crew.idInCountry })
   }
 
   function onWeaponsInfo(obj)

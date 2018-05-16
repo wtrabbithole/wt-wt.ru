@@ -115,5 +115,12 @@ function g_mp_chat_mode::getNextMode(modeId)
   return newMode
 }
 
+function g_mp_chat_mode::getTextAvailableMode()
+{
+  return ::g_string.implode(
+    ::u.map(types.filter(@(idx, mode) mode.isEnabled()),
+      @(mode) mode.getNameText()),
+    ::loc("ui/slash"))
+}
 
 ::cross_call_api.mp_chat_mode <- ::g_mp_chat_mode

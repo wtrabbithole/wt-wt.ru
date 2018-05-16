@@ -450,6 +450,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane",
             "speed": 300.0
           }
@@ -463,6 +466,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@lpt_t1_lookup_plane",
             "team": "A"
           }
@@ -471,6 +477,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@lpt_t1_lookup_plane",
             "team": "B"
           }
@@ -755,6 +764,9 @@
           "enemy_type": "isActive",
           "distance": 5000.0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "use_variable": true,
           "distance_var": "lpt_detection_base_range"
@@ -813,6 +825,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@lpt_t1_lookup_plane",
             "team": "Both"
           }
@@ -839,6 +854,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane"
         }
       },
@@ -904,7 +922,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t1_defend_task",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@lpt_t1_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -986,7 +1007,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t2_kill_task",
             "status": 2,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@lpt_t1_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -1032,7 +1056,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t2_kill_task",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@lpt_t1_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -1071,6 +1098,9 @@
             "object_marking": 0,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane"
           }
         },
@@ -1081,6 +1111,9 @@
             "object_marking": 0,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane"
           }
         }
@@ -1114,6 +1147,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane",
             "speed": 350.0
           }
@@ -1154,6 +1190,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "target": "@lpt_t1_target_point",
           "compareCenters": false
@@ -1237,6 +1276,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane",
             "speed": 350.0
           }
@@ -1277,6 +1319,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "target": "t1_lookup_retreat_point",
           "compareCenters": false
@@ -1324,7 +1369,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t1_defend_task",
             "status": 2,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@lpt_t1_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -1696,6 +1744,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane",
             "speed": 300.0
           }
@@ -1709,6 +1760,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@lpt_t2_lookup_plane",
             "team": "B"
           }
@@ -1717,6 +1771,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@lpt_t2_lookup_plane",
             "team": "A"
           }
@@ -2001,6 +2058,9 @@
           "enemy_type": "isActive",
           "distance": 5000.0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "use_variable": true,
           "distance_var": "lpt_detection_base_range"
@@ -2059,6 +2119,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@lpt_t2_lookup_plane",
             "team": "Both"
           }
@@ -2085,6 +2148,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane"
         }
       },
@@ -2150,7 +2216,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t2_defend_task",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@lpt_t2_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -2232,7 +2301,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t1_kill_task",
             "status": 2,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@lpt_t2_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -2278,7 +2350,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t1_kill_task",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@lpt_t2_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -2317,6 +2392,9 @@
             "object_marking": 0,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane"
           }
         },
@@ -2327,6 +2405,9 @@
             "object_marking": 0,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane"
           }
         }
@@ -2360,6 +2441,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane",
             "speed": 350.0
           }
@@ -2400,6 +2484,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "target": "@lpt_t2_target_point",
           "compareCenters": false
@@ -2483,6 +2570,9 @@
             "target_marking": 0,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane",
             "speed": 350.0
           }
@@ -2523,6 +2613,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "target": "t2_lookup_retreat_point",
           "compareCenters": false
@@ -2570,7 +2663,10 @@
           "moSetObjectiveStatus": {
             "target": "lpt_t2_defend_task",
             "status": 2,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@lpt_t2_lookup_plane",
+            "unit_type": "any"
           }
         },
         {
@@ -2935,6 +3031,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "speed": 300.0,
           "altRange": [1700.0,2000.0]
@@ -2975,6 +3074,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "speed": 300.0,
           "altRange": [2200.0,2500.0]
@@ -3015,6 +3117,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "speed": 300.0,
           "altRange": [2700.0,3000.0]
@@ -3055,6 +3160,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "speed": 300.0,
           "altRange": [3200.0,3500.0]
@@ -3095,6 +3203,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "speed": 300.0,
           "altRange": [3700.0,4000.0]
@@ -3135,6 +3246,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "speed": 300.0,
           "altRange": [1700.0,2000.0]
@@ -3175,6 +3289,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "speed": 300.0,
           "altRange": [2200.0,2500.0]
@@ -3215,6 +3332,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "speed": 300.0,
           "altRange": [2700.0,3000.0]
@@ -3255,6 +3375,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "speed": 300.0,
           "altRange": [3200.0,3500.0]
@@ -3295,6 +3418,9 @@
           "target_marking": 0,
           "waypointReachedDist": 10.0,
           "recalculatePathDist": -1.0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "speed": 300.0,
           "altRange": [3700.0,4000.0]
@@ -3362,6 +3488,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t1_lookup_plane",
           "target": "t2_players_squad",
           "var": "lpt_t2_players_detection_range",
@@ -3415,6 +3544,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@lpt_t2_lookup_plane",
           "target": "t1_players_squad",
           "var": "lpt_t1_players_detection_range",
@@ -3471,6 +3603,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane",
             "target": "t1_players_squad",
             "var": "lpt_activity_distance",
@@ -3517,6 +3652,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane",
             "target": "t2_players_squad",
             "var": "lpt_activity_distance",
@@ -3745,6 +3883,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t2_lookup_plane"
           }
         },
@@ -3784,6 +3925,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@lpt_t1_lookup_plane"
           }
         },

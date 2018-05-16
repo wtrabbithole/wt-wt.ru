@@ -20,13 +20,20 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
     updateInviterContact()
 
-    if (inviterName.len() == 0)
+    if (inviterName.len() != 0)
+    {
+      //Don't show invites from xbox players, as notification comes from system overlay
+      //And we don't wan't players to be confused.
+      if (platformModule.isPlayerFromXboxOne(inviterName) && !haveRestrictions())
+        setDelayed(true)
+    }
+    else
     {
       setDelayed(true)
       local cb = ::Callback(function(r)
                             {
                               updateInviterContact()
-                              setDelayed(false)
+                              setDelayed(platformModule.isPlayerFromXboxOne(inviterName) && !haveRestrictions())
                             }, this)
       ::g_users_info_manager.requestInfo([leaderId], cb, cb)
     }
