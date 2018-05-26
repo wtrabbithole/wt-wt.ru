@@ -23,9 +23,9 @@ function g_crews_list::get()
   return crewsList
 }
 
-function g_crews_list::invalidate(hasSessionLobbyChanges = false)
+function g_crews_list::invalidate(needForceInvalidate = false)
 {
-  if (hasSessionLobbyChanges || !::SessionLobby.isSlotbarOverrided())
+  if (needForceInvalidate || !::SessionLobby.isSlotbarOverrided())
   {
     crewsList = [] //do not broke previously received crewsList if someone use link on it
     return true

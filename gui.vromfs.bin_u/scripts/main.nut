@@ -230,6 +230,9 @@ enum SEEN {
   AVATARS = "avatars"
   EVENTS = "events"
   WW_MAPS_AVAILABLE = "wwMapsAvailable"
+  INVENTORY = "inventory"
+  ITEMS_SHOP = "items_shop"
+  WORKSHOP = "workshop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"
@@ -333,6 +336,7 @@ foreach (fn in [
   "scripts/squads/psnSquadInvite.nut"
   "scripts/social/psnPlayTogether.nut"
   "scripts/social/psnSessionInvitations.nut"
+  "scripts/social/xboxSquadManager.nut"
 ])
 {
   ::g_script_reloader.loadOnce(fn)
@@ -451,6 +455,7 @@ function load_scripts_after_login_once()
     "promo/promoViewUtils.nut"
     "promo/promo.nut"
     "promo/promoHandler.nut"
+    "promo/BattleTasksPromoHandler.nut"
     "mainmenu/topMenuButtons.nut"
     "mainmenu/topMenuSections.nut"
     "mainmenu/topMenuSectionsConfigs.nut"
@@ -512,6 +517,7 @@ function load_scripts_after_login_once()
     "controls/controlsUtils.nut"
     "controls/rawShortcuts.nut"
     "controls/controls.nut"
+    "controls/controlsConsole.nut"
     "controls/autobind.nut"
     "controls/input/inputBase.nut"
     "controls/input/nullInput.nut"
@@ -636,15 +642,15 @@ function load_scripts_after_login_once()
     "misObjectives/misObjectivesView.nut"
     "tacticalMap.nut"
 
+    "userLog/userlogData.nut"
+    "userLog/userlogViewData.nut"
+    "userLog/userLog.nut"
+
     "debriefing/debriefingFull.nut"
     "debriefing/debriefingModal.nut"
     "debriefing/rankUpModal.nut"
     "debriefing/tournamentRewardReceivedModal.nut"
     "mainmenu/benchmarkResultModal.nut"
-
-    "userLog/userlogData.nut"
-    "userLog/userlogViewData.nut"
-    "userLog/userLog.nut"
 
     "clans/clanType.nut"
     "clans/clanLogType.nut"

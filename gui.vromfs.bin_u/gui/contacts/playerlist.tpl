@@ -1,6 +1,7 @@
 <<#playerListItem>>
 contactItem {
   id:t='<<blockID>>';
+  contact_buttons_contact_uid:t='<<contactUID>>';
 
   contactStatusImg {
     id:t='statusImg';
@@ -40,13 +41,13 @@ contactItem {
   on_r_click:t = 'onPlayerRClick';
   title:t='$tooltipObj';
 
+  <<#needHoverButtons>>
   tdiv {
     id:t='contact_buttons_holder';
     position:t='absolute';
     pos:t='pw - w - @sIco, 0.5ph-0.5h';
     display:t='hide';
     contact_buttons_holder:t='yes';
-    contact_buttons_contact_uid:t='<<contactUID>>';
 
     Button_text {
       id:t='btn_friendAdd';
@@ -168,6 +169,7 @@ contactItem {
       }
     }*/
   }
+  <</needHoverButtons>>
 
   tooltipObj {
     id:t='tooltip';

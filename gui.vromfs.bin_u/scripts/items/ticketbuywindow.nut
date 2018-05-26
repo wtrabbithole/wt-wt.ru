@@ -50,7 +50,6 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     {
       view.items.push(tickets[i].getViewData({
         itemIndex = i.tostring()
-        newIconWidget = null
         ticketBuyWindow = true
       }))
     }

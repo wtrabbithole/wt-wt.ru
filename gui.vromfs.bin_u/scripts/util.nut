@@ -2802,9 +2802,7 @@ function build_mplayer_name(player, colored = true, withClanTag = true, withUnit
   if (!player)
     return ""
 
-  local clanTag = withClanTag ? player.clanTag : ""
-  local nameArray = [clanTag, platformModule.getPlayerName(player.name)]
-
+  local unitName = ""
   if (withUnit)
   {
     if (unitNameLoc == "")
@@ -2814,10 +2812,14 @@ function build_mplayer_name(player, colored = true, withClanTag = true, withUnit
         unitNameLoc = ::loc(unitId + "_1")
     }
     if (unitNameLoc != "")
-      nameArray.append(::loc("ui/parentheses", {text = unitNameLoc}))
+      unitName = ::loc("ui/parentheses", {text = unitNameLoc})
   }
 
-  local name = ::g_string.implode(nameArray, " ")
+  local clanTag = withClanTag ? player.clanTag : ""
+  local name = ::g_contacts.getPlayerFullName(platformModule.getPlayerName(player.name),
+                                              clanTag,
+                                              unitName)
+
   return colored ? ::colorize(::get_mplayer_color(player), name) : name
 }
 

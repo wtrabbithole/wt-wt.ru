@@ -113,6 +113,25 @@ enums.addTypesByGlobalName("g_hint_tag", {
       }]
     }
   }
+
+  INPUT_BUTTON = {
+    typeName = "INPUT_BUTTON"
+    delimiter = " "
+    checkOrder = hintTagCheckOrder.REGULAR
+    checkTag = function(tagName) { return ::g_string.startsWith(tagName, typeName) }
+
+    getViewSlices = function(tagName, params) //tagName == shortcutId
+    {
+      local paramsList = ::split(tagName, delimiter)
+      local shortcut = ::SHORTCUT?[paramsList?[1]]
+      if (!u.isTable(shortcut))
+        return []
+
+      return [{
+        shortcut = ::Input.Button(shortcut.dev[0], shortcut.btn[0]).getMarkup()
+      }]
+    }
+  }
 })
 
 ::g_hint_tag.types.sort(function(a, b) {

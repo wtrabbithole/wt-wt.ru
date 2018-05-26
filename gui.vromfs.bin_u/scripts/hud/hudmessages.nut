@@ -276,7 +276,12 @@ enums.addTypesByGlobalName("g_hud_messages", {
           addMessage(killLogMessage.messageData, killLogMessage.timestamp)
     }
 
-    clearStack = function () {}
+    clearStack = function ()
+    {
+      if (!::checkObj(nest))
+        return
+      nest.deleteChildren()
+    }
 
     onMessage = function (messageData)
     {

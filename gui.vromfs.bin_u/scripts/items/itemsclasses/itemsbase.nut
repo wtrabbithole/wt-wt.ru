@@ -132,6 +132,8 @@ class ::BaseItem
     }
   }
 
+  getSeenId = @() id.tostring()
+
   function makeEmptyInventoryItem()
   {
     local res = clone this

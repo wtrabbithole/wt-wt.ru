@@ -50,6 +50,24 @@ popup_menu {
     <<@items>>
   }
 
+  tdiv {
+    width:t='pw'
+    min-height:t='0.1@sf'
+
+    animated_wait_icon {
+      id:t='effects_wait_icon'
+      pos:t='50%pw-50%w, 0.05@sf - 50%h'
+      position:t='relative'
+      background-rotation:t = '0'
+    }
+
+    textareaNoTab {
+      id:t='effects_text'
+      width:t='pw'
+      tinyFont:t='yes'
+    }
+  }
+
   Button_text {
     pos:t='50%pw-50%w, @blockInterval'
     position:t='relative'

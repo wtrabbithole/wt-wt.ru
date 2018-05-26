@@ -21,25 +21,7 @@ local globalEnv = require_native("globalEnv")
       defValue = 1,
       onButton = function(value)
       {
-        local preset = ""
-        if (value == 0)
-        {
-          preset = ::is_platform_ps4
-          ? "default"
-          : ::is_platform_xboxone
-            ? "xboxone_simulator"
-            : "keyboard"
-        }
-        else
-        {
-          preset = ::is_platform_ps4
-          ? "dualshock4"
-          : ::is_platform_xboxone
-            ? "xboxone_ma"
-            : "keyboard_shooter"
-        }
-        preset = ::g_controls_presets.parsePresetName(preset)
-        preset = ::g_controls_presets.getHighestVersionPreset(preset)
+        local preset = ::get_controls_preset_by_selected_type(value == 0? "classic" : "shooter")
         applyPreset(preset.fileName)
       }
     }
@@ -1427,7 +1409,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       foreach(idx, btn in msgButtons)
       {
         local text = (btn.len()>0 && btn.slice(0, 1)!="#") ? "#"+btn : btn
-        data += format("Button_text { id:t='%d'; text:t='%s'; on_click:t='onMsgButton'; showConsoleImage:t='no'}",
+        data += format("Button_text { id:t='%d'; text:t='%s'; on_click:t='onMsgButton'; }",
                   idx, text)
       }
       local btnsHolder = scene.findObject("msgBox_buttons")

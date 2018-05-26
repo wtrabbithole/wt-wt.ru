@@ -606,6 +606,7 @@
       },
       {
         "tdiv": {
+          "id": "actionbar_hints_nest",
           "width": "1@shHud",
           "height": "0.065@shHud",
           "left": "0.5pw-0.5w",
@@ -615,19 +616,21 @@
             "position": "absolute",
             "pos": "0, ph-h",
             "flow": "vertical",
-            "textAreaCentered": {
-              "id": "low-quality-model-warning",
-              "width": "pw",
-              "style": "color:@warningTextColor; font:@fontHudNormal;",
-              "text": "#low_quality_model_in_hangar",
-              "display": "hide"
-            },
             "tdiv": {
               "id": "actionbar_hints",
               "width": "pw",
               "flow": "vertical"
             }
           }
+        }
+      },
+      {
+        "textAreaCentered": {
+          "id": "low-quality-model-warning",
+          "width": "pw",
+          "style": "color:@warningTextColor; font:@fontHudNormal;",
+          "text": "#low_quality_model_in_hangar",
+          "display": "hide"
         }
       },
       {

@@ -1655,7 +1655,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (::isUnitBroken(unit))
       return onRepair(obj)
     if (::isUnitInSlotbar(unit))
-      return ::open_weapons_for_unit(unit)
+      return ::open_weapons_for_unit(unit, getCurrentEdiff())
     if (unit.isUsable() && !::isUnitInSlotbar(unit))
       return onTake(unit)
     if (::canBuyUnitOnline(unit))

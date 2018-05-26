@@ -469,6 +469,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     showSceneBtn("operation_loading_wait_anim", battle.isValid() && !isOperationBattleLoaded)
 
+    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
     if (!battle.isValid() || !isOperationBattleLoaded)
     {
       showSceneBtn("teams_unis", false)
@@ -498,7 +499,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     loadMap(battleSides[0])
     updateBattleStatus(battleView)
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
   }
 
   function fillOperationBackground()

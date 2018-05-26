@@ -175,59 +175,19 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 1.0,
+          "var": "bt_delay_timer"
         }
       },
       "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "считаем задержку для каждлой из команд"
-          }
+      "actions": {
+        "comment": {
+          "value": "запускаем"
         },
-        {
-          "varSetRandomInt": {
-            "var": "bt_t1_additional_delay_timer",
-            "from": 30,
-            "to_not_including": 120
-          }
-        },
-        {
-          "varSetRandomInt": {
-            "var": "bt_t2_additional_delay_timer",
-            "from": 30,
-            "to_not_including": 120
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "bt_t1_additional_delay_timer",
-            "use_variable": true,
-            "var_value": "bt_delay_timer"
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "bt_t2_additional_delay_timer",
-            "use_variable": true,
-            "var_value": "bt_delay_timer"
-          }
-        },
-        {
-          "comment": {
-            "value": "запускаем"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bt_choose_army"
-          }
+        "triggerEnable": {
+          "target": "bt_choose_army"
         }
-      ],
+      },
       "else_actions": []
     },
     "bt_choose_army": {
@@ -444,6 +404,27 @@
           },
           {
             "target": "bt_t2_bombers_disable"
+          },
+          {
+            "target": "bt_t1_def_activity_change"
+          },
+          {
+            "target": "bt_t2_def_activity_change"
+          },
+          {
+            "target": "bt_t1_kill_activity_change"
+          },
+          {
+            "target": "bt_t2_kill_activity_change"
+          },
+          {
+            "target": "bt_t1_bombers_disable"
+          },
+          {
+            "target": "bt_t2_bombers_disable"
+          },
+          {
+            "target": "bt_detecttion_range_checks"
           }
         ]
       },
@@ -599,7 +580,7 @@
           }
         },
         {
-          "varAddString": {
+          "__varAddString": {
             "value": "_bomb_target",
             "digits": 0,
             "var": "bt_t1_target_point_name"
@@ -668,7 +649,7 @@
         },
         {
           "varGetStringValue": {
-            "from_var_name": "@ft_t1_bombers_field_target",
+            "from_var_name": "@ft_t1_bombers_field_zone",
             "var": "bt_t1_target_point_name"
           }
         },
@@ -716,12 +697,20 @@
           "time": 1.0
         }
       },
-      "conditions": {
-        "objectExists": {
-          "target": "@bt_t1_target_point_name",
-          "type": "unit"
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@bt_t1_target_name",
+            "type": "unit"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@bt_t1_target_point_name",
+            "type": "area"
+          }
         }
-      },
+      ],
       "actions": [
         {
           "comment": {
@@ -768,8 +757,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0,
-          "var": "bt_t1_additional_delay_timer"
+          "time": 1.0
         }
       },
       "conditions": [],
@@ -813,6 +801,18 @@
             },
             {
               "target": "bt_t1_bombers_damaged"
+            },
+            {
+              "target": "bt_t1_bombers_saved"
+            },
+            {
+              "target": "bt_t1_bombers_not_saved"
+            },
+            {
+              "target": "bt_t1_check_t2_quest_fail"
+            },
+            {
+              "target": "bt_t1_check_t2_quest_success"
             }
           ]
         },
@@ -1146,14 +1146,7 @@
           "useForTriggerFiltered": true
         }
       },
-      "else_actions": {
-        "comment": {
-          "value": "активных больше не осталось"
-        },
-        "__triggerDisable": {
-          "target": "bt_t1_fighters_disable"
-        }
-      }
+      "else_actions": []
     },
     "bt_t1_bombers_attack": {
       "is_enabled": false,
@@ -1813,7 +1806,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t1_defend_bombers",
             "status": 2,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -1840,7 +1836,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t1_defend_bombers",
             "status": 0,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "any"
           }
         }
       ],
@@ -1904,7 +1903,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t1_defend_bombers",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -1961,7 +1963,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t2_attack_bombers",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2013,7 +2018,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t2_attack_bombers",
             "status": 2,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2082,7 +2090,7 @@
           }
         },
         {
-          "varAddString": {
+          "__varAddString": {
             "value": "_bomb_target",
             "digits": 0,
             "var": "bt_t2_target_point_name"
@@ -2151,7 +2159,7 @@
         },
         {
           "varGetStringValue": {
-            "from_var_name": "@ft_t2_bombers_field_target",
+            "from_var_name": "@ft_t2_bombers_field_zone",
             "var": "bt_t2_target_point_name"
           }
         },
@@ -2199,12 +2207,20 @@
           "time": 1.0
         }
       },
-      "conditions": {
-        "objectExists": {
-          "target": "@bt_t2_target_point_name",
-          "type": "unit"
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@bt_t2_target_name",
+            "type": "unit"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@bt_t2_target_point_name",
+            "type": "area"
+          }
         }
-      },
+      ],
       "actions": [
         {
           "comment": {
@@ -2251,8 +2267,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0,
-          "var": "bt_t2_additional_delay_timer"
+          "time": 1.0
         }
       },
       "conditions": [],
@@ -2296,6 +2311,18 @@
             },
             {
               "target": "bt_t2_bombers_damaged"
+            },
+            {
+              "target": "bt_t2_bombers_saved"
+            },
+            {
+              "target": "bt_t2_bombers_not_saved"
+            },
+            {
+              "target": "bt_t2_check_t1_quest_fail"
+            },
+            {
+              "target": "bt_t2_check_t1_quest_success"
             }
           ]
         },
@@ -2629,14 +2656,7 @@
           "useForTriggerFiltered": true
         }
       },
-      "else_actions": {
-        "comment": {
-          "value": "активных больше не осталось"
-        },
-        "__triggerDisable": {
-          "target": "bt_t2_fighters_disable"
-        }
-      }
+      "else_actions": []
     },
     "bt_t2_bombers_attack": {
       "is_enabled": false,
@@ -2729,9 +2749,6 @@
       "actions": {
         "triggerDisable": {
           "target": "bt_t2_bombers_attack"
-        },
-        "wait": {
-          "time": 10.0
         },
         "comment": {
           "value": "цель уничтожена. скидываем бомбы и летим домой"
@@ -2856,14 +2873,7 @@
           "target": "bt_t2_bombers_saved"
         }
       },
-      "else_actions": {
-        "comment": {
-          "value": "активных больше не осталось"
-        },
-        "__triggerDisable": {
-          "target": "bt_t2_bombers_disable"
-        }
-      }
+      "else_actions": []
     },
     "bt_t2_activity_end": {
       "is_enabled": false,
@@ -3296,7 +3306,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t2_defend_bombers",
             "status": 2,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "isAlive"
           }
         },
         {
@@ -3387,7 +3400,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t2_defend_bombers",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3444,7 +3460,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t1_attack_bombers",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3496,7 +3515,10 @@
           "moSetObjectiveStatus": {
             "target": "bt_t1_attack_bombers",
             "status": 2,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "any"
           }
         },
         {
@@ -5224,7 +5246,7 @@
   },
   "variables": {
     "bt_army_both_zero": 1,
-    "bt_delay_timer": 240,
+    "bt_delay_timer": 180,
     "bt_t1_additional_delay_timer": 120,
     "bt_t2_additional_delay_timer": 120,
     "bt_is_army_swapping": true,

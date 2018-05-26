@@ -102,11 +102,36 @@ function g_contacts::updateXboxOneFriends(needIgnoreInitedFlag = false)
     return
   }
 
-  if (needIgnoreInitedFlag && isInitedXboxContacts)
+  if (!needIgnoreInitedFlag && isInitedXboxContacts)
     return
 
   isInitedXboxContacts = true
-  ::xbox_get_people_list_async()
+  ::g_contacts.xboxFetchContactsList()
+}
+
+function g_contacts::proceedXboxPlayersListFromCallback(playersList, group)
+{
+  local broadcastEventName = group == ::EPL_FRIENDLIST
+    ? "FriendsXboxContactsUpdated"
+    : "BlockListXboxContactsUpdated"
+
+  local taskId = ::xbox_find_friends(playersList)
+  if (taskId < 0 && !playersList.len())
+  {
+    //Need to update contacts list, because empty list - means no users,
+    //and returns -1, for not to send empty array to char.
+    //So, contacts list must be cleared in this case from xbox users.
+    ::broadcastEvent(broadcastEventName)
+    return
+  }
+
+  ::g_tasker.addTask(taskId, null, function() {
+      local blk = ::DataBlock()
+      blk = ::xbox_find_friends_result()
+      local table = ::buildTableFromBlk(blk)
+      ::broadcastEvent(broadcastEventName, table)
+    }
+  )
 }
 
 function g_contacts::onReturnFromXBoxOneOverlay()
@@ -115,6 +140,14 @@ function g_contacts::onReturnFromXBoxOneOverlay()
     return
 
   updateXboxOneFriends(true)
+}
+
+function g_contacts::xboxFetchContactsList()
+{
+  //Because update contacts better make consistent,
+  //make separate function, to call it where update required
+  //first called friends update, after it - blacklist.
+  ::xbox_get_people_list_async()
 }
 
 function g_contacts::onEventContactsUpdated(params)
@@ -130,11 +163,23 @@ function g_contacts::onEventContactsUpdated(params)
     else
       contact.getXboxId(@() ::can_view_target_presence(contact.xboxId))
   }
+
+  updateXboxOneFriends()
 }
 
 function g_contacts::onEventSignOut(p)
 {
   isInitedXboxContacts = false
+}
+
+function g_contacts::onEventFriendsXboxContactsUpdated(p)
+{
+  ::g_contacts.xboxUpdateContactsList(p, ::EPL_FRIENDLIST)
+}
+
+function g_contacts::onEventBlockListXboxContactsUpdated(p)
+{
+  ::g_contacts.xboxUpdateContactsList(p, ::EPL_BLOCKLIST)
 }
 
 function g_contacts::removeContactGroup(group)
@@ -143,33 +188,36 @@ function g_contacts::removeContactGroup(group)
   ::u.removeFrom(::contacts_groups, group)
 }
 
-function g_contacts::xboxUpdateContactsList(friendsResult = null)
+function g_contacts::xboxUpdateContactsList(p, group)
 {
-  if (!friendsResult)
-    return
-
-  local existedXBoxContacts = ::get_contacts_array_by_regexp(::EPL_FRIENDLIST, platformModule.xboxNameRegexp)
+  local friendsTable = clone p
+  local existedXBoxContacts = ::get_contacts_array_by_regexp(group, platformModule.xboxNameRegexp)
   for (local i = existedXBoxContacts.len() - 1; i >= 0; i--)
   {
-    if (existedXBoxContacts[i].uid in friendsResult)
+    if (existedXBoxContacts[i].uid in friendsTable)
     {
       local contact = existedXBoxContacts.remove(i)
-      friendsResult.removeBlock(contact.uid)
+      delete friendsTable[contact.uid]
     }
   }
 
   local xboxFriendsList = []
-  foreach(uid, data in friendsResult)
+  foreach(uid, data in friendsTable)
     xboxFriendsList.append(::getContact(uid, data.nick))
 
   local requestTable = {}
   requestTable[true] <- xboxFriendsList
   requestTable[false] <- existedXBoxContacts
 
-  ::edit_players_list_in_contacts(requestTable, ::EPL_FRIENDLIST)
+  ::edit_players_list_in_contacts(requestTable, group)
 
-  //To remove from blacklist players, that was added in game. But added to friendslist in XBOX overlay
-  ::edit_players_list_in_contacts({[false] = xboxFriendsList}, ::EPL_BLOCKLIST)
+  //To remove players from opposite group
+  ::edit_players_list_in_contacts({[false] = xboxFriendsList}, group == ::EPL_FRIENDLIST? ::EPL_BLOCKLIST : ::EPL_FRIENDLIST)
+}
+
+function g_contacts::getPlayerFullName(name, clanTag = "", addInfo = "")
+{
+  return ::g_string.implode([::has_feature("Clans")? clanTag : "", name, addInfo], " ")
 }
 
 
@@ -380,7 +428,7 @@ function editContactMsgBox(player, groupName, add) //playerConfig: { uid, name }
   }
 
   local contact = ::getContact(player.uid, player.name)
-  if (contact.canOpenXBoxFriendsWindow(groupName))
+  if (contact.canOpenXBoxFriendsWindow())
   {
     contact.openXBoxFriendsEdit()
     return

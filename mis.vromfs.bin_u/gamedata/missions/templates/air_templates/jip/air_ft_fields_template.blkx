@@ -361,13 +361,13 @@
           }
         },
         {
-          "moAddMissionObjective": {
+          "__moAddMissionObjective": {
             "target": "ft_t1_find_enemy_airfield",
             "unit_type": "isAlive"
           }
         },
         {
-          "moAddMissionObjective": {
+          "__moAddMissionObjective": {
             "target": "ft_t2_find_enemy_airfield",
             "unit_type": "isAlive"
           }
@@ -750,6 +750,44 @@
           },
           {
             "comment": {
+              "value": "получаем имя зоны фронтлайна в котором находится аэродром"
+            }
+          },
+          {
+            "getOwnArea": {
+              "name": "@ft_generate_t1_area_name",
+              "template": "flt_area_",
+              "out_var": "ft_generate_t1_own_area_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем армию фронтлайна"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ft_generate_t1_own_state_name",
+              "input_var": "ft_generate_t1_own_area_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_state",
+              "digits": 0,
+              "var": "ft_generate_t1_own_state_name"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ft_generate_t1_own_state_idx",
+              "input_var": "@ft_generate_t1_own_state_name"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем дистанцию до других аэродромов"
             }
           },
@@ -761,11 +799,64 @@
           },
           {
             "triggerEnable": {
-              "target": "ft_generate_t1_distance_rotator"
+              "target": "ft_generate_t1_check_army"
             }
           }
         ],
         "else_actions": []
+      },
+      "ft_generate_t1_check_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ft_generate_t1_own_state_idx",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "совпали индексы армий. генерируем дальше"
+          },
+          "triggerEnable": {
+            "target": "ft_generate_t1_distance_rotator"
+          }
+        },
+        "else_actions": [
+          {
+            "comment": {
+              "value": "индексы не совпали. уменьшаем индекс аэродрома на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "ft_generate_t1_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "генерируем заново"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ft_generate_t1_airfield_rotator"
+            }
+          }
+        ]
       },
       "ft_generate_t1_distance_rotator": {
         "is_enabled": false,
@@ -1134,7 +1225,6 @@
               "isStrictSpawn": false,
               "isAirfield": true,
               "isUnit": false,
-              "offset": [0.0,0.0,0.0],
               "radius": -1.0,
               "useExisting": false,
               "canSpawnOnNeutral": false,
@@ -1142,8 +1232,11 @@
               "showOnMap": true,
               "isIndividual": false,
               "onlyOnePlayerPerSpawnPoint": false,
+              "separate_fuel_time": false,
+              "modular_airfield": false,
               "target": "@ft_generate_t1_airfield_name",
               "team": "A",
+              "offset": [0.0,0.0,0.0],
               "tags": {
                 "none_can_spawn": false,
                 "tank": false,
@@ -1874,6 +1967,44 @@
           },
           {
             "comment": {
+              "value": "получаем имя зоны фронтлайна в котором находится аэродром"
+            }
+          },
+          {
+            "getOwnArea": {
+              "name": "@ft_generate_t2_area_name",
+              "template": "flt_area_",
+              "out_var": "ft_generate_t2_own_area_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем армию фронтлайна"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ft_generate_t2_own_state_name",
+              "input_var": "ft_generate_t2_own_area_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_state",
+              "digits": 0,
+              "var": "ft_generate_t2_own_state_name"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ft_generate_t2_own_state_idx",
+              "input_var": "@ft_generate_t2_own_state_name"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем дистанцию до других аэродромов"
             }
           },
@@ -1885,11 +2016,64 @@
           },
           {
             "triggerEnable": {
-              "target": "ft_generate_t2_distance_rotator"
+              "target": "ft_generate_t2_check_army"
             }
           }
         ],
         "else_actions": []
+      },
+      "ft_generate_t2_check_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ft_generate_t2_own_state_idx",
+            "value": 2,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "совпали индексы армий. генерируем дальше"
+          },
+          "triggerEnable": {
+            "target": "ft_generate_t2_distance_rotator"
+          }
+        },
+        "else_actions": [
+          {
+            "comment": {
+              "value": "индексы не совпали. уменьшаем индекс аэродрома на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "ft_generate_t2_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "генерируем заново"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ft_generate_t2_airfield_rotator"
+            }
+          }
+        ]
       },
       "ft_generate_t2_distance_rotator": {
         "is_enabled": false,
@@ -2282,7 +2466,6 @@
               "isStrictSpawn": false,
               "isAirfield": true,
               "isUnit": false,
-              "offset": [0.0,0.0,0.0],
               "radius": -1.0,
               "useExisting": false,
               "canSpawnOnNeutral": false,
@@ -2290,8 +2473,11 @@
               "showOnMap": true,
               "isIndividual": false,
               "onlyOnePlayerPerSpawnPoint": false,
+              "separate_fuel_time": false,
+              "modular_airfield": false,
               "target": "@ft_generate_t2_airfield_name",
               "team": "B",
+              "offset": [0.0,0.0,0.0],
               "tags": {
                 "none_can_spawn": false,
                 "tank": false,
@@ -3277,6 +3463,7 @@
             "moSetObjectiveStatus": {
               "target": "@ft_complete_objective_t1_objective_name",
               "status": 2,
+              "extendedEnding": true,
               "team": "A",
               "unit_or_area": "@ft_complete_objective_t2_zone_name"
             }
@@ -3383,6 +3570,7 @@
             "moSetObjectiveStatus": {
               "target": "@ft_complete_objective_t2_objective_name",
               "status": 2,
+              "extendedEnding": true,
               "team": "A",
               "unit_or_area": "@ft_complete_objective_t1_zone_name"
             }
@@ -3467,7 +3655,7 @@
             }
           },
           {
-            "moAddMissionObjective": {
+            "__moAddMissionObjective": {
               "target": "ft_t1_find_enemy_airfield",
               "unit_type": "isAlive"
             }
@@ -3539,7 +3727,7 @@
             }
           },
           {
-            "moAddMissionObjective": {
+            "__moAddMissionObjective": {
               "target": "ft_t2_find_enemy_airfield",
               "unit_type": "isAlive"
             }
@@ -3571,6 +3759,7 @@
             "moSetObjectiveStatus": {
               "target": "ft_t1_find_enemy_airfield",
               "status": 2,
+              "extendedEnding": true,
               "team": "A",
               "unit_type": "isAlive"
             }
@@ -3588,7 +3777,7 @@
           },
           {
             "wait": {
-              "time": 30.0
+              "time": 20.0
             }
           },
           {
@@ -3644,6 +3833,7 @@
             "moSetObjectiveStatus": {
               "target": "ft_t2_find_enemy_airfield",
               "status": 2,
+              "extendedEnding": true,
               "team": "B",
               "unit_type": "isAlive"
             }
@@ -3661,7 +3851,7 @@
           },
           {
             "wait": {
-              "time": 30.0
+              "time": 20.0
             }
           },
           {
@@ -5399,6 +5589,16 @@
             "triggerEnable": {
               "target": "ft_detect_t1_create_bomb_area"
             }
+          },
+          {
+            "comment": {
+              "value": "даем награду"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t2_detection_task_completed"
+            }
           }
         ],
         "else_actions": [
@@ -6222,6 +6422,16 @@
           {
             "triggerEnable": {
               "target": "ft_detect_t2_create_bomb_area"
+            }
+          },
+          {
+            "comment": {
+              "value": "даем награду"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t1_detection_task_completed"
             }
           }
         ],
@@ -8985,9 +9195,9 @@
             },
             {
               "unitSetVar": {
-                "var_name": "landing_progress",
+                "object_var_name": "landing_progress",
                 "object": "@st_fuel_t1_sentinell_name",
-                "var_value": 1
+                "object_var_value": 1
               }
             },
             {
@@ -9080,9 +9290,9 @@
             },
             {
               "unitSetVar": {
-                "var_name": "landing_progress",
+                "object_var_name": "landing_progress",
                 "object": "@st_fuel_t2_sentinell_name",
-                "var_value": 1
+                "object_var_value": 1
               }
             },
             {
@@ -9466,9 +9676,9 @@
             },
             {
               "unitSetVar": {
-                "var_name": "landing_progress",
+                "object_var_name": "landing_progress",
                 "object": "@st_fuel_t1_sentinell_name",
-                "var_value": 2
+                "object_var_value": 2
               }
             },
             {
@@ -9557,9 +9767,9 @@
             },
             {
               "unitSetVar": {
-                "var_name": "landing_progress",
+                "object_var_name": "landing_progress",
                 "object": "@st_fuel_t2_sentinell_name",
-                "var_value": 2
+                "object_var_value": 2
               }
             },
             {
@@ -10394,7 +10604,13 @@
     "ft_capture_t1_own_state_name": "",
     "ft_capture_t2_own_state_name": "",
     "ft_capture_t1_own_state_idx": 0,
-    "ft_capture_t2_own_state_idx": 0
+    "ft_capture_t2_own_state_idx": 0,
+    "ft_generate_t1_own_area_name": "",
+    "ft_generate_t2_own_area_name": "",
+    "ft_generate_t1_own_state_name": "",
+    "ft_generate_t2_own_state_name": "",
+    "ft_generate_t1_own_state_idx": 0,
+    "ft_generate_t2_own_state_idx": 0
   },
   "dialogs": [],
   "airfields": [],

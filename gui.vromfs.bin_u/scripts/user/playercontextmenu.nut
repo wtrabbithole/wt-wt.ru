@@ -40,6 +40,18 @@ local getPlayerCardInfoTable = function(uid, name)
 }
 
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
+local showPrivacySettingsRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableOnlinePrivacy"))
+local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = playerName}))
+
+local showMenu = function(_contact, handler, params)
+{
+  local contact = _contact || verifyContact(params)
+  if (contact && contact.needCheckXboxId())
+    return contact.getXboxId(::Callback(@() showMenu(contact, handler, params), this))
+
+  local menu = getActions(contact, params)
+  ::gui_right_click_menu(menu, handler, params?.position, params?.orientation)
+}
 
 local getActions = function(_contact, params)
 {
@@ -53,6 +65,7 @@ local getActions = function(_contact, params)
   local isMe = uid == ::my_user_id_str
   local isXBoxOnePlayer = platformModule.isXBoxPlayerName(name)
   local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
+  local canInteract = ::g_chat.xboxIsChatAvailableForFriend(name) && (!contact || contact.canInteract())
 
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
 
@@ -109,7 +122,14 @@ local getActions = function(_contact, params)
     {
       text = ::loc("contacts/message")
       show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
+      isVisualDisabled = !canInteract || isBlock
       action = function() {
+        if (!canInteract)
+          return showPrivacySettingsRestrictionPopup()
+
+        if (isBlock)
+          return showBlockedPlayerPopup(name)
+
         if (isMPChat)
         {
           ::broadcastEvent("MpChatInputRequested", { activate = true })
@@ -143,14 +163,14 @@ local getActions = function(_contact, params)
     actions.extend([
       {
         text = ::loc("squadAction/openChat")
-        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && ::ps4_is_chat_enabled()
+        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled()
         action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
       }
       {
         text = hasApplicationInMySquad
           ? ::loc("squad/accept_membership")
           : ::loc("squad/invite_player")
-        isVisualDisabled = !canInvitePlayer
+        isVisualDisabled = !canInvitePlayer || !canInteract
         show = canInviteToChatRoom
                && !isMe
                && !isBlock
@@ -158,7 +178,9 @@ local getActions = function(_contact, params)
                && !::g_squad_manager.isPlayerInvited(uid, name)
                && !squadMemberData?.isApplication
         action = function() {
-          if (!canInvitePlayer)
+          if (!canInteract)
+            showPrivacySettingsRestrictionPopup()
+          else if (!canInvitePlayer)
             showNotAvailableActionPopup()
           else if (hasApplicationInMySquad)
             ::g_squad_manager.acceptMembershipAplication(uidInt64)
@@ -184,10 +206,7 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("squad/remove_player")
-        show = !isMe
-               && meLeader
-               && inMySquad
-               && ::g_squad_manager.canManageSquad()
+        show = ::g_squad_manager.canDismissMember(uid)
         action = @() ::g_squad_manager.dismissFromSquad(uid)
       }
       {
@@ -261,9 +280,9 @@ local getActions = function(_contact, params)
       {
         text = ::loc("contacts/friendlist/add")
         show = !isMe && !isFriend && !isBlock
-        isVisualDisabled = ::is_platform_xboxone && !isXBoxOnePlayer
+        isVisualDisabled = !canInvitePlayer
         action = function() {
-          if (::is_platform_xboxone && !isXBoxOnePlayer)
+          if (!canInvitePlayer)
             showNotAvailableActionPopup()
           else
             ::editContactMsgBox(contact, ::EPL_FRIENDLIST, true)
@@ -313,7 +332,7 @@ local getActions = function(_contact, params)
 //---- <Chat> -----------------------
   if (::has_feature("Chat"))
   {
-    if (::ps4_is_chat_enabled() && canInviteToChatRoom)
+    if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled() && canInviteToChatRoom)
     {
       local inviteMenu = ::g_chat.generateInviteMenu(name)
       actions.append({
@@ -405,9 +424,14 @@ local getActions = function(_contact, params)
     ])
 //---- </Moderator> -----------------
 
-  return actions
+  local buttons = params?.extendButtons ?? []
+  buttons.extend(actions)
+  return buttons
 }
 
 return {
   getActions = getActions
+  showMenu = showMenu
+  showNotAvailableActionPopup = showNotAvailableActionPopup
+  showPrivacySettingsRestrictionPopup = showPrivacySettingsRestrictionPopup
 }

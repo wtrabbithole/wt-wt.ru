@@ -220,15 +220,16 @@ local ExchangeRecipes = class {
       cancel_fn = function() {}
     }
 
-    // If only one item is required (usually a Key for a Chest), suggest to buy it now.
+    //Suggest to buy not enough item on marketplace
     local requiredItem = null
-    if (::ItemsManager.isMarketplaceEnabled() && recipes.len() == 1 && recipes[0].components.len() == 2)
+    if (::ItemsManager.isMarketplaceEnabled() && recipes.len() == 1)
       foreach (c in recipes[0].components)
-        if (c.itemdefId != componentItem.id)
+        if (c.itemdefId != componentItem.id && c.curQuantity < c.reqQuantity)
         {
           local item = ::ItemsManager.findItemById(c.itemdefId)
-          if (item && item.link != "")
-            requiredItem = item
+          if (!item || !item.hasLink())
+            continue
+          requiredItem = item
           break
         }
 

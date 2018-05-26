@@ -271,8 +271,6 @@ enum BATTLE_LOG_FILTER
   function getUnitTypeEx(msg, isVictim = false)
   {
     local uType = ::getTblValue(isVictim ? "victimUnitType" : "unitType", msg)
-    if (uType == null) //compatibility with 1.69.2.X
-      return ::find_unit_type(isVictim? (msg?.victimUnitName ?? "") : (msg?.unitName ?? ""))
 
     local res = ::getTblValue(uType, utToEsUnitType, ::ES_UNIT_TYPE_INVALID)
     if (res == ::ES_UNIT_TYPE_INVALID) //we do not receive unitType for player killer unit, but can easy get it by unitName

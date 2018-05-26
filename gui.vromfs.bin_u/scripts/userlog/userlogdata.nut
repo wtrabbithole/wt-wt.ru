@@ -2,6 +2,16 @@ local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 
+enum USERLOG_POPUP {
+  UNLOCK                = 0x0001
+  FINISHED_RESEARCHES   = 0x0002
+  OPEN_TROPHY           = 0x0004
+
+  //masks
+  ALL                   = 0xFFFF
+  NONE                  = 0x0000
+}
+
 ::shown_userlog_notifications <- []
 
 ::g_script_reloader.registerPersistentData("UserlogDataGlobals", ::getroottable(), ["shown_userlog_notifications"])
@@ -263,8 +273,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
   local ignoreRentItems = []
   local total = get_user_logs_count()
   local unlocksNeedsPopupWnd = false
-  local hasDebriefingModalInScene = ::isHandlerInScene(::gui_handlers.DebriefingModal)
-  local isFinishedresearchesWindowsAllowed = handler?.isFinishedresearchesWindowsAllowed ?? true
+  local popupMask = ("getUserlogsMask" in handler) ? handler.getUserlogsMask() : USERLOG_POPUP.ALL
 
   for(local i = 0; i < total; i++)
   {
@@ -293,7 +302,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         local nameLoc = "userlog/"+logName + (blk.body.win? "/win":"/lose")
         msg = format(::loc(nameLoc), mission) //need more info in log, maybe title.
         ::my_stats.markStatsReset()
-        if (isFinishedresearchesWindowsAllowed)
+        if (popupMask & USERLOG_POPUP.FINISHED_RESEARCHES)
           ::checkNonApprovedResearches(true, true)
         ::broadcastEvent("BattleEnded", {eventId = blk.body.eventId})
       }
@@ -354,7 +363,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
 
       if ((! ::is_unlock_need_popup(blk.body.unlockId)
           && ! ::is_unlock_need_popup_in_menu(blk.body.unlockId))
-        || hasDebriefingModalInScene)
+        || !(popupMask & USERLOG_POPUP.UNLOCK))
         continue
 
       if (::is_unlock_need_popup_in_menu(blk.body.unlockId))
@@ -409,7 +418,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     }
     else if (blk.type == ::EULT_OPEN_ALL_IN_TIER)
     {
-      if (onStartAwards || !isFinishedresearchesWindowsAllowed)
+      if (onStartAwards || !(popupMask & USERLOG_POPUP.FINISHED_RESEARCHES))
         continue
       ::combineUserLogs(combinedUnitTiersUserLogs, blk, "unit", ["expToInvUnit", "expToExcess"])
       markDisabled = true
@@ -420,7 +429,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       if ("rentedUnit" in blk.body)
         ignoreRentItems.append(blk.body.rentedUnit + "_" + ::getLogNameByType(::EULT_RENT_UNIT))
 
-      if (onStartAwards)
+      if (onStartAwards || !(popupMask & USERLOG_POPUP.OPEN_TROPHY))
         continue
 
       local key = blk.body.id + "" + ::getTblValue("parentTrophyRandId", blk.body, "")

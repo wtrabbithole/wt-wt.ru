@@ -8,32 +8,18 @@ dummy {
 }
 
 // Used in spectator mode.
-<<#addScalableFrame>>
-frame {
-  id:t='order_status_frame'
-
-  <<#orderStatusFrameSize>>
-  size:t='<<orderStatusFrameSize>>'
-  <</orderStatusFrameSize>>
-  <<^orderStatusFrameSize>>
-  size:t='0.7@itemInfoWidth, 0.7@itemInfoWidth'
-  <</orderStatusFrameSize>>
-
+<<#needPlaceInHiddenContainer>>
+tdiv {
+  id:t='orders_container'
+  size:t='pw, ph'
   min-width:t='0.5@itemInfoWidth'
   min-height:t='0.5@itemInfoWidth'
   flow:t='vertical'
   overflow-y:t='auto'
-  class:t='scaleable'
-  position:t='relative'
+  position:t='absolute'
+  display:t='hide'
 
-  <<#orderStatusFramePos>>
-  pos:t='<<orderStatusFramePos>>'
-  <</orderStatusFramePos>>
-
-  moveElem {
-    check-off-screen:t='yes'
-  }
-<</addScalableFrame>>
+<</needPlaceInHiddenContainer>>
 
 textareaNoTab {
   id:t='status_text'
@@ -105,6 +91,6 @@ textareaNoTab {
   order-status-text-shade:t='yes'
 }
 
-<<#addScalableFrame>>
+<<#needPlaceInHiddenContainer>>
 } // Closes frame block.
-<</addScalableFrame>>
+<</needPlaceInHiddenContainer>>

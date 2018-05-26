@@ -266,6 +266,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return listObj.childrenCount() != count
   }
 
+  needShowContactHoverButtons = @() !::is_ps4_or_xbox
+
   function buildPlayersList(gName, showOffline=true)
   {
     local playerListView = {
@@ -273,6 +275,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       playerButton = []
       searchAdvice = gName != searchGroup
       searchAdviceID = "group_" + gName + "_search_advice"
+      needHoverButtons = needShowContactHoverButtons()
     }
 
     foreach(idx, contactData in ::contacts[gName])
@@ -327,7 +330,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::check_obj(obj))
         continue
 
-      local fullName = ::g_string.implode([f.clanTag, f.getName()], " ")
+      local fullName = ::g_contacts.getPlayerFullName(f.getName(), f.clanTag)
       local contactNameObj = obj.findObject("contactName")
       contactNameObj.setValue(fullName)
       local contactPresenceObj = obj.findObject("contactPresence")
@@ -369,9 +372,13 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     foreach (idx, contact in ::contacts[gName])
     {
-      local contactObject = scene.findObject(format("player_%s_%s", gName.tostring(), idx.tostring()))
+      local contactObject = scene.findObject(::format("player_%s_%s", gName.tostring(), idx.tostring()))
+      contactObject.contact_buttons_contact_uid = contact.uid
+
       local contactButtonsHolder = contactObject.findObject("contact_buttons_holder")
-      contactButtonsHolder.contact_buttons_contact_uid = contact.uid
+      if (!::check_obj(contactButtonsHolder))
+        continue
+
       updateContactButtonsVisibility(contact, contactButtonsHolder)
     }
   }
@@ -386,18 +393,25 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isMe = contact? contact.isMe() : false
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contact?.name ?? "")
     local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
+    local canInteractWithPlayer = contact? contact.canInteract() : true
 
     showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInvitePlayer, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
     showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock, contact_buttons_holder)
     showBtn("btn_blacklistRemove", isBlock, contact_buttons_holder)
-    showBtn("btn_message", owner && !isBlock && ::ps4_is_chat_enabled(), contact_buttons_holder)
+    showBtn("btn_message", owner
+                           && !isBlock
+                           && ::ps4_is_chat_enabled()
+                           && ::g_chat.xboxIsChatEnabled()
+                           && canInteractWithPlayer, contact_buttons_holder)
 
     local showSquadInvite = !isMe
       && !isBlock
       && canInvitePlayer
       && ::g_squad_manager.canInviteMember(contact?.uid ?? "")
       && !::g_squad_manager.isPlayerInvited(contact?.uid ?? "", contact?.name ?? "")
+      && canInteractWithPlayer
+      && ::g_chat.xboxIsChatEnabled()
 
     local btnObj = showBtn("btn_squadInvite", showSquadInvite, contact_buttons_holder)
     if (btnObj && showSquadInvite && contact?.uidInt64)
@@ -596,7 +610,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::contacts[gName].sort(::sortContacts)
       local activateEvent = "onPlayerMsg"
-      if (::show_console_buttons || !::ps4_is_chat_enabled())
+      if (::show_console_buttons || !::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
         activateEvent = "onPlayerMenu"
       local gData = buildPlayersList(gName)
       data += format(groupFormat, "#contacts/" + gName,
@@ -823,7 +837,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       curPlayer = ::contacts[curGroup][value]
     else
       curPlayer = null
-    updateContactButtonsVisibility(curPlayer, scene)
+
+    if (needShowContactHoverButtons())
+      updateContactButtonsVisibility(curPlayer, scene)
   }
 
   function onPlayerMenu(obj)
@@ -903,8 +919,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function showCurPlayerRClickMenu(position = null)
   {
-    local menu = playerContextMenu.getActions(curPlayer, { position = position })
-    ::gui_right_click_menu(menu, this, position)
+    playerContextMenu.showMenu(curPlayer, this, {position = position} )
   }
 
   function isContactsWindowActive()
@@ -961,7 +976,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(button_object))
       return
 
-    local contactButtonsObject = button_object.getParent()
+    local contactButtonsObject = button_object.getParent().getParent()
     local contactUID = contactButtonsObject.contact_buttons_contact_uid
     if (!contactUID)
       return
@@ -1208,6 +1223,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onEventContactsUpdated(params)
+  {
+    updateContactsGroup(null)
+  }
+
+  function onEventSquadStatusChanged(p)
   {
     updateContactsGroup(null)
   }

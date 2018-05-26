@@ -117,6 +117,16 @@ tdiv {
   }
 }
 <</upgrade_members_new>>
+<<#comments>>
+tdiv {
+  text {
+    text:t='<<?clan/log/comment>><<?ui/colon>>'
+  }
+  activeText {
+    text:t='<<comments>>'
+  }
+}
+<</comments>>
 <<#signText>>
 tdiv {
   position:t='relative'

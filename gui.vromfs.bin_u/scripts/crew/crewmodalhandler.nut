@@ -1,17 +1,9 @@
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
-function gui_modal_crew(countryId, idInCountry, pageId = null, showTutorial = false)
+function gui_modal_crew(params = {})
 {
   if (::has_feature("CrewSkills"))
-  {
-    local params = {
-      countryId = countryId
-      idInCountry = idInCountry
-      curPageId = pageId
-      showTutorial = showTutorial
-    }
     ::gui_start_modal_wnd(::gui_handlers.CrewModalHandler, params)
-  }
   else
     ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
 }
@@ -46,6 +38,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   unitSpecHandler = null
   skillsPageHandler = null
+  curEdiff = -1
 
   function initScreen()
   {
@@ -797,5 +790,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getCrewLevel()
   {
     return crewCurLevel
+  }
+
+  function getCurrentEdiff()
+  {
+    return curEdiff == -1 ? ::get_current_ediff() : curEdiff
   }
 }

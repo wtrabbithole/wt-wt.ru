@@ -1,5 +1,6 @@
 local enums = ::require("std/enums.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
+local seenList = ::require("scripts/seen/seenList.nut")
 
 local shopSheets = {
   types = []
@@ -16,6 +17,8 @@ shopSheets.template <- {
   typeMask = itemType.INVENTORY_ALL
   isDevItemsTab = false
   isMarketplace = false
+
+  getSeenId = @() "##item_sheet_" + id
 
   isAllowedForTab = @(shopTab) shopTab != itemsTab.WORKSHOP
   isEnabled = @(shopTab) isAllowedForTab(shopTab)
@@ -38,6 +41,18 @@ shopSheets.template <- {
   }
 }
 
+local function getTabSeenId(tabIdx) //!!FIX ME: move tabs to separate enum
+{
+  switch (tabIdx)
+  {
+    case itemsTab.SHOP:          return SEEN.ITEMS_SHOP
+    case itemsTab.INVENTORY:     return SEEN.INVENTORY
+    case itemsTab.WORKSHOP:      return SEEN.WORKSHOP
+  }
+  return null
+}
+local isTabVisible = @(tabIdx) tabIdx != itemsTab.WORKSHOP || workshop.isAvailable() //!!FIX ME: move tabs to separate enum
+
 shopSheets.addSheets <- function(sheetsTable)
 {
   enums.addTypes(this, sheetsTable,
@@ -50,6 +65,20 @@ shopSheets.addSheets <- function(sheetsTable)
     },
     "id")
   shopSheets.types.sort(@(a, b) a.sortId <=> b.sortId)
+
+  //register seen sublist getters
+  for (local tab = 0; tab < itemsTab.TOTAL; tab++)
+    if (isTabVisible(tab))
+    {
+      local curTab = tab
+      local tabSeenList = seenList.get(getTabSeenId(tab))
+      foreach (sh in types)
+        if (sh.isAllowedForTab(tab))
+        {
+          local curSheet = sh
+          tabSeenList.setSubListGetter(sh.getSeenId(), @() curSheet.getItemsList(curTab).map(@(it) it.getSeenId()))
+        }
+    }
 }
 
 shopSheets.findSheet <- function(config, defSheet = null)
@@ -208,8 +237,6 @@ shopSheets.updateWorkshopSheets <- function()
   if (newSheets.len())
     shopSheets.addSheets(newSheets)
 }
-
-shopSheets.isTabVisible <- @(tabIdx) tabIdx != itemsTab.WORKSHOP || workshop.isAvailable() //!!FIX ME: move tabs to separate enum
 
 shopSheets.getTabByItem <- function(item, defaultTab = -1)
 {

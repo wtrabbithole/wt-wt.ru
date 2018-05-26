@@ -19,6 +19,7 @@ class ::BaseInvite
   isSeen = false
   isDelayed = false //do not show it to player while delayed
   isAutoAccepted = false
+  isRejected = false
 
   timedShowStamp = -1   //  invite must be hidden till this timestamp
   timedExpireStamp = -1 //  invite must autoexpire after this timestamp
@@ -81,6 +82,7 @@ class ::BaseInvite
     return !isOutdated()
            && !isDelayed
            && !isAutoAccepted
+           && !isRejected
            && !::isPlayerNickInContacts(inviterName, ::EPL_BLOCKLIST)
            && !::isUserBlockedByPrivateSetting(inviterUid, inviterName)
   }

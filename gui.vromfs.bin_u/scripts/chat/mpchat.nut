@@ -205,7 +205,7 @@ class ::ChatHandler
 
   function canEnableChatInput()
   {
-    if (!::ps4_is_chat_enabled())
+    if (!::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
       return false
     foreach(sceneData in scenes)
       if (!sceneData.hiddenInput && ::checkObj(sceneData.scene) && sceneData.scene.isVisible())
@@ -229,7 +229,11 @@ class ::ChatHandler
     if (isActive && !sceneData.scene.isVisible())
       return
 
-    local show = (isActive || !sceneData.selfHideInput) && !sceneData.hiddenInput && ::ps4_is_chat_enabled() && getCurView(sceneData) == mpChatView.CHAT
+    local show = (isActive || !sceneData.selfHideInput)
+                 && !sceneData.hiddenInput
+                 && ::ps4_is_chat_enabled()
+                 && ::g_chat.xboxIsChatEnabled()
+                 && getCurView(sceneData) == mpChatView.CHAT
     local scene = sceneData.scene
 
     ::showBtnTable(scene, {
@@ -239,7 +243,7 @@ class ::ChatHandler
     ::enableBtnTable(scene, {
         chat_input              = show
         btn_send                = show
-        chat_mod_accesskey      = show
+        chat_mod_accesskey      = show && (sceneData.handler?.isSpectate || !::is_hud_visible)
     })
     if (show && sceneData.scene.isVisible())
     {
@@ -430,7 +434,19 @@ class ::ChatHandler
 
     local hint = scene.findObject("chat_hint")
     if (hint)
-      hint.setValue(::get_gamepad_specific_localization(::g_squad_manager.isInSquad() ? "chat/help/squad" : "chat/help/short"))
+      hint.setValue(getChatHint())
+  }
+
+  function getChatHint()
+  {
+    local hasIME = ::is_ps4_or_xbox || ::is_platform_android || ::is_steam_big_picture()
+    return ::loc("chat/help/modeSwitch",
+        { modeSwitchShortcuts = "{{ID_TOGGLE_CHAT_MODE}}"
+          modeList = ::g_mp_chat_mode.getTextAvailableMode()
+        })
+      + (hasIME ? ""
+        : ::loc("ui/comma")
+          + ::loc("chat/help/send", { sendShortcuts = "{{INPUT_BUTTON KEY_ENTER}}" }))
   }
 
   function onEventMpChatModeChanged(params)
@@ -466,14 +482,12 @@ class ::ChatHandler
 
   function showPlayerRClickMenu(playerName)
   {
-    local menu = playerContextMenu.getActions(null, {
+    playerContextMenu.showMenu(null, this, {
       playerName = playerName
       isMPChat = true
       chatLog = getLogText()
       canComplain = true
     })
-
-    ::gui_right_click_menu(menu, this)
   }
 
   function onChatLinkClick(obj, itype, link)  { onChatLink(obj, link, ::is_platform_pc) }
@@ -539,14 +553,21 @@ class ::ChatHandler
         ::loc(message.text))
 
     local text = ::g_chat.filterMessageText(message.text, message.isMyself)
-    if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
-      text = ::g_chat.makeBlockedMsg(message.text)
+    if (!message.isMyself)
+    {
+      if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
+        text = ::g_chat.makeBlockedMsg(message.text)
+      else if (!::g_chat.xboxIsChatAvailableForFriend(message.sender))
+        text = ::g_chat.makeXBoxRestrictedMsg(message.text)
+    }
 
     local senderColor = getSenderColor(message)
     local msgColor = getMessageColor(message)
-    local clanTag = ::get_player_tag(message.sender)
-    local playerName = platformModule.getPlayerName(message.sender)
-    local fullName = ::g_string.implode([clanTag, playerName], " ")
+    local fullName = ::g_contacts.getPlayerFullName(
+      platformModule.getPlayerName(message.sender),
+      ::get_player_tag(message.sender)
+    )
+
     return ::format(
       "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
       timeString

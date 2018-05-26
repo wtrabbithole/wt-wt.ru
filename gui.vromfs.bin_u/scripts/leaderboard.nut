@@ -540,11 +540,10 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     if (!rowData || forClans)
       return
 
-    local menu = playerContextMenu.getActions(null, {
+    playerContextMenu.showMenu(null, this, {
       playerName = getLbPlayerName(rowData) //!!FIX ME better to open menu by uid
       canInviteToChatRoom = false
     })
-    ::gui_right_click_menu(menu, this)
   }
 
   function onClanInfo()

@@ -234,11 +234,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContent(scene, "gui/chat/menuChat.blk", this)
       setSavedSizes()
       scene.findObject("menu_chat_update").setUserData(this)
-      showSceneBtn("chat_input_place", ::ps4_is_chat_enabled())
+      showSceneBtn("chat_input_place", ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
       local chatObj = scene.findObject("menuchat_input")
-      chatObj.show(::ps4_is_chat_enabled())
+      chatObj.show(::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
       chatObj["max-len"] = ::g_chat.MAX_MSG_LEN.tostring()
-      showSceneBtn("btn_send", ::ps4_is_chat_enabled())
+      showSceneBtn("btn_send", ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
       searchInited = false
       updateRoomsList()
     }
@@ -548,10 +548,10 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         fillList(listObj, userFormat, users.len())
         foreach(idx, user in users)
         {
-          local fullName = ::g_string.implode([
-            ::clanUserTable?[user.name] ?? "",
-            platformModule.getPlayerName(user.name)
-          ], " ")
+          local fullName = ::g_contacts.getPlayerFullName(
+            platformModule.getPlayerName(user.name),
+            ::clanUserTable?[user.name] ?? ""
+          )
           listObj.findObject("user_name_"+idx).setValue(fullName)
         }
       }
@@ -767,7 +767,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::g_chat.getRoomById(roomId))
         addRoom(roomId, null, null, idx == 0)
 
-    if (::ps4_is_chat_enabled())
+    if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
     {
       local chatRooms = ::get_local_custom_settings_blk().chatRooms
       local roomIdx = 0
@@ -959,7 +959,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     if (event == ::GCHAT_EVENT_MESSAGE)
     {
-      if(::ps4_is_chat_enabled())
+      if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
         onMessage(db)
     }
     else if (event == ::GCHAT_EVENT_CONNECTED)
@@ -1307,7 +1307,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       clanTag = messageAuthor.clanTag
       messageAuthor = messageAuthor.name
     }
-    if(::g_chat.isSystemUserName(messageAuthor))
+    if (::g_chat.isSystemUserName(messageAuthor))
     {
       messageAuthor = ""
       msg = filterSystemUserMsg(msg)
@@ -1337,6 +1337,15 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         userColor = blockedColor
         msgColor = blockedColor
         msg = ::g_chat.makeBlockedMsg(msg)
+      }
+      else if (!myself && !myPrivate && !::g_chat.xboxIsChatAvailableForFriend(messageAuthor))
+      {
+        if (privateMsg)
+          return
+
+        userColor = blockedColor
+        msgColor = blockedColor
+        msg = ::g_chat.makeXBoxRestrictedMsg(msg)
       }
       else
         msg = colorMyNameInText(msg)
@@ -1522,9 +1531,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
           ::clanUserTable[db.sender.nick] <- clanTag
         roomId = db.sender.name
         privateMsg = (db.type == "chat") || !roomRegexp.match(roomId)
+        local isSystemMessage = ::g_chat.isSystemUserName(user)
+
+        if (!isSystemMessage && !::g_chat.isCrossNetworkMessageAllowed(user))
+          return
+
         if (privateMsg)  //private message
         {
-          if(::isUserBlockedByPrivateSetting(db.userId))
+          if (::isUserBlockedByPrivateSetting(db.userId))
             return
 
           if (db.type == "chat")
@@ -1557,7 +1571,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         }
 
         // System message
-        if (::g_chat.isSystemUserName(user))
+        if (isSystemMessage)
         {
           local nameLen = ::my_user_name.len()
           if (message.len() >= nameLen && message.slice(0, nameLen) == ::my_user_name)
@@ -1744,13 +1758,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     local showCount = unhiddenRoomsCount()
     if (showCount==1)
     {
-      if (::ps4_is_chat_enabled())
+      if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
         addRoomMsg(id, "", ::loc("menuchat/hello"))
     }
     if (selectRoom || roomType.needSwitchRoomOnJoin)
       switchCurRoom(r, false)
 
-    if (roomType == ::g_chat_room_type.SQUAD && ::ps4_is_chat_enabled())
+    if (roomType == ::g_chat_room_type.SQUAD && ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
       addRoomMsg(id, "", ::loc("squad/channelIntro"))
 
     if (::delayed_chat_messages!="")
@@ -2639,6 +2653,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         ::ps4_show_chat_restriction()
         return
       }
+      else if (!::g_chat.xboxIsChatEnabled(true))
+        return
       else if (!::isInArray(searchRoomList[value], ::global_chat_rooms_list) && !::ps4_is_ugc_enabled())
       {
         ::ps4_show_ugc_restriction()
@@ -2836,7 +2852,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local obj = roomData.customScene.findObject(objName)
       if (::checkObj(obj))
-        obj.enable(::ps4_is_chat_enabled())
+        obj.enable(::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
     }
   }
 
@@ -3077,9 +3093,16 @@ function openChatScene(ownerHandler = null)
 
 function openChatPrivate(playerName, ownerHandler = null)
 {
-  if (!::openChatScene(ownerHandler))
-    return
-  ::menu_chat_handler.changePrivateTo.call(::menu_chat_handler, playerName)
+  if (!platformModule.isPlayerFromXboxOne(playerName))
+    return ::g_chat.openPrivateRoom(playerName, ownerHandler)
+
+  ::find_contact_by_name_and_do(playerName, function(contact) {
+    if (contact.xboxId == "")
+      return contact.getXboxId(@() ::openChatPrivate(contact.name, ownerHandler))
+
+    if (contact.canInteract())
+      ::g_chat.openPrivateRoom(contact.name, ownerHandler)
+  })
 }
 
 function isMenuChatActive()

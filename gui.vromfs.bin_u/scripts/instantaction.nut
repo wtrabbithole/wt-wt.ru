@@ -1138,7 +1138,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("tutorials/upg_crew/select_crew")
         actionType = tutorAction.OBJ_CLICK
         cb = function() {
-          ::gui_modal_crew(curCrew.idCountry, curCrew.idInCountry, tutorialPageId, true)
+          ::gui_modal_crew({
+            countryId = curCrew.idCountry,
+            idInCountry = curCrew.idInCountry,
+            curPageId = tutorialPageId,
+            showTutorial = true
+          })
         }
       }
     ]

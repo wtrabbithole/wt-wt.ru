@@ -882,14 +882,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!curMember)
       return
 
-    local menu = playerContextMenu.getActions(null, {
+    playerContextMenu.showMenu(null, this, {
       uid = curMember.uid
       playerName = curMember.nick
       position = position
       clanData = clanData
     })
-
-    ::gui_right_click_menu(menu, this, position)
   }
 
   function onMembershipReq(obj = null)

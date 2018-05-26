@@ -108,6 +108,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     findMapForSelection()
     fillMapsList()
+    fillTrophyList()
 
     if (hasSelectAllCountriesBlock)
       fillSelectAllCountriesList()
@@ -228,6 +229,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local selIdx = -1
     local view = {
       items = []
+      isCreateOperationMode = true
     }
 
     chaptersList.sort(sortFunc)
@@ -261,6 +263,48 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         onCollapse(mapsListObj.findObject("btn_" + id))
 
     isFillingList = false
+  }
+
+  function fillTrophyList()
+  {
+    local trophiesBlk = ::g_world_war.getSetting("dailyTrophies", ::DataBlock())
+    local trophiesAmount = trophiesBlk.blockCount()
+    if (!trophiesAmount)
+      return
+
+    local view = {
+      titleText = getTrophyDesc(trophiesBlk)
+      trophy = []
+    }
+    local isLeftPanelVisible = false
+    if (::has_feature("WorldWarDailyTrophies"))
+      for (local i = 0; i < trophiesAmount; i++)
+      {
+        local trophy = trophiesBlk.getBlock(i)
+        local trophyId = trophy.itemName || trophy.trophyName || trophy.mainTrophyId
+        local trophyItem = ::ItemsManager.findItemById(trophyId)
+        if (!trophyItem)
+          continue
+
+        local trophyAmount = trophy.amount || 1
+        view.trophy.append({
+          titleText = getTrophyDesc(trophy)
+          wwTrophyMarkup = trophyItem.getNameMarkup(trophyAmount, false)
+        })
+        isLeftPanelVisible = true
+      }
+
+    local markup = ::handyman.renderCached("gui/worldWar/wwTrophiesList", view)
+    local trophyBlockObj = scene.findObject("trophy_list")
+    guiScene.replaceContentFromText(trophyBlockObj, markup, markup.len(), this)
+    showSceneBtn("panel_left", isLeftPanelVisible)
+  }
+
+  getTrophyDesc = @(blk) ::loc(blk.locId || "worldwar/" + blk.getBlockName())
+
+  function onEventItemsShopUpdate(params)
+  {
+    fillTrophyList()
   }
 
   function selectMapById(id)
@@ -301,7 +345,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local isSelChanged = refreshSelMap()
 
     if (!isSelChanged && _wasSelectedOnce)
-      return
+      return updateButtons()
 
     if (selMap && isSelChanged && (!isFillingList || !_wasSelectedOnce))
       ::pick_globe_operation(selMap.getId(), false)
@@ -311,6 +355,143 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     updateUnseen()
     updateDescription()
     updateButtons()
+  }
+
+  function getSelectedMapObj()
+  {
+    if (!::check_obj(mapsListObj))
+      return null
+
+    local value = mapsListObj.getValue()
+    return value >= 0 ? mapsListObj.getChild(value) : null
+  }
+
+  function isSelectedMapEditMode(mapObj)
+  {
+    if (!::check_obj(mapObj))
+      return false
+
+    return mapObj.selected == "yes" ? false : true
+  }
+
+  function getSelectedMapEditBtnText(mapObj)
+  {
+    if (!::check_obj(mapObj))
+      return ""
+
+    if (mapObj.collapse_header)
+      return mapObj.collapsed == "yes"
+        ? ::loc("mainmenu/btnExpand")
+        : ::loc("mainmenu/btnCollapse")
+
+    return ::loc("options/arcadeCountry")
+  }
+
+  function onMapAction(obj)
+  {
+    local mapObj = getSelectedMapObj()
+    if (!::check_obj(mapObj))
+      return
+
+    if (isMapObjChapter(mapObj))
+      onCollapse(mapObj)
+    else
+    {
+      if (mapObj.selected == "yes")
+        onSelectCountriesBlock()
+      else
+        onSelectCountry()
+    }
+  }
+
+  function onSelectCountriesBlock()
+  {
+    local mapObj = getSelectedMapObj()
+    if (!::check_obj(mapObj) || mapObj.collapse_header)
+      return
+
+    local countryContainerObj = getCountryBlockObj(mapObj)
+    if (!canEditMapCountries(countryContainerObj))
+      return
+
+    countryContainerObj.select()
+    updateButtons()
+  }
+
+  isMapObjChapter = @(obj) !!obj.collapse_header
+  getCountryBlockObj = @(obj) obj.findObject("countries_selection_" + obj.id)
+  canEditMapCountries = @(obj) ::check_obj(obj) && obj.isVisible() && obj.isEnabled()
+
+  function onMapCountriesUp()
+  {
+    switchMapCountry(-1)
+  }
+
+  function onMapCountriesDown()
+  {
+    switchMapCountry(1)
+  }
+
+  function switchMapCountry(direction)
+  {
+    local value = getMapsListObjValue()
+    if (value < 0)
+      return
+
+    value += direction
+    while (value >= 0 && value < mapsListObj.childrenCount())
+    {
+      if (tryToSwitchMapCountry(value))
+        break
+
+      value += direction
+    }
+  }
+
+  function getMapsListObjValue()
+  {
+    if (!::check_obj(mapsListObj))
+      return -1
+
+    return mapsListObj.getValue()
+  }
+
+  function tryToSwitchMapCountry(idx)
+  {
+    local mapObj = mapsListObj.getChild(idx)
+    local countryContainerObj = getCountryBlockObj(mapObj)
+    if (isMapObjChapter(mapObj) || !canEditMapCountries(countryContainerObj))
+      return false
+
+    mapsListObj.setValue(idx)
+    onSelectCountriesBlock()
+    return true
+  }
+
+  function onLeaveCountriesBlock()
+  {
+    mapsListObj.select()
+    updateButtons()
+  }
+
+  function onSelectCountry()
+  {
+    local mapObj = getSelectedMapObj()
+    if (!::check_obj(mapObj) || mapObj.collapse_header)
+      return
+
+    local countryContainerObj = mapObj.findObject("countries_selection_" + mapObj.id)
+    if (!::check_obj(countryContainerObj))
+      return
+
+    local value = countryContainerObj.getValue()
+    if (value < 0)
+      return
+
+    local countryCheckBoxObj = countryContainerObj.getChild(value)
+
+    countryCheckBoxObj.setValue(!countryCheckBoxObj.getValue())
+    onMapCountrySelect(countryCheckBoxObj)
   }
 
   function onCollapse(obj)
@@ -528,6 +709,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
     showSceneBtn("queues_wait_time_div", isInQueue)
     onTimerQueuesWaitTime(null, 0.0)
+
+    if (::show_console_buttons)
+    {
+      local selectedMapObj = getSelectedMapObj()
+      local btnMapActionObj = showSceneBtn("btn_map_action", !isModePlayer)
+      btnMapActionObj.setValue(getSelectedMapEditBtnText(selectedMapObj))
+    }
 
     if (!isModeClan)
       return
@@ -753,7 +941,12 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function goBack()
   {
     if (mode == WW_OM_WND_MODE.CLAN)
-      switchMode(WW_OM_WND_MODE.PLAYER)
+    {
+      if (isSelectedMapEditMode(getSelectedMapObj()))
+        onLeaveCountriesBlock()
+      else
+        switchMode(WW_OM_WND_MODE.PLAYER)
+    }
     else if (mode == WW_OM_WND_MODE.PLAYER)
       base.goBack()
   }

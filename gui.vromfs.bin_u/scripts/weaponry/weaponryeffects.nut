@@ -22,6 +22,7 @@ local presetsList = {
   SPEED = {
     measureType = MEASURE_UNIT_SPEED
     validateValue = @(value) ::fabs(value) * 3.6 > 1.0 ? value : null
+    presize = 0.1
   }
   CLIMB_SPEED = {
     measureType = MEASURE_UNIT_CLIMB_SPEED
@@ -349,18 +350,32 @@ local function hasNotZeroDiff(effects1, effects2)
   return false
 }
 
+local function hasNotZeroDiffSublist(list1, list2)
+{
+  if (!list1 || !list2)
+    return false
+  foreach(key, effects in list1)
+    if (hasNotZeroDiff(effects, list2?[key]))
+      return true
+  return false
+}
+
 local function prepareCalculationParams(unit, effects, modeId)
 {
   upgradesKeys.clear()
   foreach(key in UPGRADES_ORDER)
     if (hasNotZeroDiff(effects, effects?[key])
-        || hasNotZeroDiff(effects?[modeId], effects?[key]?[modeId]))
+        || hasNotZeroDiff(effects?[modeId], effects?[key]?[modeId])
+        || hasNotZeroDiffSublist(effects?.weaponMods, effects?[key]?.weaponMods))
       upgradesKeys.append(key)
   needToShowDiff = upgradesKeys.len() > 0 && ::has_feature("ModUpgradeDifference")
 }
 
-local function getDesc(unit, effects)
+local DESC_PARAMS = { needComment = true }
+local function getDesc(unit, effects, p = DESC_PARAMS)
 {
+  p = DESC_PARAMS.__merge(p)
+
   local modeId = ::get_current_shop_difficulty().crewSkillName
   prepareCalculationParams(unit, effects, modeId)
 
@@ -370,14 +385,17 @@ local function getDesc(unit, effects)
     res = "\n" + ::loc("modifications/specs_change") + ::loc("ui/colon") + desc
 
   if ("weaponMods" in effects)
-    foreach(w in effects.weaponMods)
+    foreach(idx, w in effects.weaponMods)
     {
+      w.withLevel     <- effects?.withLevel?.weaponMods?[idx] ?? {}
+      w.withOverdrive <- effects?.withOverdrive?.weaponMods?[idx] ?? {}
+
       desc = ::u.reduce(weaponEffectsType.types, getEffectsStackFunc(unit, w, modeId), "")
       if (desc.len())
         res += "\n" + ::loc(w.name) + ::loc("ui/colon") + desc
     }
 
-  if(res != "")
+  if(p.needComment && res != "")
     res += "\n" + "<color=@fadedTextColor>" + ::loc("weaponry/modsEffectsNotification") + "</color>"
   return res
 }

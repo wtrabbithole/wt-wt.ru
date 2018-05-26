@@ -32,6 +32,7 @@
   KEY_M         = {dev = [2], btn = [50]}
   KEY_COMMA     = {dev = [2], btn = [51]}
 
+  KEY_ENTER     = {dev = [2], btn = [28]}
   KEY_LCTRL     = {dev = [2], btn = [29]}
   KEY_LSHIFT    = {dev = [2], btn = [42]}
   KEY_LALT      = {dev = [2], btn = [56]}

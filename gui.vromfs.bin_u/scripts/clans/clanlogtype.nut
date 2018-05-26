@@ -142,6 +142,42 @@ enums.addTypesByGlobalName("g_clan_log_type", {
       return ::loc("clan/log/upgrade_members_log", {nick = logEntry.uN})
     }
   }
+  REJECT_CANDIDATE = {
+    name = "reject_candidate"
+    logDetailsCommonFields = [
+      "uid"
+      "nick"
+      "comments"
+    ]
+    function getLogHeader(logEntry)
+    {
+      return ::loc("clan/log/reject_candidate_log", {nick = getColoredNick(logEntry)})
+    }
+  }
+  ADD_TO_BLACKLIST = {
+    name = "add_to_blacklist"
+    logDetailsCommonFields = [
+      "uid"
+      "nick"
+      "comments"
+    ]
+    function getLogHeader(logEntry)
+    {
+      return ::loc("clan/log/add_to_blacklist_log", {nick = getColoredNick(logEntry)})
+    }
+  }
+  REMOVE_FROM_BLACKLIST = {
+    name = "remove_from_blacklist"
+    logDetailsCommonFields = [
+      "uid"
+      "nick"
+      "comments"
+    ]
+    function getLogHeader(logEntry)
+    {
+      return ::loc("clan/log/remove_from_blacklist_log", {nick = getColoredNick(logEntry)})
+    }
+  }
   UNKNOWN = {}
 })
 

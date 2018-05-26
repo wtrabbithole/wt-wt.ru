@@ -144,6 +144,16 @@ activateSelect > shopFilter[chosen=yes] > shopFilterText[colorTag=squad] {
   color:@mChatSenderMySquadColor;
 }
 
+activateSelect > shopFilter > shopFilterText[colorTag=disbanded_squad],
+activateSelect > shopFilter[selected=yes] > shopFilterText[colorTag=disbanded_squad] {
+  color:@mChatSenderDisbandedSquadColorDark;
+}
+
+activateSelect > shopFilter:hover > shopFilterText[colorTag=disbanded_squad],
+activateSelect > shopFilter[chosen=yes] > shopFilterText[colorTag=disbanded_squad] {
+  color:@mChatSenderDisbandedSquadColor;
+}
+
 activateSelect > shopFilter > shopFilterText[colorTag=friend],
 activateSelect > shopFilter[selected=yes] > shopFilterText[colorTag=friend] {
   color:@mChatSenderFriendColorDark;

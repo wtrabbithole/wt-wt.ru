@@ -231,7 +231,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::add_tags_for_mp_players()
 
     currentFocusItem = canChangeAircraft && !isSpectate ? focusItemAirsTable :
-      ::ps4_is_chat_enabled() ? focusItemChatInput :
+      ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled()? focusItemChatInput :
       focusItemChatTabs
     restoreFocus()
 
@@ -410,7 +410,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateSpawnScore(isOnInit = false)
   {
-    if (!missionRules.isScoreRespawnEnabled)
+    if (!missionRules.isScoreRespawnEnabled ||
+      !::g_mis_loading_state.isReadyToShowRespawn())
       return
 
     local newSpawnScore = missionRules.getCurSpawnScore()
@@ -1879,7 +1880,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     if (!doRespawnCalled)
       return false
-    if (::can_respawn_ca_now())
+
+    if (missionRules.getUnitLeftRespawns(::getAircraftByName(lastRequestData?.name)) != 0)
       return false
 
     guiScene.performDelayed(this, function()

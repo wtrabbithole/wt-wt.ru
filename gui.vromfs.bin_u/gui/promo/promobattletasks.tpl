@@ -217,26 +217,33 @@ expandable {
         width:t='pw'
         flow:t='vertical'
         margin:t='0, 0.01@scrn_tgt'
-        tdiv {
-          left:t='pw-w'
-          position:t='relative'
-          <<@warbondsNewIconWidget>>
-          textarea {
-            text:t='#mainmenu/newItemsAvailable'
-            overlayTextColor:t='warning'
+        <<#isConsoleMode>>
+          tdiv {
+            left:t='pw-w'
+            position:t='relative'
+            <<@warbondsNewIconWidget>>
+            textarea {
+              text:t='#mainmenu/newItemsAvailable'
+              overlayTextColor:t='warning'
+            }
           }
-        }
-      <<^isConsoleMode>>
-        Button_text {
-          id:t = 'btn_warbond_shop'
-          left:t='pw-w'
-          position:t='relative'
-          text:t = '#mainmenu/btnWarbondsShop'
-          on_click:t = 'onWarbondsShop'
-          visualStyle:t='secondary'
-          buttonWink {}
-        }
-      <</isConsoleMode>>
+        <</isConsoleMode>>
+        <<^isConsoleMode>>
+          Button_text {
+            id:t = 'btn_warbond_shop'
+            left:t='pw-w'
+            position:t='relative'
+            valign:t = 'center'
+            on_click:t = 'onWarbondsShop'
+            visualStyle:t='secondary'
+            tooltip:t='#mainmenu/newItemsAvailable'
+            buttonWink {}
+            <<@warbondsNewIconWidget>>
+            text {
+              text:t = '#mainmenu/btnWarbondsShop'
+            }
+          }
+        <</isConsoleMode>>
       }
     <</newItemsAvailable>>
   }

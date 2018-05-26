@@ -1,5 +1,6 @@
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local platformModule = require("modules/platform.nut")
 
 const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
 
@@ -311,10 +312,7 @@ function g_squad_utils::checkAndShowHasOfflinePlayersPopup()
 
   local text = ::loc("squad/has_offline_members") + ::loc("ui/colon")
   text += ::g_string.implode(::u.map(offlineMembers,
-                            function(memberData)
-                            {
-                              return ::colorize("warningTextColor", memberData.name)
-                            }
+                            @(memberData) ::colorize("warningTextColor", platformModule.getPlayerName(memberData.name))
                            ),
                     ::loc("event_comma")
                    )
@@ -409,7 +407,7 @@ function g_squad_utils::isEventAllowedForAllMembers(eventEconomicName, isSilent 
     return res
 
   local mText = ::g_string.implode(
-    ::u.map(notAvailableMemberNames, function(name) { return ::colorize("userlogColoredText", name) })
+    ::u.map(notAvailableMemberNames, @(name) ::colorize("userlogColoredText", platformModule.getPlayerName(name)))
     ", "
   )
   local msg = ::loc("msg/members_no_access_to_mode", {  members = mText  })
@@ -427,8 +425,9 @@ function g_squad_utils::showMemberMenu(obj)
       return
 
   local position = obj.getPosRC()
-  local menu = playerContextMenu.getActions(
+  playerContextMenu.showMenu(
     null,
+    this,
     {
       playerName = member.name
       uid = member.uid
@@ -436,7 +435,6 @@ function g_squad_utils::showMemberMenu(obj)
       squadMemberData = member
       position = position
   })
-  ::gui_right_click_menu(menu, this, position)
 }
 
 /*use by client .cpp code*/

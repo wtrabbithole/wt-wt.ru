@@ -392,8 +392,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onGC_chat(obj)
   {
-    if (!::isMenuChatActive() && !::ps4_is_chat_enabled())
-      ::ps4_show_chat_restriction()
+    if (!::isMenuChatActive())
+    {
+      if (!::ps4_is_chat_enabled())
+        ::ps4_show_chat_restriction()
+      ::g_chat.xboxIsChatEnabled(true)
+    }
 
     switchChatWindow()
   }

@@ -101,64 +101,41 @@
         }
       },
       {
-        "div": [
-          {
-            "id": "chat_input_back"
+        "div": {
+          "id": "chat_input_back",
+          "display": "show",
+          "width": "pw",
+          "pos": "0, 8@sf/@pf",
+          "position": "relative",
+          "flow": "vertical",
+          "background-color": "@hudTextBgShade",
+          "padding": "8@sf/@pf",
+          "EditBox": {
+            "id": "chat_input",
+            "width": "pw",
+            "max-len": "250",
+            "selected": "yes",
+            "focus": "yes",
+            "mouse-focusable": "yes",
+            "on_activate": "onChatEntered",
+            "on_cancel_edit": "onChatCancel",
+            "on_change_value": "onChatChanged",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
+            "text": ""
           },
-          {
-            "display": "show"
+          "chatHint": {
+            "id": "chat_hint",
+            "behaviour": "BhvHint"
           },
-          {
-            "width": "pw"
-          },
-          {
-            "pos": "0, 8@sf/@pf"
-          },
-          {
-            "position": "relative"
-          },
-          {
-            "flow": "vertical"
-          },
-          {
-            "background-color": "@hudTextBgShade"
-          },
-          {
-            "padding": "8@sf/@pf"
-          },
-          {
-            "EditBox": {
-              "id": "chat_input",
-              "width": "pw",
-              "max-len": "250",
-              "selected": "yes",
-              "focus": "yes",
-              "mouse-focusable": "yes",
-              "on_activate": "onChatEntered",
-              "on_cancel_edit": "onChatCancel",
-              "on_change_value": "onChatChanged",
-              "on_wrap_up": "onWrapUp",
-              "on_wrap_down": "onWrapDown",
-              "text": ""
-            }
-          },
-          {
-            "text": {
-              "id": "chat_hint",
-              "text": "#chat/help/short",
-              "style": "font:@fontSmall;"
-            }
-          },
-          {
-            "text": {
-              "id": "chat_prompt",
-              "position": "absolute",
-              "pos": "pw - w - 2/720@scrn_tgt, ph - h - 2/720@scrn_tgt",
-              "tooltip": "#chat/to",
-              "text": ""
-            }
+          "text": {
+            "id": "chat_prompt",
+            "position": "absolute",
+            "pos": "pw - w - 2/720@scrn_tgt, ph - h - 2/720@scrn_tgt",
+            "tooltip": "#chat/to",
+            "text": ""
           }
-        ]
+        }
       }
     ]
   },

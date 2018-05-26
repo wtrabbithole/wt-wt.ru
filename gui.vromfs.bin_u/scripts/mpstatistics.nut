@@ -188,7 +188,7 @@ function build_mp_table(table, markupData, hdr, max_rows)
       {
         local nameText = platformModule.getPlayerName(item) || ""
         if (!isEmpty)
-          nameText = ::g_string.implode([table[i]?.clanTag ?? "", nameText], " ")
+          nameText = ::g_contacts.getPlayerFullName(nameText, table[i]?.clanTag ?? "")
 
         local nameWidth = markup?[hdr[j]]?.width ?? "0.5pw-0.035sh"
         local nameAlign = isRowInvert ? "text-align:t='right' " : ""
@@ -453,8 +453,7 @@ function set_mp_table(obj_tbl, table, params)
 
         if (!isEmpty)
         {
-          nameText = platformModule.getPlayerName(item)
-          nameText = ::g_string.implode([table[i]?.clanTag ?? "", nameText], " ")
+          nameText = ::g_contacts.getPlayerFullName(platformModule.getPlayerName(item), table[i]?.clanTag ?? "")
 
           if (("invitedName" in table[i]) && table[i].invitedName != item)
           {

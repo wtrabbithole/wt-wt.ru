@@ -1,3 +1,5 @@
+local seenInventory = ::require("scripts/seen/seenList.nut").get(SEEN.INVENTORY)
+
 ::g_recent_items <- {
   MAX_RECENT_ITEMS = 4
   wasCreated = false
@@ -8,7 +10,7 @@ function g_recent_items::getRecentItems()
   local items = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL, function (item) {
     return item.includeInRecentItems
   })
-  items.sort(::ItemsManager.itemsSortComparator)
+  items.sort(::ItemsManager.getItemsSortComparator(seenInventory))
   local resultItems = []
   foreach (item in items)
   {

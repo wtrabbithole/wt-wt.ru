@@ -24,7 +24,7 @@ function gui_start_choose_next_research(researchBlock = null)
   else
   {
     ::aircraft_for_weapons = ::getUnitNameFromResearchItem(researchBlock)
-    ::gui_modal_weapons(true, researchBlock)
+    ::gui_modal_weapons({ researchMode = true, researchBlock = researchBlock })
   }
 }
 

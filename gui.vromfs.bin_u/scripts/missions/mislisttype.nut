@@ -45,6 +45,8 @@ function g_mislist_type::_getMissionsByBlkArray(campaignName, missionBlkArray)
     local unlock = ::g_unlocks.getUnlockById(misBlk.chapter + "/" + missionId)
     if (unlock && !::is_unlock_visible(unlock))
       continue
+    if (misBlk.reqFeature && !::has_feature(misBlk.reqFeature))
+      continue
 
     local misDescr = getMissionConfig(missionId)
     misDescr.blk <- misBlk

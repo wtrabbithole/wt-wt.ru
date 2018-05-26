@@ -30,9 +30,19 @@ function hud_message_player_damage_debug(id = -1)
 function hud_message_kill_log_debug()
 {
   ::g_hud_event_manager.onHudEvent("HudMessage", {
-    type = ::HUD_MSG_MULTIPLAYER_DMG isKill=true action="kill"
-    playerId=-1 unitName="" unitNameLoc="Friend" + ::KillLogMessageDebugCounter team=::get_player_army_for_hud()
-    victimPlayerId=-1 victimUnitName="" victimUnitNameLoc="Enemy" + ::KillLogMessageDebugCounter++ victimTeam=-1
+    type = ::HUD_MSG_MULTIPLAYER_DMG
+    isKill=true
+    action="kill"
+    playerId=-1
+    unitName=""
+    unitType=""
+    unitNameLoc="Friend" + ::KillLogMessageDebugCounter
+    team=::get_player_army_for_hud()
+    victimPlayerId=-1
+    victimUnitName=""
+    victimUnitType =""
+    victimUnitNameLoc="Enemy" + ::KillLogMessageDebugCounter++
+    victimTeam=-1
   })
 }
 

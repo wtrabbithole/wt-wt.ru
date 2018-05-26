@@ -2,6 +2,8 @@ const URL_TAGS_DELIMITER = " "
 const URL_TAG_AUTO_LOCALIZE = "auto_local"
 const URL_TAG_AUTO_LOGIN = "auto_login"
 
+const AUTH_ERROR_LOG_COLLECTION = "log"
+
 ::g_url <- {}
 
 function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false)
@@ -36,10 +38,18 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
   {
     local authData = ::get_authenticated_url_table(url)
 
-    if (authData.yuplayResult != ::YU2_OK)
-      ::script_net_assert_once("Faile auth url", "Open url: failed to get authenticated url with error " + authData.yuplayResult)
-    else
+    if (authData.yuplayResult == ::YU2_OK)
       url = authData.url
+    else if (authData.yuplayResult == ::YU2_WRONG_LOGIN)
+    {
+      ::send_error_log("Authorize url: failed to get authenticated url with error ::YU2_WRONG_LOGIN",
+        false, AUTH_ERROR_LOG_COLLECTION)
+      ::gui_start_logout()
+      return
+    }
+    else
+      ::send_error_log("Authorize url: failed to get authenticated url with error " + authData.yuplayResult,
+        false, AUTH_ERROR_LOG_COLLECTION)
   }
 
   local hasFeature = urlType.isOnlineShop

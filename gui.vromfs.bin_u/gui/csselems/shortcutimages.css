@@ -30,3 +30,20 @@ shortcutAxis {
   size: 0.06@shHud, 0.06@shHud;
   background-color:@white;
 }
+
+chatHint keyboardButton {
+  min-width:1@sIco;
+  height:1@sIco;
+  background-position:6, 0;
+  padding: 6, 0;
+}
+
+chatHint gamepadButton,
+chatHint shortcutAxis {
+  size: 1@cIco, 1@cIco;
+}
+
+chatHint keyboardButtonText {
+  font: @fontTiny;
+  pos:pw/2 - w/2, ph/2 - h/2;
+}

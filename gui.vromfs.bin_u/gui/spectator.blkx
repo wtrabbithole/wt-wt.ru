@@ -13,14 +13,6 @@
       "position": "absolute"
     },
     {
-      "tdiv": {
-        "id": "order_status",
-        "position": "root",
-        "pos": "1@bw + 40/720*@scrn_tgt, 1@bh + @itemInfoWidth - 90/720*@scrn_tgt",
-        "flow": "vertical"
-      }
-    },
-    {
       "multiplayerScore": {
         "pos": "50%pw-50%w, 2@spectatorToolbarPadding + 1@spectatorToolbarBtnSize + 0.02@scrn_tgt",
         "position": "absolute"
@@ -162,35 +154,59 @@
                   "alert": "no",
                   "updated": []
                 }
+              },
+              {
+                "hoverButton": {
+                  "id": "btn_tab_orders",
+                  "text": "#itemTypes/orders",
+                  "on_click": "onBtnLogTabSwitch",
+                  "isTextBtn": "yes",
+                  "highlighted": "no",
+                  "alert": "no",
+                  "updated": []
+                }
               }
             ]
           },
           {
-            "tdiv": {
-              "size": "pw, fh",
-              "tdiv": {
-                "id": "history_container",
-                "position": "absolute",
-                "size": "pw + 1@scrollBarSize, ph",
-                "display": "show",
-                "overflow-y": "auto",
-                "scroll-align": "left",
-                "auto-scroll": "yes",
-                "css-hier-invalidate": "yes",
-                "historyLog": {
-                  "id": "history_log",
-                  "width": "pw",
-                  "punctuation-exception": "-.,'\"():/\\@[]=^+",
-                  "text": ""
+            "tdiv": [
+              {
+                "size": "pw, fh"
+              },
+              {
+                "tdiv": {
+                  "id": "history_container",
+                  "position": "absolute",
+                  "size": "pw + 1@scrollBarSize, ph",
+                  "display": "show",
+                  "overflow-y": "auto",
+                  "scroll-align": "left",
+                  "auto-scroll": "yes",
+                  "css-hier-invalidate": "yes",
+                  "historyLog": {
+                    "id": "history_log",
+                    "width": "pw",
+                    "punctuation-exception": "-.,'\"():/\\@[]=^+",
+                    "text": ""
+                  }
                 }
               },
-              "chatPlaceSpectator": {
-                "id": "chat_container",
-                "position": "absolute",
-                "size": "pw, ph",
-                "display": "hide"
+              {
+                "chatPlaceSpectator": {
+                  "id": "chat_container",
+                  "position": "absolute",
+                  "size": "pw, ph",
+                  "display": "hide"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "order_status",
+                  "position": "absolute",
+                  "size": "pw + 1@scrollBarSize, ph"
+                }
               }
-            }
+            ]
           }
         ]
       }

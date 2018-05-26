@@ -298,28 +298,18 @@ function xbox_on_add_remove_friend_closed(playerStatus)
   if (playerStatus == XBOX_PERSON_STATUS_CANCELED)
     return
 
-  ::xbox_get_people_list_async()
+  ::g_contacts.xboxFetchContactsList()
 }
 
 function xbox_get_people_list_callback(playersList = [])
 {
-  local taskId = ::xbox_find_friends(playersList)
-  if (taskId < 0 && !playersList.len())
-  {
-    //Need to update contacts list, because empty list - means no users,
-    //and returns -1, for not to send empty array to char.
-    //So, contacts list must be cleared in this case from xbox users.
-    local blk = ::DataBlock()
-    ::g_contacts.xboxUpdateContactsList(blk)
-    return
-  }
+  ::g_contacts.proceedXboxPlayersListFromCallback(playersList, ::EPL_FRIENDLIST)
+  ::xbox_get_avoid_list_async()
+}
 
-  ::g_tasker.addTask(taskId, null, function() {
-      local blk = ::DataBlock()
-      blk = ::xbox_find_friends_result()
-      ::g_contacts.xboxUpdateContactsList(blk)
-    }
-  )
+function xbox_get_avoid_list_callback(playersList = [])
+{
+  ::g_contacts.proceedXboxPlayersListFromCallback(playersList, ::EPL_BLOCKLIST)
 }
 
 //---------------- </XBox One> --------------------------

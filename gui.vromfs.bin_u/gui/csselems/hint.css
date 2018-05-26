@@ -52,6 +52,19 @@ hintRow > timeBar textareaNoTab {
   font: @fontHudMedium;
 }
 
+chatHint hintRow textareaNoTab {
+  font: @fontSmall;
+  max-width: p.p.p.p.w;
+}
+
+chatHint hintRow > gamepadButton,
+chatHint hintRow > shortcutAxis,
+chatHint hintRow > keyboardButton,
+chatHint hintRow > combination,
+chatHint hintRow > timeBar {
+  top: 40%ph - 50%h;
+}
+
 
 
 hint[animation=show],

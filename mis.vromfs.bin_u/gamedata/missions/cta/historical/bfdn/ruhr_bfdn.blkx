@@ -562,6 +562,15 @@
               "target_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "target": "t1_quest_units_squad"
             },
             {
@@ -573,6 +582,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -607,6 +625,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_truck_squad"
@@ -753,6 +780,9 @@
             "icon": "score",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -764,6 +794,9 @@
             "icon": "score",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -924,6 +957,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_zone01_squad"
         },
         "missionIsZoneCaptured": {
@@ -931,19 +967,32 @@
           "army": 2
         }
       },
-      "actions": {
-        "triggerDisable": {
-          "target": "t1_check_capture_zone01"
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "t1_check_capture_zone01"
+          }
         },
-        "moSetObjectiveStatus": {
-          "target": "ruhr_newbie_t2_defend_zone_01",
-          "status": 2,
-          "team": "B"
+        {
+          "moSetObjectiveStatus": {
+            "target": "ruhr_newbie_t2_defend_zone_01",
+            "status": 2,
+            "team": "B"
+          }
         },
-        "triggerEnable": {
-          "target": "t2_task_completed"
+        {
+          "triggerEnable": {
+            "target": "t2_task_completed"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "ruhr_newbie_t1_capture_zone_01",
+            "status": 3,
+            "team": "A"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "t2_defend_zone02": {
@@ -965,6 +1014,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_zone02_squad"
         },
         "missionIsZoneCaptured": {
@@ -972,19 +1024,32 @@
           "army": 2
         }
       },
-      "actions": {
-        "triggerDisable": {
-          "target": "t1_check_capture_zone02"
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "t1_check_capture_zone02"
+          }
         },
-        "moSetObjectiveStatus": {
-          "target": "ruhr_newbie_t2_defend_zone_01",
-          "status": 2,
-          "team": "B"
+        {
+          "moSetObjectiveStatus": {
+            "target": "ruhr_newbie_t2_defend_zone_01",
+            "status": 2,
+            "team": "B"
+          }
         },
-        "triggerEnable": {
-          "target": "t2_task_completed"
+        {
+          "triggerEnable": {
+            "target": "t2_task_completed"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "ruhr_newbie_t1_capture_zone_02",
+            "status": 3,
+            "team": "A"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "t2_defend_zone03": {
@@ -1015,6 +1080,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t1_zone02_squad"
           },
           {
@@ -1026,19 +1100,32 @@
           "army": 2
         }
       },
-      "actions": {
-        "triggerDisable": {
-          "target": "t1_check_capture_zone03"
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "t1_check_capture_zone03"
+          }
         },
-        "moSetObjectiveStatus": {
-          "target": "ruhr_newbie_t2_defend_zone_03",
-          "status": 2,
-          "team": "B"
+        {
+          "moSetObjectiveStatus": {
+            "target": "ruhr_newbie_t2_defend_zone_03",
+            "status": 2,
+            "team": "B"
+          }
         },
-        "triggerEnable": {
-          "target": "t2_task_completed"
+        {
+          "triggerEnable": {
+            "target": "t2_task_completed"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "ruhr_newbie_t1_capture_zone_03",
+            "status": 3,
+            "team": "A"
+          }
         }
-      },
+      ],
       "else_actions": []
     }
   },

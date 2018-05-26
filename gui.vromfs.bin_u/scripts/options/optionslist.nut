@@ -80,7 +80,7 @@ local getMainOptions = function()
 
       ["options/header/interface"],
       [::USEROPT_HUD_SCREEN_SAFE_AREA, "spinner", safeAreaHud.canChangeValue()],
-      [::USEROPT_GAME_HUD, "spinner", ::is_in_flight()],
+      [::USEROPT_GAME_HUD, "spinner"],
       [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
                                   && (!::is_platform_windows
                                       || ::getSystemConfigOption("video/mode") == "fullscreen") ],
@@ -113,6 +113,7 @@ local getMainOptions = function()
       [::USEROPT_SHOW_INDICATORS_DIST, "spinner"],
 
       ["options/header/chatAndVoiceChat"],
+      [::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_ONLY_FRIENDLIST_CONTACT, "spinner", ! ::is_in_flight()],
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],
@@ -127,11 +128,11 @@ local getMainOptions = function()
       //[::USEROPT_VOICE_DEVICE_IN, "combobox", ! ::is_platform_ps4 && ::gchat_voice_get_device_in_count() > 0]
 
       ["options/header/gamepad"],
-      [::USEROPT_XCHG_STICKS, "spinner"],
-      [::USEROPT_VIBRATION, "spinner"],
       [::USEROPT_ENABLE_CONSOLE_MODE, "spinner", !::get_is_console_mode_force_enabled()],
       [::USEROPT_GAMEPAD_CURSOR_CONTROLLER, "spinner",
         ! ::is_in_flight() && ::g_gamepad_cursor_controls.canChangeValue()],
+      [::USEROPT_XCHG_STICKS, "spinner"],
+      [::USEROPT_VIBRATION, "spinner"],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 
       ["options/header/replaysAndSpectatorMode", null, ::has_feature("Replays") || ::has_feature("Spectator")],

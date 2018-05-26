@@ -113,10 +113,10 @@
               "targetGnd": false
             },
             {
-              "accuracy": 0.3
+              "accuracy": 0.1
             },
             {
-              "effShootingRate": 0.3
+              "effShootingRate": 0.1
             }
           ]
         },
@@ -158,10 +158,10 @@
               "targetGnd": false
             },
             {
-              "accuracy": 0.3
+              "accuracy": 0.1
             },
             {
-              "effShootingRate": 0.3
+              "effShootingRate": 0.1
             }
           ]
         },
@@ -4270,35 +4270,6 @@
         "actions": [
           {
             "comment": {
-              "value": "тестовое окружение"
-            }
-          },
-          {
-            "__varSetInt": {
-              "value": 1,
-              "var": "flt_area_34_state"
-            }
-          },
-          {
-            "__varSetInt": {
-              "value": 1,
-              "var": "flt_area_25_state"
-            }
-          },
-          {
-            "__varSetInt": {
-              "value": 1,
-              "var": "flt_area_26_state"
-            }
-          },
-          {
-            "__varSetInt": {
-              "value": 1,
-              "var": "flt_area_27_state"
-            }
-          },
-          {
-            "comment": {
               "value": "дождались окончания выставления состояния ячеек"
             }
           },
@@ -4634,6 +4605,56 @@
           },
           {
             "comment": {
+              "value": "создаем имя переменной типа состояния текущей ячейки"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_draw_cur_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_cur_cell",
+              "digits": 2,
+              "var": "flt_draw_cur_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_type",
+              "digits": 0,
+              "var": "flt_draw_cur_state_type_var"
+            }
+          },
+          {
+            "comment": {
+              "value": "создаем имя переменной типа состояния левой ячейки"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_draw_check_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_left_cell",
+              "digits": 2,
+              "var": "flt_draw_check_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_type",
+              "digits": 0,
+              "var": "flt_draw_check_state_type_var"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем есть ли левая зона"
             }
           },
@@ -4696,6 +4717,28 @@
               "value": 0,
               "var": "flt_draw_check_army",
               "input_var": "@flt_draw_check_cell_state"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем тип текущей ячейки"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@flt_draw_cur_state_type_var",
+              "var": "flt_draw_cur_state_type_value"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем тип левой ячейки"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@flt_draw_check_state_type_var",
+              "var": "flt_draw_check_state_type_value"
             }
           },
           {
@@ -4902,11 +4945,57 @@
             "value": "одна из армий не нулевая - проверяем на нейтральность"
           },
           "triggerEnable": {
-            "target": "flt_draw_left_drawing_line_zero"
+            "target": "flt_draw_left_drawing_sea_check"
           }
         }
       },
-      "flt_draw_left_drawing_line_zero": {
+      "flt_draw_left_drawing_sea_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareString": {
+              "var_value": "flt_draw_cur_state_type_value",
+              "value": "sea",
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareString": {
+              "var_value": "flt_draw_check_state_type_value",
+              "value": "sea",
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "морской квадрат - не надо рисовать"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_bottom_start"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "квадрат не морской - надо рисовать"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_left_drawing_line_zero_check"
+          }
+        }
+      },
+      "flt_draw_left_drawing_line_zero_check": {
         "is_enabled": false,
         "comments": "",
         "props": {
@@ -5051,6 +5140,56 @@
           },
           {
             "comment": {
+              "value": "создаем имя переменной типа состояния текущей ячейки"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_draw_cur_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_cur_cell",
+              "digits": 2,
+              "var": "flt_draw_cur_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_type",
+              "digits": 0,
+              "var": "flt_draw_cur_state_type_var"
+            }
+          },
+          {
+            "comment": {
+              "value": "создаем имя переменной типа состояния нижней ячейки"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_draw_check_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_bottom_cell",
+              "digits": 2,
+              "var": "flt_draw_check_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_type",
+              "digits": 0,
+              "var": "flt_draw_check_state_type_var"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем есть ли нижняя зона"
             }
           },
@@ -5097,6 +5236,28 @@
               "value": 0,
               "var": "flt_draw_check_army",
               "input_var": "@flt_draw_check_cell_state"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем тип текущей ячейки"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@flt_draw_cur_state_type_var",
+              "var": "flt_draw_cur_state_type_value"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем тип нижней ячейки"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@flt_draw_check_state_type_var",
+              "var": "flt_draw_check_state_type_value"
             }
           },
           {
@@ -5303,6 +5464,52 @@
             "value": "одна из армий не нулевая проверяем может стоит рисовать нейтральную линию"
           },
           "triggerEnable": {
+            "target": "flt_draw_bottom_drawing_sea_check"
+          }
+        }
+      },
+      "flt_draw_bottom_drawing_sea_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareString": {
+              "var_value": "flt_draw_cur_state_type_value",
+              "value": "sea",
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareString": {
+              "var_value": "flt_draw_check_state_type_value",
+              "value": "sea",
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": {
+          "comment": {
+            "value": "морской квадрат - не надо рисовать"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_col"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "квадрат не морской - надо рисовать"
+          },
+          "triggerEnable": {
             "target": "flt_draw_bottom_drawing_zero_check"
           }
         }
@@ -5462,240 +5669,46 @@
           },
           {
             "comment": {
-              "value": "получаем индекс зоны"
+              "value": "получаем имя стейта"
             }
           },
           {
-            "varGetIntFromString": {
-              "value": "@flt_find_army_area_name",
-              "var": "flt_find_army_area_idx"
+            "varGetStringValue": {
+              "from_var_name": "flt_find_army_area_name",
+              "var": "flt_find_army_state_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_state",
+              "digits": 0,
+              "var": "flt_find_army_state_var"
             }
           },
           {
             "comment": {
-              "value": "обнуляем значение row и col"
-            }
-          },
-          {
-            "varSetInt": [
-              {
-                "value": 0
-              },
-              {
-                "var": "flt_find_army_row"
-              },
-              {
-                "var": "flt_find_army_col"
-              }
-            ]
-          },
-          {
-            "comment": {
-              "value": "обнуляем значение проверочного индекса"
+              "value": "получаем армию"
             }
           },
           {
             "varSetInt": {
               "value": 0,
-              "var": "flt_find_army_check_idx"
+              "var": "flt_find_army_state_value",
+              "input_var": "@flt_find_army_state_var"
             }
           },
           {
             "comment": {
-              "value": "начинаем поиск"
+              "value": "проверяем армию А"
             }
           },
           {
             "triggerEnable": {
-              "target": "flt_find_army_rotate_col"
+              "target": "flt_state_check_army_A"
             }
           }
         ],
         "else_actions": []
-      },
-      "flt_find_army_rotate_col": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 0.0
-          }
-        },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "flt_find_army_col",
-            "value": 0,
-            "comparasion_func": "less",
-            "var_value_other": "flt_zones_in_col"
-          }
-        },
-        "actions": [
-          {
-            "comment": {
-              "value": "индекс в зоне. увеличиваем его на 1"
-            }
-          },
-          {
-            "varModify": {
-              "operator": "add",
-              "value": 1.0,
-              "var": "flt_find_army_col"
-            }
-          },
-          {
-            "comment": {
-              "value": "запускаем ротацию row"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "flt_find_army_rotate_row"
-            }
-          }
-        ],
-        "else_actions": {
-          "comment": {
-            "value": "не нашли зону"
-          },
-          "triggerEnable": {
-            "target": "flt_find_army_error"
-          }
-        }
-      },
-      "flt_find_army_rotate_row": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 0.0
-          }
-        },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "flt_find_army_row",
-            "value": 0,
-            "comparasion_func": "less",
-            "var_value_other": "flt_zones_in_row"
-          }
-        },
-        "actions": [
-          {
-            "comment": {
-              "value": "индекс в диапазоне"
-            }
-          },
-          {
-            "comment": {
-              "value": "увеличиваем проверочный индекс"
-            }
-          },
-          {
-            "varModify": {
-              "operator": "add",
-              "value": 1.0,
-              "var": "flt_find_army_check_idx"
-            }
-          },
-          {
-            "comment": {
-              "value": "идем проверять не совпал ли индекс с проверочным"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "flt_find_army_check_idx"
-            }
-          }
-        ],
-        "else_actions": {
-          "comment": {
-            "value": "индекс не в диапазоне возвращаемся к ротации col"
-          },
-          "triggerEnable": {
-            "target": "flt_find_army_rotate_col"
-          }
-        }
-      },
-      "flt_find_army_check_idx": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 0.0
-          }
-        },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "flt_find_army_check_idx",
-            "value": 0,
-            "comparasion_func": "equal",
-            "var_value_other": "flt_find_army_area_idx"
-          }
-        },
-        "actions": [
-          {
-            "comment": {
-              "value": "индекс совпал. надо проверить кому принадлежим"
-            }
-          },
-          {
-            "comment": {
-              "value": "создаем имя переменной, в которой хранится индекс фронтлайна текущего col"
-            }
-          },
-          {
-            "varSetString": {
-              "value": "flt_frontline_zone_idx_",
-              "var": "flt_find_army_cur_frontline_name"
-            }
-          },
-          {
-            "varAddString": {
-              "value": "@flt_find_army_col",
-              "digits": 2,
-              "var": "flt_find_army_cur_frontline_name"
-            }
-          },
-          {
-            "varGetStringValue": {
-              "from_var_name": "@flt_find_army_cur_frontline_name",
-              "var": "flt_find_army_cur_frontline_name"
-            }
-          },
-          {
-            "comment": {
-              "value": "запускаем проверку"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "flt_find_army_check_A"
-            }
-          }
-        ],
-        "else_actions": {
-          "comment": {
-            "value": "индекс не совпал. идем дальше по row ротации"
-          },
-          "triggerEnable": {
-            "target": "flt_find_army_rotate_row"
-          }
-        }
       },
       "flt_find_army_check_A": {
         "is_enabled": false,
@@ -5712,10 +5725,9 @@
         },
         "conditions": {
           "varCompareInt": {
-            "var_value": "flt_find_army_area_idx",
-            "value": 0,
-            "comparasion_func": "less",
-            "var_value_other": "@flt_find_army_cur_frontline_name"
+            "var_value": "flt_find_army_state_value",
+            "value": 1,
+            "comparasion_func": "equal"
           }
         },
         "actions": [
@@ -5770,10 +5782,9 @@
         },
         "conditions": {
           "varCompareInt": {
-            "var_value": "flt_find_army_area_idx",
-            "value": 0,
-            "comparasion_func": "more",
-            "var_value_other": "@flt_find_army_cur_frontline_name"
+            "var_value": "flt_find_army_state_value",
+            "value": 2,
+            "comparasion_func": "equal"
           }
         },
         "actions": [
@@ -5804,34 +5815,14 @@
             }
           }
         ],
-        "else_actions": [
-          {
-            "comment": {
-              "value": "индекс зоны совпадает с фронтлайном. "
-            }
+        "else_actions": {
+          "comment": {
+            "value": "говорим, что поиск закончен и ничего не найдено"
           },
-          {
-            "comment": {
-              "value": "говорим что нейтральная территория"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 0,
-              "var": "flt_find_army_army_idx"
-            }
-          },
-          {
-            "comment": {
-              "value": "говорим, что поиск закончен"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "flt_find_army_complete"
-            }
+          "triggerEnable": {
+            "target": "flt_find_army_error"
           }
-        ]
+        }
       },
       "flt_find_army_error": {
         "is_enabled": false,
@@ -6106,6 +6097,31 @@
           },
           {
             "comment": {
+              "value": "создаем имя переменно, хранящей тип состояния"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_state_cur_cell",
+              "digits": 2,
+              "var": "flt_state_type_var"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_type",
+              "digits": 0,
+              "var": "flt_state_type_var"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем армию А"
             }
           },
@@ -6172,6 +6188,17 @@
           },
           {
             "comment": {
+              "value": "говорим, что state - армия"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "army",
+              "var": "@flt_state_type_var"
+            }
+          },
+          {
+            "comment": {
               "value": "идем дальше по цикул"
             }
           },
@@ -6234,6 +6261,17 @@
             "varSetInt": {
               "value": 2,
               "var": "@flt_state_cell_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что state - армия"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "army",
+              "var": "@flt_state_type_var"
             }
           },
           {
@@ -6490,6 +6528,55 @@
     "flt_area_47_state": -1,
     "flt_area_48_state": -1,
     "flt_area_49_state": -1,
+    "flt_area_01_type": "empty",
+    "flt_area_02_type": "empty",
+    "flt_area_03_type": "empty",
+    "flt_area_04_type": "empty",
+    "flt_area_05_type": "empty",
+    "flt_area_06_type": "empty",
+    "flt_area_07_type": "empty",
+    "flt_area_08_type": "empty",
+    "flt_area_09_type": "empty",
+    "flt_area_10_type": "empty",
+    "flt_area_11_type": "empty",
+    "flt_area_12_type": "empty",
+    "flt_area_13_type": "empty",
+    "flt_area_14_type": "empty",
+    "flt_area_15_type": "empty",
+    "flt_area_16_type": "empty",
+    "flt_area_17_type": "empty",
+    "flt_area_18_type": "empty",
+    "flt_area_19_type": "empty",
+    "flt_area_20_type": "empty",
+    "flt_area_21_type": "empty",
+    "flt_area_22_type": "empty",
+    "flt_area_23_type": "empty",
+    "flt_area_24_type": "empty",
+    "flt_area_25_type": "empty",
+    "flt_area_26_type": "empty",
+    "flt_area_27_type": "empty",
+    "flt_area_28_type": "empty",
+    "flt_area_29_type": "empty",
+    "flt_area_30_type": "empty",
+    "flt_area_31_type": "empty",
+    "flt_area_32_type": "empty",
+    "flt_area_33_type": "empty",
+    "flt_area_34_type": "empty",
+    "flt_area_35_type": "empty",
+    "flt_area_36_type": "empty",
+    "flt_area_37_type": "empty",
+    "flt_area_38_type": "empty",
+    "flt_area_39_type": "empty",
+    "flt_area_40_type": "empty",
+    "flt_area_41_type": "empty",
+    "flt_area_42_type": "empty",
+    "flt_area_43_type": "empty",
+    "flt_area_44_type": "empty",
+    "flt_area_45_type": "empty",
+    "flt_area_46_type": "empty",
+    "flt_area_47_type": "empty",
+    "flt_area_48_type": "empty",
+    "flt_area_49_type": "empty",
     "flt_draw_frontline_idx": 0,
     "flt_draw_next_frontline_idx": 0,
     "flt_draw_frontline_idx_name": "",
@@ -6549,7 +6636,14 @@
     "flt_t1_art_check_area_state": "",
     "flt_t2_art_check_area_state": "",
     "flt_t1_tank_check_area_state": "",
-    "flt_t2_tank_check_area_state": ""
+    "flt_t2_tank_check_area_state": "",
+    "flt_find_army_state_var": "",
+    "flt_find_army_state_value": 0,
+    "flt_state_type_var": "",
+    "flt_draw_cur_state_type_var": "",
+    "flt_draw_cur_state_type_value": "",
+    "flt_draw_check_state_type_var": "",
+    "flt_draw_check_state_type_value": ""
   },
   "dialogs": [],
   "airfields": [],

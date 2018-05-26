@@ -658,6 +658,10 @@
       case "tt":
       case "torpedo":
       case "main_caliber_gun":
+      case "auxiliary_caliber_gun":
+      case "depth_charge":
+      case "torpedo":
+      case "aa_gun":
 
         local weaponInfoBlk = getWeaponByXrayPartName(partName)
         if( ! weaponInfoBlk)
@@ -677,7 +681,7 @@
         if(weaponInfoBlk && ! ::isInArray(partId, bulletsList))
         {
           local bulletCount = getWeaponTotalBulletCount(partId, weaponInfoBlk)
-          if(bulletCount)
+          if(bulletCount > 1)
             desc.push(::loc("shop/ammo") + ::loc("ui/colon") + bulletCount)
         }
         if( ! weaponBlk)
@@ -805,10 +809,7 @@
     }
 
     if(isDebugMode)
-    {
-      desc.push("\n")
-      desc.push("DEBUG! partId=" + partId + ", partName=" + partName)
-    }
+      desc.push("\n" + ::colorize("badTextColor", partName))
 
     local description = ::g_string.implode(desc, "\n")
     return description
@@ -859,7 +860,7 @@
 
   function getWeaponByXrayPartName(partName)
   {
-    local partLinkSources = ["dm", "barrelDP", "breechDP", "maskDP", "gunDm"]
+    local partLinkSources = [ "dm", "barrelDP", "breechDP", "maskDP", "gunDm", "ammoDP" ]
     foreach(weapon in getUnitWeaponList())
     {
       foreach(linkKey in partLinkSources)

@@ -91,7 +91,7 @@ function trophyReward::rewardsSortComparator(a, b)
     local itemA = ::ItemsManager.findItemById(a.item)
     local itemB = ::ItemsManager.findItemById(b.item)
     if (itemA && itemB)
-      return ::ItemsManager.itemsSortComparator(itemA, itemB)
+      return ::ItemsManager.getItemsSortComparator()(itemA, itemB)
   }
 
   return a?[typeA] <=> b?[typeB]

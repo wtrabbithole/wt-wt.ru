@@ -401,6 +401,11 @@ ww_map_item {
   css-hier-invalidate:yes;
   tabStop:yes;
 }
+ww_map_item[isReflected=yes] {
+  re-type:rotation;
+  background-rotation:180;
+}
+
 ww_map_item.header {
   size:pw, @leaderboardHeaderHeight;
   background-image:#ui/gameuiskin#expandable_item_sub_transp_selected;
@@ -540,6 +545,7 @@ wwBattleBackgroundBlock > wwBattleBackground {
   background-color:@white;
 }
 
+wwMainMenuBackgroundShadow,
 wwBattleBackgroundShadow {
   re-type:rotation;
   background-repeat:expand;
@@ -548,16 +554,24 @@ wwBattleBackgroundShadow {
   position:absolute;
 }
 
-wwBattleBackgroundShadow[type=left] {
-  background-image:#ui/gameuiskin#shadow_left;
+wwMainMenuBackgroundShadow {
+  height:ph -1@navBarBattleButtonHeight -9@sf/@pf_outdated;
+}
+wwBattleBackgroundShadow {
   size:3@wwBattleBackgroundShadowLedge, ph;
 }
+
+wwMainMenuBackgroundShadow[type=left],
+wwBattleBackgroundShadow[type=left] {
+  background-image:#ui/gameuiskin#shadow_left;
+}
+wwMainMenuBackgroundShadow[type=right],
 wwBattleBackgroundShadow[type=right] {
   background-rotation:180;
   background-image:#ui/gameuiskin#shadow_left;
-  size:3@wwBattleBackgroundShadowLedge, ph;
   left:pw-w;
 }
+
 wwBattleBackgroundShadow[type=top] {
   background-image:#ui/images/worldwar_window_shadow_bg_image_vert;
   background-rotation:180;

@@ -258,19 +258,28 @@ local InventoryClient = class {
       requestItems()
   }
 
+  isWaitForInventory = @() canRefreshData() && lastUpdateTime < 0
+
   function requestItemsInternal()
   {
     needRefreshItems = false
     if (!canRefreshData())
       return
 
+    local wasWaitForInventory = isWaitForInventory()
     lastRequestTime = ::dagor.getCurTime()
     requestInventory(function(result) {
       lastUpdateTime = ::dagor.getCurTime()
+      if (wasWaitForInventory)
+        hasInventoryChanges = true //need event about we received inventory once, even if it empty.
 
       local itemJson = getResultData(result, "item_json");
       if (!itemJson)
+      {
+        if (wasWaitForInventory)
+          notifyInventoryUpdate()
         return
+      }
 
       local oldItems = items
       local shouldUpdateItemdefs = false
@@ -576,6 +585,11 @@ local InventoryClient = class {
     requestItemDefs(function() {
       notifyInventoryUpdate()
     }, true)
+  }
+
+  function onEventSignOut(p)
+  {
+    lastUpdateTime = -1
   }
 }
 

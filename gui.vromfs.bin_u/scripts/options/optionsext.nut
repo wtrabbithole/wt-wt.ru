@@ -3725,7 +3725,7 @@ function get_option(type, context = null)
         descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
       }
 
-      local unit = ::show_aircraft
+      local unit = ::get_player_cur_unit()
       descr.value = unit ? ::find_in_array(descr.values, ::get_option_tank_alt_crosshair(unit.name), 0) : 0
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
@@ -3741,6 +3741,14 @@ function get_option(type, context = null)
       descr.controlName <- "switchbox"
       descr.value = crossplayModule.isCrossPlayEnabled()
       descr.cb = "onChangeCrossPlayOption"
+      break
+
+    case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
+      descr.id = "xbox_crossnetwork_chat"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = crossplayModule.isCrossNetworkChatEnabled()
+      descr.cb = "onInstantOptionApply"
       break
 
     default:
@@ -4706,7 +4714,7 @@ function set_option(type, value, descr = null)
       ::set_option_tank_gunner_camera_from_sight(value)
       break
     case ::USEROPT_TANK_ALT_CROSSHAIR:
-      local unit = ::show_aircraft
+      local unit = ::get_player_cur_unit()
       local val = descr.values[value]
       if (unit && val != TANK_ALT_CROSSHAIR_ADD_NEW)
         ::set_option_tank_alt_crosshair(unit.name, val)
@@ -4721,6 +4729,10 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
       crossplayModule.setIsCrossPlayEnabled(value)
+      break
+
+    case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
+      crossplayModule.setIsCrossNetworkChatEnabled(value)
       break
 
     default:

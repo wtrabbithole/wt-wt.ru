@@ -30,6 +30,15 @@
     }
     <</newIconWidget>>
 
+    <<#unseenIcon>>
+    unseenIcon {
+      <<#unseenIconId>>id:t='<<unseenIconId>>'<</unseenIconId>>
+      valign:t='center'
+      value:t='<<unseenIcon>>'
+      unseenText {}
+    }
+    <</unseenIcon>>
+
     <<#image>>
       shopFilterImg {
         id:t='<<id>>_icon'

@@ -1636,6 +1636,10 @@ tooltipObj.empty {
   border:no;
 }
 
+tooltipObj[type=dark] {
+  background-color: @frameBackgroundColor;
+}
+
 @const imgFrameSize: 1.45*@profileMedalSize;
 @const imgFramePad: 3*@sf/@pf_outdated;
 @const hoverFrameMargin: 4*@sf/@pf_outdated;

@@ -916,7 +916,8 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 1.0,
+          "var": "bdt_respawn_time"
         }
       },
       "conditions": {
@@ -943,8 +944,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 20.0,
-          "var": "bdt_respawn_time"
+          "time": 1.0
         }
       },
       "conditions": {
@@ -1550,6 +1550,7 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t2_destroy_zone_01",
             "status": 2,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@bdt_t1_zone_01_name",
             "unit_type": "any"
@@ -1656,6 +1657,7 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t2_destroy_zone_02",
             "status": 2,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@bdt_t1_zone_02_name",
             "unit_type": "any"
@@ -1762,6 +1764,7 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t2_destroy_zone_03",
             "status": 2,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@bdt_t1_zone_03_name",
             "unit_type": "any"
@@ -1864,8 +1867,10 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t2_destroy_zone_01",
             "status": 0,
+            "extendedEnding": true,
             "team": "B",
-            "unit_type": "isAlive"
+            "unit_or_area": "@bdt_t1_zone_01_name",
+            "unit_type": "any"
           }
         },
         {
@@ -1889,6 +1894,16 @@
           "varSetString": {
             "value": "",
             "var": "bdt_t1_zone_01_name"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t1_self_restarting"
           }
         }
       ],
@@ -1918,8 +1933,10 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t2_destroy_zone_02",
             "status": 0,
+            "extendedEnding": true,
             "team": "B",
-            "unit_type": "isAlive"
+            "unit_or_area": "@bdt_t1_zone_02_name",
+            "unit_type": "any"
           }
         },
         {
@@ -1943,6 +1960,16 @@
           "varSetString": {
             "value": "",
             "var": "bdt_t1_zone_02_name"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t1_self_restarting"
           }
         }
       ],
@@ -1972,8 +1999,10 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t2_destroy_zone_03",
             "status": 0,
+            "extendedEnding": true,
             "team": "B",
-            "unit_type": "isAlive"
+            "unit_or_area": "@bdt_t1_zone_03_name",
+            "unit_type": "any"
           }
         },
         {
@@ -1998,6 +2027,16 @@
             "value": "",
             "var": "bdt_t1_zone_03_name"
           }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t1_self_restarting"
+          }
         }
       ],
       "else_actions": []
@@ -2012,7 +2051,8 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 1.0,
+          "var": "bdt_respawn_time"
         }
       },
       "conditions": {
@@ -2039,8 +2079,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 20.0,
-          "var": "bdt_respawn_time"
+          "time": 1.0
         }
       },
       "conditions": {
@@ -2653,6 +2692,7 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t1_destroy_zone_01",
             "status": 2,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@bdt_t2_zone_01_name",
             "unit_type": "any"
@@ -2759,6 +2799,7 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t1_destroy_zone_02",
             "status": 2,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@bdt_t2_zone_02_name",
             "unit_type": "any"
@@ -2865,6 +2906,7 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t1_destroy_zone_03",
             "status": 2,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@bdt_t2_zone_03_name",
             "unit_type": "any"
@@ -2967,8 +3009,10 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t1_destroy_zone_01",
             "status": 0,
+            "extendedEnding": true,
             "team": "A",
-            "unit_type": "isAlive"
+            "unit_or_area": "@bdt_t2_zone_01_name",
+            "unit_type": "any"
           }
         },
         {
@@ -2992,6 +3036,16 @@
           "varSetString": {
             "value": "",
             "var": "bdt_t2_zone_01_name"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t2_self_restarting"
           }
         }
       ],
@@ -3021,8 +3075,10 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t1_destroy_zone_02",
             "status": 0,
+            "extendedEnding": true,
             "team": "A",
-            "unit_type": "isAlive"
+            "unit_or_area": "@bdt_t2_zone_02_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3046,6 +3102,16 @@
           "varSetString": {
             "value": "",
             "var": "bdt_t2_zone_02_name"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t2_self_restarting"
           }
         }
       ],
@@ -3075,8 +3141,10 @@
           "moSetObjectiveStatus": {
             "target": "bdt_t1_destroy_zone_03",
             "status": 0,
+            "extendedEnding": true,
             "team": "A",
-            "unit_type": "isAlive"
+            "unit_or_area": "@bdt_t2_zone_03_name",
+            "unit_type": "any"
           }
         },
         {
@@ -3100,6 +3168,16 @@
           "varSetString": {
             "value": "",
             "var": "bdt_t2_zone_03_name"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdt_t2_self_restarting"
           }
         }
       ],
@@ -3142,41 +3220,6 @@
           "value": false,
           "var": "bdt_is_template_active"
         }
-      },
-      "else_actions": []
-    },
-    "bdt_self_restarting": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 90.0
-        }
-      },
-      "conditions": {
-        "varCompareBool": {
-          "var_value": "bdt_self_restart",
-          "value": true,
-          "comparasion_func": "equal"
-        }
-      },
-      "actions": {
-        "comment": {
-          "value": "шаблон сам себя рестартит"
-        },
-        "triggerEnable": [
-          {
-            "target": "bdt_t1_spawn_start"
-          },
-          {
-            "target": "bdt_t2_spawn_start"
-          }
-        ]
       },
       "else_actions": []
     },
@@ -4475,6 +4518,78 @@
           "target": "bdt_t2_spawn_rotator"
         }
       }
+    },
+    "bdt_t1_self_restarting": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bdt_self_restart",
+          "value": true,
+          "comparasion_func": "equal"
+        },
+        "varCompareInt": {
+          "var_value": "bdt_t1_cur_bases_count",
+          "value": 0,
+          "comparasion_func": "less",
+          "var_value_other": "bdt_t1_active_bases_max_count"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "шаблон сам себя рестартит"
+        },
+        "triggerEnable": {
+          "target": "bdt_t1_spawn_start"
+        }
+      },
+      "else_actions": []
+    },
+    "bdt_t2_self_restarting": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bdt_self_restart",
+          "value": true,
+          "comparasion_func": "equal"
+        },
+        "varCompareInt": {
+          "var_value": "bdt_t2_cur_bases_count",
+          "value": 0,
+          "comparasion_func": "less",
+          "var_value_other": "bdt_t2_active_bases_max_count"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "шаблон сам себя рестартит"
+        },
+        "triggerEnable": {
+          "target": "bdt_t2_spawn_start"
+        }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -4567,7 +4682,7 @@
     "bdt_t2_zone_02_name": "",
     "bdt_t2_zone_03_name": "",
     "bdt_is_template_active": false,
-    "bdt_delay_timer": 30,
+    "bdt_delay_timer": 120,
     "bdt_army_both_zero": -1,
     "bdt_t1_cur_base_spawn_idx": 0,
     "bdt_t2_cur_base_spawn_idx": 0,
@@ -4575,7 +4690,7 @@
     "bdt_t2_cur_bases_count": 0,
     "bdt_t1_cur_spawn_random_idx": 0,
     "bdt_t2_cur_spawn_random_idx": 0,
-    "bdt_respawn_time": 90,
+    "bdt_respawn_time": 240,
     "bdt_t1_cur_spawn_aaa_name": "",
     "bdt_t2_cur_spawn_aaa_name": "",
     "bdt_t1_cur_destroyed_aaa_name": "",

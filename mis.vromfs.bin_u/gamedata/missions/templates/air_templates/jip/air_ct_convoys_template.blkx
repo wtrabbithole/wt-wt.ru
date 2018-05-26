@@ -200,11 +200,7 @@
             }
           }
         ],
-        "else_actions": {
-          "comment": {
-            "value": ""
-          }
-        }
+        "else_actions": []
       },
       "ct_generate_change_army": {
         "is_enabled": false,
@@ -439,6 +435,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_spawn_convoy_name"
           }
         },
@@ -478,14 +477,14 @@
           },
           {
             "comment": {
-              "value": "определяем тип конвоя. 0 - не боевой, 1 - боевой"
+              "value": "определяем тип конвоя. 0-3 - не боевой, 4+ - боевой"
             }
           },
           {
             "varSetRandomInt": {
               "var": "ct_spawn_type",
               "from": 0,
-              "to_not_including": 2
+              "to_not_including": 10
             }
           },
           {
@@ -515,6 +514,9 @@
             "unitSetIndication": {
               "set": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_spawn_convoy_name"
             }
           },
@@ -616,8 +618,8 @@
         "conditions": {
           "varCompareInt": {
             "var_value": "ct_spawn_type",
-            "value": 0,
-            "comparasion_func": "equal"
+            "value": 4,
+            "comparasion_func": "less"
           }
         },
         "actions": [
@@ -628,7 +630,7 @@
           },
           {
             "comment": {
-              "value": "состоит из 4-6 грузовиков и 2-4 зениток"
+              "value": "состоит из 4-6 грузовиков, 2-4 броневиков и 1-2 зениток"
             }
           },
           {
@@ -640,20 +642,21 @@
           },
           {
             "varSetRandomInt": {
-              "var": "ct_spawn_aaa_num",
+              "var": "ct_spawn_acar_num",
               "from": 2,
               "to_not_including": 5
             }
           },
           {
-            "comment": {
-              "value": "количество танков и броневиков указываем равными нулю"
+            "varSetRandomInt": {
+              "var": "ct_spawn_aaa_num",
+              "from": 1,
+              "to_not_including": 3
             }
           },
           {
-            "varSetInt": {
-              "value": 0,
-              "var": "ct_spawn_acar_num"
+            "comment": {
+              "value": "количество танков и броневиков указываем равными нулю"
             }
           },
           {
@@ -681,7 +684,7 @@
           },
           {
             "comment": {
-              "value": "состоит из 4-6 танков, 0-4 бронетранспортеров и 2-4 зениток"
+              "value": "состоит из 4-6 танков, 2-6 бронетранспортеров и 2-4 зениток"
             }
           },
           {
@@ -694,8 +697,8 @@
           {
             "varSetRandomInt": {
               "var": "ct_spawn_acar_num",
-              "from": 0,
-              "to_not_including": 5
+              "from": 2,
+              "to_not_including": 7
             }
           },
           {
@@ -848,6 +851,9 @@
           {
             "unitSetProperties": {
               "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ct_spawn_convoy_name",
               "speed": 30.0,
               "minDistBetween": 30.0
@@ -970,6 +976,9 @@
             "unitSetIndication": {
               "set": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1086,6 +1095,9 @@
             "unitSetIndication": {
               "set": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1202,6 +1214,9 @@
             "unitSetIndication": {
               "set": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1318,6 +1333,9 @@
             "unitSetIndication": {
               "set": false,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1967,6 +1985,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_end_check_convoy_name"
           }
         },
@@ -2053,6 +2074,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_end_check_convoy_name",
             "target": "@ct_end_check_convoy_end_point",
             "compareCenters": false
@@ -2160,6 +2184,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_end_check_convoy_name"
           }
         },
@@ -2328,6 +2355,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "all",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ct_all_convoys_squad",
             "target": "all_players_squad",
             "compareCenters": false,
@@ -2733,6 +2763,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_found_convoy_name"
           }
         },
@@ -2772,6 +2805,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_found_convoy_name"
           }
         },
@@ -2817,6 +2853,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_found_convoy_name"
           }
         },
@@ -2866,6 +2905,9 @@
             "target_marking": 0,
             "check_objects": "all",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_found_convoy_name",
             "target": "@ct_found_end_point_name",
             "compareCenters": false
@@ -3465,6 +3507,9 @@
             "object_marking": 0,
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_detect_convoy_name"
           }
         },
@@ -3677,6 +3722,9 @@
             "enemy_type": "isActive",
             "distance": 500.0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_detect_convoy_name",
             "use_variable": true,
             "distance_var": "ct_detect_detection_calculated_range"
@@ -3696,6 +3744,9 @@
           {
             "unitSetProperties": {
               "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ct_detect_convoy_name",
               "stealthRadius": 60000.0
             }
@@ -3709,6 +3760,9 @@
             "unitSetIndication": {
               "set": true,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_detect_convoy_name"
             }
           },
@@ -3766,6 +3820,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_detect_convoy_name",
             "target": "@ct_detect_player_squad_name",
             "var": "ct_detect_detection_players_range",
@@ -3786,6 +3843,9 @@
           {
             "unitSetProperties": {
               "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "object": "@ct_detect_convoy_name",
               "stealthRadius": 60000.0
             }
@@ -3799,6 +3859,9 @@
             "unitSetIndication": {
               "set": true,
               "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
               "target": "@ct_detect_convoy_name"
             }
           },
@@ -3914,6 +3977,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@ct_obj_convoy_name",
             "team": "Both"
           }
@@ -3951,6 +4017,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@ct_obj_convoy_name",
             "team": "Both"
           }
@@ -3980,6 +4049,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@ct_obj_convoy_name",
             "team": "A"
           }
@@ -4009,6 +4081,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@ct_obj_convoy_name",
             "team": "B"
           }
@@ -4039,7 +4114,10 @@
             "moSetObjectiveStatus": {
               "target": "ct_t1_destroy",
               "status": 2,
-              "team": "A"
+              "extendedEnding": true,
+              "team": "A",
+              "unit_or_area": "@ct_obj_convoy_name",
+              "unit_type": "any"
             }
           },
           {
@@ -4094,7 +4172,10 @@
             "moSetObjectiveStatus": {
               "target": "ct_t2_destroy",
               "status": 2,
-              "team": "B"
+              "extendedEnding": true,
+              "team": "B",
+              "unit_or_area": "@ct_obj_convoy_name",
+              "unit_type": "any"
             }
           },
           {
@@ -4149,7 +4230,10 @@
             "moSetObjectiveStatus": {
               "target": "ct_t1_protect",
               "status": 2,
-              "team": "A"
+              "extendedEnding": true,
+              "team": "A",
+              "unit_or_area": "@ct_obj_convoy_name",
+              "unit_type": "any"
             }
           },
           {
@@ -4204,7 +4288,10 @@
             "moSetObjectiveStatus": {
               "target": "ct_t2_protect",
               "status": 2,
-              "team": "B"
+              "extendedEnding": true,
+              "team": "B",
+              "unit_or_area": "@ct_obj_convoy_name",
+              "unit_type": "any"
             }
           },
           {
@@ -4258,7 +4345,10 @@
           "moSetObjectiveStatus": {
             "target": "ct_t1_destroy",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "any"
           },
           "comment": {
             "value": "прячем квест"
@@ -4295,7 +4385,10 @@
           "moSetObjectiveStatus": {
             "target": "ct_t2_destroy",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "any"
           },
           "comment": {
             "value": "прячем квест"
@@ -4332,7 +4425,10 @@
           "moSetObjectiveStatus": {
             "target": "ct_t1_protect",
             "status": 3,
-            "team": "A"
+            "extendedEnding": true,
+            "team": "A",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "any"
           },
           "comment": {
             "value": "прячем квест"
@@ -4369,7 +4465,10 @@
           "moSetObjectiveStatus": {
             "target": "ct_t2_protect",
             "status": 3,
-            "team": "B"
+            "extendedEnding": true,
+            "team": "B",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "any"
           },
           "comment": {
             "value": "прячем квест"
@@ -4722,6 +4821,9 @@
             "object_marking": 0,
             "func": "less",
             "value": 1,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_dead_cur_convoy_name"
           }
         },
@@ -4811,6 +4913,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_dead_cur_convoy_name"
           }
         },
@@ -5267,6 +5372,9 @@
             "object_marking": 0,
             "func": "more",
             "value": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@ct_update_pos_convoy_name"
           }
         },
@@ -5380,6 +5488,7 @@
           "moSetObjectiveStatus": {
             "target": "ct_t1_protect",
             "status": 1,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@ct_update_pos_convoy_name",
             "unit_type": "isActive"
@@ -5410,6 +5519,7 @@
           "moSetObjectiveStatus": {
             "target": "ct_t2_protect",
             "status": 1,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@ct_update_pos_convoy_name",
             "unit_type": "isActive"
@@ -5443,6 +5553,7 @@
           "moSetObjectiveStatus": {
             "target": "ct_t1_destroy",
             "status": 1,
+            "extendedEnding": true,
             "team": "A",
             "unit_or_area": "@ct_update_pos_convoy_name",
             "unit_type": "isActive"
@@ -5476,6 +5587,7 @@
           "moSetObjectiveStatus": {
             "target": "ct_t2_destroy",
             "status": 1,
+            "extendedEnding": true,
             "team": "B",
             "unit_or_area": "@ct_update_pos_convoy_name",
             "unit_type": "isActive"
@@ -5801,6 +5913,9 @@
       "actions": {
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "ct_all_convoys_squad",
           "accuracy": 0.1,
           "effShootingRate": 0.0,
@@ -6223,6 +6338,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@ct_main_convoy_name"
         }
       },
@@ -6345,6 +6463,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@ct_main_convoy_name"
         }
       },
@@ -6380,6 +6501,9 @@
         "unitSetIndication": {
           "set": true,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "@ct_main_convoy_name"
         }
       },
@@ -6438,6 +6562,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@ct_main_end_convoy_name"
         }
       },
@@ -6445,6 +6572,12 @@
         {
           "comment": {
             "value": "конвой принадлежит армии А"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ct_main_end_convoy_name",
+            "var": "ct_obj_convoy_name"
           }
         },
         {
@@ -6459,6 +6592,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@ct_main_end_convoy_name"
           }
         },
@@ -6483,6 +6619,12 @@
           }
         },
         {
+          "varGetStringValue": {
+            "from_var_name": "ct_main_end_convoy_name",
+            "var": "ct_obj_convoy_name"
+          }
+        },
+        {
           "triggerActivate": {
             "target": "ct_obj_t2_complete_protect_quest",
             "activate_type": "checkConidtions",
@@ -6494,6 +6636,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "@ct_main_end_convoy_name"
           }
         },
@@ -6599,6 +6744,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "ct_all_convoys_squad",
           "target": "bridges_squad",
           "compareCenters": false,
@@ -6619,6 +6767,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ct_all_convoys_squad",
             "useForTriggerFiltered": true,
             "speed": 0.0,

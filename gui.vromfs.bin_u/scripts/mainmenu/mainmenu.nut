@@ -89,14 +89,13 @@ function on_mainmenu_return(handler, isAfterLogin)
     penalties.showBannedStatusMsgBox(true)
     if (isAllowPopups && !::disable_network())
     {
-      handler.doWhenActive(::check_tutorial_on_mainmenu)
       handler.doWhenActive(::check_joystick_thustmaster_hotas)
+      handler.doWhenActive(::check_tutorial_on_mainmenu)
     }
   }
 
   check_logout_scheduled()
 
-  ::ItemsManager.updateGamercardIcons()
   ::sysopt.configMaintain()
 
   ::checkNewNotificationUserlogs()
@@ -109,6 +108,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })
     handler.doWhenActive(@() ::g_psn_session_invitations.checkAfterFlight() )
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
+    handler.doWhenActive(@() ::g_xbox_squad_manager.checkAfterFlight() )
     handler.doWhenActive(@() ::g_battle_tasks.checkNewSpecialTasks() )
   }
 
@@ -211,7 +211,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
     ::check_tutorial_reward()
 
-    updateLowQualityModelWarning()
+    forceUpdateSelUnitInfo()
 
     if (::g_login.isAuthorized())
     {
@@ -311,7 +311,6 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   function onEventHangarModelLoaded(p)
   {
     doWhenActiveOnce("updateSelUnitInfo")
-    updateLowQualityModelWarning()
   }
 
   function onEventCrewsListChanged(p)
@@ -345,6 +344,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
     ::setCrewUnlockTime(lockObj, unit)
 
     updateUnitRentInfo(unit)
+    updateLowQualityModelWarning()
   }
 
   function updateUnitRentInfo(unit)

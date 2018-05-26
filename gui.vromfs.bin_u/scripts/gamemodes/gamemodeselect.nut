@@ -295,7 +295,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       eventDescriptionValue = gameMode.id
       inactiveColor = ::getTblValue("inactiveColor", gameMode, crossPlayRestricted)
       crossPlayRestricted = crossPlayRestricted
-      isCrossPlayRequired = ::is_platform_xboxone && !isEventXboxOnlyAllowed(event)
+      isCrossPlayRequired = ::is_platform_xboxone
+        && (crossplayModule.isCrossPlayEnabled() || !isEventXboxOnlyAllowed(event))
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)

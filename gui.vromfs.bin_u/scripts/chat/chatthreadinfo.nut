@@ -148,8 +148,7 @@ class ChatThreadInfo
     if (!ownerNick.len())
       return ownerUid
 
-    local res = ownerClanTag.len() ? ownerClanTag + " " : ""
-    res += platformModule.getPlayerName(ownerNick)
+    local res = ::g_contacts.getPlayerFullName(platformModule.getPlayerName(ownerNick), ownerClanTag)
     if (isColored)
       res = ::colorize(::g_chat.getSenderColor(ownerNick, false, false, defaultColor), res)
     return res
@@ -203,13 +202,12 @@ class ChatThreadInfo
     ]
 
     local contact = ::getContact(ownerUid, ownerNick, ownerClanTag)
-    menu.extend(playerContextMenu.getActions(contact, {
+    playerContextMenu.showMenu(contact, ::g_chat, {
       position = position
       roomId = roomId
       playerName = ownerNick
-    }))
-
-    ::gui_right_click_menu(menu, ::g_chat, position)
+      extendButtons = menu
+    })
   }
 
   function canEdit()

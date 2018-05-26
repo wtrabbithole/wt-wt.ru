@@ -49,6 +49,7 @@
             on_tooltip_open:t='onGenericTooltipOpen'
             on_tooltip_close:t='onTooltipObjClose'
             display:t='hide'
+            type:t='dark'
           }
         <</getTooltipId>>
       <</hideTooltip>>

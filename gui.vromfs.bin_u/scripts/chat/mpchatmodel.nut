@@ -9,8 +9,7 @@ local mpChatModel = {
   maxLogSize = 20
 
 
-  function init()
-  {
+  function init() {
     ::set_chat_handler(this)
     maxLogSize = ::g_chat.getMaxRoomMsgAmount()
   }
@@ -27,7 +26,10 @@ local mpChatModel = {
 
 
   function onIncomingMessage(sender, msg, enemy, mode, automatic) {
-    if(!::ps4_is_chat_enabled() && !automatic) {
+    if ( (!::ps4_is_chat_enabled()
+         || !::g_chat.xboxIsChatEnabled()
+         || !::g_chat.isCrossNetworkMessageAllowed(sender))
+        && !automatic) {
       return false
     }
 
@@ -53,7 +55,7 @@ local mpChatModel = {
   }
 
 
-  clearLog = function() {
+  function clearLog() {
     onChatClear()
     ::broadcastEvent("MpChatLogUpdated")
   }
@@ -88,6 +90,14 @@ local mpChatModel = {
         return
       }
     }
+  }
+
+  function onModeSwitched() {
+    local newModeId = ::g_mp_chat_mode.getNextMode(mpChatState.currentModeId)
+    if (newModeId == null)
+      return
+
+    ::chat_set_mode(newModeId, "")
   }
 }
 

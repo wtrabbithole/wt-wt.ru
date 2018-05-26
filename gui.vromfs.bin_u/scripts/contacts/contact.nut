@@ -94,9 +94,9 @@ class Contact
     return res
   }
 
-  function canOpenXBoxFriendsWindow(forGroupName = null)
+  function canOpenXBoxFriendsWindow()
   {
-    return forGroupName != ::EPL_BLOCKLIST && platformModule.isPlayerFromXboxOne(name)
+    return platformModule.isPlayerFromXboxOne(name)
   }
 
   function openXBoxFriendsEdit()
@@ -116,6 +116,11 @@ class Contact
       return xboxId
 
     externalIDsService.reqPlayerExternalIDsByUserId(uid, {showProgressBox = true}, afterSuccessCb)
+  }
+
+  function needCheckXboxId()
+  {
+    return platformModule.isPlayerFromXboxOne(name) && xboxId == ""
   }
 
   function getWinsText()
@@ -140,10 +145,9 @@ class Contact
 
   function needCheckForceOffline()
   {
-    if (isForceOfflineChecked)
-      return false
-
-    if (!::isPlayerInFriendsGroup(uid))
+    if (isForceOfflineChecked
+        || !isInFriendGroup()
+        || presence == ::g_contact_presence.UNKNOWN)
       return false
 
     return platformModule.isPlayerFromXboxOne(name)
@@ -154,6 +158,22 @@ class Contact
     return uidInt64 == ::my_user_id_int64
       || uid == ::my_user_id_str
       || name == ::my_user_name
+  }
+
+  _cacheCanInteract = null
+  function canInteract(needShowSystemMessage = false)
+  {
+    if (!::is_platform_xboxone || isMe() || !platformModule.isPlayerFromXboxOne(name))
+      return true
+
+    if (xboxId == "")
+      return true
+
+    if (!needShowSystemMessage && _cacheCanInteract != null)
+      return _cacheCanInteract
+
+    _cacheCanInteract = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage)
+    return _cacheCanInteract
   }
 
   function isInGroup(groupName)

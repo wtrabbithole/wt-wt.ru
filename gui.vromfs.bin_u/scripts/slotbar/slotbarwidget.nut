@@ -130,7 +130,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ?? function(crew) {
            local unit = ::g_crew.getCrewUnit(crew)
            if (unit)
-             ::open_weapons_for_unit(unit)
+             ::open_weapons_for_unit(unit, getCurrentEdiff())
          }
 
     //update callbacks

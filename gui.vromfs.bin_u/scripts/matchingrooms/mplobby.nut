@@ -292,17 +292,16 @@ function session_player_rmenu(handler, player, chatText = "", position = null, o
   if (!player || player.isBot || !("userId" in player) || !::g_login.isLoggedIn())
     return
 
-  local menu = playerContextMenu.getActions(null, {
+  playerContextMenu.showMenu(null, handler, {
     playerName = player.name
     uid = player.userId.tostring()
     clanTag = player.clanTag
     position = position
+    orientation = orientation
     chatLog = chatText
     isMPLobby = true
     canComplain = true
   })
-
-  ::gui_right_click_menu(menu, handler, position, orientation)
 }
 
 function gui_start_mp_lobby(next_mission = false)
@@ -411,7 +410,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function initChat()
   {
-    if (!::ps4_is_chat_enabled())
+    if (!::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
       return
 
     local chatObj = scene.findObject("lobby_chat_place")

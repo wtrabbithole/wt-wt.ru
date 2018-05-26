@@ -39,7 +39,7 @@ function autobind_shortcuts(checkAutorestore = false)
   const AUTOBIND_TEST_SHORTCUT = "AUTOBIND_TEST_SHORTCUT"
   local preset = ::g_controls_manager.getCurPreset()
   if (checkAutorestore)
-    autorestore_preset()
+    ::autorestore_preset()
 
   if (::get_controls_preset() != "")
     return
@@ -114,8 +114,8 @@ function autobind_shortcuts(checkAutorestore = false)
       }
   }
 
-  //FIX incorrect autobind artillery mode switch shortcut on ps4
-  if (::is_platform_ps4)
+  //FIX incorrect autobind artillery mode switch shortcut
+  if (::is_ps4_or_xbox)
   {
     local curSc = ::get_shortcuts(["ID_CHANGE_ARTILLERY_TARGETING_MODE"])
     local wrongAutobind = [[{ btn = [2], dev = [1] }]] // Middle mouse button

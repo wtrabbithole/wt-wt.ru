@@ -1,3 +1,5 @@
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+
 local getClanActions = function(clanId)
 {
   if (!::has_feature("Clans"))
@@ -32,11 +34,29 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
   local myClanRights = ::g_clans.getMyClanRights()
   local isClanAdmin = ::clan_get_admin_editor_mode()
 
+  local isBlock = ::isPlayerInContacts(playerUid, ::EPL_BLOCKLIST)
+  local contact = ::getContact(playerUid, playerName)
+  local name = contact?.name ?? playerName
+  local canInteract = ::g_chat.xboxIsChatAvailableForFriend(name) && (!contact || contact.canInteract())
+
   return [
     {
       text = ::loc("contacts/message")
-      show = playerUid != ::my_user_id_str && ::ps4_is_chat_enabled() && !u.isEmpty(playerName) && ::has_feature("Chat")
-      action = @() ::openChatPrivate(playerName, handler)
+      isVisualDisabled = !canInteract || isBlock
+      show = playerUid != ::my_user_id_str
+             && ::ps4_is_chat_enabled()
+             && !u.isEmpty(name)
+             && ::has_feature("Chat")
+      action = function()
+      {
+        if (isBlock)
+          return playerContextMenu.showBlockedPlayerPopup(name)
+
+        if (!canInteract)
+          return playerContextMenu.showPrivacySettingsRestrictionPopup()
+
+        ::openChatPrivate(name, handler)
+      }
     }
     {
       text = ::loc("mainmenu/btnUserCard")

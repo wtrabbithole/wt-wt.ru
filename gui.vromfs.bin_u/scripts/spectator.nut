@@ -359,7 +359,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function getPlayerNick(player, colored = false)
   {
-    local name = player ? ::g_string.implode([player.clanTag, player.name], " ") : ""
+    local name = player ? ::g_contacts.getPlayerFullName(player.name, player.clanTag) : ""
     local color = getPlayerColor(player, colored)
     return ::colorize(color, name)
   }
@@ -1020,7 +1020,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local tabId = obj.id
-    foreach (i in ["btn_tab_history", "btn_tab_chat"])
+    foreach (i in [ "btn_tab_history", "btn_tab_chat", "btn_tab_orders" ])
     {
       local objTab = scene.findObject(i)
       if (::checkObj(objTab))
@@ -1036,6 +1036,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     ::showBtnTable(scene, {
       history_container = tabId == "btn_tab_history"
       chat_container    = tabId == "btn_tab_chat"
+      orders_container  = tabId == "btn_tab_orders"
     })
 
     if (tabId == "btn_tab_chat")
@@ -1049,6 +1050,15 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       return
     local obj = scene.findObject("btn_tab_chat")
     if (::checkObj(obj))
+      obj.alert = "yes"
+  }
+
+  function onEventActiveOrderChanged(params)
+  {
+    if (!::check_obj(scene))
+      return
+    local obj = scene.findObject("btn_tab_orders")
+    if (::check_obj(obj))
       obj.alert = "yes"
   }
 

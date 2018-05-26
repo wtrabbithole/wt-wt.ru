@@ -311,7 +311,7 @@ class ::WwBattle
       return res
     }
 
-    if (isLockedByExcessPlayers(side))
+    if (::g_squad_manager.isSquadLeader() && isLockedByExcessPlayers(side))
     {
       res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
       res.reasonText = ::loc("worldWar/battle_is_unbalanced")
@@ -398,6 +398,16 @@ class ::WwBattle
     if (team)
       return team.players >= team.maxPlayers
     return false
+  }
+
+  function hasAvailableUnits()
+  {
+    local side = getSide(::get_profile_country_sq())
+    if (side == ::SIDE_NONE)
+      return false
+
+    local team = getTeamBySide(side)
+    return team ? getTeamRemainUnits(team).len() > 0 : false
   }
 
   function isStillInOperation()
@@ -648,7 +658,7 @@ class ::WwBattle
   {
     local availableUnits = {}
     foreach(unit in team.unitsRemain)
-      if (unit.count > 0 && !unit.isForceControlledByAI)
+      if (unit.count > 0 && !unit.isControlledByAI())
         availableUnits[unit.name] <- unit.count
 
     return availableUnits

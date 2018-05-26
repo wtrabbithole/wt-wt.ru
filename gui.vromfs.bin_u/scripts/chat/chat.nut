@@ -1,6 +1,7 @@
 local penalties = ::require("scripts/penitentiary/penalties.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local platformModule = require("modules/platform.nut")
 
 enum chatUpdateState {
   OUTDATED
@@ -17,7 +18,8 @@ enum chatErrorName {
 
 g_chat <- {
   [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "userCaps", "userCapsGen",
-                               "threadTitleLenMin", "threadTitleLenMax"]
+                              "threadTitleLenMin", "threadTitleLenMax", "xboxCanUseTextChat",
+                              "isCrossNetworkChatAvailable"]
 
   MAX_ROOM_MSGS = 50
   MAX_ROOM_MSGS_FOR_MODERATOR = 250
@@ -47,6 +49,9 @@ g_chat <- {
   threadTitleLenMax = 160
 
   isThreadsView = false
+
+  xboxCanUseTextChat = null
+  isCrossNetworkChatAvailable = true
 
   rooms = [] //for full room params list check addRoom( function in menuchat.nut //!!FIX ME must be here, or separate class
   threadsInfo = {}
@@ -85,20 +90,47 @@ function g_chat::filterMessageText(text, isMyMessage)
 ::cross_call_api.filter_chat_message <- ::g_chat.filterMessageText
 
 
-function g_chat::makeBlockedMsg(msg)
+function g_chat::makeBlockedMsg(msg, replacelocId = "chat/blocked_message")
 {
   //space work as close link. but non-breakable space - work as other symbols.
   msg = ::stringReplace(msg, " ", " ")
 
   //rnd for duplicate blocked messages
   return ::format("<Link=BL_%d_%s>%s</Link>",
-    ::math.rnd() % 99, msg, ::loc("chat/blocked_message"))
+    ::math.rnd() % 99, msg, ::loc(replacelocId))
 }
 
+function g_chat::makeXBoxRestrictedMsg(msg)
+{
+  return makeBlockedMsg(msg, "chat/blocked_message/xbox_restriction")
+}
+
+function g_chat::xboxIsChatEnabled(showOverlayMessage = false)
+{
+  if (!::g_login.isLoggedIn() || !::is_platform_xboxone)
+    return XBOX_COMMUNICATIONS_ALLOWED
+
+  if (xboxCanUseTextChat == null || (xboxCanUseTextChat == XBOX_COMMUNICATIONS_BLOCKED && showOverlayMessage))
+    xboxCanUseTextChat = ::can_use_text_chat_with_target("", showOverlayMessage)//myself, block by parent advisory
+
+  return xboxCanUseTextChat
+}
+
+function g_chat::xboxIsChatAvailableForFriend(playerName)
+{
+  local res = xboxIsChatEnabled()
+  if (res == XBOX_COMMUNICATIONS_ALLOWED)
+    return true
+
+  if (res == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
+    return !platformModule.isPlayerFromXboxOne(playerName) || ::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
+
+  return false
+}
 
 function g_chat::checkBlockedLink(link)
 {
-  return (link.len() > 6 && link.slice(0, 3) == "BL_")
+  return !::is_platform_xboxone && (link.len() > 6 && link.slice(0, 3) == "BL_")
 }
 
 
@@ -193,6 +225,12 @@ function g_chat::isSystemChatRoom(roomId)
 function g_chat::getSystemRoomId()
 {
   return ::g_chat_room_type.SYSTEM.getRoomId("")
+}
+
+function g_chat::openPrivateRoom(name, ownerHandler)
+{
+  if (::openChatScene(ownerHandler))
+    ::menu_chat_handler.changePrivateTo.call(::menu_chat_handler, name)
 }
 
 function g_chat::joinSquadRoom(callback)
@@ -560,12 +598,11 @@ function g_chat::generateInviteMenu(playerName)
 
 function g_chat::showPlayerRClickMenu(playerName, roomId = null, contact = null, position = null)
 {
-  local menu = playerContextMenu.getActions(contact, {
+  playerContextMenu.showMenu(contact, this, {
     position = position
     roomId = roomId
     playerName = playerName
   })
-  ::gui_right_click_menu(menu, this, position)
 }
 
 function g_chat::generatePlayerLink(name, uid = null)
@@ -583,6 +620,21 @@ function g_chat::onEventInitConfigs(p)
 
   threadTitleLenMin = blk.chat.threadTitleLenMin || threadTitleLenMin
   threadTitleLenMax = blk.chat.threadTitleLenMax || threadTitleLenMax
+}
+
+function g_chat::onEventLoginComplete(p)
+{
+  isCrossNetworkChatAvailable = ::get_option(::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE).value
+}
+
+function g_chat::onEventCrossNetworkChatOptionChanged(p)
+{
+  isCrossNetworkChatAvailable = p?.value ?? false
+}
+
+function g_chat::isCrossNetworkMessageAllowed(playerName)
+{
+  return ::g_chat.isCrossNetworkChatAvailable || platformModule.isPlayerFromXboxOne(playerName)
 }
 
 function g_chat::getNewMessagesCount()

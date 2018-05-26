@@ -28,6 +28,14 @@ shopFilter {
   }
   <</newIconWidget>>
 
+  <<#unseenIcon>>
+  unseenIcon {
+    valign:t='center'
+    value:t='<<unseenIcon>>'
+    unseenText {}
+  }
+  <</unseenIcon>>
+
   <<@object>>
 
   shopFilterText {

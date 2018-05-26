@@ -1,0 +1,36 @@
+ww_map_item {
+  class:t='header'
+  isReflected:t='yes'
+
+  textareaNoTab{
+    position:t='relative'
+    top:t='0.5(ph-h)'
+    padding-left:t='1@framePadding'
+    input-transparent:t='yes'
+    text:t='<<titleText>>'
+    overlayTextColor:t='silver'
+    caption:t='yes'
+  }
+}
+
+<<#trophy>>
+  ww_map_item {
+    isReflected:t='yes'
+    total-input-transparent:t='yes'
+
+    tdiv {
+      position:t='relative'
+      top:t='0.5(ph-h)'
+      margin-left:t='1@blockInterval'
+
+      textareaNoTab{
+        position:t='relative'
+        top:t='0.5(ph-h)'
+        padding:t='1@framePadding, 0'
+        text:t='<<titleText>>'
+        font:t='small_text_hud'
+      }
+      <<@wwTrophyMarkup>>
+    }
+  }
+<</trophy>>

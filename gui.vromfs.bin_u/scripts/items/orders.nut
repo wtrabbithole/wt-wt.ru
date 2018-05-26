@@ -380,10 +380,14 @@ function g_orders::ordersCanBeUsed()
   return checkGameType && ::is_in_flight() && ::has_feature("Orders")
 }
 
+function g_orders::isInSpectatorMode()
+{
+  return ::isPlayerDedicatedSpectator() || ::is_replay_playing()
+}
+
 function g_orders::showActivateOrderButton()
 {
-  local checkSpectator = !::isPlayerDedicatedSpectator() && !::is_replay_playing()
-  return checkSpectator && ordersCanBeUsed()
+  return !isInSpectatorMode() && ordersCanBeUsed()
 }
 
 function g_orders::activateOrder(orderItem, onComplete = null)
@@ -503,6 +507,8 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
 
 function g_orders::setStatusObjVisibility(statusObj, visible)
 {
+  if (isInSpectatorMode())
+    return
   if (!::checkObj(statusObj))
     return
   for (local i = 0; i < statusObj.childrenCount(); ++i)
@@ -621,9 +627,7 @@ function g_orders::getStatusContent(orderObject)
     rows = []
     playersHeaderText = ::loc("items/order/scoreTable/playersHeader")
     scoreHeaderText = orderType.getScoreHeaderText()
-    addScalableFrame = ::is_replay_playing()
-    orderStatusFramePos = orderStatusPosition == null ? null : ::g_string.implode(orderStatusPosition, ", ")
-    orderStatusFrameSize = orderStatusSize == null ? null : ::g_string.implode(orderStatusSize, ", ")
+    needPlaceInHiddenContainer = isInSpectatorMode()
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
     view.rows.push({ rowIndex = i })

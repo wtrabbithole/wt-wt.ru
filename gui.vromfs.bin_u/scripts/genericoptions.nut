@@ -511,7 +511,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     local option = get_option_by_id(obj.id)
     if (option && option.values[obj.getValue()] == TANK_ALT_CROSSHAIR_ADD_NEW)
     {
-      local unit = ::show_aircraft
+      local unit = ::get_player_cur_unit()
       local success = ::add_tank_alt_crosshair_template()
       local message = success && unit ? ::format(::loc("hud/successUserSight"), unit.name) : ::loc("hud/failUserSight")
 

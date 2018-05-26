@@ -7,6 +7,7 @@ function gui_start_search_squadPlayer()
   }
 
   ::update_ps4_friends()
+  ::g_contacts.updateXboxOneFriends()
   ::handlersManager.loadHandler(::gui_handlers.SearchForSquadHandler)
 }
 
