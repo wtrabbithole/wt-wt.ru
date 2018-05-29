@@ -1,4 +1,5 @@
 local platformModule = require("modules/platform.nut")
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 const SQUAD_MEMBERS_TO_HIDE_TITLE = 3
 
@@ -38,7 +39,12 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
   function getSceneTplView()
   {
+    local readyText = ::loc("mainmenu/btnReady")
+    local notReadyText = ::loc("multiplayer/btnNotReady")
+    local readyTextWidth = daguiFonts.getStringWidthPx(readyText, "fontNormal", guiScene)
+    local notReadyTextWidth = daguiFonts.getStringWidthPx(notReadyText, "fontNormal", guiScene)
     local view = {
+      readyBtnHiddenText = readyTextWidth > notReadyTextWidth ? readyText : notReadyText
       members = []
     }
 

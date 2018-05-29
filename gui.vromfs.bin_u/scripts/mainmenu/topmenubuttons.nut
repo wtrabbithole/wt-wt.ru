@@ -20,7 +20,6 @@ enum TOP_MENU_ELEMENT_TYPE {
     isLink = false
     isFeatured = false
     needDiscountIcon = false
-    newIconWidget = null
     unseenIcon = null
     onClickFunc = @(obj, handler = null) null
     onChangeValueFunc = @(value) null
@@ -214,14 +213,14 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(...) ::gui_start_inventory()
     image = "#ui/gameuiskin#inventory_icon"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
-    newIconWidget = @() ::NewIconWidget.createLayout()
+    unseenIcon = @() SEEN.INVENTORY
   }
   ITEMS_SHOP = {
     text = "#items/shop"
     onClickFunc = @(...) ::gui_start_itemsShop()
     image = "#ui/gameuiskin#store_icon.svg"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
-    newIconWidget = @() ::NewIconWidget.createLayout()
+    unseenIcon = @() SEEN.ITEMS_SHOP
   }
   ONLINE_SHOP = {
     text = "#msgbox/btn_onlineShop"

@@ -118,6 +118,14 @@ itemDiv {
     }
     <</contentIconData>>
 
+    tdiv {
+      flow:t='vertical'
+      position:t='absolute'
+      pos:t='-1@itemPadding, -1@itemPadding'
+      <<@getWarbondShopLevelImage>>
+      <<@getWarbondMedalImage>>
+    }
+
     <<#headerText>>
     activeText {
       width:t='pw'
@@ -128,7 +136,7 @@ itemDiv {
     }
     <</headerText>>
 
-    <<#newIconWidget>>
+    <<#newIconWidget>> //!!FIX ME: still used in warbonds new icons
     newIconWidget {
       id:t='item_new_icon_widget'
       position:t='absolute'
@@ -136,6 +144,15 @@ itemDiv {
       <<@newIconWidget>>
     }
     <</newIconWidget>>
+
+    <<#unseenIcon>>
+    unseenIcon {
+      pos:t='pw-w, 0'
+      position:t='absolute'
+      value:t='<<unseenIcon>>'
+      unseenText {}
+    }
+    <</unseenIcon>>
 
     <<#expireTime>>
     textareaNoTab {
@@ -182,13 +199,6 @@ itemDiv {
     arrowType:t='<<arrowType>>'
   }
   <</arrowNext>>
-
-  tdiv {
-    flow:t='vertical'
-    position:t='absolute'
-    <<@getWarbondShopLevelImage>>
-    <<@getWarbondMedalImage>>
-  }
 
   focus_border {}
 

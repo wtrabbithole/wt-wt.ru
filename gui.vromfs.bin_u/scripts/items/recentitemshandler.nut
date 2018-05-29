@@ -24,7 +24,6 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
       local mainActionName = item.getMainActionName()
       view.items.push(item.getViewData({
         itemIndex = i.tostring()
-        newIconWidget = null
         ticketBuyWindow = false
         hasButton = false
         onClick = mainActionName.len() > 0 ? "onItemAction" : null

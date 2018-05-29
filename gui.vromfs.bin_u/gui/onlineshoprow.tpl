@@ -3,7 +3,7 @@
 
 td {
   cellType:t='left';
-  padding-left:t='5*@scrn_tgt/100.0'
+
   textarea {
     id:t='amount';
     class:t='active';
@@ -35,7 +35,6 @@ td {
 }
 td {
   id:t='holder'
-  padding-right:t='5*@scrn_tgt/100.0'
 
   Button_text {
     id:t='buttonBuy';

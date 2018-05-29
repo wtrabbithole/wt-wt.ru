@@ -101,8 +101,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   sceneBlkName = "gui/debriefing/debriefing.blk"
   shouldBlurSceneBg = true
 
-  isFinishedresearchesWindowsAllowed = false
-
   static awardsListsConfig = {
     streaks = {
       filter = {
@@ -3009,6 +3007,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       case "battle_tasks_list": return "battle_tasks_list_scroll_block"
       default:                  return null
     }
+  }
+
+  getUserlogsMask = @() state == debrState.done && isSceneActiveNoModals()
+    ? USERLOG_POPUP.OPEN_TROPHY
+    : USERLOG_POPUP.NONE
+
+  function onEventModalWndDestroy(p)
+  {
+    if (state == debrState.done && isSceneActiveNoModals())
+      ::checkNewNotificationUserlogs()
   }
 
   isInited = true

@@ -4,8 +4,9 @@ local time = require("scripts/time.nut")
 
 ::chat_window_appear_time <- 0.125;
 ::chat_window_disappear_time <- 20.0;
-::unmapped_controls_warning_time_show <- 30.0
-::unmapped_controls_warning_time_wink <- 3.0
+
+local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
+local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
 
 ::need_offer_controls_help <- true
 
@@ -68,6 +69,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 
   ucWarningActive   = false
   ucWarningTimeShow = 0.0
+  ucNoWinkTime      = 0.0
   ucPrevList        = []
   spectatorMode     = false
 
@@ -80,7 +82,6 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   curTacticalMapObj = null
 
   afkTimeToKick = null
-  delayOnCheckAfkTimeToKick = 0.0
 
   curHudVisMode = null
   isReinitDelayed = false
@@ -302,13 +303,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   {
     ::g_streaks.onUpdate(dt)
     unmappedControlsUpdate(dt)
-
-    delayOnCheckAfkTimeToKick -= dt
-    if (delayOnCheckAfkTimeToKick <= 0.0)
-    {
-      delayOnCheckAfkTimeToKick = 1.0
-      updateAFKTimeKickText(dt)
-    }
+    updateAFKTimeKickText(dt)
   }
 
   function unmappedControlsCheck()
@@ -322,6 +317,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (ucWarningActive)
       {
+        ucPrevList = unmapped
         ucWarningTimeShow = 0.0
         unmappedControlsUpdate()
       }
@@ -341,7 +337,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     warningObj.show(true)
     warningObj.wink = "yes"
 
-    ucWarningTimeShow = ::unmapped_controls_warning_time_show
+    ucWarningTimeShow = getUnmappedControlsWarningTime()
+    ucNoWinkTime = ucWarningTimeShow - UNMAPPED_CONTROLS_WARNING_TIME_WINK
     ucPrevList = unmapped
     ucWarningActive = true
     unmappedControlsUpdate()
@@ -352,10 +349,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     if (!ucWarningActive)
       return
 
-    local noWinkTime = ::unmapped_controls_warning_time_show - ::unmapped_controls_warning_time_wink
-    local winkingOld = ucWarningTimeShow > noWinkTime
+    local winkingOld = ucWarningTimeShow > ucNoWinkTime
     ucWarningTimeShow -= dt
-    local winkingNew = ucWarningTimeShow > noWinkTime
+    local winkingNew = ucWarningTimeShow > ucNoWinkTime
 
     if (ucWarningTimeShow <= 0 || winkingOld != winkingNew)
     {

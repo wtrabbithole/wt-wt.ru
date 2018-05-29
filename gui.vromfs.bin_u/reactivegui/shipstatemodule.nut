@@ -92,6 +92,7 @@ local speed = function () {
         watch = [port, sideboard, stopping]
         children = {
           rendObj = ROBJ_STEXT
+          validateStaticText = false
           font = font
           color = stopping.value ? Color(255, 100, 100) : Color(200, 200, 200)
           fontSize = hdpx(13)

@@ -401,6 +401,11 @@ ww_map_item {
   css-hier-invalidate:yes;
   tabStop:yes;
 }
+ww_map_item[isReflected=yes] {
+  re-type:rotation;
+  background-rotation:180;
+}
+
 ww_map_item.header {
   size:pw, @leaderboardHeaderHeight;
   background-image:#ui/gameuiskin#expandable_item_sub_transp_selected;

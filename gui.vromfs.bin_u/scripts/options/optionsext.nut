@@ -3725,7 +3725,7 @@ function get_option(type, context = null)
         descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
       }
 
-      local unit = ::show_aircraft
+      local unit = ::get_player_cur_unit()
       descr.value = unit ? ::find_in_array(descr.values, ::get_option_tank_alt_crosshair(unit.name), 0) : 0
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
@@ -4714,7 +4714,7 @@ function set_option(type, value, descr = null)
       ::set_option_tank_gunner_camera_from_sight(value)
       break
     case ::USEROPT_TANK_ALT_CROSSHAIR:
-      local unit = ::show_aircraft
+      local unit = ::get_player_cur_unit()
       local val = descr.values[value]
       if (unit && val != TANK_ALT_CROSSHAIR_ADD_NEW)
         ::set_option_tank_alt_crosshair(unit.name, val)

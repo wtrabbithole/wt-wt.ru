@@ -162,10 +162,8 @@ tdiv {
       unseenIcon {
         id:t='<<tmId>>_new_icon'
         value:t='<<unseenIconMainButton>>'
-        pos:t='0, 50%ph-50%h'
-        position:t='relative'
-        noMargin:t='yes'
-        margin-left:t='1@blockInterval'
+        valign:t='center'
+        margin-right:t='0'
       }
       <</unseenIconMainButton>>
     }

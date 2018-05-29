@@ -117,14 +117,16 @@ enums.addTypesByGlobalName("g_chat_room_type", {
     inviteIcon = "#ui/gameuiskin#squad_leader"
     canVoiceChat = true
 
-    getRoomName = function(roomId, isColored = false)
+    getRoomName = function(roomId, isColored = false, isFull = false)
     {
-      local res = ::loc(roomNameLocId)
-      if (isColored && roomId == ::g_chat.getMySquadRoomId())
+      local isMySquadRoom = roomId == ::g_chat.getMySquadRoomId()
+      local res = !isFull || isMySquadRoom ? ::loc(roomNameLocId) : ::loc("squad/disbanded/name")
+      if (isColored && isMySquadRoom)
         res = ::colorize(::g_chat.color.senderSquad[true], res)
       return res
     }
-    getRoomColorTag = @(roomId) roomId == ::g_chat.getMySquadRoomId() ? "squad" : ""
+    getTooltip = @(roomId) getRoomName(roomId, true, true)
+    getRoomColorTag = @(roomId) roomId == ::g_chat.getMySquadRoomId() ? "squad" : "disbanded_squad"
 
     canBeClosed = function(roomId) { return !::g_squad_manager.isInSquad() || roomId != ::g_chat.getMySquadRoomId() }
     getInviteClickNameText = function(roomId) { return ::loc("squad/inviteSquadName") }

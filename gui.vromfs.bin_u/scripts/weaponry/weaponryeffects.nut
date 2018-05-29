@@ -22,6 +22,7 @@ local presetsList = {
   SPEED = {
     measureType = MEASURE_UNIT_SPEED
     validateValue = @(value) ::fabs(value) * 3.6 > 1.0 ? value : null
+    presize = 0.1
   }
   CLIMB_SPEED = {
     measureType = MEASURE_UNIT_CLIMB_SPEED

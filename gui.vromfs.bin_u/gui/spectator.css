@@ -181,15 +181,19 @@ buttons_block > separator {
 hoverButton, toggleButton
 {
   behaviour:button;
-  size:@mIco, @mIco;
   re-type:9rect;
   snd_click:click;
   css-hier-invalidate:yes;
 }
 
+toggleButton {
+  size:@mIco, @mIco;
+}
+
 hoverButton
 {
-  size:@spectatorToolbarBtnSize, @spectatorToolbarBtnSize;
+  height:@spectatorToolbarBtnSize;
+  min-width:h;
   class:header;
   color:@gray;
   font:@fontNormal;
@@ -245,9 +249,9 @@ hoverButton:disabled > icon
 hoverButton[isTextBtn=yes]
 {
   height:@spectatorToolbarBtnSize;
-  min-width:50%pw;
   color:@gray;
   color-factor:127;
+  padding:0.3@sIco, 0;
 }
 hoverButton[isTextBtn=yes][highlighted=yes]
 {
@@ -256,6 +260,7 @@ hoverButton[isTextBtn=yes][highlighted=yes]
 }
 hoverButton[isTextBtn=yes] > updated
 {
+  position:absolute;
   size:pw, ph;
   background-color:#00261b09;
   input-transparent:yes;

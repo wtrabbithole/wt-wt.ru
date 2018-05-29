@@ -400,6 +400,16 @@ class ::WwBattle
     return false
   }
 
+  function hasAvailableUnits()
+  {
+    local side = getSide(::get_profile_country_sq())
+    if (side == ::SIDE_NONE)
+      return false
+
+    local team = getTeamBySide(side)
+    return team ? getTeamRemainUnits(team).len() > 0 : false
+  }
+
   function isStillInOperation()
   {
     local battles = ::g_world_war.getBattles(
@@ -648,7 +658,7 @@ class ::WwBattle
   {
     local availableUnits = {}
     foreach(unit in team.unitsRemain)
-      if (unit.count > 0 && !unit.isForceControlledByAI)
+      if (unit.count > 0 && !unit.isControlledByAI())
         availableUnits[unit.name] <- unit.count
 
     return availableUnits

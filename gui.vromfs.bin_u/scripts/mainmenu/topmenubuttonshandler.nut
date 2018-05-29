@@ -50,7 +50,6 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
     scene.show(true)
     updateButtonsStatus()
-    updateItemsWidgets()
     initFocusArray()
   }
 
@@ -173,8 +172,6 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
       sectionObj.show(isVisibleAnyButton)
       sectionObj.enable(isVisibleAnyButton)
     }
-
-    updateItemsWidgets()
   }
 
   function hideHoverMenu(name)
@@ -272,30 +269,5 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
   {
     if (!isSceneActiveNoModals())
       unstickLastDropDown()
-  }
-
-  function onEventUpdatedSeenItems(p)
-  {
-    local forInventoryItems = ::getTblValue("forInventoryItems", p)
-    updateItemsWidgets(forInventoryItems)
-  }
-
-  function updateItemsWidgets(forInventoryItems = null)
-  {
-    local iconObj = null
-
-    if (forInventoryItems == null || !forInventoryItems)
-    {
-      iconObj = scene.findObject(::g_top_menu_buttons.ITEMS_SHOP.id + "_new_icon")
-      if (::check_obj(iconObj))
-        iconObj.show(::ItemsManager.getNumUnseenItems(false) > 0)
-    }
-
-    if (forInventoryItems == null || forInventoryItems)
-    {
-      iconObj = scene.findObject(::g_top_menu_buttons.INVENTORY.id + "_new_icon")
-      if (::check_obj(iconObj))
-        iconObj.show(::ItemsManager.getNumUnseenItems(true) > 0)
-    }
   }
 }

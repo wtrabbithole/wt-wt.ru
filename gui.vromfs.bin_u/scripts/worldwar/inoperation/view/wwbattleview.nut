@@ -348,7 +348,7 @@ class ::WwBattleView
     if (battle.status == ::EBS_ACTIVE_AUTO || battle.status == ::EBS_ACTIVE_FAKE)
       return "Fake"
     if (battle.status == ::EBS_ACTIVE_CONFIRMED)
-      return battle.isPlayerTeamFull() ? "Full" : "OnServer"
+      return battle.isPlayerTeamFull() || !battle.hasAvailableUnits() ? "Full" : "OnServer"
 
     return "Inactive"
   }

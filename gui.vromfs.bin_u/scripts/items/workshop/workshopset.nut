@@ -18,7 +18,7 @@ local WorkshopSet = class {
   isToStringForDebug = true
 
   itemsListCache = null
-  numUnseenItems = -1
+  visibleSeenIds = null
 
   previewBlk = null
 
@@ -60,11 +60,12 @@ local WorkshopSet = class {
   getItemdefs               = @() itemdefsSorted
   getLocName                = @() ::loc(locId)
   getShopTabId              = @()"WORKSHOP_SET_" + uid
+  getSeenId                 = @() "##workshop_set_" + uid
 
   isItemInSet               = @(item) item.id in itemdefs
   isItemIdInSet             = @(id) id in itemdefs
   isItemIdKnown             = @(id) initKnownItemsOnce() || id in knownItemdefs
-  shouldDisguiseItem        = @(item) !(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id)
+  shouldDisguiseItemId      = @(id) !(id in alwaysVisibleItemdefs) && !isItemIdKnown(id)
 
   hasPreview                = @() previewBlk != null
 
@@ -186,33 +187,22 @@ local WorkshopSet = class {
   needShowPreview      = @() hasPreview() && !::load_local_account_settings(getPreviewedSaveId(), false)
   markPreviewed        = @() ::save_local_account_settings(getPreviewedSaveId(), true)
 
-  function getNumUnseenItems()
+  function invalidateItemsCache()
   {
-    if (numUnseenItems >= 0)
-      return numUnseenItems
-
-    numUnseenItems = 0
-    foreach(item in getItemsList())
-      if (::ItemsManager.isItemUnseen(item))
-        numUnseenItems++
-    return numUnseenItems
-  }
-
-  function onEventInventoryUpdate(p)
-  {
-    numUnseenItems = -1
+    visibleSeenIds = null
     itemsListCache = null
   }
 
-  function onEventItemsShopUpdate(p)
+  function getVisibleSeenIds()
   {
-    itemsListCache = null
-  }
-
-  function onEventSeenItemsChanged(p)
-  {
-    if (p.forInventoryItems)
-      numUnseenItems = -1
+    if (!visibleSeenIds)
+    {
+      visibleSeenIds = {}
+      foreach(item in getItemsList())
+        if (!item.isDisguised)
+          visibleSeenIds[item.id] <- item.getSeenId()
+    }
+    return visibleSeenIds
   }
 
   _tostring = @() ::format("WorkshopSet %s (itemdefsAmount = %d)", id, itemdefs.len())

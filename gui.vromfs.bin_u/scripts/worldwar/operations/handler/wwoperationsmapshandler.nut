@@ -108,6 +108,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     findMapForSelection()
     fillMapsList()
+    fillTrophyList()
 
     if (hasSelectAllCountriesBlock)
       fillSelectAllCountriesList()
@@ -262,6 +263,48 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         onCollapse(mapsListObj.findObject("btn_" + id))
 
     isFillingList = false
+  }
+
+  function fillTrophyList()
+  {
+    local trophiesBlk = ::g_world_war.getSetting("dailyTrophies", ::DataBlock())
+    local trophiesAmount = trophiesBlk.blockCount()
+    if (!trophiesAmount)
+      return
+
+    local view = {
+      titleText = getTrophyDesc(trophiesBlk)
+      trophy = []
+    }
+    local isLeftPanelVisible = false
+    if (::has_feature("WorldWarDailyTrophies"))
+      for (local i = 0; i < trophiesAmount; i++)
+      {
+        local trophy = trophiesBlk.getBlock(i)
+        local trophyId = trophy.itemName || trophy.trophyName || trophy.mainTrophyId
+        local trophyItem = ::ItemsManager.findItemById(trophyId)
+        if (!trophyItem)
+          continue
+
+        local trophyAmount = trophy.amount || 1
+        view.trophy.append({
+          titleText = getTrophyDesc(trophy)
+          wwTrophyMarkup = trophyItem.getNameMarkup(trophyAmount, false)
+        })
+        isLeftPanelVisible = true
+      }
+
+    local markup = ::handyman.renderCached("gui/worldWar/wwTrophiesList", view)
+    local trophyBlockObj = scene.findObject("trophy_list")
+    guiScene.replaceContentFromText(trophyBlockObj, markup, markup.len(), this)
+    showSceneBtn("panel_left", isLeftPanelVisible)
+  }
+
+  getTrophyDesc = @(blk) ::loc(blk.locId || "worldwar/" + blk.getBlockName())
+
+  function onEventItemsShopUpdate(params)
+  {
+    fillTrophyList()
   }
 
   function selectMapById(id)

@@ -4,6 +4,7 @@ activeText {
   pos:t='0, 50%(ph-h)'; position:t='relative'
   margin-right:t='@buttonTextPadding'
   inactive:t='yes'
+  smallFont:t='yes'
 }
 
 Button_text {
@@ -12,7 +13,7 @@ Button_text {
   smallFont:t='yes'
   hideText:t='yes'
   display:t='hide'
-  text:t='#multiplayer/btnNotReady' //do not change this text for the fixed width of button on the all langs
+  text:t='<<readyBtnHiddenText>>' //do not change this text for the fixed width of button on the all langs
   on_click:t='onSquadReady'
 
   btnText {

@@ -1,8 +1,3 @@
-::dagui_propid.add_name_id("task_id")
-::dagui_propid.add_name_id("difficultyGroup")
-
-local SAVE_PATH_BATTLE_TASKS_DIFF = "promo/battleTasksDiff"
-
 function create_promo_blocks(handler)
 {
   if (!::handlersManager.isHandlerValid(handler))
@@ -24,7 +19,6 @@ class Promo
   sourceDataBlock = null
 
   widgetsTable = {}
-  warbondsWidget = null
 
   pollIdToObjectId = {}
 
@@ -283,170 +277,8 @@ class Promo
     if (!show || !::checkObj(buttonObj))
       return
 
-    local currentGameModeId = ::game_mode_manager.getCurrentGameModeId()
-    if (currentGameModeId == null)
-      return
-
-    local difficultyGroupArray = []
-
-    // 0) Prepare: Filter tasks array by available difficulties list
-    local tasksArray = ::g_battle_tasks.getTasksArrayByIncreasingDifficulty()
-
-    // 1) Search for task with available reward
-    local reqTask = ::g_battle_tasks.getTaskWithAvailableAward(tasksArray)
-
-    // No need to show some additional info on button
-    // when battle task is complete and need to receive a reward
-    local isTaskWithReward = reqTask != null
-
-    // 2) Search for task by selected gameMode
-    if (!reqTask)
-    {
-      local curDifficultyGroup = ::load_local_account_settings(SAVE_PATH_BATTLE_TASKS_DIFF,
-        ::g_battle_task_difficulty.getDefaultDifficultyGroup())
-      local activeTasks = ::u.filter(::g_battle_tasks.filterTasksByGameModeId(tasksArray, currentGameModeId),
-        @(task) !::g_battle_tasks.isTaskDone(task)
-          && ::g_battle_tasks.isTaskActive(task))
-
-              //get difficulty list
-      difficultyGroupArray = getDifficultyRadioButtonsListByTasks(activeTasks,
-        ::g_battle_tasks.getDifficultyTypeGroup(),
-        curDifficultyGroup)
-      if (difficultyGroupArray.len() == 1)
-        curDifficultyGroup = difficultyGroupArray[0].difficultyGroup
-      reqTask = ::u.search(activeTasks,
-        @(task) (::g_battle_task_difficulty.getDifficultyTypeByTask(task).getDifficultyGroup() == curDifficultyGroup))
-    }
-
-    local showProgressBar = false
-    local currentWarbond = null
-    local promoView = ::u.copy(::getTblValue(id, ::g_promo.getConfig(), {}))
-    local view = {}
-
-    if (reqTask)
-    {
-      local config = ::build_conditions_config(reqTask)
-      ::build_unlock_desc(config)
-
-      local itemView = ::g_battle_tasks.generateItemView(config, { isPromo = true })
-      itemView.canReroll = false
-      view = ::u.tablesCombine(itemView, promoView, function(val1, val2) { return val1 != null? val1 : val2 })
-      view.collapsedText <- ::g_promo.getCollapsedText(view, id)
-
-      currentWarbond = ::g_warbonds.getCurrentWarbond()
-      if (currentWarbond && currentWarbond.levelsArray.len())
-      {
-        showProgressBar = (isTaskWithReward || ::g_warbonds_view.needShowProgressBarInPromo)
-          && ::g_battle_task_difficulty.getDifficultyTypeByTask(reqTask).canIncreaseShopLevel
-        if (showProgressBar)
-        {
-          local curLevel = currentWarbond.getCurrentShopLevel()
-          local nextLevel = curLevel + 1
-          local markUp = ::g_warbonds_view.getProgressBoxMarkUp()
-          if (currentWarbond.isMaxLevelReached())
-          {
-            nextLevel = curLevel
-            curLevel -= 1
-          }
-          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel, "-50%w")
-          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, nextLevel, "pw-50%w")
-          view.warbondLevelPlace <- markUp
-        }
-        else if (!isTaskWithReward)
-        {
-          view.isConsoleMode <- ::show_console_buttons
-          view.newItemsAvailable <- currentWarbond.needShowNewItemsNotifications()
-          view.warbondsNewIconWidget <- ::NewIconWidget.createLayout({tooltip = "#mainmenu/newItemsAvailable"})
-        }
-      }
-    }
-    else
-    {
-      promoView.id <- id
-      view = ::g_battle_tasks.generateItemView(promoView, { isPromo = true })
-      view.collapsedText <- ::g_promo.getCollapsedText(promoView, id)
-      view.refreshTimer <- true
-    }
-
-    view.performActionId <- ::g_promo.getActionParamsKey(id)
-    view.taskId <- ::getTblValue("id", reqTask)
-    view.action <- ::g_promo.PERFORM_ACTON_NAME
-    view.collapsedIcon <- ::g_promo.getCollapsedIcon(view, id)
-
-    view.isShowRadioButtons <- (difficultyGroupArray.len() > 1 && ::has_feature("PromoBattleTasksRadioButtons"))
-    view.radioButtons <- difficultyGroupArray
-    setTplView("gui/promo/promoBattleTasks", buttonObj, { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
-    ::g_battle_tasks.setUpdateTimer(reqTask, buttonObj)
-    if (showProgressBar && currentWarbond)
-      ::g_warbonds_view.updateProgressBar(currentWarbond, buttonObj, true)
-
-    local widgetObj = buttonObj.findObject("widget_container")
-    if (::check_obj(widgetObj))
-    {
-      warbondsWidget = ::NewIconWidget(guiScene, widgetObj)
-      warbondsWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
-    }
+    ::gui_handlers.BattleTasksPromoHandler.open({ scene = buttonObj })
   }
-
-  function onGenericTooltipOpen(obj)
-  {
-    ::g_tooltip.open(obj, this)
-  }
-
-  function onTooltipObjClose(obj)
-  {
-    ::g_tooltip.close.call(this, obj)
-  }
-
-  function onGetRewardForTask(obj)
-  {
-    ::g_battle_tasks.getRewardForTask(obj.task_id)
-  }
-
-  function onWarbondsShop(obj)
-  {
-    ::g_warbonds.openShop()
-  }
-
-  function onSelectDifficultyBattleTasks(obj)
-  {
-    local index = obj.getValue()
-    if (index < 0 || index >= obj.childrenCount())
-      return
-
-    local difficultyGroup = obj.getChild(index)?.difficultyGroup
-
-    if (!difficultyGroup)
-      return
-
-    ::save_local_account_settings(SAVE_PATH_BATTLE_TASKS_DIFF, difficultyGroup)
-
-    guiScene.performDelayed(this, function()
-    {
-      updateCurrentBattleTaskButton()
-    })
-  }
-
-  function getDifficultyRadioButtonsListByTasks(tasksArray, difficultyTypeArray, curDifficultyGroup)
-  {
-    local result = []
-    foreach(type in difficultyTypeArray)
-    {
-      local difficultyGroup = type.getDifficultyGroup()
-      local tasksByDiff = ::u.search(tasksArray,
-          @(task) (::g_battle_task_difficulty.getDifficultyTypeByTask(task) == type))
-
-      if (!tasksByDiff)
-        continue
-
-      result.append({ radioButtonImage = ::g_battle_tasks.getDifficultyImage(tasksByDiff)
-        difficultyGroup = difficultyGroup
-        difficultyLocName = type.getLocName()
-        selected = (curDifficultyGroup == difficultyGroup) })
-    }
-    return result
-  }
-
   //------------- </CURRENT BATTLE TASK --------------------
 
   //-------------- <TUTORIAL> ------------------------------
@@ -678,11 +510,6 @@ class Promo
                                           updateSquadInviteButton()
                                         }
   function onEventUnlockedCountriesUpdate(p) { updateEventButton() }
-  function onEventNewBattleTasksChanged(p) { updateCurrentBattleTaskButton() }
-  function onEventBattleTasksFinishedUpdate(p) { updateCurrentBattleTaskButton() }
-  function onEventCurrentGameModeIdChanged(p) { updateCurrentBattleTaskButton() }
-  function onEventWarbondShopMarkSeenLevel(p) { updateCurrentBattleTaskButton() }
-  function onEventWarbondViewShowProgressBarFlagUpdate(p) { updateCurrentBattleTaskButton() }
   function onEventHangarModelLoaded(p)  { updateTutorialButton() }
   function onEventShowAllPromoBlocksValueChanged(p) { updatePromoBlocks() }
   function onEventPartnerUnlocksUpdated(p) { updatePromoBlocks(true) }
@@ -692,8 +519,4 @@ class Promo
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
   function onEventWebPollTokenInvalidated(p) { updateData() }
-  function onEventUpdatedSeenWarbondAwards(p) {
-    if (warbondsWidget)
-      warbondsWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
-  }
 }

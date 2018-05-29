@@ -1170,7 +1170,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
     { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false
       showFunc = @() !::is_platform_xboxone
-	}
+  }
     { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_MOUSE_SENSE
     }
@@ -3866,16 +3866,13 @@ function getUnmappedControlsForCurrentMission()
   local helpersMode = ::getCurrentHelpersMode()
   local required = ::getRequiredControlsForUnit(unit, helpersMode)
 
+  local unmapped = ::getUnmappedControls(required, helpersMode)
   if (::is_in_flight() && ::get_mp_mode() == ::GM_TRAINING)
   {
-    local tutorialRequired = ::getRequiredControlsForTutorial(::current_campaign_mission, helpersMode, required)
-    if (tutorialRequired.len())
-      foreach (id in tutorialRequired)
-        if (!::isInArray(id, required))
-          required.append(id)
+    local tutorialUnmapped = ::getUnmappedControlsForTutorial(::current_campaign_mission, helpersMode)
+    foreach (id in tutorialUnmapped)
+      ::u.appendOnce(id, unmapped)
   }
-
-  local unmapped = ::getUnmappedControls(required, helpersMode)
   return unmapped
 }
 
@@ -3888,9 +3885,9 @@ function getCurrentHelpersMode()
   return option.values[option.value]
 }
 
-function getRequiredControlsForTutorial(missionId, helpersMode, alreadyRequired=[])
+function getUnmappedControlsForTutorial(missionId, helpersMode)
 {
-  local controls = []
+  local res = []
 
   local mis_file = null
   local chapters = ::get_meta_missions_info_by_chapters(::GM_TRAINING)
@@ -3903,7 +3900,7 @@ function getRequiredControlsForTutorial(missionId, helpersMode, alreadyRequired=
       }
   local missionBlk = mis_file && ::DataBlock(mis_file)
   if (!missionBlk || !missionBlk.triggers)
-    return controls
+    return res
 
   local tutorialControlAliases = {
     ["ANY"]                = null,
@@ -3983,17 +3980,14 @@ function getRequiredControlsForTutorial(missionId, helpersMode, alreadyRequired=
     foreach (id in cond.shortcuts)
       if (!::isInArray(id, controlsList))
         controlsList.append(id)
-  local unmapped = ::getUnmappedControls(controlsList, helpersMode, false)
-
-  foreach (id in alreadyRequired)
-    controls.append(id)
+  local unmapped = ::getUnmappedControls(controlsList, helpersMode, false, false)
 
   foreach (cond in conditionsList)
   {
     if (cond.condition == "ALL")
       foreach (id in cond.shortcuts)
-        if (::isInArray(id, unmapped) && !::isInArray(id, controls))
-          controls.append(id)
+        if (::isInArray(id, unmapped) && !::isInArray(id, res))
+          res.append(id)
   }
 
   foreach (cond in conditionsList)
@@ -4002,23 +3996,24 @@ function getRequiredControlsForTutorial(missionId, helpersMode, alreadyRequired=
     {
       local allUnmapped = true
       foreach (id in cond.shortcuts)
-        if (!::isInArray(id, unmapped) || ::isInArray(id, controls))
+        if (!::isInArray(id, unmapped) || ::isInArray(id, res))
         {
           allUnmapped = false
           break
         }
       if (allUnmapped)
         foreach (id in cond.shortcuts)
-          if (!::isInArray(id, controls))
+          if (!::isInArray(id, res))
           {
-            controls.append(id)
+            res.append(id)
             if (cond.condition == "ONE")
               break
           }
     }
   }
 
-  return controls
+  res = ::getUnmappedControls(res, helpersMode, true, false)
+  return res
 }
 
 function getRequiredControlsForUnit(unit, helpersMode)
@@ -4321,7 +4316,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
   return controls
 }
 
-function getUnmappedControls(controls, helpersMode, getLocNames = true)
+function getUnmappedControls(controls, helpersMode, getLocNames = true, shouldCheckRequirements = true)
 {
   local unmapped = []
 
@@ -4334,7 +4329,7 @@ function getUnmappedControls(controls, helpersMode, getLocNames = true)
     {
       if (("filterHide" in item) && ::isInArray(helpersMode, item.filterHide)
         || ("filterShow" in item) && !::isInArray(helpersMode, item.filterShow)
-        || (helpersMode == globalEnv.EM_MOUSE_AIM && !item.reqInMouseAim))
+        || (shouldCheckRequirements && helpersMode == globalEnv.EM_MOUSE_AIM && !item.reqInMouseAim))
         continue
 
       if (item.type == CONTROL_TYPE.SHORTCUT)

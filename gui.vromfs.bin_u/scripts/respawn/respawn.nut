@@ -1880,7 +1880,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     if (!doRespawnCalled)
       return false
-    if (::can_respawn_ca_now())
+
+    if (missionRules.getUnitLeftRespawns(::getAircraftByName(lastRequestData?.name)) != 0)
       return false
 
     guiScene.performDelayed(this, function()

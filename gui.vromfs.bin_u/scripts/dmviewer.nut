@@ -809,10 +809,7 @@
     }
 
     if(isDebugMode)
-    {
-      desc.push("\n")
-      desc.push("DEBUG! partId=" + partId + ", partName=" + partName)
-    }
+      desc.push("\n" + ::colorize("badTextColor", partName))
 
     local description = ::g_string.implode(desc, "\n")
     return description

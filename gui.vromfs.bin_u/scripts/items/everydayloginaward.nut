@@ -334,9 +334,11 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (rouletteAnimationFinished)
       return
-    onOpenAnimFinish()
+
     local obj = scene.findObject("rewards_list")
     ItemsRoulette.skipAnimation(obj)
+    onOpenAnimFinish()
+    fillOpenedChest()
   }
 
   function onViewRewards()

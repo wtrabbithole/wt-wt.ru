@@ -1,6 +1,13 @@
 local time = require("scripts/time.nut")
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
+local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+
+local seenList = ::require("scripts/seen/seenList.nut")
+local seenInventory = seenList.get(SEEN.INVENTORY)
+local seenItems = seenList.get(SEEN.ITEMS_SHOP)
+local OUT_OF_DATE_DAYS_ITEMS_SHOP = 28
+local OUT_OF_DATE_DAYS_INVENTORY = 0
 
 /*
   ::ItemsManager API:
@@ -54,14 +61,10 @@ class BoosterEffectType
   }
 }
 
-::SEEN_ITEM_MAX_DAYS <- 28
 ::FAKE_ITEM_CYBER_CAFE_BOOSTER_UID <- -1
 
-//events from code:
-function on_items_loaded()
-{
-  ::ItemsManager.markInventoryUpdate()
-}
+//events from native code:
+::on_items_loaded <- @() ::ItemsManager.onItemsLoaded()
 
 foreach (fn in [
                  "discountItemSortMethod.nut"
@@ -107,6 +110,10 @@ foreach (fn in [
 
   itemTypeClasses = {} //itemtype = itemclass
 
+  //lists cache for optimization
+  shopVisibleSeenIds = null
+  inventoryVisibleSeenIds = null
+
   itemTypeFeatures = {
     [itemType.WAGER] = "Wagers",
     [itemType.ORDER] = "Orders"
@@ -118,60 +125,10 @@ foreach (fn in [
 
   shouldCheckAutoConsume = false
 
+  isInventoryInternalUpdated = false
+  isInventoryFullUpdated = false
+
   extInventoryUpdateTime = 0
-
-  // Things needed to handle seen/unseen items.
-  _seenItemsInfoByCategory = {
-    [true] = {
-      name = "seen_inventory_items" // Used as data block name.
-      seenItemsData = null // Use ItemsManager::getSeenItemsData() to access.
-      numUnseenItems = -1 // Use ItemsManager::getNumUnseenItems() to access. count by itemType.INVENTORY_ALL
-      numUnseenItemsInvalidated = true // Num unseen shop items invalidation flag.
-      saveSeenItemsInvalidated = false // Raised when seen shop items data save required.
-      updateSeenItemsData = function (items, curDays)
-        {
-          seenItemsData.clear()
-          foreach (item in items)
-            seenItemsData[item.id.tostring()] <- curDays
-        }
-    },
-    [false] = {
-      name = "seen_shop_items"
-      seenItemsData = null
-      numUnseenItems = -1
-      numUnseenItemsInvalidated = true
-      saveSeenItemsInvalidated = false
-      updateSeenItemsData = function (items, curDays)
-        {
-          foreach (item in items)
-          {
-            if (!(item.id.tostring() in seenItemsData))
-              continue
-            if (item.isCanBuy())
-              seenItemsData[item.id.tostring()] <- curDays
-            else
-              delete seenItemsData[item.id.tostring()]
-          }
-
-          // Removing old items.
-          local trophiesBought = ::loadLocalByAccount("shop/trophyBought")
-          local trophiesBoughtChanged = false
-          foreach (itemId, lastDaySeen in seenItemsData)
-            if (lastDaySeen < curDays - ::SEEN_ITEM_MAX_DAYS)
-            {
-              delete seenItemsData[itemId]
-              if (itemId in trophiesBought)
-              {
-                trophiesBought.removeParam(itemId)
-                trophiesBoughtChanged = true
-              }
-            }
-
-          if (trophiesBoughtChanged)
-            ::saveLocalByAccount("shop/trophyBought", trophiesBought)
-        }
-    }
-  }
 
   ignoreItemLimits = false
   fakeItemsList = null
@@ -179,8 +136,6 @@ foreach (fn in [
 
   refreshBoostersTask = -1
   boostersTaskUpdateFlightTime = -1
-
-  inventoryClient = require("scripts/inventory/inventoryClient.nut")
 }
 
 function ItemsManager::fillFakeItemsList()
@@ -251,7 +206,6 @@ function ItemsManager::_checkUpdateList()
 
   if (duplicatesId.len())
     ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
-  updateSeenItemsData(false)
 }
 
 function ItemsManager::checkShopItemsUpdate()
@@ -371,10 +325,18 @@ function ItemsManager::getItemsList(typeMask = itemType.ALL, filterFunc = null)
   return _getItemsFromList(itemsList, typeMask, filterFunc)
 }
 
-function ItemsManager::getShopList(typeMask = itemType.ALL, filterFunc = null)
+function ItemsManager::getShopList(typeMask = itemType.INVENTORY_ALL, filterFunc = null)
 {
   _checkUpdateList()
   return _getItemsFromList(itemsList, typeMask, filterFunc, "shopFilterMask")
+}
+
+function ItemsManager::getShopVisibleSeenIds()
+{
+  if (!shopVisibleSeenIds)
+    shopVisibleSeenIds = getShopList(checkItemsMaskFeatures(itemType.INVENTORY_ALL), @(it) it.isCanBuy())
+      .map(@(it) it.getSeenId())
+  return shopVisibleSeenIds
 }
 
 function ItemsManager::findItemById(id, typeMask = itemType.ALL)
@@ -429,12 +391,17 @@ function ItemsManager::goToMarketplace()
 function ItemsManager::markItemsListUpdate()
 {
   _reqUpdateList = true
+  shopVisibleSeenIds = null
+  seenItems.setDaysToUnseen(OUT_OF_DATE_DAYS_ITEMS_SHOP)
+  seenItems.onListChanged()
   ::broadcastEvent("ItemsShopUpdate")
 }
 
 function ItemsManager::markItemsDefsListUpdate()
 {
   _reqUpdateItemDefsList = true
+  shopVisibleSeenIds = null
+  seenItems.onListChanged()
   ::broadcastEvent("ItemsShopUpdate")
 }
 
@@ -592,6 +559,13 @@ function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = nu
   return _getItemsFromList(inventory, typeMask, filterFunc)
 }
 
+function ItemsManager::getInventoryVisibleSeenIds()
+{
+  if (!inventoryVisibleSeenIds)
+    inventoryVisibleSeenIds = getInventoryList(checkItemsMaskFeatures(itemType.INVENTORY_ALL)).map(@(it) it.getSeenId())
+  return inventoryVisibleSeenIds
+}
+
 ItemsManager.getInventoryItemById <- @(id) ::u.search(getInventoryList(), @(item) item.id == id)
 
 function ItemsManager::markInventoryUpdate()
@@ -600,6 +574,14 @@ function ItemsManager::markInventoryUpdate()
     return
 
   _needInventoryUpdate = true
+  inventoryVisibleSeenIds = null
+  if (!isInventoryFullUpdated && isInventoryInternalUpdated && !inventoryClient.isWaitForInventory())
+  {
+    isInventoryFullUpdated = true
+    dlog("GP: inventory full updated!")
+    seenInventory.setDaysToUnseen(OUT_OF_DATE_DAYS_INVENTORY)
+  }
+  seenInventory.onListChanged()
   ::broadcastEvent("InventoryUpdate")
 }
 
@@ -617,6 +599,12 @@ function ItemsManager::markInventoryUpdateDelayed()
     lastInventoryUpdateDelayedCall = 0
     markInventoryUpdate()
   })
+}
+
+function ItemsManager::onItemsLoaded()
+{
+  isInventoryInternalUpdated = true
+  markInventoryUpdate()
 }
 
 local isAutoConsumeInProgress = false
@@ -639,6 +627,11 @@ function ItemsManager::autoConsumeItems()
 }
 
 function ItemsManager::onEventLoginComplete(p) { shouldCheckAutoConsume = true }
+function ItemsManager::onEventSignOut(p)
+{
+  isInventoryFullUpdated = false
+  isInventoryInternalUpdated = false
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -858,7 +851,7 @@ function ItemsManager::removeRefreshBoostersTask()
 
 function ItemsManager::refreshExtInventory()
 {
-  ::ItemsManager.inventoryClient.refreshItems()
+  inventoryClient.refreshItems()
 }
 
 function ItemsManager::forceRefreshExtInventory()
@@ -1099,194 +1092,52 @@ function ItemsManager::collectUserlogItemdefs()
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-//--------------------------------SEEN ITEMS-----------------------------------------------//
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Returns table with data format:
- * {
- *   itemId1 = lastDaySeen1
- *   itemId2 = lastDaySeen2
- * }
- * @param forInventoryItems Used to decided which items to scan:
- *                          inventory items or shop item.
- */
-function ItemsManager::getSeenItemsData(forInventoryItems)
-{
-  local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
-  if (seenItemsInfo.seenItemsData != null)
-    return seenItemsInfo.seenItemsData
-  if (!::g_login.isLoggedIn()) // Account isn't loaded yet.
-    return null
-  local seenItemsBlk = ::loadLocalByAccount(seenItemsInfo.name)
-  seenItemsInfo.seenItemsData = buildTableFromBlk(seenItemsBlk)
-
-  // Validates data as profile may become corrupted.
-  foreach (itemId, lastDaySeen in seenItemsInfo.seenItemsData)
-  {
-    if (typeof(lastDaySeen) != "array")
-      continue
-    if (lastDaySeen.len() > 0)
-      seenItemsInfo.seenItemsData[itemId] = lastDaySeen[0]
-    else
-      delete seenItemsInfo.seenItemsData[itemId]
-  }
-  return seenItemsInfo.seenItemsData
-}
-
-function ItemsManager::getNumUnseenItems(forInventoryItems)
-{
-  local seenItemsData = ::ItemsManager.getSeenItemsData(forInventoryItems)
-  if (seenItemsData == null)
-    return 0
-
-  if (forInventoryItems)
-    _checkInventoryUpdate()
-  else
-    _checkUpdateList()
-
-  local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
-  if (seenItemsInfo.numUnseenItemsInvalidated)
-  {
-    seenItemsInfo.numUnseenItemsInvalidated = false
-    seenItemsInfo.numUnseenItems = 0
-    local items = forInventoryItems
-      ? inventory
-      : itemsList
-    local hasDevItemShopFeature = ::has_feature("devItemShop")
-    foreach (item in items)
-      if (item.iType & itemType.INVENTORY_ALL
-          && !(item.id.tostring() in seenItemsData)
-          && (forInventoryItems || item.isCanBuy())
-          && (!item.isDevItem || hasDevItemShopFeature))
-        ++seenItemsInfo.numUnseenItems
-  }
-  return seenItemsInfo.numUnseenItems
-}
-
-function ItemsManager::hasSeenItems(forInventoryItems)
-{
-  local seenItemsData = ::ItemsManager.getSeenItemsData(forInventoryItems)
-  return seenItemsData != null && seenItemsData.len() > 0
-}
-
-/**
- * Returns true if item's seen\unseen state was actually changed in this call.
- */
-function ItemsManager::markItemSeen(item)
-{
-  if (item == null)
-    return false
-  local seenItemsData = ::ItemsManager.getSeenItemsData(item.isInventoryItem)
-  if (seenItemsData == null)
-    return false
-  local seenItemsInfo = _seenItemsInfoByCategory[item.isInventoryItem]
-  local curDays = time.getDaysByTime(::get_utc_time())
-  local result = false
-
-  // This will force _numUnseenItems to recalc on next access
-  // as well as actually save on next saveSeenItemsData() call.
-  if (!(item.id.tostring() in seenItemsData))
-  {
-    seenItemsInfo.saveSeenItemsInvalidated = true
-    seenItemsInfo.numUnseenItemsInvalidated = true
-    result = true
-  }
-  seenItemsData[item.id.tostring()] <- curDays
-  return result
-}
-
-function ItemsManager::saveSeenItemsData(forInventoryItems)
-{
-  local seenItemsData = ::ItemsManager.getSeenItemsData(forInventoryItems)
-  if (seenItemsData == null)
-    return
-  local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
-  if (!seenItemsInfo.saveSeenItemsInvalidated)
-    return
-  seenItemsInfo.saveSeenItemsInvalidated = false
-  ::broadcastEvent("SeenItemsChanged", {forInventoryItems = forInventoryItems})
-  ::saveLocalByAccount(seenItemsInfo.name, seenItemsData)
-}
-
-function ItemsManager::resetSeenItemsData(forInventoryItems)
-{
-  local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
-  if (seenItemsInfo.seenItemsData != null)
-    seenItemsInfo.seenItemsData = null
-  if (::g_login.isProfileReceived()) // Account isn't loaded yet.
-    ::saveLocalByAccount(seenItemsInfo.name, null)
-}
-
-function ItemsManager::onEventAccountReset(p)
-{
-  resetSeenItemsData(false)
-  resetSeenItemsData(true)
-}
-
-local lastSeenItemsEventDelayCall = 0
-function ItemsManager::updateGamercardIcons(forInventoryItems = null)
-{
-  if (lastSeenItemsEventDelayCall
-      && lastSeenItemsEventDelayCall < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
-    return
-
-  lastSeenItemsEventDelayCall = ::dagor.getCurTime()
-  ::get_main_gui_scene().performDelayed(::ItemsManager, function() { //!!FIX ME: Why it here???
-    lastSeenItemsEventDelayCall = 0
-    ::broadcastEvent("UpdatedSeenItems", {forInventoryItems = forInventoryItems})
-  })
-}
-
-function ItemsManager::updateSeenItemsData(forInventoryItems)
-{
-  local seenItemsData = getSeenItemsData(forInventoryItems)
-  if (seenItemsData == null)
-    return
-  local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
-  local curDays = time.getDaysByTime(::get_utc_time())
-  local items = forInventoryItems
-    ? inventory
-    : itemsList
-  seenItemsInfo.updateSeenItemsData(items, curDays)
-  seenItemsInfo.saveSeenItemsInvalidated = true
-  seenItemsInfo.numUnseenItemsInvalidated = true
-  updateGamercardIcons(forInventoryItems)
-  saveSeenItemsData(forInventoryItems)
-}
-
-function ItemsManager::isItemUnseen(item)
-{
-  if (item == null || item.isDisguised)
-    return false
-  local seenItemsData = ::ItemsManager.getSeenItemsData(item.isInventoryItem)
-  if (seenItemsData == null)
-    return false
-  if (item.id.tostring() in seenItemsData)
-    return false
-  return item.isInventoryItem || item.isCanBuy()
-}
-
 function ItemsManager::isEnabled()
 {
   local checkNewbie = !::my_stats.isMeNewbie()
-    || hasSeenItems(true)
+    || seenInventory.hasSeen()
     || inventory.len() > 0
   return ::has_feature("Items") && checkNewbie && ::isInMenu()
 }
 
-function ItemsManager::itemsSortComparator(item1, item2)
+function ItemsManager::getItemsSortComparator(itemsSeenList = null)
 {
-  if (!item1 || !item2)
-    return item2 <=> item1
-  return item2.isActive() <=> item1.isActive()
-    || ::ItemsManager.isItemUnseen(item2) <=> ::ItemsManager.isItemUnseen(item1)
-    || item2.hasTimer() <=> item1.hasTimer()
-    || (item1.hasTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
-    || item1.iType <=> item2.iType
-    || item2.getRarity() <=> item1.getRarity()
-    || item1.id <=> item2.id
+  return function(item1, item2)
+  {
+    if (!item1 || !item2)
+      return item2 <=> item1
+    return item2.isActive() <=> item1.isActive()
+      || (itemsSeenList && itemsSeenList.isNew(item2.getSeenId()) <=> itemsSeenList.isNew(item1.getSeenId()))
+      || item2.hasTimer() <=> item1.hasTimer()
+      || (item1.hasTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
+      || item1.iType <=> item2.iType
+      || item2.getRarity() <=> item1.getRarity()
+      || item1.id <=> item2.id
+  }
 }
 
 ::subscribe_handler(::ItemsManager, ::g_listener_priority.DEFAULT_HANDLER)
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//--------------------------------SEEN ITEMS-----------------------------------------------//
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+seenItems.setListGetter(@() ::ItemsManager.getShopVisibleSeenIds())
+seenInventory.setListGetter(@() ::ItemsManager.getInventoryVisibleSeenIds())
+
+local makeSeenCompatibility = @(savePath) function()
+  {
+    local res = {}
+    local blk = ::loadLocalByAccount(savePath)
+    if (!::u.isDataBlock(blk))
+      return res
+
+    for (local i = 0; i < blk.paramCount(); i++)
+      res[blk.getParamName(i)] <- blk.getParamValue(i)
+    ::saveLocalByAccount(savePath, null)
+    return res
+  }
+
+seenItems.setCompatibilityLoadData(makeSeenCompatibility("seen_shop_items"))
+seenInventory.setCompatibilityLoadData(makeSeenCompatibility("seen_inventory_items"))
