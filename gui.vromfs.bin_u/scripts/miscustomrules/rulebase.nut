@@ -426,7 +426,7 @@ class ::mission_rules.Base
     if (!randomGroups)
       return
 
-    local ediff = ::get_current_ediff()
+    local ediff = ::get_mission_difficulty_int()
     local getBR = @(unit) unit.getBattleRating(ediff)
     local valueBR = getRandomUnitsGroupValueRange(randomGroups, getBR)
     local minBR = valueBR.minValue

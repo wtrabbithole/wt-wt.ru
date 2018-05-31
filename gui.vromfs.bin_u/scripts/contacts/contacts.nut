@@ -1,4 +1,4 @@
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum contactEvent
 {
@@ -370,10 +370,10 @@ function editPlayerInContacts(player, groupName, add) //playerConfig: { uid, nam
 
 function find_contact_by_name_and_do(playerName, func) //return taskId if delayed.
 {
-  local uid = ::getPlayerUid(playerName)
-  if (uid != null)
+  local contact = ::Contact.getByName(playerName)
+  if (contact)
   {
-    func(::getContact(uid, playerName))
+    func(contact)
     return null
   }
 
@@ -687,22 +687,6 @@ function isContactsWindowActive()
     return false;
 
   return ::contacts_handler.isContactsWindowActive();
-}
-
-function getPlayerUid(nick)
-{
-  foreach(uid, player in ::contacts_players)
-    if (player.name == nick)
-      return uid
-  return null
-}
-
-function findContactByNick(nick)
-{
-  foreach(uid, player in ::contacts_players)
-    if (player.name == nick)
-      return player
-  return null
 }
 
 function findContactByXboxId(xboxId)

@@ -347,10 +347,10 @@ local InventoryClient = class {
         || _lastDelayedItemdefsRequestTime && _lastDelayedItemdefsRequestTime < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
       return
     _lastDelayedItemdefsRequestTime = ::dagor.getCurTime()
-    ::get_main_gui_scene().performDelayed(this, function() {
+    ::handlersManager.doDelayed(function() {
       _lastDelayedItemdefsRequestTime = 0
       requestItemDefsImpl()
-    })
+    }.bindenv(this))
   }
 
   function requestItemDefsImpl() {

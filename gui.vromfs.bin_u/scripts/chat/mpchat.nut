@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 ::game_chat_handler <- null
@@ -205,7 +205,7 @@ class ::ChatHandler
 
   function canEnableChatInput()
   {
-    if (!::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
+    if (!platformModule.isChatEnabled())
       return false
     foreach(sceneData in scenes)
       if (!sceneData.hiddenInput && ::checkObj(sceneData.scene) && sceneData.scene.isVisible())
@@ -231,8 +231,7 @@ class ::ChatHandler
 
     local show = (isActive || !sceneData.selfHideInput)
                  && !sceneData.hiddenInput
-                 && ::ps4_is_chat_enabled()
-                 && ::g_chat.xboxIsChatEnabled()
+                 && platformModule.isChatEnabled()
                  && getCurView(sceneData) == mpChatView.CHAT
     local scene = sceneData.scene
 
@@ -557,7 +556,7 @@ class ::ChatHandler
     {
       if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
         text = ::g_chat.makeBlockedMsg(message.text)
-      else if (!::g_chat.xboxIsChatAvailableForFriend(message.sender))
+      else if (!platformModule.isChatEnableWithPlayer(message.sender))
         text = ::g_chat.makeXBoxRestrictedMsg(message.text)
     }
 

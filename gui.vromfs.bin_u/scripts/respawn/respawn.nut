@@ -3,6 +3,7 @@ local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -231,7 +232,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::add_tags_for_mp_players()
 
     currentFocusItem = canChangeAircraft && !isSpectate ? focusItemAirsTable :
-      ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled()? focusItemChatInput :
+      platformModule.isChatEnabled() ? focusItemChatInput :
       focusItemChatTabs
     restoreFocus()
 

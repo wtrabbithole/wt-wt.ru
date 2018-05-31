@@ -911,14 +911,14 @@ function SessionLobby::isUserMission(_settings = null)
   return ::getTblValue("userMissionName", _settings || settings) != null
 }
 
-function SessionLobby::isUrlMission(_settings = null)
+function SessionLobby::isUrlMission(room = null)
 {
-  return getMissionUrl(_settings) != null
+  return getMissionUrl(room) != null
 }
 
-function SessionLobby::getMissionUrl(_settings = null)
+function SessionLobby::getMissionUrl(room = null)
 {
-  return ::getTblValue("missionURL", _settings || settings)
+  return getPublicData(room)?.missionURL
 }
 
 function SessionLobby::isMissionReady()

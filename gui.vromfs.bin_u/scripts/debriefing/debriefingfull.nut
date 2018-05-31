@@ -188,8 +188,6 @@
         return null
       }
     canShowRewardAsValue = true
-    infoName = "pctActivity"
-    infoType = "pct"
   }
   { id = "MissionCoop"
     rewardId = "Mission"
@@ -473,14 +471,9 @@ function gather_debriefing_result()
   local score = 0.0
   foreach(airName, airData in ::debriefing_result.exp.aircrafts)
   {
-    if (sesTimeAir > 0)
-    {
-      airData.pctActivity <- ::player_activity_coef(airData.score, airData.sessionTime*((sessionTime+0.5).tointeger()).tofloat()/sesTimeAir)
-      score += airData.score
-    } else
-      airData.pctActivity <- 0
-
+    score += airData.score
     airData.timBattleTime <- airData.battleTime
+    airData.pctActivity <- 0
   }
   local sessionActivity = ::player_activity_coef(score, ((sessionTime+0.5).tointeger()).tofloat())
   ::debriefing_result.exp.pctActivity <- sessionActivity

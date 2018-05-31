@@ -130,22 +130,29 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     )
   }
 
-  function onItemSelect()
+  function onItemSelect(isForceUpdate = false)
   {
     refreshSelBattle()
     local cb = ::Callback(function() {
-      operationBattle = ::g_world_war.getBattleById(curBattleInList.id)
+      local newOperationBattle = ::g_world_war.getBattleById(curBattleInList.id)
+      local isBattleEqual = operationBattle.isEqual(newOperationBattle)
+      operationBattle = newOperationBattle
 
       if (currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
         return
 
       updateBattleSquadListData()
-      updateWindow()
+      if (!isBattleEqual)
+        updateWindow()
     }, this)
 
     if (curBattleInList.isValid())
     {
-      updateDescription()
+      if (isForceUpdate)
+      {
+        updateDescription()
+        updateButtons()
+      }
       ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb)
     }
     else
@@ -232,14 +239,16 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function onEventCountryChanged(p)
   {
-    guiScene.performDelayed(this, updateBattlesWithFilter)
+    guiScene.performDelayed(this, function() {
+      updateBattlesWithFilter(true)
+    })
   }
 
-  function updateBattlesWithFilter()
+  function updateBattlesWithFilter(isForceUpdate = false)
   {
     setFilteredBattles()
     curBattleInList = getBattleById(curBattleInList.id)
-    reinitBattlesList()
+    reinitBattlesList(isForceUpdate)
   }
 
   function onOpenBattlesFilters(obj)

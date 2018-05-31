@@ -1,4 +1,4 @@
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::g_invites_classes <- {}
 

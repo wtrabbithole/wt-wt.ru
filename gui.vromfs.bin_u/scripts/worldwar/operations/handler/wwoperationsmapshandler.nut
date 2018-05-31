@@ -702,7 +702,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
 
     local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue)
-    local joinQueueBtn = showSceneBtn("btn_join_queue", isModeClan && isQueueJoiningEnabled && !isInQueue)
+    local joinQueueBtn = showSceneBtn("btn_join_queue", isQueueJoiningEnabled && !isInQueue)
     showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
 
     if ((queuesJoinTime > 0) != isInQueue)
@@ -713,7 +713,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (::show_console_buttons)
     {
       local selectedMapObj = getSelectedMapObj()
-      local btnMapActionObj = showSceneBtn("btn_map_action", !isModePlayer)
+      local isMapActionVisible = !hasMap ||
+        (selMap.isActive() && isQueueJoiningEnabled && !isInQueue)
+      local btnMapActionObj = showSceneBtn("btn_map_action", isMapActionVisible)
       btnMapActionObj.setValue(getSelectedMapEditBtnText(selectedMapObj))
     }
 

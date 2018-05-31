@@ -1,6 +1,6 @@
 local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 function gui_start_clan_activity_wnd(playerName = null, clanData = null)
 {

@@ -1,6 +1,6 @@
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
 

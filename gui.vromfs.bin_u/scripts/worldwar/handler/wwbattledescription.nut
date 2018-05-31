@@ -137,11 +137,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateBattleSquadListData()
   }
 
-  function reinitBattlesList()
+  function reinitBattlesList(isForceUpdate = false)
   {
     local closedGroups = getClosedGroups()
     local currentBattleListMap = createBattleListMap()
-    local needRefillBattleList = hasChangedInBattleListMap(currentBattleListMap)
+    local needRefillBattleList = isForceUpdate || hasChangedInBattleListMap(currentBattleListMap)
 
     curBattleListMap = currentBattleListMap
 
@@ -155,7 +155,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     else
       updateBattlesStatusInList()
 
-    onItemSelect()
+    onItemSelect(isForceUpdate)
     updateClosedGroups(closedGroups)
   }
 
@@ -439,14 +439,14 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getGameModeNameText()
   {
-    return operationBattle.getView().getBattleName() + " " + curBattleInList.getLocName()
+    return operationBattle.getView().getFullBattleName()
   }
 
   function getCustomUnitsListNameText()
   {
     local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
     if (operation)
-      return ::loc("mainmenu/operationTitle", {operation = operation.getMapText()})
+      return operation.getMapText()
 
     return ""
   }
@@ -925,7 +925,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onItemSelect()
+  function onItemSelect(isForceUpdate = false)
   {
     refreshSelBattle()
     operationBattle = getBattleById(curBattleInList.id)
@@ -1027,7 +1027,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         })
       else
         if (isBattleDifferent)
-          reinitBattlesList()
+          reinitBattlesList(true)
     }
 
     if (getPlayerSide() == ::SIDE_NONE)
@@ -1217,26 +1217,31 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return ::ww_get_player_side()
   }
 
-  function hasChangedInBattleListMap(currentBattleListMap)
+  function hasChangedInBattleListMap(newBattleListMap)
   {
     if (curBattleListMap == null)
       return true
 
-    if (currentBattleListMap.len() != curBattleListMap.len())
+    if (newBattleListMap.len() != curBattleListMap.len())
       return true
 
-    foreach(groupId, groupData in currentBattleListMap)
+    foreach(groupId, newGroupData in newBattleListMap)
     {
-      local lastGroupData = ::getTblValue("groupId", curBattleListMap, null)
-      if (lastGroupData == null)
+      local curGroupData = curBattleListMap?[groupId]
+      if (!curGroupData)
         return true
 
-      if (groupData.childrenBattles.len() != lastGroupData.childrenBattles.len())
+      if (newGroupData.childrenBattles.len() != curGroupData.childrenBattles.len())
         return true
 
-      foreach(idx, battleId in groupData.childrenBattlesIds)
-        if (!::isInArray(battleId, lastGroupData.childrenBattlesIds))
+      // here we need to check battles statuses too (not only Id)
+      foreach(idx, newbattle in newGroupData.childrenBattles)
+      {
+        local curBattle = curGroupData.childrenBattles[idx]
+        if (newbattle.id != curBattle.id ||
+            newbattle.status != curBattle.status)
           return true
+      }
     }
 
     return false

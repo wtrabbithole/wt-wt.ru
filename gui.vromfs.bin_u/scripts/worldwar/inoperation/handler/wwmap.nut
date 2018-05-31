@@ -275,9 +275,14 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local hasAccess = false
-    if (currentSelectedObject == mapObjectSelect.AIRFIELD ||
-        currentSelectedObject == mapObjectSelect.REINFORCEMENT)
+    if (currentSelectedObject == mapObjectSelect.REINFORCEMENT)
       hasAccess = true
+    else if (currentSelectedObject == mapObjectSelect.AIRFIELD)
+    {
+      local airfield = ::g_world_war.getAirfieldByIndex(::ww_get_selected_airfield())
+      if (::gui_handlers.WwAirfieldFlyOut.getAvailableAirfieldFormations(airfield).len())
+          hasAccess = true
+    }
     else if (currentSelectedObject == mapObjectSelect.ARMY ||
              currentSelectedObject == mapObjectSelect.LOG_ARMY)
       hasAccess = ::g_world_war.haveManagementAccessForSelectedArmies()

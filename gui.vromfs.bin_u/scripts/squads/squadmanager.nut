@@ -1,5 +1,5 @@
 local squadApplications = require("scripts/squads/squadApplications.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum squadEvent
 {

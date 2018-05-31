@@ -1,3 +1,8 @@
+local clanBlackList = [
+  { id = "nick", type = ::g_lb_data_type.TEXT },
+  { id = "initiator_nick", type = ::g_lb_data_type.TEXT },
+  { id = "date", type = ::g_lb_data_type.DATE }]
+
 class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   function initScreen()
@@ -74,13 +79,13 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     local block = blacklistData[i]
     local rowObj = tblObj.findObject("row_"+i)
-    if(rowObj)
+    if (rowObj)
     {
-      local name = ("initiator_nick" in block)? block.initiator_nick : "?"
-      local comments = ("comments" in block)? block.comments : ""
-      rowObj.tooltip = ::loc("clan/blacklistRowTooltip",
-                             { name = name, comments = comments })
-      foreach(item in ::clan_candidate_list)
+      local comments = ("comments" in block) ? block.comments : ""
+      rowObj.tooltip = comments.len()
+        ? ::loc("clan/blacklistRowTooltip", {comments = comments}) : ""
+
+      foreach(item in clanBlackList)
       {
         local vObj = rowObj.findObject("txt_" + item.id)
         local itemValue = (item.id in block)? block[item.id] : 0
@@ -199,7 +204,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
   myRights = []
   curCandidate = null
   memListModified = false
-  clan_blacklist = ["nick", { id="date", type = ::g_lb_data_type.DATE }]
+  clan_blacklist = ["nick", "initiator_nick", { id="date", type = ::g_lb_data_type.DATE }]
   blacklistData = null
 
   curPage = 0

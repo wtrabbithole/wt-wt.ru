@@ -415,10 +415,10 @@ function ItemsManager::markItemsDefsListUpdateDelayed()
     return
 
   lastItemDefsUpdatedelayedCall = ::dagor.getCurTime()
-  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+  ::handlersManager.doDelayed(function() {
     lastItemDefsUpdatedelayedCall = 0
     markItemsDefsListUpdate()
-  })
+  }.bindenv(this))
 }
 
 function ItemsManager::onEventItemDefChanged(p)
@@ -595,10 +595,10 @@ function ItemsManager::markInventoryUpdateDelayed()
     return
 
   lastInventoryUpdateDelayedCall = ::dagor.getCurTime()
-  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+  ::handlersManager.doDelayed(function() {
     lastInventoryUpdateDelayedCall = 0
     markInventoryUpdate()
-  })
+  }.bindenv(this))
 }
 
 function ItemsManager::onItemsLoaded()

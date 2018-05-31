@@ -1,5 +1,5 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::menu_chat_handler <- null
 ::menu_chat_sizes <- null
@@ -143,11 +143,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     _lastMaskUpdateDelayedCall = ::dagor.getCurTime()
-    guiScene.performDelayed(this, function()
+    ::handlersManager.doDelayed(function()
     {
       _lastMaskUpdateDelayedCall = 0
       updateControlsAllowMask()
-    })
+    }.bindenv(this))
   }
 
   function onChatFocus(obj)
@@ -234,11 +234,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContent(scene, "gui/chat/menuChat.blk", this)
       setSavedSizes()
       scene.findObject("menu_chat_update").setUserData(this)
-      showSceneBtn("chat_input_place", ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+      showSceneBtn("chat_input_place", platformModule.isChatEnabled())
       local chatObj = scene.findObject("menuchat_input")
-      chatObj.show(::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+      chatObj.show(platformModule.isChatEnabled())
       chatObj["max-len"] = ::g_chat.MAX_MSG_LEN.tostring()
-      showSceneBtn("btn_send", ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+      showSceneBtn("btn_send", platformModule.isChatEnabled())
       searchInited = false
       updateRoomsList()
     }
@@ -560,7 +560,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       foreach(idx, user in curRoom.users)
       {
         if (user.uid == null && (::g_squad_manager.isInMySquad(user.name, false) || ::is_in_my_clan(user.name)))
-          user.uid = ::getPlayerUid(user.name)
+          user.uid = ::Contact.getByName(user.name)?.uid
 
         local contact = (user.uid != null)? ::getContact(user.uid) : null
         updateUserPresence(listObj, idx, contact)
@@ -767,7 +767,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::g_chat.getRoomById(roomId))
         addRoom(roomId, null, null, idx == 0)
 
-    if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+    if (platformModule.isChatEnabled())
     {
       local chatRooms = ::get_local_custom_settings_blk().chatRooms
       local roomIdx = 0
@@ -959,7 +959,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     if (event == ::GCHAT_EVENT_MESSAGE)
     {
-      if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+      if (platformModule.isChatEnabled())
         onMessage(db)
     }
     else if (event == ::GCHAT_EVENT_CONNECTED)
@@ -1338,7 +1338,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         msgColor = blockedColor
         msg = ::g_chat.makeBlockedMsg(msg)
       }
-      else if (!myself && !myPrivate && !::g_chat.xboxIsChatAvailableForFriend(messageAuthor))
+      else if (!myself && !myPrivate && !platformModule.isChatEnableWithPlayer(messageAuthor))
       {
         if (privateMsg)
           return
@@ -1758,13 +1758,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     local showCount = unhiddenRoomsCount()
     if (showCount==1)
     {
-      if (::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+      if (platformModule.isChatEnabled())
         addRoomMsg(id, "", ::loc("menuchat/hello"))
     }
     if (selectRoom || roomType.needSwitchRoomOnJoin)
       switchCurRoom(r, false)
 
-    if (roomType == ::g_chat_room_type.SQUAD && ::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+    if (roomType == ::g_chat_room_type.SQUAD && platformModule.isChatEnabled())
       addRoomMsg(id, "", ::loc("squad/channelIntro"))
 
     if (::delayed_chat_messages!="")
@@ -2398,7 +2398,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       else
       {
         name = link.slice(3)
-        contact = findContactByNick(name)
+        contact = ::Contact.getByName(name)
       }
       if (lclick)
         addNickToEdit(name, sceneData.scene)
@@ -2648,14 +2648,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     local value = obj.getValue()
     if (value in searchRoomList)
     {
-      if (!::ps4_is_chat_enabled())
-      {
-        ::ps4_show_chat_restriction()
+      if (!platformModule.isChatEnabled(true))
         return
-      }
-      else if (!::g_chat.xboxIsChatEnabled(true))
-        return
-      else if (!::isInArray(searchRoomList[value], ::global_chat_rooms_list) && !::ps4_is_ugc_enabled())
+      if (!::isInArray(searchRoomList[value], ::global_chat_rooms_list) && !::ps4_is_ugc_enabled())
       {
         ::ps4_show_ugc_restriction()
         return
@@ -2852,7 +2847,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local obj = roomData.customScene.findObject(objName)
       if (::checkObj(obj))
-        obj.enable(::ps4_is_chat_enabled() && ::g_chat.xboxIsChatEnabled())
+        obj.enable(platformModule.isChatEnabled())
     }
   }
 

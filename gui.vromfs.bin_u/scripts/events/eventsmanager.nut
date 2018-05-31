@@ -1777,9 +1777,23 @@ class Events
       return
 
     local allowId = "all_units_allowed"
+    local allowText = ""
     if (::number_of_set_bits(allowedUnitTypes)==1)
       allowId = "allowed_only/" + getUnitTypeText(::number_of_set_bits(allowedUnitTypes - 1))
-    allowedUnitTypesObj.findObject("allowed_unit_types_text").setValue(::loc("events/" + allowId))
+    if (::number_of_set_bits(allowedUnitTypes)==2)
+    {
+      local unitTypes = ::g_unit_type.getArrayBybitMask(allowedUnitTypes)
+      if (unitTypes && unitTypes.len() == 2)
+      {
+        local allowUnitId = "events/allowed_units"
+        allowText = ::loc(allowUnitId, {
+          unitType = ::loc(allowUnitId + "/" + unitTypes[0].name),
+          unitType2 = ::loc(allowUnitId + "/" + unitTypes[1].name) })
+        allowText = ::g_string.toUpper(allowText, 1)
+      }
+    }
+    allowText = allowText == "" ? ::loc("events/" + allowId) : allowText
+    allowedUnitTypesObj.findObject("allowed_unit_types_text").setValue(allowText)
   }
 
   function generateRulesText(handler, rules, rulesObj, highlightRules = false, checkAllRules = false)
@@ -2474,7 +2488,8 @@ class Events
 
   function getCustomRulesSetName(event)
   {
-    return ::getTblValue("name", getCustomRules(event))
+    local customRules = getCustomRules(event)
+    return customRules?.guiName ?? customRules?.name
   }
 
   function getCustomRulesDesc(event)

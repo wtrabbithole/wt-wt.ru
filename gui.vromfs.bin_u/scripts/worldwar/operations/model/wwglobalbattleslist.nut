@@ -1,6 +1,6 @@
 local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle.nut")
 
-const GLOBAL_BATTLES_REFRESH_MIN_TIME = 10000 //ms
+const GLOBAL_BATTLES_REFRESH_MIN_TIME = 1000 //ms
 const GLOBAL_BATTLES_REQUEST_TIME_OUT = 45000 //ms
 const GLOBAL_BATTLES_LIST_TIME_OUT = 300000 //ms
 

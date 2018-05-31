@@ -206,6 +206,7 @@ fouldataEnglish <-
       "^fujinoyamai",
       "^fupa",
       "^fxuxcxk"
+      "^fu$"
     ]
   },
   {

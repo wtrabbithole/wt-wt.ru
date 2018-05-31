@@ -97,14 +97,15 @@ class ActionBar
     local isReady = isActionReady(item)
 
     local shortcutText = ""
-    local shortcutTexture = ""
-    if (needShortcuts)
+    local shortcutId = ""
+    local showShortcut = false
+    if (needShortcuts && actionBarType.getShortcut(item, unit))
     {
-      local shortcutId = actionBarType.getVisualShortcut(item, unit)
+      shortcutId = actionBarType.getVisualShortcut(item, unit)
       local shType = ::g_shortcut_type.getShortcutTypeByShortcutId(shortcutId)
       local scInput = shType.getFirstInput(shortcutId)
+      showShortcut = true
       shortcutText = scInput.getText()
-      shortcutTexture = scInput.getMarkupData()?.view?.buttonImage
     }
 
     viewItem.id                 <- __action_id_prefix + item.id
@@ -114,9 +115,10 @@ class ActionBar
     viewItem.wheelmenuEnabled   <- isReady
     viewItem.shortcutText       <- shortcutText
     viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_SHORCUT_LEN
-    viewItem.gamepadButtonImg   <- shortcutTexture
-    viewItem.cancelButton       <- shortcutTexture
-    viewItem.isXinput           <- shortcutTexture && ::is_xinput_device()
+    viewItem.mainShortcutId     <- shortcutId
+    viewItem.cancelShortcutId   <- shortcutId
+    viewItem.isXinput           <- showShortcut && ::is_xinput_device()
+    viewItem.showShortcut       <- showShortcut
 
     if (item.type == ::EII_BULLET && unit != null)
     {
@@ -135,9 +137,7 @@ class ActionBar
     }
     else if (item.type == ::EII_ARTILLERY_TARGET)
     {
-      local shType = ::g_shortcut_type.getShortcutTypeByShortcutId("ID_SHOOT_ARTILLERY")
-      local scInput = shType.getFirstInput("ID_SHOOT_ARTILLERY")
-      viewItem.activatedButtonImg <- scInput.getMarkupData()?.view?.buttonImage
+      viewItem.activatedShortcutId <- "ID_SHOOT_ARTILLERY"
     }
     if (item.type != ::EII_BULLET)
     {

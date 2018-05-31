@@ -46,6 +46,7 @@ hintRow textareaNoTab {
 
 hintRow > combination > textareaNoTab {
   font: @fontHudMedium;
+  margin: 0.01@shHud,0;
 }
 
 hintRow > timeBar textareaNoTab {
@@ -55,6 +56,15 @@ hintRow > timeBar textareaNoTab {
 chatHint hintRow textareaNoTab {
   font: @fontSmall;
   max-width: p.p.p.p.w;
+}
+
+chatHint hintRow  > combination > textareaNoTab {
+  margin: 1@blockInterval,0;
+}
+
+action_item_content hintRow > combination > textareaNoTab {
+  font: @fontHudTiny;
+  margin: 0;
 }
 
 chatHint hintRow > gamepadButton,

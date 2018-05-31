@@ -269,7 +269,8 @@ local ItemExternal = class extends ::BaseItem
     local msgboxParams = {
       cancel_fn = @() null
       baseHandler = ::get_cur_base_gui_handler() //FIX ME: handler used only for prizes tooltips
-      data_below_text = ::PrizesView.getPrizesListView([ metaBlk ], { showAsTrophyContent = true, widthByParentParent = true })
+      data_below_text = ::PrizesView.getPrizesListView([ metaBlk ],
+        { showAsTrophyContent = true, receivedPrizes = false, widthByParentParent = true })
       data_below_buttons = canSell
         ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent")))
         : null

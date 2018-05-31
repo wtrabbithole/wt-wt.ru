@@ -2,20 +2,6 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::generic_options <- null
 
-function check_disable_saving_options()
-{
-  local gm = ::get_game_mode()
-  local gameType = ::get_game_type_by_mode(::get_game_mode())
-
-  if ((gm == ::GM_EVENT) || (
-    (gameType & ::GT_COOPERATIVE) || (gameType & ::GT_VERSUS)
-    ))
-    ::disable_saving_options <- true;
-  else if ((gm == ::GM_SINGLE_MISSION) || (gm == ::GM_USER_MISSION) || (gm == ::GM_DYNAMIC) || (gm == ::GM_BUILDER))
-    if (::mission_settings.coop)
-      ::disable_saving_options <- true;
-}
-
 class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/options/genericOptions.blk"
@@ -41,7 +27,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    ::disable_saving_options <- false
     ::generic_options = this //?? FIX ME - need to remove this
 
     if (!optionsContainers)

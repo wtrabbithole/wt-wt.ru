@@ -309,7 +309,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
           continue
 
         isRewardItemActual = true
-        if (sheets.getTabByItem(rewardItem) < 0)
+        if (!sheets.getSheetDataByItem(rewardItem))
           rewardItem = null
         return true
       }

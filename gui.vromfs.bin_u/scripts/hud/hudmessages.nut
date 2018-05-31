@@ -678,6 +678,101 @@ enums.addTypesByGlobalName("g_hud_messages", {
       msgObj["anim_transparency"] = "yes"
     }
   }
+
+  HUD_DEATH_REASON_MESSAGE = {
+    nestId = "hud_messages_death_reason_notification"
+    showSec = 5
+    messagesMax = 2
+    messageEvent = "HudMessage"
+    hudEvents = {
+      HudMessageHide = @(ed) destroy()
+    }
+
+    onMessage = function (messageData)
+    {
+      if (messageData.type != ::HUD_MSG_UNDER_RADAR && messageData.type != ::HUD_MSG_DEATH_REASON)
+        return
+      if (!::checkObj(nest))
+        return
+
+      local oldMessage = findMessageById(messageData.id)
+      if (oldMessage)
+        refreshMessage(messageData, oldMessage)
+      else
+        addMessage(messageData)
+    }
+
+    addMessage = function (messageData, timestamp = null, needAnimations = true)
+    {
+      cleanUp()
+      local message = {
+        timer = null
+        timestamp = timestamp || ::dagor.getCurTime()
+        messageData = messageData
+        obj = null
+      }
+      stack.append(message)
+      local view = {
+        text = messageData.text
+      }
+      local blk = ::handyman.renderCached("gui/hud/messageStack/deathReasonMessage", view)
+      guiScene.appendWithBlk(nest, blk, blk.len(), this)
+      message.obj = nest.getChild(nest.childrenCount() - 1)
+
+      if (nest.isVisible() && needAnimations)
+      {
+        message.obj["height-end"] = message.obj.getSize()[1]
+        message.obj.setIntProp(heightPID, 0)
+        message.obj.slideDown = "yes"
+        guiScene.setUpdatesEnabled(true, true)
+      }
+
+      local timeToShow = timestamp
+       ? showSec - (::dagor.getCurTime() - timestamp) / 1000.0
+       : showSec
+
+      message.timer = timers.addTimer(timeToShow, function () {
+        if (::check_obj(message.obj))
+          message.obj.remove = "yes"
+        removeMessage(message)
+      }.bindenv(this)).weakref()
+    }
+
+    refreshMessage = function (messageData, message)
+    {
+      local shouldUpdateText = message.messageData.text != messageData.text
+      message.messageData = messageData
+      if (message.timer)
+        timers.setTimerTime(message.timer, showSec)
+      if (shouldUpdateText && ::checkObj(message.obj))
+        message.obj.findObject("text").setValue(messageData.text)
+    }
+
+    clearStack = function () {}
+
+    destroy = function () {
+      stack.clear()
+      if (!::checkObj(nest))
+        return
+      nest.deleteChildren()
+    }
+
+    reinit = function (inScene, inTimers)
+    {
+      setScene(inScene, inTimers)
+      if (!::checkObj(nest))
+        return
+      nest.deleteChildren()
+
+      local timeDelete = ::dagor.getCurTime() - showSec * 1000
+      local oldStack = stack
+      stack = []
+
+      foreach (message in oldStack)
+        if (message.timestamp > timeDelete)
+          addMessage(message.messageData, message.timestamp, false)
+    }
+  }
 },
 function()
 {

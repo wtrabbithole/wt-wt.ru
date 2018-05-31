@@ -202,7 +202,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       local nameText = ::get_unlock_name_text(unlockType, unlockId)
       if (colored)
         nameText = ::colorize(typeValid ? "userlogColoredText" : "red", nameText)
-      if (unlockType != ::UNLOCKABLE_SLOT)
+      if (unlockType != ::UNLOCKABLE_SLOT && nameText != "")
         name += ::loc("ui/colon") + nameText
     }
     if (full)
@@ -774,10 +774,18 @@ function PrizesView::getViewDataDefault(prize, showCount, params = null)
   local tooltipId = prize.trophy ? ::g_tooltip.getIdSubtrophy(prize.trophy)
                   : prize.unlock ? ::g_tooltip.getIdUnlock(prize.unlock)
                   : null
+  local previewImage = null
+
+  if (prize.unlock && ::get_unlock_type_by_id(prize.unlock) == ::UNLOCKABLE_PILOT)
+  {
+    previewImage = "cardAvatar { value:t='" + prize.unlock +"'}"
+  }
+
   return {
     icon = icon,
     title = title,
-    tooltipId = tooltipId
+    tooltipId = tooltipId,
+    previewImage = previewImage
   }
 }
 

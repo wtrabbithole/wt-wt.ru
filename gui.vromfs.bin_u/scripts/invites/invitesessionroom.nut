@@ -99,13 +99,23 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
 
   function haveRestrictions()
   {
-    return !::isInMenu()
+    return !::isInMenu() || !isMissionAvailable()
+  }
+
+  function isMissionAvailable()
+  {
+    local room = ::g_mroom_info.get(roomId).getFullRoomData()
+    return !::SessionLobby.isUrlMission(room) || ::ps4_is_ugc_enabled()
   }
 
   function getRestrictionText()
   {
     if (haveRestrictions())
+    {
+      if (!isMissionAvailable())
+        return ::loc("invite/session/ugc_restriction")
       return ::loc("invite/session/cant_apply_in_flight")
+    }
     return ""
   }
 

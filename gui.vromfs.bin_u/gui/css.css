@@ -1041,7 +1041,7 @@ tr[queueTableIconRow=yes] > td > img {
 }
 
 tr[queueTableIconRow=yes] > td {
-  min-width:0.05*@sf;
+  min-width:1@queueTableColumnWidth;
 }
 
 tr[queueTableTitleRow=yes] {
@@ -1215,6 +1215,10 @@ tr[selected=yes] > td > optiontext {
 td[cellType=top] > optiontext {
   color:@grayOptionColor;
   font:@fontSmall;
+}
+
+verticalCellsOptions > tr > td[cellType=top] > optiontext {
+  color:@silver;
 }
 
 optionValueText {

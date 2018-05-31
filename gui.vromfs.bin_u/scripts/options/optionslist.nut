@@ -53,7 +53,7 @@ local getMainOptions = function()
       [::USEROPT_CROSSHAIR_COLOR, "combobox"],
       [::USEROPT_INDICATEDSPEED, "spinner"],
       [::USEROPT_CROSSHAIR_DEFLECTION, "spinner"],
-      [::USEROPT_AIR_DAMAGE_DISPLAY, "spinner"],
+      [::USEROPT_AIR_DAMAGE_DISPLAY, "spinner", ! ::is_in_flight()],
       [::USEROPT_GUNNER_FPS_CAMERA, "spinner"],
 
       ["options/header/tank"],

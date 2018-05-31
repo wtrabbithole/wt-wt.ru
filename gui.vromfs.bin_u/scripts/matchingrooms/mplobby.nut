@@ -1,5 +1,5 @@
 local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
@@ -410,7 +410,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function initChat()
   {
-    if (!::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
+    if (!platformModule.isChatEnabled())
       return
 
     local chatObj = scene.findObject("lobby_chat_place")

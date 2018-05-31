@@ -1,6 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 const MAIN_FOCUS_ITEM_IDX = 4
 
@@ -393,11 +394,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onGC_chat(obj)
   {
     if (!::isMenuChatActive())
-    {
-      if (!::ps4_is_chat_enabled())
-        ::ps4_show_chat_restriction()
-      ::g_chat.xboxIsChatEnabled(true)
-    }
+      platformModule.isChatEnabled(true)
 
     switchChatWindow()
   }
@@ -1073,7 +1070,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
 
   function onHeaderTabSelect() {} //empty frame
-  function dummyCollapse(obj) {}
 
   function onFacebookLoginAndPostMessage() {}
   function sendInvitation() {}

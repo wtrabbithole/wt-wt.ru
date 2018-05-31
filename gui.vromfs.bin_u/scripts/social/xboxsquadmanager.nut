@@ -1,5 +1,5 @@
 ::g_xbox_squad_manager <- {
-  [PERSISTENT_DATA_PARAMS] = ["lastReceivedUsersCache, isSquadStatusCheckedOnce, currentUsersListCache, xboxIsGameStartedByInvite"]
+  [PERSISTENT_DATA_PARAMS] = ["lastReceivedUsersCache, isSquadStatusCheckedOnce, currentUsersListCache, xboxIsGameStartedByInvite", "suspendedData"]
   lastReceivedUsersCache = []
   currentUsersListCache = []
   isSquadStatusCheckedOnce = false
@@ -19,6 +19,8 @@
 
     if (!::isInMenu() || !::g_login.isLoggedIn())
     {
+      needCheckSquadInvites = ::is_in_flight()
+      ::dagor.debug("XBOX SQUAD MANAGER: set needCheckSquadInvites " + needCheckSquadInvites + "; " + ::toString(xboxIdsList))
       suspendedData = clone xboxIdsList
       return
     }
@@ -48,7 +50,7 @@
     ::dagor.debug("XBOX SQUAD MANAGER: notFoundIds " + notFoundIds.len())
 
     if (notFoundIds.len())
-      ::xbox_get_people_list_callback(notFoundIds)
+      requestUnknownIds(notFoundIds)
   }
 
   isMeLeaderByList = @(xboxIdsList) xboxIdsList?[0] == ::get_my_external_id(::EPL_XBOXONE)
@@ -76,6 +78,13 @@
 
   function checkAfterFlight()
   {
+    ::dagor.debug("XBOX SQUAD MANAGER: launch checkAfterFlight, suspendedData " + suspendedData + "; " + ::isInMenu())
+    if (!::isInMenu())
+    {
+      ::dagor.debug("XBOX SQUAD MANAGER: launch checkAfterFlight, terminate process, not in menu.")
+      return
+    }
+
     if (suspendedData)
     {
       updateSquadList(suspendedData)
@@ -94,12 +103,12 @@
   function validateList(xboxIdsList)
   {
     foreach (id in xboxIdsList)
-      if (!(id in lastReceivedUsersCache))
+      if (!::isInArray(id, lastReceivedUsersCache))
         if (!proceedContact(::findContactByXboxId(id), true) && !::isInArray(id, notFoundIds))
           notFoundIds.append(id)
 
     foreach (id in lastReceivedUsersCache)
-      if (!(id in xboxIdsList))
+      if (!::isInArray(id, xboxIdsList))
         if (!proceedContact(::findContactByXboxId(id), false) && !::isInArray(id, notFoundIds))
           notFoundIds.append(id)
 
@@ -158,7 +167,21 @@
 
     notFoundIds = clone idsArray
     needCheckSquadInvitesOnContactsUpdate = true
-    ::xbox_get_people_list_callback(notFoundIds)
+    requestUnknownIds(notFoundIds)
+  }
+
+  function requestUnknownIds(idsList)
+  {
+    if (!idsList.len())
+      return
+
+    local taskId = ::xbox_find_friends(idsList)
+    ::g_tasker.addTask(taskId, null, ::Callback(function() {
+      local blk = ::DataBlock()
+      blk = ::xbox_find_friends_result()
+      local table = ::buildTableFromBlk(blk)
+      checkFoundIds(table)
+    }, this))
   }
 
   function sendSystemInvite(uid, name)
@@ -179,7 +202,7 @@
     }
   }
 
-  function onEventFriendsXboxContactsUpdated(p)
+  function checkFoundIds(p)
   {
     if (!notFoundIds.len())
       return

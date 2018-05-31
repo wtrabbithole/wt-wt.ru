@@ -166,6 +166,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     isSpectator = ::SessionLobby.isInRoom() && ::SessionLobby.spectator
     ::set_presence_to_player("menu")
+    initStatsMissionParams()
     ::SessionLobby.checkLeaveRoomInDebriefing()
     isMp = ::is_multiplayer()
     ::close_cur_voicemenu()

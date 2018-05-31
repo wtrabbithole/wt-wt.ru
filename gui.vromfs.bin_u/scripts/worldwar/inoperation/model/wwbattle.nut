@@ -370,6 +370,13 @@ class ::WwBattle
       return res
     }
 
+    if (!hasAvailableUnits(team))
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.NO_AVAILABLE_UNITS
+      res.reasonText = ::loc("worldwar/airs_not_available")
+      return res
+    }
+
     local remainUnits = getUnitsRequiredForJoin(team, side)
     local myCheckingData = ::g_squad_utils.getMemberAvailableUnitsCheckingData(
       ::g_user_utils.getMyStateData(), remainUnits, team.country)
@@ -400,13 +407,16 @@ class ::WwBattle
     return false
   }
 
-  function hasAvailableUnits()
+  function hasAvailableUnits(team = null)
   {
-    local side = getSide(::get_profile_country_sq())
-    if (side == ::SIDE_NONE)
-      return false
+    if (!team)
+    {
+      local side = getSide(::get_profile_country_sq())
+      if (side == ::SIDE_NONE)
+        return false
 
-    local team = getTeamBySide(side)
+      team = getTeamBySide(side)
+    }
     return team ? getTeamRemainUnits(team).len() > 0 : false
   }
 
@@ -872,5 +882,32 @@ class ::WwBattle
     }
 
     return false
+  }
+
+  function isEqual(battle)
+  {
+    if (battle.id != id || battle.status != status)
+      return false
+
+    foreach (teamName, teamData in battle.teams)
+    {
+      local curTeamData = teams?[teamName]
+      if (!curTeamData)
+        return false
+
+      if (teamData.players != curTeamData.players ||
+          teamData.unitsRemain.len() != curTeamData.unitsRemain.len())
+        return false
+
+      foreach(idx, unitsData in teamData.unitsRemain)
+      {
+        local curUnitsData = curTeamData.unitsRemain[idx]
+        if (unitsData.name != curUnitsData.name ||
+            unitsData.count != curUnitsData.count)
+          return false
+      }
+    }
+
+    return true
   }
 }

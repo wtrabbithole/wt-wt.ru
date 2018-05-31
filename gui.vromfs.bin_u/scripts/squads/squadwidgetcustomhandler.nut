@@ -1,4 +1,4 @@
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 const SQUAD_MEMBERS_TO_HIDE_TITLE = 3

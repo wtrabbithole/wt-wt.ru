@@ -11,6 +11,7 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     updateHandler()
+    updateVisibility()
   }
 
   function createItemsView(items)
@@ -119,4 +120,13 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
     performAction(buttonObj.findObject(::g_promo.getActionParamsKey(buttonObj.id)))
   }
   function onToggleItem(obj) { ::g_promo.toggleItem(obj) }
+
+  function updateVisibility()
+  {
+    local isVisible = !::handlersManager.findHandlerClassInScene(::gui_handlers.EveryDayLoginAward)
+      && !::handlersManager.findHandlerClassInScene(::gui_handlers.trophyRewardWnd)
+    scene.show(isVisible)
+  }
+
+  onEventActiveHandlersChanged = @(p) updateVisibility()
 }

@@ -210,7 +210,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     actionBar.reinit()
     if (!::has_feature("SpectatorUnitDmgIndicator"))
       scene.findObject("xray_render_dmg_indicator_spectator").show(false)
-    //TODO: Xray damage indicator // init()
+    reinitDmgIndicator()
     recalculateLayout()
 
     ::g_hud_event_manager.subscribe("HudMessage", function(eventData)
@@ -232,7 +232,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     ::g_hud_live_stats.update()
     actionBar.reinit()
-    //TODO: Xray damage indicator // reinit()
+    reinitDmgIndicator()
     recalculateLayout()
   }
 
@@ -494,7 +494,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
       actionBar.reinit()
-      //TODO: Xray damage indicator // reinit()
+      reinitDmgIndicator()
       recalculateLayout()
     }
 
@@ -565,6 +565,13 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           ID_REPLAY_CAMERA_HOVER      = isValid
       })
     }
+  }
+
+  function reinitDmgIndicator()
+  {
+    local obj = scene.findObject("spectator_hud_damage")
+    if (::check_obj(obj))
+      obj.show(getTargetPlayer() != null)
   }
 
   function statTblGetSelectedPlayer(obj)

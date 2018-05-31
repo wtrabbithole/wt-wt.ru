@@ -1,6 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 function create_event_description(parent_scene, event = null, needEventHeader = true)
 {
@@ -407,6 +407,9 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkLbTableVisible(lb_rows, lbCategory)
   {
+    if (::is_ps4_or_xbox)
+      return false
+
     if (lbCategory == null)
       return false
 

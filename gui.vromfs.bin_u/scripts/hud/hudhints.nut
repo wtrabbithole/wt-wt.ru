@@ -1037,19 +1037,6 @@ enums.addTypesByGlobalName("g_hud_hints", {
     }
   }
 
-  HUD_MESSAGE_HINT = {
-    hintType = ::g_hud_hint_types.HUDMESSAGE
-    showEvent = "HudMessage"
-    hideEvent = "HudMessageHide"
-    lifeTime = 5.0
-    buildText = @(eventData) eventData.text
-    isCurrent = function(eventData, isHideEvent){
-      return (eventData?.type == ::HUD_MSG_UNDER_RADAR
-      || eventData?.type == ::HUD_MSG_DEATH_REASON
-      || isHideEvent)
-    }
-  }
-
   MISSION_COMPLETE_HINT = {
     locId = "HUD_MISSION_COMPLETE_HDR"
     showEvent = "hint:mission_complete:show"

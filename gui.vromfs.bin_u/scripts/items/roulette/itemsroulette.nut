@@ -16,7 +16,9 @@ ItemsRoulette API:
                                                  rewards which player really recieved;
 */
 
-const CHANCE_TO_STOP_ON_BORDER = 0.5
+const MIN_ITEMS_OFFSET = 0.1
+const MAX_ITEMS_OFFSET = 0.4
+
 
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local rouletteAnim = ::require("scripts/items/roulette/rouletteAnim.nut")
@@ -509,13 +511,18 @@ function ItemsRoulette::createItemsMarkup(completeArray)
   foreach(idx, slot in completeArray)
   {
     local slotRes = []
+    local offset = slot.len() <= 1 ? 0 : ::max(MIN_ITEMS_OFFSET, MAX_ITEMS_OFFSET / (slot.len() - 1))
+
     foreach(idx, item in slot)
-      slotRes.insert(0, ::getTblValueByPath("reward.layout", item, ::getTblValue("layout", item, "")))
+      slotRes.insert(0,
+        ::LayersIcon.genDataFromLayer(
+          { x = (offset * idx) + "@itemWidth", w = "1@itemWidth" },
+          item?.reward?.layout ?? item?.layout))
 
     local layerCfg = ::LayersIcon.findLayerCfg("roulette_slot")
     local width = 1
     if (slot.len() > 1)
-      width += 0.1 * (slot.len() - 1)
+      width += offset * (slot.len() - 1)
     layerCfg.w <- width + "@itemWidth"
     layerCfg.id <- "roulette_slot_" + idx
 

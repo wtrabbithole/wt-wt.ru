@@ -61,6 +61,11 @@ class ::WwBattleView
     return ::loc("worldWar/battleName", {number = battle.getOrdinalNumber()})
   }
 
+  function getFullBattleName()
+  {
+    return getBattleName() + ::loc("ui/comma") + battle.getLocName()
+  }
+
   function defineTeamBlock(playerSide, sides)
   {
     teamBlock = getTeamBlockByIconSize(playerSide, sides, WW_ARMY_GROUP_ICON_SIZE.BASE)

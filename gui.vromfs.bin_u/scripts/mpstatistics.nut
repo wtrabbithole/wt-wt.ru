@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::team_aircraft_list <- null
 
@@ -1031,16 +1031,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return
 
-    gameMode = ::get_game_mode()
-    gameType = ::get_game_type()
-    isOnline = ::g_login.isLoggedIn()
-
-    isTeamplay = ::is_mode_with_teams(gameType)
-    isTeamsWithCountryFlags = isTeamplay &&
-      (::get_mission_difficulty_int() > 0 || !(::SessionLobby.getRoomEvent()?.isSymmetric ?? false))
-    isTeamsRandom = !isTeamplay || gameMode == ::GM_DOMINATION
-
-    missionObjectives = ::g_mission_type.getCurrentObjectives()
+    initStatsMissionParams()
 
     local playerTeam = ::get_local_team_for_mpstats()
     local friendlyTeam = ::get_player_army_for_hud()
@@ -1075,6 +1066,21 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     updateCountryFlags()
+  }
+
+  function initStatsMissionParams()
+  {
+    gameMode = ::get_game_mode()
+    gameType = ::get_game_type()
+    isOnline = ::g_login.isLoggedIn()
+
+    isTeamplay = ::is_mode_with_teams(gameType)
+    isTeamsRandom = !isTeamplay || gameMode == ::GM_DOMINATION
+    if (::SessionLobby.isInRoom())
+      isTeamsWithCountryFlags = isTeamplay &&
+        (::get_mission_difficulty_int() > 0 || !::SessionLobby.getPublicParam("symmetricTeams", true))
+
+    missionObjectives = ::g_mission_type.getCurrentObjectives()
   }
 
   function createKillsTbl(objTbl, tbl, tblConfig)
