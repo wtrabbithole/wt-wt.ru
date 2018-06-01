@@ -578,7 +578,6 @@ function ItemsManager::markInventoryUpdate()
   if (!isInventoryFullUpdated && isInventoryInternalUpdated && !inventoryClient.isWaitForInventory())
   {
     isInventoryFullUpdated = true
-    dlog("GP: inventory full updated!")
     seenInventory.setDaysToUnseen(OUT_OF_DATE_DAYS_INVENTORY)
   }
   seenInventory.onListChanged()
