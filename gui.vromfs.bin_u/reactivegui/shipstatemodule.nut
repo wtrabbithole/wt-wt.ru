@@ -69,7 +69,7 @@ local font = Fonts.tiny_text_hud
 local speed = function () {
   local speedValue = @() {
     watch = shipState.speed
-    rendObj = ROBJ_TEXT
+    rendObj = ROBJ_DTEXT
     text = shipState.speed.value.tostring()
     font = Fonts.tiny_text_hud
     margin = [0,0,0,sh(1)]
@@ -186,7 +186,7 @@ local buoyancyIndicator = @() {
   halign = HALIGN_CENTER
   children = [
     @() {
-      rendObj = ROBJ_TEXT
+      rendObj = ROBJ_DTEXT
       text = (shipState.buoyancy.value * 100).tointeger() + "%"
       font = Fonts.small_text_hud
       watch = shipState.buoyancy
@@ -216,7 +216,7 @@ local stateBlock = {
 
 
 local playAiSwithAnimation = function (ne_value) {
-  ::start_anim(shipState.aiGunnersState)
+  ::anim_start(shipState.aiGunnersState)
 }
 
 local aiGunners = @() {
@@ -259,10 +259,16 @@ local crewCountColor = function(min, current) {
   return colors.hud.damageModule.active
 }
 
-
-local countCrewLeftPercent = @() mathEx.clamp(mathEx.lerp(crewState.minCrewMembersCount.value - 1,
-  crewState.totalCrewMembersCount.value, 0, 100, crewState.aliveCrewMembersCount.value), 0, 100)
-
+local getMaxCrewLeftPercent = @() (100.0 *
+  (1.0 + (crewState.bestMinCrewMembersCount.value.tofloat() - crewState.minCrewMembersCount.value)
+    / crewState.totalCrewMembersCount.value)
+  + 0.5).tointeger()
+local countCrewLeftPercent = @()
+  ::clamp(mathEx.lerp(
+    crewState.minCrewMembersCount.value - 1, crewState.totalCrewMembersCount.value,
+    0, getMaxCrewLeftPercent(),
+    crewState.aliveCrewMembersCount.value),
+  0, 100)
 
 local crewBlock = {
   vplace = VALIGN_BOTTOM
@@ -295,7 +301,7 @@ local crewBlock = {
       children = {
         vplace = VALIGN_BOTTOM
         hplace = HALIGN_RIGHT
-        rendObj = ROBJ_TEXT
+        rendObj = ROBJ_DTEXT
         text = countCrewLeftPercent() + "%"
         font = Fonts.tiny_text_hud
         fontFx = fontFx

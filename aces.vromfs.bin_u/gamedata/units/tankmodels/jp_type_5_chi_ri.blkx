@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -244,29 +247,23 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 22.0,
-          "hp": 150.0
-        },
         "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 22.0,
-          "hp": 150.0
+          "armorThickness": 20.0,
+          "hp": 200.0
         },
         "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 17.0,
-          "hp": 150.0
+          "armorThickness": 10.0,
+          "hp": 100.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
-          "hp": 150.0
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
-          "hp": 150.0
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -367,7 +364,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1567,6 +1564,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_03_dm"
+          },
+          {
             "speedYaw": 5.0
           },
           {
@@ -1834,7 +1834,10 @@
           "fatalExplosion": true
         },
         {
-          "replenishmentTime": 7.0
+          "replenishmentDelay": 4.0
+        },
+        {
+          "replenishmentTime": 15.0
         },
         {
           "shells": {
@@ -1852,7 +1855,7 @@
             "fireEvent": "ammo_fire",
             "explosionEvent": "ammo_explosion",
             "wreckedPartId": 0,
-            "reloadTimeMult": 1.5,
+            "reloadTimeMult": 2.0,
             "ammo_turret_01_dm": {
               "count": 8
             },
@@ -1869,7 +1872,7 @@
             "fireEvent": "ammo_fire",
             "explosionEvent": "ammo_explosion",
             "wreckedPartId": 0,
-            "reloadTimeMult": 2.5,
+            "reloadTimeMult": 3.0,
             "ammo_body_l_01_dm": {
               "count": 9
             },

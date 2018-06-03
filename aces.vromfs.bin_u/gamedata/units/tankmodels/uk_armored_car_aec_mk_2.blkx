@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -281,7 +284,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1727,15 +1730,15 @@
         "cls_turret": "convex_hull"
       },
       "engine": {
-        "horsePowers": 158.0,
-        "maxRPM": 2200.0,
+        "horsePowers": 165.0,
+        "maxRPM": 2000.0,
         "minRPM": 900.0,
         "rpmTau": 1.9
       },
       "mechanics": {
         "maxBrakeForce": 48800.0,
         "driveGearRadius": 0.6,
-        "mainGearRatio": 5.32,
+        "mainGearRatio": 4.82,
         "sideGearRatio": 1.2,
         "tracked": false,
         "gearRatios": [
@@ -1746,7 +1749,7 @@
             "ratio": 0.0
           },
           {
-            "ratio": 14.0
+            "ratio": 10.0
           },
           {
             "ratio": 6.0
@@ -1761,10 +1764,10 @@
             "ratio": 2.1
           },
           {
-            "ratio": 1.6
+            "ratio": 1.9
           },
           {
-            "ratio": 1.2
+            "ratio": 1.4
           },
           {
             "ratio": 1.0
@@ -2335,7 +2338,7 @@
   },
   {
     "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
+      "removeLoadedAmmo": true,
       "primaryShells": {
         "ammo_turret_01_dm": {
           "count": 2

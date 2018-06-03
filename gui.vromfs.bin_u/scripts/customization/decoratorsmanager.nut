@@ -17,9 +17,6 @@ function update_unit_skins_list(unitName)
     unit.resetSkins()
 }
 
-//code callbacks for UGC
-ugcPreview.registerClientCb()
-
 ::g_decorator <- {
   cache = {}
   ugcDecoratorsCache = {}
@@ -175,25 +172,35 @@ function g_decorator::getLastSkin(unitName)
   return ::load_local_account_settings(getSkinSaveId(unitName))
 }
 
+::g_decorator.isAutoSkinOn <- @(unitName) !getLastSkin(unitName)
+
 function g_decorator::getRealSkin(unitName)
 {
   local res = getLastSkin(unitName)
   return res || getAutoSkin(unitName)
 }
 
-function g_decorator::setLastSkin(unitName, skinName)
+function g_decorator::setLastSkin(unitName, skinName, needAutoSkin = true)
 {
   if (!isAutoSkinAvailable(unitName))
     return skinName && ::hangar_set_last_skin(unitName, skinName)
 
-  ::save_local_account_settings(getSkinSaveId(unitName), skinName)
-  ::hangar_set_last_skin(unitName, skinName || getAutoSkin(unitName))
+  if (needAutoSkin || getLastSkin(unitName))
+    ::save_local_account_settings(getSkinSaveId(unitName), skinName)
+  if (!needAutoSkin || skinName)
+    ::hangar_set_last_skin(unitName, skinName || getAutoSkin(unitName))
 }
 
 function g_decorator::setCurSkinToHangar(unitName)
 {
-  if (isAutoSkinAvailable(unitName))
+  if (!isAutoSkinOn(unitName))
     ::hangar_set_last_skin(unitName, getRealSkin(unitName))
+}
+
+function g_decorator::setAutoSkin(unitName, needSwitchOn)
+{
+  if (needSwitchOn != isAutoSkinOn(unitName))
+    setLastSkin(unitName, needSwitchOn ? null : ::hangar_get_last_skin(unitName))
 }
 
 //default skin will return when no one skin match location
@@ -234,10 +241,14 @@ function g_decorator::getBestSkinsList(unitName, isLockedAllowed)
   return skinLocations.getBestSkinsList(skinsList, unitName, level)
 }
 
-function g_decorator::addSkinItemToOption(option, locName, value, decorator, shouldSetFirst = false)
+function g_decorator::addSkinItemToOption(option, locName, value, decorator, shouldSetFirst = false, needIcon = false)
 {
   local idx = shouldSetFirst ? 0 : option.items.len()
-  option.items.insert(idx, { text = locName, textStyle = ::COLORED_DROPRIGHT_TEXT_STYLE })
+  option.items.insert(idx, {
+    text = locName
+    textStyle = ::COLORED_DROPRIGHT_TEXT_STYLE
+    image = needIcon ? decorator.getSmallIcon() : ""
+  })
   option.values.insert(idx, value)
   option.decorators.insert(idx, decorator)
   option.access.insert(idx, {
@@ -265,6 +276,8 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
     return descr
 
   local skins = unit.getSkins()
+  local needIcon = unit.esUnitType == ::ES_UNIT_TYPE_TANK
+
   for (local skinNo = 0; skinNo < skins.len(); skinNo++)
   {
     local skin = skins[skinNo]
@@ -300,7 +313,7 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
     if (!isVisible && !::is_dev_version)
       continue
 
-    local access = addSkinItemToOption(descr, decorator.getName(), skinName, decorator)
+    local access = addSkinItemToOption(descr, decorator.getName(), skinName, decorator, false, needIcon)
     access.isOwn = isOwn
     access.unlockId  = !isOwn && decorator.unlockBlk ? decorator.unlockId : ""
     access.canBuy    = decorator.canBuyUnlock(unit)
@@ -313,7 +326,7 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
     local autoSkin = getAutoSkin(unitName)
     local decorator = ::g_decorator.getDecorator(unitName + "/"+ autoSkin, ::g_decorator_type.SKINS)
     local locName = ::loc("skins/auto", { skin = decorator ? decorator.getName() : "" })
-    addSkinItemToOption(descr, locName, null, decorator, true)
+    addSkinItemToOption(descr, locName, null, decorator, true, needIcon)
   }
 
   local curSkin = getLastSkin(unit.name)
@@ -382,7 +395,7 @@ function g_decorator::applyPreviewSkin(params)
   if (previewSkinId == "")
     return
 
-  setLastSkin(unit.name, previewSkinId)
+  setLastSkin(unit.name, previewSkinId, false)
 
   ::save_online_single_job(3210)
   ::save_profile(false)

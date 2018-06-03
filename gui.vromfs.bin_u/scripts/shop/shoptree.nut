@@ -96,7 +96,8 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
   return res
 }
 
-local function appendBranches(rangeData, headIdx, branches, brIdxTbl, prevItem=null)
+local appendBranches
+appendBranches = function(rangeData, headIdx, branches, brIdxTbl, prevItem=null)
 {
   if (rangeData[headIdx].used)
     return

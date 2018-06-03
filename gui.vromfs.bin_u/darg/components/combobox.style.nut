@@ -18,7 +18,7 @@ local comboStyle = {}
       size = [flex(), SIZE_TO_CONTENT]
     }
 
-    local popupArrow = function() {
+    local function popupArrow() {
       return {
         rendObj = ROBJ_STEXT
         text = "V"

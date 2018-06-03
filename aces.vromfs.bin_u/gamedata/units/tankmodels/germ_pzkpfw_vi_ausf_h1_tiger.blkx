@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -246,17 +249,6 @@
           "hp": 400.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "gun_barrel_dm": {
-          "armorThickness": 28.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 300.0,
@@ -301,6 +293,37 @@
           "ex_armor_turret_l_03_dm": [],
           "ex_armor_turret_l_04_dm": [],
           "ex_armor_turret_l_05_dm": []
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -359,7 +382,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1831,12 +1854,14 @@
           },
           "limitsTable": {
             "lim1": [-180.0,-140.0,-2.0,16.0],
-            "lim2": [-140.0,-47.0,-8.0,16.0],
-            "lim3": [-47.0,-40.0,-3.0,16.0],
-            "lim4": [-40.0,40.0,-8.0,16.0],
-            "lim5": [40.0,47.0,-3.0,16.0],
-            "lim6": [47.0,140.0,-8.0,16.0],
-            "lim7": [140.0,180.0,-2.0,16.0]
+            "lim2": [-140.0,-127.0,-8.0,16.0],
+            "lim3": [-127.0,-120.0,-2.0,16.0],
+            "lim4": [-120.0,-47.0,-8.0,16.0],
+            "lim5": [-47.0,-40.0,-2.0,16.0],
+            "lim6": [-40.0,40.0,-8.0,16.0],
+            "lim7": [40.0,47.0,-2.0,16.0],
+            "lim8": [47.0,140.0,-8.0,16.0],
+            "lim9": [140.0,180.0,-2.0,16.0]
           }
         }
       },
@@ -1862,6 +1887,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true
@@ -2673,12 +2701,14 @@
                 },
                 "limitsTable": {
                   "lim1": [-180.0,-140.0,-2.0,16.0],
-                  "lim2": [-140.0,-47.0,-8.0,16.0],
-                  "lim3": [-47.0,-40.0,-3.0,16.0],
-                  "lim4": [-40.0,40.0,-8.0,16.0],
-                  "lim5": [40.0,47.0,-3.0,16.0],
-                  "lim6": [47.0,140.0,-8.0,16.0],
-                  "lim7": [140.0,180.0,-2.0,16.0]
+                  "lim2": [-140.0,-127.0,-8.0,16.0],
+                  "lim3": [-127.0,-120.0,-2.0,16.0],
+                  "lim4": [-120.0,-47.0,-8.0,16.0],
+                  "lim5": [-47.0,-40.0,-2.0,16.0],
+                  "lim6": [-40.0,40.0,-8.0,16.0],
+                  "lim7": [40.0,47.0,-2.0,16.0],
+                  "lim8": [47.0,140.0,-8.0,16.0],
+                  "lim9": [140.0,180.0,-2.0,16.0]
                 }
               }
             },
@@ -2704,6 +2734,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "useAnimFlashNode": true

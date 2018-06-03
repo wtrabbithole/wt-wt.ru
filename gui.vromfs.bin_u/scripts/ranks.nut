@@ -1,5 +1,4 @@
-::g_script_reloader.loadOnce("scripts/ranks_common.nut")
-::g_script_reloader.loadOnce("scripts/custom_common.nut")
+::g_script_reloader.loadOnce("scripts/ranks_common_shared.nut")
 
 local avatars = ::require("scripts/user/avatars.nut")
 

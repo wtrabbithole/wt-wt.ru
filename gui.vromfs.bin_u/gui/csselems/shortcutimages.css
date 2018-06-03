@@ -47,3 +47,20 @@ chatHint keyboardButtonText {
   font: @fontTiny;
   pos:pw/2 - w/2, ph/2 - h/2;
 }
+
+action_item_content keyboardButton {
+  min-width:0.02@shHud;
+  height:0.02@shHud;
+  background-position:5, 0;
+  padding: 5, 0;
+}
+
+action_item_content keyboardButtonText {
+  font: @fontHudTiny;
+  pos:pw/2 - w/2, ph/2 - h/2;
+}
+
+action_item_content gamepadButton,
+action_item_content shortcutAxis {
+  size: 0.03@shHud, 0.03@shHud;
+}

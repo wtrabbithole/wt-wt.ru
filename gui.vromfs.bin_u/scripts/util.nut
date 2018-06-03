@@ -2,7 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalty = require("penalty")
 local penalties = require("scripts/penitentiary/penalties.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
 ::allowingMultCountry <- [1.5, 2, 2.5, 3, 4, 5]
@@ -1669,22 +1669,6 @@ function get_current_mission_name()
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
   return misBlk.name
-}
-
-function loc_current_operation_name()
-{
-  local misBlk = ::DataBlock()
-  ::get_current_mission_desc(misBlk)
-
-  local customRules = ::getTblValue("customRules", misBlk)
-  if (!customRules)
-    return ""
-
-  local operationMap = ::getTblValue("operationMap", customRules)
-  if (!operationMap)
-    return ""
-
-  return ::loc("worldWar/map/" + operationMap)
 }
 
 function loc_current_mission_name(needComment = true)

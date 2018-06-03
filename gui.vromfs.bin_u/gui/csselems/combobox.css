@@ -32,6 +32,7 @@ ComboBox {
 }
 
 .optionsTable > tr > td > ComboBox,
+.optionsMultiColumn > tr > td > ComboBox,
 .optionsTable > cell > td > ComboBox {
   height:ph-4@dp;
   width:0.3@scrn_tgt;
@@ -146,12 +147,14 @@ ComboBox[btnPos=leftOutside] > button {
 
 [show_console_buttons=yes] ComboBox[_hasBtnImage=yes]:expanded > button,
 [show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button,
+[show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button,
 [show_console_buttons=yes] ComboBox[focusFrame=yes]:focus > button {
   _hasBtnImage:yes;
   background-image:@control_button_a;
 }
 
-[show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button:pushed {
+[show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button:pushed,
+[show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button:pushed {
   background-image:@control_button_a_pressed;
 }
 

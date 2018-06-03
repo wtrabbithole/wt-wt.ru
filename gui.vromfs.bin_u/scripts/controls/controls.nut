@@ -96,6 +96,14 @@ function get_favorite_voice_message_option(index)
       showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
     }
+    { id = "weapon_aim_heading"
+      type = CONTROL_TYPE.AXIS
+      checkAssign = false
+    }
+    { id = "weapon_aim_pitch"
+      type = CONTROL_TYPE.AXIS
+      checkAssign = false
+    }
     { id = "ID_SENSOR_SWITCH"
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
@@ -139,6 +147,12 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
+      showFunc = @() !::is_platform_xboxone
+    }
+    { id = "mouse_z_mult"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_MULT, objValue / 100.0)
       showFunc = @() !::is_platform_xboxone
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
@@ -678,6 +692,12 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "onMouseWheel"
       showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
     }
+    { id = "mouse_z_mult_ground"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_TANK_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_TANK_MULT, objValue / 100.0)
+      showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
+    }
 
   { id = "ID_TANK_SUSPENSION_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_SUSPENSION_PITCH_UP", checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -719,7 +739,7 @@ function get_favorite_voice_message_option(index)
 
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_SHORT_STOP",               checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="ID_RELOAD_USER_SIGHT_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="gm_sight_distance"
       type = CONTROL_TYPE.AXIS
       def_relative = true
@@ -881,6 +901,12 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
       values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
+    }
+    { id = "mouse_z_mult_ship"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_SHIP_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_SHIP_MULT, objValue / 100.0)
       showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
     }
 
@@ -1081,6 +1107,12 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SUBMARINE
       values = ["none", "submarine_main_engine", "submarine_zoom"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available()
+    }
+    { id = "mouse_z_mult_submarine"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_SUBMARINE_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_SUBMARINE_MULT, objValue / 100.0)
       showFunc = @() ::is_mouse_available()
     }
 

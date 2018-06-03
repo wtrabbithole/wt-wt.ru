@@ -1,25 +1,25 @@
-img {
+tdiv {
   id:t='mainActionButton';
+  behaviour:t='BhvHint'
   position:t='absolute';
   pos:t='pw/2 - w/2, -h - 0.005@shHud';
-  size:t='0.04@shHud, 0.04@shHud';
-  background-image:t='<<gamepadButtonImg>>';
+  value:t='{{<<mainShortcutId>>}}';
 }
-<<#activatedButtonImg>>
-img {
+<<#activatedShortcutId>>
+tdiv {
   id:t='activatedActionButton';
+  behaviour:t='BhvHint'
   position:t='absolute';
   pos:t='pw/2 - w/2, -h - 0.005@shHud';
-  size:t='0.04@shHud, 0.04@shHud';
-  background-image:t='<<activatedButtonImg>>';
+  value:t='{{<<activatedShortcutId>>}}';
   display:t='hide';
 }
-<</activatedButtonImg>>
-img {
+<</activatedShortcutId>>
+tdiv {
   id:t='cancelButton';
+  behaviour:t='BhvHint'
   position:t='absolute';
   pos:t='pw/2 - w/2, h + 0.005@shHud';
-  size:t='0.03@shHud, 0.03@shHud';
-  background-image:t='<<cancelButton>>';
+  value:t='{{<<cancelShortcutId>>}}';
   display:t='hide';
 }

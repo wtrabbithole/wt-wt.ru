@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -403,7 +406,7 @@
           "armorThickness": 1.0
         },
         "body_bottom_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 30.0
         },
         "body_top_dm": {
           "armorThickness": 1.0
@@ -462,25 +465,10 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "gun_barrel_01_dm": {
+        "gun_barrel_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
-        },
-        "gun_barrel_03_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
-        },
-        "gun_barrel_04_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -1755,7 +1743,7 @@
   {
     "cockpit": {
       "openedCockpit": true,
-      "headPos": [0.0,3.5,-7.0],
+      "headPos": [0.0,3.5,-8.0],
       "headPosOnShooting": [-2.2,3.3,0.0],
       "zoomOutFov": 35.0,
       "zoomInFov": 20.0,

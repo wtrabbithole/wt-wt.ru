@@ -180,7 +180,42 @@
       "music": "action_01",
       "part": {
         "event": "",
-        "minTime": 0
+        "minTime": 0,
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "showAirMap": false
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t1_tankspawn01_zone08"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t2_tankspawn01_zone16"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "mark",
+              "side": "neutral",
+              "target": "battle_area"
+            }
+          }
+        ]
       }
     }
   },
@@ -246,13 +281,16 @@
               "showOnMap": false
             },
             {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
               "radius": -1.0
             },
             {
               "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "separate_fuel_time": false
+            },
+            {
+              "modular_airfield": false
             },
             {
               "target": "t1_tankspawn01_zone01"
@@ -306,6 +344,9 @@
               "team": "A"
             },
             {
+              "offset": [0.0,0.0,0.0]
+            },
+            {
               "tags": {
                 "tank": true
               }
@@ -324,11 +365,13 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t2_tankspawn_01",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }

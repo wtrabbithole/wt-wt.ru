@@ -31,6 +31,7 @@
 @const hud_big:       @fontHudBigBold;
 
 @const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const armySmallIconWidth: 26*@sf/@pf_outdated;
+@const tIco: (12*@sf/@pf) \ 1;
 @const sIco: (22*@sf/@pf) \ 1;
 @const cIco: (30*@sf/@pf) \ 1;
 @const dIco: (40*@sf/@pf) \ 1;
@@ -119,7 +120,8 @@
 @const topGcPanelWidth: 0.5@gcWidthFull - 0.5@gcToBattleButtonPlaceWidth;
 @const bottomGcWidth: @gcWidthFull;
 
-@const queueTableWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
+@const queueTableColumnWidth: 0.05@sf;
+@const gameModeSelectBlockWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
 
 @const bigOptionsHeight: ((0.63@sf) \ (1@baseTrHeight)) * 1@baseTrHeight + 1;
 
@@ -296,3 +298,6 @@
 @const weaponStatusIconSize: 16*@sf/@pf;
 @const systemMsgIndent: 0.11@rw;
 @const battleTaskTooltipMinWidth: 1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
+
+@const chapterBlockWidth: 0.32@sf;
+@const chapterWideBlockWidth: 1@chapterBlockWidth + 0.08@sf*1@isWide;

@@ -17,6 +17,7 @@ expandable {
         overflow:t='hidden'
         padding-top:t='-0.005@scrn_tgt'
         text:t='<<header>>'
+        on_link_rclick:t="onUserLinkRClick"
       }
 
       text {

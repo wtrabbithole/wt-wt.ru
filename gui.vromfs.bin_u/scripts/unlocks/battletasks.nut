@@ -577,9 +577,13 @@ function BattleTasks::getTaskDescription(config = null, paramsCfg = {})
       local typeOR = ::getTblValue("compareOR", config, false)
       for (local i = 0; i < namesLoc.len(); i++)
       {
+        local unlockId = config.names[i]
+        if (!::is_unlock_visible(::g_unlocks.getUnlockById(unlockId)))
+          continue
+
         local isUnlocked = !isBitMode || (config.curVal & 1 << i)
         taskUnlocksList.append(getUnlockConditionBlock(namesLoc[i],
-                                 config.names[i],
+                                 unlockId,
                                  config.type,
                                  isUnlocked,
                                  i == namesLoc.len() - 1,

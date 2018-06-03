@@ -205,6 +205,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_dummies_squad",
             "isImmortal": true
           }
@@ -212,6 +215,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_big_artillery",
             "accuracy": 0.0,
             "effShootingRate": 0.0
@@ -229,10 +235,13 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t1_air_spawn",
-            "team": "A"
+            "team": "A",
+            "offset": [0.0,0.0,0.0]
           }
         },
         {
@@ -290,6 +299,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_big_artillery"
           }
         },
@@ -301,6 +313,11 @@
         {
           "triggerEnable": {
             "target": "fighter_retreat_rotator"
+          }
+        },
+        {
+          "missionGetMaxPlayers": {
+            "input_var": "players_max_count_int"
           }
         }
       ],
@@ -1299,6 +1316,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -1434,6 +1460,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -1562,6 +1597,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t2_ai_bombers_squad"
@@ -1694,6 +1738,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -1822,6 +1875,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t2_ai_bombers_squad"
@@ -1954,6 +2016,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -2082,6 +2153,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t2_ai_bombers_squad"
@@ -2219,6 +2299,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -2347,6 +2436,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t2_ai_bombers_squad"
@@ -2479,6 +2577,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -2607,6 +2714,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t2_ai_bombers_squad"
@@ -2739,6 +2855,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -2869,6 +2994,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -2987,6 +3121,15 @@
             "value": 1
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t2_ai_bombers_squad"
           },
           {
@@ -3052,6 +3195,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers_squad",
           "var": "num_active_units"
         }
@@ -3086,6 +3232,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers_squad",
           "target": "bombing_point",
           "compareCenters": false,
@@ -3105,6 +3254,9 @@
           "recalculatePathDist": -1.0,
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers_squad",
           "object_type": "isActive",
           "speed": 750.0,
@@ -3145,6 +3297,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_ai_bombers_squad",
             "target": "leaving_point",
             "compareCenters": false,
@@ -3161,6 +3316,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_ai_fighters_squad",
             "target": "leaving_point",
             "compareCenters": false,
@@ -3287,6 +3445,9 @@
           "object_marking": 1,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers_squad"
         }
       },
@@ -3831,6 +3992,24 @@
         },
         {
           "varModify": {
+            "operator": "divAB",
+            "value": 10.0,
+            "var": "wave_cur_bombers_count",
+            "use_variable": true,
+            "var_value": "players_max_count_int"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": 10.0,
+            "var": "wave_cur_bombers_count",
+            "use_variable": true,
+            "var_value": "players_online_count_int"
+          }
+        },
+        {
+          "varModify": {
             "operator": "subAB",
             "value": 1.0,
             "var": "num_bombers_to_sleep",
@@ -3850,7 +4029,7 @@
         },
         {
           "triggerEnable": {
-            "target": "put_to_sleep_excess_units"
+            "target": "clamp_put_to_sleep_count"
           }
         },
         {
@@ -3918,6 +4097,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_wave_name",
             "object_type": "isActive"
           }
@@ -3935,6 +4117,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@fighters_wave_name",
             "object_type": "isActive",
             "target_type": "isActive",
@@ -4187,6 +4372,24 @@
         },
         {
           "varModify": {
+            "operator": "divAB",
+            "value": 10.0,
+            "var": "wave_cur_bombers_count",
+            "use_variable": true,
+            "var_value": "players_max_count_int"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": 10.0,
+            "var": "wave_cur_bombers_count",
+            "use_variable": true,
+            "var_value": "players_online_count_int"
+          }
+        },
+        {
+          "varModify": {
             "operator": "subAB",
             "value": 1.0,
             "var": "num_bombers_to_sleep",
@@ -4206,7 +4409,7 @@
         },
         {
           "triggerEnable": {
-            "target": "put_to_sleep_excess_units"
+            "target": "clamp_put_to_sleep_count"
           }
         },
         {
@@ -4280,6 +4483,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@bombers_wave_name",
             "object_type": "isActive"
           }
@@ -4297,6 +4503,9 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "@fighters_wave_name",
             "object_type": "isActive",
             "target_type": "isActive",
@@ -4386,6 +4595,41 @@
       ],
       "else_actions": []
     },
+    "clamp_put_to_sleep_count": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "num_bombers_to_sleep",
+          "value": 20,
+          "comparasion_func": "more"
+        }
+      },
+      "actions": {
+        "varSetInt": {
+          "value": 20,
+          "var": "num_bombers_to_sleep"
+        },
+        "triggerEnable": {
+          "target": "put_to_sleep_excess_units"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "put_to_sleep_excess_units"
+        }
+      }
+    },
     "put_to_sleep_excess_units": {
       "is_enabled": false,
       "comments": "",
@@ -4405,6 +4649,9 @@
           "object_marking": 0,
           "func": "notLess",
           "value": 24,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "@bombers_wave_name"
         },
         "varCompareInt": {
@@ -4733,6 +4980,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_big_artillery"
         },
         "varCompareInt": {
@@ -4811,6 +5061,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_big_artillery"
         }
       },
@@ -4857,6 +5110,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_big_artillery",
           "var": "land_units_alive"
         }
@@ -4945,6 +5201,9 @@
             "icon": "building",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_dummies_squad",
             "var": "base_int_hp"
           }
@@ -5025,6 +5284,9 @@
             "icon": "bomber",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_ai_bombers_squad"
           }
         },
@@ -5032,6 +5294,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_ai_bombers_squad",
             "target_type": "canBomb"
           }
@@ -5040,6 +5305,9 @@
           "unitSetIndication": {
             "set": false,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_ai_bombers_squad",
             "target_type": "noBombs"
           }
@@ -5057,6 +5325,9 @@
             "icon": "cannon",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_big_artillery"
           }
         },
@@ -5096,6 +5367,9 @@
             "icon": "score",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_dummies_squad",
             "var": "wave_indicator"
           }
@@ -5187,6 +5461,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers_squad",
           "object_marking_var": "retreat_fighter_cur_idx"
         }
@@ -5204,6 +5481,9 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_fighters_squad",
           "object_type": "isMarked",
           "object_marking_var": "retreat_fighter_cur_idx"
@@ -5237,6 +5517,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers_squad"
         }
       },
@@ -5288,7 +5571,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -5305,7 +5591,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         }
       ],
@@ -5341,7 +5630,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -5358,7 +5650,10 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "target_marking": 0
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         }
       ],
@@ -5424,6 +5719,80 @@
         }
       ],
       "else_actions": []
+    },
+    "players_online_counter": {
+      "isCategory": true,
+      "is_enabled": true,
+      "players_online_counter_less": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 60.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isOnline",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "func": "less",
+            "value": 0,
+            "object": "players_squad",
+            "var": "players_online_count_int"
+          }
+        },
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": -1.0,
+            "var": "players_online_count_int"
+          }
+        },
+        "else_actions": []
+      },
+      "players_online_counter_more": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isOnline",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "func": "more",
+            "value": 0,
+            "object": "players_squad",
+            "var": "players_online_count_int"
+          }
+        },
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "players_online_count_int"
+          }
+        },
+        "else_actions": []
+      }
     }
   },
   "mission_objectives": {
@@ -5511,7 +5880,9 @@
     "base_int_1hp_in_tickets": 0,
     "base_int_hp_old": 0,
     "diff_tickets": 0,
-    "put_to_sleep_timer": 0
+    "put_to_sleep_timer": 0,
+    "players_online_count_int": 1,
+    "players_max_count_int": 10
   },
   "dialogs": [],
   "airfields": [],

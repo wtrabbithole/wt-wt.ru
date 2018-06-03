@@ -6,7 +6,7 @@ local shopSheets = {
   types = []
 }
 
-local isOnlyExtInventory = @(shopTab) shopTab == itemsTab.INVENTORY && ::has_feature("ExtInventory")
+local isOnlyExtInventory = @(shopTab) shopTab != itemsTab.WORKSHOP && ::has_feature("ExtInventory")
 
 shopSheets.template <- {
   id = "" //used from type name
@@ -238,10 +238,10 @@ shopSheets.updateWorkshopSheets <- function()
     shopSheets.addSheets(newSheets)
 }
 
-shopSheets.getTabByItem <- function(item, defaultTab = -1)
+shopSheets.getSheetDataByItem <- function(item)
 {
   if (item.shouldAutoConsume)
-    return defaultTab
+    return null
 
   updateWorkshopSheets()
 
@@ -252,8 +252,11 @@ shopSheets.getTabByItem <- function(item, defaultTab = -1)
         if ((sh.typeMask & iType)
             && sh.isAllowedForTab(tab)
             && ::u.search(sh.getItemsList(tab), @(it) item.isEqual(it)) != null)
-          return tab
-  return defaultTab
+          return {
+            tab = tab
+            sheet = sh
+          }
+  return null
 }
 
 return shopSheets

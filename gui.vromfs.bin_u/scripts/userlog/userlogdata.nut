@@ -16,148 +16,90 @@ enum USERLOG_POPUP {
 
 ::g_script_reloader.registerPersistentData("UserlogDataGlobals", ::getroottable(), ["shown_userlog_notifications"])
 
-function getLogNameByType(type)
-{
-  switch (type)
-  {
-    case ::EULT_SESSION_START:
-      return "session_start"
-    case ::EULT_EARLY_SESSION_LEAVE:
-      return "early_session_leave"
-    case ::EULT_SESSION_RESULT:
-      return "session_result"
-    case ::EULT_AWARD_FOR_PVE_MODE:
-      return "award_for_pve_mode"
-    case ::EULT_BUYING_AIRCRAFT:
-      return "buy_aircraft"
-    case ::EULT_BUYING_WEAPON:
-      return "buy_weapon"
-    case ::EULT_BUYING_WEAPONS_MULTI:
-      return "buy_weapons_auto"
-    case ::EULT_BUYING_WEAPON_FAIL:
-      return "buy_weapon_failed"
-    case ::EULT_REPAIR_AIRCRAFT:
-      return "repair_aircraft"
-    case ::EULT_REPAIR_AIRCRAFT_MULTI:
-      return "repair_aircraft_multi"
-    case ::EULT_NEW_RANK:
-      return "new_rank"
-    case ::EULT_NEW_UNLOCK:
-      return "new_unlock"
-    case ::EULT_BUYING_SLOT:
-      return "buy_slot"
-    case ::EULT_TRAINING_AIRCRAFT:
-      return "train_aircraft"
-    case ::EULT_UPGRADING_CREW:
-      return "upgrade_crew"
-    case ::EULT_SPECIALIZING_CREW:
-      return "specialize_crew"
-    case ::EULT_PURCHASINGSKILLPOINTS:
-      return "purchase_skillpoints"
-    case ::EULT_BUYENTITLEMENT:
-      return "buy_entitlement"
-    case ::EULT_BUYING_MODIFICATION:
-      return "buy_modification"
-    case ::EULT_BUYING_SPARE_AIRCRAFT:
-      return "buy_spare"
-    case ::EULT_CLAN_ACTION:
-      return "clan_action"
-    case ::EULT_BUYING_UNLOCK:
-      return "buy_unlock"
-    case ::EULT_CHARD_AWARD:
-      return "chard_award"
-    case ::EULT_ADMIN_ADD_GOLD:
-      return "admin_add_gold"
-    case ::EULT_ADMIN_REVERT_GOLD:
-      return "admin_revert_gold"
-    case ::EULT_BUYING_SCHEME:
-      return "buying_scheme"
-    case ::EULT_BUYING_MODIFICATION_MULTI:
-      return "buy_modification_multi"
-    case ::EULT_BUYING_MODIFICATION_FAIL:
-      return "buy_modification_fail"
-    case ::EULT_OPEN_ALL_IN_TIER:
-      return "open_all_in_tier"
-    case ::EULT_OPEN_TROPHY:
-      return "open_trophy"
-    case ::EULT_BUY_ITEM:
-      return "buy_item"
-    case ::EULT_NEW_ITEM:
-      return "new_item"
-    case ::EULT_ACTIVATE_ITEM:
-      return "activate_item"
-    case ::EULT_REMOVE_ITEM:
-      return "remove_item"
-    case ::EULT_INVENTORY_ADD_ITEM:
-      return "inventory_add_item"
-    case ::EULT_TICKETS_REMINDER:
-      return "ticket_reminder"
-    case ::EULT_BUY_BATTLE:
-      return "buy_battle"
-    case ::EULT_CONVERT_EXPERIENCE:
-      return "convert_exp"
-    case ::EULT_SELL_BLUEPRINT:
-      return "sell_blueprint"
-    case ::EULT_PUNLOCK_NEW_PROPOSAL:
-      return "battle_tasks_new_proposal"
-    case ::EULT_PUNLOCK_EXPIRED:
-      return "battle_tasks_expired"
-    case ::EULT_PUNLOCK_ACCEPT:
-      return "battle_tasks_accept"
-    case ::EULT_PUNLOCK_CANCELED:
-      return "battle_tasks_cancel"
-    case ::EULT_PUNLOCK_REROLL_PROPOSAL:
-      return "battle_tasks_reroll"
-    case ::EULT_PUNLOCK_ACCEPT_MULTI:
-      return "battle_tasks_multi_accept"
-    case ::EULT_CONVERT_BLUEPRINTS:
-      return "convert_blueprint"
-    case ::EULT_RENT_UNIT:
-      return "rent_unit"
-    case ::EULT_RENT_UNIT_EXPIRED:
-      return "rent_unit_expired"
-    case ::EULT_BUYING_RESOURCE:
-      return "buy_resource"
-    case ::EULT_EXCHANGE_WARBONDS:
-      return "exchange_warbonds"
-    case ::EULT_INVITE_TO_TOURNAMENT:
-      return "invite_to_tournament"
-    case ::EULT_WW_START_OPERATION:
-      return "ww_start_operation"
-    case ::EULT_WW_CREATE_OPERATION:
-      return "ww_create_operation"
-  }
-  return "unknown"
+
+local logNameByType = {
+  [::EULT_SESSION_START]                 = "session_start",
+  [::EULT_EARLY_SESSION_LEAVE]           = "early_session_leave",
+  [::EULT_SESSION_RESULT]                = "session_result",
+  [::EULT_AWARD_FOR_PVE_MODE]            = "award_for_pve_mode",
+  [::EULT_BUYING_AIRCRAFT]               = "buy_aircraft",
+  [::EULT_BUYING_WEAPON]                 = "buy_weapon",
+  [::EULT_BUYING_WEAPONS_MULTI]          = "buy_weapons_auto",
+  [::EULT_BUYING_WEAPON_FAIL]            = "buy_weapon_failed",
+  [::EULT_REPAIR_AIRCRAFT]               = "repair_aircraft",
+  [::EULT_REPAIR_AIRCRAFT_MULTI]         = "repair_aircraft_multi",
+  [::EULT_NEW_RANK]                      = "new_rank",
+  [::EULT_NEW_UNLOCK]                    = "new_unlock",
+  [::EULT_BUYING_SLOT]                   = "buy_slot",
+  [::EULT_TRAINING_AIRCRAFT]             = "train_aircraft",
+  [::EULT_UPGRADING_CREW]                = "upgrade_crew",
+  [::EULT_SPECIALIZING_CREW]             = "specialize_crew",
+  [::EULT_PURCHASINGSKILLPOINTS]         = "purchase_skillpoints",
+  [::EULT_BUYENTITLEMENT]                = "buy_entitlement",
+  [::EULT_BUYING_MODIFICATION]           = "buy_modification",
+  [::EULT_BUYING_SPARE_AIRCRAFT]         = "buy_spare",
+  [::EULT_CLAN_ACTION]                   = "clan_action",
+  [::EULT_BUYING_UNLOCK]                 = "buy_unlock",
+  [::EULT_CHARD_AWARD]                   = "chard_award",
+  [::EULT_ADMIN_ADD_GOLD]                = "admin_add_gold",
+  [::EULT_ADMIN_REVERT_GOLD]             = "admin_revert_gold",
+  [::EULT_BUYING_SCHEME]                 = "buying_scheme",
+  [::EULT_BUYING_MODIFICATION_MULTI]     = "buy_modification_multi",
+  [::EULT_BUYING_MODIFICATION_FAIL]      = "buy_modification_fail",
+  [::EULT_OPEN_ALL_IN_TIER]              = "open_all_in_tier",
+  [::EULT_OPEN_TROPHY]                   = "open_trophy",
+  [::EULT_BUY_ITEM]                      = "buy_item",
+  [::EULT_NEW_ITEM]                      = "new_item",
+  [::EULT_ACTIVATE_ITEM]                 = "activate_item",
+  [::EULT_REMOVE_ITEM]                   = "remove_item",
+  [::EULT_INVENTORY_ADD_ITEM]            = "inventory_add_item",
+  [::EULT_INVENTORY_FAIL_ITEM]           = "inventory_fail_item",
+  [::EULT_TICKETS_REMINDER]              = "ticket_reminder",
+  [::EULT_BUY_BATTLE]                    = "buy_battle",
+  [::EULT_CONVERT_EXPERIENCE]            = "convert_exp",
+  [::EULT_SELL_BLUEPRINT]                = "sell_blueprint",
+  [::EULT_PUNLOCK_NEW_PROPOSAL]          = "battle_tasks_new_proposal",
+  [::EULT_PUNLOCK_EXPIRED]               = "battle_tasks_expired",
+  [::EULT_PUNLOCK_ACCEPT]                = "battle_tasks_accept",
+  [::EULT_PUNLOCK_CANCELED]              = "battle_tasks_cancel",
+  [::EULT_PUNLOCK_REROLL_PROPOSAL]       = "battle_tasks_reroll",
+  [::EULT_PUNLOCK_ACCEPT_MULTI]          = "battle_tasks_multi_accept",
+  [::EULT_CONVERT_BLUEPRINTS]            = "convert_blueprint",
+  [::EULT_RENT_UNIT]                     = "rent_unit",
+  [::EULT_RENT_UNIT_EXPIRED]             = "rent_unit_expired",
+  [::EULT_BUYING_RESOURCE]               = "buy_resource",
+  [::EULT_EXCHANGE_WARBONDS]             = "exchange_warbonds",
+  [::EULT_INVITE_TO_TOURNAMENT]          = "invite_to_tournament",
+  [::EULT_WW_START_OPERATION]            = "ww_start_operation",
+  [::EULT_WW_CREATE_OPERATION]           = "ww_create_operation",
 }
 
-function getClanActionName(type)
-{
-  switch (type)
-  {
-    case ::ULC_CREATE:               return "create"
-    case ::ULC_DISBAND:              return "disband"
+local clanActionNames = {
+  [ULC_CREATE]                  = "create",
+  [ULC_DISBAND]                 = "disband",
 
-    case ::ULC_REQUEST_MEMBERSHIP:   return "request_membership"
-    case ::ULC_CANCEL_MEMBERSHIP:    return "cancel_membership"
-    case ::ULC_REJECT_MEMBERSHIP:    return "reject_candidate"
-    case ::ULC_ACCEPT_MEMBERSHIP:    return "accept_candidate"
+  [ULC_REQUEST_MEMBERSHIP]      = "request_membership",
+  [ULC_CANCEL_MEMBERSHIP]       = "cancel_membership",
+  [ULC_REJECT_MEMBERSHIP]       = "reject_candidate",
+  [ULC_ACCEPT_MEMBERSHIP]       = "accept_candidate",
 
-    case ::ULC_DISMISS:              return "dismiss_member"
-    case ::ULC_CHANGE_ROLE:          return "change_role"
-    case ::ULC_CHANGE_ROLE_AUTO:     return "change_role_auto"
-    case ::ULC_LEAVE:                return "leave"
-    case ::ULC_DISBANDED_BY_LEADER:  return "disbanded_by_leader"
+  [ULC_DISMISS]                 = "dismiss_member",
+  [ULC_CHANGE_ROLE]             = "change_role",
+  [ULC_CHANGE_ROLE_AUTO]        = "change_role_auto",
+  [ULC_LEAVE]                   = "leave",
+  [ULC_DISBANDED_BY_LEADER]     = "disbanded_by_leader",
 
-    case ::ULC_ADD_TO_BLACKLIST:     return "add_to_blacklist"
-    case ::ULC_DEL_FROM_BLACKLIST:   return "remove_from_blacklist"
-    case ::ULC_CHANGE_CLAN_INFO:     return "clan_info_was_changed"
-    case ::ULC_CLAN_INFO_WAS_CHANGED:return "clan_info_was_renamed"
-    case ::ULC_DISBANDED_BY_ADMIN:   return "clan_disbanded_by_admin"
-    case ::ULC_UPGRADE_CLAN:         return "clan_was_upgraded"
-    case ::ULC_UPGRADE_MEMBERS:      return "clan_max_members_count_was_increased"
-  }
-  return "unknown"
+  [ULC_ADD_TO_BLACKLIST]        = "add_to_blacklist",
+  [ULC_DEL_FROM_BLACKLIST]      = "remove_from_blacklist",
+  [ULC_CHANGE_CLAN_INFO]        = "clan_info_was_changed",
+  [ULC_CLAN_INFO_WAS_CHANGED]   = "clan_info_was_renamed",
+  [ULC_DISBANDED_BY_ADMIN]      = "clan_disbanded_by_admin",
+  [ULC_UPGRADE_CLAN]            = "clan_was_upgraded",
+  [ULC_UPGRADE_MEMBERS]         = "clan_max_members_count_was_increased",
 }
+
+::getLogNameByType <- @(logType) logNameByType?[logType] ?? "unknown"
+::getClanActionName <- @(action) clanActionNames?[action] ?? "unknown"
 
 function get_userlog_image_item(item, params = {})
 {
@@ -434,6 +376,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
 
       local key = blk.body.id + "" + ::getTblValue("parentTrophyRandId", blk.body, "")
       local item = ::ItemsManager.findItemById(blk.body.itemDefId)
+      local itemId = blk?.body?.itemDefId || blk?.body?.id || ""
+      local item = ::ItemsManager.findItemById(itemId)
       if (!item?.shouldAutoConsume)
       {
         if (!(key in trophyRewardsTable))
@@ -487,7 +431,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     {
       if (::disable_user_log_entry(i))
         saveJob = true
-      ::shown_userlog_notifications.append(blk.id)
+      ::u.appendOnce(blk.i, ::shown_userlog_notifications)
     }
   }
 

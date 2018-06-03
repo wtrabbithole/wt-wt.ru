@@ -265,7 +265,7 @@ function g_invites::fetchNewInvitesFromUserlogs()
       if (::is_worldwar_enabled() && operationId != null)
         ::g_world_war.addOperationInvite(
           operationId,
-          blk.body?.name??"",
+          blk.body?.clanId ?? -1,
           blk.type == ::EULT_WW_START_OPERATION,
           blk?.timeStamp??0)
       ::disable_user_log_entry(i)

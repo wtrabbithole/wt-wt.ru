@@ -90,6 +90,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -243,23 +246,23 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 250.0,
+        "hp": 200.0,
         "gun_barrel_01_dm": {
-          "armorThickness": 25.0
-        },
-        "gun_barrel_02_dm": {
           "armorThickness": 20.0
         },
-        "mg_01_dm": {
-          "armorThickness": 5.0
+        "gun_barrel_02_dm": {
+          "armorThickness": 15.0,
+          "hp": 150.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -373,7 +376,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1562,6 +1565,8 @@
           "flash": "emtr_gun_flame_02",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_02_dm",
+          "breechDP": "cannon_breech_02_dm",
           "parkInDeadzone": false,
           "hudSightIconOffset": [0.0,-35.0],
           "speedYaw": 15.0,

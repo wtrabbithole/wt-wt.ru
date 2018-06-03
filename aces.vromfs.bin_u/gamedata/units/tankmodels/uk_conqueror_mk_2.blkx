@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_122mm_m30"
   },
   {
@@ -294,6 +297,43 @@
           "armorThickness": 30.0
         }
       },
+      "additional_armor": {
+        "armorClass": "RHA_tank",
+        "hp": 1000.0,
+        "ex_armor_body_01_dm": {
+          "armorThickness": 15.0
+        },
+        "ex_armor_body_02_dm": {
+          "armorThickness": 15.0
+        },
+        "ex_armor_body_03_dm": {
+          "armorThickness": 15.0
+        },
+        "ex_armor_body_04_dm": {
+          "armorThickness": 15.0
+        },
+        "ex_armor_body_05_dm": {
+          "armorThickness": 15.0
+        },
+        "ex_armor_turret_01_dm": {
+          "armorThickness": 20.0
+        },
+        "ex_armor_turret_02_dm": {
+          "armorThickness": 20.0
+        },
+        "ex_armor_turret_03_dm": {
+          "armorThickness": 20.0
+        },
+        "ex_armor_turret_04_dm": {
+          "armorThickness": 20.0
+        },
+        "ex_armor_turret_05_dm": {
+          "armorThickness": 20.0
+        },
+        "ex_armor_turret_06_dm": {
+          "armorThickness": 20.0
+        }
+      },
       "mask": {
         "armorClass": "CHA_tank",
         "hp": 4000.0,
@@ -366,16 +406,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 200.0,
-        "armorThickness": 35.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -425,6 +455,37 @@
           "ex_armor_body_l_02_dm": {
             "armorThickness": 30.0
           }
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 250.0,
+        "armorThickness": 25.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -481,7 +542,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -556,6 +617,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -602,6 +666,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1595,37 +1668,6 @@
     }
   },
   {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
     "sound": {
       "EngineName": "engine_panther",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -1727,7 +1769,7 @@
             "triggerGroup": "coaxial"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L3A1_user_machinegun.blk"
           },
           {
             "emitter": "bone_mg_gun_twin"
@@ -1740,6 +1782,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "speedYaw": 5.5
@@ -1808,7 +1853,7 @@
         "Weapon": {
           "trigger": "gunner2",
           "triggerGroup": "machinegun",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L3A1_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
           "defaultYaw": 0.0,
@@ -1844,6 +1889,19 @@
             "pitch": [-10.0,30.0]
           }
         }
+      },
+      {
+        "hideNodes": [
+          {
+            "node": "body_add_02"
+          },
+          {
+            "node": "ex_lantern_l_01"
+          },
+          {
+            "node": "ex_lantern_r_01"
+          }
+        ]
       }
     ]
   },
@@ -2491,7 +2549,58 @@
       "new_tank_transmission": [],
       "new_tank_engine": [],
       "tank_camouflage": [],
-      "tank_additional_armor": [],
+      "conqeror_armor_improvement": {
+        "invertEnableLogic": true,
+        "turn_it_off": false,
+        "effects": {
+          "rcostAddParam": 1.0405,
+          "changeMass": -1000.0,
+          "hideNodes": [
+            {
+              "node": "body_add_02"
+            },
+            {
+              "node": "ex_armor_body_01"
+            },
+            {
+              "node": "ex_armor_body_02"
+            },
+            {
+              "node": "ex_armor_body_03"
+            },
+            {
+              "node": "ex_armor_body_04"
+            },
+            {
+              "node": "ex_armor_body_05"
+            },
+            {
+              "node": "ex_armor_turret_01"
+            },
+            {
+              "node": "ex_armor_turret_02"
+            },
+            {
+              "node": "ex_armor_turret_03"
+            },
+            {
+              "node": "ex_armor_turret_04"
+            },
+            {
+              "node": "ex_armor_turret_05"
+            },
+            {
+              "node": "ex_armor_turret_06"
+            },
+            {
+              "node": "ex_decor_05"
+            },
+            {
+              "node": "ex_decor_06"
+            }
+          ]
+        }
+      },
       "manual_extinguisher": [],
       "tank_tool_kit": [],
       "new_tank_horizontal_aiming": [],
@@ -2595,7 +2704,7 @@
                   "triggerGroup": "coaxial"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L3A1_user_machinegun.blk"
                 },
                 {
                   "emitter": "bone_mg_gun_twin"
@@ -2608,6 +2717,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "speedYaw": 5.5
@@ -2676,7 +2788,7 @@
               "Weapon": {
                 "trigger": "gunner2",
                 "triggerGroup": "machinegun",
-                "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L3A1_user_machinegun.blk",
                 "emitter": "bone_mg_aa_v_01",
                 "flash": "emtr_mg_aa_flame_01",
                 "defaultYaw": 0.0,
@@ -2712,6 +2824,19 @@
                   "pitch": [-10.0,30.0]
                 }
               }
+            },
+            {
+              "hideNodes": [
+                {
+                  "node": "body_add_02"
+                },
+                {
+                  "node": "ex_lantern_l_01"
+                },
+                {
+                  "node": "ex_lantern_r_01"
+                }
+              ]
             },
             {
               "Weapon": {
@@ -2770,7 +2895,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true

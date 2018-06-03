@@ -8,11 +8,18 @@
     }
   },
   {
-    "dmgIndicator": {
-      "id": "xray_render_dmg_indicator",
-      "size": "@sizeDamageIndicator, @sizeDamageIndicator",
+    "tdiv": {
       "pos": "10/720@scrn_tgt, ph - h - 10/720@scrn_tgt",
-      "position": "absolute"
+      "position": "absolute",
+      "dmgIndicator": {
+        "id": "xray_render_dmg_indicator",
+        "size": "@sizeDamageIndicator, @sizeDamageIndicator"
+      },
+      "tdiv": {
+        "id": "mission_progress_place",
+        "height": "@missionProgressHeight",
+        "display": "hide"
+      }
     }
   },
   {
@@ -324,7 +331,7 @@
       {
         "tdiv": [
           {
-            "pos": "pw/2 - w/2, 0.06@shHud"
+            "pos": "pw/2 - w/2, 1@topCenterMessagesTopPos"
           },
           {
             "position": "absolute"
@@ -334,7 +341,7 @@
           },
           {
             "tdiv": {
-              "min-height": "0.15@shHud",
+              "min-height": "1@topCenterMainMessagesMinHeight",
               "position": "relative",
               "pos": "pw/2 - w/2, 0",
               "flow": "vertical",
@@ -425,10 +432,12 @@
             }
           },
           {
-            "tdiv": {
-              "id": "hud_messages_hints",
+            "hudMessages": {
+              "id": "hud_messages_death_reason_notification",
               "pos": "pw/2 - w/2, 0",
-              "position": "relative"
+              "position": "relative",
+              "flow": "vertical",
+              "message_style": "death_reason_notification"
             }
           },
           {

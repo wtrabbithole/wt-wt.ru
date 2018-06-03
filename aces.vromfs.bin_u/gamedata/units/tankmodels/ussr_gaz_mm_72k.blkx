@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -479,7 +482,7 @@
           "armorThickness": 1.0
         },
         "body_bottom_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 30.0
         },
         "body_top_dm": {
           "armorThickness": 1.0
@@ -538,13 +541,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 15.0,
-          "hp": 150.0
-        }
-      },
       "chassis": {
         "hp": 30.0,
         "armorThickness": 2.0,
@@ -553,6 +549,37 @@
         "wheel_l_01_dm": [],
         "wheel_l_drive_dm": [],
         "wheel_r_drive_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 100.0,
+        "armorThickness": 10.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -1814,9 +1841,9 @@
         "Fuel": 100.0,
         "TakeOff": 2950.0,
         "momentOfInertia": [2.0,2.0,5.0],
-        "CenterOfGravity": [-0.1,0.4,0.0],
+        "CenterOfGravity": [-0.4,0.3,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
-        "AdvancedMass": true,
+        "AdvancedMass": false,
         "trackMass": 40.0,
         "engineInertialMass": 400.0
       },

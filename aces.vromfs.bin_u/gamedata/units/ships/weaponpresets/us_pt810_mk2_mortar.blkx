@@ -8,7 +8,7 @@
         "triggerGroup": "primary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_04"
@@ -99,7 +99,7 @@
       },
       {
         "turret": {
-          "head": "turret_h_04",
+          "head": "main_caliber_turret_01",
           "gun": "main_caliber_gun_01",
           "barrel": "gun_barrel_04",
           "gunnerDm": "main_caliber_turret_01_dm"
@@ -129,7 +129,7 @@
         "triggerGroup": "primary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_05"
@@ -220,7 +220,7 @@
       },
       {
         "turret": {
-          "head": "turret_h_05",
+          "head": "main_caliber_turret_02",
           "gun": "main_caliber_gun_02",
           "barrel": "gun_barrel_05",
           "gunnerDm": "main_caliber_turret_02_dm"
@@ -250,7 +250,7 @@
         "triggerGroup": "machinegun"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_02"
@@ -341,7 +341,7 @@
       },
       {
         "turret": {
-          "head": "turret_h_02",
+          "head": "aa_turret_01",
           "gun": "aa_gun_01",
           "barrel": "gun_barrel_02",
           "gunnerDm": "aa_turret_01_dm",
@@ -376,7 +376,7 @@
         "triggerGroup": "machinegun"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_06"
@@ -467,7 +467,7 @@
       },
       {
         "turret": {
-          "head": "turret_h_02",
+          "head": "aa_turret_01",
           "gun": "aa_gun_01",
           "barrel": "gun_barrel_06",
           "gunnerDm": "aa_turret_01_dm"
@@ -516,7 +516,7 @@
         "triggerGroup": "machinegun"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_03"
@@ -607,7 +607,7 @@
       },
       {
         "turret": {
-          "head": "turret_h_03",
+          "head": "aa_turret_02",
           "gun": "aa_gun_02",
           "barrel": "gun_barrel_03",
           "gunnerDm": "aa_turret_02_dm",
@@ -666,7 +666,7 @@
         "triggerGroup": "machinegun"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_07"
@@ -757,7 +757,7 @@
       },
       {
         "turret": {
-          "head": "turret_h_03",
+          "head": "aa_turret_02",
           "gun": "aa_gun_02",
           "barrel": "gun_barrel_07",
           "gunnerDm": "aa_turret_02_dm"
@@ -808,22 +808,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_16.blk",
-      "emitter": "bone_launch_torpedo_01",
-      "animatedEmitter": "bone_torpedo_01",
+      "emitter": "bone_torpedo_01",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_01",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.08,
       "barrelDP": "tt_01_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_01_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.4,
+      "startDir": [0.0,0.0,10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
-      "enableCourseCorrection": false,
       "turret": {
-        "head": "bone_launch_torpedo_01",
-        "gun": "bone_launch_torpedo_01"
+        "head": "bone_torpedo_01",
+        "gun": "bone_torpedo_01"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -837,22 +834,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_16.blk",
-      "emitter": "bone_launch_torpedo_02",
-      "animatedEmitter": "bone_torpedo_02",
+      "emitter": "bone_torpedo_02",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_02",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.08,
       "barrelDP": "tt_02_dm",
       "brokenBarrelAllowShoot": false,
-      "ammoDP": "torpedoe_02_dm",
-      "enableCourseCorrection": false,
-      "startSpeed": 2.0,
+      "ammoDP": "torpedo_02_dm",
+      "startSpeed": 2.4,
+      "startDir": [0.0,0.0,-10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
-        "head": "bone_launch_torpedo_02",
-        "gun": "bone_launch_torpedo_02"
+        "head": "bone_torpedo_02",
+        "gun": "bone_torpedo_02"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -866,22 +860,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_16.blk",
-      "emitter": "bone_launch_torpedo_03",
-      "animatedEmitter": "bone_torpedo_03",
+      "emitter": "bone_torpedo_03",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_03",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.08,
       "barrelDP": "tt_03_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_03_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.4,
+      "startDir": [0.0,0.0,10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
-      "enableCourseCorrection": false,
       "turret": {
-        "head": "bone_launch_torpedo_03",
-        "gun": "bone_launch_torpedo_03"
+        "head": "bone_torpedo_03",
+        "gun": "bone_torpedo_03"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -895,22 +886,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_16.blk",
-      "emitter": "bone_launch_torpedo_04",
-      "animatedEmitter": "bone_torpedo_04",
+      "emitter": "bone_torpedo_04",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_04",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.08,
       "barrelDP": "tt_04_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_04_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.4,
+      "startDir": [0.0,0.0,-10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
-      "enableCourseCorrection": false,
       "turret": {
-        "head": "bone_launch_torpedo_04",
-        "gun": "bone_launch_torpedo_04"
+        "head": "bone_torpedo_04",
+        "gun": "bone_torpedo_04"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -927,7 +915,7 @@
         "triggerGroup": "secondary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/81mm_mk_2_mortar_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/81mm_mk_2_mortar_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_01"

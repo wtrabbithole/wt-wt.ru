@@ -430,9 +430,11 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunShKAS_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun1",
           "flash": "flare1",
           "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 950,
@@ -450,9 +452,11 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunShKAS_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun2",
           "flash": "flare2",
           "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
           "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 950,
@@ -470,9 +474,11 @@
         "Weapon": {
           "trigger": "gunner1",
           "blk": "gameData/Weapons/gunShKAS_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun3",
           "flash": "flare3",
           "dm": "gunner3_dm",
+          "gunnerDm": "gunner3_dm",
           "gunDm": "gun3_dm",
           "partsDP": "gun3_dm",
           "bullets": 500,
@@ -490,9 +496,11 @@
         "Weapon": {
           "trigger": "gunner2",
           "blk": "gameData/Weapons/gunShKAS_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun4",
           "flash": "flare4",
           "dm": "gunner4_dm",
+          "gunnerDm": "gunner4_dm",
           "gunDm": "gun4_dm",
           "partsDP": "gun4_dm",
           "bullets": 1000,
@@ -530,7 +538,7 @@
         "preset": {
           "name": "sb_2m_100_1xfab500",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_1xfab500.blk",
-          "reqModification": "sb-2_der-19"
+          "reqModification": "sb-2_der-25"
         }
       }
     ]
@@ -656,12 +664,6 @@
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 3.0
-      },
-      "sb-2_der-19": {
-        "modClass": "weapon",
-        "tier": 3,
-        "reqModLevel": 6.0,
-        "reqModification": "sb-2_der-25"
       }
     }
   },
@@ -702,6 +704,12 @@
           "hp": 150.0
         },
         "aileron1_l_dm": {
+          "hp": 150.0
+        },
+        "elevon_r_dm": {
+          "hp": 150.0
+        },
+        "elevon_l_dm": {
           "hp": 150.0
         },
         "tail_dm": {
@@ -956,6 +964,36 @@
           "hp": 10.0
         },
         "airbrake_r4_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_l_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_l1_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_l2_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_l3_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_l4_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_r_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_r1_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_r2_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_r3_dm": {
+          "hp": 10.0
+        },
+        "airbrake1_r4_dm": {
           "hp": 10.0
         }
       },
@@ -1396,13 +1434,15 @@
       "emtr_break_wing1_r_to": [-0.566328,0.0165174,-5.14837],
       "emtr_break_wing2_r_from": [-0.566328,0.0165174,-6.94583],
       "emtr_break_wing2_r_to": [-0.566328,0.0165174,-8.24915],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-5.57412,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-5.57412,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-6.39614,0.414618,0.522333],
+      "emtr_break_stab_l_to": [-6.39614,0.414618,2.08933],
+      "emtr_break_stab_r_from": [-6.39614,0.414618,-0.523544],
+      "emtr_break_stab_r_to": [-6.39614,0.414618,-2.09418],
+      "emtr_break_fin_from": [-6.86309,0.879958,-0.00364143],
+      "emtr_break_fin_to": [-6.86309,1.83197,-0.00364143]
     }
   }
 ]

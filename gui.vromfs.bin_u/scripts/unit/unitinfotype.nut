@@ -2,10 +2,13 @@ local enums = ::require("std/enums.nut")
 local time = require("scripts/time.nut")
 
 
-enum UNIT_INFO_ARMY_TYPE {
-  AIR = 1,
-  TANK = 2,
-  BOTH = 3
+local UNIT_INFO_ARMY_TYPE  = {
+  AIR =      ::g_unit_type.AIRCRAFT.bit
+  TANK =     ::g_unit_type.TANK.bit
+  SHIP =     ::g_unit_type.SHIP.bit
+
+  AIR_TANK = ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.TANK.bit
+  ALL =      ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.TANK.bit | ::g_unit_type.SHIP.bit
 }
 enum UNIT_INFO_ORDER{
   TRAIN_COST = 0,
@@ -40,6 +43,14 @@ enum UNIT_INFO_ORDER{
   RELOAD_TIME,
   VISIBILITY,
   WEAPON_PRESET_TANK,
+  SHIP_SPEED,
+  DISPLACEMENT,
+  ARMOR_THICKNESS_CITADEL_FRONT,
+  ARMOR_THICKNESS_CITADEL_REAR,
+  ARMOR_THICKNESS_CITADEL_BACK,
+  ARMOR_THICKNESS_TOWER_FRONT,
+  ARMOR_THICKNESS_TOWER_REAR,
+  ARMOR_THICKNESS_TOWER_BACK,
   WEAPON_INFO_TEXT
 }
 const COMPARE_MORE_BETTER = "more"
@@ -52,7 +63,7 @@ const COMPARE_NO_COMPARE = "no"
 
 ::g_unit_info_type.template <- {
   id = ""
-  infoArmyType = UNIT_INFO_ARMY_TYPE.BOTH
+  infoArmyType = UNIT_INFO_ARMY_TYPE.ALL
   headerLocId = null
   getValue = function(unit)            { return null }
   getValueText = function(value, unit)
@@ -75,6 +86,7 @@ const COMPARE_NO_COMPARE = "no"
         addToExportTankDataBlockValues(blk, currentParams, mode)
       }
   }
+
   addToExportTankDataBlockValues = function(blk, params, mode){}
 
   exportToDataBlock = function(unit)
@@ -82,9 +94,9 @@ const COMPARE_NO_COMPARE = "no"
     local blk = ::DataBlock()
     local isTank = ::isTank(unit)
     local isAircraft = ::isAircraft(unit)
+    local isShip = ::isShip(unit)
 
-    if(isTank && !(infoArmyType & UNIT_INFO_ARMY_TYPE.TANK) ||
-       isAircraft && !(infoArmyType & UNIT_INFO_ARMY_TYPE.AIR))
+    if (!(unit.unitType.bit & infoArmyType))
     {
         blk.hide = true
         return blk
@@ -158,12 +170,24 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
   {
     id = "role"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.AIR_TANK
     addToExportDataBlock = function(blk, unit)
     {
         blk.stringValue = ::get_unit_role(unit)
     }
     getValueText = function(value, unit) { return ::get_full_unit_role_text(unit) }
   }
+
+  {
+    id = "role"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+        blk.stringValue = ::get_unit_basic_role(unit)
+    }
+    getValueText = function(value, unit) { return ::get_role_text(::get_unit_basic_role(unit)) }
+  }
+
   {
     id = "tags"
     addToExportDataBlock = function(blk, unit)
@@ -914,6 +938,180 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     addToExportDataBlock = function(blk, unit)
     {
       addToExportTankDataBlock(blk, unit)
+    }
+  }
+  {
+    id = "displacement"
+    order = UNIT_INFO_ORDER.DISPLACEMENT
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/displacement"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local value = ::get_full_unit_blk(unit.name)?.ShipPhys?.mass?.TakeOff
+      local valueText = ""
+      if (value != null)
+      {
+        valueText = ::g_measure_type.SHIP_DISPLACEMENT_TON.getMeasureUnitsText(value/1000, true)
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+
+  {
+    id = "ship_speed"
+    order = UNIT_INFO_ORDER.SHIP_SPEED
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "shop/max_speed"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local value = ::get_unittags_blk()?[unit.name]?.Shop?.maxSpeed
+      if(value > 0)
+      {
+        local valueText = ::g_measure_type.SPEED.getMeasureUnitsText(value)
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "armor_thickness_citadel_front"
+    order = UNIT_INFO_ORDER.ARMOR_THICKNESS_CITADEL_FRONT
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/citadelArmor"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local armorThicknessCitadel = ::get_unittags_blk()?[unit.name]?.Shop?.armorThicknessCitadel
+
+      if(armorThicknessCitadel != null)
+      {
+        local value = armorThicknessCitadel.x.tointeger()
+        local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "armor_thickness_citadel_rear"
+    order = UNIT_INFO_ORDER.ARMOR_THICKNESS_CITADEL_REAR
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/citadelArmor"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local armorThicknessCitadel = ::get_unittags_blk()?[unit.name]?.Shop?.armorThicknessCitadel
+
+      if(armorThicknessCitadel != null)
+      {
+        local value = armorThicknessCitadel.y.tointeger()
+        local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "armor_thickness_citadel_back"
+    order = UNIT_INFO_ORDER.ARMOR_THICKNESS_CITADEL_BACK
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/citadelArmor"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local armorThicknessCitadel = ::get_unittags_blk()?[unit.name]?.Shop?.armorThicknessCitadel
+
+      if(armorThicknessCitadel != null)
+      {
+        local value = armorThicknessCitadel.z.tointeger()
+        local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "armor_thickness_tower_front"
+    order = UNIT_INFO_ORDER.ARMOR_THICKNESS_TOWER_FRONT
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/mainFireTower"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local armorThicknessMainFireTower = ::get_unittags_blk()?[unit.name]?.Shop?.armorThicknessTurretMainCaliber
+
+      if(armorThicknessMainFireTower != null)
+      {
+        local value = armorThicknessMainFireTower.x.tointeger()
+        local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "armor_thickness_tower_rear"
+    order = UNIT_INFO_ORDER.ARMOR_THICKNESS_TOWER_REAR
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/mainFireTower"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local armorThicknessMainFireTower = ::get_unittags_blk()?[unit.name]?.Shop?.armorThicknessTurretMainCaliber
+
+      if(armorThicknessMainFireTower != null)
+      {
+        local value = armorThicknessMainFireTower.y.tointeger()
+        local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "armor_thickness_tower_back"
+    order = UNIT_INFO_ORDER.ARMOR_THICKNESS_TOWER_BACK
+    compare = COMPARE_MORE_BETTER
+    headerLocId = "info/ship/mainFireTower"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local armorThicknessMainFireTower = ::get_unittags_blk()?[unit.name]?.Shop?.armorThicknessTurretMainCaliber
+
+      if(armorThicknessMainFireTower != null)
+      {
+        local value = armorThicknessMainFireTower.z.tointeger()
+        local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
     }
   }
 ])

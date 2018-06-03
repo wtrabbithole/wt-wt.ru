@@ -45,6 +45,9 @@
   beforeInitHandler                  = function(handler) {}
 
   _loadHandlerRecursionLevel         = 0
+
+  delayedActions                     = []
+  delayedActionsGuiScene             = null
 }
 
 function handlersManager::init()
@@ -91,6 +94,8 @@ function handlersManager::loadHandler(handlerClass, params = {})
   _loadHandlerRecursionLevel--
   if (!_loadHandlerRecursionLevel)
     onActiveHandlersChanged()
+  if (hType == handlerType.BASE || hType == handlerType.ROOT)
+    checkActionsDelayGuiScene()
   return handler
 }
 
@@ -417,6 +422,7 @@ function handlersManager::clearScene(guiScene = null)
   guiScene.loadScene("gui/rootScreen.blk", this)
 
   setGuiRootOptions(guiScene, false)
+  startActionsDelay()
   guiScene.initCursor("gui/cursor.blk", "normal")
   if (!guiScene.isEqual(::get_cur_gui_scene()))
   {
@@ -771,6 +777,36 @@ function handlersManager::destroyPrevHandlerAndLoadNew(handlerClass, params, nee
 
   loadHandler(handlerClass, params)
   return isNewHandlerCreated
+}
+
+//run delayed action same with guiScene.performDelayed, but it will survive guiScene reload and switch
+function handlersManager::doDelayed(action)
+{
+  delayedActions.append(action)
+  if (delayedActions.len() == 1)
+    startActionsDelay()
+}
+
+function handlersManager::startActionsDelay()
+{
+  if (!delayedActions.len())
+    return
+  delayedActionsGuiScene = ::get_cur_gui_scene()
+  delayedActionsGuiScene.performDelayed(this, function()
+  {
+    delayedActionsGuiScene = null
+    local actions = clone delayedActions
+    delayedActions.clear()
+    foreach(action in actions)
+      action()
+  })
+}
+
+function handlersManager::checkActionsDelayGuiScene()
+{
+  if (delayedActions.len()
+    && (!delayedActionsGuiScene || !delayedActionsGuiScene.isEqual(::get_cur_gui_scene())))
+    startActionsDelay()
 }
 
 //=======================  global functions  ==============================

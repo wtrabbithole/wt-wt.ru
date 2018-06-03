@@ -252,7 +252,7 @@
         "locDesc": "sector_montmedy/desc;missions/_Conq3/desc"
       },
       {
-        "scoreLimit": 14000
+        "scoreLimit": 12000
       },
       {
         "timeLimit": 30
@@ -393,6 +393,11 @@
                 "side": "neutral",
                 "target": "briefing_captureZone03"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea"
+              }
             }
           ]
         },
@@ -433,6 +438,11 @@
                 "side": "neutral",
                 "target": "briefing_captureZone03"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_realistic"
+              }
             }
           ]
         },
@@ -472,6 +482,11 @@
                 "icontype": "basezone_A",
                 "side": "neutral",
                 "target": "briefing_captureZone_Rb03"
+              }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_hardcore"
               }
             }
           ]
@@ -680,6 +695,39 @@
         [-3294.25,3.65845,2139.36]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea": {
+      "type": "Box",
+      "tm": [
+        [-1900.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-1900.0],
+        [-2308.4,35.2267,2396.28]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "briefing_battlearea_hardcore": {
+      "type": "Box",
+      "tm": [
+        [-3380.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-3380.0],
+        [-2308.4,165.754,2396.28]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "briefing_battlearea_realistic": {
+      "type": "Box",
+      "tm": [
+        [-3380.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-3380.0],
+        [-2308.4,128.242,2396.28]
+      ],
+      "objLayer": 5,
       "props": []
     }
   },

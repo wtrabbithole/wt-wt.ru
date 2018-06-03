@@ -76,7 +76,19 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
   {
     local data = missionRules.getFullUnitLimitsData()
     local textsList = ::u.map(data.unitLimits, getRespTextByUnitLimit)
-    textsList.insert(0, ::loc("multiplayer/teamUnitsLeftHeader"))
+    textsList.insert(0, ::colorize("activeTextColor", ::loc("multiplayer/teamUnitsLeftHeader")))
+
+    if (missionRules.isEnemyLimitedUnitsVisible())
+    {
+      local enemyData = missionRules.getFullEnemyUnitLimitsData()
+      if (enemyData.len())
+      {
+        local enemyTextsList = ::u.map(enemyData.unitLimits, getRespTextByUnitLimit)
+        textsList.append("\n" + ::colorize("activeTextColor", ::loc("multiplayer/enemyTeamUnitsLeftHeader")))
+        textsList.extend(enemyTextsList)
+      }
+    }
+
     return ::g_string.implode(textsList, "\n")
   }
 

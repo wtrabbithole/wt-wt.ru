@@ -574,8 +574,8 @@
         },
         {
           "onHit": {
-            "damage": 65.0,
-            "expl": 1.0
+            "damage": 60.0,
+            "cut": 1.0
           }
         },
         {
@@ -588,14 +588,21 @@
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 9.0
+            "nothing": 10.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
+            "cut": 2.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
             "cut": 1.0,
-            "nothing": 3.0
+            "nothing": 0.0
           }
         }
       ]
@@ -1071,32 +1078,80 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_l_dm"
+        "name": "spar_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_r_dm"
+        "name": "spar_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
@@ -1118,7 +1173,7 @@
         {
           "onHit": {
             "damage": 60.0,
-            "expl": 1.0
+            "cut": 1.0
           }
         },
         {
@@ -1131,14 +1186,21 @@
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 9.0
+            "nothing": 10.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
+            "cut": 2.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
             "cut": 1.0,
-            "nothing": 3.0
+            "nothing": 0.0
           }
         }
       ]
@@ -1147,24 +1209,6 @@
       "part": [
         {
           "name": "tail_dm"
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.25
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 65.0,
-            "cut": 1.0
-          }
         },
         {
           "onKill": {
@@ -1177,33 +1221,6 @@
             "damage": 10.0,
             "tailcontrol_dm": 1.0,
             "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 1.0,
-            "nothing": 4.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 2.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 65.0,
-            "cut": 1.0
           }
         }
       ]
@@ -2098,7 +2115,7 @@
       "pedals5": [-1.0,1.0],
       "flaps": [0.0,1.0],
       "flaps_fixed": true,
-      "speed": [148.2,1389.0],
+      "speed": [0.0,385.833],
       "mach": [0.7,1.3],
       "vario": [-20.32,20.32],
       "altitude_hour": [0.0,10000.0],
@@ -2318,12 +2335,14 @@
     "emtr_break_wing1_r_to": [-0.752218,0.0108468,-3.32869],
     "emtr_break_wing2_r_from": [-0.752218,0.0108468,-4.13082],
     "emtr_break_wing2_r_to": [-0.752218,0.0108468,-4.67424],
-    "emtr_break_wing_tail": [
-      [1.0,0.0,0.0],
-      [0.0,1.0,0.0],
-      [0.0,0.0,1.0],
-      [-6.12428,0.0,0.0]
-    ],
-    "partKindTail": 3
+    "emtr_break_wing_tail": [-6.12428,0.0,0.0],
+    "partKindTail": 5,
+    "finCut": true,
+    "emtr_break_stab_l_from": [-7.3311,1.01294,0.385896],
+    "emtr_break_stab_l_to": [-7.3311,1.01294,1.54358],
+    "emtr_break_stab_r_from": [-7.3311,1.01294,-0.385886],
+    "emtr_break_stab_r_to": [-7.3311,1.01294,-1.54354],
+    "emtr_break_tail_from": [-4.13621,0.0710716,-0.000533303],
+    "emtr_break_tail_to": [-7.50657,0.0710716,-0.000533303]
   }
 }

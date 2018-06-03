@@ -18,9 +18,6 @@
     "harmonizationSuffix": "_tomoe"
   },
   {
-    "timeToSink": 25.0
-  },
-  {
     "moveType": "ship"
   },
   {
@@ -64,9 +61,6 @@
   },
   {
     "ikPilotMaxRenderDistance": 90.0
-  },
-  {
-    "useSimpleDeathConditionsAndEffects": false
   },
   {
     "type": "typeGunBoat"
@@ -917,6 +911,19 @@
         "pump_04_dm": [],
         "pump_05_dm": []
       },
+      "elevators": {
+        "armorClass": "armor_tank_engine",
+        "hp": 1000.0,
+        "armorThrough": 30.0,
+        "fireProtectionHp": 5.0,
+        "armorThickness": 10.0,
+        "genericDamageMult": 2.0,
+        "fireParamsPreset": "ship_engine",
+        "elevator_01_dm": [],
+        "elevator_02_dm": [],
+        "elevator_03_dm": [],
+        "elevator_04_dm": []
+      },
       "engine": {
         "armorClass": "armor_tank_engine",
         "hp": 1000.0,
@@ -933,10 +940,22 @@
         "funnel_02_dm": [],
         "funnel_03_dm": [],
         "funnel_04_dm": [],
-        "transmission_01_dm": [],
-        "transmission_02_dm": [],
-        "transmission_03_dm": [],
-        "transmission_04_dm": []
+        "transmission_01_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_02_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_03_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_04_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        }
       },
       "steering_gear": {
         "armorClass": "armor_tank_engine",
@@ -1630,6 +1649,29 @@
               "fire": 1.0,
               "fHitCritical": false
             }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "expl": 0.2,
+              "damage": 300.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.1,
+              "expl": 0.1,
+              "damage": 150.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.03,
+              "expl": 0.01
+            }
           }
         ]
       },
@@ -1676,6 +1718,54 @@
               "expl": 0.5,
               "fHitCritical": false
             }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.05,
+              "damage": 50.0,
+              "expl": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "damage": 150.0,
+              "expl": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.3,
+              "damage": 300.0,
+              "expl": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "damage": 50.0,
+              "fire": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.15,
+              "damage": 100.0,
+              "fire": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.3,
+              "damage": 300.0,
+              "fire": 0.3
+            }
           }
         ]
       },
@@ -1697,6 +1787,50 @@
             "onKill": {
               "expl": 1.0,
               "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.2,
+              "fire": 0.15,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.3,
+              "fire": 0.25,
+              "damage": 300.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "fire": 0.15,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.1,
+              "fire": 0.3,
+              "damage": 300.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "expl": 0.01,
+              "damage": 50.0
             }
           }
         ]
@@ -1824,7 +1958,7 @@
               "damageType": "explosion",
               "fire": 0.4,
               "damage": 200.0,
-              "fHitCritical": false
+              "HitCritical": false
             }
           },
           {
@@ -2079,15 +2213,8 @@
     }
   },
   {
-    "class_tags": {
-      "pacific": true,
-      "mediterran": true,
-      "westernfront": true
-    }
-  },
-  {
     "tags": {
-      "country_ussr": true,
+      "country_japan": true,
       "type_ship": true,
       "ship": true,
       "type_destroyer": true
@@ -2139,7 +2266,7 @@
           "engine": {
             "pos": [-49.8,-3.3,2.3],
             "outputParam": "propeller_rotate_01:CRS",
-            "engineDmPart": "engine_room_02_dm",
+            "engineDmPart": "engine_room_01_dm",
             "transmissionDmPart": "transmission_01_dm",
             "propeller_l": "propeller_01"
           }
@@ -2199,7 +2326,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_01"
@@ -2346,7 +2473,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -2493,7 +2620,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_24"
@@ -2638,7 +2765,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_30"
@@ -2778,7 +2905,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_26"
@@ -2918,7 +3045,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/127mm_5_50_type_3_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_27"
@@ -3058,7 +3185,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/25mm_Type_96_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/25mm_Type_96_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_15"
@@ -3210,7 +3337,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/25mm_Type_96_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/25mm_Type_96_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_16"
@@ -3362,7 +3489,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/25mm_Type_96_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/25mm_Type_96_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_18"
@@ -3514,7 +3641,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/25mm_Type_96_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/25mm_Type_96_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_19"
@@ -3671,10 +3798,10 @@
           "ammoDpGenFmt": "torpedo_%02d_dm",
           "barrelDP": "tt_01_dm",
           "brokenBarrelAllowShoot": false,
+          "enableCourseCorrection": false,
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
           "allowableDelta": 20.0,
-          "enableCourseCorrection": false,
           "turret": {
             "head": "tt_head_01",
             "gun": "tt_01"
@@ -3703,10 +3830,10 @@
           "ammoDpGenFmt": "torpedo_%02d_dm",
           "barrelDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
+          "enableCourseCorrection": false,
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
           "allowableDelta": 20.0,
-          "enableCourseCorrection": false,
           "turret": {
             "head": "tt_head_02",
             "gun": "tt_02"
@@ -4027,6 +4154,12 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_engine_fire",
+              "emitter": "emtr_fire_engine_04"
             }
           }
         ]

@@ -1,4 +1,4 @@
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 function gui_modal_ban(playerInfo, chatLog)
 {
@@ -288,7 +288,7 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if ( src != null )
     {
-      foreach(key in ["kills", "teamKills", "name", "clanTag", "groundKills", "navalKills", "exp", "deaths"])
+      foreach(key in ["kills", "teamKills", "name", "clanTag", "groundKills", "awardDamage", "navalKills", "exp", "deaths"])
       {
         res[key] <- ((key in src)&&(src[key] != null))? src[key] : "<N/A>";
       }

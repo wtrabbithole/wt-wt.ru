@@ -31,6 +31,7 @@ local BhvUpdater = class
   {
     if (setNewConfig(obj, elemViewType.buildBhvConfig(valueTbl)))
       updateView(obj)
+    return u.isString(valueTbl) || u.isTable(valueTbl)
   }
 
   function setNewConfig(obj, config)

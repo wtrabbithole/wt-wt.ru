@@ -420,7 +420,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
 
     foreach (user in room.users)
     {
-      local contact = ::findContactByNick(user.name)
+      local contact = ::Contact.getByName(user.name)
       if (contact)
         onlineUsersTable[contact.uid.tointeger()] <- true
     }
@@ -431,7 +431,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (!("nick" in params) || !("presence" in params))
       return
 
-    local contact = ::findContactByNick(params.nick)
+    local contact = ::Contact.getByName(params.nick)
     if (!contact)
       return
 

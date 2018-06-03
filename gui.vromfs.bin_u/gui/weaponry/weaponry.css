@@ -417,13 +417,16 @@ upgradeImg[upgradeStatus = mod]{
 }
 
 modUpgradeImg {
-  size:@cIco, @cIco;
+  size:40*@sf/@pf, 20*@sf/@pf;
   position:absolute;
   re-type: fgPict;
-  background-image:#ui/gameuiskin#item_type_upgrade;
   background-repeat:aspect-ratio;
-  foreground-image:#ui/gameuiskin#items_orders_revenge;
+  background-align:left;
+  background-svg-size:@sIco, @sIco;
+  foreground-image:#ui/gameuiskin#mark_overdrive.svg;
   foreground-repeat:aspect-ratio;
+  foreground-align:right;
+  foreground-svg-size:@sIco, @sIco;
   behaviour:bhvUpdater;
   input-transparent:yes;
 }

@@ -132,10 +132,14 @@ class EventJoinProcess
 
   function joinStep6_membersForQueue()
   {
-    local checkResult = ::events.checkMembersForQueue(event, room)
-    if (!checkResult.result)
-      return remove()
+    ::events.checkMembersForQueue(event, room,
+      ::Callback(@(membersData) joinStep7_joinQueue(membersData), this),
+      ::Callback(remove, this)
+    )
+  }
 
+  function joinStep7_joinQueue(membersData = null)
+  {
     //join room
     if (room)
       ::SessionLobby.joinRoom(room.roomId)
@@ -146,8 +150,8 @@ class EventJoinProcess
         //team    = team //!!can choose team correct only with multiEvents support
         country = ::get_profile_country_sq()
       }
-      if (checkResult.data)
-        joinEventParams.members <- checkResult.data
+      if (membersData)
+        joinEventParams.members <- membersData
       ::queues.joinQueue(joinEventParams)
     }
 
@@ -202,7 +206,7 @@ class EventJoinProcess
         [
           ["startTutorial", (@(mData, diff) function() {
             mData.mission.setStr("difficulty", ::get_option(::USEROPT_DIFFICULTY).values[diff])
-            ::select_mission(mData.mission, true)
+            ::select_mission(mData.mission, false)
             ::current_campaign_mission = mData.mission.name
             ::save_tutorial_to_check_reward(mData.mission)
             ::handlersManager.animatedSwitchScene(::gui_start_flight)

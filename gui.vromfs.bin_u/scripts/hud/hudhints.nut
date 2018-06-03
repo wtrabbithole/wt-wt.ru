@@ -413,6 +413,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:extinguish:end"
   }
 
+
+  EXTINGUISHER_IS_INEFFECTIVE_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/extinguisher_is_ineffective"
+    showEvent = "hint:extinguisher_ineffective:show"
+    lifeTime = 3.0
+  }
+
+
   TRACK_REPAIR_HINT = {
     hintType = ::g_hud_hint_types.REPAIR
     locId     = "hints/track_repair"
@@ -508,6 +517,46 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hintType = ::g_hud_hint_types.COMMON
     locId = "hints/atgm_aim_torpedo"
     showEvent = "hint:atgm_aim_torpedo:show"
+    lifeTime = 10.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+    totalCount = 5
+    maskId = 30
+  }
+
+  BOMB_AIM_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/bomb_aim"
+    showEvent = "hint:bomb_aim:show"
+    lifeTime = 10.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+    totalCount = 5
+    maskId = 30
+  }
+
+  BOMB_MANUAL_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/bomb_manual"
+    showEvent = "hint:bomb_manual:show"
+    lifeTime = 10.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+    totalCount = 5
+    maskId = 30
+  }
+
+  MISSILE_AIM_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/missile_aim"
+    showEvent = "hint:missile_aim:show"
+    lifeTime = 10.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+    totalCount = 5
+    maskId = 30
+  }
+
+  MISSILE_MANUAL_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/missile_manual"
+    showEvent = "hint:missile_manual:show"
     lifeTime = 10.0
     priority = CATASTROPHIC_HINT_PRIORITY
     totalCount = 5
@@ -1034,19 +1083,6 @@ enums.addTypesByGlobalName("g_hud_hints", {
       local res = ::loc("hints/drowning_in") + " "
       + time.secondsToString(eventData?.timeTo ?? 0, false)
       return res
-    }
-  }
-
-  HUD_MESSAGE_HINT = {
-    hintType = ::g_hud_hint_types.HUDMESSAGE
-    showEvent = "HudMessage"
-    hideEvent = "HudMessageHide"
-    lifeTime = 5.0
-    buildText = @(eventData) eventData.text
-    isCurrent = function(eventData, isHideEvent){
-      return (eventData?.type == ::HUD_MSG_UNDER_RADAR
-      || eventData?.type == ::HUD_MSG_DEATH_REASON
-      || isHideEvent)
     }
   }
 

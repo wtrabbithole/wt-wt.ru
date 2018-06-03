@@ -20,6 +20,36 @@
       }
     },
     {
+      "alias": {
+        "param": "onHitChanceMult",
+        "alias": "damage/kinetic/onHitChanceMult"
+      }
+    },
+    {
+      "alias": {
+        "param": "onHitChanceMultFire",
+        "alias": "damage/kinetic/onHitChanceMultFire"
+      }
+    },
+    {
+      "alias": {
+        "param": "onHitChanceMultExplFuel",
+        "alias": "damage/kinetic/onHitChanceMultExplFuel"
+      }
+    },
+    {
+      "alias": {
+        "param": "relativeVelArmorShift",
+        "alias": "damage/kinetic/correctionPenetrationByRelativeVelocity"
+      }
+    },
+    {
+      "alias": {
+        "param": "relativeVelHitShift",
+        "alias": "damage/kinetic/correctionDamageByRelativeVelocity"
+      }
+    },
+    {
       "extends": {
         "source": "config/damageModel.blk:defaultKineticDamageProps",
         "target": "damage/kinetic",
@@ -45,6 +75,24 @@
       }
     },
     {
+      "alias": {
+        "param": "cumulativeDamage/onHitChanceMult",
+        "alias": "damage/cumulative/onHitChanceMult"
+      }
+    },
+    {
+      "alias": {
+        "param": "cumulativeDamage/onHitChanceMultFire",
+        "alias": "damage/cumulative/onHitChanceMultFire"
+      }
+    },
+    {
+      "alias": {
+        "param": "cumulativeDamage/onHitChanceMultExplFuel",
+        "alias": "damage/cumulative/onHitChanceMultExplFuel"
+      }
+    },
+    {
       "extends": {
         "source": "config/damageModel.blk:defaultCumulativeDamageProps",
         "target": "damage/cumulative",
@@ -52,10 +100,52 @@
       }
     },
     {
+      "alias": {
+        "param": "explodeRadius",
+        "alias": "damage/splash/radius"
+      }
+    },
+    {
+      "alias": {
+        "param": "explodeArmorPower",
+        "alias": "damage/splash/penetration"
+      }
+    },
+    {
+      "alias": {
+        "param": "explodeHitPower",
+        "alias": "damage/splash/damage"
+      }
+    },
+    {
       "extends": {
         "source": "config/damageModel.blk:defaultSplashDamageProps",
         "target": "damage/splash",
         "checkTargetExists": true
+      }
+    },
+    {
+      "alias": {
+        "param": "shutterDamageRadius",
+        "alias": "damage/shatter/radius"
+      }
+    },
+    {
+      "alias": {
+        "param": "shutterAmount",
+        "alias": "damage/shatter/count"
+      }
+    },
+    {
+      "alias": {
+        "param": "shutterArmorPower",
+        "alias": "damage/shatter/penetration"
+      }
+    },
+    {
+      "alias": {
+        "param": "shutterHit",
+        "alias": "damage/shatter/damage"
       }
     },
     {
@@ -77,6 +167,36 @@
         "source": "config/damageModel.blk:defaultSecondaryShatterDamageProps",
         "target": "damage/secondaryShatter",
         "checkTargetExists": true
+      }
+    },
+    {
+      "alias": {
+        "param": "explosiveType",
+        "alias": "damage/explosive/type"
+      }
+    },
+    {
+      "alias": {
+        "param": "explosiveMass",
+        "alias": "damage/explosive/mass"
+      }
+    },
+    {
+      "alias": {
+        "param": "fuseDelay",
+        "alias": "damage/explosive/fuseDelay"
+      }
+    },
+    {
+      "alias": {
+        "param": "fuseDelayDist",
+        "alias": "damage/explosive/fuseDelayDist"
+      }
+    },
+    {
+      "alias": {
+        "param": "explodeTreshold",
+        "alias": "damage/explosive/fuseArmorTreshold"
       }
     },
     {

@@ -90,11 +90,17 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateCrewInfo()
   {
-    local infoText = ""
-    local air = ::g_crew.getCrewUnit(crew)
-    if (curUnitType == ::ES_UNIT_TYPE_AIRCRAFT && air && !::isTank(air))
-        infoText = ::loc("crew/numGunners") + ::loc("ui/colon") + air.gunnersCount
-    scene.findObject("crew-info-text").setValue(infoText)
+    local infoTexts = []
+    local unit = ::g_crew.getCrewUnit(crew)
+    if (unit && unit.esUnitType == curUnitType)
+    {
+      infoTexts.append(::loc("crew/totalCrew") + ::loc("ui/colon")
+        + ::colorize("activeTextColor", unit.getCrewTotalCount()))
+      if (!::isTank(unit))
+        infoTexts.append(::loc("crew/numGunners") + ::loc("ui/colon")
+          + ::colorize("activeTextColor", unit.gunnersCount))
+    }
+    scene.findObject("crew-info-text").setValue(::g_string.implode(infoTexts, ", "))
   }
 
   function initMainParams(reloadSkills=true, reinitUnitType = false)

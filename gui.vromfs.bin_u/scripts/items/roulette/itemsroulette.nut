@@ -16,7 +16,9 @@ ItemsRoulette API:
                                                  rewards which player really recieved;
 */
 
-const CHANCE_TO_STOP_ON_BORDER = 0.5
+const MIN_ITEMS_OFFSET = 0.1
+const MAX_ITEMS_OFFSET = 0.4
+
 
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local rouletteAnim = ::require("scripts/items/roulette/rouletteAnim.nut")
@@ -184,6 +186,9 @@ function ItemsRoulette::generateItemsArray(trophyName)
 
   local debug = {trophy = trophyName}
   local content = trophy.getContent()
+  //!!FIX ME: do not use _getContentFixedAmount outside of prizes list. it very specific for prizes stacks description
+  local countContent = ::PrizesView._getContentFixedAmount(content)
+  local shouldOnlyImage = countContent > 1
   foreach(block in content)
   {
     if (block.trophy)
@@ -201,14 +206,13 @@ function ItemsRoulette::generateItemsArray(trophyName)
       debug[::ItemsRoulette.getUniqueTableKey(block)] <- 0
       local table = clone commonParams
       table.reward <- block
-      table.layout <- ::ItemsRoulette.getRewardLayout(block)
+      table.layout <- ::ItemsRoulette.getRewardLayout(block, shouldOnlyImage)
       itemsArray.append(table)
     }
   }
 
   ::ItemsRoulette.debugData.result.append(debug)
-  //!!FIX ME: do not use _getContentFixedAmount outside of prizes list. it very specific for prizes stacks description
-  return {itemsArray = itemsArray, count = ::PrizesView._getContentFixedAmount(content) }
+  return {itemsArray = itemsArray, count = countContent }
 }
 
 function ItemsRoulette::getUniqueTableKey(rewardBlock)
@@ -436,9 +440,10 @@ function ItemsRoulette::getRandomItem(array, dropChanceSum, count = 1, trophyTab
 function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
 {
   local array = []
+  local shouldOnlyImage = rewardsArray.len() > 1
   foreach(reward in rewardsArray)
   {
-    reward.layout <- ::ItemsRoulette.getRewardLayout(reward)
+    reward.layout <- ::ItemsRoulette.getRewardLayout(reward, shouldOnlyImage)
     array.append(reward)
   }
   readyItemsArray[insertRewardIdx] = array
@@ -509,13 +514,18 @@ function ItemsRoulette::createItemsMarkup(completeArray)
   foreach(idx, slot in completeArray)
   {
     local slotRes = []
+    local offset = slot.len() <= 1 ? 0 : ::max(MIN_ITEMS_OFFSET, MAX_ITEMS_OFFSET / (slot.len() - 1))
+
     foreach(idx, item in slot)
-      slotRes.insert(0, ::getTblValueByPath("reward.layout", item, ::getTblValue("layout", item, "")))
+      slotRes.insert(0,
+        ::LayersIcon.genDataFromLayer(
+          { x = (offset * idx) + "@itemWidth", w = "1@itemWidth" },
+          item?.reward?.layout ?? item?.layout))
 
     local layerCfg = ::LayersIcon.findLayerCfg("roulette_slot")
     local width = 1
     if (slot.len() > 1)
-      width += 0.1 * (slot.len() - 1)
+      width += offset * (slot.len() - 1)
     layerCfg.w <- width + "@itemWidth"
     layerCfg.id <- "roulette_slot_" + idx
 
@@ -525,14 +535,14 @@ function ItemsRoulette::createItemsMarkup(completeArray)
   return result
 }
 
-function ItemsRoulette::getRewardLayout(block)
+function ItemsRoulette::getRewardLayout(block, shouldOnlyImage = false)
 {
   local config = ::getTblValueByPath("reward.reward", block, block)
   local type = ::trophyReward.getType(config)
   if (::trophyReward.isRewardItem(type))
-    return ::trophyReward.getImageByConfig(config, false, "roulette_item_place")
+    return ::trophyReward.getImageByConfig(config, shouldOnlyImage, "roulette_item_place")
 
-  local image = ::trophyReward.getImageByConfig(config, false, "item_place_single")
+  local image = ::trophyReward.getImageByConfig(config, shouldOnlyImage, "item_place_single")
   return ::LayersIcon.genDataFromLayer(::LayersIcon.findLayerCfg("roulette_item_place"), image)
 }
 

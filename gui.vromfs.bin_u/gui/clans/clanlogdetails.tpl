@@ -134,6 +134,7 @@ tdiv {
 
   textareaNoTab {
     text:t='<<signText>>'
+    on_link_rclick:t="onUserLinkRClick"
   }
 }
 <</signText>>

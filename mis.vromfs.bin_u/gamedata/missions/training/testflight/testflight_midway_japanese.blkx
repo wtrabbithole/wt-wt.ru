@@ -103,15 +103,12 @@
         "enableAfterComplete": false
       },
       "events": {
-        "periodicEvent": {
-          "time": 0.0
-        }
+        "initMission": []
       },
       "conditions": [],
       "actions": {
-        "spawnOnAirfield": {
-          "runwayName": "ships_01",
-          "objects": "armada_01"
+        "triggerEnable": {
+          "target": "spawn"
         }
       }
     },
@@ -138,12 +135,46 @@
         "wait": {
           "time": 3.0
         },
+        "triggerEnable": {
+          "target": "spawn"
+        }
+      },
+      "else_actions": []
+    },
+    "spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "func": "more",
+          "value": 0,
+          "object": "ships_01"
+        }
+      },
+      "actions": {
         "spawnOnAirfield": {
           "runwayName": "ships_01",
           "objects": "armada_01"
         }
       },
-      "else_actions": []
+      "else_actions": {
+        "missionFailed": []
+      }
     }
   },
   "mission_objectives": {

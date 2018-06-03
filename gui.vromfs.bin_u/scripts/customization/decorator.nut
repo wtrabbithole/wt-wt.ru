@@ -170,6 +170,11 @@ class Decorator
     return ::colorize("warningTextColor", ::g_string.implode(res, "\n"))
   }
 
+  function getSmallIcon()
+  {
+    return decoratorType.getSmallIcon(this)
+  }
+
   function canBuyUnlock(unit)
   {
     return !isLockedByCountry(unit) && !isLockedByUnit(unit) && !isUnlocked() && !getCost().isZero() && ::has_feature("SpendGold")

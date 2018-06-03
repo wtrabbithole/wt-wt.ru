@@ -1058,32 +1058,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -2091,6 +2139,9 @@
             "blk": "gameData/Weapons/gunVikkersK_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "gun1"
           },
           {
@@ -2101,6 +2152,9 @@
           },
           {
             "dm": "gunner1_dm"
+          },
+          {
+            "gunnerDm": "gunner1_dm"
           },
           {
             "gunDm": "gun1_dm"
@@ -2134,6 +2188,9 @@
             "blk": "gameData/Weapons/gunBrowning303_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "gun2"
           },
           {
@@ -2144,6 +2201,9 @@
           },
           {
             "dm": "gunner2_dm"
+          },
+          {
+            "gunnerDm": "gunner2_dm"
           },
           {
             "gunDm": "gun2_dm"
@@ -2187,6 +2247,9 @@
           },
           {
             "blk": "gameData/Weapons/gunBrowning303_turret.blk"
+          },
+          {
+            "breechInCockpit": true
           },
           {
             "emitter": "gun2"

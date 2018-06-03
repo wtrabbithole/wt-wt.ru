@@ -1,5 +1,7 @@
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
+
+local contactsByName = {}
 
 class Contact
 {
@@ -46,6 +48,8 @@ class Contact
     update(contactData)
   }
 
+  static getByName = @(name) contactsByName?[name]
+
   function update(contactData)
   {
     foreach (name, val in contactData)
@@ -55,6 +59,8 @@ class Contact
     uidInt64 = uid != "" ? uid.tointeger() : null
 
     refreshClanTagsTable()
+    if (name.len())
+      contactsByName[name] <- this
 
     if (afterSuccessUpdateFunc)
     {
@@ -167,12 +173,12 @@ class Contact
       return true
 
     if (xboxId == "")
-      return true
+      return platformModule.isChatEnabled()
 
     if (!needShowSystemMessage && _cacheCanInteract != null)
       return _cacheCanInteract
 
-    _cacheCanInteract = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage)
+    _cacheCanInteract = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage) == XBOX_COMMUNICATIONS_ALLOWED
     return _cacheCanInteract
   }
 

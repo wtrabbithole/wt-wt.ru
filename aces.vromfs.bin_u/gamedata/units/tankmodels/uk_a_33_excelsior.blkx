@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -93,7 +96,7 @@
     "destroysTrees": true
   },
   {
-    "type": "typeMediumTank"
+    "type": "typeHeavyTank"
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -1846,20 +1849,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 200.0,
-        "armorThickness": 25.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "mask": {
         "hp": 10000.0,
         "gun_mask_dm": {
@@ -1875,44 +1864,20 @@
           "armorClass": "CHA_tank"
         }
       },
-      "body_shields": [
-        {
-          "armorClass": "tank_structural_steel"
-        },
-        {
-          "hp": 1000.0
-        },
-        {
-          "armorThickness": 6.0
-        },
-        {
-          "stopChanceOnDeadPart": 0.0
-        },
-        {
-          "createSecondaryShatters": false
-        },
-        {
-          "ex_decor_l_01_dm": []
-        },
-        {
-          "ex_armor_body_04_dm": []
-        },
-        {
-          "ex_decor_r_01_dm": []
-        },
-        {
-          "ex_armor_body_03_dm": {
-            "armorThickness": 25.4,
-            "armorClass": "RHA_tank"
-          }
-        },
-        {
-          "ex_armor_body_03_dm": {
-            "armorThickness": 25.4,
-            "armorClass": "RHA_tank"
-          }
+      "body_shields": {
+        "armorClass": "tank_structural_steel",
+        "hp": 1000.0,
+        "armorThickness": 6.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "ex_decor_l_01_dm": [],
+        "ex_armor_body_04_dm": [],
+        "ex_decor_r_01_dm": [],
+        "ex_armor_body_03_dm": {
+          "armorThickness": 25.4,
+          "armorClass": "RHA_tank"
         }
-      ],
+      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -1948,6 +1913,37 @@
         "wheel_support_dm": [],
         "wheel_r_front_dm": [],
         "wheel_l_front_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -2003,7 +1999,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2078,6 +2074,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -2124,6 +2123,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2267,6 +2275,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
             "speedYaw": 5.5
           },
           {
@@ -2338,6 +2349,7 @@
           "flash": "emtr_mg_01_flame",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_02_dm",
           "speedYaw": 10.0,
           "speedPitch": 10.0,
           "fireConeAngle": 1.0,
@@ -2504,6 +2516,9 @@
                   "defaultPitch": 0.0
                 },
                 {
+                  "barrelDP": "gun_barrel_01_dm"
+                },
+                {
                   "speedYaw": 5.5
                 },
                 {
@@ -2575,6 +2590,7 @@
                 "flash": "emtr_mg_01_flame",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
+                "barrelDP": "gun_barrel_02_dm",
                 "speedYaw": 10.0,
                 "speedPitch": 10.0,
                 "fireConeAngle": 1.0,

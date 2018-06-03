@@ -86,6 +86,8 @@ local globalEnv = require_native("globalEnv")
     "ID_SENSOR_SCAN_PATTERN_SWITCH",
     "ID_SENSOR_RANGE_SWITCH",
     "ID_SENSOR_TARGET_LOCK",
+    { id="weapon_aim_heading",   buttonRelative = true }
+    { id="weapon_aim_pitch",     buttonRelative = true }
     { id="sensor_designation_x", buttonRelative = true }
     { id="sensor_designation_y", buttonRelative = true }
     { id="sensor_designation_z", buttonRelative = true }

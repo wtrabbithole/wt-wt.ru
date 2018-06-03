@@ -15,7 +15,7 @@ class ::items_classes.ItemVehicle extends ItemExternal {
 
   function canConsume()
   {
-    return metaBlk?.unit && !::shop_is_aircraft_purchased(metaBlk.unit)
+    return isInventoryItem && metaBlk?.unit && !::shop_is_aircraft_purchased(metaBlk.unit)
   }
 
   function canPreview()

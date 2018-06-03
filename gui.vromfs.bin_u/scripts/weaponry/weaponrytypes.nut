@@ -101,7 +101,11 @@ enums.addTypesByGlobalName("g_weaponry_types", {
     getLocName = function(unit, item, limitedName = false) { return ::getModificationName(unit, item.name, limitedName) }
     getUnlockCost = ::g_weaponry_types._getUnlockCost
     getCost = ::g_weaponry_types._getCost
-    getAmount = ::g_weaponry_types._getAmount
+    getAmount = @(unit, item) getUnlockCost(unit, item).isZero()
+        && getCost(unit, item).isZero()
+        && (item?.reqExp ?? 0) == 0
+      ? 1
+      : ::g_weaponry_types._getAmount(unit, item)
     getMaxAmount = function(unit, item) { return ::wp_get_modification_max_count(unit.name, item.name) }
     canBuy = function(unit, item) { return ::isUnitUsable(unit) && ::canBuyMod(unit, item) }
   }

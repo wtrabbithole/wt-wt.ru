@@ -480,17 +480,10 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
   {
     isLoginRequestInprogress = true
     ::disable_autorelogin_once <- false
-    local result = -1
-    if (::get_object_value(scene, "loginbox_username", "") == ""
-        && ::get_object_value(scene, "loginbox_password", "") == "")
-    {
-      ::statsd_counter("gameStart.request_login.steam")
-      ::dagor.debug("Steam Login: check_login_pass")
-      result = ::check_login_pass("", "", "steam", "steam", false, false)
-    }
-    else
-      result = requestLogin(::get_object_value(scene, "loginbox_username", ""))
-    proceedAuthorizationResult(result, ::get_object_value(scene, "loginbox_username", ""))
+    ::statsd_counter("gameStart.request_login.steam")
+    ::dagor.debug("Steam Login: check_login_pass")
+    local result = ::check_login_pass("", "", "steam", "steam", false, false)
+    proceedAuthorizationResult(result, "")
   }
 
   function proceedGetTwoStepCode(data)

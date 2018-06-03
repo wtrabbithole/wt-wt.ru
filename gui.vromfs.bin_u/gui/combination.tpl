@@ -5,7 +5,7 @@ combination {
 
   <<^last>>
   textareaNoTab {
-    text:t=" + "
+    text:t="+"
 
     position:t='relative'
     top:t='ph/2 - h/2'

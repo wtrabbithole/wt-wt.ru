@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "canReloadNonGuns": true
   },
   {
@@ -233,18 +236,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "gun_barrel_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 300.0,
@@ -292,6 +283,37 @@
           "ex_armor_body_l_01_dm": {
             "hp": 300.0
           }
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 250.0,
+        "armorThickness": 25.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "crew": {
@@ -458,6 +480,10 @@
         "ammo_turret_34_dm": [],
         "ammo_turret_35_dm": [],
         "ammo_turret_36_dm": [],
+        "ammo_turret_37_dm": [],
+        "ammo_turret_38_dm": [],
+        "ammo_turret_39_dm": [],
+        "ammo_turret_40_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -1740,44 +1766,52 @@
     "class_tags": []
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammo_body_01_dm": {
-          "count": 2
-        },
-        "ammo_body_02_dm": {
-          "count": 2
-        },
-        "ammo_body_03_dm": {
-          "count": 2
-        },
-        "ammo_body_04_dm": {
-          "count": 2
-        },
-        "ammo_body_05_dm": {
-          "count": 2
-        },
-        "ammo_body_06_dm": {
-          "count": 2
-        },
-        "ammo_body_07_dm": {
-          "count": 1
-        },
-        "ammo_body_08_dm": {
-          "count": 1
-        },
-        "ammo_body_09_dm": {
-          "count": 1
-        },
-        "ammo_body_10_dm": {
-          "count": 1
-        },
-        "ammo_body_11_dm": {
-          "count": 1
-        },
-        "ammo_body_12_dm": {
-          "count": 1
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": true,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_body_01_dm": {
+            "count": 2
+          },
+          "ammo_body_02_dm": {
+            "count": 2
+          },
+          "ammo_body_03_dm": {
+            "count": 2
+          },
+          "ammo_body_04_dm": {
+            "count": 2
+          },
+          "ammo_body_05_dm": {
+            "count": 2
+          },
+          "ammo_body_06_dm": {
+            "count": 2
+          },
+          "ammo_body_07_dm": {
+            "count": 1
+          },
+          "ammo_body_08_dm": {
+            "count": 1
+          },
+          "ammo_body_09_dm": {
+            "count": 1
+          },
+          "ammo_body_10_dm": {
+            "count": 1
+          },
+          "ammo_body_11_dm": {
+            "count": 1
+          },
+          "ammo_body_12_dm": {
+            "count": 1
+          }
         }
       }
     }
@@ -1821,7 +1855,8 @@
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "commander_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-40.0,40.0],
@@ -1896,6 +1931,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_05_dm"
+          },
+          {
             "speedYaw": 18.0
           },
           {
@@ -1950,7 +1988,8 @@
             "turret": {
               "head": "bone_mg_gun_twin_01",
               "gun": "bone_mg_gun_twin_01",
-              "gunnerDm": "gunner_dm"
+              "gunnerDm": "gunner_dm",
+              "rotatedTurret": "bone_turret"
             }
           },
           {
@@ -1970,6 +2009,7 @@
           "flash": "emtr_mg_flame_02",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_04_dm",
           "speedYaw": 18.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
@@ -1993,7 +2033,8 @@
           "turret": {
             "head": "bone_mg_gun_twin_02",
             "gun": "bone_mg_gun_twin_02",
-            "gunnerDm": "gunner_dm"
+            "gunnerDm": "gunner_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -2010,6 +2051,7 @@
           "flash": "emtr_mg_flame_03",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_03_dm",
           "speedYaw": 18.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
@@ -2033,7 +2075,8 @@
           "turret": {
             "head": "bone_mg_gun_twin_03",
             "gun": "bone_mg_gun_twin_03",
-            "gunnerDm": "gunner_dm"
+            "gunnerDm": "gunner_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -2050,6 +2093,7 @@
           "flash": "emtr_mg_flame_04",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_02_dm",
           "speedYaw": 18.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
@@ -2073,7 +2117,8 @@
           "turret": {
             "head": "bone_mg_gun_twin_04",
             "gun": "bone_mg_gun_twin_04",
-            "gunnerDm": "gunner_dm"
+            "gunnerDm": "gunner_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [-0.0,0.0],

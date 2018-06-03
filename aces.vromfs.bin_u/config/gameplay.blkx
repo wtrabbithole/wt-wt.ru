@@ -229,7 +229,7 @@
             "ranks": [7,10],
             "initiator": [3150.0,800.0],
             "ally": [250.0,400.0],
-            "enemy": [1550.0,1000.0]
+            "enemy": [1500.0,700.0]
           }
         },
         {
@@ -237,7 +237,7 @@
             "ranks": [11,14],
             "initiator": [3450.0,800.0],
             "ally": [250.0,400.0],
-            "enemy": [1700.0,1000.0]
+            "enemy": [1600.0,700.0]
           }
         },
         {
@@ -245,7 +245,7 @@
             "ranks": [15,30],
             "initiator": [3600.0,800.0],
             "ally": [250.0,400.0],
-            "enemy": [2000.0,1000.0]
+            "enemy": [1750.0,750.0]
           }
         },
         {
@@ -320,7 +320,7 @@
             "ranks": [7,10],
             "initiator": [2350.0,800.0],
             "ally": [250.0,400.0],
-            "enemy": [1550.0,1000.0]
+            "enemy": [1500.0,700.0]
           }
         },
         {
@@ -328,7 +328,7 @@
             "ranks": [11,14],
             "initiator": [3000.0,800.0],
             "ally": [250.0,400.0],
-            "enemy": [1700.0,1000.0]
+            "enemy": [1600.0,700.0]
           }
         },
         {
@@ -336,7 +336,7 @@
             "ranks": [15,30],
             "initiator": [3000.0,800.0],
             "ally": [250.0,400.0],
-            "enemy": [2000.0,1000.0]
+            "enemy": [1750.0,750.0]
           }
         },
         {
@@ -864,6 +864,9 @@
     },
     {
       "time": [0.075,60.0]
+    },
+    {
+      "time": [0.102,60.0]
     }
   ],
   "rearmBulletTimeByCaliber": [
@@ -991,6 +994,9 @@
       "time": [0.152,7.0]
     },
     {
+      "time": [0.155,7.0]
+    },
+    {
       "time": [0.158,12.0]
     },
     {
@@ -1016,13 +1022,43 @@
     "torpedoReloadCooldownTime": 100.0,
     "gunnersReloadCooldownTime": 60.0
   },
+  "sensorsConstants": {
+    "engineInfraRedBrightnessAspectMultFront": 0.01,
+    "engineInfraRedBrightnessAspectMultSide": 0.09,
+    "engineInfraRedBrightnessAspectMultRear": 1.0,
+    "radarCrossSectionAspectMultFrontFront": 1.0,
+    "radarCrossSectionAspectMultFrontSide": 1.2,
+    "radarCrossSectionAspectMultFrontRear": 1.0
+  },
   "fmConstants": {
     "oilLeakSpeed": 0.0024,
     "oilLeakTime": [420.0,210.0,20.0],
     "oilEmptyDamageSpeed": 0.0042,
     "waterLeakSpeed": 0.0048,
     "waterLeakTime": [210.0,105.0,15.0],
-    "waterEmptyDamageSpeed": 0.0111
+    "waterEmptyDamageSpeed": 0.0111,
+    "alphaAileronMin": 0.1,
+    "alphaRudderMin": 0.1,
+    "alphaElevatorMin": 0.2,
+    "allowStrongControlsRestrictions": true,
+    "engineDegradationSpeed1": 0.0005,
+    "engineDegradationSpeed2": 0.0035,
+    "engineDegradationSpeed3": 0.025,
+    "oilLeakTime1": 420.0,
+    "oilLeakTime2": 210.0,
+    "oilLeakTime3": 20.0,
+    "waterLeakTime1": 210.0,
+    "waterLeakTime2": 105.0,
+    "waterLeakTime3": 15.0,
+    "damagedPropClMult": 0.2,
+    "damagedPropCdMult": 1.5,
+    "damagedSurfaceCxMultSquareRatioMin": 0.3,
+    "damagedSurfaceCxMultSquareRatioMax": 0.5,
+    "damagedSurfaceCxMultMax": 2.3,
+    "controlFinsDestructionSpeedDiff": 10.0,
+    "tailDestructionSpeedDiff": 40.0,
+    "horsePowersToInfraRedBrightness": 0.2,
+    "thrustKgsToInfraRedBrightness": 1.0
   },
   "bombingDefaults": {
     "bomberviewBomber": {
@@ -1072,7 +1108,7 @@
         "canBeDropped": {
           "altitude": [-100.0,10000.0],
           "tangage": [-270.0,90.0],
-          "roll": 180.0
+          "roll": 90.0
         },
         "maxDispersionAt": {
           "altitude": [20.0,10000.0],
@@ -1114,9 +1150,9 @@
     "noBomberviewBomber": {
       "maxDelay": 0.0,
       "canBeDropped": {
-        "altitude": [-100.0,10000.0],
-        "tangage": [-270.0,90.0],
-        "roll": 180.0
+        "altitude": [-100.0,20000.0],
+        "tangage": [-90.0,90.0],
+        "roll": 90.0
       },
       "maxDispersionAt": {
         "altitude": [20.0,1200.0],
@@ -1152,6 +1188,49 @@
         "altitude": [-19999.0,19999.0],
         "tangage": [-179.0,179.0],
         "roll": 179.0
+      }
+    },
+    "external": {
+      "maxDelay": 2.0,
+      "canBeDropped": {
+        "altitude": [-100.0,20000.0],
+        "tangage": [-90.0,90.0],
+        "roll": 90.0
+      },
+      "maxDispersionAt": {
+        "altitude": [20.0,10000.0],
+        "tangage": [-45.0,45.0],
+        "roll": 50.0
+      },
+      "noDispersionAt": {
+        "altitude": [20.0,6000.0],
+        "tangage": [-10.0,10.0],
+        "roll": 18.0
+      },
+      "sightDisappears": {
+        "altitude": [40.0,10000.0],
+        "tangage": [-45.0,45.0],
+        "roll": 50.0
+      },
+      "sightStartsFading": {
+        "altitude": [40.0,6000.0],
+        "tangage": [-18.0,18.0],
+        "roll": 25.0
+      },
+      "sightEnabled": {
+        "altitude": [20.0,15000.0],
+        "tangage": [-70.0,70.0],
+        "roll": 60.0
+      },
+      "maxDelayAt": {
+        "altitude": [-20000.0,20000.0],
+        "tangage": [-45.0,45.0],
+        "roll": 45.0
+      },
+      "noDelayAt": {
+        "altitude": [-19999.0,19999.0],
+        "tangage": [-10.0,10.0],
+        "roll": 10.0
       }
     }
   },
@@ -1202,8 +1281,8 @@
         "maxDelay": 2.0,
         "canBeDropped": {
           "altitude": [-100.0,10000.0],
-          "tangage": [-270.0,90.0],
-          "roll": 180.0
+          "tangage": [-90.0,90.0],
+          "roll": 90.0
         },
         "maxDispersionAt": {
           "altitude": [20.0,10000.0],
@@ -1245,9 +1324,9 @@
     "noBomberviewBomber": {
       "maxDelay": 0.0,
       "canBeDropped": {
-        "altitude": [-100.0,10000.0],
-        "tangage": [-270.0,90.0],
-        "roll": 180.0
+        "altitude": [-100.0,20000.0],
+        "tangage": [-90.0,90.0],
+        "roll": 90.0
       },
       "maxDispersionAt": {
         "altitude": [20.0,1200.0],
@@ -1870,26 +1949,10 @@
       "allowNode": "ex_armor_05_dm"
     }
   ],
-  "torpedoCourseCorrection": [
-    {
-      "row": [0.05,0.05]
-    },
-    {
-      "row": [0.1,0.5]
-    },
-    {
-      "row": [0.2,1.15]
-    },
-    {
-      "row": [0.5,2.2]
-    },
-    {
-      "row": [1.0,3.25]
-    },
-    {
-      "row": [5.0,5.5]
-    }
-  ],
+  "torpedoCourseCorrection": {
+    "courseSmoothness": 42.0,
+    "angularSpeed": 0.3
+  },
   "pickUpPresets": {
     "allInOne": {
       "fxName": "repair_ground",

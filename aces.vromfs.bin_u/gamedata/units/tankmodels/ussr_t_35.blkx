@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -450,35 +453,37 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 250.0,
+        "hp": 200.0,
         "gun_barrel_01_dm": {
-          "armorThickness": 25.0
+          "armorThickness": 20.0
         },
         "gun_barrel_02_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 15.0,
+          "hp": 150.0
         },
         "gun_barrel_05_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 20.0
-        },
-        "gun_barrel_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 15.0,
+          "hp": 150.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_06_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_07_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "machine_gun": {
@@ -634,7 +639,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],

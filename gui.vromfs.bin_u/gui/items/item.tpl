@@ -167,6 +167,13 @@ itemDiv {
     <<#amount>>
     itemAmountText {
       text:t='<<amount>>'
+      <<#isInTransfer>>
+      animated_wait_icon {
+        pos:t='-w, 38%ph-50%h'
+        class:t='inTextRowAbsolute'
+        background-rotation:t = '0'
+      }
+      <</isInTransfer>>
     }
     <</amount>>
 

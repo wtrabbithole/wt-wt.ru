@@ -93,6 +93,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   NO_COUNTRY_IN_TEAM
   NO_COUNTRY_BY_SIDE
   NO_TEAM_NAME_BY_SIDE
+  NO_AVAILABLE_UNITS
   TEAM_FULL
   UNITS_NOT_ENOUGH_AVAILABLE
   SQUAD_NOT_LEADER
@@ -738,9 +739,6 @@ function g_world_war::isGroupAvailable(group, accessList = null)
   if (!group || !group.isValid() || !group.owner.isValid())
     return false
 
-  if (group.owner.side != ::ww_get_player_side())
-    return false
-
   if (!accessList)
     accessList = getMyAccessLevelListForCurrentBattle()
 
@@ -1366,15 +1364,18 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
   return collectedUnits
 }
 
-function g_world_war::addOperationInvite(operationId, clanName, isStarted, inviteTime)
+function g_world_war::addOperationInvite(operationId, clanId, isStarted, inviteTime)
 {
   if (!::is_worldwar_enabled() || !canPlayWorldwar())
+    return
+
+  if (clanId.tostring() != ::clan_get_my_clan_id())
     return
 
   if (operationId != ::ww_get_operation_id())
     ::g_invites.addInvite(::g_invites_classes.WwOperation,
       { operationId = operationId,
-        clanName = clanName,
+        clanName = ::clan_get_my_clan_tag(),
         isStarted = isStarted,
         inviteTime = inviteTime }
     )
@@ -1441,6 +1442,32 @@ function g_world_war::popupCharErrorMsg(groupName = null, titleText = "")
     ::loc("worldwar/charError/defaultError", ""))
   if (popupText.len() || titleText.len())
     ::g_popups.add(titleText, popupText, null, null, null, groupName)
+}
+
+function g_world_war::getCurMissionWWBattleName()
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+
+  local battleId = misBlk?.customRules?.battleId
+  if (!battleId)
+    return ""
+
+  local battle = getBattleById(battleId)
+  return battle ? battle.getView().getBattleName() : ""
+}
+
+function g_world_war::getCurMissionWWOperationName()
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+
+  local operationId = misBlk?.customRules?.operationId
+  if (!operationId)
+    return ""
+
+  local operation = ::g_ww_global_status.getOperationById(operationId.tointeger())
+  return operation ? operation.getNameText() : ""
 }
 
 function ww_event(name, params = {})

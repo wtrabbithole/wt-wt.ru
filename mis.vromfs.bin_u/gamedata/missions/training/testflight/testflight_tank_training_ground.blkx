@@ -15,7 +15,7 @@
     },
     "mission": {
       "name": "testFlight_tank_training_ground",
-      "level": "levels/avg_training_ground.bin",
+      "level": "levels/tank_test_ballistics.bin",
       "type": "testFlight",
       "restoreType": "manual",
       "optionalTakeOff": false,
@@ -158,40 +158,82 @@
   "effects": [],
   "units": [
     {
-      "tankModels": {
-        "name": "t1_player01",
-        "tm": [
-          [0.887011,0.0,-0.461748],
-          [0.0,1.0,0.0],
-          [0.461748,0.0,0.887011],
-          [1752.59,217.241,1752.01]
-        ],
-        "unit_class": "uk_challenger_1",
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 10,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "modification": "bmp_1p_turret_improvement",
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
+      "tankModels": [
+        {
+          "name": "t1_player01"
         },
-        "way": []
-      }
+        {
+          "tm": [
+            [0.989108,0.0,-0.147192],
+            [0.0,1.0,0.0],
+            [0.147192,0.0,0.989108],
+            [0.0,94.4864,67.2339]
+          ]
+        },
+        {
+          "unit_class": "ussr_is_7"
+        },
+        {
+          "closed_waypoints": false
+        },
+        {
+          "isShipSpline": false
+        },
+        {
+          "shipTurnRadius": 100.0
+        },
+        {
+          "weapons": ""
+        },
+        {
+          "bullets0": ""
+        },
+        {
+          "bullets1": ""
+        },
+        {
+          "bullets2": ""
+        },
+        {
+          "bullets3": ""
+        },
+        {
+          "bulletsCount0": 30
+        },
+        {
+          "bulletsCount1": 10
+        },
+        {
+          "bulletsCount2": 0
+        },
+        {
+          "bulletsCount3": 0
+        },
+        {
+          "modification": "tank_tool_kit"
+        },
+        {
+          "modification": "tank_smoke_screen_system_mod"
+        },
+        {
+          "modification": "manual_extinguisher"
+        },
+        {
+          "props": {
+            "army": 1,
+            "count": 1,
+            "formation_type": "rows",
+            "formation_div": 3,
+            "formation_step": [2.5,2.0],
+            "formation_noise": [0.1,0.1],
+            "uniqueName": "",
+            "attack_type": "fire_at_will"
+          }
+        },
+        {
+          "way": []
+        }
+      ]
     },
     {
       "tankModels": {
@@ -200,9 +242,9 @@
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [2046.37,216.918,2337.7]
+          [265.258,216.918,706.494]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "germ_pzkpfw_IV_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -236,7 +278,7 @@
           [0.0871558,0.0,0.996195],
           [0.0,1.0,0.0],
           [-0.996195,0.0,0.0871558],
-          [2320.9,215.417,2137.43]
+          [539.788,94.4864,506.224]
         ],
         "unit_class": "fr_amx_30_b2_brenus",
         "objLayer": 1,
@@ -272,7 +314,7 @@
           [0.766044,0.0,0.642788],
           [0.0,1.0,0.0],
           [-0.642788,0.0,0.766044],
-          [2182.11,236.141,1045.65]
+          [400.998,94.4864,-585.556]
         ],
         "props": [
           {
@@ -306,7 +348,7 @@
           [-0.46916,0.0,0.883115],
           [0.0,1.0,0.0],
           [-0.883115,0.0,-0.46916],
-          [2814.82,500.0,1225.32]
+          [1033.71,500.0,-405.886]
         ],
         "unit_class": "bf-110c-4",
         "objLayer": 1,
@@ -353,15 +395,15 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2905.3,223.894,2033.24]
+          [1124.19,223.894,402.034]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "ussr_t_64_b_1984",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
         "weapons": "",
-        "bullets0": "105mm_usa_M774_APDS_FS",
+        "bullets0": "",
         "bullets1": "",
         "bullets2": "",
         "bullets3": "",
@@ -389,15 +431,15 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2905.3,223.843,2054.01]
+          [1124.19,223.843,422.804]
         ],
-        "unit_class": "ussr_t_64_b_1984",
+        "unit_class": "ussr_t_64a_1971",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
         "weapons": "",
-        "bullets0": "125mm_ussr_3BM22_APDS_FS",
+        "bullets0": "",
         "bullets1": "",
         "bullets2": "",
         "bullets3": "",
@@ -425,15 +467,15 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2905.3,223.843,2074.78]
+          [1124.19,223.843,443.574]
         ],
-        "unit_class": "germ_leopard_I_a1",
+        "unit_class": "germ_leopard_2k",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
         "weapons": "",
-        "bullets0": "105mm_usa_M735_APDS_FS",
+        "bullets0": "",
         "bullets1": "",
         "bullets2": "",
         "bullets3": "",
@@ -461,7 +503,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2905.3,223.794,2095.55]
+          [1124.19,223.794,464.344]
         ],
         "unit_class": "uk_challenger_1",
         "objLayer": 1,
@@ -497,7 +539,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2905.3,223.843,2116.32]
+          [1124.19,223.843,485.114]
         ],
         "unit_class": "fr_amx_30_b2_brenus",
         "objLayer": 1,
@@ -528,14 +570,122 @@
     },
     {
       "tankModels": {
+        "name": "firing_tank06",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1124.19,223.894,506.434]
+        ],
+        "unit_class": "us_m1_abrams",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "105mm_usa_M774_APDS_FS",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "firing_tank07",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1124.19,223.894,522.504]
+        ],
+        "unit_class": "us_m1_abrams",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "105mm_usa_M774_APDS_FS",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "firing_tank08",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1124.19,223.894,538.574]
+        ],
+        "unit_class": "us_m1_abrams",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "105mm_usa_M774_APDS_FS",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
         "name": "target_tank02",
         "tm": [
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [2084.31,216.918,2337.7]
+          [298.148,216.918,706.494]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "germ_pzkpfw_IV_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -569,9 +719,9 @@
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [2122.25,216.918,2337.7]
+          [331.048,216.918,706.494]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "germ_pzkpfw_IV_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -605,9 +755,9 @@
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [2160.19,216.918,2337.7]
+          [363.938,216.918,706.494]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "germ_pzkpfw_IV_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -641,9 +791,9 @@
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [2198.13,216.918,2337.7]
+          [396.838,216.918,706.494]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "germ_pzkpfw_IV_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -677,9 +827,9 @@
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [2236.07,216.918,2337.7]
+          [429.728,216.918,706.494]
         ],
-        "unit_class": "us_m1_abrams",
+        "unit_class": "germ_pzkpfw_IV_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -714,7 +864,7 @@
         [0.414817,0.0,-0.909905],
         [0.0,1.0,0.0],
         [0.909905,0.0,0.414817],
-        [2149.97,550.0,2089.93]
+        [368.858,550.0,458.724]
       ],
       "objLayer": 0,
       "props": []
@@ -725,7 +875,7 @@
         [-29.9997,0.0,52.9983],
         [0.0,60.9,0.0],
         [-52.9983,0.0,-29.9997],
-        [2814.81,500.0,1225.28]
+        [1033.7,500.0,-405.926]
       ],
       "objLayer": 0,
       "props": []
@@ -736,7 +886,7 @@
         [0.999048,0.0,-0.0436194],
         [0.0,1.0,0.0],
         [0.0436194,0.0,0.999048],
-        [1723.83,215.359,1789.66]
+        [0.0,94.4864,158.454]
       ],
       "objLayer": 0,
       "props": []
@@ -747,7 +897,7 @@
         [-8.1,0.0,-2.38419e-07],
         [0.0,8.1,0.0],
         [2.38419e-07,0.0,-8.1],
-        [2046.4,217.25,1774.4]
+        [250.0,94.4864,143.194]
       ],
       "objLayer": 0,
       "props": []
@@ -758,7 +908,7 @@
         [-8.1,0.0,3.35011e-07],
         [0.0,8.1,0.0],
         [-3.35011e-07,0.0,-8.1],
-        [2280.7,217.25,1793.8]
+        [500.0,94.4864,162.594]
       ],
       "objLayer": 0,
       "props": []
@@ -769,7 +919,7 @@
         [-8.1,0.0,3.35011e-07],
         [0.0,8.1,0.0],
         [-3.35011e-07,0.0,-8.1],
-        [2544.8,217.25,1754.7]
+        [800.0,94.4864,123.494]
       ],
       "objLayer": 0,
       "props": []
@@ -780,7 +930,7 @@
         [-8.1,0.0,3.35011e-07],
         [0.0,8.1,0.0],
         [-3.35011e-07,0.0,-8.1],
-        [2790.5,217.25,1765.3]
+        [1000.0,94.4864,134.094]
       ],
       "objLayer": 0,
       "props": []
@@ -791,7 +941,7 @@
         [-8.1,0.0,-7.37874e-07],
         [0.0,8.1,0.0],
         [7.37874e-07,0.0,-8.1],
-        [3048.4,246.777,1746.3]
+        [1300.0,246.777,115.094]
       ],
       "objLayer": 0,
       "props": []
@@ -802,7 +952,7 @@
         [0.705962,0.0,8.06918],
         [0.0,8.1,0.0],
         [-8.06918,0.0,0.705962],
-        [2250.1,222.605,1196.2]
+        [468.988,94.4864,-435.006]
       ],
       "objLayer": 0,
       "props": []
@@ -813,7 +963,7 @@
         [-6.56717,0.0,4.74155],
         [0.0,8.1,0.0],
         [-4.74155,0.0,-6.56717],
-        [3111.0,276.3,934.2]
+        [1329.89,276.3,-697.006]
       ],
       "objLayer": 0,
       "props": []
@@ -853,7 +1003,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2266.19,218.581,1254.28]
+            [485.078,218.581,-376.926]
           ],
           "props": {
             "speed": 300.0,
@@ -869,7 +1019,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2307.07,217.38,1338.23]
+            [525.958,217.38,-292.976]
           ],
           "props": {
             "speed": 300.0,
@@ -885,7 +1035,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2463.73,217.431,1420.1]
+            [682.618,217.431,-211.106]
           ],
           "props": {
             "speed": 300.0,
@@ -901,7 +1051,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2680.64,217.241,1507.06]
+            [899.528,217.241,-124.146]
           ],
           "props": {
             "speed": 300.0,
@@ -917,7 +1067,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2795.3,219.778,1478.6]
+            [1014.19,219.778,-152.606]
           ],
           "props": {
             "speed": 300.0,
@@ -933,7 +1083,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2667.73,218.375,1371.06]
+            [886.618,218.375,-260.146]
           ],
           "props": {
             "speed": 300.0,
@@ -949,7 +1099,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2406.82,218.321,1223.62]
+            [625.708,218.321,-407.586]
           ],
           "props": {
             "speed": 300.0,
@@ -965,7 +1115,7 @@
             [1.0,0.0,0.0],
             [0.0,1.0,0.0],
             [0.0,0.0,1.0],
-            [2312.74,220.656,1211.38]
+            [531.628,220.656,-419.826]
           ],
           "props": {
             "speed": 300.0,

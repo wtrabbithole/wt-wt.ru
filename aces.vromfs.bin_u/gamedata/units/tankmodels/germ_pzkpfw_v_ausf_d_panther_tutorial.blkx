@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -184,6 +187,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/75mm_Kwk42_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "recoilMultiplier": 0.8,
           "recoilOffset": 0.43,
           "recoilTimes": [0.1,0.65],
           "defaultYaw": 0.0,
@@ -242,6 +246,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true
@@ -953,7 +960,7 @@
     "ammoLoadDistribution": {
       "primaryShells": {
         "ammo_body_01_dm": {
-          "count": 2
+          "count": 1
         },
         "ammo_body_02_dm": {
           "count": 2
@@ -977,7 +984,7 @@
           "count": 2
         },
         "ammo_body_09_dm": {
-          "count": 2
+          "count": 3
         },
         "ammo_body_10_dm": {
           "count": 2
@@ -989,7 +996,7 @@
           "count": 2
         },
         "ammo_body_13_dm": {
-          "count": 2
+          "count": 3
         },
         "ammo_body_14_dm": {
           "count": 2
@@ -1001,7 +1008,7 @@
           "count": 2
         },
         "ammo_body_17_dm": {
-          "count": 2
+          "count": 3
         },
         "ammo_body_18_dm": {
           "count": 2
@@ -1013,7 +1020,7 @@
           "count": 2
         },
         "ammo_body_21_dm": {
-          "count": 2
+          "count": 3
         },
         "ammo_body_22_dm": {
           "count": 2
@@ -1031,7 +1038,7 @@
           "count": 2
         },
         "ammo_body_27_dm": {
-          "count": 2
+          "count": 1
         },
         "ammo_body_28_dm": {
           "count": 2
@@ -1043,7 +1050,7 @@
           "count": 2
         },
         "ammo_body_31_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_32_dm": {
           "count": 2
@@ -1067,10 +1074,7 @@
           "count": 2
         },
         "ammo_body_39_dm": {
-          "count": 2
-        },
-        "ammo_body_40_dm": {
-          "count": 2
+          "count": 1
         }
       }
     }
@@ -1158,6 +1162,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/75mm_Kwk42_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
+                "recoilMultiplier": 0.8,
                 "recoilOffset": 0.43,
                 "recoilTimes": [0.1,0.65],
                 "defaultYaw": 0.0,
@@ -1216,6 +1221,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "useAnimFlashNode": true
@@ -1566,7 +1574,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1641,6 +1649,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -1687,6 +1698,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],

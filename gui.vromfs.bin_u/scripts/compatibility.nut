@@ -164,19 +164,6 @@ if (!("get_unit_wp_to_respawn" in getroottable()))
 }
 
 //----------------------------wop_1_77_2_X---------------------------------//
-
-if (!("min" in getroottable())) 
-  function min(a, b) { return (a < b)? a : b }
-
-if (!("max" in getroottable())) 
-  function max(a, b) { return (a > b)? a : b }
-
-if (!("clamp" in getroottable())) {
-  function clamp(value, min, max) {
-    return (value < min) ? min : (value > max) ? max : value
-  }
-}
-
 if (!("logerr" in ::dagor))
   ::dagor.logerr <- ::dagor.debug
 
@@ -190,9 +177,18 @@ if (!("logerr" in ::dagor))
     }
   }
 
-  get_preset_by_skin_tags = @(unitId, skinId) ::get_ugc_tags_preset_by_skin_tags(unitId, skinId)
   can_use_text_chat_with_target = @(...) 2
   XBOX_COMMUNICATIONS_BLOCKED = 0
   XBOX_COMMUNICATIONS_ONLY_FRIENDS = 1
   XBOX_COMMUNICATIONS_ALLOWED = 2
+  EULT_INVENTORY_FAIL_ITEM = 56
+
+  is_gpu_nvidia = @() ["win32", "win64"].find(::get_platform()) >= 0
+  inventory_generate_key       = function() { return "" }
+  inventory_get_transfer_items = function() { return [] }
+
+  get_option_mine_depth = @() 1
+  set_option_mine_depth = @(v) null
+  get_option_save_zoom_camera = @() 0
+  set_option_save_zoom_camera = @(v) null
 })

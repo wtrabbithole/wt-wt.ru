@@ -74,6 +74,7 @@ class ::BaseItem
   lastChangeTimestamp = -1
 
   amount = 1
+  transferAmount = 0 //amount of items in transfer
   sellCountStep = 1
 
   // Empty string means no purchase feature.
@@ -315,7 +316,7 @@ class ::BaseItem
 
   function isActive(...) { return false }
 
-  shouldShowAmount = @(count) count > 1 || count == 0
+  shouldShowAmount = @(count) count > 1 || count == 0 || transferAmount > 0
 
   function getViewData(params = {})
   {
@@ -348,9 +349,14 @@ class ::BaseItem
     foreach(paramName, value in params)
       res[paramName] <- value
 
+    local isSelfAmount = params?.count == null
     local amountVal = params?.count || getAmount()
     if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
+    {
       res.amount <- amountVal.tostring()
+      if (isSelfAmount && transferAmount > 0)
+        res.isInTransfer <- true
+    }
 
     if (::getTblValue("showSellAmount", params, false))
     {

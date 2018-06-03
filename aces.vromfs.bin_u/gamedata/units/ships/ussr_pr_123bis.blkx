@@ -488,103 +488,6 @@
         "ex_armor_l_03_dm": [],
         "ex_armor_r_03_dm": []
       },
-      "turrets_armor": {
-        "armorClass": "RHA_tank",
-        "armorThickness": 7.0,
-        "turret_01_dm": [],
-        "turret_02_dm": []
-      },
-      "crew": {
-        "armorClass": "steel_tankman",
-        "hp": 40.0,
-        "driver_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_04_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_05_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_06_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_07_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_04_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_05_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_06_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_07_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_08_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_09_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_10_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_11_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_12_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_13_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_14_dm": {
-          "genericDamageMult": 4.0
-        },
-        "commander_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_04_dm": {
-          "genericDamageMult": 4.0
-        }
-      },
       "turrets_main_caliber": {
         "hp": 100.0,
         "armorClass": "RHA_tank",
@@ -773,10 +676,22 @@
         "funnel_02_dm": [],
         "funnel_03_dm": [],
         "funnel_04_dm": [],
-        "transmission_01_dm": [],
-        "transmission_02_dm": [],
-        "transmission_03_dm": [],
-        "transmission_04_dm": []
+        "transmission_01_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_02_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_03_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_04_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        }
       },
       "steering_gear": {
         "armorClass": "armor_tank_engine",
@@ -808,7 +723,7 @@
         "ammunition_storage_06_dm": []
       },
       "depth_charges": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 500.0,
         "armorThickness": 20.0,
         "armorThrough": 15.0,
@@ -869,6 +784,36 @@
           "secondaryShatterDamageMult": 0.0
         },
         "depth_charge_mount_10_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_11_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_12_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_13_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_14_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_15_dm": {
           "hp": 250.0,
           "armorThickness": 5.0,
           "genericDamageMult": 1.0,
@@ -1068,7 +1013,7 @@
         }
       },
       "torpedos": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 250.0,
         "armorThickness": 7.5,
         "genericDamageMult": 1.5,
@@ -1088,7 +1033,7 @@
         "torpedo_10_dm": []
       },
       "fuel_tanks": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 200.0,
         "armorThickness": 5.0,
         "armorThrough": 50.0,
@@ -1322,9 +1267,26 @@
             "name": "torpedo_04_dm"
           },
           {
-            "onKill": {
-              "expl": 0.9,
-              "fHitCritical": false
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "expl": 0.2,
+              "damage": 300.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.1,
+              "expl": 0.1,
+              "damage": 150.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.03,
+              "expl": 0.01
             }
           }
         ]
@@ -1392,6 +1354,12 @@
             "name": "depth_charge_20_dm"
           },
           {
+            "name": "depth_charge_21_dm"
+          },
+          {
+            "name": "depth_charge_22_dm"
+          },
+          {
             "name": "depth_charge_l_01_dm"
           },
           {
@@ -1440,8 +1408,51 @@
             "name": "depth_charge_r_08_dm"
           },
           {
-            "onKill": {
-              "expl": 0.5
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.05,
+              "damage": 50.0,
+              "expl": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "damage": 150.0,
+              "expl": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.3,
+              "damage": 300.0,
+              "expl": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "damage": 50.0,
+              "fire": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.15,
+              "damage": 100.0,
+              "fire": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.3,
+              "damage": 300.0,
+              "fire": 0.3
             }
           }
         ]
@@ -1700,13 +1711,6 @@
     }
   },
   {
-    "class_tags": {
-      "pacific": true,
-      "mediterran": true,
-      "westernfront": true
-    }
-  },
-  {
     "tags": {
       "country_ussr": true,
       "type_ship": true,
@@ -1769,8 +1773,8 @@
           "engine": {
             "pos": [-7.3,-0.9,0.4],
             "outputParam": "propeller_rotate_02:CRS",
-            "engineDmPart": "engine_room_01_dm",
-            "transmissionDmPart": "transmission_01_dm",
+            "engineDmPart": "engine_room_02_dm",
+            "transmissionDmPart": "transmission_02_dm",
             "propeller": "propeller_02"
           }
         }
@@ -1810,8 +1814,8 @@
               "hydrofoil": {
                 "euler": [-1.2,90.0,16.0],
                 "pos": [3.8,-0.71,-0.7],
-                "size": [1.0,1.0],
-                "maxV": 67.0,
+                "size": [1.0,2.0],
+                "maxV": 60.0,
                 "polar": {
                   "Cl0": 0.006,
                   "CdMin": 0.0009,
@@ -1827,8 +1831,8 @@
               "hydrofoil": {
                 "euler": [1.2,-90.0,16.0],
                 "pos": [3.8,-0.71,0.7],
-                "size": [1.0,1.0],
-                "maxV": 67.0,
+                "size": [1.0,2.0],
+                "maxV": 60.0,
                 "polar": {
                   "Cl0": 0.006,
                   "CdMin": 0.0009,
@@ -1878,7 +1882,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_01"
@@ -1969,7 +1973,7 @@
           },
           {
             "turret": {
-              "head": "turret_01",
+              "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
               "gunnerDm": "main_caliber_turret_01_dm"
             }
@@ -2000,7 +2004,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -2091,7 +2095,7 @@
           },
           {
             "turret": {
-              "head": "turret_01",
+              "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
               "gunnerDm": "main_caliber_turret_01_dm"
             }
@@ -2122,7 +2126,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_03"
@@ -2213,7 +2217,7 @@
           },
           {
             "turret": {
-              "head": "turret_02",
+              "head": "main_caliber_turret_02",
               "gun": "main_caliber_gun_02",
               "gunnerDm": "main_caliber_turret_02_dm"
             }
@@ -2242,7 +2246,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_04"
@@ -2333,7 +2337,7 @@
           },
           {
             "turret": {
-              "head": "turret_02",
+              "head": "main_caliber_turret_02",
               "gun": "main_caliber_gun_02",
               "gunnerDm": "main_caliber_turret_02_dm"
             }
@@ -2354,64 +2358,144 @@
         ]
       },
       {
-        "Weapon": {
-          "trigger": "gunner2",
-          "triggerGroup": "torpedoes",
-          "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
-          "emitter": "bone_torpedo_01",
-          "bullets": 1,
-          "startSpeed": 20.0,
-          "useStartSpeed": true,
-          "armDistance": 50.0,
-          "barrelDP": "tt_01_dm",
-          "breechDP": "torpedo_01_dm",
-          "brokenBarrelAllowShoot": false,
-          "startFx": "start_torpedo",
-          "startFxOffset": [3.0,0.0,0.0],
-          "ammoDP": "torpedo_01_dm",
-          "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
-          "turret": {
-            "head": "bone_torpedo_01",
-            "gun": "bone_torpedo_01",
-            "gunnerDm": "driver_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner2"
           },
-          "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
+          {
+            "triggerGroup": "torpedoes"
+          },
+          {
+            "external": true
+          },
+          {
+            "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk"
+          },
+          {
+            "emitter": "bone_torpedo_01"
+          },
+          {
+            "bullets": 1
+          },
+          {
+            "startSpeed": 20.0
+          },
+          {
+            "enableCourseCorrection": false
+          },
+          {
+            "useStartSpeed": true
+          },
+          {
+            "armDistance": 50.0
+          },
+          {
+            "barrelDP": "tt_01_dm"
+          },
+          {
+            "breechDP": "torpedo_01_dm"
+          },
+          {
+            "brokenBarrelAllowShoot": false
+          },
+          {
+            "enableCourseCorrection": false
+          },
+          {
+            "startFx": "start_torpedo"
+          },
+          {
+            "startFxOffset": [3.0,0.0,0.0]
+          },
+          {
+            "ammoDP": "torpedo_01_dm"
+          },
+          {
+            "allowableDelta": 180.0
+          },
+          {
+            "turret": {
+              "head": "bone_torpedo_01",
+              "gun": "bone_torpedo_01"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [0.0,0.0],
+              "pitch": [0.0,0.0]
+            }
           }
-        }
+        ]
       },
       {
-        "Weapon": {
-          "trigger": "gunner3",
-          "triggerGroup": "torpedoes",
-          "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
-          "emitter": "bone_torpedo_02",
-          "bullets": 1,
-          "startSpeed": 20.0,
-          "useStartSpeed": true,
-          "armDistance": 50.0,
-          "barrelDP": "tt_02_dm",
-          "breechDP": "torpedo_02_dm",
-          "brokenBarrelAllowShoot": false,
-          "startFx": "start_torpedo",
-          "startFxOffset": [3.0,0.0,0.0],
-          "ammoDP": "torpedo_02_dm",
-          "allowableDelta": 180.0,
-          "enableCourseCorrection": false,
-          "turret": {
-            "head": "bone_torpedo_02",
-            "gun": "bone_torpedo_02",
-            "gunnerDm": "driver_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner3"
           },
-          "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
+          {
+            "triggerGroup": "torpedoes"
+          },
+          {
+            "external": true
+          },
+          {
+            "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk"
+          },
+          {
+            "emitter": "bone_torpedo_02"
+          },
+          {
+            "bullets": 1
+          },
+          {
+            "startSpeed": 20.0
+          },
+          {
+            "enableCourseCorrection": false
+          },
+          {
+            "useStartSpeed": true
+          },
+          {
+            "armDistance": 50.0
+          },
+          {
+            "barrelDP": "tt_02_dm"
+          },
+          {
+            "breechDP": "torpedo_02_dm"
+          },
+          {
+            "brokenBarrelAllowShoot": false
+          },
+          {
+            "enableCourseCorrection": false
+          },
+          {
+            "startFx": "start_torpedo"
+          },
+          {
+            "startFxOffset": [3.0,0.0,0.0]
+          },
+          {
+            "ammoDP": "torpedo_02_dm"
+          },
+          {
+            "allowableDelta": 180.0
+          },
+          {
+            "turret": {
+              "head": "bone_torpedo_02",
+              "gun": "bone_torpedo_02"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [0.0,0.0],
+              "pitch": [0.0,0.0]
+            }
           }
-        }
+        ]
       }
     ]
   },
@@ -3147,7 +3231,7 @@
                   "triggerGroup": "primary"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+                  "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
                 },
                 {
                   "emitter": "emtr_gun_flame_01"
@@ -3238,7 +3322,7 @@
                 },
                 {
                   "turret": {
-                    "head": "turret_01",
+                    "head": "main_caliber_turret_01",
                     "gun": "main_caliber_gun_01",
                     "gunnerDm": "main_caliber_turret_01_dm"
                   }
@@ -3269,7 +3353,7 @@
                   "triggerGroup": "primary"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+                  "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
                 },
                 {
                   "emitter": "emtr_gun_flame_02"
@@ -3360,7 +3444,7 @@
                 },
                 {
                   "turret": {
-                    "head": "turret_01",
+                    "head": "main_caliber_turret_01",
                     "gun": "main_caliber_gun_01",
                     "gunnerDm": "main_caliber_turret_01_dm"
                   }
@@ -3391,7 +3475,7 @@
                   "triggerGroup": "primary"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+                  "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
                 },
                 {
                   "emitter": "emtr_gun_flame_03"
@@ -3482,7 +3566,7 @@
                 },
                 {
                   "turret": {
-                    "head": "turret_02",
+                    "head": "main_caliber_turret_02",
                     "gun": "main_caliber_gun_02",
                     "gunnerDm": "main_caliber_turret_02_dm"
                   }
@@ -3511,7 +3595,7 @@
                   "triggerGroup": "primary"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
+                  "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
                 },
                 {
                   "emitter": "emtr_gun_flame_04"
@@ -3602,7 +3686,7 @@
                 },
                 {
                   "turret": {
-                    "head": "turret_02",
+                    "head": "main_caliber_turret_02",
                     "gun": "main_caliber_gun_02",
                     "gunnerDm": "main_caliber_turret_02_dm"
                   }
@@ -3623,64 +3707,144 @@
               ]
             },
             {
-              "Weapon": {
-                "trigger": "gunner2",
-                "triggerGroup": "torpedoes",
-                "external": true,
-                "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
-                "emitter": "bone_torpedo_01",
-                "bullets": 1,
-                "startSpeed": 20.0,
-                "useStartSpeed": true,
-                "armDistance": 50.0,
-                "barrelDP": "tt_01_dm",
-                "breechDP": "torpedo_01_dm",
-                "brokenBarrelAllowShoot": false,
-                "startFx": "start_torpedo",
-                "startFxOffset": [3.0,0.0,0.0],
-                "ammoDP": "torpedo_01_dm",
-                "allowableDelta": 180.0,
-                "enableCourseCorrection": false,
-                "turret": {
-                  "head": "bone_torpedo_01",
-                  "gun": "bone_torpedo_01",
-                  "gunnerDm": "driver_dm"
+              "Weapon": [
+                {
+                  "trigger": "gunner2"
                 },
-                "limits": {
-                  "yaw": [0.0,0.0],
-                  "pitch": [0.0,0.0]
+                {
+                  "triggerGroup": "torpedoes"
+                },
+                {
+                  "external": true
+                },
+                {
+                  "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk"
+                },
+                {
+                  "emitter": "bone_torpedo_01"
+                },
+                {
+                  "bullets": 1
+                },
+                {
+                  "startSpeed": 20.0
+                },
+                {
+                  "enableCourseCorrection": false
+                },
+                {
+                  "useStartSpeed": true
+                },
+                {
+                  "armDistance": 50.0
+                },
+                {
+                  "barrelDP": "tt_01_dm"
+                },
+                {
+                  "breechDP": "torpedo_01_dm"
+                },
+                {
+                  "brokenBarrelAllowShoot": false
+                },
+                {
+                  "enableCourseCorrection": false
+                },
+                {
+                  "startFx": "start_torpedo"
+                },
+                {
+                  "startFxOffset": [3.0,0.0,0.0]
+                },
+                {
+                  "ammoDP": "torpedo_01_dm"
+                },
+                {
+                  "allowableDelta": 180.0
+                },
+                {
+                  "turret": {
+                    "head": "bone_torpedo_01",
+                    "gun": "bone_torpedo_01"
+                  }
+                },
+                {
+                  "limits": {
+                    "yaw": [0.0,0.0],
+                    "pitch": [0.0,0.0]
+                  }
                 }
-              }
+              ]
             },
             {
-              "Weapon": {
-                "trigger": "gunner3",
-                "triggerGroup": "torpedoes",
-                "external": true,
-                "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
-                "emitter": "bone_torpedo_02",
-                "bullets": 1,
-                "startSpeed": 20.0,
-                "useStartSpeed": true,
-                "armDistance": 50.0,
-                "barrelDP": "tt_02_dm",
-                "breechDP": "torpedo_02_dm",
-                "brokenBarrelAllowShoot": false,
-                "startFx": "start_torpedo",
-                "startFxOffset": [3.0,0.0,0.0],
-                "ammoDP": "torpedo_02_dm",
-                "allowableDelta": 180.0,
-                "enableCourseCorrection": false,
-                "turret": {
-                  "head": "bone_torpedo_02",
-                  "gun": "bone_torpedo_02",
-                  "gunnerDm": "driver_dm"
+              "Weapon": [
+                {
+                  "trigger": "gunner3"
                 },
-                "limits": {
-                  "yaw": [0.0,0.0],
-                  "pitch": [0.0,0.0]
+                {
+                  "triggerGroup": "torpedoes"
+                },
+                {
+                  "external": true
+                },
+                {
+                  "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk"
+                },
+                {
+                  "emitter": "bone_torpedo_02"
+                },
+                {
+                  "bullets": 1
+                },
+                {
+                  "startSpeed": 20.0
+                },
+                {
+                  "enableCourseCorrection": false
+                },
+                {
+                  "useStartSpeed": true
+                },
+                {
+                  "armDistance": 50.0
+                },
+                {
+                  "barrelDP": "tt_02_dm"
+                },
+                {
+                  "breechDP": "torpedo_02_dm"
+                },
+                {
+                  "brokenBarrelAllowShoot": false
+                },
+                {
+                  "enableCourseCorrection": false
+                },
+                {
+                  "startFx": "start_torpedo"
+                },
+                {
+                  "startFxOffset": [3.0,0.0,0.0]
+                },
+                {
+                  "ammoDP": "torpedo_02_dm"
+                },
+                {
+                  "allowableDelta": 180.0
+                },
+                {
+                  "turret": {
+                    "head": "bone_torpedo_02",
+                    "gun": "bone_torpedo_02"
+                  }
+                },
+                {
+                  "limits": {
+                    "yaw": [0.0,0.0],
+                    "pitch": [0.0,0.0]
+                  }
                 }
-              }
+              ]
             },
             {
               "Weapon": {
@@ -3837,13 +4001,13 @@
     "wreckedParts": [
       {
         "part": {
-          "node": "turret_01",
+          "node": "main_caliber_turret_01",
           "idx": 1,
           "mass": 1030.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
           "rotation": 2.1,
-          "collisionNode": "turret_01_dm"
+          "collisionNode": "main_caliber_turret_01_dm"
         }
       },
       {
@@ -3947,13 +4111,13 @@
       },
       {
         "part": {
-          "node": "turret_02",
+          "node": "main_caliber_turret_02",
           "idx": 11,
           "mass": 1030.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
           "rotation": 2.1,
-          "collisionNode": "turret_02_dm"
+          "collisionNode": "main_caliber_turret_02_dm"
         }
       }
     ]

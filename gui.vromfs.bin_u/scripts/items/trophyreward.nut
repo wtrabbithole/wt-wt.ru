@@ -132,16 +132,16 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
   }
   else if (rewardType == "unit" || rewardType == "rentedUnit")
     style += "_" + ::getUnitTypeText(::get_es_unit_type(::getAircraftByName(rewardValue))).tolower()
-  else if (rewardType == "resource")
+  else if (rewardType == "resource" || rewardType == "resourceType")
   {
     if (config.resourceType)
     {
-      style = "reward_" + config.resourceType
-      if (!::LayersIcon.findStyleCfg(style))
-        style = "reward_unlock"
+      local visCfg = getDecoratorVisualConfig(config)
+      style = visCfg.style
+      image = visCfg.image
     }
   }
-  else if (rewardType == "unlockType" || rewardType == "resourceType")
+  else if (rewardType == "unlockType")
   {
     style = "reward_" + rewardValue
     if (!::LayersIcon.findStyleCfg(style))
@@ -155,7 +155,7 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
   if (image == "")
     image = ::LayersIcon.getIconData(style)
 
-  if (!isRewardMultiAward(config))
+  if (!isRewardMultiAward(config) && !onlyImage)
     image += getMoneyLayer(config)
 
   local resultImage = ::LayersIcon.genDataFromLayer(::LayersIcon.findLayerCfg(layerCfgName), image)
@@ -163,6 +163,33 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
     return resultImage
 
   return ::handyman.renderCached(("gui/items/item"), {items = [{layered_image = resultImage}]})
+}
+
+function trophyReward::getDecoratorVisualConfig(config)
+{
+  local res = {
+    style = ""
+    image = ""
+  }
+
+  local decoratorType = ::g_decorator_type.getTypeByResourceType(config.resourceType)
+  if (decoratorType)
+  {
+    local decorator = ::g_decorator.getDecorator(config?.resource, decoratorType)
+    local cfg = clone ::LayersIcon.findLayerCfg("item_decal")
+    cfg.img <- decoratorType.getImage(decorator)
+    if (cfg.img != "")
+      res.image = ::LayersIcon.genDataFromLayer(cfg)
+  }
+
+  if (res.image == "")
+  {
+    res.style = "reward_" + config.resourceType
+    if (!::LayersIcon.findStyleCfg(style))
+      res.style = "reward_unlock"
+  }
+
+  return res
 }
 
 function trophyReward::getMoneyLayer(config)

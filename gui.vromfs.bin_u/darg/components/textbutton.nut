@@ -1,7 +1,7 @@
 local defStyling = require("textButton.style.nut")
 local fa = require("fontawesome.map.nut")
 
-local textColor = function(sf, style={}) {
+local function textColor(sf, style={}) {
   local styling = mergeRecursive(defStyling, style)
   if (sf & S_ACTIVE)    return styling.TextActive
   if (sf & S_HOVER)     return styling.TextHover
@@ -9,7 +9,7 @@ local textColor = function(sf, style={}) {
   return style.TextNormal
 }
 
-local borderColor = function(sf, style={}) {
+local function borderColor(sf, style={}) {
   local styling = mergeRecursive(defStyling, style)
   if (sf & S_ACTIVE)    return styling.BdActive
   if (sf & S_HOVER)     return styling.BdHover
@@ -17,7 +17,7 @@ local borderColor = function(sf, style={}) {
   return styling.BdNormal
 }
 
-local fillColor = function(sf, style={}) {
+local function fillColor(sf, style={}) {
   local styling = mergeRecursive(defStyling, style)
   if (sf & S_ACTIVE)    return styling.BgActive
   if (sf & S_HOVER)     return styling.BgHover
@@ -25,7 +25,7 @@ local fillColor = function(sf, style={}) {
   return style.BgNormal
 }
 
-local fillColorTransp = function(sf, style={}) {
+local function fillColorTransp(sf, style={}) {
   local styling = mergeRecursive(defStyling, style)
   if (sf & S_ACTIVE)    return styling.BgActive
   if (sf & S_HOVER)     return styling.BgHover

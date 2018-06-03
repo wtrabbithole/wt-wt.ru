@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum POPUP_VIEW_TYPES {
   NEVER = "never"

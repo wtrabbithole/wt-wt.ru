@@ -147,7 +147,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   battleTasksConfigs = {}
   shouldBattleTasksListUpdate = false
 
-  inventoryGiftItemId = null
+  giftItems = null
 
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
@@ -166,6 +166,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     isSpectator = ::SessionLobby.isInRoom() && ::SessionLobby.spectator
     ::set_presence_to_player("menu")
+    initStatsMissionParams()
     ::SessionLobby.checkLeaveRoomInDebriefing()
     isMp = ::is_multiplayer()
     ::close_cur_voicemenu()
@@ -262,8 +263,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     //update mp table
     needPlayersTbl = isMp && !(gameType & ::GT_COOPERATIVE) && isDebriefingResultFull()
-    local isShowWwCasualties = is_show_ww_casualties()
-    setSceneTitle(getCurMpTitle(!isShowWwCasualties, isShowWwCasualties))
+    setSceneTitle(getCurMpTitle())
 
     if (!isDebriefingResultFull())
     {
@@ -590,21 +590,40 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     fillPveRewardTrophyContent(trophyItemReceived, pveRewardInfo.isRewardReceivedEarlier)
   }
 
-  function handleInventoryGift()
+  function handleGiftItems()
   {
-    local inventoryGiftLogs = ::getUserLogsList({
-      show = [ ::EULT_INVENTORY_ADD_ITEM ]
-      currentRoomOnly = true
-      disableVisible = true
-    })
-
-    inventoryGiftItemId = inventoryGiftLogs?[0]?.itemDefId
-    if (!inventoryGiftItemId)
+    giftItems = ::debriefing_result?.giftItemsInfo
+    if (!giftItems)
       return
 
+    local itemId    = giftItems[0]?.id
+    local itemCount = giftItems[0]?.count
     local obj = scene.findObject("inventory_gift_icon")
-    local markup = ::trophyReward.getImageByConfig({ item = inventoryGiftItemId }, false)
+    local view = { item = giftItems[0]?.id, count = giftItems[0]?.count }
+    local markup = ::trophyReward.getImageByConfig(view, false)
     guiScene.replaceContentFromText(obj, markup, markup.len(), this)
+  }
+
+  function openGiftTrophy()
+  {
+    if (!giftItems?[0]?.needOpen)
+      return
+
+    local trophyItemId = giftItems[0].id
+    local filteredLogs = ::getUserLogsList({
+      show = [::EULT_OPEN_TROPHY]
+      currentRoomOnly = true
+      disableVisible = true
+      checkFunc = function(userlog) { return trophyItemId == userlog.body.id }
+    })
+
+    ::gui_start_open_trophy({ [trophyItemId] = filteredLogs })
+  }
+
+  function onEventTrophyContentVisible(params)
+  {
+    if (giftItems?[0]?.id && giftItems[0].id == params?.trophyItem?.id)
+      fillTrophyContentDiv(params.trophyItem, "inventory_gift_icon")
   }
 
   function fillPveRewardProgressBar()
@@ -662,7 +681,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function fillPveRewardTrophyContent(trophyItem, isRewardReceivedEarlier)
   {
     showSceneBtn("pve_award_already_received", isRewardReceivedEarlier)
-    local trophyContentPlaceObj = showSceneBtn("pve_trophy_content", !!trophyItem)
+    fillTrophyContentDiv(trophyItem, "pve_trophy_content")
+  }
+
+  function fillTrophyContentDiv(trophyItem, containerObjId)
+  {
+    local trophyContentPlaceObj = showSceneBtn(containerObjId, !!trophyItem)
     if (!trophyItem || !trophyContentPlaceObj)
       return
 
@@ -842,7 +866,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.showMyStats)
     {
-      handleInventoryGift()
+      handleGiftItems()
       if (!is_show_my_stats())
         return switchState()
 
@@ -2354,7 +2378,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   }
   function is_show_inventory_gift()
   {
-    return inventoryGiftItemId != null
+    return giftItems != null
   }
   function is_show_ww_casualties()
   {
@@ -2873,6 +2897,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     foreach(rewardConfig in rewardsArray)
       ::showUnlockWnd(rewardConfig)
+
+    openGiftTrophy()
   }
 
   function updateInfoText()
@@ -2964,10 +2990,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getInvetoryGiftActionData()
   {
-    if (!inventoryGiftItemId)
+    if (!giftItems)
       return null
 
-    local wSet = workshop.getSetByItemId(inventoryGiftItemId)
+    local wSet = workshop.getSetByItemId(giftItems?[0]?.id)
     if (wSet)
       return {
         btnText = ::loc("items/workshop")

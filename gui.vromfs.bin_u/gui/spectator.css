@@ -219,24 +219,6 @@ hoverButton:hover > icon
   background-color:@buttonFontColorHover;
 }
 
-hoverButton[highlighted=yes]
-{
-  color:@gold;
-}
-hoverButton[highlighted=yes] > icon
-{
-  background-color:@gold;
-}
-
-hoverButton[highlighted=yes]:hover
-{
-  color:@userlogColoredText;
-}
-hoverButton[highlighted=yes]:hover > icon
-{
-  background-color:@userlogColoredText;
-}
-
 hoverButton:disabled
 {
   color:#30303030;
@@ -253,35 +235,12 @@ hoverButton[isTextBtn=yes]
   color-factor:127;
   padding:0.3@sIco, 0;
 }
-hoverButton[isTextBtn=yes][highlighted=yes]
-{
-  color:@gray;
-  color-factor:255;
-}
-hoverButton[isTextBtn=yes] > updated
-{
-  position:absolute;
-  size:pw, ph;
-  background-color:#00261b09;
-  input-transparent:yes;
-  display:hide;
-}
-hoverButton[isTextBtn=yes][highlighted=no][alert=yes] > updated
-{
-  display:show;
-}
 hoverButton[isTextBtn=yes]:hover
 {
   color:@white;
   color-factor:255;
   background-color:@menuButtonColorHover;
 }
-hoverButton[isTextBtn=yes][highlighted=no][alert=yes]
-{
-  color:@gold;
-  color-factor:255;
-}
-
 toggleButton:hover
 {
   background-color:@menuButtonColorHover;

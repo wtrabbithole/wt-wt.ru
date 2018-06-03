@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -384,11 +387,9 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 200.0,
+        "hp": 250.0,
         "armorThickness": 25.0,
-        "gun_barrel_dm": {
-          "armorThickness": 22.0
-        },
+        "gun_barrel_dm": [],
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
@@ -535,7 +536,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1605,7 +1606,7 @@
             "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
-                "row": [5.0,0.01]
+                "row": [5.0,0.0]
               },
               {
                 "row": [45.0,0.015]
@@ -1799,13 +1800,13 @@
       },
       "mechanics": {
         "maxBrakeForce": 250000.0,
-        "driveGearRadius": 0.34,
-        "mainGearRatio": 1.55,
+        "driveGearRadius": 0.37,
+        "mainGearRatio": 1.85,
         "sideGearRatio": 6.25,
-        "neutralGearRatio": 10.0,
+        "neutralGearRatio": 3.0,
         "gearRatios": [
           {
-            "ratio": -0.49
+            "ratio": -0.45
           },
           {
             "ratio": -0.68
@@ -1853,7 +1854,7 @@
             "ratio": 0.68
           },
           {
-            "ratio": 0.49
+            "ratio": 0.45
           }
         ]
       },
@@ -2694,7 +2695,7 @@
                   "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
-                      "row": [5.0,0.01]
+                      "row": [5.0,0.0]
                     },
                     {
                       "row": [45.0,0.015]
@@ -2864,7 +2865,7 @@
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "allowableDelta": 360.0,
-                "salvo": 8,
+                "salvo": 4,
                 "speedYaw": 24.0,
                 "speedPitch": 15.0,
                 "fireConeAngle": 1.0,

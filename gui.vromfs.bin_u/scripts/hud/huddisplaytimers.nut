@@ -1,6 +1,8 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 
+local REPAIR_SHOW_TIME_THRESHOLD = 1.5
+
 ::g_hud_display_timers <- {
   timersList = [
     {
@@ -302,6 +304,9 @@ local time = require("scripts/time.nut")
     destoyRepairUpdater()
     hideAnimTimer("repair_status")
     hideAnimTimer("repair_auto_status")
+
+    if ((debuffs_data?.time ?? 0) <= REPAIR_SHOW_TIME_THRESHOLD && debuffs_data.state != "prepareRepair")
+      return
 
     if (debuffs_data.state == "notInRepair")
       return

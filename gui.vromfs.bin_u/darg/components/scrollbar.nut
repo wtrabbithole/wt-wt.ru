@@ -19,19 +19,19 @@ local defStyling = {
 }
 
 
-local resolveBarClass = function(bar, has_scroll) {
+local function resolveBarClass(bar, has_scroll) {
   if (type(bar) == "function") {
     return bar(has_scroll)
   }
   return bar
 }
 
-local calcBarSize = function(bar_class, axis) {
+local function calcBarSize(bar_class, axis) {
   return (axis==0) ? [flex(), bar_class._height] : [bar_class._width, flex()]
 }
 
 
-local scrollbar = function(scroll_handler, options={}) {
+local function scrollbar(scroll_handler, options={}) {
   local stateFlags = ::Watched(0)
   local styling   = options?.styling ?? defStyling
   local barClass  = options?.barStyle ?? styling.Bar
@@ -130,12 +130,12 @@ local scrollbar = function(scroll_handler, options={}) {
 }
 
 
-local makeSideScroll = function(content, options={}) {
+local function makeSideScroll(content, options={}) {
   local styling = options?.styling ?? defStyling
   local scrollHandler = options?.scrollHandler ?? ::ScrollHandler()
   local rootBase = options?.rootBase ?? styling.ContentRoot
 
-  local contentRoot = function() {
+  local function contentRoot() {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
     if (typeof(bhv)!="array")
       bhv = [bhv]
@@ -161,12 +161,12 @@ local makeSideScroll = function(content, options={}) {
 }
 
 
-local makeHVScrolls = function(content, options={}) {
+local function makeHVScrolls(content, options={}) {
   local styling = options?.styling ?? defStyling
   local scrollHandler = options?.scrollHandler ?? ::ScrollHandler()
   local rootBase = options?.rootBase ?? styling.ContentRoot
 
-  local contentRoot = function() {
+  local function contentRoot() {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
     if (typeof(bhv)!="array")
       bhv = [bhv]
@@ -200,14 +200,14 @@ local makeHVScrolls = function(content, options={}) {
 }
 
 
-local makeVertScroll = function(content, options={}) {
+local function makeVertScroll(content, options={}) {
   local o = clone options
   o.orientation <- O_VERTICAL
   return makeSideScroll(content, o)
 }
 
 
-local makeHorizScroll = function(content, options={}) {
+local function makeHorizScroll(content, options={}) {
   local o = clone options
   o.orientation <- O_HORIZONTAL
   return makeSideScroll(content, o)

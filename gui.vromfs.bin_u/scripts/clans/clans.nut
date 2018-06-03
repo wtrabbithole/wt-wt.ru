@@ -248,6 +248,12 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
       logData.logEntries <- []
       foreach (logEntry in logDataBlk % "log")
       {
+        if (logEntry?.uid != null && logEntry?.nick != null)
+          ::getContact(logEntry.uid, logEntry.nick)
+
+        if (logEntry?.uId != null && logEntry?.uN != null)
+          ::getContact(logEntry.uId, logEntry.uN)
+
         local logEntryTable = ::buildTableFromBlk(logEntry)
         local logType = ::g_clan_log_type.getTypeByName(logEntryTable.ev)
 
@@ -1396,7 +1402,7 @@ function getMyClanMemberPresence(nick)
 
   if (::isInArray(nick, clanActiveUsers))
   {
-    local contact = ::findContactByNick(nick)
+    local contact = ::Contact.getByName(nick)
     if (!(contact?.forceOffline ?? false))
       return ::g_contact_presence.ONLINE
   }

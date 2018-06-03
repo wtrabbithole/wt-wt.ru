@@ -1021,7 +1021,10 @@
         "crosshairHorVertSize": [3.0,2.0]
       },
       {
-        "rangefinderVerticalOffset": 15.0
+        "rangefinderUseThousandth": false
+      },
+      {
+        "rangefinderVerticalOffset": 0.1
       },
       {
         "rangefinderHorizontalOffset": 5.0
@@ -1390,6 +1393,14 @@
       "iconShipAiGunnersTarget0": "ship_main_caliber_sight",
       "iconShipAiGunnersTarget1": "ship_secondary_caliber_sight",
       "iconShipAiGunnersTarget3": "ship_aa_caliber_sight",
+      "iconModulesOfAirfieldAirfield": "basezone_landing_strip.svg:60:60:K",
+      "iconModulesOfAirfieldStorage": "basezone_warehouses.svg:60:60:K",
+      "iconModulesOfAirfieldDwelling": "basezone_parking.svg:60:60:K",
+      "iconModulesOfAirfieldParking": "basezone_living_sector.svg:60:60:K",
+      "possitionIconModAirfieldAirfield": [0.5,0.5],
+      "possitionIconModAirfieldStorage": [0.5,-0.5],
+      "possitionIconModAirfieldDwelling": [-0.5,-0.5],
+      "possitionIconModAirfieldParking": [-0.5,0.5],
       "aiTargetIconScale": 2.0,
       "iconBomb": "bomb_mark",
       "colorBomb": "#ff4646ff",
@@ -1398,7 +1409,6 @@
       "torpedoTrailInterval": 0.2,
       "torpedoTrailOpacity": [0.8,0.1],
       "torpedoTrailScale": [0.7,0.3],
-      "isTorpedoTrailMovable": false,
       "iconTorpedo": "big_wheeled_radar",
       "iconTorpedoWithActiveSonar": "big_wheeled_radar",
       "colorTorpedo": "#ff4646ff",
@@ -1409,6 +1419,9 @@
       "colorCounterMeasure": "#ffffffff",
       "iconDiveBomb": "depth_charge_mark",
       "colorDiveBomb": "#ff4646ff",
+      "iconMine": "naval_mine_mark",
+      "colorMine": "#ff4646ff",
+      "colorMineFriend": "#4646ffff",
       "targetFrameMaxScreenHeightPart": 0.15,
       "targetFrameMaxScale": 2.0,
       "targetFrameOpacityWithoutZ": 0.5,
@@ -1470,7 +1483,21 @@
       "topPictureShift": 0.0,
       "indicatorsForTanks": {
         "distanceFullySpecifiedTarget": 50.0
-      }
+      },
+      "airfieldModulesColors": [
+        {
+          "row": [0.0,0.0,0.0,0.0]
+        },
+        {
+          "row": [255.0,70.0,70.0,0.25]
+        },
+        {
+          "row": [255.0,255.0,70.0,0.75]
+        },
+        {
+          "row": [70.0,255.0,70.0,1.0]
+        }
+      ]
     }
   },
   {
@@ -2229,6 +2256,9 @@
       "extinguisher_activate": "extinguisher_button",
       "actions": [
         {
+          "current_weapon_group": []
+        },
+        {
           "switch_bullet_type": {
             "shortcutIdx": 0,
             "triggerNo": 10,
@@ -2277,7 +2307,7 @@
           }
         },
         {
-          "deapth_charge_activate": {
+          "depth_charge_activate": {
             "shortcutIdx": -1
           }
         },
@@ -2533,18 +2563,14 @@
   },
   {
     "torpedoSight": {
-      "selectAreaCos": 17.5,
-      "maxCorrectionTan": 0.25,
-      "areaScaleOnTurretGun": 1.2,
       "selectedColor": "#14ff1464",
       "color": "#ff0a0a64",
       "forestallColor": "#c4ffff40",
-      "offsetFromShip": 35.0,
-      "forestallOffsetFromShip": 50.0,
+      "forestallFailColor": "#ffc4c430",
+      "forestallFadeTime": 0.5,
       "defaultForestallSectorAngle": 1.5,
       "lineWidth": 2.0,
-      "lineMiddleAlpha": 120,
-      "holdTimeout": 0.5
+      "lineMiddleAlpha": 120
     }
   },
   {

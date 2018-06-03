@@ -229,7 +229,7 @@
       "allowEmptyTeams": false,
       "country_axis": "usa",
       "country_allies": "ussr",
-      "windSpeed": [4.0,8.0],
+      "windSpeed": [2.0,8.0],
       "windDirectionDeg": [220.0,250.0],
       "tags": [],
       "missionType": {
@@ -444,6 +444,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/zhengzhou_46/ct_convoys_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -493,7 +509,7 @@
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "ct_is_launch_alowed"
           }
         },

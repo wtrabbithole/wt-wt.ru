@@ -182,4 +182,15 @@ skillParametersTooltip {
     <</itemImage>>
     <</headerItems>>
   }
+
+  <<#footnoteText>>
+  textareaNoTab {
+    pos:t='pw/2-w/2, 8@sf/@pf_outdated'
+    position:t='relative'
+    text-align:t='center'
+    overlayTextColor:t='faded'
+    smallFont:t='yes'
+    text:t='<<footnoteText>>'
+  }
+  <</footnoteText>>
 }

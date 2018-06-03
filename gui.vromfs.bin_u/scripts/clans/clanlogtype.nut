@@ -1,5 +1,5 @@
 local enums = ::require("std/enums.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::g_clan_log_type <- {
   types = []
@@ -11,10 +11,10 @@ local platformModule = require("modules/platform.nut")
 
 local isSelfLog = @(logEntry) logEntry?.uN == logEntry?.nick
 local getColoredNick = @(logEntry)
-  ::colorize(
+  "<Link=uid_" + logEntry.uid + ">" + ::colorize(
     logEntry.uid == ::my_user_id_str ? "mainPlayerColor" : "userlogColoredText",
     platformModule.getPlayerName(logEntry.nick)
-  )
+  ) + "</Link>"
 
 ::g_clan_log_type.template <- {
   name = ""
@@ -39,9 +39,15 @@ local getColoredNick = @(logEntry)
     if (!name)
       return null
 
+    local uId = logEntry?.uId
+
     local locId = logEntry?.admin ? "clan/log/initiated_by_admin" : "clan/log/initiated_by"
     local color = logEntry?.uId == ::my_user_id_str ? "mainPlayerColor" : "userlogColoredText"
-    return ::loc(locId, { nick = ::colorize(color, platformModule.getPlayerName(name)) })
+
+    name = ::colorize(color, platformModule.getPlayerName(name))
+    name = "<Link=uid_" + uId + ">" + name + "</Link>"
+
+    return ::loc(locId, { nick = name })
   }
 }
 

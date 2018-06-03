@@ -32,18 +32,11 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   static function open(index, position, armyTargetName, onSuccessfullFlyoutCb = null)
   {
     local airfield = ::g_world_war.getAirfieldByIndex(index)
-    local availableArmiesArray = ::u.filter(
-      airfield.formations,
-      function (formation)
-      {
-        return formation.hasManageAccess()
-      }
-    )
-
+    local availableArmiesArray = getAvailableAirfieldFormations(airfield)
     if (!availableArmiesArray.len())
       return
-    ::handlersManager.loadHandler(
-      ::gui_handlers.WwAirfieldFlyOut,
+
+    ::handlersManager.loadHandler(::gui_handlers.WwAirfieldFlyOut,
       {
         airfield = airfield,
         availableArmiesArray = availableArmiesArray
@@ -53,6 +46,10 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       }
     )
   }
+
+  static getAvailableAirfieldFormations = @(airfield)
+    airfield.isValid()
+      ? ::u.filter(airfield.formations, @(formation) formation.hasManageAccess()) : []
 
   function getSceneTplContainerObj() { return scene.findObject("root-box") }
 
@@ -730,12 +727,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function getAvailableGroup(armyGroupIdx)
   {
-    local side = ::ww_get_player_side()
-    return u.search(airfield.formations, (@(armyGroupIdx, side) function(group)
-    {
-      return group.owner.armyGroupIdx == armyGroupIdx
-             && group.owner.side == side
-    })(armyGroupIdx, side))
+    return u.search(airfield.formations, @(group) group.owner.armyGroupIdx == armyGroupIdx)
   }
 
   function getSelectedUnitsFlyTimeText(armyGroupIdx)

@@ -63,7 +63,8 @@ local function getVisibleSeenIds()
   {
     visibleSeenIds = {}
     foreach(set in getSetsList())
-      visibleSeenIds.__update(set.getVisibleSeenIds())
+      if (set.isVisible())
+        visibleSeenIds.__update(set.getVisibleSeenIds())
   }
   return visibleSeenIds
 }

@@ -39,6 +39,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   itemsPerPage = -1
   itemsList = null
   curPage = 0
+  shouldSetPageByItem = false
   currentFocusItem = 2
 
   slotbarActions = [ "preview", "testflight", "weapons", "info" ]
@@ -49,13 +50,18 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     sheets.updateWorkshopSheets()
-    if (curTab < 0)
-      curTab = curItem ? sheets.getTabByItem(curItem, 0) : 0
 
-    if (curSheet)
-      curSheet = sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
-    else
-      curSheet = sheets.ALL
+    local sheetData = curTab < 0 && curItem ? sheets.getSheetDataByItem(curItem) : null
+    if (sheetData)
+    {
+      curTab = sheetData.tab
+      shouldSetPageByItem = true
+    } else if (curTab < 0)
+      curTab = 0
+
+    curSheet = sheetData ? sheetData.sheet
+      : curSheet ? sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
+      : sheets.ALL
 
     fillTabs()
 
@@ -257,10 +263,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         itemsList.sort(::ItemsManager.getItemsSortComparator(getTabSeenList(curTab)))
     }
 
-    if (resetPage)
+    if (resetPage && !shouldSetPageByItem)
       curPage = 0
     else
     {
+      shouldSetPageByItem = false
       local lastIdx = getLastSelItemIdx()
       if (lastIdx >= 0)
         curPage = (lastIdx / itemsPerPage).tointeger()
@@ -481,7 +488,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.visualStyle = curTab == itemsTab.INVENTORY? "secondary" : "purchase"
       ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), mainActionName)
     }
-    showSceneBtn("btn_preview", item ? item.canPreview() : false)
+    showSceneBtn("btn_preview", item ? (item.canPreview() && ::isInMenu()) : false)
 
     local altActionText = item ? item.getAltActionName() : ""
     local actionBtn = showSceneBtn("btn_alt_action", altActionText != "")
@@ -519,7 +526,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local item = getCurItem()
-    if (item)
+    if (item && ::ItemsManager.canPreviewItems())
       item.doPreview()
   }
 

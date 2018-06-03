@@ -592,6 +592,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
+            }
+          },
+          {
             "onKill": {
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
@@ -1301,32 +1307,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -1346,6 +1400,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
+            }
+          },
+          {
             "onKill": {
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
@@ -1355,14 +1415,21 @@
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 9.0
+              "nothing": 14.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "cut": 1.0,
-              "nothing": 3.0
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0,
+              "nothing": 1.0
             }
           }
         ]
@@ -2715,9 +2782,11 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare1",
           "flash": "flare1",
           "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 483,
@@ -2735,9 +2804,11 @@
         "Weapon": {
           "trigger": "gunner1",
           "blk": "gameData/Weapons/gunType89s_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare2",
           "flash": "flare2",
           "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
           "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 450,
@@ -2755,9 +2826,11 @@
         "Weapon": {
           "trigger": "gunner1",
           "blk": "gameData/Weapons/gunType89s_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare4",
           "flash": "flare4",
           "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
           "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 450,
@@ -2775,9 +2848,11 @@
         "Weapon": {
           "trigger": "gunner2",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare3",
           "flash": "flare3",
           "dm": "gunner3_dm",
+          "gunnerDm": "gunner3_dm",
           "gunDm": "gun3_dm",
           "partsDP": "gun3_dm",
           "bullets": 483,
@@ -2795,9 +2870,11 @@
         "Weapon": {
           "trigger": "gunner3",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare6",
           "flash": "flare6",
           "dm": "gunner4_dm",
+          "gunnerDm": "gunner4_dm",
           "gunDm": "gun5_dm",
           "partsDP": "gun5_dm",
           "bullets": 483,
@@ -2815,9 +2892,11 @@
         "Weapon": {
           "trigger": "gunner4",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare5",
           "flash": "flare5",
           "dm": "gunner4_dm",
+          "gunnerDm": "gunner4_dm",
           "gunDm": "gun4_dm",
           "partsDP": "gun4_dm",
           "bullets": 483,
@@ -2835,9 +2914,11 @@
         "Weapon": {
           "trigger": "gunner5",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare7",
           "flash": "flare7",
           "dm": "gunner5_dm",
+          "gunnerDm": "gunner5_dm",
           "gunDm": "gun6_dm",
           "partsDP": "gun6_dm",
           "bullets": 483,
@@ -2855,9 +2936,11 @@
         "Weapon": {
           "trigger": "gunner6",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare8",
           "flash": "flare8",
           "dm": "gunner6_dm",
+          "gunnerDm": "gunner6_dm",
           "gunDm": "gun7_dm",
           "partsDP": "gun7_dm",
           "bullets": 483,
@@ -2875,9 +2958,11 @@
         "Weapon": {
           "trigger": "gunner7",
           "blk": "gameData/Weapons/gunTe-1_turret.blk",
+          "breechInCockpit": true,
           "emitter": "flare9",
           "flash": "flare9",
           "dm": "gunner3_dm",
+          "gunnerDm": "gunner3_dm",
           "gunDm": "gun8_dm",
           "partsDP": "gun8_dm",
           "bullets": 483,
@@ -3123,13 +3208,15 @@
       "emtr_break_wing1_r_to": [-1.57406,0.140082,-6.01636],
       "emtr_break_wing2_r_from": [-1.57406,0.140082,-7.97075],
       "emtr_break_wing2_r_to": [-1.57406,0.140082,-9.28049],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-8.32506,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-8.32506,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-9.53275,0.380945,0.752392],
+      "emtr_break_stab_l_to": [-9.53275,0.380945,3.00957],
+      "emtr_break_stab_r_from": [-9.53275,0.380945,-0.752392],
+      "emtr_break_stab_r_to": [-9.53275,0.380945,-3.00957],
+      "emtr_break_fin_from": [-9.21999,1.37891,5.21832e-08],
+      "emtr_break_fin_to": [-9.21999,2.82153,5.21832e-08]
     }
   }
 ]

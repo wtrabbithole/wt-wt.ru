@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -482,7 +485,8 @@
           "armorThickness": 10.0
         },
         "body_bottom_dm": {
-          "armorThickness": 6.35
+          "armorThickness": 30.0,
+          "armorClass": "tank_structural_steel"
         },
         "ex_armor_01_dm": {
           "armorThickness": 7.5
@@ -507,9 +511,6 @@
       },
       "hull": {
         "armorClass": "tank_structural_steel",
-        "wheel_support_dm": {
-          "armorThickness": 6.35
-        },
         "turret_bottom_dm": {
           "armorThickness": 10.0
         },
@@ -559,13 +560,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
-        }
-      },
       "body_shields": {
         "armorClass": "wood",
         "armorQuality": 0.1,
@@ -613,6 +607,37 @@
         "armorClass": "car_wheels",
         "wheel_l_01_dm": [],
         "wheel_r_01_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 100.0,
+        "armorThickness": 10.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -671,7 +696,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],

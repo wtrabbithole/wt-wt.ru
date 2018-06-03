@@ -13,6 +13,8 @@ shopItem {
 
   bgPlate {}
 
+  <<@crewLevelInfo>>
+
   focus_border {}
 
   <<#crewImage>>

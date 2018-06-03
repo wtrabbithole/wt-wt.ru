@@ -15,6 +15,12 @@
     "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk"
   },
   {
+    "gearSinkRangeLR": 0.12
+  },
+  {
+    "gearSinkRangeC": 0.062
+  },
+  {
     "type": "typeFighter"
   },
   {
@@ -243,7 +249,7 @@
       "c_dural3": {
         "aileron_l_dm": {
           "genericDamageMult": 0.3,
-          "hp": 20.6
+          "hp": 17.0
         },
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
@@ -264,7 +270,7 @@
         },
         "rudder_dm": {
           "genericDamageMult": 0.3,
-          "hp": 30.5
+          "hp": 27.1
         },
         "stab_dm": {
           "hp": 26.0
@@ -364,7 +370,7 @@
           "hp": 11.5
         },
         "oil2_dm": {
-          "hp": 16.2
+          "hp": 12.5
         }
       },
       "steel_pilot": {
@@ -643,8 +649,8 @@
           },
           {
             "onHit": {
-              "damage": 65.0,
-              "expl": 1.0
+              "damage": 60.0,
+              "cut": 1.0
             }
           },
           {
@@ -657,14 +663,21 @@
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 9.0
+              "nothing": 10.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
+              "cut": 2.0,
+              "nothing": 5.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
               "cut": 1.0,
-              "nothing": 3.0
+              "nothing": 0.0
             }
           }
         ]
@@ -1219,7 +1232,7 @@
           {
             "onHit": {
               "damage": 60.0,
-              "expl": 1.0
+              "cut": 1.0
             }
           },
           {
@@ -1232,14 +1245,21 @@
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 9.0
+              "nothing": 10.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
+              "cut": 2.0,
+              "nothing": 5.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
               "cut": 1.0,
-              "nothing": 3.0
+              "nothing": 0.0
             }
           }
         ]
@@ -2157,13 +2177,15 @@
       "emtr_break_wing1_r_to": [-0.780516,-0.376312,-2.82663],
       "emtr_break_wing2_r_from": [-0.780516,-0.376312,-3.81486],
       "emtr_break_wing2_r_to": [-0.780516,-0.376312,-4.54139],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-4.18684,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-4.18684,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-4.71699,0.467823,0.378779],
+      "emtr_break_stab_l_to": [-4.71699,0.467823,1.51511],
+      "emtr_break_stab_r_from": [-4.71699,0.467823,-0.378768],
+      "emtr_break_stab_r_to": [-4.71699,0.467823,-1.51507],
+      "emtr_break_fin_from": [-4.65925,0.637304,2.67067e-05],
+      "emtr_break_fin_to": [-4.65925,1.39957,2.67067e-05]
     }
   }
 ]

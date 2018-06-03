@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -149,12 +152,6 @@
         "ex_armor_body_l_01_dm": {
           "armorThickness": 50.0
         },
-        "turret_02_back_dm": {
-          "armorThickness": 50.0
-        },
-        "turret_02_front_dm": {
-          "armorThickness": 50.0
-        },
         "body_shield_dm": {
           "armorThickness": 100.0
         },
@@ -193,12 +190,6 @@
         "armorClass": "CHA_tank",
         "hp": 5000.0,
         "turret_02_top_dm": {
-          "armorThickness": 35.0
-        },
-        "turret_02_front_dm": {
-          "armorThickness": 33.0
-        },
-        "turret_02_back_dm": {
           "armorThickness": 35.0
         },
         "turret_02_side_dm": {
@@ -318,20 +309,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "armorThickness": 35.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "car_wheels",
         "hp": 250.0,
@@ -346,14 +323,6 @@
         "wheel_l_03_dm": [],
         "wheel_l_04_dm": [],
         "wheel_l_05_dm": [],
-        "wheel_l_top_01_dm": [],
-        "wheel_l_top_02_dm": [],
-        "wheel_l_top_03_dm": [],
-        "wheel_l_top_04_dm": [],
-        "wheel_r_top_01_dm": [],
-        "wheel_r_top_02_dm": [],
-        "wheel_r_top_03_dm": [],
-        "wheel_r_top_04_dm": [],
         "wheel_support_dm": [],
         "body_shields": {
           "armorClass": "tank_structural_steel",
@@ -396,6 +365,37 @@
           "wheel_r_top_04_dm": [],
           "wheel_r_top_05_dm": [],
           "wheel_r_top_06_dm": []
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 250.0,
+        "armorThickness": 25.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -452,7 +452,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -527,6 +527,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -573,6 +576,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2279,10 +2291,10 @@
       "new_tank_vertical_aiming": [],
       "tank_new_gun": [],
       "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "tank_medical_kit_expendable": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "100mm_SA47_HE": []
     }

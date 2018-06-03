@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -88,6 +91,12 @@
   },
   {
     "type": "typeLightTank"
+  },
+  {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
   },
   {
     "DamageParts": {
@@ -219,65 +228,52 @@
           "armorThickness": 50.8
         }
       },
-      "optics": [
-        {
-          "armorClass": "optics_tank"
-        },
-        {
-          "optic_gun_dm": {
-            "armorThickness": 3.0,
-            "hp": 50.0
-          }
-        },
-        {
-          "optic_turret_01_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_body_01_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_body_02_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_body_03_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_turret_01_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_turret_02_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_turret_03_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
-        },
-        {
-          "optic_turret_04_dm": {
-            "armorThickness": 3.0,
-            "hp": 20.0
-          }
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 150.0,
+        "armorThickness": 15.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
-      ],
+      },
+      "optics": {
+        "armorClass": "optics_tank",
+        "optic_gun_dm": {
+          "armorThickness": 3.0,
+          "hp": 50.0
+        },
+        "optic_body_01_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_body_02_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_body_03_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_turret_01_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_turret_02_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_turret_03_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_turret_04_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        }
+      },
       "chassis": {
         "hp": 250.0,
         "armorThickness": 10.0,
@@ -308,37 +304,6 @@
         "ex_decor_r_01_dm": [],
         "ex_decor_l_05_dm": [],
         "ex_decor_r_05_dm": []
-      },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 150.0,
-        "armorThickness": 15.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 50.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 50.0
-        },
-        "gun_barrel_03_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 50.0
-        },
-        "gun_barrel_04_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 50.0
-        },
-        "gun_barrel_05_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 50.0
-        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -393,7 +358,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -468,6 +433,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -514,6 +482,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1526,9 +1503,6 @@
     }
   },
   {
-    "MetaParts": []
-  },
-  {
     "sound": {
       "EngineName": "engine_m1",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -2318,7 +2292,7 @@
   {
     "cockpit": {
       "openedCockpit": true,
-      "headPos": [0.0,4.0,-6.0],
+      "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [-0.1,3.4,0.0],
       "zoomOutFov": 35.0,
       "zoomInFov": 20.0,
@@ -2346,6 +2320,8 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_us"
       },
+      "airstrike": [],
+      "improved_optics": [],
       "57mm_us_APCBC": [],
       "57mm_us_APCBC_ammo_pack": [],
       "tank_smoke_screen_system_mod": {

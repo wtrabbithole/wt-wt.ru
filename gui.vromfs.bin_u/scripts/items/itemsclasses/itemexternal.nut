@@ -6,6 +6,7 @@ local itemRarity = require("scripts/items/itemRarity.nut")
 local time = require("scripts/time.nut")
 local chooseAmountWnd = ::require("scripts/wndLib/chooseAmountWnd.nut")
 local recipesListWnd = ::require("scripts/items/listPopupWnd/recipesListWnd.nut")
+local itemTransfer = require("scripts/items/itemsTransfer.nut")
 
 local emptyBlk = ::DataBlock()
 
@@ -23,6 +24,7 @@ local ItemExternal = class extends ::BaseItem
   static isDescTextBeforeDescDiv = false
   static hasRecentItemConfirmMessageBox = false
   static descReceipesListHeaderPrefix = "item/requires/"
+  canBuy = true
 
   rarity = null
   expireTimestamp = -1
@@ -49,9 +51,11 @@ local ItemExternal = class extends ::BaseItem
     if (itemDesc)
     {
       isInventoryItem = true
-      amount = itemDesc.quantity
-      uids = [ itemDesc.itemid ]
-      amountByUids = { [itemDesc.itemid] = amount }
+      amount = 0
+      uids = []
+      amountByUids = {}
+      if ("itemid" in itemDesc)
+        addUid(itemDesc.itemid, itemDesc.quantity)
       lastChangeTimestamp = time.getTimestampFromIso8601(itemDesc?.timestamp)
     }
 
@@ -67,6 +71,8 @@ local ItemExternal = class extends ::BaseItem
       }
     }
 
+    canBuy = !isInventoryItem && checkPurchaseFeature()
+
     addResources()
   }
 
@@ -74,11 +80,16 @@ local ItemExternal = class extends ::BaseItem
   {
     if (id != itemDefDesc.itemdefid || expireTimestamp != getExpireTimestamp(itemDefDesc, itemDesc))
       return false
-    amount += itemDesc.quantity
-    uids.append(itemDesc.itemid)
-    amountByUids[itemDesc.itemid] <- itemDesc.quantity
+    addUid(itemDesc.itemid, itemDesc.quantity)
     lastChangeTimestamp = ::max(lastChangeTimestamp, time.getTimestampFromIso8601(itemDesc?.timestamp))
     return true
+  }
+
+  function addUid(uid, count)
+  {
+    uids.append(uid)
+    amountByUids[uid] <- count
+    amount += count
   }
 
   onItemExpire = @() ::ItemsManager.refreshExtInventory()
@@ -152,6 +163,19 @@ local ItemExternal = class extends ::BaseItem
     return true
   }
 
+  isCanBuy = @() canBuy && !inventoryClient.getItemCost(id).isZero()
+
+  function getCost(ignoreCanBuy = false)
+  {
+    if (isCanBuy() || ignoreCanBuy)
+      return inventoryClient.getItemCost(id)
+    return ::Cost()
+  }
+
+  getTransferText = @() transferAmount > 0
+    ? ::loc("items/waitItemsInTransaction", { amount = ::colorize("activeTextColor", transferAmount) })
+    : ""
+
   function getLongDescriptionMarkup(params = null)
   {
     params = params || {}
@@ -162,6 +186,7 @@ local ItemExternal = class extends ::BaseItem
 
     local content = []
     local headers = [
+      { header = getTransferText() }
       { header = getMarketablePropDesc() }
     ]
 
@@ -232,18 +257,20 @@ local ItemExternal = class extends ::BaseItem
 
   canConsume          = @() false
   canAssemble         = @() !isExpired() && getMyRecipes().len() > 0
-  canConvertToWarbonds= @() !isExpired() && ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
+  canConvertToWarbonds= @() isInventoryItem && !isExpired() && ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
 
   function getMainActionName(colored = true, short = false)
   {
-    return amount && canConsume() ? ::loc("item/consume")
+    return isCanBuy() ? getBuyText(colored, short)
+      : amount && canConsume() ? ::loc("item/consume")
       : canAssemble() ? getAssembleButtonText()
       : ""
   }
 
   function doMainAction(cb, handler, params = null)
   {
-    return consume(cb, params)
+    return buyExt(cb, params)
+      || consume(cb, params)
       || assemble(cb, params)
   }
 
@@ -269,7 +296,8 @@ local ItemExternal = class extends ::BaseItem
     local msgboxParams = {
       cancel_fn = @() null
       baseHandler = ::get_cur_base_gui_handler() //FIX ME: handler used only for prizes tooltips
-      data_below_text = ::PrizesView.getPrizesListView([ metaBlk ], { showAsTrophyContent = true, widthByParentParent = true })
+      data_below_text = ::PrizesView.getPrizesListView([ metaBlk ],
+        { showAsTrophyContent = true, receivedPrizes = false, widthByParentParent = true })
       data_below_buttons = canSell
         ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent")))
         : null
@@ -502,6 +530,35 @@ local ItemExternal = class extends ::BaseItem
         return true
 
     return false
+  }
+
+  isGoldPurchaseInProgress = @() ::u.search(itemTransfer.getSendingList(), @(data) (data?.goldCost ?? 0) > 0) != null
+
+  function buyExt(cb = null, params = null)
+  {
+    if (!isCanBuy())
+      return false
+
+    if (isGoldPurchaseInProgress())
+    {
+      ::g_popups.add(null, ::loc("items/msg/waitPreviousGoldTransaction"), null, null, null, "waitPrevGoldTrans")
+      return true
+    }
+
+    local blk = ::DataBlock()
+    blk.key = ::inventory_generate_key()
+    blk.itemDefId = id
+    blk.goldCost = getCost().gold
+
+    local onSuccess = function() {
+      if (cb)
+        cb({ success = true })
+    }
+    local onError = @(errCode) cb ? cb({ success = false }) : null
+
+    local taskId = ::char_send_blk("cln_inventory_purchase_item", blk)
+    ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess, onError)
+    return true
   }
 }
 

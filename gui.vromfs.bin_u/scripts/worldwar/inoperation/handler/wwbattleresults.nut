@@ -9,7 +9,8 @@ class ::gui_handlers.WwBattleResults extends ::gui_handlers.BaseGuiHandlerWT
   static function open(battleRes)
   {
     if (!battleRes || !battleRes.isValid())
-      return ::g_popups.add("", ::loc("worldwar/battle_not_found"))
+      return ::g_popups.add("", ::loc("worldwar/battle_not_found"),
+        null, null, null, "battle_result_view_error")
 
     ::handlersManager.loadHandler(::gui_handlers.WwBattleResults, { battleRes = battleRes })
   }

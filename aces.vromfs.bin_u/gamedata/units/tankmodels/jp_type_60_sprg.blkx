@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -588,22 +591,22 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 300.0,
+        "hp": 250.0,
         "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
+          "armorThickness": 25.0
         },
         "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
+          "armorThickness": 25.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -823,6 +826,10 @@
         "ammo_turret_34_dm": [],
         "ammo_turret_35_dm": [],
         "ammo_turret_36_dm": [],
+        "ammo_turret_37_dm": [],
+        "ammo_turret_38_dm": [],
+        "ammo_turret_39_dm": [],
+        "ammo_turret_40_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -1907,8 +1914,8 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "triggerGroup": "secondary",
-          "blk": "gameData/Weapons/groundModels_weapons/106mm_M40_RR_user_cannon.blk",
+          "triggerGroup": "primary",
+          "blk": "gameData/Weapons/groundModels_weapons/106mm_Type_60B_user_cannon.blk",
           "emitter": "bone_gun_barrel_01",
           "flash": "emtr_gun_flame_01",
           "useEmitter": true,
@@ -1941,6 +1948,7 @@
             "loaderDm": "loader_dm",
             "verDriveDm": "drive_turret_v_dm",
             "horDriveDm": "drive_turret_h_dm",
+            "rotatedTurret": "bone_turret",
             "linkedAnimPart": {
               "verNode": "bone_camera_gunner",
               "verLimits": [-180.0,180.0],
@@ -1949,7 +1957,7 @@
           },
           "limits": {
             "yaw": [-30.0,30.0],
-            "pitch": [-15.0,15.0]
+            "pitch": [-20.0,15.0]
           },
           "limitsTable": {
             "lim1": [-30.0,-17.0,-10.0,15.0],
@@ -1961,8 +1969,8 @@
       {
         "Weapon": {
           "trigger": "gunner1",
-          "triggerGroup": "primary",
-          "blk": "gameData/Weapons/groundModels_weapons/106mm_M40_RR_user_cannon.blk",
+          "triggerGroup": "secondary",
+          "blk": "gameData/Weapons/groundModels_weapons/106mm_Type_60B_user_cannon.blk",
           "emitter": "bone_gun_barrel_02",
           "flash": "emtr_gun_flame_02",
           "useEmitter": true,
@@ -1994,7 +2002,8 @@
             "gun": "bone_gun_02",
             "barrel": "bone_gun_barrel_02",
             "gunnerDm": "commander_dm",
-            "loaderDm": "loader_dm"
+            "loaderDm": "loader_dm",
+            "rotatedTurret": "bone_turret"
           },
           "limits": {
             "yaw": [0.0,0.0],
@@ -2011,7 +2020,7 @@
             "triggerGroup": "coaxial"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_Type_60B_user_machinegun.blk"
           },
           {
             "emitter": "bone_mg_gun_twin_02"
@@ -2024,6 +2033,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_03_dm"
           },
           {
             "speedYaw": 18.0
@@ -2095,11 +2107,12 @@
         "Weapon": {
           "trigger": "gunner3",
           "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/12_7mm_Type_60B_user_machinegun.blk",
           "emitter": "bone_mg_gun_twin_01",
           "flash": "emtr_mg_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_04_dm",
           "speedYaw": 18.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
@@ -2189,7 +2202,7 @@
             "ratio": 0.428
           },
           {
-            "ratio": 0.244
+            "ratio": 0.212
           }
         ]
       },

@@ -1161,13 +1161,15 @@ function get_userlog_view_data(log)
     }
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
   }
-  else if (log.type == ::EULT_INVENTORY_ADD_ITEM)
+  else if (log.type == ::EULT_INVENTORY_ADD_ITEM || log.type == ::EULT_INVENTORY_FAIL_ITEM)
   {
     local itemDefId = log?.itemDefId ?? ""
     local item = ::ItemsManager.findItemById(itemDefId)
     local numItems = log?.quantity ?? 1
     local locId = "userlog/" + logName
-    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
+    res.logImg = (item && item.getSmallIconName()) || ::BaseItem.typeIcon
+    if (log.type == ::EULT_INVENTORY_FAIL_ITEM)
+      res.logImg2 = "#ui/gameuiskin#icon_primary_fail"
     res.name = ::loc(locId, {
       numItemsColored = ::colorize("userlogColoredText", numItems)
       numItems = numItems

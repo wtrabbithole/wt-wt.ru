@@ -330,6 +330,8 @@ function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memb
 
     // First item in this array is table's header.
     parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, unitType)
+    footnoteText = ::loc("shop/all_info_relevant_to_current_game_mode")
+      + ::loc("ui/colon") + difficulty.getLocName()
   }
 
   if (!view.parameterRows.len())

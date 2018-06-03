@@ -36,9 +36,13 @@
 @const sizeDamageIndicator:      0.62@sizeDamageIndicatorFull;
 @const sizeTouchShortcut:        0.09*@shHud;
 @const multiplayerScoreHeight:   36@dp;
+@const missionProgressHeight:    @hudMisObjIconsSize + 1@blockInterval;
 
 @const tranTouchShortcutColor:   #80808080;
 @const pushedTouchShortcutColor: #efe7a4;
+
+@const topCenterMessagesTopPos          0.06@shHud;
+@const topCenterMainMessagesMinHeight   0.15@shHud;
 
 hud_touch_shortcut {
   behavior:touchArea;
@@ -173,19 +177,22 @@ hudMessages[message_style=zone_capture_notification] tdiv[zone_owner=enemy] {
 
 
 
-hudMessages[message_style=player_damage_notification] > message {
+hudMessages[message_style=player_damage_notification] > message,
+hudMessages[message_style=death_reason_notification] > message {
   size-func: cube;
   size-cycled: no;
   overflow: hidden;
 }
 
-hudMessages[message_style=player_damage_notification] > message[slideDown=yes]
+hudMessages[message_style=player_damage_notification] > message[slideDown=yes],
+hudMessages[message_style=death_reason_notification] > message[slideDown=yes]
 {
   size-time: 300;
   behaviour: basicSize;
 }
 
-hudMessages[message_style=player_damage_notification] > message[remove=yes] {
+hudMessages[message_style=player_damage_notification] > message[remove=yes],
+hudMessages[message_style=death_reason_notification] > message[remove=yes] {
   size-time: -300;
   behaviour: basicSize;
   selfRemoveOnFinish:-1;
@@ -197,6 +204,18 @@ hudMessages[message_style=player_damage_notification] > message > textareaNoTab 
   font: @fontHudSmall;
   color: @white;
   shadeStyle:outline33pct;
+}
+
+hudMessages[message_style=death_reason_notification] > message {
+  pos:50%pw-50%w, 0;
+  position:relative;
+}
+
+hudMessages[message_style=death_reason_notification] > message >  textareaNoTab {
+  text-align:center;
+  color: @white;
+  font: @fontHudMedium;
+  shadeStyle:'HudHeader3D';
 }
 
 
@@ -527,7 +546,7 @@ targetShade {
 
 
 
-textareaCentered[shadeStyle=HudHeader3D],
+textAreaCentered[shadeStyle=HudHeader3D],
 textareaNoTab[shadeStyle=HudHeader3D],
 [shadeStyle=HudHeader3D] > textareaNoTab,
 msgText[shadeStyle=HudHeader3D] {

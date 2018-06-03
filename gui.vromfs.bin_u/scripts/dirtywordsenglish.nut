@@ -206,6 +206,7 @@ fouldataEnglish <-
       "^fujinoyamai",
       "^fupa",
       "^fxuxcxk"
+      "^fu$"
     ]
   },
   {
@@ -523,7 +524,6 @@ fouldataEnglish <-
       "^sofaking",
       "^spanis(hick|hook|hunk)",
       "^sphencter",
-      "^spic",
       "^spierdalaj",
       "^splooge",
       "^std",
@@ -632,9 +632,6 @@ fouldataEnglish <-
 
 badphrasesEnglish <-
 [
-  "nonce"
-  "nig"
-  "vag"
 ];
 
 badcombinationEnglish <-

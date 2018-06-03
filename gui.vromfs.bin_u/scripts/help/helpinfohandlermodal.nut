@@ -58,6 +58,10 @@ class ::gui_handlers.HelpInfoHandlerModal extends ::gui_handlers.BaseGuiHandlerW
     foreach(idx, link in links)
     {
       local objBlock = ::guiTutor.getBlockFromObjData(link.obj, objContainer)
+
+      if (!link?.msgId)
+        link.msgId <- null
+
       if (objBlock)
       {
         if (::getTblValue("highlight", link, true))
@@ -68,7 +72,7 @@ class ::gui_handlers.HelpInfoHandlerModal extends ::gui_handlers.BaseGuiHandlerW
         continue
       }
 
-      local msgObj = scene.findObject(link.msgId)
+      local msgObj = link.msgId ? scene.findObject(link.msgId) : null
       if (::checkObj(msgObj))
         msgObj.show(false)
 

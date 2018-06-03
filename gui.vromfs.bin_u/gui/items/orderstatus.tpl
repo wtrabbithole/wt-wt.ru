@@ -17,8 +17,9 @@ tdiv {
   flow:t='vertical'
   overflow-y:t='auto'
   position:t='absolute'
+  <<^isHiddenContainerVisible>>
   display:t='hide'
-
+  <</isHiddenContainerVisible>>
 <</needPlaceInHiddenContainer>>
 
 textareaNoTab {
@@ -55,12 +56,13 @@ table {
         position:t='relative'
         size:t='16*@scrn_tgt/720, 16*@scrn_tgt/720'
         background-image:t='#ui/gameuiskin#player_in_queue'
+        display:t='hide'
       }
       textarea {
         id:t='order_score_player_name_text'
         removeParagraphIndent:t='yes'
         halign:t='left'
-        text:t='Player Name'
+        text:t=''
         smallFont:t='yes'
         order-status-text-shade:t='yes'
       }
@@ -70,7 +72,7 @@ table {
         id:t='order_score_value_text'
         removeParagraphIndent:t='yes'
         halign:t='center'
-        text:t='0000'
+        text:t=''
         smallFont:t='yes'
         order-status-text-shade:t='yes'
       }

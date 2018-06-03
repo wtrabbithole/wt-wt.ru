@@ -37,7 +37,7 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
   local isBlock = ::isPlayerInContacts(playerUid, ::EPL_BLOCKLIST)
   local contact = ::getContact(playerUid, playerName)
   local name = contact?.name ?? playerName
-  local canInteract = ::g_chat.xboxIsChatAvailableForFriend(name) && (!contact || contact.canInteract())
+  local canInteract = contact ? contact.canInteract() : platformModule.isChatEnableWithPlayer(name)
 
   return [
     {

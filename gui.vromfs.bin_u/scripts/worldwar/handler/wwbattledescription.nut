@@ -137,11 +137,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateBattleSquadListData()
   }
 
-  function reinitBattlesList()
+  function reinitBattlesList(isForceUpdate = false)
   {
     local closedGroups = getClosedGroups()
     local currentBattleListMap = createBattleListMap()
-    local needRefillBattleList = hasChangedInBattleListMap(currentBattleListMap)
+    local needRefillBattleList = isForceUpdate || hasChangedInBattleListMap(currentBattleListMap)
 
     curBattleListMap = currentBattleListMap
 
@@ -155,8 +155,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     else
       updateBattlesStatusInList()
 
-    onItemSelect()
+    onItemSelect(isForceUpdate)
     updateClosedGroups(closedGroups)
+    showSceneBtn("items_list", curBattleListMap.len() > 0)
   }
 
   function getClosedGroups()
@@ -439,14 +440,14 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getGameModeNameText()
   {
-    return operationBattle.getView().getBattleName() + " " + curBattleInList.getLocName()
+    return operationBattle.getView().getFullBattleName()
   }
 
   function getCustomUnitsListNameText()
   {
     local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
     if (operation)
-      return ::loc("mainmenu/operationTitle", {operation = operation.getMapText()})
+      return operation.getMapText()
 
     return ""
   }
@@ -472,7 +473,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
     if (!battle.isValid() || !isOperationBattleLoaded)
     {
-      showSceneBtn("teams_unis", false)
+      showSceneBtn("battle_info", false)
+      showSceneBtn("teams_block", false)
       showSceneBtn("tactical_map_block", false)
       return
     }
@@ -925,7 +927,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onItemSelect()
+  function onItemSelect(isForceUpdate = false)
   {
     refreshSelBattle()
     operationBattle = getBattleById(curBattleInList.id)
@@ -1027,7 +1029,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         })
       else
         if (isBattleDifferent)
-          reinitBattlesList()
+          reinitBattlesList(true)
     }
 
     if (getPlayerSide() == ::SIDE_NONE)
@@ -1217,26 +1219,31 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return ::ww_get_player_side()
   }
 
-  function hasChangedInBattleListMap(currentBattleListMap)
+  function hasChangedInBattleListMap(newBattleListMap)
   {
     if (curBattleListMap == null)
       return true
 
-    if (currentBattleListMap.len() != curBattleListMap.len())
+    if (newBattleListMap.len() != curBattleListMap.len())
       return true
 
-    foreach(groupId, groupData in currentBattleListMap)
+    foreach(groupId, newGroupData in newBattleListMap)
     {
-      local lastGroupData = ::getTblValue("groupId", curBattleListMap, null)
-      if (lastGroupData == null)
+      local curGroupData = curBattleListMap?[groupId]
+      if (!curGroupData)
         return true
 
-      if (groupData.childrenBattles.len() != lastGroupData.childrenBattles.len())
+      if (newGroupData.childrenBattles.len() != curGroupData.childrenBattles.len())
         return true
 
-      foreach(idx, battleId in groupData.childrenBattlesIds)
-        if (!::isInArray(battleId, lastGroupData.childrenBattlesIds))
+      // here we need to check battles statuses too (not only Id)
+      foreach(idx, newbattle in newGroupData.childrenBattles)
+      {
+        local curBattle = curGroupData.childrenBattles[idx]
+        if (newbattle.id != curBattle.id ||
+            newbattle.status != curBattle.status)
           return true
+      }
     }
 
     return false
@@ -1244,5 +1251,59 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenBattlesFilters(obj)
   {
+  }
+
+  function getWndHelpConfig()
+  {
+    local res = {
+      textsBlk = "gui/worldWar/wwBattlesModalHelp.blk"
+      objContainer = scene.findObject("root-box")
+    }
+    local links = [
+      { obj = ["items_list"]
+        msgId = "hint_items_list"
+      },
+      { obj = ["queue_info"]
+        msgId = "hint_queue_info"
+      },
+      { obj = ["squad_info"]
+        msgId = "hint_squad_info"
+      },
+      { obj = ["team_header_info_0"]
+        msgId = "hint_team_header_info_0"
+      },
+      { obj = ["battle_info"]
+        msgId = "hint_battle_info"
+      },
+      { obj = ["team_header_info_1"]
+        msgId = "hint_team_header_info_1"
+      },
+      { obj = ["team_unit_info_0"] },
+      { obj = ["team_unit_info_1"] },
+      { obj = ["cluster_select_button"]
+        msgId = "hint_cluster_select_button"
+      },
+      { obj = ["invite_squads_button"]
+        msgId = "hint_invite_squads_button"
+      },
+      { obj = ["btn_battles_filters"]
+        msgId = "hint_btn_battles_filters"
+      },
+      { obj = ["btn_join_battle"]
+        msgId = "hint_btn_join_battle"
+      },
+      { obj = ["btn_leave_battle"]
+        msgId = "hint_btn_leave_battle"
+      },
+      { obj = ["goto_global_battles_btn"]
+        msgId = "hint_goto_global_battles_btn"
+      },
+      { obj = ["tactical_map_block"]
+        msgId = "hint_tactical_map_block"
+      }
+    ]
+
+    res.links <- links
+    return res
   }
 }

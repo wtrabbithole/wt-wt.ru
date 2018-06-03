@@ -25,13 +25,37 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "windDirection": [1.0,0.0,0.0],
-      "tags": []
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
     },
+    "spectator_points": [],
     "briefing": {
       "place_loc": "",
       "date_loc": "",
@@ -49,6 +73,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -103,17 +130,15 @@
         "enableAfterComplete": false
       },
       "events": {
-        "periodicEvent": {
-          "time": 0.0
-        }
+        "initMission": []
       },
       "conditions": [],
       "actions": {
-        "spawnOnAirfield": {
-          "runwayName": "ships_01",
-          "objects": "armada_01"
+        "triggerEnable": {
+          "target": "spawn"
         }
-      }
+      },
+      "else_actions": []
     },
     "end": {
       "is_enabled": true,
@@ -138,12 +163,46 @@
         "wait": {
           "time": 3.0
         },
+        "triggerEnable": {
+          "target": "spawn"
+        }
+      },
+      "else_actions": []
+    },
+    "spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "func": "more",
+          "value": 0,
+          "object": "ships_01"
+        }
+      },
+      "actions": {
         "spawnOnAirfield": {
           "runwayName": "ships_01",
           "objects": "armada_01"
         }
       },
-      "else_actions": []
+      "else_actions": {
+        "missionFailed": []
+      }
     }
   },
   "mission_objectives": {
@@ -164,8 +223,10 @@
           [0.300706,0.0,-0.953717],
           [13965.2,-51.95,513.209]
         ],
-        "closed_waypoints": false,
         "unit_class": "a6m2_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m2_default",
         "bullets0": "",
         "bullets1": "",
@@ -207,8 +268,10 @@
           [0.300706,0.0,-0.953717],
           [13614.0,0.0,415.646]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_cv_enterprise",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -240,8 +303,10 @@
           [0.300706,0.0,-0.953717],
           [12276.2,0.0,-335.7]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_bb_arizona",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -273,8 +338,10 @@
           [0.300706,0.0,-0.953717],
           [12481.6,0.0,632.75]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_sims",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -306,8 +373,10 @@
           [0.300706,0.0,-0.953717],
           [12986.3,0.0,1997.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_sims",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -339,8 +408,10 @@
           [0.300706,0.0,-0.953717],
           [14394.3,0.0,1377.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_ca_sanfrancisco",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -372,8 +443,10 @@
           [0.300706,0.0,-0.953717],
           [14276.9,0.0,-502.85]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_dd_georgetown",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -405,8 +478,10 @@
           [0.300706,0.0,-0.953717],
           [14932.2,0.0,526.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "uss_brooklyn",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -452,5 +527,6 @@
         "enabled": true
       }
     }
-  ]
+  ],
+  "wayPoints": []
 }

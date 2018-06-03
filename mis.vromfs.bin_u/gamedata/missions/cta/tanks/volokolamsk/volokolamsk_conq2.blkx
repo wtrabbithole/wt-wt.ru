@@ -252,7 +252,7 @@
         "locDesc": "volokolamsk/desc;missions/_Conq2/desc"
       },
       {
-        "scoreLimit": 14000
+        "scoreLimit": 12000
       },
       {
         "timeLimit": 30
@@ -393,6 +393,11 @@
                 "side": "enemy",
                 "target": "briefing_conq_t2_tank_spawn_02_arcade"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea"
+              }
             }
           ]
         },
@@ -433,6 +438,11 @@
                 "side": "enemy",
                 "target": "briefing_conq_t2_tank_spawn_02_hardcore"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea"
+              }
             }
           ]
         },
@@ -472,6 +482,11 @@
                 "icontype": "tank",
                 "side": "enemy",
                 "target": "briefing_conq_t2_tank_spawn_02_hardcore"
+              }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_hardcore"
               }
             }
           ]
@@ -656,6 +671,28 @@
         [0.0,51.0531,0.0],
         [0.0,0.0,40.2128],
         [-227.088,69.94,1134.43]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea": {
+      "type": "Box",
+      "tm": [
+        [1400.0,0.0,0.0],
+        [0.0,365.1,0.0],
+        [0.0,0.0,1400.0],
+        [-172.756,20.4134,1143.86]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea_hardcore": {
+      "type": "Box",
+      "tm": [
+        [1900.0,0.0,0.0],
+        [0.0,365.1,0.0],
+        [0.0,0.0,1900.0],
+        [-25.7431,25.0115,932.848]
       ],
       "objLayer": 0,
       "props": []

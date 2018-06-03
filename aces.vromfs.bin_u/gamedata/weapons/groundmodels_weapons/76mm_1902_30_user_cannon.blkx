@@ -49,9 +49,9 @@
     "groundCollisionEffect": "big_ground_splash",
     "groundFxScale": [0.6,0.8],
     "ricochetEffect": "cannon_ricochet",
-    "waterCollisionEffect": "120-203_he_water_splash",
-    "waterFxScale": [0.7,0.8],
+    "waterCollisionEffect": "120-203_water_splash",
     "explosionPatchRadius": 1.8,
+    "waterFxScale": [0.7,0.8],
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
@@ -118,8 +118,8 @@
       "groundFxScale": [1.1,1.3],
       "ricochetEffect": "cannon_ricochet",
       "waterCollisionEffect": "120-203_he_water_splash",
-      "waterFxScale": [0.7,0.8],
       "explosionPatchRadius": 2.1,
+      "waterFxScale": [0.7,0.8],
       "visual": {
         "tracer": "noColor"
       },
@@ -174,8 +174,11 @@
       "shutterArmorPower": 6.0,
       "shutterHit": 13.0,
       "groundCollisionEffect": "art_ground_splash",
+      "groundFxScale": [1.1,1.3],
       "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [1.0,1.0],
+      "waterCollisionEffect": "120-203_he_water_splash",
+      "explosionPatchRadius": 2.1,
+      "waterFxScale": [0.7,0.8],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -203,11 +206,19 @@
       "collisions": {
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.0,3.0]
+          "fxScale": [2.5,3.0]
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.0,3.0]
+          "fxScale": [2.5,3.0]
+        },
+        "buildings": {
+          "fx": "atgm_hit",
+          "fxScale": [0.6,0.8]
+        },
+        "wood": {
+          "fx": "atgm_hit",
+          "fxScale": [0.6,0.8]
         }
       }
     }
@@ -227,8 +238,8 @@
       "groundFxScale": [0.5,0.6],
       "ricochetEffect": "cannon_ricochet",
       "waterCollisionEffect": "120-203_water_splash",
-      "waterFxScale": [0.5,0.7],
       "explosionPatchRadius": 0.8,
+      "waterFxScale": [0.5,0.7],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]

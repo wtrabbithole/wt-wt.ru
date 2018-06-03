@@ -1,3 +1,5 @@
+local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+
 ::CLAN_LOG_ROWS_IN_PAGE <- 10
 function show_clan_log(clanId)
 {
@@ -77,6 +79,15 @@ class ::gui_handlers.clanLogModal extends ::gui_handlers.BaseGuiHandlerWT
     logListObj.setValue(selectedIndex)
     logListObj.select()
     logListObj.getChild(selectedIndex).scrollToView()
+  }
+
+  function onUserLinkRClick(obj, itype, link) {
+    local uid = ::g_string.cutPrefix(link, "uid_", null)
+
+    if (uid == null)
+      return
+
+    playerContextMenu.showMenu(::getContact(uid), this)
   }
 
   function removeNextButton()

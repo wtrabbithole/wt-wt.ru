@@ -164,6 +164,17 @@ function g_unit_type::getByEsUnitType(esUnitType)
   return enums.getCachedType("esUnitType", esUnitType, cache.byEsUnitType, this, INVALID)
 }
 
+function g_unit_type::getArrayBybitMask(bitMask)
+{
+  local typesArray = []
+  foreach (type in ::g_unit_type.types)
+  {
+    if ((type.bit & bitMask) != 0)
+      typesArray.append(type)
+  }
+  return typesArray
+}
+
 function g_unit_type::getByBit(bit)
 {
   return enums.getCachedType("bit", bit, cache.byBit, this, INVALID)

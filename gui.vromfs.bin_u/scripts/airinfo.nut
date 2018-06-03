@@ -463,6 +463,11 @@ function is_submarine(unit)
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
 }
 
+function is_minelayer(unit)
+{
+  return unit.hasMines
+}
+
 function get_es_unit_type(unit)
 {
   return ::getTblValue("esUnitType", unit, ::ES_UNIT_TYPE_INVALID)
@@ -1041,7 +1046,25 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
     return true
 
   if (::isShip(air))
-    return true //ships dosnt calculated yet
+  {
+    air.modificatorsRequestTime = ::dagor.getCurTime()
+    calculate_ship_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
+      air.modificatorsRequestTime = -1
+      if (effect)
+      {
+        air.modificators = {
+          arcade = effect.arcade
+          historical = effect.historical
+          fullreal = effect.fullreal
+        }
+        if (!air.modificatorsBase)
+          air.modificatorsBase = air.modificators
+      }
+
+      ::_afterUpdateAirModificators(air, callBack)
+    })(air, callBack))
+    return false
+  }
 
   if (isTank(air))
   {
@@ -1737,6 +1760,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   holderObj.findObject("aircraft-wingLoading").setValue(::countMeasure(5, air.shop.wingLoading))
 //  holderObj.findObject("aircraft-range").setValue(::countMeasure(2, air.shop.range * 1000.0))
 
+  local totalCrewObj = holderObj.findObject("total-crew")
+  if (::check_obj(totalCrewObj))
+    totalCrewObj.setValue(air.getCrewTotalCount().tostring())
+
   local airplaneParameters = ::has_feature("CardAirplaneParameters")
   local airplanePowerParameters = airplaneParameters && ::has_feature("CardAirplanePowerParameters")
 
@@ -1753,7 +1780,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-armorPiercingDist-tr"]     = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-mass-tr"]                  = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-horsePowers-tr"]           = [ ::ES_UNIT_TYPE_TANK ],
-    ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK ],
+    ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_SHIP ],
     ["aircraft-maxDepth-tr"]              = [ ::ES_UNIT_TYPE_SHIP],
     ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
@@ -1865,12 +1892,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       holderObj.findObject("ship-displacement-title").setValue(::loc("info/ship/displacement") + ::loc("ui/colon"))
       holderObj.findObject("ship-displacement-value").setValue(displacementString)
     }
-
-    // ship-speed
-    local speedValue = ::getTblValueByPath("Shop.maxSpeed", unitTags, 0)
-    holderObj.findObject("aircraft-maxSpeed-tr").show(speedValue > 0)
-    if(speedValue > 0)
-      holderObj.findObject("aircraft-maxSpeed").setValue(::g_measure_type.SPEED.getMeasureUnitsText(speedValue))
 
     // submarine-depth
     local depthValue = unitTags?.Shop?.maxDepth ?? 0

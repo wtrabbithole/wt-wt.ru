@@ -1,6 +1,6 @@
 local u = ::require("std/u.nut")
 local enums = ::require("std/enums.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum chatRoomCheckOrder {
   CUSTOM

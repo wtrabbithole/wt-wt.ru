@@ -11,15 +11,14 @@
 ::g_crew_short_cache <- {
   cache = {}
   cacheCrewid = -1
-  cacheUnitName = ""
+  unit = null
 }
 
 function g_crew_short_cache::resetCache(newCrewId)
 {
   cache.clear()
   cacheCrewid = newCrewId
-  local crewUnit = ::g_crew.getCrewUnit(::get_crew_by_id(cacheCrewid))
-  cacheUnitName = ::getTblValue("name", crewUnit, "")
+  unit = ::g_crew.getCrewUnit(::get_crew_by_id(cacheCrewid))
 }
 
 function g_crew_short_cache::getData(crewId, cacheUid)

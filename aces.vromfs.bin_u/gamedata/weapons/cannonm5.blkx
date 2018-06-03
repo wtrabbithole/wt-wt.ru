@@ -70,9 +70,9 @@
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [0.6,0.8],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "120-203_he_water_splash",
-      "waterFxScale": [0.7,0.8],
+      "waterCollisionEffect": "120-203_water_splash",
       "explosionPatchRadius": 1.8,
+      "waterFxScale": [0.7,0.8],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -201,9 +201,9 @@
         "groundCollisionEffect": "big_ground_splash",
         "groundFxScale": [0.6,0.8],
         "ricochetEffect": "cannon_ricochet",
-        "waterCollisionEffect": "120-203_he_water_splash",
-        "waterFxScale": [0.7,0.8],
+        "waterCollisionEffect": "120-203_water_splash",
         "explosionPatchRadius": 1.8,
+        "waterFxScale": [0.7,0.8],
         "hitpower": {
           "HitPower0m": [0.85,500.0],
           "HitPower10000m": [0.8,10000.0]
@@ -310,9 +310,10 @@
   },
   {
     "gunSound": {
-      "path": "tanks/weapon_tanks/cannons",
-      "outside": "75mm_m3",
-      "cockpit": "75mm_m3_interior"
+      "path": "sounds/guns",
+      "outside": "m5_gun_outside",
+      "cockpit": "m5_gun_inside",
+      "ai": "m5_gun_ai"
     }
   },
   {

@@ -8,7 +8,7 @@
         "triggerGroup": "primary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/37mm_AN_M4_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/37mm_AN_M4_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_01"
@@ -144,7 +144,7 @@
         "triggerGroup": "secondary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
       },
       {
         "emitter": "emtr_gun_flame_05"
@@ -275,7 +275,7 @@
         "triggerGroup": "secondary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
       },
       {
         "emitter": "emtr_gun_flame_06"
@@ -406,7 +406,7 @@
         "triggerGroup": "secondary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
       },
       {
         "emitter": "emtr_gun_flame_03"
@@ -536,7 +536,7 @@
         "triggerGroup": "secondary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
       },
       {
         "emitter": "emtr_gun_flame_04"
@@ -666,7 +666,7 @@
         "triggerGroup": "secondary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_02"
@@ -797,7 +797,7 @@
         "triggerGroup": "primary"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_07"
@@ -918,21 +918,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
-      "emitter": "bone_launch_torpedo_01",
-      "animatedEmitter": "bone_torpedo_01",
+      "emitter": "bone_torpedo_01",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_01",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.0,
       "barrelDP": "tt_01_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_01_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.2,
+      "startDir": [0.0,0.0,10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
-        "head": "bone_launch_torpedo_01",
-        "gun": "bone_launch_torpedo_01"
+        "head": "bone_torpedo_01",
+        "gun": "bone_torpedo_01"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -946,21 +944,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
-      "emitter": "bone_launch_torpedo_02",
-      "animatedEmitter": "bone_torpedo_02",
+      "emitter": "bone_torpedo_02",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_02",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.0,
       "barrelDP": "tt_02_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_02_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.2,
+      "startDir": [0.0,0.0,-10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
-        "head": "bone_launch_torpedo_02",
-        "gun": "bone_launch_torpedo_02"
+        "head": "bone_torpedo_02",
+        "gun": "bone_torpedo_02"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -974,21 +970,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
-      "emitter": "bone_launch_torpedo_03",
-      "animatedEmitter": "bone_torpedo_03",
+      "emitter": "bone_torpedo_03",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_03",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.0,
       "barrelDP": "tt_03_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_03_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.2,
+      "startDir": [0.0,0.0,10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
-        "head": "bone_launch_torpedo_03",
-        "gun": "bone_launch_torpedo_03"
+        "head": "bone_torpedo_03",
+        "gun": "bone_torpedo_03"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -1002,21 +996,19 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
-      "emitter": "bone_launch_torpedo_04",
-      "animatedEmitter": "bone_torpedo_04",
+      "emitter": "bone_torpedo_04",
       "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_04",
-      "animLaunchTime": 2.0,
-      "launchTime": 1.0,
       "barrelDP": "tt_04_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_04_dm",
-      "startSpeed": 2.0,
+      "startSpeed": 2.2,
+      "startDir": [0.0,0.0,-10.0],
+      "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
-        "head": "bone_launch_torpedo_04",
-        "gun": "bone_launch_torpedo_04"
+        "head": "bone_torpedo_04",
+        "gun": "bone_torpedo_04"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -1033,7 +1025,7 @@
         "triggerGroup": "rockets"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/127mm_5in_mk50_rocket_launcher.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/127mm_5in_mk50_naval_rocket_launcher.blk"
       },
       {
         "weaponType": "rockets"
@@ -1157,7 +1149,7 @@
         "triggerGroup": "rockets"
       },
       {
-        "blk": "gameData/Weapons/groundModels_weapons/127mm_5in_mk50_rocket_launcher.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/127mm_5in_mk50_naval_rocket_launcher.blk"
       },
       {
         "weaponType": "rockets"

@@ -24,10 +24,13 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
   missionBlk = null
   isRestart = false
 
-  useCampaignsCollapsing = true
+  canCollapseCampaigns = false
+  canCollapseChapters = false
 
   showAllCampaigns = false
+
   collapsedCamp = []
+
   filterDataArray = []
   filterText = ""
 
@@ -36,8 +39,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     gm = ::get_game_mode()
-
-    check_disable_saving_options()
+    loadCollapsedChapters()
+    initCollapsingOptions()
 
     initMisListTypeSwitcher()
     updateFavorites()
@@ -50,6 +53,28 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     local descHandler = ::gui_handlers.MissionDescription.create(getObj("mission_desc"), curMission)
     registerSubHandler(descHandler)
     missionDescWeak = descHandler.weakref()
+  }
+
+  function initCollapsingOptions()
+  {
+    canCollapseCampaigns = gm != ::GM_SKIRMISH
+    canCollapseChapters = gm == ::GM_SKIRMISH
+  }
+
+  function loadCollapsedChapters()
+  {
+    local collapsedList = ::load_local_account_settings(getCollapseListSaveId(), "")
+    collapsedCamp = ::g_string.split(collapsedList, ";")
+  }
+
+  function saveCollapsedChapters()
+  {
+    ::save_local_account_settings(getCollapseListSaveId(), ::g_string.implode(collapsedCamp, ";"))
+  }
+
+  function getCollapseListSaveId()
+  {
+    return "mislist_collapsed_chapters/" + ::get_game_mode_name(gm)
   }
 
   function updateWindow()
@@ -77,11 +102,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       customChapters = ::current_campaign
 
     missions = misListType.getMissionsList(showAllCampaigns, customChapterId, customChapters)
-
-    collapsedCamp = []
-    foreach(m in missions)
-      if (m.isCampaign)
-        collapsedCamp.append(m.id)
 
     if (gm == ::GM_DYNAMIC)
     {
@@ -132,7 +152,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
           itemTag = mission.isCampaign? "campaign_item" : "chapter_item_unlocked"
           id = mission.id
           itemText = misListType.getMissionNameText(mission)
-          isCollapsable = useCampaignsCollapsing && mission.isCampaign
+          isCollapsable = (mission.isCampaign && canCollapseCampaigns) || canCollapseChapters
         })
         continue
       }
@@ -216,8 +236,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (selIdx >= 0 && selIdx < listObj.childrenCount())
     {
       local mission = missions[selIdx]
-      if (useCampaignsCollapsing)
-        collapse(mission.campaign, true, false)
       if (hasVideoToPlay && gm == ::GM_CAMPAIGN)
         playChapterVideo(mission.chapter, true)
 
@@ -234,6 +252,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     createFilterDataArray()
     applyMissionFilter()
+    updateCollapsedItems()
   }
 
   function createFilterDataArray()
@@ -293,56 +312,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     return curMission
   }
 
-  /*
-  function visuallySelectMission(item)
-  {
-    if(typeof(item) != "table")
-      return
-
-    local unfold = "", select = ""
-
-    if (item.isHeader)
-      if (item.isCampaign)
-      {
-        unfold = item.id
-      }
-      else
-      {
-        local found = false
-        for (local i = missions.len() - 1; i >= 0; i--)
-        {
-          if (missions[i].isHeader && missions[i].id == item.id)
-            found = true
-          else if (found && missions[i].isHeader && missions[i].isCampaign)
-            { unfold = missions[i].id; break }
-        }
-        select = item.id
-      }
-    else
-    {
-      unfold = ("campaign" in item)? item.campaign : ""
-      select = item.id
-    }
-    unfold = isInArray(unfold, collapsedCamp)? unfold : ""
-
-    if (unfold != "" || select != "")
-      for (local i = 0; i < missions.len(); i++)
-        if (unfold != "" && missions[i].id == unfold)
-        {
-          collapse(unfold)
-          if (select == "") break
-        }
-        else if (select != "" && missions[i].id == select)
-        {
-          local listObj = getObj("items_list")
-          if (!listObj) return
-          listObj.setValue(i)
-          onItemSelect(listObj)
-          break
-        }
-  }
-  */
-
   function onItemSelect(obj)
   {
     getSelectedMission()
@@ -397,13 +366,9 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     isOnlyFavorites = ::loadLocalByAccount(getFavoritesSaveId(), false)
-    local checkObj = getObj("favorite_missions_switch")
-    if (!checkObj)
-      return
-
-    checkObj.enable(true)
-    checkObj.show(true)
-    checkObj.setValue(isOnlyFavorites)
+    local checkObj = showSceneBtn("favorite_missions_switch", true)
+    if (checkObj)
+      checkObj.setValue(isOnlyFavorites)
   }
 
   function onOnlyFavoritesSwitch(obj)
@@ -415,6 +380,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     isOnlyFavorites = value
     ::saveLocalByAccount(getFavoritesSaveId(), isOnlyFavorites)
     applyMissionFilter()
+    updateCollapsedItems()
   }
 
   function onFav()
@@ -436,6 +402,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBack()
   {
+    if( ! filterText.len())
+      saveCollapsedChapters()
     local gt = ::get_game_type()
     if ((gm == ::GM_DYNAMIC) && (gt & ::GT_COOPERATIVE) && ::SessionLobby.isInRoom())
     {
@@ -505,8 +473,11 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     if (curMission.isHeader)
     {
-      if (useCampaignsCollapsing && curMission.isCampaign)
-        return collapse(curMission.id)
+      if ((curMission.isCampaign && canCollapseCampaigns) || canCollapseChapters)
+        if (filterText.len() == 0)
+          return collapse(curMission.id)
+        else
+          return
 
       if (gm != ::GM_CAMPAIGN)
         return
@@ -524,6 +495,9 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
            maxSquadSize = ::get_max_players_for_gamemode(gm)
          }))
       return
+
+    if( ! filterText.len())
+      saveCollapsedChapters()
 
     if (::getTblValue("blk", curMission) == null && ::g_mislist_type.isUrlMission(curMission))
     {
@@ -567,7 +541,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateButtons()
   {
-    local isHeader = curMission && curMission.isHeader
+    local isHeader = curMission?.isHeader ?? false
 
     local isShowFavoritesBtn = misListType.canMarkFavorites() && curMission != null && !isHeader
     showSceneBtn("btn_favorite", isShowFavoritesBtn)
@@ -582,11 +556,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     local startText = ""
     if (!isHeader)
       startText = ::loc("multiplayer/btnStart")
-    else if (curMission && curMission.isCampaign)
-    {
-      if (useCampaignsCollapsing)
-        startText = ::loc(::isInArray(curMission.id, collapsedCamp) ? "mainmenu/btnExpand" : "mainmenu/btnCollapse")
-    }
+    else if (filterText.len() == 0 && ((curMission?.isCampaign && canCollapseCampaigns) || (isHeader && canCollapseChapters)))
+      startText = ::loc(::isInArray(curMission.id, collapsedCamp) ? "mainmenu/btnExpand" : "mainmenu/btnCollapse")
     else if (gm == ::GM_CAMPAIGN)
       startText = ::loc("mainmenu/btnWatchMovie")
 
@@ -639,17 +610,27 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     local wasIdx = listObj.getValue()
     local selIdx = -1
     local hasAnyVisibleMissions = false
+    local isFilteredMissions = filterText.len() > 0
     foreach(idx, m in missions)
     {
       local isVisible = true
-      if (m.isHeader && m.isCampaign)
+      if ((m.isHeader && canCollapseChapters) || (m.isCampaign && canCollapseCampaigns))
       {
-        collapsed = ::isInArray(m.id, collapsedCamp)
+        collapsed = !isFilteredMissions && ::isInArray(m.id, collapsedCamp)
+
         local obj = listObj.getChild(idx)
-        if (obj) obj.collapsed = collapsed? "yes" : "no"
+        if (obj)
+        {
+          obj.collapsed = collapsed? "yes" : "no"
+          local collapseBtnObj = obj.findObject("btn_" + obj.id)
+          if (::check_obj(collapseBtnObj))
+            collapseBtnObj.show(!isFilteredMissions)
+        }
+
         if (selCamp && selCamp==m.id)
           selIdx = idx
-      } else
+      }
+      else
         isVisible = !collapsed
 
       local obj = listObj.getChild(idx)
@@ -699,14 +680,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     updateCollapsedItems(campId)
     updateButtons()
-  }
-
-  function dummyCollapse(obj)
-  {
-    if (curMission)
-      if ("isHeader" in curMission && curMission.isHeader)
-        if (curMission.isCampaign)
-          return collapse(curMission.id)
   }
 
   function onCollapse(obj)
@@ -785,7 +758,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
   {
     local params = getModalOptionsParam(optionItems, applyFunc)
     local handler = ::handlersManager.loadHandler(::gui_handlers.GenericOptionsModal, params)
-    ::disable_saving_options <- true
 
     if (!optionItems.len())
       handler.applyOptions()
@@ -905,6 +877,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
   function onFilterEditBoxChangeValue()
   {
     applyMissionFilter()
+    updateCollapsedItems()
+    updateButtons()
   }
 
   function onFilterEditBoxCancel()
@@ -931,11 +905,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     local prevTextLen = filterText.len()
     filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
-
-    //uncollapse all chapters when writing filter text
-    //but dosn't change collapsed list when text not changed or cleared
-    if (prevTextLen < filterText.len())
-      collapsedCamp.clear()
 
     local showChapter = false
     local showCampaign = false
@@ -964,7 +933,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
       filterData.filterCheck = filterCheck
     }
-    updateCollapsedItems()
   }
 
   function onAddMission()

@@ -217,7 +217,7 @@ class DirtyWords
   function prepare ( text )
   {
     local phrase = text;
-    local buffer = null;
+    local buffer = "";
 
     foreach ( p in preparereplace )
       phrase = p.pattern.replace ( p.replace, phrase );
@@ -237,17 +237,17 @@ class DirtyWords
       }
       else
       {
-        if ( buffer != null )
+        if ( buffer != "" )
         {
           out.push ( buffer )
-          buffer = null;
+          buffer = "";
         }
 
         out.push ( word );
       }
     }
 
-    if ( buffer != null )
+    if ( buffer != "" )
       out.push ( buffer )
 
     return out;

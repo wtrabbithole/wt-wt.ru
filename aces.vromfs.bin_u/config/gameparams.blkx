@@ -18,6 +18,8 @@
   "maxIntroVideoPlayed": 2,
   "tankInvulnerabilityResetByShoot": false,
   "tankInvulnerabilityTime": 20.0,
+  "tankInvulnerabilityRadius": 20.0,
+  "shipInvulnerabilityRadius": 200.0,
   "noCollisionDurationForTankRespawn": 1.5,
   "screenshotAsJpeg": false,
   "unit_attachments_enabled": true,
@@ -155,6 +157,7 @@
     "headNoiseSmoothLen": 0.03,
     "headFadeLen": 0.5,
     "headHdrMultiplier": 15.0,
+    "headHdrMultiplierCompatibility": 2.0,
     "headLenScale": 1.0,
     "headRadiusScale": 1.0,
     "headMinPixelRadius": 2.0,
@@ -2688,9 +2691,9 @@
       "cockpitPowWeight": 0.95,
       "tanksShadowDist": 20.0,
       "tanksPowWeight": 0.4,
-      "shipsShadowDist": 30.0,
+      "shipsShadowDist": 80.0,
       "shipsPowWeight": 0.3,
-      "bigShipsShadowDist": 40.0,
+      "bigShipsShadowDist": 120.0,
       "bigShipsPowWeight": 0.4,
       "fadeOut": 30.0,
       "rotationMargin": 0.1,
@@ -2700,6 +2703,7 @@
       "staticCascadeRegWidth": 500.0,
       "staticCascadeStarting": 0,
       "staticCascadeFxaaStr": 1.0,
+      "staticCascadeUseRiSecLayer": true,
       "useOcclusion": true
     },
     "medium": {
@@ -2725,6 +2729,7 @@
       "staticCascadeRegWidth": 150.0,
       "staticCascadeStarting": 0,
       "staticCascadeFxaaStr": 3.0,
+      "staticCascadeUseRiSecLayer": false,
       "useOcclusion": true
     },
     "ps4shadows": {
@@ -2749,6 +2754,7 @@
       "staticCascadeTexWidth": 1024,
       "staticCascadeRegWidth": 150.0,
       "staticCascadeStarting": 0,
+      "staticCascadeUseRiSecLayer": false,
       "renderHeightmap": true,
       "useOcclusion": false,
       "staticCascadeDepthSlopeBias": -1.0,
@@ -2778,6 +2784,7 @@
       "staticCascadeRegWidth": 150.0,
       "staticCascadeStarting": 0,
       "staticCascadeFxaaStr": 5.0,
+      "staticCascadeUseRiSecLayer": false,
       "renderHeightmap": true,
       "useOcclusion": false
     },
@@ -2799,11 +2806,12 @@
       "fadeOut": 250.0,
       "rotationMargin": 0.1,
       "vsmSize": 2048,
-      "staticCascadeCount": 2,
-      "staticCascadeRegMul": 7.0,
+      "staticCascadeCount": 1,
+      "staticCascadeRegMul": 1.0,
       "staticCascadeTexWidth": 4096,
-      "staticCascadeRegWidth": 150.0,
-      "staticCascadeStarting": 0,
+      "staticCascadeRegWidth": 1000.0,
+      "staticCascadeStarting": 4,
+      "staticCascadeUseRiSecLayer": true,
       "renderHeightmap": true,
       "useOcclusion": false,
       "staticCascadeDepthSlopeBias": -1.0,
@@ -3470,6 +3478,36 @@
     },
     {
       "cannon_breech": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_01": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_02": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_03": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_04": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_05": {
         "my": "tank_cannon_breech",
         "enemy": "tank_cannon_breech"
       }
@@ -4182,6 +4220,12 @@
       "pump": {
         "my": "ship_pump",
         "enemy": "ship_pump"
+      }
+    },
+    {
+      "elevator": {
+        "my": "ship_elevator",
+        "enemy": "ship_elevator"
       }
     },
     {
@@ -5347,6 +5391,96 @@
         "my": "ship_depth_charge",
         "enemy": "ship_depth_charge"
       }
+    },
+    {
+      "depth_charge_mount_01": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_02": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_03": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_04": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_05": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_06": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_07": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_08": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_09": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_10": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_11": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_12": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_13": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_14": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_mount_15": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
     }
   ],
   "wodParams": {
@@ -5437,7 +5571,8 @@
     "minCropIconSize": 16.0,
     "minCropElementSize": 0.25,
     "cropIconFade": 0.25,
-    "cropIconFarFade": 15.0
+    "cropIconFarFade": 15.0,
+    "shipArmorClassForViewer": "RHA_tank, ship_special_treatment_steel, concrete"
   },
   "repairTanks": {
     "repairDelayTimer": 5.0,
@@ -5506,6 +5641,12 @@
         "p": "gun_mask"
       },
       {
+        "p": "armor_belt"
+      },
+      {
+        "p": "armor_cit"
+      },
+      {
         "p": "ex_era_hull_"
       },
       {
@@ -5552,6 +5693,12 @@
       },
       {
         "p": "mg_"
+      },
+      {
+        "p": "tt_"
+      },
+      {
+        "p": "depth_charge_mount_"
       },
       {
         "p": "ex_decor_"
@@ -5603,6 +5750,14 @@
           "name": "cannon_breech_",
           "useThicknessThrough": true
         }
+      }
+    ],
+    "viewer_armor_inner": [
+      {
+        "p": "armor_belt"
+      },
+      {
+        "p": "armor_cit"
       }
     ],
     "viewer_xray": [
@@ -5689,12 +5844,6 @@
       },
       {
         "p": "ex_era_turret_"
-      },
-      {
-        "p": {
-          "name": "superstructure",
-          "unit": "ship"
-        }
       },
       {
         "p": {
@@ -5804,6 +5953,13 @@
       {
         "p": {
           "name": "pump",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "elevator",
           "color_h": 0.1,
           "unit": "ship"
         }
@@ -5927,29 +6083,7 @@
       },
       {
         "p": {
-          "name": "stern_top",
-          "color_h": 0.1,
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "stern_bottom",
-          "color_h": 0.1,
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
           "name": "compartment",
-          "color_h": 0.1,
-          "unit": "ship",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "cover",
           "color_h": 0.1,
           "unit": "ship",
           "dmgThreshold": 0.3
@@ -6636,6 +6770,30 @@
           "name": "wheel_l_02_",
           "modelNames": "gaz_aa_4m"
         }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "sdkfz_221_s_pz_b_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "sdkfz_221_s_pz_b_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "sdkfz_221_s_pz_b_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "sdkfz_221_s_pz_b_41"
+        }
       }
     ],
     "crew": [
@@ -6945,6 +7103,13 @@
       {
         "p": {
           "name": "pump",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "elevator",
           "color_h": 0.1,
           "unit": "ship"
         }
@@ -8075,21 +8240,6 @@
     ],
     "hideForMode1": [
       {
-        "ri": "european_barrel_a"
-      },
-      {
-        "ri": "european_barrel_b"
-      },
-      {
-        "ri": "european_barrel_small_a"
-      },
-      {
-        "ri": "european_barrel_small_b"
-      },
-      {
-        "ri": "european_bycicle_parking_a"
-      },
-      {
         "ri": "european_flower_urn_a"
       },
       {
@@ -8126,28 +8276,10 @@
         "ri": "european_road_column_d"
       },
       {
-        "ri": "european_telephone_booth_a"
-      },
-      {
-        "ri": "european_telephone_booth_b"
-      },
-      {
         "ri": "european_trash_can_a"
       },
       {
         "ri": "european_trash_can_b"
-      },
-      {
-        "ri": "european_news_board_a"
-      },
-      {
-        "ri": "european_news_board_b"
-      },
-      {
-        "ri": "european_news_board_c"
-      },
-      {
-        "ri": "european_news_board_d"
       },
       {
         "ri": "european_market_box_a"
@@ -8192,120 +8324,6 @@
         "ri": "hatch_g"
       },
       {
-        "ri": "firewood_a"
-      },
-      {
-        "ri": "firewood_b"
-      },
-      {
-        "ri": "wood_debris_a"
-      },
-      {
-        "ri": "wood_debris_c"
-      },
-      {
-        "ri": "wood_debris_d"
-      },
-      {
-        "ri": "wood_debris_e"
-      },
-      {
-        "ri": "wood_ladder_a"
-      },
-      {
-        "ri": "wood_ladder_b"
-      },
-      {
-        "ri": "wood_table_small_b"
-      },
-      {
-        "ri": "wood_barrel_a"
-      },
-      {
-        "ri": "wood_bench_a"
-      },
-      {
-        "ri": "wood_bench_b"
-      },
-      {
-        "ri": "wood_bench_c"
-      },
-      {
-        "ri": "wood_gates_a"
-      },
-      {
-        "ri": "european_waymark_a"
-      },
-      {
-        "ri": "european_waymark_b"
-      },
-      {
-        "ri": "european_waymark_c"
-      },
-      {
-        "ri": "european_waymark_d"
-      },
-      {
-        "ri": "european_waymark_e"
-      },
-      {
-        "ri": "european_waymark_f"
-      },
-      {
-        "ri": "axe_in_stump_a"
-      },
-      {
-        "ri": "horse_plough_a"
-      },
-      {
-        "ri": "grab_a"
-      },
-      {
-        "ri": "mowing_machine_a"
-      },
-      {
-        "ri": "barbed_wire_a"
-      },
-      {
-        "ri": "barbedwire_a"
-      },
-      {
-        "ri": "barbedwire_a_dmg"
-      },
-      {
-        "ri": "concrete_fence_g_column"
-      },
-      {
-        "ri": "box_a"
-      },
-      {
-        "ri": "box_b"
-      },
-      {
-        "ri": "box_c"
-      },
-      {
-        "ri": "box_d"
-      },
-      {
-        "ri": "box_f"
-      },
-      {
-        "ri": "box_g"
-      },
-      {
-        "ri": "box_h"
-      },
-      {
-        "ri": "box_i"
-      },
-      {
-        "ri": "box_j"
-      },
-      {
-        "ri": "box_k"
-      },
-      {
         "ri": "egypt_arcade_stone1_01"
       },
       {
@@ -8334,37 +8352,10 @@
       },
       {
         "ri": "sandbag_a"
-      },
-      {
-        "ri": "sandbags_d"
-      },
-      {
-        "ri": "sandbags_e"
-      },
-      {
-        "ri": "sandbags_f"
-      },
-      {
-        "ri": "sandbags_j"
       }
     ],
     "hideForMode0": [
       {
-        "ri": "european_barrel_a"
-      },
-      {
-        "ri": "european_barrel_b"
-      },
-      {
-        "ri": "european_barrel_small_a"
-      },
-      {
-        "ri": "european_barrel_small_b"
-      },
-      {
-        "ri": "european_bycicle_parking_a"
-      },
-      {
         "ri": "european_flower_urn_a"
       },
       {
@@ -8401,28 +8392,10 @@
         "ri": "european_road_column_d"
       },
       {
-        "ri": "european_telephone_booth_a"
-      },
-      {
-        "ri": "european_telephone_booth_b"
-      },
-      {
         "ri": "european_trash_can_a"
       },
       {
         "ri": "european_trash_can_b"
-      },
-      {
-        "ri": "european_news_board_a"
-      },
-      {
-        "ri": "european_news_board_b"
-      },
-      {
-        "ri": "european_news_board_c"
-      },
-      {
-        "ri": "european_news_board_d"
       },
       {
         "ri": "european_market_box_a"
@@ -8467,120 +8440,6 @@
         "ri": "hatch_g"
       },
       {
-        "ri": "firewood_a"
-      },
-      {
-        "ri": "firewood_b"
-      },
-      {
-        "ri": "wood_debris_a"
-      },
-      {
-        "ri": "wood_debris_c"
-      },
-      {
-        "ri": "wood_debris_d"
-      },
-      {
-        "ri": "wood_debris_e"
-      },
-      {
-        "ri": "wood_ladder_a"
-      },
-      {
-        "ri": "wood_ladder_b"
-      },
-      {
-        "ri": "wood_table_small_b"
-      },
-      {
-        "ri": "wood_barrel_a"
-      },
-      {
-        "ri": "wood_bench_a"
-      },
-      {
-        "ri": "wood_bench_b"
-      },
-      {
-        "ri": "wood_bench_c"
-      },
-      {
-        "ri": "wood_gates_a"
-      },
-      {
-        "ri": "european_waymark_a"
-      },
-      {
-        "ri": "european_waymark_b"
-      },
-      {
-        "ri": "european_waymark_c"
-      },
-      {
-        "ri": "european_waymark_d"
-      },
-      {
-        "ri": "european_waymark_e"
-      },
-      {
-        "ri": "european_waymark_f"
-      },
-      {
-        "ri": "axe_in_stump_a"
-      },
-      {
-        "ri": "horse_plough_a"
-      },
-      {
-        "ri": "grab_a"
-      },
-      {
-        "ri": "mowing_machine_a"
-      },
-      {
-        "ri": "barbed_wire_a"
-      },
-      {
-        "ri": "barbedwire_a"
-      },
-      {
-        "ri": "barbedwire_a_dmg"
-      },
-      {
-        "ri": "concrete_fence_g_column"
-      },
-      {
-        "ri": "box_a"
-      },
-      {
-        "ri": "box_b"
-      },
-      {
-        "ri": "box_c"
-      },
-      {
-        "ri": "box_d"
-      },
-      {
-        "ri": "box_f"
-      },
-      {
-        "ri": "box_g"
-      },
-      {
-        "ri": "box_h"
-      },
-      {
-        "ri": "box_i"
-      },
-      {
-        "ri": "box_j"
-      },
-      {
-        "ri": "box_k"
-      },
-      {
         "ri": "egypt_arcade_stone1_01"
       },
       {
@@ -8611,79 +8470,46 @@
         "ri": "sandbag_a"
       },
       {
-        "ri": "sandbags_d"
+        "ri": "axe_in_stump_a"
       },
       {
-        "ri": "sandbags_e"
+        "ri": "barbed_wire_a"
       },
       {
-        "ri": "sandbags_f"
+        "ri": "barbedwire_a"
       },
       {
-        "ri": "sandbags_j"
+        "ri": "barbedwire_a_dmg"
       },
       {
-        "ri": "european_advertising_column_a"
+        "ri": "box_a"
       },
       {
-        "ri": "european_advertising_column_b"
+        "ri": "box_b"
       },
       {
-        "ri": "european_advertising_column_c"
+        "ri": "box_c"
       },
       {
-        "ri": "european_advertising_column_d"
+        "ri": "box_d"
       },
       {
-        "ri": "european_advertising_column_e"
+        "ri": "box_f"
       },
       {
-        "ri": "european_advertising_column_f"
+        "ri": "box_g"
       },
       {
-        "ri": "european_bench_a"
+        "ri": "box_h"
       },
       {
-        "ri": "european_bench_b"
+        "ri": "box_i"
       },
       {
-        "ri": "european_bycicle_a"
+        "ri": "box_j"
       },
       {
-        "ri": "european_bycicle_damaged_a"
-      },
-      {
-        "ri": "european_menu_board_street_a"
-      },
-      {
-        "ri": "european_menu_board_street_b"
-      },
-      {
-        "ri": "european_wooden_cart_a"
-      },
-      {
-        "ri": "european_wooden_cart_b"
-      },
-      {
-        "ri": "european_wooden_well_a"
-      },
-      {
-        "ri": "european_wooden_well_b"
-      },
-      {
-        "ri": "european_gas_pump_a"
-      },
-      {
-        "ri": "european_gas_pump_b"
-      },
-      {
-        "ri": "european_watch_a"
-      },
-      {
-        "ri": "european_watch_b"
-      },
-      {
-        "ri": "european_watch_c"
+        "ri": "box_k"
       },
       {
         "ri": "canopy_a"
@@ -8710,43 +8536,61 @@
         "ri": "canopy_h"
       },
       {
-        "ri": "wrought_fence_a"
+        "ri": "concrete_fence_g_column"
       },
       {
-        "ri": "wrought_fence_b"
+        "ri": "debris_wood_trash_medium"
       },
       {
-        "ri": "wrought_fence_c"
+        "ri": "european_advertising_column_a"
       },
       {
-        "ri": "european_road_sign_a"
+        "ri": "european_advertising_column_b"
       },
       {
-        "ri": "european_road_sign_b"
+        "ri": "european_advertising_column_c"
       },
       {
-        "ri": "european_road_sign_c"
+        "ri": "european_advertising_column_d"
       },
       {
-        "ri": "european_road_sign_d"
+        "ri": "european_advertising_column_e"
       },
       {
-        "ri": "european_road_sign_e"
+        "ri": "european_advertising_column_f"
       },
       {
-        "ri": "european_road_sign_f"
+        "ri": "european_barrel_a"
       },
       {
-        "ri": "european_road_sign_g"
+        "ri": "european_barrel_b"
       },
       {
-        "ri": "european_road_sign_h"
+        "ri": "european_barrel_small_a"
       },
       {
-        "ri": "european_road_sign_i"
+        "ri": "european_barrel_small_b"
       },
       {
-        "ri": "european_road_sign_j"
+        "ri": "european_bench_a"
+      },
+      {
+        "ri": "european_bench_b"
+      },
+      {
+        "ri": "european_bycicle_a"
+      },
+      {
+        "ri": "european_bycicle_damaged_a"
+      },
+      {
+        "ri": "european_bycicle_parking_a"
+      },
+      {
+        "ri": "european_gas_pump_a"
+      },
+      {
+        "ri": "european_gas_pump_b"
       },
       {
         "ri": "european_lamp_a"
@@ -8797,6 +8641,60 @@
         "ri": "european_lamp_small_f"
       },
       {
+        "ri": "european_menu_board_street_a"
+      },
+      {
+        "ri": "european_menu_board_street_b"
+      },
+      {
+        "ri": "european_news_board_a"
+      },
+      {
+        "ri": "european_news_board_b"
+      },
+      {
+        "ri": "european_news_board_c"
+      },
+      {
+        "ri": "european_news_board_d"
+      },
+      {
+        "ri": "european_road_sign_a"
+      },
+      {
+        "ri": "european_road_sign_b"
+      },
+      {
+        "ri": "european_road_sign_c"
+      },
+      {
+        "ri": "european_road_sign_d"
+      },
+      {
+        "ri": "european_road_sign_e"
+      },
+      {
+        "ri": "european_road_sign_f"
+      },
+      {
+        "ri": "european_road_sign_g"
+      },
+      {
+        "ri": "european_road_sign_h"
+      },
+      {
+        "ri": "european_road_sign_i"
+      },
+      {
+        "ri": "european_road_sign_j"
+      },
+      {
+        "ri": "european_telephone_booth_a"
+      },
+      {
+        "ri": "european_telephone_booth_b"
+      },
+      {
         "ri": "european_traffic_light_a"
       },
       {
@@ -8818,6 +8716,102 @@
         "ri": "european_traffic_light_small_d"
       },
       {
+        "ri": "european_watch_a"
+      },
+      {
+        "ri": "european_watch_b"
+      },
+      {
+        "ri": "european_watch_c"
+      },
+      {
+        "ri": "european_waymark_a"
+      },
+      {
+        "ri": "european_waymark_b"
+      },
+      {
+        "ri": "european_waymark_c"
+      },
+      {
+        "ri": "european_waymark_d"
+      },
+      {
+        "ri": "european_waymark_e"
+      },
+      {
+        "ri": "european_waymark_f"
+      },
+      {
+        "ri": "european_wooden_cart_a"
+      },
+      {
+        "ri": "european_wooden_cart_b"
+      },
+      {
+        "ri": "european_wooden_well_a"
+      },
+      {
+        "ri": "european_wooden_well_b"
+      },
+      {
+        "ri": "firewood_a"
+      },
+      {
+        "ri": "firewood_b"
+      },
+      {
+        "ri": "grab_a"
+      },
+      {
+        "ri": "horse_plough_a"
+      },
+      {
+        "ri": "mowing_machine_a"
+      },
+      {
+        "ri": "sandbags_d"
+      },
+      {
+        "ri": "sandbags_e"
+      },
+      {
+        "ri": "sandbags_f"
+      },
+      {
+        "ri": "sandbags_j"
+      },
+      {
+        "ri": "wood_barrel_a"
+      },
+      {
+        "ri": "wood_bench_a"
+      },
+      {
+        "ri": "wood_bench_b"
+      },
+      {
+        "ri": "wood_bench_c"
+      },
+      {
+        "ri": "wood_debris_a"
+      },
+      {
+        "ri": "wood_debris_b"
+      },
+      {
+        "ri": "wood_debris_f"
+      },
+      {
+        "ri": "wood_debris_c"
+      },
+      {
+        "ri": "wood_debris_d"
+      },
+      {
+        "ri": "wood_debris_e"
+      },
+      {
         "ri": "wood_fence_a"
       },
       {
@@ -8836,10 +8830,13 @@
         "ri": "wood_fence_f"
       },
       {
-        "ri": "wood_debris_b"
+        "ri": "wood_gates_a"
       },
       {
-        "ri": "wood_debris_f"
+        "ri": "wood_ladder_a"
+      },
+      {
+        "ri": "wood_ladder_b"
       },
       {
         "ri": "wood_market_stall_b"
@@ -8848,10 +8845,19 @@
         "ri": "wood_market_stall_c"
       },
       {
+        "ri": "wood_table_small_b"
+      },
+      {
         "ri": "wood_toilet_a"
       },
       {
-        "ri": "debris_wood_trash_medium"
+        "ri": "wrought_fence_a"
+      },
+      {
+        "ri": "wrought_fence_b"
+      },
+      {
+        "ri": "wrought_fence_c"
       }
     ],
     "leaveLod0": [
@@ -8964,7 +8970,9 @@
       "mudParams": [0.98,1.0,0.0,0.392],
       "tankDirtMask": "mud_mask_m",
       "tankDirtNoise": "mud_noise_n",
-      "dirtMaskScale": 1.0
+      "dirtMaskScale": 1.0,
+      "sparklesDensity": 0.0,
+      "sparklesSize": 0.0
     },
     "snow": {
       "tdustColor": [1.0,1.0,1.0,1.0],
@@ -8975,7 +8983,22 @@
       "mudParams": [0.98,1.0,0.0,0.392],
       "tankDirtMask": "snow_color",
       "tankDirtNoise": "snow_noise_mask",
-      "dirtMaskScale": 6.0
+      "dirtMaskScale": 6.0,
+      "sparklesDensity": 0.9,
+      "sparklesSize": 2.0
+    },
+    "sand": {
+      "tdustColor": [0.19,0.13,0.06,0.8],
+      "dustParams": [0.5,1.5,0.1,0.3],
+      "dustParams2": [3.0,0.75,0.8,1.2],
+      "mudColor": [0.1,0.05,0.01,0.7],
+      "dirtParams": [0.28,4.0,0.0,1.0],
+      "mudParams": [0.98,1.0,0.0,0.392],
+      "tankDirtMask": "mud_mask_m",
+      "tankDirtNoise": "mud_noise_n",
+      "dirtMaskScale": 1.0,
+      "sparklesDensity": 0.15,
+      "sparklesSize": 7.0
     }
   },
   "cutHoles": {
@@ -9105,9 +9128,6 @@
     "fade": 0.2,
     "heightAboveWater": 1.5,
     "scrollSpeed": 2.5
-  },
-  "hero_wetness": {
-    "drySpeed": [0.25,0.45]
   },
   "heroFoam": {
     "enabled": true
@@ -9375,7 +9395,7 @@
     }
   ],
   "wreckage": {
-    "useInteractiveObject": false,
+    "useInteractiveObject": true,
     "interactiveObjectTTL": 60.0
   },
   "depthAO": {
@@ -9395,11 +9415,14 @@
     "tank": 1.0,
     "ship": 1.0
   },
-  "DropSplashes": {
+  "dropSplashes": {
+    "splashesCount": 10000,
     "distance": 50.0,
     "timeToLive": 0.3,
     "iterationTime": 2.0,
-    "scale": 1.0
+    "scale": 1.0,
+    "volumetric_splash_tex": "water_surface_foam_tex",
+    "sprite_splash_tex": "droplet_splash"
   },
   "default_micro_details": [
     {

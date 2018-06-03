@@ -1,11 +1,12 @@
 local comboStyle = require("combobox.style.nut")
 
 
-local combobox = function(watches, options, combo_style=comboStyle) {
+local function combobox(watches, options, combo_style=comboStyle) {
   local comboOpen = ::Watched(false)
   local group = ::ElemGroup()
   local doClose = @() comboOpen.update(false)
   local wdata, wdisable
+  local dropDirDown = combo_style?.dropDir != "up"
 
   if (type(watches) == "table") {
     wdata = watches.value
@@ -15,7 +16,7 @@ local combobox = function(watches, options, combo_style=comboStyle) {
     wdisable = {value=false}
   }
 
-  local dropdownList = function() {
+  local function dropdownList() {
     local children = options.map(function(item) {
       local value
       local text
@@ -64,7 +65,7 @@ local combobox = function(watches, options, combo_style=comboStyle) {
       children = children
 
       transform = {
-        pivot = [0.5, 0]
+        pivot = [0.5, dropDirDown ? 0 : 1]
       }
       animations = [
         { prop=AnimProp.opacity, from=0, to=1, duration=0.12, play=true, easing=InOutQuad }
@@ -75,6 +76,8 @@ local combobox = function(watches, options, combo_style=comboStyle) {
     local popupWrapper = {
       size = flex()
       flow = FLOW_VERTICAL
+      vplace = dropDirDown ? VALIGN_TOP : VALIGN_BOTTOM
+      valign = dropDirDown ? VALIGN_TOP : VALIGN_BOTTOM
       //rendObj = ROBJ_SOLID
       //color = Color(0,100,0,50)
       children = [
@@ -82,7 +85,10 @@ local combobox = function(watches, options, combo_style=comboStyle) {
         {size = [flex(), 2]}
         popupContent
       ]
+    }
 
+    if (!dropDirDown) {
+      popupWrapper.children.reverse()
     }
 
     return {
@@ -93,7 +99,7 @@ local combobox = function(watches, options, combo_style=comboStyle) {
         baseButtonOverride
         popupWrapper
       ]
-      transform = { pivot=[0.5, 1.1]}
+      transform = { pivot=[0.5, dropDirDown ? 1.1 : -0.1]}
       animations = [
         { prop=AnimProp.opacity, from=1, to=0, duration=0.15, playFadeOut=true}
         { prop=AnimProp.scale, from=[1,1], to=[1,0], duration=0.15, playFadeOut=true, easing=OutQuad}
@@ -101,7 +107,7 @@ local combobox = function(watches, options, combo_style=comboStyle) {
     }
   }
 
-  local combo = function() {
+  local function combo() {
     local curValue = wdata.value
     local labelText = curValue!=null ? curValue.tostring() : ""
     foreach (item in options) {

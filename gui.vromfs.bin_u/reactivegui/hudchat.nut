@@ -1,4 +1,3 @@
-local platformModule = require("modules/platform.nut")
 local colors = require("style/colors.nut")
 local transition = require("style/hudTransition.nut")
 local teamColors = require("style/teamColors.nut")
@@ -153,7 +152,7 @@ local messageComponent = function(message) {
       time.secondsToString(message.time, false),
       getSenderColor(message),
       ::cross_call.mp_chat_mode.getModeNameText(message.mode),
-      platformModule.getPlayerName(message.sender),
+      ::cross_call.platform.getPlayerName(message.sender),
       getMessageColor(message),
       ::cross_call.filter_chat_message(message.text, message.isMyself)
     )

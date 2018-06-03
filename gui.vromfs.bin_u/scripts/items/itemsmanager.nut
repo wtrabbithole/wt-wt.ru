@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+local itemTransfer = require("scripts/items/itemsTransfer.nut")
 
 local seenList = ::require("scripts/seen/seenList.nut")
 local seenInventory = seenList.get(SEEN.INVENTORY)
@@ -106,6 +107,9 @@ foreach (fn in [
   itemsList = []
   inventory = []
   shopItemById = {}
+
+  itemsListInternal = []
+  itemsListExternal = []
   itemsByItemdefId = {}
 
   itemTypeClasses = {} //itemtype = itemclass
@@ -197,12 +201,15 @@ function ItemsManager::_checkUpdateList()
 
   local duplicatesId = []
   shopItemById.clear()
-  foreach(list in [itemsList, itemsByItemdefId])
-    foreach(item in list)
-      if (item.id in shopItemById)
-        duplicatesId.append(item.id)
-      else
-        shopItemById[item.id] <- item
+  itemsList.clear()
+  itemsList.extend(itemsListInternal)
+  itemsList.extend(itemsListExternal)
+
+  foreach(item in itemsList)
+    if (item.id in shopItemById)
+      duplicatesId.append(item.id)
+    else
+      shopItemById[item.id] <- item
 
   if (duplicatesId.len())
     ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
@@ -213,7 +220,7 @@ function ItemsManager::checkShopItemsUpdate()
   if (!_reqUpdateList)
     return false
   _reqUpdateList = false
-  itemsList.clear()
+  itemsListInternal.clear()
 
   local pBlk = ::get_price_blk()
   local trophyBlk = pBlk && pBlk.trophy
@@ -223,7 +230,7 @@ function ItemsManager::checkShopItemsUpdate()
       local blk = trophyBlk.getBlock(i)
       local id = blk.getBlockName()
       local item = createItem(itemType.TROPHY, blk)
-      itemsList.append(item)
+      itemsListInternal.append(item)
     }
 
   local itemsBlk = ::get_items_blk()
@@ -239,7 +246,7 @@ function ItemsManager::checkShopItemsUpdate()
       continue
     }
     local item = createItem(iType, blk)
-    itemsList.append(item)
+    itemsListInternal.append(item)
   }
 
   ::ItemsManager.fillFakeItemsList()
@@ -249,7 +256,7 @@ function ItemsManager::checkShopItemsUpdate()
       local blk = fakeItemsList.getBlock(i)
       local id = blk.getBlockName()
       local item = createItem(blk.type, blk)
-      itemsList.append(item)
+      itemsListInternal.append(item)
     }
   return true
 }
@@ -260,25 +267,30 @@ function ItemsManager::checkItemDefsUpdate()
     return false
   _reqUpdateItemDefsList = false
 
+  itemsListExternal.clear()
   // Collecting itemdefs as shop items
   foreach (itemDefDesc in inventoryClient.getItemdefs())
   {
-    if (itemDefDesc?.itemdefid in itemsByItemdefId)
-      continue
+    local item = itemsByItemdefId?[itemDefDesc?.itemdefid]
+    if (!item)
+    {
+      local defType = itemDefDesc?.type
 
-    local defType = itemDefDesc?.type
+      if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]) || !::u.isEmpty(itemDefDesc?.exchange))
+        ItemGenerators.add(itemDefDesc)
 
-    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]) || !::u.isEmpty(itemDefDesc?.exchange))
-      ItemGenerators.add(itemDefDesc)
+      if (defType != "item")
+        continue
+      local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
+      if (iType == itemType.UNKNOWN)
+        continue
 
-    if (defType != "item")
-      continue
-    local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
-    if (iType == itemType.UNKNOWN)
-      continue
+      item = createItem(iType, itemDefDesc)
+      itemsByItemdefId[item.id] <- item
+    }
 
-    local item = createItem(iType, itemDefDesc)
-    itemsByItemdefId[item.id] <- item
+    if (item.isCanBuy())
+      itemsListExternal.append(item)
   }
   return true
 }
@@ -415,16 +427,18 @@ function ItemsManager::markItemsDefsListUpdateDelayed()
     return
 
   lastItemDefsUpdatedelayedCall = ::dagor.getCurTime()
-  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+  ::handlersManager.doDelayed(function() {
     lastItemDefsUpdatedelayedCall = 0
     markItemsDefsListUpdate()
-  })
+  }.bindenv(this))
 }
 
 function ItemsManager::onEventItemDefChanged(p)
 {
   markItemsDefsListUpdateDelayed()
 }
+
+::ItemsManager.onEventExtPricesChanged <- @(p) markItemsDefsListUpdateDelayed()
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -517,6 +531,11 @@ function ItemsManager::_checkInventoryUpdate()
     }
   }
 
+  //gather transfer items list
+  local transferAmounts = {}
+  foreach(data in itemTransfer.getSendingList())
+    transferAmounts[data.itemDefId] <- (transferAmounts?[data.itemDefId] ?? 0) + 1
+
   // Collecting external inventory items
   local extInventoryItems = []
   foreach (itemDesc in inventoryClient.getItems())
@@ -541,9 +560,36 @@ function ItemsManager::_checkInventoryUpdate()
     if (isCreate)
     {
       local item = createItem(iType, itemDefDesc, itemDesc)
+      if (item.id in transferAmounts)
+        item.transferAmount += delete transferAmounts[item.id]
       extInventoryItems.append(item)
     }
   }
+
+  //add items in transfer
+  local itemdefsToRequest = []
+  foreach(itemdefid, amount in transferAmounts)
+  {
+    local itemdef = inventoryClient.getItemdefs()?[itemdefid]
+    if (!itemdef)
+    {
+      itemdefsToRequest.append(itemdefid)
+      continue
+    }
+    local iType = getInventoryItemType(itemdef?.tags?.type ?? "")
+    if (iType == itemType.UNKNOWN)
+    {
+      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemdefid)
+      continue
+    }
+    local item = createItem(iType, itemdef, {})
+    item.transferAmount += amount
+    extInventoryItems.append(item)
+  }
+
+  if (itemdefsToRequest.len())
+    inventoryClient.requestItemdefsByIds(itemdefsToRequest)
+
   inventory.extend(extInventoryItems)
   extInventoryUpdateTime = ::dagor.getCurTime()
 }
@@ -578,7 +624,6 @@ function ItemsManager::markInventoryUpdate()
   if (!isInventoryFullUpdated && isInventoryInternalUpdated && !inventoryClient.isWaitForInventory())
   {
     isInventoryFullUpdated = true
-    dlog("GP: inventory full updated!")
     seenInventory.setDaysToUnseen(OUT_OF_DATE_DAYS_INVENTORY)
   }
   seenInventory.onListChanged()
@@ -595,10 +640,10 @@ function ItemsManager::markInventoryUpdateDelayed()
     return
 
   lastInventoryUpdateDelayedCall = ::dagor.getCurTime()
-  ::get_main_gui_scene().performDelayed(::ItemsManager, function() {
+  ::handlersManager.doDelayed(function() {
     lastInventoryUpdateDelayedCall = 0
     markInventoryUpdate()
-  })
+  }.bindenv(this))
 }
 
 function ItemsManager::onItemsLoaded()
@@ -851,7 +896,7 @@ function ItemsManager::removeRefreshBoostersTask()
 
 function ItemsManager::refreshExtInventory()
 {
-  ::ItemsManager.inventoryClient.refreshItems()
+  inventoryClient.refreshItems()
 }
 
 function ItemsManager::forceRefreshExtInventory()
@@ -860,10 +905,8 @@ function ItemsManager::forceRefreshExtInventory()
   inventoryClient.forceRefreshItemDefs()
 }
 
-function ItemsManager::onEventExtInventoryChanged(p)
-{
-  markInventoryUpdateDelayed()
-}
+ItemsManager.onEventExtInventoryChanged    <- @(p) markInventoryUpdateDelayed()
+ItemsManager.onEventSendingItemsChanged    <- @(p) markInventoryUpdateDelayed()
 
 function ItemsManager::onEventLoadingStateChange(p)
 {
@@ -1098,6 +1141,16 @@ function ItemsManager::isEnabled()
     || seenInventory.hasSeen()
     || inventory.len() > 0
   return ::has_feature("Items") && checkNewbie && ::isInMenu()
+}
+
+function ItemsManager::canPreviewItems()
+{
+  local can = ::isInMenu() && !::checkIsInQueue()
+      && !(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+      && !::SessionLobby.hasSessionInLobby()
+  if (!can)
+    ::g_popups.add("", ::loc("mainmenu/itemPreviewForbidden"))
+  return can
 }
 
 function ItemsManager::getItemsSortComparator(itemsSeenList = null)

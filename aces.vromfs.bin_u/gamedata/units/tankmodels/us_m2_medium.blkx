@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -124,9 +127,6 @@
         },
         "superstructure_bottom_dm": {
           "armorThickness": 9.5
-        },
-        "turret_top_dm": {
-          "armorThickness": 19.5
         },
         "turret_02_front_dm": {
           "armorThickness": 19.5
@@ -237,37 +237,44 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 200.0,
+        "hp": 100.0,
         "gun_barrel_dm": {
-          "armorThickness": 15.0
+          "armorThickness": 10.0
         },
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_05_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_06_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_07_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -1500,6 +1507,7 @@
           "flash": "emtr_mg_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_01_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1541,6 +1549,7 @@
           "flash": "emtr_mg_flame_02",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_02_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1581,6 +1590,7 @@
           "flash": "emtr_mg_flame_03",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_03_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1621,6 +1631,7 @@
           "flash": "emtr_mg_flame_04",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_04_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1661,6 +1672,7 @@
           "flash": "emtr_mg_flame_05",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_05_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1714,6 +1726,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_06_dm"
           },
           {
             "useAnimFlashNode": true
@@ -1790,6 +1805,7 @@
           "flash": "emtr_mg_flame_07",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_07_dm",
           "useAnimFlashNode": true,
           "speedYaw": 5.5,
           "speedPitch": 4.0,

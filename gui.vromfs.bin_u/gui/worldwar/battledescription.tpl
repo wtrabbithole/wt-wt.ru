@@ -9,7 +9,7 @@ tdiv {
   textareaNoTab {
     width:t='pw'
     padding:t='1@framePadding, 0, 1@framePadding, 1@framePadding'
-    text:t='<<#getBattleName>><<getBattleName>> <</getBattleName>><<getMissionName>>'
+    text:t='<<getFullBattleName>>'
     text-align:t='center'
     mediumFont:t='yes'
   }

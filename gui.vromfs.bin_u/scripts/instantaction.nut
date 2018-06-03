@@ -478,7 +478,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     foreach(name, value in manualMission)
       if (name != "name")
         missionBlk[name] <- value
-    ::select_mission(missionBlk, true)
+    ::select_mission(missionBlk, false)
     ::current_campaign_mission = missionBlk.name
     guiScene.performDelayed(this, function() { goForward(::gui_start_flight)})
   }

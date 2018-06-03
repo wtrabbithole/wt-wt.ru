@@ -1,6 +1,6 @@
 <<#items>>
 expandable {
-  id:t='<<performActionId>>'
+  id:t='<<#performActionId>><<performActionId>><</performActionId>><<^performActionId>><<id>><</performActionId>>'
   type:t='battleTask'
   <<^isOnlyInfo>><<#action>> on_click:t='<<action>>' <</action>><</isOnlyInfo>>
   task_id:t='<<id>>'

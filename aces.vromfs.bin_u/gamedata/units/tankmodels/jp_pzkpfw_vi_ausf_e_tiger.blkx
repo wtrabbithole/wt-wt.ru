@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -2217,7 +2220,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2462,9 +2465,16 @@
             "pitch": [-8.0,16.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-140.0,-2.0,16.0],
-            "lim2": [-140.0,140.0,-8.0,16.0],
-            "lim3": [140.0,180.0,-2.0,16.0]
+            "lim1": [-180.0,-148.0,-2.0,16.0],
+            "lim2": [-148.0,-129.0,-8.0,16.0],
+            "lim3": [-129.0,-117.0,-2.0,16.0],
+            "lim4": [-117.0,-48.0,-8.0,16.0],
+            "lim5": [-48.0,-43.0,-2.0,16.0],
+            "lim6": [-43.0,-32.0,-0.0,16.0],
+            "lim7": [-32.0,38.0,-8.0,16.0],
+            "lim8": [38.0,44.0,-2.0,16.0],
+            "lim9": [44.0,140.0,-8.0,16.0],
+            "lim10": [140.0,180.0,-2.0,16.0]
           }
         }
       },
@@ -2490,6 +2500,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true

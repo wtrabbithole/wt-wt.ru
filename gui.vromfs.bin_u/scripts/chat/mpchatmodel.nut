@@ -1,3 +1,5 @@
+local platformModule = require("scripts/clientState/platform.nut")
+
 local mpChatState = {
   log = []
   currentModeId = null
@@ -10,7 +12,6 @@ local mpChatModel = {
 
 
   function init() {
-    ::set_chat_handler(this)
     maxLogSize = ::g_chat.getMaxRoomMsgAmount()
   }
 
@@ -26,8 +27,7 @@ local mpChatModel = {
 
 
   function onIncomingMessage(sender, msg, enemy, mode, automatic) {
-    if ( (!::ps4_is_chat_enabled()
-         || !::g_chat.xboxIsChatEnabled()
+    if ( (!platformModule.isChatEnabled()
          || !::g_chat.isCrossNetworkMessageAllowed(sender))
         && !automatic) {
       return false
@@ -108,5 +108,5 @@ local mpChatModel = {
   ["log", "currentModeId"]
 )
 
-
+::set_chat_handler(mpChatModel)
 return mpChatModel

@@ -130,6 +130,13 @@ enums.addTypesByGlobalName("g_skill_parameters_type", {
       return ::get_tbl_value_by_path_array(path, parametersByRequestType, 0)
     }
   }
+
+  INTERCHANGE_ABILITY = {
+    paramNames = "interchangeAbility"
+
+    getValue = @(requestType, parametersByRequestType, params = null) !requestType || !::g_crew_short_cache.unit ? 0
+      : ::g_crew_short_cache.unit.getCrewTotalCount() - defaultGetValue(requestType, parametersByRequestType, params)
+  }
 })
 
 function g_skill_parameters_type::getTypeByParamName(paramName)

@@ -200,7 +200,7 @@
         "distFromCmToStab": 0.005,
         "CxK": 1.5,
         "WdK": [0.1,0.1,0.1],
-        "force": 1000.0,
+        "force": 7500.0,
         "timeFire": 20.0,
         "thrustDeviation": 0.01,
         "operated": true,
@@ -212,8 +212,8 @@
         "groundFxScale": [1.5,1.7],
         "ricochetEffect": "cannon_hit_apds",
         "waterCollisionEffect": "120-203_he_water_splash",
-        "waterFxScale": [1.2,1.4],
         "explosionPatchRadius": 5.0,
+        "waterFxScale": [1.2,1.4],
         "smokeEffect": "trail_smoke",
         "maxDistance": 3000.0,
         "minDistance": 30.0,
@@ -244,7 +244,7 @@
         "shutterHit": 12.0,
         "advancedMissiles": false,
         "useStartSpeed": true,
-        "startSpeed": 75.0,
+        "startSpeed": 85.0,
         "endSpeed": 323.0,
         "speedViscosity": 0.2,
         "timeToLive": 20.0,
@@ -290,6 +290,7 @@
     "bullet": {
       "bulletCount": 25,
       "mass": 18.9,
+      "damageMass": 0.945,
       "explosiveType": "tnt",
       "explosiveMass": 0.05,
       "caliber": 0.152,
@@ -318,25 +319,33 @@
       "shutterArmorPower": 7.5,
       "shutterHit": 11.0,
       "smokeShell": true,
-      "smokeFx": "smoke_shell_explosion",
       "smokeShellRad": 25.0,
       "smokeActivateTime": 5.0,
       "smokeTime": 30.0,
-      "groundCollisionEffect": "ground_splash",
-      "groundFxScale": [0.1,0.2],
+      "groundCollisionEffect": "smoke_shell_explosion",
+      "groundFxScale": [1.2,1.4],
       "ricochetEffect": "cannon_ricochet",
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "noColor"
-      },
+      "waterCollisionEffect": "120-203_smoke_water_splash",
+      "waterFxScale": [0.7,0.9],
+      "explosionPatchRadius": 1.9,
       "collisions": {
         "steel": {
           "fx": "smoke_shell_explosion"
         },
         "armor": {
           "fx": "smoke_shell_explosion"
+        },
+        "buildings": {
+          "fx": "smoke_shell_explosion"
+        },
+        "wood": {
+          "fx": "smoke_shell_explosion"
         }
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
       }
     }
   },
@@ -354,12 +363,12 @@
       "onHitChanceMultExplFuel": 0.1,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "groundCollisionEffect": "art_ground_splash",
-      "groundFxScale": [1.5,1.7],
+      "groundCollisionEffect": "big_ground_splash",
+      "groundFxScale": [0.8,1.0],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "120-203_he_water_splash",
-      "waterFxScale": [1.1,1.2],
-      "explosionPatchRadius": 4.0,
+      "waterCollisionEffect": "120-203_water_splash",
+      "waterFxScale": [0.8,1.0],
+      "explosionPatchRadius": 1.5,
       "hitpower": {
         "HitPower0m": [1.0,1000.0],
         "HitPower10000m": [0.8,10000.0]
@@ -382,21 +391,15 @@
         "trail": "black"
       },
       "collisions": {
+        "buildings": {
+          "fx": "122_ap_stone_splash",
+          "fxScale": [1.0,1.4]
+        },
         "steel": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [4.0,5.0]
+          "fx": "cannon_hit_apds"
         },
         "armor": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [4.0,5.0]
-        },
-        "buildings": {
-          "fx": "atgm_hit",
-          "fxScale": [1.0,1.1]
-        },
-        "wood": {
-          "fx": "atgm_hit",
-          "fxScale": [1.0,1.1]
+          "fx": "cannon_hit_apds"
         }
       }
     }

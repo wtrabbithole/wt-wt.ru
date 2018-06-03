@@ -50,22 +50,13 @@
   {
     "DamageParts": {
       "armor10": {
-        "armor1_dm": {
-          "hp": 40.0
-        },
         "armor2_dm": {
           "hp": 40.0
         },
         "armor3_dm": {
           "hp": 40.0
         },
-        "armor5_dm": {
-          "hp": 40.0
-        },
-        "armor7_dm": {
-          "hp": 40.0
-        },
-        "armor8_dm": {
+        "armor4_dm": {
           "hp": 40.0
         },
         "armor9_dm": {
@@ -81,9 +72,22 @@
           "hp": 15.0
         }
       },
-      "armor30": {
-        "armor4_dm": {
+      "armor32": {
+        "armor7_dm": {
           "hp": 50.0
+        }
+      },
+      "armor6": {
+        "armor1_dm": {
+          "hp": 35.0
+        },
+        "armor8_dm": {
+          "hp": 35.0
+        }
+      },
+      "armor8": {
+        "armor5_dm": {
+          "hp": 40.0
         }
       },
       "armor_engine": {
@@ -211,8 +215,13 @@
           "hp": 110.5
         }
       },
-      "glass105": {
+      "glass68": {
         "armor6_dm": {
+          "hp": 100.0
+        }
+      },
+      "glass102": {
+        "armor10_dm": {
           "hp": 100.0
         }
       },
@@ -662,6 +671,12 @@
             "onHit": {
               "damage": 30.0,
               "cut": 0.6
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
             }
           },
           {
@@ -1377,32 +1392,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -1422,6 +1485,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
+            }
+          },
+          {
             "onKill": {
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
@@ -1431,14 +1500,21 @@
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 9.0
+              "nothing": 14.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "cut": 1.0,
-              "nothing": 3.0
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0,
+              "nothing": 1.0
             }
           }
         ]
@@ -2456,10 +2532,26 @@
     }
   },
   {
-    "Sound": {
-      "Engine": "engine05",
-      "gun": "gun_default"
-    }
+    "Sound": [
+      {
+        "turretTurnSfxPath": "sounds/effects"
+      },
+      {
+        "turretTurnSfxName": "gun_turn_manual"
+      },
+      {
+        "Engine": "engine05"
+      },
+      {
+        "gun": "gun_default"
+      },
+      {
+        "turretTurnSfxPath": "tanks/effects_tanks"
+      },
+      {
+        "turretTurnSfxName": "turret_turn"
+      }
+    ]
   },
   {
     "cockpit": {
@@ -2720,6 +2812,7 @@
           "emitter": "gun1",
           "flash": "flare3",
           "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 225,
@@ -2741,6 +2834,7 @@
           "emitter": "gun1",
           "flash": "flare4",
           "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 225,
@@ -2974,13 +3068,15 @@
       "emtr_break_wing1_r_to": [-1.59483,0.573293,-5.54002],
       "emtr_break_wing2_r_from": [-1.59483,0.573293,-7.37948],
       "emtr_break_wing2_r_to": [-1.59483,0.573293,-8.67743],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-5.82709,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-5.82709,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-7.46015,1.47939,0.74572],
+      "emtr_break_stab_l_to": [-7.46015,1.47939,2.98288],
+      "emtr_break_stab_r_from": [-7.46015,1.47939,-0.745721],
+      "emtr_break_stab_r_to": [-7.46015,1.47939,-2.98288],
+      "emtr_break_fin_from": [-7.18654,1.21616,-0.000173773],
+      "emtr_break_fin_to": [-7.18654,3.42164,-0.000173773]
     }
   },
   {
@@ -3017,7 +3113,7 @@
   {
     "default_skin_tomoe": [
       {
-        "name": "plaaf"
+        "name": "china_tomoe"
       },
       {
         "replace_tex": {
@@ -3044,5 +3140,10 @@
         }
       }
     ]
+  },
+  {
+    "Aircraft": {
+      "gunnersCount": 2
+    }
   }
 ]

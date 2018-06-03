@@ -274,6 +274,17 @@
                   },
                   {
                     "Button_text": {
+                      "id": "btn_collapsed_chapter",
+                      "text": "",
+                      "_on_click": "onCollapsedChapter",
+                      "btnName": "A",
+                      "display": "hide",
+                      "enable": "no",
+                      "ButtonImg": []
+                    }
+                  },
+                  {
+                    "Button_text": {
                       "id": "btn_create_operation",
                       "width": "1@bigButtonWidth",
                       "class": "battle",
@@ -393,13 +404,7 @@
                   }
                 ]
               }
-            ],
-            "dummy": {
-              "id": "dummy_collapse",
-              "on_click": "dummyCollapse",
-              "behaviour": "accesskey",
-              "accessKey": "@shortcutLeftGamepad | @shortcutRightGamepad"
-            }
+            ]
           }
         }
       }
@@ -457,7 +462,7 @@
               "display": "hide",
               "pos": "50%sw-50%w, 1@bh",
               "position": "root",
-              "min-width": "1@queueTableWidth",
+              "min-width": "1@gameModeSelectBlockWidth",
               "padding-top": "1@gameModeSelectPaddingTop",
               "padding-bottom": "1@gameModeSelectPaddingBottom",
               "background-color": "@gameModeColor",

@@ -45,6 +45,7 @@ tdiv {
     background-image:t='<<icon2>>'
   }
   <</icon2>>
+  <<@previewImage>>
 
   textareaNoTab {
     <<^widthByParentParent>>

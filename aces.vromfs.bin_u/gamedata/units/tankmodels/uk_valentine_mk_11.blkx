@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -106,68 +109,41 @@
       "formatVersion": 2,
       "armorClass": "RHA_tank",
       "hp": 10000.0,
-      "hull": [
-        {
-          "body_front_dm": {
-            "armorThickness": 60.0
-          }
+      "hull": {
+        "body_front_dm": {
+          "armorThickness": 60.0
         },
-        {
-          "superstructure_bottom_dm": {
-            "armorThickness": 20.0
-          }
+        "body_side_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "body_side_dm": {
-            "armorThickness": 30.0
-          }
+        "body_top_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "body_top_dm": {
-            "armorThickness": 30.0
-          }
+        "superstructure_front_dm": {
+          "armorThickness": 60.0
         },
-        {
-          "superstructure_front_dm": {
-            "armorThickness": 60.0
-          }
+        "superstructure_top_dm": {
+          "armorThickness": 20.0
         },
-        {
-          "superstructure_top_dm": {
-            "armorThickness": 20.0
-          }
+        "superstructure_back_dm": {
+          "armorThickness": 17.0
         },
-        {
-          "superstructure_back_dm": {
-            "armorThickness": 17.0
-          }
+        "body_back_dm": {
+          "armorThickness": 60.0
         },
-        {
-          "body_back_dm": {
-            "armorThickness": 60.0
-          }
+        "superstructure_side_dm": {
+          "armorThickness": 50.0
         },
-        {
-          "superstructure_side_dm": {
-            "armorThickness": 50.0
-          }
+        "superstructure_bottom_dm": {
+          "armorThickness": 5.0
         },
-        {
-          "superstructure_bottom_dm": {
-            "armorThickness": 5.0
-          }
+        "body_bottom_dm": {
+          "armorThickness": 20.0
         },
-        {
-          "body_bottom_dm": {
-            "armorThickness": 20.0
-          }
-        },
-        {
-          "turret_01_top_dm": {
-            "armorThickness": 16.0
-          }
+        "turret_01_top_dm": {
+          "armorThickness": 16.0
         }
-      ],
+      },
       "turret": {
         "turret_top_dm": {
           "armorThickness": 20.0
@@ -242,16 +218,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 200.0,
-        "armorThickness": 25.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -290,6 +256,37 @@
           "ex_armor_03_dm": [],
           "ex_armor_04_dm": [],
           "ex_armor_body_l_01_dm": []
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -346,7 +343,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -421,6 +418,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -467,6 +467,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1545,6 +1554,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
             "speedYaw": 5.5
           },
           {
@@ -2328,6 +2340,36 @@
     }
   },
   {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_body_l_01_dm": {
+            "count": 3
+          },
+          "ammo_body_dm": {
+            "count": 18
+          },
+          "ammo_body_r_02_dm": {
+            "count": 7
+          },
+          "ammo_body_r_01_dm": {
+            "count": 14
+          },
+          "ammo_body_r_03_dm": {
+            "count": 3
+          }
+        }
+      }
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -2352,6 +2394,8 @@
       "75mm_britain_APCBC": [],
       "75mm_britain_HE": [],
       "75mm_britain_APCBC_ammo_pack": [],
+      "75mm_us_M89_Smoke": [],
+      "75mm_us_M89_Smoke_ammo_pack": [],
       "tank_smoke_screen_system_mod": {
         "tier": 3,
         "effects": {
@@ -2424,6 +2468,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "speedYaw": 5.5

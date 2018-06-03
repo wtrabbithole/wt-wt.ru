@@ -1,7 +1,7 @@
 local log = require("log.nut")
 
 
-local makeInputField = function (form_state, send_function) {
+local function makeInputField(form_state, send_function) {
   local send = function () {
     send_function(form_state.value)
     form_state.update("")
@@ -12,7 +12,7 @@ local makeInputField = function (form_state, send_function) {
 }
 
 
-local makeChatBlock = function (log_state, send_message_fn) {
+local function makeChatBlock(log_state, send_message_fn) {
   local chatMessageState = Watched("")
   local logInstance = log.makeLog(log_state)
 

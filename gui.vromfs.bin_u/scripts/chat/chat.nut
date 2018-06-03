@@ -1,7 +1,7 @@
 local penalties = ::require("scripts/penitentiary/penalties.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum chatUpdateState {
   OUTDATED
@@ -18,7 +18,7 @@ enum chatErrorName {
 
 g_chat <- {
   [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "userCaps", "userCapsGen",
-                              "threadTitleLenMin", "threadTitleLenMax", "xboxCanUseTextChat",
+                              "threadTitleLenMin", "threadTitleLenMax",
                               "isCrossNetworkChatAvailable"]
 
   MAX_ROOM_MSGS = 50
@@ -50,7 +50,6 @@ g_chat <- {
 
   isThreadsView = false
 
-  xboxCanUseTextChat = null
   isCrossNetworkChatAvailable = true
 
   rooms = [] //for full room params list check addRoom( function in menuchat.nut //!!FIX ME must be here, or separate class
@@ -103,29 +102,6 @@ function g_chat::makeBlockedMsg(msg, replacelocId = "chat/blocked_message")
 function g_chat::makeXBoxRestrictedMsg(msg)
 {
   return makeBlockedMsg(msg, "chat/blocked_message/xbox_restriction")
-}
-
-function g_chat::xboxIsChatEnabled(showOverlayMessage = false)
-{
-  if (!::g_login.isLoggedIn() || !::is_platform_xboxone)
-    return XBOX_COMMUNICATIONS_ALLOWED
-
-  if (xboxCanUseTextChat == null || (xboxCanUseTextChat == XBOX_COMMUNICATIONS_BLOCKED && showOverlayMessage))
-    xboxCanUseTextChat = ::can_use_text_chat_with_target("", showOverlayMessage)//myself, block by parent advisory
-
-  return xboxCanUseTextChat
-}
-
-function g_chat::xboxIsChatAvailableForFriend(playerName)
-{
-  local res = xboxIsChatEnabled()
-  if (res == XBOX_COMMUNICATIONS_ALLOWED)
-    return true
-
-  if (res == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
-    return !platformModule.isPlayerFromXboxOne(playerName) || ::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
-
-  return false
 }
 
 function g_chat::checkBlockedLink(link)

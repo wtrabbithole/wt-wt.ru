@@ -1,5 +1,5 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -97,11 +97,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     _lastMaskUpdateDelayedCall = ::dagor.getCurTime()
-    guiScene.performDelayed(this, function()
+    ::handlersManager.doDelayed(function()
     {
       _lastMaskUpdateDelayedCall = 0
       updateControlsAllowMask()
-    })
+    }.bindenv(this))
   }
 
   function switchScene(obj, newOwner = null, onlyShow = false)
@@ -394,6 +394,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contact?.name ?? "")
     local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
     local canInteractWithPlayer = contact? contact.canInteract() : true
+    local canInviteXboxPlayerFriend = !::is_platform_xboxone || isFriend
+    local canInviteXboxPlayerOnline = !::is_platform_xboxone || contact && contact.presence == ::g_contact_presence.ONLINE
 
     showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInvitePlayer, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
@@ -401,17 +403,19 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_blacklistRemove", isBlock, contact_buttons_holder)
     showBtn("btn_message", owner
                            && !isBlock
-                           && ::ps4_is_chat_enabled()
-                           && ::g_chat.xboxIsChatEnabled()
+                           && platformModule.isChatEnabled()
                            && canInteractWithPlayer, contact_buttons_holder)
 
-    local showSquadInvite = !isMe
+    local showSquadInvite = ::has_feature("SquadInviteIngame")
+      && !isMe
       && !isBlock
       && canInvitePlayer
       && ::g_squad_manager.canInviteMember(contact?.uid ?? "")
       && !::g_squad_manager.isPlayerInvited(contact?.uid ?? "", contact?.name ?? "")
       && canInteractWithPlayer
-      && ::g_chat.xboxIsChatEnabled()
+      && platformModule.canSquad()
+      && canInviteXboxPlayerFriend
+      && canInviteXboxPlayerOnline
 
     local btnObj = showBtn("btn_squadInvite", showSquadInvite, contact_buttons_holder)
     if (btnObj && showSquadInvite && contact?.uidInt64)
@@ -540,7 +544,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     _lastFocusdelayedCall = ::dagor.getCurTime()
-    guiScene.performDelayed(this, function()
+    ::handlersManager.doDelayed(function()
     {
       _lastFocusdelayedCall = 0
       if (!checkScene())
@@ -556,7 +560,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         showAdvice = focusObj && focusObj.id == "search_edit_box"
       }
       setSearchAdviceVisibility(showAdvice)
-    })
+    }.bindenv(this))
   }
 
   function setSearchText(search_text, set_in_edit_box = true)
@@ -610,7 +614,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::contacts[gName].sort(::sortContacts)
       local activateEvent = "onPlayerMsg"
-      if (::show_console_buttons || !::ps4_is_chat_enabled() || !::g_chat.xboxIsChatEnabled())
+      if (::show_console_buttons || !platformModule.isChatEnabled())
         activateEvent = "onPlayerMenu"
       local gData = buildPlayersList(gName)
       data += format(groupFormat, "#contacts/" + gName,

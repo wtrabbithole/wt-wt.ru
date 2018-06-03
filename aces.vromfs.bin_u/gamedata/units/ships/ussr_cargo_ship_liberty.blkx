@@ -12,9 +12,6 @@
     "useBotForAi": true
   },
   {
-    "timeToSink": 25.0
-  },
-  {
     "moveType": "ship"
   },
   {
@@ -58,9 +55,6 @@
   },
   {
     "ikPilotMaxRenderDistance": 80.0
-  },
-  {
-    "useSimpleDeathConditionsAndEffects": false
   },
   {
     "MetaPartsBlk": "gameData/units/ships/dm/ships_metaparts.blk"
@@ -330,14 +324,6 @@
           "armorClass": "tank_barrel",
           "armorThickness": 15.0,
           "hp": 150.0,
-          "turret_h_01_dm": [],
-          "turret_h_02_dm": [],
-          "turret_h_03_dm": [],
-          "turret_h_04_dm": [],
-          "turret_h_05_dm": [],
-          "turret_h_06_dm": [],
-          "turret_h_07_dm": [],
-          "turret_h_08_dm": [],
           "turret_01_dm": [],
           "turret_02_dm": [],
           "turret_03_dm": [],
@@ -380,99 +366,6 @@
           "transmission_01_dm": [],
           "steering_gear_01_dm": [],
           "funnel_01_dm": []
-        }
-      },
-      {
-        "crew": {
-          "armorClass": "steel_tankman",
-          "hp": 40.0,
-          "driver_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_01_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_02_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_03_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_04_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_05_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_06_dm": {
-            "genericDamageMult": 4.0
-          },
-          "loader_07_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_01_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_02_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_03_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_04_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_05_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_06_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_07_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_08_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_09_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_10_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_11_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_12_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_13_dm": {
-            "genericDamageMult": 4.0
-          },
-          "gunner_14_dm": {
-            "genericDamageMult": 4.0
-          },
-          "commander_dm": {
-            "genericDamageMult": 4.0
-          },
-          "machine_gunner_dm": {
-            "genericDamageMult": 4.0
-          },
-          "machine_gunner_01_dm": {
-            "genericDamageMult": 4.0
-          },
-          "machine_gunner_02_dm": {
-            "genericDamageMult": 4.0
-          },
-          "machine_gunner_03_dm": {
-            "genericDamageMult": 4.0
-          },
-          "machine_gunner_04_dm": {
-            "genericDamageMult": 4.0
-          }
         }
       },
       {
@@ -1245,9 +1138,26 @@
             "name": "torpedo_04_dm"
           },
           {
-            "onKill": {
-              "expl": 0.9,
-              "fHitCritical": false
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "expl": 0.2,
+              "damage": 300.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.1,
+              "expl": 0.1,
+              "damage": 150.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.03,
+              "expl": 0.01
             }
           }
         ]
@@ -1315,6 +1225,12 @@
             "name": "depth_charge_20_dm"
           },
           {
+            "name": "depth_charge_21_dm"
+          },
+          {
+            "name": "depth_charge_22_dm"
+          },
+          {
             "name": "depth_charge_l_01_dm"
           },
           {
@@ -1363,8 +1279,51 @@
             "name": "depth_charge_r_08_dm"
           },
           {
-            "onKill": {
-              "expl": 0.5
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.05,
+              "damage": 50.0,
+              "expl": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "damage": 150.0,
+              "expl": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.3,
+              "damage": 300.0,
+              "expl": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "damage": 50.0,
+              "fire": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.15,
+              "damage": 100.0,
+              "fire": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.3,
+              "damage": 300.0,
+              "fire": 0.3
             }
           }
         ]
@@ -1627,7 +1586,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_01"
@@ -1703,7 +1662,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_01",
+              "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
               "barrel": "gun_barrel_01",
               "gunnerDm": "main_caliber_turret_01_dm",
@@ -1737,7 +1696,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -1813,7 +1772,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_02",
+              "head": "main_caliber_turret_02",
               "gun": "main_caliber_gun_02",
               "barrel": "gun_barrel_02",
               "gunnerDm": "gmain_caliber_turret_02_dm",
@@ -1847,7 +1806,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_03"
@@ -1923,7 +1882,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_03",
+              "head": "main_caliber_turret_03",
               "gun": "main_caliber_gun_03",
               "barrel": "gun_barrel_03",
               "gunnerDm": "main_caliber_turret_03_dm",
@@ -1957,7 +1916,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_04"
@@ -2033,7 +1992,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_04",
+              "head": "main_caliber_turret_04",
               "gun": "main_caliber_gun_04",
               "barrel": "gun_barrel_04",
               "gunnerDm": "main_caliber_turret_04_dm",
@@ -2067,7 +2026,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_05"
@@ -2143,7 +2102,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_05",
+              "head": "main_caliber_turret_05",
               "gun": "main_caliber_gun_05",
               "barrel": "gun_barrel_05",
               "gunnerDm": "main_caliber_turret_05_dm",
@@ -2178,7 +2137,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_06"
@@ -2254,7 +2213,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_06",
+              "head": "main_caliber_turret_06",
               "gun": "main_caliber_gun_06",
               "barrel": "gun_barrel_06",
               "gunnerDm": "main_caliber_turret_06_dm",
@@ -2289,7 +2248,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_07"
@@ -2365,7 +2324,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_07",
+              "head": "main_caliber_turret_07",
               "gun": "main_caliber_gun_07",
               "barrel": "gun_barrel_07",
               "gunnerDm": "main_caliber_turret_07_dm",
@@ -2400,7 +2359,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_08"
@@ -2476,7 +2435,7 @@
           },
           {
             "turret": {
-              "head": "turret_h_08",
+              "head": "main_caliber_turret_08",
               "gun": "main_caliber_gun_08",
               "barrel": "gun_barrel_08",
               "gunnerDm": "main_caliber_turret_08_dm",
@@ -2553,6 +2512,13 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03",
+              "scale": 1.4
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_engine_fire",
+              "emitter": "emtr_fire_engine_04",
               "scale": 1.4
             }
           }

@@ -710,94 +710,28 @@
         ]
       },
       {
-        "part": [
-          {
-            "name": "fin1_dm"
+        "part": {
+          "name": "fin1_dm",
+          "onHit": {
+            "tailcontrol_dm": 0.001
           },
-          {
-            "onHit": {
-              "tailcontrol_dm": 0.001
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.6
-            }
-          },
-          {
-            "onKill": {
-              "tailcontrol_dm": 1.0,
-              "nothing": 9.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 14.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
+          "onKill": {
+            "tailcontrol_dm": 1.0,
+            "nothing": 9.0
           }
-        ]
+        }
       },
       {
-        "part": [
-          {
-            "name": "fin2_dm"
+        "part": {
+          "name": "fin2_dm",
+          "onHit": {
+            "tailcontrol_dm": 0.001
           },
-          {
-            "onHit": {
-              "tailcontrol_dm": 0.001
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.6
-            }
-          },
-          {
-            "onKill": {
-              "tailcontrol_dm": 1.0,
-              "nothing": 9.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 14.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
+          "onKill": {
+            "tailcontrol_dm": 1.0,
+            "nothing": 9.0
           }
-        ]
+        }
       },
       {
         "part": [
@@ -1398,32 +1332,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -1443,6 +1425,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
+            }
+          },
+          {
             "onKill": {
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
@@ -1452,14 +1440,21 @@
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 9.0
+              "nothing": 14.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "cut": 1.0,
-              "nothing": 3.0
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0,
+              "nothing": 1.0
             }
           }
         ]
@@ -2898,6 +2893,9 @@
             "blk": "gameData/Weapons/gunBrowning50_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare6"
           },
           {
@@ -2908,6 +2906,9 @@
           },
           {
             "dm": "gunner1_dm"
+          },
+          {
+            "gunnerDm": "gunner1_dm"
           },
           {
             "gunDm": "gun1_dm"
@@ -2950,6 +2951,9 @@
             "blk": "gameData/Weapons/gunBrowning50_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare7"
           },
           {
@@ -2960,6 +2964,9 @@
           },
           {
             "dm": "gunner1_dm"
+          },
+          {
+            "gunnerDm": "gunner1_dm"
           },
           {
             "gunDm": "gun2_dm"
@@ -3002,6 +3009,9 @@
             "blk": "gameData/Weapons/gunBrowning50_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare8"
           },
           {
@@ -3012,6 +3022,9 @@
           },
           {
             "dm": "gunner2_dm"
+          },
+          {
+            "gunnerDm": "gunner2_dm"
           },
           {
             "gunDm": "gun3_dm"
@@ -3046,6 +3059,9 @@
             "blk": "gameData/Weapons/gunBrowning50_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare9"
           },
           {
@@ -3056,6 +3072,9 @@
           },
           {
             "dm": "gunner2_dm"
+          },
+          {
+            "gunnerDm": "gunner2_dm"
           },
           {
             "gunDm": "gun4_dm"
@@ -3250,6 +3269,11 @@
       "new_radiator": [],
       "new_compressor": [],
       "new_engine_injection": [],
+      "dgp-1_gunpod": {
+        "prevModification": "bmg50_turret_belt_pack",
+        "tier": 1,
+        "modClass": "weapon"
+      },
       "50cal_turret_ap": [],
       "50cal_turret_api": [],
       "50cal_universal": [],
@@ -3262,10 +3286,6 @@
       "bmg50_new_gun": {
         "reqModification": "bmg50_belt_pack",
         "tier": 3
-      },
-      "dgp-1_gunpod": {
-        "tier": 1,
-        "modClass": "weapon"
       },
       "bmg50_turret_belt_pack": {
         "tier": 3
@@ -3332,13 +3352,13 @@
       "emtr_break_wing1_r_to": [-0.835082,-0.188163,-4.9956],
       "emtr_break_wing2_r_from": [-0.835082,-0.188163,-6.87889],
       "emtr_break_wing2_r_to": [-0.835082,-0.188163,-8.69019],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-8.40929,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-8.40929,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-9.11741,1.79462,0.745893],
+      "emtr_break_stab_l_to": [-9.11741,1.79462,2.98357],
+      "emtr_break_stab_r_from": [-9.11741,1.79462,-0.745891],
+      "emtr_break_stab_r_to": [-9.11741,1.79462,-2.98356]
     }
   }
 ]

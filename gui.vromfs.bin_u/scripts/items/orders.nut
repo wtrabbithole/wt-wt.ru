@@ -136,6 +136,7 @@ function on_order_result_received(player, orderId, param, wp, exp)
   // ]
 
   localPlayerData = null
+  isOrdersContainerVisible = false
 }
 
 //
@@ -620,6 +621,11 @@ function g_orders::getStatusTextBottom()
   return result
 }
 
+function g_orders::showOrdersContainer(isShown)
+{
+  isOrdersContainerVisible = isShown
+}
+
 function g_orders::getStatusContent(orderObject)
 {
   local orderType = orderObject == null ? g_order_type.UNKNOWN : orderObject.orderType
@@ -628,6 +634,7 @@ function g_orders::getStatusContent(orderObject)
     playersHeaderText = ::loc("items/order/scoreTable/playersHeader")
     scoreHeaderText = orderType.getScoreHeaderText()
     needPlaceInHiddenContainer = isInSpectatorMode()
+    isHiddenContainerVisible = isOrdersContainerVisible
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
     view.rows.push({ rowIndex = i })

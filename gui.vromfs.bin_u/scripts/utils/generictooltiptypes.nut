@@ -128,10 +128,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       if (restricionsDesc.len())
         desc += (desc.len() ? "\n" : "") + restricionsDesc
 
-      if (decoratorType == ::g_decorator_type.SKINS)
+      if (decoratorType == ::g_decorator_type.SKINS && ::isTank(::getAircraftByName(::g_unlocks.getPlaneBySkinId(id))))
       {
-        local mask = skinLocations.getSkinLocationsMask(::g_unlocks.getSkinNameBySkinId(id),
-          ::g_unlocks.getPlaneBySkinId(id))
+        local mask = skinLocations.getSkinLocationsMaskBySkinId(id, false)
         local locations = mask ? skinLocations.getLocationsLoc(mask) : []
         if (locations.len())
           desc += (desc.len() ? "\n" : "") + ::loc("camouflage/for_environment_conditions") +
@@ -155,12 +154,16 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       }
       obj.findObject("description").setValue(desc)
 
+      local isDefaultSkin = ::g_unlocks.isDefaultSkin(id)
+      local isTrophyContent  = params?.showAsTrophyContent ?? false
+      local isReceivedPrizes = params?.receivedPrizes      ?? false
+
       local canBuy = false
       local isAllowed = decoratorType.isPlayerHaveDecorator(id)
       if (!isAllowed)
       {
         local cost = decorator.getCost()
-        if (!cost.isZero())
+        if (!isTrophyContent && !isReceivedPrizes && !cost.isZero())
         {
           canBuy = true
           local aObj = ::showBtn("price", true, obj)
@@ -184,10 +187,6 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       //fill unlock info
       local cObj = obj.findObject("conditions")
       cObj.show(true)
-
-      local isDefaultSkin = ::g_unlocks.isDefaultSkin(id)
-      local isTrophyContent  = params?.showAsTrophyContent ?? false
-      local isReceivedPrizes = params?.receivedPrizes      ?? false
 
       local iconName = isDefaultSkin ? ""
         : isAllowed ? "favorite"

@@ -156,6 +156,14 @@ enum itemType { //bit values for easy multitype search
   INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~WARBONDS
 }
 
+enum PREVIEW_MODE
+{
+  NONE      = 0x0000
+  UNIT      = 0x0001
+  SKIN      = 0x0002
+  DECORATOR = 0x0004
+}
+
 enum prizesStack {
   NOT_STACKED
   DETAILED
@@ -361,6 +369,8 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
 ::require("scripts/clientState/elems/dlDataStatElem.nut")
 ::require("sqDagui/framework/progressMsg.nut").setTextLocIdDefault("charServer/purchase0")
   // end of Independed Modules
+
+::cross_call_api.platform <- ::require("scripts/clientState/platform.nut")
 //------- ^^^ files before login ^^^ ----------
 
 
@@ -611,7 +621,7 @@ function load_scripts_after_login_once()
     "weaponry/dmgModel.nut"
     "weaponry/unitBulletsGroup.nut"
     "weaponry/unitBulletsManager.nut"
-    "dmViewer.nut"
+    "dmViewer/dmViewer.nut"
     "weaponry/weaponryTypes.nut"
     "weaponsVisual.nut"
     "weaponry/weaponrySelectModal.nut"
@@ -770,6 +780,7 @@ function load_scripts_after_login_once()
     "debugTools/dbgHud.nut"
     "debugTools/dbgHudObjects.nut"
     "debugTools/dbgHudObjectTypes.nut"
+    "debugTools/dbgSquadVoiceChat.nut"
 
     "utils/popupMessages.nut"
     "utils/soundManager.nut"

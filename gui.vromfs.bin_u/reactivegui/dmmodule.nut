@@ -84,7 +84,7 @@ local dots = function (total_count, broken_count) {
 
 
 local text = @(total_count, broken_count) {
-  rendObj = ROBJ_TEXT
+  rendObj = ROBJ_DTEXT
   color = broken_count > 0 ? colors.hud.damageModule.active : colors.hud.damageModule.inactive
   halign = HALIGN_CENTER
   text = (total_count - broken_count) + "/" + total_count
@@ -114,7 +114,7 @@ local dmModule = function (params) {
       color = colors.hud.damageModule.dmModuleDestroyed
     else if (brokenCountState.value > 0)
       color = colors.hud.damageModule.dmModuleDamaged
-    ::start_anim(brokenCountState)
+    ::anim_start(brokenCountState)
 
     local children = [moduleIcon(color)]
     if (totalCountState.value > 1) {

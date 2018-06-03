@@ -1,8 +1,5 @@
 [
   {
-    "css": "gui/css.css"
-  },
-  {
     "tdiv": [
       {
         "id": "gamechat"
@@ -96,7 +93,9 @@
             "id": "chat_log",
             "width": "pw",
             "padding": "0.5*@scrn_tgt/100.0",
-            "text": ""
+            "text": "",
+            "on_link_click": "onChatLinkClick",
+            "on_link_rclick": "onChatLinkRClick"
           }
         }
       },

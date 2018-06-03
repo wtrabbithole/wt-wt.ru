@@ -21,7 +21,7 @@ local onHover = @(ttobj, delay) function(elem, hover_on) {
 }
 
 
-local textTooltip = function(text, width) {
+local function textTooltip(text, width) {
   local f = null
   f = function() {
     if (f == activeTooltip.value) {
@@ -66,7 +66,7 @@ local textTooltip = function(text, width) {
 }
 
 
-local setupTooltip = function(comp_desc, ttip, delay, mount) {
+local function setupTooltip(comp_desc, ttip, delay, mount) {
   if (!ttip)
     return comp_desc
 
@@ -85,7 +85,7 @@ local setupTooltip = function(comp_desc, ttip, delay, mount) {
 }
 
 
-local onShutdown = function() {
+local function onShutdown() {
   activeTooltip = null
 }
 

@@ -1,5 +1,5 @@
 local squadApplications = require("scripts/squads/squadApplications.nut")
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum squadEvent
 {
@@ -469,12 +469,22 @@ function g_squad_manager::crewsReadyCheck()
 
 function g_squad_manager::getOfflineMembers()
 {
+  return getMembersByOnline(false)
+}
+
+function g_squad_manager::getOnlineMembers()
+{
+  return getMembersByOnline(true)
+}
+
+function g_squad_manager::getMembersByOnline(online = true)
+{
   local res = []
   if (!isInSquad())
     return res
 
   foreach(uid, memberData in squadData.members)
-    if (memberData.online == false)
+    if (memberData.online == online)
       res.append(memberData)
 
   return res

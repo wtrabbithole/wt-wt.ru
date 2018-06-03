@@ -24,7 +24,7 @@ class ::items_classes.Skin extends ItemExternal {
 
   function canConsume()
   {
-    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+    if (!isInventoryItem || !metaBlk || !metaBlk.resource || !metaBlk.resourceType)
       return false
     local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
     return ! decoratorType.isPlayerHaveDecorator(metaBlk.resource)

@@ -150,18 +150,28 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       return
 
     local headerObj = obj.getParent()
-    if (!::check_obj(headerObj))
-      return
+    if (::check_obj(headerObj))
+      doCollapse(headerObj)
+  }
 
-    local containerObj = headerObj.getParent()
+  function onCollapsedChapter()
+  {
+    local rowObj = opListObj.getChild(opListObj.getValue())
+    if (::check_obj(rowObj))
+      doCollapse(rowObj)
+  }
+
+  function doCollapse(obj)
+  {
+    local containerObj = obj.getParent()
     if (!::check_obj(containerObj))
       return
 
-    headerObj.collapsing = "yes"
+    obj.collapsing = "yes"
 
     local containerLen = containerObj.childrenCount()
     local isHeaderFound = false
-    local isShow = headerObj.collapsed == "yes"
+    local isShow = obj.collapsed == "yes"
     local selectIdx = containerObj.getValue()
     local needReselect = false
 
@@ -191,6 +201,8 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     local selectedObj = containerObj.getChild(containerObj.getValue())
     if (needReselect || (::check_obj(selectedObj) && !selectedObj.isVisible()))
       selectFirstItem(containerObj)
+
+    updateButtons()
   }
 
   //operation select
@@ -198,7 +210,8 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
   function onItemSelect()
   {
     if (!refreshSelOperation() && _wasSelectedOnce)
-      return
+      return updateButtons()
+
     _wasSelectedOnce = true
 
     updateWindow()
@@ -235,6 +248,20 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
   {
     ::showBtn("operation_join_block", selOperation, scene)
     ::showBtn("operation_create_block", !selOperation, scene)
+    if (!selOperation)
+    {
+      local isListEmpty = opListObj.getValue() < 0
+      local collapsedChapterBtnObj = ::showBtn("btn_collapsed_chapter", !isListEmpty, scene)
+      if (!isListEmpty && ::check_obj(collapsedChapterBtnObj))
+      {
+        local rowObj = opListObj.getChild(opListObj.getValue())
+        if (::check_obj(rowObj))
+          collapsedChapterBtnObj.setValue(rowObj.collapsed == "yes"
+            ? ::loc("mainmenu/btnExpand")
+            : ::loc("mainmenu/btnCollapse"))
+      }
+    }
+
     if (!selOperation)
     {
       ::showBtn("btn_create_operation", isClanQueueAvaliable(), scene)

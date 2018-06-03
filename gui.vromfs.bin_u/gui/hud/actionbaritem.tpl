@@ -81,11 +81,13 @@ action_bar_item {
       pos:t='0, 0';
       background-color:t='#99020202';
     }
+    <<#showShortcut>>
     <<#isXinput>>
       <<>gamepadShortcut>>
     <</isXinput>>
     <<^isXinput>>
       <<>textShortcut>>
     <</isXinput>>
+    <</showShortcut>>
   }
 }

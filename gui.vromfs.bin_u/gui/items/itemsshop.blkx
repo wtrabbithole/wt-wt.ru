@@ -210,7 +210,6 @@
                   {
                     "textareaNoTab": {
                       "id": "item_desc",
-                      "pos": "50%pw-50%w, 0",
                       "position": "relative",
                       "width": "1@itemInfoWidth",
                       "font-bold": "@fontMedium"
@@ -303,6 +302,16 @@
                 }
               }
             ]
+          },
+          {
+            "tdiv": {
+              "id": "black_screen",
+              "background-color": "@black",
+              "size": "pw, ph",
+              "pos": "50%pw-50%w, 50%ph-50%h",
+              "position": "absolute",
+              "display": "hide"
+            }
           }
         ]
       },
@@ -539,7 +548,7 @@
               "display": "hide",
               "pos": "50%sw-50%w, 1@bh",
               "position": "root",
-              "min-width": "1@queueTableWidth",
+              "min-width": "1@gameModeSelectBlockWidth",
               "padding-top": "1@gameModeSelectPaddingTop",
               "padding-bottom": "1@gameModeSelectPaddingBottom",
               "background-color": "@gameModeColor",

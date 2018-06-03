@@ -108,6 +108,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     ItemsRoulette.skipAnimation(obj)
     opened = true
     updateWnd()
+    ::broadcastEvent("TrophyContentVisible", { trophyItem = trophyItem })
     return true
   }
 
@@ -309,7 +310,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
           continue
 
         isRewardItemActual = true
-        if (sheets.getTabByItem(rewardItem) < 0)
+        if (!sheets.getSheetDataByItem(rewardItem))
           rewardItem = null
         return true
       }

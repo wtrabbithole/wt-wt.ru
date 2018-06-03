@@ -1,4 +1,4 @@
-local platformModule = require("modules/platform.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 class ::g_invites_classes.Squad extends ::BaseInvite
 {
@@ -23,9 +23,16 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     if (inviterName.len() != 0)
     {
       //Don't show invites from xbox players, as notification comes from system overlay
-      //And we don't wan't players to be confused.
-      if (platformModule.isPlayerFromXboxOne(inviterName) && !haveRestrictions())
+      //Force quit to main menu.
+      ::dagor.debug("InviteSquad: invitername != 0 " + platformModule.isPlayerFromXboxOne(inviterName))
+      if (platformModule.isPlayerFromXboxOne(inviterName))
+      {
+        ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
+        if (haveRestrictions() && ::is_in_flight())
+          ::quit_mission()
+
         setDelayed(true)
+      }
     }
     else
     {
@@ -33,7 +40,18 @@ class ::g_invites_classes.Squad extends ::BaseInvite
       local cb = ::Callback(function(r)
                             {
                               updateInviterContact()
-                              setDelayed(platformModule.isPlayerFromXboxOne(inviterName) && !haveRestrictions())
+                              ::dagor.debug("InviteSquad: invitername == 0 " + platformModule.isPlayerFromXboxOne(inviterName))
+                              if (platformModule.isPlayerFromXboxOne(inviterName))
+                              {
+                                ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
+                                if (haveRestrictions() && ::is_in_flight())
+                                  ::quit_mission()
+
+                                setDelayed(true)
+                              }
+                              else
+                                setDelayed(false)
+
                             }, this)
       ::g_users_info_manager.requestInfo([leaderId], cb, cb)
     }
@@ -92,7 +110,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
   function autorejectXboxInvite()
   {
-    if (!::g_chat.xboxIsChatEnabled() || !leaderContact.canInteract())
+    if (!platformModule.canSquad() || !leaderContact.canInteract())
       reject()
   }
 

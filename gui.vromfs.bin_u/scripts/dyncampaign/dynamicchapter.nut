@@ -21,8 +21,6 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
 
   function initScreen()
   {
-    check_disable_saving_options()
-
     guiScene.replaceContent("mission_desc", "gui/missionDescr.blk")
     local headerTitle = scene.findObject("chapter_name")
     headerTitle.setValue(::loc("mainmenu/btnDynamic"))

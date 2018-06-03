@@ -142,7 +142,13 @@ function build_aircraft_item(id, air, params = {})
 
     local hasCrewInfo = crewId >= 0
     local crew = hasCrewInfo ? ::get_crew_by_id(crewId) : null
-    local crewLevelText = crew && air ? ::g_crew.getCrewLevel(crew, ::get_es_unit_type(air)).tointeger().tostring() : ""
+
+    local forceCrewInfoUnit = params?.forceCrewInfoUnit
+    local unitForCrewInfo = forceCrewInfoUnit || air
+    local crewLevelText = crew && unitForCrewInfo
+      ? ::g_crew.getCrewLevel(crew, ::get_es_unit_type(unitForCrewInfo)).tointeger().tostring()
+      : ""
+    local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForCrewInfo).trainedIcon
 
     local itemButtonsView = {
       itemButtons = {
@@ -152,7 +158,7 @@ function build_aircraft_item(id, air, params = {})
 
         hasCrewInfo             = hasCrewInfo
         crewLevel               = hasCrewInfo ? crewLevelText : ""
-        crewSpecIcon            = hasCrewInfo ? ::g_crew_spec_type.getTypeByCrewAndUnit(crew, air).trainedIcon : ""
+        crewSpecIcon            = hasCrewInfo ? crewSpecIcon : ""
         crewStatus              = hasCrewInfo ? ::get_crew_status_by_id(crewId) : ""
 
         hasSpareCount           = spareCount > 0
@@ -495,6 +501,28 @@ function build_aircraft_item(id, air, params = {})
       itemButtonsView.itemButtons.specTypeTooltip <- specType.getName()
     }
 
+    local crewLevelInfoData = ""
+    local unitForCrewInfo = params?.forceCrewInfoUnit
+    if (unitForCrewInfo)
+    {
+      local crewId = getVal("crewId", -1)
+      local crew = crewId >= 0 ? ::get_crew_by_id(crewId) : null
+      if (crew)
+      {
+        local crewLevelText = ::g_crew.getCrewLevel(crew,
+          ::get_es_unit_type(unitForCrewInfo)).tointeger().tostring()
+        local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForCrewInfo).trainedIcon
+
+        local crewLevelInfoView = { itemButtons = {
+          hasExtraInfoBlock = true
+          hasCrewInfo       = true
+          crewLevel         = crewLevelText
+          crewSpecIcon      = crewSpecIcon
+        }}
+        crewLevelInfoData = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", crewLevelInfoView)
+      }
+    }
+
     local emptyCost = getVal("emptyCost", null)
     local priceText = emptyCost ? emptyCost.getTextAccordingToBalance() : ""
     local emptySlotView = {
@@ -507,6 +535,7 @@ function build_aircraft_item(id, air, params = {})
       isCrewRecruit = getVal("isCrewRecruit", false),
       itemButtons = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
       isSlotbarItem = getVal("isSlotbarItem", false)
+      crewLevelInfo = crewLevelInfoData
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotEmpty", emptySlotView)
   }

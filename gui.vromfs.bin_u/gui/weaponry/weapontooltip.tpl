@@ -10,13 +10,15 @@ tdiv {
     text:t='<<desc>>'
   }
   table {
+    pos:t='0, @blockInterval'
+    position:t='relative'
     allAlignLeft:t="yes"
     class:t='noPad'
     smallFont:t='yes'
     <<#bulletActions>>
     tr {
       td {
-        padding-right:t='0.005@sf'
+        padding-right:t='@blockInterval'
         modIcon{
           size:t='@modIcoSize, @modIcoSize'
           ignoreStatus:t='yes'
@@ -24,7 +26,7 @@ tdiv {
             pattern{type:t='bright_texture';}
           }
           tdiv{
-            size:t='pw-6*@sf/@pf_outdated,ph-6*@sf/@pf_outdated'
+            size:t='pw-9@sf/@pf, ph-9@sf/@pf'
             pos:t='50%pw-50%w, 50%ph-50%h'
             position:t='absolute'
             <<@visual>>
@@ -36,18 +38,24 @@ tdiv {
     <</bulletActions>>
   }
   tooltipDesc {
+    pos:t='0, @blockInterval'
+    position:t='relative'
+    hideEmptyText:t='yes'
     text:t='<<addDesc>>'
   }
 
   <<#bulletParams>>
     textareaNoTab {
-      pos:t='0, 0.015@sf'
+      pos:t='0, @blockInterval'
       position:t='relative'
+      hideEmptyText:t='yes'
       text:t='<<header>>'
     }
     table {
-      //pos:t='0, 0.01@sf'
-      //position:t='relative'
+      <<^header>>
+      pos:t='0, @blockInterval'
+      position:t='relative'
+      <</header>>
       allAlignLeft:t="yes"
       class:t='noPad'
       smallFont:t='yes'
@@ -68,15 +76,16 @@ tdiv {
 
   <<#bulletsDesc>>
   tooltipDesc {
-    pos:t='0, 0.015@sf'
+    pos:t='0, @blockInterval'
     position:t='relative'
+    hideEmptyText:t='yes'
     text:t='<<bulletsDesc>>'
   }
   <</bulletsDesc>>
 
   <<#warningText>>
   tdiv {
-    pos:t='0, 5'
+    pos:t='0, @blockInterval'
     position:t='relative'
     warning_icon {
       size:t='@cIco, @cIco'
@@ -86,7 +95,7 @@ tdiv {
       background-color:t='@white'
     }
     textareaNoTab {
-      pos:t='2@sf/@pf_outdated, ph/2-h/2'
+      pos:t='@blockInterval, ph/2-h/2'
       position:t='relative'
       smallFont:t='yes'
       overlayTextColor:t='warning'
@@ -97,7 +106,7 @@ tdiv {
 
   <<#amountText>>
   textareaNoTab {
-    pos:t='pw-w, 5'
+    pos:t='pw-w, @blockInterval'
     position:t='relative'
     smallFont:t='yes'
     text:t='<<amountText>>'
@@ -116,7 +125,7 @@ tdiv {
   <<#expText>>
   textareaNoTab {
     smallFont:t='yes'
-    pos:t='pw-w, 5'
+    pos:t='pw-w, @blockInterval'
     position:t='relative'
     text:t='<<expText>>'
   }
@@ -125,7 +134,7 @@ tdiv {
   tdiv{
     id:t='discount';
     smallFont:t='yes'
-    pos:t='pw-w, 5'
+    pos:t='pw-w, @blockInterval'
     position:t='relative'
     textareaNoTab{
       text:t='<<?ugm/price>><<#noDiscountPrice>><<?ugm/withDiscount>><</noDiscountPrice>><<?ui/colon>>'
@@ -133,11 +142,11 @@ tdiv {
     tdiv{
       textareaNoTab{
         text:t='<<noDiscountPrice>>'
-        margin-right:t='3'
+        margin-right:t='3@sf/@pf'
         tdiv{
           pos:t='50%pw-50%w, 50%ph-50%h';
           position:t='absolute';
-          size:t='pw, 1';
+          size:t='pw, 1@dp';
           background-color:t='@oldPrice';
         }
       }

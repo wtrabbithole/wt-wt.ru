@@ -28,8 +28,12 @@
     <</selected>>
 
     <<#image>>
-      optionImg { background-image:t='<<image>>' }
+      optionImg { background-image:t='<<image>>' <<#imageNoMargin>>noMargin:t='yes'<</imageNoMargin>> }
     <</image>>
+
+    <<#image2>>
+      optionImg { background-image:t='<<image2>>' <<#image2NoMargin>>noMargin:t='yes'<</image2NoMargin>> }
+    <</image2>>
 
     <<@addDiv>>
 
