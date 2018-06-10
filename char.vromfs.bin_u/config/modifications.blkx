@@ -223,6 +223,27 @@
         "bulletMod": "shvak_tracers"
       }
     },
+    "shvak_early_tracers": {
+      "reqModification": "shvak_early_belt_pack",
+      "group": "shvak_early",
+      "effects": {
+        "bulletMod": "shvak_early_tracers"
+      }
+    },
+    "shvak_early_air_targets": {
+      "reqModification": "shvak_early_belt_pack",
+      "group": "shvak_early",
+      "effects": {
+        "bulletMod": "shvak_early_air_targets"
+      }
+    },
+    "shvak_early_stealth": {
+      "reqModification": "shvak_early_belt_pack",
+      "group": "shvak_early",
+      "effects": {
+        "bulletMod": "shvak_early_stealth"
+      }
+    },
     "shvak_armor_targets": {
       "reqModification": "shvak_belt_pack",
       "group": "shvak",
@@ -238,6 +259,13 @@
       }
     },
     "shvak_belt_pack": {
+      "image": "#ui/gameuiskin#ammo",
+      "modClass": "weapon",
+      "tier": 3,
+      "caliber": 20.0,
+      "deactivationIsAllowed": false
+    },
+    "shvak_early_belt_pack": {
       "image": "#ui/gameuiskin#ammo",
       "modClass": "weapon",
       "tier": 3,
@@ -1384,6 +1412,14 @@
         "bulletMod": "shvak_turret_apit"
       }
     },
+    "shvak_turret_ap": {
+      "reqModification": "shvak_turret_belt_pack",
+      "group": "shvak_turret",
+      "isTurretBelt": true,
+      "effects": {
+        "bulletMod": "shvak_turret_ap"
+      }
+    },
     "shvak_turret_het": {
       "reqModification": "shvak_turret_belt_pack",
       "group": "shvak_turret",
@@ -2282,6 +2318,18 @@
       "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "shvak_new_gun"
+      }
+    },
+    "shvak_early_new_gun": {
+      "image": "#ui/gameuiskin#weapon",
+      "tier": 4,
+      "modClass": "weapon",
+      "invertEnableLogic": true,
+      "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
+      "effects": {
+        "weaponMod": "shvak_early_new_gun"
       }
     },
     "b20_new_gun": {
@@ -5263,7 +5311,7 @@
       "deactivationIsAllowed": false
     },
     "128mm_ger_HE_naval_base_fuze": {
-      "image": "#ui/gameuiskin#tank_ammo",
+      "image": "#ui/gameuiskin#he_frag_base_fuse_tank",
       "reqModification": "128mm_ger_HE_naval_base_fuze_ammo_pack",
       "group": "128mm_HE",
       "effects": {
@@ -5271,7 +5319,7 @@
       }
     },
     "128mm_ger_HE_naval_base_fuze_ammo_pack": {
-      "image": "#ui/gameuiskin#tank_ammo",
+      "image": "#ui/gameuiskin#he_frag_base_fuse_tank",
       "reqModification": "128mm_ger_naval_APCBC_ammo_pack",
       "tier": 2,
       "modClass": "firepower",
@@ -10595,6 +10643,20 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "120mm_DM_APDS_FS": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "120mm_DM_APDS_FS_ammo_pack",
+      "group": "120mm_NATO",
+      "effects": {
+        "additiveBulletMod": "120mm_DM_APDS_FS"
+      }
+    },
+    "120mm_DM_APDS_FS_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 4,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "120mm_NATO_HEAT_FS": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
@@ -10970,7 +11032,7 @@
     "ship_mines": {
       "image": "#ui/gameuiskin#naval_mine",
       "modClass": "firepower",
-      "tier": 4,
+      "tier": 1,
       "deactivationIsAllowed": false
     },
     "ship_rocket_launcher": {

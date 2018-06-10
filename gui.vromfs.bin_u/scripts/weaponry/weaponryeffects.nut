@@ -182,9 +182,9 @@ enums.addTypes(effectsType, [
     validateValue = @(value) ::fabs(value) > 0.5 ? value : null
   }
   { id = "oswalds",                measureType = "percent", presize = 0.001 }
-  { id = "cdMinFusel",             measureType = "", isInverted = true, presize = 0.00001 }
-  { id = "cdMinTail",              measureType = "", isInverted = true, presize = 0.00001 }
-  { id = "cdMinWing",              measureType = "", isInverted = true, presize = 0.00001 }
+  { id = "cdMinFusel",             measureType = "percent", presize = 0.01, isInverted = true }
+  { id = "cdMinTail",              measureType = "percent", presize = 0.01, isInverted = true }
+  { id = "cdMinWing",              measureType = "percent", presize = 0.01, isInverted = true }
 
   { id = "ailThrSpd",              preset = "SPEED" }
   { id = "ruddThrSpd",             preset = "SPEED" }

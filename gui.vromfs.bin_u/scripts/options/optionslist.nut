@@ -121,6 +121,7 @@ local getMainOptions = function()
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],
       [::USEROPT_CHAT_FILTER, "spinner"],
+      [::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL, "spinner"],
 
       //TODO fillVoiceChatOptions
       //[::USEROPT_VOICE_CHAT, "spinner"],
@@ -153,7 +154,7 @@ local getMainOptions = function()
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_SAVE_ZOOM_CAMERA, "spinner"]
+      [::USEROPT_SAVE_ZOOM_CAMERA, "spinner", !::u.isNull(::get_option_save_zoom_camera())] //compatibility with wop_1_77_2_X
     ]
   }
 }
@@ -161,8 +162,8 @@ local getMainOptions = function()
 local getSoundOptions = @() {
   name = "sound"
   options = [
-    [::USEROPT_SOUND_ENABLE, "switchbox"],
-    [::USEROPT_SOUND_SPEAKERS_MODE, "combobox"],
+    [::USEROPT_SOUND_ENABLE, "switchbox", ::is_platform_pc],
+    [::USEROPT_SOUND_SPEAKERS_MODE, "combobox", ::is_platform_pc],
     [::USEROPT_VOICE_MESSAGE_VOICE, "spinner"],
     [::USEROPT_SPEECH_TYPE "spinner", ! ::is_in_flight()],
     [::USEROPT_VOLUME_MASTER, "slider"],

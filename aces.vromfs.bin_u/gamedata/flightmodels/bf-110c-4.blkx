@@ -45,9 +45,6 @@
     "armor10_5": {
       "armor5_dm": {
         "hp": 40.0
-      },
-      "armor6_dm": {
-        "hp": 40.0
       }
     },
     "armor5_5": {
@@ -58,6 +55,11 @@
     "armor6": {
       "armor8_dm": {
         "hp": 35.0
+      }
+    },
+    "armor8": {
+      "armor6_dm": {
+        "hp": 40.0
       }
     },
     "armor8_5": {
@@ -275,6 +277,11 @@
       "tank4_dm": {
         "hp": 61.4
       }
+    },
+    "wood": {
+      "armor9_dm": {
+        "hp": 2.7
+      }
     }
   },
   "DamageEffects": [
@@ -430,6 +437,11 @@
     {
       "part": {
         "name": "armor8_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "armor9_dm"
       }
     },
     {
@@ -2346,6 +2358,74 @@
     "Engine": "engine15",
     "gun": "gun_bf"
   },
+  "cockpit": {
+    "headPos": [1.463,0.921,0.0],
+    "headPosOnShooting": [1.463,0.921,0.0],
+    "lightPos": [1.579626,0.211944,0.419498],
+    "lightColor": [0.62,0.3,0.21],
+    "lightAttenuation": 4.0,
+    "openedGunnerCockpit": true,
+    "devices": {
+      "stick_ailerons": [-1.5,1.5],
+      "stick_elevator": [-2.0,1.5],
+      "pedals1": [-1.5,1.5],
+      "pedals2": [-1.5,1.5],
+      "pedals3": [-1.5,1.5],
+      "throttle": [-1.0,1.8],
+      "throttle1": [-1.0,1.8],
+      "prop_pitch": [0.0,1.0],
+      "prop_pitch1": [0.0,1.0],
+      "mixture": [0.0,1.0],
+      "weapon1": [0.0,1.0],
+      "speed": [0.0,208.333],
+      "compass": [0.0,360.0],
+      "compass1": [0.0,360.0],
+      "vario": [-30.0,30.0],
+      "altitude_hour": [0.0,10000.0],
+      "altitude_min": [0.0,1000.0],
+      "altitude_koef": 1.0,
+      "bank": [-8.0,8.0],
+      "bank1": [-8.0,8.0],
+      "bank2": [-8.0,8.0],
+      "turn": [-0.23562,0.23562],
+      "turn1": [-0.23562,0.23562],
+      "aviahorizon_pitch": [-60.0,60.0],
+      "aviahorizon_roll": [-180.0,180.0],
+      "clock_hour": [0.0,12.0],
+      "clock_min": [0.0,60.0],
+      "clock_sec": [0.0,60.0],
+      "manifold_pressure": [0.6,1.8],
+      "manifold_pressure1": [0.6,1.8],
+      "rpm": [500.0,3600.0],
+      "rpm1": [500.0,3600.0],
+      "fuel1": [0.0,370.0],
+      "oil_pressure": [0.0,120.0],
+      "oil_temperature": [0.0,160.0],
+      "water_temperature": [0.0,120.0],
+      "water_temperature1": [0.0,120.0],
+      "fuel_pressure": [0.0,15.0],
+      "ammo_counter1": [100.0,0.0],
+      "ammo_counter2": [1000.0,0.0],
+      "ammo_counter3": [100.0,0.0]
+    },
+    "parts_holes_dmg": {
+      "part": "fuse"
+    },
+    "parts_oil_dmg": [
+      {
+        "part": "engine1"
+      },
+      {
+        "part": "engine2"
+      },
+      {
+        "part": "engine3"
+      },
+      {
+        "part": "engine4"
+      }
+    ]
+  },
   "commonWeapons": [
     {
       "Weapon": {
@@ -2423,6 +2503,9 @@
         },
         {
           "bullets": 750
+        },
+        {
+          "breechInCockpit": true
         },
         {
           "turret": {

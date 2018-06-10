@@ -589,6 +589,12 @@
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0,
+          "armorThrough": 100.0,
+          "hp": 150.0,
+          "fireProtectionHp": 10.0
+        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -1834,8 +1840,6 @@
         "armorArrayHullTop": {
           "xrayDmPart": "composite_armor_hull_01_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 200.0,
-          "cumulativeProtectionEquivalent": 170.0,
           "armorArrayText": [
             {
               "layer": {
@@ -1859,8 +1863,6 @@
         "armorArrayHullTop": {
           "xrayDmPart": "composite_armor_hull_02_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 90.0,
-          "cumulativeProtectionEquivalent": 80.0,
           "armorArrayText": [
             {
               "layer": {
@@ -1884,8 +1886,6 @@
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_01_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 320.0,
-          "cumulativeProtectionEquivalent": 280.0,
           "armorArrayText": [
             {
               "layer": {
@@ -1909,8 +1909,6 @@
         "armorArrayTurretBack": {
           "xrayDmPart": "composite_armor_turret_02_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 50.0,
-          "cumulativeProtectionEquivalent": 50.0,
           "armorArrayText": [
             {
               "layer": {
@@ -1934,8 +1932,6 @@
         "armorArrayTurretBack": {
           "xrayDmPart": "composite_armor_turret_03_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 30.0,
-          "cumulativeProtectionEquivalent": 30.0,
           "armorArrayText": [
             {
               "layer": {
@@ -2023,7 +2019,7 @@
             "speedPitch": 8.0,
             "errorKPHToDegrees": [
               {
-                "row": [5.0,0.01]
+                "row": [5.0,0.0]
               },
               {
                 "row": [45.0,0.015]
@@ -2238,6 +2234,24 @@
         "defaultDampeningForce": [150000.0,150000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
+      },
+      "movableSuspension": {
+        "speed": 0.07,
+        "maxSpeedForMove": 1.0,
+        "clearance": {
+          "wheel_l_01": [],
+          "wheel_l_02": [],
+          "wheel_l_03": [],
+          "wheel_l_04": [],
+          "wheel_l_05": [],
+          "wheel_l_06": [],
+          "wheel_r_01": [],
+          "wheel_r_02": [],
+          "wheel_r_03": [],
+          "wheel_r_04": [],
+          "wheel_r_05": [],
+          "wheel_r_06": []
+        }
       }
     }
   },
@@ -2895,7 +2909,7 @@
                   "speedPitch": 8.0,
                   "errorKPHToDegrees": [
                     {
-                      "row": [5.0,0.01]
+                      "row": [5.0,0.0]
                     },
                     {
                       "row": [45.0,0.015]

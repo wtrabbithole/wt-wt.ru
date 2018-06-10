@@ -75,16 +75,36 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 }
 
 ::unit_role_fonticons <- {
-  fighter         = ::loc("icon/unitclass/fighter"),
-  assault         = ::loc("icon/unitclass/assault"),
-  bomber          = ::loc("icon/unitclass/bomber"),
-  helicopter      = ::loc("icon/unitclass/assault"),
-  light_tank      = ::loc("icon/unitclass/light_tank"),
-  medium_tank     = ::loc("icon/unitclass/medium_tank"),
-  heavy_tank      = ::loc("icon/unitclass/heavy_tank"),
-  tank_destroyer  = ::loc("icon/unitclass/tank_destroyer"),
-  spaa            = ::loc("icon/unitclass/spaa"),
-  ship            = ::loc("icon/unitclass/ship"),
+  fighter                  = ::loc("icon/unitclass/fighter"),
+  assault                  = ::loc("icon/unitclass/assault"),
+  bomber                   = ::loc("icon/unitclass/bomber"),
+  helicopter               = ::loc("icon/unitclass/assault"),
+  light_tank               = ::loc("icon/unitclass/light_tank"),
+  medium_tank              = ::loc("icon/unitclass/medium_tank"),
+  heavy_tank               = ::loc("icon/unitclass/heavy_tank"),
+  tank_destroyer           = ::loc("icon/unitclass/tank_destroyer"),
+  spaa                     = ::loc("icon/unitclass/spaa"),
+  ship                     = ::loc("icon/unitclass/ship"),
+  gun_boat                 = ::loc("icon/unitclass/gun_boat")
+  torpedo_boat             = ::loc("icon/unitclass/gun_boat")
+  torpedo_gun_boat         = ::loc("icon/unitclass/gun_boat")
+  hydrofoil_torpedo_boat   = ::loc("icon/unitclass/gun_boat")
+  missile_boat             = ::loc("icon/unitclass/gun_boat")
+  heavy_gun_boat           = ::loc("icon/unitclass/heavy_gun_boat")
+  submarine_chaser         = ::loc("icon/unitclass/heavy_gun_boat")
+  minesweeper              = ::loc("icon/unitclass/heavy_gun_boat")
+  minelayer                = ::loc("icon/unitclass/heavy_gun_boat")
+  small_submarine_chaser   = ::loc("icon/unitclass/heavy_gun_boat")
+  armored_boat             = ::loc("icon/unitclass/heavy_gun_boat")
+  armored_submarine_chaser = ::loc("icon/unitclass/heavy_gun_boat")
+  naval_ferry_barge        = ::loc("icon/unitclass/naval_ferry_barge")
+  naval_aa_ferry           = ::loc("icon/unitclass/naval_ferry_barge")
+  destroyer                = ::loc("icon/unitclass/destroyer")
+  light_cruiser            = ::loc("icon/unitclass/light_cruiser")
+  cruiser                  = ::loc("icon/unitclass/cruiser")
+  battlecruiser            = ::loc("icon/unitclass/battlecruiser")
+  battleship               = ::loc("icon/unitclass/battleship")
+  submarine                = ::loc("icon/unitclass/submarine")
 }
 
 ::unit_role_by_tag <- {
@@ -113,6 +133,26 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 
   //ships:
   type_ship = "ship",
+  type_gun_boat = "gun_boat"
+  type_torpedo_boat = "torpedo_boat"
+  type_torpedo_gun_boat = "torpedo_gun_boat"
+  type_hydrofoil_torpedo_boat = "hydrofoil_torpedo_boat"
+  type_missile_boat = "missile_boat"
+  type_heavy_gun_boat = "heavy_gun_boat"
+  type_submarine_chaser = "submarine_chaser"
+  type_minesweeper = "minesweeper"
+  type_minelayer = "minelayer"
+  type_small_submarine_chaser = "small_submarine_chaser"
+  type_armored_boat = "armored_boat"
+  type_armored_submarine_chaser = "armored_submarine_chaser"
+  type_naval_ferry_barge = "naval_ferry_barge"
+  type_naval_aa_ferry = "naval_aa_ferry"
+  type_destroyer = "destroyer"
+  type_light_cruiser = "light_cruiser"
+  type_cruiser = "cruiser"
+  type_battlecruiser = "battlecruiser"
+  type_battleship = "battleship"
+  type_submarine = "submarine"
 
   //basic types
   type_fighter = "medium_fighter",
@@ -2472,12 +2512,12 @@ function get_units_list(filterFunc)
   return res
 }
 
-function get_units_count_at_rank(rank, type, country, exact_rank)
+function get_units_count_at_rank(rank, type, country, exact_rank, needBought = true)
 {
   local count = 0
   foreach (unit in ::all_units)
   {
-    if (!::isUnitBought(unit))
+    if (needBought && !::isUnitBought(unit))
       continue
 
     // Keep this in sync with getUnitsCountAtRank() in chard

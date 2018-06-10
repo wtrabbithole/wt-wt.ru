@@ -1,3 +1,5 @@
+local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+
 class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 {
   wndType = handlerType.MODAL
@@ -163,11 +165,10 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
   function showResearchUnitTutorial()
   {
-    local isTutorialShowed = ::loadLocalByAccount("tutor/researchUnit", false)
-    if (isTutorialShowed)
+    if (!tutorialModule.needShowTutorial("researchUnit", 1))
       return
 
-    ::saveLocalByAccount("tutor/researchUnit", true)
+    tutorialModule.saveShowedTutorial("researchUnit")
 
     local visibleObj = scene.findObject("shop_items_visible_div")
     if (!visibleObj)

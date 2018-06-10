@@ -1,4 +1,7 @@
-local rnd_seed = @() ::random.uint_noise1D(::random.grnd(), ::random.get_rnd_seed()) //setting new rnd
+local random = require("dagor.random")
+
+local rnd_seed = @() random.uint_noise1D(random.grnd(), random.get_rnd_seed()) //setting new rnd
+
 local Rand = class{
   _seed = null
   _count = null
@@ -18,7 +21,7 @@ local Rand = class{
     _count += 1
     local start_ = ::min(end,start)
     local end_ = ::max(end,start)
-    return ::clamp((::random.uint_noise1D(_seed, _count).tofloat()/maxrnd*(end_-start_) + start_).tofloat(), start_, end_)
+    return ::clamp((random.uint_noise1D(_seed, _count).tofloat()/maxrnd*(end_-start_) + start_).tofloat(), start_, end_)
   }
 
   function rint(start=0, end = null) {
@@ -29,7 +32,7 @@ local Rand = class{
       local start_ = ::min(end,start)
       local end_ = ::max(end,start)
 
-      return ::clamp((::random.uint_noise1D(_seed, _count).tofloat()/maxrnd*(end_-start_+1) + start).tointeger(), start_, end_)
+      return ::clamp((random.uint_noise1D(_seed, _count).tofloat()/maxrnd*(end_-start_+1) + start).tointeger(), start_, end_)
     }
   }
 

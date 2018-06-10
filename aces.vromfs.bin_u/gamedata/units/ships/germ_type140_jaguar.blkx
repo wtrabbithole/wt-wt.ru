@@ -1163,6 +1163,42 @@
       "formatVersion": 2,
       "armorClass": "ship_structural_steel",
       "armorThickness": 10.0,
+      "compartments": {
+        "fireParamsPreset": "ship_cover",
+        "stopChanceOnDeadPart": 0.2,
+        "genericDamageMult": 0.1,
+        "secondaryShatterDamageMult": 0.0,
+        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "compartment_01_dm": {
+          "hp": 1000.0
+        },
+        "compartment_02_dm": {
+          "hp": 500.0
+        },
+        "compartment_03_dm": {
+          "hp": 1000.0
+        },
+        "compartment_04_dm": {
+          "hp": 724.0
+        },
+        "compartment_05_dm": {
+          "hp": 618.0
+        },
+        "compartment_06_dm": {
+          "hp": 500.0
+        },
+        "bridge_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 5.0,
+          "hp": 500.0
+        },
+        "radio_station_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 5.0,
+          "hp": 500.0
+        }
+      },
       "superstructures": {
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 0.1,
@@ -1450,42 +1486,6 @@
         },
         "torpedo_04_dm": {
           "hp": 250.0
-        }
-      },
-      "compartments": {
-        "fireParamsPreset": "ship_cover",
-        "stopChanceOnDeadPart": 0.2,
-        "genericDamageMult": 0.1,
-        "secondaryShatterDamageMult": 0.0,
-        "armorClass": "ship_wood",
-        "armorThickness": 40.0,
-        "compartment_01_dm": {
-          "hp": 1000.0
-        },
-        "compartment_02_dm": {
-          "hp": 500.0
-        },
-        "compartment_03_dm": {
-          "hp": 1000.0
-        },
-        "compartment_04_dm": {
-          "hp": 724.0
-        },
-        "compartment_05_dm": {
-          "hp": 618.0
-        },
-        "compartment_06_dm": {
-          "hp": 500.0
-        },
-        "bridge_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 5.0,
-          "hp": 500.0
-        },
-        "radio_station_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 5.0,
-          "hp": 500.0
         }
       }
     }
@@ -2492,7 +2492,7 @@
           "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 1,
-          "barrelDP": "tt_01_dm",
+          "barrelDP": "torpedo_01_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_01_dm",
           "enableCourseCorrection": false,
@@ -2519,7 +2519,7 @@
           "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
           "emitter": "bone_torpedo_02",
           "bullets": 1,
-          "barrelDP": "tt_02_dm",
+          "barrelDP": "torpedo_02_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_02_dm",
           "enableCourseCorrection": false,
@@ -2546,7 +2546,7 @@
           "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
           "emitter": "bone_torpedo_03",
           "bullets": 1,
-          "barrelDP": "tt_03_dm",
+          "barrelDP": "torpedo_03_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_03_dm",
           "enableCourseCorrection": false,
@@ -2573,7 +2573,7 @@
           "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
           "emitter": "bone_torpedo_04",
           "bullets": 1,
-          "barrelDP": "tt_04_dm",
+          "barrelDP": "torpedo_04_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_04_dm",
           "enableCourseCorrection": false,
@@ -2713,25 +2713,25 @@
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_01"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_03"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_04"
             }
           },
@@ -3218,7 +3218,7 @@
         "event": {
           "name": "ammo_fire_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -3227,7 +3227,7 @@
         "event": {
           "name": "ammo_fire_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -3236,7 +3236,7 @@
         "event": {
           "name": "ammo_fire_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -3245,7 +3245,7 @@
         "event": {
           "name": "ammo_fire_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }
@@ -3254,7 +3254,7 @@
         "event": {
           "name": "ammo_explosion_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -3263,7 +3263,7 @@
         "event": {
           "name": "ammo_explosion_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -3272,7 +3272,7 @@
         "event": {
           "name": "ammo_explosion_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -3281,7 +3281,7 @@
         "event": {
           "name": "ammo_explosion_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }

@@ -1904,7 +1904,7 @@
     {
       "Weapon": {
         "trigger": "machine gun",
-        "blk": "gameData/Weapons/gunBrowning30_usaaf.blk",
+        "blk": "gameData/Weapons/gunFNBrowning_romania.blk",
         "emitter": "flare1",
         "flash": "flare1",
         "shell": "emtr_shellrejection1",
@@ -1917,7 +1917,7 @@
     {
       "Weapon": {
         "trigger": "machine gun",
-        "blk": "gameData/Weapons/gunBrowning30_usaaf.blk",
+        "blk": "gameData/Weapons/gunFNBrowning_romania.blk",
         "emitter": "flare2",
         "flash": "flare2",
         "shell": "emtr_shellrejection2",
@@ -2120,14 +2120,14 @@
     "new_radiator": [],
     "new_compressor": [],
     "new_engine_injection": [],
-    "30cal_universal": [],
-    "30cal_tracer": [],
-    "30cal_stealth": [],
-    "bmg30_belt_pack": {
+    "mg_universal": [],
+    "mg_all_tracers": [],
+    "mg_stealth": [],
+    "mg_belt_pack": {
       "tier": 1
     },
-    "bmg30_new_gun": {
-      "reqModification": "bmg30_belt_pack",
+    "mg15_new_gun": {
+      "reqModification": "mg_belt_pack",
       "tier": 2
     },
     "mg151_universal": [],
@@ -2174,24 +2174,26 @@
     }
   ],
   "cutting": {
-    "_emtr_break_wing0_l_from": [-0.915663,-0.284047,0.690654],
-    "_emtr_break_wing0_l_to": [-0.915663,-0.284047,1.18653],
-    "emtr_break_wing1_l_from": [-0.915663,-0.284047,1.93034],
-    "emtr_break_wing1_l_to": [-0.915663,-0.284047,2.31915],
-    "emtr_break_wing2_l_from": [-0.915663,-0.284047,2.90236],
-    "emtr_break_wing2_l_to": [-0.915663,-0.284047,3.86189],
-    "_emtr_break_wing0_r_from": [-0.915663,-0.284047,-0.690654],
-    "_emtr_break_wing0_r_to": [-0.915663,-0.284047,-1.18653],
-    "emtr_break_wing1_r_from": [-0.915663,-0.284047,-1.93034],
-    "emtr_break_wing1_r_to": [-0.915663,-0.284047,-2.31915],
-    "emtr_break_wing2_r_from": [-0.915663,-0.284047,-2.90236],
-    "emtr_break_wing2_r_to": [-0.915663,-0.284047,-3.86189],
-    "emtr_break_wing_tail": [
-      [1.0,0.0,0.0],
-      [0.0,1.0,0.0],
-      [0.0,0.0,1.0],
-      [-4.49752,0.0,0.0]
-    ],
-    "partKindTail": 2
+    "_emtr_break_wing0_l_from": [-0.191635,-0.271048,0.842446],
+    "_emtr_break_wing0_l_to": [-0.191635,-0.271048,1.11698],
+    "emtr_break_wing1_l_from": [-0.191635,-0.271048,1.74498],
+    "emtr_break_wing1_l_to": [-0.191635,-0.271048,2.4293],
+    "emtr_break_wing2_l_from": [-0.191635,-0.271048,3.45579],
+    "emtr_break_wing2_l_to": [-0.191635,-0.271048,4.25913],
+    "_emtr_break_wing0_r_from": [-0.191635,-0.271048,-0.844542],
+    "_emtr_break_wing0_r_to": [-0.191635,-0.271048,-1.11801],
+    "emtr_break_wing1_r_from": [-0.191635,-0.271048,-1.74708],
+    "emtr_break_wing1_r_to": [-0.191635,-0.271048,-2.4314],
+    "emtr_break_wing2_r_from": [-0.191635,-0.271048,-3.45788],
+    "emtr_break_wing2_r_to": [-0.191635,-0.271048,-4.26122],
+    "emtr_break_wing_tail": [-4.42423,0.0,0.0],
+    "partKindTail": 2,
+    "finCut": false,
+    "emtr_break_stab_l_from": [-4.8559,0.494819,0.348199],
+    "emtr_break_stab_l_to": [-4.8559,0.494819,1.3928],
+    "emtr_break_stab_r_from": [-4.8559,0.494819,-0.348121],
+    "emtr_break_stab_r_to": [-4.8559,0.494819,-1.39248],
+    "emtr_break_fin_from": [-5.10299,0.801818,-0.000341183],
+    "emtr_break_fin_to": [-5.10299,1.52022,-0.000341183]
   }
 }

@@ -24,6 +24,39 @@ function getTimeIntByString(stringDate, defaultValue = 0)
   return ::get_t_from_utc_time(timeTbl)
 }
 
+
+function g_popup_msg::ps4ActivityFeedFromPopup(blk)
+{
+  if (blk.ps4ActivityFeedType != "update")
+    return null
+
+  local ver = split(::get_game_version_str(), ".")
+  local feed = {
+    config = {
+      locId = "major_update"
+      subType = ps4_activity_feed.MAJOR_UPDATE
+    }
+    params = {
+      blkParamName = "MAJOR_UPDATE"
+      imgSuffix = ver[0] + "_" + ver[1]
+      captions = { en = blk.name }
+      condensedCaptions = { en = blk.name }
+    }
+  }
+
+  foreach(name, val in blk)
+  {
+    if (::g_string.startsWith(name, "name_"))
+    {
+      local lang = name.slice(5)
+      feed.params.captions[lang] <- val
+      feed.params.condensedCaptions[lang] <- val
+    }
+  }
+
+  return feed
+}
+
 function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = true)
 {
   local popupId = blk.getBlockName()
@@ -82,6 +115,10 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
   popupTable.ratioHeight <- blk.imageRatio || null
   popupTable.forceExternalBrowser <- blk.forceExternalBrowser || false
   popupTable.action <- blk.action
+
+  local ps4ActivityFeedData = ps4ActivityFeedFromPopup(blk)
+  if (ps4ActivityFeedData)
+    popupTable.ps4ActivityFeedData <- ps4ActivityFeedData
 
   return popupTable
 }

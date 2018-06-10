@@ -630,7 +630,7 @@ function weaponVisual::getBulletsIconView(bulletsSet, tooltipId = null, tooltipD
         local imgId = bulletsSet.bullets[i % length]
         if (imgId.find("@") != null)
           imgId = imgId.slice(0, imgId.find("@"))
-        local defaultImgId = ("caliber" in bulletsSet && bulletsSet.caliber < 0.015) ? "default_ball" : "default_shell"
+        local defaultImgId = ::isCaliberCannon(1000 * (bulletsSet?.caliber ?? 0.0)) ? "default_shell" : "default_ball"
 
         local item = {
           image           = "#ui/gameuiskin#" + bullet_icons[ (imgId in bullet_icons) ? imgId : defaultImgId ]
@@ -1118,7 +1118,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   {
     if (param.caliber > 0)
       addProp(p, ::loc("bullet_properties/caliber"),
-                ::roundToDigits(param.caliber, 2) + " " + ::loc("measureUnits/mm"))
+                ::round_by_value(param.caliber, ::isCaliberCannon(param.caliber) ? 1 : 0.01) + " " + ::loc("measureUnits/mm"))
     if (param.mass > 0)
       addProp(p, ::loc("bullet_properties/mass"),
                 ::roundToDigits(param.mass, 2) + " " + ::loc("measureUnits/kg"))

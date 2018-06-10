@@ -4,10 +4,7 @@ local sendingList = {}
 
 local function updateSendingList()
 {
-  local newList = {}
-  foreach(key, data in ::inventory_get_transfer_items())
-    if (data.state == "Sending")
-      newList[key] <- data
+  local newList = ::inventory_get_transfer_items_by_state(INVENTORY_STATE_SENDING)
 
   local isChanged = newList.len() != sendingList.len()
   if (!isChanged)

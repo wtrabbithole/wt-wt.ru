@@ -7033,15 +7033,18 @@
           "removeLoadedAmmo": true
         },
         {
-          "fatalFire": false
-        },
-        {
-          "fatalExplosion": true
-        },
-        {
           "shells": [
             {
               "fireEvent": "ammo_fire_1"
+            },
+            {
+              "fireParamsPreset": "ship_ammo_fire"
+            },
+            {
+              "fatalFire": false
+            },
+            {
+              "fatalExplosion": false
             },
             {
               "explosionEvent": "ammo_explosion_9"
@@ -7068,18 +7071,18 @@
           "weaponTrigger": "gunner3"
         },
         {
-          "removeLoadedAmmo": true
+          "fireParamsPreset": "ship_ammo_fire"
         },
         {
           "fatalFire": false
         },
         {
-          "fatalExplosion": true
+          "fatalExplosion": false
         },
         {
           "shells": [
             {
-              "fireEvent": "ammo_fire_1"
+              "fireEvent": "ammo_fire_2"
             },
             {
               "explosionEvent": "ammo_explosion_9"
@@ -7099,6 +7102,21 @@
         }
       ],
       "ammo3": [
+        {
+          "fireEvent": "ammo_fire_3"
+        },
+        {
+          "explosionEvent": "ammo_explosion_9"
+        },
+        {
+          "fireParamsPreset": "ship_ammo_fire"
+        },
+        {
+          "fatalFire": false
+        },
+        {
+          "fatalExplosion": false
+        },
         {
           "weaponTrigger": "gunner4"
         },

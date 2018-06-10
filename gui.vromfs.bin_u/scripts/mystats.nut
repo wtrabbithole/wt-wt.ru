@@ -384,14 +384,6 @@ my_stats API
     return ::getTblValue(eventId, _unitTypeByNewbieEventId, ::ES_UNIT_TYPE_INVALID)
   }
 
-  function onEventAccountReset(p)
-  {
-    ::saveLocalByAccount("tutor", null)
-    ::save_local_account_settings("tutor", null)
-    ::saveLocalByAccount(::skip_tutorial_bitmask_id, null)
-    ::gui_handlers.InfoWnd.clearAllSaves()
-  }
-
   function calculateMaxUnitsUsedRanks()
   {
     local needRecalculate = false

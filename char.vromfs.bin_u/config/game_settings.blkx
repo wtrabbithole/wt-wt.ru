@@ -549,9 +549,6 @@
       },
       {
         "condition": "xboxOneAccess"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
       }
     ],
     "ShipsFirstChoice": [
@@ -1019,14 +1016,16 @@
       },
       {
         "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
       }
     ],
-    "ModUpgradeDifference": {
-      "condition": "role_DEVELOPER"
-    },
+    "ModUpgradeDifference": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "enableApex": {
       "platform_lock": "android;iOS"
     },
@@ -1495,27 +1494,11 @@
     "ShipBenchmarkAccess": {
       "condition": "role_TESTER"
     },
-    "DmViewerProtectionAnalysis": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
-    "DamagedSkinPreview": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ]
+    "DmViewerProtectionAnalysis": {
+      "condition": ""
+    },
+    "DamagedSkinPreview": {
+      "condition": ""
+    }
   }
 }

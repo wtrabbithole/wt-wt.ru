@@ -2,7 +2,7 @@
 
 @const arrowButtonHeight: 0.042@sf;
 @const arrowButtonWidth: 0.35@sf;
-@const hangarToggleButtonWidth: 1@dIco;
+@const baseToggleButtonWidth: 1@dIco;
 
 @const arrowButtonWithImageHeight: 0.17@sf;
 
@@ -63,7 +63,7 @@ promoButton[type=battleTask] > expandable {
   pos: 0, 0;
   position: relative;
   padding:0, 1@blockInterval, 0, 0;
-  padding-right:1@hangarToggleButtonWidth + 1@blockInterval;
+  padding-right:1@baseToggleButtonWidth + 1@blockInterval;
 }
 
 promoButton[collapsed=no][type=imageButton],
@@ -149,7 +149,7 @@ promoButton > collapsedContainer {
 promoButton[type=battleTask] > collapsedContainer {
   position:relative;
   pos:pw-w;
-  padding-right:1@hangarToggleButtonWidth + 1@blockInterval;
+  padding-right:1@baseToggleButtonWidth + 1@blockInterval;
 }
 
 promoButton[collapsed=no] > collapsedContainer {
@@ -373,57 +373,63 @@ shortHeaderText[needAnim=yes] {
   behaviour:basicTransparency;
 }
 
-hangarToggleButton {
+baseToggleButton {
   behaviour:button;
-  size:1@hangarToggleButtonWidth, 1@hangarToggleButtonWidth;
+  size:1@baseToggleButtonWidth, 1@baseToggleButtonWidth;
   snd_click:click;
   tooltip:"#mainmenu/btnCollapse";
   display:show;
   enable:yes;
   css-hier-invalidate:yes;
 
-  margin-left: 1@blockInterval;
   position:relative;
 }
 
-hangarToggleButton[alwaysShow=yes] {
+baseToggleButton[isHidden=yes] {
+  display:hide;
+}
+
+baseToggleButton[alwaysShow=yes] {
   size:@airInfoToggleButtonSize, @airInfoToggleButtonSize;
-  margin-left: 0;
   background-image:'';
 }
 
-promoButton[type=battleTask] > hangarToggleButton {
+promoButton > baseToggleButton {
+  margin-left: 1@blockInterval;
+}
+
+promoButton[type=battleTask] > baseToggleButton {
   pos: pw - w - 1@promoButtonPadding - 1@blockInterval,1@promoButtonMinHeight/2 - h/2;
   position:absolute;
 }
 
-promoButton[invisibleHover=yes] > hangarToggleButton {
+promoButton[invisibleHover=yes] > baseToggleButton {
   not-input-transparent:yes;
 }
 
-hangarToggleButton:hover, hangarToggleButton:focus {
+baseToggleButton:hover, baseToggleButton:focus {
   background-color:@menuButtonColorHover;
 }
 
-hangarToggleButton:pushed {
+baseToggleButton:pushed {
   background-color:@menuButtonColorPushed;
 }
 
-promoButton[collapsed=yes] > hangarToggleButton,
-promoButton[collapsed=no][type=arrowButton] > hangarToggleButton,
-promoButton[collapsed=no][type=battleTask] > hangarToggleButton {
+promoButton[collapsed=yes] > baseToggleButton,
+promoButton[collapsed=no][type=arrowButton] > baseToggleButton,
+promoButton[collapsed=no][type=battleTask] > baseToggleButton {
   top: @promoButtonMinHeight/2 - h/2;
 }
 
-promoButton[type=recentItems] > hangarToggleButton {
+promoButton[type=recentItems] > baseToggleButton {
   bottom: @promoButtonMinHeight/2 - h/2;
 }
 
-[collapsed=yes] > hangarToggleButton {
+[collapsed=yes] > baseToggleButton {
   tooltip:"#mainmenu/btnExpand";
 }
 
-hangarToggleButton > directionImg {
+baseToggleButton > directionImg {
   background-repeat:aspect-ratio;
   background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
   background-svg-size:@cIco, @cIco;
@@ -435,25 +441,25 @@ hangarToggleButton > directionImg {
   background-color:@commonTextColor;
 }
 
-promoButton:hover[collapsed=no] > hangarToggleButton > directionImg,
-[show_console_buttons=yes] promoButton:focus[collapsed=no] > hangarToggleButton > directionImg,
-promoButton[collapsed=yes] > hangarToggleButton > directionImg,
-promoButton[invisibleHover=yes] > hangarToggleButton > directionImg,
-hangarToggleButton[alwaysShow=yes] > directionImg {
+promoButton:hover[collapsed=no] > baseToggleButton > directionImg,
+[show_console_buttons=yes] promoButton:focus[collapsed=no] > baseToggleButton > directionImg,
+promoButton[collapsed=yes] > baseToggleButton > directionImg,
+promoButton[invisibleHover=yes] > baseToggleButton > directionImg,
+baseToggleButton[alwaysShow=yes] > directionImg {
   background-color:@commonTextColor;
 }
 
-hangarToggleButton:hover > directionImg, hangarToggleButton:focus > directionImg {
+baseToggleButton:hover > directionImg, baseToggleButton:focus > directionImg {
   background-color:@white;
 }
 
-hangarToggleButton[type=right] > directionImg { rotation:90; }
-[collapsed=yes] > hangarToggleButton > directionImg { rotation:90; }
-[collapsed=yes] > hangarToggleButton[type=right] > directionImg { rotation:270; }
+baseToggleButton[type=right] > directionImg { rotation:90; }
+[collapsed=yes] > baseToggleButton > directionImg { rotation:90; }
+[collapsed=yes] > baseToggleButton[type=right] > directionImg { rotation:270; }
 
 promoButton[type=battleTask] > RadioButtonList {
   position:relative;
-  pos:pw-w - 1@hangarToggleButtonWidth - 1@blockInterval, 0;
+  pos:pw-w - 1@baseToggleButtonWidth - 1@blockInterval, 0;
   margin-bottom: 0.01@scrn_tgt;
   navigatorShortcuts:yes;
   on_wrap_up:onWrapUp;

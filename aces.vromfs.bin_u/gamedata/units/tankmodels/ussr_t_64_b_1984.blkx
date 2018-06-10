@@ -1610,7 +1610,8 @@
           "createSecondaryShatters": false
         },
         "superstructure_bottom_dm": {
-          "armorThickness": 45.0
+          "armorThickness": 45.0,
+          "armorEffectiveThicknessMax": 110.0
         }
       },
       "hull_RHA": {
@@ -1654,7 +1655,8 @@
           "armorThickness": 30.0
         },
         "turret_02_bottom_dm": {
-          "armorThickness": 100.0
+          "armorThickness": 100.0,
+          "armorEffectiveThicknessMax": 120.0
         },
         "turret_02_front_dm": {
           "armorThickness": 80.0,
@@ -1673,17 +1675,12 @@
         },
         "turret_01_bottom_dm": {
           "armorThickness": 4.0,
-          "armorClass": "tank_structural_steel"
+          "armorClass": "tank_structural_steel",
+          "armorEffectiveThicknessMax": 4.0
         },
         "ex_armor_01_dm": {
           "armorThickness": 10.0
         }
-      },
-      "nbc_liner": {
-        "armorClass": "nbc_liner_tank",
-        "armorThickness": 30.0,
-        "turret_04_bottom_dm": [],
-        "turret_02_back_dm": []
       },
       "hull_composite_armor": {
         "armorClass": "tank_textolite",
@@ -1799,7 +1796,8 @@
           "armorThickness": 60.0
         },
         "turret_03_front_dm": {
-          "armorThickness": 60.0
+          "armorThickness": 60.0,
+          "armorEffectiveThicknessMax": 60.0
         }
       },
       "body_side_screens": {
@@ -1825,8 +1823,8 @@
         "kineticProtectionEquivalent": 5.0,
         "cumulativeProtectionEquivalent": 370.0,
         "hp": 250.0,
-        "armorThickness": 50.0,
-        "genericArmorQuality": 0.1,
+        "armorThickness": 70.0,
+        "genericArmorQuality": 0.08,
         "genericDamageMult": 3.0,
         "stopChanceOnDeadPart": 0.0,
         "ex_era_turret_01_dm": [],
@@ -1842,6 +1840,7 @@
         "ex_era_turret_11_dm": [],
         "ex_era_turret_12_dm": [],
         "ex_era_turret_13_dm": [],
+        "ex_era_turret_14_dm": [],
         "ex_era_hull_01_dm": [],
         "ex_era_hull_02_dm": [],
         "ex_era_hull_03_dm": [],
@@ -2129,6 +2128,12 @@
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0,
+          "armorThrough": 100.0,
+          "hp": 150.0,
+          "fireProtectionHp": 10.0
+        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -2323,13 +2328,6 @@
     "xray_viewer_data": {
       "armorArrayHull": {
         "xrayDmPart": "composite_armor_hull_01_dm",
-        "referenceProtectionTable": {
-          "i": {
-            "angles": [0.0,0.0],
-            "kineticProtectionEquivalent": 440.0,
-            "cumulativeProtectionEquivalent": 500.0
-          }
-        },
         "armorArrayText": [
           {
             "layer": {
@@ -2360,22 +2358,6 @@
       },
       "armorArrayTurret": {
         "xrayDmPart": "composite_armor_turret_01_dm",
-        "referenceProtectionTable": [
-          {
-            "i": {
-              "angles": [0.0,0.0],
-              "kineticProtectionEquivalent": 440.0,
-              "cumulativeProtectionEquivalent": 500.0
-            }
-          },
-          {
-            "i": {
-              "angles": [-30.0,30.0],
-              "kineticProtectionEquivalent": 400.0,
-              "cumulativeProtectionEquivalent": 450.0
-            }
-          }
-        ],
         "armorArrayText": [
           {
             "layer": {
@@ -2399,8 +2381,6 @@
       },
       "armorArrayTurret2": {
         "xrayDmPart": "composite_armor_turret_02_dm",
-        "kineticProtectionEquivalent": 200.0,
-        "cumulativeProtectionEquivalent": 220.0,
         "armorArrayText": [
           {
             "layer": {
@@ -2448,7 +2428,8 @@
       "tracks": {
         "animationMultiplier": -0.68,
         "height": 0.062,
-        "width": 0.54
+        "width": 0.54,
+        "fricFrontal": [1.5,1.2]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2812,6 +2793,9 @@
             },
             {
               "node": "ex_era_turret_13"
+            },
+            {
+              "node": "ex_era_turret_14"
             },
             {
               "node": "ex_era_hull_01"
@@ -3269,10 +3253,10 @@
           "fatalExplosion": true
         },
         {
-          "replenishmentDelay": 4.0
+          "replenishmentDelay": 8.0
         },
         {
-          "replenishmentTime": 35.0
+          "replenishmentTime": 20.0
         },
         {
           "shells": {
@@ -3460,7 +3444,7 @@
         },
         {
           "shells": {
-            "reloadTimeMult": 3.0,
+            "reloadTimeMult": 4.0,
             "fireEvent": "ammo_fire",
             "explosionEvent": "ammo_explosion",
             "wreckedPartId": 0,
@@ -3495,7 +3479,7 @@
         },
         {
           "charges": {
-            "reloadTimeMult": 3.0,
+            "reloadTimeMult": 4.0,
             "fireEvent": "ammo_fire",
             "explosionEvent": "ammo_explosion",
             "wreckedPartId": 0,

@@ -86,6 +86,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 
   curHudVisMode = null
   isReinitDelayed = false
+  needVoiceChat = false
 
   objectsTable = {
     [::USEROPT_DAMAGE_INDICATOR_SIZE] = {
@@ -818,42 +819,4 @@ function gui_start_hud_no_chat()
 function gui_start_spectator()
 {
   ::handlersManager.loadHandler(::gui_handlers.Hud, { spectatorMode = true })
-}
-
-//contact = null for clean up vioce chat display
-function updateVoicechatDisplay(contact = null)
-{
-  local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
-  if(!is_chat_screen_allowed() || !handler)
-    return
-
-  local obj = handler.scene.findObject("div_for_voice_chat")
-  if(!::checkObj(obj))
-    return
-
-  if (contact == null)
-  {
-    for(local i = obj.childrenCount() - 1; i >= 0 ; i--)
-    {
-      local cObj = obj.getChild(i)
-      if (::checkObj(cObj)) cObj.fade = "out"
-    }
-    return
-  }
-
-  local popup = null
-  if("uid" in contact)
-    popup = obj.findObject("user_talk_" + contact.uid)
-  if(::checkObj(popup))
-    popup.fade = (contact.voiceStatus == voiceChatStats.talking) ? "in" : "out"
-  else if (contact.voiceStatus == voiceChatStats.talking)
-  {
-    local data = "usertalk { id:t='user_talk_%s'; fade:t='in'; _size-timer:t='0';" +
-                   "img{ background-image:t='#ui/gameuiskin#voip_talking'; color-factor:t='0' }" +
-                   "activeText{ id:t='users_name_%s'; text:t=''; color-factor:t='0' }" +
-                 "}"
-    data = format(data, contact.uid, contact.uid)
-    obj.getScene().prependWithBlk(obj, data, this)
-    obj.findObject("users_name_" + contact.uid).setValue(contact.name)
-  }
 }

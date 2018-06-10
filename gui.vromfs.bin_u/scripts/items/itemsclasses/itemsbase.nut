@@ -71,7 +71,8 @@ class ::BaseItem
   expiredTimeSec = 0 //to comapre with 0.001 * ::dagor.getCurTime()
   expiredTimeAfterActivationH = 0
   spentInSessionTimeMin = 0
-  lastChangeTimestamp = -1
+  lastChangeTimestamp = 0
+  tradeableTimestamp = 0
 
   amount = 1
   transferAmount = 0 //amount of items in transfer
@@ -479,11 +480,14 @@ class ::BaseItem
     return buy(cb, handler, params)
   }
 
+  getActivateInfo    = @() ""
   getAltActionName   = @() ""
   doAltAction        = @(params = null) false
 
   isExpired          = @() expiredTimeSec != 0 && (expiredTimeSec - ::dagor.getCurTime() * 0.001) < 0
-  hasTimer           = @() expiredTimeSec != 0
+  hasExpireTimer     = @() expiredTimeSec != 0
+  hasTimer           = @() expiredTimeSec != 0 || tradeableTimestamp > 0
+  getNoTradeableTimeLeft = @() ::max(0, tradeableTimestamp - ::get_charserver_time_sec())
 
   function canPreview()
   {
@@ -494,9 +498,24 @@ class ::BaseItem
   {
   }
 
-  onItemExpire = @() ::ItemsManager.markInventoryUpdateDelayed()
+  getTimeLeftText  = @() ::g_string.implode([getExpireTimeTextShort(), getNoTradeableTimeTextShort()], "\n")
 
-  function getTimeLeftText()
+  onItemExpire     = @() ::ItemsManager.markInventoryUpdateDelayed()
+  onTradeAllowed   = @() null
+
+  function getExpireAfterActivationText(withTitle = true)
+  {
+    local res = ""
+    if (!expiredTimeAfterActivationH)
+      return res
+
+    res = time.hoursToString(expiredTimeAfterActivationH, true, false, true)
+    if (withTitle)
+      res = ::loc("items/expireTimeAfterActivation") + ::loc("ui/colon") + ::colorize("activeTextColor", res)
+    return res
+  }
+
+  function getExpireTimeTextShort()
   {
     if (expiredTimeSec <= 0)
       return ""
@@ -512,18 +531,6 @@ class ::BaseItem
       ::stringReplace(time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true), " ", ::nbsp)
   }
 
-  function getExpireAfterActivationText(withTitle = true)
-  {
-    local res = ""
-    if (!expiredTimeAfterActivationH)
-      return res
-
-    res = time.hoursToString(expiredTimeAfterActivationH, true, false, true)
-    if (withTitle)
-      res = ::loc("items/expireTimeAfterActivation") + ::loc("ui/colon") + ::colorize("activeTextColor", res)
-    return res
-  }
-
   function getCurExpireTimeText()
   {
     local res = ""
@@ -531,13 +538,27 @@ class ::BaseItem
     if (!active)
       res += getExpireAfterActivationText()
 
-    local timeText = getTimeLeftText()
+    local timeText = getExpireTimeTextShort()
     if (timeText != "")
     {
       local locId = active ? "items/expireTimeLeft" : "items/expireTimeBeforeActivation"
       res += ((res!="") ? "\n" : "") + ::loc(locId) + ::loc("ui/colon") + ::colorize("activeTextColor", timeText)
     }
     return res
+  }
+
+  function getNoTradeableTimeTextShort()
+  {
+    local seconds = getNoTradeableTimeLeft()
+    if (seconds <= 0)
+    {
+      if (tradeableTimestamp > 0)
+        onTradeAllowed()
+      return ""
+    }
+
+    return ::loc("currency/gc/sign") + ::nbsp +
+      ::stringReplace(time.hoursToString(time.secondsToHours(seconds), false, true, true), " ", ::nbsp)
   }
 
   function getTableData()
@@ -651,6 +672,9 @@ class ::BaseItem
     isDisguised = shouldDisguise
     allowBigPicture = false
   }
+
+  getDescTimers               = @() []
+  makeDescTimerData           = @(params) { id = "", getText = @() "", needTimer = @() true }.__update(params)
 
   getCreationCaption          = @() ::loc("mainmenu/itemCreated/title")
   getOpeningAnimId            = @() "DEFAULT"

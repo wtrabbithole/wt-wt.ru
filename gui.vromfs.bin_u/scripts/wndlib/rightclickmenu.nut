@@ -35,6 +35,7 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
   wndType      = handlerType.MODAL
   sceneTplName = "gui/rightClickMenu"
   shouldBlurSceneBg = false
+  needVoiceChat = false
 
   owner        = null
   config       = null

@@ -853,12 +853,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     showCurPlayerRClickMenu(obj.getChild(value).getPosRC())
-    local child = obj.getChild(value)
-    if (!child)
-      return
-    local func = child.on_click
-    if (typeof(func) == "string" && func in this)
-      this[func]()
   }
 
   function onPlayerRClick(obj)

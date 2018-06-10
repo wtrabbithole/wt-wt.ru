@@ -106,7 +106,9 @@ enum ps4_activity_feed {
   MISSION_SUCCESS,
   PURCHASE_UNIT,
   CLAN_DUEL_REWARD,
-  RESEARCHED_UNIT
+  RESEARCHED_UNIT,
+  MISSION_SUCCESS_AFTER_UPDATE,
+  MAJOR_UPDATE
 }
 
 enum bit_activity {
@@ -146,6 +148,7 @@ enum itemType { //bit values for easy multitype search
   KEY             = 0x00100000
   CHEST           = 0x00200000
   WARBONDS        = 0x00400000
+  INTERNAL_ITEM   = 0x00800000 //external inventory coupon which gives internal item
 
   //workshop
   CRAFT_PART      = 0x10000000
@@ -367,6 +370,7 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   // Independed Modules
 ::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
 ::require("scripts/clientState/elems/dlDataStatElem.nut")
+::require("scripts/squads/elems/squadVoiceChatElem.nut")
 ::require("sqDagui/framework/progressMsg.nut").setTextLocIdDefault("charServer/purchase0")
   // end of Independed Modules
 

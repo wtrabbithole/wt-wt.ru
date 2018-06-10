@@ -750,13 +750,15 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       bObj.text = ::loc(isCancel ? "mainmenu/btnCancel" : "mainmenu/btnBack")
     }
 
-    showSceneBtn("toggle_damaged_div", ::has_feature("DamagedSkinPreview"))
-
     if (decoratorType == null)
       decoratorType = currentType
 
     local focusedType = getCurrentFocusedType()
     local focusedSlot = getSlotInfo(getCurrentDecoratorSlot(focusedType), true, focusedType)
+
+    local bObj = scene.findObject("btn_toggle_dmg_skin")
+    local isDmgSkinPreviewMode = ::checkObj(bObj) && bObj.getValue()
+
     ::showBtnTable(scene, {
           btn_apply = currentState & decoratorEditState.EDITING
 
@@ -775,8 +777,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           previewed_decorator      = !isInEditMode && decoratorPreview
           previewed_decorator_unit = !isInEditMode && decoratorPreview && initialUnitId && initialUnitId != unit?.name
 
-          slot_info = !isInEditMode && !isDecoratorsListOpen
+          slot_info = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
           btn_dm_viewer = !isInEditMode && !isDecoratorsListOpen && ::dmViewer.canUse()
+
+          dmg_skin_div = ::has_feature("DamagedSkinPreview") && !isInEditMode && !isDecoratorsListOpen
+          dmg_skin_buttons_div = isDmgSkinPreviewMode && unit.isAir()
+          btn_toggle_dmg_skin = unit.isAir()
+          btn_toggle_damaged = !unit.isAir()
     })
 
     if (needUpdateSlotDivs)
@@ -1820,6 +1827,32 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function setDmgSkinMode(enable)
+  {
+    local cObj = scene.findObject("btn_toggle_dmg_skin")
+    if (::checkObj(cObj))
+      cObj.setValue(enable)
+  }
+
+  function onToggleDmgSkinMode(obj)
+  {
+    ::hangar_set_dm_viewer_mode(obj.getValue() ? DM_VIEWER_EXTERIOR : DM_VIEWER_NONE)
+    if (obj.getValue())
+    {
+      local bObj = scene.findObject("dmg_skin_state")
+      if (::checkObj(bObj))
+        bObj.setValue(::hangar_get_loaded_model_damage_state(unit.name))
+    }
+    else
+      ::hangar_show_model_damaged(MDS_ORIGINAL)
+    updateButtons()
+  }
+
+  function onToggleDmgSkinState(obj)
+  {
+    ::hangar_show_model_damaged(obj.getValue())
+  }
+
   function onToggleDamaged(obj)
   {
     ::hangar_show_model_damaged(obj.getValue() ? MDS_DAMAGED : MDS_UNDAMAGED)
@@ -2150,6 +2183,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     guiScene.performDelayed(this, base.goBack)
     ::g_decorator.clearUgcPreviewParams()  // clear only when closed by player
+    setDmgSkinMode(false)
     ::hangar_show_model_damaged(MDS_ORIGINAL)
   }
 
@@ -2165,7 +2199,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (previewSkinId)
       {
-        ::hangar_show_model_damaged(MDS_ORIGINAL)
         applySkin(::hangar_get_last_skin(unit.name), true)
         previewSkinId = null
         if (initialUserSkinId != "")
@@ -2186,6 +2219,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onAirInfoToggleDMViewer(obj)
   {
+    setDmgSkinMode(false)
     ::dmViewer.toggle(obj.getValue())
   }
 
@@ -2271,5 +2305,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!slot.isEmpty)
             decoratorType.removeDecorator(slot.id, save)
       }
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    if (!isSceneActiveNoModals())
+      setDmgSkinMode(false)
   }
 }

@@ -72,7 +72,7 @@
     "minDistBetween": 10.0
   },
   {
-    "expClass": "exp_tank_destroyer"
+    "expClass": "exp_tank"
   },
   {
     "mass": 11050.0
@@ -96,7 +96,7 @@
     "destroysTrees": true
   },
   {
-    "type": "typeTankDestroyer"
+    "type": "typeLightTank"
   },
   {
     "ikGunner": [
@@ -198,7 +198,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "crouchDelta": [0.0,0.0,0.0]
+        "crouchDelta": [0.5,-0.5,-0.1]
       },
       {
         "suffix": "2"
@@ -218,7 +218,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [5.0,-1.0,-1.0]
         }
       },
       {
@@ -227,7 +227,7 @@
           "midNode": "Bip01 R Forearm",
           "upNode": "Bip01 R UpperArm",
           "targetNode": "righthand_",
-          "flexionDir": [-0.5,-0.5,0.3]
+          "flexionDir": [-5.0,-1.0,-0.8]
         }
       },
       {
@@ -1684,11 +1684,14 @@
         "speedYaw": 35.0,
         "speedPitch": 20.0,
         "bullets": 60,
-        "fireConeAngle": 15.0,
-        "ChainfireTime": 3.0,
-        "DelayAfterShoot": 3.0,
-        "accuracyAir": 1.5,
-        "accuracyGnd": 0.0,
+        "salvoAmount": 100.0,
+        "ChainfireTime": 0.0,
+        "DelayAfterShoot": 5.0,
+        "AttackMaxDistance": 1000.0,
+        "AttackMaxRadius": 1000.0,
+        "AttackMaxHeight": 1000.0,
+        "accuracyAir": 0.0,
+        "accuracyGnd": 1.5,
         "errMeasureVel": 0.0,
         "errMeasureVelFast": 0.0,
         "errMeasureVelFwdShift": 0.0,
@@ -1716,11 +1719,32 @@
           {
             "linkedAnimPart": {
               "horNode": "bone_turret_rotate",
-              "horLimits": [-10.0,10.0],
+              "horLimits": [-7.0,3.0],
               "horOriginLimits": [-20.0,20.0]
             }
           }
         ],
+        "gunStabilizer": {
+          "hasVerticalGunFreeMode": true,
+          "hasHorizontal": false,
+          "horizontalOmegaMult": 1.0,
+          "horizontalSpeedLimitKPH": 40.0,
+          "hasVertical": true,
+          "verticalOmegaMult": 0.7,
+          "verticalSpeedLimitKPH": 10.0,
+          "speedFromVehicleVerticalMult": -1.0,
+          "errorKPHToDegrees": [
+            {
+              "row": [5.0,0.0]
+            },
+            {
+              "row": [8.0,0.2]
+            },
+            {
+              "row": [10.0,0.4]
+            }
+          ]
+        },
         "limits": {
           "yaw": [-20.0,20.0],
           "pitch": [-10.0,20.0]
@@ -1808,6 +1832,8 @@
         "steeringDeflection": {
           "wheel_r_01": 45.0,
           "wheel_l_01": 45.0,
+          "wheel_r_02": -40.0,
+          "wheel_l_02": -40.0,
           "steeringTau": 1.0
         },
         "wheelsWidth": {

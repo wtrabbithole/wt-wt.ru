@@ -57,6 +57,7 @@ local ItemExternal = class extends ::BaseItem
       if ("itemid" in itemDesc)
         addUid(itemDesc.itemid, itemDesc.quantity)
       lastChangeTimestamp = time.getTimestampFromIso8601(itemDesc?.timestamp)
+      tradeableTimestamp = getTradebleTimestamp(itemDesc)
     }
 
     expireTimestamp = getExpireTimestamp(itemDefDesc, itemDesc)
@@ -74,11 +75,28 @@ local ItemExternal = class extends ::BaseItem
     canBuy = !isInventoryItem && checkPurchaseFeature()
 
     addResources()
+
+    updateShopFilterMask()
+  }
+
+  function getTradebleTimestamp(itemDesc)
+  {
+    if (!::has_feature("Marketplace"))
+      return 0
+    local res = ::to_integer_safe(itemDesc?.tradable_after_timestamp || 0)
+    return res > ::get_charserver_time_sec() ? res : 0
+  }
+
+  function updateShopFilterMask()
+  {
+    shopFilterMask = iType
   }
 
   function tryAddItem(itemDefDesc, itemDesc)
   {
-    if (id != itemDefDesc.itemdefid || expireTimestamp != getExpireTimestamp(itemDefDesc, itemDesc))
+    if (id != itemDefDesc.itemdefid
+        || expireTimestamp != getExpireTimestamp(itemDefDesc, itemDesc)
+        || tradeableTimestamp != getTradebleTimestamp(itemDesc))
       return false
     addUid(itemDesc.itemid, itemDesc.quantity)
     lastChangeTimestamp = ::max(lastChangeTimestamp, time.getTimestampFromIso8601(itemDesc?.timestamp))
@@ -92,7 +110,8 @@ local ItemExternal = class extends ::BaseItem
     amount += count
   }
 
-  onItemExpire = @() ::ItemsManager.refreshExtInventory()
+  onItemExpire     = @() ::ItemsManager.refreshExtInventory()
+  onTradeAllowed   = @() ::ItemsManager.markInventoryUpdateDelayed()
 
   function getExpireTimestamp(itemDefDesc, itemDesc)
   {
@@ -176,6 +195,19 @@ local ItemExternal = class extends ::BaseItem
     ? ::loc("items/waitItemsInTransaction", { amount = ::colorize("activeTextColor", transferAmount) })
     : ""
 
+  getDescTimers   = @() [
+    makeDescTimerData({
+      id = "expire_timer"
+      getText = getCurExpireTimeText
+      needTimer = hasExpireTimer
+    }),
+    makeDescTimerData({
+      id = "marketable_timer"
+      getText = getMarketablePropDesc
+      needTimer = @() getNoTradeableTimeLeft() > 0
+    })
+  ]
+
   function getLongDescriptionMarkup(params = null)
   {
     params = params || {}
@@ -187,7 +219,7 @@ local ItemExternal = class extends ::BaseItem
     local content = []
     local headers = [
       { header = getTransferText() }
-      { header = getMarketablePropDesc() }
+      { header = getMarketablePropDesc(), timerId = "marketable_timer" }
     ]
 
     if (hasTimer())
@@ -213,9 +245,19 @@ local ItemExternal = class extends ::BaseItem
       return ""
 
     local canSell = itemDef?.marketable
+    local noTradeableSec = getNoTradeableTimeLeft()
+    local locEnding = !canSell ? "no"
+      : noTradeableSec > 0 ? "afterTime"
+      : "yes"
+    local text = ::loc("item/marketable/" + locEnding,
+      { name =  ::g_string.utf8ToLower(getTypeName())
+        time = noTradeableSec > 0
+          ? ::colorize("badTextColor",
+              ::stringReplace(time.hoursToString(time.secondsToHours(noTradeableSec), false, true, true), " ", ::nbsp))
+          : ""
+      })
     return ::loc("currency/gc/sign/colored", "") + " " +
-      ::colorize(canSell ? "userlogColoredText" : "badTextColor",
-      ::loc("item/marketable/" + (canSell ? "yes" : "no"), { name =  ::g_string.utf8ToLower(getTypeName()) } ))
+      ::colorize(canSell ? "userlogColoredText" : "badTextColor", text)
   }
 
   function getResourceDesc()
@@ -505,9 +547,9 @@ local ItemExternal = class extends ::BaseItem
     return gen ? gen.getRecipes() : []
   }
 
-  function getTimeLeftText()
+  function getExpireTimeTextShort()
   {
-    return ::colorize("badTextColor", base.getTimeLeftText())
+    return ::colorize("badTextColor", base.getExpireTimeTextShort())
   }
 
   function getCurExpireTimeText()
@@ -516,7 +558,7 @@ local ItemExternal = class extends ::BaseItem
       return ""
     return ::colorize("badTextColor", ::loc("items/expireDate", {
       datetime = time.buildDateTimeStr(::get_time_from_t(expireTimestamp))
-      timeleft = getTimeLeftText()
+      timeleft = getExpireTimeTextShort()
     }))
   }
 

@@ -559,6 +559,12 @@
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0,
+          "armorThrough": 100.0,
+          "hp": 150.0,
+          "fireProtectionHp": 10.0
+        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -755,8 +761,6 @@
         "armorArrayHullTop": {
           "xrayDmPart": "composite_armor_hull_01_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 230.0,
-          "cumulativeProtectionEquivalent": 150.0,
           "armorArrayText": [
             {
               "layer": {
@@ -801,8 +805,6 @@
       {
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_01_dm",
-          "kineticProtectionEquivalent": 265.0,
-          "cumulativeProtectionEquivalent": 540.0,
           "armorArrayText": [
             {
               "layer": {
@@ -825,8 +827,6 @@
       {
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_02_dm",
-          "kineticProtectionEquivalent": 265.0,
-          "cumulativeProtectionEquivalent": 540.0,
           "armorArrayText": [
             {
               "layer": {
@@ -1816,7 +1816,7 @@
           "speedYaw": 36.0,
           "speedPitch": 25.0,
           "fireConeAngle": 1.0,
-          "bullets": 40,
+          "bullets": 55,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1860,7 +1860,7 @@
             "speedPitch": 8.0,
             "errorKPHToDegrees": [
               {
-                "row": [5.0,0.01]
+                "row": [5.0,0.0]
               },
               {
                 "row": [45.0,0.015]
@@ -2744,14 +2744,7 @@
             },
             "ammo_turret_20_dm": {
               "count": 1
-            }
-          }
-        },
-        {
-          "shells": {
-            "fatalFire": false,
-            "fatalExplosion": false,
-            "reloadTimeMult": 1.5,
+            },
             "ammo_turret_21_dm": {
               "count": 1
             },
@@ -2763,7 +2756,45 @@
             },
             "ammo_turret_24_dm": {
               "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "reloadTimeMult": 1.5,
+            "ammo_body_01_dm": {
+              "count": 1
             },
+            "ammo_body_02_dm": {
+              "count": 1
+            },
+            "ammo_body_03_dm": {
+              "count": 1
+            },
+            "ammo_body_04_dm": {
+              "count": 1
+            },
+            "ammo_body_05_dm": {
+              "count": 1
+            },
+            "ammo_body_06_dm": {
+              "count": 1
+            },
+            "ammo_body_07_dm": {
+              "count": 1
+            },
+            "ammo_body_08_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": false,
+            "reloadTimeMult": 1.5,
             "ammo_turret_25_dm": {
               "count": 1
             },
@@ -2810,6 +2841,27 @@
               "count": 1
             },
             "ammo_turret_40_dm": {
+              "count": 1
+            },
+            "ammo_turret_41_dm": {
+              "count": 1
+            },
+            "ammo_turret_42_dm": {
+              "count": 1
+            },
+            "ammo_turret_43_dm": {
+              "count": 1
+            },
+            "ammo_turret_44_dm": {
+              "count": 1
+            },
+            "ammo_turret_45_dm": {
+              "count": 1
+            },
+            "ammo_turret_46_dm": {
+              "count": 1
+            },
+            "ammo_turret_47_dm": {
               "count": 1
             }
           }

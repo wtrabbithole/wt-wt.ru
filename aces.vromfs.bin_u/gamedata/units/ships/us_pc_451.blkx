@@ -754,6 +754,25 @@
           "hp": 500.0
         }
       },
+      "superstructures": {
+        "fireParamsPreset": "ship_cover",
+        "genericDamageMult": 0.1,
+        "superstructure_back_dm": {
+          "hp": 500.0
+        },
+        "bow_bottom_dm": {
+          "armorThickness": 10.0,
+          "hp": 500.0
+        },
+        "superstructure_front_dm": {
+          "armorThickness": 18.0,
+          "hp": 2000.0
+        },
+        "superstructure_top_dm": {
+          "armorThickness": 10.0,
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
         "genericDamageMult": 0.1,
         "bulkhead_01_dm": {
@@ -1167,24 +1186,6 @@
         "fireParamsPreset": "ship_engine",
         "genericDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.0
-      },
-      "superstructures": {
-        "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
-        "superstructure_front_dm": {
-          "armorThickness": 18.0,
-          "hp": 2000.0
-        },
-        "superstructure_top_dm": {
-          "armorThickness": 10.0,
-          "hp": 500.0
-        },
-        "superstructure_back_dm": {
-          "hp": 500.0
-        },
-        "bow_bottom_dm": {
-          "hp": 500.0
-        }
       }
     }
   },
@@ -1204,7 +1205,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 9
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -3033,25 +3034,25 @@
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_01"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_03"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_04"
             }
           },
@@ -3538,7 +3539,7 @@
         "event": {
           "name": "ammo_fire_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -3547,7 +3548,7 @@
         "event": {
           "name": "ammo_fire_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -3556,7 +3557,7 @@
         "event": {
           "name": "ammo_fire_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -3565,7 +3566,7 @@
         "event": {
           "name": "ammo_fire_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }
@@ -3574,7 +3575,7 @@
         "event": {
           "name": "ammo_explosion_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -3583,7 +3584,7 @@
         "event": {
           "name": "ammo_explosion_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -3592,7 +3593,7 @@
         "event": {
           "name": "ammo_explosion_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -3601,7 +3602,7 @@
         "event": {
           "name": "ammo_explosion_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }

@@ -254,6 +254,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       ordersButton.setUserData(this)
 
     updateControlsAllowMask()
+    updateVoiceChatWidget(!isRespawn)
   }
 
   function recountStayOnRespScreen() //return isChanged

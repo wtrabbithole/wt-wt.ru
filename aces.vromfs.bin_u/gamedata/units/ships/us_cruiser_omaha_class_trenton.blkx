@@ -120,15 +120,6 @@
     "allowForestallWithoutMarkers": true
   },
   {
-    "customClassIco": "!#ui/gameuiskin#us_m18_hellcat_black_cat_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#us_m18_hellcat_black_cat"
-  },
-  {
-    "customTooltipImage": "ui/tanks/us_m18_hellcat_black_cat"
-  },
-  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -1526,7 +1517,7 @@
       },
       "cover": {
         "fireParamsPreset": "ship_cover",
-        "stopChanceOnDeadPart": 0.4,
+        "stopChanceOnDeadPart": 0.3,
         "genericDamageMult": 0.1,
         "secondaryShatterDamageMult": 0.0,
         "cover_01_dm": {
@@ -1551,8 +1542,38 @@
           "hp": 2500.0
         }
       },
+      "superstructures": {
+        "stopChanceOnDeadPart": 0.3,
+        "fireParamsPreset": "ship_cover",
+        "genericDamageMult": 0.1,
+        "bow_bottom_dm": {
+          "hp": 500.0
+        },
+        "superstructure_back_dm": {
+          "armorThickness": 15.0,
+          "hp": 544.0
+        },
+        "superstructure_side_dm": {
+          "armorThickness": 10.0,
+          "hp": 1938.0
+        },
+        "superstructure_top_dm": {
+          "armorThickness": 10.0,
+          "hp": 2211.0
+        },
+        "superstructure_dm": {
+          "armorThickness": 15.0,
+          "hp": 2500.0
+        },
+        "mid_bottom_dm": {
+          "armorThickness": 20.0,
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
         "genericDamageMult": 0.1,
+        "armorThickness": 80.0,
+        "stopChanceOnDeadPart": 0.2,
         "bulkhead_01_dm": {
           "hp": 1000.0
         },
@@ -1700,6 +1721,114 @@
           "hp": 1000.0
         },
         "pump_02_dm": {
+          "hp": 1000.0
+        }
+      },
+      "hull_armor": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 15.0,
+        "ex_armor_01_dm": {
+          "hp": 500.0
+        },
+        "ex_armor_02_dm": {
+          "hp": 500.0
+        },
+        "ex_armor_04_dm": {
+          "hp": 677.0
+        },
+        "ex_armor_05_dm": {
+          "hp": 1000.0
+        },
+        "ex_armor_06_dm": {
+          "hp": 500.0
+        },
+        "ex_armor_07_dm": {
+          "hp": 500.0
+        },
+        "ex_armor_08_dm": {
+          "hp": 500.0
+        },
+        "ex_armor_09_dm": {
+          "armorThickness": 30.0,
+          "hp": 1000.0
+        },
+        "ex_armor_10_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 32.0,
+          "hp": 771.0
+        },
+        "ex_armor_r_01_dm": {
+          "armorThickness": 50.0,
+          "hp": 500.0
+        },
+        "ex_armor_l_01_dm": {
+          "armorThickness": 50.0,
+          "hp": 500.0
+        },
+        "turret_01_dm": {
+          "armorThickness": 25.0,
+          "hp": 500.0
+        },
+        "turret_02_dm": {
+          "armorThickness": 25.0,
+          "hp": 500.0
+        },
+        "turret_03_dm": {
+          "armorThickness": 25.0,
+          "hp": 500.0
+        },
+        "turret_04_dm": {
+          "armorThickness": 25.0,
+          "hp": 500.0
+        }
+      },
+      "citadel_armor": {
+        "armorClass": "RHA_tank",
+        "armorThickness": 38.0,
+        "armor_belt_02_dm": {
+          "hp": 500.0
+        },
+        "armor_cit_01_dm": {
+          "hp": 500.0
+        },
+        "armor_cit_03_dm": {
+          "hp": 500.0
+        },
+        "armor_belt_01_dm": {
+          "armorThickness": 76.0,
+          "hp": 2500.0
+        },
+        "armor_cit_02_dm": {
+          "armorThickness": 76.0,
+          "hp": 500.0
+        }
+      },
+      "turrets_main_caliber": {
+        "armorClass": "RHA_tank",
+        "armorThickness": 6.4,
+        "fireParamsPreset": "ship_turrets",
+        "main_caliber_turret_01_dm": {
+          "hp": 1000.0
+        },
+        "main_caliber_turret_02_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_03_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_04_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_05_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_06_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_07_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_08_dm": {
           "hp": 1000.0
         }
       },
@@ -1921,144 +2050,6 @@
         },
         "torpedo_06_dm": {
           "hp": 500.0
-        }
-      },
-      "superstructures": {
-        "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
-        "superstructure_back_dm": {
-          "armorThickness": 15.0,
-          "hp": 544.0
-        },
-        "superstructure_side_dm": {
-          "armorThickness": 10.0,
-          "hp": 1938.0
-        },
-        "superstructure_top_dm": {
-          "armorThickness": 10.0,
-          "hp": 2211.0
-        },
-        "superstructure_dm": {
-          "armorThickness": 15.0,
-          "hp": 2500.0
-        },
-        "mid_bottom_dm": {
-          "armorThickness": 20.0,
-          "hp": 500.0
-        },
-        "bow_bottom_dm": {
-          "hp": 500.0
-        }
-      },
-      "hull_armor": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 15.0,
-        "ex_armor_01_dm": {
-          "hp": 500.0
-        },
-        "ex_armor_02_dm": {
-          "hp": 500.0
-        },
-        "ex_armor_03_dm": {
-          "hp": 665.0
-        },
-        "ex_armor_04_dm": {
-          "hp": 677.0
-        },
-        "ex_armor_05_dm": {
-          "hp": 1000.0
-        },
-        "ex_armor_06_dm": {
-          "hp": 500.0
-        },
-        "ex_armor_07_dm": {
-          "hp": 500.0
-        },
-        "ex_armor_08_dm": {
-          "hp": 500.0
-        },
-        "ex_armor_09_dm": {
-          "armorThickness": 30.0,
-          "hp": 1000.0
-        },
-        "ex_armor_10_dm": {
-          "armorClass": "RHA_tank",
-          "armorThickness": 32.0,
-          "hp": 771.0
-        },
-        "ex_armor_r_01_dm": {
-          "armorThickness": 50.0,
-          "hp": 500.0
-        },
-        "ex_armor_l_01_dm": {
-          "armorThickness": 50.0,
-          "hp": 500.0
-        },
-        "turret_01_dm": {
-          "armorThickness": 25.0,
-          "hp": 500.0
-        },
-        "turret_02_dm": {
-          "armorThickness": 25.0,
-          "hp": 500.0
-        },
-        "turret_03_dm": {
-          "armorThickness": 25.0,
-          "hp": 500.0
-        },
-        "turret_04_dm": {
-          "armorThickness": 25.0,
-          "hp": 500.0
-        }
-      },
-      "citadel_armor": {
-        "armorClass": "RHA_tank",
-        "armorThickness": 38.0,
-        "armor_belt_01_dm": {
-          "armorThickness": 76.0,
-          "hp": 2500.0
-        },
-        "armor_belt_02_dm": {
-          "hp": 500.0
-        },
-        "armor_cit_01_dm": {
-          "hp": 500.0
-        },
-        "armor_cit_03_dm": {
-          "hp": 500.0
-        },
-        "armor_cit_02_dm": {
-          "armorThickness": 76.0,
-          "hp": 500.0
-        }
-      },
-      "turrets_main_caliber": {
-        "armorClass": "RHA_tank",
-        "armorThickness": 6.0,
-        "fireParamsPreset": "ship_turrets",
-        "main_caliber_turret_01_dm": {
-          "hp": 1000.0
-        },
-        "main_caliber_turret_02_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_03_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_04_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_05_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_06_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_07_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_08_dm": {
-          "hp": 1000.0
         }
       }
     }
@@ -6360,7 +6351,10 @@
         {
           "shells": [
             {
-              "fatalFire": true
+              "fireParamsPreset": "ship_ammo_fire"
+            },
+            {
+              "fatalFire": false
             },
             {
               "fatalExplosion": true
@@ -6398,7 +6392,10 @@
         {
           "shells": [
             {
-              "fatalFire": true
+              "fireParamsPreset": "ship_ammo_fire"
+            },
+            {
+              "fatalFire": false
             },
             {
               "fatalExplosion": true

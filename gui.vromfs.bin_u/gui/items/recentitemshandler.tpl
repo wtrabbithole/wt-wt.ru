@@ -24,7 +24,7 @@ collapsedContainer {
     shortHeaderIcon { text:t='<<collapsedIcon>>' }
   }
 }
-hangarToggleButton {
+baseToggleButton {
   id:t='<<id>>_toggle'
   on_click:t='onToggleItem'
   type:t='right'

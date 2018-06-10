@@ -208,12 +208,14 @@ enums.addTypesByGlobalName("g_hud_enemy_debuffs", {
         return null
       local alive = dmgParams ? ::getTblValue("crewAliveCount", dmgParams, 0)
         : ::getTblValue("crewAlive", camInfo, 0)
-      local aliveMin = ::getTblValue("crewAliveMin", camInfo, 0)
+      local minCrewCount = camInfo?.crewAliveMin ?? 0
+      local bestMinCrewCount = camInfo?.bestMinCrewCount ?? minCrewCount
 
-      local value = getPercentValueByCounts(alive, total, aliveMin)
+      local maxCrewLeftPercent = (100.0 * (1.0 + (bestMinCrewCount.tofloat() - minCrewCount) / total) + 0.5).tointeger()
+      local percent = ::clamp(::lerp(minCrewCount - 1, total, 0, maxCrewLeftPercent, alive), 0, 100)
       return {
-        state = getStateByValue(alive, total, aliveMin + 1, aliveMin)
-        label = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(value)
+        state = getStateByValue(alive, total, minCrewCount + 1, minCrewCount)
+        label = ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(percent)
       }
     }
   }

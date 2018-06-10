@@ -488,6 +488,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.visualStyle = curTab == itemsTab.INVENTORY? "secondary" : "purchase"
       ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), mainActionName)
     }
+
+    local activateText = !showMainAction && item?.isInventoryItem && item.amount ? item.getActivateInfo() : ""
+    scene.findObject("activate_info_text").setValue(activateText)
     showSceneBtn("btn_preview", item ? (item.canPreview() && ::isInMenu()) : false)
 
     local altActionText = item ? item.getAltActionName() : ""

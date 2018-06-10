@@ -98,6 +98,7 @@ foreach (fn in [
                  "itemKey.nut"
                  "itemChest.nut"
                  "itemWarbonds.nut"
+                 "itemInternalItem.nut"
                  "itemCraftPart.nut"
                  "itemRecipesBundle.nut"
                ])
@@ -354,7 +355,7 @@ function ItemsManager::getShopVisibleSeenIds()
 function ItemsManager::findItemById(id, typeMask = itemType.ALL)
 {
   _checkUpdateList()
-  local item = shopItemById?[id]
+  local item = shopItemById?[id] ?? itemsByItemdefId?[id]
   if (!item && isItemdefId(id))
     requestItemsByItemdefIds([id])
   return item
@@ -384,7 +385,6 @@ function ItemsManager::getItemOrRecipeBundleById(id)
   //this item is not visible in inventory or shop, so no need special event about it creation
   //but we need to be able find it by id to correct work with it later.
   itemsByItemdefId[item.id] <- item
-  shopItemById[item.id] <- item
   return item
 }
 
@@ -459,6 +459,7 @@ function ItemsManager::getInventoryItemType(blkType)
       case "ship":                return itemType.VEHICLE
       case "warbonds":            return itemType.WARBONDS
       case "craft_part":          return itemType.CRAFT_PART
+      case "internal_item":       return itemType.INTERNAL_ITEM
     }
 
     blkType = ::item_get_type_id_by_type_name(blkType)
@@ -594,21 +595,32 @@ function ItemsManager::_checkInventoryUpdate()
   extInventoryUpdateTime = ::dagor.getCurTime()
 }
 
+function ItemsManager::checkAutoConsume()
+{
+  if (!shouldCheckAutoConsume)
+    return
+  shouldCheckAutoConsume = false
+  autoConsumeItems()
+}
+
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
 {
   _checkInventoryUpdate()
-  if (shouldCheckAutoConsume)
-  {
-    shouldCheckAutoConsume = false
-    autoConsumeItems()
-  }
+  checkAutoConsume()
   return _getItemsFromList(inventory, typeMask, filterFunc)
+}
+
+function ItemsManager::getInventoryListByShopMask(typeMask, filterFunc = null)
+{
+  _checkInventoryUpdate()
+  checkAutoConsume()
+  return _getItemsFromList(inventory, typeMask, filterFunc, "shopFilterMask")
 }
 
 function ItemsManager::getInventoryVisibleSeenIds()
 {
   if (!inventoryVisibleSeenIds)
-    inventoryVisibleSeenIds = getInventoryList(checkItemsMaskFeatures(itemType.INVENTORY_ALL)).map(@(it) it.getSeenId())
+    inventoryVisibleSeenIds = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL)).map(@(it) it.getSeenId())
   return inventoryVisibleSeenIds
 }
 
@@ -778,17 +790,21 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   }
   obj.scrollToView()
 
-  if (item && item.hasTimer())
-  {
-    local timerObj = holderObj.findObject("expire_timer")
-    if (::check_obj(timerObj))
-      SecondsUpdater(timerObj, ::Callback(function(obj, params)
-      {
-        local text = item.getCurExpireTimeText()
-        obj.setValue(text)
-        return text == ""
-      }, this))
-  }
+  if (item)
+    foreach(timerData in item.getDescTimers())
+    {
+      if (!timerData.needTimer.call(item))
+        continue
+
+      local timerObj = holderObj.findObject(timerData.id)
+      local tData = timerData
+      if (::check_obj(timerObj))
+        SecondsUpdater(timerObj, function(obj, params)
+        {
+          obj.setValue(tData.getText.call(item))
+          return !tData.needTimer.call(item)
+        })
+    }
 }
 
 function ItemsManager::fillItemTableInfo(item, holderObj)
@@ -1161,11 +1177,12 @@ function ItemsManager::getItemsSortComparator(itemsSeenList = null)
       return item2 <=> item1
     return item2.isActive() <=> item1.isActive()
       || (itemsSeenList && itemsSeenList.isNew(item2.getSeenId()) <=> itemsSeenList.isNew(item1.getSeenId()))
-      || item2.hasTimer() <=> item1.hasTimer()
-      || (item1.hasTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
+      || item2.hasExpireTimer() <=> item1.hasExpireTimer()
+      || (item1.hasExpireTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
       || item1.iType <=> item2.iType
       || item2.getRarity() <=> item1.getRarity()
       || item1.id <=> item2.id
+      || item1.tradeableTimestamp <=> item2.tradeableTimestamp
   }
 }
 

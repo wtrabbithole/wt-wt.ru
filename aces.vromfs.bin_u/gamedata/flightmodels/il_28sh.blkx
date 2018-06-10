@@ -2491,26 +2491,12 @@
     }
   },
   {
-    "Sound": [
-      {
-        "turretTurnSfxPath": "sounds/effects"
-      },
-      {
-        "turretTurnSfxName": "gun_turn_manual"
-      },
-      {
-        "Engine": "engine05"
-      },
-      {
-        "gun": "gun_default"
-      },
-      {
-        "turretTurnSfxPath": "tanks/effects_tanks"
-      },
-      {
-        "turretTurnSfxName": "turret_turn"
-      }
-    ]
+    "Sound": {
+      "Engine": "engine05",
+      "gun": "gun_default",
+      "turretTurnSfxPath": "tanks/effects_tanks",
+      "turretTurnSfxName": "turret_turn"
+    }
   },
   {
     "cockpit": {
@@ -2763,6 +2749,68 @@
             "counterIndex": 4
           }
         ]
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/cannonNR23_turret.blk",
+          "emitter": "gun1",
+          "flash": "flare3",
+          "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
+          "gunDm": "gun1_dm",
+          "partsDP": "gun1_dm",
+          "bullets": 225,
+          "traceOffset": 2,
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          },
+          "limits": {
+            "yaw": [-45.0,45.0],
+            "pitch": [-70.0,70.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/cannonNR23_turret.blk",
+          "emitter": "gun1",
+          "flash": "flare4",
+          "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
+          "gunDm": "gun1_dm",
+          "partsDP": "gun1_dm",
+          "bullets": 225,
+          "traceOffset": 3,
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          },
+          "limits": {
+            "yaw": [-45.0,45.0],
+            "pitch": [-70.0,70.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "boosters",
+          "blk": "gameData/Weapons/payloadguns/su_il_28_rocket_booster_left.blk",
+          "emitter": "rocket_engine_1",
+          "bullets": 1,
+          "external": true
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "boosters",
+          "blk": "gameData/Weapons/payloadguns/su_il_28_rocket_booster_right.blk",
+          "emitter": "rocket_engine_2",
+          "bullets": 1,
+          "external": true
+        }
       }
     ]
   },
@@ -2931,6 +2979,15 @@
       "ns23_armor_targets": [],
       "ns23_air_targets": [],
       "ns23_stealth": [],
+      "nr23_turret_belt_pack": {
+        "tier": 3
+      },
+      "nr23_turret_new_gun": {
+        "reqModification": "nr23_turret_belt_pack",
+        "tier": 4
+      },
+      "nr23_turret_apit": [],
+      "nr23_turret_heit": [],
       "kd-3_bc": {
         "modClass": "weapon",
         "tier": 2,
@@ -2942,6 +2999,7 @@
         "tier": 4
       },
       "il_28sh_upk23_gunpod": {
+        "deactivationIsAllowed": false,
         "tier": 1,
         "modClass": "weapon"
       },
@@ -2955,79 +3013,7 @@
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "il_28sh_s24",
-        "invertEnableLogic": false,
-        "effects": {
-          "commonWeapons": [
-            {
-              "Weapon": [
-                {
-                  "trigger": "cannon"
-                },
-                {
-                  "blk": "gameData/Weapons/cannonNR23.blk"
-                },
-                {
-                  "emitter": "flare1"
-                },
-                {
-                  "flash": "flare1"
-                },
-                {
-                  "dm": "cannon1_dm"
-                },
-                {
-                  "bullets": 100
-                },
-                {
-                  "spread": 1.2
-                },
-                {
-                  "traceOffset": 1
-                },
-                {
-                  "counterIndex": 1
-                },
-                {
-                  "counterIndex": 2
-                }
-              ]
-            },
-            {
-              "Weapon": [
-                {
-                  "trigger": "cannon"
-                },
-                {
-                  "blk": "gameData/Weapons/cannonNR23.blk"
-                },
-                {
-                  "emitter": "flare2"
-                },
-                {
-                  "flash": "flare2"
-                },
-                {
-                  "dm": "cannon2_dm"
-                },
-                {
-                  "bullets": 100
-                },
-                {
-                  "spread": 1.2
-                },
-                {
-                  "traceOffset": 1
-                },
-                {
-                  "counterIndex": 3
-                },
-                {
-                  "counterIndex": 4
-                }
-              ]
-            }
-          ]
-        }
+        "invertEnableLogic": false
       }
     }
   },

@@ -55,6 +55,7 @@ local BhvUnseen = class
   {
     setNewConfig(obj, buildConfig(valueTbl))
     updateView(obj)
+    return u.isString(valueTbl) || u.isTable(valueTbl)
   }
 
   function setNewConfig(obj, config)

@@ -3130,11 +3130,11 @@
           "slopeEffect0deg": [0.0,20.0],
           "slopeEffect5deg": [5.0,20.0],
           "slopeEffect10deg": [10.0,1.0],
-          "slopeEffect15deg": [15.0,0.847],
-          "slopeEffect20deg": [20.0,0.847],
-          "slopeEffect25deg": [25.0,0.847],
-          "slopeEffect30deg": [30.0,0.847],
-          "slopeEffect35deg": [35.0,0.88],
+          "slopeEffect15deg": [15.0,1.0],
+          "slopeEffect20deg": [20.0,1.0],
+          "slopeEffect25deg": [25.0,1.0],
+          "slopeEffect30deg": [30.0,0.89],
+          "slopeEffect35deg": [35.0,0.9],
           "slopeEffect40deg": [40.0,0.9],
           "slopeEffect45deg": [45.0,0.9],
           "slopeEffect50deg": [50.0,0.95],
@@ -4871,6 +4871,24 @@
         }
       },
       "he_frag_dist_fuse": {
+        "normalizationPreset": "heat",
+        "ricochetPreset": "he",
+        "slopeEffectPreset": "ap",
+        "secondaryShattersPreset": "ap",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "stabilityThreshold": 0.4,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.45,
+        "stabilityReductionAfterPenetration": 1.0,
+        "explodeOnRendinst": true,
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.5],
+          "mod2": [20.0,0.6],
+          "mod3": [30.0,1.0]
+        }
+      },
+      "he_frag_base_fuse_tank": {
         "normalizationPreset": "heat",
         "ricochetPreset": "he",
         "slopeEffectPreset": "ap",

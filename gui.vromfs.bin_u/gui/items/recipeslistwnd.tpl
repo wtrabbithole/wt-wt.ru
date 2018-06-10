@@ -74,9 +74,10 @@ popup_menu {
     style:t='height:<<maxRecipeLen>>@dIco - 0.2@dIco + 1@navBarTopPadding + 1@buttonMargin;'
 
     navLeft {
-      height:t='ph - 1@navBarTopPadding'
+      size:t='pw - 1@buttonWidth, ph - 1@navBarTopPadding'
       tdiv {
         id:t='selected_recipe_info'
+        width:t='pw'
         pos:t='0, ph-h + 0.1@dIco'
         position:t='relative'
       }

@@ -539,6 +539,12 @@
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0,
+          "armorThrough": 100.0,
+          "hp": 150.0,
+          "fireProtectionHp": 10.0
+        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -735,8 +741,6 @@
         "armorArrayHullTop": {
           "xrayDmPart": "composite_armor_hull_01_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 265.0,
-          "cumulativeProtectionEquivalent": 300.0,
           "armorArrayText": [
             {
               "layer": {
@@ -760,8 +764,6 @@
         "armorArrayHullTop": {
           "xrayDmPart": "composite_armor_hull_03_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 240.0,
-          "cumulativeProtectionEquivalent": 240.0,
           "armorArrayText": [
             {
               "layer": {
@@ -784,8 +786,6 @@
       {
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_01_dm",
-          "kineticProtectionEquivalent": 280.0,
-          "cumulativeProtectionEquivalent": 540.0,
           "armorArrayText": [
             {
               "layer": {
@@ -858,48 +858,9 @@
         },
         {
           "shells": {
-            "fatalFire": true,
-            "fatalExplosion": true,
-            "firstStage": true,
-            "ammo_turret_01_dm": {
-              "count": 1
-            },
-            "ammo_turret_02_dm": {
-              "count": 1
-            },
-            "ammo_turret_03_dm": {
-              "count": 1
-            },
-            "ammo_turret_04_dm": {
-              "count": 1
-            },
-            "ammo_turret_05_dm": {
-              "count": 1
-            },
-            "ammo_turret_06_dm": {
-              "count": 1
-            },
-            "ammo_turret_07_dm": {
-              "count": 1
-            },
-            "ammo_turret_08_dm": {
-              "count": 1
-            },
-            "ammo_turret_09_dm": {
-              "count": 1
-            },
-            "ammo_turret_10_dm": {
-              "count": 1
-            },
-            "ammo_turret_11_dm": {
-              "count": 1
-            }
-          }
-        },
-        {
-          "shells": {
             "fatalFire": false,
             "fatalExplosion": false,
+            "firstStage": true,
             "ammo_turret_12_dm": {
               "count": 1
             },
@@ -940,9 +901,48 @@
         },
         {
           "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "ammo_turret_01_dm": {
+              "count": 1
+            },
+            "ammo_turret_02_dm": {
+              "count": 1
+            },
+            "ammo_turret_03_dm": {
+              "count": 1
+            },
+            "ammo_turret_04_dm": {
+              "count": 1
+            },
+            "ammo_turret_05_dm": {
+              "count": 1
+            },
+            "ammo_turret_06_dm": {
+              "count": 1
+            },
+            "ammo_turret_07_dm": {
+              "count": 1
+            },
+            "ammo_turret_08_dm": {
+              "count": 1
+            },
+            "ammo_turret_09_dm": {
+              "count": 1
+            },
+            "ammo_turret_10_dm": {
+              "count": 1
+            },
+            "ammo_turret_11_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
             "fatalFire": false,
             "fatalExplosion": false,
-            "reloadTimeMult": 1.5,
+            "reloadTimeMult": 2.0,
             "ammo_turret_24_dm": {
               "count": 1
             },
@@ -1972,7 +1972,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/105mm_M68_M60A1_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
-          "recoilOffset": 1.2,
+          "recoilOffset": 0.2,
           "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2008,9 +2008,9 @@
             "pitch": [-10.0,15.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-140.0,-4.0,15.0],
+            "lim1": [-180.0,-140.0,-1.0,15.0],
             "lim2": [-140.0,140.0,-10.0,15.0],
-            "lim3": [140.0,180.0,-4.0,15.0]
+            "lim3": [140.0,180.0,-1.0,15.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -2134,8 +2134,8 @@
           "trigger": "gunner2",
           "triggerGroup": "machinegun",
           "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M60D_user_machinegun.blk",
-          "emitter": "bone_mg_aa_v_01",
-          "flash": "emtr_mg_flame_04",
+          "emitter": "bone_mg_aa_v",
+          "flash": "emtr_mg_flame_01",
           "barrelDP": "gun_barrel_02_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2157,8 +2157,8 @@
           "errTargetting": 3.0,
           "errExplTime": 0.0,
           "turret": {
-            "head": "bone_mg_aa_h_01",
-            "gun": "bone_mg_aa_v_01",
+            "head": "bone_mg_aa_h",
+            "gun": "bone_mg_aa_v",
             "gunnerDm": "commander_dm"
           },
           "limits": {
@@ -2172,8 +2172,8 @@
           "trigger": "gunner3",
           "triggerGroup": "machinegun",
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M85_user_machinegun.blk",
-          "emitter": "bone_mg_aa_v",
-          "flash": "emtr_mg_flame_01",
+          "emitter": "bone_mg_aa_v_01",
+          "flash": "emtr_mg_flame_04",
           "barrelDP": "gun_barrel_03_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2195,8 +2195,8 @@
           "errTargetting": 3.0,
           "errExplTime": 0.0,
           "turret": {
-            "head": "bone_mg_aa_h",
-            "gun": "bone_mg_aa_v",
+            "head": "bone_mg_aa_h_01",
+            "gun": "bone_mg_aa_v_01",
             "gunnerDm": "commander_dm"
           },
           "limits": {
@@ -2242,7 +2242,7 @@
         "minRPM": 700.0
       },
       "mechanics": {
-        "maxBrakeForce": 250000.0,
+        "maxBrakeForce": 300000.0,
         "driveGearRadius": 0.35,
         "mainGearRatio": 1.46,
         "sideGearRatio": 6.25,
@@ -2294,7 +2294,7 @@
         "defaultGearRadius": 0.35,
         "frontBackGearRadius": 0.27,
         "topGearRadius": 0.15,
-        "defaultDampeningForce": [150000.0,150000.0],
+        "defaultDampeningForce": [250000.0,250000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }

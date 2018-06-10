@@ -114,15 +114,6 @@
     "depthTraceCriticalDepth": 2.0
   },
   {
-    "customClassIco": "!#ui/gameuiskin#us_m18_hellcat_black_cat_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#us_m18_hellcat_black_cat"
-  },
-  {
-    "customTooltipImage": "ui/tanks/us_m18_hellcat_black_cat"
-  },
-  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -1363,8 +1354,31 @@
           "hp": 286.0
         }
       },
+      "superstructures": {
+        "fireParamsPreset": "ship_cover",
+        "genericDamageMult": 0.1,
+        "stopChanceOnDeadPart": 0.3,
+        "armorThickness": 10.0,
+        "superstructure_back_dm": {
+          "hp": 1036.0
+        },
+        "superstructure_front_dm": {
+          "hp": 500.0
+        },
+        "superstructure_side_dm": {
+          "hp": 2000.0
+        },
+        "superstructure_dm": {
+          "hp": 2000.0
+        },
+        "bow_bottom_dm": {
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
         "genericDamageMult": 0.1,
+        "armorThickness": 40.0,
+        "stopChanceOnDeadPart": 0.3,
         "bulkhead_01_dm": {
           "hp": 1000.0
         },
@@ -1500,6 +1514,64 @@
         "fireParamsPreset": "ship_engine",
         "pump_01_dm": {
           "hp": 1000.0
+        }
+      },
+      "hull_armor": [
+        {
+          "armorClass": "ship_structural_steel"
+        },
+        {
+          "armorThickness": 5.0
+        },
+        {
+          "ex_armor_01_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_02_dm": {
+            "hp": 387.0
+          }
+        },
+        {
+          "turret_09_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_l_01_dm": {
+            "armorThickness": 45.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_r_01_dm": {
+            "armorThickness": 45.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "turret_09_dm": {
+            "armorThickness": 25.0,
+            "hp": 250.0
+          }
+        }
+      ],
+      "turrets_main_caliber": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 15.0,
+        "fireParamsPreset": "ship_turrets",
+        "main_caliber_turret_01_dm": {
+          "hp": 250.0
+        },
+        "main_caliber_turret_02_dm": {
+          "hp": 250.0
+        },
+        "main_caliber_turret_03_dm": {
+          "hp": 250.0
+        },
+        "main_caliber_turret_04_dm": {
+          "hp": 250.0
         }
       },
       "turrets_aux_caliber": {
@@ -1714,69 +1786,6 @@
           "hp": 250.0
         },
         "torpedo_10_dm": {
-          "hp": 250.0
-        }
-      },
-      "superstructures": {
-        "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 10.0,
-        "superstructure_front_dm": {
-          "hp": 500.0
-        },
-        "superstructure_side_dm": {
-          "hp": 2000.0
-        },
-        "superstructure_back_dm": {
-          "hp": 1036.0
-        },
-        "superstructure_dm": {
-          "hp": 2000.0
-        },
-        "bow_bottom_dm": {
-          "hp": 500.0
-        }
-      },
-      "hull_armor": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 5.0,
-        "ex_armor_01_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_02_dm": {
-          "hp": 387.0
-        },
-        "ex_armor_03_dm": {
-          "hp": 433.0
-        },
-        "ex_armor_l_01_dm": {
-          "armorThickness": 45.0,
-          "hp": 250.0
-        },
-        "ex_armor_r_01_dm": {
-          "armorThickness": 45.0,
-          "hp": 250.0
-        },
-        "turret_09_dm": {
-          "armorThickness": 25.0,
-          "hp": 250.0
-        }
-      },
-      "turrets_main_caliber": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 15.0,
-        "fireParamsPreset": "ship_turrets",
-        "main_caliber_turret_01_dm": {
-          "hp": 250.0
-        },
-        "main_caliber_turret_02_dm": {
-          "hp": 250.0
-        },
-        "main_caliber_turret_03_dm": {
-          "hp": 250.0
-        },
-        "main_caliber_turret_04_dm": {
           "hp": 250.0
         }
       }
@@ -2405,7 +2414,7 @@
       },
       "engines": [
         {
-          "maxSpeed": 17.5
+          "maxSpeed": 18.0
         },
         {
           "maxReverseSpeed": 6.0
@@ -2419,7 +2428,7 @@
               "row": [10.0,15.5]
             },
             {
-              "row": [17.5,27.8]
+              "row": [18.0,27.8]
             }
           ]
         },

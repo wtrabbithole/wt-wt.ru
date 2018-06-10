@@ -403,6 +403,21 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
+        "ammo_turret_44_dm": [],
+        "ammo_turret_45_dm": [],
+        "ammo_turret_46_dm": [],
+        "ammo_turret_47_dm": [],
+        "ammo_turret_48_dm": [],
+        "ammo_turret_49_dm": [],
+        "ammo_turret_50_dm": [],
+        "ammo_turret_51_dm": [],
+        "ammo_turret_52_dm": [],
+        "ammo_turret_53_dm": [],
+        "ammo_turret_54_dm": [],
+        "ammo_turret_55_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -454,6 +469,11 @@
         "ammo_body_48_dm": [],
         "ammo_body_49_dm": [],
         "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1081,25 +1101,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           }
         ]
@@ -1479,115 +1503,6 @@
         "dmPart": "machine_gunner_dm",
         "role": "radio_gunner"
       }
-    }
-  },
-  {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 5
-        },
-        {
-          "part": "loader_01_dm"
-        },
-        {
-          "part": "loader_02_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "machine_gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ],
-      "body": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "superstructure_side_dm"
-        },
-        {
-          "part": "superstructure_bottom_dm"
-        },
-        {
-          "part": "superstructure_front_dm"
-        },
-        {
-          "part": "superstructure_top_dm"
-        },
-        {
-          "part": "superstructure_back_dm"
-        },
-        {
-          "part": "body_front_dm"
-        },
-        {
-          "part": "body_side_dm"
-        },
-        {
-          "part": "body_top_dm"
-        },
-        {
-          "part": "body_back_dm"
-        },
-        {
-          "part": "body_bottom_dm"
-        },
-        {
-          "part": "turret_top_dm"
-        },
-        {
-          "part": "turret_side_dm"
-        },
-        {
-          "part": "turret_back_dm"
-        },
-        {
-          "part": "turret_commander_dm"
-        },
-        {
-          "part": "turret_front_dm"
-        },
-        {
-          "part": "turret_01_front_dm"
-        },
-        {
-          "part": "turret_02_front_dm"
-        },
-        {
-          "part": "gun_mask_dm"
-        },
-        {
-          "part": "turret_bottom_dm"
-        },
-        {
-          "fireParamsPreset": "default_metapart"
-        },
-        {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
-          }
-        }
-      ]
     }
   },
   {

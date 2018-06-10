@@ -1773,7 +1773,7 @@ function json_escape_string( arg )
         result += "\\r";
         break;
       default:
-        if ( ch < ' ' )
+        if (ch >= 0 && ch < ' ') // chars can be signed (e.g. on PS4)
           result += ::format("\\u%04X", ch );
         else
           result += ch.tochar();

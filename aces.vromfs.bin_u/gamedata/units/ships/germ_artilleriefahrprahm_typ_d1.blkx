@@ -1387,6 +1387,46 @@
           "hp": 300.0
         }
       },
+      "superstructures": {
+        "fireParamsPreset": "ship_cover",
+        "genericDamageMult": 0.1,
+        "armorClass": "concrete",
+        "armorThickness": 100.0,
+        "superstructure_front_dm": {
+          "hp": 500.0
+        },
+        "superstructure_top_dm": {
+          "hp": 500.0
+        },
+        "superstructure_dm": {
+          "hp": 500.0
+        },
+        "superstructure_side_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 25.0,
+          "hp": 500.0
+        },
+        "bow_bottom_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 15.0,
+          "hp": 500.0
+        },
+        "mid_bottom_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 15.0,
+          "hp": 500.0
+        },
+        "mid_front_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 15.0,
+          "hp": 500.0
+        },
+        "stern_bottom_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 15.0,
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
         "genericDamageMult": 0.1,
         "bulkhead_01_dm": {
@@ -1487,6 +1527,138 @@
           "hp": 500.0
         }
       },
+      "hull_armor": [
+        {
+          "armorClass": "RHA_tank"
+        },
+        {
+          "armorThickness": 25.0
+        },
+        {
+          "ex_armor_01_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_02_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_03_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_04_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_05_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_06_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_07_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_08_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_09_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_10_dm": {
+            "hp": 250.0
+          }
+        },
+        {
+          "armor_belt_01_dm": {
+            "armorClass": "RHA_tank",
+            "hp": 733.0
+          }
+        },
+        {
+          "armor_belt_04_dm": {
+            "armorClass": "RHA_tank",
+            "hp": 250.0
+          }
+        },
+        {
+          "armor_belt_05_dm": {
+            "armorClass": "RHA_tank",
+            "hp": 733.0
+          }
+        },
+        {
+          "armor_belt_08_dm": {
+            "armorClass": "RHA_tank",
+            "hp": 250.0
+          }
+        },
+        {
+          "armor_belt_02_dm": {
+            "armorThickness": 40.0,
+            "hp": 637.0
+          }
+        },
+        {
+          "armor_belt_03_dm": {
+            "armorThickness": 40.0,
+            "hp": 563.0
+          }
+        },
+        {
+          "armor_belt_06_dm": {
+            "armorThickness": 40.0,
+            "hp": 637.0
+          }
+        },
+        {
+          "armor_belt_07_dm": {
+            "armorThickness": 40.0,
+            "hp": 563.0
+          }
+        },
+        {
+          "ex_armor_09_dm": {
+            "armorClass": "ship_structural_steel",
+            "armorThickness": 15.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "ex_armor_10_dm": {
+            "armorClass": "ship_structural_steel",
+            "armorThickness": 15.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "turret_v_02_dm": {
+            "armorThickness": 12.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "turret_v_07_dm": {
+            "armorThickness": 12.0,
+            "hp": 250.0
+          }
+        }
+      ],
       "turrets_main_caliber": {
         "armorClass": "ship_special_treatment_steel",
         "armorThickness": 8.0,
@@ -1641,120 +1813,6 @@
         "depth_charge_04_dm": {
           "hp": 250.0
         }
-      },
-      "superstructures": {
-        "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
-        "armorClass": "concrete",
-        "armorThickness": 100.0,
-        "superstructure_dm": {
-          "hp": 500.0
-        },
-        "superstructure_side_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 25.0,
-          "hp": 500.0
-        },
-        "superstructure_top_dm": {
-          "hp": 500.0
-        },
-        "superstructure_front_dm": {
-          "hp": 500.0
-        },
-        "bow_bottom_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 15.0,
-          "hp": 500.0
-        },
-        "mid_bottom_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 15.0,
-          "hp": 500.0
-        },
-        "mid_front_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 15.0,
-          "hp": 500.0
-        },
-        "stern_bottom_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 15.0,
-          "hp": 500.0
-        }
-      },
-      "hull_armor": {
-        "armorClass": "RHA_tank",
-        "armorThickness": 25.0,
-        "armor_belt_01_dm": {
-          "hp": 733.0
-        },
-        "armor_belt_02_dm": {
-          "armorThickness": 40.0,
-          "hp": 637.0
-        },
-        "armor_belt_03_dm": {
-          "armorThickness": 40.0,
-          "hp": 563.0
-        },
-        "armor_belt_04_dm": {
-          "hp": 250.0
-        },
-        "armor_belt_05_dm": {
-          "hp": 733.0
-        },
-        "armor_belt_06_dm": {
-          "armorThickness": 40.0,
-          "hp": 637.0
-        },
-        "armor_belt_07_dm": {
-          "armorThickness": 40.0,
-          "hp": 563.0
-        },
-        "armor_belt_08_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_01_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_02_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_03_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_04_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_05_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_06_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_07_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_08_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_09_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 15.0,
-          "hp": 250.0
-        },
-        "ex_armor_10_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 15.0,
-          "hp": 250.0
-        },
-        "turret_v_02_dm": {
-          "armorThickness": 12.0,
-          "hp": 250.0
-        },
-        "turret_v_07_dm": {
-          "armorThickness": 12.0,
-          "hp": 250.0
-        }
       }
     }
   },
@@ -1774,7 +1832,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 9
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -4415,25 +4473,25 @@
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_01"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_03"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_04"
             }
           },
@@ -4920,7 +4978,7 @@
         "event": {
           "name": "ammo_fire_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -4929,7 +4987,7 @@
         "event": {
           "name": "ammo_fire_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -4938,7 +4996,7 @@
         "event": {
           "name": "ammo_fire_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -4947,7 +5005,7 @@
         "event": {
           "name": "ammo_fire_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }
@@ -4956,7 +5014,7 @@
         "event": {
           "name": "ammo_explosion_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -4965,7 +5023,7 @@
         "event": {
           "name": "ammo_explosion_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -4974,7 +5032,7 @@
         "event": {
           "name": "ammo_explosion_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -4983,7 +5041,7 @@
         "event": {
           "name": "ammo_explosion_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }

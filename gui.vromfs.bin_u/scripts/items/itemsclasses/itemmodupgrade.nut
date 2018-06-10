@@ -14,6 +14,8 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
 
   getConditionsBlk = @(configBlk) configBlk.modUpgradeParams
 
+  getActivateInfo  = @() ::loc("item/modUpgrade/activateInModifications")
+
   function initConditions(conditionsBlk)
   {
     base.initConditions(conditionsBlk)

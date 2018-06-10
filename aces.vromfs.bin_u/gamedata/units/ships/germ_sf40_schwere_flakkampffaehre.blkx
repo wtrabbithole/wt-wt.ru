@@ -1212,7 +1212,7 @@
       "country_germany": true,
       "type_ship": true,
       "ship": true,
-      "type_naval_ferry_barge": true
+      "type_naval_aa_ferry": true
     }
   },
   {
@@ -1359,25 +1359,25 @@
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_01"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_03"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_04"
             }
           },
@@ -1864,7 +1864,7 @@
         "event": {
           "name": "ammo_fire_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -1873,7 +1873,7 @@
         "event": {
           "name": "ammo_fire_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -1882,7 +1882,7 @@
         "event": {
           "name": "ammo_fire_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -1891,7 +1891,7 @@
         "event": {
           "name": "ammo_fire_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }
@@ -1900,7 +1900,7 @@
         "event": {
           "name": "ammo_explosion_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -1909,7 +1909,7 @@
         "event": {
           "name": "ammo_explosion_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -1918,7 +1918,7 @@
         "event": {
           "name": "ammo_explosion_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -1927,7 +1927,7 @@
         "event": {
           "name": "ammo_explosion_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }
@@ -2949,6 +2949,24 @@
           "hp": 300.0
         }
       },
+      "superstructures": {
+        "fireParamsPreset": "ship_cover",
+        "genericDamageMult": 0.1,
+        "armorClass": "ship_wood",
+        "mid_top_dm": {
+          "armorThickness": 15.0,
+          "hp": 718.0
+        },
+        "superstructure_dm": {
+          "armorThickness": 40.0,
+          "hp": 500.0
+        },
+        "superstructure_top_dm": {
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 18.0,
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
         "genericDamageMult": 0.1,
         "bulkhead_01_dm": {
@@ -3062,10 +3080,10 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
-        "ex_armor_01_dm": {
+        "ex_armor_02_dm": {
           "hp": 250.0
         },
-        "ex_armor_02_dm": {
+        "ex_armor_03_dm": {
           "hp": 250.0
         },
         "ex_armor_04_dm": {
@@ -3087,6 +3105,10 @@
           "hp": 250.0
         },
         "turret_04_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_01_dm": {
+          "armorClass": "ship_structural_steel",
           "hp": 250.0
         }
       },
@@ -3245,24 +3267,6 @@
         "fireParamsPreset": "ship_engine",
         "genericDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.0
-      },
-      "superstructures": {
-        "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
-        "armorClass": "ship_wood",
-        "superstructure_dm": {
-          "armorThickness": 40.0,
-          "hp": 500.0
-        },
-        "superstructure_top_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 18.0,
-          "hp": 500.0
-        },
-        "mid_top_dm": {
-          "armorThickness": 20.0,
-          "hp": 718.0
-        }
       }
     }
   },

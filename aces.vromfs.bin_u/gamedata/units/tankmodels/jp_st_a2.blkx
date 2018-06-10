@@ -1125,25 +1125,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           }
         ]
@@ -1484,133 +1488,6 @@
         "dmPart": "commander_dm",
         "role": "commander"
       }
-    }
-  },
-  {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ],
-      "body": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "superstructure_side_dm"
-        },
-        {
-          "part": "superstructure_bottom_dm"
-        },
-        {
-          "part": "superstructure_front_dm"
-        },
-        {
-          "part": "superstructure_top_dm"
-        },
-        {
-          "part": "superstructure_back_dm"
-        },
-        {
-          "part": "body_front_dm"
-        },
-        {
-          "part": "body_side_dm"
-        },
-        {
-          "part": "body_top_dm"
-        },
-        {
-          "part": "body_back_dm"
-        },
-        {
-          "part": "body_bottom_dm"
-        },
-        {
-          "fireParamsPreset": "default_metapart"
-        },
-        {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
-          }
-        }
-      ],
-      "turret": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "turret_top_dm"
-        },
-        {
-          "part": "turret_side_dm"
-        },
-        {
-          "part": "turret_back_dm"
-        },
-        {
-          "part": "turret_commander_dm"
-        },
-        {
-          "part": "turret_front_dm"
-        },
-        {
-          "part": "turret_front_02_dm"
-        },
-        {
-          "part": "gun_mask_dm"
-        },
-        {
-          "part": "gun_mask_02_dm"
-        },
-        {
-          "part": "gun_mask_03_dm"
-        },
-        {
-          "part": "gun_mask_04_dm"
-        },
-        {
-          "part": "gun_mask_05_dm"
-        },
-        {
-          "part": "turret_bottom_dm"
-        },
-        {
-          "fireParamsPreset": "default_metapart"
-        },
-        {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
-          }
-        }
-      ]
     }
   },
   {
@@ -2266,129 +2143,157 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "primaryShells": {
-        "ammo_turret_01_dm": {
-          "count": 1
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "removeLoadedAmmo": true
         },
-        "ammo_turret_02_dm": {
-          "count": 1
+        {
+          "weaponTrigger": "gunner0"
         },
-        "ammo_turret_03_dm": {
-          "count": 1
+        {
+          "fatalFire": true
         },
-        "ammo_turret_04_dm": {
-          "count": 1
+        {
+          "fatalExplosion": true
         },
-        "ammo_turret_05_dm": {
-          "count": 1
+        {
+          "replenishmentDelay": 4.0
         },
-        "ammo_turret_06_dm": {
-          "count": 1
+        {
+          "replenishmentTime": 15.0
         },
-        "ammo_turret_07_dm": {
-          "count": 1
+        {
+          "shells": {
+            "firstStage": true,
+            "ammo_turret_01_dm": {
+              "count": 1
+            },
+            "ammo_turret_02_dm": {
+              "count": 1
+            },
+            "ammo_turret_03_dm": {
+              "count": 1
+            },
+            "ammo_turret_04_dm": {
+              "count": 1
+            },
+            "ammo_turret_05_dm": {
+              "count": 1
+            },
+            "ammo_turret_06_dm": {
+              "count": 1
+            },
+            "ammo_turret_07_dm": {
+              "count": 1
+            },
+            "ammo_turret_08_dm": {
+              "count": 1
+            },
+            "ammo_turret_09_dm": {
+              "count": 1
+            },
+            "ammo_turret_10_dm": {
+              "count": 1
+            },
+            "ammo_turret_11_dm": {
+              "count": 1
+            }
+          }
         },
-        "ammo_turret_08_dm": {
-          "count": 1
-        },
-        "ammo_turret_09_dm": {
-          "count": 1
-        },
-        "ammo_turret_10_dm": {
-          "count": 1
-        },
-        "ammo_turret_11_dm": {
-          "count": 1
-        },
-        "ammo_turret_12_dm": {
-          "count": 1
-        },
-        "ammo_turret_13_dm": {
-          "count": 1
-        },
-        "ammo_turret_14_dm": {
-          "count": 1
-        },
-        "ammo_turret_15_dm": {
-          "count": 1
-        },
-        "ammo_turret_16_dm": {
-          "count": 1
-        },
-        "ammo_turret_17_dm": {
-          "count": 1
-        },
-        "ammo_turret_18_dm": {
-          "count": 1
-        },
-        "ammo_turret_19_dm": {
-          "count": 1
-        },
-        "ammo_turret_20_dm": {
-          "count": 1
-        },
-        "ammo_turret_21_dm": {
-          "count": 1
-        },
-        "ammo_turret_22_dm": {
-          "count": 1
-        },
-        "ammo_turret_23_dm": {
-          "count": 1
-        },
-        "ammo_turret_24_dm": {
-          "count": 1
-        },
-        "ammo_turret_25_dm": {
-          "count": 1
-        },
-        "ammo_turret_26_dm": {
-          "count": 1
-        },
-        "ammo_turret_27_dm": {
-          "count": 1
-        },
-        "ammo_turret_28_dm": {
-          "count": 1
-        },
-        "ammo_turret_29_dm": {
-          "count": 1
-        },
-        "ammo_turret_30_dm": {
-          "count": 1
-        },
-        "ammo_turret_31_dm": {
-          "count": 1
-        },
-        "ammo_turret_32_dm": {
-          "count": 1
-        },
-        "ammo_turret_33_dm": {
-          "count": 1
-        },
-        "ammo_turret_34_dm": {
-          "count": 1
-        },
-        "ammo_turret_35_dm": {
-          "count": 1
-        },
-        "ammo_turret_36_dm": {
-          "count": 1
-        },
-        "ammo_turret_37_dm": {
-          "count": 1
-        },
-        "ammo_turret_38_dm": {
-          "count": 1
-        },
-        "ammo_turret_39_dm": {
-          "count": 1
-        },
-        "ammo_turret_40_dm": {
-          "count": 1
+        {
+          "shells": {
+            "reloadTimeMult": 1.33,
+            "ammo_turret_12_dm": {
+              "count": 1
+            },
+            "ammo_turret_13_dm": {
+              "count": 1
+            },
+            "ammo_turret_14_dm": {
+              "count": 1
+            },
+            "ammo_turret_15_dm": {
+              "count": 1
+            },
+            "ammo_turret_16_dm": {
+              "count": 1
+            },
+            "ammo_turret_17_dm": {
+              "count": 1
+            },
+            "ammo_turret_18_dm": {
+              "count": 1
+            },
+            "ammo_turret_19_dm": {
+              "count": 1
+            },
+            "ammo_turret_20_dm": {
+              "count": 1
+            },
+            "ammo_turret_21_dm": {
+              "count": 1
+            },
+            "ammo_turret_22_dm": {
+              "count": 1
+            },
+            "ammo_turret_23_dm": {
+              "count": 1
+            },
+            "ammo_turret_24_dm": {
+              "count": 1
+            },
+            "ammo_turret_25_dm": {
+              "count": 1
+            },
+            "ammo_turret_26_dm": {
+              "count": 1
+            },
+            "ammo_turret_27_dm": {
+              "count": 1
+            },
+            "ammo_turret_28_dm": {
+              "count": 1
+            },
+            "ammo_turret_29_dm": {
+              "count": 1
+            },
+            "ammo_turret_30_dm": {
+              "count": 1
+            },
+            "ammo_turret_31_dm": {
+              "count": 1
+            },
+            "ammo_turret_32_dm": {
+              "count": 1
+            },
+            "ammo_turret_33_dm": {
+              "count": 1
+            },
+            "ammo_turret_34_dm": {
+              "count": 1
+            },
+            "ammo_turret_35_dm": {
+              "count": 1
+            },
+            "ammo_turret_36_dm": {
+              "count": 1
+            },
+            "ammo_turret_37_dm": {
+              "count": 1
+            },
+            "ammo_turret_38_dm": {
+              "count": 1
+            },
+            "ammo_turret_39_dm": {
+              "count": 1
+            },
+            "ammo_turret_40_dm": {
+              "count": 1
+            }
+          }
         }
-      }
+      ]
     }
   },
   {

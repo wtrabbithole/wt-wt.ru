@@ -1,5 +1,21 @@
 [
   {
+    "hideNodes": [
+      {
+        "node": "holder_01"
+      },
+      {
+        "node": "holder_02"
+      },
+      {
+        "node": "depth_charge_01"
+      },
+      {
+        "node": "depth_charge_02"
+      }
+    ]
+  },
+  {
     "Weapon": [
       {
         "trigger": "gunner0"
@@ -108,14 +124,14 @@
       {
         "limits": {
           "yaw": [-180.0,180.0],
-          "pitch": [-6.0,90.0]
+          "pitch": [-6.0,88.0]
         }
       },
       {
         "limitsTable": {
-          "lim1": [-180.0,-140.0,25.0,90.0],
-          "lim2": [-140.0,125.0,-6.0,90.0],
-          "lim3": [125.0,180.0,25.0,90.0]
+          "lim1": [-180.0,-140.0,25.0,88.0],
+          "lim2": [-140.0,125.0,-6.0,88.0],
+          "lim3": [125.0,180.0,25.0,88.0]
         }
       }
     ]
@@ -229,14 +245,14 @@
       {
         "limits": {
           "yaw": [-180.0,180.0],
-          "pitch": [-6.0,90.0]
+          "pitch": [-6.0,88.0]
         }
       },
       {
         "limitsTable": {
-          "lim1": [-180.0,-130.0,40.0,90.0],
-          "lim2": [-130.0,130.0,-6.0,90.0],
-          "lim3": [130.0,180.0,40.0,90.0]
+          "lim1": [-180.0,-130.0,40.0,88.0],
+          "lim2": [-130.0,130.0,-6.0,88.0],
+          "lim3": [130.0,180.0,40.0,88.0]
         }
       }
     ]
@@ -272,9 +288,6 @@
       },
       {
         "defaultPitch": 0.0
-      },
-      {
-        "isBulletBelt": true
       },
       {
         "speedYaw": 20.0
@@ -400,9 +413,6 @@
         "defaultPitch": 0.0
       },
       {
-        "isBulletBelt": true
-      },
-      {
         "speedYaw": 20.0
       },
       {
@@ -485,25 +495,6 @@
           "lim2": [-140.0,0.0,0.0,70.0],
           "lim3": [0.0,180.0,-5.0,70.0]
         }
-      },
-      {
-        "gunStabilizer": {
-          "hasVerticalGunFreeMode": true,
-          "hasHorizontal": true,
-          "horizontalOmegaMult": 1.0,
-          "horizontalSpeedLimitKPH": 80.0,
-          "hasVertical": true,
-          "verticalOmegaMult": 1.0,
-          "verticalSpeedLimitKPH": 80.0,
-          "errorKPHToDegrees": [
-            {
-              "row": [5.0,0.01]
-            },
-            {
-              "row": [70.0,0.05]
-            }
-          ]
-        }
       }
     ]
   },
@@ -538,9 +529,6 @@
       },
       {
         "defaultPitch": 0.0
-      },
-      {
-        "isBulletBelt": true
       },
       {
         "speedYaw": 20.0
@@ -635,25 +623,6 @@
           "lim7": [150.0,170.0,20.0,70.0],
           "lim8": [170.0,180.0,55.0,70.0]
         }
-      },
-      {
-        "gunStabilizer": {
-          "hasVerticalGunFreeMode": true,
-          "hasHorizontal": true,
-          "horizontalOmegaMult": 1.0,
-          "horizontalSpeedLimitKPH": 80.0,
-          "hasVertical": true,
-          "verticalOmegaMult": 1.0,
-          "verticalSpeedLimitKPH": 80.0,
-          "errorKPHToDegrees": [
-            {
-              "row": [5.0,0.01]
-            },
-            {
-              "row": [70.0,0.05]
-            }
-          ]
-        }
       }
     ]
   },
@@ -688,9 +657,6 @@
       },
       {
         "defaultPitch": 0.0
-      },
-      {
-        "isBulletBelt": true
       },
       {
         "speedYaw": 20.0
@@ -779,25 +745,6 @@
           "lim6": [130.0,150.0,0.0,70.0],
           "lim7": [150.0,170.0,20.0,70.0],
           "lim8": [170.0,180.0,55.0,70.0]
-        }
-      },
-      {
-        "gunStabilizer": {
-          "hasVerticalGunFreeMode": true,
-          "hasHorizontal": true,
-          "horizontalOmegaMult": 1.0,
-          "horizontalSpeedLimitKPH": 80.0,
-          "hasVertical": true,
-          "verticalOmegaMult": 1.0,
-          "verticalSpeedLimitKPH": 80.0,
-          "errorKPHToDegrees": [
-            {
-              "row": [5.0,0.01]
-            },
-            {
-              "row": [70.0,0.05]
-            }
-          ]
         }
       }
     ]
@@ -930,13 +877,16 @@
         "recoilOffset": 0.3
       },
       {
+        "barrelDP": "auxiliary_caliber_gun_01_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_01_dm"
+      },
+      {
         "defaultYaw": 0.0
       },
       {
         "defaultPitch": 0.0
-      },
-      {
-        "isBulletBelt": true
       },
       {
         "speedYaw": 20.0
@@ -945,7 +895,7 @@
         "speedPitch": 45.0
       },
       {
-        "bullets": 100
+        "bullets": 50
       },
       {
         "allowableDelta": 2.0

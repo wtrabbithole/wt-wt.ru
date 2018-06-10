@@ -34,7 +34,7 @@ shopSheets.template <- {
     local visibleTypeMask = ::ItemsManager.checkItemsMaskFeatures(typeMask)
     local filterFunc = getItemFilterFunc(shopTab).bindenv(this)
     if (shopTab == itemsTab.INVENTORY)
-      return ::ItemsManager.getInventoryList(visibleTypeMask, filterFunc)
+      return ::ItemsManager.getInventoryListByShopMask(visibleTypeMask, filterFunc)
     if (shopTab == itemsTab.SHOP)
       return ::ItemsManager.getShopList(visibleTypeMask, filterFunc)
     return []

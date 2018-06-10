@@ -71,7 +71,19 @@
                 }
               }
             }
-          ]
+          ],
+          "tdiv": {
+            "id": "control_block_visibility_switch",
+            "pos": "pw-w-1@blockInterval, 1@blockInterval",
+            "position": "absolute",
+            "background-color": "@frameDarkBackgroundColor",
+            "collapsed": "no",
+            "baseToggleButton": {
+              "on_click": "onChangeInfoBlockVisibility",
+              "type": "right",
+              "directionImg": []
+            }
+          }
         },
         "MapRightPanel": [
           {
@@ -339,13 +351,6 @@
             ]
           }
         ]
-      },
-      "MapBlockVisibilitySwitch": {
-        "id": "control_block_visibility_switch",
-        "pos": "sw-w - 1@framePadding, 1@topBarHeight + 4@dp",
-        "position": "root",
-        "on_change_value": "onChangeInfoBlockVisibility",
-        "icon": []
       }
     }
   },

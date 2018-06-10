@@ -6,6 +6,7 @@ const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
 const MAX_WND_ASPECT_RATIO_NAVBAR_GC = 0.92
 const DEBR_MYSTATS_TOP_BAR_GAP_MAX = 6
+const LAST_WON_VERSION_SAVE_ID = "lastWonInVersion"
 
 function gui_start_debriefingFull(params = {})
 {
@@ -148,6 +149,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   shouldBattleTasksListUpdate = false
 
   giftItems = null
+  isFirstWinInMajorUpdate = false
 
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
@@ -238,6 +240,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         local victoryBonus = (isMp && ::isDebriefingResultFull()) ? ::get_mission_victory_bonus_text(gm) : ""
         if (victoryBonus != "")
           resReward = ::loc("debriefing/MissionWinReward") + ::loc("ui/colon") + victoryBonus
+
+        local currentMajorVersion = ::get_game_version() >> 16
+        local lastWinVersion = ::load_local_account_settings(LAST_WON_VERSION_SAVE_ID, currentMajorVersion)
+        isFirstWinInMajorUpdate = currentMajorVersion > lastWinVersion
+        save_local_account_settings(LAST_WON_VERSION_SAVE_ID, currentMajorVersion)
       }
       else if (mpResult == ::STATS_RESULT_FAIL)
       {
@@ -995,8 +1002,21 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       locId = "win_session"
       subType = ps4_activity_feed.MISSION_SUCCESS
     }
+    local customConfig = {
+      blkParamName = "VICTORY"
+    }
 
-    ::prepareMessageForWallPostAndSend(config, {}, bit_activity.PS4_ACTIVITY_FEED)
+    if (isFirstWinInMajorUpdate)
+    {
+      config.locId = "win_session_after_update"
+      config.subType = ps4_activity_feed.MISSION_SUCCESS_AFTER_UPDATE
+      customConfig.blkParamName = "MAJOR_UPDATE"
+      local ver = split(::get_game_version_str(), ".")
+      customConfig.version <- ver[0]+"_"+ver[1]
+      customConfig.imgSuffix <- customConfig.version
+    }
+
+    ::prepareMessageForWallPostAndSend(config, customConfig, bit_activity.PS4_ACTIVITY_FEED)
   }
 
   function updateMyStats(dt)
@@ -2462,7 +2482,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local name = link.slice(3)
       local player = getPlayerInfo(name)
       if (player)
-        ::session_player_rmenu(this, player)
+        ::session_player_rmenu(this, player, obj.text)
     }
   }
 

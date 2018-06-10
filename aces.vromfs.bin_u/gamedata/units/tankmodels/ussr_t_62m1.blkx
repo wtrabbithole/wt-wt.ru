@@ -295,16 +295,34 @@
         "hp": 100.0,
         "armorThickness": 8.0,
         "createSecondaryShatters": false,
-        "ex_armor_body_l_01_dm": [],
-        "ex_armor_body_l_02_dm": [],
-        "ex_armor_body_l_03_dm": [],
+        "ex_armor_body_l_01_dm": {
+          "armorClass": "aluminium",
+          "armorThickness": 3.0
+        },
+        "ex_armor_body_l_02_dm": {
+          "armorClass": "aluminium",
+          "armorThickness": 3.0
+        },
+        "ex_armor_body_l_03_dm": {
+          "armorClass": "aluminium",
+          "armorThickness": 3.0
+        },
         "ex_armor_body_l_04_dm": [],
         "ex_armor_body_l_05_dm": [],
         "ex_armor_body_l_06_dm": [],
         "ex_armor_body_l_07_dm": [],
-        "ex_armor_body_r_01_dm": [],
-        "ex_armor_body_r_02_dm": [],
-        "ex_armor_body_r_03_dm": [],
+        "ex_armor_body_r_01_dm": {
+          "armorClass": "aluminium",
+          "armorThickness": 3.0
+        },
+        "ex_armor_body_r_02_dm": {
+          "armorClass": "aluminium",
+          "armorThickness": 3.0
+        },
+        "ex_armor_body_r_03_dm": {
+          "armorClass": "aluminium",
+          "armorThickness": 3.0
+        },
         "ex_armor_body_r_04_dm": [],
         "ex_armor_body_r_05_dm": [],
         "ex_armor_body_r_06_dm": [],
@@ -585,6 +603,21 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
+        "ammo_turret_44_dm": [],
+        "ammo_turret_45_dm": [],
+        "ammo_turret_46_dm": [],
+        "ammo_turret_47_dm": [],
+        "ammo_turret_48_dm": [],
+        "ammo_turret_49_dm": [],
+        "ammo_turret_50_dm": [],
+        "ammo_turret_51_dm": [],
+        "ammo_turret_52_dm": [],
+        "ammo_turret_53_dm": [],
+        "ammo_turret_54_dm": [],
+        "ammo_turret_55_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -711,13 +744,6 @@
     "xray_viewer_data": {
       "armorArrayHull": {
         "xrayDmPart": "composite_armor_hull_01_dm",
-        "referenceProtectionTable": {
-          "i": {
-            "angles": [0.0,0.0],
-            "kineticProtectionEquivalent": 320.0,
-            "cumulativeProtectionEquivalent": 450.0
-          }
-        },
         "armorArrayText": [
           {
             "layer": {
@@ -738,22 +764,6 @@
       },
       "armorArrayTurret": {
         "xrayDmPart": "composite_armor_turret_01_dm",
-        "referenceProtectionTable": [
-          {
-            "i": {
-              "angles": [0.0,0.0],
-              "kineticProtectionEquivalent": 400.0,
-              "cumulativeProtectionEquivalent": 500.0
-            }
-          },
-          {
-            "i": {
-              "angles": [-30.0,30.0],
-              "kineticProtectionEquivalent": 320.0,
-              "cumulativeProtectionEquivalent": 450.0
-            }
-          }
-        ],
         "armorArrayText": [
           {
             "layer": {
@@ -774,22 +784,6 @@
       },
       "armorArrayTurret2": {
         "xrayDmPart": "composite_armor_turret_02_dm",
-        "referenceProtectionTable": [
-          {
-            "i": {
-              "angles": [0.0,0.0],
-              "kineticProtectionEquivalent": 400.0,
-              "cumulativeProtectionEquivalent": 500.0
-            }
-          },
-          {
-            "i": {
-              "angles": [-30.0,30.0],
-              "kineticProtectionEquivalent": 350.0,
-              "cumulativeProtectionEquivalent": 450.0
-            }
-          }
-        ],
         "armorArrayText": [
           {
             "layer": {
@@ -1852,13 +1846,13 @@
             "pitch": [-6.0,16.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-150.0,-5.0,16.0],
+            "lim1": [-180.0,-150.0,-4.0,16.0],
             "lim2": [-150.0,-30.0,-6.0,16.0],
             "lim3": [-30.0,-22.0,-4.0,16.0],
             "lim4": [-22.0,22.0,-6.0,16.0],
             "lim5": [22.0,30.0,-4.0,16.0],
             "lim6": [30.0,150.0,-6.0,16.0],
-            "lim7": [150.0,180.0,-5.0,16.0]
+            "lim7": [150.0,180.0,-4.0,16.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -1915,7 +1909,7 @@
             "defaultPitch": 0.0
           },
           {
-            "barrelDP": "gun_barrel_01_dm"
+            "barrelDP": "gun_barrel_02_dm"
           },
           {
             "speedYaw": 7.0
@@ -1987,7 +1981,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_NSV_user_cannon.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
-          "barrelDP": "gun_barrel_02_dm",
+          "barrelDP": "gun_barrel_01_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "parkInDeadzone": false,
@@ -2017,9 +2011,9 @@
             "pitch": [-10.0,60.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-145.0,-10.0,60.0],
-            "lim2": [-145.0,-125.0,-1.0,60.0],
-            "lim3": [-125.0,180.0,-10.0,60.0]
+            "lim1": [-180.0,-13.0,-10.0,60.0],
+            "lim2": [-13.0,3.0,-1.0,60.0],
+            "lim3": [3.0,180.0,-10.0,60.0]
           }
         }
       }
@@ -2691,7 +2685,7 @@
         "turn_it_off": false,
         "effects": {
           "rcostAddParam": 0.01,
-          "changeMass": -500.0,
+          "changeMass": -30.0,
           "hideNodes": [
             {
               "node": "ex_armor_body_r_01"
@@ -2796,13 +2790,13 @@
                   "pitch": [-6.0,16.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-150.0,-5.0,16.0],
+                  "lim1": [-180.0,-150.0,-4.0,16.0],
                   "lim2": [-150.0,-30.0,-6.0,16.0],
                   "lim3": [-30.0,-22.0,-4.0,16.0],
                   "lim4": [-22.0,22.0,-6.0,16.0],
                   "lim5": [22.0,30.0,-4.0,16.0],
                   "lim6": [30.0,150.0,-6.0,16.0],
-                  "lim7": [150.0,180.0,-5.0,16.0]
+                  "lim7": [150.0,180.0,-4.0,16.0]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": false,
@@ -2859,7 +2853,7 @@
                   "defaultPitch": 0.0
                 },
                 {
-                  "barrelDP": "gun_barrel_01_dm"
+                  "barrelDP": "gun_barrel_02_dm"
                 },
                 {
                   "speedYaw": 7.0
@@ -2931,7 +2925,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/12_7mm_NSV_user_cannon.blk",
                 "emitter": "bone_mg_aa_v_01",
                 "flash": "emtr_mg_aa_flame_01",
-                "barrelDP": "gun_barrel_02_dm",
+                "barrelDP": "gun_barrel_01_dm",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "parkInDeadzone": false,
@@ -2961,9 +2955,9 @@
                   "pitch": [-10.0,60.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-145.0,-10.0,60.0],
-                  "lim2": [-145.0,-125.0,-1.0,60.0],
-                  "lim3": [-125.0,180.0,-10.0,60.0]
+                  "lim1": [-180.0,-13.0,-10.0,60.0],
+                  "lim2": [-13.0,3.0,-1.0,60.0],
+                  "lim3": [3.0,180.0,-10.0,60.0]
                 }
               }
             },
@@ -3174,7 +3168,10 @@
           "fatalExplosion": true
         },
         {
-          "replenishmentTime": 10.0
+          "replenishmentDelay": 4.0
+        },
+        {
+          "replenishmentTime": 12.0
         },
         {
           "shells": {
@@ -3255,7 +3252,7 @@
         },
         {
           "shells": {
-            "reloadTimeMult": 1.25,
+            "reloadTimeMult": 1.62,
             "ammo_body_02_dm": {
               "count": 1
             },

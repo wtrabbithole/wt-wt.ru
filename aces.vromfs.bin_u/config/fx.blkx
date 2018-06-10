@@ -2138,6 +2138,15 @@
     "soundEnableDistance": 100.0,
     "group": "underwater"
   },
+  "ship_ammo_fire": {
+    "fx": "ps_ammo_fire_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 30,
+    "numReserved": 3,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "ammo_explode",
+    "soundEnableDistance": 100.0
+  },
   "ship_ammo_fire_large": {
     "fx": "ps_ammo_fire_large_composite_fx",
     "lifeTime": 10.0,
@@ -3276,6 +3285,16 @@
     "granularity": 8,
     "group": "water_proj"
   },
+  "ship_water_jet": {
+    "fx": "ps_water_jet_composite",
+    "lifeTime": 2.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 20,
+    "granularity": 8,
+    "group": "water_proj"
+  },
   "ship_rear_water_splashes": {
     "fx": "ps_rear_water_splash_composite",
     "lifeTime": 2.0,
@@ -3374,6 +3393,16 @@
   },
   "location_waterfall_10m_composite_fx": {
     "fx": "location_waterfall_10m_composite",
+    "lifeTime": 2.0,
+    "numInstances": 500,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 20,
+    "granularity": 8,
+    "group": "water_proj"
+  },
+  "location_waterfall_50m_composite_fx": {
+    "fx": "location_waterfall_50m_composite",
     "lifeTime": 2.0,
     "numInstances": 500,
     "numReserved": 50,

@@ -5,6 +5,7 @@
   width:t='pw'
   <</isDropright>>
 <</controlTag>>
+<<@controlStyle>>
 
   <<#id>>
     id:t = '<<id>>'

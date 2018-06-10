@@ -27,7 +27,7 @@ local function isStringLikelyEmail(str, verbose=true) {
 
   if (type(str)!="string")
     return false
-  local split = ::string.split(str,"@")
+  local split = string.split(str,"@")
   if (split.len()<2)
     return false
   local locpart = split[0]

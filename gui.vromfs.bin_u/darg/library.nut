@@ -1,4 +1,5 @@
 local string = require("string")
+local math = require("math")
 tostring_r <- require("std/string.nut").tostring_r
 
 local darg_tostring = {
@@ -132,7 +133,7 @@ NamedColor <-{
   this function returns sh() for pixels for fullhd resolution (1080p)
 */
 function hdpx(pixels) {
-  return sh((::math.floor(pixels) + 0.5) * 100.0 / 1080.0)
+  return sh((math.floor(pixels) + 0.5) * 100.0 / 1080.0)
 }
 
 

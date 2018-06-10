@@ -3361,8 +3361,41 @@
           "hp": 517.0
         }
       },
+      "superstructures": {
+        "fireParamsPreset": "ship_cover",
+        "genericDamageMult": 0.1,
+        "stopChanceOnDeadPart": 0.3,
+        "stern_bottom_dm": {
+          "hp": 500.0
+        },
+        "mid_bottom_dm": {
+          "hp": 500.0
+        },
+        "bow_bottom_dm": {
+          "hp": 500.0
+        },
+        "superstructure_bottom_dm": {
+          "armorThickness": 10.0,
+          "hp": 2000.0
+        },
+        "superstructure_front_dm": {
+          "armorThickness": 10.0,
+          "hp": 2000.0
+        },
+        "superstructure_side_dm": {
+          "armorThickness": 10.0,
+          "hp": 959.0
+        },
+        "mid_top_dm": {
+          "armorClass": "ship_special_treatment_steel",
+          "armorThickness": 13.0,
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
         "genericDamageMult": 0.1,
+        "armorThickness": 40.0,
+        "stopChanceOnDeadPart": 0.3,
         "bulkhead_01_dm": {
           "hp": 1000.0
         },
@@ -3497,6 +3530,103 @@
         },
         "pump_02_dm": {
           "hp": 1000.0
+        }
+      },
+      "hull_armor": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 15.0,
+        "ex_armor_01_dm": {
+          "hp": 329.0
+        },
+        "ex_armor_02_dm": {
+          "hp": 329.0
+        },
+        "ex_armor_04_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_05_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_07_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_08_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_09_dm": {
+          "hp": 876.0
+        },
+        "ex_armor_10_dm": {
+          "hp": 683.0
+        },
+        "ex_armor_11_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_12_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_l_01_dm": {
+          "hp": 1900.0
+        },
+        "ex_armor_l_02_dm": {
+          "hp": 329.0
+        },
+        "ex_armor_r_01_dm": {
+          "hp": 1308.0
+        },
+        "ex_armor_r_02_dm": {
+          "hp": 930.0
+        },
+        "turret_03_dm": {
+          "hp": 250.0
+        },
+        "turret_04_dm": {
+          "hp": 250.0
+        },
+        "turret_05_dm": {
+          "hp": 250.0
+        },
+        "turret_06_dm": {
+          "hp": 250.0
+        },
+        "turret_07_dm": {
+          "hp": 250.0
+        },
+        "turret_08_dm": {
+          "hp": 250.0
+        },
+        "turret_12_dm": {
+          "hp": 250.0
+        },
+        "ex_armor_06_dm": {
+          "armorClass": "ship_special_treatment_steel",
+          "armorThickness": 19.0,
+          "hp": 376.0
+        },
+        "armor_belt_01_dm": {
+          "armorClass": "ship_special_treatment_steel",
+          "armorThickness": 13.0,
+          "hp": 2000.0
+        }
+      },
+      "turrets_main_caliber": {
+        "armorClass": "ship_special_treatment_steel",
+        "armorThickness": 32.0,
+        "fireParamsPreset": "ship_turrets",
+        "main_caliber_turret_01_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_02_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_03_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_04_dm": {
+          "hp": 500.0
+        },
+        "main_caliber_turret_05_dm": {
+          "hp": 500.0
         }
       },
       "turrets_aux_caliber": {
@@ -3865,114 +3995,6 @@
         },
         "torpedo_10_dm": {
           "hp": 238.0
-        }
-      },
-      "superstructures": [
-        {
-          "fireParamsPreset": "ship_cover"
-        },
-        {
-          "genericDamageMult": 0.1
-        },
-        {
-          "armorClass": "ship_structural_steel"
-        },
-        {
-          "superstructure_bottom_dm": {
-            "armorThickness": 10.0,
-            "hp": 2000.0
-          }
-        },
-        {
-          "superstructure_front_dm": {
-            "armorThickness": 10.0,
-            "hp": 2000.0
-          }
-        },
-        {
-          "superstructure_side_dm": {
-            "armorThickness": 10.0,
-            "hp": 959.0
-          }
-        },
-        {
-          "mid_top_dm": {
-            "armorThickness": 13.0,
-            "hp": 500.0
-          }
-        },
-        {
-          "stern_bottom_dm": {
-            "hp": 500.0
-          }
-        },
-        {
-          "bow_bottom_dm": {
-            "hp": 500.0
-          }
-        },
-        {
-          "mid_bottom_dm": {
-            "hp": 500.0
-          }
-        },
-        {
-          "mid_top_dm": {
-            "hp": 500.0
-          }
-        }
-      ],
-      "hull_armor": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 25.0,
-        "ex_armor_06_dm": {
-          "armorThickness": 19.0,
-          "hp": 376.0
-        },
-        "turret_03_dm": {
-          "hp": 250.0
-        },
-        "turret_04_dm": {
-          "hp": 250.0
-        },
-        "turret_05_dm": {
-          "hp": 250.0
-        },
-        "turret_06_dm": {
-          "hp": 250.0
-        },
-        "turret_07_dm": {
-          "hp": 250.0
-        },
-        "turret_08_dm": {
-          "hp": 250.0
-        },
-        "turret_12_dm": {
-          "hp": 250.0
-        },
-        "armor_belt_01_dm": {
-          "armorThickness": 13.0,
-          "hp": 2000.0
-        }
-      },
-      "turrets_main_caliber": {
-        "armorClass": "RHA_tank",
-        "armorThickness": 32.0,
-        "fireParamsPreset": "ship_turrets",
-        "main_caliber_turret_01_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_02_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_03_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_04_dm": {
-          "hp": 500.0
-        },
-        "main_caliber_turret_05_dm": {
-          "hp": 500.0
         }
       }
     }

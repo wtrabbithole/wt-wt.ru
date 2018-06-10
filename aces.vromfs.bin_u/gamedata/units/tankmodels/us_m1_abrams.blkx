@@ -716,6 +716,12 @@
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0,
+          "armorThrough": 100.0,
+          "hp": 150.0,
+          "fireProtectionHp": 10.0
+        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -1992,13 +1998,6 @@
       {
         "armorArrayHullFront": {
           "xrayDmPart": "composite_armor_hull_01_dm",
-          "referenceProtectionTable": {
-            "i": {
-              "angles": [0.0,0.0],
-              "kineticProtectionEquivalent": 380.0,
-              "cumulativeProtectionEquivalent": 600.0
-            }
-          },
           "armorArrayText": [
             {
               "layer": {
@@ -2021,8 +2020,6 @@
       {
         "armorArrayMantlet": {
           "xrayDmPart": "composite_armor_turret_01_dm",
-          "kineticProtectionEquivalent": 240.0,
-          "cumulativeProtectionEquivalent": 450.0,
           "armorArrayText": [
             {
               "layer": {
@@ -2045,22 +2042,6 @@
       {
         "armorArrayTurretFrontR": {
           "xrayDmPart": "composite_armor_turret_02_dm",
-          "referenceProtectionTable": [
-            {
-              "i": {
-                "angles": [0.0,0.0],
-                "kineticProtectionEquivalent": 400.0,
-                "cumulativeProtectionEquivalent": 650.0
-              }
-            },
-            {
-              "i": {
-                "angles": [-25.0,25.0],
-                "kineticProtectionEquivalent": 380.0,
-                "cumulativeProtectionEquivalent": 600.0
-              }
-            }
-          ],
           "armorArrayText": [
             {
               "layer": {
@@ -2083,22 +2064,6 @@
       {
         "armorArrayTurretFrontL": {
           "xrayDmPart": "composite_armor_turret_03_dm",
-          "referenceProtectionTable": [
-            {
-              "i": {
-                "angles": [0.0,0.0],
-                "kineticProtectionEquivalent": 400.0,
-                "cumulativeProtectionEquivalent": 650.0
-              }
-            },
-            {
-              "i": {
-                "angles": [-25.0,25.0],
-                "kineticProtectionEquivalent": 380.0,
-                "cumulativeProtectionEquivalent": 600.0
-              }
-            }
-          ],
           "armorArrayText": [
             {
               "layer": {
@@ -2121,8 +2086,6 @@
       {
         "armorArrayTurretSideR": {
           "xrayDmPart": "composite_armor_turret_04_dm",
-          "kineticProtectionEquivalent": 160.0,
-          "cumulativeProtectionEquivalent": 400.0,
           "armorArrayText": [
             {
               "layer": {
@@ -2145,8 +2108,6 @@
       {
         "armorArrayTurretSideL": {
           "xrayDmPart": "composite_armor_turret_05_dm",
-          "kineticProtectionEquivalent": 160.0,
-          "cumulativeProtectionEquivalent": 400.0,
           "armorArrayText": [
             {
               "layer": {
@@ -2169,8 +2130,6 @@
       {
         "armorArrayTurretSideBackR": {
           "xrayDmPart": "composite_armor_turret_06_dm",
-          "kineticProtectionEquivalent": 80.0,
-          "cumulativeProtectionEquivalent": 400.0,
           "armorArrayText": [
             {
               "layer": {
@@ -2193,8 +2152,6 @@
       {
         "armorArrayTurretSideBackL": {
           "xrayDmPart": "composite_armor_turret_07_dm",
-          "kineticProtectionEquivalent": 80.0,
-          "cumulativeProtectionEquivalent": 400.0,
           "armorArrayText": [
             {
               "layer": {
@@ -2454,7 +2411,8 @@
       "tracks": {
         "animationMultiplier": -0.63,
         "height": 0.085,
-        "width": 0.635
+        "width": 0.635,
+        "fricFrontal": [1.7,1.5]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",

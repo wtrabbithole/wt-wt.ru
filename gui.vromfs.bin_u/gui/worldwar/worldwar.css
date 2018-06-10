@@ -455,45 +455,6 @@ ww_map_item img[medalIcon] {
 ww_operation_list_place {  width:0.2@sf;
 }
 
-MapBlockVisibilitySwitch {
-  behaviour:check;
-  size:@mIco, @mIco;
-
-  re-type:9rect;
-  background-image:#ui/gameuiskin#expandable_item;
-  background-color:@gray60;
-  background-position:4;
-  background-repeat:expand;
-  snd_change_value:check;
-  css-hier-invalidate:yes;
-
-  tooltip:#worldwar/showControlPanel;
-}
-
-MapBlockVisibilitySwitch > icon {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
-  background-svg-size:@sIco, @sIco;
-  background-color:@gray;
-  pos:50%pw-50%w, 50%ph-50%h;
-  position:absolute;
-  size:@sIco, @sIco;
-  rotation:270;
-  input-transparent:yes;
-}
-
-MapBlockVisibilitySwitch:checked {
-  background-color:@transparent;
-  tooltip:#worldwar/hideControlPanel;
-}
-
-MapBlockVisibilitySwitch:checked > icon {
-  rotation:90;
-}
-
-MapBlockVisibilitySwitch:hover > icon {
-  background-color:@white;
-}
-
 wwWindowListBackground {
   background-repeat:expand;
   background-position:2;

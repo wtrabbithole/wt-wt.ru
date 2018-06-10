@@ -50,6 +50,83 @@
               "position": "relative"
             },
             {
+              "frame": [
+                {
+                  "id": "dmg_skin_div"
+                },
+                {
+                  "pos": "pw-w, 0"
+                },
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "1@customizationBlockWidth"
+                },
+                {
+                  "display": "hide"
+                },
+                {
+                  "tdiv": {
+                    "id": "dmg_skin_buttons_div",
+                    "display": "hide",
+                    "flow": "vertical",
+                    "textarea": {
+                      "max-width": "1@customizationBlockWidth",
+                      "style": "paragraph-indent:0;",
+                      "text": "#mainmenu/hintDmgSkinPreview"
+                    },
+                    "HorizontalListBox": [
+                      {
+                        "id": "dmg_skin_state"
+                      },
+                      {
+                        "on_select": "onToggleDmgSkinState"
+                      },
+                      {
+                        "shopFilter": {
+                          "shopFilterText": {
+                            "text": "#mainmenu/btnDmgSkinUndamaged"
+                          }
+                        }
+                      },
+                      {
+                        "shopFilter": {
+                          "shopFilterText": {
+                            "text": "#mainmenu/btnDmgSkinDamaged"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "SwitchBox": {
+                    "id": "btn_toggle_dmg_skin",
+                    "text": "#mainmenu/btnDmgSkinPreview",
+                    "value": "no",
+                    "on_change_value": "onToggleDmgSkinMode",
+                    "SwitchSliderBg": {
+                      "SwitchSliderBgOn": [],
+                      "SwitchSlider": []
+                    }
+                  }
+                },
+                {
+                  "SwitchBox": {
+                    "id": "btn_toggle_damaged",
+                    "text": "#mainmenu/btnDmgSkinPreview",
+                    "value": "no",
+                    "on_change_value": "onToggleDamaged",
+                    "SwitchSliderBg": {
+                      "SwitchSliderBgOn": [],
+                      "SwitchSlider": []
+                    }
+                  }
+                }
+              ]
+            },
+            {
               "userDecalsDiv": {
                 "id": "skins_div",
                 "left": "pw-w",
@@ -367,23 +444,6 @@
                   "position": "relative",
                   "text": "#weaponry/unit_not_bought",
                   "overlayTextColor": "bad"
-                }
-              }
-            },
-            {
-              "frame": {
-                "id": "toggle_damaged_div",
-                "min-width": "1@customizationBlockWidth",
-                "display": "hide",
-                "SwitchBox": {
-                  "id": "btn_toggle_damaged",
-                  "text": "#mainmenu/btnShowDamaged",
-                  "value": "no",
-                  "on_change_value": "onToggleDamaged",
-                  "SwitchSliderBg": {
-                    "SwitchSliderBgOn": [],
-                    "SwitchSlider": []
-                  }
                 }
               }
             }

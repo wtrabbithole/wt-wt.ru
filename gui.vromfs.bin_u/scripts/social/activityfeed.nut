@@ -85,6 +85,9 @@ function getRandomActivityFeedImageUrl(customConfig)
     }
 
     urlEndPart = searchedBlock[customParam]
+    local suffix = ::getTblValue("imgSuffix", customConfig, "")
+    if (!u.isEmpty(suffix))
+      urlEndPart = urlEndPart + "_" + suffix
   }
 
   if (!searchedBlock)
@@ -140,7 +143,7 @@ function ps4PostActivityFeed(config, customFeedParams)
     return
 
   local locId = ::getTblValue("locId", config, "")
-  if (locId == "")
+  if (locId == "" && u.isEmpty(customFeedParams?.captions))
   {
     ::dagor.debug("ps4PostActivityFeed, Not found locId in config")
     ::debugTableData(config)
@@ -155,8 +158,7 @@ function ps4PostActivityFeed(config, customFeedParams)
   local activityFeed_config = ::combine_tables(::ps4_activityFeed_requestsTable, customFeedParams)
 
   local getFilledFeedTextByLang = (@(activityFeed_config, localizedKeyWords) function(locId) {
-    local sample = "\"%s\":\"%s\""
-    local captions = []
+    local captions = {}
     local localizedTable = ::get_localized_text_with_abbreviation(locId)
 
     foreach(lang, string in localizedTable)
@@ -165,7 +167,7 @@ function ps4PostActivityFeed(config, customFeedParams)
       foreach(name, value in activityFeed_config)
         localizationTable[name] <- ::get_tbl_value_by_path_array([name, lang], localizedKeyWords, value)
 
-      captions.append(::format(sample, lang, ::replaceParamsInLocalizedText(string, localizationTable)))
+      captions[lang] <- ::replaceParamsInLocalizedText(string, localizationTable)
     }
 
     return captions
@@ -176,41 +178,28 @@ function ps4PostActivityFeed(config, customFeedParams)
   blk.method = ::HTTP_METHOD_POST
   blk.path = "/v1/users/me/feed"
 
-  local captions = getFilledFeedTextByLang("activityFeed/" + locId)
-  local condensedCaptions = getFilledFeedTextByLang("activityFeed/" + locId + "/condensed")
-
-  local subType = ::getTblValue("subType", config, 0)
   local imageUrlsConfig = ::getRandomActivityFeedImageUrl(customFeedParams)
-  local smallImage = ::getTblValue("mainUrl", imageUrlsConfig, "")
-  local largeImage = smallImage + ::getTblValue("bigLogoEnd", imageUrlsConfig, "")
-  local fileExtension = ::getTblValue("fileExtension", imageUrlsConfig, "")
+  local url = imageUrlsConfig?.mainUrl || ""
+  local big = imageUrlsConfig?.bigLogoEnd || ""
+  local ext = imageUrlsConfig?.fileExtension || ""
 
-  local requestBody = ""
-  requestBody += "\"captions\": {" + ::g_string.implode(captions, ",") + "},"
-  requestBody += "\"condensedCaptions\": {" + ::g_string.implode(condensedCaptions, ",") + "},"
+  local largeImage = customFeedParams?.images?.large || (!u.isEmpty(url) ? url + big + ext : "")
+  local smallImage = customFeedParams?.images?.small || (!u.isEmpty(url) ? url + ext : "")
 
-  requestBody += "\"storyType\": \"IN_GAME_POST\","
-  requestBody += "\"subType\": " + subType + ","
+  local body = {
+    captions = customFeedParams.captions || getFilledFeedTextByLang("activityFeed/" + locId)
+    condensedCaptions = customFeedParams.condensedCaptions || getFilledFeedTextByLang("activityFeed/" + locId + "/condensed")
+    storyType = "IN_GAME_POST"
+    subType = config?.subType || 0
+    targets = [{accountId=::ps4_get_account_id(), type="ONLINE_ID"}]
+  }
+  if (!u.isEmpty(largeImage))
+    body.targets.append({meta=largeImage, type="LARGE_IMAGE_URL"})
+  if (!u.isEmpty(smallImage))
+    body.targets.append({meta=smallImage, type="SMALL_IMAGE_URL", aspectRatio="2.08:1"})
 
-  local onlineIdTarget = ""
-  local accountId = ::ps4_get_account_id()
-  if (accountId != "")
-    onlineIdTarget = "{\"type\": \"ONLINE_ID\",\"accountId\": \"" + accountId + "\"}"
-  else
-    requestBody += "\"source\": {\"meta\":\"" + ::ps4_get_online_id() + "\",\"type\":\"ONLINE_ID\"},"
+  blk.request = ::save_to_json(body)
 
-  local largeImageTarget = ""
-  if (largeImage != "")
-    largeImageTarget = "{\"meta\":\"" + largeImage + fileExtension + "\",\"type\":\"LARGE_IMAGE_URL\"}"
-
-  local smallImageTarget = ""
-  if (smallImage != "")
-    smallImageTarget = "{\"meta\":\"" + smallImage + fileExtension + "\",\"type\":\"SMALL_IMAGE_URL\",\"aspectRatio\":\"2.08:1\"}"
-
-  local targets = [largeImageTarget, onlineIdTarget, smallImageTarget]
-  requestBody += "\"targets\": [" + ::g_string.implode(targets, ",") + "]"
-
-  blk.request = "{" + ::stringReplace(requestBody, "\t", "") + "}"
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
