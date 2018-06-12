@@ -26,9 +26,8 @@ local ExchangeRecipes = class {
     foreach (component in parsedRecipe)
     {
       local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
-      local inventoryItem = items?[0] ?? null
 
-      local curQuantity = inventoryItem ? inventoryItem.amount : 0
+      local curQuantity = ::u.reduce(items, @(item, res) res + item.amount, 0)
       local reqQuantity = component.quantity
       local isHave = curQuantity >= reqQuantity
       isUsable = isUsable && isHave
@@ -253,21 +252,23 @@ local ExchangeRecipes = class {
     local res = []
     foreach (component in components)
     {
-      local item = u.search(::ItemsManager.getInventoryList(), @(item) item.id == component.itemdefId)
-      if (!item)
-        continue
-
       local leftCount = component.reqQuantity
-      foreach(uid in item.uids)
+      local itemsList = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefId)
+      foreach(item in itemsList)
       {
-        local leftByUid = usedUidsList?[uid] ?? item.amountByUids[uid]
-        if (leftByUid <= 0)
-          continue
+        foreach(uid in item.uids)
+        {
+          local leftByUid = usedUidsList?[uid] ?? item.amountByUids[uid]
+          if (leftByUid <= 0)
+            continue
 
-        local count = ::min(leftCount, leftByUid)
-        res.append([ uid, count ])
-        usedUidsList[uid] <- leftByUid - count
-        leftCount -= count
+          local count = ::min(leftCount, leftByUid)
+          res.append([ uid, count ])
+          usedUidsList[uid] <- leftByUid - count
+          leftCount -= count
+          if (!leftCount)
+            break
+        }
         if (!leftCount)
           break
       }

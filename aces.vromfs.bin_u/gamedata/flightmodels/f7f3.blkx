@@ -618,27 +618,34 @@
         {
           "onHit": {
             "damage": 30.0,
-            "cut": 0.4
+            "cut": 0.6
           }
         },
         {
           "onHit": {
-            "damage": 60.0,
-            "cut": 0.6
+            "damage": 65.0,
+            "cut": 1.0
           }
         },
         {
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 14.0
+            "nothing": 11.0
           }
         },
         {
           "onKill": {
             "damage": 31.0,
-            "cut": 2.0,
-            "nothing": 5.0
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0,
+            "nothing": 0.0
           }
         }
       ]
@@ -1381,32 +1388,80 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_l_dm"
+        "name": "spar_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_r_dm"
+        "name": "spar_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
@@ -1417,27 +1472,34 @@
         {
           "onHit": {
             "damage": 30.0,
-            "cut": 0.4
+            "cut": 0.6
           }
         },
         {
           "onHit": {
-            "damage": 60.0,
-            "cut": 0.6
+            "damage": 65.0,
+            "cut": 1.0
           }
         },
         {
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 14.0
+            "nothing": 11.0
           }
         },
         {
           "onKill": {
             "damage": 31.0,
-            "cut": 2.0,
-            "nothing": 5.0
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0,
+            "nothing": 0.0
           }
         }
       ]
@@ -2680,12 +2742,14 @@
     "emtr_break_wing1_r_to": [-1.04107,0.615626,-3.98206],
     "emtr_break_wing2_r_from": [-1.04107,0.615626,-5.50863],
     "emtr_break_wing2_r_to": [-1.04107,0.615626,-6.44597],
-    "emtr_break_wing_tail": [
-      [1.0,0.0,0.0],
-      [0.0,1.0,0.0],
-      [0.0,0.0,1.0],
-      [-5.89243,0.0,0.0]
-    ],
-    "partKindTail": 2
+    "emtr_break_wing_tail": [-5.89243,0.0,0.0],
+    "partKindTail": 2,
+    "finCut": false,
+    "emtr_break_stab_l_from": [-6.64274,1.01393,0.657318],
+    "emtr_break_stab_l_to": [-6.64274,1.01393,2.62927],
+    "emtr_break_stab_r_from": [-6.64274,1.01393,-0.657318],
+    "emtr_break_stab_r_to": [-6.64274,1.01393,-2.62927],
+    "emtr_break_fin_from": [-6.89885,1.04451,-6.27252e-07],
+    "emtr_break_fin_to": [-6.89885,3.14897,-6.27252e-07]
   }
 }

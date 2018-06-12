@@ -79,6 +79,8 @@ class ::items_classes.Order extends ::BaseItem
     return ""
   }
 
+  getActivateInfo    = @() ::g_orders.getActivateInfoText()
+
   function doMainAction(cb, handler, params = null)
   {
     local baseResult = base.doMainAction(cb, handler, params)

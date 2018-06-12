@@ -6,7 +6,7 @@ local shopSheets = {
   types = []
 }
 
-local isOnlyExtInventory = @(shopTab) shopTab == itemsTab.INVENTORY && ::has_feature("ExtInventory")
+local isOnlyExtInventory = @(shopTab) shopTab != itemsTab.WORKSHOP && ::has_feature("ExtInventory")
 
 shopSheets.template <- {
   id = "" //used from type name
@@ -34,7 +34,7 @@ shopSheets.template <- {
     local visibleTypeMask = ::ItemsManager.checkItemsMaskFeatures(typeMask)
     local filterFunc = getItemFilterFunc(shopTab).bindenv(this)
     if (shopTab == itemsTab.INVENTORY)
-      return ::ItemsManager.getInventoryList(visibleTypeMask, filterFunc)
+      return ::ItemsManager.getInventoryListByShopMask(visibleTypeMask, filterFunc)
     if (shopTab == itemsTab.SHOP)
       return ::ItemsManager.getShopList(visibleTypeMask, filterFunc)
     return []

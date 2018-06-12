@@ -306,6 +306,15 @@ function SessionLobby::setWaitForQueueRoom(set)
     switchStatus(set? lobbyStates.WAIT_FOR_QUEUE_ROOM : lobbyStates.NOT_IN_ROOM)
 }
 
+function SessionLobby::leaveWaitForQueueRoom()
+{
+  if (!isWaitForQueueRoom())
+    return
+
+  setWaitForQueueRoom(false)
+  ::g_popups.add(null, ::loc("NET_CANNOT_ENTER_SESSION"))
+}
+
 function SessionLobby::findParam(key, tbl1, tbl2)
 {
   if (key in tbl1)
@@ -2643,14 +2652,22 @@ web_rpc.register_handler("join_battle", SessionLobby.rpcJoinBattle)
 ::g_script_reloader.registerPersistentDataFromRoot("SessionLobby")
 ::subscribe_handler(::SessionLobby, ::g_listener_priority.DEFAULT_HANDLER)
 
-matching_rpc_subscribe("mrooms.reconnect_invite2",
-  function (invite_data, send_resp)
+foreach (notificationName, callback in
   {
-    dagor.debug("got reconnect invite from matching")
-    if (::is_in_flight())
-      return
+    ["mrooms.reconnect_invite2"] = function (invite_data, send_resp)
+    {
+      dagor.debug("got reconnect invite from matching")
+      if (::is_in_flight())
+        return
 
-    ::SessionLobby.reconnectData.inviteData = invite_data
-    ::SessionLobby.reconnectData.sendResp = send_resp
-    ::SessionLobby.checkSessionReconnect()
-  })
+     ::SessionLobby.reconnectData.inviteData = invite_data
+     ::SessionLobby.reconnectData.sendResp = send_resp
+     ::SessionLobby.checkSessionReconnect()
+    },
+
+    ["match.notify_wait_for_session_join"] = @() ::SessionLobby.setWaitForQueueRoom(true),
+
+    ["match.notify_join_session_aborted"] = @() ::SessionLobby.leaveWaitForQueueRoom()
+  }
+)
+  ::matching_rpc_subscribe(notificationName, callback)

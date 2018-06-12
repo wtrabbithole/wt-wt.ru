@@ -326,7 +326,7 @@
         "mission": {
           "difficulty": "arcade",
           "useAlternativeMapCoord": false,
-          "scoreLimit": 18000,
+          "scoreLimit": 14000,
           "randomSpawnTeams": false,
           "remapAiTankModels": true
         }
@@ -446,6 +446,11 @@
                 "side": "neutral",
                 "target": "briefing_capture_zone_03_arcade"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea"
+              }
             }
           ]
         },
@@ -514,6 +519,11 @@
                 "side": "neutral",
                 "target": "briefing_capture_zone_03_realistic"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_hardcore"
+              }
             }
           ]
         },
@@ -581,6 +591,11 @@
                 "icontype": "basezone_C",
                 "side": "neutral",
                 "target": "briefing_capture_zone_03_hardcore"
+              }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_hardcore"
               }
             }
           ]
@@ -2635,6 +2650,28 @@
         [2911.44,141.638,1444.48]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea": {
+      "type": "Box",
+      "tm": [
+        [8.74228e-05,0.0,2000.0],
+        [0.0,400.0,0.0],
+        [-2000.0,0.0,8.74228e-05],
+        [2037.2,184.346,2169.2]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "briefing_battlearea_hardcore": {
+      "type": "Box",
+      "tm": [
+        [0.000174846,0.0,4000.0],
+        [0.0,400.0,0.0],
+        [-4000.0,0.0,0.000174846],
+        [2049.91,265.716,2043.86]
+      ],
+      "objLayer": 3,
       "props": []
     }
   },

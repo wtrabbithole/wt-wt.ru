@@ -41,8 +41,7 @@ local function registerClass(className, classRef, isEqualFunc = null, isEmptyFun
 /*
   try to register standard dagor classes
 */
-local dagorClasses =
-{
+local dagorClasses = {
   DataBlock = {
     isEmpty = @(val) !val.paramCount() && !val.blockCount()
     isEqual = function(val1, val2)
@@ -67,12 +66,27 @@ local dagorClasses =
     isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y
     isEmpty = @(val) !val.x && !val.y
   }
+  IPoint2 = {
+    isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y
+    isEmpty = @(val) !val.x && !val.y
+  }
   Point3 = {
     isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y && val1.z == val2.z
     isEmpty = @(val) !val.x && !val.y && !val.z
   }
+  IPoint3 = {
+    isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y && val1.z == val2.z
+    isEmpty = @(val) !val.x && !val.y && !val.z
+  }
+  Point4 = {
+    isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y && val1.z == val2.z && val1.w == val2.w
+    isEmpty = @(val) !val.x && !val.y && !val.z && !val.w
+  }
   Color4 = {
     isEqual = @(val1, val2) val1.r == val2.r && val1.g == val2.g && val1.b == val2.b && val1.a == val2.a
+  }
+  Color3 = {
+    isEqual = @(val1, val2) val1.r == val2.r && val1.g == val2.g && val1.b == val2.b
   }
   TMatrix = {
     isEqual = function(val1, val2)

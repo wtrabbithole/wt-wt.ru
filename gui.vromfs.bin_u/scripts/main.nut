@@ -106,7 +106,9 @@ enum ps4_activity_feed {
   MISSION_SUCCESS,
   PURCHASE_UNIT,
   CLAN_DUEL_REWARD,
-  RESEARCHED_UNIT
+  RESEARCHED_UNIT,
+  MISSION_SUCCESS_AFTER_UPDATE,
+  MAJOR_UPDATE
 }
 
 enum bit_activity {
@@ -146,6 +148,7 @@ enum itemType { //bit values for easy multitype search
   KEY             = 0x00100000
   CHEST           = 0x00200000
   WARBONDS        = 0x00400000
+  INTERNAL_ITEM   = 0x00800000 //external inventory coupon which gives internal item
 
   //workshop
   CRAFT_PART      = 0x10000000
@@ -154,6 +157,14 @@ enum itemType { //bit values for easy multitype search
   //masks
   ALL             = 0xFFFFFFFF
   INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~WARBONDS
+}
+
+enum PREVIEW_MODE
+{
+  NONE      = 0x0000
+  UNIT      = 0x0001
+  SKIN      = 0x0002
+  DECORATOR = 0x0004
 }
 
 enum prizesStack {
@@ -772,6 +783,7 @@ function load_scripts_after_login_once()
     "debugTools/dbgHud.nut"
     "debugTools/dbgHudObjects.nut"
     "debugTools/dbgHudObjectTypes.nut"
+    "debugTools/dbgSquadVoiceChat.nut"
 
     "utils/popupMessages.nut"
     "utils/soundManager.nut"
@@ -800,6 +812,7 @@ function load_scripts_after_login_once()
   ::require("scripts/social/playerInfoUpdater.nut")
   ::require("scripts/seen/bhvUnseen.nut")
   ::require("scripts/items/roulette/bhvRoulette.nut")
+  ::require("scripts/squads/elems/squadVoiceChatElem.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

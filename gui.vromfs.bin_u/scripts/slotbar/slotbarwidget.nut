@@ -558,11 +558,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         unlocked = crewData.isUnlocked
         tooltipParams = { needCrewInfo = !::g_crews_list.isSlotbarOverrided }
         missionRules = missionRules
+        forceCrewInfoUnit = unitForSpecType
       }
-
-      local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForSpecType)
-      if (specType.code >= 0)
-        airParams.specType <- specType
 
       rowData += ::build_aircraft_item(id, crewData.unit, airParams)
     }

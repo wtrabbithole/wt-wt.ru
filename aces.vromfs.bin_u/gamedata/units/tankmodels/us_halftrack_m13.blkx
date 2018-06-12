@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -467,13 +470,13 @@
         "armorClass": "tank_barrel",
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -570,7 +573,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1258,7 +1261,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_01_dm",
-          "breechDP": "cannon_breech_01_dm",
+          "breechDP": "cannon_breech_02_dm",
           "speedYaw": 60.0,
           "speedPitch": 60.0,
           "bullets": 2400,
@@ -1305,7 +1308,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_02_dm",
-          "breechDP": "cannon_breech_02_dm",
+          "breechDP": "cannon_breech_01_dm",
           "speedYaw": 60.0,
           "speedPitch": 60.0,
           "bullets": 2400,

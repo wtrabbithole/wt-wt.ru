@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -298,16 +301,17 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 200.0,
+        "hp": 250.0,
         "armorThickness": 25.0,
         "gun_barrel_dm": [],
         "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 10.0,
+          "hp": 100.0
         },
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -428,7 +432,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2125,7 +2129,7 @@
     "ammoStowages": {
       "ammo1": [
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "weaponTrigger": "gunner0"
@@ -2519,7 +2523,7 @@
           {
             "limits": {
               "yaw": [-0.0,0.0],
-              "pitch": [-0.0,0.0]
+              "pitch": [-0.0,20.0]
             }
           }
         ]
@@ -2602,10 +2606,10 @@
       "art_support": [],
       "tank_new_gun": [],
       "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "tank_medical_kit_expendable": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "modern_tank_laser_rangefinder": [],
       "tank_smoke_screen_system_mod": {
@@ -2748,7 +2752,7 @@
                 {
                   "limits": {
                     "yaw": [-0.0,0.0],
-                    "pitch": [-0.0,0.0]
+                    "pitch": [-0.0,20.0]
                   }
                 }
               ]

@@ -109,106 +109,61 @@
         "position": "absolute",
         "pos": "-1@bw -4@dp, ph-h",
         "min-height": "2@sIco",
-        "padding": "1@framePadding",
         "padding-left": "1@bw",
         "flow": "vertical",
-        "tdiv": [
-          {
-            "id": "content"
+        "tdiv": {
+          "id": "content",
+          "size": "1@spectatorTableWidth, 1@spectatorTableWidth",
+          "flow": "vertical",
+          "HorizontalListBox": {
+            "id": "tabs",
+            "width": "pw",
+            "class": "tabs",
+            "smallFont": "yes",
+            "navigatorShortcuts": "yes",
+            "on_select": "onBtnLogTabSwitch",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown"
           },
-          {
-            "size": "1@spectatorTableWidth, 1@spectatorTableWidth"
-          },
-          {
-            "flow": "vertical"
-          },
-          {
-            "tdiv": [
-              {
-                "id": "tabs"
-              },
-              {
-                "width": "pw"
-              },
-              {
-                "padding-bottom": "1@framePadding"
-              },
-              {
-                "hoverButton": {
-                  "id": "btn_tab_history",
-                  "text": "#options/_Bttl",
-                  "on_click": "onBtnLogTabSwitch",
-                  "isTextBtn": "yes",
-                  "highlighted": "yes",
-                  "alert": "no",
-                  "updated": []
-                }
-              },
-              {
-                "hoverButton": {
-                  "id": "btn_tab_chat",
-                  "text": "#mainmenu/chat",
-                  "on_click": "onBtnLogTabSwitch",
-                  "isTextBtn": "yes",
-                  "highlighted": "no",
-                  "alert": "no",
-                  "updated": []
-                }
-              },
-              {
-                "hoverButton": {
-                  "id": "btn_tab_orders",
-                  "text": "#itemTypes/orders",
-                  "on_click": "onBtnLogTabSwitch",
-                  "isTextBtn": "yes",
-                  "highlighted": "no",
-                  "alert": "no",
-                  "updated": []
+          "tdiv": [
+            {
+              "size": "pw, fh"
+            },
+            {
+              "tdiv": {
+                "id": "history_container",
+                "position": "absolute",
+                "size": "pw, ph",
+                "display": "show",
+                "overflow-y": "auto",
+                "scroll-align": "left",
+                "auto-scroll": "yes",
+                "css-hier-invalidate": "yes",
+                "historyLog": {
+                  "id": "history_log",
+                  "width": "pw",
+                  "punctuation-exception": "-.,'\"():/\\@[]=^+",
+                  "text": ""
                 }
               }
-            ]
-          },
-          {
-            "tdiv": [
-              {
-                "size": "pw, fh"
-              },
-              {
-                "tdiv": {
-                  "id": "history_container",
-                  "position": "absolute",
-                  "size": "pw + 1@scrollBarSize, ph",
-                  "display": "show",
-                  "overflow-y": "auto",
-                  "scroll-align": "left",
-                  "auto-scroll": "yes",
-                  "css-hier-invalidate": "yes",
-                  "historyLog": {
-                    "id": "history_log",
-                    "width": "pw",
-                    "punctuation-exception": "-.,'\"():/\\@[]=^+",
-                    "text": ""
-                  }
-                }
-              },
-              {
-                "chatPlaceSpectator": {
-                  "id": "chat_container",
-                  "position": "absolute",
-                  "size": "pw, ph",
-                  "display": "hide"
-                }
-              },
-              {
-                "tdiv": {
-                  "id": "order_status",
-                  "position": "absolute",
-                  "size": "pw + 1@scrollBarSize, ph"
-                }
+            },
+            {
+              "chatPlaceSpectator": {
+                "id": "chat_container",
+                "position": "absolute",
+                "size": "pw, ph",
+                "display": "hide"
               }
-            ]
-          }
-        ]
+            },
+            {
+              "tdiv": {
+                "id": "order_status",
+                "position": "absolute",
+                "size": "pw, ph"
+              }
+            }
+          ]
+        }
       }
     },
     {

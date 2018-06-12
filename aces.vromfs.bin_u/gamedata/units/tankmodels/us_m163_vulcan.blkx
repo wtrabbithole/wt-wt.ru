@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -91,9 +94,6 @@
   },
   {
     "destroysTrees": true
-  },
-  {
-    "rotationAnimScale": "gun_rotate_01:CRS"
   },
   {
     "type": "typeSPAA"
@@ -594,14 +594,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 10.0,
-          "hp": 150.0
-        }
-      },
       "body_shields": {
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
@@ -651,6 +643,17 @@
           "armorThickness": 15.0,
           "ex_armor_02_dm": []
         }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 100.0,
+        "armorThickness": 10.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": [],
+        "gun_barrel_02_dm": [],
+        "gun_barrel_03_dm": [],
+        "gun_barrel_04_dm": [],
+        "gun_barrel_05_dm": []
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -716,7 +719,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2151,10 +2154,11 @@
         "breechDP": "cannon_breech_dm",
         "speedYaw": 75.0,
         "speedPitch": 60.0,
+        "rotationAnimScale": "gun_rotate_01:CRS",
         "bullets": 2200,
         "fireConeAngle": 15.0,
         "ChainfireTime": 3.0,
-        "DelayAfterShoot": 3.0,
+        "DelayAfterShoot": 1.0,
         "accuracyAir": 0.01,
         "accuracyGnd": 0.0,
         "errMeasureVel": 0.0,

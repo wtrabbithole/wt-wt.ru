@@ -8,11 +8,58 @@ local rootTable = getroottable()
 local intRegExp = null
 local floatRegExp = null
 local stripTagsConfig = null
-
-function clamp(value, min, max) { //copied from math to no expose new dependency. clamp\min\max should be in language or system stdlibrary
-  return (value < min) ? min : (value > max) ? max : value
+/**
+ * Joins array elements into a string with the glue string between each element.
+ * This function is a reverse operation to g_string.split()
+ * @param {string[]} pieces - The array of strings to join.
+ * @param {string}   glue - glue string.
+ * @return {string} - String containing all the array elements in the same order,
+ *                    with the glue string between each element.
+ */
+// Reverse operation to split()
+local function implode(pieces = [], glue = "") {
+  return pieces.filter(@(index,val) val != "" && val != null).reduce(@(prev, cur) prev + glue + cur) ?? ""
 }
 
+/**
+ * Joins array elements into a string with the glue string between each element.
+ * Like implode(), but doesn't skip empty strings, so it is lossless
+ * and safe for packing string data into a string, when empty sub-strings are important.
+ * This function is a reverse operation to g_string.split()
+ * @param {string[]} pieces - The array of strings to join.
+ * @param {string}   glue - glue string.
+ * @return {string} - String containing all the array elements in the same order,
+ *                    with the glue string between each element.
+ */
+local function join(pieces, glue="") {
+  return pieces.reduce(@(prev, cur) prev + glue + cur) ?? ""
+}
+
+/**
+ * Splits a string into an array of sub-strings.
+ * Like Squirrel split(), but doesn't skip empty strings, so it is lossless
+ * and safe for extracting string data from a string, when empty sub-strings are important.
+ * This function is a reverse operation to g_string.join()
+ * @param {string} joined - The string to split.
+ * @param {string} glue - glue string.
+ * @return {string[]} - Array of sub-strings.
+ */
+local function split(joined, glue) {
+  local pieces = []
+  local joinedLen = joined.len()
+  if (!joinedLen)
+    return pieces
+  local glueLen = glue.len()
+  local start = 0
+  while (start <= joinedLen) {
+    local end = joined.find(glue, start)
+    if (end == null)
+      end = joinedLen
+    pieces.append(joined.slice(start, end))
+    start = end + glueLen
+  }
+  return pieces
+}
 
 if ("regexp2" in rootTable) {
   intRegExp = ::regexp2(@"^-?\d+$")
@@ -66,112 +113,183 @@ if ("regexp2" in rootTable) {
   ]
 }
 
-local function tostring_any(input) {
-  if (::type(input) != "userdata"){
-    return input.tostring()
+local defTostringParams = {
+  maxdeeplevel = 4
+  compact=true
+  tostringfunc= {
+    compare=function(val) {return false}
+    tostring=@(val) val.tostring()
   }
-  else
-    return "#USERDATA#"
+  separator = " "
+  indentOnNewline = "  "
+  newline="\n"
+  splitlines = true
+  showArrIdx=false
+}
+local function tostring_r(input, params=defTostringParams) {}
+local function func_tostring(func,compact) {
+  local info = func.getinfos()
+  local out = ""
+  if (!info.native) {
+    local params = info.parameters.slice(1)
+    if (params.len()>0)
+      params=params.reduce(@(res, curval) res.tostring() + ", " + curval)
+    else
+      params = ""
+    local fname = "" + info.name
+    if (fname.find("(null : 0x0") != null)
+      fname = "@"
+    if (!compact)
+      out += "(func): " + info.src + " "
+    out += fname +"("
+    if (!compact)
+      out += params
+    out += ")"
+  } else if (info.native) {
+    out += "(nativefunc): " + info.name
+
+  } else {
+    out += func.tostring()
+  }
+  return out
 }
 
-local function tostring_r(input, indent = "  ", maxdeeplevel = null) {
-  local out = ""
-  local deeplevel = 0
-  local table_types = ["class","table","instance"]
-  local simple_types = ["string", "float", "bool", "integer"]
-  local complex_types = ["userdata","weakreference"]
-  local function_types = ["function", "generator", "thread"]
-  local rawtypes = []
-  rawtypes.extend(complex_types)
-  rawtypes.extend(simple_types)
+local simple_types = ["string", "float", "bool", "integer"]
+local function_types = ["function", "generator", "thread"]
 
-  local func_tostring = function(func) {
-    local info = func.getinfos()
-    local out = ""
-    if (!info.native) {
-      local params = info.parameters.reduce(@(res, curval) res.tostring() + ", " + curval)
-      local fname = "" + info.name
-      if (fname.find("(null : 0x0") != null)
-        fname = "@"
-      out += "(function): " + info.src + ",(" + fname + ") arguments(" + params + ")"
-    } else if (info.native) {
-      out += "(nativefunction): " + info.name
-
-    } else {
-      out += func.tostring()
-    }
-    return out
+local function tostring_any(input, tostringfunc=null, compact=false) {
+  local typ = ::type(input)
+  if (tostringfunc?.compare != null && tostringfunc.compare(input)){
+    return tostringfunc.tostring(input)
   }
-
-  local sub_tostring_r = function(input, indent, curdeeplevel, maxdeeplevel = null, arrayElem = false, separator = "\n") {
+  else if (function_types.find(typ)!=null){
+    return func_tostring(input,compact)
+  }
+  else if (typ == "string"){
+    if (compact)
+      return input
+    return "'" + input + "'"
+  }
+  else if (typ == "null"){
+    return "null"
+  }
+  else if (typ == "float" && input == input.tointeger().tofloat() && !compact){
+    return input.tostring()+".0"
+  }
+  else if (typ=="instance"){
+    return input.tostring()
+  }
+  else if (typ == "userdata"){
+    return "#USERDATA#"
+  }
+  else if (typ == "weakreference"){
+    return "#WEAKREF#"
+  }
+  else
+    return input.tostring()
+}
+local table_types = ["table","class","instance"]
+tostring_r = function(input, params=defTostringParams) {
+  local out = ""
+  local newline = params?.newline ?? defTostringParams.newline
+  local maxdeeplevel = params?.maxdeeplevel ?? defTostringParams.maxdeeplevel
+  local separator = params?.separator ?? defTostringParams.separator
+  local showArrIdx = params?.showArrIdx ?? defTostringParams.showArrIdx
+  local tostringfunc = params?.tostringfunc
+  local indentOnNewline = params?.indentOnNewline ?? defTostringParams.indentOnNewline
+  local splitlines = params?.splitlines ?? defTostringParams.splitlines
+  local compact = params?.compact ?? defTostringParams.compact
+  local deeplevel = 0
+  local sub_tostring_r
+  local function tostringLeaf(input) {
+    local typ =::type(input)
+    if ((tostringfunc != null && tostringfunc?.compare(input)) || (typ=="instance" && input?.tostring().find("(instance : 0x")!=0) || simple_types.find(typ) != null || function_types.find(typ)!=null || typ=="null")
+      return true
+  }
+  local function tostring_any(input) {
+    return tostring_any(input, tostringfunc, compact)
+  }
+  local function openSym(value) {
+    local typ = ::type(value)
+    if (typ=="array")
+      return "["
+    if (typ=="class") {
+      local className = value.getattributes(null)?.name
+      if (!compact)
+        className = implode(["class", className]," ")
+      return implode([className, "{"]," ")
+    }
+    else if (typ=="instance") {
+      local className = value.getclass().getattributes(null)?.name
+      if (!compact)
+        className = implode(["inst", className]," ")
+      return implode([className,"{"]," ")
+    }
+    else
+      return "{"
+  }
+  local function closeSym(value) {
+    local typ = ::type(value)
+    if (typ=="array")
+      return "]"
+    else
+      return "}"
+  }
+  local function idxStr(i) {
+    if (showArrIdx)
+      return (compact) ? i + " = " : "["+i+"] = "
+    else
+      return ""
+  }
+  local arrSep = separator
+  if (!splitlines) {
+    newline = " "
+    indentOnNewline = ""
+  }
+  sub_tostring_r = function(input, indent, curdeeplevel, arrayElem = false, separator = newline, arrInd=null) {
+    if (arrInd==null)
+      arrInd=indent
     local out = ""
     if (maxdeeplevel != null && curdeeplevel == maxdeeplevel)
-      return out
+      return out+"..."
     foreach (key, value in input) {
-      if (simple_types.find(::type(value)) != null && function_types.find(::type(value)) != -1) {
-        out += separator
+      local typ = ::type(value)
+      local isArray = typ=="array"
+      if (tostringLeaf(value)) {
         if (!arrayElem) {
-           out += indent + tostring_any(key) +  " = "
+          out += separator
+          out += indent + tostring_any(key) +  " = "
         }
-        out += value.tostring()
+        out += tostring_any(value)
+        if (arrayElem && key!=input.len()-1)
+          out += separator
       }
-      else if (function_types.find(::type(value)) != null &&
-        function_types.find(::type(value)) != -1) {
-        out += separator
-        if (!arrayElem) {
-           out += indent + tostring_any(key) +  " = "
-        }
-        out += func_tostring(value)
+      else if (isArray && !showArrIdx) {
+        if (!arrayElem)
+          out += newline + indent + tostring_any(key) +  " = "
+        out += "[" + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
+        if (arrayElem && key!=input.len()-1)
+          out += separator
       }
-      else if (["null"].find(::type(value)) != null) {
-        out += separator
-        if (!arrayElem) {
-           out += indent + tostring_any(key) +  " = "
-        }
-        out += "null"
-      }
-      else if (::type(value) == "array" && function_types.find(::type(value)) != -1) {
-        out += separator
-        if (!arrayElem) {
-          out += indent + key.tostring() +  " = "
-        }
-        out += "[" + callee()(value, indent + "  ", curdeeplevel+1, maxdeeplevel=maxdeeplevel, true, " ") + " ]"
-      }
-      else if (table_types.find(::type(value)) != null && table_types.find(::type(value)) != -1) {
-        out += "\n" + indent
+      else if (table_types.find(typ) != null || (isArray && showArrIdx )) {
+        local brOp = openSym(value)
+        local brCl = closeSym(typ)
+        out += newline + indent
         if (!arrayElem) {
           out += tostring_any(key) +  " = "
         }
-        out += "{" + callee()(value, indent + "  ", curdeeplevel+1, maxdeeplevel) + "\n" + indent + "}"
-        if (arrayElem)
-          out += "\n"
-      }
-      else {
-        out += "\n" + indent
-        if (!arrayElem) {
-          out += tostring_any(key) +  " = "
+        out += brOp + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
+        if (arrayElem && key==input.len()-1 ){
+          out += newline+arrInd
         }
-        out += tostring_any(value) + "\n"
+        else if (arrayElem && key<input.len()-1 && table_types.find(type(input[key+1]))!=0){
+          out += newline+indent
+        }
       }
     }
-    
     return out
   }
-  if (table_types.find(::type(input)) != null && table_types.find(::type(input)) != -1) {
-    out += input.tostring() + " { "
-    out += sub_tostring_r(input, indent, 0, maxdeeplevel, false,"\n")
-    out += "\n}"
-  } else if (::type(input)=="array"){
-    out += input.tostring() + " ["
-    out += sub_tostring_r(input, "  ", 0, maxdeeplevel, true, " ")
-    if (out.slice(-1) != "\n")
-      out += " "
-    out += "]"
-  } else {
-    out += sub_tostring_r([input], "", 0, maxdeeplevel, true, "")
-  }
-
-  return out +"\n"
+  return sub_tostring_r([input], "", 0,true)
 }
 
 
@@ -355,59 +473,6 @@ local function toUpper(string, symbolsNum = 0) {
   return slice(string, 0, symbolsNum).toupper() + slice(string, symbolsNum)
 }
 
-
-/**
- * Joins array elements into a string with the glue string between each element.
- * This function is a reverse operation to g_string.split()
- * @param {string[]} pieces - The array of strings to join.
- * @param {string}   glue - glue string.
- * @return {string} - String containing all the array elements in the same order,
- *                    with the glue string between each element.
- */
-// Reverse operation to split()
-local function implode(pieces = [], glue = "") {
-  return pieces.filter(@(index,val) val != "").reduce(@(prev, cur) prev + glue + cur) ?? ""
-}
-
-/**
- * Joins array elements into a string with the glue string between each element.
- * Like implode(), but doesn't skip empty strings, so it is lossless
- * and safe for packing string data into a string, when empty sub-strings are important.
- * This function is a reverse operation to g_string.split()
- * @param {string[]} pieces - The array of strings to join.
- * @param {string}   glue - glue string.
- * @return {string} - String containing all the array elements in the same order,
- *                    with the glue string between each element.
- */
-local function join(pieces, glue) {
-  return pieces.reduce(@(prev, cur) prev + glue + cur) ?? ""
-}
-
-/**
- * Splits a string into an array of sub-strings.
- * Like Squirrel split(), but doesn't skip empty strings, so it is lossless
- * and safe for extracting string data from a string, when empty sub-strings are important.
- * This function is a reverse operation to g_string.join()
- * @param {string} joined - The string to split.
- * @param {string} glue - glue string.
- * @return {string[]} - Array of sub-strings.
- */
-local function split(joined, glue) {
-  local pieces = []
-  local joinedLen = joined.len()
-  if (!joinedLen)
-    return pieces
-  local glueLen = glue.len()
-  local start = 0
-  while (start <= joinedLen) {
-    local end = joined.find(glue, start)
-    if (end == null)
-      end = joinedLen
-    pieces.append(joined.slice(start, end))
-    start = end + glueLen
-  }
-  return pieces
-}
 
 local function replaceSym(str, from, to) {
   if (!str)

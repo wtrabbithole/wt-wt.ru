@@ -46,7 +46,7 @@ class ::g_unit_limit_classes.LimitByUnitName extends ::g_unit_limit_classes.Limi
         text = weaponPresetIconsText + ::getTblValue("teamUnitPresetAmount", presetInfo, 0)
       })
 
-    if (distributed != ::RESPAWNS_UNLIMITED)
+    if (distributed != null && distributed != ::RESPAWNS_UNLIMITED)
     {
       local text = distributed > 0 ? ::colorize("userlogColoredText", distributed) : distributed
       if (!::u.isEmpty(weaponPresetIconsText))

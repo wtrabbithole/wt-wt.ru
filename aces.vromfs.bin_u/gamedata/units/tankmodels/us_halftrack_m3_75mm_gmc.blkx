@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -581,10 +584,16 @@
         "ex_armor_body_l_02_dm": {
           "armorThickness": 6.35
         },
+        "ex_armor_body_l_03_dm": {
+          "armorThickness": 6.35
+        },
         "ex_armor_body_r_01_dm": {
           "armorThickness": 6.35
         },
         "ex_armor_body_r_02_dm": {
+          "armorThickness": 6.35
+        },
+        "ex_armor_body_r_03_dm": {
           "armorThickness": 6.35
         },
         "ex_armor_body_01_dm": {
@@ -606,21 +615,6 @@
           "armorThickness": 6.35
         }
       },
-      "hull": {
-        "armorClass": "tank_structural_steel",
-        "ex_armor_body_l_03_dm": {
-          "armorThickness": 6.35
-        },
-        "ex_armor_body_r_03_dm": {
-          "armorThickness": 6.35
-        },
-        "wheel_support_dm": {
-          "armorThickness": 6.35
-        },
-        "ex_armor_01_dm": {
-          "armorThickness": 6.35
-        }
-      },
       "mask": {
         "armorClass": "optics_tank",
         "optic_gun_dm": {
@@ -634,17 +628,6 @@
         "optic_body_02_dm": {
           "armorThickness": 3.0,
           "hp": 50.0
-        }
-      },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
-        },
-        "gun_barrel_armor_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
         }
       },
       "chassis": {
@@ -683,6 +666,37 @@
         "armorClass": "car_wheels",
         "wheel_l_01_dm": [],
         "wheel_r_01_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -741,7 +755,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],

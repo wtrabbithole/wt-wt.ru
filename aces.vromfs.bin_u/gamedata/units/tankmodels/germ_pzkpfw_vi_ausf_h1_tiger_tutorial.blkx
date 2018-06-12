@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -115,6 +118,9 @@
         },
         "turret_back_dm": {
           "armorThickness": 30.0
+        },
+        "ex_decor_06_dm": {
+          "armorThickness": 15.0
         }
       },
       "mask": {
@@ -214,17 +220,6 @@
           "hp": 400.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "gun_barrel_dm": {
-          "armorThickness": 28.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 300.0,
@@ -269,6 +264,37 @@
           "ex_armor_turret_l_03_dm": [],
           "ex_armor_turret_l_04_dm": [],
           "ex_armor_turret_l_05_dm": []
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -327,7 +353,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -420,146 +446,54 @@
           "armorThickness": 26.0
         }
       },
-      "ammo": [
-        {
-          "armorClass": "tank_structural_steel"
-        },
-        {
-          "hp": 250.0
-        },
-        {
-          "armorThickness": 1.0
-        },
-        {
-          "armorThrough": 2.0
-        },
-        {
-          "fireProtectionHp": 20.0
-        },
-        {
-          "ammo_turret_dm": []
-        },
-        {
-          "ammo_turret_01_dm": []
-        },
-        {
-          "ammo_turret_02_dm": []
-        },
-        {
-          "ammo_turret_03_dm": []
-        },
-        {
-          "ammo_turret_04_dm": []
-        },
-        {
-          "ammo_turret_05_dm": []
-        },
-        {
-          "ammo_turret_06_dm": []
-        },
-        {
-          "ammo_turret_07_dm": []
-        },
-        {
-          "ammo_turret_08_dm": []
-        },
-        {
-          "ammo_body_dm": []
-        },
-        {
-          "ammo_body_01_dm": []
-        },
-        {
-          "ammo_body_02_dm": []
-        },
-        {
-          "ammo_body_03_dm": []
-        },
-        {
-          "ammo_body_04_dm": []
-        },
-        {
-          "ammo_body_05_dm": []
-        },
-        {
-          "ammo_body_06_dm": []
-        },
-        {
-          "ammo_body_07_dm": []
-        },
-        {
-          "ammo_body_l_01_dm": []
-        },
-        {
-          "ammo_body_l_02_dm": []
-        },
-        {
-          "ammo_body_l_03_dm": []
-        },
-        {
-          "ammo_body_l_04_dm": []
-        },
-        {
-          "ammo_body_l_05_dm": []
-        },
-        {
-          "ammo_body_l_06_dm": []
-        },
-        {
-          "ammo_body_l_07_dm": []
-        },
-        {
-          "ammo_body_l_07_dm": []
-        },
-        {
-          "ammo_body_l_09_dm": []
-        },
-        {
-          "ammo_body_l_10_dm": []
-        },
-        {
-          "ammo_body_l_11_dm": []
-        },
-        {
-          "ammo_body_l_12_dm": []
-        },
-        {
-          "ammo_body_r_01_dm": []
-        },
-        {
-          "ammo_body_r_02_dm": []
-        },
-        {
-          "ammo_body_r_03_dm": []
-        },
-        {
-          "ammo_body_r_04_dm": []
-        },
-        {
-          "ammo_body_r_05_dm": []
-        },
-        {
-          "ammo_body_r_06_dm": []
-        },
-        {
-          "ammo_body_r_07_dm": []
-        },
-        {
-          "ammo_body_r_08_dm": []
-        },
-        {
-          "ammo_body_r_09_dm": []
-        },
-        {
-          "ammo_body_r_10_dm": []
-        },
-        {
-          "ammo_body_r_11_dm": []
-        },
-        {
-          "ammo_body_r_12_dm": []
-        }
-      ]
+      "ammo": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 1.0,
+        "armorThrough": 2.0,
+        "fireProtectionHp": 20.0,
+        "ammo_turret_dm": [],
+        "ammo_turret_01_dm": [],
+        "ammo_turret_02_dm": [],
+        "ammo_turret_03_dm": [],
+        "ammo_turret_04_dm": [],
+        "ammo_turret_05_dm": [],
+        "ammo_turret_06_dm": [],
+        "ammo_turret_07_dm": [],
+        "ammo_turret_08_dm": [],
+        "ammo_body_dm": [],
+        "ammo_body_01_dm": [],
+        "ammo_body_02_dm": [],
+        "ammo_body_03_dm": [],
+        "ammo_body_04_dm": [],
+        "ammo_body_05_dm": [],
+        "ammo_body_06_dm": [],
+        "ammo_body_07_dm": [],
+        "ammo_body_l_01_dm": [],
+        "ammo_body_l_02_dm": [],
+        "ammo_body_l_03_dm": [],
+        "ammo_body_l_04_dm": [],
+        "ammo_body_l_05_dm": [],
+        "ammo_body_l_06_dm": [],
+        "ammo_body_l_07_dm": [],
+        "ammo_body_l_08_dm": [],
+        "ammo_body_l_09_dm": [],
+        "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_r_01_dm": [],
+        "ammo_body_r_02_dm": [],
+        "ammo_body_r_03_dm": [],
+        "ammo_body_r_04_dm": [],
+        "ammo_body_r_05_dm": [],
+        "ammo_body_r_06_dm": [],
+        "ammo_body_r_07_dm": [],
+        "ammo_body_r_08_dm": [],
+        "ammo_body_r_09_dm": [],
+        "ammo_body_r_10_dm": [],
+        "ammo_body_r_11_dm": [],
+        "ammo_body_r_12_dm": []
+      }
     }
   },
   {
@@ -948,12 +882,14 @@
           },
           "limitsTable": {
             "lim1": [-180.0,-140.0,-2.0,16.0],
-            "lim2": [-140.0,-47.0,-8.0,16.0],
-            "lim3": [-47.0,-40.0,-3.0,16.0],
-            "lim4": [-40.0,40.0,-8.0,16.0],
-            "lim5": [40.0,47.0,-3.0,16.0],
-            "lim6": [47.0,140.0,-8.0,16.0],
-            "lim7": [140.0,180.0,-2.0,16.0]
+            "lim2": [-140.0,-127.0,-8.0,16.0],
+            "lim3": [-127.0,-120.0,-2.0,16.0],
+            "lim4": [-120.0,-47.0,-8.0,16.0],
+            "lim5": [-47.0,-40.0,-2.0,16.0],
+            "lim6": [-40.0,40.0,-8.0,16.0],
+            "lim7": [40.0,47.0,-2.0,16.0],
+            "lim8": [47.0,140.0,-8.0,16.0],
+            "lim9": [140.0,180.0,-2.0,16.0]
           }
         }
       },
@@ -979,6 +915,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true
@@ -1790,12 +1729,14 @@
                 },
                 "limitsTable": {
                   "lim1": [-180.0,-140.0,-2.0,16.0],
-                  "lim2": [-140.0,-47.0,-8.0,16.0],
-                  "lim3": [-47.0,-40.0,-3.0,16.0],
-                  "lim4": [-40.0,40.0,-8.0,16.0],
-                  "lim5": [40.0,47.0,-3.0,16.0],
-                  "lim6": [47.0,140.0,-8.0,16.0],
-                  "lim7": [140.0,180.0,-2.0,16.0]
+                  "lim2": [-140.0,-127.0,-8.0,16.0],
+                  "lim3": [-127.0,-120.0,-2.0,16.0],
+                  "lim4": [-120.0,-47.0,-8.0,16.0],
+                  "lim5": [-47.0,-40.0,-2.0,16.0],
+                  "lim6": [-40.0,40.0,-8.0,16.0],
+                  "lim7": [40.0,47.0,-2.0,16.0],
+                  "lim8": [47.0,140.0,-8.0,16.0],
+                  "lim9": [140.0,180.0,-2.0,16.0]
                 }
               }
             },
@@ -1821,6 +1762,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "useAnimFlashNode": true

@@ -1178,32 +1178,80 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_l_dm"
+        "name": "spar_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_r_dm"
+        "name": "spar_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
@@ -2170,6 +2218,8 @@
     "Range": 1380.0
   },
   "Sound": {
+    "turretTurnSfxPath": "sounds/effects",
+    "turretTurnSfxName": "gun_turn_manual",
     "Engine": "engine11",
     "gun": "gun_default",
     "cockpitOpen": "cockpit_door2_open",
@@ -2180,6 +2230,7 @@
     "headPos": [0.695,0.8,0.007],
     "headPosOnShooting": [0.695,0.8,0.007],
     "collimatorSize": 0.2,
+    "openedGunnerCockpit": true,
     "lightPos": [1.229901,0.355629,0.126903],
     "lightColor": [0.0,0.05,0.02],
     "lightRadius": 0.27,
@@ -2295,6 +2346,9 @@
           "blk": "gameData/Weapons/gunBredaSAFAT77_turret.blk"
         },
         {
+          "breechInCockpit": true
+        },
+        {
           "emitter": "gun1"
         },
         {
@@ -2302,6 +2356,9 @@
         },
         {
           "dm": "gunner1_dm"
+        },
+        {
+          "gunnerDm": "gunner1_dm"
         },
         {
           "gunDm": "mgun1_dm"
@@ -2340,7 +2397,7 @@
     }
   ],
   "gunnerFps": {
-    "pos": [0.0,0.4,0.0],
+    "pos": [0.0,0.35,0.0],
     "head": "turret1"
   },
   "weapon_presets": [
@@ -2553,12 +2610,8 @@
     "emtr_break_wing1_r_to": [-0.62595,-0.0456803,-3.70991],
     "emtr_break_wing2_r_from": [-0.62595,-0.0456803,-4.66894],
     "emtr_break_wing2_r_to": [-0.62595,-0.0456803,-5.90083],
-    "emtr_break_wing_tail": [
-      [1.0,0.0,0.0],
-      [0.0,1.0,0.0],
-      [0.0,0.0,1.0],
-      [-3.40844,0.0,0.0]
-    ],
-    "partKindTail": 2
+    "emtr_break_wing_tail": [-3.40844,0.0,0.0],
+    "partKindTail": 2,
+    "finCut": false
   }
 }

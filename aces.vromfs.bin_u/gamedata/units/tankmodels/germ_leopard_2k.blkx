@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -384,11 +387,9 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 200.0,
+        "hp": 250.0,
         "armorThickness": 25.0,
-        "gun_barrel_dm": {
-          "armorThickness": 22.0
-        },
+        "gun_barrel_dm": [],
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
@@ -535,7 +536,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -620,6 +621,21 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
+        "ammo_turret_44_dm": [],
+        "ammo_turret_45_dm": [],
+        "ammo_turret_46_dm": [],
+        "ammo_turret_47_dm": [],
+        "ammo_turret_48_dm": [],
+        "ammo_turret_49_dm": [],
+        "ammo_turret_50_dm": [],
+        "ammo_turret_51_dm": [],
+        "ammo_turret_52_dm": [],
+        "ammo_turret_53_dm": [],
+        "ammo_turret_54_dm": [],
+        "ammo_turret_55_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -671,6 +687,11 @@
         "ammo_body_48_dm": [],
         "ammo_body_49_dm": [],
         "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -744,8 +765,6 @@
         "armorArrayHull": {
           "xrayDmPart": "composite_armor_hull_01_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 50.0,
-          "cumulativeProtectionEquivalent": 80.0,
           "armorArrayText": [
             {
               "layer": {
@@ -769,8 +788,6 @@
         "armorArrayHull2": {
           "xrayDmPart": "composite_armor_hull_02_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 40.0,
-          "cumulativeProtectionEquivalent": 60.0,
           "armorArrayText": [
             {
               "layer": {
@@ -794,8 +811,6 @@
         "armorArrayHull3": {
           "xrayDmPart": "composite_armor_hull_03_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 60.0,
-          "cumulativeProtectionEquivalent": 80.0,
           "armorArrayText": [
             {
               "layer": {
@@ -819,8 +834,6 @@
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_01_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 60.0,
-          "cumulativeProtectionEquivalent": 100.0,
           "armorArrayText": [
             {
               "layer": {
@@ -844,8 +857,6 @@
         "armorArrayTurret2": {
           "xrayDmPart": "composite_armor_turret_02_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 165.0,
-          "cumulativeProtectionEquivalent": 250.0,
           "armorArrayText": [
             {
               "layer": {
@@ -869,8 +880,6 @@
         "armorArrayTurret3": {
           "xrayDmPart": "composite_armor_turret_03_dm",
           "titleLoc": "spaced_armor",
-          "kineticProtectionEquivalent": 165.0,
-          "cumulativeProtectionEquivalent": 170.0,
           "armorArrayText": [
             {
               "layer": {
@@ -1605,7 +1614,7 @@
             "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
-                "row": [5.0,0.01]
+                "row": [5.0,0.0]
               },
               {
                 "row": [45.0,0.015]
@@ -1799,13 +1808,13 @@
       },
       "mechanics": {
         "maxBrakeForce": 250000.0,
-        "driveGearRadius": 0.34,
-        "mainGearRatio": 1.55,
+        "driveGearRadius": 0.37,
+        "mainGearRatio": 1.85,
         "sideGearRatio": 6.25,
-        "neutralGearRatio": 10.0,
+        "neutralGearRatio": 3.0,
         "gearRatios": [
           {
-            "ratio": -0.49
+            "ratio": -0.45
           },
           {
             "ratio": -0.68
@@ -1853,7 +1862,7 @@
             "ratio": 0.68
           },
           {
-            "ratio": 0.49
+            "ratio": 0.45
           }
         ]
       },
@@ -1953,7 +1962,7 @@
           "replenishmentDelay": 4.0
         },
         {
-          "replenishmentTime": 10.0
+          "replenishmentTime": 15.0
         },
         {
           "shells": {
@@ -2694,7 +2703,7 @@
                   "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
-                      "row": [5.0,0.01]
+                      "row": [5.0,0.0]
                     },
                     {
                       "row": [45.0,0.015]
@@ -2864,7 +2873,7 @@
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "allowableDelta": 360.0,
-                "salvo": 8,
+                "salvo": 4,
                 "speedYaw": 24.0,
                 "speedPitch": 15.0,
                 "fireConeAngle": 1.0,

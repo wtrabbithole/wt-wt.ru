@@ -1,15 +1,19 @@
 /**
- * Fucntion require_native is wrapper function for require. It provides
+ * Function require_native is wrapper function for require. It provides
  * fall back logic when required native module is not exist.
- * If native module failed to load, insted, load script moduel with
+ * If native module failed to load, insted, load script module with
  * same API from nativeModuleCompatibility folder, to provide native
  * module back compatibility.
  * If fallback module has slots, missed in native module, they will
  * be added to result.
  */
+
+
+local require_optional = this.require_optional
+
 function require_native(moduleName) {
-  local module = require(moduleName, false) || {}
-  local fallBack = require("nativeModuleCompatibility/" + moduleName + ".nut", false) || {}
+  local module = require_optional(moduleName) || {}
+  local fallBack = require_optional("nativeModuleCompatibility/" + moduleName + ".nut") ?? {}
   foreach (slotName, slot in fallBack) {
     if (!(slotName in module)) {
       module[slotName] <- slot

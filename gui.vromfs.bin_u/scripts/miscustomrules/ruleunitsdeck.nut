@@ -44,15 +44,16 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
     return myTeamDataBlk != null
   }
 
-  function calcFullUnitLimitsData()
+  function calcFullUnitLimitsData(isTeamMine = true)
   {
     local res = base.calcFullUnitLimitsData()
     res.defaultUnitRespawnsLeft = 0
 
-    local myTeamDataBlk = getMyTeamDataBlk()
+    local myTeamDataBlk = isTeamMine ? getMyTeamDataBlk() : getEnemyTeamDataBlk()
     local distributedBlk = ::getTblValue("distributedUnits", myTeamDataBlk)
     local limitedBlk = ::getTblValue("limitedUnits", myTeamDataBlk)
-    local myTeamUnitsParamsBlk = getMyTeamDataBlk("unitsParamsList")
+    local myTeamUnitsParamsBlk = isTeamMine
+      ? getMyTeamDataBlk("unitsParamsList") : getEnemyTeamDataBlk("unitsParamsList")
     local weaponsLimitsBlk = getWeaponsLimitsBlk()
 
     if (::u.isDataBlock(limitedBlk))
@@ -72,7 +73,7 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
         local limit = ::g_unit_limit_classes.LimitByUnitName(
           unitName,
           limitedBlk.getParamValue(i),
-          ::getTblValue(unitName, distributedBlk, 0),
+          isTeamMine ? ::getTblValue(unitName, distributedBlk, 0) : null,
           presetData
         )
 
@@ -88,5 +89,10 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
       && getUnitLeftRespawnsByTeamDataBlk(unit, getMyTeamDataBlk()) != 0
       && isScoreRespawnEnabled
       && unit.getSpawnScore() > 0
+  }
+
+  function isEnemyLimitedUnitsVisible()
+  {
+    return ::get_current_mission_info_cached()?.customRules?.showEnemiesLimitedUnits == true
   }
 }

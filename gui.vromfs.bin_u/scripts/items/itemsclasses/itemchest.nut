@@ -33,14 +33,13 @@ class ::items_classes.Chest extends ItemExternal {
     return ""
   }
 
-  function canConsume()
-  {
-    return true
-  }
+  canConsume = @() isInventoryItem
 
   function getMainActionName(colored = true, short = false)
   {
-    return amount ? ::loc("item/open") : ""
+    return isCanBuy() ? getBuyText(colored, short)
+      : isInventoryItem && amount ? ::loc("item/open")
+      : ""
   }
 
   skipRoulette              = @() false
@@ -70,6 +69,7 @@ class ::items_classes.Chest extends ItemExternal {
     local hasContent = content.len() != 0
 
     return ::g_string.implode([
+      getTransferText(),
       getMarketablePropDesc(),
       getCurExpireTimeText(),
       getDescRecipesText(params),
@@ -91,7 +91,8 @@ class ::items_classes.Chest extends ItemExternal {
     local content = getContent()
     local hasContent = content.len() != 0
 
-    return ::PrizesView.getPrizesListView([], { header = getMarketablePropDesc() })
+    return ::PrizesView.getPrizesListView([], { header = getTransferText() })
+      + ::PrizesView.getPrizesListView([], { header = getMarketablePropDesc() })
       + (hasTimer() ? ::PrizesView.getPrizesListView([], { header = getCurExpireTimeText(), timerId = "expire_timer" }) : "")
       + getDescRecipesMarkup(params)
       + (hasContent ? ::PrizesView.getPrizesStacksView(content, _getDescHeader, params) : "")
@@ -127,6 +128,8 @@ class ::items_classes.Chest extends ItemExternal {
 
   function doMainAction(cb, handler, params = null)
   {
+    if (buyExt(cb, params))
+      return true
     if (!uids || !uids.len())
       return false
 

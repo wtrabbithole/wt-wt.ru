@@ -1067,6 +1067,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         msgId = "hint_maps_list"
       }
 
+      { obj = ["trophy_list"]
+        msgId = "trophy_list_list"
+      }
+
       { obj = ["btn_join_operation"]
         msgId = "hint_btn_join_operation"
       }
@@ -1077,10 +1081,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
       { obj = ["btn_join_queue"]
         msgId = "hint_btn_join_queue"
-      }
-
-      { obj = ["btn_back"]
-        msgId = "hint_btn_back"
       }
     ]
 

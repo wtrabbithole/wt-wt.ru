@@ -256,6 +256,9 @@
         "tailcontrol_dm": {
           "hp": 80.5
         },
+        "wingcontrol_dm": {
+          "hp": 80.5
+        },
         "wingcontrol_l_dm": {
           "hp": 80.5
         },
@@ -771,6 +774,12 @@
             "onHit": {
               "damage": 30.0,
               "cut": 0.6
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
             }
           },
           {
@@ -1478,32 +1487,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -1523,6 +1580,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
+            }
+          },
+          {
             "onKill": {
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
@@ -1532,14 +1595,21 @@
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 9.0
+              "nothing": 14.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "cut": 1.0,
-              "nothing": 3.0
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0,
+              "nothing": 1.0
             }
           }
         ]
@@ -2400,6 +2470,11 @@
       },
       {
         "part": {
+          "name": "wingcontrol_dm"
+        }
+      },
+      {
+        "part": {
           "name": "wingcontrol_l_dm"
         }
       },
@@ -2628,7 +2703,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "throttle_lhand_",
-          "flexionDir": [0.0,-1.0,0.1]
+          "flexionDir": [0.0,-1.0,0.5]
         }
       },
       {
@@ -2844,7 +2919,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.2]
         }
       },
       {
@@ -2853,7 +2928,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [0.0,1.0,0.0]
         }
       }
     ]
@@ -2911,7 +2986,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.2]
         }
       },
       {
@@ -2920,7 +2995,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [0.0,1.0,0.0]
         }
       }
     ]
@@ -3096,9 +3171,11 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunHo103_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun1",
           "flash": "flare1",
           "dm": "gunner7_dm",
+          "gunnerDm": "gunner7_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 250,
@@ -3116,9 +3193,11 @@
         "Weapon": {
           "trigger": "gunner1",
           "blk": "gameData/Weapons/cannonType97_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun2",
           "flash": "flare2",
           "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
           "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 180,
@@ -3137,9 +3216,11 @@
         "Weapon": {
           "trigger": "gunner2",
           "blk": "gameData/Weapons/gunHo103_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun3",
           "flash": "flare3",
           "dm": "gunner3_dm",
+          "gunnerDm": "gunner3_dm",
           "gunDm": "gun3_dm",
           "partsDP": "gun3_dm",
           "bullets": 250,
@@ -3157,9 +3238,11 @@
         "Weapon": {
           "trigger": "gunner3",
           "blk": "gameData/Weapons/gunHo103_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun4",
           "flash": "flare4",
           "dm": "gunner4_dm",
+          "gunnerDm": "gunner4_dm",
           "gunDm": "gun4_dm",
           "partsDP": "gun4_dm",
           "bullets": 250,
@@ -3177,9 +3260,11 @@
         "Weapon": {
           "trigger": "gunner4",
           "blk": "gameData/Weapons/gunType89_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun5",
           "flash": "flare5",
           "dm": "gunner5_dm",
+          "gunnerDm": "gunner5_dm",
           "gunDm": "gun5_dm",
           "partsDP": "gun5_dm",
           "bullets": 414,
@@ -3199,9 +3284,11 @@
         "Weapon": {
           "trigger": "gunner5",
           "blk": "gameData/Weapons/gunType89_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun6",
           "flash": "flare6",
           "dm": "gunner6_dm",
+          "gunnerDm": "gunner6_dm",
           "gunDm": "gun6_dm",
           "partsDP": "gun6_dm",
           "bullets": 414,
@@ -3239,30 +3326,9 @@
       },
       {
         "preset": {
-          "name": "ki49_type98mod25",
-          "blk": "gameData/FlightModels/weaponPresets/ki49_type98mod25.blk",
-          "reqModification": "ki49_12in_mod30"
-        }
-      },
-      {
-        "preset": {
           "name": "ki49_mod50mark2",
           "blk": "gameData/FlightModels/weaponPresets/ki49_mod50mark2.blk",
-          "reqModification": "ki49_14in_mod35"
-        }
-      },
-      {
-        "preset": {
-          "name": "ki49_type99mod80",
-          "blk": "gameData/FlightModels/weaponPresets/ki49_type99mod80.blk",
-          "reqModification": "ki49_14in_mod35"
-        }
-      },
-      {
-        "preset": {
-          "name": "ki49_mod80mark1",
-          "blk": "gameData/FlightModels/weaponPresets/ki49_mod80mark1.blk",
-          "reqModification": "ki49_14in_mod35"
+          "reqModification": "ki49_14in_mod35_500"
         }
       },
       {
@@ -3411,10 +3477,9 @@
         "tier": 1,
         "reqModLevel": 2.0
       },
-      "ki49_14in_mod35": {
+      "ki49_14in_mod35_500": {
         "modClass": "weapon",
         "tier": 2,
-        "reqModLevel": 6.0,
         "reqModification": "ki49_12in_mod30"
       }
     }
@@ -3433,13 +3498,15 @@
       "emtr_break_wing1_r_to": [-0.683128,0.187839,-4.58],
       "emtr_break_wing2_r_from": [-0.683128,0.187839,-6.5],
       "emtr_break_wing2_r_to": [-0.683128,0.187839,-7.89811],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-7.52357,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-7.52357,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-8.76667,0.485632,0.788021],
+      "emtr_break_stab_l_to": [-8.76667,0.485632,3.15209],
+      "emtr_break_stab_r_from": [-8.76667,0.485632,-0.787973],
+      "emtr_break_stab_r_to": [-8.76667,0.485632,-3.15189],
+      "emtr_break_fin_from": [-8.46789,1.12687,0.000121693],
+      "emtr_break_fin_to": [-8.46789,2.69845,0.000121693]
     }
   }
 ]

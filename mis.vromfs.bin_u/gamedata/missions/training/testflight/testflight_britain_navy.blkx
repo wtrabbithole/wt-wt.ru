@@ -39,7 +39,15 @@
         "_Conq1": false,
         "_Conq2": false,
         "_Conq3": false,
-        "_Conq4": false
+        "_Conq4": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Conq5": false,
+        "_Conq6": false
       }
     },
     "cover_points": [],
@@ -65,6 +73,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -159,12 +170,15 @@
           "army": 1,
           "spawnPoint": "spawnpoint"
         },
-        "spawnOnAirfield": {
-          "runwayName": "ships_02",
-          "objects": "armada_01"
+        "triggerEnable": {
+          "target": "spawn"
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "structures_00"
         }
       },
@@ -193,12 +207,46 @@
         "wait": {
           "time": 3.0
         },
+        "triggerEnable": {
+          "target": "spawn"
+        }
+      },
+      "else_actions": []
+    },
+    "spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "func": "more",
+          "value": 0,
+          "object": "ships_02"
+        }
+      },
+      "actions": {
         "spawnOnAirfield": {
           "runwayName": "ships_02",
           "objects": "armada_01"
         }
       },
-      "else_actions": []
+      "else_actions": {
+        "missionFailed": []
+      }
     }
   },
   "mission_objectives": {
@@ -221,6 +269,8 @@
         ],
         "unit_class": "a6m2_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "a6m2_default",
         "bullets0": "",
         "bullets1": "",
@@ -264,6 +314,8 @@
         ],
         "unit_class": "uk_87mm_mkII",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -297,6 +349,8 @@
         ],
         "unit_class": "uk_57mm_mkIV",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -330,6 +384,8 @@
         ],
         "unit_class": "uk_57mm_mkIV",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -363,6 +419,8 @@
         ],
         "unit_class": "uk_ford_fat2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -396,6 +454,8 @@
         ],
         "unit_class": "uk_ford_fat2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -429,6 +489,8 @@
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -463,6 +525,8 @@
         ],
         "unit_class": "hms_leander",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -496,6 +560,8 @@
         ],
         "unit_class": "hms_cv_illustrious",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -529,6 +595,8 @@
         ],
         "unit_class": "uss_dd_georgetown",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -552,239 +620,273 @@
           "ships_03_wp_01": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35299.1,-1.00786,3873.39]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_02": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [34748.0,-1.00786,2868.9]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_03": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [33982.8,-1.00786,2106.81]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_04": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [33156.4,-1.00786,1616.27]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_05": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [32356.5,-1.00786,1499.94]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_06": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [31526.1,-1.00786,1973.51]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_07": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [30906.3,-1.00786,2907.49]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_08": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [30720.1,-1.00786,3865.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_09": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [31319.7,-1.00786,16747.2]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_10": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [31740.3,-1.00786,17855.8]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_11": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [32284.4,-1.00786,18477.0]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_12": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [32990.7,-1.00786,18918.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_13": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [33839.9,-1.00786,19023.8]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_14": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [34703.3,-1.00786,18734.3]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_15": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35311.9,-1.00786,18333.7]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_16": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35729.4,-1.00786,17698.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_03_wp_17": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35896.3,-1.00786,16836.9]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -801,6 +903,8 @@
         ],
         "unit_class": "hms_cv_illustrious",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -824,239 +928,273 @@
           "ships_04_wp_01": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35302.0,-1.01572,3830.88]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_02": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [34750.9,-1.01572,2826.39]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_03": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [33985.7,-1.01572,2064.28]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_04": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [33159.3,-1.01572,1573.75]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_05": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [32359.4,-1.01572,1457.42]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_06": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [31529.0,-1.01572,1931.0]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_07": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [30909.2,-1.01572,2864.97]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_08": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [30723.0,-1.01572,3822.99]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_09": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [31322.6,-1.01572,16704.7]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_10": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [31743.2,-1.01572,17813.3]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_11": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [32287.3,-1.01572,18434.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_12": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [32993.7,-1.01572,18875.6]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_13": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [33842.8,-1.01572,18981.3]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_14": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [34706.2,-1.01572,18691.8]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_15": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35314.8,-1.01572,18291.2]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_16": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35732.3,-1.01572,17655.6]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_04_wp_17": {
             "type": "normal",
             "tm": [
-              [0.0871555,0.0,0.996195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.996195,0.0,0.0871555],
+              [0.0,0.0,1.0],
               [35899.2,-1.01572,16794.4]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1073,6 +1211,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1100,7 +1240,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_02": {
@@ -1114,7 +1256,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_03": {
@@ -1128,7 +1272,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_04": {
@@ -1142,7 +1288,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_05": {
@@ -1156,7 +1304,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_06": {
@@ -1170,7 +1320,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_07": {
@@ -1184,7 +1336,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_08": {
@@ -1198,7 +1352,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_09": {
@@ -1212,7 +1368,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_10": {
@@ -1226,7 +1384,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_11": {
@@ -1240,7 +1400,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_01_wp_12": {
@@ -1254,7 +1416,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1271,6 +1435,8 @@
         ],
         "unit_class": "uk_ford_fat2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1302,7 +1468,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_02": {
@@ -1316,7 +1484,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_03": {
@@ -1330,7 +1500,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_04": {
@@ -1344,7 +1516,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_05": {
@@ -1358,7 +1532,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_06": {
@@ -1372,7 +1548,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_07": {
@@ -1386,7 +1564,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_08": {
@@ -1400,7 +1580,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_09": {
@@ -1414,7 +1596,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_10": {
@@ -1428,7 +1612,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_11": {
@@ -1442,7 +1628,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_12": {
@@ -1456,7 +1644,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_13": {
@@ -1470,7 +1660,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_14": {
@@ -1484,7 +1676,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_15": {
@@ -1498,7 +1692,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_16": {
@@ -1512,7 +1708,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_17": {
@@ -1526,7 +1724,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_18": {
@@ -1540,7 +1740,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_19": {
@@ -1554,7 +1756,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_20": {
@@ -1568,7 +1772,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_21": {
@@ -1582,7 +1788,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_22": {
@@ -1596,7 +1804,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_23": {
@@ -1610,7 +1820,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_24": {
@@ -1624,7 +1836,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_25": {
@@ -1638,7 +1852,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_26": {
@@ -1652,7 +1868,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_27": {
@@ -1666,7 +1884,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_28": {
@@ -1680,7 +1900,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_29": {
@@ -1694,7 +1916,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "wheeled_vehicles_03_wp_30": {
@@ -1708,7 +1932,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1725,6 +1951,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1752,7 +1980,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_02_wp_08": {
@@ -1766,7 +1996,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_02_wp_09": {
@@ -1780,7 +2012,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_02_wp_10": {
@@ -1794,7 +2028,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_02_wp_11": {
@@ -1808,7 +2044,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "infantry_02_wp_12": {
@@ -1822,7 +2060,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }

@@ -29,10 +29,10 @@
     "clouds_position": {
       "sizeX": [111.0,111.0],
       "sizeZ": [99.0,99.0],
-      "start_altitude": [8.42,8.62],
-      "thickness": [5.15,5.55],
       "light_extinction": [0.25,0.5],
-      "amb_extinction_mul": [0.5,1.0]
+      "amb_extinction_mul": [0.5,1.0],
+      "start_altitude": [8.42,8.62],
+      "thickness": [5.15,5.55]
     },
     "clouds_render": {
       "silver_lining": [0.5,0.7],
@@ -42,7 +42,6 @@
     },
     "layered_fog": {
       "height": 0.0,
-      "density_at_thickness": 0.004,
       "amb_cloudiness_max": 0.9,
       "amb_cloudiness_min": 0.15,
       "amb_cloud_brightness_at_max": 0.3,
@@ -55,6 +54,7 @@
       "sun_cloud_brightness_at_min": 0.9,
       "sun_color_tint_brightness": 1.0,
       "sun_color_tint": [1.0,1.0,1.0],
+      "density_at_thickness": 0.004,
       "density": [
         {
           "p": {
@@ -113,7 +113,6 @@
       "probability": 0.0
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -231,9 +230,9 @@
     "clouds_position": {
       "sizeX": [111.0,111.0],
       "sizeZ": [99.0,99.0],
-      "start_altitude": [3.42,3.62],
       "thickness": [5.15,5.55],
       "amb_extinction_mul": [0.5,1.2],
+      "start_altitude": [3.42,3.62],
       "light_extinction": [
         {
           "p": {
@@ -278,7 +277,6 @@
       "probability": 0.0
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -397,9 +395,6 @@
         "sizeZ": [99.0,99.0]
       },
       {
-        "start_altitude": [3.42,3.62]
-      },
-      {
         "thickness": [5.15,5.55]
       },
       {
@@ -407,6 +402,9 @@
       },
       {
         "amb_extinction_mul": [0.12,0.3]
+      },
+      {
+        "start_altitude": [3.42,3.62]
       },
       {
         "thickness": [
@@ -485,7 +483,6 @@
       "lighting": [0.3,0.3,0.32]
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -611,40 +608,8 @@
     "clouds_position": {
       "sizeX": [111.0,111.0],
       "sizeZ": [99.0,99.0],
-      "start_altitude": [
-        {
-          "p": {
-            "value": [1.2,1.4],
-            "weight": 4.0
-          }
-        },
-        {
-          "p": {
-            "value": [1.4,2.0],
-            "weight": 1.0
-          }
-        }
-      ],
-      "thickness": [
-        {
-          "p": {
-            "value": [2.6,3.0],
-            "weight": 0.5
-          }
-        },
-        {
-          "p": {
-            "value": [3.0,4.0],
-            "weight": 5.0
-          }
-        },
-        {
-          "p": {
-            "value": [4.0,5.0],
-            "weight": 1.0
-          }
-        }
-      ],
+      "start_altitude": [3.42,3.62],
+      "thickness": [5.15,5.55],
       "light_extinction": [
         {
           "p": {
@@ -706,7 +671,6 @@
       "lighting": [0.3,0.3,0.32]
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -870,7 +834,6 @@
       "lighting": [0.3,0.3,0.32]
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -941,12 +904,10 @@
     },
     "layered_fog": {
       "height": 0.0,
-      "density_at_thickness": 0.003,
       "amb_cloudiness_max": 0.9,
       "amb_cloudiness_min": 0.15,
       "amb_cloud_brightness_at_max": 0.3,
       "amb_cloud_brightness_at_min": 0.35,
-      "ambient_color_tint_brightness": [0.95,1.0],
       "ambient_color_tint": [1.0,1.0,1.0],
       "sun_cloudiness_max": 1.0,
       "sun_cloudiness_min": 0.15,
@@ -954,6 +915,8 @@
       "sun_cloud_brightness_at_min": 0.9,
       "sun_color_tint_brightness": 1.0,
       "sun_color_tint": [1.0,1.0,1.0],
+      "density_at_thickness": 0.003,
+      "ambient_color_tint_brightness": [0.95,1.0],
       "density": [
         {
           "p": {
@@ -1043,7 +1006,6 @@
       "lighting": [0.3,0.3,0.32]
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -1190,7 +1152,6 @@
       "probability": 0.05
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -1410,7 +1371,6 @@
     },
     {
       "rainDroplets": {
-        "droplets_scale": 1.0,
         "droplets_reflection_min": 0.1,
         "droplets_reflection_max": 0.3,
         "droplets_size_scale": [20.0,20.0,4.0],
@@ -1602,7 +1562,6 @@
     },
     {
       "rainDroplets": {
-        "droplets_scale": 1.0,
         "droplets_reflection_min": 0.1,
         "droplets_reflection_max": 0.3,
         "droplets_size_scale": [20.0,20.0,4.0],
@@ -1762,7 +1721,6 @@
       "lighting": [0.3,0.3,0.32]
     },
     "rainDroplets": {
-      "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
@@ -1963,7 +1921,6 @@
     },
     {
       "rainDroplets": {
-        "droplets_scale": 1.0,
         "droplets_reflection_min": 0.1,
         "droplets_reflection_max": 0.3,
         "droplets_size_scale": [20.0,20.0,4.0],

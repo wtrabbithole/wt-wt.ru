@@ -6,6 +6,7 @@
   "collisionSphere0": [0.0,-1.5,0.0,5.0],
   "collisionSphere1": [5.0,2.0,0.0,1.0],
   "exhaustFx": "tank_exhaust",
+  "dustFx": "",
   "support_unit_class": "structures/ussr_152mm_d1",
   "support_unit_tag": "artillery",
   "useSimpleDeathConditionsAndEffects": false,
@@ -37,13 +38,28 @@
     "hp": 10000.0,
     "hull": {
       "superstructure_front_dm": {
+        "armorThickness": 35.0
+      },
+      "body_front_dm": {
         "armorThickness": 25.0
       },
       "body_bottom_dm": {
         "armorThickness": 12.5
       },
+      "body_top_dm": {
+        "armorThickness": 5.0
+      },
       "superstructure_top_dm": {
-        "armorThickness": 16.0
+        "armorThickness": 20.0
+      },
+      "superstructure_back_dm": {
+        "armorThickness": 15.0
+      },
+      "superstructure_bottom_dm": {
+        "armorThickness": 15.0
+      },
+      "superstructure_side_dm": {
+        "armorThickness": 25.0
       }
     },
     "turret": {
@@ -112,21 +128,6 @@
         "hp": 250.0
       }
     },
-    "gun": {
-      "armorClass": "tank_barrel",
-      "hp": 300.0,
-      "gun_barrel_dm": {
-        "armorThickness": 32.0
-      },
-      "gun_barrel_01_dm": {
-        "armorThrough": 10.0,
-        "armorThickness": 5.0
-      },
-      "gun_barrel_02_dm": {
-        "armorThrough": 10.0,
-        "armorThickness": 5.0
-      }
-    },
     "chassis": {
       "armorClass": "tank_steel_wheels",
       "hp": 300.0,
@@ -169,6 +170,37 @@
         "ex_armor_body_l_04_dm": []
       }
     },
+    "gun": {
+      "armorClass": "tank_barrel",
+      "hp": 200.0,
+      "armorThickness": 20.0,
+      "gun_barrel_dm": [],
+      "gun_barrel_01_dm": {
+        "armorThrough": 10.0,
+        "armorThickness": 5.0,
+        "hp": 50.0
+      },
+      "gun_barrel_02_dm": {
+        "armorThrough": 10.0,
+        "armorThickness": 5.0,
+        "hp": 50.0
+      },
+      "gun_barrel_03_dm": {
+        "armorThrough": 10.0,
+        "armorThickness": 5.0,
+        "hp": 50.0
+      },
+      "gun_barrel_04_dm": {
+        "armorThrough": 10.0,
+        "armorThickness": 5.0,
+        "hp": 50.0
+      },
+      "gun_barrel_05_dm": {
+        "armorThrough": 10.0,
+        "armorThickness": 5.0,
+        "hp": 50.0
+      }
+    },
     "tracks": {
       "armorClass": "tank_traks",
       "armorThickness": 15.0,
@@ -191,7 +223,7 @@
     "cannon_breech": {
       "armorClass": "tank_structural_steel",
       "hp": 150.0,
-      "armorThickness": 10.0,
+      "armorThickness": 15.0,
       "armorThrough": 300.0,
       "fireProtectionHp": 10.0,
       "cannon_breech_dm": [],
@@ -1450,6 +1482,9 @@
           "defaultPitch": 0.0
         },
         {
+          "barrelDP": "gun_barrel_01_dm"
+        },
+        {
           "useAnimFlashNode": true
         },
         {
@@ -1524,6 +1559,7 @@
         "flash": "emtr_mg_flame_04",
         "defaultYaw": 0.0,
         "defaultPitch": 25.0,
+        "barrelDP": "gun_barrel_02_dm",
         "parkInDeadzone": false,
         "speedYaw": 30.0,
         "speedPitch": 20.0,

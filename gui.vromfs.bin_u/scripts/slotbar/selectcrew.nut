@@ -80,6 +80,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         needActionsWithEmptyCrews = false
         unitForSpecType = unit,
         alwaysShowBorder = true
+        hasExtraInfoBlock = true
 
         afterSlotbarSelect = onChangeUnit
         onSlotDblClick = onApplyCrew
@@ -335,8 +336,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     foreach (idx, crew in ::get_crews_list_by_country(country))
     {
       local specType = ::g_crew_spec_type.getTypeByCode(::g_crew_spec_type.getTrainedSpecCode(crew, unit))
-      if (specType != ::g_crew_spec_type.UNKNOWN)
-        addLegendData(legendData, specType)
+      addLegendData(legendData, specType)
     }
 
     if (::u.isEmpty(legendData))

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -341,7 +344,7 @@
       {
         "device": {
           "type": "steeringWheel",
-          "turnSpeed": -3.0,
+          "turnSpeed": 1.0,
           "node": "bone_roll_driver",
           "absoluteValue": true
         }
@@ -401,115 +404,70 @@
       "formatVersion": 2,
       "armorClass": "tank_structural_steel",
       "hp": 1000.0,
-      "hull_armor": [
-        {
-          "body_front_dm": {
-            "armorThickness": 3.0
-          }
+      "hull_armor": {
+        "body_front_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "body_bottom_dm": {
-            "armorThickness": 3.0
-          }
+        "body_bottom_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "ex_armor_01_dm": {
-            "armorThickness": 3.0
-          }
+        "ex_armor_01_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "ex_armor_03_dm": {
-            "armorThickness": 3.0
-          }
+        "ex_armor_03_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "ex_armor_r_02_dm": {
-            "armorThickness": 3.0
-          }
+        "ex_armor_r_02_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "ex_armor_l_02_dm": {
-            "armorThickness": 3.0
-          }
+        "ex_armor_l_02_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "superstructure_side_dm": {
-            "armorThickness": 3.0
-          }
+        "superstructure_side_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "superstructure_top_dm": {
-            "armorThickness": 3.0
-          }
+        "superstructure_top_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "superstructure_side_dm": {
-            "armorThickness": 3.0
-          }
+        "turret_05_side_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "turret_05_side_dm": {
-            "armorThickness": 3.0
-          }
+        "turret_03_top_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "turret_03_top_dm": {
-            "armorThickness": 3.0
-          }
+        "turret_side_dm": {
+          "armorThickness": 20.0
         },
-        {
-          "turret_side_dm": {
-            "armorThickness": 20.0
-          }
+        "turret_02_side_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "turret_02_side_dm": {
-            "armorThickness": 3.0
-          }
+        "superstructure_bottom_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "superstructure_bottom_dm": {
-            "armorThickness": 3.0
-          }
+        "ex_decor_07_dm": {
+          "armorThickness": 10.0,
+          "armorClass": "wood"
         },
-        {
-          "ex_decor_07_dm": {
-            "armorThickness": 10.0,
-            "armorClass": "wood"
-          }
+        "ex_decor_08_dm": {
+          "armorThickness": 10.0,
+          "armorClass": "wood"
         },
-        {
-          "ex_decor_08_dm": {
-            "armorThickness": 10.0,
-            "armorClass": "wood"
-          }
+        "ex_armor_body_l_01_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "ex_armor_body_l_01_dm": {
-            "armorThickness": 3.0
-          }
+        "ex_armor_body_r_01_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "ex_armor_body_r_01_dm": {
-            "armorThickness": 3.0
-          }
+        "turret_01_front_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "turret_01_front_dm": {
-            "armorThickness": 30.0
-          }
+        "superstructure_back_dm": {
+          "armorThickness": 3.0
         },
-        {
-          "superstructure_back_dm": {
-            "armorThickness": 3.0
-          }
-        },
-        {
-          "turret_01_side_dm": {
-            "armorThickness": 3.0
-          }
+        "turret_01_side_dm": {
+          "armorThickness": 3.0
         }
-      ],
+      },
       "turret_armor": {
         "turret_front_dm": {
           "armorThickness": 20.0
@@ -577,20 +535,20 @@
       "gun": {
         "armorClass": "tank_barrel",
         "gun_barrel_01_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_02_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_03_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -746,6 +704,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -792,6 +753,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -860,7 +830,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_01_dm": {
@@ -2971,10 +2941,10 @@
       "new_tank_vertical_aiming": [],
       "tank_new_gun": [],
       "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "tank_medical_kit_expendable": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "13mm_type93_universal": []
     }

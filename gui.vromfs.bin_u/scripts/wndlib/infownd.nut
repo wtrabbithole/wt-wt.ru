@@ -137,3 +137,9 @@ class ::gui_handlers.InfoWnd extends ::BaseGuiHandler
       onCancel()
   }
 }
+
+::subscribe_events({
+  AccountReset = function(p) {
+    ::gui_handlers.InfoWnd.clearAllSaves()
+  }
+}, ::g_listener_priority.CONFIG_VALIDATION)

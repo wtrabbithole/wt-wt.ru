@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -133,6 +136,9 @@
         },
         "turret_02_top_dm": {
           "armorThickness": 10.0
+        },
+        "turret_front_dm": {
+          "armorThickness": 220.0
         }
       },
       "turret": {
@@ -175,9 +181,6 @@
         "turret_commander_dm": {
           "armorThickness": 100.0
         },
-        "turret_front_dm": {
-          "armorThickness": 220.0
-        },
         "gun_barrel_armor_dm": {
           "armorThickness": 300.0
         }
@@ -199,16 +202,18 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 400.0,
+        "hp": 250.0,
         "gun_barrel_01_dm": {
-          "armorThickness": 33.0
+          "armorThickness": 25.0
         },
         "gun_barrel_02_dm": {
-          "armorThickness": 25.0
+          "armorThickness": 10.0,
+          "hp": 100.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "body_shields": {
@@ -332,7 +337,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -417,6 +422,21 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
+        "ammo_turret_44_dm": [],
+        "ammo_turret_45_dm": [],
+        "ammo_turret_46_dm": [],
+        "ammo_turret_47_dm": [],
+        "ammo_turret_48_dm": [],
+        "ammo_turret_49_dm": [],
+        "ammo_turret_50_dm": [],
+        "ammo_turret_51_dm": [],
+        "ammo_turret_52_dm": [],
+        "ammo_turret_53_dm": [],
+        "ammo_turret_54_dm": [],
+        "ammo_turret_55_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -468,6 +488,11 @@
         "ammo_body_48_dm": [],
         "ammo_body_49_dm": [],
         "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1556,7 +1581,7 @@
             "trigger": "gunner1"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "coaxial"
           },
           {
             "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
@@ -1572,6 +1597,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_03_dm"
           },
           {
             "useAnimFlashNode": true
@@ -2696,7 +2724,7 @@
                   "trigger": "gunner1"
                 },
                 {
-                  "triggerGroup": "machinegun"
+                  "triggerGroup": "coaxial"
                 },
                 {
                   "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
@@ -2712,6 +2740,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_03_dm"
                 },
                 {
                   "useAnimFlashNode": true

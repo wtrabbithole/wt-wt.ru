@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -1042,121 +1045,6 @@
     }
   },
   {
-    "MetaParts": {
-      "body": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "superstructure_side_dm"
-        },
-        {
-          "part": "superstructure_bottom_dm"
-        },
-        {
-          "part": "superstructure_front_dm"
-        },
-        {
-          "part": "superstructure_top_dm"
-        },
-        {
-          "part": "superstructure_back_dm"
-        },
-        {
-          "part": "body_front_dm"
-        },
-        {
-          "part": "body_side_dm"
-        },
-        {
-          "part": "body_top_dm"
-        },
-        {
-          "part": "body_back_dm"
-        },
-        {
-          "part": "body_bottom_dm"
-        },
-        {
-          "fireParamsPreset": "default_metapart"
-        },
-        {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
-          }
-        }
-      ],
-      "turret": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "turret_top_dm"
-        },
-        {
-          "part": "turret_side_dm"
-        },
-        {
-          "part": "turret_back_dm"
-        },
-        {
-          "part": "turret_commander_dm"
-        },
-        {
-          "part": "turret_front_dm"
-        },
-        {
-          "part": "gun_mask_dm"
-        },
-        {
-          "part": "turret_bottom_dm"
-        },
-        {
-          "fireParamsPreset": "default_metapart"
-        },
-        {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
-          }
-        }
-      ],
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 4
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "machine_gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
     "sound": {
       "EngineName": "engine_panzer3",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -1185,7 +1073,7 @@
           "speedYaw": 14.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
-          "bullets": 92,
+          "bullets": 84,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1239,6 +1127,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true
@@ -1970,18 +1861,6 @@
           "armorThickness": 50.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 22.0,
-          "hp": 150.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 150.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -2011,7 +1890,39 @@
         "ex_armor_body_01_dm": [],
         "ex_armor_body_02_dm": [],
         "ex_armor_body_03_dm": [],
-        "ex_armor_body_04_dm": []
+        "ex_armor_body_04_dm": [],
+        "ex_decor_04_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 150.0,
+        "armorThickness": 15.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -2067,7 +1978,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2298,6 +2209,33 @@
         "defaultDampeningForce": [90000.0,90000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
+      }
+    }
+  },
+  {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_dm": {
+            "count": 15
+          },
+          "ammo_body_01_dm": {
+            "count": 8
+          },
+          "ammo_body_l_01_dm": {
+            "count": 28
+          },
+          "ammo_body_r_01_dm": {
+            "count": 33
+          }
+        }
       }
     }
   },

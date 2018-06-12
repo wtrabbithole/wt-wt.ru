@@ -24,6 +24,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -90,7 +93,10 @@
     "type": "typeTankDestroyer"
   },
   {
-    "exhaustFx": "tank_exhaust"
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
   },
   {
     "DamageEffects": [
@@ -1792,18 +1798,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 25.0,
-          "hp": 200.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 200.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -1850,6 +1844,37 @@
           "ex_armor_body_r_08_dm": [],
           "ex_armor_body_l_06_dm": [],
           "ex_armor_body_l_07_dm": []
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -1906,7 +1931,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2221,6 +2246,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
             "useAnimFlashNode": true
           },
           {
@@ -2440,6 +2468,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "useAnimFlashNode": true

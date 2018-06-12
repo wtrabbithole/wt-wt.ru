@@ -9,6 +9,12 @@ enum SPECTATOR_MODE {
   REPLAY      // Player viewing any locally saved local-replay or server-replay file.
 }
 
+enum SPECTATOR_CHAT_TAB {
+  HISTORY  = "btn_tab_history"
+  CHAT     = "btn_tab_chat"
+  ORDERS   = "btn_tab_orders"
+}
+
 class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 {
   scene  = null
@@ -46,7 +52,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   teams = [ { players = [] }, { players = [] } ]
   lastTargetNick = ""
   lastTargetId = null
-  lastHudUnitType = ::ES_UNIT_TYPE_AIRCRAFT
+  lastHudUnitType = ::ES_UNIT_TYPE_INVALID
   lastFriendlyTeam = 0
   statSelPlayerId = [ null, null ]
 
@@ -95,6 +101,26 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     [::BMS_OUT_OF_TORPEDOES]  = "torpedo",
   }
 
+  curTabId = ""
+  tabsList = [
+    {
+      id = SPECTATOR_CHAT_TAB.HISTORY
+      locId = "options/_Bttl"
+      containerId = "history_container"
+    }
+    {
+      id = SPECTATOR_CHAT_TAB.CHAT
+      locId = "mainmenu/chat"
+      containerId = "chat_container"
+    }
+    {
+      id = SPECTATOR_CHAT_TAB.ORDERS
+      locId = "itemTypes/orders"
+      containerId = "orders_container"
+    }
+  ]
+
+
   function initScreen()
   {
     gameType = ::get_game_type()
@@ -118,6 +144,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     canSeeOppositeTeam  = mode != SPECTATOR_MODE.RESPAWN
     canSendChatMessages = mode != SPECTATOR_MODE.REPLAY
 
+    fillTabs()
     historyLog = []
 
     loadGameChat()
@@ -236,6 +263,27 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     recalculateLayout()
   }
 
+  function fillTabs()
+  {
+    local view = {
+      tabs = []
+    }
+    foreach(name, tab in tabsList)
+      view.tabs.push({
+        tabName = ::loc(tab.locId)
+        id = tab.id
+        alert = "no"
+        cornerImg = "#ui/gameuiskin#new_icon"
+        cornerImgId = "new_msgs"
+        cornerImgTiny = true
+      })
+
+    local tabsObj = showSceneBtn("tabs", true)
+    local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
+    guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
+    tabsObj.setValue(0)
+  }
+
   function loadGameChat()
   {
     if (isMultiplayer)
@@ -279,7 +327,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     local isUpdateByCooldown = updateCooldown <= 0.0
 
     local targetNick  = ::get_spectator_target_name()
-    local hudUnitType = is_tank_interface() ? ::ES_UNIT_TYPE_TANK : ::ES_UNIT_TYPE_AIRCRAFT
+    local hudUnitType = ::getAircraftByName(::get_action_bar_unit_name())?.esUnitType ?? ::ES_UNIT_TYPE_INVALID
     local isTargetSwitched = targetNick != lastTargetNick || hudUnitType != lastHudUnitType
     lastTargetNick  = targetNick
     lastHudUnitType = hudUnitType
@@ -551,6 +599,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local userId   = player ? ::getTblValue("userId", player, 0) : 0
       local isAuthor = userId == replayAuthorUserId
       local isAuthorUnknown = replayAuthorUserId == -1
+      local isAircraft = lastHudUnitType == ::ES_UNIT_TYPE_AIRCRAFT
 
       local objControlsCameras = scene.findObject("controls_cameras")
       ::enableBtnTable(objControlsCameras, {
@@ -562,7 +611,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           ID_REPLAY_CAMERA_GUN        = isValid
           ID_REPLAY_CAMERA_RANDOMIZE  = isValid
           ID_REPLAY_CAMERA_FREE       = isValid
-          ID_REPLAY_CAMERA_HOVER      = isValid
+          ID_REPLAY_CAMERA_HOVER      = isValid && !isAircraft
       })
     }
   }
@@ -1026,47 +1075,52 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    local tabId = obj.id
-    foreach (i in [ "btn_tab_history", "btn_tab_chat", "btn_tab_orders" ])
+    local tabIdx = obj.getValue()
+    if (tabIdx < 0 || tabIdx >= obj.childrenCount())
+      return
+
+    local tabObj = obj.getChild(tabIdx)
+    local newTabId = tabObj.id
+    if (newTabId == curTabId)
+      return
+
+    foreach(tab in tabsList)
     {
-      local objTab = scene.findObject(i)
-      if (::checkObj(objTab))
-      {
-        local wasSelected = objTab.highlighted == "yes"
-        local newSelected = i == tabId
-        objTab.highlighted = newSelected ? "yes" : "no"
-        if (wasSelected || newSelected)
-          objTab.alert = "no"
-      }
+      local objContainer = scene.findObject(tab.containerId)
+      if (!::checkObj(objContainer))
+        continue
+
+      local isShow = (tab.id) == newTabId
+      objContainer.show(isShow)
     }
+    curTabId = newTabId
+    tabObj.findObject("new_msgs").show(false)
 
-    ::showBtnTable(scene, {
-      history_container = tabId == "btn_tab_history"
-      chat_container    = tabId == "btn_tab_chat"
-      orders_container  = tabId == "btn_tab_orders"
-    })
+    ::g_orders.showOrdersContainer(curTabId == SPECTATOR_CHAT_TAB.ORDERS)
 
-    if (tabId == "btn_tab_chat")
+    if (curTabId == SPECTATOR_CHAT_TAB.CHAT)
       loadGameChat()
     updateHistoryLog(true)
   }
 
+  function updateNewMsgImg(tabId)
+  {
+    if (!scene.isValid())
+      return
+
+    local obj = scene.findObject(tabId)
+    if (::checkObj(obj) && tabId != curTabId)
+      obj.findObject("new_msgs").show(true)
+  }
+
   function onEventMpChatLogUpdated(params)
   {
-    if (!::checkObj(scene))
-      return
-    local obj = scene.findObject("btn_tab_chat")
-    if (::checkObj(obj))
-      obj.alert = "yes"
+    updateNewMsgImg(SPECTATOR_CHAT_TAB.CHAT)
   }
 
   function onEventActiveOrderChanged(params)
   {
-    if (!::check_obj(scene))
-      return
-    local obj = scene.findObject("btn_tab_orders")
-    if (::check_obj(obj))
-      obj.alert = "yes"
+    updateNewMsgImg(SPECTATOR_CHAT_TAB.ORDERS)
   }
 
   function onEventMpChatInputRequested(params)
@@ -1078,9 +1132,13 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     local obj = scene.findObject("btnToggleLog")
     if (::checkObj(obj) && obj.toggled != "yes")
       onToggleButtonClick(obj)
-    obj = scene.findObject("btn_tab_chat")
-    if (::checkObj(obj) && obj.highlighted != "yes")
+    obj = scene.findObject("tabs")
+    local chatTabId = SPECTATOR_CHAT_TAB.CHAT
+    if (::checkObj(obj) && curTabId != chatTabId)
+    {
+      curTabId == chatTabId
       onBtnLogTabSwitch(obj)
+    }
 
     if (::getTblValue("activate", params, false))
       ::game_chat_input_toggle_request(true)
@@ -1129,7 +1187,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local skipDupTime = msg.time - historySkipDuplicatesSec
       for (local i = historyLog.len() - 1; i >= 0; i--)
       {
-        if (historyLog[i].time < skipDupTime)
+        if (historyLog[i].time < skipDupTime && msg.type != ::HUD_MSG_DEATH_REASON)
           break
         if (historyLog[i].text == msg.text)
           return

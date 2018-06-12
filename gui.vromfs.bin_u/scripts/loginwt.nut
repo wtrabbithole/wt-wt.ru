@@ -1,5 +1,6 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
@@ -211,9 +212,6 @@ function g_login::initConfigs(cb)
      ::g_chat.onCharConfigsLoaded()
     }
     function() {
-      ::autobind_shortcuts()
-     }
-    function() {
       if (::steam_is_running())
         ::steam_process_dlc()
   
@@ -262,7 +260,10 @@ function g_login::initConfigs(cb)
       {
         ::gui_start_countryChoice()
         ::gui_handlers.FontChoiceWnd.markSeen()
+        tutorialModule.saveVersion()
       }
+      else
+        tutorialModule.saveVersion(0)
     }
     function()
     {

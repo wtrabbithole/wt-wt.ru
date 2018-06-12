@@ -1,14 +1,7 @@
 const GOLDEN_RATIO = 1.618034
 
-function min(a, b) { return (a < b)? a : b }
-function max(a, b) { return (a > b)? a : b }
 function minByAbs(a, b) { return (fabs(a) < fabs(b))? a : b }
 function maxByAbs(a, b) { return (fabs(a) > fabs(b))? a : b }
-
-
-function clamp(value, min, max) {
-  return (value < min) ? min : (value > max) ? max : value
-}
 
 //round @value to valueble @digits amount
 // roundToDigits(1.23, 2) = 1.2
@@ -78,9 +71,6 @@ function calc_golden_ratio_columns(total, widthToHeight = 1.0)
 //EXPORT content for require
 local export = {
   GOLDEN_RATIO = GOLDEN_RATIO
-  min = min
-  max = max
-  clamp = clamp
   minByAbs = minByAbs
   round_by_value = round_by_value
   number_of_set_bits = number_of_set_bits

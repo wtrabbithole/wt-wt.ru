@@ -1018,9 +1018,14 @@
         "condition": "role_TESTER"
       }
     ],
-    "ModUpgradeDifference": {
-      "condition": "role_DEVELOPER"
-    },
+    "ModUpgradeDifference": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "enableApex": {
       "platform_lock": "android;iOS"
     },
@@ -1485,6 +1490,15 @@
     "XBoxPlatformRestriction": {
       "condition": "",
       "platform_lock": "xboxOne"
+    },
+    "ShipBenchmarkAccess": {
+      "condition": "role_TESTER"
+    },
+    "DmViewerProtectionAnalysis": {
+      "condition": ""
+    },
+    "DamagedSkinPreview": {
+      "condition": ""
     }
   }
 }

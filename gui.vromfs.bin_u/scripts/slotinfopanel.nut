@@ -1,3 +1,5 @@
+local protectionAnalysis = ::require("scripts/dmViewer/protectionAnalysis.nut")
+
 const SLOT_INFO_CFG_SAVE_PATH = "show_slot_info_panel_tab"
 
 function create_slot_info_panel(parent_scene, show_tabs, configSaveId)
@@ -113,6 +115,13 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
     ::aircraft_for_weapons = airName
     ::gui_modal_weapons()
+  }
+
+  function onProtectionAnalysis()
+  {
+    ::queues.checkAndStart(
+      @() ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open()),
+      null, "isCanUseOnlineShop")
   }
 
   function onCollapseButton()

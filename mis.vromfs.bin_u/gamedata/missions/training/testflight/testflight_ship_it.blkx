@@ -93,6 +93,9 @@
             "horizontalDirectionForTeleport": true,
             "object_marking": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ai_plane"
           }
         },
@@ -115,6 +118,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "ai_ship02"
             },
             {
@@ -134,6 +146,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ai_ship02",
             "speed": 90.0,
             "lockSpeed": true
@@ -148,7 +163,7 @@
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
         "conditionsType": "ALL",
-        "enableAfterComplete": false
+        "enableAfterComplete": true
       },
       "events": {
         "periodicEvent": {

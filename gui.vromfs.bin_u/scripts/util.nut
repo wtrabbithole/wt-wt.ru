@@ -1671,22 +1671,6 @@ function get_current_mission_name()
   return misBlk.name
 }
 
-function loc_current_operation_name()
-{
-  local misBlk = ::DataBlock()
-  ::get_current_mission_desc(misBlk)
-
-  local customRules = ::getTblValue("customRules", misBlk)
-  if (!customRules)
-    return ""
-
-  local operationMap = ::getTblValue("operationMap", customRules)
-  if (!operationMap)
-    return ""
-
-  return ::loc("worldWar/map/" + operationMap)
-}
-
 function loc_current_mission_name(needComment = true)
 {
   local misBlk = ::DataBlock()
@@ -1789,7 +1773,7 @@ function json_escape_string( arg )
         result += "\\r";
         break;
       default:
-        if ( ch < ' ' )
+        if (ch >= 0 && ch < ' ') // chars can be signed (e.g. on PS4)
           result += ::format("\\u%04X", ch );
         else
           result += ch.tochar();

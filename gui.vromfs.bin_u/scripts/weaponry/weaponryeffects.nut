@@ -182,9 +182,9 @@ enums.addTypes(effectsType, [
     validateValue = @(value) ::fabs(value) > 0.5 ? value : null
   }
   { id = "oswalds",                measureType = "percent", presize = 0.001 }
-  { id = "cdMinFusel",             measureType = "", isInverted = true, presize = 0.00001 }
-  { id = "cdMinTail",              measureType = "", isInverted = true, presize = 0.00001 }
-  { id = "cdMinWing",              measureType = "", isInverted = true, presize = 0.00001 }
+  { id = "cdMinFusel",             measureType = "percent", presize = 0.01, isInverted = true }
+  { id = "cdMinTail",              measureType = "percent", presize = 0.01, isInverted = true }
+  { id = "cdMinWing",              measureType = "percent", presize = 0.01, isInverted = true }
 
   { id = "ailThrSpd",              preset = "SPEED" }
   { id = "ruddThrSpd",             preset = "SPEED" }
@@ -268,7 +268,7 @@ enums.addTypes(effectsType, [
   { id = "medicalkitAdditionalCount", preset = "COLORED_PLURAL_VALUE" }
 
   /****************************** SHIP EFFECTS ***********************************************/
-  { id = "waterMassVelTime",       measureType = "hours", isInverted = true, presize = 0.1
+  { id = "waterMassVelTime",       measureType = "seconds", isInverted = true, presize = 0.1
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
   { id = "speedYawK",              preset = "PERCENT_FLOAT"
@@ -345,7 +345,7 @@ local function hasNotZeroDiff(effects1, effects2)
 
   foreach(key, value in effects1)
     if (::is_numeric(value) && ::is_numeric(effects2?[key])
-        && value != 0 && (effects2[key] / value > 0.01))
+        && fabs(effects2[key] - value) > 0.01)
       return true
   return false
 }

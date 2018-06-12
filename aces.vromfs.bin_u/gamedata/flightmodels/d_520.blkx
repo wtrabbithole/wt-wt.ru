@@ -482,8 +482,8 @@
         },
         {
           "onHit": {
-            "damage": 65.0,
-            "expl": 1.0
+            "damage": 60.0,
+            "cut": 1.0
           }
         },
         {
@@ -496,14 +496,21 @@
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 9.0
+            "nothing": 10.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
+            "cut": 2.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
             "cut": 1.0,
-            "nothing": 3.0
+            "nothing": 0.0
           }
         }
       ]
@@ -1021,32 +1028,80 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing1_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing2_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_l_dm"
+        "name": "spar_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_l_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
       "part": {
-        "name": "spar_r_dm"
+        "name": "spar_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "part": {
+            "name": "wing_r_dm",
+            "canCut": true,
+            "ratio": 1.0
+          }
+        }
       }
     },
     {
@@ -1068,7 +1123,7 @@
         {
           "onHit": {
             "damage": 60.0,
-            "expl": 1.0
+            "cut": 1.0
           }
         },
         {
@@ -1081,14 +1136,21 @@
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 9.0
+            "nothing": 10.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
+            "cut": 2.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
             "cut": 1.0,
-            "nothing": 3.0
+            "nothing": 0.0
           }
         }
       ]
@@ -1851,7 +1913,6 @@
     "headPos": [-1.73,0.639,0.0],
     "headPosOnShooting": [-1.73,0.639,0.0],
     "collimatorSize": 0.2,
-    "openedCockpit": true,
     "lightPos": [-1.080652,0.208598,0.129092],
     "lightColor": [0.16,0.05,0.05],
     "lightRadius": 0.3,
@@ -2129,24 +2190,26 @@
     }
   ],
   "cutting": {
-    "_emtr_break_wing0_l_from": [-0.477372,-0.563986,0.838469],
-    "_emtr_break_wing0_l_to": [-0.477372,-0.563986,1.53183],
-    "emtr_break_wing1_l_from": [-0.477372,-0.563986,2.57187],
-    "emtr_break_wing1_l_to": [-0.477372,-0.563986,3.07505],
-    "emtr_break_wing2_l_from": [-0.477372,-0.563986,5.03184],
-    "emtr_break_wing2_l_to": [-0.477372,-0.563986,5.04184],
-    "_emtr_break_wing0_r_from": [-0.477372,-0.563986,-0.838469],
-    "_emtr_break_wing0_r_to": [-0.477372,-0.563986,-1.53183],
-    "emtr_break_wing1_r_from": [-0.477372,-0.563986,-2.57187],
-    "emtr_break_wing1_r_to": [-0.477372,-0.563986,-3.07505],
-    "emtr_break_wing2_r_from": [-0.477372,-0.563986,-5.03184],
-    "emtr_break_wing2_r_to": [-0.477372,-0.563986,-5.04184],
-    "emtr_break_wing_tail": [
-      [1.0,0.0,0.0],
-      [0.0,1.0,0.0],
-      [0.0,0.0,1.0],
-      [-3.98692,0.0,0.0]
-    ],
-    "partKindTail": 2
+    "_emtr_break_wing0_l_from": [-0.477372,-0.563986,0.772267],
+    "_emtr_break_wing0_l_to": [-0.477372,-0.563986,1.31557],
+    "emtr_break_wing1_l_from": [-0.477372,-0.563986,2.13052],
+    "emtr_break_wing1_l_to": [-0.477372,-0.563986,2.68616],
+    "emtr_break_wing2_l_from": [-0.477372,-0.563986,3.51962],
+    "emtr_break_wing2_l_to": [-0.477372,-0.563986,4.12451],
+    "_emtr_break_wing0_r_from": [-0.477372,-0.563986,-0.772268],
+    "_emtr_break_wing0_r_to": [-0.477372,-0.563986,-1.31557],
+    "emtr_break_wing1_r_from": [-0.477372,-0.563986,-2.13053],
+    "emtr_break_wing1_r_to": [-0.477372,-0.563986,-2.68617],
+    "emtr_break_wing2_r_from": [-0.477372,-0.563986,-3.51963],
+    "emtr_break_wing2_r_to": [-0.477372,-0.563986,-4.12452],
+    "emtr_break_wing_tail": [-3.98692,0.0,0.0],
+    "partKindTail": 2,
+    "finCut": false,
+    "emtr_break_stab_l_from": [-4.53873,0.428238,0.346044],
+    "emtr_break_stab_l_to": [-4.53873,0.428238,1.38417],
+    "emtr_break_stab_r_from": [-4.53873,0.428238,-0.346044],
+    "emtr_break_stab_r_to": [-4.53873,0.428238,-1.38417],
+    "emtr_break_fin_from": [-4.47237,0.66538,7.90633e-05],
+    "emtr_break_fin_to": [-4.47237,1.47148,7.90633e-05]
   }
 }

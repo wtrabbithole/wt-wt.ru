@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -626,27 +629,6 @@
           "armorThickness": 10.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 25.0,
-          "hp": 250.0
-        },
-        "gun_barrel_armor_dm": {
-          "armorThickness": 25.0,
-          "hp": 250.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 250.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 250.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -719,6 +701,37 @@
           "hp": 20.0
         }
       },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
+      },
       "tracks": {
         "armorClass": "tank_traks",
         "armorThickness": 20.0,
@@ -745,7 +758,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2170,6 +2183,7 @@
           "flash": "emtr_mg_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_01_dm",
           "parkInDeadzone": false,
           "speedYaw": 50.0,
           "speedPitch": 20.0,
@@ -2206,6 +2220,7 @@
           "flash": "emtr_mg_flame_02",
           "defaultYaw": 7.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_02_dm",
           "parkInDeadzone": false,
           "speedYaw": 50.0,
           "speedPitch": 20.0,

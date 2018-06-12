@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -272,28 +275,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "ex_armor_01_dm": {
-          "armorThickness": 10.0,
-          "hp": 150.0
-        },
-        "gun_barrel_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 10.0,
-          "hp": 150.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 10.0,
-          "hp": 150.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 10.0,
-          "hp": 150.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -333,8 +314,29 @@
           "ex_armor_body_l_01_dm": [],
           "ex_armor_body_l_02_dm": [],
           "ex_armor_body_l_03_dm": [],
-          "ex_armor_body_l_04_dm": []
+          "ex_armor_body_l_04_dm": [],
+          "ex_decor_04_dm": {
+            "armorClass": "tank_barrel",
+            "hp": 50.0,
+            "armorThickness": 10.0
+          },
+          "ex_decor_05_dm": {
+            "armorClass": "tank_barrel",
+            "hp": 50.0,
+            "armorThickness": 10.0
+          }
         }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 100.0,
+        "armorThickness": 10.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": [],
+        "gun_barrel_02_dm": [],
+        "gun_barrel_03_dm": [],
+        "gun_barrel_04_dm": [],
+        "gun_barrel_05_dm": []
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -396,7 +398,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2269,10 +2271,10 @@
       "tank_new_gun": [],
       "tank_engine_smoke_screen_system": [],
       "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "tank_medical_kit_expendable": {
-        "image": "#ui/gameuiskin#tank_reinforcement_us"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "modern_tank_laser_rangefinder": [],
       "tank_smoke_screen_system_mod": {

@@ -9,6 +9,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   UPDATE_ARMY_STRENGHT_DELAY = 60000
 
+  isRightPanelVisible = true
   needUpdateSidesStrenghtView = false
 
   currentOperationInfoTabType = null
@@ -103,8 +104,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     local show = ::screen_width() / ::screen_height() < 1.5
     obj.show(show)
-    obj.setValue(true)
-    onChangeInfoBlockVisibility(obj)
   }
 
   function initPageSwitch(forceTabSwitch = null)
@@ -1072,8 +1071,14 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   function onChangeInfoBlockVisibility(obj)
   {
     local blockObj = getObj("ww-right-panel")
-    if (::checkObj(blockObj))
-      blockObj.show(obj.getValue())
+    if (!::check_obj(blockObj))
+      return
+
+    isRightPanelVisible = !isRightPanelVisible
+    blockObj.show(isRightPanelVisible)
+
+    local rootObj = obj.getParent()
+    rootObj.collapsed = isRightPanelVisible ? "no" : "yes"
   }
 
   function onEventWWShowLogArmy(params)

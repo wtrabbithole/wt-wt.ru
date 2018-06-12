@@ -59,7 +59,17 @@ shopFilter {
     background-image:t='<<cornerImg>>'
     <<^show>>display:t='hide'<</show>>
     <<#orderPopup>>order-popup:t='yes'<</orderPopup>>
-    <<#cornerImgSmall>>imgSmall:t='yes'<</cornerImgSmall>>
+    <<#cornerImgSmall>>
+      imgSmall:t='yes'
+    <</cornerImgSmall>>
+    <<^cornerImgSmall>>
+      <<#cornerImgTiny>>
+        imgTiny:t='yes'
+      <</cornerImgTiny>>
+    <</cornerImgSmall>>
+    <<#hasGlow>>
+    cornerImgGlow {}
+    <</hasGlow>>
   }
   <</cornerImg>>
 

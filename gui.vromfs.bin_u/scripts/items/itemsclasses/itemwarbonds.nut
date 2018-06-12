@@ -13,7 +13,7 @@ class ::items_classes.Warbonds extends ItemExternal {
 
   getWarbond           = @() ::g_warbonds.findWarbond(metaBlk?.warbonds)
   getWarbondsAmount    = @() metaBlk?.count || 0
-  canConsume           = @() getWarbond() != null && getWarbondsAmount() > 0
+  canConsume           = @() isInventoryItem && getWarbond() != null && getWarbondsAmount() > 0
 
   function getPrizeDescription(count)
   {

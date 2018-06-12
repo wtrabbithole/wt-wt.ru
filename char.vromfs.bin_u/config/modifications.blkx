@@ -223,6 +223,27 @@
         "bulletMod": "shvak_tracers"
       }
     },
+    "shvak_early_tracers": {
+      "reqModification": "shvak_early_belt_pack",
+      "group": "shvak_early",
+      "effects": {
+        "bulletMod": "shvak_early_tracers"
+      }
+    },
+    "shvak_early_air_targets": {
+      "reqModification": "shvak_early_belt_pack",
+      "group": "shvak_early",
+      "effects": {
+        "bulletMod": "shvak_early_air_targets"
+      }
+    },
+    "shvak_early_stealth": {
+      "reqModification": "shvak_early_belt_pack",
+      "group": "shvak_early",
+      "effects": {
+        "bulletMod": "shvak_early_stealth"
+      }
+    },
     "shvak_armor_targets": {
       "reqModification": "shvak_belt_pack",
       "group": "shvak",
@@ -238,6 +259,13 @@
       }
     },
     "shvak_belt_pack": {
+      "image": "#ui/gameuiskin#ammo",
+      "modClass": "weapon",
+      "tier": 3,
+      "caliber": 20.0,
+      "deactivationIsAllowed": false
+    },
+    "shvak_early_belt_pack": {
       "image": "#ui/gameuiskin#ammo",
       "modClass": "weapon",
       "tier": 3,
@@ -1384,6 +1412,14 @@
         "bulletMod": "shvak_turret_apit"
       }
     },
+    "shvak_turret_ap": {
+      "reqModification": "shvak_turret_belt_pack",
+      "group": "shvak_turret",
+      "isTurretBelt": true,
+      "effects": {
+        "bulletMod": "shvak_turret_ap"
+      }
+    },
     "shvak_turret_het": {
       "reqModification": "shvak_turret_belt_pack",
       "group": "shvak_turret",
@@ -1745,6 +1781,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 40.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho301_new_gun"
       }
@@ -1777,6 +1815,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 75.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "Type88_75mm_new_gun"
       }
@@ -1787,6 +1827,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 57.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mollins_new_gun"
       }
@@ -1798,6 +1840,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "vikkersK_turret_new_gun"
       }
@@ -1808,6 +1852,8 @@
       "tier": 2,
       "modClass": "weapon",
       "caliber": 7.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "vikkersK_new_gun"
       }
@@ -1818,6 +1864,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "anm2_new_gun"
       }
@@ -1828,6 +1876,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "t_160_new_gun"
       }
@@ -1838,6 +1888,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "anm3_new_gun"
       }
@@ -1849,6 +1901,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "b20t_new_gun"
       }
@@ -1859,6 +1913,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bk37_new_gun"
       }
@@ -1869,6 +1925,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 50.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bk5_new_gun"
       }
@@ -1879,6 +1937,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 50.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mk214_new_gun"
       }
@@ -1889,6 +1949,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 75.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bk75_new_gun"
       }
@@ -1899,6 +1961,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 75.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "m4_75mm_new_gun"
       }
@@ -1909,6 +1973,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "hispano_404_new_gun"
       }
@@ -1919,6 +1985,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "hispano_mk1_new_gun"
       }
@@ -1929,6 +1997,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "hispano_mk5_new_gun"
       }
@@ -1939,6 +2009,8 @@
       "tier": 4,
       "modClass": "weapon",
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho203_new_gun"
       }
@@ -1949,6 +2021,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho204_new_gun"
       }
@@ -1959,6 +2033,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho203_new_gun"
       }
@@ -1969,6 +2045,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho5_new_gun"
       }
@@ -1978,6 +2056,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 57.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho401_new_gun"
       }
@@ -1988,6 +2068,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "m4_new_gun"
       }
@@ -1998,6 +2080,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "m10_new_gun"
       }
@@ -2008,6 +2092,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 15.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg15115_new_gun"
       }
@@ -2018,6 +2104,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg15120_new_gun"
       }
@@ -2028,6 +2116,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mgc30l_new_gun"
       }
@@ -2038,6 +2128,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mgff_new_gun"
       }
@@ -2049,6 +2141,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mgff_turret_new_gun"
       }
@@ -2059,6 +2153,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mgffm_new_gun"
       }
@@ -2069,6 +2165,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 30.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mk103_new_gun"
       }
@@ -2079,6 +2177,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 30.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mk108_new_gun"
       }
@@ -2089,6 +2189,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 30.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "aden_new_gun"
       }
@@ -2099,6 +2201,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "n37_new_gun"
       }
@@ -2110,6 +2214,8 @@
       "group": "yak9p_new_gun",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "n37_new_gun"
       }
@@ -2120,6 +2226,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 23.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ns23_new_gun"
       }
@@ -2131,6 +2239,8 @@
       "invertEnableLogic": true,
       "caliber": 23.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "nr23_turret_new_gun"
       }
@@ -2142,6 +2252,8 @@
       "group": "yak9p_new_gun",
       "invertEnableLogic": true,
       "caliber": 23.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ns23_new_gun"
       }
@@ -2152,6 +2264,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ns37_new_gun"
       }
@@ -2163,6 +2277,8 @@
       "group": "yak9ut_new_gun",
       "invertEnableLogic": true,
       "caliber": 37.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "n37_new_gun"
       }
@@ -2173,6 +2289,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 45.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ns45_new_gun"
       }
@@ -2184,6 +2302,8 @@
       "group": "yak9ut_new_gun",
       "invertEnableLogic": true,
       "caliber": 45.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ns45_new_gun"
       }
@@ -2194,8 +2314,22 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "shvak_new_gun"
+      }
+    },
+    "shvak_early_new_gun": {
+      "image": "#ui/gameuiskin#weapon",
+      "tier": 4,
+      "modClass": "weapon",
+      "invertEnableLogic": true,
+      "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
+      "effects": {
+        "weaponMod": "shvak_early_new_gun"
       }
     },
     "b20_new_gun": {
@@ -2204,6 +2338,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "b20_new_gun"
       }
@@ -2215,6 +2351,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "shvak_turret_new_gun"
       }
@@ -2225,6 +2363,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 47.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "vickersS_new_gun"
       }
@@ -2235,6 +2375,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 40.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "vickers_S_new_gun"
       }
@@ -2245,6 +2387,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 30.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type5_new_gun"
       }
@@ -2255,6 +2399,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 30.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho155_new_gun"
       }
@@ -2265,6 +2411,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "20mmtype97_new_gun"
       }
@@ -2276,6 +2424,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "20mmtype97_turret_new_gun"
       }
@@ -2286,6 +2436,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type99mk1_new_gun"
       }
@@ -2297,6 +2449,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type99_turret_new_gun"
       }
@@ -2307,6 +2461,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type99mk2_new_gun"
       }
@@ -2317,6 +2473,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 23.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "vya_new_gun"
       }
@@ -2327,6 +2485,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 12.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "safat12_new_gun"
       }
@@ -2338,6 +2498,8 @@
       "invertEnableLogic": true,
       "caliber": 12.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "safat12_turret_new_gun"
       }
@@ -2348,6 +2510,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "safat7_new_gun"
       }
@@ -2359,6 +2523,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "safat7_turret_new_gun"
       }
@@ -2370,6 +2536,8 @@
       "invertEnableLogic": true,
       "caliber": 7.62,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg30_turret_new_gun"
       }
@@ -2380,6 +2548,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.62,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg30_new_gun"
       }
@@ -2389,6 +2559,8 @@
       "tier": 2,
       "modClass": "weapon",
       "caliber": 7.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg303_new_gun"
       }
@@ -2400,6 +2572,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg303_turret_new_gun"
       }
@@ -2410,6 +2584,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 12.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg50_new_gun"
       }
@@ -2420,6 +2596,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 12.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg50raf_new_gun"
       }
@@ -2431,6 +2609,8 @@
       "invertEnableLogic": true,
       "caliber": 12.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg50raf_turret_new_gun"
       }
@@ -2442,6 +2622,8 @@
       "invertEnableLogic": true,
       "caliber": 12.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "bmg50_turret_new_gun"
       }
@@ -2452,6 +2634,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 12.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho103_new_gun"
       }
@@ -2463,6 +2647,8 @@
       "invertEnableLogic": true,
       "caliber": 12.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho103_turret_new_gun"
       }
@@ -2472,6 +2658,8 @@
       "tier": 2,
       "modClass": "weapon",
       "invertEnableLogic": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "lewis_new_gun"
       }
@@ -2483,6 +2671,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "lewis_turret_new_gun"
       }
@@ -2493,6 +2683,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.5,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mac39_new_gun"
       }
@@ -2504,6 +2696,8 @@
       "invertEnableLogic": true,
       "caliber": 7.5,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mac39_turret_new_gun"
       }
@@ -2514,6 +2708,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 13.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg131_new_gun"
       }
@@ -2525,6 +2721,8 @@
       "invertEnableLogic": true,
       "caliber": 13.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg131_turret_new_gun"
       }
@@ -2535,6 +2733,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.92,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg15_new_gun"
       }
@@ -2545,6 +2745,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.92,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg17_new_gun"
       }
@@ -2555,6 +2757,8 @@
       "modClass": "weapon",
       "caliber": 7.92,
       "invertEnableLogic": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg81_new_gun"
       }
@@ -2566,6 +2770,8 @@
       "invertEnableLogic": true,
       "caliber": 7.92,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg15_turret_new_gun"
       }
@@ -2577,6 +2783,8 @@
       "invertEnableLogic": true,
       "caliber": 7.92,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg81_turret_new_gun"
       }
@@ -2587,6 +2795,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.5,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mle38_new_gun"
       }
@@ -2597,6 +2807,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.62,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "pv1_new_gun"
       }
@@ -2607,6 +2819,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.62,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "shkas_new_gun"
       }
@@ -2618,6 +2832,8 @@
       "invertEnableLogic": true,
       "caliber": 7.62,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "shkas_turret_new_gun"
       }
@@ -2627,6 +2843,8 @@
       "tier": 2,
       "modClass": "weapon",
       "invertEnableLogic": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type92_new_gun"
       }
@@ -2637,6 +2855,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type89_new_gun"
       }
@@ -2648,6 +2868,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type89_turret_new_gun"
       }
@@ -2659,6 +2881,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type92_turret_new_gun"
       }
@@ -2669,6 +2893,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 7.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type97_new_gun"
       }
@@ -2680,6 +2906,8 @@
       "invertEnableLogic": true,
       "caliber": 7.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type97_turret_new_gun"
       }
@@ -2690,6 +2918,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 12.7,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ub_new_gun"
       }
@@ -2701,6 +2931,8 @@
       "invertEnableLogic": true,
       "caliber": 12.7,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ub_turret_new_gun"
       }
@@ -2712,6 +2944,8 @@
       "invertEnableLogic": true,
       "caliber": 13.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type2_turret_new_gun"
       }
@@ -2722,6 +2956,8 @@
       "modClass": "weapon",
       "invertEnableLogic": true,
       "caliber": 13.2,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "type3_new_gun"
       }
@@ -2732,6 +2968,8 @@
       "group": "hispano_II_mods",
       "modClass": "weapon",
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "hispano_mk2_new_gun"
       }
@@ -2742,6 +2980,8 @@
       "group": "hispano_II_mods",
       "modClass": "weapon",
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mk2_narrow_chamber_new_gun"
       }
@@ -2752,6 +2992,8 @@
       "group": "hispano_II_mods",
       "modClass": "weapon",
       "caliber": 20.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mk2_1943_new_gun"
       }
@@ -2961,6 +3203,20 @@
         "mulCdminFusel": 1.015,
         "mulCdminTail": 1.015,
         "mulCdmin": 1.015
+      },
+      "overdriveEffect": {
+        "damageReceivedMult": 1.025,
+        "mulMass": 1.003,
+        "mulCdminFusel": 1.0015,
+        "mulCdminTail": 1.0015,
+        "mulCdmin": 1.0015
+      },
+      "upgradeEffect": {
+        "damageReceivedMult": 1.025,
+        "mulMass": 1.003,
+        "mulCdminFusel": 1.0015,
+        "mulCdminTail": 1.0015,
+        "mulCdmin": 1.0015
       }
     },
     "structure_str": {
@@ -2971,6 +3227,14 @@
       "effects": {
         "cutProbabilityMult": 1.1,
         "mulMass": 1.025
+      },
+      "overdriveEffect": {
+        "cutProbabilityMult": 1.05,
+        "mulMass": 1.0025
+      },
+      "upgradeEffect": {
+        "cutProbabilityMult": 1.05,
+        "mulMass": 1.0025
       }
     },
     "spare": {
@@ -3036,6 +3300,48 @@
       "deactivationIsAllowed": false
     },
     "7_62mm_DT_APIT_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 3,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "7_92mm_BESA_universal": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "7_92mm_BESA_universal_ammo_pack",
+      "group": "12mm_API",
+      "effects": {
+        "additiveBulletMod": "7_92mm_BESA_universal"
+      }
+    },
+    "7_92mm_BESA_API": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "7_92mm_BESA_API_ammo_pack",
+      "group": "12mm_API",
+      "effects": {
+        "additiveBulletMod": "7_92mm_BESA_API"
+      }
+    },
+    "7_92mm_BESA_AP": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "7_92mm_BESA_AP_ammo_pack",
+      "group": "12mm_AP",
+      "effects": {
+        "additiveBulletMod": "7_92mm_BESA_AP"
+      }
+    },
+    "7_92mm_BESA_universal_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 1,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "7_92mm_BESA_API_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 2,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "7_92mm_BESA_AP_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "tier": 3,
       "modClass": "firepower",
@@ -3188,6 +3494,28 @@
     "25mm_ussr_72K_AP_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "25mm_ussr_72K_HE_ammo_pack",
+      "tier": 2,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "30mm_ussr_naval_he": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "30mm_HE",
+      "effects": {
+        "additiveBulletMod": "30mm_ussr_naval_he"
+      }
+    },
+    "30mm_ussr_naval_he_frag": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "30mm_ussr_naval_he_frag_ammo_pack",
+      "group": "30mm_HE",
+      "effects": {
+        "additiveBulletMod": "30mm_ussr_naval_he_frag"
+      }
+    },
+    "30mm_ussr_naval_he_frag_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
       "tier": 2,
       "modClass": "firepower",
       "deactivationIsAllowed": false
@@ -4034,6 +4362,28 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "130mm_ussr_aa_radiofuse": {
+      "image": "#ui/gameuiskin#he_frag_proxi_fuze_ship",
+      "reqModification": "130mm_ussr_aa_radiofuse_ammo_pack",
+      "group": "130mm_SAP",
+      "effects": {
+        "additiveBulletMod": "130mm_ussr_aa_radiofuse"
+      }
+    },
+    "130mm_ussr_aa_radiofuse_ammo_pack": {
+      "image": "#ui/gameuiskin#he_frag_proxi_fuze_ship",
+      "tier": 4,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "13_2mm_it_breda_navy_universal": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "20mm_AP",
+      "effects": {
+        "additiveBulletMod": "13_2mm_it_breda_navy_universal"
+      }
+    },
     "20mm_it_breda_universal": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
@@ -4086,20 +4436,6 @@
         "additiveBulletMod": "120mm_it_HE"
       }
     },
-    "120mm_it_HE_delayed_fuse": {
-      "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "120mm_it_HE_delayed_fuse_ammo_pack",
-      "group": "120mm_HE",
-      "effects": {
-        "additiveBulletMod": "120mm_it_HE_delayed_fuse"
-      }
-    },
-    "120mm_it_HE_delayed_fuse_ammo_pack": {
-      "image": "#ui/gameuiskin#he_frag_dist_fuse_ship",
-      "tier": 1,
-      "modClass": "firepower",
-      "deactivationIsAllowed": false
-    },
     "120mm_it_AP": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "120mm_it_AP_ammo_pack",
@@ -4111,20 +4447,6 @@
     "120mm_it_AP_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "tier": 2,
-      "modClass": "firepower",
-      "deactivationIsAllowed": false
-    },
-    "120mm_it_AP_delayed_fuse": {
-      "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "120mm_it_AP_delayed_fuse_ammo_pack",
-      "group": "120mm_AP",
-      "effects": {
-        "additiveBulletMod": "120mm_it_AP_delayed_fuse"
-      }
-    },
-    "120mm_it_AP_delayed_fuse_ammo_pack": {
-      "image": "#ui/gameuiskin#tank_ammo",
-      "tier": 3,
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
@@ -4144,20 +4466,6 @@
         "additiveBulletMod": "152mm_it_naval_HE"
       }
     },
-    "152mm_it_naval_HE_delayed_fuse": {
-      "image": "#ui/gameuiskin#152mm_it_naval_HE_delayed_fuse_ammo_pack",
-      "reqModification": "152mm_it_naval_APHE_ammo_pack",
-      "group": "152mm_HE",
-      "effects": {
-        "additiveBulletMod": "152mm_it_naval_HE_delayed_fuse"
-      }
-    },
-    "152mm_it_naval_HE_delayed_fuse_ammo_pack": {
-      "image": "#ui/gameuiskin#he_frag_dist_fuse_ship",
-      "tier": 1,
-      "modClass": "firepower",
-      "deactivationIsAllowed": false
-    },
     "152mm_it_naval_APHE": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "152mm_it_naval_APHE_ammo_pack",
@@ -4169,20 +4477,6 @@
     "152mm_it_naval_APHE_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "tier": 2,
-      "modClass": "firepower",
-      "deactivationIsAllowed": false
-    },
-    "152mm_it_naval_APHE_delayed_fuse": {
-      "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "152mm_it_naval_APHE_delayed_fuse_ammo_pack",
-      "group": "152mm_APHE",
-      "effects": {
-        "additiveBulletMod": "152mm_it_naval_APHE_delayed_fuse"
-      }
-    },
-    "152mm_it_naval_APHE_delayed_fuse_ammo_pack": {
-      "image": "#ui/gameuiskin#tank_ammo",
-      "tier": 3,
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
@@ -4210,7 +4504,7 @@
     },
     "20mm_ger_c38_navy_ap": {
       "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "20mm_ger_c38_navy_he_ammo_pack",
+      "reqModification": "20mm_ger_c38_navy_ap_ammo_pack",
       "group": "20mm_AP",
       "effects": {
         "additiveBulletMod": "20mm_ger_c38_navy_ap"
@@ -4228,6 +4522,14 @@
       "group": "20mm_AP",
       "effects": {
         "additiveBulletMod": "20mm_rh202_universal"
+      }
+    },
+    "28_20mm_APCR": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "20mm_AP",
+      "effects": {
+        "additiveBulletMod": "28_20mm_APCR"
       }
     },
     "20mm_ger_flak38_HE": {
@@ -4948,6 +5250,14 @@
       "deactivationIsAllowed": false,
       "modClass": "firepower"
     },
+    "120mm_ger_naval_HE": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "120mm_HE",
+      "effects": {
+        "additiveBulletMod": "120mm_ger_naval_HE"
+      }
+    },
     "128mm_ger_APC": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
@@ -5001,7 +5311,7 @@
       "deactivationIsAllowed": false
     },
     "128mm_ger_HE_naval_base_fuze": {
-      "image": "#ui/gameuiskin#tank_ammo",
+      "image": "#ui/gameuiskin#he_frag_base_fuse_tank",
       "reqModification": "128mm_ger_HE_naval_base_fuze_ammo_pack",
       "group": "128mm_HE",
       "effects": {
@@ -5009,8 +5319,45 @@
       }
     },
     "128mm_ger_HE_naval_base_fuze_ammo_pack": {
-      "image": "#ui/gameuiskin#tank_ammo",
+      "image": "#ui/gameuiskin#he_frag_base_fuse_tank",
       "reqModification": "128mm_ger_naval_APCBC_ammo_pack",
+      "tier": 2,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "150mm_ger_naval_c36_he": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "150mm_HE",
+      "effects": {
+        "additiveBulletMod": "150mm_ger_naval_c36_he"
+      }
+    },
+    "150mm_ger_c36_naval_apc": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "150mm_ger_c36_naval_apc_ammo_pack",
+      "group": "150mm_APC",
+      "effects": {
+        "additiveBulletMod": "150mm_ger_c36_naval_apc"
+      }
+    },
+    "150mm_ger_c36_naval_apc_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 1,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "150mm_ger_c36_naval_he_base_fuse": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "150mm_ger_c36_naval_he_base_fuse_ammo_pack",
+      "group": "150mm_HE",
+      "effects": {
+        "additiveBulletMod": "150mm_ger_c36_naval_he_base_fuse"
+      }
+    },
+    "150mm_ger_c36_naval_he_base_fuse_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "150mm_ger_c36_naval_apc_ammo_pack",
       "tier": 2,
       "modClass": "firepower",
       "deactivationIsAllowed": false
@@ -5638,6 +5985,20 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "76mm_usa_navy_common": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "76mm_usa_navy_common_ammo_pack",
+      "group": "76mm_AP",
+      "effects": {
+        "additiveBulletMod": "76mm_usa_navy_common"
+      }
+    },
+    "76mm_usa_navy_common_ammo_pack": {
+      "image": "#ui/gameuiskin#aphebc_tank",
+      "tier": 2,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "90mm_us_T44_APCR": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "90mm_us_T44_APCR_ammo_pack",
@@ -5893,10 +6254,32 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "102mm_usa_navy_HE": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "102mm_HE",
+      "effects": {
+        "additiveBulletMod": "102mm_usa_navy_HE"
+      }
+    },
+    "102mm_usa_navy_special_common": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "102mm_usa_navy_special_common_ammo_pack",
+      "group": "102mm_AP",
+      "effects": {
+        "additiveBulletMod": "102mm_usa_navy_special_common"
+      }
+    },
+    "102mm_usa_navy_special_common_ammo_pack": {
+      "image": "#ui/gameuiskin#aphebc_tank",
+      "tier": 4,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "127mm_usa_AA_radio_fuse": {
       "image": "#ui/gameuiskin#he_frag_proxi_fuze_ship",
       "reqModification": "127mm_usa_AA_radio_fuse_ammo_pack",
-      "group": "127mm_usa_HE",
+      "group": "127mm_HE",
       "effects": {
         "additiveBulletMod": "127mm_usa_AA_radio_fuse"
       }
@@ -5910,7 +6293,7 @@
     "127mm_usa_HE": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
-      "group": "127mm_usa_HE",
+      "group": "127mm_HE",
       "effects": {
         "additiveBulletMod": "127mm_usa_HE"
       }
@@ -5918,7 +6301,7 @@
     "127mm_usa_AP": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
-      "group": "127mm_usa_AP",
+      "group": "127mm_AP",
       "effects": {
         "additiveBulletMod": "127mm_usa_AP"
       }
@@ -5926,7 +6309,7 @@
     "127mm_usa_AP_common": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "127mm_usa_AP_common_ammo_pack",
-      "group": "127mm_usa_AP",
+      "group": "127mm_AP",
       "effects": {
         "additiveBulletMod": "127mm_usa_AP_common"
       }
@@ -5940,10 +6323,32 @@
     "127mm_usa_HE_common": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
-      "group": "127mm_usa_HE",
+      "group": "127mm_HE",
       "effects": {
         "additiveBulletMod": "127mm_usa_HE_common"
       }
+    },
+    "152mm_us_navy_he": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "152mm_HE",
+      "effects": {
+        "additiveBulletMod": "152mm_us_navy_he"
+      }
+    },
+    "152mm_us_navy_special_common": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "152mm_us_navy_special_common_ammo_pack",
+      "group": "152mm_AP",
+      "effects": {
+        "additiveBulletMod": "152mm_us_navy_special_common"
+      }
+    },
+    "152mm_us_navy_special_common_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 1,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
     },
     "152mm_usa_MGM61B_HEAT": {
       "image": "#ui/gameuiskin#tank_ammo",
@@ -6788,20 +7193,6 @@
         "additiveBulletMod": "152mm_uk_navy_he"
       }
     },
-    "152mm_uk_navy_he_delayed_fuse": {
-      "image": "#ui/gameuiskin#he_frag_dist_fuse_ship",
-      "reqModification": "152mm_uk_navy_he_delayed_fuse_ammo_pack",
-      "group": "152mm_britain_HE",
-      "effects": {
-        "additiveBulletMod": "152mm_uk_navy_he_delayed_fuse"
-      }
-    },
-    "152mm_uk_navy_he_delayed_fuse_ammo_pack": {
-      "image": "#ui/gameuiskin#he_frag_dist_fuse_ship",
-      "tier": 1,
-      "deactivationIsAllowed": false,
-      "modClass": "firepower"
-    },
     "152mm_uk_navy_cpbc": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "152mm_uk_navy_cpbc_ammo_pack",
@@ -6829,6 +7220,14 @@
       "tier": 3,
       "deactivationIsAllowed": false,
       "modClass": "firepower"
+    },
+    "165mm_britain_HESH": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "165mm_britain_HESH",
+      "effects": {
+        "additiveBulletMod": "165mm_britain_HESH"
+      }
     },
     "183mm_britain_HESH": {
       "image": "#ui/gameuiskin#tank_ammo",
@@ -7218,7 +7617,15 @@
         "extinguisherMinTime": 2.0,
         "extinguisherMaxTime": 4.0,
         "rcostAddParam": 0.99,
-        "extinguisherCrewBusyTime": 5.0
+        "extinguisherCrewBusyTime": 5.0,
+        "extinguisherCooldown": 15.0
+      },
+      "overdriveEffect": {
+        "extinguisherReductionTime": 0.5
+      },
+      "upgradeEffect": {
+        "extinguisherActivationAdditionalCount": 1,
+        "extinguisherReductionTime": 0.5
       }
     },
     "manual_extinguisher_test": {
@@ -7247,6 +7654,12 @@
       "effects": {
         "repairAvailable": true,
         "rcostAddParam": 0.99
+      },
+      "overdriveEffect": {
+        "speedMultiplier": 1.1
+      },
+      "upgradeEffect": {
+        "speedMultiplier": 1.1
       }
     },
     "tank_tool_kit_test": {
@@ -7267,7 +7680,17 @@
       "image": "#ui/gameuiskin#tank_medkit",
       "tier": 3,
       "modClass": "protection",
-      "deactivationIsAllowed": false
+      "deactivationIsAllowed": false,
+      "effects": {
+        "healingCooldown": 60.0
+      },
+      "overdriveEffect": {
+        "healingTimeMul": 0.9
+      },
+      "upgradeEffect": {
+        "medicalkitAdditionalCount": 1,
+        "healingTimeMul": 0.9
+      }
     },
     "tank_medical_kit_expendable": {
       "image": "#ui/gameuiskin#tank_medkit",
@@ -7471,6 +7894,8 @@
       "tier": 2,
       "modClass": "weapon",
       "invertEnableLogic": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg17_new_gun"
       }
@@ -7542,6 +7967,8 @@
       "tier": 2,
       "modClass": "weapon",
       "invertEnableLogic": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ub_new_gun"
       }
@@ -7592,6 +8019,8 @@
       "tier": 4,
       "modClass": "weapon",
       "invertEnableLogic": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "shvak_new_gun"
       }
@@ -7751,7 +8180,22 @@
       "modClass": "weapon",
       "deactivationIsAllowed": false
     },
+    "Bf-110C-4_SC50_SC250": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
     "Bf-110C-4_SC500": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "Bf-110C-7_SC1000": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "Bf-110C-7_SC1000_SC250": {
       "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "deactivationIsAllowed": false
@@ -7782,6 +8226,21 @@
       "deactivationIsAllowed": false
     },
     "Fw-190A-5_R6": {
+      "image": "#ui/gameuiskin#pilon_rocket",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "bf_110f-2_rz65": {
+      "image": "#ui/gameuiskin#pilon_rocket",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "il_28sh_s24": {
+      "image": "#ui/gameuiskin#pilon_rocket",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "il_28sh_ub_16_57": {
       "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
       "deactivationIsAllowed": false
@@ -7996,6 +8455,11 @@
       "deactivationIsAllowed": false
     },
     "etc1800": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "fx1400": {
       "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "deactivationIsAllowed": false
@@ -8269,6 +8733,16 @@
       "modClass": "weapon",
       "deactivationIsAllowed": false
     },
+    "hs129_bk37_bf110": {
+      "image": "#ui/gameuiskin#gunpods",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "il_28sh_upk23_gunpod": {
+      "image": "#ui/gameuiskin#gunpods",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
     "ki_7in_mod20": {
       "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
@@ -8365,6 +8839,10 @@
       "image": "#ui/gameuiskin#gunpods",
       "modClass": "weapon"
     },
+    "mg15120gunpod_mod_bf110": {
+      "image": "#ui/gameuiskin#gunpods",
+      "modClass": "weapon"
+    },
     "tu-2_pkd-2": {
       "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
@@ -8401,6 +8879,16 @@
       "deactivationIsAllowed": false
     },
     "ki49_12in_mod30": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "ki49_14in_mod35_500": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "ki49_12in_mod35_500": {
       "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "deactivationIsAllowed": false
@@ -8593,6 +9081,11 @@
     },
     "Bf-109F_rz_65": {
       "image": "#ui/gameuiskin#pilon_rocket",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "kd-2_bc": {
+      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "deactivationIsAllowed": false
     },
@@ -8817,6 +9310,11 @@
       "modClass": "weapon",
       "deactivationIsAllowed": false
     },
+    "subc_mk3_2": {
+      "image": "#ui/gameuiskin#pilon_bomb",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
     "81mm_us_mine_HE": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
@@ -9011,13 +9509,41 @@
         "additiveBulletMod": "40mm_qf_mkxv_he"
       }
     },
-    "12mm_vickers_mk5_API": {
+    "12mm_vickers_mk5_navy_universal": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
       "group": "12mm_vickers_mk5_API",
       "effects": {
-        "additiveBulletMod": "12mm_vickers_mk5_API"
+        "additiveBulletMod": "12mm_vickers_mk5_navy_universal"
       }
+    },
+    "12mm_vickers_mk5_navy_HEI": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "12mm_vickers_mk5_navy_HEI_ammo_pack",
+      "group": "12mm_vickers_mk5_HE",
+      "effects": {
+        "additiveBulletMod": "12mm_vickers_mk5_navy_HEI"
+      }
+    },
+    "12mm_vickers_mk5_navy_HEI_ammo_pack": {
+      "image": "#ui/gameuiskin#ammo",
+      "modClass": "firepower",
+      "tier": 1,
+      "deactivationIsAllowed": false
+    },
+    "12mm_vickers_mk5_navy_API": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "12mm_vickers_mk5_navy_API_ammo_pack",
+      "group": "12mm_vickers_mk5_API",
+      "effects": {
+        "additiveBulletMod": "12mm_vickers_mk5_navy_API"
+      }
+    },
+    "12mm_vickers_mk5_navy_API_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "modClass": "firepower",
+      "tier": 2,
+      "deactivationIsAllowed": false
     },
     "mg15120_turret_ap": {
       "reqModification": "mg15120_turret_belt_pack",
@@ -9042,6 +9568,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mg15120_turret_new_gun"
       }
@@ -9271,7 +9799,7 @@
     },
     "15mm_ger_ap_navy": {
       "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "15mm_ger_he_navy_ammo_pack",
+      "reqModification": "15mm_ger_ap_navy_ammo_pack",
       "group": "15mm_mg151",
       "effects": {
         "additiveBulletMod": "15mm_ger_ap_navy"
@@ -9811,6 +10339,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "ho5_turret_new_gun"
       }
@@ -9852,6 +10382,8 @@
       "invertEnableLogic": true,
       "caliber": 20.0,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "hispano_mk5_turret_new_gun"
       }
@@ -9895,6 +10427,8 @@
       "group": "mle33_turret",
       "caliber": 7.5,
       "isTurretBelt": true,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "mle33_turret_new_gun"
       }
@@ -10045,6 +10579,20 @@
         "additiveBulletMod": "125mm_ussr_HEAT_FS"
       }
     },
+    "115mm_ussr_ATGM": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "115mm_ussr_ATGM_ammo_pack",
+      "group": "115mm_ATGM",
+      "effects": {
+        "additiveBulletMod": "115mm_ussr_ATGM"
+      }
+    },
+    "115mm_ussr_ATGM_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 3,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "125mm_ussr_ATGM": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "125mm_ussr_ATGM_ammo_pack",
@@ -10092,6 +10640,20 @@
     "120mm_NATO_APDS_FS_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "tier": 1,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
+    "120mm_DM_APDS_FS": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "120mm_DM_APDS_FS_ammo_pack",
+      "group": "120mm_NATO",
+      "effects": {
+        "additiveBulletMod": "120mm_DM_APDS_FS"
+      }
+    },
+    "120mm_DM_APDS_FS_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 4,
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
@@ -10160,9 +10722,16 @@
       "tier": 4,
       "invertEnableLogic": true,
       "caliber": 102.0,
+      "modOverdriveType": "new_gun",
+      "modUpgradeType": "new_gun",
       "effects": {
         "weaponMod": "SAA_new_gun"
       }
+    },
+    "us_2_75_in_ffar_aero_7d": {
+      "image": "#ui/gameuiskin#pilon_rocket",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
     },
     "us_2_75_in_ffar": {
       "image": "#ui/gameuiskin#pilon_rocket",
@@ -10233,6 +10802,42 @@
         "fakeParam": 1.01
       }
     },
+    "conqeror_armor_improvement": {
+      "image": "#ui/gameuiskin#tank_additional_armor",
+      "requiresModelReload": true,
+      "tier": 4,
+      "modClass": "protection",
+      "effects": {
+        "fakeParam": 1.01
+      }
+    },
+    "t_62m_1_protection_improvement": {
+      "image": "#ui/gameuiskin#tank_additional_armor",
+      "requiresModelReload": true,
+      "tier": 4,
+      "modClass": "protection",
+      "effects": {
+        "fakeParam": 1.01
+      }
+    },
+    "t_64b_protection_improvement": {
+      "image": "#ui/gameuiskin#tank_additional_armor",
+      "requiresModelReload": true,
+      "tier": 4,
+      "modClass": "protection",
+      "effects": {
+        "fakeParam": 1.01
+      }
+    },
+    "magach_protection_improvement": {
+      "image": "#ui/gameuiskin#tank_additional_armor",
+      "requiresModelReload": true,
+      "tier": 4,
+      "modClass": "protection",
+      "effects": {
+        "fakeParam": 1.01
+      }
+    },
     "begleitpanzer_57_improvement_TOW": {
       "image": "#ui/gameuiskin#tank_ammo",
       "requiresModelReload": true,
@@ -10271,7 +10876,7 @@
       }
     },
     "ship_smoke_screen_system_mod": {
-      "image": "#ui/gameuiskin#smoke_screen",
+      "image": "#ui/gameuiskin#engine_smoke_screen_system",
       "tier": 4,
       "modClass": "firepower",
       "effects": {
@@ -10424,6 +11029,12 @@
       "tier": 3,
       "deactivationIsAllowed": false
     },
+    "ship_mines": {
+      "image": "#ui/gameuiskin#naval_mine",
+      "modClass": "firepower",
+      "tier": 1,
+      "deactivationIsAllowed": false
+    },
     "ship_rocket_launcher": {
       "image": "#ui/gameuiskin#rocket_launcher",
       "modClass": "firepower",
@@ -10431,6 +11042,12 @@
       "deactivationIsAllowed": false
     },
     "ship_mortar": {
+      "image": "#ui/gameuiskin#cannon",
+      "modClass": "firepower",
+      "tier": 4,
+      "deactivationIsAllowed": true
+    },
+    "ship_bomb_mortar": {
       "image": "#ui/gameuiskin#cannon",
       "modClass": "firepower",
       "tier": 4,
@@ -10444,6 +11061,27 @@
         "smokeScreenCount": 8,
         "smokeScreenTime": 1.0,
         "smokeScreenCooldown": 30.0
+      }
+    }
+  },
+  "templates": {
+    "new_gun": {
+      "copyWeaponMod": true,
+      "overdriveEffect": {
+        "mulMaxDeltaAngleOverdrive": 0.9,
+        "overheatTimingMulOverdrive": 0.9
+      },
+      "upgradeEffect": {
+        "mulMaxDeltaAngleOverdrive": 0.9,
+        "overheatTimingMulOverdrive": 0.9
+      },
+      "overdriveEffect_inverted": {
+        "mulMaxDeltaAngleOverdrive": 1.1111,
+        "overheatTimingMulOverdrive": 1.1111
+      },
+      "upgradeEffect_inverted": {
+        "mulMaxDeltaAngleOverdrive": 1.1111,
+        "overheatTimingMulOverdrive": 1.1111
       }
     }
   }

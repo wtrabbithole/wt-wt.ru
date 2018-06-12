@@ -12,6 +12,7 @@ class ::mission_rules.Base
   needLeftRespawnOnSlots = false
 
   fullUnitsLimitData = null
+  fullEnemyUnitsLimitData = null
 
   constructor()
   {
@@ -40,6 +41,7 @@ class ::mission_rules.Base
   function onMissionStateChanged()
   {
     fullUnitsLimitData = null
+    fullEnemyUnitsLimitData = null
   }
 
   /*************************************************************************************************/
@@ -140,6 +142,13 @@ class ::mission_rules.Base
     if (!fullUnitsLimitData)
       fullUnitsLimitData = calcFullUnitLimitsData()
     return fullUnitsLimitData
+  }
+
+  function getFullEnemyUnitLimitsData()
+  {
+    if (!fullEnemyUnitsLimitData)
+      fullEnemyUnitsLimitData = calcFullUnitLimitsData(false)
+    return fullEnemyUnitsLimitData
   }
 
   function getEventDescByRulesTbl(rulesTbl)
@@ -326,13 +335,22 @@ class ::mission_rules.Base
     return getTeamDataBlk(::get_mp_local_team(), keyName)
   }
 
+  function getEnemyTeamDataBlk(keyName = "teams")
+  {
+    local opponentTeamCode = ::g_team.getTeamByCode(::get_mp_local_team()).opponentTeamCode
+    if (opponentTeamCode == Team.none || opponentTeamCode == Team.Any)
+      return null
+
+    return getTeamDataBlk(opponentTeamCode, keyName)
+  }
+
   //return -1 when unlimited
   function getUnitLeftRespawnsByTeamDataBlk(unit, teamDataBlk)
   {
     return ::RESPAWNS_UNLIMITED
   }
 
-  function calcFullUnitLimitsData()
+  function calcFullUnitLimitsData(isTeamMine = true)
   {
     return {
       defaultUnitRespawnsLeft = ::RESPAWNS_UNLIMITED
@@ -494,6 +512,11 @@ class ::mission_rules.Base
     return getUnitLeftRespawns(unit) != 0
       || (isUnitAvailableBySpawnScore(unit)
         && canRespawnOnUnitBySpawnScore(unit))
+  }
+
+  function isEnemyLimitedUnitsVisible()
+  {
+    return false
   }
 }
 

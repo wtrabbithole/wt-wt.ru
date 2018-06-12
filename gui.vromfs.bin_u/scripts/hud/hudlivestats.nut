@@ -40,6 +40,8 @@ enum LIVE_STATS_MODE {
   isActive = false
   visState  = null
 
+  isSwitchScene = false
+
   columnsOrder = {
     [::GT_VERSUS] = {
       [LIVE_STATS_MODE.SPAWN] = [ "captureZone", "damageZone", "missionAliveTime", "kills", "groundKills", "navalKills",
@@ -113,9 +115,11 @@ function g_hud_live_stats::reinit()
   if (!::checkObj(_scene))
     return
 
+  isSwitchScene = !::u.isEqual(scene, _scene)
   scene = _scene
 
   checkPlayerSpawned()
+  checkPlayerDead()
 }
 
 function g_hud_live_stats::getState(playerId = null, diffState = null)
@@ -358,11 +362,14 @@ function g_hud_live_stats::checkPlayerSpawned()
 
 function g_hud_live_stats::checkPlayerDead()
 {
-  if (isAwaitingSpawn)
+  if (isAwaitingSpawn && !isSwitchScene)
     return
   if (!hero.units.len())
     return
-  if (::get_local_mplayer().isTemporary)
+  local player = ::get_local_mplayer()
+  if (player.isTemporary)
+    return
+  if (!player.isDead)
     return
   isAwaitingSpawn = true
   onPlayerDeath()

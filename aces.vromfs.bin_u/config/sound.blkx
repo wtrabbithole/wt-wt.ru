@@ -4,6 +4,8 @@
   "memoryPC": 175,
   "memoryPCLowMode": 140,
   "cockpitVolumeMultMinValue": 0.1,
+  "maxAltFallBullets": 20.0,
+  "maxSpeedFallBullets": 50.0,
   "FmEngineAi": "engine_ai",
   "FmBomberEngineAi": "engine_bomber_ai",
   "FmJetEngineAi": "engine_jet_ai",
@@ -349,9 +351,9 @@
     "resonance": 1.0
   },
   "dsp_cockpit": {
-    "cutoff": 6500.0,
-    "resonance": 1.0,
-    "volume": 0.7,
+    "cutoff": 7500.0,
+    "resonance": 0.1,
+    "volume": 0.5,
     "pitch": 0.0
   },
   "dsp_tank": {
@@ -429,7 +431,7 @@
     }
   },
   "guns_manager": {
-    "maxSounds": 8,
+    "maxSounds": 10,
     "radius": 1000.0
   },
   "guns": {
@@ -5329,6 +5331,14 @@
         },
         "targetDestroyedAircraft": {
           "event": "voice_message_aircraft_destroyed",
+          "playerRole": "sailor",
+          "player": 1,
+          "delayTime": 0.5,
+          "minSpeechInterval": 1.0,
+          "eventsChancePlay": 1.0
+        },
+        "torpedoHit": {
+          "event": "voice_message_",
           "playerRole": "sailor",
           "player": 1,
           "delayTime": 0.5,

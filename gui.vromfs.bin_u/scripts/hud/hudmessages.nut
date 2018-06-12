@@ -194,7 +194,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
   PLAYER_DAMAGE = {
     nestId = "hud_message_player_damage_notification"
     showSec = 5
-    messagesMax = 2
+    messagesMax = 3
     messageEvent = "HudMessage"
 
     onMessage = function (messageData)

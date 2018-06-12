@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -351,20 +354,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "armorThickness": 35.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -405,6 +394,37 @@
           "ex_decor_06_dm": [],
           "ex_decor_07_dm": [],
           "ex_decor_r_12_dm": []
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 250.0,
+        "armorThickness": 25.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -461,7 +481,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -536,6 +556,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -582,6 +605,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1691,6 +1723,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_02_dm"
+          },
+          {
             "parkInDeadzone": false
           },
           {
@@ -1770,6 +1805,7 @@
           "flash": "emtr_mg_flame_04",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_01_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1790,7 +1826,7 @@
           "turret": {
             "head": "bone_mg_aa_h_01",
             "gun": "bone_mg_aa_v_01",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "loader_dm"
           },
           "limits": {
             "yaw": [-120.0,120.0],
@@ -2446,6 +2482,11 @@
     }
   },
   {
+    "dmgAngles": {
+      "hatch_05": [20.0,30.0]
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -2582,6 +2623,9 @@
                   "defaultPitch": 0.0
                 },
                 {
+                  "barrelDP": "gun_barrel_02_dm"
+                },
+                {
                   "parkInDeadzone": false
                 },
                 {
@@ -2661,6 +2705,7 @@
                 "flash": "emtr_mg_flame_04",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
+                "barrelDP": "gun_barrel_01_dm",
                 "parkInDeadzone": false,
                 "speedYaw": 30.0,
                 "speedPitch": 20.0,
@@ -2681,7 +2726,7 @@
                 "turret": {
                   "head": "bone_mg_aa_h_01",
                   "gun": "bone_mg_aa_v_01",
-                  "gunnerDm": "commander_dm"
+                  "gunnerDm": "loader_dm"
                 },
                 "limits": {
                   "yaw": [-120.0,120.0],
@@ -2843,7 +2888,7 @@
     "ammoStowages": {
       "ammo1": [
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "weaponTrigger": "gunner0"

@@ -1,4 +1,5 @@
 local string = require("std/string.nut")
+local guidParser = require("scripts/guidParser.nut")
 
 const MAX_LOCATION_TYPES = 64
 
@@ -6,6 +7,7 @@ local locationTypeNameToId = {} //forest = 1, bitId to easy use in mask
 local skinsMask = {} //<skinName> = <locationTypeMask>
 local levelsMask = {} //<levelName> = <locationTypeMask>
 local camoTypesVisibleList = []
+local camoTypesIconPriority = []
 
 local function getLocationTypeId(typeName)
 {
@@ -69,12 +71,41 @@ local function loadSkinMasksOnce()
   if (skinsBlk.camo_type_visible)
     foreach(b in skinsBlk.camo_type_visible % "camoType")
       camoTypesVisibleList.append(b.name)
+  camoTypesIconPriority = []
+  if (skinsBlk.camo_type_icons)
+    foreach(b in skinsBlk.camo_type_icons % "camoType")
+      camoTypesIconPriority.append(b.name)
 }
 
-local function getSkinLocationsMask(skinName, unitName)
+local function getSkinLocationsMaskByDecoratorTags(id)
+{
+  local res = 0
+  local decorator = ::g_decorator.getDecorator(id, ::g_decorator_type.SKINS)
+  if (!decorator || !decorator.tags)
+    return res
+  foreach (t in camoTypesVisibleList)
+    if (decorator.tags?[t])
+      res = res | getLocationTypeId(t)
+  return res
+}
+
+local function getSkinLocationsMaskByFullIdAndSkinId(id, skinId, canBeEmpty)
+{
+  if (!(id in skinsMask) && !(skinId in skinsMask) && guidParser.isGuid(skinId))
+    skinsMask[id] <- getSkinLocationsMaskByDecoratorTags(id)
+  return skinsMask?[id] || skinsMask?[skinId] || (canBeEmpty ? 0  : getLocationTypeId("forest"))
+}
+
+local function getSkinLocationsMask(skinId, unitId, canBeEmpty = true)
 {
   loadSkinMasksOnce()
-  return skinsMask?[unitName + "/" + skinName] ?? skinsMask?[skinName] ?? 0
+  return getSkinLocationsMaskByFullIdAndSkinId(unitId + "/" + skinId, skinId, canBeEmpty)
+}
+
+local function getSkinLocationsMaskBySkinId(id, canBeEmpty = true)
+{
+  loadSkinMasksOnce()
+  return getSkinLocationsMaskByFullIdAndSkinId(id, ::g_unlocks.getSkinNameBySkinId(id), canBeEmpty)
 }
 
 local function getMaskByLevel(level)
@@ -113,11 +144,22 @@ local function getBestSkinsList(skinsList, unitName, level)
   return res
 }
 
+local function getIconTypeByMask(mask)
+{
+  if (mask)
+    foreach (name in camoTypesIconPriority)
+      if (mask & getLocationTypeId(name))
+        return name
+  return "forest"
+}
+
 return {
   getSkinLocationsMask = getSkinLocationsMask
+  getSkinLocationsMaskBySkinId = getSkinLocationsMaskBySkinId
   getMaskByLevel = getMaskByLevel
   getLocationMaskByNamesArray = getLocationMaskByNamesArray
   getBestSkinsList = getBestSkinsList
   getLocationsLoc = getLocationsLoc
+  getIconTypeByMask = getIconTypeByMask
   debugLocationMask = debugLocationMask
 }

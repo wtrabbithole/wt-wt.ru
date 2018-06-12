@@ -2597,20 +2597,20 @@
         "ex_armor_09_dm": [],
         "ex_armor_10_dm": [],
         "ex_armor_11_dm": [],
-        "ex_armor_12_dm": {
+        "armor_belt_01_dm": {
           "armorThickness": 57.0
         },
-        "ex_armor_13_dm": {
+        "armor_belt_02_dm": {
           "armorThickness": 76.2
         },
-        "ex_armor_14_dm": {
+        "armor_belt_03_dm": {
           "armorThickness": 51.0
         },
-        "ex_armor_15_dm": {
-          "armorThickness": 25.4
-        },
-        "ex_armor_16_dm": {
+        "armor_belt_04_dm": {
           "armorThickness": 57.15
+        },
+        "armor_cit_01_dm": {
+          "armorThickness": 25.4
         }
       },
       "turrets_armor": {
@@ -2822,6 +2822,19 @@
         "pump_04_dm": [],
         "pump_05_dm": []
       },
+      "elevators": {
+        "armorClass": "armor_tank_engine",
+        "hp": 1000.0,
+        "armorThrough": 30.0,
+        "fireProtectionHp": 5.0,
+        "armorThickness": 10.0,
+        "genericDamageMult": 2.0,
+        "fireParamsPreset": "ship_engine",
+        "elevator_01_dm": [],
+        "elevator_02_dm": [],
+        "elevator_03_dm": [],
+        "elevator_04_dm": []
+      },
       "engine": {
         "armorClass": "armor_tank_engine",
         "hp": 1000.0,
@@ -2838,10 +2851,22 @@
         "funnel_02_dm": [],
         "funnel_03_dm": [],
         "funnel_04_dm": [],
-        "transmission_01_dm": [],
-        "transmission_02_dm": [],
-        "transmission_03_dm": [],
-        "transmission_04_dm": []
+        "transmission_01_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_02_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_03_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_04_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        }
       },
       "steering_gear": {
         "armorClass": "armor_tank_engine",
@@ -3601,6 +3626,29 @@
               "fire": 1.0,
               "fHitCritical": false
             }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "expl": 0.2,
+              "damage": 300.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.1,
+              "expl": 0.1,
+              "damage": 150.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.03,
+              "expl": 0.01
+            }
           }
         ]
       },
@@ -3647,6 +3695,54 @@
               "expl": 0.5,
               "fHitCritical": false
             }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.05,
+              "damage": 50.0,
+              "expl": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "damage": 150.0,
+              "expl": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.3,
+              "damage": 300.0,
+              "expl": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "damage": 50.0,
+              "fire": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.15,
+              "damage": 100.0,
+              "fire": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.3,
+              "damage": 300.0,
+              "fire": 0.3
+            }
           }
         ]
       },
@@ -3668,6 +3764,50 @@
             "onKill": {
               "expl": 1.0,
               "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.2,
+              "fire": 0.15,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.3,
+              "fire": 0.25,
+              "damage": 300.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "fire": 0.15,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.1,
+              "fire": 0.3,
+              "damage": 300.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "expl": 0.01,
+              "damage": 50.0
             }
           }
         ]
@@ -3795,7 +3935,7 @@
               "damageType": "explosion",
               "fire": 0.4,
               "damage": 200.0,
-              "fHitCritical": false
+              "HitCritical": false
             }
           },
           {
@@ -4040,56 +4180,117 @@
           ]
         },
         {
-          "engine": {
-            "pos": [-52.9,-3.6,4.6],
-            "outputParam": "propeller_rotate_01:CRS",
-            "engineDmPart": "engine_room_01_dm",
-            "transmissionDmPart": "transmission_01_dm",
-            "propeller": "propeller_01"
-          }
+          "engine": [
+            {
+              "pos": [-52.9,-3.6,4.6]
+            },
+            {
+              "outputParam": "propeller_rotate_01:CRS"
+            },
+            {
+              "engineDmPart": "engine_room_01_dm"
+            },
+            {
+              "engineDmPart": "engine_room_02_dm"
+            },
+            {
+              "engineDmPart": "engine_room_03_dm"
+            },
+            {
+              "transmissionDmPart": "transmission_01_dm"
+            },
+            {
+              "propeller": "propeller_01"
+            }
+          ]
         },
         {
-          "engine": {
-            "pos": [-65.1,-3.6,-2.5],
-            "outputParam": "propeller_rotate_02:CRS",
-            "engineDmPart": "engine_room_01_dm",
-            "transmissionDmPart": "transmission_02_dm",
-            "propeller": "propeller_02"
-          }
+          "engine": [
+            {
+              "pos": [-65.1,-3.6,-2.5]
+            },
+            {
+              "outputParam": "propeller_rotate_02:CRS"
+            },
+            {
+              "engineDmPart": "engine_room_01_dm"
+            },
+            {
+              "engineDmPart": "engine_room_02_dm"
+            },
+            {
+              "engineDmPart": "engine_room_03_dm"
+            },
+            {
+              "transmissionDmPart": "transmission_02_dm"
+            },
+            {
+              "propeller": "propeller_02"
+            }
+          ]
         },
         {
-          "engine": {
-            "pos": [-65.1,-3.6,2.5],
-            "outputParam": "propeller_rotate_03:CRS",
-            "engineDmPart": "engine_room_02_dm",
-            "transmissionDmPart": "transmission_03_dm",
-            "propeller": "propeller_03"
-          }
+          "engine": [
+            {
+              "pos": [-65.1,-3.6,2.5]
+            },
+            {
+              "outputParam": "propeller_rotate_03:CRS"
+            },
+            {
+              "engineDmPart": "engine_room_01_dm"
+            },
+            {
+              "engineDmPart": "engine_room_02_dm"
+            },
+            {
+              "engineDmPart": "engine_room_03_dm"
+            },
+            {
+              "transmissionDmPart": "transmission_03_dm"
+            },
+            {
+              "propeller": "propeller_03"
+            }
+          ]
         },
         {
-          "engine": {
-            "pos": [-52.9,-3.6,-4.6],
-            "outputParam": "propeller_rotate_04:CRS",
-            "engineDmPart": "engine_room_02_dm",
-            "transmissionDmPart": "transmission_04_dm",
-            "propeller": "propeller_04"
-          }
+          "engine": [
+            {
+              "pos": [-52.9,-3.6,-4.6]
+            },
+            {
+              "outputParam": "propeller_rotate_04:CRS"
+            },
+            {
+              "engineDmPart": "engine_room_01_dm"
+            },
+            {
+              "engineDmPart": "engine_room_02_dm"
+            },
+            {
+              "engineDmPart": "engine_room_03_dm"
+            },
+            {
+              "transmissionDmPart": "transmission_04_dm"
+            },
+            {
+              "propeller": "propeller_04"
+            }
+          ]
         },
         {
           "engine_rooms": {
-            "engine_room1": [
-              {
-                "engineRoomDmPart": "engine_room_01_dm"
-              },
-              {
-                "funnelDmPart": "funnel_01_dm"
-              },
-              {
-                "funnelDmPart": "funnel_02_dm"
-              }
-            ],
+            "engine_room1": {
+              "engineRoomDmPart": "engine_room_01_dm",
+              "funnelDmPart": "funnel_01_dm"
+            },
             "engine_room2": {
               "engineRoomDmPart": "engine_room_02_dm",
+              "funnelDmPart": "funnel_02_dm"
+            },
+            "engine_room3": {
+              "engineRoomDmPart": "engine_room_03_dm",
               "funnelDmPart": "funnel_03_dm"
             }
           }
@@ -9666,6 +9867,12 @@
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
             }
+          },
+          {
+            "fx": {
+              "name": "ship_engine_fire",
+              "emitter": "emtr_fire_engine_04"
+            }
           }
         ]
       },
@@ -10181,8 +10388,9 @@
       "ammo1": {
         "weaponTrigger": "gunner0",
         "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
+          "fireParamsPreset": "ship_ammo_fire",
+          "fatalFire": false,
+          "fatalExplosion": false,
           "explosionEvent": "ammo_explosion_1",
           "fireEvent": "ammo_fire_1",
           "ammunition_storage_01_dm": {
@@ -10199,8 +10407,9 @@
         },
         {
           "shells": {
-            "fatalFire": true,
-            "fatalExplosion": true,
+            "fireParamsPreset": "ship_ammo_fire",
+            "fatalFire": false,
+            "fatalExplosion": false,
             "explosionEvent": "ammo_explosion_2",
             "fireEvent": "ammo_fire_2",
             "ammunition_storage_02_dm": {
@@ -10212,8 +10421,9 @@
       "ammo3": {
         "weaponTrigger": "gunner3",
         "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
+          "fireParamsPreset": "ship_ammo_fire",
+          "fatalFire": false,
+          "fatalExplosion": false,
           "explosionEvent": "ammo_explosion_3",
           "fireEvent": "ammo_fire_3",
           "ammunition_storage_03_dm": {
@@ -10224,8 +10434,9 @@
       "ammo4": {
         "weaponTrigger": "gunner4",
         "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
+          "fireParamsPreset": "ship_ammo_fire",
+          "fatalFire": false,
+          "fatalExplosion": false,
           "explosionEvent": "ammo_explosion_4",
           "fireEvent": "ammo_fire_4",
           "ammunition_storage_04_dm": {
@@ -10236,8 +10447,9 @@
       "ammo5": {
         "weaponTrigger": "gunner5",
         "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
+          "fireParamsPreset": "ship_ammo_fire",
+          "fatalFire": false,
+          "fatalExplosion": false,
           "explosionEvent": "ammo_explosion_5",
           "fireEvent": "ammo_fire_5",
           "ammunition_storage_05_dm": {

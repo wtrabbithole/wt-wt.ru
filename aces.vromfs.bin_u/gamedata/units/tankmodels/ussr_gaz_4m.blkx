@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -406,7 +409,7 @@
           "armorThickness": 1.0
         },
         "body_bottom_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 30.0
         },
         "ex_armor_body_r_01_dm": {
           "armorThickness": 1.0
@@ -464,23 +467,23 @@
         "armorClass": "tank_barrel",
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_04_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 4.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -1151,7 +1154,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_01_dm",
-          "breechDP": "cannon_breech_dm",
+          "breechDP": "cannon_breech_01_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
           "bullets": 1000,
@@ -1193,7 +1196,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_02_dm",
-          "breechDP": "cannon_breech_dm",
+          "breechDP": "cannon_breech_02_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
           "bullets": 1000,
@@ -1237,7 +1240,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_03_dm",
-          "breechDP": "cannon_breech_dm",
+          "breechDP": "cannon_breech_03_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
           "bullets": 1000,
@@ -1281,7 +1284,7 @@
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_04_dm",
-          "breechDP": "cannon_breech_dm",
+          "breechDP": "cannon_breech_04_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
           "bullets": 1000,
@@ -1330,9 +1333,9 @@
         "Fuel": 100.0,
         "TakeOff": 2950.0,
         "momentOfInertia": [2.0,2.0,5.0],
-        "CenterOfGravity": [-0.1,0.4,0.0],
+        "CenterOfGravity": [-0.3,0.3,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
-        "AdvancedMass": true,
+        "AdvancedMass": false,
         "trackMass": 40.0,
         "engineInertialMass": 400.0
       },
@@ -1398,6 +1401,8 @@
           "wheel_r_drive": 0.3
         },
         "driven": {
+          "wheel_l_01": true,
+          "wheel_r_01": true,
           "wheel_l_02": true,
           "wheel_r_02": true
         }

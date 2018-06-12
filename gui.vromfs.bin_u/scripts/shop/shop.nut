@@ -33,6 +33,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   sceneBlkName = "gui/shop/shopInclude.blk"
   sceneNavBlkName = "gui/shop/shopNav.blk"
   shouldBlurSceneBg = false
+  needVoiceChat = false
   keepLoaded = true
   boughtVehiclesCount = null
   totalVehiclesCount = null

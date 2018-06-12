@@ -695,6 +695,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 70.0,
+              "cut": 1.0
+            }
+          },
+          {
             "onKill": {
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
@@ -1299,32 +1305,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -3011,34 +3065,55 @@
         }
       },
       {
-        "fm": {
-          "fm": "gear_l",
-          "dm": "gear_l_dm"
-        }
+        "fm": [
+          {
+            "fm": "gear_l"
+          },
+          {
+            "dm": "gear_l_dm"
+          },
+          {
+            "dm": "gear_1l_dm"
+          },
+          {
+            "type": "max"
+          }
+        ]
       },
       {
-        "fm": {
-          "fm": "gear_r",
-          "dm": "gear_r_dm"
-        }
+        "fm": [
+          {
+            "fm": "gear_r"
+          },
+          {
+            "dm": "gear_r_dm"
+          },
+          {
+            "dm": "gear_1r_dm"
+          },
+          {
+            "type": "max"
+          }
+        ]
       },
       {
-        "fm": {
-          "fm": "gear_c",
-          "dm": "gear_c_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "gear_2c",
-          "dm": "gear_2c_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "gear_3c",
-          "dm": "gear_3c_dm"
-        }
+        "fm": [
+          {
+            "fm": "gear_c"
+          },
+          {
+            "dm": "gear_c_dm"
+          },
+          {
+            "dm": "gear_2c_dm"
+          },
+          {
+            "dm": "gear_3c_dm"
+          },
+          {
+            "type": "max"
+          }
+        ]
       },
       {
         "fm": {
@@ -3240,9 +3315,11 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunMle33_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun1",
           "flash": "flare1",
           "dm": "gunner4_dm",
+          "gunnerDm": "gunner4_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 1000,
@@ -3260,9 +3337,11 @@
         "Weapon": {
           "trigger": "gunner1",
           "blk": "gameData/Weapons/gunMle33_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun2",
           "flash": "flare2",
           "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
           "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 720,
@@ -3289,9 +3368,11 @@
         "Weapon": {
           "trigger": "gunner2",
           "blk": "gameData/Weapons/gunMle33_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun3",
           "flash": "flare3",
           "dm": "gunner3_dm",
+          "gunnerDm": "gunner3_dm",
           "gunDm": "gun3_dm",
           "partsDP": "gun3_dm",
           "bullets": 720,
@@ -3461,26 +3542,24 @@
   },
   {
     "cutting": {
-      "_emtr_break_wing0_l_from": [-0.613017,0.979339,1.70015],
-      "_emtr_break_wing0_l_to": [-0.613017,0.979339,1.9929],
+      "emtr_break_wing0_l_from": [-0.613017,0.979339,1.70015],
+      "emtr_break_wing0_l_to": [-0.613017,0.979339,1.9929],
       "emtr_break_wing1_l_from": [-0.613017,0.979339,6.23267],
       "emtr_break_wing1_l_to": [-0.613017,0.979339,8.59377],
       "emtr_break_wing2_l_from": [-0.613017,0.979339,12.1354],
       "emtr_break_wing2_l_to": [-0.613017,0.979339,14.4571],
-      "_emtr_break_wing0_r_from": [-0.613017,0.979339,-1.70015],
-      "_emtr_break_wing0_r_to": [-0.613017,0.979339,-1.9929],
+      "emtr_break_wing0_r_from": [-0.613017,0.979339,-1.70015],
+      "emtr_break_wing0_r_to": [-0.613017,0.979339,-1.9929],
       "emtr_break_wing1_r_from": [-0.613017,0.979339,-6.23267],
       "emtr_break_wing1_r_to": [-0.613017,0.979339,-8.59377],
       "emtr_break_wing2_r_from": [-0.613017,0.979339,-12.1354],
       "emtr_break_wing2_r_to": [-0.613017,0.979339,-14.4571],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-8.60428,0.0,0.0]
-      ],
+      "emtr_break_wing_tail": [-8.60428,0.0,0.0],
       "emtr_break_wing_biplane": [-0.613017,-2.22871,0.0],
-      "partKindTail": 2
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_fin_from": [-12.6391,2.31083,0.0],
+      "emtr_break_fin_to": [-12.6391,3.74123,0.0]
     }
   }
 ]

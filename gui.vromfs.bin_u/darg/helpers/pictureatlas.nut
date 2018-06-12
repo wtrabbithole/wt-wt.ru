@@ -1,4 +1,4 @@
-local PictureAtlas = function(atlas_path_base) {
+local function PictureAtlas(atlas_path_base) {
   local pictures = {}
 
   local cls = class {

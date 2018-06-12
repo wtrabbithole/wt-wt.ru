@@ -136,6 +136,8 @@ function on_order_result_received(player, orderId, param, wp, exp)
   // ]
 
   localPlayerData = null
+  isOrdersContainerVisible = false
+  isOrdersHidden = false
 }
 
 //
@@ -225,6 +227,7 @@ function g_orders::enableOrders(statusObj)
   ::add_event_listener("LobbyStatusChange", onEventLobbyStatusChange, this)
   ::add_event_listener("ActiveOrderChanged", onEventActiveOrderChanged, this)
   ::add_event_listener("OrderUpdated", onEventOrderUpdated, this)
+  ::add_event_listener("ChangedCursorVisibility", onEventChangedCursorVisibility, this)
 }
 
 
@@ -243,6 +246,7 @@ function g_orders::enableOrdersWithoutDagui()
   ::add_event_listener("LobbyStatusChange", onEventLobbyStatusChange, this)
   ::add_event_listener("ActiveOrderChanged", onEventActiveOrderChanged, this)
   ::add_event_listener("OrderUpdated", onEventOrderUpdated, this)
+  ::add_event_listener("ChangedCursorVisibility", onEventChangedCursorVisibility, this)
 }
 
 
@@ -342,6 +346,8 @@ function g_orders::updateActiveOrder(dispatchEvents = true)
   if (!hasActiveOrder)
     updateCooldownTimeleft()
 
+  updateHideOrderBlock()
+
   // Preparing handyman-view both for current active
   // order and previous order when it's on cooldown.
   if ((activeOrderChanged || orderStatusChanged) && hasActiveOrder)
@@ -364,6 +370,39 @@ function g_orders::updateActiveOrder(dispatchEvents = true)
   ::call_darg("orderScoresTableUpdate", getScoreTableTexts())
 }
 
+function g_orders::updateOrderVisibility()
+{
+  if (!::checkObj(ordersStatusObj))
+    return
+
+  local ordersBlockObj = ordersStatusObj.findObject("orders_block")
+  if (::check_obj(ordersBlockObj))
+    ordersBlockObj.show(!isOrdersHidden)
+}
+
+function g_orders::updateHideOrderBlock()
+{
+  if (!::checkObj(ordersStatusObj))
+    return
+
+  local isHideOrderBtnVisible = isOrderInfoVisible() && ::is_cursor_visible_in_gui()
+
+  local hideOrderBlockObj = ordersStatusObj.findObject("hide_order_block")
+  if (!::check_obj(hideOrderBlockObj))
+    return
+
+  hideOrderBlockObj.collapsed = isOrdersHidden ? "yes" : "no"
+
+  local hideOrderBtnObj = hideOrderBlockObj.findObject("hide_order_btn")
+  if (::check_obj(hideOrderBtnObj))
+    hideOrderBtnObj.isHidden = isHideOrderBtnVisible ? "no" : "yes"
+
+  local hideOrderTextIconObj = hideOrderBlockObj.findObject("hide_order_text")
+  if (::check_obj(hideOrderTextIconObj))
+    hideOrderTextIconObj.show(isHideOrderBtnVisible && isOrdersHidden)
+}
+
+
 /** Returns true if player can activate some order now. */
 function g_orders::orderCanBeActivated()
 {
@@ -378,6 +417,17 @@ function g_orders::ordersCanBeUsed()
 {
   local checkGameType = (get_game_type() & ::GT_USE_ORDERS) != 0
   return checkGameType && ::is_in_flight() && ::has_feature("Orders")
+}
+
+function g_orders::getActivateInfoText()
+{
+  if (!::is_in_flight())
+    return ::loc("order/usableOnlyInBattle")
+  if ((get_game_type() & ::GT_USE_ORDERS) == 0)
+    return ::loc("order/notUsableInCurrentBattle")
+  if (hasActiveOrder)
+    return ::loc("order/onlyOneOrderCanBeActive")
+  return ""
 }
 
 function g_orders::isInSpectatorMode()
@@ -511,12 +561,10 @@ function g_orders::setStatusObjVisibility(statusObj, visible)
     return
   if (!::checkObj(statusObj))
     return
-  for (local i = 0; i < statusObj.childrenCount(); ++i)
-  {
-    local child = statusObj.getChild(i)
-    if (child.id != "order_timer")
-      child.show(visible)
-  }
+
+  local ordersBlockObj = statusObj.findObject("orders_block")
+  if (::check_obj(ordersBlockObj))
+    ordersBlockObj.show(visible && !isOrdersHidden)
 }
 
 function g_orders::getRowObjByIndex(rowIndex, statusObj)
@@ -543,7 +591,7 @@ function g_orders::setRowObjTexts(rowObj, nameText, scoreText, pilotIconVisible)
 
 function g_orders::getScoreTableTexts()
 {
-  local showOrder = hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null
+  local showOrder = isOrderInfoVisible()
   if ( !showOrder )
     return []
   local orderObject = hasActiveOrder ? activeOrder : prevActiveOrder
@@ -558,6 +606,12 @@ function g_orders::getScoreTableTexts()
       player = (::getTblValue("playerIndex", item, 0) + 1).tostring() + ". " + ::build_mplayer_name(playerData)
     }
   })
+}
+
+
+function g_orders::isOrderInfoVisible()
+{
+  return hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null
 }
 
 
@@ -620,6 +674,11 @@ function g_orders::getStatusTextBottom()
   return result
 }
 
+function g_orders::showOrdersContainer(isShown)
+{
+  isOrdersContainerVisible = isShown
+}
+
 function g_orders::getStatusContent(orderObject)
 {
   local orderType = orderObject == null ? g_order_type.UNKNOWN : orderObject.orderType
@@ -628,6 +687,7 @@ function g_orders::getStatusContent(orderObject)
     playersHeaderText = ::loc("items/order/scoreTable/playersHeader")
     scoreHeaderText = orderType.getScoreHeaderText()
     needPlaceInHiddenContainer = isInSpectatorMode()
+    isHiddenContainerVisible = isOrdersContainerVisible
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
     view.rows.push({ rowIndex = i })
@@ -839,6 +899,12 @@ function g_orders::getPlayerDataByScoreData(scoreData)
 //
 // Handlers
 //
+function g_orders::onChangeOrderVisibility(obj, dt)
+{
+  isOrdersHidden = !isOrdersHidden
+  updateHideOrderBlock()
+  updateOrderVisibility()
+}
 
 function g_orders::onOrderTimerUpdate(obj, dt)
 {
@@ -861,6 +927,7 @@ function g_orders::onEventActiveOrderChanged(params)
       playerName = ::build_mplayer_name(::g_orders.activeOrder.starterPlayer)
       orderName = ::g_orders.activeOrder.orderItem.getName(false)
     })
+    isOrdersHidden = false
   }
   else
   {
@@ -878,6 +945,12 @@ function g_orders::onEventActiveOrderChanged(params)
 function g_orders::onEventOrderUpdated(params)
 {
   updateOrderStatus(false)
+  updateHideOrderBlock()
+}
+
+function g_orders::onEventChangedCursorVisibility(params)
+{
+  updateHideOrderBlock()
 }
 
 function g_orders::debugPrint(message)

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -114,17 +117,6 @@
           "armorThickness": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 250.0,
-        "gun_barrel_dm": {
-          "armorThickness": 25.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "optics": {
         "armorClass": "optics_tank",
         "optic_gun_dm": {
@@ -156,44 +148,35 @@
           "hp": 20.0
         }
       },
-      "chassis": {
-        "armorClass": "tank_steel_wheels",
-        "hp": 300.0,
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
         "armorThickness": 20.0,
-        "wheel_r_01_dm": [],
-        "wheel_r_02_dm": [],
-        "wheel_r_03_dm": [],
-        "wheel_r_04_dm": [],
-        "wheel_r_05_dm": [],
-        "wheel_l_01_dm": [],
-        "wheel_l_02_dm": [],
-        "wheel_l_03_dm": [],
-        "wheel_l_04_dm": [],
-        "wheel_l_05_dm": [],
-        "wheel_r_drive_dm": [],
-        "wheel_l_drive_dm": [],
-        "wheel_r_front_dm": [],
-        "wheel_l_front_dm": [],
-        "submodule": {
-          "armorClass": "tank_traks",
-          "armorThickness": 20.0,
-          "hp": 200.0,
-          "ex_armor_01_dm": [],
-          "ex_armor_02_dm": [],
-          "ex_armor_03_dm": [],
-          "ex_armor_turret_01_dm": [],
-          "ex_armor_turret_l_01_dm": [],
-          "ex_armor_turret_l_02_dm": [],
-          "ex_armor_turret_r_01_dm": [],
-          "ex_armor_turret_r_02_dm": [],
-          "ex_armor_body_r_01_dm": [],
-          "ex_armor_body_r_02_dm": [],
-          "ex_armor_body_r_03_dm": [],
-          "ex_armor_body_r_04_dm": [],
-          "ex_armor_body_l_01_dm": [],
-          "ex_armor_body_l_02_dm": [],
-          "ex_armor_body_l_03_dm": [],
-          "ex_armor_body_l_04_dm": []
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -218,7 +201,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -430,6 +413,46 @@
           "genericDamageMult": 3.0
         }
       },
+      "chassis": {
+        "armorClass": "tank_steel_wheels",
+        "hp": 300.0,
+        "armorThickness": 20.0,
+        "wheel_r_01_dm": [],
+        "wheel_r_02_dm": [],
+        "wheel_r_03_dm": [],
+        "wheel_r_04_dm": [],
+        "wheel_r_05_dm": [],
+        "wheel_l_01_dm": [],
+        "wheel_l_02_dm": [],
+        "wheel_l_03_dm": [],
+        "wheel_l_04_dm": [],
+        "wheel_l_05_dm": [],
+        "wheel_r_drive_dm": [],
+        "wheel_l_drive_dm": [],
+        "wheel_r_front_dm": [],
+        "wheel_l_front_dm": [],
+        "submodule": {
+          "armorClass": "tank_traks",
+          "armorThickness": 20.0,
+          "hp": 250.0,
+          "ex_armor_01_dm": [],
+          "ex_armor_02_dm": [],
+          "ex_armor_03_dm": [],
+          "ex_armor_turret_01_dm": [],
+          "ex_armor_turret_l_01_dm": [],
+          "ex_armor_turret_l_02_dm": [],
+          "ex_armor_turret_r_01_dm": [],
+          "ex_armor_turret_r_02_dm": [],
+          "ex_armor_body_r_01_dm": [],
+          "ex_armor_body_r_02_dm": [],
+          "ex_armor_body_r_03_dm": [],
+          "ex_armor_body_r_04_dm": [],
+          "ex_armor_body_l_01_dm": [],
+          "ex_armor_body_l_02_dm": [],
+          "ex_armor_body_l_03_dm": [],
+          "ex_armor_body_l_04_dm": []
+        }
+      },
       "mask": {
         "armorClass": "CHA_tank",
         "gun_mask_dm": {
@@ -473,16 +496,14 @@
         },
         "turret_back_dm": {
           "armorThickness": 10.0
-        },
-        "gun_mask_01_dm": {
-          "armorThickness": 20.0
         }
       },
       "body_front_hatch": {
         "armorClass": "CHA_tank",
         "body_front_hatch_dm": {
           "armorThickness": 45.0,
-          "hp": 3000.0
+          "hp": 3000.0,
+          "armorEffectiveThicknessMax": 90.0
         },
         "body_top_dm": {
           "armorThickness": 45.0

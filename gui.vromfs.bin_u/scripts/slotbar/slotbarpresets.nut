@@ -494,6 +494,7 @@
     isLoading = true // Blocking slotbar content and game mode id from overwritting during 'batch_train_crew' call.
 
     ::g_crews_list.suspendSlotbarUpdates()
+    invalidateUnitsModificators(countryIdx)
     ::batch_train_crew(tasksData, { showProgressBox = true },
       (@(idx, countryIdx, countryId, selCrewIdx, selUnitId, skipGameModeSelect, preset) function () {
         onTrainCrewTasksSuccess(idx, countryIdx, countryId, selCrewIdx, selUnitId, skipGameModeSelect, preset)
@@ -512,6 +513,7 @@
     selected[countryId] = idx
 
     ::select_crew(countryIdx, selCrewIdx, true)
+    invalidateUnitsModificators(countryIdx)
     ::g_crews_list.flushSlotbarUpdate()
 
     // Game mode select is performed only
@@ -545,6 +547,17 @@
     save(countryId)
 
     ::broadcastEvent("SlotbarPresetLoaded", { crewsChanged = true })
+  }
+
+  function invalidateUnitsModificators(countryIdx)
+  {
+    local crews = ::g_crews_list.get()?[countryIdx]?.crews ?? []
+    foreach(crew in crews)
+    {
+      local unit = ::g_crew.getCrewUnit(crew)
+      if (unit)
+        unit.invalidateModificators()
+    }
   }
 
   function onTrainCrewTasksFail()

@@ -1,4 +1,4 @@
-local defTab = function (tab_item, is_current, handler) {
+local function defTab(tab_item, is_current, handler) {
   local grp = ::ElemGroup()
   local stateFlags = ::Watched(0)
 
@@ -53,10 +53,10 @@ local defHolder = @(){
 }
 
 
-local tabs = function (holder, tab) {
+local function tabs(holder, tab) {
   return function(items) {
     local children = items.tabs.map(function(item) {
-      return tab(item, item == items.currentTab, @() items.onChange(item))
+      return tab(item, item.id == items.currentTab, @() items.onChange(item))
     })
 
     local result = (typeof holder == "function") ? holder() : holder

@@ -90,10 +90,15 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
 
   DEPTH_CHARGE = {
     code = ::EII_DEPTH_CHARGE
-    _name = "deapth_charge"
+    _name = "depth_charge"
     _icon = "#ui/gameuiskin#depth_charge"
     getShortcut = @(actionItem, unit = null)
       ::is_submarine(unit) ? "ID_SUBMARINE_WEAPON_DEPTH_CHARGE" : "ID_SHIP_WEAPON_DEPTH_CHARGE"
+    getIcon = function(killStreakTag = null)
+    {
+      local unit = ::getAircraftByName(::get_action_bar_unit_name())
+      return ::is_minelayer(unit) ? "#ui/gameuiskin#naval_mine" : _icon
+    }
   }
 
   ROCKET = {
@@ -302,6 +307,26 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _title = ::loc("hotkeys/ID_REPAIR_BREACHES")
     getShortcut = @(actionItem, unit = null)
       ::is_submarine(unit) ? "ID_SUBMARINE_REPAIR_BREACHES" : "ID_REPAIR_BREACHES"
+  }
+
+  SHIP_CURRENT_TRIGGER_GROUP = {
+    code = ::EII_SHIP_CURRENT_TRIGGER_GROUP
+    _name = "ship_current_trigger_group"
+    getShortcut = @(...) null
+    getIcon = function (killStreakTag = null) {
+      local currentTrigger = ::get_current_trigger_group()
+      switch (currentTrigger)
+      {
+        case TRIGGER_GROUP_PRIMARY:
+          return "!ui/gameuiskin#artillery_weapon_state_indicator"
+        case TRIGGER_GROUP_SECONDARY:
+          return "!ui/gameuiskin#artillery_secondary_weapon_state_indicator"
+        case TRIGGER_GROUP_MACHINE_GUN:
+          return "!ui/gameuiskin#machine_gun_weapon_state_indicator"
+        default:
+          return "!ui/gameuiskin#artillery_weapon_state_indicator"
+      }
+    }
   }
 })
 

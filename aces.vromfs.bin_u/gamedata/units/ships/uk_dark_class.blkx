@@ -992,97 +992,6 @@
         "turret_03_dm": [],
         "turret_04_dm": []
       },
-      "crew": {
-        "armorClass": "steel_tankman",
-        "hp": 40.0,
-        "driver_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_04_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_05_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_06_dm": {
-          "genericDamageMult": 4.0
-        },
-        "loader_07_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_04_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_05_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_06_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_07_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_08_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_09_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_10_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_11_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_12_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_13_dm": {
-          "genericDamageMult": 4.0
-        },
-        "gunner_14_dm": {
-          "genericDamageMult": 4.0
-        },
-        "commander_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_01_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_02_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_03_dm": {
-          "genericDamageMult": 4.0
-        },
-        "machine_gunner_04_dm": {
-          "genericDamageMult": 4.0
-        }
-      },
       "turrets_main_caliber": {
         "hp": 100.0,
         "armorClass": "RHA_tank",
@@ -1271,10 +1180,22 @@
         "funnel_02_dm": [],
         "funnel_03_dm": [],
         "funnel_04_dm": [],
-        "transmission_01_dm": [],
-        "transmission_02_dm": [],
-        "transmission_03_dm": [],
-        "transmission_04_dm": []
+        "transmission_01_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_02_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_03_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        },
+        "transmission_04_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05
+        }
       },
       "steering_gear": {
         "armorClass": "armor_tank_engine",
@@ -1306,7 +1227,7 @@
         "ammunition_storage_06_dm": []
       },
       "depth_charges": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 500.0,
         "armorThickness": 20.0,
         "armorThrough": 15.0,
@@ -1367,6 +1288,36 @@
           "secondaryShatterDamageMult": 0.0
         },
         "depth_charge_mount_10_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_11_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_12_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_13_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_14_dm": {
+          "hp": 250.0,
+          "armorThickness": 5.0,
+          "genericDamageMult": 1.0,
+          "secondaryShatterDamageMult": 0.0
+        },
+        "depth_charge_mount_15_dm": {
           "hp": 250.0,
           "armorThickness": 5.0,
           "genericDamageMult": 1.0,
@@ -1566,7 +1517,7 @@
         }
       },
       "torpedos": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 250.0,
         "armorThickness": 7.5,
         "genericDamageMult": 1.5,
@@ -1586,7 +1537,7 @@
         "torpedo_10_dm": []
       },
       "fuel_tanks": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "ship_structural_steel",
         "hp": 200.0,
         "armorThickness": 5.0,
         "armorThrough": 50.0,
@@ -1820,9 +1771,26 @@
             "name": "torpedo_04_dm"
           },
           {
-            "onKill": {
-              "expl": 0.9,
-              "fHitCritical": false
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.2,
+              "expl": 0.2,
+              "damage": 300.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.1,
+              "expl": 0.1,
+              "damage": 150.0
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.03,
+              "expl": 0.01
             }
           }
         ]
@@ -1890,6 +1858,12 @@
             "name": "depth_charge_20_dm"
           },
           {
+            "name": "depth_charge_21_dm"
+          },
+          {
+            "name": "depth_charge_22_dm"
+          },
+          {
             "name": "depth_charge_l_01_dm"
           },
           {
@@ -1938,8 +1912,51 @@
             "name": "depth_charge_r_08_dm"
           },
           {
-            "onKill": {
-              "expl": 0.5
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.05,
+              "damage": 50.0,
+              "expl": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "damage": 150.0,
+              "expl": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.3,
+              "damage": 300.0,
+              "expl": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.05,
+              "damage": 50.0,
+              "fire": 0.05
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.15,
+              "damage": 100.0,
+              "fire": 0.15
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 0.3,
+              "damage": 300.0,
+              "fire": 0.3
             }
           }
         ]
@@ -2173,6 +2190,11 @@
     }
   },
   {
+    "damagePartsToAnim": {
+      "superstructure_side_dm": "superstructure_destruction"
+    }
+  },
+  {
     "tank_crew": {
       "minCrewMemberAliveCount": 6,
       "sailor1": {
@@ -2210,13 +2232,6 @@
         "role": "sailor",
         "crew": 1
       }
-    }
-  },
-  {
-    "class_tags": {
-      "pacific": true,
-      "mediterran": true,
-      "westernfront": true
     }
   },
   {
@@ -2277,7 +2292,7 @@
           "engine": {
             "pos": [-9.5,-1.4,1.8],
             "outputParam": "propeller_rotate_01:CRS",
-            "engineDmPart": "engine_room_01_dm",
+            "engineDmPart": "engine_01_dm",
             "transmissionDmPart": "transmission_01_dm",
             "propeller": "propeller_01"
           }
@@ -2286,8 +2301,8 @@
           "engine": {
             "pos": [-9.5,-1.4,-1.8],
             "outputParam": "propeller_rotate_02:CRS",
-            "engineDmPart": "engine_room_01_dm",
-            "transmissionDmPart": "transmission_01_dm",
+            "engineDmPart": "engine_02_dm",
+            "transmissionDmPart": "transmission_02_dm",
             "propeller": "propeller_02"
           }
         }
@@ -2327,9 +2342,9 @@
                 "size": [1.6,2.5],
                 "maxV": 58.0,
                 "polar": {
-                  "Cl0": 0.03,
+                  "Cl0": 0.035,
                   "CdMin": 0.0011,
-                  "lineClCoeff": 0.02,
+                  "lineClCoeff": 0.04,
                   "ClCritHigh": 0.5,
                   "ClCritLow": -0.4,
                   "alphaCritHigh": 6.0,
@@ -2344,9 +2359,9 @@
                 "size": [1.6,2.5],
                 "maxV": 58.0,
                 "polar": {
-                  "Cl0": 0.03,
+                  "Cl0": 0.035,
                   "CdMin": 0.0011,
-                  "lineClCoeff": 0.02,
+                  "lineClCoeff": 0.04,
                   "ClCritHigh": 0.5,
                   "ClCritLow": -0.4,
                   "alphaCritHigh": 6.0,
@@ -2380,7 +2395,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/114mm_8cwt_QF_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/114mm_8cwt_QF_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_01"
@@ -2518,7 +2533,7 @@
             "triggerGroup": "secondary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_watercool_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -2744,7 +2759,7 @@
                   "triggerGroup": "primary"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/114mm_8cwt_QF_user_cannon.blk"
+                  "blk": "gameData/Weapons/navalModels_weapons/114mm_8cwt_QF_naval_user_cannon.blk"
                 },
                 {
                   "emitter": "emtr_gun_flame_01"
@@ -2882,7 +2897,7 @@
                   "triggerGroup": "secondary"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
+                  "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_watercool_naval_user_cannon.blk"
                 },
                 {
                   "emitter": "emtr_gun_flame_02"
@@ -3128,25 +3143,25 @@
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_01"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_03"
             }
           },
           {
             "fx": {
-              "name": "tank_ammo_fire",
+              "name": "ship_ammo_fire",
               "emitter": "emtr_fire_ammo_04"
             }
           },
@@ -3633,7 +3648,7 @@
         "event": {
           "name": "ammo_fire_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -3642,7 +3657,7 @@
         "event": {
           "name": "ammo_fire_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -3651,7 +3666,7 @@
         "event": {
           "name": "ammo_fire_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -3660,7 +3675,7 @@
         "event": {
           "name": "ammo_fire_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }
@@ -3669,7 +3684,7 @@
         "event": {
           "name": "ammo_explosion_1",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_01"
           }
         }
@@ -3678,7 +3693,7 @@
         "event": {
           "name": "ammo_explosion_2",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
         }
@@ -3687,7 +3702,7 @@
         "event": {
           "name": "ammo_explosion_3",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_03"
           }
         }
@@ -3696,7 +3711,7 @@
         "event": {
           "name": "ammo_explosion_4",
           "fx": {
-            "name": "tank_ammo_fire",
+            "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
           }
         }

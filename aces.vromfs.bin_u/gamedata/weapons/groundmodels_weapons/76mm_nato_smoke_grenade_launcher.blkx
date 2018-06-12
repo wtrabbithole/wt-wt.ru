@@ -39,10 +39,14 @@
     "maxDistance": 2000.0,
     "minDistance": 200.0,
     "smokeShell": true,
-    "smokeFx": "smoke_shell_explosion",
     "smokeShellRad": 13.0,
     "smokeActivateTime": 5.0,
     "smokeTime": 20.0,
+    "groundCollisionEffect": "smoke_shell_explosion",
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "smoke_shell_explosion",
+    "waterFxScale": [0.6,0.7],
+    "explosionPatchRadius": 1.1,
     "spawnExplosionWreckage": false,
     "spawnExplosionFx": false,
     "explosionOffset": 0.05,
@@ -57,7 +61,6 @@
     "farArmorPower": [0.2,700.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "distanceFuse": false,
-    "explosionPatchRadius": 0.1,
     "rendinstDamageRadius": 0.1,
     "advancedMissiles": false,
     "useStartSpeed": true,
@@ -65,6 +68,20 @@
     "endSpeed": 20.0,
     "speedViscosity": 0.2,
     "timeToLive": 20.0,
-    "price": 300.0
+    "price": 300.0,
+    "collisions": {
+      "steel": {
+        "fx": "smoke_shell_explosion"
+      },
+      "armor": {
+        "fx": "smoke_shell_explosion"
+      },
+      "buildings": {
+        "fx": "smoke_shell_explosion"
+      },
+      "wood": {
+        "fx": "smoke_shell_explosion"
+      }
+    }
   }
 }

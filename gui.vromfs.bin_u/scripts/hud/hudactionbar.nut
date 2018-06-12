@@ -228,7 +228,7 @@ class ActionBar
       }
 
       local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
-      local backgroundImage = actionBarType.backgroundImage
+      local backgroundImage = actionBarType.getIcon()
       local iconObj = itemObj.findObject("action_icon")
       if (::checkObj(iconObj) && backgroundImage.len() > 0)
         iconObj["background-image"] = backgroundImage

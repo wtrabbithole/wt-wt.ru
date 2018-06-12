@@ -130,7 +130,7 @@ class UnitInfoExporter
   function startExport()
   {
     fullBlk = ::DataBlock()
-    exportArmy(fullBlk)
+    exportUnitType(fullBlk)
     exportCountry(fullBlk)
     exportRank(fullBlk)
     exportCommonParams(fullBlk)
@@ -151,15 +151,15 @@ class UnitInfoExporter
     ::get_main_gui_scene().performDelayed(this, nextLangExport) //delay to show exporter logs
   }
 
-  function exportArmy(fullBlk)
+  function exportUnitType(fullBlk)
   {
     fullBlk[ARMY_GROUP] = ::DataBlock()
 
-    foreach(army in ::g_unit_type.types)
+    foreach(unitType in ::g_unit_type.types)
     {
-      if(army.isAvailable())
+      if (unitType != ::g_unit_type.INVALID)
       {
-        fullBlk[ARMY_GROUP][army.armyId] = army.getArmyLocName()
+        fullBlk[ARMY_GROUP][unitType.armyId] = unitType.getArmyLocName()
       }
     }
   }
@@ -214,7 +214,8 @@ class UnitInfoExporter
 
   function exportCurUnit(fullBlk, curUnit)
   {
-    if(!curUnit.isInShop || ::get_es_unit_type(curUnit) >= ::ES_UNIT_TYPE_TOTAL_RELEASED)
+//NEED remove ::isShip(...) when ships will be opened
+    if(!curUnit.isInShop && !curUnit.isShip())
       return true
 
     if(!curUnit.modificators)
@@ -222,9 +223,11 @@ class UnitInfoExporter
       if(isTank(curUnit))
         return check_unit_mods_update(curUnit)
     }
-    local groupId = ::getTblValue("showOnlyWhenBought", curUnit, false)? EXTENDED_GROUP : BASE_GROUP
+
+    local groupId = curUnit.showOnlyWhenBought? EXTENDED_GROUP : BASE_GROUP
 
     local armyId = curUnit.unitType.armyId
+
     local countryId = curUnit.shopCountry
     local rankId = curUnit.rank.tostring()
 

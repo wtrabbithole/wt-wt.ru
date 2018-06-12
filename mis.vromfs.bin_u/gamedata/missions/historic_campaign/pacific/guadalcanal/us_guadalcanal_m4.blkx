@@ -26,11 +26,11 @@
       "campaign": "usa_pacific_41_43",
       "windDirection": [1.0,0.0,0.0],
       "chapter": "guadalcanal",
+      "locationName": "water_guadalcanal",
       "forceSkiesInitialRandomSeed": true,
       "skiesInitialRandomSeed": 5,
       "windSpeed": [12.0,12.0],
       "windDirectionDeg": [90.0,90.0],
-      "locationName": "water_guadalcanal",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -47,7 +47,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       },
       "stars": {
         "latitude": 9.4,
@@ -122,7 +128,8 @@
           "slide": {
             "map": false,
             "minTime": 6,
-            "picture": "guadalcanal/us_guadalcanal_m4_part1"
+            "picture": "guadalcanal/us_guadalcanal_m4_part1",
+            "showAirMap": false
           }
         }
       },
@@ -133,7 +140,8 @@
           "slide": {
             "map": false,
             "minTime": 6,
-            "picture": "guadalcanal/us_guadalcanal_m4_part2"
+            "picture": "guadalcanal/us_guadalcanal_m4_part2",
+            "showAirMap": false
           }
         }
       },
@@ -149,14 +157,16 @@
             "slide": {
               "map": false,
               "minTime": 4,
-              "picture": "guadalcanal/us_guadalcanal_m4_part3"
+              "picture": "guadalcanal/us_guadalcanal_m4_part3",
+              "showAirMap": false
             }
           },
           {
             "slide": {
               "map": false,
               "minTime": 4,
-              "picture": "guadalcanal/us_guadalcanal_m4_part4"
+              "picture": "guadalcanal/us_guadalcanal_m4_part4",
+              "showAirMap": false
             }
           }
         ]
@@ -174,6 +184,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "arrow": [
@@ -304,6 +317,9 @@
           "icon": "tank",
           "icon army": 2,
           "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "armada_01"
         }
       },
@@ -324,6 +340,10 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "armada_01",
             "plane": {
               "targetDeviation": {
@@ -336,6 +356,18 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "us_f4f01"
             },
@@ -361,6 +393,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "1a_sq",
             "plane": [
               {
@@ -396,6 +432,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "2a_sq",
             "plane": [
               {
@@ -441,6 +481,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "us_all",
             "army": 1
           }
@@ -538,6 +582,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -564,6 +613,18 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "d3a_start_cut"
             },
@@ -622,6 +683,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -673,7 +739,12 @@
           "action": "hide",
           "shouldFadeOut": false,
           "time": -1.0,
-          "priority": 0
+          "priority": 0,
+          "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "triggerEnable": {
           "target": "takeOff_start"
@@ -847,6 +918,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "armada_01",
             "move_type": "teleport",
             "lookat": "armada1_lookAt",
@@ -903,6 +981,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -972,6 +1055,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1029,7 +1117,12 @@
           "action": "hide",
           "shouldFadeOut": false,
           "time": -1.0,
-          "priority": 0
+          "priority": 0,
+          "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "triggerEnable": {
           "target": "battle_start"
@@ -1082,6 +1175,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "armada_01",
             "move_type": "teleport",
             "lookat": "armada1_lookAt",
@@ -1097,6 +1197,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 100.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "us_f4f01",
             "move_type": "teleport",
             "lookat": "armada1_lookAt",
@@ -1131,6 +1238,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "1a_d3a",
             "speed": 215.0
           }
@@ -1144,6 +1258,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "1a_zero",
             "speed": 215.0
           }
@@ -1157,6 +1278,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "1a_b5n",
             "speed": 215.0
           }
@@ -1234,6 +1362,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "1a_d3a"
           }
         },
@@ -1299,6 +1431,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "armada_01"
           },
           {
@@ -1361,6 +1502,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "1a_d3a"
           },
           {
@@ -1381,6 +1531,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "1a_d3a"
           }
         },
@@ -1393,6 +1550,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "1a_b5n"
           }
         },
@@ -1417,6 +1581,16 @@
             "ressurectIfDead": false,
             "fullRestore": true,
             "target": "tf17_cv8"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "set": true,
+            "target": "1a_b5n"
           }
         },
         {
@@ -1465,6 +1639,15 @@
             "value": 4
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "1a_b5n"
           },
           {
@@ -1475,6 +1658,10 @@
       "actions": {
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "1a_b5n"
         }
       },
@@ -1506,6 +1693,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "1a_d3a"
@@ -1556,6 +1752,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "tf17_cv8"
         }
       },
@@ -1601,6 +1800,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "1a_d3a"
@@ -1657,6 +1865,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "1a_d3a"
           },
           {
@@ -1678,6 +1895,15 @@
           },
           {
             "value": 4
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "1a_d3a"
@@ -1708,6 +1934,18 @@
           "unitSetIndication": [
             {
               "set": false
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "target": "1a_d3a"
@@ -1789,6 +2027,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "armada_01",
             "move_type": "teleport",
             "lookat": "tf16_2000",
@@ -1809,7 +2054,7 @@
             "changeCameras": false,
             "startSubTypeTwoUnits": "",
             "teleportAllAttackers": false,
-            "allowDeadUnits": false,
+            "allowDeadUnits": true,
             "allowTeleportAttackers": true,
             "fadeIn": false,
             "inverseCameraDirection": false,
@@ -1832,6 +2077,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1906,6 +2156,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1963,7 +2218,12 @@
           "action": "hide",
           "shouldFadeOut": false,
           "time": -1.0,
-          "priority": 0
+          "priority": 0,
+          "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "triggerEnable": {
           "target": "tf16_start"
@@ -2066,6 +2326,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "us_f4f01"
           }
         },
@@ -2132,6 +2399,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_d3a01"
           }
         },
@@ -2144,6 +2418,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_zero01"
           }
         },
@@ -2156,6 +2437,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_d3a02"
           }
         },
@@ -2168,6 +2456,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_zero02"
           }
         },
@@ -2180,6 +2475,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_d3a03"
           }
         },
@@ -2192,6 +2494,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_zero03"
           }
         },
@@ -2209,6 +2518,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "2a_d3a01"
           }
         },
@@ -2262,6 +2575,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "2a_sq"
           }
         },
@@ -2294,6 +2611,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "2a_d3a02"
           }
         },
@@ -2333,6 +2654,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "2a_d3a03"
           }
         }
@@ -2362,6 +2687,9 @@
           "check_targets": "any",
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "2a_d3a01",
           "target": "tf16_cv6"
         }
@@ -2375,6 +2703,13 @@
           "shouldKeepFormation": true,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "2a_d3a01"
         },
         "unitAttackTarget": {
@@ -2408,6 +2743,9 @@
           "check_targets": "any",
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "2a_d3a02",
           "target": "tf16_cv6"
         }
@@ -2421,6 +2759,13 @@
           "shouldKeepFormation": true,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "2a_d3a02"
         },
         "unitAttackTarget": {
@@ -2454,6 +2799,9 @@
           "check_targets": "any",
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "2a_d3a03",
           "target": "tf16_cv6"
         }
@@ -2467,6 +2815,13 @@
           "shouldKeepFormation": true,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "2a_d3a03"
         },
         "unitAttackTarget": {
@@ -2499,6 +2854,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "tf16_cv6"
         }
       },
@@ -2544,6 +2902,15 @@
           },
           {
             "value": 1
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "2a_d3a01"
@@ -2603,6 +2970,15 @@
             "target_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "2a_d3a01"
           },
           {
@@ -2636,6 +3012,10 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "2a_sq"
           }
         },
@@ -2658,6 +3038,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -2695,6 +3080,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "shouldBlink": false
           }
         },
@@ -2731,6 +3121,9 @@
           "object_marking": 0,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player_sq",
           "target": "tf16_cv6"
         }
@@ -2780,6 +3173,15 @@
             "value": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "2a_d3a01"
           },
           {
@@ -2793,12 +3195,28 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "tf16_cv6",
             "isImmortal": true
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
             {
               "object": "us_f4f02"
             },
@@ -2915,6 +3333,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "us_f4f02",
             "effShootingRate": 1.0,
             "plane": {
@@ -2928,6 +3350,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "2a_d3a01",
             "effShootingRate": 0.01,
             "plane": {
@@ -2948,6 +3374,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_d3a01",
             "move_type": "teleport",
             "lookat": "tf16_1500",
@@ -2963,6 +3396,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "us_f4f02",
             "move_type": "teleport",
             "lookat": "deb_cut_d3a_spawn",
@@ -2978,6 +3418,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "2a_d3a01",
             "speed": 250.0
           }
@@ -3002,6 +3449,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -3054,6 +3506,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -3112,6 +3569,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "us_f4f02",
             "move_type": "teleport",
             "lookat": "deb_cut_d3a_spawn",
@@ -3127,6 +3591,13 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "us_f4f02"
           }
         },
@@ -3198,6 +3669,11 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -3252,7 +3728,12 @@
           "action": "hide",
           "shouldFadeOut": false,
           "time": -1.0,
-          "priority": 0
+          "priority": 0,
+          "isOverFade": false,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0
         },
         "missionForceMusic": {
           "evName": ""
@@ -3305,12 +3786,20 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "armada_01",
             "targetableByAi": false
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "player_sq",
             "targetableByAi": true
           }
@@ -3550,6 +4039,8 @@
         ],
         "unit_class": "uss_cv_enterprise",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3583,6 +4074,8 @@
         ],
         "unit_class": "uss_ca_sanfrancisco",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3616,6 +4109,8 @@
         ],
         "unit_class": "uss_ca_sanfrancisco",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3649,6 +4144,8 @@
         ],
         "unit_class": "uss_ca_sanfrancisco",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3682,6 +4179,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3715,6 +4214,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3748,6 +4249,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3781,6 +4284,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3814,6 +4319,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3847,6 +4354,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3880,6 +4389,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3913,6 +4424,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3946,6 +4459,8 @@
         ],
         "unit_class": "uss_ca_sanfrancisco",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3979,6 +4494,8 @@
         ],
         "unit_class": "uss_cv_enterprise",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4012,6 +4529,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4045,6 +4564,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4078,6 +4599,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4111,6 +4634,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4144,6 +4669,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4177,6 +4704,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4324,6 +4853,8 @@
         ],
         "unit_class": "sbd-3",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "sbd_3_default",
         "bullets0": "",
         "bullets1": "",
@@ -4366,7 +4897,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "us_f4f04_wp_02": {
@@ -4380,7 +4913,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -4397,6 +4932,8 @@
         ],
         "unit_class": "f4f-4",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "f4f-4_default",
         "bullets0": "",
         "bullets1": "",
@@ -4441,6 +4978,8 @@
         ],
         "unit_class": "a6m2_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4504,6 +5043,8 @@
         ],
         "unit_class": "f4f-4",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4546,7 +5087,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "fighers_fake01_wp_02": {
@@ -4560,7 +5103,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -4577,6 +5122,8 @@
         ],
         "unit_class": "f4f-4",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4611,29 +5158,33 @@
           "fighers_fake02_wp_01": {
             "type": "normal",
             "tm": [
-              [0.819152,0.0,0.573576],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.573576,0.0,0.819152],
+              [0.0,0.0,1.0],
               [-37994.3,2000.0,-4639.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "fighers_fake02_wp_02": {
             "type": "normal",
             "tm": [
-              [0.819152,0.0,0.573576],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.573576,0.0,0.819152],
+              [0.0,0.0,1.0],
               [-38779.3,2000.0,-5189.76]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -4650,6 +5201,8 @@
         ],
         "unit_class": "f4f-4",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4694,6 +5247,8 @@
         ],
         "unit_class": "uss_bb_arizona",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4727,6 +5282,8 @@
         ],
         "unit_class": "uss_bb_arizona",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4760,6 +5317,8 @@
         ],
         "unit_class": "uss_bb_arizona",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4793,6 +5352,8 @@
         ],
         "unit_class": "uss_ca_sanfrancisco",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4826,6 +5387,8 @@
         ],
         "unit_class": "d3a1",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "d3a1_mod25mark2",
         "bullets0": "",
         "bullets1": "",
@@ -4870,6 +5433,8 @@
         ],
         "unit_class": "b5n2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "b5n2_type91mod2_torpedo",
         "bullets0": "",
         "bullets1": "",
@@ -4914,6 +5479,8 @@
         ],
         "unit_class": "d3a1",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "d3a1_mod25mark2",
         "bullets0": "",
         "bullets1": "",
@@ -4958,6 +5525,8 @@
         ],
         "unit_class": "d3a1",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "d3a1_mod25mark2",
         "bullets0": "",
         "bullets1": "",
@@ -5002,6 +5571,8 @@
         ],
         "unit_class": "d3a1",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "d3a1_mod25mark2",
         "bullets0": "",
         "bullets1": "",
@@ -5133,6 +5704,8 @@
         ],
         "unit_class": "tbf-1c",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5176,7 +5749,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -5193,6 +5768,8 @@
         ],
         "unit_class": "d3a1",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "d3a1_mod25mark2",
         "bullets0": "",
         "bullets1": "",
@@ -5236,7 +5813,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -5253,6 +5832,8 @@
         ],
         "unit_class": "a6m2_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5296,7 +5877,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -5313,6 +5896,8 @@
         ],
         "unit_class": "a6m2_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5357,6 +5942,8 @@
         ],
         "unit_class": "a6m2_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5401,6 +5988,8 @@
         ],
         "unit_class": "a6m2_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

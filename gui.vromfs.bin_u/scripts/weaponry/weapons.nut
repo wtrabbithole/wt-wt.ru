@@ -1,4 +1,5 @@
- local modsTree = ::require("scripts/weaponry/modsTree.nut")
+local modsTree = ::require("scripts/weaponry/modsTree.nut")
+local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 
 ::header_len_per_cell <- 17
 ::tooltip_display_delay <- 2
@@ -174,14 +175,10 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function showNewbieResearchHelp()
   {
-    if (!researchMode)
+    if (!researchMode || !tutorialModule.needShowTutorial("researchMod", 1))
       return
 
-    local isHelpShowed = ::loadLocalByAccount("tutor/researchMod", false)
-    if (isHelpShowed || !::is_me_newbie())
-      return
-
-    ::saveLocalByAccount("tutor/researchMod", true)
+    tutorialModule.saveShowedTutorial("researchMod")
 
     local finMod = ::getTblValue(::researchedModForCheck, researchBlock, "")
     local newMod = ::shop_get_researchable_module_name(airName)
@@ -1559,7 +1556,6 @@ class ::gui_handlers.MultiplePurchase extends ::gui_handlers.BaseGuiHandlerWT
 
     local oldObj = scene.findObject("oldSkillProgress")
     oldObj.max = maxValue
-    oldObj.setValue(minValue.tostring())
 
     local newObj = scene.findObject("newSkillProgress")
     newObj.min = minValue

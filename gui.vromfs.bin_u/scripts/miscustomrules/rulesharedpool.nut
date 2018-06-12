@@ -111,7 +111,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
     return res
   }
 
-  function calcFullUnitLimitsData()
+  function calcFullUnitLimitsData(isTeamMine = true)
   {
     local res = base.calcFullUnitLimitsData()
 

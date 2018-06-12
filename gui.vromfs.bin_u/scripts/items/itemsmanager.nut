@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+local itemTransfer = require("scripts/items/itemsTransfer.nut")
 
 local seenList = ::require("scripts/seen/seenList.nut")
 local seenInventory = seenList.get(SEEN.INVENTORY)
@@ -97,6 +98,7 @@ foreach (fn in [
                  "itemKey.nut"
                  "itemChest.nut"
                  "itemWarbonds.nut"
+                 "itemInternalItem.nut"
                  "itemCraftPart.nut"
                  "itemRecipesBundle.nut"
                ])
@@ -106,6 +108,9 @@ foreach (fn in [
   itemsList = []
   inventory = []
   shopItemById = {}
+
+  itemsListInternal = []
+  itemsListExternal = []
   itemsByItemdefId = {}
 
   itemTypeClasses = {} //itemtype = itemclass
@@ -197,12 +202,15 @@ function ItemsManager::_checkUpdateList()
 
   local duplicatesId = []
   shopItemById.clear()
-  foreach(list in [itemsList, itemsByItemdefId])
-    foreach(item in list)
-      if (item.id in shopItemById)
-        duplicatesId.append(item.id)
-      else
-        shopItemById[item.id] <- item
+  itemsList.clear()
+  itemsList.extend(itemsListInternal)
+  itemsList.extend(itemsListExternal)
+
+  foreach(item in itemsList)
+    if (item.id in shopItemById)
+      duplicatesId.append(item.id)
+    else
+      shopItemById[item.id] <- item
 
   if (duplicatesId.len())
     ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
@@ -213,7 +221,7 @@ function ItemsManager::checkShopItemsUpdate()
   if (!_reqUpdateList)
     return false
   _reqUpdateList = false
-  itemsList.clear()
+  itemsListInternal.clear()
 
   local pBlk = ::get_price_blk()
   local trophyBlk = pBlk && pBlk.trophy
@@ -223,7 +231,7 @@ function ItemsManager::checkShopItemsUpdate()
       local blk = trophyBlk.getBlock(i)
       local id = blk.getBlockName()
       local item = createItem(itemType.TROPHY, blk)
-      itemsList.append(item)
+      itemsListInternal.append(item)
     }
 
   local itemsBlk = ::get_items_blk()
@@ -239,7 +247,7 @@ function ItemsManager::checkShopItemsUpdate()
       continue
     }
     local item = createItem(iType, blk)
-    itemsList.append(item)
+    itemsListInternal.append(item)
   }
 
   ::ItemsManager.fillFakeItemsList()
@@ -249,7 +257,7 @@ function ItemsManager::checkShopItemsUpdate()
       local blk = fakeItemsList.getBlock(i)
       local id = blk.getBlockName()
       local item = createItem(blk.type, blk)
-      itemsList.append(item)
+      itemsListInternal.append(item)
     }
   return true
 }
@@ -260,25 +268,30 @@ function ItemsManager::checkItemDefsUpdate()
     return false
   _reqUpdateItemDefsList = false
 
+  itemsListExternal.clear()
   // Collecting itemdefs as shop items
   foreach (itemDefDesc in inventoryClient.getItemdefs())
   {
-    if (itemDefDesc?.itemdefid in itemsByItemdefId)
-      continue
+    local item = itemsByItemdefId?[itemDefDesc?.itemdefid]
+    if (!item)
+    {
+      local defType = itemDefDesc?.type
 
-    local defType = itemDefDesc?.type
+      if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]) || !::u.isEmpty(itemDefDesc?.exchange))
+        ItemGenerators.add(itemDefDesc)
 
-    if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]) || !::u.isEmpty(itemDefDesc?.exchange))
-      ItemGenerators.add(itemDefDesc)
+      if (defType != "item")
+        continue
+      local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
+      if (iType == itemType.UNKNOWN)
+        continue
 
-    if (defType != "item")
-      continue
-    local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
-    if (iType == itemType.UNKNOWN)
-      continue
+      item = createItem(iType, itemDefDesc)
+      itemsByItemdefId[item.id] <- item
+    }
 
-    local item = createItem(iType, itemDefDesc)
-    itemsByItemdefId[item.id] <- item
+    if (item.isCanBuy())
+      itemsListExternal.append(item)
   }
   return true
 }
@@ -342,7 +355,7 @@ function ItemsManager::getShopVisibleSeenIds()
 function ItemsManager::findItemById(id, typeMask = itemType.ALL)
 {
   _checkUpdateList()
-  local item = shopItemById?[id]
+  local item = shopItemById?[id] ?? itemsByItemdefId?[id]
   if (!item && isItemdefId(id))
     requestItemsByItemdefIds([id])
   return item
@@ -372,7 +385,6 @@ function ItemsManager::getItemOrRecipeBundleById(id)
   //this item is not visible in inventory or shop, so no need special event about it creation
   //but we need to be able find it by id to correct work with it later.
   itemsByItemdefId[item.id] <- item
-  shopItemById[item.id] <- item
   return item
 }
 
@@ -426,6 +438,8 @@ function ItemsManager::onEventItemDefChanged(p)
   markItemsDefsListUpdateDelayed()
 }
 
+::ItemsManager.onEventExtPricesChanged <- @(p) markItemsDefsListUpdateDelayed()
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------INVENTORY ITEMS-----------------------------------------//
@@ -445,6 +459,7 @@ function ItemsManager::getInventoryItemType(blkType)
       case "ship":                return itemType.VEHICLE
       case "warbonds":            return itemType.WARBONDS
       case "craft_part":          return itemType.CRAFT_PART
+      case "internal_item":       return itemType.INTERNAL_ITEM
     }
 
     blkType = ::item_get_type_id_by_type_name(blkType)
@@ -517,6 +532,11 @@ function ItemsManager::_checkInventoryUpdate()
     }
   }
 
+  //gather transfer items list
+  local transferAmounts = {}
+  foreach(data in itemTransfer.getSendingList())
+    transferAmounts[data.itemDefId] <- (transferAmounts?[data.itemDefId] ?? 0) + 1
+
   // Collecting external inventory items
   local extInventoryItems = []
   foreach (itemDesc in inventoryClient.getItems())
@@ -541,28 +561,66 @@ function ItemsManager::_checkInventoryUpdate()
     if (isCreate)
     {
       local item = createItem(iType, itemDefDesc, itemDesc)
+      if (item.id in transferAmounts)
+        item.transferAmount += delete transferAmounts[item.id]
       extInventoryItems.append(item)
     }
   }
+
+  //add items in transfer
+  local itemdefsToRequest = []
+  foreach(itemdefid, amount in transferAmounts)
+  {
+    local itemdef = inventoryClient.getItemdefs()?[itemdefid]
+    if (!itemdef)
+    {
+      itemdefsToRequest.append(itemdefid)
+      continue
+    }
+    local iType = getInventoryItemType(itemdef?.tags?.type ?? "")
+    if (iType == itemType.UNKNOWN)
+    {
+      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemdefid)
+      continue
+    }
+    local item = createItem(iType, itemdef, {})
+    item.transferAmount += amount
+    extInventoryItems.append(item)
+  }
+
+  if (itemdefsToRequest.len())
+    inventoryClient.requestItemdefsByIds(itemdefsToRequest)
+
   inventory.extend(extInventoryItems)
   extInventoryUpdateTime = ::dagor.getCurTime()
+}
+
+function ItemsManager::checkAutoConsume()
+{
+  if (!shouldCheckAutoConsume)
+    return
+  shouldCheckAutoConsume = false
+  autoConsumeItems()
 }
 
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
 {
   _checkInventoryUpdate()
-  if (shouldCheckAutoConsume)
-  {
-    shouldCheckAutoConsume = false
-    autoConsumeItems()
-  }
+  checkAutoConsume()
   return _getItemsFromList(inventory, typeMask, filterFunc)
+}
+
+function ItemsManager::getInventoryListByShopMask(typeMask, filterFunc = null)
+{
+  _checkInventoryUpdate()
+  checkAutoConsume()
+  return _getItemsFromList(inventory, typeMask, filterFunc, "shopFilterMask")
 }
 
 function ItemsManager::getInventoryVisibleSeenIds()
 {
   if (!inventoryVisibleSeenIds)
-    inventoryVisibleSeenIds = getInventoryList(checkItemsMaskFeatures(itemType.INVENTORY_ALL)).map(@(it) it.getSeenId())
+    inventoryVisibleSeenIds = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL)).map(@(it) it.getSeenId())
   return inventoryVisibleSeenIds
 }
 
@@ -732,17 +790,21 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   }
   obj.scrollToView()
 
-  if (item && item.hasTimer())
-  {
-    local timerObj = holderObj.findObject("expire_timer")
-    if (::check_obj(timerObj))
-      SecondsUpdater(timerObj, ::Callback(function(obj, params)
-      {
-        local text = item.getCurExpireTimeText()
-        obj.setValue(text)
-        return text == ""
-      }, this))
-  }
+  if (item)
+    foreach(timerData in item.getDescTimers())
+    {
+      if (!timerData.needTimer.call(item))
+        continue
+
+      local timerObj = holderObj.findObject(timerData.id)
+      local tData = timerData
+      if (::check_obj(timerObj))
+        SecondsUpdater(timerObj, function(obj, params)
+        {
+          obj.setValue(tData.getText.call(item))
+          return !tData.needTimer.call(item)
+        })
+    }
 }
 
 function ItemsManager::fillItemTableInfo(item, holderObj)
@@ -859,10 +921,8 @@ function ItemsManager::forceRefreshExtInventory()
   inventoryClient.forceRefreshItemDefs()
 }
 
-function ItemsManager::onEventExtInventoryChanged(p)
-{
-  markInventoryUpdateDelayed()
-}
+ItemsManager.onEventExtInventoryChanged    <- @(p) markInventoryUpdateDelayed()
+ItemsManager.onEventSendingItemsChanged    <- @(p) markInventoryUpdateDelayed()
 
 function ItemsManager::onEventLoadingStateChange(p)
 {
@@ -1099,6 +1159,16 @@ function ItemsManager::isEnabled()
   return ::has_feature("Items") && checkNewbie && ::isInMenu()
 }
 
+function ItemsManager::canPreviewItems()
+{
+  local can = ::isInMenu() && !::checkIsInQueue()
+      && !(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+      && !::SessionLobby.hasSessionInLobby()
+  if (!can)
+    ::g_popups.add("", ::loc("mainmenu/itemPreviewForbidden"))
+  return can
+}
+
 function ItemsManager::getItemsSortComparator(itemsSeenList = null)
 {
   return function(item1, item2)
@@ -1107,11 +1177,12 @@ function ItemsManager::getItemsSortComparator(itemsSeenList = null)
       return item2 <=> item1
     return item2.isActive() <=> item1.isActive()
       || (itemsSeenList && itemsSeenList.isNew(item2.getSeenId()) <=> itemsSeenList.isNew(item1.getSeenId()))
-      || item2.hasTimer() <=> item1.hasTimer()
-      || (item1.hasTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
+      || item2.hasExpireTimer() <=> item1.hasExpireTimer()
+      || (item1.hasExpireTimer() && (item1.expiredTimeSec <=> item2.expiredTimeSec))
       || item1.iType <=> item2.iType
       || item2.getRarity() <=> item1.getRarity()
       || item1.id <=> item2.id
+      || item1.tradeableTimestamp <=> item2.tradeableTimestamp
   }
 }
 

@@ -18,7 +18,7 @@ if (isPlatformXboxOne)
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
 local xboxChatEnabledCache = null
-local getXboxChatEnabled = function(needOverlayMessage = false)
+local getXboxChatEnableStatus = function(needOverlayMessage = false)
 {
    if (!::is_platform_xboxone || !::g_login.isLoggedIn())
      return XBOX_COMMUNICATIONS_ALLOWED
@@ -36,7 +36,7 @@ local isChatEnabled = function(needOverlayMessage = false)
       ::ps4_show_chat_restriction()
     return false
   }
-  return getXboxChatEnabled(needOverlayMessage) == XBOX_COMMUNICATIONS_ALLOWED
+  return getXboxChatEnableStatus(needOverlayMessage) != XBOX_COMMUNICATIONS_BLOCKED
 }
 
 local function isChatEnableWithPlayer(playerName) //when you hve contact, you can use direct contact.canInteract
@@ -65,5 +65,5 @@ return {
 
   isChatEnabled = isChatEnabled
   isChatEnableWithPlayer = isChatEnableWithPlayer
-  canSquad = @() getXboxChatEnabled() == XBOX_COMMUNICATIONS_ALLOWED
+  canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
 }

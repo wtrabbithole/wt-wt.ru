@@ -157,6 +157,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     onItemSelect(isForceUpdate)
     updateClosedGroups(closedGroups)
+    showSceneBtn("items_list", curBattleListMap.len() > 0)
   }
 
   function getClosedGroups()
@@ -472,7 +473,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
     if (!battle.isValid() || !isOperationBattleLoaded)
     {
-      showSceneBtn("teams_unis", false)
+      showSceneBtn("battle_info", false)
+      showSceneBtn("teams_block", false)
       showSceneBtn("tactical_map_block", false)
       return
     }
@@ -1249,5 +1251,59 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenBattlesFilters(obj)
   {
+  }
+
+  function getWndHelpConfig()
+  {
+    local res = {
+      textsBlk = "gui/worldWar/wwBattlesModalHelp.blk"
+      objContainer = scene.findObject("root-box")
+    }
+    local links = [
+      { obj = ["items_list"]
+        msgId = "hint_items_list"
+      },
+      { obj = ["queue_info"]
+        msgId = "hint_queue_info"
+      },
+      { obj = ["squad_info"]
+        msgId = "hint_squad_info"
+      },
+      { obj = ["team_header_info_0"]
+        msgId = "hint_team_header_info_0"
+      },
+      { obj = ["battle_info"]
+        msgId = "hint_battle_info"
+      },
+      { obj = ["team_header_info_1"]
+        msgId = "hint_team_header_info_1"
+      },
+      { obj = ["team_unit_info_0"] },
+      { obj = ["team_unit_info_1"] },
+      { obj = ["cluster_select_button"]
+        msgId = "hint_cluster_select_button"
+      },
+      { obj = ["invite_squads_button"]
+        msgId = "hint_invite_squads_button"
+      },
+      { obj = ["btn_battles_filters"]
+        msgId = "hint_btn_battles_filters"
+      },
+      { obj = ["btn_join_battle"]
+        msgId = "hint_btn_join_battle"
+      },
+      { obj = ["btn_leave_battle"]
+        msgId = "hint_btn_leave_battle"
+      },
+      { obj = ["goto_global_battles_btn"]
+        msgId = "hint_goto_global_battles_btn"
+      },
+      { obj = ["tactical_map_block"]
+        msgId = "hint_tactical_map_block"
+      }
+    ]
+
+    res.links <- links
+    return res
   }
 }

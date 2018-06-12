@@ -1,3 +1,5 @@
+local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+
 ::delayed_unlock_wnd <- []
 function showUnlockWnd(config)
 {
@@ -137,6 +139,13 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function onPostPs4ActivityFeed()
+  {
+    ::prepareMessageForWallPostAndSend(config.ps4ActivityFeedData.config,
+                                       config.ps4ActivityFeedData.params,
+                                       bit_activity.PS4_ACTIVITY_FEED)
+  }
+
   function updateButtons()
   {
     showSceneBtn("btn_sendEmail", ::getTblValue("showSendEmail", config, false)
@@ -162,6 +171,9 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::checkObj(imageObj))
         imageObj.link = linkText
     }
+    local showPs4ActivityFeed = ::is_platform_ps4 && ("ps4ActivityFeedData" in config)
+    showSceneBtn("btn_post_ps4_activity_feed", showPs4ActivityFeed)
+
 
     local showSetAir = unit != null && unit.isUsable() && !::isUnitInSlotbar(unit)
     local canBuyOnline = unit != null && ::canBuyUnitOnline(unit)
@@ -199,7 +211,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
       unitToTake = unit
 
     if (needShowUnitTutorial)
-      ::saveLocalByAccount("tutor/takeUnit", true)
+      tutorialModule.saveShowedTutorial("takeUnit")
 
     local handler = this
     ::gui_start_selecting_crew({unit = unitToTake,
@@ -294,11 +306,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!unit)
       return
 
-    local showedHelp = ::loadLocalByAccount("tutor/takeUnit", !::is_me_newbie())
-    if (showedHelp)
-      return
-
-    needShowUnitTutorial = true
+    needShowUnitTutorial = tutorialModule.needShowTutorial("takeUnit", 1)
   }
 
   function goBack()

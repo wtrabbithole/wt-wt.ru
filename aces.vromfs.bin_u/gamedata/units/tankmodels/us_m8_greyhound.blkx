@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -482,20 +485,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 200.0,
-        "armorThickness": 16.0,
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_dm": []
-      },
       "body_shields": {
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
@@ -531,6 +520,37 @@
         "wheel_support_dm": {
           "armorClass": "tank_steel_wheels",
           "armorThickness": 5.0
+        }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 100.0,
+        "armorThickness": 10.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "crew": {
@@ -684,6 +704,25 @@
         "ammo_turret_34_dm": [],
         "ammo_turret_35_dm": [],
         "ammo_turret_36_dm": [],
+        "ammo_turret_37_dm": [],
+        "ammo_turret_38_dm": [],
+        "ammo_turret_39_dm": [],
+        "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
+        "ammo_turret_44_dm": [],
+        "ammo_turret_45_dm": [],
+        "ammo_turret_46_dm": [],
+        "ammo_turret_47_dm": [],
+        "ammo_turret_48_dm": [],
+        "ammo_turret_49_dm": [],
+        "ammo_turret_50_dm": [],
+        "ammo_turret_51_dm": [],
+        "ammo_turret_52_dm": [],
+        "ammo_turret_53_dm": [],
+        "ammo_turret_54_dm": [],
+        "ammo_turret_55_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -1703,6 +1742,9 @@
           "role": "loader"
         },
         {
+          "substitute": "commander"
+        },
+        {
           "substitute": "machine_gunner"
         }
       ],
@@ -1714,26 +1756,17 @@
           "role": "driver"
         },
         {
-          "substitute": "gunner"
+          "substitute": "commander"
         },
         {
           "substitute": "machine_gunner"
         }
       ],
-      "commander": [
-        {
-          "dmPart": "commander_dm"
-        },
-        {
-          "role": "commander"
-        },
-        {
-          "substitute": "machine_gunner"
-        },
-        {
-          "substitute": "gunner"
-        }
-      ],
+      "commander": {
+        "dmPart": "commander_dm",
+        "role": "commander",
+        "substitute": "machine_gunner"
+      },
       "machine_gunner": {
         "dmPart": "machine_gunner_dm",
         "role": "radio_gunner"
@@ -2021,6 +2054,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
             "parkInDeadzone": false
           },
           {
@@ -2095,6 +2131,7 @@
           "flash": "emtr_mg_flame_04",
           "defaultYaw": 180.0,
           "defaultPitch": 10.0,
+          "barrelDP": "gun_barrel_02_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,

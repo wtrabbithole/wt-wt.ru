@@ -303,6 +303,7 @@
     "bullet": {
       "bulletCount": 40,
       "mass": 11.4,
+      "damageMass": 0.57,
       "explosiveType": "tnt",
       "explosiveMass": 0.05,
       "caliber": 0.105,
@@ -331,25 +332,33 @@
       "shutterArmorPower": 7.5,
       "shutterHit": 11.0,
       "smokeShell": true,
-      "smokeFx": "smoke_shell_explosion",
       "smokeShellRad": 20.0,
       "smokeActivateTime": 5.0,
       "smokeTime": 25.0,
-      "groundCollisionEffect": "ground_splash",
-      "groundFxScale": [0.1,0.2],
+      "groundCollisionEffect": "smoke_shell_explosion",
+      "groundFxScale": [1.2,1.4],
       "ricochetEffect": "cannon_ricochet",
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "noColor"
-      },
+      "waterCollisionEffect": "120-203_smoke_water_splash",
+      "waterFxScale": [0.7,0.8],
+      "explosionPatchRadius": 1.5,
       "collisions": {
         "steel": {
           "fx": "smoke_shell_explosion"
         },
         "armor": {
           "fx": "smoke_shell_explosion"
+        },
+        "buildings": {
+          "fx": "smoke_shell_explosion"
+        },
+        "wood": {
+          "fx": "smoke_shell_explosion"
         }
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
       }
     }
   }

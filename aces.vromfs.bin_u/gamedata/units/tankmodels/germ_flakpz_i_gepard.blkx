@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -249,13 +252,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "armorThickness": 25.0,
-        "gun_barrel_01_dm": [],
-        "gun_barrel_02_dm": []
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -298,6 +294,17 @@
           "ex_armor_01_dm": [],
           "ex_armor_02_dm": []
         }
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 100.0,
+        "armorThickness": 10.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": [],
+        "gun_barrel_02_dm": [],
+        "gun_barrel_03_dm": [],
+        "gun_barrel_04_dm": [],
+        "gun_barrel_05_dm": []
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -363,7 +370,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1969,7 +1976,7 @@
         "momentOfInertia": [2.0,2.0,5.0],
         "CenterOfGravity": [0.0,0.5,0.0],
         "CenterOfGravityClampY": [0.4,0.6],
-        "AdvancedMass": true,
+        "AdvancedMass": false,
         "trackMass": 1000.0
       },
       "tracks": {
@@ -1987,7 +1994,7 @@
       },
       "mechanics": {
         "maxBrakeForce": 185000.0,
-        "driveGearRadius": 0.33,
+        "driveGearRadius": 0.287,
         "mainGearRatio": 1.0,
         "sideGearRatio": 4.2,
         "neutralGearRatio": 10.0,
@@ -2612,9 +2619,15 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
-      "35mm_kda_HE": [],
-      "35mm_kda_APHEI": [],
-      "35mm_kda_APDS": [],
+      "35mm_kda_HE": {
+        "maxToRespawn": 1
+      },
+      "35mm_kda_APHEI": {
+        "maxToRespawn": 1
+      },
+      "35mm_kda_APDS": {
+        "maxToRespawn": 1
+      },
       "35mm_kda_HE_ammo_pack": [],
       "35mm_kda_APHEI_ammo_pack": [],
       "35mm_kda_APDS_ammo_pack": [],

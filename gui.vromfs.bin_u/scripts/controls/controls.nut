@@ -34,6 +34,10 @@ function get_favorite_voice_message_option(index)
   "ID_PTT"
 ]
 
+enum ConflictGroups {
+  PLANE_FIRE,
+  TANK_FIRE
+}
 
 ::shortcutsList <- [
   { id = "helpers_mode", type = CONTROL_TYPE.LISTBOX
@@ -70,13 +74,19 @@ function get_favorite_voice_message_option(index)
     }
 
   { id = "ID_PLANE_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
-    { id = "ID_FIRE_MGUNS", autobind = ["ID_FIRE_CANNONS", "ID_FIRE_GM"]
+    { id = "ID_FIRE_MGUNS"
+      conflictGroup = ConflictGroups.PLANE_FIRE
+      autobind = ["ID_FIRE_CANNONS", "ID_FIRE_GM"]
       autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
     }
-    { id = "ID_FIRE_CANNONS", autobind = ["ID_FIRE_MGUNS", "ID_FIRE_GM"]
+    { id = "ID_FIRE_CANNONS"
+      conflictGroup = ConflictGroups.PLANE_FIRE
+      autobind = ["ID_FIRE_MGUNS", "ID_FIRE_GM"]
       autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
     }
-    { id = "ID_FIRE_ADDITIONAL_GUNS", autobind = ["ID_FIRE_CANNONS", "ID_FIRE_MGUNS", "ID_FIRE_GM"]
+    { id = "ID_FIRE_ADDITIONAL_GUNS"
+      conflictGroup = ConflictGroups.PLANE_FIRE
+      autobind = ["ID_FIRE_CANNONS", "ID_FIRE_MGUNS", "ID_FIRE_GM"]
       autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
     }
     { id = "fire", type = CONTROL_TYPE.AXIS, checkAssign = false }
@@ -84,6 +94,7 @@ function get_favorite_voice_message_option(index)
     "ID_BOMBS"
     { id = "ID_BOMBS_SERIES", checkAssign = false }
     "ID_ROCKETS",
+    { id = "ID_ROCKETS_SERIES", checkAssign = false }
     { id = "ID_FUEL_TANKS",
       showFunc = @() ::has_feature("Payload"),
       checkAssign = false
@@ -94,6 +105,14 @@ function get_favorite_voice_message_option(index)
     }
     { id = "ID_WEAPON_LOCK",
       showFunc = @() ::has_feature("Missiles"),
+      checkAssign = false
+    }
+    { id = "weapon_aim_heading"
+      type = CONTROL_TYPE.AXIS
+      checkAssign = false
+    }
+    { id = "weapon_aim_pitch"
+      type = CONTROL_TYPE.AXIS
       checkAssign = false
     }
     { id = "ID_SENSOR_SWITCH"
@@ -139,6 +158,12 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
+      showFunc = @() !::is_platform_xboxone
+    }
+    { id = "mouse_z_mult"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_MULT, objValue / 100.0)
       showFunc = @() !::is_platform_xboxone
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
@@ -616,11 +641,21 @@ function get_favorite_voice_message_option(index)
     { id="ID_ENABLE_GM_DIRECTION_DRIVING" , checkGroup = ctrlGroups.TANK, checkAssign = false }
 
   { id = "ID_TANK_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
-    { id="ID_FIRE_GM", checkGroup = ctrlGroups.TANK, autobind = ["ID_FIRE_MGUNS", "ID_FIRE_CANNONS"] }
-    { id="ID_FIRE_GM_SECONDARY_GUN", checkGroup = ctrlGroups.TANK, checkAssign = false
+    { id="ID_FIRE_GM"
+      checkGroup = ctrlGroups.TANK
+      conflictGroup = ConflictGroups.TANK_FIRE
+      autobind = ["ID_FIRE_MGUNS", "ID_FIRE_CANNONS"]
+    }
+    { id="ID_FIRE_GM_SECONDARY_GUN"
+      checkGroup = ctrlGroups.TANK
+      conflictGroup = ConflictGroups.TANK_FIRE
+      checkAssign = false
       autobind = ["ID_FIRE_GM", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
     }
-    { id="ID_FIRE_GM_MACHINE_GUN", checkGroup = ctrlGroups.TANK, checkAssign = false
+    { id="ID_FIRE_GM_MACHINE_GUN"
+      checkGroup = ctrlGroups.TANK
+      conflictGroup = ConflictGroups.TANK_FIRE
+      checkAssign = false
       autobind = ["ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_GM", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
     }
     { id="ID_FIRE_GM_SPECIAL_GUN", checkGroup = ctrlGroups.TANK, autobind = ["ID_ROCKETS"] }
@@ -678,6 +713,12 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "onMouseWheel"
       showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
     }
+    { id = "mouse_z_mult_ground"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_TANK_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_TANK_MULT, objValue / 100.0)
+      showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
+    }
 
   { id = "ID_TANK_SUSPENSION_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_SUSPENSION_PITCH_UP", checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -719,7 +760,7 @@ function get_favorite_voice_message_option(index)
 
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_SHORT_STOP",               checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="ID_RELOAD_USER_SIGHT_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="gm_sight_distance"
       type = CONTROL_TYPE.AXIS
       def_relative = true
@@ -881,6 +922,12 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
       values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
+    }
+    { id = "mouse_z_mult_ship"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_SHIP_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_SHIP_MULT, objValue / 100.0)
       showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
     }
 
@@ -1081,6 +1128,12 @@ function get_favorite_voice_message_option(index)
       axis_num = MouseAxis.MOUSE_SCROLL_SUBMARINE
       values = ["none", "submarine_main_engine", "submarine_zoom"]
       onChangeValue = "onMouseWheel"
+      showFunc = @() ::is_mouse_available()
+    }
+    { id = "mouse_z_mult_submarine"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_SUBMARINE_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_SUBMARINE_MULT, objValue / 100.0)
       showFunc = @() ::is_mouse_available()
     }
 
@@ -2952,8 +3005,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     foreach (index, event in shortcuts)
       if ((shortcutItems[index].checkGroup & shortcutItems[shortcutId].checkGroup) &&
         ::getTblValue(shortcutNames[index], visibilityMap) &&
-        ::get_shortcut_autobind(shortcutItems[index]).find(shortcutNames[shortcutId]) < 0 &&
-        ::get_shortcut_autobind(shortcutItems[shortcutId]).find(shortcutNames[index]) < 0)
+        (shortcutItems[index]?.conflictGroup == null ||
+          shortcutItems[index]?.conflictGroup != shortcutItems[shortcutId]?.conflictGroup))
         foreach (button_index, button in event)
         {
           if (!button || button.dev.len() != devs.len())
@@ -3234,7 +3287,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   function closeWnd()
   {
     restoreMainOptions()
-    ::autobind_shortcuts()
     base.goBack()
   }
 
@@ -3917,6 +3969,9 @@ function getUnmappedControlsForTutorial(missionId, helpersMode)
     ["ID_RUDDER_RIGHT"]    = "rudder",
   }
 
+  local isXinput = ::is_xinput_device()
+  local isAllowedCondition = @(condition) condition.gamepadControls == null || condition.gamepadControls == isXinput
+
   local conditionsList = []
   foreach (trigger in missionBlk.triggers)
   {
@@ -3929,7 +3984,7 @@ function getUnmappedControlsForTutorial(missionId, helpersMode)
     if (trigger.conditions)
     {
       foreach (playerShortcutPressed in trigger.conditions % "playerShortcutPressed")
-        if (playerShortcutPressed.control)
+        if (playerShortcutPressed.control && isAllowedCondition(playerShortcutPressed))
         {
           local id = playerShortcutPressed.control
           local alias = (id in tutorialControlAliases) ? tutorialControlAliases[id] : id

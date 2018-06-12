@@ -825,6 +825,9 @@ function PrizesView::getPrizesListView(content, params = null)
     params.singlePrize <- true
   }
 
+  if (!view?.timerId && view?.header == "")
+    delete view.header
+
   view.list <- []
   foreach (prize in content)
   {
@@ -907,7 +910,7 @@ function PrizesView::getPrizeActionButtonsView(prize, params = null)
     local item = ::ItemsManager.findItemById(itemId)
     if (!item || workshop.shouldDisguiseItem(item))
       return view
-    if (item.canPreview())
+    if (item.canPreview() && ::isInMenu())
       view.append({
         icon = "#ui/gameuiskin#btn_preview.svg"
         tooltip = "#mainmenu/btnPreview"

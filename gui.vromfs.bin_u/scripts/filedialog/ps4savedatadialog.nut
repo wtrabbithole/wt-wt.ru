@@ -20,6 +20,11 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   createEntry = @(comment="", path="", mtime=0) {comment = comment, path = path, mtime = mtime}
   selectedEntry = null
 
+  function isEntrySelected()
+  {
+    return selectedEntry.path != "" && selectedEntry.comment != ""
+  }
+
   function initScreen()
   {
     if (!scene)
@@ -35,12 +40,10 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     requestEntries()
     selectedEntry = createEntry()
-    loadSaveDataContents()
   }
 
   function showWaitAnimation(show)
   {
-    dagor.debug("SAVE: waitany "+show)
     if (show)
       progressMsg.create(SAVEDATA_PROGRESS_MSG_ID, null)
     else
@@ -58,17 +61,11 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
       if (::u.isDataBlock(meta))
         entries.append({path=meta.path, comment=meta.comment, mtime=meta.mtime})
     }
+    entries.sort(@(a,b) -(a.mtime <=> b.mtime))
 
-    tableEntries.clear()
-
-    foreach (idx, e in entries)
-    {
-      tableEntries["file_row_" + idx] <- e
-    }
-
+    renderSaveDataContents(entries)
     showWaitAnimation(false)
-
-    loadSaveDataContents()
+    updateSelectionAfterDataLoaded()
   }
 
   function requestEntries()
@@ -81,13 +78,13 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   function updateButtons()
   {
     local inFileTable = getObj("file_table").isFocused()
-    showSceneBtn("btn_delete", doDelete && tableEntries.len() && inFileTable)
-    showSceneBtn("btn_load", doLoad && tableEntries.len() && inFileTable)
+    showSceneBtn("btn_delete", doDelete && inFileTable && isEntrySelected())
+    showSceneBtn("btn_load", doLoad && inFileTable && isEntrySelected())
     showSceneBtn("btn_save", doSave)
   }
 
 
-  function loadSaveDataContents()
+  function renderSaveDataContents(entries)
   {
     local fileTableObj = getObj("file_table")
     if (!fileTableObj)
@@ -100,28 +97,39 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
                {id="file_col_mtime", text="#filesystem/fileMTime", width="0.18@sf"}]
     }]}
 
+    tableEntries.clear()
+
     local isEven = false
-    foreach (rowId, e in tableEntries)
+    foreach (idx, e in entries)
     {
       local timeView = ::get_time_from_t(e.mtime)
       timeView.sec = -1
 
       local rowView = {
-        row_id = rowId
+        row_id = "file_row_"+idx
         even = isEven
         cells = [{text=e.comment, width="fw"},
                  {text=time.buildIso8601DateTimeStr(timeView, " "), width="0.18@sf"}]
       }
       view.rows.append(rowView)
+      tableEntries[rowView.row_id] <- e
       isEven = !isEven
     }
 
     local data = ::handyman.renderCached("gui/fileDialog/fileTable", view)
     guiScene.replaceContentFromText(fileTableObj, data, data.len(), this)
+  }
+
+  function updateSelectionAfterDataLoaded()
+  {
+    local fileTableObj = getObj("file_table")
+    if (!fileTableObj)
+      return
 
     fileTableObj.select()
     if (tableEntries.len() > 0)
       fileTableObj.setValue(1)
+    updateSelectedEntry(false)
     updateButtons()
   }
 
@@ -205,7 +213,9 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     dagor.debug("PS4 SAVE Dialog: onBtnDelete for " + selectedEntry.path)
     local onConfirm = function() {
-      doDelete(selectedEntry)
+      local entry = selectedEntry
+      selectedEntry = createEntry()
+      doDelete(entry)
     }
 
     ::scene_msg_box("savedata_delete_msg_box",
@@ -221,7 +231,7 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     dagor.debug("PS4 SAVE Dialog: onBtnSave for entry:")
     debugTableData(selectedEntry)
-    if (selectedEntry.path == "" && selectedEntry.comment == "")
+    if (selectedEntry.comment == "")
     {
       ::showInfoMsgBox(::loc("save/saveNameMissing"))
       return

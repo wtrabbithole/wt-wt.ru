@@ -1193,32 +1193,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -2426,6 +2474,9 @@
             "blk": "gameData/Weapons/gunBrowning50_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare5"
           },
           {
@@ -2436,6 +2487,9 @@
           },
           {
             "dm": "gunner1_dm"
+          },
+          {
+            "gunnerDm": "gunner1_dm"
           },
           {
             "gunDm": "gun1_dm"
@@ -2469,6 +2523,9 @@
             "blk": "gameData/Weapons/gunBrowning50_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare6"
           },
           {
@@ -2479,6 +2536,9 @@
           },
           {
             "dm": "gunner1_dm"
+          },
+          {
+            "gunnerDm": "gunner1_dm"
           },
           {
             "gunDm": "gun1_dm"
@@ -2512,6 +2572,9 @@
             "blk": "gameData/Weapons/gunBrowning30_turret.blk"
           },
           {
+            "breechInCockpit": true
+          },
+          {
             "emitter": "flare3"
           },
           {
@@ -2522,6 +2585,9 @@
           },
           {
             "dm": "gunner2_dm"
+          },
+          {
+            "gunnerDm": "gunner2_dm"
           },
           {
             "gunDm": "gun3_dm"
@@ -2554,6 +2620,9 @@
           },
           {
             "blk": "gameData/Weapons/gunBrowning30_turret.blk"
+          },
+          {
+            "breechInCockpit": true
           },
           {
             "emitter": "flare4"
@@ -2810,13 +2879,9 @@
       "emtr_break_wing1_r_to": [-0.0701963,-0.13766,-4.86876],
       "emtr_break_wing2_r_from": [-0.0701963,-0.13766,-6.78233],
       "emtr_break_wing2_r_to": [-0.0701963,-0.13766,-8.07075],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-5.69348,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-5.69348,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false
     }
   }
 ]

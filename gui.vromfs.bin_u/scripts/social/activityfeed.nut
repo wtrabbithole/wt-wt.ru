@@ -20,86 +20,76 @@ function prepareMessageForWallPostAndSend(config, customFeedParams = {}, recieve
     ::facebookPostActivityFeed(copy_config, copy_customFeedParams)
 }
 
-function getRandomActivityFeedImageUrl(customConfig)
+// specialization getters below expect valid data, validated by the caller
+function getActivityFeedImageByParam(feed, imagesConfig)
+{
+  local config = imagesConfig.other?[feed.blkParamName]
+
+  if (u.isString(config))
+    return imagesConfig.mainPart + config
+
+  if (u.isDataBlock(config) && config?.name)
+  {
+    local url = imagesConfig.mainPart + config.name + feed.imgSuffix
+    if (config?.variations)
+      url += ::format("_%.2d", ::math.rnd() % config.variations + 1)
+    return url
+  }
+
+  ::dagor.debug("getActivityFeedImagesByParam: no image name in '"+feed.blkParamName)
+  debugTableData(config)
+}
+
+function getActivityFeedImageByCountry(feed, imagesConfig)
+{
+  local aircraft = ::getAircraftByName(feed.unitNameId)
+  local esUnitType = ::get_es_unit_type(aircraft)
+  local unit = ::getUnitTypeText(esUnitType)
+
+  local variants = imagesConfig?[feed.country]?[unit]
+  if (u.isDataBlock(variants))
+    return imagesConfig.mainPart + variants.getParamValue(::math.rnd() % variants.paramCount())
+
+  ::dagor.debug("getActivityFeedImagesByCountry: no config for '"+country+"/"+unit+" ("+feed.unitNameId+")")
+  debugTableData(imagesConfig)
+}
+
+function getActivityFeedImages(feed)
 {
   local guiBlk = ::configs.GUI.get()
-
-  if (guiBlk.blockCount() == 0 || !guiBlk.activity_feed_image_url)
+  local imagesConfig = guiBlk?.activity_feed_image_url
+  if (u.isEmpty(imagesConfig))
   {
-    ::dagor.debug("failed to load block activity_feed_image_url, reason: guiBlk len = " + guiBlk.blockCount() + ", guiBlk.activity_feed_image_url - " + guiBlk.activity_feed_image_url)
+    ::dagor.debug("getActivityFeedImages: empty or missing activity_feed_image_url block in gui.blk")
     return
   }
 
-  local mainLinkPart = guiBlk.activity_feed_image_url.mainPart
-  local fileExtension = guiBlk.activity_feed_image_url.fileExtension
-  local bigLogoEnd = guiBlk.activity_feed_image_url.bigLogoEnd || ""
-
-  if (!mainLinkPart || !fileExtension)
+  local feedUrl = imagesConfig?.mainPart
+  local imgExt = imagesConfig?.fileExtension
+  if (!feedUrl || !imgExt)
   {
-    ::dagor.debug("getRandomActivityFeedImageUrl: Not found mainPart - " + mainLinkPart + ", fileExtension - " + fileExtension)
-    debugTableData(guiBlk.activity_feed_image_url)
+    ::dagor.debug("getActivityFeedImages: invalid feed config, url base '"+feedUrl+"', image extension '"+imgExt)
+    debugTableData(imagesConfig)
     return
   }
 
-  local country = ::getTblValue("country", customConfig, "")
-  local unitName = ::getTblValue("unitNameId", customConfig, "")
-  local searchedBlock = null
-  local urlEndPart = ""
-  local failText = "Not found block 'other'"
+  local logo = imagesConfig?.logoEnd || ""
+  local big = imagesConfig?.bigLogoEnd || ""
+  local ext = imagesConfig.fileExtension
+  local url = ""
+  if (!u.isEmpty(feed?.blkParamName) && !u.isEmpty(imagesConfig?.other))
+    url = getActivityFeedImageByParam(feed, imagesConfig)
+  else if (!u.isEmpty(feed?.country) && !u.isEmpty(feed?.unitNameId))
+    url = getActivityFeedImageByCountry(feed, imagesConfig)
 
-  if (country != "" && unitName != "")
-  {
-    local unit = ::getAircraftByName(unitName)
-    local unitType = ::get_es_unit_type(unit)
-    local unitTypeText = ::getUnitTypeText(unitType)
-
-    local path = "activity_feed_image_url/" + country + "/" + unitTypeText
-    searchedBlock = ::get_blk_value_by_path(guiBlk, path)
-    if (!u.isDataBlock(searchedBlock))
-    {
-      local message = "getRandomActivityFeedImageUrl: Not found block " + path
-      ::dagor.debug(message)
-      ::script_net_assert_once("bad activity feed", message)
-      return
+  if (!u.isEmpty(url))
+    return {
+      small = url + (feed?.shouldForceLogo ? logo : "") + ext
+      large = url + big + ext
     }
 
-    local rndItemNum = ::math.rnd() % searchedBlock.paramCount()
-    urlEndPart = searchedBlock.getParamValue(rndItemNum)
-  }
-  else
-  {
-    searchedBlock = guiBlk.activity_feed_image_url.other
-    local customParam = ::getTblValue("blkParamName", customConfig, "")
-    if (customParam == "")
-    {
-      ::dagor.debug("getRandomActivityFeedImageUrl: Not fount blkParamName")
-      debugTableData(customConfig)
-      return
-    }
-
-    if (!searchedBlock[customParam])
-    {
-      ::dagor.debug("getRandomActivityFeedImageUrl: Not fount customParam")
-      debugTableData(searchedBlock)
-      return
-    }
-
-    urlEndPart = searchedBlock[customParam]
-  }
-
-  if (!searchedBlock)
-  {
-    ::dagor.debug(failText)
-    debugTableData(guiBlk.activity_feed_image_url)
-    return
-  }
-
-  local returnConfig = {
-                          mainUrl = mainLinkPart + urlEndPart,
-                          bigLogoEnd = bigLogoEnd,
-                          fileExtension = fileExtension
-                       }
-  return returnConfig
+  ::dagor.debug("getActivityFeedImages: could not select method to build image URLs from gui.blk and feed config")
+  debugTableData(feed)
 }
 
 //---------------- <Facebook> --------------------------
@@ -139,9 +129,15 @@ function ps4PostActivityFeed(config, customFeedParams)
   if (!::is_platform_ps4 || !::has_feature("ActivityFeedPs4"))
     return
 
+  local sendStat = function(stat) {
+    local qualifiedNameParts = split(::getEnumValName("ps4_activity_feed", config.subType, true), ".")
+    ::statsd_counter("activityfeed." + qualifiedNameParts[1] + "." + stat)
+  }
+
   local locId = ::getTblValue("locId", config, "")
-  if (locId == "")
+  if (locId == "" && u.isEmpty(customFeedParams?.captions))
   {
+    sendStat("abort.noLocId")
     ::dagor.debug("ps4PostActivityFeed, Not found locId in config")
     ::debugTableData(config)
     return
@@ -155,8 +151,7 @@ function ps4PostActivityFeed(config, customFeedParams)
   local activityFeed_config = ::combine_tables(::ps4_activityFeed_requestsTable, customFeedParams)
 
   local getFilledFeedTextByLang = (@(activityFeed_config, localizedKeyWords) function(locId) {
-    local sample = "\"%s\":\"%s\""
-    local captions = []
+    local captions = {}
     local localizedTable = ::get_localized_text_with_abbreviation(locId)
 
     foreach(lang, string in localizedTable)
@@ -165,7 +160,7 @@ function ps4PostActivityFeed(config, customFeedParams)
       foreach(name, value in activityFeed_config)
         localizationTable[name] <- ::get_tbl_value_by_path_array([name, lang], localizedKeyWords, value)
 
-      captions.append(::format(sample, lang, ::replaceParamsInLocalizedText(string, localizationTable)))
+      captions[lang] <- ::replaceParamsInLocalizedText(string, localizationTable)
     }
 
     return captions
@@ -176,49 +171,35 @@ function ps4PostActivityFeed(config, customFeedParams)
   blk.method = ::HTTP_METHOD_POST
   blk.path = "/v1/users/me/feed"
 
-  local captions = getFilledFeedTextByLang("activityFeed/" + locId)
-  local condensedCaptions = getFilledFeedTextByLang("activityFeed/" + locId + "/condensed")
+  local images = ::getActivityFeedImages(customFeedParams)
+  local largeImage = customFeedParams?.images?.large || images?.large
+  local smallImage = customFeedParams?.images?.small || images?.small
 
-  local subType = ::getTblValue("subType", config, 0)
-  local imageUrlsConfig = ::getRandomActivityFeedImageUrl(customFeedParams)
-  local smallImage = ::getTblValue("mainUrl", imageUrlsConfig, "")
-  local largeImage = smallImage + ::getTblValue("bigLogoEnd", imageUrlsConfig, "")
-  local fileExtension = ::getTblValue("fileExtension", imageUrlsConfig, "")
+  local body = {
+    captions = customFeedParams?.captions || getFilledFeedTextByLang("activityFeed/" + locId)
+    condensedCaptions = customFeedParams?.condensedCaptions || getFilledFeedTextByLang("activityFeed/" + locId + "/condensed")
+    storyType = "IN_GAME_POST"
+    subType = config?.subType || 0
+    targets = [{accountId=::ps4_get_account_id(), type="ONLINE_ID"}]
+  }
+  if (largeImage)
+    body.targets.append({meta=largeImage, type="LARGE_IMAGE_URL"})
+  if (smallImage)
+    body.targets.append({meta=smallImage, type="SMALL_IMAGE_URL", aspectRatio="2.08:1"})
 
-  local requestBody = ""
-  requestBody += "\"captions\": {" + ::g_string.implode(captions, ",") + "},"
-  requestBody += "\"condensedCaptions\": {" + ::g_string.implode(condensedCaptions, ",") + "},"
+  blk.request = ::save_to_json(body)
 
-  requestBody += "\"storyType\": \"IN_GAME_POST\","
-  requestBody += "\"subType\": " + subType + ","
-
-  local onlineIdTarget = ""
-  local accountId = ::ps4_get_account_id()
-  if (accountId != "")
-    onlineIdTarget = "{\"type\": \"ONLINE_ID\",\"accountId\": \"" + accountId + "\"}"
-  else
-    requestBody += "\"source\": {\"meta\":\"" + ::ps4_get_online_id() + "\",\"type\":\"ONLINE_ID\"},"
-
-  local largeImageTarget = ""
-  if (largeImage != "")
-    largeImageTarget = "{\"meta\":\"" + largeImage + fileExtension + "\",\"type\":\"LARGE_IMAGE_URL\"}"
-
-  local smallImageTarget = ""
-  if (smallImage != "")
-    smallImageTarget = "{\"meta\":\"" + smallImage + fileExtension + "\",\"type\":\"SMALL_IMAGE_URL\",\"aspectRatio\":\"2.08:1\"}"
-
-  local targets = [largeImageTarget, onlineIdTarget, smallImageTarget]
-  requestBody += "\"targets\": [" + ::g_string.implode(targets, ",") + "]"
-
-  blk.request = "{" + ::stringReplace(requestBody, "\t", "") + "}"
+  sendStat("post")
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
+    sendStat("fail."+ret.error)
     dagor.debug("Error: "+ret.error);
     dagor.debug("Error text: "+ret.errorStr);
   }
   else if ("response" in ret)
   {
+    sendStat("success")
     dagor.debug("Response: "+ret.response);
   }
 }

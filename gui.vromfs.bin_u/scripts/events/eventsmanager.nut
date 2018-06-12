@@ -1222,12 +1222,13 @@ class Events
     return res
   }
 
-  function showCantFlyMembersMsgBox(cantFlyByTeams)
+  function showCantFlyMembersMsgBox(teamData, continueQueueFunc = null, cancelFunc = null)
   {
     local langConfig = [SQUAD_NOT_READY_LOC_TAG]
     local langConfigByTeam = {}
     local singleLangConfig = null
-    foreach(idx, membersData in cantFlyByTeams)
+
+    foreach(idx, membersData in teamData.cantFlyData)
     {
       local teamCode = ::getTblValue("team", membersData, idx)
       local stacks = stackMemberErrors(membersData.members)
@@ -1255,7 +1256,17 @@ class Events
         langConfig.extend(teamLangConfig)
       }
 
-    ::showInfoMsgBox(systemMsg.configToLang(langConfig, null, "\n"), "members_cant_fly")
+    local buttons = [ ["no", cancelFunc ] ]
+    if (teamData.haveRestrictions && teamData.canFlyout)
+      buttons.insert(0, ["yes", continueQueueFunc ])
+
+    ::scene_msg_box("members_cant_fly",
+                    null,
+                    systemMsg.configToLang(langConfig, null, "\n"),
+                    buttons,
+                    "no",
+                    { cancel_fn = cancelFunc })
+
     ::g_chat.sendLocalizedMessageToSquadRoom(langConfig)
   }
 
@@ -1287,30 +1298,27 @@ class Events
             continue
           local teamsData = getMembersFlyoutEventDataImpl(mgm, null, mgmTeams)
           local compareTeamData = !!teamsData <=> !!bestTeamsData
-            || teamsData.canFlyout <=> bestTeamsData.canFlyout
+            || !teamsData.haveRestrictions <=> !bestTeamsData.haveRestrictions
             || bestTeamsData.bestCountriesChanged <=> teamsData.bestCountriesChanged
-          if (compareTeamData == 0 && !teamsData.canFlyout)
+          if (compareTeamData == 0 && teamsData.haveRestrictions)
             compareTeamData = bestTeamsData.cantFlyData.len() <=> teamsData.cantFlyData.len()
 
           if (compareTeamData > 0)
           {
             bestTeamsData = teamsData
-            if (bestTeamsData.canFlyout && bestTeamsData.bestCountriesChanged == 0)
+            if (!bestTeamsData.haveRestrictions && bestTeamsData.bestCountriesChanged == 0)
               break
           }
         }
-        if (bestTeamsData && bestTeamsData.canFlyout && bestTeamsData.bestCountriesChanged == 0)
+        if (bestTeamsData && !bestTeamsData.haveRestrictions && bestTeamsData.bestCountriesChanged == 0)
           break
       }
     }
 
-    if (bestTeamsData)
-      if (!bestTeamsData.canFlyout)
-        showCantFlyMembersMsgBox(bestTeamsData.cantFlyData)
-      else if (bestTeamsData.teamsData.len() > 1)
-        bestTeamsData.teamsData = ::u.filter(bestTeamsData.teamsData, @(t) t.countriesChanged == bestTeamsData.bestCountriesChanged)
+    if (bestTeamsData && bestTeamsData.teamsData.len() > 1)
+      bestTeamsData.teamsData = ::u.filter(bestTeamsData.teamsData, @(t) t.countriesChanged == bestTeamsData.bestCountriesChanged)
 
-    return bestTeamsData && bestTeamsData.teamsData
+    return bestTeamsData
   }
 
   function getMembersFlyoutEventDataImpl(roomMgm, room, teams)
@@ -1319,6 +1327,7 @@ class Events
       teamsData = []
       cantFlyData = []
       canFlyout = false
+      haveRestrictions = true
       bestCountriesChanged = -1
     }
     foreach(team in teams)
@@ -1330,6 +1339,10 @@ class Events
       {
         res.teamsData.append(data)
         res.canFlyout = true
+        res.haveRestrictions = res.haveRestrictions && data.haveRestrictions
+        if (data.haveRestrictions)
+          res.cantFlyData.append(data)
+
         if (res.bestCountriesChanged < 0 || res.bestCountriesChanged > data.countriesChanged)
           res.bestCountriesChanged = data.countriesChanged
       }
@@ -2313,10 +2326,35 @@ class Events
     return tournamentBlk.clanId ? ::clan_get_my_clan_id() == tournamentBlk.clanId.tostring() : true
   }
 
-  function checkMembersForQueue(event, room = null)
+  function checkMembersForQueue(event, room = null, continueQueueFunc = null, cancelFunc = null)
   {
+    if (!::g_squad_manager.isInSquad())
+      return continueQueueFunc(null)
+
     local teams = getAvailableTeams(event, room)
     local membersTeams = getMembersTeamsData(event, room, teams)
+
+    local membersInfo = getMembersInfo(teams, membersTeams.teamsData)
+    if (!membersInfo)
+      return cancelFunc()
+
+    if (membersTeams.haveRestrictions)
+    {
+      local func = @() continueQueueFunc(membersInfo.data)
+      showCantFlyMembersMsgBox(membersTeams, func, cancelFunc)
+    }
+
+    if (membersInfo.delayed)
+      return
+
+    if (!membersInfo.result)
+      return cancelFunc()
+
+    continueQueueFunc(membersInfo.data)
+  }
+
+  function getMembersInfo(teams, membersTeams)
+  {
     local membersQuery = null
     local team = null
 
@@ -2332,12 +2370,15 @@ class Events
     {
       return {
         result = false
+        delayed = false
         data = null
         team = null
       }
     }
+
     return {
       result = true
+      delayed = membersTeams && ::u.search(membersTeams, @(member) member.haveRestrictions && member.canFlyout ) != null
       data = membersQuery
       team = team
     }

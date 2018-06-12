@@ -72,6 +72,7 @@ local getMainOptions = function()
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! ::is_in_flight()],
+      [::USEROPT_MINE_DEPTH, "spinner", ! ::is_in_flight()],
       [::USEROPT_USE_PERFECT_RANGEFINDER, "spinner", ::has_feature("Ships")],
       [::USEROPT_SAVE_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
       [::USEROPT_DEFAULT_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
@@ -88,6 +89,8 @@ local getMainOptions = function()
       [::USEROPT_HUE_SQUAD, "spinner"],
       [::USEROPT_HUE_ALLY, "spinner"],
       [::USEROPT_HUE_ENEMY, "spinner"],
+      [::USEROPT_HUE_RELOAD, "spinner"],
+      [::USEROPT_HUE_RELOAD_DONE, "spinner"],
       [::USEROPT_STROBE_ALLY, "spinner"],
       [::USEROPT_STROBE_ENEMY, "spinner"],
       [::USEROPT_HUD_SHOW_FUEL, "spinner"],
@@ -118,6 +121,7 @@ local getMainOptions = function()
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],
       [::USEROPT_CHAT_FILTER, "spinner"],
+      [::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL, "spinner"],
 
       //TODO fillVoiceChatOptions
       //[::USEROPT_VOICE_CHAT, "spinner"],
@@ -141,11 +145,16 @@ local getMainOptions = function()
       [::USEROPT_HUE_SPECTATOR_ENEMY, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
       [::USEROPT_REPLAY_ALL_INDICATORS, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
 
+      ["options/header/userGeneratedContent"],
+      [::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE,    "combobox", contentPreset.getContentPresets().len()],
+      [::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC, "combobox", contentPreset.getContentPresets().len()],
+      [::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR, "combobox", contentPreset.getContentPresets().len()],
+
       ["options/header/otherOptions"],
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
-      [::USEROPT_CONTENT_ALLOWED_PRESET, "combobox", contentPreset.getContentPresets().len()],
+      [::USEROPT_SAVE_ZOOM_CAMERA, "spinner", !::u.isNull(::get_option_save_zoom_camera())] //compatibility with wop_1_77_2_X
     ]
   }
 }
@@ -153,6 +162,8 @@ local getMainOptions = function()
 local getSoundOptions = @() {
   name = "sound"
   options = [
+    [::USEROPT_SOUND_ENABLE, "switchbox", ::is_platform_pc],
+    [::USEROPT_SOUND_SPEAKERS_MODE, "combobox", ::is_platform_pc],
     [::USEROPT_VOICE_MESSAGE_VOICE, "spinner"],
     [::USEROPT_SPEECH_TYPE "spinner", ! ::is_in_flight()],
     [::USEROPT_VOLUME_MASTER, "slider"],

@@ -8,11 +8,18 @@
     }
   },
   {
-    "dmgIndicator": {
-      "id": "xray_render_dmg_indicator",
-      "size": "@sizeDamageIndicator, @sizeDamageIndicator",
+    "tdiv": {
       "pos": "10/720@scrn_tgt, ph - h - 10/720@scrn_tgt",
-      "position": "absolute"
+      "position": "absolute",
+      "dmgIndicator": {
+        "id": "xray_render_dmg_indicator",
+        "size": "@sizeDamageIndicator, @sizeDamageIndicator"
+      },
+      "tdiv": {
+        "id": "mission_progress_place",
+        "height": "@missionProgressHeight",
+        "display": "hide"
+      }
     }
   },
   {
@@ -74,8 +81,7 @@
         "tdiv": {
           "id": "order_status",
           "width": "0.8@itemInfoWidth",
-          "min-width": "0.6@itemInfoWidth",
-          "flow": "vertical"
+          "min-width": "0.6@itemInfoWidth"
         }
       },
       {

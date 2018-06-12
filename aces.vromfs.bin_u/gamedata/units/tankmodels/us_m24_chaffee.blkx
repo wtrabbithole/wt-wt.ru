@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -213,20 +216,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 200.0,
-        "armorThickness": 20.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -251,6 +240,37 @@
         "wheel_l_top_01_dm": [],
         "wheel_l_top_02_dm": [],
         "wheel_l_top_03_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -316,7 +336,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1565,6 +1585,7 @@
             "hasVertical": true,
             "verticalOmegaMult": 0.7,
             "verticalSpeedLimitKPH": 16.0,
+            "speedFromVehicleVerticalMult": -1.0,
             "errorKPHToDegrees": [
               {
                 "row": [5.0,0.0]
@@ -1601,6 +1622,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "speedYaw": 5.5
@@ -1674,6 +1698,7 @@
           "flash": "emtr_mg_aa_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_02_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -2508,6 +2533,7 @@
                   "hasVertical": true,
                   "verticalOmegaMult": 0.7,
                   "verticalSpeedLimitKPH": 16.0,
+                  "speedFromVehicleVerticalMult": -1.0,
                   "errorKPHToDegrees": [
                     {
                       "row": [5.0,0.0]
@@ -2544,6 +2570,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "speedYaw": 5.5
@@ -2617,6 +2646,7 @@
                 "flash": "emtr_mg_aa_flame_01",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
+                "barrelDP": "gun_barrel_02_dm",
                 "parkInDeadzone": false,
                 "speedYaw": 30.0,
                 "speedPitch": 20.0,

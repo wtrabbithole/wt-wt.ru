@@ -75,16 +75,36 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 }
 
 ::unit_role_fonticons <- {
-  fighter         = ::loc("icon/unitclass/fighter"),
-  assault         = ::loc("icon/unitclass/assault"),
-  bomber          = ::loc("icon/unitclass/bomber"),
-  helicopter      = ::loc("icon/unitclass/assault"),
-  light_tank      = ::loc("icon/unitclass/light_tank"),
-  medium_tank     = ::loc("icon/unitclass/medium_tank"),
-  heavy_tank      = ::loc("icon/unitclass/heavy_tank"),
-  tank_destroyer  = ::loc("icon/unitclass/tank_destroyer"),
-  spaa            = ::loc("icon/unitclass/spaa"),
-  ship            = ::loc("icon/unitclass/ship"),
+  fighter                  = ::loc("icon/unitclass/fighter"),
+  assault                  = ::loc("icon/unitclass/assault"),
+  bomber                   = ::loc("icon/unitclass/bomber"),
+  helicopter               = ::loc("icon/unitclass/assault"),
+  light_tank               = ::loc("icon/unitclass/light_tank"),
+  medium_tank              = ::loc("icon/unitclass/medium_tank"),
+  heavy_tank               = ::loc("icon/unitclass/heavy_tank"),
+  tank_destroyer           = ::loc("icon/unitclass/tank_destroyer"),
+  spaa                     = ::loc("icon/unitclass/spaa"),
+  ship                     = ::loc("icon/unitclass/ship"),
+  gun_boat                 = ::loc("icon/unitclass/gun_boat")
+  torpedo_boat             = ::loc("icon/unitclass/gun_boat")
+  torpedo_gun_boat         = ::loc("icon/unitclass/gun_boat")
+  hydrofoil_torpedo_boat   = ::loc("icon/unitclass/gun_boat")
+  missile_boat             = ::loc("icon/unitclass/gun_boat")
+  heavy_gun_boat           = ::loc("icon/unitclass/heavy_gun_boat")
+  submarine_chaser         = ::loc("icon/unitclass/heavy_gun_boat")
+  minesweeper              = ::loc("icon/unitclass/heavy_gun_boat")
+  minelayer                = ::loc("icon/unitclass/heavy_gun_boat")
+  small_submarine_chaser   = ::loc("icon/unitclass/heavy_gun_boat")
+  armored_boat             = ::loc("icon/unitclass/heavy_gun_boat")
+  armored_submarine_chaser = ::loc("icon/unitclass/heavy_gun_boat")
+  naval_ferry_barge        = ::loc("icon/unitclass/naval_ferry_barge")
+  naval_aa_ferry           = ::loc("icon/unitclass/naval_ferry_barge")
+  destroyer                = ::loc("icon/unitclass/destroyer")
+  light_cruiser            = ::loc("icon/unitclass/light_cruiser")
+  cruiser                  = ::loc("icon/unitclass/cruiser")
+  battlecruiser            = ::loc("icon/unitclass/battlecruiser")
+  battleship               = ::loc("icon/unitclass/battleship")
+  submarine                = ::loc("icon/unitclass/submarine")
 }
 
 ::unit_role_by_tag <- {
@@ -113,6 +133,26 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 
   //ships:
   type_ship = "ship",
+  type_gun_boat = "gun_boat"
+  type_torpedo_boat = "torpedo_boat"
+  type_torpedo_gun_boat = "torpedo_gun_boat"
+  type_hydrofoil_torpedo_boat = "hydrofoil_torpedo_boat"
+  type_missile_boat = "missile_boat"
+  type_heavy_gun_boat = "heavy_gun_boat"
+  type_submarine_chaser = "submarine_chaser"
+  type_minesweeper = "minesweeper"
+  type_minelayer = "minelayer"
+  type_small_submarine_chaser = "small_submarine_chaser"
+  type_armored_boat = "armored_boat"
+  type_armored_submarine_chaser = "armored_submarine_chaser"
+  type_naval_ferry_barge = "naval_ferry_barge"
+  type_naval_aa_ferry = "naval_aa_ferry"
+  type_destroyer = "destroyer"
+  type_light_cruiser = "light_cruiser"
+  type_cruiser = "cruiser"
+  type_battlecruiser = "battlecruiser"
+  type_battleship = "battleship"
+  type_submarine = "submarine"
 
   //basic types
   type_fighter = "medium_fighter",
@@ -461,6 +501,11 @@ function is_helicopter(unit)
 function is_submarine(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
+}
+
+function is_minelayer(unit)
+{
+  return unit.hasMines
 }
 
 function get_es_unit_type(unit)
@@ -1041,7 +1086,25 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
     return true
 
   if (::isShip(air))
-    return true //ships dosnt calculated yet
+  {
+    air.modificatorsRequestTime = ::dagor.getCurTime()
+    calculate_ship_parameters_async(air.name, this, (@(air, callBack) function(effect, ...) {
+      air.modificatorsRequestTime = -1
+      if (effect)
+      {
+        air.modificators = {
+          arcade = effect.arcade
+          historical = effect.historical
+          fullreal = effect.fullreal
+        }
+        if (!air.modificatorsBase)
+          air.modificatorsBase = air.modificators
+      }
+
+      ::_afterUpdateAirModificators(air, callBack)
+    })(air, callBack))
+    return false
+  }
 
   if (isTank(air))
   {
@@ -1737,6 +1800,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   holderObj.findObject("aircraft-wingLoading").setValue(::countMeasure(5, air.shop.wingLoading))
 //  holderObj.findObject("aircraft-range").setValue(::countMeasure(2, air.shop.range * 1000.0))
 
+  local totalCrewObj = holderObj.findObject("total-crew")
+  if (::check_obj(totalCrewObj))
+    totalCrewObj.setValue(air.getCrewTotalCount().tostring())
+
   local airplaneParameters = ::has_feature("CardAirplaneParameters")
   local airplanePowerParameters = airplaneParameters && ::has_feature("CardAirplanePowerParameters")
 
@@ -1753,7 +1820,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-armorPiercingDist-tr"]     = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-mass-tr"]                  = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-horsePowers-tr"]           = [ ::ES_UNIT_TYPE_TANK ],
-    ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK ],
+    ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_SHIP ],
     ["aircraft-maxDepth-tr"]              = [ ::ES_UNIT_TYPE_SHIP],
     ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
@@ -1865,12 +1932,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       holderObj.findObject("ship-displacement-title").setValue(::loc("info/ship/displacement") + ::loc("ui/colon"))
       holderObj.findObject("ship-displacement-value").setValue(displacementString)
     }
-
-    // ship-speed
-    local speedValue = ::getTblValueByPath("Shop.maxSpeed", unitTags, 0)
-    holderObj.findObject("aircraft-maxSpeed-tr").show(speedValue > 0)
-    if(speedValue > 0)
-      holderObj.findObject("aircraft-maxSpeed").setValue(::g_measure_type.SPEED.getMeasureUnitsText(speedValue))
 
     // submarine-depth
     local depthValue = unitTags?.Shop?.maxDepth ?? 0
@@ -2451,12 +2512,12 @@ function get_units_list(filterFunc)
   return res
 }
 
-function get_units_count_at_rank(rank, type, country, exact_rank)
+function get_units_count_at_rank(rank, type, country, exact_rank, needBought = true)
 {
   local count = 0
   foreach (unit in ::all_units)
   {
-    if (!::isUnitBought(unit))
+    if (needBought && !::isUnitBought(unit))
       continue
 
     // Keep this in sync with getUnitsCountAtRank() in chard

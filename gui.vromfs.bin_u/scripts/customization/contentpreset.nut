@@ -2,6 +2,8 @@ local contentPresets = []
 local contentPresetIdxByName = {}
 local defaultPresetIdx = -1
 
+const AGREED_PRESET_SAVE_ID_PREFIX = "contentPreset/agreed"
+
 local function getContentPresets() {
   if (contentPresets.len() > 0 || !::g_login.isLoggedIn())
     return contentPresets
@@ -16,86 +18,55 @@ local function getContentPresets() {
   return contentPresets
 }
 
-local function getCurPresetId() {
-  local option = ::get_option(::USEROPT_CONTENT_ALLOWED_PRESET)
-  local defValue = option.value in option.values? option.values[option.value] : "historical"
-  return ::get_gui_option_in_mode(::USEROPT_CONTENT_ALLOWED_PRESET, ::OPTIONS_MODE_GAMEPLAY, defValue)
+local function getDifficultyByOptionId(optionId) {
+  foreach (difficulty in ::g_difficulty.types)
+    if (difficulty.contentAllowedPresetOption == optionId)
+      return difficulty
+  return ::g_difficulty.UNKNOWN
 }
 
-local function setPreset(presetId) {
+local function getCurPresetId(diffCode) {
+  local optionId = ::g_difficulty.getDifficultyByDiffCode(diffCode).contentAllowedPresetOption
+  local option = ::get_option(optionId)
+  local defValue = option.value in option.values? option.values[option.value] : "historical"
+  return ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY, defValue)
+}
+
+local function getAgreedPreset(diffCode) {
+  local saveId = AGREED_PRESET_SAVE_ID_PREFIX + diffCode
+  local difficulty = ::g_difficulty.getDifficultyByDiffCode(diffCode)
+  return ::load_local_account_settings(saveId, difficulty.contentAllowedPresetOptionDefVal)
+}
+
+local function setAgreedPreset(diffCode, presetId) {
+  local saveId = AGREED_PRESET_SAVE_ID_PREFIX + diffCode
+  ::save_local_account_settings(saveId, presetId)
+}
+
+local function setPreset(diffCode, presetId, needSetAgreed) {
   if (!presetId)
     return
-  ::set_gui_option_in_mode(::USEROPT_CONTENT_ALLOWED_PRESET, presetId, ::OPTIONS_MODE_GAMEPLAY)
+  local optionId = ::g_difficulty.getDifficultyByDiffCode(diffCode).contentAllowedPresetOption
+  ::set_gui_option_in_mode(optionId, presetId, ::OPTIONS_MODE_GAMEPLAY)
+  if (needSetAgreed)
+    setAgreedPreset(diffCode, presetId)
 }
 
-local function getMaxPresetId(presetId1, presetId2) {
-  return getContentPresets().len() > 0
-    ? getContentPresets()[::max(
-      contentPresetIdxByName?[presetId1] ?? defaultPresetIdx,
-      contentPresetIdxByName?[presetId2] ?? defaultPresetIdx)]
-    : getCurPresetId()
+local function getPresetIdBySkin(diffCode, unitId, skinId) {
+  return ::get_preset_by_skin_tags(diffCode, unitId, skinId) || getCurPresetId(diffCode)
 }
 
-local function hasAnyTagFromPreset(tags, presetsBlk) {
-  foreach (tagName, value in tags)
-    if (value && presetsBlk?[tagName])
-      return true
-
-  return false
-}
-
-local function getPresetIdByTags(tags) {
-  local curPresetId = getCurPresetId()
-
-  if (::u.isEmpty(tags))
-    return curPresetId
-
-  local presetsBlk = ::get_ugc_blk().presets
-  if (!presetsBlk)
-    return curPresetId
-
-  local curPresetBlk = presetsBlk[curPresetId]
-  if (curPresetBlk && hasAnyTagFromPreset(tags, curPresetBlk))
-    return curPresetId
-
-  foreach (presetName, preset in presetsBlk)
-  {
-    if (presetName != curPresetId && hasAnyTagFromPreset(tags, preset))
-      return presetName
-  }
-
-  return curPresetId
-}
-
-local function getPresetIdBySkin(unitId, skinId) {
-  return ::get_preset_by_skin_tags(unitId, skinId) || getCurPresetId()
-}
-
-local function showConfirmMsgbox(newPreset, keyMessageDesc, onConfirmCb, onCancelCb) {
-  local curPreset = getCurPresetId()
-
-  local pathMessage = "msgbox/optionWillBeChanged"
-  local message = ::loc(pathMessage, {
-    name     = ::colorize("userlogColoredText", ::loc("options/content_allowed_preset"))
-    oldValue = ::colorize("userlogColoredText", ::loc("content/tag/" + curPreset))
-    newValue = ::colorize("userlogColoredText", ::loc("content/tag/" + newPreset))
-  }) + (keyMessageDesc != "" ?
-    ("\n" + ::loc(pathMessage+"/"+keyMessageDesc,
-      {oldValue = ::colorize("userlogColoredText", ::loc("content/tag/" + curPreset))})) : "")
-
-  local msgboxParams = {
-    data_below_buttons = ::format("textarea{ text:t='%s'}", ::g_string.stripTags(::loc("msgbox/optionWillBeChanged/comment")))
-  }
-
-  ::scene_msg_box("content_preset", null, message, [ ["ok", onConfirmCb], ["cancel", onCancelCb] ], "ok", msgboxParams)
+local function isAgreed(diffCode, presetId) {
+    local agreedPresetId = getAgreedPreset(diffCode)
+    return !(agreedPresetId in contentPresetIdxByName) || !(presetId in contentPresetIdxByName) ||
+      contentPresetIdxByName[agreedPresetId] >= contentPresetIdxByName[presetId]
 }
 
 return {
   getContentPresets = getContentPresets
+  getDifficultyByOptionId = getDifficultyByOptionId
   getCurPresetId = getCurPresetId
   setPreset = setPreset
   getPresetIdBySkin = getPresetIdBySkin
-  showConfirmMsgbox = showConfirmMsgbox
-  getPresetIdByTags = getPresetIdByTags
-  getMaxPresetId = getMaxPresetId
+  isAgreed = isAgreed
 }

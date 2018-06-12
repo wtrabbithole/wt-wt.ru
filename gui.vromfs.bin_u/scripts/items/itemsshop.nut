@@ -488,7 +488,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.visualStyle = curTab == itemsTab.INVENTORY? "secondary" : "purchase"
       ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), mainActionName)
     }
-    showSceneBtn("btn_preview", item ? item.canPreview() : false)
+
+    local activateText = !showMainAction && item?.isInventoryItem && item.amount ? item.getActivateInfo() : ""
+    scene.findObject("activate_info_text").setValue(activateText)
+    showSceneBtn("btn_preview", item ? (item.canPreview() && ::isInMenu()) : false)
 
     local altActionText = item ? item.getAltActionName() : ""
     local actionBtn = showSceneBtn("btn_alt_action", altActionText != "")
@@ -526,7 +529,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local item = getCurItem()
-    if (item)
+    if (item && ::ItemsManager.canPreviewItems())
       item.doPreview()
   }
 

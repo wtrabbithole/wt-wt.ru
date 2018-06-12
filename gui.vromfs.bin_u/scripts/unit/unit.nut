@@ -43,6 +43,7 @@ local Unit = class
    train3Cost_exp = 0
    gunnersCount = 0
    hasDepthCharge = false
+   hasMines = false
 
    isInShop = false
    reqAir = null //name of unit required by shop tree
@@ -160,6 +161,7 @@ local Unit = class
     giftParam                 = uWpCost.giftParam
     premPackAir               = uWpCost.premPackAir ?? false
     hasDepthCharge            = uWpCost.hasDepthCharge ?? shop_is_modification_enabled(name, "ship_depth_charge")
+    hasMines                  = uWpCost.hasMines ?? shop_is_modification_enabled(name, "ship_mines")
     commonWeaponImage         = uWpCost.commonWeaponImage ?? commonWeaponImage
     customClassIco            = uWpCost.customClassIco
     customTooltipImage        = uWpCost.customTooltipImage
@@ -252,6 +254,7 @@ local Unit = class
   isRented              = @() ::shop_is_unit_rented(name)
   getRentTimeleft       = @() ::rented_units_get_expired_time_sec(name)
   getRepairCost         = @() ::Cost(::wp_get_repair_cost(name))
+  getCrewTotalCount     = @() getUnitWpCostBlk()?.crewTotalCount || 1
 
   repair                = @(onSuccessCb = null) unitActions.repairWithMsgBox(this, onSuccessCb)
 

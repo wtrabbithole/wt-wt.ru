@@ -1,6 +1,7 @@
 local enums = ::require("std/enums.nut")
 local guidParser = require("scripts/guidParser.nut")
 local time = require("scripts/time.nut")
+local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
 ::g_decorator_type <- {
   types = []
@@ -32,6 +33,8 @@ local time = require("scripts/time.nut")
     getImage = function(decorator) { return "" }
     getRatio = function(decorator) { return 1 }
     getImageSize = function(decorator) { return "0, 0" }
+
+    getSmallIcon = @(decorator) decorator ? prizeTypeIcon : ""
 
     getLocName = function(decoratorName, addUnitName = false) { return ::loc(decoratorName) }
     getLocDesc = function(decoratorName) { return ::loc(decoratorName + "/desc", "") }
@@ -87,11 +90,11 @@ local time = require("scripts/time.nut")
     getSpecialDecorator = function(id) { return null }
     getUgcDecorator = @(id, cache) null
 
-    specifyEditableSlot = function(slotIdx) {}
+    specifyEditableSlot = @(slotIdx, needFocus = true) null
     addDecorator = function(decoratorName) {}
     exitEditMode = function(apply, save = false, callback = function (){}) {}
     enterEditMode = function(decoratorName) {}
-    removeDecorator = function(slotIdx, acceptChanges = true) {}
+    removeDecorator = @(slotIdx, save) false
     replaceDecorator = function(slotIdx, decoratorName) {}
 
     buyFunc = function(unitName, id) {}
@@ -156,13 +159,18 @@ enums.addTypesByGlobalName("g_decorator_type", {
 
     getBlk = function() { return ::get_decals_blk() }
 
-    specifyEditableSlot = function(slotIdx) { return ::hangar_set_current_decal_slot(slotIdx) }
-    addDecorator = function(decoratorName) { return ::hangar_set_decal_in_slot(decoratorName) }
-    removeDecorator = function(slotIdx, acceptChanges)
+    specifyEditableSlot = function(slotIdx, needFocus = true)
     {
-      specifyEditableSlot(slotIdx)
+      ::hangar_set_current_decal_slot(slotIdx)
+      if (needFocus)
+        ::hangar_focus_on_current_decal()
+    }
+    addDecorator = function(decoratorName) { return ::hangar_set_decal_in_slot(decoratorName) }
+    removeDecorator = function(slotIdx, save)
+    {
+      specifyEditableSlot(slotIdx, false)
       enterEditMode("")
-      return exitEditMode(acceptChanges, acceptChanges)
+      return exitEditMode(true, save)
     }
 
     replaceDecorator = function(slotIdx, decoratorName)
@@ -172,11 +180,15 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
     enterEditMode = function(decoratorName) { return ::hangar_enter_decal_mode(decoratorName) }
     exitEditMode = function(apply, save = false, callback = function () {}) {
-      local taskId = ::hangar_exit_decal_mode(apply)
-      local res = taskId != -1
-      if (res)
-        jobCallbacksStack[taskId] <- callback
-      return res
+      local res = ::hangar_exit_decal_mode(apply, save)
+      if (res.success)
+      {
+        if (res.taskId != -1)
+          jobCallbacksStack[res.taskId] <- callback
+        else
+          callback()
+      }
+      return res.success
     }
 
     buyFunc = function(unitName, id, afterSuccessFunc)
@@ -259,13 +271,13 @@ enums.addTypesByGlobalName("g_decorator_type", {
 
     getBlk = function() { return ::get_attachable_blk() }
 
-    removeDecorator = function(slotIdx, acceptChanges)
+    removeDecorator = function(slotIdx, save)
     {
       ::hangar_remove_attachable(slotIdx)
-      exitEditMode(acceptChanges, acceptChanges)
+      exitEditMode(true, save)
     }
 
-    specifyEditableSlot = function(slotIdx) { return ::hangar_select_attachable_slot(slotIdx) }
+    specifyEditableSlot = @(slotIdx, needFocus = true) ::hangar_select_attachable_slot(slotIdx)
     enterEditMode = function(decoratorName) { return ::hangar_add_attachable(decoratorName) }
     exitEditMode = function(apply, save, callback = function () {}) {
       local res = ::hangar_exit_attachables_mode(apply, save)
@@ -305,7 +317,22 @@ enums.addTypesByGlobalName("g_decorator_type", {
     prizeTypeIcon = "#ui/gameuiskin#item_type_skin"
     defaultStyle = "reward_skin"
 
-    getImage = function(...) { return "#ui/gameuiskin#item_skin" }
+    getImage = function(decorator)
+    {
+      if (!decorator)
+        return ""
+      local mask = skinLocations.getSkinLocationsMaskBySkinId(decorator.id)
+      local iconType = skinLocations.getIconTypeByMask(mask)
+      return "#ui/gameuiskin/item_skin" + (iconType == "forest" ? "" : ("_" + iconType))
+    }
+
+    getSmallIcon = function(decorator)
+    {
+      if (!decorator)
+        return ""
+      return "#ui/gameuiskin#icon_skin_" +
+        skinLocations.getIconTypeByMask(skinLocations.getSkinLocationsMaskBySkinId(decorator.id))
+    }
 
     getLocName = function(decoratorName, addUnitName = false)
     {

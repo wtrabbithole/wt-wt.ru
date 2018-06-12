@@ -480,7 +480,7 @@ function weaponVisual::updateItemBulletsSlider(itemObj, bulletsManager, bulGroup
       valColor = "goodTextColor"
 
     local valText = ::colorize(valColor, curVal*guns)
-    local text = ::format("%s\\%s %s", valText, (maxVal*guns).tostring(), restText)
+    local text = ::format("%s/%s %s", valText, (maxVal*guns).tostring(), restText)
     textObj.setValue(text)
   }
 
@@ -630,7 +630,7 @@ function weaponVisual::getBulletsIconView(bulletsSet, tooltipId = null, tooltipD
         local imgId = bulletsSet.bullets[i % length]
         if (imgId.find("@") != null)
           imgId = imgId.slice(0, imgId.find("@"))
-        local defaultImgId = ("caliber" in bulletsSet && bulletsSet.caliber < 0.015) ? "default_ball" : "default_shell"
+        local defaultImgId = ::isCaliberCannon(1000 * (bulletsSet?.caliber ?? 0.0)) ? "default_shell" : "default_ball"
 
         local item = {
           image           = "#ui/gameuiskin#" + bullet_icons[ (imgId in bullet_icons) ? imgId : defaultImgId ]
@@ -1003,6 +1003,8 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
       })
     }
   }
+  else
+    descTbl.bulletActions <- [{ visual = getBulletsIconData(bulletsSet) }]
 
   local searchName = ::getBulletsSearchName(unit, modName)
   local useDefaultBullet = searchName!=modName;
@@ -1080,7 +1082,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     if (!needAddParams)
       continue
 
-    foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "endSpeed"])
+    foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "endSpeed", "maxSpeed"])
       param[p] <- ::getTblValue(p, bullet_params, 0)
 
     foreach(p in ["reloadTimes", "autoAiming", "weaponBlkPath"])
@@ -1091,7 +1093,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
 
     if(bulletsSet)
     {
-      foreach(p in ["explosiveType", "explosiveMass"])
+      foreach(p in ["caliber", "explosiveType", "explosiveMass"])
       if (p in bulletsSet)
         param[p] <- bulletsSet[p]
 
@@ -1114,6 +1116,9 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   }
   if (needAdditionalInfo && "mass" in param)
   {
+    if (param.caliber > 0)
+      addProp(p, ::loc("bullet_properties/caliber"),
+                ::round_by_value(param.caliber, ::isCaliberCannon(param.caliber) ? 1 : 0.01) + " " + ::loc("measureUnits/mm"))
     if (param.mass > 0)
       addProp(p, ::loc("bullet_properties/mass"),
                 ::roundToDigits(param.mass, 2) + " " + ::loc("measureUnits/kg"))
@@ -1121,7 +1126,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       addProp(p, ::loc("bullet_properties/speed"),
                  ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))
 
-    local maxSpeed = ::getTblValue("endSpeed", param, 0)
+    local maxSpeed = param?.maxSpeed ?? param?.endSpeed ?? 0
     if (maxSpeed)
       addProp(p, ::loc("rocket/maxSpeed"), ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed))
 
@@ -1203,7 +1208,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   {
     local header = ::loc("bullet_properties/armorPiercing")
       + (::u.isEmpty(bulletName) ? "" : ( ": " + bulletName))
-      + "\n" + ::format("(%s \\ %s)", ::loc("distance"), ::loc("bullet_properties/hitAngle"))
+      + "\n" + ::format("(%s / %s)", ::loc("distance"), ::loc("bullet_properties/hitAngle"))
     descTbl.bulletParams.append({ props = apData, header = header })
   }
 }

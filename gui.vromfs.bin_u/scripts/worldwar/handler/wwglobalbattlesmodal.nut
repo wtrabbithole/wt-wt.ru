@@ -9,6 +9,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   hasBattleFilter = true
   battlesList = null
   operationBattle = null
+  isBattleInited = false
 
   static battlesFilters = [
     {
@@ -98,6 +99,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     updateSlotbar()
     updateButtons()
     updateDurationTimer()
+    isBattleInited = true
   }
 
   function getTitleText()
@@ -142,7 +144,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
         return
 
       updateBattleSquadListData()
-      if (!isBattleEqual)
+      if (!isBattleInited || !isBattleEqual)
         updateWindow()
     }, this)
 

@@ -79,7 +79,7 @@ local getActions = function(_contact, params)
   local isMPLobby = params?.isMPLobby ?? false
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
-  local chatLog = params?.chatLog ?? roomData?.chatText ?? ""
+  local chatLog = params?.chatLog ?? roomData && roomData.getChatText() ?? ""
 
   local actions = []
 //---- <Session Join> ---------
@@ -176,7 +176,8 @@ local getActions = function(_contact, params)
           ? ::loc("squad/accept_membership")
           : ::loc("squad/invite_player")
         isVisualDisabled = !canInvitePlayer || !canInteract || !canInviteXboxPlayerFriend || !canInviteXboxPlayerOnline
-        show = canInviteToChatRoom
+        show = ::has_feature("SquadInviteIngame")
+               && canInviteToChatRoom
                && !isMe
                && !isBlock
                && ::g_squad_manager.canInviteMember(uid)
@@ -332,7 +333,7 @@ local getActions = function(_contact, params)
       action = function() {
         localDevoice.switchMuted(name, localDevoice.DEVOICE_RADIO)
         local popupLocId = localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO) ? "mpRadio/disabled/msg" : "mpRadio/enabled/msg"
-        ::g_popups.add(null, ::loc(popupLocId, { player = ::colorize("activeTextColor", name) }))
+        ::g_popups.add(null, ::loc(popupLocId, { player = ::colorize("activeTextColor", platformModule.getPlayerName(name)) }))
       }
     })
 //---- </In Battle> -----------------
@@ -368,8 +369,8 @@ local getActions = function(_contact, params)
     if (!isMe)
     {
       if (roomData
-          && (roomData.chatText.find("<Link=PL_" + name + ">") != null
-              || roomData.chatText.find("<Link=PLU_"+ uid +">") != null))
+          && (chatLog.find("<Link=PL_" + name + ">") != null
+              || chatLog.find("<Link=PLU_"+ uid +">") != null))
         canComplain = true
       else
       {

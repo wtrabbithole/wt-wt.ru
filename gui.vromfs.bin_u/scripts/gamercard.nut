@@ -231,6 +231,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
                              gc_items_shop_button = ::ItemsManager.isEnabled() && ::has_feature("ItemsShop")
                              gc_online_shop_button = ::has_feature("OnlineShopPacks")
                              gc_clanAlert = ::g_clans.getUnseenCandidatesCount() > 0
+                             gc_invites_btn = ::has_feature("XBoxPlatformRestriction")
                            }
 
   foreach(id, status in buttonsShowTable)
@@ -244,13 +245,10 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
     }
   }
 
-  local disableForPs4Temporary = !(::is_platform_ps4 && ::is_in_loading_screen()) //!!!HACK, till hover is not working on loading
   local buttonsEnableTable = {
                                 gc_clanTag = showClanTag && is_in_menu
-                                gc_profile = disableForPs4Temporary
-                                gc_contacts = canHaveFriends && disableForPs4Temporary
-                                gc_chat_btn = canChat && platformModule.isChatEnabled() && disableForPs4Temporary
-                                gc_userlog_btn = disableForPs4Temporary
+                                gc_contacts = canHaveFriends
+                                gc_chat_btn = canChat && platformModule.isChatEnabled()
                                 gc_free_exp = canSpendGold && is_in_menu
                                 gc_warpoints = canSpendGold && is_in_menu
                                 gc_eagles = canSpendGold && is_in_menu

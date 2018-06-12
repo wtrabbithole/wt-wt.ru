@@ -170,7 +170,7 @@ function addWeaponsFromBlk(weapons, block, unitType)
       item.explosiveType = itemBlk.explosiveType
       item.explosiveMass = itemBlk.explosiveMass || 0
       if (currentTypeName == "rockets")
-        item.maxSpeed <- itemBlk.endSpeed || 0
+        item.maxSpeed <- itemBlk.maxSpeed || itemBlk.endSpeed || 0
       else  if (currentTypeName == "torpedoes")
       {
         item.dropSpeedRange = itemBlk.getPoint2("dropSpeedRange", Point2(0,0))
@@ -211,23 +211,6 @@ function addWeaponsFromBlk(weapons, block, unitType)
           weaponName = name
           break
         }
-
-    // Merging duplicating weapons with different trigger (except turrets)
-    if (trIdx < 0 && !isTurret)
-    {
-      foreach(idx, t in weapons[currentTypeName])
-      {
-        foreach (name, existingItem in t)
-          if (::is_weapon_params_equal(item, existingItem))
-          {
-            weaponName = name
-            trIdx = idx
-            break
-          }
-        if (trIdx >= 0)
-          break
-      }
-    }
 
     if (trIdx < 0)
     {
@@ -1135,7 +1118,10 @@ function getBulletsInfoForPrimaryGuns(air)
           continue
 
         wpList[weapon.blk].catridge = wBlk.bulletsCartridge || 1
+        local totalBullets = wpList[weapon.blk].total
         wpList[weapon.blk].total = (wpList[weapon.blk].total / wpList[weapon.blk].catridge).tointeger()
+        if (wpList[weapon.blk].total * wpList[weapon.blk].catridge < totalBullets)
+          wpList[weapon.blk].total += 1
         foreach(idx, modName in modsList)
           if (wBlk[getModificationBulletsEffect(modName)])
           {

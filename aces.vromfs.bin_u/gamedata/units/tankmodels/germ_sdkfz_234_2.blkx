@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -251,16 +254,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 150.0,
-        "armorThickness": 25.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 7.0
-        }
-      },
       "body_shields": {
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
@@ -292,6 +285,37 @@
         "wheel_l_04_dm": [],
         "wheel_r_04_dm": [],
         "ex_decor_02_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 150.0,
+        "armorThickness": 15.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -350,7 +374,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1696,6 +1720,9 @@
             "defaultPitch": 0.0
           },
           {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
             "useAnimFlashNode": true
           },
           {
@@ -2458,6 +2485,8 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
+      "airstrike": [],
+      "improved_optics": [],
       "50mm_ger_kwk39_APCR1": [],
       "50mm_ger_kwk39_APCR2": [],
       "50mm_kwk_38_39_APCR1_ammo_pack": [],
@@ -2530,6 +2559,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "useAnimFlashNode": true

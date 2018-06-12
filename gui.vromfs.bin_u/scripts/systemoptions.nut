@@ -62,7 +62,7 @@
   vsync = { widgetType="list" def="vsync_off" blk="video/vsync" restart=true
     getFromBlk = function(blk, desc) {
       local vsync = ::get_blk_value_by_path(blk, "video/vsync", false)
-      local adaptive = ::get_blk_value_by_path(blk, "video/adaptive_vsync", true)
+      local adaptive = ::is_gpu_nvidia() && get_blk_value_by_path(blk, "video/adaptive_vsync", true)
       return (vsync && adaptive)? "vsync_adaptive" : (vsync)? "vsync_on" : "vsync_off"
     }
     setToBlk = function(blk, desc, val) {
@@ -70,7 +70,7 @@
       ::set_blk_value_by_path(blk, "video/adaptive_vsync", val=="vsync_adaptive")
     }
     init = function(blk, desc) {
-      desc.values <- ::is_platform_windows ? [ "vsync_off", "vsync_on", "vsync_adaptive" ] : [ "vsync_off", "vsync_on" ]
+      desc.values <- ::is_gpu_nvidia() ? [ "vsync_off", "vsync_on", "vsync_adaptive" ] : [ "vsync_off", "vsync_on" ]
     }
   }
   graphicsQuality = { widgetType="tabs" def="high" blk="graphicsQuality" restart=false

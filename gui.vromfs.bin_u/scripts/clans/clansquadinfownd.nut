@@ -4,7 +4,8 @@ class ::gui_handlers.clanSquadInfoWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType             = handlerType.MODAL
   sceneBlkName   = "gui/clans/clanSquadInfo.blk"
-  shouldBlurSceneBg   = false
+  shouldBlurSceneBg = false
+  needVoiceChat = false
   memberTplName = "gui/squads/squadMembers"
   membersObj = null
   align = AL_ORIENT.BOTTOM

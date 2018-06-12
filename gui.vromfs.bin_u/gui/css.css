@@ -723,10 +723,8 @@ CheckBox:pushed > textareaNoTab {
 }
 
 optiontext {
-  min-width:pw-1*@scrn_tgt/100.0;
-  text-align:right;
+  min-width:pw-1*@scrn_tgt/100.0;   text-align:right;
   font:@option_font;
-  padding:0, 0, 0, 0;
 }
 
 optionBlockHeader {
@@ -931,7 +929,7 @@ logIcon {
 }
 
 verticalCellsOptions[baseRow=yes] > tr {
-  size:pw,@smallRowHeight + 1@baseTrHeight - 2@dp;
+  size:pw, 1@optionsHeaderRowHeight + 1@baseTrHeight;
 }
 
 [baseRow=rows16] > tr {
@@ -1154,7 +1152,6 @@ td[cellType=right] optiontext, td[cellType=top] optiontext, td[cellType=bottom] 
 [optionsTextLeftCell=left] td[cellType=left] optiontext
 {
   text-align:left;
-  padding:0, 0, 0, 0; 
 }
 
 td[cellType=tdRight] activeText {
@@ -1177,6 +1174,16 @@ td[cellType=bottom] {
   width:pw;
   height:@rows16height;
 }
+td[cellType=info] {
+  width:pw;
+}
+
+verticalCellsOptions > * > td[cellType=top] {
+  height:1@optionsHeaderRowHeight;
+}
+verticalCellsOptions > * > td[cellType=bottom] {
+  height:1@baseTrHeight;
+}
 
 tr[hiddenTr=yes] {
   inactive:yes;
@@ -1186,11 +1193,13 @@ tr[hiddenTr=yes] {
 .optionsTable > tr, .optionsTable > tr > td,
 .crewTable > tr, .crewTable > tr > td,
 .lbTable > tr, .lbTable > tr > td,
-.mpTable > tr, .mpTable > tr > td
+.mpTable > tr, .mpTable > tr > td,
+.optionsMultiColumn > tr, .optionsMultiColumn > tr > td
 {
   css-hier-invalidate:yes;
 }
-.optionsTable > tr, .mpTable > tr, .crewTable > tr, .lbTable > tr {
+.optionsTable > tr, .mpTable > tr, .crewTable > tr, .lbTable > tr,
+.optionsMultiColumn > tr {
   total-input-transparent:yes;
   input-transparent:yes;
 }
@@ -1216,15 +1225,23 @@ td[cellType=top] > optiontext {
   color:@grayOptionColor;
   font:@fontSmall;
 }
+td[cellType=info] > optiontext {
+  min-width:0;
+}
 
 verticalCellsOptions > tr > td[cellType=top] > optiontext {
   color:@silver;
 }
 
 optionValueText {
-  pos:0.01@sf, 50%ph-50%h;
+  pos:1@blockInterval, 50%ph-50%h;
   position:relative;
+  text-align:left;
 }
+[fullWidthOptions=yes] > * > * > optionValueText {
+  text-align:right;
+}
+
 tr[selected=yes] > td > optionValueText {
   color:@activeTextColor;
   font:@option_selected_font;
@@ -1540,6 +1557,11 @@ animated_wait_icon.inTextRow {
   size:12@sf/@pf_outdated,12@sf/@pf_outdated;
   pos:2@sf/@pf_outdated,50%ph-50%h;
   position:relative;
+}
+
+animated_wait_icon.inTextRowAbsolute {
+  size:12@sf/@pf_outdated,12@sf/@pf_outdated;
+  position:absolute;
 }
 
 animated_wait_icon.missionBox {
@@ -1890,11 +1912,11 @@ optionlist_container[mislist=yes] {
 }
 
 chapterListPlace {
-  width:0.32@sf;
+  width:1@chapterBlockWidth;
 }
 
 chapterListPlace[increaseWidthForWide=yes] {
-  width:0.32@sf + 0.08@sf*1@isWide;
+  width:1@chapterWideBlockWidth;
 }
 
 [mislist=yes] chapterListPlace {

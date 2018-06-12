@@ -1,8 +1,5 @@
 [
   {
-    "css": "gui/css.css"
-  },
-  {
     "animated_wait_icon": {
       "id": "loading_rot",
       "pos": "50%pw-50%w, 50%ph-50%h",
@@ -77,7 +74,7 @@
                         "width": "pw"
                       },
                       {
-                        "class": "optionsTable"
+                        "class": "optionsMultiColumn"
                       },
                       {
                         "selfFocusBorder": "yes"
@@ -95,16 +92,64 @@
                         "navigatorShortcuts": "yes"
                       },
                       {
-                        "cur_col": "-1"
-                      },
-                      {
-                        "cur_row": "-1"
-                      },
-                      {
                         "on_wrap_up": "onWrapUp"
                       },
                       {
                         "on_wrap_down": "onWrapDown"
+                      },
+                      {
+                        "tr": {
+                          "id": "dmg_skin_buttons_div",
+                          "width": "1@customizationBlockWidth",
+                          "flow": "vertical",
+                          "text": {
+                            "text": "#mainmenu/hintDmgSkinPreview",
+                            "left": "1@framePadding",
+                            "position": "relative",
+                            "smallFont": "yes",
+                            "overlayTextColor": "silver"
+                          },
+                          "SwitchBox": {
+                            "id": "dmg_skin_state",
+                            "left": "1@framePadding",
+                            "position": "relative",
+                            "textChecked": "#mainmenu/btnDmgSkinDamaged",
+                            "textUnchecked": "#mainmenu/btnDmgSkinUndamaged",
+                            "value": "no",
+                            "on_change_value": "onToggleDmgSkinState",
+                            "SwitchSliderBg": {
+                              "SwitchSliderBgOn": [],
+                              "SwitchSlider": []
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "tr": {
+                          "id": "dmg_skin_div",
+                          "width": "1@customizationBlockWidth",
+                          "flow": "vertical",
+                          "text": {
+                            "text": "#mainmenu/btnDmgSkinPreview",
+                            "left": "1@framePadding",
+                            "position": "relative",
+                            "smallFont": "yes",
+                            "overlayTextColor": "silver"
+                          },
+                          "SwitchBox": {
+                            "id": "btn_toggle_damaged",
+                            "left": "1@framePadding",
+                            "position": "relative",
+                            "textChecked": "#options/enabled",
+                            "textUnchecked": "#options/disabled",
+                            "value": "no",
+                            "on_change_value": "onToggleDamaged",
+                            "SwitchSliderBg": {
+                              "SwitchSliderBgOn": [],
+                              "SwitchSlider": []
+                            }
+                          }
+                        }
                       },
                       {
                         "tr": {
@@ -118,6 +163,23 @@
                           },
                           "td": {
                             "id": "skins_list",
+                            "cellType": "bottom"
+                          }
+                        }
+                      },
+                      {
+                        "tr": {
+                          "id": "auto_skin_block",
+                          "flow": "vertical",
+                          "text": {
+                            "text": "#skins/auto_in_battle",
+                            "left": "1@framePadding",
+                            "position": "relative",
+                            "smallFont": "yes",
+                            "overlayTextColor": "silver"
+                          },
+                          "td": {
+                            "id": "auto_skin_place",
                             "cellType": "bottom"
                           }
                         }
@@ -180,7 +242,7 @@
                       "id": "tank_skin_settings",
                       "width": "pw",
                       "display": "hide",
-                      "class": "optionsTable",
+                      "class": "optionsMultiColumn",
                       "selfFocusBorder": "yes",
                       "baseRow": "yes",
                       "selectOnAttach": "no",
@@ -188,8 +250,6 @@
                       "moveY": "linear",
                       "behavior": "PosOptionsNavigator",
                       "navigatorShortcuts": "yes",
-                      "cur_col": "-1",
-                      "cur_row": "-1",
                       "on_wrap_up": "onWrapUp",
                       "on_wrap_down": "onWrapDown"
                     }
@@ -313,6 +373,37 @@
             },
             {
               "frame": {
+                "id": "previewed_decorator_unit",
+                "min-width": "1@customizationBlockWidth",
+                "display": "hide",
+                "textareaNoTab": {
+                  "id": "label",
+                  "pos": "1@blockInterval, ph/2-h/2",
+                  "position": "relative",
+                  "width": "pw",
+                  "text": "#decoratorPreview/autoselectedUnit",
+                  "smallFont": "yes"
+                }
+              }
+            },
+            {
+              "frame": {
+                "id": "previewed_decorator",
+                "min-width": "1@customizationBlockWidth",
+                "display": "hide",
+                "text": {
+                  "id": "label",
+                  "left": "1@framePadding",
+                  "text": "#decals",
+                  "overlayTextColor": "active"
+                },
+                "tdiv": {
+                  "id": "decorator_preview_div"
+                }
+              }
+            },
+            {
+              "frame": {
                 "id": "unit_status",
                 "min-width": "1@customizationBlockWidth",
                 "style": "flow:horizontal",
@@ -330,23 +421,6 @@
                   "position": "relative",
                   "text": "#weaponry/unit_not_bought",
                   "overlayTextColor": "bad"
-                }
-              }
-            },
-            {
-              "frame": {
-                "id": "toggle_damaged_div",
-                "min-width": "1@customizationBlockWidth",
-                "display": "hide",
-                "SwitchBox": {
-                  "id": "btn_toggle_damaged",
-                  "text": "#mainmenu/btnShowDamaged",
-                  "value": "no",
-                  "on_change_value": "onToggleDamaged",
-                  "SwitchSliderBg": {
-                    "SwitchSliderBgOn": [],
-                    "SwitchSlider": []
-                  }
                 }
               }
             }
@@ -448,35 +522,85 @@
               }
             },
             {
+              "tdiv": {
+                "id": "two_sided",
+                "position": "relative",
+                "pos": "0, ph/2-h/2",
+                "display": "hide",
+                "text": {
+                  "id": "two_sided_label",
+                  "pos": "0, ph/2-h/2",
+                  "position": "relative",
+                  "padding": "0, 1@buttonTextPadding",
+                  "text-valign": "center",
+                  "color": "@buttonFontColor",
+                  "text": "#decals/twosided",
+                  "btnName": "Y",
+                  "ButtonImg": {
+                    "pos": "-w-1@buttonImgPadding, ph/2-h/2",
+                    "position": "absolute"
+                  }
+                },
+                "HorizontalListBox": [
+                  {
+                    "id": "two_sided_select"
+                  },
+                  {
+                    "pos": "0, ph/2-h/2"
+                  },
+                  {
+                    "position": "relative"
+                  },
+                  {
+                    "on_select": "onTwoSidedSelect"
+                  },
+                  {
+                    "shopFilter": {
+                      "tooltip": "#decals/twosided/off",
+                      "selected": "yes",
+                      "shopFilterImg": {
+                        "background-image": "#ui/gameuiskin#btn_two_sided_printing.svg"
+                      }
+                    }
+                  },
+                  {
+                    "shopFilter": {
+                      "tooltip": "#decals/twosided",
+                      "shopFilterImg": {
+                        "background-image": "#ui/gameuiskin#btn_two_sided_printing_active.svg"
+                      }
+                    }
+                  },
+                  {
+                    "shopFilter": {
+                      "tooltip": "#decals/twosided/mirrored",
+                      "shopFilterImg": {
+                        "background-image": "#ui/gameuiskin#btn_two_sided_printing_mirrored.svg"
+                      }
+                    }
+                  }
+                ],
+                "dummy": {
+                  "id": "two_sided_accesskey",
+                  "on_click": "onTwoSided",
+                  "behaviour": "accesskey",
+                  "accessKey": "J:Y | T"
+                }
+              }
+            },
+            {
               "Button_text": {
                 "id": "btn_toggle_mirror",
                 "tooltip": "#decals/flip",
                 "on_click": "onMirror",
-                "style": "accessKey:J:Dpad.Down | F;",
+                "style": "accessKey:J:X | F;",
                 "showButtonImageOnConsole": "no",
-                "btnName": "DpadDown",
+                "btnName": "X",
                 "class": "image",
                 "display": "hide",
                 "img": {
                   "id": "btn_toggle_mirror_img",
                   "background-image": "#ui/gameuiskin#btn_flip_decal.svg"
-                },
-                "ButtonImg": []
-              }
-            },
-            {
-              "Button_text": {
-                "id": "btn_toggle_bf",
-                "tooltip": "#decals/twosided",
-                "on_click": "onAbs",
-                "style": "accessKey:J:Dpad.Up | T;",
-                "showButtonImageOnConsole": "no",
-                "btnName": "DpadUp",
-                "class": "image",
-                "display": "hide",
-                "img": {
-                  "id": "btn_toggle_bf_img",
-                  "background-image": "#ui/gameuiskin#btn_two_sided_printing.svg"
                 },
                 "ButtonImg": []
               }

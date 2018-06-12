@@ -278,7 +278,7 @@ function build_option_blk(text, image, selected, enabled = true, textStyle = "",
          " pare-text:t='yes'} ")
 }
 
-function create_option_list(id, items, value, cb, isFull, spinnerType=null, optionTag = "option")
+function create_option_list(id, items, value, cb, isFull, spinnerType=null, optionTag = null, params = null)
 {
   if (!option_check_arg(id, items, "array"))
     return ""
@@ -288,9 +288,11 @@ function create_option_list(id, items, value, cb, isFull, spinnerType=null, opti
 
   local view = {
     id = id
-    optionTag = optionTag
+    optionTag = optionTag || "option"
     options = []
   }
+  if (params)
+    view.__update(params)
   if (cb)
     view.cb <- cb
 
@@ -330,9 +332,9 @@ function create_option_dropright(id, items, value, cb, isFull)
   return create_option_list(id, items, value, cb, isFull, "dropright")
 }
 
-function create_option_combobox(id, items, value, cb, isFull)
+function create_option_combobox(id, items, value, cb, isFull, params = null)
 {
-  return create_option_list(id, items, value, cb, isFull, "ComboBox")
+  return create_option_list(id, items, value, cb, isFull, "ComboBox", null, params)
 }
 
 function create_option_editbox(id, value="", password = false, maxlength = 16)
@@ -906,6 +908,18 @@ function get_option(type, context = null)
       descr.value = ::find_in_array(descr.values, ::get_option_depthcharge_activation_time())
       break
 
+   case ::USEROPT_MINE_DEPTH:
+      descr.id = "mine_depth"
+      descr.items = []
+      descr.values = []
+      for(local i = 1; i <= 10; i++)
+      {
+        descr.items.append("" + i)
+        descr.values.append(i)
+      }
+      descr.value = ::find_in_array(descr.values, ::get_option_mine_depth())
+      break
+
    case ::USEROPT_USE_PERFECT_RANGEFINDER:
       descr.id = "use_perfect_rangefinder"
       descr.controlType = optionControlType.CHECKBOX
@@ -1242,6 +1256,26 @@ function get_option(type, context = null)
       }
       break
 
+    case ::USEROPT_SOUND_ENABLE:
+      descr.id = "sound"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.textChecked <- ::loc("options/enabled")
+      descr.textUnchecked <- ::loc("#options/disabled")
+      descr.hint = ::loc("options/sound") + "\n" +
+        ::colorize("warningTextColor", ::loc("guiHints/restart_required"))
+      descr.value = ::getSystemConfigOption("sound/fmod_sound_enable", true)
+      break
+
+    case ::USEROPT_SOUND_SPEAKERS_MODE:
+      descr.id = "sound_speakers"
+      descr.hint = ::loc("options/sound_speakers") + "\n" +
+        ::colorize("warningTextColor", ::loc("guiHints/restart_required"))
+      descr.items  = ["#controls/AUTO", "#options/sound_speakers/stereo", "5.1", "7.1"]
+      descr.values = ["auto", "stereo", "speakers5.1", "speakers7.1"]
+      descr.value = ::find_in_array(descr.values, ::getSystemConfigOption("sound/speakerMode", "auto"), 0)
+      break
+
     case ::USEROPT_VOICE_MESSAGE_VOICE:
       descr.id = "voice_message_voice"
       descr.items = ["#options/voice_message_voice1", "#options/voice_message_voice2",
@@ -1446,7 +1480,7 @@ function get_option(type, context = null)
       descr.id = "hangar_sound"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = ::get_option_hangar_sound() != 0
+      descr.value = ::get_option_hangar_sound()
       break
     case ::USEROPT_VOLUME_RADIO:
       descr.id = "volume_radio"
@@ -1929,6 +1963,15 @@ function get_option(type, context = null)
       defaultValue = false
       break
 
+    case ::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL:
+      descr.id = "mark_direct_messages_as_personal"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.textChecked <- ::loc("options/enabled")
+      descr.textUnchecked <- ::loc("options/disabled")
+      defaultValue = true
+      break
+
     case ::USEROPT_CROSSHAIR_DEFLECTION:
       descr.id = "crosshair_deflection"
       descr.controlType = optionControlType.CHECKBOX
@@ -1968,6 +2011,14 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = get_option_hud_screenshot_logo()
+      break
+
+    case ::USEROPT_SAVE_ZOOM_CAMERA:
+      descr.id = "save_zoom_camera"
+      descr.items = ["#options/zoom/dont_save", "#options/zoom/save_only_tps", "#options/zoom/save"]
+      descr.values = [0, 1, 2]
+      descr.value = ::get_option_save_zoom_camera() ?? 0
+      defaultValue = 0
       break
 
     case ::USEROPT_HUD_SHOW_FUEL:
@@ -2328,14 +2379,24 @@ function get_option(type, context = null)
       }
       break
 
+    case USEROPT_CONTENT_ALLOWED_PRESET_ARCADE:
+    case USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
+    case USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case USEROPT_CONTENT_ALLOWED_PRESET:
+      local difficulty = contentPreset.getDifficultyByOptionId(type)
+      defaultValue = difficulty.contentAllowedPresetOptionDefVal
       descr.id = "content_allowed_preset"
+      descr.title = ::loc("options/content_allowed_preset")
+      if (difficulty != ::g_difficulty.UNKNOWN)
+      {
+        descr.id += difficulty.diffCode
+        descr.title += ::loc("ui/parentheses/space", { text = ::loc(difficulty.locId) })
+      }
+      descr.hint  = ::loc("guiHints/content_allowed_preset")
       descr.controlType = optionControlType.LIST
       descr.controlName <- "combobox"
       descr.items = []
       descr.values = []
-      defaultValue = "historical"
-
       foreach (value in contentPreset.getContentPresets())
       {
         descr.items.append(::loc("content/tag/" + value))
@@ -3603,6 +3664,13 @@ function get_option(type, context = null)
       gen_hue_option(descr, "color_picker_hue_spectator_enemy", 292, ::get_hue(colorCorrector.TARGET_HUE_SPECTATOR_ENEMY))
       break
 
+    case ::USEROPT_HUE_RELOAD:
+      gen_hue_option(descr, "color_picker_hue_reload", 3, ::get_hue(colorCorrector.TARGET_HUE_RELOAD))
+      break
+
+    case ::USEROPT_HUE_RELOAD_DONE:
+      gen_hue_option(descr, "color_picker_hue_reload_done", 472, ::get_hue(colorCorrector.TARGET_HUE_RELOAD_DONE))
+      break
 
     case ::USEROPT_AIR_DAMAGE_DISPLAY:
       descr.id = "air_damage_display"
@@ -3874,6 +3942,9 @@ function set_option(type, value, descr = null)
     case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       ::set_option_depthcharge_activation_time(descr.values[value])
       break
+    case ::USEROPT_MINE_DEPTH:
+      ::set_option_mine_depth(descr.values[value])
+      break
     case ::USEROPT_USE_PERFECT_RANGEFINDER:
       ::set_option_use_perfect_rangefinder(value ? 1 : 0)
       break
@@ -4008,6 +4079,14 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_VOICE_CHAT:
       ::set_option_voicechat(value ? 1 : 0)
+      break
+
+    case ::USEROPT_SOUND_ENABLE:
+      ::setSystemConfigOption("sound/fmod_sound_enable", value)
+      break
+
+    case ::USEROPT_SOUND_SPEAKERS_MODE:
+      ::setSystemConfigOption("sound/speakerMode", descr.values[value])
       break
 
     case ::USEROPT_VOICE_MESSAGE_VOICE:
@@ -4265,6 +4344,9 @@ function set_option(type, value, descr = null)
       else
         ::set_option_indicators_mode(::get_option_indicators_mode() & ~::HUD_INDICATORS_TEXT_DIST);
       break
+     case ::USEROPT_SAVE_ZOOM_CAMERA:
+      ::set_option_save_zoom_camera(value)
+      break;
 
     // gui settings:
     case ::USEROPT_AIRCRAFT:
@@ -4344,6 +4426,16 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_HUE_SPECTATOR_ENEMY:
       ::set_hue(colorCorrector.TARGET_HUE_SPECTATOR_ENEMY, descr.values[value]);
+      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      break
+
+    case ::USEROPT_HUE_RELOAD:
+      ::set_hue(colorCorrector.TARGET_HUE_RELOAD, descr.values[value]);
+      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      break
+
+    case ::USEROPT_HUE_RELOAD_DONE:
+      ::set_hue(colorCorrector.TARGET_HUE_RELOAD_DONE, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
@@ -4576,6 +4668,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_BAN_PENALTY:
     case ::USEROPT_BAN_TIME:
     case ::USEROPT_ONLY_FRIENDLIST_CONTACT:
+    case ::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL:
     case ::USEROPT_RACE_LAPS:
     case ::USEROPT_RACE_WINNERS:
     case ::USEROPT_RACE_CAN_SHOOT:
@@ -4586,6 +4679,9 @@ function set_option(type, value, descr = null)
     case ::USEROPT_HELICOPTER_AIM_FIRE:
     case ::USEROPT_HELICOPTER_KEEP_HEIGHT:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
+    case ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE:
+    case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
+    case ::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
       if (descr.controlType == optionControlType.LIST)
       {

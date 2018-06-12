@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -2004,12 +2007,12 @@
       "gun": {
         "armorClass": "tank_barrel",
         "gun_barrel_02_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         },
         "gun_barrel_01_dm": {
-          "armorThickness": 7.0,
-          "hp": 150.0
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "body_shields": {
@@ -2111,7 +2114,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2683,7 +2686,7 @@
         "minRPM": 700.0
       },
       "mechanics": {
-        "maxBrakeForce": 30000.0,
+        "maxBrakeForce": 44000.0,
         "driveGearRadius": 0.26,
         "mainGearRatio": 1.2301,
         "sideGearRatio": 2.88,
@@ -2696,13 +2699,25 @@
             "ratio": 0.0
           },
           {
+            "ratio": 7.5
+          },
+          {
             "ratio": 4.92
+          },
+          {
+            "ratio": 3.3
           },
           {
             "ratio": 2.6
           },
           {
+            "ratio": 2.1
+          },
+          {
             "ratio": 1.74
+          },
+          {
+            "ratio": 1.2
           },
           {
             "ratio": 1.0

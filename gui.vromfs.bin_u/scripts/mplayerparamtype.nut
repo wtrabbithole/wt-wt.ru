@@ -124,6 +124,13 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     missionObjective = MISSION_OBJECTIVE.KILLS_GROUND
   }
 
+  NAVAL_DAMAGE = {
+    id = "awardDamage"
+    fontIcon = "#icon/mpstats/navalDamage"
+    tooltip = "#multiplayer/naval_damage"
+    missionObjective = MISSION_OBJECTIVE.KILLS_NAVAL
+  }
+
   NAVAL_KILLS = {
     id = "navalKills"
     fontIcon = "#icon/mpstats/navalKills"

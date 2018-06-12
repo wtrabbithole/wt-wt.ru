@@ -21,7 +21,7 @@
   "BayDoorSpeed": 1.0,
   "BombLauncherSpeed": 2.0,
   "dvFlapsIn": [150.0,280.0,0.15,0.19],
-  "dvFlapsOut": [150.0,280.0,0.15,0.12],
+  "dvFlapsOut": [200.0,225.0,0.15,0.0],
   "Wingspan": 11.582,
   "SweptWingAngle": 0.0,
   "WingTaperRatio": 2.0,
@@ -121,8 +121,8 @@
     "AileronCd": [0.015,0.0027],
     "GearCd": 0.015,
     "GearCentralCd": 0.001,
-    "RadiatorCd": 0.0035,
-    "OilRadiatorCd": 0.0025,
+    "RadiatorCd": 0.0045,
+    "OilRadiatorCd": 0.0035,
     "BombBayCd": 0.0,
     "FuseCd": 0.0,
     "AirbrakeCd": 0.0,
@@ -267,7 +267,7 @@
       "alphaCritLow": -21.0,
       "ClCritHigh": 0.9,
       "ClCritLow": -0.9,
-      "CdMin": 0.0055
+      "CdMin": 0.007
     },
     "Fin": {
       "OswaldsEfficiencyNumber": 0.55,
@@ -307,7 +307,7 @@
       "alphaCritLow": -21.0,
       "ClCritHigh": 0.9,
       "ClCritLow": -0.9,
-      "CdMin": 0.0055
+      "CdMin": 0.007
     }
   },
   "Engine0": {
@@ -420,9 +420,9 @@
         "MultLimit4": 0.25,
         "MachCrit5": 0.01,
         "MachMax5": 0.02,
-        "MultMachMax5": 10.5,
+        "MultMachMax5": 13.1,
         "MultLineCoeff5": 0.0,
-        "MultLimit5": 10.5,
+        "MultLimit5": 13.1,
         "MachCrit6": 0.0,
         "MachMax6": 0.0,
         "MultMachMax6": 0.0,
@@ -546,170 +546,62 @@
         "OilTemperature": 105.0
       }
     },
-    "Compressor": [
-      {
-        "IsControllable": true
-      },
-      {
-        "Type": 1
-      },
-      {
-        "NumSteps": 3
-      },
-      {
-        "RPM0": 500.0
-      },
-      {
-        "ATA0": 0.65
-      },
-      {
-        "RPM1": 2250.0
-      },
-      {
-        "ATA1": 1.15
-      },
-      {
-        "RPM2": 2300.0
-      },
-      {
-        "ATA2": 1.2
-      },
-      {
-        "RPM3": 2350.0
-      },
-      {
-        "ATA3": 1.25
-      },
-      {
-        "RPM4": 2400.0
-      },
-      {
-        "ATA4": 1.35
-      },
-      {
-        "RPM5": 2450.0
-      },
-      {
-        "ATA5": 1.4
-      },
-      {
-        "RPM6": 2550.0
-      },
-      {
-        "ATA6": 1.4116
-      },
-      {
-        "RPM7": 2700.0
-      },
-      {
-        "ATA7": 1.6042
-      },
-      {
-        "ExactAltitudes": true
-      },
-      {
-        "CompressorOmegaFactorSq": 1.0
-      },
-      {
-        "CompressorPressureAtRPM0": 0.5
-      },
-      {
-        "Altitude0": 762.0
-      },
-      {
-        "AfterburnerBoostMul0": 1.0
-      },
-      {
-        "Power0": 1100.0
-      },
-      {
-        "AltitudeConstRPM0": 762.0
-      },
-      {
-        "PowerConstRPM0": 1100.0
-      },
-      {
-        "PowerConstRPMCurvature0": 1.0
-      },
-      {
-        "Ceiling0": 762.001
-      },
-      {
-        "PowerAtCeiling0": 1100.0
-      },
-      {
-        "Altitude1": 3057.6001
-      },
-      {
-        "AfterburnerBoostMul1": 1.0
-      },
-      {
-        "Power1": 1050.0
-      },
-      {
-        "AltitudeConstRPM1": 3057.6001
-      },
-      {
-        "PowerConstRPM1": 1050.0
-      },
-      {
-        "PowerConstRPMCurvature1": 1.0
-      },
-      {
-        "Ceiling1": 3057.6101
-      },
-      {
-        "PowerAtCeiling1": 1050.0
-      },
-      {
-        "Altitude2": 5550.0
-      },
-      {
-        "AfterburnerBoostMul2": 0.0
-      },
-      {
-        "Power2": 1000.0
-      },
-      {
-        "AltitudeConstRPM1": 5550.0
-      },
-      {
-        "PowerConstRPM2": 1000.0
-      },
-      {
-        "PowerConstRPMCurvature2": 0.0
-      },
-      {
-        "Ceiling2": 5550.001
-      },
-      {
-        "PowerAtCeiling2": 1000.0
-      },
-      {
-        "AfterburnerManifoldPressure": 1.6042
-      },
-      {
-        "SpeedManifoldMultiplier": 0.7
-      },
-      {
-        "ExternalPressureLimit": false
-      },
-      {
-        "AllowAutoTurboCharger": false
-      },
-      {
-        "TurboChargerRPMMin": 0.0
-      },
-      {
-        "TurboChargerRPMMaxAllowed": 18250.0
-      },
-      {
-        "TurboChargerRPMMax": 25000.0
-      },
-      {
-        "TurboChargerTimeConst": 1.0
-      }
-    ],
+    "Compressor": {
+      "IsControllable": true,
+      "Type": 1,
+      "NumSteps": 3,
+      "RPM0": 500.0,
+      "ATA0": 0.65,
+      "RPM1": 2250.0,
+      "ATA1": 1.15,
+      "RPM2": 2300.0,
+      "ATA2": 1.2,
+      "RPM3": 2350.0,
+      "ATA3": 1.25,
+      "RPM4": 2400.0,
+      "ATA4": 1.35,
+      "RPM5": 2450.0,
+      "ATA5": 1.4,
+      "RPM6": 2550.0,
+      "ATA6": 1.4116,
+      "RPM7": 2700.0,
+      "ATA7": 1.6042,
+      "ExactAltitudes": true,
+      "CompressorOmegaFactorSq": 1.0,
+      "CompressorPressureAtRPM0": 0.1,
+      "Altitude0": 1158.2,
+      "AfterburnerBoostMul0": 1.0,
+      "Power0": 1100.0,
+      "AltitudeConstRPM0": 1158.2,
+      "PowerConstRPM0": 1100.0,
+      "PowerConstRPMCurvature0": 1.0,
+      "Ceiling0": 1158.21,
+      "PowerAtCeiling0": 1100.0,
+      "Altitude1": 3444.0,
+      "AfterburnerBoostMul1": 1.0,
+      "Power1": 1090.0,
+      "AltitudeConstRPM1": 0.0,
+      "PowerConstRPM1": 1070.0,
+      "PowerConstRPMCurvature1": 1.0,
+      "Ceiling1": 3057.6101,
+      "PowerAtCeiling1": 1050.0,
+      "Altitude2": 5608.0,
+      "AfterburnerBoostMul2": 0.0,
+      "Power2": 1040.0,
+      "AltitudeConstRPM2": 0.0,
+      "PowerConstRPM2": 1000.0,
+      "PowerConstRPMCurvature2": 0.0,
+      "Ceiling2": 5608.3198,
+      "PowerAtCeiling2": 1000.0,
+      "AfterburnerManifoldPressure": 1.6042,
+      "SpeedManifoldMultiplier": 0.2,
+      "ExternalPressureLimit": false,
+      "AllowAutoTurboCharger": false,
+      "TurboChargerRPMMin": 0.0,
+      "TurboChargerRPMMaxAllowed": 18250.0,
+      "TurboChargerRPMMax": 25000.0,
+      "TurboChargerTimeConst": 1.0
+    },
     "Mixer": {
       "IsControllable": true,
       "Type": 1,

@@ -1,5 +1,3 @@
-::ROBJ_TEXT <- ROBJ_DTEXT // For smooth migration
-
 enum Layers {
   Default
   Tooltip

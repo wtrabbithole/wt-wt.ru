@@ -284,6 +284,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "fighter",
               "side": "ally",
@@ -393,6 +396,11 @@
       "conditions": [],
       "actions": [
         {
+          "triggerDisable": {
+            "target": "barabashka_init"
+          }
+        },
+        {
           "missionMarkAsCaptureZone": {
             "army": 0,
             "timeMultiplier": 4.0,
@@ -420,6 +428,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -442,6 +451,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -482,7 +492,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [6999.25,497.25,-273.6]
+        [6999.25,2085.22,-273.6]
       ],
       "unit_class": "dummy_plane",
       "objLayer": 1,

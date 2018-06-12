@@ -157,10 +157,10 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local busyUnits = getUsingUnitsArray()
 
     local unitsArray = []
+    local selectedUnit = ::g_crew.getCrewUnit(crew)
     foreach(unit in ::all_units)
-      if (!::isInArray(unit.name, busyUnits) && unit.canAssignToCrew(country))
-         unitsArray.append(unit)
-
+      if (!::isInArray(unit.name, busyUnits) && unit.canAssignToCrew(country) && selectedUnit != unit)
+        unitsArray.append(unit)
 
     unitsList = []
 
@@ -172,6 +172,10 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       unitsList.append(SEL_UNIT_BUTTON.EMPTY_CREW)
 
     unitsArray = sortUnitsList(unitsArray)
+
+    if (selectedUnit != null)
+      unitsList.append(selectedUnit)
+
     unitsList.extend(unitsArray)
     unitsList.append(SEL_UNIT_BUTTON.SHOW_MORE)
 

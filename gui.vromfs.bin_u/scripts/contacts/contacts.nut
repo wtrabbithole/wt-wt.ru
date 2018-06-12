@@ -428,7 +428,7 @@ function editContactMsgBox(player, groupName, add) //playerConfig: { uid, name }
   }
 
   local contact = ::getContact(player.uid, player.name)
-  if (contact.canOpenXBoxFriendsWindow())
+  if (contact.canOpenXBoxFriendsWindow(groupName))
   {
     contact.openXBoxFriendsEdit()
     return

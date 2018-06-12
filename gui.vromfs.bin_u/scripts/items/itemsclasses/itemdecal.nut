@@ -1,4 +1,5 @@
 local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 class ::items_classes.Decal extends ItemExternal {
   static iType = itemType.DECAL
@@ -14,9 +15,20 @@ class ::items_classes.Decal extends ItemExternal {
 
   function canConsume()
   {
-    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+    if (!isInventoryItem || !metaBlk || !metaBlk.resource || !metaBlk.resourceType)
       return false
     local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
     return ! decoratorType.isPlayerHaveDecorator(metaBlk.resource)
+  }
+
+  function canPreview()
+  {
+    return metaBlk?.resource != null
+  }
+
+  function doPreview()
+  {
+    if (canPreview())
+      ugcPreview.showResource(metaBlk.resource, metaBlk.resourceType)
   }
 }

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -1725,34 +1728,43 @@
     ]
   },
   {
-    "ammoLoadDistribution": {
-      "primaryShells": {
-        "ammo_turret_dm": {
-          "count": 4
-        },
-        "ammo_body_r_01_dm": {
-          "count": 8
-        },
-        "ammo_body_r_02_dm": {
-          "count": 24
-        },
-        "ammo_body_03_dm": {
-          "count": 6
-        },
-        "ammo_body_04_dm": {
-          "count": 23
-        },
-        "ammo_body_l_01_dm": {
-          "count": 9
-        },
-        "ammo_body_l_02_dm": {
-          "count": 9
-        },
-        "ammo_body_01_dm": {
-          "count": 2
-        },
-        "ammo_body_02_dm": {
-          "count": 2
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_dm": {
+            "count": 4
+          },
+          "ammo_body_r_01_dm": {
+            "count": 8
+          },
+          "ammo_body_r_02_dm": {
+            "count": 24
+          },
+          "ammo_body_03_dm": {
+            "count": 6
+          },
+          "ammo_body_04_dm": {
+            "count": 23
+          },
+          "ammo_body_l_01_dm": {
+            "count": 9
+          },
+          "ammo_body_l_02_dm": {
+            "count": 9
+          },
+          "ammo_body_01_dm": {
+            "count": 2
+          },
+          "ammo_body_02_dm": {
+            "count": 2
+          }
         }
       }
     }
@@ -1776,8 +1788,6 @@
       },
       "collisionProps": {
         "cls_turret_01": "convex_hull",
-        "cls_turret_02": "convex_hull",
-        "cls_turret_03": "convex_hull",
         "cls_body_01": "convex_hull"
       },
       "engine": {
@@ -1892,6 +1902,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true
@@ -2045,6 +2058,9 @@
         },
         "gun_mask_01_dm": {
           "armorThickness": 50.0
+        },
+        "ex_decor_01_dm": {
+          "armorThickness": 15.0
         }
       },
       "turret_ex_shields": {
@@ -2132,18 +2148,6 @@
           "armorThickness": 95.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 25.0,
-          "hp": 200.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 200.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -2213,6 +2217,37 @@
           }
         }
       },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
+      },
       "tracks": {
         "armorClass": "tank_traks",
         "armorThickness": 20.0,
@@ -2267,7 +2302,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],

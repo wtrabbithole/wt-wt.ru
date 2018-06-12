@@ -1,3 +1,8 @@
+@import "gui\chat\chatMessage.css"
+
+@const incommingMessageColor: #445766;
+@const outgoingMessageColor:  #5e778c;
+
 EditBox[chatMode=team], text[chatMode=team],
 textareaNoTab[chatMode=team], Button_text[chatMode=team],
 hoverButton[chatMode=team] > icon
@@ -41,4 +46,11 @@ Button_text[chatMode=squad]:pushed
 Button_text[chatMode=all]:pushed
 {
   color:@buttonFontColorPushed;
+}
+
+voiceChatWidget
+{
+  padding:1@blockInterval;
+  flow:vertical;
+  behavior:bhvUpdater;
 }

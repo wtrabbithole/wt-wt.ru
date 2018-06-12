@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -2217,7 +2220,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2302,6 +2305,21 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
+        "ammo_turret_44_dm": [],
+        "ammo_turret_45_dm": [],
+        "ammo_turret_46_dm": [],
+        "ammo_turret_47_dm": [],
+        "ammo_turret_48_dm": [],
+        "ammo_turret_49_dm": [],
+        "ammo_turret_50_dm": [],
+        "ammo_turret_51_dm": [],
+        "ammo_turret_52_dm": [],
+        "ammo_turret_53_dm": [],
+        "ammo_turret_54_dm": [],
+        "ammo_turret_55_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -2353,6 +2371,11 @@
         "ammo_body_48_dm": [],
         "ammo_body_49_dm": [],
         "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2463,8 +2486,14 @@
           },
           "limitsTable": {
             "lim1": [-180.0,-140.0,-2.0,16.0],
-            "lim2": [-140.0,140.0,-8.0,16.0],
-            "lim3": [140.0,180.0,-2.0,16.0]
+            "lim2": [-140.0,-127.0,-8.0,16.0],
+            "lim3": [-127.0,-120.0,-2.0,16.0],
+            "lim4": [-120.0,-47.0,-8.0,16.0],
+            "lim5": [-47.0,-40.0,-2.0,16.0],
+            "lim6": [-40.0,40.0,-8.0,16.0],
+            "lim7": [40.0,47.0,-2.0,16.0],
+            "lim8": [47.0,140.0,-8.0,16.0],
+            "lim9": [140.0,180.0,-2.0,16.0]
           }
         }
       },
@@ -2490,6 +2519,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "useAnimFlashNode": true
@@ -2556,6 +2588,11 @@
             }
           }
         ]
+      },
+      {
+        "hideNodes": {
+          "node": "ex_lantern_01"
+        }
       }
     ]
   },

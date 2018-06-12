@@ -7,6 +7,10 @@
                           and modal windows.
 */
 
+::on_check_protection <- function(params) { // called from client
+  ::broadcastEvent("ProtectionAnalysisResult", params)
+}
+
 ::dmViewer <- {
   [PERSISTENT_DATA_PARAMS] = ["active", "view_mode", "_currentViewMode", "isDebugMode"]
 
@@ -71,7 +75,6 @@
                                     //better to link all timers here, and switch them off when not active.
 
     update()
-    repaint()
   }
 
   function updateSecondaryMods()
@@ -169,9 +172,11 @@
       local compareWeaponFunc = function(w1, w2)
       {
         return ::u.isEqual(w1?.trigger ?? "", w2?.trigger ?? "")
-            && ::u.isEqual(w1?.emitter ?? "", w2?.emitter ?? "")
             && ::u.isEqual(w1?.blk ?? "", w2?.blk ?? "")
             && ::u.isEqual(w1?.bullets ?? "", w2?.bullets ?? "")
+            && ::u.isEqual(w1?.barrelDP ?? "", w2?.barrelDP ?? "")
+            && ::u.isEqual(w1?.breechDP ?? "", w2?.breechDP ?? "")
+            && ::u.isEqual(w1?.dm ?? "", w2?.dm ?? "")
       }
 
       if(commonWeapons != null)
@@ -228,8 +233,12 @@
     newActive = newActive && handler && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
     if (::top_menu_handler && ::top_menu_handler.isSceneActive())
       newActive = newActive && ::top_menu_handler.canShowDmViewer()
+
     if (newActive == active)
+    {
+      repaint()
       return false
+    }
 
     show(newActive)
     return true
@@ -248,6 +257,15 @@
     obj.setValue(view_mode)
     obj.enable(active)
 
+    // Protection analysis button
+    if (::has_feature("DmViewerProtectionAnalysis"))
+    {
+      local obj = handler.scene.findObject("dmviewer_protection_analysis_btn")
+      if (::check_obj(obj))
+        obj.show(view_mode == ::DM_VIEWER_ARMOR && ::isTank(unit))
+    }
+
+    // Customization navbar button
     obj = handler.scene.findObject("btn_dm_viewer")
     if(!::checkObj(obj))
       return
@@ -368,8 +386,8 @@
     guiScene.setUpdatesEnabled(true, true)
     local cursorPos = ::get_dagui_mouse_cursor_pos_RC()
     local size = obj.getSize()
-    local posX = ::clamp(cursorPos[0] + offset[0], unsafe[0], screen[0] - unsafe[0] - size[0])
-    local posY = ::clamp(cursorPos[1] + offset[1], unsafe[1], screen[1] - unsafe[1] - size[1])
+    local posX = ::clamp(cursorPos[0] + offset[0], unsafe[0], ::max(unsafe[0], screen[0] - unsafe[0] - size[0]))
+    local posY = ::clamp(cursorPos[1] + offset[1], unsafe[1], ::max(unsafe[1], screen[1] - unsafe[1] - size[1]))
     obj.pos = ::format("%d, %d", posX, posY)
   }
 

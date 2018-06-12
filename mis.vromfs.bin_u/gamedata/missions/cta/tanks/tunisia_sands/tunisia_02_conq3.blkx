@@ -276,10 +276,10 @@
         "randomSpawnTeams": false
       },
       {
-        "battleAreaColorPreset": "battleArea"
+        "remapAiTankModels": true
       },
       {
-        "remapAiTankModels": true
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
@@ -387,6 +387,11 @@
               "icontype": "basezone_A",
               "side": "neutral",
               "target": "briefing_captureZone_Conq01"
+            }
+          },
+          {
+            "battleArea": {
+              "target": "briefing_battlearea"
             }
           }
         ]
@@ -539,6 +544,17 @@
         [2362.03,7.73962,2979.02]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea": {
+      "type": "Box",
+      "tm": [
+        [-1650.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,-1650.0],
+        [2632.5,40.3309,2919.4]
+      ],
+      "objLayer": 3,
       "props": []
     }
   },

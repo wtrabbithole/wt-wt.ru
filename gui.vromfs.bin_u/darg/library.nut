@@ -1,48 +1,45 @@
 local string = require("string")
+local math = require("math")
 tostring_r <- require("std/string.nut").tostring_r
 
-_Log <- class {
-  splitlines = null
-  level = null
-  defaultParams = {splitlines=null level=null}
-  constructor(params={}) {
-    level=params?.level ?? defaultParams.level
-    splitlines=params?.splitlines ?? defaultParams.splitlines
-  }
+local darg_tostring = {
+  compare = @(val) ::type(val) == "instance" && val.getclass()==Watched
+  tostring = @(val) "Watched: " + tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
 }
 
-vlog_r <- function(...) {
-  local params_ = (vargv.len()==1) ? null : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
-  local out = vargv.filter(@(i,v) !(v instanceof _Log))
-  local out = tostring_r(out.len()==1 ? out[0] : out, " ", params_?.level)
-  if (params_?.splitlines) {
-    local s = string.split(out,"\n")
-    for (local i=0; i < min(50,s.len()); i++) {
-      vlog_r(s[i])
-    }
-  }
+local function vlog_r(...){
+  local out = ""
+  if (vargv.len()==1)
+    out += tostring_r(vargv[0],{splitlines=false, compact=true, maxdeeplevel=4 tostringfunc=darg_tostring})
   else
-    vlog(out.slice(0,min(out.len(),200)))
+    foreach (a in vargv)
+      out+=" " +tostring_r(a,{splitlines=false, compact=true, maxdeeplevel=4 tostringfunc=darg_tostring})
+  vlog(out.slice(0,min(out.len(),200)))
 }
-print_r <- function(...) {
-  local params_ = (vargv.len()==1) ? null : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
-  local out = vargv.filter(@(i,v) !(v instanceof _Log))
-  print(tostring_r(out.len()==1 ? out[0] : out, " ", params_?.level) + "\n")
+
+local function print_r(...) {
+  local out = ""
+  if (vargv.len()==1)
+    print(tostring_r(vargv[0],{compact=true, maxdeeplevel=4 tostringfunc=darg_tostring}) + "\n" + " ")
+  else
+    foreach (a in vargv)
+      print(tostring_r(a,{compact=true, maxdeeplevel=4 tostringfunc=darg_tostring}) + "\n" + " ")
 }
 
 dlog <- function(...) { 
-  local logparams = (vargv.len()==1) ? null : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
-  local out = vargv.filter(@(i,v) !(v instanceof _Log))
-  vlog_r((out.len() == 1) ? out[0] : out, _Log(logparams))
-  print_r((out.len() == 1) ? out[0] : out, _Log(logparams))
+  vlog_r.acall([this].extend(vargv))
+  print_r.acall([this].extend(vargv))
 }
 
 dlogs <- function(...) { 
-  local logparams = (vargv.len()==1) ? _Log({splitlines=true}) : vargv.reduce(function(prevval,curval) {return (curval instanceof _Log) ? curval : prevval})
-  logparams.splitlines=true
-  local out = vargv.filter(@(i,v) !(v instanceof _Log))
-  vlog_r((out.len() == 1) ? out[0] : out, _Log(logparams))
-  print_r((out.len() == 1) ? out[0] : out, _Log(logparams))
+  print_r.acall([this].extend(vargv))
+  if (vargv.len()==1)
+    vargv=vargv[0]
+  local out = tostring_r(vargv,{tostringfunc=darg_tostring})
+  local s = string.split(out,"\n")
+  for (local i=0; i < min(50,s.len()); i++) {
+    vlog(s[i])
+  }
 }
 
 function isDargComponent(comp) {
@@ -136,39 +133,40 @@ NamedColor <-{
   this function returns sh() for pixels for fullhd resolution (1080p)
 */
 function hdpx(pixels) {
-  return sh((::math.floor(pixels) + 0.5) * 100.0 / 1080.0)
+  return sh((math.floor(pixels) + 0.5) * 100.0 / 1080.0)
 }
 
+
+local complex_types = ["table", "array", "instance"]
+
+local function deep_clone_complex(source) {
+  local deep_clone_complex = ::callee()
+  local result = clone source
+  foreach (attr, value in result)
+    if (complex_types.find(::type(value)) != null)
+      result[attr] = deep_clone_complex(value)
+  return result
+}
 
 function deep_clone(source) {
-  local complex_types = ["table", "array", "instance"]
   if (complex_types.find(::type(source)) == null)
     return source
-
-  local deep_clone_unsafe = function(source) {
-    local result = clone source
-    foreach (attr, value in result)
-      if (complex_types.find(::type(value)) != null)
-        result[attr] = callee()(value)
-    return result
-  }
-
-  return deep_clone_unsafe(source)
+  return deep_clone_complex(source)
 }
 
-function mergeRecursive (target, source) {
-  function sub_update_r(target, source) {
-    local res = {}.__update(target)
-    foreach (key, value in source) {
-      if (type(value) =="table" && key in target) {
-        res[key] = sub_update_r({}.__update(target[key]), value)
-      } else {
-        res[key] <- source[key]
-      }
+
+function mergeRecursive(target, source) {
+  local mergeRecursive = ::callee()
+
+  local res = clone target
+  foreach (key, value in source) {
+    if (::type(value) == "table" && key in target) {
+      res[key] = mergeRecursive(target[key], value)
+    } else {
+      res[key] <- source[key]
     }
-    return res
   }
-  return sub_update_r(target, source)
+  return res
 }
 
 
@@ -310,29 +308,3 @@ function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []})
   }
   return true
 }
-
-/*
-function tests() {
-  local a = [
-    {a = 1}
-    {a = 1 b = [1 2]}
-    2,
-    null,
-    [1 2],
-    [1, {c = 3}],
-    [1, [2 3], 4],
-    {a = 1 b = {c = 2 d = [ 1 2 ]}},
-    {a = 1 b = null},
-    [null null null],
-    true,
-    @() true,
-    [1 @() true],
-    {a = 1 b = @() true}
-  ]
-//  a = [{a = 1 b = 2 c = null d = [1 2] e = @() true}]
-  foreach (idx, i in a) {
-    print (tostring_r(i))
-  }
-}
-tests()
-*/

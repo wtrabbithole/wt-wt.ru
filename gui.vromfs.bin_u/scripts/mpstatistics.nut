@@ -670,27 +670,34 @@ function sort_units_for_br_tooltip(u1, u2)
   return 0
 }
 
-function getCurMpTitle(withMissionName = true, withOperationName = false)
+function getCurMpTitle()
 {
   local text = ""
-  local gm = ::get_game_mode()
 
-  if (gm == ::GM_DOMINATION)
+  if (::g_mis_custom_state.getCurMissionRules().isWorldWar)
   {
-    local diffCode = ::get_mission_difficulty_int()
-    text = ::g_difficulty.getDifficultyByDiffCode(diffCode).getLocName()
+    text = ::g_world_war.getCurMissionWWOperationName()
+    local battleInfoText = ::g_world_war.getCurMissionWWBattleName()
+    text += ((text.len() && battleInfoText.len()) ? ::loc("ui/comma") : "") + battleInfoText
   }
-  else if (gm==::GM_SKIRMISH)         text = ::loc("multiplayer/skirmishMode")
-  else if (gm==::GM_CAMPAIGN)         text = ::loc("mainmenu/btnCampaign")
-  else if (gm==::GM_SINGLE_MISSION)   text = ::loc("mainmenu/btnCoop")
-  else if (gm==::GM_DYNAMIC)          text = ::loc("mainmenu/btnDynamic")
-  else if (gm==::GM_BUILDER)          text = ::loc("mainmenu/btnBuilder")
-//  else if (gm==::GM_TOURNAMENT)       text = ::loc("multiplayer/tournamentMode")
+  else
+  {
+    local gm = ::get_game_mode()
+    if (gm == ::GM_DOMINATION)
+    {
+      local diffCode = ::get_mission_difficulty_int()
+      text = ::g_difficulty.getDifficultyByDiffCode(diffCode).getLocName()
+    }
+    else if (gm==::GM_SKIRMISH)         text = ::loc("multiplayer/skirmishMode")
+    else if (gm==::GM_CAMPAIGN)         text = ::loc("mainmenu/btnCampaign")
+    else if (gm==::GM_SINGLE_MISSION)   text = ::loc("mainmenu/btnCoop")
+    else if (gm==::GM_DYNAMIC)          text = ::loc("mainmenu/btnDynamic")
+    else if (gm==::GM_BUILDER)          text = ::loc("mainmenu/btnBuilder")
+    //else if (gm==::GM_TOURNAMENT)       text = ::loc("multiplayer/tournamentMode")
 
-  if (withMissionName)
-    text += ((text=="")? "" : ", ") + ::loc_current_mission_name()
-  else if (withOperationName)
-    text += ((text=="")? "" : ", ") + ::loc_current_operation_name()
+    text += ((text.len()) ? ::loc("ui/comma") : "") + ::loc_current_mission_name()
+  }
+
   return text
 }
 
@@ -867,8 +874,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   checkRaceDataOnStart = true
   numberOfWinningPlaces = -1
 
-  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills",
-                               "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
+  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "awardDamage",
+                               "navalKills", "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "unitIcon", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
   statTrSize = "pw, 1@baseTrHeight"

@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local hudState = require_native("hudState")
 
 
 ::chat_window_appear_time <- 0.125;
@@ -85,6 +86,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 
   curHudVisMode = null
   isReinitDelayed = false
+  needVoiceChat = false
 
   objectsTable = {
     [::USEROPT_DAMAGE_INDICATOR_SIZE] = {
@@ -186,6 +188,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     ::g_hud_event_manager.subscribe("LiveStatsVisibilityToggled",
         @(ed) warnLowQualityModelCheck(),
         this)
+
+    ::g_hud_event_manager.subscribe("hudProgress:visibilityChanged",
+      @(eventData) updateMissionProgressPlace(), this)
   }
 
   function onShowHud(show = true)
@@ -245,6 +250,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 
     changeObjectsSize(::USEROPT_DAMAGE_INDICATOR_SIZE)
     changeObjectsSize(::USEROPT_TACTICAL_MAP_SIZE)
+    updateMissionProgressPlace()
   }
 
   //get means determine in this case, but "determine" is too long for function name
@@ -475,6 +481,11 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       })(scene))
     }
   }
+
+  function updateMissionProgressPlace()
+  {
+    showSceneBtn("mission_progress_place", hudState.isProgressVisible())
+  }
 }
 
 ::baseTouchActions <-
@@ -521,9 +532,6 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     ::g_hud_event_manager.subscribe("DamageIndicatorSizeChanged",
       function(ed) { updateDmgIndicatorVisibility() },
       this)
-    ::g_hud_event_manager.subscribe("LiveStatsVisibilityToggled",
-      function(ed) { updateMissionProgressOffset() },
-      this)
   }
 
   function reinitScreen(params = {})
@@ -543,33 +551,12 @@ class HudAir extends ::gui_handlers.BaseUnitHud
 
   function updateDmgIndicatorVisibility()
   {
-    updateMissionProgressOffset()
     updateChatOffset()
   }
 
   function updateShowHintsNest()
   {
     showSceneBtn("actionbar_hints_nest", false)
-  }
-
-  _missionProgressOffset = -1
-  function updateMissionProgressOffset()
-  {
-    local isVisibleByParts = ::is_dmg_indicator_visible()
-    local isShifted = isVisibleByParts
-                      && ::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.MAP)
-                      && !::g_hud_live_stats.isVisible()
-
-    local damageIndicatorObj = scene.findObject("xray_render_dmg_indicator")
-    local offset = ::check_obj(damageIndicatorObj) && isShifted ?
-      damageIndicatorObj.getSize()[0] + damageIndicatorObj.getPosRC()[0] + guiScene.calcString("1@hudMisObjIconsSize", null) :
-      0
-
-    if (_missionProgressOffset == offset)
-      return
-
-    ::hud_set_progress_left_margin(offset)
-    _missionProgressOffset = offset
   }
 
   _chatOffset = -1
@@ -655,12 +642,8 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_crew_state.init(scene)
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
-    updateMissionProgressOffset()
     updateShowHintsNest()
 
-    ::g_hud_event_manager.subscribe("DamageIndicatorSizeChanged",
-      @(eventData) updateMissionProgressOffset(),
-      this)
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
       @(eventData) updateDamageIndicatorBackground(),
       this)
@@ -673,25 +656,7 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_display_timers.reinit()
     ::g_hud_tank_debuffs.reinit()
     ::g_hud_crew_state.reinit()
-    updateMissionProgressOffset()
     updateShowHintsNest()
-  }
-
-  _missionProgressOffset = -1
-  function updateMissionProgressOffset()
-  {
-    local isShifted = ::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.DMG_PANEL)
-
-    local damageIndicatorObj = scene.findObject("hud_tank_damage_indicator")
-    local offset = ::check_obj(damageIndicatorObj) && isShifted ?
-      damageIndicatorObj.getPosRC()[0] + damageIndicatorObj.getSize()[0] * 0.85 :
-      0
-
-    if (_missionProgressOffset == offset)
-      return
-
-    ::hud_set_progress_left_margin(offset)
-    _missionProgressOffset = offset
   }
 
   function updateDamageIndicatorBackground()
@@ -699,8 +664,6 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     local visMode = ::g_hud_vis_mode.getCurMode()
     local isDmgPanelVisible = ::is_dmg_indicator_visible() && visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
     ::showBtn("tank_background", isDmgPanelVisible, scene)
-
-    updateMissionProgressOffset()
   }
 
   function updateShowHintsNest()
@@ -856,42 +819,4 @@ function gui_start_hud_no_chat()
 function gui_start_spectator()
 {
   ::handlersManager.loadHandler(::gui_handlers.Hud, { spectatorMode = true })
-}
-
-//contact = null for clean up vioce chat display
-function updateVoicechatDisplay(contact = null)
-{
-  local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
-  if(!is_chat_screen_allowed() || !handler)
-    return
-
-  local obj = handler.scene.findObject("div_for_voice_chat")
-  if(!::checkObj(obj))
-    return
-
-  if (contact == null)
-  {
-    for(local i = obj.childrenCount() - 1; i >= 0 ; i--)
-    {
-      local cObj = obj.getChild(i)
-      if (::checkObj(cObj)) cObj.fade = "out"
-    }
-    return
-  }
-
-  local popup = null
-  if("uid" in contact)
-    popup = obj.findObject("user_talk_" + contact.uid)
-  if(::checkObj(popup))
-    popup.fade = (contact.voiceStatus == voiceChatStats.talking) ? "in" : "out"
-  else if (contact.voiceStatus == voiceChatStats.talking)
-  {
-    local data = "usertalk { id:t='user_talk_%s'; fade:t='in'; _size-timer:t='0';" +
-                   "img{ background-image:t='#ui/gameuiskin#voip_talking'; color-factor:t='0' }" +
-                   "activeText{ id:t='users_name_%s'; text:t=''; color-factor:t='0' }" +
-                 "}"
-    data = format(data, contact.uid, contact.uid)
-    obj.getScene().prependWithBlk(obj, data, this)
-    obj.findObject("users_name_" + contact.uid).setValue(contact.name)
-  }
 }

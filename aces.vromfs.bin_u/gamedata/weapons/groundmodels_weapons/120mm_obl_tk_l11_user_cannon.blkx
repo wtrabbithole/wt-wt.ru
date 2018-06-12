@@ -52,16 +52,16 @@
       "HitPower10000m": [0.8,10000.0]
     },
     "armorpower": {
-      "ArmorPower0m": [403.0,10.0],
-      "ArmorPower100m": [401.0,100.0],
-      "ArmorPower500m": [398.0,500.0],
-      "ArmorPower1000m": [392.0,1000.0],
-      "ArmorPower1500m": [385.0,1500.0],
-      "ArmorPower2000m": [379.0,2000.0],
-      "ArmorPower2500m": [348.0,2500.0],
-      "ArmorPower3000m": [323.0,3000.0],
-      "ArmorPower3500m": [290.0,3500.0],
-      "ArmorPower4000m": [211.0,4000.0],
+      "ArmorPower0m": [412.0,10.0],
+      "ArmorPower100m": [408.0,100.0],
+      "ArmorPower500m": [406.0,500.0],
+      "ArmorPower1000m": [400.0,1000.0],
+      "ArmorPower1500m": [393.0,1500.0],
+      "ArmorPower2000m": [383.0,2000.0],
+      "ArmorPower2500m": [370.0,2500.0],
+      "ArmorPower3000m": [350.0,3000.0],
+      "ArmorPower3500m": [320.0,3500.0],
+      "ArmorPower4000m": [300.0,4000.0],
       "ArmorPower4500m": [174.0,4500.0],
       "ArmorPower10000m": [0.0,10000.0]
     },
@@ -88,7 +88,7 @@
     "bullet": {
       "bulletCount": 25,
       "mass": 17.1,
-      "explosiveMass": 3.1,
+      "explosiveMass": 4.1,
       "caliber": 0.12,
       "speed": 670.0,
       "maxDistance": 10000.0,
@@ -223,6 +223,7 @@
     "bullet": {
       "bulletCount": 40,
       "mass": 17.1,
+      "damageMass": 0.855,
       "explosiveType": "tnt",
       "explosiveMass": 0.05,
       "caliber": 0.12,
@@ -251,25 +252,33 @@
       "shutterArmorPower": 7.5,
       "shutterHit": 11.0,
       "smokeShell": true,
-      "smokeFx": "smoke_shell_explosion",
       "smokeShellRad": 20.0,
       "smokeActivateTime": 5.0,
       "smokeTime": 25.0,
-      "groundCollisionEffect": "ground_splash",
-      "groundFxScale": [0.1,0.2],
+      "groundCollisionEffect": "smoke_shell_explosion",
+      "groundFxScale": [1.2,1.4],
       "ricochetEffect": "cannon_ricochet",
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "noColor"
-      },
+      "waterCollisionEffect": "120-203_smoke_water_splash",
+      "waterFxScale": [0.7,0.8],
+      "explosionPatchRadius": 1.5,
       "collisions": {
         "steel": {
           "fx": "smoke_shell_explosion"
         },
         "armor": {
           "fx": "smoke_shell_explosion"
+        },
+        "buildings": {
+          "fx": "smoke_shell_explosion"
+        },
+        "wood": {
+          "fx": "smoke_shell_explosion"
         }
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
       }
     }
   }

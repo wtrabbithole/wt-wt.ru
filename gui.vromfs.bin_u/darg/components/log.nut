@@ -1,4 +1,4 @@
-local makeLog = function (log_state) {
+local function makeLog(log_state) {
   local scrollHandler = ::ScrollHandler()
   local scrolledTo = null
   return {

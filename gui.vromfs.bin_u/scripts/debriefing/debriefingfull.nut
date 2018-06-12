@@ -91,6 +91,15 @@
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND
     }
   }
+  { id = "awardDamage"
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByModes = ::is_gamemode_versus
+    text = "multiplayer/naval_damage"
+    isVisibleWhenEmpty = function()
+    {
+      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL
+    }
+  }
   { id = "NavalKills"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
     showByModes = ::is_gamemode_versus
@@ -481,6 +490,9 @@ function gather_debriefing_result()
   local pveRewardInfo = ::get_pve_reward_trophy_info(sessionTime, sessionActivity, ::debriefing_result.isSucceed)
   if (pveRewardInfo)
     ::debriefing_result.pveRewardInfo <- pveRewardInfo
+  local giftItemsInfo = ::get_debriefing_gift_items_info(pveRewardInfo?.receivedTrophyName)
+  if (giftItemsInfo)
+    ::debriefing_result.giftItemsInfo <- giftItemsInfo
 
   local trournamentBaseReward = ::debriefing_result_get_base_tournament_reward()
   ::debriefing_result.exp.wpTournamentBaseReward <- trournamentBaseReward.wp
@@ -1148,4 +1160,34 @@ function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
     victoryStageTime = victoryStageTime
     stagesTime = stagesTime
   }
+}
+
+function get_debriefing_gift_items_info(skipItemId = null)
+{
+  local res = []
+
+  // Collecting Marketplace items
+  local logs = ::getUserLogsList({
+    show = [ ::EULT_INVENTORY_ADD_ITEM ]
+    currentRoomOnly = true
+    disableVisible = true
+  })
+  foreach (log in logs)
+    res.append({ id = log?.itemDefId, count = log?.quantity ?? 1, needOpen = false })
+
+  // Collecting trophies and items
+  local logs = ::getUserLogsList({
+    show = [ ::EULT_SESSION_RESULT ]
+    currentRoomOnly = true
+    disableVisible = true
+  })
+  foreach (rewardType in [ "trophies", "items" ])
+  {
+    local rewards = logs?[0]?.container?[rewardType] ?? {}
+    foreach (id, count in rewards)
+      if (id != skipItemId)
+        res.append({ id = id, count = count, needOpen = rewardType == "trophies" })
+  }
+
+  return res.len() ? res : null
 }

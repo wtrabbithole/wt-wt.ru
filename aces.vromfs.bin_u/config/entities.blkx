@@ -1,0 +1,55 @@
+{
+  "root": {
+    "active": true
+  },
+  "unit": {
+    "_extends": "root",
+    "unit_ref": {
+      "id": -1
+    },
+    "unit_fire": [],
+    "unit_fire_fx": [],
+    "unit_extinguish": [],
+    "fire_damage": {
+      "update_burn_interval": 1.0
+    },
+    "toolkit": {
+      "name": "tank_tool_kit_expendable",
+      "enabled_without_mod": true
+    },
+    "extinguisher": {
+      "name": "manual_extinguisher_expendable",
+      "enabled_without_mod": true
+    }
+  },
+  "tank": {
+    "_extends": "unit",
+    "medicalkit": {
+      "name": "tank_medical_kit_expendable",
+      "enabled_without_mod": false
+    }
+  },
+  "ship": {
+    "_extends": "unit",
+    "extinguisher.enabled_without_mod": false
+  },
+  "weapon": {
+    "_extends": "root",
+    "weapon_ref": {
+      "ptr": 0
+    }
+  },
+  "gun": {
+    "_extends": "weapon",
+    "weapon_proj_bullet": []
+  },
+  "bomb_gun": {
+    "_extends": "weapon"
+  },
+  "rocket_gun": {
+    "_extends": "weapon"
+  },
+  "torpedo_gun": {
+    "_extends": "weapon"
+  }
+}

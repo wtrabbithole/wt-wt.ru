@@ -406,7 +406,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
                            && platformModule.isChatEnabled()
                            && canInteractWithPlayer, contact_buttons_holder)
 
-    local showSquadInvite = !isMe
+    local showSquadInvite = ::has_feature("SquadInviteIngame")
+      && !isMe
       && !isBlock
       && canInvitePlayer
       && ::g_squad_manager.canInviteMember(contact?.uid ?? "")
@@ -852,12 +853,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     showCurPlayerRClickMenu(obj.getChild(value).getPosRC())
-    local child = obj.getChild(value)
-    if (!child)
-      return
-    local func = child.on_click
-    if (typeof(func) == "string" && func in this)
-      this[func]()
   }
 
   function onPlayerRClick(obj)

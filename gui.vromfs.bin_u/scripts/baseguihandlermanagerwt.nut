@@ -349,12 +349,14 @@ function handlersManager::onEventWaitBoxCreated(p)
 
 function handlersManager::beforeInitHandler(handler)
 {
-  if (!focusFrame.isEnabled
-    || handler.rootHandlerClass
-    || getHandlerType(handler) == handlerType.CUSTOM)
+  if (handler.rootHandlerClass || getHandlerType(handler) == handlerType.CUSTOM)
     return
 
-  handler.guiScene.createElementByObject(handler.scene, "gui/focusFrameAnim.blk", "tdiv", null)
+  if (focusFrame.isEnabled)
+    handler.guiScene.createElementByObject(handler.scene, "gui/focusFrameAnim.blk", "tdiv", null)
+
+  if (::g_login.isLoggedIn() && handler?.needVoiceChat ?? true)
+    handler.guiScene.createElementByObject(handler.scene, "gui/squads/squadVoiceChat.blk", "tdiv", null)
 }
 
 function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.

@@ -32,8 +32,10 @@ tdiv {
     flow:t='vertical'
 
     div {
-      size:t='pw, 0.14@scrn_tgt'
+      id:t='battle_info'
+      left:t='0.5(pw-w)'
       position:t='absolute'
+      padding:t='1@blockInterval, 0'
       margin-top:t='0.01@scrn_tgt+0.03@wwBattleInfoScreenIncHeight'
       flow:t='vertical'
 
@@ -46,9 +48,9 @@ tdiv {
 
       textareaNoTab {
         id:t='operation_info_text'
-        width:t='pw'
+        left:t='50%pw-50%w'
+        position:t='relative'
         text:t=''
-        text-align:t='center'
       }
 
       activeText {
@@ -76,6 +78,7 @@ tdiv {
     }
 
     tdiv {
+      id:t='teams_block'
       size:t='pw, 75%ph'
       top:t='ph-h'
       position:t='relative'
@@ -87,12 +90,14 @@ tdiv {
 
         tdiv {
           id:t='team_header_info_0'
-          width:t='50%pw'
+          width:t='45%pw'
         }
 
         tdiv {
           id:t='team_header_info_1'
-          width:t='50%pw'
+          left:t='pw-w'
+          position:t='absolute'
+          width:t='45%pw'
         }
 
         tdiv {

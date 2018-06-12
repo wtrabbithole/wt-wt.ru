@@ -11,6 +11,7 @@
     SquadWidget = true
     SquadTransferLeadership = false
     SquadSizeChange = false
+    SquadInviteIngame = true
     Clans = true
     Battalions = false
     Radio = true

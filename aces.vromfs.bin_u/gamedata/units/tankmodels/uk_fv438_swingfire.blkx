@@ -24,6 +24,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "canReloadNonGuns": true
   },
   {
@@ -91,9 +94,6 @@
   },
   {
     "type": "typeTankDestroyer"
-  },
-  {
-    "exhaustFx": "tank_exhaust"
   },
   {
     "rearmTimeOnField": 45.0
@@ -349,7 +349,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1181,6 +1181,7 @@
           "flash": "emtr_mg_aa_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_03_dm",
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
@@ -1880,8 +1881,6 @@
       "tank_additional_armor": [],
       "manual_extinguisher": [],
       "tank_tool_kit": [],
-      "new_tank_horizontal_aiming": [],
-      "new_tank_vertical_aiming": [],
       "tank_medical_kit": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
@@ -2060,6 +2059,7 @@
                 "flash": "emtr_mg_aa_flame_01",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
+                "barrelDP": "gun_barrel_03_dm",
                 "parkInDeadzone": false,
                 "speedYaw": 30.0,
                 "speedPitch": 20.0,

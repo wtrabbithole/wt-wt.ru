@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -646,7 +649,7 @@
           "armorThickness": 1.0
         },
         "superstructure_side_dm": {
-          "armorThickness": 1.0
+          "armorThickness": 30.0
         },
         "body_side_dm": {
           "armorThickness": 1.0
@@ -742,13 +745,6 @@
           "hp": 20.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 15.0,
-          "hp": 150.0
-        }
-      },
       "chassis": {
         "hp": 30.0,
         "armorThickness": 2.0,
@@ -759,6 +755,37 @@
         "wheel_r_02_dm": [],
         "wheel_l_drive_dm": [],
         "wheel_r_drive_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 200.0,
+        "armorThickness": 20.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -825,7 +852,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2255,7 +2282,7 @@
         "breechDP": "cannon_breech_dm",
         "speedYaw": 11.0,
         "speedPitch": 6.0,
-        "bullets": 40,
+        "bullets": 48,
         "salvoAmount": 100.0,
         "ChainfireTime": 0.0,
         "DelayAfterShoot": 5.0,
@@ -2304,9 +2331,9 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 11900.0,
+        "Empty": 10250.0,
         "Fuel": 300.0,
-        "TakeOff": 12200.0,
+        "TakeOff": 10550.0,
         "momentOfInertia": [2.5,2.5,4.0],
         "CenterOfGravity": [0.0,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
@@ -2333,8 +2360,8 @@
       "mechanics": {
         "maxBrakeForce": 50000.0,
         "driveGearRadius": 0.5,
-        "mainGearRatio": 1.72,
-        "sideGearRatio": 5.357,
+        "mainGearRatio": 2.82,
+        "sideGearRatio": 5.35,
         "tracked": false,
         "gearRatios": [
           {
@@ -2923,6 +2950,45 @@
   {
     "optics": {
       "driverReticule": "car_driver_optics"
+    }
+  },
+  {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": true,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_body_01_dm": {
+            "count": 6
+          },
+          "ammo_body_02_dm": {
+            "count": 6
+          },
+          "ammo_body_03_dm": {
+            "count": 6
+          },
+          "ammo_body_04_dm": {
+            "count": 6
+          },
+          "ammo_body_05_dm": {
+            "count": 6
+          },
+          "ammo_body_06_dm": {
+            "count": 6
+          },
+          "ammo_body_07_dm": {
+            "count": 6
+          },
+          "ammo_body_08_dm": {
+            "count": 6
+          }
+        }
+      }
     }
   },
   {

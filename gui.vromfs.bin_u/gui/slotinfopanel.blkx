@@ -20,7 +20,7 @@
         "tdiv": {
           "id": "slot_collapse",
           "css-hier-invalidate": "yes",
-          "hangarToggleButton": {
+          "baseToggleButton": {
             "on_click": "onCollapseButton",
             "alwaysShow": "yes",
             "directionImg": []
@@ -506,6 +506,27 @@
                         "tr": {
                           "style": "size:pw, 0.01@scrn_tgt;"
                         }
+                      },
+                      {
+                        "tr": [
+                          {
+                            "id": "total-crew-tr"
+                          },
+                          {
+                            "td": {
+                              "textarea": {
+                                "text": "#crew/totalCrew"
+                              }
+                            }
+                          },
+                          {
+                            "td": {
+                              "textarea": {
+                                "id": "total-crew"
+                              }
+                            }
+                          }
+                        ]
                       },
                       {
                         "tr": [
@@ -1089,108 +1110,153 @@
               }
             },
             {
-              "tdiv": {
-                "position": "relative",
-                "width": "@airInfoPanelDmSwitcherWidth",
-                "flow": "vertical",
-                "HorizontalListBox": [
-                  {
-                    "id": "air_info_dmviewer_listbox"
-                  },
-                  {
-                    "width": "pw"
-                  },
-                  {
-                    "on_select": "onAirInfoToggleDMViewer"
-                  },
-                  {
-                    "withImages": "yes"
-                  },
-                  {
-                    "margin-bottom": "1@dp"
-                  },
-                  {
-                    "smallFont": "yes"
-                  },
-                  {
-                    "shopFilter": {
-                      "width": "fw",
-                      "tooltip": "#mainmenu/viewDamageModel/tooltip_none",
-                      "shopFilterImg": {
-                        "background-image": "#ui/gameuiskin#btn_dm_viewer_none.svg"
-                      },
-                      "shopFilterText": {
-                        "text": "#mainmenu/listbox_dm_viewer_none"
+              "tdiv": [
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "@airInfoPanelDmSwitcherWidth"
+                },
+                {
+                  "flow": "vertical"
+                },
+                {
+                  "HorizontalListBox": [
+                    {
+                      "id": "air_info_dmviewer_listbox"
+                    },
+                    {
+                      "width": "pw"
+                    },
+                    {
+                      "on_select": "onAirInfoToggleDMViewer"
+                    },
+                    {
+                      "withImages": "yes"
+                    },
+                    {
+                      "margin-bottom": "1@dp"
+                    },
+                    {
+                      "smallFont": "yes"
+                    },
+                    {
+                      "shopFilter": {
+                        "width": "fw",
+                        "tooltip": "#mainmenu/viewDamageModel/tooltip_none",
+                        "shopFilterImg": {
+                          "background-image": "#ui/gameuiskin#btn_dm_viewer_none.svg"
+                        },
+                        "shopFilterText": {
+                          "text": "#mainmenu/listbox_dm_viewer_none"
+                        }
+                      }
+                    },
+                    {
+                      "shopFilter": {
+                        "width": "fw",
+                        "tooltip": "#mainmenu/viewDamageModel/tooltip_armor",
+                        "shopFilterImg": {
+                          "background-image": "#ui/gameuiskin#btn_dm_viewer_armor.svg"
+                        },
+                        "shopFilterText": {
+                          "text": "#mainmenu/listbox_dm_viewer_armor"
+                        }
+                      }
+                    },
+                    {
+                      "shopFilter": {
+                        "width": "fw",
+                        "tooltip": "#mainmenu/viewDamageModel/tooltip_xray",
+                        "shopFilterImg": {
+                          "background-image": "#ui/gameuiskin#btn_dm_viewer_xray.svg"
+                        },
+                        "shopFilterText": {
+                          "text": "#mainmenu/listbox_dm_viewer_xray"
+                        }
                       }
                     }
-                  },
-                  {
-                    "shopFilter": {
-                      "width": "fw",
-                      "tooltip": "#mainmenu/viewDamageModel/tooltip_armor",
-                      "shopFilterImg": {
-                        "background-image": "#ui/gameuiskin#btn_dm_viewer_armor.svg"
-                      },
-                      "shopFilterText": {
-                        "text": "#mainmenu/listbox_dm_viewer_armor"
-                      }
-                    }
-                  },
-                  {
-                    "shopFilter": {
-                      "width": "fw",
-                      "tooltip": "#mainmenu/viewDamageModel/tooltip_xray",
-                      "shopFilterImg": {
-                        "background-image": "#ui/gameuiskin#btn_dm_viewer_xray.svg"
-                      },
-                      "shopFilterText": {
-                        "text": "#mainmenu/listbox_dm_viewer_xray"
-                      }
-                    }
+                  ]
+                },
+                {
+                  "Button_text": {
+                    "id": "dmviewer_protection_analysis_btn",
+                    "on_click": "onProtectionAnalysis",
+                    "text": "#mainmenu/btnProtectionAnalysis",
+                    "width": "@airInfoPanelDmSwitcherWidth",
+                    "margin-bottom": "3@dp",
+                    "showConsoleImage": "no",
+                    "display": "hide"
                   }
-                ],
-                "Button_text": {
-                  "id": "btnAirInfoWeaponry",
-                  "on_click": "onAirInfoWeapons",
-                  "text": "#mainmenu/btnWeapons",
-                  "tooltip": "#mainmenu/btnWeaponsDesc",
-                  "width": "@airInfoPanelDmSwitcherWidth",
-                  "showConsoleImage": "no",
-                  "discount_notification": {
-                    "id": "btnAirInfoWeaponry_discount",
-                    "type": "lineText",
-                    "text": "",
-                    "tooltip": ""
+                },
+                {
+                  "Button_text": {
+                    "id": "btnAirInfoWeaponry",
+                    "on_click": "onAirInfoWeapons",
+                    "text": "#mainmenu/btnWeapons",
+                    "tooltip": "#mainmenu/btnWeaponsDesc",
+                    "width": "@airInfoPanelDmSwitcherWidth",
+                    "showConsoleImage": "no",
+                    "discount_notification": {
+                      "id": "btnAirInfoWeaponry_discount",
+                      "type": "lineText",
+                      "text": "",
+                      "tooltip": ""
+                    }
                   }
                 }
-              }
+              ]
             }
           ]
         }
       ]
     }
   ],
-  "tooltipObj": {
-    "id": "dmviewer_hint",
-    "behavior": "Timer",
-    "timer_handler_func": "onDMViewerHintTimer",
-    "position": "root",
-    "pos": "sw/2-w/2, 70%sh-h/2",
-    "style": "padding:10*@sf/@pf_outdated; color-factor:192;",
-    "display": "hide",
-    "flow": "vertical",
-    "input-transparent": "yes",
-    "textareaNoTab": {
-      "id": "dmviewer_title",
-      "overlayTextColor": "active",
-      "text": ""
+  "tooltipObj": [
+    {
+      "id": "dmviewer_hint"
     },
-    "textarea": {
-      "id": "dmviewer_desc",
-      "position": "relative",
-      "top": "5*@sf/@pf_outdated",
-      "hideEmptyText": "yes",
-      "text": ""
+    {
+      "behavior": "Timer"
+    },
+    {
+      "timer_handler_func": "onDMViewerHintTimer"
+    },
+    {
+      "position": "root"
+    },
+    {
+      "pos": "sw/2-w/2, 70%sh-h/2"
+    },
+    {
+      "style": "padding:16@sf/@pf; color-factor:192;"
+    },
+    {
+      "display": "hide"
+    },
+    {
+      "flow": "vertical"
+    },
+    {
+      "input-transparent": "yes"
+    },
+    {
+      "textareaNoTab": {
+        "id": "dmviewer_title",
+        "overlayTextColor": "active",
+        "text": "",
+        "input-transparent": "yes"
+      }
+    },
+    {
+      "textareaNoTab": {
+        "id": "dmviewer_desc",
+        "position": "relative",
+        "top": "8@sf/@pf",
+        "hideEmptyText": "yes",
+        "text": "",
+        "input-transparent": "yes"
+      }
     }
-  }
+  ]
 }

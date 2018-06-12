@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "dustFx": ""
+  },
+  {
     "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
@@ -1980,108 +1983,65 @@
           "armorThickness": 30.0
         }
       },
-      "CHA_armor": [
-        {
-          "armorClass": "CHA_tank"
+      "CHA_armor": {
+        "armorClass": "CHA_tank",
+        "turret_back_dm": {
+          "armorThickness": 50.0
         },
-        {
-          "turret_back_dm": {
-            "armorThickness": 50.0
-          }
+        "turret_front_dm": {
+          "armorThickness": 200.0
         },
-        {
-          "turret_01_back_dm": {
-            "armorThickness": 90.0
-          }
+        "turret_commander_dm": {
+          "armorThickness": 100.0
         },
-        {
-          "turret_front_dm": {
-            "armorThickness": 200.0
-          }
+        "turret_bottom_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "turret_commander_dm": {
-            "armorThickness": 100.0
-          }
+        "turret_01_bottom_dm": {
+          "armorThickness": 50.0
         },
-        {
-          "turret_bottom_dm": {
-            "armorThickness": 30.0
-          }
+        "turret_01_top_dm": {
+          "armorThickness": 40.0
         },
-        {
-          "turret_01_bottom_dm": {
-            "armorThickness": 50.0
-          }
+        "turret_01_front_dm": {
+          "armorThickness": 160.0
         },
-        {
-          "turret_01_top_dm": {
-            "armorThickness": 40.0
-          }
+        "gun_mask_dm": {
+          "armorThickness": 200.0,
+          "hp": 10000.0
         },
-        {
-          "turret_01_front_dm": {
-            "armorThickness": 160.0
-          }
+        "turret_02_back_dm": {
+          "armorThickness": 40.0,
+          "hp": 10000.0
         },
-        {
-          "gun_mask_dm": {
-            "armorThickness": 200.0,
-            "hp": 10000.0
-          }
+        "turret_02_front_dm": {
+          "armorThickness": 111.0
         },
-        {
-          "turret_02_back_dm": {
-            "armorThickness": 40.0,
-            "hp": 10000.0
-          }
+        "turret_side_dm": {
+          "armorThickness": 155.0
         },
-        {
-          "turret_02_front_dm": {
-            "armorThickness": 111.0
-          }
+        "turret_01_side_dm": {
+          "armorThickness": 135.0
         },
-        {
-          "turret_side_dm": {
-            "armorThickness": 155.0
-          }
+        "turret_02_side_dm": {
+          "armorThickness": 115.0
         },
-        {
-          "turret_01_side_dm": {
-            "armorThickness": 135.0
-          }
+        "turret_02_top_dm": {
+          "armorThickness": 105.0
         },
-        {
-          "turret_02_side_dm": {
-            "armorThickness": 115.0
-          }
+        "turret_01_back_dm": {
+          "armorThickness": 45.0
         },
-        {
-          "turret_02_top_dm": {
-            "armorThickness": 105.0
-          }
+        "turret_03_side_dm": {
+          "armorThickness": 130.0
         },
-        {
-          "turret_01_back_dm": {
-            "armorThickness": 45.0
-          }
+        "turret_04_side_dm": {
+          "armorThickness": 120.0
         },
-        {
-          "turret_03_side_dm": {
-            "armorThickness": 130.0
-          }
-        },
-        {
-          "turret_04_side_dm": {
-            "armorThickness": 120.0
-          }
-        },
-        {
-          "turret_05_side_dm": {
-            "armorThickness": 100.0
-          }
+        "turret_05_side_dm": {
+          "armorThickness": 100.0
         }
-      ],
+      },
       "optics": {
         "armorClass": "optics_tank",
         "armorThickness": 3.0,
@@ -2128,21 +2088,6 @@
           "hp": 250.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 300.0,
-        "gun_barrel_dm": {
-          "armorThickness": 32.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0
-        }
-      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 300.0,
@@ -2170,6 +2115,37 @@
           "ex_armor_01_dm": []
         }
       },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 250.0,
+        "armorThickness": 25.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
+      },
       "equipment": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
@@ -2185,7 +2161,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 10.0,
+        "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -2260,6 +2236,9 @@
         "ammo_turret_38_dm": [],
         "ammo_turret_39_dm": [],
         "ammo_turret_40_dm": [],
+        "ammo_turret_41_dm": [],
+        "ammo_turret_42_dm": [],
+        "ammo_turret_43_dm": [],
         "ammo_body_dm": [],
         "ammo_body_01_dm": [],
         "ammo_body_02_dm": [],
@@ -2306,6 +2285,15 @@
         "ammo_body_43_dm": [],
         "ammo_body_44_dm": [],
         "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2673,7 +2661,7 @@
     "ammoStowages": {
       "ammo1": [
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "weaponTrigger": "gunner0"

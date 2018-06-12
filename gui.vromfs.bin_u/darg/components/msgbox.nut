@@ -4,13 +4,13 @@ local defStyling = require("msgbox.style.nut")
 local widgets = Watched([])
 
 
-local addWidget = function(w) {
+local function addWidget(w) {
   widgets.value.append(w)
   widgets.trigger()
 }
 
 
-local removeWidget = function(w) {
+local function removeWidget(w) {
   local idx = widgets.value.find(w)
   if (idx != null) {
     widgets.value.remove(idx)
@@ -33,10 +33,10 @@ local removeWidget = function(w) {
 ///      ...
 ///   ]
 ///
-local show = function(params, styling=defStyling) {
+local function show(params, styling=defStyling) {
   local self = null
 
-  local doClose = function(button_action) {
+  local function doClose(button_action) {
     removeWidget(self)
     if (button_action)
       button_action()
@@ -60,7 +60,7 @@ local show = function(params, styling=defStyling) {
     return styling.button(desc, @() doClose(desc?.action))
   })
 
-  local buttonsBlock = function() {
+  local function buttonsBlock() {
     return {
       watch = curBtnIdx
       size = SIZE_TO_CONTENT
@@ -79,7 +79,7 @@ local show = function(params, styling=defStyling) {
   }
 
 
-  local moveBtnFocus = function(dir) {
+  local function moveBtnFocus(dir) {
     curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.len()) % btnsDesc.len())
     ::set_kb_focus(btnsDesc[curBtnIdx.value])
   }

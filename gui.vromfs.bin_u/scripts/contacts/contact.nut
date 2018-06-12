@@ -100,16 +100,13 @@ class Contact
     return res
   }
 
-  function canOpenXBoxFriendsWindow()
+  function canOpenXBoxFriendsWindow(groupName)
   {
-    return platformModule.isPlayerFromXboxOne(name)
+    return platformModule.isPlayerFromXboxOne(name) && groupName != ::EPL_BLOCKLIST
   }
 
   function openXBoxFriendsEdit()
   {
-    if (!canOpenXBoxFriendsWindow())
-      return
-
     if (xboxId != "")
       ::xbox_show_add_remove_friend(xboxId)
     else

@@ -1444,6 +1444,32 @@ function g_world_war::popupCharErrorMsg(groupName = null, titleText = "")
     ::g_popups.add(titleText, popupText, null, null, null, groupName)
 }
 
+function g_world_war::getCurMissionWWBattleName()
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+
+  local battleId = misBlk?.customRules?.battleId
+  if (!battleId)
+    return ""
+
+  local battle = getBattleById(battleId)
+  return battle ? battle.getView().getBattleName() : ""
+}
+
+function g_world_war::getCurMissionWWOperationName()
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+
+  local operationId = misBlk?.customRules?.operationId
+  if (!operationId)
+    return ""
+
+  local operation = ::g_ww_global_status.getOperationById(operationId.tointeger())
+  return operation ? operation.getNameText() : ""
+}
+
 function ww_event(name, params = {})
 {
   ::broadcastEvent("WW" + name, params || {})

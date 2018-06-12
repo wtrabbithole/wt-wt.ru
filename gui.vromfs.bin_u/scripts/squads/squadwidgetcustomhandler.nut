@@ -138,7 +138,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       ::loc(::g_squad_manager.isMeReady() ? "multiplayer/btnNotReady" : "mainmenu/btnReady"))
 
     showSceneBtn("btn_squadInvites", ::gui_handlers.squadInviteListWnd.canOpen())
-    updateVisibleNewApplications ()
+    updateVisibleNewApplications()
 
     local btnSquadLeave = showSceneBtn("btn_squadLeave", ::g_squad_manager.canLeaveSquad())
     btnSquadLeave.tooltip = ::loc("squadAction/leave")
@@ -153,6 +153,12 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
   function onSquadPlus()
   {
+    if (::is_platform_xboxone && !::has_feature("SquadInviteIngame"))
+    {
+      ::xbox_show_invite_window()
+      return
+    }
+
     ::open_search_squad_player()
   }
 

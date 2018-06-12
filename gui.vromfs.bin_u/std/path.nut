@@ -1,11 +1,4 @@
-local rootTable = getroottable()
-local split = function(str,sep) {
-  throw("no split of string library exist")
-}
-if ("split" in rootTable)
-  split = ::split
-else if ("string" in rootTable)
-  split = require("string").split
+local split = require("string").split
 
 /**
  * Normalize file path slashes to be unix-like forward slashes.

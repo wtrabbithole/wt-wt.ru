@@ -252,7 +252,7 @@
         "locDesc": "sinai_02/desc;missions/_Conq3/desc"
       },
       {
-        "scoreLimit": 14000
+        "scoreLimit": 13000
       },
       {
         "timeLimit": 25
@@ -410,6 +410,11 @@
                 "side": "neutral",
                 "target": "briefing_hardcore_t1_capturezone"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_realistic"
+              }
             }
           ]
         },
@@ -464,6 +469,11 @@
                 "side": "neutral",
                 "target": "briefing_hardcore_t1_capturezone"
               }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_hardcore"
+              }
             }
           ]
         },
@@ -517,6 +527,11 @@
                 "icontype": "basezone_A",
                 "side": "neutral",
                 "target": "briefing_arcade_t1_capturezone"
+              }
+            },
+            {
+              "battleArea": {
+                "target": "briefing_battlearea_hardcore"
               }
             }
           ]
@@ -782,6 +797,39 @@
         [1721.35,630.85,2368.95]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_battlearea": {
+      "type": "Box",
+      "tm": [
+        [1900.0,0.0,0.0],
+        [0.0,103.704,0.0],
+        [0.0,0.0,1900.0],
+        [1385.7,636.441,2387.85]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "briefing_battlearea_hardcore": {
+      "type": "Box",
+      "tm": [
+        [2450.0,0.0,0.0],
+        [0.0,297.576,0.0],
+        [0.0,0.0,2450.0],
+        [1612.6,659.03,2352.6]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "briefing_battlearea_realistic": {
+      "type": "Box",
+      "tm": [
+        [2450.0,0.0,0.0],
+        [0.0,297.576,0.0],
+        [0.0,0.0,2450.0],
+        [1612.6,661.413,2352.6]
+      ],
+      "objLayer": 4,
       "props": []
     }
   },

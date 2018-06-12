@@ -10,6 +10,7 @@ enum memberStatus {
   NO_REQUIRED_UNITS
   SELECTED_AIRS_NOT_AVAILABLE
   ALL_AVAILABLE_AIRS_BROKEN
+  PARTLY_AVAILABLE_AIRS_BROKEN
   AIRS_NOT_AVAILABLE
 }
 
@@ -17,6 +18,7 @@ local memberStatusLocId = {
   [memberStatus.READY]                          = "status/squad_ready",
   [memberStatus.AIRS_NOT_AVAILABLE]             = "squadMember/airs_not_available",
   [memberStatus.ALL_AVAILABLE_AIRS_BROKEN]      = "squadMember/all_available_airs_broken",
+  [memberStatus.PARTLY_AVAILABLE_AIRS_BROKEN]   = "squadMember/partly_available_airs_broken",
   [memberStatus.SELECTED_AIRS_NOT_AVAILABLE]    = "squadMember/selected_airs_not_available",
   [memberStatus.SELECTED_AIRS_BROKEN]           = "squadMember/selected_airs_broken",
   [memberStatus.NO_REQUIRED_UNITS]              = "squadMember/no_required_units",
@@ -169,6 +171,7 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
 {
   local res = {
     canFlyout = true,
+    haveRestrictions = false
     members = []
     countriesChanged = 0
   }
@@ -205,6 +208,8 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
     else
       res.countriesChanged++
 
+    local brokenUnits = []
+    local haveNotBroken = false
     local needCheckRequired = ::events.getRequiredCrafts(teamData).len() > 0
     foreach(country in teamData.countries)
     {
@@ -212,7 +217,6 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
         continue
 
       local haveAvailable = false
-      local haveNotBroken = false
       local haveRequired  = !needCheckRequired
 
       if (!respawn)
@@ -222,9 +226,13 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
 
         local unitName = memberData.selAirs[country]
         haveAvailable = ::events.isUnitAllowedByTeamData(teamData, unitName, ediff)
-        haveNotBroken = haveAvailable && !::isInArray(unitName, memberData.brokenAirs)
+        local isBroken = ::isInArray(unitName, memberData.brokenAirs)
+        if (isBroken)
+          brokenUnits.append(unitName)
+        haveNotBroken = haveAvailable && !isBroken
         haveRequired  = haveRequired || ::events.isAirRequiredAndAllowedByTeamData(teamData, unitName, ediff)
-      } else
+      }
+      else
       {
         if (!(country in memberData.crewAirs))
           continue
@@ -232,7 +240,10 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
         foreach(unitName in memberData.crewAirs[country])
         {
           haveAvailable = haveAvailable || ::events.isUnitAllowedByTeamData(teamData, unitName, ediff)
-          haveNotBroken = haveNotBroken || (haveAvailable && !::isInArray(unitName, memberData.brokenAirs))
+          local isBroken = ::isInArray(unitName, memberData.brokenAirs)
+          if (isBroken)
+            brokenUnits.append(unitName)
+          haveNotBroken = haveNotBroken || (haveAvailable && !isBroken)
           haveRequired  = haveRequired  || ::events.isAirRequiredAndAllowedByTeamData(teamData, unitName, ediff)
         }
       }
@@ -249,8 +260,11 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
       mData.status = memberStatus.NO_REQUIRED_UNITS
     else if (!mData.countries.len())
       mData.status = respawn ? memberStatus.ALL_AVAILABLE_AIRS_BROKEN : memberStatus.SELECTED_AIRS_BROKEN
+    else if (brokenUnits.len() && haveNotBroken)
+      mData.status = memberStatus.PARTLY_AVAILABLE_AIRS_BROKEN
 
-    res.canFlyout = res.canFlyout && mData.status == memberStatus.READY
+    res.canFlyout = res.canFlyout && (mData.status == memberStatus.READY || mData.status == memberStatus.PARTLY_AVAILABLE_AIRS_BROKEN)
+    res.haveRestrictions = res.haveRestrictions || mData.status == memberStatus.PARTLY_AVAILABLE_AIRS_BROKEN
     res.members.append(mData)
   }
 
@@ -283,11 +297,11 @@ function g_squad_utils::getMemberAvailableUnitsCheckingData(memberData, remainUn
   }
 
   local memberAvailableUnits = memberCantJoinData.unbrokenAvailableUnits
-  local hasBrokenUnits = false
+  local brokenUnits = []
   foreach (idx, name in memberData.crewAirs[country])
     if (name in remainUnits)
       if (::isInArray(name, memberData.brokenAirs))
-        hasBrokenUnits = true
+        brokenUnits.append(name)
       else
         memberAvailableUnits.append(name)
 

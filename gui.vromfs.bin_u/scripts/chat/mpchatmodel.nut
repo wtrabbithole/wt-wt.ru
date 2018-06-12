@@ -12,7 +12,6 @@ local mpChatModel = {
 
 
   function init() {
-    ::set_chat_handler(this)
     maxLogSize = ::g_chat.getMaxRoomMsgAmount()
   }
 
@@ -109,5 +108,5 @@ local mpChatModel = {
   ["log", "currentModeId"]
 )
 
-
+::set_chat_handler(mpChatModel)
 return mpChatModel

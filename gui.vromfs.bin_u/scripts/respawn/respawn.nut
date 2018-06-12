@@ -24,7 +24,7 @@ enum ESwitchSpectatorTarget
 }
 
 ::respawn_options <- [
-  {id = "skin",        hint = "options/skin", cb = "onSkinChange",
+  {id = "skin",        hint = "options/skin",
     user_option = ::USEROPT_SKIN, isShowForRandomUnit =false },
   {id = "user_skins",  hint = "options/user_skins",
     user_option = ::USEROPT_USER_SKIN, isShowForRandomUnit =false,
@@ -36,6 +36,8 @@ enum ESwitchSpectatorTarget
     user_option = ::USEROPT_BOMB_ACTIVATION_TIME, isShowForRandomUnit =false },
   {id = "depthcharge_activation_time",  hint = "options/depthcharge_activation_time",
      user_option = ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, isShowForRandomUnit =false },
+  {id = "mine_depth",  hint = "options/mine_depth",
+    user_option = ::USEROPT_MINE_DEPTH, isShowForRandomUnit =false },
   {id = "rocket_fuse_dist",  hint = "options/rocket_fuse_dist",
     user_option = ::USEROPT_ROCKET_FUSE_DIST, isShowForRandomUnit =false },
   {id = "fuel",        hint = "options/fuel_amount",
@@ -252,6 +254,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       ordersButton.setUserData(this)
 
     updateControlsAllowMask()
+    updateVoiceChatWidget(!isRespawn)
   }
 
   function recountStayOnRespScreen() //return isChanged
@@ -1021,35 +1024,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     showOptionRow(option.id, ::is_unit_available_use_rocket_diffuse(air))
   }
 
-  function onSkinChange(obj)
-  {
-    local prevIdx = ::get_option(::USEROPT_SKIN).value
-    checkReady(obj)
-
-    local unit = getCurSlotUnit()
-    if (!unit)
-      return
-
-    local idx = ::check_obj(obj) ? obj.getValue() : 0
-    local skinId = skins?[idx]
-    if (!skinId)
-      return
-
-    local newPresetId = contentPreset.getPresetIdBySkin(unit.name, skinId)
-    if (newPresetId == contentPreset.getCurPresetId())
-      return
-
-    contentPreset.showConfirmMsgbox(newPresetId, "",
-      ::Callback(function() {
-        contentPreset.setPreset(newPresetId)
-      }, this)
-      ::Callback(function() {
-        if (::check_obj(obj))
-          obj.setValue(prevIdx)
-      }, this)
-    )
-  }
-
   function updateSkin()
   {
     local air = getCurSlotUnit()
@@ -1071,7 +1045,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (!canChangeAircraft && i != selIndex)
         continue
       local tooltipObjMarkup = ::g_tooltip_type.DECORATION.getMarkup(skinsData.decorators[i].id, ::UNLOCKABLE_SKIN)
-      data.append(::build_option_blk(item.text, "", i == selIndex, true, item.textStyle, false, "", tooltipObjMarkup))
+      data.append(::build_option_blk(item.text, item.image, i == selIndex, true,
+        item.textStyle, false, "", tooltipObjMarkup))
     }
 
     data = ::g_string.implode(data)
@@ -1177,6 +1152,18 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
         guiScene.replaceContentFromText(depthChargeTimeObj, data, data.len(), this)
     }
     showOptionRow(depthChargeDescr.id, air.hasDepthCharge)
+
+    local minesDescr = ::get_option(::USEROPT_MINE_DEPTH)
+    if (air.hasMines)
+    {
+      local data = ""
+      foreach (idx, item in minesDescr.items)
+        data += build_option_blk(item, "", idx == minesDescr.value)
+      local minesTimeObj = scene.findObject(minesDescr.id)
+      if (::checkObj(minesTimeObj))
+        guiScene.replaceContentFromText(minesTimeObj, data, data.len(), this)
+    }
+    showOptionRow(minesDescr.id, air.hasMines)
   }
 
   function updateOtherOptions()
@@ -1352,6 +1339,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!requestData)
       return
     if (checkAmmo && !checkCurAirAmmo(doSelectAircraftSkipAmmo))
+      return
+    if (!checkCurUnitSkin(doSelectAircraftSkipAmmo))
       return
 
     requestAircraftAndWeapon(requestData)
@@ -1787,6 +1776,43 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     return true
   }
 
+  function checkCurUnitSkin(applyFunc)
+  {
+    local unit = getCurSlotUnit()
+    if (!unit)
+      return true
+
+    local skinId = getSelSkin()
+    if (!skinId)
+      return true
+
+    local diffCode = ::get_mission_difficulty_int()
+    local difficulty = ::g_difficulty.getDifficultyByDiffCode(diffCode)
+
+    local curPresetId = contentPreset.getCurPresetId(diffCode)
+    local newPresetId = contentPreset.getPresetIdBySkin(diffCode, unit.name, skinId)
+    if (newPresetId == curPresetId)
+      return true
+
+    if (contentPreset.isAgreed(diffCode, newPresetId))
+      return true // User already agreed to set this or higher preset.
+
+  ::gui_start_modal_wnd(::gui_handlers.SkipableMsgBox, {
+      parentHandler = this
+      onStartPressed = function() {
+        contentPreset.setPreset(diffCode, newPresetId, true)
+        applyFunc()
+      }
+      message = ::loc("msgbox/optionWillBeChanged/content_allowed_preset")
+        + " " + ::loc("msgbox/optionWillBeChanged", {
+          name     = ::colorize("userlogColoredText", ::loc("options/content_allowed_preset"))
+          oldValue = ::colorize("userlogColoredText", ::loc("content/tag/" + curPresetId))
+          newValue = ::colorize("userlogColoredText", ::loc("content/tag/" + newPresetId))
+        }) + " " + ::loc("msgbox/optionWillBeChanged/comment")
+    })
+    return false
+  }
+
   function use_autostart()
   {
     if (!(get_game_type() & ::GT_AUTO_SPAWN))
@@ -1879,10 +1905,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function checkSpawnInterrupt()
   {
-    if (!doRespawnCalled)
+    if (!doRespawnCalled || !isRespawn)
       return false
 
-    if (missionRules.getUnitLeftRespawns(::getAircraftByName(lastRequestData?.name)) != 0)
+    local unit = ::getAircraftByName(lastRequestData?.name ?? lastSpawnUnitName)
+    if (!unit || missionRules.getUnitLeftRespawns(unit) != 0)
       return false
 
     guiScene.performDelayed(this, function()

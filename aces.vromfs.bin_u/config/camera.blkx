@@ -2508,6 +2508,23 @@
       }
     }
   ],
+  "camera_aaa_killer": {
+    "type": "KillerFlightCamera",
+    "fov": 30.0,
+    "transitionSpeed": 4.0,
+    "viewDistanceAir": 35.0,
+    "viewDistanceGround": 35.0,
+    "minHeight": 40.0,
+    "velocity": 7.0,
+    "maxTimeToStop": 5.0,
+    "cameraShakeMultiplier": 0.5,
+    "transitionFadeInTime": 0.12,
+    "transitionFadeOutTime": 0.2,
+    "viscosity": 0.01,
+    "condition": {
+      "isKillerAAA": []
+    }
+  },
   "camera_xray_shot": [
     {
       "type": "XrayShotCamera"
@@ -3937,6 +3954,9 @@
       },
       {
         "camName": "camera_ship_killer"
+      },
+      {
+        "camName": "camera_aaa_killer"
       },
       {
         "camName": "camera_ground_killer"

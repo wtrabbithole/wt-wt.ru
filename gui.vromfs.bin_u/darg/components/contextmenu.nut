@@ -22,7 +22,7 @@ local overlay = {
 }
 
 
-local contextMenu = function (x, y, width, actions, menu_style = style) {
+local function contextMenu(x, y, width, actions, menu_style = style) {
   local menu = {
     rendObj = ROBJ_SOLID
     size = [width, SIZE_TO_CONTENT]

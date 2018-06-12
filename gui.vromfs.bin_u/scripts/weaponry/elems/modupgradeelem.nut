@@ -41,11 +41,17 @@ elemViewType.addTypes({
         return
 
       local modName = params?.mod
-      local color = !modName ? "#00000000"
-        : ::get_modification_level(unitName, modName) ? "#FFFFFFFF"
-        : model.needShowAvailableUpgrades() && ::is_mod_upgradeable(modName) ? "#80808080"
-        : "#00000000"
-      obj.set_prop_latent("background-color", color)
+      local upgradeIcon = null
+      if (modName)
+        if (::get_modification_level(unitName, modName))
+          upgradeIcon = "#ui/gameuiskin#mark_upgrade.svg"
+        else if (model.needShowAvailableUpgrades() && ::is_mod_upgradeable(modName))
+          upgradeIcon = "#ui/gameuiskin#mark_can_upgrade.svg"
+      local upgradeColor = upgradeIcon ? "#FFFFFFFF" : "#00000000"
+
+      if (upgradeIcon)
+        obj.set_prop_latent("background-image", upgradeIcon)
+      obj.set_prop_latent("background-color", upgradeColor)
       obj.set_prop_latent("foreground-color",
         modName && ::has_active_overdrive(unitName, modName) ? "#FFFFFFFF" : "#00000000")
       obj.updateRendElem()

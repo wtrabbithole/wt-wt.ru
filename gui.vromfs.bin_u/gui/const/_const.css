@@ -31,6 +31,7 @@
 @const hud_big:       @fontHudBigBold;
 
 @const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const armySmallIconWidth: 26*@sf/@pf_outdated;
+@const tIco: (12*@sf/@pf) \ 1;
 @const sIco: (22*@sf/@pf) \ 1;
 @const cIco: (30*@sf/@pf) \ 1;
 @const dIco: (40*@sf/@pf) \ 1;
@@ -62,7 +63,7 @@
 @const awardIconHeight:   50*@sf/@pf_outdated;
 
 @const tableIcoSize:1@cIco;
-@const tablePad:0.005*@scrn_tgt;
+@const tablePad:(0.005@sf)\1;
 
 @const titlePos:@bw+1*@scrn_tgt/100.0;
 
@@ -78,6 +79,7 @@
 @const sliderRowHeight:(1@sliderHeight + 2@sliderIncHeight)\1;
 @const crewTrHeight:(0.035*@sf)\1 + 6*@sf/@pf_outdated;
 @const smallRowHeight:(0.02*@sf)\1;
+@const optionsHeaderRowHeight:(0.02@sf)\1 + 4@dp;
 
 @const gamercardHeight:(1@bigButtonHeight)\1;
 @const topBarHeight:1@gamercardHeight + 1@topGamercardButtonsPos + 1@dp;
@@ -240,6 +242,7 @@
 @const eventRewardIconHeight: 0.08@scrn_tgt;
 
 @const blockInterval:    (6@sf/@pf) \ 1;
+@const chatIndent:    (120@sf/@pf) \ 1;
 @const airInfoPadding:   10@sf/@pf;
 @const helpInterval:     0.01@sf;
 @const helpLineInterval: @helpInterval;
@@ -297,3 +300,8 @@
 @const weaponStatusIconSize: 16*@sf/@pf;
 @const systemMsgIndent: 0.11@rw;
 @const battleTaskTooltipMinWidth: 1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
+
+@const chapterBlockWidth: 0.32@sf;
+@const chapterWideBlockWidth: 1@chapterBlockWidth + 0.08@sf*1@isWide;
+
+@const dmInfoTextWidth: (0.07@sf) \ 1;

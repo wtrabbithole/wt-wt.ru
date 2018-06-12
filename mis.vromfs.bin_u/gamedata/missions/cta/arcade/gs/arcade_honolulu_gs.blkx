@@ -469,7 +469,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -478,8 +477,11 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -492,7 +494,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -501,8 +502,11 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -513,6 +517,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -521,6 +528,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -529,6 +539,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t2_lcvp_squad"
@@ -571,6 +590,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t2_tanks_squad"
             },
             {
@@ -610,7 +638,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -619,8 +646,11 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -633,7 +663,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -642,8 +671,11 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -676,6 +708,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         },
@@ -687,6 +722,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         }
@@ -713,6 +751,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_01"
           }
@@ -723,6 +764,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_02"
           }
@@ -733,6 +777,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_03"
           }
@@ -743,6 +790,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_04"
           }
@@ -753,6 +803,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_05"
           }
@@ -763,6 +816,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_06"
           }
@@ -773,6 +829,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_07"
           }
@@ -783,6 +842,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_08"
           }
@@ -793,6 +855,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_09"
           }
@@ -803,6 +868,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_10"
           }
@@ -813,6 +881,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_11"
           }
@@ -823,6 +894,9 @@
             "object_type": "isMarked",
             "object_marking": 0,
             "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_lcvp_squad",
             "target": "land_point_12"
           }
@@ -894,6 +968,9 @@
           "object_marking": 1,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad"
         }
       },
@@ -951,6 +1028,9 @@
           "object_marking": 2,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad"
         }
       },
@@ -992,6 +1072,9 @@
           "object_marking": 3,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_lcvp_squad"
         }
       },
@@ -5084,7 +5167,7 @@
           [0.707107,0.0,-0.707106],
           [0.0,1.0,0.0],
           [0.707106,0.0,0.707107],
-          [2348.25,54.35,-9888.5]
+          [2348.25,69.9464,-9888.5]
         ],
         "unit_class": "us_57mm_m1",
         "closed_waypoints": false,
@@ -5399,7 +5482,7 @@
           [0.608761,0.0,-0.793353],
           [0.0,1.0,0.0],
           [0.793353,0.0,0.608761],
-          [2573.55,56.5,-9490.85]
+          [2573.55,72.0964,-9490.85]
         ],
         "unit_class": "us_57mm_m1",
         "closed_waypoints": false,
@@ -9361,7 +9444,7 @@
           [0.642788,0.0,-0.766044],
           [0.0,1.0,0.0],
           [0.766044,0.0,0.642788],
-          [2689.42,123.199,-8930.63]
+          [2689.42,107.487,-8930.63]
         ],
         "unit_class": "uk_bunker",
         "closed_waypoints": false,
@@ -9568,9 +9651,9 @@
       "structures": {
         "name": "t1_additional_bunker_07",
         "tm": [
-          [0.642788,0.364427,-0.673808],
-          [0.0,0.879594,0.475725],
-          [0.766044,-0.305791,0.565392],
+          [0.793457,7.14959e-19,-0.608627],
+          [-4.28297e-08,1.0,-8.35113e-07],
+          [0.608626,0.0,0.793457],
           [1806.94,44.271,-10590.9]
         ],
         "unit_class": "uk_bunker",
@@ -9603,9 +9686,9 @@
       "structures": {
         "name": "t1_additional_bunker_08",
         "tm": [
-          [0.642788,0.364427,-0.673808],
-          [0.0,0.879594,0.475725],
-          [0.766044,-0.305791,0.565392],
+          [0.598691,-1.86265e-09,-0.80098],
+          [-3.95812e-07,1.0,-6.50063e-07],
+          [0.80098,0.0,0.59869],
           [1809.65,44.271,-10775.3]
         ],
         "unit_class": "uk_bunker",
@@ -9638,10 +9721,10 @@
       "structures": {
         "name": "t1_additional_bunker_09",
         "tm": [
-          [0.642788,0.364427,-0.673808],
-          [0.0,0.879594,0.475725],
-          [0.766044,-0.305791,0.565392],
-          [1532.37,65.8164,-10818.3]
+          [0.690256,-8.9407e-08,-0.723566],
+          [-5.13663e-08,1.0,-8.10333e-07],
+          [0.723566,0.0,0.690255],
+          [1587.57,65.8164,-10841.1]
         ],
         "unit_class": "uk_bunker",
         "closed_waypoints": false,
@@ -9673,9 +9756,9 @@
       "structures": {
         "name": "t1_additional_bunker_10",
         "tm": [
-          [0.898644,0.364427,-0.244196],
-          [-0.246064,0.879594,0.407145],
-          [0.363168,-0.305791,0.880114],
+          [0.965005,-8.9407e-08,-0.262229],
+          [5.44257e-07,1.0,-4.10825e-07],
+          [0.262229,0.0,0.965005],
           [1632.78,44.3695,-11289.3]
         ],
         "unit_class": "uk_bunker",
@@ -9865,9 +9948,9 @@
       "structures": {
         "name": "t1_additional_bunker_11",
         "tm": [
-          [0.801277,0.364427,-0.474498],
-          [-0.128864,0.879594,0.45794],
-          [0.584251,-0.305791,0.751759],
+          [0.860448,-2.98023e-08,-0.509538],
+          [2.38419e-07,1.0,-2.83122e-07],
+          [0.509538,0.0,0.860448],
           [1247.01,44.369,-12061.4]
         ],
         "unit_class": "uk_bunker",
@@ -9900,9 +9983,9 @@
       "structures": {
         "name": "t1_additional_bunker_12",
         "tm": [
-          [0.801277,0.364427,-0.474498],
-          [-0.128864,0.879594,0.45794],
-          [0.584251,-0.305791,0.751759],
+          [0.860448,-2.98023e-08,-0.509538],
+          [2.38419e-07,1.0,-2.83122e-07],
+          [0.509538,0.0,0.860448],
           [1286.17,44.369,-11959.8]
         ],
         "unit_class": "uk_bunker",
@@ -9935,9 +10018,9 @@
       "structures": {
         "name": "t1_additional_bunker_13",
         "tm": [
-          [0.801277,0.364427,-0.474498],
-          [-0.128864,0.879594,0.45794],
-          [0.584251,-0.305791,0.751759],
+          [0.860448,-2.98023e-08,-0.509538],
+          [2.38419e-07,1.0,-2.83122e-07],
+          [0.509538,0.0,0.860448],
           [1169.49,44.3691,-12101.8]
         ],
         "unit_class": "uk_bunker",
@@ -9970,9 +10053,9 @@
       "structures": {
         "name": "t1_additional_bunker_14",
         "tm": [
-          [0.801277,0.364427,-0.474498],
-          [-0.128864,0.879594,0.45794],
-          [0.584251,-0.305791,0.751759],
+          [0.860448,-2.98023e-08,-0.509538],
+          [2.38419e-07,1.0,-2.83122e-07],
+          [0.509538,0.0,0.860448],
           [1071.24,44.3691,-12094.1]
         ],
         "unit_class": "uk_bunker",
@@ -10005,9 +10088,9 @@
       "structures": {
         "name": "t1_additional_bunker_15",
         "tm": [
-          [0.801277,0.364427,-0.474498],
-          [-0.128864,0.879594,0.45794],
-          [0.584251,-0.305791,0.751759],
+          [0.860448,-2.98023e-08,-0.509538],
+          [2.38419e-07,1.0,-2.83122e-07],
+          [0.509538,0.0,0.860448],
           [1031.81,44.3691,-12157.5]
         ],
         "unit_class": "uk_bunker",

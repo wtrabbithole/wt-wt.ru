@@ -108,6 +108,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     ItemsRoulette.skipAnimation(obj)
     opened = true
     updateWnd()
+    ::broadcastEvent("TrophyContentVisible", { trophyItem = trophyItem })
     return true
   }
 

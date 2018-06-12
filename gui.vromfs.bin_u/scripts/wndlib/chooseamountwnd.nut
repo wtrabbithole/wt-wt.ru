@@ -3,6 +3,7 @@ class ::gui_handlers.ChooseAmountWnd extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.MODAL
   sceneTplName = "gui/wndLib/chooseAmountWnd"
   shouldBlurSceneBg = false
+  needVoiceChat = false
 
   parentObj = null
   align = "bottom"

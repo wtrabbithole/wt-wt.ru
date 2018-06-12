@@ -6,6 +6,7 @@ const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
 const MAX_WND_ASPECT_RATIO_NAVBAR_GC = 0.92
 const DEBR_MYSTATS_TOP_BAR_GAP_MAX = 6
+const LAST_WON_VERSION_SAVE_ID = "lastWonInVersion"
 
 function gui_start_debriefingFull(params = {})
 {
@@ -147,7 +148,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   battleTasksConfigs = {}
   shouldBattleTasksListUpdate = false
 
-  inventoryGiftItemId = null
+  giftItems = null
+  isFirstWinInMajorUpdate = false
 
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
@@ -238,6 +240,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         local victoryBonus = (isMp && ::isDebriefingResultFull()) ? ::get_mission_victory_bonus_text(gm) : ""
         if (victoryBonus != "")
           resReward = ::loc("debriefing/MissionWinReward") + ::loc("ui/colon") + victoryBonus
+
+        local currentMajorVersion = ::get_game_version() >> 16
+        local lastWinVersion = ::load_local_account_settings(LAST_WON_VERSION_SAVE_ID, currentMajorVersion)
+        isFirstWinInMajorUpdate = currentMajorVersion > lastWinVersion
+        save_local_account_settings(LAST_WON_VERSION_SAVE_ID, currentMajorVersion)
       }
       else if (mpResult == ::STATS_RESULT_FAIL)
       {
@@ -263,8 +270,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     //update mp table
     needPlayersTbl = isMp && !(gameType & ::GT_COOPERATIVE) && isDebriefingResultFull()
-    local isShowWwCasualties = is_show_ww_casualties()
-    setSceneTitle(getCurMpTitle(!isShowWwCasualties, isShowWwCasualties))
+    setSceneTitle(getCurMpTitle())
 
     if (!isDebriefingResultFull())
     {
@@ -591,21 +597,40 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     fillPveRewardTrophyContent(trophyItemReceived, pveRewardInfo.isRewardReceivedEarlier)
   }
 
-  function handleInventoryGift()
+  function handleGiftItems()
   {
-    local inventoryGiftLogs = ::getUserLogsList({
-      show = [ ::EULT_INVENTORY_ADD_ITEM ]
-      currentRoomOnly = true
-      disableVisible = true
-    })
-
-    inventoryGiftItemId = inventoryGiftLogs?[0]?.itemDefId
-    if (!inventoryGiftItemId)
+    giftItems = ::debriefing_result?.giftItemsInfo
+    if (!giftItems)
       return
 
+    local itemId    = giftItems[0]?.id
+    local itemCount = giftItems[0]?.count
     local obj = scene.findObject("inventory_gift_icon")
-    local markup = ::trophyReward.getImageByConfig({ item = inventoryGiftItemId }, false)
+    local view = { item = giftItems[0]?.id, count = giftItems[0]?.count }
+    local markup = ::trophyReward.getImageByConfig(view, false)
     guiScene.replaceContentFromText(obj, markup, markup.len(), this)
+  }
+
+  function openGiftTrophy()
+  {
+    if (!giftItems?[0]?.needOpen)
+      return
+
+    local trophyItemId = giftItems[0].id
+    local filteredLogs = ::getUserLogsList({
+      show = [::EULT_OPEN_TROPHY]
+      currentRoomOnly = true
+      disableVisible = true
+      checkFunc = function(userlog) { return trophyItemId == userlog.body.id }
+    })
+
+    ::gui_start_open_trophy({ [trophyItemId] = filteredLogs })
+  }
+
+  function onEventTrophyContentVisible(params)
+  {
+    if (giftItems?[0]?.id && giftItems[0].id == params?.trophyItem?.id)
+      fillTrophyContentDiv(params.trophyItem, "inventory_gift_icon")
   }
 
   function fillPveRewardProgressBar()
@@ -663,7 +688,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function fillPveRewardTrophyContent(trophyItem, isRewardReceivedEarlier)
   {
     showSceneBtn("pve_award_already_received", isRewardReceivedEarlier)
-    local trophyContentPlaceObj = showSceneBtn("pve_trophy_content", !!trophyItem)
+    fillTrophyContentDiv(trophyItem, "pve_trophy_content")
+  }
+
+  function fillTrophyContentDiv(trophyItem, containerObjId)
+  {
+    local trophyContentPlaceObj = showSceneBtn(containerObjId, !!trophyItem)
     if (!trophyItem || !trophyContentPlaceObj)
       return
 
@@ -843,7 +873,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.showMyStats)
     {
-      handleInventoryGift()
+      handleGiftItems()
       if (!is_show_my_stats())
         return switchState()
 
@@ -972,8 +1002,22 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       locId = "win_session"
       subType = ps4_activity_feed.MISSION_SUCCESS
     }
+    local customConfig = {
+      blkParamName = "VICTORY"
+    }
 
-    ::prepareMessageForWallPostAndSend(config, {}, bit_activity.PS4_ACTIVITY_FEED)
+    if (isFirstWinInMajorUpdate)
+    {
+      config.locId = "win_session_after_update"
+      config.subType = ps4_activity_feed.MISSION_SUCCESS_AFTER_UPDATE
+      customConfig.blkParamName = "MAJOR_UPDATE"
+      local ver = split(::get_game_version_str(), ".")
+      customConfig.version <- ver[0]+"_"+ver[1]
+      customConfig.imgSuffix <- "_" + customConfig.version
+      customConfig.shouldForceLogo = true
+    }
+
+    ::prepareMessageForWallPostAndSend(config, customConfig, bit_activity.PS4_ACTIVITY_FEED)
   }
 
   function updateMyStats(dt)
@@ -2355,7 +2399,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   }
   function is_show_inventory_gift()
   {
-    return inventoryGiftItemId != null
+    return giftItems != null
   }
   function is_show_ww_casualties()
   {
@@ -2439,7 +2483,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local name = link.slice(3)
       local player = getPlayerInfo(name)
       if (player)
-        ::session_player_rmenu(this, player)
+        ::session_player_rmenu(this, player, obj.text)
     }
   }
 
@@ -2874,6 +2918,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     foreach(rewardConfig in rewardsArray)
       ::showUnlockWnd(rewardConfig)
+
+    openGiftTrophy()
   }
 
   function updateInfoText()
@@ -2965,10 +3011,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getInvetoryGiftActionData()
   {
-    if (!inventoryGiftItemId)
+    if (!giftItems)
       return null
 
-    local wSet = workshop.getSetByItemId(inventoryGiftItemId)
+    local wSet = workshop.getSetByItemId(giftItems?[0]?.id)
     if (wSet)
       return {
         btnText = ::loc("items/workshop")

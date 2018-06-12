@@ -411,6 +411,7 @@ function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
 enums.addTypesByGlobalName("g_crew_spec_type", {
   UNKNOWN = {
     specName    = "unknown"
+    trainedIcon = "#ui/gameuiskin#spec_icon1_place"
   }
 
   BASIC = {

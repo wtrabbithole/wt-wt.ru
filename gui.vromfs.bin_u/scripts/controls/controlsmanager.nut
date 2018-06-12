@@ -258,10 +258,7 @@
   function onEventMissionStarted(params)
   {
     if (::is_platform_ps4)
-    {
-      ::autobind_shortcuts()
       commitControls()
-    }
   }
 }
 

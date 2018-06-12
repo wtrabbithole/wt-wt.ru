@@ -13,7 +13,7 @@ local inspectorState = persist("state", @() {
 })
 
 
-local textButton = function(text, action) {
+local function textButton(text, action) {
   local stateFlags = Watched(0)
 
   return function() {
@@ -42,7 +42,7 @@ local textButton = function(text, action) {
 }
 
 
-local panelToolbar = function() {
+local function panelToolbar() {
   local btnPick = textButton("Pick", @() inspectorState.pickerActive.update(true))
 
   local alignText = (inspectorState.halign.value == HALIGN_RIGHT ? "<-" : "->")
@@ -61,7 +61,7 @@ local panelToolbar = function() {
   }
 }
 
-local join = function(arr, sep) {
+local function join(arr, sep) {
   local s = ""
   for (local i=0; i<arr.len(); ++i) {
     if (i)
@@ -72,7 +72,7 @@ local join = function(arr, sep) {
 }
 
 
-local propValue = function(desc, key) {
+local function propValue(desc, key) {
   local val = desc[key]
   local tp = type(val)
 
@@ -99,7 +99,7 @@ local propValue = function(desc, key) {
     text = s.slice(0, min(100, s.len()))
   }
 
-  local applyChange = function(new_val_text) {
+  local function applyChange(new_val_text) {
     local s = new_val_text
     if (tp == "string") {
       desc[key] = s
@@ -118,7 +118,7 @@ local propValue = function(desc, key) {
 }
 
 
-local propPanel = function(desc) {
+local function propPanel(desc) {
   local keys = []
   foreach (k,v in desc) {
     keys.append(k)
@@ -145,7 +145,7 @@ local propPanel = function(desc) {
 }
 
 
-local details = function() {
+local function details() {
   local sel = inspectorState.selection.value
 
   local text = sel ? sel.locationText : null
@@ -175,7 +175,7 @@ local details = function() {
 }
 
 
-local inspectorPanel = function() {
+local function inspectorPanel() {
   return {
     rendObj = ROBJ_SOLID
     color = Color(0, 0, 50, 50)
@@ -194,7 +194,7 @@ local inspectorPanel = function() {
 }
 
 
-local highlightRect = function() {
+local function highlightRect() {
   local hv = inspectorState.highlight.value
   return {
     rendObj = ROBJ_SOLID
@@ -210,7 +210,7 @@ local highlightRect = function() {
   }
 }
 
-local elemLocationText = function(elem, builder) {
+local function elemLocationText(elem, builder) {
   local text = "Source: unknown"
 
   local location = ::locate_element_source(elem)
@@ -226,7 +226,7 @@ local elemLocationText = function(elem, builder) {
 }
 
 
-local elementPicker = function() {
+local function elementPicker() {
   return {
     size = [sw(100), sh(100)]
     behavior = Behaviors.InspectPicker
@@ -256,10 +256,10 @@ local elementPicker = function() {
 
 
 
-local inspectorRoot = function() {
+local function inspectorRoot() {
   local children = null
 
-  local toggle = function() {
+  local function toggle() {
     if (inspectorState.shown.value) {
       inspectorState.shown.update(false)
       inspectorState.pickerActive.update(false)

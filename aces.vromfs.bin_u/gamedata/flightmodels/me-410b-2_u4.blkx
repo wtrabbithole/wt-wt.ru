@@ -620,27 +620,34 @@
           {
             "onHit": {
               "damage": 30.0,
-              "cut": 0.4
+              "cut": 0.6
             }
           },
           {
             "onHit": {
-              "damage": 60.0,
-              "cut": 0.6
+              "damage": 65.0,
+              "cut": 1.0
             }
           },
           {
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 14.0
+              "nothing": 11.0
             }
           },
           {
             "onKill": {
               "damage": 31.0,
-              "cut": 2.0,
-              "nothing": 5.0
+              "cut": 1.0,
+              "nothing": 3.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0,
+              "nothing": 0.0
             }
           }
         ]
@@ -1249,32 +1256,80 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing1_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing2_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_l_dm"
+          "name": "spar_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_l_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
         "part": {
-          "name": "spar_r_dm"
+          "name": "spar_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "part": {
+              "name": "wing_r_dm",
+              "canCut": true,
+              "ratio": 1.0
+            }
+          }
         }
       },
       {
@@ -1285,27 +1340,34 @@
           {
             "onHit": {
               "damage": 30.0,
-              "cut": 0.4
+              "cut": 0.6
             }
           },
           {
             "onHit": {
-              "damage": 60.0,
-              "cut": 0.6
+              "damage": 65.0,
+              "cut": 1.0
             }
           },
           {
             "onKill": {
               "damage": 10.0,
               "cut": 1.0,
-              "nothing": 14.0
+              "nothing": 11.0
             }
           },
           {
             "onKill": {
               "damage": 31.0,
-              "cut": 2.0,
-              "nothing": 5.0
+              "cut": 1.0,
+              "nothing": 3.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0,
+              "nothing": 0.0
             }
           }
         ]
@@ -2406,8 +2468,8 @@
     "Sound": {
       "Engine": "engine01",
       "gun": "gun_bf",
-      "cockpitOpen": "cockpit_door2_open",
-      "cockpitClose": "cockpit_door2_close"
+      "cockpitOpen": "cockpit_door3_open",
+      "cockpitClose": "cockpit_door3_close"
     }
   },
   {
@@ -2415,9 +2477,18 @@
       "headPos": [0.975,0.734,-0.038],
       "headPosOnShooting": [0.975,0.734,-0.038],
       "collimatorSize": 0.08,
-      "lightPos": [1.60248,0.486167,0.18394],
-      "lightColor": [0.62,0.3,0.21],
-      "lightAttenuation": 5.0,
+      "lightPos": [1.705804,0.366348,0.206583],
+      "lightColor": [0.55,0.37,0.2],
+      "lightRadius": 0.2,
+      "lightPos1": [1.704262,0.394186,-0.108739],
+      "lightColor1": [0.55,0.37,0.2],
+      "lightRadius1": 0.25,
+      "lightPos2": [1.55907,0.183895,-0.001352],
+      "lightColor2": [0.55,0.37,0.2],
+      "lightRadius2": 0.15,
+      "lightPos3": [1.670455,0.293357,0.279751],
+      "lightColor3": [0.55,0.37,0.2],
+      "lightRadius3": 0.15,
       "devices": [
         {
           "speed": [0.0,222.222]
@@ -2694,18 +2765,6 @@
             "dp": "tailcontrol_dm"
           },
           {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
-          },
-          {
             "dp": "oil%d_dm"
           },
           {
@@ -2905,18 +2964,6 @@
             "dp": "tailcontrol_dm"
           },
           {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
-          },
-          {
             "dp": "oil%d_dm"
           },
           {
@@ -3104,18 +3151,6 @@
             "dp": "tailcontrol_dm"
           },
           {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
-          },
-          {
             "dp": "oil%d_dm"
           },
           {
@@ -3301,18 +3336,6 @@
           },
           {
             "dp": "tailcontrol_dm"
-          },
-          {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
           },
           {
             "dp": "oil%d_dm"
@@ -3514,18 +3537,6 @@
             "dp": "tailcontrol_dm"
           },
           {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
-          },
-          {
             "dp": "oil%d_dm"
           },
           {
@@ -3711,18 +3722,6 @@
           },
           {
             "dp": "tailcontrol_dm"
-          },
-          {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
           },
           {
             "dp": "oil%d_dm"
@@ -3912,18 +3911,6 @@
             "dp": "tailcontrol_dm"
           },
           {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
-          },
-          {
             "dp": "oil%d_dm"
           },
           {
@@ -4108,18 +4095,6 @@
             "dp": "tailcontrol_dm"
           },
           {
-            "dp": "spar_l_dm"
-          },
-          {
-            "dp": "spar%d_l_dm"
-          },
-          {
-            "dp": "spar_r_dm"
-          },
-          {
-            "dp": "spar%d_r_dm"
-          },
-          {
             "dp": "oil%d_dm"
           },
           {
@@ -4187,6 +4162,754 @@
           },
           {
             "side1": -0.65
+          },
+          {
+            "axis2": [-1.0,0.0,0.0]
+          },
+          {
+            "dm2": "stab_dm"
+          },
+          {
+            "dm2": "stab1_dm"
+          },
+          {
+            "dm2": "stab2_dm"
+          },
+          {
+            "dm2": "elevator_dm"
+          },
+          {
+            "dm2": "elevator0_dm"
+          },
+          {
+            "dm2": "elevator1_dm"
+          },
+          {
+            "side2": -0.95
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "stab_dm"
+          },
+          {
+            "dp": "stab_dm"
+          },
+          {
+            "dp": "stab%d_dm"
+          },
+          {
+            "dp": "fin_dm"
+          },
+          {
+            "dp": "fin%d_dm"
+          },
+          {
+            "dp": "elevator_dm"
+          },
+          {
+            "dp": "elevator%d_dm"
+          },
+          {
+            "dp": "rudder_dm"
+          },
+          {
+            "dp": "rudder%d_dm"
+          },
+          {
+            "dp": "aileron_l_dm"
+          },
+          {
+            "dp": "aileron1_l_dm"
+          },
+          {
+            "dp": "aileron_r_dm"
+          },
+          {
+            "dp": "aileron1_r_dm"
+          },
+          {
+            "dp": "elevon_l_dm"
+          },
+          {
+            "dp": "elevon_r_dm"
+          },
+          {
+            "dp": "airbrake_l_dm"
+          },
+          {
+            "dp": "airbrake_r_dm"
+          },
+          {
+            "dp": "airbrake_c_dm"
+          },
+          {
+            "dp": "aileron_interceptor_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor_r_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_r_dm"
+          },
+          {
+            "dp": "wingcontrol_dm"
+          },
+          {
+            "dp": "wingcontrol_l_dm"
+          },
+          {
+            "dp": "wingcontrol_r_dm"
+          },
+          {
+            "dp": "tailcontrol_dm"
+          },
+          {
+            "dp": "oil%d_dm"
+          },
+          {
+            "dp": "water%d_dm"
+          },
+          {
+            "dp": "tank%d_dm"
+          },
+          {
+            "dp": "cannon%d_dm"
+          },
+          {
+            "dp": "mgun%d_dm"
+          },
+          {
+            "dp": "gunner%d_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
+          },
+          {
+            "dp": "flap_l_dm"
+          },
+          {
+            "dp": "flap%d_l_dm"
+          },
+          {
+            "dp": "flap_r_dm"
+          },
+          {
+            "dp": "flap%d_r_dm"
+          },
+          {
+            "dp": "flap_c_dm"
+          },
+          {
+            "dp": "flap%d_c_dm"
+          },
+          {
+            "dp": "flap_airbrake_l_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_l_dm"
+          },
+          {
+            "dp": "flap_airbrake_r_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "axis1": [0.0,0.0,1.0]
+          },
+          {
+            "side1": 0.4
+          },
+          {
+            "axis2": [-1.0,0.0,0.0]
+          },
+          {
+            "dm2": "stab_dm"
+          },
+          {
+            "dm2": "stab1_dm"
+          },
+          {
+            "dm2": "stab2_dm"
+          },
+          {
+            "dm2": "elevator_dm"
+          },
+          {
+            "dm2": "elevator0_dm"
+          },
+          {
+            "dm2": "elevator1_dm"
+          },
+          {
+            "side2": -0.95
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "stab_dm"
+          },
+          {
+            "dp": "stab_dm"
+          },
+          {
+            "dp": "stab%d_dm"
+          },
+          {
+            "dp": "fin_dm"
+          },
+          {
+            "dp": "fin%d_dm"
+          },
+          {
+            "dp": "elevator_dm"
+          },
+          {
+            "dp": "elevator%d_dm"
+          },
+          {
+            "dp": "rudder_dm"
+          },
+          {
+            "dp": "rudder%d_dm"
+          },
+          {
+            "dp": "aileron_l_dm"
+          },
+          {
+            "dp": "aileron1_l_dm"
+          },
+          {
+            "dp": "aileron_r_dm"
+          },
+          {
+            "dp": "aileron1_r_dm"
+          },
+          {
+            "dp": "elevon_l_dm"
+          },
+          {
+            "dp": "elevon_r_dm"
+          },
+          {
+            "dp": "airbrake_l_dm"
+          },
+          {
+            "dp": "airbrake_r_dm"
+          },
+          {
+            "dp": "airbrake_c_dm"
+          },
+          {
+            "dp": "aileron_interceptor_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor_r_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_r_dm"
+          },
+          {
+            "dp": "wingcontrol_dm"
+          },
+          {
+            "dp": "wingcontrol_l_dm"
+          },
+          {
+            "dp": "wingcontrol_r_dm"
+          },
+          {
+            "dp": "tailcontrol_dm"
+          },
+          {
+            "dp": "oil%d_dm"
+          },
+          {
+            "dp": "water%d_dm"
+          },
+          {
+            "dp": "tank%d_dm"
+          },
+          {
+            "dp": "cannon%d_dm"
+          },
+          {
+            "dp": "mgun%d_dm"
+          },
+          {
+            "dp": "gunner%d_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
+          },
+          {
+            "dp": "flap_l_dm"
+          },
+          {
+            "dp": "flap%d_l_dm"
+          },
+          {
+            "dp": "flap_r_dm"
+          },
+          {
+            "dp": "flap%d_r_dm"
+          },
+          {
+            "dp": "flap_c_dm"
+          },
+          {
+            "dp": "flap%d_c_dm"
+          },
+          {
+            "dp": "flap_airbrake_l_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_l_dm"
+          },
+          {
+            "dp": "flap_airbrake_r_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "axis1": [0.0,0.0,-1.0]
+          },
+          {
+            "side1": 0.4
+          },
+          {
+            "axis2": [-1.0,0.0,0.0]
+          },
+          {
+            "dm2": "stab_dm"
+          },
+          {
+            "dm2": "stab1_dm"
+          },
+          {
+            "dm2": "stab2_dm"
+          },
+          {
+            "dm2": "elevator_dm"
+          },
+          {
+            "dm2": "elevator0_dm"
+          },
+          {
+            "dm2": "elevator1_dm"
+          },
+          {
+            "side2": -0.95
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "stab1_dm"
+          },
+          {
+            "dp": "stab_dm"
+          },
+          {
+            "dp": "stab%d_dm"
+          },
+          {
+            "dp": "fin_dm"
+          },
+          {
+            "dp": "fin%d_dm"
+          },
+          {
+            "dp": "elevator_dm"
+          },
+          {
+            "dp": "elevator%d_dm"
+          },
+          {
+            "dp": "rudder_dm"
+          },
+          {
+            "dp": "rudder%d_dm"
+          },
+          {
+            "dp": "aileron_l_dm"
+          },
+          {
+            "dp": "aileron1_l_dm"
+          },
+          {
+            "dp": "aileron_r_dm"
+          },
+          {
+            "dp": "aileron1_r_dm"
+          },
+          {
+            "dp": "elevon_l_dm"
+          },
+          {
+            "dp": "elevon_r_dm"
+          },
+          {
+            "dp": "airbrake_l_dm"
+          },
+          {
+            "dp": "airbrake_r_dm"
+          },
+          {
+            "dp": "airbrake_c_dm"
+          },
+          {
+            "dp": "aileron_interceptor_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor_r_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_r_dm"
+          },
+          {
+            "dp": "wingcontrol_dm"
+          },
+          {
+            "dp": "wingcontrol_l_dm"
+          },
+          {
+            "dp": "wingcontrol_r_dm"
+          },
+          {
+            "dp": "tailcontrol_dm"
+          },
+          {
+            "dp": "oil%d_dm"
+          },
+          {
+            "dp": "water%d_dm"
+          },
+          {
+            "dp": "tank%d_dm"
+          },
+          {
+            "dp": "cannon%d_dm"
+          },
+          {
+            "dp": "mgun%d_dm"
+          },
+          {
+            "dp": "gunner%d_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
+          },
+          {
+            "dp": "flap_l_dm"
+          },
+          {
+            "dp": "flap%d_l_dm"
+          },
+          {
+            "dp": "flap_r_dm"
+          },
+          {
+            "dp": "flap%d_r_dm"
+          },
+          {
+            "dp": "flap_c_dm"
+          },
+          {
+            "dp": "flap%d_c_dm"
+          },
+          {
+            "dp": "flap_airbrake_l_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_l_dm"
+          },
+          {
+            "dp": "flap_airbrake_r_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "axis1": [0.0,0.0,1.0]
+          },
+          {
+            "side1": 0.4
+          },
+          {
+            "axis2": [-1.0,0.0,0.0]
+          },
+          {
+            "dm2": "stab_dm"
+          },
+          {
+            "dm2": "stab1_dm"
+          },
+          {
+            "dm2": "stab2_dm"
+          },
+          {
+            "dm2": "elevator_dm"
+          },
+          {
+            "dm2": "elevator0_dm"
+          },
+          {
+            "dm2": "elevator1_dm"
+          },
+          {
+            "side2": -0.95
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "stab2_dm"
+          },
+          {
+            "dp": "stab_dm"
+          },
+          {
+            "dp": "stab%d_dm"
+          },
+          {
+            "dp": "fin_dm"
+          },
+          {
+            "dp": "fin%d_dm"
+          },
+          {
+            "dp": "elevator_dm"
+          },
+          {
+            "dp": "elevator%d_dm"
+          },
+          {
+            "dp": "rudder_dm"
+          },
+          {
+            "dp": "rudder%d_dm"
+          },
+          {
+            "dp": "aileron_l_dm"
+          },
+          {
+            "dp": "aileron1_l_dm"
+          },
+          {
+            "dp": "aileron_r_dm"
+          },
+          {
+            "dp": "aileron1_r_dm"
+          },
+          {
+            "dp": "elevon_l_dm"
+          },
+          {
+            "dp": "elevon_r_dm"
+          },
+          {
+            "dp": "airbrake_l_dm"
+          },
+          {
+            "dp": "airbrake_r_dm"
+          },
+          {
+            "dp": "airbrake_c_dm"
+          },
+          {
+            "dp": "aileron_interceptor_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_l_dm"
+          },
+          {
+            "dp": "aileron_interceptor_r_dm"
+          },
+          {
+            "dp": "aileron_interceptor%d_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_l_dm"
+          },
+          {
+            "dp": "rudder_interceptor_r_dm"
+          },
+          {
+            "dp": "rudder_interceptor%_r_dm"
+          },
+          {
+            "dp": "wingcontrol_dm"
+          },
+          {
+            "dp": "wingcontrol_l_dm"
+          },
+          {
+            "dp": "wingcontrol_r_dm"
+          },
+          {
+            "dp": "tailcontrol_dm"
+          },
+          {
+            "dp": "oil%d_dm"
+          },
+          {
+            "dp": "water%d_dm"
+          },
+          {
+            "dp": "tank%d_dm"
+          },
+          {
+            "dp": "cannon%d_dm"
+          },
+          {
+            "dp": "mgun%d_dm"
+          },
+          {
+            "dp": "gunner%d_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
+          },
+          {
+            "dp": "flap_l_dm"
+          },
+          {
+            "dp": "flap%d_l_dm"
+          },
+          {
+            "dp": "flap_r_dm"
+          },
+          {
+            "dp": "flap%d_r_dm"
+          },
+          {
+            "dp": "flap_c_dm"
+          },
+          {
+            "dp": "flap%d_c_dm"
+          },
+          {
+            "dp": "flap_airbrake_l_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_l_dm"
+          },
+          {
+            "dp": "flap_airbrake_r_dm"
+          },
+          {
+            "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "axis1": [0.0,0.0,-1.0]
+          },
+          {
+            "side1": 0.4
           },
           {
             "axis2": [-1.0,0.0,0.0]
@@ -4699,10 +5422,13 @@
             "dm": "wing_l_dm"
           },
           {
-            "dp": "wires_l"
+            "dp": "spar_l_dm"
           },
           {
-            "dp": "wires_lc"
+            "dp": "wire_l"
+          },
+          {
+            "dp": "wire_lc"
           }
         ]
       },
@@ -4712,10 +5438,13 @@
             "dm": "wing1_l_dm"
           },
           {
-            "dp": "wires_l"
+            "dp": "spar1_l_dm"
           },
           {
-            "dp": "wires_lc"
+            "dp": "wire_l"
+          },
+          {
+            "dp": "wire_lc"
           }
         ]
       },
@@ -4725,10 +5454,13 @@
             "dm": "wing2_l_dm"
           },
           {
-            "dp": "wires_l"
+            "dp": "spar2_l_dm"
           },
           {
-            "dp": "wires_lc"
+            "dp": "wire_l"
+          },
+          {
+            "dp": "wire_lc"
           }
         ]
       },
@@ -4738,10 +5470,13 @@
             "dm": "wing_r_dm"
           },
           {
-            "dp": "wires_r"
+            "dp": "spar_r_dm"
           },
           {
-            "dp": "wires_rc"
+            "dp": "wire_r"
+          },
+          {
+            "dp": "wire_rc"
           }
         ]
       },
@@ -4751,10 +5486,13 @@
             "dm": "wing1_r_dm"
           },
           {
-            "dp": "wires_r"
+            "dp": "spar1_r_dm"
           },
           {
-            "dp": "wires_rc"
+            "dp": "wire_r"
+          },
+          {
+            "dp": "wire_rc"
           }
         ]
       },
@@ -4764,12 +5502,79 @@
             "dm": "wing2_r_dm"
           },
           {
-            "dp": "wires_r"
+            "dp": "spar2_r_dm"
           },
           {
-            "dp": "wires_rc"
+            "dp": "wire_r"
+          },
+          {
+            "dp": "wire_rc"
           }
         ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "spar_l_dm"
+          },
+          {
+            "dp": "wing_l_dm"
+          },
+          {
+            "dp": "spar1_l_dm"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "spar1_l_dm"
+          },
+          {
+            "dp": "wing1_l_dm"
+          },
+          {
+            "dp": "spar2_l_dm"
+          }
+        ]
+      },
+      {
+        "dp": {
+          "dm": "spar2_l_dm",
+          "dp": "wing2_l_dm"
+        }
+      },
+      {
+        "dp": [
+          {
+            "dm": "spar_r_dm"
+          },
+          {
+            "dp": "wing_r_dm"
+          },
+          {
+            "dp": "spar1_r_dm"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "spar1_r_dm"
+          },
+          {
+            "dp": "wing1_r_dm"
+          },
+          {
+            "dp": "spar2_r_dm"
+          }
+        ]
+      },
+      {
+        "dp": {
+          "dm": "spar2_r_dm",
+          "dp": "wing2_r_dm"
+        }
       },
       {
         "dp": [
@@ -4780,15 +5585,65 @@
             "dp": "antenna"
           },
           {
-            "dp": "wires_lc"
+            "dp": "wire_lc"
           },
           {
-            "dp": "wires_rc"
+            "dp": "wire_rc"
           },
           {
-            "dp": "wires_c"
+            "dp": "wire_c"
           }
         ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "stab_dm"
+          },
+          {
+            "dp": "elevator_dm"
+          },
+          {
+            "dp": "elevator%d_dm"
+          }
+        ]
+      },
+      {
+        "dp": {
+          "dm": "stab1_dm",
+          "dp": "elevator0_dm"
+        }
+      },
+      {
+        "dp": {
+          "dm": "stab2_dm",
+          "dp": "elevator1_dm"
+        }
+      },
+      {
+        "dp": [
+          {
+            "dm": "fin_dm"
+          },
+          {
+            "dp": "rudder_dm"
+          },
+          {
+            "dp": "rudder%d_dm"
+          }
+        ]
+      },
+      {
+        "dp": {
+          "dm": "fin1_dm",
+          "dp": "rudder0_dm"
+        }
+      },
+      {
+        "dp": {
+          "dm": "fin2_dm",
+          "dp": "rudder1_dm"
+        }
       },
       {
         "dp": {
@@ -4965,6 +5820,174 @@
       {
         "dp": [
           {
+            "dm": "engine1_dm"
+          },
+          {
+            "dp": "prop01_1"
+          },
+          {
+            "dp": "prop02_1"
+          },
+          {
+            "dp": "prop03_1"
+          },
+          {
+            "dp": "prop_side_1"
+          },
+          {
+            "dp": "fan01_1"
+          },
+          {
+            "dp": "fan02_1"
+          },
+          {
+            "dp": "fan03_1"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "engine2_dm"
+          },
+          {
+            "dp": "prop01_2"
+          },
+          {
+            "dp": "prop02_2"
+          },
+          {
+            "dp": "prop03_2"
+          },
+          {
+            "dp": "prop_side_2"
+          },
+          {
+            "dp": "fan01_2"
+          },
+          {
+            "dp": "fan02_2"
+          },
+          {
+            "dp": "fan03_2"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "engine3_dm"
+          },
+          {
+            "dp": "prop01_3"
+          },
+          {
+            "dp": "prop02_3"
+          },
+          {
+            "dp": "prop03_3"
+          },
+          {
+            "dp": "prop_side_3"
+          },
+          {
+            "dp": "fan01_3"
+          },
+          {
+            "dp": "fan02_3"
+          },
+          {
+            "dp": "fan03_3"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "engine4_dm"
+          },
+          {
+            "dp": "prop01_4"
+          },
+          {
+            "dp": "prop02_4"
+          },
+          {
+            "dp": "prop03_4"
+          },
+          {
+            "dp": "prop_side_4"
+          },
+          {
+            "dp": "fan01_4"
+          },
+          {
+            "dp": "fan02_4"
+          },
+          {
+            "dp": "fan03_4"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "engine5_dm"
+          },
+          {
+            "dp": "prop01_5"
+          },
+          {
+            "dp": "prop02_5"
+          },
+          {
+            "dp": "prop03_5"
+          },
+          {
+            "dp": "prop_side_5"
+          },
+          {
+            "dp": "fan01_5"
+          },
+          {
+            "dp": "fan02_5"
+          },
+          {
+            "dp": "fan03_5"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
+            "dm": "engine6_dm"
+          },
+          {
+            "dp": "prop01_6"
+          },
+          {
+            "dp": "prop02_6"
+          },
+          {
+            "dp": "prop03_6"
+          },
+          {
+            "dp": "prop_side_6"
+          },
+          {
+            "dp": "fan01_6"
+          },
+          {
+            "dp": "fan02_6"
+          },
+          {
+            "dp": "fan03_6"
+          }
+        ]
+      },
+      {
+        "dp": [
+          {
             "dm": "wing2_l_dm"
           },
           {
@@ -5113,13 +6136,15 @@
       "emtr_break_wing1_r_to": [-0.655128,-0.408854,-4.15284],
       "emtr_break_wing2_r_from": [-0.655128,-0.408854,-5.65923],
       "emtr_break_wing2_r_to": [-0.655128,-0.408854,-6.66261],
-      "emtr_break_wing_tail": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-7.10279,0.0,0.0]
-      ],
-      "partKindTail": 2
+      "emtr_break_wing_tail": [-7.10279,0.0,0.0],
+      "partKindTail": 2,
+      "finCut": false,
+      "emtr_break_stab_l_from": [-7.91451,0.405178,0.574353],
+      "emtr_break_stab_l_to": [-7.91451,0.405178,2.29741],
+      "emtr_break_stab_r_from": [-7.91451,0.405178,-0.574353],
+      "emtr_break_stab_r_to": [-7.91451,0.405178,-2.29741],
+      "emtr_break_fin_from": [-7.15953,0.992881,-0.0023315],
+      "emtr_break_fin_to": [-7.15953,2.20507,-0.0023315]
     }
   },
   {
@@ -5234,9 +6259,11 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunMG131_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun1",
           "flash": "flare5",
           "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
           "gunDm": "gun1_dm",
           "partsDP": "gun1_dm",
           "bullets": 500,
@@ -5254,9 +6281,11 @@
         "Weapon": {
           "trigger": "gunner1",
           "blk": "gameData/Weapons/gunMG131_turret.blk",
+          "breechInCockpit": true,
           "emitter": "gun2",
           "flash": "flare6",
           "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
           "gunDm": "gun2_dm",
           "partsDP": "gun2_dm",
           "bullets": 500,
@@ -5329,9 +6358,6 @@
           },
           {
             "node": "armor9_dm"
-          },
-          {
-            "node": "cannon5_dm"
           }
         ]
       }

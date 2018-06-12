@@ -11,10 +11,12 @@ enum validationCheckBitMask {
 }
 
 const INVENTORY_PROGRESS_MSG_ID = "INVENTORY_REQUEST"
+const WAR_THUNDER_EAGLES = "WTE"
 
 local InventoryClient = class {
   items = {}
   itemdefs = {}
+  prices = {}
 
   REQUEST_TIMEOUT_MSEC = 15000
   lastUpdateTime = -1
@@ -85,12 +87,16 @@ local InventoryClient = class {
   function constructor()
   {
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
-    refreshItems()
+    if (::g_login.isAuthorized())
+      refreshDataOnAuthorization()
   }
 
-  function onEventAuthorizeComplete(p)
+  onEventAuthorizeComplete = @(p) refreshDataOnAuthorization
+
+  function refreshDataOnAuthorization()
   {
     refreshItems()
+    requestPrices()
   }
 
   function request(action, headers, data, callback, progressBoxData = null)
@@ -425,13 +431,9 @@ local InventoryClient = class {
     }
   }
 
-  function getItems() {
-    return items
-  }
-
-  function getItemdefs() {
-    return itemdefs
-  }
+  getItems             = @() items
+  getItemdefs          = @() itemdefs
+  getItemCost          = @(itemdefid) prices?[itemdefid] ?? ::zero_money
 
   function addItemDefIdToRequest(itemdefid)
   {
@@ -587,9 +589,46 @@ local InventoryClient = class {
     }, true)
   }
 
+  function requestPrices()
+  {
+    request("GetItemPrices",
+      { currency = WAR_THUNDER_EAGLES },
+      null,
+      function(result) {
+        local itemPrices = result?.response?.itemPrices
+        if (!::u.isArray(itemPrices))
+        {
+          notifyPricesChanged()
+          return
+        }
+
+        prices.clear()
+        local shouldRequestItemdefs = false
+        foreach(data in itemPrices)
+        {
+          local itemdefid = data?.itemdefid
+          if (itemdefid == null)
+            continue
+          prices[itemdefid] <- ::Cost(0, data?.price)
+          shouldRequestItemdefs = addItemDefIdToRequest(itemdefid) || shouldRequestItemdefs
+        }
+
+        if (shouldRequestItemdefs)
+          requestItemDefs(notifyPricesChanged)
+        else
+          notifyPricesChanged()
+      })
+  }
+
+  function notifyPricesChanged()
+  {
+    ::broadcastEvent("ExtPricesChanged")
+  }
+
   function onEventSignOut(p)
   {
     lastUpdateTime = -1
+    prices.clear()
   }
 }
 

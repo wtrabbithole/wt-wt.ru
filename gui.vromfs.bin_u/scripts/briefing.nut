@@ -354,7 +354,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       missionBlk.setBool("isLimitedAmmo", ::mission_settings.isLimitedAmmo)
     }
 
-    ::select_mission(missionBlk, true);
+    ::select_mission(missionBlk, false);
 
     local gt = ::get_game_type(); //we know it after select_mission()
 
@@ -724,7 +724,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     if (gm == ::GM_DYNAMIC)
       ::select_mission_full(misBlk, ::mission_settings.missionFull);
     else
-      ::select_mission(misBlk, true)
+      ::select_mission(misBlk, false)
   }
 
   function onFinalApply2()

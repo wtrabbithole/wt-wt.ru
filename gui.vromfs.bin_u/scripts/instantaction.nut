@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -478,7 +479,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     foreach(name, value in manualMission)
       if (name != "name")
         missionBlk[name] <- value
-    ::select_mission(missionBlk, true)
+    ::select_mission(missionBlk, false)
     ::current_campaign_mission = missionBlk.name
     guiScene.performDelayed(this, function() { goForward(::gui_start_flight)})
   }
@@ -1079,10 +1080,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (::disable_network() || !::my_stats.isStatsLoaded())
       return
 
-    local id = "tutor/toBattle"
-    if (!::loadLocalByAccount(id, false) && ::is_me_newbie() && !::my_stats.getPvpRespawns())
-      toBattleTutor()
-    ::saveLocalByAccount(id, true)
+    if (!tutorialModule.needShowTutorial("toBattle", 1) || ::my_stats.getPvpRespawns())
+      return
+
+    toBattleTutor()
+    tutorialModule.saveShowedTutorial("toBattle")
   }
 
   function checkUpgradeCrewTutorial()
