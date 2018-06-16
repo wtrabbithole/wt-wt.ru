@@ -451,24 +451,23 @@
         },
         {
           "varSetInt": {
+            "value": 1000,
+            "var": "tickets_bonus_after_wave_max",
+            "fromDescriptor": "ticketsBonusMax"
+          }
+        },
+        {
+          "varSetInt": {
             "value": 0,
             "var": "tickets_bonus_after_wave_min",
-            "input_var": "tickets_bonus_after_wave_default",
-            "fromDescriptor": ""
+            "input_var": "tickets_bonus_after_wave_max"
           }
         },
         {
           "varModify": {
             "operator": "divAB",
-            "value": 3.0,
+            "value": 5.0,
             "var": "tickets_bonus_after_wave_min"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 10000,
-            "var": "tickets_bonus_after_wave_max",
-            "fromDescriptor": "ticketsBonusMax"
           }
         }
       ],
@@ -2210,20 +2209,20 @@
           },
           {
             "varModify": {
-              "operator": "divAB",
-              "value": 10.0,
-              "var": "wave_units_number_var",
-              "use_variable": true,
-              "var_value": "players_max_count_int"
-            }
-          },
-          {
-            "varModify": {
               "operator": "mul",
               "value": 10.0,
               "var": "wave_units_number_var",
               "use_variable": true,
               "var_value": "players_online_count_int"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "divAB",
+              "value": 10.0,
+              "var": "wave_units_number_var",
+              "use_variable": true,
+              "var_value": "players_max_count_int"
             }
           },
           {

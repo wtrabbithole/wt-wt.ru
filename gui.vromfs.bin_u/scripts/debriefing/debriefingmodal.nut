@@ -242,7 +242,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
           resReward = ::loc("debriefing/MissionWinReward") + ::loc("ui/colon") + victoryBonus
 
         local currentMajorVersion = ::get_game_version() >> 16
-        local lastWinVersion = ::load_local_account_settings(LAST_WON_VERSION_SAVE_ID, currentMajorVersion)
+        local lastWinVersion = ::load_local_account_settings(LAST_WON_VERSION_SAVE_ID, 0)
         isFirstWinInMajorUpdate = currentMajorVersion > lastWinVersion
         save_local_account_settings(LAST_WON_VERSION_SAVE_ID, currentMajorVersion)
       }
@@ -1014,7 +1014,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local ver = split(::get_game_version_str(), ".")
       customConfig.version <- ver[0]+"_"+ver[1]
       customConfig.imgSuffix <- "_" + customConfig.version
-      customConfig.shouldForceLogo = true
+      customConfig.shouldForceLogo <- true
     }
 
     ::prepareMessageForWallPostAndSend(config, customConfig, bit_activity.PS4_ACTIVITY_FEED)

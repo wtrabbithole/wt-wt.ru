@@ -1326,7 +1326,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function addRoomMsg(roomId, messageAuthor, msg, privateMsg = false, myPrivate = false, overlaySystemColor = null, important=false)
   {//messageAuthor can be as string - Player nick, and as table - player contact.
    //after getting type, and acting accordingly, name must be string and mean name of player
-
+    msg = ::stringReplace(msg, "%", "%%")
     local text = ""
     local clanTag = ""
     local myself = false
@@ -1408,7 +1408,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       messageAuthor = myself ? ::my_user_name : messageAuthor
       local targetRoom = ::g_chat.getRoomById(roomId)
 
-      if (targetRoom.messageList.len() > 0 && !targetRoom.isCustomScene) {
+      if (targetRoom && targetRoom.messageList.len() > 0 && !targetRoom.isCustomScene) {
         local lastMessage = targetRoom.messageList[targetRoom.messageList.len()-1]
         if (lastMessage.messageAuthor == messageAuthor) {
           local msgObj = targetRoom.messageList[targetRoom.messageList.len()-1];
@@ -1420,7 +1420,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         }
       }
 
-      if(!privateMsg) {
+      if(targetRoom && !privateMsg) {
         text = "<Link=%s><Color=%s>%s</Color>:</Link> "
         text += (!targetRoom.isCustomScene ? "\n":"") + "%s"
         text = format(text, ::g_chat.generatePlayerLink(messageAuthor, uid), userColor, from, msg)

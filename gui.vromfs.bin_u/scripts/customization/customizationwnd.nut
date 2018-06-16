@@ -1527,7 +1527,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onBtnBack()
   {
     if (currentState & decoratorEditState.NONE)
-      goBack()
+      return goBack()
 
     if (currentState & decoratorEditState.SELECT)
       return onBtnCloseDecalsMenu()
@@ -2177,10 +2177,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBack()
   {
-    guiScene.performDelayed(this, base.goBack)
     ::g_decorator.clearUgcPreviewParams()  // clear only when closed by player
     setDmgSkinMode(false)
     ::hangar_show_model_damaged(MDS_ORIGINAL)
+    guiScene.performDelayed(this, base.goBack)
   }
 
   function onDestroy()

@@ -122,7 +122,7 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         local progressBarValue = 1000 * curSpecType.getExpLeftByCrewAndUnit(crew, rowUnit)
           / curSpecType.getTotalExpByUnit(rowUnit)
-        progressBarObj.setValue(progressBarValue.tointeger().tostring())
+        progressBarObj.setValue(progressBarValue.tointeger())
       }
     }
   }

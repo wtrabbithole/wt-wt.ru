@@ -1193,7 +1193,7 @@ enum ConflictGroups {
     { id="ID_CONTINUE_SETUP",    checkGroup = ctrlGroups.NO_GROUP, checkAssign = false }
     { id="ID_GAME_PAUSE",        checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_HIDE_HUD",          checkGroup = ctrlGroups.COMMON, checkAssign = false }
-    { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.COMMON, checkAssign = false
+    { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.NO_GROUP, checkAssign = false
       showFunc = @() !::is_platform_xboxone
       condition = @() ::is_platform_pc || ::is_ps4_or_xbox
     }
@@ -1221,7 +1221,7 @@ enum ConflictGroups {
     }
 */
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
-    { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false
+    { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.NO_GROUP, checkAssign = false
       showFunc = @() !::is_platform_xboxone
   }
     { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
