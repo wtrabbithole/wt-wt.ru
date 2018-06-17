@@ -332,7 +332,6 @@ local ItemExternal = class extends ::BaseItem
       return true
     }
 
-    local canSell = itemDef?.marketable
     local text = ::loc("recentItems/useItem", { itemName = ::colorize("activeTextColor", getName()) })
       + "\n" + ::loc("msgBox/coupon_exchange")
     local msgboxParams = {
@@ -340,7 +339,7 @@ local ItemExternal = class extends ::BaseItem
       baseHandler = ::get_cur_base_gui_handler() //FIX ME: handler used only for prizes tooltips
       data_below_text = ::PrizesView.getPrizesListView([ metaBlk ],
         { showAsTrophyContent = true, receivedPrizes = false, widthByParentParent = true })
-      data_below_buttons = canSell
+      data_below_buttons = ::has_feature("Marketplace") && itemDef?.marketable
         ? ::format("textarea{overlayTextColor:t='warning'; text:t='%s'}", ::g_string.stripTags(::loc("msgBox/coupon_will_be_spent")))
         : null
     }

@@ -367,7 +367,7 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   @(obj) !obj.isValid()
 )
 
-  // Independed Modules
+  // Independed Modules (before login)
 ::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
 ::require("scripts/clientState/elems/dlDataStatElem.nut")
 ::require("sqDagui/framework/progressMsg.nut").setTextLocIdDefault("charServer/purchase0")
@@ -808,7 +808,7 @@ function load_scripts_after_login_once()
   if (::g_login.isAuthorized() || ::disable_network()) //load scripts from packs only after login
     ::g_script_reloader.loadIfExist("scripts/worldWar/worldWar.nut")
 
-  // Independed Modules
+  // Independed Modules (after login)
   ::require("scripts/social/playerInfoUpdater.nut")
   ::require("scripts/seen/bhvUnseen.nut")
   ::require("scripts/items/roulette/bhvRoulette.nut")

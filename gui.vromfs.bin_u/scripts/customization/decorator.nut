@@ -30,6 +30,8 @@ class Decorator
   cost = null
   forceShowInCustomization = null
 
+  isToStringForDebug = true
+
   constructor(blkOrId, decType)
   {
     decoratorType = decType
@@ -246,17 +248,10 @@ class Decorator
     tags = itemDef?.tags
   }
 
-  function tostring()
+  function _tostring()
   {
-    local string = []
-    string.append("id = " + id)
-    if (category != "")
-      string.append("category = " + category)
-    string.append("decoratorType = " + decoratorType.name)
-    if (unlockId)
-      string.append("unlockId = " + unlockId)
-
-    return "Decorator: " + ::g_string.implode(string, "; ")
+    return format("Decorator(%s, %s%s)", ::toString(id), decoratorType.name,
+      unlockId == "" ? "" : (", unlock=" + unlockId))
   }
 
   function getLocParamsDesc()

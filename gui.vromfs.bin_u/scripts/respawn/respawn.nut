@@ -940,8 +940,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local coords = ::get_mouse_relative_coords_on_obj(tmapBtnObj)
     local spawnId = coords ? ::get_respawn_base(coords[0], coords[1]) : respawnBases.MAP_ID_NOTHING
-    if (curRespawnBase?.isMapSelectable && spawnId == curRespawnBase?.id)
-      spawnId = respawnBases.MAP_ID_NOTHING
 
     local selIdx = -1
     if (spawnId != -1)

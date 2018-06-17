@@ -74,14 +74,6 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject(option.id).setValue(value)
   }
 
-  function setAnalysisParams()
-  {
-    local bullet = protectionAnalysisOptions.BULLET.value
-    local distance = protectionAnalysisOptions.DISTANCE.value
-    if (bullet)
-      ::set_protection_checker_params(bullet?.weaponBlkName ?? "", bullet?.bulletName ?? "", distance)
-  }
-
   function onWeaponsInfo(obj)
   {
     ::open_weapons_for_unit(unit)

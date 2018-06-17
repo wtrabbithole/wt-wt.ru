@@ -367,8 +367,9 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     local tables = ""
     if (::has_feature("extendedReplayInfo") && "comments" in replayInfo)
     {
-      local gameType = ::getTblValue("gameType", replayInfo, 0)
-      local replayResultsTable = gatherReplayCommentData(replayInfo, gameType)
+      local gameType = replayInfo?.gameType ?? 0
+      local gameMode = replayInfo?.gameMode
+      local replayResultsTable = gatherReplayCommentData(replayInfo, gameType, gameMode)
       addDescr = ::getTblValue("addDescr", replayResultsTable, "")
 
       foreach (name in replayResultsTable.tablesArray)
@@ -388,7 +389,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     return addDescr
   }
 
-  function gatherReplayCommentData(replayInfo, gameType)
+  function gatherReplayCommentData(replayInfo, gameType, gameMode)
   {
     local replayComments = ::getTblValue("comments", replayInfo)
     if (!replayComments)
@@ -502,7 +503,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     foreach(id in columnsOrder)
     {
       local paramType = ::g_mplayer_param_type.getTypeById(id)
-      if (!paramType.isVisible(missionObjectivesMask, gameType))
+      if (!paramType.isVisible(missionObjectivesMask, gameType, gameMode))
         continue
 
       headerArray.append(id)

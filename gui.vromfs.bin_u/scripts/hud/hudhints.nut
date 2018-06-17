@@ -336,6 +336,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
 
   shouldBlink = false
   shouldFadeOut = false
+  isSingleInNest = false
 
   isEnabled = @() (isShowedInVR || !::is_stereo_mode())
     && ::is_hint_enabled(mask)
@@ -1072,6 +1073,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:replenishment_in_progress:hide"
     maskId = 13
     totalCount = 5
+    isSingleInNest = true
   }
 
   DROWNING_HINT = {

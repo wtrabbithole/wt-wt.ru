@@ -82,7 +82,7 @@ function checkMatchingError(params, showError = true)
 
   local errorId = ::getTblValue("error_id", params) || ::matching.error_string(params.error)
 
-  local text = ::loc("matching/" + g_string.replaceSym(errorId, '.', '_'))
+  local text = ::loc("matching/" + g_string.replace(errorId, ".", "_"))
   if ("error_message" in params)
     text = text + "\n<B>"+params.error_message+"</B>"
 

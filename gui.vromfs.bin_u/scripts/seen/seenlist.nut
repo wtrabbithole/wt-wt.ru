@@ -232,6 +232,7 @@ local SeenList = class {
 
 return {
   get = @(id) activeSeenLists?[id] ?? SeenList(id)
+  isSeenList = @(id) activeSeenLists?[id] != null
 
   clearAllSeenData = function()
   {

@@ -184,7 +184,8 @@ function g_hud_live_stats::show(activate, viewMode = null, playerId = null)
 
     local misObjs = missionObjectives
     local gt = gameType
-    curColumnsOrder = ::u.filter(curColumnsOrder, @(id) ::g_mplayer_param_type.getTypeById(id).isVisible(misObjs, gt))
+    curColumnsOrder = ::u.filter(curColumnsOrder, @(id)
+      ::g_mplayer_param_type.getTypeById(id).isVisible(misObjs, gt, ::get_game_mode()))
 
     fill()
   }

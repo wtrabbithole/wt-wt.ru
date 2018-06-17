@@ -31,11 +31,7 @@ local BhvUnseen = class
   {
     local valueTbl = u.isTable(value) ? value : null
     if (u.isString(value))
-    {
-      valueTbl = ::parse_json(value)
-      if (!valueTbl.len())
-        valueTbl = value.len() ? { listId = value } : null
-    }
+      valueTbl = seenList.isSeenList(value) ? { listId = value } : ::parse_json(value)
 
     if (!valueTbl?.listId)
       return null

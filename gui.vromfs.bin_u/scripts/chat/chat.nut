@@ -405,7 +405,7 @@ function g_chat::validateChatMessage(text, multilineAllowed = false)
 function g_chat::validateThreadTitle(title)
 {
   local res = ::stringReplace(title, "\\n", "\n")
-  res = ::g_string.clearBorderSymbolsMultiline(res)
+  res = ::clearBorderSymbolsMultiline(res)
   res = validateChatMessage(res, true)
   return res
 }
@@ -420,7 +420,7 @@ function g_chat::restoreReceivedThreadTitle(title)
 {
   local res = ::stringReplace(title, "\\n", "\n")
   res = ::stringReplace(res, "<br>", "\n")
-  res = ::g_string.clearBorderSymbolsMultiline(res)
+  res = ::clearBorderSymbolsMultiline(res)
   res = validateChatMessage(res, true)
   return res
 }

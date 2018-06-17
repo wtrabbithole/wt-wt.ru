@@ -2329,18 +2329,18 @@ class Events
   function checkMembersForQueue(event, room = null, continueQueueFunc = null, cancelFunc = null)
   {
     if (!::g_squad_manager.isInSquad())
-      return continueQueueFunc(null)
+      return continueQueueFunc && continueQueueFunc(null)
 
     local teams = getAvailableTeams(event, room)
     local membersTeams = getMembersTeamsData(event, room, teams)
+    if (!membersTeams) //we are become squad member or gamemod data is missing
+      return cancelFunc && cancelFunc()
 
     local membersInfo = getMembersInfo(teams, membersTeams.teamsData)
-    if (!membersInfo)
-      return cancelFunc()
 
     if (membersTeams.haveRestrictions)
     {
-      local func = @() continueQueueFunc(membersInfo.data)
+      local func = @() continueQueueFunc && continueQueueFunc(membersInfo.data)
       showCantFlyMembersMsgBox(membersTeams, func, cancelFunc)
     }
 
@@ -2348,9 +2348,10 @@ class Events
       return
 
     if (!membersInfo.result)
-      return cancelFunc()
+      return cancelFunc && cancelFunc()
 
-    continueQueueFunc(membersInfo.data)
+    if (continueQueueFunc)
+      continueQueueFunc(membersInfo.data)
   }
 
   function getMembersInfo(teams, membersTeams)

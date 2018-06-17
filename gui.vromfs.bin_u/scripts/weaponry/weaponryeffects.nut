@@ -92,7 +92,7 @@ local effectTypeTemplate = {
     if (!::u.isString(measureType))
       res = countMeasure(measureType, value)
     else
-      res = string.roundedFloatToString(::round_by_value(value, presize), presize)
+      res = string.floatToStringRounded(::round_by_value(value, presize), presize)
         + (measureType.len() ? ::loc("measureUnits/" + measureType) : "")
 
     if (value > 0 || (needAdditionToZero && value == 0))
@@ -343,9 +343,9 @@ local function hasNotZeroDiff(effects1, effects2)
   if (!effects1 || !effects2)
     return false
 
-  foreach(key, value in effects1)
-    if (::is_numeric(value) && ::is_numeric(effects2?[key])
-        && fabs(effects2[key] - value) > 0.01)
+  foreach(key, value in effects2)
+    if (::is_numeric(value) && value != 0 && ::is_numeric(effects1?[key])
+        && fabs(effects1[key] / value) <= 100)
       return true
   return false
 }

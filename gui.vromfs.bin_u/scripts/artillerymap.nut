@@ -377,3 +377,10 @@ function on_artillery_targeting(params = {}) // called from client
   if(::is_in_flight())
     ::gui_start_artillery_map(params)
 }
+
+function artillery_call_by_shortcut() // called from client
+{
+  local handler = ::handlersManager.getActiveBaseHandler()
+  if (handler && (handler instanceof ::gui_handlers.ArtilleryMap))
+    handler.onArtilleryMapClick()
+}

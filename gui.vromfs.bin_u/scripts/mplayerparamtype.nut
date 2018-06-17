@@ -56,12 +56,13 @@ function g_mplayer_param_type::_newer(old, new) {
     return res
   }
 
-  isVisible = function(objectivesMask, gameType)
+  isVisible = function(objectivesMask, gameType, gameMode = ::GM_DOMINATION)
   {
     return ((missionObjective == MISSION_OBJECTIVE.ANY) || (missionObjective & objectivesMask) != 0)
-      && isVisibleByGameType(gameType)
+      && isVisibleByGameType(gameType) && isVisibleByGameMode(gameMode)
   }
   isVisibleByGameType = @(gt) true
+  isVisibleByGameMode = @(gm) true
 }
 
 enums.addTypesByGlobalName("g_mplayer_param_type", {
@@ -107,7 +108,7 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     id = "score"
     fontIcon = "#icon/mpstats/score"
     tooltip = "#multiplayer/score"
-    relWidth = 20
+    relWidth = 25
   }
 
   AIR_KILLS = {
@@ -128,7 +129,9 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     id = "awardDamage"
     fontIcon = "#icon/mpstats/navalDamage"
     tooltip = "#multiplayer/naval_damage"
+    relWidth = 25
     missionObjective = MISSION_OBJECTIVE.KILLS_NAVAL
+    isVisibleByGameMode = @(gm) gm != ::GM_SKIRMISH
   }
 
   NAVAL_KILLS = {

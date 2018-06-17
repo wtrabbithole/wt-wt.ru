@@ -128,6 +128,9 @@ class ActionBar
             ? item.modificationName
             : getDefaultBulletName(unit)
 
+          // if fake bullets are not generated yet, generate them
+          if (::is_fake_bullet(modifName) && !(modifName in unit.bulletsSets))
+            ::getBulletsSetData(unit, ::fakeBullets_prefix, {})
           local data = ::getBulletsSetData(unit, modifName)
           local tooltipId = ::g_tooltip.getIdModification(unit.name, modifName)
           local tooltipDelayed = !canControl

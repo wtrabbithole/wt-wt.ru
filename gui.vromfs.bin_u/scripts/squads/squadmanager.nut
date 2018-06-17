@@ -697,7 +697,7 @@ function g_squad_manager::leaveSquad(cb = null)
       cb()
   })
 
-  xbox_on_local_player_leave_squad()
+  ::xbox_on_local_player_leave_squad()
 }
 
 function g_squad_manager::inviteToSquad(uid, name = null, cb = null)
@@ -898,6 +898,7 @@ function g_squad_manager::acceptSquadInvite(sid)
     {
       setState(squadState.NOT_IN_SQUAD)
       rejectSquadInvite(sid)
+      ::xbox_on_local_player_leave_squad()
     }.bindenv(this)
   )
 }

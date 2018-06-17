@@ -1655,6 +1655,10 @@ function clearBorderSymbols(value, symList = [" "])
   return value
 }
 
+function clearBorderSymbolsMultiline(str) {
+  return clearBorderSymbols(str, [" ", 0x0A.tochar(), 0x0D.tochar()])
+}
+
 function get_mission_name(missionId, config, locNameKey = "locName")
 {
   local locNameValue = getTblValue(locNameKey, config, null)

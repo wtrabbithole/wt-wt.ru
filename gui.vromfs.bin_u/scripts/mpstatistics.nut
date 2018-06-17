@@ -471,7 +471,7 @@ function set_mp_table(obj_tbl, table, params)
 
         local objName = objTd.findObject("name-text")
         if (::check_obj(objName))
-          objName.setValue(nameText)
+         objName.setValue(nameText)
 
         local objDlcImg = objTd.findObject("dlc-ico")
         if (::check_obj(objDlcImg))
@@ -1122,7 +1122,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     {
       local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
       foreach (id in sourceHeaders)
-        if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType))
+        if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType, gameMode))
           tblData.append(id)
 
       if (!showAircrafts)
@@ -1152,6 +1152,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         local show = rowHeaderData != ""
         guiScene.replaceContentFromText(tableObj, rowHeaderData, rowHeaderData.len(), this)
         tableObj.show(show)
+        tableObj.normalFont = ::is_low_width_screen() ? "yes" : "no"
       }
     }
 
@@ -1184,6 +1185,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     local tbl = null
     guiScene.setUpdatesEnabled(false, false)
+
+    objTbl.smallFont = ::is_low_width_screen() ? "yes" : "no"
 
     if (customTbl)
     {

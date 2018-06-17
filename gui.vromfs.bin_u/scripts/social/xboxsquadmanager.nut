@@ -1,7 +1,10 @@
 ::g_xbox_squad_manager <- {
-  [PERSISTENT_DATA_PARAMS] = ["lastReceivedUsersCache, isSquadStatusCheckedOnce, currentUsersListCache, xboxIsGameStartedByInvite", "suspendedData"]
+  [PERSISTENT_DATA_PARAMS] = ["lastReceivedUsersCache", "isSquadStatusCheckedOnce",
+                              "currentUsersListCache", "xboxIsGameStartedByInvite",
+                              "suspendedData", "squadExistCheckArray"]
   lastReceivedUsersCache = []
   currentUsersListCache = []
+  squadExistCheckArray = []
   isSquadStatusCheckedOnce = false
   needCheckSquadInvites = false
   needCheckSquadInvitesOnContactsUpdate = false
@@ -78,6 +81,9 @@
 
   function checkAfterFlight()
   {
+    if (!::is_platform_xboxone)
+      return
+
     ::dagor.debug("XBOX SQUAD MANAGER: launch checkAfterFlight, suspendedData " + suspendedData + "; " + ::isInMenu())
     if (!::isInMenu())
     {
@@ -152,18 +158,29 @@
   function checkSquadInvites(xboxIdsList)
   {
     local idsArray = []
+    squadExistCheckArray.clear()
     foreach (xboxId in xboxIdsList)
     {
       local contact = ::findContactByXboxId(xboxId)
-      if (contact && acceptExistingInvite(contact.uid))
-        return
+      if (contact)
+      {
+        if (contact.isMe())
+          continue
 
-      if (!contact)
+        if (acceptExistingInvite(contact.uid))
+          return
+
+        squadExistCheckArray.append(contact.uidInt64)
+      }
+      else
         idsArray.append(xboxId)
     }
 
     if (!idsArray.len())
+    {
+      checkExistedSquads()
       return
+    }
 
     notFoundIds = clone idsArray
     needCheckSquadInvitesOnContactsUpdate = true
@@ -182,6 +199,39 @@
       local table = ::buildTableFromBlk(blk)
       checkFoundIds(table)
     }, this))
+  }
+
+  function checkExistedSquads()
+  {
+    if (::g_squad_manager.isInSquad() || !squadExistCheckArray.len())
+    {
+      squadExistCheckArray.clear()
+      return
+    }
+
+    local cb = ::Callback(proceedExistedSquadsInfo, this)
+    matching_api_func("msquad.get_squads", cb, {players = squadExistCheckArray})
+  }
+
+  function proceedExistedSquadsInfo(params)
+  {
+    if (!::checkMatchingError(params))
+      return
+
+    local squads = params?.squads ?? []
+    if (!squads.len())
+      return
+
+    foreach (squad in squads)
+    {
+      local membersCount = (squad?.members ?? []).len()
+      local maxMembers = squad?.data?.properties?.maxMembers ?? 0
+      if (membersCount != 0 && membersCount >= maxMembers)
+      {
+        ::g_popups.add(null, ::loc("matching/SQUAD_FULL"))
+        return
+      }
+    }
   }
 
   function sendSystemInvite(uid, name)
@@ -217,11 +267,17 @@
       if (contact)
       {
         contact.update({xboxId = data.id})
-        if (needCheckSquadInvitesOnContactsUpdate && acceptExistingInvite(uid))
-          needCheckSquadInvitesOnContactsUpdate = false
+        if (needCheckSquadInvitesOnContactsUpdate)
+        {
+          if (acceptExistingInvite(uid))
+            needCheckSquadInvitesOnContactsUpdate = false
+          else
+            squadExistCheckArray.append(contact.uidInt64)
+        }
       }
     }
     notFoundIds.clear()
+    checkExistedSquads()
   }
 
   function onEventSquadStatusChanged(p)
