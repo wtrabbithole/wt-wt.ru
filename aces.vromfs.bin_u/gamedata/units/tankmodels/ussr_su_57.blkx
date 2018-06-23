@@ -2550,6 +2550,9 @@
         },
         {
           "substitute": "loader"
+        },
+        {
+          "substitute": "loader2"
         }
       ],
       "driver": [
@@ -2564,10 +2567,18 @@
         },
         {
           "substitute": "loader"
+        },
+        {
+          "substitute": "loader2"
         }
       ],
       "loader": {
         "dmPart": "loader_dm",
+        "role": "loader",
+        "substitute": "commander"
+      },
+      "loader2": {
+        "dmPart": "loader_01_dm",
         "role": "loader",
         "substitute": "commander"
       },

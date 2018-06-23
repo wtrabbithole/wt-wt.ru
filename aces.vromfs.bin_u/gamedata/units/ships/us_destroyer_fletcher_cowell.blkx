@@ -879,11 +879,11 @@
         "effects": {
           "damagePartsOverride": {
             "ammo": {
-              "genericDamageMult": 0.75,
-              "explosionDamageMult": 0.75,
-              "shatterDamageMult": 0.75,
-              "secondaryShatterDamageMult": 0.75,
-              "fireDamageMult": 0.75,
+              "genericDamageMult": 0.7,
+              "explosionDamageMult": 0.7,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.0,
+              "fireDamageMult": 0.5,
               "ammunition_storage_01_dm": [],
               "ammunition_storage_02_dm": []
             }
@@ -1485,6 +1485,23 @@
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": [
         {
@@ -1495,7 +1512,7 @@
         },
         {
           "shells": {
-            "fatalFire": true,
+            "fatalFire": false,
             "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_1",
             "fireEvent": "ammo_fire_1",
@@ -1514,7 +1531,7 @@
         },
         {
           "shells": {
-            "fatalFire": true,
+            "fatalFire": false,
             "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_2",
             "fireEvent": "ammo_fire_2",
@@ -7398,61 +7415,6 @@
   },
   {
     "wreckedParts": [
-      {
-        "part": {
-          "node": "main_caliber_turret_01",
-          "idx": 1,
-          "mass": 800.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "cls_turret_01"
-        }
-      },
-      {
-        "part": {
-          "node": "main_caliber_turret_02",
-          "idx": 2,
-          "mass": 1100.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "cls_turret_02"
-        }
-      },
-      {
-        "part": {
-          "node": "main_caliber_turret_03",
-          "idx": 3,
-          "mass": 900.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "cls_turret_03"
-        }
-      },
-      {
-        "part": {
-          "node": "main_caliber_turret_04",
-          "idx": 4,
-          "mass": 1100.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "cls_turret_04"
-        }
-      },
-      {
-        "part": {
-          "node": "main_caliber_turret_05",
-          "idx": 5,
-          "mass": 1200.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "cls_turret_05"
-        }
-      },
       {
         "part": {
           "node": "ex_armor_06",

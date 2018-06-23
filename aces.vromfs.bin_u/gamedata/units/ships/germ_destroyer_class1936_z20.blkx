@@ -2769,6 +2769,45 @@
   {
     "DamageEffects": [
       {
+        "hitPowerMult": 1.0
+      },
+      {
+        "nearHitPower": [1.0,50.0]
+      },
+      {
+        "midHitPower": [0.9,400.0]
+      },
+      {
+        "farHitPower": [0.1,1000.0]
+      },
+      {
+        "endHitPower": [0.01,1500.0]
+      },
+      {
+        "relativeVelHitShift": [300.0,1000.0]
+      },
+      {
+        "nearArmorPower": [10.0,50.0]
+      },
+      {
+        "midArmorPower": [7.0,400.0]
+      },
+      {
+        "farArmorPower": [0.2,700.0]
+      },
+      {
+        "relativeVelArmorShift": [200.0,1000.0]
+      },
+      {
+        "explodeTreshold": 0.0001
+      },
+      {
+        "explodeArmorPower": 50.0
+      },
+      {
+        "explodeRadius": [50.0,100.0]
+      },
+      {
         "part": [
           {
             "name": "torpedo_01_dm"
@@ -6186,11 +6225,11 @@
         "effects": {
           "damagePartsOverride": {
             "ammo": {
-              "genericDamageMult": 0.75,
-              "explosionDamageMult": 0.75,
-              "shatterDamageMult": 0.75,
-              "secondaryShatterDamageMult": 0.75,
-              "fireDamageMult": 0.75,
+              "genericDamageMult": 0.7,
+              "explosionDamageMult": 0.7,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.0,
+              "fireDamageMult": 0.5,
               "ammunition_storage_01_dm": [],
               "ammunition_storage_02_dm": []
             }
@@ -6771,6 +6810,23 @@
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": [
         {
@@ -6781,7 +6837,7 @@
         },
         {
           "shells": {
-            "fatalFire": true,
+            "fatalFire": false,
             "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_1",
             "fireEvent": "ammo_fire_1",
@@ -6803,9 +6859,9 @@
         },
         {
           "shells": {
-            "fatalFire": true,
+            "fatalFire": false,
             "fatalExplosion": true,
-            "explosionEvent": "ammo_explosion_2",
+            "explosionEvent": "ammo_explosion_1",
             "fireEvent": "ammo_fire_2",
             "ammunition_storage_02_dm": {
               "count": 360

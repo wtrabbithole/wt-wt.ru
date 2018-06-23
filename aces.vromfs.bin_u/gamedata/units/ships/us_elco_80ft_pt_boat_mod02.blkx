@@ -1820,6 +1820,23 @@
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": [
         {
@@ -1830,6 +1847,10 @@
         },
         {
           "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_1",
+            "explosionEvent": "ammo_explosion_1",
             "ammunition_storage_01_dm": {
               "count": 2420
             }
@@ -2602,6 +2623,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 25.0
           },
           {
@@ -2708,7 +2732,7 @@
             "trigger": "gunner1"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -2839,7 +2863,7 @@
             "trigger": "gunner1"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -2970,7 +2994,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -3100,7 +3124,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -3260,9 +3284,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 25.0
           },
           {
@@ -3391,9 +3412,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 30.0
           },
           {
@@ -3507,7 +3525,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner5",
+          "trigger": "gunner6",
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -3533,7 +3551,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner5",
+          "trigger": "gunner7",
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -3559,7 +3577,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner5",
+          "trigger": "gunner8",
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -3595,15 +3613,19 @@
   },
   {
     "modifications": {
-      "37mm_AN_M4_naval_HE": [],
-      "37mm_AN_M4_naval_AP_ammo_pack": [],
-      "37mm_AN_M4_naval_AP": [],
       "40mm_bofors_l60_navy_universal": [],
       "40mm_bofors_l60_navy_he": [],
       "40mm_bofors_l60_navy_he_ammo_pack": [],
       "40mm_bofors_l60_navy_ap": [],
       "40mm_bofors_l60_navy_ap_ammo_pack": {
         "reqModification": "40mm_bofors_l60_navy_he_ammo_pack"
+      },
+      "20mm_oerlikon_universal": [],
+      "20mm_oerlikon_navy_he": [],
+      "20mm_oerlikon_navy_he_ammo_pack": [],
+      "20mm_oerlikon_navy_ap": [],
+      "20mm_oerlikon_navy_ap_ammo_pack": {
+        "reqModification": "20mm_oerlikon_navy_he_ammo_pack"
       },
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
@@ -3635,7 +3657,7 @@
         }
       },
       "ship_rangefinder": {
-        "prevModification": "37mm_AN_M4_naval_AP_ammo_pack"
+        "prevModification": "40mm_bofors_l60_navy_he_ammo_pack"
       },
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
@@ -3652,7 +3674,7 @@
         }
       },
       "ship_rocket_launcher": {
-        "prevModification": "40mm_bofors_l60_navy_ap_ammo_pack",
+        "prevModification": "20mm_oerlikon_navy_ap_ammo_pack",
         "effects": {
           "turn_it_off": false,
           "commonWeapons": [
@@ -3690,6 +3712,9 @@
                 },
                 {
                   "defaultPitch": 0.0
+                },
+                {
+                  "isBulletBelt": true
                 },
                 {
                   "speedYaw": 25.0
@@ -3798,7 +3823,7 @@
                   "trigger": "gunner1"
                 },
                 {
-                  "triggerGroup": "secondary"
+                  "triggerGroup": "machinegun"
                 },
                 {
                   "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -3929,7 +3954,7 @@
                   "trigger": "gunner1"
                 },
                 {
-                  "triggerGroup": "secondary"
+                  "triggerGroup": "machinegun"
                 },
                 {
                   "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -4060,7 +4085,7 @@
                   "trigger": "gunner2"
                 },
                 {
-                  "triggerGroup": "secondary"
+                  "triggerGroup": "machinegun"
                 },
                 {
                   "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -4190,7 +4215,7 @@
                   "trigger": "gunner2"
                 },
                 {
-                  "triggerGroup": "secondary"
+                  "triggerGroup": "machinegun"
                 },
                 {
                   "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -4350,9 +4375,6 @@
                   "defaultPitch": 0.0
                 },
                 {
-                  "isBulletBelt": true
-                },
-                {
                   "speedYaw": 25.0
                 },
                 {
@@ -4481,9 +4503,6 @@
                   "defaultPitch": 0.0
                 },
                 {
-                  "isBulletBelt": true
-                },
-                {
                   "speedYaw": 30.0
                 },
                 {
@@ -4597,7 +4616,7 @@
             },
             {
               "Weapon": {
-                "trigger": "gunner5",
+                "trigger": "gunner6",
                 "triggerGroup": "torpedoes",
                 "external": true,
                 "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -4623,7 +4642,7 @@
             },
             {
               "Weapon": {
-                "trigger": "gunner5",
+                "trigger": "gunner7",
                 "triggerGroup": "torpedoes",
                 "external": true,
                 "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -4649,7 +4668,7 @@
             },
             {
               "Weapon": {
-                "trigger": "gunner5",
+                "trigger": "gunner8",
                 "triggerGroup": "torpedoes",
                 "external": true,
                 "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -4676,7 +4695,7 @@
             {
               "Weapon": [
                 {
-                  "trigger": "gunner6"
+                  "trigger": "gunner9"
                 },
                 {
                   "triggerGroup": "rockets"
@@ -4800,7 +4819,7 @@
             {
               "Weapon": [
                 {
-                  "trigger": "gunner6"
+                  "trigger": "gunner9"
                 },
                 {
                   "triggerGroup": "rockets"

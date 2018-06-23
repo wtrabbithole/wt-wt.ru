@@ -2392,7 +2392,7 @@
         "Fuel": 450000.0,
         "TakeOff": 1699000.0,
         "momentOfInertia": [50.0,540.0,330.0],
-        "CenterOfGravity": [-7.0,0.3,0.0]
+        "CenterOfGravity": [-7.0,0.23,0.0]
       },
       "engines": [
         {
@@ -2501,6 +2501,7 @@
         "cls_body_06": "convex_hull",
         "cls_body_07": "convex_hull",
         "cls_body_08": "convex_hull",
+        "cls_body_09": "convex_hull",
         "cls_turret_01": "convex_hull"
       },
       "hydrodynamics": {
@@ -2532,10 +2533,14 @@
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
       "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
       "new_ship_screw": [],
       "new_ship_hull": [],
-      "new_ship_rudder": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
       "new_ship_pumps": [],
       "ship_anti_fragmentation_protection": {
         "effects": {
@@ -2549,6 +2554,38 @@
               "cumulativeDamageMult": 1.0,
               "collisionDamageMult": 1.0,
               "drowningDamageMult": 1.0,
+              "compartment_01_dm": [],
+              "compartment_02_dm": [],
+              "compartment_03_dm": [],
+              "compartment_04_dm": [],
+              "compartment_05_dm": [],
+              "compartment_06_dm": [],
+              "compartment_07_dm": []
+            }
+          }
+        }
+      },
+      "ship_ammo_wetting": {
+        "effects": {
+          "damagePartsOverride": {
+            "ammo": {
+              "genericDamageMult": 0.7,
+              "explosionDamageMult": 0.7,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.0,
+              "fireDamageMult": 0.5,
+              "ammunition_storage_01_dm": [],
+              "ammunition_storage_02_dm": []
+            }
+          }
+        }
+      },
+      "ship_venting": {
+        "reqModification": "manual_ship_extinguisher",
+        "effects": {
+          "damagePartsOverride": {
+            "crew_sections": {
+              "fireDamageMult": 0.75,
               "compartment_01_dm": [],
               "compartment_02_dm": [],
               "compartment_03_dm": [],
@@ -3127,6 +3164,23 @@
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": [
         {
@@ -3140,7 +3194,7 @@
         },
         {
           "shells": {
-            "fatalFire": true,
+            "fatalFire": false,
             "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_1",
             "fireEvent": "ammo_fire_1",
@@ -3153,11 +3207,10 @@
       "ammo2": {
         "weaponTrigger": "gunner3",
         "shells": {
-          "fatalFire": true,
+          "fatalFire": false,
           "fatalExplosion": true,
           "explosionEvent": "ammo_explosion_2",
           "fireEvent": "ammo_fire_2",
-          "wreckedPartId": 2,
           "ammunition_storage_02_dm": {
             "count": 300
           }

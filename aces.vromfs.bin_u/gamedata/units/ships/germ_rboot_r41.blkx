@@ -2789,6 +2789,23 @@
     }
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
@@ -2797,7 +2814,6 @@
           "fatalExplosion": true,
           "fireEvent": "ammo_fire_2",
           "explosionEvent": "ammo_explosion_2",
-          "wreckedPartId": 4,
           "ammunition_storage_02_dm": {
             "count": 1000
           }
@@ -2805,31 +2821,15 @@
       },
       "ammo2": {
         "weaponTrigger": "gunner1",
-        "shells": [
-          {
-            "fatalFire": true
-          },
-          {
-            "fatalExplosion": true
-          },
-          {
-            "fireEvent": "ammo_fire_1"
-          },
-          {
-            "explosionEvent": "ammo_explosion_1"
-          },
-          {
-            "wreckedPartId": 1
-          },
-          {
-            "wreckedPartId": 2
-          },
-          {
-            "ammunition_storage_01_dm": {
-              "count": 2000
-            }
+        "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "fireEvent": "ammo_fire_1",
+          "explosionEvent": "ammo_explosion_1",
+          "ammunition_storage_01_dm": {
+            "count": 2000
           }
-        ]
+        }
       }
     }
   },

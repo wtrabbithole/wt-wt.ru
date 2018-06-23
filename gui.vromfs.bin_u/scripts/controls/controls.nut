@@ -1220,7 +1220,7 @@ enum ConflictGroups {
       }
     }
 */
-    { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
+    { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.NO_GROUP }
     { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.NO_GROUP, checkAssign = false
       showFunc = @() !::is_platform_xboxone
   }

@@ -208,13 +208,11 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     unitTypesList = ::u.filter(::g_unit_type.types, @(unitType) unitType.isVisibleInShop())
     local view = { items = [] }
     foreach (idx, unitType in unitTypesList)
-    {
       view.items.append({
         id = unitType.armyId
         text = unitType.fontIcon + " " + unitType.getArmyLocName()
-        disabled = !unitType.canSpendGold()
+        tooltip = unitType.canSpendGold() ? null : ::loc("msgbox/unitTypeRestrictFromSpendGold")
       })
-    }
 
     local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
@@ -236,7 +234,10 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local btnObj = ::showBtn(unitType.armyId, isShow, listObj)
       if (btnObj)
+      {
         btnObj.inactive = ::getCountryResearchUnit(country, unitType.esUnitType)? "no" : "yes"
+        btnObj.enable(unitType.canSpendGold())
+      }
     }
 
     listObj.setValue(curIdx)

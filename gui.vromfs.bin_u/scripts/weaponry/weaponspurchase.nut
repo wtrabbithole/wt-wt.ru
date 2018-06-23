@@ -140,7 +140,7 @@ class WeaponsPurchase
       if (!::has_feature("SpendGold"))
         return false
 
-      if ( ! unit.unitType.canSpendGold())
+      if (!::can_spend_gold_on_unit_with_popup(unit))
         return false
     }
 

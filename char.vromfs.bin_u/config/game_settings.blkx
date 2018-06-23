@@ -551,7 +551,7 @@
         "condition": "xboxOneAccess"
       },
       {
-        "condition": "role_ALPHA_TESTER"
+        "condition": "ShipEventTicketAccess"
       }
     ],
     "ShipsFirstChoice": [
@@ -587,9 +587,17 @@
         "condition": "role_TESTER"
       }
     ],
-    "SpendGoldForShips": {
-      "condition": "Ships"
-    },
+    "SpendGoldForShips": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "Tanks": {
       "condition": "",
       "platform_lock": "android"

@@ -15,12 +15,6 @@
     "useBotForAi": true
   },
   {
-    "support_unit_class": "structures/germ_380mm_skc34"
-  },
-  {
-    "support_unit_tag": "artillery"
-  },
-  {
     "harmonizationSuffix": "_tomoe"
   },
   {
@@ -2050,8 +2044,11 @@
       "new_ship_screw": [],
       "new_ship_hull": [],
       "new_ship_rudder": [],
-      "new_ship_pumps": [],
+      "new_ship_pumps": {
+        "prevModification": "manual_ship_extinguisher"
+      },
       "ship_anti_fragmentation_protection": {
+        "prevModification": "ship_tool_kit",
         "effects": {
           "damagePartsOverride": {
             "crew_sections": {
@@ -2074,9 +2071,27 @@
           }
         }
       },
-      "ship_rangefinder": [],
-      "new_main_caliber_turrets": [],
-      "ship_main_caliber_support": []
+      "ship_rangefinder": {
+        "prevModification": "76mm_ger_dm261_HE_radio_fuse_ammo_pack"
+      },
+      "new_main_caliber_turrets": []
+    }
+  },
+  {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
     }
   },
   {
@@ -2084,6 +2099,10 @@
       "ammo1": {
         "weaponTrigger": "gunner0",
         "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "fireEvent": "ammo_fire_1",
+          "explosionEvent": "ammo_explosion_1",
           "ammunition_storage_01_dm": {
             "count": 360
           }
@@ -2092,6 +2111,10 @@
       "ammo2": {
         "weaponTrigger": "gunner1",
         "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "fireEvent": "ammo_fire_2",
+          "explosionEvent": "ammo_explosion_2",
           "ammunition_storage_02_dm": {
             "count": 360
           }

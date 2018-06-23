@@ -863,7 +863,8 @@ function can_spend_gold_on_unit_with_popup(unit)
   if (unit.unitType.canSpendGold())
     return true
 
-  ::g_popups.add(::getUnitName(unit), ::loc("msgbox/unitTypeRestrictFromSpendGold"))
+  ::g_popups.add(::getUnitName(unit), ::loc("msgbox/unitTypeRestrictFromSpendGold"),
+    null, null, null, "cant_spend_gold_on_unit")
   return false
 }
 

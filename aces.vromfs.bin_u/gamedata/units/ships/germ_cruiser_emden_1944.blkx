@@ -3764,6 +3764,10 @@
         "armorClass": "RHA_tank",
         "armorThickness": 10.0
       },
+      "gun_barrels": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 6.0
+      },
       "explosives_mounts": {
         "armorThickness": 10.0,
         "armorThrough": 15.0,
@@ -3830,10 +3834,10 @@
         "armorThickness": 30.0,
         "armorThrough": 100.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 0.2,
-        "shatterDamageMult": 0.2,
+        "fireParamsPreset": "ship_ammo_fire",
+        "genericDamageMult": 0.6,
+        "explosionDamageMult": 0.6,
+        "shatterDamageMult": 0.6,
         "secondaryShatterDamageMult": 0.0,
         "ammunition_storage_01_dm": {
           "hp": 750.0
@@ -3846,6 +3850,9 @@
         },
         "ammunition_storage_04_dm": {
           "hp": 520.0
+        },
+        "ammunition_storage_05_dm": {
+          "hp": 750.0
         }
       },
       "depth_charges": {
@@ -3880,91 +3887,91 @@
   },
   {
     "tank_crew": {
-      "minCrewMemberAliveCount": 204,
+      "minCrewMemberAliveCount": 139,
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 18
+        "crew": 12
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 22
+        "crew": 15
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 53
+        "crew": 36
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 68
+        "crew": 46
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 89
+        "crew": 61
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 48
+        "crew": 33
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 67
+        "crew": 46
       },
       "sailor8": {
         "dmPart": "compartment_07_dm",
         "role": "sailor",
-        "crew": 45
+        "crew": 31
       },
       "sailor9": {
         "dmPart": "superstructure_side_dm",
         "role": "sailor",
-        "crew": 39
+        "crew": 26
       },
       "sailor10": {
         "dmPart": "superstructure_bottom_dm",
         "role": "sailor",
-        "crew": 88
+        "crew": 60
       },
       "sailor11": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 16
       },
       "sailor12": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 16
       },
       "sailor13": {
         "dmPart": "main_caliber_turret_03_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 16
       },
       "sailor14": {
         "dmPart": "main_caliber_turret_04_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 16
       },
       "sailor15": {
         "dmPart": "main_caliber_turret_05_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 16
       },
       "sailor16": {
         "dmPart": "tt_01_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 9
       },
       "sailor17": {
         "dmPart": "tt_02_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 9
       }
     }
   },
@@ -9719,11 +9726,11 @@
         "effects": {
           "damagePartsOverride": {
             "ammo": {
-              "genericDamageMult": 0.75,
-              "explosionDamageMult": 0.75,
-              "shatterDamageMult": 0.75,
-              "secondaryShatterDamageMult": 0.75,
-              "fireDamageMult": 0.75,
+              "genericDamageMult": 0.7,
+              "explosionDamageMult": 0.7,
+              "shatterDamageMult": 0.7,
+              "secondaryShatterDamageMult": 0.0,
+              "fireDamageMult": 0.5,
               "ammunition_storage_01_dm": [],
               "ammunition_storage_02_dm": [],
               "ammunition_storage_03_dm": []
@@ -10321,6 +10328,23 @@
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": [
         {
@@ -10332,11 +10356,9 @@
         {
           "shells": {
             "fireEvent": "ammo_fire_1",
-            "fireParamsPreset": "ship_ammo_fire",
             "fatalFire": false,
-            "fatalExplosion": false,
+            "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_1",
-            "wreckedPartId": 2,
             "ammunition_storage_01_dm": {
               "count": 240
             }
@@ -10354,10 +10376,8 @@
           "shells": {
             "fireEvent": "ammo_fire_1",
             "explosionEvent": "ammo_explosion_1",
-            "fireParamsPreset": "ship_ammo_fire",
             "fatalFire": false,
             "fatalExplosion": true,
-            "wreckedPartId": 2,
             "ammunition_storage_02_dm": {
               "count": 240
             }
@@ -10375,10 +10395,8 @@
           "shells": {
             "fireEvent": "ammo_fire_3",
             "explosionEvent": "ammo_explosion_3",
-            "fireParamsPreset": "ship_ammo_fire",
             "fatalFire": false,
             "fatalExplosion": true,
-            "wreckedPartId": 10,
             "ammunition_storage_03_dm": {
               "count": 240
             }
@@ -10387,44 +10405,23 @@
       ],
       "ammo4": {
         "weaponTrigger": "gunner6",
-        "shells": [
-          {
-            "fireEvent": "ammo_fire_3"
-          },
-          {
-            "explosionEvent": "ammo_explosion_3"
-          },
-          {
-            "fireParamsPreset": "ship_ammo_fire"
-          },
-          {
-            "fatalFire": false
-          },
-          {
-            "fatalExplosion": true
-          },
-          {
-            "wreckedPartId": 1
-          },
-          {
-            "wreckedPartId": 10
-          },
-          {
-            "ammunition_storage_04_dm": {
-              "count": 120
-            }
+        "shells": {
+          "fireEvent": "ammo_fire_3",
+          "explosionEvent": "ammo_explosion_3",
+          "fatalFire": false,
+          "fatalExplosion": true,
+          "ammunition_storage_04_dm": {
+            "count": 120
           }
-        ]
+        }
       },
       "ammo5": {
         "weaponTrigger": "gunner7",
         "shells": {
           "fireEvent": "ammo_fire_3",
           "explosionEvent": "ammo_explosion_3",
-          "fireParamsPreset": "ship_ammo_fire",
           "fatalFire": false,
-          "fatalExplosion": false,
-          "wreckedPartId": 1,
+          "fatalExplosion": true,
           "ammunition_storage_05_dm": {
             "count": 120
           }
