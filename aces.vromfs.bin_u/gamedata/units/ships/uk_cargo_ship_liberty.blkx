@@ -524,93 +524,72 @@
             "name": "ammunition_storage_03_dm"
           },
           {
-            "name": "ammo_body_dm"
+            "onKill": {
+              "damageType": "fire",
+              "expl": 1.0,
+              "fHitCritical": false
+            }
           },
           {
-            "name": "ammo_body_01_dm"
+            "onKill": {
+              "damageType": "explosion",
+              "expl": 1.0,
+              "fHitCritical": false
+            }
           },
           {
-            "name": "ammo_body_02_dm"
+            "onKill": {
+              "damageType": "shatter",
+              "expl": 1.0,
+              "fHitCritical": false
+            }
           },
           {
-            "name": "ammo_body_03_dm"
-          },
-          {
-            "name": "ammo_body_04_dm"
-          },
-          {
-            "name": "ammo_body_05_dm"
-          },
-          {
-            "name": "ammo_body_06_dm"
-          },
-          {
-            "name": "ammo_body_l_01_dm"
-          },
-          {
-            "name": "ammo_body_l_02_dm"
-          },
-          {
-            "name": "ammo_body_l_03_dm"
-          },
-          {
-            "name": "ammo_body_l_04_dm"
-          },
-          {
-            "name": "ammo_body_l_05_dm"
-          },
-          {
-            "name": "ammo_body_l_06_dm"
-          },
-          {
-            "name": "ammo_body_r_01_dm"
-          },
-          {
-            "name": "ammo_body_r_02_dm"
-          },
-          {
-            "name": "ammo_body_r_03_dm"
-          },
-          {
-            "name": "ammo_body_r_04_dm"
-          },
-          {
-            "name": "ammo_body_r_05_dm"
-          },
-          {
-            "name": "ammo_body_r_06_dm"
-          },
-          {
-            "name": "ammo_turret_dm"
-          },
-          {
-            "name": "ammo_turret_01_dm"
-          },
-          {
-            "name": "ammo_turret_02_dm"
-          },
-          {
-            "name": "ammo_turret_03_dm"
-          },
-          {
-            "name": "ammo_turret_04_dm"
-          },
-          {
-            "name": "ammo_turret_05_dm"
-          },
-          {
-            "name": "ammo_turret_06_dm"
-          },
-          {
-            "onHit": {
-              "expl": 0.9,
-              "damage": 350.0,
+            "onKill": {
+              "damageType": "generic",
+              "expl": 1.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "expl": 0.2,
+              "damageType": "explosion",
+              "fire": 1.0,
+              "damage": 100.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 1.0,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 1.0,
+              "expl": 1.0,
+              "damage": 50.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 1.0,
+              "expl": 1.0,
+              "damage": 100.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 1.0,
+              "fire": 1.0,
               "damage": 200.0,
               "fHitCritical": false
             }

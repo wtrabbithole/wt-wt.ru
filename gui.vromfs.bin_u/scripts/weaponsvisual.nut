@@ -918,6 +918,13 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
     if (statusTbl.showMaxAmount && statusTbl.amount < statusTbl.amountWarningValue)
       res.warningText <- ::loc("weapons/restock_advice")
   }
+  else if (params?.isInHudActionBar)
+  {
+    local modData = ::u.search(::get_action_bar_items(),
+      @(itemData) itemData?.modificationName == item.name)
+    if (modData)
+      res.amountText <- ::ActionBar.getModAmountText(modData, true)
+  }
 
   if (statusTbl.discountType != "")
   {

@@ -53,9 +53,11 @@ tr[optionWidthInc=triple] > td > ComboBox {
   width:0.9@scrn_tgt;
 }
 
-tr > tdiv > ComboBox,
-[fullWidthOptions=yes] > * > * > ComboBox {
+tr > tdiv > ComboBox {
   width:pw;
+}
+[fullWidthOptions=yes] > * > * > ComboBox {
+  width:fw;
 }
 
 [show_console_buttons=yes] .optionsTable > tr > td > ComboBox {

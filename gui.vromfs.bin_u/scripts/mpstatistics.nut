@@ -2025,9 +2025,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   function hideTableRows(tblObj, minRow, maxRow)
   {
+    local count = tblObj.childrenCount()
     for (local i = minRow; i < maxRow; i++)
     {
-      if (tblObj.childrenCount() < i)
+      if (count <= i)
         return
 
       tblObj.getChild(i).show(false)

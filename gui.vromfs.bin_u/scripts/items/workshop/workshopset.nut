@@ -99,13 +99,14 @@ local WorkshopSet = class {
     foreach(itemdef, sortId in requiredList)
     {
       local item = ItemsManager.getItemOrRecipeBundleById(itemdef)
-      if (item)
-      {
-        local newItem = item.makeEmptyInventoryItem()
-        if (!(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id))
-          newItem.setDisguise(true)
-        itemsListCache.append(newItem)
-      }
+      if (!item
+          || item.iType == itemType.RECIPES_BUNDLE && !item.getMyRecipes().len())
+        continue
+
+      local newItem = item.makeEmptyInventoryItem()
+      if (!(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id))
+        newItem.setDisguise(true)
+      itemsListCache.append(newItem)
     }
 
     itemsListCache.sort((@(a, b) itemdefs?[a.id] <=> itemdefs?[b.id]).bindenv(this))

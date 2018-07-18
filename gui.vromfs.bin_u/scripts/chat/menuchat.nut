@@ -1329,11 +1329,12 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local text = ""
     local clanTag = ""
-    local myself = false
     local fullName = ""
     local uid = null
     local messageType=""
-
+    if (myPrivate)
+      messageAuthor = ::my_user_name
+    local myself = messageAuthor == ::my_user_name
     if(typeof(messageAuthor) != "instance")
     {
       if(messageAuthor in ::clanUserTable && ::clanUserTable[messageAuthor] != "" && !::g_chat.isRoomClan(roomId))
@@ -1350,16 +1351,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       messageAuthor = ""
       msg = filterSystemUserMsg(msg)
     }
-    myself = messageAuthor == ::my_user_name || myPrivate
 
     if(::g_chat.isRoomClan(roomId))
       clanTag=""
+    local fullName = (clanTag!="" ? (clanTag + " "): "") + platformModule.getPlayerName(messageAuthor)
 
     local needMarkDirectAsPersonal = ::get_gui_option_in_mode(::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL,
       ::OPTIONS_MODE_GAMEPLAY)
     if (needMarkDirectAsPersonal && msg.find(::my_user_name) != null) important = true
-
-    local fullName = (clanTag!="" ? (clanTag + " "): "") + platformModule.getPlayerName(messageAuthor)
 
     if (messageAuthor == "")
     {
@@ -1403,14 +1402,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (msgColor!="")
         msg = ::colorize(msgColor, msg)
 
-      local from = fullName
-
-      messageAuthor = myself ? ::my_user_name : messageAuthor
       local targetRoom = ::g_chat.getRoomById(roomId)
 
-      if (targetRoom && targetRoom.messageList.len() > 0 && !targetRoom.isCustomScene) {
+      if (targetRoom && targetRoom.messageList.len() > 0 && !targetRoom.isCustomScene)
+      {
         local lastMessage = targetRoom.messageList[targetRoom.messageList.len()-1]
-        if (lastMessage.messageAuthor == messageAuthor) {
+        if (lastMessage.messageAuthor == messageAuthor)
+        {
           local msgObj = targetRoom.messageList[targetRoom.messageList.len()-1];
           msgObj.__update(createMessage(msgObj.messageAuthor,
             lastMessage.text + "\n" + msg, msgObj.messageType))
@@ -1420,13 +1418,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         }
       }
 
-      if(!privateMsg) {
-        text = "<Link=%s><Color=%s>%s</Color>:</Link> "
-        text += (!targetRoom?.isCustomScene ? "\n":"") + "%s"
-        text = format(text, ::g_chat.generatePlayerLink(messageAuthor, uid), userColor, from, msg)
-      } else {
-        text = msg
-      }
+      text = "<Link=%s><Color=%s>%s</Color>:</Link> "
+      text += (!targetRoom?.isCustomScene ? "\n":"") + "%s"
+      text = format(text, ::g_chat.generatePlayerLink(messageAuthor, uid), userColor, fullName, msg)
     }
 
     if (privateMsg && roomId=="" && !::last_chat_scene_show)

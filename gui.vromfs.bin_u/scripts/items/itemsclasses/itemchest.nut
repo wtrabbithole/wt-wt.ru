@@ -128,7 +128,7 @@ class ::items_classes.Chest extends ItemExternal {
 
   function doMainAction(cb, handler, params = null)
   {
-    if (buyExt(cb, params))
+    if (buy(cb, handler, params))
       return true
     if (!uids || !uids.len())
       return false

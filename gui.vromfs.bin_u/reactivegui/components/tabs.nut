@@ -8,6 +8,7 @@ local tab = function(tab, is_current, handler) {
 
   return function() {
     local isHover = (stateFlags.value & S_HOVER)
+    local isActive = (stateFlags.value & S_ACTIVE)
     local fillColor, textColor, borderColor
     if (is_current) {
       textColor = colors.menu.activeTextColor
@@ -16,7 +17,9 @@ local tab = function(tab, is_current, handler) {
     } else {
       textColor = isHover ? colors.menu.headerOptionSelectedTextColor : colors.menu.headerOptionTextColor
       fillColor = colors.transparent
-      borderColor = isHover ? colors.menu.headerOptionHoverColor : colors.transparent
+      borderColor = isActive && isHover ? colors.menu.headerOptionSelectedColor :
+        isHover ? colors.menu.headerOptionHoverColor :
+        colors.transparent
     }
 
     return {
@@ -32,7 +35,7 @@ local tab = function(tab, is_current, handler) {
 
       fillColor = fillColor
       borderColor = borderColor
-      borderWidth = [0, 0, hdpx(2), 0]
+      borderWidth = [0, 0, hdpx(1), 0]
 
       onClick = handler
       onElemState = @(sf) stateFlags.update(sf)
@@ -40,8 +43,7 @@ local tab = function(tab, is_current, handler) {
       children = {
         rendObj = ROBJ_STEXT
         font = Fonts.tiny_text_hud
-        fontSize = hdpx(10)
-        margin = [sh(1), sh(2)]
+        margin = [sh(1), sh(1)]
         color = textColor
 
         text = tab.text
@@ -56,8 +58,8 @@ local tabsHolder = @(){
   rendObj = ROBJ_SOLID
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
-  padding = [0, sh(1)]
-  gap = sh(1)
+  padding = [hdpx(1)]
+  gap = hdpx(1)
 
   color = colors.menu.tabBackgroundColor
 }

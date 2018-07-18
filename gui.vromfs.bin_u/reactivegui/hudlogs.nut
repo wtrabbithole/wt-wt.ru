@@ -24,7 +24,7 @@ local logsHeader = @(){
   children = [
     tabs({
       tabs = tabsList
-      currentTab = currentTab.value
+      currentTab = currentTab.value.id
       onChange = function(tab) {
         currentTab.update(tab)
       }

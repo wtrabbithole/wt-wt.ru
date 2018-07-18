@@ -311,7 +311,7 @@ local ItemExternal = class extends ::BaseItem
 
   function doMainAction(cb, handler, params = null)
   {
-    return buyExt(cb, params)
+    return buy(cb, handler, params)
       || consume(cb, params)
       || assemble(cb, params)
   }
@@ -575,7 +575,7 @@ local ItemExternal = class extends ::BaseItem
 
   isGoldPurchaseInProgress = @() ::u.search(itemTransfer.getSendingList(), @(data) (data?.goldCost ?? 0) > 0) != null
 
-  function buyExt(cb = null, params = null)
+  function _buy(cb = null, params = null)
   {
     if (!isCanBuy())
       return false

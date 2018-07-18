@@ -37,6 +37,7 @@ colors.hud <- {}
   componentFill = Color(0, 0, 0, 192)
   componentBorder = Color(255, 255, 255)
   chatTextAllColor = colors.menu.commonTextColor
+  hudLogBgColor = Color(0, 0, 0, 102)
 })
 
 colors.hud.damageModule <- {}

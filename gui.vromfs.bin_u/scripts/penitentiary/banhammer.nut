@@ -206,7 +206,7 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
     local location = gameMode
     if (chatLog != "")
     {
-      if ("roomId" in pInfo && "roomName" in pInfo)
+      if ("roomId" in pInfo && "roomName" in pInfo && pInfo.roomName != "")
         location = "Main Chat, Channel = " + pInfo.roomName + " (" + pInfo.roomId + ")"
       else
         location = "In-game Chat; " + gameMode

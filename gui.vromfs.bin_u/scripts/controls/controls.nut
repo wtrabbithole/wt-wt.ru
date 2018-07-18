@@ -760,7 +760,8 @@ enum ConflictGroups {
 
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_RELOAD_USER_SIGHT_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="ID_RELOAD_USER_SIGHT_GM", checkGroup = ctrlGroups.TANK,
+      checkAssign = false, showFunc = @() ::can_add_tank_alt_crosshair() && ::has_feature("TankAltCrosshair") }
     { id="gm_sight_distance"
       type = CONTROL_TYPE.AXIS
       def_relative = true
@@ -2970,7 +2971,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         return false
 
     local msg = ::loc("hotkeys/msg/unbind_question", {
-        action=::loc("hotkeys/"+shortcutNames[curBinding[0][0]])
+      action = ::g_string.implode(
+        curBinding.map((@(b) ::loc("hotkeys/"+shortcutNames[b[0]])).bindenv(this)),
+        ::loc("ui/comma")
+      )
     })
     msgBox("controls_unbind_question", msg, [
       ["add", (@(curBinding, devs, btns, shortcutId) function() {
@@ -3029,11 +3033,15 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       return
 
     local params = {
-      owner = this,
       axisItem = axisItem,
       curJoyParams = curJoyParams,
       shortcuts = shortcuts,
       shortcutItems = shortcutItems
+
+      onFinalApplyAxisShortcuts = function(shortcutsList) {
+        foreach(sc in shortcutsList)
+          updateShortcutText(sc)
+      }.bindenv(this)
     }
 
     ::gui_start_modal_wnd(::gui_handlers.AxisControls, params)

@@ -260,7 +260,11 @@ function build_aircraft_item(id, air, params = {})
     }
     local missionRules = params?.missionRules
     local groupName = missionRules ? missionRules.getRandomUnitsGroupName(air.name) : null
-    if (groupName && (!::is_player_unit_alive() || ::get_player_unit_name() != air.name))
+    local isShowAsRandomUnit = groupName
+      && (::is_respawn_screen()
+        || !::is_player_unit_alive()
+        || ::get_player_unit_name() != air.name)
+    if (isShowAsRandomUnit)
     {
       local missionRules = getVal("missionRules", null)
       resView.shopAirImg = missionRules.getRandomUnitsGroupIcon(groupName)

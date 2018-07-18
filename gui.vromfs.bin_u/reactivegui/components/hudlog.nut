@@ -1,5 +1,5 @@
+local colors = require("../style/colors.nut")
 local hudState = require("../hudState.nut")
-local setHudBg = require("../style/hudBackground.nut")
 local scrollbar = require("scrollbar.nut")
 local transition = require("../style/hudTransition.nut")
 
@@ -53,12 +53,14 @@ local hudLog = function (params) {
     ::gui_scene.setTimeout(transition.fast, fadeOutFn)
   }
 
-  return @() setHudBg({
+  return @() {
+    rendObj = ROBJ_9RECT
     size = flex()
     watch = visibleState
     clipChildren = true
     opacity = visibleState.value ? 1.0 : 0.0
     valign = VALIGN_BOTTOM
+    color = colors.hud.hudLogBgColor
 
     children = content
 
@@ -75,7 +77,7 @@ local hudLog = function (params) {
     }
 
     transitions = [transition.make(transitionTime())]
-  })
+  }
 }
 
 

@@ -3,7 +3,6 @@ local transition = require("style/hudTransition.nut")
 local teamColors = require("style/teamColors.nut")
 local chatBase = require("daRg/components/chat.nut")
 local textInput =  require("components/textInput.nut")
-local setHudBg = require("style/hudBackground.nut")
 local penalty = require("penitentiary/penalty.nut")
 local time = require("std/time.nut")
 local state = require("hudChatState.nut")
@@ -76,12 +75,14 @@ local getHintText = function () {
 }
 
 
-local chatHint = setHudBg({
+local chatHint = @() {
+  rendObj = ROBJ_9RECT
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
   valign = VALIGN_MIDDLE
   padding = [hdpx(5), hdpx(15)]
   gap = { size = flex() }
+  color = colors.hud.hudLogBgColor
   children = [
     {
       rendObj = ROBJ_DTEXT
@@ -96,7 +97,7 @@ local chatHint = setHudBg({
       font = Fonts.small_text_hud
     }
   ]
-})
+}
 
 
 local inputField = @() {

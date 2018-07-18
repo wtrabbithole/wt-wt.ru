@@ -423,7 +423,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     renewDropright("skins_list", "skins_dropright", skinItems, curSkinIndex, "onSkinChange")
-    scene.findObject("skins_dropright").style = "width:pw;"
   }
 
   function renewDropright(nestObjId, listObjId, items, index, cb)
@@ -1183,9 +1182,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local data = ::handyman.renderCached("gui/commonParts/collapsableBlock", view)
     guiScene.replaceContentFromText(wObj, data, data.len(), this)
-    wObj.height = decoratorType == ::g_decorator_type.ATTACHABLES
-                  ? "1@countAttachablesInHeight * 1@customizationDecoratorBlockWidth"
-                  : "1@countDecalsInHeight * 1@customizationDecoratorBlockWidth"
     wObj.setValue(0)
 
     showDecoratorsList()
