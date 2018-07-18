@@ -510,6 +510,10 @@ class GameModeManager
 
   function _createEventGameMode(event)
   {
+    local isForClan = ::events.isEventForClan(event)
+    if (isForClan && !::has_feature("Clans"))
+      return
+
     local gameMode = {
       id = event.name
       source = event
@@ -521,7 +525,7 @@ class GameModeManager
       image = ::events.getEventTileImageName(event, ::events.isEventDisplayWide(event))
       videoPreview = ::has_feature("VideoPreview") ? ::events.getEventPreviewVideoName(event, ::events.isEventDisplayWide(event)) : null
       displayType = ::events.getEventDisplayType(event)
-      forClan = ::events.isEventForClan(event)
+      forClan = isForClan
       countries = ::events.getAvailableCountriesByEvent(event)
       displayWide = ::events.isEventDisplayWide(event)
       enableOnDebug = ::events.isEventEnableOnDebug(event)

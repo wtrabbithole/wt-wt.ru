@@ -304,12 +304,12 @@ local getActions = function(_contact, params)
       }
       {
         text = ::loc("contacts/blacklist/add")
-        show = !isMe && !isFriend && !isBlock
+        show = !isMe && !isFriend && !isBlock && (!canInvitePlayer || !::is_platform_xboxone)
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, true)
       }
       {
         text = ::loc("contacts/blacklist/remove")
-        show = isBlock
+        show = isBlock && (!canInvitePlayer || !::is_platform_xboxone)
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, false)
       }
     ])

@@ -315,6 +315,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   function onAxisBindChange(obj)
   {
     bindAxisNum = obj.getValue() - 1
+    ::u.appendOnce(axisItem.modifiersId[""], changedShortcuts)
   }
 
   function onAxisRestore()

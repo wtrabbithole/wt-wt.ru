@@ -399,8 +399,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInvitePlayer, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
-    showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock, contact_buttons_holder)
-    showBtn("btn_blacklistRemove", isBlock, contact_buttons_holder)
+    showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock && (!canInvitePlayer || !::is_platform_xboxone), contact_buttons_holder)
+    showBtn("btn_blacklistRemove", isBlock && (!canInvitePlayer || !::is_platform_xboxone), contact_buttons_holder)
     showBtn("btn_message", owner
                            && !isBlock
                            && platformModule.isChatEnabled()

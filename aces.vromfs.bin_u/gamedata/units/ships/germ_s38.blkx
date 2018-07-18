@@ -102,6 +102,9 @@
     "allowForestallWithoutMarkers": true
   },
   {
+    "perfectRangefinder": true
+  },
+  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -797,6 +800,12 @@
         "secondaryShatterDamageMult": 0.0,
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
+        "torpedo_hatch_r_dm": {
+          "hp": 250.0
+        },
+        "torpedo_hatch_l_dm": {
+          "hp": 250.0
+        },
         "depth_charge_mount_01_dm": {
           "hp": 250.0
         },
@@ -1627,10 +1636,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 45.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 3000
@@ -1772,10 +1781,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 45.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 3000
@@ -1886,7 +1895,7 @@
           "trigger": "gunner2",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/de_533_g7e_t5a_torpedo.blk",
+          "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
           "emitter": "bone_torpedo_02",
           "bullets": 1,
           "launchAnimVar": "anim_launch_torpedo_02",
@@ -1914,7 +1923,7 @@
           "trigger": "gunner3",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/de_533_g7e_t5a_torpedo.blk",
+          "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 1,
           "launchAnimVar": "anim_launch_torpedo_01",
@@ -2657,41 +2666,28 @@
       "20mm_ger_c38_navy_he_ammo_pack": [],
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
+      "ship_smoke_screen_system_mod": {
+        "prevModification": "ship_depth_charge"
+      },
       "new_ship_engine": [],
       "new_ship_screw": [],
       "new_ship_hull": [],
       "new_ship_rudder": [],
       "new_ship_pumps": [],
-      "ship_anti_fragmentation_protection": {
-        "effects": {
-          "damagePartsOverride": {
-            "crew_sections": {
-              "genericDamageMult": 1.0,
-              "explosionDamageMult": 1.0,
-              "shatterDamageMult": 0.7,
-              "secondaryShatterDamageMult": 0.8,
-              "fireDamageMult": 1.0,
-              "cumulativeDamageMult": 1.0,
-              "collisionDamageMult": 1.0,
-              "drowningDamageMult": 1.0,
-              "compartment_01_dm": [],
-              "compartment_02_dm": [],
-              "compartment_03_dm": []
-            }
-          }
-        }
-      },
-      "ship_rangefinder": [],
       "new_main_caliber_turrets": [],
-      "ship_main_caliber_support": [],
+      "ship_main_caliber_support": {
+        "prevModification": "new_main_caliber_turrets"
+      },
       "torpedoes_movement_mode": {
+        "prevModification": "new_main_caliber_turrets",
         "effects": {
           "distToLive": 8000.0,
-          "maxSpeedInWater": -4.57
+          "maxSpeedInWater": -7.2
         }
       },
-      "ship_depth_charge": []
+      "ship_depth_charge": {
+        "prevModification": "20mm_ger_c38_navy_ap_ammo_pack"
+      }
     }
   },
   {

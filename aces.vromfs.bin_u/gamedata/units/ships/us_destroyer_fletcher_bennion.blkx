@@ -1042,7 +1042,13 @@
       "new_aux_caliber_turrets": {
         "reqModification": "new_aa_caliber_turrets"
       },
-      "new_aa_caliber_turrets": []
+      "new_aa_caliber_turrets": [],
+      "torpedoes_movement_mode": {
+        "effects": {
+          "distToLive": 8200.0,
+          "maxSpeedInWater": -9.52
+        }
+      }
     }
   },
   {
@@ -3923,6 +3929,10 @@
           "hp": 330.0
         }
       },
+      "gun_barrels": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 6.0
+      },
       "explosives_mounts": {
         "armorThickness": 10.0,
         "armorThrough": 15.0,
@@ -3994,19 +4004,19 @@
         }
       ],
       "ammo": {
-        "armorThickness": 30.0,
+        "armorThickness": 5.0,
         "armorThrough": 100.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 0.2,
-        "shatterDamageMult": 0.2,
+        "fireParamsPreset": "ship_ammo_fire",
+        "genericDamageMult": 0.7,
+        "explosionDamageMult": 0.7,
+        "shatterDamageMult": 0.7,
         "secondaryShatterDamageMult": 0.0,
         "ammunition_storage_01_dm": {
-          "hp": 750.0
+          "hp": 500.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 750.0
+          "hp": 500.0
         }
       },
       "depth_charges": {
@@ -4978,9 +4988,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5128,9 +5135,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5271,9 +5275,6 @@
           },
           {
             "useEmitter": true
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "recoilOffset": 0.3
@@ -5421,9 +5422,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5562,9 +5560,6 @@
           },
           {
             "useEmitter": true
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "recoilOffset": 0.3
@@ -5712,9 +5707,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5853,9 +5845,6 @@
           },
           {
             "useEmitter": true
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "recoilOffset": 0.3
@@ -6003,9 +5992,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -6144,9 +6130,6 @@
           },
           {
             "useEmitter": true
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "recoilOffset": 0.3
@@ -6292,9 +6275,6 @@
           },
           {
             "useEmitter": true
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "recoilOffset": 0.3

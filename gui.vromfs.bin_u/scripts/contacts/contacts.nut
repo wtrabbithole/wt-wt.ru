@@ -206,8 +206,8 @@ function g_contacts::xboxUpdateContactsList(p, group)
     xboxFriendsList.append(::getContact(uid, data.nick))
 
   local requestTable = {}
-  requestTable[true] <- xboxFriendsList
-  requestTable[false] <- existedXBoxContacts
+  requestTable[true] <- xboxFriendsList //addList
+  requestTable[false] <- existedXBoxContacts //removeList
 
   ::edit_players_list_in_contacts(requestTable, group)
 

@@ -1586,26 +1586,8 @@
         },
         {
           "armor_belt_01_dm": {
-            "armorClass": "RHA_tank",
+            "armorThickness": 25.0,
             "hp": 733.0
-          }
-        },
-        {
-          "armor_belt_04_dm": {
-            "armorClass": "RHA_tank",
-            "hp": 250.0
-          }
-        },
-        {
-          "armor_belt_05_dm": {
-            "armorClass": "RHA_tank",
-            "hp": 733.0
-          }
-        },
-        {
-          "armor_belt_08_dm": {
-            "armorClass": "RHA_tank",
-            "hp": 250.0
           }
         },
         {
@@ -1621,6 +1603,18 @@
           }
         },
         {
+          "armor_belt_04_dm": {
+            "armorThickness": 25.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "armor_belt_05_dm": {
+            "armorThickness": 25.0,
+            "hp": 733.0
+          }
+        },
+        {
           "armor_belt_06_dm": {
             "armorThickness": 40.0,
             "hp": 637.0
@@ -1630,6 +1624,12 @@
           "armor_belt_07_dm": {
             "armorThickness": 40.0,
             "hp": 563.0
+          }
+        },
+        {
+          "armor_belt_08_dm": {
+            "armorThickness": 25.0,
+            "hp": 250.0
           }
         },
         {
@@ -1649,12 +1649,14 @@
         {
           "turret_v_02_dm": {
             "armorThickness": 12.0,
+            "armorClass": "ship_structural_steel",
             "hp": 250.0
           }
         },
         {
           "turret_v_07_dm": {
             "armorThickness": 12.0,
+            "armorClass": "ship_structural_steel",
             "hp": 250.0
           }
         }
@@ -1725,6 +1727,10 @@
           "hp": 100.0
         }
       },
+      "gun_barrels": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 6.0
+      },
       "explosives_mounts": {
         "armorThickness": 10.0,
         "armorThrough": 15.0,
@@ -1778,19 +1784,16 @@
         "armorThickness": 20.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
+        "fireParamsPreset": "ship_ammo_fire",
         "armorClass": "ship_structural_steel",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 0.2,
-        "shatterDamageMult": 0.2,
+        "genericDamageMult": 0.7,
+        "explosionDamageMult": 0.7,
+        "shatterDamageMult": 0.7,
         "secondaryShatterDamageMult": 0.0,
         "ammunition_storage_01_dm": {
-          "hp": 487.0
+          "hp": 500.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 424.0
-        },
-        "ammunition_storage_03_dm": {
           "hp": 500.0
         }
       },
@@ -2733,10 +2736,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -2877,10 +2880,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -3021,10 +3024,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -3165,10 +3168,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -3309,10 +3312,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -3454,10 +3457,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -3599,10 +3602,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -3744,10 +3747,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -4145,7 +4148,7 @@
             "speedYaw": 30.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 2000
@@ -4268,10 +4271,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 85.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 85.0
           },
           {
             "bullets": 2000

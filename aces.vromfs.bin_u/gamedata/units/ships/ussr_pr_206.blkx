@@ -581,16 +581,26 @@
         "genericArmorQuality": 0.02,
         "armorClass": "armor_tank_engine",
         "fireParamsPreset": "ship_engine",
-        "engine_room_01_dm": {
+        "engine_01_dm": {
           "hp": 643.0
         },
-        "engine_room_02_dm": {
-          "hp": 644.0
-        },
-        "engine_room_03_dm": {
+        "engine_02_dm": {
           "hp": 661.0
         },
+        "engine_03_dm": {
+          "hp": 644.0
+        },
         "transmission_01_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05,
+          "hp": 400.0
+        },
+        "transmission_02_dm": {
+          "shatterDamageMult": 0.5,
+          "secondaryShatterDamageMult": 0.05,
+          "hp": 400.0
+        },
+        "transmission_03_dm": {
           "shatterDamageMult": 0.5,
           "secondaryShatterDamageMult": 0.05,
           "hp": 400.0
@@ -673,6 +683,10 @@
         "armorThickness": 6.0,
         "fireParamsPreset": "ship_turrets"
       },
+      "gun_barrels": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 6.0
+      },
       "explosives_mounts": {
         "armorThickness": 10.0,
         "armorThrough": 15.0,
@@ -744,11 +758,11 @@
         "armorThickness": 20.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
+        "fireParamsPreset": "ship_ammo_fire",
         "armorClass": "ship_structural_steel",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 0.2,
-        "shatterDamageMult": 0.2,
+        "genericDamageMult": 0.65,
+        "explosionDamageMult": 0.65,
+        "shatterDamageMult": 0.65,
         "secondaryShatterDamageMult": 0.0,
         "ammunition_storage_01_dm": {
           "hp": 293.0

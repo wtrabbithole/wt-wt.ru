@@ -75,12 +75,9 @@ frame {
         <<#isFeatured>>
         featured:t='yes';
         <</isFeatured>>
-        <<^isFeatured>>
-        featured:t='no';
-        <</isFeatured>>
 
         <<#inactiveColor>>
-        inactiveColor:t='yes'
+          inactiveColor:t='yes'
         <</inactiveColor>>
 
         on_click:t='<<onClick>>'
@@ -89,11 +86,9 @@ frame {
         <</onHover>>
 
         <<#isCurrentGameMode>>
-        current_mode:t='yes';
+          current_mode:t='yes';
         <</isCurrentGameMode>>
-        <<^isCurrentGameMode>>
-        current_mode:t='no';
-        <</isCurrentGameMode>>
+
         behavior:t='button';
         shortcutActivate:t='J:A | Space';
         background-color:t='@white';
@@ -102,10 +97,7 @@ frame {
         background-position:t='3, 4, 3, 5';
         re-type:t='9rect';
         <<#isWide>>
-        wide:t='yes';
-        <</isWide>>
-        <<^isWide>>
-        wide:t='no';
+          wide:t='yes';
         <</isWide>>
 
         img {

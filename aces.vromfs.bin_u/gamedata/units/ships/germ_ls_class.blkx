@@ -688,6 +688,12 @@
         "secondaryShatterDamageMult": 0.0,
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
+        "torpedo_hatch_01_dm": {
+          "hp": 250.0
+        },
+        "torpedo_hatch_02_dm": {
+          "hp": 250.0
+        },
         "tt_01_dm": {
           "hp": 250.0
         },
@@ -2300,31 +2306,10 @@
       "new_ship_hull": [],
       "new_ship_rudder": [],
       "new_ship_pumps": [],
-      "ship_anti_fragmentation_protection": {
-        "effects": {
-          "damagePartsOverride": {
-            "crew_sections": {
-              "genericDamageMult": 1.0,
-              "explosionDamageMult": 1.0,
-              "shatterDamageMult": 0.7,
-              "secondaryShatterDamageMult": 0.8,
-              "fireDamageMult": 1.0,
-              "cumulativeDamageMult": 1.0,
-              "collisionDamageMult": 1.0,
-              "drowningDamageMult": 1.0,
-              "compartment_01_dm": [],
-              "compartment_02_dm": [],
-              "compartment_03_dm": []
-            }
-          }
-        }
-      },
-      "ship_rangefinder": {
-        "prevModification": "15mm_ger_ap_navy_ammo_pack"
-      },
       "new_main_caliber_turrets": [],
       "ship_main_caliber_support": [],
       "torpedoes_movement_mode": {
+        "prevModification": "new_main_caliber_turrets",
         "effects": {
           "distToLive": 4000.0,
           "maxSpeedInWater": -8.23

@@ -1445,6 +1445,10 @@
         "armorClass": "RHA_tank",
         "armorThickness": 15.0
       },
+      "gun_barrels": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 6.0
+      },
       "explosives_mounts": {
         "armorThickness": 10.0,
         "armorThrough": 15.0,
@@ -1509,22 +1513,22 @@
         }
       ],
       "ammo": {
-        "armorThickness": 30.0,
+        "armorThickness": 5.0,
         "armorThrough": 100.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 0.2,
-        "shatterDamageMult": 0.2,
+        "fireParamsPreset": "ship_ammo_fire",
+        "genericDamageMult": 0.7,
+        "explosionDamageMult": 0.7,
+        "shatterDamageMult": 0.7,
         "secondaryShatterDamageMult": 0.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 350.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 500.0
+          "hp": 350.0
         },
         "ammunition_storage_03_dm": {
-          "hp": 500.0
+          "hp": 409.0
         }
       },
       "depth_charges": {
@@ -3264,21 +3268,12 @@
     ]
   },
   {
-    "weapon_presets": [
-      {
-        "preset": {
-          "name": "germ_destroyer_class1924_leopard1932_default",
-          "blk": "gameData/units/ships/weaponPresets/germ_destroyer_class1924_leopard1932_default.blk"
-        }
-      },
-      {
-        "preset": {
-          "name": "wbd_depth_charges",
-          "blk": "gameData/units/ships/weaponPresets/germ_destroyer_class1924_leopard1932_depth_charges.blk",
-          "reqModification": "ship_depth_charge"
-        }
+    "weapon_presets": {
+      "preset": {
+        "name": "germ_destroyer_class1924_leopard1932_default",
+        "blk": "gameData/units/ships/weaponPresets/germ_destroyer_class1924_leopard1932_default.blk"
       }
-    ]
+    }
   },
   {
     "cockpit": {
@@ -3381,11 +3376,8 @@
       "torpedoes_movement_mode": {
         "effects": {
           "distToLive": 8000.0,
-          "maxSpeedInWater": -4.57
+          "maxSpeedInWater": -7.2
         }
-      },
-      "ship_depth_charge": {
-        "prevModification": "20mm_ger_flak38_AP_ammo_pack"
       }
     }
   },

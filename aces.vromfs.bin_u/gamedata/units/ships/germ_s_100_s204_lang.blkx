@@ -105,6 +105,9 @@
     "allowForestallWithoutMarkers": true
   },
   {
+    "perfectRangefinder": true
+  },
+  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -2588,28 +2591,6 @@
       "new_ship_hull": [],
       "new_ship_rudder": [],
       "new_ship_pumps": [],
-      "ship_anti_fragmentation_protection": {
-        "effects": {
-          "damagePartsOverride": {
-            "crew_sections": {
-              "genericDamageMult": 1.0,
-              "explosionDamageMult": 1.0,
-              "shatterDamageMult": 0.7,
-              "secondaryShatterDamageMult": 0.8,
-              "fireDamageMult": 1.0,
-              "cumulativeDamageMult": 1.0,
-              "collisionDamageMult": 1.0,
-              "drowningDamageMult": 1.0,
-              "compartment_01_dm": [],
-              "compartment_02_dm": [],
-              "compartment_03_dm": []
-            }
-          }
-        }
-      },
-      "ship_rangefinder": {
-        "prevModification": "37mm_ger_flak_navy_ap_ammo_pack"
-      },
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
       },
@@ -2621,10 +2602,10 @@
         "prevModification": "new_main_caliber_turrets"
       },
       "torpedoes_movement_mode": {
-        "prevModification": "ship_rangefinder",
+        "prevModification": "37mm_ger_flak_navy_ap_ammo_pack",
         "effects": {
           "distToLive": 8000.0,
-          "maxSpeedInWater": -4.57
+          "maxSpeedInWater": -7.2
         }
       }
     }
@@ -2819,13 +2800,10 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
+            "speedYaw": 75.0
           },
           {
-            "speedYaw": 60.0
-          },
-          {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2000
@@ -2967,10 +2945,10 @@
             "defaultPitch": 3.0
           },
           {
-            "speedYaw": 40.0
+            "speedYaw": 50.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 1000
@@ -3100,13 +3078,10 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
+            "speedYaw": 75.0
           },
           {
-            "speedYaw": 60.0
-          },
-          {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2000
@@ -3250,13 +3225,10 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
+            "speedYaw": 75.0
           },
           {
-            "speedYaw": 60.0
-          },
-          {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2000
@@ -3398,10 +3370,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 85.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 85.0
           },
           {
             "bullets": 2000
@@ -3533,10 +3505,10 @@
             "isBulletBelt": true
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 85.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 85.0
           },
           {
             "bullets": 2000
