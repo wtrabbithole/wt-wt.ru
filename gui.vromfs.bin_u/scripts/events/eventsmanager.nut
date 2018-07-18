@@ -14,6 +14,13 @@ const EVENT_DEFAULT_TEAM_SIZE = 16
 
 const SQUAD_NOT_READY_LOC_TAG = "#snr"
 
+enum UnitRelevance
+{
+  NONE,
+  MEDIUM,
+  BEST,
+}
+
 ::events <- null
 
 ::allUnitTypesMask <- (1 << ::ES_UNIT_TYPE_TOTAL_RELEASED) - 1
@@ -1092,6 +1099,15 @@ class Events
     local airInAllowedList = isUnitMatchesRule(unit, getAlowedCrafts(teamData), true, ediff)
     local airInForbidenList = isUnitMatchesRule(unit, getForbiddenCrafts(teamData), false, ediff)
     return !airInForbidenList && airInAllowedList
+  }
+
+  function checkUnitRelevanceForEvent(eventId, unit)
+  {
+    local event = getEvent(eventId)
+    return (!event || !unit) ? UnitRelevance.NONE
+     : isUnitAllowedForEvent(event, unit) ? UnitRelevance.BEST
+     : isUnitTypeAvailable(event, unit.unitType.esUnitType) ? UnitRelevance.MEDIUM
+     : UnitRelevance.NONE
   }
 
   function getSpecialRequirements(event)
