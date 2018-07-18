@@ -1,4 +1,6 @@
 local cc = require_native("colorCorrector")
+local string = require("std/string.nut")
+local missionState = require("../missionState.nut")
 local teamColors = {
   teamBlueColor = Watched(null)
   teamBlueLightColor = Watched(null)
@@ -12,11 +14,21 @@ local teamColors = {
   squadColor = Watched(null)
   chatTextSquadColor = Watched(null)
   trigger = Watched(null)
+  forcedTeamColors = Watched({})
 }
 
 
-::interop.recalculateTeamColors <- function () {
+::interop.recalculateTeamColors <- function (forcedColors = {}) {
+  teamColors.forcedTeamColors.update(forcedColors)
   local standardColors = !::cross_call.login.isLoggedIn() || !::cross_call.isPlayerDedicatedSpectator()
+  local allyTeam, allyTeamColor, enemyTeamColor
+  local isForcedColor = forcedColors && forcedColors.len() > 0
+  if (isForcedColor)
+  {
+    allyTeam = missionState.localTeam.value
+    allyTeamColor = string.hexStringToInt( "FF" + (allyTeam == 2 ? forcedColors?.colorTeamB : forcedColors?.colorTeamA) )
+    enemyTeamColor = string.hexStringToInt( "FF" + (allyTeam == 2 ? forcedColors?.colorTeamA : forcedColors?.colorTeamB) )
+  }
   local squadTheme = @() standardColors ? cc.TARGET_HUE_SQUAD : cc.TARGET_HUE_SPECTATOR_ALLY
   local allyTheme =  @() standardColors ? cc.TARGET_HUE_ALLY  : cc.TARGET_HUE_SPECTATOR_ALLY
   local enemyTheme = @() standardColors ? cc.TARGET_HUE_ENEMY : cc.TARGET_HUE_SPECTATOR_ENEMY
@@ -34,14 +46,21 @@ local teamColors = {
     { theme = squadTheme, baseColor = Color( 62, 158,  47), name = "squadColor" }
     { theme = squadTheme, baseColor = Color(198, 255, 189), name = "chatTextSquadColor" }
   ]) {
-    teamColors[cfg.name].update(cc.correctHueTarget(cfg.baseColor, cfg.theme()))
+    teamColors[cfg.name].update(isForcedColor
+      ? (cfg.theme == enemyTheme ? enemyTeamColor : allyTeamColor)
+      : cc.correctHueTarget(cfg.baseColor, cfg.theme()))
   }
+  teamColors.teamBlueLightColor.update(cc.correctColorLightness(teamColors.teamBlueColor.value, 50))
+  teamColors.teamRedLightColor.update(cc.correctColorLightness(teamColors.teamRedColor.value, 50))
 
   teamColors.trigger.trigger()
 }
 
 ::interop.recalculateTeamColors()
 
+missionState.localTeam.subscribe(function (new_val) {
+  ::interop.recalculateTeamColors(teamColors.forcedTeamColors.value)
+})
 
 local export = class {
   watch = teamColors

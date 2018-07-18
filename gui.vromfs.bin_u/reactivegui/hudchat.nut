@@ -35,7 +35,6 @@ state.input.subscribe(function (new_val) {
 
 local chatInputCtor = function (field, send) {
   local restoreControle = function () {
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_ALLOW_FULL)
     ::toggle_ingame_chat(false)
   }
 
@@ -185,10 +184,8 @@ local logBox = hudLog({
 local onInputToggle = function (enable) {
   if (enable) {
     ::set_kb_focus(chat.form)
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE | CtrlsInGui.CTRL_ALLOW_MP_CHAT)
   } else {
     ::set_kb_focus(null)
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_ALLOW_FULL)
   }
 }
 

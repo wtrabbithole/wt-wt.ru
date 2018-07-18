@@ -31,3 +31,8 @@
 ::apply_compatibilities({
   get_platform = function() { return "win64" }
 })
+
+//1.79.0.X
+::apply_compatibilities({
+  GT_FOOTBALL = 1 << 27
+})

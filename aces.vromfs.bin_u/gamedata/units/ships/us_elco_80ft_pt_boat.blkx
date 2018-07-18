@@ -543,11 +543,6 @@
           "armorThickness": 4.0,
           "hp": 100.0
         },
-        "superstructure_side_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
-          "hp": 100.0
-        },
         "superstructure_top_dm": {
           "armorClass": "ship_structural_steel",
           "armorThickness": 4.0,
@@ -564,33 +559,38 @@
         "bow_bottom_dm": {
           "armorThickness": 10.0,
           "hp": 100.0
+        },
+        "superstructure_side_dm": {
+          "armorClass": "ship_special_treatment_steel",
+          "armorThickness": 6.35,
+          "hp": 100.0
         }
       },
       "bulkheads": {
         "genericDamageMult": 0.5,
         "bulkhead_01_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_02_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_03_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_04_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_05_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_06_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_07_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         },
         "bulkhead_08_dm": {
-          "hp": 1000.0
+          "hp": 500.0
         }
       },
       "masts": {
@@ -679,7 +679,7 @@
       },
       "turrets_main_caliber": {
         "armorClass": "ship_structural_steel",
-        "armorThickness": 5.0,
+        "armorThickness": 12.7,
         "fireParamsPreset": "ship_turrets",
         "main_caliber_turret_01_dm": {
           "hp": 100.0
@@ -689,8 +689,8 @@
         }
       },
       "turrets_aux_caliber": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 4.0,
+        "armorClass": "RHA_tank",
+        "armorThickness": 12.7,
         "fireParamsPreset": "ship_turrets",
         "auxiliary_caliber_turret_01_dm": {
           "hp": 100.0
@@ -698,7 +698,7 @@
       },
       "turrets_aa_caliber": {
         "armorClass": "ship_structural_steel",
-        "armorThickness": 4.0,
+        "armorThickness": 8.0,
         "fireParamsPreset": "ship_turrets"
       },
       "gun_main_caliber": {
@@ -2136,7 +2136,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "primary"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"

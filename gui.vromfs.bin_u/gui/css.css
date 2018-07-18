@@ -1294,10 +1294,16 @@ tr[spectator=yes] textareaNoTab {
   color:@spectatorColor;
 }
 
-tr[mainPlayer=yes] activeText, tr[mainPlayer=yes] > td > text, tr[totalColor=yes] > td > activeText,
-text[mainPlayer=yes], tr[mainPlayer=yes] textareaNoTab, tr[totalColor=yes] > td > textareaNoTab {
+tr[mainPlayer=yes] activeText, tr[mainPlayer=yes] > td > text,
+text[mainPlayer=yes], tr[mainPlayer=yes] textareaNoTab {
   color:@mainPlayerColor;
 }
+
+tr[totalColor=yes] > td > activeText,
+tr[totalColor=yes] > td > textareaNoTab {
+  color:@totalTextColor;
+}
+
 tr[winAwardColor=yes] > td > activeText, tr[winAwardColor=yes] > td > textareaNoTab {
   color:@userlogColoredText;
 }

@@ -66,6 +66,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     {
       widgetId = DargWidgets.HUD
     }
+    {
+      widgetId = DargWidgets.FOOTBALL
+    }
   ]
 
   ucWarningActive   = false
@@ -287,7 +290,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       return
     curHudVisMode = visMode
 
-    local isDmgPanelVisible = visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL)
+    local isDmgPanelVisible = visMode.isPartVisible(HUD_VIS_PART.DMG_PANEL) &&
+      ::is_tank_damage_indicator_visible()
 
     local objsToShow = {
       xray_render_dmg_indicator = isDmgPanelVisible

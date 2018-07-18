@@ -75,7 +75,7 @@
 ::debriefing_rows <- [
   { id = "AirKills"
     showByModes = ::is_gamemode_versus
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     text = "multiplayer/air_kills"
     isVisibleWhenEmpty = function()
     {
@@ -83,7 +83,7 @@
     }
   }
   { id = "GroundKills"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/ground_kills"
     isVisibleWhenEmpty = function()
@@ -92,7 +92,7 @@
     }
   }
   { id = "awardDamage"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/naval_damage"
     isVisibleWhenEmpty = function()
@@ -101,7 +101,7 @@
     }
   }
   { id = "NavalKills"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/naval_kills"
     isVisibleWhenEmpty = function()
@@ -118,7 +118,7 @@
   "Critical",
   "Hit"
   { id = "Scouting"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit", "ScoutKillUnknown"]
   }
@@ -146,7 +146,7 @@
   "Takeoffs"
   { id = "Sights"
     showByModes = ::is_gamemode_versus
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
   }
   { id = "Damage",
     type = "tnt"

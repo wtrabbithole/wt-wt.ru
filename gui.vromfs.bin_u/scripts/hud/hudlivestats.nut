@@ -56,6 +56,11 @@ enum LIVE_STATS_MODE {
       [LIVE_STATS_MODE.FINAL] = [ "rowNo", "raceFinishTime", "raceBestLapTime", "deaths" ],
       [LIVE_STATS_MODE.WATCH] = [ "rowNo", "name", "raceFinishTime", "raceBestLapTime", "deaths" ],
     },
+    [::GT_FOOTBALL] = {
+      [LIVE_STATS_MODE.SPAWN] = [ "footballGoals", "footballAssists", "footballSaves", "footballScore" ],
+      [LIVE_STATS_MODE.FINAL] = [ "footballGoals", "footballAssists", "footballSaves", "footballScore" ],
+      [LIVE_STATS_MODE.WATCH] = [ "name", "footballGoals", "footballAssists", "footballSaves", "footballScore" ],
+    },
   }
 }
 
@@ -71,7 +76,10 @@ function g_hud_live_stats::init(_parentObj, _nestObjId, _isSelfTogglable)
 
   isSelfTogglable = _isSelfTogglable
   gameType = ::get_game_type()
-  missionMode = (gameType & ::GT_RACE) ? ::GT_RACE : ::GT_VERSUS
+  missionMode =
+      (gameType & ::GT_RACE) ? ::GT_RACE
+    : (gameType & ::GT_FOOTBALL) ? ::GT_FOOTBALL
+    : ::GT_VERSUS
   isMissionTeamplay = ::is_mode_with_teams(gameType)
   isMissionRace = !!(gameType & ::GT_RACE)
   isMissionFinished = false

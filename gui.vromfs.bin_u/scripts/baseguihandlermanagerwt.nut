@@ -128,7 +128,8 @@ function handlersManager::updatePostLoadCss()
   if (::get_dagui_post_include_css_str() != cssStringPost)
   {
     ::set_dagui_post_include_css_str(cssStringPost)
-    ::call_darg("recalculateTeamColors")
+    local forcedColors = ::g_login.isLoggedIn() ? ::get_team_colors() : {}
+    ::call_darg("recalculateTeamColors", forcedColors)
     haveChanges = true
   }
 
@@ -167,6 +168,27 @@ function handlersManager::generateColorConstantsConfig()
 
   local cssConfig = []
   local standardColors = !::g_login.isLoggedIn() || !::isPlayerDedicatedSpectator()
+  local forcedColors = ::get_team_colors()
+  local allyTeam, allyTeamColor, enemyTeamColor
+  if (forcedColors)
+  {
+    allyTeam = ::get_mp_local_team()
+    allyTeamColor = allyTeam == 2 ? forcedColors?.colorTeamB : forcedColors?.colorTeamA
+    enemyTeamColor = allyTeam == 2 ? forcedColors?.colorTeamA : forcedColors?.colorTeamB
+    cssConfig.extend([{
+      name = "mainPlayerColor"
+      value = "#" + allyTeamColor
+    },
+    {
+      name = "chatSenderMeColor"
+      value = "#" + allyTeamColor
+    },
+    {
+      name = "hudColorHero"
+      value = "#" + allyTeamColor
+    }])
+  }
+
   local theme = {
     squad = standardColors ? colorCorrector.TARGET_HUE_SQUAD : colorCorrector.TARGET_HUE_SPECTATOR_ALLY
     ally  = standardColors ? colorCorrector.TARGET_HUE_ALLY  : colorCorrector.TARGET_HUE_SPECTATOR_ALLY
@@ -189,7 +211,8 @@ function handlersManager::generateColorConstantsConfig()
 
   foreach (cfg in config)
   {
-    local color = colorCorrector.correctHueTarget(cfg.baseColor, theme[cfg.style])
+    local color = forcedColors ? (cfg.style == "enemy" ? enemyTeamColor : allyTeamColor)
+      : colorCorrector.correctHueTarget(cfg.baseColor, theme[cfg.style])
 
     foreach (name in cfg.names)
       cssConfig.append({

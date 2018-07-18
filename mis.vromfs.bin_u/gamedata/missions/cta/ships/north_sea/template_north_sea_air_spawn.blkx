@@ -60,22 +60,58 @@
       "effectivenessDistances": [2500.0,7000.0]
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/north_sea/mainareas/north_sea_NADom_airspawns.blk",
+        "rankRange": [6,30],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/north_sea/mainareas/north_sea_NADom_newbie_airspawns.blk",
+        "rankRange": [0,5],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
-  },
+  ],
   "triggers": {
     "isCategory": true,
     "is_enabled": true
@@ -934,10 +970,10 @@
     "t1_start": {
       "type": "Sphere",
       "tm": [
-        [145.786,0.0,82.276],
+        [123.643,0.0,-112.851],
         [0.0,167.4,0.0],
-        [-82.276,0.0,145.786],
-        [-6551.38,5.96046e-08,4371.33]
+        [112.851,0.0,123.643],
+        [-3092.36,0.000366271,7623.85]
       ],
       "objLayer": 0,
       "props": []
@@ -945,10 +981,10 @@
     "t1_end": {
       "type": "Sphere",
       "tm": [
-        [144.851,0.0,83.9117],
+        [124.905,0.0,-111.453],
         [0.0,167.4,0.0],
-        [-83.9117,0.0,144.851],
-        [-3984.78,0.0,5962.87]
+        [111.453,0.0,124.905],
+        [-779.692,0.000366211,5681.69]
       ],
       "objLayer": 0,
       "props": []
@@ -982,83 +1018,6 @@
         [0.0,296.7,0.0],
         [306.465,0.0,257.057],
         [11509.1,-0.000488281,-4627.56]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_waterfield": {
-      "type": "Box",
-      "tm": [
-        [2539.86,0.0,1596.6],
-        [0.0,296.7,0.0],
-        [-212.88,0.0,338.648],
-        [-5250.18,5.96046e-08,5140.08]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [712.405,0.0,-363.978],
-        [0.0,800.0,0.0],
-        [363.978,0.0,712.405],
-        [-3438.36,750.0,4226.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-712.405,0.0,363.977],
-        [0.0,800.0,0.0],
-        [-363.977,0.0,-712.405],
-        [10809.7,750.0,-3052.81]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [712.405,0.0,-363.978],
-        [0.0,800.0,0.0],
-        [363.978,0.0,712.405],
-        [-3438.36,1500.0,4226.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-712.405,0.0,363.977],
-        [0.0,800.0,0.0],
-        [-363.977,0.0,-712.405],
-        [10809.7,1500.0,-3052.81]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [-712.405,0.0,363.977],
-        [0.0,800.0,0.0],
-        [-363.977,0.0,-712.405],
-        [10809.7,2500.0,-3052.81]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [712.405,0.0,-363.978],
-        [0.0,800.0,0.0],
-        [363.978,0.0,712.405],
-        [-3438.36,2500.0,4226.75]
       ],
       "objLayer": 0,
       "props": []

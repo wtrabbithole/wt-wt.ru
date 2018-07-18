@@ -2214,7 +2214,7 @@
       "compartments": {
         "fireParamsPreset": "ship_cover",
         "stopChanceOnDeadPart": 0.3,
-        "genericDamageMult": 0.1,
+        "genericDamageMult": 0.7,
         "secondaryShatterDamageMult": 0.0,
         "armorThickness": 13.0,
         "compartment_01_dm": {
@@ -2241,19 +2241,19 @@
       },
       "superstructures": {
         "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
+        "genericDamageMult": 0.9,
         "stopChanceOnDeadPart": 0.3,
         "superstructure_back_dm": {
           "hp": 1492.0
         },
         "superstructure_side_dm": {
-          "hp": 1864.0
+          "hp": 1500.0
         },
         "superstructure_top_dm": {
-          "hp": 1737.0
+          "hp": 1500.0
         },
         "superstructure_dm": {
-          "hp": 2000.0
+          "hp": 1500.0
         },
         "stern_bottom_dm": {
           "hp": 500.0
@@ -2266,7 +2266,7 @@
         }
       },
       "bulkheads": {
-        "genericDamageMult": 0.1,
+        "genericDamageMult": 0.5,
         "armorThickness": 40.0,
         "stopChanceOnDeadPart": 0.3,
         "bulkhead_01_dm": {
@@ -2440,23 +2440,23 @@
         }
       },
       "turrets_main_caliber": {
-        "armorClass": "ship_special_treatment_steel",
+        "armorClass": "RHA_tank",
         "armorThickness": 8.0,
         "fireParamsPreset": "ship_turrets",
         "main_caliber_turret_01_dm": {
-          "hp": 500.0
+          "hp": 350.0
         },
         "main_caliber_turret_02_dm": {
-          "hp": 500.0
+          "hp": 350.0
         },
         "main_caliber_turret_03_dm": {
-          "hp": 500.0
+          "hp": 350.0
         },
         "main_caliber_turret_04_dm": {
-          "hp": 500.0
+          "hp": 350.0
         },
         "main_caliber_turret_05_dm": {
-          "hp": 500.0
+          "hp": 350.0
         }
       },
       "turrets_aux_caliber": {
@@ -2464,19 +2464,16 @@
         "armorThickness": 25.0,
         "fireParamsPreset": "ship_turrets",
         "auxiliary_caliber_turret_01_dm": {
-          "hp": 200.0
+          "hp": 100.0
         },
         "auxiliary_caliber_turret_02_dm": {
-          "hp": 200.0
+          "hp": 100.0
         }
       },
       "turrets_aa_caliber": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
         "fireParamsPreset": "ship_turrets",
-        "aa_turret_01_dm": {
-          "hp": 100.0
-        },
         "aa_turret_02_dm": {
           "hp": 50.0
         },
@@ -2491,6 +2488,11 @@
         },
         "aa_turret_06_dm": {
           "hp": 50.0
+        },
+        "aa_turret_01_dm": {
+          "armorThickness": 8.0,
+          "armorClass": "RHA_tank",
+          "hp": 100.0
         }
       },
       "gun_main_caliber": {
@@ -2498,19 +2500,19 @@
         "armorThickness": 50.0,
         "fireParamsPreset": "ship_turrets",
         "main_caliber_gun_01_dm": {
-          "hp": 350.0
+          "hp": 200.0
         },
         "main_caliber_gun_02_dm": {
-          "hp": 350.0
+          "hp": 200.0
         },
         "main_caliber_gun_03_dm": {
-          "hp": 350.0
+          "hp": 200.0
         },
         "main_caliber_gun_04_dm": {
-          "hp": 350.0
+          "hp": 200.0
         },
         "main_caliber_gun_05_dm": {
-          "hp": 350.0
+          "hp": 200.0
         }
       },
       "gun_aux_caliber": [
@@ -2525,17 +2527,17 @@
         },
         {
           "auxiliary_caliber_gun_01_dm": {
-            "hp": 250.0
+            "hp": 104.0
           }
         },
         {
           "auxiliary_caliber_gun_02_dm": {
-            "hp": 250.0
+            "hp": 104.0
           }
         },
         {
           "auxiliary_caliber_gun_02_dm": {
-            "hp": 250.0
+            "hp": 104.0
           }
         }
       ],
@@ -2686,32 +2688,32 @@
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 26
+        "crew": 27
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 26
+        "crew": 31
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 26
+        "crew": 27
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 26
+        "crew": 27
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 25
+        "crew": 27
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 26
+        "crew": 27
       },
       "sailor8": {
         "dmPart": "ex_armor_02_dm",
@@ -2721,42 +2723,42 @@
       "sailor9": {
         "dmPart": "superstructure_dm",
         "role": "sailor",
-        "crew": 34
+        "crew": 27
       },
       "sailor10": {
         "dmPart": "superstructure_top_dm",
         "role": "sailor",
-        "crew": 30
+        "crew": 27
       },
       "sailor11": {
         "dmPart": "superstructure_back_dm",
         "role": "sailor",
-        "crew": 26
+        "crew": 27
       },
       "sailor12": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor13": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor14": {
         "dmPart": "main_caliber_turret_03_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor15": {
         "dmPart": "main_caliber_turret_04_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor16": {
         "dmPart": "main_caliber_turret_05_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor17": {
         "dmPart": "tt_01_dm",
@@ -2766,7 +2768,7 @@
       "sailor18": {
         "dmPart": "tt_02_dm",
         "role": "sailor",
-        "crew": 6
+        "crew": 9
       }
     }
   },

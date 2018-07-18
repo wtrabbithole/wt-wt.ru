@@ -220,7 +220,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     local res = ::g_hud_hints._buildText.call(this, hintData)
     local varValue = ::getTblValue("variable_value", hintData)
     if (varValue != null)
+    {
+      local varStyle = ::getTblValue("variable_style", hintData)
+      if (varStyle == "playerId")
+      {
+        local player = ::get_mplayer_by_id(varValue)
+        varValue = ::build_mplayer_name(player)
+      }
       res = ::loc(res, {var = varValue})
+    }
     if (!getShortcuts(hintData))
       return res
     res = ::g_hint_tag.TIMER.makeFullTag() + " " + res
@@ -612,6 +620,17 @@ enums.addTypesByGlobalName("g_hud_hints", {
     getShortcuts = @(data) ::g_hud_action_bar_type.WINCH.getVisualShortcut()
     lifeTime = 10.0
     delayTime = 4.0
+  }
+
+  FOOTBALL_JUMP_REQUEST = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "HUD/TXT_FOOTBALL_JUMP_REQUEST"
+    showEvent = "hint:football_jump_request:show"
+    hideEvent = "hint:football_jump_request:hide"
+    priority = DEFAULT_MISSION_HINT_PRIORITY
+    shortcuts = "ID_FIRE_GM"
+    lifeTime = 3.0
+    delayTime = 2.0
   }
 
   WINCH_USE_HINT = {
@@ -1017,6 +1036,13 @@ enums.addTypesByGlobalName("g_hud_hints", {
   USE_BINOCULAR_SCOUTING = {
     locId = "HUD/TXT_USE_BINOCULAR_SCOUTING"
     showEvent = "hint:use_binocular_scouting"
+    lifeTime = 3.0
+  }
+
+  FOOTBALL_LOCK_TARGET = {
+    locId = "HUD/TXT_FOOTBALL_LOCK_TARGET"
+    showEvent = "hint:football_lock_target"
+    shortcuts = "ID_LOCK_TARGET"
     lifeTime = 3.0
   }
 

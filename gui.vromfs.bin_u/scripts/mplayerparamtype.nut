@@ -312,6 +312,26 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     relWidth = 30
   }
 
+  FOOTBALL_GOALS = {
+    id = "footballGoals"
+    relWidth = 10
+  }
+
+  FOOTBALL_ASSISTS = {
+    id = "footballAssists"
+    relWidth = 10
+  }
+
+  FOOTBALL_SAVES = {
+    id = "footballSaves"
+    relWidth = 10
+  }
+
+  FOOTBALL_SCORE = {
+    id = "footballScore"
+    relWidth = 15
+  }
+
   UNIT_ICON = {
     id = "unitIcon"
     width = "1.5@tableIcoSize"

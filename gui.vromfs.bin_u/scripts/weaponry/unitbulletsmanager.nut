@@ -243,6 +243,7 @@ class UnitBulletsManager
 
     loadGunInfo()
     loadBulGroups()
+    forcedBulletsCount()
     validateBullets()
     validateBulletsCount()
   }
@@ -281,6 +282,31 @@ class UnitBulletsManager
     {
       local active = ::is_bit_set(groupsActiveMask, groupIndex)
       bulGroups.append(::BulletGroup(unit, groupIndex, getGroupGunInfo(groupIndex), active, canChangeActivity))
+    }
+  }
+
+  function forcedBulletsCount()
+  {
+    if (!gunsInfo.len())
+      return
+
+    local forceBulletGroupByGun = {}
+    foreach(bulGroup in bulGroups)
+      if (bulGroup.active && bulGroup.gunInfo.forcedMaxBulletsInRespawn)
+      {
+        local gIdx = bulGroup.getGunIdx()
+        if (!forceBulletGroupByGun?[gIdx])
+          forceBulletGroupByGun?[gIdx] <- []
+
+        forceBulletGroupByGun[gIdx].append(bulGroup)
+      }
+
+    foreach(idx, gunBullets in forceBulletGroupByGun)
+    {
+      local countBullet = gunBullets.len()
+
+      foreach(bulGroup in gunBullets)
+        bulGroup.setBulletsCount(bulGroup.gunInfo.total / countBullet)
     }
   }
 

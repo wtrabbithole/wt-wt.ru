@@ -213,3 +213,17 @@ if (!("logerr" in ::dagor))
   char_send_custom_action = function(action, type, headers, body, length) { return -1 }
   EATT_JSON_REQUEST = 64
 })
+
+::apply_compatibilities({
+  is_tank_damage_indicator_visible = @() true
+})
+
+//----------------------------wop_1_77_2_X---------------------------------//
+::apply_compatibilities({
+  get_team_colors = @() null
+})
+
+//----------------------------wop_1_79_1_X---------------------------------//
+::apply_compatibilities({
+  GT_FOOTBALL = 1 << 27
+})

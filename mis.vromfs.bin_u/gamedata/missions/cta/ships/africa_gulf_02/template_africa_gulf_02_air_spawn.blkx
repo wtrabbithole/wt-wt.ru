@@ -60,22 +60,58 @@
       }
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/africa_gulf_02/mainareas/africa_gulf_02_NADom_newbie_airspawns.blk",
+        "rankRange": [0,5],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/africa_gulf_02/mainareas/africa_gulf_02_NADom_airspawns.blk",
+        "rankRange": [6,30],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
-  },
+  ],
   "triggers": {
     "isCategory": true,
     "is_enabled": true
@@ -993,83 +1029,6 @@
         [0.0,296.7,0.0],
         [14.3073,0.0,399.744],
         [-9379.52,-6.10352e-05,3837.92]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-7487.75,749.999,4943.28]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-772.741,0.0,207.055],
-        [0.0,800.0,0.0],
-        [-207.055,0.0,-772.741],
-        [11623.3,749.999,-960.652]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-7487.75,1500.0,4943.28]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-772.741,0.0,207.055],
-        [0.0,800.0,0.0],
-        [-207.055,0.0,-772.741],
-        [11623.3,1500.0,-960.652]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "fakearea_01": {
-      "type": "Sphere",
-      "tm": [
-        [19074.3,0.0,-6014.12],
-        [0.0,20000.0,0.0],
-        [6014.12,0.0,19074.3],
-        [2076.58,750.0,2056.65]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "t2_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [-772.741,0.0,207.055],
-        [0.0,800.0,0.0],
-        [-207.055,0.0,-772.741],
-        [11623.3,2500.0,-960.652]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-7487.75,2500.0,4943.28]
       ],
       "objLayer": 0,
       "props": []

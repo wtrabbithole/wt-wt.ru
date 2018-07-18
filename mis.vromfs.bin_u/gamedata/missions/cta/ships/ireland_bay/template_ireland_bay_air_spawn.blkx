@@ -60,22 +60,58 @@
       }
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/ireland_bay/mainareas/ireland_bay_NADom_airspawns.blk",
+        "rankRange": [6,30],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/ireland_bay/mainareas/ireland_bay_NADom_newbie_airspawns.blk",
+        "rankRange": [0,5],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
-  },
+  ],
   "triggers": {
     "isCategory": true,
     "is_enabled": true
@@ -931,83 +967,6 @@
     }
   ],
   "areas": {
-    "t1_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-7320.3,750.0,-1165.99]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-800.0,0.0,-0.000183105],
-        [0.0,800.0,0.0],
-        [0.000183105,0.0,-800.0],
-        [11442.6,750.001,-1611.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-7320.3,1500.0,-1165.99]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-800.0,0.0,-0.000183105],
-        [0.0,800.0,0.0],
-        [0.000183105,0.0,-800.0],
-        [11442.6,1500.0,-1611.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-7320.3,2500.0,-1165.99]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [-800.0,0.0,-0.000183105],
-        [0.0,800.0,0.0],
-        [0.000183105,0.0,-800.0],
-        [11442.6,2500.0,-1611.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "area_01": {
-      "type": "Sphere",
-      "tm": [
-        [20000.0,0.0,0.0],
-        [0.0,20000.0,0.0],
-        [0.0,0.0,20000.0],
-        [2124.79,0.430664,1873.79]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "t1_start": {
       "type": "Sphere",
       "tm": [
@@ -1033,10 +992,10 @@
     "t2_end": {
       "type": "Sphere",
       "tm": [
-        [-141.772,0.0,89.0132],
+        [-150.085,0.0,74.1432],
         [0.0,167.4,0.0],
-        [-89.0132,0.0,-141.772],
-        [10466.3,0.0,-3363.9]
+        [-74.1432,0.0,-150.085],
+        [7308.5,0.0,-2826.15]
       ],
       "objLayer": 0,
       "props": []
@@ -1044,10 +1003,10 @@
     "t2_start": {
       "type": "Sphere",
       "tm": [
-        [-146.92,0.0,80.2324],
+        [-154.314,0.0,64.8846],
         [0.0,167.4,0.0],
-        [-80.2324,0.0,-146.92],
-        [13070.1,0.0,-4854.15]
+        [-64.8846,0.0,-154.314],
+        [10050.3,0.0,-4044.04]
       ],
       "objLayer": 0,
       "props": []
@@ -1055,21 +1014,10 @@
     "t2_waterfield": {
       "type": "Box",
       "tm": [
-        [2615.54,0.0,-1469.33],
+        [2751.33,0.0,-1195.89],
         [0.0,296.7,0.0],
-        [195.911,0.0,348.739],
-        [11773.4,0.0,-4102.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_waterfield": {
-      "type": "Box",
-      "tm": [
-        [2604.7,0.0,1488.48],
-        [0.0,296.7,0.0],
-        [-198.464,0.0,347.293],
-        [-8842.65,0.0,-2183.45]
+        [159.452,0.0,366.845],
+        [8683.93,0.0,-3428.33]
       ],
       "objLayer": 0,
       "props": []

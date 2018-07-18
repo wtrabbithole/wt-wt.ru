@@ -1081,6 +1081,7 @@ function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
   total = 0 //catridges total
   catridge = 1
   groupIndex = -1
+  forcedMaxBulletsInRespawn = false
 }
 function getBulletsInfoForPrimaryGuns(air)
 {
@@ -1128,6 +1129,7 @@ function getBulletsInfoForPrimaryGuns(air)
             wpList[weapon.blk].groupIndex = idx
             break
           }
+        wpList[weapon.blk].forcedMaxBulletsInRespawn = wBlk?.forcedMaxBulletsInRespawn ?? false
       }
 
   foreach(idx, modName in modsList)

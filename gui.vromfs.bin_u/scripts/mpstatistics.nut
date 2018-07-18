@@ -878,6 +878,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                                "navalKills", "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "unitIcon", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
+  footballRowHeaders        = ["name", "footballGoals", "footballAssists", "footballSaves", "footballScore"]
+
   statTrSize = "pw, 1@baseTrHeight"
 
   function onActivateOrder()
@@ -1120,7 +1122,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
+      local sourceHeaders = gameType & ::GT_FOOTBALL ? footballRowHeaders
+        : gameType & ::GT_RACE ? raceRowHeaders
+        : defaultRowHeaders
+
       foreach (id in sourceHeaders)
         if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType, gameMode))
           tblData.append(id)
