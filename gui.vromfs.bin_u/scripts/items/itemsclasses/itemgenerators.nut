@@ -39,7 +39,7 @@ local ItemGenerator = class {
       _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes(parsedRecipe, generatorId))
       _exchangeRecipesUpdateTime = ::dagor.getCurTime()
     }
-    return _exchangeRecipes
+    return ::u.filter(_exchangeRecipes, @(ec) ec.isEnabled())
   }
 
   function getRecipesWithComponent(componentItemdefId)
@@ -53,7 +53,7 @@ local ItemGenerator = class {
     local parsedBundles = inventoryClient.parseRecipesString(bundle)
 
     foreach (set in parsedBundles)
-      foreach (cfg in set)
+      foreach (cfg in set.components)
       {
         local item = ::ItemsManager.findItemById(cfg.itemdefid)
         local generator = !item ? collection?[cfg.itemdefid] : null

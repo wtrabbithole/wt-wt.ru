@@ -209,4 +209,7 @@ if (!("logerr" in ::dagor))
   set_option_mine_depth = @(v) null
   get_option_save_zoom_camera = @() null
   set_option_save_zoom_camera = @(v) null
+
+  char_send_custom_action = function(action, type, headers, body, length) { return -1 }
+  EATT_JSON_REQUEST = 64
 })

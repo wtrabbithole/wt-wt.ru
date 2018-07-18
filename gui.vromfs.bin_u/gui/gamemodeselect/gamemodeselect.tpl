@@ -239,77 +239,63 @@ frame {
     <</categories>>
   }
 
-  div {
-    id:t='cluster_select_button_container';
+  tdiv {
     width:t='0.759@scrn_tgt';
     height:t='0.045@sf';
-    padding-top:t='0.3@sIco';
-    padding:t='0.005@sf';
-    cluster_select_button_container:t='yes';
-    behavior:t='posNavigator';
-    navigatorShortcuts:t='active';
-    moveX:t='linear';
-    moveY:t='linear';
-    childsActivate:t='yes';
-    on_wrap_up:t='onWrapUp';
-    on_wrap_down:t='onWrapDown';
-    on_activate:t='onClusterSelectActivate';
-    on_set_focus:t='onGameModeSelectFocus';
 
-    button {
-      id:t='cluster_select_button';
-      height:t='0.035@sf';
-      position:t='relative';
-      padding-left:t='1.2@sIco';
-      on_click:t='onOpenClusterSelect';
-      shortcutActivate:t='J:A | Space';
+    tdiv {
+      id:t='cluster_select_button_container';
+      behavior:t='posNavigator';
+      padding:t='0.005@scrn_tgt';
+      navigatorShortcuts:t='active';
+      moveX:t='linear';
+      moveY:t='linear';
+      showSelect:t='yes'
+      on_wrap_up:t='onWrapUp';
+      on_wrap_down:t='onWrapDown';
+      on_activate:t='onClusterSelectActivate';
 
-      img {
-        position:t='absolute';
-        pos:t='12*@sf/@pf_outdated, ph/2 - h/2';
-        size:t='5*@sf/@pf_outdated, ph';
-        rotation:t='0';
-        background-image:t='#ui/gameuiskin#drop_menu_separator';
-        bgcolor:t='#FFFFFF';
-        input-transparent:t='yes';
-      }
+      button {
+        id:t='cluster_select_button';
+        height:t='0.035@sf';
+        position:t='relative';
+        padding-left:t='1.2@sIco';
+        on_click:t='onOpenClusterSelect';
+        on_set_focus:t='onGameModeSelectFocus';
 
-      img {
-        position:t='absolute';
-        pos:t='0, ph/2 - h/2';
-        size:t='11*@sf/@pf_outdated, 8*@sf/@pf_outdated';
-        rotation:t='0';
-        background-image:t='#ui/gameuiskin#drop_menu_icon';
-        bgcolor:t='#FFFFFF';
-        input-transparent:t='yes';
+        img {
+          position:t='absolute';
+          pos:t='12*@sf/@pf_outdated, ph/2 - h/2';
+          size:t='5*@sf/@pf_outdated, ph';
+          rotation:t='0';
+          background-image:t='#ui/gameuiskin#drop_menu_separator';
+          bgcolor:t='#FFFFFF';
+          input-transparent:t='yes';
+        }
+
+        img {
+          position:t='absolute';
+          pos:t='0, ph/2 - h/2';
+          size:t='11*@sf/@pf_outdated, 8*@sf/@pf_outdated';
+          rotation:t='0';
+          background-image:t='#ui/gameuiskin#drop_menu_icon';
+          bgcolor:t='#FFFFFF';
+          input-transparent:t='yes';
+        }
       }
     }
 
-    tdiv {
+    Button_text {
+      id:t='event_description_console_button'
+      text:t='#mainmenu/titleEventDescription'
+      pos:t='pw - w - 0.01@scrn_tgt, 0'
       position:t='absolute'
-      pos:t='pw-1.01w, ph-1.1h'
+      btnName:t='X'
+      on_click:t='onEventDescription'
+      display:t='hide'
+      enable:t='no'
 
-      Button_text {
-        id:t='event_description_console_button'
-        text:t='#mainmenu/titleEventDescription'
-        btnName:t='X'
-        on_click:t='onEventDescription'
-        display:t='hide'
-        enable:t='no'
-
-        ButtonImg {}
-      }
-
-      Button_text {
-        id:t='activate_console_button'
-        text:t='#mainmenu/openGameModeLink'
-        btnName:t='X'
-        on_click:t='onActivateConsoleButton'
-        display:t='hide'
-        enable:t='no'
-
-        ButtonImg {}
-      }
+      ButtonImg {}
     }
   }
 }

@@ -2023,25 +2023,46 @@ function get_option(type, context = null)
 
     case ::USEROPT_HUD_SHOW_FUEL:
       descr.id = "hud_show_fuel"
-      descr.items = ["#options/auto", "#options/inhardcore", "#options/always"]
-      descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_fuel();
+      descr.items = ["#options/auto", "#options/always"]
+      descr.values = [0, 2]
+
+      if (::g_difficulty.SIMULATOR.isAvailable())
+      {
+        descr.items.insert(1, "#options/inhardcore")
+        descr.values.insert(1, 1)
+      }
+
+      descr.value = ::find_in_array(descr.values, ::get_option_hud_show_fuel(), 0)
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
     case ::USEROPT_HUD_SHOW_AMMO:
       descr.id = "hud_show_ammo"
-      descr.items = ["#options/auto", "#options/inhardcore", "#options/always"]
-      descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_ammo();
+      descr.items = ["#options/auto", "#options/always"]
+      descr.values = [0, 2]
+
+      if (::g_difficulty.SIMULATOR.isAvailable())
+      {
+        descr.items.insert(1, "#options/inhardcore")
+        descr.values.insert(1, 1)
+      }
+
+      descr.value = ::find_in_array(descr.values, ::get_option_hud_show_ammo(), 0)
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
     case ::USEROPT_HUD_SHOW_TEMPERATURE:
       descr.id = "hud_show_temperature"
-      descr.items = ["#options/auto", "#options/inhardcore", "#options/always"]
-      descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_temperature();
+      descr.items = ["#options/auto", "#options/always"]
+      descr.values = [0, 2]
+
+      if (::g_difficulty.SIMULATOR.isAvailable())
+      {
+        descr.items.insert(1, "#options/inhardcore")
+        descr.values.insert(1, 1)
+      }
+
+      descr.value = ::find_in_array(descr.values, ::get_option_hud_show_temperature(), 0)
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
@@ -4271,19 +4292,19 @@ function set_option(type, value, descr = null)
       break
     case ::USEROPT_HUD_SHOW_BONUSES:
       ::set_option_hud_show_bonuses(descr.values[value])
-      break;
+      break
     case ::USEROPT_HUD_SCREENSHOT_LOGO:
       ::set_option_hud_screenshot_logo(value)
-      break;
+      break
     case ::USEROPT_HUD_SHOW_FUEL:
       ::set_option_hud_show_fuel(descr.values[value])
-      break;
+      break
     case ::USEROPT_HUD_SHOW_AMMO:
       ::set_option_hud_show_ammo(descr.values[value])
-      break;
+      break
     case ::USEROPT_HUD_SHOW_TEMPERATURE:
       ::set_option_hud_show_temperature(descr.values[value])
-      break;
+      break
     case ::USEROPT_MENU_SCREEN_SAFE_AREA:
       if (value >= 0 && value < descr.values.len())
       {

@@ -480,18 +480,29 @@ local InventoryClient = class {
     local recipes = []
     foreach (recipe in ::split(recipesStr || "", ";"))
     {
-      local components = []
+      local parsedRecipe = {
+        components = []
+        requirement = null
+      }
       foreach (component in ::split(recipe, ","))
       {
-        local pair = ::split(component, "x")
-        if (!pair.len())
-          continue
-        components.append({
-          itemdefid = ::to_integer_safe(pair[0])
-          quantity  = (1 in pair) ? ::to_integer_safe(pair[1]) : 1
-        })
+        local requirement = ::g_string.cutPrefix(component, "require=")
+        if (requirement != null)
+        {
+          parsedRecipe.requirement = requirement
+        }
+        else
+        {
+          local pair = ::split(component, "x")
+          if (!pair.len())
+            continue
+          parsedRecipe.components.append({
+            itemdefid = ::to_integer_safe(pair[0])
+            quantity  = (1 in pair) ? ::to_integer_safe(pair[1]) : 1
+          })
+        }
       }
-      recipes.append(components)
+      recipes.append(parsedRecipe)
     }
     return recipes
   }
@@ -549,9 +560,30 @@ local InventoryClient = class {
     }
   }
 
-  function exchange(materials, outputitemdefid, cb = null, shouldCheckInventory = true) {
+  function exchangeViaChard(materials, outputItemDefId, cb = null, shouldCheckInventory = true, requirement = null) {
+    local json = {
+      outputitemdefid = outputItemDefId
+      materials = materials
+    }
+    if (::u.isString(requirement) && requirement.len() > 0)
+    {
+      json["permission"] <- requirement
+    }
+
+    local internalCb = ::Callback((@(cb, shouldCheckInventory) function(data) {
+                                     handleItemsDelta(data, cb, shouldCheckInventory)
+                                 })(cb, shouldCheckInventory), this)
+    local taskId = ::char_send_custom_action("cln_inventory_exchange_items",
+                                             EATT_JSON_REQUEST,
+                                             ::DataBlock(),
+                                             json_to_string(json, false),
+                                             -1)
+    ::g_tasker.addTask(taskId, { showProgressBox = true }, internalCb, null, TASK_CB_TYPE.REQUEST_DATA)
+  }
+
+  function exchangeDirect(materials, outputItemDefId, cb = null, shouldCheckInventory = true) {
     local req = {
-        outputitemdefid = outputitemdefid,
+        outputitemdefid = outputItemDefId,
         materials = materials
     }
 
@@ -563,6 +595,21 @@ local InventoryClient = class {
     )
   }
 
+  function exchange(materials, outputItemDefId, cb = null, shouldCheckInventory = true, requirement = null) {
+    // We can continue to use exchangeDirect if requirement is null. It would be
+    // better to use exchangeViaChard in all cases for the sake of consistency,
+    // but this will break compatibility with the char server. This distinction
+    // can be removed later.
+
+    if (!::u.isString(requirement) || requirement.len() == 0)
+    {
+      exchangeDirect(materials, outputItemDefId, cb, shouldCheckInventory)
+      return
+    }
+
+    exchangeViaChard(materials, outputItemDefId, cb, shouldCheckInventory, requirement)
+  }
+
   function getChestGeneratorItemdefIds(itemdefid) {
     local usedToCreate = itemdefs?[itemdefid]?.used_to_create
     local parsedRecipes = parseRecipesString(usedToCreate)
@@ -570,7 +617,7 @@ local InventoryClient = class {
     local res = []
     foreach (recipeCfg in parsedRecipes)
     {
-      local id = ::to_integer_safe(recipeCfg?[0]?.itemdefid ?? "", -1)
+      local id = ::to_integer_safe(recipeCfg.components?[0]?.itemdefid ?? "", -1)
       if (id != -1)
         res.append(id)
     }

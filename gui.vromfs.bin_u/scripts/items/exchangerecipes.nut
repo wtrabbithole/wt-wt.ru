@@ -7,6 +7,7 @@ local ExchangeRecipes = class {
   uid = 0
   components = null
   generatorId = null
+  requirement = null
 
   isUsable = false
   isMultipleItems = false
@@ -17,13 +18,15 @@ local ExchangeRecipes = class {
     uid = lastRecipeUid++
     generatorId = _generatorId
 
-    local componentsCount = parsedRecipe.len()
+    local componentsCount = parsedRecipe.components.len()
     isUsable = componentsCount > 0
     isMultipleItems = componentsCount > 1
 
+    requirement = parsedRecipe.requirement
+
     local extraItemsCount = 0
     components = []
-    foreach (component in parsedRecipe)
+    foreach (component in parsedRecipe.components)
     {
       local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
 
@@ -46,6 +49,11 @@ local ExchangeRecipes = class {
     }
 
     isMultipleExtraItems = extraItemsCount > 1
+  }
+
+  function isEnabled()
+  {
+    return requirement == null || ::has_feature(requirement)
   }
 
   function hasComponent(itemdefid)
@@ -289,7 +297,8 @@ local ExchangeRecipes = class {
         resultItems.extend(items)
         cb()
       },
-      --leftAmount <= 0
+      --leftAmount <= 0,
+      requirement
     )).bindenv(recipe)
 
     local exchangeActions = array(amount, exchangeAction)
