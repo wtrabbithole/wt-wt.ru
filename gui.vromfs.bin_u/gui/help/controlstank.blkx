@@ -18,7 +18,7 @@
       {
         "tdiv": [
           {
-            "pos": "10/1760pw, 20/900ph"
+            "pos": "20/1760pw, 20/900ph"
           },
           {
             "position": "absolute"
@@ -76,7 +76,7 @@
           "id": "base_hud_param_label",
           "max-width": "250/1760pw",
           "min-height": "60/900ph",
-          "pos": "200/1760pw, 20/900ph",
+          "pos": "150/1760pw, 20/900ph",
           "position": "absolute",
           "text": "#controls/help/tank_throttle_hud"
         }
@@ -92,52 +92,40 @@
       {
         "controlsHelpFrame": {
           "id": "throttle_label",
-          "pos": "230/1760pw-w, 123/900ph",
+          "pos": "20/1760pw, 100/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "gm_throttle_controls_help_1",
-            "margin-right": "0.01@sf"
+          "width": "210/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{gm_throttle=max}}"
           },
           "textareaNoTab": {
-            "max-width": "120/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_forward"
           }
         }
       },
       {
-        "controlsHelpFrame": [
-          {
-            "pos": "80/1760pw, 205/900ph"
+        "tdiv": {
+          "id": "turn_left_target_point",
+          "pos": "305/1760pw, 230/900ph",
+          "position": "absolute",
+          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
+        }
+      },
+      {
+        "controlsHelpFrame": {
+          "id": "turn_left_frame",
+          "pos": "20/1760pw, 165/900ph",
+          "position": "absolute",
+          "width": "210/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{gm_steering=max}}"
           },
-          {
-            "position": "absolute"
-          },
-          {
-            "tdiv": {
-              "id": "gm_steering_controls_help_1",
-              "margin-right": "0.01@sf"
-            }
-          },
-          {
-            "tdiv": {
-              "id": "gm_steering_controls_help_2",
-              "margin-right": "0.01@sf",
-              "display": "hide"
-            }
-          },
-          {
-            "textareaNoTab": {
-              "max-width": "146/1760p.p.w",
-              "pos": "0,0.5ph-0.5h",
-              "position": "relative",
-              "controlsHelp": "yes",
-              "text": "#controls/help/tank_left"
-            }
+          "textareaNoTab": {
+            "text": "#controls/help/tank_left"
           }
-        ]
+        }
       },
       {
         "tdiv": {
@@ -150,55 +138,40 @@
       {
         "controlsHelpFrame": {
           "id": "turn_right_label",
-          "pos": "494/1760pw, 88/900ph-h",
+          "pos": "470/1760pw, 20/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "gm_steering_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "210/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{gm_steering=min}}"
           },
           "textareaNoTab": {
-            "max-width": "146/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_right"
           }
         }
       },
       {
-        "controlsHelpFrame": [
-          {
-            "id": "backward_label"
+        "tdiv": {
+          "id": "backward_target_point",
+          "pos": "555/1760pw, 270/900ph",
+          "position": "absolute",
+          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
+        }
+      },
+      {
+        "controlsHelpFrame": {
+          "id": "backward_label",
+          "pos": "550/1760pw, 180/900ph-h",
+          "position": "absolute",
+          "width": "210/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{gm_throttle=min}}"
           },
-          {
-            "pos": "565/1760pw, 235/900ph-h"
-          },
-          {
-            "position": "absolute"
-          },
-          {
-            "tdiv": {
-              "id": "gm_throttle_controls_help_0",
-              "margin-right": "0.01@sf"
-            }
-          },
-          {
-            "tdiv": {
-              "id": "gm_throttle_controls_help_2",
-              "margin-right": "0.01@sf",
-              "display": "hide"
-            }
-          },
-          {
-            "textareaNoTab": {
-              "max-width": "160/1760p.p.w",
-              "pos": "0,0.5ph-0.5h",
-              "position": "relative",
-              "controlsHelp": "yes",
-              "text": "#controls/help/tank_backward"
-            }
+          "textareaNoTab": {
+            "text": "#controls/help/tank_backward"
           }
-        ]
+        }
       },
       {
         "tdiv": {
@@ -224,16 +197,11 @@
               "controlsHelpFrame": {
                 "id": "call_artillery_strike_label",
                 "width": "pw",
-                "tooltip": "#controls/help/tank_call_artillery_strike",
-                "margin": "0, 1",
-                "tdiv": {
-                  "id": "ID_ACTION_BAR_ITEM_5_controls_help_0",
-                  "margin-right": "0.01@sf"
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_ACTION_BAR_ITEM_5}}"
                 },
                 "textareaNoTab": {
-                  "width": "fw",
-                  "controlsHelp": "yes",
-                  "text-valign": "center",
                   "text": "#controls/help/tank_call_artillery_strike"
                 }
               }
@@ -242,15 +210,11 @@
               "controlsHelpFrame": {
                 "id": "scout_label",
                 "width": "pw",
-                "tooltip": "#hotkeys/ID_SCOUT",
-                "tdiv": {
-                  "id": "ID_SCOUT",
-                  "margin-right": "0.01@sf"
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_SCOUT}}"
                 },
                 "textareaNoTab": {
-                  "text-valign": "center",
-                  "controlsHelp": "yes",
-                  "width": "fw",
                   "text": "#hotkeys/ID_SCOUT"
                 }
               }
@@ -259,17 +223,13 @@
               "controlsHelpFrame": {
                 "id": "controller_switching_ammo",
                 "width": "pw",
-                "tooltip": "#controls/help/tank_switching_ammo",
-                "buttonsLine": {
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
                   "controlsHelpJoystickBtn": {
                     "background-image": "@control_dirpad"
                   }
                 },
                 "textareaNoTab": {
-                  "text-valign": "center",
-                  "padding-left": "5*@sf/@pf_outdated",
-                  "controlsHelp": "yes",
-                  "width": "fw",
                   "text": "#controls/help/tank_switching_ammo"
                 }
               }
@@ -278,38 +238,12 @@
               "controlsHelpFrame": {
                 "id": "keyboard_switching_ammo",
                 "width": "pw",
-                "tooltip": "#controls/help/tank_switching_ammo",
-                "tdiv": [
-                  {
-                    "tdiv": {
-                      "id": "ID_ACTION_BAR_ITEM_1_controls_help_0",
-                      "margin-right": "0.01@sf"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "ID_ACTION_BAR_ITEM_2_controls_help_0",
-                      "margin-right": "0.01@sf"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "ID_ACTION_BAR_ITEM_3_controls_help_0",
-                      "margin-right": "0.01@sf"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "ID_ACTION_BAR_ITEM_4_controls_help_0",
-                      "margin-right": "0.01@sf"
-                    }
-                  }
-                ],
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "blockFlow": "yes",
+                  "value": "{{ID_ACTION_BAR_ITEM_1}} {{ID_ACTION_BAR_ITEM_2}} {{ID_ACTION_BAR_ITEM_3}} {{ID_ACTION_BAR_ITEM_4}}"
+                },
                 "textareaNoTab": {
-                  "width": "fw",
-                  "pos": "0, 50%ph-50%h",
-                  "position": "relative",
-                  "controlsHelp": "yes",
                   "text": "#controls/help/tank_switching_ammo"
                 }
               }
@@ -333,17 +267,25 @@
               "controlsHelpFrame": {
                 "id": "smoke_grenade_lable",
                 "width": "pw",
-                "tooltip": "#hotkeys/ID_SMOKE_SCREEN",
-                "margin": "0, 1",
-                "tdiv": {
-                  "id": "ID_SMOKE_SCREEN",
-                  "margin-right": "0.01@sf"
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_SMOKE_SCREEN}}"
                 },
                 "textareaNoTab": {
-                  "width": "fw",
-                  "controlsHelp": "yes",
-                  "text-valign": "center",
                   "text": "#hotkeys/ID_SMOKE_SCREEN"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "controller_smoke_screen_label",
+                "width": "pw",
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_ACTION_BAR_ITEM_5}}"
+                },
+                "textareaNoTab": {
+                  "text": "#hotkeys/ID_SMOKE_SCREEN_GENERATOR"
                 }
               }
             },
@@ -351,16 +293,25 @@
               "controlsHelpFrame": {
                 "id": "smoke_screen_label",
                 "width": "pw",
-                "tooltip": "#hotkeys/ID_SMOKE_SCREEN_GENERATOR",
-                "tdiv": {
-                  "id": "ID_SMOKE_SCREEN_GENERATOR",
-                  "margin-right": "0.01@sf"
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_SMOKE_SCREEN_GENERATOR}}"
                 },
                 "textareaNoTab": {
-                  "text-valign": "center",
-                  "controlsHelp": "yes",
-                  "width": "fw",
                   "text": "#hotkeys/ID_SMOKE_SCREEN_GENERATOR"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "id": "controller_medicalkit_label",
+                "width": "pw",
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_ACTION_BAR_ITEM_5}}"
+                },
+                "textareaNoTab": {
+                  "text": "#hotkeys/ID_ACTION_BAR_ITEM_12"
                 }
               }
             },
@@ -368,16 +319,11 @@
               "controlsHelpFrame": {
                 "id": "medicalkit_label",
                 "width": "pw",
-                "tooltip": "#hotkeys/ID_ACTION_BAR_ITEM_12",
-                "tdiv": {
-                  "id": "ID_ACTION_BAR_ITEM_12",
-                  "margin-right": "0.01@sf"
+                "keyDiv": {
+                  "behaviour": "bhvHelpFrame",
+                  "value": "{{ID_ACTION_BAR_ITEM_12}}"
                 },
                 "textareaNoTab": {
-                  "text-valign": "center",
-                  "padding-left": "5*@sf/@pf_outdated",
-                  "controlsHelp": "yes",
-                  "width": "fw",
                   "text": "#hotkeys/ID_ACTION_BAR_ITEM_12"
                 }
               }
@@ -390,7 +336,7 @@
           "id": "tank_sight_label",
           "max-width": "210*@sf/@pf_outdated",
           "min-height": "50*@sf/@pf_outdated",
-          "pos": "401/1760pw-w, 485/900ph",
+          "pos": "35/1760pw, 485/900ph",
           "position": "absolute",
           "text": "#controls/help/tank_sight"
         }
@@ -413,98 +359,68 @@
       },
       {
         "controlsHelpFrame": {
-          "pos": "570/1760pw, 490/900ph",
+          "pos": "850/1760pw-w, 485/900ph",
           "position": "absolute",
-          "tdiv": {
-            "position": "relative",
-            "id": "ID_AIM_CAMERA",
-            "margin-right": "0.01@sf"
+          "width": "270*@sf/@pf",
+          "id": "tank_cursor_frame",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{gm_mouse_aim_x+gm_mouse_aim_y}}"
           },
           "textareaNoTab": {
-            "max-width": "250/1760p.p.w - 1@kbh",
-            "padding-left": "5*@sf/@pf_outdated",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_cursor_control"
           }
         }
       },
       {
-        "controlsHelpFrame": {
-          "pos": "400/1760pw, 870/900ph-h",
+        "tdiv": {
+          "id": "tank_cursor_target_point",
+          "pos": "565/1760pw, 516/900ph",
           "position": "absolute",
-          "tdiv": {
-            "position": "relative",
-            "id": "ID_CAMERA_VIEW",
-            "margin-right": "0.01@sf"
+          "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
+        }
+      },
+      {
+        "controlsHelpFrame": {
+          "pos": "850/1760pw-w, 870/900ph-h",
+          "position": "absolute",
+          "width": "270*@sf/@pf",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{gm_camx+gm_camy}}"
           },
           "textareaNoTab": {
-            "max-width": "228/1760p.p.w",
-            "padding-left": "5*@sf/@pf_outdated",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_mouse_look"
           }
         }
       },
       {
         "controlsHelpFrame": {
-          "id": "ID_SHOW_VOICE_MESSAGE_LIST_controls_frame",
-          "pos": "350/1760pw-w, 870/900ph-h",
+          "pos": "35/1760pw, 870/900ph-h",
           "position": "absolute",
-          "tdiv": {
-            "position": "relative",
-            "id": "ID_SHOW_VOICE_MESSAGE_LIST_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "270*@sf/@pf",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_SHOW_VOICE_MESSAGE_LIST}}"
           },
           "textareaNoTab": {
-            "max-width": "228/1760p.p.w-1@kbh",
-            "padding-left": "5*@sf/@pf_outdated",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_team_voice_messages"
           }
         }
       },
       {
-        "tdiv": [
-          {
-            "width": "35%pw"
-          },
-          {
-            "overflow-y": "auto"
-          },
-          {
-            "pos": "895/1760pw, 20/900ph"
-          },
-          {
-            "position": "absolute"
-          },
-          {
-            "textarea": {
-              "width": "pw",
-              "class": "parInvert",
-              "text": "#controls/help/tank_main_title",
-              "text-align": "center",
-              "style": "color:@white;"
-            }
-          },
-          {
-            "_newline": []
-          },
-          {
-            "textarea": {
-              "controlsHelp": "yes",
-              "text": "#controls/help/tank_title",
-              "width": "pw",
-              "style": "font:@fontTiny;color:@white;",
-              "text-align": "center"
-            }
-          }
-        ]
+        "textarea": {
+          "pos": "900/1760pw, 30/900ph",
+          "text": "#controls/help/tank_main_title",
+          "controlsHelpTitle": "yes"
+        }
+      },
+      {
+        "textarea": {
+          "pos": "900/1760pw, 45/900ph",
+          "text": "#controls/help/tank_title",
+          "controlsHelpTitle": "yes"
+        }
       },
       {
         "controlsHelpTextArea": {
@@ -778,18 +694,12 @@
             "text": "#controls/help/tank_green_cross"
           },
           "controlsHelpFrame": {
-            "width": "pw + 100/1760pw * (1 - 1@isWide)",
-            "flow": "h-flow",
-            "tdiv": {
-              "id": "ID_TARGETING_HOLD_GM_controls_help_0",
-              "margin-right": "0.01@sf"
+            "width": "pw",
+            "keyDiv": {
+              "behaviour": "bhvHelpFrame",
+              "value": "{{ID_TARGETING_HOLD_GM}}"
             },
             "textareaNoTab": {
-              "width": "fw",
-              "min-width": "50%pw",
-              "pos": "0,0.5ph-0.5h",
-              "position": "relative",
-              "controlsHelp": "yes",
               "text": "#controls/help/ID_TARGETING_HOLD_GM"
             }
           }
@@ -797,37 +707,28 @@
       },
       {
         "controlsHelpFrame": {
-          "id": "ID_FIRE_MGUNS_controls_frame",
           "pos": "1300/1760pw, 465/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "ID_FIRE_MGUNS_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "210/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_FIRE_GM}}"
           },
           "textareaNoTab": {
-            "max-width": "140/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_shooting_main_gun"
           }
         }
       },
       {
         "controlsHelpFrame": {
-          "id": "ID_TOGGLE_VIEW_GM_controls_frame",
-          "width": "216/1760p.p.w",
-          "pos": "1532/1760pw, 680/900ph - 1@kbh",
+          "pos": "1535/1760pw, 668/900ph",
           "position": "absolute",
-          "flow": "h-flow",
-          "tdiv": {
-            "id": "ID_TOGGLE_VIEW_GM_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "210/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_TOGGLE_VIEW_GM}}"
           },
           "textareaNoTab": {
-            "width": "fw",
-            "min-width": "50%pw",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_sniper_mode"
           }
         }

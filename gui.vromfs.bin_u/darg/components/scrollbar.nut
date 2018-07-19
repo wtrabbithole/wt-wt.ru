@@ -129,11 +129,20 @@ local function scrollbar(scroll_handler, options={}) {
   }
 }
 
+local DEF_SIDE_SCROLL_OPTIONS = { //const
+  styling = defStyling
+  rootBase = null
+  scrollAlign = HALIGN_RIGHT
+  orientation = O_VERTICAL
+}
 
-local function makeSideScroll(content, options={}) {
-  local styling = options?.styling ?? defStyling
+local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
+  options = DEF_SIDE_SCROLL_OPTIONS.__merge(options)
+
+  local styling = options.styling
   local scrollHandler = options?.scrollHandler ?? ::ScrollHandler()
-  local rootBase = options?.rootBase ?? styling.ContentRoot
+  local rootBase = options.rootBase ?? styling.ContentRoot
+  local scrollAlign = options.scrollAlign
 
   local function contentRoot() {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
@@ -149,14 +158,24 @@ local function makeSideScroll(content, options={}) {
     }
   }
 
-  return {
-    size = flex()
-    flow = (options.orientation==O_VERTICAL) ? FLOW_HORIZONTAL : FLOW_VERTICAL
-    clipChildren = true
-    children = [
+  local childrenContent = []
+  if (scrollAlign == HALIGN_LEFT || scrollAlign == VALIGN_TOP)
+    childrenContent = [
+      scrollbar(scrollHandler, options)
+      contentRoot
+    ]
+  else
+    childrenContent = [
       contentRoot
       scrollbar(scrollHandler, options)
     ]
+
+  return {
+    size = flex()
+    flow = (options.orientation == O_VERTICAL) ? FLOW_HORIZONTAL : FLOW_VERTICAL
+    clipChildren = true
+
+    children = childrenContent
   }
 }
 
@@ -203,6 +222,7 @@ local function makeHVScrolls(content, options={}) {
 local function makeVertScroll(content, options={}) {
   local o = clone options
   o.orientation <- O_VERTICAL
+  o.scrollAlign <- o?.scrollAlign ?? HALIGN_RIGHT
   return makeSideScroll(content, o)
 }
 
@@ -210,6 +230,7 @@ local function makeVertScroll(content, options={}) {
 local function makeHorizScroll(content, options={}) {
   local o = clone options
   o.orientation <- O_HORIZONTAL
+  o.scrollAlign <- o?.scrollAlign ?? VALIGN_BOTTOM
   return makeSideScroll(content, o)
 }
 
@@ -220,4 +241,5 @@ return {
   makeHorizScroll = makeHorizScroll
   makeVertScroll = makeVertScroll
   makeHVScrolls = makeHVScrolls
+  makeSideScroll = makeSideScroll
 }

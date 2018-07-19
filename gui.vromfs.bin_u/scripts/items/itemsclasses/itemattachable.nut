@@ -8,27 +8,10 @@ class ::items_classes.Attachable extends ItemExternal {
   static typeIcon = "#ui/gameuiskin#item_type_attachable"
   static descHeaderLocId = "coupon/for/attachable"
 
-  function getContentIconData()
-  {
-    return { contentIcon = typeIcon }
-  }
+  getDecorator = @() ::g_decorator.getDecoratorByResource(metaBlk?.resource, metaBlk?.resourceType)
 
-  function canConsume()
-  {
-    if (!isInventoryItem || !metaBlk || !metaBlk.resource || !metaBlk.resourceType)
-      return false
-    local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
-    return ! decoratorType.isPlayerHaveDecorator(metaBlk.resource)
-  }
-
-  function canPreview()
-  {
-    return metaBlk?.resource != null
-  }
-
-  function doPreview()
-  {
-    if (canPreview())
-      ugcPreview.showResource(metaBlk.resource, metaBlk.resourceType)
-  }
+  getContentIconData = @() { contentIcon = typeIcon }
+  canConsume = @() isInventoryItem ? (getDecorator() && !getDecorator().isUnlocked()) : false
+  canPreview = @() metaBlk?.resource != null
+  doPreview  = @() canPreview() && ugcPreview.showResource(metaBlk.resource, metaBlk.resourceType)
 }

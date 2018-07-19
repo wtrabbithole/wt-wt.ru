@@ -45,22 +45,10 @@ local showXboxFriendOnlySquadInvitePopup = @() ::g_popups.add(null, ::loc("squad
 local showXboxSquadInviteOnlyOnlinePopup = @() ::g_popups.add(null, ::loc("squad/xbox/onlineOnly"))
 local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = playerName}))
 
-local showMenu = function(_contact, handler, params = {})
+local getActions = function(contact, params)
 {
-  local contact = _contact || verifyContact(params)
-  if (contact && contact.needCheckXboxId())
-    return contact.getXboxId(::Callback(@() showMenu(contact, handler, params), this))
-
-  local menu = getActions(contact, params)
-  ::gui_right_click_menu(menu, handler, params?.position, params?.orientation)
-}
-
-local getActions = function(_contact, params)
-{
-  local contact = _contact || verifyContact(params)
-
   local uid = contact?.uid
-  local uidInt64 = uid ? uid.tointeger() : null
+  local uidInt64 = contact?.uidInt64
   local name = contact?.name ?? params?.playerName
   local clanTag = contact?.clanTag ?? params?.clanTag
 
@@ -436,6 +424,20 @@ local getActions = function(_contact, params)
   local buttons = params?.extendButtons ?? []
   buttons.extend(actions)
   return buttons
+}
+
+local showMenu = function(_contact, handler, params = {})
+{
+  local contact = _contact || verifyContact(params)
+  local showMenu = ::callee()
+  if (contact && contact.needCheckXboxId())
+    return contact.getXboxId(@() showMenu(contact, handler, params))
+
+  if (!contact && params?.playerName)
+    return ::find_contact_by_name_and_do(params.playerName, @(c) showMenu(c, handler, params))
+
+  local menu = getActions(contact, params)
+  ::gui_right_click_menu(menu, handler, params?.position, params?.orientation)
 }
 
 return {

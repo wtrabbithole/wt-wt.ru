@@ -91,7 +91,7 @@
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND
     }
   }
-  { id = "awardDamage"
+  { id = "AwardDamage"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/naval_damage"

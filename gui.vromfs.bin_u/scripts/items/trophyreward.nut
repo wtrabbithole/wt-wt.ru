@@ -43,6 +43,9 @@ function trophyReward::processUserlogData(configsArray = [])
     if (typeof typeVal != "string")
       checkBuffer = type + "_" + typeVal
 
+    if (type == "resourceType" && ::g_decorator_type.getTypeByResourceType(typeVal))
+      checkBuffer = checkBuffer + "_" + idx
+
     if (!::getTblValue(checkBuffer, tempBuffer))
     {
       tempBuffer[checkBuffer] <- {
@@ -185,7 +188,7 @@ function trophyReward::getDecoratorVisualConfig(config)
   if (res.image == "")
   {
     res.style = "reward_" + config.resourceType
-    if (!::LayersIcon.findStyleCfg(style))
+    if (!::LayersIcon.findStyleCfg(res.style))
       res.style = "reward_unlock"
   }
 

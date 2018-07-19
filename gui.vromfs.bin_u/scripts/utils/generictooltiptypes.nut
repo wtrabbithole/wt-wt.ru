@@ -202,7 +202,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         {
           conditionsText = ::loc("mainmenu/itemReceived")
           if (isTrophyContent && !isReceivedPrizes)
-            conditionsText += "\n" + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
+            conditionsText += "\n" + ::colorize("badTextColor", ::loc("mainmenu/activateOnlyOnce"))
         }
         else if (isTrophyContent)
           conditionsText = ::loc("mainmenu/itemCanBeReceived")

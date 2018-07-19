@@ -55,12 +55,18 @@ local chatInputCtor = function (field, send) {
     }
   }
   local options = {
+    key = "chatInput"
     font = Fonts.tiny_text_hud
     margin = 0
+    padding = [hdpx(5), hdpx(5), 0, hdpx(5)]
+    valign = VALIGN_BOTTOM
     hotkeys = [
       [ "J:A", onReturn],
       [ "J:B", onEscape],
     ]
+    colors = {
+      backGroundColor = colors.hud.hudLogBgColor
+    }
   }
   return textInput.hud(field, options, handlers)
 }
@@ -182,11 +188,10 @@ local logBox = hudLog({
 
 
 local onInputToggle = function (enable) {
-  if (enable) {
-    ::set_kb_focus(chat.form)
-  } else {
+  if (enable)
+    ::set_kb_focus(chatInputCtor)
+  else
     ::set_kb_focus(null)
-  }
 }
 
 
@@ -212,9 +217,18 @@ return function () {
 
         onAttach = function (elem) {
           state.inputEnabled.subscribe(onInputToggle)
+          if (state.inputEnabled.value)
+            ::gui_scene.setInterval(0.1,
+              function() {
+                ::gui_scene.clearTimer(callee())
+                onInputToggle(true)
+            })
+          state.inputChatVisible.update(true)
         }
         onDetach = function (elem) {
           state.inputEnabled.unsubscribe(onInputToggle)
+          ::set_kb_focus(null)
+          state.inputChatVisible.update(false)
         }
         transitions = [transition()]
       }

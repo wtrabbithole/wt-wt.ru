@@ -9,7 +9,8 @@ local pilotIcon = Picture("!ui/gameuiskin#player_in_queue")
 
 
 local colorTable = {
-  userlogColoredText = Color(249, 219, 120)
+  userlogColoredText = colors.menu.userlogColoredText
+  unlockActiveColor = colors.menu.unlockActiveColor
 }
 
 
@@ -38,6 +39,11 @@ local scoresTable = @() {
         colorTable = function () {
           local res = teamColors()
           res.hudColorHero <- colors.hud.mainPlayerColor
+          res.userlogColoredText <- colors.menu.userlogColoredText
+          res.unlockActiveColor <- colors.menu.unlockActiveColor
+          res.hudColorRed <- teamColors.teamRedColor
+          res.hudColorBlue <- teamColors.teamBlueColor
+          res.hudColorSquad <- teamColors.squadColor
           return res
         }()
       }
@@ -45,7 +51,7 @@ local scoresTable = @() {
         rendObj = ROBJ_TEXTAREA
         behavior = Behaviors.TextArea
         text = item.score
-        size = [flex(1), SIZE_TO_CONTENT]
+        size = [flex(6), SIZE_TO_CONTENT]
         font = Fonts.tiny_text_hud
         color = colors.menu.commonTextColor
         halign = HALIGN_RIGHT

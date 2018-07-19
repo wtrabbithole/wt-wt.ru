@@ -690,5 +690,7 @@ function g_chat::getSenderColor(senderName, isHighlighted = true, isPrivateChat 
   return ::u.isTable(defaultColor) ? defaultColor[isHighlighted] : defaultColor
 }
 
+function g_chat::canUseVoice() { return ::has_feature("Voice") && ::gchat_is_voice_enabled() }
+
 ::g_script_reloader.registerPersistentDataFromRoot("g_chat")
 ::subscribe_handler(::g_chat, ::g_listener_priority.DEFAULT_HANDLER)

@@ -6,8 +6,7 @@ local hudChatState = persist("hudChatState", @() {
 
   log = Watched([])
   input = Watched("")
-  showChat = Watched(true)
-  showBattleLog = Watched(false)
+  inputChatVisible = Watched(false)
   modeId = Watched(0)
 
   pushSystemMessage = function (text) {

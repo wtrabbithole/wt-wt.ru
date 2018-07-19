@@ -371,7 +371,7 @@ function editPlayerInContacts(player, groupName, add) //playerConfig: { uid, nam
 function find_contact_by_name_and_do(playerName, func) //return taskId if delayed.
 {
   local contact = ::Contact.getByName(playerName)
-  if (contact)
+  if (contact && contact?.uid != "")
   {
     func(contact)
     return null

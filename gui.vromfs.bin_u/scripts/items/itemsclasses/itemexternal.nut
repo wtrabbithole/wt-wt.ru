@@ -72,7 +72,7 @@ local ItemExternal = class extends ::BaseItem
       }
     }
 
-    canBuy = !isInventoryItem && checkPurchaseFeature()
+    canBuy = !isInventoryItem && checkPurchaseFeature() && ::has_feature("PurchaseMarketItemsForGold")
 
     addResources()
 
@@ -495,9 +495,9 @@ local ItemExternal = class extends ::BaseItem
     ], "yes", { cancel_fn = @() null })
   }
 
-  function hasLink()
+  /*override */ function hasLink()
   {
-    return !isDisguised && base.hasLink() && ::has_feature("Marketplace")
+    return !isDisguised && base.hasLink() && ::has_feature("Marketplace") && !::has_feature("PurchaseMarketItemsForGold")
   }
 
   function addResources() {

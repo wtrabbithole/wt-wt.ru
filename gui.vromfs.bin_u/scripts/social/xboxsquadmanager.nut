@@ -84,6 +84,9 @@
     if (!::is_platform_xboxone)
       return
 
+    if (isSquadStatusCheckedOnce)
+      return
+
     ::dagor.debug("XBOX SQUAD MANAGER: launch checkAfterFlight, suspendedData " + suspendedData + "; " + ::isInMenu())
     if (!::isInMenu())
     {
@@ -93,8 +96,8 @@
 
     if (suspendedData)
     {
-      updateSquadList(suspendedData)
       isSquadStatusCheckedOnce = true
+      updateSquadList(suspendedData)
     }
 
     if (xboxIsGameStartedByInvite && !suspendedData && !isSquadStatusCheckedOnce && !::g_squad_manager.isInSquad())
@@ -138,8 +141,7 @@
 
   function isPlayerFromXboxSquadList(userXboxId = "")
   {
-    if (!isSquadStatusCheckedOnce)
-      checkAfterFlight()
+    checkAfterFlight()
 
     return ::isInArray(userXboxId, currentUsersListCache)
   }
@@ -151,7 +153,7 @@
     if (!invite)
       return false
 
-    invite.accept()
+    invite.checkAutoAcceptXboxInvite()
     return true
   }
 

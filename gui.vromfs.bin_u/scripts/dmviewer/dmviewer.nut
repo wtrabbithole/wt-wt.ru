@@ -176,6 +176,7 @@
             && ::u.isEqual(w1?.bullets ?? "", w2?.bullets ?? "")
             && ::u.isEqual(w1?.barrelDP ?? "", w2?.barrelDP ?? "")
             && ::u.isEqual(w1?.breechDP ?? "", w2?.breechDP ?? "")
+            && ::u.isEqual(w1?.ammoDP ?? "", w2?.ammoDP ?? "")
             && ::u.isEqual(w1?.dm ?? "", w2?.dm ?? "")
       }
 
@@ -924,11 +925,16 @@
       foreach(linkKey in partLinkSources)
         if(linkKey in weapon && weapon[linkKey] == partName)
           return weapon
-      foreach(linkKeyFmt in partLinkSourcesGenFmt)
-        if (weapon?[linkKeyFmt] && ::u.isPoint2(weapon?.emitterGenRange))
-          for(local i = weapon.emitterGenRange.x; i <= weapon.emitterGenRange.y; i++)
-            if (::format(weapon[linkKeyFmt], i) == partName)
-              return weapon
+      if (::u.isPoint2(weapon?.emitterGenRange))
+      {
+        local rangeMin = ::min(weapon.emitterGenRange.x, weapon.emitterGenRange.y)
+        local rangeMax = ::max(weapon.emitterGenRange.x, weapon.emitterGenRange.y)
+        foreach(linkKeyFmt in partLinkSourcesGenFmt)
+          if (weapon?[linkKeyFmt])
+            for(local i = rangeMin; i <= rangeMax; i++)
+              if (::format(weapon[linkKeyFmt], i) == partName)
+                return weapon
+      }
       if("partsDP" in weapon && weapon["partsDP"].find(partName) != null)
         return weapon
     }

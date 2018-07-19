@@ -4,13 +4,14 @@ local colors = require("../style/colors.nut")
 
 local hudFrame = function(inputObj, group, sf) {
   return {
-    rendObj = ROBJ_9RECT
+    rendObj = ROBJ_BOX
     size = [flex(), SIZE_TO_CONTENT]
-    fillColor = colors.hud.componentFill
-    borderColor = colors.hud.componentBorder
+    fillColor = colors.menu.textInputBgColor
+    borderColor = colors.menu.textInputBorderColor
+    borderWidth = [hdpx(1)]
+
     group = group
-    padding = [hdpx(5) , hdpx(15)]
-    color = colors.hud.hudLogBgColor
+    padding = [hdpx(5) , hdpx(6)]
 
     children = inputObj
   }

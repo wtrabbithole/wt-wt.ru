@@ -89,8 +89,7 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 return {
   canOpen = function() {
     return ::has_feature("DmViewerProtectionAnalysis")
-      && ::isInMenu() && !::checkIsInQueue()
-      && !(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+      && ::isInMenu()
       && !::SessionLobby.hasSessionInLobby()
   }
 

@@ -571,6 +571,15 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
     return
   }
 
+  if (!::isInMenu())
+  {
+    suspendedInvitationData = invitationData
+    ::get_cur_gui_scene().performDelayed(this, function() {
+      ::showInfoMsgBox(::loc("msgbox/add_to_squad_after_fight"), "add_to_squad_after_fight")
+    })
+    return
+  }
+
   local sessionId = ::getTblValue("sessionId", invitationData, "")
   if (sessionId == "")
     return

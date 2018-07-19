@@ -1433,7 +1433,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDestroy()
   {
-    if (researchMode)
+    if (researchMode && ::find_any_not_researched_mod(air))
       ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
   }
 
@@ -1547,7 +1547,7 @@ class ::gui_handlers.MultiplePurchase extends ::gui_handlers.BaseGuiHandlerWT
         maxBuy = (balance.gold / itemCost.gold).tointeger()
       if (maxBuy * itemCost.wp > balance.wp && balance.wp >= 0)
         maxBuy = (balance.wp / itemCost.wp).tointeger()
-      curValue = minValue + max(maxBuy, 1)
+      curValue = itemCost.gold > 0 ? minUserValue: minValue + max(maxBuy, 1)
     }
 
     local sObj = scene.findObject("skillSlider")

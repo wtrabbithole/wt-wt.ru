@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -142,9 +143,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     updateStartButton()
 
     inited = true
-
-    offsetSettingsBeforeInstantAction()
-
     ::dmViewer.update()
   }
 
@@ -199,6 +197,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       scene = gamercardDrawerContainer
     }
     gamercardDrawerHandler = ::handlersManager.loadHandler(::gui_handlers.GamercardDrawer, params)
+    registerSubHandler(gamercardDrawerHandler)
   }
 
   function initGameModeSelectHandler()
@@ -408,11 +407,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return getSelAircraftByCountry(country)
   }
 
-  function onReinitSlotbar()
-  {
-    offsetSettingsBeforeInstantAction()
-  }
-
   function onTopMenuGoBack(checkTopMenuButtons = false)
   {
     if (!getCurQueue() && ::g_squad_manager.isInSquad() && !::g_squad_manager.isSquadLeader() && ::g_squad_manager.isMeReady())
@@ -434,7 +428,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (checkTopMenuButtons && ::top_menu_handler && ::top_menu_handler.leftSectionHandlerWeak)
     {
-      ::top_menu_handler.leftSectionHandlerWeak.switchDropDownMenu()
+      ::top_menu_handler.leftSectionHandlerWeak.switchMenuFocus()
       return
     }
   }
@@ -503,10 +497,54 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local curGameMode = ::game_mode_manager.getCurrentGameMode()
+    local event = getGameModeEvent(curGameMode)
+    if (!isCrossPlayEventAvailable(event))
+    {
+      ::scene_msg_box("xbox_cross_play",
+        guiScene,
+        ::loc("xbox/login/crossPlayRequest") +
+          "\n" +
+          ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
+        [
+          ["yes", ::Callback(@() onChangeCrossPlayValue(true, curGameMode), this) ],
+          ["no", ::Callback(@() onChangeCrossPlayValue(false, curGameMode), this) ],
+          ["cancel", @() null ]
+        ],
+        "yes",
+        {
+          cancel_fn = @() null
+        }
+      )
+      return
+    }
+
     if ("onBattleButtonClick" in curGameMode)
       return curGameMode.onBattleButtonClick()
 
     checkedNewFlight(onStartAction)
+  }
+
+  function onChangeCrossPlayValue(enable, gameMode)
+  {
+    if (enable != crossplayModule.isCrossPlayEnabled())
+    {
+      crossplayModule.setIsCrossPlayEnabled(enable)
+      doWhenActiveOnce("onStart")
+      return
+    }
+
+    if (enable)
+      onStart()
+  }
+
+  function isCrossPlayEventAvailable(event)
+  {
+    return crossplayModule.isCrossPlayEnabled() || ::events.isEventXboxOnlyAllowed(event)
+  }
+
+  function getGameModeEvent(gameModeTbl)
+  {
+    return ("getEvent" in gameModeTbl) ? gameModeTbl.getEvent() : null
   }
 
   function onStartAction()
@@ -909,17 +947,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       if (qCountry != getCurCountry() || value != obj.getValue())
         obj.setValue(value)
     }
-  }
-
-  function offsetSettingsBeforeInstantAction()
-  {
-    local obj = scene.findObject("nav-topMenu")
-    if (!::checkObj(obj))
-      obj = guiScene["nav-topMenu"]
-    if (::checkObj(obj))
-      obj = obj.findObject("autorefill-settings")
-    if (::checkObj(obj))
-      obj["offset"] = "yes"
   }
 
   function testCurrentUnitForMode(country)

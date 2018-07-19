@@ -3,6 +3,8 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
 
   scene = null
+  defShow = true
+  wasShown = false
 
   sceneBlkName = "gui/empty.blk"
   recentItems = null
@@ -10,7 +12,8 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    updateHandler()
+    scene.setUserData(this)
+    updateHandler(true)
     updateVisibility()
   }
 
@@ -36,12 +39,13 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return view
   }
 
-  function updateHandler()
+  function updateHandler(checkDefShow = false)
   {
     recentItems = ::g_recent_items.getRecentItems()
-    local show = recentItems.len() > 0 && ::ItemsManager.isEnabled()
+    local show = (!checkDefShow || defShow) && recentItems.len() > 0 && ::ItemsManager.isEnabled()
     scene.show(show)
     scene.enable(show)
+    wasShown = show
     if (!show)
       return
 
@@ -65,7 +69,7 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onItemAction(obj)
   {
     local itemIndex = ::to_integer_safe(::getTblValue("holderId", obj), -1)
-    if (itemIndex == -1)
+    if (itemIndex == -1 || !(itemIndex in recentItems))
       return
 
     local params = {
@@ -102,7 +106,12 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventInventoryUpdate(params)
   {
-    doWhenActiveOnce("updateHandler")
+    //Because doWhenActiveOnce checks visibility end enable status
+    //have to call forced update
+    if (wasShown)
+      doWhenActiveOnce("updateHandler")
+    else
+      updateHandler()
   }
 
   function createOtherItemsText(numItems)

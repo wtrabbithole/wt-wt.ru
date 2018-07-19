@@ -18,13 +18,13 @@
       {
         "tdiv": [
           {
-            "pos": "100/1760pw, 800/900ph-h"
+            "pos": "150/1760pw, 180/900ph"
           },
           {
             "position": "absolute"
           },
           {
-            "width": "350/1760pw"
+            "width": "300/1760pw"
           },
           {
             "flow": "vertical"
@@ -32,168 +32,141 @@
           {
             "controlsHelpFrame": {
               "width": "pw",
-              "tdiv": [
-                {
-                  "flow": "vertical"
-                },
-                {
-                  "tdiv": {
-                    "margin": "0, 0.005@sf",
-                    "tdiv": {
-                      "id": "ID_FORWARD_HELICOPTER",
-                      "pos": "w/2, ph/2-h/2",
-                      "position": "relative",
-                      "margin-right": "0.005@sf"
-                    },
-                    "textareaNoTab": {
-                      "width": "fw",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
-                      "text": "#hotkeys/ID_FORWARD_HELICOPTER"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "margin": "0, 0.005@sf",
-                    "tdiv": {
-                      "id": "ID_BACKWARD_HELICOPTER",
-                      "pos": "w/2, ph/2-h/2",
-                      "position": "relative",
-                      "margin-right": "0.005@sf"
-                    },
-                    "textareaNoTab": {
-                      "width": "fw",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
-                      "text": "#hotkeys/ID_BACKWARD_HELICOPTER"
-                    }
-                  }
-                }
-              ]
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": {
+                "behaviour": "bhvHelpFrame",
+                "value": "{{ID_FORWARD_HELICOPTER}}"
+              },
+              "textareaNoTab": {
+                "text": "#hotkeys/ID_FORWARD_HELICOPTER"
+              }
             }
-          },
-          {
-            "controlsHelpFrame": [
-              {
-                "width": "pw"
-              },
-              {
-                "tdiv": {
-                  "id": "helicopter_roll_rangeMin",
-                  "margin": "0.005@sf",
-                  "margin-left": "0"
-                }
-              },
-              {
-                "tdiv": {
-                  "id": "helicopter_roll_rangeMax",
-                  "margin": "0.005@sf",
-                  "margin-left": "0"
-                }
-              },
-              {
-                "textareaNoTab": {
-                  "width": "fw",
-                  "pos": "0, ph/2-h/2",
-                  "position": "relative",
-                  "controlsHelp": "yes",
-                  "text": "#controls/helicopter_roll"
-                }
-              }
-            ]
-          },
-          {
-            "controlsHelpFrame": [
-              {
-                "width": "pw"
-              },
-              {
-                "tdiv": {
-                  "id": "helicopter_yaw_rangeMin",
-                  "margin": "0.005@sf",
-                  "margin-left": "0"
-                }
-              },
-              {
-                "tdiv": {
-                  "id": "helicopter_yaw_rangeMax",
-                  "margin": "0.005@sf",
-                  "margin-left": "0"
-                }
-              },
-              {
-                "textareaNoTab": {
-                  "width": "fw",
-                  "pos": "0, ph/2-h/2",
-                  "position": "relative",
-                  "controlsHelp": "yes",
-                  "text": "#controls/helicopter_yaw"
-                }
-              }
-            ]
           },
           {
             "controlsHelpFrame": {
               "width": "pw",
-              "tdiv": [
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": {
+                "behaviour": "bhvHelpFrame",
+                "value": "{{ID_BACKWARD_HELICOPTER}}"
+              },
+              "textareaNoTab": {
+                "text": "#hotkeys/ID_BACKWARD_HELICOPTER"
+              }
+            }
+          },
+          {
+            "controlsHelpFrame": {
+              "width": "pw",
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": [
                 {
-                  "flow": "vertical"
+                  "behaviour": "bhvHelpFrame"
                 },
                 {
-                  "tdiv": {
-                    "id": "helicopter_throttle_rangeMax",
-                    "margin": "0.005@sf",
-                    "margin-left": "0"
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_roll=min}}"
                   }
                 },
                 {
-                  "tdiv": {
-                    "id": "helicopter_throttle_rangeMin",
-                    "margin": "0.005@sf",
-                    "margin-left": "0"
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_roll=max}}"
                   }
                 }
               ],
               "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
+                "text": "#controls/helicopter_roll"
+              }
+            }
+          },
+          {
+            "controlsHelpFrame": {
+              "width": "pw",
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": [
+                {
+                  "behaviour": "bhvHelpFrame"
+                },
+                {
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_yaw=min}}"
+                  }
+                },
+                {
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_yaw=max}}"
+                  }
+                }
+              ],
+              "textareaNoTab": {
+                "text": "#controls/helicopter_yaw"
+              }
+            }
+          },
+          {
+            "controlsHelpFrame": {
+              "width": "pw",
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": [
+                {
+                  "behaviour": "bhvHelpFrame"
+                },
+                {
+                  "flow": "vertical"
+                },
+                {
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_throttle=max}}"
+                  }
+                },
+                {
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_throttle=min}}"
+                  }
+                }
+              ],
+              "textareaNoTab": {
                 "text": "#controls/helicopter_throttle"
               }
             }
           },
           {
             "controlsHelpFrame": {
-              "position": "relative",
               "width": "pw",
-              "tdiv": [
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": [
+                {
+                  "behaviour": "bhvHelpFrame"
+                },
                 {
                   "flow": "vertical"
                 },
                 {
-                  "tdiv": {
-                    "id": "helicopter_pitch_rangeMin",
-                    "margin": "0.005@sf",
-                    "margin-left": "0"
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_pitch=min}}"
                   }
                 },
                 {
-                  "tdiv": {
-                    "id": "helicopter_pitch_rangeMax",
-                    "margin": "0.005@sf",
-                    "margin-left": "0"
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{helicopter_pitch=max}}"
                   }
                 }
               ],
               "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
                 "text": "#controls/helicopter_pitch"
               }
             }
@@ -228,154 +201,103 @@
               {
                 "textareaNoTab": {
                   "width": "fw",
-                  "margin": "0.0025@sf",
+                  "margin-bottom": "0.01@sf",
                   "caption": "yes",
-                  "text": "#controls/help/missile_guidance"
+                  "text": "#controls/help/missile_guidance",
+                  "text-align": "center"
                 }
               },
               {
-                "tdiv": [
-                  {
-                    "width": "fw"
+                "tdiv": {
+                  "width": "fw",
+                  "left": "0.52pw-0.5w",
+                  "position": "relative",
+                  "textareaNoTab": {
+                    "pos": "0, ph/2-h/2",
+                    "position": "relative",
+                    "margin-right": "0.01@sf",
+                    "text": "1)"
                   },
-                  {
-                    "margin": "0.0025@sf"
-                  },
-                  {
+                  "controlsHelpFrame": {
+                    "width": "270/1760p.p.p.p.w",
+                    "keyDiv": {
+                      "behaviour": "bhvHelpFrame",
+                      "value": "{{ID_LOCK_TARGET}}"
+                    },
                     "textareaNoTab": {
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
-                      "text": "1)"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "missile_guidance_lock_target",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "margin": "0.005@sf",
-                      "margin-left": "0"
-                    }
-                  },
-                  {
-                    "textareaNoTab": {
-                      "width": "fw",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
                       "text": "#controls/help/missile_guidance/lock_target"
                     }
                   }
-                ]
+                }
               },
               {
-                "tdiv": [
-                  {
-                    "width": "fw"
+                "tdiv": {
+                  "width": "fw",
+                  "left": "0.52pw-0.5w",
+                  "position": "relative",
+                  "textareaNoTab": {
+                    "pos": "0, ph/2-h/2",
+                    "position": "relative",
+                    "margin-right": "0.01@sf",
+                    "text": "2)"
                   },
-                  {
-                    "margin": "0.0025@sf"
-                  },
-                  {
+                  "controlsHelpFrame": {
+                    "width": "270/1760p.p.p.p.w",
+                    "keyDiv": {
+                      "behaviour": "bhvHelpFrame",
+                      "value": "{{ID_TARGETING_HOLD_HELICOPTER}}"
+                    },
                     "textareaNoTab": {
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
-                      "text": "2)"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "missile_guidance_hold_target",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "margin": "0.005@sf",
-                      "margin-left": "0"
-                    }
-                  },
-                  {
-                    "textareaNoTab": {
-                      "width": "fw",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
                       "text": "#controls/help/missile_guidance/hold_target"
                     }
                   }
-                ]
+                }
               },
               {
-                "tdiv": [
-                  {
-                    "width": "fw"
+                "tdiv": {
+                  "width": "fw",
+                  "left": "0.52pw-0.5w",
+                  "position": "relative",
+                  "textareaNoTab": {
+                    "pos": "0, ph/2-h/2",
+                    "position": "relative",
+                    "margin-right": "0.01@sf",
+                    "text": "3)"
                   },
-                  {
-                    "margin": "0.0025@sf"
-                  },
-                  {
+                  "controlsHelpFrame": {
+                    "width": "270/1760p.p.p.p.w",
+                    "keyDiv": {
+                      "behaviour": "bhvHelpFrame",
+                      "value": "{{ID_MISSLE_HELICOPTER}}"
+                    },
                     "textareaNoTab": {
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
-                      "text": "3)"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "missile_guidance_launch_missle",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "margin": "0.005@sf",
-                      "margin-left": "0"
-                    }
-                  },
-                  {
-                    "textareaNoTab": {
-                      "width": "fw",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
                       "text": "#controls/help/missile_guidance/launch_missile"
                     }
                   }
-                ]
+                }
               },
               {
-                "tdiv": [
-                  {
-                    "width": "fw"
+                "tdiv": {
+                  "width": "fw",
+                  "left": "0.52pw-0.5w",
+                  "position": "relative",
+                  "textareaNoTab": {
+                    "pos": "0, ph/2-h/2",
+                    "position": "relative",
+                    "margin-right": "0.01@sf",
+                    "text": "4)"
                   },
-                  {
-                    "margin": "0.0025@sf"
-                  },
-                  {
+                  "controlsHelpFrame": {
+                    "width": "270/1760p.p.p.p.w",
+                    "keyDiv": {
+                      "behaviour": "bhvHelpFrame",
+                      "value": "{{ID_TARGETING_HOLD_HELICOPTER}}"
+                    },
                     "textareaNoTab": {
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
-                      "text": "4)"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "missile_guidance_hold_target_until_hit",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "margin": "0.005@sf",
-                      "margin-left": "0"
-                    }
-                  },
-                  {
-                    "textareaNoTab": {
-                      "width": "fw",
-                      "pos": "0, ph/2-h/2",
-                      "position": "relative",
-                      "controlsHelp": "yes",
                       "text": "#controls/help/missile_guidance/hold_target_until_hit"
                     }
                   }
-                ]
+                }
               }
             ]
           },
@@ -384,118 +306,119 @@
               "pos": "0, 0.02@sf",
               "position": "relative",
               "width": "pw",
-              "tdiv": {
-                "id": "ID_TOGGLE_VIEW_HELICOPTER",
-                "margin": "0.005@sf",
-                "margin-left": "0"
+              "padding-top": "0.01@sf",
+              "padding-bottom": "0.01@sf",
+              "keyDiv": {
+                "behaviour": "bhvHelpFrame",
+                "value": "{{ID_TOGGLE_VIEW_HELICOPTER}}"
               },
               "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
                 "text": "#hotkeys/ID_TOGGLE_VIEW_HELICOPTER"
               }
             }
           },
           {
-            "controlsHelpFrame": {
-              "pos": "0, 0.02@sf",
-              "position": "relative",
-              "width": "pw",
-              "tdiv": {
-                "id": "ID_LOCK_TARGET",
-                "margin": "0.005@sf",
-                "margin-left": "0"
+            "tdiv": [
+              {
+                "width": "pw"
               },
-              "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
-                "text": "#hotkeys/ID_LOCK_TARGET"
+              {
+                "flow": "vertical"
+              },
+              {
+                "padding-top": "0.02@sf"
+              },
+              {
+                "controlsHelpFrame": {
+                  "width": "pw",
+                  "padding-bottom": "0.01@sf",
+                  "padding-top": "0.01@sf",
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{ID_LOCK_TARGET}}"
+                  },
+                  "textareaNoTab": {
+                    "text": "#hotkeys/ID_LOCK_TARGET"
+                  }
+                }
+              },
+              {
+                "controlsHelpFrame": {
+                  "width": "pw",
+                  "padding-bottom": "0.01@sf",
+                  "padding-top": "0.01@sf",
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{ID_TARGETING_HOLD_HELICOPTER}}"
+                  },
+                  "textareaNoTab": {
+                    "text": "#hotkeys/ID_TARGETING_HOLD_HELICOPTER"
+                  }
+                }
               }
-            }
+            ]
           },
           {
-            "controlsHelpFrame": {
-              "position": "relative",
-              "width": "pw",
-              "tdiv": {
-                "id": "ID_TARGETING_HOLD_HELICOPTER",
-                "margin": "0.005@sf",
-                "margin-left": "0"
+            "tdiv": [
+              {
+                "width": "pw"
               },
-              "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
-                "text": "#hotkeys/ID_TARGETING_HOLD_HELICOPTER"
-              }
-            }
-          },
-          {
-            "controlsHelpFrame": {
-              "pos": "0, 0.02@sf",
-              "position": "relative",
-              "width": "pw",
-              "tdiv": {
-                "id": "ID_FIRE_HELICOPTER",
-                "margin": "0.005@sf",
-                "margin-left": "0"
+              {
+                "flow": "vertical"
               },
-              "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
-                "text": "#hotkeys/ID_FIRE_HELICOPTER"
-              }
-            }
-          },
-          {
-            "controlsHelpFrame": {
-              "position": "relative",
-              "width": "pw",
-              "tdiv": {
-                "id": "ID_ROCKETS_HELICOPTER",
-                "margin": "0.005@sf",
-                "margin-left": "0"
+              {
+                "padding-top": "0.02@sf"
               },
-              "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
-                "text": "#hotkeys/ID_ROCKETS_HELICOPTER"
-              }
-            }
-          },
-          {
-            "controlsHelpFrame": {
-              "position": "relative",
-              "width": "pw",
-              "tdiv": {
-                "id": "ID_MISSLE_HELICOPTER",
-                "margin": "0.005@sf",
-                "margin-left": "0"
+              {
+                "controlsHelpFrame": {
+                  "width": "pw",
+                  "padding-bottom": "0.01@sf",
+                  "padding-top": "0.01@sf",
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{ID_FIRE_HELICOPTER}}"
+                  },
+                  "textareaNoTab": {
+                    "text": "#hotkeys/ID_FIRE_HELICOPTER"
+                  }
+                }
               },
-              "textareaNoTab": {
-                "width": "fw",
-                "pos": "0, ph/2-h/2",
-                "position": "relative",
-                "controlsHelp": "yes",
-                "text": "#hotkeys/ID_MISSLE_HELICOPTER"
+              {
+                "controlsHelpFrame": {
+                  "width": "pw",
+                  "padding-bottom": "0.01@sf",
+                  "padding-top": "0.01@sf",
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{ID_ROCKETS_HELICOPTER}}"
+                  },
+                  "textareaNoTab": {
+                    "text": "#hotkeys/ID_ROCKETS_HELICOPTER"
+                  }
+                }
+              },
+              {
+                "controlsHelpFrame": {
+                  "width": "pw",
+                  "padding-bottom": "0.01@sf",
+                  "padding-top": "0.01@sf",
+                  "keyDiv": {
+                    "behaviour": "bhvHelpFrame",
+                    "value": "{{ID_MISSLE_HELICOPTER}}"
+                  },
+                  "textareaNoTab": {
+                    "text": "#hotkeys/ID_MISSLE_HELICOPTER"
+                  }
+                }
               }
-            }
+            ]
           }
         ]
       },
       {
         "tdiv": {
           "id": "cursor_control_point",
-          "pos": "967/1760pw, 290/900ph",
+          "pos": "967/1760pw, 288/900ph",
           "position": "absolute",
           "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
         }
@@ -503,19 +426,16 @@
       {
         "controlsHelpFrame": {
           "id": "CURSOR_controls_frame",
-          "pos": "900/1760pw -w/2, 180/900ph",
+          "pos": "840/1760pw -w/2, 180/900ph",
           "position": "absolute",
-          "tdiv": {
-            "position": "relative",
-            "id": "ID_AIM_CAMERA",
-            "margin-right": "0.01@sf"
+          "width": "300/1760pw",
+          "padding-top": "0.01@sf",
+          "padding-bottom": "0.01@sf",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{helicopter_mouse_aim_x+helicopter_mouse_aim_y}}"
           },
           "textareaNoTab": {
-            "max-width": "250/1760p.p.w - 1@kbh",
-            "padding-left": "5*@sf/@pf_outdated",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/gun_and_missiles_aim_marker"
           }
         }
@@ -532,8 +452,10 @@
         "controlsHelpTextArea": {
           "id": "rocket_aim_marker_label",
           "max-width": "200/1760pw",
-          "pos": "1050/1760pw, 180/900ph",
+          "pos": "1020/1760pw, 180/900ph",
           "position": "absolute",
+          "padding-top": "0.01@sf",
+          "padding-bottom": "0.01@sf",
           "text": "#controls/help/rocket_aim_marker"
         }
       },
@@ -551,6 +473,8 @@
           "max-width": "200/1760pw",
           "pos": "1250/1760pw -w, 380/900ph",
           "position": "absolute",
+          "padding-top": "0.01@sf",
+          "padding-bottom": "0.01@sf",
           "text": "#controls/help/velocity_vector_marker"
         }
       }

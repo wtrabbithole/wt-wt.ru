@@ -28,7 +28,7 @@ class Promo
     tutorial_mainmenu_button = function() { return updateTutorialButton() }
     current_battle_tasks_mainmenu_button = function() { return updateCurrentBattleTaskButton() }
     invite_squad_mainmenu_button = function() { return updateSquadInviteButton() }
-    recent_items_mainmenu_button = function() { return updateRecentItemsButton() }
+    recent_items_mainmenu_button = function() { return createRecentItemsHandler() }
   }
 
   function constructor(_handler, _guiScene, _scene)
@@ -164,11 +164,7 @@ class Promo
       if (id in updateFunctions)
         updateFunctions[id].call(this)
 
-      local btnObj = scene.findObject(id)
-      if (::checkObj(btnObj))
-        btnObj.setUserData(this)
-
-      if(block.pollId != null)
+      if (block.pollId != null)
         updateWebPollButton({pollId = block.pollId})
     }
   }
@@ -457,15 +453,12 @@ class Promo
 
   //------------------ <RECENT ITEMS> -------------------------
 
-  function updateRecentItemsButton()
+  function createRecentItemsHandler()
   {
     local id = "recent_items_mainmenu_button"
     local show = isShowAllCheckBoxEnabled() || ::g_promo.getVisibilityById(id)
-    ::showBtn(id, show, scene)
-    if (!show)
-      return
-
-    ::g_recent_items.createHandler(this, scene.findObject(id))
+    local handlerWeak = ::g_recent_items.createHandler(this, scene.findObject(id), show)
+    owner.registerSubHandler(handlerWeak)
   }
 
   //----------------- </RECENT ITEMS> -------------------------

@@ -378,8 +378,19 @@ function handlersManager::beforeInitHandler(handler)
   if (focusFrame.isEnabled)
     handler.guiScene.createElementByObject(handler.scene, "gui/focusFrameAnim.blk", "tdiv", null)
 
+  if (!::g_login.isLoggedIn() || handler instanceof ::gui_handlers.BaseGuiHandlerWT)
+    return
+
+  initVoiceChatWidget(handler)
+}
+
+function handlersManager::initVoiceChatWidget(handler)
+{
+  if (handler.rootHandlerClass || getHandlerType(handler) == handlerType.CUSTOM)
+    return
+
   if (::g_login.isLoggedIn() && handler?.needVoiceChat ?? true)
-    handler.guiScene.createElementByObject(handler.scene, "gui/squads/squadVoiceChat.blk", "tdiv", null)
+    handler.guiScene.createElementByObject(handler.scene, "gui/chat/voiceChat.blk", "tdiv", null)
 }
 
 function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.

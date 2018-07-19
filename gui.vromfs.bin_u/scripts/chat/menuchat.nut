@@ -638,7 +638,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
           img2 = ::get_country_icon(memberData.country)
       }
       obj.findObject("tooltip").uid = (inMySquad && contact)? contact.uid : ""
-      if (inMySquad || inMyClan)
+      if (::g_chat.canUseVoice() && (inMySquad || inMyClan))
         if(contact.voiceStatus in ::voiceChatIcons)
           voiceIcon = "#ui/gameuiskin#" + ::voiceChatIcons[contact.voiceStatus]
 
@@ -690,30 +690,28 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateCustomChatTexts()
     if (!checkScene())
       return
-    local text = ""
-    local newMessageIndex = curRoom && curRoom.messageList?[curRoom.messageList.len()-1]?.messageIndex ?? -1
 
-    if (newMessageIndex != lastShowedInRoomMessageIndex  || sceneChanged)
-    {
-      local msgsToDraw = []
-      if (curRoom != null)
-        msgsToDraw = curRoom.messageList
-      if (!::gchat_is_connected())
-      {
-        if (::gchat_is_connecting() || ::g_chat.rooms.len()==0) {
-          text = format("<color=%s>%s</color>", systemColor, ::loc("chat/connecting"))
-        } else {
-          text = format("<color=%s>%s</color>", systemColor, ::loc("chat/disconnected"))
-          if (::empty_chat_text!="")
-            text = ::empty_chat_text + "\n" + text
-        }
-        if (msgsToDraw.len() == 0 || msgsToDraw[msgsToDraw.len() - 1].text != text)
-          msgsToDraw = [createMessage("", text, MESSAGE_TYPE.SYSTEM)]
+    local msgsToDraw = []
+    if (curRoom) {
+      if (curRoom.hasCustomViewHandler)
+        return
+
+      msgsToDraw = curRoom.messageList
+    } else if (!::gchat_is_connected()) {
+      local text = ""
+      if (::gchat_is_connecting() || ::g_chat.rooms.len()==0) {
+        text = format("<color=%s>%s</color>", systemColor, ::loc("chat/connecting"))
       } else {
-        if (curRoom && curRoom.hasCustomViewHandler)
-          return
+        text = format("<color=%s>%s</color>", systemColor, ::loc("chat/disconnected"))
+        if (::empty_chat_text!="")
+          text = ::empty_chat_text + "\n" + text
       }
-      lastShowedInRoomMessageIndex  = newMessageIndex
+      msgsToDraw = [createMessage("", text, MESSAGE_TYPE.SYSTEM)]
+    }
+
+    local lastMessageIndex = msgsToDraw?[msgsToDraw.len()-1]?.messageIndex ?? -1
+    if (lastMessageIndex != lastShowedInRoomMessageIndex  || sceneChanged) {
+      lastShowedInRoomMessageIndex  = lastMessageIndex
       updateMessagesContainer(msgsToDraw, scene.findObject("menu_chat_messages_container"))
     }
   }
@@ -1846,7 +1844,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     if (!r.hidden)
       saveJoinedRooms()
-    if (::gchat_is_voice_enabled() && roomType.canVoiceChat)
+    if (::g_chat.canUseVoice() && roomType.canVoiceChat)
     {
       local VCdata = get_option(::USEROPT_VOICE_CHAT)
       local cdb = ::get_local_custom_settings_blk()

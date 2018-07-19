@@ -66,4 +66,5 @@ return {
   isChatEnabled = isChatEnabled
   isChatEnableWithPlayer = isChatEnableWithPlayer
   canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
+  isPlatformXboxOne = isPlatformXboxOne
 }

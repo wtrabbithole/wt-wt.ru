@@ -2154,6 +2154,7 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
   listLabelsSquad = {}
   nextLabel = { team1 = 1, team2 = 1}
   topSquads = {}
+  playersInfo = null
 }
 
 function SquadIcon::initListLabelsSquad()
@@ -2162,7 +2163,13 @@ function SquadIcon::initListLabelsSquad()
   nextLabel.team1 = 1
   nextLabel.team2 = 1
   topSquads = {}
+  playersInfo = clone ::SessionLobby.getPlayersInfo()
   updateListLabelsSquad()
+}
+
+function SquadIcon::clearPlayersInfo()
+{
+  playersInfo = null
 }
 
 function SquadIcon::updateListLabelsSquad()
@@ -2218,9 +2225,11 @@ function SquadIcon::getSquadInfoByMemberName(name)
 {
   if (name == "")
     return null
-  foreach(uid, member in ::SessionLobby.getPlayersInfo())
+
+  foreach(uid, member in ::SquadIcon.playersInfo ?? ::SessionLobby.getPlayersInfo())
     if (member.name == name)
       return getSquadInfo(member.squad)
+
   return null
 }
 
@@ -2278,7 +2287,8 @@ function SquadIcon::getTopSquadId(teamId)
 
 function SquadIcon::isShowSquad()
 {
-  if (::SessionLobby.getValueSettings("creator"))
+  if (::SessionLobby.getGameMode() == ::GM_SKIRMISH)
     return false
+
   return true
 }

@@ -86,6 +86,24 @@ function g_decorator::getDecorator(searchId, decType)
   return null
 }
 
+function g_decorator::getDecoratorById(searchId)
+{
+  if (::u.isEmpty(searchId))
+    return null
+
+  foreach (type in ::g_decorator_type.types)
+  {
+    local res = getDecorator(searchId, type)
+    if (res)
+      return res
+  }
+}
+
+function g_decorator::getDecoratorByResource(resource, resourceType)
+{
+  return getDecorator(resource, ::g_decorator_type.getTypeByResourceType(resourceType))
+}
+
 function g_decorator::getCachedDecoratorByUnlockId(unlockId, decType)
 {
   if (::u.isEmpty(unlockId))
@@ -247,7 +265,7 @@ function g_decorator::addSkinItemToOption(option, locName, value, decorator, sho
   option.items.insert(idx, {
     text = locName
     textStyle = ::COLORED_DROPRIGHT_TEXT_STYLE
-    image = needIcon ? decorator.getSmallIcon() : ""
+    image = needIcon ? decorator.getSmallIcon() : null
   })
   option.values.insert(idx, value)
   option.decorators.insert(idx, decorator)

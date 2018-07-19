@@ -226,11 +226,6 @@ sessionInfoText {
   color:@commonTextColor;
 }
 
-textareaNoTab[controlsHelp=yes] {
-  font:@fontTiny;
-  color:@commonTextColor;
-}
-
 tooltipDesc {
   max-width:70*@scrn_tgt/100.0;
   font:@fontSmall;
@@ -1051,7 +1046,13 @@ tr[queueTableTitleRow=yes] {
   height:0.03@sf;
 }
 
-tr[queueTableTitleRow=yes] text {
+tr[queueTableBigTitleRow=yes] {
+  height:0.06@sf;
+  background-color:@evenQueueTableTrColor;
+}
+
+tr[queueTableTitleRow=yes] text,
+tr[queueTableBigTitleRow=yes] text {
   pos:0.5p.p.w-0.5w, 0.5ph-0.5h;
   position:absolute;
 }
@@ -1764,10 +1765,19 @@ imgButton.decal_image:disabled, imgButton.decal_image[unlocked=no] {
 imgButton.decal_image:disabled > img {
   background-color:@lockedDecal;
 }
-imgButton.decal_image:pushed, imgButton.decal_image[selected=yes]
+imgButton.decal_image:pushed,
 .hoverFrame > imgButton:pushed {
   background-image:#ui/gameuiskin#header_button_active;
 }
+
+[show_console_buttons=no] :focus > imgButton.decal_image[selected=yes] {
+  re-type:9rect;
+  foreground-color: #55555555;
+  foreground-image: #ui/gameuiskin#item_selection;
+  foreground-position: 6;
+  foreground-repeat: expand;
+}
+
 imgButton[highlighted=yes], imgButton.decal_image[highlighted=yes] {
   background-image:#ui/gameuiskin#header_button_active;
 }
@@ -2614,6 +2624,7 @@ expandable * {
 @import "scroll.css"
 @import "shortcuts.css"
 @import "finalOverrides.css"
+
 
 
 

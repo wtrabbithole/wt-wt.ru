@@ -13,13 +13,13 @@
   },
   "tournamentSimple": {
     "defaultRating": 0.0,
-    "eloPowerDivisor": 1300.0,
+    "eloPowerDivisor": 1000.0,
     "fastGrowthLimit": 1000.0,
-    "tier1Limit": 2100.0,
-    "tier2Limit": 2400.0,
-    "tier1EloK": 100.0,
-    "tier2EloK": 60.0,
-    "tier3EloK": 30.0
+    "tier1Limit": 1500.0,
+    "tier2Limit": 2250.0,
+    "tier1EloK": 400.0,
+    "tier2EloK": 150.0,
+    "tier3EloK": 75.0
   },
   "tournamentClan": {
     "defaultRating": 0.0,
@@ -1122,6 +1122,9 @@
     "onceCalendarLoginAwardDebug": {
       "condition": "dev_test_feature_access"
     },
+    "debugWorkshopItemsExchange": {
+      "condition": "dev_test_feature_access"
+    },
     "debugAccessSWTrophy": {
       "condition": "sw_trophy_access"
     },
@@ -1153,9 +1156,17 @@
       "condition": "",
       "platform_lock": "pc;android;xboxOne"
     },
+    "pc_ps4_only_events": {
+      "condition": "",
+      "platform_lock": "android;xboxOne"
+    },
     "ps4_xboxOne_only_events": {
       "condition": "",
       "platform_lock": "pc;android"
+    },
+    "PurchaseMarketItemsForGold": {
+      "condition": "",
+      "platform_lock": "pc;android;xboxOne;ps4"
     },
     "Orders": {
       "condition": ""
@@ -1176,6 +1187,14 @@
       "condition": "!DMMAccount;!PS4Account",
       "platform_lock": "ps4;android;xboxOne"
     },
+    "DMMAndSCEJAccounts": [
+      {
+        "condition": "DMMAccount"
+      },
+      {
+        "condition": "scej_account"
+      }
+    ],
     "BulletParamsForAirs": {
       "condition": ""
     },

@@ -1056,11 +1056,28 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       if (i == "uid")
         continue
       if (i == "state")
-        v = ::playerStateToString(v)
+        v = playerStateToString(v)
       extra.append(i + " = " + v)
     }
     extra.sort()
     return ::g_string.implode(extra, "\n")
+  }
+
+  function playerStateToString(state)
+  {
+    switch (state)
+    {
+      case ::PLAYER_NOT_EXISTS:                 return "PLAYER_NOT_EXISTS"
+      case ::PLAYER_HAS_LEAVED_GAME:            return "PLAYER_HAS_LEAVED_GAME"
+      case ::PLAYER_IN_LOBBY_NOT_READY:         return "PLAYER_IN_LOBBY_NOT_READY"
+      case ::PLAYER_IN_LOADING:                 return "PLAYER_IN_LOADING"
+      case ::PLAYER_IN_STATISTICS_BEFORE_LOBBY: return "PLAYER_IN_STATISTICS_BEFORE_LOBBY"
+      case ::PLAYER_IN_LOBBY_READY:             return "PLAYER_IN_LOBBY_READY"
+      case ::PLAYER_READY_TO_START:             return "PLAYER_READY_TO_START"
+      case ::PLAYER_IN_FLIGHT:                  return "PLAYER_IN_FLIGHT"
+      case ::PLAYER_IN_RESPAWN:                 return "PLAYER_IN_RESPAWN"
+      default:                                  return "" + state
+    }
   }
 
   function updateClientHudOffset()
@@ -1396,23 +1413,6 @@ function spectator_debug_mode()
   local handler = ::is_dev_version && ::handlersManager.findHandlerClassInScene(::Spectator)
   if (handler)
     handler.debugMode = !handler.debugMode
-}
-
-function playerStateToString(state)
-{
-  switch (state)
-  {
-    case ::PLAYER_NOT_EXISTS:                 return "PLAYER_NOT_EXISTS"
-    case ::PLAYER_HAS_LEAVED_GAME:            return "PLAYER_HAS_LEAVED_GAME"
-    case ::PLAYER_IN_LOBBY_NOT_READY:         return "PLAYER_IN_LOBBY_NOT_READY"
-    case ::PLAYER_IN_LOADING:                 return "PLAYER_IN_LOADING"
-    case ::PLAYER_IN_STATISTICS_BEFORE_LOBBY: return "PLAYER_IN_STATISTICS_BEFORE_LOBBY"
-    case ::PLAYER_IN_LOBBY_READY:             return "PLAYER_IN_LOBBY_READY"
-    case ::PLAYER_READY_TO_START:             return "PLAYER_READY_TO_START"
-    case ::PLAYER_IN_FLIGHT:                  return "PLAYER_IN_FLIGHT"
-    case ::PLAYER_IN_RESPAWN:                 return "PLAYER_IN_RESPAWN"
-    default:                                  return "" + state
-  }
 }
 
 function isPlayerDedicatedSpectator(name = null)

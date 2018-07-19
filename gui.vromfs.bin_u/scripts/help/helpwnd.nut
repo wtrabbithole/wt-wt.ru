@@ -1,4 +1,5 @@
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+::require("scripts/viewUtils/bhvHelpFrame.nut")
 
 local controlsMarkupSource = {
   ps4 = {
@@ -148,17 +149,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "fire_guns_controls_target_point", start = "ID_FIRE_MGUNS_not_default_0"}
         ]
       }
-      shortcuts = {
-        ["throttle_controls_help_0"] = "throttle=min",
-        ["throttle_controls_help_1"] = "throttle=max",
-        ["throttle_controls_help_1_2"] = "throttle=max_hold",
-        ["ID_FIRE_MGUNS_controls_help_0"] = "ID_FIRE_MGUNS",
-        ["ID_LOCK_TARGET_controls_help_0"] = "ID_LOCK_TARGET",
-        ["ID_ZOOM_TOGGLE_controls_help_0"] = "ID_ZOOM_TOGGLE",
-        ["ID_BOMBS_controls_help_0"] = "ID_BOMBS",
-        ["ID_CAMERA_VIEW"] = "camx+camy",
-        ["ID_SHOW_VOICE_MESSAGE_LIST_controls_help_0"] = "ID_SHOW_VOICE_MESSAGE_LIST"
-      }
       defaultControlsIds = [ //for default constrols we can see frameId, but for not default custom shortcut
         { frameId = "fire_guns_controls_frame", shortcut = "ID_FIRE_MGUNS" }
         { frameId = "lock_target_controls_frame", shortcut = "ID_LOCK_TARGET" }
@@ -221,10 +211,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       linkLines = {
         links = [
+          {end = "backward_target_point", start = "backward_label"}
           {end = "gear_value", start = "base_hud_param_label"}
           {end = "rpm_value", start = "base_hud_param_label"}
           {end = "real_speed_value", start = "base_hud_param_label"}
           {end = "throttle_target_point", start = "throttle_label"}
+          {end = "turn_left_target_point", start = "turn_left_frame"}
           {end = "turn_right_target_point", start = "turn_right_label"}
           {end = "ammo_1_target_point", start = "controller_switching_ammo"}
           {end = "ammo_2_target_point", start = "controller_switching_ammo"}
@@ -234,9 +226,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "scout_target_point", start = "scout_label"}
           {end = "smoke_grenade_target_point", start = "smoke_grenade_lable"}
           {end = "smoke_screen_target_point", start = "smoke_screen_label"}
+          {end = "smoke_screen_target_point", start = "controller_smoke_screen_label"}
           {end = "medicalkit_target_point", start = "medicalkit_label"}
+          {end = "medicalkit_target_point", start = "controller_medicalkit_label"}
           {end = "tank_cannon_direction_target_point", start = "tank_sight_label"}
           {end = "tank_cannon_realy_target_point", start = "tank_sight_label"}
+          {end = "tank_cursor_target_point", start = "tank_cursor_frame"}
           {end = "place_loader_target_point_1", start = "place_loader_label"}
           {end = "place_loader_target_point_2", start = "place_loader_label"}
           {end = "place_shooter_radio_operator_target_point_2", start = "place_shooter_radio_operator_label"}
@@ -256,27 +251,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "traversing_target_point_2", start = "traversing_label"}
           {end = "main_gun_target_point", start = "main_gun_tube_label"}
         ]
-      }
-      shortcuts = {
-        ["gm_throttle_controls_help_1"] = "gm_throttle=max",//w
-        ["gm_steering_controls_help_1"] = "gm_steering=max",//a
-        ["gm_throttle_controls_help_0"] = "gm_throttle=min",//s
-        ["gm_steering_controls_help_0"] = "gm_steering=min",//d
-        ["ID_FIRE_MGUNS_controls_help_0"] = "ID_FIRE_GM",
-        ["ID_TOGGLE_VIEW_GM_controls_help_0"] = "ID_TOGGLE_VIEW_GM",
-        ["ID_CAMERA_VIEW"] = "gm_camx+gm_camy",
-        ["ID_SHOW_VOICE_MESSAGE_LIST_controls_help_0"] = "ID_SHOW_VOICE_MESSAGE_LIST",
-        ["ID_AIM_CAMERA"] = "gm_mouse_aim_x+gm_mouse_aim_y",
-        ID_ACTION_BAR_ITEM_1_controls_help_0 = "ID_ACTION_BAR_ITEM_1"
-        ID_ACTION_BAR_ITEM_2_controls_help_0 = "ID_ACTION_BAR_ITEM_2"
-        ID_ACTION_BAR_ITEM_3_controls_help_0 = "ID_ACTION_BAR_ITEM_3"
-        ID_ACTION_BAR_ITEM_4_controls_help_0 = "ID_ACTION_BAR_ITEM_4"
-        ID_ACTION_BAR_ITEM_5_controls_help_0 = "ID_ACTION_BAR_ITEM_5"
-        ID_TARGETING_HOLD_GM_controls_help_0 = "ID_TARGETING_HOLD_GM"
-        ID_SCOUT                             = "ID_SCOUT"
-        ID_SMOKE_SCREEN                      = "ID_SMOKE_SCREEN"
-        ID_SMOKE_SCREEN_GENERATOR            = "ID_SMOKE_SCREEN_GENERATOR"
-        ID_ACTION_BAR_ITEM_12                = "ID_ACTION_BAR_ITEM_12"
       }
       actionBarItems = [
         {
@@ -334,6 +308,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       linkLines = {
         links = [
+          {end = "turn_right_target_point", start = "turn_right_label"}
+          {end = "turn_left_target_point", start = "turn_left_frame"}
           {end = "real_speed_value", start = "base_hud_param_label"}
           {end = "hdg_value", start = "base_hud_param_label"}
           {end = "gear_value", start = "base_hud_param_label"}
@@ -347,23 +323,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "torpedo_trajectory_point_0", start = "torpedo_trajectory_label"}
           {end = "torpedo_trajectory_point_1", start = "torpedo_trajectory_label"}
           {end = "rocket_trajectory_point_0", start = "rocket_trajectory_label"}
-          {end = "bombs_info_point", start = "bombs_info_label"}
+          {end = "bombs_info_point_1", start = "bombs_info_label"}
+          {end = "bombs_info_point_0", start = "bombs_info_label"}
           {end = "bomb_value_1", start = "rocket_hud_param_label"}
           {end = "rocket_value_1", start = "rocket_hud_param_label"}
           {end = "rocket_value_2", start = "rocket_hud_param_label"}
        ]
-      }
-      shortcuts = {
-        ["ship_throttle_controls_help_1"] = "ship_main_engine=max_hold",//w
-        ["ship_throttle_controls_help_0"] = "ship_main_engine=min_hold",//s
-        ["ship_steering_controls_help_1"] = "ship_steering=max",//a
-        ["ship_steering_controls_help_0"] = "ship_steering=min",//d
-        ["id_fire_controls_help_0"] = "ID_SHIP_WEAPON_ALL",
-        ["ship_binoculars_controls_help"] = "ID_TOGGLE_VIEW_SHIP",
-        ["ship_torpedo_controls_help"] = "ID_SHIP_WEAPON_TORPEDOES",
-        ["ship_rocket_controls_help"] = "ID_SHIP_WEAPON_ROCKETS",
-        ["ship_bombs_controls_help"] = "ID_SHIP_WEAPON_DEPTH_CHARGE",
-        ["ID_AIM_CAMERA"] = "ship_mouse_aim_x+ship_mouse_aim_y"
       }
     },
 
@@ -391,34 +356,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           { start = "rocket_aim_marker_label", end = "rocket_aim_marker_point" }
           { start = "velocity_vector_marker_label", end = "velocity_vector_marker_point" }
        ]
-      }
-      shortcuts = {
-        // moving
-        ["ID_FORWARD_HELICOPTER"] = "ID_FORWARD_HELICOPTER",
-        ["ID_BACKWARD_HELICOPTER"] = "ID_BACKWARD_HELICOPTER",
-        ["helicopter_roll_rangeMin"] = "helicopter_roll=min",
-        ["helicopter_roll_rangeMax"] = "helicopter_roll=max",
-        ["helicopter_yaw_rangeMin"] = "helicopter_yaw=min",
-        ["helicopter_yaw_rangeMax"] = "helicopter_yaw=max",
-        ["helicopter_throttle_rangeMax"] = "helicopter_throttle=max",
-        ["helicopter_throttle_rangeMin"] = "helicopter_throttle=min",
-        ["helicopter_pitch_rangeMax"] = "helicopter_pitch=max",
-        ["helicopter_pitch_rangeMin"] = "helicopter_pitch=min",
-        // viewing
-        ["ID_TOGGLE_VIEW_HELICOPTER"] = "ID_TOGGLE_VIEW_HELICOPTER",
-        // aiming
-        ["ID_LOCK_TARGET"] = "ID_LOCK_TARGET",
-        ["ID_TARGETING_HOLD_HELICOPTER"] = "ID_TARGETING_HOLD_HELICOPTER",
-        // shooting
-        ["ID_FIRE_HELICOPTER"] = "ID_FIRE_HELICOPTER",
-        ["ID_ROCKETS_HELICOPTER"] = "ID_ROCKETS_HELICOPTER",
-        ["ID_MISSLE_HELICOPTER"] = "ID_MISSLE_HELICOPTER",
-        // missile guidance hint
-        ["missile_guidance_lock_target"] = "ID_LOCK_TARGET",
-        ["missile_guidance_hold_target"] = "ID_TARGETING_HOLD_HELICOPTER",
-        ["missile_guidance_launch_missle"] = "ID_MISSLE_HELICOPTER",
-        ["missile_guidance_hold_target_until_hit"] = "ID_TARGETING_HOLD_HELICOPTER",
-        ["ID_AIM_CAMERA"] = "helicopter_mouse_aim_x+helicopter_mouse_aim_y"
       }
     },
 
@@ -454,26 +391,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           { start = "map_sonar_active_label", end = "map_sonar_active_point" }
           { start = "map_acoustic_contermeasures_label", end = "map_acoustic_contermeasures_point" }
         ]
-      }
-      shortcuts = {
-        // moving
-        ["submarine_main_engine_rangeMax"] = "submarine_main_engine=max",
-        ["submarine_main_engine_rangeMin"] = "submarine_main_engine=min",
-        ["submarine_steering_rangeMin"] = "submarine_steering=min",
-        ["submarine_steering_rangeMax"] = "submarine_steering=max",
-        ["submarine_depth_rangeMax"] = "submarine_depth=max",
-        ["submarine_depth_rangeMin"] = "submarine_depth=min",
-        ["ID_SUBMARINE_FULL_STOP"] = "ID_SUBMARINE_FULL_STOP",
-        ["ID_AIM_CAMERA"] = "submarine_mouse_aim_x+submarine_mouse_aim_y",
-        // torpedoes
-        ["ID_SUBMARINE_WEAPON_TORPEDOES"] = "ID_SUBMARINE_WEAPON_TORPEDOES",
-        ["ID_TOGGLE_VIEW_SUBMARINE"] = "ID_TOGGLE_VIEW_SUBMARINE",
-        ["ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR"] = "ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR",
-        ["ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING"] = "ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING",
-        ["ID_AIM_CAMERA_torpedo"] = "submarine_mouse_aim_x+submarine_mouse_aim_y",
-        // detection
-        ["ID_SUBMARINE_SWITCH_ACTIVE_SONAR"] = "ID_SUBMARINE_SWITCH_ACTIVE_SONAR",
-        ["ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"] = "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"
       }
     },
 
@@ -826,7 +743,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillFunc()
 
     showTabSpecificControls(tab)
-    fillTabLinkLines(tab)
+    guiScene.performDelayed(this, function() { fillTabLinkLines(tab) })
   }
 
   function showTabSpecificControls(tab)
@@ -889,15 +806,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     backImg["background-image"] = ::format(::getTblValue("imagePattern", tab, ""), curCountry)
     fillActionBar(tab)
-    foreach (objectId, shortcutId in tab.shortcuts)
-    {
-      local obj = scene.findObject(objectId)
-      if (!::checkObj(obj))
-        continue
-
-      local markUp = ::g_shortcut_type.getShortcutMarkup(shortcutId)
-      guiScene.replaceContentFromText(obj, markUp, markUp.len(), this)
-    }
     updatePlatformControls()
   }
 
@@ -1329,13 +1237,17 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local isGamepadPreset = ::is_xinput_device()
 
-    local gmpadAmmoSwitchObj = scene.findObject("controller_switching_ammo")
-    if (::checkObj(gmpadAmmoSwitchObj))
-      gmpadAmmoSwitchObj.show(isGamepadPreset)
+    local buttonsList = {
+      controller_switching_ammo = isGamepadPreset
+      keyboard_switching_ammo = !isGamepadPreset
+      controller_smoke_screen_label = isGamepadPreset
+      smoke_screen_label = !isGamepadPreset
+      controller_medicalkit_label = isGamepadPreset
+      medicalkit_label = !isGamepadPreset
+    }
 
-    local kbdAmmoSwitchObj = scene.findObject("keyboard_switching_ammo")
-    if (::checkObj(kbdAmmoSwitchObj))
-      kbdAmmoSwitchObj.show(!isGamepadPreset)
+    ::showBtnTable(scene, buttonsList)
+
   }
 
   function fillMissionObjectivesTexts()

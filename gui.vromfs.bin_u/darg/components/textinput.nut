@@ -219,13 +219,14 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
 
   return {
     margin = options?.margin ?? [sh(1), 0]
+    padding = options?.padding ?? 0
 
     rendObj = ROBJ_SOLID
     color = colors.backGroundColor
     size = [flex(), SIZE_TO_CONTENT]
     group = group
     animations = [failAnim(text_state)]
-    valign = VALIGN_MIDDLE
+    valign = options?.valign ?? VALIGN_MIDDLE
 
     children = frameCtor(inputObj, group, stateFlags)
   }

@@ -15,6 +15,7 @@ hoverSize {
 
 :hover > hoverSize,
 hoverSize:hover,
+[show_console_buttons=yes] :focus > hoverSize,
 [stickHover=yes] > hoverSize {
   moveOut:yes;
   size-time:250;
@@ -139,6 +140,10 @@ usertalk[fade=out] {
   size-time: -400;
 }
 
+usertalk[fade=out][_size-timer=0] {
+  display:hide;
+}
+
 usertalk[fade=in] > activeText, usertalk[fade=in] > img {
   transp-time:300;
 }
@@ -153,6 +158,7 @@ usertalk > img {
 
 usertalk > activeText {
   left: @cIco;
+  input-transparent:yes;
 }
 
 popup {

@@ -322,21 +322,13 @@
   {
     local economicName = ::events.getEventEconomicName(event)
 
-    if (economicName in __cache.leaderboard)
-      __cache.leaderboard.rawdelete(economicName)
+    if (economicName in __cache.leaderboards)
+      __cache.leaderboards.rawdelete(economicName)
 
     if (economicName in __cache.selfRow)
       __cache.selfRow.rawdelete(economicName)
 
     ::broadcastEvent("EventlbDataRenewed", {eventId = event.name})
-  }
-
-  function onEventEventBattleEnded(params)
-  {
-    local event = ::events.getEvent(::getTblValue("eventId", params))
-    if (!event)
-      return
-    dropLbCache(event)
   }
 
   function getLbDataFromBlk(blk, requestData)

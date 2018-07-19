@@ -3521,21 +3521,6 @@ function get_option(type, context = null)
       descr.cb = "onCDChange"
       descr.value = !!get_cd_option(::USEROPT_CD_RADAR)
       break
-    case ::USEROPT_CD_DM_ICON:
-      descr.id = "hudDamageModel"
-      descr.items = []
-      descr.values = []
-
-      foreach (idx, diff in ::g_difficulty.types)
-        if (diff.isAvailable())
-        {
-          descr.items.append("#" + diff.locId)
-          descr.values.append(diff.diffCode)
-        }
-
-      descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_DM_ICON)
-      break
     case ::USEROPT_CD_DAMAGE_IND:
       descr.id = "hudDamageIndicator"
       descr.controlType = optionControlType.CHECKBOX
@@ -4501,7 +4486,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_CD_MAP_GROUND_MARKERS:
     case ::USEROPT_CD_MARKERS_BLINK:
     case ::USEROPT_CD_RADAR:
-    case ::USEROPT_CD_DM_ICON:
     case ::USEROPT_CD_DAMAGE_IND:
     case ::USEROPT_CD_LARGE_AWARD_MESSAGES:
     case ::USEROPT_CD_WARNINGS:

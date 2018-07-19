@@ -232,6 +232,11 @@
               "side": "neutral",
               "target": "briefing_left"
             }
+          },
+          {
+            "battleArea": {
+              "target": "briefing_area"
+            }
           }
         ]
       }
@@ -256,7 +261,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/navy_templates/nadom_template.blk",
+        "file": "gameData/missions/templates/navy_templates/ndom_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -288,7 +293,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/ships/fiji_newbie/spotareas/fiji_newbie_NADom_spotareas_template.blk",
+        "file": "gameData/missions/cta/ships/fiji_newbie/spotareas/fiji_newbie_NDom_spotareas_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -415,6 +420,17 @@
         [-1259.2,0.0,1456.49]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_area": {
+      "type": "Box",
+      "tm": [
+        [6127.05,0.0,0.0],
+        [0.0,700.0,0.0],
+        [0.0,0.0,6127.05],
+        [0.0,30.6,0.0]
+      ],
+      "objLayer": 3,
       "props": []
     }
   },

@@ -36,8 +36,10 @@ class HangarModelLoadManager
 
   function _onHangarModelLoaded()
   {
-    _isLoading = false
-    ::broadcastEvent("HangarModelLoaded")
+    if (::hangar_get_loaded_unit_name() == ::hangar_get_current_unit_name()) {
+      _isLoading = false
+      ::broadcastEvent("HangarModelLoaded")
+    }
   }
 }
 

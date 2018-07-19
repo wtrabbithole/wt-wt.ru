@@ -4,9 +4,9 @@ local frp = require("daRg/frp.nut")
 
 
 local ctrlsState = frp.combine(
-  [globalState.isInFlight, hudChatState.inputEnabled],
+  [globalState.isInFlight, hudChatState.inputEnabled, hudChatState.inputChatVisible],
   function (list) {
-    if (list[0] && list[1])
+    if (list[0] && list[1] && list[2])
       return CtrlsInGui.CTRL_IN_MP_CHAT
         | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE
         | CtrlsInGui.CTRL_ALLOW_MP_CHAT

@@ -86,7 +86,7 @@ class WeaponsPurchase
   function checkMultiPurchase()
   {
     local canBuyAmount = 1
-    if (!::u.isEmpty(modItem))
+    if (!::u.isEmpty(modItem) && modType != weaponsItem.primaryWeapon)
     {
       local statusTbl = ::weaponVisual.getItemStatusTbl(unit, modItem)
       if (!statusTbl.canBuyMore)

@@ -37,6 +37,11 @@ function on_decal_job_complete(taskId)
 
 function gui_start_decals(params = null)
 {
+  if (params?.unit)
+    ::show_aircraft = params.unit
+  else if (params?.unitId)
+    ::show_aircraft = ::getAircraftByName(params?.unitId)
+
   if (!::show_aircraft
       ||
         ( ::hangar_get_loaded_unit_name() == (::show_aircraft && ::show_aircraft.name)

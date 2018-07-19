@@ -219,7 +219,6 @@ class ::ChatHandler
       return
 
     isActive = value
-    ::toggle_ingame_chat(isActive)
     doForAllScenes(updateChatInput)
     ::broadcastEvent("MpChatInputToggled", { active = isActive })
     ::handlersManager.updateControlsAllowMask()

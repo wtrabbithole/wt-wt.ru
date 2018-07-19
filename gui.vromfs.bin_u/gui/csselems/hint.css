@@ -24,6 +24,11 @@ hintRow > textareaNoTab {
 }
 
 hintRow > gamepadButton,
+hintRow > shortcutAxis {
+  background-repeat:aspect-ratio;
+}
+
+hintRow > gamepadButton,
 hintRow > shortcutAxis,
 hintRow > keyboardButton,
 hintRow > combination,
@@ -31,6 +36,7 @@ hintRow > timeBar {
   position: relative;
   top: @hintRowCenterOffsetY - 50%h;
 }
+
 
 hintRow > combination > gamepadButton,
 hintRow > combination > shortcutAxis,

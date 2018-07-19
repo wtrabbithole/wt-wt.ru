@@ -7,7 +7,7 @@ local transition = require("../style/hudTransition.nut")
 local logContainer = @() {
   size = [flex(), SIZE_TO_CONTENT]
   gap = hdpx(3)
-  padding = [hdpx(7) , hdpx(15)]
+  padding = [hdpx(7) , hdpx(6)]
   flow = FLOW_VERTICAL
 }
 
@@ -21,11 +21,12 @@ local hudLog = function (params) {
   local onCursorVisible = params?.onCursorVisible ?? function (new_val) { visibleState.update(new_val) }
 
   local logState = logComponent.state
-  local content = scrollbar.makeVertScroll(
+  local content = scrollbar.makeSideScroll(
     logComponent.log(@() logContainer, messageComponent),
     {
       scrollHandler = logComponent.scrollHandler
       barStyle = @(has_scroll) scrollbar.styling.Bar(has_scroll && hudState.cursorVisible.value)
+      scrollAlign = HALIGN_LEFT
     }
   )
 

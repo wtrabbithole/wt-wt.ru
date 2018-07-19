@@ -1176,7 +1176,7 @@ enum ConflictGroups {
 
     { id="ID_PTT", checkGroup = ctrlGroups.COMMON, checkAssign = false,
       condition = @() ::gchat_is_voice_enabled()
-      showFunc = @() ::has_feature("Voice")
+      showFunc = @() ::g_chat.canUseVoice()
     }
 
   { id = "ID_COMMON_ARTILLERY_HEADER", type = CONTROL_TYPE.SECTION }

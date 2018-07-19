@@ -71,20 +71,12 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   function getShowQueueTable() { return scene.isVisible() }
   function setShowQueueTable(value)
   {
-    if (scene.isVisible() == value)
+    if (value && scene.isVisible())
       return
     if (value)
       updateTip()
-    // Not switching show/enable directly...
-    /*scene.show(value)
-    scene.enable(value)*/
-    // ... but requesting switch from somewhere else (GamercardDrawer)
-    local id = this.scene.id
-    local params = {
-      target = this.scene
-      visible = value
-    }
-    ::broadcastEvent("RequestToggleVisibility", params)
+
+    ::broadcastEvent("RequestToggleVisibility", { target = this.scene, visible = value })
   }
 
   function updateTip()

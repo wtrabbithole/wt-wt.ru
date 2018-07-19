@@ -783,7 +783,7 @@ function load_scripts_after_login_once()
     "debugTools/dbgHud.nut"
     "debugTools/dbgHudObjects.nut"
     "debugTools/dbgHudObjectTypes.nut"
-    "debugTools/dbgSquadVoiceChat.nut"
+    "debugTools/dbgVoiceChat.nut"
 
     "utils/popupMessages.nut"
     "utils/soundManager.nut"
@@ -812,7 +812,7 @@ function load_scripts_after_login_once()
   ::require("scripts/social/playerInfoUpdater.nut")
   ::require("scripts/seen/bhvUnseen.nut")
   ::require("scripts/items/roulette/bhvRoulette.nut")
-  ::require("scripts/squads/elems/squadVoiceChatElem.nut")
+  ::require("scripts/squads/elems/voiceChatElem.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

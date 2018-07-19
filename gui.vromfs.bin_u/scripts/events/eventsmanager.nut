@@ -60,6 +60,9 @@ class Events
     ::g_lb_category.EVENT_STAT_TOTALKILLS
     ::g_lb_category.EVENTS_WP_TOTAL_GAINED
     ::g_lb_category.CLANDUELS_CLAN_ELO
+    ::g_lb_category.EVENT_FOOTBALL_MATCHES
+    ::g_lb_category.EVENT_FOOTBALL_GOALS
+    ::g_lb_category.EVENT_FOOTBALL_ASSISTS
   ]
 
   standardChapterNames = [
@@ -619,13 +622,31 @@ class Events
 
     //no point to save duplicate array, just link on fullTeamsList
     if (!isSymmetric)
-      isSymmetric = sides.len() <= 1 || ::u.isEqual(getTeamData(event, sides[0]), getTeamData(event, sides[1]))
+      isSymmetric = sides.len() <= 1 ||
+        isTeamsEqual(getTeamData(event, sides[0]), getTeamData(event, sides[1]))
     if (isSymmetric && sides.len() > 1)
       sides = [sides[0]]
 
     event.sidesList <- sides
     event.isSymmetric <- isSymmetric
     event.isFreeForAll <- isFreeForAll
+  }
+
+  function isTeamsEqual(teamAData, teamBData)
+  {
+    if (teamAData.len() != teamBData.len())
+      return false
+
+    foreach(key, value in teamAData)
+    {
+      if (key == "forcedCountry")
+        continue
+
+      if (!(key in teamBData) || !::u.isEqual(value, teamBData[key]))
+        return false
+    }
+
+    return true
   }
 
   function getSidesList(event = null)
@@ -640,6 +661,11 @@ class Events
   {
     initSidesOnce(event)
     return event.isSymmetric
+  }
+
+  function needRankInfoInQueue(event)
+  {
+    return event?.balancerMode == "mrank"
   }
 
   function isEventFreeForAll(event)
@@ -2697,6 +2723,20 @@ class Events
   function getMinSquadSize(event)
   {
     return ::getTblValue("minSquadSize", event, 1)
+  }
+
+  function isGameTypeOfEvent(event, gameTypeName)
+  {
+    return event && ::get_meta_mission_info_by_name(getEventMission(event.name))?[gameTypeName] ?? false
+  }
+
+  function onEventEventBattleEnded(params)
+  {
+    local event = ::events.getEvent(::getTblValue("eventId", params))
+    if (!event)
+      return
+
+    _leaderboards.dropLbCache(event)
   }
 }
 

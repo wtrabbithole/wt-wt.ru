@@ -15,15 +15,15 @@ local styling = {
       return class {
         rendObj = ROBJ_SOLID
         color = colors.menu.scrollbarBgColor
-        _width = sh(1)
-        _height = sh(1)
+        _width = hdpx(5)
+        _height = hdpx(5)
       }
     } else {
       return class {
         rendObj = ROBJ_SOLID
         color = 0
-        _width = sh(1)
-        _height = sh(1)
+        _width = hdpx(5)
+        _height = hdpx(5)
       }
     }
   }
@@ -39,24 +39,16 @@ local scrollbar = function(scroll_handler) {
 }
 
 
-local makeHorizScroll = function(content, options={}) {
+local makeSideScroll = function(content, options={}) {
   if (!("styling" in options))
     options.styling <- styling
-  return scrollbarBase.makeHorizScroll(content, options)
-}
-
-
-local makeVertScroll = function(content, options={}) {
-  if (!("styling" in options))
-    options.styling <- styling
-  return scrollbarBase.makeVertScroll(content, options)
+  return scrollbarBase.makeSideScroll(content, options)
 }
 
 
 local export = class {
   scrollbar = scrollbar
-  makeHorizScroll = makeHorizScroll
-  makeVertScroll = makeVertScroll
+  makeSideScroll = makeSideScroll
   styling = styling
 }()
 

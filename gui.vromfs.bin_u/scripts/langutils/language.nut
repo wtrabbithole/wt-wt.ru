@@ -188,7 +188,7 @@ function g_language::saveLanguage(langName)
   shortLangName = ::loc("current_lang")
   ::g_language.onChangeLanguage()
 }
-::g_language.saveLanguage(::get_blk_value_by_path(get_settings_blk(), "game_start/language", "English"))
+::g_language.saveLanguage(get_settings_blk()?.language ?? get_settings_blk()?.game_start?.language ?? "English")
 
 function g_language::setGameLocalization(langId, reloadScene = false, suggestPkgDownload = false, isForced = false)
 {

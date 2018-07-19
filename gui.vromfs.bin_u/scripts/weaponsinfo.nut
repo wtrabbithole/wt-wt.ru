@@ -97,8 +97,10 @@ function getUnitNotReadyAmmoList(unit, readyStatus = ::UNIT_WEAPONS_WARNING)
   return res
 }
 
-function addWeaponsFromBlk(weapons, block, unitType)
+function addWeaponsFromBlk(weapons, block, unit)
 {
+  local unitType = ::get_es_unit_type(unit)
+
   foreach (weapon in (block % "Weapon"))
   {
     if (weapon.dummy)
@@ -181,6 +183,8 @@ function addWeaponsFromBlk(weapons, block, unitType)
           item.dropHeightRange = null
         item.maxSpeedInWater <- itemBlk.maxSpeedInWater || 0
         item.distToLive <- itemBlk.distToLive || 0
+        item.diveDepth <- itemBlk.diveDepth || 0
+        item.armDistance <- itemBlk.armDistance || 0
       }
     }
 
@@ -334,7 +338,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
   {
     local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryMod)
     if (primaryBlk)
-      weapons = addWeaponsFromBlk({}, primaryBlk, unitType)
+      weapons = addWeaponsFromBlk({}, primaryBlk, air)
     else if (p.needTextWhenNoWeapons)
       text += ::loc("weapon/noPrimaryWeapon")
   }
@@ -353,7 +357,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
 
     if (!wpBlk)
       return ""
-    weapons = addWeaponsFromBlk(weapons, wpBlk, unitType)
+    weapons = addWeaponsFromBlk(weapons, wpBlk, air)
   }
 
   local weaponTypeList = ["cannons", "rockets", "guns", "turrets", "torpedoes", "bombs"]
@@ -433,7 +437,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
                   tText += "\n"+::format(::loc("weapons/drop_height_range"), ::countMeasure(1, [weapon.dropHeightRange.x, weapon.dropHeightRange.y]))
               }
               if (p.detail >= INFO_DETAIL.EXTENDED && unitType != ::ES_UNIT_TYPE_TANK)
-                tText += _get_weapon_extended_info(weapon, weaponType, p.newLine + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
+                tText += _get_weapon_extended_info(weapon, weaponType, air, p.ediff, p.newLine + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
             }
           }
           else
@@ -505,7 +509,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
 }
 
 //weapon - is a weaponData gathered by addWeaponsFromBlk
-function _get_weapon_extended_info(weapon, weaponType, newLine)
+function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
 {
   local res = ""
 
@@ -526,15 +530,39 @@ function _get_weapon_extended_info(weapon, weaponType, newLine)
   }
   else if (weaponType == "torpedoes")
   {
-    local maxSpeedInWater = ::getTblValue("maxSpeedInWater", weapon, 0)
-    if (maxSpeedInWater)
-      res += newLine + ::loc("torpedo/maxSpeedInWater") + ::loc("ui/colon")
-             + ::g_measure_type.SPEED.getMeasureUnitsText(maxSpeedInWater)
+    local torpedoMod = "torpedoes_movement_mode"
+    if (::shop_is_modification_enabled(unit.name, torpedoMod))
+    {
+      local mod = ::getModificationByName(unit, torpedoMod)
+      local diffId = ::get_difficulty_by_ediff(ediff ?? ::get_current_ediff()).crewSkillName
+      local effects = mod?.effects?[diffId]
+      if (effects)
+      {
+        weapon = clone weapon
+        foreach (k, v in weapon)
+        {
+          local kEffect = k + "Torpedo"
+          if ((kEffect in effects) && type(v) == type(effects[kEffect]))
+            weapon[k] += effects[kEffect]
+        }
+      }
+    }
 
-    local distanceToLive = ::getTblValue("distToLive", weapon)
-    if (distanceToLive)
+    if (weapon?.maxSpeedInWater)
+      res += newLine + ::loc("torpedo/maxSpeedInWater") + ::loc("ui/colon")
+             + ::g_measure_type.SPEED.getMeasureUnitsText(weapon?.maxSpeedInWater)
+
+    if (weapon?.distToLive)
       res += newLine + ::loc("torpedo/distanceToLive") + ::loc("ui/colon")
-             + ::g_measure_type.DISTANCE.getMeasureUnitsText(distanceToLive)
+             + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon?.distToLive)
+
+    if (weapon?.diveDepth)
+      res += newLine + ::loc("bullet_properties/diveDepth") + ::loc("ui/colon")
+             + ::g_measure_type.DEPTH.getMeasureUnitsText(weapon?.diveDepth)
+
+    if (weapon?.armDistance)
+      res += newLine + ::loc("torpedo/armingDistance") + ::loc("ui/colon")
+             + ::g_measure_type.DEPTH.getMeasureUnitsText(weapon?.armDistance)
   }
 
   if (!weapon.explosiveType)

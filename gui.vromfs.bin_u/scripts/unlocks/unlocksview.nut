@@ -32,6 +32,13 @@ function g_unlock_view::fillUnlockConditions(unlockConfig, unlockObj, context)
                         "}" +
                         "tooltip:t='$tooltipObj';"
     }
+    else if (unlockConfig.type == "char_resources")
+    {
+      local decorator = ::g_decorator.getDecoratorById(unlockConfig.names[i])
+      if (decorator)
+        hiddenContent += ::g_tooltip_type.DECORATION.getMarkup(decorator.id, decorator.decoratorType.unlockedItemType)
+    }
+
     hiddenContent += "}"
   }
   if(hiddenContent != "")

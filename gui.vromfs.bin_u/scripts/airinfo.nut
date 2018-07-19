@@ -2167,7 +2167,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("trophy/unlockables_names/trophy")))
     if (isOwn && !isReceivedPrizes)
     {
-      local text = ::loc("mainmenu/itemReceived") + ::loc("ui/dot") + " " + ::loc("mainmenu/receiveOnlyOnce")
+      local text = ::loc("mainmenu/itemReceived") + ::loc("ui/dot") + " " + ::loc("mainmenu/activateOnlyOnce")
       addInfoTextsList.append(::colorize("badTextColor", text))
     }
   }

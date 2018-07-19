@@ -1,3 +1,5 @@
+local results = ::require("scripts/dmViewer/protectionAnalysisHintResults.nut")
+
 class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -7,64 +9,12 @@ class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandle
   hintObj   = null
   lastHintParams = null
   cursorRadius = 0
-  emptyResult = ::CHECK_PROT_RES_INEFFECTIVE
-
-  resultConfigs = [
-    {
-      checkFunc = @(p) p?.result == result
-      result = ::CHECK_PROT_RES_NOT_PENETRATED
-      color = "badTextColor"
-      loc = "protection_analysis/result/not_penetrated"
-      infoSrc = [ "max" ]
-      params = [ "armor", "ricochetProb" ]
-    },
-    {
-      checkFunc = @(p) p?.result == result && (p?.max?.armor ?? 0) != 0
-      result = ::CHECK_PROT_RES_INEFFECTIVE
-      color = "badTextColor"
-      loc = "protection_analysis/result/not_penetrated"
-      infoSrc = [ "max" ]
-      params = [ "armor", "ricochetProb" ]
-    },
-    {
-      checkFunc = @(p) p?.result == result && (p?.max?.armor ?? 0) == 0
-      result = ::CHECK_PROT_RES_INEFFECTIVE
-      color = "minorTextColor"
-      loc = "protection_analysis/result/ineffective"
-      infoSrc = [ "max" ]
-      params = [ "ricochetProb" ]
-    },
-    {
-      checkFunc = @(p) p?.result == result
-      result = ::CHECK_PROT_RES_RICOCHETED
-      color = "minorTextColor"
-      loc = "hitcamera/result/ricochet"
-      infoSrc = [ "lower", "upper" ]
-      params = [ "ricochetProb" ]
-    },
-    {
-      checkFunc = @(p) p?.result == result
-      result = ::CHECK_PROT_RES_POSSIBLE_EFFECTIVE
-      color = "cardProgressTextBonusColor"
-      loc = "protection_analysis/result/possible_effective"
-      infoSrc = [ "lower", "upper" ]
-      params = [ "armor", "parts" ]
-    },
-    {
-      checkFunc = @(p) p?.result == result
-      result = ::CHECK_PROT_RES_EFFECTIVE
-      color = "goodTextColor"
-      loc = "protection_analysis/result/effective"
-      infoSrc = [ "lower", "upper" ]
-      params = [ "armor", "parts" ]
-    },
-  ]
 
   getValueByResultCfg = {
-    armor = function(params, id, resultCfg) {
+    penetratedArmor = function(params, id, resultCfg) {
       local res = 0.0
       foreach (src in resultCfg.infoSrc)
-        res = ::max(res, (params?[src]?[id] ?? 0.0))
+        res = ::max(res, (params?[src]?[id]?.generic ?? 0.0) + (params?[src]?[id]?.cumulative ?? 0.0))
       return res
     }
     ricochetProb = function(params, id, resultCfg) {
@@ -83,7 +33,7 @@ class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandle
   }
 
   printValueByParam = {
-    armor = function(val) {
+    penetratedArmor = function(val) {
       if (!val)
         return ""
       return ::loc("protection_analysis/hint/armor") + ::loc("ui/colon") +
@@ -137,14 +87,7 @@ class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandle
     if (!isShow)
       return
 
-    foreach (src in [ "lower", "upper", "max" ])
-      if (params?[src])
-        params[src].armor <- (params[src]?.penetratedArmor?.generic    ?? 0) +
-                             (params[src]?.penetratedArmor?.cumulative ?? 0)
-
-    local resultCfg = ::u.search(resultConfigs, @(c) c.checkFunc(params))
-    if (!resultCfg)
-      return
+    local resultCfg = results.getResultTypeByParams(params)
 
     cursorObj["background-color"] = ::get_main_gui_scene().getConstantValue(resultCfg.color)
 

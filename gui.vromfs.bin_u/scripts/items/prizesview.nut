@@ -614,7 +614,7 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
   if (rentTimeHours > 0)
     infoText = _getUnitRentComment(rentTimeHours, numSpares)
   if (!receivedPrizes && isBought)
-    infoText += (infoText.len() ? "\n" : "") + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
+    infoText += (infoText.len() ? "\n" : "") + ::colorize("badTextColor", ::loc("mainmenu/activateOnlyOnce"))
 
   local unitPlate = ::build_aircraft_item(unitName, unit, {
     hasActions = true,
@@ -733,7 +733,7 @@ function PrizesView::getViewDataDecorator(prize, params = null)
     icon  = decoratorType.prizeTypeIcon
     title = getPrizeText(prize)
     tooltipId = ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params)
-    commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
+    commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/activateOnlyOnce")) : null
     buttons = buttons
     buttonsCount = buttons.len()
   }

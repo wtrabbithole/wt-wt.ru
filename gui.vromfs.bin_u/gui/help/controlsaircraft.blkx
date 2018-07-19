@@ -18,7 +18,7 @@
       {
         "tdiv": [
           {
-            "pos": "10/1760pw, 20/900ph"
+            "pos": "20/1760pw, 20/900ph"
           },
           {
             "position": "absolute"
@@ -85,15 +85,12 @@
           "id": "throttle_down_controls_frame",
           "pos": "860/1760pw-w, 17/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "throttle_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "270/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{throttle=min}}"
           },
           "textareaNoTab": {
-            "max-width": "240/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/throttle_0"
           }
         }
@@ -101,7 +98,7 @@
       {
         "tdiv": [
           {
-            "pos": "10/1760pw, 165/900ph"
+            "pos": "20/1760pw, 165/900ph"
           },
           {
             "position": "absolute"
@@ -155,7 +152,7 @@
       {
         "controlsHelpTextArea": {
           "id": "throttle_and_speed_relaitive_label",
-          "max-width": "365/1760pw",
+          "width": "250/1760pw",
           "pos": "160/1760pw, 165/900ph",
           "position": "absolute",
           "text": "#controls/help/throttle_and_speed"
@@ -166,15 +163,12 @@
           "id": "throttle_up_controls_frame",
           "pos": "860/1760pw-w, 160/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "throttle_controls_help_1",
-            "margin-right": "0.01@sf"
+          "width": "270/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{throttle=max}}"
           },
           "textareaNoTab": {
-            "max-width": "240/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/throttle_help_engine"
           }
         }
@@ -182,7 +176,7 @@
       {
         "tdiv": [
           {
-            "pos": "10/1760pw, 310/900ph"
+            "pos": "20/1760pw, 310/900ph"
           },
           {
             "position": "absolute"
@@ -235,7 +229,7 @@
       {
         "controlsHelpTextArea": {
           "id": "wep_description_label",
-          "max-width": "360/1760pw",
+          "width": "250/1760pw",
           "pos": "160/1760pw, 310/900ph",
           "position": "absolute",
           "text": "#controls/help/wep"
@@ -246,15 +240,12 @@
           "id": "throttle_up_controls_frame_2",
           "pos": "860/1760pw-w, 310/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "throttle_controls_help_1_2",
-            "margin-right": "0.01@sf"
+          "width": "270/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{throttle=max_hold}}"
           },
           "textareaNoTab": {
-            "max-width": "240/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/throttle_help_wep"
           }
         }
@@ -262,7 +253,7 @@
       {
         "tdiv": [
           {
-            "pos": "10/1760pw, 470/900ph"
+            "pos": "20/1760pw, 470/900ph"
           },
           {
             "position": "absolute"
@@ -312,56 +303,42 @@
       {
         "controlsHelpFrame": {
           "id": "lock_target_controls_frame",
-          "pos": "160/1760pw, 470/900ph",
+          "pos": "320/1760pw-0.5h, 470/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "ID_LOCK_TARGET_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "320/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_LOCK_TARGET}}"
           },
           "textareaNoTab": {
-            "max-width": "600/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/ID_LOCK_TARGET_0"
           }
         }
       },
       {
         "controlsHelpFrame": {
-          "pos": "400/1760pw, 870/900ph-h",
+          "pos": "850/1760pw-w, 870/900ph-h",
           "position": "absolute",
-          "tdiv": {
-            "position": "relative",
-            "id": "ID_CAMERA_VIEW",
-            "margin-right": "0.01@sf"
+          "width": "270*@sf/@pf",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{camx+camy}}"
           },
           "textareaNoTab": {
-            "max-width": "228/1760p.p.w",
-            "padding-left": "5*@sf/@pf_outdated",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/aircraft_mouse_look"
           }
         }
       },
       {
         "controlsHelpFrame": {
-          "id": "ID_SHOW_VOICE_MESSAGE_LIST_controls_frame",
-          "pos": "350/1760pw-w, 870/900ph-h",
+          "pos": "35/1760pw, 870/900ph-h",
           "position": "absolute",
-          "tdiv": {
-            "position": "relative",
-            "id": "ID_SHOW_VOICE_MESSAGE_LIST_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "270*@sf/@pf",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_SHOW_VOICE_MESSAGE_LIST}}"
           },
           "textareaNoTab": {
-            "max-width": "228/1760p.p.w",
-            "padding-left": "5*@sf/@pf_outdated",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/tank_team_voice_messages"
           }
         }
@@ -369,8 +346,8 @@
       {
         "controlsHelpTextArea": {
           "id": "crosshairs_label",
-          "max-width": "350/1760pw",
-          "pos": "365/1760pw-w, 565/900ph",
+          "width": "270/1760pw",
+          "pos": "35/1760pw, 650/900ph",
           "position": "absolute",
           "text": "#controls/help/crosshairs"
         }
@@ -386,8 +363,8 @@
       {
         "controlsHelpTextArea": {
           "id": "target_lead_text_label",
-          "max-width": "330/1760pw",
-          "pos": "860/1760pw-w, 650/900ph",
+          "width": "270/1760pw",
+          "pos": "850/1760pw-w, 650/900ph",
           "position": "absolute",
           "text": "#controls/help/target_leading"
         }
@@ -395,7 +372,7 @@
       {
         "tdiv": {
           "id": "target_lead_target_point",
-          "pos": "536/1760pw, 620/900ph",
+          "pos": "550/1760pw, 605/900ph",
           "position": "absolute",
           "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
         }
@@ -403,7 +380,7 @@
       {
         "tdiv": [
           {
-            "pos": "895/1760pw, 20/900ph"
+            "pos": "900/1760pw, 20/900ph"
           },
           {
             "position": "absolute"
@@ -508,8 +485,8 @@
       {
         "controlsHelpTextArea": {
           "id": "ammo_count_label",
-          "max-width": "155/1760pw",
-          "pos": "1050/1760pw, 95/900ph-h",
+          "width": "160/1760pw",
+          "pos": "1100/1760pw, 95/900ph-h",
           "position": "absolute",
           "text": "#controls/help/ammo_count"
         }
@@ -517,8 +494,8 @@
       {
         "controlsHelpTextArea": {
           "id": "weapon_reload_time_label",
-          "max-width": "160/1760pw",
-          "pos": "1050/1760pw, 105/900ph",
+          "width": "160/1760pw",
+          "pos": "1100/1760pw, 105/900ph",
           "position": "absolute",
           "text": "#controls/help/reload_timer"
         }
@@ -526,7 +503,7 @@
       {
         "controlsHelpTextArea": {
           "id": "bomb_crosshair_label",
-          "max-width": "390/1760pw",
+          "width": "270/1760pw",
           "pos": "1300/1760pw, 80/900ph-h",
           "position": "absolute",
           "text": "#controls/help/bomb_crosshairs"
@@ -593,18 +570,14 @@
       {
         "controlsHelpFrame": {
           "id": "bombs_controls_frame",
-          "max-width": "390/1760p.p.w",
-          "pos": "1745/1760pw-w, 135/900ph",
+          "pos": "1745/1760pw-w, 215/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "ID_BOMBS_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "230/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_BOMBS}}"
           },
           "textareaNoTab": {
-            "max-width": "250/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/ID_BOMBS_0"
           }
         }
@@ -663,7 +636,7 @@
       {
         "tdiv": [
           {
-            "pos": "895/1760pw, 470/900ph"
+            "pos": "900/1760pw, 470/900ph"
           },
           {
             "position": "absolute"
@@ -713,17 +686,14 @@
       {
         "controlsHelpFrame": {
           "id": "zoom_controls_frame",
-          "pos": "1050/1760pw, 470/900ph",
+          "pos": "1150/1760pw, 470/900ph",
           "position": "absolute",
-          "tdiv": {
-            "id": "ID_ZOOM_TOGGLE_controls_help_0",
-            "margin-right": "0.01@sf"
+          "width": "320/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_ZOOM_TOGGLE}}"
           },
           "textareaNoTab": {
-            "max-width": "500/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/ID_ZOOM_TOGGLE_0"
           }
         }
@@ -731,20 +701,14 @@
       {
         "controlsHelpFrame": {
           "id": "fire_guns_controls_frame",
-          "pos": "930/1760pw, 660/900ph",
+          "pos": "930/1760pw, 640/900ph",
           "position": "absolute",
-          "width": "340/1760p.p.w",
-          "tdiv": {
-            "id": "ID_FIRE_MGUNS_controls_help_0",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "margin-right": "0.01@sf"
+          "width": "320/1760pw",
+          "keyDiv": {
+            "behaviour": "bhvHelpFrame",
+            "value": "{{ID_FIRE_MGUNS}}"
           },
           "textareaNoTab": {
-            "max-width": "260/1760p.p.w",
-            "pos": "0,0.5ph-0.5h",
-            "position": "relative",
-            "controlsHelp": "yes",
             "text": "#controls/help/ID_FIRE_MGUNS_0"
           }
         }
@@ -752,7 +716,7 @@
       {
         "tdiv": {
           "id": "fire_guns_controls_target_point",
-          "pos": "1306/1760pw, 595/900ph-h",
+          "pos": "1306/1760pw, 593/900ph-h",
           "position": "absolute",
           "size": "1*@sf/@pf_outdated, 1*@sf/@pf_outdated"
         }

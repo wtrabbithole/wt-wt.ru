@@ -27,6 +27,9 @@ colors.menu <- {}
   scrollbarSliderColorHover = Color(224, 224, 224)
 
   silver = Color(170, 170, 170)
+
+  textInputBorderColor = Color(62, 75, 82)
+  textInputBgColor = Color(2, 5, 9, 145)
 })
 
 colors.hud <- {}

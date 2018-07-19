@@ -49,7 +49,10 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     }
 
     for(local i = 0; i < ::g_squad_manager.MAX_SQUAD_SIZE; i++)
-      view.members.append({ id = i.tostring()})
+      view.members.append({
+        id = i.tostring()
+        needHideVoice = !::g_chat.canUseVoice()
+      })
 
     return view
   }
@@ -100,6 +103,8 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     memberObj.setUserData(member)
     memberObj.findObject("member_icon_" + indexStr).setValue(member.pilotIcon)
     memberObj.findObject("member_tooltip_" + indexStr)["uid"] = member.uid
+    //!!!TEMP HACK, System MsgBox not dissapearing after finish work
+    memberObj.enable(!::is_in_loading_screen() || !platformModule.isPlatformXboxOne)
 
     if (member.isActualData())
     {

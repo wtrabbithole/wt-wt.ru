@@ -232,6 +232,11 @@
               "side": "neutral",
               "target": "briefing_left"
             }
+          },
+          {
+            "battleArea": {
+              "target": "briefing_area"
+            }
           }
         ]
       }
@@ -256,7 +261,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/navy_templates/nadom_template.blk",
+        "file": "gameData/missions/templates/navy_templates/ndom_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -288,7 +293,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/ships/africa_gulf_newbie/spotareas/africa_gulf_newbie_NADom_spotareas_template.blk",
+        "file": "gameData/missions/cta/ships/africa_gulf_newbie/spotareas/africa_gulf_newbie_NDom_spotareas_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -415,6 +420,17 @@
         [1900.58,0.000732422,2217.45]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "briefing_area": {
+      "type": "Box",
+      "tm": [
+        [4325.13,0.0,0.0],
+        [0.0,700.0,0.0],
+        [0.0,0.0,4325.13],
+        [2011.2,67.6,2299.8]
+      ],
+      "objLayer": 3,
       "props": []
     }
   },

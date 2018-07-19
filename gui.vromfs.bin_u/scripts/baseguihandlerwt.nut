@@ -70,6 +70,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   wndControlsAllowMask = null //enum CtrlsInGui, when null, it set by wndType
   widgetsList = null
   needVoiceChat = true
+  canInitVoiceChatWithSquadWidget = false
 
   function constructor(gui_scene, params = {})
   {
@@ -102,7 +103,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     ::fill_gamer_card(null, true, "gc_", scene)
     initSquadWidget()
-    updateVoiceChatWidget()
+    initVoiceChatWidget()
     initRightSection()
   }
 
@@ -119,9 +120,15 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     registerSubHandler(squadWidgetHandlerWeak)
   }
 
-  function updateVoiceChatWidget(shouldShow = null)
+  function initVoiceChatWidget()
   {
-    showSceneBtn(voiceChatWidgetNestObjId, shouldShow ?? squadWidgetHandlerWeak == null)
+    if (canInitVoiceChatWithSquadWidget || squadWidgetHandlerWeak == null)
+      ::handlersManager.initVoiceChatWidget(this)
+  }
+
+  function updateVoiceChatWidget(shouldShow)
+  {
+    showSceneBtn(voiceChatWidgetNestObjId, shouldShow)
   }
 
   function initRightSection()

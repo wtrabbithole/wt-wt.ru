@@ -245,6 +245,9 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   {
     ::broadcastEvent("BeforeStartTestFlight")
 
+    if (unit && unit.isShip() && !::check_package_and_ask_download("pkg_ships"))
+      return
+
     if (::g_squad_manager.isNotAloneOnline())
       return onMissionBuilder()
 

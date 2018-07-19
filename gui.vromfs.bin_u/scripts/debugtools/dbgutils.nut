@@ -1,3 +1,5 @@
+local dbgExportToFile = require("scripts/debugTools/dbgExportToFile.nut")
+
 ::callstack <- dagor.debug_dump_stack
 
 function reload()
@@ -166,6 +168,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "_fake_battlelog", value = ::HudBattleLog.battleLog }
     { id = "_fake_userlogs", value = ::getTblValue("roomUserlogs", ::debriefing_result, []) }
     { id = "get_user_logs_count", value = ::getTblValue("roomUserlogs", ::debriefing_result, []).len() }
+    { id = "_fake_playersInfo", value = ::SquadIcon.playersInfo }
   ]
 
   local units = []
@@ -251,8 +254,10 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   }, false)
 
   ::SessionLobby.settings = ::_fake_sessionlobby_settings
+  ::SessionLobby.playersInfo = ::getroottable()?._fake_playersInfo ?? {}
   ::SessionLobby.getUnitTypesMask = @() ::getroottable()?._fake_sessionlobby_unit_type_mask ?? 0
   ::HudBattleLog.battleLog = ::_fake_battlelog
+  ::SquadIcon.initListLabelsSquad()
 
   local _is_in_flight = ::is_in_flight
   ::is_in_flight = function() { return true }
@@ -328,50 +333,83 @@ function show_hotas_window_image()
 
 function debug_export_unit_weapons_descriptions()
 {
-  _debug_export_unit_weapons_descriptions_impl(::DataBlock())
+  dbgExportToFile.export({
+    resultFilePath = "export/unitsWeaponry.blk"
+    itemsPerFrame = 10
+    list = function() {
+      local res = []
+      local wpCost = ::get_wpcost_blk()
+      for (local i = 0; i < wpCost.blockCount(); i++) {
+        local unit = ::getAircraftByName(wpCost.getBlock(i).getBlockName())
+        if (unit?.isInShop)
+          res.append(unit)
+      }
+      return res
+    }()
+    itemProcessFunc = function(unit) {
+      local blk = ::DataBlock()
+      foreach(weapon in unit.weapons)
+        if (!::isWeaponAux(weapon))
+        {
+          blk[weapon.name + "_short"] <- ::getWeaponNameText(unit, false, weapon.name, ", ")
+          local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name }), "\n")
+          foreach(row in rowsList)
+            blk[weapon.name] <- row
+          local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name, detail = INFO_DETAIL.EXTENDED }), "\n")
+          foreach(row in rowsList)
+            blk[weapon.name + "_extended"] <- row
+          local rowsList = ::split(::getWeaponInfoText(unit, { weaponPreset = weapon.name, detail = INFO_DETAIL.FULL }), "\n")
+          foreach(row in rowsList)
+            blk[weapon.name + "_full"] <- row
+        }
+      return { key = unit.name, value = blk }
+    }
+  })
 }
 
-function _debug_export_unit_weapons_descriptions_impl(resBlk, idx = 0)
+function debug_export_unit_xray_parts_descriptions()
 {
-  local wpCost = ::get_wpcost_blk()
-  for(local i = idx; i < wpCost.blockCount(); i++)
-  {
-    if (!(i % 10) && i != idx) //avoid freeze
-    {
-      dlog("GP: " + i + " done.")
-      ::get_gui_scene().performDelayed(this, (@(resBlk, i) function() {
-        ::_debug_export_unit_weapons_descriptions_impl(resBlk, i)
-      })(resBlk, i))
-      return
-    }
-
-    local uBlk = wpCost.getBlock(i)
-    local unit = ::getAircraftByName(uBlk.getBlockName())
-    if (!unit)
-      continue
-
-    local blk = ::DataBlock()
-    foreach(weapon in unit.weapons)
-      if (!::isWeaponAux(weapon))
-      {
-        blk[weapon.name + "_short"] <- ::getWeaponNameText(unit, false, weapon.name, ", ")
-        local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name }), "\n")
-        foreach(row in rowsList)
-          blk[weapon.name] <- row
-        local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name, detail = INFO_DETAIL.EXTENDED }), "\n")
-        foreach(row in rowsList)
-          blk[weapon.name + "_extended"] <- row
-        local rowsList = ::split(::getWeaponInfoText(unit, { weaponPreset = weapon.name, detail = INFO_DETAIL.FULL }), "\n")
-        foreach(row in rowsList)
-          blk[weapon.name + "_full"] <- row
+  ::dmViewer.toggle(::DM_VIEWER_XRAY)
+  dbgExportToFile.export({
+    resultFilePath = "export/unitsXray.blk"
+    itemsPerFrame = 10
+    list = function() {
+      local res = []
+      local wpCost = ::get_wpcost_blk()
+      for (local i = 0; i < wpCost.blockCount(); i++) {
+        local unit = ::getAircraftByName(wpCost.getBlock(i).getBlockName())
+        if (unit?.isInShop)
+          res.append(unit)
       }
+      return res
+    }()
+    itemProcessFunc = function(unit) {
+      local blk = ::DataBlock()
 
-    resBlk[unit.name] <- blk
-  }
+      ::dmViewer.updateUnitInfo(unit.name)
+      local partNames = []
+      local damagePartsBlk = ::dmViewer.unitBlk?.DamageParts
+      if (damagePartsBlk)
+        for (local b = 0; b < damagePartsBlk.blockCount(); b++)
+        {
+          local partsBlk = damagePartsBlk.getBlock(b)
+          for (local p = 0; p < partsBlk.blockCount(); p++)
+            ::u.appendOnce(partsBlk.getBlock(p).getBlockName(), partNames)
+        }
+      partNames.sort()
 
-  local filePath = "export/unitsWeaponry.blk"
-  ::dd_mkpath(filePath)
-  resBlk.saveToTextFile(filePath)
+      local params = { name = "" }
+      foreach (partName in partNames)
+      {
+        params.name = partName
+        local info = ::dmViewer.getPartTooltipInfo(::dmViewer.getPartNameId(params), params)
+        if (info.desc != "")
+          blk[partName] <- ::g_string.stripTags(info.title + "\n" + info.desc)
+      }
+      return { key = unit.name, value = blk }
+    }
+    onFinish = @() ::dmViewer.toggle(::DM_VIEWER_NONE)
+  })
 }
 
 function dbg_ww_destroy_cur_operation()

@@ -74,6 +74,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       instantOpenShopWnd()
       createSlotbar(
         {
+          needOffset = true
           mainMenuSlotbar = true
           afterFullUpdate = afterSlotbarFullUpdate
         },
@@ -356,8 +357,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterSlotbarFullUpdate()
   {
-    if (::current_base_gui_handler && ("onReinitSlotbar" in ::current_base_gui_handler))
-      ::current_base_gui_handler.onReinitSlotbar.call(::current_base_gui_handler)
     if (::top_menu_shop_active)
       updateSlotbarTopPanelVisibility(false)
   }

@@ -94,6 +94,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   isRespawn = false //use for called respawn from battle on M or Tab
   needRefreshSlotbarOnReinit = false
 
+  canInitVoiceChatWithSquadWidget = true
+
   noRespText = ""
   applyText = ""
 
@@ -1043,7 +1045,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (!canChangeAircraft && i != selIndex)
         continue
       local tooltipObjMarkup = ::g_tooltip_type.DECORATION.getMarkup(skinsData.decorators[i].id, ::UNLOCKABLE_SKIN)
-      data.append(::build_option_blk(item.text, item.image, i == selIndex, true,
+      data.append(::build_option_blk(item.text, item.image || "", i == selIndex, true,
         item.textStyle, false, "", tooltipObjMarkup))
     }
 
@@ -2100,6 +2102,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     curChatData = ::loadGameChatToObj(chatObj, chatBlkName, this)
     curChatBlk = chatBlkName
+
+    if (!isSpectate)
+      return
+
+    local voiceChatNestObj = chatObj.findObject("voice_chat_nest")
+    if (::check_obj(voiceChatNestObj))
+      guiScene.replaceContent(voiceChatNestObj, "gui/chat/voiceChatWidget.blk", this)
   }
 
   function updateSpectatorRotationForced(isRespawnSceneActive = null)

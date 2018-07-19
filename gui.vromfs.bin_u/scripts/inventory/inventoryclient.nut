@@ -91,7 +91,7 @@ local InventoryClient = class {
       refreshDataOnAuthorization()
   }
 
-  onEventAuthorizeComplete = @(p) refreshDataOnAuthorization
+  onEventAuthorizeComplete = @(p) refreshDataOnAuthorization()
 
   function refreshDataOnAuthorization()
   {

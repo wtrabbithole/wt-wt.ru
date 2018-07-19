@@ -44,13 +44,20 @@ enums.addTypesByGlobalName("g_hint_tag", {
 
     getViewSlices = function(tagName, params) //tagName == shortcutId
     {
-      local slice = {}
-      local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(tagName)
-      slice.shortcut <- (@(shortcutType, tagName) function () {
-        local input = shortcutType.getFirstInput(tagName)
-        return input.getMarkup()
-      })(shortcutType, tagName)
-      return [slice]
+      local slices = []
+
+      local expanded = ::g_shortcut_type.expandShortcuts([tagName])
+      foreach (expandedShortcut in expanded)
+      {
+        local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(expandedShortcut)
+        slices.append({
+          shortcut = function () {
+            local input = shortcutType.getFirstInput(expandedShortcut)
+            return input.getMarkup()
+          }
+        })
+      }
+      return slices
     }
   }
 

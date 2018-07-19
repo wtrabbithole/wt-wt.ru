@@ -98,6 +98,16 @@ class ::queue_stats_versions.Base
     return ::getTblValue("playersCount", getQueueTableByTeam(teamName, cluster), 0)
   }
 
+  function getPlayersCountOfAllRanks(cluster = null)
+  {
+    local res = 0
+    local teamQueueTable = getQueueTableByTeam("teamA", cluster)
+    for(local i = 1; i <= ::max_country_rank; i++)
+      res += teamQueueTable?[i.tostring()] ?? 0
+
+    return res
+  }
+
   function getPlayersCountOfMyRank(cluster = null)
   {
     local rankStr = myRankInQueue.tostring()

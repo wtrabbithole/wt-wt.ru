@@ -244,7 +244,8 @@ function get_userlog_view_data(log)
       local items = []
       foreach (lbFieldsConfig in ::events.eventsTableConfig)
       {
-        if (!(lbFieldsConfig.field in now))
+        if (!(lbFieldsConfig.field in now)
+          || !::events.checkLbRowVisibility(lbFieldsConfig, { eventId = log?.eventId }))
           continue
 
         items.append(::getLeaderboardItemView(lbFieldsConfig,

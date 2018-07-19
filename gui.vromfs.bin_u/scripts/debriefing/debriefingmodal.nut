@@ -1012,8 +1012,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       config.subType = ps4_activity_feed.MISSION_SUCCESS_AFTER_UPDATE
       customConfig.blkParamName = "MAJOR_UPDATE"
       local ver = split(::get_game_version_str(), ".")
-      customConfig.version <- ver[0]+"_"+ver[1]
-      customConfig.imgSuffix <- "_" + customConfig.version
+      customConfig.version <- ver[0]+"."+ver[1]
+      customConfig.imgSuffix <- "_" + ver[0] + "_" + ver[1]
       customConfig.shouldForceLogo <- true
     }
 
@@ -1480,7 +1480,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local items = []
     foreach (lbFieldsConfig in ::events.eventsTableConfig)
     {
-      if (!(lbFieldsConfig.field in now))
+      if (!(lbFieldsConfig.field in now)
+        || !::events.checkLbRowVisibility(lbFieldsConfig, { eventId = logs[0]?.eventId }))
         continue
 
       local isFirstInRow = items.len() % DEBR_LEADERBOARD_LIST_COLUMNS == 0
