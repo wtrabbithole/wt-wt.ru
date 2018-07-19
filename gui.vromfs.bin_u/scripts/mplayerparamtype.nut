@@ -314,21 +314,29 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
 
   FOOTBALL_GOALS = {
     id = "footballGoals"
+    fontIcon = "#icon/mpstats/football_goals"
+    tooltip = "#multiplayer/football/goals"
     relWidth = 10
   }
 
   FOOTBALL_ASSISTS = {
     id = "footballAssists"
+    fontIcon = "#icon/mpstats/assists"
+    tooltip = "#multiplayer/football/assists"
     relWidth = 10
   }
 
   FOOTBALL_SAVES = {
     id = "footballSaves"
+    fontIcon = "#icon/mpstats/football_saves"
+    tooltip = "#multiplayer/football/saves"
     relWidth = 10
   }
 
   FOOTBALL_SCORE = {
     id = "footballScore"
+    fontIcon = "#icon/mpstats/score"
+    tooltip = "#multiplayer/score"
     relWidth = 15
   }
 

@@ -878,7 +878,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                                "navalKills", "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "unitIcon", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
-  footballRowHeaders        = ["name", "footballGoals", "footballAssists", "footballSaves", "footballScore"]
+  footballRowHeaders        = ["name", "footballScore", "footballGoals", "footballAssists"]
 
   statTrSize = "pw, 1@baseTrHeight"
 

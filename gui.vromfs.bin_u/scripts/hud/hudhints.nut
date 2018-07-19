@@ -1042,7 +1042,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
   FOOTBALL_LOCK_TARGET = {
     locId = "HUD/TXT_FOOTBALL_LOCK_TARGET"
     showEvent = "hint:football_lock_target"
-    shortcuts = "ID_LOCK_TARGET"
+    shortcuts = "ID_TARGETING_HOLD_GM"
     lifeTime = 3.0
   }
 
