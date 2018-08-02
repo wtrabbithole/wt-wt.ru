@@ -55,12 +55,28 @@ popup_menu {
     <</isSeparator>>
     <<^isSeparator>>
     recipe {
+      id = 'id_<<@uid>>'
       height:t='0.5@itemHeight'
       margin:t='@recipeInterval'
       smallItems:t="yes"
       css-hier-invalidate:t='yes'
+      isRecipeLocked:t=<<#isRecipeLocked>>'yes'<</isRecipeLocked>><<^isRecipeLocked>>'no'<</isRecipeLocked>>
 
       <<@getIconedMarkup>>
+
+      <<#hasMarkers>>
+      img{
+        id:t='img_<<@uid>>'
+        pos:t='pw - 0.8w, ph - 0.8h'
+        position:t='absolute'
+        size:t='@cIco, @cIco'
+        background-svg-size:t='@cIco, @cIco'
+        background-image:t='<<@getMarkIcon>>'
+        background-repeat:t='aspect-ratio'
+        input-transparent:t='yes'
+        tooltip:t='<<@getMarkTooltip>>'
+      }
+      <</hasMarkers>>
 
       focus_border {}
     }
@@ -71,20 +87,36 @@ popup_menu {
   navBar {
     class:t='relative'
     //0.1@dico - is a visual space in item type icon.
-    style:t='height:<<maxRecipeLen>>@dIco - 0.2@dIco + 1@navBarTopPadding + 1@buttonMargin;'
+    style:t='height:<<maxRecipeLen>>@dIco + 1@buttonHeight - 0.2@dIco + 1@navBarTopPadding + 1@buttonMargin;'
 
     navLeft {
-      size:t='pw - 1@buttonWidth, ph - 1@navBarTopPadding'
+      size:t='pw, ph - 1@navBarTopPadding'
       tdiv {
         id:t='selected_recipe_info'
         width:t='pw'
-        pos:t='0, ph-h + 0.1@dIco'
+        pos:t='0, 0.1@dIco'
         position:t='relative'
       }
     }
 
     navRight {
       height:t='ph - 1@navBarTopPadding'
+      width:t='pw'
+      tdiv {
+        id:t='selected_recipe_mark_info'
+        width:t='fw'
+        pos:t='0, ph - h + 1@buttonMargin'
+        position:t='relative'
+      }
+      <<#hasMarkers>>
+      Button_text {
+        id:t = 'btn_mark'
+        text:t = '#item/recipes/markFake'
+        btnName:t='X'
+        _on_click:t = 'onRecipeMark'
+        ButtonImg {}
+      }
+      <</hasMarkers>>
       Button_text {
         id:t = 'btn_apply'
         text:t = '<<buttonText>>'

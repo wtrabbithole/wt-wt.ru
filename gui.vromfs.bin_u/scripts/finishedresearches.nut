@@ -296,8 +296,8 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
       updateRowMods(curRowObj, dataTable)
     else
     {
-      local airItemObj = curRowObj.findObject("research_start")
-      if (!::checkObj(airItemObj))
+      local startObj = curRowObj.findObject("research_start")
+      if (!::checkObj(startObj))
         return false
 
       if (autoSetItemName != "" && autoSetItemName != unitName)
@@ -306,9 +306,9 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
         local autoSetItem = ::getAircraftByName(autoSetItemName)
         local params = { forceNotInResearch = !dataTable.isItemApproved }
         local unitItem = ::build_aircraft_item(autoSetItemName, autoSetItem, params)
-        guiScene.replaceContentFromText(airItemObj, unitItem, unitItem.len(), this)
-        ::fill_unit_item_timers(airItemObj.findObject(autoSetItemName), autoSetItem, params)
-        ::showAirDiscount(airItemObj.findObject(autoSetItemName + "-discount"), autoSetItemName)
+        guiScene.replaceContentFromText(startObj, unitItem, unitItem.len(), this)
+        ::fill_unit_item_timers(startObj.findObject(autoSetItemName), autoSetItem, params)
+        ::showAirDiscount(startObj.findObject(autoSetItemName + "-discount"), autoSetItemName)
       }
       else
         setNoResearchText(curRowObj, unit, isMod)
@@ -792,9 +792,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
       return impl_buyModification(unit, modName)
 
     local nameLoc = ::getModificationName(unit.name, modName)
-    local price = ::wp_get_modification_cost(unit.name, modName)
-    local priceText = ::getPriceAccordingToPlayersCurrency(price, 0)
-    local buyMsgText = ::loc("onlineShop/needMoneyQuestion", { purchase = nameLoc, cost = priceText })
+    local buyMsgText = ::loc("onlineShop/needMoneyQuestion", { purchase = nameLoc, cost = price.tostring() })
     msgBox("msgbox_buy_item" , buyMsgText, [["ok", (@(unit, modName) function () {
                                       impl_buyModification(unit, modName)
                                  })(unit, modName)], ["cancel", function () {}]], "ok"
@@ -1313,7 +1311,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     if (::checkObj(textObj))
       textObj.show(!show)
 
-    local textObj = scene.findObject("no_researches")
+    textObj = scene.findObject("no_researches")
     if (::checkObj(textObj))
     {
       textObj.show(show)

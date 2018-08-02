@@ -554,11 +554,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       if (!zones.len())
         continue
 
-      for (local i = WW_MAP_HIGHLIGHT.LAYER_0; i<= WW_MAP_HIGHLIGHT.LAYER_2; i++)
+      for (local j = WW_MAP_HIGHLIGHT.LAYER_0; j<= WW_MAP_HIGHLIGHT.LAYER_2; j++)
       {
-        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == i)
+        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == j)
         local zonesArray = ::u.map(filteredZones, @(zone) zone.id)
-        ::ww_highlight_zones_by_name(zonesArray, i)
+        ::ww_highlight_zones_by_name(zonesArray, j)
       }
     }
   }

@@ -151,9 +151,9 @@ function LayersIcon::genDataFromLayer(layerCfg, insertLayers = "")  //need to mo
   local img = ::getTblValue("img", layerCfg, "")
 
   local props = ""
-  foreach(id in [ "background-svg-size" ])
-    if (id in layerCfg)
-      props += ::format("%s:t='%s';", id, layerCfg[id])
+  foreach(key in [ "background-svg-size" ])
+    if (key in layerCfg)
+      props += ::format("%s:t='%s';", key, layerCfg[key])
 
   return format(iconLayer, id,
                            baseParams.width + ", " + baseParams.height,

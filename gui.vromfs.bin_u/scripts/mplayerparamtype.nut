@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -203,9 +203,9 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
       local res = []
       foreach (row in rows)
       {
-        local val = player?[row.id] ?? 0
-        if (val)
-          res.append(::loc(row.label) + ::loc("ui/colon") + val)
+        local rowVal = player?[row.id] ?? 0
+        if (rowVal)
+          res.append(::loc(row.label) + ::loc("ui/colon") + rowVal)
       }
       return ::g_string.implode(res, "\n")
     }

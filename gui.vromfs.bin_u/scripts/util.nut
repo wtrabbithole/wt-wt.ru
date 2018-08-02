@@ -494,7 +494,7 @@ function get_current_bonuses_text(effectType)
     tooltipText.append(::loc("mainmenu/bonusCyberCafe") + ::loc("ui/colon") + value)
   }
 
-  local value = ::get_squad_bonus_for_same_cyber_cafe(effectType)
+  value = ::get_squad_bonus_for_same_cyber_cafe(effectType)
   if (value > 0.0)
   {
     value = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(value)

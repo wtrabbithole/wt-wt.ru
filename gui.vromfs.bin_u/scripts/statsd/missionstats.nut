@@ -8,11 +8,7 @@ MissionStats <- {
 
 function MissionStats::init()
 {
-  ::subscribe_events_from_handler(this, [
-    "PlayerQuitMission"
-    "RoomJoined"
-    "PlayerSpawn"
-  ])
+  ::subscribe_handler(this)
   reset()
 }
 

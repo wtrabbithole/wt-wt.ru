@@ -543,7 +543,8 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     playerContextMenu.showMenu(null, this, {
-      playerName = getLbPlayerName(rowData) //!!FIX ME better to open menu by uid
+      playerName = getLbPlayerName(rowData)
+      uid = getLbPlayerUid(rowData)
       canInviteToChatRoom = false
     })
   }
@@ -731,7 +732,6 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local noLbText = lbWrapObj.findObject("no_leaderboads_text")
 
     local tableData = ""
-    local headerRow = ""
     isLastPage = false
 
     local lbRows = getLbRows()

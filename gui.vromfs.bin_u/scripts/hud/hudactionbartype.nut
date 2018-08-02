@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -35,7 +35,7 @@ local time = require("scripts/time.nut")
     local res = ::loc("actionBarItem/" + getName(::getTblValue("killStreakTag", actionItem)))
     local cooldownTime = ::getTblValue("cooldownTime", actionItem)
     if (cooldownTime)
-      res += "\n" + ::loc("shop/reloadTime") + time.secondsToString(cooldownTime, true, true)
+      res += "\n" + ::loc("shop/reloadTime") + " " + time.secondsToString(cooldownTime, true, true)
     return res
   }
 

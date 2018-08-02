@@ -107,6 +107,8 @@
     }
   <</shortcut>>
 
+  <<@actionParamsMarkup>>
+
   <<#image>>
     btnImage { background-image:t='<<image>>' }
   <</image>>

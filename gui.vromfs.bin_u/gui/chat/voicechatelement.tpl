@@ -1,10 +1,10 @@
 <<#voiceChatElement>>
 usertalk {
   fade:t='out'
+  height-end:t='1'
   _size-timer:t='0'
 
   img {
-    background-image:t='#ui/gameuiskin#voip_talking'
     color-factor:t='0'
   }
 

@@ -120,6 +120,14 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     }
   ]
 
+  focusArray = [
+    "controls_div"
+    "table_team1"
+    "tabs"
+  ]
+
+  currentFocusItem = 2
+
 
   function initScreen()
   {
@@ -162,12 +170,26 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     local objReplayControls = scene.findObject("controls_div")
     ::showBtnTable(objReplayControls, {
-        controls_mpstats_spectator  = mode != SPECTATOR_MODE.REPLAY
+        ID_MPSTATSCREEN  = mode != SPECTATOR_MODE.REPLAY
         controls_mpstats_replays    = mode == SPECTATOR_MODE.REPLAY
-        controls_target             = true
-        controls_cameras            = canControlCameras
-        controls_toggles            = true
+        ID_PREV_PLANE               = true
+        ID_NEXT_PLANE               = true
+        controls_cameras_icon       = canControlCameras
+        ID_CAMERA_DEFAULT           = canControlCameras
+        ID_TOGGLE_FOLLOWING_CAMERA  = canControlCameras
+        ID_REPLAY_CAMERA_OPERATOR   = canControlCameras
+        ID_REPLAY_CAMERA_FLYBY      = canControlCameras
+        ID_REPLAY_CAMERA_WING       = canControlCameras
+        ID_REPLAY_CAMERA_GUN        = canControlCameras
+        ID_REPLAY_CAMERA_RANDOMIZE  = canControlCameras
+        ID_REPLAY_CAMERA_FREE       = canControlCameras
+        ID_REPLAY_CAMERA_HOVER      = canControlCameras
+        ID_TOGGLE_FORCE_SPECTATOR_CAM_ROT = true
         ID_REPLAY_SHOW_MARKERS      = mode == SPECTATOR_MODE.REPLAY
+        ID_REPLAY_SLOWER            = canControlTimeline
+        txt_replay_time_speed       = canControlTimeline
+        ID_REPLAY_FASTER            = canControlTimeline
+        ID_REPLAY_PAUSE             = canControlTimeline
         controls_timeline           = canControlTimeline
         controls_timer              = canSeeMissionTimer
     })
@@ -176,29 +198,21 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         ID_NEXT_PLANE = mode != SPECTATOR_MODE.REPLAY || isMultiplayer
     })
 
-    for (local section = 0; section < objReplayControls.childrenCount(); section++)
+    for (local i = 0; i < objReplayControls.childrenCount(); i++)
     {
-      local objSection = objReplayControls.getChild(section)
-      for (local b = 0; b < objSection.childrenCount(); b++)
+      local obj = objReplayControls.getChild(i)
+      if (obj && obj.is_shortcut && obj.id)
       {
-        local obj = objSection.getChild(b)
-        if (obj && obj.is_shortcut && obj.id)
-        {
-          local shortcutId = obj.id
-          local shortcuts = ::get_shortcuts([ shortcutId ])
-          local hotkeys = ::get_shortcut_text(shortcuts, 0, false, true)
-          if (hotkeys.len())
-            hotkeys = "<color=@hotkeyColor>" + ::loc("ui/parentheses/space", {text = hotkeys}) + "</color>"
-          local title = ::loc("hotkeys/" + shortcutId)
-          obj.tooltip = title + hotkeys
-        }
+        local hotkeys = ::get_shortcut_text(::get_shortcuts([ obj.id ]), 0, false, true)
+        if (hotkeys.len())
+          hotkeys = "<color=@hotkeyColor>" + ::loc("ui/parentheses/space", {text = hotkeys}) + "</color>"
+        obj.tooltip = ::loc("hotkeys/" + obj.id) + hotkeys
       }
     }
 
     if (canControlCameras)
     {
-      local objControlsCameras = scene.findObject("controls_cameras")
-      ::showBtnTable(objControlsCameras, {
+      ::showBtnTable(scene, {
           ID_CAMERA_DEFAULT           = mode == SPECTATOR_MODE.REPLAY || gotRefereeRights
           ID_TOGGLE_FOLLOWING_CAMERA  = mode == SPECTATOR_MODE.REPLAY || gotRefereeRights
           ID_REPLAY_CAMERA_OPERATOR   = mode == SPECTATOR_MODE.REPLAY && !gotRefereeRights
@@ -253,7 +267,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function reinitScreen()
   {
-    restoreFocus()
     updateHistoryLog(true)
     loadGameChat()
 
@@ -261,6 +274,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     actionBar.reinit()
     reinitDmgIndicator()
     recalculateLayout()
+    restoreFocus()
   }
 
   function fillTabs()
@@ -339,12 +353,13 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     if (isUpdateByCooldown || isTargetSwitched)
     {
       updateStats()
-      updateTarget(isTargetSwitched)
+      updateTarget(false)
     }
 
     if (friendlyTeamSwitched)
     {
       ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
+      ::broadcastEvent("FriendlyTeamSwitched")
       updateHistoryLog()
     }
 
@@ -352,8 +367,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::get_game_chat_handler().isActive)
     {
-      local obj = scene.findObject("chat_input")
-      if (!::checkObj(obj) || !obj.isFocused())
+      local inputObj = scene.findObject("chat_input")
+      if (!::checkObj(inputObj) || !inputObj.isFocused())
         ::game_chat_input_toggle_request(false)
     }
 
@@ -378,17 +393,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         }
       }
     }
-  }
-
-  function restoreFocus(checkPrimaryFocus = true)
-  {
-    local player = getTargetPlayer()
-    if (!player)
-      return
-
-    local tblObj = getTeamTableObj(player.team)
-    if (tblObj)
-      tblObj.select()
   }
 
   function isPlayerSpectatorTarget(player, targetNick)
@@ -525,7 +529,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   {
     local player = getTargetPlayer()
 
-    if (targetSwitched && player)
+    if (player)
     {
       lastTargetId = player ? player.id : null
       local playerTeamIndex = teamIdToIndex(player.team)
@@ -533,20 +537,23 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local tblObj = getTeamTableObj(player.team)
       if (tblObj)
       {
-        tblObj.select()
+        if (targetSwitched)
+          tblObj.select()
         onStatTblFocus(tblObj)
       }
     }
 
-    if (targetSwitched)
-    {
-      ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
-      actionBar.reinit()
-      reinitDmgIndicator()
-      recalculateLayout()
-    }
+    ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
+    actionBar.reinit()
+    reinitDmgIndicator()
+    recalculateLayout()
 
     setTargetInfo(player)
+  }
+
+  function selectLastChoosedTeam(obj)
+  {
+    updateTarget(true)
   }
 
   function updateControls(targetSwitched = false)
@@ -601,8 +608,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local isAuthorUnknown = replayAuthorUserId == -1
       local isAircraft = lastHudUnitType == ::ES_UNIT_TYPE_AIRCRAFT
 
-      local objControlsCameras = scene.findObject("controls_cameras")
-      ::enableBtnTable(objControlsCameras, {
+      ::enableBtnTable(scene, {
           ID_CAMERA_DEFAULT           = isValid
           ID_TOGGLE_FOLLOWING_CAMERA  = isValid && isPlayer && (gotRefereeRights || isAuthor || isAuthorUnknown)
           ID_REPLAY_CAMERA_OPERATOR   = isValid
@@ -724,6 +730,24 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       ::switch_spectator_target_by_id(id)
     else if (index)
       ::switch_spectator_target(index > 0)
+  }
+
+  function selectControlsBlock(obj)
+  {
+    scene.findObject("controls_div").select()
+  }
+
+  function onActivateSelectedControl(obj)
+  {
+    local val = obj.getValue()
+    if (val < 0 || val > obj.childrenCount() - 1)
+      return
+
+    local childObj = obj.getChild(val)
+    if (!::check_obj(childObj))
+      return
+
+    this[childObj["on_click"]](childObj)
   }
 
   function onBtnMpStatScreen(obj)
@@ -1122,11 +1146,10 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNewMsgImg(tabId)
   {
-    if (!scene.isValid())
+    if (!scene.isValid() || tabId == curTabId)
       return
-
     local obj = scene.findObject(tabId)
-    if (::checkObj(obj) && tabId != curTabId)
+    if (::checkObj(obj))
       obj.findObject("new_msgs").show(true)
   }
 
@@ -1329,14 +1352,14 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           if ("shortcuts" in keys)
           {
             local shortcuts = ::get_shortcuts(keys.shortcuts)
-            local keys = []
+            local locNames = []
             foreach (idx, data in shortcuts)
             {
               local shortcutsText = ::get_shortcut_text(shortcuts, idx, true, true)
               if (shortcutsText != "")
-                keys.append(shortcutsText)
+                locNames.append(shortcutsText)
             }
-            hotkeys = ::g_string.implode(keys, ::loc("ui/comma"))
+            hotkeys = ::g_string.implode(locNames, ::loc("ui/comma"))
           }
           else if ("keys" in keys)
           {

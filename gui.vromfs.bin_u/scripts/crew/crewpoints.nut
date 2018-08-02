@@ -21,9 +21,10 @@ function g_crew_points::getSkillPointsPacks(country)
 }
 
 //pack can be a single pack or packs array
-function g_crew_points::buyPack(crew, pack, onSuccess = null)
+function g_crew_points::buyPack(crew, packsList, onSuccess = null)
 {
-  local packsList = ::u.isArray(pack) ? pack : [pack]
+  if (!::u.isArray(packsList))
+    packsList = [packsList]
   local cost = ::Cost()
   local amount = 0
   foreach(pack in packsList)

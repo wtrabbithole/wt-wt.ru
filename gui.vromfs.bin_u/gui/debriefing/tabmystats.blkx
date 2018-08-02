@@ -199,16 +199,25 @@
           {
             "debrBlock": {
               "id": "inventory_gift_block",
-              "size": "pw, pw",
+              "width": "pw",
               "tdiv": {
-                "pos": "pw/2-w/2, ph/2-h/2",
-                "position": "relative",
+                "width": "pw",
                 "flow": "vertical",
                 "div": {
-                  "id": "inventory_gift_icon",
-                  "size": "1@itemWidth, 1@itemHeight",
-                  "pos": "pw/2-w/2, 0",
-                  "position": "relative"
+                  "width": "pw",
+                  "tdiv": {
+                    "id": "inventory_gift_icon",
+                    "width": "pw",
+                    "flow": "h-flow",
+                    "flow-align": "center",
+                    "smallItems": "no"
+                  },
+                  "div": {
+                    "size": "pw, ph",
+                    "position": "absolute",
+                    "behaviour": "button",
+                    "_on_click": "onInventoryGiftAction"
+                  }
                 },
                 "Button_text": {
                   "id": "btn_inventory_gift_action",

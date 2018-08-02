@@ -184,6 +184,8 @@ function g_language::onChangeLanguage()
 
 function g_language::saveLanguage(langName)
 {
+  if (currentLanguage == langName)
+    return
   currentLanguage = langName
   shortLangName = ::loc("current_lang")
   ::g_language.onChangeLanguage()
@@ -298,10 +300,10 @@ function g_language::checkInitList()
     local blk = guiBlk.game_localization || ::DataBlock()
     for (local p = 0; p < blk.blockCount(); p++)
     {
-      local preset = blk.getBlock(p)
-      for (local l = 0; l < preset.blockCount(); l++)
+      local devPreset = blk.getBlock(p)
+      for (local l = 0; l < devPreset.blockCount(); l++)
       {
-        local lang = preset.getBlock(l)
+        local lang = devPreset.getBlock(l)
         _addLangOnce(lang.id, lang.icon, lang.chatId, lang.hasUnitSpeech)
       }
     }
@@ -407,6 +409,12 @@ function get_abbreviated_language_for_inventory(fullLang)
     abbrevLang = ::g_language.langsListForInventory[fullLang]
 
   return abbrevLang
+}
+
+// called from native playerProfile on language change, so at this point we can use get_language
+function on_language_changed()
+{
+  ::g_language.saveLanguage(::get_language())
 }
 
 function g_language::getCurrentSteamLanguage()

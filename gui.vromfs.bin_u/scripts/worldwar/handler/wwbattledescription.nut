@@ -1193,8 +1193,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local playerSide = getPlayerSide(battleData)
-    local team = battleData.getTeamBySide(playerSide)
-    foreach(idx, unitType in team.unitTypes)
+    local playerTeam = battleData.getTeamBySide(playerSide)
+    foreach(idx, unitType in playerTeam.unitTypes)
     {
       res.text += ::colorize("@wwTeamAllyColor", ::g_ww_unit_type.getUnitTypeFontIcon(unitType))
       res.groupId += unitType.tostring()
@@ -1203,9 +1203,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     res.text += " " + ::colorize("@white", ::loc("country/VS")) + " "
     res.groupId += "vs"
 
-    foreach(idx, team in battleData.teams)
+    foreach(team in battleData.teams)
       if (team.side != playerSide)
-        foreach(idx, unitType in team.unitTypes)
+        foreach(unitType in team.unitTypes)
         {
           res.text += ::colorize("@wwTeamEnemyColor", ::g_ww_unit_type.getUnitTypeFontIcon(unitType))
           res.groupId += unitType.tostring()

@@ -103,6 +103,37 @@ local secondsToString = function (value, useAbbreviations = true, dontShowZeroPa
 }
 
 
+local timeTbl = {
+  s = 1
+  m = TIME_MINUTE_IN_SECONDS
+  h = TIME_HOUR_IN_SECONDS
+  d = TIME_DAY_IN_SECONDS
+  w = TIME_WEEK_IN_SECONDS
+}
+
+local getSecondsFromTemplate = function (str, errorValue = null) // "1w 1d 1h 1m 1s"
+{
+  if (!str.len())
+    return errorValue
+
+  local seconds = 0
+  foreach (val in ::split(str, " "))
+  {
+    local key = val.slice(val.len() - 1)
+    if (!(key in timeTbl))
+      return errorValue
+
+    local timeVal = val.slice(0, val.len() - 1)
+    if (!::g_string.isStringInteger(timeVal))
+      return errorValue
+
+    seconds += timeVal.tointeger() * timeTbl[key]
+  }
+
+  return seconds
+}
+
+
 local export = {
   millisecondsToSeconds = millisecondsToSeconds
   secondsToMilliseconds = secondsToMilliseconds
@@ -115,6 +146,7 @@ local export = {
 
   hoursToString = hoursToString
   secondsToString = secondsToString
+  getSecondsFromTemplate = getSecondsFromTemplate
 }
 
 

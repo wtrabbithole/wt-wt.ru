@@ -122,7 +122,7 @@ local getMessageColor = function(message)
   {
     if (::cross_call.squad_manger.isInMySquad(message.sender))
       return teamColors.squadColor
-    else if (message.isEnemy)
+    else if (message.team != hudState.playerArmyForHud.value)
       return teamColors.teamRedColor
     else
       return teamColors.teamBlueColor
@@ -137,7 +137,7 @@ local getSenderColor = function (message)
     return colors.hud.mainPlayerColor
   else if (::cross_call.isPlayerDedicatedSpectator(message.sender))
     return colors.hud.spectatorColor
-  else if (message.isEnemy || !::cross_call.is_mode_with_teams())
+  else if (message.team != hudState.playerArmyForHud.value || !::cross_call.is_mode_with_teams())
     return teamColors.teamRedColor
   else if (::cross_call.squad_manger.isInMySquad(message.sender))
     return teamColors.squadColor
@@ -145,7 +145,7 @@ local getSenderColor = function (message)
 }
 
 
-local messageComponent = function(message) {
+local messageComponent = @(message) function() {
   local text = ""
   if (message.sender == "") { //systme
     text = ::string.format(
@@ -163,8 +163,8 @@ local messageComponent = function(message) {
       ::cross_call.filter_chat_message(message.text, message.isMyself)
     )
   }
-  return @() {
-    watch = teamColors.trigger
+  return {
+    watch = [teamColors.trigger, hudState.playerArmyForHud]
     size = [flex(), SIZE_TO_CONTENT]
     rendObj = ROBJ_TEXTAREA
     behavior = Behaviors.TextArea

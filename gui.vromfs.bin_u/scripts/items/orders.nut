@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 
 /**
@@ -259,7 +260,7 @@ function g_orders::disableOrders()
     return
   }
   ordersEnabled = false
-  ::remove_all_listeners_by_env(this)
+  subscriptions.removeAllListenersByEnv(this)
   ordersStatusObj = null
   listenersEnabled = false
   updateActiveOrder()

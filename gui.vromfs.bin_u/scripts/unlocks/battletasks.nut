@@ -653,7 +653,7 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
       return isTimeEnded
     })(task))
 
-  local holderObj = taskBlockObj.findObject("tasks_refresh_timer")
+  holderObj = taskBlockObj.findObject("tasks_refresh_timer")
   if (::checkObj(holderObj))
     SecondsUpdater(holderObj, function(obj, params) {
       local timeText = ::g_battle_task_difficulty.EASY.getTimeLeftText()

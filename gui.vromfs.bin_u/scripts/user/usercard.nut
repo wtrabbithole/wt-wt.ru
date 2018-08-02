@@ -589,7 +589,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     sObj.findObject("stats_loading").show(false)
 
     local modesObj = sObj.findObject("modes_list")
-    local data = ""
     local selDiff = null
     local selIdx = -1
     local view = { items = [] }

@@ -273,7 +273,7 @@ function g_hud_live_stats::fill()
   update(null, 0.0)
 }
 
-function g_hud_live_stats::update(obj = null, dt = 0.0)
+function g_hud_live_stats::update(o = null, dt = 0.0)
 {
   if (!isActive || !::checkObj(scene))
     return

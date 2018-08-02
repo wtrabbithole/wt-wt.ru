@@ -14,16 +14,15 @@ local hudChatState = persist("hudChatState", @() {
       sender = ""
       text = text
       isMyself = false
-      isEnemy = false
       isBlocked = false
       isAutomatic = true
       mode = CHAT_MODE_ALL
+      team = 0
       time = ::get_mission_time()
     })
    log.trigger()
   }
 })
-
 
 ::interop.mpChatPushMessage <- function (message) {
   hudChatState.log.value.push(message)

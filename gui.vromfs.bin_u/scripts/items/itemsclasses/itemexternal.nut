@@ -24,6 +24,13 @@ local ItemExternal = class extends ::BaseItem
   static isDescTextBeforeDescDiv = false
   static hasRecentItemConfirmMessageBox = false
   static descReceipesListHeaderPrefix = "item/requires/"
+  static descReceipesListWithCurQuantities = true
+  static expireCountdownColor = "badTextColor"
+  static expireCountdownLocId = "items/expireDate"
+  static craftColor = "goodTextColor"
+  static craftCountdownLocId = "items/craft_process/countdown"
+  static craftFinishedLocId = "items/craft_process/finished"
+
   canBuy = true
 
   rarity = null
@@ -58,6 +65,7 @@ local ItemExternal = class extends ::BaseItem
         addUid(itemDesc.itemid, itemDesc.quantity)
       lastChangeTimestamp = time.getTimestampFromIso8601(itemDesc?.timestamp)
       tradeableTimestamp = getTradebleTimestamp(itemDesc)
+      craftedFrom = itemDesc?.craftedFrom ?? ""
     }
 
     expireTimestamp = getExpireTimestamp(itemDefDesc, itemDesc)
@@ -197,6 +205,11 @@ local ItemExternal = class extends ::BaseItem
 
   getDescTimers   = @() [
     makeDescTimerData({
+      id = "craft_timer"
+      getText = getCraftTimeText
+      needTimer = hasCraftTimer
+    }),
+    makeDescTimerData({
       id = "expire_timer"
       getText = getCurExpireTimeText
       needTimer = hasExpireTimer
@@ -221,6 +234,9 @@ local ItemExternal = class extends ::BaseItem
       { header = getTransferText() }
       { header = getMarketablePropDesc(), timerId = "marketable_timer" }
     ]
+
+    if (hasCraftTimer())
+      headers.append({ header = getCraftTimeText(), timerId = "craft_timer" })
 
     if (hasTimer())
       headers.append({ header = getCurExpireTimeText(), timerId = "expire_timer" })
@@ -274,14 +290,15 @@ local ItemExternal = class extends ::BaseItem
     ], "\n")
   }
 
-  function getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems)
+  function getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems, hasFakeRecipes = false, timeText = "")
   {
     if (showAmount < totalAmount)
-      return ::loc("item/create_recipes",
+      return ::loc(hasFakeRecipes ? "item/try_create_recipes" : "item/create_recipes",
         {
           count = totalAmount
           countColored = ::colorize("activeTextColor", totalAmount)
           exampleCount = showAmount
+          createTime = timeText
         })
 
     local isMultipleRecipes = showAmount > 1
@@ -299,12 +316,17 @@ local ItemExternal = class extends ::BaseItem
 
   canConsume          = @() false
   canAssemble         = @() !isExpired() && getMyRecipes().len() > 0
-  canConvertToWarbonds= @() isInventoryItem && !isExpired() && ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
+  canConvertToWarbonds = @() isInventoryItem && !isExpired() && ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
+  canDisassemble       = @() isInventoryItem && !isExpired() && itemDef?.tags?.hasAltActionDisassemble
+    && amount > 0 && getDisassembleRecipe() != null
+  getMaxRecipesToShow = @() 1
 
   function getMainActionName(colored = true, short = false)
   {
     return isCanBuy() ? getBuyText(colored, short)
       : amount && canConsume() ? ::loc("item/consume")
+      : isCrafting() ? ::loc("item/craft_process/cancel")
+      : hasCraftResult() ? ::loc("items/craft_process/finish")
       : canAssemble() ? getAssembleButtonText()
       : ""
   }
@@ -313,13 +335,16 @@ local ItemExternal = class extends ::BaseItem
   {
     return buy(cb, handler, params)
       || consume(cb, params)
+      || cancelCrafting(cb, params)
+      || seeCraftResult(cb, handler, params)
       || assemble(cb, params)
   }
 
   getAltActionName   = @() amount && canConsume() && canAssemble() ? ::loc("item/assemble")
     : canConvertToWarbonds() ? ::loc("items/exchangeTo", { currency = getWarbondExchangeAmountText() })
+    : canDisassemble() ? getDisassembleText()
     : ""
-  doAltAction        = @(params) canConsume() && assemble(null, params) || convertToWarbonds(params)
+  doAltAction        = @(params) canConsume() && assemble(null, params) || convertToWarbonds(params) || disassemble(params)
 
   function consume(cb, params)
   {
@@ -384,12 +409,18 @@ local ItemExternal = class extends ::BaseItem
     ::g_tasker.addTask(taskId, { showProgressBox = !shouldAutoConsume }, taskCallback)
   }
 
-  getAssembleHeader       = @() ::loc("item/create_header", { itemName = getName() })
+  getAssembleHeader       = @() ::loc(getAssembleHeaderLocId(), { itemName = getName() })
+  getAssembleHeaderLocId  = @() ExchangeRecipes.hasFakeRecipes(getMyRecipes())
+    ? "item/create_header/findTrue"
+    : "item/create_header"
   getAssembleText         = @() ::loc("item/assemble")
   getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc("item/recipes") : getAssembleText()
   getCantAssembleLocId    = @() "msgBox/assembleItem/cant"
   getAssembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
     text = ::loc("msgBox/assembleItem/confirm", { itemName = ::colorize("activeTextColor", getName()) })
+      + (recipe.hasAssembleTime()
+        ? "\n" + ::loc("msgBox/assembleItem/time", {time = recipe.getAssembleTimeText()})
+        : "")
       + (recipe.isMultipleItems ? "\n" + ::loc("msgBox/items_will_be_spent") : "")
     needRecipeMarkup = recipe.isMultipleItems
   })
@@ -399,10 +430,10 @@ local ItemExternal = class extends ::BaseItem
     if (!canAssemble())
       return false
 
-    local recipesList = getMyRecipes()
+    local recipesList = params?.recipes ?? getMyRecipes()
     if (recipesList.len() == 1)
     {
-      ExchangeRecipes.tryUse(recipesList, this)
+      ExchangeRecipes.tryUse(recipesList, this, params)
       return true
     }
 
@@ -414,7 +445,7 @@ local ItemExternal = class extends ::BaseItem
       alignObj = params?.obj
       onAcceptCb = function(recipe)
       {
-        ExchangeRecipes.tryUse([recipe], item)
+        ExchangeRecipes.tryUse([recipe], item, params)
         return !recipe.isUsable
       }
     })
@@ -431,6 +462,20 @@ local ItemExternal = class extends ::BaseItem
     if (!warbond)
       return ""
     return warbondItem.getWarbondsAmount() + ::loc(warbond.fontIcon)
+  }
+
+  getDisassembleText = @() ::loc("item/disassemble")
+  function disassemble(params = null)
+  {
+    if (!canDisassemble())
+      return false
+
+    local recipe = getDisassembleRecipe()
+    if (amount <= 0 || !recipe)
+      return false
+
+    return assemble(null, { recipes = [ recipe ],
+      rewardListLocId = getItemsListLocId() })
   }
 
   function convertToWarbonds(params = null)
@@ -497,7 +542,9 @@ local ItemExternal = class extends ::BaseItem
 
   /*override */ function hasLink()
   {
-    return !isDisguised && base.hasLink() && ::has_feature("Marketplace") && !::has_feature("PurchaseMarketItemsForGold")
+    return !isDisguised && base.hasLink()
+      && itemDef?.marketable && getNoTradeableTimeLeft() == 0
+      && ::has_feature("Marketplace") && !::has_feature("PurchaseMarketItemsForGold")
   }
 
   function addResources() {
@@ -540,22 +587,33 @@ local ItemExternal = class extends ::BaseItem
     return null
   }
 
+  function getDisassembleRecipe()
+  {
+    foreach (genItemdefId in inventoryClient.getChestGeneratorItemdefIds(id))
+    {
+      local gen = ItemGenerators.get(genItemdefId)
+      if (!gen || !gen?.tags?.isDisassemble)
+        continue
+      local recipes = gen.getRecipesWithComponent(id)
+      if (recipes.len())
+        return recipes[0]
+    }
+    return null
+  }
+
   function getMyRecipes()
   {
     local gen = ItemGenerators.get(id)
     return gen ? gen.getRecipes() : []
   }
 
-  function getExpireTimeTextShort()
-  {
-    return ::colorize("badTextColor", base.getExpireTimeTextShort())
-  }
+  getExpireTimeTextShort = @() ::colorize(expireCountdownColor, base.getExpireTimeTextShort())
 
   function getCurExpireTimeText()
   {
     if (expireTimestamp == -1)
       return ""
-    return ::colorize("badTextColor", ::loc("items/expireDate", {
+    return ::colorize(expireCountdownColor, ::loc(expireCountdownLocId, {
       datetime = time.buildDateTimeStr(::get_time_from_t(expireTimestamp))
       timeleft = getExpireTimeTextShort()
     }))
@@ -601,6 +659,120 @@ local ItemExternal = class extends ::BaseItem
     ::g_tasker.addTask(taskId, { showProgressBox = true }, onSuccess, onError)
     return true
   }
+
+  onItemCraft     = @() ::ItemsManager.refreshExtInventory()
+  function getCraftingItem()
+  {
+    local gen = ItemGenerators.get(id)
+    if (!gen)
+      return null
+
+    foreach (recipe in gen.getRecipes())
+    {
+      local item = ::ItemsManager.getInventoryItemById(recipe.generatorId)
+      if (item)
+        return item?.itemDef?.type == "delayedexchange" ? item : null
+    }
+
+    return null
+  }
+
+  function getCraftTimeTextShort()
+  {
+    local craftingItem = getCraftingItem()
+    local craftTimeSec = craftingItem?.expiredTimeSec ?? 0
+    if (craftTimeSec <= 0)
+      return ""
+
+    local curSeconds = ::dagor.getCurTime() * 0.001
+    local deltaSeconds = (craftTimeSec - curSeconds).tointeger()
+    if (deltaSeconds < 0)
+    {
+      if (isInventoryItem)
+        onItemCraft()
+      return ::colorize(craftColor, ::loc(craftFinishedLocId))
+    }
+    return ::colorize(craftColor, ::loc("icon/hourglass") + ::nbsp +
+      ::stringReplace(time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true), " ", ::nbsp))
+  }
+
+  function getCraftTimeText()
+  {
+    local craftingItem = getCraftingItem()
+    local craftTime = craftingItem?.expireTimestamp ?? -1
+    if (craftTime == -1)
+      return ""
+
+    return ::colorize(craftColor, ::loc(craftCountdownLocId, {
+      datetime = time.buildDateTimeStr(::get_time_from_t(craftTime))
+      timeleft = getCraftTimeTextShort()
+    }))
+  }
+
+  isCraftResult = @() craftedFrom.find(";") != null
+  function getParentGen()
+  {
+    if (!isCraftResult())
+      return
+
+    return ItemGenerators.findGenByReceptUid(craftedFrom)
+  }
+
+  function getParentRecipe()
+  {
+    local gen = getParentGen()
+    if (!gen)
+      return
+
+    return gen.getRecipeByUid(craftedFrom)
+  }
+
+  function getCraftResultItem()
+  {
+    local gen = ItemGenerators.get(id)
+    if (!gen)
+      return null
+
+    foreach (recipe in gen.getRecipes())
+    {
+      local item = ::ItemsManager.getInventoryItemByCraftedFrom(recipe.uid)
+      if (item)
+        return item
+    }
+  }
+
+  function seeCraftResult(cb, handler, params = {})
+  {
+    local craftResult = getCraftResultItem()
+    if (!craftResult)
+      return false
+
+    params.shouldSkipMsgBox <- true
+    craftResult.doMainAction(cb, handler, params)
+    return true
+  }
+
+  function getAdditionalTextInAmmount()
+  {
+    local textIcon = isCrafting() ? "icon/gear"
+    : hasCraftResult() ? "icon/chest2"
+    : ""
+
+    return textIcon == "" ? "" : ::colorize(craftColor, " + 1" + ::loc(textIcon))
+  }
+
+  function cancelCrafting(cb = null, params = {})
+  {
+    local craftingItem = getCraftingItem()
+    if (!craftingItem || craftingItem?.itemDef?.type != "delayedexchange")
+      return false
+
+    params.parentItem <- this
+    craftingItem.cancelCrafting(cb, params)
+    return true
+  }
+
+  isHiddenItem = @() isCraftResult() || itemDef?.tags?.devItem == true
 }
 
 return ItemExternal

@@ -86,10 +86,10 @@ tdiv {
   hoverButton {
     pos:t='0, ph/2-h/2'; position:t='relative'
     tooltip:t = '<<tooltip>>'
-    on_click:t='onDescAction'
+    on_click:t='<<funcName>>'
     no_text:t='yes'
-    actionData:t='<<actionData>>'
-    icon { background-image:t='<<icon>>' }
+    icon { background-image:t='<<image>>' }
+    <<@actionParamsMarkup>>
   }
   <</buttons>>
 

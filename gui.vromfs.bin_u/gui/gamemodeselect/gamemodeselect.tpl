@@ -17,7 +17,7 @@ frame {
     overflow-y:t='auto';
     flow:t='vertical'
     total-input-transparent:t='yes';
-    padding:t='0.01@scrn_tgt';
+    padding:t='1@framePadding';
     re-type:t='9rect';
     background-color:t='@white';
     background-repeat:t='expand';

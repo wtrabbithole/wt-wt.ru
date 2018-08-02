@@ -597,7 +597,6 @@ function get_bool_option(descr, id, optionIdx)
 function gen_hue_option(descr, id, defHue = null, curHue = null)
 {
   local hueStep = 22.5
-  local valueIdx = -1
   if (curHue==null)
     curHue = ::get_gui_option(descr.type)
   if (!::is_numeric(curHue))
@@ -2885,7 +2884,7 @@ function get_option(type, context = null)
       else
         descr.values = [1, 2]
 
-      local prevValue = ::get_gui_option(::USEROPT_MP_TEAM)
+      prevValue = ::get_gui_option(::USEROPT_MP_TEAM)
 
       local countries = null
       local sessionInfo = ::get_mp_session_info()
@@ -3058,7 +3057,6 @@ function get_option(type, context = null)
         local fuelConsumptionPerHour = 100.0;
         local minutes = [0, 20.0, 30.0, 45.0, 60.0, 1000000.0]
         local isFuelFixed = false
-        local prevValue = null;
         if(::cur_aircraft_name)
         {
           prevValue = get_unit_option(::cur_aircraft_name, ::USEROPT_LOAD_FUEL_AMOUNT)

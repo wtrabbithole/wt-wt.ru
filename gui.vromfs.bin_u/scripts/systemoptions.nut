@@ -1277,9 +1277,9 @@ function sysopt::isSavePending()
 
 function sysopt::logError(from="", msg="")
 {
-  local msg = format("[sysopt] ERROR %s: %s", from, msg)
-  dagor.debug(msg)
-  return msg
+  local fullMsg = format("[sysopt] ERROR %s: %s", from, msg)
+  dagor.debug(fullMsg)
+  return fullMsg
 }
 
 sysopt.isCompatibiliyMode <- @() mCfgStartup?.compatibilityMode ?? ::getSystemConfigOption("video/compatibilityMode", false)
@@ -1385,10 +1385,10 @@ function sysopt::validateInternalConfigs()
       errorsList.append(logError("sysopt.validateInternalConfigs()",
         "Array uiStruct - Index "+sectIndex+" contains invalid data."))
     local ids = items? items : id? [ id ] : []
-    foreach (id in ids)
-      if (!(id in mSettings))
+    foreach (itemId in ids)
+      if (!(itemId in mSettings))
         errorsList.append(logError("sysopt.validateInternalConfigs()",
-          "Array uiStruct - Option '"+id+"' not found in 'settings' table."))
+          "Array uiStruct - Option '"+itemId+"' not found in 'settings' table."))
   }
 
   mScriptValid = !errorsList.len()

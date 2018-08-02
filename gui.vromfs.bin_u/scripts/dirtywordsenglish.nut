@@ -5,6 +5,13 @@
 excludesdataEnglish <-
 [
   {
+    key = "a",
+    arr =
+    [
+      "ass[aiou]"
+    ]
+  },
+  {
     key = "d",
     arr =
     [

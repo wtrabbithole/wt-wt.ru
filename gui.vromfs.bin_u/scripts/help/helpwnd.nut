@@ -1148,13 +1148,13 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         local actionsX = (axis.x < joystickAxis.len() && joystickAxis[axis.x])? joystickAxis[axis.x] : []
         local actionsY = (axis.y < joystickAxis.len() && joystickAxis[axis.y])? joystickAxis[axis.y] : []
 
-        local actionId = actionsX.len()? actionsX[0] : null
-        local isIgnoredAxis = actionId && isInArray(actionId, ignoreAxis)
-        local titleX = (actionId && !isIgnoredAxis)? ::loc("controls/" + actionId) : "---"
+        local actionIdX = actionsX.len()? actionsX[0] : null
+        local isIgnoredX = actionIdX && isInArray(actionIdX, ignoreAxis)
+        local titleX = (actionIdX && !isIgnoredX)? ::loc("controls/" + actionIdX) : "---"
 
-        local actionId = actionsY.len()? actionsY[0] : null
-        local isIgnoredAxis = actionId && isInArray(actionId, ignoreAxis)
-        local titleY = (actionId && !isIgnoredAxis)? ::loc("controls/" + actionId) : "---"
+        local actionIdY = actionsY.len()? actionsY[0] : null
+        local isIgnoredY = actionIdY && isInArray(actionIdY, ignoreAxis)
+        local titleY = (actionIdY && !isIgnoredY)? ::loc("controls/" + actionIdY) : "---"
 
         local tooltipX = ""
         for (local a=0; a<actionsX.len(); a++)
@@ -1183,8 +1183,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       tObj.tooltip = ::loc("controls/help/press") + ::loc("ui/colon") + "\n" + title
     }
 
-    local tObj = scene.findObject("joy_mouse")
-    if (::checkObj(tObj))
+    local mouseObj = scene.findObject("joy_mouse")
+    if (::checkObj(mouseObj))
     {
       local mouse_aim_x = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "controls/mouse_aim_x" : "controls/gm_mouse_aim_x"
       local mouse_aim_y = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "controls/mouse_aim_y" : "controls/gm_mouse_aim_y"
@@ -1196,8 +1196,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local tooltipX = ::loc("controls/help/mouse_aim_x") + ::loc("ui/colon") + "\n" + ::loc(mouse_aim_x)
       local tooltipY = ::loc("controls/help/mouse_aim_y") + ::loc("ui/colon") + "\n" + ::loc(mouse_aim_y)
       local tooltip = tooltipX + "\n\n" + tooltipY
-      tObj.setValue(title)
-      tObj.tooltip = tooltip
+      mouseObj.setValue(title)
+      mouseObj.tooltip = tooltip
     }
   }
 

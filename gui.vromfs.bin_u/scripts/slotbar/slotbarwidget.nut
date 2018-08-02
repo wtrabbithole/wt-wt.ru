@@ -1219,7 +1219,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         obj.setValue(crewLevelText)
       }
 
-      local obj = slot.obj.findObject("crew_spec")
+      obj = slot.obj.findObject("crew_spec")
       if (::check_obj(obj))
       {
         local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(slot.crew, slot.unit).trainedIcon

@@ -116,12 +116,12 @@
     update()
   }
 
-  function updateUnitInfo()
+  function updateUnitInfo(fircedUnitId = null)
   {
-    local hangarUnitName = ::hangar_get_current_unit_name()
-    if (unit && hangarUnitName == unit.name)
+    local unitId = fircedUnitId || ::hangar_get_current_unit_name()
+    if (unit && unitId == unit.name)
       return
-    unit = ::getAircraftByName(hangarUnitName)
+    unit = ::getAircraftByName(unitId)
     if( ! unit)
       return
     loadUnitBlk()
@@ -261,7 +261,7 @@
     // Protection analysis button
     if (::has_feature("DmViewerProtectionAnalysis"))
     {
-      local obj = handler.scene.findObject("dmviewer_protection_analysis_btn")
+      obj = handler.scene.findObject("dmviewer_protection_analysis_btn")
       if (::check_obj(obj))
         obj.show(view_mode == ::DM_VIEWER_ARMOR && ::isTank(unit))
     }
@@ -491,6 +491,7 @@
       return ""
     local partId = ::getTblValue("nameId", params, "")
     local partName = params["name"]
+    local weaponPartName = null
 
     local desc = []
     local difficulty = ::get_difficulty_by_ediff(::get_current_ediff())
@@ -547,9 +548,9 @@
             if ( ! fmBlk)
               break
             local partIndex = ::to_integer_safe(trimBetween(partName, "engine", "_"), -1, false)
-            if (partIndex < 0)
+            if (partIndex <= 0)
               break
-            local partIndex = partIndex.tointeger() - 1 //engine1_dm -> Engine0
+            partIndex-- //engine1_dm -> Engine0
 
             local engineInfo = []
             if (infoBlk && infoBlk.manufacturer)
@@ -691,6 +692,13 @@
         }
       break;
 
+      case "main_caliber_turret":
+      case "auxiliary_caliber_turret":
+      case "aa_turret":
+
+        weaponPartName = ::stringReplace(partName, "turret", "gun")
+        // No break!
+
       case "mg":           // TODO all weapons list
       case "gun":
       case "mgun":
@@ -706,89 +714,30 @@
       case "depth_charge":
       case "aa_gun":
 
-        local weaponInfoBlk = getWeaponByXrayPartName(partName)
+        local weaponInfoBlk = getWeaponByXrayPartName(weaponPartName || partName)
         if( ! weaponInfoBlk)
           break
 
-        local specialBulletsList = {
-          torpedo       = "torpedo"
-          depth_charge  = "bomb"
-        }
-        local weaponBlkLink = getTblValueByPath("blk", weaponInfoBlk)
-        if (!weaponBlkLink)
-          break
+        local isSpecialBullet = ::isInArray(partId, [ "torpedo", "depth_charge" ])
+        local isSpecialBulletEmitter = ::isInArray(partId, [ "tt" ])
 
-        local weaponName = ::get_weapon_name_by_blk_path(weaponBlkLink)
-        local weaponBlk = ::DataBlock(weaponBlkLink)
-        local massInfoAdded = false
+        local weaponBlkLink = weaponInfoBlk?.blk
+        local weaponName = weaponBlkLink ? ::get_weapon_name_by_blk_path(weaponBlkLink) : ""
 
-        if(weaponName && weaponName.len())
-          desc.push(::loc("weapons" + weaponName))
-        if(weaponInfoBlk && !specialBulletsList?[partId])
-        {
-          local bulletCount = getWeaponTotalBulletCount(partId, weaponInfoBlk)
-          if(bulletCount > 1)
-            desc.push(::loc("shop/ammo") + ::loc("ui/colon") + bulletCount)
-        }
-        if( ! weaponBlk)
-          break
-        local bulletBlk = specialBulletsList?[partId] && weaponBlk[specialBulletsList[partId]]
-        if (bulletBlk)
-        {
-          local maxSpeedInWater = getTblValueByPath("maxSpeedInWater", bulletBlk)
-          if(maxSpeedInWater)
-            desc.push(::loc("bullet_properties/maxSpeedInWater") + ::loc("ui/colon") +
-              ::g_measure_type.SPEED.getMeasureUnitsText(maxSpeedInWater))
+        local ammo = isSpecialBullet ? 1 : getWeaponTotalBulletCount(partId, weaponInfoBlk)
+        local shouldShowAmmoInTitle = isSpecialBulletEmitter
+        local ammoTxt = ammo > 1 && shouldShowAmmoInTitle ? ::format(::loc("weapons/counter"), ammo) : ""
 
-          local distanceToLive = bulletBlk?.distToLive
-          if (distanceToLive)
-            desc.push(::loc("torpedo/distanceToLive") + ::loc("ui/colon") +
-              ::g_measure_type.DISTANCE.getMeasureUnitsText(distanceToLive))
+        if(weaponName != "")
+          desc.push(::loc("weapons" + weaponName) + ammoTxt)
+        if(weaponInfoBlk && ammo > 1 && !shouldShowAmmoInTitle)
+          desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammo)
 
-          local diveDepth = bulletBlk?.diveDepth
-          if(diveDepth)
-            desc.push(::loc("bullet_properties/diveDepth") + ::loc("ui/colon") +
-              ::g_measure_type.DEPTH.getMeasureUnitsText(diveDepth))
-
-          local explosiveType = bulletBlk?.explosiveType
-          if (explosiveType)
-            desc.push(::loc("bullet_properties/explosiveType") + ::loc("ui/colon") +
-              ::loc("explosiveType/" + explosiveType))
-
-          local explosiveMass = bulletBlk.explosiveMass
-          if (explosiveMass)
-            desc.push(::loc("bullet_properties/explosiveMass") + ::loc("ui/colon") +
-              ::g_dmg_model.getMeasuredExplosionText(explosiveMass))
-
-          if (explosiveMass && explosiveType)
-          {
-            local tntEqText = ::g_dmg_model.getTntEquivalentText(explosiveType, explosiveMass)
-            if (tntEqText.len())
-              desc.push(::loc("bullet_properties/explosiveMassInTNTEquivalent") +
-                ::loc("ui/colon") + tntEqText)
-          }
-
-          local massInfo = getMassInfo(bulletBlk)
-          if(massInfo != "")
-          {
-            desc.push(getMassInfo(bulletBlk))
-            massInfoAdded = true
-          }
-        }
-        if( ! massInfoAdded)
-          desc.push(getMassInfo(weaponBlk))
+        if (isSpecialBullet || isSpecialBulletEmitter)
+          desc[desc.len() - 1] += ::getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
 
         checkPartLocId(partId, weaponInfoBlk, params)
       break;
-
-      case "main_caliber_turret":
-      case "auxiliary_caliber_turret":
-        local weaponPartName = ::stringReplace(partName, "turret", "gun")
-        local weaponInfoBlk = getWeaponByXrayPartName(weaponPartName)
-        if (!weaponInfoBlk)
-          break
-        checkPartLocId(partId, weaponInfoBlk, params)
-        break
 
       case "tank":                     // aircraft fuel tank (tank's fuel tank is 'fuel_tank')
         local tankInfoTable = unit?.info?[params.name]
@@ -810,6 +759,12 @@
         if(tankInfo.len())
           desc.push(::g_string.implode(tankInfo, ", "))
 
+      break
+
+      case "ammunition_storage":              //ships ammo storages
+        local ammoQuantity = getAmmoQuantityByPartName(partName)
+        if (ammoQuantity > 0)
+          desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
       break
 
       case "composite_armor_hull":            // tank Composite armor
@@ -915,6 +870,18 @@
     return null
   }
 
+  function getAmmoQuantityByPartName(partName)
+  {
+    local ammoStowages = unitBlk?.ammoStowages
+    if (ammoStowages)
+      for (local i = 0; i < ammoStowages.blockCount(); i++)
+        foreach (shells in ammoStowages.getBlock(i) % "shells")
+          if (shells[partName])
+            return shells[partName].count
+
+    return 0
+  }
+
   function getWeaponByXrayPartName(partName)
   {
     local partLinkSources = [ "dm", "barrelDP", "breechDP", "maskDP", "gunDm", "ammoDP", "emitter" ]
@@ -931,9 +898,17 @@
         local rangeMax = ::max(weapon.emitterGenRange.x, weapon.emitterGenRange.y)
         foreach(linkKeyFmt in partLinkSourcesGenFmt)
           if (weapon?[linkKeyFmt])
+          {
+            if (weapon[linkKeyFmt].find("%02d") == null)
+            {
+              dagor.assertf(false, "Bad weapon param " + linkKeyFmt + "='" + weapon[linkKeyFmt] +
+                "' on " + unit.name)
+              continue
+            }
             for(local i = rangeMin; i <= rangeMax; i++)
               if (::format(weapon[linkKeyFmt], i) == partName)
                 return weapon
+          }
       }
       if("partsDP" in weapon && weapon["partsDP"].find(partName) != null)
         return weapon
@@ -1059,6 +1034,12 @@
   function onEventHangarModelLoaded(p)
   {
     reinit()
+  }
+
+  function onEventUnitModsRecount(p)
+  {
+    if (p?.unit == unit)
+      resetXrayCache()
   }
 
   function onEventGameLocalizationChanged(p)

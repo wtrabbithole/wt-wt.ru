@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local guidParser = require("scripts/guidParser.nut")
 local time = require("scripts/time.nut")
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
@@ -54,7 +54,18 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
     getDecoratorNameInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
     getDecoratorGroupInSlot = function(slotIdx, unitName, skinId, checkPremium = false) { return "" }
 
-    isAvailable = function(unit) { return false }
+    hasFreeSlots = @(unit, skinId = null, checkPremium = false) getFreeSlotIdx(unit, skinId, checkPremium) != -1
+    getFreeSlotIdx = function(unit, skinId = null, checkPremium = false)
+    {
+      skinId = skinId || ::hangar_get_last_skin(unit.name)
+      local slotsCount = checkPremium ? getMaxSlots() : getAvailableSlots(unit)
+      for (local i = 0; i < slotsCount; i++)
+        if (getDecoratorNameInSlot(i, unit.name, skinId, checkPremium) == "")
+          return i
+      return -1
+    }
+
+    isAvailable = @(unit) false
     isAllowed = function(decoratorName) { return true }
     isVisible = function(block, decorator)
     {
@@ -154,7 +165,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
 
     isAllowed = function(decoratorName) { return ::is_decal_allowed(decoratorName, "") }
-    isAvailable = function(unit) { return ::has_feature("DecalsUse") && ::isUnitBought(unit) }
+    isAvailable = @(unit) ::has_feature("DecalsUse") && unit.isUsable()
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_decal(decoratorName) }
 
     getBlk = function() { return ::get_decals_blk() }
@@ -266,7 +277,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getDecoratorNameInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_name(slotIdx) }
     getDecoratorGroupInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_group(slotIdx) }
 
-    isAvailable = function(unit) { return ::has_feature("AttachablesUse") && ::isUnitBought(unit) && ::isTank(unit) }
+    isAvailable = @(unit) ::has_feature("AttachablesUse") && unit.isUsable() && ::isTank(unit)
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_attachable(decoratorName) }
 
     getBlk = function() { return ::get_attachable_blk() }
@@ -372,6 +383,8 @@ enums.addTypesByGlobalName("g_decorator_type", {
                     ::max(0, ::get_skin_cost_gold(unitName, decoratorName)))
     }
 
+    getFreeSlotIdx = @(...) 0
+    isAvailable = @(unit) unit.isUsable()
     isPlayerHaveDecorator = function(decoratorName)
     {
       if (::g_unlocks.isDefaultSkin(decoratorName))

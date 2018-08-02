@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local seenList = ::require("scripts/seen/seenList.nut")
 
@@ -27,7 +27,7 @@ shopSheets.template <- {
 
   getItemFilterFunc = @(shopTab)
     shopTab == itemsTab.SHOP ? (@(item) item.isCanBuy() && isDevItemsTab == item.isDevItem)
-    : (@(item) true)
+    : (@(item) !item.isHiddenItem())
 
   getItemsList = function(shopTab)
   {

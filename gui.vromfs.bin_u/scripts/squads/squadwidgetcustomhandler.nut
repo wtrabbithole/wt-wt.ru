@@ -103,8 +103,6 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     memberObj.setUserData(member)
     memberObj.findObject("member_icon_" + indexStr).setValue(member.pilotIcon)
     memberObj.findObject("member_tooltip_" + indexStr)["uid"] = member.uid
-    //!!!TEMP HACK, System MsgBox not dissapearing after finish work
-    memberObj.enable(!::is_in_loading_screen() || !platformModule.isPlatformXboxOne)
 
     if (member.isActualData())
     {

@@ -1,4 +1,5 @@
 local u = ::require("std/u.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 local Set = ::require("workshopSet.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local seenWorkshop = ::require("scripts/seen/seenList.nut").get(SEEN.WORKSHOP)
@@ -35,6 +36,12 @@ local function initOnce()
     seenWorkshop.setSubListGetter(set.getSeenId(), @() set.getVisibleSeenIds())
   }
   Set.clearOutdatedData(setsList)
+
+  // Collecting itemdefs from additional recipes list
+  if (wBlk.additionalRecipes)
+    foreach (itemBlk in (wBlk.additionalRecipes % "item"))
+      foreach (paramName in ["fakeRecipe", "trueRecipe"])
+        inventoryClient.requestItemdefsByIds(itemBlk % paramName)
 }
 
 local function invalidateCache()
@@ -90,7 +97,7 @@ local function canSeenIdBeNew(seenId)
   return seenIdCanBeNew[seenId]
 }
 
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   SignOut = @(p) invalidateCache()
   InventoryUpdate = @(p) invalidateItemsCache()
   ItemsShopUpdate = @(p) invalidateItemsCache()

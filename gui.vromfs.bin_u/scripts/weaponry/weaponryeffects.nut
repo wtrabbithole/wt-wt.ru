@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local string = ::require("std/string.nut")
 
 const GOOD_COLOR = "@goodTextColor"

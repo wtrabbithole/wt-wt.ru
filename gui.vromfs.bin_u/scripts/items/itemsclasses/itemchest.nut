@@ -133,6 +133,6 @@ class ::items_classes.Chest extends ItemExternal {
     if (!uids || !uids.len())
       return false
 
-    return ExchangeRecipes.tryUse(getRelatedRecipes(), this)
+    return ExchangeRecipes.tryUse(getRelatedRecipes(), this, params)
   }
 }

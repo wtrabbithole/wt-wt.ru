@@ -250,7 +250,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(listBoxObj))
       return
 
-    foreach(taskId, widget in newIconWidgetByTaskId)
+    foreach(taskId, w in newIconWidgetByTaskId)
     {
       local newIconWidgetContainer = listBoxObj.findObject("new_icon_widget_" + taskId)
       if (!::checkObj(newIconWidgetContainer))

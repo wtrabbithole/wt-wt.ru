@@ -1,5 +1,6 @@
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 class Decorator
 {
@@ -129,10 +130,13 @@ class Decorator
 
   function isLockedByUnit(unit)
   {
+    if (decoratorType == ::g_decorator_type.SKINS)
+      return unit?.name != ::g_unlocks.getPlaneBySkinId(id)
+
     if (::u.isEmpty(units))
       return false
 
-    return !::isInArray(unit.name, units)
+    return !::isInArray(unit?.name, units)
   }
 
   function getUnitTypeLockIcon()
@@ -153,23 +157,28 @@ class Decorator
     if (decoratorType == ::g_decorator_type.SKINS)
       return ""
 
-    local res = []
+    local important = []
+    local common    = []
 
     if (!::u.isEmpty(units))
     {
       local visUnits = ::u.filter(units, @(u) ::getAircraftByName(u)?.isInShop)
-      res.append(::loc("options/unit") + ::loc("ui/colon") +
+      important.append(::loc("options/unit") + ::loc("ui/colon") +
         ::g_string.implode(::u.map(visUnits, @(u) ::getUnitName(u)), ::loc("ui/comma")))
     }
 
     if (countries)
     {
       local visCountries = ::u.filter(countries, @(c) ::isInArray(c, ::shopCountriesList))
-      res.append(::loc("events/countres") + " " +
+      important.append(::loc("events/countres") + " " +
         ::g_string.implode(::u.map(visCountries, @(c) ::loc(c)), ::loc("ui/comma")))
     }
 
-    return ::colorize("warningTextColor", ::g_string.implode(res, "\n"))
+    if (limit != -1)
+      common.append(::loc("mainmenu/decoratorLimit", { limit = limit }))
+
+    return ::colorize("warningTextColor", ::g_string.implode(important, "\n")) +
+      (important.len() ? "\n" : "") + ::g_string.implode(common, "\n")
   }
 
   function getSmallIcon()
@@ -257,5 +266,16 @@ class Decorator
   function getLocParamsDesc()
   {
     return decoratorType.getLocParamsDesc(this)
+  }
+
+  function canPreview()
+  {
+    return true
+  }
+
+  function doPreview()
+  {
+    if (canPreview())
+      ugcPreview.showResource(id, decoratorType.resourceType)
   }
 }

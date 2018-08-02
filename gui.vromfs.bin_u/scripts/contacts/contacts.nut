@@ -434,7 +434,8 @@ function editContactMsgBox(player, groupName, add) //playerConfig: { uid, name }
     return
   }
 
-  local add = !::isPlayerInContacts(player.uid, groupName)
+  if (add == ::isPlayerInContacts(player.uid, groupName))
+    return
 
   if (groupName == ::EPL_FRIENDLIST)
   {

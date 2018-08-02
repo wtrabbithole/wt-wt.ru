@@ -284,11 +284,10 @@ function get_userlog_view_data(log)
     if (desc!="")
       res.description <- desc
 
-    local exp = "xpFirstWinInDayMul" in log? log["xpFirstWinInDayMul"] : 1.0
-    local wp = "wpFirstWinInDayMul" in log? log["wpFirstWinInDayMul"] : 1.0
-
-    if(exp > 1.0 || wp > 1.0)
-      res["log_bonus"] <- getBonus(exp, wp, "item", "Log")
+    local expMul = log?.xpFirstWinInDayMul ?? 1.0
+    local wpMul = log?.wpFirstWinInDayMul ?? 1.0
+    if(expMul > 1.0 || wpMul > 1.0)
+      res["log_bonus"] <- getBonus(expMul, wpMul, "item", "Log")
 
     if (::has_feature("ServerReplay"))
       if (::getTblValue("dedicatedReplay", log, false))
@@ -717,17 +716,19 @@ function get_userlog_view_data(log)
           lineReward += ::getModificationName(getAircraftByName(blk.aname), blk.mname)+" "
       }
 
-      local wp = blk?.wpEarned ?? 0,  gold = blk?.goldEarned ?? 0, exp = blk?.xpEarned ?? 0
-      local reward = ::Cost(wp.tointeger(), gold.tointeger()).tostring()
-      if (exp)
+      local blkWp = blk?.wpEarned ?? 0
+      local blkGold = blk?.goldEarned ?? 0
+      local blkExp = blk?.xpEarned ?? 0
+      local blkReward = ::Cost(blkWp.tointeger(), blkGold.tointeger()).tostring()
+      if (blkExp)
       {
         local changeLightToXP = blk?.name == ::MSG_FREE_EXP_DENOMINATE_OLD
-        reward += ((reward!="")? ", ":"") + ( changeLightToXP ?
-          (exp + " <color=@white>" + ::loc("mainmenu/experience/oldName") + "</color>")
-          : ::Cost().setRp(exp.tointeger()).tostring())
+        blkReward += ((blkReward!="")? ", ":"") + ( changeLightToXP ?
+          (blkExp + " <color=@white>" + ::loc("mainmenu/experience/oldName") + "</color>")
+          : ::Cost().setRp(blkExp.tointeger()).tostring())
       }
 
-      lineReward += reward
+      lineReward += blkReward
       if (lineReward != "")
         lineReward += "\n"
 
@@ -1318,15 +1319,10 @@ function get_userlog_view_data(log)
     local awardData = ::getTblValue("award", log)
     if (awardData)
     {
-      local priceText = ::g_warbonds.getWarbondPriceText(
-                          ::getTblValue("warbond", log),
-                          ::getTblValue("stage", log),
-                          ::getTblValue("cost", awardData, 0)
-                        )
-
+      local wbPriceText = ::g_warbonds.getWarbondPriceText(log?.warbond, log?.stage, awardData?.cost ?? 0)
       local awardBlk = ::DataBlockAdapter(awardData)
       local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
-      res.name = awardType.getUserlogBuyText(awardBlk, priceText)
+      res.name = awardType.getUserlogBuyText(awardBlk, wbPriceText)
     }
   }
   else if (log.type == ::EULT_WW_START_OPERATION || log.type == ::EULT_WW_CREATE_OPERATION)

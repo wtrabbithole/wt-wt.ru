@@ -213,7 +213,11 @@ local InventoryClient = class {
   {
     local circuit = ::get_cur_circuit_name();
     local networkBlock = ::get_network_block();
-    return networkBlock?[circuit]?.marketplaceURL ?? networkBlock?.marketplaceURL;
+    local url = networkBlock?[circuit]?.marketplaceURL ?? networkBlock?.marketplaceURL;
+    if (!url)
+      return null
+
+    return "auto_login " + url
   }
 
   function getMarketplaceItemUrl(itemdefid, itemid = null)
@@ -483,6 +487,7 @@ local InventoryClient = class {
       local parsedRecipe = {
         components = []
         requirement = null
+        recipeStr = recipe
       }
       foreach (component in ::split(recipe, ","))
       {
@@ -677,6 +682,19 @@ local InventoryClient = class {
     lastUpdateTime = -1
     prices.clear()
   }
+
+  function cancelDelayedExchange(itemUid, cb = null) {
+    request("CancelDelayedExchange",
+      { itemId = itemUid },
+      null,
+      function(result) {
+        if (!!result?.error)
+          return cb(result)
+
+        handleItemsDelta(result, cb)
+      })
+  }
+
 }
 
 return InventoryClient()

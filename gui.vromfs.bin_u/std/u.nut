@@ -559,6 +559,61 @@ local function chooseRandomNoRepeat(arr, prevIdx)
   return arr[nextIdx]
 }
 
+local function shuffle(arr)
+{
+  local res = clone arr
+  local size = res.len()
+  local j
+  local v
+  for (local i = size - 1; i > 0; i--)
+  {
+    j = ::math.rnd() % (i + 1)
+    v = res[j]
+    res[j] = res[i]
+    res[i] = v
+  }
+  return res
+}
+
+local function max(arr, iteratee = null)
+{
+  local result = null
+  if (!arr)
+    return result
+
+  if (!iteratee)
+    iteratee = @(val) (typeof(val) == "integer" || typeof(val) == "float") ? val : null
+
+  local lastMaxValue = null
+  foreach (data in arr)
+  {
+    local value = iteratee(data)
+    if (lastMaxValue != null && value <= lastMaxValue)
+      continue
+
+    lastMaxValue = value
+    result = data
+  }
+
+  return result
+}
+
+local function min(arr, iteratee = null)
+{
+  local newIteratee = null
+  if (!iteratee)
+    newIteratee = @(val) (typeof(val) == "integer" || typeof(val) == "float") ? -val : null
+  else
+  {
+    newIteratee = function(val) {
+      local value = iteratee(val)
+      return value != null ? -value : null
+    }
+  }
+
+  return max(arr, newIteratee)
+}
+
 local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null)
 {
   if(skipNull && v == null)
@@ -616,6 +671,9 @@ local export = {
   appendOnce = appendOnce
   chooseRandom = chooseRandom
   chooseRandomNoRepeat = chooseRandomNoRepeat
+  shuffle = shuffle
+  min = min
+  max = max
   mapAdvanced = mapAdvanced
   getFirstFound = getFirstFound
   search = search

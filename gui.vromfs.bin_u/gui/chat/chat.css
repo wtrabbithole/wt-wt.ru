@@ -48,9 +48,37 @@ Button_text[chatMode=all]:pushed
   color:@buttonFontColorPushed;
 }
 
+voiceChatWidgetNest > voiceChatWidgetContainer {
+  id:base_voice_chat_widget;
+  isSmall:no;
+}
+
+widgets voiceChatWidgetNest > voiceChatWidgetContainer {
+  position:root;
+  pos:@bw, sh-h-1@blockInterval-@bh;
+}
+
+gamercard voiceChatWidgetNest {
+  height:ph;
+  isClanOnly:yes;
+}
+
+gamercard voiceChatWidgetNest > voiceChatWidgetContainer {
+  id:gamercard_voice_chat_widget;
+  width:1@gamercardVoiceChatWidth;
+  position:relative;
+  pos:0, ph-h;
+  isSmall:yes;
+}
+
 voiceChatWidget
 {
   padding:1@blockInterval;
   flow:vertical;
   behavior:bhvUpdater;
+}
+
+[isSmall=yes] voiceChatWidget
+{
+  padding:0;
 }

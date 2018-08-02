@@ -93,7 +93,7 @@
   }
   { id = "AwardDamage"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
-    showByModes = ::is_gamemode_versus
+    showByModes = function(gm) gm != ::GM_SKIRMISH
     text = "multiplayer/naval_damage"
     isVisibleWhenEmpty = function()
     {
@@ -693,7 +693,7 @@ function debriefing_result_get_base_tournament_reward()
   if (!result.isZero())
     return result
 
-  local logs = ::getUserLogsList({
+  logs = ::getUserLogsList({
     show = [::EULT_CHARD_AWARD]
     currentRoomOnly = true
     filters = { rewardType = ["TournamentReward"] }
@@ -718,7 +718,6 @@ function get_debriefing_result_active_boosters()
     ]
     currentRoomOnly = true
   })
-  local boosters = []
   foreach (log in logs)
   {
     local boosters = ::getTblValueByPath("affectedBoosters.activeBooster", log, [])
@@ -1173,10 +1172,16 @@ function get_debriefing_gift_items_info(skipItemId = null)
     disableVisible = true
   })
   foreach (log in logs)
-    res.append({ id = log?.itemDefId, count = log?.quantity ?? 1, needOpen = false })
+    foreach (data in log)
+    {
+      if (typeof(data) != "table" || !("itemDefId" in data))
+        continue
+
+      res.append({ id = data.itemDefId, count = data?.quantity ?? 1, needOpen = false })
+    }
 
   // Collecting trophies and items
-  local logs = ::getUserLogsList({
+  logs = ::getUserLogsList({
     show = [ ::EULT_SESSION_RESULT ]
     currentRoomOnly = true
     disableVisible = true

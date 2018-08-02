@@ -75,11 +75,11 @@ class ::WwAirfield
         local cooldownsBlk = itemBlk.getBlockByName("cooldownUnits")
         for (local j = 0; j < cooldownsBlk.blockCount(); j++)
         {
-          local formation = ::WwAirfieldCooldownFormation(cooldownsBlk.getBlock(j), this)
-          formation.owner = ::WwArmyOwner(itemBlk.getBlockByName("owner"))
-          formation.setFormationID(j)
-          formation.setName("cooldown_" + j)
-          cooldownFormations.push(formation)
+          local cdFormation = ::WwAirfieldCooldownFormation(cooldownsBlk.getBlock(j), this)
+          cdFormation.owner = ::WwArmyOwner(itemBlk.getBlockByName("owner"))
+          cdFormation.setFormationID(j)
+          cdFormation.setName("cooldown_" + j)
+          cooldownFormations.push(cdFormation)
         }
       }
 

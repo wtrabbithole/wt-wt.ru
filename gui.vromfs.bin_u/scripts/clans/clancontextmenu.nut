@@ -1,4 +1,5 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local platformModule = ::require("scripts/clientState/platform.nut")
 
 local getClanActions = function(clanId)
 {
@@ -37,7 +38,7 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
   local isBlock = ::isPlayerInContacts(playerUid, ::EPL_BLOCKLIST)
   local contact = ::getContact(playerUid, playerName)
   local name = contact?.name ?? playerName
-  local canInteract = contact ? contact.canInteract() : platformModule.isChatEnableWithPlayer(name)
+  local canInteract = platformModule.isChatEnableWithPlayer(name)
 
   return [
     {

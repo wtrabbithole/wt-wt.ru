@@ -30,7 +30,7 @@ local getValue = function()
   if (value != -1)
     return value
 
-  local value = compatibleGetValue()
+  value = compatibleGetValue()
   return ::isInArray(value, values) ? value : defValue
 }
 

@@ -24,7 +24,6 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     foreach (i, item in items)
     {
-      local item = items[i]
       local mainActionName = item.getMainActionName()
       view.items.push(item.getViewData({
         itemIndex = i.tostring()

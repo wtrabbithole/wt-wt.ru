@@ -1034,14 +1034,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local typeOR = ("compareOR" in config) && config.compareOR
     for(local i=0; i < namesLoc.len(); i++)
     {
-      local isUnlocked = config.curVal & 1 << i
+      local isPartUnlocked = config.curVal & 1 << i
       append_condition_item({
             text = namesLoc[i]
-            image = "" //isUnlocked? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
+            image = "" //isPartUnlocked? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
             curVal = 0
             maxVal = 0
           },
-          i+1, infoObj, false, isUnlocked, i > 0 && typeOR)
+          i+1, infoObj, false, isPartUnlocked, i > 0 && typeOR)
     }
   }
 

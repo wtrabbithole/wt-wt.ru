@@ -583,15 +583,15 @@ function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
       res += newLine + ::loc("bullet_properties/explosiveMassInTNTEquivalent") + ::loc("ui/colon") + tntEqText
   }
 
-  if (/*weaponType != "rockets" && */ weaponType != "bombs")
-    return res
-
-  local destrTexts = ::g_dmg_model.getDestructionInfoTexts(weapon.explosiveType, weapon.explosiveMass, weapon.massKg)
-  foreach(name in ["maxArmorPenetration", "destroyRadiusArmored", "destroyRadiusNotArmored"])
+  if (/*weaponType == "rockets" || */ (weaponType == "bombs" && unit.unitType != ::g_unit_type.SHIP))
   {
-    local valueText = destrTexts[name + "Text"]
-    if (valueText.len())
-      res += newLine + ::loc("bombProperties/" + name) + ::loc("ui/colon") + valueText
+    local destrTexts = ::g_dmg_model.getDestructionInfoTexts(weapon.explosiveType, weapon.explosiveMass, weapon.massKg)
+    foreach(name in ["maxArmorPenetration", "destroyRadiusArmored", "destroyRadiusNotArmored"])
+    {
+      local valueText = destrTexts[name + "Text"]
+      if (valueText.len())
+        res += newLine + ::loc("bombProperties/" + name) + ::loc("ui/colon") + valueText
+    }
   }
 
   return res
@@ -661,6 +661,18 @@ function getWeaponShortType(air, weaponPresetNo=0)
 function isCaliberCannon(caliber_mm)
 {
   return caliber_mm >= 15
+}
+
+function getWeaponXrayDescText(weaponBlk, unit, ediff)
+{
+  local weaponsBlk = ::DataBlock()
+  weaponsBlk["Weapon"] = weaponBlk
+  local weaponTypes = addWeaponsFromBlk({}, weaponsBlk, unit)
+  foreach (weaponType, weaponTypeList in weaponTypes)
+    foreach (weapons in weaponTypeList)
+      foreach (weapon in weapons)
+        if (::u.isTable(weapon))
+          return _get_weapon_extended_info(weapon, weaponType, unit, ediff, "\n")
 }
 
 function isAirHaveSecondaryWeapons(air)

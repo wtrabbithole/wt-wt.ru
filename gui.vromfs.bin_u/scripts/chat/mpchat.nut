@@ -494,14 +494,14 @@ class ::ChatHandler
 
   function onChatLink(obj, link, lclick)
   {
-    if (link && link.len()<4) return
+    local sceneData = findSceneDataByObj(obj)
+    if ((link && link.len() < 4) || sceneData.hiddenInput) return
 
     if(link.slice(0, 3) == "PL_")
     {
       if (lclick)
       {
-        local sceneData = findSceneDataByObj(obj)
-        if (sceneData)
+        if (sceneData && !sceneData?.isInSpectateMode)
           addNickToEdit(sceneData, link.slice(3))
       }
       else
@@ -517,8 +517,17 @@ class ::ChatHandler
     }
   }
 
+  function onEventFriendlyTeamSwitched(params)
+  {
+    makeChatTextFromLog()
+  }
 
   function onEventMpChatLogUpdated(params)
+  {
+    makeChatTextFromLog()
+  }
+
+  function makeChatTextFromLog()
   {
     local log = ingame_chat.getLog()
     log_text = ""
@@ -537,8 +546,6 @@ class ::ChatHandler
         updateChatScene(sceneData, 0.0)
       })
     }
-
-    return true
   }
 
 
@@ -586,13 +593,12 @@ class ::ChatHandler
       return senderMeColor
     else if (::isPlayerDedicatedSpectator(message.sender))
       return senderSpectatorColor
-    else if (message.isEnemy || !::is_mode_with_teams())
+    else if (message.team != ::get_player_army_for_hud() || !::is_mode_with_teams())
       return senderEnemyColor
     else if (::g_squad_manager.isInMySquad(message.sender))
       return senderMySquadColor
     return senderColor
   }
-
 
   function getMessageColor(message)
   {
@@ -602,7 +608,7 @@ class ::ChatHandler
     {
       if (::g_squad_manager.isInMySquad(message.sender))
         return voiceSquadColor
-      else if (message.isEnemy)
+      else if (message.team != ::get_player_army_for_hud())
         return voiceEnemyColor
       else
         return voiceTeamColor
@@ -657,7 +663,7 @@ class ::ChatHandler
         obj.setValue(sceneData.curTab)
       obj.show(visible)
     }
-    local obj = sceneData.scene.findObject("chat_log_tdiv")
+    obj = sceneData.scene.findObject("chat_log_tdiv")
     if (::checkObj(obj))
     {
       obj.height = visible ? obj["max-height"] : null

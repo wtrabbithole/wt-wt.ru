@@ -94,8 +94,8 @@ function g_invites::removeInviteToSquad(squadId)
   if (invite)
     remove(invite)
 
-  local uid = ::g_invites_classes.PsnSquad.getUidByParams({squadId = squadId})
-  local psnSquadInvite = findInviteByUid(uid)
+  local psnUid = ::g_invites_classes.PsnSquad.getUidByParams({squadId = squadId})
+  local psnSquadInvite = findInviteByUid(psnUid)
   if (psnSquadInvite)
     remove(psnSquadInvite)
 }

@@ -1470,7 +1470,7 @@ function combineSimilarAwards(awardsList)
   local amount = 1
   local res = []
 
-  foreach(idx, award in awardsList)
+  foreach(award in awardsList)
   {
     local found = false
     if ("unlockType" in award && award.unlockType == ::UNLOCKABLE_STREAK)
@@ -1479,7 +1479,7 @@ function combineSimilarAwards(awardsList)
       local isMultiStageLoc = ::g_unlocks.isUnlockMultiStageLocId(unlockId)
       local stage = ::getTblValue("stage", award, 0)
       local hasSpecialMultiStageLoc = ::g_unlocks.hasSpecialMultiStageLocIdByStage(unlockId, stage)
-      foreach(idx, approvedAward in res)
+      foreach(approvedAward in res)
       {
         if (unlockId != approvedAward.unlockId)
           continue

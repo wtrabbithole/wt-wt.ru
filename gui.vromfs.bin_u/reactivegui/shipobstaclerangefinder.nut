@@ -9,22 +9,29 @@ return @(){
   children = [
     {
       rendObj = ROBJ_STEXT
-      font = Fonts.small_text_hud
-      fontSize = hdpx(15)
+      font = Fonts.medium_text_hud
+      fontFxColor = Color(0, 0, 0, 50)
+      fontFxFactor = 64
+      fontFx = FFT_GLOW
       text = ::loc("hud_ship_depth_on_course_warning") + ::loc("ui/colon")
       color = colors.hud.damageModule.alert
     }
     @() {
       watch = state.distanceToObstacle
       rendObj = ROBJ_DTEXT
-      font = Fonts.small_text_hud
+      font = Fonts.medium_text_hud
+      fontFxColor = Color(0, 0, 0, 50)
+      fontFxFactor = 64
+      fontFx = FFT_GLOW
       text = state.distanceToObstacle.value
       color = colors.hud.damageModule.alert
     }
     {
       rendObj = ROBJ_STEXT
-      font = Fonts.small_text_hud
-      fontSize = hdpx(15)
+      font = Fonts.medium_text_hud
+      fontFxColor = Color(0, 0, 0, 50)
+      fontFxFactor = 64
+      fontFx = FFT_GLOW
       text = ::cross_call.measureTypes.DEPTH.getMeasureUnitsName()
       color = colors.hud.damageModule.alert
     }

@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum hintTagCheckOrder {
   EXACT_WORD //single word tags
   REGULAR

@@ -301,7 +301,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
 
     foreach (i, v in menuPos)
     {
-      if (i == axis && !isFits[i])
+      if (i == axis && isFits[i])
         continue
 
       if (menuPos[i] < screenStart[i] || !isFits[i])

@@ -289,11 +289,6 @@ class ::WwArmyView
     return formation.getClanTag()
   }
 
-  function getTooltipId()
-  {
-    return ("getTooltipId" in formation) ? formation.getTooltipId() : null
-  }
-
   function isEntrenched()
   {
     return ("isEntrenched" in formation) ? formation.isEntrenched() :false

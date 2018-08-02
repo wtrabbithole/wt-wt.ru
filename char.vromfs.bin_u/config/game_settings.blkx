@@ -632,8 +632,7 @@
       "condition": ""
     },
     "ModeSkirmish": {
-      "condition": "",
-      "platform_lock": "xboxOne"
+      "condition": ""
     },
     "ModeBuilder": {
       "condition": ""
@@ -655,20 +654,9 @@
     "SingleMissionsCoopPs4": {
       "condition": ""
     },
-    "CustomBattlesPc": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "XBoxPlatformRestriction"
-      }
-    ],
+    "CustomBattlesPc": {
+      "condition": ""
+    },
     "CustomBattlesPs4": {
       "condition": ""
     },
@@ -878,11 +866,19 @@
       "condition": "",
       "platform_lock": "android"
     },
-    "Benchmark": {
+    "Benchmark": [
+      {
+        "condition": "BenchmarkPC"
+      },
+      {
+        "condition": "BenchmarkForDevs"
+      }
+    ],
+    "BenchmarkPC": {
       "condition": "",
       "platform_lock": "ps4;android;xboxOne"
     },
-    "BenchmarkPS4": [
+    "BenchmarkForDevs": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1516,9 +1512,14 @@
       "condition": "",
       "platform_lock": "xboxOne"
     },
-    "ShipBenchmarkAccess": {
-      "condition": "role_TESTER"
-    },
+    "ShipBenchmarkAccess": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "DmViewerProtectionAnalysis": {
       "condition": ""
     },

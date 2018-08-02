@@ -122,8 +122,6 @@ usertalk {
   css-hier-invalidate:yes;
   behaviour:basicSize;
   height-base: 0;
-  height-end:3.5;
-  size-scale:sh;
   size-time: 400;
   size-func:delayed;
 }
@@ -153,12 +151,25 @@ usertalk[fade=out] > activeText,  usertalk[fade=out] > img{
 }
 
 usertalk > img {
-  size: @cIco, @cIco;
+  size: 1@voiceChatBaseIconWidth, 1@voiceChatBaseIconHeight;
+  background-image: #ui/gameuiskin#voip_status.svg;
+  background-color: @voiceChatIconActiveColor;
+  background-svg-size: 1@voiceChatBaseIconWidth, 1@voiceChatBaseIconHeight;
+}
+
+[isSmall=yes] usertalk > img {
+  size: 1@voiceChatSmallIconWidth, 1@voiceChatSmallIconHeight;
+  background-svg-size: 1@voiceChatSmallIconWidth, 1@voiceChatSmallIconHeight;
 }
 
 usertalk > activeText {
-  left: @cIco;
+  left: 1@voiceChatBaseIconWidth + 1@blockInterval;
   input-transparent:yes;
+}
+
+[isSmall=yes] usertalk > activeText {
+  left: 1@voiceChatSmallIconWidth + 1@blockInterval;
+  smallFont:yes;
 }
 
 popup {

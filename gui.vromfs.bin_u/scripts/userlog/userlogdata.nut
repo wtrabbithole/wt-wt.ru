@@ -375,7 +375,6 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         continue
 
       local key = blk.body.id + "" + ::getTblValue("parentTrophyRandId", blk.body, "")
-      local item = ::ItemsManager.findItemById(blk.body.itemDefId)
       local itemId = blk?.body?.itemDefId || blk?.body?.id || ""
       local item = ::ItemsManager.findItemById(itemId)
       if (!item?.shouldAutoConsume)
@@ -579,16 +578,16 @@ function getUserLogsList(filter)
       roomId = blk.roomId
     }
 
-    for (local i = 0, c = blk.body.paramCount(); i < c; i++)
+    for (local j = 0, c = blk.body.paramCount(); j < c; j++)
     {
-      local key = blk.body.getParamName(i)
+      local key = blk.body.getParamName(j)
       if (key in log)
         key = "body_" + key
-      log[key] <- blk.body.getParamValue(i)
+      log[key] <- blk.body.getParamValue(j)
     }
-    for (local i = 0, c = blk.body.blockCount(); i < c; i++)
+    for (local j = 0, c = blk.body.blockCount(); j < c; j++)
     {
-      local block = blk.body.getBlock(i)
+      local block = blk.body.getBlock(j)
       local name = block.getBlockName()
 
       //can be 2 aircrafts with the same name (cant foreach)
@@ -597,8 +596,8 @@ function getUserLogsList(filter)
           || (name == "spare" && !::PrizesView.isPrizeMultiAward(blk.body)))
       {
         (name in log) || (log[name] <- [])
-        for (local j = 0; j < block.paramCount(); j++)
-          log[name].append({name = block.getParamName(j), value = block.getParamValue(j)})
+        for (local k = 0; k < block.paramCount(); k++)
+          log[name].append({name = block.getParamName(k), value = block.getParamValue(k)})
       }
       else if (name == "rewardTS")
       {

@@ -1002,16 +1002,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     else if (event == ::GCHAT_EVENT_CONNECTED)
     {
       if (roomsInited)
-      {
-        local msg = ::loc("chat/connected")
-        showRoomPopup(null, msg, ::g_chat.getSystemRoomId())
-      }
+        showRoomPopup(null, ::loc("chat/connected"), ::g_chat.getSystemRoomId())
+
       rejoinDefaultRooms()
       if (g_chat.rooms.len() > 0)
-      {
-        local msg = ::loc("chat/connected")
-        addRoomMsg("", "", msg)
-      }
+        addRoomMsg("", "", ::loc("chat/connected"))
 
       foreach (room in ::g_chat.rooms)
       {
@@ -1032,7 +1027,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       onEventTaskResponse(taskId, db)
     else if (event == ::GCHAT_EVENT_VOICE)
     {
-      if(db.uid)
+      if (db.uid)
       {
         local contact = ::getContact(db.uid)
         local voiceChatStatus = null
@@ -1327,17 +1322,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local text = ""
     local clanTag = ""
-    local fullName = ""
     local uid = null
     local messageType=""
     if (myPrivate)
       messageAuthor = ::my_user_name
     local myself = messageAuthor == ::my_user_name
-    if(typeof(messageAuthor) != "instance")
-    {
-      if(messageAuthor in ::clanUserTable && ::clanUserTable[messageAuthor] != "" && !::g_chat.isRoomClan(roomId))
-          clanTag = ::clanUserTable[messageAuthor]
-    }
+    if (typeof(messageAuthor) != "instance")
+      clanTag = ::clanUserTable?[messageAuthor] ?? ""
     else
     {
       uid = messageAuthor.uid
@@ -1350,9 +1341,10 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       msg = filterSystemUserMsg(msg)
     }
 
-    if(::g_chat.isRoomClan(roomId))
-      clanTag=""
-    local fullName = (clanTag!="" ? (clanTag + " "): "") + platformModule.getPlayerName(messageAuthor)
+    if (::g_chat.isRoomClan(roomId))
+      clanTag = ""
+
+    local fullName = ::g_contacts.getPlayerFullName(platformModule.getPlayerName(messageAuthor), clanTag)
 
     local needMarkDirectAsPersonal = ::get_gui_option_in_mode(::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL,
       ::OPTIONS_MODE_GAMEPLAY)

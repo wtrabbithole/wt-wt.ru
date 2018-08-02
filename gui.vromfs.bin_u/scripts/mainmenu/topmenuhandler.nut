@@ -198,7 +198,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(obj))
       obj.animation = isInQueue ? "show" : "hide"
 
-    local obj = getObj("topmenu_backshade_light")
+    obj = getObj("topmenu_backshade_light")
     if (::check_obj(obj))
       obj.animation = !isInQueue && ::top_menu_shop_active ? "show" : "hide"
   }

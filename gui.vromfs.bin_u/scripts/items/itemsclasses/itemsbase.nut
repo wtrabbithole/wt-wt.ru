@@ -56,6 +56,7 @@ class ::BaseItem
   static linkActionIcon = ""
   static isPreferMarkupDescInTooltip = false
   static isDescTextBeforeDescDiv = true
+  static itemExpiredLocId = "items/expired"
 
   static includeInRecentItems = true
   static hasRecentItemConfirmMessageBox = true
@@ -98,6 +99,7 @@ class ::BaseItem
   isToStringForDebug = true
 
   shouldAutoConsume = false //if true, should to have "consume" function
+  craftedFrom = ""
 
   constructor(blk, invBlk = null, slotData = null)
   {
@@ -352,9 +354,11 @@ class ::BaseItem
 
     local isSelfAmount = params?.count == null
     local amountVal = params?.count || getAmount()
+    local additionalTextInAmmount = params?.shouldHideAdditionalAmmount ? ""
+      : getAdditionalTextInAmmount()
     if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
     {
-      res.amount <- amountVal.tostring()
+      res.amount <- amountVal.tostring() + additionalTextInAmmount
       if (isSelfAmount && transferAmount > 0)
         res.isInTransfer <- true
     }
@@ -363,8 +367,11 @@ class ::BaseItem
     {
       local sellAmount = getSellAmount()
       if (sellAmount > 1)
-        res.amount <- sellAmount
+        res.amount <- sellAmount + additionalTextInAmmount
     }
+
+    if (hasCraftTimer())
+      res.craftTime <- getCraftTimeTextShort()
 
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
       res.expireTime <- getTimeLeftText()
@@ -486,7 +493,9 @@ class ::BaseItem
 
   isExpired          = @() expiredTimeSec != 0 && (expiredTimeSec - ::dagor.getCurTime() * 0.001) < 0
   hasExpireTimer     = @() expiredTimeSec != 0
-  hasTimer           = @() expiredTimeSec != 0 || tradeableTimestamp > 0
+  hasTimer           = @() expiredTimeSec != 0
+                           || tradeableTimestamp > 0
+                           || (getCraftingItem()?.expiredTimeSec ?? 0) > 0
   getNoTradeableTimeLeft = @() ::max(0, tradeableTimestamp - ::get_charserver_time_sec())
 
   function canPreview()
@@ -525,7 +534,7 @@ class ::BaseItem
     {
       if (isInventoryItem && amount > 0)
         onItemExpire()
-      return ::loc("items/expired")
+      return ::loc(itemExpiredLocId)
     }
     return ::loc("icon/hourglass") + ::nbsp +
       ::stringReplace(time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true), " ", ::nbsp)
@@ -691,4 +700,19 @@ class ::BaseItem
   getCantAssembleLocId        = @() ""
   static getEmptyAssembleMessageData = @() { text = "", needRecipeMarkup = false }
   getAssembleMessageData      = @(recipe) getEmptyAssembleMessageData()
+
+  getCraftingItem = @() null
+  isCrafting = @() !!getCraftingItem()
+  hasCraftTimer = @() isCrafting()
+  getCraftTimeTextShort = @() ""
+  getCraftTimeText = @() ""
+  isCraftResult = @() false
+  getParentRecipe = @() null
+  getCraftResultItem = @() null
+  hasCraftResult = @() !!getCraftResultItem()
+  isHiddenItem = @() isCraftResult()
+  getAdditionalTextInAmmount = @() ""
+  cancelCrafting = @(...) false
+  getRewardListLocId = @() "mainmenu/rewardsList"
+  getItemsListLocId = @() "mainmenu/itemsList"
 }

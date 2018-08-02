@@ -1,5 +1,4 @@
 local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 class ::items_classes.Decal extends ItemExternal {
   static iType = itemType.DECAL
@@ -12,6 +11,6 @@ class ::items_classes.Decal extends ItemExternal {
 
   getContentIconData = @() { contentIcon = typeIcon }
   canConsume = @() isInventoryItem ? (getDecorator() && !getDecorator().isUnlocked()) : false
-  canPreview = @() metaBlk?.resource != null
-  doPreview  = @() canPreview() && ugcPreview.showResource(metaBlk.resource, metaBlk.resourceType)
+  canPreview = @() getDecorator() ? getDecorator().canPreview() : false
+  doPreview  = @() getDecorator() && getDecorator().doPreview()
 }

@@ -112,8 +112,8 @@ my_stats API
   //newbie stats
   function onEventInitConfigs(p)
   {
-    local blk = ::get_game_settings_blk()
-    local blk = blk && blk.newPlayersBattles
+    local settingsBlk = ::get_game_settings_blk()
+    local blk = settingsBlk && settingsBlk.newPlayersBattles
     if (!blk)
       return
 
@@ -402,8 +402,8 @@ my_stats API
     local saveBlk = ::DataBlock()
     saveBlk.setFrom(loadedBlk)
     local countryCrewsList = ::g_crews_list.get()
-    foreach(idx, countryCrews in countryCrewsList)
-      foreach (idx, crew in ::getTblValue("crews", countryCrews, []))
+    foreach(countryCrews in countryCrewsList)
+      foreach (crew in ::getTblValue("crews", countryCrews, []))
       {
         local unit = ::g_crew.getCrewUnit(crew)
         if (unit == null)

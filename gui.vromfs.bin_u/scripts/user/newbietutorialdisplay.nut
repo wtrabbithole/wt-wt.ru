@@ -1,3 +1,5 @@
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+
 local TUTORIAL_VERSION_COUNTER = 1
 
 local saveVersion = function(ver = null)
@@ -13,7 +15,7 @@ local needShowTutorial = @(id, tutorVersion) !::loadLocalByAccount("tutor/" + id
 
 local saveShowedTutorial = @(id) ::saveLocalByAccount("tutor/" + id, true)
 
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   AccountReset = function(p) {
     saveVersion()
     ::saveLocalByAccount("tutor", null)

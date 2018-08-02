@@ -11,17 +11,13 @@ enum handlerType
 }
 
 foreach (fn in [
-                 "helpers/handlerSubscriptions.nut"
-               ])
-  ::g_script_reloader.loadOnce("sqStdLibs/" + fn)
-
-foreach (fn in [
                  "msgBox.nut"
                  "baseGuiHandler.nut"
                  "baseGuiHandlerManager.nut"
                  "framedMessageBox.nut"
                ])
   ::g_script_reloader.loadOnce("sqDagui/framework/" + fn)
+
 
 function open_url_by_obj(obj)
 {

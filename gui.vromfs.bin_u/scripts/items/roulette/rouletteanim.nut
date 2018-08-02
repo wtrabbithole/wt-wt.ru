@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 
 local CHANCE_TO_STOP_ON_BORDER = 0.5
 

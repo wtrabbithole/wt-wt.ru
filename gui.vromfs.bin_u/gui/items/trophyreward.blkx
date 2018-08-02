@@ -9,9 +9,10 @@
       "class": "wndNav",
       "type": "big",
       "frame_header": {
-        "activeText": {
+        "textareaNoTab": {
           "id": "reward_title",
           "caption": "yes",
+          "overlayTextColor": "active",
           "text": ""
         },
         "Button_close": {
@@ -264,7 +265,7 @@
               "pressAction": "share",
               "on_click": "onFacebookLoginAndPostScrnshot",
               "tooltip": "",
-              "btnName": "X",
+              "btnName": "LB",
               "ButtonImg": [],
               "cardImg": {
                 "background-image": "#ui/gameuiskin#facebook_logo",
@@ -320,6 +321,15 @@
                 "id": "btn_set_air_text",
                 "text": "#mainmenu/btnTakeAircraft"
               }
+            }
+          },
+          {
+            "Button_text": {
+              "id": "btn_use_decorator",
+              "text": "#decorator/use/decal",
+              "btnName": "X",
+              "_on_click": "onUseDecorator",
+              "ButtonImg": []
             }
           },
           {

@@ -230,11 +230,6 @@ class ::WwOperationLogView
     return statBlk.mainObjective ? "_main" : "_additional"
   }
 
-  function getId()
-  {
-    return logId
-  }
-
   function getZoneText()
   {
     return zoneName

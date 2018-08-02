@@ -1695,7 +1695,7 @@ class Events
     if (langCompatibility)
     {
       local locId = getNameLocOldStyle(economicName)
-      local res = ::loc(locId + "/short", "")
+      res = ::loc(locId + "/short", "")
       return (res != "") ? res : ::loc(locId, ::loc("events/" + economicName + "/short"))
     }
     return getNameByEconomicName(economicName)
@@ -2138,7 +2138,7 @@ class Events
       local myTeam = getAvailableTeams(mGameMode, room)[0]
       local otherTeam = ::u.search(getSidesList(mGameMode), (@(myTeam) function(t) { return t != myTeam })(myTeam))
       local membersCount = ::g_squad_manager.getOnlineMembersCount()
-      local params = {
+      local locParams = {
         chosenTeam = ::colorize("teamBlueColor", ::g_team.getTeamByCode(myTeam).getShortName())
         otherTeam =  ::colorize("teamRedColor", ::g_team.getTeamByCode(otherTeam).getShortName())
         chosenTeamCount = teamsCnt[myTeam]
@@ -2146,7 +2146,7 @@ class Events
         reqOtherteamCount = teamsCnt[myTeam] - getMaxLobbyDisbalance(mGameMode) + membersCount
       }
       local locKey = "multiplayer/enemyTeamTooLowMembers" + (isFullText ? "" : "/short")
-      data.reasonText = ::loc(locKey, params)
+      data.reasonText = ::loc(locKey, locParams)
     } else
     {
       data.reasonText = ""

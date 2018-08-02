@@ -1,22 +1,39 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local u = ::require("std/u.nut")
-local asyncActions = ::require("std/asyncActions.nut")
+local asyncActions = ::require("sqStdLibs/helpers/asyncActions.nut")
+local time = require("scripts/time.nut")
 
-local lastRecipeUid = 0
+
+enum MARK_RECIPE {
+  NONE
+  BY_USER
+  USED
+}
+
+local lastRecipeIdx = 0
 local ExchangeRecipes = class {
-  uid = 0
+  idx = 0
+  uid = ""
   components = null
   generatorId = null
   requirement = null
+  mark = MARK_RECIPE.NONE
 
   isUsable = false
   isMultipleItems = false
   isMultipleExtraItems = false
+  isFake = false
 
-  constructor(parsedRecipe, _generatorId)
+  assembleTime = 0
+
+  constructor(params)
   {
-    uid = lastRecipeUid++
-    generatorId = _generatorId
+    idx = lastRecipeIdx++
+    generatorId = params.generatorId
+    isFake = params?.isFake ?? false
+    assembleTime = params?.assembleTime ?? 0
+    local parsedRecipe = params.parsedRecipe
+    uid = generatorId + ";" + parsedRecipe.recipeStr
 
     local componentsCount = parsedRecipe.components.len()
     isUsable = componentsCount > 0
@@ -44,11 +61,12 @@ local ExchangeRecipes = class {
 
       if (reqQuantity > 1)
         isMultipleItems = true
-      if (component.itemdefid != _generatorId)
+      if (component.itemdefid != generatorId)
         extraItemsCount++
     }
 
     isMultipleExtraItems = extraItemsCount > 1
+    loadStateRecipe()
   }
 
   function isEnabled()
@@ -79,29 +97,44 @@ local ExchangeRecipes = class {
     return ::PrizesView.getPrizesListView(list, params)
   }
 
-  function getItemsListForPrizesView(componentIdToHide = null)
+  function getItemsListForPrizesView(params = null)
   {
     local res = []
     foreach (component in components)
-      if (component.itemdefId != componentIdToHide)
+      if (component.itemdefId != params?.componentToHide?.id)
         res.append(::DataBlockAdapter({
           item  = component.itemdefId
-          commentText = getComponentQuantityText(component)
+          commentText = getComponentQuantityText(component, params)
         }))
     return res
   }
 
   function getTextMarkup(params = null)
   {
-    local list = getItemsListForPrizesView(params?.componentToHide?.id)
+    local list = getItemsListForPrizesView(params)
     return ::PrizesView.getPrizesListView(list, params)
   }
 
   function getText(params = null)
   {
-    local list = getItemsListForPrizesView(params?.componentToHide?.id)
+    local list = getItemsListForPrizesView(params)
     local headerFunc = params?.header && @(...) params.header
     return ::PrizesView.getPrizesListText(list, headerFunc)
+  }
+
+  function hasAssembleTime()
+  {
+    return assembleTime > 0
+  }
+
+  function getAssembleTime()
+  {
+    return assembleTime
+  }
+
+  function getAssembleTimeText()
+  {
+    return ::loc("icon/hourglass") + " " + time.secondsToString(assembleTime, true, true)
   }
 
   function getIconedMarkup()
@@ -112,16 +145,69 @@ local ExchangeRecipes = class {
       local item = ItemsManager.findItemById(component.itemdefId)
       if (item)
         itemsViewData.append(item.getViewData({
-          count = getComponentQuantityText(component)
+          count = getComponentQuantityText(component, { needColoredText = false })
+          overlayAmountTextColor = getComponentQuantityColor(component)
           contentIcon = false
           hasTimer = false
           addItemName = false
           showPrice = false
           showAction = false
+          shouldHideAdditionalAmmount = true
         }))
     }
     return ::handyman.renderCached("gui/items/item", { items = itemsViewData })
   }
+
+  function getMarkIcon()
+  {
+    if (mark == MARK_RECIPE.NONE)
+      return ""
+
+    local imgPrefix = "#ui/gameuiskin#"
+    if (mark == MARK_RECIPE.USED)
+      return imgPrefix + (isFake ? "icon_primary_fail" : "icon_primary_ok")
+
+    if (mark == MARK_RECIPE.BY_USER)
+      return imgPrefix + "icon_primary_attention"
+  }
+
+  function getMarkLocIdByPath(path)
+  {
+    if (mark == MARK_RECIPE.NONE)
+      return ""
+
+    if (mark == MARK_RECIPE.USED)
+      return ::loc(path + (isFake ? "fake" : "true"))
+
+    if (mark == MARK_RECIPE.BY_USER)
+      return ::loc(path + "fakeByUser")
+
+    return ""
+  }
+
+  getMarkText = @() getMarkLocIdByPath("item/recipes/markDesc/")
+  getMarkTooltip = @() getMarkLocIdByPath("item/recipes/markTooltip/")
+
+  function getMarkDescMarkup()
+  {
+    local title = getMarkText()
+    if (title == "")
+      return ""
+
+    local view = {
+      list = [{
+        icon  = getMarkIcon()
+        title = title
+        tooltip = getMarkTooltip()
+      }]
+    }
+    return ::handyman.renderCached("gui/items/trophyDesc", view)
+  }
+
+  isRecipeLocked = @() mark == MARK_RECIPE.BY_USER || (mark == MARK_RECIPE.USED && isFake)
+  getCantAssembleMarkedFakeLocId = @() mark == MARK_RECIPE.BY_USER ? "msgBox/craftProcess/cant/markByUser"
+    : (mark == MARK_RECIPE.USED && isFake) ? "msgBox/craftProcess/cant/isFake"
+    : ""
 
   static function getRequirementsMarkup(recipes, componentItem, params)
   {
@@ -139,7 +225,6 @@ local ExchangeRecipes = class {
     local isFullRecipesList = recipes.len() <= maxRecipes
 
     local isMultipleRecipes = recipes.len() > 1
-    local isMultipleItems = false
     local isMultipleExtraItems = false
 
     local recipesToShow = recipes
@@ -159,20 +244,18 @@ local ExchangeRecipes = class {
     }
 
     foreach (recipe in recipesToShow)
-    {
-      isMultipleItems      = isMultipleItems      || recipe.isMultipleItems
       isMultipleExtraItems = isMultipleExtraItems || recipe.isMultipleExtraItems
-    }
-
-    if (!isMultipleRecipes && !isMultipleItems)
-      return ""
 
     local headerFirst = ::colorize("grayOptionColor",
-      componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(), isMultipleExtraItems))
+      componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
+                                            isMultipleExtraItems, hasFakeRecipes(recipes),
+                                            getRecipesAssembleTimeText(recipes)))
     local headerNext = isMultipleRecipes && isMultipleExtraItems ?
       ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
 
     params.componentToHide <- componentItem
+    params.showCurQuantities <- componentItem.descReceipesListWithCurQuantities
+
     local res = []
     foreach (recipe in recipesToShow)
     {
@@ -186,13 +269,39 @@ local ExchangeRecipes = class {
     return ::g_string.implode(res, shouldReturnMarkup ? "" : "\n")
   }
 
-  static function getComponentQuantityText(component)
+  static function getRecipesAssembleTimeText(recipes)
   {
-    return ::colorize(component.has ? "goodTextColor" : "badTextColor",
-      ::loc("ui/parentheses/space", { text = component.curQuantity + "/" + component.reqQuantity }))
+    local minSeconds = ::max(::u.min(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
+    local maxSeconds = ::max(::u.max(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
+    if (minSeconds <= 0 && maxSeconds <= 0)
+      return ""
+
+    local timeText = ::loc("icon/hourglass") + " " + time.secondsToString(minSeconds, true, true)
+    if (minSeconds != maxSeconds)
+      timeText += " " + ::loc("event_dash") + " " + time.secondsToString(maxSeconds, true, true)
+
+    return "\n" + ::loc("msgBox/assembleItem/time", {time = timeText}) + "\n"
   }
 
-  static function tryUse(recipes, componentItem)
+  static hasFakeRecipes = @(recipes) ::u.search(recipes, @(r) r?.isFake) != null
+
+  static function getComponentQuantityText(component, params = null)
+  {
+    if (!(params?.showCurQuantities ?? true))
+      return component.reqQuantity > 1 ?
+        (::nbsp + ::format(::loc("weapons/counter/right/short"), component.reqQuantity)) : ""
+
+    local locText = ::loc("ui/parentheses/space",
+      { text = component.curQuantity + "/" + component.reqQuantity })
+    if (params?.needColoredText ?? true)
+      return ::colorize(getComponentQuantityColor(component), locText)
+
+    return locText
+  }
+
+  static getComponentQuantityColor = @(component) component.has ? "goodTextColor" : "badTextColor"
+
+  static function tryUse(recipes, componentItem, params = null)
   {
     local recipe = null
     foreach (r in recipes)
@@ -205,6 +314,12 @@ local ExchangeRecipes = class {
     local iType = componentItem.iType
     if (recipe)
     {
+      if (params?.shouldSkipMsgBox)
+      {
+        recipe.doExchange(componentItem)
+        return true
+      }
+
       local msgData = componentItem.getAssembleMessageData(recipe)
       local msgboxParams = { cancel_fn = function() {} }
       if (msgData.needRecipeMarkup)
@@ -213,7 +328,7 @@ local ExchangeRecipes = class {
           baseHandler = ::get_cur_base_gui_handler()
         })
       ::scene_msg_box("chest_exchange", null, msgData.text, [
-        [ "yes", ::Callback(@() recipe.doExchange(componentItem), this) ],
+        [ "yes", ::Callback(@() recipe.doExchange(componentItem, 1, params), this) ],
         [ "no" ]
       ], "yes", msgboxParams)
       return true
@@ -284,7 +399,7 @@ local ExchangeRecipes = class {
     return res
   }
 
-  function doExchange(componentItem, amount = 1)
+  function doExchange(componentItem, amount = 1, params = null)
   {
     local resultItems = []
     local usedUidsList = {}
@@ -302,27 +417,68 @@ local ExchangeRecipes = class {
     )).bindenv(recipe)
 
     local exchangeActions = array(amount, exchangeAction)
-    exchangeActions.append(@(cb) recipe.onExchangeComplete(componentItem, resultItems))
+    exchangeActions.append(@(cb) recipe.onExchangeComplete(componentItem, resultItems, params))
 
     asyncActions.callAsyncActionsList(exchangeActions)
   }
 
-  function onExchangeComplete(componentItem, resultItems)
+  function onExchangeComplete(componentItem, resultItems, params = null)
   {
     ::ItemsManager.markInventoryUpdate()
 
-    local openTrophyWndConfigs = u.map(resultItems, @(extItem) {
-      id = componentItem.id
-      item = extItem?.itemdef?.itemdefid
-      count = extItem?.quantity ?? 0
-    })
-    if (openTrophyWndConfigs.len())
-      ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs })
+    local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item" &&
+                                      !extItem?.itemdef?.tags?.devItem
+    local resultItemsShowOpening  = ::u.filter(resultItems, isShowOpening)
+
+    local parentGen = componentItem.getParentGen()
+    local parentRecipe = parentGen?.getRecipeByUid?(componentItem.craftedFrom)
+    if ((parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
+      parentGen.markAllRecipes()
+
+    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId() : ""
+    local rewardListLocId = params?.rewardListLocId ? params.rewardListLocId :
+      parentRecipe ? componentItem.getItemsListLocId() : ""
+
+    if (resultItemsShowOpening.len())
+    {
+      local openTrophyWndConfigs = u.map(resultItemsShowOpening, @(extItem) {
+        id = componentItem.id
+        item = extItem?.itemdef?.itemdefid
+        count = extItem?.quantity ?? 0
+      })
+      ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs,
+        rewardTitle = ::loc(rewardTitle),
+        rewardListLocId = rewardListLocId })
+    }
 
     ::ItemsManager.autoConsumeItems()
   }
+
+  getSaveId = @() "markRecipe/" + uid
+
+  function markRecipe(isUserMark = false)
+  {
+    local marker = !isUserMark ? MARK_RECIPE.USED
+      : (isUserMark && mark == MARK_RECIPE.NONE) ? MARK_RECIPE.BY_USER
+      : MARK_RECIPE.NONE
+
+    if(mark == marker)
+      return false
+
+    mark = marker
+    ::save_local_account_settings(getSaveId(), mark)
+
+    return true
+  }
+
+  function loadStateRecipe()
+  {
+    mark = ::load_local_account_settings(getSaveId(), MARK_RECIPE.NONE)
+  }
+
+  getRewardTitleLocId = @() getMarkLocIdByPath("mainmenu/craftFinished/title/")
 }
 
-u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.uid == r2.uid)
+u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)
 
 return ExchangeRecipes

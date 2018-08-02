@@ -416,7 +416,8 @@
                               "id": "tmap_icon",
                               "size": "@buttonHeight,@buttonHeight",
                               "pos": "0,50%ph-50%h",
-                              "position": "relative"
+                              "position": "relative",
+                              "background-repeat": "aspect-ratio"
                             },
                             "textareaNoTab": {
                               "id": "tmap_hint",
@@ -654,6 +655,31 @@
                         "position": "absolute"
                       }
                     }
+                  },
+                  {
+                    "voiceChatWidgetNest": [
+                      {
+                        "isClanOnly": "no"
+                      },
+                      {
+                        "blockSeparator": {
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "voiceChatWidgetContainer": {
+                          "isSmall": "no",
+                          "voiceChatWidget": {
+                            "value": "{\"viewId\": \"VOICE_CHAT\"}"
+                          }
+                        }
+                      },
+                      {
+                        "blockSeparator": {
+                          "display": "hide"
+                        }
+                      }
+                    ]
                   },
                   {
                     "gcButtonsHolder": {

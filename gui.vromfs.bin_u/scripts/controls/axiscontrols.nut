@@ -118,7 +118,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       if (isInArray(::shortcutsAxisList[i].id, hideAxisOptionsArray))
         addTrParams = "hiddenTr:t='yes'; inactive:t='yes';"
 
-      data += ::buildHotkeyItem(i, shortcuts, ::shortcutsAxisList[i], axis, i%2 == 0, addTrParams)
+      local hotkeyData = ::buildHotkeyItem(i, shortcuts, ::shortcutsAxisList[i], axis, i%2 == 0, addTrParams)
+      data += hotkeyData.markup
     }
 
     guiScene.replaceContentFromText(axisControlsTbl, data, data.len(), this)

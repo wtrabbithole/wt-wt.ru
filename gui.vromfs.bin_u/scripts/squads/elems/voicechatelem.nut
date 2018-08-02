@@ -1,6 +1,8 @@
 local elemModelType = ::require("sqDagui/elemUpdater/elemModelType.nut")
 local elemViewType = ::require("sqDagui/elemUpdater/elemViewType.nut")
 
+const MAX_VOICE_ELEMS_IN_GC = 2
+
 elemModelType.addTypes({
   VOICE_CHAT = {
 
@@ -8,6 +10,9 @@ elemModelType.addTypes({
 
     onEventVoiceChatStatusUpdated = @(p) notify([])
     onEventSquadStatusChanged = @(p) notify([])
+    onEventVoiceChatOptionUpdated = @(p) notify([])
+    onEventSquadDataUpdated = @(p) notify([])
+    onEventClanInfoUpdate = @(p) notify([])
   }
 })
 
@@ -19,6 +24,17 @@ elemViewType.addTypes({
     updateView = function(obj, params)
     {
       if (!::g_login.isLoggedIn())
+        return
+
+      local nestObj = obj.getParent().getParent()
+      if (!check_obj(nestObj))
+        return
+
+      local isWidgetVisible = nestObj.getFinalProp("isClanOnly") != "yes" ||
+        (::get_option_voicechat() && !::g_squad_manager.isInSquad() && !!::my_clan_info)
+      nestObj.show(isWidgetVisible)
+
+      if (!isWidgetVisible)
         return
 
       local childRequired = ::g_squad_manager.isInSquad() ? ::g_squad_manager.MAX_SQUAD_SIZE
@@ -91,6 +107,15 @@ elemViewType.addTypes({
       local data = ::handyman.renderCached("gui/chat/voiceChatElement",
         { voiceChatElement = ::array(childRequired, {}) })
       obj.getScene().replaceContentFromText(obj, data, data.len(), this)
+
+      local heightEnd = obj.getParent().getFinalProp("isSmall") == "yes"
+        ? ::g_dagui_utils.toPixels(::get_cur_gui_scene(), "1@gamercardHeight") /
+            MAX_VOICE_ELEMS_IN_GC
+        : ::g_dagui_utils.toPixels(::get_cur_gui_scene(), "1@voiceChatBaseIconHeight") +
+            ::g_dagui_utils.toPixels(::get_cur_gui_scene(), "1@blockInterval")
+
+      for (local i = 0; i < obj.childrenCount(); i++)
+        obj.getChild(i)["height-end"] = heightEnd.tointeger().tostring()
     }
   }
 })

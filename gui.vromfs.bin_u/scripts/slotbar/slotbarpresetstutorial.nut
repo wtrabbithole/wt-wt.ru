@@ -1,3 +1,5 @@
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+
 class SlotbarPresetsTutorial
 {
   /** Total maximum times to show this tutorial. */
@@ -144,7 +146,7 @@ class SlotbarPresetsTutorial
   {
     if (checkCurrentTutorialCanceled())
       return
-    ::remove_event_listeners_by_env("SlotbarPresetLoaded", this)
+    subscriptions.removeEventListenersByEnv("SlotbarPresetLoaded", this)
 
     // Switching preset causes game mode to switch as well.
     // So we need to restore it to it's previous value.

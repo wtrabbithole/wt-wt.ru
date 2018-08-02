@@ -1,6 +1,7 @@
 local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 local MOD_TIERS_COUNT = 4
 
@@ -454,6 +455,17 @@ local Unit = class
       modificatorsRequestTime = -1
     }
     modificators = null
+  }
+
+  function canPreview()
+  {
+    return isInShop
+  }
+
+  function doPreview()
+  {
+    if (canPreview())
+      ugcPreview.showUnitSkin(name)
   }
 }
 

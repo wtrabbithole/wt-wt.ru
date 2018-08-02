@@ -669,12 +669,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function showBadUnitMsgBox(msgText)
   {
-    local unitType
     local buttonsArray = []
 
     // "Change mode" button
-    unitType = ::get_es_unit_type(::get_cur_slotbar_unit())
-    local gameMode = ::game_mode_manager.getGameModeByUnitType(unitType, -1, true)
+    local curUnitType = ::get_es_unit_type(::get_cur_slotbar_unit())
+    local gameMode = ::game_mode_manager.getGameModeByUnitType(curUnitType, -1, true)
     if (gameMode != null)
     {
       buttonsArray.push([

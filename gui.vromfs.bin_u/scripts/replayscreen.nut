@@ -574,6 +574,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       return
     isReplayPressed = true
     ::HudBattleLog.reset()
+    back_from_replays = null
     base.goBack()
   }
 
@@ -669,12 +670,6 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChapterSelect(obj) {}
   function onSelect(obj) {}
-
-  function goBack()
-  {
-    back_from_replays = null
-    base.goBack()
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

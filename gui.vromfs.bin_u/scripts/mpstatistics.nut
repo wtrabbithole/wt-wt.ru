@@ -230,8 +230,8 @@ function build_mp_table(table, markupData, hdr, max_rows)
         }
         local rankItem = format("activeText { id:t='rank-text'; text:t='%s'; margin-right:t='%%s' } ", rankTxt)
         local prestigeItem = format("cardImg { id:t='prestige-ico'; background-image:t='%s'; margin-right:t='%%s' } ", prestigeImg)
-        local data = isRowInvert ? prestigeItem + rankItem : rankItem + prestigeItem
-        tdData += format("width:t='2.2@rows16height%s'; tdiv { pos:t='%s, 0.5(ph-h)'; position:t='absolute'; " + data + " } ",
+        local cell = isRowInvert ? prestigeItem + rankItem : rankItem + prestigeItem
+        tdData += format("width:t='2.2@rows16height%s'; tdiv { pos:t='%s, 0.5(ph-h)'; position:t='absolute'; " + cell + " } ",
                     widthAdd, isRowInvert ? "0" : "pw-w-1", "0", "0.003sh")
       }
       else if (hdr[j] == "rowNo")
@@ -496,18 +496,18 @@ function set_mp_table(obj_tbl, table, params)
             local showLowBRPrompt = false
 
             local unitsForTooltip = []
-            for (local i = 0; i < min(data.units.len(), 3); ++i)
-              unitsForTooltip.push(data.units[i])
+            for (local j = 0; j < min(data.units.len(), 3); ++j)
+              unitsForTooltip.push(data.units[j])
             unitsForTooltip.sort(sort_units_for_br_tooltip)
-            for (local i = 0; i < unitsForTooltip.len(); ++i)
+            for (local j = 0; j < unitsForTooltip.len(); ++j)
             {
-              local rankUnused = unitsForTooltip[i].rankUnused
+              local rankUnused = unitsForTooltip[j].rankUnused
               local formatString = rankUnused
                 ? "\n<color=@disabledTextColor>(%.1f) %s</color>"
                 : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
               if (rankUnused)
                 showLowBRPrompt = true
-              tooltip += ::format(formatString, unitsForTooltip[i].rating, unitsForTooltip[i].name)
+              tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
             }
             tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
                               ::loc("ui/colon") + ::format("%.1f", ratingTotal)
@@ -552,9 +552,9 @@ function set_mp_table(obj_tbl, table, params)
           obj["shopItemType"] = unitIcoColorType
         }
 
-        foreach(id, icon in ::getWeaponTypeIcoByWeapon(unitId, weapon))
+        foreach(iconId, icon in ::getWeaponTypeIcoByWeapon(unitId, weapon))
         {
-          obj = objTd.findObject(id + "-ico")
+          obj = objTd.findObject(iconId + "-ico")
           if (::check_obj(obj))
             obj["background-image"] = icon
         }
@@ -874,8 +874,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   checkRaceDataOnStart = true
   numberOfWinningPlaces = -1
 
-  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "awardDamage",
-                               "navalKills", "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
+  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills",
+                               "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "awardDamage", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "unitIcon", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
   footballRowHeaders        = ["name", "footballScore", "footballGoals", "footballAssists"]

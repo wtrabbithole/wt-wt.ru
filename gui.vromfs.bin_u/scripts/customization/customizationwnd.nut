@@ -98,6 +98,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   decoratorPreview = null
 
+  preSelectDecorator = null
+  preSelectDecoratorSlot = -1
+
   function initScreen()
   {
     owner = this
@@ -127,6 +130,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::hangar_model_load_manager.loadModel(unit.name)
 
     initFocusArray()
+
+    if (preSelectDecorator)
+    {
+      preSelectSlotAndDecorator(preSelectDecorator, preSelectDecoratorSlot)
+      preSelectDecorator = null
+      preSelectDecoratorSlot = -1
+    }
   }
 
   function getHandlerRestoreData()
@@ -719,7 +729,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(bOnlineObj) && can_buyUnitOnline)
       ::showUnitDiscount(bOnlineObj.findObject("buy_online_discount"), unit)
 
-    local bObj = scene.findObject("btn_buy_skin")
+    bObj = scene.findObject("btn_buy_skin")
     if (::checkObj(bObj))
     {
       local canBuySkin = false
@@ -742,12 +752,12 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local can_testflight = ::isTestFlightAvailable(unit) && !decoratorPreview
     local can_createUserSkin = ::can_save_current_skin_template()
 
-    local bObj = scene.findObject("btn_load_userskin_sample")
+    bObj = scene.findObject("btn_load_userskin_sample")
     if (::checkObj(bObj))
       bObj.inactiveColor = can_createUserSkin ? "no" : "yes"
 
     local isInEditMode = currentState & decoratorEditState.EDITING
-    local bObj = showSceneBtn("btn_back", !::show_console_buttons || isInEditMode || !isDecoratorsListOpen)
+    bObj = showSceneBtn("btn_back", !::show_console_buttons || isInEditMode || !isDecoratorsListOpen)
     if (::checkObj(bObj))
     {
       local isCancel = isInEditMode
@@ -760,7 +770,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local focusedType = getCurrentFocusedType()
     local focusedSlot = getSlotInfo(getCurrentDecoratorSlot(focusedType), true, focusedType)
 
-    local bObj = scene.findObject("btn_toggle_damaged")
+    bObj = scene.findObject("btn_toggle_damaged")
     local isDmgSkinPreviewMode = ::checkObj(bObj) && bObj.getValue()
 
     ::showBtnTable(scene, {
@@ -868,7 +878,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       obj.setValue(getTwoSidedState())
 
     // Flip
-    local obj = scene.findObject("btn_toggle_mirror")
+    obj = scene.findObject("btn_toggle_mirror")
     if (::check_obj(obj))
     {
       local enabled = ::get_hangar_mirror_current_decal()
@@ -922,7 +932,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         hangarUnit  = ::colorize("activeTextColor", ::getUnitName(initialUnitId))
       }))
 
-    local obj = showSceneBtn("previewed_decorator", true)
+    obj = showSceneBtn("previewed_decorator", true)
     if (obj)
     {
       local txtApplyDecorator = ::loc("decoratorPreview/applyManually/" + currentType.resourceType)
@@ -1192,7 +1202,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     showDecoratorsList()
 
     local selCategoryId = ""
-    if (slot.isEmpty)
+    if (preSelectDecorator)
+      selCategoryId = preSelectDecorator.category
+    else if (slot.isEmpty)
       selCategoryId = ::loadLocalByAccount(decoratorType.currentOpenedCategoryLocalSafePath, "")
     else
     {
@@ -1487,7 +1499,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         ::saveLocalByAccount(decoratorType.currentOpenedCategoryLocalSafePath, categoryId)
 
-        local decalId = getSlotInfo(getCurrentDecoratorSlot(decoratorType), false, decoratorType).decalId
+        local decalId = preSelectDecorator ? preSelectDecorator.id :
+          getSlotInfo(getCurrentDecoratorSlot(decoratorType), false, decoratorType).decalId
         local decal = ::g_decorator.getDecorator(decalId, decoratorType)
         local index = decal && decal.category == category? decal.catIndex : 0
         editableDecoratorId = decal? decalId : null
@@ -2072,13 +2085,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       ::set_hangar_opposite_mirrored(needOppositeMirrored)
   }
 
-  function onMirror(obj) // Flip
+  function onMirror() // Flip
   {
     ::hangar_mirror_current_decal()
     updateDecoratorActionBtnStates()
   }
 
-  function onTwoSided(obj) // TwoSided
+  function onTwoSided() // TwoSided
   {
     local obj = scene.findObject("two_sided_select")
     if (check_obj(obj))
@@ -2308,5 +2321,28 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!isSceneActiveNoModals())
       setDmgSkinMode(false)
+  }
+
+  function preSelectSlotAndDecorator(decorator, slotIdx)
+  {
+    local decoratorType = decorator.decoratorType
+    if (decoratorType == ::g_decorator_type.SKINS)
+    {
+      if (unit.name == ::g_unlocks.getPlaneBySkinId(decorator.id))
+        applySkin(::g_unlocks.getSkinNameBySkinId(decorator.id))
+    }
+    else
+    {
+      if (slotIdx != -1)
+      {
+        local listObj = scene.findObject(decoratorType.listId)
+        if (::check_obj(listObj))
+        {
+          local slotObj = listObj.getChild(slotIdx)
+          if (::check_obj(slotObj))
+            openDecorationsListForSlot(slotIdx, slotObj, decoratorType)
+        }
+      }
+    }
   }
 }

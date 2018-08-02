@@ -93,7 +93,7 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
         }
         else
         {
-          foreach (idx, year in yearsArray)
+          foreach (year in yearsArray)
           {
             local is_unlocked = false
             local yearId = "country_" + country + "_" + year
@@ -329,8 +329,8 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
     settings.setInt("difficulty", desc.value);
 
     ::dynamic_init(settings, map);
-    local settings = DataBlock();
-    ::mission_settings.dynlist <- ::dynamic_get_list(settings, false)
+    local dynListBlk = DataBlock();
+    ::mission_settings.dynlist <- ::dynamic_get_list(dynListBlk, false)
 
     ::mission_settings.coop = ::enable_coop_in_DynCampaign
 

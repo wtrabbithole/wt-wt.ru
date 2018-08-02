@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 // Priority for separation on buttons.
 enum topMenuLeftSideMergeIndex {
   MENU

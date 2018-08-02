@@ -1,6 +1,5 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -288,7 +287,7 @@ function get_unit_actions_list(unit, handler, actions)
       actionText = ::loc("mainmenu/btnPreview")
       icon       = "#ui/gameuiskin#btn_preview.svg"
       showAction = inMenu
-      actionFunc = @() ugcPreview.showUnitSkin(unit.name)
+      actionFunc = @() unit.doPreview()
     }
     else if (action == "aircraft")
     {
@@ -1738,7 +1737,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     [::ES_UNIT_TYPE_TANK] = [
       {id = "mass", id2 = "mass", prepareTextFunc = function(value){return format("%.1f %s", (value / 1000.0), ::loc("measureUnits/ton"))}},
       {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}},
-      {id = "maxInclination", id2 = "maxInclination", prepareTextFunc = function(value){return format("%d%s", (value*180.0/PI).tointeger(), ::loc("measureUnits/deg"))}}
       {id = "turnTurretTime", id2 = "turnTurretSpeed", prepareTextFunc = function(value){return format("%.1f%s", value.tofloat(), ::loc("measureUnits/deg_per_sec"))}}
     ],
     [::ES_UNIT_TYPE_SHIP] = [
@@ -1809,7 +1807,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-maxInclination-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-wingLoading-tr"]           = [ airplaneParameters ? ::ES_UNIT_TYPE_AIRCRAFT : -1 ],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
@@ -1817,9 +1814,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   foreach (rowId, showForTypes in showCharacteristics)
   {
-    local obj = holderObj.findObject(rowId)
-    if (obj)
-      obj.show(::isInArray(unitType, showForTypes))
+    local rowObj = holderObj.findObject(rowId)
+    if (rowObj)
+      rowObj.show(::isInArray(unitType, showForTypes))
   }
 
   local powerToWeightRatioObject = holderObj.findObject("aircraft-powerToWeightRatio-tr")
@@ -1976,9 +1973,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local rowObj = holderObj.findObject("aircraft-" + id + "-tr")
       if (::check_obj(rowObj))
         rowObj.show(val != "")
-      local obj = holderObj.findObject("aircraft-" + id)
-      if (::check_obj(obj))
-        obj.setValue(val)
+      local valueObj = holderObj.findObject("aircraft-" + id)
+      if (::check_obj(valueObj))
+        valueObj.setValue(val)
     }
   }
 
@@ -2167,7 +2164,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("trophy/unlockables_names/trophy")))
     if (isOwn && !isReceivedPrizes)
     {
-      local text = ::loc("mainmenu/itemReceived") + ::loc("ui/dot") + " " + ::loc("mainmenu/activateOnlyOnce")
+      local text = ::loc("mainmenu/itemReceived") + ::loc("ui/dot") + " " +
+        ::loc(params?.relatedItem ? "mainmenu/activateOnlyOnce" : "mainmenu/receiveOnlyOnce")
       addInfoTextsList.append(::colorize("badTextColor", text))
     }
   }
@@ -2197,28 +2195,28 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local crewSpecIcon = specType.trainedIcon
     local crewSpecName = specType.getName()
 
-    local obj = holderObj.findObject("aircraft-crew_info")
+    obj = holderObj.findObject("aircraft-crew_info")
     if (::checkObj(obj))
       obj.show(true)
 
-    local obj = holderObj.findObject("aircraft-crew_name")
+    obj = holderObj.findObject("aircraft-crew_name")
     if (::checkObj(obj))
       obj.setValue(::g_crew.getCrewName(crew))
 
-    local obj = holderObj.findObject("aircraft-crew_level")
+    obj = holderObj.findObject("aircraft-crew_level")
     if (::checkObj(obj))
       obj.setValue(::loc("crew/usedSkills") + " " + crewLevel)
-    local obj = holderObj.findObject("aircraft-crew_spec-label")
+    obj = holderObj.findObject("aircraft-crew_spec-label")
     if (::checkObj(obj))
       obj.setValue(::loc("crew/trained") + ::loc("ui/colon"))
-    local obj = holderObj.findObject("aircraft-crew_spec-icon")
+    obj = holderObj.findObject("aircraft-crew_spec-icon")
     if (::checkObj(obj))
       obj["background-image"] = crewSpecIcon
-    local obj = holderObj.findObject("aircraft-crew_spec")
+    obj = holderObj.findObject("aircraft-crew_spec")
     if (::checkObj(obj))
       obj.setValue(crewSpecName)
 
-    local obj = holderObj.findObject("aircraft-crew_points")
+    obj = holderObj.findObject("aircraft-crew_points")
     if (::checkObj(obj) && !isInFlight && crewStatus != "")
     {
       local crewPointsText = ::colorize("white", ::get_crew_sp_text(::g_crew_skills.getCrewPoints(crew)))
@@ -2399,7 +2397,7 @@ function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
     barObj.paused = isPaused ? "yes" : "no"
   }
 
-  local barObj = obj.findObject("expProgress")
+  barObj = obj.findObject("expProgress")
   if (::checkObj(barObj))
   {
     barObj.show(true)

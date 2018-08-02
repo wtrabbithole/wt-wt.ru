@@ -355,10 +355,10 @@ function debug_export_unit_weapons_descriptions()
           local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name }), "\n")
           foreach(row in rowsList)
             blk[weapon.name] <- row
-          local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name, detail = INFO_DETAIL.EXTENDED }), "\n")
+          rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name, detail = INFO_DETAIL.EXTENDED }), "\n")
           foreach(row in rowsList)
             blk[weapon.name + "_extended"] <- row
-          local rowsList = ::split(::getWeaponInfoText(unit, { weaponPreset = weapon.name, detail = INFO_DETAIL.FULL }), "\n")
+          rowsList = ::split(::getWeaponInfoText(unit, { weaponPreset = weapon.name, detail = INFO_DETAIL.FULL }), "\n")
           foreach(row in rowsList)
             blk[weapon.name + "_full"] <- row
         }

@@ -1,5 +1,5 @@
 local u = ::require("std/u.nut")
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
 enum chatRoomCheckOrder {
@@ -91,10 +91,10 @@ enums.addTypesByGlobalName("g_chat_room_type", {
     getRoomId    = function(playerName, ...) { return playerName }
     getRoomName  = function(roomId, isColored = false) //roomId == playerName
     {
-      local clanTag = ::getTblValue(roomId, ::clanUserTable, "")
-      local res = platformModule.getPlayerName(roomId)
-      if (!u.isEmpty(clanTag))
-        res = clanTag + " " + res
+      local res = ::g_contacts.getPlayerFullName(
+        platformModule.getPlayerName(roomId),
+        ::clanUserTable?[roomId] ?? ""
+      )
       if (isColored)
         res = ::colorize(::g_chat.getSenderColor(roomId), res)
       return res

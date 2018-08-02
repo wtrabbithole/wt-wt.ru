@@ -1,5 +1,4 @@
 local ItemExternal = require("scripts/items/itemsClasses/itemExternal.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 class ::items_classes.Skin extends ItemExternal {
   static iType = itemType.SKIN
@@ -13,6 +12,6 @@ class ::items_classes.Skin extends ItemExternal {
   getContentIconData = @() { contentIcon = typeIcon }
   getTagsLoc = @() getDecorator() ? getDecorator().getTagsLoc() : []
   canConsume = @() isInventoryItem ? (getDecorator() && !getDecorator().isUnlocked()) : false
-  canPreview = @() metaBlk?.resource != null
-  doPreview  = @() canPreview() && ugcPreview.showResource(metaBlk.resource, metaBlk.resourceType)
+  canPreview = @() getDecorator() ? getDecorator().canPreview() : false
+  doPreview  = @() getDecorator() && getDecorator().doPreview()
 }

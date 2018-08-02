@@ -191,10 +191,8 @@ class ::queue_classes.Event extends ::queue_classes.Base
         if ("slots" in m)
           qp.players[uid].slots <- m.slots
       }
-    local option = ::get_option_in_mode(::USEROPT_QUEUE_JIP, ::OPTIONS_MODE_GAMEPLAY)
-    qp.jip <- option.value
-    local option = ::get_option_in_mode(::USEROPT_AUTO_SQUAD, ::OPTIONS_MODE_GAMEPLAY)
-    qp.auto_squad <- option.value
+    qp.jip <- ::get_option_in_mode(::USEROPT_QUEUE_JIP, ::OPTIONS_MODE_GAMEPLAY).value
+    qp.auto_squad <- ::get_option_in_mode(::USEROPT_AUTO_SQUAD, ::OPTIONS_MODE_GAMEPLAY).value
 
     if (params)
       foreach (key in ["team", "roomId", "gameQueueId"])

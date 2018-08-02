@@ -266,7 +266,6 @@ function build_aircraft_item(id, air, params = {})
         || ::get_player_unit_name() != air.name)
     if (isShowAsRandomUnit)
     {
-      local missionRules = getVal("missionRules", null)
       resView.shopAirImg = missionRules.getRandomUnitsGroupIcon(groupName)
       resView.shopItemType = ""
       resView.unitClassIcon = ""
@@ -1229,7 +1228,7 @@ function initSlotbarTopBar(slotbarObj, show)
   if (::checkObj(obj))
     obj.setValue(::get_auto_refill(0))
 
-  local obj = mainObj.findObject("slots-autoweapon")
+  obj = mainObj.findObject("slots-autoweapon")
   if (::checkObj(obj))
     obj.setValue(::get_auto_refill(1))
 }
@@ -1383,10 +1382,10 @@ function addAirButtonsTimer(listObj, needTimerList, air, handler)
         local taObj = btnObj.findObject("textarea")
         if (::checkObj(taObj))
         {
-          local text = ::Cost(repairCost).tostring()
+          local coloredText = ::Cost(repairCost).tostring()
           if (get_balance().wp < repairCost)
-            text = "<color=@badTextColor>" + text + "</color>"
-          taObj.setValue(format(::loc("mainmenu/btnRepairNow"), text))
+            coloredText = "<color=@badTextColor>" + coloredText + "</color>"
+          taObj.setValue(format(::loc("mainmenu/btnRepairNow"), coloredText))
         }
       }
     }

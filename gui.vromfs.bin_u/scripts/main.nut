@@ -153,10 +153,11 @@ enum itemType { //bit values for easy multitype search
   //workshop
   CRAFT_PART      = 0x10000000
   RECIPES_BUNDLE  = 0x20000000
+  CRAFT_PROCESS   = 0x40000000
 
   //masks
   ALL             = 0xFFFFFFFF
-  INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~WARBONDS
+  INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~CRAFT_PROCESS ~WARBONDS
 }
 
 enum PREVIEW_MODE
@@ -261,6 +262,20 @@ randomize()
 ::g_string <- ::require("std/string.nut") //put g_string to root_table
 ::u <- ::require("std/u.nut") //put u to roottable
 ::Callback <- ::require("sqStdLibs/helpers/callback.nut").Callback
+
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+::g_listener_priority <- {
+  DEFAULT = 0
+  DEFAULT_HANDLER = 1
+  UNIT_CREW_CACHE_UPDATE = 2
+  USER_PRESENCE_UPDATE = 2
+  CONFIG_VALIDATION = 2
+  LOGIN_PROCESS = 3
+}
+subscriptions.setDefaultPriority(::g_listener_priority.DEFAULT)
+::broadcastEvent <- subscriptions.broadcast
+::add_event_listener <- subscriptions.addEventListener
+::subscribe_handler <- subscriptions.subscribeHandler
 
 foreach (fn in [
   "scripts/sharedEnums.nut"
@@ -531,7 +546,6 @@ function load_scripts_after_login_once()
     "controls/rawShortcuts.nut"
     "controls/controls.nut"
     "controls/controlsConsole.nut"
-    "controls/autobind.nut"
     "controls/input/inputBase.nut"
     "controls/input/nullInput.nut"
     "controls/input/button.nut"

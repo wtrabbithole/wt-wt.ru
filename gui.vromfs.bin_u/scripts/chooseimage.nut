@@ -177,7 +177,9 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChoose()
   {
-    chooseImage(getSelIconIdx())
+    local selIdx = getSelIconIdx()
+    if (selIdx >= 0)
+      chooseImage(getSelIconIdx())
   }
 
   function getSelIconIdx()

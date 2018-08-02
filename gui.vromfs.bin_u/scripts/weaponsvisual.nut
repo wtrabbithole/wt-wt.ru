@@ -261,9 +261,9 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if (upgradesObj)
     upgradesObj.upgradeStatus = getItemUpgradesStatus(air, visualItem)
 
-  local iconObj = itemObj.findObject("status_icon")
-  if (::checkObj(iconObj))
-    iconObj["background-image"] = getStatusIcon(air, item)
+  local statusIcon = itemObj.findObject("status_icon")
+  if (::checkObj(statusIcon))
+    statusIcon["background-image"] = getStatusIcon(air, item)
 
   modUpgradeElem.setValueToObj(itemObj.findObject("mod_upgrade_icon"), air.name, visualItem.name)
 

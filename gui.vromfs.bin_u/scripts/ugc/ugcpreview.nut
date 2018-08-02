@@ -1,4 +1,6 @@
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 local guidParser = require("scripts/guidParser.nut")
+local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
 
 local downloadTimeoutSec = 15
 local downloadProgressBox = null
@@ -199,6 +201,38 @@ local function onEventItemsShopUpdate(params)
 }
 
 
+globalCallbacks.addTypes({
+  ITEM_PREVIEW = {
+    onCb = function(params) {
+      local item = ::ItemsManager.findItemById(params?.itemId)
+      if (item && item.canPreview() && ::ItemsManager.canPreviewItems())
+        item.doPreview()
+    }
+  }
+  ITEM_LINK = {
+    onCb = function(params) {
+      local item = ::ItemsManager.findItemById(params?.itemId)
+      if (item && item.hasLink())
+        item.openLink()
+    }
+  }
+  UNIT_PREVIEW = {
+    onCb = function(params) {
+      local unit = ::getAircraftByName(params?.unitId)
+      if (unit && unit.canPreview() && ::ItemsManager.canPreviewItems())
+        unit.doPreview()
+    }
+  }
+  DECORATOR_PREVIEW = {
+    onCb = function(params) {
+      local decorator = ::g_decorator.getDecoratorByResource(params?.resource, params?.resourceType)
+      if (decorator && decorator.canPreview() && ::ItemsManager.canPreviewItems())
+        decorator.doPreview()
+    }
+  }
+})
+
+
 /**
  * Creates global funcs, which are called from client.
  */
@@ -207,7 +241,7 @@ rootTable["on_ugc_skin_data_loaded"] <- @(unitId, skinGuid, result) onSkinDownlo
 rootTable["ugc_start_unit_preview"]  <- @(unitId, skinId, isForApprove) showUnitSkin(unitId, skinId, isForApprove)
 web_rpc.register_handler("ugc_skin_preview", @(params) ugcSkinPreview(params))
 web_rpc.register_handler("market_view_item", @(params) marketViewItem(params))
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   ItemsShopUpdate = @(p) onEventItemsShopUpdate(p)
 })
 

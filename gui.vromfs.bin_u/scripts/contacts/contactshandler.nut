@@ -604,7 +604,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!groups_array)
       groups_array = ::contacts_groups
 
-    local data = ""
     local gObj = scene.findObject("contacts_groups")
     if (!gObj) return
     guiScene.setUpdatesEnabled(false, false)
@@ -982,14 +981,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local contact = ::getContact(contactUID)
     curPlayer = contact
 
-    foreach (idx, contact in contacts[curGroup])
+    local idx = contacts[curGroup].find(contact)
+    if (idx >= 0)
     {
-      if (contact.uid == contactUID)
-      {
-        local groupObject = scene.findObject("contacts_groups")
-        local listObject = groupObject.findObject("group_" + curGroup)
-        listObject.setValue(idx)
-      }
+      local groupObject = scene.findObject("contacts_groups")
+      local listObject = groupObject.findObject("group_" + curGroup)
+      listObject.setValue(idx)
     }
   }
 

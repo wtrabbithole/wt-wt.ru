@@ -1201,24 +1201,28 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     updateGunVerticalOption(air)
 
-    bombDescr = ::get_option(::USEROPT_BOMB_ACTIVATION_TIME)
-    local data = ""
-    foreach (idx, item in bombDescr.items)
-      if (canChangeAircraft || idx == bombDescr.value)
-        data += build_option_blk(item.text, "", idx == bombDescr.value, true, "", false, item.tooltip)
     local bombTimeObj = scene.findObject("bombtime")
     if (::checkObj(bombTimeObj))
-      guiScene.replaceContentFromText(bombTimeObj, data, data.len(), this)
+    {
+      bombDescr = ::get_option(::USEROPT_BOMB_ACTIVATION_TIME)
+      local markup = ""
+      foreach (idx, item in bombDescr.items)
+        if (canChangeAircraft || idx == bombDescr.value)
+          markup += build_option_blk(item.text, "", idx == bombDescr.value, true, "", false, item.tooltip)
+      guiScene.replaceContentFromText(bombTimeObj, markup, markup.len(), this)
+    }
     showOptionRow("bombtime", aircraft && bomb)
 
     rocketDescr = ::get_option(::USEROPT_ROCKET_FUSE_DIST)
-    local data = ""
-    foreach (idx, item in rocketDescr.items)
-      if (canChangeAircraft || idx == rocketDescr.value)
-        data += build_option_blk(item, "", idx == rocketDescr.value)
     local rocketdistObj = scene.findObject(rocketDescr.id)
     if (::checkObj(rocketdistObj))
-      guiScene.replaceContentFromText(rocketdistObj, data, data.len(), this)
+    {
+      local markup = ""
+      foreach (idx, item in rocketDescr.items)
+        if (canChangeAircraft || idx == rocketDescr.value)
+          markup += build_option_blk(item, "", idx == rocketDescr.value)
+      guiScene.replaceContentFromText(rocketdistObj, markup, markup.len(), this)
+    }
     showOptionRow(rocketDescr.id, aircraft && rocket && ::is_unit_available_use_rocket_diffuse(air))
 
     local fuelObj = scene.findObject("fuel")
@@ -1618,14 +1622,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     isAvailResp = isAvailResp && missionRules.isRespawnAvailable(unit)
 
     local isCrewDelayed = false
-    if (missionRules.isSpawnDelayEnabled)
+    if (missionRules.isSpawnDelayEnabled && unit)
     {
-      local unit = getCurSlotUnit()
-      if (unit)
-      {
-        local slotDelay = ::get_slot_delay(unit.name)
-        isCrewDelayed = slotDelay > 0
-      }
+      local slotDelay = ::get_slot_delay(unit.name)
+      isCrewDelayed = slotDelay > 0
     }
 
     //******************** combine final texts ********************************

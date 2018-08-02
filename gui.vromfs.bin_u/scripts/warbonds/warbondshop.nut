@@ -461,15 +461,6 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
       }
   }
 
-  function onDescAction(obj)
-  {
-    local data = ::check_obj(obj) && obj.actionData && ::parse_json(obj.actionData)
-    local item = ::ItemsManager.findItemById(data?.itemId)
-    local action = data?.action
-    if (item && action && (action in item) && ::u.isFunction(item[action]))
-      item[action]()
-  }
-
   //dependence by blk
   function onToShopButton(obj) {}
   function onToMarketplaceButton(obj) {}

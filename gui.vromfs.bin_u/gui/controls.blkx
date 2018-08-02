@@ -19,6 +19,12 @@
           "on_select": "onControlsGroupChange"
         },
         "top_right_holder": {
+          "tdiv": {
+            "id": "listbox_filter_holder",
+            "width": "0.5@scrn_tgt",
+            "pos": "0, 0",
+            "position": "relative"
+          },
           "Button_text": {
             "class": "image",
             "visualStyle": "noFrame",
@@ -885,6 +891,31 @@
                       "position": "absolute"
                     }
                   }
+                },
+                {
+                  "voiceChatWidgetNest": [
+                    {
+                      "isClanOnly": "no"
+                    },
+                    {
+                      "blockSeparator": {
+                        "display": "hide"
+                      }
+                    },
+                    {
+                      "voiceChatWidgetContainer": {
+                        "isSmall": "no",
+                        "voiceChatWidget": {
+                          "value": "{\"viewId\": \"VOICE_CHAT\"}"
+                        }
+                      }
+                    },
+                    {
+                      "blockSeparator": {
+                        "display": "hide"
+                      }
+                    }
+                  ]
                 },
                 {
                   "gcButtonsHolder": {

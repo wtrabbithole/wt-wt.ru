@@ -982,9 +982,9 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
         if (!button || button.dev.len() != devs.len())
           continue
         local numEqual = 0
-        for (local i = 0; i < button.dev.len(); i++)
-          for (local j = 0; j < devs.len(); j++)
-            if ((button.dev[i] == devs[j]) && (button.btn[i] == btns[j]))
+        for (local j = 0; j < button.dev.len(); j++)
+          for (local k = 0; k < devs.len(); k++)
+            if ((button.dev[j] == devs[k]) && (button.btn[j] == btns[k]))
               numEqual++
 
         if (numEqual == btns.len())

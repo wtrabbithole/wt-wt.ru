@@ -97,6 +97,7 @@ itemDiv {
     <<#itemIndex>>
     id:t='shop_item_<<itemIndex>>'
     <</itemIndex>>
+    css-hier-invalidate:t='yes'
 
     <<#itemHighlight>>
     itemHighlight {
@@ -107,6 +108,7 @@ itemDiv {
     tdiv {
       size:t='pw, ph'
       overflow:t='hidden'
+      css-hier-invalidate:t='yes'
       <<@layered_image>>
       <<@getLayeredImage>>
     }
@@ -154,19 +156,33 @@ itemDiv {
     }
     <</unseenIcon>>
 
-    <<#expireTime>>
-    textareaNoTab {
-      id:t='expire_time'
+    tdiv{
+      id:t='timePlace'
       pos:t='pw-w-1@itemPadding, ph - h'
       position:t='absolute'
-      text:t='<<expireTime>>'
-      overlayTextColor:t='disabled'
-    }
-    <</expireTime>>
+      flow:t='vertical'
 
+      <<#craftTime>>
+      textareaNoTab {
+        id:t='craft_time'
+        text:t='<<craftTime>>'
+      }
+      <</craftTime>>
+
+      <<#expireTime>>
+      textareaNoTab {
+        id:t='expire_time'
+        text:t='<<expireTime>>'
+        overlayTextColor:t='disabled'
+      }
+      <</expireTime>>
+    }
     <<#amount>>
     itemAmountText {
       text:t='<<amount>>'
+      <<#overlayAmountTextColor>>
+      overlayTextColor:t='<<overlayAmountTextColor>>'
+      <</overlayAmountTextColor>>
       <<#isInTransfer>>
       animated_wait_icon {
         pos:t='-w, 38%ph-50%h'

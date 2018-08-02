@@ -6,6 +6,16 @@ function gui_start_open_trophy(configsTable = {})
   if (configsTable.len() == 0)
     return
 
+  local params = {}
+  foreach (paramName in ["rewardTitle","rewardListLocId"])
+  {
+    if (!(paramName in configsTable))
+      continue
+
+    params[paramName] <- configsTable[paramName]
+    configsTable.rawdelete(paramName)
+  }
+
   local tKey = ""
   foreach(idx, configsArray in configsTable)
   {
@@ -15,8 +25,10 @@ function gui_start_open_trophy(configsTable = {})
 
   local configsArray = configsTable.rawdelete(tKey)
   configsArray.sort(::trophyReward.rewardsSortComparator)
-  local afterFunc = (@(configsTable) function() { ::gui_start_open_trophy(configsTable) })(configsTable)
-  ::gui_start_modal_wnd(::gui_handlers.trophyRewardWnd, {configsArray = configsArray, afterFunc = afterFunc})
+  params.configsArray <- configsArray
+  params.afterFunc <- @() ::gui_start_open_trophy(configsTable)
+
+  ::gui_start_modal_wnd(::gui_handlers.trophyRewardWnd, params)
 }
 
 class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
@@ -45,6 +57,12 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   slotbarActions = [ "take", "weapons", "info" ]
 
+  decorator = null
+  decoratorUnit = null
+  decoratorSlot = -1
+  rewardTitle = null
+  rewardListLocId = null
+
   function initScreen()
   {
     trophyItem = ::ItemsManager.findItemById(configsArray?[0]?.id)
@@ -55,9 +73,13 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       return base.goBack()
 
     shouldShowRewardItem = trophyItem.iType == itemType.RECIPES_BUNDLE
-    isBoxOpening = !shouldShowRewardItem && (trophyItem.iType == itemType.TROPHY || trophyItem.iType == itemType.CHEST)
+    isBoxOpening = !shouldShowRewardItem
+      && (trophyItem.iType == itemType.TROPHY
+         || trophyItem.iType == itemType.CHEST
+         || trophyItem.iType == itemType.CRAFT_PROCESS)
 
-    local title = (!shouldShowRewardItem && configsArray[0]?.item == trophyItem.id) ? trophyItem.getCreationCaption()
+    local title = rewardTitle && rewardTitle != "" ? rewardTitle
+      : isCreation() ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
     scene.findObject("reward_title").setValue(title)
 
@@ -193,6 +215,32 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
         //Datablock adapter used only to avoid bug with duplicate timeHours in userlog.
         rentTimeHours = ::DataBlockAdapter(reward).timeHours || rentTimeHours
       }
+
+      if (rewardType == "resource" || rewardType == "resourceType")
+      {
+        local decor = ::g_decorator.getDecoratorByResource(reward?.resource, reward?.resourceType)
+        if (decor)
+        {
+          local decoratorType = decor.decoratorType
+          local unit = decoratorType == ::g_decorator_type.SKINS ?
+            ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decor.id)) :
+            ::get_player_cur_unit()
+
+          if (unit && decoratorType.isAvailable(unit) && decor.canUse(unit))
+          {
+            local freeSlotIdx = decoratorType.getFreeSlotIdx(unit)
+            local slotIdx = freeSlotIdx != -1 ? freeSlotIdx
+              : (decoratorType.getAvailableSlots(unit) - 1)
+            decorator = decor
+            decoratorUnit = unit
+            decoratorSlot = slotIdx
+
+            local obj = scene.findObject("btn_use_decorator")
+            if (::check_obj(obj))
+              obj.setValue(::loc("decorator/use/" + decoratorType.resourceType))
+          }
+        }
+      }
     }
   }
 
@@ -241,22 +289,30 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     ::show_facebook_screenshot_button(scene, opened)
-    showSceneBtn("btn_rewards_list", opened && (configsArray.len() > 1 || haveItems))
+    local isShowRewardListBtn = opened && (configsArray.len() > 1 || haveItems)
+    local btnObj = showSceneBtn("btn_rewards_list", isShowRewardListBtn)
+    if (isShowRewardListBtn)
+      btnObj.setValue(::loc(getRewardsListLocId()))
     showSceneBtn("open_chest_animation", !animFinished) //hack tooltip bug
     showSceneBtn("btn_ok", animFinished)
     showSceneBtn("btn_back", animFinished || trophyItem.isAllowSkipOpeningAnim())
 
-    showSceneBtn("btn_take_air", animFinished && unit != null && unit.isUsable() && !::isUnitInSlotbar(unit))
-    showSceneBtn("btn_go_to_item", animFinished && !!rewardItem)
+    local prizeActionBtnId = !animFinished ? ""
+      : unit && unit.isUsable() && !::isUnitInSlotbar(unit) ? "btn_take_air"
+      : rewardItem ? "btn_go_to_item"
+      : decorator  ? "btn_use_decorator"
+      : ""
+    foreach (id in [ "btn_take_air", "btn_go_to_item", "btn_use_decorator" ])
+      showSceneBtn(id, id == prizeActionBtnId)
   }
 
   function onViewRewards()
   {
-    if (!checkSkipAnim())
+    if (!checkSkipAnim() || !(opened && (configsArray.len() > 1 || haveItems)))
       return
 
-    if (opened && (configsArray.len() > 1 || haveItems))
-      ::gui_start_open_trophy_rewards_list(shrinkedConfigsArray)
+    ::gui_start_open_trophy_rewards_list({ rewardsArray = shrinkedConfigsArray,
+      tittleLocId = getRewardsListLocId()})
   }
 
   function goBack()
@@ -325,4 +381,20 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (rewardItem)
       ::gui_start_items_list(-1, { curItem = rewardItem })
   }
+
+  function onUseDecorator()
+  {
+    if (!decorator)
+      return
+    ::gui_start_decals({
+        unit = decoratorUnit
+        preSelectDecorator = decorator
+        preSelectDecoratorSlot = decoratorSlot
+      })
+  }
+
+  isCreation = @() (!shouldShowRewardItem && configsArray[0]?.item == trophyItem.id)
+  getRewardsListLocId = @() rewardListLocId && rewardListLocId != "" ? rewardListLocId
+    : isCreation() ? trophyItem.getItemsListLocId()
+    : trophyItem.getRewardListLocId()
 }

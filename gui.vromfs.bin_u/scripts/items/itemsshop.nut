@@ -503,15 +503,15 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     setWarningText(warningText)
 
     local showLinkAction = item && item.hasLink()
-    local buttonObj = showSceneBtn("btn_link_action", showLinkAction)
+    local linkObj = showSceneBtn("btn_link_action", showLinkAction)
     if (showLinkAction)
     {
       local linkActionText = ::loc(item.linkActionLocId)
       ::setDoubleTextToButton(scene, "btn_link_action", linkActionText, linkActionText)
       if (item.linkActionIcon != "")
       {
-        buttonObj["class"] = "image"
-        buttonObj.findObject("img")["background-image"] = item.linkActionIcon
+        linkObj["class"] = "image"
+        linkObj.findObject("img")["background-image"] = item.linkActionIcon
       }
     }
   }
@@ -575,15 +575,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       item.doAltAction({ obj = obj, align = "top" })
   }
 
-  function onDescAction(obj)
-  {
-    local data = ::check_obj(obj) && obj.actionData && ::parse_json(obj.actionData)
-    local item = ::ItemsManager.findItemById(data?.itemId)
-    local action = data?.action
-    if (item && action && (action in item) && ::u.isFunction(item[action]))
-      item[action]()
-  }
-
   function onUnitHover(obj)
   {
     openUnitActionsList(obj, true, true)
@@ -602,6 +593,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       local timeTxtObj = ::checkObj(itemObj) && itemObj.findObject("expire_time")
       if (::checkObj(timeTxtObj))
         timeTxtObj.setValue(itemsList[i].getTimeLeftText())
+      timeTxtObj = ::checkObj(itemObj) && itemObj.findObject("craft_time")
+      if (::checkObj(timeTxtObj))
+        timeTxtObj.setValue(itemsList[i].getCraftTimeTextShort())
     }
   }
 

@@ -144,13 +144,30 @@
     }
   },
   {
-    "tdiv": {
-      "id": "base_voice_chat_widget",
-      "position": "root",
-      "pos": "@bw, sh-h-1@blockInterval-@bh",
-      "voiceChatWidget": {
-        "value": "{\"viewId\": \"VOICE_CHAT\"}"
-      }
+    "widgets": {
+      "voiceChatWidgetNest": [
+        {
+          "isClanOnly": "no"
+        },
+        {
+          "blockSeparator": {
+            "display": "hide"
+          }
+        },
+        {
+          "voiceChatWidgetContainer": {
+            "isSmall": "no",
+            "voiceChatWidget": {
+              "value": "{\"viewId\": \"VOICE_CHAT\"}"
+            }
+          }
+        },
+        {
+          "blockSeparator": {
+            "display": "hide"
+          }
+        }
+      ]
     }
   }
 ]

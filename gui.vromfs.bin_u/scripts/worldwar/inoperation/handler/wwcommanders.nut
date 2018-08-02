@@ -40,7 +40,7 @@ class ::gui_handlers.WwCommanders extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local myClanGroupView = null
-      local groupView = []
+      local sideGroupsView = []
       local armyCountry = []
       local myClanId = ::clan_get_my_clan_id()
       foreach (idx, group in groups)
@@ -52,18 +52,18 @@ class ::gui_handlers.WwCommanders extends ::gui_handlers.BaseGuiHandlerWT
         local groupHandler = ::WwArmyGroupHandler(scene, group)
         groupsHandlers.append(groupHandler)
 
-        local view = group.getView()
+        local groupView = group.getView()
         if (group.getClanId() == myClanId)
-          myClanGroupView = view
+          myClanGroupView = groupView
         else
-          groupView.append(view)
+          sideGroupsView.append(groupView)
       }
 
       if (myClanGroupView)
-        groupView.insert(0, myClanGroupView)
+        sideGroupsView.insert(0, myClanGroupView)
 
       local selected = ::ww_get_player_side() == side
-      useSwitchMode = useSwitchMode || groupView.len() > groupsInColumnMax
+      useSwitchMode = useSwitchMode || sideGroupsView.len() > groupsInColumnMax
 
       local countryFlagsList = ::u.map(armyCountry, function(country) { return {image = ::get_country_icon(country)} })
 
@@ -84,7 +84,7 @@ class ::gui_handlers.WwCommanders extends ::gui_handlers.BaseGuiHandlerWT
       groupsView.append({
         teamText = teamText
         armyCountryImg = countryFlagsList
-        army = groupView
+        army = sideGroupsView
         customWidth = "pw/" + groupsInRowMax
       })
     }

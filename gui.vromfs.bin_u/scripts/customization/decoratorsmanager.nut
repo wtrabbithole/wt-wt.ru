@@ -67,23 +67,16 @@ function g_decorator::getCachedDecoratorsListByType(decType)
 
 function g_decorator::getDecorator(searchId, decType)
 {
+  local res = null
   if (::u.isEmpty(searchId))
-    return null
-
-  local res = decType.getSpecialDecorator(searchId)
-  if (res)
     return res
 
-  local res = ::getTblValue(searchId, ::g_decorator.getCachedDecoratorsListByType(decType))
-  if (res)
-    return res
-
-  local res = decType.getUgcDecorator(searchId, ugcDecoratorsCache)
-  if (res)
-    return res
-
-  ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
-  return null
+  res = decType.getSpecialDecorator(searchId)
+    || ::g_decorator.getCachedDecoratorsListByType(decType)?[searchId]
+    || decType.getUgcDecorator(searchId, ugcDecoratorsCache)
+  if (!res)
+    ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
+  return res
 }
 
 function g_decorator::getDecoratorById(searchId)

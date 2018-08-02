@@ -55,7 +55,7 @@ local getActions = function(contact, params)
   local isMe = uid == ::my_user_id_str
   local isXBoxOnePlayer = platformModule.isXBoxPlayerName(name)
   local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
-  local canInteract = contact ? contact.canInteract() : platformModule.isChatEnableWithPlayer(name)
+  local canInteract = platformModule.isChatEnableWithPlayer(name)
 
   local isFriend = ::isPlayerInFriendsGroup(uid)
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
@@ -434,7 +434,7 @@ local showMenu = function(_contact, handler, params = {})
     return contact.getXboxId(@() showMenu(contact, handler, params))
 
   if (!contact && params?.playerName)
-    return ::find_contact_by_name_and_do(params.playerName, @(c) showMenu(c, handler, params))
+    return ::find_contact_by_name_and_do(params.playerName, @(c) c && showMenu(c, handler, params))
 
   local menu = getActions(contact, params)
   ::gui_right_click_menu(menu, handler, params?.position, params?.orientation)

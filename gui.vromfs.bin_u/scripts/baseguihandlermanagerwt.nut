@@ -390,7 +390,7 @@ function handlersManager::initVoiceChatWidget(handler)
     return
 
   if (::g_login.isLoggedIn() && handler?.needVoiceChat ?? true)
-    handler.guiScene.createElementByObject(handler.scene, "gui/chat/voiceChat.blk", "tdiv", null)
+    handler.guiScene.createElementByObject(handler.scene, "gui/chat/voiceChatWidget.blk", "widgets", null)
 }
 
 function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.

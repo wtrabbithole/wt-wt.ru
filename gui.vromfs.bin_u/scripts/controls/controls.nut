@@ -74,21 +74,9 @@ enum ConflictGroups {
     }
 
   { id = "ID_PLANE_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
-    { id = "ID_FIRE_MGUNS"
-      conflictGroup = ConflictGroups.PLANE_FIRE
-      autobind = ["ID_FIRE_CANNONS", "ID_FIRE_GM"]
-      autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
-    }
-    { id = "ID_FIRE_CANNONS"
-      conflictGroup = ConflictGroups.PLANE_FIRE
-      autobind = ["ID_FIRE_MGUNS", "ID_FIRE_GM"]
-      autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
-    }
-    { id = "ID_FIRE_ADDITIONAL_GUNS"
-      conflictGroup = ConflictGroups.PLANE_FIRE
-      autobind = ["ID_FIRE_CANNONS", "ID_FIRE_MGUNS", "ID_FIRE_GM"]
-      autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
-    }
+    { id = "ID_FIRE_MGUNS",           conflictGroup = ConflictGroups.PLANE_FIRE }
+    { id = "ID_FIRE_CANNONS",         conflictGroup = ConflictGroups.PLANE_FIRE }
+    { id = "ID_FIRE_ADDITIONAL_GUNS", conflictGroup = ConflictGroups.PLANE_FIRE }
     { id = "fire", type = CONTROL_TYPE.AXIS, checkAssign = false }
     { id = "ID_BAY_DOOR", checkAssign = false }
     "ID_BOMBS"
@@ -151,7 +139,7 @@ enum ConflictGroups {
       checkAssign = false
     }
     { id="ID_SCHRAEGE_MUSIK", checkAssign = false }
-    { id="ID_RELOAD_GUNS", checkAssign = false, autobind = ["ID_REPAIR_TANK"] }
+    { id="ID_RELOAD_GUNS", checkAssign = false }
 
   { id = "ID_PLANE_AXES_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "mouse_z", type = CONTROL_TYPE.MOUSE_AXIS
@@ -249,7 +237,7 @@ enum ConflictGroups {
     }
 
   { id = "ID_PLANE_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
-    { id="ID_TOGGLE_VIEW",          autobind = ["ID_TOGGLE_VIEW_GM"] }
+    { id="ID_TOGGLE_VIEW"                               }
     { id="ID_CAMERA_FPS",           checkAssign = false }
     { id="ID_CAMERA_TPS",           checkAssign = false }
     { id="ID_CAMERA_VIRTUAL_FPS",   checkAssign = false }
@@ -471,60 +459,30 @@ enum ConflictGroups {
     { id = "ID_FORWARD_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_sc = @() ::is_xinput_device() ?
-        [SHORTCUT.GAMEPAD_UP] : [SHORTCUT.KEY_W, SHORTCUT.KEY_UP]
     }
     { id = "ID_BACKWARD_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_sc = @() ::is_xinput_device() ?
-        [SHORTCUT.GAMEPAD_DOWN] : [SHORTCUT.KEY_S, SHORTCUT.KEY_DOWN]
     }
     { id = "helicopter_throttle"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = @() ::is_xinput_device()
-        ? {axis = {axisId = AXIS.RIGHTSTICK_Y}}
-        : {keys = {
-          helicopter_throttle_rangeMin = [SHORTCUT.KEY_LCTRL]
-          helicopter_throttle_rangeMax = [SHORTCUT.KEY_LSHIFT]
-        }}
     }
     { id = "helicopter_roll"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = @() ::is_xinput_device()
-        ? {axis = {axisId = AXIS.LEFTSTICK_X}}
-        : {keys = {
-          helicopter_roll_rangeMin =
-            [SHORTCUT.KEY_A, SHORTCUT.KEY_LEFT]
-          helicopter_roll_rangeMax =
-            [SHORTCUT.KEY_D, SHORTCUT.KEY_RIGHT]
-        }}
       def_relative = false
       reqInMouseAim = false
     }
     { id = "helicopter_pitch"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = @() ::is_xinput_device()
-        ? {axis = {axisId = AXIS.LEFTSTICK_Y, inverse = true}}
-        : {keys = {
-          helicopter_pitch_rangeMin = [SHORTCUT.KEY_PAGE_UP]
-          helicopter_pitch_rangeMax = [SHORTCUT.KEY_PAGE_DOWN]
-        }}
       def_relative = false
       checkAssign = false
     }
     { id = "helicopter_yaw"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = @() ::is_xinput_device()
-        ? {axis = {axisId = AXIS.RIGHTSTICK_X}}
-        : {keys = {
-          helicopter_yaw_rangeMin = [SHORTCUT.KEY_Q]
-          helicopter_yaw_rangeMax = [SHORTCUT.KEY_E]
-        }}
       def_relative = false
       checkAssign = false
     }
@@ -539,17 +497,12 @@ enum ConflictGroups {
     }
     { id = "ID_FIRE_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_R2] : [SHORTCUT.MOUSE_LEFT_BUTTON]
     }
     { id = "ID_ROCKETS_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_L1]
-        : [SHORTCUT.KEY_R, SHORTCUT.KEY_4, SHORTCUT.MOUSE_BUTTON_5]
     }
     { id = "ID_MISSLE_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_R1]
-        : [SHORTCUT.KEY_SPACE, SHORTCUT.KEY_3, SHORTCUT.MOUSE_BUTTON_4]
     }
 
   { id = "ID_HELICOPTER_VIEW_HEADER"
@@ -557,33 +510,21 @@ enum ConflictGroups {
   }
     { id = "ID_TOGGLE_VIEW_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.KEY_V]
       checkAssign = false
     }
     { id = "ID_TARGETING_HOLD_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_L2] : [SHORTCUT.MOUSE_RIGHT_BUTTON]
       checkAssign = false
     }
     { id = "helicopter_camx"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_raw = @() ::is_xinput_device()
-        ? {axis = {axisId = AXIS.RIGHTSTICK_X}, keys = {
-          helicopter_camx = [SHORTCUT.GAMEPAD_LEFT, SHORTCUT.GAMEPAD_RIGHT]
-        }}
-        : null
     }
     { id = "helicopter_camy"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_raw = @() ::is_xinput_device()
-        ? {axis = {axisId = AXIS.RIGHTSTICK_Y}, keys = {
-          helicopter_camy = [SHORTCUT.GAMEPAD_LEFT, SHORTCUT.GAMEPAD_RIGHT]
-        }}
-        : null
     }
     { id = "invert_y_helicopter"
       type = CONTROL_TYPE.SWITCH_BOX
@@ -644,47 +585,42 @@ enum ConflictGroups {
     { id="ID_FIRE_GM"
       checkGroup = ctrlGroups.TANK
       conflictGroup = ConflictGroups.TANK_FIRE
-      autobind = ["ID_FIRE_MGUNS", "ID_FIRE_CANNONS"]
     }
     { id="ID_FIRE_GM_SECONDARY_GUN"
       checkGroup = ctrlGroups.TANK
       conflictGroup = ConflictGroups.TANK_FIRE
       checkAssign = false
-      autobind = ["ID_FIRE_GM", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
     }
     { id="ID_FIRE_GM_MACHINE_GUN"
       checkGroup = ctrlGroups.TANK
       conflictGroup = ConflictGroups.TANK_FIRE
       checkAssign = false
-      autobind = ["ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_GM", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
     }
-    { id="ID_FIRE_GM_SPECIAL_GUN", checkGroup = ctrlGroups.TANK, autobind = ["ID_ROCKETS"] }
+    { id="ID_FIRE_GM_SPECIAL_GUN",      checkGroup = ctrlGroups.TANK }
     { id="ID_SELECT_GM_GUN_RESET",      checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SELECT_GM_GUN_PRIMARY",    checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SELECT_GM_GUN_SECONDARY",  checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SELECT_GM_GUN_MACHINEGUN", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SMOKE_SCREEN"
       checkGroup = ctrlGroups.TANK
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_G]
       checkAssign = false
     }
     {
       id = "ID_SMOKE_SCREEN_GENERATOR"
       checkGroup = ctrlGroups.TANK
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_H]
       checkAssign = false
     }
 
   { id = "ID_TANK_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
-    { id="ID_ZOOM_HOLD_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_TOGGLE_VIEW_GM", checkGroup = ctrlGroups.TANK, autobind = ["ID_TOGGLE_VIEW"] }
+    { id="ID_ZOOM_HOLD_GM",         checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="ID_TOGGLE_VIEW_GM",       checkGroup = ctrlGroups.TANK }
     { id="ID_CAMERA_DRIVER",        checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_CAMERA_BINOCULARS",    checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_ENABLE_GUN_STABILIZER_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_TARGETING_HOLD_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="gm_zoom", type = CONTROL_TYPE.AXIS, autobind=["zoom"], checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="gm_camx",         type = CONTROL_TYPE.AXIS, autobind=["camx"], checkGroup = ctrlGroups.TANK, reqInMouseAim = false }
-    { id="gm_camy",         type = CONTROL_TYPE.AXIS, autobind=["camy"], checkGroup = ctrlGroups.TANK, reqInMouseAim = false }
+    { id="ID_ENABLE_GUN_STABILIZER_GM",       checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="ID_TARGETING_HOLD_GM",              checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="gm_zoom", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="gm_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, reqInMouseAim = false }
+    { id="gm_camy", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, reqInMouseAim = false }
     { id="invert_y_tank", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_INVERTY_TANK
       onChangeValue = "doControlsGroupChangeDelayed"
@@ -731,14 +667,13 @@ enum ConflictGroups {
 
   { id = "ID_TANK_OTHER_HEADER", type = CONTROL_TYPE.SECTION }
     //{ id="ID_SHOW_TARGET_ARMOR" }
-    //{ id="ID_REPAIR_TRACKS" ,           checkGroup = ctrlGroups.TANK, checkAssign = false}
-    { id="ID_REPAIR_TANK",              checkGroup = ctrlGroups.TANK, autobind = ["ID_RELOAD_GUNS"] }
+    //{ id="ID_REPAIR_TRACKS",   checkGroup = ctrlGroups.TANK, checkAssign = false}
+    { id="ID_REPAIR_TANK",       checkGroup = ctrlGroups.TANK }
     { id="ID_ACTION_BAR_ITEM_1", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_2", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_3", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_4", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_ACTION_BAR_ITEM_5", checkGroup = ctrlGroups.TANK, checkAssign = false,
-      autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
+    { id="ID_ACTION_BAR_ITEM_5", checkGroup = ctrlGroups.TANK, checkAssign = false
       showFunc = @() ::is_platform_pc && !::is_xinput_device()
     }
     { id="ID_ACTION_BAR_ITEM_6", checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -747,13 +682,11 @@ enum ConflictGroups {
     { id="ID_ACTION_BAR_ITEM_9", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_10", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_12", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_KILLSTREAK_WHEEL_MENU", checkGroup = ctrlGroups.TANK, checkAssign = false,
-      autobind = ["ID_ACTION_BAR_ITEM_5"]
+    { id="ID_KILLSTREAK_WHEEL_MENU", checkGroup = ctrlGroups.TANK, checkAssign = false
       showFunc = @() !(::is_platform_pc && !::is_xinput_device())
     }
     { id="ID_SCOUT"
       checkGroup = ctrlGroups.TANK,
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_V]
       checkAssign = false
       showFunc = @() ::has_feature("ActiveScouting")
     }
@@ -784,7 +717,6 @@ enum ConflictGroups {
     }
     { id = "ship_main_engine",
       type = CONTROL_TYPE.AXIS,
-      autobind = ["gm_throttle"],
       def_relative = true,
       checkGroup = ctrlGroups.SHIP,
       showFunc = @() checkOptionValue("ship_seperated_engine_control", false)
@@ -803,7 +735,7 @@ enum ConflictGroups {
       showFunc = @() checkOptionValue("ship_seperated_engine_control", true)
       checkAssign = false
     }
-    { id="ship_steering", type = CONTROL_TYPE.AXIS, autobind=["gm_steering"], checkGroup = ctrlGroups.SHIP }
+    { id="ship_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP }
     {
       id = "ID_SHIP_FULL_STOP",
       checkGroup = ctrlGroups.SHIP,
@@ -811,8 +743,7 @@ enum ConflictGroups {
     }
   { id = "ID_SHIP_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
     {
-      id = "ID_SHIP_WEAPON_ALL",
-      autobind = ["ID_FIRE_GM", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
+      id = "ID_SHIP_WEAPON_ALL"
       checkGroup = ctrlGroups.SHIP
     }
 
@@ -835,8 +766,7 @@ enum ConflictGroups {
     }
 
     {
-      id = "ID_SHIP_WEAPON_TORPEDOES",
-      autobind = ["ID_BOMBS"]
+      id = "ID_SHIP_WEAPON_TORPEDOES"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
@@ -844,14 +774,11 @@ enum ConflictGroups {
     {
       id = "ID_SHIP_WEAPON_DEPTH_CHARGE",
       checkGroup = ctrlGroups.SHIP
-      autobind = ["ID_SHIP_WEAPON_MINE"]
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_LCTRL]
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_WEAPON_ROCKETS",
-      autobind = ["ID_ROCKETS"]
+      id = "ID_SHIP_WEAPON_ROCKETS"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
@@ -859,20 +786,16 @@ enum ConflictGroups {
     {
       id = "ID_SHIP_WEAPON_MINE",
       checkGroup = ctrlGroups.SHIP
-      autobind = ["ID_SHIP_WEAPON_DEPTH_CHARGE"]
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_LCTRL]
       checkAssign = false
     }
     {
       id = "ID_SHIP_TORPEDO_SIGHT"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_Q]
       checkAssign = false
     }
     {
       id="ID_SHIP_TOGGLE_GUNNERS"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_E]
       checkAssign = false
     }
     {
@@ -892,20 +815,20 @@ enum ConflictGroups {
     }
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
-    { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP, autobind = ["ID_TOGGLE_VIEW_GM"] }
+    { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP }
     { id="ID_LOCK_TARGETING_AT_POINT_SHIP", checkGroup = ctrlGroups.SHIP, checkAssign = false }
-    { id="ship_zoom", type = CONTROL_TYPE.AXIS, autobind=["gm_zoom"], checkGroup = ctrlGroups.SHIP, checkAssign = false }
-    { id="ship_camx", type = CONTROL_TYPE.AXIS, autobind=["gm_camx"], checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
-    { id="ship_camy", type = CONTROL_TYPE.AXIS, autobind=["gm_camy"], checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
+    { id="ship_zoom", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
+    { id="ship_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
+    { id="ship_camy", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
     { id="invert_y_ship"
       type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_INVERTY_SHIP
     }
-    { id="ship_mouse_aim_x", type = CONTROL_TYPE.AXIS, autobind=["gm_mouse_aim_x"], checkGroup = ctrlGroups.SHIP
+    { id="ship_mouse_aim_x", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
-    { id="ship_mouse_aim_y", type = CONTROL_TYPE.AXIS, autobind=["gm_mouse_aim_y"], checkGroup = ctrlGroups.SHIP
+    { id="ship_mouse_aim_y", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
@@ -934,36 +857,31 @@ enum ConflictGroups {
 
   { id = "ID_SHIP_OTHER_HEADER", type = CONTROL_TYPE.SECTION }
     {
-      id = "ID_SHIP_ACTION_BAR_ITEM_1",
-      autobind = ["ID_ACTION_BAR_ITEM_1"]
+      id = "ID_SHIP_ACTION_BAR_ITEM_1"
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_ACTION_BAR_ITEM_2",
-      autobind = ["ID_ACTION_BAR_ITEM_2"]
+      id = "ID_SHIP_ACTION_BAR_ITEM_2"
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_ACTION_BAR_ITEM_3",
-      autobind = ["ID_ACTION_BAR_ITEM_3"]
+      id = "ID_SHIP_ACTION_BAR_ITEM_3"
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_ACTION_BAR_ITEM_4",
-      autobind = ["ID_ACTION_BAR_ITEM_4"]
+      id = "ID_SHIP_ACTION_BAR_ITEM_4"
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_ACTION_BAR_ITEM_5",
-      autobind = ["ID_ACTION_BAR_ITEM_5"]
+      id = "ID_SHIP_ACTION_BAR_ITEM_5"
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
@@ -971,32 +889,26 @@ enum ConflictGroups {
     { id="ID_SHIP_KILLSTREAK_WHEEL_MENU"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
-      autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
       showFunc = @() !(::is_platform_pc && !::is_xinput_device())
     }
 
     {
-      id = "ID_SHIP_ACTION_BAR_ITEM_6",
-      autobind = ["ID_ACTION_BAR_ITEM_6"]
+      id = "ID_SHIP_ACTION_BAR_ITEM_6"
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
-    { id="ID_SHIP_ACTION_BAR_ITEM_11",
-      autobind = ["ID_REPAIR_TANK"]
+    { id="ID_SHIP_ACTION_BAR_ITEM_11"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_7]
       checkAssign = false
     }
 
     { id="ID_REPAIR_BREACHES"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_8]
       checkAssign = false
     }
 
-    { id="ID_SHIP_ACTION_BAR_ITEM_10",
-      autobind = ["ID_ACTION_BAR_ITEM_10"]
+    { id="ID_SHIP_ACTION_BAR_ITEM_10"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
@@ -1025,7 +937,6 @@ enum ConflictGroups {
       id = "ID_SHIP_SMOKE_SCREEN_GENERATOR",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
-      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_G]
     }
 
   { id = "ID_SUBMARINE_CONTROL_HEADER"
@@ -1147,7 +1058,6 @@ enum ConflictGroups {
     }
     { id="ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
       checkGroup = ctrlGroups.SUBMARINE
-      autobind = ["ID_SHIP_KILLSTREAK_WHEEL_MENU"]
       showFunc = @() !(::is_platform_pc && !::is_xinput_device())
       checkAssign = false
     }
@@ -1180,13 +1090,8 @@ enum ConflictGroups {
     }
 
   { id = "ID_COMMON_ARTILLERY_HEADER", type = CONTROL_TYPE.SECTION }
-    { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false
-      autobind = ["ID_FIRE_GM", "ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
-    }
-    { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false
-      autobind_sc = @() get_is_console_mode_force_enabled() ?
-        [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.MOUSE_MIDDLE_BUTTON]
-    }
+    { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false }
+    { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false }
     { id="ID_ARTILLERY_CANCEL", checkGroup = ctrlGroups.ARTILLERY, checkAssign = false}
 
   { id = "ID_COMMON_INTERFACE_HEADER", type = CONTROL_TYPE.SECTION }
@@ -1320,7 +1225,6 @@ enum ConflictGroups {
       showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
       checkGroup = ctrlGroups.COMMON
       checkAssign = false
-      autobind = ["ID_CAMERA_NEUTRAL"]
     }
     { id="tracker_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.COMMON, checkAssign = false,
       showFunc = @() ::is_tracker_joystick()
@@ -1396,8 +1300,7 @@ enum ConflictGroups {
     { id="ID_REPLAY_CAMERA_ZOOM_OUT", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="ID_REPLAY_SLOWER", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="ID_REPLAY_FASTER", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
-    { id="ID_REPLAY_PAUSE", checkGroup = ctrlGroups.REPLAY, checkAssign = false
-      autobind = ["ID_SKIP_CUTSCENE", "ID_GAME_PAUSE"] }
+    { id="ID_REPLAY_PAUSE", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
     { id="ID_REPLAY_AVI_WRITER",
       checkGroup = ctrlGroups.REPLAY,
       checkAssign = false,
@@ -1412,9 +1315,7 @@ enum ConflictGroups {
     { id="ID_REPLAY_RESET_CAMERA_ROLL", checkGroup = ctrlGroups.REPLAY, checkAssign = false, dontCheckDupes = true }
     { id="ID_REPLAY_TOGGLE_PLAYER_VISIBILITY", checkGroup = ctrlGroups.REPLAY, checkAssign = false, dontCheckDupes = true }
     { id="ID_REPLAY_TOGGLE_DOF", checkGroup = ctrlGroups.REPLAY, checkAssign = false, dontCheckDupes = true }
-    { id="ID_SPECTATOR_CAMERA_ROTATION", checkGroup = ctrlGroups.REPLAY, checkAssign = false
-      autobind_sc = [SHORTCUT.MOUSE_RIGHT_BUTTON]
-    }
+    { id="ID_SPECTATOR_CAMERA_ROTATION", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
 
     { id="ID_REPLAY_TRACK_ADD_KEYFRAME",
       checkGroup = ctrlGroups.REPLAY, checkAssign = false, dontCheckDupes = true, showFunc = isExperimentalCameraTrack }
@@ -2039,14 +1940,21 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   isAircraftHelpersChangePerformed = false
 
+  filledControlGroupTab = null
+
   function getMainFocusObj()
   {
-    return getObj("helpers_mode")
+    return "filter_edit_box"
   }
 
   function getMainFocusObj2()
   {
-    return getObj("controls_tbl")
+    return "helpers_mode"
+  }
+
+  function getMainFocusObj3()
+  {
+    return "controls_tbl"
   }
 
   function initScreen()
@@ -2065,6 +1973,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     deviceMapping = []
 
     initNavigation()
+    initSearchField()
     initMainParams()
 
     if (!fetch_devices_inited_once())
@@ -2111,6 +2020,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     navigationHandlerWeak = handler.weakref()
   }
 
+  function initSearchField()
+  {
+    local listboxFilterHolder = scene.findObject("listbox_filter_holder")
+    guiScene.replaceContent(listboxFilterHolder, "gui/chapter_include_filter.blk", this)
+  }
+
   function fillFilterObj()
   {
     if (filterObjId)
@@ -2154,6 +2069,47 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   function fillControlsType()
   {
     fillFilterObj()
+  }
+
+  function onFilterEditBoxActivate() {}
+  function onFilterEditBoxChangeValue()
+  {
+    if (::u.isEmpty(filledControlGroupTab))
+      return
+
+    local filterEditBox = scene.findObject("filter_edit_box")
+    if (!::checkObj(filterEditBox))
+      return
+
+    local filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+
+    foreach (idx, data in filledControlGroupTab)
+    {
+      local show = filterText == "" || data.text.find(filterText) != null
+      local rowObj = scene.findObject(data.id)
+      if (::check_obj(rowObj))
+      {
+        rowObj.show(show)
+        rowObj.enable(show)
+      }
+    }
+  }
+
+  function onFilterEditBoxCancel(obj = null)
+  {
+    if (obj.getValue() == "")
+      goBack()
+    else
+      resetSearch()
+  }
+
+  function resetSearch()
+  {
+    local filterEditBox = scene.findObject("filter_edit_box")
+    if ( ! ::checkObj(filterEditBox))
+      return
+
+    filterEditBox.setValue("")
   }
 
   function isScriptOpenFileDialogAllowed()
@@ -2280,6 +2236,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local isHelpersVisible = false
 
     local navigationItems = []
+    filledControlGroupTab = []
 
     for(local n=0; n < ::shortcutsList.len(); n++)
     {
@@ -2308,11 +2265,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           continue
 
         local hotkeyData = ::buildHotkeyItem(i, shortcuts, entry, joyParams, gRow%2 == 0)
-        if (hotkeyData != "")
-        {
-          data += hotkeyData
-          gRow++
-        }
+        filledControlGroupTab.append(hotkeyData)
+        if (hotkeyData.markup == "")
+          continue
+
+        data += hotkeyData.markup
+        gRow++
       }
 
       break
@@ -2329,6 +2287,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     }
     updateSceneOptions()
     optionsFilterApply()
+    onFilterEditBoxChangeValue()
     restoreFocus()
   }
 
@@ -3141,9 +3100,9 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                 local id = item.modifiersId[name]
                 if ((id in shortcuts) && !::isShortcutMapped(shortcuts[id]))
                 {
-                  local name = "controls/" + item.axisName
-                  if (::find_in_array(resForHeader.list, name) < 0)
-                    resForHeader.list.append(name)
+                  local locName = "controls/" + item.axisName
+                  if (::find_in_array(resForHeader.list, locName) < 0)
+                    resForHeader.list.append(locName)
                 }
               }
       }
@@ -3544,28 +3503,37 @@ function refillControlsDupes()
 
 function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
 {
-  if (("condition" in item) && !item.condition())
-    return ""
+  local hotkeyData = {
+    id = "table_row_" + rowIdx
+    markup = ""
+    text = ""
+  }
 
-  local trAdd = ::format("id:t='table_row_%d'; even:t='%s'; %s", rowIdx, even? "yes" : "no", rowParams)
+  if (("condition" in item) && !item.condition())
+    return hotkeyData
+
+  local trAdd = ::format("id:t='%s'; even:t='%s'; %s", hotkeyData.id, even? "yes" : "no", rowParams)
   local res = ""
   local elemTxt = ""
-  local elemIdTxt = "#controls/" + item.id
+  local elemIdTxt = "controls/" + item.id
 
   if (item.type == CONTROL_TYPE.SECTION)
   {
-    local data = ""
-    res = format("tr { %s inactive:t='yes';" +
+    local hotkeyId = "hotkeys/" + item.id
+    res = ::format("tr { %s inactive:t='yes';" +
                    "td { width:t='@controlsLeftRow'; overflow:t='visible';" +
-                     "optionBlockHeader { text:t='%s'; }}\n" +
+                     "optionBlockHeader { text:t='#%s'; }}\n" +
                    "td { width:t='pw-1@controlsLeftRow'; }\n" +
-                 "}\n", trAdd, ::getTblValue("title", item, "#hotkeys/" + item.id))
+                 "}\n", trAdd, hotkeyId)
+
+    hotkeyData.text = ::english_russian_to_lower_case(::loc(hotkeyId))
+    hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT)
   {
-    local trName = "#hotkeys/" + ((item.id=="")? "enable" : item.id)
-    res = format("tr { %s " +
-                   "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext{id:t='%s'; text:t='%s'; }}\n" +
+    local trName = "hotkeys/" + ((item.id=="")? "enable" : item.id)
+    res = ::format("tr { %s " +
+                   "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext{id:t='%s'; text:t='#%s'; }}\n" +
                    "td { width:t='pw-1@controlsLeftRow'; cellType:t='right'; padding-left:t='@optPad';" +
                    " textareaNoTab {id:t='%s'; pos:t='0, 0.5ph-0.5h'; position:t='relative'; text:t='%s'; }}\n" +
                  "}\n",
@@ -3574,16 +3542,21 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
                  trName,
                  "txt_sc_" + item.id,
                  ::get_shortcut_text(shortcuts, item.shortcutId, true, true))
+
+    hotkeyData.text = ::english_russian_to_lower_case(::loc(trName))
+    hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.AXIS && item.axisIndex >= 0)
   {
-    local data = ""
-    res = format("tr { id:t='%s'; %s " +
+    res = ::format("tr { id:t='%s'; %s " +
                    "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext{text:t='%s'; }}\n" +
                    "td { width:t='pw-1@controlsLeftRow'; cellType:t='right'; padding-left:t='@optPad';" +
-                   " textareaNoTab {id:t='%s'; pos:t='0, 0.5ph-0.5h'; position:t='relative'; text:t='%s'; }}\n" +
+                   " textareaNoTab {id:t='%s'; pos:t='0, 0.5ph-0.5h'; position:t='relative'; text:t=''; }}\n" +
                  "}\n",
-                 "axis_" + item.axisIndex, trAdd, "#controls/"+item.id, "txt_"+item.id, data)
+                 "axis_" + item.axisIndex, trAdd, "#controls/"+item.id, "txt_"+item.id)
+
+    hotkeyData.text = ::english_russian_to_lower_case(::loc("controls/"+item.id))
+    hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.SPINNER || item.type== CONTROL_TYPE.DROPRIGHT)
   {
@@ -3596,7 +3569,7 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
     if ("optionType" in item)
     {
       local config = ::get_option(item.optionType)
-      elemIdTxt = "#options/" + config.id
+      elemIdTxt = "options/" + config.id
       elemTxt = createOptFunc(item.id, config.items, config.value, callBack, true)
     }
     else if ("options" in item && (item.options.len() > 0))
@@ -3612,7 +3585,7 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
     if ("optionType" in item)
     {
       local config = ::get_option(item.optionType)
-      elemIdTxt = "#options/" + config.id
+      elemIdTxt = "options/" + config.id
       elemTxt = ::create_option_slider(item.id, config.value, "onSliderChange", true, "slider", config)
     }
     else
@@ -3629,7 +3602,7 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
     if ("optionType" in item)
     {
       config = ::get_option(item.optionType)
-      elemIdTxt = "#options/" + config.id
+      elemIdTxt = "options/" + config.id
       config.id = item.id
     }
     else
@@ -3658,16 +3631,20 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
   else
   {
     res = "tr { display:t='hide'; td {} td { tdiv{} } }"
-    dagor.debug("Error: wrong shortcut - " + item.id)
+    ::dagor.debug("Error: wrong shortcut - " + item.id)
   }
 
   if (elemTxt!="")
-    res += ::format("tr { css-hier-invalidate:t='all'; width:t='pw'; %s " +
-                   "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext { text:t ='%s'; }} " +
+  {
+    res = ::format("tr { css-hier-invalidate:t='all'; width:t='pw'; %s " +
+                   "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext { text:t ='#%s'; }} " +
                    "td { width:t='pw-1@controlsLeftRow'; cellType:t='right'; padding-left:t='@optPad'; %s } " +
                  "}\n",
                  trAdd, elemIdTxt, elemTxt)
-  return res
+    hotkeyData.text = ::english_russian_to_lower_case(::loc(elemIdTxt))
+    hotkeyData.markup = res
+  }
+  return hotkeyData
 }
 
 function get_shortcut_text(shortcuts, shortcutId, cantBeEmpty = true, strip_tags = false)
@@ -4137,10 +4114,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
     local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
     blkWeaponPreset = ::DataBlock()
     if (unitBlk.weapon_presets)
-      foreach (idx, preset in (unitBlk.weapon_presets % "preset"))
-        if (preset.name == curWeaponPresetId || curWeaponPresetId == "" && idx == 0)
+      foreach (idx, presetBlk in (unitBlk.weapon_presets % "preset"))
+        if (presetBlk.name == curWeaponPresetId || curWeaponPresetId == "" && idx == 0)
         {
-          blkWeaponPreset = ::DataBlock(preset.blk)
+          blkWeaponPreset = ::DataBlock(presetBlk.blk)
           break
         }
     blkSensors = unitBlk.sensors
@@ -4278,7 +4255,6 @@ function getRequiredControlsForUnit(unit, helpersMode)
     local difficultyName = ::g_difficulty.getDifficultyByName(missionDifficulty).settingsName
     local difficultySettings = gameParams?.difficulty_settings?.baseDifficulty?[difficultyName]
 
-    local unit = ::get_player_cur_unit()
     local tags = unit?.tags || []
     local scoutPresetId = difficultySettings?.scoutPreset || ""
     if (::has_feature("ActiveScouting") && tags.find("scout") != null

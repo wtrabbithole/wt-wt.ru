@@ -352,7 +352,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     array.extend(periodicRewardsArray)
 
     if (array.len() > 1 || haveItems)
-      ::gui_start_open_trophy_rewards_list(::trophyReward.processUserlogData(array))
+      ::gui_start_open_trophy_rewards_list({ rewardsArray = ::trophyReward.processUserlogData(array) })
   }
 
   function onOpenChest()
@@ -473,10 +473,10 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(rewardTextObj))
       rewardTextObj.setValue(reward)
 
-    local reward = periodUnit? getRentUnitText(periodUnit) : ::trophyReward.getReward(periodicRewardsArray)
-    local rewardTextObj = placeObj.findObject("period_reward_text")
-    if (::checkObj(rewardTextObj))
-      rewardTextObj.setValue(reward)
+    local periodReward = periodUnit? getRentUnitText(periodUnit) : ::trophyReward.getReward(periodicRewardsArray)
+    local pRewardTextObj = placeObj.findObject("period_reward_text")
+    if (::checkObj(pRewardTextObj))
+      pRewardTextObj.setValue(periodReward)
 
     updateUnitItem(unit, placeObj.findObject("reward_aircrafts"))
     updateUnitItem(periodUnit, placeObj.findObject("periodic_reward_aircrafts"))
@@ -572,9 +572,9 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function checkMissingDays(view, daysForLast, i)
+  function checkMissingDays(view, daysForLast, idx)
   {
-    local daysDiff = i == 0? 0 : (daysForLast - lastSavedDay)
+    local daysDiff = idx == 0? 0 : (daysForLast - lastSavedDay)
     lastSavedDay = daysForLast
     if (daysDiff < 2)
       return

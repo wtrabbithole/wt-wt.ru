@@ -386,9 +386,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (debugUnlocks <= res.len())
       return res
 
-    local filter = clone filter
-    filter.currentRoomOnly = false
-    logsList = getUserLogsList(filter)
+    local dbgFilter = clone filter
+    dbgFilter.currentRoomOnly = false
+    logsList = getUserLogsList(dbgFilter)
     if (!logsList.len())
     {
       ::dlog("Not found any unlocks in userlogs for debug")
@@ -603,12 +603,20 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!giftItems)
       return
 
-    local itemId    = giftItems[0]?.id
-    local itemCount = giftItems[0]?.count
     local obj = scene.findObject("inventory_gift_icon")
-    local view = { item = giftItems[0]?.id, count = giftItems[0]?.count }
-    local markup = ::trophyReward.getImageByConfig(view, false)
-    guiScene.replaceContentFromText(obj, markup, markup.len(), this)
+    local giftsMarkup = ""
+    foreach (itemData in giftItems)
+    {
+      local view = { item = itemData?.id, count = itemData?.count }
+      local markup = ::trophyReward.getImageByConfig(view, false)
+      giftsMarkup += markup
+    }
+    guiScene.replaceContentFromText(obj, giftsMarkup, giftsMarkup.len(), this)
+
+    local leftBlockHeight = scene.findObject("left_block").getSize()[1]
+    local itemHeight = ::g_dagui_utils.toPixels(guiScene, "1@itemHeight")
+    if (itemHeight * giftItems.len() > leftBlockHeight / 2)
+      obj.smallItems = "yes"
   }
 
   function openGiftTrophy()
@@ -1555,9 +1563,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (tRow.tooltipExtraRows)
         extraRows.extend(tRow.tooltipExtraRows())
 
-      foreach (id in extraRows)
+      foreach (extId in extraRows)
       {
-        local extraRow = ::get_debriefing_row_by_id(id)
+        local extraRow = ::get_debriefing_row_by_id(extId)
         if (extraRow.show || extraRow.showInTooltips)
           rowsCfg.append({
             row     = extraRow
@@ -3015,12 +3023,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!giftItems)
       return null
 
-    local wSet = workshop.getSetByItemId(giftItems?[0]?.id)
+    local itemDefId = giftItems?[0]?.id
+    local wSet = workshop.getSetByItemId(itemDefId)
     if (wSet)
       return {
         btnText = ::loc("items/workshop")
         action = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
-          : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+          : ::gui_start_items_list(itemsTab.WORKSHOP, {
+              curSheet = { id = wSet.getShopTabId() },
+              curItem = ::ItemsManager.getInventoryItemById(itemDefId)
+            })
       }
 
     return null

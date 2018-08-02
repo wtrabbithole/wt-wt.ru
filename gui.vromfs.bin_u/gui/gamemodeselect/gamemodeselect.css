@@ -48,14 +48,12 @@ gameModeChangeButton > dropMenuSeparator {
 
 
 game_mode_select separator {
-  width: pw-0.5*0.0014@scrn_tgt;
-  height: 0.01@scrn_tgt;
-  margin: 0.0014@scrn_tgt, 0.0112@scrn_tgt;
-  re-type: 9rect;
-  background-color: @white;
-  background-image: #ui/gameuiskin#separator_bottom;
-  background-repeat: expand;
-  background-position:1, 1, 1, 1;
+  width: 0.9pw;
+  height: 1@dp;
+  margin: 0, 0.01@scrn_tgt;
+  left: 0.5(pw-w);
+  position: relative;
+  background-color: @gameModesSeparatorColor;
 }
 
 general_game_modes {

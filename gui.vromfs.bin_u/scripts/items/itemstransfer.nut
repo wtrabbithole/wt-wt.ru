@@ -1,4 +1,5 @@
 local u = ::require("std/u.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local sendingList = {}
 
@@ -19,7 +20,7 @@ local function updateSendingList()
     ::broadcastEvent("SendingItemsChanged")
 }
 
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   SignOut = @(p) sendingList.clear()
   ProfileUpdated = @(p) updateSendingList()
   ScriptsReloaded = @(p) ::g_login.isProfileReceived() && updateSendingList()

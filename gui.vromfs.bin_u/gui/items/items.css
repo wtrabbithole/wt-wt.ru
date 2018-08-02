@@ -62,6 +62,14 @@ itemDiv[enableBackground=yes][today=yes] {
   background-image:#ui/gameuiskin#lr_red_frame_bg;
 }
 
+recipe[isRecipeLocked = no] > itemDiv {
+  item_locked: no;
+}
+
+recipe[isRecipeLocked = yes] > itemDiv {
+  item_locked: yes;
+}
+
 itemDiv[item_locked = yes] {
   background-image:"";
   background-color:@frameBackgroundColor;
@@ -462,4 +470,16 @@ itemsSeparator {
   background-color:@frameSeparatorColor;
   input-transparent:yes;
   enable:no;
+}
+
+itemAmountText[overlayTextColor = goodTextColor] {
+  color: @goodTextColor;
+}
+
+itemAmountText[overlayTextColor = badTextColor] {
+  color: @badTextColor;
+}
+
+recipe[isRecipeLocked = yes] > itemDiv itemAmountText {
+  color: @commonTextColor;
 }

@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 /**
  * Measure type is a useful abstraction above
  * customizable and hard-coded measure units.

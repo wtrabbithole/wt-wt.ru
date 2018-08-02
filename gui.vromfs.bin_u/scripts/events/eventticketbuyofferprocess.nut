@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 
 ::g_event_ticket_buy_offer <- {
@@ -33,7 +34,7 @@ class EventTicketBuyOfferProcess
 
   function onEventItemLimitsUpdated(params)
   {
-    ::remove_event_listeners_by_env("ItemLimitsUpdated", this)
+    subscriptions.removeEventListenersByEnv("ItemLimitsUpdated", this)
     handleTickets()
   }
 

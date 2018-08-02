@@ -15,7 +15,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
 
   local div = getObj("gamercard_div")
   local logoFound = ::checkObj(div) ? ::show_title_logo(true, div) : false
-  local show = show && ::g_login.isLoggedIn()
+  show = show && ::g_login.isLoggedIn()
   if (::checkObj(div))
     div.show(show)
 
@@ -64,9 +64,9 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
             ::g_language.decimalFormat(cfg.exp)
           break
         case "clanTag":
-          local show = val != "" && ::has_feature("Clans")
-          showClanTag = show
-          if (show)
+          local isVisible = val != "" && ::has_feature("Clans")
+          showClanTag = isVisible
+          if (isVisible)
           {
             local clanTagName = ::checkClanTagForDirtyWords(val.tostring())
             local btnText = obj.findObject(prefix + name + "_name")
@@ -168,9 +168,9 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   if (::has_feature("Friends"))
   {
     local friendsOnline = ::getFriendsOnlineNum()
-    local fObj = getObj(prefix + "contacts")
-    if (::checkObj(fObj))
-      fObj.tooltip = format(::loc("contacts/friends_online"), friendsOnline)
+    local cObj = getObj(prefix + "contacts")
+    if (::checkObj(cObj))
+      cObj.tooltip = format(::loc("contacts/friends_online"), friendsOnline)
 
     local fObj = getObj(prefix + "friends_online")
     if (::checkObj(fObj))
