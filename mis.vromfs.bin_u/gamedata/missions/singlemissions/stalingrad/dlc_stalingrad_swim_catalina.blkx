@@ -25,18 +25,10 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "stalingrad",
-      "windSpeed": [2.0,3.0],
-      "windDirectionDeg": [60.0,68.0],
       "country_axis": "germany",
       "country_allies": "ussr",
-      "stars": {
-        "latitude": 48.0,
-        "longitude": 44.0,
-        "year": 1942,
-        "month": 6,
-        "day": 1,
-        "localTime": 9.0
-      },
+      "windSpeed": [2.0,3.0],
+      "windDirectionDeg": [60.0,68.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -51,7 +43,23 @@
         "_Conq1": false,
         "_Conq2": false,
         "_Conq3": false,
-        "_Conq4": false
+        "_Conq4": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Conq5": false,
+        "_Conq6": false
+      },
+      "stars": {
+        "latitude": 48.0,
+        "longitude": 44.0,
+        "year": 1942,
+        "month": 6,
+        "day": 1,
+        "localTime": 9.0
       }
     },
     "cover_points": [],
@@ -77,6 +85,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -142,6 +153,18 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "bf_109_01"
             },
             {
@@ -165,6 +188,18 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "germ_air_def_02"
             },
             {
@@ -180,6 +215,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "ussr_ships",
             "stealthRadius": 3500.0
           }
@@ -238,7 +277,7 @@
               "target": "germ_air_def_01"
             },
             {
-              "target": "germ_air_def_02"
+              "target": "germ_air_def_02_squad"
             },
             {
               "target": "german_fighters_for_the_end"
@@ -363,6 +402,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "germ_tanks_01",
             "stealthRadius": 2500.0
           }
@@ -395,6 +438,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "germ_air_def_01"
           }
         },
@@ -417,7 +464,13 @@
             "name": "hints/dlc_stalingrad_swim_hide__begin_hint",
             "action": "show",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -431,7 +484,13 @@
             "name": "hints/dlc_stalingrad_swim_hide__begin_hint",
             "action": "hide",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         }
       ],
@@ -467,6 +526,10 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "germ_air_def_01",
           "attack_type": "fire_at_will"
         },
@@ -526,6 +589,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "ju_87_01",
             "speed": 250.0
           }
@@ -547,6 +617,13 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "bf_109_01",
             "speed": 250.0,
             "follow_offset": [-150.0,20.0,20.0]
@@ -596,7 +673,13 @@
             "name": "hints/dlc_stalingrad_swim_hide_hint",
             "action": "show",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -610,17 +693,31 @@
             "name": "hints/dlc_stalingrad_swim_hide_hint",
             "action": "hide",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "germ_air_def_01"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "germ_air_def_01",
             "stealthRadius": 2500.0
           }
@@ -734,7 +831,7 @@
         },
         {
           "unitWakeUp": {
-            "target": "germ_air_def_02"
+            "target": "germ_air_def_02_squad"
           }
         },
         {
@@ -763,11 +860,19 @@
         {
           "unitSetIndication": {
             "set": true,
-            "target": "germ_air_def_02"
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target": "germ_air_def_02_squad"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "germ_tanks_02",
             "stealthRadius": 2500.0
           }
@@ -778,7 +883,13 @@
             "name": "hints/dlc_stalingrad_swim_hide__begin_hint",
             "action": "show",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -792,7 +903,13 @@
             "name": "hints/dlc_stalingrad_swim_hide__begin_hint",
             "action": "hide",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         }
       ],
@@ -886,7 +1003,7 @@
           "target_type": "isAlive",
           "check_players": "any",
           "check_targets": "any",
-          "target": "germ_air_def_02"
+          "target": "germ_air_def_02_squad"
         },
         "playersWhenStatus": {
           "players": "isInAir",
@@ -895,7 +1012,11 @@
       },
       "actions": {
         "unitSetProperties": {
-          "object": "germ_air_def_02",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "germ_air_def_02_squad",
           "attack_type": "fire_at_will"
         },
         "moSetObjectiveStatus": {
@@ -931,6 +1052,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "bf_109_01",
           "speed": 600.0,
           "follow_offset": [-150.0,20.0,20.0]
@@ -1030,7 +1158,7 @@
           "target_type": "isAlive",
           "check_players": "any",
           "check_targets": "any",
-          "target": "germ_air_def_02"
+          "target": "germ_air_def_02_squad"
         }
       },
       "actions": [
@@ -1045,7 +1173,13 @@
             "name": "hints/dlc_stalingrad_swim_hide_hint",
             "action": "show",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
@@ -1059,13 +1193,23 @@
             "name": "hints/dlc_stalingrad_swim_hide_hint",
             "action": "hide",
             "shouldFadeOut": true,
-            "time": -1.0
+            "time": -1.0,
+            "isOverFade": false,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0
           }
         },
         {
           "unitSetIndication": {
             "set": false,
-            "target": "germ_air_def_02"
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target": "germ_air_def_02_squad"
           }
         },
         {
@@ -1075,7 +1219,11 @@
         },
         {
           "unitSetProperties": {
-            "object": "germ_air_def_02",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "object": "germ_air_def_02_squad",
             "stealthRadius": 2500.0
           }
         }
@@ -1181,6 +1329,10 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "germ_air_def_02",
             "stealthRadius": 2500.0
           }
@@ -1282,6 +1434,9 @@
           "object_marking": 0,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "player_wing",
           "target": "airfield_02"
         }
@@ -1396,6 +1551,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 150.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "player_wing",
           "move_type": "teleport",
           "speed": 180.0,
@@ -1475,6 +1637,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 150.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "player_wing",
           "move_type": "teleport",
           "speed": 180.0,
@@ -1554,6 +1723,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 150.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "player_wing",
           "move_type": "teleport",
           "speed": 180.0,
@@ -1633,6 +1809,13 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 150.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "player_wing",
           "move_type": "teleport",
           "speed": 180.0,
@@ -1827,8 +2010,10 @@
           [0.642788,0.0,0.766044],
           [-14891.0,55.8984,-18024.9]
         ],
-        "closed_waypoints": true,
         "unit_class": "pby-5a_ussr",
+        "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "pby_5_default",
         "bullets0": "",
         "bullets1": "",
@@ -1869,10 +2054,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3877.55,-2.82975,-6088.05]
+          [-3837.09,-2.82971,-6121.43]
         ],
+        "unit_class": "germ_20mmx4_flak38",
         "closed_waypoints": false,
-        "unit_class": "germ_20mm_flak38",
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1884,7 +2071,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 2,
-          "count": 16,
+          "count": 1,
           "formation_type": "rows",
           "formation_div": 4,
           "formation_step": [2.5,2.0],
@@ -1904,8 +2091,10 @@
           [0.766044,0.0,0.642788],
           [-10295.8,51.0472,-18222.5]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_57mm_zis2_noground",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1937,8 +2126,10 @@
           [-0.766045,0.0,-0.642788],
           [-9924.8,34.5,-18518.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_pzIVc",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1952,7 +2143,7 @@
           "army": 2,
           "count": 20,
           "formation_type": "rows",
-          "formation_div": 2,
+          "formation_div": 3,
           "formation_step": [15.0,10.0],
           "formation_noise": [1.0,1.0],
           "uniqueName": "",
@@ -1962,57 +2153,65 @@
           "germ_tanks_wp_01": {
             "type": "normal",
             "tm": [
-              [0.92388,0.0,0.382683],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.382683,0.0,0.92388],
+              [0.0,0.0,1.0],
               [-10171.2,29.1972,-18276.2]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_tanks_wp_02": {
             "type": "normal",
             "tm": [
-              [0.92388,0.0,0.382683],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.382683,0.0,0.92388],
-              [-10136.3,34.05,-18009.8]
+              [0.0,0.0,1.0],
+              [-10127.6,34.05,-18088.8]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_tanks_wp_03": {
             "type": "normal",
             "tm": [
-              [0.92388,0.0,0.382683],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.382683,0.0,0.92388],
-              [-9988.8,35.8,-17847.3]
+              [0.0,0.0,1.0],
+              [-9980.05,35.8,-17926.3]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_tanks_wp_04": {
             "type": "normal",
             "tm": [
-              [0.92388,0.0,0.382683],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.382683,0.0,0.92388],
-              [-9867.2,32.6,-17636.3]
+              [0.0,0.0,1.0],
+              [-9858.45,32.6,-17715.3]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2027,8 +2226,10 @@
           [0.707107,0.0,-0.707106],
           [-8358.25,-4.78081,-12153.1]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_57mm_zis2_noground",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2058,10 +2259,12 @@
           [0.793354,0.0,0.608761],
           [0.0,1.0,0.0],
           [-0.608761,0.0,0.793354],
-          [-8713.45,-5.04566,-12575.7]
+          [-8730.17,-5.04565,-12560.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_pzIIIj",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2075,7 +2278,7 @@
           "army": 2,
           "count": 21,
           "formation_type": "rows",
-          "formation_div": 2,
+          "formation_div": 3,
           "formation_step": [15.0,10.0],
           "formation_noise": [1.0,1.0],
           "uniqueName": "",
@@ -2085,43 +2288,49 @@
           "germ_tanks_02_wp_01": {
             "type": "normal",
             "tm": [
-              [0.976296,0.0,0.21644],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.21644,0.0,0.976296],
+              [0.0,0.0,1.0],
               [-8641.06,-4.73833,-12386.9]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_tanks_02_wp_02": {
             "type": "normal",
             "tm": [
-              [0.976296,0.0,0.21644],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.21644,0.0,0.976296],
-              [-8241.81,-5.83807,-12041.9]
+              [0.0,0.0,1.0],
+              [-8304.38,-5.83807,-11982.0]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_tanks_02_wp_03": {
             "type": "normal",
             "tm": [
-              [0.976296,0.0,0.21644],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.21644,0.0,0.976296],
-              [-8141.05,-7.43949,-11878.7]
+              [0.0,0.0,1.0],
+              [-8181.01,-7.43951,-11673.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2136,8 +2345,10 @@
           [0.608762,0.0,0.793354],
           [-10579.0,1500.0,-9108.57]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109g-2",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Bf-109G-2_default",
         "bullets0": "",
         "bullets1": "",
@@ -2180,8 +2391,10 @@
           [0.573577,0.0,0.819151],
           [-10581.3,550.0,-9158.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "ju-87d-3",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Ju87_D3_default",
         "bullets0": "",
         "bullets1": "",
@@ -2224,22 +2437,11 @@
           [-0.608761,0.0,0.793353],
           [2897.75,3.85,-3050.9]
         ],
-        "closed_waypoints": false,
         "unit_class": "dynAF_britain_ally",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "active": true
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2251,17 +2453,6 @@
           [0.0,0.0,1.0],
           [-6570.5,-4.4,-13427.9]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": [
           {
             "squad_members": "bf_109_01"
@@ -2269,8 +2460,7 @@
           {
             "squad_members": "ju_87_01"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2282,8 +2472,10 @@
           [-0.984808,0.0,0.173648],
           [-9510.7,-4.9,-14495.6]
         ],
-        "closed_waypoints": false,
         "unit_class": "germ_flakpanzer38_20mm",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2315,7 +2507,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_air_def_02_wp_02": {
@@ -2329,7 +2523,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_air_def_02_wp_03": {
@@ -2343,7 +2539,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_air_def_02_wp_04": {
@@ -2357,7 +2555,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_air_def_02_wp_05": {
@@ -2371,7 +2571,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "germ_air_def_02_wp_06": {
@@ -2385,7 +2587,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2400,8 +2604,10 @@
           [0.0,0.0,1.0],
           [2561.5,2.35,-3375.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_37mm_61k",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2433,8 +2639,10 @@
           [0.0,0.0,1.0],
           [2664.65,2.8758,-3363.05]
         ],
-        "closed_waypoints": false,
         "unit_class": "ussr_37mm_61k",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2466,8 +2674,10 @@
           [-0.573576,0.0,-0.819152],
           [251.8,1500.0,-9741.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "bf-109f-4",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Bf-109F-4_default",
         "bullets0": "",
         "bullets1": "",
@@ -2510,7 +2720,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_01_wp_02": {
@@ -2524,7 +2736,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_01_wp_03": {
@@ -2538,7 +2752,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ships_01_wp_04": {
@@ -2552,7 +2768,9 @@
             "props": {
               "speed": 250.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2567,8 +2785,10 @@
           [0.953717,0.0,0.300706],
           [-6653.0,-23.8,-9636.15]
         ],
-        "closed_waypoints": false,
         "unit_class": "cargo_ship",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2600,7 +2820,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_02": {
@@ -2614,7 +2836,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_03": {
@@ -2628,7 +2852,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_04": {
@@ -2642,7 +2868,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_05": {
@@ -2656,7 +2884,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_06": {
@@ -2670,7 +2900,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_07": {
@@ -2684,7 +2916,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_08": {
@@ -2698,7 +2932,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_09": {
@@ -2712,7 +2948,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_10": {
@@ -2726,7 +2964,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_11": {
@@ -2740,7 +2980,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_12": {
@@ -2754,7 +2996,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_13": {
@@ -2768,7 +3012,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_14": {
@@ -2782,7 +3028,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_15": {
@@ -2796,7 +3044,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_16": {
@@ -2810,7 +3060,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "ussr_ships_wp_17": {
@@ -2824,10 +3076,256 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
+      }
+    },
+    {
+      "air_defence": {
+        "name": "germ_air_def_03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-3948.62,-2.82971,-6347.67]
+        ],
+        "unit_class": "germ_20mmx4_flak38",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 4,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [1.0,1.0],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "germ_air_def_04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-4096.49,-2.82971,-6552.51]
+        ],
+        "unit_class": "germ_20mmx4_flak38",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 4,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [1.0,1.0],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "germ_air_def_05",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-4424.77,-2.82971,-6626.06]
+        ],
+        "unit_class": "germ_20mmx4_flak38",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 4,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [1.0,1.0],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "germ_air_def_06",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-3945.05,-2.82971,-5927.63]
+        ],
+        "unit_class": "germ_20mmx4_flak38",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 4,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [1.0,1.0],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "germ_air_def_07",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-4284.39,-2.82971,-6198.77]
+        ],
+        "unit_class": "germ_20mmx4_flak38",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 4,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [1.0,1.0],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "germ_air_def_08",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-4333.15,-2.82971,-6824.6]
+        ],
+        "unit_class": "germ_20mmx4_flak38",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 4,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [1.0,1.0],
+          "uniqueName": "",
+          "attack_type": "hold_fire"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "germ_air_def_02_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-4124.22,-2.82971,-6371.24]
+        ],
+        "props": [
+          {
+            "squad_members": "germ_air_def_08"
+          },
+          {
+            "squad_members": "germ_air_def_02"
+          },
+          {
+            "squad_members": "germ_air_def_03"
+          },
+          {
+            "squad_members": "germ_air_def_04"
+          },
+          {
+            "squad_members": "germ_air_def_05"
+          },
+          {
+            "squad_members": "germ_air_def_06"
+          },
+          {
+            "squad_members": "germ_air_def_07"
+          }
+        ]
       }
     }
   ],
