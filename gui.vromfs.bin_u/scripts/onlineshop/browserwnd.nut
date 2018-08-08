@@ -44,6 +44,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   sceneNavBlkName = null
   url = ""
   externalUrl = ""
+  needVoiceChat = false
 
   function initScreen()
   {

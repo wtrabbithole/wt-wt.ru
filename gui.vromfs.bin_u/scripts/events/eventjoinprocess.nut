@@ -206,7 +206,7 @@ class EventJoinProcess
         [
           ["startTutorial", (@(mData, diff) function() {
             mData.mission.setStr("difficulty", ::get_option(::USEROPT_DIFFICULTY).values[diff])
-            ::select_mission(mData.mission, false)
+            ::select_mission(mData.mission, true)
             ::current_campaign_mission = mData.mission.name
             ::save_tutorial_to_check_reward(mData.mission)
             ::handlersManager.animatedSwitchScene(::gui_start_flight)

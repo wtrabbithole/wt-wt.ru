@@ -15,7 +15,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
 
   local div = getObj("gamercard_div")
   local logoFound = ::checkObj(div) ? ::show_title_logo(true, div) : false
-  local show = show && ::g_login.isLoggedIn()
+  show = show && ::g_login.isLoggedIn()
   if (::checkObj(div))
     div.show(show)
 
@@ -64,9 +64,9 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
             ::g_language.decimalFormat(cfg.exp)
           break
         case "clanTag":
-          local show = val != "" && ::has_feature("Clans")
-          showClanTag = show
-          if (show)
+          local isVisible = val != "" && ::has_feature("Clans")
+          showClanTag = isVisible
+          if (isVisible)
           {
             local clanTagName = ::checkClanTagForDirtyWords(val.tostring())
             local btnText = obj.findObject(prefix + name + "_name")
@@ -168,9 +168,9 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   if (::has_feature("Friends"))
   {
     local friendsOnline = ::getFriendsOnlineNum()
-    local fObj = getObj(prefix + "contacts")
-    if (::checkObj(fObj))
-      fObj.tooltip = format(::loc("contacts/friends_online"), friendsOnline)
+    local cObj = getObj(prefix + "contacts")
+    if (::checkObj(cObj))
+      cObj.tooltip = format(::loc("contacts/friends_online"), friendsOnline)
 
     local fObj = getObj(prefix + "friends_online")
     if (::checkObj(fObj))
@@ -231,6 +231,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
                              gc_items_shop_button = ::ItemsManager.isEnabled() && ::has_feature("ItemsShop")
                              gc_online_shop_button = ::has_feature("OnlineShopPacks")
                              gc_clanAlert = ::g_clans.getUnseenCandidatesCount() > 0
+                             gc_invites_btn = ::has_feature("XBoxPlatformRestriction")
                            }
 
   foreach(id, status in buttonsShowTable)
@@ -244,13 +245,10 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
     }
   }
 
-  local disableForPs4Temporary = !(::is_platform_ps4 && ::is_in_loading_screen()) //!!!HACK, till hover is not working on loading
   local buttonsEnableTable = {
                                 gc_clanTag = showClanTag && is_in_menu
-                                gc_profile = disableForPs4Temporary
-                                gc_contacts = canHaveFriends && disableForPs4Temporary
-                                gc_chat_btn = canChat && platformModule.isChatEnabled() && disableForPs4Temporary
-                                gc_userlog_btn = disableForPs4Temporary
+                                gc_contacts = canHaveFriends
+                                gc_chat_btn = canChat && platformModule.isChatEnabled()
                                 gc_free_exp = canSpendGold && is_in_menu
                                 gc_warpoints = canSpendGold && is_in_menu
                                 gc_eagles = canSpendGold && is_in_menu

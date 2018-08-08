@@ -36,6 +36,7 @@
       "type": "title",
       "chapter": "officers_club",
       "hideForLang": "HChinese",
+      "hide_for_platform": "xboxOne",
       "mode": {
         "type": "char_poker_chips_mode",
         "num": 50000
@@ -48,6 +49,7 @@
       "type": "decal",
       "chapter": "officers_club",
       "hideForLang": "HChinese",
+      "hide_for_platform": "xboxOne",
       "mode": {
         "type": "char_poker_reward_level_mode",
         "num": 4
@@ -70,6 +72,9 @@
       },
       {
         "hideForLang": "HChinese"
+      },
+      {
+        "hide_for_platform": "xboxOne"
       },
       {
         "mode": {
@@ -119,6 +124,9 @@
       },
       {
         "hideForLang": "HChinese"
+      },
+      {
+        "hide_for_platform": "xboxOne"
       },
       {
         "mode": {
@@ -6203,6 +6211,7 @@
       "amount_warpoints": 100,
       "icon": "!ui/trophies_icons/051_steam_trophy_close_combat.png",
       "chapter": "trophy_steam",
+      "isAfterFlight": false,
       "mode": [
         {
           "type": "killedPlayersTimed"
@@ -81868,7 +81877,7 @@
       "id": "simple_38",
       "type": "decal",
       "chapter": "decals",
-      "group": "common",
+      "group": "france",
       "hideForLang": "HChinese",
       "mode": [
         {
@@ -91841,7 +91850,7 @@
       "id": "usa_text_franche_comte",
       "type": "decal",
       "chapter": "decals",
-      "group": "allies_tanks",
+      "group": "france_tanks",
       "mode": [
         {
           "type": "killedPlayersScore"
@@ -93841,6 +93850,19 @@
       "mode": {
         "type": "char_unit_exist",
         "unit": "us_destroyer_fletcher_bennion"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_destroyer_7y_stroyny_decals_unlock",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "ussr_ships",
+      "hideUntilUnlocked": true,
+      "mode": {
+        "type": "char_unit_exist",
+        "unit": "ussr_destroyer_7y_stroyny"
       }
     }
   },
@@ -111418,7 +111440,8 @@
       "amount_warpoints": 1000,
       "chapter": "achievements",
       "group": "",
-      "isAllowByClient": true
+      "isAllowByClient": true,
+      "hide_for_platform": "xboxOne"
     }
   },
   {

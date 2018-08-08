@@ -389,7 +389,10 @@ class gui_bhv.posNavigator
     else if (dir < 0 && pos[axis] < objPos[axis] + objSize[axis])
       pos[axis] += screenByAxis
 
-    pos[1-axis] = ::clamp(pos[1-axis], objPos[1-axis], objPos[1-axis] + objSize[1-axis])
+    local objSizeByAxis = objSize[1-axis]
+    pos[1-axis] = (objSizeByAxis > 0)
+      ? ::clamp(pos[1-axis], objPos[1-axis], objPos[1-axis] + objSizeByAxis)
+      : objPos[1-axis]
     return pos
   }
 

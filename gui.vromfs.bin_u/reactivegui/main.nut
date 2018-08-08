@@ -3,6 +3,7 @@
 ::string <- require("string")
 
 local widgets = require("reactiveGui/widgets.nut")
+local ctrlsState = require("ctrlsState.nut") //need this for controls mask updated
 
 return {
   children = [

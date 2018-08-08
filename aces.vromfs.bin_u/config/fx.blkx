@@ -1692,6 +1692,14 @@
     "numInstances": 50,
     "numReserved": 1
   },
+  "big_gun_turbo_flame": {
+    "fx": "pv_gun_turbo_flame_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 50,
+    "numReserved": 1
+  },
   "big_gun_mb_flame": {
     "fx": "pv_gun_mb_flame_composite_fx",
     "lifeTime": 10.0,
@@ -2335,6 +2343,30 @@
     "maxScale": 4.0,
     "sfxPath": "sounds/effects",
     "sfxEvent": "firework"
+  },
+  "firework_score_ginger": {
+    "fx": "firework_score_ginger_composite_fx",
+    "lifeTime": 7.0,
+    "nonPlayerFadeDistScale": 0.6,
+    "numInstances": 100,
+    "numReserved": 0,
+    "updateInvisible": true,
+    "minScale": 1.0,
+    "maxScale": 1.4,
+    "sfxPath": "tanks/football_event",
+    "sfxEvent": "ball_firework"
+  },
+  "firework_score_turquoise": {
+    "fx": "firework_score_turquoise_composite_fx",
+    "lifeTime": 7.0,
+    "nonPlayerFadeDistScale": 0.6,
+    "numInstances": 100,
+    "numReserved": 0,
+    "updateInvisible": true,
+    "minScale": 1.0,
+    "maxScale": 1.4,
+    "sfxPath": "tanks/football_event",
+    "sfxEvent": "ball_firework"
   },
   "shell_expl_long": {
     "fx": "shell_expl_fx",
@@ -3285,13 +3317,22 @@
     "granularity": 8,
     "group": "water_proj"
   },
-  "ship_water_jet": {
-    "fx": "ps_water_jet_composite",
-    "lifeTime": 2.0,
+  "ship_water_jet_ap": {
+    "fx": "ps_water_jet_ap",
+    "lifeTime": 4.0,
     "numInstances": 200,
     "numReserved": 50,
     "softnessDepth": 0.5,
-    "onePointNumber": 20,
+    "onePointNumber": 40,
+    "granularity": 8
+  },
+  "ship_water_jet": {
+    "fx": "ps_water_jet_composite",
+    "lifeTime": 4.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 40,
     "granularity": 8,
     "group": "water_proj"
   },

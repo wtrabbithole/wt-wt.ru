@@ -69,7 +69,7 @@
       if (::getTblValue("eventId", log) != eventEconomicName)
         continue
 
-      local leaderbordRow = ::getTblValueByPath("newStat.tournamentResult", log)
+      local leaderbordRow = log?.tournamentResult?.newStat
       if (!leaderbordRow)
         return false
 

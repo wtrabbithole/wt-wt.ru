@@ -1,6 +1,7 @@
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
-local enums = ::require("std/enums.nut")
 local u = ::require("std/u.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local netAssertsList = []
 function script_net_assert_once(id, msg)
@@ -34,8 +35,9 @@ callback.setContextDbgNameFunction(function(context)
 callback.setAssertFunction(function(callback, assertText)
 {
   local eventText = ""
-  if (::current_broadcasting_events.len())
-    eventText += ::format("event = %s, ", ::current_broadcasting_events.top().eventName)
+  local curEventName = subscriptions.getCurrentEventName()
+  if (curEventName)
+    eventText += ::format("event = %s, ", curEventName)
   local hudEventName = ("g_hud_event_manager" in getroottable()) ? ::g_hud_event_manager.getCurHudEventName() : null
   if (hudEventName)
     eventText += ::format("hudEvent = %s, ", hudEventName)

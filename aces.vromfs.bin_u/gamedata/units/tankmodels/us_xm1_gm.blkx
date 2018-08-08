@@ -236,7 +236,8 @@
         "composite_armor_turret_01_dm": {
           "armorThickness": 300.0,
           "cumulativeArmorQuality": 0.7,
-          "genericArmorQuality": 0.0
+          "genericArmorQuality": 0.0,
+          "armorEffectiveThicknessMax": 200.0
         }
       },
       "turret": {
@@ -896,53 +897,7 @@
             },
             "ammo_turret_23_dm": {
               "count": 1
-            }
-          }
-        },
-        {
-          "shells": {
-            "fatalFire": true,
-            "fatalExplosion": true,
-            "ammo_turret_01_dm": {
-              "count": 1
             },
-            "ammo_turret_02_dm": {
-              "count": 1
-            },
-            "ammo_turret_03_dm": {
-              "count": 1
-            },
-            "ammo_turret_04_dm": {
-              "count": 1
-            },
-            "ammo_turret_05_dm": {
-              "count": 1
-            },
-            "ammo_turret_06_dm": {
-              "count": 1
-            },
-            "ammo_turret_07_dm": {
-              "count": 1
-            },
-            "ammo_turret_08_dm": {
-              "count": 1
-            },
-            "ammo_turret_09_dm": {
-              "count": 1
-            },
-            "ammo_turret_10_dm": {
-              "count": 1
-            },
-            "ammo_turret_11_dm": {
-              "count": 1
-            }
-          }
-        },
-        {
-          "shells": {
-            "fatalFire": false,
-            "fatalExplosion": false,
-            "reloadTimeMult": 2.0,
             "ammo_turret_24_dm": {
               "count": 1
             },
@@ -1030,6 +985,46 @@
             },
             "ammo_body_15_dm": {
               "count": 2
+            }
+          }
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "reloadTimeMult": 1.28,
+            "ammo_turret_01_dm": {
+              "count": 1
+            },
+            "ammo_turret_02_dm": {
+              "count": 1
+            },
+            "ammo_turret_03_dm": {
+              "count": 1
+            },
+            "ammo_turret_04_dm": {
+              "count": 1
+            },
+            "ammo_turret_05_dm": {
+              "count": 1
+            },
+            "ammo_turret_06_dm": {
+              "count": 1
+            },
+            "ammo_turret_07_dm": {
+              "count": 1
+            },
+            "ammo_turret_08_dm": {
+              "count": 1
+            },
+            "ammo_turret_09_dm": {
+              "count": 1
+            },
+            "ammo_turret_10_dm": {
+              "count": 1
+            },
+            "ammo_turret_11_dm": {
+              "count": 1
             }
           }
         }
@@ -2297,6 +2292,24 @@
         "defaultDampeningForce": [250000.0,250000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
+      },
+      "movableSuspension": {
+        "speed": 0.07,
+        "maxSpeedForMove": 1.0,
+        "clearance": {
+          "wheel_l_01": [],
+          "wheel_l_02": [],
+          "wheel_l_03": [],
+          "wheel_l_04": [],
+          "wheel_l_05": [],
+          "wheel_l_06": [],
+          "wheel_r_01": [],
+          "wheel_r_02": [],
+          "wheel_r_03": [],
+          "wheel_r_04": [],
+          "wheel_r_05": [],
+          "wheel_r_06": []
+        }
       }
     }
   },
@@ -2894,7 +2907,7 @@
       "105mm_us_M416_Smoke_ammo_pack": [],
       "105mm_usa_M735_APDS_FS": [],
       "105mm_usa_M735_APDS_FS_ammo_pack": [],
-      "tank_rangefinder": []
+      "modern_tank_laser_rangefinder": []
     }
   },
   {

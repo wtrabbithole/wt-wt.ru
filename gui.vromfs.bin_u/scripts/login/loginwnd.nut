@@ -318,7 +318,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     scene.findObject("loginbox_autosave_password").setValue(isAutosavePass)
     scene.findObject("loginbox_autologin").setValue(autologin)
     handler.onChangeAutosave()
-    local shardingListObj = scene.findObject("sharding_list")
     if (shardingListObj)
       shardingListObj.setValue(shard)
 
@@ -507,8 +506,8 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     if (result == ::YU2_OK)
     {
       isLoginRequestInprogress = true
-      local result = requestLoginWithCode(no_dump_login, code)
-      proceedAuthorizationResult(result, no_dump_login);
+      local loginResult = requestLoginWithCode(no_dump_login, code)
+      proceedAuthorizationResult(loginResult, no_dump_login)
     }
   }
 

@@ -1,7 +1,7 @@
 /**
  * Documenation: http://mustache.github.io/mustache.5.html
  *
- * to insert generated layout in teamplate use tag @
+ * to insert generated layout in template use tag @
  * <<@layout>>
  * such param will be not stripTagged
  *
@@ -11,20 +11,20 @@
  *  API
  *
  *  ::handyman.render(template, view)
- *    @temaplte - temaplte raw string
- *    @view - table of data for temaple
+ *    @template - template raw string
+ *    @view - table of data for template
  *    @return - template string with filled data
  *
  *  ::handyman.renderCached(template_name, view)
- *    @template_name - template name in fomat <path-to-template>/<temaplte-file-name>
+ *    @template_name - template name in format <path-to-template>/<template-file-name>
  *      File name should be without extantion
- *    @view - table of data for temaple
+ *    @view - table of data for template
  *    @return - template string with filled data
  *
  *  Main difference betwin this two calls is in caching.
  *  ::handyman.render(/.../) use whole template raw string as
  *  cache id for rendered tokens.
- *  ::handyman.renderCached(template_name, view) use just temaplte file name.
+ *  ::handyman.renderCached(template_name, view) use just template file name.
  */
 
 local g_string =  require("std/string.nut")
@@ -242,7 +242,6 @@ class Writer
         if (!partials)
           continue
 
-        local value = null
         if (typeof partials == "function")
           value = partials(token[1])
         else if (token[1] in partials)
@@ -315,7 +314,7 @@ class Writer
 
     for(local i = matches.len() - 1; i >= 0; i--)
     {
-      local match = matches[i]
+      match = matches[i]
       string = string.slice(0, match.begin) + "\\" + string.slice(match.begin)
     }
     return string

@@ -666,17 +666,12 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
       ::g_ww_logs.applyLogsFilter()
       ::g_ww_logs.viewIndex = ::max(::g_ww_logs.filtered.len() - 1, 0)
 
-      local logNumber = -1
       local scrollTargetId = getScrollTargetId()
-      if (scrollTargetId)
-        logNumber = ::u.searchIndex(::g_ww_logs.loaded,
-          (@(scrollTargetId) function(log) { return log.id == scrollTargetId })(scrollTargetId))
-      else
-        logNumber = ::g_ww_logs.loaded.len() - 1
-
-      local scrollTargetId = null
-      if (logNumber >= 0)
+      if (::g_ww_logs.loaded.len()
+        && (!scrollTargetId || !::u.search(::g_ww_logs.loaded, @(log) log.id == scrollTargetId )))
       {
+        local logNumber = ::g_ww_logs.loaded.len() - 1
+        scrollTargetId = null
         local logsAmount = 0
         for (local i = ::g_ww_logs.filtered.len() - 1; i >= 0; i--)
         {

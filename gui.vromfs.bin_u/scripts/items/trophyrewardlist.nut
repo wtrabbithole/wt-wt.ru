@@ -1,9 +1,10 @@
-function gui_start_open_trophy_rewards_list(rewardsArray = [])
+function gui_start_open_trophy_rewards_list(params = {})
 {
-  if (!rewardsArray.len())
+  local rewardsArray = params?.rewardsArray
+  if (!rewardsArray || !rewardsArray.len())
     return
 
-  ::gui_start_modal_wnd(::gui_handlers.trophyRewardsList, {rewardsArray = rewardsArray})
+  ::gui_start_modal_wnd(::gui_handlers.trophyRewardsList, params)
 }
 
 class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
@@ -12,12 +13,17 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName = "gui/items/trophyRewardsList.blk"
 
   rewardsArray = []
+  tittleLocId = "mainmenu/rewardsList"
 
   function initScreen()
   {
     local listObj = scene.findObject("items_list")
     if (!::checkObj(listObj))
       return goBack()
+
+    local titleObj = scene.findObject("title")
+    if (::check_obj(titleObj))
+      titleObj.setValue(::loc(tittleLocId))
 
     local data = getItemsImages()
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
@@ -42,12 +48,12 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
     local val = obj.getValue()
     local reward_config = rewardsArray[val]
 
-    local obj = scene.findObject("item_info")
-    if (!::checkObj(obj))
+    local infoObj = scene.findObject("item_info")
+    if (!::checkObj(infoObj))
       return
 
     local text = [::trophyReward.getName(reward_config)]
     text.append(::trophyReward.getDecription(reward_config, true))
-    obj.setValue(::g_string.implode(text, "\n"))
+    infoObj.setValue(::g_string.implode(text, "\n"))
   }
 }

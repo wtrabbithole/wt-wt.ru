@@ -102,6 +102,10 @@ Button_text {
           id:t='member_voip_<<id>>'
           margin-left:t='5@sf/@pf'
           isVoipActive:t='no'
+
+          <<#needHideVoice>>
+            display:t='hide'
+          <</needHideVoice>>
         }
       }
 

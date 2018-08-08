@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 ::g_shortcut_type <- {
   types = []
 }
@@ -41,8 +41,8 @@ function g_shortcut_type::getShortcutMarkup(shortcutId)
   local expanded = expandShortcuts([shortcutId])
   foreach (expandedShortcut in expanded)
   {
-    local shortcutType = getShortcutTypeByShortcutId(expandedShortcut)
-    local input = shortcutType.getFirstInput(expandedShortcut)
+    local expandedType = getShortcutTypeByShortcutId(expandedShortcut)
+    local input = expandedType.getFirstInput(expandedShortcut)
     markup += input.getMarkup()
   }
 

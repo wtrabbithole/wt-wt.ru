@@ -163,4 +163,12 @@ class DataBlockAdapter
     ___initCountsOnce___()
     return ___paramsListNames___[i]
   }
+
+  function addBlock(name)
+  {
+    local val = ::DataBlockAdapter({}, name)
+    ___initCountsOnce___()
+    ___blocksList___.append(val)
+    return val
+  }
 }

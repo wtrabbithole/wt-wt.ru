@@ -27,11 +27,11 @@ class ::g_invites_classes.Squad extends ::BaseInvite
       ::dagor.debug("InviteSquad: invitername != 0 " + platformModule.isPlayerFromXboxOne(inviterName))
       if (platformModule.isPlayerFromXboxOne(inviterName))
       {
-        ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
-        if (haveRestrictions() && ::is_in_flight())
-          ::quit_mission()
-
         setDelayed(true)
+
+        ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
+        if (haveRestrictions() && !::isInMenu())
+          ::quit_mission()
       }
     }
     else
@@ -43,15 +43,16 @@ class ::g_invites_classes.Squad extends ::BaseInvite
                               ::dagor.debug("InviteSquad: invitername == 0 " + platformModule.isPlayerFromXboxOne(inviterName))
                               if (platformModule.isPlayerFromXboxOne(inviterName))
                               {
+                                setDelayed(true)
+
                                 ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
-                                if (haveRestrictions() && ::is_in_flight())
+                                if (haveRestrictions() && !::isInMenu())
                                   ::quit_mission()
 
-                                setDelayed(true)
+                                checkAutoAcceptXboxInvite()
                               }
                               else
                                 setDelayed(false)
-
                             }, this)
       ::g_users_info_manager.requestInfo([leaderId], cb, cb)
     }
@@ -61,17 +62,17 @@ class ::g_invites_classes.Squad extends ::BaseInvite
       ::add_event_listener("SquadStatusChanged",
         function (p) {
           if (::g_squad_manager.isInSquad()
-            && ::g_squad_manager.getLeaderUid() == squadId.tostring())
-            remove()
+              && ::g_squad_manager.getLeaderUid() == squadId.tostring())
+            onSuccessfulAccept()
         }, this)
+
+    checkAutoAcceptXboxInvite()
   }
 
   function updateInviterContact()
   {
     leaderContact = ::getContact(leaderId)
     updateInviterName()
-    checkAutoAcceptXboxInvite()
-    checkAutoRejectXboxInvite()
   }
 
   function updateInviterName()
@@ -82,7 +83,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
   function checkAutoAcceptXboxInvite()
   {
-    if (!::is_platform_xboxone || !leaderContact)
+    if (!::is_platform_xboxone || !leaderContact || (haveRestrictions() && !::isInMenu()))
       return
 
     if (leaderContact.xboxId != "")
@@ -91,21 +92,25 @@ class ::g_invites_classes.Squad extends ::BaseInvite
       leaderContact.getXboxId(::Callback(@() autoacceptXboxInvite(leaderContact.xboxId), this))
   }
 
-  function checkAutoRejectXboxInvite()
-  {
-    if (!::is_platform_xboxone || !leaderContact || isAccepted)
-      return
-
-    if (leaderContact.xboxId != "")
-      autorejectXboxInvite()
-    else
-      leaderContact.getXboxId(::Callback(@() autorejectXboxInvite(), this))
-  }
-
   function autoacceptXboxInvite(leaderXboxId = "")
   {
-    if (::g_xbox_squad_manager.isPlayerFromXboxSquadList(leaderXboxId))
-      accept()
+    if (!::g_xbox_squad_manager.isPlayerFromXboxSquadList(leaderXboxId))
+      return autorejectXboxInvite()
+    local invite = this
+    ::queues.leaveAllQueues(null, function() {
+      if (!invite.isValid())
+        return
+      if (!::g_squad_manager.isInSquad())
+        invite.autoacceptXboxInviteImpl()
+      else
+        ::g_squad_manager.leaveSquad(@() invite.isValid() && invite.autoacceptXboxInviteImpl())
+    })
+  }
+
+  function autoacceptXboxInviteImpl()
+  {
+    if (!_implAccept())
+      autorejectXboxInvite()
   }
 
   function autorejectXboxInvite()
@@ -153,7 +158,12 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   }
 
   function onSuccessfulReject() {}
-  function onSuccessfulAccept() {}
+
+  function onSuccessfulAccept()
+  {
+    isAccepted = true
+    remove()
+  }
 
   function accept()
   {
@@ -184,14 +194,14 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   function _implAccept()
   {
     if (isOutdated())
-      return ::g_invites.showExpiredInvitePopup()
+    {
+      ::g_invites.showExpiredInvitePopup()
+      return false
+    }
     if (!::g_squad_manager.canJoinSquad())
-      return
+      return false
 
     ::g_squad_manager.acceptSquadInvite(squadId)
-    isAccepted = true
-    remove()
-    ::g_invites.removeInviteToSquad(squadId)
-    onSuccessfulAccept()
+    return true
   }
 }

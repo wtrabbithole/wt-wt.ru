@@ -229,6 +229,9 @@ enum HintShowState {
     else if (res == HintShowState.NOT_MATCH)
       return
 
+    if (hint.isSingleInNest && !isHintNestEmpty(hint))
+      return
+
     local hintData = findActiveHintFromSameGroup(hint)
 
     if (hintData)
@@ -254,6 +257,12 @@ enum HintShowState {
 
 
 
+  function isHintNestEmpty(hint)
+  {
+    return !::u.search(activeHints, @(hintData)
+      hintData.hint != hint && hintData.hint.hintType == hint.hintType)
+  }
+
   function showHint(hintData)
   {
     if (!::checkObj(nest))
@@ -264,6 +273,7 @@ enum HintShowState {
       return
 
     checkRemovedHints(hintData.hint) //remove hints with not finished animation if needed
+    removeSingleInNestHints(hintData.hint)
 
     local id = hintData.hint.name + (++hintIdx)
     local markup = hintData.hint.buildMarkup(hintData.eventData, id)
@@ -333,6 +343,15 @@ enum HintShowState {
       }
       animatedRemovedHints.remove(i)
     }
+  }
+
+  function removeSingleInNestHints(hint)
+  {
+    foreach (hintData in activeHints)
+      if (hintData.hint != hint &&
+          hintData.hint.hintType == hint.hintType &&
+          hintData.hint.isSingleInNest)
+        removeHint(hintData, true)
   }
 
   function updateHint(hintData)

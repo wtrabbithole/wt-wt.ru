@@ -261,9 +261,9 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if (upgradesObj)
     upgradesObj.upgradeStatus = getItemUpgradesStatus(air, visualItem)
 
-  local iconObj = itemObj.findObject("status_icon")
-  if (::checkObj(iconObj))
-    iconObj["background-image"] = getStatusIcon(air, item)
+  local statusIcon = itemObj.findObject("status_icon")
+  if (::checkObj(statusIcon))
+    statusIcon["background-image"] = getStatusIcon(air, item)
 
   modUpgradeElem.setValueToObj(itemObj.findObject("mod_upgrade_icon"), air.name, visualItem.name)
 
@@ -917,6 +917,13 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
     }
     if (statusTbl.showMaxAmount && statusTbl.amount < statusTbl.amountWarningValue)
       res.warningText <- ::loc("weapons/restock_advice")
+  }
+  else if (params?.isInHudActionBar)
+  {
+    local modData = ::u.search(::get_action_bar_items(),
+      @(itemData) itemData?.modificationName == item.name)
+    if (modData)
+      res.amountText <- ::ActionBar.getModAmountText(modData, true)
   }
 
   if (statusTbl.discountType != "")

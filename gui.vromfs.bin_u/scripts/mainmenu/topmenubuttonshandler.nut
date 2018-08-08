@@ -131,6 +131,22 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     return sectionsView
   }
 
+  function onHoverSizeMove(obj)
+  {
+    if(obj["class"]!="dropDown")
+      obj = obj.getParent()
+
+    local hover = obj.findObject(obj.id+"_list_hover")
+    if (::check_obj(hover)) {
+      local menu = obj.findObject(obj.id+"_focus")
+      if (menu.getSize()[1] < 0)
+        menu.getScene().applyPendingChanges(true)
+      hover["height-end"] = menu.getSize()[1] + guiScene.calcString("@dropDownMenuBottomActivityGap", null)
+    }
+
+    base.onHoverSizeMove(obj);
+  }
+
   function updateButtonsStatus()
   {
     local needHideVisDisabled = ::has_feature("HideDisabledTopMenuActions")
@@ -207,11 +223,17 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     btn.onChangeValueFunc(obj.getValue())
   }
 
-  function switchDropDownMenu()
+  function switchMenuFocus()
   {
     local section = sectionsStructure.getSectionByName(ON_ESC_SECTION_OPEN)
     if (::u.isEmpty(section))
       return
+
+    if (::show_console_buttons && section.mergeIndex >= -1)
+    {
+      scene.findObject("top_menu_panel_place").setValue(section.mergeIndex)
+      return
+    }
 
     local buttonObj = scene.findObject(section.getTopMenuButtonDivId())
     if (::checkObj(buttonObj))
@@ -238,16 +260,61 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     this[eventName](selObj)
   }
 
+  function stickLeftDropDown(obj)  { moveDropDownFocus(obj, -1) }
+  function stickRightDropDown(obj) { moveDropDownFocus(obj, 1)  }
+
+  function moveDropDownFocus(obj, direction)
+  {
+    local mergeIdx = -1
+    foreach (idx, section in sectionsOrder)
+      if (obj.sectionId == section.getTopMenuButtonDivId())
+        mergeIdx = idx
+
+    local panelObj = scene.findObject("top_menu_panel_place")
+
+    mergeIdx += direction
+
+    if (mergeIdx < 0)
+    {
+      onWrapLeft(panelObj)
+      return
+    }
+    else if (mergeIdx >= sectionsOrder.len())
+    {
+      onWrapRight(panelObj)
+      return
+    }
+
+    onGCDropdown(panelObj.getChild(mergeIdx))
+    panelObj.setValue(mergeIdx)
+  }
+
+  function onWrapDown(obj)
+  {
+    if (::show_console_buttons)
+      onGCDropdown(obj.getChild(obj.getValue()))
+    else
+      base.onWrapDown(obj)
+  }
+
   function onWrapLeft(obj)
   {
+    local prevDropDown = ::stickedDropDown
     if (::handlersManager.isHandlerValid(parentHandlerWeak))
       parentHandlerWeak.onTopGCPanelLeft(obj)
+
+    if (::check_obj(prevDropDown))
+      prevDropDown.stickHover = "no"
   }
 
   function onWrapRight(obj)
   {
+    local prevDropDown = ::stickedDropDown
     if (::handlersManager.isHandlerValid(parentHandlerWeak))
       parentHandlerWeak.onTopGCPanelRight(obj)
+
+    if (::check_obj(prevDropDown))
+      prevDropDown.stickHover = "no"
   }
 
   function onEventGameModesAvailability(p)

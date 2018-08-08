@@ -100,7 +100,9 @@ foreach (fn in [
                  "itemWarbonds.nut"
                  "itemInternalItem.nut"
                  "itemCraftPart.nut"
+                 "itemCraftProcess.nut"
                  "itemRecipesBundle.nut"
+                 "itemEntitlement.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
@@ -277,10 +279,11 @@ function ItemsManager::checkItemDefsUpdate()
     {
       local defType = itemDefDesc?.type
 
-      if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle" ]) || !::u.isEmpty(itemDefDesc?.exchange))
-        ItemGenerators.add(itemDefDesc)
+      if (::isInArray(defType, [ "playtimegenerator", "generator", "bundle", "delayedexchange" ])
+        || !::u.isEmpty(itemDefDesc?.exchange) || itemDefDesc?.tags?.hasAdditionalRecipes)
+          ItemGenerators.add(itemDefDesc)
 
-      if (defType != "item")
+      if (!::isInArray(defType, [ "item", "delayedexchange" ]))
         continue
       local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
       if (iType == itemType.UNKNOWN)
@@ -459,7 +462,9 @@ function ItemsManager::getInventoryItemType(blkType)
       case "ship":                return itemType.VEHICLE
       case "warbonds":            return itemType.WARBONDS
       case "craft_part":          return itemType.CRAFT_PART
+      case "craft_process":       return itemType.CRAFT_PROCESS
       case "internal_item":       return itemType.INTERNAL_ITEM
+      case "entitlement":         return itemType.ENTITLEMENT
     }
 
     blkType = ::item_get_type_id_by_type_name(blkType)
@@ -620,11 +625,18 @@ function ItemsManager::getInventoryListByShopMask(typeMask, filterFunc = null)
 function ItemsManager::getInventoryVisibleSeenIds()
 {
   if (!inventoryVisibleSeenIds)
-    inventoryVisibleSeenIds = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL)).map(@(it) it.getSeenId())
+  {
+    local itemsList = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL))
+    inventoryVisibleSeenIds = itemsList.filter(@(idx, it) !it.isHiddenItem()).map(@(it) it.getSeenId())
+  }
+
   return inventoryVisibleSeenIds
 }
 
 ItemsManager.getInventoryItemById <- @(id) ::u.search(getInventoryList(), @(item) item.id == id)
+
+ItemsManager.getInventoryItemByCraftedFrom <- @(uid) ::u.search(getInventoryList(),
+  @(item) item.isCraftResult && item.craftedFrom == uid)
 
 function ItemsManager::markInventoryUpdate()
 {
@@ -772,7 +784,7 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
       obj.getScene().replaceContentFromText(obj, longdescMarkup, longdescMarkup.len(), handler)
   }
 
-  local obj = holderObj.findObject(isDescTextBeforeDescDiv ? "item_desc_under_div" : "item_desc")
+  obj = holderObj.findObject(isDescTextBeforeDescDiv ? "item_desc_under_div" : "item_desc")
   if (::checkObj(obj))
     obj.setValue("")
 
@@ -818,7 +830,7 @@ function ItemsManager::fillItemTableInfo(item, holderObj)
   if (::checkObj(obj))
     obj.setValue(item? item.getDescriptionAboveTable() : "")
 
-  local obj = holderObj.findObject("item_desc_under_table")
+  obj = holderObj.findObject("item_desc_under_table")
   if (::checkObj(obj))
     obj.setValue(item ? item.getDescriptionUnderTable() : "")
 }

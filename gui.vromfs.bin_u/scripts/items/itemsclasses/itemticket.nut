@@ -47,9 +47,9 @@ class ::items_classes.Ticket extends ::BaseItem
 
       if (isInventoryItem && !isActiveTicket)
       {
-        local blk = ::DataBlock()
-        ::get_tournament_info_blk(eventEconomicNamesArray[0], blk)
-        isActiveTicket = ::isInArray(blk.activeTicketUID, uids)
+        local tBlk = ::DataBlock()
+        ::get_tournament_info_blk(eventEconomicNamesArray[0], tBlk)
+        isActiveTicket = ::isInArray(tBlk.activeTicketUID, uids)
       }
     }
   }
@@ -350,9 +350,9 @@ class ::items_classes.Ticket extends ::BaseItem
     local event = ::events.getEventByEconomicName(eventId)
     if (event)
     {
-      local reward = ::EventRewards.getBaseVictoryReward(event)
-      if (reward)
-        text += (text.len() ? "\n" : "") + ::loc("tournaments/reward/everyVictory",  {reward = reward})
+      local baseReward = ::EventRewards.getBaseVictoryReward(event)
+      if (baseReward)
+        text += (text.len() ? "\n" : "") + ::loc("tournaments/reward/everyVictory",  {reward = baseReward})
 
       if (::EventRewards.haveRewards(event))
       {

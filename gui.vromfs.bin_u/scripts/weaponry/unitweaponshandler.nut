@@ -298,7 +298,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
         res.columns.append([])
       foreach(gIdx, bulGroup in groups)
       {
-        if (!bulGroup.active)
+        if (!bulGroup.active || bulGroup.shouldHideBullet())
           continue
         local col = gIdx % totalColumns
         local header = !gIdx ? bulGroup.getHeader() : null
@@ -312,7 +312,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       res.columns.append([])
     foreach(gIdx, bulGroup in groups)
     {
-      if (!bulGroup.active)
+      if (!bulGroup.active || bulGroup.shouldHideBullet())
         continue
       local col = bulGroup.getGunIdx()
       local header = !res.columns[col].len() ? bulGroup.getHeader() : null

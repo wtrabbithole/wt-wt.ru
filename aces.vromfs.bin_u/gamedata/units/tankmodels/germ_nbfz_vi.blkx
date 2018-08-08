@@ -270,10 +270,10 @@
         "armorClass": "tank_barrel",
         "hp": 200.0,
         "gun_barrel_01_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 25.0
         },
         "gun_barrel_02_dm": {
-          "armorThickness": 25.0
+          "armorThickness": 20.0
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
@@ -1637,10 +1637,10 @@
           "triggerGroup": "primary",
           "blk": "gameData/Weapons/groundModels_weapons/75mm_KwK37_for_nbfz_user_cannon.blk",
           "emitter": "bone_gun_barrel_01",
-          "flash": "emtr_gun_flame_02",
+          "flash": "emtr_gun_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_02_dm",
+          "barrelDP": "gun_barrel_01_dm",
           "breechDP": "cannon_breech_01_dm",
           "speedYaw": 8.0,
           "speedPitch": 4.0,
@@ -1664,7 +1664,7 @@
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun_01",
-            "barrel": "bone_gun_barrel_02",
+            "barrel": "bone_gun_barrel_01",
             "gunnerDm": "gunner_dm",
             "verDriveDm": "drive_turret_v_dm",
             "horDriveDm": "drive_turret_h_dm",
@@ -1776,10 +1776,10 @@
           "triggerGroup": "secondary",
           "blk": "gameData/Weapons/groundModels_weapons/37mm_KwK36_for_nbfz_user_cannon.blk",
           "emitter": "bone_gun_barrel_02",
-          "flash": "emtr_gun_flame_01",
+          "flash": "emtr_gun_flame_02",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_01_dm",
+          "barrelDP": "gun_barrel_02_dm",
           "breechDP": "cannon_breech_02_dm",
           "parkInDeadzone": true,
           "hudSightIconOffset": [-35.0,0.0],
@@ -1805,7 +1805,7 @@
           "turret": {
             "head": "bone_gun_02",
             "gun": "bone_gun_02",
-            "barrel": "bone_gun_barrel_01",
+            "barrel": "bone_gun_barrel_02",
             "gunnerDm": "gunner_dm",
             "rotatedTurret": "bone_turret"
           },

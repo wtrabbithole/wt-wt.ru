@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 
 ::g_ww_army_move_state <- {
   types = []

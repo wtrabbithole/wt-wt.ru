@@ -6,7 +6,6 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
   local enemySide = mgGetEnemySide();
   local bombtargets = createGroundUnitsProc(playerSide);
   local ws = ::get_warpoints_blk();
-  local wpMax = ws.dynPlanesMaxCost;
 
 
   local enemy1Angle = rndRange(-45, 45);

@@ -251,10 +251,22 @@
               "chatBlock": {
                 "id": "menu_chat_text_block",
                 "size": "pw, fh",
-                "style": "overflow-y:auto;",
-                "overflow-y": "auto",
-                "auto-scroll": "yes",
-                "flow": "vertical"
+                "chatScrollContainer": {
+                  "position": "relative",
+                  "width": "pw",
+                  "max-height": "ph",
+                  "pos": "0, ph-h",
+                  "overflow-y": "auto",
+                  "auto-scroll": "yes",
+                  "chatMessagesContainer": {
+                    "id": "menu_chat_messages_container",
+                    "max-width": "0.7@sf",
+                    "width": "pw",
+                    "position": "relative",
+                    "pos": "0.5pw-0.5w, 0",
+                    "flow": "vertical"
+                  }
+                }
               }
             },
             {

@@ -1392,10 +1392,10 @@ function getMyClanMemberPresence(nick)
 {
   local clanActiveUsers = []
 
-  foreach (idx, roomData in ::g_chat.rooms)
+  foreach (roomData in ::g_chat.rooms)
     if (::g_chat.isRoomClan(roomData.id) && roomData.users.len() > 0)
     {
-      foreach (idx, user in roomData.users)
+      foreach (user in roomData.users)
         clanActiveUsers.append(user.name)
       break
     }

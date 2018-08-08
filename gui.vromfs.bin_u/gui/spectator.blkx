@@ -49,13 +49,16 @@
             "cur_row": "-1",
             "cur_col": "0",
             "num_rows": "-1",
-            "navigatorShortcuts": "yes",
+            "navigatorShortcuts": "active",
             "selfFocusBorder": "yes",
             "on_click": "onPlayerClick",
             "on_r_click": "onPlayerRClick",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
             "on_wrap_left": "onSwitchPlayersTbl",
             "on_wrap_right": "onSwitchPlayersTbl",
-            "on_set_focus": "onStatTblFocus"
+            "on_set_focus": "onStatTblFocus",
+            "on_dbl_click": "selectControlsBlock"
           }
         }
       }
@@ -91,13 +94,16 @@
             "cur_row": "-1",
             "cur_col": "0",
             "num_rows": "-1",
-            "navigatorShortcuts": "yes",
+            "navigatorShortcuts": "active",
             "selfFocusBorder": "yes",
             "on_click": "onPlayerClick",
             "on_r_click": "onPlayerRClick",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
             "on_wrap_left": "onSwitchPlayersTbl",
             "on_wrap_right": "onSwitchPlayersTbl",
-            "on_set_focus": "onStatTblFocus"
+            "on_set_focus": "onStatTblFocus",
+            "on_dbl_click": "selectControlsBlock"
           }
         }
       }
@@ -257,284 +263,275 @@
           "padding": "1@spectatorToolbarPadding"
         },
         {
-          "padding-left": "1@spectatorToolbarPadding - 0.5@spectatorToolbarBtnSize"
-        },
-        {
           "input-transparent": "yes"
         },
         {
-          "buttons_block": {
-            "id": "controls_mpstats_spectator",
-            "hoverButton": {
-              "id": "ID_MPSTATSCREEN",
-              "is_shortcut": "yes",
-              "on_click": "onBtnShortcut",
-              "icon": {
-                "background-image": "#ui/gameuiskin#leaderboard.svg"
-              }
+          "behaviour": "posNavigator"
+        },
+        {
+          "moveX": "linear"
+        },
+        {
+          "moveY": "linear"
+        },
+        {
+          "navigatorShortcuts": "active"
+        },
+        {
+          "on_wrap_up": "onWrapUp"
+        },
+        {
+          "on_wrap_down": "selectLastChoosedTeam"
+        },
+        {
+          "childsActivate": "yes"
+        },
+        {
+          "on_activate": "onActivateSelectedControl"
+        },
+        {
+          "hoverButton": {
+            "id": "ID_MPSTATSCREEN",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "icon": {
+              "background-image": "#ui/gameuiskin#leaderboard.svg"
             }
           }
         },
         {
-          "buttons_block": {
+          "hoverButton": {
             "id": "controls_mpstats_replays",
-            "hoverButton": {
-              "id": "btn_mpstats",
-              "tooltip": "#hotkeys/ID_MPSTATSCREEN",
-              "on_click": "onBtnMpStatScreen",
-              "icon": {
-                "background-image": "#ui/gameuiskin#leaderboard.svg"
-              }
+            "tooltip": "#hotkeys/ID_MPSTATSCREEN",
+            "on_click": "onBtnMpStatScreen",
+            "icon": {
+              "background-image": "#ui/gameuiskin#leaderboard.svg"
             }
           }
         },
         {
-          "buttons_block": [
-            {
-              "id": "controls_target"
-            },
-            {
-              "hoverButton": {
-                "id": "ID_PREV_PLANE",
-                "on_click": "onBtnShortcut",
-                "is_shortcut": "yes",
-                "icon": {
-                  "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg",
-                  "rotation": "270"
-                }
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_NEXT_PLANE",
-                "on_click": "onBtnShortcut",
-                "is_shortcut": "yes",
-                "icon": {
-                  "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg",
-                  "rotation": "90"
-                }
-              }
+          "hoverButton": {
+            "id": "ID_PREV_PLANE",
+            "on_click": "onBtnShortcut",
+            "is_shortcut": "yes",
+            "icon": {
+              "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg",
+              "rotation": "270"
             }
-          ]
+          }
         },
         {
-          "buttons_block": [
-            {
-              "id": "controls_cameras"
-            },
-            {
-              "tdiv": {
-                "top": "ph/2-h/2",
-                "position": "relative",
-                "size": "@spectatorToolbarBtnSize, @spectatorToolbarBtnSize",
-                "img": {
-                  "pos": "pw-1.2w, ph/2-h/2",
-                  "position": "relative",
-                  "size": "@sIco, @sIco",
-                  "style": "background-color:#4c4c4c4c",
-                  "input-transparent": "yes",
-                  "background-image": "#ui/gameuiskin#player_spectator"
-                }
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_CAMERA_DEFAULT",
-                "text": "1",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_TOGGLE_FOLLOWING_CAMERA",
-                "text": "2",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_OPERATOR",
-                "text": "3",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_FLYBY",
-                "text": "4",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_WING",
-                "text": "5",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_GUN",
-                "text": "6",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_RANDOMIZE",
-                "text": "#mainmenu/btnReplayCameraRandom",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_FREE",
-                "text": "#mainmenu/btnReplayCameraFree",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_CAMERA_HOVER",
-                "text": "#mainmenu/btnReplayCameraHover",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "enable": "no"
-              }
+          "hoverButton": {
+            "id": "ID_NEXT_PLANE",
+            "on_click": "onBtnShortcut",
+            "is_shortcut": "yes",
+            "icon": {
+              "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg",
+              "rotation": "90"
             }
-          ]
+          }
         },
         {
-          "buttons_block": [
-            {
-              "id": "controls_toggles"
-            },
-            {
-              "hoverButton": {
-                "id": "ID_TOGGLE_FORCE_SPECTATOR_CAM_ROT",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut",
-                "icon": {
-                  "background-image": "#ui/gameuiskin#cursor"
-                }
-              }
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_SHOW_MARKERS",
-                "text": "#icon/mpstats/raceLastCheckpoint",
-                "is_shortcut": "yes",
-                "on_click": "onBtnShortcut"
-              }
+          "tdiv": {
+            "id": "controls_cameras_icon",
+            "top": "ph/2-h/2",
+            "position": "relative",
+            "size": "@spectatorToolbarBtnSize, @spectatorToolbarBtnSize",
+            "inactive": "yes",
+            "img": {
+              "pos": "pw-1.2w, ph/2-h/2",
+              "position": "relative",
+              "size": "@sIco, @sIco",
+              "style": "background-color:#4c4c4c4c",
+              "input-transparent": "yes",
+              "background-image": "#ui/gameuiskin#player_spectator"
             }
-          ]
+          }
         },
         {
-          "buttons_block": [
+          "hoverButton": {
+            "id": "ID_CAMERA_DEFAULT",
+            "text": "1",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_TOGGLE_FOLLOWING_CAMERA",
+            "text": "2",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_OPERATOR",
+            "text": "3",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_FLYBY",
+            "text": "4",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_WING",
+            "text": "5",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_GUN",
+            "text": "6",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_RANDOMIZE",
+            "text": "#mainmenu/btnReplayCameraRandom",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_FREE",
+            "text": "#mainmenu/btnReplayCameraFree",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_CAMERA_HOVER",
+            "text": "#mainmenu/btnReplayCameraHover",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "enable": "no"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_TOGGLE_FORCE_SPECTATOR_CAM_ROT",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut",
+            "icon": {
+              "background-image": "#ui/gameuiskin#cursor"
+            }
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_SHOW_MARKERS",
+            "text": "#icon/mpstats/raceLastCheckpoint",
+            "is_shortcut": "yes",
+            "on_click": "onBtnShortcut"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_SLOWER",
+            "on_click": "onBtnShortcut",
+            "is_shortcut": "yes",
+            "icon": {
+              "background-image": "#ui/gameuiskin#replay_forward.svg",
+              "rotation": "180",
+              "background-position": "0, h"
+            }
+          }
+        },
+        {
+          "text": {
+            "id": "txt_replay_time_speed",
+            "top": "ph/2-h/2",
+            "position": "relative",
+            "width": "0.07@sf;",
+            "text": "#ui/not_applicable",
+            "inactive": "yes"
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_FASTER",
+            "on_click": "onBtnShortcut",
+            "is_shortcut": "yes",
+            "icon": {
+              "background-image": "#ui/gameuiskin#replay_forward.svg"
+            }
+          }
+        },
+        {
+          "hoverButton": {
+            "id": "ID_REPLAY_PAUSE",
+            "on_click": "onBtnShortcut",
+            "is_shortcut": "yes",
+            "withSeparation": "yes",
+            "icon": {
+              "id": "icon",
+              "background-image": "#ui/gameuiskin#replay_pause.svg"
+            }
+          }
+        },
+        {
+          "tdiv": [
             {
               "id": "controls_timeline"
             },
             {
-              "hoverButton": {
-                "id": "ID_REPLAY_SLOWER",
-                "on_click": "onBtnShortcut",
-                "is_shortcut": "yes",
-                "icon": {
-                  "background-image": "#ui/gameuiskin#replay_forward.svg",
-                  "rotation": "180",
-                  "background-position": "0, h"
-                }
-              }
+              "top": "ph/2-h/2"
+            },
+            {
+              "position": "relative"
+            },
+            {
+              "inactive": "yes"
             },
             {
               "text": {
-                "id": "txt_replay_time_speed",
+                "id": "txt_replay_time_current",
+                "width": "0.10@sf",
                 "top": "ph/2-h/2",
                 "position": "relative",
-                "width": "0.07@sf;",
                 "text": "#ui/not_applicable"
               }
             },
             {
-              "hoverButton": {
-                "id": "ID_REPLAY_FASTER",
-                "on_click": "onBtnShortcut",
-                "is_shortcut": "yes",
-                "icon": {
-                  "background-image": "#ui/gameuiskin#replay_forward.svg"
-                }
+              "expProgress": {
+                "id": "timeline_progress",
+                "top": "ph/2-h/2",
+                "position": "relative",
+                "width": "3@spectatorToolbarBtnSize",
+                "max": "1000",
+                "value": "0"
               }
             },
             {
-              "separator": []
-            },
-            {
-              "hoverButton": {
-                "id": "ID_REPLAY_PAUSE",
-                "on_click": "onBtnShortcut",
-                "is_shortcut": "yes",
-                "icon": {
-                  "id": "icon",
-                  "background-image": "#ui/gameuiskin#replay_pause.svg"
-                }
+              "text": {
+                "id": "txt_replay_time_total",
+                "width": "0.10@sf",
+                "top": "ph/2-h/2",
+                "position": "relative",
+                "text": "#ui/not_applicable"
               }
-            },
-            {
-              "separator": []
-            },
-            {
-              "tdiv": [
-                {
-                  "top": "ph/2-h/2"
-                },
-                {
-                  "position": "relative"
-                },
-                {
-                  "text": {
-                    "id": "txt_replay_time_current",
-                    "width": "0.10@sf",
-                    "top": "ph/2-h/2",
-                    "position": "relative",
-                    "text": "#ui/not_applicable"
-                  }
-                },
-                {
-                  "expProgress": {
-                    "id": "timeline_progress",
-                    "top": "ph/2-h/2",
-                    "position": "relative",
-                    "width": "3@spectatorToolbarBtnSize",
-                    "max": "1000",
-                    "value": "0"
-                  }
-                },
-                {
-                  "text": {
-                    "id": "txt_replay_time_total",
-                    "width": "0.10@sf",
-                    "top": "ph/2-h/2",
-                    "position": "relative",
-                    "text": "#ui/not_applicable"
-                  }
-                }
-              ]
             }
           ]
         },
@@ -542,6 +539,7 @@
           "buttons_block": {
             "id": "controls_timer",
             "height": "@spectatorToolbarBtnSize",
+            "inactive": "yes",
             "text": {
               "id": "txt_mission_timer",
               "top": "ph/2-h/2",

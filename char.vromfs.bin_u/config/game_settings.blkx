@@ -13,13 +13,13 @@
   },
   "tournamentSimple": {
     "defaultRating": 0.0,
-    "eloPowerDivisor": 1300.0,
+    "eloPowerDivisor": 1000.0,
     "fastGrowthLimit": 1000.0,
-    "tier1Limit": 2100.0,
-    "tier2Limit": 2400.0,
-    "tier1EloK": 100.0,
-    "tier2EloK": 60.0,
-    "tier3EloK": 30.0
+    "tier1Limit": 1500.0,
+    "tier2Limit": 2250.0,
+    "tier1EloK": 400.0,
+    "tier2EloK": 150.0,
+    "tier3EloK": 75.0
   },
   "tournamentClan": {
     "defaultRating": 0.0,
@@ -329,7 +329,8 @@
       "condition": ""
     },
     "Voice": {
-      "condition": ""
+      "condition": "",
+      "platform_lock": "xboxOne"
     },
     "Friends": {
       "condition": ""
@@ -548,7 +549,7 @@
         "condition": "role_TESTER"
       },
       {
-        "condition": "xboxOneAccess"
+        "condition": "ShipEventTicketAccess"
       }
     ],
     "ShipsFirstChoice": [
@@ -584,9 +585,7 @@
         "condition": "role_TESTER"
       }
     ],
-    "SpendGoldForShips": {
-      "condition": "Ships"
-    },
+    "SpendGoldForShips": [],
     "Tanks": {
       "condition": "",
       "platform_lock": "android"
@@ -633,8 +632,7 @@
       "condition": ""
     },
     "ModeSkirmish": {
-      "condition": "",
-      "platform_lock": "xboxOne"
+      "condition": ""
     },
     "ModeBuilder": {
       "condition": ""
@@ -656,20 +654,9 @@
     "SingleMissionsCoopPs4": {
       "condition": ""
     },
-    "CustomBattlesPc": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "XBoxPlatformRestriction"
-      }
-    ],
+    "CustomBattlesPc": {
+      "condition": ""
+    },
     "CustomBattlesPs4": {
       "condition": ""
     },
@@ -879,11 +866,19 @@
       "condition": "",
       "platform_lock": "android"
     },
-    "Benchmark": {
+    "Benchmark": [
+      {
+        "condition": "BenchmarkPC"
+      },
+      {
+        "condition": "BenchmarkForDevs"
+      }
+    ],
+    "BenchmarkPC": {
       "condition": "",
       "platform_lock": "ps4;android;xboxOne"
     },
-    "BenchmarkPS4": [
+    "BenchmarkForDevs": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1123,6 +1118,12 @@
     "onceCalendarLoginAwardDebug": {
       "condition": "dev_test_feature_access"
     },
+    "debugWorkshopItemsExchange": {
+      "condition": "dev_test_feature_access"
+    },
+    "debugAccessSWTrophy": {
+      "condition": "sw_trophy_access"
+    },
     "ShowDebugEvents": [
       {
         "condition": "role_DEVELOPER"
@@ -1151,6 +1152,18 @@
       "condition": "",
       "platform_lock": "pc;android;xboxOne"
     },
+    "pc_ps4_only_events": {
+      "condition": "",
+      "platform_lock": "android;xboxOne"
+    },
+    "ps4_xboxOne_only_events": {
+      "condition": "",
+      "platform_lock": "pc;android"
+    },
+    "PurchaseMarketItemsForGold": {
+      "condition": "",
+      "platform_lock": "pc;android;xboxOne;ps4"
+    },
     "Orders": {
       "condition": ""
     },
@@ -1170,6 +1183,14 @@
       "condition": "!DMMAccount;!PS4Account",
       "platform_lock": "ps4;android;xboxOne"
     },
+    "DMMAndSCEJAccounts": [
+      {
+        "condition": "DMMAccount"
+      },
+      {
+        "condition": "scej_account"
+      }
+    ],
     "BulletParamsForAirs": {
       "condition": ""
     },
@@ -1261,7 +1282,7 @@
       "condition": ""
     },
     "HiddenLeaderboardRows": {
-      "condition": "role_DEVELOPER"
+      "condition": ""
     },
     "ExpertToAce": {
       "condition": ""
@@ -1409,10 +1430,10 @@
         "condition": "ship_event_access"
       },
       {
-        "reqPack": "pkg_ships"
+        "condition": "ship_cbt_invite_access"
       },
       {
-        "condition": "xboxOneAccess"
+        "reqPack": "pkg_ships"
       }
     ],
     "ShipEventGamescomAccess": [
@@ -1491,9 +1512,14 @@
       "condition": "",
       "platform_lock": "xboxOne"
     },
-    "ShipBenchmarkAccess": {
-      "condition": "role_TESTER"
-    },
+    "ShipBenchmarkAccess": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "DmViewerProtectionAnalysis": {
       "condition": ""
     },

@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 
 
@@ -56,12 +56,13 @@ function g_mplayer_param_type::_newer(old, new) {
     return res
   }
 
-  isVisible = function(objectivesMask, gameType)
+  isVisible = function(objectivesMask, gameType, gameMode = ::GM_DOMINATION)
   {
     return ((missionObjective == MISSION_OBJECTIVE.ANY) || (missionObjective & objectivesMask) != 0)
-      && isVisibleByGameType(gameType)
+      && isVisibleByGameType(gameType) && isVisibleByGameMode(gameMode)
   }
   isVisibleByGameType = @(gt) true
+  isVisibleByGameMode = @(gm) true
 }
 
 enums.addTypesByGlobalName("g_mplayer_param_type", {
@@ -107,7 +108,7 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     id = "score"
     fontIcon = "#icon/mpstats/score"
     tooltip = "#multiplayer/score"
-    relWidth = 20
+    relWidth = 25
   }
 
   AIR_KILLS = {
@@ -128,7 +129,9 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     id = "awardDamage"
     fontIcon = "#icon/mpstats/navalDamage"
     tooltip = "#multiplayer/naval_damage"
+    relWidth = 25
     missionObjective = MISSION_OBJECTIVE.KILLS_NAVAL
+    isVisibleByGameMode = @(gm) gm != ::GM_SKIRMISH
   }
 
   NAVAL_KILLS = {
@@ -200,9 +203,9 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
       local res = []
       foreach (row in rows)
       {
-        local val = player?[row.id] ?? 0
-        if (val)
-          res.append(::loc(row.label) + ::loc("ui/colon") + val)
+        local rowVal = player?[row.id] ?? 0
+        if (rowVal)
+          res.append(::loc(row.label) + ::loc("ui/colon") + rowVal)
       }
       return ::g_string.implode(res, "\n")
     }
@@ -307,6 +310,34 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
   RACE_SAME_CHECKPOINT_TIME = {
     id = "raceSameCheckpointTime"
     relWidth = 30
+  }
+
+  FOOTBALL_GOALS = {
+    id = "footballGoals"
+    fontIcon = "#icon/mpstats/football_goals"
+    tooltip = "#multiplayer/football/goals"
+    relWidth = 10
+  }
+
+  FOOTBALL_ASSISTS = {
+    id = "footballAssists"
+    fontIcon = "#icon/mpstats/assists"
+    tooltip = "#multiplayer/football/assists"
+    relWidth = 10
+  }
+
+  FOOTBALL_SAVES = {
+    id = "footballSaves"
+    fontIcon = "#icon/mpstats/football_saves"
+    tooltip = "#multiplayer/football/saves"
+    relWidth = 10
+  }
+
+  FOOTBALL_SCORE = {
+    id = "footballScore"
+    fontIcon = "#icon/mpstats/score"
+    tooltip = "#multiplayer/score"
+    relWidth = 15
   }
 
   UNIT_ICON = {

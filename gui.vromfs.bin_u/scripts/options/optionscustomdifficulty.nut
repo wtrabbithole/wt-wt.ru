@@ -188,7 +188,6 @@ function get_custom_difficulty_options()
       [::USEROPT_CD_MAP_GROUND_MARKERS],
       [::USEROPT_CD_MARKERS_BLINK],
       [::USEROPT_CD_RADAR],
-      [::USEROPT_CD_DM_ICON],
       [::USEROPT_CD_DAMAGE_IND],
       [::USEROPT_CD_LARGE_AWARD_MESSAGES],
       [::USEROPT_CD_WARNINGS],

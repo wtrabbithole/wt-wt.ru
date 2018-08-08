@@ -5,6 +5,7 @@ local helicopterHud = require("helicopterHud.nut")
 local shipHud = require("shipHud.nut")
 local shipExHud = require("shipExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
+local footballHud = require("footballHud.nut")
 
 
 local widgetsMap = {
@@ -28,6 +29,12 @@ local widgetsMap = {
       halign = HALIGN_CENTER
       children = shipObstacleRf
     }
+  },
+
+  [DargWidgets.FOOTBALL] = @ () {
+    size = flex()
+    halign = HALIGN_CENTER
+    children = footballHud
   }
 }
 

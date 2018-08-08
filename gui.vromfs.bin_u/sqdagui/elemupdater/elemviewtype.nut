@@ -1,5 +1,5 @@
 local u = ::require("std/u.nut")
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local elemModelType = ::require("sqDagui/elemUpdater/elemModelType.nut")
 
 local viewType = {
@@ -34,17 +34,14 @@ viewType.get <- @(typeId) this?[typeId] ?? EMPTY
 
 viewType.buildBhvConfig <- function(params) {
   local tbl = u.isTable(params) ? params : null
+  local viewType = get(tbl?.viewId ?? params)
   if (u.isString(params))
-  {
-    tbl = ::parse_json(params)
-    if (!tbl.len())
-      tbl = params.len() ? { viewId = params } : null
-  }
+    tbl = viewType == EMPTY ? ::parse_json(params) : { viewId = params }
 
   if (!tbl?.viewId)
     return null
 
-  local viewType = get(tbl.viewId)
+  viewType = get(tbl.viewId)
   local res = tbl
   res.viewType <- viewType
   if (!res?.subscriptions)

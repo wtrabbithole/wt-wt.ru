@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 
 /**
@@ -259,7 +260,7 @@ function g_orders::disableOrders()
     return
   }
   ordersEnabled = false
-  ::remove_all_listeners_by_env(this)
+  subscriptions.removeAllListenersByEnv(this)
   ordersStatusObj = null
   listenersEnabled = false
   updateActiveOrder()
@@ -367,7 +368,11 @@ function g_orders::updateActiveOrder(dispatchEvents = true)
   ::call_darg("orderStatusTextUpdate", getStatusText())
   ::call_darg("orderStatusTextBottomUpdate", getStatusTextBottom())
   ::call_darg("orderShowOrderUpdate", hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null)
-  ::call_darg("orderScoresTableUpdate", getScoreTableTexts())
+  local visibleScoreTableTexts = getScoreTableTexts()
+  visibleScoreTableTexts = visibleScoreTableTexts.len() > maxRowsInScoreTable
+    ? visibleScoreTableTexts.resize(maxRowsInScoreTable, null)
+    : visibleScoreTableTexts
+  ::call_darg("orderScoresTableUpdate", visibleScoreTableTexts)
 }
 
 function g_orders::updateOrderVisibility()

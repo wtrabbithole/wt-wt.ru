@@ -14,6 +14,31 @@
         "width": "0.5@sf"
       },
       {
+        "voiceChatWidgetNest": [
+          {
+            "isClanOnly": "no"
+          },
+          {
+            "blockSeparator": {
+              "display": "hide"
+            }
+          },
+          {
+            "voiceChatWidgetContainer": {
+              "isSmall": "no",
+              "voiceChatWidget": {
+                "value": "{\"viewId\": \"VOICE_CHAT\"}"
+              }
+            }
+          },
+          {
+            "blockSeparator": {
+              "display": "hide"
+            }
+          }
+        ]
+      },
+      {
         "tdiv": {
           "id": "order_status",
           "width": "0.8@itemInfoWidth",
@@ -168,6 +193,14 @@
       "id": "hud_action_bar",
       "position": "root",
       "pos": "sw/2 - w/2, @actionBarBottomPos - h"
+    }
+  },
+  {
+    "tdiv": {
+      "behaviour": "darg",
+      "position": "root",
+      "pos": "0, 0",
+      "size": "sw, sh"
     }
   },
   {
@@ -512,6 +545,7 @@
           {
             "hudMessages": {
               "id": "hud_messages_death_reason_notification",
+              "width": "@shHud",
               "pos": "pw/2 - w/2, 0",
               "position": "relative",
               "flow": "vertical",

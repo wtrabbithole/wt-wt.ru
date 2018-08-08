@@ -10,13 +10,13 @@ function gui_start_mod_tier_researched(config)
   if (!unit)
     return
 
-  local config = {
-      unit = unit,
-      unitInResearch = ::getTblValue("resUnit", config),
-      tier = ::getTblValue("tier", config, []),
-      expReward = ::Cost().setRp(::getTblValue("expToInvUnit", config, 0))
+  local wndParams = {
+    unit = unit
+    unitInResearch = config?.resUnit
+    tier = config?.tier ?? []
+    expReward = ::Cost().setRp(config?.expToInvUnit ?? 0)
   }
-  ::gui_start_modal_wnd(::gui_handlers.ModificationsTierResearched, config)
+  ::gui_start_modal_wnd(::gui_handlers.ModificationsTierResearched, wndParams)
 }
 
 class ::gui_handlers.ModificationsTierResearched extends ::gui_handlers.BaseGuiHandlerWT

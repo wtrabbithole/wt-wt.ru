@@ -230,8 +230,8 @@ function build_mp_table(table, markupData, hdr, max_rows)
         }
         local rankItem = format("activeText { id:t='rank-text'; text:t='%s'; margin-right:t='%%s' } ", rankTxt)
         local prestigeItem = format("cardImg { id:t='prestige-ico'; background-image:t='%s'; margin-right:t='%%s' } ", prestigeImg)
-        local data = isRowInvert ? prestigeItem + rankItem : rankItem + prestigeItem
-        tdData += format("width:t='2.2@rows16height%s'; tdiv { pos:t='%s, 0.5(ph-h)'; position:t='absolute'; " + data + " } ",
+        local cell = isRowInvert ? prestigeItem + rankItem : rankItem + prestigeItem
+        tdData += format("width:t='2.2@rows16height%s'; tdiv { pos:t='%s, 0.5(ph-h)'; position:t='absolute'; " + cell + " } ",
                     widthAdd, isRowInvert ? "0" : "pw-w-1", "0", "0.003sh")
       }
       else if (hdr[j] == "rowNo")
@@ -471,7 +471,7 @@ function set_mp_table(obj_tbl, table, params)
 
         local objName = objTd.findObject("name-text")
         if (::check_obj(objName))
-          objName.setValue(nameText)
+         objName.setValue(nameText)
 
         local objDlcImg = objTd.findObject("dlc-ico")
         if (::check_obj(objDlcImg))
@@ -496,18 +496,18 @@ function set_mp_table(obj_tbl, table, params)
             local showLowBRPrompt = false
 
             local unitsForTooltip = []
-            for (local i = 0; i < min(data.units.len(), 3); ++i)
-              unitsForTooltip.push(data.units[i])
+            for (local j = 0; j < min(data.units.len(), 3); ++j)
+              unitsForTooltip.push(data.units[j])
             unitsForTooltip.sort(sort_units_for_br_tooltip)
-            for (local i = 0; i < unitsForTooltip.len(); ++i)
+            for (local j = 0; j < unitsForTooltip.len(); ++j)
             {
-              local rankUnused = unitsForTooltip[i].rankUnused
+              local rankUnused = unitsForTooltip[j].rankUnused
               local formatString = rankUnused
                 ? "\n<color=@disabledTextColor>(%.1f) %s</color>"
                 : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
               if (rankUnused)
                 showLowBRPrompt = true
-              tooltip += ::format(formatString, unitsForTooltip[i].rating, unitsForTooltip[i].name)
+              tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
             }
             tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
                               ::loc("ui/colon") + ::format("%.1f", ratingTotal)
@@ -552,9 +552,9 @@ function set_mp_table(obj_tbl, table, params)
           obj["shopItemType"] = unitIcoColorType
         }
 
-        foreach(id, icon in ::getWeaponTypeIcoByWeapon(unitId, weapon))
+        foreach(iconId, icon in ::getWeaponTypeIcoByWeapon(unitId, weapon))
         {
-          obj = objTd.findObject(id + "-ico")
+          obj = objTd.findObject(iconId + "-ico")
           if (::check_obj(obj))
             obj["background-image"] = icon
         }
@@ -874,10 +874,12 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   checkRaceDataOnStart = true
   numberOfWinningPlaces = -1
 
-  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "awardDamage",
-                               "navalKills", "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
+  defaultRowHeaders         = ["squad", "name", "unitIcon", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills",
+                               "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "awardDamage", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "unitIcon", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
+  footballRowHeaders        = ["name", "footballScore", "footballGoals", "footballAssists"]
+
   statTrSize = "pw, 1@baseTrHeight"
 
   function onActivateOrder()
@@ -1120,9 +1122,12 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
+      local sourceHeaders = gameType & ::GT_FOOTBALL ? footballRowHeaders
+        : gameType & ::GT_RACE ? raceRowHeaders
+        : defaultRowHeaders
+
       foreach (id in sourceHeaders)
-        if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType))
+        if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType, gameMode))
           tblData.append(id)
 
       if (!showAircrafts)
@@ -1152,6 +1157,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         local show = rowHeaderData != ""
         guiScene.replaceContentFromText(tableObj, rowHeaderData, rowHeaderData.len(), this)
         tableObj.show(show)
+        tableObj.normalFont = ::is_low_width_screen() ? "yes" : "no"
       }
     }
 
@@ -1184,6 +1190,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     local tbl = null
     guiScene.setUpdatesEnabled(false, false)
+
+    objTbl.smallFont = ::is_low_width_screen() ? "yes" : "no"
 
     if (customTbl)
     {
@@ -2022,9 +2030,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   function hideTableRows(tblObj, minRow, maxRow)
   {
+    local count = tblObj.childrenCount()
     for (local i = minRow; i < maxRow; i++)
     {
-      if (tblObj.childrenCount() < i)
+      if (count <= i)
         return
 
       tblObj.getChild(i).show(false)
@@ -2145,6 +2154,7 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
   listLabelsSquad = {}
   nextLabel = { team1 = 1, team2 = 1}
   topSquads = {}
+  playersInfo = null
 }
 
 function SquadIcon::initListLabelsSquad()
@@ -2153,7 +2163,13 @@ function SquadIcon::initListLabelsSquad()
   nextLabel.team1 = 1
   nextLabel.team2 = 1
   topSquads = {}
+  playersInfo = clone ::SessionLobby.getPlayersInfo()
   updateListLabelsSquad()
+}
+
+function SquadIcon::clearPlayersInfo()
+{
+  playersInfo = null
 }
 
 function SquadIcon::updateListLabelsSquad()
@@ -2209,9 +2225,11 @@ function SquadIcon::getSquadInfoByMemberName(name)
 {
   if (name == "")
     return null
-  foreach(uid, member in ::SessionLobby.getPlayersInfo())
+
+  foreach(uid, member in ::SquadIcon.playersInfo ?? ::SessionLobby.getPlayersInfo())
     if (member.name == name)
       return getSquadInfo(member.squad)
+
   return null
 }
 
@@ -2269,7 +2287,8 @@ function SquadIcon::getTopSquadId(teamId)
 
 function SquadIcon::isShowSquad()
 {
-  if (::SessionLobby.getValueSettings("creator"))
+  if (::SessionLobby.getGameMode() == ::GM_SKIRMISH)
     return false
+
   return true
 }

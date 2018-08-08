@@ -206,8 +206,8 @@ function g_contacts::xboxUpdateContactsList(p, group)
     xboxFriendsList.append(::getContact(uid, data.nick))
 
   local requestTable = {}
-  requestTable[true] <- xboxFriendsList
-  requestTable[false] <- existedXBoxContacts
+  requestTable[true] <- xboxFriendsList //addList
+  requestTable[false] <- existedXBoxContacts //removeList
 
   ::edit_players_list_in_contacts(requestTable, group)
 
@@ -371,7 +371,7 @@ function editPlayerInContacts(player, groupName, add) //playerConfig: { uid, nam
 function find_contact_by_name_and_do(playerName, func) //return taskId if delayed.
 {
   local contact = ::Contact.getByName(playerName)
-  if (contact)
+  if (contact && contact?.uid != "")
   {
     func(contact)
     return null
@@ -434,7 +434,8 @@ function editContactMsgBox(player, groupName, add) //playerConfig: { uid, name }
     return
   }
 
-  local add = !::isPlayerInContacts(player.uid, groupName)
+  if (add == ::isPlayerInContacts(player.uid, groupName))
+    return
 
   if (groupName == ::EPL_FRIENDLIST)
   {

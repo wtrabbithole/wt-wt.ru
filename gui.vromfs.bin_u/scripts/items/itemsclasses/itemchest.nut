@@ -35,11 +35,17 @@ class ::items_classes.Chest extends ItemExternal {
 
   canConsume = @() isInventoryItem
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
-    return isCanBuy() ? getBuyText(colored, short)
-      : isInventoryItem && amount ? ::loc("item/open")
-      : ""
+    local res = base.getMainActionData(isShort)
+    if (res)
+      return res
+    if (isInventoryItem && amount)
+      return {
+        btnName = ::loc("item/open")
+      }
+
+    return null
   }
 
   skipRoulette              = @() false
@@ -75,12 +81,13 @@ class ::items_classes.Chest extends ItemExternal {
       getDescRecipesText(params),
       (hasContent ? ::PrizesView.getPrizesListText(content, _getDescHeader) : ""),
       getHiddenItemsDesc() || "",
+      getLongDescription(),
     ], "\n")
   }
 
   function getLongDescription()
   {
-    return ""
+    return itemDef?.tags?.hideDesc ? "" : (itemDef?.description ?? "")
   }
 
   function getLongDescriptionMarkup(params = null)
@@ -128,11 +135,11 @@ class ::items_classes.Chest extends ItemExternal {
 
   function doMainAction(cb, handler, params = null)
   {
-    if (buyExt(cb, params))
+    if (buy(cb, handler, params))
       return true
     if (!uids || !uids.len())
       return false
 
-    return ExchangeRecipes.tryUse(getRelatedRecipes(), this)
+    return ExchangeRecipes.tryUse(getRelatedRecipes(), this, params)
   }
 }

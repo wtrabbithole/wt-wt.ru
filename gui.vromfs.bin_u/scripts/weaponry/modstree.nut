@@ -173,8 +173,8 @@ local modsTree = {
         item.guiPosX <- 0.0
         itemTiers = { [item.tier] = 1.0 }
         if (rootTier>=0)
-          for(local i = rootTier+1; i<item.tier; i++) //place for lines
-            itemTiers[i] <- 1.0
+          for(local j = rootTier+1; j<item.tier; j++) //place for lines
+            itemTiers[j] <- 1.0
         isSide = isRoot || isCategory || item.tier == rootTier
       } else if (typeof(item)=="array") //branch
       {
@@ -183,8 +183,8 @@ local modsTree = {
         {
           isSide = item[0].tier == rootTier
           if (rootTier>=0)
-            for(local i = rootTier+1; i<item[0].tier; i++) //place for lines
-              itemTiers[i] <- 1.0
+            for(local j = rootTier+1; j<item[0].tier; j++) //place for lines
+              itemTiers[j] <- 1.0
         }
         else
         {

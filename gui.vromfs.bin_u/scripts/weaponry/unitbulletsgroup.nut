@@ -176,4 +176,9 @@ class BulletGroup
       selectedBullet = getModByBulletName(selectedName)
     return selectedBullet
   }
+
+  function shouldHideBullet()
+  {
+    return gunInfo.forcedMaxBulletsInRespawn
+  }
 }

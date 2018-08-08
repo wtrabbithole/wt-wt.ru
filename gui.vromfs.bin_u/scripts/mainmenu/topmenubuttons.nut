@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
   EMPTY_BUTTON,
@@ -107,7 +107,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   BENCHMARK = {
     text = "#mainmenu/btnBenchmark"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_benchmark)
-    isHidden = @(...) (::is_platform_ps4 ? !::has_feature("BenchmarkPS4") : !::has_feature("Benchmark")) && !::is_dev_version
+    isHidden = @(...) !::has_feature("Benchmark") && !::is_dev_version
     isInactiveInQueue = true
   }
   USER_MISSION = {

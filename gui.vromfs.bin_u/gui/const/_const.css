@@ -63,7 +63,7 @@
 @const awardIconHeight:   50*@sf/@pf_outdated;
 
 @const tableIcoSize:1@cIco;
-@const tablePad:0.005*@scrn_tgt;
+@const tablePad:(0.005@sf)\1;
 
 @const titlePos:@bw+1*@scrn_tgt/100.0;
 
@@ -79,6 +79,7 @@
 @const sliderRowHeight:(1@sliderHeight + 2@sliderIncHeight)\1;
 @const crewTrHeight:(0.035*@sf)\1 + 6*@sf/@pf_outdated;
 @const smallRowHeight:(0.02*@sf)\1;
+@const optionsHeaderRowHeight:(0.02@sf)\1 + 4@dp;
 
 @const gamercardHeight:(1@bigButtonHeight)\1;
 @const topBarHeight:1@gamercardHeight + 1@topGamercardButtonsPos + 1@dp;
@@ -103,8 +104,6 @@
 @const freeDecalsHeight:      sh - 1@minYposWindow - 1@bh - 1@customizationDecoratorBlockWidth - 1@bottomBarHeight - 1@buttonHeight;
 @const freeAttachablesHeight: sh - 1@minYposWindow - 1@bh - 2@customizationDecoratorBlockWidth - 1@bottomBarHeight - 1@buttonHeight;
 @const countDecalsInWidth:  ((0.35*sw \@customizationDecoratorBlockWidth) $max 4) $min 6;
-@const countDecalsInHeight:      (1@freeDecalsHeight      - 1@frameHeaderHeight - 0.02@scrn_tgt) \@customizationDecoratorBlockWidth;
-@const countAttachablesInHeight: (1@freeAttachablesHeight - 1@frameHeaderHeight - 0.02@scrn_tgt) \@customizationDecoratorBlockWidth;
 
 @const titleLogoPlateHeight: (((1@scrn_tgt+200)\400) * 32) $max 64) $min 128;
 @const titleLogoPlateWidth: 2*@titleLogoPlateHeight;
@@ -302,3 +301,13 @@
 
 @const chapterBlockWidth: 0.32@sf;
 @const chapterWideBlockWidth: 1@chapterBlockWidth + 0.08@sf*1@isWide;
+
+@const dmInfoTextWidth: (0.07@sf) \ 1;
+
+@const dropDownMenuBottomActivityGap: 8@dp; 
+
+@const gamercardVoiceChatWidth: 180@sf/@pf;
+@const voiceChatSmallIconWidth: 11@sf/@pf;
+@const voiceChatSmallIconHeight: 16@sf/@pf;
+@const voiceChatBaseIconWidth: 18@sf/@pf;
+@const voiceChatBaseIconHeight: 26@sf/@pf;

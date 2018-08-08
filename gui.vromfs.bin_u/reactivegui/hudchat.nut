@@ -3,7 +3,6 @@ local transition = require("style/hudTransition.nut")
 local teamColors = require("style/teamColors.nut")
 local chatBase = require("daRg/components/chat.nut")
 local textInput =  require("components/textInput.nut")
-local setHudBg = require("style/hudBackground.nut")
 local penalty = require("penitentiary/penalty.nut")
 local time = require("std/time.nut")
 local state = require("hudChatState.nut")
@@ -36,7 +35,6 @@ state.input.subscribe(function (new_val) {
 
 local chatInputCtor = function (field, send) {
   local restoreControle = function () {
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_ALLOW_FULL)
     ::toggle_ingame_chat(false)
   }
 
@@ -57,12 +55,18 @@ local chatInputCtor = function (field, send) {
     }
   }
   local options = {
+    key = "chatInput"
     font = Fonts.tiny_text_hud
     margin = 0
+    padding = [hdpx(5), hdpx(5), 0, hdpx(5)]
+    valign = VALIGN_BOTTOM
     hotkeys = [
       [ "J:A", onReturn],
       [ "J:B", onEscape],
     ]
+    colors = {
+      backGroundColor = colors.hud.hudLogBgColor
+    }
   }
   return textInput.hud(field, options, handlers)
 }
@@ -76,12 +80,14 @@ local getHintText = function () {
 }
 
 
-local chatHint = setHudBg({
+local chatHint = @() {
+  rendObj = ROBJ_9RECT
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
   valign = VALIGN_MIDDLE
   padding = [hdpx(5), hdpx(15)]
   gap = { size = flex() }
+  color = colors.hud.hudLogBgColor
   children = [
     {
       rendObj = ROBJ_DTEXT
@@ -96,7 +102,7 @@ local chatHint = setHudBg({
       font = Fonts.small_text_hud
     }
   ]
-})
+}
 
 
 local inputField = @() {
@@ -116,7 +122,7 @@ local getMessageColor = function(message)
   {
     if (::cross_call.squad_manger.isInMySquad(message.sender))
       return teamColors.squadColor
-    else if (message.isEnemy)
+    else if (message.team != hudState.playerArmyForHud.value)
       return teamColors.teamRedColor
     else
       return teamColors.teamBlueColor
@@ -131,7 +137,7 @@ local getSenderColor = function (message)
     return colors.hud.mainPlayerColor
   else if (::cross_call.isPlayerDedicatedSpectator(message.sender))
     return colors.hud.spectatorColor
-  else if (message.isEnemy || !::cross_call.is_mode_with_teams())
+  else if (message.team != hudState.playerArmyForHud.value || !::cross_call.is_mode_with_teams())
     return teamColors.teamRedColor
   else if (::cross_call.squad_manger.isInMySquad(message.sender))
     return teamColors.squadColor
@@ -139,7 +145,7 @@ local getSenderColor = function (message)
 }
 
 
-local messageComponent = function(message) {
+local messageComponent = @(message) function() {
   local text = ""
   if (message.sender == "") { //systme
     text = ::string.format(
@@ -157,8 +163,8 @@ local messageComponent = function(message) {
       ::cross_call.filter_chat_message(message.text, message.isMyself)
     )
   }
-  return @() {
-    watch = teamColors.trigger
+  return {
+    watch = [teamColors.trigger, hudState.playerArmyForHud]
     size = [flex(), SIZE_TO_CONTENT]
     rendObj = ROBJ_TEXTAREA
     behavior = Behaviors.TextArea
@@ -182,13 +188,10 @@ local logBox = hudLog({
 
 
 local onInputToggle = function (enable) {
-  if (enable) {
-    ::set_kb_focus(chat.form)
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE | CtrlsInGui.CTRL_ALLOW_MP_CHAT)
-  } else {
+  if (enable)
+    ::set_kb_focus(chatInputCtor)
+  else
     ::set_kb_focus(null)
-    ::set_allowed_controls_mask(CtrlsInGui.CTRL_ALLOW_FULL)
-  }
 }
 
 
@@ -214,9 +217,18 @@ return function () {
 
         onAttach = function (elem) {
           state.inputEnabled.subscribe(onInputToggle)
+          if (state.inputEnabled.value)
+            ::gui_scene.setInterval(0.1,
+              function() {
+                ::gui_scene.clearTimer(callee())
+                onInputToggle(true)
+            })
+          state.inputChatVisible.update(true)
         }
         onDetach = function (elem) {
           state.inputEnabled.unsubscribe(onInputToggle)
+          ::set_kb_focus(null)
+          state.inputChatVisible.update(false)
         }
         transitions = [transition()]
       }

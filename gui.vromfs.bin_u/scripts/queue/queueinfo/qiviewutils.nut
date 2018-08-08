@@ -6,7 +6,8 @@ local time = require("scripts/time.nut")
 
 function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
 {
-  local headerColumns = [{ text = "#sm_era"}]
+  local needRankInfo = ::events.needRankInfoInQueue(event)
+  local headerColumns = []
   local view = {
     rows = [
       {
@@ -14,8 +15,11 @@ function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
         columns = headerColumns
       }
       {
-        rowParam = "queueTableTitleRow"
-        columns = [{ text = "#multiplayer/playersInQueue" }]
+        rowParam = needRankInfo ? "queueTableTitleRow" : "queueTableBigTitleRow"
+        columns = [{
+          id = "total_in_queue"
+          text = "#multiplayer/playersInQueue"
+        }]
       }
     ]
   }
@@ -35,24 +39,28 @@ function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
     if (myCountry in cSet.allCountries)
       canMeetCountries = ::u.tablesCombine(canMeetCountries, cSet.allCountries, function(a, b) { return true })
 
-  for(local rank = 1; rank <= ::max_country_rank; ++rank)
+  if (needRankInfo)
   {
-    local row = {
-      rowParam = "queueTableRow"
-      columns = [{ text = ::getUnitRankName(rank) }]
-      isEven = rank % 2 == 0
+    headerColumns.insert(0, { text = "#sm_era" })
+    for(local rank = 1; rank <= ::max_country_rank; ++rank)
+    {
+      local row = {
+        rowParam = "queueTableRow"
+        columns = [{ text = ::getUnitRankName(rank) }]
+        isEven = rank % 2 == 0
+      }
+
+      foreach(i, country in ::shopCountriesList)
+        row.columns.append({
+          id = country + "_" + rank
+          text = ::events.isCountryAvailable(event, country) ? "0" : "-"
+          overlayTextColor = (country == myCountry && rank == myRank) ? "mainPlayer"
+                           : country in canMeetCountries ? null
+                           : "minor"
+        })
+
+      view.rows.append(row)
     }
-
-    foreach(i, country in ::shopCountriesList)
-      row.columns.append({
-        id = country + "_" + rank
-        text = ::events.isCountryAvailable(event, country) ? "0" : "-"
-        overlayTextColor = (country == myCountry && rank == myRank) ? "mainPlayer"
-                         : country in canMeetCountries ? null
-                         : "minor"
-      })
-
-    view.rows.append(row)
   }
 
   local markup = ::handyman.renderCached("gui/queue/queueTableByCountries", view)
@@ -66,22 +74,32 @@ function g_qi_view_utils::updateViewByCountries(nestObj, queue, curCluster)
     return
 
   local event = ::queues.getQueueEvent(queue)
-  local countriesQueueTable = queueStats.getCountriesQueueTable(curCluster)
-  local countryOption = ::get_option(::USEROPT_COUNTRY)
-  foreach(countryName in countryOption.values)
+  if (::events.needRankInfoInQueue(event))
   {
-    if (!::events.isCountryAvailable(event, countryName))
-      continue
-
-    local ranksQueueTable = ::getTblValue(countryName, countriesQueueTable)
-    for(local rank = 1; rank <= ::max_country_rank; ++rank)
+    local countriesQueueTable = queueStats.getCountriesQueueTable(curCluster)
+    local countryOption = ::get_option(::USEROPT_COUNTRY)
+    foreach(countryName in countryOption.values)
     {
-      local tdTextObj = nestObj.findObject(countryName + "_" + rank)
-      if (!::checkObj(tdTextObj))
+      if (!::events.isCountryAvailable(event, countryName))
         continue
-      local val = ::getTblValue(rank.tostring(), ranksQueueTable, 0)
-      tdTextObj.setValue(val.tostring())
+
+      local ranksQueueTable = countriesQueueTable?[countryName]
+      for(local rank = 1; rank <= ::max_country_rank; ++rank)
+      {
+        local tdTextObj = nestObj.findObject(countryName + "_" + rank)
+        if (!::check_obj(tdTextObj))
+          continue
+        local val = ranksQueueTable?[rank.tostring()] ?? 0
+        tdTextObj.setValue(val.tostring())
+      }
     }
+  }
+  else
+  {
+    local totalTextObj = nestObj.findObject("total_in_queue")
+    if (::check_obj(totalTextObj))
+      totalTextObj.setValue(::loc("multiplayer/playersInQueue") + ::loc("ui/colon")
+        + queueStats.getPlayersCountOfAllRanks())
   }
 }
 

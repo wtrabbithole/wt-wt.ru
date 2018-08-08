@@ -1504,93 +1504,72 @@
             "name": "ammunition_storage_03_dm"
           },
           {
-            "name": "ammo_body_dm"
+            "onKill": {
+              "damageType": "fire",
+              "expl": 1.0,
+              "fHitCritical": false
+            }
           },
           {
-            "name": "ammo_body_01_dm"
+            "onKill": {
+              "damageType": "explosion",
+              "expl": 1.0,
+              "fHitCritical": false
+            }
           },
           {
-            "name": "ammo_body_02_dm"
+            "onKill": {
+              "damageType": "shatter",
+              "expl": 1.0,
+              "fHitCritical": false
+            }
           },
           {
-            "name": "ammo_body_03_dm"
-          },
-          {
-            "name": "ammo_body_04_dm"
-          },
-          {
-            "name": "ammo_body_05_dm"
-          },
-          {
-            "name": "ammo_body_06_dm"
-          },
-          {
-            "name": "ammo_body_l_01_dm"
-          },
-          {
-            "name": "ammo_body_l_02_dm"
-          },
-          {
-            "name": "ammo_body_l_03_dm"
-          },
-          {
-            "name": "ammo_body_l_04_dm"
-          },
-          {
-            "name": "ammo_body_l_05_dm"
-          },
-          {
-            "name": "ammo_body_l_06_dm"
-          },
-          {
-            "name": "ammo_body_r_01_dm"
-          },
-          {
-            "name": "ammo_body_r_02_dm"
-          },
-          {
-            "name": "ammo_body_r_03_dm"
-          },
-          {
-            "name": "ammo_body_r_04_dm"
-          },
-          {
-            "name": "ammo_body_r_05_dm"
-          },
-          {
-            "name": "ammo_body_r_06_dm"
-          },
-          {
-            "name": "ammo_turret_dm"
-          },
-          {
-            "name": "ammo_turret_01_dm"
-          },
-          {
-            "name": "ammo_turret_02_dm"
-          },
-          {
-            "name": "ammo_turret_03_dm"
-          },
-          {
-            "name": "ammo_turret_04_dm"
-          },
-          {
-            "name": "ammo_turret_05_dm"
-          },
-          {
-            "name": "ammo_turret_06_dm"
-          },
-          {
-            "onHit": {
-              "expl": 0.9,
-              "damage": 350.0,
+            "onKill": {
+              "damageType": "generic",
+              "expl": 1.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "expl": 0.2,
+              "damageType": "explosion",
+              "fire": 1.0,
+              "damage": 100.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 1.0,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 1.0,
+              "expl": 1.0,
+              "damage": 50.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 1.0,
+              "expl": 1.0,
+              "damage": 100.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "expl": 1.0,
+              "fire": 1.0,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -2532,18 +2511,18 @@
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_16.blk",
-          "emitter": "bone_torpedo_02",
+          "emitter": "bone_torpedo_03",
           "bullets": 1,
-          "barrelDP": "tt_02_dm",
+          "barrelDP": "tt_03_dm",
           "brokenBarrelAllowShoot": false,
-          "ammoDP": "torpedo_02_dm",
+          "ammoDP": "torpedo_03_dm",
           "enableCourseCorrection": false,
           "startFx": "start_torpedo",
           "startFxOffset": [1.5,0.0,0.0],
           "allowableDelta": 180.0,
           "turret": {
-            "head": "bone_torpedo_02",
-            "gun": "bone_torpedo_02"
+            "head": "bone_torpedo_03",
+            "gun": "bone_torpedo_03"
           },
           "limits": {
             "yaw": [0.0,0.0],
@@ -2557,18 +2536,18 @@
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_16.blk",
-          "emitter": "bone_torpedo_03",
+          "emitter": "bone_torpedo_02",
           "bullets": 1,
-          "barrelDP": "tt_03_dm",
+          "barrelDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
-          "ammoDP": "torpedo_03_dm",
+          "ammoDP": "torpedo_02_dm",
           "enableCourseCorrection": false,
           "startFx": "start_torpedo",
           "startFxOffset": [1.5,0.0,0.0],
           "allowableDelta": 180.0,
           "turret": {
-            "head": "bone_torpedo_03",
-            "gun": "bone_torpedo_03"
+            "head": "bone_torpedo_02",
+            "gun": "bone_torpedo_02"
           },
           "limits": {
             "yaw": [0.0,0.0],

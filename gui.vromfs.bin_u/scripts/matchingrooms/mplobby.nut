@@ -109,10 +109,10 @@ function session_fill_info(scene, sessionInfo)
   local bObj = scene.findObject("session_laps")
   setTextToObj(bObj, ::loc("options/race_laps") + ::loc("ui/colon"),
                (gt & ::GT_RACE)? ::getTblValue("raceLaps", missionInfo) : null)
-  local bObj = scene.findObject("session_winners")
+  bObj = scene.findObject("session_winners")
   setTextToObj(bObj, ::loc("options/race_winners") + ::loc("ui/colon"),
                (gt & ::GT_RACE)? ::getTblValue("raceWinners", missionInfo) : null)
-  local bObj = scene.findObject("session_can_shoot")
+  bObj = scene.findObject("session_can_shoot")
   setTextToObj(bObj, ::loc("options/race_can_shoot") + ::loc("ui/colon"),
                (gt & ::GT_RACE)? !::getTblValue("raceForceCannotShoot", missionInfo, false) : null)
 
@@ -132,7 +132,7 @@ function session_fill_info(scene, sessionInfo)
   setTextToObjByOption("session_botsranks", ::USEROPT_BOTS_RANKS,
                (gt & ::GT_RACE)? null : ::getTblValue("ranks", missionInfo))
 
-  local bObj = scene.findObject("session_jip")
+  bObj = scene.findObject("session_jip")
   setTextToObj(bObj, ::loc("options/allow_jip") + ::loc("ui/colon"),
                ::getTblValue("allowJIP", sessionInfo, true))
 

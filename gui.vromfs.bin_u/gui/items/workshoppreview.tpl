@@ -5,7 +5,7 @@ root {
     id:t='window_root'
     pos:t='50%pw-50%w, 50%ph-50%h'
     position:t='absolute'
-    width:t='1.1@sf'
+    width:t='1.33@sf $min 1@maxWindowWidth'
 
     class:t='wnd'
 
@@ -18,10 +18,10 @@ root {
     }
 
     tdiv {
-      size:t='pw, 600*@sf/@pf'
+      size:t='pw, 770@sf/@pf $min 1@rh'
 
       img {
-        size:t='4/3*ph, ph'
+        size:t='800@sf/@pf, ph'
         background-repeat:t='aspect-ratio'
         background-image:t='<<bgImage>>'
       }
@@ -41,7 +41,7 @@ root {
           <<#infoBlocks>>
           <<#image>>
           img {
-            size:t='pw, 0.05@sf'
+            size:t='pw, 0.05@sf<<#imageScale>>*<<imageScale>><</imageScale>>'
             margin-top:t='0, 0.0085@sf'
             background-image:t='<<image>>'
             background-repeat:t='aspect-ratio'

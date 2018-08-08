@@ -269,8 +269,8 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       if (typeof(value)=="table")
-        foreach(name, result in value)
-          obj[name] = result
+        foreach(oKey, oValue in value)
+          obj[oKey] = oValue
       else
         obj.setValue(value)
     }

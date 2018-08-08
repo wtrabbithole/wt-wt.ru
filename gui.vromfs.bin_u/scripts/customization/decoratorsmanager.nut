@@ -67,23 +67,34 @@ function g_decorator::getCachedDecoratorsListByType(decType)
 
 function g_decorator::getDecorator(searchId, decType)
 {
+  local res = null
+  if (::u.isEmpty(searchId))
+    return res
+
+  res = decType.getSpecialDecorator(searchId)
+    || ::g_decorator.getCachedDecoratorsListByType(decType)?[searchId]
+    || decType.getUgcDecorator(searchId, ugcDecoratorsCache)
+  if (!res)
+    ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
+  return res
+}
+
+function g_decorator::getDecoratorById(searchId)
+{
   if (::u.isEmpty(searchId))
     return null
 
-  local res = decType.getSpecialDecorator(searchId)
-  if (res)
-    return res
+  foreach (type in ::g_decorator_type.types)
+  {
+    local res = getDecorator(searchId, type)
+    if (res)
+      return res
+  }
+}
 
-  local res = ::getTblValue(searchId, ::g_decorator.getCachedDecoratorsListByType(decType))
-  if (res)
-    return res
-
-  local res = decType.getUgcDecorator(searchId, ugcDecoratorsCache)
-  if (res)
-    return res
-
-  ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
-  return null
+function g_decorator::getDecoratorByResource(resource, resourceType)
+{
+  return getDecorator(resource, ::g_decorator_type.getTypeByResourceType(resourceType))
 }
 
 function g_decorator::getCachedDecoratorByUnlockId(unlockId, decType)
@@ -247,7 +258,7 @@ function g_decorator::addSkinItemToOption(option, locName, value, decorator, sho
   option.items.insert(idx, {
     text = locName
     textStyle = ::COLORED_DROPRIGHT_TEXT_STYLE
-    image = needIcon ? decorator.getSmallIcon() : ""
+    image = needIcon ? decorator.getSmallIcon() : null
   })
   option.values.insert(idx, value)
   option.decorators.insert(idx, decorator)

@@ -239,6 +239,11 @@ class SlotbarPresetsList
     update()
   }
 
+  function onEventVoiceChatOptionUpdated(p)
+  {
+    updateSizes(true)
+  }
+
   function onEventSquadDataUpdated(p)
   {
     scene.getScene().performDelayed(this, function()

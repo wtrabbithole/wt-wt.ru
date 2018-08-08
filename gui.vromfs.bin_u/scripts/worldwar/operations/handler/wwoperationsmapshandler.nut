@@ -513,13 +513,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local found = false
     for (local i = 0; i < listLen; i++)
     {
-      local obj = listObj.getChild(i)
+      local child = listObj.getChild(i)
       if (!found)
       {
-        if (obj.collapsing == "yes")
+        if (child.collapsing == "yes")
         {
-          obj.collapsing = "no"
-          obj.collapsed  = isShow ? "no" : "yes"
+          child.collapsing = "no"
+          child.collapsed  = isShow ? "no" : "yes"
           headerIdx = i
           found = true
         }
@@ -546,8 +546,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local newIdx = -1
       foreach (idx in indexes)
       {
-        local obj = listObj.getChild(idx)
-        if (!obj.collapse_header && obj.isEnabled())
+        local child = listObj.getChild(idx)
+        if (!child.collapse_header && child.isEnabled())
         {
           newIdx = idx
           break
@@ -708,7 +708,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if ((queuesJoinTime > 0) != isInQueue)
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
     showSceneBtn("queues_wait_time_div", isInQueue)
-    onTimerQueuesWaitTime(null, 0.0)
+    onTimerQueuesWaitTime()
 
     if (::show_console_buttons)
     {
@@ -740,7 +740,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     return res
   }
 
-  function onTimerQueuesWaitTime(obj, dt)
+  function onTimerQueuesWaitTime()
   {
     if (!queuesJoinTime)
       return

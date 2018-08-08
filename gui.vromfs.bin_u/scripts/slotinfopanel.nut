@@ -119,9 +119,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onProtectionAnalysis()
   {
-    ::queues.checkAndStart(
-      @() ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open()),
-      null, "isCanUseOnlineShop")
+    ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open())
   }
 
   function onCollapseButton()

@@ -28,10 +28,10 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
     return ::colorize("grayOptionColor", headerText)
   }
 
-  function getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems)
+  function getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems, hasFakeRecipes = false, timeText = "")
   {
     if (!isDisassemble())
-      return base.getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems)
+      return base.getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems, hasFakeRecipes, timeText)
 
     local locId = totalAmount == 1 ? "item/disassemble_recipes/single" : "item/disassemble_recipes"
     return ::loc(locId,
@@ -40,6 +40,17 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
         countColored = ::colorize("activeTextColor", totalAmount)
         exampleCount = showAmount
       })
+  }
+
+  function getMainActionData(isShort = false)
+  {
+    if (canAssemble())
+      return {
+        btnName = getAssembleButtonText()
+        isInactive = hasReachedMaxAmount()
+      }
+
+    return null
   }
 
   getAssembleHeader     = @() isDisassemble() ? getName() : base.getAssembleHeader()
@@ -52,6 +63,7 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
         needRecipeMarkup = true
       })
 
-  getMainActionName     = @(colored = true, short = false) canAssemble() ? getAssembleButtonText() : ""
   doMainAction          = @(cb, handler, params = null) assemble(cb, params)
+
+  getRewardListLocId = @() isDisassemble() ? "mainmenu/itemsList" : base.getRewardListLocId()
 }

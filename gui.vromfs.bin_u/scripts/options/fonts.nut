@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 const FONTS_SAVE_PATH = "fonts_css"
 const FONTS_SAVE_PATH_CONFIG = "video/fonts"
 
@@ -180,8 +180,8 @@ function g_font::getDefault()
   local displayScale = ::display_scale()
   local sWidth = ::screen_width()
   local sHeight = ::screen_height()
-  if (displayScale <= 1.2 && SMALL.isAvailable(sWidth, sHeight))
-    return SMALL
+  if (displayScale <= 1.2 && COMPACT.isAvailable(sWidth, sHeight))
+    return COMPACT
   if (displayScale <= 1.4 && MEDIUM.isAvailable(sWidth, sHeight))
     return MEDIUM
   return LARGE

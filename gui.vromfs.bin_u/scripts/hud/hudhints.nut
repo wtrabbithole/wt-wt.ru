@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 const DEFAULT_MISSION_HINT_PRIORITY = 100
 const CATASTROPHIC_HINT_PRIORITY = 0
@@ -220,7 +220,15 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     local res = ::g_hud_hints._buildText.call(this, hintData)
     local varValue = ::getTblValue("variable_value", hintData)
     if (varValue != null)
+    {
+      local varStyle = ::getTblValue("variable_style", hintData)
+      if (varStyle == "playerId")
+      {
+        local player = ::get_mplayer_by_id(varValue)
+        varValue = ::build_mplayer_name(player)
+      }
       res = ::loc(res, {var = varValue})
+    }
     if (!getShortcuts(hintData))
       return res
     res = ::g_hint_tag.TIMER.makeFullTag() + " " + res
@@ -336,6 +344,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
 
   shouldBlink = false
   shouldFadeOut = false
+  isSingleInNest = false
 
   isEnabled = @() (isShowedInVR || !::is_stereo_mode())
     && ::is_hint_enabled(mask)
@@ -611,6 +620,17 @@ enums.addTypesByGlobalName("g_hud_hints", {
     getShortcuts = @(data) ::g_hud_action_bar_type.WINCH.getVisualShortcut()
     lifeTime = 10.0
     delayTime = 4.0
+  }
+
+  FOOTBALL_JUMP_REQUEST = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "HUD/TXT_FOOTBALL_JUMP_REQUEST"
+    showEvent = "hint:football_jump_request:show"
+    hideEvent = "hint:football_jump_request:hide"
+    priority = DEFAULT_MISSION_HINT_PRIORITY
+    shortcuts = "ID_FIRE_GM"
+    lifeTime = 3.0
+    delayTime = 2.0
   }
 
   WINCH_USE_HINT = {
@@ -1019,6 +1039,13 @@ enums.addTypesByGlobalName("g_hud_hints", {
     lifeTime = 3.0
   }
 
+  FOOTBALL_LOCK_TARGET = {
+    locId = "HUD/TXT_FOOTBALL_LOCK_TARGET"
+    showEvent = "hint:football_lock_target"
+    shortcuts = "ID_TARGETING_HOLD_GM"
+    lifeTime = 3.0
+  }
+
   TARGET_BINOCULAR_FOR_SCOUTING = {
     locId = "HUD/TXT_TARGET_BINOCULAR_FOR_SCOUTING"
     showEvent = "hint:target_binocular_for_scouting"
@@ -1072,6 +1099,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:replenishment_in_progress:hide"
     maskId = 13
     totalCount = 5
+    isSingleInNest = true
   }
 
   DROWNING_HINT = {

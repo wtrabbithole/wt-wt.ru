@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 
 ::g_battle_task_difficulty <- {
@@ -169,11 +169,11 @@ function g_battle_task_difficulty::updateTimeParamsFromBlk(blk)
 {
   foreach(type in types)
   {
-    local genTimeId = type.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
-    type.lastGenTimeSuccess = blk[genTimeId] || -1
+    local genSuccessTimeId = type.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
+    type.lastGenTimeSuccess = blk[genSuccessTimeId] || -1
 
-    local genTimeId = type.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
-    type.lastGenTimeFailure = blk[genTimeId] || -1
+    local genFailureTimeId = type.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
+    type.lastGenTimeFailure = blk[genFailureTimeId] || -1
 
     local genPerSecTimeId = type.timeParamId + "PersonalUnlocks_CUSTOM_generationPeriodSec"
     type.generationPeriodSec = blk[genPerSecTimeId] || -1

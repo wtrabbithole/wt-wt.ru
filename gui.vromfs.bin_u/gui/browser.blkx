@@ -79,5 +79,32 @@
         ]
       }
     }
+  },
+  "tdiv": {
+    "position": "root",
+    "pos": "@bw +1@framePadding, sh-h -1@blockInterval -@bh -1@frameFooterHeight",
+    "voiceChatWidgetNest": [
+      {
+        "isClanOnly": "no"
+      },
+      {
+        "blockSeparator": {
+          "display": "hide"
+        }
+      },
+      {
+        "voiceChatWidgetContainer": {
+          "isSmall": "no",
+          "voiceChatWidget": {
+            "value": "{\"viewId\": \"VOICE_CHAT\"}"
+          }
+        }
+      },
+      {
+        "blockSeparator": {
+          "display": "hide"
+        }
+      }
+    ]
   }
 }

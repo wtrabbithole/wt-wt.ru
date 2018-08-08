@@ -6,8 +6,9 @@ local hudLogs = require("hudLogs.nut")
 
 local shipHud = @(){
   watch = networkState.isMultiplayer
-  size = SIZE_TO_CONTENT
+  size = [SIZE_TO_CONTENT, flex()]
   flow = FLOW_VERTICAL
+  valign = VALIGN_BOTTOM
   margin = [sh(5), sh(1)] //keep gap for counters
   gap = sh(1)
   children = [

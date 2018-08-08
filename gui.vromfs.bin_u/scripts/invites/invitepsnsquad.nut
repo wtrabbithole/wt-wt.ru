@@ -22,6 +22,7 @@ class ::g_invites_classes.PsnSquad extends ::g_invites_classes.Squad
 
   function onSuccessfulAccept()
   {
+    base.onSuccessfulAccept()
     ::g_psn_session_invitations.setInvitationUsed(invitationId)
   }
 

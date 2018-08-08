@@ -144,6 +144,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::prepareMessageForWallPostAndSend(config.ps4ActivityFeedData.config,
                                        config.ps4ActivityFeedData.params,
                                        bit_activity.PS4_ACTIVITY_FEED)
+    showSceneBtn("btn_post_ps4_activity_feed", false)
   }
 
   function updateButtons()

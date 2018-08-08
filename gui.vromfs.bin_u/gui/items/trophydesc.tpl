@@ -27,6 +27,9 @@ tdiv {
   <<#tooltip>>
   tooltip:t='<<tooltip>>'
   <</tooltip>>
+  <<#isLocked>>
+  includeTextColor:t='locked'
+  <</isLocked>>
 
   <<#title>>
   <<#icon>>
@@ -35,6 +38,9 @@ tdiv {
     pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon>>'
+    <<#isLocked>>
+    isLocked:t='yes'
+    <</isLocked>>
   }
   <</icon>>
   <<#icon2>>
@@ -43,6 +49,9 @@ tdiv {
     pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon2>>'
+    <<#isLocked>>
+    isLocked:t='yes'
+    <</isLocked>>
   }
   <</icon2>>
   <<@previewImage>>
@@ -86,10 +95,10 @@ tdiv {
   hoverButton {
     pos:t='0, ph/2-h/2'; position:t='relative'
     tooltip:t = '<<tooltip>>'
-    on_click:t='onDescAction'
+    on_click:t='<<funcName>>'
     no_text:t='yes'
-    actionData:t='<<actionData>>'
-    icon { background-image:t='<<icon>>' }
+    icon { background-image:t='<<image>>' }
+    <<@actionParamsMarkup>>
   }
   <</buttons>>
 

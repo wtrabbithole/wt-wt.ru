@@ -404,6 +404,11 @@ function join_room(params, cb)
                     {
                       if (::checkMatchingError(resp, false))
                         g_mrooms_handlers.onRoomJoinCb(resp)
+                      else
+                      {
+                        resp.roomId <- params?.roomId
+                        resp.password <- params?.password
+                      }
                       cb(resp)
                     },
                     params)

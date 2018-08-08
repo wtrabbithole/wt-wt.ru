@@ -98,12 +98,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function initControlBlockVisibiltiySwitch()
   {
-    local obj = getObj("control_block_visibility_switch")
-    if (!::check_obj(obj))
-      return
-
-    local show = ::screen_width() / ::screen_height() < 1.5
-    obj.show(show)
+    showSceneBtn("control_block_visibility_switch", ::is_low_width_screen())
   }
 
   function initPageSwitch(forceTabSwitch = null)
@@ -559,11 +554,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       if (!zones.len())
         continue
 
-      for (local i = WW_MAP_HIGHLIGHT.LAYER_0; i<= WW_MAP_HIGHLIGHT.LAYER_2; i++)
+      for (local j = WW_MAP_HIGHLIGHT.LAYER_0; j<= WW_MAP_HIGHLIGHT.LAYER_2; j++)
       {
-        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == i)
+        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == j)
         local zonesArray = ::u.map(filteredZones, @(zone) zone.id)
-        ::ww_highlight_zones_by_name(zonesArray, i)
+        ::ww_highlight_zones_by_name(zonesArray, j)
       }
     }
   }

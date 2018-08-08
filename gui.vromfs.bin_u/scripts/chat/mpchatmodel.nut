@@ -33,15 +33,18 @@ local mpChatModel = {
       return false
     }
 
+    local player = u.search(::get_mplayers_list(::GET_MPLAYERS_LIST, true), @(p) p.name == sender)
+
     local message = {
       sender = sender
       text = msg
       isMyself = sender == ::my_user_name
-      isEnemy = enemy
       isBlocked = ::isPlayerNickInContacts(sender, ::EPL_BLOCKLIST)
       isAutomatic = automatic
       mode = mode
       time = ::get_usefull_total_time()
+
+      team = player ? player.team:0
     }
 
     if (mpChatState.log.len() > maxLogSize) {

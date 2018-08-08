@@ -151,13 +151,17 @@ class ::items_classes.Booster extends ::BaseItem
     return res
   }
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
-    if (isCanBuy())
-      return getBuyText(colored, short)
+    local res = base.getMainActionData(isShort)
+    if (res)
+      return res
     if (isInventoryItem && amount && !isActive())
-      return ::loc("item/activate")
-    return ""
+      return {
+        btnName = ::loc("item/activate")
+      }
+
+    return null
   }
 
   function doMainAction(cb, handler, params = null)

@@ -1,6 +1,7 @@
 local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 local MOD_TIERS_COUNT = 4
 
@@ -12,6 +13,7 @@ local weaponProperties = [
 ]
 local reqNames = ["reqWeapon", "reqModification"]
 local upgradeNames = ["weaponUpgrade1", "weaponUpgrade2", "weaponUpgrade3", "weaponUpgrade4"]
+local needCollectEffects = ["torpedoes_movement_mode"]
 
 local Unit = class
 {
@@ -364,6 +366,12 @@ local Unit = class
     if (weaponry.name == "tank_additional_armor")
       weaponry.requiresModelReload <- true
 
+    if (::isInArray(weaponry.name, needCollectEffects))
+    {
+      local cbFunc = function(effect, ...) { weaponry.effects <- effect }
+      ::calculate_mod_or_weapon_effect(name, weaponry.name, true, this, cbFunc, null)
+    }
+
     foreach(p in weaponProperties)
     {
       local val = blk?[p] ?? weaponBlk?[p]
@@ -447,6 +455,17 @@ local Unit = class
       modificatorsRequestTime = -1
     }
     modificators = null
+  }
+
+  function canPreview()
+  {
+    return isInShop
+  }
+
+  function doPreview()
+  {
+    if (canPreview())
+      ugcPreview.showUnitSkin(name)
   }
 }
 

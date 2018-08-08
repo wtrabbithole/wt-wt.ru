@@ -180,6 +180,7 @@ function getRewardTextByBlk(dataBlk, misName, diff, langId, highlighted=false, c
     local muls = ::get_player_multipliers()
     rewardMoney = ::Cost(getRewValue("wp", 0) * muls.wpMultiplier,
                             getRewValue("gold", 0),
+                            0,
                             getRewValue("xp", 0) * muls.xpMultiplier)
   }
 

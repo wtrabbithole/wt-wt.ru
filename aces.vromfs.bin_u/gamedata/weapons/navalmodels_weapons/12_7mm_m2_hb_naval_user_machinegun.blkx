@@ -21,15 +21,6 @@
     "emitTime": 0.03
   },
   {
-    "aimMinDist": 0.1
-  },
-  {
-    "aimMaxDist": 2000.0
-  },
-  {
-    "maxDeltaAngle": 0.1
-  },
-  {
     "shotFreq": 9.6
   },
   {
@@ -54,7 +45,19 @@
     "bulletsCartridge": 200
   },
   {
+    "aimMinDist": 0.05
+  },
+  {
+    "aimMaxDist": 2000.0
+  },
+  {
+    "maxDeltaAngle": 0.1
+  },
+  {
     "fxType": "machine_gun_flame"
+  },
+  {
+    "fxMultipleSpawn": true
   },
   {
     "fxScale": 1.0
@@ -72,7 +75,7 @@
     "notUseDefaultBulletInGui": true
   },
   {
-    "sound_path": "tanks/weapon_tanks/mguns"
+    "sound_path": "ships/weapon_common/mguns"
   },
   {
     "sound": "12mm_m2"
@@ -109,9 +112,9 @@
       "shutterArmorPower": 3.0,
       "shutterHit": 2.5,
       "groundCollisionEffect": "7_20_hit_ground",
-      "groundFxScale": [0.7,0.9],
+      "groundFxScale": [1.0,1.0],
       "waterCollisionEffect": "water_splash",
-      "waterFxScale": [0.7,0.8],
+      "waterFxScale": [1.0,1.0],
       "armorpower": {
         "ArmorPower0m": [2.0,10.0],
         "ArmorPower100m": [2.0,100.0],
@@ -153,7 +156,7 @@
       "speed": 856.0,
       "Cx": 0.15,
       "maxDistance": 2500.0,
-      "bulletType": "ap_ball_M2",
+      "bulletType": "ap",
       "bulletName": "ap_ball_M2",
       "relativeVelHitShift": [300.0,1000.0],
       "armorFragmentsDamage": true,
@@ -164,9 +167,9 @@
       "armorFragmentsHit": 4.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
-      "groundFxScale": [0.7,0.9],
+      "groundFxScale": [1.0,1.0],
       "waterCollisionEffect": "water_splash",
-      "waterFxScale": [0.7,0.8],
+      "waterFxScale": [1.0,1.0],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -225,9 +228,9 @@
       "armorFragmentsArmorPower": 2.0,
       "armorFragmentsHit": 4.0,
       "groundCollisionEffect": "7_20_hit_ground",
-      "groundFxScale": [0.7,0.9],
+      "groundFxScale": [1.0,1.0],
       "waterCollisionEffect": "water_splash",
-      "waterFxScale": [0.7,0.8],
+      "waterFxScale": [1.0,1.0],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -274,7 +277,7 @@
       "speed": 856.0,
       "Cx": 0.15,
       "maxDistance": 2500.0,
-      "bulletType": "ap_ball_M2",
+      "bulletType": "ap",
       "bulletName": "ap_ball_M2",
       "relativeVelHitShift": [300.0,1000.0],
       "armorFragmentsDamage": true,
@@ -285,9 +288,9 @@
       "armorFragmentsHit": 4.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
-      "groundFxScale": [0.7,0.9],
+      "groundFxScale": [1.0,1.0],
       "waterCollisionEffect": "water_splash",
-      "waterFxScale": [0.7,0.8],
+      "waterFxScale": [1.0,1.0],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -355,9 +358,9 @@
           "shutterArmorPower": 3.0,
           "shutterHit": 2.5,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "armorpower": {
             "ArmorPower0m": [2.0,10.0],
             "ArmorPower100m": [2.0,100.0],
@@ -399,7 +402,7 @@
           "speed": 856.0,
           "Cx": 0.15,
           "maxDistance": 2500.0,
-          "bulletType": "ap_ball_M2",
+          "bulletType": "ap",
           "bulletName": "ap_ball_M2",
           "relativeVelHitShift": [300.0,1000.0],
           "armorFragmentsDamage": true,
@@ -410,9 +413,9 @@
           "armorFragmentsHit": 4.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -471,9 +474,9 @@
           "armorFragmentsArmorPower": 2.0,
           "armorFragmentsHit": 4.0,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -520,7 +523,7 @@
           "speed": 856.0,
           "Cx": 0.15,
           "maxDistance": 2500.0,
-          "bulletType": "ap_ball_M2",
+          "bulletType": "ap",
           "bulletName": "ap_ball_M2",
           "relativeVelHitShift": [300.0,1000.0],
           "armorFragmentsDamage": true,
@@ -531,9 +534,9 @@
           "armorFragmentsHit": 4.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -584,7 +587,7 @@
           "speed": 856.0,
           "Cx": 0.15,
           "maxDistance": 2500.0,
-          "bulletType": "ap_ball_M2",
+          "bulletType": "ap",
           "bulletName": "ap_ball_M2",
           "relativeVelHitShift": [300.0,1000.0],
           "armorFragmentsDamage": true,
@@ -595,9 +598,9 @@
           "armorFragmentsHit": 4.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -644,7 +647,7 @@
           "speed": 856.0,
           "Cx": 0.15,
           "maxDistance": 2500.0,
-          "bulletType": "ap_ball_M2",
+          "bulletType": "ap",
           "bulletName": "ap_ball_M2",
           "relativeVelHitShift": [300.0,1000.0],
           "armorFragmentsDamage": true,
@@ -655,9 +658,9 @@
           "armorFragmentsHit": 4.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -704,7 +707,7 @@
           "speed": 856.0,
           "Cx": 0.15,
           "maxDistance": 2500.0,
-          "bulletType": "ap_ball_M2",
+          "bulletType": "ap",
           "bulletName": "ap_ball_M2",
           "relativeVelHitShift": [300.0,1000.0],
           "armorFragmentsDamage": true,
@@ -715,9 +718,9 @@
           "armorFragmentsHit": 4.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -783,9 +786,9 @@
           "shutterArmorPower": 3.0,
           "shutterHit": 2.5,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "armorpower": {
             "ArmorPower0m": [2.0,10.0],
             "ArmorPower100m": [2.0,100.0],
@@ -843,9 +846,9 @@
           "armorFragmentsArmorPower": 2.0,
           "armorFragmentsHit": 4.0,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -904,9 +907,9 @@
           "armorFragmentsArmorPower": 2.0,
           "armorFragmentsHit": 4.0,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -965,9 +968,9 @@
           "armorFragmentsArmorPower": 2.0,
           "armorFragmentsHit": 4.0,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "hitpower": {
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
@@ -1033,9 +1036,9 @@
           "shutterArmorPower": 3.0,
           "shutterHit": 2.5,
           "groundCollisionEffect": "7_20_hit_ground",
-          "groundFxScale": [0.7,0.9],
+          "groundFxScale": [1.0,1.0],
           "waterCollisionEffect": "water_splash",
-          "waterFxScale": [0.7,0.8],
+          "waterFxScale": [1.0,1.0],
           "armorpower": {
             "ArmorPower0m": [2.0,10.0],
             "ArmorPower100m": [2.0,100.0],

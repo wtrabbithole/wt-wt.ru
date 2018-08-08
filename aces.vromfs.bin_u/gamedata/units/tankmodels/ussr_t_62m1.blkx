@@ -132,7 +132,7 @@
           "armorThickness": 45.0
         },
         "superstructure_bottom_dm": {
-          "armorThickness": 45.0
+          "armorThickness": 20.0
         },
         "turret_06_front_dm": {
           "armorThickness": 30.0
@@ -148,6 +148,9 @@
         },
         "turret_05_back_dm": {
           "armorThickness": 5.0
+        },
+        "turret_06_side_dm": {
+          "armorThickness": 30.0
         }
       },
       "turret_composite_armor": {
@@ -1839,6 +1842,13 @@
                 "verLimits": [5.0,-13.0],
                 "verOriginLimits": [-6.0,16.0]
               }
+            },
+            {
+              "linkedAnimPart": {
+                "verNode": "bone_mg_gun_twin",
+                "verLimits": [-6.0,10.0],
+                "verOriginLimits": [-6.0,16.0]
+              }
             }
           ],
           "limits": {
@@ -2781,6 +2791,13 @@
                     "linkedAnimPart": {
                       "verNode": "bone_gun_roller_01",
                       "verLimits": [5.0,-13.0],
+                      "verOriginLimits": [-6.0,16.0]
+                    }
+                  },
+                  {
+                    "linkedAnimPart": {
+                      "verNode": "bone_mg_gun_twin",
+                      "verLimits": [-6.0,10.0],
                       "verOriginLimits": [-6.0,16.0]
                     }
                   }

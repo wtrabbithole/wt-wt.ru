@@ -102,19 +102,21 @@ enum RB_GM_TYPE
     displayWide = true
     onBattleButtonClick = function() {
       local curUnit = ::get_cur_slotbar_unit()
-      local isCurUnitTank = ::isTank(curUnit)
       local chapter = ::events.chapters.getChapter("simulation_battles")
       local chapterEvents = chapter? chapter.getEvents() : []
+
       local openEventId = null
       if (chapterEvents.len())
       {
-        foreach(eventId in chapterEvents)
-          if (isCurUnitTank && ::events.isEventTanksCompatible(eventId))
-          {
-            openEventId = eventId
-            break
-          }
-        openEventId = openEventId || chapterEvents[0]
+        local lastPlayedEventId = ::events.getLastPlayedEvent()?.name
+        local lastPlayedEventRelevance = ::isInArray(lastPlayedEventId, chapterEvents) ?
+          ::events.checkUnitRelevanceForEvent(lastPlayedEventId, curUnit) : UnitRelevance.NONE
+        local relevanceList = ::u.map(chapterEvents, function(id) {
+          return { eventId = id, relevance = ::events.checkUnitRelevanceForEvent(id, curUnit) }
+        })
+        relevanceList.sort(@(a,b) b.relevance <=> a.relevance || a.eventId <=> b.eventId)
+        openEventId = lastPlayedEventRelevance >= relevanceList[0].relevance ?
+          lastPlayedEventId : relevanceList[0].eventId
       }
       ::gui_start_modal_events({ event = openEventId })
     }
@@ -510,6 +512,10 @@ class GameModeManager
 
   function _createEventGameMode(event)
   {
+    local isForClan = ::events.isEventForClan(event)
+    if (isForClan && !::has_feature("Clans"))
+      return
+
     local gameMode = {
       id = event.name
       source = event
@@ -521,7 +527,7 @@ class GameModeManager
       image = ::events.getEventTileImageName(event, ::events.isEventDisplayWide(event))
       videoPreview = ::has_feature("VideoPreview") ? ::events.getEventPreviewVideoName(event, ::events.isEventDisplayWide(event)) : null
       displayType = ::events.getEventDisplayType(event)
-      forClan = ::events.isEventForClan(event)
+      forClan = isForClan
       countries = ::events.getAvailableCountriesByEvent(event)
       displayWide = ::events.isEventDisplayWide(event)
       enableOnDebug = ::events.isEventEnableOnDebug(event)

@@ -22,6 +22,7 @@ OnlineShopModel <- {
   priceBlk = null
   purchaseDataCache = {}
   entitlemetsUpdaterWeak = null
+  callbackReturnFunc = null
 }
 
 /*API methods*/
@@ -447,37 +448,53 @@ function OnlineShopModel::startEntitlementsUpdater()
 function OnlineShopModel::launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null)
 {
   if (!::isInMenu())
+    return afterCloseFunc && afterCloseFunc()
+
+  if (launchPS4Store(chapter, afterCloseFunc))
     return
 
-  if (launchPS4Store(chapter))
-    return
-
-  if (launchXboxMarketplace(chapter))
+  if (launchXboxMarketplace(chapter, afterCloseFunc))
     return
 
   ::gui_modal_onlineShop(owner, chapter, afterCloseFunc)
 }
 
-function OnlineShopModel::launchPS4Store(chapter = null)
+function OnlineShopModel::launchPS4Store(chapter = null, afterCloseFunc = null)
 {
   if (::is_platform_ps4 && ::isInArray(chapter, [null, "", "eagles"]))
   {
-    ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter),
+    ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter, afterCloseFunc),
       null, "isCanUseOnlineShop")
     return true
   }
   return false
 }
 
-function OnlineShopModel::launchXboxMarketplace(chapter = null)
+function OnlineShopModel::launchXboxMarketplace(chapter = null, afterCloseFunc = null)
 {
   if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
   {
-    ::queues.checkAndStart(@() ::launch_xbox_one_store_by_chapter(chapter),
+    ::queues.checkAndStart(::Callback(@() launchXboxOneStoreByChapter(chapter, afterCloseFunc),this),
       null, "isCanUseOnlineShop")
     return true
   }
   return false
+}
+
+function OnlineShopModel::launchXboxOneStoreByChapter(chapter, afterCloseFunc = null)
+{
+  callbackReturnFunc = afterCloseFunc
+  ::get_gui_scene().performDelayed(::getroottable(),
+    function(){ ::xbox_show_marketplace(chapter == "eagles") })
+}
+
+function OnlineShopModel::onPurchasesUpdated()
+{
+  if (callbackReturnFunc)
+  {
+    callbackReturnFunc()
+    callbackReturnFunc = null
+  }
 }
 
 //                                                                            //
@@ -578,7 +595,7 @@ function get_entitlement_price(item)
   return ""
 }
 
-function update_purchases_return_mainmenu()
+function update_purchases_return_mainmenu(afterCloseFunc = null)
 {
   local taskId = ::update_entitlements()
   if (taskId >= 0)
@@ -587,6 +604,8 @@ function update_purchases_return_mainmenu()
     ::add_bg_task_cb(taskId, (@(progressBox) function() {
       ::destroyMsgBox(progressBox)
       ::gui_start_mainmenu_reload()
+      if (afterCloseFunc)
+        afterCloseFunc()
     })(progressBox))
   }
 }
@@ -623,34 +642,37 @@ function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
   ::gui_start_modal_wnd(hClass, { owner = owner, afterCloseFunc = afterCloseFunc, chapter = chapter })
 }
 
-function launch_ps4_store_by_chapter(chapter)
+function launch_ps4_store_by_chapter(chapter,afterCloseFunc = null)
 {
-  if (chapter == null || chapter == "")
-  {
-    //TODO: items shop
-    if (::ps4_open_store("WARTHUNDERAPACKS", false) >= 0)
-      ::update_purchases_return_mainmenu()
-  }
-  else if (chapter == "eagles")
-  {
-    if (::ps4_open_store("WARTHUNDEREAGLES", false) >= 0)
-      ::update_purchases_return_mainmenu()
-  }
-}
-
-function launch_xbox_one_store_by_chapter(chapter)
-{
-  ::xbox_show_marketplace(chapter == "eagles");
+  ::get_gui_scene().performDelayed(::getroottable(),
+    function() {
+      if (chapter == null || chapter == "")
+      {
+        //TODO: items shop
+        if (::ps4_open_store("WARTHUNDERAPACKS", false) >= 0)
+          ::update_purchases_return_mainmenu(afterCloseFunc)
+      }
+      else if (chapter == "eagles")
+      {
+        if (::ps4_open_store("WARTHUNDEREAGLES", false) >= 0)
+          ::update_purchases_return_mainmenu(afterCloseFunc)
+      }
+    }
+  )
 }
 
 ::subscribe_handler(::OnlineShopModel, ::g_listener_priority.CONFIG_VALIDATION)
 
 function xbox_on_purchases_updated()
 {
-  if (::is_online_available())
-    ::g_tasker.addTask(::update_entitlements_limited(),
-                        {
-                          showProgressBox = true
-                          progressBoxText = ::loc("charServer/checking")
-                        })
+  if (!::is_online_available())
+    return
+
+  ::g_tasker.addTask(::update_entitlements_limited(),
+                      {
+                        showProgressBox = true
+                        progressBoxText = ::loc("charServer/checking")
+                      },
+                      @() ::OnlineShopModel.onPurchasesUpdated()
+                    )
 }

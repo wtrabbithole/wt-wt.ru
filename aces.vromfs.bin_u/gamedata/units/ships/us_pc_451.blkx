@@ -15,12 +15,6 @@
     "useBotForAi": true
   },
   {
-    "support_unit_class": "structures/germ_380mm_skc34"
-  },
-  {
-    "support_unit_tag": "artillery"
-  },
-  {
     "harmonizationSuffix": "_tomoe"
   },
   {
@@ -729,34 +723,34 @@
       "compartments": {
         "fireParamsPreset": "ship_cover",
         "stopChanceOnDeadPart": 0.2,
-        "genericDamageMult": 0.1,
+        "genericDamageMult": 0.9,
         "secondaryShatterDamageMult": 0.0,
         "armorThickness": 8.0,
         "compartment_01_dm": {
-          "hp": 1000.0
+          "hp": 700.0
         },
         "compartment_02_dm": {
-          "hp": 1000.0
+          "hp": 700.0
         },
         "compartment_03_dm": {
-          "hp": 1000.0
+          "hp": 700.0
         },
         "compartment_04_dm": {
-          "hp": 1000.0
+          "hp": 700.0
         },
         "compartment_05_dm": {
-          "hp": 706.0
+          "hp": 700.0
         },
         "bridge_dm": {
-          "hp": 500.0
+          "hp": 323.0
         },
         "radio_station_dm": {
-          "hp": 500.0
+          "hp": 300.0
         }
       },
       "superstructures": {
         "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.1,
+        "genericDamageMult": 0.9,
         "superstructure_back_dm": {
           "hp": 500.0
         },
@@ -766,7 +760,7 @@
         },
         "superstructure_front_dm": {
           "armorThickness": 18.0,
-          "hp": 2000.0
+          "hp": 1000.0
         },
         "superstructure_top_dm": {
           "armorThickness": 10.0,
@@ -936,16 +930,16 @@
         }
       },
       "turrets_main_caliber": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 15.0,
+        "armorClass": "RHA_tank",
+        "armorThickness": 9.52,
         "fireParamsPreset": "ship_turrets",
         "main_caliber_turret_01_dm": {
-          "hp": 400.0
+          "hp": 250.0
         }
       },
       "turrets_aux_caliber": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 15.0,
+        "armorClass": "RHA_tank",
+        "armorThickness": 12.7,
         "fireParamsPreset": "ship_turrets",
         "auxiliary_caliber_turret_01_dm": {
           "hp": 100.0
@@ -970,7 +964,7 @@
         "armorThickness": 8.0,
         "fireParamsPreset": "ship_turrets",
         "main_caliber_gun_01_dm": {
-          "hp": 360.0
+          "hp": 200.0
         }
       },
       "gun_aux_caliber": [
@@ -1013,6 +1007,10 @@
         "armorClass": "tank_barrel",
         "armorThickness": 6.0,
         "fireParamsPreset": "ship_turrets"
+      },
+      "gun_barrels": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 6.0
       },
       "explosives_mounts": {
         "armorThickness": 10.0,
@@ -1080,11 +1078,11 @@
         "armorThickness": 20.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
+        "fireParamsPreset": "ship_ammo_fire",
         "armorClass": "ship_structural_steel",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 0.2,
-        "shatterDamageMult": 0.2,
+        "genericDamageMult": 0.65,
+        "explosionDamageMult": 0.65,
+        "shatterDamageMult": 0.65,
         "secondaryShatterDamageMult": 0.0,
         "ammunition_storage_01_dm": {
           "hp": 120.0
@@ -1205,7 +1203,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -1220,12 +1218,12 @@
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 6
+        "crew": 8
       },
       "sailor7": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       }
     }
   },
@@ -2128,10 +2126,10 @@
             "isBulletBelt": false
           },
           {
-            "speedYaw": 35.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 35.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2400
@@ -2272,10 +2270,10 @@
             "isBulletBelt": false
           },
           {
-            "speedYaw": 35.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2400
@@ -2416,10 +2414,10 @@
             "isBulletBelt": false
           },
           {
-            "speedYaw": 35.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2400
@@ -2562,10 +2560,10 @@
             "isBulletBelt": false
           },
           {
-            "speedYaw": 35.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2400
@@ -2708,10 +2706,10 @@
             "isBulletBelt": false
           },
           {
-            "speedYaw": 35.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2400
@@ -2854,10 +2852,10 @@
             "isBulletBelt": false
           },
           {
-            "speedYaw": 35.0
+            "speedYaw": 75.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 75.0
           },
           {
             "bullets": 2400
@@ -3640,6 +3638,7 @@
         "reqModification": "20mm_oerlikon_navy_he_ammo_pack"
       },
       "20mm_oerlikon_navy_ap": [],
+      "76mm_usa_navy_he": [],
       "76mm_usa_navy_AP_ammo_pack": [],
       "76mm_usa_navy_AP": [],
       "manual_ship_extinguisher": {
@@ -3656,28 +3655,6 @@
       "new_ship_pumps": {
         "prevModification": "manual_ship_extinguisher"
       },
-      "ship_anti_fragmentation_protection": {
-        "prevModification": "manual_ship_extinguisher",
-        "effects": {
-          "damagePartsOverride": {
-            "crew_sections": {
-              "genericDamageMult": 1.0,
-              "explosionDamageMult": 1.0,
-              "shatterDamageMult": 0.7,
-              "secondaryShatterDamageMult": 0.8,
-              "fireDamageMult": 1.0,
-              "cumulativeDamageMult": 1.0,
-              "collisionDamageMult": 1.0,
-              "drowningDamageMult": 1.0,
-              "compartment_01_dm": [],
-              "compartment_02_dm": [],
-              "compartment_03_dm": [],
-              "compartment_04_dm": [],
-              "compartment_05_dm": []
-            }
-          }
-        }
-      },
       "ship_rangefinder": {
         "prevModification": "76mm_usa_navy_AP_ammo_pack"
       },
@@ -3685,9 +3662,6 @@
         "reqModification": "new_aux_caliber_turrets"
       },
       "new_aux_caliber_turrets": [],
-      "ship_main_caliber_support": {
-        "prevModification": "new_main_caliber_turrets"
-      },
       "ship_depth_charge": {
         "prevModification": "20mm_oerlikon_navy_ap_ammo_pack"
       }
@@ -3750,10 +3724,31 @@
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
         "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "fireEvent": "ammo_fire_1",
+          "explosionEvent": "ammo_explosion_1",
           "ammunition_storage_01_dm": {
             "count": 100
           }
@@ -3774,6 +3769,10 @@
         },
         {
           "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_2",
+            "explosionEvent": "ammo_explosion_2",
             "ammunition_storage_02_dm": {
               "count": 14400
             }

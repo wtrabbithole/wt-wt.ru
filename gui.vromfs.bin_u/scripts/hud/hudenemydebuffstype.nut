@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum PART_STATE
 {
   OFF      = "off"
@@ -167,6 +167,8 @@ enums.addTypesByGlobalName("g_hud_enemy_debuffs", {
     {
       local value = ::getTblValue("buoyancy", camInfo)
       if (value == null)
+        return null
+      if (value > 0.995)
         return null
       return {
         state = getStateByValue(value, 0.995, 0.505, 0.005)

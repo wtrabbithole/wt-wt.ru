@@ -1,6 +1,5 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -71,7 +70,8 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 ::basic_unit_roles <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber", "helicopter"],
   [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa"],
-  [::ES_UNIT_TYPE_SHIP] = ["ship", "torpedo_boat", "gun_boat", "torpedo_gun_boat", "submarine_chaser", "destroyer", "naval_ferry_barge"],
+  [::ES_UNIT_TYPE_SHIP] = ["ship", "boat", "heavy_boat", "barge", "destroyer", "light_cruiser",
+    "cruiser", "battlecruiser", "battleship", "submarine"]
 }
 
 ::unit_role_fonticons <- {
@@ -85,20 +85,9 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   tank_destroyer           = ::loc("icon/unitclass/tank_destroyer"),
   spaa                     = ::loc("icon/unitclass/spaa"),
   ship                     = ::loc("icon/unitclass/ship"),
-  gun_boat                 = ::loc("icon/unitclass/gun_boat")
-  torpedo_boat             = ::loc("icon/unitclass/gun_boat")
-  torpedo_gun_boat         = ::loc("icon/unitclass/gun_boat")
-  hydrofoil_torpedo_boat   = ::loc("icon/unitclass/gun_boat")
-  missile_boat             = ::loc("icon/unitclass/gun_boat")
-  heavy_gun_boat           = ::loc("icon/unitclass/heavy_gun_boat")
-  submarine_chaser         = ::loc("icon/unitclass/heavy_gun_boat")
-  minesweeper              = ::loc("icon/unitclass/heavy_gun_boat")
-  minelayer                = ::loc("icon/unitclass/heavy_gun_boat")
-  small_submarine_chaser   = ::loc("icon/unitclass/heavy_gun_boat")
-  armored_boat             = ::loc("icon/unitclass/heavy_gun_boat")
-  armored_submarine_chaser = ::loc("icon/unitclass/heavy_gun_boat")
-  naval_ferry_barge        = ::loc("icon/unitclass/naval_ferry_barge")
-  naval_aa_ferry           = ::loc("icon/unitclass/naval_ferry_barge")
+  boat                     = ::loc("icon/unitclass/gun_boat")
+  heavy_boat               = ::loc("icon/unitclass/heavy_gun_boat")
+  barge                    = ::loc("icon/unitclass/naval_ferry_barge")
   destroyer                = ::loc("icon/unitclass/destroyer")
   light_cruiser            = ::loc("icon/unitclass/light_cruiser")
   cruiser                  = ::loc("icon/unitclass/cruiser")
@@ -108,56 +97,42 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 }
 
 ::unit_role_by_tag <- {
-  type_light_fighter = "light_fighter",
-  type_medium_fighter = "medium_fighter",
-  type_heavy_fighter = "heavy_fighter",
-  type_naval_fighter = "naval_fighter",
-  type_jet_fighter = "jet_fighter",
-  type_light_bomber = "light_bomber",
-  type_medium_bomber = "medium_bomber",
-  type_heavy_bomber = "heavy_bomber",
-  type_naval_bomber = "naval_bomber",
-  type_jet_bomber = "jet_bomber",
-  type_dive_bomber = "dive_bomber",
-  type_common_bomber = "common_bomber", //to use as a second type: "Light fighter / Bomber"
-  type_common_assault = "common_assault",
-  type_strike_fighter = "strike_fighter",
-
+  type_light_fighter    = "light_fighter",
+  type_medium_fighter   = "medium_fighter",
+  type_heavy_fighter    = "heavy_fighter",
+  type_naval_fighter    = "naval_fighter",
+  type_jet_fighter      = "jet_fighter",
+  type_light_bomber     = "light_bomber",
+  type_medium_bomber    = "medium_bomber",
+  type_heavy_bomber     = "heavy_bomber",
+  type_naval_bomber     = "naval_bomber",
+  type_jet_bomber       = "jet_bomber",
+  type_dive_bomber      = "dive_bomber",
+  type_common_bomber    = "common_bomber", //to use as a second type: "Light fighter / Bomber"
+  type_common_assault   = "common_assault",
+  type_strike_fighter   = "strike_fighter",
   //tanks:
-  type_tank = "tank" //used in profile stats
-  type_light_tank = "light_tank",
-  type_medium_tank = "medium_tank",
-  type_heavy_tank = "heavy_tank",
-  type_tank_destroyer = "tank_destroyer",
-  type_spaa = "spaa",
-
+  type_tank             = "tank" //used in profile stats
+  type_light_tank       = "light_tank",
+  type_medium_tank      = "medium_tank",
+  type_heavy_tank       = "heavy_tank",
+  type_tank_destroyer   = "tank_destroyer",
+  type_spaa             = "spaa",
   //ships:
-  type_ship = "ship",
-  type_gun_boat = "gun_boat"
-  type_torpedo_boat = "torpedo_boat"
-  type_torpedo_gun_boat = "torpedo_gun_boat"
-  type_hydrofoil_torpedo_boat = "hydrofoil_torpedo_boat"
-  type_missile_boat = "missile_boat"
-  type_heavy_gun_boat = "heavy_gun_boat"
-  type_submarine_chaser = "submarine_chaser"
-  type_minesweeper = "minesweeper"
-  type_minelayer = "minelayer"
-  type_small_submarine_chaser = "small_submarine_chaser"
-  type_armored_boat = "armored_boat"
-  type_armored_submarine_chaser = "armored_submarine_chaser"
-  type_naval_ferry_barge = "naval_ferry_barge"
-  type_naval_aa_ferry = "naval_aa_ferry"
-  type_destroyer = "destroyer"
-  type_light_cruiser = "light_cruiser"
-  type_cruiser = "cruiser"
-  type_battlecruiser = "battlecruiser"
-  type_battleship = "battleship"
-  type_submarine = "submarine"
-
+  type_ship             = "ship",
+  type_boat             = "boat",
+  type_heavy_boat       = "heavy_boat",
+  type_barge            = "barge",
+  type_destroyer        = "destroyer",
+  type_light_cruiser    = "light_cruiser",
+  type_cruiser          = "cruiser",
+  type_battlecruiser    = "battlecruiser",
+  type_battleship       = "battleship",
+  type_submarine        = "submarine",
   //basic types
-  type_fighter = "medium_fighter",
-  type_assault = "common_assault",
-  type_bomber = "medium_bomber"
+  type_fighter          = "medium_fighter",
+  type_assault          = "common_assault",
+  type_bomber           = "medium_bomber"
 }
 
 ::unit_role_by_name <- {}
@@ -298,6 +273,9 @@ function get_unit_actions_list(unit, handler, actions)
       showAction = inMenu
       actionFunc = (@(unit, handler) function () {
         handler.checkedCrewModify((@(unit, handler) function () {
+          if (unit.isShip() && !::check_package_and_ask_download("pkg_ships"))
+            return
+
           ::broadcastEvent("BeforeStartShowroom")
           ::show_aircraft = unit
           handler.goForward(::gui_start_decals)
@@ -309,7 +287,7 @@ function get_unit_actions_list(unit, handler, actions)
       actionText = ::loc("mainmenu/btnPreview")
       icon       = "#ui/gameuiskin#btn_preview.svg"
       showAction = inMenu
-      actionFunc = @() ugcPreview.showUnitSkin(unit.name)
+      actionFunc = @() unit.doPreview()
     }
     else if (action == "aircraft")
     {
@@ -445,6 +423,9 @@ function get_unit_actions_list(unit, handler, actions)
       icon       = unit.unitType.testFlightIcon
       showAction = inMenu && ::isTestFlightAvailable(unit)
       actionFunc = function () {
+        if (::isShip(unit) && !::check_package_and_ask_download("pkg_ships"))
+          return
+
         ::queues.checkAndStart(@() ::gui_start_testflight(unit), null, "isCanNewflight")
       }
     }
@@ -863,7 +844,8 @@ function can_spend_gold_on_unit_with_popup(unit)
   if (unit.unitType.canSpendGold())
     return true
 
-  ::g_popups.add(::getUnitName(unit), ::loc("msgbox/unitTypeRestrictFromSpendGold"))
+  ::g_popups.add(::getUnitName(unit), ::loc("msgbox/unitTypeRestrictFromSpendGold"),
+    null, null, null, "cant_spend_gold_on_unit")
   return false
 }
 
@@ -1755,7 +1737,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     [::ES_UNIT_TYPE_TANK] = [
       {id = "mass", id2 = "mass", prepareTextFunc = function(value){return format("%.1f %s", (value / 1000.0), ::loc("measureUnits/ton"))}},
       {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}},
-      {id = "maxInclination", id2 = "maxInclination", prepareTextFunc = function(value){return format("%d%s", (value*180.0/PI).tointeger(), ::loc("measureUnits/deg"))}}
       {id = "turnTurretTime", id2 = "turnTurretSpeed", prepareTextFunc = function(value){return format("%.1f%s", value.tofloat(), ::loc("measureUnits/deg_per_sec"))}}
     ],
     [::ES_UNIT_TYPE_SHIP] = [
@@ -1826,7 +1807,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-maxInclination-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-wingLoading-tr"]           = [ airplaneParameters ? ::ES_UNIT_TYPE_AIRCRAFT : -1 ],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
@@ -1834,9 +1814,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   foreach (rowId, showForTypes in showCharacteristics)
   {
-    local obj = holderObj.findObject(rowId)
-    if (obj)
-      obj.show(::isInArray(unitType, showForTypes))
+    local rowObj = holderObj.findObject(rowId)
+    if (rowObj)
+      rowObj.show(::isInArray(unitType, showForTypes))
   }
 
   local powerToWeightRatioObject = holderObj.findObject("aircraft-powerToWeightRatio-tr")
@@ -1993,9 +1973,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local rowObj = holderObj.findObject("aircraft-" + id + "-tr")
       if (::check_obj(rowObj))
         rowObj.show(val != "")
-      local obj = holderObj.findObject("aircraft-" + id)
-      if (::check_obj(obj))
-        obj.setValue(val)
+      local valueObj = holderObj.findObject("aircraft-" + id)
+      if (::check_obj(valueObj))
+        valueObj.setValue(val)
     }
   }
 
@@ -2184,7 +2164,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("trophy/unlockables_names/trophy")))
     if (isOwn && !isReceivedPrizes)
     {
-      local text = ::loc("mainmenu/itemReceived") + ::loc("ui/dot") + " " + ::loc("mainmenu/receiveOnlyOnce")
+      local text = ::loc("mainmenu/itemReceived") + ::loc("ui/dot") + " " +
+        ::loc(params?.relatedItem ? "mainmenu/activateOnlyOnce" : "mainmenu/receiveOnlyOnce")
       addInfoTextsList.append(::colorize("badTextColor", text))
     }
   }
@@ -2214,28 +2195,28 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local crewSpecIcon = specType.trainedIcon
     local crewSpecName = specType.getName()
 
-    local obj = holderObj.findObject("aircraft-crew_info")
+    obj = holderObj.findObject("aircraft-crew_info")
     if (::checkObj(obj))
       obj.show(true)
 
-    local obj = holderObj.findObject("aircraft-crew_name")
+    obj = holderObj.findObject("aircraft-crew_name")
     if (::checkObj(obj))
       obj.setValue(::g_crew.getCrewName(crew))
 
-    local obj = holderObj.findObject("aircraft-crew_level")
+    obj = holderObj.findObject("aircraft-crew_level")
     if (::checkObj(obj))
       obj.setValue(::loc("crew/usedSkills") + " " + crewLevel)
-    local obj = holderObj.findObject("aircraft-crew_spec-label")
+    obj = holderObj.findObject("aircraft-crew_spec-label")
     if (::checkObj(obj))
       obj.setValue(::loc("crew/trained") + ::loc("ui/colon"))
-    local obj = holderObj.findObject("aircraft-crew_spec-icon")
+    obj = holderObj.findObject("aircraft-crew_spec-icon")
     if (::checkObj(obj))
       obj["background-image"] = crewSpecIcon
-    local obj = holderObj.findObject("aircraft-crew_spec")
+    obj = holderObj.findObject("aircraft-crew_spec")
     if (::checkObj(obj))
       obj.setValue(crewSpecName)
 
-    local obj = holderObj.findObject("aircraft-crew_points")
+    obj = holderObj.findObject("aircraft-crew_points")
     if (::checkObj(obj) && !isInFlight && crewStatus != "")
     {
       local crewPointsText = ::colorize("white", ::get_crew_sp_text(::g_crew_skills.getCrewPoints(crew)))
@@ -2416,7 +2397,7 @@ function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
     barObj.paused = isPaused ? "yes" : "no"
   }
 
-  local barObj = obj.findObject("expProgress")
+  barObj = obj.findObject("expProgress")
   if (::checkObj(barObj))
   {
     barObj.show(true)

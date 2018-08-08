@@ -163,7 +163,6 @@ class ::WwBattleView
         reqUnitTypeIcon = true
         hideArrivalTime = true
         showArmyGroupText = false
-        hasTextAfterIcon = true
         battleDescriptionIconSize = iconSize
         isArmyAlwaysUnhovered = true
         needShortInfoText = hasArmyInfo

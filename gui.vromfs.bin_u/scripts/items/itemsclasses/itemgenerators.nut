@@ -1,14 +1,16 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
+local time = require("scripts/time.nut")
 
 local collection = {}
 
 local ItemGenerator = class {
-  id = ""
+  id = -1
   genType = ""
   exchange = null
   bundle  = null
   timestamp = ""
+  assembleTime = 0
 
   isPack = false
   hasHiddenItems = false
@@ -23,23 +25,63 @@ local ItemGenerator = class {
     genType = itemDefDesc?.type ?? ""
     exchange = itemDefDesc?.exchange ?? ""
     bundle   = itemDefDesc?.bundle ?? ""
-    isPack   = genType == "bundle"
+    isPack   = ::isInArray(genType, [ "bundle", "delayedexchange" ])
     tags     = itemDefDesc?.tags ?? null
     timestamp = itemDefDesc?.Timestamp ?? ""
+    assembleTime = time.getSecondsFromTemplate(itemDefDesc?.lifetime ?? "")
   }
 
   _exchangeRecipes = null
   _exchangeRecipesUpdateTime = 0
+
   function getRecipes()
   {
     if (!_exchangeRecipes || _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime)
     {
       local generatorId = id
+      local generatorAssembleTime = assembleTime
       local parsedRecipes = inventoryClient.parseRecipesString(exchange)
-      _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes(parsedRecipe, generatorId))
+      _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes({
+         parsedRecipe = parsedRecipe,
+         generatorId = generatorId
+         assembleTime = generatorAssembleTime
+      }))
+
+      // Adding additional recipes
+      local hasAdditionalRecipes
+      local wBlk = ::DataBlock("config/workshop.blk")
+      if (wBlk.additionalRecipes)
+        foreach (itemBlk in (wBlk.additionalRecipes % "item"))
+          if (::to_integer_safe(itemBlk.id) == id)
+          {
+            hasAdditionalRecipes = true
+            foreach (paramName in ["fakeRecipe", "trueRecipe"])
+              foreach (itemdefId in itemBlk % paramName)
+              {
+                local gen = collection?[itemdefId] ?? null
+                local additionalParsedRecipes = gen ? inventoryClient.parseRecipesString(gen.exchange) : []
+                _exchangeRecipes.extend(::u.map(additionalParsedRecipes, @(pr) ExchangeRecipes({
+                  parsedRecipe = pr,
+                  generatorId = gen.id
+                  assembleTime = gen.assembleTime
+                  isFake = paramName != "trueRecipe"
+                })))
+              }
+            break
+          }
+      if (hasAdditionalRecipes)
+      {
+        local minIdx = _exchangeRecipes[0].idx
+        ::math.init_rnd(::my_user_id_int64 + id)
+        _exchangeRecipes = ::u.shuffle(_exchangeRecipes)
+        foreach (recipe in _exchangeRecipes)
+          recipe.idx = minIdx++
+        ::randomize()
+      }
+
       _exchangeRecipesUpdateTime = ::dagor.getCurTime()
     }
-    return _exchangeRecipes
+    return ::u.filter(_exchangeRecipes, @(ec) ec.isEnabled())
   }
 
   function getRecipesWithComponent(componentItemdefId)
@@ -53,7 +95,7 @@ local ItemGenerator = class {
     local parsedBundles = inventoryClient.parseRecipesString(bundle)
 
     foreach (set in parsedBundles)
-      foreach (cfg in set)
+      foreach (cfg in set.components)
       {
         local item = ::ItemsManager.findItemById(cfg.itemdefid)
         local generator = !item ? collection?[cfg.itemdefid] : null
@@ -99,6 +141,22 @@ local ItemGenerator = class {
         return false
     return true
   }
+
+  function getRecipeByUid(uid)
+  {
+    return ::u.search(getRecipes(), @(r) r.uid == uid)
+  }
+
+  function markAllRecipes()
+  {
+    local recipes = getRecipes()
+    if (!ExchangeRecipes.hasFakeRecipes(recipes))
+      return
+
+    foreach(recipe in recipes)
+       recipe.markRecipe()
+  }
+
 }
 
 local get = function(itemdefId) {
@@ -111,7 +169,16 @@ local add = function(itemDefDesc) {
     collection[itemDefDesc.itemdefid] <- ItemGenerator(itemDefDesc)
 }
 
+local findGenByReceptUid = function(recipeUid) {
+  foreach (gen in collection)
+    if (gen.genType != "delayedexchange")
+      foreach (recipe in gen.getRecipes())
+        if (recipe.uid == recipeUid)
+          return gen
+}
+
 return {
   get = get
   add = add
+  findGenByReceptUid = findGenByReceptUid
 }

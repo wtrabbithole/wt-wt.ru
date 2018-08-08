@@ -494,7 +494,7 @@ function get_current_bonuses_text(effectType)
     tooltipText.append(::loc("mainmenu/bonusCyberCafe") + ::loc("ui/colon") + value)
   }
 
-  local value = ::get_squad_bonus_for_same_cyber_cafe(effectType)
+  value = ::get_squad_bonus_for_same_cyber_cafe(effectType)
   if (value > 0.0)
   {
     value = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(value)
@@ -1653,6 +1653,10 @@ function clearBorderSymbols(value, symList = [" "])
   while(value!="" && ::isInArray(value.slice(value.len()-1,value.len()), symList))
     value = value.slice(0, value.len()-1)
   return value
+}
+
+function clearBorderSymbolsMultiline(str) {
+  return clearBorderSymbols(str, [" ", 0x0A.tochar(), 0x0D.tochar()])
 }
 
 function get_mission_name(missionId, config, locNameKey = "locName")

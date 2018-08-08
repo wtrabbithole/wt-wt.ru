@@ -14,6 +14,7 @@ local comboStyle = {}
       rendObj = ROBJ_STEXT
       margin = sh(0.5)
       text = text
+      key = text
       color = color
       size = [flex(), SIZE_TO_CONTENT]
     }

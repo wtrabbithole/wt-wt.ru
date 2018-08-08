@@ -307,7 +307,7 @@ class QueueManager {
     }
 
     if (!isAnyQueuesActive())
-      return
+      return postAction && postAction()
 
     showProgressBox(true)
 

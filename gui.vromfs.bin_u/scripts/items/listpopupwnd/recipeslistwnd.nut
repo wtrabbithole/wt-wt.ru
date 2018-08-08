@@ -16,11 +16,16 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
   onAcceptCb = null //if return true, recipes list will not close.
   alignObj = null
   align = "bottom"
+  needMarkRecipes = false
 
   function getSceneTplView()
   {
     recipesList = clone recipesList
-    recipesList.sort(@(a, b) b.isUsable <=> a.isUsable || a.uid <=> b.uid)
+    local hasMarkers = ExchangeRecipes.hasFakeRecipes(recipesList)
+    if (hasMarkers)
+      recipesList.sort(@(a, b) a.idx <=> b.idx)
+    else
+      recipesList.sort(@(a, b) b.isUsable <=> a.isUsable || a.idx <=> b.idx)
     curRecipe = recipesList[0]
 
     local maxRecipeLen = 1
@@ -53,6 +58,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
       columns = columns
       rows = rows
       itemsInRow = ::max(itemsInRow, MIN_ITEMS_IN_ROW)
+      hasMarkers = hasMarkers
     }
 
     foreach(key in ["headerText", "buttonText"])
@@ -63,6 +69,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame"))
+    needMarkRecipes = ExchangeRecipes.hasFakeRecipes(recipesList)
 
     scene.findObject("recipes_list").select()
     updateCurRecipeInfo()
@@ -74,7 +81,30 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
     local markup = curRecipe ? curRecipe.getTextMarkup() : ""
     guiScene.replaceContentFromText(infoObj, markup, markup.len(), this)
 
-    scene.findObject("btn_apply").inactiveColor = curRecipe?.isUsable ? "no" : "yes"
+    updateButtons()
+  }
+
+  function updateButtons()
+  {
+    local btnObj = scene.findObject("btn_apply")
+    btnObj.inactiveColor = curRecipe?.isUsable && !curRecipe.isRecipeLocked() ? "no" : "yes"
+
+    local btnText = ::loc(buttonText)
+    if (curRecipe.hasAssembleTime())
+      btnText += " " + ::loc("ui/parentheses", {text = curRecipe.getAssembleTimeText()})
+    btnObj.setValue(btnText)
+
+
+    if (!needMarkRecipes)
+      return
+
+    local infoObj = scene.findObject("selected_recipe_mark_info")
+    local markup = curRecipe ? curRecipe.getMarkDescMarkup() : ""
+    guiScene.replaceContentFromText(infoObj, markup, markup.len(), this)
+
+    btnObj = scene.findObject("btn_mark")
+    btnObj.show(needMarkRecipes && curRecipe?.mark < MARK_RECIPE.USED)
+    btnObj.setValue(getMarkBtnText())
   }
 
   function onRecipeSelect(obj)
@@ -88,11 +118,38 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onRecipeApply()
   {
+    if (curRecipe && curRecipe.isRecipeLocked())
+      return ::scene_msg_box("cant_cancel_craft", null,
+        ::colorize("badTextColor", ::loc(curRecipe.getCantAssembleMarkedFakeLocId())),
+        [[ "ok" ]],
+        "ok")
+
     local needLeaveWndOpen = false
     if (curRecipe && onAcceptCb)
       needLeaveWndOpen = onAcceptCb(curRecipe)
     if (!needLeaveWndOpen)
       goBack()
+  }
+
+  getMarkBtnText = @() ::loc(curRecipe.mark == MARK_RECIPE.BY_USER
+    ? "item/recipes/unmarkFake"
+    : "item/recipes/markFake")
+
+  function onRecipeMark()
+  {
+    if(!curRecipe || !needMarkRecipes)
+      return
+
+    curRecipe.markRecipe(true)
+    local recipeObj = scene.findObject("id_"+ curRecipe.uid)
+    if (!::check_obj(recipeObj))
+      return
+
+    recipeObj.isRecipeLocked = curRecipe.isRecipeLocked() ? "yes" : "no"
+    local markImgObj = recipeObj.findObject("img_"+ curRecipe.uid)
+    markImgObj["background-image"] = curRecipe.getMarkIcon()
+    markImgObj.tooltip = curRecipe.getMarkTooltip()
+    updateCurRecipeInfo()
   }
 }
 

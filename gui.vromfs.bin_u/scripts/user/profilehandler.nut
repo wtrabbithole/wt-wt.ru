@@ -295,7 +295,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local sheet = getCurSheet()
     local isProfileOpened = sheet == "Profile"
     local buttonsList = {
-                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
+                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
                           btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
                           btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
                           btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
@@ -1034,14 +1034,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local typeOR = ("compareOR" in config) && config.compareOR
     for(local i=0; i < namesLoc.len(); i++)
     {
-      local isUnlocked = config.curVal & 1 << i
+      local isPartUnlocked = config.curVal & 1 << i
       append_condition_item({
             text = namesLoc[i]
-            image = "" //isUnlocked? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
+            image = "" //isPartUnlocked? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
             curVal = 0
             maxVal = 0
           },
-          i+1, infoObj, false, isUnlocked, i > 0 && typeOR)
+          i+1, infoObj, false, isPartUnlocked, i > 0 && typeOR)
     }
   }
 

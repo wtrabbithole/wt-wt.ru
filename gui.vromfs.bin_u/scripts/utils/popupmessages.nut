@@ -38,7 +38,8 @@ function g_popup_msg::ps4ActivityFeedFromPopup(blk)
     }
     params = {
       blkParamName = "MAJOR_UPDATE"
-      imgSuffix = ver[0] + "_" + ver[1]
+      imgSuffix = "_" + ver[0] + "_" + ver[1]
+      forceLogo = true
       captions = { en = blk.name }
       condensedCaptions = { en = blk.name }
     }

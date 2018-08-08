@@ -184,11 +184,9 @@ if (!("logerr" in ::dagor))
 
   DM_VIEWER_EXTERIOR = 6
   DM_VIEWER_PROTECTION = DM_VIEWER_NONE
-  CHECK_PROT_RES_NOT_PENETRATED = 0
-  CHECK_PROT_RES_INEFFECTIVE = 1
-  CHECK_PROT_RES_RICOCHETED = 2
-  CHECK_PROT_RES_POSSIBLE_EFFECTIVE = 3
-  CHECK_PROT_RES_EFFECTIVE = 4
+  CHECK_PROT_RICOCHET_NONE = 0
+  CHECK_PROT_RICOCHET_POSSIBLE = 1
+  CHECK_PROT_RICOCHET_GUARANTEED = 2
   set_protection_checker_params = @(...) null
 
   is_gpu_nvidia = @() ["win32", "win64"].find(::get_platform()) >= 0
@@ -209,4 +207,26 @@ if (!("logerr" in ::dagor))
   set_option_mine_depth = @(v) null
   get_option_save_zoom_camera = @() null
   set_option_save_zoom_camera = @(v) null
+
+  char_send_custom_action = function(action, type, headers, body, length) { return -1 }
+  EATT_JSON_REQUEST = 64
+})
+
+::apply_compatibilities({
+  is_tank_damage_indicator_visible = @() true
+})
+
+//----------------------------wop_1_77_2_X---------------------------------//
+::apply_compatibilities({
+  get_team_colors = @() null
+})
+
+//----------------------------wop_1_79_1_X---------------------------------//
+::apply_compatibilities({
+  GT_FOOTBALL = 1 << 27
+
+  EVENT_STAT_EXTENDED_1 = "ext1"
+  EVENT_STAT_EXTENDED_2 = "ext2"
+  EVENT_STAT_EXTENDED_3 = "ext3"
+  EVENT_STAT_EXTENDED_4 = "ext4"
 })

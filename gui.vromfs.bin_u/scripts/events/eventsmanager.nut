@@ -14,6 +14,13 @@ const EVENT_DEFAULT_TEAM_SIZE = 16
 
 const SQUAD_NOT_READY_LOC_TAG = "#snr"
 
+enum UnitRelevance
+{
+  NONE,
+  MEDIUM,
+  BEST,
+}
+
 ::events <- null
 
 ::allUnitTypesMask <- (1 << ::ES_UNIT_TYPE_TOTAL_RELEASED) - 1
@@ -53,6 +60,9 @@ class Events
     ::g_lb_category.EVENT_STAT_TOTALKILLS
     ::g_lb_category.EVENTS_WP_TOTAL_GAINED
     ::g_lb_category.CLANDUELS_CLAN_ELO
+    ::g_lb_category.EVENT_FOOTBALL_MATCHES
+    ::g_lb_category.EVENT_FOOTBALL_GOALS
+    ::g_lb_category.EVENT_FOOTBALL_ASSISTS
   ]
 
   standardChapterNames = [
@@ -612,13 +622,31 @@ class Events
 
     //no point to save duplicate array, just link on fullTeamsList
     if (!isSymmetric)
-      isSymmetric = sides.len() <= 1 || ::u.isEqual(getTeamData(event, sides[0]), getTeamData(event, sides[1]))
+      isSymmetric = sides.len() <= 1 ||
+        isTeamsEqual(getTeamData(event, sides[0]), getTeamData(event, sides[1]))
     if (isSymmetric && sides.len() > 1)
       sides = [sides[0]]
 
     event.sidesList <- sides
     event.isSymmetric <- isSymmetric
     event.isFreeForAll <- isFreeForAll
+  }
+
+  function isTeamsEqual(teamAData, teamBData)
+  {
+    if (teamAData.len() != teamBData.len())
+      return false
+
+    foreach(key, value in teamAData)
+    {
+      if (key == "forcedCountry")
+        continue
+
+      if (!(key in teamBData) || !::u.isEqual(value, teamBData[key]))
+        return false
+    }
+
+    return true
   }
 
   function getSidesList(event = null)
@@ -633,6 +661,11 @@ class Events
   {
     initSidesOnce(event)
     return event.isSymmetric
+  }
+
+  function needRankInfoInQueue(event)
+  {
+    return event?.balancerMode == "mrank"
   }
 
   function isEventFreeForAll(event)
@@ -1092,6 +1125,15 @@ class Events
     local airInAllowedList = isUnitMatchesRule(unit, getAlowedCrafts(teamData), true, ediff)
     local airInForbidenList = isUnitMatchesRule(unit, getForbiddenCrafts(teamData), false, ediff)
     return !airInForbidenList && airInAllowedList
+  }
+
+  function checkUnitRelevanceForEvent(eventId, unit)
+  {
+    local event = getEvent(eventId)
+    return (!event || !unit) ? UnitRelevance.NONE
+     : isUnitAllowedForEvent(event, unit) ? UnitRelevance.BEST
+     : isUnitTypeAvailable(event, unit.unitType.esUnitType) ? UnitRelevance.MEDIUM
+     : UnitRelevance.NONE
   }
 
   function getSpecialRequirements(event)
@@ -1653,7 +1695,7 @@ class Events
     if (langCompatibility)
     {
       local locId = getNameLocOldStyle(economicName)
-      local res = ::loc(locId + "/short", "")
+      res = ::loc(locId + "/short", "")
       return (res != "") ? res : ::loc(locId, ::loc("events/" + economicName + "/short"))
     }
     return getNameByEconomicName(economicName)
@@ -2096,7 +2138,7 @@ class Events
       local myTeam = getAvailableTeams(mGameMode, room)[0]
       local otherTeam = ::u.search(getSidesList(mGameMode), (@(myTeam) function(t) { return t != myTeam })(myTeam))
       local membersCount = ::g_squad_manager.getOnlineMembersCount()
-      local params = {
+      local locParams = {
         chosenTeam = ::colorize("teamBlueColor", ::g_team.getTeamByCode(myTeam).getShortName())
         otherTeam =  ::colorize("teamRedColor", ::g_team.getTeamByCode(otherTeam).getShortName())
         chosenTeamCount = teamsCnt[myTeam]
@@ -2104,7 +2146,7 @@ class Events
         reqOtherteamCount = teamsCnt[myTeam] - getMaxLobbyDisbalance(mGameMode) + membersCount
       }
       local locKey = "multiplayer/enemyTeamTooLowMembers" + (isFullText ? "" : "/short")
-      data.reasonText = ::loc(locKey, params)
+      data.reasonText = ::loc(locKey, locParams)
     } else
     {
       data.reasonText = ""
@@ -2329,18 +2371,18 @@ class Events
   function checkMembersForQueue(event, room = null, continueQueueFunc = null, cancelFunc = null)
   {
     if (!::g_squad_manager.isInSquad())
-      return continueQueueFunc(null)
+      return continueQueueFunc && continueQueueFunc(null)
 
     local teams = getAvailableTeams(event, room)
     local membersTeams = getMembersTeamsData(event, room, teams)
+    if (!membersTeams) //we are become squad member or gamemod data is missing
+      return cancelFunc && cancelFunc()
 
     local membersInfo = getMembersInfo(teams, membersTeams.teamsData)
-    if (!membersInfo)
-      return cancelFunc()
 
     if (membersTeams.haveRestrictions)
     {
-      local func = @() continueQueueFunc(membersInfo.data)
+      local func = @() continueQueueFunc && continueQueueFunc(membersInfo.data)
       showCantFlyMembersMsgBox(membersTeams, func, cancelFunc)
     }
 
@@ -2348,9 +2390,10 @@ class Events
       return
 
     if (!membersInfo.result)
-      return cancelFunc()
+      return cancelFunc && cancelFunc()
 
-    continueQueueFunc(membersInfo.data)
+    if (continueQueueFunc)
+      continueQueueFunc(membersInfo.data)
   }
 
   function getMembersInfo(teams, membersTeams)
@@ -2680,6 +2723,20 @@ class Events
   function getMinSquadSize(event)
   {
     return ::getTblValue("minSquadSize", event, 1)
+  }
+
+  function isGameTypeOfEvent(event, gameTypeName)
+  {
+    return event && ::get_meta_mission_info_by_name(getEventMission(event.name))?[gameTypeName] ?? false
+  }
+
+  function onEventEventBattleEnded(params)
+  {
+    local event = ::events.getEvent(::getTblValue("eventId", params))
+    if (!event)
+      return
+
+    _leaderboards.dropLbCache(event)
   }
 }
 

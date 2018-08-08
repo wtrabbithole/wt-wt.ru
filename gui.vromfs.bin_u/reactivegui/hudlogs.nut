@@ -3,6 +3,7 @@ local chat = require("hudChat.nut")
 local battleLog = require("hudBattleLog.nut")
 local tabs = require("components/tabs.nut")
 local hudState = require("hudState.nut")
+local hudChatState = require("hudChatState.nut")
 
 
 local tabsList = [
@@ -13,6 +14,12 @@ local tabsList = [
 
 local currentTab = Watched(tabsList[0])
 
+local selectChatTab = function (enable) {
+  if (enable)
+  {
+    currentTab.update(tabsList[0])
+  }
+}
 
 local logsHeader = @(){
   size = [flex(), SIZE_TO_CONTENT]
@@ -24,13 +31,19 @@ local logsHeader = @(){
   children = [
     tabs({
       tabs = tabsList
-      currentTab = currentTab.value
+      currentTab = currentTab.value.id
       onChange = function(tab) {
         currentTab.update(tab)
       }
     })
   ]
 
+  onAttach = function (elem) {
+    hudChatState.inputEnabled.subscribe(selectChatTab)
+  }
+  onDetach = function (elem) {
+    hudChatState.inputEnabled.unsubscribe(selectChatTab)
+  }
   transitions = [transition()]
 }
 

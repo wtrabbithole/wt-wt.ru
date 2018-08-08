@@ -272,12 +272,12 @@ class ::items_classes.Trophy extends ::BaseItem
     return ::char_send_blk("cln_buy_trophy", blk)
   }
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
     if (!isInventoryItem && needOpenTrophyGroupOnBuy())
-      return ::loc("mainmenu/btnExpand")
+      return { btnName = ::loc("mainmenu/btnExpand") }
 
-    return base.getMainActionName(colored, short)
+    return base.getMainActionData(isShort)
   }
 
   function doMainAction(cb, handler, params = null)

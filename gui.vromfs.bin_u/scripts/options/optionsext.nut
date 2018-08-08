@@ -597,7 +597,6 @@ function get_bool_option(descr, id, optionIdx)
 function gen_hue_option(descr, id, defHue = null, curHue = null)
 {
   local hueStep = 22.5
-  local valueIdx = -1
   if (curHue==null)
     curHue = ::get_gui_option(descr.type)
   if (!::is_numeric(curHue))
@@ -2023,25 +2022,46 @@ function get_option(type, context = null)
 
     case ::USEROPT_HUD_SHOW_FUEL:
       descr.id = "hud_show_fuel"
-      descr.items = ["#options/auto", "#options/inhardcore", "#options/always"]
-      descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_fuel();
+      descr.items = ["#options/auto", "#options/always"]
+      descr.values = [0, 2]
+
+      if (::g_difficulty.SIMULATOR.isAvailable())
+      {
+        descr.items.insert(1, "#options/inhardcore")
+        descr.values.insert(1, 1)
+      }
+
+      descr.value = ::find_in_array(descr.values, ::get_option_hud_show_fuel(), 0)
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
     case ::USEROPT_HUD_SHOW_AMMO:
       descr.id = "hud_show_ammo"
-      descr.items = ["#options/auto", "#options/inhardcore", "#options/always"]
-      descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_ammo();
+      descr.items = ["#options/auto", "#options/always"]
+      descr.values = [0, 2]
+
+      if (::g_difficulty.SIMULATOR.isAvailable())
+      {
+        descr.items.insert(1, "#options/inhardcore")
+        descr.values.insert(1, 1)
+      }
+
+      descr.value = ::find_in_array(descr.values, ::get_option_hud_show_ammo(), 0)
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
     case ::USEROPT_HUD_SHOW_TEMPERATURE:
       descr.id = "hud_show_temperature"
-      descr.items = ["#options/auto", "#options/inhardcore", "#options/always"]
-      descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_temperature();
+      descr.items = ["#options/auto", "#options/always"]
+      descr.values = [0, 2]
+
+      if (::g_difficulty.SIMULATOR.isAvailable())
+      {
+        descr.items.insert(1, "#options/inhardcore")
+        descr.values.insert(1, 1)
+      }
+
+      descr.value = ::find_in_array(descr.values, ::get_option_hud_show_temperature(), 0)
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
@@ -2864,7 +2884,7 @@ function get_option(type, context = null)
       else
         descr.values = [1, 2]
 
-      local prevValue = ::get_gui_option(::USEROPT_MP_TEAM)
+      prevValue = ::get_gui_option(::USEROPT_MP_TEAM)
 
       local countries = null
       local sessionInfo = ::get_mp_session_info()
@@ -3037,7 +3057,6 @@ function get_option(type, context = null)
         local fuelConsumptionPerHour = 100.0;
         local minutes = [0, 20.0, 30.0, 45.0, 60.0, 1000000.0]
         local isFuelFixed = false
-        local prevValue = null;
         if(::cur_aircraft_name)
         {
           prevValue = get_unit_option(::cur_aircraft_name, ::USEROPT_LOAD_FUEL_AMOUNT)
@@ -3499,21 +3518,6 @@ function get_option(type, context = null)
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
       descr.value = !!get_cd_option(::USEROPT_CD_RADAR)
-      break
-    case ::USEROPT_CD_DM_ICON:
-      descr.id = "hudDamageModel"
-      descr.items = []
-      descr.values = []
-
-      foreach (idx, diff in ::g_difficulty.types)
-        if (diff.isAvailable())
-        {
-          descr.items.append("#" + diff.locId)
-          descr.values.append(diff.diffCode)
-        }
-
-      descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_DM_ICON)
       break
     case ::USEROPT_CD_DAMAGE_IND:
       descr.id = "hudDamageIndicator"
@@ -4271,19 +4275,19 @@ function set_option(type, value, descr = null)
       break
     case ::USEROPT_HUD_SHOW_BONUSES:
       ::set_option_hud_show_bonuses(descr.values[value])
-      break;
+      break
     case ::USEROPT_HUD_SCREENSHOT_LOGO:
       ::set_option_hud_screenshot_logo(value)
-      break;
+      break
     case ::USEROPT_HUD_SHOW_FUEL:
       ::set_option_hud_show_fuel(descr.values[value])
-      break;
+      break
     case ::USEROPT_HUD_SHOW_AMMO:
       ::set_option_hud_show_ammo(descr.values[value])
-      break;
+      break
     case ::USEROPT_HUD_SHOW_TEMPERATURE:
       ::set_option_hud_show_temperature(descr.values[value])
-      break;
+      break
     case ::USEROPT_MENU_SCREEN_SAFE_AREA:
       if (value >= 0 && value < descr.values.len())
       {
@@ -4480,7 +4484,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_CD_MAP_GROUND_MARKERS:
     case ::USEROPT_CD_MARKERS_BLINK:
     case ::USEROPT_CD_RADAR:
-    case ::USEROPT_CD_DM_ICON:
     case ::USEROPT_CD_DAMAGE_IND:
     case ::USEROPT_CD_LARGE_AWARD_MESSAGES:
     case ::USEROPT_CD_WARNINGS:

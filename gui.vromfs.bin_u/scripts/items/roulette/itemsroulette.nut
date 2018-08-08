@@ -81,8 +81,6 @@ function ItemsRoulette::getDebugData()
   debugTableData(::ItemsRoulette.debugData)
 }
 
-::subscribe_events_from_handler(::ItemsRoulette, ["NewSceneLoaded"])
-
 function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterDoneFunc = null)
 {
   if (!::checkObj(imageObj))
@@ -516,10 +514,10 @@ function ItemsRoulette::createItemsMarkup(completeArray)
     local slotRes = []
     local offset = slot.len() <= 1 ? 0 : ::max(MIN_ITEMS_OFFSET, MAX_ITEMS_OFFSET / (slot.len() - 1))
 
-    foreach(idx, item in slot)
+    foreach(slotIdx, item in slot)
       slotRes.insert(0,
         ::LayersIcon.genDataFromLayer(
-          { x = (offset * idx) + "@itemWidth", w = "1@itemWidth" },
+          { x = (offset * slotIdx) + "@itemWidth", w = "1@itemWidth" },
           item?.reward?.layout ?? item?.layout))
 
     local layerCfg = ::LayersIcon.findLayerCfg("roulette_slot")

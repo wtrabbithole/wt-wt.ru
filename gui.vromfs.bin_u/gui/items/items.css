@@ -38,6 +38,10 @@
 
 @const battleTasksHardMedalWidth: 0.045@sf;
 
+@const trophyWndWidth: 0.85@sf + 2@framePadding;
+@const trophyWndPad: (1@trophyWndWidth - 5@itemWidth)/2;
+@const rewardInTrophyWndTopPos: 0.035@scrn_tgt;
+
 @const warbondMedalImgColor: #ffffff;
 @const inactiveWarbondMedalImgColor: #808080;
 
@@ -60,6 +64,14 @@ itemDiv[enableBackground=yes][active=yes] {
 
 itemDiv[enableBackground=yes][today=yes] {
   background-image:#ui/gameuiskin#lr_red_frame_bg;
+}
+
+recipe[isRecipeLocked = no] > itemDiv {
+  item_locked: no;
+}
+
+recipe[isRecipeLocked = yes] > itemDiv {
+  item_locked: yes;
 }
 
 itemDiv[item_locked = yes] {
@@ -462,4 +474,34 @@ itemsSeparator {
   background-color:@frameSeparatorColor;
   input-transparent:yes;
   enable:no;
+}
+
+itemAmountText[overlayTextColor = goodTextColor] {
+  color: @goodTextColor;
+}
+
+itemAmountText[overlayTextColor = badTextColor] {
+  color: @badTextColor;
+}
+
+recipe[isRecipeLocked = yes] > itemDiv itemAmountText {
+  color: @itemLockedColor;
+}
+
+itemTimerPlace {
+  pos: pw-w-1@itemPadding, ph - h;
+  position: absolute;
+  flow: vertical;
+}
+
+[smallItems=yes] itemTimerPlace {
+  pos: pw-w, ph - h;
+}
+
+itemTimerPlace > textareaNoTab[overlayTextColor = goodTextColor] {
+  color: @goodTextColor;
+}
+
+recipe[isRecipeLocked = yes] > itemDiv itemTimerPlace > textareaNoTab {
+  color: @lockedTextColor;
 }

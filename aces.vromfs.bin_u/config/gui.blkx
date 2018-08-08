@@ -462,7 +462,10 @@
     "smoke_grenade_tank": "smoke_screen",
     "he_frag_radio_fuse": "he_frag_proxi_fuze_ship",
     "he_frag_dist_fuse": "he_frag_dist_fuse_ship",
-    "he_frag_base_fuse_tank": "he_frag_base_fuse_tank"
+    "he_frag_base_fuse_tank": "he_frag_base_fuse_tank",
+    "football_kick": "football_kick",
+    "he_frag_vog": "vog_ship",
+    "he_frag_i_tank": "he_frag_tank"
   },
   "bullets_locId_by_caliber": [
     {
@@ -617,7 +620,7 @@
       "streak_defender_fighter": "streaks_defender_bg;streaks_defender_fighter",
       "streak_defender_bomber": "streaks_defender_bg;streaks_defender_bomber",
       "streak_defender_water": "streaks_defender_bg;streaks_defender_water",
-      "streak_defender_ship": "streaks_defender_bg;streaks_defender_water",
+      "streak_defender_ship": "streaks_defender_bg;streaks_global_shadow_assassin_alt",
       "streak_defender_ground": "streaks_defender_bg;streaks_defender_ground",
       "streak_defender_tank": "streaks_defender_bg;streaks_global_shadow_assassin_alt",
       "streak_double_kill_air": "streaks_multi_kill_bg;streaks_multi_kill_ground_alt;streaks_multi_kill_air_alt;streaks_multi_kill_ship_alt;streaks_rank_2",
@@ -1767,6 +1770,54 @@
         "w": 1.07,
         "h": 0.62,
         "img": "#ui/images/chests/items_box15_small_open"
+      },
+      "strike_witches_blue_box_big": {
+        "x": 0.1,
+        "w": 1.121,
+        "h": 0.641,
+        "img": "#ui/images/chests/july_event_box1"
+      },
+      "strike_witches_blue_box": {
+        "x": 0.02,
+        "w": 1.284,
+        "h": 0.744,
+        "img": "#ui/images/chests/july_event_box1_small"
+      },
+      "strike_witches_blue_box_opened_big": {
+        "x": 0.1,
+        "w": 1.121,
+        "h": 0.641,
+        "img": "#ui/images/chests/july_event_box1_open"
+      },
+      "strike_witches_blue_box_opened": {
+        "x": 0.02,
+        "w": 1.284,
+        "h": 0.744,
+        "img": "#ui/images/chests/july_event_box1_small_open"
+      },
+      "strike_witches_yellow_box_big": {
+        "x": 0.1,
+        "w": 1.121,
+        "h": 0.641,
+        "img": "#ui/images/chests/july_event_box2"
+      },
+      "strike_witches_yellow_box": {
+        "x": 0.02,
+        "w": 1.284,
+        "h": 0.744,
+        "img": "#ui/images/chests/july_event_box2_small"
+      },
+      "strike_witches_yellow_box_opened_big": {
+        "x": 0.1,
+        "w": 1.121,
+        "h": 0.641,
+        "img": "#ui/images/chests/july_event_box2_open"
+      },
+      "strike_witches_yellow_box_opened": {
+        "x": 0.02,
+        "w": 1.284,
+        "h": 0.744,
+        "img": "#ui/images/chests/july_event_box2_small_open"
       },
       "universal_spare_trophy_big": {
         "x": 0.0,
@@ -3544,8 +3595,10 @@
       "decal_locked_country_france": "#ui/gameuiskin#decal_country_france_locked.png",
       "country_germany_aircraft_unit": "#ui/images/researches/ger_finishedresearch.jpg?P1",
       "country_germany_tank_unit": "#ui/images/researches/ger_ground_finishedresearch.jpg?P1",
+      "country_germany_ship_unit": "#ui/images/researches/usa_ship_finishedresearch.jpg?P1",
       "country_usa_aircraft_unit": "#ui/images/researches/usa_finishedresearch.jpg?P1",
       "country_usa_tank_unit": "#ui/images/researches/usa_ground_finishedresearch.jpg?P1",
+      "country_usa_ship_unit": "#ui/images/researches/usa_ship_finishedresearch.jpg?P1",
       "country_ussr_aircraft_unit": "#ui/images/researches/ussr_finishedresearch.jpg?P1",
       "country_ussr_tank_unit": "#ui/images/researches/ussr_ground_finishedresearch.jpg?P1",
       "country_japan_aircraft_unit": "#ui/images/researches/japan_finishedresearch.jpg?P1",
@@ -3558,8 +3611,10 @@
       "country_france_tank_unit": "#ui/images/researches/france_ground_finishedresearch.jpg?P1",
       "country_germany_aircraft_modification": "#ui/images/researches/ger_newmodificationresearch.jpg?P1",
       "country_germany_tank_modification": "#ui/images/researches/ger_ground_newmodificationresearch.jpg?P1",
+      "country_germany_ship_modification": "#ui/images/researches/usa_ship_newmodificationresearch.jpg?P1",
       "country_usa_aircraft_modification": "#ui/images/researches/usa_newmodificationresearch.jpg?P1",
       "country_usa_tank_modification": "#ui/images/researches/usa_ground_newmodificationresearch.jpg?P1",
+      "country_usa_ship_modification": "#ui/images/researches/usa_ship_newmodificationresearch.jpg?P1",
       "country_ussr_aircraft_modification": "#ui/images/researches/ussr_newmodificationresearch.jpg?P1",
       "country_ussr_tank_modification": "#ui/images/researches/ussr_ground_newmodificationresearch.jpg?P1",
       "country_japan_aircraft_modification": "#ui/images/researches/japan_newmodificationresearch.jpg?P1",
@@ -3890,6 +3945,7 @@
   ],
   "activity_feed_image_url": {
     "mainPart": "https://psn-cdn-wt-178028.c.cdn77.org/feed/",
+    "logoEnd": "_logo",
     "bigLogoEnd": "_big_logo",
     "fileExtension": ".png",
     "country_germany": {
@@ -4284,7 +4340,12 @@
       ]
     },
     "other": {
-      "CLAN_DUEL_REWARD": "img_eagle"
+      "CLAN_DUEL_REWARD": "img_eagle",
+      "VICTORY": "victories/img_victories_01",
+      "MAJOR_UPDATE": {
+        "name": "cover_majors/img_major",
+        "variations": 4
+      }
     }
   },
   "every_day_login_award": {

@@ -26,9 +26,6 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
     printFn(prefix + "null");
   else
   {
-    local data = info;
-    local type = typeof(data)
-
     if (::can_be_readed_as_datablock(info))
     {
       local blockName = (info.getBlockName()!="")? info.getBlockName()+" " : ""
@@ -51,18 +48,18 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
         else if (u.isColor4(val)) { type = ":c";  val = ::format("%d, %d, %d, %d", 255 * val.r, 255 * val.g, 255 * val.b, 255 * val.a) }
         else if (u.isTMatrix(val)) { type = ":m"
           local arr = []
-          for (local i = 0; i < 4; i++)
-            arr.append("[" + ::g_string.implode([ val[i].x, val[i].y, val[i].z ], ", ") + "]")
+          for (local j = 0; j < 4; j++)
+            arr.append("[" + ::g_string.implode([ val[j].x, val[j].y, val[j].z ], ", ") + "]")
           val = "[" + ::g_string.implode(arr, " ") + "]"
         }
         else val = ::toString(val)
         printFn(prefix+addStr2+name+type+"= " + val)
       }
-      for (local i = 0; i < info.blockCount(); i++)
+      for (local j = 0; j < info.blockCount(); j++)
         if (recursionLevel)
-          ::debugTableData(info.getBlock(i), recursionLevel - 1, addStr2, true, silentMode, printFn)
+          ::debugTableData(info.getBlock(j), recursionLevel - 1, addStr2, true, silentMode, printFn)
         else
-          printFn(prefix+addStr2 + info.getBlock(i).getBlockName() + " = ::DataBlock()")
+          printFn(prefix+addStr2 + info.getBlock(j).getBlockName() + " = ::DataBlock()")
       if (showBlockBrackets)
         printFn(prefix+addStr+"}")
     }
@@ -107,15 +104,15 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
     else
     {
       if (type=="string")
-        printFn(prefix + addStr + "'" + data + "'")
+        printFn(prefix + addStr + "'" + info + "'")
       else if (type=="float")
-        printFn(prefix + addStr + data + (data % 1 ? "" : ".0"))
+        printFn(prefix + addStr + info + (info % 1 ? "" : ".0"))
       else if (type=="int64")
-        printFn(prefix + addStr + data + "L")
+        printFn(prefix + addStr + info + "L")
       else if (type=="null")
         printFn(prefix + addStr + "null")
       else
-        printFn(prefix + addStr + data)
+        printFn(prefix + addStr + info)
     }
   }
   if (addStr=="" && !silentMode)

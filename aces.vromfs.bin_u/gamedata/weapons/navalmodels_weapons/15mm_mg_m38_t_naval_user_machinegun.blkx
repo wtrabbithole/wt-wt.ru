@@ -6,9 +6,6 @@
   "emitI": 10.0,
   "emitR": 3.0,
   "emitTime": 0.03,
-  "aimMinDist": 0.1,
-  "aimMaxDist": 2000.0,
-  "maxDeltaAngle": 0.1,
   "shotFreq": 5.0,
   "shotFreqRndK": 0.14,
   "traceFreq": 4,
@@ -17,10 +14,16 @@
   "bulletsCluster": 1,
   "reloadTime": 12.0,
   "bulletsCartridge": 40,
+  "aimMinDist": 0.05,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.1,
   "fxType": "machine_gun_flame",
   "fxMultipleSpawn": true,
   "shouldCollideWithRendinsts": true,
   "sfxReloadBullet": "grd_cannon_belt_reload",
+  "sound_path": "ships/weapon_ships/cannons",
+  "sound": "20mm_mg_c38",
+  "soundLoop": true,
   "bullet": {
     "bulletCount": 10,
     "mass": 0.072,
@@ -32,9 +35,9 @@
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "groundCollisionEffect": "7_20_hit_ground",
-    "groundFxScale": [0.7,0.9],
+    "groundFxScale": [1.0,1.0],
     "waterCollisionEffect": "water_splash",
-    "waterFxScale": [0.7,0.8],
+    "waterFxScale": [1.0,1.0],
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
@@ -90,9 +93,9 @@
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "7_20_hit_ground",
-      "groundFxScale": [0.7,0.9],
+      "groundFxScale": [1.0,1.0],
       "waterCollisionEffect": "water_splash",
-      "waterFxScale": [0.7,0.8],
+      "waterFxScale": [1.0,1.0],
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -136,12 +139,6 @@
         }
       }
     }
-  },
-  "gunSound": {
-    "path": "ships/weapon_ships/cannons",
-    "outside": "20mm_mg_c38",
-    "cockpit": "20mm_mg_c38_interior",
-    "ai": "20mm_mg_c38_ai"
   },
   "overheat": [
     {

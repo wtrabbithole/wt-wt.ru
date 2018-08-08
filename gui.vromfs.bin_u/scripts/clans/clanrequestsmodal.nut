@@ -192,10 +192,10 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       if (candidate.nick.value == name)
       {
         rowTexts.remove(idx)
-        foreach(idx, player in candidatesList)
+        foreach(cIdx, player in candidatesList)
           if (player.nick == name)
           {
-            candidatesList.remove(idx)
+            candidatesList.remove(cIdx)
             break
           }
         break

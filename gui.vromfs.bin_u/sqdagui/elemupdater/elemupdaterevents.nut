@@ -1,4 +1,5 @@
 local u = ::require("std/u.nut")
+local stdSubscriptions = require("sqStdLibs/helpers/subscriptions.nut")
 local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
 
 const SUBSCRPTIONS_LIST_ID = -123
@@ -123,14 +124,11 @@ clearInvalidSubscriptions = function(subs) //this function will never remove fro
   }
 }
 
-if ("add_event_listener" in getroottable())
-{
-  //all subscriptions for dagui objects, so we can clear all on full scene reload.
-  ::add_event_listener("GuiSceneCleared",
-    @(p) clearInvalidSubscriptions(subscriptions)
-    null,
-    ::g_listener_priority.CONFIG_VALIDATION)
-}
+//all subscriptions for dagui objects, so we can clear all on full scene reload.
+stdSubscriptions.addEventListener("GuiSceneCleared",
+  @(p) clearInvalidSubscriptions(subscriptions)
+  null,
+  stdSubscriptions.CONFIG_VALIDATION)
 
 return {
   subscribe = subscribe

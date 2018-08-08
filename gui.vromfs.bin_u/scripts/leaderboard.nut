@@ -77,17 +77,18 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
   {
     // Ship Arcade Battles
     text = "#missions/ship_event_arcade"
-    mode = "ship_arcade"
+    mode = "test_ship_arcade"
     diffCode = ::DIFFICULTY_ARCADE
     reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
   }
   {
     // Ship Realistic Battles
     text = "#missions/ship_event_historical"
-    mode = "ship_realistic"
+    mode = "test_ship_realistic"
     diffCode = ::DIFFICULTY_REALISTIC
     reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
   }
+/*
   {
     // Ship Simulator Battles
     text = "#missions/ship_event_simulator"
@@ -95,6 +96,7 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
     diffCode = ::DIFFICULTY_HARDCORE
     reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
   }
+*/
 ]
 
 function gui_modal_leaderboards(lb_presets = null)
@@ -541,7 +543,8 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     playerContextMenu.showMenu(null, this, {
-      playerName = getLbPlayerName(rowData) //!!FIX ME better to open menu by uid
+      playerName = getLbPlayerName(rowData)
+      uid = getLbPlayerUid(rowData)
       canInviteToChatRoom = false
     })
   }
@@ -729,7 +732,6 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local noLbText = lbWrapObj.findObject("no_leaderboads_text")
 
     local tableData = ""
-    local headerRow = ""
     isLastPage = false
 
     local lbRows = getLbRows()

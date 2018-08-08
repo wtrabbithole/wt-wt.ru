@@ -6,8 +6,7 @@ local hudChatState = persist("hudChatState", @() {
 
   log = Watched([])
   input = Watched("")
-  showChat = Watched(true)
-  showBattleLog = Watched(false)
+  inputChatVisible = Watched(false)
   modeId = Watched(0)
 
   pushSystemMessage = function (text) {
@@ -15,16 +14,15 @@ local hudChatState = persist("hudChatState", @() {
       sender = ""
       text = text
       isMyself = false
-      isEnemy = false
       isBlocked = false
       isAutomatic = true
       mode = CHAT_MODE_ALL
+      team = 0
       time = ::get_mission_time()
     })
    log.trigger()
   }
 })
-
 
 ::interop.mpChatPushMessage <- function (message) {
   hudChatState.log.value.push(message)

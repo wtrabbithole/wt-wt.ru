@@ -71,6 +71,7 @@ class EventChapter
         || (::events.getEventDiffCode(event1) <=> ::events.getEventDiffCode(event2))
         || (::english_russian_to_lower_case(::events.getEventNameText(event1))
           <=> ::english_russian_to_lower_case(::events.getEventNameText(event2)))
+        || event1.name <=> event2.name
   }
 }
 

@@ -102,8 +102,8 @@
                 "id": "air_info_content_info",
                 "position": "relative",
                 "max-height": "sh -1@infoPanelVertPosition -1@bottomBarHeight",
-                "maxHeightWithSlotbar": "sh -1@infoPanelVertPosition -1@shopBottomOffset -0.1@sf -2@framePadding -40*@sf/@pf_outdated",
-                "maxHeightWithoutSlotbar": "sh -1@infoPanelVertPosition -1@bottomBarHeight -0.06@sf -2@framePadding -40*@sf/@pf_outdated -0.01@scrn_tgt",
+                "maxHeightWithSlotbar": "sh -1@infoPanelVertPosition -4@buttonHeight -7@dp -1@airInfoToggleButtonSize -2@airInfoPadding -1@shopBottomOffset",
+                "maxHeightWithoutSlotbar": "sh -1@infoPanelVertPosition -4@buttonHeight -7@dp -1@airInfoToggleButtonSize -2@airInfoPadding -1@bottomBarHeight",
                 "flow": "vertical",
                 "overflow-y": "auto",
                 "scroll-align": "right",
@@ -810,33 +810,6 @@
                                 }
                               }
                             ]
-                          }
-                        ]
-                      },
-                      {
-                        "tr": [
-                          {
-                            "id": "aircraft-maxInclination-tr"
-                          },
-                          {
-                            "tooltip": "#shop/max_inclination/tooltip"
-                          },
-                          {
-                            "display": "hide"
-                          },
-                          {
-                            "td": {
-                              "textarea": {
-                                "text": "#shop/max_inclination"
-                              }
-                            }
-                          },
-                          {
-                            "td": {
-                              "textarea": {
-                                "id": "aircraft-maxInclination"
-                              }
-                            }
                           }
                         ]
                       },

@@ -27,6 +27,10 @@ img[background-image], img2[background-image], cardImg[background-image], voiceI
   background-color:@white;
 }
 
+img[isLocked=yes], img2[isLocked=yes], cardImg[isLocked=yes] {
+  background-color:@itemLockedColor;
+}
+
 img[background-image=""], img2[background-image=""], cardImg[background-image=""], voiceIcon[background-image=""] {
   background-color:@transparent;
   display:hide;
@@ -223,11 +227,6 @@ sessionInfoText {
   width:pw;
   text-align:right;
   font:@fontSmall;
-  color:@commonTextColor;
-}
-
-textareaNoTab[controlsHelp=yes] {
-  font:@fontTiny;
   color:@commonTextColor;
 }
 
@@ -723,10 +722,8 @@ CheckBox:pushed > textareaNoTab {
 }
 
 optiontext {
-  min-width:pw-1*@scrn_tgt/100.0;
-  text-align:right;
+  min-width:pw-1*@scrn_tgt/100.0;   text-align:right;
   font:@option_font;
-  padding:0, 0, 0, 0;
 }
 
 optionBlockHeader {
@@ -900,6 +897,10 @@ fontIcon32 > fonticon {
   font:@fontMedium;
 }
 
+[normalFont=yes] fontIcon32 > fonticon {
+  font:@fontNormal;
+}
+
 sideLogIcon {
   pos:-w,2.5*@scrn_tgt/100.0-50%h;
 }
@@ -931,7 +932,7 @@ logIcon {
 }
 
 verticalCellsOptions[baseRow=yes] > tr {
-  size:pw,@smallRowHeight + 1@baseTrHeight - 2@dp;
+  size:pw, 1@optionsHeaderRowHeight + 1@baseTrHeight;
 }
 
 [baseRow=rows16] > tr {
@@ -1049,7 +1050,13 @@ tr[queueTableTitleRow=yes] {
   height:0.03@sf;
 }
 
-tr[queueTableTitleRow=yes] text {
+tr[queueTableBigTitleRow=yes] {
+  height:0.06@sf;
+  background-color:@evenQueueTableTrColor;
+}
+
+tr[queueTableTitleRow=yes] text,
+tr[queueTableBigTitleRow=yes] text {
   pos:0.5p.p.w-0.5w, 0.5ph-0.5h;
   position:absolute;
 }
@@ -1154,7 +1161,6 @@ td[cellType=right] optiontext, td[cellType=top] optiontext, td[cellType=bottom] 
 [optionsTextLeftCell=left] td[cellType=left] optiontext
 {
   text-align:left;
-  padding:0, 0, 0, 0; 
 }
 
 td[cellType=tdRight] activeText {
@@ -1177,6 +1183,16 @@ td[cellType=bottom] {
   width:pw;
   height:@rows16height;
 }
+td[cellType=info] {
+  width:pw;
+}
+
+verticalCellsOptions > * > td[cellType=top] {
+  height:1@optionsHeaderRowHeight;
+}
+verticalCellsOptions > * > td[cellType=bottom] {
+  height:1@baseTrHeight;
+}
 
 tr[hiddenTr=yes] {
   inactive:yes;
@@ -1186,11 +1202,13 @@ tr[hiddenTr=yes] {
 .optionsTable > tr, .optionsTable > tr > td,
 .crewTable > tr, .crewTable > tr > td,
 .lbTable > tr, .lbTable > tr > td,
-.mpTable > tr, .mpTable > tr > td
+.mpTable > tr, .mpTable > tr > td,
+.optionsMultiColumn > tr, .optionsMultiColumn > tr > td
 {
   css-hier-invalidate:yes;
 }
-.optionsTable > tr, .mpTable > tr, .crewTable > tr, .lbTable > tr {
+.optionsTable > tr, .mpTable > tr, .crewTable > tr, .lbTable > tr,
+.optionsMultiColumn > tr {
   total-input-transparent:yes;
   input-transparent:yes;
 }
@@ -1216,15 +1234,23 @@ td[cellType=top] > optiontext {
   color:@grayOptionColor;
   font:@fontSmall;
 }
+td[cellType=info] > optiontext {
+  min-width:0;
+}
 
 verticalCellsOptions > tr > td[cellType=top] > optiontext {
   color:@silver;
 }
 
 optionValueText {
-  pos:0.01@sf, 50%ph-50%h;
+  pos:1@blockInterval, 50%ph-50%h;
   position:relative;
+  text-align:left;
 }
+[fullWidthOptions=yes] > * > * > optionValueText {
+  text-align:right;
+}
+
 tr[selected=yes] > td > optionValueText {
   color:@activeTextColor;
   font:@option_selected_font;
@@ -1273,10 +1299,16 @@ tr[spectator=yes] textareaNoTab {
   color:@spectatorColor;
 }
 
-tr[mainPlayer=yes] activeText, tr[mainPlayer=yes] > td > text, tr[totalColor=yes] > td > activeText,
-text[mainPlayer=yes], tr[mainPlayer=yes] textareaNoTab, tr[totalColor=yes] > td > textareaNoTab {
+tr[mainPlayer=yes] activeText, tr[mainPlayer=yes] > td > text,
+text[mainPlayer=yes], tr[mainPlayer=yes] textareaNoTab {
   color:@mainPlayerColor;
 }
+
+tr[totalColor=yes] > td > activeText,
+tr[totalColor=yes] > td > textareaNoTab {
+  color:@totalTextColor;
+}
+
 tr[winAwardColor=yes] > td > activeText, tr[winAwardColor=yes] > td > textareaNoTab {
   color:@userlogColoredText;
 }
@@ -1415,33 +1447,6 @@ playerStateIcon[background-image=""] {
   border-color:@commonMenuButtonColor;
 }
 
-trSeparator {
-  size:40%p.p.w, 2*@sf/@pf_outdated;
-  background-color:@white;
-  background-image:#ui/gameuiskin#double_line;
-  pos:-50%w, -2*@sf/@pf_outdated;
-  position:absolute;
-}
-
-chapterSeparator {
-  width:@chapterSeparatorSize;
-  height:ph;
-  input-transparent:yes;
-  background-repeat:expand;
-  background-position:0, 3;
-  background-color:@white;
-  background-image:#ui/gameuiskin#separator_vertical;
-}
-
-chapterSeparator.notFull {
-  height:ph-0.04@sf;
-}
-
-chapterSeparator.inTheMiddle {
-  pos: 50%pw-50%w, 50%ph-50%h;
-  position:absolute;
-}
-
 table.transpTable, .transpTable > tr, .transpTable > tr > td {
   input-transparent: yes;
 }
@@ -1471,6 +1476,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 }
 
 
+@import "cssElems\separator.css"
 @import "cssElems\spinnerListBox.css"
 @import "missionlist.css"
 @import "cssElems\unitCard.css"
@@ -1737,10 +1743,19 @@ imgButton.decal_image:disabled, imgButton.decal_image[unlocked=no] {
 imgButton.decal_image:disabled > img {
   background-color:@lockedDecal;
 }
-imgButton.decal_image:pushed, imgButton.decal_image[selected=yes]
+imgButton.decal_image:pushed,
 .hoverFrame > imgButton:pushed {
   background-image:#ui/gameuiskin#header_button_active;
 }
+
+[show_console_buttons=no] :focus > imgButton.decal_image[selected=yes] {
+  re-type:9rect;
+  foreground-color: #55555555;
+  foreground-image: #ui/gameuiskin#item_selection;
+  foreground-position: 6;
+  foreground-repeat: expand;
+}
+
 imgButton[highlighted=yes], imgButton.decal_image[highlighted=yes] {
   background-image:#ui/gameuiskin#header_button_active;
 }
@@ -2024,6 +2039,10 @@ text[overlayTextColor=silver], textareaNoTab[overlayTextColor=silver] {
 text[overlayTextColor=disabled], textarea[overlayTextColor=disabled],
 textareaNoTab[overlayTextColor=disabled], tdiv[includeTextColor=disabled] > textareaNoTab {
   color:@disabledTextColor;
+}
+text[overlayTextColor=locked], textarea[overlayTextColor=locked],
+textareaNoTab[overlayTextColor=locked], tdiv[includeTextColor=locked] > textareaNoTab {
+  color:@itemLockedColor;
 }
 activeText[overlayTextColor=good], textarea[overlayTextColor=good], textareaNoTab[overlayTextColor=good] {
   color:@goodTextColor;
@@ -2587,6 +2606,7 @@ expandable * {
 @import "scroll.css"
 @import "shortcuts.css"
 @import "finalOverrides.css"
+
 
 
 

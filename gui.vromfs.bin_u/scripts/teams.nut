@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum Team //better to replace it everywhere by g_teams
 {
   Any   = 0,

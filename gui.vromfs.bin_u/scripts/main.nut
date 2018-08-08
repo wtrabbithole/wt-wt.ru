@@ -149,14 +149,16 @@ enum itemType { //bit values for easy multitype search
   CHEST           = 0x00200000
   WARBONDS        = 0x00400000
   INTERNAL_ITEM   = 0x00800000 //external inventory coupon which gives internal item
+  ENTITLEMENT     = 0x01000000
 
   //workshop
   CRAFT_PART      = 0x10000000
   RECIPES_BUNDLE  = 0x20000000
+  CRAFT_PROCESS   = 0x40000000
 
   //masks
   ALL             = 0xFFFFFFFF
-  INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~WARBONDS
+  INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~CRAFT_PROCESS ~WARBONDS
 }
 
 enum PREVIEW_MODE
@@ -262,6 +264,20 @@ randomize()
 ::u <- ::require("std/u.nut") //put u to roottable
 ::Callback <- ::require("sqStdLibs/helpers/callback.nut").Callback
 
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+::g_listener_priority <- {
+  DEFAULT = 0
+  DEFAULT_HANDLER = 1
+  UNIT_CREW_CACHE_UPDATE = 2
+  USER_PRESENCE_UPDATE = 2
+  CONFIG_VALIDATION = 2
+  LOGIN_PROCESS = 3
+}
+subscriptions.setDefaultPriority(::g_listener_priority.DEFAULT)
+::broadcastEvent <- subscriptions.broadcast
+::add_event_listener <- subscriptions.addEventListener
+::subscribe_handler <- subscriptions.subscribeHandler
+
 foreach (fn in [
   "scripts/sharedEnums.nut"
 
@@ -338,6 +354,7 @@ foreach (fn in [
   "scripts/debugTools/dbgImage.nut"
   "scripts/debugTools/dbgFonts.nut"
   "scripts/debugTools/dbgAvatarsList.nut"
+  "scripts/debugTools/dbgMarketplace.nut"
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"
@@ -367,10 +384,9 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   @(obj) !obj.isValid()
 )
 
-  // Independed Modules
+  // Independed Modules (before login)
 ::require("sqDagui/elemUpdater/bhvUpdater.nut").setAssertFunction(::script_net_assert_once)
 ::require("scripts/clientState/elems/dlDataStatElem.nut")
-::require("scripts/squads/elems/squadVoiceChatElem.nut")
 ::require("sqDagui/framework/progressMsg.nut").setTextLocIdDefault("charServer/purchase0")
   // end of Independed Modules
 
@@ -532,7 +548,6 @@ function load_scripts_after_login_once()
     "controls/rawShortcuts.nut"
     "controls/controls.nut"
     "controls/controlsConsole.nut"
-    "controls/autobind.nut"
     "controls/input/inputBase.nut"
     "controls/input/nullInput.nut"
     "controls/input/button.nut"
@@ -784,7 +799,7 @@ function load_scripts_after_login_once()
     "debugTools/dbgHud.nut"
     "debugTools/dbgHudObjects.nut"
     "debugTools/dbgHudObjectTypes.nut"
-    "debugTools/dbgSquadVoiceChat.nut"
+    "debugTools/dbgVoiceChat.nut"
 
     "utils/popupMessages.nut"
     "utils/soundManager.nut"
@@ -809,10 +824,11 @@ function load_scripts_after_login_once()
   if (::g_login.isAuthorized() || ::disable_network()) //load scripts from packs only after login
     ::g_script_reloader.loadIfExist("scripts/worldWar/worldWar.nut")
 
-  // Independed Modules
+  // Independed Modules (after login)
   ::require("scripts/social/playerInfoUpdater.nut")
   ::require("scripts/seen/bhvUnseen.nut")
   ::require("scripts/items/roulette/bhvRoulette.nut")
+  ::require("scripts/squads/elems/voiceChatElem.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

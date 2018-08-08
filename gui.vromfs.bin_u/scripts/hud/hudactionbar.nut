@@ -1,4 +1,5 @@
 const LONG_ACTIONBAR_SHORCUT_LEN = 6;
+const CHANGE_AMOUNT_TO_ICON_NUMBER = 100
 
 class ActionBar
 {
@@ -128,8 +129,12 @@ class ActionBar
             ? item.modificationName
             : getDefaultBulletName(unit)
 
+          // if fake bullets are not generated yet, generate them
+          if (::is_fake_bullet(modifName) && !(modifName in unit.bulletsSets))
+            ::getBulletsSetData(unit, ::fakeBullets_prefix, {})
           local data = ::getBulletsSetData(unit, modifName)
-          local tooltipId = ::g_tooltip.getIdModification(unit.name, modifName)
+          local tooltipId = ::g_tooltip.getIdModification(unit.name, modifName,
+            { isInHudActionBar = true })
           local tooltipDelayed = !canControl
           return ::weaponVisual.getBulletsIconView(data, tooltipId, tooltipDelayed)
         })(item, unit, canControl)
@@ -199,10 +204,8 @@ class ActionBar
         continue
 
       local amountObj = itemObj.findObject("amount_text")
-      if (item.count >= 0)
-        amountObj.setValue(item.count.tostring() + (item.countEx >= 0 ? "/" + item.countEx : ""))
-      else
-        amountObj.setValue("")
+      if (::check_obj(amountObj))
+        amountObj.setValue(getModAmountText(item))
 
       if (item.type != ::EII_BULLET &&
           itemObj.enabled != "yes" &&
@@ -247,6 +250,21 @@ class ActionBar
       local blockedCooldownObj = itemObj.findObject("blockedCooldown")
       blockedCooldownObj["sector-angle-1"] = getWaitGaugeDegree(item?.blockedCooldown ?? 0.0)
     }
+  }
+
+  function getModAmountText(modData, isFull = false)
+  {
+    local count = modData?.count ?? 0
+    local countEx = modData?.countEx ?? 0
+    if (count < 0)
+      return ""
+
+    local countExText = countEx < 0 ? ""
+      : countEx < CHANGE_AMOUNT_TO_ICON_NUMBER || isFull ? countEx.tostring()
+      : ::loc("weapon/bigAmountNumberIcon")
+
+    local text = count.tostring() + (countExText.len() ? "/" + countExText : "")
+    return isFull ? ::loc("options/count") + ::loc("ui/colon") + text : text
   }
 
   /**

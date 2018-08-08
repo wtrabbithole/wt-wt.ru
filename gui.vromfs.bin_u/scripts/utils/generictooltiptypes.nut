@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
@@ -202,7 +202,8 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         {
           conditionsText = ::loc("mainmenu/itemReceived")
           if (isTrophyContent && !isReceivedPrizes)
-            conditionsText += "\n" + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
+            conditionsText += "\n" + ::colorize("badTextColor",
+              ::loc(params?.relatedItem ? "mainmenu/activateOnlyOnce" : "mainmenu/receiveOnlyOnce"))
         }
         else if (isTrophyContent)
           conditionsText = ::loc("mainmenu/itemCanBeReceived")

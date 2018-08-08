@@ -234,8 +234,8 @@
       "locName": "missions/_NADom;mediterranean_port/name",
       "locDesc": "mediterranean_port/desc;missions/_NADom/desc",
       "scoreLimit": 20000,
-      "timeLimit": 25,
-      "deathPenaltyMul": 1.0,
+      "timeLimit": 30,
+      "deathPenaltyMul": 0.5,
       "ctaCaptureZoneEqualPenaltyMul": 0.1,
       "allowedKillStreaks": true,
       "randomSpawnTeams": true,
@@ -359,6 +359,11 @@
               "side": "neutral",
               "target": "briefing_capturezone03"
             }
+          },
+          {
+            "battleArea": {
+              "target": "ndom_battle_area"
+            }
           }
         ]
       }
@@ -367,7 +372,7 @@
   "imports": [
     {
       "import_record": {
-        "file": "gameData/missions/templates/navy_templates/nadom_template.blk",
+        "file": "gameData/missions/templates/navy_templates/ndom_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -399,7 +404,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/ships/mediterranean_port/spotareas/mediterranean_port_NADom_spotareas_template.blk",
+        "file": "gameData/missions/cta/ships/mediterranean_port/spotareas/mediterranean_port_NDom_spotareas_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -495,7 +500,7 @@
         [0.67559,0.0,-0.737277],
         [0.0,1.0,0.0],
         [0.737277,0.0,0.67559],
-        [-1841.21,0.000976563,-3733.08]
+        [1153.55,0.0,-5079.5]
       ],
       "objLayer": 0,
       "props": []
@@ -506,7 +511,7 @@
         [0.819152,0.0,0.573576],
         [0.0,1.0,0.0],
         [-0.573576,0.0,0.819152],
-        [4015.27,-0.00488281,160.209]
+        [5061.0,0.0,-1239.3]
       ],
       "objLayer": 0,
       "props": []
@@ -517,7 +522,7 @@
         [0.737277,0.0,-0.67559],
         [0.0,1.0,0.0],
         [0.67559,0.0,0.737277],
-        [-1297.95,-0.000976563,-560.26]
+        [-217.6,0.0,-1621.6]
       ],
       "objLayer": 0,
       "props": []
@@ -528,7 +533,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [667.524,-0.0107422,1383.36]
+        [1626.5,0.0,422.15]
       ],
       "objLayer": 0,
       "props": []
@@ -550,7 +555,7 @@
         [192.583,0.0,0.0],
         [0.0,141.705,0.0],
         [0.0,0.0,192.583],
-        [1294.86,6.10352e-05,-1266.1]
+        [2021.35,0.0,-1882.5]
       ],
       "objLayer": 0,
       "props": []
@@ -561,7 +566,7 @@
         [722.033,0.0,0.0],
         [0.0,141.705,0.0],
         [0.0,0.0,722.033],
-        [3409.73,0.00012207,-3389.85]
+        [3853.55,0.0,-3839.4]
       ],
       "objLayer": 0,
       "props": []
@@ -572,7 +577,7 @@
         [0.67559,0.0,-0.737277],
         [0.0,1.0,0.0],
         [0.737277,0.0,0.67559],
-        [-1624.35,-0.000976563,-6633.88]
+        [-911.85,0.0,-6821.1]
       ],
       "objLayer": 0,
       "props": []
@@ -584,6 +589,28 @@
         [0.0,1.0,0.0],
         [0.737277,0.0,0.67559],
         [7075.0,-0.000976563,1145.31]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "area_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4262.0,0.0,-14488.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "area_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [12122.0,0.0,1896.0]
       ],
       "objLayer": 0,
       "props": []

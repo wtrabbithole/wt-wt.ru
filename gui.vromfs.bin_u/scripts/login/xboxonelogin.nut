@@ -21,7 +21,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
   function initScreen()
   {
     ::g_anim_bg.load()
-    ::setVersionText()
+    ::setVersionText(scene)
     ::setProjectAwards(this)
     ::show_title_logo(true, scene, "128")
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)

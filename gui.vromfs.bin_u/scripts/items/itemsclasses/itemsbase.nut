@@ -29,8 +29,8 @@
 
   getStopConditions()          - added for boosters, but perhaps, it have in some other items
 
-  getMainActionName(colored = true, short = false)
-                                    - get main action name (short will be on item button)
+  getMainActionData(isShort = false)
+                                    - get main action data (short will be on item button)
   doMainAction(cb, handler)         - do main action. (buy, activate, etc)
 
   canStack(item)                    - (bool) compare with item same type can it be stacked in one
@@ -56,6 +56,7 @@ class ::BaseItem
   static linkActionIcon = ""
   static isPreferMarkupDescInTooltip = false
   static isDescTextBeforeDescDiv = true
+  static itemExpiredLocId = "items/expired"
 
   static includeInRecentItems = true
   static hasRecentItemConfirmMessageBox = true
@@ -98,6 +99,10 @@ class ::BaseItem
   isToStringForDebug = true
 
   shouldAutoConsume = false //if true, should to have "consume" function
+  craftedFrom = ""
+
+  maxAmount = -1 // -1 means no max item amount
+
 
   constructor(blk, invBlk = null, slotData = null)
   {
@@ -244,18 +249,28 @@ class ::BaseItem
     return name
   }
 
+  function getNameWithCount(colored = true, count = 0)
+  {
+    local counttext = ""
+    if (count > 1)
+      counttext = colorize("activeTextColor", " x") + colorize("userlogColoredText", count)
+
+    return getName(colored) + counttext
+  }
+
   function getTypeName()
   {
     return ::loc("item/" + defaultLocId)
   }
 
-  function getNameMarkup(count = 0, showTitle = true)
+  function getNameMarkup(count = 0, showTitle = true, hasPadding = false)
   {
     return ::handyman.renderCached("gui/items/itemString", {
       title = showTitle? colorize("activeTextColor",getName()) : null
       icon = typeIcon
       tooltipId = ::g_tooltip.getIdItem(id, { isDisguised = isDisguised })
       count = count > 1? (colorize("activeTextColor", " x") + colorize("userlogColoredText", count)) : null
+      hasPadding = hasPadding
     })
   }
 
@@ -339,10 +354,10 @@ class ::BaseItem
 
     if (::getTblValue("showAction", params, true))
     {
-      local actionText = getMainActionName(true, true)
-      if (actionText != "" && getLimitsCheckData().result)
+      local mainActionData = getMainActionData(true)
+      if (mainActionData && getLimitsCheckData().result)
       {
-        res.modActionName <- actionText
+        res.modActionName <- mainActionData?.btnColoredName || mainActionData.btnName
         res.needShowActionButtonAlways <- needShowActionButtonAlways()
       }
     }
@@ -352,9 +367,11 @@ class ::BaseItem
 
     local isSelfAmount = params?.count == null
     local amountVal = params?.count || getAmount()
+    local additionalTextInAmmount = params?.shouldHideAdditionalAmmount ? ""
+      : getAdditionalTextInAmmount()
     if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
     {
-      res.amount <- amountVal.tostring()
+      res.amount <- amountVal.tostring() + additionalTextInAmmount
       if (isSelfAmount && transferAmount > 0)
         res.isInTransfer <- true
     }
@@ -363,13 +380,17 @@ class ::BaseItem
     {
       local sellAmount = getSellAmount()
       if (sellAmount > 1)
-        res.amount <- sellAmount
+        res.amount <- sellAmount + additionalTextInAmmount
     }
+
+    local craftTimerText = params?.craftTimerText
+    if ((hasCraftTimer() && params?.hasCraftTimer ?? true) || craftTimerText)
+      res.craftTime <- craftTimerText ?? getCraftTimeTextShort()
 
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
       res.expireTime <- getTimeLeftText()
 
-    if ((params?.needRarity ?? true) && isRare())
+    if (isRare())
       res.rarityColor <- getRarityColor()
 
     if (isActive())
@@ -377,6 +398,7 @@ class ::BaseItem
 
     res.hasButton <- ::getTblValue("hasButton", params, true)
     res.onClick <- ::getTblValue("onClick", params, null)
+    res.isInactive <- params?.isButtonInactive ?? false
     res.hasHoverBorder <- ::getTblValue("hasHoverBorder", params, false)
 
     if (::getTblValue("contentIcon", params, true))
@@ -443,6 +465,13 @@ class ::BaseItem
     if (!isCanBuy() || !check_balance_msgBox(getCost()))
       return false
 
+    if (hasReachedMaxAmount())
+    {
+      ::scene_msg_box("reached_max_amount", null, ::loc("item/reached_max_amount"),
+        [["cancel"]], "cancel")
+      return false
+    }
+
     handler = handler || ::get_cur_base_gui_handler()
 
     local name = getName()
@@ -468,11 +497,16 @@ class ::BaseItem
     return res + ((costText == "")? "" : " (" + costText + ")")
   }
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
     if (isCanBuy())
-      return getBuyText(colored, short)
-    return ""  //open, but no such function on host yet.
+      return {
+        btnName = getBuyText(false, isShort)
+        btnColoredName = getBuyText(true, isShort)
+        isInactive = hasReachedMaxAmount()
+      }
+
+    return null
   }
 
   function doMainAction(cb, handler, params = null)
@@ -486,7 +520,8 @@ class ::BaseItem
 
   isExpired          = @() expiredTimeSec != 0 && (expiredTimeSec - ::dagor.getCurTime() * 0.001) < 0
   hasExpireTimer     = @() expiredTimeSec != 0
-  hasTimer           = @() expiredTimeSec != 0 || tradeableTimestamp > 0
+  hasTimer           = @() expiredTimeSec != 0
+                           || (getCraftingItem()?.expiredTimeSec ?? 0) > 0
   getNoTradeableTimeLeft = @() ::max(0, tradeableTimestamp - ::get_charserver_time_sec())
 
   function canPreview()
@@ -525,7 +560,7 @@ class ::BaseItem
     {
       if (isInventoryItem && amount > 0)
         onItemExpire()
-      return ::loc("items/expired")
+      return ::loc(itemExpiredLocId)
     }
     return ::loc("icon/hourglass") + ::nbsp +
       ::stringReplace(time.hoursToString(time.secondsToHours(deltaSeconds), false, true, true), " ", ::nbsp)
@@ -691,4 +726,21 @@ class ::BaseItem
   getCantAssembleLocId        = @() ""
   static getEmptyAssembleMessageData = @() { text = "", needRecipeMarkup = false }
   getAssembleMessageData      = @(recipe) getEmptyAssembleMessageData()
+
+  getCraftingItem = @() null
+  isCrafting = @() !!getCraftingItem()
+  hasCraftTimer = @() isCrafting()
+  getCraftTimeTextShort = @() ""
+  getCraftTimeText = @() ""
+  isCraftResult = @() false
+  getParentRecipe = @() null
+  getCraftResultItem = @() null
+  hasCraftResult = @() !!getCraftResultItem()
+  isHiddenItem = @() !isEnabled() || isCraftResult()
+  getAdditionalTextInAmmount = @() ""
+  cancelCrafting = @(...) false
+  getRewardListLocId = @() "mainmenu/rewardsList"
+  getItemsListLocId = @() "mainmenu/itemsList"
+  hasReachedMaxAmount = @() maxAmount >= 0 ? getAmount() >= maxAmount : false
+  isEnabled = @() true
 }

@@ -1,4 +1,5 @@
 local string = require("std/string.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local XBOX_ONE_PLAYER_PREFIX = "^"
 
@@ -18,7 +19,7 @@ if (isPlatformXboxOne)
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
 local xboxChatEnabledCache = null
-local getXboxChatEnabled = function(needOverlayMessage = false)
+local getXboxChatEnableStatus = function(needOverlayMessage = false)
 {
    if (!::is_platform_xboxone || !::g_login.isLoggedIn())
      return XBOX_COMMUNICATIONS_ALLOWED
@@ -36,13 +37,19 @@ local isChatEnabled = function(needOverlayMessage = false)
       ::ps4_show_chat_restriction()
     return false
   }
-  return getXboxChatEnabled(needOverlayMessage) == XBOX_COMMUNICATIONS_ALLOWED
+  return getXboxChatEnableStatus(needOverlayMessage) != XBOX_COMMUNICATIONS_BLOCKED
 }
 
-local function isChatEnableWithPlayer(playerName) //when you hve contact, you can use direct contact.canInteract
+local isChatEnableWithPlayer = function(playerName) //when you have contact, you can use direct contact.canInteract
 {
   local contact = ::Contact.getByName(playerName)
-  return contact ? contact.canInteract() : isChatEnabled()
+  if (contact)
+    return contact.canInteract()
+
+  if (getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
+    return ::isPlayerInFriendsGroup(null, false, playerName)
+
+  return isChatEnabled()
 }
 
 local invalidateCache = function()
@@ -50,7 +57,7 @@ local invalidateCache = function()
   xboxChatEnabledCache = null
 }
 
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   SignOut = @(p) invalidateCache()
 }, ::g_listener_priority.CONFIG_VALIDATION)
 
@@ -65,5 +72,7 @@ return {
 
   isChatEnabled = isChatEnabled
   isChatEnableWithPlayer = isChatEnableWithPlayer
-  canSquad = @() getXboxChatEnabled() == XBOX_COMMUNICATIONS_ALLOWED
+  canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
+  getXboxChatEnableStatus = getXboxChatEnableStatus
+  isPlatformXboxOne = isPlatformXboxOne
 }

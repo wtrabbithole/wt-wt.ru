@@ -111,9 +111,13 @@ class ::gui_handlers.navigationPanel extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(navListObj))
       return false
 
+    local itemsCount = itemList.len()
+    if (itemsCount < 1)
+      return
+
     if (isRelative)
       itemIdx += navListObj.getValue()
-    itemIdx = ::clamp(itemIdx, 0, itemList.len() - 1)
+    itemIdx = ::clamp(itemIdx, 0, itemsCount - 1)
 
     if (itemIdx == navListObj.getValue())
       return

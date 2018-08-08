@@ -18,7 +18,7 @@ function update_status_string(fps, ping, packetLoss, sessionId)
 
 function fpsDrawer::init()
 {
-  ::subscribe_events_from_handler(this, ["ShowHud"])
+  ::subscribe_handler(this)
 }
 
 function fpsDrawer::updateStatus(fps, ping, packetLoss, sessionId)

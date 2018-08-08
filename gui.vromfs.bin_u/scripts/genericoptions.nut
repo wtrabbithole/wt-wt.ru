@@ -482,6 +482,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   function onVoicechatChange(obj)
   {
     ::set_option_voicechat(obj.getValue() ? 1 : 0)
+    ::broadcastEvent("VoiceChatOptionUpdated")
   }
 
   function onInstantOptionApply(obj)

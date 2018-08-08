@@ -589,7 +589,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     sObj.findObject("stats_loading").show(false)
 
     local modesObj = sObj.findObject("modes_list")
-    local data = ""
     local selDiff = null
     local selIdx = -1
     local view = { items = [] }
@@ -978,8 +977,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return
 
-    local fText = ""
-    local bText = ""
+    local textTable = {
+      btn_friendAdd = ""
+      btn_blacklistAdd = ""
+    }
+
     local canBan = false
     local isMe = true
 
@@ -990,35 +992,30 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         local isBlock = ::isPlayerInContacts(player.uid, ::EPL_BLOCKLIST)
         canBan = ::myself_can_devoice() || ::myself_can_ban()
         isMe = false
-        if (!isBlock)  fText = isFriend? ::loc("contacts/friendlist/remove") : ::loc("contacts/friendlist/add")
-        if (!isFriend) bText = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
+        if (!isBlock)  textTable.btn_friendAdd = isFriend? ::loc("contacts/friendlist/remove") : ::loc("contacts/friendlist/add")
+        if (!isFriend) textTable.btn_blacklistAdd = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
       }
 
-    local canAddXboxPlayer = ::is_platform_xboxone == platformModule.isXBoxPlayerName(player.name)
+    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(player.name)
+    local canAddXboxPlayer = ::is_platform_xboxone == isXBoxOnePlayer
     local sheet = getCurSheet()
     local showStatBar = infoReady && sheet=="Statistics"
     local showProfBar = infoReady && !showStatBar
     local buttonsList = {
                           paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
-                          btn_friendAdd = showProfBar && canAddXboxPlayer && !::isPlayerPS4Friend(player.name) && fText!=""
-                          btn_blacklistAdd = showProfBar && bText!=""
+                          btn_friendAdd = showProfBar && canAddXboxPlayer && !::isPlayerPS4Friend(player.name) && textTable.btn_friendAdd != ""
+                          btn_blacklistAdd = showProfBar && textTable.btn_blacklistAdd != "" && (!canAddXboxPlayer || !::is_platform_xboxone)
                           btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
                           btn_complain = showProfBar && !isMe
                         }
 
-    local obj = null
+    ::showBtnTable(scene, buttonsList)
 
-    foreach(id, isShow in buttonsList)
+    foreach (id, text in textTable)
     {
-      obj = scene.findObject(id)
-      if(obj)
-      {
-        if(id == "btn_friendAdd")
-          obj.setValue(fText)
-        else if(id == "btn_blacklistAdd")
-          obj.setValue(bText)
-        obj.show(isShow)
-      }
+      local obj = scene.findObject(id)
+      if (::check_obj(obj))
+        obj.setValue(text)
     }
   }
 

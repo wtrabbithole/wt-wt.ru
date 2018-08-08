@@ -1,5 +1,5 @@
+local colors = require("../style/colors.nut")
 local hudState = require("../hudState.nut")
-local setHudBg = require("../style/hudBackground.nut")
 local scrollbar = require("scrollbar.nut")
 local transition = require("../style/hudTransition.nut")
 
@@ -7,7 +7,7 @@ local transition = require("../style/hudTransition.nut")
 local logContainer = @() {
   size = [flex(), SIZE_TO_CONTENT]
   gap = hdpx(3)
-  padding = [hdpx(7) , hdpx(15)]
+  padding = [hdpx(7) , hdpx(6)]
   flow = FLOW_VERTICAL
 }
 
@@ -21,11 +21,12 @@ local hudLog = function (params) {
   local onCursorVisible = params?.onCursorVisible ?? function (new_val) { visibleState.update(new_val) }
 
   local logState = logComponent.state
-  local content = scrollbar.makeVertScroll(
+  local content = scrollbar.makeSideScroll(
     logComponent.log(@() logContainer, messageComponent),
     {
       scrollHandler = logComponent.scrollHandler
       barStyle = @(has_scroll) scrollbar.styling.Bar(has_scroll && hudState.cursorVisible.value)
+      scrollAlign = HALIGN_LEFT
     }
   )
 
@@ -53,12 +54,14 @@ local hudLog = function (params) {
     ::gui_scene.setTimeout(transition.fast, fadeOutFn)
   }
 
-  return @() setHudBg({
+  return @() {
+    rendObj = ROBJ_9RECT
     size = flex()
     watch = visibleState
     clipChildren = true
     opacity = visibleState.value ? 1.0 : 0.0
     valign = VALIGN_BOTTOM
+    color = colors.hud.hudLogBgColor
 
     children = content
 
@@ -75,7 +78,7 @@ local hudLog = function (params) {
     }
 
     transitions = [transition.make(transitionTime())]
-  })
+  }
 }
 
 

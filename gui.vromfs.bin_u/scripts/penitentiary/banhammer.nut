@@ -152,7 +152,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!canBan())
       return goBack()
 
-    local comment = ::g_string.clearBorderSymbolsMultiline(  scene.findObject("complaint_text").getValue()  )
+    local comment = ::clearBorderSymbolsMultiline(  scene.findObject("complaint_text").getValue()  )
     if (comment.len() < 10)
     {
       msgBox("need_text", ::loc("msg/complain/needDetailedComment"),
@@ -206,7 +206,7 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
     local location = gameMode
     if (chatLog != "")
     {
-      if ("roomId" in pInfo && "roomName" in pInfo)
+      if ("roomId" in pInfo && "roomName" in pInfo && pInfo.roomName != "")
         location = "Main Chat, Channel = " + pInfo.roomName + " (" + pInfo.roomId + ")"
       else
         location = "In-game Chat; " + gameMode
@@ -303,7 +303,7 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!isValid())
       return
 
-    local user_comment = ::g_string.clearBorderSymbolsMultiline( scene.findObject("complaint_text").getValue() )
+    local user_comment = ::clearBorderSymbolsMultiline( scene.findObject("complaint_text").getValue() )
     if (user_comment.len() < 10)
     {
       msgBox("need_text", ::loc("msg/complain/needDetailedComment"),

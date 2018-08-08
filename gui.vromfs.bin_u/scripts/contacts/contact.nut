@@ -31,7 +31,6 @@ class Contact
   wins = -1
   expTotal = -1
 
-  update = false
   afterSuccessUpdateFunc = null
 
   constructor(contactData)
@@ -166,11 +165,15 @@ class Contact
   _cacheCanInteract = null
   function canInteract(needShowSystemMessage = false)
   {
-    if (!::is_platform_xboxone || isMe() || !platformModule.isPlayerFromXboxOne(name))
+    if (!::is_platform_xboxone || isMe())
       return true
 
     if (xboxId == "")
+    {
+      if (platformModule.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())
+        return false
       return platformModule.isChatEnabled()
+    }
 
     if (!needShowSystemMessage && _cacheCanInteract != null)
       return _cacheCanInteract

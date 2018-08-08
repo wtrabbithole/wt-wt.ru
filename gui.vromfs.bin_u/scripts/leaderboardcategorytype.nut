@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum LB_MODE
 {
   ARCADE           = 0x0001
@@ -432,6 +432,7 @@ enums.addTypesByGlobalName("g_lb_category", {
     EVENTS_EACH_PLAYER_SESSION = {
       field = "battles"
       visualKey = "each_player_session"
+      showEventFilterFunc = @(event) !::events.isGameTypeOfEvent(event, "gt_football")
     }
 
     EVENTS_AIR_KILLS = {
@@ -456,6 +457,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       visualKey = "air_ground_kills"
       hideInAdditionalTooltipIfZero = true
       additionalTooltipCategoryes = ["EVENTS_AIR_KILLS", "EVENTS_GROUND_KILLS"]
+      showEventFilterFunc = @(event) !::events.isGameTypeOfEvent(event, "gt_football")
     }
 
     EVENTS_SUPERIORITY_BATTLES_THRESHOLD = {
@@ -474,6 +476,29 @@ enums.addTypesByGlobalName("g_lb_category", {
       showEventFilterFunc = function (event) {
         return ::events.isEventLastManStanding(event)
       }
+    }
+
+    EVENT_FOOTBALL_MATCHES = {
+      field = "battles"
+      visualKey = "matches"
+      headerImage = "each_player_session"
+      showEventFilterFunc = @(event) ::events.isGameTypeOfEvent(event, "gt_football")
+    }
+
+    EVENT_FOOTBALL_GOALS = {
+      field = "ext1"
+      visualKey = "footballGoals"
+      headerImage = "target_hits"
+      headerTooltip = "football/goals"
+      showEventFilterFunc = @(event) ::events.isGameTypeOfEvent(event, "gt_football")
+    }
+
+    EVENT_FOOTBALL_ASSISTS = {
+      field = "ext2"
+      visualKey = "footballAssists"
+      headerImage = "total_score"
+      headerTooltip = "football/assists"
+      showEventFilterFunc = @(event) ::events.isGameTypeOfEvent(event, "gt_football")
     }
   },
 ::g_lb_category._typeConstructor, "id")

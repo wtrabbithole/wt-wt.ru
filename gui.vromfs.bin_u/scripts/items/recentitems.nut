@@ -22,20 +22,19 @@ function g_recent_items::getRecentItems()
   return resultItems
 }
 
-function g_recent_items::createHandler(owner, containerObj)
+function g_recent_items::createHandler(owner, containerObj, defShow)
 {
   if (!::checkObj(containerObj))
     return null
 
   wasCreated = true
-  return ::handlersManager.loadHandler(::gui_handlers.RecentItemsHandler, { scene = containerObj })
+  return ::handlersManager.loadHandler(::gui_handlers.RecentItemsHandler, { scene = containerObj, defShow = defShow })
 }
 
 function g_recent_items::getNumOtherItems()
 {
-  local inactiveItems = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL, function (item) {
-    return item.getMainActionName() != ""
-  })
+  local inactiveItems = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL,
+    @(item) !!item.getMainActionData())
   return inactiveItems.len()
 }
 

@@ -707,9 +707,9 @@ class ControlsPreset {
       if (version < PRESET_ACTUAL_VERSION)
         resetAxis(name)
       local axis = getAxis(name)
-      foreach (name, value in blkAxis)
+      foreach (key, value in blkAxis)
         if (!::u.isDataBlock(value))
-          axis[name] <- value
+          axis[key] <- value
     }
     // Load mouse axes saved before 1.63
     if (version < PRESET_ACTUAL_VERSION)

@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 ::g_top_menu_sections <- {
   template = {
     name = "unknown"
@@ -63,9 +63,9 @@ function g_top_menu_sections::_proceedButtonsArray(itemsArray, maxSectionsCount,
         continue
 
       local newSectionResult = _proceedButtonsArray(newSection.buttons, maxSectionsCount, sectionsStructure)
-      foreach (column in newSectionResult)
-        if (column)
-          result[result.len() - 1].extend(column)
+      foreach (columnEx in newSectionResult)
+        if (columnEx)
+          result[result.len() - 1].extend(columnEx)
     }
   }
   return result

@@ -90,6 +90,7 @@ local time = require("scripts/time.nut")
   bitModesList = {
     char_unlocks               = "unlock"
     unlocks                    = "unlock"
+    char_resources             = "resource"
     char_mission_list          = "name"
     char_mission_completed     = "name"
     char_buy_modification_list = "name"
@@ -913,6 +914,12 @@ function UnlockConditions::getLocForBitValues(modeType, values, hasCustomUnlocka
   else if (modeType == "char_unit_exist")
     foreach(name in values)
       valuesLoc.append(::getUnitName(name))
+  else if (modeType == "char_resources")
+    foreach(id in values)
+    {
+      local decorator = ::g_decorator.getDecoratorById(id)
+      valuesLoc.append(decorator?.getName?() ?? id)
+    }
   else
   {
     local nameLocPrefix = ""

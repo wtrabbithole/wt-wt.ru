@@ -17,22 +17,18 @@
     }
   },
   {
-    "optionlist_container": [
-      {
-        "id": "msgBox_container"
-      },
-      {
+    "optionlist_container": {
+      "id": "msgBox_container",
+      "flow": "vertical",
+      "overflow-y": "auto",
+      "useContentHeight": "yes",
+      "div": {
+        "width": "pw",
+        "top": "0.5(ph-h)",
+        "position": "relative",
+        "flow": "vertical",
         "div": {
           "width": "pw",
-          "position": "relative",
-          "top": "0.1ph",
-          "id": "option_box"
-        }
-      },
-      {
-        "div": {
-          "size": "pw,ph",
-          "position": "absolute",
           "flow": "vertical",
           "tdiv": [
             {
@@ -45,21 +41,17 @@
               "width": "pw"
             },
             {
-              "pos": "50%pw-50%w, 43%ph-50%h"
+              "left": "0.5(pw-w)"
             },
             {
               "position": "relative"
             },
             {
-              "style": "margin:0;"
-            },
-            {
               "textarea": {
                 "id": "msgText",
                 "width": "1.1@sf",
-                "pos": "50%pw-50%w, 0",
+                "left": "0.5(pw-w)",
                 "position": "relative",
-                "max-height": "85%p.p.h",
                 "text-align": "center",
                 "overflow-y": "auto",
                 "mediumFont": "yes",
@@ -71,8 +63,10 @@
             {
               "div": {
                 "id": "msg_div_after_text",
-                "pos": "50%pw-50%w, 1*@scrn_tgt/100.0",
+                "max-height": "0.4@scrn_tgt",
+                "pos": "0.5(pw-w), 0.01@scrn_tgt",
                 "position": "relative",
+                "overflow-y": "auto",
                 "display": "hide"
               }
             },
@@ -80,7 +74,7 @@
               "animated_wait_icon": {
                 "id": "msgWaitAnimation",
                 "display": "hide",
-                "pos": "50%pw-50%w,3*@scrn_tgt/100.0",
+                "pos": "0.5(pw-w), 3*@scrn_tgt/100.0",
                 "position": "relative",
                 "background-rotation": "0",
                 "behavior": "increment",
@@ -91,27 +85,25 @@
             {
               "msgBoxButtonsHolder": {
                 "id": "buttons_holder",
-                "pos": "50%pw-50%w, ph + 0.4(57%p.p.h - 50%ph - h)",
-                "position": "absolute",
+                "pos": "0.5(pw-w), 0.03@scrn_tgt",
+                "position": "relative",
                 "childsActivate": "yes"
               }
             },
             {
               "div": {
                 "id": "msg_bottom_div",
-                "pos": "50%pw-50%w, 0.5ph + 0.57p.p.h -h-0.005*@scrn_tgt",
-                "position": "absolute",
+                "pos": "0.5(pw-w), 0.01@scrn_tgt",
+                "position": "relative",
                 "display": "hide"
               }
             }
           ]
-        }
-      },
-      {
+        },
         "text": {
           "id": "msg_debug_string",
-          "pos": "pw/2-w/2, ph+0.005@sf",
-          "position": "absolute",
+          "pos": "0.5(pw-w), 0.03@scrn_tgt",
+          "position": "relative",
           "input-transparent": "yes",
           "overlayTextColor": "faded",
           "smallFont": "yes",
@@ -119,7 +111,7 @@
           "text": ""
         }
       }
-    ]
+    }
   },
   {
     "navBar": {
@@ -144,11 +136,30 @@
     }
   },
   {
-    "voiceChatWidget": {
-      "id": "base_voice_chat_widget",
-      "top": "sh-h-1@blockInterval",
-      "position": "root",
-      "value": "{\"viewId\": \"SQUAD_VOICE_CHAT\"}"
+    "widgets": {
+      "voiceChatWidgetNest": [
+        {
+          "isClanOnly": "no"
+        },
+        {
+          "blockSeparator": {
+            "display": "hide"
+          }
+        },
+        {
+          "voiceChatWidgetContainer": {
+            "isSmall": "no",
+            "voiceChatWidget": {
+              "value": "{\"viewId\": \"VOICE_CHAT\"}"
+            }
+          }
+        },
+        {
+          "blockSeparator": {
+            "display": "hide"
+          }
+        }
+      ]
     }
   }
 ]

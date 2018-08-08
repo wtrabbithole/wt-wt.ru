@@ -86,12 +86,13 @@ class WeaponsPurchase
   function checkMultiPurchase()
   {
     local canBuyAmount = 1
-    if (!::u.isEmpty(modItem))
+    if (!::u.isEmpty(modItem) && modType != weaponsItem.primaryWeapon)
     {
       local statusTbl = ::weaponVisual.getItemStatusTbl(unit, modItem)
       if (!statusTbl.canBuyMore)
       {
-        ::g_popups.add("", ::loc("weaponry/enoughAmount"), null, null, null, "enough_amount")
+        if (statusTbl.showPrice)
+          ::g_popups.add("", ::loc("weaponry/enoughAmount"), null, null, null, "enough_amount")
         return remove()
       }
 
@@ -139,7 +140,7 @@ class WeaponsPurchase
       if (!::has_feature("SpendGold"))
         return false
 
-      if ( ! unit.unitType.canSpendGold())
+      if (!::can_spend_gold_on_unit_with_popup(unit))
         return false
     }
 

@@ -1,8 +1,7 @@
+local subscriptions = require_optional("sqStdlibs/helpers/subscriptions.nut")
+
 if ("g_script_reloader" in ::getroottable())
-{
-  ::g_script_reloader.loadIfExist("scripts/framework/handlerSubscriptions.nut")
   ::g_script_reloader.loadIfExist("scripts/framework/msgBox.nut")
-}
 
 enum TASK_CB_TYPE
 {
@@ -218,5 +217,5 @@ function getErrorText(result)
 }
 
 ::g_tasker.restoreCharCallback()
-if ("subscribe_handler" in ::getroottable())
-  ::subscribe_handler(::g_tasker, ::g_listener_priority.DEFAULT_HANDLER)
+if (subscriptions)
+  subscriptions.subscribeHandler(::g_tasker, subscriptions.DEFAULT_HANDLER)

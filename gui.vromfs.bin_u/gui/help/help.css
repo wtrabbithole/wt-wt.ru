@@ -1,9 +1,35 @@
 controlsHelpFrame {
   padding:5*@sf/@pf_outdated, 2*@sf/@pf_outdated;
-  border:yes;
-  border-color:@commonTextColor;
+  border:yes;  border-color:@commonTextColor;
   background-color:@shadeBackgroundColor3;
+  css-hier-invalidate:yes;
 }
+
+controlsHelpFrame[verticalFlow=yes] {
+  flow:vertical;
+}
+
+controlsHelpFrame[verticalFlow=yes] > keyDiv {
+  left:0.5pw-0.5w;
+  position:relative;
+}
+
+controlsHelpFrame[verticalFlow=no] > keyDiv {
+  margin-right:0.01@sf;
+}
+
+controlsHelpFrame[verticalFlow=yes] > textareaNoTab {
+  max-width:pw;
+  width:pw;
+  font:@fontTiny;
+  text-align:center;
+  }
+controlsHelpFrame[verticalFlow=no] > textareaNoTab {
+  width:fw;
+  font:@fontTiny;
+  top:0.5ph-0.5h;
+  position:relative;
+  }
 
 controlsHelpFrame.inFrame {
   background-color:@transparent;
@@ -92,6 +118,7 @@ controlsHelpMouseBtn {
 }
 
 controlsHelpJoystickBtn {
+  background-repeat:aspect-ratio;
   background-color:@white;
   margin:0,3*@sf/@pf_outdated;
   height:0.9@kbh;
@@ -146,4 +173,21 @@ controlsHelpPs4Bubble img, controlsHelpPs4Bubble > tdiv > img {
   position:absolute;
   size:28*@sf/@pf_outdated, 28*@sf/@pf_outdated;
   pos:8*@sf/@pf_outdated, ph/2-h/2;
+}
+
+textareaNoTab[controlsHelp=yes] {
+  min-width:35%pw;
+  font:@fontTiny;
+  color:@commonTextColor;
+  border:yes;
+  border-color:@red;
+  width:fw;
+  text-align:center;
+    }
+
+textarea[controlsHelpTitle=yes] {
+  width:35%pw;
+  position:absolute;
+  font:@fontTiny;
+  color:@white;
 }

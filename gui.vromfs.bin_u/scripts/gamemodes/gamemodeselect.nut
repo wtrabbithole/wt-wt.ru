@@ -107,7 +107,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     registerNewIconWidgets()
     updateClusters()
     updateEventDescriptionConsoleButton(::game_mode_manager.getCurrentGameMode())
-    updateActivateConsoleButton()
   }
 
   function registerNewIconWidgets()
@@ -535,7 +534,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local gameModeId = ::getTblValue(obj.getValue(), gameModeIdByValue)
     local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
     updateEventDescriptionConsoleButton(gameMode)
-    updateActivateConsoleButton()
   }
 
   function onFeaturedModeSelect(obj)
@@ -751,7 +749,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local gameModeId = ::getTblValue(obj.getValue(), gameModeIdByValue)
     local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
     updateEventDescriptionConsoleButton(gameMode)
-    updateActivateConsoleButton()
   }
 
   function getFeaturedGameModesObj()
@@ -764,32 +761,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   {
     local obj = scene.findObject("debug_game_modes")
     return ::checkObj(obj) ? obj : null
-  }
-
-  _activateConsoleButtonActive = false
-  function getActivateConsoleButtonActive() { return _activateConsoleButtonActive }
-  function setActivateConsoleButtonActive(value)
-  {
-    if (_activateConsoleButtonActive == value)
-      return
-    _activateConsoleButtonActive = value
-    local obj = scene.findObject("activate_console_button")
-    if (!::checkObj(obj))
-      return
-    obj.show(value)
-    obj.enable(value)
-  }
-
-  function updateActivateConsoleButton()
-  {
-    local featuredGameModesObj = getFeaturedGameModesObj()
-    local checkFeatured = featuredGameModesObj != null && featuredGameModesObj.isFocused()
-
-    local debugGameModesObj = getDebugGameModesObj()
-    local checkDebug = debugGameModesObj != null && debugGameModesObj.isFocused()
-
-    local result = ::show_console_buttons && (checkFeatured || checkDebug)
-    setActivateConsoleButtonActive(result)
   }
 
   function onActivateConsoleButton(obj)

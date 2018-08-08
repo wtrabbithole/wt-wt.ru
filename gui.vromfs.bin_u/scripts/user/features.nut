@@ -94,7 +94,6 @@
     ServerReplay = true
     Encyclopedia = true
     Benchmark = true
-    BenchmarkPS4 = false
     DamageModelViewer = ::disable_network()
     DamageModelViewerAircraft = ::disable_network()
     ShowNextUnlockInfo = false

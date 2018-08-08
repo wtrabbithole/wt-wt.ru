@@ -417,7 +417,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!participants || ::isProductionCircuit() && participants < EVENTS_SHORT_LB_REQUIRED_PARTICIPANTS_TO_SHOW)
       return false
 
-    local lastValidatedRow = lb_rows.top()
+    local lastValidatedRow = lb_rows[min(EVENTS_SHORT_LB_REQUIRED_PARTICIPANTS_TO_SHOW, participants) - 1]
     return ::getTblValue(lbCategory.field, lastValidatedRow, 0) > 0
   }
 

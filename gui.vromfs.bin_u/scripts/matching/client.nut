@@ -74,24 +74,18 @@ function checkMatchingError(params, showError = true)
   if (!showError || ::disable_network())
     return false
 
-  local id = "sessionLobby_error"
-  local handler = ::get_cur_base_gui_handler()
-  local oldMsgBox = handler.guiScene[id]
-  if (::checkObj(oldMsgBox))
-    handler.guiScene.destroyElement(oldMsgBox)
-
   local errorId = ::getTblValue("error_id", params) || ::matching.error_string(params.error)
-
-  local text = ::loc("matching/" + g_string.replaceSym(errorId, '.', '_'))
+  local text = ::loc("matching/" + g_string.replace(errorId, ".", "_"))
   if ("error_message" in params)
     text = text + "\n<B>"+params.error_message+"</B>"
 
-  local options = { saved = true, cancel_fn = function() {}}
+  local id = "sessionLobby_error"
+
+  local options = { saved = true, checkDuplicateId = true, cancel_fn = function() {}}
   if ("LAST_SESSION_DEBUG_INFO" in getroottable())
     options["debug_string"] <- ::LAST_SESSION_DEBUG_INFO
 
-  handler.msgBox(id, text,
-      [["ok", function() {} ]], "ok", options)
+  ::scene_msg_box(id, null, text, [["ok", function() {} ], [ "cancel", function() {} ]], "ok", options)
   return false
 }
 

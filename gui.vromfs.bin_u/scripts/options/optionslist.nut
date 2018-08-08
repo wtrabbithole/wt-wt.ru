@@ -148,7 +148,9 @@ local getMainOptions = function()
       ["options/header/userGeneratedContent"],
       [::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE,    "combobox", contentPreset.getContentPresets().len()],
       [::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC, "combobox", contentPreset.getContentPresets().len()],
-      [::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR, "combobox", contentPreset.getContentPresets().len()],
+      [::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR, "combobox",
+        contentPreset.getContentPresets().len() &&
+        ::g_difficulty.SIMULATOR.isAvailable(::GM_DOMINATION)],
 
       ["options/header/otherOptions"],
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
@@ -227,7 +229,7 @@ local getOptionsList = function() {
 
   options.append(getSoundOptions())
 
-  if (::gchat_is_voice_enabled())
+  if (::g_chat.canUseVoice())
     options.append(getVoicechatOptions())
 
   if (::has_feature("Radio"))

@@ -75,7 +75,7 @@
 ::debriefing_rows <- [
   { id = "AirKills"
     showByModes = ::is_gamemode_versus
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     text = "multiplayer/air_kills"
     isVisibleWhenEmpty = function()
     {
@@ -83,7 +83,7 @@
     }
   }
   { id = "GroundKills"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/ground_kills"
     isVisibleWhenEmpty = function()
@@ -91,9 +91,9 @@
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND
     }
   }
-  { id = "awardDamage"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
-    showByModes = ::is_gamemode_versus
+  { id = "AwardDamage"
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
+    showByModes = function(gm) gm != ::GM_SKIRMISH
     text = "multiplayer/naval_damage"
     isVisibleWhenEmpty = function()
     {
@@ -101,7 +101,7 @@
     }
   }
   { id = "NavalKills"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/naval_kills"
     isVisibleWhenEmpty = function()
@@ -118,7 +118,7 @@
   "Critical",
   "Hit"
   { id = "Scouting"
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit", "ScoutKillUnknown"]
   }
@@ -146,7 +146,7 @@
   "Takeoffs"
   { id = "Sights"
     showByModes = ::is_gamemode_versus
-    showByTypes = function(gt) {return (!(gt & ::GT_RACE))}
+    showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
   }
   { id = "Damage",
     type = "tnt"
@@ -202,7 +202,6 @@
     rewardId = "Mission"
     isUsedInRecount = false //duplicate mission row
     type = "exp"
-    isFreeRP = true
     showByModes = function(gm) { return gm != ::GM_DOMINATION }
     text = "debriefing/Mission"
     canShowRewardAsValue = true
@@ -693,7 +692,7 @@ function debriefing_result_get_base_tournament_reward()
   if (!result.isZero())
     return result
 
-  local logs = ::getUserLogsList({
+  logs = ::getUserLogsList({
     show = [::EULT_CHARD_AWARD]
     currentRoomOnly = true
     filters = { rewardType = ["TournamentReward"] }
@@ -718,7 +717,6 @@ function get_debriefing_result_active_boosters()
     ]
     currentRoomOnly = true
   })
-  local boosters = []
   foreach (log in logs)
   {
     local boosters = ::getTblValueByPath("affectedBoosters.activeBooster", log, [])
@@ -1173,10 +1171,16 @@ function get_debriefing_gift_items_info(skipItemId = null)
     disableVisible = true
   })
   foreach (log in logs)
-    res.append({ id = log?.itemDefId, count = log?.quantity ?? 1, needOpen = false })
+    foreach (data in log)
+    {
+      if (typeof(data) != "table" || !("itemDefId" in data))
+        continue
+
+      res.append({ id = data.itemDefId, count = data?.quantity ?? 1, needOpen = false })
+    }
 
   // Collecting trophies and items
-  local logs = ::getUserLogsList({
+  logs = ::getUserLogsList({
     show = [ ::EULT_SESSION_RESULT ]
     currentRoomOnly = true
     disableVisible = true

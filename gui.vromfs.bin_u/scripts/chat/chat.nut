@@ -405,7 +405,7 @@ function g_chat::validateChatMessage(text, multilineAllowed = false)
 function g_chat::validateThreadTitle(title)
 {
   local res = ::stringReplace(title, "\\n", "\n")
-  res = ::g_string.clearBorderSymbolsMultiline(res)
+  res = ::clearBorderSymbolsMultiline(res)
   res = validateChatMessage(res, true)
   return res
 }
@@ -420,7 +420,7 @@ function g_chat::restoreReceivedThreadTitle(title)
 {
   local res = ::stringReplace(title, "\\n", "\n")
   res = ::stringReplace(res, "<br>", "\n")
-  res = ::g_string.clearBorderSymbolsMultiline(res)
+  res = ::clearBorderSymbolsMultiline(res)
   res = validateChatMessage(res, true)
   return res
 }
@@ -689,6 +689,8 @@ function g_chat::getSenderColor(senderName, isHighlighted = true, isPrivateChat 
     return color.senderFriend[isHighlighted]
   return ::u.isTable(defaultColor) ? defaultColor[isHighlighted] : defaultColor
 }
+
+function g_chat::canUseVoice() { return ::has_feature("Voice") && ::gchat_is_voice_enabled() }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_chat")
 ::subscribe_handler(::g_chat, ::g_listener_priority.DEFAULT_HANDLER)

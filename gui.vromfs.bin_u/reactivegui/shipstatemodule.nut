@@ -274,7 +274,6 @@ local crewBlock = {
   vplace = VALIGN_BOTTOM
   flow = FLOW_VERTICAL
   size = [hdpx(STATE_ICON_SIZE), SIZE_TO_CONTENT]
-  vplace = VALIGN_BOTTOM
 
   children = [
     @() {

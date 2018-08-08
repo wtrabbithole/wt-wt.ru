@@ -57,9 +57,6 @@
       },
       {
         "wing": "player_tank16"
-      },
-      {
-        "wing": "player_tank17"
       }
     ],
     "player_teamB": {
@@ -609,755 +606,77 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [
-    {
-      "tankModels": {
-        "name": "player_tank01",
-        "tm": [
-          [0.679916,0.0,0.73329],
-          [0.0,1.0,0.0],
-          [-0.73329,0.0,0.679916],
-          [1866.61,631.412,2284.92]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": false
+  "units": {
+    "objectGroups": {
+      "name": "restoration_zone_circle",
+      "tm": [
+        [0.774692,0.0,0.293374],
+        [0.0,0.828382,0.0],
+        [-0.293374,0.0,0.774692],
+        [2440.0,632.4,3310.0]
+      ],
+      "unit_class": "capture_zone_circle",
+      "objLayer": 2,
+      "props": {
+        "army": 1,
+        "active": true
+      }
+    },
+    "squad": {
+      "name": "active_enemies_squad",
+      "tm": [
+        [0.935187,0.0,0.354153],
+        [0.0,1.0,0.0],
+        [-0.354153,0.0,0.935187],
+        [2440.39,664.897,2787.57]
+      ],
+      "props": {
+        "squad_members": "all_enemy_units",
+        "object_type": "isActive"
+      }
+    },
+    "area_squad": {
+      "name": "pickups_area_squad",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2429.46,632.369,3297.11]
+      ],
+      "props": [
+        {
+          "squad_members": "pickup_area_01"
         },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank02",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1876.3,631.815,2391.49]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
+        {
+          "squad_members": "pickup_area_02"
         },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank03",
-        "tm": [
-          [-0.605445,0.0,-0.795887],
-          [0.0,1.0,0.0],
-          [0.795887,0.0,-0.605445],
-          [1896.14,631.691,2341.63]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
+        {
+          "squad_members": "pickup_area_03"
         },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank04",
-        "tm": [
-          [0.880994,0.0,0.473128],
-          [0.0,1.0,0.0],
-          [-0.473128,0.0,0.880994],
-          [1832.41,634.432,2341.62]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
+        {
+          "squad_members": "pickup_area_04"
         },
-        "way": []
-      }
-    },
-    {
-      "squad": {
-        "name": "players_squad",
-        "tm": [
-          [0.935187,0.0,0.354153],
-          [0.0,1.0,0.0],
-          [-0.354153,0.0,0.935187],
-          [1861.69,631.198,2493.37]
-        ],
-        "props": [
-          {
-            "squad_members": "player_tank01"
-          },
-          {
-            "squad_members": "player_tank02"
-          },
-          {
-            "squad_members": "player_tank03"
-          },
-          {
-            "squad_members": "player_tank04"
-          },
-          {
-            "squad_members": "player_tank05"
-          },
-          {
-            "squad_members": "player_tank06"
-          },
-          {
-            "squad_members": "player_tank07"
-          },
-          {
-            "squad_members": "player_tank08"
-          },
-          {
-            "squad_members": "player_tank09"
-          },
-          {
-            "object_type": "isPlayer"
-          }
-        ]
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "restoration_zone_circle",
-        "tm": [
-          [0.774692,0.0,0.293374],
-          [0.0,0.828382,0.0],
-          [-0.293374,0.0,0.774692],
-          [2440.0,632.4,3310.0]
-        ],
-        "unit_class": "capture_zone_circle",
-        "objLayer": 2,
-        "props": {
-          "army": 1,
-          "active": true
+        {
+          "squad_members": "pickup_area_05"
+        },
+        {
+          "squad_members": "pickup_area_06"
+        },
+        {
+          "squad_members": "pickup_area_07"
+        },
+        {
+          "squad_members": "pickup_area_08"
+        },
+        {
+          "squad_members": "pickup_area_09"
+        },
+        {
+          "squad_members": "pickup_area_10"
         }
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank05",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1888.33,631.64,2387.5]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "squad": {
-        "name": "active_enemies_squad",
-        "tm": [
-          [0.935187,0.0,0.354153],
-          [0.0,1.0,0.0],
-          [-0.354153,0.0,0.935187],
-          [2440.39,664.897,2787.57]
-        ],
-        "props": {
-          "squad_members": "all_enemy_units",
-          "object_type": "isActive"
-        }
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank06",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1871.58,632.016,2360.01]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank07",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1859.37,632.547,2345.97]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank08",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1866.11,631.888,2325.06]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank09",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1866.18,631.633,2307.44]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank10",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1872.65,631.978,2405.92]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank11",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1869.0,632.18,2420.35]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank12",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1865.35,632.429,2434.78]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank13",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1861.7,632.657,2449.2]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank14",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1858.05,632.726,2463.63]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank15",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1854.4,632.635,2478.06]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank16",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1850.75,632.508,2492.49]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "player_tank17",
-        "tm": [
-          [0.58556,0.0,0.810629],
-          [0.0,1.0,0.0],
-          [-0.810629,0.0,0.58556],
-          [1845.52,632.175,2507.59]
-        ],
-        "unit_class": "aaa_dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true
-        },
-        "way": []
-      }
-    },
-    {
-      "area_squad": {
-        "name": "pickups_area_squad",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2429.46,632.369,3297.11]
-        ],
-        "props": [
-          {
-            "squad_members": "pickup_area_01"
-          },
-          {
-            "squad_members": "pickup_area_02"
-          },
-          {
-            "squad_members": "pickup_area_03"
-          },
-          {
-            "squad_members": "pickup_area_04"
-          },
-          {
-            "squad_members": "pickup_area_05"
-          },
-          {
-            "squad_members": "pickup_area_06"
-          },
-          {
-            "squad_members": "pickup_area_07"
-          },
-          {
-            "squad_members": "pickup_area_08"
-          },
-          {
-            "squad_members": "pickup_area_09"
-          },
-          {
-            "squad_members": "pickup_area_10"
-          }
-        ]
-      }
+      ]
     }
-  ],
+  },
   "areas": {
     "spawnpoint01": {
       "type": "Sphere",

@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
 
 const MAPS_OUT_OF_DATE_DAYS = 1

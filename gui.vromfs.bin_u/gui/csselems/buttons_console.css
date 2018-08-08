@@ -441,11 +441,19 @@ Button_text[visualStyle=common][inactiveColor=yes] > textarea {
 Button_text[visualStyle=common]:hover {
   background-image:#ui/gameuiskin#button_flat_hover;
 }
+Button_text[visualStyle=common][inactiveColor=yes]:hover {
+  background-image:#ui/gameuiskin#button_flat_disabled;
+}
 
 Button_text[visualStyle=common]:hover,
 Button_text[visualStyle=common]:hover > btnText,
 Button_text[visualStyle=common]:hover > textarea {
   color:@activeTextColor;
+}
+Button_text[visualStyle=common][inactiveColor=yes]:hover,
+Button_text[visualStyle=common][inactiveColor=yes]:hover > btnText,
+Button_text[visualStyle=common][inactiveColor=yes]:hover > textarea {
+  color:@disabledActiveTextColor;
 }
 
 Button_text[visualStyle=common]:pushed {

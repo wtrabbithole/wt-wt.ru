@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 const URL_ANY_ENDING = @"(\/.*$|\/$|$)"
 
 enum URL_CHECK_ORDER
@@ -106,6 +106,8 @@ enums.addTypesByGlobalName("g_url_type", {
       regexp(@"^https?:\/\/tss-dev\.warthunder\.com" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/tss-dev\.warthunder\.ru" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/live\.warthunder\.com" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/trade\.gaijin\.net" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/inventory-test-01\.gaijin\.lan" + URL_ANY_ENDING),
     ]
   }
 

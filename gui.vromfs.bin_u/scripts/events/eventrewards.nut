@@ -62,7 +62,7 @@
           local progress = "0"
           if (value != null)
           {
-            local value = value % ::EventRewards.getConditionValue(reward_blk)
+            value = value % ::EventRewards.getConditionValue(reward_blk)
             local lbDataType = ::g_lb_category.getTypeByField(reward_blk.fieldName).type
             progress = lbDataType.getShortTextByValue(value)
           }

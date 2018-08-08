@@ -60,22 +60,58 @@
       }
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/fiji_newbie/mainareas/fiji_newbie_NDom_airspawns.blk",
+        "rankRange": [6,30],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/fiji_newbie/mainareas/fiji_newbie_NDom_newbie_airspawns.blk",
+        "rankRange": [0,5],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
-  },
+  ],
   "triggers": {
     "isCategory": true,
     "is_enabled": true
@@ -1082,50 +1118,6 @@
       "objLayer": 0,
       "props": []
     },
-    "t1_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-8000.0,750.0,0.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-800.0,0.0,-0.000183105],
-        [0.0,800.0,0.0],
-        [0.000183105,0.0,-800.0],
-        [8000.0,750.0,0.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-8000.0,1500.0,0.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_bombers_spawn_arcade": {
-      "type": "Sphere",
-      "tm": [
-        [-800.0,0.0,-0.000183105],
-        [0.0,800.0,0.0],
-        [0.000183105,0.0,-800.0],
-        [8000.0,1500.0,0.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "no_tree_box_01": {
       "type": "Box",
       "tm": [
@@ -1166,39 +1158,6 @@
         [0.0,50.0,0.0],
         [0.0,0.0,-100.0],
         [4773.58,1.00135,-5066.73]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "no_tree_box_11": {
-      "type": "Box",
-      "tm": [
-        [-100.0,0.0,0.0],
-        [0.0,50.0,0.0],
-        [0.0,0.0,-100.0],
-        [4871.51,1.00135,-5071.39]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [800.0,0.0,0.0],
-        [0.0,800.0,0.0],
-        [0.0,0.0,800.0],
-        [-8000.0,2500.0,0.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_air_spawn_hardcore": {
-      "type": "Sphere",
-      "tm": [
-        [-800.0,0.0,-0.000183105],
-        [0.0,800.0,0.0],
-        [0.000183105,0.0,-800.0],
-        [8000.0,2500.0,0.0]
       ],
       "objLayer": 0,
       "props": []

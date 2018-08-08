@@ -453,6 +453,8 @@ function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
 
 function SessionLobby::UpdatePlayersInfo()
 {
+  ::SquadIcon.clearPlayersInfo()
+
   // old format. players_info in lobby is array of objects for each player
   if ("players_info" in settings)
   {
@@ -1663,13 +1665,12 @@ function SessionLobby::joinRoomWithPassword(joinRoomId, prevPass = "", wasEntere
     ::dagor.assertf(false, "SessionLobby Error: try to join room with password with empty room id")
     return
   }
+
   ::gui_modal_editbox_wnd({
     value = prevPass
     editboxHeaderText = wasEntered ? ::loc("matching/SERVER_ERROR_ROOM_PASSWORD_MISMATCH") : ""
     allowEmpty = false
-    okFunc = (@(joinRoomId) function(pass) {
-      ::SessionLobby.joinRoom(joinRoomId, "", pass)
-    })(joinRoomId)
+    okFunc = @(pass) ::SessionLobby.joinRoom(joinRoomId, "", pass)
   })
 }
 
@@ -1677,8 +1678,8 @@ function SessionLobby::afterRoomJoining(params)
 {
   if (params.error == SERVER_ERROR_ROOM_PASSWORD_MISMATCH)
   {
-    local joinRoomId = roomId //not_in_room status will clear room Id
-    local oldPass = password
+    local joinRoomId = params.roomId //not_in_room status will clear room Id
+    local oldPass = params.password
     switchStatus(lobbyStates.NOT_IN_ROOM)
     joinRoomWithPassword(joinRoomId, oldPass, oldPass != "")
     return

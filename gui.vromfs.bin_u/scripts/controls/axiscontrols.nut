@@ -3,12 +3,12 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   wndType = handlerType.MODAL
   sceneBlkName = "gui/joystickAxisInput.blk"
   sceneNavBlkName = null
-  owner = null
 
   axisItem = null
   curJoyParams = null
   shortcuts = null
   shortcutItems = null
+  onFinalApplyAxisShortcuts = null //function(changedShortcutsList)
 
   setupAxisMode = null
   autodetectAxis = false
@@ -18,6 +18,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   numAxisInList = 0
   curDevice = null
   bindAxisNum = -1
+
+  changedShortcuts = null
 
   function getMainFocusObj()
   {
@@ -29,6 +31,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     axisRawValues = []
     axisShortcuts = []
     dontCheckControlsDupes = []
+    changedShortcuts = []
 
     curDevice = ::joystick_get_default()
     setupAxisMode = axisItem.axisIndex
@@ -115,7 +118,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       if (isInArray(::shortcutsAxisList[i].id, hideAxisOptionsArray))
         addTrParams = "hiddenTr:t='yes'; inactive:t='yes';"
 
-      data += ::buildHotkeyItem(i, shortcuts, ::shortcutsAxisList[i], axis, i%2 == 0, addTrParams)
+      local hotkeyData = ::buildHotkeyItem(i, shortcuts, ::shortcutsAxisList[i], axis, i%2 == 0, addTrParams)
+      data += hotkeyData.markup
     }
 
     guiScene.replaceContentFromText(axisControlsTbl, data, data.len(), this)
@@ -306,12 +310,13 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   {
     local event = shortcuts[item.shortcutId]
     event.clear()
-    updateShortcutText(item.shortcutId)
+    onShortcutChange(item.shortcutId)
   }
 
   function onAxisBindChange(obj)
   {
     bindAxisNum = obj.getValue() - 1
+    ::u.appendOnce(axisItem.modifiersId[""], changedShortcuts)
   }
 
   function onAxisRestore()
@@ -576,7 +581,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
     if (::find_in_array(dontCheckControlsDupes, curItem.shortcutId) < 0)
       foreach (idx, event in shortcuts)
-        if (curItem.checkGroup & shortcutItems[idx].checkGroup)
+        if (axisItem.checkGroup & shortcutItems[idx].checkGroup)
           foreach (button_index, button in event)
           {
             if (!button || button.dev.len() != devs.len())
@@ -643,7 +648,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
         foreach(binding in curBinding)
         {
           shortcuts[binding[0]].remove(binding[1])
-          updateShortcutText(binding[0])
+          onShortcutChange(binding[0])
         }
         doBind(devs, btns, item)
       })(curBinding, devs, btns, item)],
@@ -664,7 +669,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       event.remove(0)
 
     ::set_controls_preset("") //custom mode
-    updateShortcutText(item.shortcutId)
+    onShortcutChange(item.shortcutId)
   }
 
   function updateShortcutText(shortcutId)
@@ -680,6 +685,12 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       obj.setValue(::get_shortcut_text(shortcuts, shortcutId))
   }
 
+  function onShortcutChange(shortcutId)
+  {
+    updateShortcutText(shortcutId)
+    ::u.appendOnce(shortcutId, changedShortcuts)
+  }
+
   function onButtonReset()
   {
     local item = getCurItem()
@@ -687,7 +698,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       return
 
     shortcuts[item.shortcutId].clear()
-    updateShortcutText(item.shortcutId)
+    onShortcutChange(item.shortcutId)
   }
 
   function onApply()
@@ -703,8 +714,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function afterModalDestroy()
   {
-    if (::handlersManager.isHandlerValid(owner) && ("updateSceneOptions" in owner))
-      owner.updateSceneOptions()
+    if (onFinalApplyAxisShortcuts)
+      onFinalApplyAxisShortcuts(changedShortcuts)
   }
 
   function goBack()

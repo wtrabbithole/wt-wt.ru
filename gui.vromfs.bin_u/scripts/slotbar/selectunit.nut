@@ -563,8 +563,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       local masksUnit = optionsMaskByUnits?[unit.name]
       local isVisible = true
       if (masksUnit)
-        for (local i = 0; i < lenghtOptions; i++)
-          if ( (masksUnit[i] & optionMasks[i]) == 0 )
+        for (local j = 0; j < lenghtOptions; j++)
+          if ( (masksUnit[j] & optionMasks[j]) == 0 )
             isVisible = false
 
       if (isVisible)

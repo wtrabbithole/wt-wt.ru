@@ -244,7 +244,8 @@ function get_userlog_view_data(log)
       local items = []
       foreach (lbFieldsConfig in ::events.eventsTableConfig)
       {
-        if (!(lbFieldsConfig.field in now))
+        if (!(lbFieldsConfig.field in now)
+          || !::events.checkLbRowVisibility(lbFieldsConfig, { eventId = log?.eventId }))
           continue
 
         items.append(::getLeaderboardItemView(lbFieldsConfig,
@@ -283,11 +284,10 @@ function get_userlog_view_data(log)
     if (desc!="")
       res.description <- desc
 
-    local exp = "xpFirstWinInDayMul" in log? log["xpFirstWinInDayMul"] : 1.0
-    local wp = "wpFirstWinInDayMul" in log? log["wpFirstWinInDayMul"] : 1.0
-
-    if(exp > 1.0 || wp > 1.0)
-      res["log_bonus"] <- getBonus(exp, wp, "item", "Log")
+    local expMul = log?.xpFirstWinInDayMul ?? 1.0
+    local wpMul = log?.wpFirstWinInDayMul ?? 1.0
+    if(expMul > 1.0 || wpMul > 1.0)
+      res["log_bonus"] <- getBonus(expMul, wpMul, "item", "Log")
 
     if (::has_feature("ServerReplay"))
       if (::getTblValue("dedicatedReplay", log, false))
@@ -716,17 +716,19 @@ function get_userlog_view_data(log)
           lineReward += ::getModificationName(getAircraftByName(blk.aname), blk.mname)+" "
       }
 
-      local wp = blk?.wpEarned ?? 0,  gold = blk?.goldEarned ?? 0, exp = blk?.xpEarned ?? 0
-      local reward = ::Cost(wp.tointeger(), gold.tointeger()).tostring()
-      if (exp)
+      local blkWp = blk?.wpEarned ?? 0
+      local blkGold = blk?.goldEarned ?? 0
+      local blkExp = blk?.xpEarned ?? 0
+      local blkReward = ::Cost(blkWp.tointeger(), blkGold.tointeger()).tostring()
+      if (blkExp)
       {
         local changeLightToXP = blk?.name == ::MSG_FREE_EXP_DENOMINATE_OLD
-        reward += ((reward!="")? ", ":"") + ( changeLightToXP ?
-          (exp + " <color=@white>" + ::loc("mainmenu/experience/oldName") + "</color>")
-          : ::Cost().setRp(exp.tointeger()).tostring())
+        blkReward += ((blkReward!="")? ", ":"") + ( changeLightToXP ?
+          (blkExp + " <color=@white>" + ::loc("mainmenu/experience/oldName") + "</color>")
+          : ::Cost().setRp(blkExp.tointeger()).tostring())
       }
 
-      lineReward += reward
+      lineReward += blkReward
       if (lineReward != "")
         lineReward += "\n"
 
@@ -999,7 +1001,8 @@ function get_userlog_view_data(log)
       res.description += iname
     }
     res.tooltip = res.description
-  } else if (log.type == ::EULT_OPEN_TROPHY)
+  }
+  else if (log.type == ::EULT_OPEN_TROPHY)
   {
     local itemId = log?.itemDefId || log?.id || ""
     local item = ::ItemsManager.findItemById(itemId)
@@ -1012,8 +1015,10 @@ function get_userlog_view_data(log)
       local rewardText = ::trophyReward.getRewardText(log)
       local reward = ::loc("reward") + ::loc("ui/colon") + rewardText
 
-      res.name = usedText + " " + ::colorize("activeTextColor", item.getName()) + " " + ::loc("ui/parentheses/space", { text = reward })
+      res.name = usedText + " " + ::loc("trophy/unlockables_names/trophy")
+                          + " " + ::loc("ui/parentheses/space", {text = reward})
       res.logImg = item.typeIcon
+      res.tooltip = usedText + ::loc("ui/colon") + item.getName() + "\n" + reward
 
       res.descriptionBlk <- ::format(textareaFormat, ::g_string.stripTags(usedText) + ::loc("ui/colon"))
       res.descriptionBlk += item.getNameMarkup()
@@ -1161,22 +1166,52 @@ function get_userlog_view_data(log)
     }
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
   }
-  else if (log.type == ::EULT_INVENTORY_ADD_ITEM || log.type == ::EULT_INVENTORY_FAIL_ITEM)
+  else if (log.type == ::EULT_INVENTORY_ADD_ITEM ||
+           log.type == ::EULT_INVENTORY_FAIL_ITEM)
   {
-    local itemDefId = log?.itemDefId ?? ""
-    local item = ::ItemsManager.findItemById(itemDefId)
-    local numItems = log?.quantity ?? 1
+    local amount = 0
+    local itemsNumber = 0
+    local firstItemName = ""
+    local itemsListText = ""
+
+    res.descriptionBlk <- ""
+    foreach (data in log)
+    {
+      if (!("itemDefId" in data))
+        continue
+
+      local item = ::ItemsManager.findItemById(data.itemDefId)
+      if (!item)
+        continue
+
+      local quantity = data?.quantity ?? 1
+      res.descriptionBlk += item.getNameMarkup(quantity, true, true)
+      res.logImg = res.logImg || item.getSmallIconName()
+
+      amount += quantity
+      itemsListText += "\n " + ::loc("event_dash") + " " + item.getNameWithCount(true, quantity)
+      if (itemsNumber == 0)
+        firstItemName = item.getName()
+
+      itemsNumber ++
+    }
+
+    res.logImg = res.logImg || ::BaseItem.typeIcon
     local locId = "userlog/" + logName
-    res.logImg = (item && item.getSmallIconName()) || ::BaseItem.typeIcon
-    if (log.type == ::EULT_INVENTORY_FAIL_ITEM)
-      res.logImg2 = "#ui/gameuiskin#icon_primary_fail"
     res.name = ::loc(locId, {
-      numItemsColored = ::colorize("userlogColoredText", numItems)
-      numItems = numItems
-      numItemsAdd = numItems
-      itemName = (item && item.getName()) ? item.getName() : ""
+      numItemsColored = ::colorize("userlogColoredText", amount)
+      numItems = amount
+      numItemsAdd = amount
+      itemName = itemsNumber == 1 ? firstItemName : ""
     })
-    res.descriptionBlk <- ::get_userlog_image_item(item)
+
+    if (itemsNumber > 1)
+      res.tooltip = ::loc(locId, {
+        numItemsColored = ::colorize("userlogColoredText", amount)
+        numItems = amount
+        numItemsAdd = amount
+        itemName = itemsListText
+      })
   }
   else if (log.type == ::EULT_TICKETS_REMINDER)
   {
@@ -1317,15 +1352,10 @@ function get_userlog_view_data(log)
     local awardData = ::getTblValue("award", log)
     if (awardData)
     {
-      local priceText = ::g_warbonds.getWarbondPriceText(
-                          ::getTblValue("warbond", log),
-                          ::getTblValue("stage", log),
-                          ::getTblValue("cost", awardData, 0)
-                        )
-
+      local wbPriceText = ::g_warbonds.getWarbondPriceText(log?.warbond, log?.stage, awardData?.cost ?? 0)
       local awardBlk = ::DataBlockAdapter(awardData)
       local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
-      res.name = awardType.getUserlogBuyText(awardBlk, priceText)
+      res.name = awardType.getUserlogBuyText(awardBlk, wbPriceText)
     }
   }
   else if (log.type == ::EULT_WW_START_OPERATION || log.type == ::EULT_WW_CREATE_OPERATION)
@@ -1377,7 +1407,6 @@ function get_userlog_view_data(log)
   //------------- when userlog not found or not full filled -------------//
   if (res.name=="")
     res.name = ::loc("userlog/"+logName)
-  if (res.tooltip=="")
-    res.tooltip = res.name
+
   return res
 }

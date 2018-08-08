@@ -2057,7 +2057,8 @@
         "modRequired": true
       },
       "bridge_dm": {
-        "speed": 7.5,
+        "speed": 4.5,
+        "partRepairHp": 1.0,
         "completely": true,
         "modRequired": false
       }
@@ -3457,19 +3458,19 @@
         }
       },
       "apds": {
-        "residualPenetrationToArmorShatterPenetrationMult": [20.0,200.0,0.2,1.0],
-        "residualPenetrationToArmorShatterDamageMult": [20.0,200.0,0.3,1.0],
-        "residualPenetrationToShellShatterPenetrationMult": [20.0,200.0,0.3,1.0],
-        "residualPenetrationToShellShatterDamageMult": [20.0,200.0,0.4,1.0],
-        "armorMassToShatterCount": [0.5,10.0,10.0,40.0],
-        "shellMassToShatterCount": [1.0,10.0,10.0,50.0],
+        "residualPenetrationToArmorShatterPenetrationMult": [20.0,200.0,0.1,1.0],
+        "residualPenetrationToArmorShatterDamageMult": [20.0,200.0,0.2,1.0],
+        "residualPenetrationToShellShatterPenetrationMult": [20.0,200.0,0.1,1.0],
+        "residualPenetrationToShellShatterDamageMult": [20.0,200.0,0.1,1.0],
+        "armorMassToShatterCount": [0.5,10.0,20.0,40.0],
+        "shellMassToShatterCount": [1.0,20.0,30.0,70.0],
         "section_shellShatters0": {
-          "angles": [0.0,4.0],
+          "angles": [0.0,5.0],
           "shatter": {
             "shellShatter": true,
             "distance": 6.0,
             "size": 0.04,
-            "countPortion": 0.15,
+            "countPortion": 0.2,
             "penetration": [25.0,20.0],
             "damage": [45.0,40.0],
             "onHitChanceMultFire": 3.0
@@ -3500,11 +3501,22 @@
           }
         },
         "section_armorShatters0": {
-          "angles": [0.0,30.0],
+          "angles": [0.0,20.0],
           "shatter": {
             "distance": 5.0,
             "size": 0.05,
             "countPortion": 0.4,
+            "penetration": [9.0,5.0],
+            "damage": [25.0,15.0],
+            "onHitChanceMultFire": 2.0
+          }
+        },
+        "section_armorShatters1": {
+          "angles": [0.0,30.0],
+          "shatter": {
+            "distance": 2.0,
+            "size": 0.03,
+            "countPortion": 0.6,
             "penetration": [6.0,5.0],
             "damage": [15.0,12.0],
             "onHitChanceMultFire": 2.0
@@ -4852,6 +4864,24 @@
           "mod3": [30.0,1.0]
         }
       },
+      "he_frag_i_tank": {
+        "normalizationPreset": "heat",
+        "ricochetPreset": "he",
+        "slopeEffectPreset": "ap",
+        "secondaryShattersPreset": "ap",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "stabilityThreshold": 0.4,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.45,
+        "stabilityReductionAfterPenetration": 1.0,
+        "explodeOnRendinst": true,
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.5],
+          "mod2": [20.0,0.6],
+          "mod3": [30.0,1.0]
+        }
+      },
       "he_frag_radio_fuse": {
         "normalizationPreset": "heat",
         "ricochetPreset": "he",
@@ -5087,6 +5117,13 @@
         "modelName": "tank_bullet_shrapnel",
         "fresnel": [0.23,0.1,2.0],
         "explodeOnRendinst": true
+      },
+      "football_kick": {
+        "normalizationPreset": "apcr",
+        "ricochetPreset": "apds",
+        "secondaryShattersPreset": "apds",
+        "modelName": "tank_bullet_apdc",
+        "fresnel": [0.23,0.1,2.0]
       }
     }
   },
@@ -5289,7 +5326,7 @@
         "splash": false
       },
       "he": {
-        "bullets": "he_frag_tank, rocket_tank, he_frag_i_t, he_frag_i,  he_frag_radio_fuse, he_frag_dist_fuse",
+        "bullets": "he_frag_tank, rocket_tank, he_frag_i_t, he_frag_i,  he_frag_radio_fuse, he_frag_dist_fuse, he_frag_vog, he_frag_i_tank",
         "pierce": "pr_splash",
         "stop": "st_splash",
         "ricochet": "st_gen",

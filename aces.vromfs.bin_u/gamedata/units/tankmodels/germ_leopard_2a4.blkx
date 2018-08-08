@@ -205,9 +205,18 @@
         "turret_08_front_dm": {
           "armorThickness": 13.0
         },
+        "turret_06_front_dm": {
+          "armorThickness": 35.0,
+          "genericArmorQuality": 7.6,
+          "armorClass": "RHAHH_tank",
+          "createSecondaryShatters": false,
+          "armorEffectiveThicknessMax": 350.0
+        },
         "turret_04_front_dm": {
           "armorThickness": 80.0,
-          "cumulativeArmorQuality": 0.0
+          "cumulativeArmorQuality": 0.0,
+          "genericArmorQuality": 4.0,
+          "armorEffectiveThicknessMax": 350.0
         },
         "turret_04_side_dm": {
           "armorThickness": 45.0,
@@ -227,7 +236,7 @@
           "armorThickness": 20.0
         },
         "turret_02_bottom_dm": {
-          "armorThickness": 60.0
+          "armorThickness": 30.0
         },
         "turret_10_front_dm": {
           "armorThickness": 45.0,
@@ -240,9 +249,13 @@
           "armorClass": "CHA_tank_modern",
           "armorEffectiveThicknessMax": 120.0
         },
-        "turret_03_bottom_dm": {
+        "turret_02_front_dm": {
           "armorThickness": 35.0,
           "armorClass": "RHAHH_tank",
+          "createSecondaryShatters": false
+        },
+        "turret_03_bottom_dm": {
+          "armorThickness": 14.0,
           "createSecondaryShatters": false
         },
         "turret_03_back_dm": {
@@ -250,6 +263,11 @@
         },
         "turret_02_side_dm": {
           "armorThickness": 5.0
+        },
+        "turret_03_side_dm": {
+          "armorThickness": 35.0,
+          "armorClass": "RHAHH_tank",
+          "createSecondaryShatters": false
         },
         "turret_01_top_dm": {
           "armorThickness": 40.0
@@ -263,15 +281,20 @@
         "turret_07_side_dm": {
           "armorThickness": 160.0,
           "armorClass": "CHA_tank_modern",
-          "armorEffectiveThicknessMax": 180.0
+          "armorEffectiveThicknessMax": 160.0
         },
         "turret_05_back_dm": {
           "armorThickness": 250.0,
           "armorClass": "CHA_tank_modern",
-          "armorEffectiveThicknessMax": 280.0
+          "armorEffectiveThicknessMax": 250.0
         },
         "turret_05_front_dm": {
           "armorThickness": 40.0
+        },
+        "turret_06_side_dm": {
+          "armorThickness": 35.0,
+          "armorClass": "RHAHH_tank",
+          "createSecondaryShatters": false
         },
         "turret_06_bottom_dm": {
           "armorThickness": 20.0
@@ -345,7 +368,8 @@
         "composite_armor_turret_06_dm": {
           "armorThickness": 35.0,
           "hp": 150.0,
-          "ignoreDeadWithSplash": true
+          "ignoreDeadWithSplash": true,
+          "armorEffectiveThicknessMax": 50.0
         },
         "composite_armor_turret_04_dm": {
           "armorThickness": 35.0
@@ -358,15 +382,17 @@
         "armorClass": "leopard_2a5_turret_nera",
         "composite_armor_turret_01_dm": {
           "armorThickness": 440.0,
-          "genericArmorQuality": 0.51,
+          "createSecondaryShatters": false,
+          "genericArmorQuality": 0.0,
           "cumulativeArmorQuality": 0.8,
-          "armorEffectiveThicknessMax": 600.0
+          "armorEffectiveThicknessMax": 450.0
         },
         "composite_armor_turret_02_dm": {
           "armorThickness": 585.0,
-          "genericArmorQuality": 0.52,
-          "cumulativeArmorQuality": 0.79,
-          "armorEffectiveThicknessMax": 590.0
+          "createSecondaryShatters": false,
+          "genericArmorQuality": 0.0,
+          "cumulativeArmorQuality": 0.95,
+          "armorEffectiveThicknessMax": 450.0
         },
         "composite_armor_turret_03_dm": {
           "armorThickness": 220.0,
@@ -378,19 +404,19 @@
           "armorThickness": 520.0,
           "genericArmorQuality": 0.43,
           "cumulativeArmorQuality": 0.63,
-          "armorEffectiveThicknessMax": 550.0
+          "armorEffectiveThicknessMax": 450.0
         },
         "composite_armor_turret_09_dm": {
           "armorThickness": 280.0,
-          "genericArmorQuality": 0.22,
-          "cumulativeArmorQuality": 0.33,
+          "genericArmorQuality": 0.3,
+          "cumulativeArmorQuality": 0.6,
           "armorEffectiveThicknessMax": 550.0
         },
         "composite_armor_hull_01_dm": {
           "armorThickness": 520.0,
-          "genericArmorQuality": 0.27,
+          "genericArmorQuality": 0.215,
           "cumulativeArmorQuality": 0.56,
-          "armorEffectiveThicknessMax": 650.0
+          "armorEffectiveThicknessMax": 560.0
         },
         "composite_armor_hull_02_dm": {
           "armorThickness": 280.0,
@@ -552,7 +578,7 @@
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
-          "armorEffectiveThicknessMax": 50.0,
+          "armorEffectiveThicknessMax": 20.0,
           "cumulativeArmorQuality": 0.15,
           "hp": 200.0,
           "ex_armor_01_dm": [],
@@ -2329,7 +2355,7 @@
         "animationMultiplier": 0.68,
         "width": 0.55,
         "height": 0.1,
-        "fricFrontal": [1.7,1.3]
+        "fricFrontal": [0.9,0.7]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",

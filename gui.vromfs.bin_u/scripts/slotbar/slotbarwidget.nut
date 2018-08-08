@@ -17,6 +17,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
                                //(look like it almost duplicate of singleCountry)
   customCountry = null //country name when not isCountryChoiceAllowed mode.
   showTopPanel = true  //need to show panel with repair checkboxes. ignored in singleCountry or when not isCountryChoiceAllowed modes
+  needOffset = false //offset from left border to autorepair and autoreload checkboxes
   hasActions = true
   missionRules = null
   showNewSlot = null //bool
@@ -102,6 +103,12 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     loadedCountries = {}
     isSceneLoaded = true
     refreshAll()
+
+    if (needOffset) {
+      local obj = scene.findObject("autorefill-settings")
+      if (::checkObj(obj))
+        obj["offset"] = "yes"
+    }
   }
 
   function setParams(params)
@@ -1212,7 +1219,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         obj.setValue(crewLevelText)
       }
 
-      local obj = slot.obj.findObject("crew_spec")
+      obj = slot.obj.findObject("crew_spec")
       if (::check_obj(obj))
       {
         local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(slot.crew, slot.unit).trainedIcon

@@ -1,4 +1,4 @@
-local enums = ::require("std/enums.nut")
+local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum presenceCheckOrder {
   IN_GAME_WW
   IN_GAME

@@ -27,6 +27,9 @@ colors.menu <- {}
   scrollbarSliderColorHover = Color(224, 224, 224)
 
   silver = Color(170, 170, 170)
+
+  textInputBorderColor = Color(62, 75, 82)
+  textInputBgColor = Color(2, 5, 9, 145)
 })
 
 colors.hud <- {}
@@ -37,6 +40,7 @@ colors.hud <- {}
   componentFill = Color(0, 0, 0, 192)
   componentBorder = Color(255, 255, 255)
   chatTextAllColor = colors.menu.commonTextColor
+  hudLogBgColor = Color(0, 0, 0, 102)
 })
 
 colors.hud.damageModule <- {}

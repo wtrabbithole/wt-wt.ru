@@ -30,13 +30,12 @@ tdiv {
       overflow:t='hidden'
       tooltip:t='' // Overrides underlying widgets tooltips.
 
-      height-base:t='0'; height-end:t='60'
-      size-scale:t='sh'
+      height-base:t='0'; height-end:t='100'
       _size-timer:t='0'
-
       topMenuButtons {
         id:t='<<tmId>>_focus'
-        pos:t='<<tmHoverMenuPos>> + 1@topMenuHoverMenuIndent, ph-60%sh';
+        sectionId:t='<<tmId>>'
+        pos:t='<<tmHoverMenuPos>> + 1@topMenuHoverMenuIndent, ph-h-@dropDownMenuBottomActivityGap';
         position:t='absolute';
         padding-top:t='0'
         flow:t='vertical'
@@ -48,6 +47,8 @@ tdiv {
         showSelect:t='yes'
         disableFocusParent:t='yes'
         on_wrap_up:t='unstickLastDropDown'
+        on_wrap_left:t='stickLeftDropDown'
+        on_wrap_right:t='stickRightDropDown'
 
         on_activate:t='topmenuMenuActivate'
         on_cancel_edit:t='unstickGCDropdownMenu'

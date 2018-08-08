@@ -347,6 +347,8 @@ class ::CrewTakeUnitProcess
       ::updateAirAfterSwitchMod(unit)
       ::select_crew(crew.idCountry, crew.idInCountry, true)
       ::set_show_aircraft(unit)
+      if (unit.isShip())
+        ::check_package_and_ask_download_once("pkg_ships", "ships_in_hangar")
     }
     ::g_crews_list.flushSlotbarUpdate()
     ::broadcastEvent("CrewTakeUnit", { unit = unit, prevUnit = prevUnit })

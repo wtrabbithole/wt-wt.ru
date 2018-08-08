@@ -35,6 +35,9 @@
         "defaultPitch": 0.0
       },
       {
+        "isBulletBelt": true
+      },
+      {
         "speedYaw": 25.0
       },
       {
@@ -141,7 +144,7 @@
         "trigger": "gunner1"
       },
       {
-        "triggerGroup": "secondary"
+        "triggerGroup": "machinegun"
       },
       {
         "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -272,7 +275,7 @@
         "trigger": "gunner1"
       },
       {
-        "triggerGroup": "secondary"
+        "triggerGroup": "machinegun"
       },
       {
         "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -403,7 +406,7 @@
         "trigger": "gunner2"
       },
       {
-        "triggerGroup": "secondary"
+        "triggerGroup": "machinegun"
       },
       {
         "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -533,7 +536,7 @@
         "trigger": "gunner2"
       },
       {
-        "triggerGroup": "secondary"
+        "triggerGroup": "machinegun"
       },
       {
         "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -693,9 +696,6 @@
         "defaultPitch": 0.0
       },
       {
-        "isBulletBelt": true
-      },
-      {
         "speedYaw": 25.0
       },
       {
@@ -824,9 +824,6 @@
         "defaultPitch": 0.0
       },
       {
-        "isBulletBelt": true
-      },
-      {
         "speedYaw": 30.0
       },
       {
@@ -940,33 +937,7 @@
   },
   {
     "Weapon": {
-      "trigger": "gunner5",
-      "triggerGroup": "torpedoes",
-      "external": true,
-      "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
-      "emitter": "bone_torpedo_02",
-      "bullets": 1,
-      "barrelDP": "tt_02_dm",
-      "brokenBarrelAllowShoot": false,
-      "ammoDP": "torpedo_02_dm",
-      "startSpeed": 2.2,
-      "startDir": [0.0,0.0,-10.0],
-      "enableCourseCorrection": true,
-      "useStartSpeed": true,
-      "allowableDelta": 180.0,
-      "turret": {
-        "head": "bone_torpedo_02",
-        "gun": "bone_torpedo_02"
-      },
-      "limits": {
-        "yaw": [0.0,0.0],
-        "pitch": [0.0,0.0]
-      }
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "gunner5",
+      "trigger": "gunner6",
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -992,7 +963,33 @@
   },
   {
     "Weapon": {
-      "trigger": "gunner5",
+      "trigger": "gunner7",
+      "triggerGroup": "torpedoes",
+      "external": true,
+      "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
+      "emitter": "bone_torpedo_02",
+      "bullets": 1,
+      "barrelDP": "tt_02_dm",
+      "brokenBarrelAllowShoot": false,
+      "ammoDP": "torpedo_02_dm",
+      "startSpeed": 2.2,
+      "startDir": [0.0,0.0,-10.0],
+      "enableCourseCorrection": true,
+      "useStartSpeed": true,
+      "allowableDelta": 180.0,
+      "turret": {
+        "head": "bone_torpedo_02",
+        "gun": "bone_torpedo_02"
+      },
+      "limits": {
+        "yaw": [0.0,0.0],
+        "pitch": [0.0,0.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner8",
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
@@ -1019,7 +1016,7 @@
   {
     "Weapon": [
       {
-        "trigger": "gunner6"
+        "trigger": "gunner9"
       },
       {
         "triggerGroup": "rockets"
@@ -1143,7 +1140,7 @@
   {
     "Weapon": [
       {
-        "trigger": "gunner6"
+        "trigger": "gunner9"
       },
       {
         "triggerGroup": "rockets"

@@ -1,6 +1,10 @@
 tdiv {
   width:t='pw'
 
+  <<#hasPadding>>
+  padding:t='0, 1@blockInterval'
+  <</hasPadding>>
+
   <<#icon>>
   textareaNoTab {
     pos:t='0, 0'; position:t='relative'

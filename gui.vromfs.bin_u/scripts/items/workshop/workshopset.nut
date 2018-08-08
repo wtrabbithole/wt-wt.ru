@@ -1,6 +1,7 @@
 local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 
 const KNOWN_ITEMS_SAVE_ID = "workshop/known"
+const KNOWN_REQ_ITEMS_SAVE_ID = "workshop/knownReqItems"
 const KNOWN_ITEMS_SAVE_KEY = "id"
 const PREVIEWED_SAVE_PATH = "workshop/previewed/"
 
@@ -12,8 +13,11 @@ local WorkshopSet = class {
 
   itemdefsSorted = null //[]
   itemdefs = null //{ <itemdef> = sortId }
+  requiredItemsTbl = null  // { <itemIs> = true }
+  hiddenItemsBlocks = null // { <blockId> = true }
   alwaysVisibleItemdefs = null // { <itemdef> = sortId }
   knownItemdefs = null // { <itemdef> = true }
+  knownReqItemdefs = null // { <reqitemdef> = true }
 
   isToStringForDebug = true
 
@@ -30,20 +34,14 @@ local WorkshopSet = class {
 
     itemdefsSorted = []
     itemdefs = {}
+    requiredItemsTbl = {}
     alwaysVisibleItemdefs = {}
+
+    itemdefsSorted.extend(getItemsFromBlk(blk.items, 0))
     local itemsBlk = blk.items
     if (itemsBlk)
-      for ( local i = 0; i < itemsBlk.paramCount(); i++ )
-      {
-        local itemdef = itemsBlk.getParamValue(i)
-        if (typeof itemdef != "integer")
-          continue
-
-        itemdefs[itemdef] <- itemdefsSorted.len()
-        if (itemsBlk.getParamName(i) == "alwaysVisibleItem")
-          alwaysVisibleItemdefs[itemdef] <- itemdefsSorted.len()
-        itemdefsSorted.append(itemdef)
-      }
+      foreach (idx, itemBlk in itemsBlk % "itemBlock")
+        itemdefsSorted.extend(getItemsFromBlk(itemBlk, idx + 1))
 
     if (blk.eventPreview)
     {
@@ -59,22 +57,119 @@ local WorkshopSet = class {
   isItemDefAlwaysVisible    = @(itemdef) itemdef in alwaysVisibleItemdefs
   getItemdefs               = @() itemdefsSorted
   getLocName                = @() ::loc(locId)
-  getShopTabId              = @()"WORKSHOP_SET_" + uid
+  getShopTabId              = @() "WORKSHOP_SET_" + uid
   getSeenId                 = @() "##workshop_set_" + uid
 
   isItemInSet               = @(item) item.id in itemdefs
   isItemIdInSet             = @(id) id in itemdefs
+  isItemIdHidden            = @(id) itemdefs[id].blockNumber in hiddenItemsBlocks
   isItemIdKnown             = @(id) initKnownItemsOnce() || id in knownItemdefs
+  isReqItemIdKnown          = @(id) id in knownReqItemdefs
   shouldDisguiseItemId      = @(id) !(id in alwaysVisibleItemdefs) && !isItemIdKnown(id)
 
   hasPreview                = @() previewBlk != null
 
+  function getItemsFromBlk(itemsBlk, blockNumber)
+  {
+    local items = []
+    if (!itemsBlk)
+      return items
+
+    local sortByParam = itemsBlk.sortByParam
+    local requiredItems = []
+    local passBySavedReqItems = itemsBlk.passBySavedReqItems || false
+    foreach(reqItems in itemsBlk % "reqItems")
+    {
+      local reqItemsList = ::u.map(::split(reqItems, ","), @(item) item.tointeger())
+      requiredItems.append(reqItemsList)
+      foreach (itemId in reqItemsList)
+        if (!(itemId in requiredItemsTbl))
+          requiredItemsTbl[itemId] <- true
+    }
+
+    for (local i = 0; i < itemsBlk.paramCount(); i++)
+    {
+      local itemdef = itemsBlk.getParamValue(i)
+      if (typeof(itemdef) != "integer")
+        continue
+
+      if (itemsBlk.getParamName(i) == "alwaysVisibleItem")
+        alwaysVisibleItemdefs[itemdef] <- true
+
+      items.append(itemdef)
+    }
+
+    foreach (idx, itemId in items)
+      itemdefs[itemId] <- {
+        blockNumber = blockNumber
+        itemNumber = idx
+        sortByParam = sortByParam
+        requiredItems = requiredItems
+        passBySavedReqItems = passBySavedReqItems
+      }
+
+    return items
+  }
+
+  function initHiddenItemsBlocks()
+  {
+    loadKnownReqItemsOnce()
+
+    hiddenItemsBlocks = {}
+
+    local reqItems = ::ItemsManager.getInventoryList(itemType.ALL,
+      (@(item) item.id in requiredItemsTbl).bindenv(this))
+
+    local reqItemsAmountTbl = {}
+    foreach (item in reqItems)
+      reqItemsAmountTbl[item.id] <- item.getAmount() + (reqItemsAmountTbl?[item.id] ?? 0)
+
+    updateKnownReqItems(reqItemsAmountTbl)
+
+    foreach (itemData in itemdefs)
+    {
+      local blockNumber = itemData.blockNumber
+      if (itemData.blockNumber in hiddenItemsBlocks)
+        continue
+
+      local requiredItems = itemData?.requiredItems
+      if (!requiredItems || !requiredItems.len())
+        continue
+
+      local isHidden = true
+      foreach (items in requiredItems)
+      {
+        local isVisible = true
+        foreach (itemId in items)
+        {
+          if ((reqItemsAmountTbl?[itemId] ?? 0) > 0 ||
+              (itemData.passBySavedReqItems && knownReqItemdefs?[itemId]))
+            continue
+
+          isVisible = false
+          break
+        }
+
+        if (isVisible)
+        {
+          isHidden = false
+          break
+        }
+      }
+
+      if (isHidden)
+        hiddenItemsBlocks[blockNumber] <- true
+    }
+  }
+
   function getItemsList()
   {
-    if (itemsListCache)
+    if (itemsListCache && !requiredItemsTbl.len())
       return itemsListCache
 
-    itemsListCache = ::ItemsManager.getInventoryList(itemType.ALL, isItemInSet.bindenv(this) )
+    initHiddenItemsBlocks()
+    itemsListCache = ::ItemsManager.getInventoryList(itemType.ALL,
+      (@(item) isItemIdInSet(item.id) && !item.isHiddenItem() && !isItemIdHidden(item.id)).bindenv(this))
     updateKnownItems(itemsListCache)
 
     local requiredList = alwaysVisibleItemdefs.__merge(knownItemdefs)
@@ -98,17 +193,29 @@ local WorkshopSet = class {
 
     foreach(itemdef, sortId in requiredList)
     {
+      if (isItemIdHidden(itemdef))
+        continue
+
       local item = ItemsManager.getItemOrRecipeBundleById(itemdef)
-      if (item)
-      {
-        local newItem = item.makeEmptyInventoryItem()
-        if (!(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id))
-          newItem.setDisguise(true)
-        itemsListCache.append(newItem)
-      }
+      if (!item
+          || item.iType == itemType.RECIPES_BUNDLE && !item.getMyRecipes().len())
+        continue
+
+      local newItem = item.makeEmptyInventoryItem()
+      if (!newItem.isEnabled())
+        continue
+
+      if (!(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id))
+        newItem.setDisguise(true)
+
+      itemsListCache.append(newItem)
     }
 
-    itemsListCache.sort((@(a, b) itemdefs?[a.id] <=> itemdefs?[b.id]).bindenv(this))
+    itemsListCache.sort((@(a, b)
+      itemdefs?[a.id].blockNumber <=> itemdefs?[b.id].blockNumber
+      || (itemdefs?[a.id].sortByParam == "name" && a.getName(false) <=> b.getName(false))
+      || itemdefs?[a.id].itemNumber <=> itemdefs?[b.id].itemNumber).bindenv(this))
+
     return itemsListCache
   }
 
@@ -154,6 +261,21 @@ local WorkshopSet = class {
         knownItemdefs[id] <- true
   }
 
+  function loadKnownReqItemsOnce()
+  {
+    if (knownReqItemdefs)
+      return
+
+    knownReqItemdefs = {}
+    local knownBlk = ::load_local_account_settings(KNOWN_REQ_ITEMS_SAVE_ID)
+    if (!knownBlk)
+      return
+
+    local knownList = knownBlk % KNOWN_ITEMS_SAVE_KEY
+    foreach(id in knownList)
+      knownReqItemdefs[id] <- true
+  }
+
   function initKnownItemsOnce()
   {
     if (!knownItemdefs)
@@ -172,15 +294,36 @@ local WorkshopSet = class {
         newKnownIds.append(item.id)
       }
 
+    saveKnownItems(newKnownIds, KNOWN_ITEMS_SAVE_ID)
+  }
+
+  function updateKnownReqItems(reqItemsAmountTbl)
+  {
+    loadKnownReqItemsOnce()
+
+    local newKnownIds = []
+    foreach(reqItemId, amount in reqItemsAmountTbl)
+      if (amount > 0 && !isReqItemIdKnown(reqItemId))
+      {
+        knownReqItemdefs[reqItemId] <- true
+        newKnownIds.append(reqItemId)
+      }
+
+    saveKnownItems(newKnownIds, KNOWN_REQ_ITEMS_SAVE_ID)
+  }
+
+  function saveKnownItems(newKnownIds, saveId)
+  {
     if (!newKnownIds.len())
       return
 
-    local knownBlk = ::load_local_account_settings(KNOWN_ITEMS_SAVE_ID)
+    local knownBlk = ::load_local_account_settings(saveId)
     if (!knownBlk)
       knownBlk = ::DataBlock()
     foreach(id in newKnownIds)
       knownBlk[KNOWN_ITEMS_SAVE_KEY] <- id
-    ::save_local_account_settings(KNOWN_ITEMS_SAVE_ID, knownBlk)
+
+    ::save_local_account_settings(saveId, knownBlk)
   }
 
   getPreviewedSaveId   = @() PREVIEWED_SAVE_PATH + id

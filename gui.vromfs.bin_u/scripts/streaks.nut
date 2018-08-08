@@ -221,7 +221,8 @@ function get_loc_for_streak(StreakNameType, name, stageparam, playerNick = "", c
       text = ::format(::loc("streaks/default/other"), ::loc("streaks/" + stageId))
   }
 
-  text = format(text, stageparam)
+  if (stageparam)
+    text = format(text, stageparam)
   if (!isMyStreak)
     text = ::format("\x1b%03d%s\x1b %s", colorId, platformModule.getPlayerName(playerNick), text)
   return text

@@ -60,4 +60,5 @@ enum DargWidgets
    NONE = 0
   ,HUD
   ,SHIP_OBSTACLE_RF
+  ,FOOTBALL
 };

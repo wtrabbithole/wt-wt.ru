@@ -1,3 +1,5 @@
+local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
+
 ::dagui_propid.add_name_id("has_ime")
 ::dagui_propid.add_name_id("target_platform")
 
@@ -5,7 +7,7 @@
 ::always_reload_scenes <- false //debug only
 
 ::handlersManager <- {
-  [PERSISTENT_DATA_PARAMS] = ["lastBaseHandlerStartData"]
+  [PERSISTENT_DATA_PARAMS] = ["lastBaseHandlerStartData", "activeBaseHandlers"]
 
   handlers = { //handlers weakrefs
     [handlerType.ROOT] = [],
@@ -53,7 +55,7 @@
 function handlersManager::init()
 {
   ::g_script_reloader.registerPersistentDataFromRoot("handlersManager")
-  ::subscribe_handler(::handlersManager, ::g_listener_priority.DEFAULT_HANDLER)
+  subscriptions.subscribeHandler(::handlersManager, subscriptions.DEFAULT_HANDLER)
 }
 
 function handlersManager::loadHandler(handlerClass, params = {})
@@ -240,7 +242,7 @@ function handlersManager::loadHandlerScene(handler)
     rootHandler = handler.rootHandlerClass(guiScene, {})
     loadHandlerScene(rootHandler)
     handlers[handlerType.ROOT].append(rootHandler.weakref())
-    ::subscribe_handler(rootHandler)
+    subscriptions.subscribeHandler(rootHandler)
     newLoadedRootHandler = rootHandler
   }
 
@@ -306,7 +308,7 @@ function handlersManager::loadCustomHandler(handlerClass, params = {})
 function handlersManager::createHandler(handlerClass, guiScene, params)
 {
   local handler = handlerClass(guiScene, params)
-  ::subscribe_handler(handler)
+  subscriptions.subscribeHandler(handler)
   return handler
 }
 
@@ -525,10 +527,17 @@ function handlersManager::markfullReloadOnSwitchScene(needReloadOnActivateHandle
 
 function handlersManager::onEventScriptsReloaded(p)
 {
-  markfullReloadOnSwitchScene()
-  local startFunc = getLastBaseHandlerStartFunc()
-  if (startFunc)
-    startFunc()
+  markfullReloadOnSwitchScene(false)
+  local startData = findLastBaseHandlerStartData(::get_gui_scene())
+  if (!startData)
+    return
+
+  local startFunc = startData.startFunc
+  local backSceneFunc = getActiveBaseHandler()?.backSceneFunc
+  if (backSceneFunc)
+    startData.startFunc = backSceneFunc
+  activeBaseHandlers.clear()
+  startFunc()
 }
 
 function handlersManager::checkPostLoadCssOnBackToBaseHandler()

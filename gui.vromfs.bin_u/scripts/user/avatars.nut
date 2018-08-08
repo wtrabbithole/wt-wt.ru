@@ -1,3 +1,4 @@
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 local bhvAvatar = ::require("scripts/user/bhvAvatar.nut")
 local seenAvatars = ::require("scripts/seen/seenList.nut").get(SEEN.AVATARS)
 
@@ -43,7 +44,7 @@ local function invalidateIcons()
     guiScene.performDelayed(this, @() seenAvatars.onListChanged())
 }
 
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   LoginComplete    = @(p) invalidateIcons()
   ProfileUpdated   = @(p) invalidateIcons()
 }, ::g_listener_priority.CONFIG_VALIDATION)

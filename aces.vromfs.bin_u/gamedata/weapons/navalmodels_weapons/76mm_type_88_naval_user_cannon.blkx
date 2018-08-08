@@ -6,19 +6,19 @@
   "emitI": 10.0,
   "emitR": 3.0,
   "emitTime": 0.03,
-  "aimMinDist": 0.1,
-  "aimMaxDist": 2000.0,
-  "maxDeltaAngle": 0.075,
-  "maxDeltaAngleVertical": 0.075,
   "shotFreq": 0.25,
   "traceFreq": 4,
   "bEnablePause": false,
   "bullets": -1,
   "bulletsCluster": 1,
+  "aimMinDist": 0.05,
+  "aimMaxDist": 8000.0,
+  "maxDeltaAngle": 0.075,
+  "maxDeltaAngleVertical": 0.075,
   "fxType": "big_gun_flame",
   "fxGroundDust": "ground_shock_wave_dust",
   "shouldCollideWithRendinsts": true,
-  "sound_path": "tanks/weapon_tanks/cannons",
+  "sound_path": "ships/weapon_common/cannons",
   "sound": "75mm_m3",
   "sound_inside": "75mm_m3_interior",
   "sfxReloadBullet": "grd_cannon_reload",
@@ -51,7 +51,7 @@
     "ricochetEffect": "cannon_ricochet",
     "groundFxScale": [0.6,0.7],
     "waterCollisionEffect": "water_splash_76_00_he",
-    "waterFxScale": [0.85,0.8],
+    "waterFxScale": [1.0,1.0],
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
@@ -69,11 +69,11 @@
       },
       "wood": {
         "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.1,1.1]
+        "fxScale": [2.1,2.1]
       },
       "buildings": {
         "fx": "50_75_he_hit_stone",
-        "fxScale": [0.7,0.7]
+        "fxScale": [1.0,1.0]
       }
     }
   },
@@ -104,7 +104,7 @@
       "ricochetEffect": "cannon_ricochet",
       "groundFxScale": [0.6,0.7],
       "waterCollisionEffect": "water_splash_76_00_he",
-      "waterFxScale": [0.85,0.8],
+      "waterFxScale": [1.0,1.0],
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
@@ -122,11 +122,11 @@
         },
         "wood": {
           "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [1.1,1.1]
+          "fxScale": [2.1,2.1]
         },
         "buildings": {
           "fx": "50_75_he_hit_stone",
-          "fxScale": [0.7,0.7]
+          "fxScale": [1.0,1.0]
         }
       }
     }

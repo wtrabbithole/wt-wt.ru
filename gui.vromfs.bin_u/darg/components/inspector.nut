@@ -1,8 +1,9 @@
+local string = require("string")
+
 local cursors = {
   normal = null
   pick = null
 }
-
 
 local inspectorState = persist("state", @() {
   shown = Watched(false)

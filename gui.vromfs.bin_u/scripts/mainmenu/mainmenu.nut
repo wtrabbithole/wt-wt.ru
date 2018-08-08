@@ -178,6 +178,7 @@ function on_mainmenu_return(handler, isAfterLogin)
 
     local hasModalObjectVal = guiScene.hasModalObject()
     handler.doWhenActive((@(hasModalObjectVal) function() { ::g_popup_msg.showPopupWndIfNeed(hasModalObjectVal) })(hasModalObjectVal))
+    handler.doWhenActiveOnce("checkNeedPackageShipsOnce")
   }
 
   handler.doWhenActive(::pop_gblk_error_popups)
@@ -365,5 +366,22 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
       }
       return !isVisible
     })
+  }
+
+  function checkNeedPackageShipsOnce()
+  {
+    if (::is_asked_pack("pkg_ships", "ships_in_hangar"))
+      return
+
+    foreach (country in ::g_crews_list.get())
+      foreach (crew in country.crews)
+      {
+        local unit = ::g_crew.getCrewUnit(crew)
+        if (!unit || !unit.isShip())
+          continue
+
+        ::check_package_and_ask_download_once("pkg_ships", "ships_in_hangar")
+        return
+      }
   }
 }

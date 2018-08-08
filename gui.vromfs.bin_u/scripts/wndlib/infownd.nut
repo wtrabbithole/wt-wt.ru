@@ -1,3 +1,5 @@
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+
 const INFO_WND_SAVE_PATH = "infoWnd"
 /*
   simple handler to show info, with checkbox "do not show me again"
@@ -138,7 +140,7 @@ class ::gui_handlers.InfoWnd extends ::BaseGuiHandler
   }
 }
 
-::subscribe_events({
+subscriptions.addListenersWithoutEnv({
   AccountReset = function(p) {
     ::gui_handlers.InfoWnd.clearAllSaves()
   }

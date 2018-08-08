@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
+local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
 
 //prize - blk or table in format of trophy prizes from trophies.blk
 //content - array of prizes (better to rename it)
@@ -223,10 +224,10 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
 
       if (colored)
       {
-        local color = !valid ? "badTextColor"
+        local nameColor = !valid ? "badTextColor"
           : decorator ? decorator.getRarityColor()
           : "activeTextColor"
-        name = ::colorize(color, name)
+        name = ::colorize(nameColor, name)
       }
 
       if (prize.gold)
@@ -608,13 +609,14 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
   local classIco = ::getTblValue("singlePrize", params, false) ? null : ::getUnitClassIco(unit)
   local shopItemType = ::get_unit_role(unit)
   local isShowLocalState = receivedPrizes || rentTimeHours > 0
-  local buttons = getPrizeActionButtonsView(null, params)
+  local buttons = getPrizeActionButtonsView({ unit = unitName }, params)
+  local receiveOnce = params?.relatedItem ? "mainmenu/activateOnlyOnce" : "mainmenu/receiveOnlyOnce"
 
   local infoText = ""
   if (rentTimeHours > 0)
     infoText = _getUnitRentComment(rentTimeHours, numSpares)
   if (!receivedPrizes && isBought)
-    infoText += (infoText.len() ? "\n" : "") + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
+    infoText += (infoText.len() ? "\n" : "") + ::colorize("badTextColor", ::loc(receiveOnce))
 
   local unitPlate = ::build_aircraft_item(unitName, unit, {
     hasActions = true,
@@ -627,6 +629,7 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
       rentTimeHours = rentTimeHours
       isReceivedPrizes = receivedPrizes
       showLocalState = isShowLocalState
+      relatedItem = params?.relatedItem
     }
   })
   return {
@@ -649,7 +652,6 @@ function PrizesView::getViewDataRentedUnit(unitName, params, timeHours, numSpare
 
 function PrizesView::_getUnitRentComment(rentTimeHours = 0, numSpares = 0, short = false)
 {
-  local text = ""
   if (!rentTimeHours)
     return ""
   local timeStr = ::colorize("userlogColoredText", time.hoursToString(rentTimeHours))
@@ -728,12 +730,13 @@ function PrizesView::getViewDataDecorator(prize, params = null)
   local isHave = decoratorType.isPlayerHaveDecorator(id)
   local isReceivedPrizes = params?.receivedPrizes ?? false
   local buttons = getPrizeActionButtonsView(prize, params)
+  local receiveOnce = params?.relatedItem ? "mainmenu/activateOnlyOnce" : "mainmenu/receiveOnlyOnce"
 
   return {
     icon  = decoratorType.prizeTypeIcon
     title = getPrizeText(prize)
     tooltipId = ::g_tooltip.getIdDecorator(id, decoratorType.unlockedItemType, params)
-    commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce")) : null
+    commentText = !isReceivedPrizes && isHave ?  ::colorize("badTextColor", ::loc(receiveOnce)) : null
     buttons = buttons
     buttonsCount = buttons.len()
   }
@@ -748,7 +751,7 @@ function PrizesView::getViewDataItem(prize, showCount, params = null)
   return {
     icon  = primaryIcon ? primaryIcon : itemIcon
     icon2 = primaryIcon ? itemIcon : null
-    title = getPrizeText(prize, true, false, showCount, true)
+    title = getPrizeText(prize, !params?.isLocked, false, showCount, true)
     tooltipId = item && !item.shouldAutoConsume ? ::g_tooltip.getIdItem(prize.item, params) : null
     buttons = buttons
     buttonsCount = buttons.len()
@@ -815,8 +818,11 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
   return getViewDataDefault(prize, showCount, params)
 }
 
-function PrizesView::getPrizesListView(content, params = null)
+function PrizesView::getPrizesListView(content, params = null, hasHeaderWithoutContent = true)
 {
+  if (!hasHeaderWithoutContent && !content.len())
+    return ""
+
   local view = params ? clone params : {}
   if (content.len() == 1)
   {
@@ -904,24 +910,60 @@ function PrizesView::getPrizeActionButtonsView(prize, params = null)
   if (!params?.shopDesc)
     return view
 
-  local itemId = prize && prize.item || params?.relatedItem
+  local itemId = prize && prize?.item || params?.relatedItem
   if (itemId)
   {
     local item = ::ItemsManager.findItemById(itemId)
     if (!item || workshop.shouldDisguiseItem(item))
       return view
     if (item.canPreview() && ::isInMenu())
+    {
+      local gcb = globalCallbacks.ITEM_PREVIEW
       view.append({
-        icon = "#ui/gameuiskin#btn_preview.svg"
+        image = "#ui/gameuiskin#btn_preview.svg"
         tooltip = "#mainmenu/btnPreview"
-        actionData = ::save_to_json({ itemId = item.id, action = "doPreview" })
+        funcName = gcb.cbName
+        actionParamsMarkup = gcb.getParamsMarkup({ itemId = item.id })
       })
+    }
     if (item.hasLink())
+    {
+      local gcb = globalCallbacks.ITEM_LINK
       view.append({
-        icon = "#ui/gameuiskin#gc.svg"
+        image = "#ui/gameuiskin#gc.svg"
         tooltip = "#" + item.linkActionLocId
-        actionData = ::save_to_json({ itemId = item.id, action = "openLink" })
+        funcName = gcb.cbName
+        actionParamsMarkup = gcb.getParamsMarkup({ itemId = item.id })
       })
+    }
+    return view
+  }
+
+  local unitId = prize?.unit || prize?.rentedUnit
+  if (unitId && ::getAircraftByName(unitId)?.isInShop)
+  {
+    local gcb = globalCallbacks.UNIT_PREVIEW
+    view.append({
+      image = "#ui/gameuiskin#btn_preview.svg"
+      tooltip = "#mainmenu/btnPreview"
+      funcName = gcb.cbName
+      actionParamsMarkup = gcb.getParamsMarkup({ unitId = unitId })
+    })
+    return view
+  }
+
+  local resource = prize?.resource
+  local resourceType = prize?.resourceType
+  if (resource && resourceType)
+  {
+    local gcb = globalCallbacks.DECORATOR_PREVIEW
+    view.append({
+      image = "#ui/gameuiskin#btn_preview.svg"
+      tooltip = "#mainmenu/btnPreview"
+      funcName = gcb.cbName
+      actionParamsMarkup = gcb.getParamsMarkup({ resource = resource, resourceType = resourceType })
+    })
+    return view
   }
 
   return view
