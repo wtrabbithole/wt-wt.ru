@@ -15,11 +15,11 @@
     "defaultRating": 0.0,
     "eloPowerDivisor": 1000.0,
     "fastGrowthLimit": 1000.0,
-    "tier1Limit": 1500.0,
-    "tier2Limit": 2250.0,
+    "tier1Limit": 1400.0,
+    "tier2Limit": 2000.0,
     "tier1EloK": 400.0,
-    "tier2EloK": 150.0,
-    "tier3EloK": 75.0
+    "tier2EloK": 200.0,
+    "tier3EloK": 100.0
   },
   "tournamentClan": {
     "defaultRating": 0.0,
@@ -1059,6 +1059,35 @@
       }
     ],
     "1Animcraft": [],
+    "summer2018Access": {
+      "condition": ""
+    },
+    "t34Summer2018Craft": {
+      "condition": "summer2018Access;summer_2018_t34e_access"
+    },
+    "is7Summer2018Craft": {
+      "condition": "summer2018Access;summer_2018_is7_access"
+    },
+    "t34CompleteSummer2018": {
+      "condition": "summer2018Access;summer_2018_t34_completed_is7_access"
+    },
+    "t34Summer2018RareDrop": {
+      "condition": "summer2018Access;summer_2018_t34e_access;!DMMAccount;!PS4Account;!xboxOneAccess"
+    },
+    "is7Summer2018RareDrop": {
+      "condition": "summer2018Access;summer_2018_is7_access;!DMMAccount;!PS4Account;!xboxOneAccess"
+    },
+    "is7Summer2018GoldShop": [
+      {
+        "condition": "summer2018Access;DMMAccount"
+      },
+      {
+        "condition": "summer2018Access;PS4Account"
+      },
+      {
+        "condition": "summer2018Access;xboxOneAccess"
+      }
+    ],
     "EnableFmTools": [
       {
         "condition": "role_GAIJIN"
@@ -1160,10 +1189,17 @@
       "condition": "",
       "platform_lock": "pc;android"
     },
-    "PurchaseMarketItemsForGold": {
-      "condition": "",
-      "platform_lock": "pc;android;xboxOne;ps4"
-    },
+    "PurchaseMarketItemsForGold": [
+      {
+        "condition": "DMMAccount"
+      },
+      {
+        "condition": "PS4Account"
+      },
+      {
+        "condition": "xboxOneAccess"
+      }
+    ],
     "Orders": {
       "condition": ""
     },

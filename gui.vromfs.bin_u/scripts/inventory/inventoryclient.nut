@@ -468,7 +468,7 @@ local InventoryClient = class {
     if (!tags)
       return
 
-    local parsedTags = {}
+    local parsedTags = ::DataBlock()
     foreach (pair in ::split(tags, ";")) {
       local parsed = ::split(pair, ":")
       if (parsed.len() == 2) {

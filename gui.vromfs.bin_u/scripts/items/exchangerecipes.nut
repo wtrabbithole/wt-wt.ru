@@ -34,10 +34,11 @@ local ExchangeRecipes = class {
     isFake = params?.isFake ?? false
     assembleTime = params?.assembleTime ?? 0
     local parsedRecipe = params.parsedRecipe
-    uid = generatorId + ";" + parsedRecipe.recipeStr
 
     initedComponents = parsedRecipe.components
     requirement = parsedRecipe.requirement
+
+    uid = generatorId + ";" + (requirement ? getRecipeStr() : parsedRecipe.recipeStr)
 
     updateComponents()
     loadStateRecipe()
@@ -306,14 +307,15 @@ local ExchangeRecipes = class {
     local locText = ::loc("ui/parentheses/space",
       { text = component.curQuantity + "/" + component.reqQuantity })
     if (params?.needColoredText ?? true)
-      return ::colorize(getComponentQuantityColor(component), locText)
+      return ::colorize(getComponentQuantityColor(component, true), locText)
 
     return locText
   }
 
-  static getComponentQuantityColor = @(component) isRecipeLocked() ? "fadedTextColor"
-    : component.has ? "goodTextColor"
-    : "badTextColor"
+  static getComponentQuantityColor = @(component, needCheckRecipeLocked = false)
+    isRecipeLocked() && needCheckRecipeLocked ? "fadedTextColor"
+      : component.has ? "goodTextColor"
+      : "badTextColor"
 
   static function tryUse(recipes, componentItem, params = null)
   {
@@ -521,6 +523,11 @@ local ExchangeRecipes = class {
   }
 
   getRewardTitleLocId = @() getMarkLocIdByPath("mainmenu/craftFinished/title/")
+
+  getRecipeStr = @() ::g_string.implode(
+    u.map(initedComponents, @(component) component.itemdefid.tostring()
+      + (component.quantity > 1 ? ("x" + component.quantity) : "")),
+    ",")
 }
 
 u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)

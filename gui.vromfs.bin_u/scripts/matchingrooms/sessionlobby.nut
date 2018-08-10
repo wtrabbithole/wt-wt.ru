@@ -415,6 +415,20 @@ function SessionLobby::prepareSettings(missionSettings)
   setSettings(_settings)
 }
 
+function SessionLobby::setExternalId(extId)
+{
+  if (settings?.externalSessionId == extId)
+    return
+
+  settings["externalSessionId"] <- extId
+  ::set_room_attributes({roomId=roomId, public=settings}, @(p) ::SessionLobby.afterRoomUpdate(p))
+}
+
+function SessionLobby::getExternalId()
+{
+  return settings?.externalSessionId
+}
+
 function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
 {
   if (typeof _settings == "array")

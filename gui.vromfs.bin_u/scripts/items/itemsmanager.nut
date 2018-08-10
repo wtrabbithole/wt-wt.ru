@@ -636,7 +636,7 @@ function ItemsManager::getInventoryVisibleSeenIds()
 ItemsManager.getInventoryItemById <- @(id) ::u.search(getInventoryList(), @(item) item.id == id)
 
 ItemsManager.getInventoryItemByCraftedFrom <- @(uid) ::u.search(getInventoryList(),
-  @(item) item.isCraftResult && item.craftedFrom == uid)
+  @(item) item.isCraftResult() && item.craftedFrom == uid)
 
 function ItemsManager::markInventoryUpdate()
 {

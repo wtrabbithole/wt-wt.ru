@@ -42,6 +42,8 @@ local ItemExternal = class extends ::BaseItem
   amountByUids = null //{ <uid> = <amount> }, need for recipe materials
   requirement = null
 
+  aditionalConfirmationMsg = {}
+
   constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
     base.constructor(emptyBlk)
@@ -52,6 +54,13 @@ local ItemExternal = class extends ::BaseItem
     maxAmount = (itemDefDesc?.tags?.maxCount ?? -1).tointeger()
     requirement = itemDefDesc?.tags?.showWithFeature
 
+    local confirmationActions = itemDefDesc?.tags % "confirmationAction"
+    if (confirmationActions.len())
+    {
+       local confirmationMsg = itemDefDesc.tags % "confirmationMsg"
+       foreach (idx, action in confirmationActions)
+         aditionalConfirmationMsg[action] <- confirmationMsg?[idx] ?? ""
+    }
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
     shouldAutoConsume = !!itemDefDesc?.tags?.autoConsume
 
@@ -449,6 +458,7 @@ local ItemExternal = class extends ::BaseItem
 
   getDisassembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
     text = ::loc("msgBox/disassembleItem/confirmWhithItemName", { itemName = ::colorize("activeTextColor", getName()) })
+      + getAdditionalConfirmMessage("disassemble")
       + "\n" + ::loc("mainmenu/you_will_receive")
   })
 
@@ -815,6 +825,14 @@ local ItemExternal = class extends ::BaseItem
 
   isHiddenItem = @() !isEnabled() || isCraftResult() || itemDef?.tags?.devItem == true
   isEnabled = @() requirement == null || ::has_feature(requirement)
+  function getAdditionalConfirmMessage(actionName, delimiter = "\n")
+  {
+     local locKey = aditionalConfirmationMsg?[actionName]
+     if (!locKey)
+       return ""
+
+     return delimiter + ::loc("confirmationMsg/" + locKey)
+  }
 }
 
 return ItemExternal

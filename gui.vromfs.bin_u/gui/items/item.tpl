@@ -158,6 +158,7 @@ itemDiv {
 
     itemTimerPlace{
       id:t='timePlace'
+      css-hier-invalidate:t='yes'
 
       <<#craftTime>>
       textareaNoTab {
