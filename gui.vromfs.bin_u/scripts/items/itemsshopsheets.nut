@@ -26,7 +26,7 @@ shopSheets.template <- {
     && (shopTab != itemsTab.SHOP || getItemsList(shopTab).len() > 0)
 
   getItemFilterFunc = @(shopTab)
-    shopTab == itemsTab.SHOP ? (@(item) item.isCanBuy() && isDevItemsTab == item.isDevItem)
+    shopTab == itemsTab.SHOP ? (@(item) item.isCanBuy() && isDevItemsTab == item.isDevItem && !item.isHiddenItem())
     : (@(item) !item.isHiddenItem())
 
   getItemsList = function(shopTab)
@@ -189,7 +189,7 @@ shopSheets.addSheets({
   }
   OTHER = {
     locId = "attachables/category/other"
-    typeMask = itemType.WARBONDS
+    typeMask = itemType.WARBONDS | itemType.ENTITLEMENT
     isMarketplace = true
     sortId = sortId++
     isAllowedForTab = isOnlyExtInventory

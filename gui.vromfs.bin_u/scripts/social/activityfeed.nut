@@ -1,3 +1,5 @@
+local psnApi = require("scripts/social/psnWebApi.nut")
+
 ::FACEBOOK_POST_WALL_MESSAGE <- false
 
 ::ps4_activityFeed_requestsTable <- {
@@ -166,11 +168,6 @@ function ps4PostActivityFeed(config, customFeedParams)
     return captions
   })(activityFeed_config, localizedKeyWords)
 
-  local blk = ::DataBlock()
-  blk.apiGroup = "activityFeed"
-  blk.method = ::HTTP_METHOD_POST
-  blk.path = "/v1/users/me/feed"
-
   local images = ::getActivityFeedImages(customFeedParams)
   local largeImage = customFeedParams?.images?.large || images?.large
   local smallImage = customFeedParams?.images?.small || images?.small
@@ -187,20 +184,8 @@ function ps4PostActivityFeed(config, customFeedParams)
   if (smallImage)
     body.targets.append({meta=smallImage, type="SMALL_IMAGE_URL", aspectRatio="2.08:1"})
 
-  blk.request = ::save_to_json(body)
-
   sendStat("post")
-  local ret = ::ps4_web_api_request(blk)
-  if ("error" in ret)
-  {
-    sendStat("fail."+ret.error)
-    dagor.debug("Error: "+ret.error);
-    dagor.debug("Error text: "+ret.errorStr);
-  }
-  else if ("response" in ret)
-  {
-    sendStat("success")
-    dagor.debug("Response: "+ret.response);
-  }
+  psnApi.send(psnApi.feed.post(body),
+              function(response, error) { sendStat(error ? "fail."+error : "success") })
 }
 //----------------------- </PlayStation> --------------------------

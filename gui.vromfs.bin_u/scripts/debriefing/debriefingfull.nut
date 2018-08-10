@@ -202,7 +202,6 @@
     rewardId = "Mission"
     isUsedInRecount = false //duplicate mission row
     type = "exp"
-    isFreeRP = true
     showByModes = function(gm) { return gm != ::GM_DOMINATION }
     text = "debriefing/Mission"
     canShowRewardAsValue = true

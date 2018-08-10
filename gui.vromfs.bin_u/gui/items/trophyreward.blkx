@@ -3,7 +3,7 @@
     "background-color": "@modalShadeColor",
     "gamercardShade": [],
     "frame": {
-      "width": "0.85@sf + 2@framePadding",
+      "width": "1@trophyWndWidth",
       "pos": "50%pw-50%w, 1@minYposWindow",
       "position": "absolute",
       "class": "wndNav",
@@ -21,7 +21,7 @@
       },
       "div": {
         "size": "1@chestRewardWidth, 1@chestRewardHeight",
-        "pos": "50%pw-50%w, 0.035@scrn_tgt",
+        "pos": "50%pw-50%w, 1@rewardInTrophyWndTopPos",
         "position": "relative",
         "class": "button",
         "_on_click": "onViewRewards",
@@ -133,6 +133,12 @@
             }
           }
         ]
+      },
+      "textareaNoTab": {
+        "id": "reward_postscript",
+        "pos": "pw - w - 1@trophyWndPad, 1@frameHeaderHeight + 1@rewardInTrophyWndTopPos + 0.04ph + 1@itemHeight",
+        "position": "absolute",
+        "text": ""
       },
       "massTransp": [
         {

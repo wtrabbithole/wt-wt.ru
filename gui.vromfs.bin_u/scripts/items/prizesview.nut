@@ -751,7 +751,7 @@ function PrizesView::getViewDataItem(prize, showCount, params = null)
   return {
     icon  = primaryIcon ? primaryIcon : itemIcon
     icon2 = primaryIcon ? itemIcon : null
-    title = getPrizeText(prize, true, false, showCount, true)
+    title = getPrizeText(prize, !params?.isLocked, false, showCount, true)
     tooltipId = item && !item.shouldAutoConsume ? ::g_tooltip.getIdItem(prize.item, params) : null
     buttons = buttons
     buttonsCount = buttons.len()
@@ -818,8 +818,11 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
   return getViewDataDefault(prize, showCount, params)
 }
 
-function PrizesView::getPrizesListView(content, params = null)
+function PrizesView::getPrizesListView(content, params = null, hasHeaderWithoutContent = true)
 {
+  if (!hasHeaderWithoutContent && !content.len())
+    return ""
+
   local view = params ? clone params : {}
   if (content.len() == 1)
   {

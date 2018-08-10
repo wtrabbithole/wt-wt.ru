@@ -5,8 +5,6 @@ function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsPro
   local playerSide = mgGetPlayerSide();
   local enemySide = mgGetEnemySide();
   local bombtargets = createGroundUnitsProc(enemySide);
-  local ws = ::get_warpoints_blk();
-  local wpMax = ws.dynPlanesMaxCost;
 
   local enemy1Angle = rndRange(-90, 90);
   local enemy2Angle = rndRange(-90, 90);
@@ -14,7 +12,6 @@ function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsPro
   local evacAngle = rndRange(-10, 10);
   local bombersCountMin = 0;
   local bombersCountMax = 0;
-  local bombersCount = 0;
   local indicator_icon = "";
 
 //planes selection
@@ -143,7 +140,7 @@ function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsPro
 
 //enemy planes in each wave
   local enemyTotalCount_temp = enemyTotalCount;
-  local enemyWaveCount_temp = enemyWaveCount;
+  enemyWaveCount_temp = enemyWaveCount;
 
   local enemyPlanesInWave = enemyTotalCount_temp/enemyWaveCount_temp;
   local enemy1Count = 0;

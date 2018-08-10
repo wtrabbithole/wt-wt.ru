@@ -149,7 +149,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
     local markImgObj = recipeObj.findObject("img_"+ curRecipe.uid)
     markImgObj["background-image"] = curRecipe.getMarkIcon()
     markImgObj.tooltip = curRecipe.getMarkTooltip()
-    updateButtons()
+    updateCurRecipeInfo()
   }
 }
 

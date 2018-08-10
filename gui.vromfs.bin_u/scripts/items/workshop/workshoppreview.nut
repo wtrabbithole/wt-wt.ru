@@ -20,6 +20,8 @@ class ::gui_handlers.WorkshopPreview extends ::gui_handlers.BaseGuiHandlerWT
         infoBlocks.append({
           text = ::loc(blk.getParamValue(i))
         })
+      else if (name == "imageScale" && infoBlocks.len())
+        infoBlocks[infoBlocks.len() - 1][name] <- blk.getParamValue(i)
     }
 
     return {

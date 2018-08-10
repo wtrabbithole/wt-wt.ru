@@ -24,7 +24,7 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
 
     if (initial)
     {
-      ::add_event_listener("LobbyIsInRoomChanged",
+      ::add_event_listener("RoomJoined",
         function (p) {
           if (::SessionLobby.isInRoom() && ::SessionLobby.roomId == roomId)
           {

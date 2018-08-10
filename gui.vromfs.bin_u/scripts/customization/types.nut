@@ -165,7 +165,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
 
     isAllowed = function(decoratorName) { return ::is_decal_allowed(decoratorName, "") }
-    isAvailable = @(unit) ::has_feature("DecalsUse") && unit.isUsable()
+    isAvailable = @(unit) unit && ::has_feature("DecalsUse") && unit.isUsable()
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_decal(decoratorName) }
 
     getBlk = function() { return ::get_decals_blk() }
@@ -277,7 +277,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getDecoratorNameInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_name(slotIdx) }
     getDecoratorGroupInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_group(slotIdx) }
 
-    isAvailable = @(unit) ::has_feature("AttachablesUse") && unit.isUsable() && ::isTank(unit)
+    isAvailable = @(unit) unit && ::has_feature("AttachablesUse") && unit.isUsable() && ::isTank(unit)
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_attachable(decoratorName) }
 
     getBlk = function() { return ::get_attachable_blk() }
@@ -384,7 +384,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
 
     getFreeSlotIdx = @(...) 0
-    isAvailable = @(unit) unit.isUsable()
+    isAvailable = @(unit) unit && unit.isUsable()
     isPlayerHaveDecorator = function(decoratorName)
     {
       if (::g_unlocks.isDefaultSkin(decoratorName))

@@ -7,7 +7,7 @@ function gui_start_open_trophy(configsTable = {})
     return
 
   local params = {}
-  foreach (paramName in ["rewardTitle","rewardListLocId"])
+  foreach (paramName in [ "rewardTitle", "rewardListLocId", "isDisassemble" ])
   {
     if (!(paramName in configsTable))
       continue
@@ -43,6 +43,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   trophyItem = null
   isBoxOpening = true
   shouldShowRewardItem = false
+  isDisassemble = false
 
   haveItems = false
   rewardItem = null //reward item to show button "go to item"
@@ -79,6 +80,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
          || trophyItem.iType == itemType.CRAFT_PROCESS)
 
     local title = rewardTitle && rewardTitle != "" ? rewardTitle
+      : isDisassemble && !shouldShowRewardItem ? ::loc("mainmenu/itemDisassembled/title")
       : isCreation() ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
     scene.findObject("reward_title").setValue(title)
@@ -138,6 +140,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     updateImage()
     updateRewardText()
+    updateRewardPostscript()
     updateButtons()
   }
 
@@ -163,6 +166,23 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(imageObj, layersData, layersData.len(), this)
   }
 
+  function updateRewardPostscript()
+  {
+    if (!opened || !useSingleAnimation)
+      return
+
+    local countNotVisibleItems = shrinkedConfigsArray.len() - ::trophyReward.maxRewardsShow
+
+    if (countNotVisibleItems < 1)
+      return
+
+    local obj = scene.findObject("reward_postscript")
+    if (!::check_obj(obj))
+      return
+
+    obj.setValue(::loc("trophy/moreRewards", {num = countNotVisibleItems}))
+  }
+
   function updateRewardText()
   {
     if (!opened)
@@ -175,6 +195,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     local data = ::trophyReward.getRewardsListViewData(shrinkedConfigsArray,
                    { multiAwardHeader = true
                      widthByParentParent = true
+                     header = ::loc("mainmenu/you_received")
                    })
 
     if (unit && unit.isRented())

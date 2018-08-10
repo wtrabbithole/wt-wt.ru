@@ -423,7 +423,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     else // PanelSide.RIGHT
     {
       gameMode = getGameModeByCondition(gameModes, function (gameMode) {
-        return ::isInArray(::ES_UNIT_TYPE_TANK, gameMode.unitTypes)
+        return ::isInArray(::ES_UNIT_TYPE_TANK, gameMode.unitTypes) ||
+               ::isInArray(::ES_UNIT_TYPE_SHIP, gameMode.unitTypes)
       })
     }
     if (gameMode != null)

@@ -6,11 +6,9 @@ function _generateGAttackMission(isFreeFlight, createGroundUnitsProc)
   local enemySide = mgGetEnemySide();
   local bombtargets = createGroundUnitsProc(enemySide);
   local ws = ::get_warpoints_blk();
-  local wpMax = ws.dynPlanesMaxCost;
 
   local enemy1Angle = rndRange(-90, 90);
   local evacAngle = rndRange(-10, 10);
-  local bombersCount = 0;
 
   local playerAssaultPlane = "";
 

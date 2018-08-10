@@ -156,9 +156,8 @@ function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
 
 //enemy planes in each wave
   local enemyTotalCount_temp = enemyTotalCount;
-  local enemyWaveCount_temp = enemyWaveCount;
+  enemyWaveCount_temp = enemyWaveCount;
 
-  local enemy1Count = enemyTotalCount/enemyWaveCount;
   local enemyCount = enemyTotalCount;
 
   local enemyPlanesInWave = enemyTotalCount_temp/enemyWaveCount_temp;

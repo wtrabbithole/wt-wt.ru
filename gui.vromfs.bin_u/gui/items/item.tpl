@@ -156,16 +156,15 @@ itemDiv {
     }
     <</unseenIcon>>
 
-    tdiv{
+    itemTimerPlace{
       id:t='timePlace'
-      pos:t='pw-w-1@itemPadding, ph - h'
-      position:t='absolute'
-      flow:t='vertical'
+      css-hier-invalidate:t='yes'
 
       <<#craftTime>>
       textareaNoTab {
         id:t='craft_time'
         text:t='<<craftTime>>'
+        overlayTextColor:t='goodTextColor'
       }
       <</craftTime>>
 
@@ -243,6 +242,9 @@ itemDiv {
     <</itemIndex>>
     on_click:t='onItemAction'
     btnName:t=''
+    <<#isInactive>>
+    inactiveColor:t='yes'
+    <</isInactive>>
     ButtonImg {
       iconName:t='A'
       showOnSelect:t='focus'

@@ -24,12 +24,12 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     foreach (i, item in items)
     {
-      local mainActionName = item.getMainActionName()
+      local mainActionData = item.getMainActionData()
       view.items.push(item.getViewData({
         itemIndex = i.tostring()
         ticketBuyWindow = false
         hasButton = false
-        onClick = mainActionName.len() > 0 ? "onItemAction" : null
+        onClick = !!mainActionData ? "onItemAction" : null
         contentIcon = false
         hasTimer = false
         addItemName = false

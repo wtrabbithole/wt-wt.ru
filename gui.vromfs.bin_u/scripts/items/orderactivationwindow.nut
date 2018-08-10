@@ -25,13 +25,14 @@ class ::gui_handlers.OrderActivationWindow extends ::gui_handlers.ItemsList
   /*override*/ function updateButtons()
   {
     local item = getCurItem()
-    local actionName = item ? item.getMainActionName() : ""
-    local showMainAction = actionName != ""
+    local mainActionData = item ? item.getMainActionData() : null
+    local showMainAction = !!mainActionData
     local buttonObj = showSceneBtn("btn_main_action", showMainAction)
     if (showMainAction)
     {
       buttonObj.visualStyle = curTab == itemsTab.INVENTORY? "secondary" : "purchase"
-      ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), actionName)
+      ::setDoubleTextToButton(scene, "btn_main_action", mainActionData.btnName,
+                              mainActionData?.btnColoredName || mainActionData.btnName)
     }
 
     local text = ""

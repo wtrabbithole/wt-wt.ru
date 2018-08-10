@@ -149,6 +149,7 @@ enum itemType { //bit values for easy multitype search
   CHEST           = 0x00200000
   WARBONDS        = 0x00400000
   INTERNAL_ITEM   = 0x00800000 //external inventory coupon which gives internal item
+  ENTITLEMENT     = 0x01000000
 
   //workshop
   CRAFT_PART      = 0x10000000
@@ -353,6 +354,7 @@ foreach (fn in [
   "scripts/debugTools/dbgImage.nut"
   "scripts/debugTools/dbgFonts.nut"
   "scripts/debugTools/dbgAvatarsList.nut"
+  "scripts/debugTools/dbgMarketplace.nut"
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"

@@ -27,6 +27,10 @@ img[background-image], img2[background-image], cardImg[background-image], voiceI
   background-color:@white;
 }
 
+img[isLocked=yes], img2[isLocked=yes], cardImg[isLocked=yes] {
+  background-color:@itemLockedColor;
+}
+
 img[background-image=""], img2[background-image=""], cardImg[background-image=""], voiceIcon[background-image=""] {
   background-color:@transparent;
   display:hide;
@@ -2035,6 +2039,10 @@ text[overlayTextColor=silver], textareaNoTab[overlayTextColor=silver] {
 text[overlayTextColor=disabled], textarea[overlayTextColor=disabled],
 textareaNoTab[overlayTextColor=disabled], tdiv[includeTextColor=disabled] > textareaNoTab {
   color:@disabledTextColor;
+}
+text[overlayTextColor=locked], textarea[overlayTextColor=locked],
+textareaNoTab[overlayTextColor=locked], tdiv[includeTextColor=locked] > textareaNoTab {
+  color:@itemLockedColor;
 }
 activeText[overlayTextColor=good], textarea[overlayTextColor=good], textareaNoTab[overlayTextColor=good] {
   color:@goodTextColor;

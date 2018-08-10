@@ -214,11 +214,12 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local isPurchased = isTrophyPurchased(obj.getValue())
+    local mainActionData = trophy.getMainActionData()
     showSceneBtn("btn_main_action", !isPurchased)
     ::setDoubleTextToButton(scene,
                             "btn_main_action",
-                            trophy.getMainActionName(false),
-                            trophy.getMainActionName())
+                            mainActionData?.btnName,
+                            mainActionData?.btnColoredName || mainActionData?.btnName)
     showSceneBtn("warning_text", isPurchased)
   }
 }

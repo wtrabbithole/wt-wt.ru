@@ -112,5 +112,6 @@ return {
   isAvailable = @() u.search(getSetsList(), @(s) s.isVisible()) != null
   getSetsList = @() getSetsList()
   shouldDisguiseItem = @(item) shouldDisguiseItemId(item.id)
+  getSetById = @(id) u.search(getSetsList(), @(s) s.id == id)
   getSetByItemId = @(itemId) u.search(getSetsList(), @(s) s.isItemIdInSet(itemId))
 }

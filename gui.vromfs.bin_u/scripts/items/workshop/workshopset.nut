@@ -202,6 +202,9 @@ local WorkshopSet = class {
         continue
 
       local newItem = item.makeEmptyInventoryItem()
+      if (!newItem.isEnabled())
+        continue
+
       if (!(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id))
         newItem.setDisguise(true)
 

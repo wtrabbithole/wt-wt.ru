@@ -1,4 +1,7 @@
+local psnApi = require("scripts/social/psnWebApi.nut")
+
 local platformModule = require("scripts/clientState/platform.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 ::no_dump_facebook_friends <- {}
 ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS <- 200
@@ -8,6 +11,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 ::g_script_reloader.registerPersistentData("SocialGlobals", ::getroottable(), ["no_dump_facebook_friends"])
 
 local ps4TitleId = ::is_platform_ps4? ::ps4_get_title_id() : ""
+local isFirstPs4FriendsUpdate = true
 
 function addSocialFriends(blk, group, silent = false)
 {
@@ -115,48 +119,35 @@ function addPsnFriends()
 
 function update_ps4_friends()
 {
-  if (!::isInMenu())
+  // We MUST do this on first opening, even if it is in battle/respawn
+  if (!::isInMenu() && !isFirstPs4FriendsUpdate)
     return
 
+  isFirstPs4FriendsUpdate = false
   if (::is_platform_ps4 && ::dagor.getCurTime() - ::last_update_ps4_friends > ::PS4_UPDATE_TIMER_LIMIT)
   {
     ::last_update_ps4_friends = ::dagor.getCurTime()
     ::getPS4FriendsFromIndex(0)
-    ::broadcastEvent(contactEvent.CONTACTS_UPDATED)
   }
 }
 
 function getPS4FriendsFromIndex(index)
 {
-  local blk = ::DataBlock()
-  blk.apiGroup = "sdk:userProfile"
-  blk.method = ::HTTP_METHOD_GET
-  local query = ::format("/v1/users/%s/friendList?friendStatus=friend&presenceType=incontext&offset=%d&limit=%d",
-    ::ps4_get_account_id(), index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS)
-  blk.path = query
-  blk.respSize = 8*1024
-
-  local ret = ::ps4_web_api_request(blk)
-  if ("error" in ret)
-  {
-    dagor.debug("Error: "+ret.error);
-    dagor.debug("Error text: "+ret.errorStr);
-  }
-  else if ("response" in ret)
-  {
+  local cb = function(response, error) {
+    debugTableData(response)
+    if (error)
+      return
     if (index == 0) // Initial chunk of friends from WebAPI
       ::resetPS4ContactsGroup()
 
-    dagor.debug("json Response: "+ret.response);
-    local parsedRetTable = ::parse_json(ret.response)
-
-    local startIndex = ::getTblValue("start", parsedRetTable, 0)
-    local size = ::getTblValue("size", parsedRetTable, 0)
-    local endIndex = size >= ::getTblValue("totalResults", parsedRetTable, 0)? 0 : size
+    local size = response?.size || 0
+    local endIndex = size >= (response?.totalResults || 0) ? 0 : size
 
     ::addContactGroup(::EPLX_PS4_FRIENDS)
-    ::processPS4FriendsFromArray(::getTblValue("friendList", parsedRetTable, []), endIndex)
+    ::processPS4FriendsFromArray((response?.friendList || []), endIndex)
+    ::broadcastEvent(contactEvent.CONTACTS_UPDATED)
   }
+  psnApi.send(psnApi.profile.listFriends(index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS), cb)
 }
 
 function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
@@ -211,6 +202,17 @@ function get_psn_account_id(playerName)
 
   return ::ps4_console_friends?[playerName]?.accountId
 }
+
+local function initPs4Friends()
+{
+  isFirstPs4FriendsUpdate = true
+}
+
+
+subscriptions.addListenersWithoutEnv({
+  LoginComplete    = @(p) initPs4Friends()
+})
+
 //--------------- </PlayStation> ----------------------
 
 //------------------ <Steam> --------------------------

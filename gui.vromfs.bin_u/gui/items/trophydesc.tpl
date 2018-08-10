@@ -27,6 +27,9 @@ tdiv {
   <<#tooltip>>
   tooltip:t='<<tooltip>>'
   <</tooltip>>
+  <<#isLocked>>
+  includeTextColor:t='locked'
+  <</isLocked>>
 
   <<#title>>
   <<#icon>>
@@ -35,6 +38,9 @@ tdiv {
     pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon>>'
+    <<#isLocked>>
+    isLocked:t='yes'
+    <</isLocked>>
   }
   <</icon>>
   <<#icon2>>
@@ -43,6 +49,9 @@ tdiv {
     pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon2>>'
+    <<#isLocked>>
+    isLocked:t='yes'
+    <</isLocked>>
   }
   <</icon2>>
   <<@previewImage>>

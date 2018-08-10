@@ -53,7 +53,7 @@ missionGenFunctions.append( function (isFreeFlight)
   local wpDist2 = playerSpeed*1.0*wpTime2;
   local wpDist3 = playerSpeed*1.0*wpTime3;
 
-  local wpMax = rndRangeInt(2,4);
+  wpMax = rndRangeInt(2,4);
   local rndHeight = rndRange(1000, 2000);
   mgSetInt("variables/wp_max", wpMax);
 

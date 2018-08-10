@@ -40,6 +40,9 @@ local ItemExternal = class extends ::BaseItem
   metaBlk = null
 
   amountByUids = null //{ <uid> = <amount> }, need for recipe materials
+  requirement = null
+
+  aditionalConfirmationMsg = {}
 
   constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
@@ -47,8 +50,17 @@ local ItemExternal = class extends ::BaseItem
 
     itemDef = itemDefDesc
     id = itemDef.itemdefid
-    blkType  = itemDefDesc?.tags?.type ?? ""
+    blkType = itemDefDesc?.tags?.type ?? ""
+    maxAmount = (itemDefDesc?.tags?.maxCount ?? -1).tointeger()
+    requirement = itemDefDesc?.tags?.showWithFeature
 
+    local confirmationActions = itemDefDesc?.tags % "confirmationAction"
+    if (confirmationActions.len())
+    {
+       local confirmationMsg = itemDefDesc.tags % "confirmationMsg"
+       foreach (idx, action in confirmationActions)
+         aditionalConfirmationMsg[action] <- confirmationMsg?[idx] ?? ""
+    }
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
     shouldAutoConsume = !!itemDefDesc?.tags?.autoConsume
 
@@ -159,7 +171,8 @@ local ItemExternal = class extends ::BaseItem
       desc.append(::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tags, ::loc("ui/comma")))
     }
 
-    desc.append(itemDef?.description ?? "")
+    if (! itemDef?.tags?.hideDesc)
+      desc.append(itemDef?.description ?? "")
 
     return ::g_string.implode(desc, "\n\n")
   }
@@ -298,7 +311,7 @@ local ItemExternal = class extends ::BaseItem
           count = totalAmount
           countColored = ::colorize("activeTextColor", totalAmount)
           exampleCount = showAmount
-          createTime = timeText
+          createTime = timeText.len() ? "\n" + timeText + "\n" : ""
         })
 
     local isMultipleRecipes = showAmount > 1
@@ -306,7 +319,9 @@ local ItemExternal = class extends ::BaseItem
       : !isMultipleRecipes && isMultipleExtraItems ? "items_set"
       : isMultipleRecipes && !isMultipleExtraItems ? "any_of_items"
       : "item"
-    return ::loc(descReceipesListHeaderPrefix + headerSuffix)
+
+    return (timeText.len() ? timeText + "\n" : "") +
+      ::loc(descReceipesListHeaderPrefix + headerSuffix)
   }
 
   isRare              = @() isDisguised ? base.isRare() : rarity.isRare
@@ -321,14 +336,30 @@ local ItemExternal = class extends ::BaseItem
     && amount > 0 && getDisassembleRecipe() != null
   getMaxRecipesToShow = @() 1
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
-    return isCanBuy() ? getBuyText(colored, short)
-      : amount && canConsume() ? ::loc("item/consume")
-      : isCrafting() ? ::loc("item/craft_process/cancel")
-      : hasCraftResult() ? ::loc("items/craft_process/finish")
-      : canAssemble() ? getAssembleButtonText()
-      : ""
+    local res = base.getMainActionData(isShort)
+    if (res)
+      return res
+    if (amount && canConsume())
+      return {
+        btnName = ::loc("item/consume")
+      }
+    if (isCrafting())
+      return {
+        btnName = ::loc("item/craft_process/cancel")
+      }
+    if (hasCraftResult())
+      return {
+        btnName = ::loc("items/craft_process/finish")
+      }
+    if (canAssemble())
+      return {
+        btnName = getAssembleButtonText()
+        isInactive = hasReachedMaxAmount()
+      }
+
+    return null
   }
 
   function doMainAction(cb, handler, params = null)
@@ -421,8 +452,14 @@ local ItemExternal = class extends ::BaseItem
       + (recipe.hasAssembleTime()
         ? "\n" + ::loc("msgBox/assembleItem/time", {time = recipe.getAssembleTimeText()})
         : "")
-      + (recipe.isMultipleItems ? "\n" + ::loc("msgBox/items_will_be_spent") : "")
-    needRecipeMarkup = recipe.isMultipleItems
+      + "\n" + ::loc("msgBox/items_will_be_spent")
+    needRecipeMarkup = true
+  })
+
+  getDisassembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
+    text = ::loc("msgBox/disassembleItem/confirmWhithItemName", { itemName = ::colorize("activeTextColor", getName()) })
+      + getAdditionalConfirmMessage("disassemble")
+      + "\n" + ::loc("mainmenu/you_will_receive")
   })
 
   function assemble(cb = null, params = null)
@@ -474,8 +511,15 @@ local ItemExternal = class extends ::BaseItem
     if (amount <= 0 || !recipe)
       return false
 
-    return assemble(null, { recipes = [ recipe ],
-      rewardListLocId = getItemsListLocId() })
+    local gen = ItemGenerators.get(recipe.generatorId)
+
+    ExchangeRecipes.tryUse([ recipe ], this,
+      { rewardListLocId = getItemsListLocId(),
+        messageData = getDisassembleMessageData(recipe)
+        isDisassemble = true
+        bundleContent = gen?.isPack ? gen.getContent() : null
+      })
+      return true
   }
 
   function convertToWarbonds(params = null)
@@ -544,7 +588,7 @@ local ItemExternal = class extends ::BaseItem
   {
     return !isDisguised && base.hasLink()
       && itemDef?.marketable && getNoTradeableTimeLeft() == 0
-      && ::has_feature("Marketplace") && !::has_feature("PurchaseMarketItemsForGold")
+      && ::has_feature("Marketplace")
   }
 
   function addResources() {
@@ -621,6 +665,9 @@ local ItemExternal = class extends ::BaseItem
 
   function needShowActionButtonAlways()
   {
+    if (hasCraftResult())
+      return true
+
     if (!canAssemble())
       return false
 
@@ -752,13 +799,17 @@ local ItemExternal = class extends ::BaseItem
     return true
   }
 
-  function getAdditionalTextInAmmount()
+  function getAdditionalTextInAmmount(needColorize = true)
   {
     local textIcon = isCrafting() ? "icon/gear"
     : hasCraftResult() ? "icon/chest2"
     : ""
 
-    return textIcon == "" ? "" : ::colorize(craftColor, " + 1" + ::loc(textIcon))
+    if (textIcon == "")
+      return ""
+
+    local text = " + 1" + ::loc(textIcon)
+    return needColorize ? ::colorize(craftColor, text) : text
   }
 
   function cancelCrafting(cb = null, params = {})
@@ -772,7 +823,16 @@ local ItemExternal = class extends ::BaseItem
     return true
   }
 
-  isHiddenItem = @() isCraftResult() || itemDef?.tags?.devItem == true
+  isHiddenItem = @() !isEnabled() || isCraftResult() || itemDef?.tags?.devItem == true
+  isEnabled = @() requirement == null || ::has_feature(requirement)
+  function getAdditionalConfirmMessage(actionName, delimiter = "\n")
+  {
+     local locKey = aditionalConfirmationMsg?[actionName]
+     if (!locKey)
+       return ""
+
+     return delimiter + ::loc("confirmationMsg/" + locKey)
+  }
 }
 
 return ItemExternal

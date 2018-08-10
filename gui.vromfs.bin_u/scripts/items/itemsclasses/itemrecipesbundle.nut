@@ -42,6 +42,17 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
       })
   }
 
+  function getMainActionData(isShort = false)
+  {
+    if (canAssemble())
+      return {
+        btnName = getAssembleButtonText()
+        isInactive = hasReachedMaxAmount()
+      }
+
+    return null
+  }
+
   getAssembleHeader     = @() isDisassemble() ? getName() : base.getAssembleHeader()
   getAssembleText       = @() isDisassemble() ? ::loc("item/disassemble") : ::loc("item/assemble")
   getAssembleButtonText = @() isDisassemble() ? ::loc("item/disassemble") : base.getAssembleButtonText()
@@ -52,7 +63,6 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
         needRecipeMarkup = true
       })
 
-  getMainActionName     = @(colored = true, short = false) canAssemble() ? getAssembleButtonText() : ""
   doMainAction          = @(cb, handler, params = null) assemble(cb, params)
 
   getRewardListLocId = @() isDisassemble() ? "mainmenu/itemsList" : base.getRewardListLocId()

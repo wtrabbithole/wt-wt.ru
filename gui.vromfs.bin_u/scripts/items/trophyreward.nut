@@ -126,8 +126,9 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
             enableBackground = false,
             showAction = false,
             showPrice = false,
-            needRarity = false,
             contentIcon = false,
+            shouldHideAdditionalAmmount = true,
+            hasCraftTimer = false,
             count = ::getTblValue("count", config, 0)
           })
       })

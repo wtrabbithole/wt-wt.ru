@@ -483,13 +483,17 @@ class ::items_classes.Wager extends ::BaseItem
       "\n" + ::UnlockConditions.getConditionsText(conditions)
   }
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
-    if (isCanBuy())
-      return getBuyText(colored, short)
+    local res = base.getMainActionData(isShort)
+    if (res)
+      return res
     if (isInventoryItem && amount && !isActive() && curWager >= 0)
-      return ::loc("item/activate")
-    return ""
+      return {
+        btnName = ::loc("item/activate")
+      }
+
+    return null
   }
 
   getWagerCost = @(value) isGoldWager ? ::Cost(0, value) : ::Cost(value)

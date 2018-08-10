@@ -64,19 +64,24 @@ class ::items_classes.Order extends ::BaseItem
     return ::loc("item/" + id, "")
   }
 
-  function getMainActionName(colored = true, short = false)
+  function getMainActionData(isShort = false)
   {
-    if (isCanBuy())
-      return getBuyText(colored, short)
+    local res = base.getMainActionData(isShort)
+    if (res)
+      return res
     if (!isInventoryItem || !amount)
-      return ""
+      return null
+
     local currentEvent = ::SessionLobby.getRoomEvent()
     local diffCode = ::events.getEventDiffCode(currentEvent)
     local diff = ::g_difficulty.getDifficultyByDiffCode(diffCode)
     local checkDifficulty = !::isInArray(diff, disabledDifficulties)
     if (!isActive() && ::g_orders.orderCanBeActivated() && checkDifficulty)
-      return ::loc("item/activate")
-    return ""
+      return {
+        btnName = ::loc("item/activate")
+      }
+
+    return null
   }
 
   getActivateInfo    = @() ::g_orders.getActivateInfoText()

@@ -16,7 +16,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
   canConvertToWarbonds= @() false
   hasLink             = @() false
 
-  getMainActionName   = @(...) ""
+  getMainActionData   = @(...) null
   doMainAction        = @(...) false
   getAltActionName    = @(...) ""
   doAltAction         = @(...) false

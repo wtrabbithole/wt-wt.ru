@@ -987,10 +987,36 @@
 
   function checkPartLocId(partId, weaponInfoBlk, params)
   {
-    if (::g_string.startsWith(partId, "main") && weaponInfoBlk?.triggerGroup == "secondary")
-      params.partLocId <- ::stringReplace(partId, "main", "auxiliary")
-    if (::g_string.startsWith(partId, "auxiliary") && weaponInfoBlk?.triggerGroup == "primary")
-      params.partLocId <- ::stringReplace(partId, "auxiliary", "main")
+    switch (unit.esUnitType)
+    {
+      case ::ES_UNIT_TYPE_TANK:
+        if (partId == "gun_barrel" &&  weaponInfoBlk?.blk)
+        {
+          local blk = ::DataBlock(weaponInfoBlk?.blk)
+          local isRocketGun = blk.rocketGun
+          local isMachinegun = blk.bullet?.caliber && !::isCaliberCannon(1000 * blk.bullet.caliber)
+          local isPrimary = !isRocketGun && !isMachinegun
+          if (!isPrimary)
+          {
+            local commonBlk = ::getCommonWeaponsBlk(dmViewer.unitBlk, "")
+            foreach (weapon in (commonBlk % "Weapon"))
+            {
+              isPrimary = weapon.blk && weapon.blk == weaponInfoBlk.blk
+              break
+            }
+          }
+          params.partLocId <- isPrimary ? "weapon/primary"
+            : isMachinegun ? "weapon/machinegun"
+            : "weapon/secondary"
+        }
+        break
+      case ::ES_UNIT_TYPE_SHIP:
+        if (::g_string.startsWith(partId, "main") && weaponInfoBlk?.triggerGroup == "secondary")
+          params.partLocId <- ::stringReplace(partId, "main", "auxiliary")
+        if (::g_string.startsWith(partId, "auxiliary") && weaponInfoBlk?.triggerGroup == "primary")
+          params.partLocId <- ::stringReplace(partId, "auxiliary", "main")
+        break
+    }
   }
 
   function trimBetween(source, from, to, strict = true)

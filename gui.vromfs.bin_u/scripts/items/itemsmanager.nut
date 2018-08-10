@@ -102,6 +102,7 @@ foreach (fn in [
                  "itemCraftPart.nut"
                  "itemCraftProcess.nut"
                  "itemRecipesBundle.nut"
+                 "itemEntitlement.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
@@ -463,6 +464,7 @@ function ItemsManager::getInventoryItemType(blkType)
       case "craft_part":          return itemType.CRAFT_PART
       case "craft_process":       return itemType.CRAFT_PROCESS
       case "internal_item":       return itemType.INTERNAL_ITEM
+      case "entitlement":         return itemType.ENTITLEMENT
     }
 
     blkType = ::item_get_type_id_by_type_name(blkType)
@@ -634,7 +636,7 @@ function ItemsManager::getInventoryVisibleSeenIds()
 ItemsManager.getInventoryItemById <- @(id) ::u.search(getInventoryList(), @(item) item.id == id)
 
 ItemsManager.getInventoryItemByCraftedFrom <- @(uid) ::u.search(getInventoryList(),
-  @(item) item.isCraftResult && item.craftedFrom == uid)
+  @(item) item.isCraftResult() && item.craftedFrom == uid)
 
 function ItemsManager::markInventoryUpdate()
 {

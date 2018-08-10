@@ -25,6 +25,7 @@ local ExchangeRecipes = class {
   isFake = false
 
   assembleTime = 0
+  initedComponents = null
 
   constructor(params)
   {
@@ -33,17 +34,25 @@ local ExchangeRecipes = class {
     isFake = params?.isFake ?? false
     assembleTime = params?.assembleTime ?? 0
     local parsedRecipe = params.parsedRecipe
-    uid = generatorId + ";" + parsedRecipe.recipeStr
 
-    local componentsCount = parsedRecipe.components.len()
+    initedComponents = parsedRecipe.components
+    requirement = parsedRecipe.requirement
+
+    uid = generatorId + ";" + (requirement ? getRecipeStr() : parsedRecipe.recipeStr)
+
+    updateComponents()
+    loadStateRecipe()
+  }
+
+  function updateComponents()
+  {
+    local componentsCount = initedComponents.len()
     isUsable = componentsCount > 0
     isMultipleItems = componentsCount > 1
 
-    requirement = parsedRecipe.requirement
-
     local extraItemsCount = 0
     components = []
-    foreach (component in parsedRecipe.components)
+    foreach (component in initedComponents)
     {
       local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
 
@@ -66,7 +75,6 @@ local ExchangeRecipes = class {
     }
 
     isMultipleExtraItems = extraItemsCount > 1
-    loadStateRecipe()
   }
 
   function isEnabled()
@@ -111,8 +119,12 @@ local ExchangeRecipes = class {
 
   function getTextMarkup(params = null)
   {
+    if (!params)
+      params = {}
+    params = params.__merge({isLocked = isRecipeLocked()})
+
     local list = getItemsListForPrizesView(params)
-    return ::PrizesView.getPrizesListView(list, params)
+    return ::PrizesView.getPrizesListView(list, params, false)
   }
 
   function getText(params = null)
@@ -153,6 +165,7 @@ local ExchangeRecipes = class {
           showPrice = false
           showAction = false
           shouldHideAdditionalAmmount = true
+          craftTimerText = item.getAdditionalTextInAmmount(false)
         }))
     }
     return ::handyman.renderCached("gui/items/item", { items = itemsViewData })
@@ -230,12 +243,12 @@ local ExchangeRecipes = class {
     local recipesToShow = recipes
     if (!isFullRecipesList)
     {
-      recipesToShow = u.filter(recipes, @(r) r.isUsable)
+      recipesToShow = u.filter(recipes, @(r) r.isUsable && !r.isRecipeLocked())
       if (recipesToShow.len() > maxRecipes)
         recipesToShow = recipesToShow.slice(0, maxRecipes)
       else if (recipesToShow.len() < maxRecipes)
         foreach(r in recipes)
-          if (!r.isUsable)
+          if (!r.isUsable && !r.isRecipeLocked())
           {
             recipesToShow.append(r)
             if (recipesToShow.len() == maxRecipes)
@@ -280,7 +293,7 @@ local ExchangeRecipes = class {
     if (minSeconds != maxSeconds)
       timeText += " " + ::loc("event_dash") + " " + time.secondsToString(maxSeconds, true, true)
 
-    return "\n" + ::loc("msgBox/assembleItem/time", {time = timeText}) + "\n"
+    return ::loc("msgBox/assembleItem/time", {time = timeText})
   }
 
   static hasFakeRecipes = @(recipes) ::u.search(recipes, @(r) r?.isFake) != null
@@ -294,15 +307,25 @@ local ExchangeRecipes = class {
     local locText = ::loc("ui/parentheses/space",
       { text = component.curQuantity + "/" + component.reqQuantity })
     if (params?.needColoredText ?? true)
-      return ::colorize(getComponentQuantityColor(component), locText)
+      return ::colorize(getComponentQuantityColor(component, true), locText)
 
     return locText
   }
 
-  static getComponentQuantityColor = @(component) component.has ? "goodTextColor" : "badTextColor"
+  static getComponentQuantityColor = @(component, needCheckRecipeLocked = false)
+    isRecipeLocked() && needCheckRecipeLocked ? "fadedTextColor"
+      : component.has ? "goodTextColor"
+      : "badTextColor"
 
   static function tryUse(recipes, componentItem, params = null)
   {
+    if (componentItem.hasReachedMaxAmount())
+    {
+      ::scene_msg_box("reached_max_amount", null, ::loc("item/reached_max_amount"),
+        [["cancel"]], "cancel")
+      return false
+    }
+
     local recipe = null
     foreach (r in recipes)
       if (r.isUsable)
@@ -320,20 +343,42 @@ local ExchangeRecipes = class {
         return true
       }
 
-      local msgData = componentItem.getAssembleMessageData(recipe)
+      local msgData = params?.messageData || componentItem.getAssembleMessageData(recipe)
       local msgboxParams = { cancel_fn = function() {} }
-      if (msgData.needRecipeMarkup)
+
+      if (params?.isDisassemble && params?.bundleContent)
+      {
+        msgboxParams.__update({
+          data_below_text = ::PrizesView.getPrizesListView(params.bundleContent, { widthByParentParent = true })
+          baseHandler = ::get_cur_base_gui_handler()
+        })
+      }
+      else if (msgData?.needRecipeMarkup)
         msgboxParams.__update({
           data_below_text = recipe.getExchangeMarkup(componentItem, { widthByParentParent = true })
           baseHandler = ::get_cur_base_gui_handler()
         })
+
       ::scene_msg_box("chest_exchange", null, msgData.text, [
-        [ "yes", ::Callback(@() recipe.doExchange(componentItem, 1, params), this) ],
+        [ "yes", ::Callback(function()
+          {
+            recipe.updateComponents()
+            if (recipe.isUsable)
+              recipe.doExchange(componentItem, 1, params)
+            else
+              showUseErrorMsg(recipes, componentItem)
+          }, this) ],
         [ "no" ]
       ], "yes", msgboxParams)
       return true
     }
 
+    showUseErrorMsg(recipes, componentItem)
+    return false
+  }
+
+  function showUseErrorMsg(recipes, componentItem)
+  {
     local locId = componentItem.getCantAssembleLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
     local msgboxParams = {
@@ -364,7 +409,6 @@ local ExchangeRecipes = class {
     }
 
     ::scene_msg_box("cant_open_chest", null, text, buttons, defBtn, msgboxParams)
-    return false
   }
 
 
@@ -448,7 +492,9 @@ local ExchangeRecipes = class {
       })
       ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs,
         rewardTitle = ::loc(rewardTitle),
-        rewardListLocId = rewardListLocId })
+        rewardListLocId = rewardListLocId
+        isDisassemble = params?.isDisassemble ?? false
+      })
     }
 
     ::ItemsManager.autoConsumeItems()
@@ -477,6 +523,11 @@ local ExchangeRecipes = class {
   }
 
   getRewardTitleLocId = @() getMarkLocIdByPath("mainmenu/craftFinished/title/")
+
+  getRecipeStr = @() ::g_string.implode(
+    u.map(initedComponents, @(component) component.itemdefid.tostring()
+      + (component.quantity > 1 ? ("x" + component.quantity) : "")),
+    ",")
 }
 
 u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)

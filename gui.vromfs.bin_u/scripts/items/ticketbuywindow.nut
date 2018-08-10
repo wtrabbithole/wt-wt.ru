@@ -167,11 +167,13 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateBuyButtonText()
   {
-    ::setDoubleTextToButton(
-      scene,
-      "btn_apply",
-      getCurItem().getMainActionName(false),
-      getCurItem().getMainActionName(true))
+    local mainActionData = getCurItem().getMainActionData()
+    if (mainActionData)
+      ::setDoubleTextToButton(
+        scene,
+        "btn_apply",
+        mainActionData.btnName,
+        mainActionData?.btnColoredName || mainActionData.btnName)
   }
 
   function createMainText()

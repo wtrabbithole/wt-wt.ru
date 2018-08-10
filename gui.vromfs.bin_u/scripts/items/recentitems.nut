@@ -33,9 +33,8 @@ function g_recent_items::createHandler(owner, containerObj, defShow)
 
 function g_recent_items::getNumOtherItems()
 {
-  local inactiveItems = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL, function (item) {
-    return item.getMainActionName() != ""
-  })
+  local inactiveItems = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL,
+    @(item) !!item.getMainActionData())
   return inactiveItems.len()
 }
 

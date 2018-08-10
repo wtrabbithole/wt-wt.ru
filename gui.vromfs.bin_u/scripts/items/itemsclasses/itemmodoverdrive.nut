@@ -25,11 +25,14 @@ class ::items_classes.ModOverdrive extends BaseItemModClass
 
   getIconMainLayer = @() ::LayersIcon.findLayerCfg("mod_overdrive")
 
-  function getMainActionName(isColored = true, isShort = false)
+  function getMainActionData(isShort = false)
   {
     if (amount && canActivate())
-      return ::loc("item/activate")
-    return base.getMainActionName(isColored, isShort)
+      return {
+        btnName = ::loc("item/activate")
+      }
+
+    return base.getMainActionData(isShort)
   }
 
   function doMainAction(cb, handler, params = null)

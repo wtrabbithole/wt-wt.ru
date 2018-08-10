@@ -1841,7 +1841,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function setDmgSkinMode(enable)
   {
-    local cObj = scene.findObject("btn_toggle_dmg_skin")
+    local cObj = scene.findObject("btn_toggle_damaged")
     if (::checkObj(cObj))
       cObj.setValue(enable)
   }

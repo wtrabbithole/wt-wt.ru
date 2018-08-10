@@ -1001,7 +1001,8 @@ function get_userlog_view_data(log)
       res.description += iname
     }
     res.tooltip = res.description
-  } else if (log.type == ::EULT_OPEN_TROPHY)
+  }
+  else if (log.type == ::EULT_OPEN_TROPHY)
   {
     local itemId = log?.itemDefId || log?.id || ""
     local item = ::ItemsManager.findItemById(itemId)
@@ -1014,8 +1015,10 @@ function get_userlog_view_data(log)
       local rewardText = ::trophyReward.getRewardText(log)
       local reward = ::loc("reward") + ::loc("ui/colon") + rewardText
 
-      res.name = usedText + " " + ::colorize("activeTextColor", item.getName()) + " " + ::loc("ui/parentheses/space", { text = reward })
+      res.name = usedText + " " + ::loc("trophy/unlockables_names/trophy")
+                          + " " + ::loc("ui/parentheses/space", {text = reward})
       res.logImg = item.typeIcon
+      res.tooltip = usedText + ::loc("ui/colon") + item.getName() + "\n" + reward
 
       res.descriptionBlk <- ::format(textareaFormat, ::g_string.stripTags(usedText) + ::loc("ui/colon"))
       res.descriptionBlk += item.getNameMarkup()
@@ -1163,22 +1166,52 @@ function get_userlog_view_data(log)
     }
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
   }
-  else if (log.type == ::EULT_INVENTORY_ADD_ITEM || log.type == ::EULT_INVENTORY_FAIL_ITEM)
+  else if (log.type == ::EULT_INVENTORY_ADD_ITEM ||
+           log.type == ::EULT_INVENTORY_FAIL_ITEM)
   {
-    local itemDefId = log?.itemDefId ?? ""
-    local item = ::ItemsManager.findItemById(itemDefId)
-    local numItems = log?.quantity ?? 1
+    local amount = 0
+    local itemsNumber = 0
+    local firstItemName = ""
+    local itemsListText = ""
+
+    res.descriptionBlk <- ""
+    foreach (data in log)
+    {
+      if (!("itemDefId" in data))
+        continue
+
+      local item = ::ItemsManager.findItemById(data.itemDefId)
+      if (!item)
+        continue
+
+      local quantity = data?.quantity ?? 1
+      res.descriptionBlk += item.getNameMarkup(quantity, true, true)
+      res.logImg = res.logImg || item.getSmallIconName()
+
+      amount += quantity
+      itemsListText += "\n " + ::loc("event_dash") + " " + item.getNameWithCount(true, quantity)
+      if (itemsNumber == 0)
+        firstItemName = item.getName()
+
+      itemsNumber ++
+    }
+
+    res.logImg = res.logImg || ::BaseItem.typeIcon
     local locId = "userlog/" + logName
-    res.logImg = (item && item.getSmallIconName()) || ::BaseItem.typeIcon
-    if (log.type == ::EULT_INVENTORY_FAIL_ITEM)
-      res.logImg2 = "#ui/gameuiskin#icon_primary_fail"
     res.name = ::loc(locId, {
-      numItemsColored = ::colorize("userlogColoredText", numItems)
-      numItems = numItems
-      numItemsAdd = numItems
-      itemName = (item && item.getName()) ? item.getName() : ""
+      numItemsColored = ::colorize("userlogColoredText", amount)
+      numItems = amount
+      numItemsAdd = amount
+      itemName = itemsNumber == 1 ? firstItemName : ""
     })
-    res.descriptionBlk <- ::get_userlog_image_item(item)
+
+    if (itemsNumber > 1)
+      res.tooltip = ::loc(locId, {
+        numItemsColored = ::colorize("userlogColoredText", amount)
+        numItems = amount
+        numItemsAdd = amount
+        itemName = itemsListText
+      })
   }
   else if (log.type == ::EULT_TICKETS_REMINDER)
   {
@@ -1374,7 +1407,6 @@ function get_userlog_view_data(log)
   //------------- when userlog not found or not full filled -------------//
   if (res.name=="")
     res.name = ::loc("userlog/"+logName)
-  if (res.tooltip=="")
-    res.tooltip = res.name
+
   return res
 }
