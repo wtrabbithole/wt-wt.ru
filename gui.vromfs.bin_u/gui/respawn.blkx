@@ -179,10 +179,13 @@
                   {
                     "tdiv": [
                       {
-                        "size": "pw, 2.6@modCellHeight +4*(@smallRowHeight + 1@baseTrHeight - 2@dp) + 2@posOptionCellPadding"
+                        "id": "unit_options"
                       },
                       {
-                        "max-height": "ph - 1@minChatMisObjHeight - 8*@sf/@pf_outdated"
+                        "width": "pw"
+                      },
+                      {
+                        "padding-bottom": "0.03@scrn_tgt"
                       },
                       {
                         "tdiv": {
@@ -262,124 +265,110 @@
                     ]
                   },
                   {
-                    "tdiv": [
-                      {
-                        "id": "mis_obj_and_chat_place"
+                    "tdiv": {
+                      "id": "separate_block",
+                      "width": "pw"
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "objectives",
+                      "width": "pw",
+                      "flow": "vertical",
+                      "text": {
+                        "id": "mis_obj_text_header",
+                        "text": "#mission_objectives"
                       },
-                      {
-                        "size": "pw, fh"
-                      },
-                      {
-                        "pos": "0, 8*@sf/@pf_outdated"
-                      },
-                      {
-                        "position": "relative"
-                      },
-                      {
-                        "flow": "vertical"
-                      },
-                      {
-                        "tdiv": {
-                          "id": "objectives",
-                          "size": "pw, fh",
-                          "flow": "vertical",
-                          "text": {
-                            "id": "mis_obj_text_header",
+                      "gameModeChangeButton": [
+                        {
+                          "id": "mis_obj_button_header"
+                        },
+                        {
+                          "direction": "up"
+                        },
+                        {
+                          "on_click": "onSwitchChatSize"
+                        },
+                        {
+                          "display": "hide"
+                        },
+                        {
+                          "enable": "no"
+                        },
+                        {
+                          "behaviour": "wrapBroadcast"
+                        },
+                        {
+                          "navigatorShortcuts": "yes"
+                        },
+                        {
+                          "on_wrap_up": "onWrapUp"
+                        },
+                        {
+                          "on_wrap_down": "onWrapDown"
+                        },
+                        {
+                          "on_wrap_right": "onWrapRight"
+                        },
+                        {
+                          "dropMenuArrow": []
+                        },
+                        {
+                          "dropMenuSeparator": []
+                        },
+                        {
+                          "activeText": {
+                            "margin": "5@dp, 0",
                             "text": "#mission_objectives"
-                          },
-                          "gameModeChangeButton": [
-                            {
-                              "id": "mis_obj_button_header"
-                            },
-                            {
-                              "direction": "up"
-                            },
-                            {
-                              "on_click": "onSwitchChatSize"
-                            },
-                            {
-                              "display": "hide"
-                            },
-                            {
-                              "enable": "no"
-                            },
-                            {
-                              "behaviour": "wrapBroadcast"
-                            },
-                            {
-                              "navigatorShortcuts": "yes"
-                            },
-                            {
-                              "on_wrap_up": "onWrapUp"
-                            },
-                            {
-                              "on_wrap_down": "onWrapDown"
-                            },
-                            {
-                              "on_wrap_right": "onWrapRight"
-                            },
-                            {
-                              "dropMenuArrow": []
-                            },
-                            {
-                              "dropMenuSeparator": []
-                            },
-                            {
-                              "activeText": {
-                                "margin": "5@dp, 0",
-                                "text": "#mission_objectives"
-                              }
-                            },
-                            {
-                              "dropMenuSeparator": []
-                            },
-                            {
-                              "dropMenuArrow": []
-                            }
-                          ],
-                          "tdiv": {
-                            "size": "pw, fh",
-                            "overflow": "auto",
-                            "flow": "vertical",
-                            "class": "misObjectives",
-                            "scrollbarShortcuts": "yes",
-                            "div": [
-                              {
-                                "width": "pw -1@scrollBarSize"
-                              },
-                              {
-                                "overflow": "hidden"
-                              },
-                              {
-                                "tdiv": {
-                                  "id": "primary_tasks_list",
-                                  "width": "pw",
-                                  "padding-bottom": "0.8*@scrn_tgt/100.0",
-                                  "flow": "vertical"
-                                }
-                              },
-                              {
-                                "tdiv": {
-                                  "id": "secondary_tasks_list",
-                                  "width": "pw",
-                                  "padding-bottom": "0.8*@scrn_tgt/100.0",
-                                  "flow": "vertical"
-                                }
-                              }
-                            ]
                           }
+                        },
+                        {
+                          "dropMenuSeparator": []
+                        },
+                        {
+                          "dropMenuArrow": []
                         }
-                      },
-                      {
-                        "tdiv": {
-                          "id": "mpChatInRespawn",
-                          "width": "pw",
-                          "height": "1@maxChatHeight",
-                          "min-height": "1@minChatHeight",
-                          "max-height": "ph - 1@minMisObjHeight"
-                        }
+                      ],
+                      "tdiv": {
+                        "size": "pw, fh",
+                        "overflow": "auto",
+                        "flow": "vertical",
+                        "class": "misObjectives",
+                        "scrollbarShortcuts": "yes",
+                        "div": [
+                          {
+                            "width": "pw -1@scrollBarSize"
+                          },
+                          {
+                            "overflow": "hidden"
+                          },
+                          {
+                            "tdiv": {
+                              "id": "primary_tasks_list",
+                              "width": "pw",
+                              "padding-bottom": "0.8*@scrn_tgt/100.0",
+                              "flow": "vertical"
+                            }
+                          },
+                          {
+                            "tdiv": {
+                              "id": "secondary_tasks_list",
+                              "width": "pw",
+                              "padding-bottom": "0.8*@scrn_tgt/100.0",
+                              "flow": "vertical"
+                            }
+                          }
+                        ]
                       }
-                    ]
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "mpChatInRespawn",
+                      "width": "pw",
+                      "height": "fh",
+                      "min-height": "1@minChatHeight"
+                    }
                   }
                 ]
               },

@@ -493,14 +493,14 @@ function dbg_loading_brief(missionName = "malta_ship_mission", slidesAmount = 0)
   ::handlersManager.loadHandler(::gui_handlers.LoadingBrief, { briefing = briefingClone })
 }
 
-function dbg_ps4updater_open(isProd = false)
+function dbg_content_patch_open(isProd = false)
 {
   local restoreData = {
-    ps4_start_updater = ps4_start_updater
-    ps4_stop_updater = ps4_stop_updater
+    start_content_patch_download = start_content_patch_download
+    stop_content_patch_download = stop_content_patch_download
   }
 
-  ps4_stop_updater <- (@(restoreData) function() {
+  stop_content_patch_download <- (@(restoreData) function() {
     foreach(name, func in restoreData)
       getroottable()[name] = func
   })(restoreData)
@@ -521,7 +521,7 @@ function dbg_ps4updater_open(isProd = false)
                         }
                       }
 
-  ps4_start_updater <- (@(updaterData) function(configPath, handler, updaterCallback) {
+  start_content_patch_download <- (@(updaterData) function(configPath, handler, updaterCallback) {
     updaterData.handler = handler
     updaterData.callback = updaterCallback
 

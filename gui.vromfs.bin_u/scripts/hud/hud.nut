@@ -3,9 +3,6 @@ local time = require("scripts/time.nut")
 local hudState = require_native("hudState")
 
 
-::chat_window_appear_time <- 0.125;
-::chat_window_disappear_time <- 20.0;
-
 local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
 
@@ -149,7 +146,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   function loadGameChat()
   {
     if (::is_multiplayer())
-      ::loadGameChatToObj(scene.findObject("chatPlace"), "gui/chat/gameChat.blk", this, true, false, true)
+      ::loadGameChatToObj(scene.findObject("chatPlace"), "gui/chat/gameChat.blk", this,
+                          { selfHideInput = true, selfHideLog = true })
   }
 
   function reinitScreen(params = {})

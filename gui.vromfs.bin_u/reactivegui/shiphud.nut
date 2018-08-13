@@ -2,6 +2,7 @@ local networkState = require("networkState.nut")
 local activeOrder = require("activeOrder.nut")
 local shipStateModule = require("shipStateModule.nut")
 local hudLogs = require("hudLogs.nut")
+local voiceChat = require("chat/voiceChat.nut")
 
 
 local shipHud = @(){
@@ -12,6 +13,7 @@ local shipHud = @(){
   margin = [sh(5), sh(1)] //keep gap for counters
   gap = sh(1)
   children = [
+    voiceChat
     activeOrder
     networkState.isMultiplayer.value ? hudLogs : null
     shipStateModule

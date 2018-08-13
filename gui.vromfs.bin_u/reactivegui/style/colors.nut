@@ -30,6 +30,8 @@ colors.menu <- {}
 
   textInputBorderColor = Color(62, 75, 82)
   textInputBgColor = Color(2, 5, 9, 145)
+
+  voiceChatIconActiveColor = Color(134, 216, 8)
 })
 
 colors.hud <- {}

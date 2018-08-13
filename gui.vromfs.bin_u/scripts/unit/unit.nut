@@ -13,7 +13,6 @@ local weaponProperties = [
 ]
 local reqNames = ["reqWeapon", "reqModification"]
 local upgradeNames = ["weaponUpgrade1", "weaponUpgrade2", "weaponUpgrade3", "weaponUpgrade4"]
-local needCollectEffects = ["torpedoes_movement_mode"]
 
 local Unit = class
 {
@@ -365,12 +364,6 @@ local Unit = class
 
     if (weaponry.name == "tank_additional_armor")
       weaponry.requiresModelReload <- true
-
-    if (::isInArray(weaponry.name, needCollectEffects))
-    {
-      local cbFunc = function(effect, ...) { weaponry.effects <- effect }
-      ::calculate_mod_or_weapon_effect(name, weaponry.name, true, this, cbFunc, null)
-    }
 
     foreach(p in weaponProperties)
     {

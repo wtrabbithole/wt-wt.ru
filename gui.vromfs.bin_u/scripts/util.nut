@@ -2265,7 +2265,7 @@ function set_blk_value_by_path(blk, path, val)
 
   //If current value is equal to existent in DataBlock don't override it
   if (::u.isEqual(blk[key], val))
-    return false
+    return u.isInstance(val) //If the same instance was changed, then need to save
 
   //Remove DataBlock slot if it contains an instance or if it has different type
   //from new value

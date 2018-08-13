@@ -11,9 +11,9 @@ enum MESSAGE_TYPE {
 ::menu_chat_handler <- null
 ::menu_chat_sizes <- null
 ::last_chat_scene_show <- false
-::empty_chat_text <- ""
+::empty_chat_messages <- []
 ::last_send_messages <- []
-::delayed_chat_messages <- ""
+::delayed_chat_messages <- []
 ::clanUserTable <- {}
 
 ::default_chat_rooms <- ["general"]
@@ -703,10 +703,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = format("<color=%s>%s</color>", systemColor, ::loc("chat/connecting"))
       } else {
         text = format("<color=%s>%s</color>", systemColor, ::loc("chat/disconnected"))
-        if (::empty_chat_text!="")
-          text = ::empty_chat_text + "\n" + text
+        msgsToDraw = ::empty_chat_messages
       }
-      msgsToDraw = [createMessage("", text, MESSAGE_TYPE.SYSTEM)]
+      msgsToDraw.append(createMessage("", text, MESSAGE_TYPE.SYSTEM))
     }
 
     local lastMessageIndex = msgsToDraw?[msgsToDraw.len()-1]?.messageIndex ?? -1
@@ -1064,6 +1063,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
                                                     uid = db.uid,
                                                     voiceChatStatus = voiceChatStatus
                                                    })
+
+        ::call_darg("updateVoiceChatStatus", { name = contact?.name ?? "",
+          isTalking = voiceChatStatus == voiceChatStats.talking})
       }
     }
     /* //!! For debug only!!
@@ -1437,12 +1439,12 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (important)
       {
-        ::delayed_chat_messages += ((::delayed_chat_messages=="")? "":"\n") + text
+        ::delayed_chat_messages.append(createMessage("", text, messageType))
         newMessagesGC()
       }
       else if (roomId=="")
       {
-        ::empty_chat_text += ((::empty_chat_text!="")? "\n" : "") + text
+        ::empty_chat_messages.append(createMessage("", text, messageType))
         updateChatText()
       }
     }
@@ -1510,7 +1512,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNewMessages()
   {
-    if (::delayed_chat_messages != "")
+    if (::delayed_chat_messages.len() > 0)
       return
 
     if (!::last_chat_scene_show || !curRoom)
@@ -1826,11 +1828,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (roomType == ::g_chat_room_type.SQUAD && platformModule.isChatEnabled())
       addRoomMsg(id, "", ::loc("squad/channelIntro"))
 
-    if (::delayed_chat_messages!="")
+    if (::delayed_chat_messages.len() > 0)
     {
-      r.messageList.append(createMessage("", ::delayed_chat_messages, MESSAGE_TYPE.SYSTEM))
+      for(local i = 0; i < ::delayed_chat_messages.len(); i++) {
+        r.messageList.append(::delayed_chat_messages[i])
+      }
 
-      ::delayed_chat_messages = ""
+      ::delayed_chat_messages = []
       updateChatText()
       checkNewMessages()
     }
@@ -3178,7 +3182,7 @@ function resetChat()
   ::g_chat.rooms = []
   ::new_menu_chat_messages <- false
   ::last_send_messages <- []
-  ::delayed_chat_messages <- ""
+  ::delayed_chat_messages <- []
   ::last_chat_scene_show <- false
   if (::menu_chat_handler)
     ::menu_chat_handler.roomsInited = false

@@ -10,6 +10,8 @@ enum MARK_RECIPE {
   USED
 }
 
+local markRecipeSaveId = "markRecipe/"
+
 local lastRecipeIdx = 0
 local ExchangeRecipes = class {
   idx = 0
@@ -298,6 +300,20 @@ local ExchangeRecipes = class {
 
   static hasFakeRecipes = @(recipes) ::u.search(recipes, @(r) r?.isFake) != null
 
+  static function saveMarkedRecipes(newMarkedRecipesUid)
+  {
+    if (!newMarkedRecipesUid.len())
+      return
+
+    local markRecipeBlk = ::load_local_account_settings(markRecipeSaveId)
+    if (!markRecipeBlk)
+      markRecipeBlk = ::DataBlock()
+    foreach(uid in newMarkedRecipesUid)
+      markRecipeBlk[uid] = MARK_RECIPE.USED
+
+    ::save_local_account_settings(markRecipeSaveId, markRecipeBlk)
+  }
+
   static function getComponentQuantityText(component, params = null)
   {
     if (!(params?.showCurQuantities ?? true))
@@ -500,9 +516,9 @@ local ExchangeRecipes = class {
     ::ItemsManager.autoConsumeItems()
   }
 
-  getSaveId = @() "markRecipe/" + uid
+  getSaveId = @() markRecipeSaveId + uid
 
-  function markRecipe(isUserMark = false)
+  function markRecipe(isUserMark = false, needSave = true)
   {
     local marker = !isUserMark ? MARK_RECIPE.USED
       : (isUserMark && mark == MARK_RECIPE.NONE) ? MARK_RECIPE.BY_USER
@@ -512,7 +528,8 @@ local ExchangeRecipes = class {
       return false
 
     mark = marker
-    ::save_local_account_settings(getSaveId(), mark)
+    if (needSave)
+      ::save_local_account_settings(getSaveId(), mark)
 
     return true
   }

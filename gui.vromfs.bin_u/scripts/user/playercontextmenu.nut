@@ -43,7 +43,7 @@ local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionN
 local showPrivacySettingsRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableOnlinePrivacy"))
 local showXboxFriendOnlySquadInvitePopup = @() ::g_popups.add(null, ::loc("squad/xbox/friendsOnly"))
 local showXboxSquadInviteOnlyOnlinePopup = @() ::g_popups.add(null, ::loc("squad/xbox/onlineOnly"))
-local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = playerName}))
+local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = platformModule.getPlayerName(playerName)}))
 
 local getActions = function(contact, params)
 {

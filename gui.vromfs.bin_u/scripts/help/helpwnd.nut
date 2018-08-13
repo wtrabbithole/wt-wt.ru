@@ -743,7 +743,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillFunc()
 
     showTabSpecificControls(tab)
-    guiScene.performDelayed(this, function() { fillTabLinkLines(tab) })
+    guiScene.performDelayed(this, function() {
+      if (!isValid())
+        return
+
+      fillTabLinkLines(tab)
+    })
   }
 
   function showTabSpecificControls(tab)

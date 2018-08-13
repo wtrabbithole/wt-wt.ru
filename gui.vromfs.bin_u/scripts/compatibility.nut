@@ -210,6 +210,10 @@ if (!("logerr" in ::dagor))
 
   char_send_custom_action = function(action, type, headers, body, length) { return -1 }
   EATT_JSON_REQUEST = 64
+
+  start_content_updater = function(cfg, obj, cb) { if (is_platform_ps4) ::ps4_start_updater(cfg, obj, cb) }
+  stop_content_updater = function(cfg, obj, cb) { if (is_platform_ps4) ::ps4_stop_updater(cfg, obj, cb) }
+  xbox_is_production_env = @() false
 })
 
 ::apply_compatibilities({
@@ -229,4 +233,6 @@ if (!("logerr" in ::dagor))
   EVENT_STAT_EXTENDED_2 = "ext2"
   EVENT_STAT_EXTENDED_3 = "ext3"
   EVENT_STAT_EXTENDED_4 = "ext4"
+
+  xbox_complete_login = function() {}
 })

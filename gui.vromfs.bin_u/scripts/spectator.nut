@@ -302,7 +302,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (isMultiplayer)
     {
-      chatData = ::loadGameChatToObj(scene.findObject("chat_container"), "gui/chat/gameChatSpectator.blk", this, true, !canSendChatMessages, false)
+      chatData = ::loadGameChatToObj(scene.findObject("chat_container"), "gui/chat/gameChatSpectator.blk", this,
+                                     {selfHideInput = true, hiddenInput = !canSendChatMessages })
 
       local objGameChat = scene.findObject("gamechat")
       objGameChat.findObject("chat_input_div").show(canSendChatMessages)

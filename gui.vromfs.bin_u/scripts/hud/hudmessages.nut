@@ -75,6 +75,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
   MAIN_NOTIFICATIONS = {
     nestId = "hud_message_center_main_notification"
     messagesMax = 2
+    showSec = 8
     messageEvent = "HudMessage"
 
     getCleanUpId = @(total) total - 1
@@ -106,11 +107,13 @@ enums.addTypesByGlobalName("g_hud_messages", {
         obj         = null
         messageData = messageData
         timer       = null
+        needShowAfterReinit = false
       }
       stack.insert(0, mainMessage)
 
       if (!::checkObj(nest))
-        return
+        return stack[0].needShowAfterReinit <- true
+
       showNest(true)
       local view = {
         id = getMsgObjId(messageData)
@@ -149,6 +152,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
       }
 
       message.messageData = messageData
+      message.needShowAfterReinit <- false
       msgObj.findObject("text").setValue(messageData.text)
       msgObj.state = "old"
       if (::getTblValue("alwaysShow", message.messageData, false))
@@ -168,7 +172,8 @@ enums.addTypesByGlobalName("g_hud_messages", {
 
     setDestroyTimer = function(message)
     {
-      message.timer = timers.addTimer(8, (@() animatedRemoveMessage(message)).bindenv(this)).weakref()
+      message.timer = timers.addTimer(showSec,
+        (@() animatedRemoveMessage(message)).bindenv(this)).weakref()
     }
 
     animatedRemoveMessage = function(message)
@@ -188,6 +193,18 @@ enums.addTypesByGlobalName("g_hud_messages", {
         if (stack.len() == 0)
           showNest(false)
       }.bindenv(this))
+    }
+
+    reinit = function (inScene, inTimers)
+    {
+      setScene(inScene, inTimers)
+      if (!::checkObj(nest))
+        return
+      foreach (message in stack)
+      {
+        if (message.needShowAfterReinit)
+          updateMessage(message, message.messageData)
+      }
     }
   }
 

@@ -101,11 +101,13 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
       {
         if (result == XBOX_LOGIN_STATE_SUCCESS)
         {
-          ::g_login.addState(LOGIN_STATE.AUTHORIZED)
-          return
+          ::gui_start_modal_wnd(::gui_handlers.UpdaterModal,
+              {
+                configPath = "updater.blk"
+                onFinishCallback = ::xbox_complete_login
+              })
         }
-
-        if (result == XBOX_LOGIN_STATE_FAILED)
+        else if (result == XBOX_LOGIN_STATE_FAILED)
         {
           msgBox("no_internet_connection", ::loc("xbox/noInternetConnection"), [["ok", function() {} ]], "ok")
           isLoginInProcess = false

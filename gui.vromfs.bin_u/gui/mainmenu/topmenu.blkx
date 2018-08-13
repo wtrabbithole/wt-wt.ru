@@ -1,5 +1,90 @@
 [
   {
+    "shopWnd": {
+      "id": "shop_wnd_move",
+      "width": "1@slotbarWidthFull",
+      "height": "0",
+      "pos": "50%sw-50%w, 1@shopYPos-h",
+      "position": "absolute",
+      "input-transparent": "yes",
+      "_size-timer": "0",
+      "moveOut": "no",
+      "on_activate": "onShopWndAnimStarted",
+      "on_deactivate": "onShopWndAnimFinished",
+      "tdiv": {
+        "size": "pw, ph",
+        "overflow": "hidden",
+        "frame": {
+          "id": "shop_wnd_frame",
+          "size": "1@shopWndWidth, 1@maxWindowHeightWithSlotbar",
+          "pos": "50%pw-50%w, sh-h",
+          "position": "absolute",
+          "class": "wndNav",
+          "type": "blue",
+          "padByLine": "yes",
+          "tooltip": ""
+        }
+      },
+      "Button_text": [
+        {
+          "id": "topmenu_btn_shop_wnd"
+        },
+        {
+          "width": "1@shopWidthMax"
+        },
+        {
+          "pos": "1@offsetFromEdge, ph-h -1@buttonMargin"
+        },
+        {
+          "position": "absolute"
+        },
+        {
+          "text": "#mainmenu/btnShop"
+        },
+        {
+          "visualStyle": "common"
+        },
+        {
+          "class": "switch"
+        },
+        {
+          "noMargin": "yes"
+        },
+        {
+          "btnName": "LT"
+        },
+        {
+          "_on_click": "shopWndSwitch"
+        },
+        {
+          "mouse-focusable": "yes"
+        },
+        {
+          "ButtonImg": []
+        },
+        {
+          "img": {
+            "pos": "50%ph-50%w, 50%ph-50%h",
+            "position": "absolute"
+          }
+        },
+        {
+          "img": {
+            "pos": "pw-50%ph-50%w, 50%ph-50%h",
+            "position": "absolute"
+          }
+        },
+        {
+          "discount_notification": {
+            "type": "down",
+            "id": "topmenu_research_discount",
+            "display": "hide"
+          }
+        }
+      ]
+    }
+  },
+  {
     "gamercard_div": [
       {
         "gamercard": [
@@ -901,91 +986,6 @@
         }
       }
     ]
-  },
-  {
-    "shopWnd": {
-      "id": "shop_wnd_move",
-      "width": "1@slotbarWidthFull",
-      "height": "0",
-      "pos": "50%sw-50%w, 1@shopYPos-h",
-      "position": "absolute",
-      "input-transparent": "yes",
-      "_size-timer": "0",
-      "moveOut": "no",
-      "on_activate": "onShopWndAnimStarted",
-      "on_deactivate": "onShopWndAnimFinished",
-      "tdiv": {
-        "size": "pw, ph",
-        "overflow": "hidden",
-        "frame": {
-          "id": "shop_wnd_frame",
-          "size": "1@shopWndWidth, 1@maxWindowHeightWithSlotbar",
-          "pos": "50%pw-50%w, sh-h",
-          "position": "absolute",
-          "class": "wndNav",
-          "type": "blue",
-          "padByLine": "yes",
-          "tooltip": ""
-        }
-      },
-      "Button_text": [
-        {
-          "id": "topmenu_btn_shop_wnd"
-        },
-        {
-          "width": "1@shopWidthMax"
-        },
-        {
-          "pos": "1@offsetFromEdge, ph-h -1@buttonMargin"
-        },
-        {
-          "position": "absolute"
-        },
-        {
-          "text": "#mainmenu/btnShop"
-        },
-        {
-          "visualStyle": "common"
-        },
-        {
-          "class": "switch"
-        },
-        {
-          "noMargin": "yes"
-        },
-        {
-          "btnName": "LT"
-        },
-        {
-          "_on_click": "shopWndSwitch"
-        },
-        {
-          "mouse-focusable": "yes"
-        },
-        {
-          "ButtonImg": []
-        },
-        {
-          "img": {
-            "pos": "50%ph-50%w, 50%ph-50%h",
-            "position": "absolute"
-          }
-        },
-        {
-          "img": {
-            "pos": "pw-50%ph-50%w, 50%ph-50%h",
-            "position": "absolute"
-          }
-        },
-        {
-          "discount_notification": {
-            "type": "down",
-            "id": "topmenu_research_discount",
-            "display": "hide"
-          }
-        }
-      ]
-    }
   },
   {
     "tdiv": {

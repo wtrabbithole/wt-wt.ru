@@ -496,11 +496,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onCollapse(obj)
   {
-    if (!::checkObj(obj))
+    if (!::check_obj(obj))
       return
     local itemObj = obj.collapse_header ? obj : obj.getParent()
-    local listObj = ::checkObj(itemObj) ? itemObj.getParent() : null
-    if (!::checkObj(listObj) || !itemObj.collapse_header)
+    local listObj = ::check_obj(itemObj) ? itemObj.getParent() : null
+    if (!::check_obj(listObj) || !itemObj.collapse_header)
       return
 
     itemObj.collapsing = "yes"
@@ -526,10 +526,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       }
       else
       {
-        if (obj.collapse_header)
+        if (child.collapse_header)
           break
-        obj.show(isShow)
-        obj.enable(isShow)
+        child.show(isShow)
+        child.enable(isShow)
         if (!isShow && i == selIdx)
           needReselect = true
       }
