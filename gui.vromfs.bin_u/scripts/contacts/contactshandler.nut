@@ -544,7 +544,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     _lastFocusdelayedCall = ::dagor.getCurTime()
-    ::handlersManager.doDelayed(function()
+    ::handlersManager.doDelayed(::Callback(function()
     {
       _lastFocusdelayedCall = 0
       if (!checkScene())
@@ -560,7 +560,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         showAdvice = focusObj && focusObj.id == "search_edit_box"
       }
       setSearchAdviceVisibility(showAdvice)
-    }.bindenv(this))
+    }, this))
   }
 
   function setSearchText(search_text, set_in_edit_box = true)
