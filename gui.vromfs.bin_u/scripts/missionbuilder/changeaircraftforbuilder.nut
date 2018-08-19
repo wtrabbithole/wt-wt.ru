@@ -21,9 +21,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
      textObj.top = "1@titleLogoPlateHeight + 1@frameHeaderHeight"
      textObj.setValue(::loc("mainmenu/missionBuilderNotAvailable"))
 
-     local crew = getCurSlotUnit()
-     local airName = ("aircraft" in crew)? crew.aircraft : ""
-     local air = getAircraftByName(airName)
+     local air = getCurSlotUnit()
      ::show_aircraft = air
      updateButtons()
      initFocusArray()
@@ -37,14 +35,16 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
 
   function onApply()
   {
-    if (::isTank(::show_aircraft))
-      msgBox("not_available", ::loc("mainmenu/cantTestDrive"), [["ok", function() {} ]], "ok", { cancel_fn = function() {}})
-    else
-      ::gui_start_builder()
+    if (::show_aircraft && ::show_aircraft.isAir())
+      return ::gui_start_builder()
+
+    msgBox("not_available", ::loc("msg/builderOnlyForAircrafts"),
+      [["ok", function() {} ]], "ok", { cancel_fn = function() {}})
   }
 
   function updateButtons()
   {
-    scene.findObject("btn_set_air").inactiveColor = ::isTank(::show_aircraft)? "yes" : "no"
+    scene.findObject("btn_set_air").inactiveColor =
+      (::show_aircraft && ::show_aircraft.isAir())? "no" : "yes"
   }
 }
