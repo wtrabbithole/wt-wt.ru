@@ -4179,6 +4179,28 @@
       "modClass": "firepower",
       "deactivationIsAllowed": false
     },
+    "102mm_ussr_navy_HE": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "102mm_HE",
+      "effects": {
+        "additiveBulletMod": "102mm_ussr_navy_HE"
+      }
+    },
+    "102mm_ussr_navy_shrapnel": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "102mm_ussr_navy_shrapnel_ammo_pack",
+      "group": "102mm_HE",
+      "effects": {
+        "additiveBulletMod": "102mm_ussr_navy_shrapnel"
+      }
+    },
+    "102mm_ussr_navy_shrapnel_ammo_pack": {
+      "image": "#ui/gameuiskin#shrapnel_tank",
+      "tier": 2,
+      "modClass": "firepower",
+      "deactivationIsAllowed": false
+    },
     "115mm_ussr_HE": {
       "image": "#ui/gameuiskin#tank_ammo",
       "isReserve": true,
@@ -8391,6 +8413,11 @@
     },
     "Fw-190F-8_R3": {
       "image": "#ui/gameuiskin#gunpods",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
+    "fj_4b_agm_12b": {
+      "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
       "deactivationIsAllowed": false
     },

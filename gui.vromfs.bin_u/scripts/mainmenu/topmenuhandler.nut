@@ -267,6 +267,8 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     activateShopImpl(::top_menu_shop_active, unitType)
     if (shopWeak && shopWeak.getCurrentEdiff() != ::get_current_ediff())
       shopWeak.updateSlotbarDifficulty()
+
+    ::broadcastEvent("ShopWndSwitched")
   }
 
   function openShop(unitType = null)

@@ -415,7 +415,10 @@ function get_unit_actions_list(unit, handler, actions)
                       : (::isUnitInResearch(unit) ?
                           (@(unit, handler) function () { ::gui_modal_convertExp(unit, handler) })(unit, handler)
                           : (@(unit) function () { if (::checkForResearch(unit))
-                                                         ::researchUnit(unit)})(unit)))
+                                                      {
+                                                        ::add_big_query_record("choosed_new_research_unit", unit.name)
+                                                        ::researchUnit(unit)}
+                                                      })(unit)))
     }
     else if (action == "testflight")
     {

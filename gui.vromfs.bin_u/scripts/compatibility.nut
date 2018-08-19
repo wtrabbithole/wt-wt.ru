@@ -235,4 +235,12 @@ if (!("logerr" in ::dagor))
   EVENT_STAT_EXTENDED_4 = "ext4"
 
   xbox_complete_login = function() {}
+
+  UPDATER_CHECKING_FAST = 0
+  UPDATER_CHECKING = 1
+  UPDATER_DOWNLOADING_YUP = 2
+  UPDATER_RESPATCH = 3
+  UPDATER_DOWNLOADING = 4
+  UPDATER_PURIFYING = 5
+  UPDATER_COPYING = 6
 })

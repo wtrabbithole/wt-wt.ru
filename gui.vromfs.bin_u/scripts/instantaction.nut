@@ -412,13 +412,10 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!getCurQueue() && ::g_squad_manager.isInSquad() && !::g_squad_manager.isSquadLeader() && ::g_squad_manager.isMeReady())
       return ::g_squad_manager.setReadyFlag()
 
-    if (getCurQueue())
-    {
-      if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = true, msgId = "squad/only_leader_can_cancel" }))
-        return
-      leaveCurQueue()
+    if (leaveCurQueue({ isLeaderCanJoin = true
+      msgId = "squad/only_leader_can_cancel"
+      needSendStatistic = true }))
       return
-    }
 
     if (getGameModeSelectHandler().getShowGameModeSelect())
     {
@@ -478,7 +475,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.performDelayed(this, function() { goForward(::gui_start_flight)})
   }
 
-  function onStart()
+  function onStart(isFromDebriefing = false)
   {
     if (::start_mission_instead_of_queue)
     {
@@ -489,12 +486,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (::g_squad_manager.isInSquad() && !::g_squad_manager.isSquadLeader())
       return ::g_squad_manager.setReadyFlag()
 
-    if (getCurQueue())
-    {
-      if (::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = true }))
-        leaveCurQueue()
+    if (leaveCurQueue({ isLeaderCanJoin = true, needSendStatistic = true}))
       return
-    }
 
     local curGameMode = ::game_mode_manager.getCurrentGameMode()
     local event = getGameModeEvent(curGameMode)
@@ -521,7 +514,21 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if ("onBattleButtonClick" in curGameMode)
       return curGameMode.onBattleButtonClick()
 
-    checkedNewFlight(onStartAction)
+    local configForStatistic = {
+      actionPlace = isFromDebriefing ? "debriefing" : "hangar"
+      economicName = ::events.getEventEconomicName(event)
+      difficulty = event?.difficulty ?? ""
+      canIntoToBattle = true
+    }
+
+    checkedNewFlight(function() {
+      ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic))
+      onStartAction()
+    }.bindenv(this),
+    function() {
+      configForStatistic.canIntoToBattle <- false
+      ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic))
+    }.bindenv(this))
   }
 
   function onChangeCrossPlayValue(enable, gameMode)
@@ -880,10 +887,21 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       ::switchMenuChatObjIfVisible(chatDiv)
   }
 
-  function leaveCurQueue()
+  function leaveCurQueue(options = {})
   {
-    if (getCurQueue())
-      ::queues.leaveQueue(getCurQueue())
+    local curQueue = getCurQueue()
+    if (!curQueue)
+      return false
+
+    if (options.len() && !::g_squad_utils.canJoinFlightMsgBox(options))
+      return false
+
+    if (options?.needSendStatistic)
+      ::add_big_query_record("exit_waiting_for_battle_screen",
+        ::save_to_json({ waitingTime = curQueue.activateTime }))
+
+    ::queues.leaveQueue(curQueue)
+    return true
   }
 
   function goBack()
@@ -896,13 +914,10 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
         return blocksObj.select()
     }
 
-    if (getCurQueue())
-    {
-      if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = true, msgId = "squad/only_leader_can_cancel" }))
-        return
-      leaveCurQueue()
+    if (leaveCurQueue({ isLeaderCanJoin = true
+      msgId = "squad/only_leader_can_cancel"
+      needSendStatistic = true }))
       return
-    }
 
     if (needBattleMenuShow)
       return onInstantActionMenu()

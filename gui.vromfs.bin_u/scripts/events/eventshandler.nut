@@ -148,13 +148,26 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return false
   }
 
-  function onJoinEvent()
+    function onJoinEvent(isFromDebriefing = false)
   {
     local event = ::events.getEvent(curEventId)
     if (!event)
       return
+
     isQueueWasStartedWithRoomsList = ::events.isEventWithLobby(event)
-    ::EventJoinProcess(event)
+    local configForStatistic = {
+      actionPlace = isFromDebriefing ? "debriefing" : "event_window"
+      economicName = ::events.getEventEconomicName(event)
+      difficulty = event?.difficulty ?? ""
+      canIntoToBattle = true
+    }
+
+    ::EventJoinProcess(event, null,
+      @(event) ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic)),
+      function() {
+        configForStatistic.canIntoToBattle <- false
+        ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic))
+      })
   }
 
   function onUpdate(obj, dt)
@@ -227,8 +240,12 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onLeaveEventActions()
   {
     local q = getCurEventQueue()
-    if (q)
-      ::queues.leaveQueue(q)
+    if (!q)
+      return
+
+    ::add_big_query_record("exit_waiting_for_battle_screen",
+      ::save_to_json({ waitingTime = q.activateTime }))
+    ::queues.leaveQueue(q)
   }
 
   function onEventQueueChangeState(_queue)

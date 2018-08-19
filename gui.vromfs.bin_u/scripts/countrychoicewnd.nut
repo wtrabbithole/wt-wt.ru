@@ -269,6 +269,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function onEnterChoice(obj)
   {
+    sendFirstChooseStatistic()
     startNextState()
   }
 
@@ -432,5 +433,13 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
     local frameObj = scene.findObject("countryChoice-root")
     if (::checkObj(frameObj))
       frameObj.width = width
+  }
+
+  function sendFirstChooseStatistic()
+  {
+    if (state == CChoiceState.UNIT_TYPE_SELECT && selectedUnitType)
+      ::add_big_query_record("choose_unit_type_screen", selectedUnitType.lowerName)
+    else if (state == CChoiceState.COUNTRY_SELECT)
+      ::add_big_query_record("choose_country_screen", selectedCountry)
   }
 }

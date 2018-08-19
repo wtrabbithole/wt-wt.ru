@@ -63,7 +63,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   airActions = ["research", "buy"]
   isOwn = true
-  is_tank = false
   guiScene = null
   scene = null
   wndType = handlerType.MODAL
@@ -76,21 +75,12 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   needCheckTutorial = false
   curEdiff = -1
+  purchasedModifications = null
 
   function initScreen()
   {
     setResearchManually = !researchMode
-    airName = ::aircraft_for_weapons
-    air = getAircraftByName(airName)
-    if (!air)
-    {
-      goBack()
-      return
-    }
-    isOwn = air.isUsable()
-    is_tank = ::isTank(air)
     mainModsObj = scene.findObject("main_modifications")
-    modsBgObj = mainModsObj.findObject("bg_elems")
 
     showSceneBtn("weaponry_close_btn", !researchMode)
 
@@ -102,6 +92,48 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         ::getRpPriceText(::loc("mainmenu/spendExcessExp") + " ", false),
         ::getRpPriceText(::loc("mainmenu/spendExcessExp") + " ", true))
 
+    airName = ::aircraft_for_weapons
+    air = getAircraftByName(airName)
+    initMainParams()
+
+    initSlotbar()
+
+    if (researchMode)
+      sendModResearchedStatistic(air, researchBlock?[::researchedModForCheck] ?? "")
+
+    selectResearchModule()
+    checkOnResearchCurMod()
+    showNewbieResearchHelp()
+  }
+
+  function initSlotbar()
+  {
+    if (researchMode || !::handlersManager.getActiveBaseHandler() ||
+      !::handlersManager.getActiveBaseHandler().getSlotbar() || !::isUnitInSlotbar(air))
+        return
+    createSlotbar({
+      showNewSlot=false
+      emptyText="#shop/aircraftNotSelected"
+      afterSlotbarSelect = onSlotbarSelect
+      showTopPanel = false
+    })
+  }
+
+  function initMainParams()
+  {
+    if (!air)
+    {
+      goBack()
+      return
+    }
+    isOwn = air.isUsable()
+    purchasedModifications = []
+
+    local data = "tdiv { id:t='bg_elems'; position:t='absolute'; inactive:t='yes' }"
+    mainModsObj.setValue(-1)
+    guiScene.replaceContentFromText(mainModsObj, data, data.len(), this)
+    modsBgObj = mainModsObj.findObject("bg_elems")
+
     items = []
     fillPage()
 
@@ -112,11 +144,22 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     shownTiers = []
 
     initFocusArray()
-    selectResearchModule()
-
-    checkOnResearchCurMod()
-    showNewbieResearchHelp()
     updateWindowTitle()
+  }
+
+  function onSlotbarSelect()
+  {
+    local newCrew = getCurCrew()
+    local newUnit = newCrew ? ::g_crew.getCrewUnit(newCrew) : null
+    if (!newUnit || newUnit == air)
+      return
+
+    sendModPurchasedStatistic(air)
+    air = newUnit
+    airName = air?.name ?? ""
+    ::aircraft_for_weapons = airName
+
+    initMainParams()
   }
 
   function checkOnResearchCurMod()
@@ -166,7 +209,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(titleObj))
       return
 
-    local titleText = ::loc("mainmenu/btnWeapons") + ::loc("ui/parentheses/space", { text = ::getUnitName(air) })
+    local titleText = ::loc("mainmenu/btnWeapons") + " " + ::loc("ui/mdash") + " " + ::getUnitName(air)
     if (researchMode)
       titleText = ::loc("modifications/finishResearch",
           {modName = ::getModificationName(air, ::getTblValue(::researchedModForCheck, researchBlock, "CdMin_Fuse"))})
@@ -240,6 +283,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillPage()
   {
+    guiScene.setUpdatesEnabled(false, false)
     createItem(air, weaponsItem.curUnit, mainModsObj, 0.0, 0.0)
     fillModsTree(3.0)
 
@@ -252,6 +296,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     updateAllItems()
+    guiScene.setUpdatesEnabled(true, true)
   }
 
   function fillAvailableRPText()
@@ -314,9 +359,18 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return updateItem(idx)
   }
 
-  function onEventModificationPurchased(params) { updateAllItems() }
+  function onEventModificationPurchased(params)
+  {
+    local modName = params?.modName
+    if (modName)
+      purchasedModifications.append(modName)
+
+    updateAllItems()
+  }
   function onEventWeaponPurchased(params) { updateAllItems() }
   function onEventSparePurchased(params) { updateAllItems() }
+  function onEventSlotbarPresetLoaded(params) { onSlotbarSelect() }
+  function onEventCrewsListChanged(params) { onSlotbarSelect() }
 
   function onEventUnitWeaponChanged(params)
   {
@@ -464,7 +518,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local index = (mainModsObj.getValue() || 0) - 1
-    if (index < 0)
+    if (index < 0 || index >= mainModsObj.childrenCount())
       return
 
     local btnObj = scene.findObject("btn_nav_research")
@@ -1150,7 +1204,11 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         {
           updateAllItems()
           if (researchMode)
+          {
+            if (item && ::isModResearched(air, item))
+              sendModResearchedStatistic(air, item.name)
             selectResearchModule()
+          }
         })
       })(item)
 
@@ -1409,6 +1467,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function goBack()
   {
     checkSaveBulletsAndDo(null)
+    sendModPurchasedStatistic(air)
 
     if (researchMode)
     {
@@ -1435,6 +1494,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (researchMode && ::find_any_not_researched_mod(air))
       ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
+
+    sendModPurchasedStatistic(air)
   }
 
   function getHandlerRestoreData()
@@ -1469,6 +1530,24 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getCurrentEdiff()
   {
     return curEdiff == -1 ? ::get_current_ediff() : curEdiff
+  }
+
+  function sendModResearchedStatistic(unit, modName)
+  {
+    ::add_big_query_record("completed_new_research_modification",
+        ::save_to_json({ unit = unit.name
+          modification = modName }))
+  }
+
+  function sendModPurchasedStatistic(unit)
+  {
+    if (!unit || !purchasedModifications.len())
+      return
+
+    ::add_big_query_record("first_modifications_purchased",
+        ::save_to_json({ unit = unit.name
+          modifications = purchasedModifications }))
+    purchasedModifications.clear()
   }
 }
 

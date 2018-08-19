@@ -471,14 +471,16 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return slotbar && slotbar.getCurCountry()
   }
 
-  function onTake(unit = null)
+  function onTake(unit = null, isNewUnit = false)
   {
     checkedCrewAirChange( (@(unit) function () {
       local curUnit = unit ? unit : getCurAircraft()
       if (!curUnit || !curUnit.isUsable() || ::isUnitInSlotbar(curUnit))
         return
 
-      ::gui_start_selecting_crew({unit = curUnit, unitObj = scene.findObject(curUnit.name)})
+      ::gui_start_selecting_crew({ unit = curUnit
+        unitObj = scene.findObject(curUnit.name)
+        isNewUnit = isNewUnit })
     })(unit))
   }
 

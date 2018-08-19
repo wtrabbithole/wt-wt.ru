@@ -11,6 +11,7 @@
     ::EATT_SET_EXTERNAL_ID
     ::EATT_BUYING_UNLOCK
     ::EATT_COMPLAINT
+    ::EATT_ENABLE_MODIFICATIONS
   ]
   isSlotbarUpdateSuspended = false
   isSlotbarUpdateRequired = false
