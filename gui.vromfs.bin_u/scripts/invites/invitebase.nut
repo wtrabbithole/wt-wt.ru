@@ -83,7 +83,6 @@ class ::BaseInvite
            && !isDelayed
            && !isAutoAccepted
            && !isRejected
-           && !::isPlayerNickInContacts(inviterName, ::EPL_BLOCKLIST)
            && !::isUserBlockedByPrivateSetting(inviterUid, inviterName)
   }
 

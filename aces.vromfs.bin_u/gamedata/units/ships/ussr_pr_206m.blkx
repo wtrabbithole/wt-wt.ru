@@ -15,12 +15,6 @@
     "useBotForAi": true
   },
   {
-    "support_unit_class": "structures/germ_380mm_skc34"
-  },
-  {
-    "support_unit_tag": "artillery"
-  },
-  {
     "harmonizationSuffix": "_tomoe"
   },
   {
@@ -1864,6 +1858,9 @@
             "barrelDP": "main_caliber_gun_01_dm"
           },
           {
+            "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -1876,7 +1873,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 550
           },
           {
             "allowableDelta": 2.0
@@ -1989,6 +1986,9 @@
             "barrelDP": "main_caliber_gun_01_dm"
           },
           {
+            "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -2001,7 +2001,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 550
           },
           {
             "allowableDelta": 2.0
@@ -2106,7 +2106,10 @@
             "recoilOffset": 0.3
           },
           {
-            "barrelDP": "main_caliber_gun_01_dm"
+            "barrelDP": "auxiliary_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_01_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2231,7 +2234,10 @@
             "recoilOffset": 0.3
           },
           {
-            "barrelDP": "main_caliber_gun_01_dm"
+            "barrelDP": "auxiliary_caliber_gun_02_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_02_dm"
           },
           {
             "defaultYaw": 0.0
@@ -3296,7 +3302,6 @@
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
       },
-      "ship_main_caliber_support": [],
       "torpedoes_movement_mode": {
         "effects": {
           "distToLive": 5000.0,
@@ -3407,7 +3412,7 @@
           "explosionEvent": "ammo_explosion_2",
           "fireEvent": "ammo_fire_2",
           "ammunition_storage_02_dm": {
-            "count": 4000
+            "count": 1100
           }
         }
       },

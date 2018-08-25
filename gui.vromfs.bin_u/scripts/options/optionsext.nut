@@ -1143,7 +1143,8 @@ function get_option(type, context = null)
 
     case ::USEROPT_INVERTCAMERAY:
       descr.id = "invertCameraY"
-      descr.items = ["#options/no", "#options/yes"]
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
       descr.value = ::get_option_camera_invertY() ? 1 : 0
       break
 

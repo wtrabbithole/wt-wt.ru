@@ -18,6 +18,17 @@ enum mpChatView {
   BATTLE
 }
 
+const CHAT_WINDOW_APPEAR_TIME = 0.125
+const CHAT_WINDOW_VISIBLE_TIME = 10.0
+const CHAT_WINDOW_DISAPPEAR_TIME = 3.0
+
+local MP_CHAT_PARAMS = {
+  selfHideInput = false     // Hide input on send/cancel
+  hiddenInput = false       // Chat is read-only
+  selfHideLog = false       // Hide log on timer
+  isInSpectateMode = false  // is player in spectate mode
+}
+
 class ::ChatHandler
 {
   maxLogSize = 20
@@ -42,6 +53,7 @@ class ::ChatHandler
 
   isMouseCursorVisible = false
   isActive = false // While it is true, in-game unit control shortcuts are disabled in client.
+  visibleTime = 0
   chatInputText = ""
 
   function constructor()
@@ -56,7 +68,7 @@ class ::ChatHandler
     isMouseCursorVisible = ::is_cursor_visible_in_gui()
   }
 
-  function loadScene(obj, chatBlk, handler, selfHideInput = false, hiddenInput = false, selfHideLog = false)
+  function loadScene(obj, chatBlk, handler, params = MP_CHAT_PARAMS)
   {
     if (!::checkObj(obj))
       return null
@@ -70,21 +82,19 @@ class ::ChatHandler
     }
 
     obj.getScene().replaceContent(obj, chatBlk, this)
-    return addScene(obj, handler, selfHideInput, hiddenInput, selfHideLog)
+    return addScene(obj, handler, params)
   }
 
-  function addScene(newScene, handler, selfHideInput, hiddenInput, selfHideLog)
+  function addScene(newScene, handler, params)
   {
-    local sceneData = {
+    local sceneData = MP_CHAT_PARAMS.__merge(params).__update({
       idx = ++last_scene_idx
       scene = newScene
       handler = handler
       transparency = 0.0
-      selfHideLog = selfHideLog     // Hide log on timer
-      selfHideInput = selfHideInput // Hide input on send/cancel
-      hiddenInput = hiddenInput     // Chat is read-only
       curTab = mpChatView.CHAT
-    }
+    })
+
     local sceneFocusObjArray = [
     "chat_prompt_place",
     "chat_input",
@@ -102,7 +112,7 @@ class ::ChatHandler
     }
 
     local timerObj = scene.findObject("chat_update")
-    if (timerObj && (selfHideInput || selfHideLog))
+    if (timerObj && (sceneData?.selfHideInput || sceneData?.selfHideLog))
     {
       timerObj.setIntProp(sceneIdxPID, sceneData.idx)
       timerObj.setUserData(this)
@@ -174,9 +184,14 @@ class ::ChatHandler
     if (!isHudVisible)
       transparency = 0
     else if (!isActive)
-      transparency -= dt / ::chat_window_disappear_time
+    {
+      if (visibleTime > 0)
+        visibleTime -= dt
+      else
+        transparency -= dt / CHAT_WINDOW_DISAPPEAR_TIME
+    }
     else
-      transparency += dt / ::chat_window_appear_time
+      transparency += dt / CHAT_WINDOW_APPEAR_TIME
     transparency = ::clamp(transparency, 0.0, 1.0)
 
     local transValue = (isHudVisible && isMouseCursorVisible) ? 100 :
@@ -219,6 +234,9 @@ class ::ChatHandler
       return
 
     isActive = value
+    if (isActive)
+      visibleTime = CHAT_WINDOW_VISIBLE_TIME
+
     doForAllScenes(updateChatInput)
     ::broadcastEvent("MpChatInputToggled", { active = isActive })
     ::handlersManager.updateControlsAllowMask()
@@ -236,13 +254,14 @@ class ::ChatHandler
     local scene = sceneData.scene
 
     ::showBtnTable(scene, {
-        chat_input_back         = show
-        chat_input_placeholder  = !show && canEnableChatInput()
+        chat_input_back           = show
+        chat_input_placeholder    = !show && canEnableChatInput()
+        show_chat_input_accesskey = !show && sceneData.isInSpectateMode
     })
     ::enableBtnTable(scene, {
         chat_input              = show
         btn_send                = show
-        chat_mod_accesskey      = show && (sceneData.handler?.isSpectate || !::is_hud_visible)
+        chat_mod_accesskey      = show && (sceneData.isInSpectateMode || !::is_hud_visible)
     })
     if (show && sceneData.scene.isVisible())
     {
@@ -462,6 +481,11 @@ class ::ChatHandler
   {
     local newModeId = ::g_mp_chat_mode.getNextMode(curMode.id)
     setMode(::g_mp_chat_mode.getModeById(newModeId))
+  }
+
+  function onShowChatInput()
+  {
+    enableChatInput(true)
   }
 
   function setMode(mpChatMode)
@@ -695,14 +719,9 @@ function is_chat_screen_allowed()
   return ::is_hud_visible() && !::is_menu_state()
 }
 
-function set_game_chat_scene(scene = null, handler = null, selfHideInput = false, hiddenInput = false, selfHideLog = false)
+function loadGameChatToObj(obj, chatBlk, handler, p = MP_CHAT_PARAMS)
 {
-  return ::get_game_chat_handler().addScene(scene, handler, selfHideInput, hiddenInput, selfHideLog)
-}
-
-function loadGameChatToObj(obj, chatBlk, handler, selfHideInput = false, hiddenInput = false, selfHideLog = false)
-{
-  return ::get_game_chat_handler().loadScene(obj, chatBlk, handler, selfHideInput, hiddenInput, selfHideLog)
+  return ::get_game_chat_handler().loadScene(obj, chatBlk, handler, MP_CHAT_PARAMS.__merge(p))
 }
 
 function detachGameChatSceneData(sceneData)

@@ -28,6 +28,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
     researchedUnit = ::getAircraftByName(unitName)
     unitCountry = researchBlock.country
     unitType = ::get_es_unit_type(researchedUnit)
+    sendUnitResearchedStatistic(researchedUnit)
     updateResearchVariables()
 
     base.initScreen()
@@ -297,7 +298,10 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   function onSpendExcessExp()
   {
     local unit = getCurAircraft(true, true)
-    flushItemExp(unit, (@(unit) function() {setUnitOnResearch(unit)})(unit))
+    flushItemExp(unit, @() setUnitOnResearch(unit, function() {
+      sendChoosedNewResearchUnitStatistic(unit)
+      sendUnitResearchedStatistic(unit)
+    }))
   }
 
   /*
@@ -340,6 +344,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
     if (unit)
     {
       lastResearchUnit = unit
+      sendChoosedNewResearchUnitStatistic(unit)
       ::researchUnit(unit, false)
     }
     else
@@ -424,6 +429,13 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   function afterModalDestroy()
   {
     ::checkNonApprovedResearches(true, true)
+  }
+
+  function sendUnitResearchedStatistic(unit)
+  {
+    ::add_big_query_record("completed_new_research_unit",
+        ::save_to_json({ unit = unit.name
+          howResearched = "earned_exp" }))
   }
 }
 

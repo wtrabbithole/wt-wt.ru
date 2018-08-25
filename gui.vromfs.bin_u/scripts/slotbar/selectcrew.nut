@@ -24,6 +24,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   messageText = ""
 
   takeCrewIdInCountry = -1
+  isNewUnit = false
 
   focusArray = [
     function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
@@ -290,6 +291,12 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     if (!isSuccess)
       return
 
+    if (isNewUnit)
+    {
+      ::add_big_query_record("choosed_crew_for_new_unit",
+        ::save_to_json({ unit = unit.name
+          crew = getCurCrew()?.id }))
+    }
     if (afterSuccessFunc)
       afterSuccessFunc()
     goBack()

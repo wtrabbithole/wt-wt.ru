@@ -10,14 +10,14 @@ class Contact
   uidInt64 = null
   clanTag = ""
 
-  presence = null
+  presence = ::g_contact_presence.UNKNOWN
   forceOffline = false
   isForceOfflineChecked = !::is_platform_xboxone
 
   voiceStatus = null
 
   online = null
-  unknown = null
+  unknown = true
   gameStatus = null
   gameConfig = null
   inGameEx = null
@@ -35,13 +35,10 @@ class Contact
 
   constructor(contactData)
   {
-    presence = ::g_contact_presence.UNKNOWN
-    unknown = true
-
-    local newName = ::getTblValue(name, contactData, "")
+    local newName = contactData?["name"] ?? ""
     if (newName.len()
-        && ::u.isEmpty(::getTblValue("clanTag", contactData))
-        && newName in ::clanUserTable)
+        && ::u.isEmpty(contactData?.clanTag)
+        && ::clanUserTable?[newName])
       contactData.clanTag <- ::clanUserTable[newName]
 
     update(contactData)
@@ -66,6 +63,17 @@ class Contact
       afterSuccessUpdateFunc()
       afterSuccessUpdateFunc = null
     }
+  }
+
+  function resetMatchingParams()
+  {
+    presence = ::g_contact_presence.UNKNOWN
+
+    online = null
+    unknown = true
+    gameStatus = null
+    gameConfig = null
+    inGameEx = null
   }
 
   function setClanTag(_clanTag)

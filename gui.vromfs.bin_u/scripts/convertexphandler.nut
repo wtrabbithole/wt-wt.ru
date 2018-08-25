@@ -169,12 +169,18 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWindow()
   {
+    local oldState = currentState
     if (!unit)
       currentState = windowState.noUnit
     else if (::canBuyUnit(unit) || ::isUnitResearched(unit))
       currentState = windowState.canBuy
     else
       currentState = windowState.research
+
+    if (isRefreshingAfterConvert && oldState != currentState  && currentState == windowState.canBuy)
+      ::add_big_query_record("completed_new_research_unit",
+        ::save_to_json({ unit = unit.name
+          howResearched = "convert_exp" }))
 
     updateData()
     fillContent()
@@ -589,6 +595,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
       unit = unit
       unitObj = scene.findObject("unit_nest").findObject(unitName)
       cellClass = "slotbarClone"
+      isNewUnit = true
       afterCloseFunc = (@(handler, unit) function() {
           if (::handlersManager.isHandlerValid(handler))
             handler.handleSwitchUnitList(::get_es_unit_type(handler.getAvailableUnitForConversion() || unit))

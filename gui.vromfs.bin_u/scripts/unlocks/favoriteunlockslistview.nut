@@ -41,8 +41,9 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
 
   function fillUnlockInfo(unlockBlk, unlockObj)
   {
-    unlockObj.show(!!unlockBlk)
-    if( ! unlockBlk)
+    local isShowUnlock = unlockBlk && ::is_unlock_visible(unlockBlk)
+    unlockObj.show(isShowUnlock)
+    if( !isShowUnlock)
       return
 
     local unlockConfig = ::build_conditions_config(unlockBlk)

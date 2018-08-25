@@ -316,6 +316,28 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       obj.getScene().replaceContent(obj, "gui/airTooltip.blk", handler)
       local contentObj = obj.findObject("air_info_tooltip")
       ::showAirInfo(unit, true, contentObj, handler, params)
+
+      // double performDelayed needs because scene don't recalculate
+      // object size (X and Y equals -1) in first performDelayed
+      obj.getScene().performDelayed(handler, function() {
+        if (obj.isValid())
+          obj.getScene().performDelayed(handler, function() {
+            if (!obj.isValid())
+              return
+
+            if (obj.getSize()[1] > ::g_dagui_utils.toPixels(obj.getScene(), "1@rh"))
+            {
+              local tooltipObj = obj.findObject("air_info_tooltip")
+              if (!::check_obj(tooltipObj))
+                return
+
+              tooltipObj.height = "1@rh - 2@framePadding"
+              local unitImgObj = tooltipObj.findObject("aircraft-image")
+              if (::check_obj(unitImgObj))
+                unitImgObj.height = "fh"
+            }
+          })
+      })
       return true
     }
     onEventUnitModsRecount = function(eventParams, obj, handler, id, params) {

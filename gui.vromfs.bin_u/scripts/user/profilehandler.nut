@@ -1621,4 +1621,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       return getObj("checkbox_only_for_bought")
     return base.getMainFocusObj4()
   }
+
+  function onEventUnlocksCacheInvalidate(p)
+  {
+    if (getCurSheet() == "UnlockAchievement")
+      fillUnlocksList()
+  }
 }

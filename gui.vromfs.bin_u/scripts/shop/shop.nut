@@ -1476,6 +1476,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (!::checkForResearch(unit))
       return
 
+    sendChoosedNewResearchUnitStatistic(unit)
     ::researchUnit(unit)
   }
 
@@ -1546,7 +1547,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     if (!::checkIsInQueue() && !shopResearchMode)
-      onTake(unit)
+      onTake(unit, true)
     else if (shopResearchMode)
       selectRequiredUnit()
   }
@@ -1596,7 +1597,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return false
   }
 
-  function onTake(unit = null)
+  function onTake(unit = null, isNewUnit = false)
   {
     local handler = this
     checkedCrewAirChange( (@(unit, handler) function () {
@@ -1608,6 +1609,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         unit = curUnit,
         unitObj = getAirObj(curUnit.name)
         cellClass = "shopClone"
+        isNewUnit = isNewUnit
         getEdiffFunc = getCurrentEdiff.bindenv(this)
       })
     })(unit, handler))
@@ -1927,4 +1929,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function selectRequiredUnit() {}
   function onSpendExcessExp() {}
   function updateResearchVariables() {}
+
+  function sendChoosedNewResearchUnitStatistic(unit)
+  {
+    ::add_big_query_record("choosed_new_research_unit", unit.name)
+  }
 }

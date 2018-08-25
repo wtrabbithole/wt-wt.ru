@@ -26,60 +26,48 @@ function gui_start_weaponry_select_modal(config)
   ::handlersManager.loadHandler(::gui_handlers.WeaponrySelectModal, config)
 }
 
-function gui_start_choose_unit_weapon(unit, cb, itemParams = null, alignObj = null, align = "bottom")
+local CHOOSE_WEAPON_PARAMS = {
+  itemParams = null
+  alignObj = null
+  align = "bottom"
+  isForcedAvailable = false
+  isWorldWarUnit = false
+}
+function gui_start_choose_unit_weapon(unit, cb, params = CHOOSE_WEAPON_PARAMS)
 {
-  local list = []
-  local curWeaponName = ::get_last_weapon(unit.name)
+  params = CHOOSE_WEAPON_PARAMS.__merge(params)
 
-  local testFlight = ::get_gui_options_mode() == ::OPTIONS_MODE_TRAINING
-  local checkAircraftPurchased = !testFlight
-  local checkWeaponPurchased = !testFlight && !::is_game_mode_with_spendable_weapons()
+  local isWorldWarUnit = params.isWorldWarUnit
+  local curWeaponName = !isWorldWarUnit ? ::get_last_weapon(unit.name)
+    : ::g_world_war.get_last_weapon_preset(unit.name)
   local hasOnlyBought = !::is_in_flight() || !::g_mis_custom_state.getCurMissionRules().isWorldWar
+  local isForcedAvailable = params.isForcedAvailable || isWorldWarUnit
 
+  local list = []
   foreach(weapon in unit.weapons)
   {
-    if (!::is_weapon_visible(unit, weapon, hasOnlyBought))
+    if (!isForcedAvailable && !::is_weapon_visible(unit, weapon, hasOnlyBought))
       continue
 
     list.append({
       weaponryItem = weapon
       selected = curWeaponName == weapon.name
-      enabled = ::is_weapon_enabled(unit, weapon)
+      enabled = isForcedAvailable || ::is_weapon_enabled(unit, weapon)
     })
   }
 
   ::gui_start_weaponry_select_modal({
     unit = unit
     list = list
-    weaponItemParams = itemParams
-    alignObj = alignObj
-    align = align
+    weaponItemParams = params.itemParams
+    alignObj = params.alignObj
+    align = params.align
     onChangeValueCb = (@(unit, cb) function(weapon) {
-      ::set_last_weapon(unit.name, weapon.name)
-      if (cb) cb()
-    })(unit, cb)
-  })
-}
+      if (isWorldWarUnit)
+        ::g_world_war.set_last_weapon_preset(unit.name, weapon.name)
+      else
+        ::set_last_weapon(unit.name, weapon.name)
 
-function ww_gui_start_choose_unit_weapon(unit, cb, itemParams = null, alignObj = null, align = "bottom")
-{
-  local list = []
-  local curWeaponName = ::g_world_war.get_last_weapon_preset(unit.name)
-  foreach(weapon in unit.weapons)
-    list.append({
-      weaponryItem = weapon
-      selected = curWeaponName == weapon.name
-      enabled = true
-    })
-
-  ::gui_start_weaponry_select_modal({
-    unit = unit
-    list = list
-    weaponItemParams = itemParams
-    alignObj = alignObj
-    align = align
-    onChangeValueCb = (@(unit, cb) function(weapon) {
-      ::g_world_war.set_last_weapon_preset(unit.name, weapon.name)
       if (cb) cb(unit.name, weapon.name)
     })(unit, cb)
   })

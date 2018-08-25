@@ -1,7 +1,6 @@
 ::tribunal <- {
   maxComplaintCount = 10
   minComplaintCount = 5
-  complainReasons = ["FOUL", "ABUSE", "TEAMKILL", "SPAM"]
   maxDaysToCheckComplains = 10
 
   maxComplaintsFromMe = 5
@@ -27,11 +26,8 @@
       return
 
     ::tribunal.complaintsData = get_player_complaint_counts()
-    local isNeedComplaintNotify = ::getTblValue("is_need_complaint_notify", ::tribunal.complaintsData)
-    if (isNeedComplaintNotify)
-    {
+    if (::tribunal.complaintsData?.is_need_complaint_notify)
       ::tribunal.showComplaintMessageBox(::tribunal.complaintsData)
-    }
   }
 
   function canComplaint()
@@ -54,31 +50,34 @@
     if (!data)
       return
 
-    local complaintsToMe = ::getTblValue("complaint_count_other", data)
-    if (!complaintsToMe)
+    local complaintsToMe = data?.complaint_count_other
+    if (!complaintsToMe || !complaintsToMe.len())
       return
 
+    local reasonsList = []
     local complaintsCount = 0
-    local textReasons = ""
-    foreach(reason in complainReasons)
+    foreach(reason, count in complaintsToMe)
     {
-      local count = ::getTblValue(reason, complaintsToMe, 0)
       if (!count)
         continue
 
       complaintsCount += count
-      textReasons += ::loc("charServer/ban/reason/" + reason) + "\n"
+      local reasonText = ::loc("charServer/ban/reason/" + reason)
+      if (reason == "OTHER")
+        reasonsList.append(reasonText)
+      else
+        reasonsList.insert(0, reasonText)
     }
 
-    local text = ""
-    if (complaintsCount < maxComplaintCount)
-      text = ::loc("charServer/complaintToYou")
-    else
-      text = ::loc("charServer/complaintToYouMoreThen")
+    if (!complaintsCount)
+      return
 
-    text = ::format(text, min(complaintsCount, maxComplaintCount))
+    local textReasons = ::g_string.implode(reasonsList, "\n")
+    local text = ::loc("charServer/complaintToYou"
+      + (complaintsCount >= maxComplaintCount ? "MoreThen" : ""))
 
-    text += "\n" + textReasons
+    text = ::format(text, min(complaintsCount, maxComplaintCount)) + "\n" + textReasons
+
     ::showInfoMsgBox(text, "tribunal_msg_box")
   }
 }

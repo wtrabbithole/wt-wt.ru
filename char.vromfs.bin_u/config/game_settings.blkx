@@ -185,29 +185,29 @@
     {
       "aircraft": {
         "event": "aircraft_new_players_battle_single",
-        "kills": 3,
-        "games": 3
+        "kills": 1,
+        "games": 1
       }
     },
     {
       "aircraft": {
         "event": "aircraft_new_players_battle_coop",
-        "kills": 10,
-        "games": 10
-      }
-    },
-    {
-      "tank": {
-        "event": "tank_new_players_battle_single",
         "kills": 3,
         "games": 3
       }
     },
     {
       "tank": {
+        "event": "tank_new_players_battle_single",
+        "kills": 1,
+        "games": 1
+      }
+    },
+    {
+      "tank": {
         "event": "tank_new_players_battle_coop",
-        "kills": 10,
-        "games": 10
+        "kills": 3,
+        "games": 3
       }
     }
   ],
@@ -1189,6 +1189,28 @@
       "condition": "",
       "platform_lock": "pc;android"
     },
+    "ConsolesLiveTrophy": [
+      {
+        "condition": "DMMAccount"
+      },
+      {
+        "condition": "PS4Account"
+      },
+      {
+        "condition": "xboxOneAccess"
+      }
+    ],
+    "ConsolesUgcTrophy": [
+      {
+        "condition": "DMMAccount"
+      },
+      {
+        "condition": "PS4Account"
+      },
+      {
+        "condition": "xboxOneAccess"
+      }
+    ],
     "PurchaseMarketItemsForGold": [
       {
         "condition": "DMMAccount"
@@ -1505,17 +1527,29 @@
     "Warbonds_2_0": {
       "condition": ""
     },
+    "EnableLiveSkins": {
+      "condition": "",
+      "platform_lock": "android"
+    },
     "EnableUgcSkins": {
-      "condition": "!DMMAccount;!PS4Account",
-      "platform_lock": "ps4;android;xboxOne"
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "EnableLiveDecals": {
+      "condition": "",
+      "platform_lock": "android"
     },
     "EnableUgcDecals": {
-      "condition": "!DMMAccount;!PS4Account",
-      "platform_lock": "ps4;android;xboxOne"
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "LiveAfterBattleTrophy": {
+      "condition": "",
+      "platform_lock": "android"
     },
     "UgcAfterBattleTrophy": {
-      "condition": "!DMMAccount;!PS4Account",
-      "platform_lock": "ps4;android;xboxOne"
+      "condition": "",
+      "platform_lock": "android"
     },
     "Ugc": [
       {

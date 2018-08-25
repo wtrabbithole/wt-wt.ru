@@ -88,6 +88,9 @@ class ::gui_handlers.misObjectivesView extends ::gui_handlers.BaseGuiHandlerWT
     if (!::u.isEmpty(objective.mapSquare))
       text += "  " + objective.mapSquare
     obj.findObject("obj_text").setValue(text)
+
+    ::broadcastEvent("MissionObjectiveUpdated")
+
     return obj
   }
 

@@ -75,6 +75,60 @@
       "rollRate": 140.0
     }
   },
+  "fj_4b_agm_12b": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_wake_island_Jet",
+    "releaseDate": "2018-06-06 00:00:00",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "wright",
+        "model": "j65-w-16a",
+        "mass": 1270.0
+      },
+      "tanks_params": {
+        "protected": true
+      }
+    },
+    "tags": {
+      "ally": true,
+      "country_usa": true,
+      "type_fighter": true,
+      "type_jet_fighter": true,
+      "type_naval_fighter": true,
+      "korean_front": true,
+      "western_front": true,
+      "eastern_front": true,
+      "air": true
+    },
+    "years_active": {
+      "year1950": {
+        "korea": 1.0
+      },
+      "year1951": {
+        "korea": 1.0
+      },
+      "year1952": {
+        "korea": 1.0
+      },
+      "year1953": {
+        "korea": 1.0
+      }
+    },
+    "Shop": {
+      "maxAltitude": 14700.0,
+      "maxSpeed": 302.77,
+      "turnTime": 31.0,
+      "airfieldLen": 750.0,
+      "climbTime": 210.0,
+      "maxSpeedAlt": 152.4,
+      "climbAlt": 6096.0,
+      "climbSpeed": 35.0,
+      "wingLoading": 324.0,
+      "thrustToWeightRatio": 0.326,
+      "rollRate": 140.0
+    }
+  },
   "f4u-7": {
     "type": "aircraft",
     "hangar_place": "aircraft",
@@ -9044,6 +9098,75 @@
       "type_fighter": true,
       "type_naval_fighter": true,
       "country_usa": true,
+      "carrier_take_off": true,
+      "pacific": true,
+      "air": true
+    },
+    "years_active": {
+      "year1941": {
+        "guadalcanal": 1.0,
+        "guam": 1.0,
+        "honolulu": 1.0,
+        "iwo_jima": 1.0,
+        "midway": 1.0,
+        "peleliu": 1.0,
+        "saipan": 1.0,
+        "wake_island": 1.0
+      },
+      "year1942": {
+        "guadalcanal": 0.7,
+        "guam": 0.7,
+        "honolulu": 0.7,
+        "iwo_jima": 0.7,
+        "midway": 0.7,
+        "peleliu": 0.7,
+        "saipan": 0.7,
+        "wake_island": 0.7
+      },
+      "year1943": {
+        "guadalcanal": 0.3,
+        "guam": 0.3,
+        "honolulu": 0.3,
+        "iwo_jima": 0.3,
+        "midway": 0.3,
+        "peleliu": 0.3,
+        "saipan": 0.3,
+        "wake_island": 0.3
+      }
+    },
+    "Shop": {
+      "maxAltitude": 8500.0,
+      "maxSpeed": 143.611,
+      "turnTime": 19.9,
+      "airfieldLen": 257.908,
+      "climbTime": 191.01,
+      "maxSpeedAlt": 5600.0,
+      "climbAlt": 3000.0,
+      "climbSpeed": 14.0169,
+      "wingLoading": 144.0,
+      "powerToWeightRatio": 0.33,
+      "rollRate": 76.0
+    }
+  },
+  "f4f-4_martlet_mk4": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_britain_navy",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "p&w",
+        "model": "r1830-86",
+        "mass": 668.0
+      },
+      "tanks_params": {
+        "protected": true
+      }
+    },
+    "tags": {
+      "ally": true,
+      "type_fighter": true,
+      "type_naval_fighter": true,
+      "country_britain": true,
       "carrier_take_off": true,
       "pacific": true,
       "air": true
@@ -46093,6 +46216,20 @@
       "armorThicknessTurret": [11.0,11.0,0.0]
     }
   },
+  "germ_sdkfz_234_3": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_tank_germany",
+    "tags": {
+      "country_germany": true,
+      "tank": true,
+      "type_tank_destroyer": true
+    },
+    "Shop": {
+      "armorThicknessHull": [30.0,8.0,10.0],
+      "armorThicknessTurret": [14.5,14.5,10.0]
+    }
+  },
   "germ_sdkfz_234_4": {
     "type": "tank",
     "hangar_place": "tank",
@@ -51660,7 +51797,7 @@
   "germ_destroyer_class1924_leopard1932": {
     "type": "ship",
     "hangar_place": "ship",
-    "testFlight": "testFlight_ship_germ",
+    "testFlight": "testFlight_ship_destroyer_germ",
     "tags": {
       "country_germany": true,
       "type_destroyer": true,
@@ -51677,7 +51814,7 @@
   "germ_destroyer_class1939_t22": {
     "type": "ship",
     "hangar_place": "ship",
-    "testFlight": "testFlight_ship_germ",
+    "testFlight": "testFlight_ship_destroyer_germ",
     "tags": {
       "country_germany": true,
       "type_destroyer": true,
@@ -51786,7 +51923,7 @@
   "germ_kanonenboot_k2": {
     "type": "ship",
     "hangar_place": "ship",
-    "testFlight": "testFlight_ship_germ",
+    "testFlight": "testFlight_ship_destroyer_germ",
     "tags": {
       "country_germany": true,
       "type_destroyer": true,
@@ -51953,7 +52090,7 @@
   "ussr_skr_pr159": {
     "type": "ship",
     "hangar_place": "ship",
-    "testFlight": "testFlight_ship_ussr",
+    "testFlight": "testFlight_ship_destroyer_ussr",
     "tags": {
       "country_ussr": true,
       "type_submarine_chaser": true,
@@ -52158,6 +52295,42 @@
       "armorThicknessCitadel": [8.0,4.0,4.0],
       "armorThicknessTurretMainCaliber": [10.0,10.0,10.0],
       "maxSpeed": 13.4
+    }
+  },
+  "ussr_destroyer_frunze": {
+    "type": "ship",
+    "hangar_place": "ship",
+    "testFlight": "testFlight_ship_destroyer_ussr",
+    "tags": {
+      "country_ussr": true,
+      "type_destroyer": true,
+      "ship": true,
+      "destroyer": true,
+      "pacific": true,
+      "mediterran": true,
+      "westernfront": true
+    },
+    "Shop": {
+      "maxSpeed": 16.4,
+      "armorThicknessTurretMainCaliber": [38.0,0.0,0.0]
+    }
+  },
+  "us_destroyer_farragut_1942": {
+    "type": "ship",
+    "hangar_place": "ship",
+    "testFlight": "testFlight_ship_destroyer_usa",
+    "tags": {
+      "country_usa": true,
+      "type_destroyer": true,
+      "ship": true,
+      "destroyer": true,
+      "pacific": true,
+      "mediterran": true,
+      "westernfront": true
+    },
+    "Shop": {
+      "armorThicknessTurretMainCaliber": [3.2,3.2,0.0],
+      "maxSpeed": 18.77
     }
   }
 }

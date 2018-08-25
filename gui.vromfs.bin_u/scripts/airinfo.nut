@@ -415,7 +415,10 @@ function get_unit_actions_list(unit, handler, actions)
                       : (::isUnitInResearch(unit) ?
                           (@(unit, handler) function () { ::gui_modal_convertExp(unit, handler) })(unit, handler)
                           : (@(unit) function () { if (::checkForResearch(unit))
-                                                         ::researchUnit(unit)})(unit)))
+                                                      {
+                                                        ::add_big_query_record("choosed_new_research_unit", unit.name)
+                                                        ::researchUnit(unit)}
+                                                      })(unit)))
     }
     else if (action == "testflight")
     {
@@ -1151,41 +1154,59 @@ function updateAirAfterSwitchMod(air, modName = null)
 //return true when already counted
 function check_secondary_weapon_mods_recount(unit, callback = null)
 {
-  if (!::isAircraft(unit))
-    return true //no need to recount secondary weapons for tanks
-
-  local weaponName = ::get_last_weapon(unit.name)
-  local secondaryMods = unit.secondaryWeaponMods
-  if (secondaryMods && secondaryMods.weaponName == weaponName)
+  switch(::get_es_unit_type(unit))
   {
-    if (secondaryMods.effect)
-      return true
-    if (callback)
-      secondaryMods.callback = callback
-    return false
-  }
+    case ::ES_UNIT_TYPE_AIRCRAFT:
 
-  unit.secondaryWeaponMods = {
-    weaponName = weaponName
-    effect = null
-    callback = callback
-  }
-
-  ::calculate_mod_or_weapon_effect(unit.name, weaponName, false, this, (@(unit, weaponName) function(effect, ...) {
+      local weaponName = ::get_last_weapon(unit.name)
       local secondaryMods = unit.secondaryWeaponMods
-      if (!secondaryMods || weaponName != secondaryMods.weaponName)
-        return
-
-      secondaryMods.effect <- effect || {}
-
-      ::broadcastEvent("SecondWeaponModsUpdated", { unit = unit })
-      if(secondaryMods.callback != null)
+      if (secondaryMods && secondaryMods.weaponName == weaponName)
       {
-        secondaryMods.callback()
-        secondaryMods.callback = null
+        if (secondaryMods.effect)
+          return true
+        if (callback)
+          secondaryMods.callback = callback
+        return false
       }
-    })(unit, weaponName))
-  return false
+
+      unit.secondaryWeaponMods = {
+        weaponName = weaponName
+        effect = null
+        callback = callback
+      }
+
+      ::calculate_mod_or_weapon_effect(unit.name, weaponName, false, this, function(effect, ...) {
+        local secondaryMods = unit.secondaryWeaponMods
+        if (!secondaryMods || weaponName != secondaryMods.weaponName)
+          return
+
+        secondaryMods.effect <- effect || {}
+        ::broadcastEvent("SecondWeaponModsUpdated", { unit = unit })
+        if(secondaryMods.callback != null)
+        {
+          secondaryMods.callback()
+          secondaryMods.callback = null
+        }
+      })
+      return false
+
+    case ::ES_UNIT_TYPE_SHIP:
+
+      local torpedoMod = "torpedoes_movement_mode"
+      local mod = ::getModificationByName(unit, torpedoMod)
+      if (!mod || mod?.effects)
+        return true
+      ::calculate_mod_or_weapon_effect(unit.name, torpedoMod, true, this, function(effect, ...) {
+        mod.effects <- effect
+        if (callback)
+          callback()
+        ::broadcastEvent("SecondWeaponModsUpdated", { unit = unit })
+      })
+      return false
+
+    default:
+      return true
+  }
 }
 
 function getUnitExp(unit)

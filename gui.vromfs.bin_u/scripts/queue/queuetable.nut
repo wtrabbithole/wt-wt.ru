@@ -464,6 +464,16 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function onEventShopWndSwitched(params)
+  {
+    updateVisibility()
+  }
+
+  function updateVisibility()
+  {
+    scene.show(!::top_menu_shop_active)
+  }
+
   function getCurEsUnitTypesList()
   {
     local gameModeId = ::game_mode_manager.getCurrentGameModeId()

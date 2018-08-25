@@ -156,8 +156,27 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onJoinEvent()
   {
-    if (curRoomId != "")
-      ::EventJoinProcess(event, getCurRoom())
+    joinEvent()
+  }
+
+  function joinEvent(isFromDebriefing = false)
+  {
+    if (curRoomId == "")
+      return
+
+    local configForStatistic = {
+      actionPlace = isFromDebriefing ? "debriefing" : "event_window"
+      economicName = ::events.getEventEconomicName(event)
+      difficulty = event?.difficulty ?? ""
+      canIntoToBattle = true
+    }
+
+    ::EventJoinProcess(event, getCurRoom(),
+      @(event) ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic)),
+      function() {
+        configForStatistic.canIntoToBattle <- false
+        ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic))
+      })
   }
 
   function refreshList()

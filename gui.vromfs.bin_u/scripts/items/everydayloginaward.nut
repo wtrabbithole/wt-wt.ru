@@ -355,11 +355,12 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       ::gui_start_open_trophy_rewards_list({ rewardsArray = ::trophyReward.processUserlogData(array) })
   }
 
-  function onOpenChest()
+  function onOpenChest(obj = null)
   {
     if (!isValid()) //onOpenchest is delayed callback
       return
 
+    sendOpenTrophyStatistic(obj)
     isOpened = true
     if (callItemsRoulette())
       useSingleAnimation = false
@@ -664,5 +665,14 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
   function onEventCrewTakeUnit(params)
   {
     goBack()
+  }
+
+  function sendOpenTrophyStatistic(obj)
+  {
+    local objId = obj?.id
+    ::add_big_query_record("daily_trophy_screen",
+      objId == "btn_open" ? "main_get_reward"
+        : objId == "btn_nav_open" ? "navbar_get_reward"
+        : "exit")
   }
 }

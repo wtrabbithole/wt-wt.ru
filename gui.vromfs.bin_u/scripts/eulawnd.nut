@@ -45,6 +45,7 @@ class ::gui_handlers.EulaWndHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onAcceptEula()
   {
     set_agreed_eula_version(eulaType == ::TEXT_NDA ? ::nda_version : ::eula_version, eulaType)
+    sendEulaStatistic("accept")
     goBack()
   }
 
@@ -57,6 +58,12 @@ class ::gui_handlers.EulaWndHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onExit()
   {
+    sendEulaStatistic("decline")
     ::exit_game()
+  }
+
+  function sendEulaStatistic(action)
+  {
+    ::add_big_query_record("eula_screen", action)
   }
 }

@@ -22,6 +22,7 @@
   unitBlk = null
   unitWeaponBlkList = null
   xrayRemap = {}
+  difficulty = null
 
   modes = {
     [::DM_VIEWER_NONE]  = "none",
@@ -129,6 +130,7 @@
     xrayRemap = map ? ::u.map(map, function(val) { return val }) : {}
     resetXrayCache()
     clearHint()
+    difficulty = ::get_difficulty_by_ediff(::get_current_ediff())
     updateSecondaryMods()
   }
 
@@ -494,7 +496,6 @@
     local weaponPartName = null
 
     local desc = []
-    local difficulty = ::get_difficulty_by_ediff(::get_current_ediff())
 
     if ( ! unit || ! unitBlk)
       return "";
@@ -690,16 +691,93 @@
             desc.push(getMassInfo(infoBlk))
           break;
         }
-      break;
+        break
+
+      case "transmission":
+        local partInfo = getInfoBlk(partName)
+        if (partInfo)
+        {
+          local manufacturer = ::loc("transmission_manufacturer/" + partInfo.manufacturer, "")
+          local model = ::loc("transmission_model/" + partInfo.model, "")
+          local props = ::g_string.utf8ToLower(::loc("transmission_type/" + partInfo.type, ""))
+          desc.push(::g_string.implode([ manufacturer, model ], " ") +
+            (props == "" ? "" : ::loc("ui/parentheses/space", { text = props })))
+        }
+
+        local info = unitBlk?.VehiclePhys?.mechanics
+        if (info)
+        {
+          local maxSpeed = unit?.modificators?[difficulty.crewSkillName]?.maxSpeed ?? 0
+          if (maxSpeed && info.gearRatios)
+          {
+            local gearsF = 0
+            local gearsB = 0
+            local ratioF = 0
+            local ratioB = 0
+            foreach (gear in (info.gearRatios % "ratio")) {
+              if (gear > 0) {
+                gearsF++
+                ratioF = ratioF ? ::min(ratioF, gear) : gear
+              }
+              else if (gear < 0) {
+                gearsB++
+                ratioB = ratioB ? ::min(ratioB, -gear) : -gear
+              }
+            }
+            local maxSpeedF = maxSpeed
+            local maxSpeedB = ratioB ? (maxSpeed * ratioF / ratioB) : 0
+            if (maxSpeedF && gearsF)
+              desc.append(::loc("xray/transmission/maxSpeed/forward") + ::loc("ui/colon") +
+                ::countMeasure(0, maxSpeedF) + ::loc("ui/comma") +
+                  ::loc("xray/transmission/gears") + ::loc("ui/colon") + gearsF)
+            if (maxSpeedB && gearsB)
+              desc.append(::loc("xray/transmission/maxSpeed/backward") + ::loc("ui/colon") +
+                ::countMeasure(0, maxSpeedB) + ::loc("ui/comma") +
+                  ::loc("xray/transmission/gears") + ::loc("ui/colon") + gearsB)
+          }
+        }
+        break
+
+      case "ammo_turret":
+      case "ammo_body":
+        local info = unitBlk?.ammoStowages?.ammo1
+        if (info)
+          foreach (blockName in [ "shells", "charges" ])
+            foreach (block in (info % blockName))
+              if (block[partName] && (block.firstStage || block.autoLoad))
+              {
+                desc.append(::loc("xray/ammo/first_stage") + ::loc("ui/comma") +
+                  getFirstStageAmmoCount() + " " + ::loc("measureUnits/pcs"))
+                if (block.autoLoad)
+                  desc.append(::loc("xray/ammo/auto_load"))
+                break
+              }
+        break
+
+      case "drive_turret_h":
+      case "drive_turret_v":
+
+        weaponPartName = ::stringReplace(partName, partId, "gun_barrel")
+        local weaponInfoBlk = getWeaponByXrayPartName(weaponPartName)
+        if( ! weaponInfoBlk)
+          break
+        local isHorizontal = partId == "drive_turret_h"
+        desc.extend(getWeaponDriveTurretDesc(weaponInfoBlk, isHorizontal, !isHorizontal))
+        break
 
       case "main_caliber_turret":
       case "auxiliary_caliber_turret":
       case "aa_turret":
-
         weaponPartName = ::stringReplace(partName, "turret", "gun")
+        foreach(weapon in getUnitWeaponList())
+          if (weapon.turret?.gunnerDm == partName && weapon.breechDP)
+          {
+            weaponPartName = weapon.breechDP
+            break
+          }
         // No break!
 
-      case "mg":           // TODO all weapons list
+      case "mg":
       case "gun":
       case "mgun":
       case "cannon":
@@ -735,6 +813,16 @@
 
         if (isSpecialBullet || isSpecialBulletEmitter)
           desc[desc.len() - 1] += ::getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
+        else {
+          local status = getWeaponStatus(weaponInfoBlk.blk)
+          if (status.isPrimary)
+          {
+            local firstStageAmmo = getFirstStageAmmoCount()
+            if (firstStageAmmo)
+              desc.push(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageAmmo)
+          }
+          desc.extend(getWeaponDriveTurretDesc(weaponInfoBlk, true, true))
+        }
 
         checkPartLocId(partId, weaponInfoBlk, params)
       break;
@@ -817,6 +905,21 @@
         else if (!info.isComposite && !::u.isEmpty(info.armorClass)) // reactive armor
           desc.push(blockSep + ::loc("plane_engine_type") + ::loc("ui/colon") + getPartNameLocText(info.armorClass))
 
+        break
+
+      case "optic_gun":
+        local info = unitBlk.cockpit
+        if (info?.sightName)
+        {
+          local fovToZoom = @(fov) (2*asin(sin((80/2)/(180/PI))/fov))*(180/PI)
+          local zoom = ::u.map([info.zoomOutFov, info.zoomInFov], @(fov) fovToZoom(fov))
+          if (abs(zoom[0] - zoom[1]) < 0.1)
+            zoom.remove(0)
+          local zoomTexts = ::u.map(zoom, @(zoom) zoom ? ::format("%.1fx", zoom) : "")
+          zoomTexts = ::g_string.implode(zoomTexts, ::loc("ui/mdash"))
+          desc.push(::loc("sight_model/" + info.sightName, ""))
+          desc.push(::loc("optic/zoom") + ::loc("ui/colon") + zoomTexts)
+        }
         break
     }
 
@@ -916,6 +1019,105 @@
     return null
   }
 
+  function getWeaponStatus(blkPath)
+  {
+    local blk = ::DataBlock(blkPath)
+    switch (unit.esUnitType)
+    {
+      case ::ES_UNIT_TYPE_TANK:
+        local isRocketGun = blk.rocketGun
+        local isMachinegun = !!blk.bullet?.caliber && !::isCaliberCannon(1000 * blk.bullet.caliber)
+        local isPrimary = !isRocketGun && !isMachinegun
+        if (!isPrimary)
+        {
+          local commonBlk = ::getCommonWeaponsBlk(dmViewer.unitBlk, "")
+          foreach (weapon in (commonBlk % "Weapon"))
+          {
+            isPrimary = weapon.blk && weapon.blk == blkPath
+            break
+          }
+        }
+        local isSecondary = !isPrimary && !isMachinegun
+        return { isPrimary = isPrimary, isSecondary = isSecondary, isMachinegun = isMachinegun }
+      case ::ES_UNIT_TYPE_SHIP:
+      case ::ES_UNIT_TYPE_AIRCRAFT:
+        return { isPrimary = true, isSecondary = false, isMachinegun = false }
+    }
+  }
+
+  function getWeaponDriveTurretDesc(weaponInfoBlk, needAxisX, needAxisY)
+  {
+    local desc = []
+    local needSingleAxis = !needAxisX || !needAxisY
+    local status = getWeaponStatus(weaponInfoBlk.blk)
+    if (!needSingleAxis && ::isTank(unit) && !status.isPrimary && !status.isSecondary)
+      return desc
+
+    local deg = ::loc("measureUnits/deg")
+    foreach (g in [
+      { need = needAxisX, angles = weaponInfoBlk.limits?.yaw,   label = "shop/angleHorizontalGuidance" }
+      { need = needAxisY, angles = weaponInfoBlk.limits?.pitch, label = "shop/angleVerticalGuidance"   }
+    ]) {
+      if (!g.need || !g.angles?.x && !g.angles?.y)
+        continue
+      local anglesText = (g.angles.x + g.angles.y == 0) ? ::format("±%d%s", g.angles.y, deg)
+        : ::format("%d%s/+%d%s", g.angles.x, deg, g.angles.y, deg)
+      desc.append(::loc(g.label) + " " + anglesText)
+    }
+
+    if (needSingleAxis || status.isPrimary)
+    {
+      local unitModificators = unit?.modificators?[difficulty.crewSkillName]
+      foreach (a in [
+        { need = needAxisX, modifName = "turnTurretSpeed",      blkName = "speedYaw"   }
+        { need = needAxisY, modifName = "turnTurretSpeedPitch", blkName = "speedPitch" }
+      ]) {
+        if (!a.need)
+          continue
+        local mainTurretSpeed = unitModificators?[a.modifName] ?? 0
+        local value = weaponInfoBlk?[a.blkName] ?? 0
+        local weapons = getUnitWeaponList()
+        local mainTurretValue = weapons?[0]?[a.blkName] ?? 0
+        local speed = mainTurretValue ? (mainTurretSpeed * value / mainTurretValue) : mainTurretSpeed
+        if (speed)
+          desc.append(::loc("crewSkillParameter/" + a.modifName) + ::loc("ui/colon") +
+          ::format("%.1f%s", speed, ::loc("measureUnits/deg_per_sec")))
+      }
+    }
+
+    if (::isTank(unit))
+    {
+      local gunStabilizer = weaponInfoBlk.gunStabilizer
+      local isStabilizerX = needAxisX && gunStabilizer?.hasHorizontal
+      local isStabilizerY = needAxisY && gunStabilizer?.hasVertical
+      if (isStabilizerX || isStabilizerY)
+      {
+        local valueLoc = needSingleAxis ? "options/yes"
+          : (isStabilizerX ? "shop/gunStabilizer/twoPlane" : "shop/gunStabilizer/vertical")
+        desc.append(::loc("shop/gunStabilizer") + " " + ::loc(valueLoc))
+      }
+    }
+
+    return desc
+  }
+
+  function getFirstStageAmmoCount()
+  {
+    local res = 0
+    local info = unitBlk?.ammoStowages?.ammo1
+    if (info)
+      foreach (blockName in [ "shells", "charges" ])
+      {
+        if (res)
+          break
+        foreach (block in (info % blockName))
+          if (block.firstStage || block.autoLoad)
+            for (local i = 0; i < block.blockCount(); i++)
+              res += block.getBlock(i).count || 0
+      }
+    return res
+  }
+
   function getModernArmorParamsByDmPartName(partName)
   {
     local res = {
@@ -992,21 +1194,9 @@
       case ::ES_UNIT_TYPE_TANK:
         if (partId == "gun_barrel" &&  weaponInfoBlk?.blk)
         {
-          local blk = ::DataBlock(weaponInfoBlk?.blk)
-          local isRocketGun = blk.rocketGun
-          local isMachinegun = blk.bullet?.caliber && !::isCaliberCannon(1000 * blk.bullet.caliber)
-          local isPrimary = !isRocketGun && !isMachinegun
-          if (!isPrimary)
-          {
-            local commonBlk = ::getCommonWeaponsBlk(dmViewer.unitBlk, "")
-            foreach (weapon in (commonBlk % "Weapon"))
-            {
-              isPrimary = weapon.blk && weapon.blk == weaponInfoBlk.blk
-              break
-            }
-          }
-          params.partLocId <- isPrimary ? "weapon/primary"
-            : isMachinegun ? "weapon/machinegun"
+          local status = getWeaponStatus(weaponInfoBlk.blk)
+          params.partLocId <- status.isPrimary ? "weapon/primary"
+            : status.isMachinegun ? "weapon/machinegun"
             : "weapon/secondary"
         }
         break
@@ -1066,6 +1256,12 @@
   {
     if (p?.unit == unit)
       resetXrayCache()
+  }
+
+  function onEventCurrentGameModeIdChanged(p)
+  {
+    difficulty = ::get_difficulty_by_ediff(::get_current_ediff())
+    resetXrayCache()
   }
 
   function onEventGameLocalizationChanged(p)

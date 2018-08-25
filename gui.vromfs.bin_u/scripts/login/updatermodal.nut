@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 
 
-class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
+class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 {
   wndType = handlerType.MODAL
   sceneBlkName = "gui/login/updaterModal.blk"
@@ -28,6 +28,8 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
   wasCancelButtonShownOnce = false
   isFinished = false
 
+  onFinishCallback = null
+
   function initScreen()
   {
     showSceneBtn(buttonOkId, false)
@@ -40,7 +42,7 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
 
     updateText()
 
-    if ( ! ::ps4_start_updater(configPath, this, onUpdaterCallback))
+    if ( ! ::start_content_updater(configPath, this, onUpdaterCallback))
       onFinish()
   }
 
@@ -200,19 +202,20 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
   {
     isCancel = true
     ::statsd_report("counter", "updater.cancelled", 1)
-    ::ps4_stop_updater()
+    ::stop_content_updater()
     showSceneBtn(buttonCancelId, false)
   }
 
   function onEventSignOut()
   {
-    ::ps4_stop_updater()
+    ::stop_content_updater()
     ::statsd_report("counter", "updater.signedout", 1)
   }
 
   function afterModalDestroy()
   {
-    ::ps4_load_after_login();
+    if (onFinishCallback)
+      onFinishCallback()
     ::g_login.addState(LOGIN_STATE.AUTHORIZED)
   }
 }

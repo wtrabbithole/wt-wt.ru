@@ -483,6 +483,8 @@ function is_unlock_visible(unlockBlk, needCheckVisibilityByPlatform = true)
     return false
   if (!::g_unlocks.checkDependingUnlocks(unlockBlk))
     return false
+  if (::g_unlocks.isHiddenByUnlockedUnlocks(unlockBlk))
+    return false
   return true
 }
 
@@ -1864,6 +1866,26 @@ function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTim
     }
   }
   return isVisibleUnlock
+}
+
+function g_unlocks::isHiddenByUnlockedUnlocks(unlockBlk)
+{
+  if (::is_unlocked_scripted(-1, unlockBlk?.id))
+    return false
+
+  foreach (value in (unlockBlk % "hideWhenUnlocked"))
+  {
+    local unlockedCount = 0
+    local unlocksId = ::split(value, "; ")
+    foreach (id in unlocksId)
+      if (::is_unlocked_scripted(-1, id))
+        unlockedCount ++
+
+    if (unlockedCount == unlocksId.len())
+      return true
+  }
+
+  return false
 }
 ::g_script_reloader.registerPersistentDataFromRoot("g_unlocks")
 ::subscribe_handler(::g_unlocks, ::g_listener_priority.CONFIG_VALIDATION)

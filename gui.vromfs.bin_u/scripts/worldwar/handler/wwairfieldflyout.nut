@@ -692,17 +692,19 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     if (!hasPresetToChoose(unit))
       return
 
-    local cb = ::Callback(function (unitName, weaponName)
-    {
+    local cb = ::Callback(function (unitName, weaponName) {
       changeUnitWeapon(unitName, weaponName)
     }, this)
-    ::ww_gui_start_choose_unit_weapon(unit, cb, {
+    local params = {
         canShowStatusImage = false
         canShowResearch = false
         canShowPrice = false
         isForceHidePlayerInfo = true
         useGenericTooltip = true
-      }, obj, "right")
+      }
+    ::gui_start_choose_unit_weapon(unit, cb, {
+      itemParams = params, alignObj = obj, align = "right", isWorldWarUnit = true
+    })
   }
 
   function onOpenPresetsList(obj)

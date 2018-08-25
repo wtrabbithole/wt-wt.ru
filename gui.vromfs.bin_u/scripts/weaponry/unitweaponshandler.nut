@@ -17,6 +17,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   needRecountWidth = true
 
   showItemParams = null
+  isForcedAvailable = false
 
   function initScreen()
   {
@@ -47,6 +48,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       canShowStatusImage = false
       selectBulletsByManager = (canChangeWeaponry && canChangeBulletsAmount) ? bulletsManager : null
       hasMenu = false
+      isForceHidePlayerInfo = isForcedAvailable && !::isUnitUsable(unit)
     }
   }
 
@@ -257,7 +259,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::isAirHaveSecondaryWeapons(unit))
       res.columns.append([getCellConfig(weaponItemId, ::g_weaponry_types.WEAPON.getHeader(unit), weaponsItem.weapon)])
 
-    local groups = bulletsManager.getBulletsGroups()
+    local groups = bulletsManager.getBulletsGroups(isForcedAvailable)
     local offset = res.columns.len() < modsInRow ? res.columns.len() : 0
     local bulColumns = modsInRow - offset
     local totalColumns = ::min(offset + groups.len(), modsInRow)
@@ -275,7 +277,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getColumnsTank()
   {
-    local groups = bulletsManager.getBulletsGroups()
+    local groups = bulletsManager.getBulletsGroups(isForcedAvailable)
     local gunsCount = bulletsManager.getGunTypesCount()
     if (!gunsCount)
       return null
@@ -384,8 +386,8 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!found && defWeapon)
         continue
 
-      if (!::is_weapon_visible(unit, weapon)
-          || !::is_weapon_enabled(unit, weapon))
+      if (!isForcedAvailable &&
+          (!::is_weapon_visible(unit, weapon) || !::is_weapon_enabled(unit, weapon)))
         continue
 
       if (found)
@@ -405,8 +407,9 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local hasOnlyBought = !::is_in_flight() || !::g_mis_custom_state.getCurMissionRules().isWorldWar
     foreach(weapon in unit.weapons)
     {
-      if (!::is_weapon_visible(unit, weapon, hasOnlyBought))
+      if (!isForcedAvailable && !::is_weapon_visible(unit, weapon, hasOnlyBought))
         continue
+
       count++
       if (count > 1)
         return true
@@ -416,7 +419,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getBulletGroupByIndex(groupIdx)
   {
-    return ::getTblValue(groupIdx, bulletsManager.getBulletsGroups())
+    return ::getTblValue(groupIdx, bulletsManager.getBulletsGroups(isForcedAvailable))
   }
 
   function getCurBullet(groupIdx)
@@ -441,12 +444,12 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     ::weaponVisual.updateItem(unit, curWeapon, itemObj, false, this, showItemParams)
-    showItemParams.hasMenu =false
+    showItemParams.hasMenu = false
   }
 
   function updateBullets()
   {
-    local groups = bulletsManager.getBulletsGroups()
+    local groups = bulletsManager.getBulletsGroups(isForcedAvailable)
     foreach(gIdx, bulGroup in groups)
     {
       local itemObj = scene.findObject(getBulletsItemId(gIdx))
@@ -458,7 +461,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       ::weaponVisual.updateItem(unit, bulGroup.getSelBullet(), itemObj, false, this, showItemParams)
     }
     showItemParams.visualDisabled <- false
-    showItemParams.hasMenu <-false
+    showItemParams.hasMenu <- false
   }
 
   function updateBulletCountSlider(bulGroup, groupIdx)
@@ -471,7 +474,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   //included to updateBullets but much faster than full bullets update
   function updateAllBulletCountSliders()
   {
-    local groups = bulletsManager.getBulletsGroups()
+    local groups = bulletsManager.getBulletsGroups(isForcedAvailable)
     foreach(gIdx, bulGroup in groups)
       updateBulletCountSlider(bulGroup, gIdx)
   }
@@ -519,7 +522,11 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (id == weaponItemId)
     {
       if (hasWeaponsToChooseFrom())
-        ::gui_start_choose_unit_weapon(unit, null, getSelectionItemParams(), obj)
+        ::gui_start_choose_unit_weapon(unit, null, {
+          itemParams = getSelectionItemParams()
+          alignObj = obj
+          isForcedAvailable = isForcedAvailable
+        })
       return
     }
 

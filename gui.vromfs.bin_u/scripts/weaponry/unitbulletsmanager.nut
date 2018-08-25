@@ -38,9 +38,9 @@ class UnitBulletsManager
     bulGroups = null
   }
 
-  function getBulletsGroups()
+  function getBulletsGroups(isForcedAvailable = false)
   {
-    checkInitBullets()
+    checkInitBullets(isForcedAvailable)
     return bulGroups
   }
 
@@ -236,13 +236,13 @@ class UnitBulletsManager
 //******************************* PRIVATE ***********************************************
 //**************************************************************************************
 
-  function checkInitBullets()
+  function checkInitBullets(isForcedAvailable = false)
   {
     if (bulGroups)
       return
 
     loadGunInfo()
-    loadBulGroups()
+    loadBulGroups(isForcedAvailable)
     forcedBulletsCount()
     validateBullets()
     validateBulletsCount()
@@ -265,7 +265,7 @@ class UnitBulletsManager
     }
   }
 
-  function loadBulGroups()
+  function loadBulGroups(isForcedAvailable = false)
   {
     bulGroups = []
     if (!unit)
@@ -280,8 +280,11 @@ class UnitBulletsManager
     local bulletsTotal = unit.unitType.canUseSeveralBulletsForGun ? ::BULLETS_SETS_QUANTITY : ::getBulletsGroupCount(unit)
     for (local groupIndex = 0; groupIndex < bulletsTotal; groupIndex++)
     {
-      local active = ::is_bit_set(groupsActiveMask, groupIndex)
-      bulGroups.append(::BulletGroup(unit, groupIndex, getGroupGunInfo(groupIndex), active, canChangeActivity))
+      bulGroups.append(::BulletGroup(unit, groupIndex, getGroupGunInfo(groupIndex), {
+        isActive = ::is_bit_set(groupsActiveMask, groupIndex)
+        canChangeActivity = canChangeActivity
+        isForcedAvailable = isForcedAvailable
+      }))
     }
   }
 

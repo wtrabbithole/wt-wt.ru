@@ -27,8 +27,8 @@
       "id": "hud_message_player_damage_notification",
       "message_style": "player_damage_notification",
       "position": "relative",
-      "pos": "0.5@shHud, ph - h",
-      "width": "0.5@shHud",
+      "pos": "1@gameChatWidth +8@sf/@pf, ph -h -1@hudMisObjIconsSize -1@blockInterval",
+      "width": "0.6@shHud + 1@isWide * 0.2@shHud",
       "flow": "vertical"
     }
   },
@@ -36,7 +36,7 @@
     "tdiv": {
       "id": "hud_kill_log",
       "position": "absolute",
-      "pos": "pw - w, ph - 0.093@shHud - h",
+      "pos": "pw -w, ph -h -1@hudMisObjIconsSize -1@blockInterval",
       "height": "0.2*@shHud",
       "overflow": "hidden",
       "hudMessages": {
@@ -72,7 +72,7 @@
         "position": "absolute"
       },
       {
-        "pos": "0, ph - h -1@hudMisObjIconsSize -8@sf/@pf"
+        "pos": "0, ph - h -1@hudMisObjIconsSize -1@blockInterval"
       },
       {
         "flow": "vertical"

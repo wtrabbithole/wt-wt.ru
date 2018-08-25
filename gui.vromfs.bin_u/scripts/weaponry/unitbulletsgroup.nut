@@ -10,20 +10,22 @@ class BulletGroup
   guns = 1
   active = false
   canChangeActivity = false
+  isForcedAvailable = false
 
   option = null //bullet option. initialize only on request because generate descriptions
   selectedBullet = null //selected bullet from modifications list
 
-  constructor(_unit, _groupIndex, _gunInfo, _active = false, _canChangeActivity = false)
+  constructor(_unit, _groupIndex, _gunInfo, params)
   {
     unit = _unit
     groupIndex = _groupIndex
     gunInfo = _gunInfo
     guns = ::getTblValue("guns", gunInfo) || 1
-    active = _active
-    canChangeActivity = _canChangeActivity
+    active = params?.isActive ?? active
+    canChangeActivity = params?.canChangeActivity ?? canChangeActivity
+    isForcedAvailable = params?.isForcedAvailable ?? isForcedAvailable
 
-    bullets = ::get_options_bullets_list(unit, groupIndex)
+    bullets = ::get_options_bullets_list(unit, groupIndex, false, isForcedAvailable)
     selectedName = ::getTblValue(bullets.value, bullets.values, "")
 
     if (::get_last_bullets(unit.name, groupIndex) != selectedName)

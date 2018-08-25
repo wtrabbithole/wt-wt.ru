@@ -147,7 +147,9 @@ options.addTypes({
         if (gunIdx == curGunIdx)
           continue
 
-        local bulletsList = ::get_bullets_list(unit.name, groupIndex, false, false, false, true)
+        local bulletsList = ::get_bullets_list(unit.name, groupIndex, {
+          needCheckUnitPurchase = false, needOnlyAvailable = false, needTexts = true
+        })
         if (bulletsList.values.len())
           curGunIdx = gunIdx
 

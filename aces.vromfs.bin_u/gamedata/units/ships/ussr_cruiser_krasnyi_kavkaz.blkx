@@ -10200,7 +10200,7 @@
           "trigger": "gunner28",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
+          "blk": "gameData/Weapons/torpedoes/su_45_36nu_1939_torpedo.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 3,
           "useEmitter": true,
@@ -10234,41 +10234,7 @@
           "trigger": "gunner29",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
-          "emitter": "bone_torpedo_04",
-          "bullets": 3,
-          "useEmitter": true,
-          "emitterGenRange": [4,6],
-          "emitterGenFmt": "bone_torpedo_%02d",
-          "ammoDpGenFmt": "torpedo_%02d_dm",
-          "enableCourseCorrection": false,
-          "startFx": "start_torpedo",
-          "startFxOffset": [4.0,0.0,0.0],
-          "allowableDelta": 20.0,
-          "startSpeed": 12.0,
-          "useStartSpeed": true,
-          "barrelDP": "tt_02_dm",
-          "brokenBarrelAllowShoot": false,
-          "turret": {
-            "head": "tt_head_02",
-            "gun": "tt_02"
-          },
-          "limits": {
-            "yaw": [-0.0,140.0],
-            "pitch": [0.0,0.0]
-          },
-          "limitsDeadzone": {
-            "yaw": [0.0,35.0],
-            "pitch": [0.0,0.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner30",
-          "triggerGroup": "torpedoes",
-          "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
+          "blk": "gameData/Weapons/torpedoes/su_45_36nu_1939_torpedo.blk",
           "emitter": "bone_torpedo_07",
           "bullets": 3,
           "useEmitter": true,
@@ -10299,10 +10265,44 @@
       },
       {
         "Weapon": {
+          "trigger": "gunner30",
+          "triggerGroup": "torpedoes",
+          "external": true,
+          "blk": "gameData/Weapons/torpedoes/su_45_36nu_1939_torpedo.blk",
+          "emitter": "bone_torpedo_04",
+          "bullets": 3,
+          "useEmitter": true,
+          "emitterGenRange": [4,6],
+          "emitterGenFmt": "bone_torpedo_%02d",
+          "ammoDpGenFmt": "torpedo_%02d_dm",
+          "enableCourseCorrection": false,
+          "startFx": "start_torpedo",
+          "startFxOffset": [4.0,0.0,0.0],
+          "allowableDelta": 20.0,
+          "startSpeed": 12.0,
+          "useStartSpeed": true,
+          "barrelDP": "tt_02_dm",
+          "brokenBarrelAllowShoot": false,
+          "turret": {
+            "head": "tt_head_02",
+            "gun": "tt_02"
+          },
+          "limits": {
+            "yaw": [-0.0,140.0],
+            "pitch": [0.0,0.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [0.0,35.0],
+            "pitch": [0.0,0.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
           "trigger": "gunner31",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_45_36an_1939_torpedo.blk",
+          "blk": "gameData/Weapons/torpedoes/su_45_36nu_1939_torpedo.blk",
           "emitter": "bone_torpedo_10",
           "bullets": 3,
           "useEmitter": true,
@@ -10442,8 +10442,8 @@
       },
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": 8200.0,
-          "maxSpeedInWater": -9.52
+          "distToLive": 3000.0,
+          "maxSpeedInWater": -4.63
         }
       }
     }

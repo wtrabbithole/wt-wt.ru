@@ -166,6 +166,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   currentFocusItem = 2
 
+  static mainButtonsId = ["btn_select", "btn_select_no_enter"]
+
   function initScreen()
   {
     missionRules = ::g_mis_custom_state.getCurMissionRules()
@@ -295,7 +297,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     includeMissionInfoBlocksToGamercard()
-    initMisObjExpandButton()
+    updateLeftPanelBlock()
     initTeamUnitsLeftView()
 
     tmapBtnObj  = scene.findObject("tmap_btn")
@@ -1260,6 +1262,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateSkin()
     updateUserSkins()
     isFirstUnitOptionsInSession = false
+    updateLeftPanelBlock()
   }
 
   function preselectUnitWeapon(unit)
@@ -1586,6 +1589,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local unit = getCurSlotUnit()
     local isAvailResp = haveRespawnBases
     local tooltipText = ""
+    local tooltipEndText = ""
     local infoTextsArr = []
     local costTextArr = []
     local shortCostText = "" //for slot battle button
@@ -1597,7 +1601,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       applyText = ::loc("mainmenu/toBattle")
       tooltipText = ::loc("mainmenu/selectAircraftTooltip")
       if (::is_platform_pc)
-        tooltipText += ::format(" [%s, %s]", ::loc("key/Space"), ::loc("key/Enter"))
+        tooltipEndText = ::format(" [%s]", ::loc("key/Enter"))
 
       local wpCost = getRespawnWpTotalCost()
       if (wpCost > 0)
@@ -1644,10 +1648,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     //******************  uodate buttons objects ******************************
 
-    local buttonSelectObj = ::set_double_text_to_button(scene.findObject("nav-help"), "btn_select", applyText)
-    buttonSelectObj.tooltip = tooltipText
-    buttonSelectObj.isCancel = isApplyPressed ? "yes" : "no"
-    buttonSelectObj.inactiveColor = (isAvailResp && !isCrewDelayed) ? "no" : "yes"
+    foreach (btnId in mainButtonsId)
+    {
+      local buttonSelectObj = ::set_double_text_to_button(scene.findObject("nav-help"), btnId, applyText)
+      buttonSelectObj.tooltip = isSpectate ? tooltipText : tooltipText + tooltipEndText
+      buttonSelectObj.isCancel = isApplyPressed ? "yes" : "no"
+      buttonSelectObj.inactiveColor = (isAvailResp && !isCrewDelayed) ? "no" : "yes"
+    }
 
     local crew = getCurCrew()
     local slotObj = crew && ::get_slot_obj(scene, crew.idCountry, crew.idInCountry)
@@ -2019,19 +2026,20 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateButtons(show = null, checkShowChange = false)
   {
-    if ((checkShowChange && show == showButtons) || !::checkObj(scene))
+    if ((checkShowChange && show == showButtons) || !::check_obj(scene))
       return
 
     if (show != null)
       showButtons = show
 
     local buttons = {
-      btn_select =      showButtons && isRespawn && !isNoRespawns && !stayOnRespScreen && !doRespawnCalled
-      btn_spectator =   showButtons && isRespawn && isFriendlyUnitsExists && (!isSpectate || ::is_has_multiplayer())
-      btn_mpStat =      showButtons && isRespawn && ::is_has_multiplayer()
-      btn_QuitMission = showButtons && isRespawn && isNoRespawns && ::g_mis_loading_state.isReadyToShowRespawn()
-      btn_back =        showButtons && ::use_touchscreen && !isRespawn
-      btn_activateorder=showButtons && isRespawn && ::g_orders.showActivateOrderButton() && (!isSpectate || !::show_console_buttons)
+      btn_select =          showButtons && isRespawn && !isNoRespawns && !stayOnRespScreen && !doRespawnCalled && !isSpectate
+      btn_select_no_enter = showButtons && isRespawn && !isNoRespawns && !stayOnRespScreen && !doRespawnCalled && isSpectate
+      btn_spectator =       showButtons && isRespawn && isFriendlyUnitsExists && (!isSpectate || ::is_has_multiplayer())
+      btn_mpStat =          showButtons && isRespawn && ::is_has_multiplayer()
+      btn_QuitMission =     showButtons && isRespawn && isNoRespawns && ::g_mis_loading_state.isReadyToShowRespawn()
+      btn_back =            showButtons && ::use_touchscreen && !isRespawn
+      btn_activateorder =   showButtons && isRespawn && ::g_orders.showActivateOrderButton() && (!isSpectate || !::show_console_buttons)
     }
     foreach(id, value in buttons)
       showSceneBtn(id, value)
@@ -2057,7 +2065,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (countdown > 0 && readyForRespawn)
       btnText += " (" + countdown  + ::loc("mainmenu/seconds") + ")"
 
-    ::set_double_text_to_button(scene, "btn_select", btnText)
+    foreach (btnId in mainButtonsId)
+      ::set_double_text_to_button(scene, btnId, btnText)
 
     local textObj = scene.findObject("autostart_countdown_text")
     if (!::checkObj(textObj))
@@ -2100,7 +2109,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       ::detachGameChatSceneData(curChatData)
     }
 
-    curChatData = ::loadGameChatToObj(chatObj, chatBlkName, this)
+    curChatData = ::loadGameChatToObj(chatObj, chatBlkName, this,
+                                      { selfHideInput = isSpectate, isInSpectateMode = isSpectate })
     curChatBlk = chatBlkName
 
     if (!isSpectate)
@@ -2230,7 +2240,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function onEmptyChatEntered()
   {
-    onApply()
+    if (!isSpectate)
+      onApply()
   }
 
   function onGamemenu(obj)
@@ -2411,31 +2422,41 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     checkReady()
   }
 
-  function initMisObjExpandButton()
+  function updateLeftPanelBlock()
   {
-    local totalHeight = scene.findObject("mis_obj_and_chat_place").getSize()[1]
-    local optimalMisObjHeight = ::g_dagui_utils.toPixels(guiScene, "1@optimalMisObjHeight")
-    local maxChatHeight = ::g_dagui_utils.toPixels(guiScene, "1@maxChatHeight")
+    local objectivesObj = scene.findObject("objectives")
+    local separateObj = scene.findObject("separate_block")
+    local chatObj = scene.findObject("mpChatInRespawn")
+    objectivesObj.height = ""
+    separateObj.height = ""
+    chatObj.height = "fh"
 
-    canSwitchChatSize = totalHeight < optimalMisObjHeight + maxChatHeight
+    // scene update needed to all objects has right size values
+    guiScene.applyPendingChanges(false)
+
+    local leftPanelObj = scene.findObject("panel-left")
+    local unitOptionsObj = scene.findObject("unit_options")
+    local hOversize = unitOptionsObj.getSize()[1] + objectivesObj.getSize()[1] +
+      ::g_dagui_utils.toPixels(guiScene, "1@minChatHeight") - leftPanelObj.getSize()[1]
+
+    if (hOversize)
+      unitOptionsObj["max-height"] = unitOptionsObj.getSize()[1] - hOversize
+
+    local maxChatHeight = ::g_dagui_utils.toPixels(guiScene, "1@maxChatHeight")
+    canSwitchChatSize = chatObj.getSize()[1] < maxChatHeight
+      && objectivesObj.getSize()[1] > ::g_dagui_utils.toPixels(guiScene, "1@minMisObjHeight")
+
     showSceneBtn("mis_obj_text_header", !canSwitchChatSize)
     showSceneBtn("mis_obj_button_header", canSwitchChatSize)
 
-    if (!canSwitchChatSize)
-    {
-      isChatFullSize = true
-      return
-    }
-
-    isChatFullSize = ::loadLocalByScreenSize("isRespawnChatFullSize", null)
-
-    if (!::u.isBool(isChatFullSize))
-    {
-      local minMisObjHeight = ::g_dagui_utils.toPixels(guiScene, "1@minMisObjHeight")
-      local foldedMisObjHeight = totalHeight - maxChatHeight
-      isChatFullSize = optimalMisObjHeight - foldedMisObjHeight < 0.8 * (foldedMisObjHeight - minMisObjHeight)
-    }
+    isChatFullSize = !canSwitchChatSize ? true : ::loadLocalByScreenSize("isRespawnChatFullSize", null)
     updateChatSize(isChatFullSize)
+
+    local separatorHeight = leftPanelObj.getSize()[1] - unitOptionsObj.getSize()[1] -
+                           objectivesObj.getSize()[1] - maxChatHeight
+
+    chatObj.height = separatorHeight > 0 ? "1@maxChatHeight" : "fh"
+    separateObj.height = separatorHeight > 0 ? "fh" : ""
   }
 
   function onSwitchChatSize()
@@ -2452,7 +2473,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     isChatFullSize = newIsChatFullSize
 
     scene.findObject("mis_obj_button_header").direction = isChatFullSize ? "down" : "up"
-    scene.findObject("mpChatInRespawn").height = isChatFullSize ? "1@maxChatHeight" : "1@minChatHeight"
+    scene.findObject("objectives").height = canSwitchChatSize && isChatFullSize ? "1@minMisObjHeight" : ""
   }
 
   function checkUpdateCustomStateRespawns()
@@ -2484,6 +2505,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     doWhenActiveOnce("checkUpdateCustomStateRespawns")
     doWhenActiveOnce("updateAllCrewSlots")
+  }
+
+  function onEventMissionObjectiveUpdated(p)
+  {
+    updateLeftPanelBlock()
   }
 }
 

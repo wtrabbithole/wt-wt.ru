@@ -129,6 +129,9 @@ function checkNonApprovedResearches(showFinishedResearches = false, update_resea
     if (::isResearchForModification(research))
     {
       local unit = ::getAircraftByName(::getUnitNameFromResearchItem(research))
+      ::add_big_query_record("completed_new_research_modification",
+        ::save_to_json({ unit = unit.name
+          modification = research.name }))
       ::shop_set_researchable_unit_module(unit.name, "")
       ::prepareUnitsForPurchaseMods.addUnit(unit)
     }
@@ -1067,7 +1070,12 @@ class ::gui_handlers.researchUnitNotification extends ::gui_handlers.BaseGuiHand
     if (!::isUnitUsable(unit))
       return
 
-    ::gui_start_selecting_crew({unit = unit, unitObj = scene.findObject(unit.name), cellClass = "slotbarClone"})
+    ::gui_start_selecting_crew({
+      unit = unit
+      unitObj = scene.findObject(unit.name)
+      cellClass = "slotbarClone"
+      isNewUnit = true
+    })
   }
 }
 

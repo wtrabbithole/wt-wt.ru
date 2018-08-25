@@ -46,9 +46,10 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
       {
         local isProd = ::ps4_is_production_env()
 
-        ::gui_start_modal_wnd(::gui_handlers.PS4UpdaterModal,
+        ::gui_start_modal_wnd(::gui_handlers.UpdaterModal,
           {
             configPath = isProd ? "/app0/ps4/updater.blk" : "/app0/ps4/updater_dev.blk"
+            onFinishCallback = ::ps4_load_after_login
           })
       }
       else if (ret == -1)

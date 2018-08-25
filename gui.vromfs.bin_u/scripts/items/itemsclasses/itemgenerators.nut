@@ -153,10 +153,13 @@ local ItemGenerator = class {
     if (!ExchangeRecipes.hasFakeRecipes(recipes))
       return
 
+    local markedRecipes = []
     foreach(recipe in recipes)
-       recipe.markRecipe()
-  }
+      if (recipe.markRecipe(false, false))
+        markedRecipes.append(recipe.uid)
 
+    ExchangeRecipes.saveMarkedRecipes(markedRecipes)
+  }
 }
 
 local get = function(itemdefId) {

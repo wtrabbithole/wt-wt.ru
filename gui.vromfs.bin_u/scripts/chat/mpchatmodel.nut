@@ -28,7 +28,7 @@ local mpChatModel = {
 
   function onIncomingMessage(sender, msg, enemy, mode, automatic) {
     if ( (!platformModule.isChatEnabled()
-         || !::g_chat.isCrossNetworkMessageAllowed(sender))
+         || !platformModule.isChatEnableWithPlayer(sender))
         && !automatic) {
       return false
     }

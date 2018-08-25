@@ -90,21 +90,16 @@ function g_lb_category::_getAdditionalTooltipPart(row)
                     row[additionalCategory.field],
                     additionalCategory.hideInAdditionalTooltipIfZero)
 
-    if (value != "")
-    {
-      local tooltipKey = additionalCategory.headerTooltip
-      if (::g_string.startsWith(tooltipKey, "#"))
-        tooltipKey = tooltipKey.slice(1)
-      tooltipPart = ::loc(tooltipKey) + ::loc("ui/colon") + ::g_string.stripTags("" + value)
-    }
 
-    if (tooltipPart != "")
-    {
-      if (res != "")
-        res += "\n"
-      res += tooltipPart
-      tooltipPart = ""
-    }
+    if (!value.len())
+      continue
+
+    local tooltipKey = additionalCategory.headerTooltip
+    if (::g_string.startsWith(tooltipKey, "#"))
+      tooltipKey = tooltipKey.slice(1)
+
+    res += (res.len() ? "\n" : "") +
+      ::loc(tooltipKey) + ::loc("ui/colon") + ::g_string.stripTags("" + value)
   }
 
   return res
@@ -265,49 +260,58 @@ enums.addTypesByGlobalName("g_lb_category", {
     AIR_KILLS_PLAYER = {
       field = "air_kills_player"
       headerTooltip = "lb_air_kills_player"
+      hideInAdditionalTooltipIfZero = true
     }
 
     AIR_KILLS_BOT = {
       field = "air_kills_bot"
       headerTooltip = "lb_air_kills_bot"
+      hideInAdditionalTooltipIfZero = true
     }
 
     AIR_KILLS_AI = {
       field = "air_kills_ai"
       headerTooltip = "lb_air_kills_ai"
+      hideInAdditionalTooltipIfZero = true
     }
 
     GROUND_KILLS_PLAYER = {
       field = "ground_kills_player"
       headerTooltip = "lb_ground_kills_player"
+      hideInAdditionalTooltipIfZero = true
     }
 
     GROUND_KILLS_BOT = {
       field = "ground_kills_bot"
       headerTooltip = "lb_ground_kills_bot"
+      hideInAdditionalTooltipIfZero = true
     }
 
     GROUND_KILLS_AI = {
       field = "ground_kills_ai"
       headerTooltip = "lb_ground_kills_ai"
+      hideInAdditionalTooltipIfZero = true
     }
 
     NAVAL_KILLS_PLAYER = {
       field = "naval_kills_player"
       headerTooltip = "lb_naval_kills_player"
       reqFeature = ["Ships"]
+      hideInAdditionalTooltipIfZero = true
     }
 
     NAVAL_KILLS_BOT = {
       field = "naval_kills_bot"
       headerTooltip = "lb_naval_kills_bot"
       reqFeature = ["Ships"]
+      hideInAdditionalTooltipIfZero = true
     }
 
     NAVAL_KILLS_AI = {
       field = "naval_kills_ai"
       headerTooltip = "lb_naval_kills_ai"
       reqFeature = ["Ships"]
+      hideInAdditionalTooltipIfZero = true
     }
 
     AIR_SPAWN = {

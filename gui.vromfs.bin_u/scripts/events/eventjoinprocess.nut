@@ -3,13 +3,14 @@ class EventJoinProcess
   event = null // Event to join.
   room = null
   onComplete = null
+  cancelFunc = null
 
   static PROCESS_TIME_OUT = 60000
 
   static activeEventJoinProcess = []   //cant modify staic self
   processStartTime = -1
 
-  constructor (_event, _room = null, _onComplete = null)
+  constructor (_event, _room = null, _onComplete = null, _cancelFunc = null)
   {
     if (!_event)
       return
@@ -26,21 +27,25 @@ class EventJoinProcess
     event = _event
     room = _room
     onComplete = _onComplete
+    cancelFunc = _cancelFunc
     joinStep1_squadMember()
   }
 
-  function remove()
+  function remove(needCancelFunc = true)
   {
     foreach(idx, process in activeEventJoinProcess)
       if (process == this)
         activeEventJoinProcess.remove(idx)
+
+    if (needCancelFunc && cancelFunc != null)
+      cancelFunc()
   }
 
   function onDone()
   {
     if (onComplete != null)
       onComplete(event)
-    remove()
+    remove(false)
   }
 
   function joinStep1_squadMember()
