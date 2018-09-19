@@ -134,10 +134,10 @@ my_stats API
           continue
 
         data.battles.append({
-          event    = ev.event
-          kills    = ev.kills || 1
-          games    = ev.games || 0
-          unitRank = ev.unitRank || 0
+          event       = ev.event
+          kills       = ev.kills || 1
+          timePlayed  = ev?.timePlayed || 0
+          unitRank    = ev.unitRank || 0
         })
         data.minKills = ::max(data.minKills, ev.kills)
       }
@@ -168,11 +168,12 @@ my_stats API
     {
       local event = null
       local kills = getKillsOnUnitType(unitType)
+      local timePlayed = getTimePlayedOnUnitType(unitType)
       foreach(evData in config.battles)
       {
         if (kills >= evData.kills)
           continue
-        if (evData.games && evData.games <= ::loadLocalByAccount("tutor/newbieBattles/" + evData.event, 0))
+        if (timePlayed >= evData.timePlayed)
           continue
         if (evData.unitRank && checkUnitInSlot(evData.unitRank, unitType))
           continue
@@ -216,15 +217,6 @@ my_stats API
         return false
     }
     return true
-  }
-
-  function onEventAfterJoinEventRoom(event)
-  {
-    if (!::events.isEventMatchesType(event, EVENT_TYPE.NEWBIE_BATTLES))
-      return
-
-    local id = "tutor/newbieBattles/" + event.name
-    ::saveLocalByAccount(id, 1 + ::loadLocalByAccount(id, 0))
   }
 
   function onEventEventsDataUpdated(params)
@@ -298,19 +290,19 @@ my_stats API
     return getSummary("pvp_played", {addArray = ["respawns"]})
   }
 
-  function getMPlayersKillsCount()
-  {
-    return getSummary("pvp_played", {
-                                      addArray = ["air_kills", "ground_kills"]
-                                      subtractArray = ["air_kills_ai", "ground_kills_ai"]
-                                    })
-  }
-
   function getKillsOnUnitType(unitType)
   {
     return getSummary("pvp_played", {
-                                      addArray = ["air_kills", "ground_kills"],
-                                      subtractArray = ["air_kills_ai", "ground_kills_ai"]
+                                      addArray = ["air_kills", "ground_kills", "naval_kills"],
+                                      subtractArray = ["air_kills_ai", "ground_kills_ai", "naval_kills_ai"]
+                                      unitType = unitType
+                                    })
+  }
+
+  function getTimePlayedOnUnitType(unitType)
+  {
+    return getSummary("pvp_played", {
+                                      addArray = ["timePlayed"]
                                       unitType = unitType
                                     })
   }

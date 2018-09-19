@@ -154,7 +154,12 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateButtons()
   }
 
-  function onJoinEvent(isFromDebriefing = false)
+  function onJoinEvent()
+  {
+    joinEvent()
+  }
+
+  function joinEvent(isFromDebriefing = false)
   {
     if (curRoomId == "")
       return

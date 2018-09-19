@@ -475,7 +475,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.performDelayed(this, function() { goForward(::gui_start_flight)})
   }
 
-  function onStart(isFromDebriefing = false)
+  function onStart()
+  {
+    determineAndStartAction()
+  }
+
+  function determineAndStartAction(isFromDebriefing = false)
   {
     if (::start_mission_instead_of_queue)
     {
@@ -898,7 +903,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (options?.needSendStatistic)
       ::add_big_query_record("exit_waiting_for_battle_screen",
-        ::save_to_json({ waitingTime = curQueue.activateTime }))
+        ::save_to_json({ waitingTime = curQueue.getActiveTime() }))
 
     ::queues.leaveQueue(curQueue)
     return true

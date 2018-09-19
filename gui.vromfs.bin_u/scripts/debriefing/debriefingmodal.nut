@@ -2748,9 +2748,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
         local eventsHandler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
         if (eventsHandler)
-          eventsHandler.onJoinEvent(true)
+          eventsHandler.joinEvent(true)
         else if (::handlersManager.isHandlerValid(::instant_domination_handler))
-          ::instant_domination_handler.onStart(true)
+          ::instant_domination_handler.determineAndStartAction(true)
       })
   }
 

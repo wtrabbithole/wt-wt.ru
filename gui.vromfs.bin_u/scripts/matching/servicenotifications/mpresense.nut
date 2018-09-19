@@ -75,7 +75,7 @@ function on_presences_update(params)
           player.inGameEx <- p.presences.in_game_ex
         }
       }
-      player.replace <- ("update" in p) ? !p.update : false
+      player.needReset <- ("update" in p) ? !p.update : false
       contactsDataList.append(player)
     }
   }
@@ -109,10 +109,13 @@ function on_presences_update(params)
 
       foreach(p in list)
       {
-        local player = ::getContact(p.userId, p.nick)
+        local player = ::getContact(p?.userId, p?.nick)
         if (!player)
         {
-          local errText = ::format("on_presences_update cant add player to group '%s':\n%s", listName, ::toString(p))
+          local myUserId = ::my_user_id_int64
+          local playerUid = p?.userId
+          local playerName = p?.nick
+          local errText = p?.userId ? "player not found" : "not valid data"
           ::script_net_assert_once("not found contact for group", errText)
           continue
         }

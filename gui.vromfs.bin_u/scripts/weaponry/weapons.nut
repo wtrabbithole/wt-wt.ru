@@ -865,7 +865,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     for (local groupIndex = 0; groupIndex < ::get_last_fake_bullets_index(air); groupIndex++)
     {
-      local bulletsList = ::get_bullets_list(air.name, groupIndex, false, false, false)
+      local bulletsList = ::get_bullets_list(air.name, groupIndex, {
+        needCheckUnitPurchase = false, needOnlyAvailable = false
+      })
       local curBulletsName = ::get_last_bullets(air.name, groupIndex)
       if (groupIndex < ::BULLETS_SETS_QUANTITY)
         lastBullets.append(curBulletsName)
@@ -1544,7 +1546,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!unit || !purchasedModifications.len())
       return
 
-    ::add_big_query_record("first_modifications_purchased",
+    ::add_big_query_record("modifications_purchased",
         ::save_to_json({ unit = unit.name
           modifications = purchasedModifications }))
     purchasedModifications.clear()

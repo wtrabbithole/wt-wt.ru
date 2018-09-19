@@ -1101,7 +1101,9 @@ function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
       duplicates++
     else
     {
-      local bullets = get_bullets_list(unit.name, i, checkPurchased, checkPurchased, true)
+      local bullets = get_bullets_list(unit.name, i, {
+        isOnlyBought = checkPurchased, needCheckUnitPurchase = checkPurchased
+      })
       lastIdxTotal = bullets.values.len()
       lastLinkedIdx = linkedIdx
       duplicates = 0
@@ -1972,7 +1974,9 @@ function get_bullet_group_index(airName, bulletName)
 
     for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
     {
-      local bulletsList = ::get_bullets_list(airName, groupIndex, false, false, false);
+      local bulletsList = ::get_bullets_list(airName, groupIndex, {
+        needCheckUnitPurchase = false, needOnlyAvailable = false
+      })
     /*  foreach(c in bulletsList.values)
       {
         dagor.debug(c.tostring())
@@ -2011,8 +2015,16 @@ function get_fake_bullet_name(bulletIdx)
   return ::fakeBullets_prefix + bulletIdx + "_default"
 }
 
-function get_bullets_list(airName, group_index, only_bought=false, check_aircraft_purchased=true, only_available=true, genTexts=false)
+local BULLETS_LIST_PARAMS = {
+  isOnlyBought = false
+  needCheckUnitPurchase = true
+  needOnlyAvailable = true
+  needTexts = false
+  isForcedAvailable = false
+}
+function get_bullets_list(airName, groupIdx, params = BULLETS_LIST_PARAMS)
 {
+  params = BULLETS_LIST_PARAMS.__merge(params)
   local descr = {
     values = []
     isTurretBelt = false
@@ -2029,14 +2041,14 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
 
   local canBeDuplicate = ::can_bullets_be_duplicate(air)
   local groupCount = ::getBulletsGroupCount(air, true)
-  if (groupCount <= group_index && !canBeDuplicate)
+  if (groupCount <= groupIdx && !canBeDuplicate)
     return descr
 
   local modTotal = ::getBulletsGroupCount(air, false)
   local firstFakeIdx = canBeDuplicate? ::BULLETS_SETS_QUANTITY : modTotal
-  if (firstFakeIdx <= group_index)
+  if (firstFakeIdx <= groupIdx)
   {
-    local fakeIdx = group_index - firstFakeIdx
+    local fakeIdx = groupIdx - firstFakeIdx
     local modifName = ::get_fake_bullet_name(fakeIdx)
     local bData = getBulletsSetData(air, modifName)
     if (bData)
@@ -2045,12 +2057,12 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
       descr.weaponType = bData.weaponType
     }
 
-    ::append_one_bullets_item(descr, modifName, air, "", genTexts) //fake default bullet item
+    ::append_one_bullets_item(descr, modifName, air, "", params.needTexts) //fake default bullet item
     return descr
   }
 
-  local linked_index = ::get_linked_gun_index(group_index, modTotal, canBeDuplicate)
-  descr.duplicate = canBeDuplicate && group_index > 0 && linked_index == ::get_linked_gun_index(group_index - 1, modTotal, canBeDuplicate)
+  local linked_index = ::get_linked_gun_index(groupIdx, modTotal, canBeDuplicate)
+  descr.duplicate = canBeDuplicate && groupIdx > 0 && linked_index == ::get_linked_gun_index(groupIdx - 1, modTotal, canBeDuplicate)
 
   local groups = [];
   for (local modifNo = 0; modifNo < air.modifications.len(); modifNo++)
@@ -2076,7 +2088,7 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
     {
       local bData = getBulletsSetData(air, modifName)
       if (!bData || bData.useDefaultBullet)
-        ::append_one_bullets_item(descr, groupName + "_default", air, "", genTexts); //default bullets
+        ::append_one_bullets_item(descr, groupName + "_default", air, "", params.needTexts); //default bullets
       if ("isTurretBelt" in modif)
         descr.isTurretBelt = modif.isTurretBelt
       if (bData)
@@ -2086,14 +2098,15 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
       }
     }
 
-    if (only_available && !::is_mod_available_or_free(airName, modifName))
+    if (params.needOnlyAvailable && !params.isForcedAvailable
+        && !::is_mod_available_or_free(airName, modifName))
       continue
 
-    local enabled = !only_bought || 0 != ::shop_is_modification_purchased(airName, modifName);
-    local amountText = check_aircraft_purchased && ::is_game_mode_with_spendable_weapons() ?
+    local enabled = !params.isOnlyBought || ::shop_is_modification_purchased(airName, modifName) != 0
+    local amountText = params.needCheckUnitPurchase && ::is_game_mode_with_spendable_weapons() ?
       getAmmoAmountData(air, modifName, AMMO.MODIFICATION).text : "";
 
-    ::append_one_bullets_item(descr, modifName, air, amountText, genTexts, enabled);
+    ::append_one_bullets_item(descr, modifName, air, amountText, params.needTexts, enabled);
   }
   return descr
 }
@@ -2113,10 +2126,15 @@ function get_bullets_list_header(unit, bulletsList)
 }
 
 //to get exact same bullets list as in standart options
-function get_options_bullets_list(air, groupIndex, genTexts = false)
+function get_options_bullets_list(air, groupIndex, needTexts = false, isForcedAvailable = false)
 {
   local checkPurchased = ::get_gui_options_mode() != ::OPTIONS_MODE_TRAINING
-  local res = ::get_bullets_list(air.name, groupIndex, checkPurchased, checkPurchased, true, genTexts) //only_bought=true
+  local res = ::get_bullets_list(air.name, groupIndex, {
+    isOnlyBought = checkPurchased
+    needCheckUnitPurchase = checkPurchased
+    needTexts = needTexts
+    isForcedAvailable = isForcedAvailable
+  }) //only_bought=true
 
   local curModif = air.unitType.canUseSeveralBulletsForGun ? ::get_unit_option(air.name, ::USEROPT_BULLETS0 + groupIndex)
                                  : ::get_last_bullets(air.name, groupIndex)

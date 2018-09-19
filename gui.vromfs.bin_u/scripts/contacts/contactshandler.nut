@@ -97,11 +97,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     _lastMaskUpdateDelayedCall = ::dagor.getCurTime()
-    ::handlersManager.doDelayed(function()
+    ::handlersManager.doDelayed(::Callback(function()
     {
       _lastMaskUpdateDelayedCall = 0
       updateControlsAllowMask()
-    }.bindenv(this))
+    }, this))
   }
 
   function switchScene(obj, newOwner = null, onlyShow = false)
@@ -1100,7 +1100,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       ::contacts[searchGroup] <- []
       updateSearchList()
     }
-    ::g_tasker.addTask(taskId, null, onSearchCb.bindenv(this))
+    ::g_tasker.addTask(taskId, null, ::Callback(onSearchCb, this))
   }
 
   function onSearchCb()

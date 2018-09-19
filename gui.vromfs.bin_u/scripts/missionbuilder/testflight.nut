@@ -109,6 +109,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
                                          unit = unit
                                          parentHandlerWeak = this
                                          canChangeBulletsAmount = false
+                                         isForcedAvailable = ::isUnitSpecial(unit)
                                        })
 
     weaponsSelectorWeak = handler.weakref()

@@ -46,8 +46,8 @@ enum contactEvent
 }
 
 foreach (fn in [
-    "contact.nut"
     "contactPresence.nut"
+    "contact.nut"
     "playerStateTypes.nut"
     "contactsHandler.nut"
     "searchForSquadHandler.nut"
@@ -615,20 +615,28 @@ function updateContact(config)
 {
   local configIsContact = ::u.isInstance(config) && config instanceof ::Contact
   if (::u.isInstance(config) && !configIsContact) //Contact no need update by instances because foreach use function as so constructor
+  {
+    ::script_net_assert_once("strange config for contact update", "strange config for contact update")
+    return
+  }
+
+  local needReset = config?.needReset ?? false
+  local uid = config.uid
+  local contact = ::getContact(uid, config?.name)
+  if (!contact)
     return
 
-  local replace = config?.replace ?? false
-  local uid = config.uid
-  if (!configIsContact) //when config is instance of contact we no need update it to self
-    if (uid in ::contacts_players && !replace)
-      ::contacts_players[uid].update(config)
+  //when config is instance of contact we no need update it to self
+  if (!configIsContact)
+  {
+    if (needReset)
+      contact.resetMatchingParams()
     else
-      ::contacts_players[uid] <- Contact(config)
-
-  local contact = ::contacts_players[uid]
-  local presence = ::g_contact_presence.UNKNOWN
+      contact.update(config)
+  }
 
   //update presence
+  local presence = ::g_contact_presence.UNKNOWN
   if (contact.online)
     presence = ::g_contact_presence.ONLINE
   else if (!contact.unknown)
@@ -658,8 +666,8 @@ function updateContact(config)
 
   contact.presence = presence
 
-  if (squadStatus != squadMemberState.NOT_IN_SQUAD || is_in_my_clan(null, uid))
-    chatUpdatePresence(contact)
+  if (squadStatus != squadMemberState.NOT_IN_SQUAD || ::is_in_my_clan(null, uid))
+    ::chatUpdatePresence(contact)
 
   return contact
 }
@@ -675,7 +683,7 @@ function getFriendsOnlineNum()
         continue
 
       foreach(f in ::contacts[groupName])
-        if (f.online)
+        if (f.online && !f.forceOffline)
           online++
     }
   }

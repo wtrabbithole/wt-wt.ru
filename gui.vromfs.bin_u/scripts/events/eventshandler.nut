@@ -148,7 +148,12 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return false
   }
 
-    function onJoinEvent(isFromDebriefing = false)
+  function onJoinEvent()
+  {
+    joinEvent()
+  }
+
+  function joinEvent(isFromDebriefing = false)
   {
     local event = ::events.getEvent(curEventId)
     if (!event)
@@ -244,7 +249,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     ::add_big_query_record("exit_waiting_for_battle_screen",
-      ::save_to_json({ waitingTime = q.activateTime }))
+      ::save_to_json({ waitingTime = q.getActiveTime() }))
     ::queues.leaveQueue(q)
   }
 

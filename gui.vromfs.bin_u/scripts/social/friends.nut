@@ -140,7 +140,7 @@ function getPS4FriendsFromIndex(index)
     if (index == 0) // Initial chunk of friends from WebAPI
       ::resetPS4ContactsGroup()
 
-    local size = response?.size || 0
+    local size = (response?.size || 0) + (response?.start || 0)
     local endIndex = size >= (response?.totalResults || 0) ? 0 : size
 
     ::addContactGroup(::EPLX_PS4_FRIENDS)
@@ -162,7 +162,7 @@ function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
   if (ps4FriendsArray.len() == 0 || lastIndex == 0)
     ::movePS4ContactsToSpecificGroup()
   else
-    ::getPS4FriendsFromIndex(lastIndex+1)
+    ::getPS4FriendsFromIndex(lastIndex)
 }
 
 function resetPS4ContactsGroup()

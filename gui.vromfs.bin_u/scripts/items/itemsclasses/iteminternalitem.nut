@@ -8,7 +8,11 @@ class ::items_classes.InternalItem extends ItemExternal
   static typeIcon = "#ui/gameuiskin#item_type_trophies"
   static descHeaderLocId = "coupon/for"
 
-  getContentItem   = @() metaBlk?.item && ::ItemsManager.findItemById(metaBlk?.item)
+  getContentItem   = function()
+  {
+    local contentItem = metaBlk?.item ?? metaBlk?.trophy
+    return contentItem && ::ItemsManager.findItemById(contentItem)
+  }
   canConsume       = @() isInventoryItem && getContentItem() != null
 
   function updateShopFilterMask()

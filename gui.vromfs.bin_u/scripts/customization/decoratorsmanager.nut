@@ -332,7 +332,8 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
     access.isVisible = isVisible
   }
 
-  if (needAutoSkin && isAutoSkinAvailable(unitName))
+  local hasAutoSkin = needAutoSkin && isAutoSkinAvailable(unitName)
+  if (hasAutoSkin)
   {
     local autoSkin = getAutoSkin(unitName)
     local decorator = ::g_decorator.getDecorator(unitName + "/"+ autoSkin, ::g_decorator_type.SKINS)
@@ -341,7 +342,13 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
   }
 
   local curSkin = getLastSkin(unit.name)
-  descr.value = ::find_in_array(descr.values, curSkin, 0)
+  descr.value = ::find_in_array(descr.values, curSkin, -1)
+  if (descr.value != -1 || !descr.values.len())
+    return descr
+
+  descr.value = 0
+  if (curSkin && curSkin != "")//cur skin is not valid, need set valid skin
+    setLastSkin(unit.name, descr.values[0], hasAutoSkin)
 
   return descr
 }

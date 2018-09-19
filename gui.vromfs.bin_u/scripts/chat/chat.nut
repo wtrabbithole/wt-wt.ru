@@ -13,6 +13,7 @@ enum chatErrorName {
   NO_SUCH_NICK_CHANNEL    = "401"
   NO_SUCH_CHANNEL         = "403"
   CANT_SEND_MESSAGE       = "404"
+  CANNOT_JOIN_CHANNEL_NO_INVITATION = "473"
   CANNOT_JOIN_THE_CHANNEL = "475"
 }
 
@@ -170,7 +171,7 @@ function g_chat::isRoomJoined(roomId)
 g_chat._roomJoinedIdx <- 0
 function g_chat::addRoom(room)
 {
-  room.roomJoinedIdx <- _roomJoinedIdx++
+  room.roomJoinedIdx = _roomJoinedIdx++
   rooms.append(room)
 
   rooms.sort(function(a, b)
