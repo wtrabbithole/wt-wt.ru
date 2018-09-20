@@ -397,7 +397,12 @@
         "armorClass": "tank_barrel",
         "hp": 250.0,
         "armorThickness": 25.0,
-        "gun_barrel_01_dm": [],
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
@@ -414,6 +419,21 @@
           "hp": 50.0
         },
         "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
@@ -2634,11 +2654,12 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 9.2,
-      "zoomInFov": 7.3,
-      "sightFov": 5.0,
+      "zoomOutFov": 11.0,
+      "zoomInFov": 9.2,
+      "sightFov": 6.0,
+      "sightName": "telescope_m105c",
       "headPos": [0.0,3.9,-8.7],
-      "headPosOnShooting": [0.0,3.6,0.0],
+      "headPosOnShooting": [-0.3,3.7,0.5],
       "detectionHeight": 3.213
     }
   },

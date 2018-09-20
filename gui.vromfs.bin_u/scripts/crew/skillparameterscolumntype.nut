@@ -9,6 +9,7 @@ enum skillColumnOrder {
   GUNNERS
   EMPTY
   MAX
+  GUNNERS_COUNT
 
   UNKNOWN
 }
@@ -22,7 +23,7 @@ function g_skill_parameters_column_type::_checkSkill(memberName, skillName)
   return true
 }
 
-function g_skill_parameters_column_type::_checkUnitType(unitType)
+function g_skill_parameters_column_type::_checkCrewUnitType(crewUnitType)
 {
   return true
 }
@@ -112,7 +113,7 @@ function g_skill_parameters_column_type::_isSkillNotOnlyForTotalAndTop(memberNam
   /**
    * Checks if column type is applicable to specified unit.
    */
-  checkUnitType = ::g_skill_parameters_column_type._checkUnitType
+  checkCrewUnitType = ::g_skill_parameters_column_type._checkCrewUnitType
 
   getHeaderText = ::g_skill_parameters_column_type._getHeaderText
   getHeaderImage = ::g_skill_parameters_column_type._getHeaderImage
@@ -190,9 +191,46 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
       return ::g_crew_skills.isAffectedByLeadership(memberName, skillName)
     }
 
-    checkUnitType = function (unitType)
+    checkCrewUnitType = function (crewUnitType)
     {
-      return unitType == ::ES_UNIT_TYPE_TANK
+      return crewUnitType == ::CUT_TANK
+    }
+  }
+
+  /**
+   * Represents count of ai gunners on current vehicle.
+   * This is related to aircraft unit type only.
+   */
+  GUNNERS_COUNT = {
+    sortOrder = skillColumnOrder.GUNNERS_COUNT
+    checkSkill = @(memberName, skillName) memberName == "gunner" && skillName == "members"
+    checkCrewUnitType = @(crewUnitType) crewUnitType == ::CUT_AIRCRAFT
+
+    getHeaderText = function ()
+    {
+      local unitName = ::getUnitName(::g_crew_short_cache.unit)
+      local pad = "    "
+      return pad + ::loc("crew/forUnit", { unitName = unitName }) + pad
+    }
+
+    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType)
+    {
+      local crewId = ::g_crew_short_cache.cacheCrewid
+      local unit = ::g_crew_short_cache.unit
+      local isUnitCompatible = unit && unit.unitType.hasAiGunners &&
+        checkCrewUnitType(unit.unitType.crewUnitType)
+      local unitTotalGunners = isUnitCompatible ? (unit?.gunnersCount ?? 0) : 0
+      local crewExpGunners = ::g_crew.getSkillValue(crewId, "gunner", "members")
+      local curGunners = ::min(crewExpGunners, unitTotalGunners)
+      local text = curGunners + ::loc("ui/slash") + unitTotalGunners
+      if (isUnitCompatible)
+      {
+        local color = crewExpGunners < unitTotalGunners ? "badTextColor" : "goodTextColor"
+        text = ::colorize(color, text)
+      }
+      return {
+        itemText = text
+      }
     }
   }
 
@@ -213,9 +251,9 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
       return memberName == "gunner" && skillName != "members"
     }
 
-    checkUnitType = function (unitType)
+    checkCrewUnitType = function (crewUnitType)
     {
-      return unitType == ::ES_UNIT_TYPE_AIRCRAFT
+      return crewUnitType == ::CUT_AIRCRAFT
     }
   }
 

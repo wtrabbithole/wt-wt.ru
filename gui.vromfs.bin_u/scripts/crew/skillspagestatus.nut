@@ -53,7 +53,7 @@ enums.addTypesByGlobalName("g_skills_page_status", {
   */
 })
 
-function g_skills_page_status::getPageStatus(crew, page, esUnitType, skillPoints)
+function g_skills_page_status::getPageStatus(crew, page, crewUnitType, skillPoints)
 {
   local res = ::g_skills_page_status.NONE
   local items = ::getTblValue("items", page)
@@ -65,7 +65,7 @@ function g_skills_page_status::getPageStatus(crew, page, esUnitType, skillPoints
   local allowedAmount = [] //only for not maxed
   foreach(item in items)
   {
-    if (!item.isVisible(esUnitType))
+    if (!item.isVisible(crewUnitType))
       continue
 
     local totalSteps = ::g_crew.getTotalSteps(item)

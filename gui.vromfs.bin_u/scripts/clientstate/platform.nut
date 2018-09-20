@@ -3,7 +3,10 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local XBOX_ONE_PLAYER_PREFIX = "^"
 
-local isPlatformXboxOne = ::get_platform() == "xboxOne"
+local targetPlatform = ::get_platform()
+local isPlatformXboxOne = targetPlatform == "xboxOne"
+local isPlatformPS4 = targetPlatform == "ps4"
+local isPlatformPC = ["win32", "win64", "macosx", "linux64"].find(targetPlatform) >= 0
 
 local xboxNameRegexp = ::regexp2(@"^['^']")
 local isXBoxPlayerName = @(name) xboxNameRegexp.match(name)
@@ -17,6 +20,19 @@ if (isPlatformXboxOne)
   getPlayerName = getPlayerNameNoSpecSymbol
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
+
+local canInteractCrossConsole = function(name) {
+  local isPS4Player = isPS4PlayerName(name)
+  local isXBOXPlayer = isXBoxPlayerName(name)
+
+  if (!isXBOXPlayer && (isPlatformPC || isPlatformPS4))
+    return true
+
+  if ((isPS4Player && isPlatformPS4) || (isXBOXPlayer && isPlatformXboxOne))
+    return true
+
+  return ::has_feature("XboxCrossConsoleInteraction")
+}
 
 local xboxChatEnabledCache = null
 local getXboxChatEnableStatus = function(needOverlayMessage = false)
@@ -75,4 +91,5 @@ return {
   canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
   getXboxChatEnableStatus = getXboxChatEnableStatus
   isPlatformXboxOne = isPlatformXboxOne
+  canInteractCrossConsole = canInteractCrossConsole
 }

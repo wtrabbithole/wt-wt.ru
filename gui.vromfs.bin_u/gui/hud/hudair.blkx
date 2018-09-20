@@ -27,7 +27,7 @@
       "id": "hud_message_player_damage_notification",
       "message_style": "player_damage_notification",
       "position": "relative",
-      "pos": "1@gameChatWidth +8@sf/@pf, ph -h -1@hudMisObjIconsSize -1@blockInterval",
+      "pos": "1@bottomHudMessagesLeftPos, ph -h -1@hudMisObjIconsSize -1@blockInterval",
       "width": "0.6@shHud + 1@isWide * 0.2@shHud",
       "flow": "vertical"
     }
@@ -53,7 +53,7 @@
     "hitCamera": {
       "id": "hud_hitcamera",
       "position": "absolute",
-      "pos": "pw - w, ph - h",
+      "pos": "pw - w, ph - h - 0.2*@shHud - 1@hudMisObjIconsSize -1@blockInterval",
       "result": "",
       "hitCameraLine": [],
       "hitCameraRender": {
@@ -115,6 +115,14 @@
         }
       }
     ]
+  },
+  {
+    "tdiv": {
+      "behaviour": "darg",
+      "position": "root",
+      "pos": "0, 0",
+      "size": "sw, sh"
+    }
   },
   {
     "tdiv": [

@@ -1405,15 +1405,6 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,4.0,-8.0],
-      "headPosOnShooting": [-0.4,3.6,0.0],
-      "detectionHeight": 2.5
-    }
-  },
-  {
     "default_skin": {
       "name": "olive",
       "replace_tex": {
@@ -2031,8 +2022,8 @@
           "bullets": 1000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2113,6 +2104,15 @@
     }
   },
   {
+    "cockpit": {
+      "zoomOutFov": 40.0,
+      "zoomInFov": 21.0,
+      "headPos": [0.0,4.0,-8.0],
+      "headPosOnShooting": [0.2,3.2,-0.25],
+      "detectionHeight": 2.5
+    }
+  },
+  {
     "skin": {
       "name": "brown",
       "replace_tex": {
@@ -2154,6 +2154,15 @@
       "replace_tex": {
         "from": "jp_camo_willow_green*",
         "to": "jp_camo_post_winter*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "jp_camo_winter_early",
+      "replace_tex": {
+        "from": "jp_camo_willow_green*",
+        "to": "jp_camo_winter_early*"
       }
     }
   }

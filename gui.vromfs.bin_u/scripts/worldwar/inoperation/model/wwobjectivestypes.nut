@@ -41,15 +41,18 @@ local time = require("scripts/time.nut")
   getName = function(dataBlk, statusBlk, side)
   {
     return getLocText(dataBlk, side, prefixNameLocId, "/name",
-      getTitleLocId(dataBlk, statusBlk), getTitleLocParams(dataBlk, statusBlk, side))
+      getNameSpecification(dataBlk, statusBlk),
+      getTitleLocId(dataBlk, statusBlk),
+      getTitleLocParams(dataBlk, statusBlk, side))
   }
+  getNameSpecification = @(dataBlk, statusBlk) ""
 
   getDesc = function(dataBlk, statusBlk, side)
   {
     local additionalTextLocId = dataBlk?.additionalDescriptionTextLocId
     local descList = [
       additionalTextLocId ? ::loc(additionalTextLocId, "") : "",
-      getLocText(dataBlk, side, prefixNameLocId, "/desc", getTitleLocId(dataBlk, statusBlk))
+      getLocText(dataBlk, side, prefixNameLocId, "/desc", "", getTitleLocId(dataBlk, statusBlk))
     ]
 
     return ::g_string.implode(descList, "\n")
@@ -57,10 +60,10 @@ local time = require("scripts/time.nut")
 
   getParamName = function(blk, side, paramName)
   {
-    return getLocText(blk, side, prefixParamLocId, "/name", paramName)
+    return getLocText(blk, side, prefixParamLocId, "/name", "", paramName)
   }
 
-  getLocText = function(blk, side, prefix = "", postfix = "", name = "", params = null)
+  getLocText = function(blk, side, prefix = "", postfix = "", spec = "", name = "", params = null)
   {
     if (name != "" && name == currentStateParam)
       return ::loc("wwar_obj/params/currentState/name")
@@ -70,7 +73,7 @@ local time = require("scripts/time.nut")
     if (locText == "")
       locText = ::loc(prefix + blk.type + "/" + getActionString(blk, side) + postfix, "", params)
     if (locText == "")
-      locText = ::loc(prefix + blk.type + "/" + getActionString(blk, side) + "/" + name + postfix, "", params)
+      locText = ::loc(prefix + blk.type + "/" + getActionString(blk, side) + "/" + name + postfix + spec, "", params)
     if (locText == "")
       locText = ::loc(prefix + blk.type + postfix, "", params)
     return locText
@@ -412,6 +415,17 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       local paramName = "rSpeedMulStatus" + sideIdx + "New"
       local speedupFactor = statusBlk?[paramName] ?? 1
       return ::round(::max(speedupFactor - 1, 0) * 100)
+    }
+
+    getNameSpecification = function(dataBlk, statusBlk)
+    {
+      local zonesNeeded = dataBlk?.num
+      if (!zonesNeeded)
+        return ""
+
+      local zonesData = dataBlk.zones || statusBlk.zones
+      local zonesCount = ::u.isDataBlock(zonesData) ? zonesData.paramCount() : 0
+      return zonesNeeded < zonesCount ? "/approximate" : "/accurate"
     }
 
     getUpdatableParamsDescriptionTooltip = @(...) ::loc("worldwar/state/reinforcement_arrival_speedup")

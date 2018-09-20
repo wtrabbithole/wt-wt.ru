@@ -1,5 +1,5 @@
 local tabsBase = require("daRg/components/tabs.nut")
-local colors = require("../style/colors.nut")
+local colors = require("reactiveGui/style/colors.nut")
 
 
 local tab = function(tab, is_current, handler) {
@@ -54,7 +54,7 @@ local tab = function(tab, is_current, handler) {
 }
 
 
-local tabsHolder = @(){
+local tabsHolder = @(params){
   rendObj = ROBJ_SOLID
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL

@@ -516,7 +516,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -525,8 +524,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false,
@@ -540,7 +541,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -549,8 +549,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false,
@@ -7884,6 +7886,57 @@
         [1885.0,23.2363,4657.94]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "area_02": {
+      "type": "Sphere",
+      "tm": [
+        [-3661.33,0.0,-3405.09],
+        [0.0,5000.0,0.0],
+        [3405.09,0.0,-3661.33],
+        [3419.69,6000.0,3122.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_helicopter_spawn_01": {
+      "type": "Sphere",
+      "tm": [
+        [-209.54,0.0,214.694],
+        [0.0,300.0,0.0],
+        [-214.694,0.0,-209.54],
+        [3990.73,6000.0,697.941]
+      ],
+      "props": []
+    },
+    "t1_helicopter_spawn_02": {
+      "type": "Sphere",
+      "tm": [
+        [-209.54,0.0,214.694],
+        [0.0,300.0,0.0],
+        [-214.694,0.0,-209.54],
+        [5803.72,6000.0,2381.38]
+      ],
+      "props": []
+    },
+    "t2_helicopter_spawn_01": {
+      "type": "Sphere",
+      "tm": [
+        [211.835,0.0,-212.43],
+        [0.0,300.0,0.0],
+        [212.43,0.0,211.835],
+        [2856.57,6000.0,5560.2]
+      ],
+      "props": []
+    },
+    "t2_helicopter_spawn_02": {
+      "type": "Sphere",
+      "tm": [
+        [211.835,0.0,-212.43],
+        [0.0,300.0,0.0],
+        [212.43,0.0,211.835],
+        [1030.41,6000.0,3857.31]
+      ],
       "props": []
     }
   },

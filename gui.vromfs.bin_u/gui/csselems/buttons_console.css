@@ -309,6 +309,10 @@ btnText {
   input-transparent:yes;
 }
 
+Button_text:hover > btnText {
+  color: @buttonFontColorHover;
+}
+
 btnImage {
   background-repeat:aspect-ratio;
   input-transparent:yes;
@@ -1677,8 +1681,10 @@ Button_text.double[haveGamepadImage=yes] > ButtonImg {
 }
 
 Button_text.double > img {
-  size:pw, ph;
+  size:1@cIco, 1@cIco;
+  pos:50%pw-50%w, 50%ph-50%h;
   position:relative;
+  background-svg-size:1@cIco, 1@cIco;
   background-repeat:aspect-ratio;
 }
 
@@ -1769,6 +1775,16 @@ ButtonImg[showOn=selectedAndEnabled] {
 }
 [show_console_buttons=yes] tr[selected=yes] Button_text[enable=no] ButtonImg[showOn=selectedAndEnabled] {
   display:hide;
+}
+
+[show_console_buttons=no]  multiOption ButtonImg[showOrNoneOn=selectedOnConsole] {
+  display:hide;
+}
+[show_console_buttons=yes] multiOption ButtonImg[showOrNoneOn=selectedOnConsole] {
+  display:none;
+}
+[show_console_buttons=yes] multiOption[selected=yes] ButtonImg[showOrNoneOn=selectedOnConsole] {
+  display:show;
 }
 
 Button_text[enableOn=hoverOrSelect] {
@@ -1948,6 +1964,9 @@ Button_text[buy_ticket_button=yes] {
 
 Button_text[externalLink=yes] > activeText,
 Button_text[externalLink=yes] > btnText {
+  position: relative;
+  left: 0.5(pw-w);
+  top: 0.5(ph-h)-2@dp;
   css-hier-invalidate:yes;
   color:@linkTextColor;
 }
@@ -1970,6 +1989,17 @@ Button_text[externalLink=yes]:hover > btnText > underline,
 Button_text[externalLink=yes]:focus > btnText > underline,
 Button_text[externalLink=yes]:[selected=yes] > btnText > underline {
   background-color:@linkTextHoverColor;
+}
+
+Button_text > btnContent {
+  position: relative;
+  left: 0.5(pw-w);
+  top: 0.5(ph-h);
+}
+Button_text[pc_style=no][hasConsoleImage=yes] > activeText,
+Button_text[pc_style=no][hasConsoleImage=yes] > btnText,
+Button_text[pc_style=no][hasConsoleImage=yes] > btnContent {
+  left: 0;
 }
 
 
@@ -2093,6 +2123,10 @@ topMenuButtons > Button_text {
 
 Button_text[reduceMinimalWidth=yes]  {
   min-width:0;
+}
+
+Button_text[reduceWidthToHeight=yes]  {
+  min-width:h;
 }
 
 Button_text[showConsoleImage=no] {

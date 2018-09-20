@@ -1,7 +1,7 @@
-local colors = require("../style/colors.nut")
-local hudState = require("../hudState.nut")
+local colors = require("reactiveGui/style/colors.nut")
+local hudState = require("reactiveGui/hudState.nut")
 local scrollbar = require("scrollbar.nut")
-local transition = require("../style/hudTransition.nut")
+local transition = require("reactiveGui/style/hudTransition.nut")
 
 
 local logContainer = @() {
@@ -22,7 +22,7 @@ local hudLog = function (params) {
 
   local logState = logComponent.state
   local content = scrollbar.makeSideScroll(
-    logComponent.log(@() logContainer, messageComponent),
+    logComponent.data(@() logContainer, messageComponent),
     {
       scrollHandler = logComponent.scrollHandler
       barStyle = @(has_scroll) scrollbar.styling.Bar(has_scroll && hudState.cursorVisible.value)

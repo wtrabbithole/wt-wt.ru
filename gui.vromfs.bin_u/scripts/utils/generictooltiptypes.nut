@@ -476,14 +476,13 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     }
     getTooltipContent = function(categoryName, params)
     {
-      local unitTypeName = ::getTblValue("unitTypeName", params, "")
-      local unitType = ::getUnitTypeByText(unitTypeName)
+      local crewUnitType = ::g_unit_type.getByName(params?.unitTypeName, false).crewUnitType
       local skillCategory = ::g_crew_skills.getSkillCategoryByName(categoryName)
       local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_country_sq(), -1)
       local crewIdInCountry = ::getTblValue(crewCountryId, ::selected_crews, -1)
       local crewData = ::getSlotItem(crewCountryId, crewIdInCountry)
-      if (skillCategory != null && unitType != ::ES_UNIT_TYPE_INVALID && crewData != null)
-        return ::g_crew_skills.getSkillCategoryTooltipContent(skillCategory, unitType, crewData)
+      if (skillCategory != null && crewUnitType != ::CUT_INVALID && crewData != null)
+        return ::g_crew_skills.getSkillCategoryTooltipContent(skillCategory, crewUnitType, crewData)
       return ""
     }
   }

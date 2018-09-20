@@ -46,7 +46,7 @@ local function join(pieces, glue="") {
  * @param {string} glue - glue string.
  * @return {string[]} - Array of sub-strings.
  */
-local function split(joined, glue) {
+local function split(joined, glue, isIgnoreEmpty = false) {
   local pieces = []
   local joinedLen = joined.len()
   if (!joinedLen)
@@ -57,7 +57,8 @@ local function split(joined, glue) {
     local end = joined.find(glue, start)
     if (end == null)
       end = joinedLen
-    pieces.append(joined.slice(start, end))
+    if (!isIgnoreEmpty || start != end)
+      pieces.append(joined.slice(start, end))
     start = end + glueLen
   }
   return pieces
@@ -128,7 +129,6 @@ local defTostringParams = {
   splitlines = true
   showArrIdx=false
 }
-local function tostring_r(input, params=defTostringParams) {}
 local function func_tostring(func,compact) {
   local info = func.getinfos()
   local out = ""
@@ -139,7 +139,7 @@ local function func_tostring(func,compact) {
     else
       params = ""
     local fname = "" + info.name
-    if (fname.find("(null : 0x0") != null)
+    if (fname.find("(null : 0x0") != null || fname.find("null") !=null)
       fname = "@"
     if (!compact)
       out += "(func): " + info.src + " "
@@ -156,19 +156,29 @@ local function func_tostring(func,compact) {
   return out
 }
 
-local simple_types = ["string", "float", "bool", "integer"]
+local simple_types = ["string", "float", "bool", "integer","null"]
 local function_types = ["function", "generator", "thread"]
 
-local function tostring_any(input, tostringfunc=null, compact=false) {
+local function tostring_any(input, tostringfunc=null, compact=true) {
   local typ = ::type(input)
-  if (tostringfunc?.compare != null && tostringfunc.compare(input)){
-    return tostringfunc.tostring(input)
+  if (tostringfunc!=null) {
+    if (type(tostringfunc) == "table")
+      tostringfunc = [tostringfunc]
+    else if (type(tostringfunc) == "array") {
+      foreach (tf in tostringfunc){
+        if (tf?.compare != null && tf.compare(input)){
+          return tf.tostring(input)
+        }
+      }
+    }
   }
   else if (function_types.find(typ)!=null){
     return func_tostring(input,compact)
   }
   else if (typ == "string"){
-    if (compact)
+    if(input=="")
+      return "''"
+    if(compact)
       return input
     return "'" + input + "'"
   }
@@ -191,7 +201,7 @@ local function tostring_any(input, tostringfunc=null, compact=false) {
     return input.tostring()
 }
 local table_types = ["table","class","instance"]
-tostring_r = function(input, params=defTostringParams) {
+local function tostring_r(input, params=defTostringParams) {
   local out = ""
   local newline = params?.newline ?? defTostringParams.newline
   local maxdeeplevel = params?.maxdeeplevel ?? defTostringParams.maxdeeplevel
@@ -202,15 +212,43 @@ tostring_r = function(input, params=defTostringParams) {
   local splitlines = params?.splitlines ?? defTostringParams.splitlines
   local compact = params?.compact ?? defTostringParams.compact
   local deeplevel = 0
-  local sub_tostring_r
-  local function tostringLeaf(input) {
-    local typ =::type(input)
-    if ((tostringfunc != null && tostringfunc?.compare(input)) || (typ=="instance" && input?.tostring().find("(instance : 0x")!=0) || simple_types.find(typ) != null || function_types.find(typ)!=null || typ=="null")
-      return true
+  local tostringfuncs = [
+    {
+      compare = @(val,typ) simple_types.find(typ) != null
+      tostring = @(val) tostring_any(val, null, compact)
+    }
+    {
+      compare = @(val,typ) (typ=="table" && val.len()==0 )
+      tostring = @(val) "{}"
+    }
+    {
+      compare = @(val,typ) typ=="array" && val.len()==0
+      tostring = @(val) "[]"
+    }
+    {
+      compare = @(val,typ) function_types.find(typ)!=null
+      tostring = @(val) tostring_any(val, null, compact)
+    }
+    {
+      compare = @(val,typ) (typ=="instance" && val?.tostring && val?.tostring?() && val?.tostring?().find("(instance : 0x")!=0)
+      tostring = @(val) val.tostring()
+    }
+  ]
+  local function tostringLeaf(val) {
+    local typ =::type(val)
+    if (tostringfunc!=null) {
+      if (type(tostringfunc) == "table")
+        tostringfunc = [tostringfunc]
+      foreach (tf in tostringfunc)
+        if (tf.compare(val))
+          return [true, tf.tostring(val)]
+    }
+    foreach (cmp in tostringfuncs)
+      if (cmp.compare(val,typ))
+        return [true,cmp.tostring(val)]
+    return [false, null]
   }
-  local function tostring_any(input) {
-    return tostring_any(input, tostringfunc, compact)
-  }
+
   local function openSym(value) {
     local typ = ::type(value)
     if (typ=="array")
@@ -222,7 +260,9 @@ tostring_r = function(input, params=defTostringParams) {
       return implode([className, "{"]," ")
     }
     else if (typ=="instance") {
-      local className = value.getclass().getattributes(null)?.name
+      local className = ""
+      if (value?.getclass)
+         className = value?.getclass().getattributes(null)?.name
       if (!compact)
         className = implode(["inst", className]," ")
       return implode([className,"{"]," ")
@@ -248,28 +288,37 @@ tostring_r = function(input, params=defTostringParams) {
     newline = " "
     indentOnNewline = ""
   }
-  sub_tostring_r = function(input, indent, curdeeplevel, arrayElem = false, separator = newline, arrInd=null) {
+  local function sub_tostring_r(input, indent, curdeeplevel, arrayElem = false, separator = newline, arrInd=null) {
     if (arrInd==null)
       arrInd=indent
     local out = ""
-    if (maxdeeplevel != null && curdeeplevel == maxdeeplevel)
-      return out+"..."
     foreach (key, value in input) {
       local typ = ::type(value)
       local isArray = typ=="array"
-      if (tostringLeaf(value)) {
+      local tostringLeafv=tostringLeaf(value)
+      if (tostringLeafv[0]) {
         if (!arrayElem) {
           out += separator
           out += indent + tostring_any(key) +  " = "
         }
-        out += tostring_any(value)
+        out += tostringLeafv[1]
         if (arrayElem && key!=input.len()-1)
           out += separator
       }
+      else if (maxdeeplevel != null && curdeeplevel == maxdeeplevel && !tostringLeafv[0]) {
+        local brOp = openSym(value)
+        local brCl = closeSym(typ)
+        if (!arrayElem)
+          out += newline + indent + tostring_any(key, null, compact) +  " = "
+        else if (arrayElem && showArrIdx) {
+          out += tostring_any(key) +  " = "
+        }
+        out += brOp +"..." + brCl
+      }
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
-          out += newline + indent + tostring_any(key) +  " = "
-        out += "[" + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
+          out += newline + indent + tostring_any(key, null, compact) +  " = "
+        out += "[" + callee()(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
         if (arrayElem && key!=input.len()-1)
           out += separator
       }
@@ -278,9 +327,9 @@ tostring_r = function(input, params=defTostringParams) {
         local brCl = closeSym(typ)
         out += newline + indent
         if (!arrayElem) {
-          out += tostring_any(key) +  " = "
+          out += tostring_any(key,null, compact) +  " = "
         }
-        out += brOp + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
+        out += brOp + callee()(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
         if (arrayElem && key==input.len()-1 ){
           out += newline+arrInd
         }
@@ -510,7 +559,7 @@ local function isStringInteger(str) {
     return false
   if (intRegExp != null)
     return intRegExp.match(str)
-  
+
   if (startsWith(str,"-"))
     str=str.slice(1)
   local ok = false
@@ -545,6 +594,15 @@ local function isStringFloat(str, separator=".") {
   return ok
 }
 
+local function toIntegerSafe(str, defValue = 0, needAssert = true)
+{
+  if (isStringInteger(str))
+    return str.tointeger()
+  if (needAssert)
+    assert(false, "can't convert '" + str + "' to integer")
+  return defValue
+}
+
 local function intToUtf8Char(c) {
   if (c <= 0x7F)
     return c.tochar()
@@ -557,16 +615,16 @@ local function intToUtf8Char(c) {
 local function utf8ToUpper(str, symbolsNum = 0) {
   if(str.len() < 1)
     return str
-  local utf8Str = utf8(str)
+  local utf8Str = ::utf8(str)
   local strLength = utf8Str.charCount()
   if (symbolsNum <= 0 || symbolsNum >= strLength)
     return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
-  return utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER) +
+  return ::utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER) +
    utf8Str.slice(symbolsNum, strLength)
 }
 
 local function utf8ToLower(str) {
-  return utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
+  return ::utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
 }
 
 local function hexStringToInt(hexString) {
@@ -619,6 +677,57 @@ local function stripTags(str) {
   return str
 }
 
+local function pprint(...){
+  //most of this code should be part of tostring_r probably - at least part of braking long lines
+  local function findlast(str, substr, startidx=0){
+    local ret = null
+    for(local i=startidx; i<str.len(); i++) {
+      local k = str.find(substr, i)
+      if (k!=null) {
+        i = k
+        ret = k
+     }
+     else
+       break;
+    }
+    return ret
+  }
+  if (vargv.len()<=1)
+    print(tostring_r(vargv[0])+"\n")
+  else {
+    local a = vargv.map(@(i) tostring_r(i))
+    local res = ""
+    local prev_val_newline = false
+    local len = 0
+    local maxlen = 50
+    foreach(k,i in a) {
+      local l = findlast(i,"\n")
+      if (l!=null)
+        len = len + i.len()-l
+      else
+        len = len+i.len()
+      if (k==0)
+        res = i
+      else if (prev_val_newline && len<maxlen)
+        res = res.slice(0,-1)+" " + i
+      else if (len>=maxlen){
+        res = res+"\n  " + i
+        len = i.len()
+      }
+      else
+        res = res+" " + i
+
+      if (i.slice(-1)=="\n" && len<maxlen)
+        prev_val_newline = true
+     else
+       prev_val_newline = false
+    }
+    print(res)
+    print("\n")
+  }
+}
+
+
 local export = {
   INVALID_INDEX = INVALID_INDEX
   slice = slice
@@ -647,6 +756,9 @@ local export = {
   stripTags = stripTags
   tostring_any  = tostring_any
   tostring_r = tostring_r
+  pprint = pprint
+
+  toIntegerSafe = toIntegerSafe
 }
 
 return export

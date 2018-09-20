@@ -1,4 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
+
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
   EMPTY_BUTTON,
@@ -55,7 +57,6 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     }
 
     isHidden = @(...) !::is_custom_battles_enabled()
-    isVisualDisabled = function() { return !::is_custom_battles_enabled() }
     isInactiveInQueue = true
   }
   WORLDWAR = {

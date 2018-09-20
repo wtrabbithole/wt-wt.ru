@@ -1788,8 +1788,8 @@
           "speedPitch": 42.0,
           "bullets": 340,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1892,8 +1892,8 @@
           "speedPitch": 42.0,
           "bullets": 340,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2590,7 +2590,7 @@
   {
     "cockpit": {
       "headPos": [0.0,5.0,-8.5],
-      "headPosOnShooting": [0.0,4.0,0.0],
+      "headPosOnShooting": [0.7,3.8,-0.3],
       "zoomOutFov": 35.0,
       "zoomInFov": 20.0,
       "sightFov": 20.0,
@@ -2653,8 +2653,8 @@
                 "speedPitch": 42.0,
                 "bullets": 340,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2757,8 +2757,8 @@
                 "speedPitch": 42.0,
                 "bullets": 340,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2918,6 +2918,15 @@
     }
   },
   {
+    "skin": {
+      "name": "ger_camo_modern_threecolor",
+      "replace_tex": {
+        "from": "ger_camo_bronzegruen*",
+        "to": "ger_camo_modern_threecolor*"
+      }
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
@@ -2929,7 +2938,13 @@
           "explosionEvent": "ammo_explosion",
           "wreckedPartId": 0,
           "ammo_body_dm": {
-            "count": 680
+            "count": 640
+          },
+          "ammo_turret_01_dm": {
+            "count": 20
+          },
+          "ammo_turret_02_dm": {
+            "count": 20
           }
         }
       }

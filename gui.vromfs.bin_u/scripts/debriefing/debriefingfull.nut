@@ -1,5 +1,5 @@
 //::g_script_reloader.loadOnce("!temp/a_test.nut") //!!debug only!!
-
+local mpChatModel = require("scripts/chat/mpChatModel.nut")
 //!! When this handler will be finished it replace all debriefing handlers,
 //and we can replace debriefing.nut by this file.
 
@@ -37,6 +37,7 @@
   joinRows = null // null or array of existing row ids, which must be joined into this new row.
   customValueName = null
   getValueFunc = null
+  icon = "icon/summation" // Icon used as Value column header in tooltip
   tooltipExtraRows = null //function(), array
   tooltipComment = null  //string function()
   isCountedInUnits = true
@@ -77,6 +78,7 @@
     showByModes = ::is_gamemode_versus
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     text = "multiplayer/air_kills"
+    icon = "icon/mpstats/kills"
     isVisibleWhenEmpty = function()
     {
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR
@@ -86,6 +88,7 @@
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/ground_kills"
+    icon = "icon/mpstats/groundKills"
     isVisibleWhenEmpty = function()
     {
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND
@@ -95,6 +98,7 @@
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = function(gm) gm != ::GM_SKIRMISH
     text = "multiplayer/naval_damage"
+    icon = "icon/mpstats/navalDamage"
     isVisibleWhenEmpty = function()
     {
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL
@@ -104,6 +108,7 @@
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/naval_kills"
+    icon = "icon/mpstats/navalKills"
     isVisibleWhenEmpty = function()
     {
       return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL
@@ -114,12 +119,14 @@
   { id = "Assist",
     showByModes = ::is_gamemode_versus
     text = "multiplayer/assists"
+    icon = "icon/mpstats/assists"
   }
   "Critical",
   "Hit"
   { id = "Scouting"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
+    icon = "hud/iconBinocular"
     joinRows = [ "Scout", "ScoutKill", "ScoutCriticalHit", "ScoutKillUnknown"]
   }
   { id = "Scout"
@@ -141,6 +148,7 @@
     type = "num"
     showByModes = ::is_gamemode_versus
     text = "multiplayer/zone_captures"
+    icon = "icon/mpstats/captureZone"
   }
   "Landings",
   "Takeoffs"
@@ -151,19 +159,29 @@
   { id = "Damage",
     type = "tnt"
     showByModes = ::is_gamemode_versus
+    icon = "icon/mpstats/damageZone"
   }
   { id = "Destruction"
     type = ""
     showByModes = ::is_gamemode_versus
+    icon = "icon/mpstats/damageZone"
   }
   { id = "MissionObjective"
     type = ""
+    icon = "icon/star"
   }
   { id = "BestLap"
     type = "ptm"
+    icon = "icon/mpstats/raceBestLapTime"
   }
   { id = "BattleTime"
     type = "tim"
+    icon = "icon/hourglass"
+    tooltipComment = function() {
+      return ::g_string.implode(::u.map([ "mainmenu/legend", "ui/colon", "icon/timer", "ui/mdash",
+        "multiplayer/lifetime", "ui/comma", "icon/hourglass", "ui/mdash", "debriefing/BattleTime",
+        "ui/dot" ], @(t) ::loc(t)))
+    }
   }
   { id = "Activity"
     type = "pct"
@@ -196,6 +214,7 @@
           return {winAwardColor="yes"}
         return null
       }
+    icon = ""
     canShowRewardAsValue = true
   }
   { id = "MissionCoop"
@@ -204,10 +223,12 @@
     type = "exp"
     showByModes = function(gm) { return gm != ::GM_DOMINATION }
     text = "debriefing/Mission"
+    icon = ""
     canShowRewardAsValue = true
   }
   { id = "Unlocks"
     type = "exp"
+    icon = ""
     isCountedInUnits = false
   }
   { id = "FriendlyKills"
@@ -216,11 +237,13 @@
   { id = "TournamentBaseReward"
     type = "exp"
     text = "debriefing/tournamentBaseReward"
+    icon = ""
     canShowRewardAsValue = true
   }
   { id = "FirstWinInDay"
     type = "exp"
     text = "debriefing/firstWinInDay"
+    icon = ""
     tooltipComment = function() {
       local firstWinMulRp = (::debriefing_result?.xpFirstWinInDayMul ?? 1.0).tointeger()
       local firstWinMulWp = (::debriefing_result?.wpFirstWinInDayMul ?? 1.0).tointeger()
@@ -234,6 +257,7 @@
   }
   { id = "Total"
     text = "debriefing/total"
+    icon = ""
     type = "exp"
     showEvenEmpty = true
     rowProps =  { totalColor="yes", totalRowStyle="first" }
@@ -266,6 +290,7 @@
   {
     id = "ModsTotal"
     text = "debriefing/total/modsResearch"
+    icon = ""
     rewardType = "exp"
     rowProps =  { totalColor="yes", totalRowStyle="first" }
     canShowRewardAsValue = true
@@ -275,6 +300,7 @@
   }
   { id = "UnitTotal"
     text = "debriefing/total/unitsResearch"
+    icon = ""
     rewardType = "exp"
     rowProps =  { totalColor="yes", totalRowStyle="last" }
     showOnlyWhenFullResult = true
@@ -283,6 +309,7 @@
   }
   { id = "ecSpawnScore"
     text = "debriefing/total/ecSpawnScore"
+    icon = "multiplayer/spawnScore/abbr"
     showByValue = function (value) {return value > 0}
     rowProps = { totalColor="yes", totalRowStyle="last" }
     tooltipComment = function() {return ::loc("debriefing/ecSpawnScore")}
@@ -308,6 +335,7 @@
   }
   { id = "wwSpawnScore"
     text = "debriefing/total/wwSpawnScore"
+    icon = "multiplayer/spawnScore/abbr"
     showByValue = function (value) {return value > 0}
     rowProps = { totalColor="yes", totalRowStyle="last" }
     tooltipComment = function() {return ::loc("debriefing/wwSpawnScore")}
@@ -334,9 +362,11 @@
   { id = "sessionTime"
     customValueName = "sessionTime"
     type = "tim"
+    icon = ""
   }
   { id = "Free"
     text = "debriefing/freeExp"
+    icon = ""
     rewardType = "exp"
     isFreeRP = true
     isOverall = true
@@ -438,6 +468,7 @@ function gather_debriefing_result()
   ::debriefing_result.activeWager <- ::get_debriefing_result_active_wager()
   ::debriefing_result.eventId <- ::get_debriefing_result_event_id()
   ::debriefing_result.chatLog <- ::get_gamechat_log_text()
+  ::debriefing_result.logForBanhammer <- mpChatModel.getLogForBanhammer()
 
   ::debriefing_result.exp.timBattleTime <- ::getTblValue("battleTime", ::debriefing_result.exp, 0)
   ::debriefing_result.needRewardColumn <- false

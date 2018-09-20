@@ -231,7 +231,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
                              gc_items_shop_button = ::ItemsManager.isEnabled() && ::has_feature("ItemsShop")
                              gc_online_shop_button = ::has_feature("OnlineShopPacks")
                              gc_clanAlert = ::g_clans.getUnseenCandidatesCount() > 0
-                             gc_invites_btn = ::has_feature("XBoxPlatformRestriction")
+                             gc_invites_btn = !::is_platform_xboxone || ::has_feature("XboxCrossConsoleInteraction")
                            }
 
   foreach(id, status in buttonsShowTable)

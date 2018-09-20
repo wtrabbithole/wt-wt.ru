@@ -1,4 +1,3 @@
-local u = ::require("std/u.nut")
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
@@ -54,7 +53,7 @@ enum chatRoomTabOrder {
   onlyOwnerCanInvite = true
   isVisibleInSearch = function() { return false }
   hasCustomViewHandler = false
-  loadCustomHandler = function(scene, roomId) { return null }
+  loadCustomHandler = @(scene, roomId, backFunc) null
 
   inviteLocIdNoNick = "chat/receiveInvite/noNick"
   inviteLocIdFull = "chat/receiveInvite"
@@ -256,10 +255,12 @@ enums.addTypesByGlobalName("g_chat_room_type", {
 
 
     hasCustomViewHandler = true
-    loadCustomHandler = function(scene, roomId)
-    {
-      return ::handlersManager.loadHandler(::gui_handlers.ChatThreadsListView, { scene = scene, roomId = roomId })
-    }
+    loadCustomHandler = @(scene, roomId, backFunc) ::handlersManager.loadHandler(
+      ::gui_handlers.ChatThreadsListView, {
+        scene = scene,
+        roomId = roomId,
+        backFunc = backFunc
+    })
   }
 }, null, "typeName")
 

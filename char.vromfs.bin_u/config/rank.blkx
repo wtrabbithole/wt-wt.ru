@@ -44,6 +44,7 @@
     "exp_bomber": 1.0,
     "exp_fighter": 1.0,
     "exp_assault": 1.0,
+    "exp_helicopter": 1.0,
     "exp_tank": 1.0,
     "exp_heavy_tank": 1.0,
     "exp_tank_destroyer": 1.0,
@@ -149,7 +150,12 @@
       "needBuyToOpenNextInEraShip1": 5,
       "needBuyToOpenNextInEraShip2": 2,
       "needBuyToOpenNextInEraShip3": 2,
-      "needBuyToOpenNextInEraShip4": 1
+      "needBuyToOpenNextInEraShip4": 1,
+      "needBuyToOpenNextInEraHelicopter1": 0,
+      "needBuyToOpenNextInEraHelicopter2": 0,
+      "needBuyToOpenNextInEraHelicopter3": 0,
+      "needBuyToOpenNextInEraHelicopter4": 0,
+      "needBuyToOpenNextInEraHelicopter5": 1
     },
     "country_usa": {
       "needBuyToOpenNextInEraAircraft1": 6,
@@ -164,7 +170,12 @@
       "needBuyToOpenNextInEraShip1": 5,
       "needBuyToOpenNextInEraShip2": 2,
       "needBuyToOpenNextInEraShip3": 2,
-      "needBuyToOpenNextInEraShip4": 1
+      "needBuyToOpenNextInEraShip4": 1,
+      "needBuyToOpenNextInEraHelicopter1": 0,
+      "needBuyToOpenNextInEraHelicopter2": 0,
+      "needBuyToOpenNextInEraHelicopter3": 0,
+      "needBuyToOpenNextInEraHelicopter4": 0,
+      "needBuyToOpenNextInEraHelicopter5": 1
     },
     "country_germany": {
       "needBuyToOpenNextInEraAircraft1": 6,
@@ -1159,6 +1170,16 @@
         "deathChanceMultiplier": [0.5,0.3]
       },
       "detection": {
+        "helicopter": {
+          "vision": {
+            "spottingDistance": [1000.0,2000.0],
+            "instantSpottingDistance": [400.0,800.0]
+          },
+          "hearing": {
+            "spottingDistance": [400.0,800.0],
+            "instantSpottingDistance": [200.0,400.0]
+          }
+        },
         "vision": {
           "spottingDistance": [4000.0,8000.0],
           "instantSpottingDistance": [500.0,1000.0]
@@ -1175,6 +1196,16 @@
         "deathChanceMultiplier": [1.0,0.3]
       },
       "detection": {
+        "helicopter": {
+          "vision": {
+            "spottingDistance": [1000.0,2000.0],
+            "instantSpottingDistance": [400.0,800.0]
+          },
+          "hearing": {
+            "spottingDistance": [400.0,800.0],
+            "instantSpottingDistance": [200.0,400.0]
+          }
+        },
         "vision": {
           "spottingDistance": [4000.0,8000.0],
           "instantSpottingDistance": [500.0,1000.0]

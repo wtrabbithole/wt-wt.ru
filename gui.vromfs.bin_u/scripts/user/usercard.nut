@@ -2,6 +2,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = ::require("scripts/user/avatars.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
@@ -14,6 +15,8 @@ local avatars = ::require("scripts/user/avatars.nut")
   "destroyer"
   "naval_ferry_barge"
 ]
+::stats_helicopters <- ["helicopter"]
+::stats_fm.extend(::stats_helicopters)
 ::stats_fm.extend(::stats_tanks)
 ::stats_fm.extend(::stats_ships)
 ::stats_config <- [
@@ -982,32 +985,42 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       btn_blacklistAdd = ""
     }
 
+    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(player.name)
+    local canInteractCrossConsole = platformModule.canInteractCrossConsole(player.name)
+    local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
+    local showCrossPlayIcon = ::is_platform_xboxone && !isXBoxOnePlayer
+
     local canBan = false
     local isMe = true
 
-    if (infoReady && ::has_feature("Friends") && ("uid" in player) && ::checkObj(scene))
-      if (::my_user_id_str!=player.uid)
-      {
-        local isFriend = ::isPlayerInFriendsGroup(player.uid)
-        local isBlock = ::isPlayerInContacts(player.uid, ::EPL_BLOCKLIST)
-        canBan = ::myself_can_devoice() || ::myself_can_ban()
-        isMe = false
-        if (!isBlock)  textTable.btn_friendAdd = isFriend? ::loc("contacts/friendlist/remove") : ::loc("contacts/friendlist/add")
-        if (!isFriend) textTable.btn_blacklistAdd = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
-      }
+    if (infoReady
+        && ::has_feature("Friends")
+        && ("uid" in player)
+        && ::checkObj(scene)
+        && ::my_user_id_str != player.uid )
+    {
+      local isFriend = ::isPlayerInFriendsGroup(player.uid)
+      local isBlock = ::isPlayerInContacts(player.uid, ::EPL_BLOCKLIST)
+      canBan = ::myself_can_devoice() || ::myself_can_ban()
+      isMe = false
+      if (!isBlock)
+        textTable.btn_friendAdd = isFriend? ::loc("contacts/friendlist/remove")
+              : crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("contacts/friendlist/add"))
 
-    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(player.name)
-    local canAddXboxPlayer = ::is_platform_xboxone == isXBoxOnePlayer
+      if (!isFriend)
+        textTable.btn_blacklistAdd = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
+    }
+
     local sheet = getCurSheet()
     local showStatBar = infoReady && sheet=="Statistics"
     local showProfBar = infoReady && !showStatBar
     local buttonsList = {
-                          paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
-                          btn_friendAdd = showProfBar && canAddXboxPlayer && !::isPlayerPS4Friend(player.name) && textTable.btn_friendAdd != ""
-                          btn_blacklistAdd = showProfBar && textTable.btn_blacklistAdd != "" && (!canAddXboxPlayer || !::is_platform_xboxone)
-                          btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
-                          btn_complain = showProfBar && !isMe
-                        }
+      paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
+      btn_friendAdd = showProfBar && !::isPlayerPS4Friend(player.name) && canInteractCrossConsole && canInteractCrossPlatform && textTable.btn_friendAdd != ""
+      btn_blacklistAdd = showProfBar && textTable.btn_blacklistAdd != "" && (!::is_platform_xboxone || !isXBoxOnePlayer)
+      btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
+      btn_complain = showProfBar && !isMe
+    }
 
     ::showBtnTable(scene, buttonsList)
 

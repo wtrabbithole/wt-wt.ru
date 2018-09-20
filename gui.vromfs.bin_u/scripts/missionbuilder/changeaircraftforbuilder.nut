@@ -45,6 +45,7 @@ class ::gui_handlers.changeAircraftForBuilder extends ::gui_handlers.BaseGuiHand
   function updateButtons()
   {
     scene.findObject("btn_set_air").inactiveColor =
-      (::show_aircraft && ::show_aircraft.isAir())? "no" : "yes"
+      (::show_aircraft && ::show_aircraft.isAir()) ? "no"
+      : "yes"
   }
 }

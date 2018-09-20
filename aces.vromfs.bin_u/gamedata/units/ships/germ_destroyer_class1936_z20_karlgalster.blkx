@@ -57,10 +57,10 @@
     "tailStartOffset": 10.0
   },
   {
-    "ikPilotMaxUpdateDistance": 90.0
+    "ikPilotMaxUpdateDistance": 110.0
   },
   {
-    "ikPilotMaxRenderDistance": 90.0
+    "ikPilotMaxRenderDistance": 110.0
   },
   {
     "type": "typeDestroyer"
@@ -128,6 +128,12 @@
         "replace_tex": {
           "from": "flag_germany_02_c*",
           "to": "flag_germany_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "germany_flag_decal*",
+          "to": "germany_harm_flag_decal*"
         }
       }
     ]
@@ -331,6 +337,117 @@
           },
           {
             "name": "depth_charge_12_dm"
+          },
+          {
+            "name": "depth_charge_13_dm"
+          },
+          {
+            "name": "depth_charge_14_dm"
+          },
+          {
+            "name": "depth_charge_15_dm"
+          },
+          {
+            "name": "depth_charge_16_dm"
+          },
+          {
+            "name": "depth_charge_17_dm"
+          },
+          {
+            "name": "depth_charge_18_dm"
+          },
+          {
+            "name": "depth_charge_19_dm"
+          },
+          {
+            "name": "depth_charge_20_dm"
+          },
+          {
+            "name": "depth_charge_31_dm"
+          },
+          {
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
           },
           {
             "onKill": {
@@ -895,7 +1012,7 @@
         "Empty": 2860000.0,
         "Fuel": 540000.0,
         "TakeOff": 3400000.0,
-        "momentOfInertia": [55.0,680.0,410.0],
+        "momentOfInertia": [51.0,620.0,390.0],
         "CenterOfGravity": [-1.4,0.15,0.0]
       },
       "engines": [
@@ -979,16 +1096,16 @@
         {
           "rudder": {
             "pos": [-52.4,-1.5,2.4],
-            "area": 18.0,
-            "deflection": 38.0,
+            "area": 14.0,
+            "deflection": 36.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
         {
           "rudder": {
             "pos": [-52.4,-1.5,-2.4],
-            "area": 18.0,
-            "deflection": 38.0,
+            "area": 14.0,
+            "deflection": 36.0,
             "dmPart": "steering_gear_01_dm"
           }
         }
@@ -997,7 +1114,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,25.0,-83.0],
+      "headPos": [0.0,24.0,-77.0],
       "headPosOnShooting": [32.2,23.8,0.0],
       "detectionHeight": 27.5
     }
@@ -1484,19 +1601,19 @@
   },
   {
     "breaches": {
-      "repairSpeed": 50.0,
-      "waterMassVel": -50000.0,
-      "waterMassMult": 50.0,
-      "sizeToRepair": [0.01,2.0,15.0,1500.0],
-      "additionalWaterDeathThreshold": 10000000.0,
-      "additionalWaterShouldDiePercent": 0.3,
-      "fatalBreachDrownTime": 45.0,
+      "repairSpeed": 25.0,
+      "waterMassVel": -150000.0,
+      "waterMassMult": 200.0,
+      "sizeToRepair": [0.01,4.0,10.0,450.0],
+      "additionalWaterDeathThreshold": 9000000.0,
+      "additionalWaterShouldDiePercent": 0.38,
+      "fatalBreachDrownTime": 35.0,
       "maxHeelingAngle": 35.0,
-      "maxHeelingTime": 10.0,
+      "maxHeelingTime": 8.0,
       "criticalHeelingAnglePercent": 0.5,
-      "maxCriticalHeelingTime": 2.0,
+      "maxCriticalHeelingTime": 3.0,
       "heelingDeathHeightOffsetMult": 1.0,
-      "sideCenterOfMassOffsetPercent": 0.5
+      "sideCenterOfMassOffsetPercent": 0.45
     }
   },
   {
@@ -1504,43 +1621,83 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 0.4,
+          "weight": 0.21,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
-          "weight": 0.55,
-          "maxWaterAlive": 1.0
+          "weight": 0.45,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_01_dm",
+              "critWaterLevel": 0.5
+            }
+          }
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "engine_room_01_dm",
+                "critWaterLevel": 0.5
+              }
+            },
+            {
+              "part": {
+                "partNo": "engine_room_02_dm",
+                "critWaterLevel": 0.5
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 0.8,
-          "maxWaterAlive": 1.0
+          "weight": 0.68,
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "transmission_01_dm",
+                "critWaterLevel": 0.5
+              }
+            },
+            {
+              "part": {
+                "partNo": "transmission_02_dm",
+                "critWaterLevel": 0.5
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_05_dm",
-          "weight": 0.3,
+          "weight": 0.27,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_06_dm",
-          "weight": 0.75,
-          "maxWaterAlive": 1.0
+          "weight": 0.37,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_02_dm",
+              "critWaterLevel": 0.5
+            }
+          }
         }
       }
     ]
@@ -4138,6 +4295,9 @@
         },
         "bridge_dm": {
           "hp": 500.0
+        },
+        "radio_station_dm": {
+          "hp": 100.0
         }
       },
       "superstructures": {
@@ -5452,9 +5612,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5468,9 +5625,6 @@
           },
           {
             "defaultPitch": 0.0
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "speedYaw": 20.0
@@ -5605,9 +5759,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5621,9 +5772,6 @@
           },
           {
             "defaultPitch": 0.0
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "speedYaw": 20.0
@@ -5753,9 +5901,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5769,9 +5914,6 @@
           },
           {
             "defaultPitch": 0.0
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "speedYaw": 20.0
@@ -5906,9 +6048,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -5922,9 +6061,6 @@
           },
           {
             "defaultPitch": 0.0
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "speedYaw": 20.0
@@ -6054,9 +6190,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -6070,9 +6203,6 @@
           },
           {
             "defaultPitch": 0.0
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "speedYaw": 25.0
@@ -6201,9 +6331,6 @@
             "useEmitter": true
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "recoilOffset": 0.3
           },
           {
@@ -6217,9 +6344,6 @@
           },
           {
             "defaultPitch": 0.0
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "speedYaw": 25.0
@@ -6464,7 +6588,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-10.0,90.0]
+              "pitch": [-10.0,85.0]
             }
           },
           {
@@ -6610,7 +6734,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-10.0,90.0]
+              "pitch": [-10.0,85.0]
             }
           },
           {

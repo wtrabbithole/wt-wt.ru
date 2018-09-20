@@ -2,7 +2,7 @@ local style = require("contextMenu.style.nut")
 
 local currentContextMenu = Watched([])
 
-local closeMenu = function () {
+local function closeMenu () {
   currentContextMenu.update([])
 }
 
@@ -16,6 +16,7 @@ local wrapAction = @(action) function () {
 local overlay = {
   pos = [-9000, -9000]
   size = [19999, 19999]
+  stopHover = true
   behavior = Behaviors.Button
 
   onClick = closeMenu

@@ -86,6 +86,11 @@ function is_ship_bots_allowed(misBlk)
   return misBlk.getBool("isShipsAllowed", false)
 }
 
+function is_helicopter_bots_allowed(misBlk)
+{
+  return misBlk.getBool("isHelicoptersAllowed", false)
+}
+
 function is_mission_for_tanks(misBlk)
 {
   // Works for missions in Skirmish.

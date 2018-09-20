@@ -1,5 +1,3 @@
-local u = require("std/u.nut")
-
 class ::BaseGuiHandler
 {
   wndType = handlerType.BASE
@@ -355,9 +353,9 @@ class ::BaseGuiHandler
 
   function getObjByConfigItem(item)
   {
-    if (u.isFunction(item))
+    if (type(item)=="function")
       item = item()
-    if (u.isString(item))
+    if (type(item)=="string")
       return scene.findObject(item)
     return item
   }
@@ -496,11 +494,6 @@ class ::BaseGuiHandler
     }
     return res
   }
-
-  function getMainFocusObj()  { return null }
-  function getMainFocusObj2() { return null }
-  function getMainFocusObj3() { return null }
-  function getMainFocusObj4() { return null }
 
   /**
    * Return value must be table with following data format:

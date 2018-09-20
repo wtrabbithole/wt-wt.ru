@@ -373,8 +373,18 @@ enums.addTypesByGlobalName("g_hud_hints", {
   UNKNOWN = {}
 
   OFFER_BAILOUT = {
-    locId = "hints/ready_to_bailout"
-    noKeyLocId = "hints/ready_to_bailout_nokey"
+    getLocId = function(hintData)
+    {
+      local curUnit = ::get_player_cur_unit()
+      return curUnit?.isHelicopter?() ? "hints/ready_to_bailout_helicopter"
+      : "hints/ready_to_bailout"
+    }
+    getNoKeyLocId = function()
+    {
+      local curUnit = ::get_player_cur_unit()
+      return curUnit?.isHelicopter?() ? "hints/ready_to_bailout_helicopter_nokey"
+      : "hints/ready_to_bailout_nokey"
+    }
     shortcuts = "ID_BAILOUT"
 
     showEvent = "hint:bailout:offerBailout"
@@ -386,8 +396,9 @@ enums.addTypesByGlobalName("g_hud_hints", {
 
     getLocId = function (hintData)
     {
-      return ::get_es_unit_type(::get_player_cur_unit()) == ::ES_UNIT_TYPE_AIRCRAFT
-        ? "hints/bailout_in_progress"
+      local curUnit = ::get_player_cur_unit()
+      return curUnit?.isHelicopter?() ? "hints/bailout_helicopter_in_progress"
+        : curUnit?.isAir?() ? "hints/bailout_in_progress"
         : "hints/leaving_the_tank_in_progress" //this localization is more general, then the "air" one
     }
 
@@ -546,26 +557,6 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hintType = ::g_hud_hint_types.COMMON
     locId = "hints/bomb_manual"
     showEvent = "hint:bomb_manual:show"
-    lifeTime = 10.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-    totalCount = 5
-    maskId = 30
-  }
-
-  MISSILE_AIM_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/missile_aim"
-    showEvent = "hint:missile_aim:show"
-    lifeTime = 10.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-    totalCount = 5
-    maskId = 30
-  }
-
-  MISSILE_MANUAL_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/missile_manual"
-    showEvent = "hint:missile_manual:show"
     lifeTime = 10.0
     priority = CATASTROPHIC_HINT_PRIORITY
     totalCount = 5
@@ -780,6 +771,13 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:critical_buoyancy:show"
     hideEvent = "hint:critical_buoyancy:hide"
     shouldBlink = true
+  }
+
+  SHIP_BROKEN_GUNS_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/ship_broken_gun"
+    showEvent = "hint:ship_broken_gun:show"
+    hideEvent = "hint:ship_broken_gun:hide"
   }
 
   CRITICAL_HEALING_HINT = {
@@ -1231,6 +1229,8 @@ enums.addTypesByGlobalName("g_hud_hints", {
       {
         if (unitType == ::ES_UNIT_TYPE_TANK)
           return "hints/repair_assist_tank_hold"
+        if (unitType == ::ES_UNIT_TYPE_SHIP)
+          return "hints/repair_assist_ship_hold"
         return "hints/repair_assist_plane_hold"
       }
       return (unitType == ::ES_UNIT_TYPE_SHIP) ? "hints/repair_ship" : "hints/repair_tank_hold"
@@ -1245,16 +1245,6 @@ enums.addTypesByGlobalName("g_hud_hints", {
     }
     showEvent = "tankRepair:offerRepair"
     hideEvent = "tankRepair:cantRepair"
-  }
-
-  CONTROLS_HELP = {
-    hintType = ::g_hud_hint_types.REPAIR
-    locId = "hints/help_controls"
-    noKeyLocId = "hints/help_controls/nokey"
-    shortcuts = "ID_HELP"
-    showEvent = "hint:controlsHelp:offer"
-    hideEvent = "hint:controlsHelp:remove"
-    lifeTime = 30.0
   }
 
   AMMO_DESTROYED = {

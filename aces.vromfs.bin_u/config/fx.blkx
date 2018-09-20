@@ -1,12 +1,12 @@
 {
   "aircraftGroundDustEnabled": true,
-  "aircraftGroundDustAlt": 40.0,
-  "aircraftGroundDustForce": [500.0,5000.0],
+  "aircraftGroundDustAlt": 50.0,
+  "aircraftGroundDustForce": [150.0,2500.0],
   "aircraftGroundDustSpeed": [30.0,100.0],
   "aircraftGroundDustVertOffset": 3.0,
   "aircraftWaterSplashEnabled": true,
-  "aircraftWaterSplashAlt": 30.0,
-  "aircraftWaterSplashForce": [800.0,10000.0],
+  "aircraftWaterSplashAlt": 40.0,
+  "aircraftWaterSplashForce": [250.0,4000.0],
   "aircraftWaterSplashSpeed": [30.0,100.0],
   "aircraftWaterSplashVertOffset": 3.0,
   "unitShellStartFxEnabled": true,
@@ -43,6 +43,32 @@
     "sizeMult": 0.25,
     "minScale": 0.25,
     "maxScale": 3.0
+  },
+  "rotorFxForMaterial": {
+    "sand": {
+      "fx": "rotor_sand_dust"
+    },
+    "quickSand": {
+      "fx": "rotor_sand_dust"
+    },
+    "roadSand": {
+      "fx": "rotor_sand_dust"
+    },
+    "duneSand": {
+      "fx": "rotor_sand_dust"
+    },
+    "snow": {
+      "fx": "rotor_snow_dust"
+    },
+    "roadSnow": {
+      "fx": "rotor_snow_dust"
+    },
+    "snowLower": {
+      "fx": "rotor_snow_dust"
+    },
+    "ice": {
+      "fx": "rotor_snow_dust"
+    }
   },
   "splashEffects": {
     "name": "ship_water_splashes",
@@ -968,16 +994,31 @@
     "numReserved": 5
   },
   "rotor_ground_dust": {
-    "fx": "rotor_dust_fx",
+    "fx": "rotor_dust_composite_fx",
     "lifeTime": 10.0,
     "softnessDepth": 1.0,
     "numInstances": 8,
     "numReserved": 1
   },
   "rotor_water_splashes": {
-    "fx": "rotor_water_fx",
+    "fx": "rotor_water_composite_fx",
     "softnessDepth": 1.0,
     "numInstances": 7,
+    "numReserved": 1,
+    "group": "water_proj"
+  },
+  "rotor_snow_dust": {
+    "fx": "rotor_snow_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 1.0,
+    "numInstances": 8,
+    "numReserved": 1
+  },
+  "rotor_sand_dust": {
+    "fx": "rotor_sand_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 1.0,
+    "numInstances": 8,
     "numReserved": 1
   },
   "rotor_water_foam": {
@@ -2711,7 +2752,7 @@
     "softnessDepth": 3.0
   },
   "volcano_smoke": {
-    "fx": "location_fire_composite_fx",
+    "fx": "location_volcano_composite_fx",
     "numInstances": 5,
     "numReserved": 0,
     "softnessDepth": 3.0,
@@ -3269,6 +3310,16 @@
     "sfxEvent": "projector",
     "soundEnableDistance": 50.0
   },
+  "ad_hydrant_destruction_faded": {
+    "fx": "pv_water_jet_small_composite_fx_faded",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "hydrant",
+    "soundEnableDistance": 50.0
+  },
   "px_ground_fx": {
     "fx": "ad_buildings_part_composite_fx",
     "lifeTime": 4.0,
@@ -3314,7 +3365,8 @@
     "softnessDepth": 0.5,
     "onePointNumber": 20,
     "granularity": 8,
-    "group": "water_proj"
+    "group": "water_proj",
+    "lowresFarPlane": 100.0
   },
   "ship_water_jet_ap": {
     "fx": "ps_water_jet_ap",
@@ -3373,7 +3425,8 @@
     "softnessDepth": 0.5,
     "onePointNumber": 20,
     "granularity": 8,
-    "group": "water_proj"
+    "group": "water_proj",
+    "lowresFarPlane": 100.0
   },
   "golden_light_area_fx": {
     "fx": "golden_trails_composite_fx",

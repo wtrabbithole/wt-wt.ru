@@ -24,8 +24,6 @@
   "sound_inside": "57mm_qf6_interior",
   "sfxReloadBullet": "grd_cannon_reload",
   "fxMultipleSpawn": true,
-  "reloadTime": 0.0,
-  "bulletsCartridge": 7,
   "isBulletBelt": false,
   "notUseDefaultBulletInGui": true,
   "bullet": {
@@ -48,8 +46,8 @@
     "midArmorPower": [12.0,600.0],
     "farArmorPower": [10.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
-    "explodeTreshold": 0.1,
-    "fuseDelayDist": 0.1,
+    "explodeTreshold": 1.0,
+    "fuseDelayDist": 0.0,
     "groundCollisionEffect": "art_ground_splash",
     "ricochetEffect": "cannon_ricochet",
     "groundFxScale": [0.6,0.7],
@@ -58,7 +56,8 @@
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "noColor"
+      "tracer": "50mmDarkRed",
+      "trail": "thin"
     },
     "collisions": {
       "steel": {
@@ -160,8 +159,8 @@
       "midArmorPower": [12.0,600.0],
       "farArmorPower": [10.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.1,
-      "fuseDelayDist": 0.1,
+      "explodeTreshold": 1.0,
+      "fuseDelayDist": 0.0,
       "groundCollisionEffect": "art_ground_splash",
       "ricochetEffect": "cannon_ricochet",
       "groundFxScale": [0.6,0.7],
@@ -170,7 +169,8 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "noColor"
+        "tracer": "50mmDarkRed",
+        "trail": "thin"
       },
       "collisions": {
         "steel": {

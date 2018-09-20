@@ -24,6 +24,9 @@
     "overheatBlk": "gameData/FlightModels/DM/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -337,6 +340,9 @@
           "hp": 15.0
         },
         "mgun2_dm": {
+          "hp": 15.0
+        },
+        "mgun3_dm": {
           "hp": 15.0
         }
       },
@@ -1125,6 +1131,11 @@
       {
         "part": {
           "name": "mgun2_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "mgun3_dm"
         }
       },
       {
@@ -2091,9 +2102,9 @@
         "Weapon": {
           "trigger": "cannon",
           "blk": "gameData/Weapons/gunBrowning50_early.blk",
-          "dm": "mgun2_dm",
-          "emitter": "flare2",
-          "flash": "flare2",
+          "dm": "mgun3_dm",
+          "emitter": "flare3",
+          "flash": "flare3",
           "bullets": 200,
           "light": true,
           "spread": 1.0,
@@ -2111,6 +2122,16 @@
           "light": true,
           "spread": 1.0,
           "traceOffset": 3
+        }
+      },
+      {
+        "hideNodes": {
+          "node": "flare2"
+        }
+      },
+      {
+        "hideDmParts": {
+          "node": "mgun2_dm"
         }
       }
     ]

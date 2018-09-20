@@ -6,6 +6,7 @@ local shipHud = require("shipHud.nut")
 local shipExHud = require("shipExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
 local footballHud = require("footballHud.nut")
+local screenState = require("style/screenState.nut")
 
 
 local widgetsMap = {
@@ -44,6 +45,7 @@ local widgets = @() {
     globalState.isInFlight
     hudState.unitType
     widgetsState.widgets
+    screenState.safeAreaSizeHud
   ]
   children = widgetsState.widgets.value.map(@(widget) {
     size = widget?.transform?.size ?? [sw(100), sh(100)]

@@ -124,7 +124,7 @@ local SeenList = class {
 
     entitiesData.clear()
     local blk = ::load_local_account_settings(getSaveId())
-    if (::u.isDataBlock(blk))
+    if (u.isDataBlock(blk))
       for (local i = 0; i < blk.paramCount(); i++)
         entitiesData[blk.getParamName(i)] <- blk.getParamValue(i)
     else if (compatibilityLoadData)

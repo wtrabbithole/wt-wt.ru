@@ -1,4 +1,5 @@
 local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::g_invites_classes <- {}
 
@@ -225,5 +226,15 @@ class ::BaseInvite
   function hasInviter()
   {
     return !::u.isEmpty(inviterName)
+  }
+
+  function isAvailableByCrossPlay()
+  {
+    return crossplayModule.isCrossPlayEnabled() || platformModule.isXBoxPlayerName(inviterName)
+  }
+
+  function isAvailableByChatRestriction()
+  {
+    return platformModule.isChatEnableWithPlayer(inviterName)
   }
 }

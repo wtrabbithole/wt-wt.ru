@@ -1,6 +1,6 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
 local guidParser = require("scripts/guidParser.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
+local contentPreview = require("scripts/customization/contentPreview.nut")
 
 const DEFAULT_SKIN_NAME = "default"
 
@@ -19,21 +19,21 @@ function update_unit_skins_list(unitName)
 
 ::g_decorator <- {
   cache = {}
-  ugcDecoratorsCache = {}
-  previewedUgcSkinId = ""
-  approversUnitToPreviewUgcResource = null
+  liveDecoratorsCache = {}
+  previewedLiveSkinId = ""
+  approversUnitToPreviewLiveResource = null
 }
 
 function g_decorator::clearCache()
 {
   ::g_decorator.cache.clear()
-  ::g_decorator.clearUgcPreviewParams()
+  ::g_decorator.clearLivePreviewParams()
 }
 
-function g_decorator::clearUgcPreviewParams()
+function g_decorator::clearLivePreviewParams()
 {
-  ::g_decorator.previewedUgcSkinId = ""
-  ::g_decorator.approversUnitToPreviewUgcResource = null
+  ::g_decorator.previewedLiveSkinId = ""
+  ::g_decorator.approversUnitToPreviewLiveResource = null
 }
 
 function g_decorator::getCachedDataByType(decType)
@@ -73,7 +73,7 @@ function g_decorator::getDecorator(searchId, decType)
 
   res = decType.getSpecialDecorator(searchId)
     || ::g_decorator.getCachedDecoratorsListByType(decType)?[searchId]
-    || decType.getUgcDecorator(searchId, ugcDecoratorsCache)
+    || decType.getLiveDecorator(searchId, liveDecoratorsCache)
   if (!res)
     ::dagor.debug("Decorators Manager: " + searchId + " was not found in old cache, try update cache")
   return res
@@ -297,11 +297,11 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
 
     local skinBlockName = unitName + "/"+ skinName
 
-    local isPreviewedUgcSkin = ::has_feature("EnableUgcSkins") && skinBlockName == previewedUgcSkinId
+    local isPreviewedLiveSkin = ::has_feature("EnableLiveSkins") && skinBlockName == previewedLiveSkinId
     local decorator = ::g_decorator.getDecorator(skinBlockName, ::g_decorator_type.SKINS)
     if (!decorator)
     {
-      if (isPreviewedUgcSkin)
+      if (isPreviewedLiveSkin)
         decorator = ::Decorator(skinBlockName, ::g_decorator_type.SKINS);
       else
         continue
@@ -313,7 +313,7 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
     if (!isOwn && !showLocked)
       continue
 
-    local forceVisible = isPreviewedUgcSkin
+    local forceVisible = isPreviewedLiveSkin
 
     if (!decorator.isVisible() && !forceVisible)
       continue
@@ -419,20 +419,20 @@ function g_decorator::applyPreviewSkin(params)
   ::save_profile(false)
 }
 
-function g_decorator::isPreviewingUgcSkin()
+function g_decorator::isPreviewingLiveSkin()
 {
-  return ::has_feature("EnableUgcSkins") && ::g_decorator.previewedUgcSkinId != ""
+  return ::has_feature("EnableLiveSkins") && ::g_decorator.previewedLiveSkinId != ""
 }
 
-function g_decorator::buildUgcDecoratorFromResource(resource, resourceType, itedDef = null)
+function g_decorator::buildLiveDecoratorFromResource(resource, resourceType, itedDef = null)
 {
   if (!resource || !resourceType)
     return
-  if (resource in ::g_decorator.ugcDecoratorsCache)
+  if (resource in ::g_decorator.liveDecoratorsCache)
     return
   local decorator = ::Decorator(resource, ::g_decorator_type.getTypeByResourceType(resourceType))
   decorator.updateFromItemdef(itedDef)
-  ::g_decorator.ugcDecoratorsCache[resource] <- decorator
+  ::g_decorator.liveDecoratorsCache[resource] <- decorator
 }
 
 ::subscribe_handler(::g_decorator, ::g_listener_priority.CONFIG_VALIDATION)

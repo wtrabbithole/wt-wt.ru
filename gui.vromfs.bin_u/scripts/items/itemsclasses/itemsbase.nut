@@ -743,4 +743,6 @@ class ::BaseItem
   getItemsListLocId = @() "mainmenu/itemsList"
   hasReachedMaxAmount = @() maxAmount >= 0 ? getAmount() >= maxAmount : false
   isEnabled = @() true
+  getContentItem = @() null
+  needShowRewardWnd = @() true
 }

@@ -28,4 +28,6 @@ class ::items_classes.InternalItem extends ItemExternal
     local contentItem = getContentItem()
     return contentItem && { contentIcon = contentItem.typeIcon }
   }
+
+  needShowRewardWnd = @() !metaBlk?.trophy
 }

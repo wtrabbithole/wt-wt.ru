@@ -571,7 +571,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -580,8 +579,12 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -595,7 +598,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -604,8 +606,12 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -10675,12 +10681,12 @@
       "objectGroups": {
         "name": "t1_airfield",
         "tm": [
-          [0.978824,0.0,-0.204703],
+          [0.93772,0.0,-0.347393],
           [0.0,1.0,0.0],
-          [0.204703,0.0,0.978824],
+          [0.347393,0.0,0.93772],
           [10673.4,16.698,-9038.16]
         ],
-        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "unit_class": "dynaf_universal_1line_c",
         "objLayer": 2,
         "props": {
           "army": 1,
@@ -10695,9 +10701,9 @@
           [-0.991445,0.0,0.130526],
           [0.0,1.0,0.0],
           [-0.130526,0.0,-0.991445],
-          [-9531.32,64.4621,-11361.3]
+          [-9771.67,69.8819,-11236.3]
         ],
-        "unit_class": "dynAF_kh_gol_airfield_gumrak_small",
+        "unit_class": "dynaf_universal_1line_b",
         "objLayer": 2,
         "props": {
           "army": 2,
@@ -10814,7 +10820,7 @@
           [0.745335,0.0,-0.66669],
           [0.0,1.0,0.0],
           [0.66669,0.0,0.745335],
-          [9984.25,16.1179,-8714.65]
+          [10020.0,16.1179,-8658.68]
         ],
         "unit_class": "ussr_85mm_52k",
         "objLayer": 1,
@@ -11505,7 +11511,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-9598.02,63.6295,-11114.4]
+          [-9509.17,63.6295,-11064.7]
         ],
         "unit_class": "germ_20mmx4_flak38",
         "objLayer": 1,
@@ -11997,20 +12003,20 @@
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-1374.0,0.0,287.342],
-        [0.0,350.0,0.0],
-        [-46.5294,0.0,-222.486],
-        [10764.0,16.5741,-9151.91]
+        [-1694.41,0.0,638.74],
+        [0.0,250.0,0.0],
+        [-209.266,0.0,-555.117],
+        [10669.0,16.5739,-9102.86]
       ],
       "props": []
     },
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-1265.2,0.0,166.566],
-        [0.0,350.0,0.0],
-        [-29.6695,0.0,-225.354],
-        [-9592.32,66.3625,-11258.5]
+        [-1794.4,0.0,236.236],
+        [0.0,250.0,0.0],
+        [-80.4073,0.0,-610.732],
+        [-9721.48,66.3628,-11255.9]
       ],
       "props": []
     },

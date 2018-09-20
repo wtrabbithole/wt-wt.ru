@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
@@ -173,9 +174,9 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     fillClanRequirements()
 
-    local ltm = ::get_local_time()
-    local utc = ::get_utc_time()
-    local updStatsText = ::format("%d:00", (24 + ltm.hour-utc.hour)%24) //00:00 utc time
+    local updStatsUtcTime = ::get_utc_time().__update( {hour = 0, min = 0} )
+    local updStatsText = time.buildTimeStr(time.convertUtcToLocalTime(updStatsUtcTime), false, false)
+
     updStatsText = format(::loc("clan/updateStatsTime"), updStatsText)
     scene.findObject("update_stats_info_text").setValue(updStatsText)
 
@@ -942,19 +943,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function onClanComplain()
   {
     ::g_clans.openComplainWnd(clanData)
-  }
-
-  function onClanAction(obj)
-  {
-    if (!::checkObj(obj))
-      return
-
-    local value = obj.getValue()
-    local buttonObj = obj.getChild(value)
-    if ("on_click" in buttonObj)
-      return this[buttonObj.on_click]()
-    else if ("_on_click" in buttonObj)
-      return this[buttonObj._on_click]()
   }
 
   function goBack()

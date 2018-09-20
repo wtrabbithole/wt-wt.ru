@@ -18,20 +18,20 @@ enums.addTypesByGlobalName("g_objective_status", {
   RUNNING = {
     code = ::MISSION_OBJECTIVE_STATUS_IN_PROGRESS
     name = "running"
-    missionObjImg = "#ui/gameuiskin#icon_primary"
-    wwMissionObjImg = "#ui/gameuiskin#icon_primary"
+    missionObjImg = "#ui/gameuiskin#icon_primary.svg"
+    wwMissionObjImg = "#ui/gameuiskin#icon_primary.svg"
   }
   SUCCEED = {
     code = ::MISSION_OBJECTIVE_STATUS_COMPLETED
     name = "succeed"
-    missionObjImg = "#ui/gameuiskin#icon_primary_success"
+    missionObjImg = "#ui/gameuiskin#icon_primary_success.svg"
     wwMissionObjImg = "#ui/gameuiskin#favorite"
   }
   FAILED = {
     code = ::MISSION_OBJECTIVE_STATUS_FAILED
     name = "failed"
-    missionObjImg = "#ui/gameuiskin#icon_primary_fail"
-    wwMissionObjImg = "#ui/gameuiskin#icon_primary_fail"
+    missionObjImg = "#ui/gameuiskin#icon_primary_fail.svg"
+    wwMissionObjImg = "#ui/gameuiskin#icon_primary_fail.svg"
   }
   UNKNOWN = {
     name = "unknown"

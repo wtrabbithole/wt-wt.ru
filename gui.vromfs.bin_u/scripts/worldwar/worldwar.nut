@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
+local seenWWMapsObjective = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
 
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
@@ -7,6 +8,7 @@ const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
 const WW_LAST_OPERATION_LOG_SAVE_ID = "worldWar/lastReadLog/operation"
 const WW_UNIT_WEAPON_PRESET_PATH = "worldWar/weaponPreset/"
 const WW_SKIP_BATTLE_WARNINGS_SAVE_ID = "worldWar/skipBattleWarnings"
+const WW_OBJECTIVE_OUT_OF_DATE_DAYS = 1
 
 enum WW_ARMY_ACTION_STATUS
 {
@@ -402,6 +404,7 @@ function g_world_war::onJoinOperationSuccess(operationId, country, isSilence, on
   }
 
   saveLastPlayed(operationId, country)
+  seenWWMapsObjective.setDaysToUnseen(WW_OBJECTIVE_OUT_OF_DATE_DAYS)
 
   if (!isSilence)
     openWarMap()

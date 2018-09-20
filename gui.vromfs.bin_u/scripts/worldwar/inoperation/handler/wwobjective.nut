@@ -1,3 +1,6 @@
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+
+
 class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 {
   wndType = handlerType.CUSTOM
@@ -48,11 +51,15 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
     updateObjectivesData()
 
+    local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    local unseenIcon = curOperation
+      ? bhvUnseen.makeConfigStr(SEEN.WW_MAPS_OBJECTIVE, curOperation.getMapId()) : null
     local objectivesList = getObjectivesList(getObjectivesCount(false))
     local view = {
+      unseenIcon = unseenIcon
       objectiveBlock = getObjectiveBlocksArray()
       reqFullMissionObjectsButton = reqFullMissionObjectsButton
-      hiddenObjectives = ::max(objectivesList.primary.len() - getShowMaxObjectivesCount().x, 0)
+      hiddenObjectives = ::max(objectivesList.primaryCount - getShowMaxObjectivesCount().x, 0)
       hasObjectiveDesc = hasObjectiveDesc
     }
     local data = ::handyman.renderCached(objectiveItemTpl, view)
@@ -82,12 +89,12 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     dynamicBlk = ::u.copy(objectivesBlk.status) || ::DataBlock()
   }
 
-  function canShowObjective(objBlock, checkType = true)
+  function canShowObjective(objBlock, checkType = true, isForceVisible = false)
   {
     if (::g_world_war.isDebugModeEnabled())
       return true
 
-    if (needShowOperationDesc && !objBlock.showInOperationDesc)
+    if (needShowOperationDesc && !isForceVisible && !objBlock.showInOperationDesc)
       return false
 
     if (checkType)
@@ -213,17 +220,22 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local list = {
       primary = []
       secondary = []
+      primaryCount = 0
     }
 
     local usedObjectiveSlots = ::Point2(0,0)
-
     for (local i = 0; i < staticBlk.blockCount(); i++)
     {
+      local objBlock = staticBlk.getBlock(i)
+      if (!canShowObjective(objBlock, checkType, true))
+        continue
+
+      list.primaryCount += objBlock.mainObjective ? 1 : 0
+
       if (usedObjectiveSlots.x >= availableObjectiveSlots.x
         && usedObjectiveSlots.y >= availableObjectiveSlots.y)
         continue
 
-      local objBlock = staticBlk.getBlock(i)
       if (!canShowObjective(objBlock, checkType))
         continue
 

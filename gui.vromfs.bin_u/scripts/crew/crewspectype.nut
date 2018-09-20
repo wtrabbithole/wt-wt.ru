@@ -89,7 +89,7 @@ function g_crew_spec_type::_getMulValue(prevSpecTypeCode = 0)
   return 0.01 * addPct
 }
 
-function g_crew_spec_type::_getFullBonusesText(unitType, prevSpecTypeCode = -1)
+function g_crew_spec_type::_getFullBonusesText(crewUnitType, prevSpecTypeCode = -1)
 {
   ::load_crew_skills_once()
 
@@ -99,12 +99,12 @@ function g_crew_spec_type::_getFullBonusesText(unitType, prevSpecTypeCode = -1)
   local rowsArray = []
   foreach(page in ::crew_skills)
   {
-    if (!page.isVisible(unitType))
+    if (!page.isVisible(crewUnitType))
       continue
 
     local textsArray = []
     foreach(item in page.items)
-      if (item.isVisible(unitType) && item.useSpecializations)
+      if (item.isVisible(crewUnitType) && item.useSpecializations)
       {
         local skillCrewLevel = ::g_crew.getSkillCrewLevel(item, specMul * ::g_crew.getMaxSkillValue(item))
         local skillText = ::loc("crew/" + item.name) + " "
@@ -124,7 +124,8 @@ function g_crew_spec_type::_getFullBonusesText(unitType, prevSpecTypeCode = -1)
 function g_crew_spec_type::_getReqCrewLevelByCode(unit, upgradeFromCode)
 {
   ::load_crew_skills_once()
-  local reqTbl = ::getTblValue(::get_es_unit_type(unit), ::crew_air_train_req)
+  local crewUnitType = unit?.getCrewUnitType?() ?? ::CUT_INVALID
+  local reqTbl = ::crew_air_train_req?[crewUnitType]
   local ranksTbl = ::getTblValue(upgradeFromCode, reqTbl)
   return ::getTblValue(unit.rank, ranksTbl, 0)
 }
@@ -191,7 +192,7 @@ function g_crew_spec_type::_needShowExpUpgrade(crew, unit)
 function g_crew_spec_type::_getReqLevelText(crew, unit)
 {
   local reqLevel = getReqCrewLevel(unit)
-  local crewLevel = ::g_crew.getCrewLevel(crew, ::get_es_unit_type(unit))
+  local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
   if (reqLevel <= crewLevel)
     return ""
 
@@ -333,10 +334,10 @@ function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
                            })
 
     view.tinyTooltipText = ::loc("shop/crewQualifyBonuses",
-                                 {
-                                   qualification = ::colorize("userlogColoredText", getName())
-                                   bonuses = getFullBonusesText(::get_es_unit_type(unit), curSpecType.code)
-                                 })
+                             {
+                               qualification = ::colorize("userlogColoredText", getName())
+                               bonuses = getFullBonusesText(unit?.getCrewUnitType?() ?? ::CUT_INVALID, curSpecType.code)
+                             })
   }
   view.tooltipText += "\n\n" + ::loc("crew/qualification/tooltip")
 

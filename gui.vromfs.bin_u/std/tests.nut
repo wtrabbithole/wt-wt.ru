@@ -1,6 +1,6 @@
 local string = require("string.nut")
 
-local testFunction = function(func, tests=[], shouldPass=true, testname = null) {
+local function testFunction(func, tests=[], shouldPass=true, testname = null) {
   local a = string.isStringInteger
   local funcname = testname ?? func.getinfos().name
   foreach (test in tests) {

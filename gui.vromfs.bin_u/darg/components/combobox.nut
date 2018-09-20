@@ -4,6 +4,7 @@ local comboStyle = require("combobox.style.nut")
 local function combobox(watches, options, combo_style=comboStyle) {
   local comboOpen = ::Watched(false)
   local group = ::ElemGroup()
+  local stateFlags = ::Watched(0)
   local doClose = @() comboOpen.update(false)
   local wdata, wdisable
   local dropDirDown = combo_style?.dropDir != "up"
@@ -37,7 +38,7 @@ local function combobox(watches, options, combo_style=comboStyle) {
         isCurrent = wdata.value==value
       }
 
-      local handler = function() {
+      local function handler() {
         wdata.update(value)
         comboOpen.update(false)
       }
@@ -58,11 +59,18 @@ local function combobox(watches, options, combo_style=comboStyle) {
 
     local popupContent = {
       size = [flex(), SIZE_TO_CONTENT]
-      rendObj = ROBJ_SOLID
-      color = combo_style.popupBgColor
+      rendObj = ROBJ_BOX
+      fillColor = combo_style?.popupBgColor ?? Color(10,10,10)
+      borderColor = combo_style?.popupBdColor ?? Color(80,80,80)
+      borderWidth = combo_style?.popupBorderWidth ?? 0
+      padding = combo_style?.popupBorderWidth ?? 0
       flow = FLOW_VERTICAL
+      stopHover = true
+      clipChildren = true
+      behavior = Behaviors.Button
 
       children = children
+      gap = combo_style?.itemGap
 
       transform = {
         pivot = [0.5, dropDirDown ? 0 : 1]
@@ -119,10 +127,16 @@ local function combobox(watches, options, combo_style=comboStyle) {
       } else if (item == curValue)
         break
     }
+    local sf = stateFlags.value
 
-    local children = [
-      combo_style.label(labelText, group, {disabled=wdisable.value})
-    ]
+    local children = (combo_style?.rootCtor !=null) ?
+      [
+        combo_style?.rootCtor({group=group, stateFlags=stateFlags, disabled=wdisable.value, comboOpen=comboOpen, text=labelText})
+      ]
+    :
+      [
+        combo_style.label(labelText, group, {disabled=wdisable.value})
+      ]
 
     if (comboOpen.value && !wdisable.value) {
       children.append(dropdownList)
@@ -130,15 +144,16 @@ local function combobox(watches, options, combo_style=comboStyle) {
 
     local clickHandler = wdisable.value ? null : @() comboOpen.update(!comboOpen.value)
 
-    local desc = class extends combo_style.Root {
+    local desc = (combo_style?.root ?? {}).__update({
       size = flex()
       behavior = wdisable.value ? null : Behaviors.Button
       watch = [comboOpen, watches?.disable]
       group = group
+      onElemState=@(sf) stateFlags(sf)
 
       children = children
       onClick = clickHandler
-    }
+    })
 
     return desc
   }

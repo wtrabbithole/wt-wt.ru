@@ -1,11 +1,5 @@
 local crossplayModule = require("scripts/social/crossplay.nut")
 
-enum PanelSide
-{
-  LEFT
-  RIGHT
-}
-
 class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -14,6 +8,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   gameModeIdByValue = {}
   restoreFromModal = false
   newIconWidgetsByGameModeID = null
+
+  static basePanelConfig = [
+    ::ES_UNIT_TYPE_AIRCRAFT,
+    ::ES_UNIT_TYPE_TANK,
+    ::ES_UNIT_TYPE_SHIP
+  ]
 
   function initScreen()
   {
@@ -243,21 +243,22 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     foreach (partition in partitions)
     {
       local partitionView = createGameModesPartitionView(partition)
-      gameModesView.extend(partitionView)
+      if (partitionView)
+        gameModesView.extend(partitionView)
     }
     saveValuesByGameModeId(gameModesView)
     return gameModesView
   }
 
-  function createGameModeView(gameMode, separator = false)
+  function createGameModeView(gameMode, separator = false, isNarrow = false)
   {
     if (gameMode == null)
-    {
       return {
         hasContent = false
         separator = separator
+        isNarrow = isNarrow
       }
-    }
+
     local countries = createGameModeCountriesView(gameMode)
     local isLink = gameMode.displayType.showInEventsWindow
     local event = getGameModeEvent(gameMode)
@@ -279,6 +280,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       countries = countries
       isCurrentGameMode = gameMode.id == ::game_mode_manager.getCurrentGameModeId()
       isWide = gameMode.displayWide
+      isNarrow = isNarrow
       image = gameMode.image
       videoPreview = gameMode.videoPreview
       checkBox = !isLink
@@ -358,35 +360,21 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function createGameModesPartitionView(partition)
   {
-    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
+    if (partition.gameModes.len() == 0)
+      return null
+
+    local gameModes = partition.gameModes
+    local needEmptyGameModeBlocks = !!::u.search(gameModes, @(gm) !gm.displayWide)
     local view = []
-    local panelSide = PanelSide.LEFT
-    while (partition.gameModes.len() != 0)
+    foreach (idx, esUnitType in basePanelConfig)
     {
-      local gameMode = chooseGameModeByPanelSide(partition.gameModes, panelSide)
-      local separator = partition.separator && view.len() == 0
-      local gameModeView = createGameModeView(gameMode, separator)
-      local isWide = ::getTblValue("isWide", gameModeView, false)
-      if (panelSide == PanelSide.RIGHT && isWide)
-      {
-        ::dagor.assertf(view.len() != 0, "Error creating game modes partition view.")
-        if (view.top().hasContent)
-          view.push(createGameModeView(null))
-        else
-        {
-          view.pop()
-          if (view.len() == 0)
-            gameModeView.separator = partition.separator
-        }
-      }
-      if (isWide)
-        panelSide = PanelSide.LEFT
-      else
-        panelSide = 1 - panelSide
-      view.push(gameModeView)
+      local gameMode = chooseGameModeEsUnitType(gameModes, esUnitType)
+      if (gameMode)
+        view.push(createGameModeView(gameMode, false, true))
+      else if (needEmptyGameModeBlocks)
+        view.push(createGameModeView(null, false, true))
     }
-    if (panelSide == PanelSide.RIGHT)
-      view.push(createGameModeView(null))
+
     return view
   }
 
@@ -394,45 +382,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
    * Find appropriate game mode from array and returns it.
    * If game mode is not null, it will be removed from array.
    */
-  function chooseGameModeByPanelSide(gameModes, panelSide)
+  function chooseGameModeEsUnitType(gameModes, esUnitType)
   {
-    local gameMode = null
-    if (panelSide == PanelSide.LEFT)
-    {
-      gameMode = getGameModeByCondition(gameModes, function (gameMode) {
-        if (gameMode.unitTypes.len() == 0)
-          ::script_net_assert_once("unsupported unit types " + gameMode.id,
-            ::format("Game mode (%s) has no supported unit types.", gameMode.id))
-        return ::isInArray(::ES_UNIT_TYPE_AIRCRAFT, gameMode.unitTypes) && gameMode.unitTypes.len() == 1
-          || gameMode.unitTypes.len() == 0
-      })
-      if (gameMode == null)
-      {
-        local tankGameMode = getGameModeByCondition(gameModes, function (gameMode) {
-          return ::isInArray(::ES_UNIT_TYPE_TANK, gameMode.unitTypes) && gameMode.unitTypes.len() == 1
-        })
-        gameMode = getGameModeByCondition(gameModes, function (gameMode) {
-          return ::isInArray(::ES_UNIT_TYPE_AIRCRAFT, gameMode.unitTypes)
-        })
-        // This means that we'd rather show mixed
-        // game mode on the right than on the left.
-        if (tankGameMode == null && gameMode != null)
-          gameMode = null
-      }
-    }
-    else // PanelSide.RIGHT
-    {
-      gameMode = getGameModeByCondition(gameModes, function (gameMode) {
-        return ::isInArray(::ES_UNIT_TYPE_TANK, gameMode.unitTypes) ||
-               ::isInArray(::ES_UNIT_TYPE_SHIP, gameMode.unitTypes)
-      })
-    }
-    if (gameMode != null)
-    {
-      local index = ::find_in_array(gameModes, gameMode)
-      gameModes.remove(index)
-    }
-    return gameMode
+    return getGameModeByCondition(gameModes,
+      @(gameMode) ((gameMode?.reqUnitTypes && gameMode.reqUnitTypes.len() > 0)
+        ? ::u.max(gameMode.reqUnitTypes)
+        : ::u.max(gameMode.unitTypes)) == esUnitType)
   }
 
   function saveValuesByGameModeId(gameModesView)

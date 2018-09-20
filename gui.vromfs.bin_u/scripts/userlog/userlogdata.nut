@@ -375,9 +375,10 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         continue
 
       local key = blk.body.id + "" + ::getTblValue("parentTrophyRandId", blk.body, "")
-      local itemId = blk?.body?.itemDefId || blk?.body?.id || ""
+      local itemId = blk?.body?.itemDefId || blk?.body?.trophyItemDefId || blk?.body?.id || ""
       local item = ::ItemsManager.findItemById(itemId)
-      if (!item?.shouldAutoConsume)
+      if (!item?.shouldAutoConsume &&
+        (item?.needShowRewardWnd?() || blk?.body?.id == "@external_inventory_trophy"))
       {
         if (!(key in trophyRewardsTable))
           trophyRewardsTable[key] <- []

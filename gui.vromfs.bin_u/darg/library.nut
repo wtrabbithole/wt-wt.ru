@@ -1,45 +1,51 @@
 local string = require("string")
+local s = require("std/string.nut")
 local math = require("math")
-tostring_r <- require("std/string.nut").tostring_r
+::tostring_r <- s.tostring_r
+local dagorMath = require("dagor.math")
 
-local darg_tostring = {
-  compare = @(val) ::type(val) == "instance" && val.getclass()==Watched
-  tostring = @(val) "Watched: " + tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
-}
-
-local function vlog_r(...){
-  local out = ""
-  if (vargv.len()==1)
-    out += tostring_r(vargv[0],{splitlines=false, compact=true, maxdeeplevel=4 tostringfunc=darg_tostring})
-  else
-    foreach (a in vargv)
-      out+=" " +tostring_r(a,{splitlines=false, compact=true, maxdeeplevel=4 tostringfunc=darg_tostring})
-  vlog(out.slice(0,min(out.len(),200)))
-}
-
-local function print_r(...) {
-  local out = ""
-  if (vargv.len()==1)
-    print(tostring_r(vargv[0],{compact=true, maxdeeplevel=4 tostringfunc=darg_tostring}) + "\n" + " ")
-  else
-    foreach (a in vargv)
-      print(tostring_r(a,{compact=true, maxdeeplevel=4 tostringfunc=darg_tostring}) + "\n" + " ")
-}
-
-dlog <- function(...) { 
-  vlog_r.acall([this].extend(vargv))
-  print_r.acall([this].extend(vargv))
-}
-
-dlogs <- function(...) { 
-  print_r.acall([this].extend(vargv))
-  if (vargv.len()==1)
-    vargv=vargv[0]
-  local out = tostring_r(vargv,{tostringfunc=darg_tostring})
-  local s = string.split(out,"\n")
-  for (local i=0; i < min(50,s.len()); i++) {
-    vlog(s[i])
+local tostringfuncTbl = [
+  {
+    compare = @(val) val instanceof Watched
+    tostring = @(val) "Watched: " + ::tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
   }
+  {
+    compare = @(val) val instanceof dagorMath.Point3
+    tostring = function(val){
+      return "Point3: {x}, {y}, {z}".subst({x=val.x, y=val.y, z=val.z})
+    }
+  }
+  {
+    compare = @(val) val instanceof dagorMath.Point2
+    tostring = function(val){
+      return "Point2: {x}, {y}".subst({x=val.x, y=val.y})
+    }
+  }
+  {
+    compare = @(val) val instanceof dagorMath.TMatrix
+    tostring = function(val){
+      local o = []
+      for (local i=0; i<4;i++)
+        o.append("[{x}, {y}, {z}]".subst({x=val[i].x,y=val[i].y, z=val[i].z}))
+      o = s.join(o, " ")
+      return "TMatix: [" + o +"]"
+    }
+  }
+]
+
+local log = require("std/log.nut")(tostringfuncTbl)
+
+::dlog <- log.dlog
+::log <- log.log
+::dlogsplit <- log.dlogsplit
+::vlog <- log.vlog
+
+function make_persists(val){
+  assert(type(val)=="table", "not a table value passed!")
+//  local ret = {}
+  foreach (k,v in val)
+    val[k]<-persist(k, @() v)
+  return val
 }
 
 function isDargComponent(comp) {
@@ -78,20 +84,27 @@ function with_table(tbl, func) {
 }
 
 /*
-  this function is safe wrapper to array.extend(). Can handle obj and val of any type.
+  this function returns new array that is combination of two arrays, or extended arrays
+  is safe wrapper to array.extend(). Can handle obj and val of any type.
+  this is really helpful when manipulating behaviours\chlidren\watch, that can be null, array, class, table, function or instance
 */
-function extend_to_array (obj, val) {
-  if (obj != null) {
-    obj = (typeof obj == "array") ? obj : [obj]
-    if (typeof val == "array") {
-      obj.extend(val)
-    } else {
-      obj.append(val)
-    }
-    return obj
-  } else {
-    return typeof val == "array" ? val : [val]
-  }
+function extend_to_array (obj, val, skipNulls=true) {
+  local isObjArray = ::type(obj) == "array"
+  local isValArray = ::type(val) == "array"
+  
+  if (obj == null && val == null && skipNulls)
+    return []
+  if (obj == null && skipNulls)
+    return (isValArray) ? clone val : [val]
+  if (val == null && skipNulls)
+    return (isObjArray) ? obj : [obj]
+  local obj_ = (isObjArray) ? clone obj : [obj]
+  if (isValArray)
+    obj_.extend(val)
+  else
+    obj_.append(val)
+
+  return obj_
 }
 
 
@@ -114,7 +127,7 @@ function watchElemState(builder) {
 }
 
 
-NamedColor <-{
+::NamedColor <-{
   red = Color(255,0,0)
   blue = Color(0,0,255)
   green = Color(0,255,0)
@@ -133,7 +146,7 @@ NamedColor <-{
   this function returns sh() for pixels for fullhd resolution (1080p)
 */
 function hdpx(pixels) {
-  return sh((math.floor(pixels) + 0.5) * 100.0 / 1080.0)
+  return sh(100.0 * pixels / 1080)
 }
 
 
@@ -200,7 +213,7 @@ function insert_array(array, index, value) {
   }
 }
 
-local wrapParams= {width=0, flowElemProto={}, hGap=null, vGap=null, height=null, flow=FLOW_HORIZONTAL}
+local wrapParams= {width=0, flowElemProto={}, hGap=null, vGap=0, height=null, flow=FLOW_HORIZONTAL}
 function wrap(elems, params=wrapParams) {
   //TODO: move this to native code
   local paddingLeft=params?.paddingLeft
@@ -208,7 +221,7 @@ function wrap(elems, params=wrapParams) {
   local paddingTop=params?.paddingTop
   local paddingBottom=params?.paddingBottom
   local flow = params?.flow ?? FLOW_HORIZONTAL
-  assert([FLOW_HORIZONTAL, FLOW_VERTICAL].find(flow)!=null, "flow should be correct")
+  assert([FLOW_HORIZONTAL, FLOW_VERTICAL].find(flow)!=null, "flow should be FLOW_VERTICAL or FLOW_HORIZONTAL")
   local isFlowHor = flow==FLOW_HORIZONTAL
   local height = params?.height ?? SIZE_TO_CONTENT
   local width = params?.width ?? SIZE_TO_CONTENT
@@ -216,28 +229,30 @@ function wrap(elems, params=wrapParams) {
   local secondaryDimensionLim = isFlowHor ? height : width
   assert(["array"].find(type(elems))!=null, "elems should be array")
   assert(["float","integer"].find(type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst([isFlowHor ? "width" :"height"]))
-
-  local gap = isFlowHor ? params?.hGap : params?.vGap
-  local secondaryGap = isFlowHor ? params?.vGap : params?.hGap
+  local hgap = params?.hGap ?? wrapParams?.hGap
+  local vgap = params?.vGap ?? wrapParams?.vGap
+  local gap = isFlowHor ? hgap : vgap
+  local secondaryGap = isFlowHor ? vgap : hgap
   if (["float","integer"].find(type(gap)) !=null)
     gap = isFlowHor ? {size=[gap,0]} : {size=[0,gap]}
+  gap = gap ?? 0
   local flowElemProto = params?.flowElemProto ?? {}
   local flowSizeIdx = isFlowHor ? 0 : 1
   local secondaryFlowSizeIdx = isFlowHor ? 1 : 0
   local flowElems = []
   if (paddingTop && isFlowHor)
-    flowElem.append(paddingTop)
+    flowElems.append(paddingTop)
   if (paddingLeft && !isFlowHor)
-    flowElem.append(paddingLeft)
+    flowElems.append(paddingLeft)
   local ret = {}
   local tail = elems
-  function buildFlowElem(elems, gap, flowElemProto, dimensionLim) {
+  local function buildFlowElem(elems, gap, flowElemProto, dimensionLim) {
     local children = []
     local curwidth=0.0
     local tailidx = 0
     foreach (i, elem in elems) {
       local esize = calc_comp_size(elem)[flowSizeIdx]
-      local gapsize = calc_comp_size(gap)[flowSizeIdx]
+      local gapsize = isDargComponent(gap) ? calc_comp_size(gap)[flowSizeIdx] : gap
       if (i==0 && curwidth + esize < dimensionLim) {
         children.append(elem)
         curwidth = curwidth + esize
@@ -261,9 +276,9 @@ function wrap(elems, params=wrapParams) {
     buildFlowElem(tail,gap,flowElemProto, dimensionLim)
   } while (tail.len()>0)
   if (paddingTop && isFlowHor)
-    flowElem.append(paddingBottom)
+    flowElems.append(paddingBottom)
   if (paddingLeft && !isFlowHor)
-    flowElem.append(paddingRight)
+    flowElems.append(paddingRight)
   return {flow=isFlowHor ? FLOW_VERTICAL : FLOW_HORIZONTAL gap=secondaryGap children=flowElems halign = params?.halign valign=params?.valign hplace=params?.hplace vplace=params?.vplace size=[width?? SIZE_TO_CONTENT, height ?? SIZE_TO_CONTENT]}
 }
 
@@ -279,6 +294,8 @@ function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []})
 
   if (type_a == "integer" || type_a == "float" || type_a == "bool" || type_a == "string")
     return a == b
+
+  local deep_compare = ::callee()
 
   if (type_a == "array") {
     if (a.len() != b.len())
@@ -307,4 +324,12 @@ function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []})
     }
   }
   return true
+}
+
+
+function dump_observables() {
+  local list = ::gui_scene.getAllObservables()
+  ::print("{0} observables:".subst([list.len()]))
+  foreach (obs in list)
+    ::print(tostring_r(obs))
 }

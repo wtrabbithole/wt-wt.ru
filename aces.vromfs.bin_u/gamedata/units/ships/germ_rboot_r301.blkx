@@ -114,6 +114,12 @@
           "from": "flag_germany_02_c*",
           "to": "flag_germany_alt_c*"
         }
+      },
+      {
+        "replace_tex": {
+          "from": "germany_flag_decal*",
+          "to": "germany_harm_flag_decal*"
+        }
       }
     ]
   },
@@ -381,10 +387,91 @@
             "name": "depth_charge_20_dm"
           },
           {
-            "name": "depth_charge_21_dm"
+            "name": "depth_charge_31_dm"
           },
           {
-            "name": "depth_charge_22_dm"
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
           },
           {
             "name": "depth_charge_l_01_dm"
@@ -766,7 +853,7 @@
           "engine": {
             "pos": [-16.6,-1.2,1.0],
             "outputParam": "propeller_rotate_01:CRS",
-            "engineDmPart": "engine_room_01_dm",
+            "engineDmPart": "engine_01_dm",
             "transmissionDmPart": "transmission_01_dm",
             "propeller_l": "propeller_01"
           }
@@ -775,7 +862,7 @@
           "engine": {
             "pos": [-17.1,-1.2,0.0],
             "outputParam": "propeller_rotate_02:CRS",
-            "engineDmPart": "engine_room_02_dm",
+            "engineDmPart": "engine_02_dm",
             "transmissionDmPart": "transmission_02_dm",
             "propeller_r": "propeller_02"
           }
@@ -784,7 +871,7 @@
           "engine": {
             "pos": [-16.6,-1.2,-1.0],
             "outputParam": "propeller_rotate_03:CRS",
-            "engineDmPart": "engine_room_03_dm",
+            "engineDmPart": "engine_03_dm",
             "transmissionDmPart": "transmission_03_dm",
             "propeller_r": "propeller_03"
           }
@@ -828,32 +915,75 @@
     }
   },
   {
+    "breaches": {
+      "repairSpeed": 20.0,
+      "waterMassVel": -14000.0,
+      "waterMassMult": 90.0,
+      "sizeToRepair": [0.01,2.0,10.0,300.0],
+      "additionalWaterDeathThreshold": 700000.0,
+      "additionalWaterShouldDiePercent": 0.45,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 43.0,
+      "maxHeelingTime": 10.0,
+      "criticalHeelingAnglePercent": 0.5,
+      "maxCriticalHeelingTime": 2.0,
+      "heelingDeathHeightOffsetMult": 1.0,
+      "sideCenterOfMassOffsetPercent": 0.5
+    }
+  },
+  {
     "shipCover": [
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "weight": 0.9,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_01_dm",
+              "critWaterLevel": 0.75
+            }
+          }
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
-          "weight": 0.8,
-          "maxWaterAlive": 1.0
+          "weight": 1.0,
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "engine_01_dm",
+                "critWaterLevel": 0.6
+              }
+            },
+            {
+              "part": {
+                "partNo": "engine_02_dm",
+                "critWaterLevel": 0.6
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "weight": 0.9,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_02_dm",
+              "critWaterLevel": 0.9
+            }
+          }
         }
       },
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 0.5,
+          "weight": 0.35,
           "maxWaterAlive": 1.0
         }
       }
@@ -2076,11 +2206,6 @@
           "armorThickness": 4.0,
           "hp": 100.0
         },
-        "superstructure_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
-          "hp": 276.0
-        },
         "stern_bottom_dm": {
           "armorThickness": 10.0,
           "hp": 100.0
@@ -2096,6 +2221,11 @@
         "stern_top_dm": {
           "armorThickness": 10.0,
           "hp": 100.0
+        },
+        "superstructure_dm": {
+          "armorClass": "ship_special_treatment_steel",
+          "armorThickness": 12.0,
+          "hp": 276.0
         }
       },
       "bulkheads": {
@@ -3366,23 +3496,6 @@
           "maxSpeedInWater": -7.2
         }
       }
-    }
-  },
-  {
-    "breaches": {
-      "repairSpeed": 30.0,
-      "waterMassVel": -3000.0,
-      "waterMassMult": 25.0,
-      "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 650000.0,
-      "additionalWaterShouldDiePercent": 0.45,
-      "fatalBreachDrownTime": 35.0,
-      "maxHeelingAngle": 45.0,
-      "maxHeelingTime": 10.0,
-      "criticalHeelingAnglePercent": 0.5,
-      "maxCriticalHeelingTime": 2.0,
-      "heelingDeathHeightOffsetMult": 1.0,
-      "sideCenterOfMassOffsetPercent": 0.5
     }
   },
   {

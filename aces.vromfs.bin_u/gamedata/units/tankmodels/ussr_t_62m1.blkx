@@ -421,6 +421,21 @@
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -1988,7 +2003,7 @@
         "Weapon": {
           "trigger": "gunner2",
           "triggerGroup": "machinegun",
-          "blk": "gameData/Weapons/groundModels_weapons/12_7mm_NSV_user_cannon.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
           "barrelDP": "gun_barrel_01_dm",
@@ -2000,8 +2015,8 @@
           "speedPitch": 35.0,
           "bullets": 300,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2668,13 +2683,16 @@
         "sightFov": 13.0
       },
       {
+        "sightName": "tsh2b_41"
+      },
+      {
         "sightFov": 20.0
       },
       {
         "headPos": [0.0,3.5,-8.5]
       },
       {
-        "headPosOnShooting": [0.0,3.2,0.0]
+        "headPosOnShooting": [-0.2,3.2,-0.5]
       },
       {
         "detectionHeight": 2.2
@@ -2939,7 +2957,7 @@
               "Weapon": {
                 "trigger": "gunner2",
                 "triggerGroup": "machinegun",
-                "blk": "gameData/Weapons/groundModels_weapons/12_7mm_NSV_user_cannon.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_user_machinegun.blk",
                 "emitter": "bone_mg_aa_v_01",
                 "flash": "emtr_mg_aa_flame_01",
                 "barrelDP": "gun_barrel_01_dm",
@@ -2951,8 +2969,8 @@
                 "speedPitch": 35.0,
                 "bullets": 300,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -3038,10 +3056,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -3170,10 +3188,19 @@
     }
   },
   {
+    "skin": {
+      "name": "ussr_camo_finland_polygonal_threecolor",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_finland_polygonal_threecolor*"
+      }
+    }
+  },
+  {
     "ammoStowages": {
       "ammo1": [
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "weaponTrigger": "gunner0"
@@ -3193,39 +3220,6 @@
         {
           "shells": {
             "firstStage": true,
-            "ammo_turret_01_dm": {
-              "count": 1
-            },
-            "ammo_turret_02_dm": {
-              "count": 1
-            },
-            "ammo_body_01_dm": {
-              "count": 1
-            },
-            "ammo_body_38_dm": {
-              "count": 1
-            },
-            "ammo_body_18_dm": {
-              "count": 1
-            },
-            "ammo_body_19_dm": {
-              "count": 1
-            },
-            "ammo_body_20_dm": {
-              "count": 1
-            },
-            "ammo_body_21_dm": {
-              "count": 1
-            },
-            "ammo_body_22_dm": {
-              "count": 1
-            },
-            "ammo_body_23_dm": {
-              "count": 1
-            },
-            "ammo_body_24_dm": {
-              "count": 1
-            },
             "ammo_body_25_dm": {
               "count": 1
             },
@@ -3264,12 +3258,24 @@
             },
             "ammo_body_37_dm": {
               "count": 1
+            },
+            "ammo_body_38_dm": {
+              "count": 1
+            },
+            "ammo_body_39_dm": {
+              "count": 1
+            },
+            "ammo_body_40_dm": {
+              "count": 1
             }
           }
         },
         {
           "shells": {
             "reloadTimeMult": 1.62,
+            "ammo_body_01_dm": {
+              "count": 1
+            },
             "ammo_body_02_dm": {
               "count": 1
             },
@@ -3316,6 +3322,27 @@
               "count": 1
             },
             "ammo_body_17_dm": {
+              "count": 1
+            },
+            "ammo_body_18_dm": {
+              "count": 1
+            },
+            "ammo_body_19_dm": {
+              "count": 1
+            },
+            "ammo_body_20_dm": {
+              "count": 1
+            },
+            "ammo_body_21_dm": {
+              "count": 1
+            },
+            "ammo_body_22_dm": {
+              "count": 1
+            },
+            "ammo_body_23_dm": {
+              "count": 1
+            },
+            "ammo_body_24_dm": {
               "count": 1
             }
           }

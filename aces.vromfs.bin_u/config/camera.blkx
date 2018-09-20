@@ -136,10 +136,7 @@
     "transitionFadeOutTime": 0.2,
     "viscosity": 0.01,
     "condition": {
-      "or": {
-        "isFlightModel": [],
-        "isHelicopter": []
-      }
+      "isFlightModel": []
     }
   },
   "killer": {
@@ -426,6 +423,37 @@
     "condition": {
       "and": {
         "hasFPSGunner": [],
+        "isFlightModel": []
+      }
+    }
+  },
+  "gunner_operated_rocket_fps": {
+    "type": "TurretFpsCamera",
+    "fov": 30.0,
+    "zoomFov": 5.0,
+    "transitionSpeed": 4.0,
+    "cameraControlSmoothX": 0.0,
+    "cameraControlSmoothY": 0.0,
+    "cameraControlViewRadius": 14.0,
+    "subtype": "gunner_optic_fps",
+    "horLimit": [-1.0,1.0],
+    "verLimit": [-1.0,1.0],
+    "verticalLimit": 10.0,
+    "verticalSpeed": 1.5,
+    "horizontalSpeed": 1.5,
+    "velocitySmooth": 0.0,
+    "cameraUpOffset": 4.0,
+    "useOffset": true,
+    "cameraOffset": [0.0,4.0,5.0],
+    "cameraShakeMultiplier": 0.18,
+    "transitionFadeInTime": 1.12,
+    "transitionFadeOutTime": 0.05,
+    "viscosity": 0.05,
+    "tiltShakeMultiplierForTanks": 0.0,
+    "tiltShakeMultiplierForShips": 0.0,
+    "condition": {
+      "and": {
+        "hasOpticFPSGunner": [],
         "isFlightModel": []
       }
     }
@@ -766,46 +794,6 @@
       }
     }
   ],
-  "tps_helicopter": {
-    "type": "HelicopterCamera",
-    "fov": 90.0,
-    "zoomFov": 30.0,
-    "incFovMinSpeed": 15.0,
-    "incFovMaxSpeed": 90.0,
-    "incFovMinFov": 0.0,
-    "incFovMaxFov": 10.0,
-    "transitionSpeed": 4.0,
-    "targetOffset": [500.0,0.0,0.0],
-    "cameraOffsetNeutral": [-17.0,3.0,0.0],
-    "cameraUpNeutral": [0.0,1.0,0.0],
-    "cameraOffsetSmoothing": 0.04,
-    "cameraUpSmoothing": 0.0,
-    "cameraFovSmoothing": 0.005,
-    "cameraOffsetElevatorUp": [-14.0,3.0,0.0],
-    "cameraOffsetElevatorDown": [-14.0,3.0,0.0],
-    "sensitivityElevatorDown": 1.0,
-    "sensitivityElevatorUp": 1.0,
-    "cameraOffsetRudderLeft": [-14.0,3.0,-1.0],
-    "cameraOffsetRudderRight": [-14.0,3.0,1.0],
-    "sensitivityRudder": 10.0,
-    "cameraUpAileronsLeft": [0.0,1.0,0.7],
-    "cameraUpAileronsRight": [0.0,1.0,-0.7],
-    "sensitivityAilerons": 0.3,
-    "cameraFovAccelerationPositive": 1.0,
-    "cameraFovAccelerationNegative": 2.0,
-    "sensitivityAcceleration": 10.0,
-    "cameraTpsSmoothing": 0.1,
-    "maxCameraSlowAngle": 9.0,
-    "cameraTpsAngleAccelaration": 2.0,
-    "cameraShakeMultiplier": 1.5,
-    "transitionFadeInTime": 0.12,
-    "transitionFadeOutTime": 0.2,
-    "viscosity": 0.2,
-    "horizontalAmp": 1.0,
-    "verticalAmp": 1.0,
-    "horizontalLimit": 7.0,
-    "verticalLimit": 7.0
-  },
   "camera_binoculars": [
     {
       "type": "TurretCamera"
@@ -3893,6 +3881,9 @@
         "camName": "gunner_fps"
       },
       {
+        "camName": "gunner_operated_rocket_fps"
+      },
+      {
         "camName": "target_turret"
       },
       {
@@ -4030,17 +4021,6 @@
       },
       {
         "camName": "target_turret"
-      }
-    ],
-    "helicopter": [
-      {
-        "camName": "tps_helicopter"
-      },
-      {
-        "camName": "aim_ground"
-      },
-      {
-        "camName": "aim_ground_from_sight"
       }
     ]
   },

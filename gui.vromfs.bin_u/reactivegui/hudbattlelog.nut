@@ -1,5 +1,5 @@
 local state = require("battleLogState.nut")
-local log = require("daRg/components/log.nut")
+local scrollableData = require("daRg/components/scrollableData.nut")
 local hudLog = require("components/hudLog.nut")
 local colors = require("style/colors.nut")
 local teamColors = require("style/teamColors.nut")
@@ -40,7 +40,7 @@ local logEntryComponent = function (log_entry) {
 local battleLogVisible = Watched(false)
 local logBox = hudLog({
   visibleState = battleLogVisible
-  logComponent = log.makeLog(state.log)
+  logComponent = scrollableData.make(state.log)
   messageComponent = logEntryComponent
 })
 

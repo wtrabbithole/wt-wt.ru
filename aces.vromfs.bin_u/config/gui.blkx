@@ -412,6 +412,8 @@
     "he_i": "bullet_cannon_yellow",
     "he_i_t": "bullet_cannon_yellow",
     "he_i_mine": "bullet_cannon_yellow",
+    "he_at": "bullet_cannon_yellow",
+    "he_at_grenade": "bullet_cannon_yellow",
     "he_i_t_mine": "bullet_cannon_yellow",
     "he_i_t_n_mine": "bullet_cannon_yellow",
     "he_frag": "bullet_cannon_blue_yellow",
@@ -427,6 +429,7 @@
     "ap_i_t": "bullet_cannon_red",
     "apcr": "bullet_cannon_silver",
     "apcr_t": "bullet_cannon_silver",
+    "he_vt": "bullet_proxi_fuze_cannon",
     "s_d": "bullet_cannon_brown",
     "ac_shell_tank": "ac_shell_tank",
     "apcr_tank": "apcr_tank",
@@ -676,6 +679,7 @@
       "streak_killStreak_fighter_survived": "streaks_survivance_bg;streaks_survivance_fighter",
       "streak_killStreak_attacker_survived": "streaks_survivance_bg;streaks_survivance_attacker",
       "streak_killStreak_bomber_survived": "streaks_survivance_bg;streaks_survivance_bomber",
+      "streak_killStreak_helicopter_survived": "streaks_survivance_bg;streaks_survivance_fighter",
       "streak_tank_best_antiAircraft": "streaks_tank_bg;streaks_heroic_target;streaks_heroic_fighter",
       "streak_battle_royale_first_place_lost": "streaks_event_bg;streaks_last_man_standing",
       "streak_battle_royale_second_place": "streaks_survivance_bg;streaks_last_man_standing",
@@ -3605,10 +3609,13 @@
       "country_japan_tank_unit": "#ui/images/researches/japan_ground_finishedResearch.jpg?P1",
       "country_britain_aircraft_unit": "#ui/images/researches/uk_finishedresearch.jpg?P1",
       "country_britain_tank_unit": "#ui/images/researches/uk_ground_finishedresearch.jpg?P1",
+      "country_britain_ship_unit": "#ui/images/researches/usa_ship_finishedresearch.jpg?P1",
       "country_china_aircraft_unit": "#ui/images/researches/china_finishedresearch.jpg?P1",
       "country_italy_aircraft_unit": "#ui/images/researches/italy_finishedresearch.jpg?P1",
       "country_france_aircraft_unit": "#ui/images/researches/france_finishedresearch.jpg?P1",
       "country_france_tank_unit": "#ui/images/researches/france_ground_finishedresearch.jpg?P1",
+      "country_usa_helicopter_unit": "#ui/images/researches/usa_heli_finishedresearch.jpg?P1",
+      "country_ussr_helicopter_unit": "#ui/images/researches/ussr_heli_finishedresearch.jpg?P1",
       "country_germany_aircraft_modification": "#ui/images/researches/ger_newmodificationresearch.jpg?P1",
       "country_germany_tank_modification": "#ui/images/researches/ger_ground_newmodificationresearch.jpg?P1",
       "country_germany_ship_modification": "#ui/images/researches/usa_ship_newmodificationresearch.jpg?P1",
@@ -3621,10 +3628,13 @@
       "country_japan_tank_modification": "#ui/images/researches/japan_ground_newmodificationResearch.jpg?P1",
       "country_britain_aircraft_modification": "#ui/images/researches/uk_newmodificationresearch.jpg?P1",
       "country_britain_tank_modification": "#ui/images/researches/uk_ground_newmodificationresearch.jpg?P1",
+      "country_britain_ship_modification": "#ui/images/researches/usa_ship_newmodificationresearch.jpg?P1",
       "country_china_aircraft_modification": "#ui/images/researches/china_newmodificationresearch.jpg?P1",
       "country_italy_aircraft_modification": "#ui/images/researches/italy_newmodificationresearch.jpg?P1",
       "country_france_aircraft_modification": "#ui/images/researches/france_newmodificationresearch.jpg?P1",
       "country_france_tank_modification": "#ui/images/researches/france_ground_newmodificationresearch.jpg?P1",
+      "country_usa_helicopter_modification": "#ui/images/researches/usa_heli_newmodificationresearch.jpg?P1",
+      "country_ussr_helicopter_modification": "#ui/images/researches/ussr_heli_newmodificationresearch.jpg?P1",
       "tutorial_fighter": "#ui/images/tutorial_fighter.jpg?P1",
       "tutorial_fighter_win": "#ui/images/tutorial_fighter_win.jpg?P1",
       "tutorial_bomber": "#ui/images/tutorial_bomber.jpg?P1",
@@ -4000,6 +4010,9 @@
       ],
       "Ship": {
         "name": "Germany/ships/img_germany_ship_01"
+      },
+      "Helicopter": {
+        "name": "Germany/air/img_germany_air_01"
       }
     },
     "country_usa": {
@@ -4096,6 +4109,9 @@
       ],
       "Ship": {
         "name": "USA/ships/img_usa_ship_01"
+      },
+      "Helicopter": {
+        "name": "USA/air/img_usa_air_01"
       }
     },
     "country_ussr": {
@@ -4192,6 +4208,9 @@
       ],
       "Ship": {
         "name": "USSR/ships/img_ussr_ship_01"
+      },
+      "Helicopter": {
+        "name": "USSR/air/img_ussr_air_01"
       }
     },
     "country_britain": {
@@ -4243,6 +4262,9 @@
       ],
       "Ship": {
         "name": "UK/ships/img_uk_ship_01"
+      },
+      "Helicopter": {
+        "name": "UK/air/img_uk_air_01"
       }
     },
     "country_japan": {
@@ -4282,6 +4304,9 @@
       ],
       "Ship": {
         "name": "Japan/ships/img_japan_ship_01"
+      },
+      "Helicopter": {
+        "name": "Japan/air/img_japan_air_01"
       }
     },
     "country_italy": {
@@ -4301,7 +4326,16 @@
         {
           "name": "Italy/air/img_italy_air_05"
         }
-      ]
+      ],
+      "Tank": {
+        "name": "Italy/air/img_italy_air_01"
+      },
+      "Ship": {
+        "name": "Italy/air/img_italy_air_01"
+      },
+      "Helicopter": {
+        "name": "Italy/air/img_italy_air_01"
+      }
     },
     "country_france": {
       "Aircraft": [
@@ -4337,7 +4371,13 @@
         {
           "name": "France/air/img_france_tank_05"
         }
-      ]
+      ],
+      "Ship": {
+        "name": "France/air/img_france_air_01"
+      },
+      "Helicopter": {
+        "name": "France/air/img_france_air_01"
+      }
     },
     "other": {
       "CLAN_DUEL_REWARD": "img_eagle",

@@ -6,7 +6,8 @@
 ::ds_unit_type_names <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = DS_UT_AIRCRAFT,
   [::ES_UNIT_TYPE_TANK] = DS_UT_TANK,
-  [::ES_UNIT_TYPE_SHIP] = DS_UT_SHIP
+  [::ES_UNIT_TYPE_SHIP] = DS_UT_SHIP,
+  [::ES_UNIT_TYPE_HELICOPTER] = DS_UT_AIRCRAFT
 }
 
 ::mapWpUnitClassToWpUnitType <- {
@@ -23,6 +24,7 @@
   exp_submarine_chaser = DS_UT_SHIP
   exp_destroyer = DS_UT_SHIP
   exp_naval_ferry_barge = DS_UT_SHIP
+  exp_helicopter = DS_UT_AIRCRAFT
 }
 
 ::dsClassToMatchingClass <-

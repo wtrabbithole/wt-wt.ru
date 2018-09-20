@@ -1,5 +1,5 @@
 local defStyling = require("msgbox.style.nut")
-
+local frp = require("daRg/frp.nut")
 
 local widgets = Watched([])
 
@@ -18,6 +18,15 @@ local function removeWidget(w) {
   }
 }
 
+local function removeByUid(uid) {
+  foreach(idx, w in widgets.value)
+    if (w.uid == uid) {
+      widgets.value.remove(idx)
+      widgets.trigger()
+      break
+    }
+}
+
 
 /// Adds messagebox to widgets list
 /// params = {
@@ -33,63 +42,66 @@ local function removeWidget(w) {
 ///      ...
 ///   ]
 ///
+local counter = 0
 local function show(params, styling=defStyling) {
   local self = null
-
   local function doClose(button_action) {
     removeWidget(self)
     if (button_action)
       button_action()
-    if ("onClose" in params)
+    if ("onClose" in params && params.onClose)
       params.onClose()
   }
+  local uid = params?.uid ?? "msgbox_" + counter++
+  removeByUid(uid)
 
   local btnsDesc = params?.buttons || [{text="OK"}]
-  local curBtnIdx = Watched(0)
+  if (!(btnsDesc instanceof Watched))
+    btnsDesc = Watched(btnsDesc)
+
   local defCancel = null
-
-  foreach (idx, bd in btnsDesc) {
-    if (bd?.isCurrent)
-      curBtnIdx.update(idx)
-    if (bd?.isCancel)
-      defCancel = bd
-  }
-
-
-  local buttons = btnsDesc.map(function(desc) {
-    return styling.button(desc, @() doClose(desc?.action))
+  local curBtnIdx = frp.map(btnsDesc, function(btns) {
+    local res = 0
+    foreach (idx, bd in btnsDesc.value) {
+      if (bd?.isCurrent)
+        res = idx
+      if (bd?.isCancel)
+        defCancel = bd
+    }
+    return res
   })
 
   local function buttonsBlock() {
     return {
-      watch = curBtnIdx
+      watch = [curBtnIdx, btnsDesc]
       size = SIZE_TO_CONTENT
       flow = FLOW_HORIZONTAL
 
-      children = buttons
-
+      children = btnsDesc.value.map(function(desc) {
+        return styling.button(desc, @() doClose(desc?.action))
+      })
       behavior = Behaviors.RecalcHandler
 
       onRecalcLayout = function(elem, initial) {
         if (initial) {
-          ::set_kb_focus(btnsDesc[curBtnIdx.value])
+          ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
         }
       }
     }
   }
 
-
   local function moveBtnFocus(dir) {
-    curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.len()) % btnsDesc.len())
-    ::set_kb_focus(btnsDesc[curBtnIdx.value])
+    curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.value.len()) % btnsDesc.value.len())
+    ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
   }
 
-  self = class extends styling.BgOverlay {
+  self = styling.BgOverlay.__merge({
+    uid = uid
     cursor = styling.cursor
     stopHotkeys = true
     stopHover = true
 
-    children = class extends styling.Root {
+    children = styling.Root.__merge({
       flow = FLOW_VERTICAL
       halign = HALIGN_CENTER
       children = [
@@ -102,8 +114,8 @@ local function show(params, styling=defStyling) {
         ["Right | Tab", @() moveBtnFocus(1)],
         ["Left", @() moveBtnFocus(-1)],
       ]
-    }
-  }
+    })
+  })
 
   addWidget(self)
 

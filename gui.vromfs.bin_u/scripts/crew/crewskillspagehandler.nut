@@ -14,7 +14,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
   crew = null
   crewLevel = 0
   curPage = null
-  curUnitType = ::ES_UNIT_TYPE_INVALID
+  curCrewUnitType = ::CUT_INVALID
 
   function initScreen()
   {
@@ -47,7 +47,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
   {
     local rows = []
     foreach(idx, item in curPage.items)
-      if (item.isVisible(curUnitType))
+      if (item.isVisible(curCrewUnitType))
         rows.append({
           id = getRowName(idx)
           rowIdx = idx
@@ -92,7 +92,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
     curPage = crewModalHandlerWeak.getCurPage()
     crew = crewModalHandlerWeak.crew
-    curUnitType = crewModalHandlerWeak.curUnitType
+    curCrewUnitType = crewModalHandlerWeak.curCrewUnitType
   }
 
   function updateHandlerData()
@@ -102,7 +102,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       return
 
     foreach(idx, item in curPage.items)
-      if (item.isVisible(curUnitType))
+      if (item.isVisible(curCrewUnitType))
         updateSkillRow(idx)
     updateIncButtons(curPage.items)
   }
@@ -134,10 +134,9 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
         curGunnersMul = curGunners.tofloat() / airGunners
     }
 
-    local esUnitType = ::get_es_unit_type(unit)
     foreach(item in page.items)
     {
-      local hasSpecMul = item.useSpecializations && item.isVisible(esUnitType)
+      local hasSpecMul = item.useSpecializations && item.isVisible(curCrewUnitType)
       bonuses.append({
         add =  hasSpecMul ? curSpecMul * ::g_crew.getMaxSkillValue(item) : 0.0
         mul = (item.name == "members") ? 1.0 : curGunnersMul
@@ -168,7 +167,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
   {
     foreach(idx, item in items)
     {
-      if (!item.isVisible(curUnitType))
+      if (!item.isVisible(curCrewUnitType))
         continue
       local rowObj = scene.findObject(getRowName(idx))
       if (!::checkObj(rowObj))
@@ -235,7 +234,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     //update specialization buttons
     local unit = getCurUnit()
     //need show specializations buttons status by current unit type instead of page unit type
-    local crewLevel = ::g_crew.getCrewLevel(crew, ::get_es_unit_type(unit))
+    local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
     updateRowSpecButton(rowObj, ::g_crew_spec_type.EXPERT, crewLevel, unit, bonusData)
     updateRowSpecButton(rowObj, ::g_crew_spec_type.ACE, crewLevel, unit, bonusData)
   }
@@ -401,7 +400,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function onSpecIncrease(nextSpecType)
   {
-    ::g_crew.upgradeUnitSpec(crew, getCurUnit(), curUnitType, nextSpecType)
+    ::g_crew.upgradeUnitSpec(crew, getCurUnit(), curCrewUnitType, nextSpecType)
   }
 
   function onSpecIncrease1()
@@ -416,12 +415,12 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function onSkillRowTooltipOpen(obj)
   {
-    local unitType = ::getTblValue("curUnitType", crewModalHandlerWeak, ::ES_UNIT_TYPE_AIRCRAFT)
+    local crewUnitType = crewModalHandlerWeak?.curCrewUnitType ?? ::CUT_AIRCRAFT
     local memberName = obj.memberName || ""
     local skillName = obj.skillName || ""
     local difficulty = ::get_current_shop_difficulty()
     local view = ::g_crew_skill_parameters.getSkillDescriptionView(
-      crew, difficulty, memberName, skillName, unitType)
+      crew, difficulty, memberName, skillName, crewUnitType)
     local data = ::handyman.renderCached("gui/crew/crewSkillParametersTooltip", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
   }

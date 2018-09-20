@@ -698,16 +698,6 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 23.9,
-      "zoomInFov": 9.2,
-      "sightFov": 19.0,
-      "headPos": [0.0,3.5,-8.0],
-      "headPosOnShooting": [1.0,3.0,0.5],
-      "detectionHeight": 2.585
-    }
-  },
-  {
     "user_skin": {
       "name": "t_10m",
       "replace_tex": {
@@ -1461,8 +1451,8 @@
           "speedPitch": 20.0,
           "bullets": 500,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1592,8 +1582,8 @@
                 "speedPitch": 20.0,
                 "bullets": 500,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2658,6 +2648,18 @@
         "rotation": 2.5,
         "collisionNode": "cls_turret"
       }
+    }
+  },
+  {
+    "cockpit": {
+      "zoomOutFov": 23.9,
+      "zoomInFov": 9.2,
+      "sightFov": 19.0,
+      "sightName": "t2s_29_14",
+      "headPos": [0.0,3.5,-8.0],
+      "headPosOnShooting": [0.2,3.5,-0.65],
+      "detectionHeight": 2.585,
+      "bone_turret": ""
     }
   }
 ]

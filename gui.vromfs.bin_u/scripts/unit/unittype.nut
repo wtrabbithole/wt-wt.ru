@@ -5,6 +5,7 @@ enum UNIT_TYPE_ORDER
   AIRCRAFT
   TANK
   SHIP
+  HELICOPTER
   INVALID
 }
 
@@ -20,6 +21,21 @@ enum UNIT_TYPE_ORDER
   }
 }
 
+local crewUnitTypeConfig = {
+  [::CUT_INVALID] = {
+    crewTag = ""
+  },
+  [::CUT_AIRCRAFT] = {
+    crewTag = "air"
+  },
+  [::CUT_TANK] = {
+    crewTag = "tank"
+  },
+  [::CUT_SHIP] = {
+    crewTag = "ship"
+  }
+}
+
 ::g_unit_type.template <- {
   typeName = "" //filled automatically by typeName
   name = ""
@@ -28,6 +44,7 @@ enum UNIT_TYPE_ORDER
   armyId = ""
   esUnitType = ::ES_UNIT_TYPE_INVALID
   bit = 0      //unitType bit for it mask. filled by esUnitType  (bit = 1 << esUnitType)
+  bitCrewType = 0 //crewUnitType bit for it mask
   sortOrder = UNIT_TYPE_ORDER.INVALID
   uiSkin = "!#ui/unitskin#"
   uiClassSkin = "#ui/gameuiskin#"
@@ -38,6 +55,8 @@ enum UNIT_TYPE_ORDER
   hudTypeCode = ::HUD_TYPE_UNKNOWN
 
   firstChosenTypeUnlockName = null
+  crewUnitType = ::CUT_INVALID
+  hasAiGunners = false
 
   isAvailable = function() { return false }
   isVisibleInShop = function() { return isAvailable() }
@@ -47,6 +66,8 @@ enum UNIT_TYPE_ORDER
   getTestFlightText = function() { return ::loc("mainmenu/btn" + testFlightName ) }
   getTestFlightUnavailableText = function() { return ::loc("mainmenu/cant" + testFlightName ) }
   getArmyLocName = function() { return ::loc("mainmenu/" + armyId, "") }
+  getCrewArmyLocName = @() ::loc("unit_type/" + crewUnitTypeConfig?[crewUnitType]?.crewTag ?? "")
+  getCrewTag = @() crewUnitTypeConfig?[crewUnitType]?.crewTag ?? ""
   getLocName = function() { return ::loc(::format("unit_type/%s", tag), "") }
   canUseSeveralBulletsForGun = false
   modClassOrder = []
@@ -75,6 +96,8 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestFlight"
     hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_air"
+    crewUnitType = ::CUT_AIRCRAFT
+    hasAiGunners = true
     isAvailable = @() true
     isAvailableForFirstChoice = function(country = null)
     {
@@ -102,6 +125,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestDrive"
     hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_tank"
+    crewUnitType = ::CUT_TANK
     isAvailable = function() { return ::has_feature("Tanks") }
     isAvailableForFirstChoice = function(country = null)
     {
@@ -135,6 +159,8 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestSail"
     hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_ship"
+    crewUnitType = ::CUT_SHIP
+    hasAiGunners = true
     isAvailable = function() { return ::has_feature("Ships") }
     isVisibleInShop = function() { return isAvailable() && ::has_feature("ShipsVisibleInShop") }
     isAvailableForFirstChoice = function(country = null)
@@ -143,11 +169,34 @@ enums.addTypesByGlobalName("g_unit_type", {
     modClassOrder = ["seakeeping", "unsinkability", "firepower"]
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForShips")
   }
+
+  HELICOPTER = {
+    name = "Helicopter"
+    tag = "helicopter"
+    armyId = "helicopters"
+    esUnitType = ::ES_UNIT_TYPE_HELICOPTER
+    sortOrder = UNIT_TYPE_ORDER.HELICOPTER
+    fontIcon = ::loc("icon/unittype/helicopter")
+    testFlightIcon = "#ui/gameuiskin#slot_heli_testflight.svg"
+    testFlightName = "TestFlight"
+    hudTypeCode = ::HUD_TYPE_AIRPLANE
+    firstChosenTypeUnlockName = "chosen_unit_type_helicopter"
+    crewUnitType = ::CUT_AIRCRAFT
+    isAvailable = function() { return ::has_feature("Helicopters") }
+    isVisibleInShop = function() { return isAvailable() }
+    isAvailableForFirstChoice = @(country = null) false
+    canUseSeveralBulletsForGun = false
+    canChangeViewType = true
+    modClassOrder = ["lth", "armor", "weapon"]
+  }
 },
 function()
 {
   if (esUnitType != ::ES_UNIT_TYPE_INVALID)
+  {
     bit = 1 << esUnitType
+    bitCrewType = 1 << crewUnitType
+  }
   lowerName = name.tolower()
 }, "typeName")
 
@@ -202,12 +251,21 @@ function g_unit_type::getByUnitName(unitId)
   return unit ? unit.unitType : INVALID
 }
 
-function g_unit_type::getTypeMaskByTagsString(listStr, separator = "; ")
+function g_unit_type::getTypeMaskByTagsString(listStr, separator = "; ", bitMaskName = "bit")
 {
   local res = 0
   local list = ::split(listStr, separator)
   foreach(tag in list)
-    res = res | getByTag(tag).bit
+    res = res | getByTag(tag)[bitMaskName]
+  return res
+}
+
+function g_unit_type::getEsUnitTypeMaskByCrewUnitTypeMask(crewUnitTypeMask)
+{
+  local res = 0
+  foreach(type in g_unit_type.types)
+    if (crewUnitTypeMask & (1 << type.crewUnitType))
+      res = res | type.esUnitType
   return res
 }
 

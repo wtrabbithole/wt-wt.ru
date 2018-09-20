@@ -332,43 +332,115 @@
     "Position": [1.6,-0.05,2.4],
     "Direction": [-0.0,0.0],
     "PropPos": [1.8,-0.05,2.4],
-    "Main": {
-      "FuelSystemNum": 0,
-      "Type": "Radial",
-      "Cylinders": 18,
-      "Mass": 960.0,
-      "Thrust": 10.7,
-      "ThrottleBoost": 1.001,
-      "AfterburnerBoost": 1.1,
-      "RPMMin": 400.0,
-      "RPMMax": 2900.0,
-      "RPMMaxAllowed": 3200.0,
-      "FuelConsumptionOnIdle": 0.39,
-      "FuelConsumptionOnHalfThr": 0.23,
-      "FuelConsumptionOnFullThr": 0.27,
-      "FuelConsumptionOnWEP": 0.26,
-      "CarbueretorType": 2,
-      "CarbureutorCapacity": 0.5268,
-      "IsAutonomous": true,
-      "ExtinguisherNum": 0,
-      "MinThrMult": 0.11,
-      "MaxThrMult": 1.0,
-      "IsWaterCooled": false,
-      "EngineInertiaMoment": 1.0,
-      "EngineAcceleration": 9.0,
-      "RPMAmplitude0": [2800.0,0.0],
-      "RPMAmplitude1": [0.0,50.0],
-      "ConsumptionOmegaMax": 1.05,
-      "ConsumptionOmegaMinCoeff": 5.5638,
-      "ThrustOmegaMinCoeff": 0.0024,
-      "TorqueOmegaMinCoeff": 1.0,
-      "TorqueZeroOmegaMult": 3.0,
-      "TurbineTimeConstant": 3.4,
-      "Power": 2000.0,
-      "ThrustMax": {
-        "ThrustMax0": 2700.0
+    "Main": [
+      {
+        "FuelSystemNum": 0
+      },
+      {
+        "Type": "Radial"
+      },
+      {
+        "Cylinders": 18
+      },
+      {
+        "Mass": 960.0
+      },
+      {
+        "Thrust": 10.7
+      },
+      {
+        "ThrottleBoost": 1.001
+      },
+      {
+        "AfterburnerBoost": 1.1
+      },
+      {
+        "RPMMin": 400.0
+      },
+      {
+        "RPMMax": 2900.0
+      },
+      {
+        "RPMAfterburner": 2900.0
+      },
+      {
+        "RPMAfterburner": 2900.0
+      },
+      {
+        "RPMMaxAllowed": 3200.0
+      },
+      {
+        "FuelConsumptionOnIdle": 0.39
+      },
+      {
+        "FuelConsumptionOnHalfThr": 0.23
+      },
+      {
+        "FuelConsumptionOnFullThr": 0.27
+      },
+      {
+        "FuelConsumptionOnWEP": 0.26
+      },
+      {
+        "CarbueretorType": 2
+      },
+      {
+        "CarbureutorCapacity": 0.5268
+      },
+      {
+        "IsAutonomous": true
+      },
+      {
+        "ExtinguisherNum": 0
+      },
+      {
+        "MinThrMult": 0.11
+      },
+      {
+        "MaxThrMult": 1.0
+      },
+      {
+        "IsWaterCooled": false
+      },
+      {
+        "EngineInertiaMoment": 1.0
+      },
+      {
+        "EngineAcceleration": 9.0
+      },
+      {
+        "RPMAmplitude0": [2800.0,0.0]
+      },
+      {
+        "RPMAmplitude1": [0.0,50.0]
+      },
+      {
+        "ConsumptionOmegaMax": 1.05
+      },
+      {
+        "ConsumptionOmegaMinCoeff": 5.5638
+      },
+      {
+        "ThrustOmegaMinCoeff": 0.0024
+      },
+      {
+        "TorqueOmegaMinCoeff": 1.0
+      },
+      {
+        "TorqueZeroOmegaMult": 3.0
+      },
+      {
+        "TurbineTimeConstant": 3.4
+      },
+      {
+        "Power": 2000.0
+      },
+      {
+        "ThrustMax": {
+          "ThrustMax0": 2700.0
+        }
       }
-    },
+    ],
     "Propellor": {
       "AllowAutoProp": false,
       "IsControllable": true,

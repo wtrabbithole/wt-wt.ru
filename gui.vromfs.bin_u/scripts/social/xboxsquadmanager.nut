@@ -139,6 +139,8 @@
     return true
   }
 
+  needProceedSquadInvitesAccept = @() needCheckSquadInvites && currentUsersListCache
+
   function isPlayerFromXboxSquadList(userXboxId = "")
   {
     checkAfterFlight()
@@ -298,6 +300,11 @@
   function onEventXboxInviteAccepted(p)
   {
     needCheckSquadInvites = true
+    if (::is_in_flight())
+    {
+      ::dagor.debug("XBOX SQUAD MANAGER: Event: XboxInviteAccepted: quit mission")
+      ::quit_mission()
+    }
   }
 }
 ::g_script_reloader.registerPersistentDataFromRoot("g_xbox_squad_manager")

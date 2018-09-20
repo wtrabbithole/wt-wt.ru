@@ -1,5 +1,5 @@
 local textInputBase = require("daRg/components/textInput.nut")
-local colors = require("../style/colors.nut")
+local colors = require("reactiveGui/style/colors.nut")
 
 
 local hudFrame = function(inputObj, group, sf) {

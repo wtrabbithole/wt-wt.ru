@@ -36,6 +36,8 @@ local time = require("scripts/time.nut")
     local cooldownTime = ::getTblValue("cooldownTime", actionItem)
     if (cooldownTime)
       res += "\n" + ::loc("shop/reloadTime") + " " + time.secondsToString(cooldownTime, true, true)
+    if (actionItem?.automatic)
+      res += "\n" + ::loc("actionBar/action/automatic")
     return res
   }
 
@@ -101,14 +103,19 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     }
   }
 
+  MORTAR = {
+    code = ::EII_MORTAR
+    _name = "mortar"
+    _icon = "#ui/gameuiskin#mortar"
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_MORTAR"
+  }
+
   ROCKET = {
     code = ::EII_ROCKET
     _name = "rocket"
     _icon = "#ui/gameuiskin#rocket"
     getShortcut = function(actionItem, unit = null)
     {
-      if (::is_helicopter(unit))
-        return "ID_ROCKETS_HELICOPTER"
       if (::is_submarine(unit))
         return "ID_SUBMARINE_WEAPON_ROCKETS"
       if (::isShip(unit))

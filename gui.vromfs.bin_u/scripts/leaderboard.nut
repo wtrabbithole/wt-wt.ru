@@ -88,15 +88,6 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
     diffCode = ::DIFFICULTY_REALISTIC
     reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
   }
-/*
-  {
-    // Ship Simulator Battles
-    text = "#missions/ship_event_simulator"
-    mode = "ship_simulation"
-    diffCode = ::DIFFICULTY_HARDCORE
-    reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
-  }
-*/
 ]
 
 function gui_modal_leaderboards(lb_presets = null)

@@ -2,14 +2,35 @@
   "root": {
     "active": true
   },
-  "unit": {
+  "simple_unit": {
     "_extends": "root",
+    "aim_component": {
+      "inited": false
+    },
     "unit_ref": {
       "id": -1
-    },
+    }
+  },
+  "unit": {
+    "_extends": "simple_unit",
     "unit_fire": [],
     "unit_fire_fx": [],
     "unit_extinguish": [],
+    "unit_crew": {
+      "inited": false
+    },
+    "unit_repair": {
+      "inited": false
+    },
+    "unit_fx": {
+      "inited": false
+    },
+    "fuel_tanks": {
+      "inited": false
+    },
+    "ammo_stowage": {
+      "inited": false
+    },
     "fire_damage": {
       "update_burn_interval": 1.0
     },
@@ -22,6 +43,15 @@
       "enabled_without_mod": true
     }
   },
+  "light_vehicle": {
+    "_extends": "simple_unit"
+  },
+  "fortification": {
+    "_extends": "simple_unit"
+  },
+  "simple_tank": {
+    "_extends": "simple_unit"
+  },
   "tank": {
     "_extends": "unit",
     "medicalkit": {
@@ -29,9 +59,15 @@
       "enabled_without_mod": false
     }
   },
+  "simple_ship": {
+    "_extends": "simple_unit"
+  },
   "ship": {
     "_extends": "unit",
     "extinguisher.enabled_without_mod": false
+  },
+  "helicopter": {
+    "_extends": "unit"
   },
   "weapon": {
     "_extends": "root",

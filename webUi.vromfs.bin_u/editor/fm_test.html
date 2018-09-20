@@ -208,9 +208,19 @@
       BASIC: 1,
       ADVANCED: 2
     }
-    
-    const INDICATION_FLAGS_NUM = 5
 
+    const IndicationFlag =
+    {
+      FORCES: 0,
+      AIRFRAME_GEOMETRY: 1,
+      COLLISION_GEOMETRY: 2,
+      FUEL: 3,
+      MESSAGES: 4,
+      DM_PART: 5,
+      ANIM_PART: 6,
+      MAX: 7
+    }
+    
     //State
     var state = {
       connected: true,
@@ -223,7 +233,7 @@
       },
       fmType: FmType.PLAYER,
       mouseAimImpl: ControlImpl.AUTO,
-      indicationFlags: [],
+      indicationFlags: [ false, false, false, false, true, false, false ],
       damagePartOfInterestId: -1,
       animPartOfInterestId: -1,
       playerFmLocked: false
@@ -965,13 +975,14 @@
         { name: 'C.P.',type: 'pressure', precision: 3 },
         { name: 'M.P.',type: 'pressure', precision: 3 },
         { name: 'RPM', type: 'rotationVelocity' },
+        { name: 'C.RPM', type: 'rotationVelocity' },
+        { name: 'Thri', type: 'ratio' },
         { name: 'Pwr.', type: 'power' },
         { name: 'Thrust', type: 'thrust' },
         { name: 'Pitch', type: 'angle', precision: 1 },
         { name: 'Eff.', type: 'ratio', precision: 2 },
-        { name: 'Head T', type: 'temperature' },
+        { name: 'Eng/Wtr T', type: 'temperature' },
         { name: 'Oil T', type: 'temperature' },
-        { name: 'Water T', type: 'temperature' },
         //Atmosphere
         { name: 'T', type: 'temperature', precision: 1 },
         { name: 'P', type: 'pressure', precision: 2 }
@@ -1760,7 +1771,7 @@
       }
 
       state.indicationFlags = data.indicationFlags
-      for (var i = 0; i < INDICATION_FLAGS_NUM; ++i)
+      for (var i = 0; i < IndicationFlag.MAX; ++i)
       {
         var checkBoxIndication = document.getElementById('CheckBoxIndication' + i)
         var value = i < state.indicationFlags.length && state.indicationFlags[i]
@@ -3270,17 +3281,20 @@
         <div class="tableheader"><b>Indication</b></div>
           <table class="left" width="100%">
             <tr>
-              <td class="left"><input type="checkbox" id="CheckBoxIndication0", onclick="setIndicationVisible(0, this)">Forces</td>
-              <td><input type="checkbox" id="CheckBoxIndication3", onclick="setIndicationVisible(3, this)">Damage Part</td>
+              <td class="left"><input type="checkbox" id="CheckBoxIndication0", onclick="setIndicationVisible(IndicationFlag.FORCES, this)">Forces</td>
+              <td><input type="checkbox" id="CheckBoxIndication3", onclick="setIndicationVisible(IndicationFlag.FUEL, this)">Fuel</td>
+              <td><input type="checkbox" id="CheckBoxIndication5", onclick="setIndicationVisible(IndicationFlag.DM_PART, this)">DM Part</td>
               <td><select id="ComboBoxDamagePartOfInterestId" onchange="setDamagePartOfInterestId(this)" style="width:100%"></td>
             </tr>
             <tr>
-              <td><input type="checkbox" id="CheckBoxIndication1", onclick="setIndicationVisible(1, this)">Geometry</td>
-              <td><input type="checkbox" id="CheckBoxIndication4", onclick="setIndicationVisible(4, this)">Anim Part</td>
+              <td><input type="checkbox" id="CheckBoxIndication1", onclick="setIndicationVisible(IndicationFlag.AIRFRAME_GEOMETRY, this)">Airframe</td>
+              <td class="left"><input type="checkbox" id="CheckBoxIndication4", onclick="setIndicationVisible(IndicationFlag.MESSAGES, this)">Messages</td>
+              <td><input type="checkbox" id="CheckBoxIndication6", onclick="setIndicationVisible(IndicationFlag.ANIM_PART, this)">Anim Part</td>
               <td><select id="ComboBoxAnimPartOfInterestId" onchange="setAnimPartOfInterestId(this)" style="width:100%"></td>
             </tr>
             <tr>
-              <td><input type="checkbox" id="CheckBoxIndication2", onclick="setIndicationVisible(2, this)">Fuel</td>
+              <td><input type="checkbox" id="CheckBoxIndication2", onclick="setIndicationVisible(IndicationFlag.COLLISION_GEOMETRY, this)">Collision</td>                          
+              <td></td>
               <td></td>
               <td></td>
             </tr>
@@ -3324,21 +3338,23 @@
       <td>O.Rad.</td>  
       <td>Mix.</td>  
       <td>Scr.P.</td>  
-      <td>Man.P.</td>  
-      <td>RPM</td>  
+      <td>Man.P.</td>
+      <td>RPM</td>
+      <td>C.RPM</td>
+      <td>Thri</td>  
       <td>Pwr.</td>  
       <td>Thrust</td>  
       <td>Pitch</td>  
       <td>Eff.</td>  
-      <td>Head T</td>  
-      <td>Oil T</td>  
-      <td>Water T</td>  
-      <td>T</td>  
+      <td>Eng/Wtr T</td> 
+      <td>Oil T</td>
+      <td>T</td>
       <td>P</td>
     </tr>
     <tr>
       <td><input type="button" id="AddFlightParamsSnapshoot" value="+" onClick="addFlightParamsSnapshoot()"></td>  
       <td>Current</td>  
+      <td>N/A</td>
       <td>N/A</td>
       <td>N/A</td>
       <td>N/A</td>

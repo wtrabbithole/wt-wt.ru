@@ -21,6 +21,14 @@ function assertf_once(id, msg)
   return ::dagor.assertf(false, msg)
 }
 
+function unreachable()
+{
+  local info = ::getstackinfos(2) // get calling function
+  local id = info?.src + ":" + info?.line + " (" + info?.func + ")"
+  local msg = "Entered unreachable code: " + id
+  script_net_assert_once(id, msg)
+}
+
 callback.setContextDbgNameFunction(function(context)
 {
   if (!u.isTable(context))

@@ -400,7 +400,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function createRoomHandler(roomData)
   {
     local obj = scene.findObject("menu_chat_custom_handler_block")
-    local roomHandler = roomData.type.loadCustomHandler(obj, roomData.id)
+    local roomHandler = roomData.type.loadCustomHandler(obj, roomData.id, ::Callback(goBack, this))
     roomHandlerWeak = roomHandler && roomHandler.weakref()
   }
 
@@ -1021,7 +1021,6 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         local cb = (!::checkObj(room.customScene))? null : (@(room) function() { afterReconnectCustomRoom(room.id) })(room)
         joinRoom(room.id, "", cb, null, null, true)
       }
-      ::checkSquadInvitesFromPS4Friends(false)
       updateRoomsList()
       ::broadcastEvent("ChatConnected")
     } else if (event == ::GCHAT_EVENT_DISCONNECTED)
@@ -1410,13 +1409,15 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
           if (room.id == db.sender.name)
           {
             local idxLast = db.message.find(">")
-            local message = null
             if ((db.message.slice(0,1)=="<") && (idxLast != null))
             {
               room.addMessage(menuChatRoom.newMessage(db.message.slice(1, idxLast), db.message.slice(idxLast+1), false, false, mpostColor))
             }
             else
               room.addMessage(menuChatRoom.newMessage("", db.message, false, false, xpostColor))
+
+            if ( room == curRoom )
+              updateChatText();
           }
     }
     else if (db.type == "groupchat" || db.type == "chat")
@@ -1452,7 +1453,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
         if (privateMsg)  //private message
         {
-          if (::isUserBlockedByPrivateSetting(db.userId, user))
+          if (::isUserBlockedByPrivateSetting(db.userId, user) ||
+              !platformModule.isChatEnableWithPlayer(user))
             return
 
           if (db.type == "chat")
@@ -2115,7 +2117,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     sendMessageToRoom(value, sceneData.room)
   }
 
-  function sendMessageToRoom(msg, roomId, isSystemMessage = false)
+  function sendMessageToRoom(msg, roomId)
   {
     ::last_send_messages.append(msg)
     if (::last_send_messages.len() > ::g_chat.MAX_LAST_SEND_MESSAGES)
@@ -2132,8 +2134,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (checkAndPrintDevoiceMsg(roomId))
       return
 
-    if (!isSystemMessage)
-      msg = ::g_chat.validateChatMessage(msg)
+    msg = ::g_chat.validateChatMessage(msg)
 
     local privateData = getPrivateData(msg, roomId)
     if (privateData)
@@ -2184,26 +2185,25 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!curRoom)
       return
 
-    if (::gchat_chat_private_message(::gchat_escape_target(curRoom.id), ::gchat_escape_target(data.user), data.msg))
-    {
-      if (needLocalEcho)
-        addRoomMsg(curRoom.id, data.user, data.msg, true, true)
+    if (!::gchat_chat_private_message(::gchat_escape_target(curRoom.id), ::gchat_escape_target(data.user), data.msg))
+      return
 
-      local blocked = ::isPlayerNickInContacts(data.user, ::EPL_BLOCKLIST)
-      if (blocked)
-        addRoomMsg(curRoom.id, "", format(::loc("chat/cantChatWithBlocked"), "<Link="+::g_chat.generatePlayerLink(data.user)+">"+data.user+"</Link>"))
-      else
-        if (data.user!=curRoom.id)
-        {
-          local userRoom = ::g_chat.getRoomById(data.user)
-          if (!userRoom)
-          {
-            addRoom(data.user)
-            updateRoomsList()
-          }
-          if (needLocalEcho)
-            addRoomMsg(data.user, data.user, data.msg, true, true)
-        }
+    if (needLocalEcho)
+      addRoomMsg(curRoom.id, ::my_user_name, data.msg, true, true)
+
+    local blocked = ::isPlayerNickInContacts(data.user, ::EPL_BLOCKLIST)
+    if (blocked)
+      addRoomMsg(curRoom.id, "", format(::loc("chat/cantChatWithBlocked"), "<Link="+::g_chat.generatePlayerLink(data.user)+">"+data.user+"</Link>"))
+    else if (data.user != curRoom.id)
+    {
+      local userRoom = ::g_chat.getRoomById(data.user)
+      if (!userRoom)
+      {
+        addRoom(data.user)
+        updateRoomsList()
+      }
+      if (needLocalEcho)
+        addRoomMsg(data.user, ::my_user_name, data.msg, true, true)
     }
   }
 
@@ -2587,8 +2587,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function showRoomPopup(msgBlock, roomId)
   {
-    ::g_popups.add(msgBlock.fullName() && msgBlock.fullName().len()? (msgBlock.fullName() + ":") : null,
-      msgBlock.lastMessage,
+    ::g_popups.add(msgBlock.fullName && msgBlock.fullName.len()? (msgBlock.fullName + ":") : null,
+      msgBlock.msgs.top(),
       @() ::g_chat.openChatRoom(roomId)
     )
   }
@@ -3053,3 +3053,4 @@ function isUserBlockedByPrivateSetting(uid = null, userName = "")
   return (privateValue && !::isPlayerInFriendsGroup(uid, checkUid, userName))
     || ::isPlayerNickInContacts(userName, ::EPL_BLOCKLIST)
 }
+

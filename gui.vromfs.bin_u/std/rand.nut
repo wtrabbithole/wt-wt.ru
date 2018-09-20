@@ -1,7 +1,7 @@
 local random = require("dagor.random")
 
 local rnd_seed = @() random.uint_noise1D(random.grnd(), random.get_rnd_seed()) //setting new rnd
-
+local DEFAULT_MAX_INT_RAND = 32767
 local Rand = class{
   _seed = null
   _count = null
@@ -22,6 +22,32 @@ local Rand = class{
     local start_ = ::min(end,start)
     local end_ = ::max(end,start)
     return ::clamp((random.uint_noise1D(_seed, _count).tofloat()/maxrnd*(end_-start_) + start_).tofloat(), start_, end_)
+  }
+
+  function _rfloat(seed, start=0.0, end=1.0, count=null){
+    if (type(seed)=="table") {
+      local params = seed
+      start=params?.start ?? start
+      end=params?.end ?? end
+      seed = params.seed
+      count = params?.count ?? count
+    }
+    local start_ = ::min(end,start)
+    local end_ = ::max(end,start)
+    return ::clamp((random.uint_noise1D(seed, count ?? seed).tofloat()/maxrnd*(end_-start_) + start_).tofloat(), start_, end_)
+  }
+
+  function _rint(seed, start=0, end=DEFAULT_MAX_INT_RAND, count=null){
+    if (type(seed)=="table") {
+      local params = seed
+      start=params?.start ?? start
+      end=params?.end ?? end
+      seed = params.seed
+      count = params?.count ?? count
+    }
+    local start_ = ::min(end,start)
+    local end_ = ::max(end,start)
+    return ::clamp((random.uint_noise1D(seed, count ?? seed).tofloat()/maxrnd*(end_-start_) + start_).tointeger(), start_, end_)
   }
 
   function rint(start=0, end = null) {
@@ -48,6 +74,10 @@ local Rand = class{
     }
     return(res)
   }
+
+  grnd = random.grnd
+  gauss_rnd = random.gauss_rnd
+  uint_noise1D = random.uint_noise1D
 }
 
 return Rand

@@ -1,6 +1,7 @@
 class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
+  sceneBlkName = null
   sceneTplName = "gui/promo/promoBlocks"
 
   blockId = "leftUnits"
@@ -20,51 +21,35 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
       parentHandlerWeak = parentHandlerWeak.weakref() //we are miss weakref on assigning from params table
 
     scene.setUserData(this) //to not unload handler even when scene not loaded
-    missionRules = ::g_mis_custom_state.getCurMissionRules()
+    scene.findObject(blockId).setUserData(this)
 
-    refreshScene()
+    updateInfo()
   }
 
-  function loadSceneOnce()
+  function getSceneTplView()
   {
     if (isSceneLoaded)
       return
 
     local view = {
-      promoButtons = []
+      promoButtons = [{
+        id = blockId
+        type = "autoWidth"
+        show = true
+        inputTransparent = true
+        needTextShade = true
+        showTextShade = true
+        collapsed = isCollapsed ? "yes" : "no"
+        timerFunc = "onUpdate"
+        needNavigateToCollapseButtton = true
+        needCollapsedTextAnimSwitch = true
+
+        fillBlocks = [{}]
+      }]
     }
 
-    local buttonData = {
-      id = blockId
-      type = "autoWidth"
-      inputTransparent = true
-      needTextShade = true
-      showTextShade = true
-      show = true
-      collapsed = isCollapsed ? "yes" : "no"
-      timerFunc = "onUpdate"
-      needNavigateToCollapseButtton = true
-      needCollapsedTextAnimSwitch = true
-
-      fillBlocks = [{}]
-    }
-
-    view.promoButtons.append(buttonData)
-
-    local data = ::handyman.renderCached(sceneTplName, view)
-    guiScene.replaceContentFromText(scene, data, data.len(), this)
     isSceneLoaded = true
-
-    scene.findObject(blockId).setUserData(this)
-  }
-
-  function refreshScene()
-  {
-    if (!missionRules.hasCustomUnitRespawns())
-      return
-
-    loadSceneOnce()
-    updateInfo()
+    return view
   }
 
   function getRespTextByUnitLimit(unitLimit)
@@ -76,7 +61,7 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
   {
     local data = missionRules.getFullUnitLimitsData()
     local textsList = ::u.map(data.unitLimits, getRespTextByUnitLimit)
-    textsList.insert(0, ::colorize("activeTextColor", ::loc("multiplayer/teamUnitsLeftHeader")))
+    textsList.insert(0, ::colorize("activeTextColor", ::loc(missionRules.customUnitRespawnsAllyListHeaderLocId)))
 
     if (missionRules.isEnemyLimitedUnitsVisible())
     {
@@ -84,7 +69,7 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
       if (enemyData.len())
       {
         local enemyTextsList = ::u.map(enemyData.unitLimits, getRespTextByUnitLimit)
-        textsList.append("\n" + ::colorize("activeTextColor", ::loc("multiplayer/enemyTeamUnitsLeftHeader")))
+        textsList.append("\n" + ::colorize("activeTextColor", ::loc(missionRules.customUnitRespawnsEnemyListHeaderLocId)))
         textsList.extend(enemyTextsList)
       }
     }
@@ -161,7 +146,12 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventMissionCustomStateChanged(p)
   {
-    doWhenActiveOnce("refreshScene")
+    doWhenActiveOnce("updateInfo")
+  }
+
+  function onEventMyCustomStateChanged(p)
+  {
+    doWhenActiveOnce("updateInfo")
   }
 
   function getMainFocusObj()

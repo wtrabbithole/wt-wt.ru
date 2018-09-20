@@ -64,7 +64,7 @@ local WwGlobalBattle = class extends ::WwBattle
       teamUnitsRemain.sort(@(a, b) a.wwUnitType.sortCode <=> b.wwUnitType.sortCode)
       foreach(unit in teamUnitsRemain)
         if (!unit.isControlledByAI())
-          ::u.appendOnce(unit.wwUnitType.code, teamUnitTypes)
+          u.appendOnce(unit.wwUnitType.code, teamUnitTypes)
 
       local teamInfo = {name = teamName
                         players = numPlayers

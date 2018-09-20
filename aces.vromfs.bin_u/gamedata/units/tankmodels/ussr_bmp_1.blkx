@@ -1696,49 +1696,6 @@
   {
     "commonWeapons": [
       {
-        "hideNodes": [
-          {
-            "node": "ex_lantern_02"
-          },
-          {
-            "node": "ex_decor_r_01"
-          },
-          {
-            "node": "ex_decor_l_01"
-          },
-          {
-            "node": "turret_01"
-          },
-          {
-            "node": "rocket_mount_02"
-          },
-          {
-            "node": "rocket_mount_03"
-          },
-          {
-            "node": "bone_turret_02"
-          },
-          {
-            "node": "bone_gun_02"
-          },
-          {
-            "node": "bone_rocket_02"
-          },
-          {
-            "node": "bone_gun_barrel_02"
-          },
-          {
-            "node": "gun_barrel_02"
-          },
-          {
-            "node": "gun_barrel_05"
-          },
-          {
-            "node": "ammo_turret_43"
-          }
-        ]
-      },
-      {
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/groundModels_weapons/73mm_2A28_user_cannon.blk",
@@ -1917,6 +1874,9 @@
           },
           {
             "breechDP": "gun_mask_01_dm"
+          },
+          {
+            "ammoDP": "gun_barrel_04_dm"
           },
           {
             "brokenBarrelAllowShoot": false
@@ -2176,6 +2136,7 @@
         },
         {
           "waterJet": {
+            "isDriven": true,
             "exhaustNode": "emtr_waterjet_l",
             "intake": [-1.25,0.4,0.85],
             "thrust": 19000.0,
@@ -2184,6 +2145,7 @@
         },
         {
           "waterJet": {
+            "isDriven": true,
             "exhaustNode": "emtr_waterjet_r",
             "intake": [-1.25,0.4,-0.85],
             "thrust": 19000.0,
@@ -2743,8 +2705,9 @@
       "zoomOutFov": 13.2,
       "zoomInFov": 12.2,
       "sightFov": 10.0,
+      "sightName": "1_pn_22m1",
       "headPos": [0.0,4.0,-8.0],
-      "headPosOnShooting": [-0.5,3.3,0.0],
+      "headPosOnShooting": [-0.7,3.0,-0.3],
       "detectionHeight": 2.068
     }
   },
@@ -2811,6 +2774,15 @@
     }
   },
   {
+    "skin": {
+      "name": "ussr_camo_finland_polygonal_threecolor",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_finland_polygonal_threecolor*"
+      }
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -2842,43 +2814,6 @@
         "effects": {
           "changeMass": 400.0,
           "commonWeapons": [
-            {
-              "hideNodes": [
-                {
-                  "node": "ex_decor_01"
-                },
-                {
-                  "node": "ex_lantern_02"
-                },
-                {
-                  "node": "gun_mask_01"
-                },
-                {
-                  "node": "rocket_mount"
-                },
-                {
-                  "node": "rocket_mount_01"
-                },
-                {
-                  "node": "ammo_turret_42"
-                },
-                {
-                  "node": "bone_gun_barrel_01"
-                },
-                {
-                  "node": "turret_03"
-                },
-                {
-                  "node": "hatch_11"
-                },
-                {
-                  "node": "gun_barrel_04"
-                },
-                {
-                  "node": "gun_barrel_03"
-                }
-              ]
-            },
             {
               "Weapon": {
                 "trigger": "gunner0",
@@ -3122,10 +3057,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -3168,6 +3103,84 @@
                 }
               ]
             }
+          ],
+          "hideNodes": [
+            {
+              "node": "ex_decor_01"
+            },
+            {
+              "node": "ex_lantern_02"
+            },
+            {
+              "node": "gun_mask_01"
+            },
+            {
+              "node": "rocket_mount"
+            },
+            {
+              "node": "rocket_mount_01"
+            },
+            {
+              "node": "ammo_turret_42"
+            },
+            {
+              "node": "bone_gun_barrel_01"
+            },
+            {
+              "node": "turret_03"
+            },
+            {
+              "node": "hatch_11"
+            },
+            {
+              "node": "gun_barrel_04"
+            },
+            {
+              "node": "gun_barrel_03"
+            }
+          ]
+        },
+        "disableModEffects": {
+          "hideNodes": [
+            {
+              "node": "ex_lantern_02"
+            },
+            {
+              "node": "ex_decor_r_01"
+            },
+            {
+              "node": "ex_decor_l_01"
+            },
+            {
+              "node": "turret_01"
+            },
+            {
+              "node": "rocket_mount_02"
+            },
+            {
+              "node": "rocket_mount_03"
+            },
+            {
+              "node": "bone_turret_02"
+            },
+            {
+              "node": "bone_gun_02"
+            },
+            {
+              "node": "bone_rocket_02"
+            },
+            {
+              "node": "bone_gun_barrel_02"
+            },
+            {
+              "node": "gun_barrel_02"
+            },
+            {
+              "node": "gun_barrel_05"
+            },
+            {
+              "node": "ammo_turret_43"
+            }
           ]
         }
       },
@@ -3175,139 +3188,156 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammo_turret_01_dm": {
-          "count": 1
-        },
-        "ammo_turret_02_dm": {
-          "count": 1
-        },
-        "ammo_turret_03_dm": {
-          "count": 1
-        },
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
-        },
-        "ammo_turret_06_dm": {
-          "count": 1
-        },
-        "ammo_turret_07_dm": {
-          "count": 1
-        },
-        "ammo_turret_08_dm": {
-          "count": 1
-        },
-        "ammo_turret_09_dm": {
-          "count": 1
-        },
-        "ammo_turret_10_dm": {
-          "count": 1
-        },
-        "ammo_turret_11_dm": {
-          "count": 1
-        },
-        "ammo_turret_12_dm": {
-          "count": 1
-        },
-        "ammo_turret_13_dm": {
-          "count": 1
-        },
-        "ammo_turret_14_dm": {
-          "count": 1
-        },
-        "ammo_turret_15_dm": {
-          "count": 1
-        },
-        "ammo_turret_16_dm": {
-          "count": 1
-        },
-        "ammo_turret_17_dm": {
-          "count": 1
-        },
-        "ammo_turret_18_dm": {
-          "count": 1
-        },
-        "ammo_turret_19_dm": {
-          "count": 1
-        },
-        "ammo_turret_20_dm": {
-          "count": 1
-        },
-        "ammo_turret_21_dm": {
-          "count": 1
-        },
-        "ammo_turret_22_dm": {
-          "count": 1
-        },
-        "ammo_turret_23_dm": {
-          "count": 1
-        },
-        "ammo_turret_24_dm": {
-          "count": 1
-        },
-        "ammo_turret_25_dm": {
-          "count": 1
-        },
-        "ammo_turret_26_dm": {
-          "count": 1
-        },
-        "ammo_turret_27_dm": {
-          "count": 1
-        },
-        "ammo_turret_28_dm": {
-          "count": 1
-        },
-        "ammo_turret_29_dm": {
-          "count": 1
-        },
-        "ammo_turret_30_dm": {
-          "count": 1
-        },
-        "ammo_turret_31_dm": {
-          "count": 1
-        },
-        "ammo_turret_32_dm": {
-          "count": 1
-        },
-        "ammo_turret_33_dm": {
-          "count": 1
-        },
-        "ammo_turret_34_dm": {
-          "count": 1
-        },
-        "ammo_turret_35_dm": {
-          "count": 1
-        },
-        "ammo_turret_36_dm": {
-          "count": 1
-        },
-        "ammo_turret_37_dm": {
-          "count": 1
-        },
-        "ammo_turret_38_dm": {
-          "count": 1
-        },
-        "ammo_turret_39_dm": {
-          "count": 1
-        },
-        "ammo_turret_40_dm": {
-          "count": 1
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": true,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_01_dm": {
+            "count": 1
+          },
+          "ammo_turret_02_dm": {
+            "count": 1
+          },
+          "ammo_turret_03_dm": {
+            "count": 1
+          },
+          "ammo_turret_04_dm": {
+            "count": 1
+          },
+          "ammo_turret_05_dm": {
+            "count": 1
+          },
+          "ammo_turret_06_dm": {
+            "count": 1
+          },
+          "ammo_turret_07_dm": {
+            "count": 1
+          },
+          "ammo_turret_08_dm": {
+            "count": 1
+          },
+          "ammo_turret_09_dm": {
+            "count": 1
+          },
+          "ammo_turret_10_dm": {
+            "count": 1
+          },
+          "ammo_turret_11_dm": {
+            "count": 1
+          },
+          "ammo_turret_12_dm": {
+            "count": 1
+          },
+          "ammo_turret_13_dm": {
+            "count": 1
+          },
+          "ammo_turret_14_dm": {
+            "count": 1
+          },
+          "ammo_turret_15_dm": {
+            "count": 1
+          },
+          "ammo_turret_16_dm": {
+            "count": 1
+          },
+          "ammo_turret_17_dm": {
+            "count": 1
+          },
+          "ammo_turret_18_dm": {
+            "count": 1
+          },
+          "ammo_turret_19_dm": {
+            "count": 1
+          },
+          "ammo_turret_20_dm": {
+            "count": 1
+          },
+          "ammo_turret_21_dm": {
+            "count": 1
+          },
+          "ammo_turret_22_dm": {
+            "count": 1
+          },
+          "ammo_turret_23_dm": {
+            "count": 1
+          },
+          "ammo_turret_24_dm": {
+            "count": 1
+          },
+          "ammo_turret_25_dm": {
+            "count": 1
+          },
+          "ammo_turret_26_dm": {
+            "count": 1
+          },
+          "ammo_turret_27_dm": {
+            "count": 1
+          },
+          "ammo_turret_28_dm": {
+            "count": 1
+          },
+          "ammo_turret_29_dm": {
+            "count": 1
+          },
+          "ammo_turret_30_dm": {
+            "count": 1
+          },
+          "ammo_turret_31_dm": {
+            "count": 1
+          },
+          "ammo_turret_32_dm": {
+            "count": 1
+          },
+          "ammo_turret_33_dm": {
+            "count": 1
+          },
+          "ammo_turret_34_dm": {
+            "count": 1
+          },
+          "ammo_turret_35_dm": {
+            "count": 1
+          },
+          "ammo_turret_36_dm": {
+            "count": 1
+          },
+          "ammo_turret_37_dm": {
+            "count": 1
+          },
+          "ammo_turret_38_dm": {
+            "count": 1
+          },
+          "ammo_turret_39_dm": {
+            "count": 1
+          },
+          "ammo_turret_40_dm": {
+            "count": 1
+          }
         }
       },
-      "special": {
-        "ammo_body_01_dm": {
-          "count": 1
-        },
-        "ammo_body_02_dm": {
-          "count": 1
-        },
-        "ammo_turret_41_dm": {
-          "count": 2
+      "ammo2": {
+        "weaponTrigger": "gunner2",
+        "removeLoadedAmmo": true,
+        "fatalFire": false,
+        "fatalExplosion": false,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_41_dm": {
+            "count": 2
+          },
+          "ammo_body_01_dm": {
+            "count": 1
+          },
+          "ammo_body_02_dm": {
+            "count": 1
+          }
         }
       }
     }

@@ -119,7 +119,11 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
           && (status != ::MISSION_STATUS_SUCCESS || !::isInArray(gm, [::GM_CAMPAIGN, ::GM_SINGLE_MISSION, ::GM_DYNAMIC, ::GM_TRAINING, ::GM_BUILDER]))
          )
       {
-        local txt = ::loc(::is_tank_interface() ? "flightmenu/btnLeaveTheTank" : "flightmenu/btnBailout")
+        local unit = ::get_player_cur_unit()
+        local locId = (unit?.isHelicopter?()) ? "flightmenu/btnBailoutHelicopter"
+          : ::is_tank_interface() ? "flightmenu/btnLeaveTheTank"
+          : "flightmenu/btnBailout"
+        local txt = ::loc(locId)
         if (!isMp && ::get_mission_restore_type() == ::ERT_ATTEMPTS)
         {
           local numLeft = ::get_num_attempts_left()
@@ -405,7 +409,11 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (::is_player_can_bailout())
     {
-      msgBox("question_bailout", ::loc(::is_tank_interface() ? "flightmenu/questionLeaveTheTank" : "flightmenu/questionBailout"),
+      local unit = ::get_player_cur_unit()
+      local locId = (unit?.isHelicopter?()) ? "flightmenu/questionBailoutHelicopter"
+        : ::is_tank_interface() ? "flightmenu/questionLeaveTheTank"
+        : "flightmenu/questionBailout"
+      msgBox("question_bailout", ::loc(locId),
         [
           ["yes", doBailout],
           ["no", selectBailoutBtn]

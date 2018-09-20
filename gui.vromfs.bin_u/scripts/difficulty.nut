@@ -62,7 +62,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     contentAllowedPresetOption = ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_ARCADE)
     abbreviation = "clan/shortArcadeBattle"
-    choiceType = ["AirAB", "TankAB"]
+    choiceType = ["AirAB", "TankAB", "ShipAB"]
     arcadeCountry = true
     hasRespawns = true
   }
@@ -83,7 +83,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     contentAllowedPresetOption = ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_REALISTIC)
     abbreviation = "clan/shortHistoricalBattle"
-    choiceType = ["AirRB", "TankRB"]
+    choiceType = ["AirRB", "TankRB", "ShipRB"]
     arcadeCountry = true
     hasRespawns = false
   }
@@ -105,7 +105,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     contentAllowedPresetOptionDefVal = "historical"
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_HARDCORE)
     abbreviation = "clan/shortFullRealBattles"
-    choiceType = ["AirSB", "TankSB"]
+    choiceType = ["AirSB", "TankSB", "ShipSB"]
     arcadeCountry = false
     hasRespawns = false
     isAvailable = function(gm = null) {

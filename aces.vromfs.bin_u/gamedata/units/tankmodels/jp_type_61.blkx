@@ -1663,8 +1663,8 @@
           "bullets": 2175,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2326,8 +2326,10 @@
       "zoomOutFov": 18.5,
       "zoomInFov": 9.2,
       "sightFov": 12.0,
+      "sightName": "type_61_direct_primary",
       "headPos": [0.0,3.5,-8.0],
-      "headPosOnShooting": [-0.4,3.3,0.6],
+      "headPosOnShooting": [-0.8,3.6,0.5],
+      "bone_turret": "bone_mg_aa_h_01",
       "detectionHeight": 2.5
     }
   },
@@ -2708,8 +2710,8 @@
                 "bullets": 2175,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2821,6 +2823,15 @@
       "replace_tex": {
         "from": "jp_camo_sdf_green*",
         "to": "jp_camo_post_winter*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "jp_camo_winter_late",
+      "replace_tex": {
+        "from": "jp_camo_sdf_green*",
+        "to": "jp_camo_winter_late*"
       }
     }
   }

@@ -196,6 +196,8 @@
 
     DebriefingBattleTasks = false
     PromoBattleTasksRadioButtons = false
+
+    XboxCrossConsoleInteraction = false
   }
 
   cache = {}

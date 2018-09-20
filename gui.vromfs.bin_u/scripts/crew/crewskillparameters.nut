@@ -149,12 +149,12 @@ function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew, di
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-function g_crew_skill_parameters::getColumnsTypesList(skillsList, unitType)
+function g_crew_skill_parameters::getColumnsTypesList(skillsList, crewUnitType)
 {
   local columnTypes = []
   foreach (columnType in ::g_skill_parameters_column_type.types)
   {
-    if (!columnType.checkUnitType(unitType))
+    if (!columnType.checkCrewUnitType(crewUnitType))
       continue
 
     foreach(skill in skillsList)
@@ -221,12 +221,13 @@ function g_crew_skill_parameters::getParametersByRequestType(crewId, skillsList,
   return res
 }
 
-function g_crew_skill_parameters::getSortedArrayByParamsTable(parameters, unitType)
+function g_crew_skill_parameters::getSortedArrayByParamsTable(parameters, crewUnitType)
 {
   local res = []
   foreach(name, valuesArr in parameters)
   {
-    if (unitType != ::ES_UNIT_TYPE_AIRCRAFT && name == "airfieldMinRepairTime")
+    if (crewUnitType == ::CUT_AIRCRAFT
+      && name == "airfieldMinRepairTime")
       continue
     res.append({
       name = name
@@ -244,14 +245,14 @@ function g_crew_skill_parameters::getSortedArrayByParamsTable(parameters, unitTy
 }
 
 function g_crew_skill_parameters::parseParameters(columnTypes,
-  currentParametersByRequestType, selectedParametersByRequestType, unitType)
+  currentParametersByRequestType, selectedParametersByRequestType, crewUnitType)
 {
   local res = []
   local currentParameters = currentParametersByRequestType[::g_skill_parameters_request_type.CURRENT_VALUES]
   if (!::u.isTable(currentParameters))
     return res
 
-  local paramsArray = getSortedArrayByParamsTable(currentParameters, unitType)
+  local paramsArray = getSortedArrayByParamsTable(currentParameters, crewUnitType)
   foreach (idx, paramData in paramsArray)
   {
     local parametersType = ::g_skill_parameters_type.getTypeByParamName(paramData.name)
@@ -282,11 +283,11 @@ function g_crew_skill_parameters::filterSkillsList(skillsList)
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty, notFilteredSkillsList, unitType)
+function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty, notFilteredSkillsList, crewUnitType)
 {
   local skillsList = filterSkillsList(notFilteredSkillsList)
 
-  local columnTypes = getColumnsTypesList(skillsList, unitType)
+  local columnTypes = getColumnsTypesList(skillsList, crewUnitType)
 
   //preparing full requestsList
   local fullRequestsList = [::g_skill_parameters_request_type.CURRENT_VALUES] //required for getting params list
@@ -309,7 +310,7 @@ function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty
 
   // Here goes generation of skill parameters cell values.
   local res = parseParameters(columnTypes,
-    currentParametersByRequestType, selectedParametersByRequestType, unitType)
+    currentParametersByRequestType, selectedParametersByRequestType, crewUnitType)
   // If no parameters added then hide table's header.
   if (res.len()) // Nothing but header row.
     res.insert(0, getSkillListHeaderRow(crew, columnTypes))
@@ -317,7 +318,7 @@ function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty
   return res
 }
 
-function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memberName, skillName, unitType)
+function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memberName, skillName, crewUnitType)
 {
   local skillsList = [{
     memberName = memberName
@@ -329,7 +330,7 @@ function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memb
     tooltipText = getTooltipText(memberName, skillName, crew, difficulty)
 
     // First item in this array is table's header.
-    parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, unitType)
+    parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, crewUnitType)
     footnoteText = ::loc("shop/all_info_relevant_to_current_game_mode")
       + ::loc("ui/colon") + difficulty.getLocName()
   }

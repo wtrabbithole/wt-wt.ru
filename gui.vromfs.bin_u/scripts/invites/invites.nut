@@ -61,16 +61,6 @@ function g_invites::addSessionRoomInvite(roomId, inviterUid, inviterName, passwo
                    })
 }
 
-function g_invites::addPsnSessionRoomInvite(params)
-{
-  return addInvite(::g_invites_classes.PsnSessionRoom, params)
-}
-
-function g_invites::addPsnSquadInvite(params)
-{
-  return addInvite(::g_invites_classes.PsnSquad, params)
-}
-
 function g_invites::addTournamentBattleInvite(battleId, inviteTime, startTime, endTime)
 {
   return addInvite(::g_invites_classes.TournamentBattle,
@@ -93,11 +83,6 @@ function g_invites::removeInviteToSquad(squadId)
   local invite = findInviteByUid(uid)
   if (invite)
     remove(invite)
-
-  local psnUid = ::g_invites_classes.PsnSquad.getUidByParams({squadId = squadId})
-  local psnSquadInvite = findInviteByUid(psnUid)
-  if (psnSquadInvite)
-    remove(psnSquadInvite)
 }
 
 function g_invites::addFriendInvite(name, uid)

@@ -119,6 +119,9 @@ function handlersManager::updatePostLoadCss()
   if (::get_dagui_pre_include_css_str() != cssStringPre)
   {
     ::set_dagui_pre_include_css_str(cssStringPre)
+    ::call_darg("updateHudSafeArea", {
+      safeAreaHud = safeAreaHud.getValue()
+    })
     haveChanges = true
   }
 

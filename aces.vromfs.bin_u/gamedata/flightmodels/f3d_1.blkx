@@ -30,6 +30,9 @@
     "overheatBlk": "gameData/FlightModels/dm/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -224,6 +227,9 @@
       },
       "steel": {
         "gear_c_dm": {
+          "hp": 39.5
+        },
+        "gear_2c_dm": {
           "hp": 39.5
         },
         "gear_l_dm": {
@@ -1039,6 +1045,42 @@
         "part": [
           {
             "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "gear_2c_dm"
           },
           {
             "onHit": {

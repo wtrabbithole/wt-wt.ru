@@ -304,11 +304,11 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local unitType = ::get_es_unit_type(unit)
+    local crewUnitType = unit.getCrewUnitType()
     local country  = ::getUnitCountry(unit)
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crewData, unit)
-    local isMaxLevel = ::g_crew.isCrewMaxLevel(crewData, country, unitType)
-    local crewLevelText = ::g_crew.getCrewLevel(crewData, unitType)
+    local isMaxLevel = ::g_crew.isCrewMaxLevel(crewData, country, crewUnitType)
+    local crewLevelText = ::g_crew.getCrewLevel(crewData, crewUnitType)
     if (isMaxLevel)
       crewLevelText += ::colorize("@commonTextColor",
                                   ::loc("ui/parentheses/space", { text = ::loc("options/quality_max") }))

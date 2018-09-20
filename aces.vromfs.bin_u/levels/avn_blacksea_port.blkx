@@ -36,22 +36,22 @@
     "gridSize": [16384.0,16384.0]
   },
   {
-    "aiTanksMapCoord0": [0.0,0.0]
+    "aiTanksMapCoord0": [-6150.0,150.0]
   },
   {
-    "aiTanksMapCoord1": [4096.0,4096.0]
+    "aiTanksMapCoord1": [11850.0,18150.0]
   },
   {
-    "tankMapCoord0": [0.0,0.0]
+    "tankMapCoord0": [-6150.0,150.0]
   },
   {
-    "tankMapCoord1": [4096.0,4096.0]
+    "tankMapCoord1": [11850.0,18150.0]
   },
   {
     "tankGridSteps": [205.0,205.0]
   },
   {
-    "tankGridSize": [4096.0,4096.0]
+    "tankGridSize": [18000.0,18000.0]
   },
   {
     "tankMapColorMult": "#fffff5c8"
@@ -120,7 +120,7 @@
   {
     "micro_details": [
       {
-        "micro_detail": "microdetail_stone_a_tex_n*"
+        "micro_detail": "microdetail_soil_a_tex_n*"
       },
       {
         "micro_detail": "microdetail_soil_b_tex_n*"
@@ -156,7 +156,7 @@
         "micro_detail": "microdetail_generic_granules_a_tex_n*"
       },
       {
-        "land_micro_details_uv_scale": 0.52
+        "land_micro_details_uv_scale": 0.12
       }
     ]
   },
@@ -167,10 +167,10 @@
       "land_bump_scale": -1.0,
       "water_color_noise_size": 1137.0,
       "max_river_width": 500.0,
-      "ocean_density": 0.2,
-      "river_density": 0.2,
-      "ocean0": [0.27,0.68,0.53,0.0],
-      "ocean1": [0.57,0.91,0.84,0.0],
+      "ocean_density": 0.85,
+      "river_density": 0.6,
+      "ocean0": [0.29,0.34,0.25,0.0],
+      "ocean1": [0.39,0.44,0.35,0.0],
       "river0": [0.5,0.35,0.12,0.0],
       "river1": [0.36,0.41,0.17,0.0]
     }
@@ -251,6 +251,9 @@
       },
       {
         "helicopterFalloff": 0.001
+      },
+      {
+        "blacksea_port_wild_isl_ground_tex_d": "mediterranean_port_det_wild_islands_ground_tex_grass_m"
       },
       {
         "blacksea_port_detailed_part_tex": "blacksea_port_detailed_part_tex_grass_m"
@@ -940,21 +943,7 @@
         "blacksea_main_cliff_a": {
           "lod0": 600.0,
           "lod1": 2200.0,
-          "lod2": 6200.0
-        }
-      },
-      {
-        "normandy_cliff_b": {
-          "lod0": 180.0,
-          "lod1": 280.0,
-          "lod2": 1200.0
-        }
-      },
-      {
-        "blacksea_rock_a": {
-          "lod0": 180.0,
-          "lod1": 280.0,
-          "lod2": 1200.0
+          "lod2": 20200.0
         }
       },
       {
@@ -3214,6 +3203,135 @@
   {
     "forceTexLQ": [
       {
+        "tex": "italy_port_small_rocks_tex_d*"
+      },
+      {
+        "tex": "italy_port_small_rocks_tex_n*"
+      },
+      {
+        "tex": "blacksea_main_cliff_a_tex_d*"
+      },
+      {
+        "tex": "blacksea_main_cliff_a_tex_n*"
+      },
+      {
+        "tex": "desert_soil_erosion_cliff_tex_n*"
+      },
+      {
+        "tex": "detail_asphalt_cracks_tex_r*"
+      },
+      {
+        "tex": "floating_pier_a_overlay*"
+      },
+      {
+        "tex": "ground_decal_battlefield_dirt_dark_tex_r*"
+      },
+      {
+        "tex": "nvrsk_town_buildings_overlay_a*"
+      },
+      {
+        "tex": "detail_asphalt_cracks_tex_d*"
+      },
+      {
+        "tex": "detail_asphalt_cracks_tex_r*"
+      },
+      {
+        "tex": "detail_dirt_tex_d*"
+      },
+      {
+        "tex": "detail_dirt_tex_r*"
+      },
+      {
+        "tex": "detail_ground_tex_d*"
+      },
+      {
+        "tex": "detail_ground_tex_r*"
+      },
+      {
+        "tex": "detail_grass_tex_d*"
+      },
+      {
+        "tex": "detail_grass_tex_r*"
+      },
+      {
+        "tex": "detail_grass_a_tex_d*"
+      },
+      {
+        "tex": "detail_grass_a_tex_r*"
+      },
+      {
+        "tex": "detail_grass_pebbles_tex_d*"
+      },
+      {
+        "tex": "detail_grass_pebbles_tex_r*"
+      },
+      {
+        "tex": "detail_jungle_grass_fields_tex_d*"
+      },
+      {
+        "tex": "detail_jungle_grass_fields_tex_r*"
+      },
+      {
+        "tex": "detail_rocks_tex_d*"
+      },
+      {
+        "tex": "detail_rocks_tex_r*"
+      },
+      {
+        "tex": "detail_sand_ground_tex_d*"
+      },
+      {
+        "tex": "detail_sand_ground_b_tex_r*"
+      },
+      {
+        "tex": "detail_sand_ground_tex_r*"
+      },
+      {
+        "tex": "detail_sett_cracked_tex_d*"
+      },
+      {
+        "tex": "detail_sett_cracked_tex_r*"
+      },
+      {
+        "tex": "karelia_stone_small_tex_d*"
+      },
+      {
+        "tex": "karelia_stone_small_tex_n*"
+      },
+      {
+        "tex": "blacksea_islands_border_sand_tex_d*"
+      },
+      {
+        "tex": "blacksea_islands_border_sand_tex_r*"
+      },
+      {
+        "tex": "blacksea_islands_border_stone_tex_d*"
+      },
+      {
+        "tex": "blacksea_islands_border_stone_tex_r*"
+      },
+      {
+        "tex": "blacksea_port_wild_isl_ground_tex_d*"
+      },
+      {
+        "tex": "mediterranean_stone_small_tex_d*"
+      },
+      {
+        "tex": "repair_ground_tex_d*"
+      },
+      {
+        "tex": "rock_spline_tex_d*"
+      },
+      {
+        "tex": "rock_spline_tex_r*"
+      },
+      {
+        "tex": "rock_spline_white_tex_d*"
+      },
+      {
+        "tex": "rock_spline_white_tex_r*"
+      },
+      {
         "tex": "stalingrad_fields_a*"
       },
       {
@@ -3254,9 +3372,6 @@
       },
       {
         "tex": "germ_town_buildings_overlay*"
-      },
-      {
-        "tex": "nvrsk_town_buildings_overlay_a*"
       },
       {
         "tex": "blacksea_port_detailed_part_tex*"

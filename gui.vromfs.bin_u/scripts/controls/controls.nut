@@ -6,6 +6,7 @@ local globalEnv = require_native("globalEnv")
 ::preset_changed <- false
 ::ps4ControlsModeActivatedParamName <- "ps4ControlsAdvancedModeActivated"
 ::hotas4_device_id <- "044F:B67B"
+::hotas_one_device_id <- "044F:B68C"
 
 /*  filter = ::USEROPT_HELPERS_MODE
   globalEnv.EM_MOUSE_AIM,
@@ -36,6 +37,7 @@ function get_favorite_voice_message_option(index)
 
 enum ConflictGroups {
   PLANE_FIRE,
+  HELICOPTER_FIRE,
   TANK_FIRE
 }
 
@@ -49,6 +51,11 @@ enum ConflictGroups {
   { id = "ID_PLANE_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.AIRCRAFT
+    unitClassTypes = [
+      ::g_unit_class_type.FIGHTER
+      ::g_unit_class_type.BOMBER
+      ::g_unit_class_type.ASSAULT
+    ]
     isHelpersVisible = true }
   { id = "ID_PLANE_MODE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="mouse_usage", type = CONTROL_TYPE.SPINNER
@@ -77,12 +84,20 @@ enum ConflictGroups {
     { id = "ID_FIRE_MGUNS",           conflictGroup = ConflictGroups.PLANE_FIRE }
     { id = "ID_FIRE_CANNONS",         conflictGroup = ConflictGroups.PLANE_FIRE }
     { id = "ID_FIRE_ADDITIONAL_GUNS", conflictGroup = ConflictGroups.PLANE_FIRE }
-    { id = "fire", type = CONTROL_TYPE.AXIS, checkAssign = false }
+    { id = "fire"
+      type = CONTROL_TYPE.AXIS
+      alternativeIds = [
+        "ID_FIRE_MGUNS"
+        "ID_FIRE_CANNONS"
+        "ID_FIRE_ADDITIONAL_GUNS"
+      ]
+    }
     { id = "ID_BAY_DOOR", checkAssign = false }
     "ID_BOMBS"
-    { id = "ID_BOMBS_SERIES", checkAssign = false }
+    { id = "ID_BOMBS_SERIES", alternativeIds = [ "ID_BOMBS" ] }
     "ID_ROCKETS",
-    { id = "ID_ROCKETS_SERIES", checkAssign = false }
+    { id = "ID_ROCKETS_SERIES", alternativeIds = [ "ID_ROCKETS" ] }
+    "ID_ATGM",
     { id = "ID_FUEL_TANKS",
       showFunc = @() ::has_feature("Payload"),
       checkAssign = false
@@ -211,7 +226,10 @@ enum ConflictGroups {
     }
   { id = "ID_PLANE_MECHANIZATION_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_IGNITE_BOOSTERS", reqInMouseAim = false, checkAssign = false }
-    { id="ID_FLAPS", reqInMouseAim = false }
+    { id = "ID_FLAPS"
+      reqInMouseAim = false
+      alternativeIds = [ "ID_FLAPS_DOWN", "ID_FLAPS_UP" ]
+    }
     { id="ID_FLAPS_DOWN", reqInMouseAim = false }
     { id="ID_FLAPS_UP", reqInMouseAim = false }
     { id="ID_AIR_BRAKE", reqInMouseAim = false }
@@ -221,8 +239,8 @@ enum ConflictGroups {
 
   { id = "ID_PLANE_GUNNERS_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_GUNNERS", checkAssign = false }
-    { id="turret_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM] }
-    { id="turret_y", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM] }
+    { id="turret_x", type = CONTROL_TYPE.AXIS, checkAssign = false, filterHide = [globalEnv.EM_MOUSE_AIM] }
+    { id="turret_y", type = CONTROL_TYPE.AXIS, checkAssign = false, filterHide = [globalEnv.EM_MOUSE_AIM] }
     { id="gunner_view_sens", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_GUNNER_VIEW_SENSE
       filterHide = [globalEnv.EM_MOUSE_AIM]
@@ -436,73 +454,181 @@ enum ConflictGroups {
 
   { id = "ID_HELICOPTER_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
-    unitType = ::g_unit_type.AIRCRAFT
-    unitTag = "helicopter"
+    unitType = ::g_unit_type.HELICOPTER
     showFunc = function() {
       local currentUnit = ::get_player_cur_unit()
-      return ::has_feature("Helicopters") ||
-        currentUnit && ::is_helicopter(currentUnit)
+      return ::has_feature("Helicopters") || currentUnit?.isHelicopter?()
     }
+    isHelpersVisible = true
   }
+  { id = "ID_HELICOPTER_MODE_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "mouse_usage_helicopter"
+      type = CONTROL_TYPE.SPINNER
+      optionType = ::USEROPT_MOUSE_USAGE
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id = "mouse_usage_no_aim_helicopter"
+      type = CONTROL_TYPE.SPINNER
+      showFunc = @() ::has_feature("SimulatorDifficulty") && (getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
+      optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id="instructor_enabled_helicopter"
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_INSTRUCTOR_ENABLED
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id="autotrim_helicopter"
+      type = CONTROL_TYPE.SWITCH_BOX
+      filterHide = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
+      optionType = ::USEROPT_AUTOTRIM
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id="ID_TOGGLE_INSTRUCTOR_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id="ID_CONTROL_MODE_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
+      checkAssign = false
+    }
+    { id="ID_FBW_MODE_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      filterShow = [globalEnv.EM_FULL_REAL]
+      checkAssign = false
+    }
+
   { id = "ID_HELICOPTER_AXES_HEADER"
     type = CONTROL_TYPE.SECTION
   }
-    { id = "helicopter_keep_height",
-      type = CONTROL_TYPE.SWITCH_BOX
-      optionType = ::USEROPT_HELICOPTER_KEEP_HEIGHT
-    }
-    { id = "helicopter_aim_move",
-      type = CONTROL_TYPE.SWITCH_BOX
-      optionType = ::USEROPT_HELICOPTER_AIM_MOVE
-      onChangeValue = "doControlsGroupChangeDelayed"
-    }
-    { id = "ID_FORWARD_HELICOPTER"
-      checkGroup = ctrlGroups.HELICOPTER
-      checkAssign = false
-    }
-    { id = "ID_BACKWARD_HELICOPTER"
-      checkGroup = ctrlGroups.HELICOPTER
-      checkAssign = false
-    }
-    { id = "helicopter_throttle"
+    { id = "helicopter_collective"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
     }
-    { id = "helicopter_roll"
+    { id = "helicopter_holdThrottleForWEP"
+      type = CONTROL_TYPE.SWITCH_BOX,
+      value = @(joyParams) joyParams.holdThrottleForWEP
+      setValue = function(joyParams, objValue) {
+        local old = joyParams.holdThrottleForWEP
+        joyParams.holdThrottleForWEP = objValue
+        if (objValue != old)
+          ::set_controls_preset("");
+      }
+    }
+    { id = "helicopter_climb"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.HELICOPTER
+      filterShow = [ globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR ]
+    }
+    { id = "helicopter_cyclic_roll"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       def_relative = false
       reqInMouseAim = false
     }
-    { id = "helicopter_pitch"
+    { id = "helicopter_cyclic_pitch"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       def_relative = false
       checkAssign = false
     }
-    { id = "helicopter_yaw"
+    { id = "helicopter_pedals"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       def_relative = false
       checkAssign = false
+    }
+    { id = "helicopter_cyclic_roll_sens"
+      type = CONTROL_TYPE.SLIDER
+      filterHide = [ globalEnv.EM_MOUSE_AIM ]
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_HELICOPTER_CYCLIC_ROLL_MULTIPLIER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_HELICOPTER_CYCLIC_ROLL_MULTIPLIER, objValue / 100.0)
+    }
+    { id = "helicopter_cyclic_pitch_sens"
+      type = CONTROL_TYPE.SLIDER
+      filterHide = [ globalEnv.EM_MOUSE_AIM ]
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_HELICOPTER_CYCLIC_PITCH_MULTIPLIER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_HELICOPTER_CYCLIC_PITCH_MULTIPLIER, objValue / 100.0)
+    }
+    { id = "helicopter_pedals_sens"
+      type = CONTROL_TYPE.SLIDER
+      filterHide = [ globalEnv.EM_MOUSE_AIM ]
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_HELICOPTER_PEDALS_MULTIPLIER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_HELICOPTER_PEDALS_MULTIPLIER, objValue / 100.0)
     }
 
   { id = "ID_HELICOPTER_FIRE_HEADER"
     type = CONTROL_TYPE.SECTION
   }
-    { id = "helicopter_aim_fire",
-      type = CONTROL_TYPE.SWITCH_BOX
-      optionType = ::USEROPT_HELICOPTER_AIM_FIRE
-      showFunc = @() checkOptionValue("helicopter_aim_move", false)
-    }
-    { id = "ID_FIRE_HELICOPTER"
+    { id = "ID_FIRE_MGUNS_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
+      conflictGroup = ConflictGroups.HELICOPTER_FIRE
+    }
+    { id = "ID_FIRE_CANNONS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      conflictGroup = ConflictGroups.HELICOPTER_FIRE
+    }
+    { id = "ID_FIRE_ADDITIONAL_GUNS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      conflictGroup = ConflictGroups.HELICOPTER_FIRE
+    }
+    { id = "helicopter_fire"
+      checkGroup = ctrlGroups.HELICOPTER
+      alternativeIds = [
+        "ID_FIRE_MGUNS_HELICOPTER"
+        "ID_FIRE_CANNONS_HELICOPTER"
+        "ID_FIRE_ADDITIONAL_GUNS_HELICOPTER"
+      ]
+      type = CONTROL_TYPE.AXIS
+    }
+    { id = "ID_BOMBS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+    }
+    { id = "ID_BOMBS_SERIES_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      alternativeIds = [ "ID_BOMBS_HELICOPTER" ]
     }
     { id = "ID_ROCKETS_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
     }
-    { id = "ID_MISSLE_HELICOPTER"
+    { id = "ID_ROCKETS_SERIES_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
+      alternativeIds = [ "ID_ROCKETS_HELICOPTER" ]
+    }
+    { id = "ID_WEAPON_LOCK_HELICOPTER",
+      checkGroup = ctrlGroups.HELICOPTER
+      showFunc = @() ::has_feature("Missiles"),
+      checkAssign = false
+    }
+    { id = "ID_ATGM_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+    }
+    { id = "helicopter_atgm_aim_x"
+      checkGroup = ctrlGroups.HELICOPTER
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+    }
+    { id = "helicopter_atgm_aim_y"
+      checkGroup = ctrlGroups.HELICOPTER
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+    }
+    { id = "atgm_aim_sens_helicopter"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER, objValue / 100.0)
+    }
+    {
+      id = "ID_CHANGE_SHOT_FREQ_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
     }
 
   { id = "ID_HELICOPTER_VIEW_HEADER"
@@ -512,7 +638,44 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
     }
-    { id = "ID_TARGETING_HOLD_HELICOPTER"
+    { id = "ID_LOCK_TARGETING_AT_POINT_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER,
+      checkAssign = false
+    }
+    { id = "ID_CAMERA_FPS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_CAMERA_TPS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_CAMERA_VIRTUAL_FPS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_CAMERA_GUNNER_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_TARGET_CAMERA_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_AIM_CAMERA_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+      condition = @() ::is_ps4_or_xbox
+    }
+    { id = "target_camera_helicopter"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+      condition = @() ::is_ps4_or_xbox
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
+    { id = "helicopter_zoom"
+      type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
     }
@@ -540,6 +703,74 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
     }
+    { id = "aim_time_nonlinearity_helicopter", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_HELICOPTER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_HELICOPTER, objValue / 100.0)
+    }
+    { id = "aim_acceleration_delay_helicopter", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_HELICOPTER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_HELICOPTER, objValue / 100.0)
+    }
+    { id = "mouse_z_helicopter", type = CONTROL_TYPE.MOUSE_AXIS
+      axis_num = MouseAxis.MOUSE_SCROLL_HELICOPTER
+      values = ["none", "helicopter_collective", "helicopter_climb", "helicopter_zoom"]
+      onChangeValue = "onMouseWheel"
+      showFunc = @() !::is_platform_xboxone
+    }
+    { id = "mouse_z_mult_helicopter"
+      type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_HELICOPTER_MULT)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_HELICOPTER_MULT, objValue / 100.0)
+      showFunc = @() !::is_platform_xboxone
+    }
+
+  { id = "ID_HELICOPTER_INSTRUCTOR_HEADER"
+    type = CONTROL_TYPE.SECTION
+    filterShow = [ globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR ]
+  }
+    { id = "instructor_ground_avoidance_helicopter"
+      type = CONTROL_TYPE.SWITCH_BOX
+      filterShow = [ globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR ]
+      optionType = ::USEROPT_INSTRUCTOR_GROUND_AVOIDANCE
+    }
+    { id = "instructor_gear_control_helicopter"
+      type = CONTROL_TYPE.SWITCH_BOX
+      filterShow = [ globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR ]
+      optionType = ::USEROPT_INSTRUCTOR_GEAR_CONTROL
+    }
+    { id = "instructor_engine_control_helicopter"
+      type = CONTROL_TYPE.SWITCH_BOX
+      filterShow = [ globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR ]
+      optionType = ::USEROPT_INSTRUCTOR_ENGINE_CONTROL
+    }
+    { id = "instructor_simple_joy_helicopter"
+      type = CONTROL_TYPE.SWITCH_BOX
+      filterShow = [ globalEnv.EM_INSTRUCTOR ]
+      optionType = ::USEROPT_INSTRUCTOR_SIMPLE_JOY
+    }
+
+  { id = "ID_HELICOPTER_OTHER_HEADER"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "ID_GEAR_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_TOGGLE_COCKPIT_DOOR_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_TOGGLE_COCKPIT_LIGHTS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_TOGGLE_COLLIMATOR_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+      filterShow = [globalEnv.EM_FULL_REAL]
+    }
 
 
   { id = "ID_TANK_CONTROL_HEADER"
@@ -556,6 +787,10 @@ enum ConflictGroups {
     { id="ID_TOGGLE_TRANSMISSION_MODE_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="gm_throttle", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK }
     { id="gm_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK }
+    { id="ID_SHORT_BRAKE"
+      checkGroup = ctrlGroups.TANK
+      checkAssign = false
+    }
     { id="gm_brake_left"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.TANK
@@ -607,6 +842,11 @@ enum ConflictGroups {
     }
     {
       id = "ID_SMOKE_SCREEN_GENERATOR"
+      checkGroup = ctrlGroups.TANK
+      checkAssign = false
+    }
+    {
+      id = "ID_CHANGE_SHOT_FREQ"
       checkGroup = ctrlGroups.TANK
       checkAssign = false
     }
@@ -690,7 +930,6 @@ enum ConflictGroups {
       checkAssign = false
       showFunc = @() ::has_feature("ActiveScouting")
     }
-
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_RELOAD_USER_SIGHT_GM", checkGroup = ctrlGroups.TANK,
@@ -715,6 +954,7 @@ enum ConflictGroups {
       optionType = ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP
       onChangeValue = "doControlsGroupChangeDelayed"
     }
+
     { id = "ship_main_engine",
       type = CONTROL_TYPE.AXIS,
       def_relative = true,
@@ -738,6 +978,11 @@ enum ConflictGroups {
     { id="ship_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP }
     {
       id = "ID_SHIP_FULL_STOP",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+    {
+      id = "ID_SINGLE_SHOT_SHIP",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
@@ -788,6 +1033,7 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
+
     {
       id = "ID_SHIP_TORPEDO_SIGHT"
       checkGroup = ctrlGroups.SHIP
@@ -813,6 +1059,12 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
+    {
+      id = "ship_bullet_fall_indicator",
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_BULLET_FALL_INDICATOR_SHIP
+    }
+
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP }
@@ -1080,9 +1332,14 @@ enum ConflictGroups {
     { id="ID_LOCK_TARGET",       checkGroup = ctrlGroups.COMMON }
     { id="ID_PREV_TARGET",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_NEXT_TARGET",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
+
+    // Use last chat mode, but can not be renamed to "ID_TOGGLE_CHAT" for compatibility reasons
     { id="ID_TOGGLE_CHAT_TEAM",  checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
+    // Use CO_ALL chat mode, but can not be renamed to "ID_TOGGLE_CHAT_ALL" for compatibility reasons
     { id="ID_TOGGLE_CHAT",       checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
-    { id="ID_TOGGLE_CHAT_MODE",  checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
+    { id="ID_TOGGLE_CHAT_PARTY", checkGroup = ctrlGroups.COMMON, checkAssign = false }
+    { id="ID_TOGGLE_CHAT_SQUAD", checkGroup = ctrlGroups.COMMON, checkAssign = false }
+    { id="ID_TOGGLE_CHAT_MODE",  checkGroup = ctrlGroups.COMMON, checkAssign = false }
 
     { id="ID_PTT", checkGroup = ctrlGroups.COMMON, checkAssign = false,
       condition = @() ::gchat_is_voice_enabled()
@@ -1428,6 +1685,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_BAY_DOOR",
   "ID_BOMBS",
   "ID_ROCKETS",
+  "ID_ATGM",
   "ID_SENSOR_SWITCH",
   "ID_SENSOR_MODE_SWITCH",
   "ID_SENSOR_SCAN_PATTERN_SWITCH",
@@ -1522,6 +1780,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_WEAPON_DEPTH_CHARGE"
   "ID_SHIP_WEAPON_ROCKETS"
   "ID_SHIP_WEAPON_MINE"
+  "ID_SHIP_WEAPON_MORTAR"
   "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -1557,25 +1816,33 @@ function get_shortcut_by_id(shortcutId)
 
 ::controlsHelp_shortcuts_helicopter <- [
   { id ="ID_BASIC_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
-  "ID_FIRE_HELICOPTER",
-  "ID_ROCKETS_HELICOPTER",
-  "ID_MISSLE_HELICOPTER",
-  "ID_FORWARD_HELICOPTER",
-  "ID_BACKWARD_HELICOPTER",
-  { id="helicopter_roll", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-  { id="helicopter_yaw", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-  { id="helicopter_throttle", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-  { id="helicopter_pitch", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  "ID_CONTROL_MODE_HELICOPTER"
+  { id="helicopter_collective", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="helicopter_cyclic_roll", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="helicopter_pedals", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="helicopter_cyclic_pitch", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  "ID_GEAR_HELICOPTER"
+  "ID_FIRE_MGUNS_HELICOPTER"
+  "ID_FIRE_CANNONS_HELICOPTER"
+  "ID_FIRE_ADDITIONAL_GUNS_HELICOPTER"
+  "ID_BOMBS_HELICOPTER"
+  "ID_ROCKETS_HELICOPTER"
+  "ID_ATGM_HELICOPTER"
 
   { id ="ID_VIEW_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
-  "ID_LOCK_TARGET",
-  "ID_TARGETING_HOLD_HELICOPTER",
-  "ID_TOGGLE_VIEW"
+  "ID_TOGGLE_VIEW_HELICOPTER"
+  "ID_CAMERA_FPS_HELICOPTER"
+  "ID_CAMERA_TPS_HELICOPTER"
+  "ID_CAMERA_GUNNER_HELICOPTER"
+  "ID_LOCK_TARGETING_AT_POINT_HELICOPTER"
+  "ID_TARGET_CAMERA_HELICOPTER"
+  "ID_LOCK_TARGET"
 
   { id ="ID_MISC_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   "ID_HELP"
-  "ID_TACTICAL_MAP", "ID_MPSTATSCREEN",
-  "ID_TOGGLE_CHAT_TEAM",
+  "ID_TACTICAL_MAP"
+  "ID_MPSTATSCREEN"
+  "ID_TOGGLE_CHAT_TEAM"
   "ID_SHOW_VOICE_MESSAGE_LIST"
   "ID_SHOW_VOICE_MESSAGE_LIST_SQUAD"
   "ID_HIDE_HUD"
@@ -1727,10 +1994,14 @@ function reset_default_control_settings()
   ::set_option_multiplier(::OPTION_AILERONS_MULTIPLIER,         0.79); //::USEROPT_AILERONS_MULTIPLIER
   ::set_option_multiplier(::OPTION_ELEVATOR_MULTIPLIER,         0.64); //::USEROPT_ELEVATOR_MULTIPLIER
   ::set_option_multiplier(::OPTION_RUDDER_MULTIPLIER,           0.43); //::USEROPT_RUDDER_MULTIPLIER
+  ::set_option_multiplier(::OPTION_HELICOPTER_CYCLIC_ROLL_MULTIPLIER,   0.79); //
+  ::set_option_multiplier(::OPTION_HELICOPTER_CYCLIC_PITCH_MULTIPLIER,  0.64); //
+  ::set_option_multiplier(::OPTION_HELICOPTER_PEDALS_MULTIPLIER,        0.43); //
   ::set_option_multiplier(::OPTION_ZOOM_SENSE,                  0); //::USEROPT_ZOOM_SENSE
   ::set_option_multiplier(::OPTION_MOUSE_SENSE,                 0.5); //::USEROPT_MOUSE_SENSE
   ::set_option_multiplier(::OPTION_MOUSE_AIM_SENSE,             0.5); //::USEROPT_MOUSE_AIM_SENSE
   ::set_option_multiplier(::OPTION_GUNNER_VIEW_SENSE,           1); //::USEROPT_GUNNER_VIEW_SENSE
+  ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER,    1);
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,     0.1); //mouseJoystickDeadZone
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE,   0.6); //mouseJoystickScreenSize
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY,  2); //mouseJoystickSensitivity
@@ -1739,14 +2010,16 @@ function reset_default_control_settings()
   ::set_option_multiplier(::OPTION_CAMERA_SMOOTH,               0); //
   ::set_option_multiplier(::OPTION_CAMERA_SPEED,                1.13); //
   ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED,          4); //
-  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR,   0.0); //
-  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK,  0.0); //
-  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP,  0.0); //
+  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR,        0.0); //
+  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_HELICOPTER, 0.0); //
+  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK,       0.0); //
+  ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP,       0.0); //
   ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SUBMARINE,  0.0); //
-  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR,  0.5); //
-  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_TANK, 0.5); //
-  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SHIP, 0.5); //
-  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SUBMARINE, 0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR,        0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_HELICOPTER, 0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_TANK,       0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SHIP,       0.5); //
+  ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_SUBMARINE,  0.5); //
 
   ::set_option_mouse_joystick_square(0); //mouseJoystickSquare
   ::set_option_gain(1); //::USEROPT_FORCE_GAIN
@@ -2145,30 +2418,36 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     controlsGroupsIdList = []
     local currentUnit = ::get_player_cur_unit()
     local unitType = ::g_unit_type.INVALID
+    local unitClassType = ::g_unit_class_type.UNKNOWN
     local unitTags = []
     if (curGroupId == "" && currentUnit)
     {
       unitType = currentUnit.unitType
+      unitClassType = currentUnit.expClass
       unitTags = ::getTblValue("tags", currentUnit, [])
     }
 
     for(local i=0; i < ::shortcutsList.len(); i++)
       if (::shortcutsList[i].type == CONTROL_TYPE.HEADER)
       {
-        if ("filterShow" in ::shortcutsList[i])
-          if (!isInArray(filter, ::shortcutsList[i].filterShow))
+        local header = ::shortcutsList[i]
+        if ("filterShow" in header)
+          if (!isInArray(filter, header.filterShow))
             continue
-        if ("showFunc" in ::shortcutsList[i])
-          if (!::shortcutsList[i].showFunc.bindenv(this)())
+        if ("showFunc" in header)
+          if (!header.showFunc.bindenv(this)())
             continue
 
-        controlsGroupsIdList.append(::shortcutsList[i].id)
-        if (unitType != ::g_unit_type.INVALID
-          && unitType == ::getTblValue("unitType", ::shortcutsList[i])
-          && (!("unitTag" in ::shortcutsList[i])
-            || ::isInArray(::shortcutsList[i].unitTag, unitTags)))
-          curGroupId = ::shortcutsList[i].id
-        if (::shortcutsList[i].id == curGroupId)
+        controlsGroupsIdList.append(header.id)
+        local isSuitable = unitType != ::g_unit_type.INVALID
+          && unitType == header?.unitType
+        if (isSuitable && "unitClassTypes" in header)
+          isSuitable = ::isInArray(unitClassType, header.unitClassTypes)
+        if (isSuitable && "unitTag" in header)
+          isSuitable = ::isInArray(header.unitTag, unitTags)
+        if (isSuitable)
+          curGroupId = header.id
+        if (header.id == curGroupId)
           curValue = controlsGroupsIdList.len()-1
       }
 
@@ -2555,9 +2834,13 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       if (optionId == ::USEROPT_HELPERS_MODE)
         continue
       local option = ::get_option(optionId)
-      local object = scene.findObject(option.id)
-      if (::checkObj(object) && object.getValue() != option.value)
-        object.setValue(option.value)
+      for (local i = 0; i < ::shortcutsList.len(); i++)
+        if (::shortcutsList[i]?.optionType == optionId)
+        {
+          local object = scene.findObject(::shortcutsList[i].id)
+          if (::checkObj(object) && object.getValue() != option.value)
+            object.setValue(option.value)
+        }
     }
 
     curJoyParams.mouseJoystick = ::getTblValue("mouseJoystick",
@@ -2745,15 +3028,14 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         ["yes", function() {
           if (askKeyboardDefault)
           {
-            msgBox("ask_kbd_type", ::loc("controls/askKeyboardWasdType"),
-            [
-              ["classic", function() {
-                applyChoosedPreset(::get_controls_preset_by_selected_type("classic").fileName)
-              }],
-              ["shooter", function() {
-                applyChoosedPreset(::get_controls_preset_by_selected_type("shooter").fileName)
-              }]
-            ], "classic")
+            local presetNames = ::recomended_control_presets
+            local presets = presetNames.map(@(name) [
+              name,
+              function() {
+                applyChoosedPreset(::get_controls_preset_by_selected_type(name).fileName)
+              }
+            ])
+            msgBox("ask_kbd_type", ::loc("controls/askKeyboardWasdType"), presets, "classic")
             return
           }
 
@@ -3060,22 +3342,21 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getUnmappedByGroups()
   {
-    local isHeaderVisible = true
-    local res = []
-    local resForHeader = null
+    local currentHeader = null
+    local unmapped = []
+    local mapped = {}
+
     foreach(item in ::shortcutsList)
     {
       if (item.type == CONTROL_TYPE.HEADER)
       {
-        isHeaderVisible = !("showFunc" in item) || item.showFunc.call(this)
+        local isHeaderVisible = !("showFunc" in item) || item.showFunc.call(this)
         if (isHeaderVisible)
-        {
-          if (resForHeader && resForHeader.list.len() > 0)
-            res.append(resForHeader)
-          resForHeader = {id = "hotkeys/" + item.id, list = []}
-        }
+          currentHeader = "hotkeys/" + item.id
+        else
+          currentHeader = null
       }
-      if (!isHeaderVisible || !item.checkAssign || item.isHidden || !resForHeader)
+      if (!currentHeader || item.isHidden || !item.checkAssign)
         continue
       if (filter == globalEnv.EM_MOUSE_AIM && !item.reqInMouseAim)
         continue
@@ -3084,32 +3365,74 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       {
         if ((item.shortcutId in shortcuts)
             && !::isShortcutMapped(shortcuts[item.shortcutId]))
-          resForHeader.list.append("hotkeys/" + shortcutNames[item.shortcutId])
+          unmapped.append({ item = item, header = currentHeader })
+        else if ("alternativeIds" in item)
+        {
+          mapped[item.id] <- true
+          foreach (alternativeId in item.alternativeIds)
+            mapped[alternativeId] <- true
+        }
       }
       else if (item.type == CONTROL_TYPE.AXIS)
       {
+        local isMapped = false
         if (::is_axis_mapped_on_mouse(item.id, filter, curJoyParams))
-          continue
+          isMapped = true
 
-        local axisId = item.axisIndex >= 0
-          ? curJoyParams.getAxis(item.axisIndex).axisId : -1
-        if (axisId < 0 && ("modifiersId" in item))
-            foreach(name in ["rangeMin", "rangeMax"])
-              if (name in item.modifiersId)
+        if (!isMapped)
+        {
+          local axisId = item.axisIndex >= 0
+            ? curJoyParams.getAxis(item.axisIndex).axisId : -1
+          if (axisId >= 0 || !("modifiersId" in item))
+            isMapped = true
+        }
+
+        if (!isMapped)
+          foreach(name in ["rangeMin", "rangeMax"])
+            if (name in item.modifiersId)
+            {
+              local id = item.modifiersId[name]
+              if (!(id in shortcuts) || ::isShortcutMapped(shortcuts[id]))
               {
-                local id = item.modifiersId[name]
-                if ((id in shortcuts) && !::isShortcutMapped(shortcuts[id]))
-                {
-                  local locName = "controls/" + item.axisName
-                  if (::find_in_array(resForHeader.list, locName) < 0)
-                    resForHeader.list.append(locName)
-                }
+                isMapped = true
+                break
               }
+            }
+
+        if (!isMapped)
+          unmapped.append({ item = item, header = currentHeader })
+        else if ("alternativeIds" in item)
+        {
+          mapped[item.id] <- true
+          foreach (alternativeId in item.alternativeIds)
+            mapped[alternativeId] <- true
+        }
       }
     }
-    if (resForHeader && resForHeader.list.len() > 0)
-      res.append(resForHeader)
-    return res
+
+    local unmappedByGroups = {}
+    local unmappedList = []
+    foreach(unmappedItem in unmapped)
+    {
+      local item = unmappedItem.item
+      if ("alternativeIds" in item || mapped?[item.id])
+        continue
+
+      local header = unmappedItem.header
+      local unmappedGroup = unmappedByGroups?[header]
+      if (!unmappedGroup)
+      {
+        unmappedGroup = { id = header, list = [] }
+        unmappedByGroups[header] <- unmappedGroup
+        unmappedList.append(unmappedGroup)
+      }
+
+      if (item.type == CONTROL_TYPE.SHORTCUT)
+        unmappedGroup.list.append("hotkeys/" + shortcutNames[item.shortcutId])
+      else if (item.type == CONTROL_TYPE.AXIS)
+        unmappedGroup.list.append("controls/" + item.axisName)
+    }
+    return unmappedList
   }
 
   function updateSliderValue(item)
@@ -3753,6 +4076,19 @@ function getLocalizedControlName(text) //used in client code for hud. see getRem
   return locText
 }
 
+function getLocalizedControlShortName(text)
+{
+  local locText = getLocalizedControlName(text)
+  local replaces = ::is_platform_xboxone ? [
+    [ "FirePrimary", "F1" ],
+    [ "FireSecondary", "F2" ],
+    [ "ExtraButton", "B" ]
+  ] : []
+  foreach (replace in replaces)
+    locText = ::stringReplace(locText, replace[0], replace[1])
+  return locText
+}
+
 function remapAxisName(text)
 {
   if (text == null)
@@ -4064,6 +4400,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   local unitId = unit.name
   local unitType = unit.unitType
+  local unitClassType = unit.expClass
 
   local actionBarShortcutFormat = null
 
@@ -4074,31 +4411,13 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   local preset = ::g_controls_manager.getCurPreset()
 
-  if (unitType == ::g_unit_type.AIRCRAFT
-    && ::isInArray("helicopter", ::getTblValue("tags", unit)))
+  if (unitType == ::g_unit_type.HELICOPTER)
   {
-    controls.append("helicopter_throttle")
-    controls.append("helicopter_roll")
-    controls.append("ID_FIRE_HELICOPTER")
-    controls.append("ID_ROCKETS_HELICOPTER")
-    controls.append("ID_MISSLE_HELICOPTER")
+    controls.append("helicopter_collective")
+    controls.append("helicopter_climb")
+    controls.append("helicopter_cyclic_roll")
 
-    local isHelicopterAimMove =
-      ::get_gui_option_in_mode(::USEROPT_HELICOPTER_AIM_MOVE, ::OPTIONS_MODE_GAMEPLAY)
-    local isHelicopterAimFire =
-      ::get_gui_option_in_mode(::USEROPT_HELICOPTER_AIM_FIRE, ::OPTIONS_MODE_GAMEPLAY)
-
-    if (!isHelicopterAimMove)
-    {
-      if (preset.getAxis("helicopter_pitch").axisId == -1)
-      {
-        controls.append("ID_FORWARD_HELICOPTER")
-        controls.append("ID_BACKWARD_HELICOPTER")
-      }
-      controls.append("helicopter_yaw")
-    }
-
-    if ((isHelicopterAimMove || isHelicopterAimFire) && ::is_xinput_device())
+    if (::is_xinput_device())
     {
       controls.append("helicopter_mouse_aim_x")
       controls.append("helicopter_mouse_aim_y")
@@ -4107,7 +4426,8 @@ function getRequiredControlsForUnit(unit, helpersMode)
     return controls;
   }
 
-  if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.SHIP)
+  if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.SHIP
+    || unitType == ::g_unit_type.HELICOPTER)
   {
     unitBlk = ::get_full_unit_blk(unitId)
     blkCommonWeapons = unitBlk.commonWeapons || ::DataBlock()
@@ -4123,7 +4443,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
     blkSensors = unitBlk.sensors
   }
 
-  if (unitType == ::g_unit_type.AIRCRAFT)
+  if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.HELICOPTER)
   {
     local fmBlk = ::get_fm_file(unitId, unitBlk)
     local unitControls = fmBlk.AvailableControls || ::DataBlock()
@@ -4221,7 +4541,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
     if (gotBombs || gotTorpedoes)
       controls.append("ID_BOMBS")
     if (gotRockets)
+    {
       controls.append("ID_ROCKETS")
+      controls.append("ID_ATGM")
+    }
     if (gotWeaponLock)
       controls.append("ID_WEAPON_LOCK")
     if (gotSensors)
@@ -4294,6 +4617,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
       {
         triggerGroup = "depth_charge"
         shortcuts = ["ID_SHIP_WEAPON_DEPTH_CHARGE"]
+      }
+      {
+        triggerGroup = "mortar"
+        shortcuts = ["ID_SHIP_WEAPON_MORTAR"]
       }
       {
         triggerGroup = "rockets"
@@ -4685,7 +5012,7 @@ function is_device_connected(devId = null)
     if (device.disconnected)
       continue
 
-    if (device.devId && device.devId == devId)
+    if (device.devId && device.devId.tolower() == devId.tolower())
       return true
   }
 
@@ -4694,35 +5021,54 @@ function is_device_connected(devId = null)
 
 function check_joystick_thustmaster_hotas(changePreset = true)
 {
-  if (!::is_platform_ps4 || !::g_login.isLoggedIn())
+  local deviceId =
+    ::is_platform_ps4 ? ::hotas4_device_id :
+    ::is_platform_xboxone ? ::hotas_one_device_id :
+    null
+
+  if (deviceId == null || !::g_login.isLoggedIn())
     return false
 
-  if (!::is_device_connected(::hotas4_device_id))
+  if (!::is_device_connected(deviceId))
     return false
 
-  return changePreset? ::ask_hotas4_preset_change() : true
+  return changePreset ? ::ask_hotas_preset_change() : true
 }
 
-function ask_hotas4_preset_change()
+function ask_hotas_preset_change()
 {
   if (::loadLocalByAccount("wnd/detectThrustmasterHotas", false))
     return
 
   local preset = ::g_controls_presets.getCurrentPreset()
-  if (preset.name.find("dualshock4") == null && preset.name.find("default") == null)
+  local is_ps4_non_gamepad_preset = ::is_platform_ps4
+    && preset.name.find("dualshock4") == null
+    && preset.name.find("default") == null
+  local is_xboxone_non_gamepad_preset = ::is_platform_xboxone
+    && preset.name.find("xboxone_ma") == null
+    && preset.name.find("xboxone_simulator") == null
+  if (is_ps4_non_gamepad_preset && is_xboxone_non_gamepad_preset)
   {
     ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
     return
   }
 
-  ::scene_msg_box("change_preset_hotas4", null,
-    ::loc("msgbox/controller_hotas4_found"),
+  local questionText =
+    ::is_platform_ps4 ? "msgbox/controller_hotas4_found" :
+    ::is_platform_xboxone ? "msgbox/controller_hotas_one_found" :
+    ::unreachable()
+
+  ::scene_msg_box("change_preset_hotas", null,
+    ::loc(questionText),
     [
       ["ok", function() {
-          ::apply_joy_preset_xchange(::g_controls_presets.getControlsPresetFilename("thrustmaster_hotas4"))
-          ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
-        }
-      ],
+        local presetName =
+          ::is_platform_ps4 ? "thrustmaster_hotas4" :
+          ::is_platform_xboxone ? "xboxone_thrustmaster_hotas_one" :
+          ::unreachable()
+        ::apply_joy_preset_xchange(::g_controls_presets.getControlsPresetFilename(presetName))
+        ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
+      }],
       ["cancel", function() {
         ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
       }]

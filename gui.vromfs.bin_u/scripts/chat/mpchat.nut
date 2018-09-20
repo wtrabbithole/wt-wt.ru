@@ -508,7 +508,7 @@ class ::ChatHandler
     playerContextMenu.showMenu(null, this, {
       playerName = playerName
       isMPChat = true
-      chatLog = getLogText()
+      chatLog = ingame_chat.getLogForBanhammer()
       canComplain = true
     })
   }
@@ -583,7 +583,7 @@ class ::ChatHandler
         ::loc(message.text))
 
     local text = ::g_chat.filterMessageText(message.text, message.isMyself)
-    if (!message.isMyself)
+    if (!message.isMyself && !message.isAutomatic)
     {
       if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
         text = ::g_chat.makeBlockedMsg(message.text)
@@ -593,11 +593,14 @@ class ::ChatHandler
 
     local senderColor = getSenderColor(message)
     local msgColor = getMessageColor(message)
+    local clanTag = ::get_player_tag(message.sender)
     local fullName = ::g_contacts.getPlayerFullName(
       platformModule.getPlayerName(message.sender),
-      ::get_player_tag(message.sender)
+      clanTag
     )
-
+    message.userColor = senderColor
+    message.msgColor = msgColor
+    message.clanTag = clanTag
     return ::format(
       "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
       timeString

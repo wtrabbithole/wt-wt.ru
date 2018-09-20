@@ -1,32 +1,35 @@
-local defStyling = require("textButton.style.nut")
+local defStyle = require("textButton.style.nut")
 local fa = require("fontawesome.map.nut")
 
-local function textColor(sf, style={}) {
-  local styling = mergeRecursive(defStyling, style)
+local function textColor(sf, style=null, isEnabled = true) {
+  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  if (!isEnabled) return styling.TextDisabled
   if (sf & S_ACTIVE)    return styling.TextActive
   if (sf & S_HOVER)     return styling.TextHover
   if (sf & S_KB_FOCUS)  return styling.TextFocused
-  return style.TextNormal
+  return styling.TextNormal
 }
 
-local function borderColor(sf, style={}) {
-  local styling = mergeRecursive(defStyling, style)
+local function borderColor(sf, style=null, isEnabled = true) {
+  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  if (!isEnabled) return styling.BdDisabled
   if (sf & S_ACTIVE)    return styling.BdActive
   if (sf & S_HOVER)     return styling.BdHover
   if (sf & S_KB_FOCUS)  return styling.BdFocused
   return styling.BdNormal
 }
 
-local function fillColor(sf, style={}) {
-  local styling = mergeRecursive(defStyling, style)
+local function fillColor(sf, style=null, isEnabled = true) {
+  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  if (!isEnabled) return styling.BgDisabled
   if (sf & S_ACTIVE)    return styling.BgActive
   if (sf & S_HOVER)     return styling.BgHover
   if (sf & S_KB_FOCUS)  return styling.BgFocused
-  return style.BgNormal
+  return styling.BgNormal
 }
 
-local function fillColorTransp(sf, style={}) {
-  local styling = mergeRecursive(defStyling, style)
+local function fillColorTransp(sf, style=null, isEnabled = true) {
+  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
   if (sf & S_ACTIVE)    return styling.BgActive
   if (sf & S_HOVER)     return styling.BgHover
   if (sf & S_KB_FOCUS)  return styling.BgFocused
@@ -35,44 +38,61 @@ local function fillColorTransp(sf, style={}) {
 
 
 local textButton = @(fill_color, border_width) function(text, handler, params={}) {
+  local isEnabled = params?.isEnabled ?? true
   local group = ::ElemGroup()
   local stateFlags = Watched(0)
-  local styling = params?.styling ?? defStyling
-  local btnMargin =  params?.margin ?? defStyling.btnMargin
-  local textMargin = params?.textMargin ?? defStyling.textMargin
+  local style = params?.style ?? defStyle
+  local btnMargin =  params?.margin ?? defStyle.btnMargin
+  local textMargin = params?.textMargin ?? defStyle.textMargin
 
-  local font = params.get("font", Fonts.medium_text)
-  local size = params.get("size", SIZE_TO_CONTENT)
-  local halign = params.get("halign", HALIGN_LEFT)
-  local valign = params.get("valign", VALIGN_MIDDLE)
-  local sound = params?.styling?.sound ?? {}
-  local builder = function(sf) {
+  local font = params?.font ?? Fonts.medium_text //!!FIX ME: why real font name in general library?
+  local size = params?.size ?? SIZE_TO_CONTENT
+  local halign = params?.halign ?? HALIGN_LEFT
+  local valign = params?.valign ?? VALIGN_MIDDLE
+  local sound = params?.style?.sound ?? {}
+  local function builder(sf) {
+    local hotkeys = null
+
+    if (params?.shortcut) {
+      hotkeys = [[params?.shortcut, handler]]
+    }
+
     return {
-      margin = params.get("margin", btnMargin)
-      key = params.get("key")
+      margin = params?.margin ?? btnMargin
+      key = ("key" in params) ? params.key : handler
 
       group = group
 
       rendObj = ROBJ_BOX
       size = size
-      fillColor = fill_color(sf, styling)
+      fillColor = fill_color(sf, style, isEnabled)
       borderWidth = border_width
+      borderRadius = hdpx(4)
       halign = halign
       valign = valign
-      borderColor = borderColor(sf, styling)
+      clipChildren = true
+      borderColor = borderColor(sf, style, isEnabled)
       sound = sound
 
       children = {
-        rendObj = ROBJ_STEXT
-        text = text
+        rendObj = ROBJ_DTEXT
+        text = (type(text)=="function") ? text() : text
+        scrollOnHover=true
+        delay = 0.5
+        speed = [hdpx(100),hdpx(700)]
+        size = SIZE_TO_CONTENT
+        maxWidth = pw(100)
+        ellipsis = false
         margin = textMargin
         font = font
         group = group
-        color = textColor(sf, styling)
-      }
+        behavior = [Behaviors.Marquee]
+        color = textColor(sf, style, isEnabled)
+      }.__update(params?.textParams ?? {})
 
       behavior = Behaviors.Button
-      onClick = handler
+      onClick = @() isEnabled ? handler() : null
+      hotkeys = hotkeys
     }.__update(params)
   }
 
@@ -81,13 +101,13 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
 
 
 local export = class{
-  Bordered = textButton(fillColor, 1)
-  Underline = textButton(fillColor, [0,0,1,0])
+  Bordered = textButton(fillColor, hdpx(1))
+  Underline = textButton(fillColor, [0,0,hdpx(1),0])
   Flat = textButton(fillColor, 0)
   Transp = textButton(fillColorTransp, 0)
-  FA =          @(fa_key, handler, params={}) Flat     (fa.get(fa_key,"N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
-  FA_Bordered = @(fa_key, handler, params={}) Bordered (fa.get(fa_key,"N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
-  FA_Transp   = @(fa_key, handler, params={}) Transp   (fa.get(fa_key,"N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
+  FA =          @(fa_key, handler, params={}) Flat     ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
+  FA_Bordered = @(fa_key, handler, params={}) Bordered ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
+  FA_Transp   = @(fa_key, handler, params={}) Transp   ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
 
   _call = @(self, text, handler, params={}) Flat(text, handler, params)
 }()

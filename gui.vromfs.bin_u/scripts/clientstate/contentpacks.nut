@@ -341,3 +341,44 @@ function check_speech_country_unit_localization_package_and_ask_download()
     "ok"
   )
 }
+
+function restart_to_launcher()
+{
+  if (::is_ps4_or_xbox)
+    return ::exit_game()
+  else if (::target_platform == "linux64")
+    return ::quit_and_run_cmd("./launcher -silentupdate")
+  else if (::target_platform == "macosx")
+    return ::quit_and_run_cmd("../../../../MacOS/launcher -silentupdate")
+  if (::is_platform_windows)
+  {
+    local exec = "launcher.exe -silentupdate";
+
+    return ::quit_and_run_cmd(exec)
+  }
+
+  dagor.debug("ERROR: restart_to_launcher action not implemented");
+}
+
+
+function error_load_model_and_restart(model)
+{
+  local _msg = ::loc("msgbox/no_package/info")
+  _msg = ::format(_msg, ::colorize("activeTextColor", model))
+
+  ::scene_msg_box(
+    "new_content",
+    null,
+    _msg,
+    [
+      [
+        "exit",
+        (function() {
+          ::restart_to_launcher()
+        })
+      ]
+    ],
+    "exit"
+  )
+
+}

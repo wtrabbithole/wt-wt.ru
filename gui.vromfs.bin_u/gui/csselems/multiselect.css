@@ -58,6 +58,11 @@ multiOptionText {
   font:@fontNormal;
 }
 
+multiOptionText[textStyle=textarea] {
+  behaviour:textArea;
+  re-type:textarea;
+}
+
 multiOption:hover,
 :hover > multiOptionText {
   color:@hoverTextColor;

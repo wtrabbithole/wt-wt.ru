@@ -1,22 +1,19 @@
-local styling = ::with_table({}, function() {
+local styling = {
   cursor = null
 
-
-  Root = class {
+  Root = {
     rendObj = ROBJ_SOLID
     color = Color(50,50,50,50)
     size = [sw(100), sh(50)]
     vplace = VALIGN_MIDDLE
   }
 
-
-  BgOverlay = class {
+  BgOverlay = {
     rendObj = ROBJ_SOLID
     size = [sw(100), sh(100)]
     color = Color(20, 20, 20, 150)
     behavior = Behaviors.Button
   }
-
 
   button = function(desc, on_click) {
     local buttonGrp = ::ElemGroup()
@@ -32,7 +29,7 @@ local styling = ::with_table({}, function() {
       margin = [sh(0.5), sh(1)]
 
       children = {
-        rendObj = ROBJ_STEXT
+        rendObj = ROBJ_DTEXT
         margin = sh(1)
         text = desc?.text ?? "???"
         group = buttonGrp
@@ -42,7 +39,6 @@ local styling = ::with_table({}, function() {
     }
   }
 
-
   messageText = function(params) {
     return {
       size = flex()
@@ -50,13 +46,12 @@ local styling = ::with_table({}, function() {
       valign = VALIGN_MIDDLE
       padding = [sh(2), 0]
       children = {
-        rendObj = ROBJ_STEXT
+        rendObj = ROBJ_DTEXT
         text = params?.text
       }
     }
   }
 
-})
-
+}
 
 return styling

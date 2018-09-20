@@ -69,8 +69,9 @@ root {
             <<#isOnlyInGame>>
             img {
               size:t='pw, pw'
-              background-image:t='#ui/gameuiskin#icon_primary_fail'
+              background-image:t='#ui/gameuiskin#icon_primary_fail.svg'
               background-repeat:t='aspect-ratio'
+              background-svg-size:t='pw, pw';
               tooltip:t='icon in game, but not found in resources'
             }
             <</isOnlyInGame>>

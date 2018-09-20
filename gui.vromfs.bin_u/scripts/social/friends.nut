@@ -134,7 +134,6 @@ function update_ps4_friends()
 function getPS4FriendsFromIndex(index)
 {
   local cb = function(response, error) {
-    debugTableData(response)
     if (error)
       return
     if (index == 0) // Initial chunk of friends from WebAPI

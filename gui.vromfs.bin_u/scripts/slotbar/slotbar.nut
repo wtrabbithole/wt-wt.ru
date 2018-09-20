@@ -46,7 +46,10 @@ function build_aircraft_item(id, air, params = {})
     return ::getTblValue(val, params, defVal)
   })(params)
 
-  if (air && !::isUnitGroup(air))
+  local showBR = ::getTblValue("showBR", params, ::has_feature("GlobalShowBattleRating"))
+  local curEdiff = ("getEdiffFunc" in params) ?  params.getEdiffFunc() : ::get_current_ediff()
+
+  if (air && !::isUnitGroup(air) && !air?.isFakeUnit)
   {
     local isLocalState        = getVal("isLocalState", true)
     local forceNotInResearch  = getVal("forceNotInResearch", false)
@@ -146,7 +149,7 @@ function build_aircraft_item(id, air, params = {})
     local forceCrewInfoUnit = params?.forceCrewInfoUnit
     local unitForCrewInfo = forceCrewInfoUnit || air
     local crewLevelText = crew && unitForCrewInfo
-      ? ::g_crew.getCrewLevel(crew, ::get_es_unit_type(unitForCrewInfo)).tointeger().tostring()
+      ? ::g_crew.getCrewLevel(crew, unitForCrewInfo.getCrewUnitType()).tointeger().tostring()
       : ""
     local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForCrewInfo).trainedIcon
 
@@ -221,9 +224,6 @@ function build_aircraft_item(id, air, params = {})
     local progressText = showProgress ? ::get_unit_item_research_progress_text(air, params, priceText) : ""
     local checkNotification = ::getTblValueByPath("entitlementUnits." + air.name, ::visibleDiscountNotifications)
 
-    local showBR = ::getTblValue("showBR", params, ::has_feature("GlobalShowBattleRating"))
-    local curEdiff = ("getEdiffFunc" in params) ?  params.getEdiffFunc() : ::get_current_ediff()
-
     local resView = {
       slotId              = "td_" + id
       slotInactive        = inactive
@@ -244,6 +244,7 @@ function build_aircraft_item(id, air, params = {})
       shopItemTextId      = id + "_txt"
       shopItemText        = ::get_slot_unit_name_text(air, params)
       progressText        = progressText
+      progressStatus      = showProgress? ::get_unit_item_progress_status(air, params) : ""
       progressBlk         = ::handyman.renderCached("gui/slotbar/airResearchProgress", airResearchProgressView)
       showInService       = getVal("showInService", false) && isUsable
       isMounted           = isMounted
@@ -295,8 +296,6 @@ function build_aircraft_item(id, air, params = {})
     local forceUnitNameOnPlate = false
 
     local era = getUnitRank(nextAir)
-    local showBR = ::getTblValue("showBR", params, ::has_feature("GlobalShowBattleRating"))
-    local curEdiff = ("getEdiffFunc" in params) ?  params.getEdiffFunc() : ::get_current_ediff()
 
     local isGroupUsable     = false
     local isGroupInResearch = false
@@ -471,6 +470,7 @@ function build_aircraft_item(id, air, params = {})
       shopItemTextId      = id + "_txt"
       shopItemText        = forceUnitNameOnPlate ? "#" + nextAir.name + "_shop" : "#shop/group/" + air.name
       progressText        = showProgress ? ::get_unit_item_research_progress_text(researchingUnit, params) : ""
+      progressStatus      = showProgress ? ::get_unit_item_progress_status(researchingUnit, params) : ""
       progressBlk         = ::handyman.renderCached("gui/slotbar/airResearchProgress", airResearchProgressView)
       showInService       = isGroupUsable
       priceText           = !showProgress && firstUnboughtUnit ? ::get_unit_item_price_text(firstUnboughtUnit, params) : ""
@@ -490,6 +490,31 @@ function build_aircraft_item(id, air, params = {})
       isGroupInactive     = inactive
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotGroup", groupSlotView)
+  }
+  else if (air?.isFakeUnit)  //fake unit slot
+  {
+    local isReqForFakeUnit = air?.isReqForFakeUnit ?? false
+    local isFakeAirRankOpen = get_units_count_at_rank(air?.rank,
+      ::g_unit_type.getByName(air.name, false).esUnitType,
+      air.country, true)
+    local bitStatus = isReqForFakeUnit ? bit_unit_status.disabled
+      : (isFakeAirRankOpen ? bit_unit_status.owned
+        : bit_unit_status.locked)
+    local nameForLoc = isReqForFakeUnit ? ::split(air.name, "_")?[0] : air.name
+    local fakeSlotView = {
+      slotId              = "td_" + id
+      slotInactive        = true
+      isSlotbarItem       = false
+      shopItemId          = id
+      unitName            = air.name
+      shopAirImg          = air.image
+      shopStatus          = ::getUnitItemStatusText(bitStatus, true)
+      unitRankText        = ::get_unit_rank_text(air, null, showBR, curEdiff)
+      shopItemTextId      = id + "_txt"
+      shopItemText        = ::loc("mainmenu/type_" + nameForLoc)
+      isItemDisabled      = bitStatus == bit_unit_status.disabled
+    }
+    res = ::handyman.renderCached("gui/slotbar/slotbarSlotFake", fakeSlotView)
   }
   else //empty air slot
   {
@@ -513,7 +538,7 @@ function build_aircraft_item(id, air, params = {})
       if (crew)
       {
         local crewLevelText = ::g_crew.getCrewLevel(crew,
-          ::get_es_unit_type(unitForCrewInfo)).tointeger().tostring()
+          unitForCrewInfo.getCrewUnitType()).tointeger().tostring()
         local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForCrewInfo).trainedIcon
 
         local crewLevelInfoView = { itemButtons = {
@@ -771,36 +796,39 @@ function get_unit_item_price_text(unit, params)
 
 function get_unit_item_research_progress_text(unit, params, priceText = "")
 {
-  local progressText = ""
-
   if (!::u.isEmpty(priceText))
-    return progressText
+    return ""
   if (!::canResearchUnit(unit))
-    return progressText
+    return ""
 
   local unitExpReq  = ::getUnitReqExp(unit)
   local unitExpCur  = ::getUnitExp(unit)
   if (unitExpReq <= 0 || unitExpReq <= unitExpCur)
-    return progressText
+    return ""
+
+  return ::Cost().setRp(unitExpReq - unitExpCur).tostring()
+}
+
+function get_unit_item_progress_status(unit, params)
+{
+  local flushExp = ::getTblValue("flushExp", params, 0)
+  local unitExpReq  = ::getUnitReqExp(unit)
+  local isFull = flushExp > 0 && flushExp >= unitExpReq
 
   local forceNotInResearch  = ::getTblValue("forceNotInResearch", params, false)
   local isVehicleInResearch = !forceNotInResearch && ::isUnitInResearch(unit)
 
-  progressText = ::Cost().setRp(unitExpReq - unitExpCur).tostring()
-
-  local flushExp = ::getTblValue("flushExp", params, 0)
-  local isFull = flushExp > 0 && flushExp >= unitExpReq
-
-  local color = isFull  ? "goodTextColor" :
-    isVehicleInResearch ? "cardProgressBonusColor" :
-                          ""
-  if (color != "")
-    progressText = ::colorize(color, progressText)
-  return progressText
+  return isFull ? "researched"
+         : isVehicleInResearch ? "research"
+           : ""
 }
 
 function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
 {
+  local isInFlight = ::is_in_flight()
+  if (isInFlight && ::g_mis_custom_state.getCurMissionRules().isWorldWar)
+    return ""
+
   if (::isUnitGroup(unit))
   {
     local isReserve = false
@@ -820,11 +848,18 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
       ::get_roman_numeral(rank)
   }
 
+  if (unit?.isFakeUnit)
+    return unit?.isReqForFakeUnit ? "" : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
+
   local isReserve = ::isUnitDefault(unit)
-  local isSpare = crew && ::is_in_flight() ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false
-  return isReserve ? (isSpare ? "" : ::g_string.stripTags(::loc("shop/reserve"))) :
-    showBR  ? ::format("%.1f", unit.getBattleRating(ediff)) :
-    ::get_roman_numeral(unit.rank)
+  local isSpare = crew && isInFlight ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false
+  return isReserve ?
+           isSpare ?
+             ""
+             : ::g_string.stripTags(::loc("shop/reserve"))
+         : showBR ?
+             ::format("%.1f", unit.getBattleRating(ediff))
+             : ::get_roman_numeral(unit.rank)
 }
 
 function updateAirStatus(obj, air)

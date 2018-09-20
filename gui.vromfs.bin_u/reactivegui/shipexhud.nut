@@ -4,6 +4,8 @@ local shipStateModule = require("shipStateModule.nut")
 local hudLogs = require("hudLogs.nut")
 local shipState = require("shipState.nut")
 local shellState = require("shellState.nut")
+local voiceChat = require("chat/voiceChat.nut")
+local screenState = require("style/screenState.nut")
 
 local style = {}
 
@@ -166,12 +168,16 @@ local ShipShellState = @() {
   ]
 }
 
-local shipHud = @() {
-  flow = FLOW_VERTICAL
-  margin = [sh(1), sh(1)] //keep gap for counters
-  gap = sh(1)
+local shipHud = @(){
   watch = networkState.isMultiplayer
+  size = [SIZE_TO_CONTENT, flex()]
+  margin = screenState.safeAreaSizeHud.value.borders
+  flow = FLOW_VERTICAL
+  valign = VALIGN_BOTTOM
+  halign = HALIGN_LEFT
+  gap = sh(1)
   children = [
+    voiceChat
     activeOrder
     networkState.isMultiplayer.value ? hudLogs : null
     shipStateModule
@@ -180,23 +186,18 @@ local shipHud = @() {
 
 local sensorsHud = @() {
   pos = [sw(60), 0]
+  size = flex()
+  valign = VALIGN_MIDDLE
   children = [
     ShipVertSpeed(style.lineBackground)
     ShipShellState
   ]
 }
 
-local drownHud = @() {
-  size = SIZE_TO_CONTENT
+return {
+  size = flex()
   children = [
     shipHud
     sensorsHud
   ]
-}
-
-
-return {
-  size = flex()
-  valign = VALIGN_BOTTOM
-  children = [drownHud]
 }

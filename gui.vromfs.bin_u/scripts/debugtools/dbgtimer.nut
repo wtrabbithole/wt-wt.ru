@@ -15,12 +15,15 @@
   timers = []
   profileIdx = -1
 
+  sqProfiler = require_optional("dagor.profiler")
+
   function start(profile = false)
   {
     if (profile && profileIdx < 0)
     {
       profileIdx = timers.len() + 1
-      ::console_command("sq.script_profile_start")
+      if (sqProfiler)
+        sqProfiler.start();
     }
     timers.append(::dagor.getCurTime())
   }
@@ -37,7 +40,8 @@
   {
     if (profileIdx >= timers.len())
     {
-      ::console_command("sq.script_profile_stop")
+      if (sqProfiler)
+        sqProfiler.stop();
       profileIdx = -1
     }
     show(msg)

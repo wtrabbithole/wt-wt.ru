@@ -30,29 +30,22 @@
     "mass": 6.95,
     "explosiveType": "tnt",
     "explosiveMass": 0.483,
-    "caliber": 0.076,
-    "timeFuseDistanceError": 50.0,
-    "selfDestructionInAir": true,
-    "explosionInAir": true,
-    "speed": 801.0,
+    "caliber": 0.0762,
+    "speed": 845.0,
     "maxDistance": 10000.0,
     "bulletType": "he_frag_tank",
-    "bulletName": "76mm_naval_he",
-    "hitPowerMult": 10.0,
+    "bulletName": "76mm_o_361k",
+    "hitPowerMult": 2.0,
     "nearHitPower": [1.0,50.0],
     "midHitPower": [0.9,300.0],
     "farHitPower": [0.1,700.0],
     "endHitPower": [0.008,1500.0],
     "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [12.0,150.0],
-    "midArmorPower": [11.0,600.0],
-    "farArmorPower": [10.5,1000.0],
+    "nearArmorPower": [21.5,150.0],
+    "midArmorPower": [21.0,600.0],
+    "farArmorPower": [20.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
-    "explodeTreshold": 0.3,
-    "explodeHitPower": 100.0,
-    "explodeArmorPower": 12.0,
-    "explodeRadius": [0.3,0.55],
-    "fuseDelayDist": 0.0,
+    "explodeTreshold": 0.1,
     "groundCollisionEffect": "art_ground_splash",
     "ricochetEffect": "cannon_ricochet",
     "groundFxScale": [0.6,0.7],
@@ -61,8 +54,8 @@
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "76mmGreen",
-      "trail": "thin"
+      "tracer": "76mmOrange",
+      "trail": "black"
     },
     "collisions": {
       "steel": {
@@ -89,29 +82,22 @@
       "mass": 6.95,
       "explosiveType": "tnt",
       "explosiveMass": 0.483,
-      "caliber": 0.076,
-      "timeFuseDistanceError": 50.0,
-      "selfDestructionInAir": true,
-      "explosionInAir": true,
-      "speed": 801.0,
+      "caliber": 0.0762,
+      "speed": 845.0,
       "maxDistance": 10000.0,
       "bulletType": "he_frag_tank",
-      "bulletName": "76mm_naval_he",
-      "hitPowerMult": 10.0,
+      "bulletName": "76mm_o_361k",
+      "hitPowerMult": 2.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,300.0],
       "farHitPower": [0.1,700.0],
       "endHitPower": [0.008,1500.0],
       "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [12.0,150.0],
-      "midArmorPower": [11.0,600.0],
-      "farArmorPower": [10.5,1000.0],
+      "nearArmorPower": [21.5,150.0],
+      "midArmorPower": [21.0,600.0],
+      "farArmorPower": [20.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.3,
-      "explodeHitPower": 100.0,
-      "explodeArmorPower": 12.0,
-      "explodeRadius": [0.3,0.55],
-      "fuseDelayDist": 0.0,
+      "explodeTreshold": 0.1,
       "groundCollisionEffect": "art_ground_splash",
       "ricochetEffect": "cannon_ricochet",
       "groundFxScale": [0.6,0.7],
@@ -120,8 +106,8 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "76mmGreen",
-        "trail": "thin"
+        "tracer": "76mmOrange",
+        "trail": "black"
       },
       "collisions": {
         "steel": {
@@ -146,21 +132,18 @@
   "76mm_ussr_34k_navy_AP": {
     "bullet": {
       "bulletCount": 25,
-      "mass": 6.3,
+      "mass": 6.5,
       "explosiveType": "tnt",
-      "explosiveMass": 0.15,
+      "explosiveMass": 0.119,
       "caliber": 0.0762,
-      "speed": 665.0,
+      "speed": 816.0,
       "maxDistance": 10000.0,
       "bulletType": "aphebc_tank",
-      "bulletName": "76mm_br_350a",
+      "bulletName": "76mm_br_361",
       "relativeVelHitShift": [300.0,1000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 0.15,
       "explodeTreshold": 10.0,
-      "explodeHitPower": 75.0,
-      "explodeArmorPower": 7.0,
-      "explodeRadius": [0.4,0.8],
+      "relativeVelArmorShift": [200.0,1000.0],
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [0.8,0.9],
       "ricochetEffect": "cannon_ricochet",
@@ -171,23 +154,24 @@
         "HitPower10000m": [0.8,10000.0]
       },
       "armorpower": {
-        "ArmorPower0m": [80.0,10.0],
-        "ArmorPower100m": [78.0,100.0],
-        "ArmorPower250m": [76.0,250.0],
-        "ArmorPower500m": [71.0,500.0],
-        "ArmorPower750m": [67.0,750.0],
-        "ArmorPower1000m": [63.0,1000.0],
-        "ArmorPower1250m": [59.0,1250.0],
-        "ArmorPower1500m": [56.0,1500.0],
-        "ArmorPower2000m": [50.0,2000.0],
-        "ArmorPower2500m": [44.0,2500.0],
-        "ArmorPower3000m": [39.0,3000.0],
+        "ArmorPower0m": [123.0,10.0],
+        "ArmorPower100m": [120.0,100.0],
+        "ArmorPower250m": [115.0,250.0],
+        "ArmorPower500m": [107.0,500.0],
+        "ArmorPower750m": [99.0,750.0],
+        "ArmorPower1000m": [91.0,1000.0],
+        "ArmorPower1250m": [85.0,1250.0],
+        "ArmorPower1500m": [79.0,1500.0],
+        "ArmorPower2000m": [70.0,2000.0],
+        "ArmorPower2500m": [63.0,2500.0],
+        "ArmorPower3000m": [56.0,3000.0],
+        "ArmorPower8000m": [2.0,8000.0],
         "ArmorPower10000m": [0.0,10000.0]
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "30mmWhite",
+        "tracer": "76mmYellow",
         "trail": "black"
       },
       "collisions": {
@@ -206,6 +190,63 @@
         "buildings": {
           "fx": "50_75_ap_hit_stone",
           "fxScale": [0.7,0.7]
+        }
+      }
+    }
+  },
+  "76mm_ussr_34k_distant_fuse_navy_HE": {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 6.61,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.182,
+      "caliber": 0.0762,
+      "timeFuseDistanceError": 50.0,
+      "selfDestructionInAir": true,
+      "explosionInAir": true,
+      "shellExplScale": 2.0,
+      "speed": 810.0,
+      "maxDistance": 10000.0,
+      "bulletType": "he_frag_dist_fuse",
+      "bulletName": "76mm_o_361d",
+      "hitPowerMult": 10.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [12.0,150.0],
+      "midArmorPower": [11.0,600.0],
+      "farArmorPower": [10.5,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "groundFxScale": [0.6,0.7],
+      "waterCollisionEffect": "water_splash_76_00_he",
+      "waterFxScale": [1.0,1.0],
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor",
+        "trail": "curved"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,2.5]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,2.5]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [2.1,2.1]
+        },
+        "buildings": {
+          "fx": "50_75_he_hit_stone",
+          "fxScale": [1.0,1.0]
         }
       }
     }

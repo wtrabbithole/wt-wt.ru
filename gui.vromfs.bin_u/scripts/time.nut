@@ -40,7 +40,8 @@ local getFullTimeTable = function(time, fillMissedByTimeTable = null) {
 
 
 local getDaysByTime = @(timeTbl) DAYS_TO_YEAR_1970 + ::get_t_from_utc_time(timeTbl) / TIME_DAY_IN_SECONDS
-local getUtcDays = @() DAYS_TO_YEAR_1970 + ::get_charserver_time_sec() / TIME_DAY_IN_SECONDS
+local getCharServerDays = @() ::get_charserver_time_sec() / TIME_DAY_IN_SECONDS
+local getUtcDays = @() DAYS_TO_YEAR_1970 + getCharServerDays()
 local cmpDate = @(timeTbl1, timeTbl2) ::get_t_from_utc_time(timeTbl1) <=> ::get_t_from_utc_time(timeTbl2)
 
 
@@ -297,6 +298,7 @@ local getExpireText = function(expireMin)
 timeBase.__update({
   getFullTimeTable = getFullTimeTable
   getDaysByTime = getDaysByTime
+  getCharServerDays = getCharServerDays
   getUtcDays = getUtcDays
   cmpDate = cmpDate
   buildDateTimeStr = buildDateTimeStr

@@ -6,6 +6,7 @@
   "type": "typeFighter",
   "paratrooper": "raf_para",
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
@@ -201,6 +202,9 @@
         "hp": 15.0
       },
       "mgun2_dm": {
+        "hp": 15.0
+      },
+      "mgun3_dm": {
         "hp": 15.0
       }
     },
@@ -987,6 +991,11 @@
     {
       "part": {
         "name": "mgun2_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "mgun3_dm"
       }
     },
     {
@@ -2005,6 +2014,16 @@
         "light": true,
         "spread": 1.0,
         "traceOffset": 1
+      }
+    },
+    {
+      "hideNodes": {
+        "node": "flare3"
+      }
+    },
+    {
+      "hideDmParts": {
+        "node": "mgun3_dm"
       }
     }
   ],

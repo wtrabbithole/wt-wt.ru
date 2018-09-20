@@ -25,6 +25,7 @@ animSizeObj { //place div
       background-color:t='<<color>>';
       background-image:t='<<icon>>';
       background-repeat:t='aspect-ratio';
+      background-svg-size:t='0.6pw, 0.6ph';
     }
     <</icon>>
 

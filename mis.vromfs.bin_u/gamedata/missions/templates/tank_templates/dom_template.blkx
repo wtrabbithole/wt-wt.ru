@@ -1089,10 +1089,13 @@
               "showOnMap": true
             },
             {
-              "offset": [0.0,0.0,0.0]
+              "radius": -1.0
             },
             {
-              "radius": -1.0
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "@t1_spawn_01_name"
@@ -1102,6 +1105,9 @@
             },
             {
               "team": "A"
+            },
+            {
+              "offset": [0.0,0.0,0.0]
             },
             {
               "tags": {
@@ -1143,10 +1149,13 @@
               "showOnMap": true
             },
             {
-              "offset": [0.0,0.0,0.0]
+              "radius": -1.0
             },
             {
-              "radius": -1.0
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "@t2_spawn_01_name"
@@ -1156,6 +1165,9 @@
             },
             {
               "team": "B"
+            },
+            {
+              "offset": [0.0,0.0,0.0]
             },
             {
               "tags": {
@@ -1195,7 +1207,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -1203,8 +1214,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_01_name",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -1216,7 +1230,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -1224,6 +1237,8 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_01_name",
             "team": "B",
             "tags": {
@@ -1238,9 +1253,17 @@
             "timeMultiplier": 1.5,
             "disableZone": false,
             "target": "@zone_01_name",
-            "canCaptureOnGround": false,
+            "canCaptureOnGround": true,
+            "playAirfieldSound": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "tags": {
+              "air": false,
+              "helicopter": true,
+              "type_attack_helicopter": true,
+              "type_utility_helicopter": true,
+              "tank": true
+            }
           }
         },
         {
@@ -1250,9 +1273,17 @@
             "timeMultiplier": 1.5,
             "disableZone": false,
             "target": "@zone_02_name",
-            "canCaptureOnGround": false,
+            "canCaptureOnGround": true,
+            "playAirfieldSound": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "tags": {
+              "air": false,
+              "helicopter": true,
+              "type_attack_helicopter": true,
+              "type_utility_helicopter": true,
+              "tank": true
+            }
           }
         },
         {
@@ -1262,9 +1293,17 @@
             "timeMultiplier": 1.5,
             "disableZone": false,
             "target": "@zone_03_name",
-            "canCaptureOnGround": false,
+            "canCaptureOnGround": true,
+            "playAirfieldSound": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "tags": {
+              "air": false,
+              "helicopter": true,
+              "type_attack_helicopter": true,
+              "type_utility_helicopter": true,
+              "tank": true
+            }
           }
         },
         {
@@ -1370,7 +1409,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -1378,8 +1416,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_02_name",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -1391,7 +1432,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -1399,8 +1439,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_02_name",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -1434,6 +1477,8 @@
           "killOutOfBattleArea": true,
           "target": "@battle_area_name",
           "newGridHorizontalCellCount": 0,
+          "killArea": false,
+          "detectionArea": false,
           "area": "@battle_area_name"
         }
       },

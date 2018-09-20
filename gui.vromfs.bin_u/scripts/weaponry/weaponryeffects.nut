@@ -271,10 +271,22 @@ enums.addTypes(effectsType, [
   { id = "waterMassVelTime",       measureType = "seconds", isInverted = true, presize = 0.1
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "speedYawK",              preset = "PERCENT_FLOAT"
+  { id = "mainSpeedYawK",          preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "speedPitchK",            preset = "PERCENT_FLOAT"
+  { id = "mainSpeedPitchK",        preset = "PERCENT_FLOAT"
+    canShowForUnit = @(unit) ::has_feature("Ships")
+  }
+  { id = "auxSpeedYawK",           preset = "PERCENT_FLOAT"
+    canShowForUnit = @(unit) ::has_feature("Ships")
+  }
+  { id = "auxSpeedPitchK",         preset = "PERCENT_FLOAT"
+    canShowForUnit = @(unit) ::has_feature("Ships")
+  }
+  { id = "aaSpeedYawK",            preset = "PERCENT_FLOAT"
+    canShowForUnit = @(unit) ::has_feature("Ships")
+  }
+  { id = "aaSpeedPitchK",          preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
   { id = "shipDistancePrecision",  preset = "PERCENT_FLOAT"

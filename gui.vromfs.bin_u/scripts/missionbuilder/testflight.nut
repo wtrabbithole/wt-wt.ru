@@ -45,7 +45,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     scene.findObject("btn_builder").setValue(::loc("mainmenu/btnBuilder"))
     showSceneBtn("btn_select", true)
 
-    needSlotbar = !::g_decorator.isPreviewingUgcSkin() && ::isUnitInSlotbar(unit)
+    needSlotbar = !::g_decorator.isPreviewingLiveSkin() && ::isUnitInSlotbar(unit)
     if (needSlotbar)
     {
       scene.findObject("wnd_frame").size = "1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar"
@@ -127,7 +127,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     options = [
       [::USEROPT_DIFFICULTY, "spinner"],
     ]
-    if (::isAircraft(unit))
+    if (::isAircraft(unit) || unit?.isHelicopter?())
     {
       options.append([::USEROPT_LIMITED_FUEL, "spinner"])
       options.append([::USEROPT_LIMITED_AMMO, "spinner"])
@@ -154,7 +154,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     ]
 
     options.extend(skin_options)
-    if (::isAircraft(unit))
+    if (::isAircraft(unit) || unit?.isHelicopter?())
       options.extend(aircraft_options)
 
     options.extend(common_options)

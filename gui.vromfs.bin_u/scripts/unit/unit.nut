@@ -1,7 +1,7 @@
 local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
+local contentPreview = require("scripts/customization/contentPreview.nut")
 
 local MOD_TIERS_COUNT = 4
 
@@ -49,6 +49,7 @@ local Unit = class
    isInShop = false
    reqAir = null //name of unit required by shop tree
    group = null //name of units group in shop
+   fakeReqUnits = null //[] or null when no required fake units
    showOnlyWhenBought = false
    showOnlyWhenResearch = false
    showOnlyIfPlayerHasUnlock = null //"" or null
@@ -226,6 +227,8 @@ local Unit = class
     isInShop = true
     reqAir = prevShopUnitName
     group = unitGroupName
+    if ("fakeReqUnitType" in shopUnitBlk)
+      fakeReqUnits = shopUnitBlk % "fakeReqUnitType"
 
     local isVisibleUnbought = !shopUnitBlk.showOnlyWhenBought
       && ::has_platform_from_blk_str(shopUnitBlk, "showByPlatform", true)
@@ -248,6 +251,7 @@ local Unit = class
   isAir                 = @() esUnitType == ::ES_UNIT_TYPE_AIRCRAFT
   isTank                = @() esUnitType == ::ES_UNIT_TYPE_TANK
   isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
+  isHelicopter          = @() esUnitType == ::ES_UNIT_TYPE_HELICOPTER
 
   getUnitWpCostBlk      = @() ::get_wpcost_blk()[name]
   isBought              = @() ::shop_is_aircraft_purchased(name)
@@ -256,6 +260,7 @@ local Unit = class
   getRentTimeleft       = @() ::rented_units_get_expired_time_sec(name)
   getRepairCost         = @() ::Cost(::wp_get_repair_cost(name))
   getCrewTotalCount     = @() getUnitWpCostBlk()?.crewTotalCount || 1
+  getCrewUnitType       = @() unitType.crewUnitType
 
   repair                = @(onSuccessCb = null) unitActions.repairWithMsgBox(this, onSuccessCb)
 
@@ -458,7 +463,7 @@ local Unit = class
   function doPreview()
   {
     if (canPreview())
-      ugcPreview.showUnitSkin(name)
+      contentPreview.showUnitSkin(name)
   }
 }
 

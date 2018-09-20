@@ -77,7 +77,7 @@ Button_text {
 
     memberIcon {
       id:t='member_icon_<<id>>'
-      pos:t='0, 2*@sf/@pf_outdated'; position:t='relative'
+      pos:t='0, 3@sf/@pf'; position:t='relative'
       border:t='yes'
       border-color:t='@black'
     }
@@ -95,26 +95,29 @@ Button_text {
 
         squadMemberStatus {
           id:t='member_ready_<<id>>'
-          margin-top:t='2*@sf/@pf_outdated'
         }
 
         squadMemberVoipStatus {
           id:t='member_voip_<<id>>'
-          margin-left:t='5@sf/@pf'
           isVoipActive:t='no'
+        }
 
-          <<#needHideVoice>>
-            display:t='hide'
-          <</needHideVoice>>
+        squadMemberCrossPlayStatus {
+          id:t='member_crossplay_active_<<id>>'
+          isEnabledCrossPlay:t='no'
+          hideEmptyText:t='yes'
+          <<#showCrossplayIcon>>
+            text:t='#icon/cross_play'
+          <</showCrossplayIcon>>
         }
       }
 
       tdiv {
         id:t='member_country_<<id>>'
-        pos:t='0, -1@dp'; position:t='relative'
+        pos:t='0, 13@sf/@pf'; position:t='absolute'
         size:t='@sIco, @sIco'
         background-svg-size:t='@cIco, @cIco'
-        bgcolor:t='#FFFFFF'
+        bgcolor:t='@white'
         background-image:t=''
       }
     }

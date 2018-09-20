@@ -223,17 +223,16 @@
       }
     },
     {
-      "preset": {
-        "param": "slopeEffectPreset",
-        "presets": "config/damageModel.blk:slopeEffectPresets",
-        "target": "ballistics/slopeEffect/table"
+      "extends": {
+        "source": "config/damageModel.blk:bulletTypes/default",
+        "target": ""
       }
     },
     {
       "preset": {
-        "param": "normalizationPreset",
-        "presets": "config/damageModel.blk:normalizationPresets",
-        "target": "ballistics/normalization/table"
+        "param": "slopeEffectPreset",
+        "presets": "config/damageModel.blk:slopeEffectPresets",
+        "target": "ballistics/slopeEffect/table"
       }
     },
     {
@@ -271,6 +270,30 @@
       "alias": {
         "param": "stabilityReductionAfterPenetration",
         "alias": "ballistics/stability/stabilityReductionAfterPenetration"
+      }
+    },
+    {
+      "alias": {
+        "param": "breakingCriticalSpeed",
+        "alias": "ballistics/breaking/breakingCriticalSpeed"
+      }
+    },
+    {
+      "alias": {
+        "param": "breakingArmorThickness",
+        "alias": "ballistics/breaking/breakingArmorThickness"
+      }
+    },
+    {
+      "alias": {
+        "param": "breakingArmorThicknessEffective",
+        "alias": "ballistics/breaking/breakingArmorThicknessEffective"
+      }
+    },
+    {
+      "alias": {
+        "param": "breakingDistance",
+        "alias": "ballistics/breaking/breakingDistance"
       }
     }
   ]

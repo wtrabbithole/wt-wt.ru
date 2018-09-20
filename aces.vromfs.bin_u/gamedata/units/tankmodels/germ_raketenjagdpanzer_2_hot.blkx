@@ -1094,8 +1094,8 @@
           "bullets": 2500,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1764,6 +1764,7 @@
       "sightFov": 8.0,
       "headPos": [0.0,3.2,-6.5],
       "headPosOnShooting": [0.0,3.1,0.0],
+      "bone_turret": "",
       "detectionHeight": 2.085
     }
   },
@@ -1771,7 +1772,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner1",
-        "removeLoadedAmmo": true,
+        "removeLoadedAmmo": false,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -1956,8 +1957,8 @@
                 "bullets": 2500,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2038,10 +2039,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -2121,6 +2122,15 @@
       "replace_tex": {
         "from": "ger_camo_bronzegruen*",
         "to": "ger_camo_carc*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_modern_threecolor",
+      "replace_tex": {
+        "from": "ger_camo_bronzegruen*",
+        "to": "ger_camo_modern_threecolor*"
       }
     }
   }

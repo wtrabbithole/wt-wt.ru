@@ -222,9 +222,6 @@ function g_chat::joinSquadRoom(callback)
 
   if (::menu_chat_handler)
     ::menu_chat_handler.joinRoom.call(::menu_chat_handler, name, password, callback)
-
-  if (::is_platform_ps4)
-    on_ps4_squad_room_joined()
 }
 
 function g_chat::leaveSquadRoom()

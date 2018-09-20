@@ -133,20 +133,20 @@ local speed = function () {
 
 local engine = dmModule({
   icon = images.engine
-  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  iconSize = [STATE_ICON_SIZE, STATE_ICON_SIZE]
   totalCountState = shipState.enginesCount
   brokenCountState = shipState.brokenEnginesCount
 })
 
 local transmission = dmModule({
   icon = images.transmission
-  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  iconSize = [STATE_ICON_SIZE, STATE_ICON_SIZE]
   totalCountState = shipState.transmissionCount
   brokenCountState = shipState.brokenTransmissionCount
 })
 local torpedo = dmModule({
   icon = images.torpedo
-  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  iconSize = [STATE_ICON_SIZE, STATE_ICON_SIZE]
   totalCountState = shipState.torpedosCount
   brokenCountState = shipState.brokenTorpedosCount
 })
@@ -156,19 +156,19 @@ local artillery = dmModule({
                    : art_type == TRIGGER_GROUP_MACHINE_GUN ? images.machineGun
                    : images.artillery
   iconWatch = shipState.artilleryType
-  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  iconSize = [STATE_ICON_SIZE, STATE_ICON_SIZE]
   totalCountState = shipState.artilleryCount
   brokenCountState = shipState.brokenArtilleryCount
 })
 local steeringGears = dmModule({
   icon = images.steeringGear
-  iconSize = [hdpx(30), hdpx(30)]
+  iconSize = [30, 30]
   totalCountState = shipState.steeringGearsCount
   brokenCountState = shipState.brokenSteeringGearsCount
 })
 
 
-local damageModules = {
+local damageModules = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   gap = sh(STATE_ICON_MARGIN)
@@ -184,6 +184,8 @@ local buoyancyIndicator = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   halign = HALIGN_CENTER
+  watch = shipState.buoyancy
+  opacity = shipState.buoyancy.value < 1.0 ? 1.0 : 0.0
   children = [
     @() {
       rendObj = ROBJ_DTEXT
@@ -199,7 +201,7 @@ local buoyancyIndicator = @() {
   ]
 }
 
-local stateBlock = {
+local stateBlock = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   children = [
@@ -270,7 +272,7 @@ local countCrewLeftPercent = @()
     crewState.aliveCrewMembersCount.value),
   0, 100)
 
-local crewBlock = {
+local crewBlock = @() {
   vplace = VALIGN_BOTTOM
   flow = FLOW_VERTICAL
   size = [hdpx(STATE_ICON_SIZE), SIZE_TO_CONTENT]
@@ -387,14 +389,16 @@ local fov = function (pivot) {
   }
 }
 
-local dollSize = [sh(16), sh(32)]
-local doll = {
-  color = Color(0, 255, 0)
-  size = dollSize
-  rendObj = ROBJ_XRAYDOLL
-  rotateWithCamera = false
+local doll = function() {
+  local dollSize = [sh(16), sh(32)]
+  return {
+    color = Color(0, 255, 0)
+    size = dollSize
+    rendObj = ROBJ_XRAYDOLL
+    rotateWithCamera = false
 
-  children = fov([dollSize[0]/2, (dollSize[1] + sh(4))/2])
+    children = fov([dollSize[0]/2, (dollSize[1] + sh(4))/2])
+  }
 }
 
 
@@ -413,7 +417,7 @@ local rightBlock = @() {
 }
 
 
-local shipStateDisplay = {
+local shipStateDisplay = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   halign = HALIGN_CENTER
@@ -433,7 +437,7 @@ local shipStateDisplay = {
 }
 
 
-return setHudBg({
+return @() setHudBg({
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   padding = hdpx(10)

@@ -237,7 +237,7 @@ function get_weapon_image(unitType, weaponBlk, costBlk)
       (weaponBlk != null ? weaponBlk.image : null) ||
       ""
   }
-  else if (unitType == ::ES_UNIT_TYPE_AIRCRAFT)
+  else if (::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]))
   {
     return (costBlk != null ? costBlk.image_aircraft : null) ||
       (weaponBlk != null ? weaponBlk.image_aircraft : null) ||

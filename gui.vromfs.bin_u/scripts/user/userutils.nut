@@ -1,3 +1,5 @@
+local crossplayModule = require("scripts/social/crossplay.nut")
+
 ::g_user_utils <- {}
 
 function g_user_utils::getMyStateData()
@@ -14,7 +16,8 @@ function g_user_utils::getMyStateData()
     selSlots = getSelSlotsTable(),
     brokenAirs = null,
     cyberCafeId = ::get_cyber_cafe_id()
-    unallowedEventsENames = ::events.getUnallowedEventEconomicNames()
+    unallowedEventsENames = ::events.getUnallowedEventEconomicNames(),
+    crossplay = crossplayModule.isCrossPlayEnabled()
   }
 
   local airs = getMyCrewAirsState(profileInfo)

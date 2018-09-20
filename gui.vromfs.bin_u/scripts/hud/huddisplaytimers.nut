@@ -8,7 +8,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "repair_status"
       color = "#787878"
-      icon = "#ui/gameuiskin#icon_repair_in_progress"
+      icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
       needTimeText = true
     },
     {
@@ -24,27 +24,27 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "rearm_primary_status"
       color = "@white"
-      icon = "#ui/gameuiskin#icon_weapons_in_progress"
+      icon = "#ui/gameuiskin#icon_weapons_in_progress.svg"
     },
     {
       id = "rearm_secondary_status"
       color = "@white"
-      icon = "#ui/gameuiskin#icon_weapons_in_progress"
+      icon = "#ui/gameuiskin#icon_weapons_in_progress.svg"
     },
     {
       id = "rearm_machinegun_status"
       color = "@white"
-      icon = "#ui/gameuiskin#icon_weapons_in_progress"
+      icon = "#ui/gameuiskin#icon_weapons_in_progress.svg"
     },
     {
       id = "rearm_rocket_status"
       color = "@white"
-      icon = "#ui/gameuiskin#icon_rocket_in_progress"
+      icon = "#ui/gameuiskin#icon_rocket_in_progress.svg"
     },
     {
       id = "rearm_smoke_status"
       color = "@white"
-      icon = "#ui/gameuiskin#icon_smoke_screen_in_progress"
+      icon = "#ui/gameuiskin#icon_smoke_screen_in_progress.svg"
     },
     {
       id = "driver_status"
@@ -72,7 +72,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "repair_breaches_status"
       color = "#787878"
-      icon = "#ui/gameuiskin#icon_repair_in_progress"
+      icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
       needTimeText = true
     },
     {
@@ -84,7 +84,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "cancel_repair_breaches_status"
       color = "#787878"
-      icon = "#ui/gameuiskin#icon_repair_in_progress"
+      icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
       needTimeText = true
     },
     {
@@ -106,7 +106,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "replenish_status"
       color = "@white"
-      icon = "#ui/gameuiskin#icon_weapons_relocation_in_progress"
+      icon = "#ui/gameuiskin#icon_weapons_relocation_in_progress.svg"
     }
   ]
 

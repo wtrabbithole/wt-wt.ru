@@ -1106,25 +1106,11 @@ function get_option(type, context = null)
       defaultValue = false
       break
 
-    case ::USEROPT_HELICOPTER_AIM_MOVE:
-      descr.id = "helicopterAimMove"
+    case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
+      descr.id = "bulletFallIndicatorShip"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      defaultValue = true
-      break
-
-    case ::USEROPT_HELICOPTER_AIM_FIRE:
-      descr.id = "helicopterAimFire"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      defaultValue = true
-      break
-
-    case ::USEROPT_HELICOPTER_KEEP_HEIGHT:
-      descr.id = "helicopterKeepHeight"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      defaultValue = true
+      defaultValue = false
       break
 
     ///_INSERT_OPTIONS_HERE_
@@ -3691,6 +3677,14 @@ function get_option(type, context = null)
       defaultValue = true
       break
 
+    case ::USEROPT_HUE_HELICOPTER_HUD:
+      gen_hue_option(descr, "color_picker_hue_helicopter_hud", 112, ::get_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD))
+      break;
+
+    case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
+      gen_hue_option(descr, "color_picker_hue_helicopter_hud_alert", 0, ::get_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT))
+      break;
+
     case ::USEROPT_SHOW_DESTROYED_PARTS:
       descr.id = "show_destroyed_parts"
       descr.controlType = optionControlType.CHECKBOX
@@ -4460,6 +4454,16 @@ function set_option(type, value, descr = null)
       ::set_gui_option(type, value)
       break
 
+    case ::USEROPT_HUE_HELICOPTER_HUD:
+      ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD, descr.values[value]);
+      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      break;
+
+    case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
+      ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT, descr.values[value]);
+      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      break;
+
     case ::USEROPT_ENABLE_CONSOLE_MODE:
       ::switch_show_console_buttons(value)
       break
@@ -4679,9 +4683,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_USE_KILLSTREAKS:
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
-    case ::USEROPT_HELICOPTER_AIM_MOVE:
-    case ::USEROPT_HELICOPTER_AIM_FIRE:
-    case ::USEROPT_HELICOPTER_KEEP_HEIGHT:
+    case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
@@ -4828,11 +4830,13 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
-      crossplayModule.setIsCrossPlayEnabled(value)
+      if (value != crossplayModule.isCrossPlayEnabled())
+        crossplayModule.setIsCrossPlayEnabled(value)
       break
 
     case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
-      crossplayModule.setIsCrossNetworkChatEnabled(value)
+      if (value != crossplayModule.isCrossNetworkChatEnabled())
+        crossplayModule.setIsCrossNetworkChatEnabled(value)
       break
 
     default:

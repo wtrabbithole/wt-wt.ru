@@ -23,16 +23,9 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     if (inviterName.len() != 0)
     {
       //Don't show invites from xbox players, as notification comes from system overlay
-      //Force quit to main menu.
       ::dagor.debug("InviteSquad: invitername != 0 " + platformModule.isPlayerFromXboxOne(inviterName))
       if (platformModule.isPlayerFromXboxOne(inviterName))
-      {
         setDelayed(true)
-
-        ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
-        if (haveRestrictions() && !::isInMenu())
-          ::quit_mission()
-      }
     }
     else
     {
@@ -40,15 +33,10 @@ class ::g_invites_classes.Squad extends ::BaseInvite
       local cb = ::Callback(function(r)
                             {
                               updateInviterContact()
-                              ::dagor.debug("InviteSquad: invitername == 0 " + platformModule.isPlayerFromXboxOne(inviterName))
+                              ::dagor.debug("InviteSquad: Callback: invitername == 0 " + platformModule.isPlayerFromXboxOne(inviterName))
                               if (platformModule.isPlayerFromXboxOne(inviterName))
                               {
                                 setDelayed(true)
-
-                                ::dagor.debug("InviteSquad: can quit mission = " + haveRestrictions() + " && " + ::is_in_flight())
-                                if (haveRestrictions() && !::isInMenu())
-                                  ::quit_mission()
-
                                 checkAutoAcceptXboxInvite()
                               }
                               else
@@ -83,7 +71,11 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
   function checkAutoAcceptXboxInvite()
   {
-    if (!::is_platform_xboxone || !leaderContact || (haveRestrictions() && !::isInMenu()))
+    if (!::is_platform_xboxone
+        || !leaderContact
+        || (haveRestrictions() && !::isInMenu())
+        || !::g_xbox_squad_manager.needProceedSquadInvitesAccept()
+      )
       return
 
     if (leaderContact.xboxId != "")
@@ -128,7 +120,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   {
     return ::loc("multiplayer/squad/invite/desc",
                  {
-                   name = getInviterName() || platformModule.getPlayerName(leaderId)
+                   name = getInviterName() || platformModule.getPlayerName(inviterName)
                  })
   }
 
@@ -136,12 +128,16 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   {
     return ::loc("multiplayer/squad/invite/desc",
                  {
-                   name = getInviterName() || platformModule.getPlayerName(leaderId)
+                   name = getInviterName() || platformModule.getPlayerName(inviterName)
                  })
   }
 
   function getRestrictionText()
   {
+    if (!isAvailableByCrossPlay())
+      return ::loc("xbox/crossPlayRequired")
+    if (!isAvailableByChatRestriction())
+      return ::loc("xbox/actionNotAvailableOnlinePrivacy")
     if (haveRestrictions())
       return ::loc("squad/cant_join_in_flight")
     return ""
@@ -150,6 +146,8 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   function haveRestrictions()
   {
     return !::g_squad_manager.canManageSquad()
+    || !isAvailableByCrossPlay()
+    || !isAvailableByChatRestriction()
   }
 
   function getIcon()

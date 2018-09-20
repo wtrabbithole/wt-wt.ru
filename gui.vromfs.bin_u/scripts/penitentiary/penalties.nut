@@ -62,7 +62,7 @@ local showBannedStatusMsgBox = function(showBanOnly = false) {
     return
   }
 
-  debugTableData(st, -1, "BAN ")
+  debugTableData(st, {recursionLevel = -1, addStr = "BAN "})
 
   local txt = ""
   local fn = function() {}
@@ -107,10 +107,15 @@ local showBannedStatusMsgBox = function(showBanOnly = false) {
   }
 }
 
+local isMeBanned = function() {
+  return penalty.getPenaltyStatus().status == penalty.BAN
+}
+
 
 local export = {
   getDevoiceMessage = getDevoiceMessage
   showBannedStatusMsgBox = showBannedStatusMsgBox
+  isMeBanned = isMeBanned
 }
 
 

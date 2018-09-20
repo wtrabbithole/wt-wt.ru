@@ -1215,7 +1215,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local obj = slot.obj.findObject("crew_level")
       if (::checkObj(obj))
       {
-        local crewLevelText = slot.unit ? ::g_crew.getCrewLevel(slot.crew, ::get_es_unit_type(slot.unit)).tointeger().tostring() : ""
+        local crewLevelText = slot.unit ? ::g_crew.getCrewLevel(slot.crew, slot.unit.getCrewUnitType()).tointeger().tostring() : ""
         obj.setValue(crewLevelText)
       }
 

@@ -1,6 +1,6 @@
-local u = ::require("std/u.nut")
 local stdSubscriptions = require("sqStdLibs/helpers/subscriptions.nut")
 local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
+local function isArray(v) {return type(v)=="array"}
 
 const SUBSCRPTIONS_LIST_ID = -123
 const SUBSCRIPTIONS_TO_CHECK_CLEAR = 10
@@ -44,7 +44,7 @@ local function addSubscription(subs, cb)
 
 local function subscribe(pathArray, cb)
 {
-  if (!u.isArray(pathArray.top()))
+  if (!isArray(pathArray.top()))
   {
     addSubscription(getSubscriptions(pathArray), cb)
     return
@@ -95,7 +95,7 @@ local function notifyChanged(pathArray)
   if (subList)
   {
     local lastKeys = pathArray.top()
-    if (!u.isArray(lastKeys))
+    if (!isArray(lastKeys))
       lastKeys = [lastKeys]
     foreach(key in lastKeys)
       if (key in subList)

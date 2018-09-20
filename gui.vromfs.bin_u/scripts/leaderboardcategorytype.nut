@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+
 enum LB_MODE
 {
   ARCADE           = 0x0001
@@ -15,7 +16,6 @@ enum LB_MODE
 
   SHIP_ARCADE      = 0x1000
   SHIP_REALISTIC   = 0x2000
-  SHIP_SIMULATION  = 0x4000
 
   // masks
   COMMON           = 0x000F
@@ -41,7 +41,22 @@ enum LB_MODE
 
   ship_arcade      = LB_MODE.SHIP_ARCADE
   ship_realistic   = LB_MODE.SHIP_REALISTIC
-  ship_simulation  = LB_MODE.SHIP_SIMULATION
+
+  test_ship_arcade    = LB_MODE.SHIP_ARCADE
+  test_ship_realistic = LB_MODE.SHIP_REALISTIC
+}
+
+
+function get_lb_mode(name)
+{
+  if (name == null || name.len() <= 0)
+    return 0
+
+  if (name in ::lb_mode_name)
+    return ::lb_mode_name[name]
+
+  ::dagor.logerr("Invalid leaderboard mode '" + name + "'")
+  return 0
 }
 
 
@@ -144,8 +159,7 @@ function g_lb_category::_getAdditionalTooltipPart(row)
   isVisibleByLbModeName = function(modeName)
   {
     // check modesMask
-    return modesMask == LB_MODE.ALL ||
-           (::getTblValue(modeName, ::lb_mode_name, 0) & modesMask) != 0
+    return (modesMask == LB_MODE.ALL) || ((::get_lb_mode(modeName) & modesMask) != 0)
   }
 
   isVisibleInEvent = function(event)

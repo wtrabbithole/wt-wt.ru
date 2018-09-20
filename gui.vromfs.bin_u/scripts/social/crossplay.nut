@@ -10,20 +10,24 @@ local getXboxPlayerCrossNetworkChatSaveId = @() "isCrossNetworkChatEnabled/" + :
 
 local isCrossPlayEnabled = @() (!::is_platform_xboxone || ::load_local_account_settings(getXboxPlayerCrossPlaySaveId(), false))
 local isCrossNetworkChatEnabled = @() (!::is_platform_xboxone || ::load_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), true))
+local getTextWithCrossplayIcon = @(addIcon, text) (addIcon? (::loc("icon/cross_play") + " " ) : "") + text
 
 local function setIsCrossPlayEnabled(useCrossPlay)
 {
-  if (::is_platform_xboxone)
-    ::save_local_account_settings(getXboxPlayerCrossPlaySaveId(), useCrossPlay)
+  if (!::is_platform_xboxone)
+    return
+
+  ::save_local_account_settings(getXboxPlayerCrossPlaySaveId(), useCrossPlay)
+  ::broadcastEvent("CrossPlayOptionChanged", {value = useCrossPlay})
 }
 
 local function setIsCrossNetworkChatEnabled(useCrossNetwork)
 {
-  if (::is_platform_xboxone)
-  {
-    ::save_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), useCrossNetwork)
-    ::broadcastEvent("CrossNetworkChatOptionChanged", {value = useCrossNetwork})
-  }
+  if (!::is_platform_xboxone)
+    return
+
+  ::save_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), useCrossNetwork)
+  ::broadcastEvent("CrossNetworkChatOptionChanged", {value = useCrossNetwork})
 }
 
 local function showXboxCrossPlayNotificationOnce()
@@ -52,4 +56,5 @@ return {
   setIsCrossPlayEnabled = setIsCrossPlayEnabled
   setIsCrossNetworkChatEnabled = setIsCrossNetworkChatEnabled
   showXboxCrossPlayNotificationOnce = showXboxCrossPlayNotificationOnce
+  getTextWithCrossplayIcon = getTextWithCrossplayIcon
 }

@@ -109,13 +109,15 @@ function g_mislist_type::_getMissionsByBlkArray(campaignName, missionBlkArray)
   return res
 }
 
-function g_mislist_type::_getMissionsList(isShowCampaigns, customChapterId = null, customChapters = null)
+function g_mislist_type::_getMissionsList(isShowCampaigns, callback, customChapterId = null, customChapters = null)
 {
   local gm = ::get_game_mode()
   if (customChapterId)
   {
     local missionBlkArray = ::get_meta_missions_info_chapter(gm, customChapterId)
-    return getMissionsByBlkArray(customChapterId, missionBlkArray)
+    local misList = getMissionsByBlkArray(customChapterId, missionBlkArray)
+    callback(misList)
+    return
   }
 
   local res = []
@@ -191,7 +193,7 @@ function g_mislist_type::_getMissionsList(isShowCampaigns, customChapterId = nul
       res.append(getMissionConfig("victory", true, false, isVideoUnlocked))
     }
   }
-  return res
+  callback(res)
 }
 
 function g_mislist_type::_getMissionsListByNames(namesList)
@@ -244,7 +246,7 @@ function g_mislist_type::_getMissionNameText(mission)
   showChapterHeaders  = true
 
   getMissionConfig = ::g_mislist_type._getMissionConfig
-  getMissionsList = function(isShowCampaigns, customChapterId = null, customChapters = null) { return [] }
+  getMissionsList = function(isShowCampaigns, customChapterId = null, customChapters = null, callback = null) { if (callback) callback([]) }
   getMissionsListByNames = function(namesList) { return [] }
   canJoin = function(gm) { return true }
   canCreate = function(gm) { return canJoin(gm) }
@@ -324,10 +326,10 @@ enums.addTypesByGlobalName("g_mislist_type", {
       return false
     }
 
-    getMissionsList = function(isShowCampaigns, customChapterId = null, customChapters = null)
+    getMissionsList = function(isShowCampaigns, callback, customChapterId = null, customChapters = null)
     {
-      ::scan_user_missions()
-      return getMissionsListImpl(isShowCampaigns, customChapterId, customChapters)
+      local fn = function(){ getMissionsListImpl(isShowCampaigns, callback, customChapterId, customChapters); }
+      ::scan_user_missions(this, fn.bindenv(this))
     }
     getMissionsListImpl = ::g_mislist_type._getMissionsList
     getMissionsByBlkArray = ::g_mislist_type._getMissionsByBlkArray
@@ -353,7 +355,7 @@ enums.addTypesByGlobalName("g_mislist_type", {
       return gm == ::GM_SKIRMISH && ::has_feature("UserMissionsSkirmishByUrlCreate")
     }
 
-    getMissionsList = function(...) //standard parameters dosnt work for urlMissions
+    getMissionsList = function(isShowCampaigns, callback, ...) //standard parameters dosnt work for urlMissions
     {
       local list = ::g_url_missions.getList()
       local res = []
@@ -364,7 +366,7 @@ enums.addTypesByGlobalName("g_mislist_type", {
         mission.blk <- urlMission.getMetaInfo()
         res.append(mission)
       }
-      return res
+      callback(res)
     }
 
     addToList = function()

@@ -51,14 +51,14 @@ local function isStringLikelyEmail(str, verbose=true) {
 local function defaultFrame(inputObj, group, sf) {
   return {
     rendObj = ROBJ_FRAME
-    borderWidth = [1, 1, 0, 1]
+    borderWidth = [hdpx(1), hdpx(1), 0, hdpx(1)]
     size = [flex(), SIZE_TO_CONTENT]
     color = (sf.value & S_KB_FOCUS) ? Color(180, 180, 180) : Color(120, 120, 120)
     group = group
 
     children = {
       rendObj = ROBJ_FRAME
-      borderWidth = [0, 0, 1, 0]
+      borderWidth = [0, 0, hdpx(1), 0]
       size = [flex(), SIZE_TO_CONTENT]
       color = (sf.value & S_KB_FOCUS) ? Color(250, 250, 250) : Color(180, 180, 180)
       group = group
@@ -140,7 +140,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
     local text_val = text_state.value
     if (options?.placeholder && !text_state.value.len()) {
       placeholder = {
-        rendObj = ROBJ_STEXT
+        rendObj = ROBJ_DTEXT
         font = font
         color = colors.placeHolderColor
         text = options.placeholder
@@ -221,8 +221,10 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
     margin = options?.margin ?? [sh(1), 0]
     padding = options?.padding ?? 0
 
-    rendObj = ROBJ_SOLID
-    color = colors.backGroundColor
+    rendObj = ROBJ_BOX
+    fillColor = colors.backGroundColor
+    borderWidth =0
+    borderRadius = hdpx(3)
     size = [flex(), SIZE_TO_CONTENT]
     group = group
     animations = [failAnim(text_state)]

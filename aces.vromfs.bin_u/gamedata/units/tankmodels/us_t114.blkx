@@ -314,6 +314,21 @@
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "crew": {
@@ -657,34 +672,89 @@
             "fireEvent": "ammo_fire",
             "explosionEvent": "ammo_explosion",
             "wreckedPartId": 0,
-            "autoLoad": true,
-            "ammo_turret_04_dm": {
-              "count": 4
+            "firstStage": true,
+            "ammo_turret_01_dm": {
+              "count": 1
+            },
+            "ammo_turret_02_dm": {
+              "count": 1
+            },
+            "ammo_turret_03_dm": {
+              "count": 1
             }
           }
         },
         {
           "shells": {
+            "reloadTimeMult": 4.0,
+            "ammo_turret_09_dm": {
+              "count": 1
+            },
+            "ammo_turret_10_dm": {
+              "count": 1
+            },
+            "ammo_turret_11_dm": {
+              "count": 1
+            },
+            "ammo_turret_12_dm": {
+              "count": 1
+            },
+            "ammo_turret_13_dm": {
+              "count": 1
+            },
+            "ammo_turret_14_dm": {
+              "count": 1
+            },
+            "ammo_turret_07_dm": {
+              "count": 1
+            },
+            "ammo_turret_08_dm": {
+              "count": 1
+            },
+            "ammo_turret_04_dm": {
+              "count": 1
+            },
+            "ammo_turret_05_dm": {
+              "count": 1
+            },
+            "ammo_turret_06_dm": {
+              "count": 1
+            },
             "ammo_body_01_dm": {
-              "count": 3
+              "count": 1
             },
             "ammo_body_02_dm": {
-              "count": 3
+              "count": 1
             },
             "ammo_body_03_dm": {
-              "count": 3
+              "count": 1
             },
             "ammo_body_04_dm": {
-              "count": 3
+              "count": 1
             },
-            "ammo_turret_01_dm": {
-              "count": 3
+            "ammo_body_05_dm": {
+              "count": 1
             },
-            "ammo_turret_02_dm": {
-              "count": 3
+            "ammo_body_06_dm": {
+              "count": 1
             },
-            "ammo_turret_03_dm": {
-              "count": 4
+            "ammo_body_07_dm": {
+              "count": 1
+            },
+            "ammo_body_08_dm": {
+              "count": 1
+            },
+            "ammo_body_09_dm": {
+              "count": 1
+            },
+            "ammo_body_10_dm": {
+              "count": 1
+            },
+            "ammo_body_11_dm": {
+              "count": 1
+            },
+            "ammo_body_12_dm": {
+              "count": 1
             }
           }
         }
@@ -1602,7 +1672,6 @@
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame_01",
           "recoilMultiplier": 0.02,
-          "shotFreq": 0.4,
           "recoilOffset": 0.0,
           "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
@@ -2415,8 +2484,10 @@
       "zoomOutFov": 17.0,
       "zoomInFov": 14.7,
       "sightFov": 10.0,
+      "sightName": "telescope_m71c",
       "headPos": [0.0,3.0,-5.0],
-      "headPosOnShooting": [-0.8,2.43,0.5],
+      "headPosOnShooting": [-1.1,2.5,-0.26],
+      "bone_turret": "",
       "detectionHeight": 2.04
     }
   },

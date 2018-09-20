@@ -507,7 +507,7 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
 
   if (fullUpdate)
   {
-    local statusContent = getStatusContent(orderObject)
+    local statusContent = getStatusContent(orderObject, (statusObj?.isHalignRight ?? "no") == "yes")
     local guiScene = statusObj.getScene()
     guiScene.replaceContentFromText(statusObj, statusContent, statusContent.len(), this)
 
@@ -684,7 +684,7 @@ function g_orders::showOrdersContainer(isShown)
   isOrdersContainerVisible = isShown
 }
 
-function g_orders::getStatusContent(orderObject)
+function g_orders::getStatusContent(orderObject, isHalignRight = false)
 {
   local orderType = orderObject == null ? g_order_type.UNKNOWN : orderObject.orderType
   local view = {
@@ -693,6 +693,7 @@ function g_orders::getStatusContent(orderObject)
     scoreHeaderText = orderType.getScoreHeaderText()
     needPlaceInHiddenContainer = isInSpectatorMode()
     isHiddenContainerVisible = isOrdersContainerVisible
+    isHalignRight = isHalignRight
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
     view.rows.push({ rowIndex = i })

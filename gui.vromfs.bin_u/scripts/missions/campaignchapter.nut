@@ -1,7 +1,8 @@
+local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
 ::current_campaign <- null
 ::current_campaign_name <- ""
-
 ::g_script_reloader.registerPersistentData("current_campaign_globals", ::getroottable(), ["current_campaign", "current_campaign_name"])
+const SAVEDATA_PROGRESS_MSG_ID = "SAVEDATA_IO_OPERATION"
 
 class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -38,6 +39,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
+    showWaitAnimation(true)
+
     gm = ::get_game_mode()
     loadCollapsedChapters()
     initCollapsingOptions()
@@ -101,8 +104,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (!showAllCampaigns && (gm == ::GM_CAMPAIGN || gm == ::GM_SINGLE_MISSION))
       customChapters = ::current_campaign
 
-    missions = misListType.getMissionsList(showAllCampaigns, customChapterId, customChapters)
-
     if (gm == ::GM_DYNAMIC)
     {
       local info = DataBlock()
@@ -121,6 +122,14 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (obj != null)
       obj.setValue(title)
 
+    misListType.getMissionsList(showAllCampaigns, updateMissionsList.bindenv(this), customChapterId, customChapters)
+  }
+
+  function updateMissionsList(new_missions)
+  {
+    showWaitAnimation(false)
+
+    missions = new_missions
     if (missions.len() <= 0 && !canSwitchMisListType && !misListType.canBeEmpty)
     {
       msgBox("no_missions", ::loc("missions/no_missions_msgbox"), [["ok"]], "ok")
@@ -1024,5 +1033,13 @@ class ::gui_handlers.SingleMissionsModal extends ::gui_handlers.SingleMissions
   function afterModalDestroy()
   {
     restoreMainOptions()
+  }
+
+  function showWaitAnimation(isVisible)
+  {
+    if (isVisible)
+      progressMsg.create(SAVEDATA_PROGRESS_MSG_ID, {text = ::loc("wait/missionListLoading")})
+    else
+      progressMsg.destroy(SAVEDATA_PROGRESS_MSG_ID)
   }
 }

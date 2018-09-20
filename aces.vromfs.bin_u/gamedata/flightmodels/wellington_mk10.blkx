@@ -30,6 +30,9 @@
     "overheatBlk": "gameData/FlightModels/DM/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -286,7 +289,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "throttle_lhand_",
-          "flexionDir": [0.0,-1.0,0.1]
+          "flexionDir": [1.0,-1.0,0.1]
         }
       },
       {
@@ -304,7 +307,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -313,7 +316,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [1.0,1.0,-0.1]
         }
       }
     ]
@@ -350,7 +353,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "throttle_lhand_",
-          "flexionDir": [0.0,-1.0,0.1]
+          "flexionDir": [1.0,-1.0,0.1]
         }
       },
       {
@@ -368,7 +371,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -377,7 +380,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [1.0,1.0,-0.1]
         }
       }
     ]
@@ -3201,7 +3204,7 @@
       {
         "Weapon": {
           "trigger": "gunner2",
-          "blk": "gameData/Weapons/gunVikkersK_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
           "breechInCockpit": true,
           "emitter": "gun3",
           "flash": "flare5",
@@ -3209,7 +3212,7 @@
           "gunnerDm": "gunner3_dm",
           "gunDm": "gun3_dm",
           "partsDP": "gun3_dm",
-          "bullets": 2500,
+          "bullets": 600,
           "turret": {
             "head": "turret3",
             "gun": "gun3"
@@ -3223,7 +3226,7 @@
       {
         "Weapon": {
           "trigger": "gunner3",
-          "blk": "gameData/Weapons/gunVikkersK_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
           "breechInCockpit": true,
           "emitter": "gun4",
           "flash": "flare6",
@@ -3231,7 +3234,7 @@
           "gunnerDm": "gunner4_dm",
           "gunDm": "gun4_dm",
           "partsDP": "gun4_dm",
-          "bullets": 2500,
+          "bullets": 600,
           "traceOffset": 1,
           "turret": {
             "head": "turret4",
@@ -3261,12 +3264,8 @@
       "new_compressor": [],
       "new_engine_injection": [],
       "bmg303_turret_belt_pack": [],
-      "vikkersK_turret_new_gun": {
-        "reqModification": "bmg303_turret_belt_pack",
-        "tier": 2
-      },
       "bmg303_turret_new_gun": {
-        "reqModification": "vikkersK_turret_new_gun",
+        "reqModification": "bmg303_turret_belt_pack",
         "tier": 3
       },
       "303_turret_ap": [],

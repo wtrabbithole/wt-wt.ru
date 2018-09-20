@@ -99,7 +99,7 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
 
   function haveRestrictions()
   {
-    return !::isInMenu() || !isMissionAvailable()
+    return !::isInMenu() || !isMissionAvailable() || !isAvailableByCrossPlay()
   }
 
   function isMissionAvailable()
@@ -112,6 +112,8 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
   {
     if (haveRestrictions())
     {
+      if (!isAvailableByCrossPlay())
+        return ::loc("xbox/crossPlayRequired")
       if (!isMissionAvailable())
         return ::loc("invite/session/ugc_restriction")
       return ::loc("invite/session/cant_apply_in_flight")

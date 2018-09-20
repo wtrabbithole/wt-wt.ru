@@ -4,7 +4,7 @@
   "resetViralAcquisitionDaysCounter": 1,
   "moderatorPresenceCheckMaxCode": 65536,
   "moderatorPresenceCheckPeriodSec": 1200,
-  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;PvE_6;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;2x2_norespawn;1x1_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;NADom;BR;ctf;Duo",
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;PvE_6;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;2x2_norespawn;1x1_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;NADom;BR;ctf;Duo;HS;HfD",
   "ordersPerSession": 3,
   "randomBattle": {
     "classiness": {
@@ -108,6 +108,7 @@
   "mapNameToMode": {
     "_GS": 0,
     "_GSn": 0,
+    "_HS": 0,
     "PvE": 0,
     "_Dom_no_respawn": 3,
     "Conq_no_respawn": 3,
@@ -117,6 +118,7 @@
     "Bttl_norespawn": 3,
     "from_diff": {
       "AfD": 0,
+      "HfD": 0,
       "AfDn": 0,
       "AfDto": 0,
       "AD": 0,
@@ -208,6 +210,20 @@
         "event": "tank_new_players_battle_coop",
         "kills": 3,
         "timePlayed": 450
+      }
+    },
+    {
+      "ship": {
+        "event": "ship_new_players_battle_single",
+        "kills": 1,
+        "timePlayed": 150
+      }
+    },
+    {
+      "ship": {
+        "event": "ship_new_players_battle_coop",
+        "kills": 1,
+        "timePlayed": 150
       }
     }
   ],
@@ -585,7 +601,20 @@
         "condition": "role_TESTER"
       }
     ],
-    "SpendGoldForShips": [],
+    "SpendGoldForShips": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "ShipsBattleTasks": {
+      "condition": "dev_test_feature_access"
+    },
     "Tanks": {
       "condition": "",
       "platform_lock": "android"
@@ -626,6 +655,12 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      },
+      {
+        "condition": "helicopter_access"
       }
     ],
     "Tribunal": {
@@ -1059,9 +1094,14 @@
       }
     ],
     "1Animcraft": [],
-    "summer2018Access": {
-      "condition": ""
-    },
+    "summer2018Access": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "t34Summer2018Craft": {
       "condition": "summer2018Access;summer_2018_t34e_access"
     },
@@ -1189,14 +1229,7 @@
       "condition": "",
       "platform_lock": "pc;android"
     },
-    "ConsolesLiveTrophy": [
-      {
-        "condition": "PS4Account"
-      },
-      {
-        "condition": "xboxOneAccess"
-      }
-    ],
+    "ConsolesLiveTrophy": [],
     "ConsolesWorkshopExchange": [
       {
         "condition": "PS4Account"
@@ -1442,8 +1475,7 @@
       "condition": ""
     },
     "SquadInviteIngame": {
-      "condition": "",
-      "platform_lock": "xboxOne"
+      "condition": ""
     },
     "ClanSeasonRewardsLog": {
       "condition": ""
@@ -1594,6 +1626,10 @@
     },
     "DamagedSkinPreview": {
       "condition": ""
-    }
+    },
+    "CustomizationLayoutPresets": {
+      "condition": ""
+    },
+    "XboxCrossConsoleInteraction": []
   }
 }

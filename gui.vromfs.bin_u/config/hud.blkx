@@ -69,6 +69,9 @@
     "smallTextHudFontName": "very_tiny_text_set_compact"
   },
   {
+    "helicopterHudColor": "#47e827ff"
+  },
+  {
     "skins": {
       "defSkin": "ui/gameuiskin"
     }
@@ -924,9 +927,6 @@
         "torpPointBlocked": "trpd_sight_point_blocked"
       },
       {
-        "torpForestall": ""
-      },
-      {
         "hitBlinkFreq": 1.0
       },
       {
@@ -1605,7 +1605,14 @@
         {
           "row": [70.0,255.0,70.0,1.0]
         }
-      ]
+      ],
+      "shipsShootingTracking": {
+        "borderColor": "#00a000ff",
+        "fillColor": "#00dc00ff",
+        "lineColor": "#00dc00ff",
+        "scale": 10.0,
+        "height": 0.3
+      }
     }
   },
   {
@@ -2218,7 +2225,9 @@
     "eventsIcons": {
       "type_fighter": "aircraft_fighter",
       "type_assault": "aircraft_attacker",
-      "type_bomber": "aircraft_bomber"
+      "type_bomber": "aircraft_bomber",
+      "type_attack_helicopter": "aircraft_fighter",
+      "type_utility_helicopter": "aircraft_fighter"
     }
   },
   {
@@ -2674,8 +2683,11 @@
       "selectedColor": "#14ff1464",
       "color": "#ff0a0a64",
       "forestallColor": "#c4ffff40",
-      "forestallFailColor": "#ffc4c430",
+      "forestallFailColor": "#ffc4c410",
+      "torpForestall": "",
       "forestallFadeTime": 0.5,
+      "forestallTimeToStabilze": 1.0,
+      "forestallIterationsToStabilize": 50,
       "defaultForestallSectorAngle": 1.5,
       "lineWidth": 2.0,
       "lineMiddleAlpha": 120

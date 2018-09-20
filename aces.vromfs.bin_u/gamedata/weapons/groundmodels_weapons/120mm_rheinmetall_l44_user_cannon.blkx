@@ -229,12 +229,12 @@
       "bulletCount": 25,
       "mass": 4.3,
       "caliber": 0.12,
-      "damageCaliber": 0.026,
-      "ballisticCaliber": 0.026,
+      "damageCaliber": 0.032,
+      "ballisticCaliber": 0.032,
       "speed": 1650.0,
       "Cx": 0.33,
       "maxDistance": 10000.0,
-      "bulletType": "apds_fs_tungsten_l10_l15_tank",
+      "bulletType": "apds_fs_long_tank",
       "bulletName": "120mm_dm23",
       "hitPowerMult": 800.0,
       "onHitChanceMultExplFuel": 0.1,
@@ -260,6 +260,22 @@
         "ArmorPower4000m": [360.0,4000.0],
         "ArmorPower10000m": [50.0,10000.0],
         "ArmorPower20000m": [0.0,20000.0]
+      },
+      "ballistics": {
+        "slopeEffect": {
+          "table": {
+            "t1": {
+              "caliberToArmor": 1.0,
+              "slopeEffect0deg": [0.0,20.0],
+              "slopeEffect10deg": [10.0,5.3],
+              "slopeEffect20deg": [20.0,2.4],
+              "slopeEffect30deg": [30.0,1.73],
+              "slopeEffect50deg": [50.0,1.305],
+              "slopeEffect70deg": [70.0,1.064],
+              "slopeEffect90deg": [90.0,1.0]
+            }
+          }
+        }
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],

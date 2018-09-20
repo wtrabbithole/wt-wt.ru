@@ -728,8 +728,11 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChangeCrossPlayOption(obj)
   {
-    if (::checkIsInQueue() && obj.getValue() != crossplayModule.isCrossPlayEnabled())
-      ::g_popups.add("", ::loc("options/onChangeValue/inQueue"))
+    if (obj.getValue() == crossplayModule.isCrossPlayEnabled())
+      return
+
+    if (::checkIsInQueue())
+      return ::g_popups.add("", ::loc("options/onChangeValue/inQueue"))
   }
 
   function onMissionChange(obj) {}

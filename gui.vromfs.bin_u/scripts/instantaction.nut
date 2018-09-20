@@ -524,6 +524,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       economicName = ::events.getEventEconomicName(event)
       difficulty = event?.difficulty ?? ""
       canIntoToBattle = true
+      missionsComplete = ::my_stats.getMissionsComplete()
     }
 
     checkedNewFlight(function() {
@@ -582,7 +583,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       if (checkGameModeTutorial(gameMode))
         return
 
-      local countryGoodForMode = ::events.isCountryAvailable(gameMode.getEvent(), getCurCountry())
+      local event = gameMode.getEvent()
+      if (!::events.checkEventFeature(event))
+        return
+
+      local countryGoodForMode = ::events.isCountryAvailable(event, getCurCountry())
       local multiSlotEnabled = isCurrentGameModeMultiSlotEnabled()
       local requiredUnitsAvailable = checkRequiredUnits(getCurCountry())
       if (countryGoodForMode && startEnabled)

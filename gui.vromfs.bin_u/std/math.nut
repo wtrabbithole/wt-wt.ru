@@ -1,7 +1,9 @@
+local math = require("math")
+
 const GOLDEN_RATIO = 1.618034
 
-function minByAbs(a, b) { return (fabs(a) < fabs(b))? a : b }
-function maxByAbs(a, b) { return (fabs(a) > fabs(b))? a : b }
+function minByAbs(a, b) { return (math.fabs(a) < math.fabs(b))? a : b }
+function maxByAbs(a, b) { return (math.fabs(a) > math.fabs(b))? a : b }
 
 //round @value to valueble @digits amount
 // roundToDigits(1.23, 2) = 1.2
@@ -9,16 +11,16 @@ function maxByAbs(a, b) { return (fabs(a) > fabs(b))? a : b }
 function roundToDigits(value, digits)
 {
   if (value==0) return value
-  local log = log10(fabs(value))
-  local mul = pow(10, floor(log)-digits+1)
-  return mul*floor(0.5+value.tofloat()/mul)
+  local log = math.log10(math.fabs(value))
+  local mul = math.pow(10, math.floor(log)-digits+1)
+  return mul*math.floor(0.5+value.tofloat()/mul)
 }
 
 //round @value by @roundValue
 //round_by_value(1.56, 0.1) = 1.6
 function round_by_value(value, roundValue)
 {
-  return floor(value.tofloat() / roundValue + 0.5) * roundValue
+  return math.floor(value.tofloat() / roundValue + 0.5) * roundValue
 }
 
 
@@ -64,12 +66,12 @@ function lerp(valueMin, valueMax, resMin, resMax, value)
 */
 function calc_golden_ratio_columns(total, widthToHeight = 1.0)
 {
-  local rows = (sqrt(total.tofloat() / GOLDEN_RATIO * widthToHeight) + 0.5).tointeger() || 1
-  return ceil(total.tofloat() / rows).tointeger()
+  local rows = (math.sqrt(total.tofloat() / GOLDEN_RATIO * widthToHeight) + 0.5).tointeger() || 1
+  return math.ceil(total.tofloat() / rows).tointeger()
 }
 
 //EXPORT content for require
-local export = {
+local export = math.__merge({
   GOLDEN_RATIO = GOLDEN_RATIO
   minByAbs = minByAbs
   round_by_value = round_by_value
@@ -79,6 +81,6 @@ local export = {
   change_bit = change_bit
   lerp = lerp
   calc_golden_ratio_columns = calc_golden_ratio_columns
-}
+})
 
 return export

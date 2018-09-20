@@ -1,4 +1,3 @@
-local u = require("std/u.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 
 const SUBSCRIPTIONS_AMOUNT_TO_CLEAR = 50
@@ -103,7 +102,7 @@ function subscribeHandler(handler, listener_priority = -1)
     return
   foreach (property_name, property in handler)
   {
-    if (!u.isFunction(property))
+    if (type(property)!="function")
       continue
     local index = property_name.find("onEvent")
     if (index != 0)
