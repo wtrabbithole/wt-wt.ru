@@ -314,7 +314,8 @@ class GameModeManager
     {
       if (gameMode.displayType != ::g_event_display_type.RANDOM_BATTLE)
         continue
-      local checkedUnitTypes = gameMode?.reqUnitTypes?.len?() ? gameMode.reqUnitTypes
+      local checkedUnitTypes = (gameMode?.reqUnitTypes && gameMode.reqUnitTypes.len() > 0)
+        ? gameMode.reqUnitTypes
         : gameMode.unitTypes
       if (!::isInArray(unitType, checkedUnitTypes))
         continue

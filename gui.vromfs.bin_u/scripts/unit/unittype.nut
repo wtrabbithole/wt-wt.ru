@@ -182,7 +182,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_helicopter"
     crewUnitType = ::CUT_AIRCRAFT
-    isAvailable = function() { return ::has_feature("Helicopters") }
+    isAvailable = @() true
     isVisibleInShop = function() { return isAvailable() }
     isAvailableForFirstChoice = @(country = null) false
     canUseSeveralBulletsForGun = false

@@ -525,11 +525,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       ::set_char_cb(this, slotOpCb)
       showTaskProgressBox()
       ::sync_handler_simulate_signal("clan_info_reload")
-      afterSlotOp = function()
+      afterSlotOp = guiScene.performDelayed(this,function()
         {
           ::update_gamercards()
-          msgBox("left_clan", ::loc("clan/leftClan"), [["ok", function() { afterClanLeave() } ]], "ok")
-        }
+          msgBox("left_clan", ::loc("clan/leftClan"),
+            [["ok", function() { if (isValid()) afterClanLeave() } ]], "ok")
+        })
     }
   }
 
