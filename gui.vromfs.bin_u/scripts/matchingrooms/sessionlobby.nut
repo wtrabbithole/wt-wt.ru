@@ -451,7 +451,8 @@ function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
   if (checkEqual && ::u.isEqual(settings, _settings))
     return
 
-  settings = _settings
+  //_settings can be publick date of room, and it does not need to be updated settings somewhere else
+  settings = clone _settings
   //not mission room settings
   settings.connect_on_join <- !haveLobby()
 

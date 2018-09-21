@@ -145,6 +145,11 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     view.extend(getViewArray(::game_mode_manager.getPveBattlesGameModes()))
     view.extend(getViewArray(::game_mode_manager.getFeaturedGameModes()))
     view.extend(createFeaturedLinksView())
+
+    local clanBattlesGameModes = ::game_mode_manager.getClanBattlesGameModes()
+    foreach (gameMode in clanBattlesGameModes)
+      view.push(createGameModeView(gameMode))
+
     return view
   }
 

@@ -246,7 +246,7 @@ function g_mislist_type::_getMissionNameText(mission)
   showChapterHeaders  = true
 
   getMissionConfig = ::g_mislist_type._getMissionConfig
-  getMissionsList = function(isShowCampaigns, customChapterId = null, customChapters = null, callback = null) { if (callback) callback([]) }
+  getMissionsList = function(isShowCampaigns, callback = null, customChapterId = null, customChapters = null) { if (callback) callback([]) }
   getMissionsListByNames = function(namesList) { return [] }
   canJoin = function(gm) { return true }
   canCreate = function(gm) { return canJoin(gm) }

@@ -455,10 +455,6 @@ enum ConflictGroups {
   { id = "ID_HELICOPTER_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.HELICOPTER
-    showFunc = function() {
-      local currentUnit = ::get_player_cur_unit()
-      return ::has_feature("Helicopters") || currentUnit?.isHelicopter?()
-    }
     isHelpersVisible = true
   }
   { id = "ID_HELICOPTER_MODE_HEADER"
@@ -946,7 +942,6 @@ enum ConflictGroups {
   { id = "ID_SHIP_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.SHIP
-    showFunc = @() ::has_feature("Ships")
   }
   { id = "ID_SHIP_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "ship_seperated_engine_control",

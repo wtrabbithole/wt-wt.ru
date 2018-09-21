@@ -138,23 +138,26 @@ function select_next_avail_campaign_mission(chapterName, missionName)
   if (::get_game_mode() != ::GM_CAMPAIGN)
     return
 
-  local misList = ::g_mislist_type.BASE.getMissionsList(true)
-  local isCurFound = false
-  foreach(mission in misList)
-  {
-    if (mission.isHeader || !mission.isUnlocked)
-      continue
-
-    if (!isCurFound)
+  local callback = function(misList) {
+    local isCurFound = false
+    foreach(mission in misList)
     {
-      if (mission.id == missionName && mission.chapter == chapterName)
-        isCurFound = true
-      continue
+      if (mission.isHeader || !mission.isUnlocked)
+        continue
+
+      if (!isCurFound)
+      {
+        if (mission.id == missionName && mission.chapter == chapterName)
+          isCurFound = true
+        continue
+      }
+
+      ::add_last_played(mission.chapter, mission.id, ::GM_CAMPAIGN, false)
+      break
     }
 
-    ::add_last_played(mission.chapter, mission.id, ::GM_CAMPAIGN, false)
-    break
   }
+ ::g_mislist_type.BASE.getMissionsList(true, callback)
 }
 
 function buildRewardText(name, reward, highlighted=false, coloredIcon=false, additionalReward = false)

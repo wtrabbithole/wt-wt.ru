@@ -550,15 +550,11 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isContentLoading  = contentSet == HELP_CONTENT_SET.LOADING
 
     local hasFeatureTanks = ::has_feature("Tanks")
-    local hasFeatureShips = ::has_feature("Ships") || ::has_feature("SpecialShips")
-    local hasFeatureHelicopters = ::has_feature("Helicopters")
 
     local currentUnit = ::get_player_cur_unit()
 
     pageUnitType = currentUnit ? currentUnit.unitType : ::g_unit_type.AIRCRAFT
-    if ((pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks) ||
-        (pageUnitType == ::g_unit_type.SHIP && !hasFeatureShips) ||
-        (pageUnitType == ::g_unit_type.HELICOPTER && !hasFeatureHelicopters))
+    if ((pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks))
           pageUnitType = ::g_unit_type.AIRCRAFT
 
     pageUnitTag = ::is_submarine(currentUnit) ? "submarine" : null
@@ -585,9 +581,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local params = {
       showControlsAir  = (isContentControls || pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
       showControlsTank = (isContentControls || pageUnitType == ::g_unit_type.TANK && pageUnitTag == null) && hasFeatureTanks
-      showControlsShip = (isContentControls || pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null) && hasFeatureShips
-      showControlsHelicopter = (isContentControls || pageUnitType == ::g_unit_type.HELICOPTER &&
-        pageUnitTag == null) && hasFeatureHelicopters
+      showControlsShip = (isContentControls || pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null)
+      showControlsHelicopter = (isContentControls || pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
       showControlsSubmarine = (isContentControls || pageUnitType == ::g_unit_type.SHIP &&
         pageUnitTag == "submarine") && hasSubmarineControls
       hasController    = ::is_platform_ps4  || ::show_console_buttons

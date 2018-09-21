@@ -669,7 +669,8 @@ class GameModeManager
             local checkSkipFeatured = !partitionData.skipFeatured || gameMode.displayType != ::g_event_display_type.FEATURED
             local isPVEBattle = gameMode.displayType == ::g_event_display_type.PVE_BATTLE
             local checkSkipEnableOnDebug = !partitionData.skipEnableOnDebug || !gameMode.enableOnDebug
-            return checkForClan && checkDiffCode && checkSkipFeatured && checkSkipEnableOnDebug && !isPVEBattle
+            return checkForClan && checkDiffCode && checkSkipFeatured
+              && checkSkipEnableOnDebug && !isPVEBattle && !gameMode.forClan
           })(partitionData)
         )
       }
@@ -704,6 +705,13 @@ class GameModeManager
   {
     return getGameModes(::ES_UNIT_TYPE_INVALID, function (gameMode) {
       return gameMode.displayType == ::g_event_display_type.PVE_BATTLE && !gameMode.enableOnDebug
+    })
+  }
+
+  function getClanBattlesGameModes()
+  {
+    return getGameModes(::ES_UNIT_TYPE_INVALID, function (gameMode) {
+      return gameMode.forClan && !gameMode.enableOnDebug
     })
   }
 
