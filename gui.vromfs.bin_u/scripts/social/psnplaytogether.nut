@@ -54,10 +54,16 @@ function g_play_together::requestUsersList(inviteesArray)
   local onlineIds = []
   foreach (player in inviteesArray)
   {
-    if (::getTblValue("onlineId", player, "") != "")
-      onlineIds.append(player.onlineId)
-    if (::getTblValue("accountId", player, "") != "")
-      onlineIds.append(player.accountId)
+    if (!player?.onlineId || !player?.accountId)
+    {
+      ::script_net_assert_once("incomplete PlayTogether data", "Error: PSPT invitees data is incomplete, skipping player")
+      continue
+    }
+
+    onlineIds.append(player.onlineId)
+    onlineIds.append(player.accountId)
+
+    add_psn_account_id(player.onlineId, player.accountId)
   }
 
   local taskId = ::ps4_find_friends(onlineIds)
@@ -92,7 +98,6 @@ function g_play_together::checkUsersAndProceed()
   if (checkMeAsSquadLeader())
     return
 
-  ::update_ps4_friends()
   sendInvitesToSquad()
 }
 
@@ -104,7 +109,6 @@ function g_play_together::filterUsers()
   {
     local user = cachedUsersData.getBlock(i)
     local uid = user.getBlockName()
-    local name = user.nick
 
     local playerStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
     if (playerStatus == squadMemberState.NOT_IN_SQUAD)
