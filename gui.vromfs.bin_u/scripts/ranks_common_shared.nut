@@ -305,22 +305,25 @@ function get_spawn_score_param(paramName, defaultNum)
 {
   local ws = get_warpoints_blk()
   local misBlk = ::get_current_mission_info_cached()
+  local sessionMRank = misBlk?.ranks?.max ?? 0
   local modeName = get_emode_name(get_mission_mode())
-  if (misBlk.customSpawnScore != null && misBlk.customSpawnScore[paramName] != null)
-    return misBlk.customSpawnScore[paramName]
-  else
-  if (ws.respawn_points != null && ws.respawn_points[modeName] != null)
-    if (ws.respawn_points[modeName][paramName] != null)
-      return ws.respawn_points[modeName][paramName] 
-    else
-    if (ws.respawn_points[modeName].respawn_cost_mul_by_exp_class != null && 
-      ws.respawn_points[modeName].respawn_cost_mul_by_exp_class[paramName] != null)
-      return ws.respawn_points[modeName].respawn_cost_mul_by_exp_class[paramName]
+  local overrideBlock = ws?.respawn_points?[modeName]?["override_params_by_session_rank"]
+  local overrideBlockName = ""
+  if (overrideBlock)
+    foreach(name, block in overrideBlock)
+      if((sessionMRank >= block?.minMRank) && (sessionMRank <= block?.maxMRank))
+      {
+        overrideBlockName = name
+        break
+      }
 
-  if (ws.respawn_points != null && ws.respawn_points[paramName] != null)
-    return ws.respawn_points[paramName]
-
-  return defaultNum
+  return misBlk?.customSpawnScore?[paramName]
+         ?? overrideBlock?[overrideBlockName]?[paramName]
+         ?? overrideBlock?[overrideBlockName]?["respawn_cost_mul_by_exp_class"]?[paramName]
+         ?? ws?.respawn_points?[modeName]?[paramName]
+         ?? ws?.respawn_points?[modeName]?["respawn_cost_mul_by_exp_class"]?[paramName]
+         ?? ws?.respawn_points?[paramName]
+         ?? defaultNum
 }
 
 function get_unit_spawn_score_weapon_mul(unitname, weapon)
@@ -333,14 +336,12 @@ function get_unit_spawn_score_weapon_mul(unitname, weapon)
   if (unitClass == null)
     return 1.0
 
-  if (unitClass == "exp_fighter" &&
-      weapon != null && weapon != "" &&
-      wpcost[unitname].weapons != null &&
-      wpcost[unitname].weapons[weapon] != null &&
-      wpcost[unitname].weapons[weapon].isAntiTankWeap)
-  {
+  if (wpcost?[unitname]?.weapons?[weapon]?.isATGM)
+    return get_spawn_score_param("spawnCostMulForAircraftWithATGM", 1.0)
+
+  if (unitClass == "exp_fighter" && wpcost?[unitname]?.weapons?[weapon]?.isAntiTankWeap)
     return get_spawn_score_param("spawnCostMulForFighterWithBombs", 1.0)
-  }
+
   return 1.0
 }
 
