@@ -478,8 +478,6 @@ function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
 
 function SessionLobby::UpdatePlayersInfo()
 {
-  ::SquadIcon.clearPlayersInfo()
-
   // old format. players_info in lobby is array of objects for each player
   if ("players_info" in settings)
   {

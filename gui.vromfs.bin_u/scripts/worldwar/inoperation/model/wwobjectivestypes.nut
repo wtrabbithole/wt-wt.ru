@@ -24,7 +24,7 @@ local time = require("scripts/time.nut")
   updateArray = []
   currentStateParam = ""
 
-  needStopTimer = function(dataBlk, statusBlk, time, side) { return true }
+  needStopTimer = function(statusBlk, time) { return true }
   isDefender = function(blk, side)
   {
     if (blk.defenderSide && typeof side != typeof blk.defenderSide)
@@ -101,13 +101,22 @@ local time = require("scripts/time.nut")
 
   specificClassParamConvertion = {}
   convertParamValue = {
-    timeSecScaled = function(value, blk) { return time.hoursToString(time.secondsToHours(value - ::g_world_war.getOperationTimeSec()), false, true)}
-    holdTimeSec   = function(value, blk) { return time.hoursToString(time.secondsToHours(value), false, true)}
-    zonePercent_ = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
-    zonesPercent = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
-    unitCount = function(value, blk) { return value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon }
+    timeSecScaled = @(value, blk)
+      time.hoursToString(time.secondsToHours(value - ::g_world_war.getOperationTimeSec()), false, true)
+    holdTimeSec = @(value, blk)
+      time.hoursToString(time.secondsToHours(value), false, true)
+    zonePercent_ = @(value, blk)
+      ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)
+    zonesPercent = @(value, blk)
+      ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)
+    unitCount = @(value, blk)
+      value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon
     advantage = @(value, blk)
       ::loc("wwar_obj/params/advantage/value", {advantageFactor = ::round(value, 2)})
+  }
+
+  isParamVisible = {
+    holdTimeSec = @(value) value > 0
   }
 
   colorize = {
@@ -208,7 +217,7 @@ local time = require("scripts/time.nut")
       local sideName = ::ww_side_val_to_name(side)
       local operationTime = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
       nestObj.setValue(type.getName(dataBlk, statusBlk, sideName))
-      local needStopTimer = type.needStopTimer(dataBlk, statusBlk, operationTime, sideName)
+      local needStopTimer = type.needStopTimer(statusBlk, operationTime)
       return needStopTimer
     }
     zones = function(nestObj, dataBlk, statusBlk, type, zoneName)
@@ -290,7 +299,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
         local timeSec = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
         nestObj.setValue(type.getName(dataBlk, statusBlk, sideName))
 
-        local stopTimer = type.needStopTimer(dataBlk, statusBlk, timeSec, sideName)
+        local stopTimer = type.needStopTimer(statusBlk, timeSec)
         return stopTimer
       }
       holdTimeSec = function(nestObj, dataBlk, statusBlk, type, updateParam, side)
@@ -314,7 +323,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
         pValueObj.setValue(pValueText)
         nestObj.show(!::u.isEmpty(pValueText))
 
-        return type.needStopTimer(dataBlk, statusBlk, leftTime, ::ww_side_val_to_name(side))
+        return type.needStopTimer(statusBlk, leftTime)
       }
     }
 
@@ -334,7 +343,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
             if (holderSide == sideName)
               num--
 
-          show = type.isDefender(dataBlk, sideName)? num > 0 : num <= 0
+          show = type.isDefender(dataBlk, sideName) ? num > 0 : num <= 0
         }
 
         nestObj.show(show)
@@ -349,7 +358,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       }
     }
 
-    needStopTimer = function(dataBlk, statusBlk, time, side)
+    needStopTimer = function(statusBlk, time)
     {
       return time < 0 || statusBlk.winner
     }
@@ -389,12 +398,15 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
 
     getUpdatableParamsArray = function(dataBlk, statusBlk, side)
     {
-      return [{
-        id = getParamId(dataBlk, "holdTimeSec")
-        pName = getParamName(dataBlk, side, "holdTimeSec")
-        pValue = getValueByParam("holdTimeSec", dataBlk, side)
-        colorize = getColorizeByParam("holdTimeSec")
-      }]
+      local paramName = "holdTimeSec"
+      local paramValue = dataBlk[paramName]
+
+      return isParamVisible[paramName](paramValue)
+        ? [{ id = getParamId(dataBlk, paramName)
+             pName = getParamName(dataBlk, side, paramName)
+             pValue = getValueByParam(paramName, dataBlk, side)
+             colorize = getColorizeByParam(paramName) }]
+        : []
     }
 
     getUpdatableParamsDescriptionText = function(dataBlk, statusBlk, side)
@@ -451,7 +463,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       }
     }
 
-    needStopTimer = function(dataBlk, statusBlk, time, side)
+    needStopTimer = function(statusBlk, time)
     {
       return time < 0 || statusBlk.winner
     }

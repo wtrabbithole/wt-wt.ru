@@ -329,7 +329,22 @@
     "minCraftRank": 3,
     "maxBattlePlayersDisbalance": 2,
     "operationAnnounceTimeSec": 86400,
-    "joinBattleDelayTimeSec": 240
+    "joinBattleDelayTimeSec": 240,
+    "dailyTrophies": {
+      "locId": "worldwar/dailyTrophies",
+      "reqFeature": "WorldWarDailyTrophies",
+      "wwDaily1battle": {
+        "itemName": "booster_rp_100_1mp",
+        "progressParamName": "wwDaily1battleBattlesCount",
+        "rewardedParamValue": 1
+      },
+      "wwDaily3wins": {
+        "trophyName": "ww_cbt_reward_trophy",
+        "amount": 1,
+        "progressParamName": "wwDaily3winsWinsCount",
+        "rewardedParamValue": 3
+      }
+    }
   },
   "features": {
     "SpendGold": {
@@ -801,6 +816,26 @@
       }
     ],
     "WorldWarGlobalBattles": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      },
+      {
+        "condition": "worldwar_cbt_access"
+      },
+      {
+        "condition": "worldwar_cbt_access_nonclan_player"
+      }
+    ],
+    "WorldWarDailyTrophies": [
       {
         "condition": "role_GAIJIN"
       },

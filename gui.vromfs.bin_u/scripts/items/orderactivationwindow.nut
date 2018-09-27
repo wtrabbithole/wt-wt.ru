@@ -1,26 +1,16 @@
+local sheets = ::require("scripts/items/itemsShopSheets.nut")
+
 function gui_start_order_activation_window(params = null)
 {
   if (params == null)
     params = {}
   params.curTab <- itemsTab.INVENTORY
-  params.filter <- { typeMask = itemType.ORDER }
   ::handlersManager.loadHandler(::gui_handlers.OrderActivationWindow, params)
 }
 
 class ::gui_handlers.OrderActivationWindow extends ::gui_handlers.ItemsList
 {
-  _types = [
-    {
-      key = "orders"
-      typeMask = itemType.ORDER
-    }
-    {
-      key = "devItems"
-      typeMask = itemType.ALL
-      devItemsTab = true
-      tabEnable = @() ::has_feature("devItemShop") ? [itemsTab.SHOP] : []
-    }
-  ]
+  displayItemTypes = [sheets.ORDERS.id, sheets.DEV_ITEMS.id]
 
   /*override*/ function updateButtons()
   {

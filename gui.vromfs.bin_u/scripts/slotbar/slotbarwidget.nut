@@ -991,7 +991,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
  function onSlotbarCountryChanged()
   {
     if (ownerWeak?.presetsListWeak)
-      ownerWeak.presetsListWeak.update()
+      ownerWeak.presetsListWeak.applySelect(false)
     if (onCountryChanged)
       onCountryChanged()
   }

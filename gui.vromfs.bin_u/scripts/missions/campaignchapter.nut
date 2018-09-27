@@ -122,7 +122,9 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (obj != null)
       obj.setValue(title)
 
-    misListType.getMissionsList(showAllCampaigns, updateMissionsList.bindenv(this), customChapterId, customChapters)
+    misListType.getMissionsList(showAllCampaigns,
+      ::Callback(updateMissionsList, this),
+      customChapterId, customChapters)
   }
 
   function updateMissionsList(new_missions)

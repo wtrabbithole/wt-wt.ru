@@ -224,6 +224,18 @@ Button_text[active=yes],
   color: @buttonFontColorFocus;
 }
 
+buttonsNest > Button_text:focus {
+  background-color: @buttonColor;
+  color: @buttonFontColor;
+  border-color:@buttonBorderColor;
+}
+
+[show_console_buttons=yes] buttonsNest > Button_text:focus {
+  background-color: @buttonColorFocus;
+  border-color:@buttonBorderColorFocus;
+  color: @buttonFontColorFocus;
+}
+
 Button_text:disabled,
 Button_text[inactiveColor=yes] {
   background-color: @buttonColorDisabled;

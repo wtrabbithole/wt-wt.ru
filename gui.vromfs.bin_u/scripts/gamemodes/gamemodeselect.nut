@@ -102,7 +102,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
     local featuredGameModesObject = getObj("featured_game_modes")
     if (featuredGameModesObject != null)
-      featuredGameModesObject.enable(hasVisibleFeaturedModes())
+      featuredGameModesObject.enable(featuredGameModesObject.childrenCount() > 0)
 
     registerNewIconWidgets()
     updateClusters()
@@ -145,11 +145,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     view.extend(getViewArray(::game_mode_manager.getPveBattlesGameModes()))
     view.extend(getViewArray(::game_mode_manager.getFeaturedGameModes()))
     view.extend(createFeaturedLinksView())
-
-    local clanBattlesGameModes = ::game_mode_manager.getClanBattlesGameModes()
-    foreach (gameMode in clanBattlesGameModes)
-      view.push(createGameModeView(gameMode))
-
+    view.extend(getViewArray(::game_mode_manager.getClanBattlesGameModes()))
     return view
   }
 
@@ -670,16 +666,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       restoreFromModal = true
       ::events.openEventInfo(event)
     }
-  }
-
-  function hasVisibleFeaturedModes()
-  {
-    foreach (idx, mode in ::featured_modes)
-    {
-      if (mode.isVisible())
-        return true
-    }
-    return false
   }
 
   _eventDescriptionConsoleButtonActive = false

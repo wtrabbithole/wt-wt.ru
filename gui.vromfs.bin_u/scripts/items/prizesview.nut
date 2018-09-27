@@ -775,13 +775,17 @@ function PrizesView::getViewDataDefault(prize, showCount, params = null)
   local title = getPrizeText(prize, true, false, showCount, true)
   local icon = getPrizeTypeIcon(prize)
   local tooltipId = prize.trophy ? ::g_tooltip.getIdSubtrophy(prize.trophy)
-                  : prize.unlock ? ::g_tooltip.getIdUnlock(prize.unlock)
+                  : prize.unlock ? ::g_tooltip.getIdUnlock(prize.unlock, params)
                   : null
-  local previewImage = null
 
-  if (prize.unlock && ::get_unlock_type_by_id(prize.unlock) == ::UNLOCKABLE_PILOT)
+  local previewImage = null
+  local commentText = null
+  if (prize.unlock)
   {
-    previewImage = "cardAvatar { value:t='" + prize.unlock +"'}"
+    if (params?.showAsTrophyContent && ::is_unlocked_scripted(-1, prize.unlock))
+      commentText = ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
+    if (::get_unlock_type_by_id(prize.unlock) == ::UNLOCKABLE_PILOT)
+      previewImage = "cardAvatar { value:t='" + prize.unlock +"'}"
   }
 
   return {
@@ -789,6 +793,7 @@ function PrizesView::getViewDataDefault(prize, showCount, params = null)
     title = title,
     tooltipId = tooltipId,
     previewImage = previewImage
+    commentText = commentText
   }
 }
 

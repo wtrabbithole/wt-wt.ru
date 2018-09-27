@@ -34,6 +34,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   watchAxis = []
   stuckAxis = {}
   prevMousePos = [-1, -1]
+  needIgnoreMouse = false
   isSuperArtillery = false
   superStrikeRadius = 0.0
   iconSuperArtilleryZone = ""
@@ -79,6 +80,9 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     mapCoords = isStick ? [0.5, 0.5] : null
     stuckAxis = ::joystickInterface.getAxisStuck(watchAxis)
 
+    needIgnoreMouse = ::is_xinput_device() && ::g_gamepad_cursor_controls.getValue()
+    showSceneBtn("mouse_pointer_hider", needIgnoreMouse)
+
     scene.findObject("update_timer").setUserData(this)
     update(null, 0.0)
     updateShotcutImages()
@@ -107,7 +111,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
         ::clamp(prevMapCoords[1] + displasement[1], 0.0, 1.0)
       ]
     }
-    else if (mousePos[0] != prevMousePos[0] || mousePos[1] != prevMousePos[1])
+    else if (!needIgnoreMouse && (mousePos[0] != prevMousePos[0] || mousePos[1] != prevMousePos[1]))
     {
       curPointingDevice = ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : ::use_touchscreen ? POINTING_DEVICE.TOUCHSCREEN : POINTING_DEVICE.MOUSE
       mapCoords = getMouseCursorMapCoords()

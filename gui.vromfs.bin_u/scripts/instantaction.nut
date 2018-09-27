@@ -414,7 +414,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (leaveCurQueue({ isLeaderCanJoin = true
       msgId = "squad/only_leader_can_cancel"
-      needSendStatistic = true }))
+      isCanceledByPlayer = true }))
       return
 
     if (getGameModeSelectHandler().getShowGameModeSelect())
@@ -491,7 +491,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (::g_squad_manager.isInSquad() && !::g_squad_manager.isSquadLeader())
       return ::g_squad_manager.setReadyFlag()
 
-    if (leaveCurQueue({ isLeaderCanJoin = true, needSendStatistic = true}))
+    if (leaveCurQueue({ isLeaderCanJoin = true, isCanceledByPlayer = true}))
       return
 
     local curGameMode = ::game_mode_manager.getCurrentGameMode()
@@ -906,11 +906,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (options.len() && !::g_squad_utils.canJoinFlightMsgBox(options))
       return false
 
-    if (options?.needSendStatistic)
-      ::add_big_query_record("exit_waiting_for_battle_screen",
-        ::save_to_json({ waitingTime = curQueue.getActiveTime() }))
-
-    ::queues.leaveQueue(curQueue)
+    ::queues.leaveQueue(curQueue, options)
     return true
   }
 
@@ -926,7 +922,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (leaveCurQueue({ isLeaderCanJoin = true
       msgId = "squad/only_leader_can_cancel"
-      needSendStatistic = true }))
+      isCanceledByPlayer = true }))
       return
 
     if (needBattleMenuShow)

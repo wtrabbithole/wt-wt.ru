@@ -112,6 +112,7 @@ class ::WwUnit
     local activeCount = getActiveCount()
     local totalCount = getCount()
     local res = {
+      id = name
       isShow = count > 0 || !hideZeroCount
       unitType = getUnitTypeText()
       wwUnitType = wwUnitType

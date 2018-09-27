@@ -126,7 +126,7 @@ textareaNoTab {
   <</widthByParentParent>>
   <<#title>>
   pos:t='0, -4@sf/@pf'; position:t='relative'
-  padding-left:t='1@dIco <<#icon2>>+1@dIco<</icon2>> +1@itemPadding'
+  padding-left:t='1@dIco <<#icon2>>+1@dIco<</icon2>> <<#previewImage>>+1@cIco<</previewImage>> +1@itemPadding'
   <</title>>
   <<#unitPlate>>
   pos:t='0, 2@sf/@pf'; position:t='relative'

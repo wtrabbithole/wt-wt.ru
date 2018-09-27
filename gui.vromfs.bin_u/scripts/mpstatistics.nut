@@ -290,12 +290,13 @@ function build_mp_table(table, markupData, hdr, max_rows)
             halign =  markup[hdr[j]].halign
           if ("pareText" in markup[hdr[j]])
             pareText =  markup[hdr[j]].pareText
-          if (!isEmpty && ("image" in markup[hdr[j]]))
+          if ("image" in markup[hdr[j]])
             imageBg = ::format(" team:t='%s'; " +
               "teamImg {" +
               "id:t='%s';" +
-              "background-image:t='%s'; ",
-              colorTeam, "icon_"+hdr[j], markup[hdr[j]].image
+              "background-image:t='%s';" +
+              "display:t='%s'; ",
+              colorTeam, "icon_"+hdr[j], markup[hdr[j]].image, isEmpty ? "hide" : "show"
             )
         }
         local textParams = format("halign:t='%s'; ", halign)
@@ -2152,7 +2153,7 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
   listLabelsSquad = {}
   nextLabel = { team1 = 1, team2 = 1}
   topSquads = {}
-  playersInfo = null
+  playersInfo = {}
 }
 
 function SquadIcon::initListLabelsSquad()
@@ -2161,13 +2162,17 @@ function SquadIcon::initListLabelsSquad()
   nextLabel.team1 = 1
   nextLabel.team2 = 1
   topSquads = {}
-  playersInfo = clone ::SessionLobby.getPlayersInfo()
+  playersInfo = {}
   updateListLabelsSquad()
 }
 
-function SquadIcon::clearPlayersInfo()
+function SquadIcon::getPlayersInfo()
 {
-  playersInfo = null
+  local sessionPlayersInfo = ::SessionLobby.getPlayersInfo()
+  if (sessionPlayersInfo.len() > 0 && !::u.isEqual(playersInfo, sessionPlayersInfo))
+    playersInfo = clone sessionPlayersInfo
+
+  return playersInfo
 }
 
 function SquadIcon::updateListLabelsSquad()
@@ -2175,7 +2180,7 @@ function SquadIcon::updateListLabelsSquad()
   foreach(label in listLabelsSquad)
     label.count = 0;
   local team = ""
-  foreach(uid, member in ::SessionLobby.getPlayersInfo())
+  foreach(uid, member in getPlayersInfo())
   {
     team = "team"+member.team
     if (!(team in nextLabel))
@@ -2224,7 +2229,7 @@ function SquadIcon::getSquadInfoByMemberName(name)
   if (name == "")
     return null
 
-  foreach(uid, member in ::SquadIcon.playersInfo ?? ::SessionLobby.getPlayersInfo())
+  foreach(uid, member in getPlayersInfo())
     if (member.name == name)
       return getSquadInfo(member.squad)
 

@@ -996,7 +996,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj2()
   {
-    return getClanActionObjForSelect()
+    return "clan_actions"
   }
 
   function getMainFocusObj3()
@@ -1007,15 +1007,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function getMainFocusObj4()
   {
     return scene.findObject("clan-membersList")
-  }
-
-  function getClanActionObjForSelect()
-  {
-    local obj =  scene.findObject("clan_actions")
-    if (::checkObj(obj) && is_obj_have_active_childs(obj))
-      return obj
-
-    return null
   }
 
   function getWndHelpConfig()

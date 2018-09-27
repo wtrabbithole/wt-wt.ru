@@ -3,6 +3,8 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
   sceneTplTeamStrenght = "gui/worldWar/wwOperationDescriptionSideStrenght"
   sceneTplTeamArmyGroups = "gui/worldWar/wwOperationDescriptionSideArmyGroups"
 
+  slotbarActions = [ "weapons", "repair", "showroom", "testflight", "info" ]
+
   function setDescItem(newDescItem)
   {
     if (newDescItem && !(newDescItem instanceof ::WwOperation))
@@ -233,5 +235,19 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     viewData.isSingleColumn = viewData.columns.len() == 1
 
     return viewData
+  }
+
+  function onUnitClick(unitObj)
+  {
+    local unit = ::getAircraftByName(unitObj.unit_name)
+    if (!unit)
+      return
+
+    local actions = ::get_unit_actions_list(unit, this, getSlotbarActions())
+    if (!actions.actions.len())
+      return
+
+    actions.closeOnUnhover <- true
+    ::gui_handlers.ActionsList.open(unitObj, actions)
   }
 }

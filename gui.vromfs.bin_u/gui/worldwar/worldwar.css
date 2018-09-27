@@ -603,3 +603,16 @@ cardImg[logCategoryName=zone_capture]
 {
   background-color:@operationLogZoneCaptured;
 }
+
+wwUnitActiveBlock
+{
+  padding: 1@buttonTextPadding, 0;
+  css-hier-invalidate: yes;
+  total-input-transparent: yes;
+  behavior: button;
+  on_click: onUnitClick;
+}
+wwUnitActiveBlock:hover
+{
+  background-color:#ff2d3841;
+}

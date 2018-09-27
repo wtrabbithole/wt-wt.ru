@@ -876,11 +876,24 @@
         "max_br_diff": 1.0,
         "spawn_pow": 1.0,
         "spawnCostMulForFighterWithBombs": 1.2,
+        "spawnCostMulForAircraftWithATGM": 1.39,
+        "override_params_by_session_rank": {
+          "mrank_21_50": {
+            "minMRank": 21,
+            "maxMRank": 50,
+            "spawnCostMulForFighterWithBombs": 1.0,
+            "respawn_cost_mul_by_exp_class": {
+              "exp_fighter": 2.0,
+              "exp_bomber": 2.0,
+              "exp_assault": 2.0
+            }
+          }
+        },
         "respawn_cost_mul_by_exp_class": {
           "exp_fighter": 1.35,
           "exp_bomber": 1.67,
           "exp_assault": 1.51,
-          "exp_helicopter": 1.25,
+          "exp_helicopter": 1.0,
           "exp_tank": 0.334,
           "exp_heavy_tank": 0.5,
           "exp_tank_destroyer": 0.3,
