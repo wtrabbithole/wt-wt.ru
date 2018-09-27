@@ -398,17 +398,11 @@ local getActions = function(contact, params)
           {
             local threadInfo = ::g_chat.getThreadInfo(roomId)
             if (threadInfo) {
-              chatLog.category   = threadInfo.category
-              chatLog.title      = threadInfo.title
-              chatLog.ownerUid   = threadInfo.ownerUid
-              chatLog.ownerNick  = threadInfo.ownerNick
-              /*chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
-                ,
-                threadInfo.,
-                threadInfo.,
-                threadInfo.,
-                chatLog
-              )*/
+              chatLog = chatLog != "" ? chatLog : {}
+              chatLog.category   <- threadInfo.category
+              chatLog.title      <- threadInfo.title
+              chatLog.ownerUid   <- threadInfo.ownerUid
+              chatLog.ownerNick  <- threadInfo.ownerNick
               if (!roomData)
                 config.roomName = ::g_chat_room_type.THREAD.getRoomName(roomId)
             }
