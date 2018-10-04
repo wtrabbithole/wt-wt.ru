@@ -421,4 +421,18 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
   {
     randomize_builder_options()
   }
+
+  function getCurrentEdiff()
+  {
+    local diffValue = getSceneOptValue(::USEROPT_DIFFICULTY)
+    local difficulty = (diffValue == "custom") ?
+      ::g_difficulty.getDifficultyByDiffCode(::get_cd_base_difficulty()) :
+      ::g_difficulty.getDifficultyByName(diffValue)
+    if (difficulty.diffCode != -1)
+    {
+      local battleType = ::get_battle_type_by_unit(::show_aircraft)
+      return difficulty.getEdiff(battleType)
+    }
+    return ::get_current_ediff()
+  }
 }

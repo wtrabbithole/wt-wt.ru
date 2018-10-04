@@ -32,6 +32,9 @@ root {
         textareaNoTab {
           id:t='no_active_battles_text'
           width:t='pw'
+          <<#hasGotoGlobalBattlesBtn>>
+          height:t='fh'
+          <</hasGotoGlobalBattlesBtn>>
           margin-top:t='0.01@scrn_tgt'
           text-align:t='center'
           text:t='#worldwar/operation/noActiveBattles'

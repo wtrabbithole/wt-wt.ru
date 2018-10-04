@@ -52,7 +52,7 @@ class ::gui_handlers.WwArmiesList extends ::gui_handlers.BaseGuiHandlerWT
       return 0
 
     local armiesContentSize = contentObj.getSize()
-    local armyIconSize = guiScene.calcString("1@mIco", contentObj)
+    local armyIconSize = guiScene.calcString("1@wwArmyIco", contentObj)
     local contentHeight = armiesContentSize[1]
     if (withoutPaginator)
     {
@@ -190,19 +190,12 @@ class ::gui_handlers.WwArmiesList extends ::gui_handlers.BaseGuiHandlerWT
 
   function updatePaginator()
   {
-    local hasPaginator = curItemsPerPage == itemsPerPageWithPaginator
+    local pagesCount = lastTabSelected.getTotalPageCount(curItemsPerPage)
+    local hasPaginator = pagesCount > 1
     local paginatorPlaceObj = showSceneBtn("paginator_place", hasPaginator)
     showSceneBtn("paginator_nest_obj", hasPaginator)
     if (hasPaginator)
-      ::generatePaginator(
-        paginatorPlaceObj,
-        this,
-        currentPage,
-        lastTabSelected.getTotalPageCount(curItemsPerPage)-1,
-        null,
-        true,
-        true
-      )
+      ::generatePaginator(paginatorPlaceObj, this, currentPage, pagesCount - 1, null, true, true)
   }
 
   function goToPage(obj)

@@ -99,6 +99,12 @@
     "type": "typeLightTank"
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -1572,6 +1578,27 @@
             "lim1": [-180.0,-135.0,-1.0,20.0],
             "lim2": [-135.0,135.0,-7.5,20.0],
             "lim3": [135.0,180.0,-1.0,20.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": true,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 40.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 10.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [8.0,0.2]
+              },
+              {
+                "row": [10.0,0.4]
+              }
+            ]
           }
         }
       },
@@ -1708,7 +1735,7 @@
         "minRPM": 500.0
       },
       "mechanics": {
-        "maxBrakeForce": 65024.0,
+        "maxBrakeForce": 80000.0,
         "driveGearRadius": 0.34,
         "mainGearRatio": 0.79,
         "sideGearRatio": 1.32,
@@ -2401,6 +2428,27 @@
                   "lim1": [-180.0,-135.0,-1.0,20.0],
                   "lim2": [-135.0,135.0,-7.5,20.0],
                   "lim3": [135.0,180.0,-1.0,20.0]
+                },
+                "gunStabilizer": {
+                  "hasVerticalGunFreeMode": true,
+                  "hasHorizontal": false,
+                  "horizontalOmegaMult": 1.0,
+                  "horizontalSpeedLimitKPH": 40.0,
+                  "hasVertical": true,
+                  "verticalOmegaMult": 0.7,
+                  "verticalSpeedLimitKPH": 10.0,
+                  "speedFromVehicleVerticalMult": -1.0,
+                  "errorKPHToDegrees": [
+                    {
+                      "row": [5.0,0.0]
+                    },
+                    {
+                      "row": [8.0,0.2]
+                    },
+                    {
+                      "row": [10.0,0.4]
+                    }
+                  ]
                 }
               }
             },

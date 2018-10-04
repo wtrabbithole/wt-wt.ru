@@ -90,7 +90,7 @@
       updatePresetFromSlotbar(presets[countryId][selPresetId], countryId)
     else
     {
-      selPresetId = null
+      selPresetId = 0
       local slotbarPreset = createPresetFromSlotbar(countryId)
       foreach (idx, preset in presets[countryId])
         if (::u.isEqual(preset.crews, slotbarPreset.crews) && ::u.isEqual(preset.units, slotbarPreset.units))

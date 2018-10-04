@@ -40,7 +40,15 @@ class ::WwBattleResultsView
     foreach (team in battleRes.teams)
     {
       foreach (wwUnit in team.unitsInitial)
+      {
+        if (wwUnit.getWwUnitType().code == ::g_ww_unit_type.UNKNOWN)
+        {
+          local unitName = wwUnit.name
+          ::script_net_assert_once("UNKNOWN wwUnitType", "wwUnitType is UNKNOWN in wwBattleResultsView")
+          continue
+        }
         ::u.appendOnce(wwUnit.getWwUnitType().code, battleUnitTypes)
+      }
       foreach (wwUnit in team.unitsRemain)
         if (wwUnit.inactiveCount > 0)
           ::u.appendOnce(wwUnit.getWwUnitType().code, inactiveUnitTypes)
