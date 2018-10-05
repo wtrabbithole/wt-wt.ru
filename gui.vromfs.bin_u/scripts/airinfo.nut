@@ -421,16 +421,19 @@ function get_unit_actions_list(unit, handler, actions)
                                                         ::researchUnit(unit)}
                                                       })(unit)))
     }
-    else if (action == "testflight")
+    else if (action == "testflight" || action == "testflightforced")
     {
+      local shouldSkipUnitCheck = action == "testflightforced"
+
       actionText = unit.unitType.getTestFlightText()
       icon       = unit.unitType.testFlightIcon
-      showAction = inMenu && ::isTestFlightAvailable(unit)
+      showAction = inMenu && ::isTestFlightAvailable(unit, shouldSkipUnitCheck)
       actionFunc = function () {
         if (::isShip(unit) && !::check_package_and_ask_download("pkg_ships"))
           return
 
-        ::queues.checkAndStart(@() ::gui_start_testflight(unit), null, "isCanNewflight")
+        ::queues.checkAndStart(@() ::gui_start_testflight(unit, null, shouldSkipUnitCheck),
+          null, "isCanNewflight")
       }
     }
     else if (action == "info")
@@ -1001,12 +1004,13 @@ function isUnitAvailableForGM(air, gm)
   return true
 }
 
-function isTestFlightAvailable(unit)
+function isTestFlightAvailable(unit, skipUnitCheck = false)
 {
   if (!::isUnitAvailableForGM(unit, ::GM_TEST_FLIGHT))
     return false
 
   if (unit.isUsable()
+      || skipUnitCheck
       || ::canResearchUnit(unit)
       || ::isUnitGift(unit)
       || ::isUnitResearched(unit)

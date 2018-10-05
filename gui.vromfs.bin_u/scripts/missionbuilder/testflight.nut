@@ -1,12 +1,13 @@
 ::missionBuilderVehicleConfigForBlk <- {} //!!FIX ME: Should to remove this
 ::last_called_gui_testflight <- null
 
-function gui_start_testflight(unit = null, afterCloseFunc = null)
+function gui_start_testflight(unit = null, afterCloseFunc = null, shouldSkipUnitCheck = false)
 {
   ::gui_start_modal_wnd(::gui_handlers.TestFlight,
   {
     afterCloseFunc = afterCloseFunc
     unit =  unit || ::show_aircraft
+    shouldSkipUnitCheck = shouldSkipUnitCheck
   })
   ::last_called_gui_testflight <- ::handlersManager.getLastBaseHandlerStartFunc()
 }
@@ -27,6 +28,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   wndOptionsMode = ::OPTIONS_MODE_TRAINING
   applyAtClose = false
   afterCloseFunc = null
+  shouldSkipUnitCheck = false
 
   unit = null
   needSlotbar = false
@@ -203,7 +205,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   }
   function isTestFlightAvailable()
   {
-    return ::isTestFlightAvailable(unit)
+    return ::isTestFlightAvailable(unit, shouldSkipUnitCheck)
   }
 
   function updateButtons()
