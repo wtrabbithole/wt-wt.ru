@@ -153,8 +153,11 @@ local defTostringParams = {
   showArrIdx=false
 }
 local function func_tostring(func,compact) {
-  local info = func.getinfos()
   local out = ""
+  if (type(func)=="thread") {
+    return "thread: " + func.getstatus()
+  }
+  local info = func.getinfos()
   if (!info.native) {
     local params = info.parameters.slice(1)
     if (params.len()>0)

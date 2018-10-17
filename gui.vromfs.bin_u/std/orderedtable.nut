@@ -12,6 +12,37 @@
   print(table.a)//1
   print(table.missedfield)//error
 */
+
+local function _filter_func(func, params_num=null) {
+  //return is function with (index,value,collection)
+  ::assert(::type(func)==::type(callee()))
+  switch (max(func.getinfos()?.parameters-1, params_num ?? 3)) {
+    case 1:
+      return @(value, index, collection) func(val)
+    case 2:
+      return @(value, index, collection) func(index, val)
+    case 3:
+      return func
+    default:
+      ::assert(false, "non correct function for filter")
+  }
+}
+
+local function _map_func(func) {
+  //return is function with (index,value,collection)
+  ::assert(::type(func)==::type(callee()))
+  switch (func.getinfos()?.parameters-1) {
+    case 1:
+      return @(value, index, collection) func(value)
+    case 2:
+      return @(index, value, collection) func(value, index)
+    case 3:
+      return func
+    default:
+      ::assert(false, "non correct function for map")
+  }
+}
+
 local OrderedTable
 OrderedTable = class </ name = "OrderedTable" />{
   __sorted_keys = null
@@ -24,35 +55,45 @@ OrderedTable = class </ name = "OrderedTable" />{
     __value = {}
     if (table==null)
       return
-    if (typeof table == "instance" && table.getattributes(null)?.name == "OrderedTable") {
-      __sorted_keys = clone table.__sorted_keys
-      __value = clone table.__value
-    } else if (typeof table == "table" && table.len()<2) {
-      __value = clone table
+    if (table instanceof OrderedTable) {
+      this.__sorted_keys = clone table.__sorted_keys
+      this.__value = clone table.__value
+    } else if (::type(table) == "table" && table.len()<2) {
+      this.__value = clone table
       foreach (k,v in table)
-        __sorted_keys.append(k)
+        this.__sorted_keys.append(k)
+    } else if (::type(table) == ::type([])) {
+      foreach (elem in table){
+        ::assert(::type(elem)==::type({}) && elem.len()==1, "you can initialize ordered table only with array consisting of tables with one key value pair")
+        foreach (k,v in elem) {
+          ::assert (!(k in this.__value), "not unique key for table")
+          this.__sorted_keys.append(k)
+          this.__value.__update(elem)
+        }
+      }
     } else {
       ::assert (false, "OrderedTable can be initialized only with ordered tables")
     }
   }
+
   _get = function(idx){
-    return __value[idx]
+    return this.__value[idx]
   }
 
   _set = function(idx,val){
     if ( idx in this.__value)
-      __value[idx]=val
+      this.__value[idx]=val
     else
       return null
   }
   _newslot = function(key,value) {
-    __sorted_keys.append(key)
-    __value.rawset(key,value)
+    this.__sorted_keys.append(key)
+    this.__value.rawset(key,value)
   }
 
   _delslot = function(key) {
     delete __value.key
-    __sorted_keys.remove(__sorted_keys.find(key))
+    this.__sorted_keys.remove(__sorted_keys.find(key))
   }
 
   remove = function(key) {
@@ -62,7 +103,7 @@ OrderedTable = class </ name = "OrderedTable" />{
 
   __insert_idx = function(key, value, idx) {
     if (key in  __value)
-      assert(false, "key %s already exists"%key)
+      ::assert(false, "key %s already exists"%key)
     else {
       __value[key]=value
       if (idx == null)
@@ -74,7 +115,7 @@ OrderedTable = class </ name = "OrderedTable" />{
 
   __insert_after = function(key, value, key_after) {
     if (key in  __value)
-      assert(false, "key %s already exists"%key)
+      ::assert(false, "key %s already exists"%key)
     else {
       local idx = __sorted_keys.find(key_after) ?? __sorted_keys.len()-1
       idx +=1
@@ -88,7 +129,7 @@ OrderedTable = class </ name = "OrderedTable" />{
 
   __insert_before = function(key, value, key_before) {
     if (key in  __value)
-      assert(false, "key %s already exists"%key)
+      ::assert(false, "key %s already exists"%key)
     else {
       __sorted_keys.insert(__sorted_keys.find(key_before) ?? __sorted_keys.len(), key)
       __value[key] = value
@@ -124,23 +165,41 @@ OrderedTable = class </ name = "OrderedTable" />{
   }
 
   __update = function(table){
-    ::assert (((typeof table == "table" && table.len()<2) || (typeof table =="instance" && table.getattributes(null)?.name=="OrderedTable")), "update can be done only with ordered tables")
-    foreach (k,v in table) {
-      if (!(k in __value)) {
-        __value[k]<-v
-        __sorted_keys.append(k)
+    ::assert(((::type(table) == ::type({})) && table.len()<2) || (::type(table) == ::type([])) || (table instanceof this.getclass()), "update can be done only with ordered tables")
+    local function updateKey(table){
+      foreach (k,v in table) {
+        if (!(k in __value)) {
+          __value[k]<-v
+          __sorted_keys.append(k)
+        }
+        else
+          __value[k]=v
       }
-      else
-        __value[k]=v
     }
+    if (::type(table)==::type([])) {
+      foreach (a in table){
+        updateKey(a)
+      }
+    }
+    else
+      updateKey(a)
   }
+
   filter = function(func){
-    local ret = OrderedTable()
+    local f = _filter_func(func,2)
+    local ret = this.getclass()()
     foreach (k,v in __value) {
-      if(func(k,v))
+      if(f(k,v))
         ret[k]<-v
     }
     return ret
+  }
+  map = function(func){
+    local f = _map_func(func)
+    local ret = []
+    foreach (k in __sorted_keys) {
+      ret.append(f(__value[k], k, __sorted_keys))
+    }
   }
 
 }

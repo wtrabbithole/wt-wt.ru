@@ -528,7 +528,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageFillfuncName = "fillMissionObjectivesTexts"
     },
     [help_tab_types.HOTAS4_COMMON] = {
-      title = ::loc("presets/ps4/thrustmaster_hotas4")
+      title = ::is_platform_xboxone? ::loc("presets/xboxone/thrustmaster_hotasOne") : ::loc("presets/ps4/thrustmaster_hotas4")
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) { return ::check_joystick_thustmaster_hotas(false) }
       pageFillfuncName = "fillHotas4Image"

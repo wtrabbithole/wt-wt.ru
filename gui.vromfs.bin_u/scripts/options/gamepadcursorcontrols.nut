@@ -3,6 +3,7 @@ const IS_GAMEPAD_CURSOR_ENABLED_DEFAULT = true
 
 ::g_gamepad_cursor_controls <- {
   currentOptionValue = IS_GAMEPAD_CURSOR_ENABLED_DEFAULT
+  isPaused = false
 
 
   function init()
@@ -48,11 +49,21 @@ const IS_GAMEPAD_CURSOR_ENABLED_DEFAULT = true
     return ::has_feature("GamepadCursorControl") && ::is_mouse_available()
   }
 
+  function pause(isPause)
+  {
+    local shouldPause = canChangeValue() && getValue()
+    if (shouldPause || isPaused && !isPause)
+      isPaused = isPause
+    if (shouldPause)
+      ::set_use_gamepad_cursor_control(!isPause)
+  }
 
   function onEventProfileUpdated(p)
   {
     if (!::g_login.isLoggedIn())
       setValue(getValue())
+    else if (isPaused)
+      pause(false)
   }
 }
 

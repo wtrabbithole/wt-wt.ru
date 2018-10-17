@@ -34,7 +34,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   watchAxis = []
   stuckAxis = {}
   prevMousePos = [-1, -1]
-  needIgnoreMouse = false
   isSuperArtillery = false
   superStrikeRadius = 0.0
   iconSuperArtilleryZone = ""
@@ -80,8 +79,8 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     mapCoords = isStick ? [0.5, 0.5] : null
     stuckAxis = ::joystickInterface.getAxisStuck(watchAxis)
 
-    needIgnoreMouse = ::is_xinput_device() && ::g_gamepad_cursor_controls.getValue()
-    showSceneBtn("mouse_pointer_hider", needIgnoreMouse)
+    if (::is_xinput_device())
+      ::g_gamepad_cursor_controls.pause(true)
 
     scene.findObject("update_timer").setUserData(this)
     update(null, 0.0)
@@ -111,7 +110,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
         ::clamp(prevMapCoords[1] + displasement[1], 0.0, 1.0)
       ]
     }
-    else if (!needIgnoreMouse && (mousePos[0] != prevMousePos[0] || mousePos[1] != prevMousePos[1]))
+    else if (mousePos[0] != prevMousePos[0] || mousePos[1] != prevMousePos[1])
     {
       curPointingDevice = ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : ::use_touchscreen ? POINTING_DEVICE.TOUCHSCREEN : POINTING_DEVICE.MOUSE
       mapCoords = getMouseCursorMapCoords()
@@ -340,6 +339,8 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   function goBack()
   {
     ::on_artillery_close()
+    if (::is_xinput_device())
+      ::g_gamepad_cursor_controls.pause(false)
     base.goBack()
   }
 
@@ -386,5 +387,5 @@ function artillery_call_by_shortcut() // called from client
 {
   local handler = ::handlersManager.getActiveBaseHandler()
   if (handler && (handler instanceof ::gui_handlers.ArtilleryMap))
-    handler.onArtilleryMapClick()
+    handler.onApply()
 }

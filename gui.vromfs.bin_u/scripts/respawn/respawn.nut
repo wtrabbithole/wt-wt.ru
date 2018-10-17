@@ -1253,9 +1253,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       isUnitChanged = ::aircraft_for_weapons != unit.name
       ::cur_aircraft_name = unit.name //used in some options
       ::aircraft_for_weapons = unit.name
+
+      if (isUnitChanged || isFirstUnitOptionsInSession)
+        preselectUnitWeapon(unit)
     }
-    if (isUnitChanged || isFirstUnitOptionsInSession)
-      preselectUnitWeapon(unit)
 
     updateTacticalMapUnitType()
 

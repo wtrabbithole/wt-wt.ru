@@ -176,6 +176,7 @@
         return ::u.isEqual(w1?.trigger ?? "", w2?.trigger ?? "")
             && ::u.isEqual(w1?.blk ?? "", w2?.blk ?? "")
             && ::u.isEqual(w1?.bullets ?? "", w2?.bullets ?? "")
+            && ::u.isEqual(w1?.gunDm ?? "", w2?.gunDm ?? "")
             && ::u.isEqual(w1?.barrelDP ?? "", w2?.barrelDP ?? "")
             && ::u.isEqual(w1?.breechDP ?? "", w2?.breechDP ?? "")
             && ::u.isEqual(w1?.ammoDP ?? "", w2?.ammoDP ?? "")

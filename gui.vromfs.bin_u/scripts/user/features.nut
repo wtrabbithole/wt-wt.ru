@@ -198,6 +198,7 @@
     PromoBattleTasksRadioButtons = false
 
     XboxCrossConsoleInteraction = false
+    EnableMouse = true
   }
 
   cache = {}
