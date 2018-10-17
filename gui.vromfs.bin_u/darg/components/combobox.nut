@@ -146,13 +146,14 @@ local function combobox(watches, options, combo_style=comboStyle) {
 
     local desc = (combo_style?.root ?? {}).__update({
       size = flex()
-      behavior = wdisable.value ? null : Behaviors.Button
+      //behavior = wdisable.value ? null : Behaviors.Button
+      behavior = Behaviors.Button
       watch = [comboOpen, watches?.disable]
       group = group
       onElemState=@(sf) stateFlags(sf)
 
       children = children
-      onClick = clickHandler
+      onClick = wdisable.value ? null : clickHandler
     })
 
     return desc

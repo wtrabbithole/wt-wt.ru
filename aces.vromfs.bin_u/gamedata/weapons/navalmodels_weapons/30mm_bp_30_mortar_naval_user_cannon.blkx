@@ -36,7 +36,7 @@
     "maxDistance": 1700.0,
     "bulletType": "he_frag_vog",
     "bulletName": "30mm_vog_17a",
-    "hitPowerMult": 150.0,
+    "hitPowerMult": 15.0,
     "nearHitPower": [1.0,50.0],
     "midHitPower": [0.9,300.0],
     "farHitPower": [0.1,700.0],
@@ -52,6 +52,64 @@
     "ricochetEffect": "cannon_ricochet",
     "waterCollisionEffect": "water_splash_20_76",
     "waterFxScale": [1.0,1.0],
+    "damage": {
+      "shatter": [
+        {
+          "useRealShatters": true
+        },
+        {
+          "countPortion": 0.35
+        },
+        {
+          "segment": {
+            "angles": [0.0,14.0],
+            "countPortion": 0.06
+          }
+        },
+        {
+          "segment": {
+            "angles": [15.0,44.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "angles": [45.0,84.0],
+            "countPortion": 0.4
+          }
+        },
+        {
+          "segment": {
+            "angles": [85.0,169.0],
+            "countPortion": 0.01
+          }
+        },
+        {
+          "segment": {
+            "angles": [170.0,189.0],
+            "countPortion": 0.05
+          }
+        },
+        {
+          "segment": {
+            "angles": [190.0,274.0],
+            "countPortion": 0.01
+          }
+        },
+        {
+          "segment": {
+            "angles": [275.0,344.0],
+            "countPortion": 0.4
+          }
+        },
+        {
+          "segment": {
+            "angles": [345.0,359.0],
+            "countPortion": 0.06
+          }
+        }
+      ]
+    },
     "armorpower": {
       "ArmorPower0m": [3.0,10.0],
       "ArmorPower100m": [3.0,100.0],
@@ -98,7 +156,7 @@
       "maxDistance": 1700.0,
       "bulletType": "he_frag_vog",
       "bulletName": "30mm_vog_17a",
-      "hitPowerMult": 150.0,
+      "hitPowerMult": 15.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,300.0],
       "farHitPower": [0.1,700.0],
@@ -114,6 +172,64 @@
       "ricochetEffect": "cannon_ricochet",
       "waterCollisionEffect": "water_splash_20_76",
       "waterFxScale": [1.0,1.0],
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.35
+          },
+          {
+            "segment": {
+              "angles": [0.0,14.0],
+              "countPortion": 0.06
+            }
+          },
+          {
+            "segment": {
+              "angles": [15.0,44.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "angles": [45.0,84.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [85.0,169.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [170.0,189.0],
+              "countPortion": 0.05
+            }
+          },
+          {
+            "segment": {
+              "angles": [190.0,274.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [275.0,344.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [345.0,359.0],
+              "countPortion": 0.06
+            }
+          }
+        ]
+      },
       "armorpower": {
         "ArmorPower0m": [3.0,10.0],
         "ArmorPower100m": [3.0,100.0],

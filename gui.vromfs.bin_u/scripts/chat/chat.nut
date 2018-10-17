@@ -576,6 +576,7 @@ function g_chat::showPlayerRClickMenu(playerName, roomId = null, contact = null,
     position = position
     roomId = roomId
     playerName = playerName
+    canComplain = true
   })
 }
 

@@ -738,7 +738,7 @@
         },
         {
           "triggerEnable": {
-            "target": "common_bombers_spawn"
+            "target": "far_bombers_spawn"
           }
         }
       ],
@@ -1029,6 +1029,23 @@
             "object": "@arcade_t2_airfield_name",
             "separate_fuel_time": true,
             "modular_airfield": true
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "airfieldSetProperties": {
+            "object": "@arcade_t1_airfield_name",
+            "enemySurrenderOnLanding ": true
+          }
+        },
+        {
+          "airfieldSetProperties": {
+            "object": "@arcade_t2_airfield_name",
+            "enemySurrenderOnLanding ": true
           }
         }
       ],
@@ -1466,6 +1483,23 @@
               "aaa": false
             }
           }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "airfieldSetProperties": {
+            "object": "@t1_helicopter_pad_01",
+            "enemySurrenderOnLanding ": true
+          }
+        },
+        {
+          "airfieldSetProperties": {
+            "object": "@t1_helicopter_pad_02",
+            "enemySurrenderOnLanding ": true
+          }
         }
       ],
       "else_actions": []
@@ -1607,6 +1641,23 @@
               "artillery": false,
               "aaa": false
             }
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "airfieldSetProperties": {
+            "object": "@t2_helicopter_pad_01",
+            "enemySurrenderOnLanding ": true
+          }
+        },
+        {
+          "airfieldSetProperties": {
+            "object": "@t2_helicopter_pad_02",
+            "enemySurrenderOnLanding ": true
           }
         }
       ],

@@ -18,9 +18,9 @@ function is_builtin_browser_active()
   return ::isHandlerInScene(::gui_handlers.BrowserModalHandler)
 }
 
-function open_browser_modal(url="")
+function open_browser_modal(url="", tags=[])
 {
-  ::gui_start_modal_wnd(::gui_handlers.BrowserModalHandler, {url = url})
+  ::gui_start_modal_wnd(::gui_handlers.BrowserModalHandler, {url = url, urlTags = tags})
 }
 
 function close_browser_modal()
@@ -45,6 +45,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   url = ""
   externalUrl = ""
   needVoiceChat = false
+  urlTags = []
 
   function initScreen()
   {
@@ -84,7 +85,10 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function browserForceExternal()
   {
-    local url = externalUrl && externalUrl.len() ? externalUrl : ::browser_get_current_url()
+    local taggedUrl = ::browser_get_current_url()
+    if (!u.isEmpty(urlTags))
+        taggedUrl = ::g_string.implode(urlTags, " ") + " " + taggedUrl
+    local url = u.isEmpty(externalUrl) ? taggedUrl : externalUrl
 
     if (!url || url == "")
     {

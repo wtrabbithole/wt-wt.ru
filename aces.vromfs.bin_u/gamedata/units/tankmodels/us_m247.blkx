@@ -105,6 +105,9 @@
     "canReloadNonGuns": true
   },
   {
+    "allowForestallWithoutMarkers": true
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "CHA_tank",
@@ -1650,27 +1653,151 @@
   },
   {
     "MetaParts": {
-      "crew": [
+      "body": [
         {
-          "killAllPartsForDeath": true
+          "hp": 2000.0
         },
         {
-          "killNumPartsForDeath": 3
+          "part": "turret_back_dm"
         },
         {
-          "part": "driver_dm"
+          "part": "turret_back_dm"
         },
         {
-          "part": "gunner_dm"
+          "part": "turret_side_dm"
         },
         {
-          "part": "commander_dm"
+          "part": "turret_front_dm"
         },
         {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
+          "part": "turret_commander_dm"
+        },
+        {
+          "part": "gun_mask_dm"
+        },
+        {
+          "part": "gun_mask_01_dm"
+        },
+        {
+          "part": "gun_mask_02_dm"
+        },
+        {
+          "part": "gun_mask_03_dm"
+        },
+        {
+          "part": "gun_mask_04_dm"
+        },
+        {
+          "part": "gun_mask_05_dm"
+        },
+        {
+          "part": "turret_01_side_dm"
+        },
+        {
+          "part": "turret_bottom_dm"
+        },
+        {
+          "part": "turret_01_top_dm"
+        },
+        {
+          "part": "turret_01_back_dm"
+        },
+        {
+          "part": "turret_01_front_dm"
+        },
+        {
+          "part": "turret_02_top_dm"
+        },
+        {
+          "part": "turret_02_side_dm"
+        },
+        {
+          "part": "turret_03_back_dm"
+        },
+        {
+          "part": "turret_03_top_dm"
+        },
+        {
+          "part": "turret_03_front_dm"
+        },
+        {
+          "part": "turret_04_top_dm"
+        },
+        {
+          "part": "turret_04_bottom_dm"
+        },
+        {
+          "part": "turret_04_front_dm"
+        },
+        {
+          "part": "turret_05_back_dm"
+        },
+        {
+          "part": "turret_05_side_dm"
+        },
+        {
+          "part": "turret_05_top_dm"
+        },
+        {
+          "part": "turret_05_bottom_dm"
+        },
+        {
+          "part": "turret_05_front_dm"
+        },
+        {
+          "part": "turret_06_front_dm"
+        },
+        {
+          "part": "turret_06_top_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "mount": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "gun_mask_dm"
+        },
+        {
+          "part": "turret_04_side_dm"
+        },
+        {
+          "part": "turret_04_back_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         }
       ]
@@ -1735,7 +1862,7 @@
             "fireConeAngle": 15.0
           },
           {
-            "ChainfireTime": 1.0
+            "ChainfireTime": 0.5
           },
           {
             "DelayAfterShoot": 2.0
@@ -1840,7 +1967,7 @@
           "speedPitch": 30.0,
           "bullets": 280,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 1.0,
+          "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
@@ -2637,7 +2764,7 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 1.0
+                  "ChainfireTime": 0.5
                 },
                 {
                   "DelayAfterShoot": 2.0
@@ -2742,7 +2869,7 @@
                 "speedPitch": 30.0,
                 "bullets": 280,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 1.0,
+                "ChainfireTime": 0.5,
                 "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,

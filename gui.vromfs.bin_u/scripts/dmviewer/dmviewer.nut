@@ -176,6 +176,7 @@
         return ::u.isEqual(w1?.trigger ?? "", w2?.trigger ?? "")
             && ::u.isEqual(w1?.blk ?? "", w2?.blk ?? "")
             && ::u.isEqual(w1?.bullets ?? "", w2?.bullets ?? "")
+            && ::u.isEqual(w1?.gunDm ?? "", w2?.gunDm ?? "")
             && ::u.isEqual(w1?.barrelDP ?? "", w2?.barrelDP ?? "")
             && ::u.isEqual(w1?.breechDP ?? "", w2?.breechDP ?? "")
             && ::u.isEqual(w1?.ammoDP ?? "", w2?.ammoDP ?? "")
@@ -824,7 +825,8 @@
         if (isSpecialBullet || isSpecialBulletEmitter)
           desc[desc.len() - 1] += ::getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
         else {
-          local status = getWeaponStatus(weaponInfoBlk.blk)
+          desc.push(getMassInfo(::DataBlock(weaponBlkLink)))
+          local status = getWeaponStatus(weaponBlkLink)
           if (status.isPrimary)
           {
             local firstStageAmmo = getFirstStageAmmoCount()

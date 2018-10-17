@@ -161,13 +161,13 @@ enum ConflictGroups {
       axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
     }
     { id = "mouse_z_mult"
       type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_MULT)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_MULT, objValue / 100.0)
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [globalEnv.EM_MOUSE_AIM]
@@ -328,7 +328,7 @@ enum ConflictGroups {
     }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
     }
     { id = "aim_time_nonlinearity_air", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_AIR)
@@ -455,10 +455,6 @@ enum ConflictGroups {
   { id = "ID_HELICOPTER_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.HELICOPTER
-    showFunc = function() {
-      local currentUnit = ::get_player_cur_unit()
-      return ::has_feature("Helicopters") || currentUnit?.isHelicopter?()
-    }
     isHelpersVisible = true
   }
   { id = "ID_HELICOPTER_MODE_HEADER"
@@ -717,13 +713,13 @@ enum ConflictGroups {
       axis_num = MouseAxis.MOUSE_SCROLL_HELICOPTER
       values = ["none", "helicopter_collective", "helicopter_climb", "helicopter_zoom"]
       onChangeValue = "onMouseWheel"
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
     }
     { id = "mouse_z_mult_helicopter"
       type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_HELICOPTER_MULT)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_HELICOPTER_MULT, objValue / 100.0)
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
     }
 
   { id = "ID_HELICOPTER_INSTRUCTOR_HEADER"
@@ -887,13 +883,13 @@ enum ConflictGroups {
       axis_num = MouseAxis.MOUSE_SCROLL_TANK
       values = ["none", "gm_zoom", "gm_sight_distance"]
       onChangeValue = "onMouseWheel"
-      showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
+      showFunc = @() ::has_feature("EnableMouse") && ::has_feature("Tanks")
     }
     { id = "mouse_z_mult_ground"
       type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_TANK_MULT)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_TANK_MULT, objValue / 100.0)
-      showFunc = @() !::is_platform_xboxone && ::has_feature("Tanks")
+      showFunc = @() ::has_feature("EnableMouse") && ::has_feature("Tanks")
     }
 
   { id = "ID_TANK_SUSPENSION_HEADER", type = CONTROL_TYPE.SECTION }
@@ -946,7 +942,6 @@ enum ConflictGroups {
   { id = "ID_SHIP_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.SHIP
-    showFunc = @() ::has_feature("Ships")
   }
   { id = "ID_SHIP_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "ship_seperated_engine_control",
@@ -1023,14 +1018,26 @@ enum ConflictGroups {
     }
 
     {
+      id = "ID_SHIP_WEAPON_MINE",
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
+
+    {
+      id = "ID_SHIP_WEAPON_MORTAR"
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
+
+    {
       id = "ID_SHIP_WEAPON_ROCKETS"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_WEAPON_MINE",
-      checkGroup = ctrlGroups.SHIP
+      id = "ID_SHIP_SMOKE_SCREEN_GENERATOR",
+      checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
@@ -1098,13 +1105,13 @@ enum ConflictGroups {
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
       values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
-      showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
+      showFunc = @() ::has_feature("EnableMouse") && ::has_feature("Ships")
     }
     { id = "mouse_z_mult_ship"
       type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_MOUSE_Z_SHIP_MULT)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_Z_SHIP_MULT, objValue / 100.0)
-      showFunc = @() !::is_platform_xboxone && ::has_feature("Ships")
+      showFunc = @() ::has_feature("EnableMouse") && ::has_feature("Ships")
     }
 
   { id = "ID_SHIP_OTHER_HEADER", type = CONTROL_TYPE.SECTION }
@@ -1182,12 +1189,6 @@ enum ConflictGroups {
       def_relative = true
       isAbsOnlyWhenRealAxis = true
       checkGroup = ctrlGroups.SHIP
-      checkAssign = false
-    }
-
-    {
-      id = "ID_SHIP_SMOKE_SCREEN_GENERATOR",
-      checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
@@ -1357,7 +1358,7 @@ enum ConflictGroups {
     { id="ID_GAME_PAUSE",        checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_HIDE_HUD",          checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.NO_GROUP, checkAssign = false
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
       condition = @() ::is_platform_pc || ::is_ps4_or_xbox
     }
     { id="ID_SCREENSHOT",        checkGroup = ctrlGroups.COMMON, checkAssign = false
@@ -1385,15 +1386,15 @@ enum ConflictGroups {
 */
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.NO_GROUP }
     { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.NO_GROUP, checkAssign = false
-      showFunc = @() !::is_platform_xboxone
-  }
+      showFunc = @() ::has_feature("EnableMouse")
+    }
     { id="mouse_sensitivity", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_MOUSE_SENSE
     }
     { id = "camera_mouse_speed", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
     }
     { id = "camera_smooth", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_CAMERA_SMOOTH) / max_camera_smooth
@@ -1437,7 +1438,7 @@ enum ConflictGroups {
     }
     { id="use_mouse_for_voice_message", type = CONTROL_TYPE.SWITCH_BOX,
       value = @(joyParams) joyParams.useMouseForVoiceMessage
-      showFunc = @() !::is_platform_xboxone
+      showFunc = @() ::has_feature("EnableMouse")
       setValue = function(joyParams, objValue) {
         local old  = joyParams.useMouseForVoiceMessage
         joyParams.useMouseForVoiceMessage = objValue
@@ -1778,9 +1779,9 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_WEAPON_MACHINEGUN"
   "ID_SHIP_WEAPON_TORPEDOES"
   "ID_SHIP_WEAPON_DEPTH_CHARGE"
-  "ID_SHIP_WEAPON_ROCKETS"
   "ID_SHIP_WEAPON_MINE"
   "ID_SHIP_WEAPON_MORTAR"
+  "ID_SHIP_WEAPON_ROCKETS"
   "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -2099,7 +2100,7 @@ function isShortcutMapped(shortcut)
   foreach (button in shortcut)
     if (button && button.dev.len() >= 0)
       foreach(d in button.dev)
-        if (d > 0 && d <= JOYSTICK_DEVICE_ID)
+        if (d > 0 && d <= ::JOYSTICK_DEVICE_0_ID)
             return true
   return false
 }
@@ -4025,7 +4026,7 @@ function get_shortcut_gamepad_textures(shortcutData)
   local res = []
   foreach(sc in shortcutData)
   {
-    if (sc.dev.len() <= 0 || sc.dev[0] != JOYSTICK_DEVICE_ID)
+    if (sc.dev.len() <= 0 || sc.dev[0] != ::JOYSTICK_DEVICE_0_ID)
       continue
 
     for (local i = 0; i < sc.dev.len(); i++)
@@ -4137,6 +4138,11 @@ class ::gui_handlers.assignModalButtonWindow extends ::gui_handlers.BaseGuiHandl
       {
         local devId = obj["device" + i].tointeger();
         local btnId = obj["button" + i].tointeger();
+
+        // Ignore zero scancode from XBox keyboard driver
+        if (devId == STD_KEYBOARD_DEVICE_ID && btnId == 0)
+          continue
+
         dagor.debug("onButtonEntered "+i+" "+devId+" "+btnId);
         dev.append(devId);
         btn.append(btnId);
@@ -4163,6 +4169,10 @@ class ::gui_handlers.assignModalButtonWindow extends ::gui_handlers.BaseGuiHandl
       {
         devId = devId.tointeger()
         btnId = btnId.tointeger()
+
+        // Ignore zero scancode from XBox keyboard driver
+        if (devId == STD_KEYBOARD_DEVICE_ID && btnId == 0)
+          continue
 
         if (numButtons != 0)
           curBtnText += " + "

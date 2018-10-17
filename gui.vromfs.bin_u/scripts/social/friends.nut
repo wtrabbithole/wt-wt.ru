@@ -202,6 +202,12 @@ function get_psn_account_id(playerName)
   return ::ps4_console_friends?[playerName]?.accountId
 }
 
+function add_psn_account_id(onlineId, accountId)
+{
+  if (::is_platform_ps4)
+    ::ps4_console_friends["*"+onlineId] <- {accountId=accountId}
+}
+
 local function initPs4Friends()
 {
   isFirstPs4FriendsUpdate = true

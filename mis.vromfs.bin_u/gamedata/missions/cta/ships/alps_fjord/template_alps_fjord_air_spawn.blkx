@@ -27,7 +27,7 @@
       "optionalTakeOff": false,
       "missionDebriefing": "",
       "missionBriefing": "",
-      "environment": "Day",
+      "environment": "12",
       "weather": "hazy",
       "missionType": {
         "_Dom": false,
@@ -78,7 +78,33 @@
   },
   "triggers": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "ai_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": {
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "baloon_squad",
+          "army": 0,
+          "targetableByAi": false,
+          "stealthRadius": 0.0
+        }
+      },
+      "else_actions": []
+    }
   },
   "mission_objectives": {
     "isCategory": true,
@@ -93,10 +119,10 @@
       "objectGroups": {
         "name": "t1_airfield",
         "tm": [
-          [-0.684395,0.0,0.729112],
+          [0.0333632,0.0,0.999442],
           [0.0,1.0,0.0],
-          [-0.729112,0.0,-0.684395],
-          [-14620.8,36.2939,-11753.1]
+          [-0.999442,0.0,0.0333632],
+          [-3652.5,123.731,14907.4]
         ],
         "unit_class": "dynAF_sicily_ally",
         "objLayer": 2,
@@ -127,10 +153,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa02",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14514.1,35.3844,-12333.0]
+          [0.284764,0.0,-0.958593],
+          [-3987.95,58.2515,14422.4]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -163,10 +189,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa03",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14288.5,36.1424,-11652.2]
+          [0.284764,0.0,-0.958593],
+          [-3346.47,68.0323,14743.2]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -199,10 +225,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa04",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-15092.3,35.9111,-11702.4]
+          [0.284764,0.0,-0.958593],
+          [-3949.41,65.6709,15277.1]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -235,10 +261,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa05",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14328.5,36.8776,-11211.7]
+          [0.284764,0.0,-0.958593],
+          [-3062.69,39.993,15082.5]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -271,10 +297,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa06",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14036.5,36.054,-11960.9]
+          [0.284764,0.0,-0.958593],
+          [-3387.25,0.0,14346.8]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -307,10 +333,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa07",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14652.4,36.1745,-12075.7]
+          [0.284764,0.0,-0.958593],
+          [-3903.32,83.6453,14702.0]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -343,10 +369,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa08",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14930.0,36.1946,-12000.3]
+          [0.284764,0.0,-0.958593],
+          [-4045.86,65.2569,14951.9]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -379,10 +405,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa09",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14672.9,35.844,-10831.2]
+          [0.284764,0.0,-0.958593],
+          [-3036.27,20.0646,15595.0]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -415,10 +441,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa10",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14802.5,36.1292,-11026.8]
+          [0.284764,0.0,-0.958593],
+          [-3266.29,72.6998,15548.7]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -897,10 +923,10 @@
       "air_defence": {
         "name": "t1_airfield_aaa01",
         "tm": [
-          [-0.474936,0.0,-0.880018],
+          [-0.958593,0.0,-0.284764],
           [0.0,1.0,0.0],
-          [0.880018,0.0,-0.474936],
-          [-14745.0,35.941,-11223.4]
+          [0.284764,0.0,-0.958593],
+          [-3364.97,101.804,15369.2]
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "objLayer": 1,
@@ -928,16 +954,1300 @@
         },
         "way": []
       }
+    },
+    {
+      "structures": {
+        "name": "baloon_39",
+        "tm": [
+          [3.30299,0.0,2.31278],
+          [0.0,4.03221,0.0],
+          [-2.31278,0.0,3.30299],
+          [5325.12,311.247,4186.05]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_40",
+        "tm": [
+          [0.517295,0.0,-3.99889],
+          [0.0,4.03221,0.0],
+          [3.99889,0.0,0.517295],
+          [5324.47,344.131,4013.36]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_41",
+        "tm": [
+          [-2.83869,0.0,2.86366],
+          [0.0,4.03221,0.0],
+          [-2.86366,0.0,-2.83869],
+          [5150.21,249.617,3895.24]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_45",
+        "tm": [
+          [3.30299,0.0,2.31278],
+          [0.0,4.03221,0.0],
+          [-2.31278,0.0,3.30299],
+          [6232.63,221.276,3387.93]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_46",
+        "tm": [
+          [-2.80952,0.0,2.89228],
+          [0.0,4.03221,0.0],
+          [-2.89228,0.0,-2.80952],
+          [6539.09,344.132,2841.18]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_50",
+        "tm": [
+          [0.0305673,0.0,-4.03209],
+          [0.0,4.03221,0.0],
+          [4.03209,0.0,0.0305673],
+          [6064.91,234.743,1927.16]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_49",
+        "tm": [
+          [3.30299,0.0,2.31278],
+          [0.0,4.03221,0.0],
+          [-2.31278,0.0,3.30299],
+          [6099.07,331.471,2204.02]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_56",
+        "tm": [
+          [-3.46214,0.0,2.06695],
+          [0.0,4.03221,0.0],
+          [-2.06695,0.0,-3.46214],
+          [3897.75,487.721,1996.11]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_54",
+        "tm": [
+          [2.59218,0.0,3.08857],
+          [0.0,4.03221,0.0],
+          [-3.08857,0.0,2.59218],
+          [4134.46,306.977,2395.87]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_58",
+        "tm": [
+          [-1.50393,0.0,-3.74124],
+          [0.0,4.03221,0.0],
+          [3.74124,0.0,-1.50393],
+          [5601.9,315.108,1243.49]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_62",
+        "tm": [
+          [3.9991,0.0,-0.515659],
+          [0.0,4.03221,0.0],
+          [0.515659,0.0,3.9991],
+          [5352.11,216.527,1136.49]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_57",
+        "tm": [
+          [-1.14627,0.0,-3.86584],
+          [0.0,4.03221,0.0],
+          [3.86584,0.0,-1.14627],
+          [5495.7,290.047,979.21]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_42",
+        "tm": [
+          [-3.98417,0.0,0.620544],
+          [0.0,4.03221,0.0],
+          [-0.620544,0.0,-3.98417],
+          [5356.6,216.032,3931.56]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_43",
+        "tm": [
+          [1.69538,0.0,3.65847],
+          [0.0,4.03221,0.0],
+          [-3.65847,0.0,1.69538],
+          [4755.06,249.617,3979.5]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_44",
+        "tm": [
+          [2.00965,0.0,-3.49571],
+          [0.0,4.03221,0.0],
+          [3.49571,0.0,2.00965],
+          [4798.94,221.276,4194.83]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_53",
+        "tm": [
+          [3.30299,0.0,2.31278],
+          [0.0,4.03221,0.0],
+          [-2.31278,0.0,3.30299],
+          [6540.03,214.362,5582.55]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_59",
+        "tm": [
+          [-2.83869,0.0,2.86366],
+          [0.0,4.03221,0.0],
+          [-2.86366,0.0,-2.83869],
+          [6415.24,289.553,5433.23]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_67",
+        "tm": [
+          [3.8165,0.0,-1.30116],
+          [0.0,4.03221,0.0],
+          [1.30116,0.0,3.8165],
+          [1721.18,344.131,4319.32]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_68",
+        "tm": [
+          [-3.82266,0.0,-1.28294],
+          [0.0,4.03221,0.0],
+          [1.28294,0.0,-3.82266],
+          [1766.43,249.617,3984.12]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_70",
+        "tm": [
+          [-2.53426,0.0,3.13628],
+          [0.0,4.03221,0.0],
+          [-3.13628,0.0,-2.53426],
+          [1516.39,249.617,3666.75]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_65",
+        "tm": [
+          [4.02381,0.0,0.260039],
+          [0.0,4.03221,0.0],
+          [-0.260039,0.0,4.02381],
+          [1342.54,221.276,3801.18]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_66",
+        "tm": [
+          [-3.57575,0.0,-1.86353],
+          [0.0,4.03221,0.0],
+          [1.86353,0.0,-3.57575],
+          [-694.706,344.131,3274.43]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_69",
+        "tm": [
+          [-2.83869,0.0,2.86366],
+          [0.0,4.03221,0.0],
+          [-2.86366,0.0,-2.83869],
+          [-1167.62,332.064,3256.31]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_71",
+        "tm": [
+          [2.50221,0.0,-3.1619],
+          [0.0,4.03221,0.0],
+          [3.1619,0.0,2.50221],
+          [-812.582,216.032,3525.14]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_72",
+        "tm": [
+          [1.69538,0.0,3.65847],
+          [0.0,4.03221,0.0],
+          [-3.65847,0.0,1.69538],
+          [-1781.12,229.007,3469.44]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_63",
+        "tm": [
+          [2.00965,0.0,-3.49571],
+          [0.0,4.03221,0.0],
+          [3.49571,0.0,2.00965],
+          [-1508.32,286.701,3949.44]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_73",
+        "tm": [
+          [0.463111,0.0,-4.00552],
+          [0.0,4.03221,0.0],
+          [4.00552,0.0,0.463111],
+          [2144.27,344.131,6673.47]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_75",
+        "tm": [
+          [-2.81136,0.0,2.89049],
+          [0.0,4.03221,0.0],
+          [-2.89049,0.0,-2.81136],
+          [1574.01,229.007,5728.42]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_64",
+        "tm": [
+          [3.98297,0.0,0.628182],
+          [0.0,4.03221,0.0],
+          [-0.628182,0.0,3.98297],
+          [1544.09,286.7,6289.16]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_74",
+        "tm": [
+          [-2.4059,0.0,-3.23579],
+          [0.0,4.03221,0.0],
+          [3.23579,0.0,-2.4059],
+          [-365.074,286.701,7144.06]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "baloon_76",
+        "tm": [
+          [2.22241,0.0,3.36446],
+          [0.0,4.03221,0.0],
+          [-3.36446,0.0,2.22241],
+          [-475.841,390.905,7480.77]
+        ],
+        "unit_class": "barrage_balloon_b_unit",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "baloon_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1580.6,0.0,607.1]
+        ],
+        "props": [
+          {
+            "squad_members": "baloon_39"
+          },
+          {
+            "squad_members": "baloon_40"
+          },
+          {
+            "squad_members": "baloon_41"
+          },
+          {
+            "squad_members": "baloon_45"
+          },
+          {
+            "squad_members": "baloon_46"
+          },
+          {
+            "squad_members": "baloon_50"
+          },
+          {
+            "squad_members": "baloon_49"
+          },
+          {
+            "squad_members": "baloon_56"
+          },
+          {
+            "squad_members": "baloon_54"
+          },
+          {
+            "squad_members": "baloon_58"
+          },
+          {
+            "squad_members": "baloon_62"
+          },
+          {
+            "squad_members": "baloon_57"
+          },
+          {
+            "squad_members": "baloon_42"
+          },
+          {
+            "squad_members": "baloon_43"
+          },
+          {
+            "squad_members": "baloon_44"
+          },
+          {
+            "squad_members": "baloon_53"
+          },
+          {
+            "squad_members": "baloon_59"
+          },
+          {
+            "squad_members": "baloon_67"
+          },
+          {
+            "squad_members": "baloon_68"
+          },
+          {
+            "squad_members": "baloon_70"
+          },
+          {
+            "squad_members": "baloon_65"
+          },
+          {
+            "squad_members": "baloon_66"
+          },
+          {
+            "squad_members": "baloon_69"
+          },
+          {
+            "squad_members": "baloon_71"
+          },
+          {
+            "squad_members": "baloon_72"
+          },
+          {
+            "squad_members": "baloon_63"
+          },
+          {
+            "squad_members": "baloon_73"
+          },
+          {
+            "squad_members": "baloon_75"
+          },
+          {
+            "squad_members": "baloon_64"
+          },
+          {
+            "squad_members": "baloon_74"
+          },
+          {
+            "squad_members": "baloon_76"
+          }
+        ]
+      }
     }
   ],
   "areas": {
     "t1_air_spawn_arcade": {
       "type": "Sphere",
       "tm": [
-        [589.822,0.0,540.472],
+        [240.564,0.0,-762.974],
         [0.0,800.0,0.0],
-        [-540.472,0.0,589.822],
-        [-12598.3,749.997,-7505.94]
+        [762.974,0.0,240.564],
+        [-1738.54,749.997,14514.5]
       ],
       "objLayer": 0,
       "props": []
@@ -945,10 +2255,10 @@
     "t2_air_spawn_arcade": {
       "type": "Sphere",
       "tm": [
-        [-774.327,0.0,-201.044],
+        [-749.606,0.0,279.45],
         [0.0,800.0,0.0],
-        [201.044,0.0,-774.327],
-        [14610.5,749.997,-1599.73]
+        [-279.45,0.0,-749.606],
+        [10996.9,749.997,-9770.92]
       ],
       "objLayer": 0,
       "props": []
@@ -956,10 +2266,10 @@
     "t1_bombers_spawn_arcade": {
       "type": "Sphere",
       "tm": [
-        [589.822,0.0,540.472],
+        [240.564,0.0,-762.974],
         [0.0,800.0,0.0],
-        [-540.472,0.0,589.822],
-        [-12598.3,1500.0,-7505.94]
+        [762.974,0.0,240.564],
+        [-1738.54,1500.0,14514.5]
       ],
       "objLayer": 0,
       "props": []
@@ -967,10 +2277,10 @@
     "t2_bombers_spawn_arcade": {
       "type": "Sphere",
       "tm": [
-        [-774.327,0.0,-201.044],
+        [-749.606,0.0,279.45],
         [0.0,800.0,0.0],
-        [201.044,0.0,-774.327],
-        [14610.5,1500.0,-1599.73]
+        [-279.45,0.0,-749.606],
+        [10996.9,1500.0,-9770.92]
       ],
       "objLayer": 0,
       "props": []
@@ -978,10 +2288,10 @@
     "t1_air_spawn_hardcore": {
       "type": "Sphere",
       "tm": [
-        [589.822,0.0,540.472],
+        [240.564,0.0,-762.974],
         [0.0,800.0,0.0],
-        [-540.472,0.0,589.822],
-        [-12598.3,2500.0,-7505.94]
+        [762.974,0.0,240.564],
+        [-1738.54,2500.0,14514.5]
       ],
       "objLayer": 0,
       "props": []
@@ -989,10 +2299,10 @@
     "t2_air_spawn_hardcore": {
       "type": "Sphere",
       "tm": [
-        [-774.327,0.0,-201.044],
+        [-749.606,0.0,279.45],
         [0.0,800.0,0.0],
-        [201.044,0.0,-774.327],
-        [14610.5,2500.0,-1599.73]
+        [-279.45,0.0,-749.606],
+        [10996.9,2500.0,-9770.92]
       ],
       "objLayer": 0,
       "props": []
@@ -1000,9 +2310,9 @@
     "area_01": {
       "type": "Sphere",
       "tm": [
-        [11870.9,0.0,27551.4],
+        [7354.41,0.0,-29084.5],
         [0.0,30000.0,0.0],
-        [-27551.4,0.0,11870.9],
+        [29084.5,0.0,7354.41],
         [-154.137,399.997,45.0623]
       ],
       "objLayer": 3,
@@ -1011,10 +2321,10 @@
     "t1_waterfield_dummy": {
       "type": "Box",
       "tm": [
-        [2557.65,0.0,1567.93],
+        [469.808,0.0,-2962.98],
         [0.0,919.676,0.0],
-        [-261.32,0.0,426.276],
-        [-13411.9,-0.000518799,-5880.25]
+        [493.831,0.0,78.2995],
+        [-2223.63,-0.000457764,14546.7]
       ],
       "objLayer": 0,
       "props": []
@@ -1022,10 +2332,10 @@
     "t1_start": {
       "type": "Sphere",
       "tm": [
-        [202.692,0.0,124.21],
+        [37.1882,0.0,-234.796],
         [0.0,237.723,0.0],
-        [-124.21,0.0,202.692],
-        [-14700.9,-3.05176e-05,-6647.11]
+        [234.796,0.0,37.1882],
+        [-2438.84,0.0,16031.0]
       ],
       "objLayer": 0,
       "props": []
@@ -1033,10 +2343,10 @@
     "t1_end": {
       "type": "Sphere",
       "tm": [
-        [202.692,0.0,124.21],
+        [37.1882,0.0,-234.796],
         [0.0,237.723,0.0],
-        [-124.21,0.0,202.692],
-        [-12143.7,-3.05176e-05,-5080.09]
+        [234.796,0.0,37.1882],
+        [-1969.7,0.0,13068.8]
       ],
       "objLayer": 0,
       "props": []
@@ -1044,10 +2354,10 @@
     "t2_waterfield_dummy": {
       "type": "Box",
       "tm": [
-        [-2992.06,0.0,-218.065],
+        [-2576.03,0.0,1537.55],
         [0.0,919.676,0.0],
-        [36.3441,0.0,-498.677],
-        [14416.7,0.00393677,-115.824]
+        [-256.258,0.0,-429.338],
+        [11689.3,0.00402832,-8444.22]
       ],
       "objLayer": 0,
       "props": []
@@ -1055,10 +2365,10 @@
     "t2_start": {
       "type": "Sphere",
       "tm": [
-        [-237.096,0.0,-17.2399],
+        [-204.106,0.0,121.871],
         [0.0,237.723,0.0],
-        [17.2399,0.0,-237.096],
-        [15914.1,0.00439453,-26.626]
+        [-121.871,0.0,-204.106],
+        [12967.1,0.00439453,-9230.02]
       ],
       "objLayer": 0,
       "props": []
@@ -1066,10 +2376,10 @@
     "t2_end": {
       "type": "Sphere",
       "tm": [
-        [-237.096,0.0,-17.2399],
+        [-204.106,0.0,121.871],
         [0.0,237.723,0.0],
-        [17.2399,0.0,-237.096],
-        [12922.8,0.00439453,-244.14]
+        [-121.871,0.0,-204.106],
+        [10392.0,0.00439453,-7692.46]
       ],
       "objLayer": 0,
       "props": []

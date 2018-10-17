@@ -28,6 +28,8 @@
   "bullet": {
     "bulletCount": 40,
     "mass": 5.5,
+    "explosiveType": "tnt",
+    "explosiveMass": 0.218,
     "caliber": 0.0762,
     "speed": 588.0,
     "maxDistance": 5000.0,
@@ -36,7 +38,7 @@
     "explosionInAir": true,
     "bulletType": "shrapnel_tank",
     "bulletName": "76mm_sh_354p_navy_shrapnel",
-    "hitPowerMult": 10.0,
+    "hitPowerMult": 40.0,
     "nearHitPower": [1.0,50.0],
     "midHitPower": [0.9,300.0],
     "farHitPower": [0.1,700.0],
@@ -61,6 +63,64 @@
     "groundFxScale": [0.6,0.7],
     "waterCollisionEffect": "water_splash_76_00_he",
     "waterFxScale": [1.0,1.0],
+    "damage": {
+      "shatter": [
+        {
+          "useRealShatters": true
+        },
+        {
+          "countPortion": 0.35
+        },
+        {
+          "segment": {
+            "angles": [0.0,14.0],
+            "countPortion": 0.06
+          }
+        },
+        {
+          "segment": {
+            "angles": [15.0,44.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "angles": [45.0,84.0],
+            "countPortion": 0.4
+          }
+        },
+        {
+          "segment": {
+            "angles": [85.0,169.0],
+            "countPortion": 0.01
+          }
+        },
+        {
+          "segment": {
+            "angles": [170.0,189.0],
+            "countPortion": 0.05
+          }
+        },
+        {
+          "segment": {
+            "angles": [190.0,274.0],
+            "countPortion": 0.01
+          }
+        },
+        {
+          "segment": {
+            "angles": [275.0,344.0],
+            "countPortion": 0.4
+          }
+        },
+        {
+          "segment": {
+            "angles": [345.0,359.0],
+            "countPortion": 0.06
+          }
+        }
+      ]
+    },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
@@ -90,6 +150,8 @@
     "bullet": {
       "bulletCount": 40,
       "mass": 5.5,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.218,
       "caliber": 0.0762,
       "speed": 588.0,
       "maxDistance": 5000.0,
@@ -98,7 +160,7 @@
       "explosionInAir": true,
       "bulletType": "shrapnel_tank",
       "bulletName": "76mm_sh_354p_navy_shrapnel",
-      "hitPowerMult": 10.0,
+      "hitPowerMult": 40.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,300.0],
       "farHitPower": [0.1,700.0],
@@ -123,6 +185,64 @@
       "groundFxScale": [0.6,0.7],
       "waterCollisionEffect": "water_splash_76_00_he",
       "waterFxScale": [1.0,1.0],
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.35
+          },
+          {
+            "segment": {
+              "angles": [0.0,14.0],
+              "countPortion": 0.06
+            }
+          },
+          {
+            "segment": {
+              "angles": [15.0,44.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "angles": [45.0,84.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [85.0,169.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [170.0,189.0],
+              "countPortion": 0.05
+            }
+          },
+          {
+            "segment": {
+              "angles": [190.0,274.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [275.0,344.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [345.0,359.0],
+              "countPortion": 0.06
+            }
+          }
+        ]
+      },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,

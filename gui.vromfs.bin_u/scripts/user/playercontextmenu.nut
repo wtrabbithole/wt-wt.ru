@@ -124,7 +124,10 @@ local getActions = function(contact, params)
       isVisualDisabled = !canInteract || isBlock
       action = function() {
         if (!canInteract)
+        {
+          platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
           return showPrivacySettingsRestrictionPopup()
+        }
 
         if (isBlock)
           return showBlockedPlayerPopup(name)
@@ -180,12 +183,15 @@ local getActions = function(contact, params)
                && !::g_squad_manager.isPlayerInvited(uid, name)
                && !squadMemberData?.isApplication
         action = function() {
-          if (!canInteract)
-            showPrivacySettingsRestrictionPopup()
-          else if (!canInteractCrossConsole)
+          if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
             showCrossPlayRestrictionPopup()
+          else if (!canInteract)
+          {
+            platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
+            showPrivacySettingsRestrictionPopup()
+          }
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
           else if (hasApplicationInMySquad)
@@ -398,17 +404,11 @@ local getActions = function(contact, params)
           {
             local threadInfo = ::g_chat.getThreadInfo(roomId)
             if (threadInfo) {
-              chatLog.category   = threadInfo.category
-              chatLog.title      = threadInfo.title
-              chatLog.ownerUid   = threadInfo.ownerUid
-              chatLog.ownerNick  = threadInfo.ownerNick
-              /*chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
-                ,
-                threadInfo.,
-                threadInfo.,
-                threadInfo.,
-                chatLog
-              )*/
+              chatLog = chatLog != "" ? chatLog : {}
+              chatLog.category   <- threadInfo.category
+              chatLog.title      <- threadInfo.title
+              chatLog.ownerUid   <- threadInfo.ownerUid
+              chatLog.ownerNick  <- threadInfo.ownerNick
               if (!roomData)
                 config.roomName = ::g_chat_room_type.THREAD.getRoomName(roomId)
             }

@@ -525,11 +525,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       ::set_char_cb(this, slotOpCb)
       showTaskProgressBox()
       ::sync_handler_simulate_signal("clan_info_reload")
-      afterSlotOp = function()
+      afterSlotOp = guiScene.performDelayed(this,function()
         {
           ::update_gamercards()
-          msgBox("left_clan", ::loc("clan/leftClan"), [["ok", function() { afterClanLeave() } ]], "ok")
-        }
+          msgBox("left_clan", ::loc("clan/leftClan"),
+            [["ok", function() { if (isValid()) afterClanLeave() } ]], "ok")
+        })
     }
   }
 
@@ -995,7 +996,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj2()
   {
-    return getClanActionObjForSelect()
+    return "clan_actions"
   }
 
   function getMainFocusObj3()
@@ -1006,15 +1007,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function getMainFocusObj4()
   {
     return scene.findObject("clan-membersList")
-  }
-
-  function getClanActionObjForSelect()
-  {
-    local obj =  scene.findObject("clan_actions")
-    if (::checkObj(obj) && is_obj_have_active_childs(obj))
-      return obj
-
-    return null
   }
 
   function getWndHelpConfig()

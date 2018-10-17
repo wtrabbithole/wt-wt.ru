@@ -246,13 +246,12 @@ function g_invites::fetchNewInvitesFromUserlogs()
       if (blk.disabled)
         continue
 
-      local operationId = ::getTblValue("operationId", blk.body)
-      if (::is_worldwar_enabled() && operationId != null)
-        ::g_world_war.addOperationInvite(
-          operationId,
-          blk.body?.clanId ?? -1,
-          blk.type == ::EULT_WW_START_OPERATION,
-          blk?.timeStamp??0)
+      ::g_world_war.addOperationInvite(
+        blk.body?.operationId ?? -1,
+        blk.body?.clanId ?? -1,
+        blk.type == ::EULT_WW_START_OPERATION,
+        blk?.timeStamp ?? 0)
+
       ::disable_user_log_entry(i)
       needReshedule = true
     }

@@ -10,17 +10,18 @@ local rootTable = getroottable()
 local intRegExp = null
 local floatRegExp = null
 local stripTagsConfig = null
+local escapeConfig = null
+
 /**
  * Joins array elements into a string with the glue string between each element.
- * This function is a reverse operation to g_string.split()
+ * Like join(), but skips empty strings and nulls.
  * @param {string[]} pieces - The array of strings to join.
  * @param {string}   glue - glue string.
  * @return {string} - String containing all the array elements in the same order,
  *                    with the glue string between each element.
  */
-// Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return pieces.filter(@(index,val) val != "" && val != null).reduce(@(prev, cur) prev + glue + cur) ?? ""
+  return pieces.reduce(@(res, c) c != "" && c != null ? res + (res != "" ? glue : "") + c : res) ?? ""
 }
 
 /**
@@ -89,6 +90,17 @@ if ("regexp2" in rootTable) {
       repl = "~\'"
     }
   ]
+  escapeConfig = [
+    { re2 = ::regexp2(@"\\"), repl = @"\\\\" }
+    { re2 = ::regexp2(@""""), repl = @"\\""" }
+    { re2 = ::regexp2(@"\n"), repl = @"\\n"  }
+    { re2 = ::regexp2(@"\r"), repl = @"\\r"  }
+  ]
+  for (local ch = 0; ch < 32; ch++)
+    escapeConfig.append({
+      re2 = ::regexp2(string.format(@"\x%02X", ch))
+      repl = string.format(@"\\u%04X", ch)
+    })
 } else  if ("regexp" in rootTable) {
   intRegExp = ::regexp(@"^-?(\d+)$")
   floatRegExp  = ::regexp(@"^-?(\d+)(\.?)(\d*)$")
@@ -114,6 +126,17 @@ if ("regexp2" in rootTable) {
       repl = "~\'"
     }
   ]
+  escapeConfig = [
+    { re2 = ::regexp(@"\\"), repl = @"\\\\" }
+    { re2 = ::regexp(@""""), repl = @"\\""" }
+    { re2 = ::regexp(@"\n"), repl = @"\\n"  }
+    { re2 = ::regexp(@"\r"), repl = @"\\r"  }
+  ]
+  for (local ch = 0; ch < 32; ch++)
+    escapeConfig.append({
+      re2 = ::regexp(string.format(@"\x%02X", ch))
+      repl = string.format(@"\\u%04X", ch)
+    })
 }
 
 local defTostringParams = {
@@ -130,8 +153,11 @@ local defTostringParams = {
   showArrIdx=false
 }
 local function func_tostring(func,compact) {
-  local info = func.getinfos()
   local out = ""
+  if (::type(func)=="thread") {
+    return "thread: " + func.getstatus()
+  }
+  local info = func.getinfos()
   if (!info.native) {
     local params = info.parameters.slice(1)
     if (params.len()>0)
@@ -162,9 +188,9 @@ local function_types = ["function", "generator", "thread"]
 local function tostring_any(input, tostringfunc=null, compact=true) {
   local typ = ::type(input)
   if (tostringfunc!=null) {
-    if (type(tostringfunc) == "table")
+    if (::type(tostringfunc) == "table")
       tostringfunc = [tostringfunc]
-    else if (type(tostringfunc) == "array") {
+    else if (::type(tostringfunc) == "array") {
       foreach (tf in tostringfunc){
         if (tf?.compare != null && tf.compare(input)){
           return tf.tostring(input)
@@ -237,7 +263,7 @@ local function tostring_r(input, params=defTostringParams) {
   local function tostringLeaf(val) {
     local typ =::type(val)
     if (tostringfunc!=null) {
-      if (type(tostringfunc) == "table")
+      if (::type(tostringfunc) == "table")
         tostringfunc = [tostringfunc]
       foreach (tf in tostringfunc)
         if (tf.compare(val))
@@ -333,7 +359,7 @@ local function tostring_r(input, params=defTostringParams) {
         if (arrayElem && key==input.len()-1 ){
           out += newline+arrInd
         }
-        else if (arrayElem && key<input.len()-1 && table_types.find(type(input[key+1]))!=0){
+        else if (arrayElem && key<input.len()-1 && table_types.find(::type(input[key+1]))!=0){
           out += newline+indent
         }
       }
@@ -553,9 +579,9 @@ local function floatToStringRounded(value, presize) {
 }
 
 local function isStringInteger(str) {
-  if (type(str) == "integer")
+  if (::type(str) == "integer")
     return true
-  if (type(str) != "string")
+  if (::type(str) != "string")
     return false
   if (intRegExp != null)
     return intRegExp.match(str)
@@ -573,9 +599,9 @@ local function isStringInteger(str) {
 }
 
 local function isStringFloat(str, separator=".") {
-  if (type(str) == "integer" || type(str) == "float")
+  if (::type(str) == "integer" || ::type(str) == "float")
     return true
-  if (type(str) != "string")
+  if (::type(str) != "string")
     return false
   if (floatRegExp != null)
     return floatRegExp.match(str)
@@ -677,6 +703,16 @@ local function stripTags(str) {
   return str
 }
 
+local function escape(str) {
+  if (::type(str) != "string") {
+    assert(false, "wrong escape param type: " + ::type(str))
+    return ""
+  }
+  foreach(test in escapeConfig)
+    str = test.re2.replace(test.repl, str)
+  return str
+}
+
 local function pprint(...){
   //most of this code should be part of tostring_r probably - at least part of braking long lines
   local function findlast(str, substr, startidx=0){
@@ -754,6 +790,7 @@ local export = {
   cutPrefix = cutPrefix
   intToStrWithDelimiter = intToStrWithDelimiter
   stripTags = stripTags
+  escape = escape
   tostring_any  = tostring_any
   tostring_r = tostring_r
   pprint = pprint

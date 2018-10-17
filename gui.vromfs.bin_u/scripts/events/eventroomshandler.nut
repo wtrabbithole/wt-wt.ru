@@ -39,6 +39,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   chaptersTree = null
   collapsedChapterNamesArray = null
+  viewRoomList = null
 
   slotbarActions = ["aircraft", "crew", "weapons", "showroom", "repair"]
 
@@ -72,6 +73,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     collapsedChapterNamesArray = []
     chaptersTree = []
+    viewRoomList = {}
 
     if (hasBackToEventsButton)
       initFrameOverEventsWnd()
@@ -512,6 +514,10 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
+    if (::u.isEqual(viewRoomList, view))
+      return updateWindow()
+
+    viewRoomList = view
     local data = ::handyman.renderCached("gui/events/eventRoomsList", view)
     guiScene.replaceContentFromText(roomsListObj, data, data.len(), this)
 

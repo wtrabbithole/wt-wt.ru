@@ -183,10 +183,8 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   {
     local show = canApplyForMembership(squad)
     local btnObj = ::showBtn("btn_application", show, obj)
-    if (show)
-    {
+    if (::check_obj(btnObj) && show)
       btnObj.tooltip = getInvitationInSquad(squad) ? ::loc("squad/join") : ::loc("squad/membership_request")
-    }
 
     ::showBtn("btn_revoke_application", canRevokeApplication(squad), obj)
   }

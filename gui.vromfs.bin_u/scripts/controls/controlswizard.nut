@@ -891,9 +891,9 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     foreach(d in devs)
       if (d>0)
         if (isKbd==null)
-          isKbd = d < JOYSTICK_DEVICE_ID
+          isKbd = d < ::JOYSTICK_DEVICE_0_ID
         else
-          if (isKbd != (d < JOYSTICK_DEVICE_ID))
+          if (isKbd != (d < ::JOYSTICK_DEVICE_0_ID))
             return null
     return isKbd
   }

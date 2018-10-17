@@ -250,9 +250,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!q)
       return
 
-    ::add_big_query_record("exit_waiting_for_battle_screen",
-      ::save_to_json({ waitingTime = q.getActiveTime() }))
-    ::queues.leaveQueue(q)
+    ::queues.leaveQueue(q, { isCanceledByPlayer = true })
   }
 
   function onEventQueueChangeState(_queue)

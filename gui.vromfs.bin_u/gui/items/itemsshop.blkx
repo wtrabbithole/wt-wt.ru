@@ -28,9 +28,9 @@
         "frame_header": {
           "activeText": {
             "id": "wnd_title",
-            "text": "#items/inventory",
+            "text": "",
             "caption": "yes",
-            "display": "hide"
+            "hideEmptyText": "yes"
           },
           "HorizontalListBox": {
             "id": "tabs_list",
@@ -1189,6 +1189,27 @@
                     {
                       "blockSeparator": {
                         "display": "hide"
+                      }
+                    },
+                    {
+                      "emptyVoiceChat": {
+                        "id": "voice_chat_no_activity",
+                        "tooltip": "#clan/voice_chat/widget",
+                        "usertalk": {
+                          "fade": "in",
+                          "height-end": "1",
+                          "_size-timer": "0",
+                          "img": {
+                            "color-factor": "255",
+                            "inacive": "yes",
+                            "position": "relative"
+                          },
+                          "activeText": {
+                            "text": "...",
+                            "color-factor": "255",
+                            "position": "relative"
+                          }
+                        }
                       }
                     },
                     {

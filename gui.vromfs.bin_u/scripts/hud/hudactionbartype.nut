@@ -32,7 +32,7 @@ local time = require("scripts/time.nut")
   getTitle       = @(killStreakTag = null) _title
   getTooltipText = function(actionItem = null)
   {
-    local res = ::loc("actionBarItem/" + getName(::getTblValue("killStreakTag", actionItem)))
+    local res = ::loc("actionBarItem/" + getName(actionItem?.killStreakUnitTag))
     local cooldownTime = ::getTblValue("cooldownTime", actionItem)
     if (cooldownTime)
       res += "\n" + ::loc("shop/reloadTime") + " " + time.secondsToString(cooldownTime, true, true)
@@ -106,7 +106,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
   MORTAR = {
     code = ::EII_MORTAR
     _name = "mortar"
-    _icon = "#ui/gameuiskin#mortar"
+    _icon = "#ui/gameuiskin#ship_mortar_bomb"
     getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_MORTAR"
   }
 

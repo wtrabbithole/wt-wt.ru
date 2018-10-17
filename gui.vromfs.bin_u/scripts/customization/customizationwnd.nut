@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-local penalty = require("penalty")
+local penalty = require_native("penalty")
 local decorLayoutPresets = require("scripts/customization/decorLayoutPresetsWnd.nut")
 
 

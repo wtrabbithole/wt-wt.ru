@@ -1213,7 +1213,7 @@
           "bullets": 2500,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 1.0,
+          "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
@@ -1899,6 +1899,71 @@
     }
   },
   {
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "removeLoadedAmmo": false
+        },
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "fatalFire": true
+        },
+        {
+          "fatalExplosion": true
+        },
+        {
+          "replenishmentDelay": 1.0
+        },
+        {
+          "replenishmentTime": 3.0
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": false,
+            "autoLoad": true,
+            "ammo_turret_01_dm": {
+              "count": 1
+            },
+            "ammo_turret_02_dm": {
+              "count": 1
+            },
+            "ammo_turret_03_dm": {
+              "count": 1
+            },
+            "ammo_turret_04_dm": {
+              "count": 1
+            },
+            "ammo_turret_05_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "ammo_turret_06_dm": {
+              "count": 1
+            },
+            "ammo_turret_07_dm": {
+              "count": 1
+            },
+            "ammo_turret_08_dm": {
+              "count": 1
+            },
+            "ammo_turret_09_dm": {
+              "count": 1
+            },
+            "ammo_turret_10_dm": {
+              "count": 1
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
     "dmgAngles": {
       "hatch_04": [45.0,82.0],
       "hatch_05": [45.0,85.0]
@@ -2044,7 +2109,7 @@
                 "bullets": 2500,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 1.0,
+                "ChainfireTime": 0.5,
                 "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,

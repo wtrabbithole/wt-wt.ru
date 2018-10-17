@@ -203,7 +203,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::show_facebook_screenshot_button(scene, ::getTblValue("showShareBtn", config, false))
   }
 
-  function onTake(unitToTake = null)
+  function onTake(unitToTake = null, isNewUnit = true)
   {
     if (!unitToTake && !unit)
       return
@@ -217,6 +217,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     local handler = this
     ::gui_start_selecting_crew({unit = unitToTake,
                                unitObj = scene.findObject(unitToTake.name),
+                               isNewUnit = isNewUnit,
                                cellClass = "slotbarClone",
                                useTutorial = needShowUnitTutorial,
                                afterSuccessFunc = (@(handler) function() { handler.goBack() })(handler)

@@ -23,9 +23,9 @@ class ControlsPreset {
   /****************************************************************/
 
   static deviceIdByType = {
-    mouseButton = 1
-    keyboardKey = 2
-    joyButton   = 3
+    mouseButton = ::STD_MOUSE_DEVICE_ID
+    keyboardKey = ::STD_KEYBOARD_DEVICE_ID
+    joyButton   = ::JOYSTICK_DEVICE_0_ID
   }
 
 
@@ -969,7 +969,7 @@ class ControlsPreset {
 
   function getButtonName(deviceId, buttonId)
   {
-    if (deviceId != JOYSTICK_DEVICE_ID)
+    if (deviceId != ::JOYSTICK_DEVICE_0_ID)
       return ::get_button_name(deviceId, buttonId) // C++ function
 
     local buttonLocalized = ::loc("composite/button")
@@ -1041,7 +1041,7 @@ class ControlsPreset {
     foreach (event in hotkeys)
       foreach (shortcut in event)
         foreach (button in shortcut)
-          if (button.deviceId == JOYSTICK_DEVICE_ID &&
+          if (button.deviceId == ::JOYSTICK_DEVICE_0_ID &&
             button.buttonId >= minButton && button.buttonId <= maxButton)
             return true
 
@@ -1186,7 +1186,7 @@ class ControlsPreset {
       foreach (shortcut in event)
       {
         foreach (button in shortcut)
-          if (button.deviceId == JOYSTICK_DEVICE_ID &&
+          if (button.deviceId == ::JOYSTICK_DEVICE_0_ID &&
             button.buttonId < remapButtonNum)
             button.buttonId = remap.buttons[button.buttonId]
 

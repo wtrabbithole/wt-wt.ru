@@ -37,12 +37,6 @@
     "Cx": 0.01,
     "onHitChanceMultExplFuel": 0.1,
     "relativeVelHitShift": [300.0,1000.0],
-    "armorFragmentsDamage": true,
-    "armorFragmentsDamageRadius": 5.4,
-    "armorFragmentsDamageAngle": 20.0,
-    "armorFragmentsAmount": 100,
-    "armorFragmentsArmorPower": 4.0,
-    "armorFragmentsHit": 10.0,
     "relativeVelArmorShift": [200.0,1000.0],
     "groundCollisionEffect": "big_ground_splash",
     "groundFxScale": [0.8,1.0],
@@ -67,6 +61,24 @@
       "ArmorPower4000m": [95.0,4000.0],
       "ArmorPower4500m": [81.0,4500.0],
       "ArmorPower10000m": [0.0,10000.0]
+    },
+    "ballistics": {
+      "slopeEffect": {
+        "table": {
+          "t1": {
+            "caliberToArmor": 1.0,
+            "slopeEffect0deg": [0.0,20.0],
+            "slopeEffect10deg": [10.0,5.7],
+            "slopeEffect20deg": [20.0,2.7],
+            "slopeEffect30deg": [30.0,1.73],
+            "slopeEffect50deg": [50.0,1.305],
+            "slopeEffect60deg": [60.0,1.07],
+            "slopeEffect70deg": [70.0,1.06],
+            "slopeEffect80deg": [80.0,1.03],
+            "slopeEffect90deg": [90.0,1.0]
+          }
+        }
+      }
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],

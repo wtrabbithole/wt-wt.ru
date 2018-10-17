@@ -2032,7 +2032,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSquadSetReady(params)
   {
     updateReadyButton()
-    squadMsg(::g_squad_manager.isMeReady() ? ::loc("squad/change_to_ready") : ::loc("squad/change_to_not_ready"))
+    if (::g_squad_manager.isInSquad())
+      squadMsg(::g_squad_manager.isMeReady() ? ::loc("squad/change_to_ready") : ::loc("squad/change_to_not_ready"))
   }
 
   function onEventQueueChangeState(params)

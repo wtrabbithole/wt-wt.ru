@@ -59,6 +59,7 @@
   "bombDropDownOnRendInstCollision": false,
   "criticalHillAngle": 25.0,
   "hillClimbingDeclineFricKoef": 4.0,
+  "helicopterDefaultTpsOffset": [-2.0,0.0,4.0],
   "teleScale": 0.03,
   "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
   "propeller_side_angle": 0.1,
@@ -153,6 +154,10 @@
   "stabilizerMaxDeltaAngle": 10.0,
   "maxFrictionIterationCountForTrackedVehicle": 2,
   "writeProjectileHitToReplay": true,
+  "shipMaxSteamEmittersCount": 16.0,
+  "shipSteamEmitterOverheatTime": 3.0,
+  "shipSteamEmitterOverheatMul": 3.0,
+  "shipSteamEmitterExtremeLifetime": 3.0,
   "tracers": {
     "headFadeTime": 2.0,
     "headSpeedScale": [400.0,900.0,0.1,1.0],
@@ -1404,7 +1409,8 @@
       "crewHealingOnlyOnCaptureZone": false,
       "showBombSight": true,
       "visibleNotTraceableIndicators": true,
-      "checkTreesForIndicators": false
+      "checkTreesForIndicators": false,
+      "drawShipBulletFallIndicator": false
     },
     "realistic": {
       "baseDifficulty": 1,
@@ -1508,6 +1514,53 @@
       "crewHealingOnlyOnCaptureZone": true,
       "showBombSight": false,
       "visibleNotTraceableIndicators": true
+    }
+  },
+  "custom_difficulty": {
+    "tank_realistic": {
+      "setDifficulty": 1,
+      "engineControl": 2,
+      "realGunnery": true,
+      "realDamageModels": true,
+      "stallsAndSpins": true,
+      "redOuts": true,
+      "mortalPilots": true,
+      "manualTrimming": false,
+      "torqueAndGyro": false,
+      "limitedBombsMissiles": true,
+      "noArcadeBoost": true,
+      "limitViews": 0,
+      "hudAimPrediction": false,
+      "hudMarkers": 1,
+      "hudMarkerArrows": true,
+      "hudAircraftMarkersMaxDist": -1,
+      "hudIndicators": true,
+      "hudShowSpeedVector": true,
+      "hudShowTankDistance": false,
+      "hudMapAircraftMarkers": 1,
+      "hudMapGroundMarkers": 1,
+      "hudMarkersBlink": true,
+      "hudRadar": false,
+      "hudDamageModel": 0,
+      "hudDamageIndicator": true,
+      "hudLargeAwardMessages": true,
+      "hudWarnings": true,
+      "flutter": true,
+      "respDifficulty": 2,
+      "noRespawns": true,
+      "aircraftHelpers": false,
+      "collectiveDetection": true,
+      "allowControlHelpers": 0,
+      "forceInstructor": false,
+      "distDetection": 1,
+      "playerTurretDeviation": 0,
+      "hudOutline": false,
+      "boostersFuel": 0,
+      "ctaCaptureMul": 2,
+      "damageModel": 2,
+      "hudTankRangefinder": 1,
+      "bombAssaultFuseTimeOverride": true,
+      "crewHealingOnlyOnCaptureZone": true
     }
   },
   "difficulty_check": {
@@ -1716,7 +1769,10 @@
         "rollRateLerpT": 0.65,
         "RealisticEngineEffects": false,
         "PropellerVortexRing": false,
+        "ArcadePropellerTangVelMin": true,
+        "AutopilotRestrictions": false,
         "autoIgnition": true,
+        "autoIgnitionHelicopter": true,
         "autoThrottle": false,
         "realisticFm": false,
         "realisticHud": false
@@ -1733,7 +1789,10 @@
         "aileronAssist": 0.0,
         "RealisticEngineEffects": true,
         "PropellerVortexRing": true,
+        "ArcadePropellerTangVelMin": false,
+        "AutopilotRestrictions": false,
         "autoIgnition": true,
+        "autoIgnitionHelicopter": true,
         "autoThrottle": false,
         "realisticFm": true,
         "realisticHud": true
@@ -1750,7 +1809,10 @@
         "aileronAssist": 0.0,
         "RealisticEngineEffects": true,
         "PropellerVortexRing": true,
+        "ArcadePropellerTangVelMin": false,
+        "AutopilotRestrictions": false,
         "autoIgnition": false,
+        "autoIgnitionHelicopter": true,
         "autoThrottle": false,
         "realisticFm": true,
         "realisticHud": true
@@ -2550,6 +2612,14 @@
       },
       "on": {
         "checkTreesForIndicators": true
+      }
+    },
+    "drawShipBulletFallIndicator": {
+      "off": {
+        "drawShipBulletFallIndicator": false
+      },
+      "on": {
+        "drawShipBulletFallIndicator": true
       }
     }
   },
@@ -5869,7 +5939,7 @@
     "minCropElementSize": 0.25,
     "cropIconFade": 0.25,
     "cropIconFarFade": 15.0,
-    "shipArmorClassForViewer": "RHA_tank, ship_special_treatment_steel, concrete, armored_glass"
+    "shipArmorClassForViewer": "RHA_tank, concrete, armored_glass, ship_STS, ship_Wsh, ship_RHA, ship_RGA, CHA_tank"
   },
   "repairTanks": {
     "repairDelayTimer": 5.0,
@@ -10053,7 +10123,7 @@
   },
   "shipsShootingTracking": {
     "lifeTime": 2.0,
-    "minDrawDist": 4000.0,
+    "minDrawDist": 3500.0,
     "minCaliber": 0.1
   },
   "highlights": [
@@ -10238,5 +10308,47 @@
       "sideDepth": 0.0,
       "volumesCount": 12
     }
-  }
+  },
+  "shipSteamTypes": [
+    {
+      "type": {
+        "descr": "idling",
+        "intense": 0.2,
+        "amount": 0.2,
+        "color": [250.0,250.0,250.0,230.0]
+      }
+    },
+    {
+      "type": {
+        "descr": "running",
+        "intense": 1.0,
+        "amount": 1.0,
+        "color": [250.0,250.0,250.0,50.0]
+      }
+    },
+    {
+      "type": {
+        "descr": "changing",
+        "intense": 15.0,
+        "amount": 15.0,
+        "color": [255.0,255.0,255.0,10.0]
+      }
+    },
+    {
+      "type": {
+        "descr": "repairing",
+        "intense": 15.0,
+        "amount": 0.2,
+        "color": [255.0,255.0,255.0,10.0]
+      }
+    },
+    {
+      "type": {
+        "descr": "off",
+        "intense": 0.01,
+        "amount": 0.01,
+        "color": [245.0,245.0,245.0,0.0]
+      }
+    }
+  ]
 }

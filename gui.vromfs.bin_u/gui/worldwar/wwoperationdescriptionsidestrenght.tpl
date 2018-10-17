@@ -26,7 +26,9 @@ tdiv {
     <</invert>>
 
     <<#unitString>>
-    tdiv {
+    wwUnitActiveBlock {
+      unit_name:t='<<id>>'
+
       <<#invert>>
       left:t='pw-w'; position:t='relative'
 

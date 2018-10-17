@@ -1375,13 +1375,17 @@ function g_world_war::addOperationInvite(operationId, clanId, isStarted, inviteT
   if (clanId.tostring() != ::clan_get_my_clan_id())
     return
 
-  if (operationId != ::ww_get_operation_id())
-    ::g_invites.addInvite(::g_invites_classes.WwOperation,
-      { operationId = operationId,
-        clanName = ::clan_get_my_clan_tag(),
-        isStarted = isStarted,
-        inviteTime = inviteTime }
-    )
+  if (operationId >= 0 && operationId != ::ww_get_operation_id())
+    ::g_ww_global_status.actionRequest("cln_ww_global_status", null, null, function() {
+      local operation = ::g_ww_global_status.getOperationById(operationId)
+      if (operation && operation.isAvailableToJoin())
+        ::g_invites.addInvite( ::g_invites_classes.WwOperation,
+          { operationId = operationId,
+            clanName = ::clan_get_my_clan_tag(),
+            isStarted = isStarted,
+            inviteTime = inviteTime
+          })
+    })
 }
 
 function g_world_war::addSquadInviteToWWBattle(params)

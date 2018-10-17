@@ -34,6 +34,11 @@
         "hp": 35.0
       }
     },
+    "armor8": {
+      "armor4_dm": {
+        "hp": 40.0
+      }
+    },
     "glass55": {
       "armor3_dm": {
         "hp": 100.0
@@ -99,10 +104,16 @@
     },
     "steel_cooling_sys": {
       "oil1_dm": {
-        "hp": 20.4
+        "hp": 15.5
       },
       "oil2_dm": {
-        "hp": 18.8
+        "hp": 15.5
+      },
+      "oil3_dm": {
+        "hp": 15.5
+      },
+      "oil4_dm": {
+        "hp": 15.5
       }
     },
     "steel_pilot": {
@@ -116,22 +127,16 @@
     },
     "steel_tank_m": {
       "tank1_dm": {
-        "hp": 44.5
+        "hp": 75.5
       },
       "tank2_dm": {
-        "hp": 44.5
+        "hp": 75.5
       },
       "tank3_dm": {
-        "hp": 54.7
+        "hp": 75.5
       },
       "tank4_dm": {
-        "hp": 74.4
-      },
-      "tank5_dm": {
-        "hp": 74.4
-      },
-      "tank6_dm": {
-        "hp": 44.5
+        "hp": 75.5
       }
     },
     "wood": {
@@ -157,6 +162,11 @@
     {
       "part": {
         "name": "armor3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "armor4_dm"
       }
     },
     {
@@ -601,6 +611,28 @@
     },
     {
       "part": {
+        "name": "oil3_dm",
+        "onHit": {
+          "leak_oil": 0.95
+        },
+        "onKill": {
+          "leak_oil": 1.0
+        }
+      }
+    },
+    {
+      "part": {
+        "name": "oil4_dm",
+        "onHit": {
+          "leak_oil": 0.95
+        },
+        "onKill": {
+          "leak_oil": 1.0
+        }
+      }
+    },
+    {
+      "part": {
         "name": "pilot_dm"
       }
     },
@@ -860,124 +892,6 @@
       "part": [
         {
           "name": "tank4_dm"
-        },
-        {
-          "onHit": {
-            "fire": 0.005,
-            "leak": 0.3
-          }
-        },
-        {
-          "onHit": {
-            "damage": 3.0,
-            "fire": 0.01,
-            "leak": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "fire": 0.1,
-            "leak": 0.7
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "fire": 0.4,
-            "leak": 0.9
-          }
-        },
-        {
-          "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
-          }
-        }
-      ]
-    },
-    {
-      "part": [
-        {
-          "name": "tank5_dm"
-        },
-        {
-          "onHit": {
-            "fire": 0.005,
-            "leak": 0.3
-          }
-        },
-        {
-          "onHit": {
-            "damage": 3.0,
-            "fire": 0.01,
-            "leak": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "fire": 0.1,
-            "leak": 0.7
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "fire": 0.4,
-            "leak": 0.9
-          }
-        },
-        {
-          "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
-          }
-        }
-      ]
-    },
-    {
-      "part": [
-        {
-          "name": "tank6_dm"
         },
         {
           "onHit": {
@@ -4343,7 +4257,7 @@
     "emtr_break_wing0_l_to": [-1.17599,-0.370865,1.97489],
     "emtr_break_wing0_r_from": [-1.2169,-0.55014,-1.63964],
     "emtr_break_wing0_r_to": [-1.2169,-0.55014,-1.9777],
-    "emtr_break_wing_lower": [0.0,-1.0,0.0],
+    "emtr_break_wing_lower": [0.0,-1.35,0.0],
     "emtr_break_wing_upper": [0.15,1.0,0.0],
     "emtr_break_wing_tail": [-4.01769,0.0,0.0],
     "partKindTail": 2,

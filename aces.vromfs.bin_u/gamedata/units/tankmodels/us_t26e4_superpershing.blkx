@@ -1074,6 +1074,25 @@
         "maxRPM": 2600.0,
         "minRPM": 500.0
       },
+      "suspension": {
+        "suspensionOffsets": [-0.16,-0.12,0.1],
+        "defaultGearRadius": 0.32,
+        "frontBackGearRadius": 0.252,
+        "topGearRadius": 0.15,
+        "defaultDampeningForce": [150000.0,150000.0],
+        "dampeningRelaxationRatio": 0.4,
+        "dampeningCompressionRatio": 0.15
+      },
+      "Mass": {
+        "Empty": 49500.0,
+        "Fuel": 400.0,
+        "TakeOff": 49900.0,
+        "momentOfInertia": [2.5,2.5,5.0],
+        "CenterOfGravity": [0.1,0.4,0.0],
+        "CenterOfGravityClampY": [0.5,0.7],
+        "AdvancedMass": false,
+        "trackMass": 2500.0
+      },
       "mechanics": {
         "maxBrakeForce": 190000.0,
         "driveGearRadius": 0.35,
@@ -1111,25 +1130,6 @@
             "ratio": 0.244
           }
         ]
-      },
-      "suspension": {
-        "suspensionOffsets": [-0.16,-0.12,0.1],
-        "defaultGearRadius": 0.32,
-        "frontBackGearRadius": 0.252,
-        "topGearRadius": 0.15,
-        "defaultDampeningForce": [150000.0,150000.0],
-        "dampeningRelaxationRatio": 0.4,
-        "dampeningCompressionRatio": 0.15
-      },
-      "Mass": {
-        "Empty": 49500.0,
-        "Fuel": 400.0,
-        "TakeOff": 49900.0,
-        "momentOfInertia": [2.5,2.5,5.0],
-        "CenterOfGravity": [0.1,0.4,0.0],
-        "CenterOfGravityClampY": [0.5,0.7],
-        "AdvancedMass": false,
-        "trackMass": 2500.0
       }
     }
   },
@@ -2563,7 +2563,7 @@
           "bullets": 1000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 1.0,
+          "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,

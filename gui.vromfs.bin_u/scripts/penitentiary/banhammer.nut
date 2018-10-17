@@ -19,6 +19,13 @@ function gui_modal_complain(playerInfo, chatLog = "")
 
 }
 
+local chatLogToString = function(chatLog)
+{
+  return ::u.isTable(chatLog) ? ::save_to_json(chatLog) :
+    ::u.isString(chatLog)     ? ::g_string.escape(chatLog) :
+    ""
+}
+
 class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/complain.blk"
@@ -175,7 +182,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     dagor.debug(format("%s user: %s, for %s, for %d sec.\n comment: %s",
                        penalty, playerName, category, duration, comment))
-    chatLog = ::save_to_json(chatLog)
+    chatLog = chatLogToString(chatLog)
     taskId = char_ban_user(uid, duration, "", category, penalty,
                            comment, ""/*hidden_note*/, chatLog)
     if (taskId >= 0)
@@ -318,9 +325,9 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
       chats    = collectThreadListForTribunal()
     });
 
-    chatLog.location = location
-    chatLog.clanInfo = clanInfo
-    chatLog = ::save_to_json(chatLog)
+    chatLog.location <- location
+    chatLog.clanInfo <- clanInfo
+    chatLog = chatLogToString(chatLog)
 
     dagor.debug("Send complaint " + category + ": \ncomment = " + user_comment + ", \nchatLog = " + chatLog + ", \ndetails = " + details)
     dagor.debug("pInfo:")

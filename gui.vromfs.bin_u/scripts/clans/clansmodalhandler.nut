@@ -72,7 +72,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function getMainFocusObj2()
   {
-    return curPage == "clans_list" ? scene.findObject("search_edit") : getClanActionObjForSelect()
+    return curPage == "clans_list" ? "search_edit" : "clan_actions"
   }
 
   function getMainFocusObj3()

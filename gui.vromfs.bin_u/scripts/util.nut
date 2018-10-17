@@ -1,6 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-local penalty = require("penalty")
+local penalty = require_native("penalty")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
@@ -1754,107 +1754,12 @@ function loc_current_mission_desc()
   return locDesc
 }
 
-
-function json_escape_string( arg )
-{
-  if ( "string" != typeof arg )
-    return ""
-
-  local result = ""
-  foreach( ch in arg )
-    switch( ch )
-    {
-      case '\"':
-        result += "\\\"";
-        break;
-      case '\\':
-        result += "\\\\";
-        break;
-      case '\n':
-        result += "\\n";
-        break;
-      case '\r':
-        result += "\\r";
-        break;
-      default:
-        if (ch >= 0 && ch < ' ') // chars can be signed (e.g. on PS4)
-          result += ::format("\\u%04X", ch );
-        else
-          result += ch.tochar();
-        break;
-    }
-
-  return result
-}
-
-
-function json_reduce(array, kernel)
-{
-  if (array == null)
-    return  null
-  local len = array.len()
-  if (len == 0)
-    return  null
-  if (len == 1)
-    return  array[0]
-  local head = kernel(array[0], array[1])
-  if (len == 2)
-    return  head
-  local result = [head]
-  result.extend(array.slice(2))
-  return  ::json_reduce(result, kernel)
-}
-
-function json_join(delim, str_array)
-{
-  return ::json_reduce(str_array, (@(delim) function(prev, next) { return prev + delim + next })(delim))
-}
-
 function save_to_json(obj)
 {
-  local save_array = function(arr)
-  {
-    local content = []
-    foreach (v in arr)
-      content.push(save_to_json(v))
+  ::dagor.assertf(::isInArray(type(obj), [ "table", "array" ]),
+    "Data type not suitable for save_to_json: " + type(obj))
 
-    content = ::json_join(",", content)
-    if (content == null)
-      content = ""
-    return  "[" + content + "]"
-  }.bindenv(this)
-
-  local save_table = function(table)
-  {
-    local content = []
-    foreach (key, val in table)
-      content.push(::format("\"%s\": %s", json_escape_string(key.tostring()), save_to_json(val)))
-
-    content = ::json_join(",", content)
-    if (content == null)
-      content = ""
-    return  "{" + content + "}"
-  }.bindenv(this)
-
-  switch (typeof obj)
-  {
-    case  "array":
-      return  save_array(obj)
-    case  "table":
-      return  save_table(obj)
-    case  "string":
-      return  "\"" + json_escape_string(obj.tostring()) + "\""
-    case  "integer":
-      return  obj.tostring()
-    case  "int64":
-      return  obj.tostring()
-    case  "bool":
-      return  obj.tostring()
-    case  "float":
-      return  obj.tostring()
-    default:
-      return  ("tostring" in obj) ? "\"" + json_escape_string(obj.tostring()) + "\"" : "null"
-  }
+  return ::json_to_string(obj, false)
 }
 
 function get_country_by_team(team_index)

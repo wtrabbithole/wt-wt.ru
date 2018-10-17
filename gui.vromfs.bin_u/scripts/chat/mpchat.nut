@@ -266,10 +266,16 @@ class ::ChatHandler
     if (show && sceneData.scene.isVisible())
     {
       local obj = scene.findObject("chat_input")
-      if (::checkObj(obj))
+      if (::check_obj(obj))
       {
-        obj.select()
-        obj.setValue(chatInputText)
+        obj.getScene().performDelayed(this, function()
+        {
+          if (!::check_obj(obj))
+            return
+
+          obj.select()
+          obj.setValue(chatInputText)
+        })
       }
     }
   }

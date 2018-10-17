@@ -2,6 +2,8 @@
   "model": "f4f_4",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "gearSinkRangeLR": 0.176,
+  "gearSinkRangeC": 0.064,
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
@@ -35,16 +37,8 @@
         "hp": 15.0
       }
     },
-    "armor3": {
-      "armor5_dm": {
-        "hp": 35.0
-      }
-    },
     "armor6_35": {
       "armor2_dm": {
-        "hp": 35.0
-      },
-      "armor4_dm": {
         "hp": 35.0
       }
     },
@@ -56,7 +50,7 @@
     "armor_engine": {
       "engine1_dm": {
         "genericDamageMult": 1.6,
-        "hp": 61.1
+        "hp": 61.0
       }
     },
     "c_dural3": {
@@ -76,16 +70,16 @@
         "hp": 30.5
       },
       "flap1_l_dm": {
-        "hp": 14.5
+        "hp": 16.3
       },
       "flap1_r_dm": {
-        "hp": 14.5
+        "hp": 16.3
       },
       "flap_l_dm": {
-        "hp": 28.8
+        "hp": 29.2
       },
       "flap_r_dm": {
-        "hp": 28.8
+        "hp": 29.2
       },
       "rudder_dm": {
         "genericDamageMult": 0.3,
@@ -140,35 +134,26 @@
       },
       "cover3_dm": {
         "hp": 19.5
-      },
-      "cover4_dm": {
-        "hp": 19.5
-      },
-      "cover5_dm": {
-        "hp": 19.5
-      },
-      "cover6_dm": {
-        "hp": 19.5
       }
     },
     "dural40": {
       "spar1_l_dm": {
-        "hp": 30.3
+        "hp": 41.1
       },
       "spar1_r_dm": {
-        "hp": 30.3
+        "hp": 41.1
       },
       "spar2_l_dm": {
-        "hp": 19.5
+        "hp": 32.9
       },
       "spar2_r_dm": {
-        "hp": 19.5
+        "hp": 32.9
       },
       "spar_l_dm": {
-        "hp": 48.9
+        "hp": 45.2
       },
       "spar_r_dm": {
-        "hp": 48.9
+        "hp": 45.2
       }
     },
     "glass38": {
@@ -179,6 +164,9 @@
     "protected_controls": {
       "tailcontrol_dm": {
         "hp": 60.5
+      },
+      "wingcontrol_dm": {
+        "hp": 39.5
       },
       "wingcontrol_l_dm": {
         "hp": 60.5
@@ -217,7 +205,7 @@
     },
     "steel_tank_s": {
       "tank1_dm": {
-        "hp": 66.2
+        "hp": 63.9
       },
       "tank2_dm": {
         "hp": 39.5
@@ -356,16 +344,6 @@
     },
     {
       "part": {
-        "name": "armor4_dm"
-      }
-    },
-    {
-      "part": {
-        "name": "armor5_dm"
-      }
-    },
-    {
-      "part": {
         "name": "cover1_dm"
       }
     },
@@ -377,21 +355,6 @@
     {
       "part": {
         "name": "cover3_dm"
-      }
-    },
-    {
-      "part": {
-        "name": "cover4_dm"
-      }
-    },
-    {
-      "part": {
-        "name": "cover5_dm"
-      }
-    },
-    {
-      "part": {
-        "name": "cover6_dm"
       }
     },
     {
@@ -1923,6 +1886,11 @@
     },
     {
       "part": {
+        "name": "wingcontrol_dm"
+      }
+    },
+    {
+      "part": {
         "name": "wingcontrol_l_dm"
       }
     },
@@ -2006,7 +1974,7 @@
     "gun": "gun_default"
   },
   "cockpit": {
-    "headPos": [-1.226,1.255,0.0],
+    "headPos": [-1.16,1.255,0.0],
     "headPosOnShooting": [-1.29,1.255,0.0],
     "collimatorSize": 0.2,
     "lightPos": [-0.488212,1.03476,0.206514],

@@ -8,8 +8,6 @@ const max_camera_speed = 8
 const ACTION_BAR_NUM_SHELL_TYPE_ACTIONS = 4
 const ACTION_BAR_FIRE_EXTINGUISHER_IDX = 5
 
-const JOYSTICK_DEVICE_ID = 3
-
 enum CONTROL_TYPE {
   HEADER
   SECTION

@@ -24,7 +24,7 @@ class ::Input.Button extends ::Input.InputBase
       view = {}
     }
 
-    if (deviceId == JOYSTICK_DEVICE_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
+    if (deviceId == ::JOYSTICK_DEVICE_0_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
     {
       data.template = "gui/gamepadButton"
       data.view.buttonImage <- gamepadIcons.getTextureByButtonIdx(buttonId)

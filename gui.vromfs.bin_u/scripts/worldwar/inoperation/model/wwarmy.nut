@@ -250,10 +250,10 @@ class ::WwArmy extends ::WwFormation
   {
     if (isMove())
       return WW_ARMY_ACTION_STATUS.IN_MOVE
-    if (isEntrenched())
-      return WW_ARMY_ACTION_STATUS.ENTRENCHED
     if (isInBattle())
       return WW_ARMY_ACTION_STATUS.IN_BATTLE
+    if (isEntrenched())
+      return WW_ARMY_ACTION_STATUS.ENTRENCHED
     return WW_ARMY_ACTION_STATUS.IDLE
   }
 

@@ -214,8 +214,7 @@ class UnitInfoExporter
 
   function exportCurUnit(fullBlk, curUnit)
   {
-//NEED remove ::isShip(...) when ships will be opened
-    if(!curUnit.isInShop && !curUnit.isShip())
+    if(!curUnit.isInShop || curUnit.isHelicopter())
       return true
 
     if(!curUnit.modificators)
@@ -229,6 +228,10 @@ class UnitInfoExporter
     local armyId = curUnit.unitType.armyId
 
     local countryId = curUnit.shopCountry
+
+    if(countryId == null || countryId == "")
+      return true;
+
     local rankId = curUnit.rank.tostring()
 
     local unitBlk = ::DataBlock()

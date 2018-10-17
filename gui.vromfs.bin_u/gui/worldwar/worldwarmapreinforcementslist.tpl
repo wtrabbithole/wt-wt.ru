@@ -16,7 +16,6 @@ tdiv {
       overlayTextColor:t='active'
       smallFont:t='yes'
     }
-    include "gui/worldWar/wwControlHelp"
   }
 
   ReinforcementsRadioButtonsList {
@@ -24,6 +23,13 @@ tdiv {
     width:t='pw'
     flow:t='h-flow'
     flow-align:t='left'
+  }
+
+  div {
+    id:t='deploy_hint_nest'
+    margin-top:t='1@blockInterval'
+    display:t='hide'
+    include "gui/worldWar/wwControlHelp"
   }
 
   textareaNoTab {

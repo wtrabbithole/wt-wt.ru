@@ -33,6 +33,12 @@
       "mass": 28.0
     },
     {
+      "explosiveType": "fp02"
+    },
+    {
+      "explosiveMass": 2.0
+    },
+    {
       "caliber": 0.128
     },
     {
@@ -51,6 +57,9 @@
       "bulletName": "128mm_sprgr_L45"
     },
     {
+      "hitPowerMult": 55.0
+    },
+    {
       "nearHitPower": [1.0,50.0]
     },
     {
@@ -66,49 +75,22 @@
       "relativeVelHitShift": [300.0,1000.0]
     },
     {
+      "nearArmorPower": [47.0,1000.0]
+    },
+    {
+      "midArmorPower": [47.0,7000.0]
+    },
+    {
+      "farArmorPower": [47.0,15000.0]
+    },
+    {
       "relativeVelHitShift": [250.0,800.0]
     },
     {
-      "nearArmorPower": [45.0,150.0]
+      "explodeTreshold": 1.0
     },
     {
-      "midArmorPower": [44.0,600.0]
-    },
-    {
-      "farArmorPower": [40.0,2000.0]
-    },
-    {
-      "relativeVelArmorShift": [200.0,1000.0]
-    },
-    {
-      "explodeTreshold": 5.0
-    },
-    {
-      "explodeHitPower": 420.0
-    },
-    {
-      "explodeArmorPower": 22.0
-    },
-    {
-      "explodeRadius": [0.7,1.0]
-    },
-    {
-      "explosionPatchRadius": 2.0
-    },
-    {
-      "shutterDamage": true
-    },
-    {
-      "shutterDamageRadius": 12.0
-    },
-    {
-      "shutterAmount": 70
-    },
-    {
-      "shutterArmorPower": 15.0
-    },
-    {
-      "shutterHit": 20.0
+      "fuseDelayDist": 0.1
     },
     {
       "groundCollisionEffect": "art_ground_splash"
@@ -124,6 +106,66 @@
     },
     {
       "waterFxScale": [0.8,0.8]
+    },
+    {
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.35
+          },
+          {
+            "segment": {
+              "angles": [0.0,14.0],
+              "countPortion": 0.06
+            }
+          },
+          {
+            "segment": {
+              "angles": [15.0,44.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "angles": [45.0,84.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [85.0,169.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [170.0,189.0],
+              "countPortion": 0.05
+            }
+          },
+          {
+            "segment": {
+              "angles": [190.0,274.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [275.0,344.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [345.0,359.0],
+              "countPortion": 0.06
+            }
+          }
+        ]
+      }
     },
     {
       "hitpower": {
@@ -177,6 +219,12 @@
         "mass": 28.0
       },
       {
+        "explosiveType": "fp02"
+      },
+      {
+        "explosiveMass": 2.0
+      },
+      {
         "caliber": 0.128
       },
       {
@@ -195,6 +243,9 @@
         "bulletName": "128mm_sprgr_L45"
       },
       {
+        "hitPowerMult": 55.0
+      },
+      {
         "nearHitPower": [1.0,50.0]
       },
       {
@@ -210,49 +261,22 @@
         "relativeVelHitShift": [300.0,1000.0]
       },
       {
+        "nearArmorPower": [47.0,1000.0]
+      },
+      {
+        "midArmorPower": [47.0,7000.0]
+      },
+      {
+        "farArmorPower": [47.0,15000.0]
+      },
+      {
         "relativeVelHitShift": [250.0,800.0]
       },
       {
-        "nearArmorPower": [45.0,150.0]
+        "explodeTreshold": 1.0
       },
       {
-        "midArmorPower": [44.0,600.0]
-      },
-      {
-        "farArmorPower": [40.0,2000.0]
-      },
-      {
-        "relativeVelArmorShift": [200.0,1000.0]
-      },
-      {
-        "explodeTreshold": 5.0
-      },
-      {
-        "explodeHitPower": 420.0
-      },
-      {
-        "explodeArmorPower": 22.0
-      },
-      {
-        "explodeRadius": [0.7,1.0]
-      },
-      {
-        "explosionPatchRadius": 2.0
-      },
-      {
-        "shutterDamage": true
-      },
-      {
-        "shutterDamageRadius": 12.0
-      },
-      {
-        "shutterAmount": 70
-      },
-      {
-        "shutterArmorPower": 15.0
-      },
-      {
-        "shutterHit": 20.0
+        "fuseDelayDist": 0.1
       },
       {
         "groundCollisionEffect": "art_ground_splash"
@@ -268,6 +292,66 @@
       },
       {
         "waterFxScale": [0.8,0.8]
+      },
+      {
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.35
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.06
+              }
+            },
+            {
+              "segment": {
+                "angles": [15.0,44.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "angles": [45.0,84.0],
+                "countPortion": 0.4
+              }
+            },
+            {
+              "segment": {
+                "angles": [85.0,169.0],
+                "countPortion": 0.01
+              }
+            },
+            {
+              "segment": {
+                "angles": [170.0,189.0],
+                "countPortion": 0.05
+              }
+            },
+            {
+              "segment": {
+                "angles": [190.0,274.0],
+                "countPortion": 0.01
+              }
+            },
+            {
+              "segment": {
+                "angles": [275.0,344.0],
+                "countPortion": 0.4
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.06
+              }
+            }
+          ]
+        }
       },
       {
         "hitpower": {
@@ -317,37 +401,88 @@
     "bullet": {
       "bulletCount": 40,
       "mass": 28.0,
+      "explosiveType": "fp02",
+      "explosiveMass": 1.4,
       "caliber": 0.128,
       "speed": 830.0,
       "speedDispersion": 0.05,
       "maxDistance": 25000.0,
       "bulletType": "he_frag_base_fuse_tank",
       "bulletName": "128mm_sprgr_L45_bf",
+      "hitPowerMult": 55.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,300.0],
       "farHitPower": [0.1,700.0],
       "endHitPower": [0.008,1500.0],
       "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [45.0,150.0],
-      "midArmorPower": [44.0,600.0],
-      "farArmorPower": [40.0,2000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
+      "nearArmorPower": [50.0,1000.0],
+      "midArmorPower": [50.0,7000.0],
+      "farArmorPower": [50.0,15000.0],
       "fuseDelayDist": 0.8,
       "explodeTreshold": 5.0,
-      "explodeHitPower": 420.0,
-      "explodeArmorPower": 22.0,
-      "explodeRadius": [0.7,1.0],
-      "explosionPatchRadius": 2.0,
-      "shutterDamage": true,
-      "shutterDamageRadius": 12.0,
-      "shutterAmount": 70,
-      "shutterArmorPower": 15.0,
-      "shutterHit": 20.0,
       "groundCollisionEffect": "art_ground_splash",
       "ricochetEffect": "cannon_ricochet",
       "groundFxScale": [1.0,1.0],
       "waterCollisionEffect": "120-203_he_water_splash",
       "waterFxScale": [0.8,0.8],
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.35
+          },
+          {
+            "segment": {
+              "angles": [0.0,14.0],
+              "countPortion": 0.06
+            }
+          },
+          {
+            "segment": {
+              "angles": [15.0,44.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "angles": [45.0,84.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [85.0,169.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [170.0,189.0],
+              "countPortion": 0.05
+            }
+          },
+          {
+            "segment": {
+              "angles": [190.0,274.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [275.0,344.0],
+              "countPortion": 0.4
+            }
+          },
+          {
+            "segment": {
+              "angles": [345.0,359.0],
+              "countPortion": 0.06
+            }
+          }
+        ]
+      },
       "hitpower": {
         "HitPower0m": [1.0,0.0],
         "HitPower1000m": [0.9,1000.0],
@@ -390,6 +525,8 @@
     "bullet": {
       "bulletCount": 40,
       "mass": 28.3,
+      "explosiveType": "ph_salz_h10",
+      "explosiveMass": 0.55,
       "caliber": 0.128,
       "speed": 875.0,
       "speedDispersion": 0.05,
@@ -400,15 +537,6 @@
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 0.8,
       "explodeTreshold": 28.0,
-      "explodeHitPower": 200.0,
-      "explodeArmorPower": 24.0,
-      "explodeRadius": [0.5,0.6],
-      "explosionPatchRadius": 1.8,
-      "shutterDamage": true,
-      "shutterDamageRadius": 6.5,
-      "shutterAmount": 23,
-      "shutterArmorPower": 25.0,
-      "shutterHit": 35.0,
       "groundCollisionEffect": "big_ground_splash",
       "groundFxScale": [0.85,0.8],
       "ricochetEffect": "cannon_ricochet",
@@ -417,6 +545,46 @@
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
+      },
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.35
+          },
+          {
+            "segment": {
+              "angles": [0.0,29.0],
+              "countPortion": 0.005
+            }
+          },
+          {
+            "segment": {
+              "angles": [30.0,139.0],
+              "countPortion": 0.49
+            }
+          },
+          {
+            "segment": {
+              "angles": [140.0,219.0],
+              "countPortion": 0.01
+            }
+          },
+          {
+            "segment": {
+              "angles": [220.0,324.0],
+              "countPortion": 0.49
+            }
+          },
+          {
+            "segment": {
+              "angles": [325.0,359.0],
+              "countPortion": 0.005
+            }
+          }
+        ]
       },
       "armorpower": {
         "ArmorPower0m": [233.0,0.0],

@@ -358,7 +358,7 @@ class QueueManager {
     return leaveAllQueues(null, null, null, true)
   }
 
-  function leaveQueue(queue, msg = null, cancelAction = null)
+  function leaveQueue(queue, params = {})
   {
     if (queue.state == queueStates.LEAVING_QUEUE)
       return
@@ -367,9 +367,17 @@ class QueueManager {
 
     ::queues.showProgressBox(true)
 
+    ::add_big_query_record("exit_waiting_for_battle_screen",
+      ::save_to_json({ waitingTime = queue.getActiveTime()
+        queueType = queue.queueType.typeName
+        eventId = getQueueMode(queue)
+        country = getQueueCountry(queue)
+        rank = getMyRankInQueue(queue)
+        isCanceledByPlayer = params?.isCanceledByPlayer ?? false }))
+
     queue.leave(
-      getOnLeaveQueueErrorCallback(queue, msg, cancelAction),
-      getOnLeaveQueueSuccessCallback(queue, msg)
+      getOnLeaveQueueErrorCallback(queue, params?.msg, params?.cancelAction),
+      getOnLeaveQueueSuccessCallback(queue, params?.msg)
     )
 
     changeState(queue, queueStates.LEAVING_QUEUE)

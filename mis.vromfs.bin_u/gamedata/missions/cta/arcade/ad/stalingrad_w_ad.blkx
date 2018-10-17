@@ -256,7 +256,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [],
@@ -431,7 +432,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/bombers_spawn",
             "spawnEffect": false,
             "isStrictSpawn": false,
@@ -447,7 +448,6 @@
             "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
-            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -455,7 +455,7 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/bombers_spawn",
             "spawnEffect": false,
             "isStrictSpawn": false,
@@ -471,7 +471,6 @@
             "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
-            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -557,7 +556,7 @@
         [3500.0,0.0,0.0],
         [0.0,4000.0,0.0],
         [0.0,0.0,3500.0],
-        [-6484.1,750.0,993.25]
+        [-6484.1,0.0,993.25]
       ],
       "objLayer": 0,
       "props": []
@@ -876,7 +875,7 @@
         [3500.0,0.0,0.0],
         [0.0,4000.0,0.0],
         [0.0,0.0,3500.0],
-        [-6484.1,750.0,993.25]
+        [-6484.1,0.0,993.25]
       ],
       "objLayer": 0,
       "props": []

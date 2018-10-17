@@ -248,6 +248,9 @@ enums.addTypes(effectsType, [
   { id = "viewDist",               preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
+  { id = "reloadTime",             measureType = "seconds", isInverted = true, presize = 0.1
+    canShowForUnit = @(unit) ::has_feature("TankModEffect")
+  }
   { id = "respawnCost_killScore_exp_fighter",  preset = "TANK_RESPAWN_COST" }
   { id = "respawnCost_killScore_exp_assault", preset = "TANK_RESPAWN_COST"  }
   { id = "respawnCost_killScore_exp_bomber",  preset = "TANK_RESPAWN_COST"  }

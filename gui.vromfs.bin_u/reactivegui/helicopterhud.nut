@@ -4,46 +4,36 @@ local interopGet = require("daRg/helpers/interopGen.nut")
 local style = {}
 
 local greenColor = Color(71, 232, 39, 200)
-local backgroundColor = Color(0, 0, 0, 90)
+local backgroundColor = Color(0, 0, 0, 150)
+local fontOutlineColor = Color(0, 0, 0, 235)
 
 const LINE_WIDTH = 1.6
 const NUM_ENGINES_MAX = 7
 
-
-::interop.state <- {
-  indicatorsVisible = 1
-  ias = 0
-  alt = 0
-  distanceToGround = 0.0
-  verticalSpeed = 0
-  forwardSpeed = 0
-  leftSpeed = 0
-  forwardAccel = 0
-  leftAccel = 0
-
-  rocketAimX = 100
-  rocketAimY = 200
-  rocketAimVisible = 1
-
-  flightDirectionX = 150
-  flightDirectionY = 200
-  flightDirectionVisible = 1
-
-  gunDirectionX = 200
-  gunDirectionY = 200
-  gunDirectionVisible = 1
-  horAngle = 0
-  horizontalSpeedX = 0
-  horizontalSpeedZ = 0
-
-  turretYaw = 0.5
-  turretPitch = 0.5
-
-  isSightLocked = false
-}
-
-
 local helicopterState = {
+
+  IndicatorsVisible = Watched(false)
+  DistanceToGround = Watched(0.0)
+  VerticalSpeed = Watched(0.0)
+
+  RocketAimX = Watched(0.0)
+  RocketAimY = Watched(0.0)
+  RocketAimVisible = Watched(false)
+
+  GunDirectionX = Watched(0.0)
+  GunDirectionY = Watched(0.0)
+  GunDirectionVisible = Watched(false)
+
+  HorAngle = Watched(0.0)
+
+  HorizontalSpeedX = Watched(0.0)
+  HorizontalSpeedZ = Watched(0.0)
+
+  TurretYaw = Watched(0.0)
+  TurretPitch = Watched(0.0)
+
+  IsSightLocked = Watched(false)
+
   MainList = Watched([])
   SightList = Watched([])
   HudColor = Watched(Color(71, 232, 39, 240))
@@ -60,6 +50,12 @@ local helicopterState = {
   Rkt = Watched("--")
   Msl = Watched("--")
   Bmb = Watched("--")
+
+  IsCanEmpty = Watched(false)
+  IsCanAdditionalEmpty = Watched(false)
+  IsRktEmpty = Watched(false)
+  IsMslEmpty = Watched(false)
+  IsBmbEmpty = Watched(false)
 
   RateOfFire = Watched("LOW")
 
@@ -85,7 +81,7 @@ local helicopterState = {
   IsPilotHudVisible = Watched(false)
   IsGunnerHudVisible = Watched(false)
 
-  FlyByWireMode = Watched("0")
+  GunOverheatState = Watched(0)
 }
 
 for (local i = 0; i < NUM_ENGINES_MAX; ++i)
@@ -134,25 +130,31 @@ local getColor = function(isBackground){
   return isBackground ? backgroundColor : helicopterState.HudColor.value
 }
 
+local getFontScale = function()
+{
+  return max(sh(100) / 1080, 1)
+}
 
 style.lineBackground <- class {
   fillColor = Color(0, 0, 0, 0)
-  lineWidth = hdpx(LINE_WIDTH + 2.0)
-  font = Fonts.small_text_hud
-  fontFxColor = backgroundColor
-  fontFxFactor = 16
+  lineWidth = hdpx(1) * (LINE_WIDTH + 1.5)
+  font = Fonts.hud
+  fontFxColor = fontOutlineColor
+  fontFxFactor = 40
   fontFx = FFT_GLOW
+  fontScale = getFontScale()
 }
 
 
 style.lineForeground <- class {
   watch = [helicopterState.HudColor]
   fillColor = Color(0, 0, 0, 0)
-  lineWidth = hdpx(LINE_WIDTH)
-  font = Fonts.small_text_hud
-  fontFxColor = backgroundColor
-  fontFxFactor = 16
+  lineWidth = hdpx(1) * LINE_WIDTH
+  font = Fonts.hud
+  fontFxColor = fontOutlineColor
+  fontFxFactor = 40
   fontFx = FFT_GLOW
+  fontScale = getFontScale()
 }
 
 
@@ -170,45 +172,14 @@ local HelicopterRocketAim = function(line_style, isBackground) {
       ]
     })
 
-  return {
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
-    size = SIZE_TO_CONTENT
-    behavior = Behaviors.RtPropUpdate
-    update = @() {
-      opacity = ::interop.state.rocketAimVisible ? 100 : 0
-      transform = {
-        translate = [::interop.state.rocketAimX, ::interop.state.rocketAimY]
-      }
-    }
-    children = [lines]
-  }
-}
-
-
-local HelicopterFlightDirection = function(line_style, isBackground) {
-  local lines = @() line_style.__merge({
-      rendObj = ROBJ_VECTOR_CANVAS
-      size = [sh(0.75), sh(0.75)]
-      color = getColor(isBackground)
-      commands = [
-        [VECTOR_LINE, -100, 0, -200, 0],
-        [VECTOR_LINE, 100, 0, 200, 0],
-        [VECTOR_LINE, 0, -100, 0, -200],
-        [VECTOR_ELLIPSE, 0, 0, 100, 100],
-      ]
-    })
-
   return @(){
-    size = SIZE_TO_CONTENT
-    behavior = Behaviors.RtPropUpdate
     halign = HALIGN_CENTER
     valign = VALIGN_MIDDLE
-    update = @() {
-      isHidden = !::interop.state.flightDirectionVisible
-      transform = {
-        translate = [::interop.state.flightDirectionX, ::interop.state.flightDirectionY]
-      }
+    size = SIZE_TO_CONTENT
+    watch = [helicopterState.RocketAimX, helicopterState.RocketAimY, helicopterState.RocketAimVisible]
+    opacity = helicopterState.RocketAimVisible.value ? 100 : 0
+    transform = {
+      translate = [helicopterState.RocketAimX.value, helicopterState.RocketAimY.value]
     }
     children = [lines]
   }
@@ -220,35 +191,75 @@ local HelicopterGunDirection = function(line_style, isBackground) {
   local l = 20
   local offset = (100 - sqL) * 0.5
 
+  local getCommands = function() {
+    local commands = [
+      [VECTOR_LINE, -50 + offset, -50 + offset, 50 - offset, -50 + offset],
+      [VECTOR_LINE, 50 - offset, 50 - offset, 50 - offset, -50 + offset],
+      [VECTOR_LINE, -50 + offset, 50 - offset, 50 - offset, 50 - offset],
+      [VECTOR_LINE, -50 + offset, -50 + offset, -50 + offset, 50 - offset]
+    ]
+
+    local commandsDash = [
+      [VECTOR_LINE, 0, -50, 0, -50 + l],
+      [VECTOR_LINE, 50 - l, 0, 50, 0],
+      [VECTOR_LINE, 0, 50 - l, 0, 50],
+      [VECTOR_LINE, -50, 0, -50 + l, 0]
+    ]
+
+    local mainCommands = []
+    local overheatCommands = []
+
+    for (local i = 0; i < commands.len(); ++i)
+    {
+      if (i >= helicopterState.GunOverheatState.value)
+      {
+        mainCommands.append(commands[i])
+        if (!helicopterState.IsCanEmpty.value)
+          mainCommands.append(commandsDash[i])
+      }
+      else
+      {
+        overheatCommands.append(commands[i])
+        if (!helicopterState.IsCanEmpty.value)
+          overheatCommands.append(commandsDash[i])
+      }
+    }
+
+    return {
+      mainCommands = mainCommands
+      overheatCommands = overheatCommands
+    }
+  }
+
+
   local lines = @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [sh(2), sh(2)]
     color = getColor(isBackground)
-    commands = [
-      [VECTOR_LINE, -50 + offset, -50 + offset,
-        -50 + offset,  50 - offset,
-         50 - offset,  50 - offset,
-         50 - offset, -50 + offset,
-        -50 + offset, -50 + offset],
-      [VECTOR_LINE, -50, 0, -50 + l, 0],
-      [VECTOR_LINE, 50 - l, 0, 50, 00],
-      [VECTOR_LINE, 0, -50, 0, -50 + l],
-      [VECTOR_LINE, 0, 50 - l, 0, 50]
-    ]
+    commands = getCommands().mainCommands
+  })
+
+  local linesOverheat = @() line_style.__merge({
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [sh(2), sh(2)]
+    color = isBackground ? backgroundColor : helicopterState.AlertColor.value
+    commands = getCommands().overheatCommands
   })
 
   return @() {
     size = SIZE_TO_CONTENT
     halign = HALIGN_CENTER
     valign = VALIGN_MIDDLE
-    behavior = Behaviors.RtPropUpdate
-    update = @() {
-      opacity = ::interop.state.gunDirectionVisible ? 100 : 0
-      transform = {
-        translate = [::interop.state.gunDirectionX, ::interop.state.gunDirectionY]
-      }
+    watch = [helicopterState.IsCanEmpty, helicopterState.GunOverheatState,
+      helicopterState.GunDirectionX, helicopterState.GunDirectionY, helicopterState.GunDirectionVisible]
+    opacity = helicopterState.GunDirectionVisible.value ? 100 : 0
+    transform = {
+      translate = [helicopterState.GunDirectionX.value, helicopterState.GunDirectionY.value]
     }
-    children = [lines]
+    children = [
+      lines,
+      linesOverheat
+    ]
   }
 }
 
@@ -328,6 +339,9 @@ local verticalSpeedScale = function(line_style, width, height, isBackground) {
 
 
 local HelicopterVertSpeed = function(elemStyle, scaleWidth, height, posX, isBackground) {
+
+  local getRelativeHeight = @() ::clamp(helicopterState.DistanceToGround.value * 2.0, 0, 100)
+
   return @() {
     pos = [posX, sh(50) - height*0.5]
     children = [
@@ -340,55 +354,45 @@ local HelicopterVertSpeed = function(elemStyle, scaleWidth, height, posX, isBack
         size = [scaleWidth, height]
         children = @() elemStyle.__merge({
           rendObj = ROBJ_VECTOR_CANVAS
-          behavior = Behaviors.RtPropUpdate
           pos = [LINE_WIDTH, 0]
           size = [LINE_WIDTH, height]
           tmpHeight = 0
-          fillColor = Color(255, 255, 255, 255)
+          fillColor = getColor(isBackground)
           color = getColor(isBackground)
-          commands = [[VECTOR_RECTANGLE, 0, 0, 100, 100]]
-          update = @() {
-            opacity = ::interop.state.distanceToGround > 50.0 ? 0 : 100
-            tmpHeight = ::clamp(::interop.state.distanceToGround * 2.0, 0, 100)
-            commands = [[VECTOR_RECTANGLE, 0, 100 - tmpHeight, 100, tmpHeight]]
-          }
+          watch = helicopterState.DistanceToGround
+          opacity = helicopterState.DistanceToGround.value > 50.0 ? 0 : 100
+          commands = [[VECTOR_RECTANGLE, 0, 100 - getRelativeHeight(), 100, getRelativeHeight()]]
         })
       }
-      {
+      @(){
         halign = HALIGN_RIGHT
         valign = VALIGN_MIDDLE
         size = [-0.5*scaleWidth, height]
         children = @() elemStyle.__merge({
           rendObj = ROBJ_DTEXT
           halign = HALIGN_RIGHT
-          behavior = Behaviors.RtPropUpdate
           size = [scaleWidth*4,SIZE_TO_CONTENT]
           color = getColor(isBackground)
-          update = @() {
-            text = ::math.floor(::interop.state.distanceToGround).tostring()
-          }
+          watch = helicopterState.DistanceToGround
+          text = ::math.floor(helicopterState.DistanceToGround.value).tostring()
         })
       }
-      {
-        behavior = Behaviors.RtPropUpdate
+      @(){
+        watch = helicopterState.VerticalSpeed
         pos = [scaleWidth + sh(0.5), 0]
-        update = @() {
-          transform = {
-            translate = [0, height * 0.01 * clamp(50 - ::interop.state.verticalSpeed * 5.0, 0, 100)]
-          }
+        transform = {
+          translate = [0, height * 0.01 * clamp(50 - helicopterState.VerticalSpeed.value * 5.0, 0, 100)]
         }
         children = [
           verticalSpeedInd(elemStyle, hdpx(25), isBackground),
-          {
-            pos = [scaleWidth + hdpx(10), hdpx(-13)]
+          @(){
+            pos = [scaleWidth + hdpx(10), hdpx(-10)]
             children = @() elemStyle.__merge({
               rendObj = ROBJ_DTEXT
               size = [scaleWidth*4,SIZE_TO_CONTENT]
               color = getColor(isBackground)
-              behavior = Behaviors.RtPropUpdate
-              update = @(){
-                text = math.round_by_value(::interop.state.verticalSpeed, 1).tostring()
-              }
+              watch = helicopterState.VerticalSpeed
+              text = math.round_by_value(helicopterState.VerticalSpeed.value, 1).tostring()
             })
           }
         ]
@@ -420,110 +424,107 @@ local airHorizon = function(line_style, height, isBackground) {
     commands = [
       [VECTOR_LINE, 20, 50,  32, 50,  41, 100,  50, 50,  59, 100,  68, 50,  80, 50],
     ]
-    behavior = Behaviors.RtPropUpdate
-    update = @()
-    {
-      transform = {
-        pivot = [0.5, 0.5]
-        rotate = ::interop.state.horAngle
-      }
+    watch = helicopterState.HorAngle
+    transform = {
+      pivot = [0.5, 0.5]
+      rotate = helicopterState.HorAngle.value
     }
   })
 }
 
 
 local horizontalSpeedVector = function(line_style, height, isBackground) {
+
+  local getCommands = function() {
+    local factor = 5.0
+    local limit = 100.0
+    local pointX = helicopterState.HorizontalSpeedZ.value * factor
+    local pointY = helicopterState.HorizontalSpeedX.value * factor
+    if (pointX > limit)
+      pointX = limit
+    else if (pointX < -limit)
+      pointX = -limit
+    if (pointY > limit)
+      pointY = limit
+    else if (pointY < -limit)
+      pointY = -limit
+
+    local pointXrel = 50.0 + pointX
+    local pointYrel = 50.0 - pointY
+
+    local vecLength = math.sqrt(pointX*pointX + pointY*pointY)
+
+    local pointArrowA = {
+      x = pointXrel
+      y = pointYrel
+    }
+
+    local pointArrowB = {
+      x = pointXrel
+      y = pointYrel
+    }
+
+    if (vecLength > 0)
+    {
+      local minusVecNorm = {
+        x = -pointX / vecLength
+        y = pointY / vecLength
+      }
+
+      local perpendicularVecNorm = {
+         x = 0
+        y = 0
+      }
+
+      if (pointX != 0)
+      {
+        perpendicularVecNorm.y = 1.0 / math.sqrt(1 + (pointY * pointY / (pointX * pointX)))
+        perpendicularVecNorm.x = pointY * perpendicularVecNorm.y / pointX
+      }
+       else
+      {
+        perpendicularVecNorm.x = 1.0
+        perpendicularVecNorm.y = 0.0
+      }
+
+      local arrowWidth = 5.0
+      local arrowLength = 10.0
+
+      pointArrowA =
+      {
+        x = pointXrel + perpendicularVecNorm.x * arrowWidth + minusVecNorm.x * arrowLength
+        y = pointYrel + perpendicularVecNorm.y * arrowWidth + minusVecNorm.y * arrowLength
+      }
+
+      pointArrowB =
+      {
+        x = pointXrel - perpendicularVecNorm.x * arrowWidth + minusVecNorm.x * arrowLength
+        y = pointYrel - perpendicularVecNorm.y * arrowWidth + minusVecNorm.y * arrowLength
+      }
+    }
+
+    local commands = [
+       [VECTOR_LINE, 50.0, 50.0, pointXrel, pointYrel]
+    ]
+
+    local minLengthArrowVisibleSq = 30.0
+    if (pointX * pointX + pointY * pointY > minLengthArrowVisibleSq)
+    {
+      commands.extend([
+        [VECTOR_LINE, pointXrel, pointYrel, pointArrowA.x, pointArrowA.y],
+        [VECTOR_LINE, pointXrel, pointYrel, pointArrowB.x, pointArrowB.y]
+      ])
+    }
+
+    return commands
+  }
+
   return @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [height, height]
-    behavior = Behaviors.RtPropUpdate
+    watch = [helicopterState.HorizontalSpeedX, helicopterState.HorizontalSpeedZ]
     color = getColor(isBackground)
-    update = function()
-    {
-      local factor = 5.0
-      local limit = 100.0
-      local pointX = ::interop.state.horizontalSpeedZ * factor
-      local pointY = ::interop.state.horizontalSpeedX * factor
-      if (pointX > limit)
-        pointX = limit
-      else if (pointX < -limit)
-        pointX = -limit
-      if (pointY > limit)
-        pointY = limit
-      else if (pointY < -limit)
-        pointY = -limit
-
-      local pointXrel = 50.0 + pointX
-      local pointYrel = 50.0 - pointY
-
-      local vecLength = math.sqrt(pointX*pointX + pointY*pointY)
-
-      local pointArrowA = {
-        x = pointXrel
-        y = pointYrel
-      }
-
-      local pointArrowB = {
-        x = pointXrel
-        y = pointYrel
-      }
-
-      if (vecLength > 0)
-      {
-        local minusVecNorm = {
-          x = -pointX / vecLength
-          y = pointY / vecLength
-        }
-
-        local perpendicularVecNorm = {
-          x = 0
-          y = 0
-        }
-
-        if (pointX != 0)
-        {
-          perpendicularVecNorm.y = 1.0 / math.sqrt(1 + (pointY * pointY / (pointX * pointX)))
-          perpendicularVecNorm.x = pointY * perpendicularVecNorm.y / pointX
-        }
-        else
-        {
-          perpendicularVecNorm.x = 1.0
-          perpendicularVecNorm.y = 0.0
-        }
-
-        local arrowWidth = 5.0
-        local arrowLength = 10.0
-
-        pointArrowA = 
-        {
-          x = pointXrel + perpendicularVecNorm.x * arrowWidth + minusVecNorm.x * arrowLength
-          y = pointYrel + perpendicularVecNorm.y * arrowWidth + minusVecNorm.y * arrowLength
-        }
-
-        pointArrowB = 
-        {
-          x = pointXrel - perpendicularVecNorm.x * arrowWidth + minusVecNorm.x * arrowLength
-          y = pointYrel - perpendicularVecNorm.y * arrowWidth + minusVecNorm.y * arrowLength
-        }
-      }
-
-      local commands = [
-        [VECTOR_LINE, 50.0, 50.0, pointXrel, pointYrel]
-      ]
-
-      local minLengthArrowVisibleSq = 30.0
-      if (pointX * pointX + pointY * pointY > minLengthArrowVisibleSq)
-      {
-        commands.extend([
-          [VECTOR_LINE, pointXrel, pointYrel, pointArrowA.x, pointArrowA.y],
-          [VECTOR_LINE, pointXrel, pointYrel, pointArrowB.x, pointArrowB.y]
-        ])
-      }
-
-      return {
-        commands = commands
-      }
-    }
+    commands = getCommands()
   })
 }
 
@@ -534,7 +535,6 @@ local HelicopterHorizontalSpeedComponent = function(elemStyle, isBackground) {
   return function() {
     return {
       pos = [sw(50) - 2* height, sh(50) - height*0.5]
-      behavior = Behaviors.RtPropUpdate
       size = [4*height, height]
       children = [
         airHorizonZeroLevel(elemStyle, height, isBackground)
@@ -556,6 +556,17 @@ local turretAngles = function(line_style, height, aspect, isBackground) {
   local crossL = 2
   local offset = 1.3
 
+  local getCommands = function() {
+    local px = helicopterState.TurretYaw.value * 100.0
+    local py = 100 - helicopterState.TurretPitch.value * 100.0
+    return [
+      [VECTOR_LINE, px - crossL - offset, py, px - offset, py],
+      [VECTOR_LINE, px + offset, py, px + crossL + offset, py],
+      [VECTOR_LINE, px, py - crossL * aspect - offset * aspect, px, py - offset * aspect],
+      [VECTOR_LINE, px, py + crossL * aspect + offset * aspect, px, py + offset * aspect]
+    ]
+  }
+
   return @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [aspect * height, height]
@@ -572,20 +583,8 @@ local turretAngles = function(line_style, height, aspect, isBackground) {
         lineWidth = hdpx(LINE_WIDTH + 2)
         size = [aspect * height, height]
         color = getColor(isBackground)
-        behavior = Behaviors.RtPropUpdate
-        update = function()
-        {
-          local px = ::interop.state.turretYaw * 100.0
-          local py = 100 - ::interop.state.turretPitch * 100.0
-          return {
-            commands = [
-              [VECTOR_LINE, px - crossL - offset, py, px - offset, py],
-              [VECTOR_LINE, px + offset, py, px + crossL + offset, py],
-              [VECTOR_LINE, px, py - crossL * aspect - offset * aspect, px, py - offset * aspect],
-              [VECTOR_LINE, px, py + crossL * aspect + offset * aspect, px, py + offset * aspect]
-            ]
-          }
-        }
+        watch = [helicopterState.TurretYaw, helicopterState.TurretPitch]
+        commands = getCommands()
       })
     ]
   })
@@ -606,20 +605,29 @@ local turretAnglesComponent = function(elemStyle, isBackground) {
 
 local createHelicopterParam = function(param, width, line_style, isBackground)
 {
+  local rowHeight = hdpx(28)
+
+  local selectColor = function(){
+    return param?.alertWatched && param.alertWatched.value && !isBackground
+      ? helicopterState.AlertColor.value
+      : getColor(isBackground)
+  }
+
   local captionComponent = (param.title instanceof Watched) ?
     @() line_style.__merge({
       rendObj = ROBJ_DTEXT
-      size = [0.4*width, 0.12 * width]
+      size = [0.4*width, rowHeight]
       text = param.title.value
-      watch = param.title
-      color = getColor(isBackground)
+      watch = [param.title, param?.alertWatched]
+      color = selectColor()
     })
   :
     @() line_style.__merge({
       rendObj = ROBJ_STEXT
-      size = [0.4*width, 0.12 * width]
+      size = [0.4*width, rowHeight]
       text = param.title()
-      color = getColor(isBackground)
+      watch = [param?.alertWatched]
+      color = selectColor()
     })
 
   return function() {
@@ -629,11 +637,9 @@ local createHelicopterParam = function(param, width, line_style, isBackground)
       children = [
         captionComponent
         @() line_style.__merge({
-          color = param?.alertWatched && param.alertWatched.value && !isBackground
-            ? helicopterState.AlertColor.value
-            : getColor(isBackground)
+          color = selectColor()
           rendObj = ROBJ_DTEXT
-          size = [0.6*width, 0.12 * width]
+          size = [0.6*width, rowHeight]
           text = param.valueWatched.value
           watch = [param.valueWatched, param?.alertWatched]
         })
@@ -659,30 +665,31 @@ local textParamsMap = {
   can  = {
     title = @() ::loc("HUD/CANNONS_SHORT")
     valueWatched = helicopterState.Can
+    alertWatched = helicopterState.IsCanEmpty
   }
   can1  = {
     title = @() ::loc("HUD/ADDITIONAL_GUNS_SHORT")
     valueWatched = helicopterState.CanAdditional
+    alertWatched = helicopterState.IsCanAdditionalEmpty
   }
   rkt  = {
     title = @() ::loc("HUD/RKT")
     valueWatched = helicopterState.Rkt
+    alertWatched = helicopterState.IsRktEmpty
   }
   msl  = {
     title = @() ::loc("HUD/MISSILES_SHORT")
     valueWatched = helicopterState.Msl
+    alertWatched = helicopterState.IsMslEmpty
   }
   bmb = {
     title = @() ::loc("HUD/BOMBS_SHORT")
     valueWatched = helicopterState.Bmb
+    alertWatched = helicopterState.IsBmbEmpty
   }
   rof  = {
     title = @() ::loc("HUD/RATE_OF_FIRE_SHORT")
     valueWatched = helicopterState.RateOfFire
-  }
-  fbw = {
-    title = @() ::loc("HUD/FLIGHT_BY_WIRE_MODE")
-    valueWatched = helicopterState.FlyByWireMode
   }
 }
 
@@ -710,7 +717,7 @@ for (local i = 0; i < NUM_ENGINES_MAX; ++i)
 }
 
 
-local paramsTableWidth = hdpx(220)
+local paramsTableWidth = hdpx(450)
 local paramsSightTableWidth = hdpx(220)
 
 
@@ -762,7 +769,8 @@ local lockSight = function(line_style, width, height, isBackground) {
   return @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [width, height]
-    color = getColor(isBackground)
+    watch = helicopterState.IsMslEmpty
+    color = !isBackground && helicopterState.IsMslEmpty.value ? helicopterState.AlertColor.value : getColor(isBackground)
     commands = [
       [VECTOR_LINE, 0, 0, hl, vl],
       [VECTOR_LINE, 0, 100, vl, 100 - vl],
@@ -777,16 +785,12 @@ local lockSightComponent = function(elemStyle, isBackground) {
   local width = hdpx(150)
   local height = hdpx(100)
 
-  return function() {
-    return {
-      pos = [sw(50) - width * 0.5, sh(50) - height * 0.5]
-      behavior = Behaviors.RtPropUpdate
-      update = @() {
-        opacity = ::interop.state.isSightLocked ? 100 : 0
-      }
-      size = SIZE_TO_CONTENT
-      children = lockSight(elemStyle, width, height, isBackground)
-    }
+  return @() {
+    pos = [sw(50) - width * 0.5, sh(50) - height * 0.5]
+    watch = helicopterState.IsSightLocked
+    opacity = helicopterState.IsSightLocked.value ? 100 : 0
+    size = SIZE_TO_CONTENT
+    children = lockSight(elemStyle, width, height, isBackground)
   }
 }
 
@@ -925,10 +929,12 @@ local Root = function() {
   children.extend(helicopterHUDs(style.lineForeground, false))
 
   return {
+    watch = helicopterState.IndicatorsVisible
     halign = HALIGN_LEFT
     valign = VALIGN_TOP
     size = [sw(100) , sh(100)]
     children = children
+    opacity = helicopterState.IndicatorsVisible.value ? 100 : 0
   }
 }
 

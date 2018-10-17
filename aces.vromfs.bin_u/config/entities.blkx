@@ -57,6 +57,15 @@
     "medicalkit": {
       "name": "tank_medical_kit_expendable",
       "enabled_without_mod": false
+    },
+    "track_sound_outside": {
+      "inited": false
+    }
+  },
+  "player_tank": {
+    "_extends": "tank",
+    "track_sound_cockpit": {
+      "inited": false
     }
   },
   "simple_ship": {
@@ -64,7 +73,16 @@
   },
   "ship": {
     "_extends": "unit",
-    "extinguisher.enabled_without_mod": false
+    "extinguisher.enabled_without_mod": false,
+    "track_sound_outside": {
+      "inited": false
+    }
+  },
+  "player_ship": {
+    "_extends": "ship",
+    "track_sound_cockpit": {
+      "inited": false
+    }
   },
   "helicopter": {
     "_extends": "unit"

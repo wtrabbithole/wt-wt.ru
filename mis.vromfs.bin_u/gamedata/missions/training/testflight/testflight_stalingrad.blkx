@@ -43,7 +43,11 @@
         "_Conq5": false,
         "_Conq6": false,
         "_DBttlA": false,
-        "_DBttlB": false
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "cover_points": [],
@@ -64,6 +68,7 @@
           "map": true,
           "minTime": 4,
           "picture": "",
+          "showAirMap": false,
           "icon": {
             "icontype": "fighter",
             "side": "player",
@@ -118,7 +123,19 @@
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "target": "structures_01"
+        },
+        "unitsSetColumn": {
+          "numKilledUnitsToStop": 4,
+          "stopKilledUnits": false,
+          "stopAfterCollision ": false,
+          "distanceBetweenUnits": 0.8,
+          "object": "train",
+          "killLeaderToStop": true
         }
       },
       "else_actions": []
@@ -162,81 +179,377 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": {
-    "armada": {
-      "name": "armada_01",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-3290.65,753.9,1409.75]
-      ],
-      "unit_class": "a6m2_zero",
-      "closed_waypoints": false,
-      "weapons": "a6m2_default",
-      "bullets0": "",
-      "bullets1": "",
-      "bullets2": "",
-      "bullets3": "",
-      "bulletsCount0": 0,
-      "bulletsCount1": 0,
-      "bulletsCount2": 0,
-      "bulletsCount3": 0,
-      "props": {
-        "army": 1,
-        "free_distance": 70.0,
-        "floating_distance": 50.0,
-        "minimum_distance_to_earth": 20.0,
-        "altLimit": 6000.0,
-        "attack_type": "fire_at_will",
-        "skill": 4,
-        "count": 1,
-        "plane": {
-          "wing_formation": "Diamond",
-          "row_distances": 1.5,
-          "col_distances": 1.5,
-          "super_formation": "Diamond",
-          "super_row_distances": 1.5,
-          "super_col_distances": 1.5,
-          "ai_skill": "NORMAL",
-          "task": "FLY_WAYPOINT"
-        }
-      },
-      "way": []
+  "units": [
+    {
+      "armada": {
+        "name": "armada_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-3290.65,753.9,1409.75]
+        ],
+        "unit_class": "a6m2_zero",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "a6m2_default",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
     },
-    "wheeled_vehicles": {
-      "name": "structures_01",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-2987.05,-12.0,4748.95]
-      ],
-      "unit_class": "ussr_zis5_cargo",
-      "closed_waypoints": false,
-      "weapons": "",
-      "bullets0": "",
-      "bullets1": "",
-      "bullets2": "",
-      "bullets3": "",
-      "bulletsCount0": 0,
-      "bulletsCount1": 0,
-      "bulletsCount2": 0,
-      "bulletsCount3": 0,
-      "props": {
-        "army": 2,
-        "count": 1,
-        "formation_type": "rows",
-        "formation_div": 3,
-        "formation_step": [2.5,2.0],
-        "formation_noise": [0.1,0.1],
-        "uniqueName": "",
-        "attack_type": "fire_at_will",
-        "targetableByAi": false
-      },
-      "way": []
+    {
+      "wheeled_vehicles": {
+        "name": "structures_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-2987.05,-12.0,4748.95]
+        ],
+        "unit_class": "ussr_zis5_cargo",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "train",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-5147.79,48.7267,3141.17]
+        ],
+        "props": [
+          {
+            "squad_members": "locomotive"
+          },
+          {
+            "squad_members": "freight_car"
+          }
+        ]
+      }
+    },
+    {
+      "wheeled_vehicles": {
+        "name": "locomotive",
+        "tm": [
+          [0.883015,0.0,0.469346],
+          [0.0,1.0,0.0],
+          [-0.469346,0.0,0.883015],
+          [-5633.98,112.342,2684.9]
+        ],
+        "unit_class": "ussr_locomotive_e_1298",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "targetableByAi": false
+        },
+        "way": {
+          "locomotive_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-5614.8,112.934,2696.83]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-2893.87,8.2384,2634.45]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "USE_SPLINES",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-2876.55,8.39285,2631.94]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-1711.46,-3.84773,3306.94]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "USE_SPLINES",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_05": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-1688.89,-7.21668,3554.61]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_06": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-1510.22,2.39807,5786.77]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "USE_SPLINES",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_07": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-1391.57,1.43085,5991.71]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_08": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2283.03,5.46664,7956.36]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "USE_SPLINES",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_09": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2428.26,8.6819,8191.94]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_10": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1845.96,118.448,14474.6]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "USE_SPLINES",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_11": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1817.77,116.969,14501.7]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "locomotive_wp_12": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-14237.6,238.43,11919.8]
+            ],
+            "props": {
+              "speed": 60.0,
+              "tas": false,
+              "moveType": "USE_SPLINES",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "wheeled_vehicles": {
+        "name": "freight_car",
+        "tm": [
+          [0.883015,0.0,0.469346],
+          [0.0,1.0,0.0],
+          [-0.469346,0.0,0.883015],
+          [-5651.24,116.324,2676.72]
+        ],
+        "unit_class": "ussr_freight_car_1926",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 10,
+          "formation_type": "cols",
+          "formation_div": 1,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.1,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
     }
-  },
+  ],
   "areas": {
     "airfield00": {
       "type": "Sphere",

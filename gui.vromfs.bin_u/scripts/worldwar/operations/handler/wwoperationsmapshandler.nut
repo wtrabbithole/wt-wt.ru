@@ -304,7 +304,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local progressMaxValue = trophy?.rewardedParamValue ?? 0
       local isProgressReached = progressCurValue >= progressMaxValue
       local progressText = ::loc("ui/parentheses",
-        { text = progressCurValue + "/" + progressMaxValue })
+        { text = ::min(progressCurValue, progressMaxValue) + "/" + progressMaxValue })
 
       if (isProgressReached)
         progressText = ::colorize("activeTextColor", progressText)

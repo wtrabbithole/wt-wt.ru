@@ -3685,6 +3685,13 @@ function get_option(type, context = null)
       gen_hue_option(descr, "color_picker_hue_helicopter_hud_alert", 0, ::get_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT))
       break;
 
+    case ::USEROPT_HORIZONTAL_SPEED:
+      descr.id = "horizontalSpeed"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_horizontal_speed() != 0
+      break
+
     case ::USEROPT_SHOW_DESTROYED_PARTS:
       descr.id = "show_destroyed_parts"
       descr.controlType = optionControlType.CHECKBOX
@@ -3800,6 +3807,13 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::g_gamepad_cursor_controls.getValue()
+      break
+    case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
+      descr.id = "gamepad_cursor_controller_speed"
+      descr.controlType = optionControlType.SLIDER
+      descr.value = ::g_gamepad_cursor_controls.getSpeed()
+      descr.min <- 5
+      descr.max <- 200
       break
 
     case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
@@ -4459,6 +4473,10 @@ function set_option(type, value, descr = null)
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break;
 
+    case ::USEROPT_HORIZONTAL_SPEED:
+      ::set_option_horizontal_speed(value ? 1 : 0)
+      break
+
     case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
       ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
@@ -4823,6 +4841,9 @@ function set_option(type, value, descr = null)
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
       ::g_gamepad_cursor_controls.setValue(value)
+      break
+    case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
+      ::g_gamepad_cursor_controls.setSpeed(value)
       break
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:

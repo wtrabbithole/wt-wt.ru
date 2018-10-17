@@ -72,6 +72,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.loadHandler(::gui_handlers.WwBattleDescription, {
         curBattleInList = battle
         operationBattle = ::WwBattle()
+        curGroupIdInList = getBattleArmyUnitTypesData(battle).groupId
       })
   }
 
@@ -157,7 +158,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     onItemSelect(isForceUpdate)
     updateClosedGroups(closedGroups)
-    showSceneBtn("items_list", curBattleListMap.len() > 0)
+
+    if (getViewMode() == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
+      showSceneBtn("items_list", curBattleListMap.len() > 0)
   }
 
   function getClosedGroups()
@@ -285,7 +288,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (!curBattleInList.isValid() && !curGroupIdInList.len())
+    if (!curBattleInList.isValid() || !curGroupIdInList.len())
       curBattleInList = getFirstBattleInListMap(closedGroups)
 
     local itemId = curBattleInList.isValid() ? curBattleInList.id
@@ -1066,7 +1069,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventSlotbarPresetLoaded(params)
   {
-    updateButtons()
+    guiScene.performDelayed(this, function() {
+      if (isValid())
+        updateButtons()
+    })
   }
 
   function onEventWWLoadOperation(params)
@@ -1305,5 +1311,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     res.links <- links
     return res
+  }
+
+  function getCurrentEdiff()
+  {
+    return ::g_world_war.defaultDiffCode
   }
 }

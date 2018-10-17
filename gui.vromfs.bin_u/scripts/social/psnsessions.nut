@@ -137,7 +137,8 @@ function g_psn_sessions::leave(session, cb=psn.noOpCb)
   if (session in sessions)
   {
     local afterLeave = function(response, error) {
-      delete sessions[session]
+      if (session in sessions)
+        delete sessions[session]
       cb(response, error)
     }
     psn.send(psn.session.leave(session), afterLeave, this)

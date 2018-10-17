@@ -79,6 +79,9 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     mapCoords = isStick ? [0.5, 0.5] : null
     stuckAxis = ::joystickInterface.getAxisStuck(watchAxis)
 
+    if (::is_xinput_device())
+      ::g_gamepad_cursor_controls.pause(true)
+
     scene.findObject("update_timer").setUserData(this)
     update(null, 0.0)
     updateShotcutImages()
@@ -242,7 +245,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
     local reqDevice = ::STD_MOUSE_DEVICE_ID
     if (pointingDevice == POINTING_DEVICE.GAMEPAD || pointingDevice == POINTING_DEVICE.JOYSTICK)
-      reqDevice = JOYSTICK_DEVICE_ID
+      reqDevice = ::JOYSTICK_DEVICE_0_ID
     else if (pointingDevice == POINTING_DEVICE.TOUCHSCREEN)
       reqDevice = ::STD_KEYBOARD_DEVICE_ID
 
@@ -336,6 +339,8 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   function goBack()
   {
     ::on_artillery_close()
+    if (::is_xinput_device())
+      ::g_gamepad_cursor_controls.pause(false)
     base.goBack()
   }
 
@@ -382,5 +387,5 @@ function artillery_call_by_shortcut() // called from client
 {
   local handler = ::handlersManager.getActiveBaseHandler()
   if (handler && (handler instanceof ::gui_handlers.ArtilleryMap))
-    handler.onArtilleryMapClick()
+    handler.onApply()
 }

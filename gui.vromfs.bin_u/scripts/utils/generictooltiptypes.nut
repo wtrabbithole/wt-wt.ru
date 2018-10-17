@@ -50,11 +50,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       if (!::checkObj(obj))
         return false
 
-      local stage = ::getTblValue("stage", params, -1)
-      local showProgress = ::getTblValue("showProgress", params, false)
-      local needTitle = ::getTblValue("needTitle", params, true)
-
-      local config = ::build_log_unlock_data({ id = unlockId, stage = stage }, showProgress, needTitle)
+      local config = ::build_log_unlock_data(params.__merge({ id = unlockId }))
 
       if (config.type == -1)
         return false

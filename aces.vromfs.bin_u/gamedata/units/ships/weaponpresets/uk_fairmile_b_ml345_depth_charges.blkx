@@ -1,5 +1,77 @@
 [
   {
+    "hideNodes": [
+      {
+        "node": "depth_charge_15"
+      },
+      {
+        "node": "depth_charge_16"
+      },
+      {
+        "node": "depth_charge_17"
+      },
+      {
+        "node": "depth_charge_18"
+      },
+      {
+        "node": "depth_charge_19"
+      },
+      {
+        "node": "depth_charge_20"
+      }
+    ]
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner5",
+      "triggerGroup": "mortar",
+      "weaponType": "bombs",
+      "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
+      "emitter": "bone_bomb_15",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 20.0,
+      "useEmitter": true,
+      "barrelDP": "depth_charge_mount_15_dm",
+      "brokenBarrelAllowShoot": false,
+      "ammoDP": "depth_charge_15_dm",
+      "allowableDelta": 50.0,
+      "turret": {
+        "head": "turret_06",
+        "gun": "gun_01"
+      },
+      "limits": {
+        "yaw": [-0.0,0.0],
+        "pitch": [-0.0,0.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner6",
+      "triggerGroup": "mortar",
+      "weaponType": "bombs",
+      "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
+      "emitter": "bone_bomb_16",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 20.0,
+      "useEmitter": true,
+      "barrelDP": "depth_charge_mount_15_dm",
+      "brokenBarrelAllowShoot": false,
+      "ammoDP": "depth_charge_16_dm",
+      "allowableDelta": 50.0,
+      "turret": {
+        "head": "turret_07",
+        "gun": "gun_02"
+      },
+      "limits": {
+        "yaw": [-0.0,0.0],
+        "pitch": [-0.0,0.0]
+      }
+    }
+  },
+  {
     "Weapon": {
       "trigger": "bombs",
       "triggerGroup": "depth_charge",
@@ -165,30 +237,6 @@
       "external": true,
       "dropSpeed": 2.5,
       "ammoDP": "depth_charge_14_dm"
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_mk_vii_mortar.blk",
-      "emitter": "bone_bomb_15",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 20.0,
-      "ammoDP": "depth_charge_15_dm"
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_mk_vii_mortar.blk",
-      "emitter": "bone_bomb_16",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 20.0,
-      "ammoDP": "depth_charge_16_dm"
     }
   }
 ]

@@ -226,7 +226,7 @@ function g_crew_skill_parameters::getSortedArrayByParamsTable(parameters, crewUn
   local res = []
   foreach(name, valuesArr in parameters)
   {
-    if (crewUnitType == ::CUT_AIRCRAFT
+    if (crewUnitType != ::CUT_AIRCRAFT
       && name == "airfieldMinRepairTime")
       continue
     res.append({

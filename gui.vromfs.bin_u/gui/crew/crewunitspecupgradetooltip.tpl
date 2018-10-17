@@ -4,14 +4,14 @@ crewUnitSpecUpgradeTooltip {
 
   textareaNoTab {
     width:t='pw'
-    padding:t='1@crewUnitSpecUpgradeTooltipPadding'
+    padding:t='1@tooltipPadding'
     text:t='<<tooltipText>>'
   }
 
   <<#tinyTooltipText>>
   textareaNoTab {
     width:t='pw'
-    padding:t='1@crewUnitSpecUpgradeTooltipPadding'
+    padding:t='1@tooltipPadding'
     smallFont:t='yes'
     text:t='<<tinyTooltipText>>'
   }
@@ -49,7 +49,7 @@ crewUnitSpecUpgradeTooltip {
   }
 
   textareaNoTab {
-    padding:t='1@crewUnitSpecUpgradeTooltipPadding'
+    padding:t='1@tooltipPadding'
     text:t='<<expUpgradeText>>'
     width:t='pw'
     exp_upgrade_text_area:t='yes'

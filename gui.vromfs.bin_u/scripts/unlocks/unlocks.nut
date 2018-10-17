@@ -776,6 +776,17 @@ function fill_unlock_block(obj, config)
     pObj.show(true)
   }
 
+  if (config?.showAsTrophyContent)
+  {
+    local isUnlocked = ::is_unlocked_scripted(-1, config?.id)
+    local text = ::loc(isUnlocked ? "mainmenu/itemReceived" : "mainmenu/itemCanBeReceived")
+    if (isUnlocked)
+      text += "\n" + ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
+    obj.findObject("state").show(true)
+    obj.findObject("state_text").setValue(text)
+    obj.findObject("state_icon")["background-image"] = isUnlocked ? "#ui/gameuiskin#favorite" : "#ui/gameuiskin#locked"
+  }
+
   local rObj = obj.findObject("award_text")
   rObj.setValue(("rewardText" in config && config.rewardText != "")? (::loc("challenge/reward") + " " + config.rewardText) : "")
 
@@ -1013,8 +1024,11 @@ function does_unlock_exist(unlockId)
   return ::get_unlock_type_by_id(unlockId) != ::UNLOCKABLE_UNKNOWN
 }
 
-function build_log_unlock_data(config, showProgress = false, needTitle = true) //id, type    //??stageText, rewardText
+function build_log_unlock_data(config)
 {
+  local showProgress = config?.showProgress ?? false
+  local needTitle = config?.needTitle ?? true
+
   local res = ::create_default_unlock_data()
   local realId = ("unlockId" in config)? config.unlockId : ("id" in config)? config.id : ""
   local unlockBlk = ::g_unlocks.getUnlockById(realId)
@@ -1060,6 +1074,9 @@ function build_log_unlock_data(config, showProgress = false, needTitle = true) /
     if (needTitle)
       res.title = ::get_unlock_type_text(type, id)
   }
+
+  if (config?.showAsTrophyContent)
+    res.showAsTrophyContent <- true
 
   switch (type)
   {

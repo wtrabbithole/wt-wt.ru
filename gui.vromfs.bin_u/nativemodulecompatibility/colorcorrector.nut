@@ -4,8 +4,8 @@
  * it use integer instead of string to store color.
  */
 return {
-  correctHueTarget = @(color, target) ::correct_color_hue_target(color, target)
-  correctColorLightness = @(color, lightness) ::correct_color_lightness(color, lightness)
+  correctHueTarget = @(color, target) color
+  correctColorLightness = @(color, lightness) color
   TARGET_HUE_ALLY = getroottable().__get("TARGET_HUE_ALLY", 0)
   TARGET_HUE_SQUAD = getroottable().__get("TARGET_HUE_SQUAD", 1)
   TARGET_HUE_ENEMY = getroottable().__get("TARGET_HUE_ENEMY", 2)

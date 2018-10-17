@@ -1,5 +1,4 @@
-const LONG_ACTIONBAR_SHORCUT_LEN = 6;
-const CHANGE_AMOUNT_TO_ICON_NUMBER = 100
+const LONG_ACTIONBAR_TEXT_LEN = 6;
 
 class ActionBar
 {
@@ -115,7 +114,7 @@ class ActionBar
     viewItem.enabled            <- isReady ? "yes" : "no"
     viewItem.wheelmenuEnabled   <- isReady
     viewItem.shortcutText       <- shortcutText
-    viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_SHORCUT_LEN
+    viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_TEXT_LEN
     viewItem.mainShortcutId     <- shortcutId
     viewItem.cancelShortcutId   <- shortcutId
     viewItem.isXinput           <- showShortcut && ::is_xinput_device()
@@ -240,9 +239,12 @@ class ActionBar
       local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
       local backgroundImage = actionBarType.getIcon()
       local iconObj = itemObj.findObject("action_icon")
-      if (::checkObj(iconObj) && backgroundImage.len() > 0)
-        iconObj["background-image"] = backgroundImage
-
+      if (::checkObj(iconObj))
+      {
+        iconObj.tooltip = actionBarType.getTooltipText(item)
+        if (backgroundImage.len() > 0)
+          iconObj["background-image"] = backgroundImage
+      }
       if (item.type == ::EII_EXTINGUISHER && ::checkObj(mainActionButtonObj))
         mainActionButtonObj.show(item.cooldown == 0)
       if (item.type == ::EII_ARTILLERY_TARGET && item.active != artillery_target_mode)
@@ -266,11 +268,11 @@ class ActionBar
     if (count < 0)
       return ""
 
-    local countExText = countEx < 0 ? ""
-      : countEx < CHANGE_AMOUNT_TO_ICON_NUMBER || isFull ? countEx.tostring()
-      : ::loc("weapon/bigAmountNumberIcon")
-
+    local countExText = countEx < 0 ? "" : countEx.tostring()
     local text = count.tostring() + (countExText.len() ? "/" + countExText : "")
+    if (text.len() > LONG_ACTIONBAR_TEXT_LEN)
+      text = count.tostring() + (countExText.len() ? "/" + ::loc("weapon/bigAmountNumberIcon") : "")
+
     return isFull ? ::loc("options/count") + ::loc("ui/colon") + text : text
   }
 

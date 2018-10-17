@@ -146,7 +146,7 @@
     "ricochetDamage": 0.3
   },
   "glass30": {
-    "armorThickness": 38.0,
+    "armorThickness": 30.0,
     "armorThrough": 7.6,
     "restrainDamage": 0.2,
     "armorQuality": 0.2,
@@ -1910,31 +1910,6 @@
     "ricochetDamage": 0.0,
     "armorQuality": 0.2
   },
-  "ship_structural_steel": {
-    "armorThickness": 1.0,
-    "armorThrough": 2.5,
-    "restrainDamage": 0.0,
-    "genericDamageMult": 0.1,
-    "ricochetAngle": 60.0,
-    "ricochetCosinePower": 2.0,
-    "ricochetDamage": 0.0,
-    "armorQuality": 0.45,
-    "createSecondaryShatters": false
-  },
-  "ship_special_treatment_steel": {
-    "armorThickness": 1.0,
-    "armorThrough": 1.0,
-    "restrainDamage": 0.0001,
-    "genericDamageMult": 0.05,
-    "genericArmorQuality": 1.5,
-    "shatterDamageMult": 0.1,
-    "ricochetAngle": 60.0,
-    "ricochetCosinePower": 2.0,
-    "ricochetDamage": 0.0,
-    "armorQuality": 0.85,
-    "createSecondaryShatters": false,
-    "explosionDamageMult": 0.5
-  },
   "optics_tank": {
     "armorThickness": 1.0,
     "armorThrough": 2.5,
@@ -1960,21 +1935,6 @@
     "ricochetCosinePower": 3.0,
     "ricochetDamage": 0.001,
     "armorQuality": 0.35
-  },
-  "ship_wood": {
-    "armorThickness": 1.0,
-    "armorThrough": 1.0,
-    "restrainDamage": 0.1,
-    "genericDamageMult": 0.1,
-    "ricochetAngle": 89.0,
-    "ricochetCosinePower": 1.0,
-    "ricochetDamage": 0.1,
-    "genericArmorQuality": 0.01,
-    "explosionArmorQuality": 0.02,
-    "shutterArmorQuality": 0.04,
-    "cumulativeArmorQuality": 0.01,
-    "createSecondaryShatters": false,
-    "physMaterial": "wood"
   },
   "armored_glass": {
     "armorThickness": 1.0,
@@ -2005,5 +1965,85 @@
     "armorQuality": 0.05,
     "createSecondaryShatters": false,
     "secondaryShatterArmorQuality": 0.3
+  },
+  "ship_wood": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "genericDamageMult": 1.4,
+    "ricochetAngle": 89.0,
+    "ricochetCosinePower": 1.0,
+    "ricochetDamage": 0.3,
+    "genericArmorQuality": 0.04,
+    "explosionArmorQuality": 0.1,
+    "shutterArmorQuality": 0.4,
+    "cumulativeArmorQuality": 0.01,
+    "createSecondaryShatters": true,
+    "physMaterial": "wood"
+  },
+  "ship_structural_steel": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "explosionArmorQuality": 0.78,
+    "ricochetAngle": 60.0,
+    "ricochetCosinePower": 2.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 0.45,
+    "createSecondaryShatters": false
+  },
+  "ship_STS": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "shatterDamageMult": 0.85,
+    "shatterArmorQuality": 1.0,
+    "explosionArmorQuality": 1.0,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 2.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 1.0,
+    "createSecondaryShatters": false,
+    "genericArmorQuality": 0.9
+  },
+  "ship_Wsh": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "shatterDamageMult": 1.0,
+    "shatterArmorQuality": 0.85,
+    "explosionArmorQuality": 0.7,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 1.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 1.0,
+    "createSecondaryShatters": true,
+    "genericArmorQuality": 1.1
+  },
+  "ship_RHA": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "shatterArmorQuality": 1.0,
+    "explosionArmorQuality": 1.0,
+    "genericArmorQuality": 1.0,
+    "ricochetAngle": 60.0,
+    "ricochetCosinePower": 1.0,
+    "ricochetDamage": 0.2,
+    "armorQuality": 1.0,
+    "createSecondaryShatters": true
+  },
+  "ship_RGA": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "shatterArmorQuality": 1.15,
+    "explosionArmorQuality": 1.15,
+    "genericArmorQuality": 1.1,
+    "ricochetAngle": 60.0,
+    "ricochetCosinePower": 1.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 1.0,
+    "createSecondaryShatters": false
   }
 }

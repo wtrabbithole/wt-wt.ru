@@ -1,4 +1,4 @@
-local fonts = require("fonts")
+local fonts = require_native("fonts")
 
 function debug_change_font_size(shouldIncrease = true)
 {

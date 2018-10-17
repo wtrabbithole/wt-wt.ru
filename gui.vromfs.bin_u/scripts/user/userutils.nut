@@ -26,7 +26,7 @@ function g_user_utils::getMyStateData()
   if (airs.rank > myData.rank)
     myData.rank = airs.rank
 
-  local checkPacks = ["pkg_main", "pkg_ships"]
+  local checkPacks = ["pkg_main"]
   local missed = []
   foreach(pack in checkPacks)
     if (!::have_package(pack))

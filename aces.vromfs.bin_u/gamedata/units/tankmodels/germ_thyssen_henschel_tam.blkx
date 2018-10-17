@@ -1644,6 +1644,15 @@
           "part": "body_top_dm"
         },
         {
+          "part": "turret_01_front_dm"
+        },
+        {
+          "part": "turret_01_back_dm"
+        },
+        {
+          "part": "turret_03_front_dm"
+        },
+        {
           "part": "body_bottom_dm"
         },
         {
@@ -1660,6 +1669,74 @@
         },
         {
           "part": "superstructure_side_dm"
+        },
+        {
+          "part": "superstructure_bottom_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "turret": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "turret_top_dm"
+        },
+        {
+          "part": "turret_01_top_dm"
+        },
+        {
+          "part": "turret_02_top_dm"
+        },
+        {
+          "part": "turret_03_top_dm"
+        },
+        {
+          "part": "turret_back_dm"
+        },
+        {
+          "part": "turret_02_back_dm"
+        },
+        {
+          "part": "turret_side_dm"
+        },
+        {
+          "part": "turret_01_side_dm"
+        },
+        {
+          "part": "turret_02_side_dm"
+        },
+        {
+          "part": "turret_bottom_dm"
+        },
+        {
+          "part": "turret_01_bottom_dm"
+        },
+        {
+          "part": "turret_front_dm"
+        },
+        {
+          "part": "turret_02_front_dm"
+        },
+        {
+          "part": "turret_commander_dm"
         },
         {
           "effect": {
@@ -1762,22 +1839,19 @@
           "hp": 2000.0
         },
         {
-          "part": "turret_bottom_dm"
-        },
-        {
           "part": "gun_mask_dm"
         },
         {
-          "part": "turret_back_dm"
+          "part": "gun_mask_01_dm"
         },
         {
-          "part": "turret_side_dm"
+          "part": "gun_mask_02_dm"
         },
         {
-          "part": "turret_top_dm"
+          "part": "gun_mask_03_dm"
         },
         {
-          "part": "turret_front_dm"
+          "part": "gun_mask_04_dm"
         },
         {
           "effect": {
@@ -1990,7 +2064,7 @@
           "bullets": 2000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 1.0,
+          "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
@@ -3080,7 +3154,7 @@
                 "bullets": 2000,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 1.0,
+                "ChainfireTime": 0.5,
                 "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
@@ -3162,7 +3236,7 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 1.0
+                  "ChainfireTime": 0.5
                 },
                 {
                   "DelayAfterShoot": 2.0

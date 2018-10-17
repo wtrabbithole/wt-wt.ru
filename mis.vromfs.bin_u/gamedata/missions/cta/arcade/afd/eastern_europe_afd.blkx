@@ -133,9 +133,6 @@
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -152,7 +149,19 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [
@@ -187,13 +196,13 @@
             "map": true
           },
           {
-            "showAirMap": true
-          },
-          {
             "minTime": 4
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": true
           },
           {
             "icon": {
@@ -324,6 +333,18 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -349,6 +370,10 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -356,17 +381,20 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/bombers_spawn",
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -374,6 +402,8 @@
             "removeAreas": false,
             "showOnMap": true,
             "isIndividual": false,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -384,12 +414,11 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
+          "__missionMarkAsRespawnPoint": {
             "loc_name": "missions/bombers_spawn",
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -397,6 +426,8 @@
             "removeAreas": false,
             "showOnMap": true,
             "isIndividual": false,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -470,6 +501,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -481,6 +515,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -569,6 +606,8 @@
         "unit_class": "us_m4a2_76w",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -592,15 +631,17 @@
           "t1_tank_01_wp_01": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [562.75,43.05,4246.9]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -618,6 +659,8 @@
         "unit_class": "us_m4a2_76w",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -641,15 +684,17 @@
           "t1_tank_02_wp_01": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [4021.95,51.75,-813.8]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -667,6 +712,8 @@
         "unit_class": "us_m4a2_76w",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -690,15 +737,17 @@
           "t2_tank_01_wp_01": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [749.557,40.4,4359.03]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -716,6 +765,8 @@
         "unit_class": "us_m4a2_76w",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -739,15 +790,17 @@
           "t2_tank_02_wp_01": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [4164.25,61.75,-704.403]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -803,6 +856,8 @@
         "unit_class": "us_m16_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -826,15 +881,17 @@
           "t1_tank_03_wp_01": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [570.489,43.05,4241.37]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -852,6 +909,8 @@
         "unit_class": "us_m16_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -875,15 +934,17 @@
           "t1_tank_03_wp_02": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [4021.95,51.75,-813.8]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -901,6 +962,8 @@
         "unit_class": "us_m16_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -924,15 +987,17 @@
           "t2_tank_03_wp_01": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [757.296,40.4,4353.5]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -950,6 +1015,8 @@
         "unit_class": "us_m16_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -973,15 +1040,17 @@
           "t2_tank_03_wp_02": {
             "type": "normal",
             "tm": [
-              [0.5373,0.0,-0.843391],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.843391,0.0,0.5373],
+              [0.0,0.0,1.0],
               [4164.25,61.75,-704.403]
             ],
             "props": {
               "speed": 30.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -999,6 +1068,8 @@
         "unit_class": "a5m4",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1120,6 +1191,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

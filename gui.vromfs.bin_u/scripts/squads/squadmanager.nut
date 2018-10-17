@@ -583,8 +583,6 @@ function g_squad_manager::setCrewsReadyFlag(ready = null, needUpdateMemberData =
 
   if (needUpdateMemberData)
     updateMyMemberData(::g_user_utils.getMyStateData())
-
-  ::broadcastEvent(squadEvent.SET_READY)
 }
 
 function g_squad_manager::createSquad(callback)

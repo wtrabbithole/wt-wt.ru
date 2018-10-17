@@ -80,13 +80,16 @@ enums.addTypesByGlobalName("g_ww_map_reinforcement_tab_type", {
     tabIcon = "worldWar/iconArmy"
     tabText = "worldWar/armies"
     getTabTextPostfix = function() {
-      local idleArmies = ::getTblValue(WW_ARMY_ACTION_STATUS.IDLE, ::g_operations.getArmiesCache(), {})
-      local commonCount = ::getTblValue("common", idleArmies, []).len()
-      local surroundedCount = ::getTblValue("surrounded", idleArmies, []).len()
+      local commonCount = 0
+      local surroundedCount = 0
+      foreach (armiesData in ::g_operations.getArmiesCache())
+      {
+        commonCount += (armiesData?.common ?? []).len()
+        surroundedCount += (armiesData?.surrounded ?? []).len()
+      }
 
-      local countText = commonCount.tostring()
-      if (surroundedCount > 0)
-        countText += "+" + ::colorize("armySurroundedColor", surroundedCount)
+      local countText = commonCount.tostring() +
+        (surroundedCount > 0 ? "+" + ::colorize("armySurroundedColor", surroundedCount) : "")
 
       return ::loc("ui/parentheses/space", { text = countText })
     }

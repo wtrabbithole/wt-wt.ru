@@ -300,7 +300,10 @@ function SessionLobby::setIngamePresence(roomPublic, roomId)
 
 function SessionLobby::isInRoom()
 {
-  return status != lobbyStates.NOT_IN_ROOM && status != lobbyStates.WAIT_FOR_QUEUE_ROOM
+  return status != lobbyStates.NOT_IN_ROOM
+    && status != lobbyStates.WAIT_FOR_QUEUE_ROOM
+    && status != lobbyStates.CREATING_ROOM
+    && status != lobbyStates.JOINING_ROOM
 }
 
 function SessionLobby::isWaitForQueueRoom()
@@ -310,7 +313,7 @@ function SessionLobby::isWaitForQueueRoom()
 
 function SessionLobby::setWaitForQueueRoom(set)
 {
-  if (!isInRoom())
+  if (status == lobbyStates.NOT_IN_ROOM || status == lobbyStates.WAIT_FOR_QUEUE_ROOM)
     switchStatus(set? lobbyStates.WAIT_FOR_QUEUE_ROOM : lobbyStates.NOT_IN_ROOM)
 }
 
@@ -451,7 +454,8 @@ function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
   if (checkEqual && ::u.isEqual(settings, _settings))
     return
 
-  settings = _settings
+  //_settings can be publick date of room, and it does not need to be updated settings somewhere else
+  settings = clone _settings
   //not mission room settings
   settings.connect_on_join <- !haveLobby()
 
@@ -477,8 +481,6 @@ function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
 
 function SessionLobby::UpdatePlayersInfo()
 {
-  ::SquadIcon.clearPlayersInfo()
-
   // old format. players_info in lobby is array of objects for each player
   if ("players_info" in settings)
   {
@@ -1566,7 +1568,7 @@ function SessionLobby::destroyRoom()
 
 function SessionLobby::leaveRoom()
 {
-  if (!isInRoom())
+  if (status == lobbyStates.NOT_IN_ROOM || status == lobbyStates.WAIT_FOR_QUEUE_ROOM)
   {
     setWaitForQueueRoom(false)
     return
@@ -1614,7 +1616,7 @@ function SessionLobby::afterLeaveRoom(p)
 
 function SessionLobby::sendJoinRoomRequest(join_params, cb = function(...) {})
 {
-  if (isInRoom() && status != lobbyStates.CREATING_ROOM)
+  if (isInRoom())
     leaveRoom() //leave old room before join the new one
 
   ::leave_mp_session()

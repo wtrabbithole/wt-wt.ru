@@ -54,7 +54,10 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
           return playerContextMenu.showBlockedPlayerPopup(name)
 
         if (!canInteract)
+        {
+          platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
           return playerContextMenu.showPrivacySettingsRestrictionPopup()
+        }
 
         ::openChatPrivate(name, handler)
       }

@@ -133,6 +133,7 @@ class ::gui_handlers.RecentItemsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local isVisible = !::handlersManager.findHandlerClassInScene(::gui_handlers.EveryDayLoginAward)
       && !::handlersManager.findHandlerClassInScene(::gui_handlers.trophyRewardWnd)
+      && ::g_recent_items.getRecentItems().len()
     scene.show(isVisible)
   }
 

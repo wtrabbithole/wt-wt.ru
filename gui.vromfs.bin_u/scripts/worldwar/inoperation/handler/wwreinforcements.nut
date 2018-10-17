@@ -88,12 +88,18 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     armiesBlocks.extend(newArmies)
   }
 
+  function showDeployHint(isVisible = false)
+  {
+    showSceneBtn("deploy_hint_nest", isVisible)
+  }
+
   function onChangeArmyValue(obj)
   {
     if (currentReinforcementName != obj.armyName)
       ::play_gui_sound("ww_reinforcement_select")
 
     currentReinforcementName = obj.armyName
+    showDeployHint(true)
     ::ww_event("SelectedReinforcement", { name = currentReinforcementName })
   }
 
@@ -243,6 +249,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
       }
     }
 
+    showDeployHint(select)
     if (!select)
       currentReinforcementName = null
   }

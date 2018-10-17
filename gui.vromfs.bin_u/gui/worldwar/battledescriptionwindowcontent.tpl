@@ -33,6 +33,7 @@ tdiv {
 
     div {
       id:t='battle_info'
+      width:t='pw'
       left:t='0.5(pw-w)'
       position:t='absolute'
       padding:t='1@blockInterval, 0'

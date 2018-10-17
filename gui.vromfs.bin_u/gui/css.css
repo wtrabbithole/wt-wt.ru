@@ -1569,30 +1569,31 @@ Button_text.squadWidgetMember > animated_wait_icon {
   position:absolute;
 }
 
-animated_wait_icon[circle=both] > animated_wait_icon {
-  circle:aircraft;
-  rotation:180;
-}
-
 animated_wait_icon[circle] {
-  pos:50%pw-50%w, 0;
-  position:relative;
-  size:130*@sf/@pf_outdated, 130*@sf/@pf_outdated;
-  background-color:@transparent;
+  position:absolute;
+  size:pw, ph;
+  background-color:#40FFFFFF;
   css-hier-invalidate:yes;
 }
 
-animated_wait_icon[circle=aircraft] {
+animated_wait_icon[circle=air] {
   background-image:#ui/gameuiskin#wait_circle;
-  background-color:@white;
-  inc-factor:120;
+  inc-factor:113;
 }
 
-animated_wait_icon[circle=tank],
-animated_wait_icon[circle=both] {
+animated_wait_icon[circle=helicopter] {
+  background-image:#ui/gameuiskin#wait_circle_heli;
+  inc-factor:101;
+}
+
+animated_wait_icon[circle=tank] {
   background-image:#ui/gameuiskin#wait_circle_tank;
-  background-color:@white;
-  inc-factor:56;
+  inc-factor:59;
+}
+
+animated_wait_icon[circle=ship] {
+  background-image:#ui/gameuiskin#wait_circle_ship;
+  inc-factor:79;
 }
 
 framedMessage {

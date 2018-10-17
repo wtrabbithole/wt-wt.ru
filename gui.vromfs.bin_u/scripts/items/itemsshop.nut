@@ -34,7 +34,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   curSheet = null
   curItem = null //last selected item to restore selection after change list
 
-  isSheetsInited = false
   isSheetsInUpdate = false
   itemsPerPage = -1
   itemsList = null
@@ -42,7 +41,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   shouldSetPageByItem = false
   currentFocusItem = 2
 
-  slotbarActions = [ "preview", "testflight", "weapons", "info" ]
+  slotbarActions = [ "preview", "testflightforced", "weapons", "info" ]
+  displayItemTypes = null
+  usingSheetsArray = null
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
@@ -73,11 +74,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     // be able to navigate through sheets and tabs.
     local checkIsInMenu = ::isInMenu() || ::has_feature("devItemShop")
     local checkEnableShop = checkIsInMenu && ::has_feature("ItemsShop")
-    scene.findObject("wnd_title").show(!checkEnableShop)
-    getTabsListObj().show(checkEnableShop)
-    getTabsListObj().enable(checkEnableShop)
-    getSheetsListObj().show(isInMenu)
-    getSheetsListObj().enable(isInMenu)
+    if (!checkEnableShop)
+      scene.findObject("wnd_title").setValue(::loc(getTabName(itemsTab.INVENTORY)))
+
+    ::show_obj(getTabsListObj(), checkEnableShop)
+    ::show_obj(getSheetsListObj(), isInMenu)
 
     updateWarbondsBalance()
   }
@@ -177,11 +178,17 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function initSheetsOnce()
   {
-    if (isSheetsInited)
+    if (usingSheetsArray && usingSheetsArray.len())
       return
 
+    usingSheetsArray = displayItemTypes?
+        sheets.types.filter(function(idx, sh) {
+            return ::isInArray(sh.id, displayItemTypes)
+          }.bindenv(this) )
+      : sheets.types
+
     local view = {
-      items = sheets.types.map(@(sh) {
+      items = usingSheetsArray.map(@(sh) {
         text = ::loc(sh.locId)
         unseenIcon = SEEN.ITEMS_SHOP //intial to create unseen block.real value will be set on update.
         unseenIconId = "unseen_icon"
@@ -190,7 +197,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
     local data = ::handyman.renderCached(("gui/items/shopFilters"), view)
     guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
-    isSheetsInited = true
   }
 
   function updateSheets()
@@ -202,7 +208,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local typesObj = getSheetsListObj()
     local seenListId = getTabSeenId(curTab)
     local curValue = -1
-    foreach(idx, sh in sheets.types)
+    foreach(idx, sh in usingSheetsArray)
     {
       local isEnabled = sh.isEnabled(curTab)
       local child = typesObj.getChild(idx)
@@ -230,7 +236,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     markCurrentPageSeen()
 
-    local newSheet = sheets.types?[obj.getValue()]
+    local newSheet = usingSheetsArray?[obj.getValue()]
     if (!newSheet)
       return
 

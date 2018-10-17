@@ -1492,6 +1492,27 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-6.0,19.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": true,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 40.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 10.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [8.0,0.2]
+              },
+              {
+                "row": [10.0,0.4]
+              }
+            ]
           }
         }
       },
@@ -1599,7 +1620,7 @@
           "speedPitch": 20.0,
           "bullets": 3000,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 1.0,
+          "ChainfireTime": 0.5,
           "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,

@@ -58,7 +58,7 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
   if (!forceExternal && ::use_embedded_browser() && !::steam_is_running() && hasFeature)
   {
     // Embedded browser
-    ::open_browser_modal(url)
+    ::open_browser_modal(url, urlTags)
     ::broadcastEvent("BrowserOpened", { url = url, external = false })
     return
   }

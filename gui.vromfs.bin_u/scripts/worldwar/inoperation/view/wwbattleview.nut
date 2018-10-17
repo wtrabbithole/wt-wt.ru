@@ -56,7 +56,7 @@ class ::WwBattleView
   function getBattleName()
   {
     if (!battle.isValid())
-      return null
+      return ""
 
     return ::loc("worldWar/battleName", {number = battle.getOrdinalNumber()})
   }

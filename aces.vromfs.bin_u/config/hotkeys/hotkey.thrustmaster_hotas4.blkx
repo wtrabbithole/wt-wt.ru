@@ -318,6 +318,25 @@
     },
     {
       "event": {
+        "name": "ID_SHIP_WEAPON_MORTAR",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 16
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 17
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
         "name": "ID_SHIP_WEAPON_ROCKETS",
         "shortcut": [
           {
@@ -3139,8 +3158,8 @@
         "useSliders": false
       },
       "rudder": {
-        "axisId": 14,
-        "innerDeadzone": 0.4,
+        "axisId": 11,
+        "innerDeadzone": 0.05,
         "outerDeadzone": 0.05,
         "rangeMin": -1.0,
         "rangeMax": 1.0,
@@ -3173,7 +3192,7 @@
         "inverse": true,
         "nonlinearity": 0.0,
         "kAdd": 0.0,
-        "kMul": 2.0,
+        "kMul": 1.0,
         "relSens": 0.01,
         "relStep": 0.0,
         "relative": false,

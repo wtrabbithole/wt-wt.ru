@@ -217,7 +217,10 @@ local InventoryClient = class {
     if (!url)
       return null
 
-    return "auto_login " + url
+    return "auto_login " + url + "?a=" + ::WT_APPID +
+      (::steam_is_running()
+        ? ::format("&app_id=%d&steam_id=%s", steam_get_app_id(), steam_get_my_id())
+        : "")
   }
 
   function getMarketplaceItemUrl(itemdefid, itemid = null)
@@ -228,7 +231,7 @@ local InventoryClient = class {
 
     local item = itemdefid && itemdefs?[itemdefid]
     if ((item?.market_hash_name ?? "") != "")
-      return marketplaceBaseUrl + "?viewitem&a=" + ::WT_APPID + "&n=" + ::encode_uri_component(item.market_hash_name)
+      return marketplaceBaseUrl+ "&viewitem&n=" + ::encode_uri_component(item.market_hash_name)
 
     return null
   }

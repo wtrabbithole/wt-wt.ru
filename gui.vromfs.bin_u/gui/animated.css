@@ -157,6 +157,10 @@ usertalk > img {
   background-svg-size: 1@voiceChatBaseIconWidth, 1@voiceChatBaseIconHeight;
 }
 
+usertalk > img[inacive=yes] {
+  background-color: @voiceChatIconMuteColor;
+}
+
 [isSmall=yes] usertalk > img {
   size: 1@voiceChatSmallIconWidth, 1@voiceChatSmallIconHeight;
   background-svg-size: 1@voiceChatSmallIconWidth, 1@voiceChatSmallIconHeight;

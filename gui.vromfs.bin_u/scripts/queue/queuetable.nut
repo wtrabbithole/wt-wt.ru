@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 
+const FULL_CIRCLE_GRAD = 360
 
 ::dagui_propid.add_name_id("_queueTableGenCode")
 
@@ -73,8 +74,12 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (value && scene.isVisible())
       return
-    if (value)
+
+    if (value) // Queue wnd opening animation start
+    {
       updateTip()
+      updateQueueWaitIconImage()
+    }
 
     ::broadcastEvent("RequestToggleVisibility", { target = this.scene, visible = value })
   }
@@ -454,7 +459,6 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventGamercardDrawerOpened(params)
   {
-    updateQueueWaitIconImage()
     local target = params.target
     if (target != null && target.id == scene.id)
     {
@@ -483,26 +487,35 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateQueueWaitIconImage()
   {
-    if (!::checkObj(scene))
+    if (!::check_obj(scene))
+      return
+    local obj = scene.findObject("queue_wait_icon_block")
+    if (!::check_obj(obj))
       return
 
-    local modeEsUnitTypes = getCurEsUnitTypesList()
+    local esUnitTypes = getCurEsUnitTypesList()
+    local esUnitTypesOrder = [
+      ::ES_UNIT_TYPE_SHIP
+      ::ES_UNIT_TYPE_TANK
+      ::ES_UNIT_TYPE_HELICOPTER
+      ::ES_UNIT_TYPE_AIRCRAFT
+    ]
 
-    local circle = "invis"
-    if (modeEsUnitTypes && modeEsUnitTypes.len() > 1)
-      circle = "both"
-    else
-    {
-      local unitType = ::isInArray(::ES_UNIT_TYPE_TANK, modeEsUnitTypes) ?
-                         ::g_unit_type.TANK : ::g_unit_type.AIRCRAFT
-      circle = unitType.name.tolower()
-    }
+    local view = { icons = [] }
+    local rotationStart = ::math.rnd() % FULL_CIRCLE_GRAD
+    foreach (esUnitType in esUnitTypesOrder)
+      if (::isInArray(esUnitType, esUnitTypes))
+        view.icons.append({
+          unittag = ::g_unit_type.getByEsUnitType(esUnitType).tag
+          rotation = rotationStart
+        })
 
-    local waitIconObj = scene.findObject("queue_wait_icon")
-    if (!::checkObj(waitIconObj))
-      return
-
-    waitIconObj.circle = circle
+    local circlesCount = view.icons.len()
+    if (circlesCount)
+      foreach (idx, icon in view.icons)
+        icon.rotation = (rotationStart + idx * FULL_CIRCLE_GRAD / circlesCount) % FULL_CIRCLE_GRAD
+    local markup = ::handyman.renderCached("gui/queue/queueWaitingIcon", view)
+    guiScene.replaceContentFromText(obj, markup, markup.len(), this)
   }
 
   function getCurFocusObj()
