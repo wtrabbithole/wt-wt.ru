@@ -27,6 +27,9 @@
     "overheatBlk": "gameData/FlightModels/dm/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -112,7 +115,7 @@
     ]
   },
   {
-    "ikPilot": [
+    "ikGunner": [
       {
         "model": "pilot_german_char"
       },
@@ -132,58 +135,18 @@
         "pelvisNode": "Bip01 Pelvis"
       },
       {
-        "pelvisTargetNode": "Bip01 Pelvis02"
+        "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "chestNodes": [
-          {
-            "leftShoulderNode": "Bip01 L UpperArm"
-          },
-          {
-            "rightShoulderNode": "Bip01 R UpperArm"
-          },
-          {
-            "neckNode": "Bip01 Neck"
-          },
-          {
-            "node": "Bip01 R Clavicle"
-          },
-          {
-            "node": "Bip01 L Clavicle"
-          },
-          {
-            "node": "Bip01 Spine 1"
-          },
-          {
-            "node": "Bip01 Head"
-          },
-          {
-            "node": "Bip01 HeadNub"
-          },
-          {
-            "node": "Bip01 L UpperArm"
-          },
-          {
-            "node": "Bip01 R UpperArm"
-          },
-          {
-            "node": "Bip01 Neck"
-          },
-          {
-            "leftHandTarget": "throttle_lhand_2"
-          },
-          {
-            "rightHandTarget": "stick_rhand_2"
-          }
-        ]
+        "suffix": "1"
       },
       {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_2",
-          "flexionDir": [0.0,-0.9,0.3]
+          "targetNode": "throttle_lhand_",
+          "flexionDir": [0.0,-1.0,0.1]
         }
       },
       {
@@ -191,8 +154,8 @@
           "downNode": "Bip01 R Hand",
           "midNode": "Bip01 R Forearm",
           "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_2",
-          "flexionDir": [0.0,-0.9,-0.3]
+          "targetNode": "stick_rhand_",
+          "flexionDir": [0.0,-1.0,-0.1]
         }
       },
       {
@@ -200,7 +163,7 @@
           "downNode": "Bip01 L Foot",
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_2",
+          "targetNode": "pedal_lfoot_",
           "flexionDir": [0.0,1.0,-0.2]
         }
       },
@@ -209,7 +172,7 @@
           "downNode": "Bip01 R Foot",
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_2",
+          "targetNode": "pedal_rfoot_",
           "flexionDir": [0.0,1.0,0.2]
         }
       }
@@ -362,21 +325,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -405,6 +353,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,1.0]
@@ -561,21 +524,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -604,6 +552,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,1.0]
@@ -748,21 +711,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -791,6 +739,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,1.0]
@@ -935,21 +898,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -978,6 +926,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -1134,21 +1097,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -1177,6 +1125,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -1321,21 +1284,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -1364,6 +1312,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -1508,21 +1471,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -1551,6 +1499,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [-1.0,0.0,0.0]
@@ -1692,21 +1655,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -1735,6 +1683,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,1.0,0.0]
@@ -1879,21 +1842,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -1922,6 +1870,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,1.0]
@@ -2066,21 +2029,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -2109,6 +2057,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -2253,21 +2216,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -2296,6 +2244,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,1.0]
@@ -2440,21 +2403,6 @@
             "dp": "gunner%d_dm"
           },
           {
-            "dp": "gear_l_dm"
-          },
-          {
-            "dp": "gear_r_dm"
-          },
-          {
-            "dp": "gear_c_dm"
-          },
-          {
-            "dp": "gear_2c_dm"
-          },
-          {
-            "dp": "gear_3c_dm"
-          },
-          {
             "dp": "flap_l_dm"
           },
           {
@@ -2483,6 +2431,21 @@
           },
           {
             "dp": "flap_airbrake%d_r_dm"
+          },
+          {
+            "dp": "gear_l_dm"
+          },
+          {
+            "dp": "gear_r_dm"
+          },
+          {
+            "dp": "gear_c_dm"
+          },
+          {
+            "dp": "gear_2c_dm"
+          },
+          {
+            "dp": "gear_3c_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -2529,6 +2492,15 @@
           },
           {
             "dp": "gun%d_dm"
+          },
+          {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
           },
           {
             "axis1": [0.0,0.0,1.0]
@@ -2604,6 +2576,15 @@
             "dp": "gun%d_dm"
           },
           {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
+          },
+          {
             "axis1": [0.0,0.0,1.0]
           },
           {
@@ -2665,6 +2646,15 @@
             "dp": "gun%d_dm"
           },
           {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
+          },
+          {
             "axis1": [0.0,0.0,1.0]
           },
           {
@@ -2724,6 +2714,15 @@
           },
           {
             "dp": "gun%d_dm"
+          },
+          {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -2799,6 +2798,15 @@
             "dp": "gun%d_dm"
           },
           {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
+          },
+          {
             "axis1": [0.0,0.0,-1.0]
           },
           {
@@ -2858,6 +2866,15 @@
           },
           {
             "dp": "gun%d_dm"
+          },
+          {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
           },
           {
             "axis1": [0.0,0.0,-1.0]
@@ -2921,6 +2938,15 @@
             "dp": "gun%d_dm"
           },
           {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
+          },
+          {
             "axis1": [-1.0,0.0,0.0]
           },
           {
@@ -2962,6 +2988,15 @@
           },
           {
             "dp": "gun%d_dm"
+          },
+          {
+            "dp": "engine_shaft%d_dm"
+          },
+          {
+            "dp": "propeller_shaft%d_dm"
+          },
+          {
+            "dp": "transmission%d_dm"
           },
           {
             "axis1": [0.0,1.0,0.0]

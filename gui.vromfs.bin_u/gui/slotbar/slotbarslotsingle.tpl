@@ -101,6 +101,7 @@ shopItem {
 
       shopItemText {
         text:t='<<progressText>>'
+        progressStatus:t='<<progressStatus>>'
         position:t='absolute'
         pos:t='pw-w, -2/3h'
         smallFont:t='yes'

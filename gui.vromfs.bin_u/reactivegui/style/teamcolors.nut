@@ -1,6 +1,6 @@
 local cc = require_native("colorCorrector")
 local string = require("std/string.nut")
-local missionState = require("../missionState.nut")
+local missionState = require("reactiveGui/missionState.nut")
 local teamColors = {
   teamBlueColor = Watched(null)
   teamBlueLightColor = Watched(null)

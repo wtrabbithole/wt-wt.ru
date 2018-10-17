@@ -24,6 +24,9 @@
     "overheatBlk": "gameData/FlightModels/dm/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -339,6 +342,14 @@
           "hp": 15.0
         }
       },
+      "armor8_5": {
+        "armor3_dm": {
+          "hp": 40.0
+        },
+        "armor4_dm": {
+          "hp": 40.0
+        }
+      },
       "armor9_5": {
         "armor2_dm": {
           "hp": 40.0
@@ -484,9 +495,6 @@
         },
         "oil2_dm": {
           "hp": 17.5
-        },
-        "water1_dm": {
-          "hp": 17.5
         }
       },
       "steel_pilot": {
@@ -626,6 +634,16 @@
       {
         "part": {
           "name": "armor2_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "armor3_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "armor4_dm"
         }
       },
       {
@@ -1613,17 +1631,6 @@
             }
           }
         ]
-      },
-      {
-        "part": {
-          "name": "water1_dm",
-          "onHit": {
-            "leak_water": 0.5
-          },
-          "onKill": {
-            "leak_water": 1.0
-          }
-        }
       },
       {
         "part": [

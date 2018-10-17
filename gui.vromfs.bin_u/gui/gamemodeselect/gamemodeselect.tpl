@@ -11,7 +11,7 @@ tdiv {
 frame {
   game_mode_select {
     id:t='game_mode_select';
-    width:t='0.759@scrn_tgt';
+    width:t='1.12@scrn_tgt';
     max-height:t='p.p.h-0.045@sf - 2@framePadding - 1@bh';
     position:t='relative';
     overflow-y:t='auto';
@@ -67,6 +67,14 @@ frame {
       }
       <</separator>>
       game_mode_block {
+        <<#isWide>>
+          wide:t='yes';
+        <</isWide>>
+        <<^isWide>>
+          <<#isNarrow>>
+            narrow:t='yes';
+          <</isNarrow>>
+        <</isWide>>
         <<#hasContent>>
         id:t='<<id>>';
         tooltip:t='<<#isCrossPlayRequired>><<?xbox/gamemode/crossPlayRequired>>\n<</isCrossPlayRequired>><<tooltip>>'
@@ -96,12 +104,10 @@ frame {
         background-image:t='#ui/gameuiskin#item';
         background-position:t='3, 4, 3, 5';
         re-type:t='9rect';
-        <<#isWide>>
-          wide:t='yes';
-        <</isWide>>
 
         img {
           background-image:t='<<image>>';
+          background-repeat:t='repeat-y';
         }
 
         <<#videoPreview>>

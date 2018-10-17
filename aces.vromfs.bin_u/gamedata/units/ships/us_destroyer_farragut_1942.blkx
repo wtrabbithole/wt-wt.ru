@@ -57,10 +57,10 @@
     "tailStartOffset": 10.0
   },
   {
-    "ikPilotMaxUpdateDistance": 90.0
+    "ikPilotMaxUpdateDistance": 110.0
   },
   {
-    "ikPilotMaxRenderDistance": 90.0
+    "ikPilotMaxRenderDistance": 110.0
   },
   {
     "type": "typeDestroyer"
@@ -595,6 +595,79 @@
       },
       {
         "suffix": "7"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "usa_sailor_navy_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
+        "suffix": "8"
       },
       {
         "deadHeadAttitudeMin": -55.0
@@ -1524,6 +1597,7 @@
       "Bip01 Pelvis_4": "usa_sailor_navy_sit",
       "Bip01 Pelvis_5": "usa_sailor_navy_standing",
       "Bip01 Pelvis_6": "usa_sailor_navy_standing",
+      "Bip01 Pelvis_8": "usa_sailor_navy_sit",
       "Bip01 Pelvis_9": "usa_sailor_navy_standing",
       "Bip01 Pelvis_10": "usa_sailor_navy_standing",
       "Bip01 Pelvis_11": "usa_sailor_navy_standing",
@@ -1698,6 +1772,117 @@
           },
           {
             "name": "depth_charge_12_dm"
+          },
+          {
+            "name": "depth_charge_13_dm"
+          },
+          {
+            "name": "depth_charge_14_dm"
+          },
+          {
+            "name": "depth_charge_15_dm"
+          },
+          {
+            "name": "depth_charge_16_dm"
+          },
+          {
+            "name": "depth_charge_17_dm"
+          },
+          {
+            "name": "depth_charge_18_dm"
+          },
+          {
+            "name": "depth_charge_19_dm"
+          },
+          {
+            "name": "depth_charge_20_dm"
+          },
+          {
+            "name": "depth_charge_31_dm"
+          },
+          {
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
           },
           {
             "onKill": {
@@ -2879,7 +3064,7 @@
         "Empty": 1549000.0,
         "Fuel": 450000.0,
         "TakeOff": 1999000.0,
-        "momentOfInertia": [50.0,540.0,330.0],
+        "momentOfInertia": [39.0,530.0,320.0],
         "CenterOfGravity": [-2.0,0.2,0.0]
       },
       "engines": [
@@ -2959,7 +3144,7 @@
         "bodyArea": 0.0,
         "rudder": {
           "pos": [-49.0,-0.7,0.0],
-          "area": 20.0,
+          "area": 19.0,
           "deflection": 38.0,
           "dmPart": "steering_gear_01_dm"
         }
@@ -5385,19 +5570,19 @@
   },
   {
     "breaches": {
-      "repairSpeed": 50.0,
-      "waterMassVel": -50000.0,
-      "waterMassMult": 50.0,
-      "sizeToRepair": [0.01,2.0,15.0,1500.0],
-      "additionalWaterDeathThreshold": 4500000.0,
-      "additionalWaterShouldDiePercent": 0.45,
-      "fatalBreachDrownTime": 33.0,
-      "maxHeelingAngle": 30.0,
-      "maxHeelingTime": 10.0,
+      "repairSpeed": 25.0,
+      "waterMassVel": -150000.0,
+      "waterMassMult": 200.0,
+      "sizeToRepair": [0.01,4.0,10.0,450.0],
+      "additionalWaterDeathThreshold": 7500000.0,
+      "additionalWaterShouldDiePercent": 0.3,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 36.0,
+      "maxHeelingTime": 8.0,
       "criticalHeelingAnglePercent": 0.5,
-      "maxCriticalHeelingTime": 2.0,
+      "maxCriticalHeelingTime": 3.0,
       "heelingDeathHeightOffsetMult": 1.0,
-      "sideCenterOfMassOffsetPercent": 1.0
+      "sideCenterOfMassOffsetPercent": 0.45
     }
   },
   {
@@ -5405,14 +5590,14 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 0.3,
+          "weight": 0.13,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
-          "weight": 0.6,
+          "weight": 0.51,
           "maxWaterAlive": 1.0,
           "innerParts": {
             "part": {
@@ -5446,7 +5631,7 @@
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 0.8,
+          "weight": 0.66,
           "maxWaterAlive": 1.0,
           "innerParts": [
             {
@@ -5467,7 +5652,7 @@
       {
         "cover": {
           "part": "compartment_05_dm",
-          "weight": 0.5,
+          "weight": 0.62,
           "maxWaterAlive": 1.0,
           "innerParts": {
             "part": {
@@ -5480,7 +5665,7 @@
       {
         "cover": {
           "part": "compartment_06_dm",
-          "weight": 0.4,
+          "weight": 0.31,
           "maxWaterAlive": 1.0
         }
       }

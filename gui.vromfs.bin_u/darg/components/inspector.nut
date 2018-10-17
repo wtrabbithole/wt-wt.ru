@@ -31,7 +31,7 @@ local function textButton(text, action) {
       color = color
       padding = 5
       children = {
-        rendObj = ROBJ_STEXT
+        rendObj = ROBJ_DTEXT
         text = text
       }
 

@@ -48,10 +48,10 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       members = []
     }
 
-    for(local i = 0; i < ::g_squad_manager.MAX_SQUAD_SIZE; i++)
+    for (local i = 0; i < ::g_squad_manager.MAX_SQUAD_SIZE; i++)
       view.members.append({
         id = i.tostring()
-        needHideVoice = !::g_chat.canUseVoice()
+        showCrossplayIcon = ::is_platform_xboxone
       })
 
     return view
@@ -117,6 +117,11 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
       local memberVoipObj = memberObj.findObject("member_voip_" + indexStr)
       memberVoipObj["isVoipActive"] = contact.voiceStatus == voiceChatStats.talking ? "yes" : "no"
+      local needShowVoice = ::g_chat.canUseVoice() && !platformModule.isXBoxPlayerName(member.name)
+      memberVoipObj.show(needShowVoice)
+
+      local memberCrossPlayObj = memberObj.findObject("member_crossplay_active_" + indexStr)
+      memberCrossPlayObj["isEnabledCrossPlay"] = member.crossplay ? "yes" : "no"
 
       local speakingMemberNickTextObj = memberObj.findObject("speaking_member_nick_text_" + indexStr)
       speakingMemberNickTextObj.setValue(platformModule.getPlayerName(member.name))

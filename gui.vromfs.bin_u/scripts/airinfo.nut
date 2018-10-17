@@ -68,17 +68,19 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 
 
 ::basic_unit_roles <- {
-  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber", "helicopter"],
+  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber"],
   [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa"],
   [::ES_UNIT_TYPE_SHIP] = ["ship", "boat", "heavy_boat", "barge", "destroyer", "light_cruiser",
-    "cruiser", "battlecruiser", "battleship", "submarine"]
+    "cruiser", "battlecruiser", "battleship", "submarine"],
+  [::ES_UNIT_TYPE_HELICOPTER] = ["attack_helicopter", "utility_helicopter"]
 }
 
 ::unit_role_fonticons <- {
   fighter                  = ::loc("icon/unitclass/fighter"),
   assault                  = ::loc("icon/unitclass/assault"),
   bomber                   = ::loc("icon/unitclass/bomber"),
-  helicopter               = ::loc("icon/unitclass/assault"),
+  attack_helicopter        = ::loc("icon/unitclass/attack_helicopter"),
+  utility_helicopter       = ::loc("icon/unitclass/utility_helicopter"),
   light_tank               = ::loc("icon/unitclass/light_tank"),
   medium_tank              = ::loc("icon/unitclass/medium_tank"),
   heavy_tank               = ::loc("icon/unitclass/heavy_tank"),
@@ -111,6 +113,8 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   type_common_bomber    = "common_bomber", //to use as a second type: "Light fighter / Bomber"
   type_common_assault   = "common_assault",
   type_strike_fighter   = "strike_fighter",
+  type_attack_helicopter  = "attack_helicopter",
+  type_utility_helicopter = "utility_helicopter",
   //tanks:
   type_tank             = "tank" //used in profile stats
   type_light_tank       = "light_tank",
@@ -207,8 +211,6 @@ function get_full_unit_role_text(unit)
   if (!("tags" in unit) || !unit.tags)
     return ""
 
-  if (::is_helicopter(unit))
-    return ::get_role_text("helicopter")
   if (::is_submarine(unit))
     return ::get_role_text("submarine")
 
@@ -234,7 +236,6 @@ function get_full_unit_role_text(unit)
 function get_unit_role_icon(source)
 {
   local role = ::u.isString(source) ? source
-    : ::is_helicopter(source) ? "helicopter"
     : ::get_unit_basic_role(source)
   return ::unit_role_fonticons?[role] ?? ""
 }
@@ -475,11 +476,6 @@ function isShip(unit)
 function isTank(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_TANK
-}
-
-function is_helicopter(unit)
-{
-  return get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT && ::isInArray("helicopter", ::getTblValue("tags", unit, []))
 }
 
 function is_submarine(unit)
@@ -970,7 +966,11 @@ function getCantBuyUnitReason(unit, isShopTooltip = false)
   {
     local unlockBlk = ::g_unlocks.getUnlockById(unit.reqUnlock)
     local conditions = ::build_conditions_config(unlockBlk)
-    return ::loc("mainmenu/needUnlock") + "\n" + ::build_unlock_desc(conditions, {showProgress = true }).text
+
+    return ::loc("mainmenu/needUnlock") + "\n" + ::build_unlock_desc(conditions,
+      { showProgress = true
+        showValueForBitList = true
+      }).text
   }
   else if (!special && !::canBuyUnit(unit) && ::canResearchUnit(unit))
     return ::loc(::isUnitInResearch(unit) ? "mainmenu/needResearch/researching" : "mainmenu/needResearch")
@@ -997,7 +997,7 @@ function isUnitAvailableForGM(air, gm)
   if (gm == ::GM_TEST_FLIGHT)
     return air.testFlight != ""
   if (gm == ::GM_DYNAMIC || gm == ::GM_BUILDER)
-    return ::isAircraft(air)
+    return air.isAir()
   return true
 }
 
@@ -1011,7 +1011,7 @@ function isTestFlightAvailable(unit)
       || ::isUnitGift(unit)
       || ::isUnitResearched(unit)
       || ::isUnitSpecial(unit)
-      || ::g_decorator.approversUnitToPreviewUgcResource == unit)
+      || ::g_decorator.approversUnitToPreviewLiveResource == unit)
     return true
 
   return false
@@ -1157,6 +1157,7 @@ function check_secondary_weapon_mods_recount(unit, callback = null)
   switch(::get_es_unit_type(unit))
   {
     case ::ES_UNIT_TYPE_AIRCRAFT:
+    case ::ES_UNIT_TYPE_HELICOPTER:
 
       local weaponName = ::get_last_weapon(unit.name)
       local secondaryMods = unit.secondaryWeaponMods
@@ -1422,6 +1423,7 @@ function get_unit_tooltip_image(unit)
   switch (::get_es_unit_type(unit))
   {
     case ::ES_UNIT_TYPE_AIRCRAFT:       return "ui/aircrafts/" + unit.name
+    case ::ES_UNIT_TYPE_HELICOPTER:     return "ui/aircrafts/" + unit.name
     case ::ES_UNIT_TYPE_TANK:           return "ui/tanks/" + unit.name
     case ::ES_UNIT_TYPE_SHIP:           return "ui/ships/" + unit.name
   }
@@ -1764,10 +1766,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       //TODO ship modificators
       {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
     ],
+    [::ES_UNIT_TYPE_HELICOPTER] = [
+      {id = "maxSpeed", id2 = "speed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
+    ]
   }
-
-  if (::is_helicopter(air))
-    modCharacteristics = { [::ES_UNIT_TYPE_AIRCRAFT] = [] }
 
   local showReferenceText = false
   foreach(item in ::getTblValue(unitType, modCharacteristics, {}))
@@ -1814,22 +1816,24 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-angleVerticalGuidance-tr"] = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-shotFreq-tr"]              = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-reloadTime-tr"]            = [ ::ES_UNIT_TYPE_TANK ],
-    ["aircraft-weaponPresets-tr"]         = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-massPerSec-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
+    ["aircraft-weaponPresets-tr"]         = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ],
+    ["aircraft-massPerSec-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ],
     ["aircraft-armorThicknessHull-tr"]    = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-armorThicknessTurret-tr"]  = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-armorPiercing-tr"]         = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-armorPiercingDist-tr"]     = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-mass-tr"]                  = [ ::ES_UNIT_TYPE_TANK ],
     ["aircraft-horsePowers-tr"]           = [ ::ES_UNIT_TYPE_TANK ],
-    ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_SHIP ],
+    ["aircraft-maxSpeed-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK,
+                                              ::ES_UNIT_TYPE_SHIP, ::ES_UNIT_TYPE_HELICOPTER],
     ["aircraft-maxDepth-tr"]              = [ ::ES_UNIT_TYPE_SHIP],
-    ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
+    ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ],
+    ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ],
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-wingLoading-tr"]           = [ airplaneParameters ? ::ES_UNIT_TYPE_AIRCRAFT : -1 ],
+    ["aircraft-wingLoading-tr"]           = airplaneParameters ? [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]
+                                              : [::ES_UNIT_TYPE_INVALID],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
   }
 
@@ -1841,7 +1845,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
 
   local powerToWeightRatioObject = holderObj.findObject("aircraft-powerToWeightRatio-tr")
-  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && "powerToWeightRatio" in air.shop)
+  if (airplanePowerParameters
+    && ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])
+    && "powerToWeightRatio" in air.shop)
   {
     holderObj.findObject("aircraft-powerToWeightRatio").setValue(::countMeasure(6, air.shop.powerToWeightRatio))
     powerToWeightRatioObject.show(true)
@@ -1850,7 +1856,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     powerToWeightRatioObject.show(false)
 
   local thrustToWeightRatioObject = holderObj.findObject("aircraft-thrustToWeightRatio-tr")
-  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && "thrustToWeightRatio" in air.shop)
+  if (airplanePowerParameters
+    && ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])
+    && "thrustToWeightRatio" in air.shop)
   {
     holderObj.findObject("aircraft-thrustToWeightRatio").setValue(format("%.2f", air.shop.thrustToWeightRatio))
     thrustToWeightRatioObject.show(true)
@@ -1967,37 +1975,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("ship-displacement-tr").show(false)
     holderObj.findObject("ship-citadelArmor-tr").show(false)
     holderObj.findObject("ship-mainFireTower-tr").show(false)
-  }
-
-  if (::is_helicopter(air))
-  {
-    local unutBlk = ::get_full_unit_blk(air.name)
-    local blk = unutBlk.ui || ::DataBlock()
-
-    local rows = {
-      mass          = ::format("%.1f %s", ((blk.mass || 0.0) / 1000.0), ::loc("measureUnits/ton"))
-      horsePowers   = (blk.engines || 0) + " x " + ::g_measure_type.HORSEPOWERS.getMeasureUnitsText(blk.engineHorsePowers || 0.0)
-      maxSpeed      = ::g_measure_type.SPEED.getMeasureUnitsText(blk.maxMovingSpeed || 0.0)
-      climbSpeed    = ::countMeasure(3, blk.climbSpeed || 0.0)
-      altitude      = ::countMeasure(1, blk.maxAlt || 0.0)
-      weaponPresets = ""
-      speedAlt      = ""
-      turnTime      = ""
-      airfieldLen   = ""
-      wingLoading   = ""
-      powerToWeightRatio = ""
-      thrustToWeightRatio = ""
-    }
-
-    foreach (id, val in rows)
-    {
-      local rowObj = holderObj.findObject("aircraft-" + id + "-tr")
-      if (::check_obj(rowObj))
-        rowObj.show(val != "")
-      local valueObj = holderObj.findObject("aircraft-" + id)
-      if (::check_obj(valueObj))
-        valueObj.setValue(val)
-    }
   }
 
   if (needShopInfo && holderObj.findObject("aircraft-train_cost-tr"))
@@ -2210,7 +2187,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (needCrewInfo && crew)
   {
-    local crewLevel = ::g_crew.getCrewLevel(crew, unitType)
+    local crewUnitType = air.getCrewUnitType()
+    local crewLevel = ::g_crew.getCrewLevel(crew, crewUnitType)
     local crewStatus = ::get_crew_status(crew)
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, air)
     local crewSpecIcon = specType.trainedIcon

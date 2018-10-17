@@ -40,7 +40,7 @@ local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
 g_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "isMyCrewsReady", "lastUpdateStatus", "state",
-   "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList"]
+   "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList", "delayedInvites"]
 
   COMMON_SQUAD_SIZE = 4
   MAX_SQUAD_SIZE = 4 //max available squad size to choose
@@ -55,6 +55,7 @@ g_squad_manager <- {
     members = {}
     invitedPlayers = {}
     applications = {}
+    platformInfo = []
     chatInfo = {
       name = ""
       password = ""
@@ -74,6 +75,7 @@ g_squad_manager <- {
   lastUpdateStatus = squadStatusUpdateState.NONE
   roomCreateInProgress = false
   hasNewApplication = false
+  delayedInvites = []
 }
 
 function g_squad_manager::setState(newState)
@@ -181,6 +183,12 @@ function g_squad_manager::getMembers()
   return squadData.members
 }
 
+function g_squad_manager::setPsnSessionId(id = null)
+{
+  squadData.psnSessionId <- id
+  updateSquadData()
+}
+
 function g_squad_manager::getPsnSessionId()
 {
   return squadData?.psnSessionId ?? ""
@@ -189,6 +197,11 @@ function g_squad_manager::getPsnSessionId()
 function g_squad_manager::getInvitedPlayers()
 {
   return squadData.invitedPlayers
+}
+
+function g_squad_manager::getPlatformInfo()
+{
+  return squadData.platformInfo
 }
 
 function g_squad_manager::isPlayerInvited(uid, name = null)
@@ -322,6 +335,18 @@ function g_squad_manager::canLeaveSquad()
 function g_squad_manager::canManageSquad()
 {
   return ::has_feature("Squad") && ::isInMenu()
+}
+
+function g_squad_manager::canInviteMemberByPlatform(name)
+{
+  local platformInfo = getPlatformInfo()
+  if (platformModule.isPS4PlayerName(name) && ::isInArray("xboxOne", platformInfo))
+    return false
+
+  if (platformModule.isXBoxPlayerName(name) && ::isInArray("ps4", platformInfo))
+    return false
+
+  return true
 }
 
 function g_squad_manager::getMaxSquadSize()
@@ -467,6 +492,20 @@ function g_squad_manager::crewsReadyCheck()
   return  true
 }
 
+function g_squad_manager::getDiffCrossPlayConditionMembers()
+{
+  local res = []
+  if (!isInSquad())
+    return res
+
+  local leaderCondition = squadData.members[getLeaderUid()].crossplay
+  foreach (uid, memberData in squadData.members)
+    if (leaderCondition != memberData.crossplay)
+      res.append(memberData)
+
+  return res
+}
+
 function g_squad_manager::getOfflineMembers()
 {
   return getMembersByOnline(false)
@@ -608,7 +647,7 @@ function g_squad_manager::updateSquadData()
     battle = getWwOperationBattle() }
   data.properties <- clone squadData.properties
   data.presence <- clone squadData.presence
-  data.psnSessionId <- ::g_psn_session_invitations.getSessionId(PSN_SESSION_TYPE.SQUAD)
+  data.psnSessionId <- squadData?.psnSessionId ?? ""
 
   ::g_squad_manager.setSquadData(data)
 }
@@ -711,16 +750,32 @@ function g_squad_manager::inviteToSquad(uid, name = null, cb = null)
   if (isInvitedMaxPlayers())
     return ::g_popups.add(null, ::loc("squad/maximum_intitations_sent"))
 
+  if (!canInviteMemberByPlatform(name))
+    return ::g_popups.add(null, ::loc("msg/squad/noPlayersForDiffConsoles"))
+
+  local isInvitingPsnPlayer = name && ::isPlayerPS4Friend(name)
+  if (isInvitingPsnPlayer && u.isEmpty(getPsnSessionId()))
+    delayedInvites.append(::get_psn_account_id(name))
+
   local callback = function(response) {
-    if (name && ::isPlayerPS4Friend(name))
-      ::g_psn_session_invitations.sendSquadInvitation(::get_psn_account_id(name))
+    if (isInvitingPsnPlayer && u.isEmpty(::g_squad_manager.delayedInvites))
+      ::g_psn_sessions.invite(::g_squad_manager.getPsnSessionId(), ::get_psn_account_id(name))
 
     ::g_xbox_squad_manager.sendSystemInvite(uid, name)
 
     ::g_squad_manager.requestSquadData(cb)
   }
 
-  ::msquad.invitePlayer(uid, callback)
+  ::msquad.invitePlayer(uid, callback.bindenv(this))
+}
+
+function g_squad_manager::processDelayedInvitations()
+{
+  if (u.isEmpty(getPsnSessionId()) || u.isEmpty(delayedInvites))
+    return
+
+  ::g_psn_sessions.invite(getPsnSessionId(), delayedInvites)
+  delayedInvites.clear()
 }
 
 function g_squad_manager::revokeAllInvites(callback)
@@ -747,12 +802,10 @@ function g_squad_manager::revokeSquadInvite(uid, callback = null)
   if (!isSquadLeader())
     return
 
-  local fullCallback = null
-  if (callback != null)
-    fullCallback = (@(callback) function(response) {
-                     if (callback != null)
-                       callback()
-                   })(callback)
+  local fullCallback = @(response) ::g_squad_manager.requestSquadData(function() {
+                         if (callback)
+                           callback()
+                       }.bindenv(this))
 
   ::msquad.revokeInvite(uid, fullCallback)
 }
@@ -1023,6 +1076,9 @@ function g_squad_manager::getSquadRank()
 
 function g_squad_manager::reset()
 {
+  if (state == squadState.IN_SQUAD)
+    setState(squadState.LEAVING)
+
   ::queues.leaveAllQueues()
   ::g_chat.leaveSquadRoom()
 
@@ -1036,6 +1092,7 @@ function g_squad_manager::reset()
   squadData.members.clear()
   squadData.invitedPlayers.clear()
   squadData.applications.clear()
+  squadData.platformInfo.clear()
   squadData.chatInfo = { name = "", password = "" }
   squadData.wwOperationInfo = { id = -1, country = "", battle = null }
   squadData.properties = clone DEFAULT_SQUAD_PROPERTIES
@@ -1070,6 +1127,7 @@ function g_squad_manager::updateInvitedData(invites)
 
     ::g_users_info_manager.requestInfo([uid])
   }
+
   squadData.invitedPlayers = newInvitedData
 }
 
@@ -1202,6 +1260,24 @@ function g_squad_manager::removeMember(uid)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
 }
 
+function g_squad_manager::updatePlatformInfo()
+{
+  local playerPlatforms = []
+  local checksArray = [getMembers(), getInvitedPlayers(), getApplicationsToSquad()]
+  foreach (idx, membersArray in checksArray)
+    foreach (uid, member in membersArray)
+    {
+      if (platformModule.isXBoxPlayerName(member.name))
+        ::u.appendOnce("xboxOne", playerPlatforms)
+      else if (platformModule.isPS4PlayerName(member.name))
+        ::u.appendOnce("ps4", playerPlatforms)
+      else
+        ::u.appendOnce("pc", playerPlatforms)
+    }
+
+  squadData.platformInfo = playerPlatforms
+}
+
 function g_squad_manager::onSquadDataChanged(data = null)
 {
   local alreadyInSquad = isInSquad()
@@ -1238,7 +1314,9 @@ function g_squad_manager::onSquadDataChanged(data = null)
 
   updateInvitedData(::getTblValue("invites", resSquadData, []))
 
-  updateApplications (::getTblValue("applications", resSquadData, []))
+  updateApplications(::getTblValue("applications", resSquadData, []))
+
+  updatePlatformInfo()
 
   cyberCafeSquadMembersNum = getSameCyberCafeMembersNum()
   _parseCustomSquadData(::getTblValue("data", resSquadData, null))
@@ -1457,6 +1535,11 @@ function g_squad_manager::onEventCrewTakeUnit(params)
 function g_squad_manager::onEventUnitRepaired(p)
 {
   ::g_squad_utils.updateMyCountryData()
+}
+
+function g_squad_manager::onEventCrossPlayOptionChanged(p)
+{
+  updateMyMemberData()
 }
 
 function g_squad_manager::onEventMatchingDisconnect(params)

@@ -1,3 +1,7 @@
+/*
+  bad module - it depends on localization
+  consider to get table of localizations instead in parameter - or move it out std.lib - or split it into two modules
+*/
 const TIME_SECOND_IN_MSEC = 1000
 const TIME_SECOND_IN_MSEC_F = 1000.0
 const TIME_MINUTE_IN_SECONDS = 60
@@ -51,13 +55,13 @@ local  hoursToString = function(time, full = true, useSeconds = false, dontShowZ
     }
   }
 
-  if (mm && (full || time<24)) {
+  if ((mm || (!res.len() && !useSeconds)) && (full || time<24)) {
     res += (res.len() ? " " : "") +
       (fullUnits ? ::loc("measureUnits/full/minutes", { n = mm }) :
       stdStr.format((time >= 1)? "%02d%s" : "%d%s", mm, ::loc("measureUnits/minutes")))
   }
 
-  if (ss && useSeconds && time < 1.0/6) { // < 10min
+  if ((ss && useSeconds || !res.len()) && time < 1.0/6) { // < 10min
     res += (res.len() ? " " : "") +
       (fullUnits ? ::loc("measureUnits/full/seconds", { n = ss }) :
       stdStr.format("%02d%s", ss, ::loc("measureUnits/seconds")))
@@ -67,7 +71,7 @@ local  hoursToString = function(time, full = true, useSeconds = false, dontShowZ
 }
 
 
-local secondsToString = function (value, useAbbreviations = true, dontShowZeroParam = false, secondsFraction = 0) {
+local function secondsToString (value, useAbbreviations = true, dontShowZeroParam = false, secondsFraction = 0) {
   value = value != null ? value.tofloat() : 0.0
   local s = (math.fabs(value) + 0.5).tointeger()
   local res = ""
@@ -111,7 +115,7 @@ local timeTbl = {
   w = TIME_WEEK_IN_SECONDS
 }
 
-local getSecondsFromTemplate = function (str, errorValue = null) // "1w 1d 1h 1m 1s"
+local function getSecondsFromTemplate (str, errorValue = null) // "1w 1d 1h 1m 1s"
 {
   if (!str.len())
     return errorValue

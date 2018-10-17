@@ -640,6 +640,7 @@
           "ammo_turret_03_dm": [],
           "ammo_turret_04_dm": [],
           "ammo_turret_05_dm": [],
+          "ammo_turret_06_dm": [],
           "transmission_dm": {
             "armorThrough": 5.0
           }
@@ -1748,7 +1749,7 @@
         "recoilOffset": 0.05,
         "recoilMultiplier": 0.5,
         "jammedReloadTime": 8.0,
-        "defaultYaw": 180.0,
+        "defaultYaw": 0.0,
         "defaultPitch": 20.0,
         "barrelDP": "gun_barrel_dm",
         "breechDP": "cannon_breech_dm",
@@ -1756,8 +1757,8 @@
         "speedPitch": 20.0,
         "bullets": 400,
         "fireConeAngle": 15.0,
-        "ChainfireTime": 3.0,
-        "DelayAfterShoot": 3.0,
+        "ChainfireTime": 1.0,
+        "DelayAfterShoot": 2.0,
         "accuracyAir": 1.5,
         "accuracyGnd": 0.0,
         "errMeasureVel": 0.0,
@@ -1783,9 +1784,9 @@
           "pitch": [-9.0,82.0]
         },
         "limitsTable": {
-          "lim1": [-180.0,-140.0,20.0,82.0],
-          "lim2": [-140.0,140.0,-9.0,82.0],
-          "lim3": [140.0,180.0,20.0,82.0]
+          "lim1": [-180.0,-40.0,-9.0,82.0],
+          "lim2": [-40.0,40.0,20.0,82.0],
+          "lim3": [40.0,180.0,-9.0,82.0]
         }
       }
     }
@@ -2379,7 +2380,7 @@
     "cockpit": {
       "openedCockpit": true,
       "headPos": [0.0,3.5,-7.0],
-      "headPosOnShooting": [-2.2,3.3,0.0],
+      "headPosOnShooting": [-0.2,2.8,0.0],
       "zoomOutFov": 35.0,
       "zoomInFov": 20.0,
       "detectionHeight": 2.2
@@ -2449,6 +2450,15 @@
       "replace_tex": {
         "from": "jp_camo_olive*",
         "to": "jp_camo_brown*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "jp_camo_winter_early",
+      "replace_tex": {
+        "from": "jp_camo_olive*",
+        "to": "jp_camo_winter_early*"
       }
     }
   }

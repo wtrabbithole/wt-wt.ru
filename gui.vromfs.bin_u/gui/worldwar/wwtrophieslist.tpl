@@ -8,6 +8,7 @@ ww_map_item {
     padding-left:t='1@framePadding'
     input-transparent:t='yes'
     text:t='<<titleText>>'
+    tooltip:t='<<tooltipText>>'
     overlayTextColor:t='silver'
     caption:t='yes'
   }
@@ -28,9 +29,22 @@ ww_map_item {
         top:t='0.5(ph-h)'
         padding:t='1@framePadding, 0'
         text:t='<<titleText>>'
+        tooltip:t='<<tooltipText>>'
         font:t='small_text_hud'
       }
-      <<@wwTrophyMarkup>>
+      tdiv {
+        <<@wwTrophyMarkup>>
+
+        <<#isTrophyRecieved>>
+        img {
+          size:t='1@cIco, 1@cIco'
+          pos:t='50%pw-20%w, 50%ph-50%h'
+          position:t='absolute'
+          background-image:t='#ui/gameuiskin#check'
+          input-transparent:t='yes'
+        }
+        <</isTrophyRecieved>>
+      }
     }
   }
 <</trophy>>

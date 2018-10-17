@@ -607,7 +607,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local userId   = player ? ::getTblValue("userId", player, 0) : 0
       local isAuthor = userId == replayAuthorUserId
       local isAuthorUnknown = replayAuthorUserId == -1
-      local isAircraft = lastHudUnitType == ::ES_UNIT_TYPE_AIRCRAFT
+      local isAircraft = ::isInArray(lastHudUnitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])
 
       ::enableBtnTable(scene, {
           ID_CAMERA_DEFAULT           = isValid

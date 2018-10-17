@@ -321,9 +321,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function initTeamUnitsLeftView()
   {
+    if (!missionRules.hasCustomUnitRespawns())
+      return
+
     local handler = ::handlersManager.loadHandler(::gui_handlers.teamUnitsLeftView,
                                       { scene = scene.findObject("team_units_left_respawns")
                                         parentHandlerWeak = this
+                                        missionRules = missionRules
                                       })
     registerSubHandler(handler)
     teamUnitsLeftWeak = handler.weakref()
@@ -779,8 +783,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
     }
 
-    local unit = getSlotAircraft(selSlot.countryId, selSlot.crewIdInCountry)
+    local unit = ::getSlotAircraft(selSlot.countryId, selSlot.crewIdInCountry)
+    local crew = ::getSlotItem(selSlot.countryId, selSlot.crewIdInCountry)
     local isAvailable = ::is_crew_available_in_session(selSlot.crewIdInCountry, false)
+
     if (unit && (isAvailable || !slotbarInited))  //can init wnd without any available aircrafts
     {
       onOk()
@@ -792,10 +798,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     onCancel()
 
-    local msgId = "not_available_aircraft"
-    if (!isAvailable && ::getTblValue("useKillStreaks", missionTable) && ::get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT)
-      msgId = "msg/need_more_kills_for_aircraft"
-    ::showInfoMsgBox(::loc(msgId), "not_available_air", true)
+    local cantSpawnReason = getCantSpawnReason(crew)
+    if (cantSpawnReason)
+      ::showInfoMsgBox(cantSpawnReason.text, cantSpawnReason.id, true)
   }
 
   function onChangeUnit()
@@ -815,7 +820,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateWeaponsSelector()
   {
     local unit = getCurSlotUnit()
-    local missionRules = ::g_mis_custom_state.getCurMissionRules()
     local isRandomUnit = unit && missionRules && missionRules.getRandomUnitsGroupName(unit.name)
     local shouldShowWeaponry = !isRandomUnit || !isRespawn
     local canChangeWeaponry = canChangeAircraft && shouldShowWeaponry
@@ -853,7 +857,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local isShowForRandomUnit = respOption?.isShowForRandomUnit ?? true
 
     local unit = getCurSlotUnit()
-    local missionRules = ::g_mis_custom_state.getCurMissionRules()
     local isRandomUnit = unit && missionRules && missionRules.getRandomUnitsGroupName(unit.name)
     show = show && (isShowForRandomUnit || !isRandomUnit)
     obj.show(show)
@@ -1115,7 +1118,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateGunVerticalOption(unit)
   {
-    local isAir = unit && isAircraft(unit)
+    local isAir = unit && (unit.isAir() || unit.isHelicopter())
     showOptionRow("gunvertical", isAir && ::is_gun_vertical_convergence_allowed())
 
     local option = ::get_option(::USEROPT_GUN_VERTICAL_TARGETING)
@@ -1177,7 +1180,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateShipOptions(air)
     updateRespawnBases(air)
 
-    local aircraft = air && isAircraft(air)
+    local aircraft = air.isAir() || air.isHelicopter()
     local bomb = false
     local rocket = false
 
@@ -1388,74 +1391,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return null
     }
 
-    local ruleMsg = missionRules.getSpecialCantRespawnMessage(air)
-    if (!::u.isEmpty(ruleMsg))
+    local cantSpawnReason = getCantSpawnReason(crew, silent)
+    if (cantSpawnReason)
     {
       if (!silent)
-        ::showInfoMsgBox(ruleMsg, "cant_spawn_by_mission_rules", true)
-      return null
-    }
-
-    if (!haveRespawnBases)
-    {
-      if (!silent)
-        ::showInfoMsgBox(::loc("multiplayer/noRespawnBasesLeft"), "no_respawn_bases", true)
-      return null
-    }
-
-    if (missionRules.isWarpointsRespawnEnabled && isRespawn)
-    {
-      local respawnPrice = getRespawnWpTotalCost()
-      if (respawnPrice > 0 && respawnPrice > sessionWpBalance)
-      {
-        if (!silent)
-          ::showInfoMsgBox(::loc("msg/not_enought_warpoints_for_respawn"), "not_enought_wp", true)
-        return null
-      }
-    }
-
-    if (missionRules.isScoreRespawnEnabled && isRespawn && (curSpawnScore < ::shop_get_spawn_score(air.name, getSelWeapon() || "")))
-    {
-      if (!silent)
-        ::showInfoMsgBox(::loc("multiplayer/noSpawnScore"), "not_enought_score", true)
-      return null
-    }
-
-    if (missionRules.isSpawnDelayEnabled && isRespawn)
-    {
-      local slotDelay = ::get_slot_delay(air.name)
-      if (slotDelay > 0)
-      {
-        local timeText = time.secondsToString(slotDelay)
-        local msgBoxText = ::loc("multiplayer/slotDelay", { time = timeText })
-        if (!silent)
-          ::showInfoMsgBox(msgBoxText, "wait_for_slot_delay", true)
-        return null
-      }
-    }
-
-    if (!::is_crew_available_in_session(crew.idInCountry, true))
-    {
-      if (!silent)
-      {
-        local locId = "crew_not_available"
-        if (::getTblValue("useKillStreaks", missionTable) && ::get_es_unit_type(air) == ::ES_UNIT_TYPE_AIRCRAFT)
-          locId = "msg/need_more_kills_for_aircraft"
-
-        ::showInfoMsgBox(::loc(locId), "crew_not_available", true)
-      }
-      return null
-    }
-
-
-    if (!silent)
-      dagor.debug("try to select aircraft " + air.name)
-    if (!::is_crew_slot_was_ready_at_host(crew.idInCountry, air.name, true))
-    {
-      dagor.debug("is_crew_slot_was_ready_at_host return false for" +
-                   crew.idInCountry + " - " + air.name)
-      if (!silent)
-        ::showInfoMsgBox(::loc("aircraft_not_repaired"), "aircraft_not_repaired", true)
+        ::showInfoMsgBox(cantSpawnReason.text, cantSpawnReason.id, true)
       return null
     }
 
@@ -1508,6 +1448,63 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     return res
+  }
+
+  function getCantSpawnReason(crew, silent = true)
+  {
+    local unit = ::g_crew.getCrewUnit(crew)
+
+    local ruleMsg = missionRules.getSpecialCantRespawnMessage(unit)
+    if (!::u.isEmpty(ruleMsg))
+      return { text = ruleMsg, id = "cant_spawn_by_mission_rules" }
+
+    if (! haveRespawnBases)
+      return { text = ::loc("multiplayer/noRespawnBasesLeft"), id = "no_respawn_bases" }
+
+    if (missionRules.isWarpointsRespawnEnabled && isRespawn)
+    {
+      local respawnPrice = getRespawnWpTotalCost()
+      if (respawnPrice > 0 && respawnPrice > sessionWpBalance)
+        return { text = ::loc("msg/not_enought_warpoints_for_respawn"), id = "not_enought_wp" }
+    }
+
+    if (missionRules.isScoreRespawnEnabled && isRespawn &&
+      (curSpawnScore < ::shop_get_spawn_score(unit.name, getSelWeapon() || "")))
+        return { text = ::loc("multiplayer/noSpawnScore"), id = "not_enought_score" }
+
+    if (missionRules.isSpawnDelayEnabled && isRespawn)
+    {
+      local slotDelay = ::get_slot_delay(unit.name)
+      if (slotDelay > 0)
+      {
+        local text = ::loc("multiplayer/slotDelay", { time = time.secondsToString(slotDelay) })
+        return { text = text, id = "wait_for_slot_delay" }
+      }
+    }
+
+    if (!::is_crew_available_in_session(crew.idInCountry, !silent))
+    {
+      local locId = "not_available_aircraft"
+      if ((::SessionLobby.getUnitTypesMask() & (1 << ::get_es_unit_type(unit))) != 0)
+        locId = "crew_not_available"
+      else if (missionTable?.useKillStreaks
+        && ::isInArray(::get_es_unit_type(unit), [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]))
+          locId = "msg/need_more_kills_for_aircraft"
+      return { text = ::loc(locId), id = "crew_not_available" }
+    }
+
+    if (!silent)
+      dagor.debug("try to select aircraft " + unit.name)
+
+    if (!::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, !silent))
+    {
+      if (!silent)
+        dagor.debug("is_crew_slot_was_ready_at_host return false for" +
+          crew.idInCountry + " - " + unit.name)
+      return { text = ::loc("aircraft_not_repaired"), id = "aircraft_not_repaired" }
+    }
+
+    return null
   }
 
   function requestAircraftAndWeapon(requestData)
@@ -1620,10 +1617,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
       if (leftRespawns > 0)
         infoTextsArr.append(::loc("respawn/leftRespawns", { num = leftRespawns.tostring() }))
-    }
 
-    infoTextsArr.append(missionRules.getRespawnInfoTextForUnit(unit))
-    isAvailResp = isAvailResp && missionRules.isRespawnAvailable(unit)
+      infoTextsArr.append(missionRules.getRespawnInfoTextForUnit(unit))
+      isAvailResp = isAvailResp && missionRules.isRespawnAvailable(unit)
+    }
 
     local isCrewDelayed = false
     if (missionRules.isSpawnDelayEnabled && unit)
@@ -1640,7 +1637,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local costText = ::g_string.implode(costTextArr, ", ")
     if (costText.len())
-      applyText = ::format("%s (%s)", applyText, costText)
+      applyText += ::loc("ui/parentheses/space", { text = costText })
 
     local infoText = ::g_string.implode(infoTextsArr, ", ")
     if (infoText.len())
@@ -2062,8 +2059,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local btnText = applyText
-    if (countdown > 0 && readyForRespawn)
-      btnText += " (" + countdown  + ::loc("mainmenu/seconds") + ")"
+    if (countdown > 0 && readyForRespawn && isApplyPressed)
+      btnText += ::loc("ui/parentheses/space", { text = countdown  + ::loc("mainmenu/seconds") })
 
     foreach (btnId in mainButtonsId)
       ::set_double_text_to_button(scene, btnId, btnText)
@@ -2230,7 +2227,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local name = ::get_spectator_target_name()
-    scene.findObject("spectator_name").setValue(name)
+    local title = ::get_spectator_target_title()
+    scene.findObject("spectator_name").setValue(name + " " + title)
   }
 
   function onChatCancel()
@@ -2427,20 +2425,27 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local objectivesObj = scene.findObject("objectives")
     local separateObj = scene.findObject("separate_block")
     local chatObj = scene.findObject("mpChatInRespawn")
+    local unitOptionsObj = scene.findObject("unit_options")
     objectivesObj.height = ""
     separateObj.height = ""
+    unitOptionsObj.height = ""
     chatObj.height = "fh"
 
     // scene update needed to all objects has right size values
     guiScene.applyPendingChanges(false)
 
     local leftPanelObj = scene.findObject("panel-left")
-    local unitOptionsObj = scene.findObject("unit_options")
+    local minChatHeight = ::g_dagui_utils.toPixels(guiScene, "1@minChatHeight")
     local hOversize = unitOptionsObj.getSize()[1] + objectivesObj.getSize()[1] +
-      ::g_dagui_utils.toPixels(guiScene, "1@minChatHeight") - leftPanelObj.getSize()[1]
+      minChatHeight - leftPanelObj.getSize()[1]
 
-    if (hOversize)
-      unitOptionsObj["max-height"] = unitOptionsObj.getSize()[1] - hOversize
+    local unitOptionsHeight = unitOptionsObj.getSize()[1]
+    if (hOversize > 0)
+    {
+      unitOptionsHeight = ::max(unitOptionsObj.getSize()[1] - hOversize,
+        unitOptionsObj.getSize()[1] / 2)
+      unitOptionsObj.height = unitOptionsHeight
+    }
 
     local maxChatHeight = ::g_dagui_utils.toPixels(guiScene, "1@maxChatHeight")
     canSwitchChatSize = chatObj.getSize()[1] < maxChatHeight
@@ -2457,6 +2462,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     chatObj.height = separatorHeight > 0 ? "1@maxChatHeight" : "fh"
     separateObj.height = separatorHeight > 0 ? "fh" : ""
+
+    objectivesObj["max-height"] = leftPanelObj.getSize()[1] - unitOptionsHeight - minChatHeight
   }
 
   function onSwitchChatSize()

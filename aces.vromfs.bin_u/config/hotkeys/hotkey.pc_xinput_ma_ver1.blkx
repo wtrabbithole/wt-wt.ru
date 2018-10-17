@@ -2,6 +2,148 @@
   "hotkeys": [
     {
       "event": {
+        "name": "ID_CONTROL_MODE_HELICOPTER",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 2
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 13
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "ID_BOMBS_HELICOPTER",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 9
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_ROCKETS_HELICOPTER",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 8
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 9
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "ID_ATGM_HELICOPTER",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 8
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 17
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "ID_LOCK_TARGETING_AT_POINT_HELICOPTER",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 2
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 12
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "helicopter_camx",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 1
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "helicopter_camy",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 1
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_TARGET_CAMERA_HELICOPTER",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 16
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_TOGGLE_VIEW_HELICOPTER",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 15
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_GEAR_HELICOPTER",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 0
+          }
+        }
+      }
+    },
+    {
+      "event": {
         "name": "ID_SMOKE_SCREEN",
         "shortcut": {
           "button": {
@@ -391,6 +533,28 @@
           "button": {
             "deviceId": 3,
             "buttonId": 3
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_ATGM",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 8
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "name": "helicopter_pedals",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 8
           }
         }
       }
@@ -3468,6 +3632,27 @@
       "useJoystickOnMouseAim": true,
       "useJoystickOnTankMouseAim": true,
       "useMouseAim": true,
+      "helicopter_camx": {
+        "axisId": 2
+      },
+      "helicopter_camy": {
+        "axisId": 3
+      },
+      "helicopter_atgm_aim_x": {
+        "axisId": 2,
+        "kMul": 0.5
+      },
+      "helicopter_atgm_aim_y": {
+        "axisId": 3,
+        "kMul": 0.5,
+        "inverse": true
+      },
+      "helicopter_fire": {
+        "axisId": 5
+      },
+      "target_camera_helicopter": {
+        "axisId": 4
+      },
       "ship_sight_distance": {
         "axisId": 3,
         "relative": true,
@@ -3482,78 +3667,25 @@
         "axisId": 3,
         "relative": true
       },
-      "head_pos_x": {
-        "axisId": -1,
-        "innerDeadzone": 0.05,
-        "outerDeadzone": 0.05,
-        "rangeMin": 0.0,
-        "rangeMax": 1.0,
-        "inverse": false,
-        "nonlinearity": 0.0,
-        "kAdd": 0.0,
-        "kMul": 1.0,
-        "relSens": 1.0,
-        "relStep": 0.0,
-        "relative": true,
-        "useSliders": false
+      "helicopter_collective": {
+        "axisId": 1,
+        "relative": true
       },
-      "head_pos_y": {
-        "axisId": -1,
-        "innerDeadzone": 0.05,
-        "outerDeadzone": 0.05,
-        "rangeMin": -1.0,
-        "rangeMax": 1.0,
-        "inverse": false,
-        "nonlinearity": 0.0,
-        "kAdd": 0.0,
-        "kMul": 1.0,
-        "relSens": 1.0,
-        "relStep": 0.0,
-        "relative": true,
-        "useSliders": false
+      "helicopter_climb": {
+        "axisId": 1,
+        "relative": true
       },
-      "head_pos_z": {
-        "axisId": -1,
-        "innerDeadzone": 0.05,
-        "outerDeadzone": 0.05,
-        "rangeMin": -1.0,
-        "rangeMax": 1.0,
-        "inverse": false,
-        "nonlinearity": 0.0,
-        "kAdd": 0.0,
-        "kMul": 1.0,
-        "relSens": 1.0,
-        "relStep": 0.0,
-        "relative": true,
-        "useSliders": false
+      "helicopter_cyclic_roll": {
+        "axisId": 0
       },
-      "tracker_camx": {
-        "axisId": -1,
-        "innerDeadzone": 0.0,
-        "outerDeadzone": 0.05,
-        "rangeMin": -1.0,
-        "rangeMax": 1.0,
-        "inverse": false,
-        "nonlinearity": 0.0,
-        "kAdd": 0.0,
-        "kMul": 1.0,
-        "relSens": 0.01,
-        "relStep": 0.0,
-        "relative": false
+      "helicopter_mouse_aim_y": {
+        "axisId": 3
       },
-      "tracker_camy": {
-        "axisId": -1,
-        "innerDeadzone": 0.0,
-        "outerDeadzone": 0.05,
-        "rangeMin": -1.0,
-        "rangeMax": 1.0,
-        "inverse": true,
-        "nonlinearity": 0.0,
-        "kAdd": 0.0,
-        "kMul": 1.0,
-        "relSens": 0.01,
-        "relStep": 0.0,
-        "relative": false
+      "helicopter_mouse_aim_x": {
+        "axisId": 2
+      },
+      "helicopter_pedals": {
+        "axisId": 2
       },
       "gm_sight_distance": {
         "relative": true,

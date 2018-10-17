@@ -418,6 +418,14 @@ shopItem:hover shopItemPrice {
   color:@activeTextColor;
 }
 
+shopItemText[progressStatus=researched] {
+  color:@goodTextColor;
+}
+
+shopItemText[progressStatus=research] {
+ color:@cardProgressBonusColor;
+}
+
 shopItemText[header=yes],
 shopItemPrice[header=yes] {
   min-width:pw;
@@ -450,6 +458,10 @@ shopItemText[header=yes]  {
   color:@activeTextColor;
 }
 
+shopItemText[disabled=yes]  {
+  color:@fadedTextColor;
+}
+
 classIcon[shopItemType=light_fighter]       { color:@light_fighterColor; }
 classIcon[shopItemType=medium_fighter]      { color:@medium_fighterColor; }
 classIcon[shopItemType=heavy_fighter]       { color:@heavy_fighterColor; }
@@ -463,6 +475,8 @@ classIcon[shopItemType=jet_bomber]          { color:@jet_bomberColor; }
 classIcon[shopItemType=dive_bomber]         { color:@dive_bomberColor; }
 classIcon[shopItemType=common_assault]      { color:@common_assaultColor; }
 classIcon[shopItemType=strike_fighter]      { color:@strike_fighterColor; }
+classIcon[shopItemType=attack_helicopter]   { color:@attack_helicopterColor; }
+classIcon[shopItemType=utility_helicopter]  { color:@utility_helicopterColor; }
 classIcon[shopItemType=light_tank]          { color:@light_tankColor; }
 classIcon[shopItemType=medium_tank]         { color:@medium_tankColor; }
 classIcon[shopItemType=heavy_tank]          { color:@heavy_tankColor; }
@@ -771,7 +785,7 @@ weapon_item_unit > td:hover > shopItem
   showButtons:yes;
 }
 
-shopLine, shopArrow {
+shopLine, shopArrow, shopAngle {
   background-color:@shopItem;
   position:absolute;
   input-transparent:yes;
@@ -781,21 +795,36 @@ shopArrow[type=vertical] {
   re-type:9rect;
   background-image:#ui/gameuiskin#arrow_simple;
   background-repeat:expand;
-  background-position:4,2,4,9;
+  background-position:4,4,4,9;
 }
 
 shopArrow[type=horizontal] {
   re-type:9rect;
   background-image:#ui/gameuiskin#arrow_simple_hor;
   background-repeat:expand;
-  background-position:2,4,10,4;
+  background-position:4,4,10,4;
 }
 
-shopLine[shopStat=owned], shopArrow[shopStat=owned] {
+shopLine {
+  re-type:9rect;
+  background-image:#ui/gameuiskin#line_lshaped;
+  background-repeat:expand;
+  background-position:4,6,4,4;
+  rotation-centre:0;
+}
+
+shopAngle {
+  re-type:9rect;
+  background-image:#ui/gameuiskin#angle_lshaped;
+  background-repeat:expand;
+  background-position:4,6,6,4;
+}
+
+shopLine[shopStat=owned], shopArrow[shopStat=owned], shopAngle[shopStat=owned] {
   background-color:@shopItemOwned;
 }
 
-shopLine[shopStat=locked], shopArrow[shopStat=locked] {
+shopLine[shopStat=locked], shopArrow[shopStat=locked], shopAngle[shopStat=locked] {
   background-color:@shopItemLocked;
 }
 

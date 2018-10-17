@@ -212,11 +212,6 @@ class SlotbarPresetsList
     )
   }
 
-  function isValid()
-  {
-    return ::checkObj(scene)
-  }
-
   function onSlotsChoosePreset(obj)
   {
     checkChangePresetAndDo(function () {
@@ -240,6 +235,11 @@ class SlotbarPresetsList
   }
 
   function onEventVoiceChatOptionUpdated(p)
+  {
+    updateSizes(true)
+  }
+
+  function onEventClanChanged(p)
   {
     updateSizes(true)
   }

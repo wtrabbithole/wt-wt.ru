@@ -429,7 +429,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
             {
               tText += ::loc("weapons" + weaponName) + ::format(::loc("weapons/counter"), weapon.ammo)
               if (weaponType == "torpedoes" && p.isPrimary != null &&
-                  unitType == ::ES_UNIT_TYPE_AIRCRAFT) // torpedoes drop for air only
+                  ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])) // torpedoes drop for air only
               {
                 if (weapon.dropSpeedRange)
                   tText += "\n"+::format( ::loc("weapons/drop_speed_range"), ::format("%s (%s)", ::countMeasure(0, [weapon.dropSpeedRange.x, weapon.dropSpeedRange.y]), ::countMeasure(3, [weapon.dropSpeedRange.x, weapon.dropSpeedRange.y])) )
@@ -503,7 +503,8 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
     if (p.isPrimary)
       text = ::loc("weapon/noPrimaryWeapon")
     else
-      text = air.isAir() ? ::loc("weapon/noSecondaryWeapon") : ::loc("weapon/noAdditionalWeapon")
+      text = (air.isAir() || air.isHelicopter()) ? ::loc("weapon/noSecondaryWeapon")
+        : ::loc("weapon/noAdditionalWeapon")
 
   return text
 }

@@ -71,6 +71,16 @@ action_bar_item {
       text-align:t='right';
       text:t='<<amount>>';
     }
+    textarea {
+      id:t='automatic_text';
+      pos:t='pw -w -0.002@shHud, 0.004@shHud';
+      position:t='absolute';
+      hudFont:t='small';
+      shadeStyle:t='outline33pct'
+      text-align:t='right';
+      text:t='#actionBar/action/automatic/abbr';
+      display:t='hide'
+    }
     tdiv {
       id:t='BlockedCooldown'
       re-type:t='sector';

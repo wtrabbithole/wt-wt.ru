@@ -47,6 +47,7 @@ function get_hit_camera_aabb() // called from client
     [::DM_HIT_RESULT_FUEL]      = "fuel",
     [::DM_HIT_RESULT_CREW]      = "crew",
     [::DM_HIT_RESULT_TORPEDO]   = "torpedo",
+    [::DM_HIT_RESULT_BREAKING]  = "breaking",
   }
 }
 

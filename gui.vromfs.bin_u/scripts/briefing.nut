@@ -179,7 +179,7 @@ function get_briefing_options(gm, gt, missionBlk)
     optionItems.append([::USEROPT_DISABLE_AIRFIELDS, "spinner"])
 
   if (missionBlk.isCustomVisualFilterAllowed!= false && gm == ::GM_SKIRMISH
-      && (::has_feature("EnableUgcSkins") || ::has_feature("EnableUgcDecals"))
+      && (::has_feature("EnableLiveSkins") || ::has_feature("EnableLiveDecals"))
       && contentPreset.getContentPresets().len() > 0)
     optionItems.append([::USEROPT_CONTENT_ALLOWED_PRESET, "combobox"])
 

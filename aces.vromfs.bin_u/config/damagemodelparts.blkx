@@ -66,8 +66,10 @@
     "deckhouse": [],
     "deckhouse_side": [],
     "superstructure": [],
-    "compartment_NN": {
-      "template": "compartment_#15#"
+    "compartment": {
+      "compartment_NN": {
+        "template": "compartment_#15#"
+      }
     },
     "cover_NN": {
       "template": "cover_#16#"
@@ -82,7 +84,7 @@
       "template": "armor_belt_#16#"
     },
     "armor_cit_NN": {
-      "template": "armor_cit_#16#"
+      "template": "armor_cit_#19#"
     },
     "at_bulge_NN": {
       "template": "at_bulge_#16#"
@@ -169,12 +171,12 @@
       "fire": true
     }
   },
-  "airplane_gunner": {
+  "aircraft_gunner": {
     "gunnerN": {
       "template": "gunner#1:8#"
     }
   },
-  "airplane_gun": {
+  "aircraft_gun": {
     "mgunN": {
       "template": "mgun#1:24#"
     },
@@ -204,14 +206,14 @@
       "template": "auxiliary_caliber_turret_#20#"
     },
     "aa_gun_NN": {
-      "template": "aa_gun_#20#"
+      "template": "aa_gun_#40#"
     },
     "aa_turret_NN": {
-      "template": "aa_turret_#20#"
+      "template": "aa_turret_#40#"
     },
     "gun_barrel": [],
     "gun_barrel_NN": {
-      "template": "gun_barrel_#20#"
+      "template": "gun_barrel_#40#"
     },
     "mg_NN": {
       "template": "mg_#20#"
@@ -391,7 +393,9 @@
     "genName": "tank_radiator",
     "radiator": [],
     "radiator_l": [],
-    "radiator_r": []
+    "radiator_r": [],
+    "radiator_l_01": [],
+    "radiator_r_01": []
   },
   "radio_station": {
     "hitTestType": "inner"
@@ -435,6 +439,13 @@
       "template": "torpedo_r_#10#"
     }
   },
+  "torpedo_hatch": {
+    "torpedo_hatch_NN": {
+      "template": "torpedo_hatch_#02#"
+    },
+    "torpedo_hatch_l": [],
+    "torpedo_hatch_r": []
+  },
   "ammunition_storage_NN": {
     "template": "ammunition_storage_#10#"
   },
@@ -446,7 +457,7 @@
   },
   "depth_charge": {
     "depth_charge_NN": {
-      "template": "depth_charge_#30#"
+      "template": "depth_charge_#70#"
     },
     "depth_charge_l_NN": {
       "template": "depth_charge_l_#20#"
@@ -530,10 +541,10 @@
     "template": "ex_armor_#20#"
   },
   "ex_armor_r_NN": {
-    "template": "ex_armor_r_#10#"
+    "template": "ex_armor_r_#12#"
   },
   "ex_armor_l_NN": {
-    "template": "ex_armor_l_#10#"
+    "template": "ex_armor_l_#12#"
   },
   "ex_armor_body_NN": {
     "template": "ex_armor_body_#05#"
@@ -605,9 +616,24 @@
   "mainmast_coursesail": [],
   "mainmast_topsail": [],
   "mizzenmast_sail": [],
-  "airplane_engine": {
+  "aircraft_engine": {
     "engineN": {
       "template": "engine#8#"
+    }
+  },
+  "aircraft_transmission": {
+    "transmissionN": {
+      "template": "transmission#2#"
+    }
+  },
+  "aircraft_engine_shaft": {
+    "engine_shaftN": {
+      "template": "engine_shaft#8#"
+    }
+  },
+  "aircraft_propeller_shaft": {
+    "propeller_shaftN": {
+      "template": "propeller_shaft#8#"
     }
   },
   "glass": {
@@ -633,8 +659,7 @@
     "wing2_r": []
   },
   "tail": {
-    "tail": [],
-    "tail_dstr": []
+    "tail": []
   },
   "tail_plane": {
     "hstab": {
@@ -648,7 +673,7 @@
       "fin2": []
     }
   },
-  "airplane_control_surface": {
+  "aircraft_control_surface": {
     "rudder": [],
     "rudder0": [],
     "rudder1": [],
@@ -771,7 +796,7 @@
   "gear_3c": {
     "gear_3c": []
   },
-  "airplane_wheel": {
+  "aircraft_wheel": {
     "wheel_l": [],
     "wheel1_l": [],
     "wheel_r": [],

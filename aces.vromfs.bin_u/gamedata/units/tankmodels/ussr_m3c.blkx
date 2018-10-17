@@ -1427,43 +1427,6 @@
     }
   },
   {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 5
-        },
-        {
-          "part": "loader_01_dm"
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "gunner_01_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
     "class_tags": []
   },
   {
@@ -1484,7 +1447,7 @@
           "speedYaw": 18.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
-          "bullets": 113,
+          "bullets": 179,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1702,8 +1665,8 @@
           "speedPitch": 20.0,
           "bullets": 3000,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2452,53 +2415,102 @@
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "headPos": [0.0,4.0,-8.0],
-      "headPosOnShooting": [0.0,3.5,0.0],
-      "detectionHeight": 3.12
+      "headPosOnShooting": [-0.5,3.7,-0.6],
+      "detectionHeight": 3.12,
+      "bone_turret": "bone_turret_03"
     }
   },
   {
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
           "fireEvent": "ammo_fire_1",
           "explosionEvent": "ammo_explosion_9",
           "wreckedPartId": 0,
-          "ammo_turret_03_dm": {
-            "count": 4
-          },
-          "ammo_turret_04_dm": {
-            "count": 4
-          },
-          "ammo_turret_05_dm": {
+          "ammo_turret_dm": {
             "count": 4
           },
           "ammo_turret_01_dm": {
-            "count": 20
-          },
-          "ammo_turret_02_dm": {
-            "count": 23
-          },
-          "ammo_body_l_02_dm": {
             "count": 4
           },
-          "ammo_body_l_01_dm": {
-            "count": 13
+          "ammo_turret_02_dm": {
+            "count": 4
+          },
+          "ammo_turret_03_dm": {
+            "count": 8
+          },
+          "ammo_turret_04_dm": {
+            "count": 7
+          },
+          "ammo_turret_05_dm": {
+            "count": 5
+          },
+          "ammo_body_01_dm": {
+            "count": 8
+          },
+          "ammo_body_02_dm": {
+            "count": 7
+          },
+          "ammo_body_03_dm": {
+            "count": 4
+          },
+          "ammo_body_04_dm": {
+            "count": 6
+          },
+          "ammo_body_dm": {
+            "count": 7
+          },
+          "ammo_body_l_05_dm": {
+            "count": 11
+          },
+          "ammo_body_07_dm": {
+            "count": 8
+          },
+          "ammo_body_08_dm": {
+            "count": 9
+          },
+          "ammo_body_r_07_dm": {
+            "count": 8
+          },
+          "ammo_body_r_08_dm": {
+            "count": 9
+          },
+          "ammo_body_r_09_dm": {
+            "count": 8
+          },
+          "ammo_body_l_06_dm": {
+            "count": 12
+          },
+          "ammo_body_l_07_dm": {
+            "count": 12
+          },
+          "ammo_body_l_08_dm": {
+            "count": 12
+          },
+          "ammo_body_l_09_dm": {
+            "count": 6
+          },
+          "ammo_body_05_dm": {
+            "count": 5
+          },
+          "ammo_body_06_dm": {
+            "count": 5
           },
           "ammo_body_l_03_dm": {
-            "count": 30
+            "count": 5
           },
           "ammo_body_l_04_dm": {
-            "count": 11
+            "count": 5
           }
         }
       },
       "ammo2": {
         "weaponTrigger": "gunner1",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -2506,10 +2518,28 @@
           "explosionEvent": "ammo_explosion_9",
           "wreckedPartId": 0,
           "ammo_body_r_01_dm": {
-            "count": 15
+            "count": 7
           },
           "ammo_body_r_02_dm": {
-            "count": 35
+            "count": 7
+          },
+          "ammo_body_r_03_dm": {
+            "count": 7
+          },
+          "ammo_body_r_04_dm": {
+            "count": 7
+          },
+          "ammo_body_r_05_dm": {
+            "count": 7
+          },
+          "ammo_body_r_06_dm": {
+            "count": 6
+          },
+          "ammo_body_l_01_dm": {
+            "count": 4
+          },
+          "ammo_body_l_02_dm": {
+            "count": 5
           }
         }
       }

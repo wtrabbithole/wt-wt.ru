@@ -25,7 +25,6 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
 
     guiScene.performDelayed(this, function() {
       ::ps4_initial_check_settings()
-      ::checkSquadInvitesFromPS4Friends(true, false)
     })
   }
 
@@ -60,10 +59,15 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
     }
   }
 
-  function onEventPS4AvailableNewInvite(p)
+  function onEventPs4AutoLoginRequested(p)
   {
     onOk()
   }
 
   function goBack(obj) {}
+}
+
+function on_ps4_autologin()
+{
+  broadcastEvent("Ps4AutoLoginRequested")
 }

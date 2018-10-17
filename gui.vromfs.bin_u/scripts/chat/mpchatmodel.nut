@@ -6,20 +6,41 @@ local mpChatState = {
   PERSISTENT_DATA_PARAMS = ["log"]
 }
 
-
 local mpChatModel = {
   maxLogSize = 20
-
 
   function init() {
     maxLogSize = ::g_chat.getMaxRoomMsgAmount()
   }
 
-
   function getLog() {
     return mpChatState.log
   }
 
+  chatLogFormatForBanhammer = @() {
+      category = ""
+      title = ""
+      ownerUid = ""
+      ownerNick = ""
+      roomName = ""
+      location = ""
+      clanInfo = ""
+      chatLog = null
+  }
+
+  function getLogForBanhammer() {
+    local log = mpChatState.log.map(@(message) {
+      from = message.sender
+      userColor = message.userColor != "" ? ::get_main_gui_scene().getConstantValue(::g_string.cutPrefix(message.userColor, "@")) : ""
+      fromUid = message.uid
+      clanTag = message.clanTag
+      msgs = [message.text]
+      msgColor = message.msgColor != "" ? ::get_main_gui_scene().getConstantValue(::g_string.cutPrefix(message.msgColor, "@")) : ""
+      mode = message.mode
+      sTime = message.sTime
+    })
+    return chatLogFormatForBanhammer().__merge({ chatLog = log })
+  }
 
   function onInternalMessage(str) {
     onIncomingMessage("", str, false, ::CHAT_MODE_ALL, true)
@@ -36,6 +57,10 @@ local mpChatModel = {
     local player = u.search(::get_mplayers_list(::GET_MPLAYERS_LIST, true), @(p) p.name == sender)
 
     local message = {
+      userColor = ""
+      msgColor = ""
+      clanTag = ""
+      uid = null
       sender = sender
       text = msg
       isMyself = sender == ::my_user_name
@@ -43,6 +68,7 @@ local mpChatModel = {
       isAutomatic = automatic
       mode = mode
       time = ::get_usefull_total_time()
+      sTime = ::get_charserver_time_sec()
 
       team = player ? player.team:0
     }

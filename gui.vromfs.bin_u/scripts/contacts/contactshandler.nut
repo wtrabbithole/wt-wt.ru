@@ -1,5 +1,6 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -391,16 +392,17 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isFriend = contact? contact.isInFriendGroup() : false
     local isBlock = contact? contact.isInBlockGroup() : false
     local isMe = contact? contact.isMe() : false
-    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contact?.name ?? "")
-    local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
+    local contactName = contact?.name ?? ""
+    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contactName)
+    local canBlock = !::is_platform_xboxone || !isXBoxOnePlayer
     local canInteractWithPlayer = contact? contact.canInteract() : true
-    local canInviteXboxPlayerFriend = !::is_platform_xboxone || isFriend
-    local canInviteXboxPlayerOnline = !::is_platform_xboxone || contact && contact.presence == ::g_contact_presence.ONLINE
+    local canInteractCrossConsole = platformModule.canInteractCrossConsole(contactName)
+    local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
 
-    showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInvitePlayer, contact_buttons_holder)
+    showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInteractCrossConsole && canInteractCrossPlatform, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
-    showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock && (!canInvitePlayer || !::is_platform_xboxone), contact_buttons_holder)
-    showBtn("btn_blacklistRemove", isBlock && (!canInvitePlayer || !::is_platform_xboxone), contact_buttons_holder)
+    showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock && canBlock, contact_buttons_holder)
+    showBtn("btn_blacklistRemove", isBlock && canBlock, contact_buttons_holder)
     showBtn("btn_message", owner
                            && !isBlock
                            && platformModule.isChatEnabled()
@@ -409,13 +411,13 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local showSquadInvite = ::has_feature("SquadInviteIngame")
       && !isMe
       && !isBlock
-      && canInvitePlayer
+      && canInteractCrossConsole
+      && canInteractCrossPlatform
       && ::g_squad_manager.canInviteMember(contact?.uid ?? "")
-      && !::g_squad_manager.isPlayerInvited(contact?.uid ?? "", contact?.name ?? "")
+      && ::g_squad_manager.canInviteMemberByPlatform(contactName)
+      && !::g_squad_manager.isPlayerInvited(contact?.uid ?? "", contactName)
       && canInteractWithPlayer
       && platformModule.canSquad()
-      && canInviteXboxPlayerFriend
-      && canInviteXboxPlayerOnline
 
     local btnObj = showBtn("btn_squadInvite", showSquadInvite, contact_buttons_holder)
     if (btnObj && showSquadInvite && contact?.uidInt64)

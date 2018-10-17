@@ -128,7 +128,7 @@ function build_unlock_desc(item, params = {})
                        })
 
   local showProgress = ::getTblValue("showProgress", params, true)
-  local progressText = ::UnlockConditions.getMainConditionText(item.conditions, showProgress? "%d" : null, "%d")
+  local progressText = ::UnlockConditions.getMainConditionText(item.conditions, showProgress? "%d" : null, "%d", params)
                        //to generate progress text for stages
   item.showProgress <- showProgress && (progressText != "")
   item.progressText <- progressText

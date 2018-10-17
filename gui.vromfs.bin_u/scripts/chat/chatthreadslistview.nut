@@ -6,6 +6,7 @@ class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/chat/chatThreadsList.blk"
   isPrimaryFocus = false
+  backFunc = null
 
   roomId = ""
 
@@ -265,6 +266,12 @@ class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
     local threadInfo = ::g_chat.getThreadInfo(id)
     if (threadInfo)
       threadInfo.updateInfoObj(scene.findObject("room_" + id), !::show_console_buttons)
+  }
+
+  function goBack()
+  {
+    if (backFunc)
+      backFunc()
   }
 
   function onEventChatRoomJoin(p)

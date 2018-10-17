@@ -1,4 +1,3 @@
-local u = ::require("std/u.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local sendingList = {}

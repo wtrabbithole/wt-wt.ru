@@ -2,6 +2,7 @@ local shopTree = require("scripts/shop/shopTree.nut")
 
 local lastUnitType = null
 
+const COUNT_REQ_FOR_FAKE_UNIT = 2
 /*
 shopData = [
   { name = "country_japan"
@@ -141,6 +142,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         }
         local selected = false
         local hasRankPosXY =false
+        local hasFakeUnits =false
 
         local totalRanges = pblk.blockCount()
         for(local r = 0; r < totalRanges; r++)
@@ -198,12 +200,21 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
               airData.rankPosXY <- airBlk.rankPosXY
               hasRankPosXY = true
             }
+            if ("fakeReqUnitType" in airBlk)
+            {
+              local fakeUnitRanges = genFakeUnitRanges(airBlk, countryData.name)
+              airData.fakeReqUnits <- fakeUnitRanges.map(@(range) (range.top()).name)
+              pageData.airList = fakeUnitRanges.extend(pageData.airList)
+              hasFakeUnits = true
+            }
             rangeData.append(airData)
           }
           if (rangeData.len() > 0)
             pageData.airList.append(rangeData)
           if (hasRankPosXY)
             pageData.hasRankPosXY <- hasRankPosXY
+          if (hasFakeUnits)
+            pageData.hasFakeUnits <- hasFakeUnits
         }
         if (selected)
         {
@@ -263,6 +274,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
               if (rowArr[col])
               {
                 local air = rowArr[col]
+                if (air?.isFakeUnit)
+                  continue
+
                 if (::isUnitGroup(air))
                 {
                   foreach(gAir in air.airsGroup)
@@ -284,7 +298,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       broken = false
       checkAir = checkAir == item.name
     }
-
     if (::isUnitGroup(item))
     {
       foreach(air in item.airsGroup)
@@ -295,6 +308,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         res.broken = res.broken || ::isUnitBroken(air)
         res.checkAir = res.checkAir || checkAir == air.name
       }
+    }
+    else if (item?.isFakeUnit)
+    {
+      res.own = isUnlockedFakeUnit(item)
     }
     else
     {
@@ -340,7 +357,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         {
           local item = rowArr[col]
           local config = getItemStatusData(item, curName)
-          if (config.checkAir || (curRow < 0))
+          if (config.checkAir || ((curRow < 0) && !item?.isFakeUnit))
           {
             curRow = row
             curCol = col
@@ -357,7 +374,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     foreach (unitItem in unitItems)
     {
       local obj = tableObj.findObject(unitItem.id)
-      local unit = ::isUnitGroup(unitItem.unit) ? ::getAircraftByName(obj.primaryUnitId) : unitItem.unit
+      local unit = ::isUnitGroup(unitItem.unit) ? ::getAircraftByName(obj.primaryUnitId)
+        : unitItem.unit?.isFakeUnit ? null
+        : unitItem.unit
       ::fill_unit_item_timers(obj, unit, unitItem.params)
     }
 
@@ -383,7 +402,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       for (local col = 0; col < rowArr.len(); col++)
       {
         local air = rowArr[col]
-        if (!air)
+        if (!air || air?.isFakeUnit)
           continue
 
         ::showUnitDiscount(tableObj.findObject(air.name+"-discount"), air)
@@ -408,7 +427,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local treeData = getCurTreeData()
     foreach (row, rowArr in treeData.tree)
     {
-      local units = ::u.filter(rowArr, function (item) { return item && !::isUnitGroup(item) })
+      local units = ::u.filter(rowArr, function (item) { return item && !::isUnitGroup(item) && !item?.isFakeUnit })
       foreach (unit in units)
       {
         local params = getUnitItemParams(unit)
@@ -491,13 +510,14 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
   }
 
-  function getLineStatus(air)
+  function getLineStatus(lc)
   {
-    local config = getItemStatusData(air)
+    local config = getItemStatusData(lc.air)
+    local configReq = getItemStatusData(lc.reqAir)
 
     if (config.own || config.partOwn)
       return "owned"
-    else if (!config.shopReq)
+    else if (!config.shopReq || !configReq.own)
       return "locked"
     return ""
   }
@@ -512,12 +532,16 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   }
 */
 
-  function createLine(r0, c0, r1, c1, status)
+  function createLine(r0, c0, r1, c1, status, isFakeUnitReq = false)
   {
     local lines = ""
-    local arrowFormat = "shopArrow { type:t='%s'; size:t='%s, %s'; pos:t='%s, %s'; shopStat:t='" + status + "' } "
+    local arrowFormat = "shopArrow { type:t='%s'; size:t='%s, %s'; pos:t='%s, %s'; rotation:t='%s' shopStat:t='" + status + "' } "
+    local lineFormat = "shopLine { size:t='%s, %s'; pos:t='%s, %s'; rotation:t='%s'; shopStat:t='" + status + "' } "
+    local angleFormat = "shopAngle { size:t='%s, %s'; pos:t='%s, %s'; rotation:t='%s'; shopStat:t='" + status + "' } "
     local pad1 = "1@lines_pad"
     local pad2 = "1@lines_pad"
+    local interval1 = "1@lines_shop_interval"
+    local interval2 = "1@lines_shop_interval"
 
     if (c0 == c1)
     {//vertical
@@ -526,41 +550,75 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                  "1@modArrowWidth", //width
                  pad1 + " + " + pad2 + " + " + (r1 - r0 - 1) + "@shop_height", //height
                  (c0 + 0.5) + "@shop_width - 0.5@modArrowWidth", //posX
-                 (r0 + 1) + "@shop_height - " + pad1 //posY
-                )
+                 (r0 + 1) + "@shop_height - " + pad1, //posY
+                 "0")
     }
     else if (r0==r1)
     {//horizontal
-      local interval1 = "1@lines_shop_interval"
-      local interval2 = "1@lines_shop_interval"
       lines += format(arrowFormat,
                  "horizontal",  //type
                  (c1 - c0 - 1) + "@shop_width + " + interval1 + " + " + interval2, //width
                  "1@modArrowWidth", //height
-                 (c0 + 1) + "@shop_width + 0.5*" + interval1, //posX
-                 (r0 + 0.5) + "@shop_height - 0.5@modArrowWidth" // posY
-                )
+                 (c0 + 1) + "@shop_width - " + interval1, //posX
+                 (r0 + 0.5) + "@shop_height - 0.5@modArrowWidth", // posY
+                 "0")
+    }
+    else if (isFakeUnitReq)
+    {//special line for fake unit. Line is go to unit plate on side
+      lines += format(lineFormat,
+                       pad1 + " + " + (r1 - r0 - 0.5) + "@shop_height",//height
+                       "1@modLineWidth", //width
+                       (c0 + 0.5) + "@shop_width" + ((c0 > c1) ? "- 0.5@modLineWidth" : "+ 0.5@modLineWidth"), //posX
+                       (r0 + 1) + "@shop_height - " + pad1 + ((c0 > c1) ? "+w" : ""), // posY
+                       (c0 > c1) ? "-90" : "90")
+      lines += format(arrowFormat,
+                       "horizontal",  //type
+                       (abs(c1 - c0) - 0.5) + "@shop_width + " + interval1, //width
+                       "1@modArrowWidth", //height
+                       (c1 > c0 ? (c0 + 0.5) : c0) + "@shop_width" + (c1 > c0 ? "" : (" - " + interval1)), //posX
+                       (r1 + 0.5) + "@shop_height - 0.5@modArrowWidth", // posY
+                       (c0 > c1) ? "180" : "0")
+      lines += format(angleFormat,
+                       "1@modAngleWidth", //width
+                       "1@modAngleWidth", //height
+                       (c0 + 0.5) + "@shop_width - 0.5@modAngleWidth", //posX
+                       (r1 + 0.5) + "@shop_height - 0.5@modAngleWidth - 0.1@modArrowWidth", // posY
+                       (c0 > c1 ? "-90" : "0"))
     }
     else
     {//double
       local lh = 0
-      local lineFormat = "shopLine { size:t='%s, %s'; pos:t='%s, %s'; shopStat:t='" + status + "' } "
       lines += format(lineFormat,
-                       "2",
-                       pad1 + " + " + lh + "@shop_height+1",
-                       (c0 + 0.5) + "@shop_width",
-                       (r0 + 1) + "@shop_height - " + pad1
-                      )
+                       pad1 + " + " + lh + "@shop_height",//height
+                       "1@modLineWidth", //width
+                       (c0 + 0.5) + "@shop_width" + ((c0 > c1) ? "-" : "+") + " 0.5@modLineWidth", //posX
+                       (r0 + 1) + "@shop_height - " + pad1 + ((c0 > c1) ? "+w" : ""), // posY
+                       (c0 > c1) ? "-90" : "90")
       lines += format(lineFormat,
-                      abs(c1-c0) + "@shop_width-2",
-                      "2",
-                      (0.5*(c0 + c1 + 1)) + "@shop_width - 50%w + 1",
-                      (lh + r0 + 1) + "@shop_height-1")
-      lines += format(lineFormat,
-                      "2",
-                      pad2 + " + " + (r1 - r0 - 1 - lh) + "@shop_height+1",
-                      (c1 + 0.5) + "@shop_width",
-                      (lh + r0 + 1) + "@shop_height-1")
+                      abs(c1-c0) + "@shop_width",
+                      "1@modLineWidth", //height
+                      (::min(c0, c1) + 0.5) + "@shop_width",
+                      (lh + r0 + 1) + "@shop_height - 0.5@modLineWidth",
+                      "0")
+      lines += format(angleFormat,
+                       "1@modAngleWidth", //width
+                       "1@modAngleWidth", //height
+                       (c0 + 0.5) + "@shop_width - 0.5@modAngleWidth", //posX
+                       (lh + r0 + 1) + "@shop_height - 0.5@modAngleWidth", // posY
+                       (c0 > c1 ? "-90" : "0"))
+      lines += format(arrowFormat,
+                      "vertical",
+                      "1@modArrowWidth",
+                      pad2 + " + " + (r1 - r0 - 1 - lh) + "@shop_height",
+                      (c1 + 0.5) + "@shop_width - 0.5@modArrowWidth",
+                      (lh + r0 + 1) + "@shop_height + 0.2@modArrowWidth",
+                      "0")
+      lines += format(angleFormat,
+                       "1@modAngleWidth", //width
+                       "1@modAngleWidth", //height
+                       (c1 + 0.5) + "@shop_width - 0.5@modAngleWidth" + ((c0 > c1) ? "+0.12@modArrowWidth" : "-0.1@modArrowWidth"),
+                       (lh + r0 + 1) + "@shop_height - 0.5@modAngleWidth + 1@modLineTopAlpha",
+                       (c0 > c1 ? "90" : "180"))
     }
 
     return lines
@@ -587,8 +645,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local data = ""
     foreach(lc in treeData.lines)
     {
-      fillAirReq(lc.air)
-      data += createLine(lc.line[0], lc.line[1], lc.line[2], lc.line[3], getLineStatus(lc.air))
+      fillAirReq(lc.air, lc.reqAir)
+      data += createLine(lc.line[0], lc.line[1], lc.line[2], lc.line[3], getLineStatus(lc), lc.reqAir?.isFakeUnit)
     }
 
     foreach(row, rowArr in treeData.tree) //check groups even they dont have requirements
@@ -667,10 +725,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     for(local i = 0; i < tiersTotal; i++)
     {
-      local isTop = i == 0
+      local isTop = i == 0 || treeData.ranksHeight[i] == 0
       local isBottom = i == tiersTotal - 1
       local tierNum = (i+1).tostring()
       local tierUnlocked = ::is_era_available(curCountry, i + 1, getCurPageEsUnitType())
+      local fakeRowsCount = treeData.fakeRanksRowsCount[i + 1]
 
       for(local s = 0; s < sectionsTotal; s++)
       {
@@ -680,9 +739,24 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         local tierType = tierUnlocked || !isResearchable ? "unlocked" : "locked"
 
         local x = treeData.sectionsPos[s] + "@shop_width" + (isLeft ? "" : extraLeft)
-        local y = treeData.ranksHeight[i] + "@shop_height" + (isTop ? "" : extraTop)
-        local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width" + (isLeft ? extraLeft : "") + (isRight ? extraRight : "")
-        local h = (treeData.ranksHeight[i + 1] - treeData.ranksHeight[i]) + "@shop_height" + (isTop ? extraTop : "") + (isBottom ? extraBottom : "")
+        local y = (treeData.ranksHeight[i] + fakeRowsCount) + "@shop_height" + (isTop && fakeRowsCount == 0 ? "" : extraTop)
+        local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width"
+          + (isLeft ? extraLeft : "") + (isRight ? extraRight : "")
+        local h = (treeData.ranksHeight[i + 1] - treeData.ranksHeight[i] - fakeRowsCount)
+          + "@shop_height" + ((isTop && fakeRowsCount == 0) ? extraTop : "") + (isBottom ? extraBottom : "")
+
+
+        if (fakeRowsCount > 0)
+        {
+          local fakeRowY = treeData.ranksHeight[i] + "@shop_height" + (isTop ? "" : extraTop)
+          local fakeRowH = fakeRowsCount + "@shop_height" + (isTop ? extraTop : "") + (isBottom ? extraBottom : "")
+          view.plates.append({ tierNum = tierNum, tierType = "unlocked", x = x, y = fakeRowY, w = w, h = fakeRowH })
+          if (!isLeft)
+            view.vertSeparators.append({ x = x, y = fakeRowY, h = fakeRowH, isTop = isTop, isBottom = isBottom })
+          if (!isTop)
+            view.horSeparators.append({ x = x, y = fakeRowY, w = w, isLeft = isLeft })
+          isTop = false
+        }
 
         view.plates.append({ tierNum = tierNum, tierType = tierType, x = x, y = y, w = w, h = h })
         if (!isLeft)
@@ -763,11 +837,13 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     {
       local curEraPos = treeData.ranksHeight[i]
       local prevEraPos = treeData.ranksHeight[i-1]
+      local curFakeRowRankCount = treeData.fakeRanksRowsCount[i]
 
-      if (curEraPos == prevEraPos)
+      if (curEraPos == prevEraPos || ((curEraPos - curFakeRowRankCount) == prevEraPos ))
         continue
 
-      local drawArrow = i > 1 && prevEraPos != treeData.ranksHeight[i-2]
+      local prevFakeRowRankCount = treeData.fakeRanksRowsCount[i-1]
+      local drawArrow = i > 1 && prevEraPos != (treeData.ranksHeight[i-2] + prevFakeRowRankCount)
       local isRankAvailable = ::is_era_available(curCountry, i, pageUnitsType)
       local status =  isRankAvailable ?  "owned" : "locked"
 
@@ -779,17 +855,25 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         arrowData = ::format("shopArrow { type:t='vertical'; size:t='1@modArrowWidth, %s@shop_height - 1@modBlockTierNumHeight';" +
                       "pos:t='0.5pw - 0.5w, %s@shop_height + 0.5@modBlockTierNumHeight';" +
                       "shopStat:t='%s'; modArrowPlate{ text:t='%s'; tooltip:t='%s'}}",
-                    (treeData.ranksHeight[i-1] - treeData.ranksHeight[i-2]).tostring(),
-                    treeData.ranksHeight[i-2].tostring(),
+                    (treeData.ranksHeight[i-1] - treeData.ranksHeight[i-2] - prevFakeRowRankCount).tostring(),
+                    (treeData.ranksHeight[i-2] + prevFakeRowRankCount).tostring(),
                     status,
                     texts.reqCounter,
                     ::g_string.stripTags(texts.tooltipReqCounter)
                     )
       }
+      local modBlockFormat = "modBlockTierNum { class:t='vehicleRanks' status:t='%s'; pos:t='0, %s@shop_height - 0.5h'; text:t='%s'; tooltip:t='%s'}"
 
-      data += ::format("modBlockTierNum { class:t='vehicleRanks' status:t='%s'; pos:t='0, %s@shop_height - 0.5h'; text:t='%s'; tooltip:t='%s'}",
-                  status,
+      if (curFakeRowRankCount > 0)
+        data += ::format(modBlockFormat,
+                  "owner",
                   prevEraPos.tostring(),
+                  "",
+                  "")
+
+      data += ::format(modBlockFormat,
+                  status,
+                  (prevEraPos + curFakeRowRankCount).tostring(),
                   ::loc("options/chooseUnitsRank/rank_" + i),
                   ::g_string.stripTags(texts.tooltipRank))
 
@@ -828,19 +912,32 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     totalVehiclesCount = total
   }
 
-  function fillAirReq(item)
+  function fillAirReq(item, reqUnit = null)
   {
     local req = true
     if (item?.reqAir)
       req = ::isUnitBought(::getAircraftByName(item.reqAir))
+    if (req && reqUnit?.isFakeUnit)
+      req = isUnlockedFakeUnit(reqUnit)
     if (::isUnitGroup(item))
     {
       foreach(idx, air in item.airsGroup)
         air.shopReq = req
       item.shopReq <- req
     }
+    else if (item?.isFakeUnit)
+      item.shopReq <- req
     else
       item.shopReq = req
+  }
+
+  function isUnlockedFakeUnit(unit)
+  {
+    return get_units_count_at_rank(unit?.rank,
+      ::g_unit_type.getByName(unit?.isReqForFakeUnit ? ::split(unit.name, "_")?[0] : unit.name,
+        false).esUnitType,
+      unit.country, true)
+      >= (((::split(unit.name, "_"))?[1] ?? "0").tointeger() + 1)
   }
 
   function getCurPageEsUnitType()
@@ -897,7 +994,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function checkUnitItemAndUpdate(unit)
   {
-    if (!unit)
+    if (!unit || unit?.isFakeUnit)
       return
 
     local unitObj = getUnitCellObj(unit.name)
@@ -952,7 +1049,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (!unit)
       return {}
 
-    local is_unit = !::isUnitGroup(unit)
+    local is_unit = !::isUnitGroup(unit) && !unit?.isFakeUnit
     return {
              hasActions     = true,
              showInService  = true,
@@ -1471,7 +1568,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local unit = getCurAircraft()
     local unitName = unit.name
     local handler = this
-    if (!unit || isUnitGroup(unit))
+    if (!unit || isUnitGroup(unit) || unit?.isFakeUnit)
       return
     if (!::checkForResearch(unit))
       return
@@ -1652,7 +1749,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onUnitMainFunc(obj)
   {
     local unit = getCurAircraft()
-    if (!unit || ::isUnitGroup(unit))
+    if (!unit || ::isUnitGroup(unit) || unit?.isFakeUnit)
       return
 
     if (::isUnitBroken(unit))
@@ -1933,5 +2030,50 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function sendChoosedNewResearchUnitStatistic(unit)
   {
     ::add_big_query_record("choosed_new_research_unit", unit.name)
+  }
+
+  static fakeUnitConfig = {
+    name = ""
+    image = "!#ui/unitskin#random_unit"
+    rank = 1
+    isFakeUnit = true
+  }
+  function genFakeUnitRanges(airBlk, country)
+  {
+    local ranges = []
+    local fakeReqUnitsType = airBlk % "fakeReqUnitType"
+    local fakeReqUnitsImage = airBlk % "fakeReqUnitImage"
+    local fakeReqUnitsRank = airBlk % "fakeReqUnitRank"
+    local fakeReqUnitsPosXY = airBlk % "fakeReqUnitPosXY"
+    foreach(idx, unitType in fakeReqUnitsType)
+    {
+      local range = []
+      local fakeUnitParams = fakeUnitConfig.__merge({
+        name = unitType
+        image = fakeReqUnitsImage?[idx] ?? "!#ui/unitskin#random_unit"
+        rank = fakeReqUnitsRank?[idx] ?? 2
+        country = country
+      })
+      if (fakeReqUnitsPosXY?[idx])
+        fakeUnitParams.rankPosXY <-fakeReqUnitsPosXY[idx]
+      for(local i = 0; i < COUNT_REQ_FOR_FAKE_UNIT; i++)
+      {
+        local reqForFakeUnitParams = fakeUnitConfig.__merge({
+          name = fakeUnitParams.name + "_" + i
+          image = fakeUnitParams.image
+          rank = fakeUnitParams.rank - 1
+          country = country
+          isReqForFakeUnit = true })
+        local rankPosXY = fakeUnitParams?.rankPosXY
+        if (rankPosXY)
+          reqForFakeUnitParams.rankPosXY <- Point2(rankPosXY.x + (rankPosXY.x < 3 ? -i : i), 1)
+
+        range.append(reqForFakeUnitParams)
+      }
+      fakeUnitParams.fakeReqUnits <- range.map(@(fakeReqUnit) fakeReqUnit.name)
+      range.append(fakeUnitParams)
+      ranges.append(range)
+    }
+    return ranges
   }
 }

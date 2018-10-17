@@ -1840,7 +1840,7 @@
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "headPos": [0.0,3.2,-6.7],
-      "headPosOnShooting": [-0.2,2.9,0.0],
+      "headPosOnShooting": [0.2,3.0,0.0],
       "detectionHeight": 2.25
     }
   },
@@ -1933,34 +1933,48 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammo_turret_dm": {
-          "count": 23
-        },
-        "ammo_turret_03_dm": {
-          "count": 7
-        },
-        "ammo_turret_02_dm": {
-          "count": 7
-        },
-        "ammo_body_r_01_dm": {
-          "count": 10
-        },
-        "ammo_body_l_01_dm": {
-          "count": 10
-        },
-        "ammo_body_dm": {
-          "count": 29
+    "ammoStowages": {
+      "ammo1": {
+        "removeLoadedAmmo": true,
+        "weaponTrigger": "gunner0",
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "ammo_turret_dm": {
+            "count": 23
+          },
+          "ammo_turret_03_dm": {
+            "count": 7
+          },
+          "ammo_turret_02_dm": {
+            "count": 7
+          },
+          "ammo_body_r_01_dm": {
+            "count": 10
+          },
+          "ammo_body_l_01_dm": {
+            "count": 10
+          },
+          "ammo_body_dm": {
+            "count": 29
+          }
         }
       },
-      "special": {
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
+      "ammo2": {
+        "weaponTrigger": "gunner2",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_04_dm": {
+            "count": 1
+          },
+          "ammo_turret_05_dm": {
+            "count": 1
+          }
         }
       }
     }

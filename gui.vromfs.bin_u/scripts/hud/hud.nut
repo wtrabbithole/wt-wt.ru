@@ -266,8 +266,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       local unit = ::get_player_cur_unit()
-      if (unit != null && unit.unitType == ::g_unit_type.AIRCRAFT
-        && ::isInArray("helicopter", ::getTblValue("tags", unit)))
+      if (unit?.isHelicopter?())
         return HUD_TYPE.HELICOPTER
 
       local unitType = ::get_es_unit_type(unit)

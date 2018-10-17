@@ -1933,8 +1933,8 @@
           "bullets": 1000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2591,13 +2591,16 @@
         "sightFov": 8.5
       },
       {
+        "sightName": "periscope_t35"
+      },
+      {
         "sightFov": 11.0
       },
       {
         "headPos": [0.0,3.7,-8.3]
       },
       {
-        "headPosOnShooting": [0.0,3.6,-0.5]
+        "headPosOnShooting": [0.0,3.6,0.45]
       },
       {
         "detectionHeight": 2.95
@@ -2805,8 +2808,8 @@
                 "bullets": 1000,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2887,10 +2890,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -3126,6 +3129,60 @@
         "replace_tex": {
           "from": "us_camo_olive*",
           "to": "ger_camo_bronzegruen*"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_body_c*",
+          "to": "mkpz_m47_skin_body_c*",
+          "param": "camo_skin_tex"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_turret_c*",
+          "to": "mkpz_m47_skin_turret_c_tomoe*",
+          "param": "camo_skin_tex"
+        }
+      }
+    ]
+  },
+  {
+    "skin": [
+      {
+        "name": "ger_camo_bundeswehr_afgan"
+      },
+      {
+        "replace_tex": {
+          "from": "us_camo_olive*",
+          "to": "ger_camo_bundeswehr_afgan*"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_body_c*",
+          "to": "mkpz_m47_skin_body_c*",
+          "param": "camo_skin_tex"
+        }
+      },
+      {
+        "set_tex": {
+          "from": "m47_patton_II_turret_c*",
+          "to": "mkpz_m47_skin_turret_c*",
+          "param": "camo_skin_tex"
+        }
+      }
+    ]
+  },
+  {
+    "skin": [
+      {
+        "name": "ger_camo_bundeswehr_afgan_tomoe"
+      },
+      {
+        "replace_tex": {
+          "from": "us_camo_olive*",
+          "to": "ger_camo_bundeswehr_afgan*"
         }
       },
       {

@@ -17,11 +17,12 @@ local globalEnv = require_native("globalEnv")
     { id="msg_wasd_type",
       text=::loc("controls/askKeyboardWasdType"),
       type= CONTROL_TYPE.MSG_BOX
-      options = ["#msgbox/btn_classic", "#msgbox/btn_shooter"],
+      options = ::recomended_control_presets.map(@(name) "#msgbox/btn_" + name)
       defValue = 1,
       onButton = function(value)
       {
-        local preset = ::get_controls_preset_by_selected_type(value == 0? "classic" : "shooter")
+        local type = ::recomended_control_presets[value]
+        local preset = ::get_controls_preset_by_selected_type(type)
         applyPreset(preset.fileName)
       }
     }
@@ -81,16 +82,19 @@ local globalEnv = require_native("globalEnv")
     "ID_WEAPON_LOCK",
     "ID_FUEL_TANKS",
     "ID_AIR_DROP",
-    "ID_SENSOR_SWITCH",
-    "ID_SENSOR_MODE_SWITCH",
-    "ID_SENSOR_SCAN_PATTERN_SWITCH",
-    "ID_SENSOR_RANGE_SWITCH",
-    "ID_SENSOR_TARGET_LOCK",
-    { id="weapon_aim_heading",   buttonRelative = true }
-    { id="weapon_aim_pitch",     buttonRelative = true }
-    { id="sensor_designation_x", buttonRelative = true }
-    { id="sensor_designation_y", buttonRelative = true }
-    { id="sensor_designation_z", buttonRelative = true }
+    { id="ID_SENSOR_SWITCH",              needSkip = @() !::has_feature("Sensors") }
+    { id="ID_SENSOR_MODE_SWITCH",         needSkip = @() !::has_feature("Sensors") }
+    { id="ID_SENSOR_SCAN_PATTERN_SWITCH", needSkip = @() !::has_feature("Sensors") }
+    { id="ID_SENSOR_RANGE_SWITCH",        needSkip = @() !::has_feature("Sensors") }
+    { id="ID_SENSOR_TARGET_LOCK",         needSkip = @() !::has_feature("Sensors") }
+    { id="sensor_designation_x", type = CONTROL_TYPE.AXIS, msgType = "_horizontal",
+      buttonRelative = true, needSkip = @() !::has_feature("Sensors") }
+    { id="sensor_designation_y", type = CONTROL_TYPE.AXIS, isVertical = true,
+      buttonRelative = true, needSkip = @() !::has_feature("Sensors") }
+    { id="sensor_designation_z", type = CONTROL_TYPE.AXIS, isVertical = true,
+      buttonRelative = true, needSkip = @() !::has_feature("Sensors") }
+    { id="weapon_aim_heading", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true }
+    { id="weapon_aim_pitch",   type = CONTROL_TYPE.AXIS, isVertical = true,       buttonRelative = true }
     "ID_RELOAD_GUNS",
     "ID_GEAR",
     { id="ID_AIR_BRAKE", filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }

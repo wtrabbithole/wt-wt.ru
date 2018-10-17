@@ -88,9 +88,9 @@ function g_crew_skills::loadSkills()
         memberName = memberName
         skillName = skillName
         skillItem = skillItem
-        isVisible = function(esUnitType) { return skillItem.isVisible(esUnitType) }
+        isVisible = function(crewUnitType) { return skillItem.isVisible(crewUnitType) }
       }
-      skillCategory.unitTypeMask = skillCategory.unitTypeMask | skillItem.unitTypeMask
+      skillCategory.crewUnitTypeMask = skillCategory.crewUnitTypeMask | skillItem.crewUnitTypeMask
       skillCategory.skillItems.push(categorySkill)
     }
   }
@@ -113,28 +113,28 @@ function g_crew_skills::createCategory(categoryName)
   local category = {
     categoryName = categoryName
     skillItems = []
-    unitTypeMask = 0
+    crewUnitTypeMask = 0
   }
   skillCategories.push(category)
   skillCategoryByName[categoryName] <- category
   return category
 }
 
-function g_crew_skills::getSkillCategoryValue(crewData, skillCategory, unitType)
+function g_crew_skills::getSkillCategoryValue(crewData, skillCategory, crewUnitType)
 {
   local skillValue = 0
   foreach (skillItem in skillCategory.skillItems)
-    if (skillItem.isVisible(unitType))
+    if (skillItem.isVisible(crewUnitType))
       skillValue += getCrewSkillValue(crewData, skillItem.memberName, skillItem.skillName)
   return skillValue
 }
 
-function g_crew_skills::getSkillCategoryCrewLevel(crewData, skillCategory, unitType)
+function g_crew_skills::getSkillCategoryCrewLevel(crewData, skillCategory, crewUnitType)
 {
   local res = 0
   foreach (categorySkill in skillCategory.skillItems)
   {
-    if (!categorySkill.isVisible(unitType))
+    if (!categorySkill.isVisible(crewUnitType))
       continue
 
     local value = getCrewSkillValue(crewData, categorySkill.memberName, categorySkill.skillName)
@@ -143,20 +143,20 @@ function g_crew_skills::getSkillCategoryCrewLevel(crewData, skillCategory, unitT
   return res
 }
 
-function g_crew_skills::getSkillCategoryMaxValue(skillCategory, unitType)
+function g_crew_skills::getSkillCategoryMaxValue(skillCategory, crewUnitType)
 {
   local skillValue = 0
   foreach (skillItem in skillCategory.skillItems)
-    if (skillItem.isVisible(unitType))
+    if (skillItem.isVisible(crewUnitType))
       skillValue += getMaxSkillValue(skillItem.memberName, skillItem.skillName)
   return skillValue
 }
 
-function g_crew_skills::getSkillCategoryMaxCrewLevel(skillCategory, unitType)
+function g_crew_skills::getSkillCategoryMaxCrewLevel(skillCategory, crewUnitType)
 {
   local crewLevel = 0
   foreach (categorySkill in skillCategory.skillItems)
-    if (categorySkill.isVisible(unitType))
+    if (categorySkill.isVisible(crewUnitType))
       crewLevel += ::g_crew.getSkillMaxCrewLevel(categorySkill.skillItem)
   return crewLevel
 }
@@ -178,46 +178,47 @@ function g_crew_skills::getMaxSkillValue(memberName, skillName)
 /** @see slotInfoPanel.nut */
 function g_crew_skills::getSkillCategoryView(crewData, unit)
 {
-  local unitType = ::get_es_unit_type(unit)
+  local unitType = unit?.unitType ?? g_unit_type.INVALID
+  local crewUnitType = unitType.crewUnitType
+  local unitTypeName = unitType.name
   local view = []
   foreach (skillCategory in getSkillCategories())
   {
-    local isSupported = (skillCategory.unitTypeMask & (1 << unitType)) != 0
+    local isSupported = (skillCategory.crewUnitTypeMask & (1 << crewUnitType)) != 0
       && (unit.gunnersCount > 0 || categoryHasNonGunnerSkills(skillCategory))
     if (!isSupported)
       continue
-    local unitTypeName = ::getUnitTypeText(unitType)
     view.push({
       categoryName = getSkillCategoryName(skillCategory)
       categoryTooltip = ::g_tooltip.getIdCrewSkillCategory(skillCategory.categoryName, unitTypeName)
-      categoryValue = getSkillCategoryCrewLevel(crewData, skillCategory, unitType)
-      categoryMaxValue = getSkillCategoryMaxCrewLevel(skillCategory, unitType)
+      categoryValue = getSkillCategoryCrewLevel(crewData, skillCategory, crewUnitType)
+      categoryMaxValue = getSkillCategoryMaxCrewLevel(skillCategory, crewUnitType)
     })
   }
   return view
 }
 
-function g_crew_skills::getCategoryParameterRows(skillCategory, unitType, crew)
+function g_crew_skills::getCategoryParameterRows(skillCategory, crewUnitType, crew)
 {
   local difficulty = ::get_current_shop_difficulty()
-  return ::g_crew_skill_parameters.getSkillListParameterRowsView(crew, difficulty, skillCategory.skillItems, unitType)
+  return ::g_crew_skill_parameters.getSkillListParameterRowsView(crew, difficulty, skillCategory.skillItems, crewUnitType)
 }
 
-function g_crew_skills::getSkillCategoryTooltipContent(skillCategory, unitType, crewData)
+function g_crew_skills::getSkillCategoryTooltipContent(skillCategory, crewUnitType, crewData)
 {
   local headerLocId = "crewSkillCategoryTooltip/" + skillCategory.categoryName
   local view = {
     tooltipText = ::loc(headerLocId, getSkillCategoryName(skillCategory) + ":")
     skillRows = []
     hasSkillRows = true
-    parameterRows = getCategoryParameterRows(skillCategory, unitType, crewData)
+    parameterRows = getCategoryParameterRows(skillCategory, crewUnitType, crewData)
     headerItems = null
   }
 
   local crewSkillPoints = ::g_crew.getCrewSkillPoints(crewData)
   foreach (categorySkill in skillCategory.skillItems)
   {
-    if (categorySkill.isVisible(unitType))
+    if (categorySkill.isVisible(crewUnitType))
       continue
     local skillItem = categorySkill.skillItem
     if (!skillItem)

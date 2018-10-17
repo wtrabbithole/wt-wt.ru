@@ -1,6 +1,6 @@
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
-local ugcPreview = require("scripts/ugc/ugcPreview.nut")
+local contentPreview = require("scripts/customization/contentPreview.nut")
 
 class Decorator
 {
@@ -9,7 +9,7 @@ class Decorator
   decoratorType = null
   unlockId = ""
   unlockBlk = null
-  isUGC = false
+  isLive = false
   group = ""
 
   category = ""
@@ -51,7 +51,7 @@ class Decorator
     group = ::getTblValue("group", blk, "")
 
     if (guidParser.isGuid(id))
-      isUGC = true
+      isLive = true // Only decorators from live.warthunder.com has GUID as id.
 
     cost = decoratorType.getCost(id)
     forceShowInCustomization = ::getTblValue("forceShowInCustomization", blk, false)
@@ -270,12 +270,12 @@ class Decorator
 
   function canPreview()
   {
-    return true
+    return isLive ? decoratorType.canPreviewLiveDecorator() : true
   }
 
   function doPreview()
   {
     if (canPreview())
-      ugcPreview.showResource(id, decoratorType.resourceType)
+      contentPreview.showResource(id, decoratorType.resourceType)
   }
 }

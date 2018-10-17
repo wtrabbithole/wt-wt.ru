@@ -268,31 +268,56 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function fillTrophyList()
   {
     local trophiesBlk = ::g_world_war.getSetting("dailyTrophies", ::DataBlock())
+    local reqFeatureId = trophiesBlk?.reqFeature
+    if (reqFeatureId && !::has_feature(reqFeatureId))
+      return
+
     local trophiesAmount = trophiesBlk.blockCount()
     if (!trophiesAmount)
       return
 
+    local updStatsUtcTime = ::get_utc_time().__update( {hour = 0, min = 0} )
+    local updStatsText = time.buildTimeStr(time.convertUtcToLocalTime(updStatsUtcTime), false, false)
+
     local view = {
       titleText = getTrophyDesc(trophiesBlk)
+      tooltipText = getTrophyTooltip(trophiesBlk, updStatsText)
       trophy = []
     }
-    local isLeftPanelVisible = false
-    if (::has_feature("WorldWarDailyTrophies"))
-      for (local i = 0; i < trophiesAmount; i++)
-      {
-        local trophy = trophiesBlk.getBlock(i)
-        local trophyId = trophy.itemName || trophy.trophyName || trophy.mainTrophyId
-        local trophyItem = ::ItemsManager.findItemById(trophyId)
-        if (!trophyItem)
-          continue
 
-        local trophyAmount = trophy.amount || 1
-        view.trophy.append({
-          titleText = getTrophyDesc(trophy)
-          wwTrophyMarkup = trophyItem.getNameMarkup(trophyAmount, false)
-        })
-        isLeftPanelVisible = true
-      }
+    local isLeftPanelVisible = false
+    local curDay = time.getCharServerDays() + 1
+    local trophiesProgress = ::get_es_custom_blk(-1)?.customClientData
+    for (local i = 0; i < trophiesAmount; i++)
+    {
+      local trophy = trophiesBlk.getBlock(i)
+      local trophyId = trophy.itemName || trophy.trophyName || trophy.mainTrophyId
+      local trophyItem = ::ItemsManager.findItemById(trophyId)
+      if (!trophyItem)
+        continue
+
+      local progressDay = trophiesProgress?[trophy.getBlockName() + "Day"]
+      local isActualProgressData = progressDay ? progressDay == curDay : false
+
+      local progressCurValue = isActualProgressData ?
+        trophiesProgress?[trophy?.progressParamName] ?? 0 : 0
+      local progressMaxValue = trophy?.rewardedParamValue ?? 0
+      local isProgressReached = progressCurValue >= progressMaxValue
+      local progressText = ::loc("ui/parentheses",
+        { text = progressCurValue + "/" + progressMaxValue })
+
+      if (isProgressReached)
+        progressText = ::colorize("activeTextColor", progressText)
+
+      local trophyAmount = trophy.amount || 1
+      view.trophy.append({
+        titleText = getTrophyDesc(trophy) + " " + progressText
+        tooltipText = getTrophyTooltip(trophy, updStatsText)
+        wwTrophyMarkup = trophyItem.getNameMarkup(trophyAmount, false)
+        isTrophyRecieved = isProgressReached
+      })
+      isLeftPanelVisible = true
+    }
 
     local markup = ::handyman.renderCached("gui/worldWar/wwTrophiesList", view)
     local trophyBlockObj = scene.findObject("trophy_list")
@@ -300,7 +325,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     showSceneBtn("panel_left", isLeftPanelVisible)
   }
 
-  getTrophyDesc = @(blk) ::loc(blk.locId || "worldwar/" + blk.getBlockName())
+  getTrophyLocId = @(blk) blk.locId || "worldwar/" + blk.getBlockName()
+  getTrophyDesc = @(blk) ::loc(getTrophyLocId(blk))
+  getTrophyTooltip = @(blk, timeText) ::loc(getTrophyLocId(blk) + "/desc", {time = timeText})
 
   function onEventItemsShopUpdate(params)
   {
@@ -708,7 +735,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if ((queuesJoinTime > 0) != isInQueue)
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
     showSceneBtn("queues_wait_time_div", isInQueue)
-    onTimerQueuesWaitTime()
+    updateQueuesWaitTime()
 
     if (::show_console_buttons)
     {
@@ -740,18 +767,25 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     return res
   }
 
-  function onTimerQueuesWaitTime()
+  function onTimerQueuesWaitTime(obj, dt)
+  {
+    updateQueuesWaitTime()
+  }
+
+  function updateQueuesWaitTime()
   {
     if (!queuesJoinTime)
       return
 
     ::g_ww_global_status.refreshData()
 
-    local obj = scene.findObject("queues_wait_time_text")
-    if (!::checkObj(obj))
+    local queueInfoobj = scene.findObject("queues_wait_time_text")
+    if (!::checkObj(queueInfoobj))
       return
+
     local timeInQueue = ::g_ww_global_status.getTimeSec() - queuesJoinTime
-    obj.setValue(::loc("worldwar/mapStatus/yourClanInQueue") + ::loc("ui/colon") + time.secondsToString(timeInQueue, false))
+    queueInfoobj.setValue(::loc("worldwar/mapStatus/yourClanInQueue")
+      + ::loc("ui/colon") + time.secondsToString(timeInQueue, false))
   }
 
   function updateQueueElementsInList()

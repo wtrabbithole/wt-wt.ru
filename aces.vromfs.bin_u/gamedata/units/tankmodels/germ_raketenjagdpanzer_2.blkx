@@ -1127,8 +1127,8 @@
           "bullets": 2500,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1785,6 +1785,7 @@
       "sightFov": 8.0,
       "headPos": [0.0,3.2,-6.5],
       "headPosOnShooting": [0.0,3.1,0.0],
+      "bone_turret": "",
       "detectionHeight": 2.085
     }
   },
@@ -1792,41 +1793,6 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner1",
-        "removeLoadedAmmo": false,
-        "fatalFire": true,
-        "fatalExplosion": true,
-        "shells": {
-          "fireEvent": "ammo_fire",
-          "explosionEvent": "ammo_explosion",
-          "wreckedPartId": 0,
-          "ammo_turret_03_dm": {
-            "count": 1
-          },
-          "ammo_turret_04_dm": {
-            "count": 1
-          },
-          "ammo_turret_05_dm": {
-            "count": 1
-          },
-          "ammo_turret_06_dm": {
-            "count": 1
-          },
-          "ammo_turret_07_dm": {
-            "count": 1
-          },
-          "ammo_turret_08_dm": {
-            "count": 1
-          },
-          "gun_barrel_03_dm": {
-            "count": 1,
-            "fatalFire": false,
-            "fatalExplosion": false,
-            "removeLoadedAmmo": false
-          }
-        }
-      },
-      "ammo2": {
-        "weaponTrigger": "gunner2",
         "removeLoadedAmmo": false,
         "fatalFire": true,
         "fatalExplosion": true,
@@ -1853,6 +1819,41 @@
             "count": 1
           },
           "gun_barrel_04_dm": {
+            "count": 1,
+            "fatalFire": false,
+            "fatalExplosion": false,
+            "removeLoadedAmmo": false
+          }
+        }
+      },
+      "ammo2": {
+        "weaponTrigger": "gunner2",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_turret_03_dm": {
+            "count": 1
+          },
+          "ammo_turret_04_dm": {
+            "count": 1
+          },
+          "ammo_turret_05_dm": {
+            "count": 1
+          },
+          "ammo_turret_06_dm": {
+            "count": 1
+          },
+          "ammo_turret_07_dm": {
+            "count": 1
+          },
+          "ammo_turret_08_dm": {
+            "count": 1
+          },
+          "gun_barrel_03_dm": {
             "count": 1,
             "fatalFire": false,
             "fatalExplosion": false,
@@ -2022,8 +2023,8 @@
                 "bullets": 2500,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2104,10 +2105,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -2187,6 +2188,15 @@
       "replace_tex": {
         "from": "ger_camo_bronzegruen*",
         "to": "ger_camo_carc*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_bundeswehr_afgan",
+      "replace_tex": {
+        "from": "ger_camo_bronzegruen*",
+        "to": "ger_camo_bundeswehr_afgan*"
       }
     }
   }

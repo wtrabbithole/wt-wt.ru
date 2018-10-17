@@ -19,7 +19,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   idInCountry = -1
   showTutorial = false
   crew = null
-  curUnitType = ::ES_UNIT_TYPE_INVALID
+  curCrewUnitType = ::CUT_INVALID
   curPage = 0
   curPageId = null
   pageBonuses = 0
@@ -90,17 +90,22 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateCrewInfo()
   {
-    local infoTexts = []
+    local text = ""
     local unit = ::g_crew.getCrewUnit(crew)
-    if (unit && unit.esUnitType == curUnitType)
+    if (unit && unit.getCrewUnitType() == curCrewUnitType)
     {
-      infoTexts.append(::loc("crew/totalCrew") + ::loc("ui/colon")
-        + ::colorize("activeTextColor", unit.getCrewTotalCount()))
-      if (!::isTank(unit))
-        infoTexts.append(::loc("crew/numGunners") + ::loc("ui/colon")
-          + ::colorize("activeTextColor", unit.gunnersCount))
+      text = ::g_string.implode([
+        ::loc("crew/currentAircraft") + ::loc("ui/colon")
+          + ::get_role_text(::get_unit_basic_role(unit)) + " "
+          + ::colorize("activeTextColor", ::getUnitName(unit))
+        ::loc("crew/totalCrew") + ::loc("ui/colon")
+          + ::colorize("activeTextColor", unit.getCrewTotalCount())
+      ], ::loc("ui/comma"))
+      if (unit.unitType.hasAiGunners)
+        text += "\n" + ::loc("crew/numDefensiveArmamentTurrets") + ::loc("ui/colon")
+          + ::colorize("activeTextColor", unit.gunnersCount)
     }
-    scene.findObject("crew-info-text").setValue(::g_string.implode(infoTexts, ", "))
+    scene.findObject("crew-info-text").setValue(text)
   }
 
   function initMainParams(reloadSkills=true, reinitUnitType = false)
@@ -108,11 +113,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return
 
-    local unitType = reinitUnitType? (::get_es_unit_type(::g_crew.getCrewUnit(crew))
-                                      || ::ES_UNIT_TYPE_AIRCRAFT)
-                                     : curUnitType
+    local unit = ::g_crew.getCrewUnit(crew)
+    local crewUnitType = reinitUnitType ? (unit?.getCrewUnitType?() ?? ::CUT_AIRCRAFT)
+                                        : curCrewUnitType
 
-    curUnitType = unitType
+    curCrewUnitType = crewUnitType
 
     ::update_gamercards()
     if (reloadSkills)
@@ -127,8 +132,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function countSkills()
   {
     curPoints = ("skillPoints" in crew)? crew.skillPoints : 0
-    crewCurLevel = ::g_crew.getCrewLevel(crew, curUnitType)
-    crewLevelInc = ::g_crew.getCrewLevel(crew, curUnitType, true) - crewCurLevel
+    crewCurLevel = ::g_crew.getCrewLevel(crew, curCrewUnitType)
+    crewLevelInc = ::g_crew.getCrewLevel(crew, curCrewUnitType, true) - crewCurLevel
     foreach(page in ::crew_skills)
       foreach(item in page.items)
       {
@@ -171,19 +176,24 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local data = ""
+    local crewUnitTypes = []
     foreach(unitType in ::g_unit_type.types)
     {
       if (!unitType.isVisibleInShop())
         continue
 
-      local esUnitType = unitType.esUnitType
-      if (!::isCountryHaveUnitType(getCurCountryName(), esUnitType))
+      local crewUnitType = unitType.crewUnitType
+      if (::isInArray(crewUnitType,crewUnitTypes))
         continue
 
+      if (!::isCountryHaveUnitType(getCurCountryName(), unitType.esUnitType))
+        continue
+
+      crewUnitTypes.append(crewUnitType)
       data += ::format("RadioButton { id:t='%s'; text:t='%s'; %s RadioButtonImg{} }",
-                     "unit_type_" + esUnitType,
-                     unitType.getArmyLocName(),
-                     curUnitType == esUnitType ? "selected:t='yes';" : "")
+                     "unit_type_" + crewUnitType,
+                     unitType.getCrewArmyLocName(),
+                     curCrewUnitType == crewUnitType ? "selected:t='yes';" : "")
     }
     guiScene.replaceContentFromText(rbObj, data, data.len(), this)
     delayedRestoreFocus()
@@ -203,7 +213,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     pages = []
     foreach(page in ::crew_skills)
-      if (page.isVisible(curUnitType))
+      if (page.isVisible(curCrewUnitType))
         pages.append(page)
     pages.append({ id = "trained" })
 
@@ -265,7 +275,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChangeUnitType(obj)
   {
-    curUnitType = obj.getValue()
+    curCrewUnitType = obj.getValue()
     updateUnitType()
   }
 
@@ -311,7 +321,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updatePointsText()
   {
-    local isMaxLevel = ::g_crew.isCrewMaxLevel(crew, getCurCountryName(), curUnitType)
+    local isMaxLevel = ::g_crew.isCrewMaxLevel(crew, getCurCountryName(), curCrewUnitType)
     local curPointsText = ::get_crew_sp_text(curPoints)
     scene.findObject("crew_cur_points").setValue(isMaxLevel ? "" : curPointsText)
 
@@ -339,7 +349,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("crew_points_advice_block").show(isSkills)
     if (!isSkills)
       return
-    local statusType = ::g_skills_page_status.getPageStatus(crew, page, curUnitType, curPoints)
+    local statusType = ::g_skills_page_status.getPageStatus(crew, page, curCrewUnitType, curPoints)
     scene.findObject("crew_points_advice").show(statusType.show)
     scene.findObject("crew_points_advice_text")["crewStatus"] = statusType.style
   }
@@ -349,7 +359,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::has_feature("CrewBuyAllSkills"))
       return
 
-    local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curUnitType)
+    local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curCrewUnitType)
     local btnObj = showSceneBtn("btn_buy_all", totalPointsToMax > 0)
     local text = ::loc("mainmenu/btnBuyAll") + ::loc("ui/parentheses/space", { text = ::get_crew_sp_text(totalPointsToMax) })
     ::set_double_text_to_button(scene, "btn_buy_all", text)
@@ -357,7 +367,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onBuyAll()
   {
-    ::g_crew.buyAllSkills(crew, curUnitType)
+    ::g_crew.buyAllSkills(crew, curCrewUnitType)
   }
 
   function getCornerImgId(page)
@@ -380,7 +390,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(obj))
         continue
 
-      local statusType = ::g_skills_page_status.getPageStatus(crew, page, curUnitType, curPoints)
+      local statusType = ::g_skills_page_status.getPageStatus(crew, page, curCrewUnitType, curPoints)
       obj["background-image"] = statusType.icon
       obj["background-color"] = guiScene.getConstantValue(statusType.color) || ""
       obj.wink = statusType.wink ? "yes" : "no"
@@ -407,7 +417,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local sortData = [] // { unit, locname }
     foreach(unit in ::all_units)
-      if (unit.name in crew.trainedSpec && ::get_es_unit_type(unit) == curUnitType)
+      if (unit.name in crew.trainedSpec && unit.getCrewUnitType() == curCrewUnitType)
       {
         local isCurrent = ::getTblValue("aircraft", crew, "") == unit.name
         if (isCurrent)
@@ -450,7 +460,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (unitSpecHandler != null)
       {
         unitSpecHandler.setHandlerVisible(true)
-        unitSpecHandler.setHandlerData(crew, crewCurLevel, airList, curUnitType)
+        unitSpecHandler.setHandlerData(crew, crewCurLevel, airList, curCrewUnitType)
       }
     }
     updatePointsAdvice()
@@ -464,7 +474,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (skillsVisible)
     {
       local unit = ::g_crew.getCrewUnit(crew)
-      show = unit != null && ::get_es_unit_type(unit) != curUnitType
+      show = unit != null && unit.getCrewUnitType() != curCrewUnitType
     }
     scene.findObject("skills_unit_type_warning").show(show)
   }
@@ -666,11 +676,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!unit)
       return false
 
-    local esUnitType = unit.esUnitType
     local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
     local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit)
     local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
-    local crewLevel = ::g_crew.getCrewLevel(crew, esUnitType)
+    local crewLevel = ::g_crew.getCrewLevel(crew, unit.getCrewUnitType())
 
     return ::get_cur_warpoints() >= wpSpecCost.wp &&
            curSpecType == ::g_crew_spec_type.BASIC &&

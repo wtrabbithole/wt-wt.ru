@@ -79,7 +79,7 @@ local function scrollbar(scroll_handler, options={}) {
     local max = contentSize - elemSize
     local fValue = scrollPos
 
-    local color = ("colorCalc" in knobClass) ? knobClass.colorCalc(stateFlags.value) 
+    local color = ("colorCalc" in knobClass) ? knobClass.colorCalc(stateFlags.value)
                   : ("color" in knobClass) ? knobClass.color
                   : null
 
@@ -87,8 +87,9 @@ local function scrollbar(scroll_handler, options={}) {
       size = [flex(elemSize), flex(elemSize)]
       color = color
       key = "knob"
-    }
 
+      children = ("hoverChild" in knobClass) ? knobClass.hoverChild(stateFlags.value) : null
+    }
 
     local cls = resolveBarClass(barClass, true)
     return class extends cls {
@@ -153,6 +154,7 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
     return class extends rootBase {
       behavior = bhv
       scrollHandler = scrollHandler
+      orientation = options.orientation
 
       children = content
     }

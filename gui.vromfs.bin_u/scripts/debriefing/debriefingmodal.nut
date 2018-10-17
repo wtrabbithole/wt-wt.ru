@@ -302,6 +302,19 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     ::g_squad_utils.updateMyCountryData() //to update broken airs for squad.
 
     handleNoAwardsCaption()
+
+    if (!isSpectator && !isReplay)
+      ::add_big_query_record("show_debriefing_screen",
+        ::save_to_json({
+          gm = gm
+          economicName = ::events.getEventEconomicName(mGameMode)
+          difficulty = mGameMode?.difficulty ?? ::SessionLobby.getMissionData()?.difficulty ?? ""
+          sessionId = ::debriefing_result?.sessionId ?? ""
+          sessionTime = ::debriefing_result?.exp?.sessionTime ?? 0
+          originalMissionName = ::SessionLobby.getMissionName(true)
+          missionsComplete = ::my_stats.getMissionsComplete()
+          result = resTheme
+        }))
   }
 
   function initNavbar()
@@ -578,7 +591,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local iconObj = scene.findObject("active_wager_result_icon")
     if (!::checkObj(iconObj))
       return
-    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/gameuiskin#icon_primary_fail"
+    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/gameuiskin#icon_primary_fail.svg"
   }
 
   function handlePveReward()
@@ -1579,7 +1592,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return obj["class"] = "empty"
 
     local tooltipView = {
-      rows = getTrTooltipRowsView(rowsCfg)
+      rows = getTrTooltipRowsView(rowsCfg, tRow)
       tooltipComment = tRow.tooltipComment ? tRow.tooltipComment() : null
     }
 
@@ -1587,7 +1600,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     guiScene.replaceContentFromText(obj, markup, markup.len(), this)
   }
 
-  function getTrTooltipRowsView(rowsCfg)
+  function getTrTooltipRowsView(rowsCfg, tRow)
   {
     local view = []
 
@@ -1674,6 +1687,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       foreach (col, isShow in showColumns)
         if (isShow && ::u.isEmpty(rowView[col]))
           rowView[col] = ::nbsp
+
+    local headerRow = { name = ::colorize("fadedTextColor", ::loc("options/unit")) }
+    foreach (col, isShow in showColumns)
+    {
+      local title = ""
+      if (isShow)
+        title = col == "value" ? ::loc(tRow.icon, "")
+          : col == "time" ? ::loc("icon/timer")
+          : ""
+      headerRow[col] <- ::colorize("fadedTextColor", title)
+    }
+    view.insert(0, headerRow)
 
     return view
   }
@@ -2492,7 +2517,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local name = link.slice(3)
       local player = getPlayerInfo(name)
       if (player)
-        ::session_player_rmenu(this, player, obj.text)
+        ::session_player_rmenu(this, player, ::debriefing_result?.logForBanhammer ??  "")
     }
   }
 

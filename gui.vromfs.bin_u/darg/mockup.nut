@@ -1,10 +1,37 @@
 //This is list of all darg native functions and consts, to use in mockups
+::gui_scene <-{}
+::gui_scene.config <-{}
+::gui_scene.config.defaultFont <-0
+::Fonts <-{}
+::Fonts.small_text <-"small_text"
 
 Watched <-class {
   value=null
-  constructor(val) {value=val}
-  function update(val) {value=val}
+  subscribers = null
+  constructor(val) {
+    value=val
+    subscribers = {}
+  }
+  function update(val) {
+    value=val
+    foreach (key,func in subscribers)
+      func(val)
+  }
+  _call = function(self,val) {
+    value=val
+    foreach (key,func in subscribers)
+      func(val)
+  }
+  _tostring = function(){
+    return "Watched: " + value
+  }
   function trace() {return ""}
+  function subscribe(func) {
+    local infos = func.getinfos()
+    local key = (infos?.name ?? "__noname__") + " " + (infos?.src ?? "__no_src__")
+    if (! (key in this.subscribers))
+      subscribers[key]<-func
+  }
 }
 
 function vlog(val) {
@@ -52,6 +79,14 @@ function ph(val) {
   TextArea="TextArea"
 }
 
+::AnimProp<-{
+  opacity = "opacity"
+  transform = "transform"
+  fillColor = "fillColor"
+  borderColor = "borderColor"
+  color = "color"
+}
+
 function Picture(val){return val}
 
 const ROBJ_IMAGE = "ROBJ_IMAGE"
@@ -62,6 +97,7 @@ const ROBJ_BOX = "ROBJ_BOX"
 const ROBJ_SOLID = "ROBJ_SOLID"
 const ROBJ_FRAME = "ROBJ_FRAME"
 const ROBJ_PROGRESS_CIRCULAR = "ROBJ_PROGRESS_CIRCULAR"
+const ROBJ_WORLD_BLUR = "ROBJ_WORLD_BLUR"
 
 const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
 const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"

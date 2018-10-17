@@ -34,7 +34,6 @@ function g_play_together::onNewInviteesDataIncome(inviteesArray)
   if (!::isInMenu() || !::g_login.isLoggedIn())
   {
     suspendedInviteesData = ::u.copy(inviteesArray)
-    ::broadcastEvent("PS4AvailableNewInvite")
     if (::is_in_flight())
       ::g_popups.add(::loc("playTogether/name"), ::loc("playTogether/squad/sendLater"))
     return

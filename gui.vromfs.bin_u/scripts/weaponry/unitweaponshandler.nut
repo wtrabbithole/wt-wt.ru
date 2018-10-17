@@ -63,7 +63,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local columnsConfig = null
     local unitType = ::get_es_unit_type(unit)
-    if (unitType == ::ES_UNIT_TYPE_AIRCRAFT)
+    if (::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]))
       columnsConfig = getColumnsAircraft()
     else if (unitType == ::ES_UNIT_TYPE_TANK || unitType == ::ES_UNIT_TYPE_SHIP)
       columnsConfig = getColumnsTank()
@@ -337,7 +337,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
           newColumns[0].append(column[0])
           newColumns[1].append(null)
           singleItemIdx = idx
-        } else
+        } else if (column.len() != 0)
           newColumns[1][singleItemIdx] = column[0]
       }
       res.columns = newColumns

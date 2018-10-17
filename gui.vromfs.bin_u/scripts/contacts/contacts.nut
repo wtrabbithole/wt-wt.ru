@@ -683,7 +683,7 @@ function getFriendsOnlineNum()
         continue
 
       foreach(f in ::contacts[groupName])
-        if (f.online)
+        if (f.online && !f.forceOffline)
           online++
     }
   }

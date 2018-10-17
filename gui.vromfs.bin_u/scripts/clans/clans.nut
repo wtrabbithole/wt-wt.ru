@@ -800,7 +800,7 @@ function getMyClanData(forceUpdate = false)
       ::my_clan_info = null
       ::g_clans.parseSeenCandidates()
       ::broadcastEvent("ClanInfoUpdate")
-      ::broadcastEvent("ClanChanged")
+      ::broadcastEvent("ClanChanged") //i.e. dismissed
       ::update_gamercards()
     }
     return
@@ -814,11 +814,14 @@ function getMyClanData(forceUpdate = false)
   local taskId = ::clan_request_my_info()
   ::get_my_clan_data_free = false
   ::add_bg_task_cb(taskId, function(){
+    local wasCreated = !::my_clan_info
     ::my_clan_info = ::get_clan_info_table()
     ::handle_new_my_clan_data()
     ::get_my_clan_data_free = true
     ::broadcastEvent("ClanInfoUpdate")
     ::update_gamercards()
+    if (wasCreated)
+      ::broadcastEvent("ClanChanged") //i.e created
   })
 }
 

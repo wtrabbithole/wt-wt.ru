@@ -669,10 +669,11 @@
             "showOnMap": true,
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "separate_fuel_time": false,
-            "modular_airfield": false,
+            "resetStrictSpawnIndex": false,
             "target": "@current_spawnpoint_str",
             "team": "A",
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "offset": [0.0,0.0,100.0],
             "tags": {
               "type_bomber": false,
@@ -701,10 +702,11 @@
             "showOnMap": false,
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "separate_fuel_time": false,
-            "modular_airfield": false,
+            "resetStrictSpawnIndex": false,
             "target": "@prev_spawnpoint_str",
             "team": "A",
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "disableAfter": 0,
             "offset": [0.0,0.0,100.0],
             "tags": {
@@ -777,10 +779,11 @@
             "showOnMap": true,
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "separate_fuel_time": false,
-            "modular_airfield": false,
+            "resetStrictSpawnIndex": false,
             "target": "@current_spawnpoint_str",
             "team": "B",
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
@@ -809,10 +812,11 @@
             "showOnMap": false,
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
-            "separate_fuel_time": false,
-            "modular_airfield": false,
+            "resetStrictSpawnIndex": false,
             "target": "@prev_spawnpoint_str",
             "team": "B",
+            "separate_fuel_time": false,
+            "modular_airfield": false,
             "disableAfter": 0,
             "offset": [0.0,0.0,0.0],
             "tags": {
@@ -1114,7 +1118,7 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 5.0
+          "time": 1.0
         }
       },
       "conditions": {
@@ -1133,6 +1137,7 @@
         "unitPutToSleep": {
           "target": "@convoy_sq_name",
           "useForTriggerFiltered": true,
+          "delayForObjects": [5.0,3.0],
           "numToSleep": 1,
           "order": "fromStart"
         }

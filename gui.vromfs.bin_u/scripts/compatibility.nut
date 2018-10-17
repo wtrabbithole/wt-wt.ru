@@ -216,31 +216,36 @@ if (!("logerr" in ::dagor))
   xbox_is_production_env = @() false
 })
 
-::apply_compatibilities({
-  is_tank_damage_indicator_visible = @() true
-})
-
 //----------------------------wop_1_77_2_X---------------------------------//
 ::apply_compatibilities({
   get_team_colors = @() null
-})
-
-//----------------------------wop_1_79_1_X---------------------------------//
-::apply_compatibilities({
-  GT_FOOTBALL = 1 << 27
+  is_tank_damage_indicator_visible = @() true
 
   EVENT_STAT_EXTENDED_1 = "ext1"
   EVENT_STAT_EXTENDED_2 = "ext2"
   EVENT_STAT_EXTENDED_3 = "ext3"
   EVENT_STAT_EXTENDED_4 = "ext4"
 
+  EUCT_HELICOPTER = 14
   xbox_complete_login = function() {}
+  EII_MORTAR = 24
+  DM_HIT_RESULT_BREAKING = 13
 
-  UPDATER_CHECKING_FAST = 0
-  UPDATER_CHECKING = 1
-  UPDATER_DOWNLOADING_YUP = 2
-  UPDATER_RESPATCH = 3
-  UPDATER_DOWNLOADING = 4
-  UPDATER_PURIFYING = 5
-  UPDATER_COPYING = 6
+  CUT_INVALID = -1
+  CUT_AIRCRAFT = 0
+  CUT_TANK = 1
+  CUT_SHIP = 2
+  CUT_TOTAL = 3
+
+  ES_UNIT_TYPE_HELICOPTER = 3
+})
+
+//----------------------------wop_1_79_2_X---------------------------------//
+::apply_compatibilities({
+  live_preview_resource             = ::getroottable()?.ugc_preview_resource
+  live_preview_resource_by_guid     = ::getroottable()?.ugc_preview_resource_by_guid
+  live_preview_resource_for_approve = ::getroottable()?.ugc_preview_resource_for_approve
+
+  CLASS_FLAGS_SHIP = 2
+  CLASS_FLAGS_HELICOPTER = 3
 })

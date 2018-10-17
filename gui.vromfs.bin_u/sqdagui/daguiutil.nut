@@ -102,9 +102,9 @@ function g_dagui_utils::adjustWindowSizeByConfig(wndObj, listObj, config)
 
 function g_dagui_utils::toPixels(guiScene, value, obj = null)
 {
-  if (::is_numeric(value))
+  if (type(value)=="float" || type(value)=="integer")
     return value.tointeger()
-  if (u.isString(value))
+  if (type(value)=="string")
     return guiScene.calcString(value, obj)
   return 0
 }
@@ -205,7 +205,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
     parentPos  = parentObjOrPos.getPosRC()
     parentSize = parentObjOrPos.getSize()
   }
-  else if (u.isArray(parentObjOrPos) && parentObjOrPos.len() == 2)
+  else if ((type(parentObjOrPos)=="array") && parentObjOrPos.len() == 2)
   {
     parentPos[0] = toPixels(guiScene, parentObjOrPos[0])
     parentPos[1] = toPixels(guiScene, parentObjOrPos[1])

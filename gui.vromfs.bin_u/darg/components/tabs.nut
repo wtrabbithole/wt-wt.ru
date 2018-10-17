@@ -27,10 +27,10 @@ local function defTab(tab_item, is_current, handler) {
       behavior = Behaviors.Button
       onElemState = @(sf) stateFlags.update(sf)
 
-      onClick = handler
+      onFocus = handler
 
       children = {
-        rendObj = ROBJ_STEXT
+        rendObj = ROBJ_DTEXT
         margin = [sh(1), sh(2)]
         color = textColor
 
@@ -42,31 +42,30 @@ local function defTab(tab_item, is_current, handler) {
 }
 
 
-local defHolder = @(){
-  rendObj = ROBJ_SOLID
-  size = [flex(), SIZE_TO_CONTENT]
-  flow = FLOW_HORIZONTAL
-  padding = [0, sh(1)]
-  gap = sh(1)
+local function defHolder(params) {
+  return {
+    rendObj = ROBJ_SOLID
+    size = [flex(), SIZE_TO_CONTENT]
+    flow = FLOW_HORIZONTAL
+    padding = [0, sh(1)]
+    gap = sh(1)
 
-  color = Color(255, 255, 255)
+    color = Color(255, 255, 255)
+  }
 }
 
 
-local function tabs(holder, tab) {
-  return function(items) {
-    local children = items.tabs.map(function(item) {
-      return tab(item, item.id == items.currentTab, @() items.onChange(item))
+local function tabs(holder = defHolder, tab = defTab) {
+  return function(params) {
+    local children = params.tabs.map(function(item) {
+      return tab(item, item.id == params.currentTab, @() params.onChange(item))
     })
 
-    local result = (typeof holder == "function") ? holder() : holder
+    local result = (typeof holder == "function") ? holder(params) : holder
     result.children <- extend_to_array(result?.children, children)
     return result
   }
 }
 
 
-local ctor = @(holder = defHolder, tab = defTab) tabs(holder, tab)
-
-
-return ctor
+return tabs

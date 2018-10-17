@@ -1,8 +1,9 @@
 
-//Note:
-//This enums is shared between squirrel and C++ code
-//any change requires version.nut update
-//
+// Note:
+// This enums is shared between squirrel and C++ code
+// any change requires version.nut update.
+// Also do not reorder mouse axes order in order to
+// keep compatibility with old controls presets.
 enum MouseAxis
 {
   MOUSE_X,
@@ -11,6 +12,7 @@ enum MouseAxis
   MOUSE_SCROLL_TANK,
   MOUSE_SCROLL_SHIP,
   MOUSE_SCROLL_SUBMARINE,
+  MOUSE_SCROLL_HELICOPTER,
   NUM_MOUSE_AXIS_TOTAL
 };
 

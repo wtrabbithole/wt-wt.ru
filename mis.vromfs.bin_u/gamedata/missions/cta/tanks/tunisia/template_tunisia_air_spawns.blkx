@@ -482,6 +482,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -512,6 +515,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -540,6 +546,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -575,6 +584,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -615,6 +627,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -653,6 +668,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -684,6 +702,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -698,6 +717,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -712,6 +732,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -726,6 +747,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -740,6 +762,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -754,6 +777,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -768,6 +792,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -782,6 +807,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -796,6 +822,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -819,6 +846,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -854,6 +884,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -887,6 +920,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -915,6 +951,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -954,6 +993,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "enemy",
@@ -979,22 +1021,41 @@
       ]
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/air_spawn_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/tunisia/template_tunisia_heli_spawns.blk",
+        "rankRange": [21,30],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
-  },
+  ],
   "triggers": {
     "isCategory": true,
     "is_enabled": true
@@ -1967,6 +2028,28 @@
         [0.0,5000.0,0.0],
         [-916.344,0.0,-400.391],
         [8852.04,0.0,1675.66]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_heli_spawn_arcade": {
+      "type": "Sphere",
+      "tm": [
+        [-21.9466,0.0,267.301],
+        [0.0,268.2,0.0],
+        [-267.301,0.0,-21.9466],
+        [2455.23,300.0,-2935.09]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_heli_spawn_arcade": {
+      "type": "Sphere",
+      "tm": [
+        [21.9466,0.0,-267.301],
+        [0.0,268.2,0.0],
+        [267.301,0.0,21.9466],
+        [1636.83,300.0,7032.62]
       ],
       "objLayer": 0,
       "props": []

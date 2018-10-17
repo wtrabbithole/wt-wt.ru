@@ -112,6 +112,17 @@
           "target_type": "isAlive",
           "check_period": 1.0,
           "object": "t1_player01"
+        },
+        "unitWhenInArea": {
+          "math": "3D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "check_objects": "any",
+          "object": "t1_player01",
+          "target": "rearm_zone"
         }
       },
       "actions": {
@@ -656,9 +667,38 @@
           }
         ]
       }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [0.0,94.4864,0.0]
+        ],
+        "unit_class": "capture_zone_circle",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
     }
   ],
-  "areas": [],
+  "areas": {
+    "rearm_zone": {
+      "type": "Sphere",
+      "tm": [
+        [48.1265,0.0,0.0],
+        [0.0,48.1265,0.0],
+        [0.0,0.0,48.1265],
+        [0.0,94.4864,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    }
+  },
   "objLayers": [
     {
       "layer": {

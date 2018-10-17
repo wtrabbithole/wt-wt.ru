@@ -1234,6 +1234,33 @@
     }
   },
   {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "shells": {
+          "fireEvent": "ammo_fire",
+          "explosionEvent": "ammo_explosion",
+          "wreckedPartId": 0,
+          "ammo_body_l_02_dm": {
+            "count": 2000
+          },
+          "ammo_body_r_02_dm": {
+            "count": 2000
+          },
+          "ammo_body_dm": {
+            "count": 400
+          },
+          "ammo_body_r_01_dm": {
+            "count": 400
+          }
+        }
+      }
+    }
+  },
+  {
     "sound": {
       "EngineName": "engine_m16",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -1266,8 +1293,8 @@
           "speedPitch": 60.0,
           "bullets": 2400,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1313,8 +1340,8 @@
           "speedPitch": 60.0,
           "bullets": 2400,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1939,7 +1966,7 @@
     "cockpit": {
       "openedCockpit": true,
       "headPos": [0.0,3.6,-6.0],
-      "headPosOnShooting": [-2.0,3.3,0.0],
+      "headPosOnShooting": [-2.4,2.9,0.0],
       "zoomOutFov": 35.0,
       "zoomInFov": 20.0,
       "detectionHeight": 2.19

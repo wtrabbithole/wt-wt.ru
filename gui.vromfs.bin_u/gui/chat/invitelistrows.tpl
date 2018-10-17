@@ -96,7 +96,7 @@ expandable {
           btnName:t='Y'
           on_click:t = 'onReject'
           ButtonImg {}
-          img { background-image:t='#ui/gameuiskin#icon_primary_fail' }
+          img { background-image:t='#ui/gameuiskin#icon_primary_fail.svg' }
         }
       }
     }

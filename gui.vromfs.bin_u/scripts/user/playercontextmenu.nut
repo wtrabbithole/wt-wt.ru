@@ -1,6 +1,7 @@
 local u = ::require("std/u.nut")
 local platformModule = ::require("scripts/clientState/platform.nut")
 local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 //-----------------------------
 // params keys:
@@ -41,9 +42,11 @@ local getPlayerCardInfoTable = function(uid, name)
 
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
 local showPrivacySettingsRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableOnlinePrivacy"))
+local showCrossPlayRestrictionPopup = @() ::g_popups.add(null, ::colorize("warningTextColor", ::loc("xbox/crossPlayRequired")))
 local showXboxFriendOnlySquadInvitePopup = @() ::g_popups.add(null, ::loc("squad/xbox/friendsOnly"))
 local showXboxSquadInviteOnlyOnlinePopup = @() ::g_popups.add(null, ::loc("squad/xbox/onlineOnly"))
 local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = platformModule.getPlayerName(playerName)}))
+local showNoInviteForDiffPlatformPopup = @() ::g_popups.add(null, ::loc("msg/squad/noPlayersForDiffConsoles"))
 
 local getActions = function(contact, params)
 {
@@ -54,8 +57,10 @@ local getActions = function(contact, params)
 
   local isMe = uid == ::my_user_id_str
   local isXBoxOnePlayer = platformModule.isXBoxPlayerName(name)
-  local canInvitePlayer = ::is_platform_xboxone == isXBoxOnePlayer
   local canInteract = platformModule.isChatEnableWithPlayer(name)
+  local canInteractCrossConsole = platformModule.canInteractCrossConsole(name)
+  local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
+  local showCrossPlayIcon = canInteractCrossConsole && ::is_platform_xboxone && !isXBoxOnePlayer
 
   local isFriend = ::isPlayerInFriendsGroup(uid)
   local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
@@ -67,23 +72,23 @@ local getActions = function(contact, params)
   local isMPLobby = params?.isMPLobby ?? false
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
-  local chatLog = params?.chatLog ?? roomData && roomData.getChatText() ?? ""
+  local chatLog = params?.chatLog ?? roomData && roomData.getLogForBanhammer() ?? ""
+  local canInviteToSesson = isXBoxOnePlayer == ::is_platform_xboxone
 
   local actions = []
 //---- <Session Join> ---------
   actions.append({
-    text = ::loc("multiplayer/invite_to_session")
-    show = canInviteToChatRoom && ::SessionLobby.canInvitePlayer(uid)
-    isVisualDisabled = !canInvitePlayer
+    text = crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("multiplayer/invite_to_session"))
+    show = canInviteToChatRoom && ::SessionLobby.canInvitePlayer(uid) && canInviteToSesson
+    isVisualDisabled = !canInteractCrossConsole || !canInteractCrossPlatform
     action = function () {
-      if (!canInvitePlayer)
-      {
-        showNotAvailableActionPopup()
-        return
-      }
+      if (!canInteractCrossConsole)
+        return showNotAvailableActionPopup()
+      if (!canInteractCrossPlatform)
+        return showCrossPlayRestrictionPopup()
 
       if (::isPlayerPS4Friend(name))
-        ::g_psn_session_invitations.sendSkirmishInvitation(::get_psn_account_id(name))
+        ::g_psn_sessions.invite(::SessionLobby.getExternalId(), ::get_psn_account_id(name))
       ::SessionLobby.invitePlayer(uid)
     }
   })
@@ -95,12 +100,15 @@ local getActions = function(contact, params)
     if (event && ::events.isEnableFriendsJoin(event))
     {
       actions.append({
-        text = ::loc("contacts/join_team")
-        isVisualDisabled = !canInvitePlayer
+        text = crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("contacts/join_team"))
+        show = canInviteToSesson
+        isVisualDisabled = !canInteractCrossConsole || !canInteractCrossPlatform
         action = function() {
-          if (!canInvitePlayer)
+          if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (::isInMenu())
+          else if (!canInteractCrossPlatform)
+            showCrossPlayRestrictionPopup()
+          else
             ::queues.joinFriendsQueue(contact.inGameEx, eventId)
         }
       })
@@ -150,8 +158,7 @@ local getActions = function(contact, params)
     local inMySquad = ::g_squad_manager.isInMySquad(name, false)
     local squadMemberData = params?.squadMemberData
     local hasApplicationInMySquad = ::g_squad_manager.hasApplicationInMySquad(uidInt64, name)
-    local canInviteXboxPlayerFriend = !::is_platform_xboxone || isFriend
-    local canInviteXboxPlayerOnline = !::is_platform_xboxone || contact && contact.presence == ::g_contact_presence.ONLINE
+    local canInviteDiffConsole = ::g_squad_manager.canInviteMemberByPlatform(name)
 
     actions.extend([
       {
@@ -160,10 +167,11 @@ local getActions = function(contact, params)
         action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
       }
       {
-        text = hasApplicationInMySquad
-          ? ::loc("squad/accept_membership")
-          : ::loc("squad/invite_player")
-        isVisualDisabled = !canInvitePlayer || !canInteract || !canInviteXboxPlayerFriend || !canInviteXboxPlayerOnline
+        text = crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, hasApplicationInMySquad
+            ? ::loc("squad/accept_membership")
+            : ::loc("squad/invite_player")
+          )
+        isVisualDisabled = !canInteract || !canInteractCrossConsole || !canInteractCrossPlatform || !canInviteDiffConsole
         show = ::has_feature("SquadInviteIngame")
                && canInviteToChatRoom
                && !isMe
@@ -174,12 +182,12 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteract)
             showPrivacySettingsRestrictionPopup()
-          else if (!canInvitePlayer)
+          else if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInviteXboxPlayerFriend)
-            showXboxFriendOnlySquadInvitePopup()
-          else if (!canInviteXboxPlayerOnline)
-            showXboxSquadInviteOnlyOnlinePopup()
+          else if (!canInteractCrossPlatform)
+            showCrossPlayRestrictionPopup()
+          else if (!canInviteDiffConsole)
+            showNoInviteForDiffPlatformPopup()
           else if (hasApplicationInMySquad)
             ::g_squad_manager.acceptMembershipAplication(uidInt64)
           else
@@ -273,14 +281,18 @@ local getActions = function(contact, params)
 //---- <Contacts> ------------------
   if (::has_feature("Friends"))
   {
+    local canBlock = !::is_platform_xboxone || !isXBoxOnePlayer
+
     actions.extend([
       {
-        text = ::loc("contacts/friendlist/add")
+        text = crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("contacts/friendlist/add"))
         show = !isMe && !isFriend && !isBlock
-        isVisualDisabled = !canInvitePlayer
+        isVisualDisabled = !canInteractCrossConsole || !canInteractCrossPlatform
         action = function() {
-          if (!canInvitePlayer)
+          if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
+          else if (!canInteractCrossPlatform)
+            showCrossPlayRestrictionPopup()
           else
             ::editContactMsgBox(contact, ::EPL_FRIENDLIST, true)
         }
@@ -292,12 +304,12 @@ local getActions = function(contact, params)
       }
       {
         text = ::loc("contacts/blacklist/add")
-        show = !isMe && !isFriend && !isBlock && (!canInvitePlayer || !::is_platform_xboxone)
+        show = !isMe && !isFriend && !isBlock && canBlock
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, true)
       }
       {
         text = ::loc("contacts/blacklist/remove")
-        show = isBlock && (!canInvitePlayer || !::is_platform_xboxone)
+        show = isBlock && canBlock
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, false)
       }
     ])
@@ -356,12 +368,14 @@ local getActions = function(contact, params)
     local canComplain = !isMe && (params?.canComplain ?? false)
     if (!isMe)
     {
-      if (roomData
-          && (chatLog.find("<Link=PL_" + name + ">") != null
-              || chatLog.find("<Link=PLU_"+ uid +">") != null))
-        canComplain = true
-      else
-      {
+      if (roomData) {
+        for (local i = 0; i < roomData.mBlocks.len(); i++) {
+          if (roomData.mBlocks[i].from == name || roomData.mBlocks[i].uid == uid) {
+            canComplain = true
+            break
+          }
+        }
+      } else {
         local threadInfo = ::g_chat.getThreadInfo(roomId)
         if (threadInfo && threadInfo.ownerNick == name)
           canComplain = true
@@ -383,15 +397,18 @@ local getActions = function(contact, params)
           if (!isMPChat)
           {
             local threadInfo = ::g_chat.getThreadInfo(roomId)
-            if (threadInfo)
-            {
-              chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
-                threadInfo.category,
-                threadInfo.title,
-                threadInfo.ownerUid,
-                threadInfo.ownerNick,
+            if (threadInfo) {
+              chatLog.category   = threadInfo.category
+              chatLog.title      = threadInfo.title
+              chatLog.ownerUid   = threadInfo.ownerUid
+              chatLog.ownerNick  = threadInfo.ownerNick
+              /*chatLog = ::format("Thread category: %s\nThread title:\n%s\nOwner userid: %s\nOwner nick: %s\nRoom log:\n%s"
+                ,
+                threadInfo.,
+                threadInfo.,
+                threadInfo.,
                 chatLog
-              )
+              )*/
               if (!roomData)
                 config.roomName = ::g_chat_room_type.THREAD.getRoomName(roomId)
             }

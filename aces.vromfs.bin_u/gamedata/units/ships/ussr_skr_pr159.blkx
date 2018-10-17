@@ -599,10 +599,91 @@
             "name": "depth_charge_20_dm"
           },
           {
-            "name": "depth_charge_21_dm"
+            "name": "depth_charge_31_dm"
           },
           {
-            "name": "depth_charge_22_dm"
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
           },
           {
             "name": "depth_charge_l_01_dm"
@@ -964,6 +1045,9 @@
         },
         "bridge_dm": {
           "hp": 365.0
+        },
+        "radio_station_dm": {
+          "hp": 141.0
         }
       },
       "superstructures": {
@@ -1107,7 +1191,13 @@
         "fireProtectionHp": 5.0,
         "armorThickness": 10.0,
         "genericDamageMult": 2.0,
-        "fireParamsPreset": "ship_engine"
+        "fireParamsPreset": "ship_engine",
+        "elevator_01_dm": {
+          "hp": 300.0
+        },
+        "elevator_02_dm": {
+          "hp": 300.0
+        }
       },
       "pumps": {
         "armorClass": "armor_tank_engine",
@@ -1462,7 +1552,7 @@
     "tags": {
       "country_ussr": true,
       "type_ship": true,
-      "type_submarine_chaser": true,
+      "type_destroyer": true,
       "ship": true
     }
   },
@@ -1472,8 +1562,8 @@
         "Empty": 906000.0,
         "Fuel": 20000.0,
         "TakeOff": 936000.0,
-        "momentOfInertia": [44.0,370.0,200.0],
-        "CenterOfGravity": [-2.1,0.4,0.0]
+        "momentOfInertia": [34.0,370.0,200.0],
+        "CenterOfGravity": [-2.5,0.4,0.0]
       },
       "engines": [
         {
@@ -1618,7 +1708,7 @@
             "speedPitch": 45.0
           },
           {
-            "bullets": 300
+            "bullets": 340
           },
           {
             "allowableDelta": 2.0
@@ -1758,7 +1848,7 @@
             "speedPitch": 45.0
           },
           {
-            "bullets": 300
+            "bullets": 340
           },
           {
             "allowableDelta": 2.0
@@ -1876,7 +1966,7 @@
             "speedPitch": 45.0
           },
           {
-            "bullets": 300
+            "bullets": 340
           },
           {
             "allowableDelta": 2.0
@@ -1994,7 +2084,7 @@
             "speedPitch": 45.0
           },
           {
-            "bullets": 300
+            "bullets": 340
           },
           {
             "allowableDelta": 2.0
@@ -2917,26 +3007,24 @@
       },
       "new_main_caliber_turrets": [],
       "ship_depth_charge": [],
-      "ship_rocket_launcher": {
-        "reqModification": "ship_depth_charge"
-      }
+      "ship_rocket_launcher": []
     }
   },
   {
     "breaches": {
-      "repairSpeed": 50.0,
-      "waterMassVel": -50000.0,
-      "waterMassMult": 50.0,
-      "sizeToRepair": [0.01,2.0,15.0,1500.0],
-      "additionalWaterDeathThreshold": 3900000.0,
-      "additionalWaterShouldDiePercent": 0.3,
-      "fatalBreachDrownTime": 45.0,
-      "maxHeelingAngle": 35.0,
+      "repairSpeed": 25.0,
+      "waterMassVel": -150000.0,
+      "waterMassMult": 200.0,
+      "sizeToRepair": [0.01,4.0,10.0,450.0],
+      "additionalWaterDeathThreshold": 4200000.0,
+      "additionalWaterShouldDiePercent": 0.4,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 43.0,
       "maxHeelingTime": 10.0,
       "criticalHeelingAnglePercent": 0.5,
-      "maxCriticalHeelingTime": 2.0,
-      "heelingDeathHeightOffsetMult": 1.0,
-      "sideCenterOfMassOffsetPercent": 0.5
+      "maxCriticalHeelingTime": 3.0,
+      "heelingDeathHeightOffsetMult": 1.2,
+      "sideCenterOfMassOffsetPercent": 0.4
     }
   },
   {
@@ -2944,7 +3032,7 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 0.7,
+          "weight": 0.6,
           "maxWaterAlive": 1.0
         }
       },
@@ -2977,7 +3065,7 @@
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 1.0,
+          "weight": 0.9,
           "maxWaterAlive": 1.0,
           "innerParts": [
             {
@@ -3004,7 +3092,7 @@
       {
         "cover": {
           "part": "compartment_05_dm",
-          "weight": 1.0,
+          "weight": 0.9,
           "maxWaterAlive": 1.0,
           "innerParts": {
             "part": {
@@ -3017,7 +3105,7 @@
       {
         "cover": {
           "part": "compartment_06_dm",
-          "weight": 1.0,
+          "weight": 0.75,
           "maxWaterAlive": 1.0,
           "innerParts": {
             "part": {
@@ -3030,7 +3118,7 @@
       {
         "cover": {
           "part": "compartment_07_dm",
-          "weight": 1.0,
+          "weight": 0.5,
           "maxWaterAlive": 1.0,
           "innerParts": {
             "part": {

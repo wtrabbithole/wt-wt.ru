@@ -1,4 +1,4 @@
-@const squadInvitesWidgetPadding: 4*@sf/@pf_outdated;
+@const squadInvitesWidgetPadding: 6@sf/@pf;
 
 squadButtonImg {
   size:@dIco, @dIco;
@@ -22,14 +22,29 @@ Button_text[type=squadDisband] > squadButtonImg {
 }
 
 squadMemberStatus {
-  size:4*@sf/@pf_outdated, 4*@sf/@pf_outdated;
-  background-image:#ui/gameuiskin#squad_status;
+  pos:4@sf/@pf -w/2, 6@sf/@pf -h/2; position:absolute;
+  size:6@sf/@pf, 6@sf/@pf;
+  background-svg-size:6@sf/@pf, 6@sf/@pf;
+  background-image:#ui/gameuiskin#squad_status.svg;
 }
 
-squadMemberVoipStatus  {
-  size:7*@sf/@pf_outdated, 10*@sf/@pf_outdated;
-  background-image:#ui/gameuiskin#voip_status;
-  background-repeat:aspect-ratio;
+squadMemberVoipStatus {
+  pos:10@sf/@pf, 0; position:absolute;
+  size:10@sf/@pf, 14@sf/@pf;
+  background-svg-size:10@sf/@pf, 14@sf/@pf;
+  background-image:#ui/gameuiskin#voip_status.svg;
+}
+
+squadMemberCrossPlayStatus {
+  behaviour:textArea;
+  re-type:textarea;
+  font:@fontTiny;
+  color:@activeTextColor;
+  pos:10@sf/@pf, -h/4; position:absolute;
+}
+
+squadMemberCrossPlayStatus[isEnabledCrossPlay=no] {
+  color:@fadedTextColor;
 }
 
 Button_text.squadWidgetMember[status=offline] squadMemberStatus, squadMemberVoipStatus[isVoipActive=no] {
@@ -45,14 +60,10 @@ Button_text.squadWidgetMember[status=notReady] squadMemberStatus {
 }
 
 Button_text.squadWidgetMember[status=leader] squadMemberStatus {
-  pos:-2@sf/@pf_outdated, -2@sf/@pf_outdated; position:relative;
-  size:10*@sf/@pf_outdated, 10*@sf/@pf_outdated;
-  background-image:#ui/gameuiskin#squad_leader_star;
+  size:12@sf/@pf, 12@sf/@pf;
+  background-svg-size:12@sf/@pf, 12@sf/@pf;
+  background-image:#ui/gameuiskin#squad_leader_star.svg;
   background-color:#fdcf17;
-}
-
-Button_text.squadWidgetMember[status=leader] squadMemberVoipStatus {
-  pos:4*@sf/@pf_outdated, 0; position:absolute;
 }
 
 memberIcon {
@@ -94,11 +105,13 @@ memberReadyIcon {
   size:@dIco,@dIco;
   left:50%pw-50%w;
   position:relative;
-  bgcolor:#FFFFFF;
+  bgcolor:@white;
+  background-repeat:aspect-ratio;
+  background-svg-size:@dIco, @dIco;
 }
 
 memberReadyIcon[isReady=no] {
-  background-image:#ui/gameuiskin#icon_primary_fail;
+  background-image:#ui/gameuiskin#icon_primary_fail.svg;
 }
 
 memberReadyIcon[isReady=yes] {

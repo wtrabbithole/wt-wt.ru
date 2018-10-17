@@ -11,6 +11,9 @@ class ::mission_rules.Base
 
   needLeftRespawnOnSlots = false
 
+  customUnitRespawnsAllyListHeaderLocId  = "multiplayer/teamUnitsLeftHeader"
+  customUnitRespawnsEnemyListHeaderLocId = "multiplayer/enemyTeamUnitsLeftHeader"
+
   fullUnitsLimitData = null
   fullEnemyUnitsLimitData = null
 

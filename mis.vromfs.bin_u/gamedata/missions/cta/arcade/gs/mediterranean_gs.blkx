@@ -539,7 +539,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -548,8 +547,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -562,7 +563,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -571,8 +571,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -677,7 +679,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -686,8 +687,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -700,7 +703,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -709,8 +711,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -6503,6 +6507,61 @@
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [2635.19,114.355,-8754.69]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "small_matching_area01": {
+      "type": "Sphere",
+      "tm": [
+        [-4470.7,0.0,2238.94],
+        [0.0,5000.0,0.0],
+        [-2238.94,0.0,-4470.7],
+        [6249.92,1600.0,-3329.07]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_helicopter_spawn_01": {
+      "type": "Sphere",
+      "tm": [
+        [134.336,0.0,268.242],
+        [0.0,300.0,0.0],
+        [-268.242,0.0,134.336],
+        [4155.52,1600.0,-4704.11]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_helicopter_spawn_02": {
+      "type": "Sphere",
+      "tm": [
+        [134.336,0.0,268.242],
+        [0.0,300.0,0.0],
+        [-268.242,0.0,134.336],
+        [6395.05,1600.0,-5823.82]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_helicopter_spawn_01": {
+      "type": "Sphere",
+      "tm": [
+        [-138.754,0.0,-265.983],
+        [0.0,300.0,0.0],
+        [265.983,0.0,-138.754],
+        [8336.83,1600.0,-1952.62]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_helicopter_spawn_02": {
+      "type": "Sphere",
+      "tm": [
+        [-138.754,0.0,-265.983],
+        [0.0,300.0,0.0],
+        [265.983,0.0,-138.754],
+        [6101.78,1600.0,-833.119]
       ],
       "objLayer": 0,
       "props": []

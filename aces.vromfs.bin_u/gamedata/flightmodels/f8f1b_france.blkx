@@ -6,6 +6,7 @@
   "type": "typeFighter",
   "paratrooper": "france_para",
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
@@ -27,6 +28,14 @@
       },
       "cannon4_dm": {
         "hp": 15.0
+      }
+    },
+    "armor8_5": {
+      "armor3_dm": {
+        "hp": 40.0
+      },
+      "armor4_dm": {
+        "hp": 40.0
       }
     },
     "armor9_5": {
@@ -174,9 +183,6 @@
       },
       "oil2_dm": {
         "hp": 17.5
-      },
-      "water1_dm": {
-        "hp": 17.5
       }
     },
     "steel_pilot": {
@@ -314,6 +320,16 @@
     {
       "part": {
         "name": "armor2_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "armor3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "armor4_dm"
       }
     },
     {
@@ -1303,17 +1319,6 @@
       ]
     },
     {
-      "part": {
-        "name": "water1_dm",
-        "onHit": {
-          "leak_water": 0.5
-        },
-        "onKill": {
-          "leak_water": 1.0
-        }
-      }
-    },
-    {
       "part": [
         {
           "name": "wing1_l_dm"
@@ -1816,7 +1821,7 @@
     "Range": 1148.0
   },
   "Sound": {
-    "Engine": "engine07",
+    "Engine": "engine21",
     "gun": "gun_default"
   },
   "cockpit": {

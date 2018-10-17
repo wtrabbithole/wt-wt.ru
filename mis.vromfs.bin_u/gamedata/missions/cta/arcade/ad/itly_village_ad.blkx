@@ -223,13 +223,13 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_dom",
+      "locName": "missions/_AD;italy_village/name",
+      "locDesc": "italy_village/desc;missions/_AD/desc",
       "scoreLimit": 3000,
       "timeLimit": 20,
       "deathPenaltyMul": 0.5,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "locName": "missions/_AD;italy_village/name",
-      "locDesc": "italy_village/desc;missions/_AD/desc",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -403,7 +403,7 @@
           }
         },
         {
-          "missionMarkAsCaptureZone": {
+          "__missionMarkAsCaptureZone": {
             "army": 0,
             "timeMultiplier": 4.0,
             "disableZone": false,
@@ -428,11 +428,12 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -451,11 +452,12 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -839,6 +841,50 @@
         [0.0,20000.0,0.0],
         [18960.1,0.0,6364.92],
         [2765.55,2211.75,-1708.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_near": {
+      "type": "Cylinder",
+      "tm": [
+        [1113.86,0.0,-3318.03],
+        [0.0,4000.0,0.0],
+        [3318.03,0.0,1113.86],
+        [2766.12,1460.95,-1710.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_middle": {
+      "type": "Cylinder",
+      "tm": [
+        [1432.11,0.0,-4266.04],
+        [0.0,4000.0,0.0],
+        [4266.04,0.0,1432.11],
+        [2766.12,1460.95,-1710.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_far": {
+      "type": "Cylinder",
+      "tm": [
+        [1750.35,0.0,-5214.05],
+        [0.0,4000.0,0.0],
+        [5214.05,0.0,1750.35],
+        [2766.12,1460.95,-1710.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_huge": {
+      "type": "Cylinder",
+      "tm": [
+        [2068.6,0.0,-6162.05],
+        [0.0,4000.0,0.0],
+        [6162.05,0.0,2068.6],
+        [2766.12,1460.95,-1710.5]
       ],
       "objLayer": 0,
       "props": []

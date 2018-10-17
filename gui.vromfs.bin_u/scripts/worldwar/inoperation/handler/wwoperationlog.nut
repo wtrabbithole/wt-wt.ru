@@ -76,6 +76,11 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
     fillLogBlock(false, null, !isLogMarkUsed && isLogPageScrolledDown)
   }
 
+  function onEventWWNoLogsAdded(params = {})
+  {
+    configManageBlocks()
+  }
+
   function fillLogBlock(scrollDefined = false, scrollId = null, isNewOperationEventLog = false)
   {
     if (!::check_obj(logContainerObj))
@@ -405,7 +410,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
     })(scrollTargetObj))
   }
 
-  function configManageBlocks(logsViewData = null)
+  function configManageBlocks()
   {
     if (!::check_obj(logContainerObj))
       return
@@ -440,11 +445,11 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
 
   function configShowPrevLogsBlock()
   {
-    local prevLogsObj = scene.findObject("show_prev_logs_btn")
-    if (!::check_obj(prevLogsObj))
+    local prevLogsNestObj = scene.findObject("show_prev_logs_btn_nest")
+    if (!::check_obj(prevLogsNestObj))
       return
 
-    prevLogsObj.show(::g_ww_logs.lastMark || ::g_ww_logs.viewIndex > 0)
+    prevLogsNestObj.show(::g_ww_logs.lastMark || ::g_ww_logs.viewIndex > 0)
     updatePrevLogsBtn(false)
   }
 
@@ -613,7 +618,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
   function updatePrevLogsBtn(isLogsLoading = false)
   {
     local prevLogsBtnObj = scene.findObject("show_prev_logs_btn")
-    if (!::check_obj(prevLogsBtnObj) || !prevLogsBtnObj.isVisible())
+    if (!::check_obj(prevLogsBtnObj))
       return
 
     local waitAnimObj = prevLogsBtnObj.findObject("show_prev_logs_btn_wait_anim")
@@ -666,26 +671,25 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
       ::g_ww_logs.applyLogsFilter()
       ::g_ww_logs.viewIndex = ::max(::g_ww_logs.filtered.len() - 1, 0)
 
-      local scrollTargetId = getScrollTargetId()
-      if (::g_ww_logs.loaded.len()
-        && (!scrollTargetId || !::u.search(::g_ww_logs.loaded, @(log) log.id == scrollTargetId )))
+      if (!::g_ww_logs.loaded.len())
+        return
+
+      local logNumber = ::g_ww_logs.loaded.len() - 1
+      local scrollTargetId = null
+      local logsAmount = 0
+      for (local i = ::g_ww_logs.filtered.len() - 1; i >= 0; i--)
       {
-        local logNumber = ::g_ww_logs.loaded.len() - 1
-        scrollTargetId = null
-        local logsAmount = 0
-        for (local i = ::g_ww_logs.filtered.len() - 1; i >= 0; i--)
+        ::g_ww_logs.viewIndex = i
+        if (::g_ww_logs.filtered[i] <= logNumber)
         {
-          ::g_ww_logs.viewIndex = i
-          if (::g_ww_logs.filtered[i] <= logNumber)
-          {
-            logsAmount++
-            if (!scrollTargetId)
-              scrollTargetId = ::g_ww_logs.loaded[::g_ww_logs.filtered[i]].id.tostring()
-          }
-          if (logsAmount >= WW_LOG_MAX_DISPLAY_AMOUNT)
-            break
+          logsAmount++
+          if (!scrollTargetId)
+            scrollTargetId = ::g_ww_logs.loaded[::g_ww_logs.filtered[i]].id.tostring()
         }
+        if (logsAmount >= WW_LOG_MAX_DISPLAY_AMOUNT)
+          break
       }
+
       fillLogBlock(true, scrollTargetId)
       break
     }

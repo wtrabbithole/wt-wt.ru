@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -700,6 +701,8 @@ class Events
     local res = ""
     if (isUnitTypeAvailable(event, ::ES_UNIT_TYPE_TANK) && isUnitTypeAvailable(event, ::ES_UNIT_TYPE_AIRCRAFT))
       res += "mixed"
+    else if (isUnitTypeAvailable(event, ::ES_UNIT_TYPE_SHIP))
+      res += "ship"
     else if (!isUnitTypeAvailable(event, ::ES_UNIT_TYPE_TANK))
       res += "air"
     else if (!isUnitTypeAvailable(event, ::ES_UNIT_TYPE_AIRCRAFT))
@@ -728,10 +731,12 @@ class Events
 
     local customVideoPreviewName = getCustomVideioPreviewName(event)
     if (customVideoPreviewName)
-      return customVideoPreviewName
+      return customVideoPreviewName == "" ? null : customVideoPreviewName
 
     local unitTypeName = ""
-    if (isUnitTypeAvailable(event, ::ES_UNIT_TYPE_TANK))
+    if (isUnitTypeAvailable(event, ::ES_UNIT_TYPE_SHIP))
+      unitTypeName += "ship"
+    else if (isUnitTypeAvailable(event, ::ES_UNIT_TYPE_TANK))
       unitTypeName += "tank"
     else if (isUnitTypeAvailable(event, ::ES_UNIT_TYPE_AIRCRAFT))
       unitTypeName += "air"
@@ -2053,14 +2058,7 @@ class Events
     {
       local purchData = ::OnlineShopModel.getFeaturePurchaseData(getEventReqFeature(event))
       data.activeJoinButton = purchData.canBePurchased
-      if (!purchData.canBePurchased)
-        data.reasonText = ::loc("msgbox/notAvailbleYet")
-      else
-      {
-        local entitlementItem = ::get_entitlement_config(purchData.sourceEntitlement)
-        data.reasonText = ::loc("events/no_entitlement",
-          { entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem)) })
-      }
+      data.reasonText = getEventFeatureReasonText(event)
     }
     else if (!isEventAllowedByComaptibilityMode(event))
       data.reasonText = ::loc("events/noCompatibilityMode")
@@ -2147,7 +2145,12 @@ class Events
       }
       local locKey = "multiplayer/enemyTeamTooLowMembers" + (isFullText ? "" : "/short")
       data.reasonText = ::loc(locKey, locParams)
-    } else
+    }
+    else if (::is_platform_xboxone && !isEventXboxOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
+    {
+      data.reasonText = ::loc("xbox/crossPlayRequired")
+    }
+    else
     {
       data.reasonText = ""
       data.checkStatus = true
@@ -2518,7 +2521,7 @@ class Events
     return wpText + ((wpText.len() && expText.len())? ", " : "") + expText
   }
 
-  function getEventDescriptionText(event, mroom = null)
+  function getEventDescriptionText(event, mroom = null, hasEventFeatureReasonText = false)
   {
     local textsList = []
 
@@ -2535,6 +2538,9 @@ class Events
     local isTesting = ("event_access" in event) ? ::isInArray("AccessTest", event.event_access) : false
     if (isTesting)
       textsList.append(::colorize("@yellow", ::loc("events/event_is_testing")))
+
+    if (hasEventFeatureReasonText && !checkEventFeature(event, true))
+      textsList.append(getEventFeatureReasonText(event))
 
     return ::g_string.implode(textsList, "\n")
   }
@@ -2737,6 +2743,22 @@ class Events
       return
 
     _leaderboards.dropLbCache(event)
+  }
+
+  function getEventFeatureReasonText(event)
+  {
+    local purchData = ::OnlineShopModel.getFeaturePurchaseData(getEventReqFeature(event))
+    local reasonText = ""
+    if (!purchData.canBePurchased)
+      reasonText = ::loc("msgbox/notAvailbleYet")
+    else
+    {
+      local entitlementItem = ::get_entitlement_config(purchData.sourceEntitlement)
+      reasonText = ::loc("events/no_entitlement",
+        { entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem)) })
+    }
+
+    return reasonText
   }
 }
 

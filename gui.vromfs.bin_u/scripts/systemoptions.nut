@@ -207,6 +207,9 @@
       ::set_blk_value_by_path(blk, desc.blk, res)
     }
   }
+  waterQuality = { widgetType="list" def="high" blk="graphics/waterQuality" restart=false
+    values = [ "low", "medium", "high", "ultrahigh" ]
+  }
   waterFoamQuality = { widgetType="list" def="high" blk="graphics/foamQuality" restart=false
     values = [ "none", "low", "medium", "high", "ultrahigh" ]
   }
@@ -227,14 +230,6 @@
   ssrQuality = { widgetType="slider" def=0 min=0 max=2 blk="render/ssrQuality" restart=false
     onChanged = "ssrQualityClick"
   }
-  waterReflectionTexDiv = { widgetType="slider" def=8 min=0 max=14 blk="graphics/waterReflectionTexDiv" restart=false
-    getFromBlk = function(blk, desc) { return (16 - ::get_blk_value_by_path(blk, desc.blk, (16-desc.def))).tointeger() }
-    setToBlk = function(blk, desc, val) { ::set_blk_value_by_path(blk, desc.blk, 16 - val) }
-  }
-  waterRefraction = { widgetType="slider" def=1 min=0 max=2 blk="graphics/waterRefractionEnabledFor" restart=false
-  }
-  waterReflection = { widgetType="checkbox" def=true blk="render/waterReflection" restart=false
-  }
   shadows = { widgetType="checkbox" def=true blk="render/shadows" restart=false
   }
   rendinstGlobalShadows = { widgetType="checkbox" def=true blk="render/rendinstGlobalShadows" restart=false
@@ -244,8 +239,6 @@
   haze = { widgetType="checkbox" def=false blk="render/haze" restart=false
   }
   softFx = { widgetType="checkbox" def=true blk="render/softFx" restart=false
-  }
-  fxReflection = { widgetType="checkbox" def=true blk="render/fxReflection" restart=false
   }
   lastClipSize = { widgetType="checkbox" def=false blk="graphics/lastClipSize" restart=false
     getFromBlk = function(blk, desc) { return (::get_blk_value_by_path(blk, desc.blk, 4096) == 8192) }
@@ -282,8 +275,8 @@
   {k="lenseFlares",          v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="shadows",              v={ultralow=false,low=true,medium=true ,high=true ,max=true, movie=true}}
   {k="selfReflection",       v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
-  {k="waterReflection",      v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
-  {k="waterFoamQuality",     v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="high"}, compMode=true}
+  {k="waterQuality",         v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=false}
+  {k="waterFoamQuality",     v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=true}
   {k="grass",                v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=1, movie=2}}
   {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
@@ -296,7 +289,6 @@
   {k="enableSuspensionAnimation",v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="haze",                 v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="foliageReprojection",  v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
-  {k="fxReflection",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
   {k="softFx",               v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
   {k="lastClipSize",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}, compMode=true}
   {k="landquality",          v={ultralow=0,low=0,medium=0 ,high=2,max=3,movie=4}}
@@ -304,9 +296,7 @@
   {k="fxDensityMul",         v={ultralow=20,low=30,medium=75 ,high=80,max=95,movie=100}}
   {k="grassRadiusMul",       v={ultralow=10, low=10, medium=45,high=75,max=100,movie=135}}
   {k="backgroundScale",      v={ultralow=2, low=1, medium=2,high=2,max=2,movie=2}}
-  {k="waterReflectionTexDiv",v={ultralow=4, low=6, medium=8,high=10,max=11,movie=12}}
   {k="physicsQuality",       v={ultralow=0, low=1, medium=2,high=3,max=4,movie=5}}
-  {k="waterRefraction",      v={ultralow=0, low=1, medium=1,high=1,max=2,movie=2}}
   {k="advancedShore",        v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
   {k="panoramaResolution",   v={ultralow=4,low=4,medium=6,high=8,max=10, movie=12}}
   {k="cloudsQuality",        v={ultralow=0,low=0,medium=1,high=1,max=1, movie=2}}
@@ -627,8 +617,7 @@
       "ssaoQuality"
       "contactShadowsQuality"
       "ssrQuality"
-      "waterReflectionTexDiv"
-      "waterRefraction"
+      "waterQuality"
       "waterFoamQuality"
       "physicsQuality"
       "displacementQuality"
@@ -643,8 +632,6 @@
       "rendinstGlobalShadows"
       "staticShadowsOnEffects"
       "advancedShore"
-      "fxReflection"
-      "waterReflection"
       "haze"
       "softFx"
       "lastClipSize"
@@ -681,6 +668,7 @@ function sysopt::init()
   }
 
   validateInternalConfigs()
+  configRead()
 }
 
 function sysopt::configRead()
@@ -757,6 +745,7 @@ function sysopt::localize(optionId, valueId)
     case "texQuality":
     case "shadowQuality":
     case "tireTracksQuality":
+    case "waterQuality":
     case "waterFoamQuality":
     case "dirtSubDiv":
       if (valueId == "none")
@@ -907,6 +896,14 @@ function sysopt::getOptionDesc(id)
 {
   if (!(id in mSettings)) { logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table."); return }
   return mSettings[id]
+}
+
+function sysopt::getOptionValue(id, defVal=null)
+{
+  if (id in mSettings)
+    return mSettings[id]?.def ?? defVal
+
+  logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
 }
 
 function sysopt::getGuiValue(id, defVal=null)
@@ -1241,8 +1238,14 @@ function sysopt::applyRestartEngine(reloadScene = false)
   ::on_renderer_settings_change()
   ::handlersManager.updateSceneBgBlur(true)
 
-  if (reloadScene)
-    ::handlersManager.markfullReloadOnSwitchScene()
+  if (!reloadScene)
+    return
+
+  ::handlersManager.markfullReloadOnSwitchScene()
+  ::call_darg("updateScreenOptions", {
+      resolution = mCfgCurrent.resolution
+      mode = mCfgCurrent.mode
+  })
 }
 
 function sysopt::isClientRestartable()
@@ -1398,4 +1401,5 @@ function sysopt::validateInternalConfigs()
 
 //------------------------------------------------------------------------------
 ::sysopt.init()
+::cross_call_api.sysopt <- ::sysopt
 //------------------------------------------------------------------------------

@@ -16,7 +16,7 @@ local moduleIconConstructor = function (params) {
     color =  color
     watch = params?.iconWatch
     image = icon()
-    size = params.iconSize
+    size = [hdpx(params.iconSize[0]),hdpx(params.iconSize[1])]
 
     transform = {}
     animations = [

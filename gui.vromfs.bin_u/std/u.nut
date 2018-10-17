@@ -1,6 +1,6 @@
-const FLT_EPSILON = 0.0000001192092896
 /**
- * u is a set of utility functions
+ * u is a set of utility functions, trashbin
+ it also provide export for underscore.nut
  */
 
 local rootTable = getroottable()
@@ -10,9 +10,56 @@ local split = rootTable?.split
        throw("no split of string library exist")
        return str
      }
+local rnd = rootTable?.math?.rnd
+  ?? require("math")?.rand
+  ?? function() {
+       throw("no math library exist")
+       return 0
+     }
 
 local customIsEqual = {}
 local customIsEmpty = {}
+
+/**
+ * Looks through each value in the list, returning an array of all the values
+ * that pass a truth test (predicate).
+ */
+local function filter(list, predicate) {
+  local res = []
+  foreach (element in list)
+    if (predicate(element))
+      res.append(element)
+  return res
+}
+
+/**
+ * Produces a new array of values by mapping each value in list through a
+ * transformation function (iteratee(value, key, list)).
+ */
+local function mapAdvanced(list, iteratee)
+{
+  if (typeof(list) == "array")
+  {
+    local res = []
+    for (local i = 0; i < list.len(); ++i)
+      res.push(iteratee(list[i], i, list))
+    return res
+  }
+  if (typeof(list) == "table" || isDataBlock(list))
+  {
+    local res = {}
+    foreach (key, val in list)
+      res[key] <- iteratee(val, key, list)
+    return res
+  }
+  return []
+}
+
+local function map(list, func)
+{
+  return mapAdvanced(list, (@(func) function(val, ...) { return func(val) })(func))
+}
+
 
 /*******************************************************************************
  **************************** Custom Classes register **************************
@@ -99,213 +146,6 @@ local dagorClasses = {
   }
 }
 
-/*******************************************************************************
- ******************** Collections handling (array of tables) *******************
- ******************************************************************************/
-
-/**
- * Produces a new array of values by mapping each value in list through a
- * transformation function (iteratee(value, key, list)).
- */
-local function map(list, func)
-{
-  return mapAdvanced(list, (@(func) function(val, ...) { return func(val) })(func))
-}
-
-local function mapAdvanced(list, iteratee)
-{
-  if (typeof(list) == "array")
-  {
-    local res = []
-    for (local i = 0; i < list.len(); ++i)
-      res.push(iteratee(list[i], i, list))
-    return res
-  }
-  if (typeof(list) == "table" || isDataBlock(list))
-  {
-    local res = {}
-    foreach (key, val in list)
-      res[key] <- iteratee(val, key, list)
-    return res
-  }
-  return []
-}
-
-
-/**
- * Reduce boils down a list of values into a single value.
- * Memo is the initial state of the reduction, and each successive
- * step of it should be returned by iteratee. The iteratee is passed
- * four arguments: the memo, then the value and index (or key) of the
- * iteration, and finally a reference to the entire list.
- *
- * If no memo is passed to the initial invocation of reduce,
- * the iteratee is not invoked on the first element of the list.
- * The first element is instead passed as the memo in the
- * invocation of the iteratee on the next element in the list.
- */
-local function reduce(list, iteratee, memo = null) {
-  foreach (item in list)
-    memo = iteratee(item, memo)
-
-  return memo
-}
-
-
-/**
- * Looks through each value in the @list, returning the first one that passes
- * a truth test @predicate, or null if no value passes the test. The function
- * returns as soon as it finds an acceptable element, and doesn't traverse
- * the entire list.
- * @reverseOrder work only with arrays.
- */
-local function search(list, predicate, reverseOrder = false) {
-  if (!reverseOrder || !isArray(list))
-  {
-    foreach(value in list)
-      if (predicate(value))
-        return value
-    return null
-  }
-
-  for (local i = list.len() - 1; i >= 0; i--)
-    if (predicate(list[i]))
-      return list[i]
-  return null
-}
-
-/**
- * Looks through each value in the list, returning an array of all the values
- * that pass a truth test (predicate).
- */
-local function filter(list, predicate) {
-  local res = []
-  foreach (element in list)
-    if (predicate(element))
-      res.append(element)
-  return res
-}
-
-/**
- * Given a array, and an iteratee function that returns a key for each
- * element in the array (or a property name), returns an object with an index
- * of each item.
- */
-local function indexBy(array, iteratee) {
-  local res = {}
-  if (isString(iteratee))
-  {
-    foreach (idx, val in array)
-      res[val[iteratee]] <- val
-  }
-  else if (isFunction(iteratee))
-  {
-    foreach (idx, val in array)
-      res[iteratee(val, idx, array)] <- val
-  }
-
-  return res
-}
-
-/**
- * Merges together the values of each of the arrays (or tables) with the values
- * at the corresponding position. Useful when you have separate
- * data sources that are coordinated through matching array indexes.
- */
-local function zip(...) {
-  local res = map(vargv[0], @(v) [v])
-  for (local i = 1; i < vargv.len(); ++i)
-    foreach (idx, v in res)
-      v.append(vargv[i]?[idx])
-  return res
-}
-
-/*******************************************************************************
- ****************************** Table handling *********************************
- ******************************************************************************/
-
-/**
- * keys return an array of keys of specified table
- */
-local function keys(table)
-{
-  if (typeof table != "table")
-    return []
-
-  local keys = []
-  foreach (k, v in table)
-    keys.append(k)
-  return keys
-}
-
-/**
- * Return all of the values of the table's properties.
- */
-local function values(table)
-{
-  local res = []
-  foreach (val in table)
-    res.append(val)
-  return res
-}
-
-/**
- * Convert a table into a list of [key, value] pairs.
- */
-local function pairs(table)
-{
-  local res = []
-  foreach (key, val in table)
-    res.append([key, val])
-  return res
-}
-
-/**
- * Returns a copy of the table where the keys have become the values and the
- * values the keys. For this to work, all of your table's values should be
- * unique and string serializable.
- */
-local function invert(table)
-{
-  local res = {}
-  foreach (key, val in table)
-    res[val] <- key
-  return res
-}
-
-/**
- * Return a copy of the table, filtered to only have values for the whitelisted
- * keys (or array of valid keys). Alternatively accepts a predicate indicating
- * which keys to pick.
- * pick can filter with function (value, key, table), with array, or set of
- * separate strings (each as a separate argument)
- */
-local function pick(table, ... /*keys*/)
-{
-  local res = {}
-  if (table == null)
-    return res
-
-  if (isFunction(vargv[0]))
-  {
-    foreach (key, val in table)
-      if (vargv[0](value, key, obj)) res[key] <- val
-  }
-  else
-  {
-    local keys = []
-    if (isArray(vargv[0]))
-      keys = vargv[0]
-    else
-      for (local i = 0; i < vargv.len(); i++)
-        keys.append(vargv[i])
-
-    foreach (key in keys)
-      if (key in table)
-        res[key] <- table[key]
-  }
-  return res
-}
 
 /**
  * Return true if specified obj (@table, @array, @string, @datablock) is empty
@@ -409,48 +249,6 @@ local function copy(obj)
   return clone obj
 }
 
-/**
- * Create new table which have all keys from both tables (or just first table,
-   if skipSecondTable=true), and for each key maps value func(tbl1Value, tbl2Value)
- * If value not exist in one of table it will be pushed to func as defValue
- */
-local function tablesCombine(tbl1, tbl2, func, defValue = null, addParams = true)
-{
-  local res = {}
-  foreach(key, value in tbl1)
-    res[key] <- func(value, tbl2?[key] ?? defValue)
-  if (!addParams)
-    return res
-  foreach(key, value in tbl2)
-    if (!(key in res))
-      res[key] <- func(defValue, value)
-  return res
-}
-
-/**
- * Create new table which have keys, replaced from keysEqual table.
- * deepLevel param set deep of recursion for replace keys in tbl childs
-*/
-local function keysReplace(tbl, keysEqual, deepLevel = -1)
-{
-  local res = {}
-  local newValue = null
-  foreach(key, value in tbl)
-  {
-    if (isTable(value) && deepLevel != 0)
-      newValue = keysReplace(value, keysEqual, deepLevel - 1)
-    else
-      newValue = value
-
-    if (key in keysEqual)
-      res[keysEqual[key]] <- newValue
-    else
-      res[key] <- newValue
-  }
-
-  return res
-}
-
 /*
   * Find and remove {value} from {data} (table/array) once
   * return true if found
@@ -479,19 +277,46 @@ local function removeFrom(data, value)
 }
 
 /**
- * Returns first not null result of @getter function applied to @dataArray item
- * Returns @defValue when nothing found
- */
-local function getFirstFound(dataArray, getter, defValue = null)
-{
-  local result = null
-  foreach (data in dataArray)
-  {
-    result = getter(data)
-    if(result != null)
-      break
+ * Create new table which have keys, replaced from keysEqual table.
+ * deepLevel param set deep of recursion for replace keys in tbl childs
+*/
+local function keysReplace(tbl, keysEqual, deepLevel = -1) {
+  local res = {}
+  local newValue = null
+  foreach(key, value in tbl) {
+    if (isTable(value) && deepLevel != 0)
+      newValue = keysReplace(value, keysEqual, deepLevel - 1)
+    else
+      newValue = value
+
+    if (key in keysEqual)
+      res[keysEqual[key]] <- newValue
+    else
+      res[key] <- newValue
   }
-  return result ?? defValue
+
+  return res
+}
+
+/**
+ * Given a array, and an iteratee function that returns a key for each
+ * element in the array (or a property name), returns an object with an index
+ * of each item.
+ */
+local function indexBy(array, iteratee) {
+  local res = {}
+  if (isString(iteratee))
+  {
+    foreach (idx, val in array)
+      res[val[iteratee]] <- val
+  }
+  else if (isFunction(iteratee))
+  {
+    foreach (idx, val in array)
+      res[iteratee(val, idx, array)] <- val
+  }
+
+  return res
 }
 
 /*******************************************************************************
@@ -541,7 +366,7 @@ local function chooseRandom(arr)
 {
   if (!arr.len())
     return null
-  return arr[::math.rnd() % arr.len()]
+  return arr[rnd() % arr.len()]
 }
 
 local function chooseRandomNoRepeat(arr, prevIdx)
@@ -553,7 +378,7 @@ local function chooseRandomNoRepeat(arr, prevIdx)
   if (arr.len() == 1)
     return arr[0]
 
-  local nextIdx = ::math.rnd() % (arr.len() - 1)
+  local nextIdx = rnd() % (arr.len() - 1)
   if (nextIdx >= prevIdx)
     nextIdx++
   return arr[nextIdx]
@@ -567,7 +392,7 @@ local function shuffle(arr)
   local v
   for (local i = size - 1; i > 0; i--)
   {
-    j = ::math.rnd() % (i + 1)
+    j = rnd() % (i + 1)
     v = res[j]
     res[j] = res[i]
     res[i] = v
@@ -666,8 +491,9 @@ local function getTblValueByPath(table, path, separator = ".") {
   }
   return ret
 }
+local underscore = require("underscore.nut")
 
-local export = {
+local export = underscore.__merge({
   appendOnce = appendOnce
   chooseRandom = chooseRandom
   chooseRandomNoRepeat = chooseRandomNoRepeat
@@ -675,34 +501,23 @@ local export = {
   min = min
   max = max
   mapAdvanced = mapAdvanced
-  getFirstFound = getFirstFound
-  search = search
   indexBy = indexBy
-  zip = zip
   searchIndex = searchIndex
-  getFirstFound = getFirstFound
   removeFrom = removeFrom
   extend = extend
-  tablesCombine = tablesCombine
   registerClass = registerClass
   keysReplace = keysReplace
   copy = copy
   isEqual = isEqual
   isEmpty = isEmpty
-  pick = pick
   last = last
   safeIndex=safeIndex
-  invert = invert
-  pairs = pairs
-  values = values
-  keys = keys
   setTblValueByPath = setTblValueByPath
   getTblValueByPath = getTblValueByPath
 //obsolete?
   map = map
-  reduce = reduce 
   filter = filter
-}
+})
 
 /**
  * Add type checking functions such as isArray()

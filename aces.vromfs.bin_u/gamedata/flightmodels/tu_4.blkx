@@ -39,6 +39,9 @@
     "overheatBlk": "gameData/FlightModels/dm/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -3121,8 +3124,19 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-90.0,-10.0]
-          }
+            "pitch": [-90.0,0.0]
+          },
+          "limitsTable": [
+            {
+              "lim1": [-180.0,-110.0,-90.0,-10.0]
+            },
+            {
+              "lim1": [-110.0,110.0,-90.0,0.0]
+            },
+            {
+              "lim2": [110.0,180.0,-90.0,-10.0]
+            }
+          ]
         }
       },
       {
@@ -3140,8 +3154,19 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-90.0,-10.0]
-          }
+            "pitch": [-90.0,0.0]
+          },
+          "limitsTable": [
+            {
+              "lim1": [-180.0,-110.0,-90.0,-10.0]
+            },
+            {
+              "lim1": [-110.0,110.0,-90.0,0.0]
+            },
+            {
+              "lim2": [110.0,180.0,-90.0,-10.0]
+            }
+          ]
         }
       },
       {

@@ -182,9 +182,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function selectResearchModule(customPosIdx = -1)
   {
-    if (!researchMode)
-      return
-
     local modIdx = customPosIdx
     if (modIdx < 0)
     {
@@ -1205,11 +1202,11 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         setModificatonOnResearch(item, function()
         {
           updateAllItems()
+          selectResearchModule()
           if (researchMode)
           {
             if (item && ::isModResearched(air, item))
               sendModResearchedStatistic(air, item.name)
-            selectResearchModule()
           }
         })
       })(item)

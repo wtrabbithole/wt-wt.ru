@@ -49,7 +49,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       btnKey = "A"
       isColoredImg = "yes"
       tooltip = @() ::loc("squad/revoke_membership_request")
-      img = "#ui/gameuiskin#icon_primary_fail"
+      img = "#ui/gameuiskin#icon_primary_fail.svg"
       funcName = "onRevokeApplication"
       isHidden = true
       isDisabled = true

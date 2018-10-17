@@ -38,6 +38,8 @@ tdiv {
     pos:t='0, ph/2-h/2'
     position:t='relative'
     background-image:t='<<icon>>'
+    background-svg-size:t='1@dIco, 1@dIco'
+    background-repeat:t='aspect-ratio'
     <<#isLocked>>
     isLocked:t='yes'
     <</isLocked>>

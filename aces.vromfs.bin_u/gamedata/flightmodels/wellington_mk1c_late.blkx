@@ -30,6 +30,9 @@
     "overheatBlk": "gameData/FlightModels/DM/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -286,7 +289,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "throttle_lhand_",
-          "flexionDir": [0.0,-1.0,0.1]
+          "flexionDir": [1.0,-1.0,0.1]
         }
       },
       {
@@ -304,7 +307,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -313,7 +316,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [1.0,1.0,-0.1]
         }
       }
     ]
@@ -350,7 +353,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "throttle_lhand_",
-          "flexionDir": [0.0,-1.0,0.1]
+          "flexionDir": [1.0,-1.0,0.1]
         }
       },
       {
@@ -368,7 +371,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -377,7 +380,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [1.0,1.0,-0.1]
         }
       }
     ]
@@ -473,150 +476,6 @@
         }
       ]
     }
-  },
-  {
-    "commonWeapons": [
-      {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun1",
-          "flash": "flare1",
-          "dm": "gunner1_dm",
-          "gunnerDm": "gunner1_dm",
-          "gunDm": "gun1_dm",
-          "partsDP": "gun1_dm",
-          "bullets": 1200,
-          "turret": {
-            "head": "turret1",
-            "gun": "gun1",
-            "gunner": "turret1_gunner"
-          },
-          "limits": {
-            "yaw": [-100.0,100.0],
-            "pitch": [-45.0,30.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun1",
-          "flash": "flare2",
-          "dm": "gunner1_dm",
-          "bullets": 1200,
-          "traceOffset": 1,
-          "turret": {
-            "head": "turret1",
-            "gun": "gun1"
-          },
-          "limits": {
-            "yaw": [-100.0,100.0],
-            "pitch": [-45.0,30.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun2",
-          "flash": "flare3",
-          "dm": "gunner2_dm",
-          "gunnerDm": "gunner2_dm",
-          "gunDm": "gun2_dm",
-          "partsDP": "gun2_dm",
-          "bullets": 2000,
-          "traceOffset": 1,
-          "turret": {
-            "head": "turret2",
-            "gun": "gun2",
-            "gunner": "turret2_gunner"
-          },
-          "limits": {
-            "yaw": [-100.0,100.0],
-            "pitch": [-45.0,30.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun2",
-          "flash": "flare4",
-          "dm": "gunner2_dm",
-          "bullets": 2000,
-          "traceOffset": 2,
-          "turret": {
-            "head": "turret2",
-            "gun": "gun2"
-          },
-          "limits": {
-            "yaw": [-100.0,100.0],
-            "pitch": [-45.0,30.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner2",
-          "blk": "gameData/Weapons/gunVikkersK_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun3",
-          "flash": "flare5",
-          "dm": "gunner3_dm",
-          "gunnerDm": "gunner3_dm",
-          "gunDm": "gun3_dm",
-          "partsDP": "gun3_dm",
-          "bullets": 2500,
-          "turret": {
-            "head": "turret3",
-            "gun": "gun3"
-          },
-          "limits": {
-            "yaw": [-50.0,50.0],
-            "pitch": [-45.0,20.0]
-          },
-          "limitsTable": {
-            "lim1": [-50.0,20.0,5.0,50.0],
-            "lim2": [20.0,50.0,-45.0,50.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner3",
-          "blk": "gameData/Weapons/gunVikkersK_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun4",
-          "flash": "flare6",
-          "dm": "gunner4_dm",
-          "gunnerDm": "gunner4_dm",
-          "gunDm": "gun4_dm",
-          "partsDP": "gun4_dm",
-          "bullets": 2500,
-          "traceOffset": 1,
-          "turret": {
-            "head": "turret4",
-            "gun": "gun4"
-          },
-          "limits": {
-            "yaw": [-50.0,50.0],
-            "pitch": [-45.0,20.0]
-          },
-          "limitsTable": {
-            "lim1": [-50.0,20.0,5.0,50.0],
-            "lim2": [20.0,50.0,-45.0,50.0]
-          }
-        }
-      }
-    ]
   },
   {
     "weapon_presets": [
@@ -770,52 +629,6 @@
       "climbSpeed": 5.33,
       "maxSpeed": 109.26,
       "turnTime": 40.5397
-    }
-  },
-  {
-    "modifications": {
-      "cd_98": [],
-      "CdMin_Fuse": [],
-      "new_cover": [],
-      "structure_str": [],
-      "hp_105": [],
-      "new_radiator": [],
-      "new_compressor": [],
-      "new_engine_injection": [],
-      "bmg303_turret_belt_pack": [],
-      "vikkersK_turret_new_gun": {
-        "reqModification": "bmg303_turret_belt_pack",
-        "tier": 2
-      },
-      "bmg303_turret_new_gun": {
-        "reqModification": "vikkersK_turret_new_gun",
-        "tier": 3
-      },
-      "303_turret_ap": [],
-      "303_turret_api": [],
-      "wellington_tc": {
-        "modClass": "weapon",
-        "tier": 1,
-        "reqModLevel": 1.0
-      },
-      "wellington_lbc": {
-        "modClass": "weapon",
-        "tier": 2,
-        "reqModLevel": 6.0,
-        "reqModification": "wellington_tc"
-      },
-      "wellington_sbc": {
-        "modClass": "weapon",
-        "tier": 3,
-        "reqModLevel": 11.0,
-        "reqModification": "wellington_lbc"
-      },
-      "wellington_mbc": {
-        "modClass": "weapon",
-        "tier": 4,
-        "reqModLevel": 16.0,
-        "reqModification": "wellington_sbc"
-      }
     }
   },
   {
@@ -3165,6 +2978,184 @@
         }
       }
     ]
+  },
+  {
+    "commonWeapons": [
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
+          "breechInCockpit": true,
+          "emitter": "gun1",
+          "flash": "flare1",
+          "dm": "gunner1_dm",
+          "gunnerDm": "gunner1_dm",
+          "gunDm": "gun1_dm",
+          "partsDP": "gun1_dm",
+          "bullets": 1200,
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1",
+            "gunner": "turret1_gunner"
+          },
+          "limits": {
+            "yaw": [-100.0,100.0],
+            "pitch": [-45.0,30.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
+          "breechInCockpit": true,
+          "emitter": "gun1",
+          "flash": "flare2",
+          "dm": "gunner1_dm",
+          "bullets": 1200,
+          "traceOffset": 1,
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          },
+          "limits": {
+            "yaw": [-100.0,100.0],
+            "pitch": [-45.0,30.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner1",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
+          "breechInCockpit": true,
+          "emitter": "gun2",
+          "flash": "flare3",
+          "dm": "gunner2_dm",
+          "gunnerDm": "gunner2_dm",
+          "gunDm": "gun2_dm",
+          "partsDP": "gun2_dm",
+          "bullets": 2000,
+          "traceOffset": 1,
+          "turret": {
+            "head": "turret2",
+            "gun": "gun2",
+            "gunner": "turret2_gunner"
+          },
+          "limits": {
+            "yaw": [-100.0,100.0],
+            "pitch": [-45.0,30.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner1",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
+          "breechInCockpit": true,
+          "emitter": "gun2",
+          "flash": "flare4",
+          "dm": "gunner2_dm",
+          "bullets": 2000,
+          "traceOffset": 2,
+          "turret": {
+            "head": "turret2",
+            "gun": "gun2"
+          },
+          "limits": {
+            "yaw": [-100.0,100.0],
+            "pitch": [-45.0,30.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner2",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
+          "breechInCockpit": true,
+          "emitter": "gun3",
+          "flash": "flare5",
+          "dm": "gunner3_dm",
+          "gunnerDm": "gunner3_dm",
+          "gunDm": "gun3_dm",
+          "partsDP": "gun3_dm",
+          "bullets": 600,
+          "turret": {
+            "head": "turret3",
+            "gun": "gun3"
+          },
+          "limits": {
+            "yaw": [-50.0,50.0],
+            "pitch": [-45.0,20.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner3",
+          "blk": "gameData/Weapons/gunBrowning303_turret.blk",
+          "breechInCockpit": true,
+          "emitter": "gun4",
+          "flash": "flare6",
+          "dm": "gunner4_dm",
+          "gunnerDm": "gunner4_dm",
+          "gunDm": "gun4_dm",
+          "partsDP": "gun4_dm",
+          "bullets": 600,
+          "traceOffset": 1,
+          "turret": {
+            "head": "turret4",
+            "gun": "gun4"
+          },
+          "limits": {
+            "yaw": [-50.0,50.0],
+            "pitch": [-45.0,20.0]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "modifications": {
+      "cd_98": [],
+      "CdMin_Fuse": [],
+      "new_cover": [],
+      "structure_str": [],
+      "hp_105": [],
+      "new_radiator": [],
+      "new_compressor": [],
+      "new_engine_injection": [],
+      "bmg303_turret_belt_pack": [],
+      "bmg303_turret_new_gun": {
+        "reqModification": "bmg303_turret_belt_pack",
+        "tier": 3
+      },
+      "303_turret_ap": [],
+      "303_turret_api": [],
+      "wellington_tc": {
+        "modClass": "weapon",
+        "tier": 1,
+        "reqModLevel": 1.0
+      },
+      "wellington_lbc": {
+        "modClass": "weapon",
+        "tier": 2,
+        "reqModLevel": 6.0,
+        "reqModification": "wellington_tc"
+      },
+      "wellington_sbc": {
+        "modClass": "weapon",
+        "tier": 3,
+        "reqModLevel": 11.0,
+        "reqModification": "wellington_lbc"
+      },
+      "wellington_mbc": {
+        "modClass": "weapon",
+        "tier": 4,
+        "reqModLevel": 16.0,
+        "reqModification": "wellington_sbc"
+      }
+    }
   },
   {
     "user_skin": [

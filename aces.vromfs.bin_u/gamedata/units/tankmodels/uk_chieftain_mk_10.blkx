@@ -427,6 +427,21 @@
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -1888,8 +1903,8 @@
           "bullets": 2000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2543,8 +2558,10 @@
       "zoomOutFov": 9.2,
       "zoomInFov": 7.2,
       "sightFov": 6.0,
+      "sightName": "laser_rangefinder_periscope_no_IC",
       "headPos": [0.0,4.2,-9.0],
-      "headPosOnShooting": [0.0,3.7,0.0],
+      "headPosOnShooting": [-0.65,3.3,0.5],
+      "bone_turret": "bone_mg_aa_h_01",
       "detectionHeight": 2.51
     }
   },
@@ -2768,8 +2785,8 @@
                 "bullets": 2000,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -3173,41 +3190,6 @@
         "from": "uk_camo_very_dark_drab*"
       }
     }
-  },
-  {
-    "skin": [
-      {
-        "name": "uk_berlin_brigade"
-      },
-      {
-        "set_tex": {
-          "from": "chieftain_mk_10_add_c*",
-          "to": "chieftain_mk_10_skin_add_c*",
-          "param": "camo_skin_tex"
-        }
-      },
-      {
-        "set_tex": {
-          "from": "chieftain_mk_10_body_c*",
-          "to": "chieftain_mk_10_skin_body_c*",
-          "param": "camo_skin_tex"
-        }
-      },
-      {
-        "set_tex": {
-          "from": "chieftain_mk_10_gun_c*",
-          "to": "chieftain_mk_10_skin_gun_c*",
-          "param": "camo_skin_tex"
-        }
-      },
-      {
-        "set_tex": {
-          "from": "chieftain_mk_10_turret_c*",
-          "to": "chieftain_mk_10_skin_turret_c*",
-          "param": "camo_skin_tex"
-        }
-      }
-    ]
   },
   {
     "skin": {

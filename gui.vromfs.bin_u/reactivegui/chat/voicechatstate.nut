@@ -25,7 +25,7 @@ local function showVoiceChatMember(config) {
     if (member.name == config.name)
     {
       voiceChatMember = member
-      voiceChatMember.needShow.update(true)
+      voiceChatMember.needShow(true)
       break
     }
 
@@ -55,7 +55,7 @@ local function hideVoiceChatMember(config) {
   foreach (member in voiceChatMembers.value)
     if (member.name == config.name)
     {
-      member.needShow.update(false)
+      member.needShow(false)
       break
     }
 }

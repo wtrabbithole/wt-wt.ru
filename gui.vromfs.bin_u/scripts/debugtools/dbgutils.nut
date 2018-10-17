@@ -164,6 +164,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     "shop_get_units_list_with_autoset_modules"
     { id = "abandoned_researched_items_for_session", value = [] }
     { id = "get_gamechat_log_text", value = ::getTblValue("chatLog", ::debriefing_result, "") }
+    { id = "getLogForBanhammer", value = ::debriefing_result?.logForBanhammer ??  "" }
     { id = "is_multiplayer", value = ::getTblValue("isMp", ::debriefing_result, false) }
     { id = "_fake_battlelog", value = ::HudBattleLog.battleLog }
     { id = "_fake_userlogs", value = ::getTblValue("roomUserlogs", ::debriefing_result, []) }
@@ -595,6 +596,9 @@ function debug_change_resolution(shouldIncrease = true)
     ::setSystemConfigOption("video/resolution", newResolution)
     ::on_renderer_settings_change()
     ::handlersManager.markfullReloadOnSwitchScene()
+    ::call_darg("updateScreenOptions", {
+      resolution = newResolution
+    })
   }
   dlog("Set resolution: " + newResolution)
 }

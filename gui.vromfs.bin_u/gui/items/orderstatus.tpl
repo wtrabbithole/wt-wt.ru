@@ -23,6 +23,7 @@ tdiv {
 <</needPlaceInHiddenContainer>>
 
 <<^needPlaceInHiddenContainer>>
+<<^isHalignRight>>
 tdiv {
   id:t='hide_order_block'
   margin:t='0, 1@blockInterval'
@@ -47,11 +48,17 @@ tdiv {
     caption:t='yes'
   }
 }
+<</isHalignRight>>
 <</needPlaceInHiddenContainer>>
 
 tdiv {
   id:t='orders_block'
+  <<^isHalignRight>>
   width:t='pw - 10/720*@scrn_tgt'
+  <</isHalignRight>>
+  <<#isHalignRight>>
+  width:t='pw - 1@airInfoToggleButtonSize'
+  <</isHalignRight>>
   flow:t='vertical'
 
   textareaNoTab {
@@ -62,16 +69,24 @@ tdiv {
     overlayTextColor:t='bad'
     total-input-transparent:t='yes'
     input-transparent:t='yes'
+    <<^isHalignRight>>
     padding-left:t='10/720*@scrn_tgt'
+    <</isHalignRight>>
     padding-top:t='10/720*@scrn_tgt'
     smallFont:t='yes'
+    <<#isHalignRight>>
+    text-align:t='right'
+    padding-right:t='10/720*@scrn_tgt'
+    <</isHalignRight>>
     order-status-text-shade:t='yes'
   }
 
   table {
     id:t='status_table'
     margin-top:t='0.005*@scrn_tgt'
+    <<^isHalignRight>>
     margin-right:t='0.01*@scrn_tgt'
+    <</isHalignRight>>
     width:t='pw'
     total-input-transparent:t='yes'
     input-transparent:t='yes'
@@ -122,9 +137,44 @@ tdiv {
     total-input-transparent:t='yes'
     input-transparent:t='yes'
     smallFont:t='yes'
+    <<#isHalignRight>>
+    text-align:t='right'
+    <</isHalignRight>>
     order-status-text-shade:t='yes'
   }
 }
+
+<<^needPlaceInHiddenContainer>>
+<<#isHalignRight>>
+tdiv {
+  id:t='hide_order_block'
+  margin:t='0, 1@blockInterval'
+  background-color:t='@listboxBgColor'
+  collapsed:t='no'
+  position:t=''
+  left:t='pw-w'
+
+  textareaNoTab {
+    id:t='hide_order_text'
+    top:t='(ph-h)/2'
+    position:t='relative'
+    padding:t='0.01@scrn_tgt, 0'
+    text:t='#order/colored_icon'
+    display:t='hide'
+    caption:t='yes'
+  }
+
+  baseToggleButton {
+    id:t='hide_order_btn'
+    on_click:t='onChangeOrderVisibility'
+    alwaysShow:t='yes'
+    isHidden:t='yes'
+    type:t='right'
+    directionImg {}
+  }
+}
+<</isHalignRight>>
+<</needPlaceInHiddenContainer>>
 
 <<#needPlaceInHiddenContainer>>
 } // Closes frame block.

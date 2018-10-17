@@ -147,7 +147,8 @@ class ActionBar
     if (item.type != ::EII_BULLET)
     {
       local killStreakTag = ::getTblValue("killStreakTag", item)
-      viewItem.icon <- actionBarType.getIcon(killStreakTag)
+      local killStreakUnitTag = ::getTblValue("killStreakUnitTag", item)
+      viewItem.icon <- actionBarType.getIcon(killStreakUnitTag)
       viewItem.name <- actionBarType.getTitle(killStreakTag)
       viewItem.tooltipText <- actionBarType.getTooltipText(item)
     }
@@ -197,6 +198,8 @@ class ActionBar
       return
     }
 
+    local ship = ::isShip(getActionBarUnit())
+
     foreach(item in actionItems)
     {
       local itemObj = scene.findObject(__action_id_prefix + item.id)
@@ -206,6 +209,10 @@ class ActionBar
       local amountObj = itemObj.findObject("amount_text")
       if (::check_obj(amountObj))
         amountObj.setValue(getModAmountText(item))
+
+      local automaticObj = itemObj.findObject("automatic_text")
+      if (::check_obj(automaticObj))
+        automaticObj.show(ship && item?.automatic)
 
       if (item.type != ::EII_BULLET &&
           itemObj.enabled != "yes" &&

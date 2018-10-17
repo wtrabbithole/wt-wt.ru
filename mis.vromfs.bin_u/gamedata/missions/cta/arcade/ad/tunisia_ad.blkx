@@ -401,7 +401,7 @@
           }
         },
         {
-          "missionMarkAsCaptureZone": {
+          "__missionMarkAsCaptureZone": {
             "army": 0,
             "timeMultiplier": 4.0,
             "disableZone": false,
@@ -426,10 +426,12 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -448,10 +450,12 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -846,6 +850,50 @@
         [0.0,20000.0,0.0],
         [2743.43,0.0,-19811.0],
         [2378.72,1500.0,1888.59]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_near": {
+      "type": "Cylinder",
+      "tm": [
+        [-3466.92,0.0,-480.101],
+        [0.0,4000.0,0.0],
+        [480.101,0.0,-3466.92],
+        [2376.89,750.004,1888.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_middle": {
+      "type": "Cylinder",
+      "tm": [
+        [-4457.46,0.0,-617.272],
+        [0.0,4000.0,0.0],
+        [617.272,0.0,-4457.46],
+        [2376.89,750.004,1888.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_far": {
+      "type": "Cylinder",
+      "tm": [
+        [-5448.01,0.0,-754.444],
+        [0.0,4000.0,0.0],
+        [754.444,0.0,-5448.01],
+        [2376.89,750.004,1888.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_area_huge": {
+      "type": "Cylinder",
+      "tm": [
+        [-6438.56,0.0,-891.615],
+        [0.0,4000.0,0.0],
+        [891.615,0.0,-6438.56],
+        [2376.89,750.004,1888.35]
       ],
       "objLayer": 0,
       "props": []

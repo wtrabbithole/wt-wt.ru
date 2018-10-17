@@ -371,6 +371,21 @@
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -1770,7 +1785,7 @@
       {
         "Weapon": {
           "trigger": "gunner2",
-          "triggerGroup": "machinegun",
+          "triggerGroup": "secondary",
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_L21A1_user_machinegun.blk",
           "emitter": "bone_mg_turret_01",
           "flash": "emtr_mg_flame_02",
@@ -1826,8 +1841,8 @@
           "bullets": 2000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -2481,8 +2496,10 @@
       "zoomOutFov": 10.2,
       "zoomInFov": 9.2,
       "sightFov": 6.0,
+      "sightName": "periscope_no59",
       "headPos": [0.0,4.2,-9.0],
-      "headPosOnShooting": [0.0,3.7,0.0],
+      "headPosOnShooting": [-0.65,3.3,0.5],
+      "bone_turret": "bone_mg_aa_h_01",
       "detectionHeight": 2.51
     }
   },
@@ -2688,7 +2705,7 @@
             {
               "Weapon": {
                 "trigger": "gunner2",
-                "triggerGroup": "machinegun",
+                "triggerGroup": "secondary",
                 "blk": "gameData/Weapons/groundModels_weapons/12_7mm_L21A1_user_machinegun.blk",
                 "emitter": "bone_mg_turret_01",
                 "flash": "emtr_mg_flame_02",
@@ -2744,8 +2761,8 @@
                 "bullets": 2000,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,

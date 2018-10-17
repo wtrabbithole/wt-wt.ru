@@ -19,9 +19,9 @@ function g_hud_reward_message::_getViewClass(rewardValue)
   return rewardValue >= 0 ? viewClass : "penalty"
 }
 
-function g_hud_reward_message::_getText(rewardValue, counter)
+function g_hud_reward_message::_getText(rewardValue, counter, expClass)
 {
-  local result = ::loc(locId)
+  local result = ::loc(locFn(expClass))
   if (rewardValue < 0)
     result += ::loc("warpoints/friendly_fire_penalty")
 
@@ -47,6 +47,7 @@ enum REWARD_PRIORITY {
 ::g_hud_reward_message.template <- {
   code = -1
   locId = ""
+  locFn = @(expClass) locId
   viewClass = ""
   priority = REWARD_PRIORITY.common //greater is better
 
@@ -90,6 +91,7 @@ enums.addTypesByGlobalName("g_hud_reward_message", {
   KILL = {
     code = ::EXP_EVENT_KILL
     locId = "exp_reasons/kill"
+    locFn = @(expClass) expClass == "exp_helicopter" ? "exp_reasons/kill_gm" : "exp_reasons/kill"
     viewClass = "kill"
     priority = REWARD_PRIORITY.kill
   }

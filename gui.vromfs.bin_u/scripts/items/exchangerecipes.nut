@@ -58,7 +58,7 @@ local ExchangeRecipes = class {
     {
       local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
 
-      local curQuantity = ::u.reduce(items, @(item, res) res + item.amount, 0)
+      local curQuantity = u.reduce(items, @(item, res) res + item.amount, 0)
       local reqQuantity = component.quantity
       local isHave = curQuantity >= reqQuantity
       isUsable = isUsable && isHave
@@ -180,7 +180,7 @@ local ExchangeRecipes = class {
 
     local imgPrefix = "#ui/gameuiskin#"
     if (mark == MARK_RECIPE.USED)
-      return imgPrefix + (isFake ? "icon_primary_fail" : "icon_primary_ok")
+      return imgPrefix + (isFake ? "icon_primary_fail.svg" : "icon_primary_ok")
 
     if (mark == MARK_RECIPE.BY_USER)
       return imgPrefix + "icon_primary_attention"
@@ -286,8 +286,8 @@ local ExchangeRecipes = class {
 
   static function getRecipesAssembleTimeText(recipes)
   {
-    local minSeconds = ::max(::u.min(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
-    local maxSeconds = ::max(::u.max(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
+    local minSeconds = ::max(u.min(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
+    local maxSeconds = ::max(u.max(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
     if (minSeconds <= 0 && maxSeconds <= 0)
       return ""
 
@@ -298,7 +298,7 @@ local ExchangeRecipes = class {
     return ::loc("msgBox/assembleItem/time", {time = timeText})
   }
 
-  static hasFakeRecipes = @(recipes) ::u.search(recipes, @(r) r?.isFake) != null
+  static hasFakeRecipes = @(recipes) u.search(recipes, @(r) r?.isFake) != null
 
   static function saveMarkedRecipes(newMarkedRecipesUid)
   {
@@ -488,7 +488,7 @@ local ExchangeRecipes = class {
 
     local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item" &&
                                       !extItem?.itemdef?.tags?.devItem
-    local resultItemsShowOpening  = ::u.filter(resultItems, isShowOpening)
+    local resultItemsShowOpening  = u.filter(resultItems, isShowOpening)
 
     local parentGen = componentItem.getParentGen()
     local parentRecipe = parentGen?.getRecipeByUid?(componentItem.craftedFrom)

@@ -462,7 +462,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -470,8 +469,11 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -484,7 +486,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -492,8 +493,11 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -520,6 +524,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_cargo_ships_squad"
@@ -551,6 +564,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_tanks_squad"
@@ -587,6 +609,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_trucks_aaa_squad"
             },
             {
@@ -609,6 +640,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t1_movable_units_squad"
             },
             {
@@ -623,6 +663,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_aaa_squad"
@@ -658,7 +707,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -666,8 +714,11 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -680,7 +731,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -688,8 +738,11 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "resetStrictSpawnIndex": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -722,6 +775,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_ships_squad",
           "target": "t2_ships_squad"
         }
@@ -730,6 +786,15 @@
         "unitSetProperties": [
           {
             "object_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t1_ships_squad"
@@ -770,6 +835,9 @@
           "target_marking": 0,
           "check_objects": "all",
           "check_targets": "all",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_ships_squad",
           "target": "t2_ships_squad"
         }
@@ -778,6 +846,15 @@
         "unitSetProperties": [
           {
             "object_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "object": "t1_cargo_ships_squad"
@@ -818,6 +895,9 @@
             "icon": "tank",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -829,6 +909,9 @@
             "icon": "tank",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -9899,6 +9982,57 @@
         [0.0,450.0,0.0],
         [0.0,0.0,450.0],
         [-1993.74,213.713,-4881.57]
+      ],
+      "props": []
+    },
+    "area_02": {
+      "type": "Sphere",
+      "tm": [
+        [4885.35,0.0,1064.61],
+        [0.0,5000.0,0.0],
+        [-1064.61,0.0,4885.35],
+        [1256.87,1000.0,-569.219]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_helicopter_spawn_01": {
+      "type": "Sphere",
+      "tm": [
+        [293.12,0.0,63.8764],
+        [0.0,300.0,0.0],
+        [-63.8764,0.0,293.12],
+        [-592.712,1000.0,-2253.47]
+      ],
+      "props": []
+    },
+    "t2_helicopter_spawn_02": {
+      "type": "Sphere",
+      "tm": [
+        [293.12,0.0,63.8764],
+        [0.0,300.0,0.0],
+        [-63.8764,0.0,293.12],
+        [-1125.05,1000.0,190.263]
+      ],
+      "props": []
+    },
+    "t1_helicopter_spawn_01": {
+      "type": "Sphere",
+      "tm": [
+        [-295.624,0.0,-51.0473],
+        [0.0,300.0,0.0],
+        [51.0473,0.0,-295.624],
+        [3106.5,1000.0,1113.58]
+      ],
+      "props": []
+    },
+    "t1_helicopter_spawn_02": {
+      "type": "Sphere",
+      "tm": [
+        [-295.624,0.0,-51.0473],
+        [0.0,300.0,0.0],
+        [51.0473,0.0,-295.624],
+        [3649.65,1000.0,-1319.39]
       ],
       "props": []
     }

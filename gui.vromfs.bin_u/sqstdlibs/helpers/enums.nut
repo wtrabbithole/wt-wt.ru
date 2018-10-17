@@ -1,5 +1,11 @@
 local u = require("std/u.nut")
 
+local function isTable(v) {return type(v)=="table"}
+local function isArray(v) {return type(v)=="array"}
+local function isString(v) {return type(v)=="string"}
+local function isFunction(v) {return type(v)=="function"}
+
+
 /**
  * Contains all utility functions related to creation
  * of and managing in-game type enumerations.
@@ -13,7 +19,7 @@ local function getPropValue(propName, typeObject)
 
   // Calling 'value()' instead of 'typeObject[propName]()'
   // caused function to be called in a wrong environment.
-  return u.isFunction(value) ? typeObject[propName]() : value
+  return isFunction(value) ? typeObject[propName]() : value
 }
 
 //caseSensitive work only with string propValues
@@ -21,7 +27,7 @@ local function getCachedType(propName, propValue, cacheTable, enumTable, default
 {
   if (!caseSensitive)
   {
-    if (u.isString(propValue))
+    if (isString(propValue))
       propValue = propValue.tolower()
     else
     {
@@ -47,16 +53,16 @@ local function getCachedType(propName, propValue, cacheTable, enumTable, default
 
   foreach (typeTbl in enumTable.types)
   {
-    if (!u.isTable(typeTbl))
+    if (!isTable(typeTbl))
       continue
 
     local valueArr = getPropValue(propName, typeTbl)
-    if (!u.isArray(valueArr))
+    if (!isArray(valueArr))
       valueArr = [valueArr]
     foreach (value in valueArr)
     {
       if (!caseSensitive)
-        if (u.isString(value))
+        if (isString(value))
           value = value.tolower()
         else
         {
@@ -86,7 +92,7 @@ local function addType(enumTable, typeTemplate, typeName, typeDefinition)
   enumTable[typeName] <- type
 
   local types = enumTable?.types
-  if (u.isArray(types))
+  if (isArray(types))
     u.appendOnce(type, types)
   else
   {
@@ -130,7 +136,7 @@ local function addTypesByGlobalName(enumTableName, typesToAdd, typeConstructor =
                                 registerForScriptReloader = true)
 {
   local enumTable = ::getroottable()?[enumTableName]
-  if (!u.isTable(enumTable))
+  if (!isTable(enumTable))
   {
     assertOnce("not found enum table", "enums: not found enum table '" + enumTableName + "'")
     return

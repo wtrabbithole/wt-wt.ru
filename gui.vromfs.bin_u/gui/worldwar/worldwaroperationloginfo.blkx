@@ -64,6 +64,7 @@
               "on_click": "onClickShowPrevLogs"
             },
             "frameBlock_dark": {
+              "id": "show_prev_logs_btn_nest",
               "height": "ph",
               "hasBorder": "no",
               "padding": "1@dp, 0",
@@ -72,7 +73,7 @@
                 "id": "show_prev_logs_btn",
                 "position": "relative",
                 "top": "(ph-h)/2",
-                "reduceMinimalWidth": "yes",
+                "reduceWidthToHeight": "yes",
                 "showConsoleImage": "no",
                 "useParentHeight": "yes",
                 "noMargin": "yes",
@@ -130,7 +131,7 @@
                 "margin-right": "2@blockInterval",
                 "Button_text": {
                   "id": "show_next_logs_btn",
-                  "reduceMinimalWidth": "yes",
+                  "reduceWidthToHeight": "yes",
                   "position": "relative",
                   "top": "(ph-h)/2",
                   "text": "#keysPlus",
@@ -149,7 +150,7 @@
                 "margin-right": "2@blockInterval",
                 "Button_text": {
                   "id": "show_first_logs_btn",
-                  "reduceMinimalWidth": "yes",
+                  "reduceWidthToHeight": "yes",
                   "position": "relative",
                   "top": "(ph-h)/2",
                   "text": "#keysScrollToBottom",
@@ -171,9 +172,8 @@
         "background-color": "@operationLogFilterBar",
         "Button_text": {
           "id": "ww_log_filters",
-          "visualStyle": "noFrame",
-          "_on_click": "onShowOperationLogFilters",
-          "text": "#worldwar/logFilters"
+          "text": "#worldwar/logFilters",
+          "_on_click": "onShowOperationLogFilters"
         },
         "textareaNoTab": {
           "id": "hidden_logs_text",

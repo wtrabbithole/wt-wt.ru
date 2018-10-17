@@ -627,6 +627,21 @@
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "tracks": {
@@ -885,7 +900,12 @@
         "ammo_body_r_07_dm": [],
         "ammo_body_r_08_dm": [],
         "ammo_body_r_09_dm": [],
-        "ammo_body_r_10_dm": []
+        "ammo_body_r_10_dm": [],
+        "ammo_body_r_11_dm": [],
+        "ammo_body_r_12_dm": [],
+        "ammo_body_r_13_dm": [],
+        "ammo_body_r_14_dm": [],
+        "ammo_body_r_15_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -2412,7 +2432,9 @@
         "animationMultiplier": -0.63,
         "height": 0.085,
         "width": 0.635,
-        "fricFrontal": [0.9,0.7]
+        "fricFrontal": [1.7,1.5],
+        "criticalHillAngle": 27.0,
+        "hillClimbingDeclineFricKoef": 15.0
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2479,6 +2501,20 @@
         "defaultDampeningForce": [150000.0,150000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
+      }
+    }
+  },
+  {
+    "info": {
+      "engine_dm": {
+        "manufacturer": "honeywell",
+        "model": "agt_1500",
+        "type": "gasturbine"
+      },
+      "transmission_dm": {
+        "manufacturer": "allison",
+        "model": "x_1100_3b",
+        "type": "auto"
       }
     }
   },
@@ -3032,8 +3068,9 @@
       "zoomOutFov": 9.2,
       "zoomInFov": 6.0,
       "sightFov": 6.0,
+      "sightName": "telescope_m127",
       "headPos": [0.0,4.0,-8.5],
-      "headPosOnShooting": [0.0,3.7,0.0],
+      "headPosOnShooting": [-0.8,3.4,0.5],
       "detectionHeight": 2.375
     }
   },

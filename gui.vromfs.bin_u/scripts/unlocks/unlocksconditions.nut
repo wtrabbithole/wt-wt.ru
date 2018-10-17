@@ -625,9 +625,10 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
   local textParams = {}
 
   local progressText = ""
-  if (bitMode && ::getTblValue("bitListInValue", params))
+  local showValueForBitList = params?.showValueForBitList
+  if (bitMode && (params?.bitListInValue || showValueForBitList))
   {
-    if (curValue == null)
+    if (curValue == null || params?.showValueForBitList)
       progressText = ::g_string.implode(getLocForBitValues(modeType, condition.values), ", ")
     if (::is_numeric(maxValue) && maxValue != condition.values.len())
     {

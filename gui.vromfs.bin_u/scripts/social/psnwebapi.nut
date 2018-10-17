@@ -4,13 +4,13 @@ enum PSN_WEBAPI_PART {
   JSON = "application/json; encoding=utf-8"
 }
 
-local function createRequest(api, method, path=null, params=null, data=null)
+local function createRequest(api, method, path=null, params=null, data=null, forceBinary=false)
 {
   local request = ::DataBlock()
   request.apiGroup = api.group
   request.method = method
   request.path = api.path + (path ? "/" + path : "") + (params ? "?" + params : "")
-  request.multipart = u.isArray(data)
+  request.forceBinary = forceBinary
 
   if (u.isString(data))
     request.request = data
@@ -25,19 +25,11 @@ local function createRequest(api, method, path=null, params=null, data=null)
 local function createPart(type, name, data)
 {
   local part = ::DataBlock()
-
-  local makeHeader = function(name, value) {
-    local hdr = ::DataBlock()
-    hdr.name = name
-    hdr.value = value
-    return hdr
-  }
-  local headers = ::DataBlock()
-  headers.content <- makeHeader("Content-Type", type)
-  headers.content <- makeHeader("Content-Description", name)
+  part.reqHeaders = ::DataBlock()
+  part.reqHeaders["Content-Type"] = type
+  part.reqHeaders["Content-Description"] = name
   if (type == PSN_WEBAPI_PART.IMAGE || type == PSN_WEBAPI_PART.BINARY)
-    headers.content <- makeHeader("Content-Disposition", "attachment")
-  part.reqHeaders = headers
+    part.reqHeaders["Content-Disposition"] = "attachment"
 
   if (type == PSN_WEBAPI_PART.IMAGE)
     part.filePath = data
@@ -46,6 +38,7 @@ local function createPart(type, name, data)
   return part
 }
 
+local function noOpCb(response, error) { /* NO OP */ }
 
 // ------------ Session actions
 session <- { group = "sdk:sessionInvitation", path = "/v1/sessions" }
@@ -56,7 +49,7 @@ function session::create(info, image, data)
   if (!u.isEmpty(image))
     parts.append(createPart(PSN_WEBAPI_PART.IMAGE, "session-image", image))
   if (!u.isEmpty(data))
-    parts.append(createPart(PSN_WEBAPI_PART.BINARY, "session-data", data))
+    parts.append(createPart(PSN_WEBAPI_PART.BINARY, "changeable-session-data", data))
   return createRequest(this, ::HTTP_METHOD_POST, null, null, parts)
 }
 
@@ -77,12 +70,20 @@ function session::leave(sessionId)
 
 function session::data(sessionId)
 {
-  return createRequest(this, ::HTTP_METHOD_GET, sessionId+"/sessionData")
+  return createRequest(this, ::HTTP_METHOD_GET, sessionId+"/changeableSessionData")
 }
 
-function session::invite(sessionId, accountId, data={})
+function session::change(sessionId, data)
 {
-  local parts = [createPart(PSN_WEBAPI_PART.JSON, "invitation-request", {to=[accountId]})]
+  return createRequest(this, ::HTTP_METHOD_PUT, sessionId+"/changeableSessionData", null, data, true)
+}
+
+
+function session::invite(sessionId, accounts, data={})
+{
+  if (u.isString(accounts))
+    accounts = [accounts]
+  local parts = [createPart(PSN_WEBAPI_PART.JSON, "invitation-request", {to=accounts})]
   if (!u.isEmpty(data))
     parts.append(createPart(PSN_WEBAPI_PART.BINARY, "invitation-data", data))
   return createRequest(this, ::HTTP_METHOD_POST, sessionId+"/invitations", null, parts)
@@ -109,9 +110,7 @@ profile <- { group = "sdk:userProfile", path = "/v1/users/me" }
 function profile::listFriends(offset, limit)
 {
   local params = ::format("friendStatus=friend&presenceType=incontext&offset=%d&limit=%d", offset, limit)
-  local request = createRequest(this, ::HTTP_METHOD_GET, "friendList", params)
-  request.respSize = 8*1024
-  return request
+  return createRequest(this, ::HTTP_METHOD_GET, "friendList", params)
 }
 
 
@@ -130,21 +129,12 @@ return {
   profile = profile
   feed = feed
 
-  send = function(action, onResponse=function(r, e){}, handler=null) {
+  noOpCb = noOpCb
+
+  send = function(action, onResponse=noOpCb, handler=null) {
     local cb = handler ? ::Callback(onResponse, handler) : onResponse
-    ::get_cur_gui_scene().performDelayed(this, function() {
-        local ret = ::ps4_web_api_request(action)
-        if (ret?.error)
-        {
-          ::dagor.debug("[PSWA] Error: " + ret.error)
-          ::dagor.debug("[PSWA] Error text: " + ret.errorStr)
-        }
-
-        if (ret?.response)
-          ::dagor.debug("[PSSI] Response: " + ret.response)
-
-        cb(ret?.response ? ::parse_json(ret.response) : {}, ret?.error)
-      })
+    ::ps4_send_web_api_request(action,
+        @(r) cb(r?.response ? ::parse_json(r.response) : null, r?.error))
   }
 }
 

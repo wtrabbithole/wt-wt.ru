@@ -53,7 +53,7 @@ function gui_modal_help(isStartedFromMenu, contentSet)
   })
 
   local unitId = ::get_player_cur_unit()
-  if (::is_in_flight() && (::is_helicopter(unitId) || ::is_submarine(unitId)))
+  if (::is_in_flight() && ::is_submarine(unitId))
     ::g_hud_event_manager.onHudEvent("hint:controlsHelp:remove", {})
 }
 
@@ -341,8 +341,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       isShow = function(handler, params) {
         return ::getTblValue("showControlsHelicopter", params, false)
       }
-      pageUnitType = ::g_unit_type.AIRCRAFT
-      pageUnitTag = "helicopter"
+      pageUnitType = ::g_unit_type.HELICOPTER
+      pageUnitTag = null
       pageBlkName = "gui/help/controlsHelicopter.blk"
       imagePattern = "#ui/images/country_%s_helicopter_controls_help.jpg?P1"
       hasImageByCountries = ["ussr"]
@@ -352,9 +352,24 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       linkLines = {
         links = [
+          { start = "hud_movement_indicators_label", end = "rpm_value" }
+          { start = "hud_movement_indicators_label", end = "throttle_value" }
+          { start = "hud_movement_indicators_label", end = "climb_value" }
+          { start = "hud_movement_indicators_label", end = "speed_value" }
+          { start = "hud_ammo_indicators_label", end = "cannons_value" }
+          { start = "hud_ammo_indicators_label", end = "additional_guns_value" }
+          { start = "hud_ammo_indicators_label", end = "bombs_value" }
+          { start = "hud_ammo_indicators_label", end = "rockets_value" }
+          { start = "hud_ammo_indicators_label", end = "missiles_value" }
+          { start = "hud_ammo_indicators_label", end = "rate_of_fire_value" }
           { start = "CURSOR_controls_frame", end = "cursor_control_point" }
+          { start = "secondary_cannons_aim_marker_label", end = "secondary_cannons_aim_marker_point" }
           { start = "rocket_aim_marker_label", end = "rocket_aim_marker_point" }
-          { start = "velocity_vector_marker_label", end = "velocity_vector_marker_point" }
+          { start = "bombs_aim_marker_label", end = "bombs_aim_marker_point" }
+          { start = "attitude_indicator_label", end = "attitude_indicator_point" }
+          { start = "velocity_vector_indicator_label", end = "velocity_vector_indicator_point" }
+          { start = "altimeter_indicator_label", end = "altimeter_indicator_point" }
+          { start = "vertical_speed_indicator_label", end = "vertical_speed_indicator_point" }
        ]
       }
     },
@@ -434,8 +449,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       isShow = function(handler, params) {
         return ::getTblValue("showControlsHelicopter", params, false) && ::getTblValue("hasController", params, false)
       }
-      pageUnitType = ::g_unit_type.AIRCRAFT
-      pageUnitTag = "helicopter"
+      pageUnitType = ::g_unit_type.HELICOPTER
+      pageUnitTag = null
       pageBlkName = controllerMarkup.blk
       pageFillfuncName = "initGamepadPage"
     },
@@ -489,8 +504,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       isShow = function(handler, params) {
         return ::getTblValue("showControlsHelicopter", params, false) && ::getTblValue("hasKeyboard", params, false)
       }
-      pageUnitType = ::g_unit_type.AIRCRAFT
-      pageUnitTag = "helicopter"
+      pageUnitType = ::g_unit_type.HELICOPTER
+      pageUnitTag = null
       pageBlkName = "gui/help/controllerKeyboard.blk"
       pageFillfuncName = "fillAllTexts"
     },
@@ -536,20 +551,18 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local hasFeatureTanks = ::has_feature("Tanks")
     local hasFeatureShips = ::has_feature("Ships") || ::has_feature("SpecialShips")
+    local hasFeatureHelicopters = ::has_feature("Helicopters")
 
     local currentUnit = ::get_player_cur_unit()
 
     pageUnitType = currentUnit ? currentUnit.unitType : ::g_unit_type.AIRCRAFT
-    if (pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks)
-      pageUnitType = ::g_unit_type.AIRCRAFT
-    if (pageUnitType == ::g_unit_type.SHIP && !hasFeatureShips)
-      pageUnitType = ::g_unit_type.AIRCRAFT
+    if ((pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks) ||
+        (pageUnitType == ::g_unit_type.SHIP && !hasFeatureShips) ||
+        (pageUnitType == ::g_unit_type.HELICOPTER && !hasFeatureHelicopters))
+          pageUnitType = ::g_unit_type.AIRCRAFT
 
-    pageUnitTag = currentUnit && ::is_helicopter(currentUnit) ? "helicopter"
-      : currentUnit && ::is_submarine(currentUnit) ? "submarine"
-      : null
+    pageUnitTag = ::is_submarine(currentUnit) ? "submarine" : null
 
-    local hasHelicopterControls = ::has_feature("Helicopters")  || pageUnitTag == "helicopter"
     local hasSubmarineControls  = ::has_feature("SpecialShips") || pageUnitTag == "submarine"
 
     local basePresets = ::g_controls_manager.getCurPreset().getBasePresetNames()
@@ -573,8 +586,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       showControlsAir  = (isContentControls || pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
       showControlsTank = (isContentControls || pageUnitType == ::g_unit_type.TANK && pageUnitTag == null) && hasFeatureTanks
       showControlsShip = (isContentControls || pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null) && hasFeatureShips
-      showControlsHelicopter = (isContentControls || pageUnitType == ::g_unit_type.AIRCRAFT &&
-        pageUnitTag == "helicopter") && hasHelicopterControls
+      showControlsHelicopter = (isContentControls || pageUnitType == ::g_unit_type.HELICOPTER &&
+        pageUnitTag == null) && hasFeatureHelicopters
       showControlsSubmarine = (isContentControls || pageUnitType == ::g_unit_type.SHIP &&
         pageUnitTag == "submarine") && hasSubmarineControls
       hasController    = ::is_platform_ps4  || ::show_console_buttons
@@ -611,7 +624,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.IMAGE_TANK]
       if (!isAdvanced && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null)
         return tabsCfg[help_tab_types.IMAGE_SHIP]
-      if (!isAdvanced && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter")
+      if (!isAdvanced && pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
         return tabsCfg[help_tab_types.IMAGE_HELICOPTER]
       if (!isAdvanced && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
         return tabsCfg[help_tab_types.IMAGE_SUBMARINE]
@@ -621,7 +634,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.CONTROLLER_TANK]
       if (params.hasController && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null)
         return tabsCfg[help_tab_types.CONTROLLER_SHIP]
-      if (params.hasController && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter")
+      if (params.hasController && pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
         return tabsCfg[help_tab_types.CONTROLLER_HELICOPTER]
       if (params.hasController && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
         return tabsCfg[help_tab_types.CONTROLLER_SUBMARINE]
@@ -631,7 +644,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.KEYBOARD_TANK]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null)
         return tabsCfg[help_tab_types.KEYBOARD_SHIP]
-      if (params.hasKeyboard && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter")
+      if (params.hasKeyboard && pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
         return tabsCfg[help_tab_types.KEYBOARD_HELICOPTER]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
         return tabsCfg[help_tab_types.KEYBOARD_SUBMARINE]
@@ -865,11 +878,11 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     modifierSymbols = {}
 
     local shortcutsList  =
-      (pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null) ? ::controlsHelp_shortcuts :
-      (pageUnitType == ::g_unit_type.TANK     && pageUnitTag == null) ? ::controlsHelp_shortcuts_ground :
-      (pageUnitType == ::g_unit_type.SHIP     && pageUnitTag == null) ? ::controlsHelp_shortcuts_naval :
-      (pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "helicopter") ? ::controlsHelp_shortcuts_helicopter :
-      (pageUnitType == ::g_unit_type.SHIP     && pageUnitTag == "submarine")  ? ::controlsHelp_shortcuts_submarine :
+      (pageUnitType == ::g_unit_type.AIRCRAFT   && pageUnitTag == null) ? ::controlsHelp_shortcuts :
+      (pageUnitType == ::g_unit_type.TANK       && pageUnitTag == null) ? ::controlsHelp_shortcuts_ground :
+      (pageUnitType == ::g_unit_type.SHIP       && pageUnitTag == null) ? ::controlsHelp_shortcuts_naval :
+      (pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null) ? ::controlsHelp_shortcuts_helicopter :
+      (pageUnitType == ::g_unit_type.SHIP       && pageUnitTag == "submarine")  ? ::controlsHelp_shortcuts_submarine :
       []
     for(local i=0; i<shortcutsList.len(); i++)
     {

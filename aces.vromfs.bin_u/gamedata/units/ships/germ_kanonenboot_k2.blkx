@@ -57,10 +57,10 @@
     "tailStartOffset": 10.0
   },
   {
-    "ikPilotMaxUpdateDistance": 90.0
+    "ikPilotMaxUpdateDistance": 110.0
   },
   {
-    "ikPilotMaxRenderDistance": 90.0
+    "ikPilotMaxRenderDistance": 110.0
   },
   {
     "type": "typeDestroyer"
@@ -125,6 +125,12 @@
         "replace_tex": {
           "from": "flag_germany_02_c*",
           "to": "flag_germany_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "germany_flag_decal*",
+          "to": "germany_harm_flag_decal*"
         }
       }
     ]
@@ -1808,6 +1814,117 @@
             "name": "depth_charge_12_dm"
           },
           {
+            "name": "depth_charge_13_dm"
+          },
+          {
+            "name": "depth_charge_14_dm"
+          },
+          {
+            "name": "depth_charge_15_dm"
+          },
+          {
+            "name": "depth_charge_16_dm"
+          },
+          {
+            "name": "depth_charge_17_dm"
+          },
+          {
+            "name": "depth_charge_18_dm"
+          },
+          {
+            "name": "depth_charge_19_dm"
+          },
+          {
+            "name": "depth_charge_20_dm"
+          },
+          {
+            "name": "depth_charge_31_dm"
+          },
+          {
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
+          },
+          {
             "onKill": {
               "expl": 0.5,
               "fHitCritical": false
@@ -2370,8 +2487,8 @@
         "Empty": 1060000.0,
         "Fuel": 40000.0,
         "TakeOff": 1020000.0,
-        "momentOfInertia": [35.0,380.0,270.0],
-        "CenterOfGravity": [1.0,0.5,0.0]
+        "momentOfInertia": [35.0,380.0,250.0],
+        "CenterOfGravity": [0.0,1.6,0.0]
       },
       "engines": [
         {
@@ -5325,7 +5442,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,17.0,-55.0],
+      "headPos": [0.0,19.0,-55.0],
       "headPosOnShooting": [10.2,23.8,0.0],
       "detectionHeight": 22.5
     }
@@ -5898,19 +6015,19 @@
   },
   {
     "breaches": {
-      "repairSpeed": 50.0,
-      "waterMassVel": -50000.0,
-      "waterMassMult": 50.0,
-      "sizeToRepair": [0.01,2.0,15.0,1500.0],
-      "additionalWaterDeathThreshold": 5500000.0,
+      "repairSpeed": 25.0,
+      "waterMassVel": -150000.0,
+      "waterMassMult": 200.0,
+      "sizeToRepair": [0.01,4.0,10.0,450.0],
+      "additionalWaterDeathThreshold": 4500000.0,
       "additionalWaterShouldDiePercent": 0.3,
-      "fatalBreachDrownTime": 45.0,
-      "maxHeelingAngle": 35.0,
-      "maxHeelingTime": 10.0,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 34.0,
+      "maxHeelingTime": 8.0,
       "criticalHeelingAnglePercent": 0.5,
-      "maxCriticalHeelingTime": 2.0,
+      "maxCriticalHeelingTime": 3.0,
       "heelingDeathHeightOffsetMult": 1.0,
-      "sideCenterOfMassOffsetPercent": 0.5
+      "sideCenterOfMassOffsetPercent": 0.45
     }
   },
   {
@@ -5926,7 +6043,13 @@
         "cover": {
           "part": "compartment_02_dm",
           "weight": 0.5,
-          "maxWaterAlive": 1.0
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_01_dm",
+              "critWaterLevel": 0.4
+            }
+          }
         }
       },
       {
@@ -5940,14 +6063,34 @@
         "cover": {
           "part": "compartment_04_dm",
           "weight": 0.8,
-          "maxWaterAlive": 1.0
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "engine_01_dm",
+                "critWaterLevel": 0.5
+              }
+            },
+            {
+              "part": {
+                "partNo": "engine_02_dm",
+                "critWaterLevel": 0.5
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_05_dm",
           "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_02_dm",
+              "critWaterLevel": 0.4
+            }
+          }
         }
       },
       {

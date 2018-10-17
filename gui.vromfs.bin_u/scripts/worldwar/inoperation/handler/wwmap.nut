@@ -98,7 +98,24 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function initControlBlockVisibiltiySwitch()
   {
-    showSceneBtn("control_block_visibility_switch", ::is_low_width_screen())
+    showSceneBtn("control_block_visibility_switch", isSwitchPanelBtnVisible())
+    updateGamercardType()
+  }
+
+  function isSwitchPanelBtnVisible()
+  {
+    return ::is_low_width_screen()
+  }
+
+  function updateGamercardType()
+  {
+    local gamercardObj = scene.findObject("gamercard_div")
+    if (!::check_obj(gamercardObj))
+      return
+
+    gamercardObj.switchBtnStat = !isSwitchPanelBtnVisible() ? "hidden"
+      : isRightPanelVisible ? "switchOff"
+      : "switchOn"
   }
 
   function initPageSwitch(forceTabSwitch = null)
@@ -264,9 +281,15 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateArmyActionButtons()
   {
-    local obj = scene.findObject("ww_army_controls_place")
-    if (!::checkObj(obj))
+    local nestObj = scene.findObject("ww_army_controls_nest")
+    if (!::check_obj(nestObj))
       return
+
+    if (!::g_world_war.haveManagementAccessForAnyGroup())
+    {
+      nestObj.show(false)
+      return
+    }
 
     local hasAccess = false
     if (currentSelectedObject == mapObjectSelect.REINFORCEMENT)
@@ -281,12 +304,16 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
              currentSelectedObject == mapObjectSelect.LOG_ARMY)
       hasAccess = ::g_world_war.haveManagementAccessForSelectedArmies()
 
+    local btnBlockObj = scene.findObject("ww_army_controls_place")
+    if (!::check_obj(btnBlockObj))
+      return
+
     local showAny = false
     foreach (buttonView in ::g_ww_map_controls_buttons.types)
     {
       local showButton = hasAccess && !buttonView.isHidden()
-      local buttonObj = ::showBtn(buttonView.id, showButton, obj)
-      if (::checkObj(buttonObj))
+      local buttonObj = ::showBtn(buttonView.id, showButton, btnBlockObj)
+      if (::check_obj(buttonObj))
       {
         buttonObj.enable(buttonView.isEnabled())
         buttonObj.setValue(buttonView.text())
@@ -294,7 +321,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
       showAny = showAny || showButton
     }
-    obj.show(showAny)
+    btnBlockObj.show(showAny)
+
+    local warningTextObj = scene.findObject("ww_no_army_to_controls")
+    if (::check_obj(warningTextObj))
+      warningTextObj.show(!showAny)
   }
 
   function initToBattleButton()
@@ -319,10 +350,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene) || !::checkObj(toBattleButtonObj))
       return
 
-    local isOperationContinue = !::g_world_war.isCurrentOperationFinished()
-    local isInQueue = isOperationContinue && ::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE)
-    local isSquadMember = isOperationContinue && ::g_squad_manager.isSquadMember()
-
+    local isSquadMember = isOperationActive() && ::g_squad_manager.isSquadMember()
     local txt = ::loc("worldWar/btn_battles")
     local isCancel = false
 
@@ -332,13 +360,13 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       txt = ::loc(isReady ? "multiplayer/btnNotReady" : "mainmenu/btnReady")
       isCancel = isReady
     }
-    else if (isInQueue)
+    else if (isInQueue())
     {
       txt = ::loc("mainmenu/btnCancel")
       isCancel = true
     }
 
-    local enable = isOperationContinue && hasBattlesToPlay()
+    local enable = isOperationActive() && hasBattlesToPlay()
     toBattleButtonObj.inactiveColor = enable? "no" : "yes"
     toBattleButtonObj.setValue(txt)
     toBattleButtonObj.findObject("to_battle_button_text").setValue(txt)
@@ -836,7 +864,12 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return scene.findObject("worldwar_map")
+    return scene.findObject("pages_list")
+  }
+
+  function getMainFocusObj2()
+  {
+    return scene.findObject("reinforcement_pages_list")
   }
 
   function initOperationStatus(sendEvent = true)
@@ -1074,6 +1107,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     local rootObj = obj.getParent()
     rootObj.collapsed = isRightPanelVisible ? "no" : "yes"
+    updateGamercardType()
   }
 
   function onEventWWShowLogArmy(params)
@@ -1239,4 +1273,65 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     ::Timer(scene, 3, animationFunc, this)
   }
+
+  function getWndHelpConfig()
+  {
+    local res = {
+      textsBlk = "gui/worldWar/wwMapHelp.blk"
+      objContainer = scene.findObject("root-box")
+    }
+
+    local tab1 = currentOperationInfoTabType
+    local tab2 = currentReinforcementInfoTabType
+    local links = [
+      { obj = "topmenu_ww_menu_btn"
+        msgId = "hint_topmenu_ww_menu_btn"
+      },
+      { obj = "topmenu_ww_map_filter_btn"
+        msgId = "hint_topmenu_ww_map_filter_btn"
+      },
+      { obj = "to_battle_button"
+        msgId = "hint_to_battle_button"
+        text = ::loc("worldwar/help/map/" + (isInQueue() ? "leave_queue_btn" : "to_battle_btn"))
+      },
+      { obj = ["ww_army_controls_nest"]
+        msgId = "hint_ww_army_controls_nest"
+      },
+      { obj = ["operation_name"]
+        msgId = "hint_operation_name"
+      },
+      { obj = "selected_page_block"
+        msgId = "hint_top_block"
+        text = ::loc("worldwar/help/map/"
+          + (tab1 == ::g_ww_map_info_type.OBJECTIVE ? "objective" : "log"))
+      },
+      { obj = "reinforcement_block"
+        msgId = "hint_reinforcement_block"
+        text = ::loc("worldwar/help/map/"
+          + ( tab2 == ::g_ww_map_reinforcement_tab_type.COMMANDERS    ? "commanders"
+            : tab2 == ::g_ww_map_reinforcement_tab_type.REINFORCEMENT ? "reinforcements"
+            : tab2 == ::g_ww_map_reinforcement_tab_type.AIRFIELDS     ? "airfield"
+            : "armies"))
+      },
+      { obj = "content_block_3"
+        msgId = "hint_content_block_3"
+        text = ::loc("worldwar/help/map/"
+          + (isSelectedObjectInfoShown() ? "army_info" : "side_strength"))
+      },
+      { obj = isRightPanelVisible ? null : "control_block_visibility_switch"
+        msgId = "hint_show_right_panel_button"
+      }
+    ]
+
+    res.links <- links
+    return res
+  }
+
+  isSelectedObjectInfoShown = @() currentSelectedObject == mapObjectSelect.ARMY ||
+    currentSelectedObject == mapObjectSelect.REINFORCEMENT ||
+    currentSelectedObject == mapObjectSelect.AIRFIELD ||
+    currentSelectedObject == mapObjectSelect.LOG_ARMY
+
+  isOperationActive = @() !::g_world_war.isCurrentOperationFinished()
+  isInQueue = @() isOperationActive() && ::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE)
 }

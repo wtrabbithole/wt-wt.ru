@@ -120,6 +120,12 @@
           "from": "flag_germany_02_c*",
           "to": "flag_germany_alt_c*"
         }
+      },
+      {
+        "replace_tex": {
+          "from": "germany_flag_decal*",
+          "to": "germany_harm_flag_decal*"
+        }
       }
     ]
   },
@@ -1437,10 +1443,91 @@
             "name": "depth_charge_20_dm"
           },
           {
-            "name": "depth_charge_21_dm"
+            "name": "depth_charge_31_dm"
           },
           {
-            "name": "depth_charge_22_dm"
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
           },
           {
             "name": "depth_charge_l_01_dm"
@@ -2616,14 +2703,14 @@
   },
   {
     "breaches": {
-      "repairSpeed": 30.0,
-      "waterMassVel": -3000.0,
-      "waterMassMult": 25.0,
-      "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 500000.0,
+      "repairSpeed": 20.0,
+      "waterMassVel": -14000.0,
+      "waterMassMult": 90.0,
+      "sizeToRepair": [0.01,2.0,10.0,300.0],
+      "additionalWaterDeathThreshold": 370000.0,
       "additionalWaterShouldDiePercent": 0.45,
       "fatalBreachDrownTime": 35.0,
-      "maxHeelingAngle": 40.0,
+      "maxHeelingAngle": 43.0,
       "maxHeelingTime": 10.0,
       "criticalHeelingAnglePercent": 0.5,
       "maxCriticalHeelingTime": 2.0,
@@ -2636,22 +2723,62 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "weight": 0.9,
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "ammunition_storage_01_dm",
+                "critWaterLevel": 0.4
+              }
+            },
+            {
+              "part": {
+                "partNo": "radio_station_dm",
+                "critWaterLevel": 0.6
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "engine_01_dm",
+                "critWaterLevel": 0.6
+              }
+            },
+            {
+              "part": {
+                "partNo": "engine_02_dm",
+                "critWaterLevel": 0.6
+              }
+            },
+            {
+              "part": {
+                "partNo": "engine_03_dm",
+                "critWaterLevel": 0.6
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
-          "weight": 0.8,
-          "maxWaterAlive": 1.0
+          "weight": 0.55,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_02_dm",
+              "critWaterLevel": 0.75
+            }
+          }
         }
       }
     ]
@@ -2671,50 +2798,6 @@
       "explodeTreshold": 0.0001,
       "explodeArmorPower": 50.0,
       "explodeRadius": [50.0,100.0]
-    }
-  },
-  {
-    "ammoStowages": {
-      "ammo1": [
-        {
-          "weaponTrigger": "gunner1"
-        },
-        {
-          "weaponTrigger": "gunner2"
-        },
-        {
-          "shells": {
-            "fatalFire": true,
-            "fatalExplosion": true,
-            "fireEvent": "ammo_fire_2",
-            "explosionEvent": "ammo_explosion_2",
-            "ammunition_storage_02_dm": {
-              "count": 5000
-            }
-          }
-        }
-      ],
-      "ammo2": [
-        {
-          "weaponTrigger": "gunner0"
-        },
-        {
-          "weaponTrigger": "gunner3"
-        },
-        {
-          "weaponTrigger": "gunner4"
-        },
-        {
-          "shells": {
-            "fatalExplosion": true,
-            "fireEvent": "ammo_fire_1",
-            "explosionEvent": "ammo_explosion_1",
-            "ammunition_storage_01_dm": {
-              "count": 6000
-            }
-          }
-        }
-      ]
     }
   },
   {
@@ -3022,25 +3105,25 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-10.0,90.0]
+              "pitch": [-10.0,88.0]
             }
           },
           {
             "limitsTable": [
               {
-                "lim1": [-180.0,-135.0,30.0,90.0]
+                "lim1": [-180.0,-135.0,30.0,88.0]
               },
               {
-                "lim2": [-135.0,-40.0,-10.0,90.0]
+                "lim2": [-135.0,-40.0,-10.0,88.0]
               },
               {
-                "lim4": [-40.0,40.0,-7.0,90.0]
+                "lim4": [-40.0,40.0,-7.0,88.0]
               },
               {
-                "lim2": [40.0,135.0,-10.0,90.0]
+                "lim2": [40.0,135.0,-10.0,88.0]
               },
               {
-                "lim3": [135.0,180.0,30.0,90.0]
+                "lim3": [135.0,180.0,30.0,88.0]
               }
             ]
           }
@@ -3669,6 +3752,50 @@
         "name": "germ_s_100_s204_lang_default",
         "blk": "gameData/units/ships/weaponPresets/germ_s_100_s204_lang_default.blk"
       }
+    }
+  },
+  {
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_1",
+            "explosionEvent": "ammo_explosion_1",
+            "ammunition_storage_01_dm": {
+              "count": 6000
+            }
+          }
+        }
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "shells": {
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_1",
+            "explosionEvent": "ammo_explosion_1",
+            "ammunition_storage_02_dm": {
+              "count": 5000
+            }
+          }
+        }
+      ]
     }
   },
   {

@@ -957,12 +957,15 @@ function PrizesView::getPrizeActionButtonsView(prize, params = null)
   if (resource && resourceType)
   {
     local gcb = globalCallbacks.DECORATOR_PREVIEW
-    view.append({
-      image = "#ui/gameuiskin#btn_preview.svg"
-      tooltip = "#mainmenu/btnPreview"
-      funcName = gcb.cbName
-      actionParamsMarkup = gcb.getParamsMarkup({ resource = resource, resourceType = resourceType })
-    })
+    local decType = ::g_decorator_type.getTypeByResourceType(resourceType)
+    local decorator = ::g_decorator.getDecorator(resource, decType)
+    if (decorator.canPreview())
+      view.append({
+        image = "#ui/gameuiskin#btn_preview.svg"
+        tooltip = "#mainmenu/btnPreview"
+        funcName = gcb.cbName
+        actionParamsMarkup = gcb.getParamsMarkup({ resource = resource, resourceType = resourceType })
+      })
     return view
   }
 

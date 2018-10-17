@@ -10,7 +10,7 @@
   "aimMaxDist": 2000.0,
   "maxDeltaAngle": 0.021,
   "maxDeltaAngleVertical": 0.021,
-  "shotFreq": 0.12,
+  "shotFreq": 0.15,
   "traceFreq": 4,
   "bEnablePause": false,
   "bullets": -1,
@@ -363,6 +363,22 @@
         "ArmorPower4000m": [300.0,4000.0],
         "ArmorPower10000m": [50.0,10000.0],
         "ArmorPower20000m": [0.0,20000.0]
+      },
+      "ballistics": {
+        "slopeEffect": {
+          "table": {
+            "t1": {
+              "caliberToArmor": 1.0,
+              "slopeEffect0deg": [0.0,20.0],
+              "slopeEffect10deg": [10.0,5.3],
+              "slopeEffect20deg": [20.0,2.5],
+              "slopeEffect30deg": [30.0,1.92],
+              "slopeEffect50deg": [50.0,1.305],
+              "slopeEffect70deg": [70.0,1.064],
+              "slopeEffect90deg": [90.0,1.0]
+            }
+          }
+        }
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],

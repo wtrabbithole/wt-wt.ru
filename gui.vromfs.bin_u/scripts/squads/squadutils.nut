@@ -69,6 +69,9 @@ function g_squad_utils::canJoinFlightMsgBox(options = null,
 
   if (::g_squad_manager.readyCheck(true))
   {
+    if (!::g_squad_utils.checkCrossPlayCondition())
+      return false
+
     if (::getTblValue("showOfflineSquadMembersPopup", options, false))
       checkAndShowHasOfflinePlayersPopup()
     return true
@@ -82,6 +85,21 @@ function g_squad_utils::canJoinFlightMsgBox(options = null,
 
   msgId = "squad/not_all_ready"
   showLeaveSquadMsgBox(msgId, okFunc, cancelFunc)
+  return false
+}
+
+function g_squad_utils::checkCrossPlayCondition()
+{
+  local members = ::g_squad_manager.getDiffCrossPlayConditionMembers()
+  if (!members.len())
+    return true
+
+  local locId = "squad/sameCrossPlayConditionAsLeader/" + (members[0].crossplay? "disabled" : "enabled")
+  local membersNamesArray = members.map(@(member) ::colorize("warningTextColor", platformModule.getPlayerName(member.name)))
+  ::showInfoMsgBox(
+    ::loc(locId,
+      { names = ::g_string.implode(membersNamesArray, ",")}
+    ), "members_not_all_crossplay_condition")
   return false
 }
 

@@ -1,4 +1,5 @@
 local platformModule = require("scripts/clientState/platform.nut")
+local mpChatModel = require("scripts/chat/mpChatModel.nut")
 
 function gui_modal_ban(playerInfo, chatLog)
 {
@@ -10,14 +11,12 @@ function gui_modal_complain(playerInfo, chatLog = "")
   if (!::tribunal.canComplaint())
     return
 
-  local cLog = (chatLog != "") ? chatLog : ::get_gamechat_log_text()
+  local cLog = (chatLog != "") ? chatLog : mpChatModel.getLogForBanhammer()
   if (cLog == "" && ::debriefing_result)
       cLog = ::getTblValue("chatLog", ::debriefing_result, "")
 
-  ::gui_start_modal_wnd(::gui_handlers.ComplainHandler, {
-                                                          pInfo = playerInfo
-                                                          chatLog = cLog
-                                                        })
+  ::gui_start_modal_wnd(::gui_handlers.ComplainHandler, { pInfo = playerInfo, chatLog = cLog })
+
 }
 
 class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -176,7 +175,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     dagor.debug(format("%s user: %s, for %s, for %d sec.\n comment: %s",
                        penalty, playerName, category, duration, comment))
-
+    chatLog = ::save_to_json(chatLog)
     taskId = char_ban_user(uid, duration, "", category, penalty,
                            comment, ""/*hidden_note*/, chatLog)
     if (taskId >= 0)
@@ -196,14 +195,15 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   optionsList = null
-
+  location = ""
+  clanInfo = ""
   function initScreen()
   {
     if (!scene || !pInfo || typeof(pInfo) != "table")
       return goBack()
 
     local gameMode = "GameMode = " + ::loc(format("multiplayer/%sMode", ::get_game_mode_name(::get_game_mode())))
-    local location = gameMode
+    location = gameMode
     if (chatLog != "")
     {
       if ("roomId" in pInfo && "roomName" in pInfo && pInfo.roomName != "")
@@ -211,7 +211,6 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
       else
         location = "In-game Chat; " + gameMode
     }
-    chatLog = location + "\n" + chatLog
 
     local pName = platformModule.getPlayerName(pInfo.name)
     local clanTag
@@ -220,12 +219,11 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
       local clanData = pInfo.clanData
       clanTag = ("tag" in clanData) ? clanData.tag : null
 
-      local clanInfo = ("id" in clanData ? "clan id = " + clanData.id + "\n" : "") +
+      clanInfo = ("id" in clanData ? "clan id = " + clanData.id + "\n" : "") +
                 ("tag" in clanData ? "clan tag = " + clanData.tag + "\n" : "") +
                 ("name" in clanData ? "clan name = " + clanData.name + "\n" : "") +
                 ("slogan" in clanData ? "clan slogan = " + clanData.slogan + "\n" : "") +
                 ("desc" in clanData ? "clan description = " + clanData.desc : "")
-      chatLog += "\n" + clanInfo
     }
     clanTag = clanTag || ( ("clanTag" in pInfo && pInfo.clanTag != "") ? pInfo.clanTag : null )
     pName = clanTag ? (clanTag + " " + pName) : pName
@@ -319,6 +317,10 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
       offender = collectUserDetailsForTribunal( pInfo ),
       chats    = collectThreadListForTribunal()
     });
+
+    chatLog.location = location
+    chatLog.clanInfo = clanInfo
+    chatLog = ::save_to_json(chatLog)
 
     dagor.debug("Send complaint " + category + ": \ncomment = " + user_comment + ", \nchatLog = " + chatLog + ", \ndetails = " + details)
     dagor.debug("pInfo:")

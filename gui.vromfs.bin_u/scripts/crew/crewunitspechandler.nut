@@ -6,7 +6,7 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
   crew = null
   crewLevel = null
   units = null
-  curUnitType = null
+  curCrewUnitType = null
   isHandlerVisible = true
 
   function initScreen()
@@ -26,12 +26,12 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.enable(value)
   }
 
-  function setHandlerData(newCrew, newCrewLevel, newUnits, newCurUnitType)
+  function setHandlerData(newCrew, newCrewLevel, newUnits, newCrewUnitType)
   {
     crew = newCrew
     crewLevel = newCrewLevel
     units = newUnits
-    curUnitType = newCurUnitType
+    curCrewUnitType = newCrewUnitType
 
     loadSceneTpl()
 
@@ -108,7 +108,7 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     else
       ::hideBonus(discObj)
 
-    local crewLevel = ::g_crew.getCrewLevel(crew, ::get_es_unit_type(rowUnit))
+    local crewLevel = ::g_crew.getCrewLevel(crew, rowUnit.getCrewUnitType())
     local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, rowUnit)
     updateRowSpecButton(rowObj, ::g_crew_spec_type.EXPERT, crewLevel, rowUnit, curSpecType)
     updateRowSpecButton(rowObj, ::g_crew_spec_type.ACE, crewLevel, rowUnit, curSpecType)

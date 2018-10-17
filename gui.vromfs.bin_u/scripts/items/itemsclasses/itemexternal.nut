@@ -598,7 +598,7 @@ local ItemExternal = class extends ::BaseItem
     if (!guidParser.isGuid(resource))
       return
 
-    ::g_decorator.buildUgcDecoratorFromResource(metaBlk.resource, metaBlk.resourceType, itemDef)
+    ::g_decorator.buildLiveDecoratorFromResource(metaBlk.resource, metaBlk.resourceType, itemDef)
     ::add_rta_localization(metaBlk.resource, itemDef?.name ?? "")
   }
 

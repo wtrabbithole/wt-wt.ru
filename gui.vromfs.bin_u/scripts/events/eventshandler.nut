@@ -1,5 +1,6 @@
 local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 const COLLAPSED_CHAPTERS_SAVE_ID = "events_collapsed_chapters"
 const ROOMS_LIST_OPEN_COUNT_SAVE_ID = "tutor/roomsListOpenCount"
@@ -165,6 +166,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
       economicName = ::events.getEventEconomicName(event)
       difficulty = event?.difficulty ?? ""
       canIntoToBattle = true
+      missionsComplete = ::my_stats.getMissionsComplete()
     }
 
     ::EventJoinProcess(event, null,
@@ -546,7 +548,10 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local text = ::events.getEventNameText(event)
     if (::events.isEventEnded(event))
       text = ::colorize("oldTextColor", text)
-    return text
+    return crossplayModule.getTextWithCrossplayIcon(
+      !::events.isEventXboxOnlyAllowed(event) && !crossplayModule.isCrossPlayEnabled(),
+      text
+    )
   }
 
   function getCurrentEdiff()

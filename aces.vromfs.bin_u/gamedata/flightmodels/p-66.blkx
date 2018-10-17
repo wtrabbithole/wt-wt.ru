@@ -1,10 +1,12 @@
 {
   "model": "p_66",
+  "harmonizationSuffix": "_tomoe",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
@@ -2017,10 +2019,18 @@
       }
     }
   ],
-  "default_skin_tomoe": {
-    "replace_tex": {
-      "from": "p_66_china_a*",
-      "to": "p_66_china_a_tomoe*"
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "p_66_usaaf_early_a*",
+        "to": "p_66_china_a_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "p_66_usaaf_early_a_dmg*",
+        "to": "p_66_china_a_tomoe_dmg*"
+      }
     }
-  }
+  ]
 }

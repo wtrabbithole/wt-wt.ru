@@ -6,6 +6,7 @@
   "type": "typeFighter",
   "paratrooper": "italy_para",
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
@@ -159,6 +160,9 @@
     },
     "steel_cooling_sys": {
       "oil1_dm": {
+        "hp": 11.6
+      },
+      "oil2_dm": {
         "hp": 11.6
       }
     },
@@ -892,6 +896,17 @@
     {
       "part": {
         "name": "oil1_dm",
+        "onHit": {
+          "leak_oil": 0.95
+        },
+        "onKill": {
+          "leak_oil": 1.0
+        }
+      }
+    },
+    {
+      "part": {
+        "name": "oil2_dm",
         "onHit": {
           "leak_oil": 0.95
         },

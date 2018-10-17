@@ -544,11 +544,36 @@
         charts: polarChartTypesData,
         data: { polarType: 'fuselage' }
       },
-      propellerBlade: {
+      propeller1Blade: {
         enabled: false,
         charts: polarChartTypesData,
-        data: { polarType: 'propellerBlade' }
-      }
+        data: { polarType: 'propeller1Blade' }
+      },
+      propeller2Blade: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'propeller2Blade' }
+      },
+      propeller3Blade: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'propeller3Blade' }
+      },
+      propeller4Blade: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'propeller4Blade' }
+      },
+      propeller5Blade: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'propeller5Blade' }
+      },
+      propeller6Blade: {
+        enabled: false,
+        charts: polarChartTypesData,
+        data: { polarType: 'propeller6Blade' }
+      }      
     }
   }
   
@@ -559,8 +584,27 @@
       stabilizer:     chartsData.polar.stabilizer,
       fin:            chartsData.polar.fin,
       fuselage:       chartsData.polar.fuselage,
-      propellerBlade: chartsData.polar.propellerBlade,
+      propeller1Blade: chartsData.polar.propeller1Blade,
+      propeller2Blade: chartsData.polar.propeller2Blade,
+      propeller3Blade: chartsData.polar.propeller3Blade,
+      propeller4Blade: chartsData.polar.propeller4Blade,
+      propeller5Blade: chartsData.polar.propeller5Blade,
+      propeller6Blade: chartsData.polar.propeller6Blade,
     }
+  }
+  
+  const chartVariantsNames =
+  {
+    wing: "Wing",
+    stabilizer: "Stabilizer",
+    fin: "Fin",
+    fuselage: "Fuselage",
+    propeller1Blade: "Propeller 1 blade",
+    propeller2Blade: "Propeller 2 blade",
+    propeller3Blade: "Propeller 3 blade",
+    propeller4Blade: "Propeller 4 blade",
+    propeller5Blade: "Propeller 5 blade",
+    propeller6Blade: "Propeller 6 blade"
   }
   
   function selectChartVariant(group, variant)
@@ -761,15 +805,21 @@
     var fin = aerodynamics.Fin
     var fuselage = aerodynamics.Fuselage
     const engine = fmBlk.Engine0
-    var propeller = engine.Propellor
-    var propellerBladePolar = propeller.Polar
 
     tbl.polar = {
       wing:           readPolarFromBlk(wing),
       stabilizer:     readPolarFromBlk(stab),
       fin:            readPolarFromBlk(fin),
-      fuselage:       readPolarFromBlk(fuselage),
-      propellerBlade: readPolarFromBlk(propellerBladePolar)
+      fuselage:       readPolarFromBlk(fuselage)
+    }
+    
+    for (var i = 0; i < 6; ++i)
+    {
+      var polarName = "propeller" + (i + 1).toString() + "Blade";
+      var propellerName = "Propeller" + i.toString();
+      var propeller = fmBlk[propellerName]
+      if (propeller != undefined)
+        tbl.polar[polarName] = readPolarFromBlk(propeller.Polar)
     }
   }
    
@@ -785,7 +835,22 @@
     for (var tableName in data.tables)
       fmTables[tableName] = data.tables[tableName]
 
-    polarType = document.getElementById("ComboPolarType").value
+    var comboPolarType = document.getElementById("ComboPolarType")
+    comboPolarType.options.length = 0
+    for (var curPolarType in fmProperties.polar)
+      if (fmProperties.polar[curPolarType])
+        comboPolarType.options[comboPolarType.options.length] = new Option(chartVariantsNames[curPolarType], curPolarType)
+        
+    if (polarType in fmProperties.polar)
+      comboPolarType.value = polarType
+    else
+    {
+      if ("propeller1Blade" in fmProperties.polar)
+        comboPolarType.value = polarType = "propeller1Blade"
+      else
+        comboPolarType.value = polarType = "wing"
+    }
+      
     selectChartVariant('polar', polarType)
     setupCharts(chartsData.polar)
   }
@@ -852,11 +917,6 @@
   <h2></h2>
   <br>
     <select id="ComboPolarType" style="font-size:20px;font-weight:bold;" onchange="onPolarTypeChange(this.value)" style="width:100%">
-      <option selected value="wing">Wing</option>
-      <option value="stabilizer">Stabilizer</option>
-      <option value="fin">Fin</option>
-      <option value="fuselage">Fuselage</option>
-      <option value="propellerBlade">Propeller blade</option>
     </select>  
   </br>
  

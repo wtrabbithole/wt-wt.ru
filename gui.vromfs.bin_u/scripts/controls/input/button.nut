@@ -46,7 +46,7 @@ class ::Input.Button extends ::Input.InputBase
   function getText()
   {
     local curPreset = ::g_controls_manager.getCurPreset()
-    return ::getLocalizedControlName(curPreset.getButtonName(deviceId, buttonId))
+    return ::getLocalizedControlShortName(curPreset.getButtonName(deviceId, buttonId))
   }
 
   function getDeviceId()

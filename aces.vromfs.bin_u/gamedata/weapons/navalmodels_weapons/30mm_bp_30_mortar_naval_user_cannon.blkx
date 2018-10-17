@@ -15,8 +15,6 @@
   "bEnablePause": false,
   "bullets": -1,
   "bulletsCluster": 1,
-  "reloadTime": 25.0,
-  "bulletsCartridge": 400,
   "fxType": "40mm_gun_flame",
   "fxGroundDust": "water_shock_wave",
   "fxScale": 0.5,
@@ -26,13 +24,12 @@
   "sound_inside": "grenade_launcher_interior",
   "sfxReloadBullet": "grd_cannon_reload",
   "fxMultipleSpawn": true,
-  "useSingleIconForBullet": true,
-  "isBulletBelt": true,
+  "isBulletBelt": false,
   "notUseDefaultBulletInGui": true,
   "bullet": {
     "bulletCount": 40,
     "mass": 0.28,
-    "explosiveType": "comp_b",
+    "explosiveType": "tnt",
     "explosiveMass": 0.036,
     "caliber": 0.03,
     "speed": 180.0,
@@ -69,7 +66,7 @@
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
       "tracer": "noColor",
-      "trail": "thin"
+      "trail": "smallTrail"
     },
     "collisions": {
       "steel": {
@@ -94,7 +91,7 @@
     "bullet": {
       "bulletCount": 40,
       "mass": 0.28,
-      "explosiveType": "comp_b",
+      "explosiveType": "tnt",
       "explosiveMass": 0.036,
       "caliber": 0.03,
       "speed": 180.0,
@@ -131,7 +128,7 @@
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
         "tracer": "noColor",
-        "trail": "thin"
+        "trail": "smallTrail"
       },
       "collisions": {
         "steel": {

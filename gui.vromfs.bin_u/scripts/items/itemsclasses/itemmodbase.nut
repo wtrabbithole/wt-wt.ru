@@ -48,7 +48,7 @@ local ModificationBase = class extends ::BaseItem
 
     if (modsList)
     {
-      local locMods = ::u.map(modsList,
+      local locMods = u.map(modsList,
         function(mod)
         {
           local res = ::loc("modification/" + mod + "/short", "")
@@ -62,13 +62,13 @@ local ModificationBase = class extends ::BaseItem
 
     if (countries)
     {
-      local locCountries = ::u.map(countries, @(country) ::loc("unlockTag/" + country))
+      local locCountries = u.map(countries, @(country) ::loc("unlockTag/" + country))
       textParts.push(::loc("trophy/unlockables_names/country") + ::loc("ui/colon")
           + ::colorize("activeTextColor", ::g_string.implode(locCountries, ", ")))
     }
     if (unitTypes)
     {
-      local locUnitTypes = ::u.map(unitTypes, @(unitType) ::loc("mainmenu/type_" + unitType))
+      local locUnitTypes = u.map(unitTypes, @(unitType) ::loc("mainmenu/type_" + unitType))
       textParts.push(::loc("mainmenu/btnUnits") + ::loc("ui/colon")
           + ::colorize("activeTextColor", ::g_string.implode(locUnitTypes, ", ")))
     }

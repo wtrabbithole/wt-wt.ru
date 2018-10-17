@@ -65,8 +65,11 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
     local curAir = null
     if (!::isUnitGroup(item))
       curAir = item.air
-    else
+    else if(item?.isFakeUnit)
     {
+      curAir = item
+    }
+    else {
       curAir = item
       local reqGroup = false
       if (item?.reqAir)
@@ -215,6 +218,7 @@ local function calculateRanksAndSectionsPos(page)
 {
   local hasRankPosXY = page?.hasRankPosXY ?? false
   local res = array(::max_country_rank + 1, 0)
+  local fakeRes = array(::max_country_rank + 1, 0)
 
   local sectionsPos = page.airList.len() ? [0, page.airList.len()] : [ 0 ]
   local foundPremium = false
@@ -227,16 +231,25 @@ local function calculateRanksAndSectionsPos(page)
 
     foreach(branch in branches)
     {
+      local isFakeBranch = false
       foreach(airItem in branch)
       {
+        if (airItem?.isFakeUnit)
+          isFakeBranch = true
         rangeRanks[airItem.rank] = hasRankPosXY?
           max(rangeRanks[airItem.rank], (airItem?.rankPosXY?.y ?? 1).tointeger())
           : rangeRanks[airItem.rank]+1
         maxColumns = max(maxColumns, (airItem?.rankPosXY?.x ?? 1).tointeger())
       }
       foreach(rankNum, rank in rangeRanks)
-        if (res[rankNum] < rank)
-          res[rankNum] = rank
+        if(isFakeBranch) // It is need for separate rows of fake units
+        {
+          if (fakeRes[rankNum] < rank)
+            fakeRes[rankNum] = rank
+        }
+        else
+          if (res[rankNum] < rank)
+            res[rankNum] = rank
 
       if (!foundPremium || hasRankPosXY)
         foreach(airItem in branch)
@@ -263,7 +276,7 @@ local function calculateRanksAndSectionsPos(page)
     local j = 0
     while (j <= i)
     {
-      rankStartPos += res[j]
+      rankStartPos += res[j] + fakeRes[j]
       j++
     }
     res[i] = rankStartPos
@@ -275,6 +288,7 @@ local function calculateRanksAndSectionsPos(page)
 
   return {
     ranksHeight = res
+    fakeRanksRowsCount = fakeRes
     sectionsPos = sectionsPos
     sectionsResearchable = sectionsResearchable
   }
@@ -293,12 +307,16 @@ local function getReqAirs(page)
       else
       {
         local air = page.tree[i][j]
-        local searchName = ::isUnitGroup(air) ? air?.searchReqName : air.name
+        local reqUnit = []
+        if (air?.fakeReqUnits)
+          reqUnit.extend(air.fakeReqUnits)
         if (air?.reqAir)
-          if (air.reqAir in reqAirs)
-            reqAirs[air.reqAir].append({ air = air, pos = [i,j] })
+          reqUnit.append(air.reqAir)
+        foreach (unitName in reqUnit)
+          if (unitName in reqAirs)
+            reqAirs[unitName].append({ air = air, pos = [i,j] })
           else
-            reqAirs[air.reqAir] <- [{ air = air, pos = [i,j] }]
+            reqAirs[unitName] <- [{ air = air, pos = [i,j] }]
        }
     }
   return reqAirs
@@ -326,6 +344,7 @@ local function fillLinesInPage(page)
               air = req.air,
               line = [i, j, req.pos[0], req.pos[1]]
               group = [::isUnitGroup(air), ::isUnitGroup(req.air)]
+              reqAir = air
             })
           reqAirs.rawdelete(searchName)
         }
@@ -409,6 +428,7 @@ local function generatePageTreeByRankPosXY(page)
         }
         local absolutePosX= rankPosXY.x
         local absolutePosY= rankPosXY.y + page.ranksHeight[unit.rank-1]
+          + (!unit?.isFakeUnit ? page.fakeRanksRowsCount[unit.rank] : 0)
         if (page.tree[absolutePosY-1].len() < absolutePosX)
           page.tree[absolutePosY-1].resize(absolutePosX, null)
         if (page.tree[absolutePosY-1][absolutePosX-1] != null)
@@ -419,7 +439,7 @@ local function generatePageTreeByRankPosXY(page)
           if (!::isInArray(curUnit, unitsWithWrongPositions))
             unitsWithWrongPositions.append(curUnit.name)
         }
-        page.tree[absolutePosY-1][absolutePosX-1] = unit.air
+        page.tree[absolutePosY-1][absolutePosX-1] = unit?.air ?? unit
       }
     }
   }
@@ -448,6 +468,7 @@ local function generateTreeData(page)
   page.ranksHeight <- ranksAndSections.ranksHeight
   page.sectionsPos <- ranksAndSections.sectionsPos
   page.sectionsResearchable <- ranksAndSections.sectionsResearchable
+  page.fakeRanksRowsCount <- ranksAndSections.fakeRanksRowsCount
   local treeSize = page.ranksHeight[page.ranksHeight.len() - 1]
   page.tree.resize(treeSize, null)
   foreach(idx, ar in page.tree)

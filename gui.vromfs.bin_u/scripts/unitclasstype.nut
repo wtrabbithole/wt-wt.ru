@@ -24,7 +24,9 @@ function g_unit_class_type::_getExpClass()
 ::g_unit_class_type.template <- {
   code = -1
   name = ""
+  expClassName = "" //filled automatically
   unitTypeCode = ::ES_UNIT_TYPE_INVALID
+  checkOrder = -1
 
   /** Returns localized name of unit class type. */
   getName = ::g_unit_class_type._getName
@@ -42,6 +44,7 @@ function g_unit_class_type::_getExpClass()
   getFontIcon = @() ::get_unit_role_icon(name)
 }
 
+local checkOrder = 0
 enums.addTypesByGlobalName("g_unit_class_type", {
   UNKNOWN = {
     name = "unknown"
@@ -51,24 +54,28 @@ enums.addTypesByGlobalName("g_unit_class_type", {
     code = ::EUCT_FIGHTER
     name = "fighter"
     unitTypeCode = ::ES_UNIT_TYPE_AIRCRAFT
+    checkOrder = checkOrder++
   }
 
   BOMBER = {
     code = ::EUCT_BOMBER
     name = "bomber"
     unitTypeCode = ::ES_UNIT_TYPE_AIRCRAFT
+    checkOrder = checkOrder++
   }
 
   ASSAULT = {
     code = ::EUCT_ASSAULT
     name = "assault"
     unitTypeCode = ::ES_UNIT_TYPE_AIRCRAFT
+    checkOrder = checkOrder++
   }
 
   TANK = {
     code = ::EUCT_TANK
     name = "tank"
     unitTypeCode = ::ES_UNIT_TYPE_TANK
+    checkOrder = checkOrder++
 
     getName = @() ::loc("mainmenu/type_medium_tank") + ::loc("ui/slash") + ::loc("mainmenu/type_light_tank")
     getFontIcon = @() ::get_unit_role_icon("medium_tank")
@@ -78,18 +85,21 @@ enums.addTypesByGlobalName("g_unit_class_type", {
     code = ::EUCT_HEAVY_TANK
     name = "heavy_tank"
     unitTypeCode = ::ES_UNIT_TYPE_TANK
+    checkOrder = checkOrder++
   }
 
   TANK_DESTROYER = {
     code = ::EUCT_TANK_DESTROYER
     name = "tank_destroyer"
     unitTypeCode = ::ES_UNIT_TYPE_TANK
+    checkOrder = checkOrder++
   }
 
   SPAA = {
     code = ::EUCT_SPAA
     name = "spaa"
     unitTypeCode = ::ES_UNIT_TYPE_TANK
+    checkOrder = checkOrder++
 
     getExpClass = function ()
     {
@@ -102,8 +112,64 @@ enums.addTypesByGlobalName("g_unit_class_type", {
     code = ::EUCT_SHIP
     name = "ship"
     unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
   }
+
+  TORPEDO_BOAT = {
+    code = ::EUCT_TORPEDO_BOAT
+    name = "torpedo_boat"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
+
+  GUN_BOAT = {
+    code = ::EUCT_GUN_BOAT
+    name = "gun_boat"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
+
+  TORPEDO_GUN_BOAT = {
+    code = ::EUCT_TORPEDO_GUN_BOAT
+    name = "torpedo_gun_boat"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
+
+  SUBMARINE_CHASER = {
+    code = ::EUCT_SUBMARINE_CHASER
+    name = "submarine_chaser"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
+
+  DESTROYER = {
+    code = ::EUCT_DESTROYER
+    name = "destroyer"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
+
+  NAVAL_FERRY_BARGE = {
+    code = ::EUCT_NAVAL_FERRY_BARGE
+    name = "naval_ferry_barge"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
+
+  HELICOPTER = {
+    code = ::EUCT_HELICOPTER
+    name = "helicopter"
+    unitTypeCode = ::ES_UNIT_TYPE_HELICOPTER
+    checkOrder = checkOrder++
+  }
+},
+function()
+{
+  expClassName = code == ::EUCT_SPAA ? name.toupper() : name
 })
+
+::g_unit_class_type.types.sort(@(a, b) a.checkOrder <=> b.checkOrder)
 
 function g_unit_class_type::getTypesFromCodeMask(codeMask)
 {
@@ -118,6 +184,12 @@ function g_unit_class_type::getTypeByExpClass(expClass)
 {
   return enums.getCachedType("getExpClass", expClass, ::g_unit_class_type_cache.byExpClass,
     ::g_unit_class_type, ::g_unit_class_type.UNKNOWN)
+}
+
+function g_unit_class_type::getTypesByEsUnitType(esUnitType = null) //null if all unit types
+{
+  return types.filter(@(idx, type) (esUnitType == null && type.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
+    || type.unitTypeCode == esUnitType)
 }
 
 ::g_unit_class_type_cache <- {

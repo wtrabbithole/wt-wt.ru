@@ -169,6 +169,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       economicName = ::events.getEventEconomicName(event)
       difficulty = event?.difficulty ?? ""
       canIntoToBattle = true
+      missionsComplete = ::my_stats.getMissionsComplete()
     }
 
     ::EventJoinProcess(event, getCurRoom(),

@@ -1356,7 +1356,7 @@ function buildTableRow(rowName, rowData, even=null, trParams="", tablePad="@tblP
     local haveParams = typeof cell == "table"
     local config = {
       params = haveParams
-      display = ::getTblValue("hide", cell, true)? "show" : "hide"
+      display = (cell?.show ?? true) ? "show" : "hide"
       id = ::getTblValue("id", cell, "td_" + idx)
       width = ::getTblValue("width", cell)
       tdalign = ::getTblValue("tdAlign", cell)

@@ -243,6 +243,7 @@ enum SEEN {
   AVATARS = "avatars"
   EVENTS = "events"
   WW_MAPS_AVAILABLE = "wwMapsAvailable"
+  WW_MAPS_OBJECTIVE = "wwMapsObjective"
   INVENTORY = "inventory"
   ITEMS_SHOP = "items_shop"
   WORKSHOP = "workshop"
@@ -360,10 +361,7 @@ foreach (fn in [
   "scripts/controls/controlsConsts.nut"
   "scripts/controls/controlsManager.nut"
 
-  //used before ps4Login
-  "scripts/squads/psnSquadInvite.nut"
-  "scripts/social/psnPlayTogether.nut"
-  "scripts/social/psnSessionInvitations.nut"
+  //used before xbox login
   "scripts/social/xboxSquadManager.nut"
 ])
 {
@@ -512,6 +510,10 @@ function load_scripts_after_login_once()
     "squads/squadUtils.nut"
     "squads/squadInviteListWnd.nut"
     "squads/squadWidgetCustomHandler.nut"
+    "squads/psnSquadInvite.nut"
+
+    "social/psnSessions.nut"
+    "social/psnPlayTogether.nut"
 
     "dirtyWordsRussian.nut"
     "dirtyWordsEnglish.nut"
@@ -535,10 +537,8 @@ function load_scripts_after_login_once()
     "invites/inviteBase.nut"
     "invites/inviteChatRoom.nut"
     "invites/inviteSessionRoom.nut"
-    "invites/invitePsnSessionRoom.nut"
     "invites/inviteTournamentBattle.nut"
     "invites/inviteSquad.nut"
-    "invites/invitePsnSquad.nut"
     "invites/inviteFriend.nut"
     "invites/invitesWnd.nut"
 

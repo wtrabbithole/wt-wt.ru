@@ -12,8 +12,14 @@ function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
 }
 
 
-function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets = true, silentMode = false, printFn = null)
+function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrackets=true, silentMode=false, printFn=null})
 {
+  local showBlockBrackets = params?.showBlockBrackets ?? true
+  local addStr = params?.addStr ?? ""
+  local silentMode = params?.silentMode ?? false
+  local recursionLevel = params?.recursionLevel ?? 4
+  local printFn = params?.printFn ?? null
+
   if (printFn == null)
     printFn = silentMode ? @(t) ::print(t + "\n") : ::dagor.debug;
 
@@ -57,7 +63,8 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
       }
       for (local j = 0; j < info.blockCount(); j++)
         if (recursionLevel)
-          ::debugTableData(info.getBlock(j), recursionLevel - 1, addStr2, true, silentMode, printFn)
+          ::debugTableData(info.getBlock(j),
+            {recursionLevel = recursionLevel-1, addStr = addStr2, showBlockBrackets = true, silentMode = silentMode, printFn = printFn})
         else
           printFn(prefix+addStr2 + info.getBlock(j).getBlockName() + " = ::DataBlock()")
       if (showBlockBrackets)
@@ -76,7 +83,9 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
           if (recursionLevel)
           {
             printFn(prefix + addStr + idText + " = " + openBraket)
-            ::debugTableData(data, recursionLevel - 1, addStr+"  ", false, silentMode, printFn)
+            ::debugTableData(data,
+              {recursionLevel = recursionLevel - 1, addStr = addStr + "  ", showBlockBrackets = false, silentMode = silentMode, printFn = printFn})
+
             printFn(prefix+addStr+closeBraket)
           }
           else

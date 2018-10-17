@@ -24,6 +24,7 @@ SessionLobby API
 
 local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
+local penalties = require("scripts/penitentiary/penalties.nut")
 
 
 const NET_SERVER_LOST = 0x82220002  //for hostCb
@@ -100,6 +101,7 @@ allowed_mission_settings <- { //only this settings are allowed in room
      disableAirfields = false
      spawnAiTankOnTankMaps = true
 
+     isHelicoptersAllowed = false
      isAirplanesAllowed = false
      isTanksAllowed = false
      isShipsAllowed = false
@@ -182,6 +184,12 @@ function notify_session_start()
     ::LAST_SESSION_DEBUG_INFO = "sid:" + sessionId
 
   dagor.debug("notify_session_start")
+  ::add_big_query_record("joining_session",
+    ::save_to_json({
+      gm = ::get_game_mode()
+      sessionId = sessionId
+      missionsComplete = ::my_stats.getMissionsComplete()
+    }))
   ::SessionLobby.switchStatus(lobbyStates.JOINING_SESSION)
 }
 
@@ -408,6 +416,8 @@ function SessionLobby::prepareSettings(missionSettings)
   }
 
   _settings.chatPassword <- isInRoom() ? getChatRoomPassword() : ::gen_rnd_password(16)
+  if (!u.isEmpty(settings?.externalSessionId))
+    _settings.externalSessionId <- settings.externalSessionId
 
   fillTeamsInfo(_settings, mission)
 
@@ -539,6 +549,8 @@ function SessionLobby::fillTeamsInfo(_settings, misBlk)
   local teamData = {}
   teamData.allowedCrafts <- []
 
+  if (::getTblValue("isHelicoptersAllowed", _settings.mission, false) && !::getTblValue("useKillStreaks", _settings.mission, false))
+    teamData.allowedCrafts.append({ ["class"] = "helicopter"})
   if (::getTblValue("isShipsAllowed", _settings.mission, false))
     teamData.allowedCrafts.append({ ["class"] = "ship"})
   if (::getTblValue("isTanksAllowed", _settings.mission, false))
@@ -2503,7 +2515,7 @@ function SessionLobby::onEventLoadingStateChange(p)
 
 function SessionLobby::checkSessionReconnect()
 {
-  if (!::g_login.isLoggedIn())
+  if (!::g_login.isLoggedIn() || penalties.isMeBanned())
     return
 
   if (delayedJoinRoomFunc)

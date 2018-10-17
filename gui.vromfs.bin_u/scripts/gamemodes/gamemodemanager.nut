@@ -314,7 +314,9 @@ class GameModeManager
     {
       if (gameMode.displayType != ::g_event_display_type.RANDOM_BATTLE)
         continue
-      if (!::isInArray(unitType, gameMode.unitTypes))
+      local checkedUnitTypes = gameMode?.reqUnitTypes?.len?() ? gameMode.reqUnitTypes
+        : gameMode.unitTypes
+      if (!::isInArray(unitType, checkedUnitTypes))
         continue
       if (excludeClanGameModes && gameMode.forClan)
         continue
@@ -536,10 +538,22 @@ class GameModeManager
       getTooltipText = function()
       {
         local event = getEvent()
-        return event ? ::events.getEventDescriptionText(event) : ""
+        return event ? ::events.getEventDescriptionText(event, null, true) : ""
       }
     }
-    gameMode.unitTypes <- _getUnitTypesByGameMode(gameMode)
+    gameMode.unitTypes <- _getUnitTypesByGameMode(gameMode, false)
+    local reqUnitTypes = _getUnitTypesByGameMode(gameMode, false, true)
+    gameMode.reqUnitTypes <- reqUnitTypes
+    local inactiveColor = !::events.checkEventFeature(event, true)
+
+    if (!inactiveColor)
+      foreach(type in reqUnitTypes)
+      {
+        inactiveColor = !::g_unit_type.getByEsUnitType(type).isAvailable()
+        if (inactiveColor)
+          break
+      }
+    gameMode.inactiveColor <- inactiveColor
     return _appendGameMode(gameMode)
   }
 
@@ -620,18 +634,21 @@ class GameModeManager
     }
   }
 
-  function _getUnitTypesByGameMode(gameMode)
+  function _getUnitTypesByGameMode(gameMode,isOnlyAvailable = true, needReqUnitType = false)
   {
     if (!gameMode)
       return []
 
-    local filteredUnitTypes = ::u.filter(::g_unit_type.types, @(unitType) unitType.isAvailable())
+    local filteredUnitTypes = ::u.filter(::g_unit_type.types,
+      @(unitType) isOnlyAvailable ? unitType.isAvailable() : unitType)
     if (gameMode.type != RB_GM_TYPE.EVENT)
       return ::u.map(filteredUnitTypes, @(unitType) unitType.esUnitType)
 
+    local event = gameMode.getEvent()
     return ::u.map(
       ::u.filter(filteredUnitTypes,
-        @(unitType) ::events.isUnitTypeAvailable(gameMode.getEvent(), unitType.esUnitType)
+        @(unitType) needReqUnitType ? ::events.isUnitTypeRequired(event, unitType.esUnitType)
+          : ::events.isUnitTypeAvailable(event, unitType.esUnitType)
       ),
       @(unitType) unitType.esUnitType)
   }

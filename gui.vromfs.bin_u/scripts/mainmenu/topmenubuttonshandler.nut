@@ -332,6 +332,11 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     doWhenActiveOnce("updateButtonsStatus")
   }
 
+  function onEventCrossPlayOptionChanged(p)
+  {
+    doWhenActiveOnce("updateButtonsStatus")
+  }
+
   function onEventActiveHandlersChanged(p)
   {
     if (!isSceneActiveNoModals())

@@ -72,8 +72,9 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
   local clanTag = ""
   local uid = null
   local messageType = ""
-  local msgColor = null
-  local userColor = null
+  local msgColor = ""
+  local userColor = ""
+  local msgSrc = msg
 
   //from can be as string - Player nick, and as table - player contact.
   //after getting type, and acting accordingly, name must be string and mean name of player
@@ -142,19 +143,24 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
     msg = ::colorize(msgColor, msg)
 
   return {
+    fullName = ::g_contacts.getPlayerFullName(platformModule.getPlayerName(from), clanTag)
     from = from
     uid = uid
     clanTag = clanTag
-    fullName = @() ::g_contacts.getPlayerFullName(platformModule.getPlayerName(from), clanTag)
-    //(clanTag != "" ? (clanTag + " "): "") + platformModule.getPlayerName(from)
-
-    lastMessage = msg
-    text = text
-    messageType = messageType
-    msgs = [msg]
-    messageIndex = 0
-    important = important
     userColor = userColor
+
+    msgs = [msg]
+    msgsSrc = [msgSrc]
+    msgColor = msgColor
+
+    important = important
+    messageType = messageType
+
+    text = text
+
+    sTime = ::get_charserver_time_sec()
+
+    messageIndex = 0
   }
 }
 
@@ -188,8 +194,8 @@ function newRoom(id, customScene = null, ownerHandler = null) {
     function addMessage(mBlock) {
       mBlock = clone mBlock
       if (mBlocks.len() > 0 && !isCustomScene && mBlocks.top().from == mBlock.from && mBlock.from != "") {
-        mBlocks.top().msgs.append(mBlock.lastMessage)
-        mBlocks.top().lastMessage = mBlock.lastMessage
+        mBlocks.top().msgs.extend(mBlock.msgs)
+        mBlocks.top().msgsSrc.extend(mBlock.msgsSrc)
         mBlock = mBlocks.top()
       } else {
         mBlock.messageType = isCustomScene ? MESSAGE_TYPE.CUSTOM:mBlock.messageType
@@ -201,10 +207,11 @@ function newRoom(id, customScene = null, ownerHandler = null) {
 
       if (mBlock.text == "" && mBlock.from != "") {
           local pLink = ::g_chat.generatePlayerLink(mBlock.from, mBlock.uid)
-          mBlock.text = ::format("<Link=%s><Color=%s>%s</Color>:</Link> ", pLink, mBlock.userColor, mBlock.fullName())
+          mBlock.text = ::format("<Link=%s><Color=%s>%s</Color>:</Link> ", pLink, mBlock.userColor,
+            mBlock.fullName)
       }
 
-      mBlock.text += (!isCustomScene ? "\n":"") + mBlock.lastMessage
+      mBlock.text += (!isCustomScene ? "\n":"") + mBlock.msgs.top()
       mBlock.messageIndex = persist.lastCreatedMessageIndex++
 
       if (mBlocks.len() > ::g_chat.getMaxRoomMsgAmount())
@@ -215,12 +222,28 @@ function newRoom(id, customScene = null, ownerHandler = null) {
       mBlocks = []
     }
 
-    function getChatText() {
-      local str = ""
-      for(local i = 0; i < mBlocks.len(); i++) {
-        str += mBlocks[i].text + "\n"
-      }
-      return str
+    chatLogFormatForBanhammer = @() {
+      category = ""
+      title = ""
+      ownerUid = ""
+      ownerNick = ""
+      roomName = ""
+      location = ""
+      clanInfo = ""
+      chatLog = null
+    }
+
+    function getLogForBanhammer() {
+      local log = mBlocks.map(@(mBlock) {
+        from = mBlock.from
+        userColor = mBlock.userColor != "" ? ::get_main_gui_scene().getConstantValue(::g_string.cutPrefix(mBlock.userColor, "@")) : ""
+        fromUid = mBlock.uid
+        clanTag = mBlock.clanTag
+        msgs = mBlock.msgsSrc
+        msgColor = mBlock.msgColor != "" ? ::get_main_gui_scene().getConstantValue(::g_string.cutPrefix(mBlock.msgColor, "@")) : ""
+        sTime = mBlock.sTime
+      })
+      return chatLogFormatForBanhammer().__merge({ chatLog = log })
     }
 
     getRoomName = @(isColored = false) type.getRoomName(id, isColored)

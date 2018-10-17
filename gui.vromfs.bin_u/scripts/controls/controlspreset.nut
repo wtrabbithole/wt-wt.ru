@@ -204,6 +204,7 @@ class ControlsPreset {
     }
     local axisWithZeroRangeMin = [
       "throttle",
+      "helicopter_collective",
       "gm_sight_distance"
     ]
     if (axisWithZeroRangeMin.find(name) >= 0)
@@ -987,7 +988,7 @@ class ControlsPreset {
         connected = true
 
       if (name == null || !connected)
-        name = ("J" + (idx + 1).tostring() + ":" +
+        name = ("C" + (idx + 1).tostring() + ":" +
           buttonLocalized + (buttonId - joy.buttonsOffset + 1).tostring())
       break
     }
@@ -1019,7 +1020,7 @@ class ControlsPreset {
         connected = true
 
       if (name == null || !connected)
-        name = ("J" + (idx + 1).tostring() + ":" + joy.name + ":" +
+        name = ("C" + (idx + 1).tostring() + ":" + joy.name + ":" +
           axisLocalized + (axisId - joy.axesOffset + 1).tostring())
       break
     }
@@ -1256,7 +1257,13 @@ class ControlsPreset {
     }
 
     mouseAxesDefaults = [
-      "ailerons", "elevator", "throttle", "gm_zoom", "ship_sight_distance", "submarine_zoom"
+      "ailerons"
+      "elevator"
+      "throttle"
+      "gm_zoom"
+      "ship_sight_distance"
+      "submarine_zoom"
+      "helicopter_collective"
     ]
   }
 

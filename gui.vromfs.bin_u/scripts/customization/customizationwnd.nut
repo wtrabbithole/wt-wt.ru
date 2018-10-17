@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local penalty = require("penalty")
+local decorLayoutPresets = require("scripts/customization/decorLayoutPresetsWnd.nut")
 
 
 ::show_crew <- null
@@ -57,7 +58,7 @@ function gui_start_decals(params = null)
 
 class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
-  sceneBlkName = "gui/customization.blk"
+  sceneBlkName = "gui/customization/customization.blk"
   unit = null
   owner = null
 
@@ -316,7 +317,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSelectedBuiltinSkinId()
   {
-    return previewSkinId || ::hangar_get_last_skin(unit.name)
+    local res = previewSkinId || ::hangar_get_last_skin(unit.name)
+    return res == "" ? "default" : res // hangar_get_last_skin() can return empty string.
   }
 
   function getSampleUserSkin(obj)
@@ -773,6 +775,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     bObj = scene.findObject("btn_toggle_damaged")
     local isDmgSkinPreviewMode = ::checkObj(bObj) && bObj.getValue()
 
+    local usableSkinsCount = ::u.filter(skinList?.access ?? [], @(a) a.isOwn).len()
+
     ::showBtnTable(scene, {
           btn_apply = currentState & decoratorEditState.EDITING
 
@@ -794,8 +798,12 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           slot_info = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
           btn_dm_viewer = !isInEditMode && !isDecoratorsListOpen && ::dmViewer.canUse()
 
+          decor_layout_presets = !isInEditMode && !isDecoratorsListOpen && isUnitOwn &&
+            ::has_feature("CustomizationLayoutPresets") && usableSkinsCount > 1 &&
+            !previewMode && !previewSkinId
+
           dmg_skin_div = ::has_feature("DamagedSkinPreview") && !isInEditMode && !isDecoratorsListOpen
-          dmg_skin_buttons_div = isDmgSkinPreviewMode && unit.isAir()
+          dmg_skin_buttons_div = isDmgSkinPreviewMode && (unit.isAir() || unit.isHelicopter())
     })
 
     if (needUpdateSlotDivs)
@@ -1853,7 +1861,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onToggleDamaged(obj)
   {
-    if (unit.isAir())
+    if (unit.isAir() || unit.isHelicopter())
     {
       ::hangar_set_dm_viewer_mode(obj.getValue() ? DM_VIEWER_EXTERIOR : DM_VIEWER_NONE)
       if (obj.getValue())
@@ -2049,13 +2057,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     updatePenaltyText()
   }
 
-  function onShowCrew()
+  function onDecorLayoutPresets(obj)
   {
-    if (::show_crew==null)
-      return
-    local crew = get_crew_by_id(::show_crew)
-    if (crew)
-      ::gui_modal_crew({ countryId = crew.idCountry, idInCountry = crew.idInCountry })
+    decorLayoutPresets.open(unit, getSelectedBuiltinSkinId())
   }
 
   function onWeaponsInfo(obj)
@@ -2191,7 +2195,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBack()
   {
-    ::g_decorator.clearUgcPreviewParams()  // clear only when closed by player
+    ::g_decorator.clearLivePreviewParams()  // clear only when closed by player
     setDmgSkinMode(false)
     ::hangar_show_model_damaged(MDS_ORIGINAL)
     guiScene.performDelayed(this, base.goBack)
@@ -2288,11 +2292,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       case PREVIEW_MODE.UNIT:
       case PREVIEW_MODE.SKIN:
         local skinBlockName = previewParams.unitName + "/" + previewParams.skinName
-        ::g_decorator.previewedUgcSkinId = skinBlockName;
+        ::g_decorator.previewedLiveSkinId = skinBlockName
         if (initialUserSkinId != "")
           ::get_user_skins_profile_blk()[unit.name] = ""
         local isForApprove = previewParams?.isForApprove ?? false
-        ::g_decorator.approversUnitToPreviewUgcResource = isForApprove ? ::show_aircraft : null
+        ::g_decorator.approversUnitToPreviewLiveResource = isForApprove ? ::show_aircraft : null
         ::g_delayed_actions.add(::Callback(function() {
           applySkin(previewParams.skinName, true)
         }, this), 100)

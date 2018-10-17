@@ -66,9 +66,11 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    trophyItem = ::ItemsManager.findItemById(configsArray?[0]?.id)
-    if (configsArray?[0]?.itemDefId)
-      trophyItem = ::ItemsManager.findItemById(configsArray[0]?.itemDefId)
+    local itemId = configsArray?[0]?.itemDefId
+      || configsArray?[0]?.trophyItemDefId
+      || configsArray?[0]?.id
+      || ""
+    trophyItem = ::ItemsManager.findItemById(itemId)
 
     if (!trophyItem)
       return base.goBack()

@@ -1046,10 +1046,91 @@
             "name": "depth_charge_20_dm"
           },
           {
-            "name": "depth_charge_21_dm"
+            "name": "depth_charge_31_dm"
           },
           {
-            "name": "depth_charge_22_dm"
+            "name": "depth_charge_32_dm"
+          },
+          {
+            "name": "depth_charge_33_dm"
+          },
+          {
+            "name": "depth_charge_34_dm"
+          },
+          {
+            "name": "depth_charge_35_dm"
+          },
+          {
+            "name": "depth_charge_36_dm"
+          },
+          {
+            "name": "depth_charge_37_dm"
+          },
+          {
+            "name": "depth_charge_38_dm"
+          },
+          {
+            "name": "depth_charge_39_dm"
+          },
+          {
+            "name": "depth_charge_40_dm"
+          },
+          {
+            "name": "depth_charge_41_dm"
+          },
+          {
+            "name": "depth_charge_42_dm"
+          },
+          {
+            "name": "depth_charge_43_dm"
+          },
+          {
+            "name": "depth_charge_44_dm"
+          },
+          {
+            "name": "depth_charge_45_dm"
+          },
+          {
+            "name": "depth_charge_46_dm"
+          },
+          {
+            "name": "depth_charge_47_dm"
+          },
+          {
+            "name": "depth_charge_48_dm"
+          },
+          {
+            "name": "depth_charge_49_dm"
+          },
+          {
+            "name": "depth_charge_50_dm"
+          },
+          {
+            "name": "depth_charge_61_dm"
+          },
+          {
+            "name": "depth_charge_62_dm"
+          },
+          {
+            "name": "depth_charge_63_dm"
+          },
+          {
+            "name": "depth_charge_64_dm"
+          },
+          {
+            "name": "depth_charge_65_dm"
+          },
+          {
+            "name": "depth_charge_66_dm"
+          },
+          {
+            "name": "depth_charge_67_dm"
+          },
+          {
+            "name": "depth_charge_68_dm"
+          },
+          {
+            "name": "depth_charge_69_dm"
           },
           {
             "name": "depth_charge_l_01_dm"
@@ -1503,7 +1584,7 @@
         "armorThickness": 30.0,
         "genericDamageMult": 15.0,
         "steering_gear_01_dm": {
-          "hp": 856.0
+          "hp": 1000.0
         }
       },
       "pumps": {
@@ -1682,10 +1763,10 @@
           "hp": 421.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 167.0
+          "hp": 164.0
         },
         "ammunition_storage_03_dm": {
-          "hp": 212.0
+          "hp": 215.0
         }
       },
       "depth_charges": {
@@ -2669,8 +2750,12 @@
   {
     "modifications": {
       "76mm_ussr_34k_navy_HE": [],
+      "76mm_ussr_34k_distant_fuse_navy_HE": [],
+      "76mm_ussr_34k_distant_fuse_navy_HE_ammo_pack": [],
       "76mm_ussr_34k_navy_AP": [],
-      "76mm_ussr_34k_navy_AP_ammo_pack": [],
+      "76mm_ussr_34k_navy_AP_ammo_pack": {
+        "prevModification": "76mm_ussr_34k_distant_fuse_navy_HE_ammo_pack"
+      },
       "12mm_dshk_universal": [],
       "12mm_dshk_navy_he": [],
       "12mm_dshk_navy_he_ammo_pack": [],
@@ -3348,15 +3433,15 @@
   },
   {
     "breaches": {
-      "repairSpeed": 30.0,
-      "waterMassVel": -3000.0,
-      "waterMassMult": 25.0,
-      "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 750000.0,
+      "repairSpeed": 21.0,
+      "waterMassVel": -50000.0,
+      "waterMassMult": 150.0,
+      "sizeToRepair": [0.01,3.0,10.0,370.0],
+      "additionalWaterDeathThreshold": 800000.0,
       "additionalWaterShouldDiePercent": 0.45,
       "fatalBreachDrownTime": 35.0,
-      "maxHeelingAngle": 38.0,
-      "maxHeelingTime": 10.0,
+      "maxHeelingAngle": 36.0,
+      "maxHeelingTime": 9.0,
       "criticalHeelingAnglePercent": 0.5,
       "maxCriticalHeelingTime": 2.0,
       "heelingDeathHeightOffsetMult": 1.0,
@@ -3368,39 +3453,97 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 0.7,
-          "maxWaterAlive": 1.0
+          "weight": 0.5,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_01_dm",
+              "critWaterLevel": 0.7
+            }
+          }
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 1.0
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "engine_room_02_dm",
+              "critWaterLevel": 0.5
+            }
+          }
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
-          "weight": 0.65,
-          "maxWaterAlive": 1.0
+          "weight": 0.6,
+          "maxWaterAlive": 1.0,
+          "innerParts": [
+            {
+              "part": {
+                "partNo": "engine_room_01_dm",
+                "critWaterLevel": 0.7
+              }
+            },
+            {
+              "part": {
+                "partNo": "engine_room_03_dm",
+                "critWaterLevel": 0.7
+              }
+            }
+          ]
         }
       },
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 0.9,
-          "maxWaterAlive": 1.0
+          "weight": 0.7,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "ammunition_storage_02_dm",
+              "critWaterLevel": 0.8
+            }
+          }
         }
       }
     ]
   },
   {
+    "ammo": {
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0]
+    }
+  },
+  {
     "ammoStowages": {
-      "ammo1": [
-        {
-          "weaponTrigger": "gunner0"
-        },
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "explosionEvent": "ammo_explosion_1",
+          "fireEvent": "ammo_fire_1",
+          "ammunition_storage_01_dm": {
+            "count": 230
+          }
+        }
+      },
+      "ammo2": [
         {
           "weaponTrigger": "gunner1"
         },
@@ -3418,8 +3561,12 @@
         },
         {
           "shells": {
-            "ammunition_storage_01_dm": {
-              "count": 10230
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_2",
+            "fireEvent": "ammo_fire_2",
+            "ammunition_storage_02_dm": {
+              "count": 10000
             }
           }
         }

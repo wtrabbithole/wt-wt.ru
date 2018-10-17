@@ -302,11 +302,13 @@ enums.addTypesByGlobalName("g_hud_messages", {
 
     onMessage = function (messageData)
     {
-      if (messageData.type != ::HUD_MSG_MULTIPLAYER_DMG)
+      if (messageData.type != ::HUD_MSG_MULTIPLAYER_DMG
+        && messageData.type != ::HUD_MSG_ENEMY_DAMAGE)
         return
       if (!::checkObj(nest))
         return
-      if (!(messageData?.isKill ?? true) && ::mission_settings.maxRespawns != 1)
+      if (messageData.type == ::HUD_MSG_MULTIPLAYER_DMG
+        && !(messageData?.isKill ?? true) && ::mission_settings.maxRespawns != 1)
         return
       if (!::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.KILLLOG))
         return
@@ -324,7 +326,9 @@ enums.addTypesByGlobalName("g_hud_messages", {
       }
       stack.append(message)
       local view = {
-        text = ::HudBattleLog.msgMultiplayerDmgToText(messageData, true)
+        text = messageData.type == ::HUD_MSG_MULTIPLAYER_DMG
+          ? ::HudBattleLog.msgMultiplayerDmgToText(messageData, true)
+          : ::colorize("silver", messageData.text)
       }
 
       local timeToShow = timestamp
@@ -491,7 +495,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
       local textObj = messageObj.findObject("reward_message_text")
       local rewardType = ::g_hud_reward_message.getMessageByCode(newRewardMessage.messageCode)
 
-      textObj.setValue(rewardType.getText(newRewardMessage.warpoints, newRewardMessage.counter))
+      textObj.setValue(rewardType.getText(newRewardMessage.warpoints, newRewardMessage.counter, newRewardMessage?.expClass))
       textObj.view_class = rewardType.getViewClass(newRewardMessage.warpoints)
 
       messageObj.setFloatProp(_animTimerPid, 0.0)

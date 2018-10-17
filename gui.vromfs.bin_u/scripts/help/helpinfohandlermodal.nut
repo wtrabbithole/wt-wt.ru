@@ -45,13 +45,9 @@ class ::gui_handlers.HelpInfoHandlerModal extends ::gui_handlers.BaseGuiHandlerW
     if (!links)
       return goBack()
 
-    local forceUpdateScene = false
-    local textsBlk = ::getTblValue("textsBlk", config)
+    local textsBlk = config?.textsBlk
     if (textsBlk)
-    {
       guiScene.replaceContent(scene.findObject("texts_screen"), textsBlk, null)
-      forceUpdateScene = true
-    }
 
     //update messages visibility to correct update other messages positions
     local highlightList = []
@@ -62,25 +58,19 @@ class ::gui_handlers.HelpInfoHandlerModal extends ::gui_handlers.BaseGuiHandlerW
       if (!link?.msgId)
         link.msgId <- null
 
-      if (objBlock)
+      local msgObj = link.msgId ? scene.findObject(link.msgId) : null
+      if (::check_obj(msgObj))
       {
-        if (::getTblValue("highlight", link, true))
-        {
-          objBlock.id <- "lightObj_" + idx
-          highlightList.append(objBlock)
-        }
-        continue
+        msgObj.show(!!objBlock)
+        if ("text" in link)
+          msgObj.setValue(link.text)
       }
 
-      local msgObj = link.msgId ? scene.findObject(link.msgId) : null
-      if (::checkObj(msgObj))
-        msgObj.show(false)
-
-      forceUpdateScene = true
+      if (objBlock && (link?.highlight ?? true))
+        highlightList.append(objBlock.__merge({id = "lightObj_" + idx}))
     }
 
-    if (forceUpdateScene)
-      guiScene.setUpdatesEnabled(true, true) //need to recount sizes and positions
+    guiScene.setUpdatesEnabled(true, true) //need to recount sizes and positions
 
     ::guiTutor.createHighlight(scene.findObject("dark_screen"), highlightList, this, { onClick = "goBack" })
 

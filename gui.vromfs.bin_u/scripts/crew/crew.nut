@@ -4,9 +4,9 @@ const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
   crewLevelBySkill = 5 //crew level from any maxed out skill
   totalSkillsSteps = 5 //steps available for leveling.
   minCrewLevel = {
-    [::ES_UNIT_TYPE_AIRCRAFT] = 1.5,
-    [::ES_UNIT_TYPE_TANK] = 1,
-    [::ES_UNIT_TYPE_SHIP] = 1
+    [::CUT_AIRCRAFT] = 1.5,
+    [::CUT_TANK] = 1,
+    [::CUT_SHIP] = 1
   }
 }
 
@@ -16,7 +16,7 @@ function g_crew::isAllCrewsMinLevel()
     foreach (crew in checkedCountrys.crews)
       foreach (unitType in ::g_unit_type.types)
         if (unitType.isAvailable()
-            && ::g_crew.getCrewLevel(crew, unitType.esUnitType) > ::g_crew.getMinCrewLevel(unitType.esUnitType))
+            && ::g_crew.getCrewLevel(crew, unitType.crewUnitType) > ::g_crew.getMinCrewLevel(unitType.crewUnitType))
           return false
 
   return true
@@ -37,9 +37,9 @@ function g_crew::isAllCrewsHasBasicSpec()
   return true
 }
 
-function g_crew::getMinCrewLevel(unitType)
+function g_crew::getMinCrewLevel(crewUnitType)
 {
-  return ::getTblValue(unitType, ::g_crew.minCrewLevel, 0)
+  return ::g_crew.minCrewLevel?[crewUnitType] ?? 0
 }
 
 function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
@@ -169,17 +169,18 @@ function g_crew::createCrewUnitSpecHandler(containerObj)
   return ::handlersManager.loadHandler(::gui_handlers.CrewUnitSpecHandler, params)
 }
 
-//unitType == -1 - all unitTypes
-function g_crew::isCrewMaxLevel(crew, country, unitType = -1)
+//crewUnitType == -1 - all unitTypes
+function g_crew::isCrewMaxLevel(crew, country, crewUnitType = -1)
 {
   foreach(page in ::crew_skills)
   {
-    if (unitType >= 0 && !page.isVisible(unitType))
+    if (crewUnitType >= 0 && !page.isVisible(crewUnitType))
       continue
 
     foreach(skillItem in page.items)
-      if ((unitType < 0 || skillItem.isVisible(unitType))
-          && ::is_country_has_any_es_unit_type(country, skillItem.unitTypeMask)
+      if ((crewUnitType < 0 || skillItem.isVisible(crewUnitType))
+          && ::is_country_has_any_es_unit_type(country,
+            ::g_unit_type.getEsUnitTypeMaskByCrewUnitTypeMask(skillItem.crewUnitTypeMask))
           && getMaxSkillValue(skillItem) > getSkillValue(crew.id, page.id, skillItem.name))
         return false
   }
@@ -301,28 +302,29 @@ function g_crew::getMaxAvailbleStepValue(skillItem, curValue, skillPoints)
   return resValue
 }
 
-//esUnitType == -1 - all unitTypes
+//crewUnitType == -1 - all unitTypes
 //action = function(page, skillItem)
-function g_crew::doWithAllSkills(crew, esUnitType, action)
+function g_crew::doWithAllSkills(crew, crewUnitType, action)
 {
   local country = getCrewCountry(crew)
   foreach(page in ::crew_skills)
   {
-    if (esUnitType >= 0 && !page.isVisible(esUnitType))
+    if (crewUnitType >= 0 && !page.isVisible(crewUnitType))
       continue
 
     foreach(skillItem in page.items)
-      if ((esUnitType < 0 || skillItem.isVisible(esUnitType))
-          && ::is_country_has_any_es_unit_type(country, skillItem.unitTypeMask))
+      if ((crewUnitType < 0 || skillItem.isVisible(crewUnitType))
+          && ::is_country_has_any_es_unit_type(country,
+            ::g_unit_type.getEsUnitTypeMaskByCrewUnitTypeMask(skillItem.crewUnitTypeMask)))
         action(page, skillItem)
   }
 }
 
-//esUnitType == -1 - all unitTypes
-function g_crew::getSkillPointsToMaxAllSkills(crew, esUnitType = -1)
+//crewUnitType == -1 - all unitTypes
+function g_crew::getSkillPointsToMaxAllSkills(crew, crewUnitType = -1)
 {
   local res = 0
-  doWithAllSkills(crew, esUnitType,
+  doWithAllSkills(crew, crewUnitType,
     function(page, skillItem)
     {
       local maxValue = getMaxSkillValue(skillItem)
@@ -366,16 +368,16 @@ function g_crew::getCrewTrainCost(crew, unit)
   return res
 }
 
-function g_crew::getCrewLevel(crew, unitType, countByNewValues = false)
+function g_crew::getCrewLevel(crew, crewUnitType, countByNewValues = false)
 {
   ::load_crew_skills_once()
 
   local res = 0.0
   foreach(page in ::crew_skills)
-    if (page.isVisible(unitType))
+    if (page.isVisible(crewUnitType))
       foreach(item in page.items)
       {
-        if (!item.isVisible(unitType))
+        if (!item.isVisible(crewUnitType))
           continue
 
         local skill = getSkillValue(crew.id, page.id, item.name)
@@ -398,7 +400,7 @@ function g_crew::getSkillCrewLevel(skillItem, newValue, prevValue = 0)
   return ::round_by_value(level, 0.01)
 }
 
-function g_crew::upgradeUnitSpec(crew, unit, unitTypeToCheck = null, nextSpecType = null)
+function g_crew::upgradeUnitSpec(crew, unit, crewUnitTypeToCheck = null, nextSpecType = null)
 {
   if (!unit)
     return ::showInfoMsgBox(::loc("shop/aircraftNotSelected"))
@@ -415,9 +417,9 @@ function g_crew::upgradeUnitSpec(crew, unit, unitTypeToCheck = null, nextSpecTyp
 
   local unitTypeSkillsMsg = "<b>" + ::colorize("warningTextColor", ::loc("crew/qualifyOnlyForSameType")) + "</b>"
 
-  local unitType = ::get_es_unit_type(unit)
+  local crewUnitType = unit.getCrewUnitType()
   local reqLevel = nextSpecType.getReqCrewLevel(unit)
-  local crewLevel = getCrewLevel(crew, unitType)
+  local crewLevel = getCrewLevel(crew, crewUnitType)
 
   local msgLocId = "shop/needMoneyQuestion_increaseQualify"
   local msgLocParams = {
@@ -433,7 +435,7 @@ function g_crew::upgradeUnitSpec(crew, unit, unitTypeToCheck = null, nextSpecTyp
     if (upgradesAmount <= 0)
     {
       local msgText = ::loc("crew/msg/qualifyRequirement", msgLocParams)
-      if (unitTypeToCheck != null && unitType != unitTypeToCheck)
+      if (crewUnitTypeToCheck != null && crewUnitType != crewUnitTypeToCheck)
         msgText += "\n" + unitTypeSkillsMsg
       ::showInfoMsgBox(msgText)
       return
@@ -457,7 +459,7 @@ function g_crew::upgradeUnitSpec(crew, unit, unitTypeToCheck = null, nextSpecTyp
                 + ::loc("shop/crewQualifyBonuses",
                         {
                           qualification = ::colorize("userlogColoredText", nextSpecType.getName())
-                          bonuses = nextSpecType.getFullBonusesText(unitType, curSpecType.code)
+                          bonuses = nextSpecType.getFullBonusesText(crewUnitType, curSpecType.code)
                         })
                 + "\n" + unitTypeSkillsMsg
   ::scene_msg_box("purchase_ask", null, msgText,
@@ -544,27 +546,27 @@ function g_crew::purchaseNewSlot(country, onTaskSuccess, onTaskFail = null)
   return ::g_tasker.addTask(taskId, { showProgressBox = true }, onTaskSuccess, onTaskFail)
 }
 
-function g_crew::buyAllSkills(crew, esUnitType)
+function g_crew::buyAllSkills(crew, crewUnitType)
 {
-  local totalPointsToMax = getSkillPointsToMaxAllSkills(crew, esUnitType)
+  local totalPointsToMax = getSkillPointsToMaxAllSkills(crew, crewUnitType)
   if (totalPointsToMax <= 0)
     return
 
   local curPoints = ::getTblValue("skillPoints", crew, 0)
   if (curPoints >= totalPointsToMax)
-    return maximazeAllSkillsImpl(crew, esUnitType)
+    return maximazeAllSkillsImpl(crew, crewUnitType)
 
   local packs = ::g_crew_points.getPacksToBuyAmount(getCrewCountry(crew), totalPointsToMax)
   if (!packs.len())
     return
 
-  ::g_crew_points.buyPack(crew, packs, ::Callback(@() maximazeAllSkillsImpl(crew, esUnitType), this))
+  ::g_crew_points.buyPack(crew, packs, ::Callback(@() maximazeAllSkillsImpl(crew, crewUnitType), this))
 }
 
-function g_crew::maximazeAllSkillsImpl(crew, esUnitType)
+function g_crew::maximazeAllSkillsImpl(crew, crewUnitType)
 {
   local blk = ::DataBlock()
-  doWithAllSkills(crew, esUnitType,
+  doWithAllSkills(crew, crewUnitType,
     function(page, skillItem)
     {
       local maxValue = getMaxSkillValue(skillItem)
@@ -595,21 +597,21 @@ function g_crew::getSkillPageIdToRunTutorial(crew)
   if (!unit)
     return null
 
-  local esUnitType = unit.esUnitType
+  local crewUnitType = unit.getCrewUnitType()
   foreach(skillPage in ::crew_skills)
-    if (skillPage.isVisible(esUnitType))
-      if (hasSkillPointsToRunTutorial(crew, esUnitType, skillPage))
+    if (skillPage.isVisible(crewUnitType))
+      if (hasSkillPointsToRunTutorial(crew, crewUnitType, skillPage))
         return skillPage.id
 
   return null
 }
 
-function g_crew::hasSkillPointsToRunTutorial(crew, esUnitType, skillPage)
+function g_crew::hasSkillPointsToRunTutorial(crew, crewUnitType, skillPage)
 {
   local skillCount = 0
   local skillPointsNeeded = 0
   foreach(idx, item in skillPage.items)
-    if (item.isVisible(esUnitType))
+    if (item.isVisible(crewUnitType))
     {
       local itemSkillValue = getSkillValue(crew.id, skillPage.id, item.name)
       skillPointsNeeded += getNextSkillStepCost(item, itemSkillValue)
@@ -629,7 +631,7 @@ function g_crew::hasSkillPointsToRunTutorial(crew, esUnitType, skillPage)
 ::min_steps_for_crew_status <- [1, 2, 3]
 
 ::crew_skills <- []
-::crew_air_train_req <- {} //[unitType] = array
+::crew_air_train_req <- {} //[crewUnitType] = array
 ::crew_skills_available <- {}
 ::is_crew_skills_available_inited <- false
 /*
@@ -654,12 +656,12 @@ function load_crew_skills()
     foreach (pName, pageBlk in dataBlk)
     {
       local unitTypeTag = pageBlk.type || ""
-      local defaultUnitTypeMask = ::g_unit_type.getTypeMaskByTagsString(unitTypeTag)
+      local defaultCrewUnitTypeMask = ::g_unit_type.getTypeMaskByTagsString(unitTypeTag, "; ", "bitCrewType")
       local page = {
         id = pName,
-        unitTypeMask = defaultUnitTypeMask
+        crewUnitTypeMask = defaultCrewUnitTypeMask
         items = []
-        isVisible = function(esUnitType) { return (unitTypeMask & (1 << esUnitType)) != 0 }
+        isVisible = function(crewUnitType) { return (crewUnitTypeMask & (1 << crewUnitType)) != 0 }
       }
       foreach(sName, itemBlk in pageBlk)
       {
@@ -668,12 +670,12 @@ function load_crew_skills()
         local item = {
           name = sName,
           memberName = page.id
-          unitTypeMask = ::g_unit_type.getTypeMaskByTagsString(itemBlk.type || "")
-                         || defaultUnitTypeMask
+          crewUnitTypeMask = ::g_unit_type.getTypeMaskByTagsString(itemBlk.type || "", "; ", "bitCrewType")
+                         || defaultCrewUnitTypeMask
           costTbl = []
-          isVisible = function(esUnitType) { return (unitTypeMask & (1 << esUnitType)) != 0 }
+          isVisible = function(crewUnitType) { return (crewUnitTypeMask & (1 << crewUnitType)) != 0 }
         }
-        page.unitTypeMask = page.unitTypeMask | item.unitTypeMask
+        page.crewUnitTypeMask = page.crewUnitTypeMask | item.crewUnitTypeMask
 
         local costBlk = itemBlk.skill_level_exp
         local idx = 1
@@ -699,10 +701,10 @@ function load_crew_skills()
 
   foreach (type in ::g_unit_type.types)
   {
-    if (!type.isAvailable())
+    if (!type.isAvailable() || ::crew_air_train_req?[type.crewUnitType] != null)
       continue
 
-    local typeBlk = reqBlk[type.tag]
+    local typeBlk = reqBlk[type.getCrewTag()]
     if (typeBlk == null)
       continue
 
@@ -722,7 +724,7 @@ function load_crew_skills()
     }
     while(costBlk!=null)
 
-    ::crew_air_train_req[type.esUnitType] <- trainReq
+    ::crew_air_train_req[type.crewUnitType] <- trainReq
   }
 }
 
@@ -740,7 +742,7 @@ function get_crew_skill_value(crew_skills, crew_type, skill_name)
   return 0
 }
 
-function count_available_skills(crew, unit_type) //return part of availbleskills 0..1
+function count_available_skills(crew, crewUnitType) //return part of availbleskills 0..1
 {
   local curPoints = ("skillPoints" in crew)? crew.skillPoints : 0
   if (!curPoints)
@@ -753,7 +755,7 @@ function count_available_skills(crew, unit_type) //return part of availbleskills
   foreach(page in ::crew_skills)
     foreach(item in page.items)
     {
-      if (!item.isVisible(unit_type))
+      if (!item.isVisible(crewUnitType))
         continue
 
       local totalSteps = ::g_crew.getTotalSteps(item)
@@ -795,7 +797,11 @@ function update_crew_skills_available(forceUpdate = false)
     {
       local data = {}
       foreach (unitType in ::g_unit_type.types)
-        data[unitType.esUnitType] <- ::count_available_skills(crew, unitType.esUnitType)
+      {
+        local crewUnitType = unitType.crewUnitType
+        if (!data?[crewUnitType])
+          data[crewUnitType] <- ::count_available_skills(crew, crewUnitType)
+      }
       ::crew_skills_available[crew.id] <- data
     }
 }
@@ -814,11 +820,11 @@ function get_crew_status(crew)
     local unit = ::getAircraftByName(crew.aircraft)
     if (!unit)
       break
-    local unitType = ::get_es_unit_type(unit)
-    if (!(unitType in data))
+    local crewUnitType = unit.getCrewUnitType()
+    if (!(crewUnitType in data))
       break
 
-    local res = data[unitType]
+    local res = data[crewUnitType]
     if (res==3) status = "full"
     else if (res==2) status = "ready"
     else if (res==1) status = "show"

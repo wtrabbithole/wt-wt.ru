@@ -1,4 +1,4 @@
-local contextStyle = ::with_table({}, function () {
+local contextStyle = {
   menuBgColor = Color(20, 30, 36)
   listItem = function (text, action) {
     local group = ::ElemGroup()
@@ -16,7 +16,7 @@ local contextStyle = ::with_table({}, function () {
       onElemState = @(sf) stateFlags.update(sf)
 
       children = {
-        rendObj = ROBJ_STEXT
+        rendObj = ROBJ_DTEXT
         margin = sh(0.5)
         text = text
         group = group
@@ -24,6 +24,6 @@ local contextStyle = ::with_table({}, function () {
       }
     }
   }
-})
+}
 
 return contextStyle

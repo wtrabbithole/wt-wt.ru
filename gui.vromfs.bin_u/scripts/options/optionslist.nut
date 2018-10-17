@@ -36,6 +36,10 @@ local getMainOptions = function()
       [::USEROPT_CAMERA_SHAKE_MULTIPLIER, "slider"],
       [::USEROPT_AUTO_SQUAD, "spinner"],
       [::USEROPT_QUEUE_JIP, "spinner"],
+      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()
+                                                && (::has_feature("TankAltCrosshair")
+                                                    || ::get_user_alt_crosshairs().len()
+                                                   )],
 
       ["options/header/air"],
       [::USEROPT_VIEWTYPE, "spinner", ! ::is_in_flight()],
@@ -56,16 +60,16 @@ local getMainOptions = function()
       [::USEROPT_AIR_DAMAGE_DISPLAY, "spinner", ! ::is_in_flight()],
       [::USEROPT_GUNNER_FPS_CAMERA, "spinner"],
 
+      ["options/header/helicopter"],
+      [::USEROPT_HUE_HELICOPTER_HUD, "spinner"],
+      [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
+
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
       [::USEROPT_XRAY_DEATH, "spinner", ::has_feature("Tanks") && ::has_feature("XrayDeath")],
       [::USEROPT_XRAY_KILL, "spinner", ::has_feature("Tanks") && ::has_feature("XrayKill")],
       [::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT, "spinner",
         ::has_feature("Tanks") && ( ! ::is_in_flight() || ! ::is_tank_gunner_camera_from_sight_available())],
-      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()
-                                                && (::has_feature("TankAltCrosshair")
-                                                    || ::get_user_alt_crosshairs().len()
-                                                   )],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],

@@ -30,6 +30,9 @@
     "overheatBlk": "gameData/FlightModels/dm/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -149,7 +152,8 @@
           "shell": "emtr_shellrejection1",
           "dm": "mgun1_dm",
           "bullets": 250,
-          "spread": 1.0
+          "spread": 1.0,
+          "breechInCockpit": true
         }
       },
       {
@@ -161,7 +165,8 @@
           "dm": "mgun2_dm",
           "bullets": 250,
           "traceOffset": 1,
-          "spread": 1.0
+          "spread": 1.0,
+          "breechInCockpit": true
         }
       }
     ]

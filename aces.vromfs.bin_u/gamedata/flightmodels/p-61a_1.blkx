@@ -21,6 +21,9 @@
     "overheatBlk": "gameData/FlightModels/DM/overheat.blk"
   },
   {
+    "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk"
+  },
+  {
     "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk"
   },
   {
@@ -2498,15 +2501,15 @@
   },
   {
     "cockpit": {
-      "headPos": [3.07,0.675,0.0],
-      "headPosOnShooting": [3.07,0.675,0.0],
+      "headPos": [3.0,0.675,0.0],
+      "headPosOnShooting": [3.1,0.675,0.0],
       "bulletHoleFreeRadius": 1.8,
       "lightPos": [3.577575,0.394221,-0.081272],
       "lightColor": [0.01,0.07,0.15],
       "lightAttenuation": 4.0,
       "devices": {
         "stick_ailerons": [-1.0,1.0],
-        "stick_elevator": [-1.0,1.0],
+        "stick_elevator": [-1.0,2.0],
         "pedals": [-1.0,1.0],
         "pedals1": [-1.0,1.0],
         "pedals2": [-1.0,1.0],
@@ -3478,6 +3481,90 @@
             "engine": "engine6_dm"
           }
         ]
+      },
+      {
+        "fm": {
+          "fm": "engine_shaft1",
+          "dm": "engine_shaft1_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "engine_shaft2",
+          "dm": "engine_shaft2_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "engine_shaft3",
+          "dm": "engine_shaft3_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "engine_shaft4",
+          "dm": "engine_shaft4_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "engine_shaft5",
+          "dm": "engine_shaft5_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "engine_shaft6",
+          "dm": "engine_shaft6_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "propeller_shaft1",
+          "dm": "propeller_shaft1_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "propeller_shaft2",
+          "dm": "propeller_shaft2_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "propeller_shaft3",
+          "dm": "propeller_shaft3_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "propeller_shaft4",
+          "dm": "propeller_shaft4_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "propeller_shaft5",
+          "dm": "propeller_shaft5_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "propeller_shaft6",
+          "dm": "propeller_shaft6_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "transmission1",
+          "dm": "transmission1_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "transmission2",
+          "dm": "transmission2_dm"
+        }
       },
       {
         "fuelTanksAutoConfiguration": [

@@ -6,6 +6,7 @@
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
@@ -27,6 +28,14 @@
       },
       "mgun4_dm": {
         "hp": 15.0
+      }
+    },
+    "armor8_5": {
+      "armor3_dm": {
+        "hp": 40.0
+      },
+      "armor4_dm": {
+        "hp": 40.0
       }
     },
     "armor9_5": {
@@ -174,9 +183,6 @@
       },
       "oil2_dm": {
         "hp": 17.5
-      },
-      "water1_dm": {
-        "hp": 17.5
       }
     },
     "steel_pilot": {
@@ -314,6 +320,16 @@
     {
       "part": {
         "name": "armor2_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "armor3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "armor4_dm"
       }
     },
     {
@@ -1053,80 +1069,32 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "part": {
-            "name": "wing1_l_dm",
-            "canCut": true,
-            "ratio": 1.0
-          }
-        }
+        "name": "spar1_l_dm"
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "part": {
-            "name": "wing1_r_dm",
-            "canCut": true,
-            "ratio": 1.0
-          }
-        }
+        "name": "spar1_r_dm"
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "part": {
-            "name": "wing2_l_dm",
-            "canCut": true,
-            "ratio": 1.0
-          }
-        }
+        "name": "spar2_l_dm"
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "part": {
-            "name": "wing2_r_dm",
-            "canCut": true,
-            "ratio": 1.0
-          }
-        }
+        "name": "spar2_r_dm"
       }
     },
     {
       "part": {
-        "name": "spar_l_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "part": {
-            "name": "wing_l_dm",
-            "canCut": true,
-            "ratio": 1.0
-          }
-        }
+        "name": "spar_l_dm"
       }
     },
     {
       "part": {
-        "name": "spar_r_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "part": {
-            "name": "wing_r_dm",
-            "canCut": true,
-            "ratio": 1.0
-          }
-        }
+        "name": "spar_r_dm"
       }
     },
     {
@@ -1301,17 +1269,6 @@
           }
         }
       ]
-    },
-    {
-      "part": {
-        "name": "water1_dm",
-        "onHit": {
-          "leak_water": 0.5
-        },
-        "onKill": {
-          "leak_water": 1.0
-        }
-      }
     },
     {
       "part": [

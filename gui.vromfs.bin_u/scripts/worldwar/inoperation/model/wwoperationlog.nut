@@ -221,7 +221,10 @@ function g_ww_logs::saveLoadedLogs(loadedLogsBlk, useLogMark, handler)
     ::g_ww_logs.loaded.extend(freshLogs)
 
   if (!addedLogsNumber)
+  {
+    ::ww_event("NoLogsAdded")
     return
+  }
 
   local isLastReadedLogFounded = false
   for (local i = ::g_ww_logs.loaded.len() - 1; i >= 0; i--)

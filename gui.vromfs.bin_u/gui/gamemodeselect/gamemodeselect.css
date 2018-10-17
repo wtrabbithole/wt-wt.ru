@@ -79,6 +79,10 @@ game_mode_block[wide=yes] {
   width: pw-0.0007@scrn_tgt;
 }
 
+game_mode_block[narrow=yes] {
+  width: pw/3-0.0017@scrn_tgt;
+}
+
 glow {
   position: absolute;
   pos: 0, 0;
@@ -111,6 +115,14 @@ game_mode_block > movie {
   display: show;
 }
 
+[show_console_buttons=no] game_mode_block:hover[inactiveColor=yes] > movie {
+  display: hide;
+}
+
+[show_console_buttons=yes] game_mode_block[selected=yes][inactiveColor=yes] > movie {
+  display: hide;
+}
+
 game_mode_block > img {
   position: absolute;
   pos: 2, 3;
@@ -127,13 +139,17 @@ game_mode_block[inactiveColor=yes] {
   background-color: #505050;
 }
 
+game_mode_block[inactiveColor=yes] img {
+  color-factor:50;
+}
+
 game_mode_block[current_mode=yes][inactiveColor=yes] {
   background-color: @inactiveButtonBgColor;
 }
 
-game_mode_block[inactiveColor=yes]:hover > img,
-game_mode_block[current_mode=yes][inactiveColor=yes] > img {
-  color-factor:100;
+game_mode_block[inactiveColor=yes]:hover img,
+game_mode_block[current_mode=yes][inactiveColor=yes] img {
+  color-factor:50;
 }
 
 game_mode_block > title {

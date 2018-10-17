@@ -487,6 +487,18 @@
     return ::g_string.implode(desc, "\n")
   }
 
+  function getFirstFound(dataArray, getter, defValue = null)
+  {
+    local result = null
+    foreach (data in dataArray)
+    {
+      result = getter(data)
+      if (result != null)
+        break
+    }
+    return result ?? defValue
+  }
+
   function getDescriptionInXrayMode(params)
   {
     if ( ! ::has_feature("XRayDescription") || ! ("name" in params))
@@ -545,6 +557,7 @@
           break;
 
           case ::ES_UNIT_TYPE_AIRCRAFT:
+          case ::ES_UNIT_TYPE_HELICOPTER:
             local fmBlk = ::get_fm_file(unit.name, unitBlk)
             if ( ! fmBlk)
               break
@@ -573,11 +586,10 @@
 
             if ( ! engineMainBlk)
               break
-
-            local engineType = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.Type ?? b?.type, "").tolower()
+            local engineType = getFirstFound([infoBlk, engineMainBlk], @(b) b?.Type ?? b?.type, "").tolower()
             if (engineType == "inline" || engineType == "radial")
             {
-              local cylinders = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.Cylinders ?? b?.cylinders, 0)
+              local cylinders = getFirstFound([infoBlk, engineMainBlk], @(b) b?.Cylinders ?? b?.cylinders, 0)
               if(cylinders > 0)
                 engineInfo.push(cylinders + ::loc("engine_cylinders_postfix"))
             }
@@ -604,13 +616,11 @@
             local powerTakeoff = 0
             local thrustMax = 0
             local thrustTakeoff = 0
-            local horsePowerValue = ::u.getFirstFound([infoBlk, engineMainBlk],
-              @(b) b?.ThrustMax?.PowerMax0 ?? b?.HorsePowers ?? b?.Power,
-              0
-            )
-            local thrustValue = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrustMax?.ThrustMax0, 0)
-            local throttleBoost = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrottleBoost, 0)
-            local afterburnerBoost = ::u.getFirstFound([infoBlk, engineMainBlk], @(b) b?.AfterburnerBoost, 0)
+            local horsePowerValue = getFirstFound([infoBlk, engineMainBlk],
+              @(b) b?.ThrustMax?.PowerMax0 ?? b?.HorsePowers ?? b?.Power, 0)
+            local thrustValue = getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrustMax?.ThrustMax0, 0)
+            local throttleBoost = getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrottleBoost, 0)
+            local afterburnerBoost = getFirstFound([infoBlk, engineMainBlk], @(b) b?.AfterburnerBoost, 0)
             // for planes modifications have delta values
             local thrustModDelta = getTblValueByPath("modificators." +
               difficulty.crewSkillName + ".thrust", unit, 0) / KGF_TO_NEWTON  // mod thrust comes in Newtons
@@ -634,7 +644,7 @@
                 local boosterMainBlk = getTblValueByPath("Booster" + partIndex + ".Main", fmBlk)
                 if (boosterMainBlk)
                   sources.insert(1, boosterMainBlk)
-                thrustTakeoff = ::u.getFirstFound(sources, @(b) b?.Thrust ?? b?.thrust,  0)
+                thrustTakeoff = getFirstFound(sources, @(b) b?.Thrust ?? b?.thrust, 0)
               break
 
               case "turboprop":
@@ -954,7 +964,7 @@
     local unitTags = ::getTblValue(unit.name, ::get_unittags_blk(), null)
     if(unitTags != null)
       sources.insert(0, unitTags)
-    local infoBlk = ::u.getFirstFound(sources, @(b) partName ? b?.info?[partName] : b?.info)
+    local infoBlk = getFirstFound(sources, @(b) partName ? b?.info?[partName] : b?.info)
     if(infoBlk && partName != null && "alias" in infoBlk)
       infoBlk = getInfoBlk(getTblValue("alias", infoBlk))
     return infoBlk
@@ -1041,6 +1051,7 @@
         return { isPrimary = isPrimary, isSecondary = isSecondary, isMachinegun = isMachinegun }
       case ::ES_UNIT_TYPE_SHIP:
       case ::ES_UNIT_TYPE_AIRCRAFT:
+      case ::ES_UNIT_TYPE_HELICOPTER:
         return { isPrimary = true, isSecondary = false, isMachinegun = false }
     }
   }
@@ -1206,6 +1217,9 @@
         if (::g_string.startsWith(partId, "auxiliary") && weaponInfoBlk?.triggerGroup == "primary")
           params.partLocId <- ::stringReplace(partId, "auxiliary", "main")
         break
+      case ::ES_UNIT_TYPE_HELICOPTER:
+        if (::isInArray(partId, [ "gun", "cannon" ]))
+          params.partLocId <- ::g_string.startsWith(weaponInfoBlk?.trigger, "gunner") ? "turret" : "cannon"
     }
   }
 

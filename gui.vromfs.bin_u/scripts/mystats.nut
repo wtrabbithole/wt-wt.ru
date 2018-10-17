@@ -10,6 +10,17 @@ my_stats API
    isMeNewbie()   - bool, count is player newbie depends n stats
    isNewbieEventId(eventId) - bool  - is event in newbie events list in config
 */
+
+local summaryNameArray = [
+  "pvp_played"
+  "skirmish_played"
+  "dynamic_played"
+  "campaign_played"
+  "builder_played"
+  "other_played"
+  "single_played"
+]
+
 ::my_stats <-{
   updateDelay = 3600000 //once per 1 hour, we have force update after each battle or debriefing.
 
@@ -119,9 +130,6 @@ my_stats API
 
     foreach (unitType in ::g_unit_type.types)
     {
-      if (!unitType.isAvailable())
-        continue
-
       local data = {
         minKills = 0
         battles = []
@@ -134,10 +142,10 @@ my_stats API
           continue
 
         data.battles.append({
-          event    = ev.event
-          kills    = ev.kills || 1
-          games    = ev.games || 0
-          unitRank = ev.unitRank || 0
+          event       = ev.event
+          kills       = ev.kills || 1
+          timePlayed  = ev?.timePlayed || 0
+          unitRank    = ev.unitRank || 0
         })
         data.minKills = ::max(data.minKills, ev.kills)
       }
@@ -168,11 +176,12 @@ my_stats API
     {
       local event = null
       local kills = getKillsOnUnitType(unitType)
+      local timePlayed = getTimePlayedOnUnitType(unitType)
       foreach(evData in config.battles)
       {
         if (kills >= evData.kills)
           continue
-        if (evData.games && evData.games <= ::loadLocalByAccount("tutor/newbieBattles/" + evData.event, 0))
+        if (timePlayed >= evData.timePlayed)
           continue
         if (evData.unitRank && checkUnitInSlot(evData.unitRank, unitType))
           continue
@@ -206,9 +215,6 @@ my_stats API
   {
     foreach (unitType in ::g_unit_type.types)
     {
-      if (!unitType.isAvailable())
-        continue
-
       local newbieProgress = ::getTblValue(unitType.esUnitType, _newPlayersBattles)
       local killsReq = (newbieProgress && newbieProgress.minKills) || 0
       local kills = getKillsOnUnitType(unitType.esUnitType)
@@ -216,15 +222,6 @@ my_stats API
         return false
     }
     return true
-  }
-
-  function onEventAfterJoinEventRoom(event)
-  {
-    if (!::events.isEventMatchesType(event, EVENT_TYPE.NEWBIE_BATTLES))
-      return
-
-    local id = "tutor/newbieBattles/" + event.name
-    ::saveLocalByAccount(id, 1 + ::loadLocalByAccount(id, 0))
   }
 
   function onEventEventsDataUpdated(params)
@@ -272,12 +269,8 @@ my_stats API
     if (!pvpSummary)
       return res
 
-    local roles = []
-    if ("unitType" in filter)
-      roles = ::basic_unit_roles[filter.unitType]
-    else
-      foreach (rolesList in ::basic_unit_roles)
-        roles.extend(rolesList)
+    local roles = ::u.map(::g_unit_class_type.getTypesByEsUnitType(filter?.unitType),
+       function (type) { return type.expClassName })
 
     foreach(idx, diffData in pvpSummary)
       foreach(unitRole, data in diffData)
@@ -298,19 +291,19 @@ my_stats API
     return getSummary("pvp_played", {addArray = ["respawns"]})
   }
 
-  function getMPlayersKillsCount()
-  {
-    return getSummary("pvp_played", {
-                                      addArray = ["air_kills", "ground_kills"]
-                                      subtractArray = ["air_kills_ai", "ground_kills_ai"]
-                                    })
-  }
-
   function getKillsOnUnitType(unitType)
   {
     return getSummary("pvp_played", {
-                                      addArray = ["air_kills", "ground_kills"],
-                                      subtractArray = ["air_kills_ai", "ground_kills_ai"]
+                                      addArray = ["air_kills", "ground_kills", "naval_kills"],
+                                      subtractArray = ["air_kills_ai", "ground_kills_ai", "naval_kills_ai"]
+                                      unitType = unitType
+                                    })
+  }
+
+  function getTimePlayedOnUnitType(unitType)
+  {
+    return getSummary("pvp_played", {
+                                      addArray = ["timePlayed"]
                                       unitType = unitType
                                     })
   }
@@ -321,6 +314,10 @@ my_stats API
       return ::CLASS_FLAGS_AIRCRAFT
     if (unitType == ::ES_UNIT_TYPE_TANK)
       return ::CLASS_FLAGS_TANK
+    if (unitType == ::ES_UNIT_TYPE_SHIP)
+      return ::CLASS_FLAGS_SHIP
+    if (unitType == ::ES_UNIT_TYPE_HELICOPTER)
+      return ::CLASS_FLAGS_HELICOPTER
     return (1 << ::EUCT_TOTAL) - 1
   }
 
@@ -417,6 +414,19 @@ my_stats API
       ::saveLocalByAccount("tutor/newbieBattles/unitsRank", saveBlk)
 
     return saveBlk
+  }
+
+  function getMissionsComplete()
+  {
+    local res = 0
+    local myStats = getStats()
+    foreach (summaryName in summaryNameArray)
+    {
+      local summary = myStats?.summary?[summaryName] ?? {}
+      foreach(diffData in summary)
+        res += diffData?.missionsComplete ?? 0
+    }
+    return res
   }
 }
 

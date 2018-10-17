@@ -99,7 +99,8 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
     getBlk = function() { return ::DataBlock() }
     getSpecialDecorator = function(id) { return null }
-    getUgcDecorator = @(id, cache) null
+    getLiveDecorator = @(id, cache) null
+    canPreviewLiveDecorator = @() true
 
     specifyEditableSlot = @(slotIdx, needFocus = true) null
     addDecorator = function(decoratorName) {}
@@ -224,10 +225,12 @@ enums.addTypesByGlobalName("g_decorator_type", {
       ::g_tasker.addTask(taskId, taskOptions)
     }
 
-    canRotate = function() { return true }
-    canResize = function() { return true }
-    canMirror = function() { return true }
-    canToggle = function() { return true }
+    canRotate = @() true
+    canResize = @() true
+    canMirror = @() true
+    canToggle = @() true
+
+    canPreviewLiveDecorator = @() ::has_feature("EnableLiveDecals")
   }
 
   ATTACHABLES = {
@@ -319,7 +322,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
       ::g_tasker.addTask(taskId, taskOptions)
     }
 
-    canRotate = function() { return true }
+    canRotate = @() true
   }
   SKINS = {
     unlockedItemType = ::UNLOCKABLE_SKIN
@@ -348,7 +351,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getLocName = function(decoratorName, addUnitName = false)
     {
       if (guidParser.isGuid(decoratorName))
-        return ::loc(decoratorName, ::loc("default_ugc_skin_loc"))
+        return ::loc(decoratorName, ::loc("default_live_skin_loc"))
 
       local unitName = ::g_unlocks.getPlaneBySkinId(decoratorName)
 
@@ -363,7 +366,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
     getLocDesc = function(decoratorName)
     {
-      local defaultLocId = guidParser.isGuid(decoratorName) ? "default_ugc_skin_loc/desc" : "default_skin_loc/desc"
+      local defaultLocId = guidParser.isGuid(decoratorName) ? "default_live_skin_loc/desc" : "default_skin_loc/desc"
       return ::loc(decoratorName + "/desc", ::loc(defaultLocId))
     }
 
@@ -415,19 +418,21 @@ enums.addTypesByGlobalName("g_decorator_type", {
       return null
     }
 
-    getUgcDecorator = function(id, cache)
+    getLiveDecorator = function(id, cache)
     {
       if (id in cache)
         return cache[id]
 
-      local isUgcDownloaded = guidParser.isGuid(::g_unlocks.getSkinNameBySkinId(id))
-      local isUgcItemContent = !isUgcDownloaded && guidParser.isGuid(id)
-      if (!isUgcDownloaded && !isUgcItemContent)
+      local isLiveDownloaded = guidParser.isGuid(::g_unlocks.getSkinNameBySkinId(id))
+      local isLiveItemContent = !isLiveDownloaded && guidParser.isGuid(id)
+      if (!isLiveDownloaded && !isLiveItemContent)
         return null
 
       cache[id] <- ::Decorator(getBlk()[id] || id, this)
       return cache[id]
     }
+
+    canPreviewLiveDecorator = @() ::has_feature("EnableLiveSkins")
   }
 }, null, "name")
 

@@ -739,8 +739,6 @@ function getUnitClassIco(unit)
 
 function getUnitClassColor(unit)
 {
-  if (::is_helicopter(unit))
-    return "helicopterColor"
   local role = ::get_unit_role(unit) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
   if (role == null || role == "" || role == "none")
     return "white";

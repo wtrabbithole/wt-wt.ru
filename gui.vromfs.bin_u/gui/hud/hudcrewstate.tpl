@@ -1,5 +1,6 @@
 icon {
   id:t='crew_gunner';
+  state:t='ok';
   hudCrewStatus:t='yes'
   icon_type:t='crew_gunner'
   size:t='ph/7, ph/7';
@@ -18,6 +19,7 @@ icon {
 
 icon {
   id:t='crew_driver';
+  state:t='ok';
   hudCrewStatus:t='yes';
   icon_type:t='crew_driver'
   size:t='ph/7, ph/7';

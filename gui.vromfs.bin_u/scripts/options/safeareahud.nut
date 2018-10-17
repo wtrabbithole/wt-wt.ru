@@ -40,6 +40,8 @@ local setValue = function(value)
   ::set_gui_option_in_mode(::USEROPT_HUD_SCREEN_SAFE_AREA, value, ::OPTIONS_MODE_GAMEPLAY)
 }
 
+::cross_call_api.getSafeAreaHudValue <- getValue
+
 return {
   getValue = getValue
   setValue = setValue

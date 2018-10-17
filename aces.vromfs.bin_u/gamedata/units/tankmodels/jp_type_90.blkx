@@ -376,6 +376,7 @@
           "ex_armor_l_08_dm": [],
           "ex_armor_r_08_dm": [],
           "ex_armor_body_r_01_dm": [],
+          "ex_armor_body_r_02_dm": [],
           "ex_armor_body_l_01_dm": [],
           "ex_armor_body_l_02_dm": [],
           "ex_decor_03_dm": [],
@@ -409,6 +410,21 @@
           "hp": 50.0
         },
         "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
@@ -664,7 +680,12 @@
         "ammo_body_r_07_dm": [],
         "ammo_body_r_08_dm": [],
         "ammo_body_r_09_dm": [],
-        "ammo_body_r_10_dm": []
+        "ammo_body_r_10_dm": [],
+        "ammo_body_r_11_dm": [],
+        "ammo_body_r_12_dm": [],
+        "ammo_body_r_13_dm": [],
+        "ammo_body_r_14_dm": [],
+        "ammo_body_r_15_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -1843,8 +1864,8 @@
           "bullets": 1000,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
-          "ChainfireTime": 3.0,
-          "DelayAfterShoot": 3.0,
+          "ChainfireTime": 1.0,
+          "DelayAfterShoot": 2.0,
           "accuracyAir": 1.5,
           "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
@@ -1995,7 +2016,9 @@
         "animationMultiplier": 0.71,
         "width": 0.55,
         "height": 0.05,
-        "fricFrontal": [0.9,0.7]
+        "fricFrontal": [1.7,1.3],
+        "criticalHillAngle": 27.0,
+        "hillClimbingDeclineFricKoef": 15.0
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2046,7 +2069,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.25,-0.24,0.13],
+        "suspensionOffsets": [-0.3,-0.3,0.15],
         "defaultGearRadius": 0.38,
         "topGearRadius": 0.11,
         "frontBackGearRadius": 0.315,
@@ -2063,17 +2086,19 @@
           "wheel_l_03": [],
           "wheel_l_04": [],
           "wheel_l_05": [],
+          "wheel_l_06": [],
           "wheel_r_01": [],
           "wheel_r_02": [],
           "wheel_r_03": [],
           "wheel_r_04": [],
-          "wheel_r_05": []
+          "wheel_r_05": [],
+          "wheel_r_06": []
         },
         "pitch": {
           "wheel_l_01": [],
           "wheel_r_01": [],
-          "wheel_l_05": [],
-          "wheel_r_05": []
+          "wheel_l_06": [],
+          "wheel_r_06": []
         }
       }
     }
@@ -2628,8 +2653,9 @@
       "zoomOutFov": 9.2,
       "zoomInFov": 4.6,
       "sightFov": 6.5,
+      "sightName": "tzf_1a",
       "headPos": [0.0,4.2,-8.5],
-      "headPosOnShooting": [0.1,3.5,-0.8],
+      "headPosOnShooting": [0.3,3.3,0.65],
       "detectionHeight": 2.63
     }
   },
@@ -2758,8 +2784,8 @@
                 "bullets": 1000,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
-                "ChainfireTime": 3.0,
-                "DelayAfterShoot": 3.0,
+                "ChainfireTime": 1.0,
+                "DelayAfterShoot": 2.0,
                 "accuracyAir": 1.5,
                 "accuracyGnd": 0.0,
                 "errMeasureVel": 0.0,
@@ -2942,10 +2968,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -3048,10 +3074,10 @@
                   "fireConeAngle": 15.0
                 },
                 {
-                  "ChainfireTime": 3.0
+                  "ChainfireTime": 1.0
                 },
                 {
-                  "DelayAfterShoot": 3.0
+                  "DelayAfterShoot": 2.0
                 },
                 {
                   "accuracyAir": 1.5
@@ -3153,32 +3179,13 @@
     }
   },
   {
-    "skin": [
-      {
-        "name": "jp_type_90_winter_dot_skin"
-      },
-      {
-        "set_tex": {
-          "from": "type_90_body_c*",
-          "to": "type_90_winter_dot_skin_body_c*",
-          "param": "camo_skin_tex"
-        }
-      },
-      {
-        "set_tex": {
-          "from": "type_90_turret_c*",
-          "to": "type_90_winter_dot_skin_turret_c*",
-          "param": "camo_skin_tex"
-        }
-      },
-      {
-        "set_tex": {
-          "from": "type_90_gun_c*",
-          "to": "type_90_winter_dot_skin_gun_c*",
-          "param": "camo_skin_tex"
-        }
+    "skin": {
+      "name": "jp_camo_winter_late",
+      "replace_tex": {
+        "from": "jp_camo_sdf_green*",
+        "to": "jp_camo_winter_late*"
       }
-    ]
+    }
   },
   {
     "ammoStowages": {

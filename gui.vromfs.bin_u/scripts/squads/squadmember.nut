@@ -19,6 +19,7 @@ class SquadMember
   cyberCafeId = ""
   unallowedEventsENames = null
   sessionRoomId = ""
+  crossplay = false
 
   isWaiting = true
   isInvite = false
@@ -29,7 +30,7 @@ class SquadMember
   updatedProperties = ["name", "rank", "country", "clanTag", "pilotIcon", "selAirs",
                        "selSlots", "crewAirs", "brokenAirs", "missedPkg", "wwOperations",
                        "isReady", "isCrewsReady", "canPlayWorldWar", "cyberCafeId",
-                       "unallowedEventsENames", "sessionRoomId"]
+                       "unallowedEventsENames", "sessionRoomId", "crossplay"]
 
   constructor(uid, isInvite = false, isApplication = false)
   {

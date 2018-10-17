@@ -109,24 +109,26 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function updateSlotbar()
   {
-    local side = getPlayerSide()
-    local availableUnits = []
+    local availableUnits = {}
+    local operationUnits = {}
     if (operationBattle.isValid())
-    {
-      local playerTeam = operationBattle.getTeamBySide(side)
-      availableUnits = operationBattle.getTeamRemainUnits(playerTeam)
-    }
-    local operationUnits = ::g_world_war.getAllOperationUnitsBySide(side)
+      foreach (side in ::g_world_war.getSidesOrder(curBattleInList))
+      {
+        local playerTeam = operationBattle.getTeamBySide(side)
+        availableUnits = availableUnits.__merge(operationBattle.getTeamRemainUnits(playerTeam))
+        operationUnits = availableUnits.__merge(::g_world_war.getAllOperationUnitsBySide(side))
+      }
+
     createSlotbar(
       {
         customCountry = ::get_profile_country_sq()
-        availableUnits = availableUnits
+        availableUnits = availableUnits.len() ? availableUnits : null
         showTopPanel = false
         gameModeName = getGameModeNameText()
         showEmptySlot = true
         needPresetsPanel = true
         shouldCheckCrewsReady = true
-        customUnitsList = operationUnits
+        customUnitsList = operationUnits.len() ? operationUnits : null
         customUnitsListName = getCustomUnitsListNameText()
       }
     )

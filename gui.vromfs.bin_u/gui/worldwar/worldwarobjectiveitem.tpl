@@ -19,6 +19,7 @@ objectiveBlock {
       text:t='#worldWar/objectivesHeader/<<id>>'
       valign:t='center'
     }
+    <<#isPrimary>>
     <<#reqFullMissionObjectsButton>>
     tdiv {
       size:t='fw, ph'
@@ -37,12 +38,23 @@ objectiveBlock {
           Button_text {
             id:t = 'btn_tasks_list'
             showConsoleImage:t='no'
-            text:t='#icon/info'
             reduceMinimalWidth:t='yes'
             useParentHeight:t='yes'
             noMargin:t='yes'
             tooltip:t = '#mainmenu/tasksList'
             _on_click:t = 'onOpenFullMissionObjects'
+
+            btnText {
+              text:t='#icon/info'
+              padding:t='1@blockInterval, 0'
+            }
+
+            <<#unseenIcon>>
+            unseenIcon {
+              value:t='<<unseenIcon>>'
+              valign:t='center'
+            }
+            <</unseenIcon>>
           }
         }
         <<#hiddenObjectives>>
@@ -55,6 +67,7 @@ objectiveBlock {
       }
     }
     <</reqFullMissionObjectsButton>>
+    <</isPrimary>>
   }
   body {
     id:t='<<id>>_objectives_list'

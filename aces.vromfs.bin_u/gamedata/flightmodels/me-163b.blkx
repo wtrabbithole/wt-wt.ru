@@ -1,10 +1,13 @@
 {
-  "model": "me_163b",
+  "model": "me_163b_1",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
   "harmonizationSuffix": "_tomoe",
+  "gearSinkRangeLR": 0.08,
+  "gearSinkRangeC": 0.09,
   "type": "typeFighter",
   "paratrooper": "german",
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
@@ -20,6 +23,12 @@
         "hp": 15.0
       },
       "cannon2_dm": {
+        "hp": 15.0
+      },
+      "cannon3_dm": {
+        "hp": 15.0
+      },
+      "cannon4_dm": {
         "hp": 15.0
       }
     },
@@ -111,6 +120,15 @@
     },
     "dural": {
       "cover1_dm": {
+        "hp": 19.5
+      },
+      "cover2_dm": {
+        "hp": 19.5
+      },
+      "cover3_dm": {
+        "hp": 19.5
+      },
+      "cover4_dm": {
         "hp": 19.5
       }
     },
@@ -340,7 +358,32 @@
     },
     {
       "part": {
+        "name": "cannon3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cannon4_dm"
+      }
+    },
+    {
+      "part": {
         "name": "cover1_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover2_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover4_dm"
       }
     },
     {
@@ -1925,7 +1968,7 @@
         "midNode": "Bip01 R Forearm",
         "upNode": "Bip01 R UpperArm",
         "targetNode": "stick_rhand_1",
-        "flexionDir": [0.0,-1.0,-0.5]
+        "flexionDir": [-0.5,-1.0,-0.5]
       }
     },
     {
@@ -1934,7 +1977,7 @@
         "midNode": "Bip01 L Calf",
         "upNode": "Bip01 L Thigh",
         "targetNode": "pedal_lfoot_1",
-        "flexionDir": [0.0,1.0,0.3]
+        "flexionDir": [0.2,1.0,0.0]
       }
     },
     {
@@ -1943,7 +1986,7 @@
         "midNode": "Bip01 R Calf",
         "upNode": "Bip01 R Thigh",
         "targetNode": "pedal_rfoot_1",
-        "flexionDir": [0.0,1.0,-0.3]
+        "flexionDir": [-0.2,1.0,0.0]
       }
     }
   ],
@@ -1958,99 +2001,58 @@
     "gun": "gun_default"
   },
   "cockpit": {
-    "headPos": [0.995,0.628,-0.033],
-    "headPosOnShooting": [1.04,0.628,-0.033],
+    "headPos": [0.995,0.613,-0.038],
+    "headPosOnShooting": [1.04,0.613,-0.038],
     "lightPos": [1.296255,0.354864,-0.00609],
     "lightColor": [0.62,0.3,0.21],
     "lightAttenuation": 5.0,
     "shadowSphereMultiplier": 2.0,
     "gunLightRadiusMul": 0.05,
-    "devices": [
-      {
-        "speed": [0.0,277.778]
-      },
-      {
-        "compass": [0.0,360.0]
-      },
-      {
-        "pedals": [-1.0,1.0]
-      },
-      {
-        "stick_ailerons": [-1.8,1.8]
-      },
-      {
-        "stick_elevator": [-1.8,1.8]
-      },
-      {
-        "throttle": [-1.6,2.3]
-      },
-      {
-        "vario": [-25.0,150.0]
-      },
-      {
-        "altitude_hour": [0.0,10000.0]
-      },
-      {
-        "altitude_min": [0.0,1000.0]
-      },
-      {
-        "altitude_koef": 1.0
-      },
-      {
-        "bank": [-8.0,8.0]
-      },
-      {
-        "turn": [-0.23562,0.23562]
-      },
-      {
-        "clock_hour": [0.0,12.0]
-      },
-      {
-        "clock_min": [0.0,60.0]
-      },
-      {
-        "clock_sec": [0.0,60.0]
-      },
-      {
-        "fuel_consume": [0.0,1200.0]
-      },
-      {
-        "rpm": [0.0,2000.0]
-      },
-      {
-        "fuel1": [0.0,370.0]
-      },
-      {
-        "oil_pressure": [0.0,120.0]
-      },
-      {
-        "oil_temperature": [0.0,150.0]
-      },
-      {
-        "fuel_pressure": [0.0,15.0]
-      },
-      {
-        "throttle": [0.0,1.0]
-      },
-      {
-        "throttle1": [0.0,1.0]
-      },
-      {
-        "weapon1": [0.0,1.0]
-      },
-      {
-        "aviahorizon_pitch": [-45.0,45.0]
-      },
-      {
-        "aviahorizon_roll": [-180.0,180.0]
-      },
-      {
-        "ammo_counter1": [100.0,0.0]
-      },
-      {
-        "ammo_counter2": [100.0,0.0]
-      }
-    ],
+    "devices": {
+      "stick_ailerons": [-1.2,1.2],
+      "stick_elevator": [-1.2,1.2],
+      "pedals": [-1.0,1.0],
+      "pedals1": [-1.0,1.0],
+      "pedals2": [-1.0,1.0],
+      "pedals3": [-1.0,1.0],
+      "pedals4": [-1.0,1.0],
+      "throttle": [-1.0,1.5],
+      "throttle1": [-1.0,1.5],
+      "throttle2": [-1.0,1.5],
+      "trimmer": [-1.0,1.0],
+      "trimmer1": [-1.0,1.0],
+      "trimmer2": [-1.0,1.0],
+      "trimmer_indicator": [-1.0,1.0],
+      "flaps": [0.0,1.0],
+      "flaps_fixed": true,
+      "gears": [0.0,1.0],
+      "gears_lamp": [0.0,0.0],
+      "speed": [0.0,277.778],
+      "speed_01": [0.0,277.778],
+      "compass": [0.0,360.0],
+      "vario": [-25.0,150.0],
+      "altitude_hour": [0.0,12000.0],
+      "altitude_min": [0.0,1000.0],
+      "altitude_koef": 1.0,
+      "bank": [-8.0,8.0],
+      "turn": [-0.23562,0.23562],
+      "aviahorizon_pitch": [-45.0,45.0],
+      "aviahorizon_roll": [-180.0,180.0],
+      "clock_hour": [0.0,12.0],
+      "clock_min": [0.0,60.0],
+      "clock_sec": [0.0,60.0],
+      "fuel_consume": [0.0,1200.0],
+      "rpm": [0.0,2000.0],
+      "fuel1": [0.0,825.0],
+      "oil_pressure": [0.0,120.0],
+      "water_temperature": [0.0,150.0],
+      "fuel_pressure": [0.0,12.0],
+      "weapon2": [0.0,1.0],
+      "ammo_counter1": [100.0,0.0],
+      "ammo_counter2": [100.0,0.0],
+      "ammo_counter3": [100.0,0.0],
+      "ammo_counter4": [100.0,0.0]
+    },
     "parts_holes_dmg": {
       "part": "fuse"
     },
@@ -2107,31 +2109,39 @@
   "default_skin_tomoe": [
     {
       "replace_tex": {
-        "from": "me_163b_a*",
-        "to": "me_163b_a_tomoe*"
+        "from": "me_163b_camo1_c*",
+        "to": "me_163b_camo1_c_tomoe*"
       }
     },
     {
       "replace_tex": {
-        "from": "me_163b_a_dmg*",
-        "to": "me_163b_a_tomoe_dmg*"
+        "from": "me_163b_camo1_c_dmg*",
+        "to": "me_163b_camo1_c_tomoe_dmg*"
       }
     }
   ],
-  "skin": [
+  "user_skin": [
     {
-      "name": "standart45"
+      "name": "me_163b_1"
     },
     {
       "replace_tex": {
-        "from": "me_163b_a*",
-        "to": "me_163b_add_a*"
+        "from": "me_163b_camo1_c*"
       }
     },
     {
       "replace_tex": {
-        "from": "me_163b_a_dmg*",
-        "to": "me_163b_add_a_dmg*"
+        "from": "me_163b_camo1_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "me_163b_camo1_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "me_163b_camo1_n_dmg*"
       }
     }
   ],

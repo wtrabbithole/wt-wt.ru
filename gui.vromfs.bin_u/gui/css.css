@@ -2290,8 +2290,13 @@ TopMenuPanel > infoBlock {
 }
 
 gamercard_div[type=wwMap] > gamercard > TopMenuPanel > infoBlock {
-  pos:sw - w - 1@wwMapPanelInfoWidth - 3@framePadding, 1@topBarHeight + 3*@sf/@pf_outdated;
-  position:absolute;
+  pos: sw -w -1@wwMapPanelInfoWidth -3@framePadding, 1@topBarHeight;
+}
+gamercard_div[type=wwMap][switchBtnStat=switchOff] > gamercard > TopMenuPanel > infoBlock {
+  pos: sw -w -1@wwMapPanelInfoWidth -3@framePadding -1@baseToggleButtonWidth -1@blockInterval, 1@topBarHeight;
+}
+gamercard_div[type=wwMap][switchBtnStat=switchOn] > gamercard > TopMenuPanel > infoBlock {
+  pos: sw -w -3@framePadding -1@baseToggleButtonWidth -1@blockInterval, 1@topBarHeight;
 }
 
 slotbarTop > tdiv[offset=yes] {

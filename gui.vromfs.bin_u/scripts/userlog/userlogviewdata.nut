@@ -1007,6 +1007,13 @@ function get_userlog_view_data(log)
     local itemId = log?.itemDefId || log?.id || ""
     local item = ::ItemsManager.findItemById(itemId)
 
+    if(!item && log?.trophyItemDefId)
+    {
+      local extItem = ::ItemsManager.findItemById(log?.trophyItemDefId)
+      if (extItem)
+        item = extItem.getContentItem()
+    }
+
     if (item)
     {
       logName = item?.userlogOpenLoc ?? logName

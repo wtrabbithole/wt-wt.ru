@@ -53,12 +53,3 @@ function g_localization::formatLangTextsInStringStyle(langTextsArray)
   local formatedArray = ::u.map(langTextsArray, @(table) ::format("\"%s\":\"%s\"", table.abbreviation, table.text))
   return ::g_string.implode(formatedArray, ",")
 }
-
-function g_localization::formatLangTextsInJsonStyle(langTextsArray, settingKey = "sessionName")
-{
-  local sample = "{\"npLanguage\": \"%s\",\"%s\": \"%s\"}"
-  local result = []
-  foreach (table in langTextsArray)
-    result.append(::format(sample, table.abbreviation, settingKey, table.text))
-  return ::g_string.implode(result, ",")
-}

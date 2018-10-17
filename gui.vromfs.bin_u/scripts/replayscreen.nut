@@ -210,7 +210,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       local corrupted = (("corrupted" in replays[i]) && replays[i].corrupted) ||
         ("isVersionMismatch" in replays[i]) && replays[i].isVersionMismatch
       if (corrupted)
-        iconName = "#ui/gameuiskin#icon_primary_fail"
+        iconName = "#ui/gameuiskin#icon_primary_fail.svg"
       else if (autosave)
         iconName = "#ui/gameuiskin#slot_modifications.svg"
 

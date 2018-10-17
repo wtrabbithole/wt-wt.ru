@@ -13,18 +13,11 @@ style.scoreText <- {
 }
 
 local scoreState = {
-  localTeam = Watched(0)
-  enemyTeam = Watched(0)
+  localTeam = frp.combine([missionState.localTeam, missionState.scoreTeamA, missionState.scoreTeamB],
+            @(list) list[0] == 2 ? list[2] : list[1])
+  enemyTeam = frp.combine([missionState.localTeam, missionState.scoreTeamA, missionState.scoreTeamB],
+            @(list) list[0] == 2 ? list[1] : list[2])
 }
-
-frp.subCombine(scoreState.localTeam,
-  [missionState.localTeam, missionState.scoreTeamA, missionState.scoreTeamB],
-  @(list) list[0] == 2 ? list[2] : list[1])
-
-frp.subCombine(scoreState.enemyTeam,
-  [missionState.localTeam, missionState.scoreTeamA, missionState.scoreTeamB],
-  @(list) list[0] == 2 ? list[1] : list[2])
-
 
 return @() {
   flow = FLOW_HORIZONTAL

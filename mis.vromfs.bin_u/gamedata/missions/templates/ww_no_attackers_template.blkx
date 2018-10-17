@@ -210,7 +210,7 @@
       "actions": {
         "playHint": {
           "hintType": "standard",
-          "name": "@no_attackers_hint",
+          "name": "hints/no_attackers_so_mission_end",
           "action": "hide",
           "shouldFadeOut": false,
           "isOverFade": false,
@@ -288,24 +288,14 @@
       "conditions": {
         "varCompareInt": {
           "var_value": "no_attackers_timer_accumulative",
-          "value": 0,
+          "value": 1,
           "comparasion_func": "notLess"
         }
       },
       "actions": {
-        "varSetString": {
-          "value": "hints/no_attackers_so_mission_end_for_",
-          "var": "no_attackers_hint"
-        },
-        "varAddString": {
-          "value": "",
-          "digits": 2,
-          "var": "no_attackers_hint",
-          "input_var": "no_attackers_timer_accumulative"
-        },
         "playHint": {
           "hintType": "standard",
-          "name": "@no_attackers_hint",
+          "name": "hints/no_attackers_so_mission_end",
           "action": "show",
           "shouldFadeOut": false,
           "isOverFade": false,
@@ -314,7 +304,8 @@
           "target_marking": 0,
           "object_var_name": "",
           "object_var_comp_op": "equal",
-          "object_var_value": 0
+          "object_var_value": 0,
+          "var_name": "no_attackers_timer_accumulative"
         },
         "varModify": {
           "operator": "add",
@@ -325,7 +316,7 @@
       "else_actions": {
         "playHint": {
           "hintType": "standard",
-          "name": "@no_attackers_hint",
+          "name": "hints/no_attackers_so_mission_end",
           "action": "hide",
           "shouldFadeOut": false,
           "isOverFade": false,
@@ -351,13 +342,13 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 0.5
+          "time": 0.33
         }
       },
       "conditions": [],
       "actions": {
         "gameMPChangeScore": {
-          "value": -20,
+          "value": -33,
           "valueSystem": "percentage",
           "team": "B"
         }
@@ -429,7 +420,7 @@
       "actions": {
         "playHint": {
           "hintType": "standard",
-          "name": "@no_attackers_hint",
+          "name": "hints/no_attackers_so_mission_end",
           "action": "hide",
           "shouldFadeOut": false,
           "isOverFade": false,
@@ -507,24 +498,14 @@
       "conditions": {
         "varCompareInt": {
           "var_value": "no_attackers_timer_accumulative",
-          "value": 0,
+          "value": 1,
           "comparasion_func": "notLess"
         }
       },
       "actions": {
-        "varSetString": {
-          "value": "hints/no_attackers_so_mission_end_for_",
-          "var": "no_attackers_hint"
-        },
-        "varAddString": {
-          "value": "",
-          "digits": 2,
-          "var": "no_attackers_hint",
-          "input_var": "no_attackers_timer_accumulative"
-        },
         "playHint": {
           "hintType": "standard",
-          "name": "@no_attackers_hint",
+          "name": "hints/no_attackers_so_mission_end",
           "action": "show",
           "shouldFadeOut": false,
           "isOverFade": false,
@@ -533,7 +514,8 @@
           "target_marking": 0,
           "object_var_name": "",
           "object_var_comp_op": "equal",
-          "object_var_value": 0
+          "object_var_value": 0,
+          "var_name": "no_attackers_timer_accumulative"
         },
         "varModify": {
           "operator": "add",
@@ -544,7 +526,7 @@
       "else_actions": {
         "playHint": {
           "hintType": "standard",
-          "name": "@no_attackers_hint",
+          "name": "hints/no_attackers_so_mission_end",
           "action": "hide",
           "shouldFadeOut": false,
           "isOverFade": false,
@@ -570,13 +552,13 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 0.5
+          "time": 0.33
         }
       },
       "conditions": [],
       "actions": {
         "gameMPChangeScore": {
-          "value": -20,
+          "value": -33,
           "valueSystem": "percentage",
           "team": "A"
         }
@@ -590,8 +572,7 @@
   },
   "variables": {
     "no_attackers_timer_renewable": 60,
-    "no_attackers_timer_accumulative": 60,
-    "no_attackers_hint": "hints/no_attackers_so_mission_end_for_"
+    "no_attackers_timer_accumulative": 60
   },
   "dialogs": [],
   "airfields": [],

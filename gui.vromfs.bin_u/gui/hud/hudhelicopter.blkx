@@ -1,85 +1,111 @@
 [
   {
+    "tdiv": {
+      "position": "absolute",
+      "pos": "0, 0.3@shHud - h",
+      "flow": "vertical",
+      "width": "0.5@sf",
+      "voiceChatWidgetNest": [
+        {
+          "isClanOnly": "no"
+        },
+        {
+          "blockSeparator": {
+            "display": "hide"
+          }
+        },
+        {
+          "voiceChatWidgetContainer": {
+            "isSmall": "no",
+            "voiceChatWidget": {
+              "value": "{\"viewId\": \"VOICE_CHAT\"}"
+            }
+          }
+        },
+        {
+          "blockSeparator": {
+            "display": "hide"
+          }
+        }
+      ],
+      "tdiv": {
+        "id": "chatPlace"
+      }
+    }
+  },
+  {
+    "tdiv": {
+      "pos": "10/720@scrn_tgt, ph - h - 10/720@scrn_tgt -1@hudMisObjIconsSize -1@blockInterval",
+      "position": "absolute",
+      "dmgIndicator": {
+        "id": "xray_render_dmg_indicator",
+        "size": "@sizeDamageIndicator, @sizeDamageIndicator"
+      },
+      "tdiv": {
+        "id": "mission_progress_place",
+        "height": "@missionProgressHeight",
+        "display": "hide"
+      }
+    }
+  },
+  {
+    "hudMessages": {
+      "id": "hud_message_player_damage_notification",
+      "message_style": "player_damage_notification",
+      "position": "relative",
+      "pos": "1@bottomHudMessagesLeftPos, ph -h -1@hudMisObjIconsSize -1@blockInterval",
+      "width": "0.6@shHud + 1@isWide * 0.2@shHud",
+      "flow": "vertical"
+    }
+  },
+  {
     "tdiv": [
       {
         "position": "absolute"
       },
       {
-        "pos": "0, ph - h"
+        "pos": "pw - w, ph - h -1@hudMisObjIconsSize -1@blockInterval"
       },
       {
         "flow": "vertical"
       },
       {
-        "width": "0.5@sf"
-      },
-      {
-        "voiceChatWidgetNest": [
-          {
-            "isClanOnly": "no"
-          },
-          {
-            "blockSeparator": {
-              "display": "hide"
-            }
-          },
-          {
-            "voiceChatWidgetContainer": {
-              "isSmall": "no",
-              "voiceChatWidget": {
-                "value": "{\"viewId\": \"VOICE_CHAT\"}"
-              }
-            }
-          },
-          {
-            "blockSeparator": {
-              "display": "hide"
-            }
-          }
-        ]
-      },
-      {
         "tdiv": {
           "id": "order_status",
+          "position": "relative",
           "width": "0.8@itemInfoWidth",
-          "min-width": "0.6@itemInfoWidth"
+          "left": "pw - w",
+          "flow-align": "right",
+          "isHalignRight": "yes"
         }
       },
       {
         "tdiv": {
-          "id": "chatPlace"
+          "id": "hud_kill_log",
+          "position": "relative",
+          "pos": "pw - w, 0",
+          "height": "0.15*@shHud",
+          "margin-bottom": "0.02*@shHud",
+          "overflow": "hidden",
+          "hudMessages": {
+            "id": "hud_message_kill_log_notification",
+            "message_style": "kill_log_notification",
+            "position": "relative",
+            "pos": "pw - w, ph - h",
+            "width": "0.5@shHud",
+            "flow": "vertical"
+          }
+        }
+      },
+      {
+        "tacticalMap": {
+          "id": "hud_tank_tactical_map",
+          "size": "@sizeTacticalMap, @sizeTacticalMap",
+          "position": "relative",
+          "pos": "pw - w, 0"
         }
       }
     ]
-  },
-  {
-    "tdiv": {
-      "position": "absolute",
-      "pos": "pw - w, ph - h",
-      "flow": "vertical",
-      "tdiv": {
-        "id": "hud_kill_log",
-        "position": "relative",
-        "pos": "pw - w, 0",
-        "height": "0.2*@shHud",
-        "margin-bottom": "0.02*@shHud",
-        "overflow": "hidden",
-        "hudMessages": {
-          "id": "hud_message_kill_log_notification",
-          "message_style": "kill_log_notification",
-          "position": "relative",
-          "pos": "pw - w, ph - h",
-          "width": "0.5@shHud",
-          "flow": "vertical"
-        }
-      },
-      "tacticalMap": {
-        "id": "hud_tank_tactical_map",
-        "size": "@sizeTacticalMap, @sizeTacticalMap",
-        "position": "relative",
-        "pos": "pw - w, 0"
-      }
-    }
   },
   {
     "tdiv": {
