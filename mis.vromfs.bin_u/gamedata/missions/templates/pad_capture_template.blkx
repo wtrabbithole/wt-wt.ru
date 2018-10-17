@@ -132,6 +132,24 @@
           }
         },
         {
+          "varSetString": {
+            "value": "pad_object_",
+            "var": "pad_object"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@pad_cur_idx",
+            "digits": 2,
+            "var": "pad_object"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
           "triggerEnable": {
             "target": "pad_check"
           }
@@ -156,12 +174,20 @@
           "time": 0.0
         }
       },
-      "conditions": {
-        "objectExists": {
-          "target": "@pad_name",
-          "type": "area"
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@pad_name",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@pad_object",
+            "type": "objectGroup"
+          }
         }
-      },
+      ],
       "actions": {
         "missionMarkAsCaptureZone": {
           "army": 0,
@@ -173,6 +199,7 @@
           "canCaptureInAir": false,
           "canCaptureByGM": true,
           "onlyPlayersCanCapture": false,
+          "airfield": "@pad_object",
           "captureNoPenalty": true
         },
         "comment": {
@@ -592,7 +619,8 @@
     "pad_06_army": 0,
     "pad_cur_army": "",
     "pad_t1_aa_name": "",
-    "pad_t2_aa_name": ""
+    "pad_t2_aa_name": "",
+    "pad_object": ""
   },
   "dialogs": [],
   "airfields": [],

@@ -124,7 +124,10 @@ local getActions = function(contact, params)
       isVisualDisabled = !canInteract || isBlock
       action = function() {
         if (!canInteract)
+        {
+          platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
           return showPrivacySettingsRestrictionPopup()
+        }
 
         if (isBlock)
           return showBlockedPlayerPopup(name)
@@ -185,7 +188,10 @@ local getActions = function(contact, params)
           else if (!canInteractCrossPlatform)
             showCrossPlayRestrictionPopup()
           else if (!canInteract)
+          {
+            platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
             showPrivacySettingsRestrictionPopup()
+          }
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
           else if (hasApplicationInMySquad)
