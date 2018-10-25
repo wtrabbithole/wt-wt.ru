@@ -469,20 +469,20 @@ local function setTblValueByArrayPath(pathArray, tbl, value) {
 }
 
 local function setTblValueByPath(path, tbl, value, separator = ".") {
-  if (type(path) == "string") {
+  if (::type(path) == "string") {
     path = split(path, separator)
   }
-  if (type(path) == "array")
+  if (::type(path) == "array")
     setTblValueByArrayPath(keys, tbl, value)
   else 
     tbl[path] <- value
 }
 
 local function getTblValueByPath(table, path, separator = ".") {
-  if (type(path) == "string") {
+  if (::type(path) == "string") {
     path = split(path, separator)
   }
-  assert(type(path)=="array", "Path should be array or string with separator")
+  assert(::type(path)=="array", "Path should be array or string with separator")
   local ret = table
   foreach(i,p in path) {
     if (ret==null)

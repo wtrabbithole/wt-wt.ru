@@ -692,7 +692,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       local axis = curJoyParams.getAxis(curItem.axisIndex[0])
       local curPreset = ::g_controls_manager.getCurPreset()
       if (axis.axisId >= 0)
-        axisAssignText = ::addHotkeyTxt(::remapAxisName(curPreset.getAxisName(axis.axisId)))
+        axisAssignText = ::addHotkeyTxt(::remapAxisName(curPreset, axis.axisId))
       if (isButtonsListenInCurBox)
         buttonAssignText = ::get_shortcut_text(shortcuts, curItem.modifiersId[axisMaxChoosen? "rangeMin" : "rangeMax"][0], false)
     }
@@ -891,9 +891,9 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     foreach(d in devs)
       if (d>0)
         if (isKbd==null)
-          isKbd = d < JOYSTICK_DEVICE_ID
+          isKbd = d < ::JOYSTICK_DEVICE_0_ID
         else
-          if (isKbd != (d < JOYSTICK_DEVICE_ID))
+          if (isKbd != (d < ::JOYSTICK_DEVICE_0_ID))
             return null
     return isKbd
   }
@@ -1030,7 +1030,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     local text = ""
     local curPreset = ::g_controls_manager.getCurPreset()
     for (local i = 0; i < sc.dev.len(); i++)
-      text += ((i != 0)? " + ":"") + ::getLocalizedControlName(curPreset.getButtonName(sc.dev[i], sc.btn[i]))
+      text += ((i != 0)? " + ":"") + ::getLocalizedControlName(curPreset, sc.dev[i], sc.btn[i])
     return text
   }
 
@@ -1106,7 +1106,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     local device = ::joystick_get_default()
     local curPreset = ::g_controls_manager.getCurPreset()
-    curBtnText = ::remapAxisName(curPreset.getAxisName(selectedAxisNum))
+    curBtnText = ::remapAxisName(curPreset, selectedAxisNum)
     showMsg(::loc("hotkeys/msg/axis_choosen") + "\n" + curBtnText, config)
   }
 
@@ -1197,7 +1197,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     local device = ::joystick_get_default()
     local curPreset = ::g_controls_manager.getCurPreset()
-    local axisName = device ? ::remapAxisName(curPreset.getAxisName(bindAxisNum)) : ""
+    local axisName = device ? ::remapAxisName(curPreset, bindAxisNum) : ""
     obj.setValue(axisName)
 
     local changeColor = (selectedAxisNum>=0 && selectedAxisNum==bindAxisNum)? "fixedAxis" : ""

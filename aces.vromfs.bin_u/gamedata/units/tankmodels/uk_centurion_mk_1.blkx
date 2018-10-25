@@ -1046,13 +1046,13 @@
     "VehiclePhys": {
       "Mass": [
         {
-          "Empty": 48155.0
+          "Empty": 46355.0
         },
         {
           "Fuel": 545.0
         },
         {
-          "TakeOff": 48700.0
+          "TakeOff": 46900.0
         },
         {
           "momentOfInertia": [4.0,5.0,6.0]
@@ -1091,9 +1091,22 @@
         "height": 0.04
       },
       "engine": {
-        "horsePowers": 600.0,
+        "horsePowers": 635.0,
         "maxRPM": 2550.0,
         "minRPM": 600.0
+      },
+      "suspension": {
+        "suspensionOffsets": [-0.15,-0.13,0.07],
+        "defaultGearRadius": 0.41,
+        "frontBackGearRadius": 0.38,
+        "topGearRadius": 0.1,
+        "defaultDampeningForce": [173840.0,173840.0],
+        "dampeningRelaxationRatio": 0.4,
+        "dampeningCompressionRatio": 0.15
+      },
+      "collisionProps": {
+        "cls_turret": "convex_hull",
+        "cls_body": "convex_hull"
       },
       "mechanics": {
         "maxBrakeForce": 230000.0,
@@ -1122,22 +1135,9 @@
             "ratio": 13.51
           },
           {
-            "ratio": 10.04
+            "ratio": 9.38
           }
         ]
-      },
-      "suspension": {
-        "suspensionOffsets": [-0.15,-0.13,0.07],
-        "defaultGearRadius": 0.41,
-        "frontBackGearRadius": 0.38,
-        "topGearRadius": 0.1,
-        "defaultDampeningForce": [173840.0,173840.0],
-        "dampeningRelaxationRatio": 0.4,
-        "dampeningCompressionRatio": 0.15
-      },
-      "collisionProps": {
-        "cls_turret": "convex_hull",
-        "cls_body": "convex_hull"
       }
     }
   },

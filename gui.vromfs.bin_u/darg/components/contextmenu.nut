@@ -30,9 +30,6 @@ local function contextMenu(x, y, width, actions, menu_style = style) {
     pos = [x, y]
     flow = FLOW_VERTICAL
     color = menu_style.menuBgColor
-    safeAreaMargin = [sh(2), sh(2)]
-    transform = {}
-    behavior = Behaviors.BoundToArea
 
     children = actions.map(@(item) menu_style.listItem(item.text, wrapAction(item.action)))
   }

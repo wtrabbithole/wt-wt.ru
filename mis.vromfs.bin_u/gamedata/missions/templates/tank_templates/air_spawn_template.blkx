@@ -1646,6 +1646,58 @@
             }
           ]
         },
+        "else_actions": {
+          "triggerEnable": {
+            "target": "helipad_squad_disable_hardcore_helipads"
+          }
+        }
+      },
+      "helipad_squad_disable_hardcore_helipads": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "initMission": []
+        },
+        "conditions": [
+          {
+            "objectExists": {
+              "target": "@t1_helipad_str",
+              "type": "squad"
+            }
+          },
+          {
+            "objectExists": {
+              "target": "@t2_helipad_str",
+              "type": "squad"
+            }
+          }
+        ],
+        "actions": {
+          "unitPutToSleep": [
+            {
+              "target": "@t1_helipad_str"
+            },
+            {
+              "target": "@t2_helipad_str"
+            }
+          ],
+          "airfieldSetVisibility": [
+            {
+              "target": "@t1_helipad_str"
+            },
+            {
+              "target": "@t2_helipad_str"
+            },
+            {
+              "team": "None"
+            }
+          ]
+        },
         "else_actions": []
       },
       "helipad_exist_hardcore": {
@@ -1670,6 +1722,137 @@
             "objectExists": {
               "target": "@t2_helipad_str",
               "type": "objectGroup"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "unitSetProperties": [
+              {
+                "object_marking": 0
+              },
+              {
+                "object_var_name": ""
+              },
+              {
+                "object_var_comp_op": "equal"
+              },
+              {
+                "object_var_value": 0
+              },
+              {
+                "object": "@t1_helipad_str"
+              },
+              {
+                "object": "@t2_helipad_str"
+              },
+              {
+                "calmDetection": true
+              }
+            ]
+          },
+          {
+            "missionMarkAsRespawnPoint": {
+              "loc_name": "missions/helipad_spawn",
+              "spawnEffect": false,
+              "isStrictSpawn": false,
+              "isAirfield": true,
+              "isUnit": false,
+              "useExisting": false,
+              "isIndividual": false,
+              "removeAreas": false,
+              "canSpawnOnNeutral": false,
+              "showOnMap": true,
+              "radius": -1.0,
+              "resetStrictSpawnIndex": false,
+              "onlyOnePlayerPerSpawnPoint": false,
+              "target": "@t1_helipad_str",
+              "team": "A",
+              "tags": {
+                "helicopter": true,
+                "type_attack_helicopter": true,
+                "type_utility_helicopter": true,
+                "tank": false,
+                "artillery": false,
+                "aaa": false,
+                "ship": false
+              }
+            }
+          },
+          {
+            "missionMarkAsRespawnPoint": {
+              "loc_name": "missions/helipad_spawn",
+              "spawnEffect": false,
+              "isStrictSpawn": false,
+              "isAirfield": true,
+              "isUnit": false,
+              "useExisting": false,
+              "isIndividual": false,
+              "removeAreas": false,
+              "canSpawnOnNeutral": false,
+              "showOnMap": true,
+              "radius": -1.0,
+              "resetStrictSpawnIndex": false,
+              "onlyOnePlayerPerSpawnPoint": false,
+              "target": "@t2_helipad_str",
+              "team": "B",
+              "tags": {
+                "helicopter": true,
+                "type_attack_helicopter": true,
+                "type_utility_helicopter": true,
+                "tank": false,
+                "artillery": false,
+                "aaa": false,
+                "ship": false
+              }
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t1_helipad",
+              "var": "t1_helipad_str"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t2_helipad",
+              "var": "t2_helipad_str"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "helipad_disable_arcade_helipads"
+            }
+          }
+        ],
+        "else_actions": {
+          "triggerEnable": {
+            "target": "helipad_squad_exist_hardcore"
+          }
+        }
+      },
+      "helipad_squad_exist_hardcore": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "initMission": []
+        },
+        "conditions": [
+          {
+            "objectExists": {
+              "target": "@t1_helipad_str",
+              "type": "squad"
+            }
+          },
+          {
+            "objectExists": {
+              "target": "@t2_helipad_str",
+              "type": "squad"
             }
           }
         ],

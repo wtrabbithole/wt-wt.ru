@@ -42,7 +42,7 @@ local function reduceTbl(table, iteratee, memo = null) {
  * @reverseOrder work only with arrays.
  */
 local function search(data, predicate, reverseOrder = false) {
-  if (!reverseOrder || type(data) != "array") {
+  if (!reverseOrder || ::type(data) != "array") {
     foreach(value in data)
       if (predicate(value))
         return value
@@ -63,8 +63,8 @@ local function search(data, predicate, reverseOrder = false) {
  otherwise it would return [dataset_1[idx],dataset_2[idx],...dataset_n[idx]]
  */
 local function zip(...) {
-  local func = search(vargv, @(v) type(v)=="function")
-  local datasets = vargv.filter(@(i,val) type(val)=="array")
+  local func = search(vargv, @(v) ::type(v)=="function")
+  local datasets = vargv.filter(@(i,val) ::type(val)=="array")
   assert (datasets.len()>1, "zip can work only with two or more datasources")
   local res = datasets[0].map(@(v) [v])
   if (func == null) {
@@ -104,7 +104,7 @@ local function keys(table) {
  * Return all of the values of the table's properties.
  */
 local function values(data) {
-  if (type(data)=="array")
+  if (::type(data)=="array")
     return clone data
   local res = []
   foreach (val in data)

@@ -2,17 +2,8 @@
 ::gui_scene <-{}
 ::gui_scene.config <-{}
 ::gui_scene.config.defaultFont <-0
-::gui_scene.setTimeout<-function(timeout, func){
-  assert([type(0),type(0.0)].find(type(timeout))!=null, "timeout should number")
-  assert(type(func)==type(type), "function should be function")
-}
-::gui_scene.clearTimer<-function(func){
-  assert(type(func)==type(type), "function should be function")
-}
-
 ::Fonts <-{}
 ::Fonts.small_text <-"small_text"
-::ElemGroup <- @() {}
 
 Watched <-class {
   value=null
@@ -34,7 +25,6 @@ Watched <-class {
   _tostring = function(){
     return "Watched: " + value
   }
-  function trigger() {return null}
   function trace() {return ""}
   function subscribe(func) {
     local infos = func.getinfos()

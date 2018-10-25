@@ -1183,55 +1183,65 @@
       "armorThickness": 20.0,
       "compartments": {
         "fireParamsPreset": "ship_cover",
-        "stopChanceOnDeadPart": 0.3,
-        "genericDamageMult": 0.7,
-        "secondaryShatterDamageMult": 0.0,
+        "stopChanceOnDeadPart": 0.4,
+        "genericDamageMult": 0.6,
+        "shatterDamageMult": 0.4,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 1.1,
         "armorThickness": 13.0,
-        "armorClass": "ship_special_treatment_steel",
         "compartment_01_dm": {
-          "hp": 1457.0
+          "hp": 3206.0
         },
         "compartment_02_dm": {
-          "hp": 1500.0
+          "hp": 5335.0
         },
         "compartment_03_dm": {
-          "hp": 1500.0
+          "hp": 4242.0
         },
         "compartment_04_dm": {
-          "hp": 1500.0
+          "hp": 4488.0
         },
         "compartment_05_dm": {
-          "hp": 1500.0
+          "hp": 3427.0
         },
         "compartment_06_dm": {
-          "hp": 999.0
+          "hp": 2199.0
         },
         "bridge_dm": {
-          "hp": 122.0
+          "hp": 2000.0
+        },
+        "radio_station_dm": {
+          "hp": 2000.0
         }
       },
       "superstructures": {
         "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.9,
-        "stopChanceOnDeadPart": 0.3,
+        "genericDamageMult": 0.4,
+        "shatterDamageMult": 0.3,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 1.1,
+        "stopChanceOnDeadPart": 0.7,
         "armorThickness": 10.0,
         "superstructure_front_dm": {
-          "hp": 1142.0
+          "hp": 3427.0
         },
         "superstructure_top_dm": {
-          "hp": 500.0
+          "hp": 1500.0
         },
         "superstructure_dm": {
-          "hp": 770.0
+          "hp": 2312.0
         },
         "mid_bottom_dm": {
-          "hp": 509.0
+          "hp": 1529.0
         }
       },
       "bulkheads": {
-        "genericDamageMult": 0.5,
-        "armorThickness": 40.0,
-        "stopChanceOnDeadPart": 0.3,
+        "genericDamageMult": 0.4,
+        "shatterDamageMult": 0.5,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.8,
+        "armorThickness": 70.0,
+        "stopChanceOnDeadPart": 0.5,
         "bulkhead_01_dm": {
           "hp": 1000.0
         },
@@ -1286,10 +1296,10 @@
         "fireProtectionHp": 5.0,
         "fireParamsPreset": "ship_engine",
         "armorClass": "armor_tank_engine",
-        "armorThickness": 10.0,
-        "genericDamageMult": 2.0,
-        "shatterDamageMult": 0.1,
-        "secondaryShatterDamageMult": 0.05,
+        "armorThickness": 15.0,
+        "genericDamageMult": 1.5,
+        "shatterDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.3,
         "engine_room_01_dm": {
           "hp": 1000.0
         },
@@ -1297,19 +1307,17 @@
           "hp": 1000.0
         },
         "funnel_01_dm": {
+          "shatterDamageMult": 1.2,
           "hp": 1000.0
         },
         "funnel_02_dm": {
+          "shatterDamageMult": 1.2,
           "hp": 1000.0
         },
         "transmission_01_dm": {
-          "shatterDamageMult": 0.5,
-          "secondaryShatterDamageMult": 0.05,
           "hp": 1000.0
         },
         "transmission_02_dm": {
-          "shatterDamageMult": 0.5,
-          "secondaryShatterDamageMult": 0.05,
           "hp": 1000.0
         }
       },
@@ -1319,7 +1327,9 @@
         "armorClass": "armor_tank_engine",
         "fireParamsPreset": "ship_engine",
         "armorThickness": 50.0,
-        "genericDamageMult": 2.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 0.5,
+        "explosionDamageMult": 1.2,
         "steering_gear_01_dm": {
           "hp": 590.0
         }
@@ -1327,9 +1337,11 @@
       "elevators": {
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorThickness": 10.0,
-        "genericDamageMult": 2.0,
-        "fireParamsPreset": "ship_engine",
+        "armorThickness": 15.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.5,
+        "fireParamsPreset": "ship_turrets",
         "elevator_01_dm": {
           "hp": 300.0
         },
@@ -1342,18 +1354,13 @@
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
         "armorThickness": 10.0,
-        "genericDamageMult": 2.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.5,
         "fireParamsPreset": "ship_engine"
       },
       "hull_armor": {
-        "armorClass": "ship_structural_steel",
         "armorThickness": 25.0,
-        "turret_04_dm": {
-          "hp": 250.0
-        },
-        "turret_05_dm": {
-          "hp": 250.0
-        },
+        "armorClass": "ship_structural_steel",
         "ex_armor_01_dm": {
           "armorThickness": 20.0,
           "hp": 250.0
@@ -1387,10 +1394,24 @@
           "hp": 250.0
         }
       },
+      "turrets": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 15.0,
+        "turret_04_dm": {
+          "hp": 250.0
+        },
+        "turret_05_dm": {
+          "hp": 250.0
+        }
+      },
       "turrets_main_caliber": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 8.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.2,
+        "shatterDamageMult": 1.4,
+        "explosionDamageMult": 1.2,
+        "secondaryShatterDamageMult": 0.5,
         "main_caliber_turret_01_dm": {
           "hp": 350.0
         },
@@ -1404,12 +1425,20 @@
       "turrets_aux_caliber": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 25.0,
-        "fireParamsPreset": "ship_turrets"
+        "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.2,
+        "shatterDamageMult": 1.5,
+        "explosionDamageMult": 1.5,
+        "secondaryShatterDamageMult": 0.5
       },
       "turrets_aa_caliber": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.3,
+        "shatterDamageMult": 1.5,
+        "explosionDamageMult": 1.6,
+        "secondaryShatterDamageMult": 1.3,
         "aa_turret_01_dm": {
           "hp": 50.0
         },
@@ -1421,6 +1450,10 @@
         "armorClass": "tank_barrel",
         "armorThickness": 50.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.5,
+        "shatterDamageMult": 0.2,
+        "explosionDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.01,
         "main_caliber_gun_01_dm": {
           "hp": 200.0
         },
@@ -1434,12 +1467,19 @@
       "gun_aux_caliber": {
         "armorClass": "tank_barrel",
         "armorThickness": 30.0,
-        "fireParamsPreset": "ship_turrets"
+        "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.5,
+        "shatterDamageMult": 0.5,
+        "explosionDamageMult": 0.7,
+        "secondaryShatterDamageMult": 0.01
       },
       "gun_aa_caliber": {
         "armorClass": "tank_barrel",
         "armorThickness": 10.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.6,
+        "shatterDamageMult": 1.2,
+        "explosionDamageMult": 1.5,
         "aa_gun_01_dm": {
           "hp": 50.0
         },
@@ -1448,7 +1488,7 @@
         }
       },
       "gun_masks": {
-        "armorClass": "RHA_tank",
+        "armorClass": "CHA_tank",
         "armorThickness": 15.0
       },
       "gun_barrels": {
@@ -1459,9 +1499,11 @@
         "armorThickness": 10.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
+        "fireParamsPreset": "ship_turrets",
         "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.4,
+        "secondaryShatterDamageMult": 1.0,
         "depth_charge_mount_01_dm": {
           "hp": 250.0
         },
@@ -1475,58 +1517,37 @@
           "hp": 432.0
         }
       },
-      "fuel_tanks": [
-        {
-          "armorThickness": 20.0
+      "fuel_tanks": {
+        "armorThickness": 20.0,
+        "armorThrough": 200.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "ship_fuel_tank",
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.5,
+        "explosionDamageMult": 1.6,
+        "secondaryShatterDamageMult": 0.8,
+        "fuel_tank_01_dm": {
+          "hp": 1000.0
         },
-        {
-          "armorThrough": 200.0
+        "fuel_tank_02_dm": {
+          "hp": 1000.0
         },
-        {
-          "fireProtectionHp": 15.0
+        "fuel_tank_03_dm": {
+          "hp": 1000.0
         },
-        {
-          "fireParamsPreset": "ship_fuel_tank"
-        },
-        {
-          "secondaryShatterDamageMult": 0.05
-        },
-        {
-          "genericDamageMult": 0.1
-        },
-        {
-          "secondaryShatterDamageMult": 0.0
-        },
-        {
-          "fuel_tank_01_dm": {
-            "hp": 1000.0
-          }
-        },
-        {
-          "fuel_tank_02_dm": {
-            "hp": 1000.0
-          }
-        },
-        {
-          "fuel_tank_03_dm": {
-            "hp": 1000.0
-          }
-        },
-        {
-          "fuel_tank_04_dm": {
-            "hp": 589.0
-          }
+        "fuel_tank_04_dm": {
+          "hp": 589.0
         }
-      ],
+      },
       "ammo": {
         "armorThickness": 5.0,
         "armorThrough": 100.0,
         "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
-        "genericDamageMult": 0.7,
-        "explosionDamageMult": 0.7,
-        "shatterDamageMult": 0.7,
-        "secondaryShatterDamageMult": 0.0,
+        "genericDamageMult": 0.5,
+        "explosionDamageMult": 1.5,
+        "shatterDamageMult": 1.5,
+        "secondaryShatterDamageMult": 1.0,
         "ammunition_storage_01_dm": {
           "hp": 350.0
         },
@@ -1541,9 +1562,11 @@
         "armorThickness": 5.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
-        "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "fireParamsPreset": "ship_ammo_fire",
+        "genericDamageMult": 0.5,
+        "shatterDamageMult": 0.8,
+        "explosionDamageMult": 1.5,
+        "secondaryShatterDamageMult": 0.5,
         "depth_charge_01_dm": {
           "hp": 250.0
         },
@@ -1585,9 +1608,11 @@
         "armorThickness": 20.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
+        "fireParamsPreset": "ship_ammo_fire",
         "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "shatterDamageMult": 1.5,
+        "explosionDamageMult": 1.6,
+        "secondaryShatterDamageMult": 1.0,
         "torpedo_01_dm": {
           "hp": 250.0
         },
@@ -1620,17 +1645,17 @@
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 9
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 16
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 12
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
@@ -1640,12 +1665,12 @@
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 10
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 7
       },
       "sailor8": {
         "dmPart": "superstructure_dm",
@@ -1655,7 +1680,7 @@
       "sailor9": {
         "dmPart": "superstructure_top_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 5
       },
       "sailor10": {
         "dmPart": "main_caliber_turret_01_dm",
@@ -1681,6 +1706,11 @@
         "dmPart": "tt_02_dm",
         "role": "sailor",
         "crew": 5
+      },
+      "sailor15": {
+        "dmPart": "radio_station_dm",
+        "role": "sailor",
+        "crew": 6
       }
     }
   },
@@ -2346,87 +2376,37 @@
   },
   {
     "MetaParts": {
-      "compartment1": {
-        "part": "compartment_01_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
+      "cover": [
+        {
+          "part": "compartment_01_dm"
+        },
+        {
+          "part": "compartment_02_dm"
+        },
+        {
+          "part": "compartment_03_dm"
+        },
+        {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
+          "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 4000.0,
+            "kill": true,
+            "killEffect": "destruction"
+          }
         }
-      },
-      "compartment2": {
-        "part": "compartment_02_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "compartment3": {
-        "part": "compartment_03_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "compartment4": {
-        "part": "compartment_04_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "compartment5": {
-        "part": "compartment_05_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "compartment6": {
-        "part": "compartment_06_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "compartment7": {
-        "part": "compartment_07_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "engine_room1": {
-        "part": "engine_room_01_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      },
-      "engine_room2": {
-        "part": "engine_room_02_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 18000.0,
-          "kill": true,
-          "killEffect": "destruction"
-        }
-      }
+      ]
     }
   },
   {
@@ -2441,8 +2421,6 @@
     "ShipPhys": {
       "mass": {
         "Empty": 1300000.0,
-        "Fuel": 100000.0,
-        "TakeOff": 1400000.0,
         "momentOfInertia": [38.0,480.0,310.0],
         "CenterOfGravity": [4.4,-0.16,0.0]
       },

@@ -990,10 +990,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local text = ""
       for (local k = 0; k < sc.dev.len(); k++)
       {
+        text += ((k != 0)? " + ":"") + ::getLocalizedControlName(curPreset, sc.dev[k], sc.btn[k])
         local btnName = curPreset.getButtonName(sc.dev[k], sc.btn[k])
-
-        text += ((k != 0)? " + ":"") + ::getLocalizedControlName(btnName)
-
         if (btnName=="MWUp" || btnName=="MWDown")
           btnName = "MMB"
         if (btnName in btnList)
@@ -1093,7 +1091,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           continue
 
         foreach(idx, devId in itemButton.dev)
-          if (devId == JOYSTICK_DEVICE_ID)
+          if (devId == ::JOYSTICK_DEVICE_0_ID)
           {
             local btnId = itemButton.btn[idx]
             if (!(btnId in joystickButtons))
@@ -1370,8 +1368,7 @@ function get_shortcut_frame_for_help(shortcut)
   local curPreset = ::g_controls_manager.getCurPreset()
   for (local k = 0; k < shortcut.dev.len(); k++)
   {
-    local btnName = curPreset.getButtonName(shortcut.dev[k], shortcut.btn[k]);
-    local name = ::getLocalizedControlName(btnName);
+    local name = ::getLocalizedControlName(curPreset, shortcut.dev[k], shortcut.btn[k]);
     local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::g_string.stripTags(name), (name.len()>2)? "@fontTiny" : "@fontMedium");
 
     if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)
@@ -1385,7 +1382,7 @@ function get_shortcut_frame_for_help(shortcut)
         buttonFrame = format(mouseBtnImg, "mouse_center");
     }
 
-    if (shortcut.dev[k] == JOYSTICK_DEVICE_ID)
+    if (shortcut.dev[k] == ::JOYSTICK_DEVICE_0_ID)
     {
       local btnId = shortcut.btn[k]
       if (gamepadIcons.hasTextureByButtonIdx(btnId))

@@ -1018,14 +1018,26 @@ enum ConflictGroups {
     }
 
     {
+      id = "ID_SHIP_WEAPON_MINE",
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
+
+    {
+      id = "ID_SHIP_WEAPON_MORTAR"
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
+
+    {
       id = "ID_SHIP_WEAPON_ROCKETS"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_WEAPON_MINE",
-      checkGroup = ctrlGroups.SHIP
+      id = "ID_SHIP_SMOKE_SCREEN_GENERATOR",
+      checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
@@ -1177,12 +1189,6 @@ enum ConflictGroups {
       def_relative = true
       isAbsOnlyWhenRealAxis = true
       checkGroup = ctrlGroups.SHIP
-      checkAssign = false
-    }
-
-    {
-      id = "ID_SHIP_SMOKE_SCREEN_GENERATOR",
-      checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
@@ -1773,9 +1779,9 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_WEAPON_MACHINEGUN"
   "ID_SHIP_WEAPON_TORPEDOES"
   "ID_SHIP_WEAPON_DEPTH_CHARGE"
-  "ID_SHIP_WEAPON_ROCKETS"
   "ID_SHIP_WEAPON_MINE"
   "ID_SHIP_WEAPON_MORTAR"
+  "ID_SHIP_WEAPON_ROCKETS"
   "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -2094,7 +2100,7 @@ function isShortcutMapped(shortcut)
   foreach (button in shortcut)
     if (button && button.dev.len() >= 0)
       foreach(d in button.dev)
-        if (d > 0 && d <= JOYSTICK_DEVICE_ID)
+        if (d > 0 && d <= ::JOYSTICK_DEVICE_0_ID)
             return true
   return false
 }
@@ -2693,7 +2699,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local data = ""
     local curPreset = ::g_controls_manager.getCurPreset()
     if (axis.axisId >= 0)
-      axisText = ::remapAxisName(curPreset.getAxisName(axis.axisId))
+      axisText = ::remapAxisName(curPreset, axis.axisId)
 
     if ("modifiersId" in item)
     {
@@ -3630,7 +3636,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       local device = ::joystick_get_default()
       local curPreset = ::g_controls_manager.getCurPreset()
       local msg = format(::loc("msg/zoomAssignmentsConflict"),
-        ::remapAxisName(curPreset.getAxisName(axis.axisId)))
+        ::remapAxisName(curPreset, axis.axisId))
       guiScene.performDelayed(this, @()
         msgBox("zoom_axis_assigned", msg,
         [
@@ -3977,8 +3983,7 @@ function get_shortcut_text(shortcuts, shortcutId, cantBeEmpty = true, strip_tags
     local sc = shortcuts[shortcutId][i]
     local curPreset = ::g_controls_manager.getCurPreset()
     for (local j = 0; j < sc.dev.len(); j++)
-      text += ((j != 0)? " + ":"") + ::getLocalizedControlName(
-        curPreset.getButtonName(sc.dev[j], sc.btn[j]))
+      text += ((j != 0)? " + ":"") + ::getLocalizedControlName(curPreset, sc.dev[j], sc.btn[j])
 
     if (text=="")
       continue
@@ -4008,8 +4013,7 @@ function get_first_shortcut_text(shortcutData)
 
     local curPreset = ::g_controls_manager.getCurPreset()
     for (local j = 0; j < sc.btn.len(); j++)
-      text += ((j != 0)? " + " : "") + ::getLocalizedControlName(
-        curPreset.getButtonName(sc.dev[j], sc.btn[j]))
+      text += ((j != 0)? " + " : "") + ::getLocalizedControlName(curPreset, sc.dev[j], sc.btn[j])
   }
 
   return text
@@ -4020,7 +4024,7 @@ function get_shortcut_gamepad_textures(shortcutData)
   local res = []
   foreach(sc in shortcutData)
   {
-    if (sc.dev.len() <= 0 || sc.dev[0] != JOYSTICK_DEVICE_ID)
+    if (sc.dev.len() <= 0 || sc.dev[0] != ::JOYSTICK_DEVICE_0_ID)
       continue
 
     for (local i = 0; i < sc.dev.len(); i++)
@@ -4057,23 +4061,27 @@ function getSeparatedControlLocId(text)
 
 function getLocaliazedPS4controlName(text)
 {
-  local locText = ::loc("xinp/" + text, "")
-  if (locText == "")
-    locText = ::getSeparatedControlLocId(text)
-  return locText
+  return ::loc("xinp/" + text, "")
 }
 
-function getLocalizedControlName(text) //used in client code for hud. see getRemapButtonName
+function getLocalizedControlName(preset, deviceId, buttonId)
 {
+  local text = preset.getButtonName(deviceId, buttonId)
   local locText = ::loc("key/" + text, "")
-  if (locText == "")
-    locText = ::getLocaliazedPS4controlName(text)
-  return locText
-}
+  if (locText != "")
+    return locText
 
-function getLocalizedControlShortName(text)
+  if (deviceId != STD_KEYBOARD_DEVICE_ID) {
+    locText = getLocaliazedPS4controlName(text)
+    if (locText != "")
+      return locText
+  }
+
+  return ::getSeparatedControlLocId(text)
+}
+function getLocalizedControlShortName(preset, deviceId, buttonId)
 {
-  local locText = getLocalizedControlName(text)
+  local locText = getLocalizedControlName(preset, deviceId, buttonId)
   local replaces = ::is_platform_xboxone ? [
     [ "FirePrimary", "F1" ],
     [ "FireSecondary", "F2" ],
@@ -4084,8 +4092,9 @@ function getLocalizedControlShortName(text)
   return locText
 }
 
-function remapAxisName(text)
+function remapAxisName(preset, axisId)
 {
+  local text = preset.getAxisName(axisId)
   if (text == null)
     return "?"
 
@@ -4099,9 +4108,14 @@ function remapAxisName(text)
   }
 
   local locText = ::loc("joystick/" + text, "")
-  if (locText == "")
-    locText = ::getLocalizedControlName(text)
-  return locText
+  if (locText != "")
+    return locText
+
+  locText = ::loc("key/" + text, "")
+  if (locText != "")
+    return locText
+
+  return ::getLocaliazedPS4controlName(text)
 }
 
 function assignButtonWindow(owner, onButtonEnteredFunc)
@@ -4134,7 +4148,7 @@ class ::gui_handlers.assignModalButtonWindow extends ::gui_handlers.BaseGuiHandl
         local btnId = obj["button" + i].tointeger();
 
         // Ignore zero scancode from XBox keyboard driver
-        if (devId == 2 && btnId == 0)
+        if (devId == STD_KEYBOARD_DEVICE_ID && btnId == 0)
           continue
 
         dagor.debug("onButtonEntered "+i+" "+devId+" "+btnId);
@@ -4165,14 +4179,13 @@ class ::gui_handlers.assignModalButtonWindow extends ::gui_handlers.BaseGuiHandl
         btnId = btnId.tointeger()
 
         // Ignore zero scancode from XBox keyboard driver
-        if (devId == 2 && btnId == 0)
+        if (devId == STD_KEYBOARD_DEVICE_ID && btnId == 0)
           continue
 
         if (numButtons != 0)
           curBtnText += " + "
 
-        local btnName = curPreset.getButtonName(devId, btnId)
-        curBtnText += ::getLocalizedControlName(btnName)
+        curBtnText += ::getLocalizedControlName(curPreset, devId, btnId)
         numButtons++
       }
     }

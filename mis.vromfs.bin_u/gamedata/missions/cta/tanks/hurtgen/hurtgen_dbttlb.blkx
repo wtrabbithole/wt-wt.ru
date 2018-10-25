@@ -297,51 +297,51 @@
             "icon": {
               "icontype": "basezone_A",
               "side": "enemy",
-              "target": "briefing_dbttl_t2_capture_area"
+              "target": "briefing_dbttl_t1_capture_area"
             }
           },
           {
             "icon": {
               "icontype": "tank",
               "side": "ally",
-              "target": "briefing_dbttl_t1_spawn_01"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_dbttl_t1_spawn_02"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "enemy",
               "target": "briefing_dbttl_t2_spawn_01"
             }
           },
           {
             "icon": {
               "icontype": "tank",
-              "side": "enemy",
+              "side": "ally",
               "target": "briefing_dbttl_t2_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "briefing_dbttl_t1_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "briefing_dbttl_t1_spawn_02"
             }
           },
           {
             "icon": {
               "icontype": "fighter",
               "side": "ally",
-              "target": "t1_briefing_airspawn",
-              "lookAt": "t2_briefing_airspawn"
+              "target": "t2_briefing_airspawn",
+              "lookAt": "t1_briefing_airspawn"
             }
           },
           {
             "icon": {
               "icontype": "fighter",
               "side": "enemy",
-              "target": "t2_briefing_airspawn",
-              "lookAt": "t1_briefing_airspawn"
+              "target": "t1_briefing_airspawn",
+              "lookAt": "t2_briefing_airspawn"
             }
           }
         ]
@@ -446,7 +446,7 @@
   "effects": [],
   "units": [],
   "areas": {
-    "briefing_dbttl_t2_capture_area": {
+    "briefing_dbttl_t1_capture_area": {
       "type": "Point",
       "tm": [
         [32.696,0.0,-25.0885],
@@ -457,7 +457,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_dbttl_t1_spawn_01": {
+    "briefing_dbttl_t2_spawn_01": {
       "type": "Point",
       "tm": [
         [-0.766044,0.0,-0.642788],
@@ -468,7 +468,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_dbttl_t2_spawn_01": {
+    "briefing_dbttl_t1_spawn_01": {
       "type": "Point",
       "tm": [
         [0.819152,0.0,0.573577],
@@ -479,7 +479,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_dbttl_t1_spawn_02": {
+    "briefing_dbttl_t2_spawn_02": {
       "type": "Point",
       "tm": [
         [-0.766044,0.0,-0.642788],
@@ -490,7 +490,7 @@
       "objLayer": 0,
       "props": []
     },
-    "briefing_dbttl_t2_spawn_02": {
+    "briefing_dbttl_t1_spawn_02": {
       "type": "Point",
       "tm": [
         [0.819152,0.0,0.573577],
@@ -501,7 +501,7 @@
       "objLayer": 0,
       "props": []
     },
-    "t2_briefing_airspawn": {
+    "t1_briefing_airspawn": {
       "type": "Point",
       "tm": [
         [-0.198457,0.0,0.98011],
@@ -512,7 +512,7 @@
       "objLayer": 0,
       "props": []
     },
-    "t1_briefing_airspawn": {
+    "t2_briefing_airspawn": {
       "type": "Point",
       "tm": [
         [-0.186653,0.0,-0.982426],

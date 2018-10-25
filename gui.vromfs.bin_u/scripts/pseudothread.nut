@@ -5,11 +5,9 @@ enum PT_STEP_STATUS {
   SUSPEND
 }
 
-function start_pseudo_thread(actionsList, onCrash = null, step = 0, guiScene = null)
+function start_pseudo_thread(actionsList, onCrash = null, step = 0)
 {
-  if (!guiScene)
-    guiScene = ::get_main_gui_scene()
-  guiScene.performDelayed(::getroottable(), function() {
+  ::handlersManager.doDelayed(function() {
     local curStep = step
     while(curStep in actionsList)
     {

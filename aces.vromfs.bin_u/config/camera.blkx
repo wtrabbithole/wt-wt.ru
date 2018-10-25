@@ -385,12 +385,21 @@
     {
       "condition": {
         "or": {
-          "and": {
-            "hasGunners": [],
-            "not": {
-              "hasFPSGunner": []
+          "and": [
+            {
+              "hasGunners": []
+            },
+            {
+              "not": {
+                "hasFPSGunner": []
+              }
+            },
+            {
+              "not": {
+                "isHelicopter": []
+              }
             }
-          },
+          ],
           "not": {
             "isFlightModel": []
           }

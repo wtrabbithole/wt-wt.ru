@@ -159,6 +159,16 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     if (::isAircraft(unit) || unit?.isHelicopter?())
       options.extend(aircraft_options)
 
+    if (::isShip(unit))
+    {
+      if (unit.hasDepthCharge)
+        options.extend([[::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner"]])
+      if (unit.hasMines)
+        options.extend([[::USEROPT_MINE_DEPTH, "spinner"]])
+      if (is_unit_available_use_rocket_diffuse(unit))
+        options.extend([[::USEROPT_ROCKET_FUSE_DIST, "spinner"]])
+    }
+
     options.extend(common_options)
     return options
   }
@@ -247,9 +257,6 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   function onApply(obj)
   {
     ::broadcastEvent("BeforeStartTestFlight")
-
-    if (unit && unit.isShip() && !::check_package_and_ask_download("pkg_ships"))
-      return
 
     if (::g_squad_manager.isNotAloneOnline())
       return onMissionBuilder()

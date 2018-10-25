@@ -1420,24 +1420,9 @@
           "part": "compartment_05_dm"
         },
         {
-          "part": "compartment_06_dm"
-        },
-        {
-          "part": "compartment_07_dm"
-        },
-        {
-          "part": "compartment_08_dm"
-        },
-        {
-          "part": "compartment_09_dm"
-        },
-        {
-          "part": "compartment_10_dm"
-        },
-        {
           "effect": {
             "conditionDamageType": "explosion",
-            "conditionDamage": 7000.0,
+            "conditionDamageRel": 0.25,
             "kill": true,
             "killEffect": "destruction"
           }
@@ -1457,8 +1442,6 @@
     "ShipPhys": {
       "mass": {
         "Empty": 81400.0,
-        "Fuel": 23600.0,
-        "TakeOff": 105000.0,
         "momentOfInertia": [16.0,57.0,34.0],
         "CenterOfGravity": [-1.8,0.4,0.0]
       },
@@ -2258,7 +2241,7 @@
     "breaches": {
       "repairSpeed": 20.0,
       "waterMassVel": -14000.0,
-      "waterMassMult": 90.0,
+      "waterMassMult": 50.0,
       "sizeToRepair": [0.01,2.0,10.0,300.0],
       "additionalWaterDeathThreshold": 640000.0,
       "additionalWaterShouldDiePercent": 0.45,
@@ -2461,8 +2444,9 @@
       "compartments": {
         "fireParamsPreset": "ship_cover",
         "stopChanceOnDeadPart": 0.2,
-        "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "shatterDamageMult": 0.6,
+        "explosionDamageMult": 0.8,
+        "secondaryShatterDamageMult": 1.0,
         "armorThickness": 40.0,
         "compartment_01_dm": {
           "hp": 500.0
@@ -2471,7 +2455,7 @@
           "hp": 426.0
         },
         "compartment_03_dm": {
-          "hp": 206.0
+          "hp": 300.0
         },
         "compartment_04_dm": {
           "hp": 500.0
@@ -2480,16 +2464,20 @@
           "hp": 474.0
         },
         "bridge_dm": {
-          "hp": 100.0
+          "hp": 300.0
         },
         "radio_station_dm": {
           "armorThickness": 5.0,
-          "hp": 100.0
+          "hp": 300.0
         }
       },
       "superstructures": {
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 1.0,
+        "stopChanceOnDeadPart": 0.2,
         "superstructure_side_dm": {
           "armorClass": "ship_structural_steel",
           "armorThickness": 4.0,
@@ -2515,6 +2503,11 @@
       },
       "bulkheads": {
         "genericDamageMult": 0.5,
+        "shatterDamageMult": 0.4,
+        "explosionDamageMult": 1.6,
+        "secondaryShatterDamageMult": 0.1,
+        "armorThickness": 40.0,
+        "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
         },
@@ -2556,72 +2549,64 @@
       "engine": {
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorThickness": 4.0,
-        "genericDamageMult": 8.0,
-        "explosionDamageMult": 5.0,
-        "shatterDamageMult": 8.0,
-        "shatterArmorQuality": 0.3,
-        "explosionArmorQuality": 0.03,
-        "cumulativeArmorQuality": 0.01,
-        "genericArmorQuality": 0.02,
+        "armorThickness": 10.0,
+        "genericDamageMult": 1.8,
+        "shatterDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.1,
         "armorClass": "armor_tank_engine",
         "fireParamsPreset": "ship_engine",
         "engine_01_dm": {
-          "hp": 300.0
+          "hp": 200.0
         },
         "engine_02_dm": {
-          "hp": 300.0
+          "hp": 200.0
         },
         "engine_03_dm": {
-          "hp": 300.0
+          "hp": 200.0
         },
         "engine_04_dm": {
-          "hp": 300.0
+          "hp": 200.0
         },
         "funnel_01_dm": {
-          "hp": 392.0
+          "shatterDamageMult": 1.0,
+          "hp": 313.0
         },
         "funnel_02_dm": {
-          "hp": 403.0
+          "shatterDamageMult": 1.0,
+          "hp": 323.0
         },
         "transmission_01_dm": {
-          "shatterDamageMult": 0.5,
-          "secondaryShatterDamageMult": 0.05,
-          "hp": 300.0
+          "hp": 200.0
         },
         "transmission_02_dm": {
-          "shatterDamageMult": 0.5,
-          "secondaryShatterDamageMult": 0.05,
-          "hp": 300.0
+          "hp": 200.0
         },
         "transmission_03_dm": {
-          "shatterDamageMult": 0.5,
-          "secondaryShatterDamageMult": 0.05,
-          "hp": 300.0
+          "hp": 200.0
         },
         "transmission_04_dm": {
-          "shatterDamageMult": 0.5,
-          "secondaryShatterDamageMult": 0.05,
-          "hp": 300.0
+          "hp": 200.0
         }
       },
       "steering_gear": {
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorClass": "armor_tank_engine",
+        "armorClass": "ship_structural_steel",
         "fireParamsPreset": "ship_engine",
         "armorThickness": 30.0,
-        "genericDamageMult": 1.0,
+        "genericDamageMult": 2.5,
+        "shatterDamageMult": 0.3,
         "steering_gear_01_dm": {
-          "hp": 500.0
+          "hp": 300.0
         }
       },
       "pumps": {
-        "armorClass": "armor_tank_engine",
+        "armorClass": "ship_structural_steel",
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
         "armorThickness": 5.0,
-        "genericDamageMult": 10.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 2.0,
         "fireParamsPreset": "ship_engine",
         "pump_dm": {
           "hp": 500.0
@@ -2647,63 +2632,63 @@
         },
         "ex_armor_r_04_dm": {
           "hp": 100.0
-        },
-        "turret_01_dm": {
-          "hp": 100.0
-        },
-        "turret_02_dm": {
-          "hp": 100.0
         }
       },
       "gun_masks": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 5.0
       },
+      "turrets": {
+        "fireParamsPreset": "ship_turrets",
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 15.0,
+        "turret_01_dm": {
+          "hp": 250.0
+        },
+        "turret_02_dm": {
+          "hp": 250.0
+        }
+      },
       "turrets_main_caliber": {
-        "armorClass": "RHA_tank",
+        "armorClass": "ship_Wsh",
         "armorThickness": 12.7,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.5,
         "main_caliber_turret_01_dm": {
           "hp": 150.0
         }
       },
-      "turrets_aux_caliber": [
-        {
-          "armorClass": "ship_structural_steel"
+      "turrets_aux_caliber": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
+        "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.5,
+        "auxiliary_caliber_turret_02_dm": {
+          "hp": 100.0
         },
-        {
-          "armorThickness": 10.0
+        "auxiliary_caliber_turret_03_dm": {
+          "hp": 100.0
         },
-        {
-          "fireParamsPreset": "ship_turrets"
-        },
-        {
-          "auxiliary_caliber_turret_01_dm": {
-            "hp": 100.0
-          }
-        },
-        {
-          "auxiliary_caliber_turret_02_dm": {
-            "hp": 100.0
-          }
-        },
-        {
-          "auxiliary_caliber_turret_03_dm": {
-            "hp": 100.0
-          }
-        },
-        {
-          "auxiliary_caliber_turret_01_dm": {
-            "armorClass": "RHA_tank",
-            "armorThickness": 12.7,
-            "hp": 100.0
-          }
+        "auxiliary_caliber_turret_01_dm": {
+          "armorClass": "ship_Wsh",
+          "armorThickness": 12.7,
+          "hp": 100.0
         }
-      ],
+      },
       "turrets_aa_caliber": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 8.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.5,
         "aa_turret_01_dm": {
           "hp": 100.0
         },
@@ -2715,45 +2700,40 @@
         "armorClass": "tank_barrel",
         "armorThickness": 5.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.5,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.01,
         "main_caliber_gun_01_dm": {
           "hp": 100.0
         }
       },
-      "gun_aux_caliber": [
-        {
-          "armorClass": "tank_barrel"
+      "gun_aux_caliber": {
+        "armorClass": "tank_barrel",
+        "armorThickness": 4.0,
+        "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.5,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.01,
+        "auxiliary_caliber_gun_01_dm": {
+          "hp": 100.0
         },
-        {
-          "armorThickness": 4.0
+        "auxiliary_caliber_gun_02_dm": {
+          "hp": 100.0
         },
-        {
-          "fireParamsPreset": "ship_turrets"
-        },
-        {
-          "auxiliary_caliber_gun_01_dm": {
-            "hp": 100.0
-          }
-        },
-        {
-          "auxiliary_caliber_gun_02_dm": {
-            "hp": 100.0
-          }
-        },
-        {
-          "auxiliary_caliber_gun_02_dm": {
-            "hp": 100.0
-          }
-        },
-        {
-          "auxiliary_caliber_gun_03_dm": {
-            "hp": 100.0
-          }
+        "auxiliary_caliber_gun_03_dm": {
+          "hp": 100.0
         }
-      ],
+      },
       "gun_aa_caliber": {
         "armorClass": "tank_barrel",
         "armorThickness": 4.0,
         "fireParamsPreset": "ship_turrets",
+        "genericDamageMult": 1.5,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.01,
         "aa_gun_01_dm": {
           "hp": 100.0
         },
@@ -2767,8 +2747,11 @@
       },
       "explosives_mounts": {
         "armorThrough": 15.0,
+        "fireParamsPreset": "ship_turrets",
         "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "shatterDamageMult": 1.7,
+        "explosionDamageMult": 1.5,
+        "secondaryShatterDamageMult": 0.1,
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
         "depth_charge_mount_01_dm": {
@@ -2789,9 +2772,10 @@
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "armorClass": "ship_structural_steel",
-        "shatterDamageMult": 0.05,
-        "genericDamageMult": 1.5,
-        "secondaryShatterDamageMult": 0.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.5,
+        "explosionDamageMult": 2.0,
+        "secondaryShatterDamageMult": 1.0,
         "armorThrough": 10.0,
         "fuel_tank_01_dm": {
           "hp": 200.0
@@ -2805,25 +2789,28 @@
         "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
         "armorClass": "ship_structural_steel",
-        "genericDamageMult": 0.8,
-        "explosionDamageMult": 0.8,
-        "shatterDamageMult": 0.8,
-        "secondaryShatterDamageMult": 0.0,
+        "genericDamageMult": 0.7,
+        "explosionDamageMult": 1.6,
+        "shatterDamageMult": 1.6,
+        "secondaryShatterDamageMult": 1.1,
         "armorThickness": 5.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 400.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 125.0
+          "hp": 100.0
         }
       },
       "depth_charges": {
         "armorThickness": 5.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
-        "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "fireParamsPreset": "ship_ammo_fire",
+        "genericDamageMult": 0.5,
+        "shatterDamageMult": 0.5,
+        "explosionDamageMult": 1.5,
+        "secondaryShatterDamageMult": 0.1,
+        "armorClass": "ship_structural_steel",
         "depth_charge_01_dm": {
           "hp": 250.0
         },
@@ -2835,9 +2822,12 @@
         "armorThickness": 10.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
-        "fireParamsPreset": "ship_engine",
+        "fireParamsPreset": "ship_ammo_fire",
         "genericDamageMult": 1.0,
-        "secondaryShatterDamageMult": 0.0,
+        "shatterDamageMult": 1.5,
+        "explosionDamageMult": 2.0,
+        "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_structural_steel",
         "torpedo_01_dm": {
           "hp": 237.0
         },
@@ -2853,12 +2843,12 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 3
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 5
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -2873,12 +2863,17 @@
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 5
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
         "crew": 5
+      },
+      "sailor7": {
+        "dmPart": "radio_station_dm",
+        "role": "sailor",
+        "crew": 3
       }
     }
   },
@@ -3143,6 +3138,25 @@
               "lim2": [-25.0,25.0,25.0,70.0],
               "lim3": [25.0,180.0,-5.0,70.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3266,6 +3280,25 @@
               "lim1": [-180.0,-25.0,-5.0,70.0],
               "lim2": [-25.0,25.0,25.0,70.0],
               "lim3": [25.0,180.0,-5.0,70.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -3398,6 +3431,25 @@
               "lim2": [-170.0,60.0,-5.0,60.0],
               "lim3": [60.0,180.0,40.0,60.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3523,6 +3575,25 @@
               "lim1": [-180.0,-170.0,15.0,60.0],
               "lim2": [-170.0,60.0,-5.0,60.0],
               "lim3": [60.0,180.0,40.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -3655,6 +3726,25 @@
               "lim2": [-60.0,170.0,-5.0,60.0],
               "lim3": [170.0,180.0,15.0,60.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3781,6 +3871,25 @@
               "lim2": [-60.0,170.0,-5.0,60.0],
               "lim3": [170.0,180.0,15.0,60.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3896,6 +4005,25 @@
             "limits": {
               "yaw": [-30.0,30.0],
               "pitch": [-10.0,80.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -4013,6 +4141,25 @@
               "yaw": [-30.0,30.0],
               "pitch": [-10.0,80.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -4129,6 +4276,25 @@
               "yaw": [-30.0,30.0],
               "pitch": [-10.0,80.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -4244,6 +4410,25 @@
             "limits": {
               "yaw": [-30.0,30.0],
               "pitch": [-10.0,80.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -4400,7 +4585,7 @@
             "fireEvent": "ammo_fire_1",
             "explosionEvent": "ammo_explosion_1",
             "ammunition_storage_02_dm": {
-              "count": 10080
+              "count": 8080
             }
           }
         }

@@ -185,7 +185,7 @@
     AerobaticTricolorSmoke = ::disable_network()
 
     XRayDescription = ::disable_network()
-    GamepadCursorControl = false
+    GamepadCursorControl = true
 
     SeparateTopMenuButtons = false
 

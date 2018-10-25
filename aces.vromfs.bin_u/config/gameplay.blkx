@@ -1591,6 +1591,8 @@
     "damagedSurfaceCxMultSquareRatioMin": 0.3,
     "damagedSurfaceCxMultSquareRatioMax": 0.5,
     "damagedSurfaceCxMultMax": 2.3,
+    "mainRotorLowSpeedAlarmPercent": -0.01,
+    "vortexRingAlarmPercent": 0.95,
     "controlFinsDestructionSpeedDiff": 10.0,
     "tailDestructionSpeedDiff": 40.0,
     "horsePowersToInfraRedBrightness": 0.2,
@@ -2492,8 +2494,10 @@
     }
   ],
   "torpedoCourseCorrection": {
-    "courseSmoothness": 42.0,
-    "angularSpeed": 0.3
+    "courseSmoothness": 16.0,
+    "angularSpeed": 0.3,
+    "accelTangent": 30.0,
+    "ruddersViscosity": 0.0
   },
   "pickUpPresets": {
     "allInOne": {

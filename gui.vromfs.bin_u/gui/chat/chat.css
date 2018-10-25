@@ -63,11 +63,26 @@ gamercard voiceChatWidgetNest {
   isClanOnly:yes;
 }
 
-gamercard voiceChatWidgetNest > voiceChatWidgetContainer {
-  id:gamercard_voice_chat_widget;
+gamercard voiceChatWidgetNest > voiceChatWidgetContainer,
+gamercard voiceChatWidgetNest > emptyVoiceChat {
   width:1@gamercardVoiceChatWidth;
   position:relative;
   pos:0, ph-h;
+}
+
+voiceChatWidgetNest > emptyVoiceChat {
+  display:hide;
+}
+
+gamercard voiceChatWidgetNest > emptyVoiceChat {
+  height:50%ph;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+  display:show;
+}
+
+gamercard voiceChatWidgetNest > voiceChatWidgetContainer {
+  id:gamercard_voice_chat_widget;
   isSmall:yes;
 }
 

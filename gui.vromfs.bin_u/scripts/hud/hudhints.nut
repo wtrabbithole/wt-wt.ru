@@ -1233,6 +1233,14 @@ enums.addTypesByGlobalName("g_hud_hints", {
           return "hints/repair_assist_ship_hold"
         return "hints/repair_assist_plane_hold"
       }
+      if (::getTblValue("request", data, false))
+      {
+        return "hints/repair_request_assist_hold"
+      }
+      else if (::getTblValue("cancelRequest", data, false))
+      {
+        return "hints/repair_cancel_request_assist_hold"
+      }
       return (unitType == ::ES_UNIT_TYPE_SHIP) ? "hints/repair_ship" : "hints/repair_tank_hold"
     }
 
@@ -1267,6 +1275,28 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:no_bullets"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
+  }
+
+  REQUEST_REPAIR_HELP_HINT = {
+    hintType = ::g_hud_hint_types.REPAIR
+    locId     = "hints/request_repair_help"
+    showEvent = "hint:request_repair_help"
+    lifeTime = 5.0
+  }
+
+  NO_POTENTIAL_ASSISTANT = {
+    hintType = ::g_hud_hint_types.REPAIR
+    locId     = "hints/no_potential_assistant"
+    showEvent = "hint:no_potential_assistant"
+    lifeTime = 5.0
+  }
+
+  HAVE_POTENTIAL_ASSISTEE = {
+    hintType = ::g_hud_hint_types.REPAIR
+    locId     = "hints/have_potential_assistee"
+    showEvent = "hint:have_potential_assistee"
+    hideEvent = "hint:hide_potential_assistee_hint"
+    lifeTime = 3.0
   }
 },
 function() {

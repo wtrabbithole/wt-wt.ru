@@ -37,11 +37,11 @@
     "speed": 880.0,
     "maxDistance": 6400.0,
     "bulletType": "he_frag_t",
-    "hitPowerMult": 25.0,
+    "hitPowerMult": 20.0,
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "fuseDelayDist": 0.0,
-    "explodeTreshold": 0.3,
+    "explodeTreshold": 0.1,
     "explodeHitPower": 55.0,
     "explodeArmorPower": 5.0,
     "explodeRadius": [0.3,1.4],
@@ -55,6 +55,52 @@
     "ricochetEffect": "cannon_ricochet",
     "waterCollisionEffect": "water_splash_20_76",
     "waterFxScale": [1.0,1.0],
+    "damage": {
+      "shatter": [
+        {
+          "useRealShatters": true
+        },
+        {
+          "countPortion": 0.2
+        },
+        {
+          "segment": {
+            "angles": [0.0,14.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "radiusScale": 1.2,
+            "penetrationScale": 1.3,
+            "damageScale": 0.6,
+            "angles": [15.0,124.0],
+            "countPortion": 0.5
+          }
+        },
+        {
+          "segment": {
+            "angles": [125.0,234.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "radiusScale": 1.2,
+            "penetrationScale": 1.3,
+            "damageScale": 0.6,
+            "angles": [235.0,344.0],
+            "countPortion": 0.5
+          }
+        },
+        {
+          "segment": {
+            "angles": [345.0,359.0],
+            "countPortion": 0.0
+          }
+        }
+      ]
+    },
     "hitpower": {
       "HitPower0m": [1.0,500.0],
       "HitPower1000m": [0.9,1000.0],
@@ -166,11 +212,11 @@
         "speed": 880.0,
         "maxDistance": 6400.0,
         "bulletType": "he_frag_t",
-        "hitPowerMult": 25.0,
+        "hitPowerMult": 20.0,
         "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 0.0,
-        "explodeTreshold": 0.3,
+        "explodeTreshold": 0.1,
         "explodeHitPower": 55.0,
         "explodeArmorPower": 5.0,
         "explodeRadius": [0.3,1.4],
@@ -184,6 +230,52 @@
         "ricochetEffect": "cannon_ricochet",
         "waterCollisionEffect": "water_splash_20_76",
         "waterFxScale": [1.0,1.0],
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.2
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [15.0,124.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [125.0,234.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [235.0,344.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.0
+              }
+            }
+          ]
+        },
         "hitpower": {
           "HitPower0m": [1.0,500.0],
           "HitPower1000m": [0.9,1000.0],
@@ -239,11 +331,11 @@
         "speed": 880.0,
         "maxDistance": 6400.0,
         "bulletType": "he_frag_t",
-        "hitPowerMult": 25.0,
+        "hitPowerMult": 20.0,
         "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 0.0,
-        "explodeTreshold": 0.3,
+        "explodeTreshold": 0.1,
         "explodeHitPower": 55.0,
         "explodeArmorPower": 5.0,
         "explodeRadius": [0.3,1.4],
@@ -257,6 +349,52 @@
         "ricochetEffect": "cannon_ricochet",
         "waterCollisionEffect": "water_splash_20_76",
         "waterFxScale": [1.0,1.0],
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.2
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [15.0,124.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [125.0,234.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [235.0,344.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.0
+              }
+            }
+          ]
+        },
         "hitpower": {
           "HitPower0m": [1.0,500.0],
           "HitPower1000m": [0.9,1000.0],
@@ -310,11 +448,11 @@
         "speed": 880.0,
         "maxDistance": 6400.0,
         "bulletType": "he_frag_t",
-        "hitPowerMult": 25.0,
+        "hitPowerMult": 20.0,
         "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 0.0,
-        "explodeTreshold": 0.3,
+        "explodeTreshold": 0.1,
         "explodeHitPower": 55.0,
         "explodeArmorPower": 5.0,
         "explodeRadius": [0.3,1.4],
@@ -328,6 +466,52 @@
         "ricochetEffect": "cannon_ricochet",
         "waterCollisionEffect": "water_splash_20_76",
         "waterFxScale": [1.0,1.0],
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.2
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [15.0,124.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [125.0,234.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [235.0,344.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.0
+              }
+            }
+          ]
+        },
         "hitpower": {
           "HitPower0m": [1.0,500.0],
           "HitPower1000m": [0.9,1000.0],
@@ -381,11 +565,11 @@
         "speed": 880.0,
         "maxDistance": 6400.0,
         "bulletType": "he_frag_t",
-        "hitPowerMult": 25.0,
+        "hitPowerMult": 20.0,
         "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 0.0,
-        "explodeTreshold": 0.3,
+        "explodeTreshold": 0.1,
         "explodeHitPower": 55.0,
         "explodeArmorPower": 5.0,
         "explodeRadius": [0.3,1.4],
@@ -399,6 +583,52 @@
         "ricochetEffect": "cannon_ricochet",
         "waterCollisionEffect": "water_splash_20_76",
         "waterFxScale": [1.0,1.0],
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.2
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [15.0,124.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [125.0,234.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [235.0,344.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.0
+              }
+            }
+          ]
+        },
         "hitpower": {
           "HitPower0m": [1.0,500.0],
           "HitPower1000m": [0.9,1000.0],
@@ -686,11 +916,11 @@
         "speed": 880.0,
         "maxDistance": 6400.0,
         "bulletType": "he_frag_t",
-        "hitPowerMult": 25.0,
+        "hitPowerMult": 20.0,
         "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 0.0,
-        "explodeTreshold": 0.3,
+        "explodeTreshold": 0.1,
         "explodeHitPower": 55.0,
         "explodeArmorPower": 5.0,
         "explodeRadius": [0.3,1.4],
@@ -704,6 +934,52 @@
         "ricochetEffect": "cannon_ricochet",
         "waterCollisionEffect": "water_splash_20_76",
         "waterFxScale": [1.0,1.0],
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.2
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [15.0,124.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [125.0,234.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [235.0,344.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.0
+              }
+            }
+          ]
+        },
         "hitpower": {
           "HitPower0m": [1.0,500.0],
           "HitPower1000m": [0.9,1000.0],

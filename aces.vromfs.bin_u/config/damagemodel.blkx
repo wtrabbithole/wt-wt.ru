@@ -4595,6 +4595,35 @@
           }
         ]
       },
+      "apds_autocannon": {
+        "stabilityThreshold": 0.0,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.15,
+        "stabilityReductionAfterPenetration": 0.2,
+        "normalizationPreset": "apcr",
+        "ricochetPreset": "apds",
+        "slopeEffectPreset": "apds",
+        "modelName": "tank_bullet_apdc",
+        "fresnel": [0.23,0.1,2.0],
+        "secondaryShattersPreset": "apds",
+        "stabilityRicochetModifier": [
+          {
+            "mod1": [0.0,0.25]
+          },
+          {
+            "mod2": [20.0,0.3]
+          },
+          {
+            "mod3": [30.0,0.45]
+          },
+          {
+            "mod3": [45.0,0.5]
+          },
+          {
+            "mod4": [50.0,0.7]
+          }
+        ]
+      },
       "apds_tank": {
         "stabilityThreshold": 0.0,
         "stabilityCaliberToArmorThreshold": 10.0,
@@ -4884,6 +4913,22 @@
           "mod1": [0.0,0.0],
           "mod2": [20.0,1.0]
         }
+      },
+      "sap_tank": {
+        "normalizationPreset": "ap",
+        "ricochetPreset": "ap",
+        "slopeEffectPreset": "ap",
+        "modelName": "tank_bullet_aphe",
+        "secondaryShattersPreset": "ap",
+        "fresnel": [0.23,0.1,2.0]
+      },
+      "sapbc_tank": {
+        "normalizationPreset": "apbc",
+        "slopeEffectPreset": "apbc",
+        "ricochetPreset": "apbc",
+        "modelName": "tank_bullet_aphebc",
+        "secondaryShattersPreset": "ap_large_caliber",
+        "fresnel": [0.23,0.1,2.0]
       },
       "heat_grenade_tank": {
         "normalizationPreset": "heat",
@@ -5406,7 +5451,7 @@
   {
     "bulletDecals": {
       "ap": {
-        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_l15_tank, apds_fs_tank, apds_fs_long_tank, apds_fs_full_body_steel_tank, apds_fs_tungsten_small_core_tank, apds_fs_tungsten_l10_l15_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank,ap_large_caliber_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_i_t_ball, ap_i_t, apc_t, ap_t_ball, ap_ball, apc_solid_medium_caliber_tank, apcbc_solid_medium_caliber_tank,aphe",
+        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_autocannon, apds_l15_tank, apds_fs_tank, apds_fs_long_tank, apds_fs_full_body_steel_tank, apds_fs_tungsten_small_core_tank, apds_fs_tungsten_l10_l15_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank,ap_large_caliber_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_i_t_ball, ap_i_t, apc_t, ap_t_ball, ap_ball, apc_solid_medium_caliber_tank, apcbc_solid_medium_caliber_tank,aphe, sap_tank, sapbc_tank",
         "pierce": "pr_gen",
         "stop": "st_gen",
         "ricochet": "st_gen",

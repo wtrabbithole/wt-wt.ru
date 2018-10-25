@@ -239,9 +239,12 @@ class ActionBar
       local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
       local backgroundImage = actionBarType.getIcon()
       local iconObj = itemObj.findObject("action_icon")
-      if (::checkObj(iconObj) && backgroundImage.len() > 0)
-        iconObj["background-image"] = backgroundImage
-
+      if (::checkObj(iconObj))
+      {
+        iconObj.tooltip = actionBarType.getTooltipText(item)
+        if (backgroundImage.len() > 0)
+          iconObj["background-image"] = backgroundImage
+      }
       if (item.type == ::EII_EXTINGUISHER && ::checkObj(mainActionButtonObj))
         mainActionButtonObj.show(item.cooldown == 0)
       if (item.type == ::EII_ARTILLERY_TARGET && item.active != artillery_target_mode)

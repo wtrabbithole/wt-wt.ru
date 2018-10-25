@@ -285,6 +285,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
       spendExpBtn.inactive = showSpendBtn? "no" : "yes"
       spendExpBtn.show(showSpendBtn)
+      spendExpBtn.enable(showSpendBtn)
       if (showSpendBtn)
         ::set_double_text_to_button(navBar, "btn_spend_exp", coloredText)
     }
@@ -297,6 +298,16 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
   function onSpendExcessExp()
   {
+    foreach(navBar in [navBarObj, navBarGroupObj])
+    {
+      if (!::checkObj(navBar))
+        continue
+
+      local spendExpBtn = navBar.findObject("btn_spend_exp")
+      if (::checkObj(spendExpBtn))
+        spendExpBtn.enable(false)
+    }
+
     local unit = getCurAircraft(true, true)
     flushItemExp(unit, @() setUnitOnResearch(unit, function() {
       sendChoosedNewResearchUnitStatistic(unit)

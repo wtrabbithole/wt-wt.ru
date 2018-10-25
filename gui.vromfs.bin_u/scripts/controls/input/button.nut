@@ -24,7 +24,7 @@ class ::Input.Button extends ::Input.InputBase
       view = {}
     }
 
-    if (deviceId == JOYSTICK_DEVICE_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
+    if (deviceId == ::JOYSTICK_DEVICE_0_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
     {
       data.template = "gui/gamepadButton"
       data.view.buttonImage <- gamepadIcons.getTextureByButtonIdx(buttonId)
@@ -46,7 +46,7 @@ class ::Input.Button extends ::Input.InputBase
   function getText()
   {
     local curPreset = ::g_controls_manager.getCurPreset()
-    return ::getLocalizedControlShortName(curPreset.getButtonName(deviceId, buttonId))
+    return ::getLocalizedControlShortName(curPreset, deviceId, buttonId)
   }
 
   function getDeviceId()

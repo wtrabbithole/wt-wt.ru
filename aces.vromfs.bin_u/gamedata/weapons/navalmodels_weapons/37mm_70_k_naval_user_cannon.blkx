@@ -39,7 +39,7 @@
     "shellExplScale": 0.7,
     "bulletType": "he_frag_i_t",
     "bulletName": "37mm_UOR_167",
-    "hitPowerMult": 2.0,
+    "hitPowerMult": 20.0,
     "nearHitPower": [1.0,50.0],
     "midHitPower": [0.9,300.0],
     "farHitPower": [0.1,700.0],
@@ -49,7 +49,7 @@
     "midArmorPower": [3.0,600.0],
     "farArmorPower": [3.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
-    "fuseDelayDist": 0.2,
+    "fuseDelayDist": 0.0,
     "explodeTreshold": 0.1,
     "explodeHitPower": 33.0,
     "explodeArmorPower": 8.6,
@@ -59,6 +59,52 @@
     "ricochetEffect": "cannon_ricochet",
     "waterCollisionEffect": "water_splash_20_76",
     "waterFxScale": [1.0,1.0],
+    "damage": {
+      "shatter": [
+        {
+          "useRealShatters": true
+        },
+        {
+          "countPortion": 0.2
+        },
+        {
+          "segment": {
+            "angles": [0.0,14.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "radiusScale": 1.2,
+            "penetrationScale": 1.3,
+            "damageScale": 0.6,
+            "angles": [15.0,124.0],
+            "countPortion": 0.5
+          }
+        },
+        {
+          "segment": {
+            "angles": [125.0,234.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "radiusScale": 1.2,
+            "penetrationScale": 1.3,
+            "damageScale": 0.6,
+            "angles": [235.0,344.0],
+            "countPortion": 0.5
+          }
+        },
+        {
+          "segment": {
+            "angles": [345.0,359.0],
+            "countPortion": 0.0
+          }
+        }
+      ]
+    },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
@@ -96,7 +142,7 @@
       "shellExplScale": 0.7,
       "bulletType": "he_frag_i_t",
       "bulletName": "37mm_UOR_167",
-      "hitPowerMult": 2.0,
+      "hitPowerMult": 20.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,300.0],
       "farHitPower": [0.1,700.0],
@@ -106,7 +152,7 @@
       "midArmorPower": [3.0,600.0],
       "farArmorPower": [3.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "fuseDelayDist": 0.2,
+      "fuseDelayDist": 0.0,
       "explodeTreshold": 0.1,
       "explodeHitPower": 33.0,
       "explodeArmorPower": 8.6,
@@ -116,6 +162,52 @@
       "ricochetEffect": "cannon_ricochet",
       "waterCollisionEffect": "water_splash_20_76",
       "waterFxScale": [1.0,1.0],
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.2
+          },
+          {
+            "segment": {
+              "angles": [0.0,14.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "radiusScale": 1.2,
+              "penetrationScale": 1.3,
+              "damageScale": 0.6,
+              "angles": [15.0,124.0],
+              "countPortion": 0.5
+            }
+          },
+          {
+            "segment": {
+              "angles": [125.0,234.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "radiusScale": 1.2,
+              "penetrationScale": 1.3,
+              "damageScale": 0.6,
+              "angles": [235.0,344.0],
+              "countPortion": 0.5
+            }
+          },
+          {
+            "segment": {
+              "angles": [345.0,359.0],
+              "countPortion": 0.0
+            }
+          }
+        ]
+      },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,

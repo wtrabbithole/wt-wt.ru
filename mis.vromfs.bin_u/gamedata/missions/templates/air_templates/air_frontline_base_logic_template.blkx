@@ -180,6 +180,15 @@
             "object_marking": 0
           },
           {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
             "object": "t1_quest_units_squad"
           },
           {
@@ -395,6 +404,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_100_points_squad",
             "target": "t2_100_points_squad",
             "var": "distance_timer_destroy",
@@ -412,6 +424,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_100_points_squad",
             "target": "t1_100_points_squad",
             "var": "distance_timer_destroy",
@@ -484,6 +499,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_40_points_squad",
             "target": "t2_40_points_squad",
             "var": "distance_timer_destroy",
@@ -501,6 +519,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_40_points_squad",
             "target": "t1_40_points_squad",
             "var": "distance_timer_destroy",
@@ -573,6 +594,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_20_points_squad",
             "target": "t2_20_points_squad",
             "var": "distance_timer_destroy",
@@ -590,6 +614,9 @@
             "target_marking": 0,
             "check_objects": "any",
             "check_targets": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_20_points_squad",
             "target": "t1_20_points_squad",
             "var": "distance_timer_destroy",
@@ -924,6 +951,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad",
           "var": "t1_land_unit_count"
         }
@@ -956,6 +986,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_quest_units_squad",
           "var": "t2_land_unit_count"
         }
@@ -988,6 +1021,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad",
           "var": "t1_land_unit_count"
         }
@@ -1020,6 +1056,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_quest_units_squad",
           "var": "t2_land_unit_count"
         }
@@ -1934,193 +1973,6 @@
               "var": "distance_timer_destroy",
               "use_variable": true,
               "var_value": "long_time_arcade_distance"
-            }
-          }
-        ],
-        "else_actions": []
-      }
-    },
-    "enemy_on_airfield_preventer": {
-      "isCategory": true,
-      "is_enabled": true,
-      "enemy_on_airfield_init": {
-        "is_enabled": true,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": [
-          {
-            "objectExists": {
-              "target": "t1_airfield",
-              "type": "objectGroup"
-            }
-          },
-          {
-            "objectExists": {
-              "target": "t2_airfield",
-              "type": "objectGroup"
-            }
-          }
-        ],
-        "actions": {
-          "triggerEnable": [
-            {
-              "target": "t1_on_t2_airfield"
-            },
-            {
-              "target": "t2_on_t1_airfield"
-            }
-          ]
-        },
-        "else_actions": []
-      },
-      "t1_on_t2_airfield": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 4.0
-          }
-        },
-        "conditions": {
-          "unitWhenOnLZ": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "check_objects": "any",
-            "afterRepaired": false,
-            "object": "t1_players_squad",
-            "target": "t2_airfield"
-          }
-        },
-        "actions": [
-          {
-            "unitDamage": {
-              "part": 0,
-              "power": 1.0,
-              "useEffect": false,
-              "countEffects": 1,
-              "delay": [1.0,1.0],
-              "offset": [0.0,0.0,0.0],
-              "radiusOffset": [10.0,15.0],
-              "target": "t1_players_squad",
-              "doExplosion": true,
-              "useForTriggerFiltered": true
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/player_on_enemy_airfield",
-              "action": "show",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false,
-              "target_marking": 0,
-              "team": "A"
-            }
-          },
-          {
-            "wait": {
-              "time": 3.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/player_on_enemy_airfield",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false,
-              "target_marking": 0,
-              "team": "A"
-            }
-          }
-        ],
-        "else_actions": []
-      },
-      "t2_on_t1_airfield": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 4.0
-          }
-        },
-        "conditions": {
-          "unitWhenOnLZ": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "check_objects": "any",
-            "afterRepaired": false,
-            "object": "t2_players_squad",
-            "target": "t1_airfield"
-          }
-        },
-        "actions": [
-          {
-            "unitDamage": {
-              "part": 0,
-              "power": 1.0,
-              "useEffect": false,
-              "countEffects": 1,
-              "delay": [1.0,1.0],
-              "offset": [0.0,0.0,0.0],
-              "radiusOffset": [10.0,15.0],
-              "target": "t2_players_squad",
-              "doExplosion": true,
-              "useForTriggerFiltered": true
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/player_on_enemy_airfield",
-              "action": "show",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false,
-              "target_marking": 0,
-              "team": "B"
-            }
-          },
-          {
-            "wait": {
-              "time": 3.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/player_on_enemy_airfield",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false,
-              "target_marking": 0,
-              "team": "B"
             }
           }
         ],

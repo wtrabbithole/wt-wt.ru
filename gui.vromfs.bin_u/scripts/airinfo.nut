@@ -274,9 +274,6 @@ function get_unit_actions_list(unit, handler, actions)
       showAction = inMenu
       actionFunc = (@(unit, handler) function () {
         handler.checkedCrewModify((@(unit, handler) function () {
-          if (unit.isShip() && !::check_package_and_ask_download("pkg_ships"))
-            return
-
           ::broadcastEvent("BeforeStartShowroom")
           ::show_aircraft = unit
           handler.goForward(::gui_start_decals)
@@ -429,9 +426,6 @@ function get_unit_actions_list(unit, handler, actions)
       icon       = unit.unitType.testFlightIcon
       showAction = inMenu && ::isTestFlightAvailable(unit, shouldSkipUnitCheck)
       actionFunc = function () {
-        if (::isShip(unit) && !::check_package_and_ask_download("pkg_ships"))
-          return
-
         ::queues.checkAndStart(@() ::gui_start_testflight(unit, null, shouldSkipUnitCheck),
           null, "isCanNewflight")
       }
@@ -1932,12 +1926,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if(unitType == ::ES_UNIT_TYPE_SHIP)
   {
     local unitTags = ::getTblValue(air.name, ::get_unittags_blk(), {})
-    local unitBlk = ::get_full_unit_blk(air.name)
-    if(unitBlk == null)
-      unitBlk = {}
 
     // ship-displacement
-    local displacementKilos = ::getTblValueByPath("ShipPhys.mass.TakeOff", unitBlk, null)
+    local displacementKilos = unitTags?.Shop?.displacement
     holderObj.findObject("ship-displacement-tr").show(displacementKilos != null)
     if(displacementKilos!= null)
     {

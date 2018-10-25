@@ -27,110 +27,172 @@
   "fxMultipleSpawn": true,
   "isBulletBelt": false,
   "notUseDefaultBulletInGui": true,
-  "bullet": {
-    "bulletCount": 40,
-    "mass": 2.8,
-    "explosiveType": "tnt",
-    "explosiveMass": 0.153,
-    "caliber": 0.057,
-    "speed": 1000.0,
-    "selfDestructionInAir": true,
-    "maxDistance": 6000.0,
-    "bulletType": "he_frag_i_tank",
-    "bulletName": "57mm_or_281u",
-    "hitPowerMult": 10.0,
-    "nearHitPower": [1.0,50.0],
-    "midHitPower": [0.9,300.0],
-    "farHitPower": [0.1,700.0],
-    "endHitPower": [0.008,1500.0],
-    "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [10.0,150.0],
-    "midArmorPower": [7.0,600.0],
-    "farArmorPower": [3.0,1000.0],
-    "relativeVelArmorShift": [200.0,1000.0],
-    "explodeTreshold": 0.1,
-    "explodeHitPower": 45.0,
-    "explodeArmorPower": 5.0,
-    "explodeRadius": [0.5,0.8],
-    "fuseDelayDist": 0.4,
-    "shutterDamage": true,
-    "shutterDamageRadius": 10.5,
-    "shutterAmount": 100,
-    "shutterArmorPower": 6.0,
-    "shutterHit": 7.0,
-    "groundCollisionEffect": "art_ground_splash",
-    "ricochetEffect": "cannon_ricochet",
-    "groundFxScale": [0.6,0.7],
-    "waterCollisionEffect": "water_splash_76_00_he",
-    "waterFxScale": [1.0,1.0],
-    "visual": {
-      "range_percent_of_ammo": [100.0,0.0],
-      "traceFreq": 1,
-      "tracer": "76mmBrightRed",
-      "trail": "black"
+  "bullet": [
+    {
+      "bulletCount": 40
     },
-    "collisions": {
-      "steel": {
-        "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [2.5,2.5]
-      },
-      "armor": {
-        "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [2.5,2.5]
-      },
-      "wood": {
-        "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [2.1,2.1]
-      },
-      "buildings": {
-        "fx": "50_75_he_hit_stone",
-        "fxScale": [1.0,1.0]
+    {
+      "mass": 2.8
+    },
+    {
+      "explosiveType": "tnt"
+    },
+    {
+      "explosiveMass": 0.153
+    },
+    {
+      "caliber": 0.057
+    },
+    {
+      "speed": 1000.0
+    },
+    {
+      "selfDestructionInAir": true
+    },
+    {
+      "maxDistance": 6000.0
+    },
+    {
+      "bulletType": "he_frag_i_tank"
+    },
+    {
+      "bulletName": "57mm_or_281u"
+    },
+    {
+      "hitPowerMult": 25.0
+    },
+    {
+      "nearHitPower": [1.0,50.0]
+    },
+    {
+      "midHitPower": [0.9,300.0]
+    },
+    {
+      "farHitPower": [0.1,700.0]
+    },
+    {
+      "endHitPower": [0.008,1500.0]
+    },
+    {
+      "relativeVelHitShift": [300.0,1000.0]
+    },
+    {
+      "nearArmorPower": [10.0,150.0]
+    },
+    {
+      "midArmorPower": [7.0,600.0]
+    },
+    {
+      "farArmorPower": [3.0,1000.0]
+    },
+    {
+      "relativeVelArmorShift": [200.0,1000.0]
+    },
+    {
+      "explodeTreshold": 0.1
+    },
+    {
+      "explodeHitPower": 45.0
+    },
+    {
+      "explodeArmorPower": 5.0
+    },
+    {
+      "explodeRadius": [0.5,0.8]
+    },
+    {
+      "fuseDelayDist": 0.0
+    },
+    {
+      "explodeTreshold": 0.1
+    },
+    {
+      "shutterDamage": true
+    },
+    {
+      "shutterDamageRadius": 10.5
+    },
+    {
+      "shutterAmount": 100
+    },
+    {
+      "shutterArmorPower": 6.0
+    },
+    {
+      "shutterHit": 7.0
+    },
+    {
+      "groundCollisionEffect": "art_ground_splash"
+    },
+    {
+      "ricochetEffect": "cannon_ricochet"
+    },
+    {
+      "groundFxScale": [0.6,0.7]
+    },
+    {
+      "waterCollisionEffect": "water_splash_76_00_he"
+    },
+    {
+      "waterFxScale": [1.0,1.0]
+    },
+    {
+      "damage": {
+        "shatter": [
+          {
+            "useRealShatters": true
+          },
+          {
+            "countPortion": 0.2
+          },
+          {
+            "segment": {
+              "angles": [0.0,14.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "radiusScale": 1.2,
+              "penetrationScale": 1.3,
+              "damageScale": 0.6,
+              "angles": [15.0,124.0],
+              "countPortion": 0.5
+            }
+          },
+          {
+            "segment": {
+              "angles": [125.0,234.0],
+              "countPortion": 0.0
+            }
+          },
+          {
+            "segment": {
+              "radiusScale": 1.2,
+              "penetrationScale": 1.3,
+              "damageScale": 0.6,
+              "angles": [235.0,344.0],
+              "countPortion": 0.5
+            }
+          },
+          {
+            "segment": {
+              "angles": [345.0,359.0],
+              "countPortion": 0.0
+            }
+          }
+        ]
       }
-    }
-  },
-  "57mm_ussr_HE": {
-    "bullet": {
-      "bulletCount": 40,
-      "mass": 2.8,
-      "explosiveType": "tnt",
-      "explosiveMass": 0.153,
-      "caliber": 0.057,
-      "speed": 1000.0,
-      "selfDestructionInAir": true,
-      "maxDistance": 6000.0,
-      "bulletType": "he_frag_i_tank",
-      "bulletName": "57mm_or_281u",
-      "hitPowerMult": 10.0,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,300.0],
-      "farHitPower": [0.1,700.0],
-      "endHitPower": [0.008,1500.0],
-      "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [10.0,150.0],
-      "midArmorPower": [7.0,600.0],
-      "farArmorPower": [3.0,1000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.1,
-      "explodeHitPower": 45.0,
-      "explodeArmorPower": 5.0,
-      "explodeRadius": [0.5,0.8],
-      "fuseDelayDist": 0.4,
-      "shutterDamage": true,
-      "shutterDamageRadius": 10.5,
-      "shutterAmount": 100,
-      "shutterArmorPower": 6.0,
-      "shutterHit": 7.0,
-      "groundCollisionEffect": "art_ground_splash",
-      "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [0.6,0.7],
-      "waterCollisionEffect": "water_splash_76_00_he",
-      "waterFxScale": [1.0,1.0],
+    },
+    {
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
         "tracer": "76mmBrightRed",
         "trail": "black"
-      },
+      }
+    },
+    {
       "collisions": {
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
@@ -150,6 +212,194 @@
         }
       }
     }
+  ],
+  "57mm_ussr_HE": {
+    "bullet": [
+      {
+        "bulletCount": 40
+      },
+      {
+        "mass": 2.8
+      },
+      {
+        "explosiveType": "tnt"
+      },
+      {
+        "explosiveMass": 0.153
+      },
+      {
+        "caliber": 0.057
+      },
+      {
+        "speed": 1000.0
+      },
+      {
+        "selfDestructionInAir": true
+      },
+      {
+        "maxDistance": 6000.0
+      },
+      {
+        "bulletType": "he_frag_i_tank"
+      },
+      {
+        "bulletName": "57mm_or_281u"
+      },
+      {
+        "hitPowerMult": 25.0
+      },
+      {
+        "nearHitPower": [1.0,50.0]
+      },
+      {
+        "midHitPower": [0.9,300.0]
+      },
+      {
+        "farHitPower": [0.1,700.0]
+      },
+      {
+        "endHitPower": [0.008,1500.0]
+      },
+      {
+        "relativeVelHitShift": [300.0,1000.0]
+      },
+      {
+        "nearArmorPower": [10.0,150.0]
+      },
+      {
+        "midArmorPower": [7.0,600.0]
+      },
+      {
+        "farArmorPower": [3.0,1000.0]
+      },
+      {
+        "relativeVelArmorShift": [200.0,1000.0]
+      },
+      {
+        "explodeTreshold": 0.1
+      },
+      {
+        "explodeHitPower": 45.0
+      },
+      {
+        "explodeArmorPower": 5.0
+      },
+      {
+        "explodeRadius": [0.5,0.8]
+      },
+      {
+        "fuseDelayDist": 0.0
+      },
+      {
+        "explodeTreshold": 0.1
+      },
+      {
+        "shutterDamage": true
+      },
+      {
+        "shutterDamageRadius": 10.5
+      },
+      {
+        "shutterAmount": 100
+      },
+      {
+        "shutterArmorPower": 6.0
+      },
+      {
+        "shutterHit": 7.0
+      },
+      {
+        "groundCollisionEffect": "art_ground_splash"
+      },
+      {
+        "ricochetEffect": "cannon_ricochet"
+      },
+      {
+        "groundFxScale": [0.6,0.7]
+      },
+      {
+        "waterCollisionEffect": "water_splash_76_00_he"
+      },
+      {
+        "waterFxScale": [1.0,1.0]
+      },
+      {
+        "damage": {
+          "shatter": [
+            {
+              "useRealShatters": true
+            },
+            {
+              "countPortion": 0.2
+            },
+            {
+              "segment": {
+                "angles": [0.0,14.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [15.0,124.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [125.0,234.0],
+                "countPortion": 0.0
+              }
+            },
+            {
+              "segment": {
+                "radiusScale": 1.2,
+                "penetrationScale": 1.3,
+                "damageScale": 0.6,
+                "angles": [235.0,344.0],
+                "countPortion": 0.5
+              }
+            },
+            {
+              "segment": {
+                "angles": [345.0,359.0],
+                "countPortion": 0.0
+              }
+            }
+          ]
+        }
+      },
+      {
+        "visual": {
+          "range_percent_of_ammo": [100.0,0.0],
+          "traceFreq": 1,
+          "tracer": "76mmBrightRed",
+          "trail": "black"
+        }
+      },
+      {
+        "collisions": {
+          "steel": {
+            "fx": "cannon_hit_armor_cumulative",
+            "fxScale": [2.5,2.5]
+          },
+          "armor": {
+            "fx": "cannon_hit_armor_cumulative",
+            "fxScale": [2.5,2.5]
+          },
+          "wood": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [2.1,2.1]
+          },
+          "buildings": {
+            "fx": "50_75_he_hit_stone",
+            "fxScale": [1.0,1.0]
+          }
+        }
+      }
+    ]
   },
   "overheat": [
     {

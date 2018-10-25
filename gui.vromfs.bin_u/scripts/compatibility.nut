@@ -249,3 +249,11 @@ if (!("logerr" in ::dagor))
   CLASS_FLAGS_SHIP = 2
   CLASS_FLAGS_HELICOPTER = 3
 })
+
+//----------------------------wop_1_81_1_X---------------------------------//
+::apply_compatibilities({
+  steam_get_app_id = @() 236390
+  set_option_horizontal_speed = @(v) null
+  get_option_horizontal_speed = @() null
+})
+

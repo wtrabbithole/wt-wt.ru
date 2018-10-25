@@ -245,7 +245,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
     local reqDevice = ::STD_MOUSE_DEVICE_ID
     if (pointingDevice == POINTING_DEVICE.GAMEPAD || pointingDevice == POINTING_DEVICE.JOYSTICK)
-      reqDevice = JOYSTICK_DEVICE_ID
+      reqDevice = ::JOYSTICK_DEVICE_0_ID
     else if (pointingDevice == POINTING_DEVICE.TOUCHSCREEN)
       reqDevice = ::STD_KEYBOARD_DEVICE_ID
 

@@ -1,5 +1,5 @@
-local fonts = ::require("fonts")
-local u = ::require("std/u.nut")
+local fonts = require_native("fonts")
+local u = require("std/u.nut")
 
 local fontsList = {
   defaults = [

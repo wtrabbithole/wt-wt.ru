@@ -825,7 +825,8 @@
         if (isSpecialBullet || isSpecialBulletEmitter)
           desc[desc.len() - 1] += ::getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
         else {
-          local status = getWeaponStatus(weaponInfoBlk.blk)
+          desc.push(getMassInfo(::DataBlock(weaponBlkLink)))
+          local status = getWeaponStatus(weaponBlkLink)
           if (status.isPrimary)
           {
             local firstStageAmmo = getFirstStageAmmoCount()

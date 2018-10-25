@@ -1084,7 +1084,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     isTeamplay = ::is_mode_with_teams(gameType)
     isTeamsRandom = !isTeamplay || gameMode == ::GM_DOMINATION
-    if (::SessionLobby.isInRoom())
+    if (::SessionLobby.isInRoom() || ::is_replay_playing())
       isTeamsWithCountryFlags = isTeamplay &&
         (::get_mission_difficulty_int() > 0 || !::SessionLobby.getPublicParam("symmetricTeams", true))
 

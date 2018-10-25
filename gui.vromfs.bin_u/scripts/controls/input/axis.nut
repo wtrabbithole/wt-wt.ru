@@ -62,7 +62,7 @@ class ::Input.Axis extends ::Input.InputBase
     if (!device)
       return ""
     local curPreset = ::g_controls_manager.getCurPreset()
-    return ::remapAxisName(curPreset.getAxisName(axisId))
+    return ::remapAxisName(curPreset, axisId)
   }
 
   function getDeviceId()

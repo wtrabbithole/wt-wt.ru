@@ -1488,9 +1488,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local locId = "not_available_aircraft"
       if ((::SessionLobby.getUnitTypesMask() & (1 << ::get_es_unit_type(unit))) != 0)
         locId = "crew_not_available"
-      else if (missionTable?.useKillStreaks
-        && ::isInArray(::get_es_unit_type(unit), [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]))
-          locId = "msg/need_more_kills_for_aircraft"
       return { text = ::loc(locId), id = "crew_not_available" }
     }
 

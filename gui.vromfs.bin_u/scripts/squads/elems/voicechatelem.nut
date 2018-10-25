@@ -40,6 +40,7 @@ elemViewType.addTypes({
       local childRequired = ::g_squad_manager.isInSquad() ? ::g_squad_manager.MAX_SQUAD_SIZE
         : ::my_clan_info ? ::my_clan_info.mlimit
         : 0
+
       if (obj.childrenCount() < childRequired)
       {
         if (isAnybodyTalk())
@@ -48,11 +49,11 @@ elemViewType.addTypes({
               return
 
             fillContainer(obj, childRequired)
-            updateMembersView(obj)
+            updateMembersView(obj, nestObj)
           })
       }
       else
-        updateMembersView(obj)
+        updateMembersView(obj, nestObj)
     }
 
     isAnybodyTalk = function()
@@ -71,7 +72,7 @@ elemViewType.addTypes({
       return false
     }
 
-    updateMembersView = function(obj)
+    updateMembersView = function(obj, nestObj)
     {
       local memberIndex = 0
       if (::g_squad_manager.isInSquad())
@@ -87,6 +88,10 @@ elemViewType.addTypes({
 
       while (memberIndex < obj.childrenCount())
         updateMemberView(obj, memberIndex++, null)
+
+      local emptyVoiceObj = nestObj.findObject("voice_chat_no_activity")
+      if (::check_obj(emptyVoiceObj))
+        emptyVoiceObj.show(!isAnybodyTalk())
     }
 
     updateMemberView = function(obj, objIndex, uid)

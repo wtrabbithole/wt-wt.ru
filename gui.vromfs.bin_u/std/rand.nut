@@ -25,7 +25,7 @@ local Rand = class{
   }
 
   function _rfloat(seed, start=0.0, end=1.0, count=null){
-    if (type(seed)=="table") {
+    if (::type(seed)=="table") {
       local params = seed
       start=params?.start ?? start
       end=params?.end ?? end
@@ -38,7 +38,7 @@ local Rand = class{
   }
 
   function _rint(seed, start=0, end=DEFAULT_MAX_INT_RAND, count=null){
-    if (type(seed)=="table") {
+    if (::type(seed)=="table") {
       local params = seed
       start=params?.start ?? start
       end=params?.end ?? end

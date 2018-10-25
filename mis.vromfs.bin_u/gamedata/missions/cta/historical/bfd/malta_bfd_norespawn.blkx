@@ -259,7 +259,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -557,7 +558,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -566,8 +566,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -584,7 +586,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -593,8 +594,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -610,7 +613,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -619,8 +621,10 @@
             "showOnMap": true,
             "isIndividual": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
             "target": "t1_carrier",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_assault": false,
               "type_interceptor": false,
@@ -858,6 +862,17 @@
             "airfield": "t2_near_airfield",
             "createRespawnBaseFromAirfield": false,
             "captureNoPenalty": true
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "object": "t1_baloons_squad",
+            "army": 0,
+            "stealthRadius": 0.0
           }
         },
         {
@@ -5974,9 +5989,6 @@
             "squad_members": "t1_bunker_06"
           },
           {
-            "squad_members": "baloon_01"
-          },
-          {
             "squad_members": "t1_bunker_07"
           },
           {
@@ -7069,7 +7081,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 5,
+          "count": 6,
           "formation_type": "rows",
           "formation_div": 2,
           "formation_step": [12.0,6.0],

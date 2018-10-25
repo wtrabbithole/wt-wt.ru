@@ -63,6 +63,7 @@ local getMainOptions = function()
       ["options/header/helicopter"],
       [::USEROPT_HUE_HELICOPTER_HUD, "spinner"],
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
+      [::USEROPT_HORIZONTAL_SPEED, "spinner"],
 
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
@@ -138,6 +139,7 @@ local getMainOptions = function()
       ["options/header/gamepad"],
       [::USEROPT_ENABLE_CONSOLE_MODE, "spinner", !::get_is_console_mode_force_enabled()],
       [::USEROPT_GAMEPAD_CURSOR_CONTROLLER, "spinner", ::g_gamepad_cursor_controls.canChangeValue()],
+      [::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED, "slider", ::g_gamepad_cursor_controls.canChangeSpeed()],
       [::USEROPT_XCHG_STICKS, "spinner"],
       [::USEROPT_VIBRATION, "spinner"],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
