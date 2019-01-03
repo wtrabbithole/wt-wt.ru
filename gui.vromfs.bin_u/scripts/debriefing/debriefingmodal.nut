@@ -2520,7 +2520,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local name = link.slice(3)
       local player = getPlayerInfo(name)
       if (player)
-        ::session_player_rmenu(this, player, ::debriefing_result?.logForBanhammer ??  "")
+        ::session_player_rmenu(this, player, ::debriefing_result?.logForBanhammer)
     }
   }
 
@@ -2760,26 +2760,49 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
     }
 
-    local canGoToBattle = isToBattleActionEnabled()
-
+    local needGoToBattle = isToBattleActionEnabled()
     switchWwOperationToCurrent()
     goBack()
 
-    if (canGoToBattle)
-      guiScene.performDelayed(getroottable(), function()
-      {
-        if (::g_squad_manager.isSquadMember() && !::g_squad_manager.isMeReady())
-        {
-          ::g_squad_manager.setReadyFlag(true)
-          return
-        }
+    if (needGoToBattle)
+      goToBattle()
+  }
 
-        local eventsHandler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
-        if (eventsHandler)
-          eventsHandler.joinEvent(true)
-        else if (::handlersManager.isHandlerValid(::instant_domination_handler))
-          ::instant_domination_handler.determineAndStartAction(true)
-      })
+  function goToBattle()
+  {
+    guiScene.performDelayed(getroottable(), function()
+    {
+      if (::g_squad_manager.isSquadMember() && !::g_squad_manager.isMeReady())
+      {
+        ::g_squad_manager.setReadyFlag(true)
+        return
+      }
+
+      local lastEvent = ::events.getEvent(::SessionLobby.lastEventName)
+      local eventDisplayType = ::events.getEventDisplayType(lastEvent)
+      local handlerClass = eventDisplayType.showInGamercardDrawer ? ::gui_handlers.MainMenu :
+        eventDisplayType.showInEventsWindow ? ::gui_handlers.EventsHandler :
+        null
+      if (!handlerClass)
+        return
+
+      local handler = ::handlersManager.findHandlerClassInScene(handlerClass)
+      if (handler)
+      {
+        handler.goToBattleFromDebriefing()
+        return
+      }
+
+      if (!handler && eventDisplayType.showInEventsWindow)
+      {
+        ::gui_start_modal_events()
+        ::get_cur_gui_scene().performDelayed(::getroottable(), function() {
+          local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
+          if (handler)
+            handler.goToBattleFromDebriefing()
+        })
+      }
+    })
   }
 
   function isToBattleActionEnabled()
@@ -2792,6 +2815,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       && !hasAnyFinishedResearch()
       && !isSpectator
       && ::go_debriefing_next_func == ::gui_start_mainmenu
+      && !::checkNonApprovedResearches(true, false)
   }
 
   function hasGoToOperationBtn()

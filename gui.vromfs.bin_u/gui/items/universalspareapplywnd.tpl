@@ -18,6 +18,7 @@ popup_menu {
   menu_align:t='<<align>>'
   total-input-transparent:t='yes'
   flow:t='vertical'
+  hasNavBar:t='yes'
 
   Button_close { _on_click:t='goBack'; smallIcon:t='yes'}
 
@@ -99,13 +100,27 @@ popup_menu {
     }
   }
 
-  Button_text {
-    pos:t='50%pw-50%w, @blockInterval'
-    position:t='relative'
-    text:t='#msgbox/btn_activate'
-    on_click:t='onActivate'
-    btnName:t='A'
-    ButtonImg{}
+  navBar{
+    class:t='relative'
+    navLeft {
+      Button_text {
+        id:t='buttonMax';
+        text:t='#profile/maximumExp';
+        on_click:t='onButtonMax';
+        tooltip:t='#shop/setMaxValue';
+        btnName:t='Y';
+        display:t='hide'
+        ButtonImg{}
+      }
+    }
+    navRight{
+      Button_text {
+        text:t='#msgbox/btn_activate'
+        on_click:t='onActivate'
+        btnName:t='A'
+        ButtonImg{}
+      }
+    }
   }
 
   <<#hasPopupMenuArrow>>

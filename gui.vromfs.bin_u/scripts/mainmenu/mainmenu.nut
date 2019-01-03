@@ -99,7 +99,7 @@ function on_mainmenu_return(handler, isAfterLogin)
   ::sysopt.configMaintain()
 
   ::checkNewNotificationUserlogs()
-  ::checkNonApprovedResearches(true, true)
+  ::checkNonApprovedResearches(true)
   if (isAllowPopups)
   {
     handler.doWhenActive(::gui_handlers.FontChoiceWnd.openIfRequired)

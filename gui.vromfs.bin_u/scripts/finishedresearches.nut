@@ -93,12 +93,12 @@ function getUnitNameFromResearchItem(research)
   return ::getTblValue(searchParam, research, "")
 }
 
-function checkNonApprovedResearches(showFinishedResearches = false, update_researches_table = false)
+function checkNonApprovedResearches(needUpdateResearchTable = false, needResearchAction = true)
 {
   if (!::isInMenu() || ::checkIsInQueue())
     return false
 
-  if (update_researches_table)
+  if (needUpdateResearchTable)
   {
     ::researched_items_table = ::shop_get_countries_list_with_autoset_units()
     ::researched_items_table.extend(::shop_get_units_list_with_autoset_modules())
@@ -118,7 +118,7 @@ function checkNonApprovedResearches(showFinishedResearches = false, update_resea
       ::removeResearchBlock(::researched_items_table[i])
   }
 
-  if (!::researched_items_table.len() || !showFinishedResearches)
+  if (!::researched_items_table.len())
     return false
 
   foreach (research in ::researched_items_table)
@@ -138,15 +138,25 @@ function checkNonApprovedResearches(showFinishedResearches = false, update_resea
     ::removeResearchBlock(research)
   }
 
-  if (!::researched_items_table.len() && ::prepareUnitsForPurchaseMods.haveUnits())
+  if (!::researched_items_table.len())
   {
-    ::prepareUnitsForPurchaseMods.checkUnboughtMods(::get_auto_buy_modifications())
-    return true
+    if (::prepareUnitsForPurchaseMods.haveUnits())
+    {
+      if (needResearchAction)
+        ::prepareUnitsForPurchaseMods.checkUnboughtMods(::get_auto_buy_modifications())
+      return true
+    }
+    else
+      return false
   }
 
-  local resBlock = ::researched_items_table[0]
-  ::gui_start_choose_next_research(resBlock)
-  ::removeResearchBlock(resBlock)
+  if (needResearchAction)
+  {
+    local resBlock = ::researched_items_table[0]
+    ::gui_start_choose_next_research(resBlock)
+    ::removeResearchBlock(resBlock)
+  }
+
   return true
 }
 
@@ -902,7 +912,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
 
   function afterModalDestroy()
   {
-    needDoneMsgBox = needDoneMsgBox && !::checkNonApprovedResearches(true, true) && haveAnyAvailableResearches
+    needDoneMsgBox = needDoneMsgBox && !::checkNonApprovedResearches(true) && haveAnyAvailableResearches
 
     if (!needDoneMsgBox)
       return
@@ -1499,7 +1509,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     local afterCheckAction = function(foundNext){
       ::broadcastEvent("ModBought", {unitName = researchConfig.unit.name})
       if (!foundNext && !::isHandlerInScene(::gui_handlers.showAllResearchedItems))
-        ::checkNonApprovedResearches(true, false)
+        ::checkNonApprovedResearches(false)
     }
 
     local foundNext = false

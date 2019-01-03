@@ -1,22 +1,17 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
 
-function gui_modal_ban(playerInfo, chatLog)
+function gui_modal_ban(playerInfo, cLog = null)
 {
-  ::gui_start_modal_wnd(::gui_handlers.BanHandler, { player = playerInfo, chatLog = chatLog })
+  ::handlersManager.loadHandler(::gui_handlers.BanHandler, { player = playerInfo, chatLog = cLog })
 }
 
-function gui_modal_complain(playerInfo, chatLog = "")
+function gui_modal_complain(playerInfo, cLog = null)
 {
   if (!::tribunal.canComplaint())
     return
 
-  local cLog = (chatLog != "") ? chatLog : mpChatModel.getLogForBanhammer()
-  if (cLog == "" && ::debriefing_result)
-      cLog = ::getTblValue("chatLog", ::debriefing_result, "")
-
-  ::gui_start_modal_wnd(::gui_handlers.ComplainHandler, { pInfo = playerInfo, chatLog = cLog })
-
+  ::handlersManager.loadHandler(::gui_handlers.ComplainHandler, { pInfo = playerInfo, chatLog = cLog })
 }
 
 local chatLogToString = function(chatLog)
@@ -48,7 +43,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
   player = null
   playerName = null
   optionsList = null
-  chatLog = ""
+  chatLog = null
 
   function initScreen()
   {
@@ -196,9 +191,8 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     dagor.debug(format("%s user: %s, for %s, for %d sec.\n comment: %s",
                        penalty, playerName, category, duration, comment))
-    chatLog = chatLogToString(chatLog)
     taskId = char_ban_user(uid, duration, "", category, penalty,
-                           comment, ""/*hidden_note*/, chatLog)
+                           comment, ""/*hidden_note*/, chatLogToString(chatLog ?? {}))
     if (taskId >= 0)
     {
       ::set_char_cb(this, slotOpCb)
@@ -218,6 +212,13 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
   optionsList = null
   location = ""
   clanInfo = ""
+  pInfo = null
+  chatLog = null
+  scene = null
+  task = ""
+  wndType = handlerType.MODAL
+  sceneBlkName = "gui/complain.blk"
+
   function initScreen()
   {
     if (!scene || !pInfo || typeof(pInfo) != "table")
@@ -225,13 +226,15 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local gameMode = "GameMode = " + ::loc(format("multiplayer/%sMode", ::get_game_mode_name(::get_game_mode())))
     location = gameMode
-    if (chatLog != "")
+    if (chatLog != null)
     {
       if ("roomId" in pInfo && "roomName" in pInfo && pInfo.roomName != "")
         location = "Main Chat, Channel = " + pInfo.roomName + " (" + pInfo.roomId + ")"
       else
         location = "In-game Chat; " + gameMode
     }
+    else
+      chatLog = {}
 
     local pName = platformModule.getPlayerName(pInfo.name)
     local clanTag
@@ -341,19 +344,19 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     chatLog.location <- location
     chatLog.clanInfo <- clanInfo
-    chatLog = chatLogToString(chatLog)
+    local strChatLog = chatLogToString(chatLog)
 
-    dagor.debug("Send complaint " + category + ": \ncomment = " + user_comment + ", \nchatLog = " + chatLog + ", \ndetails = " + details)
+    dagor.debug("Send complaint " + category + ": \ncomment = " + user_comment + ", \nchatLog = " + strChatLog + ", \ndetails = " + details)
     dagor.debug("pInfo:")
     debugTableData(pInfo)
 
     taskId = -1
     if (("userId" in pInfo) && pInfo.userId)
-      taskId = send_complaint_by_uid(pInfo.userId, category, user_comment, chatLog, details)
+      taskId = send_complaint_by_uid(pInfo.userId, category, user_comment, strChatLog, details)
     else if ("name" in pInfo)
-      taskId = send_complaint_by_nick(pInfo.name, category, user_comment, chatLog, details)
+      taskId = send_complaint_by_nick(pInfo.name, category, user_comment, strChatLog, details)
     else
-      taskId = send_complaint(pInfo.id, category, user_comment, chatLog, details)
+      taskId = send_complaint(pInfo.id, category, user_comment, strChatLog, details)
     if (taskId >= 0)
     {
       ::set_char_cb(this, slotOpCb)
@@ -361,12 +364,4 @@ class ::gui_handlers.ComplainHandler extends ::gui_handlers.BaseGuiHandlerWT
       afterSlotOp = goBack
     }
   }
-
-  pInfo = null
-  chatLog = ""
-
-  scene = null
-  task = ""
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/complain.blk"
 }

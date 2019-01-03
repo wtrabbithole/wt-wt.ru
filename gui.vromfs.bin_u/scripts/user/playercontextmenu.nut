@@ -72,7 +72,7 @@ local getActions = function(contact, params)
   local isMPLobby = params?.isMPLobby ?? false
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
-  local chatLog = params?.chatLog ?? roomData && roomData.getLogForBanhammer() ?? ""
+  local chatLog = params?.chatLog ?? roomData && roomData.getLogForBanhammer() ?? null
   local canInviteToSesson = isXBoxOnePlayer == ::is_platform_xboxone
 
   local actions = []
@@ -402,7 +402,7 @@ local getActions = function(contact, params)
           {
             local threadInfo = ::g_chat.getThreadInfo(roomId)
             if (threadInfo) {
-              chatLog = chatLog != "" ? chatLog : {}
+              chatLog = chatLog != null ? chatLog : {}
               chatLog.category   <- threadInfo.category
               chatLog.title      <- threadInfo.title
               chatLog.ownerUid   <- threadInfo.ownerUid

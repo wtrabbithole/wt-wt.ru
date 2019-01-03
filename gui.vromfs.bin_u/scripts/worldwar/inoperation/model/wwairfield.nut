@@ -165,4 +165,73 @@ class ::WwAirfield
   {
     return getCooldownArmiesByGroupIdx(groupIdx).len()
   }
+
+  function hasEnoughUnitsToFly()
+  {
+    foreach (formation in formations)
+      if (hasFormationEnoughUnitsToFly(formation))
+        return true
+
+    return false
+  }
+
+  function hasFormationEnoughUnitsToFly(formation)
+  {
+    if (!formation || !formation.isValid() || !formation.hasManageAccess())
+      return false
+
+    local airClassesAmount = {
+      [WW_UNIT_CLASS.FIGHTER] = 0,
+      [WW_UNIT_CLASS.BOMBER] = 0
+    }
+    local customClassAmount = 0
+    local customClassWeaponMask = ::g_world_war.getWWConfigurableValue("fighterToAssaultWeaponMask", 0)
+    local wpcostBlk = ::get_wpcost_blk()
+    foreach (unit in formation.units)
+    {
+      local flyOutUnitClass = unit.getUnitClassData().flyOutUnitClass
+      airClassesAmount[flyOutUnitClass] += unit.count
+
+      if (flyOutUnitClass != WW_UNIT_CLASS.FIGHTER)
+        continue
+
+      foreach (weapon in wpcostBlk?[unit.getId()]?.weapons ?? {})
+        if (weapon.weaponmask & customClassWeaponMask)
+        {
+          customClassAmount += unit.count
+          break
+        }
+    }
+
+    local operation = ::g_operations.getCurrentOperation()
+    local flyoutRange = operation.getUnitsFlyoutRange()
+    foreach (mask in [WW_UNIT_CLASS.FIGHTER, WW_UNIT_CLASS.COMBINED])
+    {
+      local additionalAirs = 0
+      local hasEnough = false
+      foreach (unitClass in [WW_UNIT_CLASS.FIGHTER, WW_UNIT_CLASS.BOMBER])
+      {
+        local amount = airClassesAmount?[unitClass] ?? 0
+        local unitRange = operation.getQuantityToFlyOut(unitClass, mask, flyoutRange)
+
+        hasEnough = amount + additionalAirs >= unitRange.x
+        if (!hasEnough)
+          break
+
+        if (unitClass == WW_UNIT_CLASS.FIGHTER && amount > unitRange.x)
+          additionalAirs = ::min(amount - unitRange.x, customClassAmount)
+      }
+
+      if (hasEnough)
+        return true
+    }
+
+    return false
+  }
+
+  getAvailableFormations = @() isValid()
+    ? ::u.filter(formations, @(formation) formation.hasManageAccess()) : []
+
+  getFormationByGroupIdx = @(groupIdx)
+    ::u.search(formations, @(group) group.owner.armyGroupIdx == groupIdx)
 }

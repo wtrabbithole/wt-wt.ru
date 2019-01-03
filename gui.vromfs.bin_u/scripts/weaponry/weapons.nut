@@ -1485,7 +1485,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterModalDestroy()
   {
-    if (!::checkNonApprovedResearches(true, false) && ::prepareUnitsForPurchaseMods.haveUnits())
+    if (!::checkNonApprovedResearches(false) && ::prepareUnitsForPurchaseMods.haveUnits())
       ::prepareUnitsForPurchaseMods.checkUnboughtMods()
   }
 

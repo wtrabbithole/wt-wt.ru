@@ -245,7 +245,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         msg = format(::loc(nameLoc), mission) //need more info in log, maybe title.
         ::my_stats.markStatsReset()
         if (popupMask & USERLOG_POPUP.FINISHED_RESEARCHES)
-          ::checkNonApprovedResearches(true, true)
+          ::checkNonApprovedResearches(true)
         ::broadcastEvent("BattleEnded", {eventId = blk.body.eventId})
       }
       else if (blk.type == ::EULT_CHARD_AWARD)

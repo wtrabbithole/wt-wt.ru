@@ -257,3 +257,13 @@ if (!("logerr" in ::dagor))
   get_option_horizontal_speed = @() null
 })
 
+//----------------------------wop_1_81_2_X---------------------------------//
+::apply_compatibilities({
+  EUCT_CRUISER = 15
+})
+
+//----------------------------wop_1_83_0_X---------------------------------//
+::apply_compatibilities({
+  HUD_MSG_STREAK_EX = -10
+  xbox_is_item_bought = @(id) false
+})

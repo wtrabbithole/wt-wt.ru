@@ -73,7 +73,7 @@ local restoreReplayScriptCommentsBlk = function(replayPath)
   // Works for Server replays
   if (!playersInfo.len())
   {
-    local mplayersList = buildReplayMpTable(replayPath)
+    local mplayersList = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
     foreach (mplayer in mplayersList)
     {
       if (mplayer.isBot)
@@ -83,8 +83,8 @@ local restoreReplayScriptCommentsBlk = function(replayPath)
         team = mplayer.team
         name = mplayer.name
         clanTag = mplayer.clanTag
-        squad = mplayer.squadId
-        auto_squad = !!mplayer.autoSquad
+        squad = mplayer?.squadId ?? INVALID_SQUAD_ID
+        auto_squad = !!(mplayer?.autoSquad ?? true)
       }
     }
   }

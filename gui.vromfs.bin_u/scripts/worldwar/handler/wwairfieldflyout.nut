@@ -33,7 +33,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   static function open(index, position, armyTargetName, onSuccessfullFlyoutCb = null)
   {
     local airfield = ::g_world_war.getAirfieldByIndex(index)
-    local availableArmiesArray = getAvailableAirfieldFormations(airfield)
+    local availableArmiesArray = airfield.getAvailableFormations()
     if (!availableArmiesArray.len())
       return
 
@@ -47,10 +47,6 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       }
     )
   }
-
-  static getAvailableAirfieldFormations = @(airfield)
-    airfield.isValid()
-      ? ::u.filter(airfield.formations, @(formation) formation.hasManageAccess()) : []
 
   function getSceneTplContainerObj() { return scene.findObject("root-box") }
 
@@ -239,7 +235,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     selectedGroupIdx = ::getTblValue(tabVal, availableArmiesArray, availableArmiesArray[0]).getArmyGroupIdx()
     selectedGroupFlyArmies = calcSelectedGroupAirArmiesNumber()
 
-    hasUnitsToFly = hasEnoughUnitsToFlyOut()
+    local formation = airfield.getFormationByGroupIdx(selectedGroupIdx)
+    hasUnitsToFly = airfield.hasFormationEnoughUnitsToFly(formation)
 
     local selUnitsInfo = getSelectedUnitsInfo()
     foreach (idx, unitTable in unitsList)
@@ -474,41 +471,6 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     return range.x == range.y
       ? ::loc("worldwar/airfield/required_number", { numb = range.y })
       : ::loc("worldwar/airfield/required_range",  { min = range.x, max = range.y })
-  }
-
-  function hasEnoughUnitsToFlyOut()
-  {
-    if (!unitsList.len())
-      return false
-
-    local classesMaxAmount = {}
-    foreach (unitTable in unitsList)
-      if (unitTable.armyGroupIdx == selectedGroupIdx)
-      {
-        if (!(unitTable.unitClass in classesMaxAmount))
-          classesMaxAmount[unitTable.unitClass] <- 0
-        classesMaxAmount[unitTable.unitClass] += unitTable.maxValue
-      }
-
-    foreach (mask, range in currentOperation.getUnitsFlyoutRange())
-    {
-      local hasEnough = false
-      foreach (unitClass, maxAmount in classesMaxAmount)
-      {
-        local unitRange = currentOperation.getQuantityToFlyOut(unitClass, mask)
-        if (unitRange.y < 0)
-          continue
-
-        hasEnough = maxAmount >= unitRange.x
-        if (!hasEnough)
-          break
-      }
-
-      if (hasEnough)
-        return true
-    }
-
-    return false
   }
 
   function isMaxUnitsNumSet(selUnitsInfo)

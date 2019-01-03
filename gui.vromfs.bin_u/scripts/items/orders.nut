@@ -287,7 +287,7 @@ function g_orders::updateOrderStatus(fullUpdate)
   updateOrderStatusObject(ordersStatusObj, fullUpdate)
 }
 
-function g_orders::updateActiveOrder(dispatchEvents = true)
+function g_orders::updateActiveOrder(dispatchEvents = true, isForced = false)
 {
   local activeOrderChanged = false
   local orderStatusChanged = false
@@ -299,7 +299,7 @@ function g_orders::updateActiveOrder(dispatchEvents = true)
   // is not fully loaded yet. Better bail out and
   // update on next updateActiveOrder() call.
   local starterId = ::getTblValue("starterId", orderObjective, -1)
-  if (starterId == -1 && orderObjective != null)
+  if (starterId == -1 && orderObjective != null && !isForced)
     return
 
   if (activeOrder.orderId != getOrderId(orderObjective))
@@ -567,8 +567,6 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
 
 function g_orders::setStatusObjVisibility(statusObj, visible)
 {
-  if (isInSpectatorMode())
-    return
   if (!::checkObj(statusObj))
     return
 
@@ -964,7 +962,7 @@ function g_orders::onEventOrderUpdated(params)
 
 function g_orders::onEventWatchedHeroSwitched(params)
 {
-  updateActiveOrder()
+  updateActiveOrder(true, true)
 }
 
 function g_orders::onEventChangedCursorVisibility(params)

@@ -2280,34 +2280,52 @@
         "resetTarget": []
       },
       {
-        "sequencer": {
-          "reaction": {
-            "event": "outsideBattleField"
+        "sequencer": [
+          {
+            "reaction": {
+              "event": "outsideBattleField"
+            }
           },
-          "ifThenElse": {
-            "findLeader": [],
-            "followTarget": {
-              "offsetFromBot": true,
-              "useTarget": false
-            },
-            "selector": {
-              "selectStrategy": "ordered",
+          {
+            "reaction": {
+              "event": "regularCheck",
               "sequencer": {
-                "setControls": {
-                  "controls": "flaps",
-                  "setTo": 0.0,
-                  "timeTo": 0.0
+                "or": {
+                  "not": {
+                    "isInOuterFightArea": []
+                  },
+                  "hasTargetAnchors": []
                 },
-                "flyToPos": {
-                  "speed": 350.0,
-                  "dist": -1.0,
-                  "minAlt": 10.0
-                }
+                "recalculateTree": []
+              }
+            }
+          },
+          {
+            "ifThenElse": {
+              "findLeader": [],
+              "followTarget": {
+                "offsetFromBot": true,
+                "useTarget": false
               },
-              "waypointFollow": []
+              "selector": {
+                "selectStrategy": "ordered",
+                "sequencer": {
+                  "setControls": {
+                    "controls": "flaps",
+                    "setTo": 0.0,
+                    "timeTo": 0.0
+                  },
+                  "flyToPos": {
+                    "speed": 350.0,
+                    "dist": -1.0,
+                    "minAlt": 10.0
+                  }
+                },
+                "waypointFollow": []
+              }
             }
           }
-        }
+        ]
       },
       {
         "sequencer": [

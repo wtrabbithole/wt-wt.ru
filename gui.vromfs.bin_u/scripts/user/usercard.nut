@@ -1035,7 +1035,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local playerName = ::getTblValue("name", player, "")
     local userId = ::getTblValue("uid", player, "")
 
-    ::gui_modal_ban({ name = playerName, uid = userId, clanTag = clanTag }, "")
+    ::gui_modal_ban({ name = playerName, uid = userId, clanTag = clanTag })
   }
 
   function modifyPlayerInList(listName)

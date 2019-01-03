@@ -49,7 +49,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     base.initScreen()
     globalBattlesListData.requestList()
 
-    ::checkNonApprovedResearches(true, true)
+    ::checkNonApprovedResearches(true)
   }
 
   function updateBattlesFilter()

@@ -21,10 +21,11 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   changedShortcuts = null
   changedAxes = null
+  optionTableId = "axis_setup_table"
 
   function getMainFocusObj()
   {
-    return getObj("axis_setup_table")
+    return getObj(optionTableId)
   }
 
   function initScreen()
@@ -105,7 +106,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function fillAxisTable(axis)
   {
-    local axisControlsTbl = scene.findObject("axis_setup_table")
+    local axisControlsTbl = scene.findObject(optionTableId)
     if (!::checkObj(axisControlsTbl))
       return
 
@@ -319,7 +320,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function getCurItem()
   {
-    local objTbl = scene.findObject("axis_setup_table")
+    local objTbl = scene.findObject(optionTableId)
     if (!::checkObj(objTbl))
       return null
 
@@ -524,7 +525,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     curJoyParams.bindAxis(setupAxisMode, bindAxisNum)
     doApplyJoystick()
     curJoyParams.applyParams(curDevice)
-    goBack()
+    guiScene.performDelayed(this, closeWnd)
   }
 
   function updateButtons()
@@ -533,7 +534,9 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     if (!item)
       return
 
-    local showScReset = item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT
+    local isItemRowSelected = isCurrentRowSelected()
+    local showScReset = isItemRowSelected &&
+     (item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT)
     showSceneBtn("btn_axis_reset_shortcut", showScReset)
     showSceneBtn("btn_axis_assign", showScReset)
   }
@@ -541,6 +544,16 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   function onTblSelect()
   {
     updateButtons()
+  }
+
+  function onTblChangeFocus()
+  {
+    guiScene.performDelayed(this,
+      function () {
+        if (isValid())
+          updateButtons()
+      }
+    )
   }
 
   function onTblDblClick()
@@ -713,6 +726,6 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function goBack()
   {
-    ::gui_handlers.BaseGuiHandlerWT.goBack.bindenv(this)()
+    onApply()
   }
 }

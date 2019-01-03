@@ -136,7 +136,7 @@ class ::gui_handlers.ModificationsTierResearched extends ::gui_handlers.BaseGuiH
   function afterModalDestroy()
   {
     ::broadcastEvent("UpdateResearchingUnit", { unitName = unitInResearch })
-    ::checkNonApprovedResearches(true, true)
+    ::checkNonApprovedResearches(true)
     if (::is_platform_ps4 && postConfig && postCustomConfig)
       ::prepareMessageForWallPostAndSend(postConfig, postCustomConfig, bit_activity.PS4_ACTIVITY_FEED)
   }

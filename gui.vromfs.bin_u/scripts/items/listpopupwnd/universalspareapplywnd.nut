@@ -53,13 +53,14 @@ class ::gui_handlers.UniversalSpareApplyWnd extends ::gui_handlers.ItemsListWndB
     local itemsAmount = curItem.getAmount()
     local availableAmount = ::g_weaponry_types.SPARE.getMaxAmount(unit, null)  - ::g_weaponry_types.SPARE.getAmount(unit, null)
     maxAmount = ::min(itemsAmount, availableAmount)
-    curAmount = maxAmount
+    curAmount = 1
 
     local canChangeAmount = maxAmount > minAmount
     showSceneBtn("slider_block", canChangeAmount)
     if (!canChangeAmount)
       return
 
+    showSceneBtn("buttonMax", true)
     sliderObj.min = minAmount.tostring()
     sliderObj.max = maxAmount.tostring()
     sliderObj.setValue(curAmount)
@@ -69,6 +70,7 @@ class ::gui_handlers.UniversalSpareApplyWnd extends ::gui_handlers.ItemsListWndB
   function updateText()
   {
     amountTextObj.setValue(curAmount + ::loc("icon/universalSpare"))
+    scene.findObject("buttonMax").enable(curAmount != maxAmount)
   }
 
   function onAmountInc()
@@ -92,5 +94,10 @@ class ::gui_handlers.UniversalSpareApplyWnd extends ::gui_handlers.ItemsListWndB
   function onActivate()
   {
     curItem.activateOnUnit(unit, curAmount, ::Callback(goBack, this))
+  }
+
+  function onButtonMax()
+  {
+    sliderObj.setValue(maxAmount)
   }
 }

@@ -30,7 +30,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
       {
         id = "authorization_button"
         text = "#HUD_PRESS_A_CNT"
-        shortcut = "SpaceA"
+        shortcut = "A"
         funcName = "onOk"
         delayed = true
         isToBattle = true

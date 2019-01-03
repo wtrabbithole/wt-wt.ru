@@ -146,6 +146,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "get_mp_local_team", value = ::debriefing_result?.localTeam ?? ::get_mp_local_team() }
     { id = "get_player_army_for_hud", value = ::debriefing_result?.friendlyTeam ?? ::get_player_army_for_hud() }
     { id = "_fake_sessionlobby_settings", value = ::SessionLobby.settings }
+    { id = "_fake_sessionlobby_last_event_name", value = ::SessionLobby.lastEventName }
     "LAST_SESSION_DEBUG_INFO"
     "get_mission_mode"
     "get_mission_difficulty_int"
@@ -257,6 +258,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::SessionLobby.settings = ::_fake_sessionlobby_settings
   ::SessionLobby.playersInfo = ::getroottable()?._fake_playersInfo ?? {}
   ::SessionLobby.getUnitTypesMask = @() ::getroottable()?._fake_sessionlobby_unit_type_mask ?? 0
+  ::SessionLobby.lastEventName = ::getroottable()?._fake_sessionlobby_last_event_name ?? ""
   ::HudBattleLog.battleLog = ::_fake_battlelog
   ::SquadIcon.initListLabelsSquad()
 
@@ -267,7 +269,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::is_in_flight = _is_in_flight
 
   ::gui_start_debriefingFull()
-  ::checkNonApprovedResearches(true, true)
+  ::checkNonApprovedResearches(true)
   ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
   ::broadcastEvent("SessionDestroyed")
   return "Debriefing result loaded from " + filename

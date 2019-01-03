@@ -2132,17 +2132,23 @@
             "rankPosXY": [1,1],
             "reqAir": "germ_rboot_r41"
           },
-          "germ_sf40_leichte_flakkampffaehre": {
+          "germ_s_100_s_174_class": {
             "rank": 2,
             "rankPosXY": [2,1]
           },
-          "germ_sf40_schwere_flakkampffaehre": {
+          "germ_sf40_leichte_flakkampffaehre": {
             "rank": 2,
             "rankPosXY": [3,1]
           },
+          "germ_sf40_schwere_flakkampffaehre": {
+            "rank": 2,
+            "rankPosXY": [3,2],
+            "reqAir": "germ_sf40_leichte_flakkampffaehre"
+          },
           "germ_artilleriefahrprahm_typ_d1": {
             "rank": 2,
-            "rankPosXY": [4,1]
+            "rankPosXY": [4,1],
+            "reqAir": "germ_sf40_leichte_flakkampffaehre"
           },
           "germ_artilleriefahrprahm_typ_d3": {
             "rank": 2,
@@ -2152,22 +2158,18 @@
       },
       {
         "range": {
-          "germ_s_100_s_174_class": {
-            "rank": 2,
-            "rankPosXY": [1,2],
-            "reqAir": "germ_s_100_class"
-          },
           "germ_vs10_hydrofoil": {
             "rank": 2,
-            "rankPosXY": [2,2]
+            "rankPosXY": [1,3],
+            "reqAir": "germ_s_100_class"
           },
           "germ_type140_jaguar": {
             "rank": 2,
-            "rankPosXY": [3,2]
+            "rankPosXY": [2,3]
           },
           "germ_mz_1": {
             "rank": 2,
-            "rankPosXY": [4,2]
+            "rankPosXY": [3,3]
           },
           "germ_pr_206": {
             "rank": 2,
@@ -2185,7 +2187,7 @@
           "germ_destroyer_class1924_leopard1932": {
             "rank": 3,
             "rankPosXY": [1,1],
-            "reqAir": "germ_s_100_s_174_class"
+            "reqAir": "germ_vs10_hydrofoil"
           },
           "germ_destroyer_class1939_t22": {
             "rank": 3,
@@ -3417,19 +3419,19 @@
             "rank": 2,
             "rankPosXY": [3,2],
             "reqAir": "ussr_pr_191"
-          },
-          "ussr_pr_1204_late": {
-            "rank": 2,
-            "rankPosXY": [4,2]
           }
         }
       },
       {
         "range": {
-          "ussr_pr_183": {
+          "ussr_pr_1204_late": {
             "rank": 2,
             "rankPosXY": [1,3],
             "reqAir": "ussr_1124_art"
+          },
+          "ussr_pr_183": {
+            "rank": 2,
+            "rankPosXY": [3,3]
           },
           "ussr_pr_206": {
             "rank": 2,
@@ -3443,12 +3445,12 @@
       },
       {
         "range": {
-          "ussr_skr_pr159": {
+          "ussr_destroyer_frunze": {
             "rank": 3,
             "rankPosXY": [1,1],
-            "reqAir": "ussr_pr_183"
+            "reqAir": "ussr_pr_1204_late"
           },
-          "ussr_destroyer_frunze": {
+          "ussr_skr_pr159": {
             "rank": 3,
             "rankPosXY": [2,1]
           },
@@ -3463,7 +3465,7 @@
           "ussr_cruiser_krasnyi_kavkaz": {
             "rank": 4,
             "rankPosXY": [1,1],
-            "reqAir": "ussr_skr_pr159"
+            "reqAir": "ussr_destroyer_frunze"
           }
         }
       },

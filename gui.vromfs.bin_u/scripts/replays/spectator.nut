@@ -72,6 +72,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     "briefMalfunctionState",
     "isBurning",
     "isExtinguisherActive",
+    "isLocal"
     "isInHeroSquad",
   ]
 
@@ -87,6 +88,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   supportedMsgTypes = [
     ::HUD_MSG_MULTIPLAYER_DMG
+    ::HUD_MSG_STREAK_EX
     ::HUD_MSG_STREAK
     ::HUD_MSG_OBJECTIVE
     ::HUD_MSG_DIALOG
@@ -123,9 +125,11 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   ]
 
   focusArray = [
-    "controls_div"
     "table_team1"
+    "table_team2"
     "tabs"
+    "chat_input"
+    "controls_div"
   ]
 
   currentFocusItem = 2
@@ -282,7 +286,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     reinitDmgIndicator()
     recalculateLayout()
     restoreFocus()
-    updateTarget(false)
+    updateTarget(true)
   }
 
   function fillTabs()
@@ -290,7 +294,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     local view = {
       tabs = []
     }
-    foreach(name, tab in tabsList)
+    foreach(tab in tabsList)
       view.tabs.push({
         tabName = ::loc(tab.locId)
         id = tab.id
@@ -314,7 +318,10 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
                                      {selfHideInput = true, hiddenInput = !canSendChatMessages })
 
       local objGameChat = scene.findObject("gamechat")
-      objGameChat.findObject("chat_input_div").show(canSendChatMessages)
+      ::showBtnTable(objGameChat, {
+          chat_input_div         = canSendChatMessages
+          chat_input_placeholder = canSendChatMessages
+      })
       local objChatLogDiv = objGameChat.findObject("chat_log_tdiv")
       objChatLogDiv.size = canSendChatMessages ? objChatLogDiv.sizeWithInput : objChatLogDiv.sizeWithoutInput
 
@@ -359,27 +366,20 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     local friendlyTeamSwitched = friendlyTeam != lastFriendlyTeam
     lastFriendlyTeam = friendlyTeam
 
-    if (isUpdateByCooldown || isTargetSwitched)
+    if (isUpdateByCooldown || isTargetSwitched || friendlyTeamSwitched)
     {
       updateTarget(isTargetSwitched)
       updateStats()
     }
 
-    if (friendlyTeamSwitched)
+    if (friendlyTeamSwitched || isTargetSwitched)
     {
       ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
-      ::broadcastEvent("FriendlyTeamSwitched")
+      ::broadcastEvent("WatchedHeroSwitched")
       updateHistoryLog()
     }
 
     updateControls(isTargetSwitched)
-
-    if (::get_game_chat_handler().isActive)
-    {
-      local inputObj = scene.findObject("chat_input")
-      if (!::checkObj(inputObj) || !inputObj.isFocused())
-        ::game_chat_input_toggle_request(false)
-    }
 
     if (isUpdateByCooldown)
     {
@@ -418,9 +418,11 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     return player != null && player.team == ::get_player_army_for_hud()
   }
 
-  function getPlayerNick(player, colored = false)
+  function getPlayerNick(player, colored = false, needClanTag = true)
   {
-    local name = player ? ::g_contacts.getPlayerFullName(player.name, player.clanTag) : ""
+    local name = player && needClanTag ? ::g_contacts.getPlayerFullName(player.name, player.clanTag)
+      : player ? player.name
+      : ""
     local color = getPlayerColor(player, colored)
     return ::colorize(color, name)
   }
@@ -542,6 +544,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     {
       spectatorWatchedHero.id      = player?.id ?? -1
       spectatorWatchedHero.squadId = player?.squadId ?? INVALID_SQUAD_ID
+      spectatorWatchedHero.name    = player?.name ?? ""
     }
 
     if (player)
@@ -552,7 +555,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local tblObj = getTeamTableObj(player.team)
       if (tblObj)
       {
-        if (targetSwitched || !tblObj.isFocused())
+        if (targetSwitched)
           tblObj.select()
         onStatTblFocus(tblObj)
       }
@@ -855,6 +858,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       unitId = (unitId != "dummy_plane" && unitId != "") ? unitId : null
       player.aircraftName = unitId || ""
       player.canBeSwitchedTo = unitId ? player.canBeSwitchedTo : false
+      player.isLocal = spectatorWatchedHero.id == player.id
       player.isInHeroSquad = ::SessionLobby.isEqualSquadId(spectatorWatchedHero.squadId, player?.squadId)
     }
     tbl.sort(funcSortPlayersSpectator)
@@ -867,6 +871,17 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       || !a.isActing && funcSortPlayersDefault(a, b)
       || a.isBot <=> b.isBot
       || a.id <=> b.id
+  }
+
+  function getTeamClanTag(players)
+  {
+    local clanTag = players?[0]?.clanTag ?? ""
+    if (players.len() < 2 || clanTag == "")
+      return ""
+    foreach (p in players)
+      if (p.clanTag != clanTag)
+        return ""
+    return clanTag
   }
 
   function getPlayersData()
@@ -885,13 +900,15 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       {
         local teamId = ((i == 0) == (localTeam == 1)) ? Team.A : Team.B
         local color = ((i == 0) == myTeamFriendly)? "blue" : "red"
+        local players = getTeamPlayers(teamId)
 
         _teams[i] = {
           active = true
           index = i
           teamId = teamId
-          players = getTeamPlayers(teamId)
+          players = players
           color = color
+          clanTag = getTeamClanTag(players)
         }
       }
     }
@@ -899,13 +916,15 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     {
       local teamId = isTeamplay ? ::get_mp_local_team() : ::GET_MPLAYERS_LIST
       local color  = isTeamplay ? "blue" : "red"
+      local players = getTeamPlayers(teamId)
 
       _teams[0] = {
         active = true
         index = 0
         teamId = teamId
-        players = getTeamPlayers(teamId)
+        players = players
         color = color
+        clanTag = isTeamplay ? getTeamClanTag(players) : ""
       }
       _teams[1] = {
         active = false
@@ -913,19 +932,22 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         teamId = 0
         players = []
         color = ""
+        clanTag = ""
       }
     }
     else
     {
       local teamId = 0
       local color = "blue"
+      local players = getTeamPlayers(teamId)
 
       _teams[0] = {
         active = false
         index = 0
         teamId = teamId
-        players = getTeamPlayers(teamId)
+        players = players
         color = color
+        clanTag = ""
       }
       _teams[1] = {
         active = false
@@ -933,6 +955,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         teamId = 0
         players = []
         color = ""
+        clanTag = ""
       }
     }
 
@@ -1009,6 +1032,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     local selPlayerId = getTblValue(teamInfo.index, statSelPlayerId)
     local selIndex = null
 
+    local needClanTags = (teamInfo?.clanTag ?? "") == ""
+
     for(local i = 0; i < totalRows; i++)
     {
       local player = ::getTblValue(i, players)
@@ -1025,7 +1050,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local playerName = getPlayerNick(player)
-      nameObj.setValue(playerName)
+      local playerNameShort = needClanTags ? playerName : getPlayerNick(player, false, false)
+      nameObj.setValue(playerNameShort)
 
       local unitId = player.aircraftName != "" ? player.aircraftName : null
       local iconImg = !player.ingame ? "#ui/gameuiskin#player_not_ready" : unitId ? ::getUnitClassIco(unitId) : "#ui/gameuiskin#dead"
@@ -1033,6 +1059,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local stateDesc = getPlayerStateDesc(player)
       local malfunctionDesc = getUnitMalfunctionDesc(player)
 
+      obj.hero = player.isLocal ? "yes" : "no"
       obj.squad = player.isInHeroSquad ? "yes" : "no"
       obj.dead = player.canBeSwitchedTo ? "no" : "yes"
       obj.findObject("unit").setValue(getUnitName(unitId || "dummy_plane"))
@@ -1083,6 +1110,10 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     if (objTbl.team != teamInfo.color)
       objTbl.team = teamInfo.color
+
+    local headerObj = objTbl.getParent().getParent().findObject("header")
+    if (::check_obj(headerObj))
+      headerObj.setValue(teamInfo.clanTag)
 
     guiScene.setUpdatesEnabled(true, true)
   }
@@ -1148,8 +1179,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(objContainer))
         continue
 
-      local isShow = (tab.id) == newTabId
-      objContainer.show(isShow)
+      objContainer.show(tab.id == newTabId)
     }
     curTabId = newTabId
     tabObj.findObject("new_msgs").show(false)
@@ -1186,16 +1216,15 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       return
     if (!canSendChatMessages)
       return
+
     local obj = scene.findObject("btnToggleLog")
     if (::checkObj(obj) && obj.toggled != "yes")
       onToggleButtonClick(obj)
+
     obj = scene.findObject("tabs")
     local chatTabId = SPECTATOR_CHAT_TAB.CHAT
     if (::checkObj(obj) && curTabId != chatTabId)
-    {
-      curTabId == chatTabId
-      onBtnLogTabSwitch(obj)
-    }
+      obj.setValue(::u.searchIndex(tabsList, @(t) t.id == chatTabId))
 
     if (::getTblValue("activate", params, false))
       ::game_chat_input_toggle_request(true)
@@ -1251,12 +1280,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local msgTeamAlly  = "message" + (::get_player_army_for_hud() != 2 ? 1 : 2)
-    local msgTeamEnemy = "message" + (::get_player_army_for_hud() != 2 ? 2 : 1)
-    local message = buildHistoryLogMessage(msg)
-    msg[msgTeamAlly] <- message
-    msg[msgTeamEnemy] <- (msg.type == ::HUD_MSG_MULTIPLAYER_DMG) ? "" :
-      invertHistoryLogMsgTeamColors(message)
+    msg.message <- buildHistoryLogMessage(msg)
+    if (msg.message == "")
+      return
 
     if (historyLog.len() == historyMaxLen)
       historyLog.remove(0)
@@ -1294,12 +1320,10 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         guiScene.setUpdatesEnabled(true, true)
       historyLog = historyLog || []
 
-      local msgTeamAlly  = "message" + (::get_player_army_for_hud() != 2 ? 1 : 2)
       foreach (msg in historyLog)
-        if (msg[msgTeamAlly] == "")
-          msg[msgTeamAlly] <- buildHistoryLogMessage(msg)
+        msg.message <- buildHistoryLogMessage(msg)
 
-      local historyLogMessages = ::u.map(historyLog, (@(msgTeamAlly) function(x) { return x[msgTeamAlly] })(msgTeamAlly))
+      local historyLogMessages = ::u.map(historyLog, @(msg) msg.message)
       obj.setValue(obj.isVisible() ? ::g_string.implode(historyLogMessages, "\n") : "")
     }
   }
@@ -1314,7 +1338,15 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         local text = ::HudBattleLog.msgMultiplayerDmgToText(msg)
         return timestamp + ::colorize("userlogColoredText", text)
         break
-      case ::HUD_MSG_STREAK: // Any player got streak
+
+      case ::HUD_MSG_STREAK_EX: // Any player got streak
+        local text = ::HudBattleLog.msgStreakToText(msg, true)
+        return timestamp + ::colorize("streakTextColor", ::loc("unlocks/streak") + ::loc("ui/colon") + text)
+        break
+
+      case ::HUD_MSG_STREAK: // Any player got streak (deprecated)
+        if (::HUD_MSG_STREAK_EX > 0) // compatibility
+          return ""
         local text = ::HudBattleLog.msgEscapeCodesToCssColors(msg.text)
         return timestamp + ::colorize("streakTextColor", ::loc("unlocks/streak") + ::loc("ui/colon") + text)
         break
@@ -1343,18 +1375,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       default:
         return ""
     }
-  }
-
-  function invertHistoryLogMsgTeamColors(message)
-  {
-    local colorMap = [
-      [ "hudColorBlue",  "_hudColorBlue" ],
-      [ "hudColorRed",   "hudColorBlue" ],
-      [ "_hudColorBlue", "hudColorRed" ],
-    ]
-    foreach(pair in colorMap)
-      message = ::stringReplace(message, "<color=@" + pair[0] + ">", "<color=@" + pair[1] + ">")
-    return message
   }
 
   function setHotkeysToObjTooltips(scanObj, objects)

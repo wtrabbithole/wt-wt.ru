@@ -32,12 +32,6 @@ foreach (sh in sheetsArray)
     xboxShopData.xboxProceedItems?[sheet.mediaType] ?? []).filter(@(idx, it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
 }
 
-local openWnd = @(chapter = null) xboxShopData.requestData(
-  false,
-  @() ::handlersManager.loadHandler(::gui_handlers.XboxShop, {itemsCatalog = xboxShopData.xboxProceedItems, chapter = chapter}),
-  true
-)
-
 class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -396,7 +390,9 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventXboxSystemUIReturn(p)
   {
-    openWnd()
+    local item = getCurItem()
+    item.updateIsBoughtStatus()
+    fillItemsList()
   }
 
   function goBack()
@@ -407,5 +403,9 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 }
 
 return xboxShopData.__merge({
-  openWnd = openWnd
+  openWnd = @(chapter = null) xboxShopData.requestData(
+    false,
+    @() ::handlersManager.loadHandler(::gui_handlers.XboxShop, {itemsCatalog = xboxShopData.xboxProceedItems, chapter = chapter}),
+    true
+  )
 })

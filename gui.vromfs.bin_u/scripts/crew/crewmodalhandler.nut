@@ -639,6 +639,9 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         accessKey = "J:A"
         cb = function()
         {
+          if (!isValid())
+            return
+
           onButtonInc(getObj("skill_row0").findObject("buttonInc"))
         }
       },
@@ -649,6 +652,9 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         accessKey = "J:A"
         cb = function()
         {
+          if (!isValid())
+            return
+
           onButtonInc(getObj("skill_row1").findObject("buttonInc"))
         }
       },
@@ -659,11 +665,12 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         accessKey = "J:A"
         cb = function()
         {
+          if (!isValid())
+            return
+
+          afterApplyAction = canUpgradeCrewSpec(crew) ? onUpgrCrewSpec1Tutorial
+            : onUpgrCrewTutorFinalStep
           onApply()
-          if (canUpgradeCrewSpec(crew))
-            onUpgrCrewSpec1Tutorial()
-          else
-            onUpgrCrewTutorFinalStep()
         }
       }
     ]
@@ -688,9 +695,32 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUpgrCrewSpec1Tutorial()
   {
+    local tblObj = scene.findObject("skills_table")
+    if (!::check_obj(tblObj))
+      return
+
+    local skillRowObj = null
+    local btnSpecObj = null
+
+    for(local i = 0; i < tblObj.childrenCount(); i++)
+    {
+      skillRowObj = tblObj.findObject("skill_row" + i)
+      if (!::check_obj(skillRowObj))
+        continue
+
+      btnSpecObj = skillRowObj.findObject("btn_spec1")
+      if (::check_obj(btnSpecObj) && btnSpecObj.isVisible())
+        break
+
+      btnSpecObj = null
+    }
+
+    if (btnSpecObj == null)
+      return
+
     local steps = [
       {
-        obj = [getObj("skill_row0").findObject("btn_spec1"), "skill_row0"]
+        obj = [btnSpecObj, skillRowObj]
         text = ::loc("tutorials/upg_crew/spec1")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"

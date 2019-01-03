@@ -162,7 +162,7 @@ class ::gui_handlers.MRoomMembersWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     local player = playersListWidgetWeak.getSelectedPlayer()
     local pos = playersListWidgetWeak.getSelectedRowPos()
-    ::session_player_rmenu(this, player, "", pos)
+    ::session_player_rmenu(this, player, null, pos)
   }
 
   function onUpdate(obj, dt)

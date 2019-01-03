@@ -1,7 +1,9 @@
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+local controlsOperations = require("scripts/controls/controlsOperations.nut")
 local stdMath = require("math")
 local globalEnv = require_native("globalEnv")
 local controllerState = require_native("controllerState")
+local time = require("scripts/time.nut")
 
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
@@ -58,6 +60,24 @@ enum ConflictGroups {
       ::g_unit_class_type.ASSAULT
     ]
     isHelpersVisible = true }
+  { id = "ID_PLANE_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
+    showFunc = @() ::is_xinput_device()
+  }
+    { id = "ID_PLANE_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.AIR,
+        controlsOperations.Flags.WITHOUT_MODIFIERS)
+      showFunc = @() ::is_xinput_device()
+    }
+    { id = "ID_PLANE_SWAP_GAMEPAD_STICKS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.AIR)
+      showFunc = @() ::is_xinput_device()
+    }
   { id = "ID_PLANE_MODE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="mouse_usage", type = CONTROL_TYPE.SPINNER
       optionType = ::USEROPT_MOUSE_USAGE
@@ -452,12 +472,29 @@ enum ConflictGroups {
     { id="ID_TOGGLE_6_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="ID_ENABLE_ALL_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
 
-
   { id = "ID_HELICOPTER_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.HELICOPTER
     isHelpersVisible = true
   }
+  { id = "ID_HELICOPTER_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
+    showFunc = @() ::is_xinput_device()
+  }
+    { id = "ID_HELICOPTER_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.HELICOPTER,
+        controlsOperations.Flags.WITHOUT_MODIFIERS)
+      showFunc = @() ::is_xinput_device()
+    }
+    { id = "ID_HELICOPTER_SWAP_GAMEPAD_STICKS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.HELICOPTER)
+      showFunc = @() ::is_xinput_device()
+    }
   { id = "ID_HELICOPTER_MODE_HEADER"
     type = CONTROL_TYPE.SECTION
   }
@@ -769,12 +806,29 @@ enum ConflictGroups {
       filterShow = [globalEnv.EM_FULL_REAL]
     }
 
-
   { id = "ID_TANK_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.TANK
     showFunc = @() ::has_feature("Tanks")
   }
+  { id = "ID_TANK_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
+    showFunc = @() ::is_xinput_device()
+  }
+    { id = "ID_TANK_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.TANK,
+        controlsOperations.Flags.WITHOUT_MODIFIERS)
+      showFunc = @() ::is_xinput_device()
+    }
+    { id = "ID_TANK_SWAP_GAMEPAD_STICKS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.TANK)
+      showFunc = @() ::is_xinput_device()
+    }
   { id = "ID_TANK_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="gm_automatic_transmission",
       type = CONTROL_TYPE.SWITCH_BOX
@@ -939,11 +993,28 @@ enum ConflictGroups {
       checkAssign = false
     }
 
-
   { id = "ID_SHIP_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.SHIP
   }
+  { id = "ID_SHIP_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
+    showFunc = @() ::is_xinput_device()
+  }
+    { id = "ID_SHIP_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.SHIP,
+        controlsOperations.Flags.WITHOUT_MODIFIERS)
+      showFunc = @() ::is_xinput_device()
+    }
+    { id = "ID_SHIP_SWAP_GAMEPAD_STICKS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.SHIP)
+      showFunc = @() ::is_xinput_device()
+    }
   { id = "ID_SHIP_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "ship_seperated_engine_control",
       type = CONTROL_TYPE.SWITCH_BOX
@@ -1199,6 +1270,24 @@ enum ConflictGroups {
     unitTag = "submarine"
     showFunc = @() ::has_feature("SpecialShips") || ::is_submarine(::get_player_cur_unit())
   }
+  { id = "ID_SUBMARINE_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
+    showFunc = @() ::is_xinput_device()
+  }
+    { id = "ID_SUBMARINE_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.SUBMARINE,
+        controlsOperations.Flags.WITHOUT_MODIFIERS)
+      showFunc = @() ::is_xinput_device()
+    }
+    { id = "ID_SUBMARINE_SWAP_GAMEPAD_STICKS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.SUBMARINE)
+      showFunc = @() ::is_xinput_device()
+    }
   { id = "ID_SUBMARINE_MOVE_HEADER"
     type = CONTROL_TYPE.SECTION
   }
@@ -1324,8 +1413,25 @@ enum ConflictGroups {
       checkAssign = false
     }
 
-
   { id = "ID_COMMON_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
+  { id = "ID_COMMON_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
+    showFunc = @() ::is_xinput_device()
+  }
+    { id = "ID_COMMON_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.ONLY_COMMON | ctrlGroups.HANGAR | ctrlGroups.REPLAY,
+        controlsOperations.Flags.WITHOUT_MODIFIERS)
+      showFunc = @() ::is_xinput_device()
+    }
+    { id = "ID_COMMON_SWAP_GAMEPAD_STICKS"
+      type = CONTROL_TYPE.BUTTON,
+      onClick = @() controlsOperations.swapGamepadSticks(
+        ::shortcutsList,
+        ctrlGroups.ONLY_COMMON | ctrlGroups.HANGAR | ctrlGroups.REPLAY)
+      showFunc = @() ::is_xinput_device()
+    }
   { id = "ID_COMMON_BASIC_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TACTICAL_MAP",      checkGroup = ctrlGroups.COMMON }
     { id="ID_MPSTATSCREEN",      checkGroup = ctrlGroups.COMMON }
@@ -1533,7 +1639,6 @@ enum ConflictGroups {
       showFunc = @() checkOptionValue("headtrack_enable", true)
       optionType = ::USEROPT_HEADTRACK_SCALE_Y
     }
-
 
   { id = "ID_REPLAY_CONTROL_HEADER", type = CONTROL_TYPE.HEADER,
     showFunc = @() ::has_feature("Replays") || ::has_feature("Spectator")
@@ -2218,6 +2323,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   filledControlGroupTab = null
 
   updateButtonsHandler = null
+  optionTableId = "controls_tbl"
 
   function getMainFocusObj()
   {
@@ -2231,7 +2337,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getMainFocusObj3()
   {
-    return "controls_tbl"
+    return optionTableId
   }
 
   function initScreen()
@@ -2413,7 +2519,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local isImportExportAllowed = !isTutorial
       && (isScriptOpenFileDialogAllowed() || ::is_platform_windows)
 
-    showSceneBtn("btn_controlsHelp", ::is_platform_pc)
+    showSceneBtn("btn_controlsHelp", !::show_console_buttons)
+    showSceneBtn("btn_controlsHelp_gamepad", ::show_console_buttons)
     showSceneBtn("btn_exportToFile", isImportExportAllowed)
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
     showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
@@ -2517,10 +2624,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
     if (isGroupChanged)
     {
-      local controlTblObj = scene.findObject("controls_tbl")
+      local controlTblObj = scene.findObject(optionTableId)
       if (::checkObj(controlTblObj))
         controlTblObj.setValue(::getNearestSelectableChildIndex(controlTblObj, -1, 1))
-      updateButtonsChangeValue()
+      onTblChangeFocus()
     }
   }
 
@@ -2573,14 +2680,14 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       break
     }
 
-    local controlTblObj = scene.findObject("controls_tbl");
+    local controlTblObj = scene.findObject(optionTableId);
     if (::checkObj(controlTblObj))
       guiScene.replaceContentFromText(controlTblObj, data, data.len(), this);
     showSceneBtn("helpers_mode", isHelpersVisible)
     if (navigationHandlerWeak)
     {
       navigationHandlerWeak.setNavItems(navigationItems)
-      updateButtonsChangeValue()
+      onTblChangeFocus()
     }
     updateSceneOptions()
     optionsFilterApply()
@@ -2786,7 +2893,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getCurItem()
   {
-    local objTbl = scene.findObject("controls_tbl")
+    local objTbl = scene.findObject(optionTableId)
     if (!::check_obj(objTbl))
       return null
 
@@ -2920,7 +3027,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function selectRowByRowIdx(idx)
   {
-    local controlTblObj = scene.findObject("controls_tbl")
+    local controlTblObj = scene.findObject(optionTableId)
     if (!::checkObj(controlTblObj) || idx < 0)
       return
 
@@ -2992,7 +3099,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   function optionsFilterApply()
   {
     updateHidden()
-    local mainTbl = scene.findObject("controls_tbl")
+    local mainTbl = scene.findObject(optionTableId)
     if (!::checkObj(mainTbl))
       return
 
@@ -3124,9 +3231,40 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     })(item))
   }
 
+  function onWrapUp(obj)
+  {
+    base.onWrapUp(obj)
+    onTblChangeFocus()
+  }
+
+  function onWrapDown(obj)
+  {
+    base.onWrapDown(obj)
+    onTblChangeFocus()
+  }
+
   function onTblSelect()
   {
     updateButtonsChangeValue()
+  }
+
+  function onTblChangeFocus()
+  {
+    guiScene.performDelayed(this,
+      function () {
+        if (isValid())
+          updateButtonsChangeValue()
+      }
+    )
+  }
+
+  function isCurrentRowSelected()
+  {
+    local tableObj = scene.findObject(optionTableId)
+    local tableValue = tableObj.getValue()
+    local rowObj = tableObj.getChild(tableValue)
+
+    return rowObj.selected == "yes"
   }
 
   function updateButtonsChangeValue()
@@ -3135,17 +3273,22 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (!item)
       return
 
-    local showScReset = item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT
-    local showAxisReset = item.type == CONTROL_TYPE.AXIS
+    local isItemRowSelected = isCurrentRowSelected()
+    local showScReset = isItemRowSelected &&
+      (item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT)
+    local showAxisReset = isItemRowSelected && item.type == CONTROL_TYPE.AXIS
+    local showPerform = isItemRowSelected && item.type == CONTROL_TYPE.BUTTON
 
     local btnA = scene.findObject("btn_assign")
-    if (::checkObj(btnA))
+    if (::check_obj(btnA))
     {
       local btnText = ""
       if (showAxisReset)
         btnText = ::loc("mainmenu/btnEditAxis")
       else if (showScReset)
         btnText = ::loc("mainmenu/btnAssign")
+      else if (showPerform)
+        btnText = ::loc("mainmenu/btnPerformAction")
 
       btnA.show(btnText != "")
       btnA.setValue(btnText)
@@ -3166,6 +3309,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       openAxisBox(item)
     else if (item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT)
       openShortcutInputBox()
+    else if (item.type == CONTROL_TYPE.BUTTON)
+      doItemAction(item)
   }
 
   function openShortcutInputBox()
@@ -3482,6 +3627,18 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         updateSliderValue(item)
   }
 
+  function onActionButtonClick(obj) {
+    selectRowByControlObj(obj)
+    local item = ::shortcuts_map[obj.id]
+    doItemAction(item)
+  }
+
+  function doItemAction(item) {
+    saveShortcutsAndAxes()
+    if (item.onClick())
+      doControlsGroupChangeDelayed()
+  }
+
   function doApplyJoystick()
   {
     if (curJoyParams == null)
@@ -3551,8 +3708,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       return
 
     applyApproved = true
-    ::set_shortcuts(shortcuts, shortcutNames)
-    doApplyJoystick()
+    saveShortcutsAndAxes()
     save(false)
     backAfterSave = true
   }
@@ -3715,11 +3871,15 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     ::gui_modal_controlsWizard()
   }
 
-  function updateCurPresetForExport()
+  function saveShortcutsAndAxes()
   {
     ::set_shortcuts(shortcuts, shortcutNames)
     doApplyJoystick()
+  }
 
+  function updateCurPresetForExport()
+  {
+    saveShortcutsAndAxes()
     ::g_controls_manager.clearGuiOptions()
     local curPreset = ::g_controls_manager.getCurPreset()
     local mainOptionsMode = ::get_gui_options_mode()
@@ -3972,6 +4132,15 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
       sel = 0
     elemTxt = ::create_option_list(item.id, options, sel, callBack, true)
   }
+  else if (item.type == CONTROL_TYPE.BUTTON)
+  {
+    elemIdTxt = "";
+    elemTxt = ::handyman.renderCached("gui/commonParts/button", {
+      id = item.id
+      text = "#controls/" + item.id
+      funcName = "onActionButtonClick"
+    })
+  }
   else
   {
     res = "tr { display:t='hide'; td {} td { tdiv{} } }"
@@ -3981,10 +4150,10 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
   if (elemTxt!="")
   {
     res = ::format("tr { css-hier-invalidate:t='all'; width:t='pw'; %s " +
-                   "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext { text:t ='#%s'; }} " +
+                   "td { width:t='@controlsLeftRow'; overflow:t='hidden'; optiontext { text:t ='%s'; }} " +
                    "td { width:t='pw-1@controlsLeftRow'; cellType:t='right'; padding-left:t='@optPad'; %s } " +
                  "}\n",
-                 trAdd, elemIdTxt, elemTxt)
+                 trAdd, elemIdTxt != "" ? "#" + elemIdTxt : "", elemTxt)
     hotkeyData.text = ::english_russian_to_lower_case(::loc(elemIdTxt))
     hotkeyData.markup = res
   }
@@ -5093,24 +5262,37 @@ function ask_hotas_preset_change()
     return
   }
 
-  local questionText =
+  local questionLocId =
     ::is_platform_ps4 ? "msgbox/controller_hotas4_found" :
     ::is_platform_xboxone ? "msgbox/controller_hotas_one_found" :
     ::unreachable()
 
-  ::scene_msg_box("change_preset_hotas", null,
-    ::loc(questionText),
-    [
-      ["ok", function() {
-        local presetName =
-          ::is_platform_ps4 ? "thrustmaster_hotas4" :
-          ::is_platform_xboxone ? "xboxone_thrustmaster_hotas_one" :
-          ::unreachable()
-        ::apply_joy_preset_xchange(::g_controls_presets.getControlsPresetFilename(presetName))
+  local mainAction = function() {
+    local presetName =
+      ::is_platform_ps4 ? "thrustmaster_hotas4" :
+      ::is_platform_xboxone ? "xboxone_thrustmaster_hotas_one" :
+      ::unreachable()
+    ::apply_joy_preset_xchange(::g_controls_presets.getControlsPresetFilename(presetName))
+    ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
+  }
+
+  ::g_popups.add(
+    null,
+    ::loc(questionLocId),
+    mainAction,
+    [{
+      id = "yes",
+      text = ::loc("msgbox/btn_yes"),
+      func = mainAction
+    },
+    { id = "no",
+      text = ::loc("msgbox/btn_no"),
+      func = function() {
         ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
-      }],
-      ["cancel", function() {
-        ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
-      }]
-    ], "ok")
+      }
+    }],
+    null,
+    null,
+    time.secondsToMilliseconds(time.minutesToSeconds(10))
+  )
 }

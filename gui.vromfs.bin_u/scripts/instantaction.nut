@@ -278,6 +278,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     newGameModeIconWidget.setValue(::game_mode_manager.getUnseenGameModeCount())
   }
 
+  function goToBattleFromDebriefing()
+  {
+    determineAndStartAction(true)
+  }
+
   function onEventShowingGameModesUpdated(params)
   {
     updateUnseenGameModesCounter()

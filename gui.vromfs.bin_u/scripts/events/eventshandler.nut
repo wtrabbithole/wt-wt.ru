@@ -154,6 +154,11 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     joinEvent()
   }
 
+  function goToBattleFromDebriefing()
+  {
+    joinEvent(true)
+  }
+
   function joinEvent(isFromDebriefing = false)
   {
     local event = ::events.getEvent(curEventId)

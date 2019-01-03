@@ -185,6 +185,7 @@ contactItem {
 buttonPlayer {
   tooltip:t='<<tooltip>>';
   on_click:t='<<callback>>';
+  isButton:t='yes'
   btnText {
     text:t='<<name>>';
   }

@@ -53,7 +53,20 @@ tdiv {
       }
     }
 
+    text {
+      id:t='alert_text'
+      width:t='pw'
+      padding:t='0, 1@framePadding'
+      margin-bottom:t='1@dp'
+      background-color:t='@objectiveHeaderBackground'
+      smallFont:t='yes'
+      text-align:t='center'
+      text:t='#worldwar/airfield/not_enough_units_to_send'
+      overlayTextColor:t='warning'
+    }
+
     tdiv {
+      id:t='control_help'
       width:t='pw'
       background-color:t='@objectiveHeaderBackground'
 

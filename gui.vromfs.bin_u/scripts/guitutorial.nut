@@ -280,7 +280,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
 
   function onNext()
   {
-    if (stepIdx >= config.len() - 1)
+    if (stepIdx >= config.len() - 1 || !owner.isValid())
       return finalizeTutorial()
 
     canceled = false

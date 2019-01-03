@@ -1,7 +1,9 @@
 <<#rows>>
 tr {
   td {
-    hr { class:t='bottom' }
+    highlight {}
+    hr {}
+
     <<#iconLeft>>
     icon {
       ButtonContainer { ButtonImg {} }

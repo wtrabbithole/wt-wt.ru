@@ -48,4 +48,5 @@ class ::gui_handlers.ItemsListWndBase extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onActivate() {}
+  function onButtonMax() {}
 }

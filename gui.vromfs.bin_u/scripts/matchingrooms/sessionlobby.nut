@@ -201,7 +201,7 @@ function notify_session_start()
     "spectator", "isReady", "isInLobbySession", "team", "countryData", "myState",
     "isSpectatorSelectLocked", "crsSetTeamTo", "curEdiff",
     "needJoinSessionAfterMyInfoApply", "isLeavingLobbySession", "_syncedMyInfo",
-    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName"
+    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName", "lastEventName"
   ]
 
   settings = {}
@@ -212,6 +212,7 @@ function notify_session_start()
   isRoomByQueue = false
   isEventRoom = false
   roomId = INVALID_ROOM_ID
+  lastEventName = ""
   roomUpdated = false
   password = ""
 
@@ -874,7 +875,10 @@ function SessionLobby::switchStatus(_status)
       ::destroy_session_scripted()
   }
   if (status == lobbyStates.JOINING_SESSION)
+  {
     ::add_squad_to_contacts()
+    lastEventName = getRoomEvent()?.name ?? ""
+  }
   updateMyState()
 
   ::broadcastEvent("LobbyStatusChange")

@@ -553,6 +553,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local hasFeatureTanks = ::has_feature("Tanks")
 
     local currentUnit = ::get_player_cur_unit()
+    if (isContentMission && (!currentUnit || currentUnit.name == "dummy_plane"))
+      currentUnit = ::show_aircraft
 
     pageUnitType = currentUnit ? currentUnit.unitType : ::g_unit_type.AIRCRAFT
     if ((pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks))

@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 
 enum BATTLE_LOG_FILTER
 {
@@ -23,6 +23,7 @@ enum BATTLE_LOG_FILTER
 
   supportedMsgTypes = [
     ::HUD_MSG_MULTIPLAYER_DMG
+    ::HUD_MSG_STREAK_EX
     ::HUD_MSG_STREAK
   ]
 
@@ -220,7 +221,13 @@ enum BATTLE_LOG_FILTER
         local text = msgMultiplayerDmgToText(msg)
         message = timestamp + ::colorize("userlogColoredText", text)
         break
-      case ::HUD_MSG_STREAK: // Any player got streak
+      case ::HUD_MSG_STREAK_EX: // Any player got streak
+        local text = msgStreakToText(msg)
+        message = timestamp + ::colorize("streakTextColor", ::loc("unlocks/streak") + ::loc("ui/colon") + text)
+        break
+      case ::HUD_MSG_STREAK: // Any player got streak (deprecated)
+        if (::HUD_MSG_STREAK_EX > 0) // compatibility
+          return
         local text = msgEscapeCodesToCssColors(msg.text)
         message = timestamp + ::colorize("streakTextColor", ::loc("unlocks/streak") + ::loc("ui/colon") + text)
         break
@@ -273,6 +280,11 @@ enum BATTLE_LOG_FILTER
   function getUnitNameEx(playerId, unitNameLoc = "", teamId = 0)
   {
     local player = ::get_mplayer_by_id(playerId)
+    if (player && ::is_replay_playing())
+    {
+      player.isLocal = spectatorWatchedHero.id == player.id
+      player.isInHeroSquad = ::SessionLobby.isEqualSquadId(spectatorWatchedHero.squadId, player?.squadId)
+    }
     return player ? ::build_mplayer_name(player, true, true, true, unitNameLoc) : // Player
       ::colorize(::get_team_color(teamId), unitNameLoc) // AI
   }
@@ -329,6 +341,16 @@ enum BATTLE_LOG_FILTER
     local isCrash = msgAction == "crash" || msgAction == "exit"
     local sequence = isCrash ? [whom, what] : [who, what, whom]
     return ::g_string.implode(sequence, " ")
+  }
+
+  function msgStreakToText(msg, forceThirdPerson = false)
+  {
+    local playerId = msg?.playerId ?? -1
+    local localPlayerId = ::is_replay_playing() ? spectatorWatchedHero.id : ::get_local_mplayer().id
+    local isLocal = !forceThirdPerson && playerId == localPlayerId
+    local streakNameType = isLocal ? ::SNT_MY_STREAK_HEADER : :: SNT_OTHER_STREAK_TEXT
+    local what = ::get_loc_for_streak(streakNameType, msg?.unlockId ?? "", msg?.stage ?? 0)
+    return isLocal ? what : ::format("%s %s", getUnitNameEx(playerId), what)
   }
 
   function msgEscapeCodesToCssColors(sequence)

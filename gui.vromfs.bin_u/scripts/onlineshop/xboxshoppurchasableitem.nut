@@ -47,9 +47,9 @@ local XboxShopPurchasableItem = class
     currencyCode = blk.CurrencyCode || ""
 
     isPurchasable = blk.IsPurchasable || false
-    isBought = blk.isBought || false
     isBundle = blk.IsBundle || false
     isPartOfAnyBundle = blk.IsPartOfAnyBundle || false
+    isBought = blk.isBought || false
 
     consumableQuantity = blk.ConsumableQuantity || 0
     signedOffer = blk.SignedOffer || ""
@@ -63,7 +63,8 @@ local XboxShopPurchasableItem = class
       imagePath = "!" + ingameShopImages.mainPart + id + ingameShopImages.fileExtension
   }
 
-  getPriceText = @() price == 0? ::loc("shop/free") : priceText
+  getPriceText = @() price == 0? ::loc("shop/free") : (price + " " + currencyCode)
+  updateIsBoughtStatus = @() isBought = isMultiConsumable? false : ::xbox_is_item_bought(id)
 
   getViewData = @(params = {}) {
     isAllBought = isBought

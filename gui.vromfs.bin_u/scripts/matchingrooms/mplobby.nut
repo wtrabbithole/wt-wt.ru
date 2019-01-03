@@ -287,7 +287,7 @@ enum SessionStatus
   TOO_FEW_B
 }
 
-function session_player_rmenu(handler, player, chatText = "", position = null, orientation = null)
+function session_player_rmenu(handler, player, chatLog = null, position = null, orientation = null)
 {
   if (!player || player.isBot || !("userId" in player) || !::g_login.isLoggedIn())
     return
@@ -298,7 +298,7 @@ function session_player_rmenu(handler, player, chatText = "", position = null, o
     clanTag = player.clanTag
     position = position
     orientation = orientation
-    chatLog = chatText
+    chatLog = chatLog
     isMPLobby = true
     canComplain = true
   })
@@ -682,16 +682,17 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
       ::SessionLobby.kickPlayer(player)
   }
 
-  function getLogText()
+  function getChatLog()
   {
-    return "" //!!FIX ME
+    local chatRoom = ::g_chat.getRoomById(::SessionLobby.getChatRoomId())
+    return chatRoom!= null ? chatRoom.getLogForBanhammer() : null
   }
 
   function onComplain(obj)
   {
     local player = getSelectedPlayer()
     if (player && !player.isBot && !player.isLocal)
-      ::gui_modal_complain({uid = player.userId, name = player.name }, getLogText())
+      ::gui_modal_complain({uid = player.userId, name = player.name }, getChatLog())
   }
 
   function openUserCard(player)
@@ -707,13 +708,13 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserRClick(player)
   {
-    session_player_rmenu(this, player, getLogText())
+    session_player_rmenu(this, player, getChatLog())
   }
 
   function onUserOption(obj)
   {
     local pos = playersListWidgetWeak && playersListWidgetWeak.getSelectedRowPos()
-    session_player_rmenu(this, getSelectedPlayer(), getLogText(), pos)
+    session_player_rmenu(this, getSelectedPlayer(), getChatLog(), pos)
   }
 
   function onSessionSettings()

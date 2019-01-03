@@ -1616,7 +1616,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     onClick(selectedTableObj)
     local selectedPlayer = getSelectedPlayer()
     local orientation = selectedTableObj.id == "table_kills_team1"? RCLICK_MENU_ORIENT.RIGHT : RCLICK_MENU_ORIENT.LEFT
-    ::session_player_rmenu(this, selectedPlayer, "", getSelectedRowPos(selectedTableObj, orientation), orientation)
+    ::session_player_rmenu(this, selectedPlayer, null, getSelectedRowPos(selectedTableObj, orientation), orientation)
   }
 
   function getSelectedRowPos(selectedTableObj, orientation)
