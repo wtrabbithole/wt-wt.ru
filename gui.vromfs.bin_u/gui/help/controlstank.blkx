@@ -24,50 +24,57 @@
             "position": "absolute"
           },
           {
-            "controlsHelpText": {
-              "text": "#HUD/GEAR_SHORT"
-            }
+            "tdiv": [
+              {
+                "flow": "vertical"
+              },
+              {
+                "controlsHelpText": {
+                  "text": "#HUD/GEAR_SHORT"
+                }
+              },
+              {
+                "controlsHelpText": {
+                  "text": "#HUD/RPM_SHORT"
+                }
+              },
+              {
+                "controlsHelpText": {
+                  "text": "#HUD/REAL_SPEED_SHORT"
+                }
+              }
+            ]
           },
           {
-            "controlsHelpText": {
-              "text": "4",
-              "padding-right": "5",
-              "id": "gear_value"
-            }
-          },
-          {
-            "_newline": {
-              "size": "0"
-            }
-          },
-          {
-            "controlsHelpText": {
-              "text": "#HUD/RPM_SHORT"
-            }
-          },
-          {
-            "controlsHelpText": {
-              "text": "2500",
-              "padding-right": "5",
-              "id": "rpm_value"
-            }
-          },
-          {
-            "_newline": {
-              "size": "0"
-            }
-          },
-          {
-            "controlsHelpText": {
-              "text": "#HUD/REAL_SPEED_SHORT"
-            }
-          },
-          {
-            "controlsHelpText": {
-              "text": "13km/h",
-              "padding-right": "5",
-              "id": "real_speed_value"
-            }
+            "tdiv": [
+              {
+                "flow": "vertical"
+              },
+              {
+                "padding-left": "10@sf/@pf"
+              },
+              {
+                "controlsHelpText": {
+                  "text": "4",
+                  "padding-right": "5@sf/@pf",
+                  "id": "gear_value"
+                }
+              },
+              {
+                "controlsHelpText": {
+                  "text": "2500",
+                  "padding-right": "5@sf/@pf",
+                  "id": "rpm_value"
+                }
+              },
+              {
+                "controlsHelpText": {
+                  "text": "13km/h",
+                  "padding-right": "5@sf/@pf",
+                  "id": "real_speed_value"
+                }
+              }
+            ]
           }
         ]
       },

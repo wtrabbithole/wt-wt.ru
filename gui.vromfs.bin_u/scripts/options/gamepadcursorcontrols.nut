@@ -102,7 +102,10 @@ const GAMEPAD_CURSOR_CONTROL_SPEED_DEFAULT = 100
   function onEventProfileUpdated(p)
   {
     if (!::g_login.isLoggedIn())
+    {
       setValue(getValue())
+      setSpeed(getSpeed())
+    }
     else if (isPaused)
       pause(false)
   }

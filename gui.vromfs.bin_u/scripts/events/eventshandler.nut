@@ -274,9 +274,10 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenClusterSelect(obj)
   {
-    checkQueue((@(obj) function () {
-      ::gui_handlers.ClusterSelect.open(obj, "bottom")
-    })(obj))
+    ::queues.checkAndStart(
+      ::Callback(@() ::gui_handlers.ClusterSelect.open(obj, "bottom"), this),
+      null,
+      "isCanChangeCluster")
   }
 
   function onEventEventsDataUpdated(params)

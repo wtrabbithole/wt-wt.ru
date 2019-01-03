@@ -245,6 +245,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         local isUnlocked = ::isUnitUnlocked(this, unit, c, crewIdInCountry, country, true)
         local status = bit_unit_status.owned
         local isUnitForcedVisible = missionRules && missionRules.isUnitForcedVisible(unitName)
+        local isUnitForcedHiden = missionRules && missionRules.isUnitForcedHiden(unitName)
         if (unit)
         {
           if (!isUnlocked)
@@ -262,7 +263,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         }
 
         local isAllowedByLockedSlots = isUnitForcedVisible || needShowLockedSlots || status == bit_unit_status.owned
-        if (unit && (!isAllowedByLockedSlots || !isUnitEnabledByRandomGroups))
+        if (unit && (!isAllowedByLockedSlots || !isUnitEnabledByRandomGroups || isUnitForcedHiden))
           continue
 
         addCrewData(countryData.crews,

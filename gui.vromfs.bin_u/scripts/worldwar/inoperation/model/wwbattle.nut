@@ -837,20 +837,20 @@ class ::WwBattle
     return playersNumber
   }
 
-  function getExcessPlayersSide()
+  function getExcessPlayersSide(side, joinPlayersCount)
   {
     if (!isConfirmed())
       return ::SIDE_NONE
 
-    local team1Players = getTeamBySide(::SIDE_1)?.players ?? 0
-    local team2Players = getTeamBySide(::SIDE_2)?.players ?? 0
-    local maxPlayersDisbalance = ::g_world_war.getSetting(
-      "maxBattlePlayersDisbalance", WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
+    local side1Players = getTeamBySide(::SIDE_1)?.players ?? 0
+    local side2Players = getTeamBySide(::SIDE_2)?.players ?? 0
+    side1Players += (side == ::SIDE_1) ? joinPlayersCount : 0
+    side2Players += (side == ::SIDE_2) ? joinPlayersCount : 0
 
-    if (::abs(team1Players - team2Players) <= maxPlayersDisbalance)
+    if (::abs(side1Players - side2Players) <= getMaxPlayersDisbalance())
       return ::SIDE_NONE
 
-    return team1Players > team2Players ? ::SIDE_1 : ::SIDE_2
+    return side1Players > side2Players ? ::SIDE_1 : ::SIDE_2
   }
 
   function getPlayersInQueueByTeamName(queue, teamName)
@@ -867,19 +867,26 @@ class ::WwBattle
     return count
   }
 
+  function getMaxPlayersDisbalance()
+  {
+    return ::g_world_war.getSetting("maxBattlePlayersDisbalance",
+      WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
+  }
+
   function isLockedByExcessPlayers(side, teamName)
   {
     if (getMyAssignCountry())
       return false
 
-    local excessPlayersSide = getExcessPlayersSide()
+    local joinPlayersCount = ::g_squad_manager.getOnlineMembersCount()
+    local excessPlayersSide = getExcessPlayersSide(side, joinPlayersCount)
     if (excessPlayersSide != ::SIDE_NONE && excessPlayersSide == side)
       return true
 
-    return isQueueExcessPlayersInTeam(teamName)
+    return isQueueExcessPlayersInTeam(teamName, joinPlayersCount)
   }
 
-  function isQueueExcessPlayersInTeam(teamName)
+  function isQueueExcessPlayersInTeam(teamName, joinPlayersCount)
   {
     local queue = wwQueuesData.getData()?[id]
     if (!queue)
@@ -887,10 +894,10 @@ class ::WwBattle
 
     local teamACount = getPlayersInQueueByTeamName(queue, "teamA")
     local teamBCount = getPlayersInQueueByTeamName(queue, "teamB")
-    local maxPlayersDisbalance = ::g_world_war.getSetting(
-      "maxBattlePlayersDisbalance", WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
+    teamACount += (teamName == "teamA") ? joinPlayersCount : 0
+    teamBCount += (teamName == "teamB") ? joinPlayersCount : 0
 
-    if (::abs(teamACount - teamBCount) <= maxPlayersDisbalance)
+    if (::abs(teamACount - teamBCount) <= getMaxPlayersDisbalance())
       return false
 
     return (teamACount > teamBCount ? "teamA" : "teamB") == teamName

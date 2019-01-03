@@ -253,45 +253,51 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "main_gun_target_point", start = "main_gun_tube_label"}
         ]
       }
-      actionBarItems = [
+      actionBars = [
         {
-          type = ::EII_BULLET
-          active = true
-          id = "ammo_1"
-          selected = true
-          icon = "#ui/gameuiskin#apcbc_tank"
-        },
-        {
-          type = ::EII_BULLET
-          id = "ammo_2"
-          icon = "#ui/gameuiskin#he_frag_tank"
-        },
-        {
-          type = ::EII_SCOUT
-          id = "scout"
-        },
-        {
-          type = ::EII_ARTILLERY_TARGET
-          id = "artillery"
-        },
-        {
-          type = ::EII_SMOKE_GRENADE
-          id = "smoke_grenade"
-        },
-        {
-          type = ::EII_SMOKE_SCREEN
-          id = "smoke_screen"
-        },
-        {
-          type = ::EII_MEDICALKIT
-          id = "medicalkit"
+          nest  = "action_bar_place"
+          unitId = "ussr_t_34_85_zis_53"
+          items = [
+            {
+              type = ::EII_BULLET
+              active = true
+              id = "ammo_1"
+              selected = true
+              icon = "#ui/gameuiskin#apcbc_tank"
+            }
+            {
+              type = ::EII_BULLET
+              id = "ammo_2"
+              icon = "#ui/gameuiskin#he_frag_tank"
+            }
+            {
+              type = ::EII_SCOUT
+              id = "scout"
+            }
+            {
+              type = ::EII_ARTILLERY_TARGET
+              id = "artillery"
+            }
+            {
+              type = ::EII_SMOKE_GRENADE
+              id = "smoke_grenade"
+            }
+            {
+              type = ::EII_SMOKE_SCREEN
+              id = "smoke_screen"
+            }
+            {
+              type = ::EII_MEDICALKIT
+              id = "medicalkit"
+            }
+          ]
         }
       ]
     },
 
     [help_tab_types.IMAGE_SHIP] = {
        defaultValues = {
-        country = "ussr"
+        country = "usa"
       }
       title = "#hotkeys/ID_COMMON_CONTROL_HEADER"
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
@@ -302,35 +308,75 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitTag = null
       pageBlkName = "gui/help/controlsShip.blk"
       imagePattern = "#ui/images/country_%s_ship_controls_help.jpg?P1"
-      hasImageByCountries = ["ussr"]
+      hasImageByCountries = [ "usa" ]
       countryRelatedObjs = {
-        ussr = [
+        usa = [
         ]
       }
       linkLines = {
         links = [
-          {end = "turn_right_target_point", start = "turn_right_label"}
-          {end = "turn_left_target_point", start = "turn_left_frame"}
-          {end = "real_speed_value", start = "base_hud_param_label"}
-          {end = "hdg_value", start = "base_hud_param_label"}
-          {end = "gear_value", start = "base_hud_param_label"}
-          {end = "buoyancy_value", start = "base_hud_param_label"}
-          {end = "torpedo_value_1", start = "torpedo_hud_param_label"}
-          {end = "torpedo_value_2", start = "torpedo_hud_param_label"}
-          {end = "throttle_target_point", start = "throttle_label"}
-          {end = "backward_target_point", start = "backward_label"}
-          {end = "cannon_markers_point_0", start = "cannon_markers_label"}
-          {end = "cursor_control_point", start = "CURSOR_controls_frame"}
-          {end = "torpedo_trajectory_point_0", start = "torpedo_trajectory_label"}
-          {end = "torpedo_trajectory_point_1", start = "torpedo_trajectory_label"}
-          {end = "rocket_trajectory_point_0", start = "rocket_trajectory_label"}
-          {end = "bombs_info_point_1", start = "bombs_info_label"}
-          {end = "bombs_info_point_0", start = "bombs_info_label"}
-          {end = "bomb_value_1", start = "rocket_hud_param_label"}
-          {end = "rocket_value_1", start = "rocket_hud_param_label"}
-          {end = "rocket_value_2", start = "rocket_hud_param_label"}
+          { start = "throttle_label", end = "throttle_target_point" }
+          { start = "backward_label", end = "backward_target_point" }
+          { start = "turn_right_label", end = "turn_right_target_point" }
+          { start = "turn_left_frame",  end = "turn_left_target_point" }
+          { start = "weapon_markers_frame", end = "weapon_markers_1_point" }
+          { start = "weapon_markers_frame", end = "weapon_markers_2_point" }
+          { start = "CURSOR_controls_frame", end = "cursor_control_point" }
+          { start = "crew_count_label", end = "crew_count_point" }
+          { start = "ab_extinguisher_label", end = "ab_extinguisher_target_point" }
+          { start = "ab_repair_label",       end = "ab_repair_target_point" }
+          { start = "ab_breaches_label",     end = "ab_breaches_target_point" }
+          { start = "ab_rocket_label",       end = "ab_rocket_target_point" }
+          { start = "ab_depth_charge_label", end = "ab_depth_charge_target_point" }
+          { start = "ab_torpedo_label",      end = "ab_torpedo_target_point" }
+          { start = "torpedo_trail_label", end = "torpedo_trail_point" }
+          { start = "torpedo_sight_label", end = "torpedo_sight_point" }
+          { start = "torpedo_projection_label", end = "torpedo_projection_point" }
+          { start = "manual_target_1_label", end = "manual_target_1_point" }
+          { start = "manual_target_2_label", end = "manual_target_2_point" }
+          { start = "manual_target_3_label", end = "manual_target_3_point" }
+          { start = "ai_shooting_modes_frame", end = "ai_shooting_modes_point" }
        ]
       }
+
+      actionBars = [
+        {
+          nest  = "action_bar_actions"
+          unitId = "us_elco_80ft_pt_boat_mod01"
+          items = [
+            {
+              type = ::EII_EXTINGUISHER
+              id = "ab_extinguisher"
+            }
+            {
+              type = ::EII_TOOLKIT
+              id = "ab_repair"
+            }
+            {
+              type = ::EII_REPAIR_BREACHES
+              id = "ab_breaches"
+            }
+          ]
+        }
+        {
+          nest  = "action_bar_weapons"
+          unitId = "us_elco_80ft_pt_boat_mod01"
+          items = [
+            {
+              type = ::EII_ROCKET
+              id = "ab_rocket"
+            }
+            {
+              type = ::EII_DEPTH_CHARGE
+              id = "ab_depth_charge"
+            }
+            {
+              type = ::EII_TORPEDO
+              id = "ab_torpedo"
+            }
+          ]
+        }
+      ]
     },
 
     [help_tab_types.IMAGE_HELICOPTER] = {
@@ -779,7 +825,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local selectedCountry = ::get_profile_country_sq().slice(8)
       selectedCountry = (selectedCountry in countryRelatedObjs) ? selectedCountry : tab.defaultValues.country
-      local selectedCountryConfig = countryRelatedObjs[selectedCountry]
+      local selectedCountryConfig = countryRelatedObjs?[selectedCountry] ?? []
       foreach(key, countryConfig in countryRelatedObjs)
         foreach (idx, value in countryConfig)
         {
@@ -831,7 +877,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
                      : tab.defaultValues.country
 
     backImg["background-image"] = ::format(::getTblValue("imagePattern", tab, ""), curCountry)
-    fillActionBar(tab)
+    fillActionBars(tab)
     updatePlatformControls()
   }
 
@@ -1334,25 +1380,28 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function fillActionBar(tab)
+  function fillActionBars(tab)
   {
-    local actionBarItems = tab?.actionBarItems
-    if (!actionBarItems || actionBarItems.len() <= 0)
-      return
+    foreach (actionBar in (tab?.actionBars ?? []))
+    {
+      local obj = scene.findObject(actionBar?.nest)
+      local actionBarItems = actionBar?.items ?? []
+      if (!::check_obj(obj) || !actionBarItems.len())
+        continue
 
-    local nest = scene.findObject("action_bar_place")
-    local items = []
-    foreach (item in actionBarItems)
-      items.append(buildItemView(item))
+      local items = []
+      foreach (item in actionBarItems)
+        items.append(buildActionbarItemView(item, actionBar))
 
-    local view = {
-      items = items
+      local view = {
+        items = items
+      }
+      local blk = ::handyman.renderCached(("gui/help/helpActionBarItem"), view)
+      guiScene.replaceContentFromText(obj, blk, blk.len(), this)
     }
-    local blk = ::handyman.renderCached(("gui/help/helpActionBarItem"), view)
-    guiScene.replaceContentFromText(nest, blk, blk.len(), this)
   }
 
-  function buildItemView(item)
+  function buildActionbarItemView(item, actionBar)
   {
     local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
     local viewItem = {}
@@ -1364,7 +1413,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (item.type == ::EII_BULLET)
       viewItem.icon <- item.icon
     else
-      viewItem.icon <- actionBarType.getIcon()
+      viewItem.icon <- actionBarType.getIcon(null, ::getAircraftByName(actionBar?.unitId ?? ""))
 
     return viewItem
   }

@@ -18,18 +18,20 @@ controlsHelpFrame[verticalFlow=no] > keyDiv {
   margin-right:0.01@sf;
 }
 
-controlsHelpFrame[verticalFlow=yes] > textareaNoTab {
+controlsHelpFrame > textareaNoTab {
   max-width:pw;
   width:pw;
+  text-align:left;
   font:@fontTiny;
+}
+controlsHelpFrame[verticalFlow=yes] > textareaNoTab {
   text-align:center;
-  }
+}
 controlsHelpFrame[verticalFlow=no] > textareaNoTab {
   width:fw;
-  font:@fontTiny;
   top:0.5ph-0.5h;
   position:relative;
-  }
+}
 
 controlsHelpFrame.inFrame {
   background-color:@transparent;

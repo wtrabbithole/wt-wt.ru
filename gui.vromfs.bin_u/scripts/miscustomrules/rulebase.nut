@@ -521,6 +521,11 @@ class ::mission_rules.Base
   {
     return false
   }
+
+  function isUnitForcedHiden(unitName)
+  {
+    return getMyStateBlk()?.forcedUnitsStates?[unitName]?.hidden ?? false
+  }
 }
 
 //just for case when empty rules will not the same as base

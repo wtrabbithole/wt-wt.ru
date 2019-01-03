@@ -238,14 +238,19 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoAvailableBattleInfo()
   {
-    local country = ::g_world_war.curOperationCountry
-    local availableBattlesList = ::g_world_war.getBattles().filter(
-      function(idx, battle) {
-        return ::g_world_war.isBattleAvailableToPlay(battle)
-          && isMatchFilterMask(battle, country)
-      }.bindenv(this))
+    if (currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
+      showSceneBtn("no_available_battles_alert_text", false)
+    else
+    {
+      local country = ::g_world_war.curOperationCountry
+      local availableBattlesList = ::g_world_war.getBattles().filter(
+        function(idx, battle) {
+          return ::g_world_war.isBattleAvailableToPlay(battle)
+            && isMatchFilterMask(battle, country)
+        }.bindenv(this))
 
-    showSceneBtn("no_available_battles_alert_text", !availableBattlesList.len())
+      showSceneBtn("no_available_battles_alert_text", !availableBattlesList.len())
+    }
   }
 
   function isMatchFilterMask(battle, country)
@@ -633,8 +638,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_squad_manager.isInSquad() || ::g_squad_manager.getOnlineMembersCount() == 1)
     {
       isJoinBattleActive = isJoinBattleVisible && cantJoinReasonData.canJoin
-      warningText = getWarningText(cantJoinReasonData, joinWarningData)
-      fullWarningText = getFullWarningText(cantJoinReasonData, joinWarningData)
+      warningText = currViewMode != WW_BATTLE_VIEW_MODES.QUEUE_INFO
+        ? getWarningText(cantJoinReasonData, joinWarningData)
+        : joinWarningData.warningText
+      fullWarningText = currViewMode != WW_BATTLE_VIEW_MODES.QUEUE_INFO
+        ? getFullWarningText(cantJoinReasonData, joinWarningData)
+        : joinWarningData.fullWarningText
     }
     else
       switch (currViewMode)
@@ -684,6 +693,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
             isLeaveBattleVisible = true
             isLeaveBattleActive = false
           }
+          warningText = joinWarningData.warningText
+          fullWarningText = joinWarningData.fullWarningText
           break
       }
 
@@ -773,8 +784,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenClusterSelect(obj)
   {
-    checkedModifyQueue(QUEUE_TYPE_BIT.WW_BATTLE,
-      @() ::gui_handlers.ClusterSelect.open(obj, "bottom"))
+    ::queues.checkAndStart(
+      ::Callback(@() ::gui_handlers.ClusterSelect.open(obj, "bottom"), this),
+      null,
+      "isCanChangeCluster")
   }
 
   function onOpenSquadsListModal(obj)
@@ -949,7 +962,13 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onItemSelect(isForceUpdate = false)
   {
     refreshSelBattle()
-    operationBattle = getBattleById(curBattleInList.id)
+    local newOperationBattle = getBattleById(curBattleInList.id)
+    local isBattleEqual = operationBattle.isEqual(newOperationBattle)
+    operationBattle = newOperationBattle
+
+    if (isBattleEqual)
+      return
+
     updateBattleSquadListData()
     updateWindow()
   }

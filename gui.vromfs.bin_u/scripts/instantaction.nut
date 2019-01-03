@@ -376,7 +376,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   {
     setGameMode(::game_mode_manager.getCurrentGameModeId())
     updateUnseenGameModesCounter()
-    doWhenActiveOnce("checkNewUnitTypeToBattleTutor")
+    guiScene.performDelayed(this, function() {
+      if (!isValid())
+        return
+      doWhenActiveOnce("checkNewUnitTypeToBattleTutor")
+    })
   }
 
   function onCountrySelect()
@@ -1256,7 +1260,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (!tutorialModule.needShowTutorial("newUnitTypetoBattle", 1)
-      || ::my_stats.getMissionsComplete() < SlotbarPresetsTutorial.MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE)
+      || ::my_stats.getMissionsComplete() < SlotbarPresetsTutorial.MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE
+      || ::g_squad_manager.isNotAloneOnline()
+      || !::isCountryAllCrewsUnlockedInHangar(::get_profile_country_sq()))
       return
 
     startNewUnitTypeToBattleTutorial()
@@ -1268,7 +1274,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!currentGameMode)
       return
 
-    local currentCountry = getCurCountry()
+    local currentCountry = ::get_profile_country_sq()
     local gameModeForTutorial = null
     local validPreset = null
     local isNotFoundUnitTypeForTutorial = true

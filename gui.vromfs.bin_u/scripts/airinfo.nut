@@ -2107,6 +2107,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (isInFlight)
   {
+    local disabledUnitByBRText = ::SessionLobby.getNotAvailableUnitByBRText(air)
     local missionRules = ::g_mis_custom_state.getCurMissionRules()
     if (missionRules.isWorldWarUnit(air.name))
     {
@@ -2116,7 +2117,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     if (missionRules.hasCustomUnitRespawns())
     {
       local respawnsleft = missionRules.getUnitLeftRespawns(air)
-      if (respawnsleft >= 0)
+      if (respawnsleft == 0 || (respawnsleft>0 && !disabledUnitByBRText))
       {
         if (missionRules.isUnitAvailableBySpawnScore(air))
         {
@@ -2129,7 +2130,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
           local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
           addInfoTextsList.append(::colorize(color, respText))
         }
-      }
+      } else if (disabledUnitByBRText)
+          addInfoTextsList.append(::colorize("badTextColor", disabledUnitByBRText))
     }
   }
 

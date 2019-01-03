@@ -444,6 +444,11 @@ class QueueManager {
     return !isAnyQueuesActive()
   }
 
+  function isCanChangeCluster(...)
+  {
+    return !isAnyQueuesActive()
+  }
+
   function isCanUseOnlineShop(...)
   {
     return !isAnyQueuesActive()

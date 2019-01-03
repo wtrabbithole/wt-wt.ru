@@ -1445,6 +1445,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onSceneActivate(show)
   {
     base.onSceneActivate(show)
+    scene.enable(show)
     if (!show)
       destroyGroupChoose()
   }
@@ -2007,6 +2008,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onShopShow(show)
   {
+    onSceneActivate(show)
     if (!show && ::checkObj(groupChooseObj))
       destroyGroupChoose()
     if (show)

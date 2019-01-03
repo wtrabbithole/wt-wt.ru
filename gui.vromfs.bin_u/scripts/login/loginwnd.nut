@@ -364,43 +364,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     if (::check_account_tag("wt_steam"))
       ::skip_steam_confirmations = true
 
-    local activate = (@(no_dump_login) function() {
-      local ret = ::steam_do_activation()
-      if (ret > 0)
-      {
-        local errorText = ""
-        if (ret == ::YU2_NOT_OWNER)
-          errorText = ::loc("steam/dlc_activated_error")
-        else if (ret == ::YU2_PSN_RESTRICTED)
-          errorText = ::loc("yn1/error/PSN_RESTRICTED")
-        else
-          errorText = ::loc("charServer/notAvailableYet")
-
-        msgBox("steam", errorText,
-          [["ok", (@(no_dump_login) function() {continueLogin(no_dump_login)})(no_dump_login) ]], "ok")
-        ::dagor.debug("steam_do_activation have returned " + ret)
-      }
-      else
-        continueLogin(no_dump_login)
-    })(no_dump_login)
-
-    if (::steam_is_running() && ::steam_need_activation() &&
-      (!("is_gui_about_to_reload" in getroottable()) || ! ::is_gui_about_to_reload()))
-    {
-      if (::skip_steam_confirmations)
-      {
-        activate()
-      }
-      else msgBox("steam", ::loc("steam/ask_dlc_activate"),
-        [
-          ["yes", (@(activate) function() {
-            activate()
-          })(activate) ],
-          ["no", (@(no_dump_login) function() { continueLogin(no_dump_login) })(no_dump_login) ]
-        ], "yes")
-    }
-    else
-      continueLogin(no_dump_login)
+    continueLogin(no_dump_login)
   }
 
   function continueLogin(no_dump_login)

@@ -5246,7 +5246,7 @@ function check_joystick_thustmaster_hotas(changePreset = true)
 
 function ask_hotas_preset_change()
 {
-  if (::loadLocalByAccount("wnd/detectThrustmasterHotas", false))
+  if (!::is_ps4_or_xbox)
     return
 
   local preset = ::g_controls_presets.getCurrentPreset()
@@ -5256,11 +5256,9 @@ function ask_hotas_preset_change()
   local is_xboxone_non_gamepad_preset = ::is_platform_xboxone
     && preset.name.find("xboxone_ma") == null
     && preset.name.find("xboxone_simulator") == null
+
   if (is_ps4_non_gamepad_preset && is_xboxone_non_gamepad_preset)
-  {
-    ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
     return
-  }
 
   local questionLocId =
     ::is_platform_ps4 ? "msgbox/controller_hotas4_found" :
@@ -5273,7 +5271,6 @@ function ask_hotas_preset_change()
       ::is_platform_xboxone ? "xboxone_thrustmaster_hotas_one" :
       ::unreachable()
     ::apply_joy_preset_xchange(::g_controls_presets.getControlsPresetFilename(presetName))
-    ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
   }
 
   ::g_popups.add(
@@ -5286,10 +5283,7 @@ function ask_hotas_preset_change()
       func = mainAction
     },
     { id = "no",
-      text = ::loc("msgbox/btn_no"),
-      func = function() {
-        ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
-      }
+      text = ::loc("msgbox/btn_no")
     }],
     null,
     null,

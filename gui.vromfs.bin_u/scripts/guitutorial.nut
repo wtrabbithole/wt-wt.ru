@@ -236,6 +236,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateObjectsPos(blocks, needArrow = true)
   {
+    guiScene.applyPendingChanges(false)
     local boxList = []
     foreach(b in blocks)
       boxList.append(b.box)

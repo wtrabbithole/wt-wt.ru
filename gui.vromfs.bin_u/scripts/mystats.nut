@@ -428,6 +428,22 @@ local summaryNameArray = [
     }
     return res
   }
+
+  function resetStatsParams()
+  {
+    clearStats()
+    _is_in_update = false
+    _resetStats = false
+    newbie = false
+    newbieNextEvent.clear()
+    _needRecountNewbie = true
+    _maxUnitsUsedRank = null
+  }
+
+  function onEventSignOut(p)
+  {
+    resetStatsParams()
+  }
 }
 
 seenTitles.setListGetter(@() ::my_stats.getTitles())

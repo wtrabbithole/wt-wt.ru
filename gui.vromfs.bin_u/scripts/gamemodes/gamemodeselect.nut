@@ -515,10 +515,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (!::handlersManager.isHandlerValid(::instant_domination_handler))
       return
 
-    ::instant_domination_handler.checkQueue(::Callback((@(obj) function() {
-      restoreFromModal = true
-      ::gui_handlers.ClusterSelect.open(obj, "top")
-    })(obj).bindenv(this), this))
+    ::queues.checkAndStart(
+      ::Callback(function() {
+         restoreFromModal = true
+         ::gui_handlers.ClusterSelect.open(obj, "top") }, this),
+      null,
+      "isCanChangeCluster")
   }
 
   function onEventClusterChange(params)

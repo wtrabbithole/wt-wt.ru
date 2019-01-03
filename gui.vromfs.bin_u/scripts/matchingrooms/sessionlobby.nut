@@ -32,6 +32,8 @@ const NET_SERVER_QUIT_FROM_GAME = 0x82220003
 
 const CUSTOM_GAMEMODE_KEY = "_customGameMode"
 
+const MAX_BR_DIFF_AVAILABLE_AND_REQ_UNITS = 0.6
+
 ::INVITE_LIFE_TIME    <- 3600000
 
 ::LAST_SESSION_DEBUG_INFO <- ""
@@ -767,6 +769,33 @@ function SessionLobby::getRoomSessionStartTime(room = null)
 function SessionLobby::getUnitTypesMask(room = null)
 {
   return ::events.getEventUnitTypesMask(getMGameMode(room) || getPublicData(room))
+}
+
+function SessionLobby::getNotAvailableUnitByBRText(unit, room = null)
+{
+  if (!unit)
+    return null
+
+  local mGameMode = getMGameMode(room)
+  if (!mGameMode)
+    return null
+
+  local curBR = unit.getBattleRating(::is_in_flight()
+    ? ::get_mission_difficulty_int()
+    : ::get_current_shop_difficulty().diffCode)
+  local maxBR = (getBattleRatingParamByPlayerInfo(getMemberPlayerInfo(::my_user_id_int64),
+    ::ES_UNIT_TYPE_SHIP)?.units?[0]?.rating ?? 0) + MAX_BR_DIFF_AVAILABLE_AND_REQ_UNITS
+  return (::events.isUnitTypeRequired(mGameMode, ::ES_UNIT_TYPE_SHIP)
+    && unit.esUnitType == ::ES_UNIT_TYPE_AIRCRAFT
+    && ((curBR - maxBR)*10).tointeger() >= 0)
+      ? ::loc("not_available_aircraft/byBR", {
+          gameModeName = ::events.getEventNameText(mGameMode),
+          lockedUnitType = ::colorize("userlogColoredText",
+            ::loc("mainmenu/type_" + unit.unitType.lowerName)),
+          battleRatingDiff = ::colorize("userlogColoredText", ::format("%.1f", MAX_BR_DIFF_AVAILABLE_AND_REQ_UNITS)),
+          reqUnitType = ::colorize("userlogColoredText", ::loc("mainmenu/type_ship"))
+        })
+      : null
 }
 
 function SessionLobby::calcEdiff(room = null)
@@ -2255,7 +2284,7 @@ function SessionLobby::isEqualSquadId(squadId1, squadId2)
   return squadId1 != INVALID_SQUAD_ID && squadId1 == squadId2
 }
 
-function SessionLobby::getBattleRatingParamByPlayerInfo(member)
+function SessionLobby::getBattleRatingParamByPlayerInfo(member, esUnitTypeFilter = null)
 {
   if (!member)
     return null
@@ -2266,6 +2295,9 @@ function SessionLobby::getBattleRatingParamByPlayerInfo(member)
   foreach (unitName in member.crafts)
   {
     local unit = ::getAircraftByName(unitName)
+    if (esUnitTypeFilter != null && esUnitTypeFilter != unit.esUnitType)
+      continue
+
     units.append({
       rating = unit ? unit.getBattleRating(difficulty) : 0
       name = ::loc(unitName+"_shop")

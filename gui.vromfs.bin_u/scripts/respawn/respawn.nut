@@ -1526,7 +1526,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local locId = "not_available_aircraft"
       if ((::SessionLobby.getUnitTypesMask() & (1 << ::get_es_unit_type(unit))) != 0)
         locId = "crew_not_available"
-      return { text = ::loc(locId), id = "crew_not_available" }
+      return { text = ::SessionLobby.getNotAvailableUnitByBRText(unit) || ::loc(locId),
+        id = "crew_not_available" }
     }
 
     if (!silent)

@@ -258,7 +258,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     ::dmViewer.update()
 
-    focusShopTable()
     if(showButton)
       ::play_gui_sound("menu_appear")
     if(::checkObj(closeResearch))
@@ -266,6 +265,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     activateShopImpl(::top_menu_shop_active, unitType)
     if (shopWeak && shopWeak.getCurrentEdiff() != ::get_current_ediff())
       shopWeak.updateSlotbarDifficulty()
+    focusShopTable()
 
     ::broadcastEvent("ShopWndSwitched")
   }
