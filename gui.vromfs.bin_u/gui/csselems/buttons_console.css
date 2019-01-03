@@ -74,6 +74,8 @@
 @const buttonCloseHeight: @bigButtonHeight;
 @const smallButtonCloseHeight: @smallButtonHeight;
 
+@const buttonImgMargin: 0.2*@scrn_tgt/100.0;
+
 ButtonImg
 {
   re-type:9rect;
@@ -91,8 +93,8 @@ ButtonImg
 
 Button_text > ButtonImg,
 button > ButtonImg {
-  left:0.2*@scrn_tgt/100.0;
-  top:ph-h-2*@sf/@pf_outdated;
+  left:1@buttonImgMargin;
+  top:50%ph-50%h;
   position:'absolute';
 }
 
@@ -124,8 +126,8 @@ Button_text:disabled > ButtonImg {
 CheckBox[btnName] > ButtonImg
 {
   size:@cIco, @cIco;
-  left:h + 0.002*@scrn_tgt;
-  top:ph-h-2*@sf/@pf_outdated;
+  left:h + 1@buttonImgMargin;
+  top:50%ph-50%h;
   position:'absolute';
 }
 
@@ -867,7 +869,7 @@ Button_text[btnName=start], button[btnName=start] { accessKey:'J:Start'; }
 Button_text[btnName=ww_menu]           { accessKey:'J:Start | Esc'; }
 Button_text[btnName=back]              { accessKey:'J:Back'; }
 Button_text[btnName=X], CheckBox[btnName=X], DummyButton[btnName=X],
-dropright[btnName=X], ComboBox[btnName=X]
+dropright[btnName=X], ComboBox[btnName=X], SwitchBox[btnName=X]
                                        { accessKey:'J:X'; }
 Button_text.battle[btnName=X]          { accessKey:'J:X | Enter'; }
 Button_text.battle[btnName=X][noEnter] { accessKey:'J:X'; }
@@ -877,7 +879,7 @@ textareaNoTab.highlightButton[btnName=Y], DummyButton[btnName=Y]
                                        { accessKey:'J:Y'; }
 Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
 Button_text[btnName=RB], CheckBox[btnName=RB],
-DummyButton[btnName=RB], emptyButton[btnName=RB]
+DummyButton[btnName=RB], emptyButton[btnName=RB], ComboBox[btnName=RB]
                                        { accessKey:'J:RB'; }
 Button_text[btnName=LB], CheckBox[btnName=LB], playbackCheckbox[btnName=LB],
 DummyButton[btnName=LB], emptyButton[btnName=LB]

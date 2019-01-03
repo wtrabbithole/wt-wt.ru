@@ -99,7 +99,7 @@ function on_presences_update(params)
       )
       ::addContactGroup(::EPL_STEAM)
 
-    local playersToRemove = {}
+    local friendsToRemove = []
     foreach(listName, list in params.groups)
     {
       if (list == null)
@@ -122,11 +122,9 @@ function on_presences_update(params)
           continue
         }
 
-        if (!platformModule.isPs4XboxOneInteractionAvailable(player.name))
+        if (listName == ::EPL_FRIENDLIST && !platformModule.isPs4XboxOneInteractionAvailable(player.name))
         {
-          if (!(listName in playersToRemove))
-            playersToRemove[listName] <- {[false] = []}
-          playersToRemove[listName][false].append(player)
+          friendsToRemove.append(player)
           continue
         }
 
@@ -140,8 +138,8 @@ function on_presences_update(params)
       }
     }
 
-    foreach (group, requestTable in playersToRemove)
-      ::edit_players_list_in_contacts(requestTable, group)
+    if (friendsToRemove.len())
+      ::edit_players_list_in_contacts({[false] = friendsToRemove}, ::EPL_FRIENDLIST)
   }
   ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = null})
 

@@ -1,6 +1,7 @@
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local stdMath = require("math")
 local globalEnv = require_native("globalEnv")
+local controllerState = require_native("controllerState")
 
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
@@ -2216,6 +2217,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   filledControlGroupTab = null
 
+  updateButtonsHandler = null
+
   function getMainFocusObj()
   {
     return "filter_edit_box"
@@ -2254,6 +2257,17 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       ::gui_start_controls_type_choice()
 
     initFocusArray()
+
+    if (controllerState?.add_event_handler) {
+      updateButtonsHandler = updateButtons.bindenv(this)
+      controllerState.add_event_handler(updateButtonsHandler)
+    }
+  }
+
+  function onDestroy()
+  {
+    if (updateButtonsHandler && controllerState?.remove_event_handler)
+      controllerState.remove_event_handler(updateButtonsHandler)
   }
 
   function onSwitchModeButton()
@@ -2404,8 +2418,11 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
     showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
     showSceneBtn("btn_ps4BackupManager", ::gui_handlers.Ps4ControlsBackupManager.isAvailable())
-    showSceneBtn("btn_controlsWizard", !isTutorial && !::is_platform_xboxone)
-    showSceneBtn("btn_controlsDefault", !isTutorial && ::is_platform_xboxone)
+    local showWizard = !::is_platform_xboxone
+      || controllerState.is_keyboard_connected()
+      || controllerState.is_mouse_connected()
+    showSceneBtn("btn_controlsWizard", !isTutorial && showWizard)
+    showSceneBtn("btn_controlsDefault", !isTutorial && !showWizard)
     showSceneBtn("btn_clearAll", !isTutorial)
   }
 
@@ -3280,9 +3297,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       shortcuts = shortcuts,
       shortcutItems = shortcutItems
 
-      onFinalApplyAxisShortcuts = function(shortcutsList) {
+      onFinalApplyAxisShortcuts = function(shortcutsList, axesList) {
         foreach(sc in shortcutsList)
           updateShortcutText(sc)
+        local device = ::joystick_get_default()
+        foreach(axis in axesList)
+          updateAxisText(device, axis)
       }.bindenv(this)
     }
 

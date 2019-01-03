@@ -236,12 +236,10 @@ root {
       }
     }
   }
-  <<#hasUpdateTimer>>
   dummy {
-    id:t="global_battles_update_timer"
+    id:t="update_timer"
     behavior:t='Timer'
     timer_handler_func:t='onUpdate'
     timer_interval_msec:t='1000'
   }
-  <</hasUpdateTimer>>
 }

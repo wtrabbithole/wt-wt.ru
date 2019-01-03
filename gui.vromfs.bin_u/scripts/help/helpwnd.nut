@@ -75,6 +75,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   currentSubTabs = []
   curTabIdx = -1
   curSubTabIdx = -1
+  visibleTabs = null
 
   contentSet = HELP_CONTENT_SET.MISSION
   isStartedFromMenu = false
@@ -599,6 +600,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     fillTabs(getPreferableTabId(params))
+
+    initFocusArray()
   }
 
   function getPreferableTabId(params)
@@ -650,10 +653,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillTabs(preselectedTab)
   {
+    visibleTabs = []
     local tabsObj = scene.findObject("tabs_list")
-    local view = {
-      tabs = []
-    }
     local preselectedTabId = -1
     foreach (tabGroup in tabGroups)
     {
@@ -665,18 +666,26 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           if( ! firstAvaliableSubTab)
             firstAvaliableSubTab = tabsCfg[tabType]
           if(tabsCfg[tabType] == preselectedTab)
-            preselectedTabId = view.tabs.len()
+            preselectedTabId = visibleTabs.len()
         }
       }
-
+      if (firstAvaliableSubTab == null)
+        continue
       local tabName = ::getTblValue("title", tabGroup)
       if ( ! tabName && firstAvaliableSubTab)
         tabName = ::getTblValue("title", firstAvaliableSubTab, "")
-      view.tabs.push({
-        tabName = tabName
-        hidden = firstAvaliableSubTab == null
-      })
+      visibleTabs.append(tabGroup.__merge({title = tabName}))
     }
+
+    local view = {
+      tabs = []
+    }
+    local countVisibleTabs = visibleTabs.len()
+    foreach (idx, tab in visibleTabs)
+      view.tabs.push({
+        tabName = tab.title
+        navImagesText = ::get_navigation_images_text(idx, countVisibleTabs)
+      })
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
     setValidIndex(tabsObj, preselectedTabId)
@@ -685,7 +694,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillSubTabs(preselectedTab)
   {
     local subTabsObj = scene.findObject("sub_tabs_list")
-    if ( ! ::check_obj(subTabsObj))
+    if ( ! ::check_obj(subTabsObj) || visibleTabs.len() == 0)
       return
     subTabsObj.enable(true)
     subTabsObj.show(true)
@@ -693,7 +702,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     local preselectedTabId = -1
-    local currentTabGroup = ::getTblValue(curTabIdx, tabGroups, tabGroups[0])
+    local currentTabGroup = visibleTabs?[curTabIdx] ?? visibleTabs[0]
 
     currentSubTabs = []
     foreach (tabType in currentTabGroup.list)
@@ -714,6 +723,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isVisible = (view.tabs.len() > 1)
     subTabsObj.enable(isVisible)
     subTabsObj.show(isVisible)
+    if (isVisible)
+      restoreFocus()
   }
 
   function onHelpSheetChange(obj)
@@ -1354,6 +1365,11 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       viewItem.icon <- actionBarType.getIcon()
 
     return viewItem
+  }
+
+  function getMainFocusObj()
+  {
+    return scene.findObject("sub_tabs_list")
   }
 }
 

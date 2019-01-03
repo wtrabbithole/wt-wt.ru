@@ -773,6 +773,12 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     updatePage()
   }
 
+  function onEventSlotbarPresetLoaded(params)
+  {
+    openSelectedCrew()
+    updatePage()
+  }
+
   function onButtonInc(obj)
   {
     if (::handlersManager.isHandlerValid(skillsPageHandler) && skillsPageHandler.isHandlerVisible)

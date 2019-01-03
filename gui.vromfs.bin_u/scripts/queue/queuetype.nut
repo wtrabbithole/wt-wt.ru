@@ -31,7 +31,7 @@ enum qTypeCheckOrder {
   createQueue = @(queueId, params) getQueueClass(params)(queueId, this, params)
   leaveAllQueues = @(successCallback, errorCallback, needShowError = false)
     getQueueClass(null).leaveAll(successCallback, errorCallback, needShowError)
-  updateInfo = function(successCallback, errorCallback, showError = false) {}
+  updateInfo = function(successCallback, errorCallback, needAllQueues = false) {}
   isParamsCorresponds = @(params) true
 }
 
@@ -79,7 +79,7 @@ enums.addTypesByGlobalName("g_queue_type",
       }
 
       //FIX ME: why it work not by queueStats and queueInfo classes?
-      updateInfo = function(successCallback, errorCallback, showError = false) {
+      updateInfo = function(successCallback, errorCallback, needAllQueues = false) {
         ::request_matching(
           "worldwar.get_queue_info",
           function(response) {
@@ -93,8 +93,8 @@ enums.addTypesByGlobalName("g_queue_type",
               successCallback(queuesInfo)
           },
           errorCallback,
-          null,
-          { showError = showError }
+          { all_queues = needAllQueues },
+          { showError = false }
         )
       }
     }

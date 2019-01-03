@@ -16,9 +16,9 @@ root {
 
     <<#actions>>
 
-    <<^text>>
+    <<#hasSeparator>>
     menuLine { enable:t='no' }
-    <</text>>
+    <</hasSeparator>>
 
     <<#text>>
     Button_text {

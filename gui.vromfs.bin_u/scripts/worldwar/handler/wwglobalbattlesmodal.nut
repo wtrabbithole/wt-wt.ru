@@ -49,10 +49,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     base.initScreen()
     globalBattlesListData.requestList()
 
-    local timerObj = scene.findObject("global_battles_update_timer")
-    if (::check_obj(timerObj))
-      timerObj.setUserData(this)
-
     ::checkNonApprovedResearches(true, true)
   }
 
@@ -64,11 +60,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function getSceneTplView()
   {
-    return { hasUpdateTimer = true }
+    return {}
   }
 
   function onUpdate(obj, dt)
   {
+    requestQueuesData()
     refreshList()
   }
 

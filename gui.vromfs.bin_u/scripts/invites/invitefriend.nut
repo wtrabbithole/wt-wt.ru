@@ -22,7 +22,7 @@ class ::g_invites_classes.Friend extends ::BaseInvite
 
   function isValid()
   {
-    return base.isValid() && !::u.isEmpty(inviterUid) && isAvailableByCrossPlay()
+    return base.isValid() && !::u.isEmpty(inviterUid)
   }
 
   function isOutdated()

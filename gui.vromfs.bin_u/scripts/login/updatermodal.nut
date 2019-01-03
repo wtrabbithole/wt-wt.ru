@@ -62,7 +62,7 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 
   function onUpdaterCallback(type, p0, p1, p2)
   {
-    if (isFinished)
+    if (isFinished || !isValid())
       return
 
     switch(type)

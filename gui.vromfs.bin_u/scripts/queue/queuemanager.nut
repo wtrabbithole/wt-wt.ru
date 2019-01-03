@@ -626,12 +626,12 @@ class QueueManager {
      })
   }
 
-  function updateQueueInfoByType(queueType, successCallback, errorCallback = null, showError = false)
+  function updateQueueInfoByType(queueType, successCb, errorCb = null, needAllQueues = false)
   {
     queueType.updateInfo(
-      successCallback,
-      errorCallback,
-      showError
+      successCb,
+      errorCb,
+      needAllQueues
     )
   }
 

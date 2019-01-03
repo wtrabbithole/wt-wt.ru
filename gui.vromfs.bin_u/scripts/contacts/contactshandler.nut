@@ -399,7 +399,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local canInteractCrossConsole = platformModule.canInteractCrossConsole(contactName)
     local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
 
-    showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInteractCrossConsole && canInteractCrossPlatform, contact_buttons_holder)
+    showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInteractCrossConsole, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
     showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock && canBlock, contact_buttons_holder)
     showBtn("btn_blacklistRemove", isBlock && canBlock, contact_buttons_holder)

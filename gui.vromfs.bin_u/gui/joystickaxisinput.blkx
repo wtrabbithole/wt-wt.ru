@@ -52,19 +52,25 @@
           }
         },
         {
-          "CheckBox": {
+          "SwitchBox": {
             "id": "autodetect_checkbox",
-            "pos": "50%pw-50%w, -h",
+            "pos": "50%pw-50%w, -h - 1@blockInterval",
             "position": "absolute",
             "text": "#mainmenu/btnAutodetectAxis",
             "on_change_value": "onChangeAutodetect",
-            "CheckBoxImg": []
+            "value": "no",
+            "btnName": "X",
+            "ButtonImg": [],
+            "SwitchSliderBg": {
+              "SwitchSliderBgOn": [],
+              "SwitchSlider": []
+            }
           }
         },
         {
           "tdiv": [
             {
-              "pos": "-5*@scrn_tgt/100.0-w, 50%ph-50%h"
+              "pos": "-6*@scrn_tgt/100.0-w, 50%ph-50%h"
             },
             {
               "position": "absolute"
@@ -99,7 +105,7 @@
         {
           "tdiv": {
             "width": "0.5(@srw-2*@scrn_tgt/100.0 - pw) - 10*@scrn_tgt/100.0",
-            "pos": "pw+5*@scrn_tgt/100.0, 50%ph-50%h",
+            "pos": "pw+6*@scrn_tgt/100.0, 50%ph-50%h",
             "position": "absolute",
             "flow": "vertical",
             "text": {
@@ -108,6 +114,7 @@
             "ComboBox": {
               "id": "axis_list",
               "width": "pw",
+              "btnName": "RB",
               "on_select": "onAxisBindChange"
             }
           }
@@ -168,21 +175,6 @@
               "btnName": "L3",
               "img": {
                 "background-image": "#ui/gameuiskin#btn_reset_axis.svg"
-              },
-              "ButtonImg": []
-            }
-          },
-          {
-            "Button_text": {
-              "id": "btn_axis_autodetect",
-              "changeButtonStyleDependingOnPlatformTo": "image",
-              "tooltip": "#mainmenu/btnAutodetectAxis",
-              "_on_click": "onButtonAutodetectAxis",
-              "class": "image",
-              "btnName": "X",
-              "img": {
-                "id": "autodetect_img",
-                "background-image": "#ui/gameuiskin#btn_autodetect_off.svg"
               },
               "ButtonImg": []
             }

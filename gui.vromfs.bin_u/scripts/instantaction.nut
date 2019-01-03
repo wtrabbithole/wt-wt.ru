@@ -371,6 +371,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   {
     setGameMode(::game_mode_manager.getCurrentGameModeId())
     updateUnseenGameModesCounter()
+    doWhenActiveOnce("checkNewUnitTypeToBattleTutor")
   }
 
   function onCountrySelect()
@@ -1240,6 +1241,87 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return true
     }
     return false
+  }
+
+  function checkNewUnitTypeToBattleTutor()
+  {
+    if (::disable_network()
+      || !::my_stats.isStatsLoaded()
+      || !::has_feature("NewUnitTypeToBattleTutorial"))
+      return
+
+    if (!tutorialModule.needShowTutorial("newUnitTypetoBattle", 1)
+      || ::my_stats.getMissionsComplete() < SlotbarPresetsTutorial.MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE)
+      return
+
+    startNewUnitTypeToBattleTutorial()
+  }
+
+  function startNewUnitTypeToBattleTutorial()
+  {
+    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
+    if (!currentGameMode)
+      return
+
+    local currentCountry = getCurCountry()
+    local gameModeForTutorial = null
+    local validPreset = null
+    local isNotFoundUnitTypeForTutorial = true
+    local isNotFoundValidPresetForTutorial= false
+    foreach (unitType in ::g_unit_type.types)
+    {
+      if (!unitType.isAvailableForFirstChoice()
+        || ::my_stats.getTimePlayedOnUnitType(unitType.esUnitType) > 0)
+        continue
+
+      isNotFoundUnitTypeForTutorial = false
+      gameModeForTutorial = ::game_mode_manager.getGameModeById(::events.getEventEconomicName(
+        ::my_stats.getNextNewbieEvent(currentCountry, unitType.esUnitType)))
+
+      if (!gameModeForTutorial)
+        continue
+
+      validPreset = ::game_mode_manager.findPresetValidForGameMode(currentCountry, gameModeForTutorial)
+      if (validPreset)
+        break
+
+      isNotFoundValidPresetForTutorial = true
+    }
+
+    if (!gameModeForTutorial || !validPreset)
+    {
+      if (isNotFoundUnitTypeForTutorial || isNotFoundValidPresetForTutorial)
+      {
+        ::add_big_query_record("new_unit_type_to_battle_tutorial_skipped",
+          isNotFoundUnitTypeForTutorial ? "isNotFoundUnitTypeForTutorial" : "isNotFoundValidPreset")
+        tutorialModule.saveShowedTutorial("newUnitTypetoBattle")
+      }
+      return
+    }
+
+    ::scene_msg_box("new_unit_type_to_battle_tutorial_msgbox", null,
+      ::loc("msgBox/start_new_unit_type_to_battle_tutorial", { gameModeName = gameModeForTutorial.text }),
+      [
+        ["yes", function() {
+          ::add_big_query_record("new_unit_type_to_battle_tutorial_msgbox_btn", "yes")
+          local tutorial = SlotbarPresetsTutorial()
+          tutorial.currentCountry = currentCountry
+          tutorial.tutorialGameMode = gameModeForTutorial
+          tutorial.isNewUnitTypeToBattleTutorial = true
+          tutorial.currentHandler = this
+          tutorial.onComplete = function (params) {
+            slotbarPresetsTutorial = null
+          }.bindenv(this)
+          tutorial.preset = validPreset
+          if (tutorial.startTutorial())
+            slotbarPresetsTutorial = tutorial
+        }.bindenv(this)],
+        ["no", function() {
+          ::add_big_query_record("new_unit_type_to_battle_tutorial_msgbox_btn", "no")
+        }.bindenv(this)]
+      ], "yes")
+
+    tutorialModule.saveShowedTutorial("newUnitTypetoBattle")
   }
 }
 

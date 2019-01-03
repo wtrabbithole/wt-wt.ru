@@ -283,12 +283,7 @@ function initControlsWizardConfig(arr)
 
 function gui_modal_controlsWizard()
 {
-  ::scene_msg_box("ask_unit_type", null, ::loc("mainmenu/askWizardForUnitType"),
-    [
-      ["aviation", function() { ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler, {unitType = ::ES_UNIT_TYPE_AIRCRAFT}) } ],
-      ["army", function() { ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler, {unitType = ::ES_UNIT_TYPE_TANK}) } ],
-      ["cancel", function() {}]
-    ], "cancel")
+  ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler)
 }
 
 class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
@@ -360,14 +355,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
   function initScreen()
   {
-    controls_wizard_config = []
-    if (unitType == ::ES_UNIT_TYPE_TANK)
-      controls_wizard_config = ::tank_controls_wizard_config
-    else
-      controls_wizard_config = ::aircraft_controls_wizard_config
-
-    ::initControlsWizardConfig(controls_wizard_config)
-
     scene.findObject("shortcut-wnd").setUserData(this)
     scene.findObject("update-timer").setUserData(this)
 
@@ -375,12 +362,11 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     optionsToSave = []
     repeatItemsList = []
     prevItems = []
-
-    initShortcutsNames()
+    shortcutNames = []
+    shortcutItems = []
 
     curJoyParams = ::JoystickParams()
     curJoyParams.setFrom(::joystick_get_cur_settings())
-    shortcuts = ::get_shortcuts(shortcutNames)
     deviceMapping = ::u.copy(::g_controls_manager.getCurPreset().deviceMapping)
 
     initAxisPresetup()
@@ -1560,9 +1546,39 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     goBack()
   }
 
+  function startManualSetup()
+  {
+    ::scene_msg_box("ask_unit_type", null, ::loc("mainmenu/askWizardForUnitType"),
+      [
+        [ "aviation", (@() startManualSetupForUnitType(::ES_UNIT_TYPE_AIRCRAFT)).bindenv(this) ],
+        [ "army", (@() startManualSetupForUnitType(::ES_UNIT_TYPE_TANK)).bindenv(this) ]
+      ], "aviation")
+  }
+
+  function startManualSetupForUnitType(unitType)
+  {
+    if (unitType == ::ES_UNIT_TYPE_TANK)
+      controls_wizard_config = ::tank_controls_wizard_config
+    else if (unitType == ::ES_UNIT_TYPE_AIRCRAFT)
+      controls_wizard_config = ::aircraft_controls_wizard_config
+    else
+      ::script_net_assert_once("unsupported unit type", "Given unit type has not wizard config")
+
+    ::initControlsWizardConfig(controls_wizard_config)
+    initShortcutsNames()
+    shortcuts = ::get_shortcuts(shortcutNames)
+
+    curIdx = -1
+    nextItem()
+  }
+
   function onContinue(obj)
   {
-    nextItem()
+    if (curIdx == -1 || !controls_wizard_config) {
+      startManualSetup()
+    } else {
+      nextItem()
+    }
   }
 
   function doApply()

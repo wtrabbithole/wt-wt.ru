@@ -147,6 +147,14 @@ ComboBox[btnPos=leftOutside] > button {
   background-image:@control_r_stick_pressed;
 }
 
+[show_console_buttons=yes] ComboBox[btnName=RB] > button {
+  _hasBtnImage:yes;
+  background-image:@control_r_shoulder;
+}
+[show_console_buttons=yes] ComboBox[btnName=RB] > button:pushed {
+  background-image:@control_r_shoulder_pressed;
+}
+
 
 [show_console_buttons=yes] ComboBox[_hasBtnImage=yes]:expanded > button,
 [show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button,
@@ -169,6 +177,15 @@ ComboBox > button[_hasBtnImage=yes] {
   height:@buttonIconHeight;
   color-factor:255;
 }
+
+ComboBox[btnPos=left] > button[_hasBtnImage=yes] {
+  left:1@buttonImgMargin;
+}
+
+ComboBox[btnPos=right] > button[_hasBtnImage=yes] {
+  left:pw - w - 1@buttonImgMargin;
+}
+
 
 ComboBox:expanded[btnPos=left] > button[_hasBtnImage=yes],
 ComboBox:expanded[btnPos=right] > button[_hasBtnImage=yes] {

@@ -1016,7 +1016,15 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local unitBlock = ::build_aircraft_item(unit.name, unit, params)
     guiScene.replaceContentFromText(placeObj, unitBlock, unitBlock.len(), this)
+
     ::fill_unit_item_timers(placeObj.findObject(unit.name), unit, params)
+
+    ::showUnitDiscount(placeObj.findObject(unit.name+"-discount"), unit)
+
+    local bonusData = unit.name
+    if (::isUnitGroup(unit))
+      bonusData = ::u.map(unit.airsGroup, function(unit) { return unit.name })
+    showAirExpWpBonus(placeObj.findObject(unit.name+"-bonus"), bonusData)
   }
 
   function updateGroupItem(groupName)

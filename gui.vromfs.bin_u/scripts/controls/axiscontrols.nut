@@ -8,7 +8,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   curJoyParams = null
   shortcuts = null
   shortcutItems = null
-  onFinalApplyAxisShortcuts = null //function(changedShortcutsList)
+  onFinalApplyAxisShortcuts = null //function(changedShortcutsList, changedAxes)
 
   setupAxisMode = null
   autodetectAxis = false
@@ -20,6 +20,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   bindAxisNum = -1
 
   changedShortcuts = null
+  changedAxes = null
 
   function getMainFocusObj()
   {
@@ -32,6 +33,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     axisShortcuts = []
     dontCheckControlsDupes = []
     changedShortcuts = []
+    changedAxes = []
 
     curDevice = ::joystick_get_default()
     setupAxisMode = axisItem.axisIndex
@@ -243,17 +245,6 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       return
 
     listObj.setValue(bindAxisNum + 1)
-  }
-
-  function onButtonAutodetectAxis()
-  {
-    autodetectAxis =! autodetectAxis
-
-    local obj = scene.findObject("autodetect_checkbox")
-    if (::checkObj(obj))
-      obj.setValue(autodetectAxis)
-
-    updateAutodetectButtonStyle()
   }
 
   function onChangeAutodetect(obj)
@@ -484,38 +475,40 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function doAxisApply()
   {
-    local alreadyBindedAxeses = findBindedAxises(bindAxisNum)
-    if (alreadyBindedAxeses.len() == 0)
+    local alreadyBindedAxes = findBindedAxes(bindAxisNum, axisItem.checkGroup)
+    if (alreadyBindedAxes.len() == 0)
     {
       doBindAxis()
       return
     }
 
     local actionText = ""
-    foreach(item in alreadyBindedAxeses)
+    foreach(item in alreadyBindedAxes)
       actionText += ((actionText=="")? "":", ") + ::loc("controls/" + item.id)
     local msg = ::loc("hotkeys/msg/unbind_axis_question", {
       action=actionText
     })
     msgBox("controls_unbind_question", msg, [
       ["add", function() { doBindAxis() }],
-      ["replace", (@(alreadyBindedAxeses) function() {
-        foreach(item in alreadyBindedAxeses)
+      ["replace", (@(alreadyBindedAxes) function() {
+        foreach(item in alreadyBindedAxes) {
           curJoyParams.bindAxis(item.axisIndex, -1)
+          changedAxes.append(item)
+        }
         doBindAxis()
-      })(alreadyBindedAxeses)],
+      })(alreadyBindedAxes)],
       ["cancel", function() {}],
     ], "add")
   }
 
-  function findBindedAxises(curAxisId)
+  function findBindedAxes(curAxisId, checkGroup)
   {
     if (curAxisId < 0 || !axisItem.checkAssign)
       return []
 
     local res = []
     foreach(item in ::shortcutsList)
-      if (item.type == CONTROL_TYPE.AXIS && item != axisItem)
+      if (item.type == CONTROL_TYPE.AXIS && item != axisItem && checkGroup & item.checkGroup)
       {
         local axis = curJoyParams.getAxis(item.axisIndex)
         if (curAxisId == axis.axisId)
@@ -715,7 +708,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   function afterModalDestroy()
   {
     if (onFinalApplyAxisShortcuts)
-      onFinalApplyAxisShortcuts(changedShortcuts)
+      onFinalApplyAxisShortcuts(changedShortcuts, changedAxes)
   }
 
   function goBack()

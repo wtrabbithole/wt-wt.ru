@@ -186,7 +186,9 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
     if (gm == ::GM_SINGLE_MISSION)
     {
-      local missionAvailableForCoop = blk.getBool("gt_cooperative", false) && ::can_play_gamemode_by_squad(gm)
+      local missionAvailableForCoop = blk.getBool("gt_cooperative", false)
+        && ::can_play_gamemode_by_squad(gm)
+        && !::is_user_mission(blk)
       config.coop <- missionAvailableForCoop? ::loc("single_mission/available_for_coop") : ""
     }
     if (gm == ::GM_CAMPAIGN || gm == ::GM_DYNAMIC)

@@ -36,10 +36,10 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
       && urlType.needAutoLogin && ::isInArray(URL_TAG_AUTO_LOGIN, urlTags)
       && canAutoLogin())
   {
-    local authData = ::get_authenticated_url_table(url)
+    local authData = ::get_authenticated_url_table(::encode_base64(url)) //need encode url to transmit complex links
 
     if (authData.yuplayResult == ::YU2_OK)
-      url = authData.url
+      url = authData.url + "&ret_enc=1" //This parameter is needed for coded complex links.
     else if (authData.yuplayResult == ::YU2_WRONG_LOGIN)
     {
       ::send_error_log("Authorize url: failed to get authenticated url with error ::YU2_WRONG_LOGIN",

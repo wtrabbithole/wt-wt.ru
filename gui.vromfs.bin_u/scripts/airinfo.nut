@@ -377,6 +377,7 @@ function get_unit_actions_list(unit, handler, actions)
       actionText = ::loc("mainmenu/btnOrder") + priceText
       icon       = isGift ? "#ui/gameuiskin#store_icon.svg" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
       showAction = inMenu && (canBuyIngame || canBuyOnline)
+      isLink     = canBuyOnline
       if (canBuyOnline)
         actionFunc = (@(unit) function () {
           OnlineShopModel.showGoods({

@@ -291,14 +291,12 @@ local getActions = function(contact, params)
 
     actions.extend([
       {
-        text = crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("contacts/friendlist/add"))
+        text = ::loc("contacts/friendlist/add")
         show = !isMe && !isFriend && !isBlock
-        isVisualDisabled = !canInteractCrossConsole || !canInteractCrossPlatform
+        isVisualDisabled = !canInteractCrossConsole
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossPlayRestrictionPopup()
           else
             ::editContactMsgBox(contact, ::EPL_FRIENDLIST, true)
         }
@@ -424,11 +422,9 @@ local getActions = function(contact, params)
   if (::is_myself_anyof_moderators() && (roomId || isMPChat || isMPLobby))
     actions.extend([
       {
-        text = "" //for separator
-      }
-      {
         text = ::loc("contacts/moderator_copyname")
         action = @() ::copy_to_clipboard(platformModule.getPlayerName(name))
+        hasSeparator = true
       }
       {
         text = ::loc("contacts/moderator_ban")

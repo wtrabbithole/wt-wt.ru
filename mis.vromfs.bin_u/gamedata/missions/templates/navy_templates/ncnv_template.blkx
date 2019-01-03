@@ -1,0 +1,1492 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": ""
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "ncnv_template_init1": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": {
+        "varAddString": {
+          "value": "",
+          "digits": 2,
+          "var": "last_waypoint",
+          "input_var": "waypoints_num"
+        },
+        "varSetInt": {
+          "value": 0,
+          "var": "have_to_kill_count",
+          "fromDescriptor": "aiTargetCount"
+        },
+        "triggerEnable": [
+          {
+            "target": "drawTheLineA"
+          },
+          {
+            "target": "ncnv_template_init2"
+          },
+          {
+            "target": "show_first_point"
+          }
+        ]
+      },
+      "else_actions": []
+    },
+    "ncnv_template_init2": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "have_to_kill_count",
+          "value": 0,
+          "comparasion_func": "more"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "ncnv_template_init3"
+        }
+      },
+      "else_actions": {
+        "varSetInt": {
+          "value": 1,
+          "var": "have_to_kill_count"
+        },
+        "triggerEnable": {
+          "target": "ncnv_template_init3"
+        }
+      }
+    },
+    "ncnv_template_init3": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "unitSetFormation": {
+            "formation_type": "cols",
+            "formation_div": 1,
+            "formation_step": [2.0,2.0],
+            "formation_noise": [0.1,0.0],
+            "object": "convoy_sq",
+            "allUnitsInOneFormation": true
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 0.01,
+            "offset": [0.0,0.0,0.0],
+            "object": "convoy_sq",
+            "object_type": "isInactive",
+            "target": "convoy_starting_point",
+            "resetFormation": true,
+            "randomObjectsCountVar": "have_to_kill_count"
+          }
+        },
+        {
+          "wait": {
+            "time": 1.0
+          }
+        },
+        {
+          "unitSetRoute": {
+            "route": "convoy_route",
+            "object": "convoy_sq"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "object": "convoy_sq",
+            "accuracy": 0.5
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target": "convoy_sq"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "convoy_kill_penalty",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "convoy_kill_penalty",
+            "use_variable": true,
+            "var_value": "have_to_kill_count"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "convoy_kill_penalty"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "calc_waypoint_reached_penalty"
+            },
+            {
+              "target": "convoy_unit_killed"
+            },
+            {
+              "target": "convoy_counter"
+            },
+            {
+              "target": "convoy_all_unit_dead_check"
+            }
+          ]
+        }
+      ],
+      "else_actions": []
+    },
+    "show_first_point": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "missionShowMapIcon": {
+          "show": true,
+          "iconName": "ui/gameuiskin#radar_object_waypoint",
+          "areaName": "@current_waypoint_str"
+        }
+      },
+      "else_actions": []
+    },
+    "drawTheLineA": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.1
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "linePointCount",
+          "value": 0,
+          "comparasion_func": "less",
+          "var_value_other": "waypoints_num"
+        }
+      },
+      "actions": [
+        {
+          "varSetString": {
+            "value": "convoy_waypoint",
+            "var": "linePointStr"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "linePointStr",
+            "input_var": "linePointCount"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "linePointCount"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "convoy_waypoint",
+            "var": "linPointStr_next"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "linPointStr_next",
+            "input_var": "linePointCount"
+          }
+        },
+        {
+          "missionShowMapLine": {
+            "areaNameFrom": "@linePointStr",
+            "areaNameTo": "@linPointStr_next",
+            "show": true,
+            "colorCode": "Team A",
+            "scale": 0.5
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "show": true,
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@linPointStr_next"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "convoy_counter": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "missionSetTargetsIndicator": {
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "delta": 0,
+          "icon": "ship",
+          "icon army": 1,
+          "set": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target": "convoy_sq",
+          "var": "have_to_kill_count"
+        }
+      },
+      "else_actions": []
+    },
+    "calc_waypoint_reached_penalty": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "waypoint_reached_penalty",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "waypoint_reached_penalty",
+            "use_variable": true,
+            "var_value": "waypoints_num"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "waypoint_reached_penalty"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "waypoint_reached"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "waypoint_reached": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 500.0,
+          "math": "2D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "convoy_sq",
+          "target": "@current_waypoint_str"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "waypoint_reached_penalty"
+        }
+      },
+      "else_actions": []
+    },
+    "waypoint_reached_penalty": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.5
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "gameMPChangeScore": {
+          "value": 0,
+          "valueSystem": "amount",
+          "var": "waypoint_reached_penalty",
+          "team": "B"
+        },
+        "varModify": {
+          "operator": "add",
+          "value": 1.0,
+          "var": "current_waypoint"
+        },
+        "triggerEnable": {
+          "target": "waypoint_reached_hide_lines"
+        }
+      },
+      "else_actions": []
+    },
+    "waypoint_reached_hide_lines": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.5
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varSetString": {
+            "value": "",
+            "var": "prev_waypoint_str",
+            "input_var": "current_waypoint_str"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "convoy_waypoint",
+            "var": "current_waypoint_str"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "current_waypoint_str",
+            "input_var": "current_waypoint"
+          }
+        },
+        {
+          "missionShowMapLine": {
+            "areaNameFrom": "@prev_waypoint_str",
+            "areaNameTo": "@current_waypoint_str",
+            "show": false
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "show": false,
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@prev_waypoint_str"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "convoy_unit_killed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isKilled",
+          "object_marking": 0,
+          "func": "more",
+          "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "convoy_sq",
+          "var": "kill_count"
+        }
+      },
+      "actions": [
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "kill_count"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "subAB",
+            "value": 1.0,
+            "var": "have_to_kill_count"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "convoy_unit_convoy_kill_penalty"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "convoy_unit_convoy_kill_penalty": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.5
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "gameMPChangeScore": {
+          "value": -250,
+          "valueSystem": "amount",
+          "var": "convoy_kill_penalty",
+          "team": "A"
+        }
+      },
+      "else_actions": []
+    },
+    "convoy_all_unit_dead_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.5
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "convoy_sq"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "convoy_all_unit_dead_end_mission"
+        }
+      },
+      "else_actions": []
+    },
+    "convoy_all_unit_dead_end_mission": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "gameMPChangeScore": {
+          "value": -10,
+          "valueSystem": "percentage",
+          "team": "A"
+        }
+      },
+      "else_actions": []
+    },
+    "player_bots_move": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 5.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitMoveTo": {
+          "target": "@current_waypoint_str",
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "all_players_squad",
+          "speed": 50.0,
+          "distributionRadius": 300.0
+        }
+      },
+      "else_actions": []
+    },
+    "delay_death_bots": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isInactive",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "convoy_sq"
+        }
+      },
+      "actions": {
+        "unitPutToSleep": {
+          "target": "convoy_sq",
+          "useForTriggerFiltered": true,
+          "delayForObjects": [5.0,3.0],
+          "numToSleep": 1,
+          "order": "fromStart"
+        }
+      },
+      "else_actions": []
+    },
+    "ncnv_objectives_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 5.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "moAddMissionObjective": {
+            "target": "ncnv_convoy_defend"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "ncnv_convoy_attack"
+          }
+        }
+      ],
+      "else_actions": []
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true,
+    "ncnv_convoy_defend": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "ncnv_convoy_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
+  },
+  "variables": {
+    "waypoint_reached_penalty": 0,
+    "have_to_kill_count": 1,
+    "convoy_kill_penalty": 0,
+    "kill_count": 0,
+    "current_waypoint_str": "convoy_waypoint01",
+    "prev_waypoint_str": "convoy_waypoint00",
+    "current_waypoint": 1,
+    "last_waypoint": "convoy_waypoint",
+    "linePointCount": 1,
+    "linePointStr": "",
+    "linPointStr_next": ""
+  },
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "ships": {
+        "name": "convoy_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3372.91]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "convoy_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2224.16,4.48985,3363.35]
+        ],
+        "props": [
+          {
+            "squad_members": "convoy_01"
+          },
+          {
+            "squad_members": "convoy_02"
+          },
+          {
+            "squad_members": "convoy_03"
+          },
+          {
+            "squad_members": "convoy_04"
+          },
+          {
+            "squad_members": "convoy_05"
+          },
+          {
+            "squad_members": "convoy_06"
+          },
+          {
+            "squad_members": "convoy_07"
+          },
+          {
+            "squad_members": "convoy_08"
+          },
+          {
+            "squad_members": "convoy_09"
+          },
+          {
+            "squad_members": "convoy_10"
+          },
+          {
+            "squad_members": "convoy_11"
+          },
+          {
+            "squad_members": "convoy_12"
+          },
+          {
+            "squad_members": "convoy_13"
+          },
+          {
+            "squad_members": "convoy_14"
+          },
+          {
+            "squad_members": "convoy_15"
+          },
+          {
+            "squad_members": "convoy_16"
+          }
+        ]
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3375.19]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3377.47]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3379.76]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_05",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3382.04]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_06",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3384.32]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_07",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3386.6]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_08",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3388.89]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_09",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3391.17]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_10",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3393.45]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_11",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3395.73]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_12",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3398.02]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_13",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3400.3]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_14",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3402.58]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_15",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3404.86]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "convoy_16",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2228.04,4.48985,3407.15]
+        ],
+        "unit_class": "germ_cargo_ship_goldenfels",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": [],
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

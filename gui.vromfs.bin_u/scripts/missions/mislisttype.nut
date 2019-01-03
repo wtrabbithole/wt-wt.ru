@@ -40,7 +40,7 @@ function g_mislist_type::_getMissionsByBlkArray(campaignName, missionBlkArray)
     if (!::has_feature("Tanks") && ::is_mission_for_unittype(misBlk, ::ES_UNIT_TYPE_TANK))
       continue
     if ((gm == ::GM_SINGLE_MISSION) && ::g_squad_manager.isNotAloneOnline())
-      if (!misBlk.getBool("gt_cooperative", false))
+      if (!misBlk.getBool("gt_cooperative", false) || ::is_user_mission(misBlk))
         continue
     local unlock = ::g_unlocks.getUnlockById(misBlk.chapter + "/" + missionId)
     if (unlock && !::is_unlock_visible(unlock))

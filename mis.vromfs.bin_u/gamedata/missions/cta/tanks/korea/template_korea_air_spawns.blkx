@@ -759,7 +759,57 @@
   ],
   "triggers": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "heli_stealth": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitSetProperties": [
+          {
+            "object_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
+            "object": "heli01"
+          },
+          {
+            "object": "heli02"
+          },
+          {
+            "object": "heli03"
+          },
+          {
+            "object": "heli04"
+          },
+          {
+            "targetableByAi": false
+          },
+          {
+            "stealthRadius": 0.0
+          }
+        ]
+      },
+      "else_actions": []
+    }
   },
   "mission_objectives": {
     "isCategory": true,
@@ -1718,6 +1768,158 @@
           "uniqueName": "",
           "attack_type": "fire_at_will",
           "isDelayed": true,
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "heli01",
+        "tm": [
+          [0.87703,0.0,0.480436],
+          [0.0,1.0,0.0],
+          [-0.480436,0.0,0.87703],
+          [1256.96,345.484,999.671]
+        ],
+        "unit_class": "sikorsky_h5",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "heli02",
+        "tm": [
+          [0.80824,0.0,-0.588854],
+          [0.0,1.0,0.0],
+          [0.588854,0.0,0.80824],
+          [1234.68,345.484,1011.28]
+        ],
+        "unit_class": "hiller_oh23",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "heli03",
+        "tm": [
+          [0.980039,0.0,-0.198805],
+          [0.0,1.0,0.0],
+          [0.198805,0.0,0.980039],
+          [1240.07,345.484,977.822]
+        ],
+        "unit_class": "hiller_oh23",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "heli04",
+        "tm": [
+          [0.91403,0.0,0.405646],
+          [0.0,1.0,0.0],
+          [-0.405646,0.0,0.91403],
+          [1026.0,357.386,523.64]
+        ],
+        "unit_class": "hiller_oh23",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
           "stealthRadius": 0.0,
           "setStealth": true
         },

@@ -339,7 +339,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       ::mission_settings.coop = false;
     else if (gm == ::GM_SINGLE_MISSION)
     {
-      if (!missionBlk.getBool("gt_cooperative", false))
+      if (!missionBlk.getBool("gt_cooperative", false) || ::is_user_mission(missionBlk))
         ::mission_settings.coop = false;
     }
     //otherwise it's set from menu

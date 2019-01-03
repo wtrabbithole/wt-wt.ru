@@ -11,6 +11,12 @@ class SlotbarPresetsTutorial
    */
   static MAX_PLAYS_FOR_GAME_MODE = 5
 
+  /**
+   * Not showing tutorial new unit type to battle
+   * if user played game less this
+  */
+  static MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE = 5
+
   // These parameters must be set from outside.
   currentCountry = null
   currentHandler = null
@@ -19,6 +25,8 @@ class SlotbarPresetsTutorial
 
   currentGameModeId = null
   tutorialGameMode = null
+
+  isNewUnitTypeToBattleTutorial = null
 
   // Slotbar
   presetsList = null
@@ -44,7 +52,10 @@ class SlotbarPresetsTutorial
     local currentPresetIndex = ::getTblValue(currentCountry, ::slotbarPresets.selected, -1)
     validPresetIndex = getPresetIndex(preset)
     if (currentPresetIndex == validPresetIndex)
-      return startUnitSelectStep()
+      if (isNewUnitTypeToBattleTutorial)
+        return startOpenGameModeSelectStep()
+      else
+        return startUnitSelectStep()
     presetsList = currentHandler.getSlotbarPresetsList()
     if (presetsList == null)
       return false
@@ -54,7 +65,7 @@ class SlotbarPresetsTutorial
     {
       steps = [{
         obj = [presetObj]
-        text = createMessage_selectPreset()
+        text = createMessageWhithUnitType()
         actionType = tutorAction.OBJ_CLICK
         accessKey = "J:X"
         cb = ::Callback(onSlotbarPresetSelect, this)
@@ -110,7 +121,7 @@ class SlotbarPresetsTutorial
       return
     local steps = [{
       obj = [presetObj]
-      text = createMessage_selectPreset()
+      text = createMessageWhithUnitType()
       actionType = tutorAction.OBJ_CLICK
       accessKey = "J:X"
       cb = ::Callback(onChooseSlotbarPresetWnd_Select, this)
@@ -159,7 +170,7 @@ class SlotbarPresetsTutorial
     if (slotbar)
       slotbar.forceUpdate()
 
-    if (!startUnitSelectStep())
+    if (!startUnitSelectStep() && !startOpenGameModeSelectStep())
       startPressToBattleButtonStep()
   }
 
@@ -172,12 +183,12 @@ class SlotbarPresetsTutorial
       onComplete({ result = "success" })
   }
 
-  function createMessage_selectPreset()
+  function createMessageWhithUnitType(partLocId = "selectPreset")
   {
     local unitTypes = ::game_mode_manager.getRequiredUnitTypes(tutorialGameMode)
     local unitType = ::g_unit_type.getByEsUnitType(::u.max(unitTypes))
     local unitTypeLocId = "options/chooseUnitsType/" + unitType.lowerName
-    return ::loc("slotbarPresetsTutorial/selectPreset", { unitType = ::loc(unitTypeLocId) })
+    return ::loc("slotbarPresetsTutorial/" + partLocId, { unitType = ::loc(unitTypeLocId) })
   }
 
   function createMessage_pressToBattleButton()
@@ -234,7 +245,8 @@ class SlotbarPresetsTutorial
       return
     local slotbar = currentHandler.getSlotbar()
     slotbar.selectCrew(crewIdInCountry)
-    startPressToBattleButtonStep()
+    if (!startOpenGameModeSelectStep())
+      startPressToBattleButtonStep()
   }
 
   /**
@@ -270,6 +282,95 @@ class SlotbarPresetsTutorial
       cb = ::Callback(onStartPress, this)
     }]
     currentTutorial = ::gui_modal_tutor(steps, ::instant_domination_handler, true)
+  }
+
+  function startOpenGameModeSelectStep()
+  {
+    if (!isNewUnitTypeToBattleTutorial)
+      return false
+    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
+    if (currentGameMode == tutorialGameMode)
+      return false
+    local gameModeChangeButtonObj = currentHandler?.gameModeChangeButtonObj
+    if (!::check_obj(gameModeChangeButtonObj))
+      return false
+    local steps = [{
+      obj = [gameModeChangeButtonObj]
+      text = ::loc("slotbarPresetsTutorial/openGameModeSelect")
+      actionType = tutorAction.OBJ_CLICK
+      accessKey = "J:X"
+      cb = ::Callback(onOpenGameModeSelect, this)
+      keepEnv = true
+    }]
+    currentTutorial = ::gui_modal_tutor(steps, currentHandler, true)
+    return true
+  }
+
+  function onOpenGameModeSelect()
+  {
+    if (checkCurrentTutorialCanceled())
+      return
+    local gameModeChangeButtonObj = currentHandler?.gameModeChangeButtonObj
+    if (!::check_obj(gameModeChangeButtonObj))
+      return
+    ::add_event_listener("GamercardDrawerOpened", onEventGamercardDrawerOpened, this)
+    currentHandler.onOpenGameModeSelect(gameModeChangeButtonObj)
+  }
+
+  function onEventGamercardDrawerOpened(params)
+  {
+    if (checkCurrentTutorialCanceled())
+      return
+    subscriptions.removeEventListenersByEnv("GamercardDrawerOpened", this)
+
+    startSelectGameModeStep()
+  }
+
+  function startSelectGameModeStep()
+  {
+    if (checkCurrentTutorialCanceled())
+      return
+    local gameModeSelectHandler = currentHandler?.gameModeSelectHandler
+    if (!gameModeSelectHandler)
+      return
+    local gameModeItemId = ::game_mode_manager.getGameModeItemId(tutorialGameMode.id)
+    local gameModeObj = gameModeSelectHandler.scene.findObject(gameModeItemId)
+    if (!::check_obj(gameModeObj))
+      return
+
+    local steps = [{
+      obj = [gameModeObj]
+      text = createMessageWhithUnitType("selectGameMode")
+      actionType = tutorAction.OBJ_CLICK
+      accessKey = "J:X"
+      cb = ::Callback(onSelectGameMode, this)
+      keepEnv = true
+    }]
+    currentTutorial = ::gui_modal_tutor(steps, currentHandler, true)
+  }
+
+  function onSelectGameMode()
+  {
+    if (checkCurrentTutorialCanceled())
+      return
+    ::add_event_listener("CurrentGameModeIdChanged", onEventCurrentGameModeIdChanged, this)
+    local gameModeSelectHandler = currentHandler?.gameModeSelectHandler
+    if (!gameModeSelectHandler)
+      return
+    local gameModeItemId = ::game_mode_manager.getGameModeItemId(tutorialGameMode.id)
+    local gameModeObj = gameModeSelectHandler.scene.findObject(gameModeItemId)
+    if (!::check_obj(gameModeObj))
+      return
+    gameModeSelectHandler.onGameModeSelect(gameModeObj)
+  }
+
+  function onEventCurrentGameModeIdChanged(params)
+  {
+    if (checkCurrentTutorialCanceled())
+      return
+    subscriptions.removeEventListenersByEnv("CurrentGameModeIdChanged", this)
+
+    startPressToBattleButtonStep()
   }
 
   /**

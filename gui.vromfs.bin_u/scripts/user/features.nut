@@ -200,6 +200,8 @@
     XboxCrossConsoleInteraction = false
     Ps4XboxOneInteraction = false
     EnableMouse = true
+
+    NewUnitTypeToBattleTutorial = false
   }
 
   cache = {}

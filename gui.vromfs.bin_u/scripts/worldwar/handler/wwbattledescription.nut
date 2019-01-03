@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
@@ -106,6 +107,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     reinitBattlesList()
     initSquadList()
     initFocusArray()
+
+    local timerObj = scene.findObject("update_timer")
+    if (::check_obj(timerObj))
+      timerObj.setUserData(this)
+
+    requestQueuesData()
   }
 
   function getMainFocusObj()
@@ -140,6 +147,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function reinitBattlesList(isForceUpdate = false)
   {
+    if (!wwQueuesData.isDataValid())
+      return
+
     local closedGroups = getClosedGroups()
     local currentBattleListMap = createBattleListMap()
     local needRefillBattleList = isForceUpdate || hasChangedInBattleListMap(currentBattleListMap)
@@ -252,7 +262,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return false
 
     if (!(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & filterMask)
-        && battle.isLockedByExcessPlayers(battle.getSide(country)))
+        && battle.isLockedByExcessPlayers(battle.getSide(country), team.name))
       return false
 
     if (!(UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER & filterMask)
@@ -783,6 +793,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       "yes", { cancel_fn = @() null })
   }
 
+  function onEventWWUpdateWWQueues(params)
+  {
+    reinitBattlesList()
+    updateButtons()
+  }
+
   function onEventClusterChange(params)
   {
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
@@ -1078,6 +1094,16 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWWLoadOperation(params)
   {
     reinitBattlesList()
+  }
+
+  function onUpdate(obj, dt)
+  {
+    requestQueuesData()
+  }
+
+  function requestQueuesData()
+  {
+    wwQueuesData.requestData()
   }
 
   function onCollapse(obj)
