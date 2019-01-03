@@ -121,6 +121,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
         tmHoverMenuPos = sectionData.hoverMenuPos
         tmOnClick = sectionData.onClick
         forceHoverWidth = sectionData.forceHoverWidth
+        isWide = sectionData.isWide
         columnsCount = columnsCount
         columns = columns
         btnName = sectionData.btnName

@@ -152,7 +152,7 @@ function g_contacts::proceedXboxPlayersListFromCallback(playersList, group)
   )
 }
 
-function g_contacts::onReturnFromXBoxOneOverlay()
+function g_contacts::onEventXboxSystemUIReturn(params)
 {
   if (!::g_login.isLoggedIn())
     return
@@ -873,4 +873,4 @@ if (!::contacts)
 ::subscribe_handler(::g_contacts, ::g_listener_priority.DEFAULT_HANDLER)
 
 ::can_view_target_presence_callback <- ::g_contacts.updateContactXBoxPresence
-::xbox_on_returned_from_system_ui <- @() ::g_contacts.onReturnFromXBoxOneOverlay.call(::g_contacts)
+::xbox_on_returned_from_system_ui <- @() ::broadcastEvent("XboxSystemUIReturn")

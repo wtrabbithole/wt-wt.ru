@@ -28,7 +28,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   currentFocusItem = MAIN_FOCUS_ITEM_IDX
   gamercardTopIds = [
     "gamercard_panel_left"
-    "gamercard_panel_center"
     @() ::isInMenu() ? "gamercard_panel_right" : null
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]

@@ -2419,8 +2419,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
     showSceneBtn("btn_ps4BackupManager", ::gui_handlers.Ps4ControlsBackupManager.isAvailable())
     local showWizard = !::is_platform_xboxone
-      || controllerState.is_keyboard_connected()
-      || controllerState.is_mouse_connected()
+      || (controllerState?.is_keyboard_connected || @() false) ()
+      || (controllerState?.is_mouse_connected || @() false) ()
     showSceneBtn("btn_controlsWizard", !isTutorial && showWizard)
     showSceneBtn("btn_controlsDefault", !isTutorial && !showWizard)
     showSceneBtn("btn_clearAll", !isTutorial)

@@ -1511,7 +1511,8 @@ function get_option(type, context = null)
       descr.values = ::g_controls_presets.getControlsPresetsList()
       descr.trParams <- "optionWidthInc:t='triple';"
 
-      descr.values.insert(0, "") //custom preset
+      if (!::is_ps4_or_xbox)
+        descr.values.insert(0, "") //custom preset
 
       local p = ::g_controls_presets.getCurrentPreset()
       for(local k = 0; k < descr.values.len(); k++)

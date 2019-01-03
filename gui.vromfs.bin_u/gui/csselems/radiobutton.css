@@ -23,6 +23,10 @@ RadioButton {
   text-align:left;
 }
 
+RadioButtonList[highlightSelected=yes] > RadioButton[selected=yes] {
+  color:@activeTextColor;
+}
+
 RadioButtonImg {
   size:@checkboxSize, @checkboxSize;
   position:absolute;

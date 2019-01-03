@@ -248,9 +248,15 @@ enum SEEN {
   ITEMS_SHOP = "items_shop"
   WORKSHOP = "workshop"
   WARBONDS_SHOP = "warbondsShop"
+  EXT_XBOX_SHOP = "ext_xbox_shop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"
+}
+
+enum xboxMediaItemType { //values by microsoft IDE, others not used
+  GameContent = 4
+  GameConsumable = 5
 }
 
 function randomize()

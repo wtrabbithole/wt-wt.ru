@@ -1399,6 +1399,10 @@ topMenuLinePlace {
   width:1@mainMenuButtonWidth;
 }
 
+topMenuButtons[isWide = yes] > topMenuLinePlace {
+  width:1@mainMenuButtonWideWidth;
+}
+
 menuLine {
   pos:50%pw-50%w, 0;
   position:relative;
@@ -2135,6 +2139,14 @@ Button_text[smallFont=yes] > btnText,
 topMenuButtons > Button_text {
   min-width:@bigButtonWidth;
   width:1@mainMenuButtonWidth;
+}
+
+topMenuButtons[isWide = yes] {
+  width:1@mainMenuButtonWideWidth + 2@dp;
+}
+
+topMenuButtons[isWide = yes] > Button_text {
+  width:1@mainMenuButtonWideWidth;
 }
 
 Button_text[reduceMinimalWidth=yes]  {

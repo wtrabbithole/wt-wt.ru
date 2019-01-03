@@ -20,7 +20,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   gamercardTopIds = [ //OVERRIDE
     function() { return leftSectionHandlerWeak && leftSectionHandlerWeak.getFocusObj() }
     "gamercard_panel_left"
-    "gamercard_panel_center"
     "gamercard_panel_right"
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]

@@ -39,6 +39,9 @@ tdiv {
         position:t='absolute';
         padding-top:t='0'
         flow:t='vertical'
+        <<#isWide>>
+        isWide = 'yes'
+        <</isWide>>
 
         behavior:t='posNavigator'
         navigatorShortcuts:t='full'

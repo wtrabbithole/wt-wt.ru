@@ -197,6 +197,7 @@
     DebriefingBattleTasks = false
     PromoBattleTasksRadioButtons = false
 
+    XboxIngameShop = false
     XboxCrossConsoleInteraction = false
     Ps4XboxOneInteraction = false
     EnableMouse = true
