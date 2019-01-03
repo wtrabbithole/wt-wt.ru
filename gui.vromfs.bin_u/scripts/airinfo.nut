@@ -480,11 +480,6 @@ function is_submarine(unit)
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
 }
 
-function is_minelayer(unit)
-{
-  return unit.hasMines
-}
-
 function get_es_unit_type(unit)
 {
   return ::getTblValue("esUnitType", unit, ::ES_UNIT_TYPE_INVALID)

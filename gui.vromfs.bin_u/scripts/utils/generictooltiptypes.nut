@@ -60,6 +60,53 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     }
   }
 
+  UNLOCK_SHORT = {
+    isCustomTooltipFill = true
+    fillTooltip = function(obj, handler, unlockId, params)
+    {
+      if (!::checkObj(obj))
+        return false
+
+      local config = null
+      local stage = (params?.stage??-1).tointeger()
+      local unlock = ::g_unlocks.getUnlockById(unlockId)
+      if (unlock==null)
+        return false
+      config = ::build_conditions_config(unlock, stage)
+
+      local isCompleted = ::is_unlocked(-1, unlockId)
+      ::build_unlock_desc(config, {showProgress = !isCompleted, showCost = !isCompleted})
+      local reward = ::g_unlock_view.getRewardText(config, stage)
+
+      local header = ::loc(unlockId + "/name")
+      local locId = config?.locId??""
+      if (locId != "")
+        header = ::get_locId_name(config)
+      if (stage >= 0)
+        header += " " + ::roman_numerals[stage + 1]
+
+      obj.getScene().replaceContent(obj, "gui/unlocks/shortTooltip.blk", handler)
+      obj.findObject("header").setValue(header)
+
+      local dObj = obj.findObject("description")
+      dObj.setValue(config.text)
+      if (!isCompleted)
+      {
+        local pObj = obj.findObject("progress")
+        local progressData = config.getProgressBarData()
+        pObj.setValue(progressData.value)
+        pObj.show(progressData.show)
+      }
+      else if(config.text != "")
+        obj.findObject("challenge_complete").show(true)
+
+      local rObj = ::showBtn("reward", reward != "", obj)
+      rObj.setValue(reward)
+
+      return true
+    }
+  }
+
   DECORATION = { //tooltip by decoration id and decoration type
                  //@decorType = UNLOCKABLE_DECAL or UNLOCKABLE_SKIN
                  //can be without exist unlock
@@ -665,6 +712,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       return ::handyman.renderCached("gui/worldWar/wwControlHelp", battleView)
     }
   }
+
 }, null, "typeName")
 
 function g_tooltip_type::getTypeByName(typeName)

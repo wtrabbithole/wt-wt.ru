@@ -880,67 +880,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     }
   }
 
-  function onMedalTooltipOpen(obj)
-  {
-    local id = getTooltipObjId(obj)
-    if(!id)
-      return
-    if(id == "")
-      return obj["class"] = "empty"
-
-    local blk = ::g_unlocks.getUnlockById(id)
-    if (blk == null)
-      return
-
-    local page_id = curPage.tolower()
-    local stage = (obj.stage_num && obj.stage_num != "")? obj.stage_num.tointeger() : -1
-
-    local config = build_conditions_config(blk, stage)
-    local isCompleted = ::is_unlocked(-1, id)
-    ::build_unlock_desc(config, {showProgress = !isCompleted, showCost = !isCompleted})
-    local reward = ::g_unlock_view.getRewardText(config, stage)
-
-    local header = page_id == "decal" ? ::loc("decals/" + id) : ::loc(id + "/name")
-    local locId = ::getTblValue("locId", config, "")
-    if (locId != "")
-      header = ::get_locId_name(config)
-    if (stage >= 0)
-      header += " " + ::roman_numerals[stage + 1]
-
-    guiScene.replaceContent(obj, "gui/medalTooltip.blk", this)
-    obj.findObject("header").setValue(header)
-
-    if(page_id == "decal")
-    {
-      local descObj = obj.findObject("decal_description")
-      local descr = ::loc("decals/" + id + "/desc")
-      if(header != descr && descr != "") {
-        descObj.setValue(descr)
-        descObj.show(true)
-      }
-    }
-
-    local dObj = obj.findObject("description")
-    dObj.setValue(config.text)
-    if (!isCompleted)
-    {
-      local pObj = obj.findObject("progress")
-      local progressData = config.getProgressBarData()
-      pObj.setValue(progressData.value)
-      pObj.show(progressData.show)
-    }
-    else if(config.text != "")
-      obj.findObject("challenge_complete").show(true)
-    local rObj = obj.findObject("reward")
-    if(reward != "")
-    {
-      rObj.setValue(reward)
-      rObj.show(true)
-    }
-    else
-      rObj.show(false)
-  }
-
   function onMedalTooltipClose(obj)
   {
     guiScene.performDelayed(this, (@(obj, guiScene) function() {

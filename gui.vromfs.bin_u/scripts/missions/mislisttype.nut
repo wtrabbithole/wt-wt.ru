@@ -37,7 +37,7 @@ function g_mislist_type::_getMissionsByBlkArray(campaignName, missionBlkArray)
     local missionId = misBlk.name || ""
     if (!checkFunc(misBlk))
       continue
-    if (!::has_feature("Tanks") && is_mission_for_tanks(misBlk))
+    if (!::has_feature("Tanks") && ::is_mission_for_unittype(misBlk, ::ES_UNIT_TYPE_TANK))
       continue
     if ((gm == ::GM_SINGLE_MISSION) && ::g_squad_manager.isNotAloneOnline())
       if (!misBlk.getBool("gt_cooperative", false))

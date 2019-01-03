@@ -247,6 +247,7 @@ enum SEEN {
   INVENTORY = "inventory"
   ITEMS_SHOP = "items_shop"
   WORKSHOP = "workshop"
+  WARBONDS_SHOP = "warbondsShop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"

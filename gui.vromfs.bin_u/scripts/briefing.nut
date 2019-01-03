@@ -231,12 +231,14 @@ function get_briefing_options(gm, gt, missionBlk)
       optionItems.append([::USEROPT_IS_BOTS_ALLOWED, "spinner"])
       optionItems.append([::USEROPT_BOTS_RANKS, "list"])
     }
-    if (canUseBots && isBotsAllowed != false && ::has_feature("Tanks") && ::is_mission_for_tanks(missionBlk))
+    if (canUseBots && isBotsAllowed != false && ::has_feature("Tanks") &&
+      ::is_mission_for_unittype(missionBlk, ::ES_UNIT_TYPE_TANK))
     {
       optionItems.append([::USEROPT_USE_TANK_BOTS, "spinner"])
       optionItems.append([::USEROPT_SPAWN_AI_TANK_ON_TANK_MAPS, "spinner"])
     }
-    if (canUseBots && isBotsAllowed != false && ::has_feature("ShipBotsOption") && ::is_ship_bots_allowed(missionBlk))
+    if (canUseBots && isBotsAllowed != false && ::has_feature("ShipBotsOption") &&
+      ::is_mission_for_unittype(missionBlk, ::ES_UNIT_TYPE_SHIP))
       optionItems.append([::USEROPT_USE_SHIP_BOTS, "spinner"])
 
     if (!::SessionLobby.isInRoom())

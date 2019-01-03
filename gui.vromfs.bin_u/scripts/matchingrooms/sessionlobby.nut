@@ -551,14 +551,9 @@ function SessionLobby::fillTeamsInfo(_settings, misBlk)
   local teamData = {}
   teamData.allowedCrafts <- []
 
-  if (::getTblValue("isHelicoptersAllowed", _settings.mission, false) && !::getTblValue("useKillStreaks", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "helicopter"})
-  if (::getTblValue("isShipsAllowed", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "ship"})
-  if (::getTblValue("isTanksAllowed", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "tank"})
-  if (::getTblValue("isAirplanesAllowed", _settings.mission, false) && !::getTblValue("useKillStreaks", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "aircraft" })
+  foreach (unitType in ::g_unit_type.types)
+    if (unitType.isAvailableByMissionSettings(_settings.mission))
+      teamData.allowedCrafts.append({ ["class"] = unitType.getMissionAllowedCraftsClassName() })
 
   //!!fill assymetric teamdata
   local teamDataA = teamData

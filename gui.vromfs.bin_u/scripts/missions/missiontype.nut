@@ -153,7 +153,7 @@ function g_mission_type::getTypeByMissionName(misName)
       res = val
       break
     }
-  if (res == UNKNOWN && ::is_mission_for_tanks(::get_mission_meta_info(misName)))
+  if (res == UNKNOWN && ::is_mission_for_unittype(::get_mission_meta_info(misName), ::ES_UNIT_TYPE_TANK))
     res = G_DOM
 
   _cacheByMissionName[misName] <- res

@@ -18,6 +18,7 @@ class SlotbarPresetsTutorial
   preset = null // Preset to select.
 
   currentGameModeId = null
+  tutorialGameMode = null
 
   // Slotbar
   presetsList = null
@@ -173,22 +174,16 @@ class SlotbarPresetsTutorial
 
   function createMessage_selectPreset()
   {
-    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
-    if (currentGameMode == null)
-      return ""
-    local unitTypes = ::getTblValue("unitTypes", currentGameMode, null)
-    local unitType = ::getTblValue(0, unitTypes)
-    local unitTypeLocId = "options/chooseUnitsType/" +
-      (unitType == ::ES_UNIT_TYPE_AIRCRAFT ? "aircraft" : "tank")
+    local unitTypes = ::game_mode_manager.getRequiredUnitTypes(tutorialGameMode)
+    local unitType = ::g_unit_type.getByEsUnitType(::u.max(unitTypes))
+    local unitTypeLocId = "options/chooseUnitsType/" + unitType.lowerName
     return ::loc("slotbarPresetsTutorial/selectPreset", { unitType = ::loc(unitTypeLocId) })
   }
 
   function createMessage_pressToBattleButton()
   {
-    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
-    if (currentGameMode == null)
-      return ""
-    return ::loc("slotbarPresetsTutorial/pressToBattleButton", { gameModeName = currentGameMode.text })
+    return ::loc("slotbarPresetsTutorial/pressToBattleButton",
+      { gameModeName = tutorialGameMode.text })
   }
 
   function getPresetIndex(preset)

@@ -14,6 +14,13 @@ local weaponProperties = [
 local reqNames = ["reqWeapon", "reqModification"]
 local upgradeNames = ["weaponUpgrade1", "weaponUpgrade2", "weaponUpgrade3", "weaponUpgrade4"]
 
+local defaultAvailableWeapons = {
+  hasRocketDistanceFuse = false
+  hasBombs = false
+  hasDepthCharges = false
+  hasMines = false
+}
+
 local Unit = class
 {
    name = ""
@@ -75,6 +82,8 @@ local Unit = class
    primaryBullets = null //{}
    secondaryBullets = null //{}
    bulletsIconParam = 0
+
+   availableWeaponsByWeaponName = null
 
    shop = null //{} - unit params table for shop unit info
    info = null //{} - tank params info
@@ -162,8 +171,8 @@ local Unit = class
     gift                      = uWpCost.gift
     giftParam                 = uWpCost.giftParam
     premPackAir               = uWpCost.premPackAir ?? false
-    hasDepthCharge            = uWpCost.hasDepthCharge ?? shop_is_modification_enabled(name, "ship_depth_charge")
-    hasMines                  = uWpCost.hasMines ?? shop_is_modification_enabled(name, "ship_mines")
+    hasDepthCharge            = uWpCost.hasDepthCharge ?? false
+    hasMines                  = uWpCost.hasMines ?? false
     commonWeaponImage         = uWpCost.commonWeaponImage ?? commonWeaponImage
     customClassIco            = uWpCost.customClassIco
     customTooltipImage        = uWpCost.customTooltipImage
@@ -218,6 +227,7 @@ local Unit = class
       customImage = ::get_tomoe_unit_icon(name)
     if (customImage && !::isInArray(customImage.slice(0, 1), ["#", "!"]))
       customImage = ::get_unit_icon_by_unit(this, customImage)
+    availableWeaponsByWeaponName = {}
 
     return errorsTextArray
   }
@@ -464,6 +474,55 @@ local Unit = class
   {
     if (canPreview())
       contentPreview.showUnitSkin(name)
+  }
+
+  isDepthChargeAvailable = @() hasDepthCharge || shop_is_modification_enabled(name, "ship_depth_charge")
+  isMinesAvailable       = @() hasMines || shop_is_modification_enabled(name, "ship_mines")
+
+  function getAvailableSecondaryWeapons()
+  {
+    local secondaryWep = ::get_last_weapon(name)
+    if (secondaryWep == "")
+      return defaultAvailableWeapons
+
+    local availableWeapons = availableWeaponsByWeaponName?[secondaryWep]
+    if (availableWeapons)
+      return availableWeapons
+
+    local unitBlk = ::get_full_unit_blk(name)
+    if(!unitBlk)
+      return defaultAvailableWeapons
+
+    local weaponDataBlock = null
+    local weaponsBlkArray = []
+    availableWeapons =clone defaultAvailableWeapons
+
+    if(unitBlk.weapon_presets != null)
+      foreach(block in (unitBlk.weapon_presets % "preset"))
+        if (block.name == secondaryWep)
+        {
+          weaponDataBlock = ::DataBlock(block.blk)
+          foreach(weap in (weaponDataBlock % "Weapon"))
+          {
+            if (!weap.blk || ::isInArray(weap.blk, weaponsBlkArray))
+              continue
+            local weapBlk = ::DataBlock(weap.blk)
+            if (weapBlk.bomb)
+              availableWeapons.hasBombs = true
+            if (weapBlk.rocket != null && (weapBlk.rocket?.distanceFuse ?? true))
+              availableWeapons.hasRocketDistanceFuse = true
+            if(weapBlk?.bomb?.isDepthCharge)
+              availableWeapons.hasDepthCharges = true
+            if(weapBlk?.bomb?.isMine)
+              availableWeapons.hasMines = true
+
+            weaponsBlkArray.append(weap.blk)
+          }
+          break
+        }
+
+    availableWeaponsByWeaponName[secondaryWep] <- availableWeapons
+    return availableWeapons
   }
 }
 

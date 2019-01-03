@@ -4115,7 +4115,10 @@ function remapAxisName(preset, axisId)
   if (locText != "")
     return locText
 
-  return ::getLocaliazedPS4controlName(text)
+  locText = ::getLocaliazedPS4controlName(text)
+  if (locText != "")
+    return locText
+  return text
 }
 
 function assignButtonWindow(owner, onButtonEnteredFunc)

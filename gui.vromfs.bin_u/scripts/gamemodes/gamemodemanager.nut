@@ -314,9 +314,8 @@ class GameModeManager
     {
       if (gameMode.displayType != ::g_event_display_type.RANDOM_BATTLE)
         continue
-      local checkedUnitTypes = (gameMode?.reqUnitTypes && gameMode.reqUnitTypes.len() > 0)
-        ? gameMode.reqUnitTypes
-        : gameMode.unitTypes
+      local checkedUnitTypes = getRequiredUnitTypes(gameMode)
+
       if (!::isInArray(unitType, checkedUnitTypes))
         continue
       if (excludeClanGameModes && gameMode.forClan)
@@ -369,23 +368,25 @@ class GameModeManager
       return false
     if (gameMode == null)
       gameMode = getCurrentGameMode()
+    local checkedUnitTypes = ::game_mode_manager.getRequiredUnitTypes(gameMode)
     foreach (unitName in unitNames)
     {
       local unit = ::getAircraftByName(unitName)
-      if (isUnitAllowedForGameMode(unit, gameMode))
+      if (::isInArray(unit?.esUnitType, checkedUnitTypes)
+        && isUnitAllowedForGameMode(unit, gameMode))
         return true
     }
     return false
   }
 
-  function findPresetValidForCurrentGameMode(countryId)
+  function findPresetValidForGameMode(countryId, gameMode = null /* if null then current game mode*/)
   {
     local presets = ::getTblValue(countryId, ::slotbarPresets.presets, null)
     if (presets == null)
       return null
     foreach (preset in presets)
     {
-      if (isPresetValidForGameMode(preset))
+      if (isPresetValidForGameMode(preset, gameMode))
         return preset
     }
     return null
@@ -848,6 +849,14 @@ class GameModeManager
     _gameModeById.clear()
     _gameModes.clear()
   }
+
+  function getRequiredUnitTypes(gameMode)
+  {
+    return (gameMode?.reqUnitTypes && gameMode.reqUnitTypes.len() > 0)
+        ? gameMode.reqUnitTypes
+        : (gameMode?.unitTypes ?? [])
+  }
+
 }
 
 ::game_mode_manager <- GameModeManager()

@@ -2056,7 +2056,7 @@ function get_option(type, context = null)
       descr.id = "menu_screen_safe_area"
       descr.items  = safeAreaMenu.items
       descr.values = safeAreaMenu.values
-      descr.value  = safeAreaMenu.getValueOptionIndex
+      descr.value  = safeAreaMenu.getValueOptionIndex()
       defaultValue = safeAreaMenu.defValue
       break
 

@@ -1701,46 +1701,6 @@ function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
   return true
 }
 
-function is_unit_available_use_rocket_diffuse(unit)
-{
-  if (!unit)
-    return true
-
-  local unitBlk = ::get_full_unit_blk(unit.name)
-  if(!unitBlk)
-    return true
-
-  local secondaryWep = ::get_last_weapon(unit.name)
-  local weaponDataBlock = ::DataBlock()
-  local isDistanceFuseEnable = false
-  local weaponsBlkArray = []
-
-  if(unitBlk.weapon_presets != null && secondaryWep != "")
-    foreach(block in (unitBlk.weapon_presets % "preset"))
-      if (block.name == secondaryWep)
-      {
-        weaponDataBlock = ::DataBlock(block.blk)
-        foreach(weap in (weaponDataBlock % "Weapon"))
-          if (weap.blk != null && !::isInArray(weap.blk, weaponsBlkArray))
-            weaponsBlkArray.append(weap.blk)
-        break
-      }
-
-  foreach(blkString in weaponsBlkArray)
-  {
-    local rocketDataBlock = ::DataBlock(blkString)
-    if (rocketDataBlock.rocket != null
-        && (!("distanceFuse" in rocketDataBlock.rocket)
-        || rocketDataBlock.rocket.distanceFuse))
-    {
-      isDistanceFuseEnable = true
-      break
-    }
-  }
-
-  return isDistanceFuseEnable
-}
-
 function get_weapon_by_name(unit, weaponName)
 {
   if (!("weapons" in unit))

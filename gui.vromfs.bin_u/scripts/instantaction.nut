@@ -1228,11 +1228,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     local tutorial = SlotbarPresetsTutorial()
     tutorial.currentCountry = getCurCountry()
+    tutorial.tutorialGameMode = currentGameMode
     tutorial.currentHandler = this
     tutorial.onComplete = function (params) {
       slotbarPresetsTutorial = null
     }.bindenv(this)
-    tutorial.preset = ::game_mode_manager.findPresetValidForCurrentGameMode(getCurCountry())
+    tutorial.preset = ::game_mode_manager.findPresetValidForGameMode(getCurCountry())
     if (tutorial.startTutorial())
     {
       slotbarPresetsTutorial = tutorial

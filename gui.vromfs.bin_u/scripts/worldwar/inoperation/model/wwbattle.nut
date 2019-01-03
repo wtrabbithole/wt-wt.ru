@@ -311,7 +311,7 @@ class ::WwBattle
       return res
     }
 
-    if (::g_squad_manager.isSquadLeader() && isLockedByExcessPlayers(side))
+    if ((::g_squad_manager.isSquadLeader() || !::g_squad_manager.isInSquad()) && isLockedByExcessPlayers(side))
     {
       res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
       res.reasonText = ::loc("worldWar/battle_is_unbalanced")

@@ -64,6 +64,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   {
     checkBulletsRows()
     checkRocketDisctanceFuseRow()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
     onLayoutChange(null)
     checkMissionCountries()
     checkBotsOption()
@@ -338,6 +341,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       obj.tooltip = ::g_string.stripTags( ::loc(option.hint, "") )
     checkBulletsRows()
     checkRocketDisctanceFuseRow()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
   }
 
   function checkBulletsRows()
@@ -362,10 +368,49 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!option)
       return
     local unit = ::getAircraftByName(::aircraft_for_weapons)
-    showOptionRow(option, !!unit && ::is_unit_available_use_rocket_diffuse(unit))
+    showOptionRow(option,
+      !!unit && unit.getAvailableSecondaryWeapons().hasRocketDistanceFuse)
   }
 
-  function onEventUnitWeaponChanged(p) { checkRocketDisctanceFuseRow() }
+  function checkBombActivationTimeRow()
+  {
+    local option = findOptionInContainers(::USEROPT_BOMB_ACTIVATION_TIME)
+    if (!option)
+      return
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option,
+      !!unit && unit.getAvailableSecondaryWeapons().hasBombs)
+  }
+
+  function checkDepthChargeActivationTimeRow()
+  {
+    local option = findOptionInContainers(::USEROPT_DEPTHCHARGE_ACTIVATION_TIME)
+    if (!option)
+      return
+
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option, unit?.isDepthChargeAvailable?()
+      && unit.getAvailableSecondaryWeapons().hasDepthCharges)
+  }
+
+  function checkMineDepthRow()
+  {
+    local option = findOptionInContainers(::USEROPT_MINE_DEPTH)
+    if (!option)
+      return
+
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option, unit?.isMinesAvailable?()
+      && unit.getAvailableSecondaryWeapons().hasMines)
+  }
+
+  function onEventUnitWeaponChanged(p)
+  {
+    checkRocketDisctanceFuseRow()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
+  }
 
   function onTripleAerobaticsSmokeSelected(obj)
   {

@@ -25,12 +25,9 @@ function g_unlock_view::fillUnlockConditions(unlockConfig, unlockObj, context)
     hiddenContent += format("unlocked:t='%s'; ", (isUnlocked ? "yes" : "no"))
     if(unlockConfig.type == "unlocks" || unlockConfig.type == "char_unlocks")
     {
-      hiddenContent +=  " tooltipObj{" +
-                          "id:t='tooltip_" + unlockConfig.names[i] + "'" +
-                          "on_tooltip_open:t='onMedalTooltipOpen';" +
-                          "on_tooltip_close:t='onMedalTooltipClose'; display:t='hide'" +
-                        "}" +
-                        "tooltip:t='$tooltipObj';"
+      local unlock = ::g_unlocks.getUnlockById(unlockConfig.names[i])
+      if(unlock)
+        hiddenContent += ::g_tooltip_type.UNLOCK_SHORT.getMarkup(unlock.id)
     }
     else if (unlockConfig.type == "char_resources")
     {
@@ -147,7 +144,6 @@ function g_unlock_view::fillStages(unlockConfig, unlockObj, context)
   local stageUnlokedIcon = "#ui/gameuiskin#stage_unlocked_"
   local unlocedStageText = "unlocked { substrateImg {} img { background-image:t='" + stageUnlokedIcon
   local locedStageText = "unlocked { substrateImg {} img { background-image:t='" + stageLokedIcon
-  local tooltip = "tooltipObj {id:t='tooltip_%s'; on_tooltip_open:t='onMedalTooltipOpen'; on_tooltip_close:t='onMedalTooltipClose'; stage_num:t='%i'; display:t='hide';}"
   local textStages = ""
   local stagesObj = unlockObj.findObject("stages")
   if( ! ::checkObj(stagesObj))
@@ -160,7 +156,9 @@ function g_unlock_view::fillStages(unlockConfig, unlockObj, context)
     local isUnlockedStage = curValStage >= stage.val
     local stageClass = i % 2 == 0 ? "class:t='even';" : "class:t='odd';"
     currentStage = isUnlockedStage ? i + 1 : currentStage
-    textStages += (isUnlockedStage ? unlocedStageText  : locedStageText ) + (i + 1) + "';} title:t='$tooltipObj';" + stageClass + ::format(tooltip, unlockConfig.id, i) + "}"
+    textStages += (isUnlockedStage ? unlocedStageText  : locedStageText ) + (i + 1) + "';}" +
+                   stageClass +
+                   ::g_tooltip_type.UNLOCK_SHORT.getMarkup(unlockConfig.id, {stage=i}) +"}"
   }
   if(textStages != "")
     guiScene.appendWithBlk(stagesObj, textStages, context)

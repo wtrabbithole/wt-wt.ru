@@ -32,7 +32,7 @@ enum ESwitchSpectatorTarget
   {id = "gundist",     hint = "options/gun_target_dist",
     user_option = ::USEROPT_GUN_TARGET_DISTANCE},
   {id = "gunvertical", hint = "options/gun_vertical_targeting", user_option = ::USEROPT_GUN_VERTICAL_TARGETING},
-  {id = "bombtime",    hint = "options/bomb_activation_time",
+  {id = "bomb_activation_type",    hint = "options/bomb_activation_time",
     user_option = ::USEROPT_BOMB_ACTIVATION_TIME, isShowForRandomUnit =false },
   {id = "depthcharge_activation_time",  hint = "options/depthcharge_activation_time",
      user_option = ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, isShowForRandomUnit =false },
@@ -1026,7 +1026,40 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local option = get_option(::USEROPT_ROCKET_FUSE_DIST)
-    showOptionRow(option.id, ::is_unit_available_use_rocket_diffuse(air))
+    showOptionRow(option.id, air.getAvailableSecondaryWeapons().hasRocketDistanceFuse)
+  }
+
+  function checkBombActivationTimeRow()
+  {
+    local air = getCurSlotUnit()
+    if (!air)
+      return
+
+    local option = get_option(::USEROPT_BOMB_ACTIVATION_TIME)
+    showOptionRow(option.id, (air.isAir() || air.isHelicopter())
+      && air.getAvailableSecondaryWeapons().hasBombs)
+  }
+
+  function checkDepthChargeActivationTimeRow()
+  {
+    local unit = getCurSlotUnit()
+    if (!unit)
+      return
+
+    local option = ::get_option(::USEROPT_DEPTHCHARGE_ACTIVATION_TIME)
+    showOptionRow(option.id, unit.isDepthChargeAvailable()
+      && unit.getAvailableSecondaryWeapons().hasDepthCharges)
+  }
+
+  function checkMineDepthRow()
+  {
+    local unit = getCurSlotUnit()
+    if (!unit)
+      return
+
+    local option = ::get_option(::USEROPT_MINE_DEPTH)
+    showOptionRow(option.id, unit.isMinesAvailable()
+      && unit.getAvailableSecondaryWeapons().hasMines)
   }
 
   function updateSkin()
@@ -1147,7 +1180,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateShipOptions(air)
   {
     local depthChargeDescr = ::get_option(::USEROPT_DEPTHCHARGE_ACTIVATION_TIME)
-    if (air.hasDepthCharge)
+    if (air.isDepthChargeAvailable())
     {
       local data = ""
       foreach (idx, item in depthChargeDescr.items)
@@ -1156,10 +1189,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (::checkObj(depthChargeTimeObj))
         guiScene.replaceContentFromText(depthChargeTimeObj, data, data.len(), this)
     }
-    showOptionRow(depthChargeDescr.id, air.hasDepthCharge)
+    showOptionRow(depthChargeDescr.id, air.isDepthChargeAvailable()
+      && air.getAvailableSecondaryWeapons().hasDepthCharges)
 
     local minesDescr = ::get_option(::USEROPT_MINE_DEPTH)
-    if (air.hasMines)
+    if (air.isMinesAvailable())
     {
       local data = ""
       foreach (idx, item in minesDescr.items)
@@ -1168,7 +1202,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (::checkObj(minesTimeObj))
         guiScene.replaceContentFromText(minesTimeObj, data, data.len(), this)
     }
-    showOptionRow(minesDescr.id, air.hasMines)
+    showOptionRow(minesDescr.id, air.isMinesAvailable()
+      && air.getAvailableSecondaryWeapons().hasMines)
   }
 
   function updateOtherOptions()
@@ -1206,7 +1241,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     updateGunVerticalOption(air)
 
-    local bombTimeObj = scene.findObject("bombtime")
+    bombDescr = ::get_option(::USEROPT_BOMB_ACTIVATION_TIME)
+    local bombTimeObj = scene.findObject(bombDescr.id)
     if (::checkObj(bombTimeObj))
     {
       bombDescr = ::get_option(::USEROPT_BOMB_ACTIVATION_TIME)
@@ -1216,7 +1252,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
           markup += build_option_blk(item.text, "", idx == bombDescr.value, true, "", false, item.tooltip)
       guiScene.replaceContentFromText(bombTimeObj, markup, markup.len(), this)
     }
-    showOptionRow("bombtime", aircraft && bomb)
+    showOptionRow(bombDescr.id,
+      aircraft && bomb && air.getAvailableSecondaryWeapons().hasBombs)
 
     rocketDescr = ::get_option(::USEROPT_ROCKET_FUSE_DIST)
     local rocketdistObj = scene.findObject(rocketDescr.id)
@@ -1228,7 +1265,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
           markup += build_option_blk(item, "", idx == rocketDescr.value)
       guiScene.replaceContentFromText(rocketdistObj, markup, markup.len(), this)
     }
-    showOptionRow(rocketDescr.id, aircraft && rocket && ::is_unit_available_use_rocket_diffuse(air))
+    showOptionRow(rocketDescr.id,
+      aircraft && rocket && air.getAvailableSecondaryWeapons().hasRocketDistanceFuse)
 
     local fuelObj = scene.findObject("fuel")
     if (::checkObj(fuelObj))
@@ -1261,7 +1299,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateTacticalMapUnitType()
 
     updateWeaponsSelector()
-    checkRocketDisctanceFuseRow()
     updateOtherOptions()
     updateSkin()
     updateUserSkins()
@@ -2404,7 +2441,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       updateCrewSlot(crew)
 
     checkRocketDisctanceFuseRow()
-    updateOtherOptions()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
     checkReady()
   }
 

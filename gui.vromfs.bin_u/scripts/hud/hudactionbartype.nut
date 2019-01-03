@@ -99,7 +99,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     getIcon = function(killStreakTag = null)
     {
       local unit = ::getAircraftByName(::get_action_bar_unit_name())
-      return ::is_minelayer(unit) ? "#ui/gameuiskin#naval_mine" : _icon
+      return unit?.isMinesAvailable?() ? "#ui/gameuiskin#naval_mine" : _icon
     }
   }
 

@@ -167,15 +167,42 @@ class ::WwUnit
     return isForceControlledByAI || !wwUnitType.canBeControlledByPlayer
   }
 
-  function getUnitClass()
+  function getUnitClassData(weaponPreset = null)
   {
+    local res = {
+      unitClass = WW_UNIT_CLASS.UNKNOWN
+      flyOutUnitClass = WW_UNIT_CLASS.UNKNOWN
+    }
+
     if (!isAir())
-      return WW_UNIT_CLASS.UNKNOWN
+      return res
 
     if (expClass == "fighter")
-      return WW_UNIT_CLASS.FIGHTER
+    {
+      res.unitClass = WW_UNIT_CLASS.FIGHTER
+      res.flyOutUnitClass = WW_UNIT_CLASS.FIGHTER
+      if (weaponPreset)
+      {
+        local wpcostBlk = ::get_wpcost_blk()
+        local weaponmask = wpcostBlk?[name]?.weapons?[weaponPreset]?.weaponmask ?? 0
+        local requiredWeaponmask = ::g_world_war.getWWConfigurableValue("fighterToAssaultWeaponMask", 0)
+        local isFighter = !(weaponmask & requiredWeaponmask)
+        res.unitClass = isFighter ? WW_UNIT_CLASS.FIGHTER : WW_UNIT_CLASS.ASSAULT
+        res.flyOutUnitClass = isFighter ? WW_UNIT_CLASS.FIGHTER : WW_UNIT_CLASS.BOMBER
+      }
+    }
+    else if (expClass == "bomber")
+    {
+      res.unitClass = WW_UNIT_CLASS.BOMBER
+      res.flyOutUnitClass = WW_UNIT_CLASS.BOMBER
+    }
+    else
+    {
+      res.unitClass = WW_UNIT_CLASS.ASSAULT
+      res.flyOutUnitClass = WW_UNIT_CLASS.BOMBER
+    }
 
-    return WW_UNIT_CLASS.BOMBER
+    return res
   }
 
   static function getUnitClassText(unitClass)
@@ -186,7 +213,40 @@ class ::WwUnit
     if (unitClass == WW_UNIT_CLASS.BOMBER)
       return "bomber"
 
+    if (unitClass == WW_UNIT_CLASS.ASSAULT)
+      return "assault"
+
     return "unknown"
+  }
+
+  static function getUnitClassIconText(unitClass)
+  {
+    if (unitClass == WW_UNIT_CLASS.FIGHTER)
+      return ::loc("worldWar/iconAirFighter")
+
+    if (unitClass == WW_UNIT_CLASS.BOMBER)
+      return ::loc("worldWar/iconAirBomber")
+
+    if (unitClass == WW_UNIT_CLASS.ASSAULT)
+      return ::loc("worldWar/iconAirAssault")
+
+    return ""
+  }
+
+  static function getUnitClassTooltipText(unitClass)
+  {
+    if (expClass == "fighter" )
+      return unitClass == WW_UNIT_CLASS.FIGHTER
+        ? ::loc("mainmenu/type_fighter")
+        : ::loc("mainmenu/type_assault_fighter")
+
+    if (unitClass == WW_UNIT_CLASS.BOMBER)
+      return ::loc("mainmenu/type_bomber")
+
+    if (unitClass == WW_UNIT_CLASS.ASSAULT)
+      return ::loc("mainmenu/type_assault")
+
+    return ""
   }
 
   function getUnitTypeText()

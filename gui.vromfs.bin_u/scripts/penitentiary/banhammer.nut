@@ -21,9 +21,23 @@ function gui_modal_complain(playerInfo, chatLog = "")
 
 local chatLogToString = function(chatLog)
 {
-  return ::u.isTable(chatLog) ? ::save_to_json(chatLog) :
-    ::u.isString(chatLog)     ? ::g_string.escape(chatLog) :
-    ""
+  if(!::u.isTable(chatLog))
+  {
+    ::script_net_assert_once("Chatlog value is not a table", "Invalid type of chatlog")
+    return ""
+  }
+
+  local res = ::save_to_json(chatLog)
+  local size = res.len()
+  local idx = 0
+  while(size > 29300)
+    size -= ::save_to_json(chatLog.chatLog[idx++]).len() + 1
+  if (idx > 0)
+  {
+    chatLog.chatLog = chatLog.chatLog.slice(idx)
+    res = ::save_to_json(chatLog)
+  }
+  return res
 }
 
 class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT

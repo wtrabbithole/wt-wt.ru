@@ -307,17 +307,5 @@ function dbg_dump::strToKey(str)
 
 function dbg_dump::getFuncResult(func, a = [])
 {
-  switch (a.len())
-  {
-    case 0: return func()
-    case 1: return func(a[0])
-    case 2: return func(a[0], a[1])
-    case 3: return func(a[0], a[1], a[2])
-    case 4: return func(a[0], a[1], a[2], a[3])
-    case 5: return func(a[0], a[1], a[2], a[3], a[4])
-    case 6: return func(a[0], a[1], a[2], a[3], a[4], a[5])
-    case 7: return func(a[0], a[1], a[2], a[3], a[4], a[5], a[6])
-    case 8: return func(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
-    default: return null
-  }
+  return func.acall([null].extend(a))
 }

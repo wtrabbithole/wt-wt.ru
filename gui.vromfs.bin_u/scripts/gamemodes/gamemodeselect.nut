@@ -386,9 +386,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function chooseGameModeEsUnitType(gameModes, esUnitType)
   {
     return getGameModeByCondition(gameModes,
-      @(gameMode) ((gameMode?.reqUnitTypes && gameMode.reqUnitTypes.len() > 0)
-        ? ::u.max(gameMode.reqUnitTypes)
-        : ::u.max(gameMode.unitTypes)) == esUnitType)
+      @(gameMode) u.max(::game_mode_manager.getRequiredUnitTypes(gameMode)) == esUnitType)
   }
 
   function saveValuesByGameModeId(gameModesView)
