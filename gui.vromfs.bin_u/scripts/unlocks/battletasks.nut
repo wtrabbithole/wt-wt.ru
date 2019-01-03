@@ -70,29 +70,8 @@ function BattleTasks::updateTasksData()
   if (!::g_login.isLoggedIn())
     return
 
-  currentTasksArray.extend(getUpdatedProposedTasks())
-  currentTasksArray.extend(getUpdatedActiveTasks())
-
-  for (local i = currentTasksArray.len() - 1; i >= 0; i--)
-  {
-    local task = currentTasksArray[i]
-    if (!isTaskActual(task))
-    {
-      currentTasksArray.remove(i)
-      continue
-    }
-
-    local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
-    local canInteract = ::g_battle_task_difficulty.canPlayerInteractWithDifficulty(diff, currentTasksArray, showAllTasksValue)
-    local isAvailableByProgress = ::g_battle_task_difficulty.checkAvailabilityByProgress(task, showAllTasksValue)
-    if (!canInteract || !isAvailableByProgress)
-    {
-      currentTasksArray.remove(i)
-      continue
-    }
-
-    newIconWidgetByTaskId[getUniqueId(task)] <- null
-  }
+  updatedProposedTasks()
+  updatedActiveTasks()
 
   currentTasksArray.sort(function(a,b) {
     if (a._sort_order == null || b._sort_order == null)
@@ -118,7 +97,7 @@ function BattleTasks::onEventBattleTasksShowAll(params)
 function BattleTasks::onEventBattleTasksIncomeUpdate(params) { updateTasksData() }
 function BattleTasks::onEventBattleEnded(params)             { updateTasksData() }
 
-function BattleTasks::getUpdatedProposedTasks()
+function BattleTasks::updatedProposedTasks()
 {
   local tasksDataBlock = ::get_proposed_personal_unlocks_blk()
   ::g_battle_task_difficulty.updateTimeParamsFromBlk(tasksDataBlock)
@@ -136,15 +115,18 @@ function BattleTasks::getUpdatedProposedTasks()
     task.setFrom(tasksDataBlock.getBlock(i))
     task.isActive = false
     proposedTasksArray.append(task)
-  }
+    if (!isTaskActual(task) || !canInteract(task)
+      || !::g_battle_task_difficulty.checkAvailabilityByProgress(task, showAllTasksValue))
+      continue
 
-  return proposedTasksArray
+    currentTasksArray.append(task)
+    newIconWidgetByTaskId[getUniqueId(task)] <- null
+  }
 }
 
-function BattleTasks::getUpdatedActiveTasks()
+function BattleTasks::updatedActiveTasks()
 {
   local currentActiveTasks = ::get_personal_unlocks_blk()
-
   activeTasksArray.clear()
   for (local i = 0; i < currentActiveTasks.blockCount(); i++)
   {
@@ -157,11 +139,15 @@ function BattleTasks::getUpdatedActiveTasks()
     task.isActive = true
     activeTasksArray.append(task)
 
+    if (!isTaskActual(task) || !canInteract(task)
+      || !::g_battle_task_difficulty.checkAvailabilityByProgress(task, showAllTasksValue))
+      continue
+
+    currentTasksArray.append(task)
     local isNew = !isTaskDone(task) && canGetReward(task)
     markTaskSeen(getUniqueId(task), false, isNew)
+    newIconWidgetByTaskId[getUniqueId(task)] <- null
   }
-
-  return activeTasksArray
 }
 
 function BattleTasks::updateRerollCost(tasksDataBlock)
@@ -986,6 +972,12 @@ function BattleTasks::getDifficultyTypeGroup()
     result.append(type)
   }
   return result
+}
+
+function BattleTasks::canInteract(task)
+{
+  local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
+  return ::g_battle_task_difficulty.canPlayerInteractWithDifficulty(diff, currentTasksArray, showAllTasksValue)
 }
 
 ::g_battle_tasks = ::BattleTasks()

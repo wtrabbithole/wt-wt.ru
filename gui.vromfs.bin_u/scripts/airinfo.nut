@@ -2107,7 +2107,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (isInFlight)
   {
-    local disabledUnitByBRText = ::SessionLobby.getNotAvailableUnitByBRText(air)
+    local disabledUnitByBRText = crew && !::is_crew_available_in_session(crew.idInCountry, false)
+      && ::SessionLobby.getNotAvailableUnitByBRText(air)
     local missionRules = ::g_mis_custom_state.getCurMissionRules()
     if (missionRules.isWorldWarUnit(air.name))
     {

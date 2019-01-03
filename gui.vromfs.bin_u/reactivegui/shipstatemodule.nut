@@ -442,6 +442,12 @@ return @() setHudBg({
   flow = FLOW_VERTICAL
   padding = hdpx(10)
   gap = {size=[flex(),hdpx(5)]}
+  onAttach = @(elem) gui_scene.setTimeout(0.1,
+    @() ::cross_call.update_damage_panel_state({
+      pos = [elem.getScreenPosX(), elem.getScreenPosY()]
+      size = [elem.getWidth(), elem.getHeight()]
+      visible = true }))
+  onDetach = @(elem) ::cross_call.update_damage_panel_state(null)
   children = [
     speed
     shipStateDisplay

@@ -102,7 +102,7 @@ class Popup
     foreach(button in buttons)
       if (button.id == obj.id)
       {
-        performPopupAction(button.func)
+        performPopupAction(button?.func)
         break
       }
     requestDestroy()

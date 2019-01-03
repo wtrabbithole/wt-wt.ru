@@ -258,6 +258,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEmptyCrew()
   {
+    ::statsd_counter("temp_test.selectUnit.emptyByAccesskey")
     trainSlotAircraft(null)
   }
 
@@ -269,9 +270,15 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
     local unit = unitsList[row]
     if (unit == SEL_UNIT_BUTTON.SHOP)
+    {
+      ::statsd_counter("temp_test.selectUnit.goToShop")
       return goToShop()
+    }
     if (unit == SEL_UNIT_BUTTON.EMPTY_CREW)
+    {
+      ::statsd_counter("temp_test.selectUnit.emptyBySlotButton")
       return trainSlotAircraft(null) //empty slot
+    }
     if (unit == SEL_UNIT_BUTTON.SHOW_MORE)
     {
       curVisibleSlots += slotsPerPage - 1 //need to all new slots be visible and current button also

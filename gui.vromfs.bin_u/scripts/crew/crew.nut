@@ -110,7 +110,7 @@ function g_crew::getDiscountsTooltipByInfo(discountInfo, showBuyPoints = true)
   if (showBuyPoints)
     table["mainmenu/btnBuySkillPoints"] <- discountInfo.buyPoints
 
-  return ::generateDiscountInfo(table, ::format(::loc("discount/specialization/tooltip"), maxDiscount)).discountTooltip
+  return ::g_discount.generateDiscountInfo(table, ::format(::loc("discount/specialization/tooltip"), maxDiscount)).discountTooltip
 }
 
 function g_crew::createCrewBuyPointsHandler(crew)

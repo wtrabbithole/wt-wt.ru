@@ -2520,7 +2520,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local name = link.slice(3)
       local player = getPlayerInfo(name)
       if (player)
-        ::session_player_rmenu(this, player, ::debriefing_result?.logForBanhammer)
+        ::session_player_rmenu(this, player, getChatLog())
     }
   }
 
@@ -3129,6 +3129,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     if (state == debrState.done && isSceneActiveNoModals())
       ::checkNewNotificationUserlogs()
+  }
+
+  function getChatLog()
+  {
+    return ::debriefing_result?.logForBanhammer
   }
 
   isInited = true

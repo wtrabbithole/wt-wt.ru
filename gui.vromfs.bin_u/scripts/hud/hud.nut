@@ -46,6 +46,27 @@ function get_ingame_multiplayer_score_progress_bar_aabb()
   return handler && ::get_dagui_obj_aabb(handler.getMultiplayerScoreObj())
 }
 
+local dmPanelStates =
+{
+  aabb = null
+}
+function update_damage_panel_state(params)
+{
+  dmPanelStates.aabb <- params
+}
+::cross_call_api.update_damage_panel_state <- ::update_damage_panel_state
+::g_script_reloader.registerPersistentData("dmPanelState", dmPanelStates, [ "aabb" ])
+
+function get_damage_pannel_aabb()
+{
+  local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
+  if (!handler)
+    return null
+
+  return handler.getHudType() == HUD_TYPE.SHIP ? dmPanelStates.aabb
+    : ::get_dagui_obj_aabb(handler.getDamagePannelObj())
+}
+
 function on_show_hud(show = true) //called from native code
 {
   local handler = ::handlersManager.getActiveBaseHandler()
@@ -432,6 +453,11 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   function getMultiplayerScoreObj()
   {
     return scene.findObject("hud_multiplayer_score_progress_bar")
+  }
+
+  function getDamagePannelObj()
+  {
+    return scene.findObject("xray_render_dmg_indicator")
   }
 
   function updateAFKTimeKick()

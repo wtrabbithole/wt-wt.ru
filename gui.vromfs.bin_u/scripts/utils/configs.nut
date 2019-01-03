@@ -10,7 +10,7 @@
     isActual = ::is_price_actual
     requestUpdate = ::req_price_from_server
     cbName = "PriceUpdated"
-    onConfigUpdate = function() { ::updateDiscountData() }
+    onConfigUpdate = @() ::g_discount.updateDiscountData()
   }
 
   ENTITLEMENTS_PRICE = {
@@ -18,7 +18,7 @@
     isActual = ::is_entitlements_price_actual
     requestUpdate = ::req_entitlements_price_from_server
     cbName = "EntitlementsPriceUpdated"
-    onConfigUpdate = function() { ::updateDiscountData() }
+    onConfigUpdate = @() ::g_discount.updateDiscountData()
   }
 
   GUI = {

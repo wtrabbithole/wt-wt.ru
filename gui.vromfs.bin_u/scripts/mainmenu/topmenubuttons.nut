@@ -241,7 +241,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isLink = @() !xboxShopData.canUseIngameShop()
     isFeatured = @() !xboxShopData.canUseIngameShop()
     image = @() xboxShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
-    needDiscountIcon = !xboxShopData.canUseIngameShop()
+    needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
     unseenIcon = @() SEEN.EXT_XBOX_SHOP
   }

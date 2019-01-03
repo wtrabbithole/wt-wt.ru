@@ -716,6 +716,18 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function onPlayersTblWrapUp(obj)
+  {
+    if (::get_is_console_mode_enabled())
+      onWrapUp(obj)
+  }
+
+  function onPlayersTblWrapDown(obj)
+  {
+    if (::get_is_console_mode_enabled())
+      onWrapDown(obj)
+  }
+
   function onSwitchPlayersTbl(obj)
   {
     local tab1 = scene.findObject("table_team1")
@@ -752,7 +764,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function selectControlsBlock(obj)
   {
-    scene.findObject("controls_div").select()
+    if (::get_is_console_mode_enabled())
+      scene.findObject("controls_div").select()
   }
 
   function onActivateSelectedControl(obj)

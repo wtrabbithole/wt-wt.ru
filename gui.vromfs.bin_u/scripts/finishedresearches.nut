@@ -153,6 +153,13 @@ function checkNonApprovedResearches(needUpdateResearchTable = false, needResearc
   if (needResearchAction)
   {
     local resBlock = ::researched_items_table[0]
+    if (::isResearchForModification(resBlock)
+      && ::isHandlerInScene(::gui_handlers.WeaponsModalHandler))
+      return true
+
+    if (::isHandlerInScene(::gui_handlers.ShopCheckResearch))
+      return true
+
     ::gui_start_choose_next_research(resBlock)
     ::removeResearchBlock(resBlock)
   }

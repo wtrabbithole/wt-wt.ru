@@ -238,6 +238,7 @@ class ::BaseItem
 
     local guiScene = obj.getScene()
     obj.doubleSize = bigPicture? "yes" : "no"
+    obj.wideSize = params?.wideSize ? "yes" : "no"
     guiScene.replaceContentFromText(obj, imageData, imageData.len(), null)
   }
 

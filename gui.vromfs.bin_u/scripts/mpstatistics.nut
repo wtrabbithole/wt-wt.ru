@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
+local mpChatModel = require("scripts/chat/mpChatModel.nut")
 
 ::team_aircraft_list <- null
 
@@ -1604,7 +1605,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   function onUserRClick(obj)
   {
     onClick(obj)
-    ::session_player_rmenu(this, getSelectedPlayer())
+    ::session_player_rmenu(this, getSelectedPlayer(), getChatLog())
   }
 
   function onUserOptions(obj)
@@ -1616,7 +1617,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     onClick(selectedTableObj)
     local selectedPlayer = getSelectedPlayer()
     local orientation = selectedTableObj.id == "table_kills_team1"? RCLICK_MENU_ORIENT.RIGHT : RCLICK_MENU_ORIENT.LEFT
-    ::session_player_rmenu(this, selectedPlayer, null, getSelectedRowPos(selectedTableObj, orientation), orientation)
+    ::session_player_rmenu(this, selectedPlayer, getChatLog(), getSelectedRowPos(selectedTableObj, orientation), orientation)
   }
 
   function getSelectedRowPos(selectedTableObj, orientation)
@@ -2055,6 +2056,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   }
 
+  function getChatLog()
+  {
+    return mpChatModel.getLogForBanhammer()
+  }
 }
 
 class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics

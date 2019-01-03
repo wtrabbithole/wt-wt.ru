@@ -41,11 +41,13 @@ class SlotbarPresetsTutorial
 
   currentTutorial = null
 
+  currentStepsName = null
   /**
    * Returns false if tutorial was skipped due to some error.
    */
   function startTutorial()
   {
+    currentStepsName = "startTutorial"
     currentGameModeId = ::game_mode_manager.getCurrentGameModeId()
     if (preset == null)
       return false
@@ -63,6 +65,7 @@ class SlotbarPresetsTutorial
     local steps
     if (presetObj && presetObj.isVisible()) // Preset is in slotbar presets list.
     {
+      currentStepsName = "selectPreset"
       steps = [{
         obj = [presetObj]
         text = createMessageWhithUnitType()
@@ -77,6 +80,7 @@ class SlotbarPresetsTutorial
       local presetsButtonObj = presetsList.getPresetsButtonObj()
       if (presetsButtonObj == null)
         return false
+      currentStepsName = "openSlotbarPresetWnd"
       steps = [{
         obj = [presetsButtonObj]
         text = ::loc("slotbarPresetsTutorial/openWindow")
@@ -134,6 +138,7 @@ class SlotbarPresetsTutorial
       cb = ::Callback(onChooseSlotbarPresetWnd_Apply, this)
       keepEnv = true
     }]
+    currentStepsName = "applySlotbarPresetWnd"
     currentTutorial = ::gui_modal_tutor(steps, currentHandler, true)
   }
 
@@ -179,6 +184,8 @@ class SlotbarPresetsTutorial
     if (checkCurrentTutorialCanceled())
       return
     ::instant_domination_handler.onStart()
+    currentStepsName = "tutorialEnd"
+    sendLastStepsNameToBigQuery()
     if (onComplete != null)
       onComplete({ result = "success" })
   }
@@ -235,6 +242,7 @@ class SlotbarPresetsTutorial
       cb = ::Callback(onUnitSelect, this)
       keepEnv = true
     }]
+    currentStepsName = "selectUnit"
     currentTutorial = ::gui_modal_tutor(steps, ::instant_domination_handler, true)
     return true
   }
@@ -281,6 +289,7 @@ class SlotbarPresetsTutorial
       accessKey = "J:X"
       cb = ::Callback(onStartPress, this)
     }]
+    currentStepsName = "pressToBattleButton"
     currentTutorial = ::gui_modal_tutor(steps, ::instant_domination_handler, true)
   }
 
@@ -302,6 +311,7 @@ class SlotbarPresetsTutorial
       cb = ::Callback(onOpenGameModeSelect, this)
       keepEnv = true
     }]
+    currentStepsName = "openGameModeSelect"
     currentTutorial = ::gui_modal_tutor(steps, currentHandler, true)
     return true
   }
@@ -346,6 +356,7 @@ class SlotbarPresetsTutorial
       cb = ::Callback(onSelectGameMode, this)
       keepEnv = true
     }]
+    currentStepsName = "selectGameMode"
     currentTutorial = ::gui_modal_tutor(steps, currentHandler, true)
   }
 
@@ -387,6 +398,7 @@ class SlotbarPresetsTutorial
       currentTutorial = null
     if (canceled)
     {
+      sendLastStepsNameToBigQuery()
       if (onComplete != null)
         onComplete({ result = "canceled" })
       return true
@@ -397,5 +409,11 @@ class SlotbarPresetsTutorial
   static function getCounter()
   {
     return ::loadLocalByAccount("tutor/slotbar_presets_tutorial_counter", 0)
+  }
+
+  function sendLastStepsNameToBigQuery()
+  {
+    if (isNewUnitTypeToBattleTutorial)
+      ::add_big_query_record("new_unit_type_to_battle_tutorial_lastStepsName", currentStepsName)
   }
 }

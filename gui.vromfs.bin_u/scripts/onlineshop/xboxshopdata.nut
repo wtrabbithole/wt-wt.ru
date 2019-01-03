@@ -12,6 +12,7 @@ local xboxProceedItems = {}
 local onReceiveCatalogCb = null
 local reqProgressMsg = false
 local invalidateSeenList = false
+local haveItemDiscount = null
 ::xbox_browse_catalog_callback <- function(catalog)
 {
   if (!catalog || !catalog.blockCount())
@@ -50,6 +51,8 @@ local invalidateSeenList = false
   if (onReceiveCatalogCb)
     onReceiveCatalogCb()
   onReceiveCatalogCb = null
+
+  ::g_discount.updateXboxShopDiscounts()
 }
 
 local requestData = function(isSilent = false, cb = null, invSeenList = false)
@@ -60,6 +63,7 @@ local requestData = function(isSilent = false, cb = null, invSeenList = false)
   onReceiveCatalogCb = cb
   reqProgressMsg = !isSilent
   invalidateSeenList = invSeenList
+  haveItemDiscount = null
 
   if (reqProgressMsg)
     progressMsg.create(XBOX_RECEIVE_CATALOG_MSG_ID, null)
@@ -100,12 +104,44 @@ local initXboxItemsListAfterLogin = function()
   }
 }
 
+local haveAnyItemWithDiscount = function()
+{
+  if (haveItemDiscount != null)
+    return haveItemDiscount
+
+  haveItemDiscount = false
+  foreach (mediaType, itemsList in xboxProceedItems)
+    foreach (item in itemsList)
+      if (item.haveDiscount())
+      {
+        haveItemDiscount = true
+        break
+      }
+
+  return haveItemDiscount
+}
+
+local haveDiscount = function()
+{
+  if (!canUseIngameShop())
+    return false
+
+  if (!isItemsInitedOnce)
+  {
+    initXboxItemsListAfterLogin()
+    return false
+  }
+
+  return haveAnyItemWithDiscount()
+}
+
 subscriptions.addListenersWithoutEnv({
   ProfileUpdated = @(p) initXboxItemsListAfterLogin()
   SignOut = function(p) {
     isItemsInitedOnce = false
     xboxProceedItems.clear()
     visibleSeenIds = null
+    haveItemDiscount = null
   }
 }, ::g_listener_priority.CONFIG_VALIDATION)
 
@@ -113,4 +149,5 @@ return {
   canUseIngameShop = canUseIngameShop
   requestData = requestData
   xboxProceedItems = xboxProceedItems
+  haveDiscount = haveDiscount
 }

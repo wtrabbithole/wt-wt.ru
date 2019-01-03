@@ -302,7 +302,7 @@ class ::WwBattleView
 
   function getCanJoinText(side)
   {
-    if (side == ::SIDE_NONE)
+    if (side == ::SIDE_NONE || ::g_squad_manager.isSquadMember())
       return ""
 
     local currentBattleQueue = ::queues.findQueueByName(battle.getQueueId(), true)
@@ -313,8 +313,11 @@ class ::WwBattleView
     {
       local cantJoinReasonData = battle.getCantJoinReasonData(side, false)
       if (cantJoinReasonData.canJoin)
-        canJoinLocKey = battle.isPlayerTeamFull() ? "worldWar/canJoinStatus/no_free_places"
+        canJoinLocKey = battle.isPlayerTeamFull()
+          ? "worldWar/canJoinStatus/no_free_places"
           : "worldWar/canJoinStatus/can_join"
+      else
+        canJoinLocKey = cantJoinReasonData.reasonText
     }
 
     return ::u.isEmpty(canJoinLocKey) ? "" : ::loc(canJoinLocKey)

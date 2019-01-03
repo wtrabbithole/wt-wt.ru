@@ -22,7 +22,7 @@
 
     if (!::isInMenu() || !::g_login.isLoggedIn())
     {
-      needCheckSquadInvites = ::is_in_flight() || ::is_in_loading_screen()
+      needCheckSquadInvites = true
       ::dagor.debug("XBOX SQUAD MANAGER: set needCheckSquadInvites " + needCheckSquadInvites + "; " + ::toString(xboxIdsList))
       suspendedData = clone xboxIdsList
       return

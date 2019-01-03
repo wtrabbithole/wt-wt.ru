@@ -1,5 +1,4 @@
 local platformModule = require("scripts/clientState/platform.nut")
-local mpChatModel = require("scripts/chat/mpChatModel.nut")
 
 function gui_modal_ban(playerInfo, cLog = null)
 {

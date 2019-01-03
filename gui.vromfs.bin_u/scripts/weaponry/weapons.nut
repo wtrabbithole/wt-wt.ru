@@ -108,10 +108,10 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function initSlotbar()
   {
-    if (researchMode || !::handlersManager.getActiveBaseHandler() ||
-      !::handlersManager.getActiveBaseHandler().getSlotbar() || !::isUnitInSlotbar(air))
-        return
+    if (researchMode || !::isUnitInSlotbar(air))
+      return
     createSlotbar({
+      crewId = getCrewByAir(air).id
       showNewSlot=false
       emptyText="#shop/aircraftNotSelected"
       afterSlotbarSelect = onSlotbarSelect
@@ -414,7 +414,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local position = (posX + 0.5).tostring() + "@modCellWidth-0.5w, " + (posY + 0.5).tostring() + "@modCellHeight-0.5h"
     if (researchMode)
-      position = (posX + 0.5).tostring() + "@modCellWidth-0.5w, " + (posY + 1).tostring() + "@modCellHeight-0.5h"
+      position = (posX + 0.5).tostring() + "@modCellWidth-0.5w, 1@framePadding+ 1@fadedImageFramePad"
 
     blockObj.pos = position
     local unitObj = blockObj.findObject("next_unit")

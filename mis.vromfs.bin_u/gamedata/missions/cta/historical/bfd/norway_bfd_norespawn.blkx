@@ -260,7 +260,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "missionType": {
@@ -488,12 +489,6 @@
       "conditions": [],
       "actions": [
         {
-          "varSetInt": {
-            "value": 300,
-            "var": "lpt_active_timer"
-          }
-        },
-        {
           "addAirfield": [
             {
               "runwayStart": "airfield_start"
@@ -628,17 +623,10 @@
           }
         },
         {
-          "varSetBool": [
-            {
-              "value": true
-            },
-            {
-              "var": "isBombingZonesAffect"
-            },
-            {
-              "var": "lpt_is_template_active"
-            }
-          ]
+          "varSetBool": {
+            "value": true,
+            "var": "isBombingZonesAffect"
+          }
         },
         {
           "missionMarkAsCaptureZone": [
@@ -678,7 +666,6 @@
             "isStrictSpawn": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "useExisting": false,
             "canSpawnOnNeutral": false,
@@ -686,8 +673,11 @@
             "removeAreas": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_common_fighter_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -706,7 +696,6 @@
             "isStrictSpawn": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "useExisting": false,
             "canSpawnOnNeutral": false,
@@ -714,8 +703,11 @@
             "removeAreas": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_common_fighter_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -1418,7 +1410,7 @@
           [0.84339,0.0,-0.5373],
           [0.0,1.0,0.0],
           [0.5373,0.0,0.84339],
-          [-31970.3,1981.6,-38087.8]
+          [-41295.3,1981.6,-53851.4]
         ],
         "unit_class": "f7f1",
         "objLayer": 1,
@@ -2343,7 +2335,7 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-39494.6,34.1,-52921.3]
+          [-39514.1,35.1481,-52969.7]
         ],
         "unit_class": "germ_37mm_flak43_noground",
         "objLayer": 1,
@@ -2379,7 +2371,7 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-39464.5,34.1,-52914.2]
+          [-39331.8,34.1,-53058.3]
         ],
         "unit_class": "germ_37mm_flak43_noground",
         "objLayer": 1,
@@ -2415,7 +2407,7 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-39418.4,34.1,-52890.2]
+          [-39437.7,34.1,-53026.2]
         ],
         "unit_class": "germ_37mm_flak43_noground",
         "objLayer": 1,
@@ -2451,7 +2443,7 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-39263.0,34.1,-52833.1]
+          [-39171.6,34.0999,-52831.7]
         ],
         "unit_class": "germ_37mm_flak43_noground",
         "objLayer": 1,
@@ -2487,7 +2479,7 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-39247.6,34.1,-52943.3]
+          [-39196.3,34.1,-53039.5]
         ],
         "unit_class": "germ_37mm_flak43_noground",
         "objLayer": 1,

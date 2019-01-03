@@ -555,6 +555,25 @@
     },
     {
       "event": {
+        "name": "ID_SHIP_FULL_STOP",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 8
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 21
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
         "name": "weapon_aim_heading",
         "shortcut": {
           "button": {
@@ -3691,6 +3710,12 @@
       "target_camera_helicopter": {
         "axisId": 4
       },
+      "ship_main_engine": {
+        "axisId": 1,
+        "innerDeadzone": 0.25,
+        "outerDeadzone": 0.05,
+        "relative": true
+      },
       "ship_sight_distance": {
         "axisId": 3,
         "relative": true,
@@ -4306,19 +4331,6 @@
         "useSliders": false
       },
       "gm_throttle": {
-        "axisId": 1,
-        "innerDeadzone": 0.25,
-        "outerDeadzone": 0.05,
-        "rangeMin": -1.0,
-        "rangeMax": 1.0,
-        "inverse": false,
-        "nonlinearity": 0.0,
-        "kAdd": 0.0,
-        "kMul": 1.0,
-        "relSens": 1.0,
-        "relative": false
-      },
-      "ship_main_engine": {
         "axisId": 1,
         "innerDeadzone": 0.25,
         "outerDeadzone": 0.05,

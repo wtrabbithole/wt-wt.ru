@@ -1884,6 +1884,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_WEAPON_SECONDARY"
   "ID_SHIP_WEAPON_MACHINEGUN"
   "ID_SHIP_WEAPON_TORPEDOES"
+  "ID_SHIP_TORPEDO_SIGHT"
   "ID_SHIP_WEAPON_DEPTH_CHARGE"
   "ID_SHIP_WEAPON_MINE"
   "ID_SHIP_WEAPON_MORTAR"
@@ -1891,7 +1892,6 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-  { id="submarine_depth", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   "ID_SHIP_ACTION_BAR_ITEM_1",
   "ID_SHIP_ACTION_BAR_ITEM_2",
   "ID_SHIP_ACTION_BAR_ITEM_3",

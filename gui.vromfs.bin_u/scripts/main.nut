@@ -720,7 +720,6 @@ function load_scripts_after_login_once()
 
     "discounts/discounts.nut"
     "discounts/discountUtils.nut"
-    "discounts/personalDiscount.nut"
 
     "items/itemsManager.nut"
     "items/prizesView.nut"

@@ -104,11 +104,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return scene.findObject("shop_items_list")
   }
 
-  function getMainFocusObj2()
-  {
-    return scene.findObject("show_mode")
-  }
-
   function loadFullAircraftsTable(selAirName = "")
   {
     shopData = []
@@ -1262,7 +1257,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
           discountsList[unit.name + "_shop"] <- discount
       }
 
-    return ::generateDiscountInfo(discountsList)
+    return ::g_discount.generateDiscountInfo(discountsList)
   }
 
   function openMenuForCurAir(obj)

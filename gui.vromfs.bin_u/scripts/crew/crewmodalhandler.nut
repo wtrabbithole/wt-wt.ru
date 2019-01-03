@@ -637,41 +637,24 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"
-        cb = function()
-        {
-          if (!isValid())
-            return
-
-          onButtonInc(getObj("skill_row0").findObject("buttonInc"))
-        }
+        cb = ::Callback(@() onButtonInc(getObj("skill_row0").findObject("buttonInc")), this)
       },
       {
         obj = [getObj("skill_row1").findObject("buttonInc"), "skill_row1"]
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"
-        cb = function()
-        {
-          if (!isValid())
-            return
-
-          onButtonInc(getObj("skill_row1").findObject("buttonInc"))
-        }
+        cb = ::Callback(@() onButtonInc(getObj("skill_row1").findObject("buttonInc")), this)
       },
       {
         obj = ["btn_apply"]
         text = ::loc("tutorials/upg_crew/apply_upgr_skills")
         actionType = tutorAction.OBJ_CLICK
         accessKey = "J:A"
-        cb = function()
-        {
-          if (!isValid())
-            return
-
+        cb = ::Callback(function() {
           afterApplyAction = canUpgradeCrewSpec(crew) ? onUpgrCrewSpec1Tutorial
             : onUpgrCrewTutorFinalStep
-          onApply()
-        }
+          onApply() }, this)
       }
     ]
     ::gui_modal_tutor(steps, this)
@@ -724,7 +707,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("tutorials/upg_crew/spec1")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"
-        cb = onUpgrCrewSpec1ConfirmTutorial
+        cb = ::Callback(onUpgrCrewSpec1ConfirmTutorial, this)
       }
     ]
     ::gui_modal_tutor(steps, this)

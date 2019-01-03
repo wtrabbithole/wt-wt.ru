@@ -5,13 +5,15 @@ const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
 
 ::g_tips <- {
   TIP_LIFE_TIME_MSEC = 10000
+  TIP_LOC_KEY_PREFIX = "loading/"
 
-  tipsIndexes = { [GLOBAL_LOADING_TIP_BIT] = [] }
+  tipsKeys = { [GLOBAL_LOADING_TIP_BIT] = [] }
   existTipsMask = GLOBAL_LOADING_TIP_BIT
 
   curTip = ""
   curTipIdx = -1
   curTipUnitTypeMask = -1
+  curNewbieUnitTypeMask = 0
   nextTipTime = -1
 
   isTipsValid = false
@@ -34,8 +36,11 @@ function g_tips::validate()
   if (isTipsValid)
     return
   isTipsValid = true
-  tipsIndexes[GLOBAL_LOADING_TIP_BIT] = loadTipsIndexesByTypeName(null)
+
+  tipsKeys.clear()
+  tipsKeys[GLOBAL_LOADING_TIP_BIT] <- loadTipsKeysByUnitType(null, false)
   existTipsMask = GLOBAL_LOADING_TIP_BIT
+  curNewbieUnitTypeMask = getNewbieUnitTypeMask()
 
   if (!("g_unit_type" in ::getroottable()))
     return
@@ -44,38 +49,84 @@ function g_tips::validate()
   {
     if (unitType == ::g_unit_type.INVALID)
       continue
-    local indexes = loadTipsIndexesByTypeName(unitType.name)
-    if (!indexes.len())
+    local isMeNewbie = isMeNewbieOnUnitType(unitType.esUnitType)
+    local keys = loadTipsKeysByUnitType(unitType, isMeNewbie)
+    if (!keys.len() && isMeNewbie)
+      keys = loadTipsKeysByUnitType(unitType, false)
+    if (!keys.len())
       continue
-    tipsIndexes[unitType.bit] <- indexes
+    tipsKeys[unitType.bit] <- keys
     existTipsMask = existTipsMask | unitType.bit
   }
 }
 
 //for global tips typeName = null
-function g_tips::getKeyFormat(typeName)
+function g_tips::getKeyFormat(typeName, isNewbie)
 {
-  return typeName ? "loading/" + typeName.tolower() + "/tip%d" : "loading/tip%d"
+  local path = typeName ? [ typeName.tolower() ] : []
+  if (isNewbie)
+    path.append("newbie")
+  path.append("tip%d")
+  return ::g_string.implode(path, "/")
 }
 
-function g_tips::loadTipsIndexesByTypeName(typeName)
+//for global tips unitType = null
+function g_tips::loadTipsKeysByUnitType(unitType, isNeedOnlyNewbieTips)
 {
   local res = []
-  local keyFormat = getKeyFormat(typeName)
+
+  local configs = []
+  foreach (isNewbieTip in [ true, false ])
+    configs.append({
+      isNewbieTip = isNewbieTip
+      keyFormat   = getKeyFormat(unitType?.name, isNewbieTip)
+      isShow      = !isNeedOnlyNewbieTips || isNewbieTip
+    })
+
   local notExistInARow = 0
   for(local idx = 0; notExistInARow <= MISSING_TIPS_IN_A_ROW_ALLOWED; idx++)
   {
-    local tip = ::loc(::format(keyFormat, idx), "")
-    if (!tip.len())
+    local isShow = false
+    local key = ""
+    local tip = ""
+    foreach (cfg in configs)
+    {
+      isShow = cfg.isShow
+      key = ::format(cfg.keyFormat, idx)
+      tip = ::loc(TIP_LOC_KEY_PREFIX + key, "")
+      if (tip != "")
+        break
+    }
+
+    if (tip == "")
     {
       notExistInARow++
       continue
     }
-
-    res.append(idx)
     notExistInARow = 0
+
+    if (isShow)
+      res.append(key)
   }
   return res
+}
+
+function g_tips::isMeNewbieOnUnitType(esUnitType)
+{
+  return ("my_stats" in ::getroottable()) && ::my_stats.isMeNewbieOnUnitType(esUnitType)
+}
+
+function g_tips::getNewbieUnitTypeMask()
+{
+  local mask = 0
+  foreach(unitType in ::g_unit_type.types)
+  {
+    if (unitType == ::g_unit_type.INVALID)
+      continue
+    if (isMeNewbieOnUnitType(unitType.esUnitType))
+      mask = mask | unitType.bit
+  }
+  return mask
 }
 
 function g_tips::getDefaultUnitTypeMask()
@@ -86,7 +137,7 @@ function g_tips::getDefaultUnitTypeMask()
   local res = 0
   local gm = ::get_game_mode()
   if (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH)
-    res = ::SessionLobby.getUnitTypesMask()
+    res = ::SessionLobby.getRequiredUnitTypesMask() || ::SessionLobby.getUnitTypesMask()
   else if (gm == ::GM_TEST_FLIGHT)
   {
     if (::show_aircraft)
@@ -101,21 +152,25 @@ function g_tips::getDefaultUnitTypeMask()
 function g_tips::genNewTip(unitTypeMask = 0)
 {
   nextTipTime = ::dagor.getCurTime() + TIP_LIFE_TIME_MSEC
-  validate()
 
-  if (curTipUnitTypeMask != unitTypeMask)
+  if (curNewbieUnitTypeMask && curNewbieUnitTypeMask != getNewbieUnitTypeMask())
+    isTipsValid = false
+
+  if (!isTipsValid || curTipUnitTypeMask != unitTypeMask)
   {
     curTipIdx = -1
     curTipUnitTypeMask = unitTypeMask
   }
 
+  validate()
+
   if (!(unitTypeMask & existTipsMask))
     unitTypeMask = getDefaultUnitTypeMask()
 
   local totalTips = 0
-  foreach(unitTypeBit, indexes in tipsIndexes)
+  foreach(unitTypeBit, keys in tipsKeys)
     if (unitTypeBit & unitTypeMask)
-      totalTips += indexes.len()
+      totalTips += keys.len()
   if (totalTips == 0)
   {
     curTip = ""
@@ -138,21 +193,26 @@ function g_tips::genNewTip(unitTypeMask = 0)
 
   //get lang for chosen tip
   local tipIdx = curTipIdx
-  foreach(unitTypeBit, indexes in tipsIndexes)
+  foreach(unitTypeBit, keys in tipsKeys)
   {
     if (!(unitTypeBit & unitTypeMask))
       continue
-    if (tipIdx >= indexes.len())
+    if (tipIdx >= keys.len())
     {
-      tipIdx -= indexes.len()
+      tipIdx -= keys.len()
       continue
     }
 
     //found tip
-    local typeName = null
-    if (unitTypeBit != GLOBAL_LOADING_TIP_BIT)
-      typeName = ::g_unit_type.getByBit(unitTypeBit).name
-    curTip = ::loc(::format(getKeyFormat(typeName), indexes[tipIdx]))
+    curTip = ::loc(TIP_LOC_KEY_PREFIX + keys[tipIdx])
+
+    //add unit type icon if needed
+    if (unitTypeBit != GLOBAL_LOADING_TIP_BIT && ::number_of_set_bits(unitTypeMask) > 1)
+    {
+      local icon = ::g_unit_type.getByBit(unitTypeBit).fontIcon
+      curTip = ::colorize("fadedTextColor", icon) + " " + curTip
+    }
+
     break
   }
 }

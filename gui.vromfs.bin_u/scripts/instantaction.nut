@@ -1260,7 +1260,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (!tutorialModule.needShowTutorial("newUnitTypetoBattle", 1)
-      || ::my_stats.getMissionsComplete() < SlotbarPresetsTutorial.MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE
+      || ::my_stats.getMissionsComplete(["pvp_played", "skirmish_played"])
+           < SlotbarPresetsTutorial.MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE
       || ::g_squad_manager.isNotAloneOnline()
       || !::isCountryAllCrewsUnlockedInHangar(::get_profile_country_sq()))
       return

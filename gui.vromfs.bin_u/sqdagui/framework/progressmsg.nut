@@ -81,9 +81,9 @@ local Msg = class {
 
   function destroy()
   {
-    ::destroyMsgBox(sceneObj)
     if (uid in msgList)
       delete msgList[uid]
+    ::destroyMsgBox(sceneObj)
   }
 }
 

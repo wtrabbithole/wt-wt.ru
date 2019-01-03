@@ -30,6 +30,10 @@ class ::gui_handlers.SkipableMsgBox extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(btnSelectObj))
       btnSelectObj.show(ableToStartAndSkip)
 
+    local btnCancelObj = scene.findObject("btn_cancel")
+    if(::check_obj(btnCancelObj))
+      btnCancelObj.setValue(::loc(ableToStartAndSkip ? "mainmenu/btnCancel" : "mainmenu/btnOk"))
+
     if (startBtnText != "")
       ::setDoubleTextToButton(scene, "btn_select", startBtnText)
   }

@@ -1,3 +1,5 @@
+@const shopItemPad: 4*@sf/@pf;
+
 table.shopTable, table.slotbarTable {
   total-input-transparent:yes;
 }
@@ -48,7 +50,7 @@ shopItem {
   size:pw, ph;
   pos:0,50%ph-50%h;
   position:relative;
-  padding:3*@sf/@pf_outdated;
+  padding:1@shopItemPad;
   css-hier-invalidate:yes;
   overflow:visible;
   total-input-transparent:yes;

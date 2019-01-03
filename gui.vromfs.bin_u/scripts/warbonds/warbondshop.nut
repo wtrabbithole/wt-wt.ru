@@ -424,6 +424,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function onLinkAction(obj) {}
   function onAltAction(obj) {}
   function onChangeSortOrder(obj) {}
+  onChangeSortParam = @(obj) null
 
   function onUnitHover(obj)
   {

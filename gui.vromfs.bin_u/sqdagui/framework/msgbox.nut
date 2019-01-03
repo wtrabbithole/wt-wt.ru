@@ -79,10 +79,6 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
   dagor.debug("GuiManager: load msgbox = " + id)
 //  ::enableHangarControls(false, false) //to disable hangar controls need restore them on destroy msgBox
 
-  local isBigMessage = g_string.countSubstrings(text, "\n") > 7
-  if (isBigMessage)
-    msgbox.findObject("msgBox_container").type = "big"
-
   local textObj = msgbox.findObject("msgText")
   if (options?.font == "fontNormal")
     textObj.mediumFont = "no"
@@ -291,6 +287,13 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
       gui_scene.replaceContentFromText(containerObj, data_below_buttons, data_below_buttons.len(), baseHandler)
       containerObj.show(true)
     }
+  }
+
+  local containerObj = msgbox.findObject("msgTextRoot")
+  if (::check_obj(containerObj))
+  {
+    local isNeedVCentering = containerObj.getSize()[1] < containerObj.getParent().getSize()[1]
+    containerObj["pos"] = isNeedVCentering ? "0, ph/2-h/2" : "0, 0"
   }
 
   if (debug_string)

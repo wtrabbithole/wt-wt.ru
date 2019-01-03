@@ -771,6 +771,11 @@ function SessionLobby::getUnitTypesMask(room = null)
   return ::events.getEventUnitTypesMask(getMGameMode(room) || getPublicData(room))
 }
 
+function SessionLobby::getRequiredUnitTypesMask(room = null)
+{
+  return ::events.getEventRequiredUnitTypesMask(getMGameMode(room) || getPublicData(room))
+}
+
 function SessionLobby::getNotAvailableUnitByBRText(unit, room = null)
 {
   if (!unit)
@@ -904,10 +909,12 @@ function SessionLobby::switchStatus(_status)
       ::destroy_session_scripted()
   }
   if (status == lobbyStates.JOINING_SESSION)
-  {
     ::add_squad_to_contacts()
+
+  if (status == lobbyStates.JOINING_SESSION ||
+    status == lobbyStates.IN_SESSION)
     lastEventName = getRoomEvent()?.name ?? ""
-  }
+
   updateMyState()
 
   ::broadcastEvent("LobbyStatusChange")

@@ -16,6 +16,7 @@ local time = require("scripts/time.nut")
     map = ::get_ingame_map_aabb
     hitCamera = function() { return ::g_hud_hitcamera.getAABB() }
     multiplayerScore = ::get_ingame_multiplayer_score_progress_bar_aabb
+    dmPanel = ::get_damage_pannel_aabb
   }
   needUpdateAabb = false
 

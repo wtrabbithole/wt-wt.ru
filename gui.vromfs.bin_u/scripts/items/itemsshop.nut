@@ -730,4 +730,5 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   //dependence by blk
   onChangeSortOrder = @(obj) null
+  onChangeSortParam = @(obj) null
 }

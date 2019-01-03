@@ -38,7 +38,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   curBattleInList = null      // selected battle in list
   operationBattle = null      // battle to dasplay, check join enable, join, etc
   needEventHeader = true
-  currViewMode = WW_BATTLE_VIEW_MODES.BATTLE_LIST
+  currViewMode = null
   isSelectedBattleActive = false
 
   battlesListObj = null
@@ -112,6 +112,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(timerObj))
       timerObj.setUserData(this)
 
+    updateViewMode()
     requestQueuesData()
   }
 
@@ -169,8 +170,29 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     onItemSelect(isForceUpdate)
     updateClosedGroups(closedGroups)
 
+    validateSquadInfo()
+    validateCurQueue()
+
     if (getViewMode() == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       showSceneBtn("items_list", curBattleListMap.len() > 0)
+  }
+
+  function validateCurQueue()
+  {
+    local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+    if (!queue)
+      return
+
+    local queueBattle = queue.getWWBattle()
+    if (!queueBattle || !queueBattle.isValid())
+      ::g_world_war.leaveWWBattleQueues()
+  }
+
+  function validateSquadInfo()
+  {
+    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
+    if (wwBattleName && (wwBattleName != operationBattle.id || !operationBattle.isValid()))
+      ::g_squad_manager.cancelWwBattlePrepare()
   }
 
   function getClosedGroups()
@@ -238,7 +260,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoAvailableBattleInfo()
   {
-    if (currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
+    if (currViewMode != WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       showSceneBtn("no_available_battles_alert_text", false)
     else
     {
@@ -303,7 +325,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (!curBattleInList.isValid() || !curGroupIdInList.len())
+    if (!curBattleInList.isValid() || !operationBattle.isValid() || !curGroupIdInList.len())
       curBattleInList = getFirstBattleInListMap(closedGroups)
 
     local itemId = curBattleInList.isValid() ? curBattleInList.id
@@ -574,7 +596,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateViewMode()
   {
-    currViewMode = getViewMode()
+    local newViewMode = getViewMode()
+    if (newViewMode == currViewMode)
+      return
+
+    currViewMode = newViewMode
 
     showSceneBtn("queue_info", currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
     showSceneBtn("items_list", currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
@@ -1077,6 +1103,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       updateDescription()
 
     updateButtons()
+    updateNoAvailableBattleInfo()
 
     if (prevCurrViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO &&
         prevCurrViewMode != currViewMode &&

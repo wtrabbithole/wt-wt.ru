@@ -10,7 +10,7 @@ local sheetsArray = [
     locId = "itemTypes/xboxGameContent"
     getSeenId = @() "##xbox_item_sheet_" + mediaType
     mediaType = xboxMediaItemType.GameContent
-    sortParams = ["releaseDate", "price"]
+    sortParams = ["releaseDate", "price", "isBought"]
     sortSubParam = "name"
     contentTypes = [null, ""]
   },
@@ -50,6 +50,8 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
+
+  lastSortingPeerSheet = {}
 
   function initScreen()
   {
@@ -243,6 +245,13 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     fillPage()
   }
 
+  function onChangeSortParam(obj)
+  {
+    lastSortingPeerSheet[curSheet.id] <- obj.getValue()
+    updateSorting()
+    fillPage()
+  }
+
   function getCurSheetItemsList()
   {
     itemsList = itemsCatalog[curSheet.mediaType]
@@ -263,7 +272,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
       })
     }
 
-    local val = obj.getValue()
+    local val = lastSortingPeerSheet?[curSheet.id] ?? obj.getValue()
     local data = ::handyman.renderCached("gui/commonParts/radiobutton", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
     local newVal = val < 0 || val >= view.radiobutton.len()? 0 : val
@@ -318,12 +327,15 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     obj.setValue(item.name)
 
     obj = descObj.findObject("item_desc")
-    obj.setValue(item.description)
+    obj.setValue(item.getDescription())
 
     obj = descObj.findObject("item_icon")
     local imageData = item.getIcon()
     if (imageData)
+    {
+      obj.wideSize = "yes"
       guiScene.replaceContentFromText(obj, imageData, imageData.len(), this)
+    }
 
     lastSelectedItem = item
     markItemSeen(item)
@@ -392,7 +404,9 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   {
     local item = getCurItem()
     item.updateIsBoughtStatus()
+    updateSorting()
     fillItemsList()
+    ::g_discount.updateXboxShopDiscounts()
   }
 
   function goBack()

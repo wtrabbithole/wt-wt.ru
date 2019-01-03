@@ -204,7 +204,7 @@ function g_login::initConfigs(cb)
       ::ItemsManager.collectUserlogItemdefs()
     }
     function() {
-      ::updateDiscountData(true)
+      ::g_discount.updateDiscountData(true)
     }
     function() {
      ::slotbarPresets.init()

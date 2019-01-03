@@ -396,6 +396,9 @@
                 "resetStrictSpawnIndex": false
               },
               {
+                "replaceAreas": false
+              },
+              {
                 "target": "@t1_boat_spawn_01_name"
               },
               {
@@ -467,6 +470,9 @@
               },
               {
                 "resetStrictSpawnIndex": false
+              },
+              {
+                "replaceAreas": false
               },
               {
                 "target": "@t2_boat_spawn_01_name"
@@ -592,6 +598,9 @@
                 "resetStrictSpawnIndex": false
               },
               {
+                "replaceAreas": false
+              },
+              {
                 "target": "@t1_destroyer_spawn_01_name"
               },
               {
@@ -663,6 +672,9 @@
               },
               {
                 "resetStrictSpawnIndex": false
+              },
+              {
+                "replaceAreas": false
               },
               {
                 "target": "@t2_destroyer_spawn_01_name"
@@ -788,6 +800,9 @@
                 "resetStrictSpawnIndex": false
               },
               {
+                "replaceAreas": false
+              },
+              {
                 "target": "@t1_cruiser_spawn_01_name"
               },
               {
@@ -859,6 +874,9 @@
               },
               {
                 "resetStrictSpawnIndex": false
+              },
+              {
+                "replaceAreas": false
               },
               {
                 "target": "@t2_cruiser_spawn_01_name"
@@ -989,6 +1007,9 @@
                 "resetStrictSpawnIndex": false
               },
               {
+                "replaceAreas": false
+              },
+              {
                 "target": "@t1_cruiser_spawn_01_name"
               },
               {
@@ -1058,6 +1079,9 @@
                 "resetStrictSpawnIndex": false
               },
               {
+                "replaceAreas": false
+              },
+              {
                 "target": "@t2_cruiser_spawn_01_name"
               },
               {
@@ -1125,6 +1149,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_boat_spawn_01_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1157,6 +1182,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_boat_spawn_01_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1178,26 +1204,28 @@
             "missionMarkAsCaptureZone": {
               "army": 0,
               "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
+              "timeMultiplier": 1.5,
               "disableZone": false,
               "target": "@zone_01_name",
               "iconIndex": 0,
               "canCaptureOnGround": false,
               "canCaptureInAir": false,
-              "canCaptureByGM": true
+              "canCaptureByGM": true,
+              "playAirfieldSound": false
             }
           },
           {
             "missionMarkAsCaptureZone": {
               "army": 0,
               "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
+              "timeMultiplier": 1.5,
               "disableZone": false,
               "target": "@zone_02_name",
               "iconIndex": 1,
               "canCaptureOnGround": false,
               "canCaptureInAir": false,
-              "canCaptureByGM": true
+              "canCaptureByGM": true,
+              "playAirfieldSound": false
             }
           },
           {
@@ -1262,12 +1290,12 @@
           },
           {
             "moAddMissionObjective": {
-              "target": "avn_NBttl_objective_capture_all_zones"
+              "target": "avn_NBttl_objective_capture_zone_for_progress"
             }
           },
           {
             "moAddMissionObjective": {
-              "target": "avn_NBttl_objective_capture_zone_for_progress"
+              "target": "avn_NBttl_objective_capture_all_zones"
             }
           },
           {
@@ -1283,6 +1311,38 @@
               "show": true,
               "iconName": "ui/gameuiskin#objective_captureZone_captured",
               "areaName": "@zone_t2_name",
+              "colorCode": "Team B"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@zone_01_name",
+              "areaNameTo": "@zone_t1_name",
+              "show": true,
+              "colorCode": "Team A"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@zone_01_name",
+              "areaNameTo": "@zone_t2_name",
+              "show": true,
+              "colorCode": "Team B"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@zone_02_name",
+              "areaNameTo": "@zone_t1_name",
+              "show": true,
+              "colorCode": "Team A"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@zone_02_name",
+              "areaNameTo": "@zone_t2_name",
+              "show": true,
               "colorCode": "Team B"
             }
           },
@@ -1340,6 +1400,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_boat_spawn_02_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1372,6 +1433,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_boat_spawn_02_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1474,6 +1536,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_destroyer_spawn_01_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1506,6 +1569,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_destroyer_spawn_01_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1576,6 +1640,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_destroyer_spawn_02_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1608,6 +1673,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_destroyer_spawn_02_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1669,6 +1735,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_cruiser_spawn_01_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1697,6 +1764,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_cruiser_spawn_01_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1807,6 +1875,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_cruiser_spawn_02_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1835,6 +1904,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_cruiser_spawn_02_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1901,6 +1971,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_cruiser_spawn_01_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -1929,6 +2000,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_cruiser_spawn_01_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -1995,6 +2067,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t1_cruiser_spawn_02_name",
               "team": "A",
               "separate_fuel_time": false,
@@ -2023,6 +2096,7 @@
               "isIndividual": true,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
               "target": "@t2_cruiser_spawn_02_name",
               "team": "B",
               "separate_fuel_time": false,
@@ -2408,15 +2482,7 @@
             "value": -100,
             "valueSystem": "percentage",
             "team": "B"
-          },
-          "triggerDisable": [
-            {
-              "target": "nbttl_zones_t1_reset"
-            },
-            {
-              "target": "nbttl_zones_t2_reset"
-            }
-          ]
+          }
         },
         "else_actions": []
       },
@@ -2461,15 +2527,7 @@
             "value": -100,
             "valueSystem": "percentage",
             "team": "A"
-          },
-          "triggerDisable": [
-            {
-              "target": "nbttl_zones_t1_reset"
-            },
-            {
-              "target": "nbttl_zones_t2_reset"
-            }
-          ]
+          }
         },
         "else_actions": []
       }
@@ -2722,7 +2780,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ANY",
+          "conditionsType": "ALL",
           "enableAfterComplete": false
         },
         "events": {
@@ -2753,9 +2811,11 @@
             "timeMultiplier": 1.0,
             "disableZone": false,
             "target": "@zone_t1_name",
+            "iconIndex": 2,
             "canCaptureOnGround": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "playAirfieldSound": false
           },
           "missionShowMapIcon": {
             "show": false,
@@ -2789,7 +2849,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ANY",
+          "conditionsType": "ALL",
           "enableAfterComplete": false
         },
         "events": {
@@ -2820,9 +2880,11 @@
             "timeMultiplier": 1.0,
             "disableZone": false,
             "target": "@zone_t2_name",
+            "iconIndex": 2,
             "canCaptureOnGround": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "playAirfieldSound": false
           },
           "missionShowMapIcon": {
             "show": false,
@@ -2856,7 +2918,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -2889,7 +2951,8 @@
             "target": "@zone_t1_name",
             "canCaptureOnGround": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "playAirfieldSound": false
           },
           "missionShowMapIcon": {
             "show": true,
@@ -2923,7 +2986,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -2956,7 +3019,8 @@
             "target": "@zone_t2_name",
             "canCaptureOnGround": false,
             "canCaptureInAir": false,
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "playAirfieldSound": false
           },
           "missionShowMapIcon": {
             "show": true,
@@ -2983,264 +3047,6 @@
             "target": "nbttl_zone_t2_can_be_captured"
           }
         },
-        "else_actions": []
-      },
-      "nbttl_zones_t1_reset": {
-        "is_enabled": true,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ANY",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "zone_t1_holder",
-            "value": 2,
-            "comparasion_func": "equal"
-          }
-        },
-        "actions": [
-          {
-            "playHint": {
-              "hintType": "standard",
-              "name": "hints/nbttl_reset_capturing_points_by_our_team",
-              "action": "show",
-              "shouldFadeOut": true,
-              "isOverFade": false,
-              "time": 3.0,
-              "priority": 0,
-              "target_marking": 0,
-              "object_var_name": "",
-              "object_var_comp_op": "equal",
-              "object_var_value": 0,
-              "team": "B"
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "standard",
-              "name": "hints/nbttl_reset_capturing_points_by_enemy_team",
-              "action": "show",
-              "shouldFadeOut": true,
-              "isOverFade": false,
-              "time": 3.0,
-              "priority": 0,
-              "target_marking": 0,
-              "object_var_name": "",
-              "object_var_comp_op": "equal",
-              "object_var_value": 0,
-              "team": "A"
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": false,
-              "target": "@zone_01_name",
-              "iconIndex": 0,
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": false,
-              "target": "@zone_02_name",
-              "iconIndex": 1,
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": true,
-              "target": "@zone_t1_name",
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": true,
-              "target": "@zone_t2_name",
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionShowMapIcon": {
-              "show": true,
-              "iconName": "ui/gameuiskin#objective_captureZone_captured",
-              "areaName": "@zone_t1_name",
-              "colorCode": "Team A"
-            }
-          },
-          {
-            "missionShowMapIcon": {
-              "show": true,
-              "iconName": "ui/gameuiskin#objective_captureZone_captured",
-              "areaName": "@zone_t2_name",
-              "colorCode": "Team B"
-            }
-          },
-          {
-            "gameMPChangeScore": {
-              "value": -25,
-              "valueSystem": "percentage",
-              "team": "A"
-            }
-          }
-        ],
-        "else_actions": []
-      },
-      "nbttl_zones_t2_reset": {
-        "is_enabled": true,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ANY",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "zone_t2_holder",
-            "value": 1,
-            "comparasion_func": "equal"
-          }
-        },
-        "actions": [
-          {
-            "playHint": {
-              "hintType": "standard",
-              "name": "hints/nbttl_reset_capturing_points_by_our_team",
-              "action": "show",
-              "shouldFadeOut": true,
-              "isOverFade": false,
-              "time": 3.0,
-              "priority": 0,
-              "target_marking": 0,
-              "object_var_name": "",
-              "object_var_comp_op": "equal",
-              "object_var_value": 0,
-              "team": "A"
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "standard",
-              "name": "hints/nbttl_reset_capturing_points_by_enemy_team",
-              "action": "show",
-              "shouldFadeOut": true,
-              "isOverFade": false,
-              "time": 3.0,
-              "priority": 0,
-              "target_marking": 0,
-              "object_var_name": "",
-              "object_var_comp_op": "equal",
-              "object_var_value": 0,
-              "team": "B"
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": false,
-              "target": "@zone_01_name",
-              "iconIndex": 0,
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": false,
-              "target": "@zone_02_name",
-              "iconIndex": 1,
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": true,
-              "target": "@zone_t1_name",
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionMarkAsCaptureZone": {
-              "army": 0,
-              "name_for_respawn_base": "",
-              "timeMultiplier": 1.0,
-              "disableZone": true,
-              "target": "@zone_t2_name",
-              "canCaptureOnGround": false,
-              "canCaptureInAir": false,
-              "canCaptureByGM": true
-            }
-          },
-          {
-            "missionShowMapIcon": {
-              "show": true,
-              "iconName": "ui/gameuiskin#objective_captureZone_captured",
-              "areaName": "@zone_t1_name",
-              "colorCode": "Team A"
-            }
-          },
-          {
-            "missionShowMapIcon": {
-              "show": true,
-              "iconName": "ui/gameuiskin#objective_captureZone_captured",
-              "areaName": "@zone_t2_name",
-              "colorCode": "Team B"
-            }
-          },
-          {
-            "gameMPChangeScore": {
-              "value": -25,
-              "valueSystem": "percentage",
-              "team": "B"
-            }
-          }
-        ],
         "else_actions": []
       },
       "nbttl_zone_t1_capture_remaining_point": {
