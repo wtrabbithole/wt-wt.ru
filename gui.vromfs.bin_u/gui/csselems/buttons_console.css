@@ -1789,12 +1789,14 @@ ButtonImg[showOn=selectedAndEnabled] {
   display:hide;
 }
 
+multiOption ButtonImg[showOn=selectedOnConsole],
 [show_console_buttons=no]  multiOption ButtonImg[showOrNoneOn=selectedOnConsole] {
   display:hide;
 }
 [show_console_buttons=yes] multiOption ButtonImg[showOrNoneOn=selectedOnConsole] {
   display:none;
 }
+[show_console_buttons=yes] multiOption[selected=yes] ButtonImg[showOn=selectedOnConsole],
 [show_console_buttons=yes] multiOption[selected=yes] ButtonImg[showOrNoneOn=selectedOnConsole] {
   display:show;
 }

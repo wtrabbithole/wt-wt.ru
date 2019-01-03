@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 
 ::team_aircraft_list <- null
 
@@ -293,6 +294,7 @@ function build_mp_table(table, markupData, hdr, max_rows)
           if ("image" in markup[hdr[j]])
             imageBg = ::format(" team:t='%s'; " +
               "teamImg {" +
+              "css-hier-invalidate:t='yes'; " +
               "id:t='%s';" +
               "background-image:t='%s';" +
               "display:t='%s'; ",
@@ -346,8 +348,10 @@ function set_mp_table(obj_tbl, table, params)
   local showAirIcons = ::getTblValue("showAirIcons", params, true)
   local continueRowNum = ::getTblValue("continueRowNum", params, 0)
   local numberOfWinningPlaces = ::getTblValue("numberOfWinningPlaces", params, -1)
+  local playersInfo = params?.playersInfo ?? ::SessionLobby.getPlayersInfo()
   local isInFlight = ::is_in_flight()
   local needColorizeNotInGame = isInFlight
+  local isReplay = ::is_replay_playing()
 
   ::SquadIcon.updateTopSquadScore(table)
 
@@ -386,6 +390,13 @@ function set_mp_table(obj_tbl, table, params)
 
       if (!isEmpty && (hdr in table[i]))
         item = table[i][hdr]
+
+      if (!isEmpty && isReplay)
+      {
+        table[i].isLocal = spectatorWatchedHero.id == table[i].id
+        table[i].isInHeroSquad = ::SessionLobby.isEqualSquadId(spectatorWatchedHero.squadId,
+          table[i]?.squadId)
+      }
 
       if (hdr == "team")
       {
@@ -480,14 +491,14 @@ function set_mp_table(obj_tbl, table, params)
 
         if (!isEmpty)
         {
-          objTr.mainPlayer = (::is_replay_playing() ? (table[i].userId == ::current_replay_author) : table[i].isLocal) ? "yes" : "no";
-          objTr.inMySquad = (("isInHeroSquad" in table[i]) && table[i].isInHeroSquad) ? "yes" : "no";
+          objTr.mainPlayer = table[i].isLocal ? "yes" : "no"
+          objTr.inMySquad  = table[i]?.isInHeroSquad ? "yes" : "no"
           objTr.spectator = (("spectator" in table[i]) && table[i].spectator) ? "yes" : "no"
         }
         local tooltip = nameText
         if (!isEmpty && !table[i].isBot && (::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName))
         {
-          local data = ::SessionLobby.getBattleRatingParamById(table[i].userId)
+          local data = ::SessionLobby.getBattleRatingParamByPlayerInfo(playersInfo?[(table[i].userId).tointeger()])
           if (data)
           {
             local squadInfo = ::SquadIcon.getSquadInfo(data.squad)
@@ -643,6 +654,9 @@ function set_mp_table(obj_tbl, table, params)
             cellIcon["tooltip"] = ::format("%s %s%s", ::loc("options/chat_messages_squad"), ::loc("ui/number_sign", "#"), labelSquad)
               + "\n" + ::loc("profile/awards") + ::loc("ui/colon") + squadScore
               + (isTopSquad ? ("\n" + ::loc("streaks/squad_best")) : "")
+
+            if (isReplay)
+              objTd.team = squadInfo.teamId == ::get_player_army_for_hud() ? "blue" : "red"
           }
         }
       }
@@ -1195,8 +1209,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     if (customTbl)
     {
       local idx = max(team-1, -1)
-      if (idx in customTbl)
-        tbl = customTbl[idx]
+      if (idx in customTbl?.playersTbl)
+        tbl = customTbl.playersTbl[idx]
     }
 
     local minRow = 0
@@ -1271,6 +1285,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                        showAirIcons = showAirIcons,
                        continueRowNum = minRow,
                        numberOfWinningPlaces = numberOfWinningPlaces
+                       playersInfo = customTbl?.playersInfo
                      }
       ::set_mp_table(objTbl, tbl, params)
       ::update_team_css_label(objTbl)
@@ -2109,6 +2124,8 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
     ::in_flight_menu(true)
     forceUpdate()
     delayedRestoreFocus()
+    if (::is_replay_playing())
+      selectLocalPlayer()
   }
 
   function forceUpdate()

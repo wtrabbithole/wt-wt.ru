@@ -905,6 +905,11 @@ function SessionLobby::resetParams()
   ::g_user_presence.setPresence({in_game_ex = null})
 }
 
+function SessionLobby::resetPlayersInfo()
+{
+  playersInfo.clear()
+}
+
 function SessionLobby::switchStatusChecked(oldStatusList, newStatus)
 {
   if (::isInArray(status, oldStatusList))
@@ -2241,9 +2246,13 @@ function SessionLobby::isMemberInMySquadByName(name)
   return memberInfo.team == myInfo.team && memberInfo.squad == myInfo.squad
 }
 
-function SessionLobby::getBattleRatingParamById(uid)
+function SessionLobby::isEqualSquadId(squadId1, squadId2)
 {
-  local member = getMemberPlayerInfo(uid)
+  return squadId1 != INVALID_SQUAD_ID && squadId1 == squadId2
+}
+
+function SessionLobby::getBattleRatingParamByPlayerInfo(member)
+{
   if (!member)
     return null
   local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode

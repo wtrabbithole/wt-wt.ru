@@ -143,6 +143,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   gameType = null
   gm = null
   mGameMode = null
+  playersInfo = null //it is SessionLobby.playersInfo for debriefing statistics info
 
   pveRewardInfo = null
   battleTasksConfigs = {}
@@ -167,6 +168,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     showTab("") //hide all tabs
 
     isSpectator = ::SessionLobby.isInRoom() && ::SessionLobby.spectator
+    playersInfo = clone ::SessionLobby.getPlayersInfo()
     ::set_presence_to_player("menu")
     initStatsMissionParams()
     ::SessionLobby.checkLeaveRoomInDebriefing()
@@ -2003,7 +2005,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         }
         playersTblDone = playersTblDone && curPlayersTbl[t].len() == playersTbl[t].len()
       }
-      updateStats(curPlayersTbl, ::debriefing_result.mpTblTeams, ::debriefing_result.localTeam, ::debriefing_result.friendlyTeam)
+      updateStats({ playersTbl = curPlayersTbl, playersInfo = playersInfo }, ::debriefing_result.mpTblTeams,
+        ::debriefing_result.localTeam, ::debriefing_result.friendlyTeam)
       statsTimer += playersRowTime
 
       if (hasLocalPlayer)

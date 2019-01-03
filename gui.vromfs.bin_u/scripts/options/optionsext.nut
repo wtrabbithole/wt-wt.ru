@@ -386,44 +386,41 @@ function create_option_row_listbox(id, items, value, cb, isFull, listClass="opti
   return data
 }
 
-function build_multiselect_option(text, image, tooltip = "", enabled = true, isVisible = true)
+function create_option_row_multiselect(params)
 {
-  return ("multiOption {  " +
-           (enabled? "" : "enable:t='no'; ") +
-           (isVisible ? "" : "display:t='hide'; ") +
-           ((image=="")? "" : "multiOptionImg { background-image:t='" + image + "' } ") +
-           ((text=="")? "" : "multiOptionText { text:t = '" + ::locOrStrip(text) + "'; } ") +
-           "CheckBoxImg {} " +
-           ((tooltip=="")? "" : "tooltip:t = '" + ::locOrStrip(tooltip) + "'; ") +
-         "} ")
-}
+  local option = params?.option
+  if (!option_check_arg(option?.id, option?.items, "array") ||
+    !option_check_arg(option?.id, option?.value, "integer"))
+      return ""
 
-function create_option_row_multiselect(id, items, value, cb, isFull, listClass="options")
-{
-  if (!option_check_arg(id, items, "array") || !option_check_arg(id, value, "integer"))
-    return ""
-
-  local data = "id:t = '" + id + "'; " + (cb != null ? "on_select:t = '" + cb + "'; " : "")
-               + "class:t='" + listClass + "'; "
-               + "value:t='" + value + "'; "
-               + "optionsShortcuts:t='yes'; "
-
-  foreach (idx, item in items)
-    if (typeof(item) == "string")
-      data += build_multiselect_option(item, "")
-    else  //typeof(item) == "table"
-      data += build_multiselect_option(::getTblValue("text", item, ""),
-                  ::getTblValue("image", item, ""),
-                  ::getTblValue("tooltip", item, ""),
-                  ::getTblValue("enabled", item, true),
-                  ::getTblValue("isVisible", item, true))
-
-  if (isFull)
-  {
-    data = "MultiSelect { height:t='ph-6'; pos:t = 'pw-0.5p.p.w-0.5w, 0.5(ph-h)'; position:t = 'absolute'; "
-             + data + "}"
+  local view = {
+    listClass = params?.listClass ?? "options"
+    isFull = params?.isFull ?? true
+    items = []
   }
-  return data
+  foreach (key in [ "id", "showTitle", "value", "cb" ])
+    if (option?[key] ?? "" != "")
+      view[key] <- option[key]
+  foreach (key in [ "textAfter" ])
+    if (option?[key] ?? "" != "")
+      view[key] <- ::locOrStrip(option[key])
+
+  foreach (v in option.items)
+  {
+    local item = typeof(v) == "string" ? { text = v, image = "" } : v
+    local viewItem = {}
+    foreach (key in [ "enabled", "isVisible" ])
+      viewItem[key] <- item?[key] ?? true
+    foreach (key in [ "id", "image" ])
+      if (item?[key] ?? "" != "")
+        viewItem[key] <- item[key]
+    foreach (key in [ "text", "tooltip" ])
+      if (item?[key] ?? "" != "")
+        viewItem[key] <- ::locOrStrip(item[key])
+    view.items.append(viewItem)
+  }
+
+  return ::handyman.renderCached(("gui/options/optionMultiselect"), view)
 }
 
 function create_option_vlistbox(id, items, value, cb, isFull)
@@ -5030,8 +5027,8 @@ function create_options_container(name, options, is_focused, is_centered, column
 
       case "multiselect":
         local listClass = ("listClass" in optionData)? optionData.listClass : "options"
-        elemTxt = create_option_row_multiselect(optionData.id, optionData.items, optionData.value, optionData.cb, true, listClass)
-        haveOptText = false
+        elemTxt = ::create_option_row_multiselect({ option = optionData, isFull = true, listClass = listClass })
+        haveOptText = optionData?.showTitle ?? false
         break
 
       case "slider":

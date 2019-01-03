@@ -28,10 +28,12 @@ tr {
     <</iconLeft>>
     textareaNoTab {
       id:t='name'
+      word-wrap:t='no'
       text:t=''
     }
     textareaNoTab {
       id:t='unit'
+      word-wrap:t='no'
       text:t=''
     }
   }

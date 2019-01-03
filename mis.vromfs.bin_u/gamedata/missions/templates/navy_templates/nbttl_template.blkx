@@ -24,9 +24,6 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_battles",
-      "scoreLimit": 17000,
-      "timeLimit": 20,
-      "deathPenaltyMul": 1.0,
       "country_axis": "germany",
       "country_allies": "ussr",
       "editSlotbar": {
@@ -1265,12 +1262,12 @@
           },
           {
             "moAddMissionObjective": {
-              "target": "avg_NBttl_objective_capture_all_zones"
+              "target": "avn_NBttl_objective_capture_all_zones"
             }
           },
           {
             "moAddMissionObjective": {
-              "target": "avg_NBttl_objective_capture_zone_for_progress"
+              "target": "avn_NBttl_objective_capture_zone_for_progress"
             }
           },
           {
@@ -2386,13 +2383,6 @@
         "conditions": [
           {
             "varCompareInt": {
-              "var_value": "zone_t1_holder",
-              "value": 1,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareInt": {
               "var_value": "zone_t2_holder",
               "value": 1,
               "comparasion_func": "equal"
@@ -2418,7 +2408,15 @@
             "value": -100,
             "valueSystem": "percentage",
             "team": "B"
-          }
+          },
+          "triggerDisable": [
+            {
+              "target": "nbttl_zones_t1_reset"
+            },
+            {
+              "target": "nbttl_zones_t2_reset"
+            }
+          ]
         },
         "else_actions": []
       },
@@ -2445,13 +2443,6 @@
           },
           {
             "varCompareInt": {
-              "var_value": "zone_t2_holder",
-              "value": 2,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareInt": {
               "var_value": "zone_01_holder",
               "value": 2,
               "comparasion_func": "equal"
@@ -2470,7 +2461,15 @@
             "value": -100,
             "valueSystem": "percentage",
             "team": "A"
-          }
+          },
+          "triggerDisable": [
+            {
+              "target": "nbttl_zones_t1_reset"
+            },
+            {
+              "target": "nbttl_zones_t2_reset"
+            }
+          ]
         },
         "else_actions": []
       }
@@ -2728,7 +2727,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.1
           }
         },
         "conditions": [
@@ -2795,7 +2794,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.1
           }
         },
         "conditions": [
@@ -2883,7 +2882,7 @@
         ],
         "actions": {
           "missionMarkAsCaptureZone": {
-            "army": 1,
+            "army": 0,
             "name_for_respawn_base": "",
             "timeMultiplier": 1.0,
             "disableZone": true,
@@ -2950,7 +2949,7 @@
         ],
         "actions": {
           "missionMarkAsCaptureZone": {
-            "army": 2,
+            "army": 0,
             "name_for_respawn_base": "",
             "timeMultiplier": 1.0,
             "disableZone": true,
@@ -3008,6 +3007,38 @@
         },
         "actions": [
           {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_reset_capturing_points_by_our_team",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "B"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_reset_capturing_points_by_enemy_team",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "A"
+            }
+          },
+          {
             "missionMarkAsCaptureZone": {
               "army": 0,
               "name_for_respawn_base": "",
@@ -3035,7 +3066,7 @@
           },
           {
             "missionMarkAsCaptureZone": {
-              "army": 1,
+              "army": 0,
               "name_for_respawn_base": "",
               "timeMultiplier": 1.0,
               "disableZone": true,
@@ -3047,7 +3078,7 @@
           },
           {
             "missionMarkAsCaptureZone": {
-              "army": 2,
+              "army": 0,
               "name_for_respawn_base": "",
               "timeMultiplier": 1.0,
               "disableZone": true,
@@ -3105,6 +3136,38 @@
         },
         "actions": [
           {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_reset_capturing_points_by_our_team",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "A"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_reset_capturing_points_by_enemy_team",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "B"
+            }
+          },
+          {
             "missionMarkAsCaptureZone": {
               "army": 0,
               "name_for_respawn_base": "",
@@ -3132,7 +3195,7 @@
           },
           {
             "missionMarkAsCaptureZone": {
-              "army": 1,
+              "army": 0,
               "name_for_respawn_base": "",
               "timeMultiplier": 1.0,
               "disableZone": true,
@@ -3144,7 +3207,7 @@
           },
           {
             "missionMarkAsCaptureZone": {
-              "army": 2,
+              "army": 0,
               "name_for_respawn_base": "",
               "timeMultiplier": 1.0,
               "disableZone": true,
@@ -3179,13 +3242,225 @@
           }
         ],
         "else_actions": []
+      },
+      "nbttl_zone_t1_capture_remaining_point": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "zone_01_holder",
+              "value": 2,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "zone_02_holder",
+              "value": 2,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_capture_remaining_point_for_instant_win",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "B"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_lose_remaining_point_for_instant_defeat",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "A"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "nbttl_zone_t1_capture_remaining_point_reset"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "nbttl_zone_t2_capture_remaining_point": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "zone_01_holder",
+              "value": 1,
+              "comparasion_func": "equal"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "zone_02_holder",
+              "value": 1,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_capture_remaining_point_for_instant_win",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "A"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "standard",
+              "name": "hints/nbttl_lose_remaining_point_for_instant_defeat",
+              "action": "show",
+              "shouldFadeOut": true,
+              "isOverFade": false,
+              "time": 3.0,
+              "priority": 0,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "B"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "nbttl_zone_t2_capture_remaining_point_reset"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "nbttl_zone_t1_capture_remaining_point_reset": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "zone_01_holder",
+              "value": 2,
+              "comparasion_func": "notEqual"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "zone_02_holder",
+              "value": 2,
+              "comparasion_func": "notEqual"
+            }
+          }
+        ],
+        "actions": {
+          "triggerEnable": {
+            "target": "nbttl_zone_t1_capture_remaining_point"
+          }
+        },
+        "else_actions": []
+      },
+      "nbttl_zone_t2_capture_remaining_point_reset": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "zone_01_holder",
+              "value": 1,
+              "comparasion_func": "notEqual"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "zone_02_holder",
+              "value": 1,
+              "comparasion_func": "notEqual"
+            }
+          }
+        ],
+        "actions": {
+          "triggerEnable": {
+            "target": "nbttl_zone_t2_capture_remaining_point"
+          }
+        },
+        "else_actions": []
       }
     }
   },
   "mission_objectives": {
     "isCategory": true,
     "is_enabled": true,
-    "avg_NBttl_objective_capture_all_zones": {
+    "avn_NBttl_objective_capture_zone_for_progress": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
@@ -3197,7 +3472,7 @@
       "onSuccess": [],
       "onFailed": []
     },
-    "avg_NBttl_objective_capture_zone_for_progress": {
+    "avn_NBttl_objective_capture_all_zones": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",

@@ -1119,7 +1119,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       local contact = ::getContact(searchRes.getParamName(i), searchRes.getParamValue(i))
       if (contact)
       {
-        if (!contact.isMe() && !contact.isInFriendGroup())
+        if (!contact.isMe() && !contact.isInFriendGroup() && platformModule.isPs4XboxOneInteractionAvailable(contact.name))
           ::contacts[searchGroup].append(contact)
       }
       else

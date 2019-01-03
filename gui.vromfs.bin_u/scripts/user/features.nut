@@ -198,6 +198,7 @@
     PromoBattleTasksRadioButtons = false
 
     XboxCrossConsoleInteraction = false
+    Ps4XboxOneInteraction = false
     EnableMouse = true
   }
 

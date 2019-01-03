@@ -596,8 +596,8 @@ function load_scripts_after_login_once()
     "events/eventRoomCreationContext.nut"
     "events/createEventRoomWnd.nut"
 
-    "replayScreen.nut"
-    "replayPlayer.nut"
+    "replays/replayScreen.nut"
+    "replays/replayPlayer.nut"
 
     "customization/types.nut"
     "customization/decorator.nut"
@@ -765,7 +765,7 @@ function load_scripts_after_login_once()
     "hud/hud.nut"
     "hud/hudActionBarType.nut"
     "hud/hudActionBar.nut"
-    "spectator.nut"
+    "replays/spectator.nut"
     "hud/hudTankDebuffs.nut"
     "hud/hudShipDebuffs.nut"
     "hud/hudDisplayTimers.nut"

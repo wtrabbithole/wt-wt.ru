@@ -120,6 +120,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   spectator_switch_timer_max = 0.5
   spectator_switch_timer = 0
   spectator_switch_direction = ESwitchSpectatorTarget.E_DO_NOTHING
+  lastSpectatorTargetName = ""
 
   filterTags = []
   gunDescr = null
@@ -2262,8 +2263,23 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local name = ::get_spectator_target_name()
+    if (name == lastSpectatorTargetName)
+      return
+    lastSpectatorTargetName = name
+
     local title = ::get_spectator_target_title()
-    scene.findObject("spectator_name").setValue(name + " " + title)
+    local text = name + " " + title
+
+    local color = "teamBlueColor"
+    local players = ::get_mplayers_list(GET_MPLAYERS_LIST, true)
+    foreach(p in players)
+      if (::g_string.startsWith(name, ::g_string.implode([ p.clanTag, p.name ], " ")))
+      {
+        color = ::get_mplayer_color(p)
+        break
+      }
+
+    scene.findObject("spectator_name").setValue(::colorize(color, text))
   }
 
   function onChatCancel()

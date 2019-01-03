@@ -1,4 +1,5 @@
 local avatars = ::require("scripts/user/avatars.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 function on_presences_update(params)
 {
@@ -98,6 +99,7 @@ function on_presences_update(params)
       )
       ::addContactGroup(::EPL_STEAM)
 
+    local playersToRemove = {}
     foreach(listName, list in params.groups)
     {
       if (list == null)
@@ -120,6 +122,14 @@ function on_presences_update(params)
           continue
         }
 
+        if (!platformModule.isPs4XboxOneInteractionAvailable(player.name))
+        {
+          if (!(listName in playersToRemove))
+            playersToRemove[listName] <- {[false] = []}
+          playersToRemove[listName][false].append(player)
+          continue
+        }
+
         if (listName == ::EPL_FRIENDLIST && player.online == null)
           player.online = null
 
@@ -129,6 +139,9 @@ function on_presences_update(params)
           ::contacts[listName].append(player)
       }
     }
+
+    foreach (group, requestTable in playersToRemove)
+      ::edit_players_list_in_contacts(requestTable, group)
   }
   ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = null})
 
