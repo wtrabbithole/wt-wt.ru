@@ -716,6 +716,12 @@
     }
     return preset
   }
+
+  function onEventCurrentGameModeIdChanged(params)
+  {
+    if(params.isUserSelected)
+      ::slotbarPresets.save(::get_profile_country_sq())
+  }
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("slotbarPresets")

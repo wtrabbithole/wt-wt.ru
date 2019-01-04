@@ -130,7 +130,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     )
   }
 
-  function onItemSelect(isForceUpdate = false)
+  function updateSelectedItem(isForceUpdate = false)
   {
     refreshSelBattle()
     local cb = ::Callback(function() {

@@ -32,6 +32,11 @@ class ::WwAirfield
     return index >= 0
   }
 
+  function getIndex()
+  {
+    return index
+  }
+
   function update()
   {
     createArmyMorale = ::g_world_war.getWWConfigurableValue("airfieldCreateArmyMorale", 0)
@@ -117,14 +122,15 @@ class ::WwAirfield
     return pos
   }
 
-  function getUnitsNumber()
+  function getUnitsNumber(needToAddCooldown = true)
   {
     local count = 0
     foreach (formation in formations)
       count += formation.getUnitsNumber()
 
-    foreach (formation in cooldownFormations)
-      count += formation.getUnitsNumber()
+    if (needToAddCooldown)
+      foreach (formation in cooldownFormations)
+        count += formation.getUnitsNumber()
 
     return count
   }

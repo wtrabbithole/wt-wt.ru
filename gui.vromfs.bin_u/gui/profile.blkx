@@ -485,47 +485,30 @@
             }
           },
           {
-            "tdiv": [
-              {
-                "id": "decal_info"
+            "tdiv": {
+              "id": "decal_info",
+              "size": "33%pw, ph",
+              "margin-left": "@blockInterval",
+              "flow": "vertical",
+              "overflow-y": "auto",
+              "padding-top": "@cIco",
+              "tdiv": {
+                "id": "decal_desc",
+                "flow": "vertical",
+                "width": "pw"
               },
-              {
-                "size": "33%pw, ph"
-              },
-              {
-                "margin-left": "@blockInterval"
-              },
-              {
-                "flow": "vertical"
-              },
-              {
-                "overflow-y": "auto"
-              },
-              {
-                "padding-top": "@cIco"
-              },
-              {
-                "tdiv": {
-                  "id": "decal_desc",
-                  "flow": "vertical",
-                  "width": "pw"
-                }
-              },
-              {
-                "tdiv": {
-                  "padding-left": "@unlockHeaderIconSize",
-                  "CheckBox": {
-                    "id": "checkbox-favorites",
-                    "text": "#mainmenu/UnlockAchievementsToFavorite",
-                    "smallFont": "yes",
-                    "tooltip": "",
-                    "on_change_value": "unlockToFavorites",
-                    "unlockId": "",
-                    "CheckBoxImg": []
-                  }
-                }
+              "CheckBox": {
+                "id": "checkbox-favorites",
+                "pos": "@unlockHeaderIconSize + 1*@scrn_tgt/100.0 -1@sf/@pf, 10@sf/@pf",
+                "position": "relative",
+                "text": "#mainmenu/UnlockAchievementsToFavorite",
+                "smallFont": "yes",
+                "tooltip": "",
+                "on_change_value": "unlockToFavorites",
+                "unlockId": "",
+                "CheckBoxImg": []
               }
-            ]
+            }
           }
         ]
       },
@@ -582,7 +565,7 @@
                   "flow": "vertical"
                 },
                 {
-                  "size": "fw, fh"
+                  "size": "fw, ph"
                 },
                 {
                   "tdiv": [
@@ -626,57 +609,12 @@
                   }
                 },
                 {
-                  "tdiv": [
-                    {
-                      "id": "item_desc"
-                    },
-                    {
-                      "flow": "vertical"
-                    },
-                    {
-                      "size": "pw, ph"
-                    },
-                    {
-                      "margin-top": "10"
-                    },
-                    {
-                      "titleTextArea": {
-                        "id": "item_name0",
-                        "text-align": "center"
-                      }
-                    },
-                    {
-                      "titleTextArea": {
-                        "id": "item_name",
-                        "text-align": "center"
-                      }
-                    },
-                    {
-                      "tdiv": {
-                        "id": "item_field",
-                        "flow": "vertical",
-                        "size": "pw,fh",
-                        "overflow-y": "auto",
-                        "scrollbarShortcuts": "yes"
-                      }
-                    },
-                    {
-                      "tdiv": {
-                        "padding-left": "@unlockHeaderIconSize",
-                        "CheckBox": {
-                          "id": "checkbox-favorites",
-                          "text": "#mainmenu/UnlockAchievementsToFavorite",
-                          "smallFont": "yes",
-                          "tooltip": "",
-                          "on_change_value": "unlockToFavorites",
-                          "unlockId": "",
-                          "btnName": "Y",
-                          "ButtonImg": [],
-                          "CheckBoxImg": []
-                        }
-                      }
-                    }
-                  ]
+                  "tdiv": {
+                    "id": "item_desc",
+                    "flow": "vertical",
+                    "size": "pw, fh",
+                    "margin-top": "1@blockInterval"
+                  }
                 }
               ]
             }

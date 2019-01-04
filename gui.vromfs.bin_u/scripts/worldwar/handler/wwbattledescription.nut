@@ -167,7 +167,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     else
       updateBattlesStatusInList()
 
-    onItemSelect(isForceUpdate)
+    updateSelectedItem(isForceUpdate)
     updateClosedGroups(closedGroups)
 
     validateSquadInfo()
@@ -984,7 +984,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onItemSelect(isForceUpdate = false)
+  function onItemSelect()
+  {
+    updateSelectedItem(false)
+  }
+
+  function updateSelectedItem(isForceUpdate = false)
   {
     refreshSelBattle()
     local newOperationBattle = getBattleById(curBattleInList.id)

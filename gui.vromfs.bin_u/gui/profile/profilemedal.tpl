@@ -29,3 +29,11 @@ bigMedalPlace {
     <</hasProgress>>
   }
 <</condition>>
+
+<<#rewardText>>
+  unlockConditionHeader {
+    textarea {
+      text:t='<<?challenge/reward>> <<rewardText>>'
+    }
+  }
+<</rewardText>>

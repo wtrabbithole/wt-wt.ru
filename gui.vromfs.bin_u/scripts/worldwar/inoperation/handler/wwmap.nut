@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local mapAirfields = require("scripts/worldWar/inOperation/model/wwMapAirfields.nut")
 
 
 class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
@@ -84,6 +85,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   function clearSavedData()
   {
     savedReinforcements = {}
+    mapAirfields.reset()
   }
 
   function initMapName()
@@ -591,22 +593,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function updateAirfieldsMapIcons()
-  {
-    for (local i = 0; i < ::g_world_war.getAirfieldsCount(); i++)
-    {
-      local airfield = ::g_world_war.getAirfieldByIndex(i)
-      if (!airfield.isValid())
-        continue
-
-      local zoneName = ::ww_get_zone_name(::ww_get_zone_idx_world(airfield.getPos()))
-      if (airfield.hasEnoughUnitsToFly())
-        ::ww_turn_on_sector_sprites("Airfield", [zoneName], 0)
-      else
-        ::ww_turn_off_sector_sprites("Airfield", [zoneName])
-    }
-  }
-
   function showSidesStrenght()
   {
     local blockObj = scene.findObject("content_block_3")
@@ -1045,7 +1031,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     setCurrentSelectedObject(currentSelectedObject)
     markMainObjectiveZones()
     initOperationStatus()
-    updateAirfieldsMapIcons()
+
+    mapAirfields.updateMapIcons()
 
     onSecondsUpdate(null, 0)
     startRequestNewLogsTimer()

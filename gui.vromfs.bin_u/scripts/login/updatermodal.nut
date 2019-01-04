@@ -48,7 +48,7 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 
   function changeBg()
   {
-    local dynamicBgContainer = scene.findObject("animated_bg")
+    local dynamicBgContainer = scene.findObject("animated_bg_picture")
     if( ! dynamicBgContainer)
       return
     ::g_anim_bg.load("", dynamicBgContainer)

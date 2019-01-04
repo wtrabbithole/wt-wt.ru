@@ -18,7 +18,7 @@ MultiSelect {
     on_select:t='<<cb>>'
   <</cb>>
   class:t='<<listClass>>'
-  value:t='<<value>>'
+  value:t='<<#value>><<value>><</value>><<^value>>0<</value>>'
   optionsShortcuts:t='yes'
 
   <<#items>>

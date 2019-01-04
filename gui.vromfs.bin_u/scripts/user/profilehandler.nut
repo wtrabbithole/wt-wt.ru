@@ -755,7 +755,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         items.append({
           id = name
           tag = "imgSelectable"
-          tooltipId = ::g_tooltip.getIdUnlock(name, { showProgress = true, needTitle = false })
           unlocked = ::is_unlocked_scripted(unlockTypeId, name)
           image = ::get_image_for_unlockable_medal(name)
           imgClass = "smallMedals"
@@ -909,13 +908,15 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     return ""
   }
 
-  function fillSkinInfoObj(page_id, name, unlockBlk, infoObj)
+  function fillSkinDescr(name)
   {
+    local objDesc = showSceneBtn("item_desc", true)
+    local unlockBlk = ::g_unlocks.getUnlockById(name)
     local decoratorType = ::g_decorator_type.SKINS
     local decorator = ::g_decorator.getDecoratorById(name)
     local isAllowed = decoratorType.isPlayerHaveDecorator(name)
     local config = {}
-    local isNotUnlock = false
+    local isForGoldOnly = false
     local price = ""
     if (unlockBlk)
     {
@@ -963,13 +964,16 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         local cost = decorator.getCost()
         if (!cost.isZero())
         {
-          isNotUnlock = true
+          isForGoldOnly = true
           price = ::loc("ugm/price") + ::loc("ui/colon") + ::colorize("white", cost.getTextAccordingToBalance()) +
             "\n" + ::loc("shop/object/can_be_purchased")
         }
       }
     }
 
+    local textName = ::loc(name)
+    local unitName = ::g_unlocks.getPlaneBySkinId(name)
+    local unitNameLoc = (unitName != "") ? ::getUnitName(unitName) : ""
     local condView = []
     append_condition_item(config, 0, condView, true, isAllowed)
 
@@ -1006,17 +1010,26 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     local skinView = {skinDescription = []}
     skinView.skinDescription.append({
+      name0 = unitNameLoc
+      name = textName
       image = config.image
-      height = config.imgRatio +"w"
-      width = config.imgRatio + "h"
+      ratio = config.imgRatio
       status = isAllowed ? "unlocked" : "locked"
       condition = condView
-      isNotUnlock = isNotUnlock
+      isForGoldOnly = isForGoldOnly
+      isUnlock = !!unlockBlk
       price = price
     })
 
+    guiScene.setUpdatesEnabled(false, false)
     local markUpData = ::handyman.renderCached("gui/profileSkins", skinView)
-    guiScene.replaceContentFromText(infoObj, markUpData, markUpData.len(), this)
+    guiScene.replaceContentFromText(objDesc, markUpData, markUpData.len(), this)
+
+    if (unlockBlk)
+      ::g_unlock_view.fillUnlockFav(name, objDesc)
+
+    showSceneBtn("unlocks_list", false)
+    guiScene.setUpdatesEnabled(true, true)
   }
 
   function append_condition_item(item, idx, view, header, is_unlocked, typeOR = false)
@@ -1167,29 +1180,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     return unlock.id + "_block"
   }
 
-  function fillSkinDescr(name)
-  {
-    guiScene.setUpdatesEnabled(false, false)
-
-    local objDesc = showSceneBtn("item_desc", true)
-
-    local textName = ::loc(name)
-    local unitName = ::g_unlocks.getPlaneBySkinId(name)
-    local unitNameLoc = (unitName != "") ? ::getUnitName(unitName) : ""
-    objDesc.findObject("item_name").setValue(textName)
-    objDesc.findObject("item_name0").setValue(unitNameLoc)
-
-    local unlockBlk = ::g_unlocks.getUnlockById(name)
-    fillSkinInfoObj("skin", name, unlockBlk, scene.findObject("item_field"))
-    objDesc.findObject("checkbox-favorites").show(!!unlockBlk)
-    if (unlockBlk)
-      ::g_unlock_view.fillUnlockFav(name, objDesc)
-
-    showSceneBtn("unlocks_list", false)
-
-    guiScene.setUpdatesEnabled(true, true)
-  }
-
   function onDecalSelect(obj)
   {
     if (!::check_obj(obj))
@@ -1215,6 +1205,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local isUnlocked = ::is_unlocked_scripted(::get_unlock_type_by_id(name), name)
     local config = ::build_conditions_config(unlock)
     ::build_unlock_desc(config)
+    local rewardText = ::get_unlock_reward(name)
 
     local condView = []
     append_condition_item(config, 0, condView, true, isUnlocked)
@@ -1228,6 +1219,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       image = ::get_image_for_unlockable_medal(name, true)
       status = isUnlocked ? "unlocked" : "locked"
       condition = condView
+      rewardText = rewardText != "" ? rewardText : null
     }
 
     local markup = ::handyman.renderCached("gui/profile/profileMedal", view)

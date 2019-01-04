@@ -522,10 +522,11 @@ class GameModeManager
       return
 
     _currentGameModeId = id
+
     if (save)
       ::saveLocalByAccount("selected_random_battle", _currentGameModeId)
 
-    ::broadcastEvent("CurrentGameModeIdChanged")
+    ::broadcastEvent("CurrentGameModeIdChanged", {isUserSelected=isUserSelected})
   }
 
   function _clearGameModes()
