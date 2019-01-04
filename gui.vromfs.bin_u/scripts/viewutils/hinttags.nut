@@ -17,6 +17,7 @@ enum hintTagCheckOrder {
   getViewSlices = function(tagName, params) { return [] }
   makeTag = function(params = null) { return typeName }
   makeFullTag = @(params = null) ::g_hints.hintTags[0] + makeTag(params) + ::g_hints.hintTags[1]
+  getSeparator = @() ""
 }
 
 enums.addTypesByGlobalName("g_hint_tag", {
@@ -41,21 +42,26 @@ enums.addTypesByGlobalName("g_hint_tag", {
     typeName = ""
     checkOrder = hintTagCheckOrder.ALL_OTHER
     checkTag = function(tagName) { return true }
+    getSeparator = @() ::loc("hints/shortcut_separator")
 
     getViewSlices = function(tagName, params) //tagName == shortcutId
     {
       local slices = []
 
       local expanded = ::g_shortcut_type.expandShortcuts([tagName])
-      foreach (expandedShortcut in expanded)
+      local shortcutsCount = expanded.len()
+      foreach (i, expandedShortcut in expanded)
       {
         local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(expandedShortcut)
+        local shortcutId = expandedShortcut
         slices.append({
           shortcut = function () {
-            local input = shortcutType.getFirstInput(expandedShortcut)
+            local input = shortcutType.getFirstInput(shortcutId)
             return input.getMarkup()
           }
         })
+        if (i < (shortcutsCount - 1))
+          slices.append({text = getSeparator()})
       }
       return slices
     }

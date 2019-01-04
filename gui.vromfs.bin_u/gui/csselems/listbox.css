@@ -584,10 +584,20 @@ slotsCountryText {
   font:@fontNormal;
   color:@minorTextColor;
 }
-[selected=yes] > slotsCountryText {
+HorizontalListBox[isShort=no] > shopFilter.slotsHeader {
+  tooltip:'';
+}
+HorizontalListBox[isShort=yes] slotsCountryText.short {
+  display: show;
+}
+HorizontalListBox[isShort=yes] slotsCountryText.full {
+  display: hide;
+}
+
+shopFilter[selected=yes] > slotsCountryText {
   color:@activeTextColor;
 }
-:disabled > slotsCountryText {
+shopFilter:disabled > slotsCountryText {
   color:@itemLockedColor;
 }
 

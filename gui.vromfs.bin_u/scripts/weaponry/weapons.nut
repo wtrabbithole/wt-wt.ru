@@ -33,12 +33,12 @@ function gui_modal_weapons(params = {})
   ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, params)
 }
 
-function open_weapons_for_unit(unit, curEdiff = -1)
+function open_weapons_for_unit(unit, params = {})
 {
   if (!("name" in unit))
     return
   ::aircraft_for_weapons = unit.name
-  ::gui_modal_weapons({curEdiff = curEdiff})
+  ::gui_modal_weapons(params)
 }
 
 class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -74,8 +74,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   shownTiers = []
 
   needCheckTutorial = false
-  curEdiff = -1
+  curEdiff = null
   purchasedModifications = null
+  needHideSlotbar = false
 
   function initScreen()
   {
@@ -108,7 +109,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function initSlotbar()
   {
-    if (researchMode || !::isUnitInSlotbar(air))
+    if (researchMode || !::isUnitInSlotbar(air) || needHideSlotbar)
       return
     createSlotbar({
       crewId = getCrewByAir(air).id
@@ -125,6 +126,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       goBack()
       return
     }
+    curEdiff = curEdiff == null ? -1 : curEdiff
     isOwn = air.isUsable()
     purchasedModifications = []
 

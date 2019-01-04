@@ -30,37 +30,49 @@
         "behavior": "Timer"
       },
       {
-        "DummyButton": {
-          "id": "prev_country_btn",
-          "padding": "1@blockInterval, 0",
-          "btnName": "LB",
-          "_on_click": "prevCountry",
-          "ButtonImg": {
-            "class": "independent",
-            "fullSizeIcons": "yes"
+        "tdiv": [
+          {
+            "id": "header_countries_nest"
+          },
+          {
+            "css-hier-invalidate": "yes"
+          },
+          {
+            "DummyButton": {
+              "id": "prev_country_btn",
+              "padding": "1@blockInterval, 0",
+              "btnName": "LB",
+              "_on_click": "prevCountry",
+              "ButtonImg": {
+                "class": "independent",
+                "fullSizeIcons": "yes"
+              }
+            }
+          },
+          {
+            "HorizontalListBox": {
+              "id": "header_countries",
+              "height": "ph",
+              "class": "header",
+              "normalFont": "yes",
+              "isShort": "no",
+              "on_select": "onHeaderCountry",
+              "css-hier-invalidate": "yes"
+            }
+          },
+          {
+            "DummyButton": {
+              "id": "next_country_btn",
+              "padding": "1@blockInterval, 0",
+              "btnName": "RB",
+              "_on_click": "nextCountry",
+              "ButtonImg": {
+                "class": "independent",
+                "fullSizeIcons": "yes"
+              }
+            }
           }
-        }
-      },
-      {
-        "HorizontalListBox": {
-          "id": "header_countries",
-          "height": "ph",
-          "class": "header",
-          "normalFont": "yes",
-          "on_select": "onHeaderCountry"
-        }
-      },
-      {
-        "DummyButton": {
-          "id": "next_country_btn",
-          "padding": "1@blockInterval, 0",
-          "btnName": "RB",
-          "_on_click": "nextCountry",
-          "ButtonImg": {
-            "class": "independent",
-            "fullSizeIcons": "yes"
-          }
-        }
+        ]
       },
       {
         "tdiv": [

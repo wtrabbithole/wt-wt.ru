@@ -1241,9 +1241,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function getDiscountByCountryAndArmyId(country, armyId)
   {
-    local airList = ::getTblValue("airList", ::visibleDiscountNotifications, {})
-    local entitlementUnits = ::getTblValue("entitlementUnits", ::visibleDiscountNotifications, {})
-    if (!airList.len() && !entitlementUnits.len())
+    if (!::g_discount.haveAnyUnitDiscount())
       return null
 
     local unitType = ::g_unit_type.getByArmyId(armyId)
@@ -1759,7 +1757,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (::isUnitBroken(unit))
       return onRepair(obj)
     if (::isUnitInSlotbar(unit))
-      return ::open_weapons_for_unit(unit, getCurrentEdiff())
+      return ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
     if (unit.isUsable() && !::isUnitInSlotbar(unit))
       return onTake(unit)
     if (::canBuyUnitOnline(unit))

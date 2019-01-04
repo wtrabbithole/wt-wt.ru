@@ -1036,9 +1036,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::u.isEmpty(unlockId))
       return
 
-    msgBox("question_buy_unlock", ::loc("onlineShop/needMoneyQuestion", {
-                                      purchase = ::colorize("unlockHeaderColor", ::get_unlock_name_text(-1, unlockId)),
-                                      cost = ::get_unlock_cost(unlockId)}),
+    local cost = ::get_unlock_cost(unlockId)
+    msgBox("question_buy_unlock",
+      warningIfGold(
+        ::loc("onlineShop/needMoneyQuestion",
+          {purchase = ::colorize("unlockHeaderColor", ::get_unlock_name_text(-1, unlockId)), cost = cost}),
+        cost),
       [
         ["ok", @() ::g_unlocks.buyUnlock(unlockId,
             ::Callback(@() updateUnlockBlock(unlockId), this),

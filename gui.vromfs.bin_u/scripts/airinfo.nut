@@ -335,7 +335,7 @@ function get_unit_actions_list(unit, handler, actions)
       haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit, curEdiff) })(unit)
+      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit, { curEdiff = curEdiff }) })(unit)
     }
     else if (action == "take")
     {
@@ -751,8 +751,11 @@ function buyUnit(unit, silent = false)
     return ::impl_buyUnit(unit)
 
   local unitName  = ::colorize("userlogColoredText", ::getUnitName(unit, true))
-  local unitPrice = ::colorize("activeTextColor", ::getUnitCost(unit))
-  local msgText = ::loc("shop/needMoneyQuestion_purchaseAircraft", { unitName = unitName, cost = unitPrice })
+  local cost = ::getUnitCost(unit)
+  local unitPrice = ::colorize("activeTextColor", cost)
+  local msgText = warningIfGold(::loc("shop/needMoneyQuestion_purchaseAircraft",
+      {unitName = unitName, cost = unitPrice}),
+    cost)
 
   local additionalCheckBox = null
   if (::facebook_is_logged_in() && ::has_feature("FacebookWallPost"))

@@ -63,7 +63,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   isPrimaryFocus = false
   isSceneLoaded = false
   loadedCountries = null //loaded countries versions
-  focusArray = [@() getFocusObj()]
+  focusArray = ["autorefill-settings", @() getFocusObj()]
   currentFocusItem = 0
 
   curSlotCountryId = -1
@@ -144,7 +144,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ?? function(crew) {
            local unit = ::g_crew.getCrewUnit(crew)
            if (unit)
-             ::open_weapons_for_unit(unit, getCurrentEdiff())
+             ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
          }
 
     //update callbacks
@@ -421,7 +421,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     local countriesView = {
       countries = []
     }
-    local isLowWidthScreen = ::is_low_width_screen()
     local selCountryIdx = 0
     foreach(idx, countryData in crewsConfig)
     {
@@ -436,13 +435,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local cEnabled = countryData.isEnabled
       local cUnlocked = ::isCountryAvailable(country)
       local tooltipText = !cUnlocked ? ::loc("mainmenu/countryLocked/tooltip")
-        : isLowWidthScreen ? ::loc(country)
-        : ""
+        : ::loc(country)
       countriesView.countries.append({
         countryIdx = countryData.id
         country = country
         tooltipText = tooltipText
-        isShort = isLowWidthScreen
         countryIcon = ::get_country_icon(country, false, !cUnlocked || !cEnabled)
         bonusData = bonusData
         isEnabled = cEnabled && cUnlocked
@@ -464,8 +461,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         })
     }
 
-    guiScene.setUpdatesEnabled(true, true);
+    guiScene.setUpdatesEnabled(true, true)
     ::slotbar_oninit = false
+
+    local countriesNestMaxWidth = ::g_dagui_utils.toPixels(guiScene, "1@slotbarCountriesMaxWidth")
+    local countriesNestWithBtnsObj = scene.findObject("header_countries_nest")
+    if (countriesNestWithBtnsObj.getSize()[0] > countriesNestMaxWidth)
+      countriesNestObj.isShort = "yes"
 
     local needEvent = selectedCrewData
       && (curSlotCountryId >= 0 && curSlotCountryId != selectedCrewData.idCountry
@@ -525,6 +527,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
             isCrewRecruit = true
             emptyCost = crewData.cost
             inactive = true
+            isSlotbarItem = true
           })
         continue
       }
@@ -757,7 +760,10 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       {
         if (cost > ::zero_money)
         {
-          local msgText = format(::loc("shop/needMoneyQuestion_purchaseCrew"), cost.tostring())
+          local msgText = warningIfGold(
+            format(::loc("shop/needMoneyQuestion_purchaseCrew"),
+              cost.tostring()),
+            cost)
           ignoreCheckSlotbar = true
           msgBox("need_money", msgText,
             [["ok", (@(country) function() {

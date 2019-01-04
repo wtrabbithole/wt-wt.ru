@@ -1089,7 +1089,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (skinDecorator.canBuyUnlock(unit))
     {
       local priceText = skinDecorator.getCost().getTextAccordingToBalance()
-      local msgText = ::loc("decals/needToBuySkin", { purchase = skinDecorator.getName(), cost = priceText })
+      local msgText = warningIfGold(
+        ::loc("decals/needToBuySkin",
+          {purchase = skinDecorator.getName(), cost = priceText}),
+        skinDecorator.getCost())
       msgBox("skin_locked", msgText,
         [["ok", (@(previewSkinId) function() { buySkin(previewSkinId) })(previewSkinId) ],
         ["cancel", function() {} ]], "ok")
@@ -1676,10 +1679,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function askBuyDecorator(decorator, afterPurchDo = null)
   {
-    local msgText = ::loc("shop/needMoneyQuestion_purchaseDecal", {
-      purchase = ::colorize("userlogColoredText", decorator.getName()),
-      cost = decorator.getCost().getTextAccordingToBalance()
-    })
+    local msgText = warningIfGold(
+      ::loc("shop/needMoneyQuestion_purchaseDecal",
+        {purchase = ::colorize("userlogColoredText", decorator.getName()),
+          cost = decorator.getCost().getTextAccordingToBalance()}),
+      decorator.getCost())
     msgBox("buy_decorator_on_preview", msgText,
       [["ok", (@(decorator, afterPurchDo) function() {
           currentState = decoratorEditState.PURCHASE
@@ -1884,10 +1888,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local cost = previewSkinDecorator.getCost()
-    local msgText = ::loc("shop/needMoneyQuestion_purchaseSkin",
+    local msgText = warningIfGold(::loc("shop/needMoneyQuestion_purchaseSkin",
                           { purchase = previewSkinDecorator.getName(),
                             cost = cost.getTextAccordingToBalance()
-                          })
+                          }), cost)
 
     msgBox("need_money", msgText,
           [["ok", (@(previewSkinId, cost) function() {

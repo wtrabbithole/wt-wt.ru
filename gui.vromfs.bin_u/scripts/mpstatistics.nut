@@ -490,46 +490,49 @@ function set_mp_table(obj_tbl, table, params)
         if (::check_obj(objDlcImg))
           objDlcImg.show(false)
 
+        local tooltip = nameText
         if (!isEmpty)
         {
           objTr.mainPlayer = table[i].isLocal ? "yes" : "no"
           objTr.inMySquad  = table[i]?.isInHeroSquad ? "yes" : "no"
           objTr.spectator = (("spectator" in table[i]) && table[i].spectator) ? "yes" : "no"
-        }
-        local tooltip = nameText
-        if (!isEmpty && !table[i].isBot && (::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName))
-        {
-          local data = ::SessionLobby.getBattleRatingParamByPlayerInfo(playersInfo?[(table[i].userId).tointeger()])
-          if (data)
-          {
-            local squadInfo = ::SquadIcon.getSquadInfo(data.squad)
-            local isInSquad = squadInfo ? !squadInfo.autoSquad : false
-            local ratingTotal = ::calc_battle_rating_from_rank(data.rank)
-            tooltip += "\n" + ::loc("debriefing/battleRating/units") + ::loc("ui/colon")
-            local showLowBRPrompt = false
 
-            local unitsForTooltip = []
-            for (local j = 0; j < min(data.units.len(), 3); ++j)
-              unitsForTooltip.push(data.units[j])
-            unitsForTooltip.sort(sort_units_for_br_tooltip)
-            for (local j = 0; j < unitsForTooltip.len(); ++j)
+          if (!table[i].isBot
+            && ::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName
+            && !::g_mis_custom_state.getCurMissionRules().isWorldWar)
+          {
+            local data = ::SessionLobby.getBattleRatingParamByPlayerInfo(playersInfo?[(table[i].userId).tointeger()])
+            if (data)
             {
-              local rankUnused = unitsForTooltip[j].rankUnused
-              local formatString = rankUnused
-                ? "\n<color=@disabledTextColor>(%.1f) %s</color>"
-                : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
-              if (rankUnused)
-                showLowBRPrompt = true
-              tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
-            }
-            tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
-                              ::loc("ui/colon") + ::format("%.1f", ratingTotal)
-            if (showLowBRPrompt)
-            {
-              local maxBRDifference = 2.0 // Hardcoded till switch to new matching.
-              local rankCalcMode = ::SessionLobby.getRankCalcMode()
-              if (rankCalcMode)
-                tooltip += "\n" + ::loc("multiplayer/lowBattleRatingPrompt/" + rankCalcMode, { maxBRDifference = ::format("%.1f", maxBRDifference) })
+              local squadInfo = ::SquadIcon.getSquadInfo(data.squad)
+              local isInSquad = squadInfo ? !squadInfo.autoSquad : false
+              local ratingTotal = ::calc_battle_rating_from_rank(data.rank)
+              tooltip += "\n" + ::loc("debriefing/battleRating/units") + ::loc("ui/colon")
+              local showLowBRPrompt = false
+
+              local unitsForTooltip = []
+              for (local j = 0; j < min(data.units.len(), 3); ++j)
+                unitsForTooltip.push(data.units[j])
+              unitsForTooltip.sort(sort_units_for_br_tooltip)
+              for (local j = 0; j < unitsForTooltip.len(); ++j)
+              {
+                local rankUnused = unitsForTooltip[j].rankUnused
+                local formatString = rankUnused
+                  ? "\n<color=@disabledTextColor>(%.1f) %s</color>"
+                  : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
+                if (rankUnused)
+                  showLowBRPrompt = true
+                tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
+              }
+              tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
+                                ::loc("ui/colon") + ::format("%.1f", ratingTotal)
+              if (showLowBRPrompt)
+              {
+                local maxBRDifference = 2.0 // Hardcoded till switch to new matching.
+                local rankCalcMode = ::SessionLobby.getRankCalcMode()
+                if (rankCalcMode)
+                  tooltip += "\n" + ::loc("multiplayer/lowBattleRatingPrompt/" + rankCalcMode, { maxBRDifference = ::format("%.1f", maxBRDifference) })
+              }
             }
           }
         }

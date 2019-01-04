@@ -2796,3 +2796,9 @@ function hangar_blur(enable, params = null)
   else
     ::disable_dof()
 }
+
+function warningIfGold(text, cost){
+  if(cost?.gold > 0)
+    text = ::colorize("@red", ::loc("shop/needMoneyQuestion_warning"))+ "\n" + text
+  return text
+}

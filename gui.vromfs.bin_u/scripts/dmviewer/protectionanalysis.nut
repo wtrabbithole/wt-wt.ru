@@ -78,7 +78,7 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 
   function onWeaponsInfo(obj)
   {
-    ::open_weapons_for_unit(unit)
+    ::open_weapons_for_unit(unit, { needHideSlotbar = true })
   }
 
   function goBack()

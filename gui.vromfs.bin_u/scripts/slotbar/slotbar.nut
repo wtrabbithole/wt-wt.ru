@@ -222,7 +222,7 @@ function build_aircraft_item(id, air, params = {})
 
     local priceText = ::get_unit_item_price_text(air, params)
     local progressText = showProgress ? ::get_unit_item_research_progress_text(air, params, priceText) : ""
-    local checkNotification = ::getTblValueByPath("entitlementUnits." + air.name, ::visibleDiscountNotifications)
+    local checkNotification = ::g_discount.getEntitlementUnitDiscount(air.name)
 
     local resView = {
       slotId              = "td_" + id

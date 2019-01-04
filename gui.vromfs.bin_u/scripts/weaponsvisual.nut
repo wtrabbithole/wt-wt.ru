@@ -1188,7 +1188,8 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
 
     if ("reloadTimes" in param)
     {
-      local currentDiffficulty = ::game_mode_manager.getCurrentGameMode().diffCode
+      local currentDiffficulty = ::is_in_flight() ? ::get_mission_difficulty_int()
+        : ::get_current_shop_difficulty().diffCode
       local reloadTime = param.reloadTimes[currentDiffficulty]
       if(reloadTime > 0)
         addProp(p, ::colorize("badTextColor", ::loc("bullet_properties/cooldown")),

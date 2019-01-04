@@ -601,7 +601,7 @@ function get_entitlement_price(item)
     {
       local markup = ::steam_is_running() ? 1.0 + getSteamMarkUp()/100.0 : 1.0
       local totalPrice = priceText.tofloat() * markup
-      local discount = ::getTblValue(item.name, ::visibleDiscountNotifications.entitlements, 0)
+      local discount = ::g_discount.getEntitlementDiscount(item.name)
       if (discount)
         totalPrice -= totalPrice * discount * 0.01
 

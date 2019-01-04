@@ -812,7 +812,10 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
       return impl_buyModification(unit, modName)
 
     local nameLoc = ::getModificationName(unit.name, modName)
-    local buyMsgText = ::loc("onlineShop/needMoneyQuestion", { purchase = nameLoc, cost = price.tostring() })
+    local buyMsgText = warningIfGold(
+      ::loc("onlineShop/needMoneyQuestion",
+        {purchase = nameLoc, cost = price.tostring()}),
+      price)
     msgBox("msgbox_buy_item" , buyMsgText, [["ok", (@(unit, modName) function () {
                                       impl_buyModification(unit, modName)
                                  })(unit, modName)], ["cancel", function () {}]], "ok"

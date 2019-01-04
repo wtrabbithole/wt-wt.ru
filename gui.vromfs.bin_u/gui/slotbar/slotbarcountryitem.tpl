@@ -26,8 +26,13 @@ shopFilter {
   <</bonusData>>
 
   slotsCountryText {
-    id:t='short_name'
-    text:t='#<<country>><<#isShort>>/short<</isShort>>'
+    class:t='full'
+    text:t='#<<country>>'
+  }
+  slotsCountryText {
+    display:t='hide'
+    class:t='short'
+    text:t='#<<country>>/short'
   }
 }
 <</countries>>
