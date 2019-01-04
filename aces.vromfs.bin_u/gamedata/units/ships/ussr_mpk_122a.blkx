@@ -431,79 +431,6 @@
         "crouchDelta": [0.5,-0.8,-0.1]
       },
       {
-        "suffix": "5"
-      },
-      {
-        "deadHeadAttitudeMin": -55.0
-      },
-      {
-        "deadHeadAttitudeMax": -40.0
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "righthand_",
-          "flexionDir": [-0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_",
-          "flexionDir": [-0.2,1.0,-1.0]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_",
-          "flexionDir": [-0.6,1.0,-1.0]
-        }
-      }
-    ]
-  },
-  {
-    "ikGunner": [
-      {
-        "model": "ussr_sailor_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis_"
-      },
-      {
-        "crouchDelta": [0.5,-0.8,-0.1]
-      },
-      {
         "suffix": "6"
       },
       {
@@ -650,79 +577,6 @@
         "crouchDelta": [0.5,-0.8,-0.1]
       },
       {
-        "suffix": "8"
-      },
-      {
-        "deadHeadAttitudeMin": -55.0
-      },
-      {
-        "deadHeadAttitudeMax": -40.0
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "righthand_",
-          "flexionDir": [-0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_",
-          "flexionDir": [-0.2,1.0,-1.0]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_",
-          "flexionDir": [-0.6,1.0,-1.0]
-        }
-      }
-    ]
-  },
-  {
-    "ikGunner": [
-      {
-        "model": "ussr_sailor_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis_"
-      },
-      {
-        "crouchDelta": [0.5,-0.8,-0.1]
-      },
-      {
         "suffix": "9"
       },
       {
@@ -775,10 +629,8 @@
       "Bip01 Pelvis_2": "ussr_sailor_sit",
       "Bip01 Pelvis_3": "ussr_officer_standing",
       "Bip01 Pelvis_4": "ussr_officer_standing",
-      "Bip01 Pelvis_5": "ussr_sailor_standing",
       "Bip01 Pelvis_6": "ussr_sailor_standing",
       "Bip01 Pelvis_7": "ussr_sailor_standing",
-      "Bip01 Pelvis_8": "ussr_sailor_standing",
       "Bip01 Pelvis_9": "ussr_sailor_standing"
     }
   },
@@ -1010,55 +862,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1725,10 +1553,10 @@
           "hp": 1456.0
         },
         "bridge_dm": {
-          "hp": 500.0
+          "hp": 200.0
         },
         "radio_station_dm": {
-          "hp": 500.0
+          "hp": 150.0
         }
       },
       "superstructures": {
@@ -1848,6 +1676,7 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -1858,16 +1687,10 @@
       "turrets": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
-        "turret_02_dm": {
-          "hp": 250.0
-        },
         "turret_03_dm": {
           "hp": 250.0
         },
         "turret_04_dm": {
-          "hp": 250.0
-        },
-        "turret_05_dm": {
           "hp": 250.0
         },
         "turret_06_dm": {
@@ -1903,16 +1726,10 @@
         "shatterDamageMult": 2.0,
         "explosionDamageMult": 2.0,
         "secondaryShatterDamageMult": 1.0,
-        "aa_turret_01_dm": {
-          "hp": 100.0
-        },
         "aa_turret_02_dm": {
           "hp": 100.0
         },
         "aa_turret_03_dm": {
-          "hp": 100.0
-        },
-        "aa_turret_04_dm": {
           "hp": 100.0
         },
         "aa_turret_05_dm": {
@@ -1948,16 +1765,10 @@
         "shatterDamageMult": 0.2,
         "explosionDamageMult": 0.5,
         "secondaryShatterDamageMult": 0.01,
-        "aa_gun_01_dm": {
-          "hp": 100.0
-        },
         "aa_gun_02_dm": {
           "hp": 100.0
         },
         "aa_gun_03_dm": {
-          "hp": 100.0
-        },
-        "aa_gun_04_dm": {
           "hp": 100.0
         },
         "aa_gun_05_dm": {
@@ -2125,7 +1936,7 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 9
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
@@ -2140,7 +1951,7 @@
       "sailor7": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       }
     }
   },
@@ -2400,145 +2211,6 @@
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
           },
           {
-            "emitter": "emtr_gun_flame_02"
-          },
-          {
-            "flash": "emtr_gun_flame_02"
-          },
-          {
-            "useEmitter": true
-          },
-          {
-            "recoilOffset": 0.0
-          },
-          {
-            "barrelDP": "aa_gun_01_dm"
-          },
-          {
-            "breechDP": "aa_gun_01_dm"
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "speedYaw": 50.0
-          },
-          {
-            "speedPitch": 75.0
-          },
-          {
-            "bullets": 2000
-          },
-          {
-            "allowableDelta": 2.0
-          },
-          {
-            "speedYaw": 45.0
-          },
-          {
-            "speedPitch": 45.0
-          },
-          {
-            "fireConeAngle": 2.0
-          },
-          {
-            "ChainfireTime": 60.0
-          },
-          {
-            "DelayAfterShoot": 0.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 1.0
-          },
-          {
-            "accuracyGnd": 0.5
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "aa_turret_01",
-              "gun": "aa_gun_01",
-              "gunnerDm": "aa_turret_01_dm"
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-180.0,35.0],
-              "pitch": [-5.0,60.0]
-            }
-          },
-          {
-            "limitsTable": {
-              "lim1": [-180.0,-173.0,9.0,60.0],
-              "lim2": [-173.0,-5.0,-5.0,60.0],
-              "lim3": [-5.0,35.0,40.0,60.0]
-            }
-          },
-          {
-            "gunStabilizer": {
-              "hasVerticalGunFreeMode": true,
-              "hasHorizontal": true,
-              "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 80.0,
-              "hasVertical": true,
-              "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 80.0,
-              "errorKPHToDegrees": [
-                {
-                  "row": [5.0,0.01]
-                },
-                {
-                  "row": [70.0,0.05]
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "Weapon": [
-          {
-            "trigger": "gunner2"
-          },
-          {
-            "triggerGroup": "secondary"
-          },
-          {
-            "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
-          },
-          {
             "emitter": "emtr_gun_flame_03"
           },
           {
@@ -2634,15 +2306,19 @@
           },
           {
             "limits": {
-              "yaw": [-35.0,180.0],
+              "yaw": [-180.0,180.0],
               "pitch": [-5.0,60.0]
             }
           },
           {
             "limitsTable": {
-              "lim1": [-35.0,5.0,40.0,60.0],
-              "lim2": [5.0,173.0,-5.0,60.0],
-              "lim3": [173.0,180.0,9.0,60.0]
+              "lim1": [-180.0,-173.0,-5.0,60.0],
+              "lim2": [-173.0,-165.0,5.0,60.0],
+              "lim3": [-165.0,-160.0,-5.0,60.0],
+              "lim4": [-160.0,-150.0,5.0,60.0],
+              "lim5": [-150.0,-60.0,-5.0,60.0],
+              "lim6": [-60.0,10.0,35.0,60.0],
+              "lim7": [10.0,180.0,-5.0,60.0]
             }
           },
           {
@@ -2669,7 +2345,7 @@
       {
         "Weapon": [
           {
-            "trigger": "gunner3"
+            "trigger": "gunner2"
           },
           {
             "triggerGroup": "secondary"
@@ -2773,14 +2449,19 @@
           },
           {
             "limits": {
-              "yaw": [-180.0,20.0],
+              "yaw": [-180.0,180.0],
               "pitch": [-5.0,60.0]
             }
           },
           {
             "limitsTable": {
-              "lim1": [-180.0,-8.0,-5.0,60.0],
-              "lim2": [-8.0,20.0,20.0,60.0]
+              "lim1": [-180.0,-10.0,-5.0,60.0],
+              "lim2": [-10.0,2.0,0.0,60.0],
+              "lim3": [2.0,17.0,25.0,60.0],
+              "lim4": [17.0,31.0,5.0,60.0],
+              "lim5": [31.0,157.0,-5.0,60.0],
+              "lim6": [157.0,170.0,5.0,60.0],
+              "lim7": [170.0,180.0,-5.0,60.0]
             }
           },
           {
@@ -2807,145 +2488,7 @@
       {
         "Weapon": [
           {
-            "trigger": "gunner4"
-          },
-          {
-            "triggerGroup": "secondary"
-          },
-          {
-            "blk": "gameData/Weapons/navalModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
-          },
-          {
-            "emitter": "emtr_gun_flame_05"
-          },
-          {
-            "flash": "emtr_gun_flame_05"
-          },
-          {
-            "useEmitter": true
-          },
-          {
-            "recoilOffset": 0.0
-          },
-          {
-            "barrelDP": "aa_gun_04_dm"
-          },
-          {
-            "breechDP": "aa_gun_04_dm"
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "speedYaw": 50.0
-          },
-          {
-            "speedPitch": 75.0
-          },
-          {
-            "bullets": 2000
-          },
-          {
-            "allowableDelta": 2.0
-          },
-          {
-            "speedYaw": 45.0
-          },
-          {
-            "speedPitch": 45.0
-          },
-          {
-            "fireConeAngle": 2.0
-          },
-          {
-            "ChainfireTime": 60.0
-          },
-          {
-            "DelayAfterShoot": 0.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 1.0
-          },
-          {
-            "accuracyGnd": 0.5
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "aa_turret_04",
-              "gun": "aa_gun_04",
-              "gunnerDm": "aa_turret_04_dm"
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-20.0,180.0],
-              "pitch": [-5.0,60.0]
-            }
-          },
-          {
-            "limitsTable": {
-              "lim1": [-20.0,8.0,20.0,60.0],
-              "lim2": [8.0,180.0,-5.0,60.0]
-            }
-          },
-          {
-            "gunStabilizer": {
-              "hasVerticalGunFreeMode": true,
-              "hasHorizontal": true,
-              "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 80.0,
-              "hasVertical": true,
-              "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 80.0,
-              "errorKPHToDegrees": [
-                {
-                  "row": [5.0,0.01]
-                },
-                {
-                  "row": [70.0,0.05]
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "Weapon": [
-          {
-            "trigger": "gunner5"
+            "trigger": "gunner3"
           },
           {
             "triggerGroup": "secondary"
@@ -3057,7 +2600,7 @@
             "limitsTable": {
               "lim1": [-180.0,-115.0,0.0,60.0],
               "lim2": [-115.0,-40.0,-5.0,60.0],
-              "lim3": [-40.0,40.0,15.0,60.0],
+              "lim3": [-40.0,40.0,18.0,60.0],
               "lim4": [40.0,115.0,-5.0,60.0],
               "lim5": [115.0,180.0,0.0,60.0]
             }

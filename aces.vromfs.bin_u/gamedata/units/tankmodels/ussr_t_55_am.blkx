@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -147,7 +150,8 @@
           "armorThickness": 20.0
         },
         "superstructure_bottom_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 30.0,
+          "hidableInViewer": true
         },
         "body_top_dm": {
           "armorThickness": 20.0
@@ -162,7 +166,8 @@
           "armorThickness": 20.0
         },
         "turret_01_front_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hidableInViewer": true
         }
       },
       "anti_fragmentation_screen": {
@@ -174,6 +179,7 @@
       },
       "turret_composite_armor": {
         "armorClass": "t_62m_composite_armor",
+        "hidableInXrayViewer": true,
         "composite_armor_hull_01_dm": {
           "armorThickness": 120.0,
           "cumulativeArmorQuality": 0.8
@@ -199,13 +205,16 @@
           "armorThickness": 50.0
         },
         "turret_03_bottom_dm": {
-          "armorThickness": 65.0
+          "armorThickness": 65.0,
+          "hidableInViewer": true
         },
         "turret_02_bottom_dm": {
-          "armorThickness": 85.0
+          "armorThickness": 85.0,
+          "hidableInViewer": true
         },
         "turret_03_front_dm": {
-          "armorThickness": 65.0
+          "armorThickness": 65.0,
+          "hidableInViewer": true
         }
       },
       "body_side_screens": {
@@ -480,6 +489,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

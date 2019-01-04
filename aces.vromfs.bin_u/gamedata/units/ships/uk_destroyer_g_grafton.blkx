@@ -1642,10 +1642,10 @@
           "hp": 3326.0
         },
         "bridge_dm": {
-          "hp": 2000.0
+          "hp": 400.0
         },
         "radio_station_dm": {
-          "hp": 2000.0
+          "hp": 200.0
         }
       },
       "superstructures": {
@@ -1796,6 +1796,7 @@
       "hull_armor": {
         "armorThickness": 15.0,
         "armorClass": "ship_structural_steel",
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -1971,8 +1972,8 @@
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "genericDamageMult": 1.0,
-        "shatterDamageMult": 1.5,
-        "explosionDamageMult": 1.6,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.8,
         "fuel_tank_01_dm": {
           "hp": 1000.0
@@ -1991,10 +1992,10 @@
         "shatterDamageMult": 1.5,
         "secondaryShatterDamageMult": 1.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 913.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 500.0
+          "hp": 596.0
         }
       },
       "depth_charges": {
@@ -2082,7 +2083,7 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 28
+        "crew": 30
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
@@ -2102,7 +2103,7 @@
       "sailor8": {
         "dmPart": "compartment_07_dm",
         "role": "sailor",
-        "crew": 13
+        "crew": 14
       },
       "sailor9": {
         "dmPart": "main_caliber_turret_01_dm",
@@ -2117,7 +2118,7 @@
       "sailor11": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 4
       }
     }
   },
@@ -2326,14 +2327,14 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
+              "expl": 0.01,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -2341,7 +2342,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.25,
+              "expl": 0.04,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -2349,8 +2350,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "damage": 350.0,
+              "expl": 0.1,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -3366,9 +3367,6 @@
           },
           {
             "useEmitter": true
-          },
-          {
-            "isBulletBelt": true
           },
           {
             "recoilOffset": 0.9
@@ -4676,7 +4674,7 @@
           "trigger": "gunner6",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/uk_21_in_mk_ix.blk",
+          "blk": "gameData/Weapons/torpedoes/uk_21_in_mk_viii.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 4,
           "useEmitter": true,
@@ -4708,7 +4706,7 @@
           "trigger": "gunner7",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/uk_21_in_mk_ix.blk",
+          "blk": "gameData/Weapons/torpedoes/uk_21_in_mk_viii.blk",
           "emitter": "bone_torpedo_05",
           "bullets": 4,
           "useEmitter": true,
@@ -4852,16 +4850,13 @@
       },
       "ship_rangefinder": [],
       "new_aa_caliber_turrets": [],
-      "new_aux_caliber_turrets": {
-        "reqModification": "new_aa_caliber_turrets"
-      },
       "new_main_caliber_turrets": {
-        "reqModification": "new_aux_caliber_turrets"
+        "reqModification": "new_aa_caliber_turrets"
       },
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": 2750.0,
-          "maxSpeedInWater": -3.09
+          "distToLive": 1830.0,
+          "maxSpeedInWater": -2.31
         }
       },
       "ship_bomb_mortar": []

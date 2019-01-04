@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -1649,7 +1652,8 @@
       "hp": 10000.0,
       "hull": {
         "body_shield_dm": {
-          "armorThickness": 15.0
+          "armorThickness": 15.0,
+          "hidableInViewer": true
         },
         "superstructure_front_dm": {
           "armorThickness": 45.0
@@ -1821,6 +1825,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

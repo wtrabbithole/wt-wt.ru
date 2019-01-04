@@ -328,55 +328,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2039,11 +2015,11 @@
         },
         "bridge_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 150.0
         },
         "radio_station_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         }
       },
       "superstructures": {
@@ -2248,7 +2224,7 @@
         }
       },
       "turrets_main_caliber": {
-        "armorClass": "RHA_tank",
+        "armorClass": "ship_RHA",
         "armorThickness": 15.0,
         "fireParamsPreset": "ship_turrets",
         "genericDamageMult": 1.4,
@@ -2294,7 +2270,14 @@
         }
       },
       "gun_masks": {
-        "armorThickness": 5.0
+        "armorThickness": 45.0,
+        "armorClass": "CHA_tank",
+        "gun_mask_01_dm": {
+          "hp": 100.0
+        },
+        "gun_mask_02_dm": {
+          "hp": 100.0
+        }
       },
       "gun_barrels": {
         "armorClass": "tank_barrel",
@@ -2413,7 +2396,7 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -2423,17 +2406,17 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 4
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 5
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 6
+        "crew": 5
       }
     }
   },
@@ -2958,13 +2941,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 20.0
+            "speedYaw": 35.0
           },
           {
-            "speedPitch": 15.0
+            "speedPitch": 45.0
           },
           {
-            "bullets": 750
+            "bullets": 1000
           },
           {
             "allowableDelta": 2.0
@@ -3103,7 +3086,7 @@
             "explosionEvent": "ammo_explosion_2",
             "fireEvent": "ammo_fire_2",
             "ammunition_storage_02_dm": {
-              "count": 942
+              "count": 1192
             }
           }
         }

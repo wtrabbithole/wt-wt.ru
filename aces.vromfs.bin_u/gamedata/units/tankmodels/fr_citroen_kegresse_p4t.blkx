@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -328,7 +331,7 @@
       {
         "device": {
           "type": "turretTurnH",
-          "turnSpeed": 0.3,
+          "turnSpeed": 0.1,
           "node": "bone_roll_turret_h",
           "node_handle": "bone_roll_turret_h_handle"
         }
@@ -404,6 +407,7 @@
       "formatVersion": 2,
       "armorClass": "tank_structural_steel",
       "hp": 1000.0,
+      "hidableInViewer": false,
       "hull_armor": {
         "body_front_dm": {
           "armorThickness": 3.0
@@ -435,11 +439,15 @@
         "turret_03_top_dm": {
           "armorThickness": 3.0
         },
+        "turret_04_side_dm": {
+          "armorThickness": 3.0
+        },
         "turret_side_dm": {
           "armorThickness": 20.0
         },
         "turret_02_side_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "superstructure_bottom_dm": {
           "armorThickness": 3.0
@@ -466,6 +474,10 @@
         },
         "turret_01_side_dm": {
           "armorThickness": 3.0
+        },
+        "turret_01_back_dm": {
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         }
       },
       "turret_armor": {
@@ -474,6 +486,18 @@
         },
         "ex_armor_02_dm": {
           "armorThickness": 3.0
+        },
+        "ex_decor_10_dm": {
+          "armorThickness": 3.0,
+          "hidableInViewer": true
+        },
+        "turret_back_dm": {
+          "armorThickness": 3.0,
+          "hidableInViewer": true
+        },
+        "turret_02_front_dm": {
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         }
       },
       "hull": {
@@ -481,19 +505,23 @@
           "armorThickness": 30.0
         },
         "turret_top_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "ex_decor_03_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "ex_decor_05_dm": {
           "armorThickness": 3.0
         },
         "ex_decor_06_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "ex_decor_01_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "ex_armor_l_01_dm": {
           "armorThickness": 3.0
@@ -505,13 +533,15 @@
           "armorThickness": 3.0
         },
         "ex_decor_r_01_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "ex_decor_r_02_dm": {
           "armorThickness": 3.0
         },
         "ex_decor_l_01_dm": {
-          "armorThickness": 3.0
+          "armorThickness": 3.0,
+          "hidableInViewer": true
         },
         "ex_decor_l_02_dm": {
           "armorThickness": 3.0
@@ -833,6 +863,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_01_dm": {
           "armorThrough": 15.0
         },

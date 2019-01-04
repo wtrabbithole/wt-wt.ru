@@ -1,60 +1,68 @@
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+
 local persistentData = {
-  xboxIsShownCrossPlayEnableOnce = false
+  crossNetworkPlayStatus = null
+  crossNetworkChatStatus = null
 }
-::g_script_reloader.registerPersistentData("crossplay", persistentData, ["xboxIsShownCrossPlayEnableOnce"])
+::g_script_reloader.registerPersistentData("crossplay", persistentData,
+  ["crossNetworkPlayStatus", "crossNetworkChatStatus"])
 
-//required, when we not logged in, but know player gamertag, so we can identify
-//for whom need read this param
-local getXboxPlayerCrossPlaySaveId = @() "isCrossPlayEnabled/" + ::xbox_get_active_user_gamertag()
-local getXboxPlayerCrossNetworkChatSaveId = @() "isCrossNetworkChatEnabled/" + ::xbox_get_active_user_gamertag()
+local updateCrossNetworkPlayStatus = function()
+{
+  if (persistentData.crossNetworkPlayStatus != null)
+    return
 
-local isCrossPlayEnabled = @() (!::is_platform_xboxone || ::load_local_account_settings(getXboxPlayerCrossPlaySaveId(), false))
-local isCrossNetworkChatEnabled = @() (!::is_platform_xboxone || ::load_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), true))
+  persistentData.crossNetworkPlayStatus = !::is_platform_xboxone || ::check_crossnetwork_play_privilege()
+  ::broadcastEvent("CrossPlayOptionChanged")
+}
+
+local isCrossNetworkPlayEnabled = function()
+{
+  updateCrossNetworkPlayStatus()
+  return persistentData.crossNetworkPlayStatus
+}
+
+local updateCrossNetworkChatStatus = function()
+{
+  if (persistentData.crossNetworkChatStatus != null)
+    return
+
+  persistentData.crossNetworkChatStatus = !::is_platform_xboxone? XBOX_COMMUNICATIONS_ALLOWED
+                                                 : ::check_crossnetwork_communications_permission()
+}
+
+local isCrossNetworkChatEnabled = function()
+{
+  updateCrossNetworkChatStatus()
+  return persistentData.crossNetworkChatStatus != XBOX_COMMUNICATIONS_BLOCKED
+}
+
+local getCrossNetworkChatStatus = function()
+{
+  updateCrossNetworkChatStatus()
+  return persistentData.crossNetworkChatStatus
+}
+
 local getTextWithCrossplayIcon = @(addIcon, text) (addIcon? (::loc("icon/cross_play") + " " ) : "") + text
 
-local function setIsCrossPlayEnabled(useCrossPlay)
+local invalidateCache = function()
 {
-  if (!::is_platform_xboxone)
-    return
-
-  ::save_local_account_settings(getXboxPlayerCrossPlaySaveId(), useCrossPlay)
-  ::broadcastEvent("CrossPlayOptionChanged", {value = useCrossPlay})
+  persistentData.crossNetworkPlayStatus = null
+  persistentData.crossNetworkChatStatus = null
 }
 
-local function setIsCrossNetworkChatEnabled(useCrossNetwork)
-{
-  if (!::is_platform_xboxone)
-    return
-
-  ::save_local_account_settings(getXboxPlayerCrossNetworkChatSaveId(), useCrossNetwork)
-  ::broadcastEvent("CrossNetworkChatOptionChanged", {value = useCrossNetwork})
-}
-
-local function showXboxCrossPlayNotificationOnce()
-{
-  if (isCrossPlayEnabled() || persistentData.xboxIsShownCrossPlayEnableOnce)
-    return
-
-  ::scene_msg_box("xbox_cross_play",
-    null,
-    ::loc("xbox/login/crossPlayRequest") +
-      "\n" +
-      ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
-    [
-      ["yes", @() setIsCrossPlayEnabled(true) ],
-      ["no", @() setIsCrossPlayEnabled(false) ]
-    ],
-    "yes"
-  )
-
-  persistentData.xboxIsShownCrossPlayEnableOnce = true
-}
+subscriptions.addListenersWithoutEnv({
+  XboxSystemUIReturn = function(p) {
+    invalidateCache()
+    updateCrossNetworkPlayStatus()
+    updateCrossNetworkChatStatus()
+  }
+  SignOut = @(p) invalidateCache()
+}, ::g_listener_priority.CONFIG_VALIDATION)
 
 return {
-  isCrossPlayEnabled = isCrossPlayEnabled
+  isCrossPlayEnabled = isCrossNetworkPlayEnabled
   isCrossNetworkChatEnabled = isCrossNetworkChatEnabled
-  setIsCrossPlayEnabled = setIsCrossPlayEnabled
-  setIsCrossNetworkChatEnabled = setIsCrossNetworkChatEnabled
-  showXboxCrossPlayNotificationOnce = showXboxCrossPlayNotificationOnce
+  getCrossNetworkChatStatus = getCrossNetworkChatStatus
   getTextWithCrossplayIcon = getTextWithCrossplayIcon
 }

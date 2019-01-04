@@ -410,14 +410,14 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
+              "expl": 0.01,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -425,7 +425,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.25,
+              "expl": 0.04,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -433,8 +433,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "damage": 350.0,
+              "expl": 0.1,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -878,7 +878,7 @@
         {
           "effect": {
             "conditionDamageType": "explosion",
-            "conditionDamage": 6500.0,
+            "conditionDamage": 15000.0,
             "kill": true,
             "killEffect": "destruction"
           }
@@ -1086,8 +1086,8 @@
       "new_aa_caliber_turrets": [],
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": 8200.0,
-          "maxSpeedInWater": -9.52
+          "distToLive": 3650.0,
+          "maxSpeedInWater": -5.92
         }
       },
       "ship_bomb_mortar": []
@@ -1658,48 +1658,6 @@
       "explodeTreshold": 0.0001,
       "explodeArmorPower": 50.0,
       "explodeRadius": [50.0,100.0]
-    }
-  },
-  {
-    "ammoStowages": {
-      "ammo1": [
-        {
-          "weaponTrigger": "gunner0"
-        },
-        {
-          "weaponTrigger": "gunner1"
-        },
-        {
-          "shells": {
-            "fatalFire": false,
-            "fatalExplosion": true,
-            "explosionEvent": "ammo_explosion_1",
-            "fireEvent": "ammo_fire_1",
-            "ammunition_storage_01_dm": {
-              "count": 720
-            }
-          }
-        }
-      ],
-      "ammo2": [
-        {
-          "weaponTrigger": "gunner2"
-        },
-        {
-          "weaponTrigger": "gunner3"
-        },
-        {
-          "shells": {
-            "fatalFire": false,
-            "fatalExplosion": true,
-            "explosionEvent": "ammo_explosion_2",
-            "fireEvent": "ammo_fire_2",
-            "ammunition_storage_02_dm": {
-              "count": 1080
-            }
-          }
-        }
-      ]
     }
   },
   {
@@ -3530,10 +3488,10 @@
           "hp": 2995.0
         },
         "bridge_dm": {
-          "hp": 2000.0
+          "hp": 400.0
         },
         "radio_station_dm": {
-          "hp": 2000.0
+          "hp": 200.0
         }
       },
       "superstructures": {
@@ -3717,6 +3675,7 @@
       "hull_armor": {
         "armorThickness": 15.0,
         "armorClass": "ship_structural_steel",
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 329.0
         },
@@ -4013,8 +3972,8 @@
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "genericDamageMult": 1.0,
-        "shatterDamageMult": 1.5,
-        "explosionDamageMult": 1.6,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.8,
         "fuel_tank_01_dm": {
           "hp": 500.0
@@ -4036,10 +3995,10 @@
         "shatterDamageMult": 1.5,
         "secondaryShatterDamageMult": 1.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 1500.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 500.0
+          "hp": 916.0
         }
       },
       "depth_charges": {
@@ -4184,92 +4143,107 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 11
+        "crew": 10
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 29
+        "crew": 35
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 23
+        "crew": 27
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 17
+        "crew": 20
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 29
+        "crew": 34
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 29
+        "crew": 34
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 23
+        "crew": 27
       },
       "sailor8": {
         "dmPart": "compartment_07_dm",
         "role": "sailor",
-        "crew": 14
+        "crew": 17
       },
       "sailor9": {
-        "dmPart": "superstructure_bottom_dm",
-        "role": "sailor",
-        "crew": 24
-      },
-      "sailor10": {
-        "dmPart": "superstructure_side_dm",
-        "role": "sailor",
-        "crew": 14
-      },
-      "sailor11": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
         "crew": 8
       },
-      "sailor12": {
+      "sailor10": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
         "crew": 8
       },
-      "sailor13": {
+      "sailor11": {
         "dmPart": "main_caliber_turret_03_dm",
         "role": "sailor",
         "crew": 8
       },
-      "sailor14": {
+      "sailor12": {
         "dmPart": "main_caliber_turret_04_dm",
         "role": "sailor",
         "crew": 8
       },
-      "sailor15": {
+      "sailor13": {
         "dmPart": "main_caliber_turret_05_dm",
         "role": "sailor",
         "crew": 8
       },
+      "sailor14": {
+        "dmPart": "auxiliary_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor15": {
+        "dmPart": "auxiliary_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 3
+      },
       "sailor16": {
+        "dmPart": "auxiliary_caliber_turret_03_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor17": {
+        "dmPart": "auxiliary_caliber_turret_04_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor18": {
+        "dmPart": "auxiliary_caliber_turret_05_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor19": {
         "dmPart": "tt_01_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor17": {
+      "sailor20": {
         "dmPart": "tt_02_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor18": {
+      "sailor21": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 4
       }
     }
   },
@@ -5031,7 +5005,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -5178,7 +5152,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -5320,7 +5294,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -5465,7 +5439,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -5605,7 +5579,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -5750,7 +5724,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -5890,7 +5864,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -6035,7 +6009,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -6175,7 +6149,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -6320,7 +6294,7 @@
             "speedPitch": 30.0
           },
           {
-            "bullets": 2000
+            "bullets": 2500
           },
           {
             "allowableDelta": 2.0
@@ -7524,6 +7498,84 @@
         }
       }
     ]
+  },
+  {
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "weaponTrigger": "gunner5"
+        },
+        {
+          "weaponTrigger": "gunner6"
+        },
+        {
+          "weaponTrigger": "gunner7"
+        },
+        {
+          "weaponTrigger": "gunner8"
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_1",
+            "fireEvent": "ammo_fire_1",
+            "ammunition_storage_01_dm": {
+              "count": 20720
+            }
+          }
+        }
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "weaponTrigger": "gunner10"
+        },
+        {
+          "weaponTrigger": "gunner11"
+        },
+        {
+          "weaponTrigger": "gunner12"
+        },
+        {
+          "weaponTrigger": "gunner13"
+        },
+        {
+          "weaponTrigger": "gunner14"
+        },
+        {
+          "weaponTrigger": "gunner15"
+        },
+        {
+          "weaponTrigger": "gunner16"
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_2",
+            "fireEvent": "ammo_fire_2",
+            "ammunition_storage_02_dm": {
+              "count": 17880
+            }
+          }
+        }
+      ]
+    }
   },
   {
     "defaultDecals": {

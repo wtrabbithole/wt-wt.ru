@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -153,7 +156,8 @@
         "armorClass": "leopard_2a5_turret_nera",
         "composite_armor_turret_01_dm": {
           "armorThickness": 0.001,
-          "armorClass": "CHA_tank_modern"
+          "armorClass": "CHA_tank_modern",
+          "hidableInXrayViewer": true
         },
         "composite_armor_turret_02_dm": {
           "armorThickness": 300.0,
@@ -179,7 +183,8 @@
         },
         "composite_armor_turret_06_dm": {
           "armorThickness": 0.001,
-          "armorClass": "CHA_tank_modern"
+          "armorClass": "CHA_tank_modern",
+          "hidableInXrayViewer": true
         },
         "composite_armor_hull_01_dm": {
           "armorThickness": 200.0,
@@ -188,15 +193,18 @@
         },
         "composite_armor_hull_02_dm": {
           "armorThickness": 0.001,
-          "armorClass": "RHA_tank_modern"
+          "armorClass": "RHA_tank_modern",
+          "hidableInXrayViewer": true
         },
         "composite_armor_hull_03_dm": {
           "armorThickness": 0.001,
-          "armorClass": "RHA_tank_modern"
+          "armorClass": "RHA_tank_modern",
+          "hidableInXrayViewer": true
         },
         "composite_armor_hull_04_dm": {
           "armorThickness": 0.001,
-          "armorClass": "RHA_tank_modern"
+          "armorClass": "RHA_tank_modern",
+          "hidableInXrayViewer": true
         }
       },
       "turret_cha": {
@@ -415,6 +423,7 @@
         "armorThickness": 13.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_armor_l_01_dm": {
           "armorThickness": 19.0,
           "armorClass": "aluminium"
@@ -598,12 +607,13 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_v_01_dm": {

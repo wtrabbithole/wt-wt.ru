@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -1667,7 +1670,8 @@
           "armorEffectiveThicknessMax": 160.0
         },
         "ex_armor_02_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 20.0,
+          "hidableInViewer": true
         },
         "ex_armor_l_07_dm": {
           "armorThickness": 10.0,
@@ -1683,11 +1687,16 @@
           "armorEffectiveThicknessMax": 4.0
         },
         "ex_armor_01_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 10.0,
+          "hidableInViewer": true
+        },
+        "turret_08_bottom_dm": {
+          "armorThickness": 5.0
         }
       },
       "hull_composite_armor": {
         "armorClass": "tank_textolite",
+        "hidableInXrayViewer": true,
         "composite_armor_hull_01_dm": {
           "armorThickness": 35.0,
           "genericArmorQuality": 0.0,
@@ -1697,6 +1706,7 @@
       },
       "turret_composite_armor": {
         "armorClass": "tank_ultra_porcelain",
+        "hidableInXrayViewer": true,
         "composite_armor_turret_01_dm": {
           "armorThickness": 150.0,
           "genericArmorQuality": 0.0,
@@ -1780,7 +1790,8 @@
         },
         "composite_armor_turret_03_dm": {
           "armorThickness": 1.0,
-          "createSecondaryShatters": false
+          "createSecondaryShatters": false,
+          "hidableInXrayViewer": true
         },
         "gun_mask_dm": {
           "armorThickness": 50.0
@@ -1856,6 +1867,8 @@
         "genericArmorQuality": 0.08,
         "genericDamageMult": 3.0,
         "stopChanceOnDeadPart": 0.0,
+        "hidableInViewer": true,
+        "hidableInXrayViewer": true,
         "ex_era_turret_01_dm": [],
         "ex_era_turret_02_dm": [],
         "ex_era_turret_03_dm": [],
@@ -1894,6 +1907,7 @@
         "hp": 200.0,
         "armorThickness": 3.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_decor_06_dm": [],
         "ex_decor_l_01_dm": [],
         "ex_decor_r_01_dm": [],
@@ -1922,6 +1936,7 @@
         "hp": 500.0,
         "armorThickness": 4.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_decor_l_05_dm": [],
         "ex_decor_l_02_dm": [],
         "ex_decor_l_03_dm": [],
@@ -2136,12 +2151,13 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_v_01_dm": {
@@ -3307,7 +3323,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true

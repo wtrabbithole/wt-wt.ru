@@ -6,7 +6,7 @@ local XboxShopPurchasableItem = ::require("scripts/onlineShop/XboxShopPurchasabl
 
 const XBOX_RECEIVE_CATALOG_MSG_ID = "XBOX_RECEIVE_CATALOG"
 
-local visibleSeenIds = null
+local visibleSeenIds = []
 local xboxProceedItems = {}
 
 local onReceiveCatalogCb = null
@@ -39,7 +39,7 @@ local haveItemDiscount = null
 
   if (invalidateSeenList)
   {
-    visibleSeenIds = null
+    visibleSeenIds.clear()
     seenList.onListChanged()
   }
   invalidateSeenList = false
@@ -83,9 +83,8 @@ local canUseIngameShop = @() ::is_platform_xboxone && ::has_feature("XboxIngameS
 
 local getVisibleSeenIds = function()
 {
-  if (!visibleSeenIds)
+  if (!visibleSeenIds.len() && xboxProceedItems.len())
   {
-    visibleSeenIds = []
     foreach (mediaType, itemsList in xboxProceedItems)
       visibleSeenIds.extend(itemsList.filter(@(idx, it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
   }
@@ -100,12 +99,15 @@ local initXboxItemsListAfterLogin = function()
   if (canUseIngameShop() && !isItemsInitedOnce)
   {
     isItemsInitedOnce = true
-    requestData(true)
+    requestData(true, null, true)
   }
 }
 
 local haveAnyItemWithDiscount = function()
 {
+  if (!xboxProceedItems.len())
+    return false
+
   if (haveItemDiscount != null)
     return haveItemDiscount
 
@@ -140,7 +142,7 @@ subscriptions.addListenersWithoutEnv({
   SignOut = function(p) {
     isItemsInitedOnce = false
     xboxProceedItems.clear()
-    visibleSeenIds = null
+    visibleSeenIds.clear()
     haveItemDiscount = null
   }
 }, ::g_listener_priority.CONFIG_VALIDATION)

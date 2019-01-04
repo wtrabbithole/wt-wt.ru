@@ -101,12 +101,6 @@
         "maxDistance": 2000.0
       },
       {
-        "groundCollisionEffect": "cannon_air_hit"
-      },
-      {
-        "groundFxScale": [0.4,0.6]
-      },
-      {
         "bulletType": "he_ball"
       },
       {
@@ -135,6 +129,12 @@
       },
       {
         "relativeVelArmorShift": [200.0,1000.0]
+      },
+      {
+        "groundCollisionEffect": "cannon_air_hit"
+      },
+      {
+        "groundFxScale": [0.4,0.6]
       },
       {
         "groundCollisionEffect": "7_20_hit_ground"
@@ -526,6 +526,16 @@
             "traceFreq": 1,
             "tracer": "7mmRed",
             "trail": "noTrail"
+          },
+          "collisions": {
+            "steel": {
+              "fx": "air_hit",
+              "fxScale": [0.2,0.4]
+            },
+            "armor": {
+              "fx": "air_hit",
+              "fxScale": [0.2,0.4]
+            }
           }
         }
       },

@@ -600,55 +600,31 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.2,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1313,14 +1289,14 @@
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         },
         "radio_station_dm": {
           "genericDamageMult": 1.5,
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 80.0
         }
       },
       "superstructures": {
@@ -2087,7 +2063,7 @@
           "trigger": "gunner2",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_ttka_53_183_torpedo_tube.blk",
+          "blk": "gameData/Weapons/torpedoes/su_ttka_53_38_torpedo_tube.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 1,
           "launchAnimVar": "anim_launch_torpedo_01",
@@ -2117,7 +2093,7 @@
           "trigger": "gunner3",
           "triggerGroup": "torpedoes",
           "external": true,
-          "blk": "gameData/Weapons/torpedoes/su_ttka_53_183_torpedo_tube.blk",
+          "blk": "gameData/Weapons/torpedoes/su_ttka_53_38_torpedo_tube.blk",
           "emitter": "bone_torpedo_02",
           "bullets": 1,
           "launchAnimVar": "anim_launch_torpedo_02",
@@ -2830,8 +2806,8 @@
       "ship_main_caliber_support": [],
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": -4000.0,
-          "maxSpeedInWater": 4.89
+          "distToLive": 6000.0,
+          "maxSpeedInWater": -7.2
         }
       },
       "ship_depth_charge": []

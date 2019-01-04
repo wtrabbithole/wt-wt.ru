@@ -35,6 +35,9 @@
             "id": "header_countries_nest"
           },
           {
+            "height": "ph"
+          },
+          {
             "css-hier-invalidate": "yes"
           },
           {
@@ -50,14 +53,19 @@
             }
           },
           {
-            "HorizontalListBox": {
+            "activateSelect": {
               "id": "header_countries",
               "height": "ph",
-              "class": "header",
+              "class": "slotsHeader",
               "normalFont": "yes",
               "isShort": "no",
               "on_select": "onHeaderCountry",
-              "css-hier-invalidate": "yes"
+              "css-hier-invalidate": "yes",
+              "total-input-transparent": "yes",
+              "navigatorShortcuts": "active",
+              "on_wrap_up": "onWrapUp",
+              "on_wrap_down": "onWrapDown",
+              "on_wrap_right": "onWrapUp"
             }
           },
           {
@@ -108,6 +116,9 @@
           },
           {
             "on_wrap_down": "onWrapDown"
+          },
+          {
+            "on_wrap_left": "onWrapDown"
           },
           {
             "CheckBox": {

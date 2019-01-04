@@ -200,10 +200,13 @@
               "object_type": "any"
             },
             {
-              "stealthRadius": 450000.0
+              "stealthRadius": 125000.0
             },
             {
               "calmDetection": true
+            },
+            {
+              "attack_type": "fire_at_will"
             },
             {
               "targetAir": false
@@ -213,6 +216,9 @@
             },
             {
               "accuracy": 0.6
+            },
+            {
+              "checkVisibilityTarget": false
             },
             {
               "effShootingRate": 0.6
@@ -316,7 +322,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 10.0
+            "time": 5.0
           }
         },
         "conditions": [],
@@ -2647,99 +2653,13 @@
             },
             {
               "triggerEnable": {
-                "target": "flt_t1_art_near_check"
+                "target": "flt_t1_art_army_var_check"
               }
             }
           ],
           "else_actions": []
         },
-        "flt_t1_art_near_check": {
-          "is_enabled": false,
-          "comments": "",
-          "props": {
-            "actionsType": "PERFORM_ONE_BY_ONE",
-            "conditionsType": "ANY",
-            "enableAfterComplete": false
-          },
-          "events": {
-            "periodicEvent": {
-              "time": 0.1
-            }
-          },
-          "conditions": [
-            {
-              "unitDistanceBetween": {
-                "value": 15.0,
-                "math": "2D",
-                "object_type": "isActive",
-                "object_marking": 0,
-                "target_type": "any",
-                "target_marking": 0,
-                "check_objects": "any",
-                "check_targets": "any",
-                "object_var_name": "",
-                "object_var_comp_op": "equal",
-                "object_var_value": 0,
-                "object": "flt_t1_art_squad",
-                "target": "@flt_t1_art_spot_name",
-                "compareCenters": false
-              }
-            },
-            {
-              "unitDistanceBetween": {
-                "value": 2500.0,
-                "math": "2D",
-                "object_type": "isActive",
-                "object_marking": 0,
-                "target_type": "any",
-                "target_marking": 0,
-                "check_objects": "any",
-                "check_targets": "any",
-                "object_var_name": "",
-                "object_var_comp_op": "equal",
-                "object_var_value": 0,
-                "object": "all_players_squad",
-                "target": "@flt_t1_art_spot_name",
-                "compareCenters": false
-              }
-            }
-          ],
-          "actions": [
-            {
-              "comment": {
-                "value": "на спавне уже есть зенитка или рядом есть враг"
-              }
-            },
-            {
-              "comment": {
-                "value": "ничего не делаем"
-              }
-            },
-            {
-              "triggerEnable": {
-                "target": "flt_t1_art_garbage_collect"
-              }
-            }
-          ],
-          "else_actions": [
-            {
-              "comment": {
-                "value": "спавн свободен"
-              }
-            },
-            {
-              "comment": {
-                "value": "пытаемся отспавнить зенитку"
-              }
-            },
-            {
-              "triggerEnable": {
-                "target": "flt_t1_art_army_check"
-              }
-            }
-          ]
-        },
-        "flt_t1_art_army_check": {
+        "flt_t1_art_army_var_check": {
           "is_enabled": false,
           "comments": "",
           "props": {
@@ -2793,7 +2713,7 @@
             },
             {
               "triggerEnable": {
-                "target": "flt_t1_art_spawn"
+                "target": "flt_t1_art_army_check"
               }
             }
           ],
@@ -2806,7 +2726,7 @@
             }
           }
         },
-        "flt_t1_art_spawn": {
+        "flt_t1_art_army_check": {
           "is_enabled": false,
           "comments": "",
           "props": {
@@ -2826,6 +2746,209 @@
               "comparasion_func": "equal"
             }
           },
+          "actions": {
+            "comment": {
+              "value": "зенитка в своем квадрате можем делать проверки дальше"
+            },
+            "triggerEnable": {
+              "target": "flt_t1_art_near_check"
+            }
+          },
+          "else_actions": {
+            "comment": {
+              "value": "спавн не в правильном месте. пробуем пойти дальше по ротации"
+            },
+            "triggerEnable": {
+              "target": "flt_t1_art_garbage_collect"
+            }
+          }
+        },
+        "flt_t1_art_near_check": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ANY",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": [
+            {
+              "unitDistanceBetween": {
+                "value": 15.0,
+                "math": "2D",
+                "object_type": "isActive",
+                "object_marking": 0,
+                "target_type": "any",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "flt_t1_art_squad",
+                "target": "@flt_t1_art_spot_name",
+                "compareCenters": false
+              }
+            },
+            {
+              "unitDistanceBetween": {
+                "value": 1500.0,
+                "math": "2D",
+                "object_type": "isActive",
+                "object_marking": 0,
+                "target_type": "any",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "all_players_squad",
+                "target": "@flt_t1_art_spot_name",
+                "compareCenters": false
+              }
+            }
+          ],
+          "actions": [
+            {
+              "comment": {
+                "value": "на спавне уже есть зенитка или рядом есть враг"
+              }
+            },
+            {
+              "comment": {
+                "value": "ничего не делаем"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t1_art_garbage_collect"
+              }
+            }
+          ],
+          "else_actions": [
+            {
+              "comment": {
+                "value": "спавн свободен"
+              }
+            },
+            {
+              "comment": {
+                "value": "пытаемся отспавнить зенитку"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t1_art_enemy_check"
+              }
+            }
+          ]
+        },
+        "flt_t1_art_enemy_check": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": [
+            {
+              "unitDistanceBetween": {
+                "value": 20000.0,
+                "math": "notNear2D",
+                "object_type": "any",
+                "object_marking": 0,
+                "target_type": "isActive",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "@flt_t1_art_spot_name",
+                "target": "flt_t2_forces_squad",
+                "compareCenters": false
+              }
+            },
+            {
+              "unitDistanceBetween": {
+                "value": 20000.0,
+                "math": "notNear2D",
+                "object_type": "any",
+                "object_marking": 0,
+                "target_type": "isActive",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "@flt_t1_art_spot_name",
+                "target": "lbt_battles_t2_battle_squad",
+                "compareCenters": false
+              }
+            }
+          ],
+          "actions": [
+            {
+              "comment": {
+                "value": "не по кому стрелять"
+              }
+            },
+            {
+              "comment": {
+                "value": "ничего не делаем"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t1_art_garbage_collect"
+              }
+            }
+          ],
+          "else_actions": [
+            {
+              "comment": {
+                "value": "есть по кому стрелять"
+              }
+            },
+            {
+              "comment": {
+                "value": "пытаемся отспавнить зенитку"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t1_art_spawn"
+              }
+            }
+          ]
+        },
+        "flt_t1_art_spawn": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": [],
           "actions": [
             {
               "comment": {
@@ -2854,14 +2977,7 @@
               }
             }
           ],
-          "else_actions": {
-            "comment": {
-              "value": "спавн не в правильном месте. пробуем пойти дальше по ротации"
-            },
-            "triggerEnable": {
-              "target": "flt_t1_art_garbage_collect"
-            }
-          }
+          "else_actions": []
         },
         "flt_t1_art_garbage_collect": {
           "is_enabled": false,
@@ -2910,7 +3026,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 7500.0,
+              "value": 10500.0,
               "math": "notNear2D",
               "object_type": "isActive",
               "object_marking": 0,
@@ -3045,99 +3161,13 @@
             },
             {
               "triggerEnable": {
-                "target": "flt_t2_art_near_check"
+                "target": "flt_t2_art_army_var_check"
               }
             }
           ],
           "else_actions": []
         },
-        "flt_t2_art_near_check": {
-          "is_enabled": false,
-          "comments": "",
-          "props": {
-            "actionsType": "PERFORM_ONE_BY_ONE",
-            "conditionsType": "ANY",
-            "enableAfterComplete": false
-          },
-          "events": {
-            "periodicEvent": {
-              "time": 0.1
-            }
-          },
-          "conditions": [
-            {
-              "unitDistanceBetween": {
-                "value": 15.0,
-                "math": "2D",
-                "object_type": "isActive",
-                "object_marking": 0,
-                "target_type": "any",
-                "target_marking": 0,
-                "check_objects": "any",
-                "check_targets": "any",
-                "object_var_name": "",
-                "object_var_comp_op": "equal",
-                "object_var_value": 0,
-                "object": "flt_t2_art_squad",
-                "target": "@flt_t2_art_spot_name",
-                "compareCenters": false
-              }
-            },
-            {
-              "unitDistanceBetween": {
-                "value": 2500.0,
-                "math": "2D",
-                "object_type": "isActive",
-                "object_marking": 0,
-                "target_type": "any",
-                "target_marking": 0,
-                "check_objects": "any",
-                "check_targets": "any",
-                "object_var_name": "",
-                "object_var_comp_op": "equal",
-                "object_var_value": 0,
-                "object": "all_players_squad",
-                "target": "@flt_t2_art_spot_name",
-                "compareCenters": false
-              }
-            }
-          ],
-          "actions": [
-            {
-              "comment": {
-                "value": "на спавне уже есть зенитка или рядом есть враг"
-              }
-            },
-            {
-              "comment": {
-                "value": "ничего не делаем"
-              }
-            },
-            {
-              "triggerEnable": {
-                "target": "flt_t2_art_garbage_collect"
-              }
-            }
-          ],
-          "else_actions": [
-            {
-              "comment": {
-                "value": "спавн свободен"
-              }
-            },
-            {
-              "comment": {
-                "value": "пытаемся отспавнить зенитку"
-              }
-            },
-            {
-              "triggerEnable": {
-                "target": "flt_t2_art_army_check"
-              }
-            }
-          ]
-        },
-        "flt_t2_art_army_check": {
+        "flt_t2_art_army_var_check": {
           "is_enabled": false,
           "comments": "",
           "props": {
@@ -3191,7 +3221,7 @@
             },
             {
               "triggerEnable": {
-                "target": "flt_t2_art_spawn"
+                "target": "flt_t2_art_army_check"
               }
             }
           ],
@@ -3204,7 +3234,7 @@
             }
           }
         },
-        "flt_t2_art_spawn": {
+        "flt_t2_art_army_check": {
           "is_enabled": false,
           "comments": "",
           "props": {
@@ -3224,6 +3254,209 @@
               "comparasion_func": "equal"
             }
           },
+          "actions": {
+            "comment": {
+              "value": "зенитка в своем квадрате можем делать проверки дальше"
+            },
+            "triggerEnable": {
+              "target": "flt_t2_art_near_check"
+            }
+          },
+          "else_actions": {
+            "comment": {
+              "value": "спавн не в правильном месте. пробуем пойти дальше по ротации"
+            },
+            "triggerEnable": {
+              "target": "flt_t2_art_garbage_collect"
+            }
+          }
+        },
+        "flt_t2_art_near_check": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ANY",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": [
+            {
+              "unitDistanceBetween": {
+                "value": 15.0,
+                "math": "2D",
+                "object_type": "isActive",
+                "object_marking": 0,
+                "target_type": "any",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "flt_t2_art_squad",
+                "target": "@flt_t2_art_spot_name",
+                "compareCenters": false
+              }
+            },
+            {
+              "unitDistanceBetween": {
+                "value": 1500.0,
+                "math": "2D",
+                "object_type": "isActive",
+                "object_marking": 0,
+                "target_type": "any",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "all_players_squad",
+                "target": "@flt_t2_art_spot_name",
+                "compareCenters": false
+              }
+            }
+          ],
+          "actions": [
+            {
+              "comment": {
+                "value": "на спавне уже есть зенитка или рядом есть враг"
+              }
+            },
+            {
+              "comment": {
+                "value": "ничего не делаем"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t2_art_garbage_collect"
+              }
+            }
+          ],
+          "else_actions": [
+            {
+              "comment": {
+                "value": "спавн свободен"
+              }
+            },
+            {
+              "comment": {
+                "value": "пытаемся отспавнить зенитку"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t2_art_enemy_check"
+              }
+            }
+          ]
+        },
+        "flt_t2_art_enemy_check": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": [
+            {
+              "unitDistanceBetween": {
+                "value": 20000.0,
+                "math": "notNear2D",
+                "object_type": "any",
+                "object_marking": 0,
+                "target_type": "isActive",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "@flt_t2_art_spot_name",
+                "target": "flt_t1_forces_squad",
+                "compareCenters": false
+              }
+            },
+            {
+              "unitDistanceBetween": {
+                "value": 20000.0,
+                "math": "notNear2D",
+                "object_type": "any",
+                "object_marking": 0,
+                "target_type": "isActive",
+                "target_marking": 0,
+                "check_objects": "any",
+                "check_targets": "any",
+                "object_var_name": "",
+                "object_var_comp_op": "equal",
+                "object_var_value": 0,
+                "object": "@flt_t2_art_spot_name",
+                "target": "lbt_battles_t1_battle_squad",
+                "compareCenters": false
+              }
+            }
+          ],
+          "actions": [
+            {
+              "comment": {
+                "value": "не по кому стрелять"
+              }
+            },
+            {
+              "comment": {
+                "value": "ничего не делаем"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t2_art_garbage_collect"
+              }
+            }
+          ],
+          "else_actions": [
+            {
+              "comment": {
+                "value": "есть по кому стрелять"
+              }
+            },
+            {
+              "comment": {
+                "value": "пытаемся отспавнить арту"
+              }
+            },
+            {
+              "triggerEnable": {
+                "target": "flt_t2_art_spawn"
+              }
+            }
+          ]
+        },
+        "flt_t2_art_spawn": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": [],
           "actions": [
             {
               "comment": {
@@ -3252,14 +3485,7 @@
               }
             }
           ],
-          "else_actions": {
-            "comment": {
-              "value": "спавн не в правильном месте. пробуем пойти дальше по ротации"
-            },
-            "triggerEnable": {
-              "target": "flt_t2_art_garbage_collect"
-            }
-          }
+          "else_actions": []
         },
         "flt_t2_art_garbage_collect": {
           "is_enabled": false,
@@ -3308,7 +3534,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 7500.0,
+              "value": 10500.0,
               "math": "notNear2D",
               "object_type": "isActive",
               "object_marking": 0,
@@ -3505,7 +3731,7 @@
             },
             {
               "unitDistanceBetween": {
-                "value": 2500.0,
+                "value": 1500.0,
                 "math": "2D",
                 "object_type": "isActive",
                 "object_marking": 0,
@@ -3953,7 +4179,7 @@
             },
             {
               "unitDistanceBetween": {
-                "value": 2500.0,
+                "value": 1500.0,
                 "math": "2D",
                 "object_type": "isActive",
                 "object_marking": 0,
@@ -6368,6 +6594,10 @@
           }
         }
       }
+    },
+    "flt_heat": {
+      "isCategory": true,
+      "is_enabled": true
     }
   },
   "mission_objectives": {
@@ -6643,7 +6873,56 @@
     "flt_draw_cur_state_type_var": "",
     "flt_draw_cur_state_type_value": "",
     "flt_draw_check_state_type_var": "",
-    "flt_draw_check_state_type_value": ""
+    "flt_draw_check_state_type_value": "",
+    "flt_area_01_heat": -1,
+    "flt_area_02_heat": -1,
+    "flt_area_03_heat": -1,
+    "flt_area_04_heat": -1,
+    "flt_area_05_heat": -1,
+    "flt_area_06_heat": -1,
+    "flt_area_07_heat": -1,
+    "flt_area_08_heat": -1,
+    "flt_area_09_heat": -1,
+    "flt_area_10_heat": -1,
+    "flt_area_11_heat": -1,
+    "flt_area_12_heat": -1,
+    "flt_area_13_heat": -1,
+    "flt_area_14_heat": -1,
+    "flt_area_15_heat": -1,
+    "flt_area_16_heat": -1,
+    "flt_area_17_heat": -1,
+    "flt_area_18_heat": -1,
+    "flt_area_19_heat": -1,
+    "flt_area_20_heat": -1,
+    "flt_area_21_heat": -1,
+    "flt_area_22_heat": -1,
+    "flt_area_23_heat": -1,
+    "flt_area_24_heat": -1,
+    "flt_area_25_heat": -1,
+    "flt_area_26_heat": -1,
+    "flt_area_27_heat": -1,
+    "flt_area_28_heat": -1,
+    "flt_area_29_heat": -1,
+    "flt_area_30_heat": -1,
+    "flt_area_31_heat": -1,
+    "flt_area_32_heat": -1,
+    "flt_area_33_heat": -1,
+    "flt_area_34_heat": -1,
+    "flt_area_35_heat": -1,
+    "flt_area_36_heat": -1,
+    "flt_area_37_heat": -1,
+    "flt_area_38_heat": -1,
+    "flt_area_39_heat": -1,
+    "flt_area_40_heat": -1,
+    "flt_area_41_heat": -1,
+    "flt_area_42_heat": -1,
+    "flt_area_43_heat": -1,
+    "flt_area_44_heat": -1,
+    "flt_area_45_heat": -1,
+    "flt_area_46_heat": -1,
+    "flt_area_47_heat": -1,
+    "flt_area_48_heat": -1,
+    "flt_area_49_heat": -1
   },
   "dialogs": [],
   "airfields": [],

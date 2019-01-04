@@ -213,10 +213,9 @@ function parse_personal_unlock_for_clan_season_id(id)
 }
 
 
-function get_image_for_unlockable_medal(id)
+function get_image_for_unlockable_medal(id, big = false)
 {
-  local image = ::format("!@#ui/medalskin#%s", id)
-  return image
+  return ::format(big ? "!@ui/medals/%s_big" : "!@ui/medals/%s", id)
 }
 
 
@@ -751,10 +750,16 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
   }
 }
 
-function fill_unlock_block(obj, config)
+function fill_unlock_block(obj, config, isForTooltip = false)
 {
+  if (isForTooltip)
+  {
+    local icoSize = config?.tooltipImageSize ?? "@profileUnlockIconSize, @profileUnlockIconSize"
+    obj.findObject("award_image_sizer").size = icoSize
+  }
+
   local icoObj = obj.findObject("award_image")
-  set_unlock_icon_by_config(icoObj, config)
+  ::set_unlock_icon_by_config(icoObj, config, isForTooltip)
 
   local tObj = obj.findObject("award_title_text")
   tObj.setValue("title" in config? config.title : "")
@@ -807,12 +812,14 @@ function fill_unlock_block(obj, config)
   }
 }
 
-function set_unlock_icon_by_config(obj, config)
+function set_unlock_icon_by_config(obj, config, isForTooltip = false)
 {
   local iconStyle = ("iconStyle" in config)? config.iconStyle : ""
   local iconParams = ::getTblValue("iconParams", config, null)
   local ratio = (("descrImage" in config) && ("descrImageRatio" in config))? config.descrImageRatio : 1.0
   local image = ("descrImage" in config)? config.descrImage : ""
+  if (isForTooltip)
+    image = config?.tooltipImage ?? image
   ::LayersIcon.replaceIcon(obj, iconStyle, image, ratio, null, iconParams)
 }
 
@@ -823,7 +830,7 @@ function build_unlock_tooltip_by_config(obj, config, handler)
 
   obj["min-width"] = "0.8@unlockBlockWidth"
 
-  ::fill_unlock_block(obj, config)
+  ::fill_unlock_block(obj, config, true)
 }
 
 function get_unlock_description(unlockName, forUnlockedStage = -1, showProgress = false)
@@ -1059,7 +1066,7 @@ function build_log_unlock_data(config)
       res.progressBar <- progressData
     local description = ::build_unlock_desc(cond, {showProgress = haveProgress})
     res.desc = description.text
-    res.link = unlockBlk.link || ""
+    res.link = ::g_promo.getLinkText(unlockBlk)
     res.forceExternalBrowser = unlockBlk.forceExternalBrowser || false
   }
   if (res.desc == "" && id!=realId)
@@ -1106,10 +1113,12 @@ function build_log_unlock_data(config)
     case ::UNLOCKABLE_MEDAL:
       if (id != "")
       {
-        local imagePath = "!@#ui/medalskin#" + id
-        res.image = "!@#ui/medalskin#" + id
-        res.descrImage <- ::getTblValue("image", cond, imagePath + "_big")
+        local imagePath = ::get_image_for_unlockable_medal(id)
+        res.image = imagePath
+        res.descrImage <- imagePath
         res.descrImageSize <- "128, 128"
+        res.tooltipImage <- ::get_image_for_unlockable_medal(id, true)
+        res.tooltipImageSize <- "@profileMedalSizeBig, @profileMedalSizeBig"
       }
       break
 

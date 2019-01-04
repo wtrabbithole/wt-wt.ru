@@ -710,6 +710,7 @@ function BattleTasks::generateItemView(config, paramsCfg = {})
 
   local title = isBattleTask? getLocalizedTaskNameById(task.id)
               : (isUnlock? ::get_unlock_name_text(config.unlockType, config.id) : ::getTblValue("text", config, ""))
+  local brVal = isUnlock ? ::UnlockConditions.getBRValue(config.conditions) : null
   local rankVal = isUnlock ? ::UnlockConditions.getRankValue(config.conditions) : null
 
   local id = isBattleTask? task.id : config.id
@@ -725,7 +726,7 @@ function BattleTasks::generateItemView(config, paramsCfg = {})
     taskPlayback = ::getTblValue("playback", task) || ::getTblValue("playback", config)
     isPlaybackDownloading = !::g_sound.canPlay(id)
     taskDifficultyImage = getDifficultyImage(task)
-    taskRankValue = rankVal? ::loc("ui/parentheses/space", {text = rankVal}) : null
+    taskRankValue = brVal || rankVal ? ::loc("ui/parentheses/space", { text = brVal || rankVal }) : null
     description = isBattleTask || isUnlock ? getTaskDescription(config, paramsCfg) : null
     reward = isPromo? null : getRewardMarkUpConfig(task, config)
     newIconWidget = isBattleTask? (isTaskActive(task)? null : NewIconWidget.createLayout()) : null

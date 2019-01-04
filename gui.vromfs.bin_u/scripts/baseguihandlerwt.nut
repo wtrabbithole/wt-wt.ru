@@ -22,6 +22,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     function() { return getMainFocusObj4() }      //main focus obj of handler
     "crew_unlock_buttons",
     "autorefill-settings",
+    "header_countries",
     function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]

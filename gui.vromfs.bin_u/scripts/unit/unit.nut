@@ -294,6 +294,16 @@ local Unit = class
     return _isRecentlyReleased
   }
 
+  _originCountry = null
+  function getOriginCountry()
+  {
+    if (_originCountry)
+      return _originCountry
+    local res = ::get_unittags_blk()?[name]?.originCountry ?? ""
+    _originCountry = res != "" && ::get_country_icon(res) != "" ? res : shopCountry
+    return _originCountry
+  }
+
   function getEconomicRank(ediff)
   {
     return ::get_unit_blk_economic_rank_by_mode(getUnitWpCostBlk(), ediff)

@@ -4,7 +4,9 @@ weaponry_item {
   width:t='<<itemWidth>>@modItemWidth'
   pos:t='(<<posX>> + 0.5 * <<itemWidth>>) * 1@modCellWidth - 0.5w, (<<posY>> + 0.5) * 1@modCellHeight - 0.5h'
   position:t='absolute'
-  <<#isBundle>>isBundle = "yes"<</isBundle>>
+  <<#isBundle>>
+  isBundle='yes'
+  <</isBundle>>
   flow:t='vertical'
   total-input-transparent:t='yes'
   css-hier-invalidate:t='yes'
@@ -13,18 +15,6 @@ weaponry_item {
     id:t='modItem_discount';
     pos:t='pw-w, -1@discountBoxDownHeight + 8*@sf/@pf_outdated';
     position:t='absolute';
-  }
-  Button_text{
-    id:t='actionBtn'
-    holderId:t='<<id>>'
-    class:t='additional'
-    visualStyle:t='common'
-    text:t='#weaponry/research';
-    vertPos:t='up'
-    on_click:t='onModActionBtn'
-    display:t='hide'
-    btnName:t='A'
-    ButtonImg {}
   }
 
   weaponBody{
@@ -275,28 +265,42 @@ weaponry_item {
       }
     }
   }
-  Button_text{
-    id:t='altActionBtn'
-    holderId:t='<<id>>'
-    class:t='additional'
-    text:t='';
-    vertPos:t='down'
-    display:t='hide'
-    canShow:t='no'
-    btnName:t='X'
-    order-popup:t='yes'
-    on_click:t='onAltModAction'
-    visualStyle:t='purchase'
-    buttonWink {}
-    buttonGlance{}
-    textarea {
-      id:t='item_buy_text'
+
+  modSlotButtonsNest {
+    Button_text{
+      id:t='altActionBtn'
+      holderId:t='<<id>>'
+      class:t='additional'
       text:t='';
-      class:t='buttonText';
-      text-align:t='center';
-      smallFont:t='yes'
+      display:t='hide'
+      canShow:t='no'
+      btnName:t='X'
+      on_click:t='onAltModAction'
+      visualStyle:t='purchase'
+      buttonWink {}
+      buttonGlance{}
+      textarea {
+        id:t='item_buy_text'
+        text:t='';
+        class:t='buttonText';
+        text-align:t='center';
+        smallFont:t='yes'
+      }
+      ButtonImg {}
     }
-    ButtonImg {}
+
+    Button_text{
+      id:t='actionBtn'
+      holderId:t='<<id>>'
+      class:t='additional'
+      visualStyle:t='common'
+      text:t='#weaponry/research';
+      on_click:t='onModActionBtn'
+      display:t='hide'
+      btnName:t='A'
+      hasIncreasedTopMargin:t='yes'
+      ButtonImg {}
+    }
   }
 
   <<#shortcutIcon>>

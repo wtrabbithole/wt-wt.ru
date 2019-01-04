@@ -24,6 +24,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -96,6 +99,9 @@
     "type": "typeTankDestroyer"
   },
   {
+    "cruiseVelocity": 3.0
+  },
+  {
     "rearmSmokeTimeOnField": 60.0
   },
   {
@@ -154,6 +160,7 @@
         "armorClass": "RHA_tank",
         "armorThickness": 5.0,
         "hp": 200.0,
+        "hidableInViewer": true,
         "ex_armor_r_01_dm": [],
         "ex_armor_r_02_dm": [],
         "ex_armor_r_03_dm": [],
@@ -239,7 +246,7 @@
         }
       },
       "gun": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "tank_barrel",
         "hp": 300.0,
         "gun_barrel_01_dm": {
           "armorThickness": 20.0
@@ -356,6 +363,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0
@@ -1024,6 +1032,8 @@
           "useEmitter": true,
           "emitter": "bone_rocket_01",
           "reloadAnimVar": "rakjpz_2_01_action",
+          "stopForFire": true,
+          "maxSpeedForFire": 5.0,
           "parkForReload": true,
           "circleAim": true,
           "createGunEffects": true,
@@ -1073,6 +1083,8 @@
           "useEmitter": true,
           "emitter": "bone_rocket_02",
           "reloadAnimVar": "rakjpz_2_02_action",
+          "stopForFire": true,
+          "maxSpeedForFire": 5.0,
           "parkForReload": true,
           "createGunEffects": true,
           "circleAim": true,
@@ -1920,6 +1932,8 @@
                 "useEmitter": true,
                 "emitter": "bone_rocket_01",
                 "reloadAnimVar": "rakjpz_2_01_action",
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "parkForReload": true,
                 "circleAim": true,
                 "createGunEffects": true,
@@ -1969,6 +1983,8 @@
                 "useEmitter": true,
                 "emitter": "bone_rocket_02",
                 "reloadAnimVar": "rakjpz_2_02_action",
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "parkForReload": true,
                 "createGunEffects": true,
                 "circleAim": true,

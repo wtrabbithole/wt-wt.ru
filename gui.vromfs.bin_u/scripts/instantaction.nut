@@ -510,21 +510,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local event = getGameModeEvent(curGameMode)
     if (!isCrossPlayEventAvailable(event))
     {
-      ::scene_msg_box("xbox_cross_play",
-        guiScene,
-        ::loc("xbox/login/crossPlayRequest") +
-          "\n" +
-          ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
-        [
-          ["yes", ::Callback(@() onChangeCrossPlayValue(true, curGameMode), this) ],
-          ["no", ::Callback(@() onChangeCrossPlayValue(false, curGameMode), this) ],
-          ["cancel", @() null ]
-        ],
-        "yes",
-        {
-          cancel_fn = @() null
-        }
-      )
+      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
       return
     }
 
@@ -547,19 +533,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       configForStatistic.canIntoToBattle <- false
       ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic))
     }.bindenv(this))
-  }
-
-  function onChangeCrossPlayValue(enable, gameMode)
-  {
-    if (enable != crossplayModule.isCrossPlayEnabled())
-    {
-      crossplayModule.setIsCrossPlayEnabled(enable)
-      doWhenActiveOnce("onStart")
-      return
-    }
-
-    if (enable)
-      onStart()
   }
 
   function isCrossPlayEventAvailable(event)

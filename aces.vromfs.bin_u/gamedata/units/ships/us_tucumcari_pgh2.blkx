@@ -81,7 +81,7 @@
     "hasExpl": false
   },
   {
-    "exhaustFx": "ps_exhaust"
+    "exhaustFx": "tank_modern_light_exhaust"
   },
   {
     "waterJetFx": "ship_water_jet"
@@ -819,10 +819,10 @@
           "hp": 653.0
         },
         "bridge_dm": {
-          "hp": 500.0
+          "hp": 250.0
         },
         "radio_station_dm": {
-          "hp": 500.0
+          "hp": 150.0
         }
       },
       "superstructures": {
@@ -919,6 +919,7 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -1262,55 +1263,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2302,7 +2279,7 @@
             "trigger": "gunner1"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/81mm_mk_2_mortar_naval_user_cannon.blk"
@@ -2324,6 +2301,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 20.0
@@ -2417,7 +2397,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -2444,9 +2424,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 85.0
           },
           {
@@ -2531,6 +2508,25 @@
               "lim5": [0.0,140.0,55.0,75.0],
               "lim6": [140.0,180.0,0.0,75.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2540,7 +2536,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -2567,9 +2563,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 85.0
           },
           {
@@ -2654,6 +2647,25 @@
               "lim5": [0.0,140.0,55.0,75.0],
               "lim6": [140.0,180.0,0.0,75.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2663,7 +2675,7 @@
             "trigger": "gunner3"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -2690,9 +2702,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 85.0
           },
           {
@@ -2777,6 +2786,25 @@
               "lim5": [60.0,140.0,-10.0,75.0],
               "lim6": [140.0,180.0,-3.0,75.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2786,7 +2814,7 @@
             "trigger": "gunner3"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/12_7mm_M2_HB_naval_user_machinegun.blk"
@@ -2813,9 +2841,6 @@
             "defaultPitch": 0.0
           },
           {
-            "isBulletBelt": true
-          },
-          {
             "speedYaw": 85.0
           },
           {
@@ -2899,6 +2924,25 @@
               "lim4": [10.0,60.0,-3.0,75.0],
               "lim5": [60.0,140.0,-10.0,75.0],
               "lim6": [140.0,180.0,-3.0,75.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -3570,10 +3614,13 @@
       "40mm_bofors_l60_navy_ap_ammo_pack": {
         "reqModification": "40mm_bofors_l60_navy_he_ammo_pack"
       },
-      "81mm_us_mine_HE": [],
       "12mm_usa_M2HB_universal": [],
+      "12mm_usa_M2HB_AP_navy": [],
+      "12mm_usa_M2HB_AP_navy_ammo_pack": [],
       "12mm_usa_M2HB_APIT_navy": [],
-      "12mm_usa_M2HB_APIT_navy_ammo_pack": [],
+      "12mm_usa_M2HB_APIT_navy_ammo_pack": {
+        "reqModification": "12mm_usa_M2HB_AP_navy_ammo_pack"
+      },
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
       "ship_smoke_screen_system_mod": [],

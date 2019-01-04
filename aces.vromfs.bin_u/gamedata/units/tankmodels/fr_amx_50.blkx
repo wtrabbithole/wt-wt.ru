@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -1732,7 +1735,8 @@
           "armorThickness": 60.0
         },
         "wheel_support_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hidableInViewer": true
         },
         "turret_01_side_dm": {
           "armorThickness": 20.0
@@ -1990,6 +1994,7 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
           "hp": 150.0,
           "armorThrough": 1.0,
@@ -2439,7 +2444,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true

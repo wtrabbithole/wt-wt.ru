@@ -3,7 +3,6 @@ local colorCorrector = require_native("colorCorrector")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local globalEnv = require_native("globalEnv")
-local crossplayModule = require("scripts/social/crossplay.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 
@@ -3907,22 +3906,6 @@ function get_option(type, context = null)
       descr.max <- 200
       break
 
-    case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
-      descr.id = "xbox_crossplay"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      descr.value = crossplayModule.isCrossPlayEnabled()
-      descr.cb = "onChangeCrossPlayOption"
-      break
-
-    case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
-      descr.id = "xbox_crossnetwork_chat"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      descr.value = crossplayModule.isCrossNetworkChatEnabled()
-      descr.cb = "onInstantOptionApply"
-      break
-
     default:
       print("[ERROR] Unsupported type " + type)
   }
@@ -4959,16 +4942,6 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
       ::queue_classes.Event.setShouldQueueCustomMode(::getTblValue("eventName", descr.context, ""), value)
-      break
-
-    case ::USEROPT_XBOX_CROSSPLAY_ENABLE:
-      if (value != crossplayModule.isCrossPlayEnabled())
-        crossplayModule.setIsCrossPlayEnabled(value)
-      break
-
-    case ::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE:
-      if (value != crossplayModule.isCrossNetworkChatEnabled())
-        crossplayModule.setIsCrossNetworkChatEnabled(value)
       break
 
     default:

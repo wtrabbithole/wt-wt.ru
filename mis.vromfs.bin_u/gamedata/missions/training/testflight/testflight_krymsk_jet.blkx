@@ -14,6 +14,7 @@
       "army": 2
     },
     "mission": {
+      "locName": "missions/testFlight",
       "name": "testFlight_krymsk_Jet",
       "level": "levels/krymsk.bin",
       "type": "testFlight",
@@ -166,7 +167,30 @@
         "spawnOnAirfield": {
           "runwayName": "airfield00",
           "objects": "armada_01"
-        }
+        },
+        "unitSetIndication": [
+          {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
+            "set": true
+          },
+          {
+            "target": "armada_02"
+          },
+          {
+            "target": "armada_02"
+          }
+        ]
       },
       "else_actions": []
     },
@@ -196,6 +220,51 @@
         "spawnOnAirfield": {
           "runwayName": "airfield00",
           "objects": "armada_01"
+        }
+      },
+      "else_actions": []
+    },
+    "periodic": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitMoveTo": {
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "target": "ai_resp_point",
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "armada_02",
+          "move_type": "teleport"
+        },
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "armada_02",
+          "speed": 700.0,
+          "fuel": 100.0
         }
       },
       "else_actions": []
@@ -624,15 +693,15 @@
       }
     },
     {
-      "wheeled_vehicles": {
+      "tankModels": {
         "name": "tracked_vehicles_01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.470021,0.0,0.882655],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
+          [-0.882655,0.0,0.470021],
           [-14215.5,351.2,9058.1]
         ],
-        "unit_class": "germ_opelBlitz_tent",
+        "unit_class": "us_truck_us6_studebaker_tent",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -654,9 +723,198 @@
           "formation_step": [2.5,2.0],
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "dont_aim",
+          "targetGnd": false
         },
         "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tracked_vehicles_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-14165.0,355.0,9026.8]
+        ],
+        "unit_class": "us_m48a1_patton_III",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "dont_aim",
+          "targetGnd": false
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_02",
+        "tm": [
+          [0.942624,0.0,-0.333856],
+          [0.0,1.0,0.0],
+          [0.333856,0.0,0.942624],
+          [-16562.9,1000.0,8976.5]
+        ],
+        "unit_class": "f-86a-5",
+        "objLayer": 1,
+        "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "dontOverrideHeight": true,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "dont_aim",
+          "skill": 4,
+          "stealthRadius": 10000.0,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": {
+          "armada_02_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-15045.6,1000.0,8505.89]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "waypointReachedDist": 1500.0
+            }
+          },
+          "armada_02_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-10792.5,1000.0,6310.27]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "waypointReachedDist": 1500.0
+            }
+          },
+          "armada_02_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-6690.67,1000.0,8361.17]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "waypointReachedDist": 1500.0
+            }
+          },
+          "armada_02_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-6397.81,1000.0,15256.9]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "waypointReachedDist": 1500.0
+            }
+          },
+          "armada_02_wp_05": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-12642.7,999.998,18553.1]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "waypointReachedDist": 1500.0
+            }
+          },
+          "armada_02_wp_06": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-16966.2,999.998,14008.7]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "waypointReachedDist": 1500.0
+            }
+          }
+        }
       }
     }
   ],
@@ -689,6 +947,17 @@
         [-54.6731,0.0,-53.508],
         [-9861.3,214.0,8369.9]
       ],
+      "props": []
+    },
+    "ai_resp_point": {
+      "type": "Point",
+      "tm": [
+        [0.965886,0.0,0.258966],
+        [0.0,1.0,0.0],
+        [-0.258966,0.0,0.965886],
+        [-17292.9,1000.0,8420.05]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },

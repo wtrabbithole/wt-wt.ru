@@ -1102,7 +1102,7 @@ function select_crew(countryId, idInCountry, airChanged = false)
 
   ::select_crew_silent_no_check(countryId, idInCountry)
   ::broadcastEvent("CrewChanged")
-  ::g_squad_utils.updateMyCountryData()
+  ::g_squad_utils.updateMyCountryData(!::is_in_flight())
 }
 
 function getSelAircraftByCountry(country)

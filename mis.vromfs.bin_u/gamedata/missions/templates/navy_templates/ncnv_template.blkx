@@ -449,7 +449,7 @@
       },
       "else_actions": {
         "varSetInt": {
-          "value": 10,
+          "value": 7,
           "var": "have_to_kill_count"
         },
         "triggerEnable": {
@@ -471,13 +471,11 @@
       "conditions": [],
       "actions": [
         {
-          "unitRespawn": {
-            "delay": 0.01,
-            "offset": [0.0,0.0,0.0],
-            "object": "convoy_sq",
-            "object_type": "isInactive",
-            "target": "convoy_starting_point_sq",
-            "randomObjectsCountVar": "have_to_kill_count"
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "convoy_sq_name",
+            "input_var": "have_to_kill_count"
           }
         },
         {
@@ -486,8 +484,19 @@
             "formation_div": 3,
             "formation_step": [7.0,2.5],
             "formation_noise": [0.2,0.1],
-            "object": "convoy_sq",
+            "object": "@convoy_sq_name",
             "allUnitsInOneFormation": true
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 0.01,
+            "offset": [0.0,0.0,0.0],
+            "object": "@convoy_sq_name",
+            "object_type": "isInactive",
+            "target": "convoy_starting_point",
+            "resetFormation": true,
+            "randomObjectsCountVar": "have_to_kill_count"
           }
         },
         {
@@ -498,7 +507,7 @@
         {
           "unitSetRoute": {
             "route": "convoy_route",
-            "object": "convoy_sq"
+            "object": "@convoy_sq_name"
           }
         },
         {
@@ -507,12 +516,14 @@
             "object_var_name": "",
             "object_var_comp_op": "equal",
             "object_var_value": 0,
-            "object": "convoy_sq",
+            "object": "@convoy_sq_name",
             "targetAir": true,
             "targetGnd": true,
-            "accuracy": 0.8,
-            "effShootingRate": 0.8,
-            "airEffShootingRate": 0.6
+            "accuracy": 0.5,
+            "effShootingRate": 0.5,
+            "airEffShootingRate": 0.3,
+            "speed": 20.0,
+            "lockSpeed": true
           }
         },
         {
@@ -522,7 +533,7 @@
             "object_var_name": "",
             "object_var_comp_op": "equal",
             "object_var_value": 0,
-            "target": "convoy_sq"
+            "target": "@convoy_sq_name"
           }
         },
         {
@@ -1250,50 +1261,13 @@
     "t1_spawnzone_name": "t1_ships_spawn00",
     "t1_spawnzone_counter": 0,
     "t2_spawnzone_name": "t2_ships_spawn00",
-    "t2_spawnzone_counter": 0
+    "t2_spawnzone_counter": 0,
+    "convoy_sq_name": "convoy_sq_"
   },
   "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [
-    {
-      "ships": {
-        "name": "convoy_01",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2590.29,4.48975,-567.132]
-        ],
-        "unit_class": "germ_kanonenboot_k2",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
-      }
-    },
     {
       "squad": {
         "name": "convoy_sq",
@@ -1301,628 +1275,333 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2586.41,4.48975,-576.691]
+          [2590.42,4.48975,-576.691]
         ],
         "props": [
           {
-            "squad_members": "convoy_01"
+            "squad_members": "ship_01"
           },
           {
-            "squad_members": "convoy_02"
+            "squad_members": "ship_02"
           },
           {
-            "squad_members": "convoy_03"
+            "squad_members": "ship_03"
           },
           {
-            "squad_members": "convoy_04"
+            "squad_members": "ship_04"
           },
           {
-            "squad_members": "convoy_05"
+            "squad_members": "ship_05"
           },
           {
-            "squad_members": "convoy_06"
+            "squad_members": "ship_06"
           },
           {
-            "squad_members": "convoy_07"
+            "squad_members": "ship_07"
           },
           {
-            "squad_members": "convoy_08"
+            "squad_members": "ship_08"
           },
           {
-            "squad_members": "convoy_09"
+            "squad_members": "ship_09"
           },
           {
-            "squad_members": "convoy_10"
-          },
-          {
-            "squad_members": "convoy_11"
-          },
-          {
-            "squad_members": "convoy_12"
-          },
-          {
-            "squad_members": "convoy_13"
-          },
-          {
-            "squad_members": "convoy_14"
-          },
-          {
-            "squad_members": "convoy_15"
-          },
-          {
-            "squad_members": "convoy_16"
+            "squad_members": "ship_10"
           }
         ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_02",
+      "squad": {
+        "name": "convoy_sq_01",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-564.852]
+          [2586.26,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+          "squad_members": "ship_01"
+        }
       }
     },
     {
-      "ships": {
-        "name": "convoy_03",
+      "squad": {
+        "name": "convoy_sq_02",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-562.572]
+          [2582.11,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_04",
+      "squad": {
+        "name": "convoy_sq_03",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-560.281]
+          [2577.95,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_05",
+      "squad": {
+        "name": "convoy_sq_04",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-558.001]
+          [2573.8,4.48975,-576.691]
         ],
-        "unit_class": "germ_rboot_r301",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_06",
+      "squad": {
+        "name": "convoy_sq_05",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-555.721]
+          [2569.64,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          },
+          {
+            "squad_members": "ship_05"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_07",
+      "squad": {
+        "name": "convoy_sq_06",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-553.441]
+          [2565.49,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          },
+          {
+            "squad_members": "ship_05"
+          },
+          {
+            "squad_members": "ship_06"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_08",
+      "squad": {
+        "name": "convoy_sq_07",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-551.152]
+          [2561.33,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          },
+          {
+            "squad_members": "ship_05"
+          },
+          {
+            "squad_members": "ship_06"
+          },
+          {
+            "squad_members": "ship_07"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_09",
+      "squad": {
+        "name": "convoy_sq_08",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-548.872]
+          [2557.18,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          },
+          {
+            "squad_members": "ship_05"
+          },
+          {
+            "squad_members": "ship_06"
+          },
+          {
+            "squad_members": "ship_07"
+          },
+          {
+            "squad_members": "ship_08"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_10",
+      "squad": {
+        "name": "convoy_sq_09",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-546.592]
+          [2553.02,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          },
+          {
+            "squad_members": "ship_05"
+          },
+          {
+            "squad_members": "ship_06"
+          },
+          {
+            "squad_members": "ship_07"
+          },
+          {
+            "squad_members": "ship_08"
+          },
+          {
+            "squad_members": "ship_09"
+          }
+        ]
       }
     },
     {
-      "ships": {
-        "name": "convoy_11",
+      "squad": {
+        "name": "convoy_sq_10",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2590.29,4.48975,-544.312]
+          [2548.87,4.48975,-576.691]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "convoy_12",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2590.29,4.48975,-542.021]
-        ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "convoy_13",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2590.29,4.48975,-539.741]
-        ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "convoy_14",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2590.29,4.48975,-537.461]
-        ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "convoy_15",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2590.29,4.48975,-535.181]
-        ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "convoy_16",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2590.29,4.48975,-532.892]
-        ],
-        "unit_class": "germ_cargo_ship_goldenfels",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "isDelayed": true,
-          "unitReplacementType": "naval_convoy"
-        },
-        "way": []
+        "props": [
+          {
+            "squad_members": "ship_01"
+          },
+          {
+            "squad_members": "ship_02"
+          },
+          {
+            "squad_members": "ship_03"
+          },
+          {
+            "squad_members": "ship_04"
+          },
+          {
+            "squad_members": "ship_05"
+          },
+          {
+            "squad_members": "ship_06"
+          },
+          {
+            "squad_members": "ship_07"
+          },
+          {
+            "squad_members": "ship_08"
+          },
+          {
+            "squad_members": "ship_09"
+          },
+          {
+            "squad_members": "ship_10"
+          }
+        ]
       }
     }
   ],

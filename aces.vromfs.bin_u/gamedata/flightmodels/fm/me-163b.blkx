@@ -396,6 +396,14 @@
         "ThrustMaxCoeff_3_6": 0.1
       }
     },
+    "AutoThrottle": {
+      "HasContorller": false,
+      "ThrottleOmegaPidInputLim": 1000000000.0,
+      "ContorllerKp": 0.0,
+      "ContorllerKi": 0.0,
+      "ContorllerImax": 1.0,
+      "ContorllerKd": 0.0
+    },
     "Propellor": {
       "AllowAutoProp": false,
       "IsControllable": false,
@@ -574,6 +582,8 @@
       "flap_l_dm": 14.2611,
       "flap_r_dm": 14.3693,
       "gear_l_dm": 15.9483,
+      "gear_1l_dm": 15.9483,
+      "gear_1r_dm": 15.9483,
       "spar2_r_dm": 7.539,
       "spar2_l_dm": 7.539,
       "elevator1_dm": 15.8803,
@@ -609,7 +619,7 @@
     "TailSpringsHeight": 0.1,
     "FrontalSpringsCoeff": 1300000.0,
     "TailSpringsCoeff": 1300000.0,
-    "HasWheels": false,
+    "HasWheels": true,
     "LeftWheelRadius": 0.4,
     "RightWheelRadius": 0.4,
     "CenterWheelRadius": 0.4,

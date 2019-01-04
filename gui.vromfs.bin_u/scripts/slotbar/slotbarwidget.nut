@@ -63,7 +63,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   isPrimaryFocus = false
   isSceneLoaded = false
   loadedCountries = null //loaded countries versions
-  focusArray = ["autorefill-settings", @() getFocusObj()]
+  lastUpdatedVersion = null // version IDX which has already updated
+  focusArray = ["autorefill-settings", "header_countries", @() getFocusObj()]
   currentFocusItem = 0
 
   curSlotCountryId = -1
@@ -422,11 +423,15 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       countries = []
     }
     local selCountryIdx = 0
+    local selCountryId = null
     foreach(idx, countryData in crewsConfig)
     {
       local country = countryData.country
       if (countryData.id == selectedCrewData?.idCountry)
+      {
         selCountryIdx = idx
+        selCountryId = countryData.id
+      }
 
       local bonusData = null
       if (!::is_first_win_reward_earned(country, INVALID_USER_ID))
@@ -446,10 +451,18 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       })
     }
 
-    local countriesData = ::handyman.renderCached("gui/slotbar/slotbarCountryItem", countriesView)
     local countriesNestObj = scene.findObject("header_countries")
-    guiScene.replaceContentFromText(countriesNestObj, countriesData, countriesData.len(), this)
-    countriesNestObj.setValue(selCountryIdx)
+    if (!countriesNestObj.childrenCount())
+    {
+      local countriesData = ::handyman.renderCached("gui/slotbar/slotbarCountryItem", countriesView)
+      guiScene.replaceContentFromText(countriesNestObj, countriesData, countriesData.len(), this)
+      countriesNestObj.setValue(selCountryIdx)
+    }
+    else
+    {
+      countriesNestObj.setValue(selCountryIdx)
+      checkUpdateCountryInScene(selCountryId ?? selCountryIdx)
+    }
 
     if (selectedCrewData)
     {
@@ -496,7 +509,10 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   {
     local iconObj = obj.findObject("hdr_image")
     if (::check_obj(iconObj))
+    {
       iconObj["background-image"] = ::get_country_icon(countryData.country, false)
+      iconObj.getScene().applyPendingChanges(false)
+    }
   }
 
   function fillCountryContent(countryData, tblObj)
@@ -506,6 +522,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     loadedCountries[countryData.id] <- ::g_crews_list.version
+    lastUpdatedVersion = ::g_crews_list.version
 
     local selCrewData = selectedCrewData?.idCountry == countryData.id
       ? selectedCrewData
@@ -1124,6 +1141,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         || ::g_crews_list.get()[curSlotCountryId].country != ::get_profile_country_sq()
         || curSlotIdInCountry != ::selected_crews[curSlotCountryId])
       updateSlotbarImpl()
+    else if (selectedCrewData && selectedCrewData?.unit != get_show_aircraft())
+      refreshAll()
   }
 
   function onSceneActivate(show)
@@ -1258,7 +1277,12 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventCrewsListChanged(p)
   {
-    fullUpdate()
+    guiScene.performDelayed(this, function() {
+      if (!isValid() || lastUpdatedVersion == ::g_crews_list.version)
+        return
+
+      fullUpdate()
+    })
   }
 
   function onEventCrewSkillsChanged(params)

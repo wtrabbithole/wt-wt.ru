@@ -560,9 +560,9 @@ function isUnitGift(unit)
   return unit.gift != null
 }
 
-function get_unit_country_icon(unit)
+function get_unit_country_icon(unit, needOriginCountry = false)
 {
-  return (unit.shopCountry != "") ? ::get_country_icon(unit.shopCountry) : ""
+  return ::get_country_icon(needOriginCountry ? unit.getOriginCountry() : unit.shopCountry)
 }
 
 function checkAirShopReq(air)
@@ -1667,7 +1667,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   obj = holderObj.findObject("aircraft-countryImg")
   if (::checkObj(obj))
-    obj["background-image"] = ::get_unit_country_icon(air)
+    obj["background-image"] = ::get_unit_country_icon(air, true)
 
   if (::has_feature("UnitTooltipImage"))
   {

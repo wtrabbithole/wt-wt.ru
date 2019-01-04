@@ -820,55 +820,31 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.2,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1536,14 +1512,14 @@
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         },
         "radio_station_dm": {
           "genericDamageMult": 1.5,
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 80.0
         }
       },
       "superstructures": {
@@ -1865,7 +1841,7 @@
         "sailor1": {
           "dmPart": "bridge_dm",
           "role": "sailor",
-          "crew": 4
+          "crew": 2
         }
       },
       {
@@ -1879,7 +1855,7 @@
         "sailor3": {
           "dmPart": "compartment_02_dm",
           "role": "sailor",
-          "crew": 5
+          "crew": 7
         }
       },
       {
@@ -2034,13 +2010,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 35.0
           },
           {
             "speedPitch": 45.0
           },
           {
-            "bullets": 1500
+            "bullets": 1000
           },
           {
             "allowableDelta": 2.0
@@ -3207,7 +3183,7 @@
           "explosionEvent": "ammo_explosion_1",
           "fireEvent": "ammo_fire_1",
           "ammunition_storage_02_dm": {
-            "count": 1500
+            "count": 1000
           }
         }
       },

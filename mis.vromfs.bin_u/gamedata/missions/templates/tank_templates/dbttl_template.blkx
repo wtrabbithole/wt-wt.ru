@@ -337,6 +337,7 @@
           "canCaptureOnGround": false,
           "canCaptureInAir": false,
           "canCaptureByGM": true,
+          "auto_smoke": false,
           "captureNoPenalty": true
         }
       },
@@ -364,6 +365,7 @@
           "canCaptureOnGround": false,
           "canCaptureInAir": false,
           "canCaptureByGM": true,
+          "auto_smoke": false,
           "captureNoPenalty": true
         }
       },
@@ -440,13 +442,16 @@
               "showOnMap": true
             },
             {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
               "radius": -1.0
             },
             {
               "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "replaceAreas": false
             },
             {
               "target": "@t1_spawn_01_name"
@@ -456,6 +461,9 @@
             },
             {
               "team": "A"
+            },
+            {
+              "offset": [0.0,0.0,0.0]
             },
             {
               "tags": {
@@ -497,13 +505,16 @@
               "showOnMap": true
             },
             {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
               "radius": -1.0
             },
             {
               "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "replaceAreas": false
             },
             {
               "target": "@t2_spawn_01_name"
@@ -513,6 +524,9 @@
             },
             {
               "team": "B"
+            },
+            {
+              "offset": [0.0,0.0,0.0]
             },
             {
               "tags": {
@@ -558,11 +572,13 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@t1_spawn_01_name",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -580,11 +596,13 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@t2_spawn_01_name",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -654,7 +672,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -663,8 +680,11 @@
             "showOnMap": true,
             "isIndividual": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@t1_spawn_02_name",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }
@@ -676,7 +696,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -685,8 +704,11 @@
             "showOnMap": true,
             "isIndividual": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@t2_spawn_02_name",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true
             }

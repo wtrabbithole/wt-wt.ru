@@ -477,55 +477,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1190,11 +1166,11 @@
         },
         "bridge_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 150.0
         },
         "radio_station_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         }
       },
       "superstructures": {
@@ -1217,12 +1193,12 @@
           "hp": 500.0
         },
         "superstructure_top_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 10.0,
           "hp": 500.0
         },
         "superstructure_side_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 14.0,
           "hp": 500.0
         }
@@ -1331,40 +1307,44 @@
         "ex_armor_01_dm": {
           "hp": 250.0
         },
-        "ex_armor_02_dm": {
-          "hp": 250.0
-        },
-        "ex_armor_03_dm": {
-          "hp": 250.0
-        },
         "armor_belt_01_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 7.0,
           "hp": 1000.0
         },
         "armor_belt_02_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 7.0,
           "hp": 1000.0
         },
         "armor_cit_01_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 7.0,
           "hp": 1000.0
         },
         "armor_cit_02_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 10.0,
           "hp": 250.0
         },
         "armor_cit_03_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 7.0,
           "hp": 250.0
         },
         "armor_cit_04_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 7.0,
+          "hp": 250.0
+        },
+        "ex_armor_02_dm": {
+          "armorClass": "ship_RHA",
+          "armorThickness": 10.0,
+          "hp": 250.0
+        },
+        "ex_armor_03_dm": {
+          "armorClass": "ship_Wsh",
+          "armorThickness": 10.0,
           "hp": 250.0
         }
       },
@@ -1373,23 +1353,23 @@
         "fireParamsPreset": "ship_turrets",
         "armorThickness": 15.0,
         "turret_01_bottom_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 10.0,
           "hp": 250.0
         },
-        "turret_01_dm": {
-          "armorClass": "RHA_tank",
-          "armorThickness": 30.0,
-          "hp": 250.0
-        },
         "turret_01_front_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 10.0,
           "hp": 250.0
         },
         "turret_01_top_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 20.0,
+          "hp": 250.0
+        },
+        "turret_01_side_dm": {
+          "armorClass": "ship_RHA",
+          "armorThickness": 30.0,
           "hp": 250.0
         }
       },
@@ -1402,7 +1382,7 @@
         "explosionDamageMult": 1.5,
         "secondaryShatterDamageMult": 0.5,
         "main_caliber_turret_01_dm": {
-          "hp": 400.0
+          "hp": 318.0
         }
       },
       "turrets_aux_caliber": {
@@ -1413,12 +1393,12 @@
         "explosionDamageMult": 1.8,
         "secondaryShatterDamageMult": 0.5,
         "auxiliary_caliber_turret_01_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 12.0,
           "hp": 146.0
         },
         "auxiliary_caliber_turret_02_dm": {
-          "armorClass": "RHA_tank",
+          "armorClass": "ship_RHA",
           "armorThickness": 12.0,
           "hp": 146.0
         }
@@ -1433,7 +1413,8 @@
         "secondaryShatterDamageMult": 1.0
       },
       "gun_masks": {
-        "armorThickness": 5.0
+        "armorThickness": 30.0,
+        "armorClass": "ship_RHA"
       },
       "gun_barrels": {
         "armorClass": "tank_barrel",
@@ -1448,7 +1429,7 @@
         "explosionDamageMult": 0.5,
         "secondaryShatterDamageMult": 0.01,
         "main_caliber_gun_01_dm": {
-          "hp": 150.0
+          "hp": 191.0
         }
       },
       "gun_aux_caliber": {
@@ -2547,6 +2528,25 @@
               "lim2": [-175.0,175.0,-5.0,85.0],
               "lim3": [175.0,180.0,10.0,85.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2666,6 +2666,25 @@
               "lim1": [-180.0,-175.0,10.0,85.0],
               "lim2": [-175.0,175.0,-5.0,85.0],
               "lim3": [175.0,180.0,10.0,85.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -2787,6 +2806,25 @@
               "lim2": [-25.0,25.0,-3.0,85.0],
               "lim3": [25.0,145.0,-5.0,85.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2906,6 +2944,25 @@
               "lim1": [-135.0,-25.0,-5.0,85.0],
               "lim2": [-25.0,25.0,-3.0,85.0],
               "lim3": [25.0,145.0,-5.0,85.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]

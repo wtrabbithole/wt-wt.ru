@@ -164,7 +164,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateVisibleTabContent(isTabSwitch = false)
   {
-    if (isSceneForceHidden)
+    if (isSceneForceHidden || !::check_obj(listboxObj))
       return
     local currentIndex = listboxObj.getValue()
     local isPanelHidden = currentIndex == -1

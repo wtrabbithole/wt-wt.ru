@@ -629,55 +629,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2279,11 +2255,11 @@
         },
         "bridge_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 150.0
         },
         "radio_station_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         }
       },
       "superstructures": {
@@ -2545,7 +2521,7 @@
         }
       },
       "turrets_main_caliber": {
-        "armorClass": "RHA_tank",
+        "armorClass": "ship_RHA",
         "armorThickness": 15.0,
         "fireParamsPreset": "ship_turrets",
         "genericDamageMult": 1.4,
@@ -2555,12 +2531,12 @@
         "main_caliber_turret_01_dm": {
           "armorClass": "ship_structural_steel",
           "armorThickness": 1.0,
-          "hp": 369.0
+          "hp": 294.0
         },
         "main_caliber_turret_02_dm": {
           "armorClass": "ship_structural_steel",
           "armorThickness": 1.0,
-          "hp": 365.0
+          "hp": 294.0
         }
       },
       "turrets_aux_caliber": {
@@ -2586,7 +2562,14 @@
         "secondaryShatterDamageMult": 1.0
       },
       "gun_masks": {
-        "armorThickness": 5.0
+        "armorThickness": 30.0,
+        "armorClass": "ship_RHA",
+        "gun_mask_01_dm": {
+          "hp": 100.0
+        },
+        "gun_mask_02_dm": {
+          "hp": 100.0
+        }
       },
       "gun_barrels": {
         "armorClass": "tank_barrel",
@@ -2601,10 +2584,10 @@
         "explosionDamageMult": 0.5,
         "secondaryShatterDamageMult": 0.01,
         "main_caliber_gun_01_dm": {
-          "hp": 150.0
+          "hp": 177.0
         },
         "main_caliber_gun_02_dm": {
-          "hp": 150.0
+          "hp": 173.0
         }
       },
       "gun_aux_caliber": {
@@ -2714,17 +2697,17 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 10
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 6
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -2734,12 +2717,12 @@
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 8
       },
       "sailor6": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 4
       },
       "sailor7": {
         "dmPart": "main_caliber_turret_02_dm",
@@ -3066,10 +3049,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 30.0
+            "speedYaw": 35.0
           },
           {
-            "speedPitch": 25.0
+            "speedPitch": 45.0
           },
           {
             "bullets": 1500

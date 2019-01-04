@@ -2028,10 +2028,10 @@
           "hp": 2000.0
         },
         "bridge_dm": {
-          "hp": 2000.0
+          "hp": 400.0
         },
         "radio_station_dm": {
-          "hp": 2000.0
+          "hp": 200.0
         }
       },
       "superstructures": {
@@ -2182,6 +2182,7 @@
       "hull_armor": {
         "armorThickness": 8.0,
         "armorClass": "ship_structural_steel",
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_l_01_dm": {
           "armorThickness": 50.0,
           "hp": 250.0
@@ -2397,8 +2398,8 @@
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "genericDamageMult": 1.0,
-        "shatterDamageMult": 1.5,
-        "explosionDamageMult": 1.6,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.8,
         "fuel_tank_01_dm": {
           "hp": 500.0
@@ -2420,13 +2421,13 @@
         "shatterDamageMult": 1.5,
         "secondaryShatterDamageMult": 1.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 1176.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 350.0
+          "hp": 500.0
         },
         "ammunition_storage_03_dm": {
-          "hp": 500.0
+          "hp": 818.0
         }
       },
       "depth_charges": {
@@ -2498,37 +2499,37 @@
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 16
+        "crew": 17
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 27
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 22
+        "crew": 24
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 22
+        "crew": 24
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 11
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 11
+        "crew": 13
       },
       "sailor8": {
         "dmPart": "compartment_07_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 11
       },
       "sailor9": {
         "dmPart": "compartment_08_dm",
@@ -2536,34 +2537,34 @@
         "crew": 9
       },
       "sailor10": {
-        "dmPart": "superstructure_side_dm",
-        "role": "sailor",
-        "crew": 22
-      },
-      "sailor11": {
-        "dmPart": "superstructure_back_dm",
-        "role": "sailor",
-        "crew": 11
-      },
-      "sailor12": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 10
       },
-      "sailor13": {
+      "sailor11": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 10
       },
-      "sailor14": {
+      "sailor12": {
         "dmPart": "main_caliber_turret_03_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 10
       },
-      "sailor15": {
+      "sailor13": {
         "dmPart": "main_caliber_turret_04_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 10
+      },
+      "sailor14": {
+        "dmPart": "auxiliary_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor15": {
+        "dmPart": "auxiliary_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 3
       },
       "sailor16": {
         "dmPart": "tt_01_dm",
@@ -2578,7 +2579,7 @@
       "sailor18": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 4
       }
     }
   },
@@ -2787,14 +2788,14 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
+              "expl": 0.01,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -2802,7 +2803,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.25,
+              "expl": 0.04,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -2810,8 +2811,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "damage": 350.0,
+              "expl": 0.1,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -4015,7 +4016,7 @@
             "trigger": "gunner4"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/37mm_SKC_30_naval_user_cannon.blk"
@@ -4178,7 +4179,7 @@
             "trigger": "gunner4"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/37mm_SKC_30_naval_user_cannon.blk"
@@ -4336,7 +4337,7 @@
             "trigger": "gunner5"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/37mm_SKC_30_naval_user_cannon.blk"
@@ -4499,7 +4500,7 @@
             "trigger": "gunner5"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/37mm_SKC_30_naval_user_cannon.blk"
@@ -4657,7 +4658,7 @@
             "trigger": "gunner6"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
@@ -4814,7 +4815,7 @@
             "trigger": "gunner7"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
@@ -4959,7 +4960,7 @@
             "trigger": "gunner8"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
@@ -5104,7 +5105,7 @@
             "trigger": "gunner9"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
@@ -5261,7 +5262,7 @@
             "trigger": "gunner10"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
@@ -5418,7 +5419,7 @@
             "trigger": "gunner11"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_vierling_naval_user_cannon.blk"
@@ -5558,7 +5559,7 @@
             "trigger": "gunner11"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_vierling_naval_user_cannon.blk"
@@ -5698,7 +5699,7 @@
             "trigger": "gunner11"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_vierling_naval_user_cannon.blk"
@@ -5838,7 +5839,7 @@
             "trigger": "gunner11"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_vierling_naval_user_cannon.blk"
@@ -6792,30 +6793,59 @@
   },
   {
     "ammoStowages": {
-      "ammo1": {
-        "weaponTrigger": "gunner0",
-        "shells": {
-          "fatalFire": false,
-          "fatalExplosion": true,
-          "explosionEvent": "ammo_explosion_1",
-          "fireEvent": "ammo_fire_1",
-          "ammunition_storage_01_dm": {
-            "count": 120
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner6"
+        },
+        {
+          "weaponTrigger": "gunner7"
+        },
+        {
+          "weaponTrigger": "gunner8"
+        },
+        {
+          "weaponTrigger": "gunner9"
+        },
+        {
+          "weaponTrigger": "gunner10"
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_1",
+            "fireEvent": "ammo_fire_1",
+            "ammunition_storage_01_dm": {
+              "count": 10120
+            }
           }
         }
-      },
-      "ammo2": {
-        "weaponTrigger": "gunner1",
-        "shells": {
-          "fatalFire": false,
-          "fatalExplosion": true,
-          "explosionEvent": "ammo_explosion_2",
-          "fireEvent": "ammo_fire_2",
-          "ammunition_storage_02_dm": {
-            "count": 120
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "weaponTrigger": "gunner5"
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_2",
+            "fireEvent": "ammo_fire_2",
+            "ammunition_storage_02_dm": {
+              "count": 8120
+            }
           }
         }
-      },
+      ],
       "ammo3": [
         {
           "weaponTrigger": "gunner2"
@@ -6824,13 +6854,16 @@
           "weaponTrigger": "gunner3"
         },
         {
+          "weaponTrigger": "gunner11"
+        },
+        {
           "shells": {
             "fatalFire": false,
             "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_3",
             "fireEvent": "ammo_fire_3",
             "ammunition_storage_03_dm": {
-              "count": 240
+              "count": 8240
             }
           }
         }

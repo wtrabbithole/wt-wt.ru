@@ -1035,13 +1035,15 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   local param = { armorPiercing = array(dist.len(), null) }
   local needAddParams = bullet_parameters.len() == 1
 
-  local isSmokeShell   = bulletsSet &&
-    bulletsSet.bullets.len() == 1 && bulletsSet.bullets[0] == "smoke_tank"
-  local isSmokeGrenade = bulletsSet && bulletsSet.weaponType == WEAPON_TYPE.SMOKE_SCREEN
-  if (isSmokeGrenade || isSmokeShell)
+  local isSmokeShell = bulletsSet?.weaponType == WEAPON_TYPE.GUN && bulletsSet?.bullets?[0] == "smoke_tank"
+  local isSmokeGenerator = isSmokeShell || bulletsSet?.weaponType == WEAPON_TYPE.SMOKE_SCREEN
+  local isCountermeasure = isSmokeGenerator || bulletsSet?.weaponType == WEAPON_TYPE.FLARES
+
+  if (isCountermeasure)
   {
-    local whitelistParams = isSmokeGrenade ? [ "bulletType", "armorPiercing", "armorPiercingDist" ]
-      : [ "mass", "speed", "bulletType", "armorPiercing", "armorPiercingDist", "weaponBlkPath" ]
+    local whitelistParams = [ "bulletType" ]
+    if (isSmokeShell)
+      whitelistParams.extend([ "mass", "speed", "weaponBlkPath" ])
     local filteredBulletParameters = []
     foreach (_params in bullet_parameters)
     {
@@ -1052,8 +1054,8 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
           if (key in _params)
             params[key] <- _params[key]
 
-        params.armorPiercing = []
-        params.armorPiercingDist = []
+        params.armorPiercing     <- []
+        params.armorPiercingDist <- []
       }
       filteredBulletParameters.append(params)
     }
@@ -1111,9 +1113,10 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       if (p in bulletsSet)
         param[p] <- bulletsSet[p]
 
-      foreach(p in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
-        if (p in bulletsSet)
-          param[p] <- bulletsSet[p]
+      if (isSmokeGenerator)
+        foreach(p in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
+          if (p in bulletsSet)
+            param[p] <- bulletsSet[p]
     }
 
     param.bulletType <- ::getTblValue("bulletType", bullet_params, "")
@@ -1178,8 +1181,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       addProp(p, ::loc("bullet_properties/explodeTreshold"),
                  explodeTreshold + " " + ::loc("measureUnits/mm"))
 
-    local needRicochetData = !isSmokeGrenade && !isSmokeShell
-    local ricochetData = needRicochetData && ::g_dmg_model.getRicochetData(param.bulletType)
+    local ricochetData = !isCountermeasure && ::g_dmg_model.getRicochetData(param.bulletType)
     if (ricochetData)
       foreach(item in ricochetData.angleProbabilityMap)
         addProp(p, ::loc("bullet_properties/angleByProbability",

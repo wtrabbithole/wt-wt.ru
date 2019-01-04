@@ -155,6 +155,7 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
       behavior = bhv
       scrollHandler = scrollHandler
       orientation = options.orientation
+      joystickScroll = true
 
       children = content
     }
@@ -196,6 +197,7 @@ local function makeHVScrolls(content, options={}) {
     return class extends rootBase {
       behavior = bhv
       scrollHandler = scrollHandler
+      joystickScroll = true
 
       children = content
     }

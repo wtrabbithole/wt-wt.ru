@@ -2,6 +2,7 @@ local penalties = ::require("scripts/penitentiary/penalties.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 enum chatUpdateState {
   OUTDATED
@@ -19,8 +20,7 @@ enum chatErrorName {
 
 g_chat <- {
   [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "userCaps", "userCapsGen",
-                              "threadTitleLenMin", "threadTitleLenMax",
-                              "isCrossNetworkChatAvailable"]
+                              "threadTitleLenMin", "threadTitleLenMax"]
 
   MAX_ROOM_MSGS = 50
   MAX_ROOM_MSGS_FOR_MODERATOR = 250
@@ -50,8 +50,6 @@ g_chat <- {
   threadTitleLenMax = 160
 
   isThreadsView = false
-
-  isCrossNetworkChatAvailable = true
 
   rooms = [] //for full room params list check addRoom( function in menuchat.nut //!!FIX ME must be here, or separate class
   threadsInfo = {}
@@ -597,19 +595,16 @@ function g_chat::onEventInitConfigs(p)
   threadTitleLenMax = blk.chat.threadTitleLenMax || threadTitleLenMax
 }
 
-function g_chat::onEventLoginComplete(p)
-{
-  isCrossNetworkChatAvailable = ::get_option(::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE).value
-}
-
-function g_chat::onEventCrossNetworkChatOptionChanged(p)
-{
-  isCrossNetworkChatAvailable = p?.value ?? false
-}
-
 function g_chat::isCrossNetworkMessageAllowed(playerName)
 {
-  return ::g_chat.isCrossNetworkChatAvailable || platformModule.isPlayerFromXboxOne(playerName)
+  if (platformModule.isPlayerFromXboxOne(playerName))
+    return true
+
+  if (crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS
+     && ::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST))
+    return true
+
+  return crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ALLOWED
 }
 
 function g_chat::getNewMessagesCount()

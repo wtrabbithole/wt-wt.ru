@@ -724,11 +724,11 @@
         },
         "bridge_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 150.0
         },
         "radio_station_dm": {
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         }
       },
       "superstructures": {
@@ -898,7 +898,7 @@
         }
       },
       "turrets_main_caliber": {
-        "armorClass": "RHA_tank",
+        "armorClass": "ship_RHA",
         "armorThickness": 15.0,
         "fireParamsPreset": "ship_turrets",
         "genericDamageMult": 1.4,
@@ -1087,12 +1087,12 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 8
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -1334,55 +1334,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2938,10 +2914,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 15.0
+            "speedYaw": 35.0
           },
           {
-            "speedPitch": 19.6
+            "speedPitch": 45.0
           },
           {
             "bullets": 1000
@@ -3622,12 +3598,16 @@
   },
   {
     "modifications": {
-      "45mm_naval_ussr_HE": [],
-      "45mm_naval_ussr_AP_ammo_pack": [],
-      "45mm_naval_ussr_AP": [],
-      "45mm_naval_ussr_HE_base_fuse": [],
-      "45mm_naval_ussr_HE_base_fuse_ammo_pack": {
-        "prevModification": "ship_rangefinder"
+      "45mm_ussr_21k_naval_he": [],
+      "45mm_ussr_21k_o240_naval_he": [],
+      "45mm_ussr_21k_o240_naval_he_ammo_pack": [],
+      "45mm_ussr_21k_naval_ap": [],
+      "45mm_ussr_21k_naval_ap_ammo_pack": {
+        "reqModification": "45mm_ussr_21k_o240_naval_he_ammo_pack"
+      },
+      "45mm_ussr_21k_naval_base_fuse_he": [],
+      "45mm_ussr_21k_naval_base_fuse_he_ammo_pack": {
+        "reqModification": "45mm_ussr_21k_naval_ap_ammo_pack"
       },
       "37mm_ussr_70K_naval_universal": [],
       "37mm_ussr_70K_naval_HE": [],
@@ -3641,13 +3621,17 @@
       "ship_smoke_screen_system_mod": {
         "prevModification": "ship_depth_charge"
       },
-      "new_ship_engine": [],
-      "new_ship_screw": [],
       "new_ship_hull": [],
-      "new_ship_rudder": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
       "new_ship_pumps": [],
       "ship_rangefinder": {
-        "prevModification": "45mm_naval_ussr_AP_ammo_pack"
+        "prevModification": "45mm_ussr_21k_naval_ap_ammo_pack"
       },
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"

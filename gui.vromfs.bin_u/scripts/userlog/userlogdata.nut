@@ -70,7 +70,9 @@ local logNameByType = {
   [::EULT_BUYING_RESOURCE]               = "buy_resource",
   [::EULT_EXCHANGE_WARBONDS]             = "exchange_warbonds",
   [::EULT_INVITE_TO_TOURNAMENT]          = "invite_to_tournament",
+  [::EULT_TOURNAMENT_AWARD]              = "tournament_award",
   [::EULT_WW_START_OPERATION]            = "ww_start_operation",
+  [::EULT_WW_END_OPERATION]              = "ww_end_operation",
   [::EULT_WW_CREATE_OPERATION]           = "ww_create_operation",
 }
 

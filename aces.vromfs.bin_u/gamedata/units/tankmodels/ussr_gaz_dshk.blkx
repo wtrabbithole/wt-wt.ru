@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -402,6 +405,7 @@
       "armorClass": "tank_structural_steel",
       "hp": 1000.0,
       "hull": {
+        "hidableInViewer": false,
         "body_front_dm": {
           "armorThickness": 1.0
         },
@@ -439,11 +443,13 @@
         },
         "body_back_dm": {
           "armorThickness": 15.0,
-          "armorQuality": 0.1
+          "armorQuality": 0.1,
+          "hidableInViewer": true
         },
         "body_side_dm": {
           "armorThickness": 15.0,
-          "armorQuality": 0.1
+          "armorQuality": 0.1,
+          "hidableInViewer": true
         }
       },
       "turret": {
@@ -513,6 +519,7 @@
         "armorThickness": 10.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
           "hp": 40.0,
           "armorThrough": 15.0
@@ -1243,9 +1250,27 @@
           "wheel_r_02": 0.3,
           "wheel_r_drive": 0.3
         },
-        "driven": {
-          "wheel_l_02": true,
-          "wheel_r_02": true
+        "driven": [
+          {
+            "wheel_l_drive": true
+          },
+          {
+            "wheel_l_drive": true
+          },
+          {
+            "wheel_l_02": true
+          },
+          {
+            "wheel_r_02": true
+          }
+        ],
+        "wheelsDamageWeight": {
+          "wheel_l_01": 0.15,
+          "wheel_r_01": 0.15,
+          "wheel_l_02": 0.4,
+          "wheel_r_02": 0.4,
+          "wheel_l_drive": 0.4,
+          "wheel_r_drive": 0.4
         }
       }
     }

@@ -60,7 +60,8 @@ local function show(params, styling=defStyling) {
   local uid = params?.uid ?? "msgbox_" + counter++
   removeByUid(uid)
 
-  local btnsDesc = params?.buttons || [{text="OK"}]
+  local skpdescr = {description = {skip=true}}
+  local btnsDesc = params?.buttons || [{text="OK" customStyle={hotkeys=[["^Esc | Enter", skpdescr]]}}]
   if (!(btnsDesc instanceof Watched))
     btnsDesc = Watched(btnsDesc)
 
@@ -75,15 +76,22 @@ local function show(params, styling=defStyling) {
     }
     return res
   })
-
   local function buttonsBlock() {
     return {
       watch = [curBtnIdx, btnsDesc]
       size = SIZE_TO_CONTENT
       flow = FLOW_HORIZONTAL
 
-      children = btnsDesc.value.map(function(desc) {
-        return styling.button(desc, @() doClose(desc?.action))
+      children = btnsDesc.value.map(function(desc, idx) {
+        local conHover = desc?.onHover
+        local customStyle = desc?.customStyle ?? {}
+        local onHover = function(on){
+          curBtnIdx.update(idx)
+          ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
+          conHover?()
+        }
+        customStyle.__update({onHover=onHover})
+        return styling.button(desc.__update({customStyle = customStyle}), @() doClose(desc?.action))
       })
       behavior = Behaviors.RecalcHandler
 
@@ -102,12 +110,11 @@ local function show(params, styling=defStyling) {
   local function activateCurBtn() {
     btnsDesc.value[curBtnIdx.value]?.action?() ?? doClose(defCancel?.action, true)
   }
-
+  local skip = {skip=true}
   self = styling.BgOverlay.__merge({
     uid = uid
     cursor = styling.cursor
-    stopHotkeys = true
-    stopHover = true
+    stopMouse = true
     children = styling.Root.__merge({
       key = "msgbox_" + uid
       flow = FLOW_VERTICAL
@@ -117,10 +124,10 @@ local function show(params, styling=defStyling) {
         buttonsBlock
       ]
       hotkeys = [
-        ["Esc | J:B", @() doClose(defCancel?.action, true), "Close"],
-        ["Right | Tab | J:D.Right", @() moveBtnFocus(1)],
-        ["Left | J:D.Left", @() moveBtnFocus(-1)],
-        ["Enter | J:A", activateCurBtn, "Select"],
+        ["Esc | J:B", {action= @() doClose(defCancel?.action, true), description = ::loc("Close")}],
+        ["Right | Tab", {action = @() moveBtnFocus(1) description = skip}],
+        ["Left", {action = @() moveBtnFocus(-1) description = skip}],
+        ["Enter", {action= activateCurBtn, description= skip}],
       ]
     })
   })

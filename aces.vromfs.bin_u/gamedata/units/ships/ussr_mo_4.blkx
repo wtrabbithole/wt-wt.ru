@@ -969,55 +969,31 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.2,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1688,14 +1664,14 @@
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         },
         "radio_station_dm": {
           "genericDamageMult": 1.5,
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 80.0
         }
       },
       "superstructures": {
@@ -2184,21 +2160,21 @@
         "sailor1": {
           "dmPart": "bridge_dm",
           "role": "sailor",
-          "crew": 4
+          "crew": 2
         }
       },
       {
         "sailor2": {
           "dmPart": "compartment_01_dm",
           "role": "sailor",
-          "crew": 4
+          "crew": 5
         }
       },
       {
         "sailor3": {
           "dmPart": "compartment_02_dm",
           "role": "sailor",
-          "crew": 5
+          "crew": 6
         }
       },
       {
@@ -2374,10 +2350,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 18.0
+            "speedYaw": 22.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 25.0
           },
           {
             "bullets": 500
@@ -2456,6 +2432,25 @@
               "lim2": [-163.0,163.0,-7.0,80.0],
               "lim3": [163.0,180.0,18.0,80.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2495,10 +2490,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 18.0
+            "speedYaw": 22.0
           },
           {
-            "speedPitch": 20.0
+            "speedPitch": 25.0
           },
           {
             "bullets": 500
@@ -2580,6 +2575,25 @@
               "lim5": [4.0,20.0,-2.0,80.0],
               "lim6": [20.0,145.0,-7.0,80.0],
               "lim7": [145.0,180.0,25.0,80.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -3541,11 +3555,15 @@
   },
   {
     "modifications": {
-      "45mm_naval_ussr_HE": [],
-      "45mm_naval_ussr_AP": [],
-      "45mm_naval_ussr_AP_ammo_pack": [],
-      "45mm_naval_ussr_HE_base_fuse": [],
-      "45mm_naval_ussr_HE_base_fuse_ammo_pack": {
+      "45mm_ussr_21k_naval_he": [],
+      "45mm_ussr_21k_o240_naval_he": [],
+      "45mm_ussr_21k_o240_naval_he_ammo_pack": [],
+      "45mm_ussr_21k_naval_ap": [],
+      "45mm_ussr_21k_naval_ap_ammo_pack": {
+        "reqModification": "45mm_ussr_21k_o240_naval_he_ammo_pack"
+      },
+      "45mm_ussr_21k_naval_base_fuse_he": [],
+      "45mm_ussr_21k_naval_base_fuse_he_ammo_pack": {
         "prevModification": "ship_rangefinder"
       },
       "12mm_dshk_universal": [],
@@ -3569,15 +3587,19 @@
         "prevModification": "new_ship_hull"
       },
       "new_ship_pumps": [],
-      "ship_rangefinder": [],
-      "new_aa_caliber_turrets": [],
+      "ship_rangefinder": {
+        "prevModification": "45mm_ussr_21k_naval_ap_ammo_pack"
+      },
+      "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
-        "reqModification": "new_aa_caliber_turrets"
+        "reqModification": "new_aux_caliber_turrets"
       },
       "ship_main_caliber_support": {
         "prevModification": "ship_rocket_launcher"
       },
-      "ship_depth_charge": [],
+      "ship_depth_charge": {
+        "prevModification": "12mm_dshk_navy_ap_ammo_pack"
+      },
       "ship_rocket_launcher": {
         "reqModification": "ship_depth_charge"
       }

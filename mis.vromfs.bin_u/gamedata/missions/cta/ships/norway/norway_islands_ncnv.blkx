@@ -296,7 +296,7 @@
                 "side": "enemy"
               },
               {
-                "point": "convoy_starting_point_sq"
+                "point": "convoy_starting_point"
               },
               {
                 "point": "convoy_waypoint01"
@@ -319,7 +319,7 @@
             "icon": {
               "icontype": "carrier",
               "side": "enemy",
-              "target": "convoy_starting_point_sq"
+              "target": "convoy_starting_point"
             }
           },
           {
@@ -394,12 +394,12 @@
       "import_record": {
         "file": "gameData/missions/templates/navy_templates/ncnv_template.blk",
         "importAreas": true,
-        "importUnits": false,
+        "importUnits": true,
         "importTriggers": true,
         "importMissionObjectives": true,
         "importWayPoints": true,
         "showAreas": true,
-        "showUnits": false,
+        "showUnits": true,
         "showTriggers": true,
         "showMissionObjectives": true,
         "showWayPoints": true,
@@ -925,49 +925,6 @@
       }
     },
     {
-      "area_squad": {
-        "name": "convoy_starting_point_sq",
-        "tm": [
-          [0.084709,0.0,-0.996405],
-          [0.0,1.0,0.0],
-          [0.996405,0.0,0.084709],
-          [43.1344,17.1318,4544.02]
-        ],
-        "props": [
-          {
-            "squad_members": "convoy_starting_point01"
-          },
-          {
-            "squad_members": "convoy_starting_point02"
-          },
-          {
-            "squad_members": "convoy_starting_point03"
-          },
-          {
-            "squad_members": "convoy_starting_point04"
-          },
-          {
-            "squad_members": "convoy_starting_point05"
-          },
-          {
-            "squad_members": "convoy_starting_point06"
-          },
-          {
-            "squad_members": "convoy_starting_point07"
-          },
-          {
-            "squad_members": "convoy_starting_point08"
-          },
-          {
-            "squad_members": "convoy_starting_point09"
-          },
-          {
-            "squad_members": "convoy_starting_point10"
-          }
-        ]
-      }
-    },
-    {
       "ships": {
         "name": "ship_01",
         "tm": [
@@ -999,7 +956,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1013,7 +971,7 @@
           [0.0,0.0,1.0],
           [-489.852,48.7275,4653.45]
         ],
-        "unit_class": "germ_type143_albatros",
+        "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -1036,7 +994,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1050,7 +1009,7 @@
           [0.0,0.0,1.0],
           [-480.182,48.7275,4653.45]
         ],
-        "unit_class": "germ_type143_albatros",
+        "unit_class": "germ_kanonenboot_k2",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -1073,7 +1032,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1110,7 +1070,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1147,7 +1108,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1184,52 +1146,10 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
-      }
-    },
-    {
-      "squad": {
-        "name": "convoy_sq",
-        "tm": [
-          [0.905101,0.0,-0.425197],
-          [0.0,1.0,0.0],
-          [0.425197,0.0,0.905101],
-          [122.001,48.7275,4142.51]
-        ],
-        "props": [
-          {
-            "squad_members": "ship_01"
-          },
-          {
-            "squad_members": "ship_02"
-          },
-          {
-            "squad_members": "ship_03"
-          },
-          {
-            "squad_members": "ship_04"
-          },
-          {
-            "squad_members": "ship_05"
-          },
-          {
-            "squad_members": "ship_06"
-          },
-          {
-            "squad_members": "ship_07"
-          },
-          {
-            "squad_members": "ship_08"
-          },
-          {
-            "squad_members": "ship_09"
-          },
-          {
-            "squad_members": "ship_10"
-          }
-        ]
       }
     },
     {
@@ -1241,7 +1161,7 @@
           [0.0,0.0,1.0],
           [-442.244,48.7275,4653.45]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
+        "unit_class": "germ_kanonenboot_k2",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -1264,7 +1184,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1301,7 +1222,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1338,7 +1260,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1375,7 +1298,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "convoy"
         },
         "way": []
       }
@@ -1833,17 +1757,6 @@
       "objLayer": 0,
       "props": []
     },
-    "convoy_starting_point03": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [96.5874,0.00012207,4314.46]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "t2_ships_spawn02_02": {
       "type": "Sphere",
       "tm": [
@@ -2009,101 +1922,13 @@
       "objLayer": 0,
       "props": []
     },
-    "convoy_starting_point01": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [-16.3346,0.00012207,4384.15]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point02": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [-133.118,0.00012207,4471.58]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point06": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [293.682,0.0,4682.83]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point04": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [161.733,6.10352e-05,4728.5]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point05": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [49.9908,0.00012207,4750.11]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point09": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [473.982,6.10352e-05,4998.11]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point07": {
+    "convoy_starting_point": {
       "type": "Point",
       "tm": [
         [-0.464579,0.0,-0.885533],
         [0.0,1.0,0.0],
         [0.885533,0.0,-0.464579],
         [336.877,6.10352e-05,5034.95]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point08": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [200.404,6.10352e-05,5104.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_starting_point10": {
-      "type": "Point",
-      "tm": [
-        [-0.464579,0.0,-0.885533],
-        [0.0,1.0,0.0],
-        [0.885533,0.0,-0.464579],
-        [513.591,3.8147e-06,5425.1]
       ],
       "objLayer": 0,
       "props": []
@@ -2751,7 +2576,7 @@
             [-47.6729,0.0,4303.33]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2767,7 +2592,7 @@
             [-287.039,0.0,3846.78]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2783,7 +2608,7 @@
             [-526.605,26.3113,3454.71]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2799,7 +2624,7 @@
             [-713.157,26.9873,3111.39]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2815,7 +2640,7 @@
             [-888.325,26.4338,2783.48]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2831,7 +2656,7 @@
             [-1024.97,21.4773,2385.79]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2847,7 +2672,7 @@
             [-1179.58,19.3018,1911.43]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2863,7 +2688,7 @@
             [-1273.64,19.2966,1492.82]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2879,7 +2704,7 @@
             [-1324.25,19.2981,935.388]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2895,7 +2720,7 @@
             [-1357.15,19.2981,278.222]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2911,7 +2736,7 @@
             [-1368.46,19.3101,-687.411]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2927,7 +2752,7 @@
             [-1315.85,0.0,-1922.81]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2943,7 +2768,7 @@
             [-1318.35,0.00146484,-4121.8]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,
@@ -2959,7 +2784,7 @@
             [-1442.87,0.00123596,-6441.86]
           ],
           "props": {
-            "speed": 25.0,
+            "speed": 300.0,
             "tas": false,
             "moveType": "MOVETO_STRAIGHT",
             "shouldKeepFormation": false,

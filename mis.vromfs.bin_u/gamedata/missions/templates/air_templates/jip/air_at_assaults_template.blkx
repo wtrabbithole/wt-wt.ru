@@ -742,6 +742,10 @@
           "var_value": "lbt_battles_is_active",
           "value": true,
           "comparasion_func": "equal"
+        },
+        "objectExists": {
+          "target": "@lbt_damage_t2_battle_squad_name",
+          "type": "squad"
         }
       },
       "actions": [
@@ -756,23 +760,10 @@
           }
         },
         {
-          "__varSetRandomInt": {
-            "var": "at_assaults_random_idx",
-            "from": 1,
-            "to_not_including": 4
-          }
-        },
-        {
           "varSetString": {
-            "value": "lbt_battles_t2_squad_",
-            "var": "at_assaults_t1_target_name"
-          }
-        },
-        {
-          "varAddString": {
-            "value": "@lbt_battles_cur_idx",
-            "digits": 2,
-            "var": "at_assaults_t1_target_name"
+            "value": "",
+            "var": "at_assaults_t1_target_name",
+            "input_var": "lbt_damage_t2_battle_squad_name"
           }
         },
         {
@@ -834,6 +825,10 @@
           "var_value": "lbt_battles_is_active",
           "value": true,
           "comparasion_func": "equal"
+        },
+        "objectExists": {
+          "target": "@lbt_damage_t1_battle_squad_name",
+          "type": "squad"
         }
       },
       "actions": [
@@ -848,23 +843,10 @@
           }
         },
         {
-          "__varSetRandomInt": {
-            "var": "at_assaults_random_idx",
-            "from": 1,
-            "to_not_including": 4
-          }
-        },
-        {
           "varSetString": {
-            "value": "lbt_battles_t1_squad_",
-            "var": "at_assaults_t2_target_name"
-          }
-        },
-        {
-          "varAddString": {
-            "value": "@lbt_battles_cur_idx",
-            "digits": 2,
-            "var": "at_assaults_t2_target_name"
+            "value": "",
+            "var": "at_assaults_t2_target_name",
+            "input_var": "lbt_damage_t1_battle_squad_name"
           }
         },
         {
@@ -2713,7 +2695,7 @@
             "target": "bfd_t1_assaults_attack",
             "status": 3,
             "extendedEnding": true,
-            "team": "B",
+            "team": "A",
             "unit_or_area": "@at_assaults_t2_name",
             "unit_type": "any"
           }
@@ -2737,7 +2719,7 @@
           "moSetObjectiveStatus": {
             "target": "bfd_t1_assaults_attack",
             "status": 0,
-            "team": "B",
+            "team": "A",
             "unit_or_area": "@at_assaults_t2_name",
             "unit_type": "any"
           }
@@ -5878,9 +5860,9 @@
     "at_is_detect_on": false,
     "at_t1_is_detected": false,
     "at_t2_is_detected": false,
-    "at_t1_detection_range": 3500.0,
-    "at_t2_detection_range": 3500.0,
-    "at_base_detection_range": 3500.0,
+    "at_t1_detection_range": 5500.0,
+    "at_t2_detection_range": 5500.0,
+    "at_base_detection_range": 5500.0,
     "at_assaults_t1_additional_delay_timer": 0,
     "at_assaults_t2_additional_delay_timer": 0,
     "at_t1_player_detection_bonus": 5500.0,

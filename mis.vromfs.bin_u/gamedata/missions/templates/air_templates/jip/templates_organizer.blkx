@@ -379,14 +379,6 @@
           }
         },
         {
-          "triggerActivate": {
-            "target": "to_template_99_lbt_check",
-            "activate_type": "checkConidtions",
-            "check_trigger_status": false,
-            "after_activation": "disable"
-          }
-        },
-        {
           "comment": {
             "value": "запоминаем последнюю армию"
           }
@@ -1246,13 +1238,6 @@
             }
           },
           {
-            "varCompareBool": {
-              "var_value": "lbt_is_template_active",
-              "value": false,
-              "comparasion_func": "equal"
-            }
-          },
-          {
             "varCompareInt": {
               "var_value": "to_force_template_idx",
               "value": 0,
@@ -1266,23 +1251,14 @@
             }
           }
         ],
-        "actions": [
-          {
-            "comment": {
-              "value": "проверили что нет активной наземной битвы (так как они зависимы)"
-            }
+        "actions": {
+          "comment": {
+            "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
           },
-          {
-            "comment": {
-              "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "to_template_05_ad_choose"
-            }
+          "triggerEnable": {
+            "target": "to_template_05_ad_choose"
           }
-        ],
+        },
         "else_actions": []
       },
       "to_template_05_ad_choose": {
@@ -1392,216 +1368,6 @@
         "conditions": {
           "varCompareBool": {
             "var_value": "ad_is_template_active",
-            "value": false,
-            "comparasion_func": "equal"
-          }
-        },
-        "actions": {
-          "varModify": {
-            "operator": "add",
-            "value": -1.0,
-            "var": "to_cur_launched_templates"
-          }
-        },
-        "else_actions": []
-      }
-    },
-    "99 - land battles": {
-      "isCategory": true,
-      "is_enabled": true,
-      "to_template_99_lbt_check": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 5.0
-          }
-        },
-        "conditions": [
-          {
-            "varCompareInt": {
-              "var_value": "to_randomizer",
-              "value": 99,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareBool": {
-              "var_value": "lbt_is_launch_alowed",
-              "value": true,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareBool": {
-              "var_value": "lbt_is_template_active",
-              "value": false,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareBool": {
-              "var_value": "ad_is_template_active",
-              "value": false,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareInt": {
-              "var_value": "to_force_template_idx",
-              "value": 99,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "triggerStatus": {
-              "status": "disabled",
-              "target": "to_template_99_lbt_end"
-            }
-          }
-        ],
-        "actions": [
-          {
-            "comment": {
-              "value": "проверили что нет активной воздушной доминации (так как они зависимы)"
-            }
-          },
-          {
-            "comment": {
-              "value": "проверяем выпало ли событие если да - запускаем дальнейшую проверку"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "to_template_99_lbt_choose"
-            }
-          }
-        ],
-        "else_actions": []
-      },
-      "to_template_99_lbt_choose": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ANY",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": [],
-        "actions": [
-          {
-            "varModify": {
-              "operator": "add",
-              "value": 1.0,
-              "var": "to_cur_launched_templates"
-            }
-          },
-          {
-            "comment": {
-              "value": "ставим флаг, что шаблон запустился"
-            }
-          },
-          {
-            "varSetBool": {
-              "value": true,
-              "var": "lbt_is_template_active"
-            }
-          },
-          {
-            "comment": {
-              "value": "задаем случайное время старта"
-            }
-          },
-          {
-            "__varSetRandomInt": {
-              "var": "ad_air_dom_delay_timer",
-              "from": 30,
-              "to_not_including": 60
-            }
-          },
-          {
-            "comment": {
-              "value": "обнуляем форсирование"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 0,
-              "var": "to_force_template_idx"
-            }
-          },
-          {
-            "comment": {
-              "value": "запускаем событие"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "to_template_99_lbt_run"
-            }
-          }
-        ],
-        "else_actions": {
-          "comment": {
-            "value": "событие уже запущено - автоматом сгенерится новое"
-          }
-        }
-      },
-      "to_template_99_lbt_run": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": [],
-        "actions": {
-          "comment": {
-            "value": "запускаем стартер шаблона, говорим, что шаблон запущен"
-          },
-          "triggerEnable": [
-            {
-              "target": "lbt_start"
-            },
-            {
-              "target": "to_template_99_lbt_end"
-            }
-          ]
-        },
-        "else_actions": []
-      },
-      "to_template_99_lbt_end": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "varCompareBool": {
-            "var_value": "lbt_is_template_active",
             "value": false,
             "comparasion_func": "equal"
           }

@@ -14,6 +14,7 @@
       "army": 2
     },
     "mission": {
+      "locName": "missions/testFlight",
       "name": "testFlight_iwo_jima_Jet",
       "level": "levels/iwo_jima.bin",
       "type": "testFlight",
@@ -222,7 +223,7 @@
       }
     },
     {
-      "wheeled_vehicles": {
+      "tankModels": {
         "name": "structures_01",
         "tm": [
           [0.305346,0.0,-0.952241],
@@ -230,7 +231,7 @@
           [0.952241,0.0,0.305346],
           [1403.6,26.7215,-331.627]
         ],
-        "unit_class": "us_cargo_truck",
+        "unit_class": "uk_truck_us6_studebaker_tent",
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
@@ -251,7 +252,7 @@
           "formation_step": [2.5,2.0],
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
-          "attack_type": "fire_at_will",
+          "attack_type": "dont_aim",
           "targetableByAi": false
         },
         "way": []
@@ -473,6 +474,42 @@
             }
           }
         }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "structures_02",
+        "tm": [
+          [-0.997535,0.0,-0.0701713],
+          [0.0,1.0,0.0],
+          [0.0701713,0.0,-0.997535],
+          [1604.58,7.82642,-244.022]
+        ],
+        "unit_class": "us_m47_patton_II",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "dont_aim",
+          "targetableByAi": false
+        },
+        "way": []
       }
     }
   ],

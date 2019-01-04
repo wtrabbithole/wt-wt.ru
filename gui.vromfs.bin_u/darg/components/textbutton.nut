@@ -50,13 +50,8 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
   local halign = params?.halign ?? HALIGN_LEFT
   local valign = params?.valign ?? VALIGN_MIDDLE
   local sound = params?.style?.sound ?? {}
+  local textCtor = params?.textCtor ?? @(text, params, stateFlags) text
   local function builder(sf) {
-    local hotkeys = null
-
-    if (params?.shortcut) {
-      hotkeys = [[params?.shortcut, handler]]
-    }
-
     return {
       margin = params?.margin ?? btnMargin
       key = ("key" in params) ? params.key : handler
@@ -74,7 +69,7 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
       borderColor = borderColor(sf, style, isEnabled)
       sound = sound
 
-      children = {
+      children = textCtor({
         rendObj = ROBJ_DTEXT
         text = (type(text)=="function") ? text() : text
         scrollOnHover=true
@@ -88,11 +83,10 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
         group = group
         behavior = [Behaviors.Marquee]
         color = textColor(sf, style, isEnabled)
-      }.__update(params?.textParams ?? {})
+      }.__update(params?.textParams ?? {}), params, sf)
 
       behavior = Behaviors.Button
       onClick = @() isEnabled ? handler() : null
-      hotkeys = hotkeys
     }.__update(params)
   }
 

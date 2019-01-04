@@ -1430,10 +1430,10 @@
           "hp": 1362.0
         },
         "bridge_dm": {
-          "hp": 500.0
+          "hp": 200.0
         },
         "radio_station_dm": {
-          "hp": 500.0
+          "hp": 150.0
         }
       },
       "superstructures": {
@@ -1564,6 +1564,7 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -1664,9 +1665,13 @@
         "explosionDamageMult": 2.0,
         "secondaryShatterDamageMult": 1.0,
         "aa_turret_01_dm": {
+          "armorThickness": 12.0,
+          "armorClass": "ship_Wsh",
           "hp": 100.0
         },
         "aa_turret_02_dm": {
+          "armorThickness": 12.0,
+          "armorClass": "ship_Wsh",
           "hp": 100.0
         },
         "aa_turret_03_dm": {
@@ -1854,7 +1859,7 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 6
+        "crew": 4
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -1869,12 +1874,12 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 17
+        "crew": 18
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 11
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
@@ -1884,7 +1889,7 @@
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 15
+        "crew": 16
       },
       "sailor8": {
         "dmPart": "main_caliber_turret_01_dm",
@@ -1899,7 +1904,7 @@
       "sailor10": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       }
     }
   },
@@ -2108,14 +2113,14 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
+              "expl": 0.01,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -2123,7 +2128,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.25,
+              "expl": 0.04,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -2131,8 +2136,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "damage": 350.0,
+              "expl": 0.1,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }

@@ -602,14 +602,14 @@
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         },
         "radio_station_dm": {
           "genericDamageMult": 1.5,
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 80.0
         }
       },
       "superstructures": {
@@ -735,7 +735,7 @@
         "shatterDamageMult": 2.0,
         "fireParamsPreset": "ship_engine",
         "pump_dm": {
-          "hp": 75.0
+          "hp": 84.0
         }
       },
       "hull_armor": {
@@ -845,6 +845,12 @@
         "secondaryShatterDamageMult": 0.1,
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
+        "torpedo_hatch_r_dm": {
+          "hp": 250.0
+        },
+        "torpedo_hatch_l_dm": {
+          "hp": 250.0
+        },
         "depth_charge_mount_01_dm": {
           "hp": 250.0
         },
@@ -945,22 +951,22 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 10
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 10
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 9
       }
     }
   },
@@ -1074,55 +1080,31 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.2,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1960,7 +1942,7 @@
             "speedPitch": 75.0
           },
           {
-            "bullets": 2000
+            "bullets": 1200
           },
           {
             "allowableDelta": 2.0
@@ -2105,7 +2087,7 @@
             "speedPitch": 75.0
           },
           {
-            "bullets": 2000
+            "bullets": 1200
           },
           {
             "allowableDelta": 2.0
@@ -2220,6 +2202,7 @@
           "animLaunchTime": 1.8,
           "launchTime": 0.38,
           "barrelDP": "torpedo_01_dm",
+          "breechDP": "tt_01_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_01_dm",
           "enableCourseCorrection": false,
@@ -2248,6 +2231,7 @@
           "animLaunchTime": 1.8,
           "launchTime": 0.38,
           "barrelDP": "torpedo_02_dm",
+          "breechDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_02_dm",
           "enableCourseCorrection": false,

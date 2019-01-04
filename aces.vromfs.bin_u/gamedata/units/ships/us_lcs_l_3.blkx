@@ -1179,10 +1179,10 @@
           "hp": 743.0
         },
         "bridge_dm": {
-          "hp": 547.0
+          "hp": 250.0
         },
         "radio_station_dm": {
-          "hp": 500.0
+          "hp": 150.0
         }
       },
       "superstructures": {
@@ -1319,6 +1319,7 @@
       "hull_armor": {
         "armorClass": "ship_STS",
         "armorThickness": 6.35,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "armorThickness": 6.35,
           "hp": 705.0
@@ -1570,7 +1571,7 @@
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 15
+        "crew": 16
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -1580,12 +1581,12 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 16
+        "crew": 15
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 8
       },
       "sailor6": {
         "dmPart": "superstructure_front_dm",
@@ -1595,17 +1596,17 @@
       "sailor7": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 3
       },
       "sailor8": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 3
       },
       "sailor9": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 2
       }
     }
   },
@@ -1761,55 +1762,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -5325,19 +5302,8 @@
       },
       {
         "part": {
-          "node": "ex_armor_06",
-          "idx": 6,
-          "mass": 900.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "ex_armor_06_dm"
-        }
-      },
-      {
-        "part": {
           "node": "ex_decor_38",
-          "idx": 7,
+          "idx": 6,
           "mass": 750.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
@@ -5348,7 +5314,7 @@
       {
         "part": {
           "node": "ex_decor_26",
-          "idx": 8,
+          "idx": 7,
           "mass": 1050.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
@@ -5359,7 +5325,7 @@
       {
         "part": {
           "node": "aa_turret_01",
-          "idx": 9,
+          "idx": 8,
           "mass": 800.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
@@ -5370,7 +5336,7 @@
       {
         "part": {
           "node": "ex_armor_04",
-          "idx": 10,
+          "idx": 9,
           "mass": 950.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
@@ -5381,7 +5347,7 @@
       {
         "part": {
           "node": "aa_turret_02",
-          "idx": 11,
+          "idx": 10,
           "mass": 800.0,
           "cutDamage": 350.0,
           "deviation": 0.6,

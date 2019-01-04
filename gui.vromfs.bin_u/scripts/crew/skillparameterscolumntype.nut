@@ -190,11 +190,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
     {
       return ::g_crew_skills.isAffectedByLeadership(memberName, skillName)
     }
-
-    checkCrewUnitType = function (crewUnitType)
-    {
-      return crewUnitType == ::CUT_TANK
-    }
+    checkCrewUnitType = @(crewUnitType) crewUnitType == ::CUT_TANK || crewUnitType == ::CUT_SHIP
   }
 
   /**

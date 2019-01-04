@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -471,6 +474,7 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
           "hp": 150.0,
           "armorThrough": 1.0,
@@ -4007,7 +4011,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true
@@ -4044,9 +4048,6 @@
             },
             "ammo_turret_09_dm": {
               "count": 1
-            },
-            "ammo_turret_01_dm": {
-              "count": 1
             }
           }
         },
@@ -4073,15 +4074,15 @@
             },
             "ammo_turret_10_dm": {
               "count": 1
-            },
-            "ammo_turret_02_dm": {
-              "count": 1
             }
           }
         },
         {
           "shells": {
             "reloadTimeMult": 2.0,
+            "ammo_turret_01_dm": {
+              "count": 1
+            },
             "ammo_turret_17_dm": {
               "count": 1
             },
@@ -4156,6 +4157,9 @@
         {
           "charges": {
             "reloadTimeMult": 2.0,
+            "ammo_turret_02_dm": {
+              "count": 1
+            },
             "ammo_turret_16_dm": {
               "count": 1
             },

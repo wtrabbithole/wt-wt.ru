@@ -2093,10 +2093,10 @@
           "hp": 3221.0
         },
         "bridge_dm": {
-          "hp": 2000.0
+          "hp": 400.0
         },
         "radio_station_dm": {
-          "hp": 2000.0
+          "hp": 300.0
         }
       },
       "superstructures": {
@@ -2260,6 +2260,7 @@
       "hull_armor": {
         "armorThickness": 15.0,
         "armorClass": "ship_structural_steel",
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -2504,8 +2505,8 @@
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "genericDamageMult": 1.0,
-        "shatterDamageMult": 1.5,
-        "explosionDamageMult": 1.6,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.8,
         "fuel_tank_01_dm": {
           "hp": 1000.0
@@ -2524,13 +2525,13 @@
         "shatterDamageMult": 1.5,
         "secondaryShatterDamageMult": 1.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 996.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 470.0
+          "hp": 500.0
         },
         "ammunition_storage_03_dm": {
-          "hp": 500.0
+          "hp": 1500.0
         }
       },
       "depth_charges": {
@@ -2675,7 +2676,7 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 16
+        "crew": 10
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -2685,17 +2686,17 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 53
+        "crew": 54
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 39
+        "crew": 40
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 51
+        "crew": 52
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
@@ -2705,12 +2706,12 @@
       "sailor7": {
         "dmPart": "compartment_06_dm",
         "role": "sailor",
-        "crew": 39
+        "crew": 40
       },
       "sailor8": {
         "dmPart": "compartment_07_dm",
         "role": "sailor",
-        "crew": 24
+        "crew": 25
       },
       "sailor9": {
         "dmPart": "main_caliber_turret_01_dm",
@@ -2728,19 +2729,39 @@
         "crew": 12
       },
       "sailor12": {
+        "dmPart": "auxiliary_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor13": {
+        "dmPart": "auxiliary_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor14": {
+        "dmPart": "auxiliary_caliber_turret_03_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor15": {
+        "dmPart": "auxiliary_caliber_turret_04_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor16": {
         "dmPart": "tt_01_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor13": {
+      "sailor17": {
         "dmPart": "tt_02_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor14": {
+      "sailor18": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 15
+        "crew": 4
       }
     }
   },
@@ -2949,14 +2970,14 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
+              "expl": 0.01,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -2964,7 +2985,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.25,
+              "expl": 0.04,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -2972,8 +2993,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "damage": 350.0,
+              "expl": 0.1,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -8286,8 +8307,8 @@
       "new_main_caliber_turrets": [],
       "torpedoes_movement_mode": {
         "effects": {
-          "distToLive": 8200.0,
-          "maxSpeedInWater": -9.52
+          "distToLive": 3650.0,
+          "maxSpeedInWater": -5.92
         }
       },
       "ship_bomb_mortar": []

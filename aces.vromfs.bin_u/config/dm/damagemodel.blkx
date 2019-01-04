@@ -57,6 +57,9 @@
     "hitCameraShotFreqThreshold": 0.5
   },
   {
+    "hitCameraShatterThreshold": 0.02
+  },
+  {
     "showDestroyedPartTime": 2.0
   },
   {
@@ -79,9 +82,6 @@
   },
   {
     "drowningCheckHeightMultiplier": 0.6
-  },
-  {
-    "impulseDeltaVelThresholdForDamage": 5.0
   },
   {
     "useBlkPreprocessor": true
@@ -109,6 +109,9 @@
   },
   {
     "cumulativeAirArmor": 100.0
+  },
+  {
+    "armorResistance": 1900.0
   },
   {
     "explosionOffset": 0.01
@@ -250,6 +253,56 @@
   },
   {
     "criticalBuoyancy": 0.5
+  },
+  {
+    "penetrationDistances": [
+      {
+        "dist": 10.0
+      },
+      {
+        "dist": 100.0
+      },
+      {
+        "dist": 500.0
+      },
+      {
+        "dist": 1000.0
+      },
+      {
+        "dist": 1500.0
+      },
+      {
+        "dist": 2000.0
+      },
+      {
+        "dist": 2500.0
+      },
+      {
+        "dist": 3000.0
+      },
+      {
+        "dist": 10000.0
+      }
+    ]
+  },
+  {
+    "penetrationByExplosiveMassModifier": [
+      {
+        "mod": [0.0,1.0]
+      },
+      {
+        "mod": [0.016,0.93]
+      },
+      {
+        "mod": [0.02,0.9]
+      },
+      {
+        "mod": [0.03,0.85]
+      },
+      {
+        "mod": [0.04,0.75]
+      }
+    ]
   },
   {
     "kineticEnergyToDamage": {
@@ -1133,6 +1186,44 @@
         "completely": true
       }
     }
+  },
+  {
+    "leftTrackNodes": [
+      {
+        "node": "track_l_dm"
+      },
+      {
+        "node": "track_l_01_dm"
+      },
+      {
+        "node": "wheel_l_back_dm"
+      },
+      {
+        "node": "wheel_l_front_dm"
+      },
+      {
+        "node": "wheel_l_drive_dm"
+      }
+    ]
+  },
+  {
+    "rightTrackNodes": [
+      {
+        "node": "track_r_dm"
+      },
+      {
+        "node": "track_r_01_dm"
+      },
+      {
+        "node": "wheel_r_back_dm"
+      },
+      {
+        "node": "wheel_r_front_dm"
+      },
+      {
+        "node": "wheel_r_drive_dm"
+      }
+    ]
   },
   {
     "healingCrew": {
@@ -5272,11 +5363,30 @@
     }
   },
   {
+    "vehicleCollisionDamage": {
+      "impulseThreshold": 5.0,
+      "collisionImpulseDamage": 60.0,
+      "frictionImpulseDamage": 0.0,
+      "damageThreshold": 5.0,
+      "sphereRadius": 0.3
+    }
+  },
+  {
     "shipCollisionDamage": {
-      "sphereRadius": 1.0,
-      "baseDamage": 100.0,
       "impulseThreshold": 1.0,
-      "damageThreshold": 100.0
+      "collisionImpulseDamage": 100.0,
+      "frictionImpulseDamage": 0.0,
+      "damageThreshold": 5.0,
+      "sphereRadius": 1.0
+    }
+  },
+  {
+    "aircraftCollisionDamage": {
+      "impulseThreshold": 3.0,
+      "collisionImpulseDamage": 75.0,
+      "frictionImpulseDamage": 15.0,
+      "damageThreshold": 5.0,
+      "sphereRadius": 0.5
     }
   },
   {
@@ -6488,7 +6598,9 @@
       },
       "optic": [],
       "optic_gun": [],
-      "optic_gun_1": [],
+      "optic_gun_NN": {
+        "template": "optic_turret_#2#"
+      },
       "optic_turret": [],
       "optic_turret_NN": {
         "template": "optic_turret_#14#"

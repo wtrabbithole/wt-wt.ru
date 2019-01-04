@@ -1,5 +1,4 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-local crossplayModule = require("scripts/social/crossplay.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -477,6 +480,7 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
           "hp": 150.0,
           "armorThrough": 1.0,
@@ -1902,7 +1906,17 @@
               "gunnerDm": "gunner_dm",
               "loaderDm": "loader_01_dm",
               "verDriveDm": "drive_turret_v_dm",
-              "horDriveDm": "drive_turret_h_dm"
+              "horDriveDm": "drive_turret_h_dm",
+              "selfDirectedPart": {
+                "node": "antenna_target_tagging_mount",
+                "limits": [-180.0,180.0],
+                "turnSpeed": 80.0
+              },
+              "linkedAnimPart": {
+                "verNode": "antenna_target_tagging",
+                "verLimits": [0.0,90.0],
+                "verOriginLimits": [-0.0,85.0]
+              }
             }
           },
           {
@@ -2690,6 +2704,7 @@
       "tank_additional_armor": [],
       "manual_extinguisher": [],
       "tank_tool_kit": [],
+      "modern_tank_laser_rangefinder": [],
       "new_tank_horizontal_aiming": [],
       "new_tank_vertical_aiming": [],
       "tank_new_gun": [],
@@ -2804,7 +2819,17 @@
                     "gunnerDm": "gunner_dm",
                     "loaderDm": "loader_01_dm",
                     "verDriveDm": "drive_turret_v_dm",
-                    "horDriveDm": "drive_turret_h_dm"
+                    "horDriveDm": "drive_turret_h_dm",
+                    "selfDirectedPart": {
+                      "node": "antenna_target_tagging_mount",
+                      "limits": [-180.0,180.0],
+                      "turnSpeed": 80.0
+                    },
+                    "linkedAnimPart": {
+                      "verNode": "antenna_target_tagging",
+                      "verLimits": [0.0,90.0],
+                      "verOriginLimits": [-0.0,85.0]
+                    }
                   }
                 },
                 {

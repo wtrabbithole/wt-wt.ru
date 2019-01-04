@@ -14,6 +14,7 @@
       "army": 2
     },
     "mission": {
+      "locName": "missions/testSil",
       "name": "testFlight_ship_germ",
       "level": "levels/avn_fiji.bin",
       "type": "testFlight",
@@ -265,7 +266,7 @@
           "formation_step": [2.5,2.0],
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
-          "attack_type": "hold_fire"
+          "attack_type": "dont_aim"
         },
         "way": []
       }
@@ -273,18 +274,18 @@
     {
       "armada": {
         "name": "ai_plane",
-        "dontOverrideHeight": true,
         "tm": [
           [0.00754631,0.0,-0.999972],
           [0.0,1.0,0.0],
           [0.999972,0.0,0.00754631],
-          [1231.35,300.0,3380.11]
+          [1231.35,500.0,3380.11]
         ],
         "unit_class": "sbd-3",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
+        "dontOverrideHeight": true,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -348,7 +349,7 @@
           "formation_step": [2.5,2.0],
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
-          "attack_type": "hold_fire"
+          "attack_type": "dont_aim"
         },
         "way": []
       }
@@ -384,7 +385,7 @@
           "formation_step": [2.5,2.0],
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
-          "attack_type": "hold_fire"
+          "attack_type": "dont_aim"
         },
         "way": {
           "ai_ship02_wp_01": {
@@ -473,7 +474,7 @@
         [0.393189,0.0,0.919458],
         [0.0,1.0,0.0],
         [-0.919458,0.0,0.393189],
-        [662.4,490.0,-7.7]
+        [662.4,500.0,-7.7]
       ],
       "objLayer": 0,
       "props": []

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -102,7 +105,16 @@
     "destroysTrees": true
   },
   {
+    "waterBreakerAnimVar": "bmp_1_break_water_action"
+  },
+  {
+    "waterBreakerToggleTime": 4.0
+  },
+  {
     "type": "typeLightTank"
+  },
+  {
+    "cruiseVelocity": 3.0
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -330,6 +342,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0
@@ -1858,6 +1871,12 @@
             "reloadAnimVar": "bmp_1_action"
           },
           {
+            "stopForFire": true
+          },
+          {
+            "maxSpeedForFire": 5.0
+          },
+          {
             "createGunEffects": true
           },
           {
@@ -2961,6 +2980,8 @@
                 "weaponType": "rockets",
                 "useEmitter": true,
                 "emitter": "bone_rocket_02",
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,

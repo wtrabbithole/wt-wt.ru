@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -144,13 +147,16 @@
           "armorThickness": 35.0
         },
         "ex_armor_03_dm": {
-          "armorThickness": 8.0
+          "armorThickness": 8.0,
+          "hidableInViewer": true
         },
         "ex_armor_04_dm": {
-          "armorThickness": 8.0
+          "armorThickness": 8.0,
+          "hidableInViewer": true
         },
         "ex_armor_05_dm": {
-          "armorThickness": 8.0
+          "armorThickness": 8.0,
+          "hidableInViewer": true
         },
         "turret_04_front_dm": {
           "armorThickness": 38.0,
@@ -203,20 +209,23 @@
         },
         "ex_armor_01_dm": {
           "armorThickness": 20.0,
-          "armorEffectiveThicknessMax": 20.0
+          "armorEffectiveThicknessMax": 20.0,
+          "hidableInViewer": true
         }
       },
       "inner_armor": {
         "armorClass": "spaced_armor_air",
         "composite_armor_hull_01_dm": {
           "armorThickness": 8.0,
-          "armorClass": "RHA_tank_modern"
+          "armorClass": "RHA_tank_modern",
+          "hidableInXrayViewer": true
         },
         "composite_armor_turret_02_dm": {
           "armorThickness": 35.0,
           "hp": 150.0,
           "ignoreDeadWithSplash": true,
-          "armorClass": "RHA_tank_modern"
+          "armorClass": "RHA_tank_modern",
+          "hidableInXrayViewer": true
         },
         "composite_armor_hull_02_dm": {
           "armorThickness": 300.0,
@@ -314,16 +323,20 @@
           "armorThickness": 35.0
         },
         "ex_armor_l_04_dm": {
-          "armorThickness": 6.0
+          "armorThickness": 6.0,
+          "hidableInViewer": true
         },
         "ex_armor_l_05_dm": {
-          "armorThickness": 6.0
+          "armorThickness": 6.0,
+          "hidableInViewer": true
         },
         "ex_armor_r_04_dm": {
-          "armorThickness": 6.0
+          "armorThickness": 6.0,
+          "hidableInViewer": true
         },
         "ex_armor_r_05_dm": {
-          "armorThickness": 6.0
+          "armorThickness": 6.0,
+          "hidableInViewer": true
         },
         "turret_02_bottom_dm": {
           "armorThickness": 15.0
@@ -558,12 +571,13 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_v_01_dm": {

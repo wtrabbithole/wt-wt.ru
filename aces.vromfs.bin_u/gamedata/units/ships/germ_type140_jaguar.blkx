@@ -1166,7 +1166,7 @@
       "compartments": {
         "fireParamsPreset": "ship_cover",
         "stopChanceOnDeadPart": 0.3,
-        "genericDamageMult": 0.6,
+        "genericDamageMult": 0.5,
         "shatterDamageMult": 0.5,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
@@ -1182,10 +1182,7 @@
           "hp": 724.0
         },
         "compartment_04_dm": {
-          "hp": 618.0
-        },
-        "compartment_05_dm": {
-          "hp": 500.0
+          "hp": 998.0
         },
         "bridge_dm": {
           "armorClass": "ship_structural_steel",
@@ -1277,45 +1274,44 @@
         "fireProtectionHp": 5.0,
         "armorThickness": 4.0,
         "genericDamageMult": 1.5,
-        "shatterDamageMult": 0.7,
+        "shatterDamageMult": 0.9,
         "secondaryShatterDamageMult": 0.05,
         "armorClass": "armor_tank_engine",
         "fireParamsPreset": "ship_engine",
         "engine_01_dm": {
-          "hp": 700.0
+          "hp": 400.0
         },
         "engine_02_dm": {
-          "hp": 700.0
+          "hp": 400.0
         },
         "engine_03_dm": {
-          "hp": 700.0
+          "hp": 400.0
         },
         "engine_04_dm": {
-          "hp": 700.0
+          "hp": 400.0
         },
         "transmission_01_dm": {
-          "hp": 400.0
+          "hp": 254.0
         },
         "transmission_02_dm": {
-          "hp": 400.0
+          "hp": 200.0
         },
         "transmission_03_dm": {
-          "hp": 400.0
+          "hp": 200.0
         },
         "transmission_04_dm": {
-          "hp": 400.0
+          "hp": 254.0
         }
       },
       "steering_gear": {
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorClass": "armor_tank_engine",
-        "fireParamsPreset": "ship_engine",
-        "armorThickness": 30.0,
-        "genericDamageMult": 2.5,
+        "armorThickness": 10.0,
+        "genericDamageMult": 1.0,
         "shatterDamageMult": 0.3,
+        "explosionDamageMult": 1.5,
         "steering_gear_01_dm": {
-          "hp": 706.0
+          "hp": 180.0
         }
       },
       "pumps": {
@@ -1330,6 +1326,7 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -1345,7 +1342,7 @@
         "armorClass": "ship_Wsh",
         "armorThickness": 9.52,
         "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.2,
+        "genericDamageMult": 1.4,
         "shatterDamageMult": 1.8,
         "explosionDamageMult": 1.5,
         "secondaryShatterDamageMult": 0.5,
@@ -1360,7 +1357,7 @@
         "armorClass": "ship_structural_steel",
         "armorThickness": 12.7,
         "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.4,
+        "genericDamageMult": 1.5,
         "shatterDamageMult": 1.8,
         "explosionDamageMult": 1.8,
         "secondaryShatterDamageMult": 0.5
@@ -1369,7 +1366,7 @@
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
         "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.5,
+        "genericDamageMult": 1.6,
         "shatterDamageMult": 2.0,
         "explosionDamageMult": 2.0,
         "secondaryShatterDamageMult": 1.0
@@ -1518,7 +1515,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 9
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -1528,24 +1525,19 @@
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 6
       },
       "sailor6": {
-        "dmPart": "compartment_05_dm",
-        "role": "sailor",
-        "crew": 3
-      },
-      "sailor7": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
         "crew": 2
       },
-      "sailor8": {
+      "sailor7": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
         "crew": 2
       },
-      "sailor9": {
+      "sailor8": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
         "crew": 3
@@ -1733,55 +1725,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2798,6 +2766,7 @@
           "emitter": "bone_torpedo_01",
           "bullets": 1,
           "barrelDP": "torpedo_01_dm",
+          "breechDP": "tt_01_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_01_dm",
           "enableCourseCorrection": false,
@@ -2825,6 +2794,7 @@
           "emitter": "bone_torpedo_03",
           "bullets": 1,
           "barrelDP": "torpedo_03_dm",
+          "breechDP": "tt_03_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_03_dm",
           "enableCourseCorrection": false,
@@ -2852,6 +2822,7 @@
           "emitter": "bone_torpedo_02",
           "bullets": 1,
           "barrelDP": "torpedo_02_dm",
+          "breechDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_02_dm",
           "enableCourseCorrection": false,
@@ -2879,6 +2850,7 @@
           "emitter": "bone_torpedo_04",
           "bullets": 1,
           "barrelDP": "torpedo_04_dm",
+          "breechDP": "tt_04_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_04_dm",
           "enableCourseCorrection": false,

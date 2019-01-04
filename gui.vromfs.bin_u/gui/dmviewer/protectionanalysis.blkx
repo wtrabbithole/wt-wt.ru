@@ -48,7 +48,7 @@
   {
     "tdiv": [
       {
-        "pos": "pw-w, sh -1@bottomBarHeight -1@blockInterval -h"
+        "pos": "pw - 1@bw - w, sh -1@bottomBarHeight -1@blockInterval -h"
       },
       {
         "position": "absolute"
@@ -58,6 +58,50 @@
       },
       {
         "flow-align": "reverse"
+      },
+      {
+        "frame": {
+          "id": "analysis_hint",
+          "pos": "pw-w-1@buttonMargin, -h",
+          "position": "absolute",
+          "display": "hide",
+          "table": {
+            "class": "transpTable",
+            "tr-incsize": "1",
+            "td-incsize": "4",
+            "tr": [
+              {
+                "id": "analysis_hint_shot"
+              },
+              {
+                "display": "hide"
+              },
+              {
+                "td": {
+                  "cellType": "tdRight",
+                  "activeText": {
+                    "id": "push_to_shot"
+                  }
+                }
+              },
+              {
+                "td": {
+                  "cellType": "tdCenter",
+                  "activeText": {
+                    "text": "#ui/mdash"
+                  }
+                }
+              },
+              {
+                "td": {
+                  "activeText": {
+                    "text": "#protectionAnalysis/hint/shot"
+                  }
+                }
+              }
+            ]
+          }
+        }
       },
       {
         "Button_text": {

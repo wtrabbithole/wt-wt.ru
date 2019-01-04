@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -348,14 +351,16 @@
           "armorThickness": 4.0
         },
         "body_top_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hidableInViewer": true
         }
       },
-      "body_shields": {
+      "body_structural_steel_elements": {
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": false,
         "superstructure_front_dm": {
           "armorThickness": 5.0
         },
@@ -506,6 +511,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

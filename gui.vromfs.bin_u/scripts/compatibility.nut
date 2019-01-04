@@ -276,4 +276,6 @@ if (!("logerr" in ::dagor))
   show_hidden_xray_parts_change = @(v) null
   webauth_start = @(o,f) false
   webauth_stop = @() null
+
+  EULT_TOURNAMENT_AWARD = 57
 })

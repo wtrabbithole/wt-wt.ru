@@ -4,7 +4,7 @@
   "resetViralAcquisitionDaysCounter": 1,
   "moderatorPresenceCheckMaxCode": 65536,
   "moderatorPresenceCheckPeriodSec": 1200,
-  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;PvE_6;I2M;H2M;Tdm;Capt;NTDM;NDom;NTdm;NBttl;NCnv;NA;NAleft;NAright;4x4_norespawn;2x2_norespawn;1x1_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;BR;ctf;Duo;HS;HfD;HA",
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;PvE_6;I2M;H2M;Tdm;Capt;NTDM;NDom;NTdm;NBttl;NCnv;NS;NA;NAleft;NAright;4x4_norespawn;2x2_norespawn;1x1_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;BR;ctf;HS;HfD;HA",
   "ordersPerSession": 3,
   "randomBattle": {
     "classiness": {
@@ -151,6 +151,7 @@
       "NBttl": 6,
       "NCnv": 6,
       "NTdm": 6,
+      "NS": 6,
       "_NA": 6,
       "_NAright": 6,
       "_NAleft": 6,
@@ -171,7 +172,6 @@
       "Tdm": 3,
       "tm": 3,
       "Capt": 3,
-      "Duo": 3,
       "ArtDA": 3,
       "ArtDB": 3
     }
@@ -598,7 +598,10 @@
     "FranceTanksInFirstCountryChoice": {
       "condition": ""
     },
-    "BritainShipsInFirstCountryChoice": [
+    "BritainShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "ItalyTanksInFirstCountryChoice": [
       {
         "condition": "role_GAIJIN"
       },
@@ -607,9 +610,6 @@
       },
       {
         "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
       }
     ],
     "Helicopters": [
@@ -1051,34 +1051,13 @@
     "AdvancedMouseAim": {
       "condition": ""
     },
-    "OptimizedMouseAim": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      }
-    ],
+    "OptimizedMouseAim": [],
     "ActiveScouting": {
       "condition": ""
     },
-    "Missiles": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "Missiles": {
+      "condition": ""
+    },
     "1Animcraft": [],
     "summer2018Access": {
       "condition": ""
@@ -1244,9 +1223,14 @@
     "BattleTasksHard": {
       "condition": ""
     },
-    "BattleTasksGeneration": {
-      "condition": "rank_2_unlocked_without_helicopters"
-    },
+    "BattleTasksGeneration": [
+      {
+        "condition": "rank_2_unlocked_without_helicopters"
+      },
+      {
+        "condition": "battle_tasks_unlocked_by_rank"
+      }
+    ],
     "PersonalUnlocks": [
       {
         "condition": "role_GAIJIN"
@@ -1417,7 +1401,10 @@
     "FranceTankUnlocked": {
       "condition": ""
     },
-    "BritainShipsUnlocked": [
+    "BritainShipsUnlocked": {
+      "condition": ""
+    },
+    "ItalyTankUnlocked": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1431,7 +1418,7 @@
         "condition": "role_ALPHA_TESTER"
       },
       {
-        "condition": "wt_access_britain_ships_unlocks"
+        "condition": "wt_access_italy_tanks_unlocks"
       }
     ],
     "CountryChina": {
@@ -1633,17 +1620,9 @@
     "DmViewerProtectionAnalysis": {
       "condition": ""
     },
-    "DmViewerExternalArmorHiding": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "DmViewerExternalArmorHiding": {
+      "condition": ""
+    },
     "DamagedSkinPreview": {
       "condition": ""
     },
@@ -1663,7 +1642,18 @@
     "NewUnitTypeToBattleTutorial": {
       "condition": ""
     },
-    "SendUnlocksToUserstat": {
+    "SendUnlocksToUserstat": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "HangarHitcamera": {
       "condition": ""
     }
   }

@@ -822,10 +822,10 @@
           "hp": 2100.0
         },
         "bridge_dm": {
-          "hp": 750.0
+          "hp": 200.0
         },
         "radio_station_dm": {
-          "hp": 750.0
+          "hp": 200.0
         }
       },
       "superstructures": {
@@ -940,6 +940,7 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -1247,7 +1248,7 @@
         "sailor3": {
           "dmPart": "compartment_02_dm",
           "role": "sailor",
-          "crew": 15
+          "crew": 16
         }
       },
       {
@@ -1261,7 +1262,7 @@
         "sailor5": {
           "dmPart": "compartment_04_dm",
           "role": "sailor",
-          "crew": 14
+          "crew": 15
         }
       },
       {
@@ -1282,7 +1283,7 @@
         "sailor7": {
           "dmPart": "radio_station_dm",
           "role": "sailor",
-          "crew": 4
+          "crew": 2
         }
       }
     ]
@@ -1439,55 +1440,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }

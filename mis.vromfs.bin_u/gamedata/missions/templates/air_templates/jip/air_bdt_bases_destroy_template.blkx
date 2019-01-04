@@ -800,43 +800,6 @@
               "stealthRadius": 0.0
             }
           ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object_var_name": ""
-            },
-            {
-              "object_var_comp_op": "equal"
-            },
-            {
-              "object_var_value": 0
-            },
-            {
-              "object": "bdt_t1_bomb_targets_aaa_squad"
-            },
-            {
-              "object": "bdt_t2_bomb_targets_aaa_squad"
-            },
-            {
-              "stealthRadius": 1250.0
-            },
-            {
-              "calmDetection": true
-            },
-            {
-              "accuracy": 0.3
-            },
-            {
-              "effShootingRate": 0.3
-            },
-            {
-              "airEffShootingRate": 0.3
-            }
-          ]
         }
       ],
       "else_actions": []
@@ -1146,23 +1109,6 @@
         },
         {
           "comment": {
-            "value": "будим зенитки"
-          }
-        },
-        {
-          "__unitWakeUp": {
-            "target": "@bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "__unitRestore": {
-            "ressurectIfDead": true,
-            "fullRestore": true,
-            "target": "@bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "comment": {
             "value": "ждем и запускаем головной скрипт заново"
           }
         },
@@ -1263,16 +1209,6 @@
           "triggerEnable": {
             "target": "bdt_t1_destroy_exist_zone_01"
           }
-        },
-        {
-          "comment": {
-            "value": "спавним зенитки"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bdt_t1_aaa_01_respawn"
-          }
         }
       ],
       "else_actions": {
@@ -1342,16 +1278,6 @@
           "triggerEnable": {
             "target": "bdt_t1_destroy_exist_zone_02"
           }
-        },
-        {
-          "comment": {
-            "value": "спавним зенитки"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bdt_t1_aaa_02_respawn"
-          }
         }
       ],
       "else_actions": {
@@ -1420,16 +1346,6 @@
         {
           "triggerEnable": {
             "target": "bdt_t1_destroy_exist_zone_03"
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним зенитки"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bdt_t1_aaa_03_respawn"
           }
         }
       ],
@@ -1558,51 +1474,6 @@
         },
         {
           "comment": {
-            "value": "создаем имя зениток"
-          }
-        },
-        {
-          "__varSetString": {
-            "value": "",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 2,
-            "value": "@bdt_t1_zone_01_name",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 0,
-            "value": "_aaa_squad",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "comment": {
-            "value": "прячем зенитки"
-          }
-        },
-        {
-          "unitDamage": {
-            "part": 0,
-            "power": 1.0,
-            "useEffect": false,
-            "countEffects": 1,
-            "delay": [1.0,1.0],
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [10.0,15.0],
-            "target": "bdt_t1_bomb_target_01_aaa",
-            "doExplosion": true,
-            "delayForObjects": [1.0,5.0],
-            "target_type": "isActive"
-          }
-        },
-        {
-          "comment": {
             "value": "говорим, что выполнилось задание"
           }
         },
@@ -1661,51 +1532,6 @@
             "team": "B",
             "unit_or_area": "@bdt_t1_zone_02_name",
             "unit_type": "any"
-          }
-        },
-        {
-          "__comment": {
-            "value": "создаем имя зениток"
-          }
-        },
-        {
-          "__varSetString": {
-            "value": "",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 2,
-            "value": "@bdt_t1_zone_02_name",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 0,
-            "value": "_aaa_squad",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "comment": {
-            "value": "прячем зенитки"
-          }
-        },
-        {
-          "unitDamage": {
-            "part": 0,
-            "power": 1.0,
-            "useEffect": false,
-            "countEffects": 1,
-            "delay": [1.0,1.0],
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [10.0,15.0],
-            "target": "bdt_t1_bomb_target_02_aaa",
-            "doExplosion": true,
-            "delayForObjects": [1.0,5.0],
-            "target_type": "isActive"
           }
         },
         {
@@ -1768,51 +1594,6 @@
             "team": "B",
             "unit_or_area": "@bdt_t1_zone_03_name",
             "unit_type": "any"
-          }
-        },
-        {
-          "__comment": {
-            "value": "создаем имя зениток"
-          }
-        },
-        {
-          "__varSetString": {
-            "value": "",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 2,
-            "value": "@bdt_t1_zone_03_name",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 0,
-            "value": "_aaa_squad",
-            "var": "bdt_t1_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "comment": {
-            "value": "прячем зенитки"
-          }
-        },
-        {
-          "unitDamage": {
-            "part": 0,
-            "power": 1.0,
-            "useEffect": false,
-            "countEffects": 1,
-            "delay": [1.0,1.0],
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [10.0,15.0],
-            "target": "bdt_t1_bomb_target_03_aaa",
-            "doExplosion": true,
-            "delayForObjects": [1.0,5.0],
-            "target_type": "isActive"
           }
         },
         {
@@ -2287,23 +2068,6 @@
           }
         },
         {
-          "__comment": {
-            "value": "будим зенитки"
-          }
-        },
-        {
-          "__unitWakeUp": {
-            "target": "@bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "__unitRestore": {
-            "ressurectIfDead": true,
-            "fullRestore": true,
-            "target": "@bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
           "comment": {
             "value": "ждем и запускаем головной скрипт заново"
           }
@@ -2405,16 +2169,6 @@
           "triggerEnable": {
             "target": "bdt_t2_destroy_exist_zone_01"
           }
-        },
-        {
-          "comment": {
-            "value": "спавним зенитки"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bdt_t2_aaa_01_respawn"
-          }
         }
       ],
       "else_actions": {
@@ -2484,16 +2238,6 @@
           "triggerEnable": {
             "target": "bdt_t2_destroy_exist_zone_02"
           }
-        },
-        {
-          "comment": {
-            "value": "спавним зенитки"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bdt_t2_aaa_02_respawn"
-          }
         }
       ],
       "else_actions": {
@@ -2562,16 +2306,6 @@
         {
           "triggerEnable": {
             "target": "bdt_t2_destroy_exist_zone_03"
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним зенитки"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "bdt_t2_aaa_03_respawn"
           }
         }
       ],
@@ -2699,51 +2433,6 @@
           }
         },
         {
-          "__comment": {
-            "value": "создаем имя зениток"
-          }
-        },
-        {
-          "__varSetString": {
-            "value": "",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 2,
-            "value": "@bdt_t2_zone_01_name",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 0,
-            "value": "_aaa_squad",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "comment": {
-            "value": "прячем зенитки"
-          }
-        },
-        {
-          "unitDamage": {
-            "part": 0,
-            "power": 1.0,
-            "useEffect": false,
-            "countEffects": 1,
-            "delay": [1.0,1.0],
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [10.0,15.0],
-            "target": "bdt_t2_bomb_target_01_aaa",
-            "doExplosion": true,
-            "delayForObjects": [1.0,5.0],
-            "target_type": "isActive"
-          }
-        },
-        {
           "comment": {
             "value": "говорим, что выполнилось задание"
           }
@@ -2806,51 +2495,6 @@
           }
         },
         {
-          "__comment": {
-            "value": "создаем имя зениток"
-          }
-        },
-        {
-          "__varSetString": {
-            "value": "",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 2,
-            "value": "@bdt_t2_zone_02_name",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 0,
-            "value": "_aaa_squad",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "comment": {
-            "value": "прячем зенитки"
-          }
-        },
-        {
-          "unitDamage": {
-            "part": 0,
-            "power": 1.0,
-            "useEffect": false,
-            "countEffects": 1,
-            "delay": [1.0,1.0],
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [10.0,15.0],
-            "target": "bdt_t2_bomb_target_02_aaa",
-            "doExplosion": true,
-            "delayForObjects": [1.0,5.0],
-            "target_type": "isActive"
-          }
-        },
-        {
           "comment": {
             "value": "говорим, что выполнилось задание"
           }
@@ -2910,51 +2554,6 @@
             "team": "A",
             "unit_or_area": "@bdt_t2_zone_03_name",
             "unit_type": "any"
-          }
-        },
-        {
-          "__comment": {
-            "value": "создаем имя зениток"
-          }
-        },
-        {
-          "__varSetString": {
-            "value": "",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 2,
-            "value": "@bdt_t2_zone_03_name",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "__varAddString": {
-            "digits": 0,
-            "value": "_aaa_squad",
-            "var": "bdt_t2_cur_destroyed_aaa_name"
-          }
-        },
-        {
-          "comment": {
-            "value": "прячем зенитки"
-          }
-        },
-        {
-          "unitDamage": {
-            "part": 0,
-            "power": 1.0,
-            "useEffect": false,
-            "countEffects": 1,
-            "delay": [1.0,1.0],
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [10.0,15.0],
-            "target": "bdt_t2_bomb_target_03_aaa",
-            "doExplosion": true,
-            "delayForObjects": [1.0,5.0],
-            "target_type": "isActive"
           }
         },
         {
@@ -3243,29 +2842,45 @@
           "comparasion_func": "less"
         }
       },
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bomb_areas_4_7_check"
-          },
-          {
-            "target": "bomb_areas_8_11_check"
-          },
-          {
-            "target": "bomb_areas_12_16_check"
-          },
-          {
-            "target": "bomb_areas_17_20_check"
-          }
-        ],
-        "comment": {
-          "value": "6100 для истории"
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bomb_areas_4_7_check"
+            },
+            {
+              "target": "bomb_areas_8_11_check"
+            },
+            {
+              "target": "bomb_areas_12_16_check"
+            },
+            {
+              "target": "bomb_areas_17_20_check"
+            }
+          ]
         },
-        "varSetReal": {
-          "value": 6100.0,
-          "var": "bdt_base_hp"
+        {
+          "comment": {
+            "value": "6100 для истории"
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 6100.0,
+            "var": "bdt_base_hp"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bomb_areas_helicpoters_check"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "bomb_areas_4_7_check": {
@@ -3297,29 +2912,45 @@
           }
         }
       ],
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bomb_areas_0_3_check"
-          },
-          {
-            "target": "bomb_areas_8_11_check"
-          },
-          {
-            "target": "bomb_areas_12_16_check"
-          },
-          {
-            "target": "bomb_areas_17_20_check"
-          }
-        ],
-        "comment": {
-          "value": "10500 для истории"
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bomb_areas_0_3_check"
+            },
+            {
+              "target": "bomb_areas_8_11_check"
+            },
+            {
+              "target": "bomb_areas_12_16_check"
+            },
+            {
+              "target": "bomb_areas_17_20_check"
+            }
+          ]
         },
-        "varSetReal": {
-          "value": 10500.0,
-          "var": "bdt_base_hp"
+        {
+          "comment": {
+            "value": "10500 для истории"
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 10500.0,
+            "var": "bdt_base_hp"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bomb_areas_helicpoters_check"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "bomb_areas_8_11_check": {
@@ -3351,29 +2982,45 @@
           }
         }
       ],
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bomb_areas_0_3_check"
-          },
-          {
-            "target": "bomb_areas_4_7_check"
-          },
-          {
-            "target": "bomb_areas_12_16_check"
-          },
-          {
-            "target": "bomb_areas_17_20_check"
-          }
-        ],
-        "comment": {
-          "value": "16000 для истории"
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bomb_areas_0_3_check"
+            },
+            {
+              "target": "bomb_areas_4_7_check"
+            },
+            {
+              "target": "bomb_areas_12_16_check"
+            },
+            {
+              "target": "bomb_areas_17_20_check"
+            }
+          ]
         },
-        "varSetReal": {
-          "value": 16000.0,
-          "var": "bdt_base_hp"
+        {
+          "comment": {
+            "value": "16000 для истории"
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 16000.0,
+            "var": "bdt_base_hp"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bomb_areas_helicpoters_check"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "bomb_areas_12_16_check": {
@@ -3405,29 +3052,45 @@
           }
         }
       ],
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bomb_areas_0_3_check"
-          },
-          {
-            "target": "bomb_areas_4_7_check"
-          },
-          {
-            "target": "bomb_areas_8_11_check"
-          },
-          {
-            "target": "bomb_areas_17_20_check"
-          }
-        ],
-        "comment": {
-          "value": "25900 для истории"
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bomb_areas_0_3_check"
+            },
+            {
+              "target": "bomb_areas_4_7_check"
+            },
+            {
+              "target": "bomb_areas_8_11_check"
+            },
+            {
+              "target": "bomb_areas_17_20_check"
+            }
+          ]
         },
-        "varSetReal": {
-          "value": 25900.0,
-          "var": "bdt_base_hp"
+        {
+          "comment": {
+            "value": "25900 для истории"
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 25900.0,
+            "var": "bdt_base_hp"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bomb_areas_helicpoters_check"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "bomb_areas_17_20_check": {
@@ -3450,803 +3113,74 @@
           "comparasion_func": "more"
         }
       },
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bomb_areas_0_3_check"
-          },
-          {
-            "target": "bomb_areas_4_7_check"
-          },
-          {
-            "target": "bomb_areas_8_11_check"
-          },
-          {
-            "target": "bomb_areas_12_16_check"
-          }
-        ],
-        "comment": {
-          "value": "25900 для истории"
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bomb_areas_0_3_check"
+            },
+            {
+              "target": "bomb_areas_4_7_check"
+            },
+            {
+              "target": "bomb_areas_8_11_check"
+            },
+            {
+              "target": "bomb_areas_12_16_check"
+            }
+          ]
         },
-        "varSetReal": {
-          "value": 25900.0,
+        {
+          "comment": {
+            "value": "25900 для истории"
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 25900.0,
+            "var": "bdt_base_hp"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bomb_areas_helicpoters_check"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bomb_areas_helicpoters_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ft_helicopters_pad_exclusive",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "varModify": {
+          "operator": "divAB",
+          "value": 10.0,
           "var": "bdt_base_hp"
         }
       },
-      "else_actions": []
-    },
-    "bdt_t1_aaa_01_respawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "спавним первую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_01_aaa_point_01",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним вторую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_01_aaa_point_02",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним третью зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_01_aaa_point_03",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним четвертую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_01_aaa_point_04",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "выставляем свойства"
-          }
-        },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "bdt_t1_bomb_target_01_aaa",
-            "stealthRadius": 1250.0,
-            "calmDetection": true,
-            "accuracy": 0.6,
-            "checkVisibilityTarget": true,
-            "effShootingRate": 0.6,
-            "airEffShootingRate": 0.6,
-            "fireRandom": true,
-            "targetChangeInterval": 5.0,
-            "targetChangeProf": 0.25
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "bdt_t1_aaa_02_respawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "спавним первую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_02_aaa_point_01",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним вторую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_02_aaa_point_02",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним третью зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_02_aaa_point_03",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним четвертую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_02_aaa_point_04",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "выставляем свойства"
-          }
-        },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "bdt_t1_bomb_target_02_aaa",
-            "stealthRadius": 1250.0,
-            "calmDetection": true,
-            "accuracy": 0.6,
-            "checkVisibilityTarget": true,
-            "effShootingRate": 0.6,
-            "airEffShootingRate": 0.6,
-            "fireRandom": true,
-            "targetChangeInterval": 5.0,
-            "targetChangeProf": 0.25
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "bdt_t1_aaa_03_respawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "спавним первую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_03_aaa_point_01",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним вторую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_03_aaa_point_02",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним третью зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_03_aaa_point_03",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним четвертую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t1_bomb_target_03_aaa_point_04",
-            "var": "bdt_t1_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t1_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t1_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "выставляем свойства"
-          }
-        },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "bdt_t1_bomb_target_03_aaa",
-            "stealthRadius": 1250.0,
-            "calmDetection": true,
-            "accuracy": 0.6,
-            "checkVisibilityTarget": true,
-            "effShootingRate": 0.6,
-            "airEffShootingRate": 0.6,
-            "fireRandom": true,
-            "targetChangeInterval": 5.0,
-            "targetChangeProf": 0.25
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "bdt_t2_aaa_01_respawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "спавним первую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_01_aaa_point_01",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним вторую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_01_aaa_point_02",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним третью зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_01_aaa_point_03",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним четвертую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_01_aaa_point_04",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_01_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "выставляем свойства"
-          }
-        },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "bdt_t2_bomb_target_01_aaa",
-            "stealthRadius": 1250.0,
-            "calmDetection": true,
-            "accuracy": 0.6,
-            "checkVisibilityTarget": true,
-            "effShootingRate": 0.6,
-            "airEffShootingRate": 0.6,
-            "fireRandom": true,
-            "targetChangeInterval": 5.0,
-            "targetChangeProf": 0.25
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "bdt_t2_aaa_02_respawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "спавним первую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_02_aaa_point_01",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним вторую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_02_aaa_point_02",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним третью зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_02_aaa_point_03",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним четвертую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_02_aaa_point_04",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_02_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "выставляем свойства"
-          }
-        },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "bdt_t2_bomb_target_02_aaa",
-            "stealthRadius": 1250.0,
-            "calmDetection": true,
-            "accuracy": 0.6,
-            "checkVisibilityTarget": true,
-            "effShootingRate": 0.6,
-            "airEffShootingRate": 0.6,
-            "fireRandom": true,
-            "targetChangeInterval": 5.0,
-            "targetChangeProf": 0.25
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "bdt_t2_aaa_03_respawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "comment": {
-            "value": "спавним первую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_03_aaa_point_01",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним вторую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_03_aaa_point_02",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним третью зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_03_aaa_point_03",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "спавним четвертую зенитку"
-          }
-        },
-        {
-          "varSetString": {
-            "value": "bdt_t2_bomb_target_03_aaa_point_04",
-            "var": "bdt_t2_cur_spawn_aaa_name"
-          }
-        },
-        {
-          "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
-            "object": "bdt_t2_bomb_target_03_aaa",
-            "object_type": "isInactive",
-            "target": "@bdt_t2_cur_spawn_aaa_name",
-            "randomObjectsCount": 1,
-            "isStealth": true
-          }
-        },
-        {
-          "comment": {
-            "value": "выставляем свойства"
-          }
-        },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "bdt_t2_bomb_target_03_aaa",
-            "stealthRadius": 1250.0,
-            "calmDetection": true,
-            "accuracy": 0.6,
-            "checkVisibilityTarget": true,
-            "effShootingRate": 0.6,
-            "airEffShootingRate": 0.6,
-            "fireRandom": true,
-            "targetChangeInterval": 5.0,
-            "targetChangeProf": 0.25
-          }
-        }
-      ],
       "else_actions": []
     },
     "bdt_t1_frontline_start": {

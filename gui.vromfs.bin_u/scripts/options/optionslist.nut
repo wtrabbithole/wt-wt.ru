@@ -26,7 +26,6 @@ local getMainOptions = function()
       ["options/mainParameters"],
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
-      [::USEROPT_XBOX_CROSSPLAY_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_FONTS_CSS, "spinner"],
       [::USEROPT_CLUSTER, "spinner", ! ::is_in_flight() && ::is_platform_ps4],
 
@@ -123,7 +122,6 @@ local getMainOptions = function()
       [::USEROPT_SHOW_INDICATORS_DIST, "spinner"],
 
       ["options/header/chatAndVoiceChat"],
-      [::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_ONLY_FRIENDLIST_CONTACT, "spinner", ! ::is_in_flight()],
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],

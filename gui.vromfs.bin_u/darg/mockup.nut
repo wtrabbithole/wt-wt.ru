@@ -1,23 +1,38 @@
 //This is list of all darg native functions and consts, to use in mockups
-::gui_scene <-{}
-::gui_scene.config <-{}
-::gui_scene.config.defaultFont <-0
-::gui_scene.setTimeout<-function(timeout, func){
-  assert([type(0),type(0.0)].find(type(timeout))!=null, "timeout should number")
-  assert(type(func)==type(type), "function should be function")
-}
-::gui_scene.clearTimer<-function(func){
-  assert(type(func)==type(type), "function should be function")
-}
-
 ::Fonts <-{}
-::Fonts.small_text <-"small_text"
+::calc_comp_size <- @(comp) [0,0]
+::gui_scene <-{
+  setShutdownHandler = @(val) null
+  config = {defaultFont = 0}
+  setTimeout = function(timeout, func){
+    assert([type(0),type(0.0)].find(type(timeout))!=null, "timeout should number")
+    assert(type(func)==type(type), "function should be function")
+  }
+  clearTimer = function(func){
+    assert(type(func)==type(type), "function should be function")
+  }
+}
+::ScrollHandler <- class{}
 ::ElemGroup <- @() {}
+::AnimProp<-{}
+foreach(idx, prop in [
+  "color"
+  "bgColor"
+  "fgColor"
+  "fillColor"
+  "borderColor"
+  "opacity"
+  "rotate"
+  "scale"
+  "translate"
+])
+::AnimProp[prop] <- idx
+
 
 Watched <-class {
   value=null
   subscribers = null
-  constructor(val) {
+  constructor(val=null) {
     value=val
     subscribers = {}
   }
@@ -87,14 +102,8 @@ function ph(val) {
 ::Behaviors <- {
   Button = "Button"
   TextArea="TextArea"
-}
-
-::AnimProp<-{
-  opacity = "opacity"
-  transform = "transform"
-  fillColor = "fillColor"
-  borderColor = "borderColor"
-  color = "color"
+  MoveResize = "MoveResize"
+  Marquee = "Marquee"
 }
 
 function Picture(val){return val}
@@ -108,6 +117,7 @@ const ROBJ_SOLID = "ROBJ_SOLID"
 const ROBJ_FRAME = "ROBJ_FRAME"
 const ROBJ_PROGRESS_CIRCULAR = "ROBJ_PROGRESS_CIRCULAR"
 const ROBJ_WORLD_BLUR = "ROBJ_WORLD_BLUR"
+const ROBJ_WORLD_BLUR_PANEL = "ROBJ_WORLD_BLUR_PANEL"
 
 const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
 const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"
@@ -157,12 +167,13 @@ const InOutBezier="InOutBezier"
 const CosineFull="CosineFull"
 const InStep="InStep"
 const OutStep="OutStep"
-
-const S_KB_FOCUS="S_KB_FOCUS"
-const S_HOVER="S_HOVER"
-const S_TOP_HOVER="S_TOP_HOVER"
-const S_ACTIVE="S_ACTIVE"
-const S_DRAG="S_DRAG"
+const Discrete8 = "Discrete8"
+const OutBack = "OutBack"
+const S_KB_FOCUS=0
+const S_HOVER=1
+const S_TOP_HOVER=2
+const S_ACTIVE=3
+const S_DRAG=4
 
 const MR_NONE="MR_NONE"
 const MR_T="MR_T"

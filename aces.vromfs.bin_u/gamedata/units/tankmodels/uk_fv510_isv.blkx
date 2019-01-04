@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -105,6 +108,9 @@
     "type": "typeLightTank"
   },
   {
+    "cruiseVelocity": 3.0
+  },
+  {
     "rearmSmokeTimeOnField": 60.0
   },
   {
@@ -150,7 +156,8 @@
           "armorThickness": 28.5
         },
         "turret_01_side_dm": {
-          "armorThickness": 6.35
+          "armorThickness": 6.35,
+          "hidableInViewer": true
         },
         "turret_02_side_dm": {
           "armorThickness": 38.1
@@ -164,7 +171,8 @@
         "turret_06_top_dm": {
           "armorThickness": 6.35,
           "armorClass": "RHA_tank_modern",
-          "createSecondaryShatters": false
+          "createSecondaryShatters": false,
+          "hidableInViewer": true
         },
         "turret_02_top_dm": {
           "armorThickness": 28.5
@@ -254,7 +262,8 @@
           "armorThickness": 25.4
         },
         "turret_01_front_dm": {
-          "armorThickness": 6.35
+          "armorThickness": 6.35,
+          "hidableInViewer": true
         },
         "gun_mask_dm": {
           "armorThickness": 25.4
@@ -467,12 +476,13 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_v_01_dm": {
@@ -2000,6 +2010,8 @@
           "weaponType": "rockets",
           "useEmitter": true,
           "emitter": "bone_rocket_02",
+          "stopForFire": true,
+          "maxSpeedForFire": 5.0,
           "createGunEffects": true,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -3038,6 +3050,8 @@
                 "weaponType": "rockets",
                 "useEmitter": true,
                 "emitter": "bone_rocket_02",
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,

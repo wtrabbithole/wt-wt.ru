@@ -213,7 +213,7 @@
     ],
     "mission": {
       "name": "sector_montmedy_I2M",
-      "level": "levels/avg_sector_montmedy.bin",
+      "level": "levels/sector_montmedy.bin",
       "type": "domination",
       "restoreType": "attempts",
       "optionalTakeOff": false,
@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -279,7 +280,7 @@
           "map": true,
           "minTime": 4,
           "picture": "",
-          "showAirMap": false
+          "showAirMap": true
         }
       }
     }
@@ -428,6 +429,38 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/sector_montmedy/ct_convoys_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/bridges/sector_montmedy_bridges.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -477,7 +510,7 @@
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "ct_is_launch_alowed"
           }
         },
@@ -530,7 +563,7 @@
         },
         {
           "varSetBool": {
-            "value": true,
+            "value": false,
             "var": "ct_is_detect_on"
           }
         },
@@ -586,23 +619,6 @@
         },
         {
           "comment": {
-            "value": "увеличиваем количество одновременно активных конвоев"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 6,
-            "var": "ct_max_convoys"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 6,
-            "var": "ct_max_active_convoys"
-          }
-        },
-        {
-          "comment": {
             "value": "настройка охотников"
           }
         },
@@ -631,6 +647,17 @@
               "var": "ht_t2_delay_timer"
             }
           ]
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 9,
+            "var": "ct_max_roads"
+          }
         }
       ],
       "else_actions": []
@@ -654,68 +681,7 @@
   "variables": [],
   "dialogs": [],
   "airfields": [],
-  "effects": {
-    "effect_01": {
-      "type": "groundFire",
-      "tm": [
-        [416.096,0.0,0.0],
-        [0.0,416.096,0.0],
-        [0.0,0.0,416.096],
-        [-7286.46,190.334,2589.86]
-      ],
-      "density": 10.0
-    },
-    "effect_02": {
-      "type": "groundFire",
-      "tm": [
-        [499.315,0.0,0.0],
-        [0.0,499.315,0.0],
-        [0.0,0.0,499.315],
-        [-8254.31,190.334,1085.55]
-      ],
-      "density": 10.0
-    },
-    "effect_03": {
-      "type": "groundFire",
-      "tm": [
-        [416.096,0.0,0.0],
-        [0.0,416.096,0.0],
-        [0.0,0.0,416.096],
-        [-137.452,190.334,1894.94]
-      ],
-      "density": 10.0
-    },
-    "effect_04": {
-      "type": "groundFire",
-      "tm": [
-        [582.535,0.0,0.0],
-        [0.0,582.535,0.0],
-        [0.0,0.0,582.535],
-        [-4295.53,190.333,-2714.16]
-      ],
-      "density": 10.0
-    },
-    "effect_05": {
-      "type": "groundFire",
-      "tm": [
-        [790.583,0.0,0.0],
-        [0.0,416.096,0.0],
-        [0.0,0.0,790.583],
-        [-5484.54,190.333,1540.98]
-      ],
-      "density": 10.0
-    },
-    "effect_06": {
-      "type": "groundFire",
-      "tm": [
-        [1107.1,0.0,0.0],
-        [0.0,1107.1,0.0],
-        [0.0,0.0,1107.1],
-        [2963.89,94.9917,5193.22]
-      ],
-      "density": 10.0
-    }
-  },
+  "effects": [],
   "units": [
     {
       "armada": {
@@ -726,12 +692,12 @@
           [0.887011,0.0,0.461749],
           [-10733.0,2401.9,18716.5]
         ],
-        "unit_class": "i-16_type28",
+        "unit_class": "il_28",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
-        "weapons": "",
+        "weapons": "il_28_12xfab100",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",

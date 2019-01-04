@@ -602,14 +602,14 @@
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         },
         "radio_station_dm": {
           "genericDamageMult": 1.5,
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 80.0
         }
       },
       "superstructures": {
@@ -917,7 +917,7 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -927,7 +927,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 3
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -1051,55 +1051,31 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.2,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2478,6 +2454,7 @@
           "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "torpedo_03_dm",
+          "breechDP": "tt_03_dm",
           "brokenBarrelAllowShoot": false,
           "turret": {
             "head": "bone_torpedo_03",
@@ -2503,6 +2480,7 @@
           "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "torpedo_04_dm",
+          "breechDP": "tt_04_dm",
           "brokenBarrelAllowShoot": false,
           "turret": {
             "head": "bone_torpedo_04",
@@ -2528,6 +2506,7 @@
           "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "torpedo_02_dm",
+          "breechDP": "tt_02_dm",
           "brokenBarrelAllowShoot": false,
           "turret": {
             "head": "bone_torpedo_02",
@@ -2553,6 +2532,7 @@
           "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "torpedo_01_dm",
+          "breechDP": "tt_01_dm",
           "brokenBarrelAllowShoot": false,
           "turret": {
             "head": "bone_torpedo_01",

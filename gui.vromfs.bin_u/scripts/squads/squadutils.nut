@@ -171,18 +171,19 @@ function g_squad_utils::checkSquadUnreadyAndDo(handler, func, cancelFunc = null,
     "ok", { cancel_fn = function() {}})
 }
 
-function g_squad_utils::updateMyCountryData()
+function g_squad_utils::updateMyCountryData(needUpdateSessionLobbyData = true)
 {
   local memberData = ::g_user_utils.getMyStateData()
   ::g_squad_manager.updateMyMemberData(memberData)
 
   //Update Skirmish Lobby info
-  ::SessionLobby.setCountryData({
-    country = memberData.country
-    crewAirs = memberData.crewAirs
-    selAirs = memberData.selAirs  //!!FIX ME need to remove this and use slots in client too.
-    slots = memberData.selSlots
-  })
+  if (needUpdateSessionLobbyData)
+    ::SessionLobby.setCountryData({
+      country = memberData.country
+      crewAirs = memberData.crewAirs
+      selAirs = memberData.selAirs  //!!FIX ME need to remove this and use slots in client too.
+      slots = memberData.selSlots
+    })
 }
 
 function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canChangeMemberCountry = true)

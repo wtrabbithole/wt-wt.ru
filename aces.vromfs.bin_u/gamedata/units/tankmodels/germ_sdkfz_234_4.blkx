@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -1252,7 +1255,7 @@
       "engine": {
         "horsePowers": 210.0,
         "maxRPM": 2200.0,
-        "minRPM": 200.0,
+        "minRPM": 800.0,
         "rpmTau": 1.9
       },
       "mechanics": {
@@ -1352,6 +1355,16 @@
           "wheel_l_03": true,
           "wheel_r_04": true,
           "wheel_l_04": true
+        },
+        "wheelsDamageWeight": {
+          "wheel_l_01": 0.3,
+          "wheel_r_01": 0.3,
+          "wheel_l_02": 0.3,
+          "wheel_r_02": 0.3,
+          "wheel_l_03": 0.3,
+          "wheel_r_03": 0.3,
+          "wheel_l_04": 0.3,
+          "wheel_r_04": 0.3
         }
       }
     }
@@ -2518,6 +2531,7 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
           "hp": 150.0,
           "armorThrough": 1.0,

@@ -863,55 +863,31 @@
           },
           {
             "onKill": {
-              "expl": 0.15,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -1575,10 +1551,10 @@
           "hp": 501.0
         },
         "bridge_dm": {
-          "hp": 500.0
+          "hp": 200.0
         },
         "radio_station_dm": {
-          "hp": 500.0
+          "hp": 150.0
         }
       },
       "superstructures": {
@@ -1701,6 +1677,7 @@
       "hull_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -2279,7 +2256,7 @@
             "trigger": "gunner1"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/25mm_2M_3_naval_user_cannon.blk"
@@ -2424,7 +2401,7 @@
             "trigger": "gunner1"
           },
           {
-            "triggerGroup": "machinegun"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/25mm_2M_3_naval_user_cannon.blk"
@@ -2564,7 +2541,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/30mm_bp_30_mortar_naval_user_cannon.blk"
@@ -2680,7 +2657,7 @@
             "trigger": "gunner3"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/30mm_bp_30_mortar_naval_user_cannon.blk"
@@ -2796,7 +2773,7 @@
             "trigger": "gunner4"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/30mm_bp_30_mortar_naval_user_cannon.blk"
@@ -2912,7 +2889,7 @@
             "trigger": "gunner5"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "machinegun"
           },
           {
             "blk": "gameData/Weapons/navalModels_weapons/30mm_bp_30_mortar_naval_user_cannon.blk"
@@ -3710,9 +3687,9 @@
       "new_ship_rudder": [],
       "ship_smoke_screen_system_mod": [],
       "ship_rangefinder": [],
-      "new_aa_caliber_turrets": [],
+      "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
-        "reqModification": "new_aa_caliber_turrets"
+        "reqModification": "new_aux_caliber_turrets"
       },
       "ship_rocket_launcher": {
         "prevModification": "25mm_2m3_ap_navy_ammo_pack"

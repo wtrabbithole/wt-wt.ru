@@ -315,55 +315,31 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.2,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
               "expl": 0.01,
-              "damage": 50.0,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "expl": 0.04,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
               "expl": 0.1,
-              "damage": 100.0,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -2727,14 +2703,14 @@
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 100.0
         },
         "radio_station_dm": {
           "genericDamageMult": 1.5,
           "shatterDamageMult": 1.5,
           "explosionDamageMult": 1.0,
           "armorThickness": 1.0,
-          "hp": 300.0
+          "hp": 80.0
         }
       },
       "superstructures": {
@@ -3094,7 +3070,7 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -3104,7 +3080,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 9
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -3114,12 +3090,12 @@
       "sailor5": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 1
+        "crew": 2
       },
       "sailor6": {
         "dmPart": "main_caliber_turret_03_dm",
         "role": "sailor",
-        "crew": 1
+        "crew": 2
       }
     }
   },
@@ -3161,10 +3137,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 70.0
+            "speedPitch": 50.0
           },
           {
             "bullets": 600
@@ -3287,10 +3263,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 75.0
+            "speedYaw": 45.0
           },
           {
-            "speedPitch": 75.0
+            "speedPitch": 50.0
           },
           {
             "bullets": 1200
@@ -3567,10 +3543,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 75.0
+            "speedYaw": 45.0
           },
           {
-            "speedPitch": 75.0
+            "speedPitch": 50.0
           },
           {
             "bullets": 1200
@@ -3707,10 +3683,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 75.0
+            "speedYaw": 45.0
           },
           {
-            "speedPitch": 75.0
+            "speedPitch": 50.0
           },
           {
             "bullets": 1200
@@ -3847,10 +3823,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 75.0
+            "speedYaw": 55.0
           },
           {
-            "speedPitch": 75.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 1200
@@ -3994,10 +3970,10 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 75.0
+            "speedYaw": 55.0
           },
           {
-            "speedPitch": 75.0
+            "speedPitch": 70.0
           },
           {
             "bullets": 1200
@@ -4388,6 +4364,7 @@
           "barrelDP": "torpedo_01_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_01_dm",
+          "breechDP": "tt_01_dm",
           "turret": {
             "head": "bone_torpedo_01",
             "gun": "bone_torpedo_01"
@@ -4416,6 +4393,7 @@
           "barrelDP": "torpedo_02_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_02_dm",
+          "breechDP": "tt_02_dm",
           "turret": {
             "head": "bone_torpedo_02",
             "gun": "bone_torpedo_02"

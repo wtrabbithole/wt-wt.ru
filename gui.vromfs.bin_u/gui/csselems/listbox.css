@@ -564,10 +564,6 @@ CountriesCrews[hasBackground=yes] {
   background-color:@slotbarBgColor;
 }
 
-HorizontalListBox > shopFilter.slotsHeader {
-  padding:1@slotsHeaderBoxPadding, 0;
-}
-
 shopFilter.slotsHeader:hover {
   background-color: @slotsHeaderBtnHoverColor;
 }
@@ -584,17 +580,18 @@ slotsCountryText {
   font:@fontNormal;
   color:@minorTextColor;
 }
-HorizontalListBox[isShort=no] > shopFilter.slotsHeader {
+activateSelect[isShort=no] > shopFilter.slotsHeader {
   tooltip:'';
 }
-HorizontalListBox[isShort=yes] slotsCountryText.short {
+activateSelect[isShort=yes] slotsCountryText.short {
   display: show;
 }
-HorizontalListBox[isShort=yes] slotsCountryText.full {
+activateSelect[isShort=yes] slotsCountryText.full {
   display: hide;
 }
 
-shopFilter[selected=yes] > slotsCountryText {
+shopFilter[selected=yes] > slotsCountryText,
+shopFilter[chosen=yes] > slotsCountryText {
   color:@activeTextColor;
 }
 shopFilter:disabled > slotsCountryText {

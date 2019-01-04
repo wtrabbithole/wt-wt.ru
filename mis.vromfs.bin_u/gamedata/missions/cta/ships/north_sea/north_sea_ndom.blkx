@@ -164,7 +164,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": true
+        "isShipsAllowed": true,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [],
@@ -332,6 +333,23 @@
         "importTriggers": true,
         "importMissionObjectives": true,
         "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/ships/north_sea/mainareas/north_sea_NDom_zone_airdefence.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "importByParameter": "enableAirDefenceOnCaptureZone",
         "showAreas": true,
         "showUnits": true,
         "showTriggers": true,

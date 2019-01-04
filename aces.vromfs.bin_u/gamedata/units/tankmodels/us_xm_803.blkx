@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -373,6 +376,7 @@
         "armorThickness": 6.35,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_armor_l_01_dm": [],
         "ex_armor_l_02_dm": [],
         "ex_armor_l_03_dm": [],
@@ -553,12 +557,13 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_v_01_dm": {
@@ -806,7 +811,7 @@
     "ammoStowages": {
       "ammo1": [
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "weaponTrigger": "gunner0"

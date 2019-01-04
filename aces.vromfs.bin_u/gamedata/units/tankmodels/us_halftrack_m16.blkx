@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -448,7 +451,8 @@
       "hull": {
         "armorClass": "tank_structural_steel",
         "body_front_dm": {
-          "armorThickness": 4.0
+          "armorThickness": 4.0,
+          "hidableInViewer": false
         }
       },
       "mask": {
@@ -586,6 +590,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": [],

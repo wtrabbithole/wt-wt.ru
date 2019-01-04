@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -356,6 +359,32 @@
         "body_bottom_dm": {
           "armorThickness": 8.0
         },
+        "ex_armor_05_dm": {
+          "armorThickness": 10.0
+        }
+      },
+      "turret": {
+        "turret_front_dm": {
+          "armorThickness": 7.0
+        },
+        "turret_side_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 5.0,
+          "hidableInViewer": false
+        },
+        "turret_back_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 5.0,
+          "hidableInViewer": false
+        },
+        "turret_top_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 2.0,
+          "hidableInViewer": false
+        }
+      },
+      "body_side_screens": {
+        "hidableInViewer": true,
         "ex_armor_turret_l_02_dm": {
           "armorThickness": 10.0
         },
@@ -379,29 +408,6 @@
         },
         "ex_armor_04_dm": {
           "armorThickness": 10.0
-        },
-        "ex_armor_05_dm": {
-          "armorThickness": 10.0
-        },
-        "wheel_support_dm": {
-          "armorThickness": 10.0
-        }
-      },
-      "turret": {
-        "turret_front_dm": {
-          "armorThickness": 7.0
-        },
-        "turret_side_dm": {
-          "armorClass": "tank_structural_steel",
-          "armorThickness": 5.0
-        },
-        "turret_back_dm": {
-          "armorClass": "tank_structural_steel",
-          "armorThickness": 5.0
-        },
-        "turret_top_dm": {
-          "armorClass": "tank_structural_steel",
-          "armorThickness": 2.0
         }
       },
       "mask": {
@@ -437,6 +443,7 @@
         "wheel_l_drive_dm": [],
         "wheel_l_back_dm": [],
         "wheel_r_back_dm": [],
+        "wheel_support_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 15.0,
@@ -537,6 +544,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": []

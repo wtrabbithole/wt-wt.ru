@@ -680,7 +680,7 @@ local generateBulletsTextFunction = function(countWatched, secondsWatched) {
         str += " (" + countWatched.value + ")"
       return str
     }
-    else if (countWatched.value > 0)
+    else if (countWatched.value >= 0)
       return countWatched.value
     else
       return ""

@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = ::require("scripts/user/avatars.nut")
+local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
@@ -11,6 +12,8 @@ enum OwnUnitsType
   ALL = "all",
   BOUGHT = "only_bought",
 }
+
+local selMedalIdx = {}
 
 function gui_start_profile(params = {})
 {
@@ -51,6 +54,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   customMenuTabs = null
 
   curPage = ""
+  isPageFilling = false
 
   unlockTypesToShow = [
     ::UNLOCKABLE_ACHIEVEMENT,
@@ -130,22 +134,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
           return (country != "")? country : null
         })
 
-      unlockFilters.UnlockSkin = []
-      foreach(c in skinCountries)
-        unlockFilters.UnlockSkin.append(c)
+      unlockFilters.UnlockSkin = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, skinCountries))
     }
 
-    //fill skins filters
+    //fill medal filters
     if ("Medal" in unlockFilters)
     {
-      local countries = getUnlockFiltersList("medal", function(unlock)
-        {
-          return unlock.country
-        })
-
-      unlockFilters.Medal = []
-      foreach(c in countries)
-        unlockFilters.Medal.append(c)
+      local medalCountries = getUnlockFiltersList("medal", @(unlock) unlock.country)
+      unlockFilters.Medal = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, medalCountries))
     }
 
     initLeaderboardModes()
@@ -340,7 +336,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local view = { items = [] }
       foreach (idx, filter in unlockFilters[sheet])
       {
-        if ((sheet == "Medal" || sheet == "UnlockDecal") && filter == selCategory)
+        if (filter == selCategory)
           selIdx = idx
 
         view.items.append({
@@ -613,11 +609,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function fillUnlocksList()
   {
+    isPageFilling = true
+
     guiScene.setUpdatesEnabled(false, false)
     local data = ""
     local lowerCurPage = curPage.tolower()
     local pageTypeId = ::get_unlock_type(lowerCurPage)
     local iconsListStyle = pageTypeId == ::UNLOCKABLE_MEDAL || pageTypeId == ::UNLOCKABLE_DECAL
+    local isNeedDecalDesc = pageTypeId == ::UNLOCKABLE_MEDAL
     unlocksTree = {}
 
     local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(pageTypeId)
@@ -632,6 +631,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       data = ::handyman.renderCached("gui/commonParts/imgFrame", view)
     }
 
+    showSceneBtn("decal_info", isNeedDecalDesc)
     local unlocksObj = scene.findObject(iconsListStyle ? "decals_zone" : "unlocks_group_list")
     local curIndex = 0
     local isAchievementPage = lowerCurPage == "achievement"
@@ -665,11 +665,20 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     guiScene.replaceContentFromText(unlocksObj, data, data.len(), this)
     guiScene.setUpdatesEnabled(true, true)
 
-    if (unlocksObj.childrenCount() > 0)
-      unlocksObj.setValue(curIndex)
+    if (pageTypeId == ::UNLOCKABLE_MEDAL)
+      curIndex = selMedalIdx?[curFilter] ?? 0
+
+    local total = unlocksObj.childrenCount()
+    curIndex = total ? ::clamp(curIndex, 0, total - 1) : -1
+    unlocksObj.setValue(curIndex)
 
     collapse()
-    onUnlockSelect(null)
+    if (isNeedDecalDesc)
+      onDecalSelect(unlocksObj)
+    else
+      onUnlockSelect(null)
+
+    isPageFilling = false
   }
 
   function getSkinsMarkup()
@@ -745,9 +754,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (pageTypeId == ::UNLOCKABLE_MEDAL)
         items.append({
           id = name
+          tag = "imgSelectable"
           tooltipId = ::g_tooltip.getIdUnlock(name, { showProgress = true, needTitle = false })
           unlocked = ::is_unlocked_scripted(unlockTypeId, name)
           image = ::get_image_for_unlockable_medal(name)
+          imgClass = "smallMedals"
+          focusBorder = true
         })
     }
     return items;
@@ -784,6 +796,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
           unlocked = decorator.isUnlocked()
           image = decoratorType.getImage(decorator)
           imgRatio = decoratorType.getRatio(decorator)
+          backlight = true
         })
       }
     }
@@ -898,32 +911,68 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function fillSkinInfoObj(page_id, name, unlockBlk, infoObj)
   {
-    guiScene.replaceContentFromText(infoObj, "", 0, this)
-
     local decoratorType = ::g_decorator_type.SKINS
-    local isUnlocked = decoratorType.isPlayerHaveDecorator(name)
-
+    local decorator = ::g_decorator.getDecoratorById(name)
+    local isAllowed = decoratorType.isPlayerHaveDecorator(name)
     local config = {}
+    local isNotUnlock = false
+    local price = ""
     if (unlockBlk)
     {
       config = ::build_conditions_config(unlockBlk)
       ::build_unlock_desc(config)
     }
-    else // unlockBlk is null for skins without unlock
+    else
     {
+      local desc = decorator.getDesc()
+      if (::getTblValue("isRevenueShare", config))
+        desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
+
+      desc += (desc.len() ? "\n\n" : "") + decorator.getTypeDesc()
+      local paramsDesc = decorator.getLocParamsDesc()
+      if (paramsDesc != "")
+        desc += (desc.len() ? "\n" : "") + paramsDesc
+
+      local restricionsDesc = decorator.getRestrictionsDesc()
+      if (restricionsDesc.len())
+        desc += (desc.len() ? "\n" : "") + restricionsDesc
+
+      if (getUnitBySkin(name)?.isTank?())
+      {
+        local mask = skinLocations.getSkinLocationsMaskBySkinId(name, false)
+        local locations = mask ? skinLocations.getLocationsLoc(mask) : []
+        if (locations.len())
+          desc += (desc.len() ? "\n" : "") + ::loc("camouflage/for_environment_conditions") +
+            ::loc("ui/colon") + ::g_string.implode(locations, ", ")
+      }
+
+      local tags = decorator.getTagsLoc()
+      if (tags.len())
+      {
+        tags = ::u.map(tags, @(txt) ::colorize("activeTextColor", txt))
+        desc += (desc.len() ? "\n\n" : "") + ::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tags, ::loc("ui/comma"))
+      }
+
       config = ::get_empty_conditions_config()
-      local decorator = ::g_decorator.getDecoratorById(name)
       config.image = decoratorType.getImage(decorator)
       config.imgRatio = decoratorType.getRatio(decorator)
+      config.text = desc
+
+      if (!isAllowed)
+      {
+        local cost = decorator.getCost()
+        if (!cost.isZero())
+        {
+          isNotUnlock = true
+          price = ::loc("ugm/price") + ::loc("ui/colon") + ::colorize("white", cost.getTextAccordingToBalance()) +
+            "\n" + ::loc("shop/object/can_be_purchased")
+        }
+      }
     }
 
-    if (config.image != "")
-        append_big_icon(config.image, infoObj, isUnlocked, config.imgRatio, false)
+    local condView = []
+    append_condition_item(config, 0, condView, true, isAllowed)
 
-    if (!unlockBlk)
-      return
-
-    append_condition_item(config, 0, infoObj, true, isUnlocked)
     if ("shortText" in config)
       for(local i=0; i<config.stages.len(); i++)  //stages of challenge
       {
@@ -934,11 +983,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
           local isUnlockedStage = curValStage >= stage.val
           append_condition_item({
               text = config.progressText //do not show description for stages
-              image = config.image
               curVal = curValStage
               maxVal = stage.val
             },
-            i+1, infoObj, false, isUnlockedStage)
+            i+1, condView, false, isUnlockedStage)
         }
       }
 
@@ -950,57 +998,50 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local isPartUnlocked = config.curVal & 1 << i
       append_condition_item({
             text = namesLoc[i]
-            image = "" //isPartUnlocked? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
             curVal = 0
             maxVal = 0
           },
-          i+1, infoObj, false, isPartUnlocked, i > 0 && typeOR)
+          i+1, condView, false, isPartUnlocked, i > 0 && typeOR)
     }
+
+    local skinView = {skinDescription = []}
+    skinView.skinDescription.append({
+      image = config.image
+      height = config.imgRatio +"w"
+      width = config.imgRatio + "h"
+      status = isAllowed ? "unlocked" : "locked"
+      condition = condView
+      isNotUnlock = isNotUnlock
+      price = price
+    })
+
+    local markUpData = ::handyman.renderCached("gui/profileSkins", skinView)
+    guiScene.replaceContentFromText(infoObj, markUpData, markUpData.len(), this)
   }
 
-  function append_condition_item(item, idx, obj, header, is_unlocked, typeOR = false)
+  function append_condition_item(item, idx, view, header, is_unlocked, typeOR = false)
   {
-    local txtName = "unlock_txt_" + idx
-    local data = ::format("textarea { id:t='%s'; text:t='' } \n %s \n",
-                     txtName, (("image" in item) && (item.image!=""))? "" : "unlockImg{}")
-
-    data += format("unlocked:t='%s'; ", is_unlocked ? "yes" : "no")
-
     local curVal = item.curVal
     local maxVal = item.maxVal
     local showStages = ("stages" in item) && (item.stages.len() > 1)
 
-    //progressbar
-    if ("getProgressBarData" in item)
-    {
-      local progressData = item.getProgressBarData()
-      if (progressData.show)
-        data += " challengeDescriptionProgress { id:t='progress' value:t='" + progressData.value + "'}"
-    }
-
-    if (header)
-      data = "unlockConditionHeader { " + data + "}"
-    else
-      data = "unlockCondition { " + data + "}"
-
-    guiScene.appendWithBlk(obj, data, this)
-
     local unlockDesc = typeOR ? ::loc("hints/shortcut_separator") + "\n" : ""
-    unlockDesc += format(item.text, curVal, maxVal)
+    unlockDesc += item.text.find("%d") != null ? format(item.text, curVal, maxVal) : item.text
     if (showStages && item.curStage >= 0)
        unlockDesc += ::g_unlock_view.getRewardText (item, item.curStage)
 
-    obj.findObject(txtName).setValue(unlockDesc)
-  }
+    local progressData = item?.getProgressBarData?()
+    local hasProgress = progressData?.show
+    local progress = progressData?.value
 
-  function append_big_icon(img, obj, isUnlocked, ratio, doubleSize=false)
-  {
-    local data = ::format("bigMedalPlace { double:t='%s'; " +
-                            "bigMedalImg { background-image:t='%s'; %s status:t='%s' } " +
-                          "}\n",
-                          doubleSize? "yes":"no",
-                          img, getRatioText(ratio), isUnlocked? "unlocked" : "locked")
-    guiScene.appendWithBlk(obj, data, this)
+    view.append({
+      isHeader = header
+      id = "unlock_txt_" + idx
+      unlocked = is_unlocked ? "yes" : "no"
+      text = unlockDesc
+      hasProgress = hasProgress
+      progress = progress
+    })
   }
 
   function unlockToFavorites(obj)
@@ -1140,11 +1181,57 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     local unlockBlk = ::g_unlocks.getUnlockById(name)
     fillSkinInfoObj("skin", name, unlockBlk, scene.findObject("item_field"))
-    scene.findObject("checkbox-favorites").show(!!unlockBlk)
+    objDesc.findObject("checkbox-favorites").show(!!unlockBlk)
     if (unlockBlk)
       ::g_unlock_view.fillUnlockFav(name, objDesc)
 
     showSceneBtn("unlocks_list", false)
+
+    guiScene.setUpdatesEnabled(true, true)
+  }
+
+  function onDecalSelect(obj)
+  {
+    if (!::check_obj(obj))
+      return
+
+    local idx = obj.getValue()
+    local itemObj = idx >= 0 && idx < obj.childrenCount() ? obj.getChild(idx) : null
+    local name = ::check_obj(itemObj) && itemObj.id
+    local unlock = name && ::g_unlocks.getUnlockById(name)
+    if (!unlock)
+      return
+
+    local containerObj = scene.findObject("decal_info")
+    local descObj = check_obj(containerObj) && containerObj.findObject("decal_desc")
+    if (!::check_obj(descObj))
+      return
+
+    if (!isPageFilling)
+      selMedalIdx[curFilter] <- idx
+
+    guiScene.setUpdatesEnabled(false, false)
+
+    local isUnlocked = ::is_unlocked_scripted(::get_unlock_type_by_id(name), name)
+    local config = ::build_conditions_config(unlock)
+    ::build_unlock_desc(config)
+
+    local condView = []
+    append_condition_item(config, 0, condView, true, isUnlocked)
+
+    ::showBtn("checkbox-favorites", true, containerObj)
+    ::g_unlock_view.fillUnlockFav(name, containerObj)
+    showSceneBtn("unlocks_list", false)
+
+    local view = {
+      title = ::loc(name + "/name")
+      image = ::get_image_for_unlockable_medal(name, true)
+      status = isUnlocked ? "unlocked" : "locked"
+      condition = condView
+    }
+
+    local markup = ::handyman.renderCached("gui/profile/profileMedal", view)
+    guiScene.replaceContentFromText(descObj, markup, markup.len(), this)
 
     guiScene.setUpdatesEnabled(true, true)
   }
@@ -1516,6 +1603,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   function getMainFocusObj2()
   {
     local curSheet = getCurSheet()
+    if (curSheet == "Medal")
+      return getObj("decals_zone")
     if (curSheet == "UnlockSkin")
       return getObj("pages_list")
     return base.getMainFocusObj2()

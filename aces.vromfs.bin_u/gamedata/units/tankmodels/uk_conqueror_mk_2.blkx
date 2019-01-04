@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -143,7 +146,8 @@
           "armorThickness": 17.0
         },
         "superstructure_side_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 20.0,
+          "hidableInViewer": true
         }
       },
       "turret": {
@@ -303,6 +307,7 @@
       "additional_armor": {
         "armorClass": "RHA_tank",
         "hp": 1000.0,
+        "hidableInViewer": true,
         "ex_armor_body_01_dm": {
           "armorThickness": 15.0
         },
@@ -563,6 +568,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

@@ -310,5 +310,5 @@
 ::g_script_reloader.registerPersistentDataFromRoot("g_xbox_squad_manager")
 ::subscribe_handler(::g_xbox_squad_manager, ::g_listener_priority.DEFAULT_HANDLER)
 
-::xbox_update_warthunder_squad <- @(xboxIdsList) ::g_xbox_squad_manager.updateSquadList.call(::g_xbox_squad_manager, xboxIdsList)
+::xbox_update_squad <- @(xboxIdsList) ::g_xbox_squad_manager.updateSquadList.call(::g_xbox_squad_manager, xboxIdsList)
 ::xbox_on_invite_accepted <- @() ::broadcastEvent("XboxInviteAccepted")

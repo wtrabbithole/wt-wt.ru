@@ -42,7 +42,7 @@ local getPlayerCardInfoTable = function(uid, name)
 
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
 local showPrivacySettingsRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableOnlinePrivacy"))
-local showCrossPlayRestrictionPopup = @() ::g_popups.add(null, ::colorize("warningTextColor", ::loc("xbox/crossPlayRequired")))
+local showCrossPlayRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
 local showXboxFriendOnlySquadInvitePopup = @() ::g_popups.add(null, ::loc("squad/xbox/friendsOnly"))
 local showXboxSquadInviteOnlyOnlinePopup = @() ::g_popups.add(null, ::loc("squad/xbox/onlineOnly"))
 local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = platformModule.getPlayerName(playerName)}))
@@ -350,8 +350,21 @@ local getActions = function(contact, params)
       local inviteMenu = ::g_chat.generateInviteMenu(name)
       actions.append({
         text = ::loc("chat/invite_to_room")
+        isVisualDisabled = !canInteract || !canInteractCrossConsole || !canInteractCrossPlatform
         show = inviteMenu && inviteMenu.len() > 0
-        action = @() ::open_invite_menu(inviteMenu, params?.position)
+        action = function() {
+          if (!canInteractCrossConsole)
+            showNotAvailableActionPopup()
+          else if (!canInteractCrossPlatform)
+            showCrossPlayRestrictionPopup()
+          else if (!canInteract)
+          {
+            platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
+            showPrivacySettingsRestrictionPopup()
+          }
+          else
+            ::open_invite_menu(inviteMenu, params?.position)
+        }
       })
     }
 

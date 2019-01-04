@@ -132,15 +132,94 @@
           "comparasion_func": "equal"
         }
       },
-      "actions": {
-        "comment": {
-          "value": "завершаем шаблон"
+      "actions": [
+        {
+          "comment": {
+            "value": "завершаем шаблон"
+          }
         },
-        "varSetBool": {
-          "value": false,
-          "var": "ad_is_template_active"
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "ad_is_template_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "запрещаем генерацию этого-же шаблона на 5 минут"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "ad_is_launch_alowed"
+          }
+        },
+        {
+          "wait": {
+            "time": 300.0
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "ad_is_launch_alowed"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "запускаем цикл дальше"
+        },
+        "triggerEnable": {
+          "target": "ad_search_zone_rotator"
+        }
+      }
+    },
+    "ad_safe_end": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
         }
       },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ad_search_in_progress",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "завершаем шаблон"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "ad_is_template_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "не запрещаем генерацию этого-же шаблона на 5 минут"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "ad_is_launch_alowed"
+          }
+        }
+      ],
       "else_actions": {
         "comment": {
           "value": "запускаем цикл дальше"
@@ -385,7 +464,7 @@
           "value": "не получилось ничего найти"
         },
         "triggerEnable": {
-          "target": "ad_end"
+          "target": "ad_safe_end"
         }
       }
     },
@@ -653,8 +732,13 @@
           }
         },
         {
-          "triggerEnable": {
+          "__triggerEnable": {
             "target": "ad_search_zone_left_exist"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_search_battle_restart"
           }
         }
       ],
@@ -1704,6 +1788,32 @@
         },
         {
           "comment": {
+            "value": "получаем значение армии текущей зоны"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "ad_heat_cur_army_var_name",
+            "input_var": "ad_zone_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_state",
+            "digits": 0,
+            "var": "ad_heat_cur_army_var_name"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "ad_heat_cur_army",
+            "input_var": "@ad_heat_cur_army_var_name"
+          }
+        },
+        {
+          "comment": {
             "value": "прячем зону"
           }
         },
@@ -1748,8 +1858,18 @@
           }
         },
         {
-          "triggerEnable": {
+          "__triggerEnable": {
             "target": "ad_battle_fill"
+          }
+        },
+        {
+          "comment": {
+            "value": "выставляем heat зоны"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_heat_t1_change"
           }
         }
       ],
@@ -1815,6 +1935,32 @@
         },
         {
           "comment": {
+            "value": "получаем значение армии текущей зоны"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "ad_heat_cur_army_var_name",
+            "input_var": "ad_zone_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_state",
+            "digits": 0,
+            "var": "ad_heat_cur_army_var_name"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "ad_heat_cur_army",
+            "input_var": "@ad_heat_cur_army_var_name"
+          }
+        },
+        {
+          "comment": {
             "value": "прячем зону"
           }
         },
@@ -1859,8 +2005,13 @@
           }
         },
         {
-          "triggerEnable": {
+          "__triggerEnable": {
             "target": "ad_battle_fill"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_heat_t2_change"
           }
         }
       ],
@@ -2090,6 +2241,493 @@
         }
       ],
       "else_actions": []
+    },
+    "ad_heat_t1_change": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "ad_heat_cur_army",
+          "value": 1,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "текущая зона принадлежит команде 1 атакуем с нее"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем переменную, хранящую heat"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "flt_area_",
+            "var": "ad_t1_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_zone_01_idx",
+            "digits": 2,
+            "var": "ad_t1_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_heat",
+            "digits": 0,
+            "var": "ad_t1_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "выставляем heat 10.000 для команды А"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 10000,
+            "var": "@ad_t1_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "завершаем шаблон"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_end"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "текщая зона принадлежит команде 2, атакуем со второй"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем переменную, хранящую heat"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "flt_area_",
+            "var": "ad_t1_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_zone_02_idx",
+            "digits": 2,
+            "var": "ad_t1_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_heat",
+            "digits": 0,
+            "var": "ad_t1_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "выставляем heat 10.000 для команды А"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 10000,
+            "var": "@ad_t1_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "завершаем шаблон"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_end"
+          }
+        }
+      ]
+    },
+    "ad_heat_t2_change": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "ad_heat_cur_army",
+          "value": 2,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "текущая зона принадлежит команде 2 атакуем с нее"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем переменную, хранящую heat"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "flt_area_",
+            "var": "ad_t2_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_zone_01_idx",
+            "digits": 2,
+            "var": "ad_t2_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_heat",
+            "digits": 0,
+            "var": "ad_t2_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "выставляем heat 20.000 для команды Б"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 20000,
+            "var": "@ad_t2_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "завершаем шаблон"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_end"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "текщая зона принадлежит команде 1, атакуем со второй"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем переменную, хранящую heat"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "flt_area_",
+            "var": "ad_t2_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_zone_02_idx",
+            "digits": 2,
+            "var": "ad_t2_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_heat",
+            "digits": 0,
+            "var": "ad_t2_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "выставляем heat 20.000 для команды Б"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 20000,
+            "var": "@ad_t2_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "завершаем шаблон"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_end"
+          }
+        }
+      ]
+    },
+    "ad_search_battle_restart": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "comment": {
+            "value": "ищем битву"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "ad_search_battle_idx"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_search_battle_rotator"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "ad_search_battle_rotator": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "ad_search_battle_idx",
+          "value": 3,
+          "comparasion_func": "less"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "индекс в диапазоне"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "ad_search_battle_idx"
+          }
+        },
+        {
+          "comment": {
+            "value": "ищем _from"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "lbt_battle_",
+            "var": "ad_search_battle_from_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_battle_idx",
+            "digits": 2,
+            "var": "ad_search_battle_from_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_from_name",
+            "digits": 0,
+            "var": "ad_search_battle_from_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "ищем_to"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "lbt_battle_",
+            "var": "ad_search_battle_to_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_battle_idx",
+            "digits": 2,
+            "var": "ad_search_battle_to_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_to_name",
+            "digits": 0,
+            "var": "ad_search_battle_to_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем переменную в которой хранится heat"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "flt_area_",
+            "var": "ad_search_battle_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ad_search_battle_idx",
+            "digits": 2,
+            "var": "ad_search_battle_heat_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_heat",
+            "digits": 0,
+            "var": "ad_search_battle_heat_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем соответсвие"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ad_search_battle_check"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "поиск закончился, а зона не совпадает с боевой"
+        },
+        "triggerEnable": {
+          "target": "ad_search_zone_left_exist"
+        }
+      }
+    },
+    "ad_search_battle_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "varCompareInt": {
+            "var_value": "ad_search_cur_idx",
+            "value": 0,
+            "comparasion_func": "notEqual",
+            "var_value_other": "@ad_search_battle_from_var_name"
+          }
+        },
+        {
+          "varCompareInt": {
+            "var_value": "ad_search_cur_idx",
+            "value": 0,
+            "comparasion_func": "notEqual",
+            "var_value_other": "@ad_search_battle_to_var_name"
+          }
+        },
+        {
+          "varCompareInt": {
+            "var_value": "@ad_search_battle_heat_var_name",
+            "value": 10000,
+            "comparasion_func": "notEqual"
+          }
+        },
+        {
+          "varCompareInt": {
+            "var_value": "@ad_search_battle_heat_var_name",
+            "value": 20000,
+            "comparasion_func": "notEqual"
+          }
+        }
+      ],
+      "actions": {
+        "comment": {
+          "value": "зона не эквивалента. идем дальше по циклу"
+        },
+        "triggerEnable": {
+          "target": "ad_search_battle_rotator"
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "одна из зон связана сбитвой. ищем другую зону"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "ad_search_in_progress"
+        },
+        "triggerEnable": {
+          "target": "ad_search_zone_rotator"
+        }
+      }
     }
   },
   "mission_objectives": {
@@ -2159,7 +2797,15 @@
     "ad_attack_to_idx": 0,
     "ad_who_attack": 0,
     "ad_search_in_progress": false,
-    "ad_search_temp_idx": 0
+    "ad_search_temp_idx": 0,
+    "ad_t1_heat_var_name": "",
+    "ad_t2_heat_var_name": "",
+    "ad_heat_cur_army": 0,
+    "ad_heat_cur_army_var_name": "",
+    "ad_search_battle_idx": 0,
+    "ad_search_battle_to_var_name": "",
+    "ad_search_battle_from_var_name": "",
+    "ad_search_battle_heat_var_name": ""
   },
   "dialogs": [],
   "airfields": [],

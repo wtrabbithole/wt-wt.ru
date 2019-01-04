@@ -425,28 +425,13 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local event = getGameModeEvent(gameMode)
-    if (isCrossPlayEventAvailable(event))
+    if (!isCrossPlayEventAvailable(event))
     {
-      performGameModeSelect(gameMode)
+      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
       return
     }
 
-    restoreFromModal = true
-    ::scene_msg_box("xbox_cross_play",
-      guiScene,
-      ::loc("xbox/login/crossPlayRequest") +
-        "\n" +
-        ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
-      [
-        ["yes", ::Callback(@() onChangeCrossPlayValue(true, gameMode), this) ],
-        ["no", ::Callback(@() onChangeCrossPlayValue(false, gameMode), this) ],
-        ["cancel", @() null ]
-      ],
-      "yes",
-      {
-        cancel_fn = @() null
-      }
-    )
+    performGameModeSelect(gameMode)
   }
 
   function performGameModeSelect(gameMode)
@@ -457,18 +442,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       ::game_mode_manager.setCurrentGameModeById(gameMode.id, true)
 
     goBack()
-  }
-
-  function onChangeCrossPlayValue(enable, gameMode)
-  {
-    if (enable != crossplayModule.isCrossPlayEnabled())
-    {
-      crossplayModule.setIsCrossPlayEnabled(enable)
-      doWhenActiveOnce("updateContent")
-    }
-
-    if (enable)
-      performGameModeSelect(gameMode)
   }
 
   function markGameModeSeen(obj)
@@ -757,4 +730,5 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWWLoadOperation(p) { doWhenActiveOnce("updateContent") }
   function onEventWWStopWorldWar(p) { doWhenActiveOnce("updateContent") }
   function onEventWWGlobalStatusChanged(p) { doWhenActiveOnce("updateContent") }
+  function onEventXboxSystemUIReturn(p) { doWhenActiveOnce("updateContent") }
 }

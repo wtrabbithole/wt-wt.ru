@@ -1790,10 +1790,10 @@
           "hp": 2000.0
         },
         "bridge_dm": {
-          "hp": 2000.0
+          "hp": 248.0
         },
         "radio_station_dm": {
-          "hp": 2000.0
+          "hp": 200.0
         }
       },
       "superstructures": {
@@ -1977,6 +1977,7 @@
       "hull_armor": {
         "armorThickness": 15.0,
         "armorClass": "ship_structural_steel",
+        "stopChanceOnDeadPart": 1.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -2151,8 +2152,8 @@
         "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_fuel_tank",
         "genericDamageMult": 1.0,
-        "shatterDamageMult": 1.5,
-        "explosionDamageMult": 1.6,
+        "shatterDamageMult": 0.7,
+        "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 0.8,
         "fuel_tank_01_dm": {
           "hp": 1000.0
@@ -2174,10 +2175,10 @@
         "shatterDamageMult": 1.5,
         "secondaryShatterDamageMult": 1.0,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 517.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 500.0
+          "hp": 725.0
         }
       },
       "depth_charges": {
@@ -2235,7 +2236,7 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 7
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -2250,12 +2251,12 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 12
+        "crew": 13
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 12
+        "crew": 13
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
@@ -2270,7 +2271,7 @@
       "sailor8": {
         "dmPart": "compartment_07_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 7
       },
       "sailor9": {
         "dmPart": "main_caliber_turret_01_dm",
@@ -2293,24 +2294,34 @@
         "crew": 7
       },
       "sailor13": {
+        "dmPart": "auxiliary_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor14": {
+        "dmPart": "auxiliary_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor15": {
         "dmPart": "tt_01_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor14": {
+      "sailor16": {
         "dmPart": "tt_02_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor15": {
+      "sailor17": {
         "dmPart": "tt_03_dm",
         "role": "sailor",
         "crew": 5
       },
-      "sailor16": {
+      "sailor18": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 4
       }
     }
   },
@@ -2519,14 +2530,14 @@
           },
           {
             "onKill": {
-              "expl": 0.1,
+              "expl": 0.03,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.05,
+              "expl": 0.01,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -2534,7 +2545,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.25,
+              "expl": 0.04,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -2542,8 +2553,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "damage": 350.0,
+              "expl": 0.1,
+              "damage": 500.0,
               "fHitCritical": false
             }
           }
@@ -4412,12 +4423,16 @@
       "102mm_ussr_navy_HE": [],
       "102mm_ussr_navy_shrapnel": [],
       "102mm_ussr_navy_shrapnel_ammo_pack": [],
-      "45mm_naval_ussr_HE": [],
-      "45mm_naval_ussr_AP": [],
-      "45mm_naval_ussr_AP_ammo_pack": [],
-      "45mm_naval_ussr_HE_base_fuse": [],
-      "45mm_naval_ussr_HE_base_fuse_ammo_pack": {
-        "reqModification": "45mm_naval_ussr_AP_ammo_pack"
+      "45mm_ussr_21k_naval_he": [],
+      "45mm_ussr_21k_o240_naval_he": [],
+      "45mm_ussr_21k_o240_naval_he_ammo_pack": [],
+      "45mm_ussr_21k_naval_ap": [],
+      "45mm_ussr_21k_naval_ap_ammo_pack": {
+        "reqModification": "45mm_ussr_21k_o240_naval_he_ammo_pack"
+      },
+      "45mm_ussr_21k_naval_base_fuse_he": [],
+      "45mm_ussr_21k_naval_base_fuse_he_ammo_pack": {
+        "reqModification": "45mm_ussr_21k_naval_ap_ammo_pack"
       },
       "manual_ship_extinguisher": [],
       "ship_tool_kit": [],
@@ -4481,7 +4496,7 @@
       "torpedoes_movement_mode": {
         "effects": {
           "distToLive": 3000.0,
-          "maxSpeedInWater": -4.63
+          "maxSpeedInWater": -4.64
         }
       }
     }
@@ -5099,18 +5114,31 @@
   },
   {
     "ammoStowages": {
-      "ammo1": {
-        "weaponTrigger": "gunner0",
-        "shells": {
-          "fatalFire": false,
-          "fatalExplosion": true,
-          "explosionEvent": "ammo_explosion_1",
-          "fireEvent": "ammo_fire_1",
-          "ammunition_storage_01_dm": {
-            "count": 160
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "weaponTrigger": "gunner6"
+        },
+        {
+          "weaponTrigger": "gunner7"
+        },
+        {
+          "shells": {
+            "fatalFire": false,
+            "fatalExplosion": true,
+            "explosionEvent": "ammo_explosion_1",
+            "fireEvent": "ammo_fire_1",
+            "ammunition_storage_01_dm": {
+              "count": 4660
+            }
           }
         }
-      },
+      ],
       "ammo2": [
         {
           "weaponTrigger": "gunner1"
@@ -5122,13 +5150,16 @@
           "weaponTrigger": "gunner3"
         },
         {
+          "weaponTrigger": "gunner5"
+        },
+        {
           "shells": {
             "fatalFire": false,
             "fatalExplosion": true,
             "explosionEvent": "ammo_explosion_2",
             "fireEvent": "ammo_fire_2",
             "ammunition_storage_02_dm": {
-              "count": 480
+              "count": 800
             }
           }
         }
