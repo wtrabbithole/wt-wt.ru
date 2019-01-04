@@ -405,8 +405,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     local crewsConfig = gatherVisibleCrewsConfig()
     selectedCrewData = calcSelectedCrewData(crewsConfig)
 
-    guiScene.setUpdatesEnabled(false, false);
-
     local isFullSlotbar = crewsConfig.len() > 1
     local hasCountryTopBar = isFullSlotbar && showTopPanel && !singleCountry
     if (hasCountryTopBar)
@@ -452,17 +450,16 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local countriesNestObj = scene.findObject("header_countries")
+    local prevCountriesNestValue = countriesNestObj.getValue()
     if (!countriesNestObj.childrenCount())
     {
       local countriesData = ::handyman.renderCached("gui/slotbar/slotbarCountryItem", countriesView)
       guiScene.replaceContentFromText(countriesNestObj, countriesData, countriesData.len(), this)
-      countriesNestObj.setValue(selCountryIdx)
     }
-    else
-    {
-      countriesNestObj.setValue(selCountryIdx)
-      checkUpdateCountryInScene(selCountryId ?? selCountryIdx)
-    }
+
+    countriesNestObj.setValue(selCountryIdx)
+    if (prevCountriesNestValue == selCountryIdx)
+      onHeaderCountry(countriesNestObj)
 
     if (selectedCrewData)
     {
@@ -474,7 +471,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         })
     }
 
-    guiScene.setUpdatesEnabled(true, true)
     ::slotbar_oninit = false
 
     local countriesNestMaxWidth = ::g_dagui_utils.toPixels(guiScene, "1@slotbarCountriesMaxWidth")

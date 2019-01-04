@@ -1123,8 +1123,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (items[idx].type == weaponsItem.bundle)
     {
-      if (stickBundle)
-        onDropDown(obj)
+      if (stickBundle && ::check_obj(obj))
+        onDropDown(obj.getParent())
       return
     }
     doItemAction(items[idx], fullAction)

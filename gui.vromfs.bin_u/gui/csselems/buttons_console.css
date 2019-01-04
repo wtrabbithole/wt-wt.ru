@@ -871,6 +871,10 @@ top_right_holder {
   position:absolute;
 }
 
+top_right_holder[hasRightIndent=yes] {
+  pos:pw-w -1@buttonCloseHeight-1@frameHeaderPad - 1@framePadding, 1@frameHeaderPad;
+}
+
 top_right_holder[smallIcon=yes] {
   height:1@buttonHeight;
   pos:pw -w -1@buttonHeight-1@frameHeaderPad, 1@frameHeaderPad;

@@ -1439,7 +1439,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   {
     base.onSceneActivate(show)
     scene.enable(show)
-    if (!show)
+    if (show)
+      restoreFocus()
+    else
       destroyGroupChoose()
   }
 
