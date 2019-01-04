@@ -207,12 +207,12 @@
   },
   {
     "Areas": {
-      "WingLeftIn": 0.01,
-      "WingLeftMid": 0.01,
-      "WingLeftOut": 0.01,
-      "WingRightIn": 0.01,
-      "WingRightMid": 0.01,
-      "WingRightOut": 0.01,
+      "WingLeftIn": 0.21,
+      "WingLeftMid": 0.21,
+      "WingLeftOut": 0.21,
+      "WingRightIn": 0.21,
+      "WingRightMid": 0.21,
+      "WingRightOut": 0.21,
       "Aileron": 0.055,
       "Fuselage": 215.0,
       "Stabilizer": 0.8,
@@ -223,7 +223,7 @@
   },
   {
     "Focus": {
-      "FocusOffset": -1.5,
+      "FocusOffset": -0.0,
       "WingVertPos": 0.5,
       "AlphaShift": 0.0,
       "FlapsShift": 0.0,
@@ -918,8 +918,8 @@
         "BladeToShaftTorqueMult": 0.1,
         "FlyBarStabilizationMult": 2.0,
         "FlyBarAngleMax": 45.0,
-        "FlyBarToCylicAxes": 0.01,
-        "ScreenEffectThrustMultMax": 0.8,
+        "FlyBarToCylicAxes": 0.006,
+        "ScreenEffectThrustMultMax": 0.4,
         "ScreenEffectThrustMult10Dist": 16.0
       },
       "Damage": {
@@ -927,9 +927,9 @@
         "DamagedFrictionAccel": 25.0
       },
       "Mass": {
-        "Mass": 350.0,
+        "Mass": 200.0,
         "Diameter": 14.0,
-        "InertiaMomentCoeff": 0.0192
+        "InertiaMomentCoeff": 1.0
       },
       "Governor": {
         "PitchMin": 0.0,
@@ -1015,23 +1015,23 @@
       "Pos": [-8.105,1.88,0.41],
       "Geometry": {
         "RotationDirection": 1,
-        "Radius": 1.5,
+        "Radius": 1.3,
         "NumBlades": 2,
         "BladePitch0": 0.0,
-        "BladeWidth0": 0.1082,
+        "BladeWidth0": 0.182,
         "BladePitch1": 0.0,
-        "BladeWidth1": 0.1082,
+        "BladeWidth1": 0.182,
         "BladePitch2": 0.0,
-        "BladeWidth2": 0.1082,
+        "BladeWidth2": 0.182,
         "BladePitch3": 0.0,
-        "BladeWidth3": 0.1082,
+        "BladeWidth3": 0.182,
         "ForceToBladeAngle": 0.0,
         "Coaxial": false,
         "AirFlowSolver": true,
-        "AirFlow1": [-100.0,120.0,1.0],
-        "AirFlow2": [0.0,0.0,1.0],
-        "AirFlow3": [15.0,0.0,1.0],
-        "RollDamping": [0.0,0.0,165.0,60000.0],
+        "AirFlow1": [-100.0,-10.0,1.0],
+        "AirFlow2": [0.0,-10.0,1.0],
+        "AirFlow3": [15.0,-10.0,1.0],
+        "RollDamping": [50.0,0.0,125.0,50000.0],
         "DampingMultByFlow": [0.0,1.0,30.0,2.0],
         "MultiPoint": true
       },
@@ -1041,12 +1041,12 @@
       },
       "Mass": {
         "Mass": 40.0,
-        "Diameter": 3.6,
-        "InertiaMomentCoeff": 0.0
+        "Diameter": 3.0,
+        "InertiaMomentCoeff": 1.0
       },
       "Governor": {
-        "PitchMin": -35.01,
-        "PitchMax": 20.02,
+        "PitchMin": -25.01,
+        "PitchMax": 18.02,
         "Aoa0": 7.5,
         "PitchCyclicPitchAngles": [0.0,0.0,0.0],
         "PitchCyclicRollAngles": [0.0,0.0,0.0],
@@ -1068,8 +1068,8 @@
         "HasPitchCoaxialDiffControl": false
       },
       "Polar": {
-        "lineClCoeff": 0.11,
-        "Cl0": 0.1,
+        "lineClCoeff": 0.09,
+        "Cl0": 0.0,
         "alphaCritHigh": 20.0,
         "alphaCritLow": -20.0,
         "ClCritHigh": 1.5,
@@ -1131,10 +1131,10 @@
       "Propeller1": 1,
       "PropellerReductor1": 0.22,
       "PropellerPitchSource1": "rudder",
-      "MidAxisPitch1": 0.56,
+      "MidAxisPitch1": 0.45,
       "UseAutoPropInertia": true,
       "EngineAcceleration": 1.0,
-      "ReducedPropellerShaftTorque": false
+      "CorrectPropellerToTransmissionLink": true
     }
   },
   {
@@ -1535,8 +1535,8 @@
         "AltMax": [-10.0,15.0],
         "AltDeadZone": 0.1,
         "AltHoldClimbTreshold": 0.5,
-        "ClimbMinLimByRAltitude": [10.0,-2.0,20.0,-12.0],
-        "ClimbMinLimByHorSpeed": [5.5,-3.0,15.0,-10.0],
+        "ClimbMinLimByRAltitude": [10.0,-2.0,40.0,-12.0],
+        "ClimbMinLimByHorSpeed": [40.0,-3.0,70.0,-12.0],
         "ClimbPID": {
           "Kp": 0.4,
           "Ki": 0.4,

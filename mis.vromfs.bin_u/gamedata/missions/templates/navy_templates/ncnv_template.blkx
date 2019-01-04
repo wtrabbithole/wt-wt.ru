@@ -72,30 +72,356 @@
         "initMission": []
       },
       "conditions": [],
-      "actions": {
-        "varAddString": {
-          "value": "",
-          "digits": 2,
-          "var": "last_waypoint",
-          "input_var": "waypoints_num"
-        },
-        "varSetInt": {
-          "value": 0,
-          "var": "have_to_kill_count",
-          "fromDescriptor": "aiTargetCount"
-        },
-        "triggerEnable": [
-          {
-            "target": "drawTheLineA"
-          },
-          {
-            "target": "ncnv_template_init2"
-          },
-          {
-            "target": "show_first_point"
+      "actions": [
+        {
+          "varAddString": {
+            "value": "",
+            "digits": 2,
+            "var": "last_waypoint",
+            "input_var": "waypoints_num"
           }
-        ]
-      },
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "have_to_kill_count",
+            "fromDescriptor": "aiTargetCount"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "drawTheLineA"
+            },
+            {
+              "target": "ncnv_template_init2"
+            },
+            {
+              "target": "show_first_point"
+            }
+          ]
+        },
+        {
+          "missionMarkAsRespawnPoint": [
+            {
+              "loc_name": "missions/spawn_random"
+            },
+            {
+              "spawnEffect": false
+            },
+            {
+              "isStrictSpawn": false
+            },
+            {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "isAirfield": false
+            },
+            {
+              "isUnit": false
+            },
+            {
+              "useExisting": false
+            },
+            {
+              "isIndividual": true
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "removeAreas": false
+            },
+            {
+              "replaceAreas": false
+            },
+            {
+              "canSpawnOnNeutral": false
+            },
+            {
+              "showOnMap": true
+            },
+            {
+              "radius": -1.0
+            },
+            {
+              "target": "t1_ships_spawn00"
+            },
+            {
+              "target": "t1_ships_spawn01"
+            },
+            {
+              "target": "t1_ships_spawn02"
+            },
+            {
+              "team": "A"
+            },
+            {
+              "tags": {
+                "air": false,
+                "tank": false,
+                "ship": true,
+                "boat": true,
+                "destroyer": false,
+                "light_cruiser": false,
+                "type_gun_boat": true,
+                "type_destroyer": false
+              }
+            }
+          ]
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_01",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "resetStrictSpawnIndex": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "removeAreas": false,
+            "replaceAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "target": "t1_ships_spawn00",
+            "team": "A",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": true,
+              "destroyer": false,
+              "light_cruiser": false,
+              "type_gun_boat": true,
+              "type_destroyer": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_02",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "resetStrictSpawnIndex": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "removeAreas": false,
+            "replaceAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "target": "t1_ships_spawn01",
+            "team": "A",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": true,
+              "destroyer": false,
+              "light_cruiser": false,
+              "type_gun_boat": true,
+              "type_destroyer": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_03",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "resetStrictSpawnIndex": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "removeAreas": false,
+            "replaceAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "target": "t1_ships_spawn02",
+            "team": "A",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": true,
+              "destroyer": false,
+              "light_cruiser": false,
+              "type_gun_boat": true,
+              "type_destroyer": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": [
+            {
+              "loc_name": "missions/spawn_random"
+            },
+            {
+              "spawnEffect": false
+            },
+            {
+              "isStrictSpawn": false
+            },
+            {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "isAirfield": false
+            },
+            {
+              "isUnit": false
+            },
+            {
+              "useExisting": false
+            },
+            {
+              "isIndividual": true
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "removeAreas": false
+            },
+            {
+              "replaceAreas": false
+            },
+            {
+              "canSpawnOnNeutral": false
+            },
+            {
+              "showOnMap": true
+            },
+            {
+              "radius": -1.0
+            },
+            {
+              "target": "t2_ships_spawn00"
+            },
+            {
+              "target": "t2_ships_spawn01"
+            },
+            {
+              "target": "t2_ships_spawn02"
+            },
+            {
+              "team": "B"
+            },
+            {
+              "tags": {
+                "air": false,
+                "tank": false,
+                "ship": true,
+                "boat": true,
+                "destroyer": false,
+                "light_cruiser": false,
+                "type_gun_boat": true,
+                "type_destroyer": false
+              }
+            }
+          ]
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_01",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "resetStrictSpawnIndex": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "removeAreas": false,
+            "replaceAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "target": "t2_ships_spawn00",
+            "team": "B",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": true,
+              "destroyer": false,
+              "light_cruiser": false,
+              "type_gun_boat": true,
+              "type_destroyer": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_02",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "resetStrictSpawnIndex": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "removeAreas": false,
+            "replaceAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "target": "t2_ships_spawn01",
+            "team": "B",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": true,
+              "destroyer": false,
+              "light_cruiser": false,
+              "type_gun_boat": true,
+              "type_destroyer": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_03",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "resetStrictSpawnIndex": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "removeAreas": false,
+            "replaceAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "target": "t2_ships_spawn02",
+            "team": "B",
+            "tags": {
+              "air": false,
+              "tank": false,
+              "ship": true,
+              "boat": true,
+              "destroyer": false,
+              "light_cruiser": false,
+              "type_gun_boat": true,
+              "type_destroyer": false
+            }
+          }
+        }
+      ],
       "else_actions": []
     },
     "ncnv_template_init2": {
@@ -123,7 +449,7 @@
       },
       "else_actions": {
         "varSetInt": {
-          "value": 1,
+          "value": 10,
           "var": "have_to_kill_count"
         },
         "triggerEnable": {
@@ -145,24 +471,23 @@
       "conditions": [],
       "actions": [
         {
-          "unitSetFormation": {
-            "formation_type": "cols",
-            "formation_div": 1,
-            "formation_step": [2.0,2.0],
-            "formation_noise": [0.1,0.0],
-            "object": "convoy_sq",
-            "allUnitsInOneFormation": true
-          }
-        },
-        {
           "unitRespawn": {
             "delay": 0.01,
             "offset": [0.0,0.0,0.0],
             "object": "convoy_sq",
             "object_type": "isInactive",
-            "target": "convoy_starting_point",
-            "resetFormation": true,
+            "target": "convoy_starting_point_sq",
             "randomObjectsCountVar": "have_to_kill_count"
+          }
+        },
+        {
+          "unitSetFormation": {
+            "formation_type": "cols",
+            "formation_div": 3,
+            "formation_step": [7.0,2.5],
+            "formation_noise": [0.2,0.1],
+            "object": "convoy_sq",
+            "allUnitsInOneFormation": true
           }
         },
         {
@@ -183,7 +508,10 @@
             "object_var_comp_op": "equal",
             "object_var_value": 0,
             "object": "convoy_sq",
-            "accuracy": 0.5
+            "targetAir": false,
+            "targetGnd": true,
+            "accuracy": 0.95,
+            "effShootingRate": 0.95
           }
         },
         {
@@ -323,7 +651,7 @@
             "areaNameFrom": "@linePointStr",
             "areaNameTo": "@linPointStr_next",
             "show": true,
-            "colorCode": "Team A",
+            "colorCode": "Team B",
             "scale": 0.5
           }
         },
@@ -357,13 +685,14 @@
           "target_marking": 0,
           "delta": 0,
           "icon": "ship",
-          "icon army": 1,
+          "icon army": 2,
           "set": true,
           "object_var_name": "",
           "object_var_comp_op": "equal",
           "object_var_value": 0,
           "target": "convoy_sq",
-          "var": "have_to_kill_count"
+          "var": "have_to_kill_count",
+          "team": "Both"
         }
       },
       "else_actions": []
@@ -465,22 +794,42 @@
         }
       },
       "conditions": [],
-      "actions": {
-        "gameMPChangeScore": {
-          "value": 0,
-          "valueSystem": "amount",
-          "var": "waypoint_reached_penalty",
-          "team": "B"
+      "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": 0,
+            "valueSystem": "amount",
+            "var": "waypoint_reached_penalty",
+            "team": "A"
+          }
         },
-        "varModify": {
-          "operator": "add",
-          "value": 1.0,
-          "var": "current_waypoint"
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "current_waypoint"
+          }
         },
-        "triggerEnable": {
-          "target": "waypoint_reached_hide_lines"
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "t1_spawnzone_counter"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "t2_spawnzone_counter"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "waypoint_reached_hide_lines"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "waypoint_reached_hide_lines": {
@@ -604,7 +953,7 @@
           "value": -250,
           "valueSystem": "amount",
           "var": "convoy_kill_penalty",
-          "team": "A"
+          "team": "B"
         }
       },
       "else_actions": []
@@ -659,7 +1008,7 @@
         "gameMPChangeScore": {
           "value": -10,
           "valueSystem": "percentage",
-          "team": "A"
+          "team": "B"
         }
       },
       "else_actions": []
@@ -702,7 +1051,7 @@
       "else_actions": []
     },
     "delay_death_bots": {
-      "is_enabled": false,
+      "is_enabled": true,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -730,37 +1079,128 @@
         "unitPutToSleep": {
           "target": "convoy_sq",
           "useForTriggerFiltered": true,
-          "delayForObjects": [5.0,3.0],
+          "delayForObjects": [3.0,0.0],
           "numToSleep": 1,
           "order": "fromStart"
         }
       },
       "else_actions": []
     },
-    "ncnv_objectives_init": {
+    "repair_mobility_parts": {
       "is_enabled": true,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
         "conditionsType": "ALL",
-        "enableAfterComplete": false
+        "enableAfterComplete": true
       },
       "events": {
         "periodicEvent": {
-          "time": 5.0
+          "time": 10.0
         }
       },
       "conditions": [],
       "actions": [
         {
-          "moAddMissionObjective": {
-            "target": "ncnv_convoy_defend"
-          }
+          "unitRestore": [
+            {
+              "ressurectIfDead": false
+            },
+            {
+              "fullRestore": false
+            },
+            {
+              "target": "convoy_sq"
+            },
+            {
+              "partRestore": true
+            },
+            {
+              "tankPart": "engine_dm"
+            },
+            {
+              "tankPart": "engine_01_dm"
+            },
+            {
+              "tankPart": "engine_02_dm"
+            },
+            {
+              "tankPart": "engine_03_dm"
+            },
+            {
+              "tankPart": "engine_04_dm"
+            },
+            {
+              "tankPart": "engine_room_01_dm"
+            },
+            {
+              "tankPart": "engine_room_02_dm"
+            },
+            {
+              "tankPart": "engine_room_03_dm"
+            },
+            {
+              "tankPart": "engine_room_04_dm"
+            },
+            {
+              "power": 0.7
+            }
+          ]
         },
         {
-          "moAddMissionObjective": {
-            "target": "ncnv_convoy_attack"
-          }
+          "unitRestore": [
+            {
+              "ressurectIfDead": false
+            },
+            {
+              "fullRestore": false
+            },
+            {
+              "target": "convoy_sq"
+            },
+            {
+              "partRestore": true
+            },
+            {
+              "tankPart": "transmission_01_dm"
+            },
+            {
+              "tankPart": "transmission_02_dm"
+            },
+            {
+              "tankPart": "transmission_03_dm"
+            },
+            {
+              "tankPart": "transmission_04_dm"
+            },
+            {
+              "tankPart": "steering_gear_01_dm"
+            },
+            {
+              "tankPart": "steering_gear_02_dm"
+            },
+            {
+              "tankPart": "steering_gear_03_dm"
+            },
+            {
+              "tankPart": "steering_gear_04_dm"
+            },
+            {
+              "tankPart": "funnel_01_dm"
+            },
+            {
+              "tankPart": "funnel_02_dm"
+            },
+            {
+              "tankPart": "funnel_03_dm"
+            },
+            {
+              "tankPart": "funnel_04_dm"
+            },
+            {
+              "power": 0.7
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -770,19 +1210,19 @@
     "isCategory": true,
     "is_enabled": true,
     "ncnv_convoy_defend": {
-      "is_enabled": false,
+      "is_enabled": true,
       "comments": "",
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
         "timeLimit": 1800,
-        "team": "A"
+        "team": "B"
       },
       "onSuccess": [],
       "onFailed": []
     },
     "ncnv_convoy_attack": {
-      "is_enabled": false,
+      "is_enabled": true,
       "comments": "",
       "type": "abstractMissionObjective",
       "props": {
@@ -796,7 +1236,7 @@
   },
   "variables": {
     "waypoint_reached_penalty": 0,
-    "have_to_kill_count": 1,
+    "have_to_kill_count": 0,
     "convoy_kill_penalty": 0,
     "kill_count": 0,
     "current_waypoint_str": "convoy_waypoint01",
@@ -805,7 +1245,11 @@
     "last_waypoint": "convoy_waypoint",
     "linePointCount": 1,
     "linePointStr": "",
-    "linPointStr_next": ""
+    "linPointStr_next": "",
+    "t1_spawnzone_name": "t1_ships_spawn00",
+    "t1_spawnzone_counter": 0,
+    "t2_spawnzone_name": "t2_ships_spawn00",
+    "t2_spawnzone_counter": 0
   },
   "dialogs": [],
   "airfields": [],
@@ -818,9 +1262,9 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3372.91]
+          [2590.29,4.48975,-567.132]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
+        "unit_class": "germ_kanonenboot_k2",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -843,7 +1287,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -855,7 +1300,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2224.16,4.48985,3363.35]
+          [2586.41,4.48975,-576.691]
         ],
         "props": [
           {
@@ -916,7 +1361,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3375.19]
+          [2590.29,4.48975,-564.852]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -941,7 +1386,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -953,7 +1399,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3377.47]
+          [2590.29,4.48975,-562.572]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -978,7 +1424,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -990,7 +1437,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3379.76]
+          [2590.29,4.48975,-560.281]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1015,7 +1462,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1027,9 +1475,9 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3382.04]
+          [2590.29,4.48975,-558.001]
         ],
-        "unit_class": "germ_cargo_ship_goldenfels",
+        "unit_class": "germ_rboot_r301",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -1052,7 +1500,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1064,7 +1513,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3384.32]
+          [2590.29,4.48975,-555.721]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1089,7 +1538,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1101,7 +1551,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3386.6]
+          [2590.29,4.48975,-553.441]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1126,7 +1576,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1138,7 +1589,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3388.89]
+          [2590.29,4.48975,-551.152]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1163,7 +1614,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1175,7 +1627,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3391.17]
+          [2590.29,4.48975,-548.872]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1200,7 +1652,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1212,7 +1665,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3393.45]
+          [2590.29,4.48975,-546.592]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1237,7 +1690,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1249,7 +1703,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3395.73]
+          [2590.29,4.48975,-544.312]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1274,7 +1728,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1286,7 +1741,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3398.02]
+          [2590.29,4.48975,-542.021]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1311,7 +1766,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1323,7 +1779,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3400.3]
+          [2590.29,4.48975,-539.741]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1348,7 +1804,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1360,7 +1817,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3402.58]
+          [2590.29,4.48975,-537.461]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1385,7 +1842,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1397,7 +1855,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3404.86]
+          [2590.29,4.48975,-535.181]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1422,7 +1880,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
@@ -1434,7 +1893,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2228.04,4.48985,3407.15]
+          [2590.29,4.48975,-532.892]
         ],
         "unit_class": "germ_cargo_ship_goldenfels",
         "objLayer": 1,
@@ -1459,7 +1918,8 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "isDelayed": true
+          "isDelayed": true,
+          "unitReplacementType": "naval_convoy"
         },
         "way": []
       }
