@@ -133,10 +133,20 @@ local ItemExternal = class extends ::BaseItem
   onItemExpire     = @() ::ItemsManager.refreshExtInventory()
   onTradeAllowed   = @() ::ItemsManager.markInventoryUpdateDelayed()
 
+  function getTimestampfromString(str) {
+    if (str == "")
+      return -1
+
+    local res = to_integer_safe(str, -1, false)
+    if (res < 0)
+      res = time.getTimestampFromIso8601(str) //compatibility with old inventory version
+    return res
+  }
+
   function getExpireTimestamp(itemDefDesc, itemDesc)
   {
-    local tShop = time.getTimestampFromIso8601(itemDefDesc?.expireAt ?? "")
-    local tInv  = time.getTimestampFromIso8601(itemDesc?.expireAt ?? "")
+    local tShop = getTimestampfromString(itemDefDesc?.expireAt ?? "")
+    local tInv  = getTimestampfromString(itemDesc?.expireAt ?? "")
     return (tShop != -1 && (tInv == -1 || tShop < tInv)) ? tShop : tInv
   }
 
