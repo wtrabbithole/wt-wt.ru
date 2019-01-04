@@ -78,7 +78,7 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
   {
     value = editBoxObj.getValue() || ""
     if (isApplyEnabled(value))
-      return goBack()
+      return guiScene.performDelayed(this, goBack)
 
     value = null
   }

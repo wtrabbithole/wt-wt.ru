@@ -2271,6 +2271,35 @@ Button_text > newIconWidget[widgetClass=text] {
   margin-left:-1@buttonTextPadding-1@newWidgetIconImgOffsetX;
 }
 
+Button_text[visualStyle=noBgr] {
+  padding-left:1@buttonHeight+1@buttonTextPadding;
+  behavior:textarea;
+  re-type:textarea;
+  min-height:@buttonHeight;
+  height:0;
+  text-align:center;
+  text-shade:smooth;
+  text-shade-x:1;
+  text-shade-y:1;
+  text-shade-color:#CC000000;
+  background-color: @transparent;
+  border-color:@transparent;
+  reduceMinimalWidth:yes;
+}
+
+Button_text[visualStyle=noBgr] > ButtonImg{
+  pos:1@buttonImgMargin, 50%ph-50%h;
+  height:@buttonHeight;
+}
+
+Button_text[visualStyle=noBgr]:hover {
+  color:@white;
+}
+
+Button_text[visualStyle=noBgr]:pushed {
+  color:@white;
+}
+
 buttonPlayer {
   behavior:button;
   cursor:onButton;

@@ -706,7 +706,7 @@ class ::gui_handlers.RenameReplayHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (afterFunc)
         afterFunc.call(funcOwner, newName);
     }
-    goBack();
+    guiScene.performDelayed(this, goBack);
   }
 
   scene = null

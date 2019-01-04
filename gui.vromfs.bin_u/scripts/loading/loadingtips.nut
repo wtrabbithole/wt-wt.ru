@@ -145,6 +145,8 @@ function g_tips::getDefaultUnitTypeMask()
   }
   else if (::isInArray(gm, [::GM_SINGLE_MISSION, ::GM_CAMPAIGN, ::GM_DYNAMIC, ::GM_BUILDER, ::GM_DOMINATION]))
     res = ::g_unit_type.AIRCRAFT.bit
+  else // keep this check last
+    res = ::get_mission_allowed_unittypes_mask(::get_mission_meta_info(::current_campaign_mission || ""))
 
   return (res & existTipsMask) || existTipsMask
 }

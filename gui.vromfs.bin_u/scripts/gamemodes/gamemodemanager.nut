@@ -236,22 +236,43 @@ class GameModeManager
    * Sets current game mode by id
    * and saves it in user account.
    */
-  function setCurrentGameModeById(id)
+  function setCurrentGameModeById(id, isUserSelected=false)
   {
-    _setCurrentGameModeId(id, true)
+    _setCurrentGameModeId(id, true, isUserSelected)
   }
 
   /**
    * Sets current game mode by index
    * and saves it in user account.
    */
-  function setCurrentGameModeByIndex(index)
+  function setCurrentGameModeByIndex(index, isUserSelected=false)
   {
     if (0 <= index || index < _gameModes.len())
     {
       local gameMode = _gameModes[index]
-      _setCurrentGameModeId(gameMode.id, true)
+      _setCurrentGameModeId(gameMode.id, true, isUserSelected)
     }
+  }
+
+  //
+  // User game mode ID
+  //
+
+  /**
+   * User game mode id getter.
+   */
+  function getUserGameModeId()
+  {
+    return _userGameModeId
+  }
+
+  /**
+   * Sets user game mode  id.
+   */
+
+  function setUserGameModeId(id)
+  {
+    _userGameModeId = id
   }
 
   //
@@ -481,6 +502,7 @@ class GameModeManager
   // Private
   //
 
+  _userGameModeId = null
   _currentGameModeId = null
   _gameModeById = {}
   _gameModes = []
@@ -488,16 +510,21 @@ class GameModeManager
   seenShowingGameModesInited = false
   isSeenByGameModeId = {}
 
-  function _setCurrentGameModeId(id, save)
+  function _setCurrentGameModeId(id, save, isUserSelected=false)
   {
-    if (_currentGameModeId == id || !::events.eventsLoaded)
+    if(!::events.eventsLoaded)
+      return
+
+    if(isUserSelected)
+      _userGameModeId = id
+
+    if(_currentGameModeId == id && !isUserSelected)
       return
 
     _currentGameModeId = id
     if (save)
-    {
       ::saveLocalByAccount("selected_random_battle", _currentGameModeId)
-    }
+
     ::broadcastEvent("CurrentGameModeIdChanged")
   }
 

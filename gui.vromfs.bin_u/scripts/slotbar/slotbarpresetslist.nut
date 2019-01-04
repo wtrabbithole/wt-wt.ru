@@ -161,12 +161,12 @@ class SlotbarPresetsList
     return idx != getCurPresetIdx()
   }
 
-  function applySelect(isSelectedIdx = true)
+  function applySelect()
   {
     if (!::slotbarPresets.canLoad(true, getCurCountry()))
       return update()
 
-    local idx = isSelectedIdx ? getSelPresetIdx() : getCurPresetIdx()
+    local idx = getSelPresetIdx()
     if (idx < 0)
     {
       update()

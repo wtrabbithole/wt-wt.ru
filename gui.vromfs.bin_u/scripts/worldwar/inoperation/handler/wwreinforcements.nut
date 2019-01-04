@@ -95,6 +95,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
 
   function onChangeArmyValue(obj)
   {
+    updateSelectedArmy(false, false)
     if (currentReinforcementName != obj.armyName)
       ::play_gui_sound("ww_reinforcement_select")
 

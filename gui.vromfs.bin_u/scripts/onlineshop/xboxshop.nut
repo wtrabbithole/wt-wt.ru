@@ -254,7 +254,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurSheetItemsList()
   {
-    itemsList = itemsCatalog[curSheet.mediaType]
+    itemsList = itemsCatalog?[curSheet.mediaType] ?? []
   }
 
   function updateSortingList()

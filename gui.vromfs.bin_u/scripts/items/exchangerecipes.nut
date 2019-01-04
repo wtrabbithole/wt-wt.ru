@@ -133,7 +133,7 @@ local ExchangeRecipes = class {
   {
     local list = getItemsListForPrizesView(params)
     local headerFunc = params?.header && @(...) params.header
-    return ::PrizesView.getPrizesListText(list, headerFunc)
+    return ::PrizesView.getPrizesListText(list, headerFunc, false)
   }
 
   function hasAssembleTime()

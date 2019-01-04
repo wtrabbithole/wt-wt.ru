@@ -909,7 +909,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ::showInfoMsgBox(lockedCountryData.reasonText)
     }
     else
+    {
       switchSlotbarCountry(obj, countryData)
+      ::game_mode_manager.setCurrentGameModeById(::slotbarPresets.getPresetsList(countryData.country)[
+                                                   ::slotbarPresets.getCurrent(countryData.country, 0)].gameModeId)
+    }
   }
 
   function switchSlotbarCountry(obj, countryData)
@@ -989,10 +993,10 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     onSlotbarCountryChanged()
   }
 
- function onSlotbarCountryChanged()
+  function onSlotbarCountryChanged()
   {
     if (ownerWeak?.presetsListWeak)
-      ownerWeak.presetsListWeak.applySelect(false)
+      ownerWeak.presetsListWeak.update()
     if (onCountryChanged)
       onCountryChanged()
   }

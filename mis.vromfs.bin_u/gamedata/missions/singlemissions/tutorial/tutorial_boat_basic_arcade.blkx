@@ -28,7 +28,7 @@
       "forceSimulInitialRandomSeed": true,
       "simulInitialRandomSeed": 12,
       "chapter": "tutorial",
-      "reqFeature": "pc_only_events",
+      "reqFeature": "ShipsFirstChoice",
       "gt_mp_tickets": true,
       "gt_mp_capture": true,
       "isLimitedFuel": false,
@@ -4272,6 +4272,16 @@
           ]
         },
         {
+          "unitPutToSleep": [
+            {
+              "target": "target_ship05"
+            },
+            {
+              "target": "buoys_squad"
+            }
+          ]
+        },
+        {
           "wait": {
             "time": 5.0
           }
@@ -5032,6 +5042,16 @@
           "playerOptions": {
             "stateAIGun": 0
           }
+        },
+        {
+          "unitWakeUp": [
+            {
+              "target": "target_ship05"
+            },
+            {
+              "target": "buoys_squad"
+            }
+          ]
         },
         {
           "hudElementShow": {

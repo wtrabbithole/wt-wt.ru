@@ -226,8 +226,8 @@
     {
       "ship": {
         "event": "ship_new_players_battle_coop",
-        "kills": 1,
-        "timePlayed": 150
+        "kills": 3,
+        "timePlayed": 450
       }
     }
   ],
@@ -552,7 +552,8 @@
       "condition": ""
     },
     "ShipsFirstChoice": {
-      "condition": "pc_only_events"
+      "condition": "",
+      "platform_lock": "ps4"
     },
     "ShipsHeroInUserMissions": [
       {
@@ -1649,6 +1650,17 @@
     "DmViewerProtectionAnalysis": {
       "condition": ""
     },
+    "DmViewerExternalArmorHiding": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "DamagedSkinPreview": {
       "condition": ""
     },

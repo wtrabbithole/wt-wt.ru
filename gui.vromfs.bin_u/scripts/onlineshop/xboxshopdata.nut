@@ -52,7 +52,7 @@ local haveItemDiscount = null
     onReceiveCatalogCb()
   onReceiveCatalogCb = null
 
-  ::g_discount.updateXboxShopDiscounts()
+  ::broadcastEvent("XboxShopDataUpdated")
 }
 
 local requestData = function(isSilent = false, cb = null, invSeenList = false)

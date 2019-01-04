@@ -607,6 +607,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     getTooltipContent = function(battleTaskId, params)
     {
       local battleTask = ::g_battle_tasks.getTaskById(battleTaskId)
+      if (!battleTask)
+        return ""
+
       local config = ::g_battle_tasks.generateUnlockConfigByTask(battleTask)
       local view = ::g_battle_tasks.generateItemView(config, { isOnlyInfo = true})
       return ::handyman.renderCached("gui/unlocks/battleTasksItem", {items = [view]})

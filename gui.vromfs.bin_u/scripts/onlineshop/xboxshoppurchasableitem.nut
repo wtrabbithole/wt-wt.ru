@@ -50,7 +50,7 @@ local XboxShopPurchasableItem = class
     isPurchasable = blk.IsPurchasable || false
     isBundle = blk.IsBundle || false
     isPartOfAnyBundle = blk.IsPartOfAnyBundle || false
-    isBought = blk.isBought || false
+    isBought = !!blk.isBought
 
     consumableQuantity = blk.ConsumableQuantity || 0
     signedOffer = blk.SignedOffer || ""

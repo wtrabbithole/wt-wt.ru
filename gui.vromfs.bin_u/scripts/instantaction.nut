@@ -370,6 +370,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function onEventCurrentGameModeIdChanged(params)
   {
     setGameMode(::game_mode_manager.getCurrentGameModeId())
+    updateNoticeGMChanged()
   }
 
   function onEventGameModesUpdated(params)
@@ -487,6 +488,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart()
   {
+    ::game_mode_manager.setUserGameModeId(null)
     determineAndStartAction()
   }
 
@@ -1334,6 +1336,27 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       ], "yes")
 
     tutorialModule.saveShowedTutorial("newUnitTypetoBattle")
+  }
+
+  function updateNoticeGMChanged()
+  {
+    local alertObj = scene.findObject("game_mode_notice")
+    local id = ::game_mode_manager.getUserGameModeId()
+    local gameMode = ::game_mode_manager.getGameModeById(id)
+    local isVisible = id != null &&
+                      id != ::game_mode_manager.getCurrentGameModeId() && gameMode != null
+    if(isVisible)
+      alertObj.setValue(format(::loc("mainmenu/gamemode_change_notice"), gameMode.text))
+    alertObj.show(isVisible)
+  }
+
+  function onGMNoticeClick()
+  {
+    local id = ::game_mode_manager.getUserGameModeId()
+    if(id != null)
+    {
+      ::game_mode_manager.setCurrentGameModeById(id, true)
+    }
   }
 }
 

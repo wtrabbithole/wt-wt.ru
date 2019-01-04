@@ -454,7 +454,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (gameMode.displayType.showInEventsWindow)
       ::gui_start_modal_events({ event = gameMode.id })
     else
-      ::game_mode_manager.setCurrentGameModeById(gameMode.id)
+      ::game_mode_manager.setCurrentGameModeById(gameMode.id, true)
 
     goBack()
   }

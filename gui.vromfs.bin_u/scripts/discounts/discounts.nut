@@ -211,4 +211,9 @@ function g_discount::updateDiscountNotifications(scene = null)
   stObj.show(haveAnyDiscount)
 }
 
+function g_discount::onEventXboxShopDataUpdated(p)
+{
+  updateXboxShopDiscounts()
+}
+
 ::subscribe_handler(::g_discount, ::g_listener_priority.CONFIG_VALIDATION)

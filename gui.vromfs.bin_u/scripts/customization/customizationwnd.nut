@@ -2196,7 +2196,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function goBack()
   {
     ::g_decorator.clearLivePreviewParams()  // clear only when closed by player
-    setDmgSkinMode(false)
+    if (isValid())
+      setDmgSkinMode(false)
     ::hangar_show_model_damaged(MDS_ORIGINAL)
     guiScene.performDelayed(this, base.goBack)
   }
