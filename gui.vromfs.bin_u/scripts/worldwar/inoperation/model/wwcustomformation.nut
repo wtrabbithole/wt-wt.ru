@@ -31,7 +31,7 @@ class ::WwCustomFormation extends ::WwFormation
   {
     local additionalUnits = ::WwUnit.loadUnitsFromBlk(blk.getBlockByName("units"))
     units.extend(additionalUnits)
-    units = ::u.reduce(units, function (unit, memo) {
+    units = units.reduce(function (memo, unit) {
       foreach (unitInMemo in memo)
         if (unitInMemo.name == unit.name)
         {

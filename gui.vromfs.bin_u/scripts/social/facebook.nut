@@ -106,7 +106,7 @@ function on_facebook_upload_finished(path)
     ::current_base_gui_handler.msgBox("facebook_finish_upload_screenshot", ::loc("facebook/successUpload"), [["ok"]], "ok")
 }
 
-function on_facebook_destroy_waitbox()
+function on_facebook_destroy_waitbox(unusedEventParams=null)
 {
   local guiScene = ::get_gui_scene()
   if (!guiScene)
@@ -225,3 +225,5 @@ class ::gui_handlers.facebookMsgModal extends ::gui_handlers.GroupOptionsModal
   owner = null;
   shared = false;
 }
+
+::add_event_listener("DestroyEmbeddedBrowser", on_facebook_destroy_waitbox)

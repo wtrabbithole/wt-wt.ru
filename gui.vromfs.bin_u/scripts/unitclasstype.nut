@@ -163,6 +163,13 @@ enums.addTypesByGlobalName("g_unit_class_type", {
     unitTypeCode = ::ES_UNIT_TYPE_HELICOPTER
     checkOrder = checkOrder++
   }
+
+  CRUISER = {
+    code = ::EUCT_CRUISER
+    name = "cruiser"
+    unitTypeCode = ::ES_UNIT_TYPE_SHIP
+    checkOrder = checkOrder++
+  }
 },
 function()
 {

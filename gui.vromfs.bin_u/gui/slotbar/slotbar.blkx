@@ -1,140 +1,138 @@
 {
   "SlotbarBackground": {
     "id": "slotbar_background",
-    "size": "1@slotbarWidthFull, 1@slotbarHeight + 1@slotbarOffset",
+    "size": "pw, 1@slotbarHeight + 1@slotbarOffset",
     "display": "hide",
     "pos": "50%pw-50%w, 0",
     "position": "absolute",
     "slotbarEdge": {
-      "size": "1@slotbarWidthFull, 1@slotbarHeight",
-      "pos": "0,0",
+      "size": "pw, 1@slotbarHeight",
+      "pos": "0, 0",
       "position": "absolute"
     },
-    "slotbarTop": {
-      "id": "slotbar_buttons_place",
-      "size": "pw, 1@slotbarTop",
-      "pos": "0,-h",
-      "position": "absolute",
-      "display": "hide",
-      "behavior": "Timer",
-      "tdiv": [
-        {
-          "id": "autorefill-settings"
-        },
-        {
-          "pos": "0, 50%ph - 50%h"
-        },
-        {
-          "padding-left": "3@dp"
-        },
-        {
-          "position": "absolute"
-        },
-        {
-          "width": "pw"
-        },
-        {
-          "display": "hide"
-        },
-        {
-          "behavior": "wrapNavigator"
-        },
-        {
-          "navigatorShortcuts": "yes"
-        },
-        {
-          "childsActivate": "yes"
-        },
-        {
-          "on_wrap_up": "onWrapUp"
-        },
-        {
-          "on_wrap_down": "onWrapDown"
-        },
-        {
-          "CheckBox": {
-            "id": "slots-autorepair",
-            "class": "with_image",
-            "tooltip": "#shop/auto_repair",
-            "on_change_value": "onSlotsChangeAutoRefill",
-            "margin-right": "h",
-            "infoImg": {
-              "background-image": "#ui/gameuiskin#slot_repair.svg"
-            },
-            "CheckBoxImg": []
-          }
-        },
-        {
-          "CheckBox": {
-            "id": "slots-autoweapon",
-            "class": "with_image",
-            "tooltip": "#shop/auto_buy_weapons",
-            "on_change_value": "onSlotsChangeAutoRefill",
-            "margin-right": "h",
-            "infoImg": {
-              "background-image": "#ui/gameuiskin#btn_weapons.svg"
-            },
-            "CheckBoxImg": []
+    "slotbarTop": [
+      {
+        "id": "slotbar_buttons_place"
+      },
+      {
+        "size": "pw, 1@slotbarTop"
+      },
+      {
+        "pos": "0,-h"
+      },
+      {
+        "position": "absolute"
+      },
+      {
+        "display": "hide"
+      },
+      {
+        "behavior": "Timer"
+      },
+      {
+        "DummyButton": {
+          "id": "prev_country_btn",
+          "padding": "1@blockInterval, 0",
+          "btnName": "LB",
+          "_on_click": "prevCountry",
+          "ButtonImg": {
+            "class": "independent",
+            "fullSizeIcons": "yes"
           }
         }
-      ]
-    }
-  },
-  "HorizontalListBox": {
-    "id": "slotbar-countries",
-    "pos": "50%pw-50%w, 0",
-    "position": "relative",
-    "useShortcuts": "no",
-    "class": "slotbar",
-    "on_select": "onSlotbarCountry"
-  },
-  "tdiv": [
-    {
-      "id": "slotbar_nav_block"
-    },
-    {
-      "width": "(1@slotbarWidthFull +2@dIco +2@blockInterval) $min @rw"
-    },
-    {
-      "height": "ph"
-    },
-    {
-      "pos": "pw/2-w/2, ph-h"
-    },
-    {
-      "position": "absolute"
-    },
-    {
-      "display": "hide"
-    },
-    {
-      "DummyButton": {
-        "pos": "0, ph-h",
-        "position": "absolute",
-        "btnName": "LB",
-        "_on_click": "prevCountry",
-        "ButtonImg": {
-          "class": "independent",
-          "fullSizeIcons": "yes"
+      },
+      {
+        "HorizontalListBox": {
+          "id": "header_countries",
+          "height": "ph",
+          "class": "header",
+          "normalFont": "yes",
+          "on_select": "onHeaderCountry"
         }
-      }
-    },
-    {
-      "DummyButton": {
-        "pos": "pw-w, ph-h",
-        "position": "absolute",
-        "btnName": "RB",
-        "_on_click": "nextCountry",
-        "ButtonImg": {
-          "class": "independent",
-          "fullSizeIcons": "yes"
+      },
+      {
+        "DummyButton": {
+          "id": "next_country_btn",
+          "padding": "1@blockInterval, 0",
+          "btnName": "RB",
+          "_on_click": "nextCountry",
+          "ButtonImg": {
+            "class": "independent",
+            "fullSizeIcons": "yes"
+          }
         }
+      },
+      {
+        "tdiv": [
+          {
+            "id": "autorefill-settings"
+          },
+          {
+            "left": "pw-w"
+          },
+          {
+            "top": "50%(ph-h)"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "padding-left": "3@dp"
+          },
+          {
+            "display": "hide"
+          },
+          {
+            "behavior": "wrapNavigator"
+          },
+          {
+            "navigatorShortcuts": "yes"
+          },
+          {
+            "childsActivate": "yes"
+          },
+          {
+            "on_wrap_up": "onWrapUp"
+          },
+          {
+            "on_wrap_down": "onWrapDown"
+          },
+          {
+            "CheckBox": {
+              "id": "slots-autorepair",
+              "margin-right": "0.5h",
+              "class": "with_image",
+              "tooltip": "#shop/auto_repair",
+              "on_change_value": "onSlotsChangeAutoRefill",
+              "infoImg": {
+                "background-image": "#ui/gameuiskin#slot_repair.svg"
+              },
+              "CheckBoxImg": []
+            }
+          },
+          {
+            "CheckBox": {
+              "id": "slots-autoweapon",
+              "margin-right": "0.5h",
+              "class": "with_image",
+              "tooltip": "#shop/auto_buy_weapons",
+              "on_change_value": "onSlotsChangeAutoRefill",
+              "infoImg": {
+                "background-image": "#ui/gameuiskin#btn_weapons.svg"
+              },
+              "CheckBoxImg": []
+            }
+          }
+        ]
       }
-    }
-  ],
+    ]
+  },
+  "CountriesCrews": {
+    "id": "countries_crews"
+  },
   "animShow": {
     "id": "slotbar_shade",
-    "size": "1@slotbarWidthFull, 1@slotbarHeight + 1@slotbarOffset + 1@slotbarTop",
+    "size": "pw, 1@slotbarHeight + 1@slotbarOffset + 1@slotbarTop",
     "pos": "50%pw-50%w, -1@slotbarTop",
     "position": "absolute",
     "background-color": "@shadeBackgroundColor",

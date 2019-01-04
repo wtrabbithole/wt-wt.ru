@@ -84,6 +84,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     setDisableSslCertBox(disableSSLCheck)
     showSceneBtn("steam_login_action_button", ::steam_is_running())
+    showSceneBtn("sso_login_action_button", ::webauth_start(this, onSsoAuthorizationComplete))
 
     if (lp.login != "")
       currentFocusItem = 1
@@ -133,6 +134,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onDestroy()
   {
+    ::webauth_stop()
     ::enable_keyboard_layout_change_tracking(false)
     ::enable_keyboard_locks_change_tracking(false)
   }
@@ -447,6 +449,25 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     ::dagor.debug("Steam Login: check_login_pass")
     local result = ::check_login_pass("", "", "steam", "steam", false, false)
     proceedAuthorizationResult(result, "")
+  }
+
+  function onSsoAuthorization()
+  {
+    local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
+    local no_dump_url = ::webauth_get_url(no_dump_login)
+    ::open_url(no_dump_url)
+    ::browser_set_external_url(no_dump_url)
+  }
+
+  function onSsoAuthorizationComplete(params)
+  {
+    ::close_browser_modal()
+
+    if (params.success)
+    {
+      local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
+      continueLogin(no_dump_login);
+    }
   }
 
   function proceedGetTwoStepCode(data)

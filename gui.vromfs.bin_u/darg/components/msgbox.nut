@@ -45,10 +45,15 @@ local function removeByUid(uid) {
 local counter = 0
 local function show(params, styling=defStyling) {
   local self = null
-  local function doClose(button_action) {
+  local function doClose(button_action, isOnEscape = false) {
+    if (isOnEscape && params?.onCancel)
+      if (params.onCancel() && params?.closeByActionsResult)
+        return
+
+    if (button_action && button_action() && params?.closeByActionsResult)
+      return
+
     removeWidget(self)
-    if (button_action)
-      button_action()
     if ("onClose" in params && params.onClose)
       params.onClose()
   }
@@ -94,25 +99,28 @@ local function show(params, styling=defStyling) {
     curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.value.len()) % btnsDesc.value.len())
     ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
   }
+  local function activateCurBtn() {
+    btnsDesc.value[curBtnIdx.value]?.action?() ?? doClose(defCancel?.action, true)
+  }
 
   self = styling.BgOverlay.__merge({
     uid = uid
     cursor = styling.cursor
     stopHotkeys = true
     stopHover = true
-
     children = styling.Root.__merge({
+      key = "msgbox_" + uid
       flow = FLOW_VERTICAL
       halign = HALIGN_CENTER
       children = [
         styling.messageText(params)
         buttonsBlock
       ]
-
       hotkeys = [
-        ["Esc", @() doClose(defCancel?.action)],
-        ["Right | Tab", @() moveBtnFocus(1)],
-        ["Left", @() moveBtnFocus(-1)],
+        ["Esc | J:B", @() doClose(defCancel?.action, true), "Close"],
+        ["Right | Tab | J:D.Right", @() moveBtnFocus(1)],
+        ["Left | J:D.Left", @() moveBtnFocus(-1)],
+        ["Enter | J:A", activateCurBtn, "Select"],
       ]
     })
   })

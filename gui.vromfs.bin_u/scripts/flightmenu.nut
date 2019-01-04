@@ -101,13 +101,12 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    restartBtnObj.show(!::is_replay_playing()
-                                  && !isMp
-                                  && gm != ::GM_DYNAMIC
-                                  && gm != ::GM_BENCHMARK
-                                  && status != ::MISSION_STATUS_SUCCESS
-                                  && !(::get_game_type() & ::GT_COOPERATIVE)
-                                )
+    restartBtnObj.show(!isMp
+                      && gm != ::GM_DYNAMIC
+                      && gm != ::GM_BENCHMARK
+                      && status != ::MISSION_STATUS_SUCCESS
+                      && !(::get_game_type() & ::GT_COOPERATIVE)
+                      )
 
     local btnBailout = scene.findObject("btn_Bailout")
     if (::checkObj(btnBailout))
@@ -279,6 +278,9 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
         ["no", selectRestartMissionBtn]
       ], "no")
     }
+    else
+    if (::is_replay_playing())
+      ::restart_replay()
     else
       ::restart_current_mission()
   }

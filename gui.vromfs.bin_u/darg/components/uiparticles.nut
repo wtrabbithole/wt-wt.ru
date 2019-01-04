@@ -16,6 +16,7 @@ local FLOW_PARAMS = {
   rotationSpeed = [0, 0]
   opacityEasing = CosineFull //null = no opacity animation
   isInvert = false
+  onPartDestroy = @(partIdx) null
 }
 
 local defParams = {num=30,emitter_sz=[hdpx(200),hdpx(100)], part=null}
@@ -113,7 +114,11 @@ local function flowPart(idx, lifeTime, p) {
   })
 }
 
+local flowPartByKey = {} //to not recreate same particles on parent reload when key is set.
 local function flow(p = FLOW_PARAMS) {
+  if (p.key != null && flowPartByKey?[p.key])
+    return flowPartByKey?[p.key]
+
   p = FLOW_PARAMS.__merge(p)
   if (p.spawnPeriod == 0 && p.totalParts == 0) {
     assert(false, "Particles: Flow: can't spawn unlimited parts at once (spawnPeriod and totalParts can't be zero at once)")
@@ -140,6 +145,7 @@ local function flow(p = FLOW_PARAMS) {
       gui_scene.setTimeout(lifeTime, function() {
         foreach(i, part in p.curParts)
           if (idx == part.idx) {
+            p.onPartDestroy(idx)
             p.curParts.remove(i)
             p.partsRemoved(p.partsRemoved.value + 1)
             break
@@ -149,6 +155,10 @@ local function flow(p = FLOW_PARAMS) {
     return {
       watch = [p.partsNeeded, p.partsRemoved]
       size = [0, 0]
+      onDetach = function() {
+        if (flowPartByKey?[p.key])
+          delete flowPartByKey[p.key]
+      }
       vplace = VALIGN_MIDDLE
       hplace = HALIGN_CENTER
       children = p.curParts.map(@(c) c.ui)
@@ -162,6 +172,8 @@ local function flow(p = FLOW_PARAMS) {
         gui_scene.clearTimer(callee())
     })
 
+  if (p.key != null)
+    flowPartByKey[p.key] <- emitterUi
   return emitterUi
 }
 

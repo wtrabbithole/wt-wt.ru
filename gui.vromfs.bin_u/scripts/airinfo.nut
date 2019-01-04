@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -365,17 +366,19 @@ function get_unit_actions_list(unit, handler, actions)
 
       if (canBuyIngame)
       {
-        priceText = ::getUnitCost(unit).tostring()
+        priceText = ::getUnitCost(unit).getTextAccordingToBalance()
         if (priceText.len())
-        {
-          if ((isSpecial && wp_get_cost_gold(unit.name) > profile.gold) || (wp_get_cost(unit.name) > profile.balance))
-            priceText = "<color=@redMenuButtonColor>" + priceText + "</color>"
           priceText = ::loc("ui/colon") + priceText
-        }
       }
 
-      actionText = ::loc("mainmenu/btnOrder") + priceText
-      icon       = isGift ? "#ui/gameuiskin#store_icon.svg" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
+      actionText = isGift && xboxShopData.canUseIngameShop() ? ::loc("items/openIn/XboxStore")
+                                                             : (::loc("mainmenu/btnOrder") + priceText)
+
+      icon       = isGift ? ( xboxShopData.canUseIngameShop() ? "#ui/gameuiskin#xbox_store_icon.svg"
+                                                              : "#ui/gameuiskin#store_icon.svg")
+                          : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium"
+                                      : "#ui/gameuiskin#shop_warpoints"
+
       showAction = inMenu && (canBuyIngame || canBuyOnline)
       isLink     = canBuyOnline
       if (canBuyOnline)

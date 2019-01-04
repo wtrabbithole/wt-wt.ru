@@ -23,17 +23,17 @@ function g_unlock_view::fillUnlockConditions(unlockConfig, unlockObj, context)
                               ::g_string.stripTags(names[i]),
                               ("image" in unlockConfig && unlockConfig.image != "" ? "" : "unlockImg{}"))
     hiddenContent += format("unlocked:t='%s'; ", (isUnlocked ? "yes" : "no"))
-    if(unlockConfig.type == "unlocks" || unlockConfig.type == "char_unlocks")
-    {
-      local unlock = ::g_unlocks.getUnlockById(unlockConfig.names[i])
-      if(unlock)
-        hiddenContent += ::g_tooltip_type.UNLOCK_SHORT.getMarkup(unlock.id)
-    }
-    else if (unlockConfig.type == "char_resources")
+    if(unlockConfig.type == "char_resources")
     {
       local decorator = ::g_decorator.getDecoratorById(unlockConfig.names[i])
       if (decorator)
         hiddenContent += ::g_tooltip_type.DECORATION.getMarkup(decorator.id, decorator.decoratorType.unlockedItemType)
+    }
+    else
+    {
+      local unlock = ::g_unlocks.getUnlockById(unlockConfig.names[i])
+      if(unlock)
+        hiddenContent += ::g_tooltip_type.UNLOCK.getMarkup(unlock.id, {showProgress=true})
     }
 
     hiddenContent += "}"
@@ -96,13 +96,11 @@ function g_unlock_view::fillReward(unlockConfig, unlockObj)
   if( ! ::checkObj(rewardObj))
     return
   local rewardText = ""
-  local haveTooltip = false
-  local tooltipId = "reward"
+  local tooltipId = ::g_tooltip_type.REWARD_TOOLTIP.getTooltipId(id)
   local unlockType = unlockConfig.unlockType
   if(::isInArray(unlockType, [::UNLOCKABLE_DECAL, ::UNLOCKABLE_MEDAL, ::UNLOCKABLE_SKIN]))
   {
     rewardText = ::get_unlock_name_text(unlockType, id)
-    haveTooltip = true
   }
   else if (unlockType == ::UNLOCKABLE_TITLE)
     rewardText = ::format(::loc("reward/title"), ::get_unlock_name_text(unlockType, id))
@@ -111,7 +109,6 @@ function g_unlock_view::fillReward(unlockConfig, unlockObj)
     local item = ::ItemsManager.findItemById(id, itemType.TROPHY)
     if (item)
     {
-      haveTooltip = true
       rewardText = item.getName() //colored
       tooltipId = ::g_tooltip.getIdItem(id)
     }
@@ -122,10 +119,8 @@ function g_unlock_view::fillReward(unlockConfig, unlockObj)
 
   local tooltipObj = rewardObj.findObject("tooltip")
   if(::checkObj(tooltipObj))
-  {
-    tooltipObj.reward = haveTooltip ? id : ""
     tooltipObj.tooltipId = tooltipId
-  }
+
   local showStages = ("stages" in unlockConfig) && (unlockConfig.stages.len() > 1)
   if (showStages && unlockConfig.curStage >= 0 || "reward" in unlockConfig)
     rewardText = getRewardText(unlockConfig, unlockConfig.curStage)

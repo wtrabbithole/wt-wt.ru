@@ -16,9 +16,9 @@ local widgetsMap = {
 
     if (hudState.unitType.value == "helicopter")
       return helicopterHud
-    else if (hudState.unitType.value == "ship")
+    else if (hudState.unitType.value == "ship" && !hudState.isPlayingReplay.value)
       return shipHud
-    else if (hudState.unitType.value == "shipEx")
+    else if (hudState.unitType.value == "shipEx" && !hudState.isPlayingReplay.value)
       return shipExHud
     else
       return null
@@ -44,6 +44,7 @@ local widgets = @() {
   watch = [
     globalState.isInFlight
     hudState.unitType
+    hudState.isPlayingReplay
     widgetsState.widgets
     screenState.safeAreaSizeHud
   ]

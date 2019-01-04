@@ -3,7 +3,7 @@ local u = require("std/u.nut")
  * Callback - wrapper for regular callback functions with context validation.
  *
  * Usage:
- *   Callback(callback_function(<up to 8 argumanet>) { ... }, context)
+ *   Callback(callback_function(<argumanets>) { ... }, context)
  *     @callback_function - function itself
  *     @context - callbacks environment. Root table is used by default
  *
@@ -83,28 +83,7 @@ local Callback = class
     {
       if (!isContextValid())
         return
-
-      if (vargv.len() == 0)
-        return callbackFn()
-      if (vargv.len() == 1)
-        return callbackFn(vargv[0])
-      if (vargv.len() == 2)
-        return callbackFn(vargv[0], vargv[1])
-      if (vargv.len() == 3)
-        return callbackFn(vargv[0], vargv[1], vargv[2])
-      if (vargv.len() == 4)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3])
-      if (vargv.len() == 5)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4])
-      if (vargv.len() == 6)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4],
-                          vargv[5])
-      if (vargv.len() == 7)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4],
-                          vargv[5], vargv[6])
-      if (vargv.len() == 8)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4],
-                          vargv[5], vargv[6], vargv[7])
+      return callbackFn.acall([origin_this].extend(vargv))
     }
     catch (error)
     {
@@ -121,28 +100,7 @@ local Callback = class
     {
       if (!isContextValid())
         return
-
-      if (vargv.len() == 0)
-        return callbackFn()
-      if (vargv.len() == 1)
-        return callbackFn(vargv[0])
-      if (vargv.len() == 2)
-        return callbackFn(vargv[0], vargv[1])
-      if (vargv.len() == 3)
-        return callbackFn(vargv[0], vargv[1], vargv[2])
-      if (vargv.len() == 4)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3])
-      if (vargv.len() == 5)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4])
-      if (vargv.len() == 6)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4],
-                          vargv[5])
-      if (vargv.len() == 7)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4],
-                          vargv[5], vargv[6])
-      if (vargv.len() == 8)
-        return callbackFn(vargv[0], vargv[1], vargv[2], vargv[3], vargv[4],
-                          vargv[5], vargv[6], vargv[7])
+      return callbackFn.acall([origin_this].extend(vargv))
     }
     catch (error)
     {

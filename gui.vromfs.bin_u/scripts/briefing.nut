@@ -224,6 +224,20 @@ function get_briefing_options(gm, gt, missionBlk)
     missionBlk.setInt("maxPlayers", 0)
   } else if (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH)
   {
+    if (gm == ::GM_SKIRMISH)
+    {
+      optionItems.append([::USEROPT_MISSION_COUNTRIES_TYPE, "spinner"])
+      optionItems.append([::USEROPT_BIT_COUNTRIES_TEAM_A, "multiselect"])
+      optionItems.append([::USEROPT_BIT_COUNTRIES_TEAM_B, "multiselect"])
+
+      if (::is_skirmish_with_killstreaks(missionBlk))
+        optionItems.append([::USEROPT_USE_KILLSTREAKS, "spinner"])
+
+      optionItems.append([::USEROPT_BIT_UNIT_TYPES, "multiselect"])
+      optionItems.append([::USEROPT_BR_MIN, "spinner"])
+      optionItems.append([::USEROPT_BR_MAX, "spinner"])
+    }
+
     local canUseBots = !(gt & ::GT_RACE)
     local isBotsAllowed = missionBlk.isBotsAllowed
     if (canUseBots && isBotsAllowed == null)
@@ -243,19 +257,15 @@ function get_briefing_options(gm, gt, missionBlk)
 
     if (!::SessionLobby.isInRoom())
       optionItems.append([::USEROPT_MAX_PLAYERS, "spinner"])
+
     if (gm == ::GM_SKIRMISH)
     {
-      if (::is_skirmish_with_killstreaks(missionBlk))
-        optionItems.append([::USEROPT_USE_KILLSTREAKS, "spinner"])
-
-      optionItems.append([::USEROPT_MISSION_COUNTRIES_TYPE, "spinner"])
-      optionItems.append([::USEROPT_BIT_COUNTRIES_TEAM_A, "multiselect"])
-      optionItems.append([::USEROPT_BIT_COUNTRIES_TEAM_B, "multiselect"])
       if (gt & ::GT_RACE)
         missionBlk.setBool("allowJIP", false)
       else
         optionItems.append([::USEROPT_ALLOW_JIP, "spinner"])
     }
+
   }
 
   if (gm == ::GM_SKIRMISH || (::g_squad_manager.isInSquad() && ::is_gamemode_coop(gm)))
@@ -667,6 +677,19 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       local obj = scene.findObject(option.id)
       if (obj)
         ::mission_settings[option.sideTag + "_bitmask"] <- obj.getValue()
+    }
+
+    value = getOptValue(::USEROPT_BIT_UNIT_TYPES, false)
+    local option = ::get_option(::USEROPT_BIT_UNIT_TYPES)
+    if (value != null && value != option.availableUnitTypesMask)
+      ::mission_settings.userAllowedUnitTypesMask <- value
+
+    local mrankMin = getOptValue(::USEROPT_BR_MIN, 0)
+    local mrankMax = getOptValue(::USEROPT_BR_MAX, 0)
+    if (mrankMin > 0 || mrankMax < ::MAX_ECONOMIC_RANK)
+    {
+      ::mission_settings.mrankMin <- mrankMin
+      ::mission_settings.mrankMax <- mrankMax
     }
 
     value = getOptValue(::USEROPT_CONTENT_ALLOWED_PRESET, false)

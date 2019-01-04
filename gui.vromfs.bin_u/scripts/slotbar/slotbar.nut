@@ -939,51 +939,6 @@ function getBrokenSlotsCount(country)
   return count
 }
 
-function initSlotbarAnim(countriesObj, guiScene, first=true)
-{
-  guiScene.performDelayed(this, (@(countriesObj, guiScene, first) function() {
-    if (!countriesObj || !countriesObj.isValid())
-      return
-    local total = countriesObj.childrenCount()
-    if (total < 2)
-      return
-
-    local minWidth = countriesObj.getChild(0).getSize()[0]
-    local maxWidth = minWidth
-
-    for(local i=0; i<total; i++)
-    {
-      local width = countriesObj.getChild(i).getSize()[0]
-      if (width!=minWidth)
-      {
-        if (width<minWidth)
-          minWidth=width
-        else
-          maxWidth=width
-        break
-      }
-    }
-    if (minWidth==maxWidth)
-    {
-      if (first) //try to reinit anim once
-        ::initSlotbarAnim(countriesObj, guiScene, false)
-      return
-    }
-
-    local selected = countriesObj.getValue()
-    if (selected < 0)
-      selected = 0
-    for(local i=total-1; i>=0; i--)
-    {
-      local option = countriesObj.getChild(i)
-      option["width-base"] = minWidth.tostring()
-      option["width-end"] = maxWidth.tostring()
-      option["width"] = (selected==i)? maxWidth.tostring() : minWidth.tostring()
-      option["_size-timer"] = (selected==i)? "1" : "0"
-      option.setFloatProp(::dagui_propid.add_name_id("_size-timer"), (selected==i)? 1.0 : 0.0);
-    }
-  })(countriesObj, guiScene, first))
-}
 
 function getSlotItem(countryId, idInCountry)
 {

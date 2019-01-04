@@ -182,6 +182,13 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
       focusSheetsList()
   }
 
+  function focusSheetsList()
+  {
+    local obj = getSheetsListObj()
+    obj.select()
+    checkCurrentFocusItem(obj)
+  }
+
   function findLastValue(prevValue)
   {
     local offset = curPage * itemsPerPage

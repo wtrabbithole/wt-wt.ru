@@ -75,7 +75,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
         {
           needOffset = true
           mainMenuSlotbar = true
-          afterFullUpdate = afterSlotbarFullUpdate
         },
         "nav-topMenu"
       )
@@ -314,16 +313,10 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   function updateOnShopWndAnim(isVisible)
   {
     local isShow = ::top_menu_shop_active
-    updateSlotbarTopPanelVisibility(!isShow)
     updateSceneShade()
     if (isVisible)
       ::broadcastEvent("ShopWndVisible", { isShopShow = isShow })
     ::broadcastEvent("ShopWndAnimation", { isShow = isShow, isVisible = isVisible })
-  }
-
-  function updateSlotbarTopPanelVisibility(isShow)
-  {
-    showSceneBtn("slotbar_buttons_place", isShow)
   }
 
   function activateShopImpl(shouldActivate, unitType = null)
@@ -354,12 +347,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     enableHangarControls(!shouldActivate, false)
-  }
-
-  function afterSlotbarFullUpdate()
-  {
-    if (::top_menu_shop_active)
-      updateSlotbarTopPanelVisibility(false)
   }
 
   function goBack(obj)

@@ -4,6 +4,7 @@
 //   null - various image sizes
 //   string - daguiConstant
 local g_path = require("std/path.nut")
+local dagor_fs = require("dagor.fs")
 
 function debug_svg(image, size = null, bgColor = "#808080")
 {
@@ -62,7 +63,7 @@ function debug_svg_list(fileMask = null, size = null, bgColor = null)
   local filesList = []
   foreach (dir in dirs)
   {
-    local filePaths = ::find_files_in_folder(dir, fileMask, false, true, true)
+    local filePaths = dagor_fs.scan_folder({root=dir, files_suffix=fileMask, vromfs=false, realfs = true, recursive = true})
     filesList.extend(::u.map(filePaths, @(path) g_path.fileName(path)))
   }
   filesList.sort()

@@ -467,7 +467,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       {
         customCountry = playerTeam.country
         availableUnits = availableUnits,
-        showTopPanel = false
         gameModeName = getGameModeNameText()
         showEmptySlot = true
         needPresetsPanel = true

@@ -1108,8 +1108,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   function createKillsTbl(objTbl, tbl, tblConfig)
   {
-    guiScene.setUpdatesEnabled(false, false)
-
     local team = ::getTblValue("team", tblConfig, -1)
     local num_rows = ::getTblValue("num_rows", tblConfig, numMaxPlayers)
     local showAircrafts = ::getTblValue("showAircrafts", tblConfig, false)
@@ -1189,7 +1187,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(objTbl, data, data.len(), this)
       objTbl.num_rows = tbl.len()
     }
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function sortTable(table)
@@ -1203,7 +1200,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local tbl = null
-    guiScene.setUpdatesEnabled(false, false)
 
     objTbl.smallFont = ::is_low_width_screen() ? "yes" : "no"
 
@@ -1296,7 +1292,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         objTbl["team"] = (isTeamplay && friendlyTeam == team)? "blue" : "red"
     }
     updateCountryFlags()
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function isShowEnemyAirs()
@@ -2190,11 +2185,14 @@ function SquadIcon::initListLabelsSquad()
 
 function SquadIcon::getPlayersInfo()
 {
+  return playersInfo
+}
+
+function SquadIcon::updatePlayersInfo()
+{
   local sessionPlayersInfo = ::SessionLobby.getPlayersInfo()
   if (sessionPlayersInfo.len() > 0 && !::u.isEqual(playersInfo, sessionPlayersInfo))
     playersInfo = clone sessionPlayersInfo
-
-  return playersInfo
 }
 
 function SquadIcon::updateListLabelsSquad()

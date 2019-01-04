@@ -67,6 +67,15 @@ function gen_all_unlocks_desc(showCost = false)
   dlog("GP: done")
 }
 
+function exportUnlockInfo(params)
+{
+  local info = ::g_language.getGameLocalizationInfo().filter(@(index, value) params.langs.find(value.id) != null)
+  _gen_all_unlocks_desc_to_blk(params.path, false, false, info, ::get_current_language())
+  return "ok"
+}
+
+web_rpc.register_handler("exportUnlockInfo", exportUnlockInfo)
+
 function gen_all_unlocks_desc_to_blk(path = "unlockDesc", showCost = false, showValue = false, all_langs = true)
 {
   if (!all_langs)

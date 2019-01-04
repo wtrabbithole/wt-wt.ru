@@ -360,8 +360,7 @@
             {
               "tdiv": {
                 "id": "countries_boxes",
-                "class": "checkBoxRow",
-                "margin": "0, 1@blockInterval",
+                "margin": "1@blockInterval, 1@blockInterval",
                 "behaviour": "wrapNavigator",
                 "navigatorShortcuts": "yes",
                 "childsActivate": "yes",
@@ -375,8 +374,7 @@
                 "id": "units_boxes",
                 "pos": "pw-w, 0",
                 "position": "absolute",
-                "margin": "0, 1@blockInterval",
-                "class": "checkBoxRow",
+                "margin": "1@blockInterval, 1@blockInterval",
                 "behaviour": "wrapNavigator",
                 "navigatorShortcuts": "yes",
                 "childsActivate": "yes",
@@ -522,6 +520,7 @@
                     {
                       "HorizontalListBox": {
                         "id": "pages_list",
+                        "class": "countries_small",
                         "activeAccesskeys": "LeftRight",
                         "navigatorShortcuts": "yes",
                         "on_wrap_up": "onWrapUp",
@@ -642,16 +641,6 @@
                 "tooltip": "#mainmenu/getLinkDesc",
                 "btnName": "L3",
                 "_on_click": "getPlayerLink",
-                "ButtonImg": []
-              }
-            },
-            {
-              "Button_text": {
-                "id": "btn_xbox_profile",
-                "text": "#mainmenu/btnXboxProfile",
-                "btnName": "LB",
-                "on_click": "onOpenXboxProfile",
-                "display": "hide",
                 "ButtonImg": []
               }
             },

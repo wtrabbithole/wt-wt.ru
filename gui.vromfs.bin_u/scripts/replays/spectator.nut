@@ -330,7 +330,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onShowHud(show = true)
+  function onShowHud(show = true, needApplyPending = false)
   {
     if (show)
       restoreFocus()

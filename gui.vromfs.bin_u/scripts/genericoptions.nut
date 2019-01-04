@@ -69,6 +69,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkMineDepthRow()
     onLayoutChange(null)
     checkMissionCountries()
+    checkAllowedUnitTypes()
     checkBotsOption()
     updateTripleAerobaticsSmokeOptions()
     updateVerticalTargetingOption()
@@ -720,6 +721,40 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
                    || (countriesType == misCountries.SYMMETRIC && option.type == ::USEROPT_BIT_COUNTRIES_TEAM_A)
       showOptionRow(option, show)
     }
+  }
+
+  function onUseKillStreaks(obj)
+  {
+    checkAllowedUnitTypes()
+  }
+
+  function checkAllowedUnitTypes()
+  {
+    local option = findOptionInContainers(::USEROPT_BIT_UNIT_TYPES)
+    if (!option)
+      return
+    local optionTrObj = getObj(option.getTrId())
+    if(!::check_obj(optionTrObj))
+      return
+
+    local missionBlk = ::get_mission_meta_info(optionsConfig?.missionName ?? "")
+    local useKillStreaks = missionBlk && ::is_skirmish_with_killstreaks(missionBlk) &&
+      getOptValue(::USEROPT_USE_KILLSTREAKS, false)
+    local allowedUnitTypesMask  = ::get_mission_allowed_unittypes_mask(missionBlk, useKillStreaks)
+
+    foreach (unitType in ::g_unit_type.types)
+    {
+      local isShow = !!(allowedUnitTypesMask & unitType.bit)
+      local itemObj = optionTrObj.findObject("bit_" + unitType.tag)
+      if (!::check_obj(itemObj))
+        continue
+      itemObj.show(isShow)
+      itemObj.enable(isShow)
+    }
+
+    local itemObj = optionTrObj.findObject("text_after")
+      if (::check_obj(itemObj))
+        itemObj.show(useKillStreaks)
   }
 
   function onOptionBotsAllowed(obj)

@@ -28,6 +28,9 @@ g_matching_game_modes <- {
     ::fetch_game_modes_digest(null,
       function (result)
       {
+        if (!this)
+          return
+
         __fetching = false
 
         local canRetry = __fetch_counter < MAX_FETCH_RETRIES

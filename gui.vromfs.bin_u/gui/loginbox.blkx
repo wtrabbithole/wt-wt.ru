@@ -484,7 +484,7 @@
                     {
                       "button": {
                         "id": "btn_signUp_link",
-                        "pos": "0, 0.02@scrn_tgt",
+                        "pos": "0, 0.015@scrn_tgt",
                         "position": "relative",
                         "text": "#mainmenu/signUp",
                         "_on_click": "onSignUp",
@@ -610,6 +610,20 @@
                     "buttonWink": [],
                     "ButtonImg": []
                   }
+                },
+                {
+                  "Button_text": {
+                    "id": "sso_login_action_button",
+                    "text": "#mainmenu/loginWithSso",
+                    "margin-top": "0.01@scrn_tgt",
+                    "css-hier-invalidate": "yes",
+                    "btnName": "RB",
+                    "focusBtnName": "A",
+                    "_on_click": "onSsoAuthorization",
+                    "visualStyle": "secondary",
+                    "buttonWink": [],
+                    "ButtonImg": []
+                  }
                 }
               ]
             },
@@ -686,8 +700,6 @@
                   {
                     "button": {
                       "id": "btn_support_link",
-                      "pos": "0, 0.01@sf",
-                      "position": "relative",
                       "text": "#mainmenu/support",
                       "on_click": "onMsgLink",
                       "link": "#url/support",

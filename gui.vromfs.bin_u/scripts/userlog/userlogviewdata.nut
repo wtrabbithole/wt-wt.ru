@@ -324,7 +324,7 @@ function get_userlog_view_data(log)
     res.name = ::loc(nameLoc, { mode = ::loc("multiplayer/"+log.mode+"Mode"), mission = mission }) + nameLocPostfix
 
     local desc = ""
-    local earnedText = ::Cost(log?.wpEarned ?? 0, 0, 0, log?.xpEarned ?? 0)
+    local earnedText = ::Cost(log?.wpEarned ?? 0, log?.goldEarned ?? 0, 0, log?.xpEarned ?? 0)
       .toStringWithParams({isWpAlwaysShown = true})
     if (earnedText!="")
     {

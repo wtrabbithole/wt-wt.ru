@@ -11,17 +11,17 @@ local intRegExp = null
 local floatRegExp = null
 local stripTagsConfig = null
 local escapeConfig = null
-
 /**
  * Joins array elements into a string with the glue string between each element.
- * Like join(), but skips empty strings and nulls.
+ * This function is a reverse operation to g_string.split()
  * @param {string[]} pieces - The array of strings to join.
  * @param {string}   glue - glue string.
  * @return {string} - String containing all the array elements in the same order,
  *                    with the glue string between each element.
  */
+// Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return pieces.reduce(@(res, c) c != "" && c != null ? res + (res != "" ? glue : "") + c : res) ?? ""
+  return pieces.filter(@(index,val) val != "" && val != null).reduce(@(prev, cur) prev + glue + cur) ?? ""
 }
 
 /**
@@ -152,26 +152,47 @@ local defTostringParams = {
   splitlines = true
   showArrIdx=false
 }
-local function func_tostring(func,compact) {
-  local out = ""
+local function func2str(func, p={}){
+  local compact = p?.compact ?? false
+  local showsrc = p?.showsrc ?? (false && compact)
+  local showparams = p?.showparams ?? (true && compact)
+  local showdefparams = p?.showdefparams ?? (true && compact)
+  local tostr_func = p?.tostr_func ?? @(v) ""+v
+
   if (::type(func)=="thread") {
     return "thread: " + func.getstatus()
   }
+
+  local out = ""
   local info = func.getinfos()
+
   if (!info.native) {
+    local defparams = info?.defparams ?? []
     local params = info.parameters.slice(1)
-    if (params.len()>0)
-      params=params.reduce(@(res, curval) res.tostring() + ", " + curval)
-    else
-      params = ""
+    local reqparams = params.slice(0, params.len() - defparams.len())
+    local optparams = params.slice(reqparams.len())
+    local params_str = ""
+    if (params.len()>0) {
+      if (reqparams.len()>0)
+        params_str += reqparams.reduce(@(res, curval) res + ", " + curval)
+      if (optparams.len()>0) {
+        foreach (i, op in optparams) {
+          params_str += op
+          if (showdefparams)
+            params_str += " = " + tostr_func(defparams?[i] ?? "")
+          if (i+1 < optparams.len())
+            params_str += ", "
+        }
+      }
+    }
     local fname = "" + info.name
-    if (fname.find("(null : 0x0") != null || fname.find("null") !=null)
+    if (fname.slice(0,1)=="(")
       fname = "@"
-    if (!compact)
-      out += "(func): " + info.src + " "
+    if (showsrc)
+      out += "(func): " + info?.src + " "
     out += fname +"("
-    if (!compact)
-      out += params
+    if (!showparams)
+      out += params_str
     out += ")"
   } else if (info.native) {
     out += "(nativefunc): " + info.name
@@ -199,7 +220,7 @@ local function tostring_any(input, tostringfunc=null, compact=true) {
     }
   }
   else if (function_types.find(typ)!=null){
-    return func_tostring(input,compact)
+    return func2str(input,{compact=compact})
   }
   else if (typ == "string"){
     if(input=="")

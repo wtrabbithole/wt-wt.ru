@@ -80,6 +80,7 @@ local globalEnv = require_native("globalEnv")
     "ID_BOMBS",
     "ID_ROCKETS",
     "ID_WEAPON_LOCK",
+    "ID_FLARES",
     "ID_FUEL_TANKS",
     "ID_AIR_DROP",
     { id="ID_SENSOR_SWITCH",              needSkip = @() !::has_feature("Sensors") }

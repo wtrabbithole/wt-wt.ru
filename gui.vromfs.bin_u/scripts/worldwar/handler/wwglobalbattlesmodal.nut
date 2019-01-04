@@ -120,7 +120,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       {
         customCountry = ::get_profile_country_sq()
         availableUnits = availableUnits.len() ? availableUnits : null
-        showTopPanel = false
         gameModeName = getGameModeNameText()
         showEmptySlot = true
         needPresetsPanel = true

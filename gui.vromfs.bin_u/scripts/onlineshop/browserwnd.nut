@@ -37,13 +37,22 @@ function close_browser_modal()
   handler.goBack()
 }
 
-class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
+function browser_set_external_url(url)
+{
+  local handler = ::handlersManager.findHandlerClassInScene(
+    ::gui_handlers.BrowserModalHandler);
+  if (handler)
+    handler.externalUrl = url;
+}
+
+class ::gui_handlers.BrowserModalHandler extends ::BaseGuiHandler
 {
   wndType = handlerType.MODAL
   sceneBlkName = "gui/browser.blk"
   sceneNavBlkName = null
   url = ""
   externalUrl = ""
+  originalUrl = ""
   needVoiceChat = false
   urlTags = []
 
@@ -52,24 +61,18 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local browserObj = scene.findObject("browser_area")
     browserObj.url=url
     browserObj.select()
+    originalUrl = url
     browser_go(url)
   }
 
   function browserCloseAndUpdateEntitlements()
   {
-    taskId = ::update_entitlements_limited()
-
-    if (taskId >= 0)
-    {
-      ::set_char_cb(this, slotOpCb)
-      showTaskProgressBox(::loc("charServer/checking"))
-      afterSlotOp = function()
-      {
-        ::update_gamercards()
-        dagor.debug("Updated entitlements after embedded browser was closed")
-      }
-    }
-
+    ::g_tasker.addTask(::update_entitlements_limited(),
+                       {
+                         showProgressBox = true
+                         progressBoxText = ::loc("charServer/checking")
+                       },
+                       @() ::update_gamercards())
     goBack();
   }
 
@@ -89,14 +92,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!u.isEmpty(urlTags))
         taggedUrl = ::g_string.implode(urlTags, " ") + " " + taggedUrl
     local url = u.isEmpty(externalUrl) ? taggedUrl : externalUrl
-
-    if (!url || url == "")
-    {
-      dagor.debug("Could not get URL from embedded browser");
-      return;
-    }
-
-    ::open_url(url, true, false, "internal_browser")
+    ::open_url(u.isEmpty(url) ? originalUrl : url, true, false, "internal_browser")
   }
 
   function setTitle(title)
@@ -153,9 +149,11 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         }
         break;
       case ::BROWSER_EVENT_BROWSER_CRASHED:
-        showInfoMsgBox(::loc("browser/crashed"))
         statsd_counter("browser." + params.errorDesc)
-        browserCloseAndUpdateEntitlements()
+        msgBox("error", ::loc("browser/crashed"),
+            [["#browser/open_external", browserForceExternal],
+             ["#mainmenu/btnBack", browserCloseAndUpdateEntitlements]],
+             "#browser/open_external")
         break;
       default:
         dagor.debug("onEventEmbeddedBrowser: unknown event type "
@@ -188,7 +186,6 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDestroy()
   {
-    ::on_facebook_destroy_waitbox()
     ::broadcastEvent("DestroyEmbeddedBrowser")
   }
 }

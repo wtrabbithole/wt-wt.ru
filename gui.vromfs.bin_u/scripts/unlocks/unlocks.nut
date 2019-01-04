@@ -243,11 +243,10 @@ function set_description_by_unlock_type(config, unlockBlk)
 }
 
 
-function build_conditions_config(blk, showStage = -1)
+function get_empty_conditions_config()
 {
-  local id = blk.getStr("id", "")
-  local config = {
-    id = id
+  return {
+    id = ""
     unlockType = -1
     text = ""
     locId = ""
@@ -261,7 +260,7 @@ function build_conditions_config(blk, showStage = -1)
     iconStyle = ""
     iconParams = null
     image = ""
-    imgRatio = blk.getReal("aspect_ratio", 1.0)
+    imgRatio = 1.0
     playback = null
     type = ""
     conditions = []
@@ -276,6 +275,14 @@ function build_conditions_config(blk, showStage = -1)
       return res
     }
   }
+}
+
+function build_conditions_config(blk, showStage = -1)
+{
+  local id = blk.getStr("id", "")
+  local config = ::get_empty_conditions_config()
+  config.id = id
+  config.imgRatio = blk.getReal("aspect_ratio", 1.0)
 
   local type = blk.getStr("type", "")
   config.unlockType = ::get_unlock_type(type)

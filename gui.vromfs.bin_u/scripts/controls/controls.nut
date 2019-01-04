@@ -118,7 +118,10 @@ enum ConflictGroups {
     { id = "ID_BOMBS_SERIES", alternativeIds = [ "ID_BOMBS" ] }
     "ID_ROCKETS",
     { id = "ID_ROCKETS_SERIES", alternativeIds = [ "ID_ROCKETS" ] }
-    "ID_ATGM",
+    "ID_AGM",
+    { id = "ID_AAM",
+      showFunc = @() ::has_feature("Missiles"),
+    }
     { id = "ID_FUEL_TANKS",
       showFunc = @() ::has_feature("Payload"),
       checkAssign = false
@@ -128,6 +131,9 @@ enum ConflictGroups {
       checkAssign = false
     }
     { id = "ID_WEAPON_LOCK",
+      showFunc = @() ::has_feature("Missiles"),
+    }
+    { id = "ID_FLARES",
       showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
     }
@@ -410,6 +416,13 @@ enum ConflictGroups {
       value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0)
     }
+    { id = "mouse_joystick_aileron", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_AILERON_AILERON_FACTOR) / ::maxMouseJoystickAileron
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_AILERON_AILERON_FACTOR,
+        (objValue / 100.0) * ::maxMouseJoystickAileron)
+    }
     { id = "mouse_joystick_rudder", type = CONTROL_TYPE.SLIDER
       filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
@@ -638,10 +651,18 @@ enum ConflictGroups {
     { id = "ID_WEAPON_LOCK_HELICOPTER",
       checkGroup = ctrlGroups.HELICOPTER
       showFunc = @() ::has_feature("Missiles"),
+    }
+    { id = "ID_FLARES_HELICOPTER",
+      checkGroup = ctrlGroups.HELICOPTER
+      showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
     }
     { id = "ID_ATGM_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
+    }
+    { id = "ID_AAM_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      showFunc = @() ::has_feature("Missiles"),
     }
     { id = "helicopter_atgm_aim_x"
       checkGroup = ctrlGroups.HELICOPTER
@@ -1138,15 +1159,10 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
-    {
-      id = "ship_bullet_fall_indicator",
-      type = CONTROL_TYPE.SWITCH_BOX
-      optionType = ::USEROPT_BULLET_FALL_INDICATOR_SHIP
-    }
-
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP }
+    { id="ID_TARGETING_HOLD_SHIP",              checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ID_LOCK_TARGETING_AT_POINT_SHIP", checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ship_zoom", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ship_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
@@ -1653,6 +1669,7 @@ enum ConflictGroups {
     { id="ID_REPLAY_CAMERA_FREE", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="ID_REPLAY_CAMERA_RANDOMIZE", checkGroup = ctrlGroups.REPLAY, checkAssign = false }
     { id="ID_REPLAY_CAMERA_FREE_PARENTED", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
+    { id="ID_REPLAY_CAMERA_FREE_ATTACHED", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="free_camera_inertia", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_FREE_CAMERA_INERTIA,
     }
@@ -1792,7 +1809,8 @@ function get_shortcut_by_id(shortcutId)
   "ID_BAY_DOOR",
   "ID_BOMBS",
   "ID_ROCKETS",
-  "ID_ATGM",
+  "ID_AGM",
+  "ID_AAM",
   "ID_SENSOR_SWITCH",
   "ID_SENSOR_MODE_SWITCH",
   "ID_SENSOR_SCAN_PATTERN_SWITCH",
@@ -4601,6 +4619,58 @@ function getUnmappedControlsForTutorial(missionId, helpersMode)
   return res
 }
 
+local function getWeaponFeatures(weaponsBlkList)
+{
+  local res = {
+    gotMachineGuns = false
+    gotCannons = false
+    gotAdditionalGuns = false
+    gotBombs = false
+    gotTorpedoes = false
+    gotRockets = false
+    gotAGM = false // air-to-ground missiles, anti-tank guided missiles
+    gotAAM = false // air-to-air missiles
+    gotWeaponLock = false
+    gotGunnerTurrets = false
+    gotSchraegeMusik = false
+  }
+
+  foreach (weaponSet in weaponsBlkList)
+  {
+    if (!weaponSet)
+      continue
+
+    foreach (w in (weaponSet % "Weapon"))
+    {
+      if (w.trigger == "machine gun")
+        res.gotMachineGuns = true
+      if (w.trigger == "cannon")
+        res.gotCannons = true
+      if (w.trigger == "additional gun")
+        res.gotAdditionalGuns = true
+      if (w.trigger == "bombs")
+        res.gotBombs = true
+      if (w.trigger == "torpedoes")
+        res.gotTorpedoes = true
+      if (w.trigger == "rockets")
+        res.gotRockets = true
+      if (w.trigger == "agm" || w.trigger == "atgm")
+        res.gotAGM = true
+      if (w.trigger == "aam")
+        res.gotAAM = true
+      if (::g_string.startsWith(w.trigger || "", "gunner"))
+        res.gotGunnerTurrets = true
+      if (::is_platform_pc && w.schraegeMusikAngle != null)
+        res.gotSchraegeMusik = true
+      local weaponBlk = ::DataBlock(w.blk)
+      if (weaponBlk?.rocket?.guidance)
+        res.gotWeaponLock = true
+    }
+  }
+
+  return res
+}
+
 function getRequiredControlsForUnit(unit, helpersMode)
 {
   local controls = []
@@ -4620,26 +4690,11 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   local preset = ::g_controls_manager.getCurPreset()
 
-  if (unitType == ::g_unit_type.HELICOPTER)
-  {
-    controls.append("helicopter_collective")
-    controls.append("helicopter_climb")
-    controls.append("helicopter_cyclic_roll")
-
-    if (::is_xinput_device())
-    {
-      controls.append("helicopter_mouse_aim_x")
-      controls.append("helicopter_mouse_aim_y")
-    }
-
-    return controls;
-  }
-
   if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.SHIP
     || unitType == ::g_unit_type.HELICOPTER)
   {
     unitBlk = ::get_full_unit_blk(unitId)
-    blkCommonWeapons = unitBlk.commonWeapons || ::DataBlock()
+    blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
     local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
     blkWeaponPreset = ::DataBlock()
     if (unitBlk.weapon_presets)
@@ -4652,7 +4707,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
     blkSensors = unitBlk.sensors
   }
 
-  if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.HELICOPTER)
+  if (unitType == ::g_unit_type.AIRCRAFT)
   {
     local fmBlk = ::get_fm_file(unitId, unitBlk)
     local unitControls = fmBlk.AvailableControls || ::DataBlock()
@@ -4695,67 +4750,37 @@ function getRequiredControlsForUnit(unit, helpersMode)
         controls.append("ID_FLAPS_DOWN")
     }
 
-    local gotMachineGuns = false
-    local gotCannons = false
-    local gotAdditionalGuns = false
-    local gotBombs = false
-    local gotTorpedoes = false
-    local gotRockets = false
-    local gotWeaponLock = false
-    local gotSmoke = false
-    local gotGunnerTurrets = false
-    local gotSchraegeMusik = false
+    local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
 
-    foreach (weaponSet in [ blkCommonWeapons, blkWeaponPreset ])
+    if (preset.getAxis("fire").axisId == -1)
     {
-      foreach (weapon in (weaponSet % "Weapon"))
-      {
-        if (weapon.trigger == "machine gun")
-          gotMachineGuns = true
-        if (weapon.trigger == "cannon")
-          gotCannons = true
-        if (weapon.trigger == "additional gun")
-          gotAdditionalGuns = true
-        if (weapon.trigger == "bombs")
-          gotBombs = true
-        if (weapon.trigger == "torpedoes")
-          gotTorpedoes = true
-        if (weapon.trigger == "rockets")
-          gotRockets = true
-        local weaponBlk = ::DataBlock(weapon.blk)
-        if ("rocket" in weaponBlk)
-          if ("guidance" in weaponBlk.rocket)
-            gotWeaponLock = true
-        if (weapon.trigger == "smoke")
-          gotSmoke = true
-        if (type(weapon.trigger) == "string" && weapon.trigger.len() > 6 && weapon.trigger.slice(0, 6) == "gunner")
-          gotGunnerTurrets = true
-        if (::is_platform_pc && weapon.schraegeMusikAngle != null)
-          gotSchraegeMusik = true
-      }
+      if (w.gotMachineGuns || !w.gotCannons && (w.gotGunnerTurrets || w.gotSchraegeMusik)) // Gunners require either Mguns or Cannons shortcut.
+        controls.append("ID_FIRE_MGUNS")
+      if (w.gotCannons)
+        controls.append("ID_FIRE_CANNONS")
+      if (w.gotAdditionalGuns)
+        controls.append("ID_FIRE_ADDITIONAL_GUNS")
     }
+    if (w.gotBombs || w.gotTorpedoes)
+      controls.append("ID_BOMBS")
+    if (w.gotRockets)
+      controls.append("ID_ROCKETS")
+    if (w.gotAGM)
+      controls.append("ID_AGM")
+    if (w.gotAAM)
+      controls.append("ID_AAM")
+    if (w.gotSchraegeMusik)
+      controls.append("ID_SCHRAEGE_MUSIK")
+    if (w.gotWeaponLock)
+      controls.append("ID_WEAPON_LOCK")
+
     local gotSensors = false
     if (blkSensors != null)
       foreach (sensor in (blkSensors % "sensor"))
-        gotSensors = true;
-    if (preset.getAxis("fire").axisId == -1)
-    {
-      if (gotMachineGuns || !gotCannons && (gotGunnerTurrets || gotSchraegeMusik)) // Gunners require either Mguns or Cannons shortcut.
-        controls.append("ID_FIRE_MGUNS")
-      if (gotCannons)
-        controls.append("ID_FIRE_CANNONS")
-      if (gotAdditionalGuns)
-        controls.append("ID_FIRE_ADDITIONAL_GUNS")
-    }
-    if (gotBombs || gotTorpedoes)
-      controls.append("ID_BOMBS")
-    if (gotRockets)
-    {
-      controls.append("ID_ROCKETS")
-      controls.append("ID_ATGM")
-    }
-    if (gotWeaponLock)
-      controls.append("ID_WEAPON_LOCK")
+      {
+        gotSensors = true
+        break
+      }
     if (gotSensors)
     {
       controls.append("ID_SENSOR_SWITCH")
@@ -4764,8 +4789,35 @@ function getRequiredControlsForUnit(unit, helpersMode)
       controls.append("ID_SENSOR_RANGE_SWITCH")
       controls.append("ID_SENSOR_TARGET_LOCK")
     }
-    if (gotSchraegeMusik)
-      controls.append("ID_SCHRAEGE_MUSIK")
+  }
+  else if (unitType == ::g_unit_type.HELICOPTER)
+  {
+    controls = [ "helicopter_collective", "helicopter_climb", "helicopter_cyclic_roll" ]
+
+    if (::is_xinput_device())
+      controls.extend([ "helicopter_mouse_aim_x", "helicopter_mouse_aim_y" ])
+
+    local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
+
+    if (preset.getAxis("fire").axisId == -1)
+    {
+      if (w.gotMachineGuns || !w.gotCannons && w.gotGunnerTurrets) // Gunners require either Mguns or Cannons shortcut.
+        controls.append("ID_FIRE_MGUNS_HELICOPTER")
+      if (w.gotCannons)
+        controls.append("ID_FIRE_CANNONS_HELICOPTER")
+      if (w.gotAdditionalGuns)
+        controls.append("ID_FIRE_ADDITIONAL_GUNS_HELICOPTER")
+    }
+    if (w.gotBombs || w.gotTorpedoes)
+      controls.append("ID_BOMBS_HELICOPTER")
+    if (w.gotRockets)
+      controls.append("ID_ROCKETS_HELICOPTER")
+    if (w.gotAGM)
+      controls.append("ID_ATGM_HELICOPTER")
+    if (w.gotAAM)
+      controls.append("ID_AAM_HELICOPTER")
+    if (w.gotWeaponLock)
+      controls.append("ID_WEAPON_LOCK_HELICOPTER")
   }
   else if (unitType == ::g_unit_type.TANK)
   {
@@ -4838,6 +4890,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
     ]
 
     foreach (weaponSet in [ blkCommonWeapons, blkWeaponPreset ])
+    {
+      if (!weaponSet)
+        continue
+
       foreach (weapon in (weaponSet % "Weapon"))
         foreach (group in weaponGroups)
         {
@@ -4848,6 +4904,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
           group.isRequired <- true
           break
         }
+    }
 
     foreach (group in weaponGroups)
       if ("isRequired" in group)

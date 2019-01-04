@@ -441,11 +441,13 @@ class ControlsPreset {
 
   function debugPresetStats()
   {
-    ::dagor.debug("  numHotkeys     = " + hotkeys.len())
-    ::dagor.debug("  numAxes        = " + axes.len())
-    ::dagor.debug("  numSquarePairs = " + squarePairs.len())
-    ::dagor.debug("  numParams      = " + params.len())
-    ::dagor.debug("  numJoyticks    = " + deviceMapping.len())
+    ::dagor.debug("ControlsPreset: Stats:"
+      + " hotkeys=" + hotkeys.len()
+      + " axes=" + axes.len()
+      + " squarePairs=" + squarePairs.len()
+      + " params=" + params.len()
+      + " joyticks=" + deviceMapping.len()
+    )
   }
 
 

@@ -680,7 +680,7 @@ function create_option()
   return {
     type = -1
     id = ""
-    title = null
+    title = null //"options/" + descr.id
     hint = null  //"guiHints/" + descr.id
     value = null
     controlType = optionControlType.LIST
@@ -1108,6 +1108,21 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       defaultValue = false
+
+      local blk = ::dgs_get_game_params()
+      local minCaliber  = blk?.shipsShootingTracking?.minCaliber ?? 0.1
+      local minDrawDist = blk?.shipsShootingTracking?.minDrawDist ?? 3500
+      descr.hint = ::loc("guiHints/bulletFallIndicatorShip", {
+        minCaliber  = ::g_measure_type.MM.getMeasureUnitsText(minCaliber * 1000),
+        minDistance = ::g_measure_type.DISTANCE.getMeasureUnitsText(minDrawDist)
+      })
+      break
+
+    case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
+      descr.id = "default_torpedo_forestall_active"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
       break
 
     ///_INSERT_OPTIONS_HERE_
@@ -1983,6 +1998,22 @@ function get_option(type, context = null)
       defaultValue = true
       break
 
+    case ::USEROPT_REPLAY_LOAD_COCKPIT:
+      descr.id = "replay_load_cockpit"
+      descr.controlName <- "combobox"
+      descr.items = [
+        ::loc("options/replay_load_cockpit_no_one")
+        ::loc("options/replay_load_cockpit_author")
+        ::loc("options/replay_load_cockpit_all")
+      ]
+      descr.values = [
+        ::REPLAY_LOAD_COCKPIT_NO_ONE
+        ::REPLAY_LOAD_COCKPIT_AUTHOR
+        ::REPLAY_LOAD_COCKPIT_ALL
+      ]
+      defaultValue = ::REPLAY_LOAD_COCKPIT_AUTHOR
+      break
+
     case ::USEROPT_HUD_SHOW_BONUSES:
       descr.id = "hud_show_bonuses"
       descr.items = ["#options/no", "#options/inarcade", "#options/always"]
@@ -2676,7 +2707,69 @@ function get_option(type, context = null)
       descr.id = "use_killstreaks"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
+      descr.cb = "onUseKillStreaks"
       defaultValue = false
+      break
+
+    case ::USEROPT_BIT_UNIT_TYPES:
+      descr.id = "allowed_unit_types"
+      descr.title = ::loc("events/allowed_crafts_no_colon")
+      descr.controlType = optionControlType.BIT_LIST
+      descr.controlName <- "multiselect"
+      descr.showTitle <- true
+      descr.cb = "onInstantOptionApply"
+      descr.items = []
+      descr.values = []
+      descr.hint = descr.title
+
+      defaultValue = ::g_unit_type.types.reduce(@(res, v) res = res | v.bit, 0)
+      prevValue = ::get_gui_option(type) ?? defaultValue
+
+      local missionBlk = ::get_mission_meta_info(context?.missionName ?? "")
+      local isKillStreaksOptionAvailable = missionBlk && ::is_skirmish_with_killstreaks(missionBlk)
+      local useKillStreaks = isKillStreaksOptionAvailable && ::get_gui_option(::USEROPT_USE_KILLSTREAKS) ?? false
+      local availableUnitTypesMask = ::get_mission_allowed_unittypes_mask(missionBlk, useKillStreaks)
+
+      descr.availableUnitTypesMask <- availableUnitTypesMask
+
+      foreach (unitType in ::g_unit_type.types)
+      {
+        local isVisible = !!(availableUnitTypesMask & unitType.bit)
+        descr.values.append(unitType.esUnitType)
+        descr.items.append({
+          id = "bit_" + unitType.tag
+          text = unitType.fontIcon + " " + unitType.getArmyLocName()
+          enabled = isVisible
+          isVisible = isVisible
+        })
+      }
+
+      if (isKillStreaksOptionAvailable)
+      {
+        local killStreaksOptionLocName = ::loc("options/use_killstreaks")
+        descr.textAfter <- ::colorize("fadedTextColor", "+ " + killStreaksOptionLocName)
+        descr.hint += "\n" + ::loc("options/advice/disable_option_to_have_more_choices",
+          { name = ::colorize("userlogColoredText", killStreaksOptionLocName) })
+      }
+      break
+
+    case ::USEROPT_BR_MIN:
+    case ::USEROPT_BR_MAX:
+      local isMin = type == ::USEROPT_BR_MIN
+      descr.id = isMin ? "battle_rating_min" : "battle_rating_max"
+      descr.controlName <- "combobox"
+      descr.cb = "onInstantOptionApply"
+      descr.items = []
+      descr.values = []
+
+      for (local mrank = 0; mrank <= ::MAX_ECONOMIC_RANK; mrank++)
+      {
+        local br = ::calc_battle_rating_from_rank(mrank)
+        descr.values.append(mrank)
+        descr.items.append(::format("%.1f", br))
+      }
+
+      defaultValue = isMin && descr.items.len() ? 0 : (descr.values.len() - 1)
       break
 
     case ::USEROPT_RACE_LAPS:
@@ -4513,6 +4606,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_CD_FORCE_INSTRUCTOR:
     case ::USEROPT_CD_DISTANCE_DETECTION:
     case ::USEROPT_RANK:
+    case ::USEROPT_REPLAY_LOAD_COCKPIT:
       local optionValue = null
       if (descr.controlType == optionControlType.CHECKBOX)
       {
@@ -4580,6 +4674,24 @@ function set_option(type, value, descr = null)
       ::mission_settings[descr.sideTag + "_bitmask"] <- value
       if (descr.onChangeCb)
         descr.onChangeCb(type, value, value)
+      break
+
+    case ::USEROPT_BIT_UNIT_TYPES:
+      if (value <= 0)
+        break
+
+      ::set_gui_option(type, value)
+      ::mission_settings.userAllowedUnitTypesMask <- descr.availableUnitTypesMask & value
+      break
+
+    case ::USEROPT_BR_MIN:
+    case ::USEROPT_BR_MAX:
+      if (value in descr.values)
+      {
+        local optionValue = descr.values[value]
+        ::set_gui_option(type, optionValue)
+        ::mission_settings[type == ::USEROPT_BR_MIN ? "mrankMin" : "mrankMax"] <- optionValue
+      }
       break
 
     case ::USEROPT_BIT_CHOOSE_UNITS_TYPE:
@@ -4700,6 +4812,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
+    case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:

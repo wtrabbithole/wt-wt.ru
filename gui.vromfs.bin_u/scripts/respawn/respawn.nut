@@ -2375,7 +2375,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::show_hud(false)
   }
 
-  function onShowHud(show = true) //return - was changed
+  function onShowHud(show = true, needApplyPending = false) //return - was changed
   {
     if (!isSceneActive())
       return

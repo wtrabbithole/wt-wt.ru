@@ -1,3 +1,15 @@
+local __string = require("string")
+foreach (name, func in require("dagor.localize"))
+  ::dagor[name] <- func
+::loc <- require("dagor.localize").loc
+
+::regexp<-__string.regexp
+::split <-__string.split
+::format <-__string.format
+::strip<-__string.strip
+local __math = require("math")
+::fabs<-__math.fabs
+
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
 ::dagor.runScript("sqStdLibs/scriptReloader/scriptReloader.nut")
@@ -370,6 +382,9 @@ foreach (fn in [
 
   //used before xbox login
   "scripts/social/xboxSquadManager.nut"
+
+  //used for SSO login
+  "scripts/onlineshop/browserWnd.nut"
 ])
 {
   ::g_script_reloader.loadOnce(fn)
@@ -635,7 +650,6 @@ function load_scripts_after_login_once()
 
     "onlineShop/onlineShopModel.nut"
     "onlineShop/onlineShop.nut"
-    "onlineShop/browserWnd.nut"
     "onlineShop/reqPurchaseWnd.nut"
     "paymentHandler.nut"
 

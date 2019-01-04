@@ -23,7 +23,7 @@
     QueueCustomEventRoom = false
     Invites = true
     Credits = true
-    EmbeddedBrowser = false
+    EmbeddedBrowser = is_platform_windows
     EmbeddedBrowserOnlineShop = false
 
     Chat = true
@@ -150,7 +150,6 @@
     SpectatorUnitDmgIndicator = ::disable_network()
 
     ProfileMedals = true
-    SlotbarShowCountryName = false
     SlotbarShowBattleRating = true
     GlobalShowBattleRating = false
     VideoPreview = ::disable_network()

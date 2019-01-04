@@ -55,7 +55,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   unlockTypesToShow = [
     ::UNLOCKABLE_ACHIEVEMENT,
     ::UNLOCKABLE_CHALLENGE,
-    ::UNLOCKABLE_SKIN,
     ::UNLOCKABLE_TITLE,
     ::UNLOCKABLE_MEDAL,
     ::UNLOCKABLE_DECAL,
@@ -376,7 +375,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         foreach(idx, item in unlockFilters[sheet])
         {
           selIdx = item == curCountry ? idx : selIdx
-          view.items.append({ text = "#" + item })
+          view.items.append(
+            {
+              image = ::get_country_icon(item)
+              tooltip = "#" + item
+            }
+          )
         }
 
         local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
@@ -480,7 +484,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local view = { items = [] }
       foreach(unitType in ::g_unit_type.types)
         if (unitType.isAvailable())
-          view.items.append({text = unitType.getArmyLocName()})
+          view.items.append(
+            {
+              image = unitType.testFlightIcon
+              tooltip = unitType.getArmyLocName()
+            }
+          )
 
       local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
       guiScene.replaceContentFromText(unitypeListObj, data, data.len(), this)
@@ -511,9 +520,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   function recacheSkins()
   {
     skinsCache = {}
-    foreach(idx, cb in ::g_unlocks.getUnlocksByTypeInBlkOrder("skin"))
+    local idx = 0
+    foreach(skinName, decorator in ::g_decorator.getCachedDecoratorsListByType(::g_decorator_type.SKINS))
     {
-      local skinName = cb.getStr("id", "")
       local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(skinName))
       if (!unit)
         continue
@@ -523,7 +532,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if ( ! ::is_unit_visible_in_shop(unit))
         continue
 
-      local decorator = ::g_decorator.getDecorator(skinName, ::g_decorator_type.SKINS)
       if (!decorator || !decorator.isVisible())
         continue
 
@@ -543,7 +551,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
         //sort params
         unitId = unit.name
-        idx = idx
+        idx = ++idx
       }
 
       if ( ! (OwnUnitsType.ALL in skinsCache[unitCountry][unitType]))
@@ -880,55 +888,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     }
   }
 
-  function onMedalTooltipClose(obj)
-  {
-    guiScene.performDelayed(this, (@(obj, guiScene) function() {
-      if(obj && obj.isValid())
-        guiScene.replaceContentFromText(obj, "", 0, this)
-    })(obj, guiScene))
-  }
-
-  function onRewardTooltipOpen(obj)
-  {
-    local tooltipId = obj.tooltipId
-    if (tooltipId != "reward") //need to move other tooltips to generic view
-      return onGenericTooltipOpen(obj)
-
-    local id = obj.reward
-    local cb = id && id != "" && ::g_unlocks.getUnlockById(id)
-    obj["class"] = cb ? "" : "empty"
-    if(!cb)
-      return
-
-    local config = build_conditions_config(cb)
-    ::build_unlock_desc(config)
-    local name = config.id
-    local unlockType = config.unlockType
-    local isUnlocked = ::is_unlocked_scripted(unlockType, name)
-    local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
-    if (decoratorType == ::g_decorator_type.DECALS
-        || decoratorType == ::g_decorator_type.ATTACHABLES
-        || unlockType == ::UNLOCKABLE_MEDAL)
-    {
-      local bgImage = ::format("background-image:t='%s';", config.image)
-      local size = ::format("size:t='128, 128/%f';", config.imgRatio)
-
-      guiScene.appendWithBlk(obj, ::format("img{ %s }", bgImage + size), this)
-    }
-    else if (decoratorType == ::g_decorator_type.SKINS)
-    {
-      local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(name))
-      local text = []
-      if (unit)
-        text.append(::loc("reward/skin_for") + " " + ::getUnitName(unit))
-      text.append(decoratorType.getLocDesc(name))
-
-      text = ::locOrStrip(::g_string.implode(text, "\n"))
-      local textBlock = "textareaNoTab {smallFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
-      guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
-    }
-  }
-
   function getSkinCountry(skinName)
   {
     local len0 = skinName.find("/")
@@ -937,17 +896,32 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     return ""
   }
 
-  function build_unlock_info_blk(page_id, name, blk, infoObj)
+  function fillSkinInfoObj(page_id, name, unlockBlk, infoObj)
   {
     guiScene.replaceContentFromText(infoObj, "", 0, this)
 
-    local isUnlocked = ::g_decorator_type.SKINS.isPlayerHaveDecorator(name)
+    local decoratorType = ::g_decorator_type.SKINS
+    local isUnlocked = decoratorType.isPlayerHaveDecorator(name)
 
-    local config = ::build_conditions_config(blk)
-    ::build_unlock_desc(config)
+    local config = {}
+    if (unlockBlk)
+    {
+      config = ::build_conditions_config(unlockBlk)
+      ::build_unlock_desc(config)
+    }
+    else // unlockBlk is null for skins without unlock
+    {
+      config = ::get_empty_conditions_config()
+      local decorator = ::g_decorator.getDecoratorById(name)
+      config.image = decoratorType.getImage(decorator)
+      config.imgRatio = decoratorType.getRatio(decorator)
+    }
 
     if (config.image != "")
         append_big_icon(config.image, infoObj, isUnlocked, config.imgRatio, false)
+
+    if (!unlockBlk)
+      return
 
     append_condition_item(config, 0, infoObj, true, isUnlocked)
     if ("shortText" in config)
@@ -1161,12 +1135,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     objDesc.findObject("item_name").setValue(textName)
     objDesc.findObject("item_name0").setValue(unitNameLoc)
 
-    local cb = ::g_unlocks.getUnlockById(name)
-    if (cb)
-    {
-      build_unlock_info_blk("skin", name, cb, scene.findObject("item_field"))
+    local unlockBlk = ::g_unlocks.getUnlockById(name)
+    fillSkinInfoObj("skin", name, unlockBlk, scene.findObject("item_field"))
+    scene.findObject("checkbox-favorites").show(!!unlockBlk)
+    if (unlockBlk)
       ::g_unlock_view.fillUnlockFav(name, objDesc)
-    }
 
     showSceneBtn("unlocks_list", false)
 

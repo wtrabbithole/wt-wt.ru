@@ -82,12 +82,22 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     needAnimOnIncrementCount = true
   }
 
+  TORPEDO_SIGHT = {
+    code = ::EII_TORPEDO_SIGHT
+    _name = "torpedo_sight"
+    _icon = "#ui/gameuiskin#torpedo_sight"
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_TORPEDO_SIGHT"
+  }
+
   TORPEDO = {
     code = ::EII_TORPEDO
     _name = "torpedo"
-    _icon = "#ui/gameuiskin#torpedo"
+    _icon = "#ui/gameuiskin#torpedo_multiple"
     getShortcut = @(actionItem, unit = null)
       ::is_submarine(unit) ? "ID_SUBMARINE_WEAPON_TORPEDOES" : "ID_SHIP_WEAPON_TORPEDOES"
+    getIcon = function (killStreakTag = null, unit = null) {
+      return ::single_torpedo_selected() ?  "#ui/gameuiskin#torpedo" : _icon
+    }
   }
 
   DEPTH_CHARGE = {

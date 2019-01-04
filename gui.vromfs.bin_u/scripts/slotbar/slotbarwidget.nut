@@ -75,6 +75,10 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   skipCheckCountrySelect = false
   skipCheckAirSelect = false
 
+  headerObj = null
+  crewsObj = null
+  selectedCrewData = null
+
   static function create(params)
   {
     local nest = params?.scene
@@ -100,14 +104,17 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
+    headerObj = scene.findObject("header_countries")
+    crewsObj =  scene.findObject("countries_crews")
+
     loadedCountries = {}
     isSceneLoaded = true
     refreshAll()
 
     if (needOffset) {
-      local obj = scene.findObject("autorefill-settings")
-      if (::checkObj(obj))
-        obj["offset"] = "yes"
+      local slotbarHeaderNestObj = scene.findObject("slotbar_buttons_place")
+      if (::check_obj(slotbarHeaderNestObj))
+        slotbarHeaderNestObj["offset"] = "yes"
     }
   }
 
@@ -290,10 +297,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   function calcSelectedCrewData(crewsConfig)
   {
     local forcedCountry = getForcedCountry()
-    local curPlayerCountry = forcedCountry || ::get_profile_country_sq()
+    local unitShopCountry = forcedCountry || ::get_profile_country_sq()
     local curUnit = ::get_show_aircraft()
     local curCrewId = crewId
-    local unitShopCountry = curPlayerCountry
 
     if (!forcedCountry && !curCrewId)
     {
@@ -393,93 +399,64 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     ::slotbar_oninit = true
-
     ::init_selected_crews()
     ::update_crew_skills_available()
     local crewsConfig = gatherVisibleCrewsConfig()
-    local selCrewData = calcSelectedCrewData(crewsConfig)
+    selectedCrewData = calcSelectedCrewData(crewsConfig)
 
     guiScene.setUpdatesEnabled(false, false);
-    scene["singleCountry"] = singleCountry ? "yes" : "no"
 
     local isFullSlotbar = crewsConfig.len() > 1
-    if (isFullSlotbar && showTopPanel)
+    local hasCountryTopBar = isFullSlotbar && showTopPanel && !singleCountry
+    if (hasCountryTopBar)
       ::initSlotbarTopBar(scene, true) //show autorefill checkboxes
 
-    local countriesObj = scene.findObject("slotbar-countries")
-    countriesObj.hasBackground = isFullSlotbar ? "no" : "yes"
+    scene.hasHeader = !hasCountryTopBar ? "yes" : "no"
+    crewsObj.hasBackground = isFullSlotbar ? "no" : "yes"
     local hObj = scene.findObject("slotbar_background")
     hObj.show(isFullSlotbar)
     if (::show_console_buttons)
-      ::showBtn("slotbar_nav_block", isFullSlotbar, scene)
+      updateConsoleButtonsVisible(hasCountryTopBar)
 
+    local countriesView = {
+      countries = []
+    }
+    local isLowWidthScreen = ::is_low_width_screen()
     local selCountryIdx = 0
     foreach(idx, countryData in crewsConfig)
     {
       local country = countryData.country
-      if (countryData.id == selCrewData?.idCountry)
+      if (countryData.id == selectedCrewData?.idCountry)
         selCountryIdx = idx
 
-      local itemName = "slotbar-country" + countryData.id
-      local itemObj = null
-      local prevObjStrIdx = null
-      if (countriesObj.childrenCount() > idx)
-      {
-        itemObj = countriesObj.getChild(idx)
-        prevObjStrIdx = ::getObjIdByPrefix(itemObj, "slotbar-country")
-        itemObj.id = itemName
-      }
-      else
-      {
-        local itemText = format("slotsOption { id:t='%s' _on_deactivate:t='restoreFocus'} ", itemName)
-        guiScene.appendWithBlk(countriesObj, itemText, this)
-        itemObj = countriesObj.findObject(itemName)
-        guiScene.replaceContent(itemObj, "gui/slotbar/slotbarItem.blk", this)
-      }
-
-      //update item main part (what visible even when not selected)
-      itemObj.enable(countryData.isEnabled)
-
-      local cTooltipObj = itemObj.findObject("tooltip_country_")
-      if (cTooltipObj)
-        cTooltipObj.id = "tooltip_" + country
-
-      local cUnlocked = ::isCountryAvailable(country)
-      itemObj.inactive = "no"
-      if (!cUnlocked)
-      {
-        itemObj.inactive = "yes"
-        itemObj.tooltip = ::loc("mainmenu/countryLocked/tooltip")
-      }
-
-      local cImg = ::get_country_icon(country, false, !cUnlocked)
-      itemObj.findObject("hdr_image")["background-image"] = cImg
-      itemObj.findObject("hdr_block").tooltip = ::loc(country)
+      local bonusData = null
       if (!::is_first_win_reward_earned(country, INVALID_USER_ID))
-      {
-        local mObj = itemObj.findObject("hdr_bonus")
-        showCountryBonus(mObj, country)
-      }
-      fillCountryInfo(itemObj, country)
-      if (::has_feature("SlotbarShowCountryName"))
-        itemObj.findObject("hdr_caption").setValue(::getVerticalText(::loc(country + "/short", "")))
+        bonusData = getCountryBonusData(country)
 
-
-      //update item secondary part
-      local tblObj = itemObj.findObject(prevObjStrIdx ? "airs_table_" + prevObjStrIdx : "airs_table")
-      tblObj.id = "airs_table_" + countryData.id
-      tblObj.alwaysShowBorder = alwaysShowBorder ? "yes" : "no"
-
-      if ((!selCrewData && !idx) || countryData.id == selCrewData?.idCountry)
-        fillCountryContent(countryData, tblObj, selCrewData)
+      local cEnabled = countryData.isEnabled
+      local cUnlocked = ::isCountryAvailable(country)
+      local tooltipText = !cUnlocked ? ::loc("mainmenu/countryLocked/tooltip")
+        : isLowWidthScreen ? ::loc(country)
+        : ""
+      countriesView.countries.append({
+        countryIdx = countryData.id
+        country = country
+        tooltipText = tooltipText
+        isShort = isLowWidthScreen
+        countryIcon = ::get_country_icon(country, false, !cUnlocked || !cEnabled)
+        bonusData = bonusData
+        isEnabled = cEnabled && cUnlocked
+      })
     }
 
-    if (crewsConfig.len())
-      countriesObj.setValue(selCountryIdx)
+    local countriesData = ::handyman.renderCached("gui/slotbar/slotbarCountryItem", countriesView)
+    local countriesNestObj = scene.findObject("header_countries")
+    guiScene.replaceContentFromText(countriesNestObj, countriesData, countriesData.len(), this)
+    countriesNestObj.setValue(selCountryIdx)
 
-    if (selCrewData)
+    if (selectedCrewData)
     {
-      local selItem = ::get_slot_obj(countriesObj, selCrewData.idCountry, selCrewData.idInCountry)
+      local selItem = ::get_slot_obj(crewsObj, selectedCrewData.idCountry, selectedCrewData.idInCountry)
       if (selItem)
         guiScene.performDelayed(this, function() {
           if (::check_obj(selItem) && selItem.isVisible())
@@ -490,28 +467,37 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(true, true);
     ::slotbar_oninit = false
 
-    if (crewsConfig.len() > 1)
-      initSlotbarAnim(countriesObj, guiScene)
-
-    local needEvent = selCrewData
-      && (curSlotCountryId >= 0 && curSlotCountryId != selCrewData.idCountry
-        || curSlotIdInCountry >= 0 && curSlotIdInCountry != selCrewData.idInCountry)
+    local needEvent = selectedCrewData
+      && (curSlotCountryId >= 0 && curSlotCountryId != selectedCrewData.idCountry
+        || curSlotIdInCountry >= 0 && curSlotIdInCountry != selectedCrewData.idInCountry)
     if (needEvent)
     {
-      local cObj = scene.findObject("airs_table_" + selCrewData.idCountry)
+      local cObj = scene.findObject("airs_table_" + selectedCrewData.idCountry)
       if (::check_obj(cObj))
       {
         skipCheckAirSelect = true
         onSlotbarSelect(cObj)
       }
-    } else
+    }
+    else
     {
-      curSlotCountryId   = selCrewData?.idCountry ?? -1
-      curSlotIdInCountry = selCrewData?.idInCountry ?? -1
+      curSlotCountryId   = selectedCrewData?.idCountry ?? -1
+      curSlotIdInCountry = selectedCrewData?.idInCountry ?? -1
     }
   }
 
-  function fillCountryContent(countryData, tblObj, selCrewData = null)
+  getCountryBonusData = @(country) getBonus(
+    ::shop_get_first_win_xp_rate(country),
+    ::shop_get_first_win_wp_rate(country), "item")
+
+  function updateCountryHeader(countryData, obj)
+  {
+    local iconObj = obj.findObject("hdr_image")
+    if (::check_obj(iconObj))
+      iconObj["background-image"] = ::get_country_icon(countryData.country, false)
+  }
+
+  function fillCountryContent(countryData, tblObj)
   {
     if (loadedCountries?[countryData.id] == ::g_crews_list.version
       || !::check_obj(tblObj))
@@ -519,8 +505,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     loadedCountries[countryData.id] <- ::g_crews_list.version
 
-    if (!selCrewData || selCrewData.idCountry != countryData.id)
-      selCrewData = getSelectedCrewDataInCountry(countryData)
+    local selCrewData = selectedCrewData?.idCountry == countryData.id
+      ? selectedCrewData
+      : getSelectedCrewDataInCountry(countryData)
 
     local rowData = ""
     foreach(crewData in countryData.crews)
@@ -595,8 +582,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local countryData = gatherVisibleCrewsConfig(countryIdx)?[0]
-    if (countryData)
-      fillCountryContent(countryData, scene.findObject("airs_table_" + countryData.id))
+    if (!countryData)
+      return
+
+    updateCountryHeader(countryData, scene.findObject("crew_nest_" + countryData.id))
+    fillCountryContent(countryData, scene.findObject("airs_table_" + countryData.id))
   }
 
   function getCurSlotUnit()
@@ -873,7 +863,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   {
     local idx = obj.getValue()
     local countryIdx = ::to_integer_safe(
-      ::getObjIdByPrefix(obj.getChild(idx), "slotbar-country"), curSlotCountryId)
+      ::getObjIdByPrefix(obj.getChild(idx), "header_country"), curSlotCountryId)
     if (curSlotCountryId >= 0 && curSlotCountryId != countryIdx && countryIdx in ::g_crews_list.get()
         && !::isCountryAvailable(::g_crews_list.get()[countryIdx].country) && ::isAnyBaseCountryUnlocked())
     {
@@ -887,15 +877,34 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     return true
   }
 
-  function onSlotbarCountry(obj)
+  function checkCreateCrewsNest(countryIdx)
+  {
+    local countriesCount = crewsObj.childrenCount()
+    local animBlockId = "crews_anim_" + countryIdx
+    for (local i = 0; i < countriesCount; i++)
+    {
+      local animObj = crewsObj.getChild(i)
+      animObj.animation = animObj.id == animBlockId ? "show" : "hide"
+    }
+
+    local animBlockObj = crewsObj.findObject(animBlockId)
+    if (::check_obj(animBlockObj))
+      return
+
+    local blk = ::handyman.renderCached("gui/slotbar/slotbarItem", {
+      countryIdx = countryIdx
+      needSkipAnim = countriesCount == 0
+      alwaysShowBorder = alwaysShowBorder
+    })
+    guiScene.appendWithBlk(crewsObj, blk, this)
+  }
+
+  function onHeaderCountry(obj)
   {
     local countryData = getCountryDataByObject(obj)
-    if (countryData)
-      checkUpdateCountryInScene(countryData.idx)
-
     if (::slotbar_oninit || skipCheckCountrySelect)
     {
-      onSlotbarCountryImpl(obj, countryData)
+      onSlotbarCountryImpl(countryData)
       skipCheckCountrySelect = false
       return
     }
@@ -910,7 +919,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      switchSlotbarCountry(obj, countryData)
+      switchSlotbarCountry(headerObj, countryData)
       ::game_mode_manager.setCurrentGameModeById(::slotbarPresets.getPresetsList(countryData.country)[
                                                    ::slotbarPresets.getCurrent(countryData.country, 0)].gameModeId)
     }
@@ -921,7 +930,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (!shouldCheckQueue)
     {
       if (checkSelectCountryByIdx(obj))
-        onSlotbarCountryImpl(obj, countryData)
+        onSlotbarCountryImpl(countryData)
     }
     else
     {
@@ -930,7 +939,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
       checkedCrewModify((@(obj) function() {
           if (::checkObj(obj))
-            onSlotbarCountryImpl(obj, countryData)
+            onSlotbarCountryImpl(countryData)
         })(obj),
         (@(obj) function() {
           if (::checkObj(obj))
@@ -944,13 +953,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, c in ::g_crews_list.get())
       if (c.country == country)
       {
-        local cObj = scene.findObject("slotbar-countries")
-        if (cObj && cObj.getValue()!=idx)
-        {
-          skipCheckCountrySelect = true
-          skipCheckAirSelect = true
-          cObj.setValue(idx)
-        }
+        local headerObj = scene.findObject("header_countries")
+        if (!::check_obj(headerObj) || headerObj.getValue() == idx)
+          break
+
+        skipCheckCountrySelect = true
+        skipCheckAirSelect = true
+        headerObj.setValue(idx)
         break
       }
   }
@@ -965,7 +974,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return null
 
     local countryIdx = ::to_integer_safe(
-      ::getObjIdByPrefix(obj.getChild(curValue), "slotbar-country"), curSlotCountryId)
+      ::getObjIdByPrefix(obj.getChild(curValue), "header_country"), curSlotCountryId)
     local country = ::g_crews_list.get()[countryIdx].country
 
     return {
@@ -974,23 +983,28 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onSlotbarCountryImpl(obj, countryData)
+  function onSlotbarCountryImpl(countryData)
   {
-    if (!::check_obj(obj) || !countryData)
+    if (!countryData)
       return
+
+    checkCreateCrewsNest(countryData.idx)
+    checkUpdateCountryInScene(countryData.idx)
 
     if (!singleCountry)
     {
-      if (!checkSelectCountryByIdx(obj))
+      if (!checkSelectCountryByIdx(headerObj))
         return
 
       ::switch_profile_country(countryData.country)
-      onSlotbarSelect(obj.findObject("airs_table_" + countryData.idx))
+      onSlotbarSelect(crewsObj.findObject("airs_table_" + countryData.idx))
     }
     else
-      onSlotbarSelect(obj.findObject("airs_table_" + countryData.idx))
+      onSlotbarSelect(crewsObj.findObject("airs_table_" + countryData.idx))
 
     onSlotbarCountryChanged()
+    if (ownerWeak)
+      ownerWeak.delayedRestoreFocus()
   }
 
   function onSlotbarCountryChanged()
@@ -1010,7 +1024,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (singleCountry)
       return
 
-    local hObj = scene.findObject("slotbar-countries")
+    local hObj = scene.findObject("header_countries")
     if (hObj.childrenCount() <= 1)
       return
 
@@ -1059,7 +1073,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if(::check_obj(shadeObj))
       shadeObj.animation = isShaded ? "show" : "hide"
     if (::show_console_buttons)
-      showSceneBtn("slotbar_nav_block", !isShaded)
+      updateConsoleButtonsVisible(!isShaded)
+  }
+
+  function updateConsoleButtonsVisible(isVisible)
+  {
+    showSceneBtn("prev_country_btn", isVisible)
+    showSceneBtn("next_country_btn", isVisible)
   }
 
   function forceUpdate()
@@ -1147,20 +1167,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   //return GuiBox of visible slotbar countries
   function getBoxOfCountries()
   {
-    local res = null
-    for(local i = 0; i <= curSlotCountryId; i++)
-    {
-      local obj = scene.findObject("slotbar-country" + i)
-      if (!::check_obj(obj))
-        continue
+    local headerCountriesObj = scene.findObject("header_countries")
+    if (!::check_obj(headerCountriesObj))
+      return null
 
-      local box = ::GuiBox().setFromDaguiObj(obj.findObject("hdr_block"))
-      if (res)
-        res.addBox(box)
-      else
-        res = box
-    }
-    return res
+    return ::GuiBox().setFromDaguiObj(headerCountriesObj)
   }
 
   function getSlotsData(unitId = null, crewId = -1, withEmptySlots = false)

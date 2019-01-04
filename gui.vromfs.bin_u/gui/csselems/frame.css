@@ -35,6 +35,10 @@ frame.wndNav[largeNavBarHeight=help] {
 frame.wndNav[padByLine=yes] {
   padding:1@frameHeaderPad, 1@frameHeaderHeight +1@dp, 1@frameHeaderPad, 1@frameFooterHeight;
 }
+frame.wndNav[isHeaderHidden=yes] {
+  padding:1@framePadding, 1@framePadding, 1@framePadding, 1@frameFooterHeight;
+}
+
 frame.leaderboard {
   padding:0.025@scrn_tgt, 1@frameTopPadding, 0.025@scrn_tgt, 1@frameFooterHeight;
 }
@@ -54,6 +58,10 @@ frame_header {
 
   background-position:@frameHeaderPad, @frameHeaderPad, @frameHeaderPad, 0;
   background-color:@frameHeaderColor;
+}
+
+frame.wndNav[isHeaderHidden=yes] > frame_header {
+  display: hide;
 }
 
 frame_header[smallIcon=yes] {

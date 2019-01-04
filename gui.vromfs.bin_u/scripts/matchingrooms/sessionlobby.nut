@@ -421,6 +421,23 @@ function SessionLobby::prepareSettings(missionSettings)
     _settings[name] <- (countries && countries.len())? countries : fullCountriesList
   }
 
+  local userAllowedUnitTypesMask = missionSettings?.userAllowedUnitTypesMask ?? 0
+  if (userAllowedUnitTypesMask)
+    foreach (unitType in ::g_unit_type.types)
+      if (unitType.isAvailableByMissionSettings(_settings.mission) && !(userAllowedUnitTypesMask & unitType.bit))
+        _settings.mission[unitType.missionSettingsAvailabilityFlag] = false
+
+  local mrankMin = missionSettings?.mrankMin ?? 0
+  local mrankMax = missionSettings?.mrankMax ?? ::MAX_ECONOMIC_RANK
+  if (mrankMin > mrankMax)
+  {
+    local temp = mrankMin
+    mrankMin = mrankMax
+    mrankMax = temp
+  }
+  if (mrankMin > 0 || mrankMax < ::MAX_ECONOMIC_RANK)
+    _settings.mranks <- { min = mrankMin, max = mrankMax }
+
   _settings.chatPassword <- isInRoom() ? getChatRoomPassword() : ::gen_rnd_password(16)
   if (!u.isEmpty(settings?.externalSessionId))
     _settings.externalSessionId <- settings.externalSessionId
@@ -509,6 +526,7 @@ function SessionLobby::UpdatePlayersInfo()
       playersInfo[uid] <- pinfo
     }
   }
+  ::SquadIcon.updatePlayersInfo()
 }
 
 function SessionLobby::UpdateCrsSettings()
@@ -556,7 +574,12 @@ function SessionLobby::fillTeamsInfo(_settings, misBlk)
 
   foreach (unitType in ::g_unit_type.types)
     if (unitType.isAvailableByMissionSettings(_settings.mission))
-      teamData.allowedCrafts.append({ ["class"] = unitType.getMissionAllowedCraftsClassName() })
+    {
+      local rule = { ["class"] = unitType.getMissionAllowedCraftsClassName() }
+      if (_settings?.mranks)
+        rule.mranks <- _settings.mranks
+      teamData.allowedCrafts.append(rule)
+    }
 
   //!!fill assymetric teamdata
   local teamDataA = teamData

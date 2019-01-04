@@ -52,6 +52,27 @@ enums.addTypesByGlobalName("g_hud_crew_member", {
     tooltip = "hud_tank_crew_driver_out_of_action"
   }
 
+  DISTANCE = {
+    hudEventName = "CrewState:Distance"
+    sceneId = "crew_distance"
+    tooltip = "hud_tank_crew_distance"
+
+    setCrewMemberState = function (iconObj, newStateData) {
+      local val = ::roundToDigits(newStateData.distance, 2)
+      local cooldownObj = ::g_hud_crew_state.scene.findObject("cooldown")
+      val == 1 ?
+      (
+        cooldownObj["sector-angle-2"] = 0,
+        iconObj.state = "ok",
+        iconObj.tooltip = ""
+      ):(
+        cooldownObj["sector-angle-2"] = (val * 360).tointeger(),
+        iconObj.state = "bad",
+        iconObj.tooltip = ::loc(tooltip, {distance = val * 100})
+      )
+    }
+  }
+
   CREW_COUNT = {
     hudEventName = "CrewState:CrewState"
     sceneId = "crew_count"

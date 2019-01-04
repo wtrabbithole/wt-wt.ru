@@ -863,7 +863,10 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
     if (effect)
       addDesc = weaponryEffects.getDesc(air, effect)
     if (!effect && updateEffectFunc)
+    {
+      res.delayed = true
       ::calculate_mod_or_weapon_effect(air.name, item.name, false, this, updateEffectFunc, null)
+    }
   }
   else if (item.type==weaponsItem.primaryWeapon)
   {
@@ -889,11 +892,15 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
   {
     if (effect)
     {
-      desc = ::getModificationInfoText(air, item.name);
+      desc = ::getModificationInfo(air, item.name).desc;
       addDesc = weaponryEffects.getDesc(air, effect);
     }
     else
-      desc = ::getModificationInfoText(air, item.name, false, false, this, updateEffectFunc)
+    {
+      local info = ::getModificationInfo(air, item.name, false, false, this, updateEffectFunc)
+      desc = info.desc
+      res.delayed = info.delayed
+    }
 
     addBulletsParamToDesc(res, air, item)
   }

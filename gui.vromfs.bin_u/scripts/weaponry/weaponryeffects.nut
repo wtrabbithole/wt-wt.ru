@@ -345,7 +345,7 @@ effectTypeConstructor)
 local startTab = ::nbsp + ::nbsp + ::nbsp + ::nbsp
 local getEffectsStackFunc = function(unit, effectsConfig, modeId)
 {
-  return function(eType, res) {
+  return function(res, eType) {
     local text = eType.getText(unit, effectsConfig, modeId)
     if (text.len())
       res += "\n" + startTab + text
@@ -395,7 +395,7 @@ local function getDesc(unit, effects, p = DESC_PARAMS)
   prepareCalculationParams(unit, effects, modeId)
 
   local res = ""
-  local desc = ::u.reduce(effectsType.types, getEffectsStackFunc(unit, effects, modeId), "")
+  local desc = effectsType.types.reduce(getEffectsStackFunc(unit, effects, modeId), "")
   if (desc != "")
     res = "\n" + ::loc("modifications/specs_change") + ::loc("ui/colon") + desc
 
@@ -405,7 +405,7 @@ local function getDesc(unit, effects, p = DESC_PARAMS)
       w.withLevel     <- effects?.withLevel?.weaponMods?[idx] ?? {}
       w.withOverdrive <- effects?.withOverdrive?.weaponMods?[idx] ?? {}
 
-      desc = ::u.reduce(weaponEffectsType.types, getEffectsStackFunc(unit, w, modeId), "")
+      desc = weaponEffectsType.types.reduce(getEffectsStackFunc(unit, w, modeId), "")
       if (desc.len())
         res += "\n" + ::loc(w.name) + ::loc("ui/colon") + desc
     }

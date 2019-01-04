@@ -115,7 +115,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       showNewSlot=false
       emptyText="#shop/aircraftNotSelected"
       afterSlotbarSelect = onSlotbarSelect
-      showTopPanel = false
     })
   }
 
@@ -294,6 +293,14 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     updateAllItems()
     guiScene.setUpdatesEnabled(true, true)
+
+    local frameObj = scene.findObject("mods_frame")
+    local maxFrameHeight = ::g_dagui_utils.toPixels(guiScene, "1@maxWeaponsWindowHeight")
+    if (::check_obj(frameObj) && frameObj.getSize()[1] > maxFrameHeight)
+    {
+      frameObj.isHeaderHidden = "yes"
+      showSceneBtn("close_ext_btn", !researchMode)
+    }
   }
 
   function fillAvailableRPText()

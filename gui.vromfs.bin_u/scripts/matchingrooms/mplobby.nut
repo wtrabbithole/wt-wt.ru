@@ -889,7 +889,7 @@ class ::gui_handlers.JoiningGame extends ::gui_handlers.BaseGuiHandlerWT
     {
       local event = ::SessionLobby.getRoomEvent()
       if (event == null ||
-          ::Events.getEventDisplayType(event) != ::g_event_display_type.RANDOM_BATTLE)
+          ::events.getEventDisplayType(event) != ::g_event_display_type.RANDOM_BATTLE)
         gameModeName = "event"
     }
     return ::loc("multiplayer/" + gameModeName + "Mode")

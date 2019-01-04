@@ -716,6 +716,53 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     }
   }
 
+  REWARD_TOOLTIP = {
+    isCustomTooltipFill = true
+    fillTooltip = function(obj, handler, unlockId, params)
+    {
+      if (!::checkObj(obj))
+        return false
+
+      local unlockBlk = unlockId && unlockId != "" && ::g_unlocks.getUnlockById(unlockId)
+      obj["class"] = unlockBlk ? "" : "empty"
+      if(!unlockBlk)
+        return false
+
+      local config = build_conditions_config(unlockBlk)
+      ::build_unlock_desc(config)
+      local name = config.id
+      local unlockType = config.unlockType
+      local isUnlocked = ::is_unlocked_scripted(unlockType, name)
+      local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
+      local guiScene = obj.getScene()
+      if (decoratorType == ::g_decorator_type.DECALS
+          || decoratorType == ::g_decorator_type.ATTACHABLES
+          || unlockType == ::UNLOCKABLE_MEDAL)
+      {
+        local bgImage = ::format("background-image:t='%s';", config.image)
+        local size = ::format("size:t='128, 128/%f';", config.imgRatio)
+
+        guiScene.appendWithBlk(obj, ::format("img{ %s }", bgImage + size), this)
+      }
+      else if (decoratorType == ::g_decorator_type.SKINS)
+      {
+        local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(name))
+        local text = []
+        if (unit)
+          text.append(::loc("reward/skin_for") + " " + ::getUnitName(unit))
+        text.append(decoratorType.getLocDesc(name))
+
+        text = ::locOrStrip(::g_string.implode(text, "\n"))
+        local textBlock = "textareaNoTab {smallFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
+        guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
+      }
+      else
+        return false
+
+      return true
+    }
+  }
+
 }, null, "typeName")
 
 function g_tooltip_type::getTypeByName(typeName)

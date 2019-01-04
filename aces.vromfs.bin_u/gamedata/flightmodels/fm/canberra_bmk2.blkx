@@ -47,26 +47,75 @@
   "ArcadeLimitWepMultiplier": 1.8,
   "ArcadeHelpersSensitivity": 1.0,
   "MomentOfInertia": [60000.0,120674.0,60000.0],
-  "AvailableControls": {
-    "hasAileronControl": true,
-    "hasAileronTrimControl": true,
-    "hasAileronTrimGroundControl": false,
-    "hasElevatorControl": true,
-    "hasElevatorTrimControl": true,
-    "hasElevatorTrimGroundControl": false,
-    "hasRudderControl": true,
-    "hasRudderTrimControl": true,
-    "hasRudderTrimGroundControl": false,
-    "hasFlapsControl": true,
-    "numFlapsPositions": 3,
-    "hasAirbrake": true,
-    "hasGearControl": true,
-    "hasArrestorControl": false,
-    "hasWingFoldControl": false,
-    "hasCockpitDoorControl": false,
-    "hasWheelBrakeControl": true,
-    "hasLockGearControl": false
-  },
+  "IgnoreErrors": true,
+  "AvailableControls": [
+    {
+      "hasAileronControl": true
+    },
+    {
+      "hasAileronTrimControl": true
+    },
+    {
+      "hasAileronTrimGroundControl": false
+    },
+    {
+      "hasElevatorControl": true
+    },
+    {
+      "hasElevatorTrimControl": true
+    },
+    {
+      "hasElevatorTrimGroundControl": false
+    },
+    {
+      "hasRudderControl": true
+    },
+    {
+      "hasRudderTrimControl": true
+    },
+    {
+      "hasRudderTrimGroundControl": false
+    },
+    {
+      "hasFlapsControl": true
+    },
+    {
+      "numFlapsPositions": 3
+    },
+    {
+      "hasAirbrake": true
+    },
+    {
+      "hasGearControl": true
+    },
+    {
+      "hasArrestorControl": false
+    },
+    {
+      "hasWingFoldControl": false
+    },
+    {
+      "hasCockpitDoorControl": false
+    },
+    {
+      "hasWheelBrakeControl": true
+    },
+    {
+      "hasLockGearControl": false
+    },
+    {
+      "hasFlapsControl": true
+    },
+    {
+      "hasTakeoffFlapsPosition": true
+    },
+    {
+      "hasCombatFlapsPosition": true
+    },
+    {
+      "isAirBrakeAvailableOnGround": true
+    }
+  ],
   "Areas": {
     "WingLeftIn": 15.6,
     "WingLeftMid": 14.8,
@@ -351,6 +400,41 @@
       "ThrustOmegaMinCoeff": 0.0111,
       "TurbineTimeConstant": 3.4,
       "Power": 1200.0,
+      "Mode0": {
+        "Throttle": 0.0,
+        "RPM": 0.37,
+        "ThrustMult": 0.04,
+        "TorqueMult": 0.04,
+        "ConsumptionMult": 1.6
+      },
+      "Mode1": {
+        "Throttle": 0.3,
+        "RPM": 0.6,
+        "ThrustMult": 0.16,
+        "TorqueMult": 0.16,
+        "ConsumptionMult": 1.4
+      },
+      "Mode2": {
+        "Throttle": 0.5,
+        "RPM": 0.8,
+        "ThrustMult": 0.46,
+        "TorqueMult": 0.46,
+        "ConsumptionMult": 1.2
+      },
+      "Mode3": {
+        "Throttle": 0.95,
+        "RPM": 0.9873,
+        "ThrustMult": 0.95,
+        "TorqueMult": 0.95,
+        "ConsumptionMult": 1.1
+      },
+      "Mode4": {
+        "Throttle": 1.0,
+        "RPM": 1.0,
+        "ThrustMult": 1.0,
+        "TorqueMult": 1.0,
+        "ConsumptionMult": 1.0
+      },
       "ThrustMax": {
         "Altitude_0": 0.0,
         "Altitude_1": 3047.0,
@@ -491,7 +575,7 @@
       "WaterTemperatureInertia": 6.8377,
       "WaterAirDensityPower": 0.0,
       "NoIgnitionOilHeatProducingFactor": 0.15,
-      "OilTemperatureInertia": 282.386,
+      "OilTemperatureInertia": 20.0,
       "OilRadiatorEffectPower": 0.0,
       "OilMinRadiatorThermalConductionCoeff": 1.0,
       "OilMinThermostatThermalConductionCoeff": 0.3,
@@ -524,19 +608,25 @@
         "WaterTemperature": 531.0,
         "OilTemperature": 76.0,
         "WorkTime": 7200.0,
-        "RecoverTime": 3600.0
+        "RecoverTime": 110.0
       },
       "Load2": {
         "WaterTemperature": 566.0,
         "OilTemperature": 87.0,
         "WorkTime": 3600.0,
-        "RecoverTime": 1800.0
+        "RecoverTime": 100.0
       },
       "Load3": {
         "WaterTemperature": 600.0,
         "OilTemperature": 100.0,
         "WorkTime": 600.0,
-        "RecoverTime": 300.0
+        "RecoverTime": 90.0
+      },
+      "Load4": {
+        "WaterTemperature": 620.0,
+        "OilTemperature": 110.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 60.0
       }
     },
     "Compressor": {
@@ -612,6 +702,41 @@
       "ThrustOmegaMinCoeff": 0.0111,
       "TurbineTimeConstant": 3.4,
       "Power": 1200.0,
+      "Mode0": {
+        "Throttle": 0.0,
+        "RPM": 0.37,
+        "ThrustMult": 0.04,
+        "TorqueMult": 0.04,
+        "ConsumptionMult": 1.6
+      },
+      "Mode1": {
+        "Throttle": 0.3,
+        "RPM": 0.6,
+        "ThrustMult": 0.16,
+        "TorqueMult": 0.16,
+        "ConsumptionMult": 1.4
+      },
+      "Mode2": {
+        "Throttle": 0.5,
+        "RPM": 0.8,
+        "ThrustMult": 0.46,
+        "TorqueMult": 0.46,
+        "ConsumptionMult": 1.2
+      },
+      "Mode3": {
+        "Throttle": 0.95,
+        "RPM": 0.9873,
+        "ThrustMult": 0.95,
+        "TorqueMult": 0.95,
+        "ConsumptionMult": 1.1
+      },
+      "Mode4": {
+        "Throttle": 1.0,
+        "RPM": 1.0,
+        "ThrustMult": 1.0,
+        "TorqueMult": 1.0,
+        "ConsumptionMult": 1.0
+      },
       "ThrustMax": {
         "Altitude_0": 0.0,
         "Altitude_1": 3047.0,
@@ -752,7 +877,7 @@
       "WaterTemperatureInertia": 6.8377,
       "WaterAirDensityPower": 0.0,
       "NoIgnitionOilHeatProducingFactor": 0.15,
-      "OilTemperatureInertia": 282.386,
+      "OilTemperatureInertia": 20.0,
       "OilRadiatorEffectPower": 0.0,
       "OilMinRadiatorThermalConductionCoeff": 1.0,
       "OilMinThermostatThermalConductionCoeff": 0.3,
@@ -785,19 +910,25 @@
         "WaterTemperature": 531.0,
         "OilTemperature": 76.0,
         "WorkTime": 7200.0,
-        "RecoverTime": 3600.0
+        "RecoverTime": 110.0
       },
       "Load2": {
         "WaterTemperature": 566.0,
         "OilTemperature": 87.0,
         "WorkTime": 3600.0,
-        "RecoverTime": 1800.0
+        "RecoverTime": 100.0
       },
       "Load3": {
         "WaterTemperature": 600.0,
         "OilTemperature": 100.0,
         "WorkTime": 600.0,
-        "RecoverTime": 300.0
+        "RecoverTime": 90.0
+      },
+      "Load4": {
+        "WaterTemperature": 620.0,
+        "OilTemperature": 110.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 60.0
       }
     },
     "Compressor": {
@@ -845,7 +976,7 @@
     "FuelAccumulatorCapacity0": 12.0,
     "FuelAccumulatorLink0": 1,
     "MinimalLoadFactor": 0.0,
-    "FuelAccumulatorFlowRate": 1.5,
+    "FuelAccumulatorFlowRate": 2.0,
     "MaxNitro": 0.0,
     "OilMass": 60.0,
     "AdvancedMass": false,

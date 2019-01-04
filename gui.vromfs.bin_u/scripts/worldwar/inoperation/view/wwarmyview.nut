@@ -56,12 +56,12 @@ class ::WwArmyView
   function unitsList()
   {
     local view = { columns = [], multipleColumns = false, hasSpaceBetweenUnits = true}
-    local wwUnits = ::u.reduce(formation.getUnits(), function (unit, memo) {
+    local wwUnits = formation.getUnits().reduce(function (memo, unit) {
       if (unit.getActiveCount())
         memo.append(unit)
       return memo
     }, [])
-    wwUnits = ::u.map( wwUnits, function(wwUnit) { return wwUnit.getShortStringView() })
+    wwUnits = wwUnits.map(@(wwUnit) wwUnit.getShortStringView())
     wwUnits.sort(::g_world_war.sortUnitsBySortCodeAndCount)
 
     if (wwUnits.len() <= unitsInArmyRowsMax)

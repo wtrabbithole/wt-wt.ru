@@ -264,6 +264,16 @@ if (!("logerr" in ::dagor))
 
 //----------------------------wop_1_83_0_X---------------------------------//
 ::apply_compatibilities({
+  REPLAY_LOAD_COCKPIT_NO_ONE = 0
+  REPLAY_LOAD_COCKPIT_AUTHOR = 1
+  REPLAY_LOAD_COCKPIT_ALL = 2
   HUD_MSG_STREAK_EX = -10
   xbox_is_item_bought = @(id) false
+  EII_TORPEDO_SIGHT = -1
+  hangar_show_hidden_dm_parts_change = @(v) null
+  single_torpedo_selected = @() true
+  show_external_dm_parts_change = @(v) null
+  show_hidden_xray_parts_change = @(v) null
+  webauth_start = @(o,f) false
+  webauth_stop = @() null
 })

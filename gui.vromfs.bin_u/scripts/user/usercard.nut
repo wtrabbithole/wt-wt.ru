@@ -13,6 +13,7 @@ local avatars = ::require("scripts/user/avatars.nut")
   "submarine_chaser"
   "destroyer"
   "naval_ferry_barge"
+  "cruiser"
 ]
 ::stats_helicopters <- ["helicopter"]
 ::stats_fm.extend(::stats_helicopters)
@@ -210,7 +211,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (isMyPage)
-      updateExternalIdsData(externalIDsService.getSelfExternalIds())
+      updateExternalIdsData(externalIDsService.getSelfExternalIds(), isMyPage)
 
     if (taskId < 0)
       return notFoundPlayerMsg()
@@ -399,10 +400,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (player?.uid != params?.request?.uid && player?.id != params?.request?.playerId)
       return
 
-    updateExternalIdsData(params.externalIds)
+    local isMe = ::my_user_id_str == player?.uid
+    updateExternalIdsData(params.externalIds, isMe)
   }
 
-  function updateExternalIdsData(externalIdsData)
+  function updateExternalIdsData(externalIdsData, isMe)
   {
     curPlayerExternalIds = externalIdsData
 
@@ -411,7 +413,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 //    if (::is_platform_ps4)
 //      fillAdditionalName(curPlayerExternalIds?.psnName ?? "", "psnName")
 
-    showSceneBtn("btn_xbox_profile", ::is_platform_xboxone && (curPlayerExternalIds?.xboxId ?? "") != "")
+    showSceneBtn("btn_xbox_profile", ::is_platform_xboxone && !isMe && (curPlayerExternalIds?.xboxId ?? "") != "")
   }
 
   function fillAdditionalName(name, link)
@@ -638,7 +640,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       unitsView.checkBoxes.append(
         {
           id = armyId
-          title = unitType.getArmyLocName()
+          image = unitType.testFlightIcon
+          tooltip = unitType.getArmyLocName()
           value = ::isInArray(armyId, statsUnits)? "yes" : "no"
           onChangeFunction = "onStatsUnitChange"
         }
@@ -663,7 +666,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       countriesView.checkBoxes.append(
         {
           id = country
-          title = "#" + country
+          image = ::get_country_icon(country)
+          tooltip = "#" + country
           value = ::isInArray(country, statsCountries)? "yes" : "no"
           onChangeFunction = "onStatsCountryChange"
         }

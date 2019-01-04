@@ -1,6 +1,7 @@
 // Put to global namespace for compatibility
 ::math <- require("math")
 ::string <- require("string")
+::loc <- require("dagor.localize").loc
 
 // configure scene when hosted in game
 if ("gui_scene" in ::getroottable()) {

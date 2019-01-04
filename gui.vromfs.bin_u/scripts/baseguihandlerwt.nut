@@ -70,6 +70,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   widgetsList = null
   needVoiceChat = true
   canInitVoiceChatWithSquadWidget = false
+  isHudVisible = null
 
   function constructor(gui_scene, params = {})
   {
@@ -314,10 +315,14 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     progressBox = null
   }
 
-  function onShowHud(show = true)
+  function onShowHud(show = true, needApplyPending = false)
   {
     if (!isSceneActive())
       return
+    if (isHudVisible == show)
+      return
+
+    isHudVisible = show
     if (rootHandlerWeak)
       return rootHandlerWeak.onShowHud(show)
 
@@ -326,7 +331,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     scene.show(show)
-    guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
+    if (needApplyPending)
+      guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
   function startOnlineShop(type=null, afterCloseShop = null)

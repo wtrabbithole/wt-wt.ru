@@ -45,6 +45,8 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     protectionAnalysisOptions.init(this, scene)
     guiScene.setUpdatesEnabled(true, true)
 
+    ::g_hud_hitcamera.init(scene.findObject("dmviewer_hitcamera"))
+
     hintHandler = protectionAnalysisHint.open(scene.findObject("hint_scene"))
     registerSubHandler(hintHandler)
     initFocusArray()

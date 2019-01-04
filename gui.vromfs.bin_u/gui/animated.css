@@ -335,9 +335,16 @@ massTransp[type=roulette] {
 massTransp[type=framedMessageBox] {
   transp-time:250;
 }
+massTransp[type=slotbar] {
+  position:absolute;
+  transp-time:300;
+}
 
 massTransp[animation=hide] {
   transp-time:-150;
+}
+massTransp[type=slotbar][animation=hide] {
+  transp-time:-200;
 }
 
 massTransp[_transp-timer=0][animation=hide] {
