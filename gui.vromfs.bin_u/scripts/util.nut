@@ -703,13 +703,6 @@ function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full
   return false
 }
 
-function getRatioText(ratio)
-{
-  if (ratio <= 0)
-    return ""
-  return format("max-height:t='%fw'; max-width:t='%fh';", 1.0/ratio, ratio)
-}
-
 function getAmountAndMaxAmountText(amount, maxAmount, showMaxAmount = false)
 {
   local amountText = ""
@@ -757,13 +750,17 @@ function setCrewUnlockTime(obj, air)
         tObj.setValue(timeStr)
 
         local showButtons = ::has_feature("EarlyExitCrewUnlock")
+        local crewCost = ::shop_get_unlock_crew_cost(crew.id)
+        local crewCostGold = ::shop_get_unlock_crew_cost_gold(crew.id)
+
         if (showButtons)
         {
-          ::placePriceTextToButton(obj, "btn_unlock_crew", ::loc("mainmenu/btn_crew_unlock"), ::shop_get_unlock_crew_cost(crew.id), 0)
-          ::placePriceTextToButton(obj, "btn_unlock_crew_gold", ::loc("mainmenu/btn_crew_unlock"), 0, ::shop_get_unlock_crew_cost_gold(crew.id))
+          ::placePriceTextToButton(obj, "btn_unlock_crew", ::loc("mainmenu/btn_crew_unlock"), crewCost, 0)
+          ::placePriceTextToButton(obj, "btn_unlock_crew_gold", ::loc("mainmenu/btn_crew_unlock"), 0, crewCostGold)
         }
-        ::showBtn("btn_unlock_crew", showButtons && !!::shop_get_unlock_crew_cost(crew.id), obj)
-        ::showBtn("btn_unlock_crew_gold", showButtons && !!::shop_get_unlock_crew_cost_gold(crew.id), obj)
+        ::showBtn("btn_unlock_crew", showButtons && crewCost, obj)
+        ::showBtn("btn_unlock_crew_gold", showButtons && crewCostGold, obj)
+        ::showBtn("crew_unlock_buttons", showButtons && (crewCost || crewCostGold), obj)
       }
     }
     obj.show(show)

@@ -282,7 +282,7 @@
 @const minMisObjHeight:0.08@scrn_tgt;  @const optimalMisObjHeight:0.22@scrn_tgt;
 @const minChatMisObjHeight:1@minChatHeight + 1@minMisObjHeight + 0.07@scrn_tgt;
 @const respawnOptListContainerWidth:(1@slotbarWidthFullExt -8*@sf/@pf_outdated) $max (1@rw * (1-1@isWide));
-@const gameChatWidth:0.3sw;
+@const gameChatWidth:(0.4 + 0.13@isWide)@shHud;
 
 @const topMenuHoverMenuIndent: 0.01@sf;
 
@@ -303,8 +303,9 @@
 @const weaponIconPadding: 4*@sf/@pf;
 @const briefingBackgroundWidth: 1.8*sh;
 @const briefingScreenWidth: 1@briefingBackgroundWidth $min sw;
+@const briefingScreenWPad: (sw-@briefingScreenWidth)/2 $max 0;
 @const briefingMapWidth: 0.39*@briefingBackgroundWidth;
-@const briefingMapLeftPos: (0.12@isWide)sw;
+@const briefingMapLeftPos: (0.12@briefingBackgroundWidth)@isWide;
 @const briefingMissionTextLeftPos: 1@briefingMapLeftPos + 1@briefingMapWidth + 0.01@scrn_tgt;
 @const weaponStatusIconSize: 16*@sf/@pf;
 @const systemMsgIndent: 0.11@rw;

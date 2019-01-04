@@ -132,7 +132,8 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   local canBeDisabled = isCanBeDisabled(item)
   local isSwitcher = isItemSwitcher(visualItem)
   local discount = ::getDiscountByPath(getDiscountPath(air, visualItem, statusTbl.discountType))
-  local priceText = statusTbl.showPrice && ::getTblValue("canShowPrice", params, true) ? getFullItemCostText(air, item) : ""
+  local itemCostText = getFullItemCostText(air, item)
+  local priceText = statusTbl.showPrice && ::getTblValue("canShowPrice", params, true) ? itemCostText : ""
   local flushExp = ::getTblValue("flushExp", params, 0)
   local canShowResearch = ::getTblValue("canShowResearch", params, true)
   local canResearch = canResearchItem(air, visualItem, false)
@@ -169,7 +170,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if(::checkObj(dObj))
     guiScene.destroyElement(dObj)
 
-  local haveDiscount = discount > 0 && (statusTbl.amount == 0 || priceText != "")
+  local haveDiscount = discount > 0 && itemCostText != ""
   if (haveDiscount)
   {
     local discountObj = itemObj.findObject("modItem_discount")
@@ -863,10 +864,7 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
     if (effect)
       addDesc = weaponryEffects.getDesc(air, effect)
     if (!effect && updateEffectFunc)
-    {
-      res.delayed = true
-      ::calculate_mod_or_weapon_effect(air.name, item.name, false, this, updateEffectFunc, null)
-    }
+      res.delayed = ::calculate_mod_or_weapon_effect(air.name, item.name, false, this, updateEffectFunc, null) ?? true
   }
   else if (item.type==weaponsItem.primaryWeapon)
   {

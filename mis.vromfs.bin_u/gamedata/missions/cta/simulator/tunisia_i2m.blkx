@@ -486,6 +486,12 @@
         },
         {
           "varSetBool": {
+            "value": false,
+            "var": "ft_helicopters_pad_exclusive"
+          }
+        },
+        {
+          "varSetBool": {
             "value": true,
             "var": "lpt_is_launch_alowed"
           }
@@ -545,7 +551,7 @@
         },
         {
           "varSetBool": {
-            "value": true,
+            "value": false,
             "var": "ft_is_detect_on"
           }
         },
@@ -646,6 +652,17 @@
           "varSetInt": {
             "value": 9,
             "var": "ct_max_roads"
+          }
+        },
+        {
+          "comment": {
+            "value": "ограничиваем количество позиций аэродрома"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 5,
+            "var": "ft_max_airfield_idx_to_generate"
           }
         }
       ],

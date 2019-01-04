@@ -212,7 +212,7 @@
       }
     ],
     "mission": {
-      "name": "zhengzhou_46_I2M",
+      "name": "zhengzhou_H2M",
       "level": "levels/zhengzhou.bin",
       "type": "domination",
       "restoreType": "attempts",
@@ -227,7 +227,7 @@
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
       "allowEmptyTeams": false,
-      "country_axis": "usa",
+      "country_axis": "japan",
       "country_allies": "ussr",
       "windSpeed": [2.0,8.0],
       "windDirectionDeg": [220.0,250.0],
@@ -256,10 +256,10 @@
         "_DBttlB": false
       },
       "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
+        "isAirplanesAllowed": false,
         "isTanksAllowed": false,
         "isShipsAllowed": false,
-        "isHelicoptersAllowed": false
+        "isHelicoptersAllowed": true
       }
     },
     "cover_points": [],
@@ -304,7 +304,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/ft_fields_template_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/hp_helipads_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -336,7 +336,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/lpt_lookup_plane_template_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/lpt_lookup_plane_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -352,7 +352,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/bt_bombers_template_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/bt_bombers_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -368,7 +368,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/bdt_bases_destroy_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/bdt_bases_destroy_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -384,7 +384,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/ct_convoys_template_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/ct_convoys_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -400,7 +400,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/flt_frontline_template_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/flt_frontline_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -416,7 +416,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/ht_hunters_template_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/ht_hunters_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -448,7 +448,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/zhengzhou_46/at_assaults_part.blk",
+        "file": "gameData/missions/cta/simulator/zhengzhou/at_assaults_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -486,13 +486,13 @@
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "ft_helicopters_pad_exclusive"
           }
         },
         {
           "varSetBool": {
-            "value": true,
+            "value": false,
             "var": "lpt_is_launch_alowed"
           }
         },
@@ -510,7 +510,7 @@
         },
         {
           "varSetBool": {
-            "value": true,
+            "value": false,
             "var": "bt_is_launch_alowed"
           }
         },
@@ -522,7 +522,7 @@
         },
         {
           "varSetBool": {
-            "value": true,
+            "value": false,
             "var": "at_is_launch_alowed"
           }
         },
@@ -563,7 +563,7 @@
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "bt_is_detect_on"
           }
         },
@@ -596,13 +596,13 @@
               "target": "bt_armada"
             },
             {
+              "target": "ct_armada"
+            },
+            {
               "target": "lbt_battles_armada"
             },
             {
               "target": "at_armada"
-            },
-            {
-              "target": "ct_armada"
             }
           ]
         },
@@ -650,12 +650,23 @@
         },
         {
           "comment": {
+            "value": "ограничиваем количество позиций аэродрома"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 5,
+            "var": "ft_max_airfield_idx_to_generate"
+          }
+        },
+        {
+          "comment": {
             "value": ""
           }
         },
         {
           "varSetInt": {
-            "value": 9,
+            "value": 11,
             "var": "ct_max_roads"
           }
         }
@@ -692,7 +703,7 @@
           [0.887011,0.0,0.461749],
           [-10733.0,2401.9,18716.5]
         ],
-        "unit_class": "yak-1b",
+        "unit_class": "bf-109g-2",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -707,7 +718,7 @@
         "bulletsCount2": 0,
         "bulletsCount3": 0,
         "props": {
-          "army": 1,
+          "army": 2,
           "count": 1,
           "free_distance": 70.0,
           "floating_distance": 50.0,

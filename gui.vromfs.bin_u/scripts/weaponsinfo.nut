@@ -1341,10 +1341,7 @@ function getModificationInfo(air, modifName, isShortDesc=false, limitedName = fa
   if (groupName=="") //not bullets
   {
     if (!isShortDesc && itemDescrRewriteFunc)
-    {
-      res.delayed = true
-      ::calculate_mod_or_weapon_effect(air.name, modifName, true, obj, itemDescrRewriteFunc, null);
-    }
+      res.delayed = ::calculate_mod_or_weapon_effect(air.name, modifName, true, obj, itemDescrRewriteFunc, null) ?? true
 
     local locId = modifName
     local ending = isShortDesc? (limitedName? "/short" : "") : "/desc"

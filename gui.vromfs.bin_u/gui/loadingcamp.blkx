@@ -20,6 +20,22 @@
         }
       },
       {
+        "tdiv": {
+          "size": "@briefingScreenWPad, sh",
+          "pos": "0, 0",
+          "position": "root",
+          "background-color": "@black"
+        }
+      },
+      {
+        "tdiv": {
+          "size": "@briefingScreenWPad, sh",
+          "pos": "sw-w, 0",
+          "position": "root",
+          "background-color": "@black"
+        }
+      },
+      {
         "img": [
           {
             "id": "map-background"
@@ -35,6 +51,9 @@
           },
           {
             "background-repeat": "expand"
+          },
+          {
+            "overflow": "hidden"
           },
           {
             "display": "hide"
@@ -65,7 +84,7 @@
           {
             "img": {
               "size": "30%sh,15%sh",
-              "pos": "1@briefingMapLeftPos + 1@briefingMapWidth -2%sw, 18%sh",
+              "pos": "1@briefingMapLeftPos + 1@briefingMapWidth +2%@briefingScreenWidth, 18%sh",
               "position": "absolute",
               "background-image": "ui/decor2"
             }

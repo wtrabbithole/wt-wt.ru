@@ -1348,7 +1348,7 @@ function build_log_unlock_data(config)
       if (icon)
         res.descrImage <- icon
       else if (::getTblValue("iconStyle", res, "") == "")
-        res.iconStyle <- "default_unlocked"
+        res.iconStyle <- ::is_unlocked_scripted(type, id) ? "default_unlocked" : "default_locked"
     }
 
     if (!rewardsWasLoadedFromLog)

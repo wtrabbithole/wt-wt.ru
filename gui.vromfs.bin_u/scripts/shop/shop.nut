@@ -2027,6 +2027,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     doWhenActiveOnce("updateTreeDifficulty")
   }
 
+  function onEventXboxSystemUIReturn(p)
+  {
+    restoreFocus()
+  }
+
   function onUnitSelect() {}
   function selectRequiredUnit() {}
   function onSpendExcessExp() {}

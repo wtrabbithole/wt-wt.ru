@@ -13,7 +13,23 @@ class ::items_classes.InternalItem extends ItemExternal
     local contentItem = metaBlk?.item ?? metaBlk?.trophy
     return contentItem && ::ItemsManager.findItemById(contentItem)
   }
-  canConsume       = @() isInventoryItem && getContentItem() != null
+
+  function canConsume()
+  {
+    local item = getContentItem()
+    if (!isInventoryItem || !item)
+      return false
+
+    if (item.iType == itemType.TROPHY)
+      foreach (blk in item.getContent())
+      {
+        local decoratorType = ::g_decorator_type.getTypeByResourceType(blk.resourceType)
+        if (!decoratorType || blk.resource && !decoratorType.isPlayerHaveDecorator(blk.resource))
+          return true
+      }
+
+    return false
+  }
 
   function updateShopFilterMask()
   {

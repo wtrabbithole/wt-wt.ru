@@ -283,4 +283,5 @@ if (!("logerr" in ::dagor))
 //----------------------------wop_1_85_0_X---------------------------------//
 ::apply_compatibilities({
   is_triple_head = @(sw, sh) sw >= 3 * sh
+  set_hud_width_limit = @(w) null
 })

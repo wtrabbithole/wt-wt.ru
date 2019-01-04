@@ -39,6 +39,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 
   itemsCatalog = null
   chapter = null
+  afterCloseFunc = null
 
   curSheet = null
   lastSelectedItem = null //last selected item to restore selection after change list
@@ -410,7 +411,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   function onEventXboxSystemUIReturn(p)
   {
     local item = getCurItem()
-    item.updateIsBoughtStatus()
+    item?.updateIsBoughtStatus?()
     updateSorting()
     fillItemsList()
     ::g_discount.updateXboxShopDiscounts()
@@ -421,12 +422,21 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     markCurrentPageSeen()
     base.goBack()
   }
+
+  function afterModalDestroy()
+  {
+    if (afterCloseFunc)
+      afterCloseFunc()
+  }
 }
 
 return xboxShopData.__merge({
-  openWnd = @(chapter = null) xboxShopData.requestData(
+  openWnd = @(chapter = null, afterCloseFunc = null) xboxShopData.requestData(
     false,
-    @() ::handlersManager.loadHandler(::gui_handlers.XboxShop, {itemsCatalog = xboxShopData.xboxProceedItems, chapter = chapter}),
+    @() ::handlersManager.loadHandler(::gui_handlers.XboxShop, {
+      itemsCatalog = xboxShopData.xboxProceedItems,
+      chapter = chapter,
+      afterCloseFunc = afterCloseFunc}),
     true
   )
 })

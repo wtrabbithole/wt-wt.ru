@@ -13,12 +13,20 @@
   "damageCollisionMultiplier": 0.1,
   "explosionImpulse": 100.0,
   "timeToFire": 4.0,
-  "InitAnimParamsRandomly": {
-    "part": {
-      "name": "prop_rotate_01:CRS",
-      "range": [0.9,1.55]
+  "InitAnimParamsRandomly": [
+    {
+      "part": {
+        "name": "prop_rotate_01",
+        "range": [0.0,360.0]
+      }
+    },
+    {
+      "part": {
+        "name": "prop_rotate_01:CRS",
+        "range": [0.9,1.55]
+      }
     }
-  },
+  ],
   "DamageParts": {
     "steel": {
       "armorClass": "tank_structural_steel",

@@ -1,5 +1,6 @@
 local math = require("std/math.nut")
 local interopGet = require("daRg/helpers/interopGen.nut")
+local screenState = require("style/screenState.nut")
 
 local style = {}
 
@@ -906,7 +907,7 @@ local generateParamsTable = function(mask, width, pos, gap) {
 
 local helicopterParamsTable = generateParamsTable(helicopterState.MainMask,
   paramsTableWidth,
-  [hdpx(300), sh(50) - hdpx(100)],
+  [max(screenState.safeAreaSizeHud.value.borders[1], sw(50) - hdpx(660)), sh(50) - hdpx(100)],
   hdpx(5))
 
 local helicopterSightParamsTable = generateParamsTable(helicopterState.SightMask,
@@ -1018,7 +1019,7 @@ local helicopterMainHud = function (style, isBackground) {
       HelicopterAamAimTracker(style, isBackground)
       HelicopterGunDirection(style, isBackground)
       HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(70), isBackground)
+      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
       HelicopterHorizontalSpeedComponent(style, isBackground)
       helicopterParamsTable(style, isBackground)
     ]
@@ -1032,7 +1033,7 @@ local helicopterSightHud = function (style, isBackground) {
     watch = helicopterState.IsSightHudVisible
     children = helicopterState.IsSightHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(3.6), sh(30), sw(50) + hdpx(370), isBackground)
+      HelicopterVertSpeed(style, sh(3.6), sh(30), sw(50) + hdpx(384), isBackground)
       turretAnglesComponent(style, isBackground)
       helicopterSightParamsTable(style, isBackground)
       lockSightComponent(style, isBackground)
@@ -1054,7 +1055,7 @@ local gunnerHud = function (style, isBackground) {
       HelicopterAamAimTracker(style, isBackground)
       HelicopterGunDirection(style, isBackground)
       HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(70), isBackground)
+      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
       helicopterParamsTable(style, isBackground)
     ]
     : null
@@ -1067,7 +1068,7 @@ local pilotHud = function (style, isBackground) {
     watch = helicopterState.IsPilotHudVisible
     children = helicopterState.IsPilotHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(70), isBackground)
+      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
       helicopterParamsTable(style, isBackground)
     ]
     : null

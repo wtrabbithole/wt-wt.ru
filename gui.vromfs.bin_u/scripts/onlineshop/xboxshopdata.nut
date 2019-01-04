@@ -29,7 +29,7 @@ local haveItemDiscount = null
     local itemBlock = catalog.getBlock(i)
     if (itemBlock.getBlockName() in skipItemsList)
     {
-      ::dagor.debug("XBOX SHOP: SKIP: " + itemBlock.Name + " by id " + itemBlock.id)
+      ::dagor.debug("XBOX SHOP: SKIP: " + itemBlock.Name + " by id " + itemBlock.getBlockName())
       continue
     }
 

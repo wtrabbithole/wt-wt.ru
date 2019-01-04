@@ -489,7 +489,7 @@ function OnlineShopModel::launchXboxMarketplace(chapter = null, afterCloseFunc =
   if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
   {
     if (xboxShop.canUseIngameShop())
-      xboxShop.openWnd(chapter)
+      xboxShop.openWnd(chapter, afterCloseFunc)
     else
       ::queues.checkAndStart(::Callback(@() launchXboxOneStoreByChapter(chapter, afterCloseFunc),this),
         null, "isCanUseOnlineShop")

@@ -257,6 +257,7 @@ function g_login::initConfigs(cb)
     {
       if (::is_need_first_country_choice())
       {
+        ::g_matching_game_modes.forceUpdateGameModes()
         ::gui_start_countryChoice()
         ::gui_handlers.FontChoiceWnd.markSeen()
         tutorialModule.saveVersion()
