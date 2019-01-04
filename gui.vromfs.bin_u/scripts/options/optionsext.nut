@@ -2816,6 +2816,7 @@ function get_option(type, context = null)
 
       if (::getTblValue("isEventRoom", context, false))
       {
+        descr.title = ::loc("guiHints/chooseUnitsMMRank")
         local brRanges = ::getTblValue("brRanges", context, [])
         for(local i = 0; i < brRanges.len(); i++)
         {
@@ -2825,8 +2826,7 @@ function get_option(type, context = null)
           local tier = ::events.getTierByMaxBr(maxBR)
           local brText = ::format("%.1f", minBR)
                        + ((minBR != maxBR) ? " - " + ::format("%.1f", maxBR) : "")
-          brText = ::format(::loc("events/br"), brText)
-          local text = ::loc("ui/tier", { text = tier }) + " " + brText
+          local text = brText
           descr.values.append(tier)
           descr.items.append(text)
         }

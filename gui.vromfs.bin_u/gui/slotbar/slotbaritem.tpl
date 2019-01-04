@@ -14,7 +14,7 @@ massTransp {
 
       img{
         id:t='hdr_image'
-        background-image:t='#ui/gameuiskin#country_0.svg'
+        background-image:t='<<#countryImage>><<countryImage>><</countryImage>><<^countryImage>>#ui/gameuiskin#country_0.svg<</countryImage>>'
       }
     }
 

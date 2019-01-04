@@ -50,7 +50,7 @@ local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72"
   getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) 800 //!!TODO: remove this together with old fonts
   isLowWidthScreen = function(sWidth, sHeight)
   {
-    if (sWidth > 3 * sHeight) //tripple screen
+    if (::is_triple_head(sWidth, sHeight)) //triple screen
       sWidth = sWidth / 3
     local sf = getFontSizePx(sWidth, sHeight)
     return 10.0 / 16 * sWidth / sf < 0.99

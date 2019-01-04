@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -564,7 +565,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -573,8 +573,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -590,7 +593,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -599,8 +601,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -1161,9 +1166,9 @@
           [-0.745649,0.0,-1.0649],
           [0.0,1.3,0.0],
           [1.0649,0.0,-0.745649],
-          [-18195.7,55.0138,-12820.4]
+          [-18195.7,55.7066,-12820.4]
         ],
-        "unit_class": "dynAF_britain_ally",
+        "unit_class": "dynaf_universal_1line_a",
         "props": {
           "army": 2,
           "active": true
@@ -1174,12 +1179,12 @@
       "objectGroups": {
         "name": "t1_airfield",
         "tm": [
-          [0.79139,0.0,1.03136],
+          [0.947873,0.0,0.889684],
           [0.0,1.3,0.0],
-          [-1.03136,0.0,0.79139],
-          [10527.7,69.6263,13563.5]
+          [-0.889684,0.0,0.947873],
+          [10527.7,70.8051,13563.5]
         ],
-        "unit_class": "dynAF_britain_ally",
+        "unit_class": "dynaf_universal_1line_c",
         "props": {
           "army": 1,
           "active": true
@@ -17435,9 +17440,9 @@
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-692.404,0.0,-902.359],
+        [-1602.95,0.0,-1506.83],
         [0.0,400.0,0.0],
-        [250.723,0.0,-192.387],
+        [616.431,0.0,-655.753],
         [10471.0,67.9757,13498.3]
       ],
       "objLayer": 0,
@@ -17446,10 +17451,10 @@
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-652.385,0.0,-931.702],
+        [-1261.87,0.0,-1802.13],
         [0.0,400.0,0.0],
-        [258.876,0.0,-181.267],
-        [-18133.1,49.917,-12736.0]
+        [737.237,0.0,-516.219],
+        [-18211.7,49.917,-12854.1]
       ],
       "objLayer": 0,
       "props": []

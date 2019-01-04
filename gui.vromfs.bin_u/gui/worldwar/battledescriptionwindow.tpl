@@ -53,7 +53,7 @@ root {
           size:t='pw, fh'
           flow:t = 'vertical'
           focus:t='yes'
-          _on_select:t='onItemSelect'
+          on_select:t='onItemSelect'
           on_wrap_up:t='onWrapUp'
           on_wrap_down:t='onWrapDown'
         }

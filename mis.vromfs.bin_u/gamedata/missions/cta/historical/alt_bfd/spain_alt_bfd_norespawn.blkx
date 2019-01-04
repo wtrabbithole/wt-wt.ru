@@ -259,7 +259,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [],
@@ -592,7 +593,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -601,8 +601,11 @@
             "removeAreas": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -618,7 +621,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -627,8 +629,11 @@
             "removeAreas": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -651,9 +656,6 @@
             },
             {
               "isUnit": false
-            },
-            {
-              "offset": [0.0,1200.0,0.0]
             },
             {
               "radius": 650.0
@@ -683,6 +685,12 @@
               "onlyOnePlayerPerSpawnPoint": false
             },
             {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "replaceAreas": false
+            },
+            {
               "target": "t1_carrier01"
             },
             {
@@ -702,6 +710,9 @@
             },
             {
               "awardByBodyHp": false
+            },
+            {
+              "offset": [0.0,1200.0,0.0]
             },
             {
               "tags": {
@@ -731,9 +742,6 @@
               "isUnit": false
             },
             {
-              "offset": [0.0,1200.0,0.0]
-            },
-            {
               "radius": 650.0
             },
             {
@@ -761,6 +769,12 @@
               "onlyOnePlayerPerSpawnPoint": false
             },
             {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "replaceAreas": false
+            },
+            {
               "target": "t2_carrier01"
             },
             {
@@ -780,6 +794,9 @@
             },
             {
               "awardByBodyHp": false
+            },
+            {
+              "offset": [0.0,1200.0,0.0]
             },
             {
               "tags": {
@@ -1962,9 +1979,9 @@
           [0.0436188,0.0,0.999048],
           [0.0,1.0,0.0],
           [-0.999048,0.0,0.0436188],
-          [39669.4,178.471,-560.65]
+          [39669.4,178.501,-560.65]
         ],
-        "unit_class": "dynAF_khalkhin_gol_1line_2k",
+        "unit_class": "dynaf_universal_1line_a",
         "objLayer": 2,
         "props": {
           "army": 2,
@@ -1979,9 +1996,9 @@
           [-0.923879,0.0,0.382685],
           [0.0,1.0,0.0],
           [-0.382685,0.0,-0.923879],
-          [14249.3,71.9045,-36443.6]
+          [14249.3,67.4705,-36443.6]
         ],
-        "unit_class": "dynAF_khalkhin_gol_1line_2k",
+        "unit_class": "dynaf_universal_1line_c",
         "objLayer": 2,
         "props": {
           "army": 1,
@@ -11633,9 +11650,9 @@
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-2391.54,0.0,990.609],
+        [-1745.83,0.0,723.146],
         [0.0,250.0,0.0],
-        [-106.724,0.0,-257.655],
+        [-270.595,0.0,-653.276],
         [14128.9,50.0,-36395.9]
       ],
       "objLayer": 0,
@@ -11644,9 +11661,9 @@
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [106.139,0.0,2430.93],
+        [95.9647,0.0,2197.91],
         [0.0,325.0,0.0],
-        [-295.505,0.0,12.9012],
+        [-899.144,0.0,39.2549],
         [39671.4,150.0,-495.75]
       ],
       "objLayer": 0,

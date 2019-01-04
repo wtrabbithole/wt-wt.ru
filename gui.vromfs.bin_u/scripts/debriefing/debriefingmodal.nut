@@ -1241,10 +1241,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     local usedUnitsList = []
-    foreach(unitName, unitData in ::debriefing_result.exp.aircrafts)
+    foreach(unitId, unitData in ::debriefing_result.exp.aircrafts)
     {
-      local unit = ::getAircraftByName(unitName)
-      if (unit && ::getTblValue("expTotal", unitData) && ::getTblValue("sessionTime", unitData))
+      local unit = ::getAircraftByName(unitId)
+      if (unit && isShowUnitInModsResearch(unitId))
         usedUnitsList.append({ unit = unit, unitData = unitData })
     }
 
@@ -1291,10 +1291,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (!unitItems.len())
     {
-      local expInvestUnitTotal = 0
-      foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
-        expInvestUnitTotal += ::getTblValue("expInvestUnitTotal", unitData, 0)
-
+      local expInvestUnitTotal = getExpInvestUnitTotal()
       if (expInvestUnitTotal > 0)
       {
         local msg = ::format(::loc("debriefing/all_units_researched"),
@@ -1314,6 +1311,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function onEventUnitRented(p)
   {
     fillResearchingUnits()
+  }
+
+  function isShowUnitInModsResearch(unitId)
+  {
+    local unitData = ::debriefing_result.exp.aircrafts?[unitId]
+    return unitData?.expTotal && unitData?.sessionTime &&
+      ((unitData?.investModuleName ?? "") != "" ||
+      ::SessionLobby.isUsedPlayersOwnUnit(playersInfo?[::my_user_id_int64], unitId))
   }
 
   function hasAnyFinishedResearch()
@@ -1337,6 +1342,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         return true
     }
     return false
+  }
+
+  function getExpInvestUnitTotal()
+  {
+    local res = 0
+    foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+      res += unitData?.expInvestUnitTotal ?? 0
+    return res
   }
 
   function getResearchUnitInfo(unitTypeName)
@@ -2445,11 +2458,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function is_show_research_list()
   {
     foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
-      if (::getTblValue("investModuleName", unitData, "") != "")
+      if (isShowUnitInModsResearch(unitId))
         return true
     foreach (ut in ::g_unit_type.types)
       if(getResearchUnitInfo(ut.name))
         return true
+    if (getExpInvestUnitTotal() > 0)
+      return true
     return false
   }
 

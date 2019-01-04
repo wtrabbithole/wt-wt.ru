@@ -237,7 +237,22 @@
       }
     }
   },
-  "imports": [],
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/cta/ships/fuego_islands/template_fuego_islands_air_spawn.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
   "triggers": {
     "isCategory": true,
     "is_enabled": true,
@@ -267,63 +282,13 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": false,
-            "radius": -1.0,
-            "resetStrictSpawnIndex": false,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "replaceAreas": false,
-            "target": "t1_airspawn",
-            "team": "A",
-            "tags": {
-              "type_longrange_bomber": false,
-              "helicopter": false,
-              "type_attack_helicopter": false,
-              "type_utility_helicopter": false,
-              "tank": false,
-              "artillery": false,
-              "aaa": false,
-              "ship": false
-            }
+          "moAddMissionObjective": {
+            "target": "avn_ntdm_objective_01"
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": false,
-            "radius": -1.0,
-            "resetStrictSpawnIndex": false,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "replaceAreas": false,
-            "target": "t2_airspawn",
-            "team": "B",
-            "tags": {
-              "type_longrange_bomber": false,
-              "helicopter": false,
-              "type_attack_helicopter": false,
-              "type_utility_helicopter": false,
-              "tank": false,
-              "artillery": false,
-              "aaa": false,
-              "ship": false
-            }
+          "moAddMissionObjective": {
+            "target": "avn_ntdm_objective_02"
           }
         },
         {
@@ -375,73 +340,17 @@
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/bombers_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": false,
-            "radius": -1.0,
-            "resetStrictSpawnIndex": false,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "replaceAreas": false,
-            "target": "t1_bomberspawn",
-            "team": "A",
-            "tags": {
-              "type_longrange_bomber": true,
-              "helicopter": false,
-              "type_attack_helicopter": false,
-              "type_utility_helicopter": false,
-              "tank": false,
-              "artillery": false,
-              "aaa": false,
-              "ship": false
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/bombers_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": false,
-            "radius": -1.0,
-            "resetStrictSpawnIndex": false,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "replaceAreas": false,
-            "target": "t2_bomberspawn",
-            "team": "B",
-            "tags": {
-              "type_longrange_bomber": true,
-              "helicopter": false,
-              "type_attack_helicopter": false,
-              "type_utility_helicopter": false,
-              "tank": false,
-              "artillery": false,
-              "aaa": false,
-              "ship": false
-            }
-          }
-        },
-        {
           "missionMarkAsCaptureZone": {
             "army": 1,
             "timeMultiplier": 10.0,
             "disableZone": false,
             "name_for_respawn_base": "",
             "target": "t1_capture_zone",
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "captureNoPenalty": true,
+            "tags": {
+              "tank": true
+            }
           }
         },
         {
@@ -451,7 +360,11 @@
             "disableZone": false,
             "name_for_respawn_base": "",
             "target": "t2_capture_zone",
-            "canCaptureByGM": true
+            "canCaptureByGM": true,
+            "captureNoPenalty": true,
+            "tags": {
+              "tank": true
+            }
           }
         },
         {
@@ -794,15 +707,14 @@
         }
       },
       "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isKilled",
-          "check_objects": "all",
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
           "object_marking": 0,
           "object_var_name": "",
           "object_var_comp_op": "equal",
           "object_var_value": 0,
-          "target_type": "isAlive",
-          "check_period": 1.0,
+          "func": "less",
+          "value": 1,
           "object": "t1_ai_ship_squad"
         }
       },
@@ -829,15 +741,14 @@
         }
       },
       "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isKilled",
-          "check_objects": "all",
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
           "object_marking": 0,
           "object_var_name": "",
           "object_var_comp_op": "equal",
           "object_var_value": 0,
-          "target_type": "isAlive",
-          "check_period": 1.0,
+          "func": "less",
+          "value": 1,
           "object": "t2_ai_ship_squad"
         }
       },
@@ -1009,13 +920,25 @@
   "mission_objectives": {
     "isCategory": true,
     "is_enabled": true,
-    "norway_BfD_t1_destroy_enemy_fleet": {
-      "is_enabled": true,
+    "avn_ntdm_objective_01": {
+      "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 3600,
+        "timeLimit": 1800,
+        "team": "Both"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "avn_ntdm_objective_02": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
         "team": "Both"
       },
       "onSuccess": [],
@@ -3770,10 +3693,10 @@
     "t1_capture_zone": {
       "type": "Cylinder",
       "tm": [
-        [2500.0,0.0,0.0],
-        [0.0,1549.5,0.0],
-        [0.0,0.0,2500.0],
-        [8192.0,500.0,-7500.0]
+        [2000.0,0.0,0.0],
+        [0.0,1000.0,0.0],
+        [0.0,0.0,2000.0],
+        [8396.9,500.0,-7500.0]
       ],
       "objLayer": 3,
       "props": []
@@ -3781,10 +3704,10 @@
     "t2_capture_zone": {
       "type": "Cylinder",
       "tm": [
-        [2500.0,0.0,0.0],
-        [0.0,1549.5,0.0],
-        [0.0,0.0,2500.0],
-        [8192.0,500.0,7500.0]
+        [2000.0,0.0,0.0],
+        [0.0,1000.0,0.0],
+        [0.0,0.0,2000.0],
+        [7892.7,500.0,7500.0]
       ],
       "objLayer": 3,
       "props": []
@@ -3807,28 +3730,6 @@
         [0.0,100.0,0.0],
         [0.0,0.0,-4000.0],
         [8192.0,0.0,-6000.0]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "fire_zone01": {
-      "type": "Cylinder",
-      "tm": [
-        [2500.0,0.0,0.0],
-        [0.0,1549.5,0.0],
-        [0.0,0.0,2500.0],
-        [2692.0,0.0,0.0]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "fire_zone02": {
-      "type": "Cylinder",
-      "tm": [
-        [2500.0,0.0,0.0],
-        [0.0,1549.5,0.0],
-        [0.0,0.0,2500.0],
-        [13692.0,0.0,0.0]
       ],
       "objLayer": 3,
       "props": []
@@ -4247,61 +4148,6 @@
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [16192.0,0.0,-8000.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "15000m_rad": {
-      "type": "Sphere",
-      "tm": [
-        [-30000.0,0.0,0.0],
-        [0.0,30000.0,0.0],
-        [0.0,0.0,-30000.0],
-        [8192.0,3000.0,0.0]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "t2_airspawn": {
-      "type": "Sphere",
-      "tm": [
-        [-4.19617e-05,0.0,-400.0],
-        [0.0,400.0,0.0],
-        [400.0,0.0,-4.19617e-05],
-        [8192.0,3000.0,15000.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_airspawn": {
-      "type": "Sphere",
-      "tm": [
-        [-8.83749e-05,0.0,400.0],
-        [0.0,400.0,0.0],
-        [-400.0,0.0,-8.83749e-05],
-        [8192.0,3000.0,-15000.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_bomberspawn": {
-      "type": "Sphere",
-      "tm": [
-        [-8.83749e-05,0.0,400.0],
-        [0.0,400.0,0.0],
-        [-400.0,0.0,-8.83749e-05],
-        [8192.0,6000.0,-15000.0]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_bomberspawn": {
-      "type": "Sphere",
-      "tm": [
-        [-4.19617e-05,0.0,-400.0],
-        [0.0,400.0,0.0],
-        [400.0,0.0,-4.19617e-05],
-        [8192.0,6000.0,15000.0]
       ],
       "objLayer": 0,
       "props": []

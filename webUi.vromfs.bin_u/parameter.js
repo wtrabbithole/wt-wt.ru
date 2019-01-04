@@ -90,9 +90,9 @@ const units = {
     name: 'mps',
     coeff: 1.0
   },
-  fps: {
-    name: 'fps',
-    coeff: 1.0 / 3.28
+  fpm: {
+    name: 'fpm',
+    coeff: 1.0 / 3.28 / 60.0
   },
   
   kg: {
@@ -236,7 +236,7 @@ const unitSystems = [
     dist: units.ml,
     altitude: units.ft,
     velocity: units.mph,
-    verticalVelocity: units.fps,
+    verticalVelocity: units.fpm,
     mass: units.lb,
     fuelConsumption: units.lbphph,
     time: units.time,
@@ -256,7 +256,7 @@ const unitSystems = [
     dist: units.nm,
     altitude: units.ft,
     velocity: units.kts,
-    verticalVelocity: units.fps,
+    verticalVelocity: units.fpm,
     mass: units.lb,
     fuelConsumption: units.lbphph,
     time: units.time,
@@ -276,7 +276,7 @@ const unitSystems = [
     dist: units.ml,
     altitude: units.ft,
     velocity: units.mph,
-    verticalVelocity: units.fps,
+    verticalVelocity: units.fpm,
     mass: units.lb,
     fuelConsumption: units.lbphph,
     time: units.time,
@@ -296,7 +296,7 @@ const unitSystems = [
     dist: units.nm,
     altitude: units.ft,
     velocity: units.kts,
-    verticalVelocity: units.fps,
+    verticalVelocity: units.fpm,
     mass: units.lb,
     fuelConsumption: units.lbphph,
     time: units.time,

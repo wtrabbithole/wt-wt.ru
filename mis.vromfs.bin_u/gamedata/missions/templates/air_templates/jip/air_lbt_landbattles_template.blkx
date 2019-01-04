@@ -5068,9 +5068,14 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "flt_draw_frontline"
-            }
+            "triggerEnable": [
+              {
+                "target": "flt_draw_frontline"
+              },
+              {
+                "target": "ft_capture_t2_start"
+              }
+            ]
           }
         ],
         "else_actions": {
@@ -5132,9 +5137,14 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "flt_draw_frontline"
-            }
+            "triggerEnable": [
+              {
+                "target": "flt_draw_frontline"
+              },
+              {
+                "target": "ft_capture_t1_start"
+              }
+            ]
           }
         ],
         "else_actions": {

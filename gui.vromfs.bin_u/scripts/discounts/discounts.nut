@@ -29,7 +29,7 @@ function g_discount::getUnitDiscount(unit)
 {
   if (!canBeVisibleOnUnit(unit))
     return 0
-  return ::max(getUnitDiscount(unit.name),
+  return ::max(getUnitDiscountByName(unit.name),
                getEntitlementUnitDiscount(unit.name))
 }
 
@@ -53,7 +53,7 @@ function g_discount::onEventUnitBought(p)
   if (!unitName)
     return
 
-  if (getUnitDiscount(unitName) == 0 && getEntitlementUnitDiscount(unitName) == 0)
+  if (getUnitDiscountByName(unitName) == 0 && getEntitlementUnitDiscount(unitName) == 0)
     return
 
   updateDiscountData()
@@ -244,7 +244,7 @@ function g_discount::getEntitlementUnitDiscount(unitName)
   return discountsList.entitlementUnits?[unitName] || 0
 }
 
-function g_discount::getUnitDiscount(unitName)
+function g_discount::getUnitDiscountByName(unitName)
 {
   return discountsList.airList?[unitName] || 0
 }

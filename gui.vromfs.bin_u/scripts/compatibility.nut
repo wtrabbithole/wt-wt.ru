@@ -279,3 +279,8 @@ if (!("logerr" in ::dagor))
 
   EULT_TOURNAMENT_AWARD = 57
 })
+
+//----------------------------wop_1_85_0_X---------------------------------//
+::apply_compatibilities({
+  is_triple_head = @(sw, sh) sw >= 3 * sh
+})

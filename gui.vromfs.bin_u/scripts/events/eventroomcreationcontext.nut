@@ -273,7 +273,7 @@ class EventRoomCreationContext
   function getRoomCreateParams()
   {
     local res = {
-      ranks = [1, 5] //matching do nt allow to create session before ranks is set
+      ranks = [1, ::max_country_rank] //matching do nt allow to create session before ranks is set
     }
 
     foreach(team in ::g_team.getTeams())

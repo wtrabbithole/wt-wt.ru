@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -502,7 +503,6 @@
           "spawnEffect": false,
           "isAirfield": true,
           "isUnit": false,
-          "offset": [0.0,0.0,0.0],
           "radius": -1.0,
           "isStrictSpawn": false,
           "useExisting": false,
@@ -511,8 +511,11 @@
           "canSpawnOnNeutral": false,
           "showOnMap": true,
           "onlyOnePlayerPerSpawnPoint": false,
+          "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_airfield",
           "team": "A",
+          "offset": [0.0,0.0,0.0],
           "tags": {
             "type_bomber": false,
             "type_assault": false,
@@ -526,7 +529,6 @@
           "spawnEffect": false,
           "isAirfield": false,
           "isUnit": false,
-          "offset": [0.0,0.0,0.0],
           "radius": -1.0,
           "isStrictSpawn": false,
           "useExisting": false,
@@ -535,8 +537,11 @@
           "canSpawnOnNeutral": false,
           "showOnMap": true,
           "onlyOnePlayerPerSpawnPoint": false,
+          "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_common_fighters_spawn",
           "team": "B",
+          "offset": [0.0,0.0,0.0],
           "tags": {
             "tank": false
           }
@@ -4540,12 +4545,12 @@
       "objectGroups": {
         "name": "t1_airfield",
         "tm": [
-          [-1.15311,0.0,0.600273],
+          [-1.04737,0.0,0.770075],
           [0.0,1.3,0.0],
-          [-0.600273,0.0,-1.15311],
-          [10471.5,54.2601,16849.8]
+          [-0.770075,0.0,-1.04737],
+          [10617.9,54.0029,16992.5]
         ],
-        "unit_class": "dynAF_britain_ally",
+        "unit_class": "dynaf_universal_1line_a",
         "props": {
           "army": 1,
           "active": true
@@ -5774,7 +5779,7 @@
           [0.382683,0.0,-0.92388],
           [0.0,1.0,0.0],
           [0.92388,0.0,0.382683],
-          [16908.7,278.754,-2305.59]
+          [16821.8,278.754,-2467.64]
         ],
         "unit_class": "germ_37mm_flak43",
         "closed_waypoints": false,
@@ -7240,41 +7245,9 @@
           [0.745654,0.0,-1.06491],
           [0.0,1.3,0.0],
           [1.06491,0.0,0.745654],
-          [16703.7,192.894,-1743.35]
+          [16546.8,199.672,-1671.03]
         ],
-        "unit_class": "dynAF_britain_grd_ally",
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "no_trees_01",
-        "tm": [
-          [-0.791395,0.0,1.03137],
-          [0.0,1.3,0.0],
-          [-1.03137,0.0,-0.791395],
-          [17236.1,164.684,-2253.85]
-        ],
-        "unit_class": "noTreeObjectGroup",
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "no_trees_02",
-        "tm": [
-          [-0.791395,0.0,1.03137],
-          [0.0,1.3,0.0],
-          [-1.03137,0.0,-0.791395],
-          [16076.3,164.7,-742.45]
-        ],
-        "unit_class": "noTreeObjectGroup",
+        "unit_class": "dynaf_universal_1line_a",
         "props": {
           "army": 2,
           "active": true
@@ -10350,10 +10323,10 @@
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-1268.14,0.0,1652.67],
+        [-1243.84,0.0,1814.63],
         [0.0,350.0,0.0],
-        [-447.428,0.0,-343.324],
-        [16775.5,162.8,-1462.15]
+        [-742.348,0.0,-508.842],
+        [16606.2,162.8,-1673.52]
       ],
       "objLayer": 0,
       "props": []
@@ -10361,10 +10334,10 @@
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-1018.06,0.0,529.966],
+        [-1776.85,0.0,1297.23],
         [0.0,350.0,0.0],
-        [-130.435,0.0,-250.563],
-        [10588.9,54.2143,16786.8]
+        [-530.686,0.0,-726.892],
+        [10614.6,54.2144,16997.0]
       ],
       "objLayer": 0,
       "props": []

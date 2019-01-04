@@ -21,13 +21,15 @@ local haveItemDiscount = null
     return
   }
 
+  local guiBlk = ::configs.GUI.get()
+  local skipItemsList = guiBlk?.xbox_ingame_shop_items_hide ?? ::DataBlock()
   xboxProceedItems.clear()
   for (local i = 0; i < catalog.blockCount(); i++)
   {
     local itemBlock = catalog.getBlock(i)
-    if (itemBlock.IsPartOfAnyBundle)
+    if (itemBlock.getBlockName() in skipItemsList)
     {
-      ::dagor.debug("XBOX SHOP: Skip " + itemBlock.Name)
+      ::dagor.debug("XBOX SHOP: SKIP: " + itemBlock.Name + " by id " + itemBlock.id)
       continue
     }
 

@@ -410,7 +410,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (hasCountryTopBar)
       ::initSlotbarTopBar(scene, true) //show autorefill checkboxes
 
-    scene.hasHeader = !hasCountryTopBar ? "yes" : "no"
+    crewsObj.hasHeader = !hasCountryTopBar ? "yes" : "no"
     crewsObj.hasBackground = isFullSlotbar ? "no" : "yes"
     local hObj = scene.findObject("slotbar_background")
     hObj.show(isFullSlotbar)
@@ -500,16 +500,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   getCountryBonusData = @(country) getBonus(
     ::shop_get_first_win_xp_rate(country),
     ::shop_get_first_win_wp_rate(country), "item")
-
-  function updateCountryHeader(countryData, obj)
-  {
-    local iconObj = obj.findObject("hdr_image")
-    if (::check_obj(iconObj))
-    {
-      iconObj["background-image"] = ::get_country_icon(countryData.country, false)
-      iconObj.getScene().applyPendingChanges(false)
-    }
-  }
 
   function fillCountryContent(countryData, tblObj)
   {
@@ -601,7 +591,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (!countryData)
       return
 
-    updateCountryHeader(countryData, scene.findObject("crew_nest_" + countryData.id))
     fillCountryContent(countryData, scene.findObject("airs_table_" + countryData.id))
   }
 
@@ -896,10 +885,10 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     return true
   }
 
-  function checkCreateCrewsNest(countryIdx)
+  function checkCreateCrewsNest(countryData)
   {
     local countriesCount = crewsObj.childrenCount()
-    local animBlockId = "crews_anim_" + countryIdx
+    local animBlockId = "crews_anim_" + countryData.idx
     for (local i = 0; i < countriesCount; i++)
     {
       local animObj = crewsObj.getChild(i)
@@ -911,9 +900,10 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local blk = ::handyman.renderCached("gui/slotbar/slotbarItem", {
-      countryIdx = countryIdx
+      countryIdx = countryData.idx
       needSkipAnim = countriesCount == 0
       alwaysShowBorder = alwaysShowBorder
+      countryImage = ::get_country_icon(countryData.country, false)
     })
     guiScene.appendWithBlk(crewsObj, blk, this)
   }
@@ -1007,7 +997,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (!countryData)
       return
 
-    checkCreateCrewsNest(countryData.idx)
+    checkCreateCrewsNest(countryData)
     checkUpdateCountryInScene(countryData.idx)
 
     if (!singleCountry)

@@ -2357,6 +2357,15 @@ function SessionLobby::getRankUnusedByUnitName(member, unitName)
 }
 
 /**
+ * Returns true if unit available for spawn is player's own unit with own crew.
+ * Returns false for non player's (random, etc.) units available for spawn.
+ */
+function SessionLobby::isUsedPlayersOwnUnit(member, unitId)
+{
+  return ::u.search(member?.crafts_info ?? [], @(ci) ci.name == unitId) != null
+}
+
+/**
  * Returns null if all countries available.
  */
 function SessionLobby::getCountriesByTeamIndex(teamIndex)
