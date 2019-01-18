@@ -1,6 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
+local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -87,7 +88,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   CAMPAIGN = {
     text = "#mainmenu/btnCampaign"
     onClickFunc = function(obj, handler) {
-      if (!::ps4_is_chunk_available(PS4_CHUNK_HISTORICAL_CAMPAIGN))
+      if (contentStateModule.isHistoricalCampaignDownloading())
         return ::showInfoMsgBox(::loc("mainmenu/campaignDownloading"), "question_wait_download")
 
       if (::is_any_campaign_available())
@@ -103,7 +104,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
         ], "yes", { cancel_fn = function() {}})
     }
     isHidden = @(...) !::has_feature("HistoricalCampaign")
-    isVisualDisabled = function() { return !::ps4_is_chunk_available(PS4_CHUNK_HISTORICAL_CAMPAIGN) }
+    isVisualDisabled = @() contentStateModule.isHistoricalCampaignDownloading()
     isInactiveInQueue = true
   }
   BENCHMARK = {

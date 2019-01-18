@@ -108,4 +108,5 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onStart() {}
+  function onListItemsFocusChange(obj) {}
 }

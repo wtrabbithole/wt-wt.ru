@@ -1967,7 +1967,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function restoreFocus(checkPrimaryFocus = true)
   {
-    if (!checkGroupObj())
+    if (isSceneActive() && !checkGroupObj())
       ::top_menu_handler.restoreFocus.call(::top_menu_handler, checkPrimaryFocus)
   }
 

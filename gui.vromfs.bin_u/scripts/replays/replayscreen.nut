@@ -640,6 +640,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChapterSelect(obj) {}
   function onSelect(obj) {}
+  function onListItemsFocusChange(obj) {}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

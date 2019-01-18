@@ -90,6 +90,10 @@ subscriptions.addListenersWithoutEnv({
 }, ::g_listener_priority.CONFIG_VALIDATION)
 
 return {
+  isPlatformXboxOne = isPlatformXboxOne
+  isPlatformPS4 = isPlatformPS4
+  isPlatformPC = isPlatformPC
+
   xboxNameRegexp = xboxNameRegexp
   isXBoxPlayerName = isXBoxPlayerName
   ps4NameRegexp = ps4NameRegexp
@@ -102,7 +106,6 @@ return {
   isChatEnableWithPlayer = isChatEnableWithPlayer
   canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
   getXboxChatEnableStatus = getXboxChatEnableStatus
-  isPlatformXboxOne = isPlatformXboxOne
   canInteractCrossConsole = canInteractCrossConsole
   isPs4XboxOneInteractionAvailable = isPs4XboxOneInteractionAvailable
 }

@@ -253,4 +253,6 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
   {
     reinit(::getTblValue("showPreset", params, -1))
   }
+
+  function onListItemsFocusChange(obj) {}
 }

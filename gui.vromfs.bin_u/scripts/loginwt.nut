@@ -1,6 +1,7 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
@@ -143,7 +144,7 @@ function g_login::initConfigs(cb)
       if (!::g_login.hasState(LOGIN_STATE.PROFILE_RECEIVED | LOGIN_STATE.CONFIGS_RECEIVED))
         return PT_STEP_STATUS.SUSPEND
 
-      ::ps4_is_client_full_downloaded = ::ps4_is_chunk_available(PS4_CHUNK_FULL_CLIENT_DOWNLOADED)
+      contentStateModule.updateConsoleClientDownloadStatus()
       ::get_profile_info() //update ::my_user_name
       ::init_selected_crews(true)
       ::set_show_attachables(::has_feature("AttachablesUse"))

@@ -194,6 +194,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onChangeAutosave()
   {
+    if (!isValid())
+      return
+
     local remoteCompObj = scene.findObject("loginbox_remote_comp")
     local rememberDeviceObj = scene.findObject("loginbox_code_remember_this_device")
     local savePassObj = scene.findObject("loginbox_autosave_password")

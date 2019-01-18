@@ -444,7 +444,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function canRestoreFocus()
   {
     local drawer = getGamercardDrawerHandler()
-    return !drawer || !drawer.isActive()
+    return !drawer || !drawer.isBlockOtherRestoreFocus || !drawer.isActive()
   }
 
   function onEventGamercardDrawerAnimationStart(params)

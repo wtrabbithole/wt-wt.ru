@@ -247,8 +247,9 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
     updateSpendExpBtn(unit)
 
-    local canBuyIngame = ::canBuyUnit(unit)
-    local canBuyOnline = ::canBuyUnitOnline(unit)
+    local isFakeUnit = unit?.isFakeUnit ?? false
+    local canBuyIngame = !isFakeUnit && ::canBuyUnit(unit)
+    local canBuyOnline = !isFakeUnit && ::canBuyUnitOnline(unit)
     local showBuyUnit = canBuyIngame || canBuyOnline
     showNavButton("btn_buy_unit", showBuyUnit)
     if (showBuyUnit)

@@ -2257,8 +2257,14 @@ function SessionLobby::checkSquadAutoInvite()
 
   local sMembers = ::g_squad_manager.getMembers()
   foreach(uid, member in sMembers)
-    if (member.online && member.isReady && !member.isMe() && !::u.search(members, @(m) m.userId == uid))
+    if (member.online
+        && member.isReady
+        && !member.isMe()
+        && !::u.search(members, @(m) m.userId == uid)
+        && ::g_squad_manager.canInvitePlayerToSessionByName(member.name))
+    {
       invitePlayer(uid)
+    }
 }
 
 ::SessionLobby.onEventSquadStatusChanged <- @(p) checkSquadAutoInvite()

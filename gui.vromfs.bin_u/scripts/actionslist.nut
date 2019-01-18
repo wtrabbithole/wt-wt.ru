@@ -196,7 +196,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
   function onFocus(obj)
   {
     guiScene.performDelayed(this, (@(obj) function () {
-        if (!::checkObj(obj))
+        if (!::checkObj(scene) || scene.close == "yes" || !::checkObj(obj))
           return
         local total = obj.childrenCount()
         if (!total)

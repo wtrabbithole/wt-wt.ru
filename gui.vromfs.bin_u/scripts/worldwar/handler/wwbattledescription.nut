@@ -803,7 +803,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       local playersTextObj = scene.findObject("number_of_players")
       if (::check_obj(playersTextObj))
-        playersTextObj.setValue(battleView.getTotalPlayersInfoText())
+        playersTextObj.setValue(battleView.getTotalPlayersInfoText(getPlayerSide()))
     }
   }
 

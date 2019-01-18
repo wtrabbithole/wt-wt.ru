@@ -1,7 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local hudState = require_native("hudState")
-
+local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 
 local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
@@ -132,6 +132,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     ::g_hud_event_manager.init()
     ::g_streaks.clear()
     initSubscribes()
+
+    ::set_hud_width_limit(safeAreaHud.getHudWidthLimit())
+    ::set_option_hud_screen_safe_area(safeAreaHud.getValue())
 
     isXinput = ::is_xinput_device()
     spectatorMode = ::isPlayerDedicatedSpectator() || ::is_replay_playing()

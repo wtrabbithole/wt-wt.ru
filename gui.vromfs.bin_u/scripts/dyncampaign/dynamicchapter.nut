@@ -370,6 +370,7 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
   }
 
   function onFav(){}
+  function onListItemsFocusChange(obj) {}
 }
 
 //country without "country_" prefix

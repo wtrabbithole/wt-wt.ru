@@ -45,7 +45,6 @@ local __math = require("math")
 
 ::skip_steam_confirmations <- false
 ::show_console_buttons <- false
-::ps4_is_client_full_downloaded <- !::is_platform_ps4
 ::ps4_vsync_enabled <- true
 
 ::cross_call_api <- {}
@@ -60,7 +59,6 @@ const LOST_DELAYED_ACTION_MSEC = 500
     "nda_version", "nda_version_tanks", "eula_version",
     "test_flight", "is_debug_mode_enabled", "first_generation",
     "skip_steam_confirmations", "show_console_buttons",
-    "ps4_is_client_full_downloaded",
     "is_dev_version"
   ])
 
@@ -233,8 +231,6 @@ enum squadMemberState
 
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
-const PS4_CHUNK_HISTORICAL_CAMPAIGN = 11
-const PS4_CHUNK_FULL_CLIENT_DOWNLOADED = 19
 const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
 
 enum COLOR_TAG {

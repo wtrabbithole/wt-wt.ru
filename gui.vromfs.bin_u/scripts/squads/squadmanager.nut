@@ -349,6 +349,15 @@ function g_squad_manager::canInviteMemberByPlatform(name)
   return true
 }
 
+function g_squad_manager::canInvitePlayerToSessionByName(name)
+{
+  if (::SessionLobby.getGameMode() != ::GM_SKIRMISH)
+    return true
+
+  local platformInfo = getPlatformInfo()
+  return platformInfo.len() == 1 || !platformModule.isXBoxPlayerName(name)
+}
+
 function g_squad_manager::getMaxSquadSize()
 {
   return squadData.properties.maxMembers
@@ -991,8 +1000,12 @@ function g_squad_manager::requestMemberData(uid)
                         if (!::g_squad_manager.readyCheck())
                           ::queues.leaveAllQueues()
 
-                        if (::SessionLobby.canInviteIntoSession() && memberData.canJoinSessionRoom())
+                        if (::SessionLobby.canInviteIntoSession()
+                            && memberData.canJoinSessionRoom()
+                            && ::g_squad_manager.canInvitePlayerToSessionByName(memberData.name))
+                        {
                           ::SessionLobby.invitePlayer(memberData.uid)
+                        }
                       }
 
                       ::g_squad_manager.joinSquadChatRoom()

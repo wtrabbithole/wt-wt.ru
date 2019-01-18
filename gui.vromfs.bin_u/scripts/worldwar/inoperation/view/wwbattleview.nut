@@ -406,9 +406,9 @@ class ::WwBattleView
     return battle.isValid() && battle.isConfirmed()
   }
 
-  function getTotalPlayersInfoText()
+  function getTotalPlayersInfoText(side)
   {
     return ::loc("worldwar/totalPlayers") + ::loc("ui/colon") +
-      ::colorize("newTextColor", battle.getTotalPlayersNumber())
+      ::colorize("newTextColor", battle.getTotalPlayersInfo(side))
   }
 }

@@ -44,6 +44,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local params = {
       target = this.scene
       visible = value
+      isBlockOtherRestoreFocus = value
     }
     ::broadcastEvent("RequestToggleVisibility", params)
   }

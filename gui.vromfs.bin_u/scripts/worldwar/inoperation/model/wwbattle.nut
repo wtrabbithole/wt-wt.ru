@@ -822,6 +822,23 @@ class ::WwBattle
     return getPlayersNumberByParam("players")
   }
 
+  function getTotalPlayersInfo(side)
+  {
+    if (!::has_feature("worldWarMaster") && !getMyAssignCountry())
+      return getPlayersNumberByParam("players")
+
+    local friendlySideNumber = 0
+    local enemySideNumber = 0
+    if (teams)
+      foreach(team in teams)
+        if (team.side == side)
+          friendlySideNumber += team.players
+        else
+          enemySideNumber += team.players
+
+    return friendlySideNumber + " " + ::loc("country/VS") + " " + enemySideNumber
+  }
+
   function getMaxPlayersNumber()
   {
     return getPlayersNumberByParam("maxPlayers")

@@ -1,3 +1,5 @@
+local contentStateModule = ::require("scripts/clientState/contentState.nut")
+
 function check_package_full(pack, silent = false)
 {
   local res = true
@@ -16,16 +18,6 @@ function check_gamemode_pkg(gm, silent = false)
     return ::check_package_full("pkg_main", silent)
 
   return true
-}
-
-function check_ps4_full_client_download()
-{
-  if (!::is_platform_ps4)
-    return true
-  if (::ps4_is_chunk_available(PS4_CHUNK_FULL_CLIENT_DOWNLOADED))
-    return true
-
-  return false
 }
 
 function check_diff_pkg(diff, silent = false)
@@ -65,7 +57,7 @@ function checkReqContent(ename, blk)
 
 function have_package(packName)
 {
-  if (!::check_ps4_full_client_download())
+  if (!contentStateModule.isConsoleClientFullyDownloaded())
     return false
   return ::package_get_status(packName) == ::PACKAGE_STATUS_OK
 }
@@ -197,14 +189,13 @@ function check_package_and_ask_download(pack, msg = null, continueFunc = null, o
   }
 
   local _msg = msg
-  local perc = 100
-  if (::is_platform_ps4)
+  local isFinishedDownload = contentStateModule.isConsoleClientFullyDownloaded()
+  if (::is_ps4_or_xbox)
   {
-    if (!::ps4_is_chunk_available(PS4_CHUNK_FULL_CLIENT_DOWNLOADED))
+    if (!isFinishedDownload)
     {
-      perc = ::ps4_get_chunk_progress_percent(PS4_CHUNK_FULL_CLIENT_DOWNLOADED)
-      _msg = ::loc("msgbox/downloadPercent", {percent = perc})
-      if (perc == 100 && !::ps4_is_client_full_downloaded)
+      _msg = contentStateModule.getClientDownloadProgressText()
+      if (!contentStateModule.getConsoleClientDownloadStatusOnStart())
         _msg += "\n" + ::loc("msgbox/relogin_required")
     }
   }
@@ -231,13 +222,13 @@ function check_package_and_ask_download(pack, msg = null, continueFunc = null, o
 
   if (::is_platform_ps4)
   {
-    if (perc == 100 && !::ps4_is_client_full_downloaded)
+    if (isFinishedDownload && !contentStateModule.getConsoleClientDownloadStatusOnStart())
     {
       buttons.insert(0, ["apply", function() { ::ps4_update_gui() }])
       defButton = "apply"
     }
   }
-  else if (::can_download_package())
+  else if (::can_download_package() && !::is_platform_xboxone)
   {
     buttons.insert(0, ["download", (@(pack) function() {
                        ::request_packages_and_restart([pack])

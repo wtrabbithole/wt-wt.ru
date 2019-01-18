@@ -673,6 +673,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onFav() {}
   function onChapterSelect() {}
+  function onListItemsFocusChange(obj) {}
 }
 
 class ::gui_handlers.OnlineShopRowHandler extends ::gui_handlers.OnlineShopHandler

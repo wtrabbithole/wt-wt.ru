@@ -1,6 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
+local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
 ::dbg_mainmenu_start_check <- 0
 ::_is_first_mainmenu_call <- true //only for comatible with 1.59.2.X executable
@@ -283,11 +284,8 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
   function onLoadModels()
   {
-    if (::is_platform_ps4)
-    {
-      local perc = ps4_get_chunk_progress_percent(PS4_CHUNK_FULL_CLIENT_DOWNLOADED)
-      showInfoMsgBox(::loc("msgbox/downloadPercent", {percent = perc}))
-    }
+    if (::is_ps4_or_xbox)
+      showInfoMsgBox(contentStateModule.getClientDownloadProgressText())
     else
       ::check_package_and_ask_download("pkg_main", ::loc("msgbox/ask_package_download"))
   }
