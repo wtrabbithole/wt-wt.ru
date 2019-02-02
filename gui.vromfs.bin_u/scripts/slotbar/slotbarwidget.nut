@@ -17,7 +17,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
                                //(look like it almost duplicate of singleCountry)
   customCountry = null //country name when not isCountryChoiceAllowed mode.
   showTopPanel = true  //need to show panel with repair checkboxes. ignored in singleCountry or when not isCountryChoiceAllowed modes
-  needOffset = false //offset from left border to autorepair and autoreload checkboxes
+  hasResearchesBtn = false //offset from left border for Researches button
   hasActions = true
   missionRules = null
   showNewSlot = null //bool
@@ -54,6 +54,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   afterSlotbarSelect = null //function() will be called after unit selection applied.
   onSlotDblClick = null //function(crew) when not set will open unit modifications window
   onCountryChanged = null //function()
+  onCountryDblClick = null
   beforeFullUpdate = null //function()
   afterFullUpdate = null //function()
   onSlotBattleBtn = null //function()
@@ -112,7 +113,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     isSceneLoaded = true
     refreshAll()
 
-    if (needOffset) {
+    if (hasResearchesBtn)
+    {
       local slotbarHeaderNestObj = scene.findObject("slotbar_buttons_place")
       if (::check_obj(slotbarHeaderNestObj))
         slotbarHeaderNestObj["offset"] = "yes"
@@ -418,6 +420,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       updateConsoleButtonsVisible(hasCountryTopBar)
 
     local countriesView = {
+      isDiscountVisible = hasResearchesBtn
       countries = []
     }
     local selCountryIdx = 0
@@ -619,6 +622,58 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   function getSlotbarActions()
   {
     return slotbarActions || ownerWeak && ownerWeak.getSlotbarActions()
+  }
+
+  function getCurFocusObj()
+  {
+    if (!isValid() || scene.getModalCounter() != 0 || !scene.isVisible())
+      return null
+
+    checkWrapFrom()
+    return getObjByConfigItem(focusArray?[currentFocusItem]) ?? findObjInFocusArray(false)
+  }
+
+  function checkWrapFrom()
+  {
+    local wrapObj = ::g_last_nav_wrap.getWrapObj()
+    if (!wrapObj)
+      return false
+
+    local wrapDir = ::g_last_nav_wrap.getWrapDir()
+    local needWrapTo = wrapDir.isVertical
+    ::g_last_nav_wrap.clearWrap()
+    if (needWrapTo)
+      selectItem(wrapDir.isPositive)
+    return needWrapTo
+  }
+
+  function selectItem(isPositive)
+  {
+    if (currentFocusItem  < 0 && !isPositive)
+    {
+      currentFocusItem = 0
+      return
+    }
+
+    if (currentFocusItem > focusArray.len() && isPositive)
+    {
+      currentFocusItem = focusArray.len() - 1
+      return
+    }
+
+    local focusIdx = isPositive ? 0 : focusArray.len() - 1
+    for(local i = 0; i < focusArray.len(); i++)
+    {
+      local obj = getObjByConfigItem(focusArray[focusIdx])
+      if (!::check_obj(obj) || !obj.isVisible() || !obj.isEnabled())
+      {
+        focusIdx = focusIdx + (isPositive ? 1 : (-1))
+        continue
+      }
+
+      currentFocusItem = focusIdx
+      return
+    }
   }
 
   function getFocusObj()
@@ -932,6 +987,12 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ::game_mode_manager.setCurrentGameModeById(::slotbarPresets.getPresetsList(countryData.country)[
                                                    ::slotbarPresets.getCurrent(countryData.country, 0)].gameModeId)
     }
+  }
+
+  function onCountriesListDblClick()
+  {
+    if (onCountryDblClick)
+      onCountryDblClick()
   }
 
   function switchSlotbarCountry(obj, countryData)

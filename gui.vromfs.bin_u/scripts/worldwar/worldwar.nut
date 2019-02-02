@@ -257,7 +257,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
 
-  defaultDiffCode = ::DIFFICULTY_REALISTIC
+  defaultDiffCode = ::DIFFICULTY_ARCADE
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_world_war")

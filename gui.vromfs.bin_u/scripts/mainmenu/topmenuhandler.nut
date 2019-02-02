@@ -73,8 +73,12 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       instantOpenShopWnd()
       createSlotbar(
         {
-          needOffset = true
+          hasResearchesBtn = true
           mainMenuSlotbar = true
+          onCountryDblClick = function() {
+            if (!::top_menu_shop_active)
+              shopWndSwitch()
+          }.bindenv(this)
         },
         "nav-topMenu"
       )

@@ -406,9 +406,20 @@ class ::WwBattleView
     return battle.isValid() && battle.isConfirmed()
   }
 
+  function hasQueueInfo()
+  {
+    return battle.isValid() && battle.hasQueueInfo()
+  }
+
   function getTotalPlayersInfoText(side)
   {
     return ::loc("worldwar/totalPlayers") + ::loc("ui/colon") +
       ::colorize("newTextColor", battle.getTotalPlayersInfo(side))
+  }
+
+  function getTotalQueuePlayersInfoText(side)
+  {
+    return ::loc("worldwar/totalInQueue") + ::loc("ui/colon") +
+      ::colorize("newTextColor", battle.getTotalPlayersInQueueInfo(side))
   }
 }

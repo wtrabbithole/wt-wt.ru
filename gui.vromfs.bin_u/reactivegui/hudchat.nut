@@ -66,6 +66,7 @@ local chatInputCtor = function (field, send) {
     ]
     colors = {
       backGroundColor = colors.hud.hudLogBgColor
+      textColor = modeColor(state.modeId.value)
     }
   }
   return textInput.hud(field, options, handlers)
@@ -108,6 +109,7 @@ local chatHint = @() {
 local inputField = @() {
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_VERTICAL
+  watch = state.modeId
   children = [
     chat.inputField(chatInputCtor)
   ]

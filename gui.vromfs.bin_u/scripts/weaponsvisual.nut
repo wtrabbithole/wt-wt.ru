@@ -1065,6 +1065,9 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     if (!bullet_params)
       continue
 
+    if (bullet_params?.bulletType == "aam")
+      continue
+
     foreach(ind, d in dist)
     {
       for (local i = 0; i < bullet_params.armorPiercingDist.len(); i++)

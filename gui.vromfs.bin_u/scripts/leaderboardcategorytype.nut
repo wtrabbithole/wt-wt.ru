@@ -2,48 +2,53 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 
 enum LB_MODE
 {
-  ARCADE           = 0x0001
-  HISTORICAL       = 0x0002
-  SIMULATION       = 0x0004
+  ARCADE            = 0x00001
+  HISTORICAL        = 0x00002
+  SIMULATION        = 0x00004
 
-  AIR_ARCADE       = 0x0010
-  AIR_REALISTIC    = 0x0020
-  AIR_SIMULATION   = 0x0040
+  AIR_ARCADE        = 0x00010
+  AIR_REALISTIC     = 0x00020
+  AIR_SIMULATION    = 0x00040
 
-  TANK_ARCADE      = 0x0100
-  TANK_REALISTIC   = 0x0200
-  TANK_SIMULATION  = 0x0400
+  TANK_ARCADE       = 0x00100
+  TANK_REALISTIC    = 0x00200
+  TANK_SIMULATION   = 0x00400
 
-  SHIP_ARCADE      = 0x1000
-  SHIP_REALISTIC   = 0x2000
+  SHIP_ARCADE       = 0x01000
+  SHIP_REALISTIC    = 0x02000
+
+  HELICOPTER_ARCADE = 0x10000
 
   // masks
-  COMMON           = 0x000F
-  AIR              = 0x00F0
-  TANK             = 0x0F00
-  SHIP             = 0xF000
-  ALL              = 0xFFFF
+  COMMON            = 0x0000F
+  AIR               = 0x000F0
+  TANK              = 0x00F00
+  SHIP              = 0x0F000
+  HELICOPTER        = 0xF0000
+  ALL               = 0xFFFFF
 }
 
 
 ::lb_mode_name <- {
-  arcade           = LB_MODE.ARCADE
-  historical       = LB_MODE.HISTORICAL
-  simulation       = LB_MODE.SIMULATION
+  arcade              = LB_MODE.ARCADE
+  historical          = LB_MODE.HISTORICAL
+  simulation          = LB_MODE.SIMULATION
 
-  air_arcade       = LB_MODE.AIR_ARCADE
-  air_realistic    = LB_MODE.AIR_REALISTIC
-  air_simulation   = LB_MODE.AIR_SIMULATION
+  air_arcade          = LB_MODE.AIR_ARCADE
+  air_realistic       = LB_MODE.AIR_REALISTIC
+  air_simulation      = LB_MODE.AIR_SIMULATION
 
-  tank_arcade      = LB_MODE.TANK_ARCADE
-  tank_realistic   = LB_MODE.TANK_REALISTIC
-  tank_simulation  = LB_MODE.TANK_SIMULATION
+  tank_arcade         = LB_MODE.TANK_ARCADE
+  tank_realistic      = LB_MODE.TANK_REALISTIC
+  tank_simulation     = LB_MODE.TANK_SIMULATION
 
-  ship_arcade      = LB_MODE.SHIP_ARCADE
-  ship_realistic   = LB_MODE.SHIP_REALISTIC
+  ship_arcade         = LB_MODE.SHIP_ARCADE
+  ship_realistic      = LB_MODE.SHIP_REALISTIC
 
   test_ship_arcade    = LB_MODE.SHIP_ARCADE
   test_ship_realistic = LB_MODE.SHIP_REALISTIC
+
+  helicopter_arcade   = LB_MODE.HELICOPTER_ARCADE
 }
 
 
@@ -233,7 +238,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       headerTooltip = "averageRelativePosition"
       type = ::g_lb_data_type.PERCENT
       additionalTooltipCategoryes = ["AVERAGE_POSITION"]
-      modesMask = ~LB_MODE.AIR_SIMULATION
+      modesMask = ~(LB_MODE.AIR_SIMULATION | LB_MODE.HELICOPTER_ARCADE)
     }
 
     PVP_RATIO = {
@@ -385,7 +390,7 @@ enums.addTypesByGlobalName("g_lb_category", {
         "GROUND_DEATH",
         "NAVAL_DEATH"
       ]
-      modesMask = LB_MODE.AIR | LB_MODE.TANK | LB_MODE.SHIP
+      modesMask = LB_MODE.AIR | LB_MODE.TANK | LB_MODE.SHIP | LB_MODE.HELICOPTER
     }
 
     AVERAGE_SCRIPT_KILLS_BY_SPAWN = {
@@ -404,7 +409,7 @@ enums.addTypesByGlobalName("g_lb_category", {
         "GROUND_DEATH",
         "NAVAL_DEATH"
       ]
-      modesMask = LB_MODE.AIR | LB_MODE.TANK | LB_MODE.SHIP
+      modesMask = LB_MODE.AIR | LB_MODE.TANK | LB_MODE.SHIP | LB_MODE.HELICOPTER
     }
 
     /*CLAN DUELS*/

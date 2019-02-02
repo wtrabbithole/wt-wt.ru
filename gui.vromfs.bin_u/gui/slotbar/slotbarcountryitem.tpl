@@ -34,5 +34,15 @@ shopFilter {
     class:t='short'
     text:t='#<<country>>/short'
   }
+
+  <<#isDiscountVisible>>
+  discountIcon {
+    countryId:t='<<country>>'
+    value:t='{"viewId": "COUNTRY_DISCOUN_ICON"}'
+    text:t='#measureUnits/percent'
+    tooltip:t='#discount/notification'
+    type:t='slotbarCountry'
+  }
+  <</isDiscountVisible>>
 }
 <</countries>>

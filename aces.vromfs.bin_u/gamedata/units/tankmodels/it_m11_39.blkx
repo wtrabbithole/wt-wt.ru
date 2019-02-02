@@ -1779,11 +1779,6 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-10.0,20.0]
-          },
-          "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,90.0],
-            "lim2": [-40.0,40.0,-2.0,90.0],
-            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       }
@@ -1819,33 +1814,33 @@
         "cls_body_01": "convex_hull"
       },
       "engine": {
-        "horsePowers": 105.0,
-        "maxRPM": 1100.0,
-        "minRPM": 400.0
+        "horsePowers": 130.0,
+        "maxRPM": 1800.0,
+        "minRPM": 600.0
       },
       "mechanics": {
         "maxBrakeForce": 45000.0,
         "driveGearRadius": 0.34,
-        "mainGearRatio": 1.55,
+        "mainGearRatio": 1.0,
         "sideGearRatio": 2.685,
         "gearRatios": [
           {
-            "ratio": -6.465
+            "ratio": -17.56
           },
           {
             "ratio": 0.0
           },
           {
-            "ratio": 4.926
+            "ratio": 13.38
           },
           {
-            "ratio": 2.63
+            "ratio": 7.72
           },
           {
-            "ratio": 1.535
+            "ratio": 4.51
           },
           {
-            "ratio": 1.0
+            "ratio": 2.55
           }
         ]
       },
@@ -2558,7 +2553,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {

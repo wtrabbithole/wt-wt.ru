@@ -540,6 +540,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     loadMap(battleSides[0])
     updateBattleStatus(battleView)
+    updateTitle()
   }
 
   function fillOperationBackground()
@@ -797,13 +798,19 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local hasTeamsInfo = battleView.hasTeamsInfo()
-    showSceneBtn("teams_info", hasTeamsInfo)
-    if (hasTeamsInfo)
+    local playersInfoText = battleView.hasTeamsInfo()
+      ? battleView.getTotalPlayersInfoText(getPlayerSide())
+      : battleView.hasQueueInfo()
+        ? battleView.getTotalQueuePlayersInfoText(getPlayerSide())
+        : ""
+
+    local hasInfo = !::u.isEmpty(playersInfoText)
+    showSceneBtn("teams_info", hasInfo)
+    if (hasInfo)
     {
       local playersTextObj = scene.findObject("number_of_players")
       if (::check_obj(playersTextObj))
-        playersTextObj.setValue(battleView.getTotalPlayersInfoText(getPlayerSide()))
+        playersTextObj.setValue(playersInfoText)
     }
   }
 

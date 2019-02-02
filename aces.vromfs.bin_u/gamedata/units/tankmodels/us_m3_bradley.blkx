@@ -78,7 +78,7 @@
     "minDistBetween": 10.0
   },
   {
-    "expClass": "exp_SPAA"
+    "expClass": "exp_tank"
   },
   {
     "mass": 17550.0
@@ -102,7 +102,7 @@
     "destroysTrees": true
   },
   {
-    "type": "typeSPAA"
+    "type": "typeLightTank"
   },
   {
     "cruiseVelocity": 10.0
@@ -1964,7 +1964,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2200
+            "bullets": 4400
           },
           {
             "isBulletBelt": true
@@ -2142,53 +2142,7 @@
         "defaultDampeningForce": [20000.0,20000.0],
         "dampeningRelaxationRatio": 0.15,
         "dampeningCompressionRatio": 0.08
-      },
-      "floats": [
-        {
-          "volume": [2.1,1.5,1.0,0.82]
-        },
-        {
-          "volume": [2.1,1.5,-1.0,0.82]
-        },
-        {
-          "volume": [1.3,1.5,0.0,0.82]
-        },
-        {
-          "volume": [0.7,1.5,1.0,0.82]
-        },
-        {
-          "volume": [0.7,1.5,-1.0,0.82]
-        },
-        {
-          "volume": [0.0,1.5,1.0,0.82]
-        },
-        {
-          "volume": [0.0,1.5,-1.0,0.82]
-        },
-        {
-          "volume": [-1.0,1.5,0.0,0.82]
-        },
-        {
-          "volume": [-2.1,1.5,1.0,0.82]
-        },
-        {
-          "volume": [-2.1,1.5,-1.0,0.82]
-        },
-        {
-          "waterJet": {
-            "exhaustNode": "emtr_track_l_back_bottom",
-            "intake": [-1.25,0.4,0.85],
-            "thrust": 11000.0
-          }
-        },
-        {
-          "waterJet": {
-            "exhaustNode": "emtr_track_r_back_bottom",
-            "intake": [-1.25,0.4,-0.85],
-            "thrust": 11000.0
-          }
-        }
-      ]
+      }
     }
   },
   {
@@ -2738,12 +2692,13 @@
   },
   {
     "cockpit": {
+      "zoomOutFov": 18.49,
+      "zoomInFov": 6.14,
+      "sightFov": 9.0,
+      "sightName": "isu",
       "openedCockpit": true,
       "headPos": [0.0,3.5,-7.5],
       "headPosOnShooting": [-0.4,3.4,0.5],
-      "zoomOutFov": 16.0,
-      "zoomInFov": 14.772,
-      "sightFov": 12.0,
       "detectionHeight": 2.92
     }
   },
@@ -2762,13 +2717,15 @@
       "tank_tool_kit": [],
       "art_support": [],
       "tank_new_gun": [],
-      "modern_tank_laser_rangefinder": [],
+      "airstrike": [],
+      "improved_optics": [],
       "tank_medical_kit": {
         "image": "#ui/gameuiskin#tank_reinforcement_us"
       },
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_us"
       },
+      "tank_engine_smoke_screen_system": [],
       "tank_smoke_screen_system_mod": {
         "tier": 3,
         "effects": {
@@ -2902,7 +2859,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 2200
+                  "bullets": 4400
                 },
                 {
                   "isBulletBelt": true

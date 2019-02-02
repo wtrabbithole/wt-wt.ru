@@ -23,7 +23,7 @@ function gui_start_profile(params = {})
 class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/profile.blk"
+  sceneBlkName = "gui/profile/profile.blk"
   initialSheet = ""
 
   curDifficulty = "any"
@@ -1022,7 +1022,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     })
 
     guiScene.setUpdatesEnabled(false, false)
-    local markUpData = ::handyman.renderCached("gui/profileSkins", skinView)
+    local markUpData = ::handyman.renderCached("gui/profile/profileSkins", skinView)
     guiScene.replaceContentFromText(objDesc, markUpData, markUpData.len(), this)
 
     if (unlockBlk)

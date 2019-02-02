@@ -19,4 +19,9 @@ class ::Input.InputImage extends ::Input.InputBase
       view = { buttonImage = image }
     }
   }
+
+  function hasImage ()
+  {
+    return image !=""
+  }
 }

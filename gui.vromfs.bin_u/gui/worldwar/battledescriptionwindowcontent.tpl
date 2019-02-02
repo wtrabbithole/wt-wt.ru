@@ -91,14 +91,12 @@ tdiv {
 
         tdiv {
           id:t='team_header_info_0'
-          width:t='45%pw'
+          width:t='50%pw'
         }
 
         tdiv {
           id:t='team_header_info_1'
-          left:t='pw-w'
-          position:t='absolute'
-          width:t='45%pw'
+          width:t='50%pw'
         }
 
         tdiv {

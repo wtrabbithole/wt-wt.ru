@@ -21,9 +21,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     function() { return getMainFocusObj3() }      //main focus obj of handler
     function() { return getMainFocusObj4() }      //main focus obj of handler
     "crew_unlock_buttons",
-    "autorefill-settings",
-    "header_countries",
-    function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
+    function() { return slotbarWeak && slotbarWeak.getCurFocusObj() }   // slotbar
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
   currentFocusItem = MAIN_FOCUS_ITEM_IDX

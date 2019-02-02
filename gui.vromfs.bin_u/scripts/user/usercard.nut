@@ -130,7 +130,7 @@ function gui_modal_userCard(playerInfo)  // uid, id (in session), name
 class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/userCard.blk"
+  sceneBlkName = "gui/profile/userCard.blk"
   sceneCheckBoxListTpl = "gui/profile/checkBoxList"
 
   isOwnStats = false

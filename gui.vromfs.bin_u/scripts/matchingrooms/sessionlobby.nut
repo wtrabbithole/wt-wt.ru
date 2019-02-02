@@ -1140,6 +1140,9 @@ function SessionLobby::initMyParamsByMemberInfo(me = null)
   local myTeam = getMemberPublicParam(me, "team")
   if (myTeam != Team.Any && myTeam != team)
     team = myTeam
+
+  if (myTeam == Team.Any)
+    validateTeamAndReady()
 }
 
 function SessionLobby::syncMyInfo(newInfo, reqUpdateMatchingSlots = false)

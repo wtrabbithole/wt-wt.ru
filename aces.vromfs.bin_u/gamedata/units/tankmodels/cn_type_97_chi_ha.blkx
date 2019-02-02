@@ -1318,7 +1318,7 @@
           "role": "tank_gunner"
         },
         {
-          "role": "loader"
+          "substitute": "commander"
         },
         {
           "substitute": "machine_gunner"
@@ -1332,7 +1332,7 @@
           "role": "driver"
         },
         {
-          "substitute": "gunner"
+          "substitute": "commander"
         },
         {
           "substitute": "machine_gunner"
@@ -1346,10 +1346,10 @@
           "role": "commander"
         },
         {
-          "substitute": "machine_gunner"
+          "role": "loader"
         },
         {
-          "substitute": "gunner"
+          "substitute": "machine_gunner"
         }
       ],
       "machine_gunner": {
@@ -1360,33 +1360,6 @@
   },
   {
     "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "machine_gunner_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ],
       "body": [
         {
           "hp": 10000.0
@@ -1520,7 +1493,7 @@
             "head": "bone_turret",
             "gun": "bone_gun",
             "barrel": "bone_gun_barrel",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "gunner_dm"
           },
           "limits": {
             "yaw": [-180.0,180.0],

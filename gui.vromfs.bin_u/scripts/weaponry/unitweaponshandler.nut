@@ -18,6 +18,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   showItemParams = null
   isForcedAvailable = false
+  isPrimaryFocus = false
 
   function initScreen()
   {

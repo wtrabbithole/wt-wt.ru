@@ -35,4 +35,9 @@ class ::Input.DoubleAxis extends ::Input.InputBase
   {
     return deviceId
   }
+
+  function hasImage()
+  {
+     return ::gamepad_axes_images?[axisIds] ?? "" !="" || ::mouse_axes_to_image?[axisIds] ?? "" !=""
+  }
 }

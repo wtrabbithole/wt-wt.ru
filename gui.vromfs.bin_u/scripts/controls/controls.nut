@@ -5303,7 +5303,7 @@ function check_joystick_thustmaster_hotas(changePreset = true)
 
 function ask_hotas_preset_change()
 {
-  if (!::is_ps4_or_xbox)
+  if (!::is_ps4_or_xbox || ::loadLocalByAccount("wnd/detectThrustmasterHotas", false))
     return
 
   local preset = ::g_controls_presets.getCurrentPreset()
@@ -5313,6 +5313,8 @@ function ask_hotas_preset_change()
   local is_xboxone_non_gamepad_preset = ::is_platform_xboxone
     && preset.name.find("xboxone_ma") == null
     && preset.name.find("xboxone_simulator") == null
+
+  ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
 
   if (is_ps4_non_gamepad_preset && is_xboxone_non_gamepad_preset)
     return

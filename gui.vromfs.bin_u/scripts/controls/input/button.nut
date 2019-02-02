@@ -53,4 +53,9 @@ class ::Input.Button extends ::Input.InputBase
   {
     return deviceId
   }
+
+  function hasImage ()
+  {
+    return gamepadIcons.hasMouseTexture(buttonId) || gamepadIcons.hasTextureByButtonIdx(buttonId)
+  }
 }

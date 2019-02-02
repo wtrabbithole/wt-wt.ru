@@ -97,6 +97,7 @@ class ActionBar
     local isReady = isActionReady(item)
 
     local shortcutText = ""
+    local isXinput = false
     local shortcutId = ""
     local showShortcut = false
     if (needShortcuts && actionBarType.getShortcut(item, unit))
@@ -106,6 +107,7 @@ class ActionBar
       local scInput = shType.getFirstInput(shortcutId)
       showShortcut = true
       shortcutText = scInput.getText()
+      isXinput = scInput.hasImage() && scInput.getDeviceId() != ::STD_KEYBOARD_DEVICE_ID
     }
 
     viewItem.id                 <- __action_id_prefix + item.id
@@ -117,7 +119,7 @@ class ActionBar
     viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_TEXT_LEN
     viewItem.mainShortcutId     <- shortcutId
     viewItem.cancelShortcutId   <- shortcutId
-    viewItem.isXinput           <- showShortcut && ::is_xinput_device()
+    viewItem.isXinput           <- showShortcut && isXinput
     viewItem.showShortcut       <- showShortcut
 
     if (item.type == ::EII_BULLET && unit != null)
@@ -270,7 +272,7 @@ class ActionBar
 
     local countExText = countEx < 0 ? "" : countEx.tostring()
     local text = count.tostring() + (countExText.len() ? "/" + countExText : "")
-    if (text.len() > LONG_ACTIONBAR_TEXT_LEN)
+    if (text.len() > LONG_ACTIONBAR_TEXT_LEN && !isFull)
       text = count.tostring() + (countExText.len() ? "/" + ::loc("weapon/bigAmountNumberIcon") : "")
 
     return isFull ? ::loc("options/count") + ::loc("ui/colon") + text : text

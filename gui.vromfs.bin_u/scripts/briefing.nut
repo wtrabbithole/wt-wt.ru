@@ -428,6 +428,9 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
 
   function finalApply(misBlk)
   {
+    if (!isValid())
+      return
+
     local isUrlMission = ::getTblValue("url", misBlk) != null
     local gm = ::get_game_mode()
     local gt = ::get_game_type()

@@ -69,4 +69,10 @@ class ::Input.Axis extends ::Input.InputBase
   {
     return deviceId
   }
+
+  function hasImage ()
+  {
+    return ::gamepad_axes_images?[axis | axisModifyer] ?? "" !="" ||
+      ::mouse_axes_to_image?[mouseAxis | axisModifyer] ?? "" !=""
+  }
 }

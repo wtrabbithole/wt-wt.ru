@@ -471,7 +471,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   function updateAFKTimeKickText(sec)
   {
     local timeToKickAlertObj = scene.findObject("time_to_kick_alert_text")
-    if (!::checkObj(timeToKickAlertObj))
+    if (!::checkObj(timeToKickAlertObj) || timeToKickAlertObj.getModalCounter() != 0)
       return
 
     updateAFKTimeKick()
@@ -491,7 +491,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       local prevSeconds = sec? ((curTime - sec * 1000) / sec).tointeger() : 0
       local currSeconds = sec? (curTime / sec).tointeger() : 0
       timeToKickAlertObj["_blink"] = currSeconds != prevSeconds? "yes" : "no"
-      ::play_gui_sound("kick_alert")
+      if (currSeconds != prevSeconds)
+        ::play_gui_sound("kick_alert")
     }
     else if (showTimerText)
       timeToKickAlertObj.setValue(::loc("inBattle/timeToKickAlert"))

@@ -18,7 +18,7 @@ if (platformModule.isPlatformPS4)
   getClientDownloadProgressText = @() ::loc("msgbox/downloadPercent", {
     percent = ::ps4_get_chunk_progress_percent(PS4_CHUNK_FULL_CLIENT_DOWNLOADED)
   })
-  isHistoricalCampaignDownloading = @() ::ps4_is_chunk_available(PS4_CHUNK_HISTORICAL_CAMPAIGN)
+  isHistoricalCampaignDownloading = @() !::ps4_is_chunk_available(PS4_CHUNK_HISTORICAL_CAMPAIGN)
 }
 else if (platformModule.isPlatformXboxOne)
 {

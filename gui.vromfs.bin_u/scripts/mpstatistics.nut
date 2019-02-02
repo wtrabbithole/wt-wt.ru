@@ -935,7 +935,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(timeToKickAlertObj))
       return
     local timeToKickValue = ::get_mp_kick_countdown()
-    if (timeToKickValue < 0 || get_time_to_kick_show_alert() < timeToKickValue || isSpectate)
+    if (timeToKickValue <= 0 || get_time_to_kick_show_alert() < timeToKickValue || isSpectate)
       timeToKickAlertObj.show(false)
     else
     {
@@ -944,7 +944,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       local prevSeconds = ((curTime - 1000 * dt) / 1000).tointeger()
       local currSeconds = (curTime / 1000).tointeger()
       if (currSeconds != prevSeconds)
+      {
         timeToKickAlertObj["_blink"] = "yes"
+        ::play_gui_sound("kick_alert")
+      }
     }
   }
 

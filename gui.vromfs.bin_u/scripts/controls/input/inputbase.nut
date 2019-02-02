@@ -43,4 +43,10 @@ class ::Input.InputBase
   {
     return ::NULL_INPUT_DEVICE_ID
   }
+
+
+  function hasImage ()
+  {
+    return false
+  }
 }

@@ -51,7 +51,6 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
     text = "#missions/air_event_simulator"
     mode = "air_simulation"
     diffCode = ::DIFFICULTY_HARDCORE
-    reqFeature = [ "HiddenLeaderboardRows" ]
   }
   {
     // Tank Arcade Battles
@@ -72,22 +71,32 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
     text = "#missions/tank_event_simulator"
     mode = "tank_simulation"
     diffCode = ::DIFFICULTY_HARDCORE
-    reqFeature = [ "Tanks", "HiddenLeaderboardRows" ]
+    reqFeature = [ "Tanks" ]
   }
   {
     // Ship Arcade Battles
     text = "#missions/ship_event_arcade"
     mode = "test_ship_arcade"
     diffCode = ::DIFFICULTY_ARCADE
-    reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
+    reqFeature = [ "Ships" ]
   }
   {
     // Ship Realistic Battles
     text = "#missions/ship_event_historical"
     mode = "test_ship_realistic"
     diffCode = ::DIFFICULTY_REALISTIC
-    reqFeature = [ "Ships", "HiddenLeaderboardRows" ]
+    reqFeature = [ "Ships" ]
   }
+/*
+  TODO: Uncomment when 'helicopter_arcade' always done.
+  {
+    // Helicopter Arcade Battles
+    text = "#missions/helicopter_event"
+    mode = "helicopter_arcade"
+    diffCode = ::DIFFICULTY_ARCADE
+    reqFeature = [ "HiddenLeaderboardRows" ]
+  }
+*/
 ]
 
 function gui_modal_leaderboards(lb_presets = null)

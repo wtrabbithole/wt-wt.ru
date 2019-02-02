@@ -398,6 +398,7 @@ notificationText {
   color:@premiumColor;
 }
 
+discountIcon,
 discount {
   re-type:text;
   height:ph;
@@ -409,6 +410,16 @@ discount {
   background-image:#ui/gameuiskin#discount;
   background-color:@white;
   input-transparent:yes;
+}
+
+discountIcon {
+  behavior:bhvUpdater;
+}
+
+discountIcon[type=slotbarCountry] {
+  min-width:0;
+  pos:1@slotsHeaderBoxPadding + 0.5(1@cIco-w), -h + 1@blockInterval;
+  position:absolute;
 }
 
 discount[type=new] {
@@ -474,6 +485,7 @@ discount_notification[type=up] {
   tooltip:"#discount/notification";
 }
 
+discountIcon[type=slotbarCountry],
 discount[type=weaponryItem] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_down_bg;

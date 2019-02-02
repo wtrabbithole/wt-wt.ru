@@ -100,16 +100,14 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
       return {
         specialization = ::g_crew_spec_type.BASIC.code
 
-        gunner = {
-          // This skill is same as leadership
-          // but related to aircraft unit type.
-          members = ::g_crew_skills.getMaxSkillValue("gunner", "members")
-        }
+        // This skill is same as leadership but related to aircraft unit type.
+        gunner = { members = ::g_crew_skills.getMaxSkillValue("gunner", "members") }
 
-        commander = {
-          // This skill affects only tank unit type.
-          leadership = 0
-        }
+        // This skill affects only tank unit type.
+        commander = { leadership = 0 }
+
+        // This skill affects only ship unit type.
+        ship_commander = { leadership = 0 }
       }
     }
   }
@@ -118,14 +116,14 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
     getValues = function ()
     {
       return {
-        // This skill is same as leadership
-        // but related to aircraft unit type.
-        gunner = {
-          members = ::g_crew_skills.getMaxSkillValue("gunner", "members")
-        }
+        // This skill is same as leadership but related to aircraft unit type.
+        gunner = { members = ::g_crew_skills.getMaxSkillValue("gunner", "members") }
 
         // This skill affects only tank unit type.
         commander = { leadership = 0 }
+
+        // This skill affects only ship unit type.
+        ship_commander = { leadership = 0 }
       }
     }
   }

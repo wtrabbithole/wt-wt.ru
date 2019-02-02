@@ -152,7 +152,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   delayAfterAutoChangeUnitMsec = 1000
 
   focusArray = [
-    function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
+    function() { return slotbarWeak && slotbarWeak.getCurFocusObj() }   // slotbar
     function() { return getFocusObjUnderSlotbar() }
     "respawn_options_table"
     "mis_obj_button_header"

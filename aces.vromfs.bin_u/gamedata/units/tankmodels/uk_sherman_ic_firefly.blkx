@@ -102,6 +102,12 @@
     "type": "typeMediumTank"
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -1520,37 +1526,6 @@
         "dmPart": "commander_dm",
         "role": "commander"
       }
-    }
-  },
-  {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
     }
   },
   {

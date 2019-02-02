@@ -156,6 +156,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     sendModPurchasedStatistic(air)
+    if (getAutoPurchaseValue())
+      onBuyAll(false, true)
+
     air = newUnit
     airName = air?.name ?? ""
     ::aircraft_for_weapons = airName

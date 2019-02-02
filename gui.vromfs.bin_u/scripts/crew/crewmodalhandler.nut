@@ -304,14 +304,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillPage()
   {
-    local page = pages[curPage]
-    guiScene.setUpdatesEnabled(false, false)
-    if (isSkillsPage(page))
-      skillsPageHandler = ::g_crew.createCrewSkillsPageHandler(scene, this, crew)
-    else if (page.id=="trained")
-      unitSpecHandler = ::g_crew.createCrewUnitSpecHandler(scene)
     updatePage()
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function getSkillValue(crewType, skillName)
@@ -443,29 +436,38 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updatePage()
   {
     local page = pages[curPage]
+    local skillsTableObj = scene.findObject("skills_table")
+    local specsTableObj = scene.findObject("specs_table")
+    local hasFocusOnTable = skillsTableObj.isFocused() || specsTableObj.isFocused()
     if (isSkillsPage(page))
     {
       if (unitSpecHandler != null)
         unitSpecHandler.setHandlerVisible(false)
-      if (skillsPageHandler != null)
-      {
-        skillsPageHandler.setHandlerVisible(true)
+      if (skillsPageHandler == null)
+        skillsPageHandler = ::g_crew.createCrewSkillsPageHandler(scene, this, crew)
+      else
         skillsPageHandler.updateHandlerData()
-      }
+      if (skillsPageHandler != null)
+        skillsPageHandler.setHandlerVisible(true)
+      if (hasFocusOnTable)
+        skillsTableObj.select()
     }
     else if (page.id=="trained")
     {
       if (skillsPageHandler != null)
         skillsPageHandler.setHandlerVisible(false)
+      if (unitSpecHandler == null)
+        unitSpecHandler = ::g_crew.createCrewUnitSpecHandler(scene)
       if (unitSpecHandler != null)
       {
         unitSpecHandler.setHandlerVisible(true)
         unitSpecHandler.setHandlerData(crew, crewCurLevel, airList, curCrewUnitType)
       }
+      if (hasFocusOnTable)
+        specsTableObj.select()
     }
     updatePointsAdvice()
     updateUnitTypeWarning(isSkillsPage(page))
-    restoreFocus()
   }
 
   function updateUnitTypeWarning(skillsVisible)
