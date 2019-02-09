@@ -892,6 +892,8 @@ top_right_holder[vCentered=yes] {
   height:1@buttonCloseHeight;
 }
 
+
+
 Button_text[btnName=start], button[btnName=start] { accessKey:'J:Start'; }
 Button_text[btnName=ww_menu]           { accessKey:'J:Start | Esc'; }
 Button_text[btnName=back]              { accessKey:'J:Back'; }
@@ -899,9 +901,10 @@ Button_text[btnName=X], CheckBox[btnName=X], DummyButton[btnName=X],
 dropright[btnName=X], ComboBox[btnName=X], SwitchBox[btnName=X]
                                        { accessKey:'J:X'; }
 Button_text.battle[btnName=X]          { accessKey:'J:X | Enter'; }
-Button_text.battle[btnName=X][noEnter] { accessKey:'J:X'; }
+Button_text.battle[btnName=X][noEnter], gameModeChangeButton[btnName=X]
+                                       { accessKey:'J:X'; }
 Button_text.additional[btnName=X]      { accessKey:'J:X | Space';}
-Button_text[btnName=Y], button[btnName=Y], gameModeChangeButton, CheckBox[btnName=Y],
+Button_text[btnName=Y], button[btnName=Y], gameModeChangeButton[btnName=Y], CheckBox[btnName=Y],
 textareaNoTab.highlightButton[btnName=Y], DummyButton[btnName=Y]
                                        { accessKey:'J:Y'; }
 Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
@@ -939,33 +942,66 @@ Button_text[btnName=DpadRight]         { accessKey:'J:Dpad.Right | Right'; }
 Button_text[btnName=AB]                { accessKey:'J:A | Space | Enter | NumEnter | J:B | Esc | Backspace'; }
 
 Button_text[btnName=A], DummyButton[btnName=A]
-                                       { accessKey:'J:A | Space | Enter | NumEnter'; }
-Button_text[btnName=SpaceA]            { accessKey:'J:A | Space'; }
-Button_text[btnName=A][onlyA]          { accessKey:'J:A'; }
-Button_text[focusBtnName=A]            { shortcutActivate:'J:A | Space'; }
+                                        { accessKey:'J:A | Space | Enter | NumEnter'; }
+[swap_ab=yes] Button_text[btnName=A], [swap_ab=yes] DummyButton[btnName=A]
+                                        { accessKey:'J:B | Space | Enter | NumEnter'; }
 
-Button_text[btnName=B], Button_close[btnName=B], dummy[btnName=B], DummyButton[btnName=B]
-                                       { accessKey:'J:B | Esc'; }
+Button_text[btnName=SpaceA]            { accessKey:'J:A | Space'; }
+[swap_ab=yes] Button_text[btnName=SpaceA] { accessKey:'J:B | Space'; }
+
+Button_text[btnName=A][onlyA]          { accessKey:'J:A'; }
+[swap_ab=yes] Button_text[btnName=A][onlyA] { accessKey:'J:B'; }
+
+Button_text[focusBtnName=A]            { shortcutActivate:'J:A | Space'; }
+[swap_ab=yes] Button_text[focusBtnName=A] { shortcutActivate:'J:B | Space'; }
+
+Button_text[btnName=B],
+Button_close[btnName=B],
+dummy[btnName=B],
+DummyButton[btnName=B] {
+  accessKey:'J:B | Esc';
+}
+
+[swap_ab=yes] Button_text[btnName=B],
+[swap_ab=yes] Button_close[btnName=B],
+[swap_ab=yes] dummy[btnName=B],
+[swap_ab=yes] DummyButton[btnName=B] {
+  accessKey:'J:A | Esc';
+}
+
 Button_text[btnName=BNotEsc]           { accessKey:'J:B'; }
+[swap_ab=yes] Button_text[btnName=BNotEsc] { accessKey:'J:A'; }
 
 Button_text[btnName=A][menuShortcuts]  { accessKey:'J:A | J:Start | Space | Enter | NumEnter'; }
-Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspace'; }
-
-[swap_ab=yes] Button_text[btnName=A]      { accessKey:'J:B | Space | Enter | NumEnter'; }
-[swap_ab=yes] Button_text[btnName=SpaceA] { accessKey:'J:B | Space'; }
-[swap_ab=yes] Button_text[btnName=B]      { accessKey:'J:A | Esc | Backspace'; }
 [swap_ab=yes] Button_text[btnName=A][menuShortcuts] { accessKey:'J:B | J:Start | Space | Enter | NumEnter'; }
+
+Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspace'; }
 [swap_ab=yes] Button_text[btnName=B][menuShortcuts] { accessKey:'J:A | J:Back | Esc | Backspace'; }
 
-[btnName=A] > ButtonImg, [btnName=SpaceA] > ButtonImg { background-image:@control_button_a; }
-[btnName=A]:pushed > ButtonImg, [btnName=SpaceA]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
-[btnName=B] > ButtonImg, [swap_ab=yes] [btnName=A] > ButtonImg
-                                      { background-image:@control_button_b; }
-[btnName=B]:pushed > ButtonImg, [swap_ab=yes] [btnName=A]:pushed > ButtonImg
-                                      { background-image:@control_button_b_pressed; }
+
+
+
+
+[btnName=A] > ButtonImg,
+[btnName=SpaceA] > ButtonImg { background-image:@control_button_a; }
+
+[swap_ab=yes] [btnName=A] > ButtonImg,
+[swap_ab=yes] [btnName=SpaceA] > ButtonImg { background-image:@control_button_b; }
+
+[btnName=A]:pushed > ButtonImg,
+[btnName=SpaceA]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
+
+[swap_ab=yes] [btnName=A]:pushed > ButtonImg,
+[swap_ab=yes] [btnName=SpaceA]:pushed > ButtonImg { background-image:@control_button_b_pressed; }
+
+[btnName=B] > ButtonImg { background-image:@control_button_b; }
 [swap_ab=yes] [btnName=B] > ButtonImg { background-image:@control_button_a; }
-[swap_ab=yes] [btnName=B]:pushed > ButtonImg
-                                      { background-image:@control_button_a_pressed; }
+
+[btnName=B]:pushed > ButtonImg { background-image:@control_button_b_pressed; }
+[swap_ab=yes] [btnName=B]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
+
+[swap_ab=yes] [btnName=B] > ButtonImg { background-image:@control_button_a; }
+[swap_ab=yes] [btnName=B]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
 
 [btnName=X] > ButtonImg { background-image:@control_button_x; }
 [btnName=X]:pushed > ButtonImg { background-image:@control_button_x_pressed; }
@@ -1006,16 +1042,25 @@ ButtonImg[btnName=Dpad] { background-image:@control_dirpad; bigButton:yes; }
 
 
 [focusBtnName=A]:focus > ButtonImg { background-image:@control_button_a; }
+[swap_ab=yes] [focusBtnName=A]:focus > ButtonImg { background-image:@control_button_b; }
+
 [focusBtnName=A]:focus:pushed > ButtonImg { background-image:@control_button_a_pressed; }
+[swap_ab=yes] [focusBtnName=A]:focus:pushed > ButtonImg { background-image:@control_button_b_pressed; }
 
 
 ButtonImg[btnName=R3] { background-image:@control_r_stick_pressed; bigButton:yes; }
 
 ButtonImg[iconName=A] { background-image:@control_button_a; }
+[swap_ab=yes] ButtonImg[iconName=A] { background-image:@control_button_b; }
+
 ButtonImg[iconName=B] { background-image:@control_button_b; }
+[swap_ab=yes] ButtonImg[iconName=B] { background-image:@control_button_a; }
+
 ButtonImg[iconName=X] { background-image:@control_button_x; }
 ButtonImg[iconName=Y] { background-image:@control_button_y; }
 ButtonImg[iconName=RT] { background-image:@control_r_trigger; }
+
+
 
 Button_text[redDisabled=yes]:disabled {
   color:@red;

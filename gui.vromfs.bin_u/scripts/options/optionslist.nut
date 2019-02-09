@@ -27,6 +27,9 @@ local getMainOptions = function()
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
+      [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
+                                  && (!::is_platform_windows
+                                      || ::getSystemConfigOption("video/mode") == "fullscreen") ],
       [::USEROPT_CLUSTER, "spinner", ! ::is_in_flight() && ::is_platform_ps4],
 
       ["options/header/commonBattleParameters"],
@@ -88,9 +91,6 @@ local getMainOptions = function()
       ["options/header/interface"],
       [::USEROPT_HUD_SCREEN_SAFE_AREA, "spinner", safeAreaHud.canChangeValue()],
       [::USEROPT_GAME_HUD, "spinner"],
-      [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
-                                  && (!::is_platform_windows
-                                      || ::getSystemConfigOption("video/mode") == "fullscreen") ],
       [::USEROPT_HUD_INDICATORS, "spinner", "get_option_hud_indicators" in getroottable()],
       [::USEROPT_HUE_SQUAD, "spinner"],
       [::USEROPT_HUE_ALLY, "spinner"],

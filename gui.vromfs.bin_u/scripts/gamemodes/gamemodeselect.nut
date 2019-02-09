@@ -3,7 +3,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
-  focusArray = ["general_game_modes", "featured_game_modes", "debug_game_modes", "cluster_select_button_container"]
+  focusArray = ["general_game_modes", "featured_game_modes", "debug_game_modes"]
   valueByGameModeId = {}
   gameModeIdByValue = {}
   restoreFromModal = false
