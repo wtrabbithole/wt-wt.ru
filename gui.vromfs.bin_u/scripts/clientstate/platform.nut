@@ -23,9 +23,11 @@ local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
 local isPs4XboxOneInteractionAvailable = function(name)
 {
+  local isMePS4Player = isPS4PlayerName(::my_user_name)
+  local isMeXBOXPlayer = isXBoxPlayerName(::my_user_name)
   local isPS4Player = isPS4PlayerName(name)
   local isXBOXPlayer = isXBoxPlayerName(name)
-  if (((isPlatformPS4 && isXBOXPlayer) || (isPlatformXboxOne && isPS4Player)) && !::has_feature("Ps4XboxOneInteraction"))
+  if (((isMePS4Player && isXBOXPlayer) || (isMeXBOXPlayer && isPS4Player)) && !::has_feature("Ps4XboxOneInteraction"))
     return false
   return true
 }

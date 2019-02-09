@@ -87,8 +87,6 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
     diffCode = ::DIFFICULTY_REALISTIC
     reqFeature = [ "Ships" ]
   }
-/*
-  TODO: Uncomment when 'helicopter_arcade' always done.
   {
     // Helicopter Arcade Battles
     text = "#missions/helicopter_event"
@@ -96,7 +94,6 @@ local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
     diffCode = ::DIFFICULTY_ARCADE
     reqFeature = [ "HiddenLeaderboardRows" ]
   }
-*/
 ]
 
 function gui_modal_leaderboards(lb_presets = null)
