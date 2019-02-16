@@ -5620,7 +5620,6 @@
     },
     "105mm_kwk_46_APCR_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "105mm_kwk_46_APCBC_ammo_pack",
       "tier": 4,
       "deactivationIsAllowed": false,
       "modClass": "firepower"
@@ -11030,17 +11029,11 @@
     },
     "57mm_Type3_HEAT": {
       "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "57mm_Type3_HEAT_ammo_pack",
+      "isReserve": true,
       "group": "57mm_HEAT",
       "effects": {
         "additiveBulletMod": "57mm_Type3_HEAT"
       }
-    },
-    "57mm_Type3_HEAT_ammo_pack": {
-      "image": "#ui/gameuiskin#tank_ammo",
-      "tier": 4,
-      "modClass": "firepower",
-      "deactivationIsAllowed": false
     },
     "57mm_type90_HE": {
       "image": "#ui/gameuiskin#tank_ammo",
@@ -11056,6 +11049,14 @@
       "group": "70mm_AP",
       "effects": {
         "additiveBulletMod": "70mm_type_95_AP"
+      }
+    },
+    "70mm_type_3_HEAT": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "70mm_AP",
+      "effects": {
+        "additiveBulletMod": "70mm_type_3_HEAT"
       }
     },
     "70mm_type92_HE": {

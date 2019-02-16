@@ -39,14 +39,6 @@
     "relativeVelArmorShift": [200.0,1000.0],
     "fuseDelayDist": 1.2,
     "explodeTreshold": 25.0,
-    "explodeHitPower": 12.0,
-    "explodeArmorPower": 5.0,
-    "explodeRadius": [0.2,0.3],
-    "shutterDamage": true,
-    "shutterDamageRadius": 1.2,
-    "shutterAmount": 20,
-    "shutterArmorPower": 7.0,
-    "shutterHit": 8.0,
     "groundCollisionEffect": "big_ground_splash",
     "groundFxScale": [0.6,0.8],
     "ricochetEffect": "cannon_ricochet",
@@ -57,20 +49,13 @@
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
     },
-    "armorpower": {
-      "ArmorPower0m": [74.0,10.0],
-      "ArmorPower100m": [73.0,100.0],
-      "ArmorPower250m": [67.0,250.0],
-      "ArmorPower500m": [59.0,500.0],
-      "ArmorPower750m": [51.0,750.0],
-      "ArmorPower1000m": [45.0,1000.0],
-      "ArmorPower1250m": [39.0,1250.0],
-      "ArmorPower1500m": [34.0,1500.0],
-      "ArmorPower2000m": [26.0,2000.0],
-      "ArmorPower2500m": [20.0,2500.0],
-      "ArmorPower3000m": [15.0,3000.0],
-      "ArmorPower4000m": [3.0,4000.0],
-      "ArmorPower10000m": [0.0,10000.0]
+    "damage": {
+      "kinetic": {
+        "demarrePenetrationK": 0.9,
+        "demarreSpeedPow": 1.43,
+        "demarreMassPow": 0.71,
+        "demarreCaliberPow": 1.07
+      }
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],

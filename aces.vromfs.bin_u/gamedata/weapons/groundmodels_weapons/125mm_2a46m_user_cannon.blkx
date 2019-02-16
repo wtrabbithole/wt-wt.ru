@@ -24,81 +24,106 @@
   "sfxReloadBullet": "grd_cannon_reload_T64",
   "fxMultipleSpawn": true,
   "isBulletBelt": false,
-  "bullet": {
-    "mass": 3.6,
-    "caliber": 0.125,
-    "damageCaliber": 0.036,
-    "ballisticCaliber": 0.1,
-    "Cx": 0.059,
-    "speed": 1800.0,
-    "maxDistance": 20000.0,
-    "bulletType": "apds_fs_full_body_steel_tank",
-    "bulletName": "125mm_3bm9",
-    "onHitChanceMultExplFuel": 0.1,
-    "relativeVelHitShift": [300.0,1000.0],
-    "relativeVelArmorShift": [200.0,1000.0],
-    "groundCollisionEffect": "big_ground_splash",
-    "groundFxScale": [0.8,1.0],
-    "ricochetEffect": "cannon_ricochet",
-    "waterCollisionEffect": "120-203_water_splash",
-    "waterFxScale": [0.8,1.0],
-    "explosionPatchRadius": 1.5,
-    "hitpower": {
-      "HitPower0m": [1.0,1000.0],
-      "HitPower10000m": [0.8,10000.0]
+  "bullet": [
+    {
+      "mass": 3.6
     },
-    "armorpower": {
-      "ArmorPower0m": [310.0,10.0],
-      "ArmorPower100m": [307.0,100.0],
-      "ArmorPower500m": [298.0,500.0],
-      "ArmorPower1000m": [285.0,1000.0],
-      "ArmorPower2000m": [263.0,2000.0],
-      "ArmorPower3000m": [240.0,3000.0],
-      "ArmorPower4000m": [216.0,4000.0],
-      "ArmorPower10000m": [30.0,10000.0],
-      "ArmorPower20000m": [0.0,20000.0]
+    {
+      "caliber": 0.125
     },
-    "ballistics": {
-      "slopeEffect": {
-        "table": {
-          "t1": {
-            "caliberToArmor": 1.0,
-            "slopeEffect0deg": [0.0,20.0],
-            "slopeEffect10deg": [10.0,4.1],
-            "slopeEffect20deg": [20.0,2.51],
-            "slopeEffect25deg": [25.0,2.04],
-            "slopeEffect30deg": [30.0,1.76],
-            "slopeEffect35deg": [35.0,1.58],
-            "slopeEffect40deg": [40.0,1.45],
-            "slopeEffect45deg": [45.0,1.36],
-            "slopeEffect50deg": [50.0,1.32],
-            "slopeEffect60deg": [60.0,1.15],
-            "slopeEffect65deg": [65.0,1.1],
-            "slopeEffect70deg": [70.0,1.06],
-            "slopeEffect90deg": [90.0,1.0]
-          }
+    {
+      "damageCaliber": 0.044
+    },
+    {
+      "ballisticCaliber": 0.044
+    },
+    {
+      "Cx": 0.3
+    },
+    {
+      "speed": 1800.0
+    },
+    {
+      "maxDistance": 20000.0
+    },
+    {
+      "bulletType": "apds_fs_full_body_steel_tank"
+    },
+    {
+      "bulletName": "125mm_3bm9"
+    },
+    {
+      "onHitChanceMultExplFuel": 0.1
+    },
+    {
+      "relativeVelHitShift": [300.0,1000.0]
+    },
+    {
+      "relativeVelArmorShift": [200.0,1000.0]
+    },
+    {
+      "relativeVelArmorShift": [200.0,1000.0]
+    },
+    {
+      "groundCollisionEffect": "big_ground_splash"
+    },
+    {
+      "groundFxScale": [0.8,1.0]
+    },
+    {
+      "ricochetEffect": "cannon_ricochet"
+    },
+    {
+      "waterCollisionEffect": "120-203_water_splash"
+    },
+    {
+      "waterFxScale": [0.8,1.0]
+    },
+    {
+      "explosionPatchRadius": 1.5
+    },
+    {
+      "hitpower": {
+        "HitPower0m": [1.0,1000.0],
+        "HitPower10000m": [0.8,10000.0]
+      }
+    },
+    {
+      "armorpower": {
+        "ArmorPower0m": [321.0,10.0],
+        "ArmorPower100m": [317.0,100.0],
+        "ArmorPower500m": [303.0,500.0],
+        "ArmorPower1000m": [285.0,1000.0],
+        "ArmorPower1500m": [268.0,1500.0],
+        "ArmorPower2000m": [249.0,2000.0],
+        "ArmorPower3000m": [210.0,3000.0],
+        "ArmorPower10000m": [10.0,10000.0],
+        "ArmorPower20000m": [0.0,20000.0]
+      }
+    },
+    {
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "50mmRed",
+        "trail": "black"
+      }
+    },
+    {
+      "collisions": {
+        "buildings": {
+          "fx": "122_ap_stone_splash",
+          "fxScale": [1.0,1.4]
+        },
+        "steel": {
+          "fx": "cannon_hit_apds"
+        },
+        "armor": {
+          "fx": "cannon_hit_apds"
         }
       }
-    },
-    "visual": {
-      "range_percent_of_ammo": [100.0,0.0],
-      "traceFreq": 1,
-      "tracer": "50mmRed",
-      "trail": "black"
-    },
-    "collisions": {
-      "buildings": {
-        "fx": "122_ap_stone_splash",
-        "fxScale": [1.0,1.4]
-      },
-      "steel": {
-        "fx": "cannon_hit_apds"
-      },
-      "armor": {
-        "fx": "cannon_hit_apds"
-      }
     }
-  },
+  ],
   "125mm_ussr_HE": {
     "bullet": {
       "mass": 23.0,

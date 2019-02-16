@@ -39,14 +39,6 @@
     "relativeVelArmorShift": [200.0,1000.0],
     "fuseDelayDist": 0.15,
     "explodeTreshold": 10.0,
-    "explodeHitPower": 75.0,
-    "explodeArmorPower": 7.0,
-    "explodeRadius": [0.4,0.8],
-    "shutterDamage": true,
-    "shutterDamageRadius": 1.8,
-    "shutterAmount": 40,
-    "shutterArmorPower": 8.0,
-    "shutterHit": 9.0,
     "groundCollisionEffect": "big_ground_splash",
     "groundFxScale": [0.6,0.8],
     "ricochetEffect": "cannon_ricochet",
@@ -56,6 +48,14 @@
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
+    },
+    "damage": {
+      "kinetic": {
+        "demarrePenetrationK": 0.9,
+        "demarreSpeedPow": 1.43,
+        "demarreMassPow": 0.71,
+        "demarreCaliberPow": 1.07
+      }
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
@@ -245,6 +245,14 @@
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
+      },
+      "damage": {
+        "kinetic": {
+          "demarrePenetrationK": 0.9,
+          "demarreSpeedPow": 1.43,
+          "demarreMassPow": 0.71,
+          "demarreCaliberPow": 1.07
+        }
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],

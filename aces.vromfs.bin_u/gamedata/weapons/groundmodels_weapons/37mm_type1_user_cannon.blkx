@@ -38,14 +38,6 @@
     "relativeVelArmorShift": [200.0,1000.0],
     "fuseDelayDist": 1.3,
     "explodeTreshold": 15.0,
-    "explodeHitPower": 25.0,
-    "explodeArmorPower": 4.0,
-    "explodeRadius": [0.1,0.2],
-    "shutterDamage": true,
-    "shutterDamageRadius": 0.5,
-    "shutterAmount": 20,
-    "shutterArmorPower": 7.0,
-    "shutterHit": 6.0,
     "groundCollisionEffect": "37_50_ap_hit_ground",
     "groundFxScale": [0.4,0.6],
     "ricochetEffect": "bullet_hit_armor",
@@ -54,6 +46,14 @@
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
+    },
+    "damage": {
+      "kinetic": {
+        "demarrePenetrationK": 0.9,
+        "demarreSpeedPow": 1.43,
+        "demarreMassPow": 0.71,
+        "demarreCaliberPow": 1.07
+      }
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
@@ -107,14 +107,6 @@
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 1.3,
       "explodeTreshold": 15.0,
-      "explodeHitPower": 25.0,
-      "explodeArmorPower": 4.0,
-      "explodeRadius": [0.1,0.2],
-      "shutterDamage": true,
-      "shutterDamageRadius": 0.5,
-      "shutterAmount": 20,
-      "shutterArmorPower": 7.0,
-      "shutterHit": 6.0,
       "groundCollisionEffect": "37_50_ap_hit_ground",
       "groundFxScale": [0.4,0.6],
       "ricochetEffect": "bullet_hit_armor",
@@ -124,20 +116,13 @@
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
       },
-      "armorpower": {
-        "ArmorPower0m": [60.0,10.0],
-        "ArmorPower100m": [58.0,100.0],
-        "ArmorPower250m": [55.0,250.0],
-        "ArmorPower500m": [46.0,500.0],
-        "ArmorPower750m": [41.0,750.0],
-        "ArmorPower1000m": [34.0,1000.0],
-        "ArmorPower1250m": [30.0,1250.0],
-        "ArmorPower1500m": [26.0,1500.0],
-        "ArmorPower2000m": [20.0,2000.0],
-        "ArmorPower2500m": [15.0,2500.0],
-        "ArmorPower3000m": [8.0,3000.0],
-        "ArmorPower4000m": [3.0,4000.0],
-        "ArmorPower10000m": [0.0,10000.0]
+      "damage": {
+        "kinetic": {
+          "demarrePenetrationK": 0.9,
+          "demarreSpeedPow": 1.43,
+          "demarreMassPow": 0.71,
+          "demarreCaliberPow": 1.07
+        }
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
