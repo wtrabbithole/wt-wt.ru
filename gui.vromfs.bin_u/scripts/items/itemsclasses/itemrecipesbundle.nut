@@ -56,9 +56,9 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
   getAssembleHeader     = @() isDisassemble() ? getName() : base.getAssembleHeader()
   getAssembleText       = @() isDisassemble() ? ::loc("item/disassemble") : ::loc("item/assemble")
   getAssembleButtonText = @() isDisassemble() ? ::loc("item/disassemble") : base.getAssembleButtonText()
-  getCantAssembleLocId  = @() isDisassemble() ? "msgBox/disassembleItem/cant" : "msgBox/assembleItem/cant"
-  getAssembleMessageData    = @(recipe) !isDisassemble() ? ItemExternal.getAssembleMessageData.call(this, recipe)
-    : getEmptyAssembleMessageData().__update({
+  getCantUseLocId       = @() isDisassemble() ? "msgBox/disassembleItem/cant" : "msgBox/assembleItem/cant"
+  getConfirmMessageData = @(recipe) !isDisassemble() ? ItemExternal.getConfirmMessageData.call(this, recipe)
+    : getEmptyConfirmMessageData().__update({
         text = ::loc("msgBox/disassembleItem/confirm")
         needRecipeMarkup = true
       })

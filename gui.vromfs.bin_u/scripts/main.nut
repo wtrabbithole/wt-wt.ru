@@ -40,6 +40,7 @@ local __math = require("math")
 
 ::quick_match_flag <- false;
 ::test_flight <- false
+::custom_miss_flight <- false
 ::is_debug_mode_enabled <- false
 ::first_generation <- true
 

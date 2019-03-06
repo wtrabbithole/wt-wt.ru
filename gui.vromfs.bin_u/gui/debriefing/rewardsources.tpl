@@ -87,6 +87,19 @@ activeText {
   text:t='<<booster>>'
 }
 <</booster>>
+<<#prevUnitEfficiency>>
+activeText {
+  style:t='color:@fadedTextColor'
+  smallFont:t='yes'
+  text:t='+'
+}
+activeText {
+  style:t='color:@userlogColoredText'
+  smallFont:t='yes'
+  parseTags:t='yes'
+  text:t='<<prevUnitEfficiency>>'
+}
+<</prevUnitEfficiency>>
 <<#multiplier>>
 activeText {
   style:t='color:@commonTextColor'

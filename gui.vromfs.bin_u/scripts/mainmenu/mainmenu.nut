@@ -306,7 +306,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
   function onEventHangarModelLoaded(p)
   {
-    doWhenActiveOnce("updateSelUnitInfo")
+    doWhenActiveOnce("forceUpdateSelUnitInfo")
   }
 
   function onEventCrewsListChanged(p)

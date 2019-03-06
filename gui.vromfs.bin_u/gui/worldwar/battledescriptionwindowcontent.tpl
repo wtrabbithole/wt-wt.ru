@@ -102,8 +102,8 @@ tdiv {
         tdiv {
           id:t='teams_info'
           width:t='30%pw'
-          height:t='26*@sf/@pf_outdated'
-          left:t='50%pw-50%w'
+          height:t='1@wwArmyIco'
+          pos:t='50%pw-50%w, 0.005@scrn_tgt + 1@wwSmallCountryFlagHeight'
           position:t='absolute'
           margin:t='1@blockInterval'
           display:t='hide'

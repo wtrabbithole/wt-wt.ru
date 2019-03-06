@@ -8,6 +8,11 @@ const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
     [::CUT_TANK] = 1,
     [::CUT_SHIP] = 1
   }
+  maxCrewLevel = {
+    [::CUT_AIRCRAFT] = 75,
+    [::CUT_TANK] = 150,
+    [::CUT_SHIP] = 100
+  }
 }
 
 function g_crew::isAllCrewsMinLevel()
@@ -40,6 +45,11 @@ function g_crew::isAllCrewsHasBasicSpec()
 function g_crew::getMinCrewLevel(crewUnitType)
 {
   return ::g_crew.minCrewLevel?[crewUnitType] ?? 0
+}
+
+function g_crew::getMaxCrewLevel(crewUnitType)
+{
+  return ::g_crew.maxCrewLevel?[crewUnitType] ?? 0
 }
 
 function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)

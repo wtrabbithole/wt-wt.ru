@@ -156,7 +156,7 @@ tdiv {
     tdiv {
       width:t='pw'
       height:t='fh'
-      min-height:t='1@eventTacticalMapSize + 0.17@sf'
+      min-height:t='1@eventTacticalMapSize + 3@leaderboardTrHeight + 0.02@sf + 1@buttonHeight'
       padding-top:t='0.01@scrn_tgt';
 
       frameBlock {
@@ -170,18 +170,18 @@ tdiv {
 
         img{
           id:t='multiple_mission'
-          size:t="95%pw,95%pw"
-          max-height:t="w"
-          max-width:t="h"
+          size:t='95%pw,95%pw'
+          max-height:t='w'
+          max-width:t='h'
           pos:t='50%pw-50%w, 2*@sf/@pf_outdated'
           position:t='relative'
           display:t='hide'
         }
         tacticalMap {
           id:t='tactical_map_single'
-          size:t="pw,fh"
+          size:t='pw,fh'
           max-width:t='h'
-          max-height:t="w"
+          max-height:t='w'
           pos:t='50%pw-50%w, 2*@sf/@pf_outdated'
           position:t='relative'
           display:t='hide'
@@ -198,9 +198,9 @@ tdiv {
 
           animated_wait_icon {
             id:t = 'msgWaitAnimation'
-            position:t="absolute"
+            position:t='absolute'
             height:t='ph'
-            pos:t="50%pw-50%w,50%ph-50%h"
+            pos:t='50%pw-50%w,50%ph-50%h'
             background-rotation:t = '0'
             behavior:t='increment'
             inc-target:t='background-rotation'

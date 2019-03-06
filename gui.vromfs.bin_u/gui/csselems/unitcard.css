@@ -236,6 +236,9 @@ shopItem[shopStat=locked] > bgPlate {
   background-color:@shopItemLocked;
 }
 
+:hover > shopAirImg {
+  foreground-color:@shopItemNotPurchasedHover;
+}
 [shopStat=locked] > shopAirImg{
   foreground-color:@shopUnitLocked;
 }
@@ -244,6 +247,9 @@ shopItem[shopStat=prem] > bgPlate{
   background-color:@shopItemPremium;
 }
 
+[shopStat=owned] > shopAirImg {
+  foreground-color:@white;
+}
 [shopStat=owned] > shopAirImg[background-image] {
   background-color:@white;
 }
@@ -425,7 +431,7 @@ shopItemText[progressStatus=researched] {
 }
 
 shopItemText[progressStatus=research] {
- color:@cardProgressBonusColor;
+  color:@cardProgressBonusColor;
 }
 
 shopItemText[header=yes],

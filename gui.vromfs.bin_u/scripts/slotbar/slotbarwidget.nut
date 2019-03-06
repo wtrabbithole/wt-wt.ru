@@ -984,7 +984,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       switchSlotbarCountry(headerObj, countryData)
-      ::slotbarPresets.setCurrentGameModeByPreset(countryData.country)
     }
   }
 
@@ -999,21 +998,29 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (!shouldCheckQueue)
     {
       if (checkSelectCountryByIdx(obj))
+      {
         onSlotbarCountryImpl(countryData)
+        ::slotbarPresets.setCurrentGameModeByPreset(countryData.country)
+      }
     }
     else
     {
       if (!checkSelectCountryByIdx(obj))
         return
 
-      checkedCrewModify((@(obj) function() {
+      checkedCrewAirChange(
+        function() {
           if (::checkObj(obj))
+          {
             onSlotbarCountryImpl(countryData)
-        })(obj),
-        (@(obj) function() {
+            ::slotbarPresets.setCurrentGameModeByPreset(countryData.country)
+          }
+        },
+        function() {
           if (::checkObj(obj))
             setCountry(::get_profile_country_sq())
-        })(obj))
+        }
+      )
     }
   }
 

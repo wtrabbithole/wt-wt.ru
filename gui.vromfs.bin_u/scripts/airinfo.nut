@@ -304,8 +304,14 @@ function get_unit_actions_list(unit, handler, actions)
         }
         ::queues.checkAndStart(function()
         {
-          if (handler.isValid())
-            ::gui_start_select_unit(crew, handler.getSlotbar() || handler)
+          if (!handler.isValid())
+            return
+
+          ::g_squad_utils.checkSquadUnreadyAndDo(this,
+            ::Callback(function() {
+              ::gui_start_select_unit(crew, handler.getSlotbar() || handler)
+            }, this),
+            @() null, handler?.shouldCheckCrewsReady)
         },
         null, "isCanModifyCrew")
       }

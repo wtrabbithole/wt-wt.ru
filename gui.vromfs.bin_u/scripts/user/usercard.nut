@@ -6,7 +6,6 @@ local avatars = ::require("scripts/user/avatars.nut")
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
 ::stats_ships <- [
-  "ship"
   "torpedo_boat"
   "gun_boat"
   "torpedo_gun_boat"

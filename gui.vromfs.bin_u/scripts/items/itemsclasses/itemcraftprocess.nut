@@ -24,7 +24,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
   shouldShowAmount    = @(count) count >= 0
   getDescRecipeListHeader = @(...) ::loc("items/craft_process/using") // there is always 1 recipe
   getMarketablePropDesc = @() ""
-  getCantAssembleLocId  = @() "msgBox/cancelCraftProcess/cant"
+  getCantUseLocId       = @() "msgBox/cancelCraftProcess/cant"
 
   function cancelCrafting(cb = null, params = null)
   {
@@ -48,7 +48,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
 
   showCantCancelCraftMsgBox = @() ::scene_msg_box("cant_cancel_craft",
     null,
-    ::colorize("badTextColor", ::loc(getCantAssembleLocId())),
+    ::colorize("badTextColor", ::loc(getCantUseLocId())),
     [["ok", @() ::ItemsManager.refreshExtInventory()]],
     "ok")
 

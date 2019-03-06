@@ -370,14 +370,16 @@ function g_orders::updateActiveOrder(dispatchEvents = true, isForced = false)
     ::broadcastEvent("OrderUpdated", { oldActiveOrder = oldActiveOrder })
   }
 
-  ::call_darg("orderStatusTextUpdate", getStatusText())
-  ::call_darg("orderStatusTextBottomUpdate", getStatusTextBottom())
-  ::call_darg("orderShowOrderUpdate", hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null)
   local visibleScoreTableTexts = getScoreTableTexts()
   visibleScoreTableTexts = visibleScoreTableTexts.len() > maxRowsInScoreTable
     ? visibleScoreTableTexts.resize(maxRowsInScoreTable, null)
     : visibleScoreTableTexts
-  ::call_darg("orderScoresTableUpdate", visibleScoreTableTexts)
+  ::call_darg("orderStateUpdate", {
+    statusText = getStatusText()
+    statusTextBottom = getStatusTextBottom()
+    showOrder = hasActiveOrder || (cooldownTimeleft > 0 && prevActiveOrder != null)
+    scoresTable = visibleScoreTableTexts
+  })
 }
 
 function g_orders::updateOrderVisibility()

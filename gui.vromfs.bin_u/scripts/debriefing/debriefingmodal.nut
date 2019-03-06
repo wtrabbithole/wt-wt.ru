@@ -7,6 +7,7 @@ const DEBR_AWARDS_LIST_COLUMNS = 3
 const MAX_WND_ASPECT_RATIO_NAVBAR_GC = 0.92
 const DEBR_MYSTATS_TOP_BAR_GAP_MAX = 6
 const LAST_WON_VERSION_SAVE_ID = "lastWonInVersion"
+const VISIBLE_GIFT_NUMBER = 4
 
 function gui_start_debriefingFull(params = {})
 {
@@ -91,6 +92,12 @@ function gui_start_debriefing()
     else
       ::gui_start_decals();
     ::update_gamercards()
+    return
+  }
+  if (::custom_miss_flight)
+  {
+    ::custom_miss_flight = false
+    ::gui_start_mainmenu()
     return
   }
 
@@ -614,18 +621,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function handleGiftItems()
   {
-    giftItems = ::debriefing_result?.giftItemsInfo
+    giftItems = groupGiftsById(::debriefing_result?.giftItemsInfo)
     if (!giftItems)
       return
 
     local obj = scene.findObject("inventory_gift_icon")
     local giftsMarkup = ""
-    foreach (itemData in giftItems)
-    {
-      local view = { item = itemData?.id, count = itemData?.count }
-      local markup = ::trophyReward.getImageByConfig(view, false)
-      giftsMarkup += markup
-    }
+    local showLen = min(giftItems.len(), VISIBLE_GIFT_NUMBER)
+    for (local i=0; i < showLen; i++)
+      giftsMarkup += ::trophyReward.getImageByConfig(giftItems[i], false)
+
     guiScene.replaceContentFromText(obj, giftsMarkup, giftsMarkup.len(), this)
 
     local leftBlockHeight = scene.findObject("left_block").getSize()[1]
@@ -634,12 +639,39 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       obj.smallItems = "yes"
   }
 
+  function onViewRewards()
+  {
+    ::gui_start_open_trophy_rewards_list({rewardsArray = giftItems})
+  }
+
+  function groupGiftsById(items)
+  {
+    if(!items)
+      return
+
+    local res = [items[0]]
+    for(local i=1; i < items.len(); i++)
+    {
+      local isRepeated = false
+      foreach(r in res)
+        if(items[i].item == r.item)
+        {
+          r.count += items[i].count
+          isRepeated = true
+        }
+
+      if(!isRepeated)
+        res.append(items[i])
+     }
+    return res
+  }
+
   function openGiftTrophy()
   {
     if (!giftItems?[0]?.needOpen)
       return
 
-    local trophyItemId = giftItems[0].id
+    local trophyItemId = giftItems[0].item
     local filteredLogs = ::getUserLogsList({
       show = [::EULT_OPEN_TROPHY]
       currentRoomOnly = true
@@ -652,7 +684,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function onEventTrophyContentVisible(params)
   {
-    if (giftItems?[0]?.id && giftItems[0].id == params?.trophyItem?.id)
+    if (giftItems?[0]?.item && giftItems[0].item == params?.trophyItem?.id)
       fillTrophyContentDiv(params.trophyItem, "inventory_gift_icon")
   }
 
@@ -1571,6 +1603,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
             row     = tRow
             name    = ::getUnitName(unitId)
             expData = unitData
+            unitId  = unitId
           })
       }
       else
@@ -1654,6 +1687,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
             rowView.bonuses <- []
           rowView.bonuses.append(currencySourcesView)
         }
+      }
+
+      local extraBonuses = tRow.tooltipRowBonuses(cfg?.unitId, cfg.expData)
+      if (extraBonuses)
+      {
+        if (!("bonuses" in rowView))
+          rowView.bonuses <- []
+        rowView.bonuses.append(extraBonuses)
       }
 
       foreach(p in ["time", "value", "reward", "info"])
@@ -2506,6 +2547,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local isReplayReady = ::has_feature("Replays") && ::is_replay_present() && ::is_replay_turned_on()
     local player = getSelectedPlayer()
     local buttonsList = {
+      btn_show_all = isAnimDone && giftItems != null && giftItems.len() > VISIBLE_GIFT_NUMBER
       btn_view_replay = isAnimDone && isReplayReady && !isMp
       btn_save_replay = isAnimDone && isReplayReady && !::is_replay_saved()
       btn_user_options = isAnimDone && (curTab == "players_stats") && player && !player.isBot && ::show_console_buttons
@@ -3090,7 +3132,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!giftItems)
       return null
 
-    local itemDefId = giftItems?[0]?.id
+    local itemDefId = giftItems?[0]?.item
     local wSet = workshop.getSetByItemId(itemDefId)
     if (wSet)
       return {

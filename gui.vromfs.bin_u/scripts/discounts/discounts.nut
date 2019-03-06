@@ -254,20 +254,21 @@ function g_discount::haveAnyUnitDiscount()
   return discountsList.entitlementUnits.len() > 0 || discountsList.airList.len() > 0
 }
 
-function g_discount::haveAnyCountryUnitDiscount(countryId)
+function g_discount::getUnitDiscountList(countryId = null)
 {
   if (!haveAnyUnitDiscount())
-    return false
+    return {}
 
+  local discountsList = {}
   foreach(unit in ::all_units)
-    if (unit.shopCountry == countryId)
+    if (!countryId || unit.shopCountry == countryId)
     {
       local discount = getUnitDiscount(unit)
       if (discount > 0)
-        return true
+        discountsList[unit.name + "_shop"] <- discount
     }
 
-  return false
+  return discountsList
 }
 
 ::subscribe_handler(::g_discount, ::g_listener_priority.CONFIG_VALIDATION)

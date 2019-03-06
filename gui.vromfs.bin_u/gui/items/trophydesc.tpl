@@ -15,6 +15,13 @@ textareaNoTab {
 
   margin-bottom:t='1@itemPadding'
   font-bold:t='@fontMedium'
+  <<#headerFont>>
+  <<@headerFont>>:t='yes'
+  <</headerFont>>
+  <<#isCentered>>
+    position:t='relative'
+    left:t='(pw-w)/2'
+  <</isCentered>>
   text:t='<<header>>'
 }
 <</header>>
@@ -30,6 +37,11 @@ tdiv {
   <<#isLocked>>
   includeTextColor:t='locked'
   <</isLocked>>
+  <<#isCentered>>
+  position:t='relative'
+  left:t='(pw-w)/2'
+  <</isCentered>>
+
 
   <<#title>>
   <<#icon>>

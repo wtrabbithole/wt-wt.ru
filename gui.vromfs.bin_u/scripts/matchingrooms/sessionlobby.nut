@@ -2245,7 +2245,17 @@ function SessionLobby::getMembersReadyStatus()
 
 function SessionLobby::canInvitePlayer(uid)
 {
-  return isInRoom() && !is_my_userid(uid) && haveLobby()
+  return isInRoom() && !is_my_userid(uid) && haveLobby() && !isPlayerInMyRoom(uid)
+}
+
+function SessionLobby::isPlayerInMyRoom(uid)
+{
+  local roomMembers = getRoomMembers()
+  foreach (member in roomMembers)
+    if (member.userId == uid.tointeger())
+      return true
+
+  return false
 }
 
 function SessionLobby::needAutoInviteSquad()

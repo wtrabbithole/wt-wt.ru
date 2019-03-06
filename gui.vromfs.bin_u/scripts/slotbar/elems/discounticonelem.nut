@@ -18,9 +18,15 @@ elemViewType.addTypes({
 
     updateView = function(obj, params)
     {
-      local isVisible = ::top_menu_shop_active &&
-        ::g_discount.haveAnyCountryUnitDiscount(obj.countryId)
+      local discountData = ::g_discount.generateDiscountInfo(
+        ::g_discount.getUnitDiscountList(obj.countryId))
+      local max = discountData?.maxDiscount ?? 0
+      local isVisible = ::top_menu_shop_active && max > 0
       obj.show(isVisible)
+      if (!isVisible)
+        return
+      obj.text = "-" + max + "%"
+      obj.tooltip = discountData?.discountTooltip ?? ""
     }
   }
 })

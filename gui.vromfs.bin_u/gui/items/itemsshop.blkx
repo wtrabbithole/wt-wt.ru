@@ -209,7 +209,6 @@
                   },
                   {
                     "tdiv": {
-                      "padding-bottom": "1@blockInterval",
                       "pos": "50%pw-50%w, 0",
                       "position": "relative",
                       "textAreaCentered": {
@@ -227,6 +226,16 @@
                         "tooltip": "",
                         "display": "hide"
                       }
+                    }
+                  },
+                  {
+                    "textAreaCentered": {
+                      "id": "item_desc_under_title",
+                      "width": "@itemInfoWidth",
+                      "overlayTextColor": "active",
+                      "pos": "50%pw-50%w, 0",
+                      "position": "relative",
+                      "padding-bottom": "1@blockInterval"
                     }
                   },
                   {
@@ -1219,9 +1228,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

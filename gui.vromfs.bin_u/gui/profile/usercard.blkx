@@ -431,7 +431,7 @@
                 "id": "btn_friendAdd",
                 "text": "#contacts/friendlist/add",
                 "on_click": "onFriendAdd",
-                "btnName": "A",
+                "btnName": "X",
                 "ButtonImg": []
               }
             },
@@ -449,7 +449,7 @@
                 "id": "btn_moderatorBan",
                 "text": "#contacts/moderator_ban",
                 "on_click": "onBlacklistBan",
-                "btnName": "RT",
+                "btnName": "R3",
                 "ButtonImg": []
               }
             },
@@ -457,7 +457,7 @@
               "Button_text": {
                 "id": "btn_complain",
                 "text": "#mainmenu/btnComplain",
-                "btnName": "LT",
+                "btnName": "RB",
                 "_on_click": "onComplain",
                 "ButtonImg": []
               }
@@ -1161,9 +1161,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

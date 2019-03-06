@@ -196,6 +196,9 @@ class ::WwAirfield
     foreach (unit in formation.units)
     {
       local flyOutUnitClass = unit.getUnitClassData().flyOutUnitClass
+      if (!(flyOutUnitClass in airClassesAmount))
+        continue
+
       airClassesAmount[flyOutUnitClass] += unit.count
 
       if (flyOutUnitClass != WW_UNIT_CLASS.FIGHTER)

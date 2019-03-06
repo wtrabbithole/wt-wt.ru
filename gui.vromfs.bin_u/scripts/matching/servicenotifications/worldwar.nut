@@ -16,16 +16,23 @@ foreach (notificationName, callback in
             }, true)
           ::queues.afterJoinQueue(queue)
         }
+        ::g_squad_manager.cancelWwBattlePrepare()
       },
     ["worldwar.on_leave_from_battle"] = function(params)
       {
         local queue = ::queues.findQueueByName(::queue_classes.WwBattle.getName(params))
-        if (queue)
-        {
-          local reason = params?.reason
-          local msg = reason ? ::loc("worldWar/leaveBattle/" + reason, "") : ""
-          ::queues.afterLeaveQueue(queue, msg.len() ? msg : null)
-        }
+        if (!queue)
+          return
+
+        local reason = params?.reason ?? ""
+        local isBattleStarted = reason == "battle-started"
+        local msgText = !isBattleStarted
+          ? ::loc("worldWar/leaveBattle/" + reason, "")
+          : ""
+
+        ::queues.afterLeaveQueue(queue, msgText.len() ? msgText : null)
+        if (isBattleStarted)
+          ::SessionLobby.setWaitForQueueRoom(true)
       },
     ["worldwar.notify"] = function(params)
       {

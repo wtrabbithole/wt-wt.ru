@@ -79,6 +79,7 @@ local export = math.__merge({
   roundToDigits = roundToDigits
   is_bit_set = is_bit_set
   change_bit = change_bit
+  change_bit_mask = change_bit_mask
   lerp = lerp
   calc_golden_ratio_columns = calc_golden_ratio_columns
 })

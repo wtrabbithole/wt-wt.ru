@@ -7,6 +7,7 @@ local time = require("scripts/time.nut")
 local chooseAmountWnd = ::require("scripts/wndLib/chooseAmountWnd.nut")
 local recipesListWnd = ::require("scripts/items/listPopupWnd/recipesListWnd.nut")
 local itemTransfer = require("scripts/items/itemsTransfer.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 local emptyBlk = ::DataBlock()
 
@@ -42,7 +43,7 @@ local ItemExternal = class extends ::BaseItem
   amountByUids = null //{ <uid> = <amount> }, need for recipe materials
   requirement = null
 
-  aditionalConfirmationMsg = {}
+  aditionalConfirmationMsg = null
 
   constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
@@ -54,6 +55,7 @@ local ItemExternal = class extends ::BaseItem
     maxAmount = (itemDefDesc?.tags?.maxCount ?? -1).tointeger()
     requirement = itemDefDesc?.tags?.showWithFeature
 
+    aditionalConfirmationMsg = {}
     local confirmationActions = itemDefDesc?.tags % "confirmationAction"
     if (confirmationActions.len())
     {
@@ -345,6 +347,7 @@ local ItemExternal = class extends ::BaseItem
   canDisassemble       = @() isInventoryItem && !isExpired() && itemDef?.tags?.hasAltActionDisassemble
     && amount > 0 && getDisassembleRecipe() != null
   getMaxRecipesToShow = @() 1
+  canRunCustomMission = @() itemDef?.tags?.canRunCustomMission != null
 
   function getMainActionData(isShort = false)
   {
@@ -368,6 +371,10 @@ local ItemExternal = class extends ::BaseItem
         btnName = getAssembleButtonText()
         isInactive = hasReachedMaxAmount()
       }
+    if (canRunCustomMission())
+      return {
+        btnName = getCustomMissionButtonText()
+      }
 
     return null
   }
@@ -379,6 +386,7 @@ local ItemExternal = class extends ::BaseItem
       || cancelCrafting(cb, params)
       || seeCraftResult(cb, handler, params)
       || assemble(cb, params)
+      || runCustomMission()
   }
 
   getAltActionName   = @() amount && canConsume() && canAssemble() ? ::loc("item/assemble")
@@ -456,20 +464,13 @@ local ItemExternal = class extends ::BaseItem
     : "item/create_header"
   getAssembleText         = @() ::loc("item/assemble")
   getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc("item/recipes") : getAssembleText()
-  getCantAssembleLocId    = @() "msgBox/assembleItem/cant"
-  getAssembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
-    text = ::loc("msgBox/assembleItem/confirm", { itemName = ::colorize("activeTextColor", getName()) })
-      + (recipe.hasAssembleTime()
-        ? "\n" + ::loc("msgBox/assembleItem/time", {time = recipe.getAssembleTimeText()})
-        : "")
-      + "\n" + ::loc("msgBox/items_will_be_spent")
+  getCantUseLocId         = @() "msgBox/assembleItem/cant"
+  getConfirmMessageData   = @(recipe) getEmptyConfirmMessageData().__update({
+    text = ::loc(recipe.isDisassemble ? "msgBox/disassembleItem/confirmWhithItemName" : "msgBox/assembleItem/confirm",
+        { itemName = ::colorize("activeTextColor", getName()) })
+      + (recipe.hasCraftTime() ? "\n" + recipe.getCraftTimeText() : "")
+    headerRecipeMarkup = recipe.isDisassemble ? ::loc("mainmenu/you_will_receive") : ::loc("msgBox/items_will_be_spent")
     needRecipeMarkup = true
-  })
-
-  getDisassembleMessageData  = @(recipe) getEmptyAssembleMessageData().__update({
-    text = ::loc("msgBox/disassembleItem/confirmWhithItemName", { itemName = ::colorize("activeTextColor", getName()) })
-      + getAdditionalConfirmMessage("disassemble")
-      + "\n" + ::loc("mainmenu/you_will_receive")
   })
 
   function assemble(cb = null, params = null)
@@ -524,9 +525,7 @@ local ItemExternal = class extends ::BaseItem
     local gen = ItemGenerators.get(recipe.generatorId)
 
     ExchangeRecipes.tryUse([ recipe ], this,
-      { rewardListLocId = getItemsListLocId(),
-        messageData = getDisassembleMessageData(recipe)
-        isDisassemble = true
+      { rewardListLocId = getItemsListLocId()
         bundleContent = gen?.isPack ? gen.getContent() : null
       })
       return true
@@ -675,6 +674,9 @@ local ItemExternal = class extends ::BaseItem
 
   function needShowActionButtonAlways()
   {
+    if (canRunCustomMission())
+      return true
+
     if (hasCraftResult())
       return true
 
@@ -842,6 +844,49 @@ local ItemExternal = class extends ::BaseItem
        return ""
 
      return delimiter + ::loc("confirmationMsg/" + locKey)
+  }
+
+  getCustomMissionButtonText = @() ::loc("missions/" + itemDef.tags.canRunCustomMission)
+  function runCustomMission()
+  {
+    if (!canRunCustomMission())
+        return false
+    ::broadcastEvent("BeforeStartCustomMission")
+    ::custom_miss_flight <- true
+    local misBlk = ::get_mission_meta_info(itemDef.tags.canRunCustomMission)
+    ::select_training_mission(misBlk)
+    return true
+  }
+
+  function getViewData(params = {})
+  {
+    local res = base.getViewData(params)
+    local markPresetName = itemDef?.tags?.markingPreset
+    if (!markPresetName)
+      return res
+
+    local data = workshop.getMarkingPresetsById(markPresetName)
+    if(!data)
+      return res
+
+    res.needMarkIcon <- true
+    res.markIcon <- ::loc(data.markIconLocId)
+    res.markIconColor <- data.color
+
+    return res
+  }
+
+  function getDescriptionUnderTitle()
+  {
+    local markPresetName = itemDef?.tags?.markingPreset
+    if (!markPresetName || isDisguised)
+      return ""
+
+    local data = workshop.getMarkingPresetsById(markPresetName)
+    if (!data)
+      return ""
+
+    return ::colorize(data.color, ::loc(data.additionalDesc))
   }
 }
 

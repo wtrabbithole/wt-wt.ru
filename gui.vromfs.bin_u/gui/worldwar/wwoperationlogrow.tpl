@@ -61,7 +61,7 @@ tdiv {
 
       textareaNoTab {
         id:t='army'
-        width:t='1@armySmallIconWidth'
+        width:t='1@wwArmySmallIconWidth'
         margin-right:t='1@framePadding'
         text:t=' '
 
@@ -84,7 +84,7 @@ tdiv {
 
         textareaNoTab {
           id:t='army_side_1'
-          width:t='1@armySmallIconWidth'
+          width:t='1@wwArmySmallIconWidth'
           behavior:t='button'
           armyId:t=''
           on_click:t = 'onClickArmy'
@@ -101,7 +101,7 @@ tdiv {
         }
 
         textareaNoTab {
-          width:t='@armySmallIconWidth'
+          width:t='@wwArmySmallIconWidth'
           text:t=' '
 
           wwBattleIcon{
@@ -125,7 +125,7 @@ tdiv {
 
         textareaNoTab {
           id:t='army_side_2'
-          width:t='1@armySmallIconWidth'
+          width:t='1@wwArmySmallIconWidth'
           behavior:t='button'
           armyId:t=''
           on_click:t = 'onClickArmy'
@@ -153,7 +153,7 @@ tdiv {
         }
 
         textareaNoTab {
-          width:t='1@armySmallIconWidth'
+          width:t='1@wwArmySmallIconWidth'
           text:t=' '
 
           tdiv {

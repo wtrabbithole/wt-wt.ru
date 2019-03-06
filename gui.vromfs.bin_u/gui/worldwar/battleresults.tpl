@@ -8,7 +8,7 @@ tdiv {
     padding:t='1@debrPad'
 
     tdiv {
-      size:t='pw, 26*@sf/@pf_outdated'
+      size:t='pw, 1@wwSmallCountryFlagHeight'
       pos:t='0, 1@debrPad'
       position:t='absolute'
 

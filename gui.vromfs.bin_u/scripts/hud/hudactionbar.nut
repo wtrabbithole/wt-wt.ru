@@ -85,6 +85,8 @@ class ActionBar
     local blk = ::handyman.renderCached(("gui/hud/actionBar"), view, partails)
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
     scene.findObject("action_bar").setUserData(this)
+
+    ::broadcastEvent("HudActionbarInited", { actionBarItemsAmount = actionItems.len() })
   }
 
   //creates view for handyman by one actionBar item
@@ -300,7 +302,7 @@ class ActionBar
       || (prewItem.countEx < currentItem.countEx)
       || (hasAmmoLost && prewItem.ammoLost < currentItem.ammoLost))
     {
-      local delta = currentItem.count - prewItem.count
+      local delta = currentItem.countEx - prewItem.countEx || currentItem.count - prewItem.count
       if (hasAmmoLost && prewItem.ammoLost < currentItem.ammoLost)
         ::g_hud_event_manager.onHudEvent("hint:ammoDestroyed:show")
       local blk = ::handyman.renderCached("gui/hud/actionBarIncrement", {is_increment = delta > 0, delta_amount = delta})

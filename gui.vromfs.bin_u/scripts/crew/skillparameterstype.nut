@@ -19,12 +19,17 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
   {
     local parameterName = paramData.name
     local measureType = ::g_crew_skills.getMeasureTypeBySkillParameterName(parameterName)
+    local isNotFoundMeasureType = measureType == ::g_measure_type.UNKNOWN
     local needMemberName = paramData.valuesArr.len() > 1
     local parsedMembers = []
     foreach(idx, value in paramData.valuesArr)
     {
       if(::isInArray(value.memberName, parsedMembers))
         continue
+
+      if(isNotFoundMeasureType)
+        measureType = ::g_crew_skills.getMeasureTypeBySkillParameterName(value.skillName)
+
       local parameterView = {
         descriptionLabel = parameterName.find("weapons/") == 0 ? ::loc(parameterName)
           : ::loc(::format("crewSkillParameter/%s", parameterName))

@@ -280,6 +280,11 @@ class ::BaseItem
     return getName()
   }
 
+  function getDescriptionUnderTitle()
+  {
+    return ""
+  }
+
   function getAmount()
   {
     return amount
@@ -725,9 +730,9 @@ class ::BaseItem
 
   getMaxRecipesToShow         = @() 0 //if 0, all recipes will be shown.
   getRecipeListHeader         = @(showAmount, totalAmount, isMultipleExtraItems) ""
-  getCantAssembleLocId        = @() ""
-  static getEmptyAssembleMessageData = @() { text = "", needRecipeMarkup = false }
-  getAssembleMessageData      = @(recipe) getEmptyAssembleMessageData()
+  getCantUseLocId             = @() ""
+  static getEmptyConfirmMessageData = @() { text = "", headerRecipeMarkup = "", needRecipeMarkup = false }
+  getConfirmMessageData      = @(recipe) getEmptyConfirmMessageData()
 
   getCraftingItem = @() null
   isCrafting = @() !!getCraftingItem()

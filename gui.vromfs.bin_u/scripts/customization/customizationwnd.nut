@@ -81,6 +81,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   isLoadingRot = false
   isDecoratorsListOpen = false
   isDecoratorItemUsed = false
+  isSomeCategoryOpened = false
+  showOnlyAvailableDecorators = false
 
   isUnitTank = false
   isUnitOwn = false
@@ -96,6 +98,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   preSelectDecorator = null
   preSelectDecoratorSlot = -1
+
+  DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID = "decorators_show_only_own"
 
   function initScreen()
   {
@@ -115,6 +119,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("timer_update").setUserData(this)
 
     ::hangar_focus_model(true)
+
+    showOnlyAvailableDecorators = ::loadLocalByAccount(DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID)
 
     registerSubHandler(::create_slot_info_panel(scene, false, "showroom"))
     initPreviewMode()
@@ -590,20 +596,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       textObj.setValue((visualValue > 0 ? "+" : "") + visualValue.tostring())
       ::hangar_set_tank_camo_rotation(value)
     }
-  }
-
-  function getSum(categoryList, category)
-  {
-    local sum = 0
-    local end = categoryList[category][0].num
-
-    for(local c = 0; c <= end && c < categoryList.len(); c++)
-    {
-      foreach(cg, mas in categoryList)
-        if(mas[0].num == c)
-          sum += mas[0].sum
-    }
-    return sum
   }
 
   function updateAttachablesSlots()
@@ -1228,6 +1220,22 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       updateButtons(decoratorType)
   }
 
+  function onOnlyAvailableDecorators(obj)
+  {
+    local curVal = obj.getValue()
+    if (showOnlyAvailableDecorators == curVal)
+      return
+
+    showOnlyAvailableDecorators = curVal
+    ::saveLocalByAccount(DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID, showOnlyAvailableDecorators)
+
+    if (isSomeCategoryOpened)
+    {
+      local slotInfo = getSlotInfo(getCurrentDecoratorSlot(currentType), true, currentType)
+      generateDecorationsList(slotInfo, currentType)
+    }
+  }
+
   function generateDecalCategoryContent(categoryId, decoratorType)
   {
     local curSlotDecalId = getSlotInfo(getCurrentDecoratorSlot(decoratorType), false, decoratorType).decalId
@@ -1238,7 +1246,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local view = { buttons = [] }
     foreach (decorator in decoratorsData[categoryId])
-      view.buttons.append(generateDecalButton(curSlotDecalId, decorator, decoratorType))
+      if (!showOnlyAvailableDecorators || decorator.canUse(unit))
+        view.buttons.append(generateDecalButton(curSlotDecalId, decorator, decoratorType))
+
+    if (!view.buttons.len())
+      return ""
 
     return ::handyman.renderCached("gui/commonParts/imageButton", view)
   }
@@ -1476,6 +1488,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local categoriesOrder = ::g_decorator.getCachedOrderByType(decoratorType)
+    isSomeCategoryOpened = false
     foreach (idx, category in categoriesOrder)
     {
       local categoryBlockId = decoratorType.categoryWidgetIdPrefix + category
@@ -1503,6 +1516,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (isToggledCategory && open)
       {
+        isSomeCategoryOpened = true
         ::saveLocalByAccount(decoratorType.currentOpenedCategoryLocalSafePath, categoryId)
 
         local decalId = preSelectDecorator ? preSelectDecorator.id :
@@ -2136,7 +2150,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     isDecoratorsListOpen = show
     local slotsObj = scene.findObject(currentType.listId)
-    if (::checkObj(slotsObj))
+    if (::check_obj(slotsObj))
     {
       local sel = slotsObj.getValue()
       for (local i = 0; i < slotsObj.childrenCount(); i++)
@@ -2149,17 +2163,21 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::hangar_notify_decal_menu_visibility(show)
 
     local mObj = scene.findObject("decals_wnd")
-    if (!::checkObj(mObj))
+    if (!::check_obj(mObj))
       return
 
     mObj.show(show)
 
+    local checkBoxObj = mObj.findObject("checkbox_only_available")
+    if (::check_obj(checkBoxObj))
+      checkBoxObj.setValue(showOnlyAvailableDecorators)
+
     local headerObj = mObj.findObject("decals_wnd_header")
-    if (::checkObj(headerObj))
+    if (::check_obj(headerObj))
       headerObj.setValue(::loc(currentType.listHeaderLocId))
 
     local focusObj = show ? getCurDecalsListObj(false) : slotsObj
-    if (::checkObj(focusObj))
+    if (::check_obj(focusObj))
       setCurrentFocusObj(focusObj)
   }
 

@@ -5,6 +5,8 @@
     wp   = 0;
     gold = 0;
     frp  = 0; - free research points
+    rp   = 0; - reserach points
+    sap  = 0; - sqadron activity points
     type = money_type.none; - cost or balance (defined in enum)
   }
 
@@ -34,17 +36,19 @@ enum money_color {
   gold = 0
   frp  = 0
   rp   = 0
+  sap  = 0
   type = money_type.none
 
   //privat
-  __data_fields = ["gold", "wp", "frp", "rp"]
+  __data_fields = ["gold", "wp", "frp", "rp", "sap"]
 
-  function constructor(type_in = money_type.cost, wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0)
+  function constructor(type_in = money_type.cost, wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     wp   = wp_in || 0
     gold = gold_in || 0
     frp  = frp_in || 0
     rp   = rp_in || 0
+    sap  = sap_in || 0
     type = type_in
   }
 }
@@ -61,18 +65,25 @@ function Money::setRp(value)
   return this
 }
 
+function Money::setSap(value)
+{
+  sap = value
+  return this
+}
+
 function Money::setFromTbl(tbl = null)
 {
   wp = tbl?.wp ?? 0
   gold = tbl?.gold ?? 0
   rp = tbl?.rp ?? 0
   frp = tbl?.exp ?? tbl?.frp ?? 0
+  sap = tbl?.sap ?? 0
   return this
 }
 
 function Money::isZero()
 {
-  return !wp && !gold && !frp && !rp
+  return !wp && !gold && !frp && !rp && !sap
 }
 
 //Math methods
@@ -82,7 +93,8 @@ function Money::_add(that)
   return newClass(this.wp + that.wp,
                   this.gold + that.gold,
                   this.frp + that.frp,
-                  this.rp + that.rp)
+                  this.rp + that.rp,
+                  this.sap + that.sap)
 }
 
 function Money::_sub(that)
@@ -91,7 +103,8 @@ function Money::_sub(that)
   return newClass(this.wp - that.wp,
                   this.gold - that.gold,
                   this.frp - that.frp,
-                  this.rp - that.rp)
+                  this.rp - that.rp,
+                  this.sap - that.sap)
 }
 
 function Money::multiply(multiplier)
@@ -100,6 +113,7 @@ function Money::multiply(multiplier)
   gold = (multiplier * gold + 0.5).tointeger()
   frp  = (multiplier * frp  + 0.5).tointeger()
   rp   = (multiplier * rp   + 0.5).tointeger()
+  sap  = (multiplier * sap   + 0.5).tointeger()
   return this
 }
 
@@ -181,6 +195,7 @@ function Money::__get_wp_color_id()   { return money_color.NEUTRAL }
 function Money::__get_gold_color_id() { return money_color.NEUTRAL }
 function Money::__get_frp_color_id()  { return money_color.NEUTRAL }
 function Money::__get_rp_color_id()   { return money_color.NEUTRAL }
+function Money::__get_sap_color_id()   { return money_color.NEUTRAL }
 
 function Money::__impl_get_wp_text(colored = true, checkBalance = false)
 {
@@ -210,6 +225,13 @@ function Money::__impl_get_rp_text(colored = true, checkBalance = false)
     ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign")
 }
 
+function Money::__impl_get_sap_text(colored = true, checkBalance = false)
+{
+  local color_id = (checkBalance && colored)? __get_sap_color_id() : money_color.NEUTRAL
+  return __check_color(::g_language.decimalFormat(sap), color_id) +
+    ::loc(colored ? "currency/squadronActivity/colored" : "currency/squadronActivity")
+}
+
 function Money::__impl_get_text(params = null)
 {
   local text = ""
@@ -224,6 +246,8 @@ function Money::__impl_get_text(params = null)
     text += ((text == "") ? "" : ", ") + __impl_get_frp_text(isColored, needCheckBalance)
   if (rp != 0 || params?.isRpAlwaysShown)
     text += ((text == "") ? "" : ", ") + __impl_get_rp_text(isColored, needCheckBalance)
+  if (sap != 0 || params?.isSapAlwaysShown)
+    text += ((text == "") ? "" : ", ") + __impl_get_sap_text(isColored, needCheckBalance)
   return text
 }
 
@@ -231,9 +255,9 @@ class Balance extends Money
 {
   type = money_type.balance
 
-  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0)
+  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
-    base.constructor(money_type.balance, wp_in, gold_in, frp_in, rp_in)
+    base.constructor(money_type.balance, wp_in, gold_in, frp_in, rp_in, sap_in)
   }
 
   function __get_color_id_by_value(value)
@@ -245,15 +269,16 @@ class Balance extends Money
   function __get_gold_color_id() { return __get_color_id_by_value(gold) }
   function __get_frp_color_id()  { return __get_color_id_by_value(frp) }
   function __get_rp_color_id()   { return __get_color_id_by_value(rp) }
+  function __get_sap_color_id()   { return __get_color_id_by_value(sap) }
 }
 
 class Cost extends Money
 {
   type = money_type.cost
 
-  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0)
+  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
-    base.constructor(money_type.cost, wp_in, gold_in, frp_in, rp_in)
+    base.constructor(money_type.cost, wp_in, gold_in, frp_in, rp_in, sap_in)
   }
 
   function __get_wp_color_id()

@@ -60,6 +60,8 @@ local chatInputCtor = function (field, send) {
     margin = 0
     padding = [hdpx(5), hdpx(5), 0, hdpx(5)]
     valign = VALIGN_BOTTOM
+    borderRadius = 0
+    valignText = VALIGN_MIDDLE
     hotkeys = [
       [ "J:A", onReturn],
       [ "J:B", onEscape],

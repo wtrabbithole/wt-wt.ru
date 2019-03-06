@@ -32,6 +32,7 @@ promoButton {
   type:t= '<<type>>'
   <<^show>>display:t='hide'<</show>>
   <<^show>>enable:t='no'<</show>>
+  <<#hasSafeAreaPadding>>hasSafeAreaPadding:t='<<hasSafeAreaPadding>>'<</hasSafeAreaPadding>>
   <<#inputTransparent>>
     input-transparent:t='yes'
     invisibleHover:t='yes'

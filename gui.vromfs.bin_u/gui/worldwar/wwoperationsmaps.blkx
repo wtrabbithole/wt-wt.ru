@@ -22,7 +22,7 @@
           "position": "absolute"
         },
         {
-          "padding": "60@sf/@pf_outdated, 2px, 60@sf/@pf_outdated, 10@sf/@pf_outdated"
+          "padding": "80@sf/@pf, 2@dp, 80@sf/@pf, 13@sf/@pf"
         },
         {
           "background-image": "#ui/gameuiskin#expandable_item_ww_transp_sym"
@@ -140,7 +140,7 @@
         {
           "div": {
             "id": "select_all_countries",
-            "pos": "pw-w, 40@sf/@pf_outdated/2 - h/2",
+            "pos": "pw-w, 27@sf/@pf - h/2",
             "position": "absolute",
             "display": "hide",
             "text": {
@@ -153,17 +153,88 @@
           }
         },
         {
-          "wwMainMenuBackgroundShadow": {
-            "id": "panel_left",
-            "width": "50%sh",
-            "display": "hide",
-            "type": "left",
-            "div": {
-              "id": "trophy_list",
-              "padding": "0, 2px, 0, 4px",
+          "wwMainMenuBackgroundShadow": [
+            {
+              "id": "panel_left"
+            },
+            {
+              "width": "50%sh"
+            },
+            {
               "flow": "vertical"
+            },
+            {
+              "display": "hide"
+            },
+            {
+              "type": "left"
+            },
+            {
+              "div": {
+                "id": "trophy_list",
+                "flow": "vertical"
+              }
+            },
+            {
+              "div": [
+                {
+                  "id": "top_list"
+                },
+                {
+                  "width": "0.3sh"
+                },
+                {
+                  "flow": "vertical"
+                },
+                {
+                  "display": "hide"
+                },
+                {
+                  "behaviour": "posNavigator"
+                },
+                {
+                  "moveY": "linear"
+                },
+                {
+                  "navigatorShortcuts": "yes"
+                },
+                {
+                  "on_wrap_up": "onWrapUp"
+                },
+                {
+                  "on_wrap_down": "onWrapDown"
+                },
+                {
+                  "on_wrap_left": "onWrapDown"
+                },
+                {
+                  "on_wrap_right": "onWrapUp"
+                },
+                {
+                  "wwTopNest": {
+                    "id": "top_daily_players"
+                  }
+                },
+                {
+                  "wwTopNest": {
+                    "id": "top_global_players"
+                  }
+                },
+                {
+                  "wwTopNest": {
+                    "id": "top_global_clans"
+                  }
+                }
+              ]
+            },
+            {
+              "dummy": {
+                "behavior": "accesskey",
+                "accessKey": "J:RT",
+                "on_click": "onOpenSelectedTopLeaderboard"
+              }
             }
-          }
+          ]
         },
         {
           "wwMainMenuBackgroundShadow": {
@@ -175,13 +246,12 @@
               "id": "maps_list",
               "size": "pw -10%sh, ph",
               "pos": "pw-w, 0",
-              "position": "absolute",
+              "position": "relative",
               "total-input-transparent": "yes",
               "flow": "vertical",
               "overflow-y": "auto",
               "css-hier-invalidate": "yes",
               "focus": "yes",
-              "padding": "0, 2px, 0, 4px",
               "behaviour": "posNavigator",
               "moveY": "linear",
               "navigatorShortcuts": "yes",
@@ -189,8 +259,8 @@
               "on_dbl_click": "onJoinOperation",
               "on_wrap_up": "onWrapUp",
               "on_wrap_down": "onWrapDown",
-              "on_wrap_left": "onWrapUp",
-              "on_wrap_right": "onWrapDown",
+              "on_wrap_left": "onWrapDown",
+              "on_wrap_right": "onWrapUp",
               "snd_select": "ww_globe_battle_select"
             }
           }
@@ -1037,9 +1107,10 @@
                       },
                       {
                         "emptyVoiceChat": {
-                          "id": "voice_chat_no_activity",
                           "tooltip": "#clan/voice_chat/widget",
                           "usertalk": {
+                            "id": "voice_chat_no_activity",
+                            "type": "noTalk",
                             "fade": "in",
                             "height-end": "1",
                             "_size-timer": "0",
@@ -1289,7 +1360,7 @@
       "position": "root"
     },
     {
-      "style": "padding:10*@sf/@pf_outdated; color-factor:192;"
+      "style": "padding:15*@sf/@pf; color-factor:192;"
     },
     {
       "display": "hide"

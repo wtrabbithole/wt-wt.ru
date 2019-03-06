@@ -90,8 +90,8 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
     btnObj.inactiveColor = curRecipe?.isUsable && !curRecipe.isRecipeLocked() ? "no" : "yes"
 
     local btnText = ::loc(buttonText)
-    if (curRecipe.hasAssembleTime())
-      btnText += " " + ::loc("ui/parentheses", {text = curRecipe.getAssembleTimeText()})
+    if (curRecipe.hasCraftTime())
+      btnText += " " + ::loc("ui/parentheses", {text = curRecipe.hasCraftTime()})
     btnObj.setValue(btnText)
 
 

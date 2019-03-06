@@ -2760,6 +2760,11 @@ class Events
 
     return reasonText
   }
+
+  function isPveEvent(event)
+  {
+    return event?.pveMode ?? false
+  }
 }
 
 ::events = Events()

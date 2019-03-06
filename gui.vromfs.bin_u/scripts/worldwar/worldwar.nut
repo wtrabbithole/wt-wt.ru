@@ -225,6 +225,7 @@ foreach (fn in [
                  "handler/wwObjectivesInfo.nut"
                  "handler/wwMyClanSquadInviteModal.nut"
                  "handler/wwJoinBattleCondition.nut"
+                 "handler/wwLeaderboard.nut"
                  "worldWarRender.nut"
                  "worldWarBattleJoinProcess.nut"
                  "worldWarLeaderboard.nut"

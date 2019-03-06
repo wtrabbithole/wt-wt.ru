@@ -1,5 +1,3 @@
-local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
-
 const KNOWN_ITEMS_SAVE_ID = "workshop/known"
 const KNOWN_REQ_ITEMS_SAVE_ID = "workshop/knownReqItems"
 const KNOWN_ITEMS_SAVE_KEY = "id"

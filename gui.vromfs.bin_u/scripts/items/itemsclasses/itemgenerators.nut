@@ -10,7 +10,7 @@ local ItemGenerator = class {
   exchange = null
   bundle  = null
   timestamp = ""
-  assembleTime = 0
+  craftTime = 0
 
   isPack = false
   hasHiddenItems = false
@@ -28,7 +28,7 @@ local ItemGenerator = class {
     isPack   = ::isInArray(genType, [ "bundle", "delayedexchange" ])
     tags     = itemDefDesc?.tags ?? null
     timestamp = itemDefDesc?.Timestamp ?? ""
-    assembleTime = time.getSecondsFromTemplate(itemDefDesc?.lifetime ?? "")
+    craftTime = time.getSecondsFromTemplate(itemDefDesc?.lifetime ?? "")
   }
 
   _exchangeRecipes = null
@@ -39,12 +39,14 @@ local ItemGenerator = class {
     if (!_exchangeRecipes || _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime)
     {
       local generatorId = id
-      local generatorAssembleTime = assembleTime
+      local generatorCraftTime = craftTime
       local parsedRecipes = inventoryClient.parseRecipesString(exchange)
+      local isDisassemble = tags?.isDisassemble ?? false
       _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes({
          parsedRecipe = parsedRecipe,
          generatorId = generatorId
-         assembleTime = generatorAssembleTime
+         craftTime = generatorCraftTime
+         isDisassemble = isDisassemble
       }))
 
       // Adding additional recipes
@@ -63,8 +65,9 @@ local ItemGenerator = class {
                 _exchangeRecipes.extend(::u.map(additionalParsedRecipes, @(pr) ExchangeRecipes({
                   parsedRecipe = pr,
                   generatorId = gen.id
-                  assembleTime = gen.assembleTime
+                  craftTime = gen.craftTime
                   isFake = paramName != "trueRecipe"
+                  isDisassemble = isDisassemble
                 })))
               }
             break

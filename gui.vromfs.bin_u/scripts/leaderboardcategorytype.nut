@@ -28,6 +28,15 @@ enum LB_MODE
   ALL               = 0xFFFFF
 }
 
+enum WW_LB_MODE
+{
+  WW_USERS     = 0x00001
+  WW_CLANS     = 0x00002
+  WW_COUNTRIES = 0x00004
+
+  ALL          = 0xFFFFF
+}
+
 
 ::lb_mode_name <- {
   arcade              = LB_MODE.ARCADE
@@ -51,14 +60,21 @@ enum LB_MODE
   helicopter_arcade   = LB_MODE.HELICOPTER_ARCADE
 }
 
+::ww_lb_mode_name <- {
+  ww_users     = WW_LB_MODE.WW_USERS
+  ww_clans     = WW_LB_MODE.WW_CLANS
+  ww_countries = WW_LB_MODE.WW_COUNTRIES
+}
 
-function get_lb_mode(name)
+
+function get_lb_mode(name, isWwLeaderboard = false)
 {
   if (name == null || name.len() <= 0)
     return 0
 
-  if (name in ::lb_mode_name)
-    return ::lb_mode_name[name]
+  local lbModeNames = isWwLeaderboard ? ::ww_lb_mode_name : ::lb_mode_name
+  if (name in lbModeNames)
+    return lbModeNames[name]
 
   ::dagor.logerr("Invalid leaderboard mode '" + name + "'")
   return 0
@@ -136,6 +152,7 @@ function g_lb_category::_getAdditionalTooltipPart(row)
   headerTooltip = ""
   reqFeature = null //show row only when has_feature
   modesMask = LB_MODE.ALL
+  wwModesMask = WW_LB_MODE.ALL
   ownProfileOnly = false  //show row only if in checkVisibility params will be set flag "isOwnStats"
   additionalTooltipCategoryes = null
   hideInAdditionalTooltipIfZero = false
@@ -164,7 +181,8 @@ function g_lb_category::_getAdditionalTooltipPart(row)
   isVisibleByLbModeName = function(modeName)
   {
     // check modesMask
-    return (modesMask == LB_MODE.ALL) || ((::get_lb_mode(modeName) & modesMask) != 0)
+    return ((modesMask == LB_MODE.ALL) || ((::get_lb_mode(modeName) & modesMask) != 0)) &&
+      ((wwModesMask == WW_LB_MODE.ALL) || ((::get_lb_mode(modeName, true) & wwModesMask) != 0))
   }
 
   isVisibleInEvent = function(event)
@@ -428,6 +446,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       type = ::g_lb_data_type.NUM,
       headerImage = "elo_rating"
       headerTooltip = "personal_elo"
+      wwModesMask = ~WW_LB_MODE.WW_COUNTRIES
 
       isSortDefaultFilter = true
 
@@ -522,6 +541,49 @@ enums.addTypesByGlobalName("g_lb_category", {
       headerImage = "total_score"
       headerTooltip = "football/assists"
       showEventFilterFunc = @(event) ::events.isGameTypeOfEvent(event, "gt_football")
+    }
+
+    // for World War
+    BATTLE_COUNT = {
+      field = "battle_count"
+      visualKey = "each_player_session"
+      headerImage = "each_player_session"
+    }
+
+    BATTLE_WINRATE = {
+      type = ::g_lb_data_type.PERCENT
+      field = "battle_winrate"
+      visualKey = "victories_battles"
+      headerImage = "victories_battles"
+    }
+
+    PLAYER_KILLS = {
+      field = "playerKills"
+      visualKey = "lb_kills_player"
+      headerImage = "average_active_kills_by_spawn"
+      additionalTooltipCategoryes = ["AIR_KILLS_PLAYER", "GROUND_KILLS_PLAYER"]
+    }
+
+    AI_KILLS = {
+      field = "aiKills"
+      visualKey = "lb_kills_ai"
+      headerImage = "average_script_kills_by_spawn"
+      additionalTooltipCategoryes = ["AIR_KILLS_AI", "GROUND_KILLS_AI"]
+    }
+
+    AVG_PLACE = {
+      field = "avg_place"
+      visualKey = "averagePosition"
+      headerImage = "average_position"
+      wwModesMask = WW_LB_MODE.WW_USERS
+      type = ::g_lb_data_type.FLOAT
+    }
+
+    AVG_SCORE = {
+      field = "avg_score"
+      visualKey = "averageScore"
+      headerImage = "average_score"
+      wwModesMask = WW_LB_MODE.WW_USERS
     }
   },
 ::g_lb_category._typeConstructor, "id")

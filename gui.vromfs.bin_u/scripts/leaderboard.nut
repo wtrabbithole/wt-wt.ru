@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
 
 ::leaderboards_list <- [
   ::g_lb_category.VICTORIES_BATTLES
@@ -454,7 +455,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   function goToPage(obj)
   {
     pos = obj.to_page.tointeger() * rowsInPage
-    fetchLbData()
+    fetchLbData(true)
   }
 
   function noLbDataError()
@@ -489,7 +490,8 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   function updateButtons()
   {
     local rowData = getSelectedRowData()
-    local showPlayer = rowData != null && !forClans
+    local isCountriesLb = isCountriesLeaderboard()
+    local showPlayer = rowData != null && !forClans && !isCountriesLb
     local showClan = rowData != null && forClans
 
     ::showBtnTable(scene, {
@@ -501,7 +503,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function getLbPlayerUid(rowData)
   {
-    return ::getTblValue("_id", rowData)
+    return rowData?._id ? rowData._id.tostring() : null
   }
 
   function getLbPlayerName(rowData)
@@ -511,7 +513,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function getLbClanUid(rowData)
   {
-    return ::getTblValue("_id", rowData)
+    return rowData?._id ? rowData._id.tostring() : null
   }
 
   function onUserCard()
@@ -535,9 +537,20 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserRClick()
   {
-    local rowData = getSelectedRowData()
-    if (!rowData || forClans)
+    if (isCountriesLeaderboard())
       return
+
+    local rowData = getSelectedRowData()
+    if (!rowData)
+      return
+
+    if (forClans)
+    {
+      local clanUid = getLbClanUid(rowData)
+      if (clanUid)
+        ::gui_right_click_menu(clanContextMenu.getClanActions(clanUid), this)
+      return
+    }
 
     playerContextMenu.showMenu(null, this, {
       playerName = getLbPlayerName(rowData)
@@ -587,6 +600,9 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  onMapSelect = @(obj) null
+  onCountrySelect = @(obj) null
+
   function prepareRequest()
   {
     local newRequest = {}
@@ -627,7 +643,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       curLbCategory = ::g_lb_category.getTypeById(obj.id)
       pos = 0
     }
-    fetchLbData()
+    fetchLbData(true)
   }
 
   function getMainFocusObj()
@@ -638,6 +654,11 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   function getMainFocusObj2()
   {
     return scene.findObject("lb_table")
+  }
+
+  function isCountriesLeaderboard()
+  {
+    return false
   }
   //----END_CONTROLLER----//
 
@@ -691,7 +712,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(holder, data, data.len(), this)
   }
 
-  function fetchLbData()
+  function fetchLbData(isForce = false)
   {
     lbField = curLbCategory.field
     lbModel.getSelfRow(
@@ -719,7 +740,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     return ::getTblValue("rows", pageData, [])
   }
 
-  function fillLeaderboard(pageData)
+  function fillLeaderboard(pageData, isForceShowTable = false)
   {
     if (!::checkObj(scene))
       return
@@ -734,7 +755,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local lbRows = getLbRows()
 
     local showHeader = pageData != null
-    local showTable = (pos > 0 || lbRows.len() > 0) && selfRowData != null
+    local showTable = (pos > 0 || lbRows.len() > 0) && (isForceShowTable || selfRowData != null)
 
     lbWaitBox.show(!showTable && !pageData)
     noLbText.show(!showTable && pageData)
@@ -781,13 +802,17 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.replaceContentFromText(lbTable, data, data.len(), this)
 
-    if(showTable)
+    if (showTable)
     {
       lbTable.select()
       fillPagintator()
       onSelect()
-    } else
+    }
+    else
+    {
       ::hidePaginator(scene.findObject("paginator_place"))
+      updateButtons()
+    }
 
     fillAdditionalLeaderboardInfo(pageData)
   }

@@ -218,6 +218,7 @@ img[difficulty=2] {
 
 @const unlockIconSize: 4.44*@scrn_tgt/100.0;
 @const unlockHeaderIconSize: 4.44*@scrn_tgt/100.0;
+@const unlockBlockInterval: (12@sf/@pf) \ 1;
 
 unlockConditionHeader {
   width:pw;
@@ -231,6 +232,7 @@ unlockConditionHeader {
 unlockCondition {
   width:pw-@unlockHeaderIconSize;
   margin-left:@unlockHeaderIconSize;
+  margin-bottom:1@unlockBlockInterval;
   padding-left:@unlockIconSize + 0.5*@scrn_tgt/100.0;
   min-height:0.6@unlockIconSize;
 

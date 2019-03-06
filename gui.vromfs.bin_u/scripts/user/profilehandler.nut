@@ -1241,7 +1241,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       else
       {
         local id = curObj.id
-        if(id in unlocksTree)
+        local isGroup = (id in unlocksTree)
+        if(isGroup)
           unlocksList = unlocksTree[id].rootItems
         else
           foreach(chapterName, chapterItem in unlocksTree)
@@ -1254,7 +1255,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
             }
         printUnlocksList(unlocksList)
         if (curPage == "Achievement")
+        {
           curAchievementGroupName = id
+          if (isGroup && id != uncollapsedChapterName)
+            onGroupCollapse(list)
+        }
       }
     }
   }

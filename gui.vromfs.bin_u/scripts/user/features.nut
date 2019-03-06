@@ -74,6 +74,8 @@
     WorldWarSquadInfo = false
     WorldWarSquadInvite = false
     WorldWarGlobalBattles = false
+    WorldWarLeaderboards = false
+    WorldWarCountryLeaderboard = false
 
     SpecialShip = false
 

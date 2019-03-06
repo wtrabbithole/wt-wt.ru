@@ -26,15 +26,17 @@ local ExchangeRecipes = class {
   isMultipleExtraItems = false
   isFake = false
 
-  assembleTime = 0
+  craftTime = 0
   initedComponents = null
+  isDisassemble = false
 
   constructor(params)
   {
     idx = lastRecipeIdx++
     generatorId = params.generatorId
     isFake = params?.isFake ?? false
-    assembleTime = params?.assembleTime ?? 0
+    craftTime = params?.craftTime ?? 0
+    isDisassemble = params?.isDisassemble ?? false
     local parsedRecipe = params.parsedRecipe
 
     initedComponents = parsedRecipe.components
@@ -104,7 +106,7 @@ local ExchangeRecipes = class {
         commentText = getComponentQuantityText(component)
       }))
     }
-    return ::PrizesView.getPrizesListView(list, params)
+    return ::PrizesView.getPrizesListView(list, params, false)
   }
 
   function getItemsListForPrizesView(params = null)
@@ -136,19 +138,20 @@ local ExchangeRecipes = class {
     return ::PrizesView.getPrizesListText(list, headerFunc, false)
   }
 
-  function hasAssembleTime()
+  function hasCraftTime()
   {
-    return assembleTime > 0
+    return craftTime > 0
   }
 
-  function getAssembleTime()
+  function getCraftTime()
   {
-    return assembleTime
+    return craftTime
   }
 
-  function getAssembleTimeText()
+  function getCraftTimeText()
   {
-    return ::loc("icon/hourglass") + " " + time.secondsToString(assembleTime, true, true)
+    return ::loc(isDisassemble ? "msgBox/disassembleItem/time" : "msgBox/assembleItem/time",
+      {time = ::loc("icon/hourglass") + " " + time.secondsToString(craftTime, true, true)})
   }
 
   function getIconedMarkup()
@@ -264,7 +267,7 @@ local ExchangeRecipes = class {
     local headerFirst = ::colorize("grayOptionColor",
       componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
                                             isMultipleExtraItems, hasFakeRecipes(recipes),
-                                            getRecipesAssembleTimeText(recipes)))
+                                            getRecipesCraftTimeText(recipes)))
     local headerNext = isMultipleRecipes && isMultipleExtraItems ?
       ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
 
@@ -284,10 +287,10 @@ local ExchangeRecipes = class {
     return ::g_string.implode(res, shouldReturnMarkup ? "" : "\n")
   }
 
-  static function getRecipesAssembleTimeText(recipes)
+  static function getRecipesCraftTimeText(recipes)
   {
-    local minSeconds = ::max(u.min(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
-    local maxSeconds = ::max(u.max(recipes, @(r) r?.assembleTime ?? 0)?.assembleTime ?? 0, 0)
+    local minSeconds = ::max(u.min(recipes, @(r) r?.craftTime ?? 0)?.craftTime ?? 0, 0)
+    local maxSeconds = ::max(u.max(recipes, @(r) r?.craftTime ?? 0)?.craftTime ?? 0, 0)
     if (minSeconds <= 0 && maxSeconds <= 0)
       return ""
 
@@ -359,19 +362,28 @@ local ExchangeRecipes = class {
         return true
       }
 
-      local msgData = params?.messageData || componentItem.getAssembleMessageData(recipe)
+      local msgData = componentItem.getConfirmMessageData(recipe)
       local msgboxParams = { cancel_fn = function() {} }
 
-      if (params?.isDisassemble && params?.bundleContent)
+      if (recipe.isDisassemble && params?.bundleContent)
       {
         msgboxParams.__update({
-          data_below_text = ::PrizesView.getPrizesListView(params.bundleContent, { widthByParentParent = true })
+          data_below_text = ::PrizesView.getPrizesListView(params.bundleContent,
+            { header = msgData?.headerRecipeMarkup ?? ""
+              headerFont = "mediumFont"
+              widthByParentParent = true
+              isCentered = true },
+            false)
           baseHandler = ::get_cur_base_gui_handler()
         })
       }
       else if (msgData?.needRecipeMarkup)
         msgboxParams.__update({
-          data_below_text = recipe.getExchangeMarkup(componentItem, { widthByParentParent = true })
+          data_below_text = recipe.getExchangeMarkup(componentItem,
+            { header = msgData?.headerRecipeMarkup ?? ""
+              headerFont = "mediumFont"
+              widthByParentParent = true
+              isCentered = true })
           baseHandler = ::get_cur_base_gui_handler()
         })
 
@@ -395,7 +407,7 @@ local ExchangeRecipes = class {
 
   function showUseErrorMsg(recipes, componentItem)
   {
-    local locId = componentItem.getCantAssembleLocId()
+    local locId = componentItem.getCantUseLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
     local msgboxParams = {
       data_below_text = getRequirementsMarkup(recipes, componentItem, { widthByParentParent = true }),
@@ -491,11 +503,12 @@ local ExchangeRecipes = class {
     local resultItemsShowOpening  = u.filter(resultItems, isShowOpening)
 
     local parentGen = componentItem.getParentGen()
+    local hasFakeRecipes = parentGen && hasFakeRecipes(parentGen.getRecipes())
     local parentRecipe = parentGen?.getRecipeByUid?(componentItem.craftedFrom)
-    if ((parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
+    if (hasFakeRecipes && (parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
       parentGen.markAllRecipes()
 
-    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId() : ""
+    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId(hasFakeRecipes) : ""
     local rewardListLocId = params?.rewardListLocId ? params.rewardListLocId :
       parentRecipe ? componentItem.getItemsListLocId() : ""
 
@@ -509,7 +522,7 @@ local ExchangeRecipes = class {
       ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs,
         rewardTitle = ::loc(rewardTitle),
         rewardListLocId = rewardListLocId
-        isDisassemble = params?.isDisassemble ?? false
+        isDisassemble = isDisassemble
       })
     }
 
@@ -539,7 +552,9 @@ local ExchangeRecipes = class {
     mark = ::load_local_account_settings(getSaveId(), MARK_RECIPE.NONE)
   }
 
-  getRewardTitleLocId = @() getMarkLocIdByPath("mainmenu/craftFinished/title/")
+  getRewardTitleLocId = @(hasFakeRecipes = true) hasFakeRecipes
+    ? getMarkLocIdByPath("mainmenu/craftFinished/title/")
+    : isDisassemble ? "mainmenu/itemDisassembled/title" : "mainmenu/itemAssembled/title"
 
   getRecipeStr = @() ::g_string.implode(
     u.map(initedComponents, @(component) component.itemdefid.tostring()

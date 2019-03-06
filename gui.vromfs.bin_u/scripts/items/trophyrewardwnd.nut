@@ -109,6 +109,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
                           ))
       useSingleAnimation = false
 
+    ::showBtn(useSingleAnimation? "reward_roullete" : "open_chest_animation", false, scene) //hide not used animation
     local animId = useSingleAnimation? "open_chest_animation" : "reward_roullete"
     local animObj = scene.findObject(animId)
     if (::checkObj(animObj))

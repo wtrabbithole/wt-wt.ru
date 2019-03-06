@@ -312,6 +312,19 @@
                       },
                       "Button_close": {
                         "style": "_on_click:onBtnCloseDecalsMenu;"
+                      },
+                      "top_right_holder": {
+                        "CheckBox": {
+                          "id": "checkbox_only_available",
+                          "pos": "0, 50%ph-50%h",
+                          "position": "relative",
+                          "btnName": "Y",
+                          "text": "#mainmenu/onlyAvailable",
+                          "value": "no",
+                          "on_change_value": "onOnlyAvailableDecorators",
+                          "CheckBoxImg": [],
+                          "ButtonImg": []
+                        }
                       }
                     }
                   }
@@ -1608,9 +1621,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

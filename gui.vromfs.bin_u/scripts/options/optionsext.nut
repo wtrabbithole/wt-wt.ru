@@ -5210,24 +5210,6 @@ function get_unit_preset_img(unitName /*or unit group name*/)
   return ::getTblValue(unitName, ::units_img_preset)
 }
 
-function show_popup_on_changed_value_option(userOptionName, value)
-{
-  local option = ::get_option(userOptionName)
-  if (!option)
-    return
-
-  if (option.controlType != optionControlType.CHECKBOX)
-    return
-
-  if (option.value == value)
-    return
-
-  local valueText = ::colorize("activeTextColor", ::loc(value? "options/enabled" : "options/disabled"))
-  local optionText = ::loc("ui/parentheses/space", {text = ::loc("options/" + option.id)})
-  local msg = valueText + optionText
-  ::g_popups.add(null, msg)
-}
-
 function is_tencent_unit_image_reqired(unit)
 {
   return ::is_vendor_tencent() && unit.shopCountry == "country_japan"

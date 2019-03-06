@@ -30,8 +30,7 @@
 @const hud_normal:    @fontHudMedium;
 @const hud_big:       @fontHudBigBold;
 
-@const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const armySmallIconWidth: 26*@sf/@pf_outdated;
-@const tIco: (12*@sf/@pf) \ 1;
+@const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const tIco: (12*@sf/@pf) \ 1;
 @const sIco: (22*@sf/@pf) \ 1;
 @const cIco: (30*@sf/@pf) \ 1;
 @const dIco: (40*@sf/@pf) \ 1;
@@ -207,6 +206,8 @@
 @const onlineShopWidth: @sf $max 512;
 @const researchNotificationWidth: @sf $max 750;
 
+@const hudActionBarItemSize: 0.06@shHud;
+@const hudActionBarItemOffset: 0.005@shHud;
 @const actionBarBottomPos: sh - 1@bhHud;
 @const hintAboveActionBarPos: 1@actionBarBottomPos - 0.1@shHud - 1@bhHud;
 
@@ -243,7 +244,7 @@
 @const discountBoxDownArrowHeight: 14*@sf/@pf;
 @const discountBoxHeight: 23*@sf/@pf;
 
-@const eventTacticalMapSize: 0.3@scrn_tgt;
+@const eventTacticalMapSize: 0.23@scrn_tgt + 0.07@scrn_tgt * 1@isWide;
 @const eventRewardWidth:  0.4@scrn_tgt;
 @const eventRewardHeight: 0.1@scrn_tgt;
 @const eventRewardIconHeight: 0.08@scrn_tgt;

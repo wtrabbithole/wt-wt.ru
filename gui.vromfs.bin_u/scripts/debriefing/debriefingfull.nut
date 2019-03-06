@@ -40,6 +40,7 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
   icon = "icon/summation" // Icon used as Value column header in tooltip
   tooltipExtraRows = null //function(), array
   tooltipComment = null  //string function()
+  tooltipRowBonuses = @(unitId, unitData) null
   isCountedInUnits = true
   isFreeRP = false  //special row where exp currency is not RP but FreeRP
 
@@ -307,6 +308,26 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     showOnlyWhenFullResult = true
     isOverall = true
     tooltipComment = function() { return ::loc("debriefing/EfficiencyReason") }
+    tooltipRowBonuses = function(unitId, unitData) {
+      local unitTypeName = ::getAircraftByName(unitId)?.unitType?.name ?? ""
+      local investUnit = ::getAircraftByName(::debriefing_result?.exp?["investUnitName" + unitTypeName])
+      local prevUnit = ::getPrevUnit(investUnit)
+      if (unitId != prevUnit?.name)
+        return null
+
+      local noBonus = unitData?.expTotal ?? 0
+      local bonus = (unitData?.expInvestUnit ?? 0) - noBonus
+      if (noBonus <= 0 || bonus <= 0)
+        return null
+
+      local comment = ::colorize("fadedTextColor", ::loc("debriefing/bonusToNextUnit",
+        { unitName = ::colorize("userlogColoredText", ::getUnitName(investUnit)) }))
+
+      return {
+        noBonus = ::Cost().setRp(noBonus).tostring()
+        prevUnitEfficiency = ::Cost().setRp(bonus).tostring() + comment
+      }
+    }
   }
   { id = "ecSpawnScore"
     text = "debriefing/total/ecSpawnScore"
@@ -1208,7 +1229,7 @@ function get_debriefing_gift_items_info(skipItemId = null)
       if (typeof(data) != "table" || !("itemDefId" in data))
         continue
 
-      res.append({ id = data.itemDefId, count = data?.quantity ?? 1, needOpen = false })
+      res.append({item=data.itemDefId, count=data?.quantity ?? 1, needOpen=false, enableBackground=true})
     }
 
   // Collecting trophies and items
@@ -1222,7 +1243,7 @@ function get_debriefing_gift_items_info(skipItemId = null)
     local rewards = logs?[0]?.container?[rewardType] ?? {}
     foreach (id, count in rewards)
       if (id != skipItemId)
-        res.append({ id = id, count = count, needOpen = rewardType == "trophies" })
+        res.append({item=id, count=count, needOpen=rewardType == "trophies", enableBackground=true})
   }
 
   return res.len() ? res : null

@@ -641,7 +641,8 @@ class GameModeManager
         if (::events.isUnitTypeAvailable(event, unitType)
             && ::events.isUnitTypeRequired(event, unitType, true))
         {
-          if (::events.getEventDiffCode(event) == newbieGm.diffCode)
+          if (::events.getEventDiffCode(event) == newbieGm.diffCode
+            && !::events.isPveEvent(event) && !::events.isEventForClan(event))
             newbieGm.eventForSquad = event
           skip = true
           break

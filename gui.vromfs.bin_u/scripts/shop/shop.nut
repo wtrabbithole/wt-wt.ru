@@ -1196,8 +1196,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     updateDiscountIconsOnTabs()
 
     pagesObj.setValue(curIdx)
-    if (curIdx == 0)
-      onAircraftsPage() //need to fix this in listbox
   }
 
   function getDiscountIconTabId(country, unitType)

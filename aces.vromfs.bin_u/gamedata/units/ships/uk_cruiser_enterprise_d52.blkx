@@ -2659,6 +2659,14 @@
           "hp": 2500.0
         }
       },
+      "bulges": {
+        "fireParamsPreset": "ship_cover",
+        "stopChanceOnDeadPart": 0.5,
+        "genericDamageMult": 1.0,
+        "secondaryShatterDamageMult": 0.5,
+        "shatterDamageMult": 0.8,
+        "explosionDamageMult": 0.3
+      },
       "bulkheads": {
         "genericDamageMult": 0.4,
         "shatterDamageMult": 0.9,
@@ -3123,10 +3131,10 @@
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.8,
         "fuel_tank_01_dm": {
-          "hp": 1000.0
+          "hp": 3353.0
         },
         "fuel_tank_02_dm": {
-          "hp": 1000.0
+          "hp": 3874.0
         }
       },
       "ammo": {
@@ -3134,24 +3142,24 @@
         "armorThrough": 100.0,
         "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
-        "genericDamageMult": 0.5,
-        "explosionDamageMult": 1.5,
-        "shatterDamageMult": 1.5,
-        "secondaryShatterDamageMult": 1.0,
+        "genericDamageMult": 1.0,
+        "explosionDamageMult": 0.6,
+        "shatterDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.5,
         "ammunition_storage_01_dm": {
-          "hp": 929.0
+          "hp": 2500.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 750.0
+          "hp": 2500.0
         },
         "ammunition_storage_03_dm": {
-          "hp": 894.0
+          "hp": 2500.0
         },
         "ammunition_storage_04_dm": {
-          "hp": 871.0
+          "hp": 2500.0
         },
         "ammunition_storage_05_dm": {
-          "hp": 841.0
+          "hp": 2500.0
         }
       },
       "depth_charges": {
@@ -3164,19 +3172,19 @@
         "explosionDamageMult": 1.5,
         "secondaryShatterDamageMult": 0.5,
         "depth_charge_01_dm": {
-          "hp": 250.0
+          "hp": 350.0
         },
         "depth_charge_02_dm": {
-          "hp": 250.0
+          "hp": 350.0
         },
         "depth_charge_03_dm": {
-          "hp": 250.0
+          "hp": 350.0
         },
         "depth_charge_04_dm": {
-          "hp": 250.0
+          "hp": 350.0
         },
         "depth_charge_05_dm": {
-          "hp": 250.0
+          "hp": 350.0
         }
       },
       "torpedos": {
@@ -3335,6 +3343,21 @@
             "name": "ammunition_storage_05_dm"
           },
           {
+            "name": "ammunition_storage_06_dm"
+          },
+          {
+            "name": "ammunition_storage_07_dm"
+          },
+          {
+            "name": "ammunition_storage_08_dm"
+          },
+          {
+            "name": "ammunition_storage_09_dm"
+          },
+          {
+            "name": "ammunition_storage_10_dm"
+          },
+          {
             "onKill": {
               "expl": 1.0,
               "fHitCritical": false
@@ -3343,7 +3366,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.15,
+              "fire": 0.03,
               "damage": 50.0,
               "fHitCritical": false
             }
@@ -3351,8 +3374,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.2,
-              "fire": 0.25,
+              "expl": 0.05,
+              "fire": 0.05,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -3360,8 +3383,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.4,
-              "fire": 0.5,
+              "expl": 0.075,
+              "fire": 0.1,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -3369,8 +3392,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.8,
+              "expl": 0.08,
+              "fire": 0.15,
               "damage": 300.0,
               "fHitCritical": false
             }
@@ -3378,8 +3401,8 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.7,
-              "fire": 1.0,
+              "expl": 0.15,
+              "fire": 0.25,
               "damage": 400.0,
               "fHitCritical": false
             }
@@ -3387,7 +3410,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.15,
+              "fire": 0.02,
               "damage": 50.0,
               "fHitCritical": false
             }
@@ -3395,7 +3418,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.3,
+              "fire": 0.08,
               "damage": 100.0,
               "fHitCritical": false
             }
@@ -3403,8 +3426,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "expl": 0.1,
-              "fire": 0.5,
+              "fire": 0.1,
               "damage": 150.0,
               "fHitCritical": false
             }
@@ -3412,8 +3434,7 @@
           {
             "onHit": {
               "damageType": "generic",
-              "expl": 0.1,
-              "fire": 0.8,
+              "fire": 0.12,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -3421,60 +3442,60 @@
           {
             "onHit": {
               "damageType": "fire",
-              "fire": 0.5,
-              "expl": 0.05,
+              "fire": 0.1,
+              "expl": 0.03,
               "damage": 50.0
             }
           },
           {
             "onHit": {
               "damageType": "fire",
-              "fire": 0.6,
-              "expl": 0.1,
+              "fire": 0.25,
+              "expl": 0.08,
               "damage": 100.0
             }
           },
           {
             "onHit": {
               "damageType": "fire",
-              "fire": 1.0,
-              "expl": 0.2,
+              "fire": 0.4,
+              "expl": 0.1,
               "damage": 150.0
             }
           },
           {
             "onHit": {
               "damageType": "fire",
-              "fire": 1.0,
-              "expl": 0.3,
+              "fire": 0.5,
+              "expl": 0.2,
               "damage": 200.0
             }
           },
           {
             "onHit": {
               "damageType": "shatter",
-              "fire": 0.1,
+              "fire": 0.05,
               "damage": 50.0
             }
           },
           {
             "onHit": {
               "damageType": "shatter",
-              "fire": 0.3,
+              "fire": 0.08,
               "damage": 100.0
             }
           },
           {
             "onHit": {
               "damageType": "shatter",
-              "fire": 0.5,
+              "fire": 0.1,
               "damage": 150.0
             }
           },
           {
             "onHit": {
               "damageType": "shatter",
-              "fire": 0.8,
+              "fire": 0.12,
               "damage": 200.0
             }
           }
@@ -3519,12 +3540,6 @@
             "name": "torpedo_12_dm"
           },
           {
-            "onKill": {
-              "expl": 0.03,
-              "fHitCritical": false
-            }
-          },
-          {
             "onHit": {
               "damageType": "explosion",
               "expl": 0.01,
@@ -3535,7 +3550,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.04,
+              "expl": 0.025,
               "damage": 200.0,
               "fHitCritical": false
             }
@@ -3543,7 +3558,7 @@
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.1,
+              "expl": 0.05,
               "damage": 500.0,
               "fHitCritical": false
             }
@@ -3704,72 +3719,58 @@
               "damageType": "fire",
               "fire": 0.05,
               "damage": 50.0,
+              "expl": 0.02
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.08,
+              "damage": 80.0,
+              "expl": 0.03
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.1,
+              "damage": 100.0,
               "expl": 0.05
             }
           },
           {
             "onHit": {
-              "damageType": "fire",
-              "fire": 0.15,
-              "damage": 80.0,
-              "expl": 0.15
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.3,
-              "damage": 100.0,
-              "expl": 0.3
-            }
-          },
-          {
-            "onHit": {
               "damageType": "explosion",
-              "fire": 0.5,
-              "expl": 0.02,
+              "fire": 0.05,
+              "expl": 0.01,
               "damage": 50.0
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.7,
-              "expl": 0.1,
+              "fire": 0.1,
+              "expl": 0.05,
               "damage": 80.0
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 1.0,
+              "expl": 0.2,
               "damage": 100.0
             }
           },
           {
             "onKill": {
               "damageType": "fire",
-              "expl": 1.0
+              "expl": 0.1
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.3
-            }
-          },
-          {
-            "onKill": {
-              "damageType": "generic",
-              "expl": 0.0,
-              "fire": 0.1
-            }
-          },
-          {
-            "onKill": {
-              "damageType": "shatter",
-              "expl": 0.0,
-              "fire": 0.25
+              "expl": 0.05
             }
           }
         ]

@@ -106,6 +106,7 @@ shopItem {
         pos:t='pw-w, -2/3h'
         smallFont:t='yes'
         talign:t='right'
+        shadeStyle:t='textOnIcon'
       }
       <<@progressBlk>>
     }

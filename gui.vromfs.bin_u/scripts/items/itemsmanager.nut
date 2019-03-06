@@ -400,7 +400,7 @@ function ItemsManager::isMarketplaceEnabled()
 function ItemsManager::goToMarketplace()
 {
   if (isMarketplaceEnabled())
-    ::open_url(inventoryClient.getMarketplaceBaseUrl(), true, false, "marketplace")
+    ::open_url(inventoryClient.getMarketplaceBaseUrl(), false, false, "marketplace")
 }
 
 function ItemsManager::markItemsListUpdate()
@@ -735,6 +735,10 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   local obj = holderObj.findObject("item_name")
   if (::checkObj(obj))
     obj.setValue(item? item.getDescriptionTitle() : "")
+
+  local addDescObj = holderObj.findObject("item_desc_under_title")
+  if (::checkObj(addDescObj))
+    addDescObj.setValue(item?.getDescriptionUnderTitle?() ?? "")
 
   local helpObj = holderObj.findObject("item_type_help")
   if (::checkObj(helpObj))

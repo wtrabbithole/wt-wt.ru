@@ -8,6 +8,7 @@ local OUT_OF_DATE_DAYS_WORKSHOP = 28
 
 local isInited = false
 local setsList = []
+local markingPresetsList = ::DataBlock()
 local emptySet = Set(::DataBlock())
 
 local visibleSeenIds = null
@@ -42,11 +43,15 @@ local function initOnce()
     foreach (itemBlk in (wBlk.additionalRecipes % "item"))
       foreach (paramName in ["fakeRecipe", "trueRecipe"])
         inventoryClient.requestItemdefsByIds(itemBlk % paramName)
+
+  if (wBlk.itemMarkingPresets)
+    markingPresetsList.setFrom(wBlk.itemMarkingPresets)
 }
 
 local function invalidateCache()
 {
   setsList.clear()
+  markingPresetsList = ::DataBlock()
   isInited = false
 }
 
@@ -54,6 +59,12 @@ local function getSetsList()
 {
   initOnce()
   return setsList
+}
+
+local function getMarkingPresetsById(presetName)
+{
+  initOnce()
+  return markingPresetsList?[presetName]
 }
 
 local function shouldDisguiseItemId(id)
@@ -111,6 +122,7 @@ return {
 
   isAvailable = @() u.search(getSetsList(), @(s) s.isVisible()) != null
   getSetsList = @() getSetsList()
+  getMarkingPresetsById = @(presetName) getMarkingPresetsById(presetName)
   shouldDisguiseItem = @(item) shouldDisguiseItemId(item.id)
   getSetById = @(id) u.search(getSetsList(), @(s) s.id == id)
   getSetByItemId = @(itemId) u.search(getSetsList(), @(s) s.isItemIdInSet(itemId))
