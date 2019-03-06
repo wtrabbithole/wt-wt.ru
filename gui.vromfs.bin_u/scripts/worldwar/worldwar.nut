@@ -227,6 +227,7 @@ foreach (fn in [
                  "handler/wwJoinBattleCondition.nut"
                  "worldWarRender.nut"
                  "worldWarBattleJoinProcess.nut"
+                 "worldWarLeaderboard.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/worldWar/" + fn) // no need to includeOnce to correct reload this scripts pack runtime
 

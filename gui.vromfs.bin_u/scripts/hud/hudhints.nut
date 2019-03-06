@@ -419,7 +419,10 @@ enums.addTypesByGlobalName("g_hud_hints", {
   SKIP_XRAY_SHOT = {
     hintType = ::g_hud_hint_types.MINOR
     locId = "hints/skip"
-    shortcuts = "ID_CONTINUE"
+    shortcuts = [
+      "@ID_CONTINUE_SETUP"
+      "@ID_CONTINUE"
+    ]
     showEvent = "hint:xrayCamera:showSkipHint"
     hideEvent = "hint:xrayCamera:hideSkipHint"
     isHideOnDeath = false

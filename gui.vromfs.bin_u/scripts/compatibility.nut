@@ -284,4 +284,5 @@ if (!("logerr" in ::dagor))
 ::apply_compatibilities({
   is_triple_head = @(sw, sh) sw >= 3 * sh
   set_hud_width_limit = @(w) null
+  ps4_is_circle_selected_as_enter_button = @() false
 })

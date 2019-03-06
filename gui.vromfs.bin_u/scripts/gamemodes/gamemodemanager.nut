@@ -452,7 +452,7 @@ class GameModeManager
     }
 
     // Step 4. Attempting to retrieve current game mode id from newbie event.
-    local event = ::my_stats.getNextNewbieEvent(null, null, false)
+    local event = ::my_stats.getNextNewbieEvent(null, null, true)
     local idFromEvent = ::getTblValue("name", event, null)
     if (idFromEvent in _gameModeById)
       return idFromEvent
@@ -606,7 +606,7 @@ class GameModeManager
       enableOnDebug = false
       onBattleButtonClick = ::getTblValue("onBattleButtonClick", gm)
       inactiveColor = ::getTblValue("inactiveColor", gm, function() { return false })()
-      unitTypes = [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK]
+      unitTypes = [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_SHIP, ::ES_UNIT_TYPE_HELICOPTER]
 
       getEvent = function() { return null }
       getTooltipText = ::getTblValue("getTooltipText", gm, function() { return "" })

@@ -2,6 +2,10 @@
 ::g_script_reloader.loadOnce("scripts/controls/controlsGlobals.nut")
 ::g_script_reloader.loadOnce("scripts/controls/controlsCompatibility.nut")
 
+local GAMEPAD_ENTER_SHORTCUT = ::ps4_is_circle_selected_as_enter_button() ?
+                                 ::SHORTCUT.GAMEPAD_B.btn[0] :
+                                 ::SHORTCUT.GAMEPAD_A.btn[0]
+
 ::g_controls_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["curPreset"]
 
@@ -27,7 +31,7 @@
       target = "ID_CONTINUE_SETUP"
       value = [{
         deviceId = ::ControlsPreset.deviceIdByType.joyButton
-        buttonId = 12 // PS4 X, xinput A
+        buttonId = GAMEPAD_ENTER_SHORTCUT
       }]
       shouldAppendIfEmptyOnXInput = true
     }
@@ -44,7 +48,7 @@
       {
         return [[::is_xinput_device() ? {
           deviceId = ::ControlsPreset.deviceIdByType.joyButton
-          buttonId = 12 // PS4 X, xinput A (used in mission hints)
+          buttonId = GAMEPAD_ENTER_SHORTCUT // used in mission hints
         } :
         {
           deviceId = ::ControlsPreset.deviceIdByType.keyboardKey

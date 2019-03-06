@@ -37,8 +37,10 @@ local time = require("scripts/time.nut")
     "playerUnit", "playerType", "playerExpClass", "playerUnitRank", "playerUnitMRank", "playerTag",
     "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
     "crewsUnit", "crewsUnitRank", "crewsUnitMRank", "crewsTag", "activity",
-    "minStat", "statPlace", "statScore", "statPlaceInSession", "statScoreInSession",
-    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets"
+    "minStat", "statPlace", "statScore", "statAwardDamage",
+    "statPlaceInSession", "statScoreInSession", "statAwardDamageInSession",
+    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets",
+    "targetDistance"
   ]
 
   condWithValuesInside = [
@@ -82,6 +84,7 @@ local time = require("scripts/time.nut")
   minStatGroups = {
     place         = "statPlace"
     score         = "statScore"
+    awardDamage   = "statAwardDamage"
     playerkills   = "statKillsPlayer"
     kills         = "statKillsAir"
     aikills       = "statKillsAirAi"
@@ -474,6 +477,10 @@ function UnlockConditions::loadCondition(blk)
     else
       res.values = null
   }
+  else if (t == "targetDistance")
+  {
+    res.values = getDiffTextArrayByPoint3(blk.distance, "%s" + ::loc("measureUnits/meters_alt"))
+  }
   else if (::isInArray(t, additionalTypes))
   {
     res.type = "additional"
@@ -771,7 +778,7 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
     else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country")
       text = ::loc("unlockTag/" + v)
     else if (::isInArray(cType, [ "activity", "playerUnitRank", "playerUnitMRank",
-      "crewsUnitRank", "crewsUnitMRank", "minStat"]))
+      "crewsUnitRank", "crewsUnitMRank", "minStat", "targetDistance"]))
       text = v.tostring()
     else if (cType == "difficulty")
     {
@@ -825,7 +832,7 @@ function UnlockConditions::_addCustomConditionsTextData(groupsList, condition)
       }
       else
       {
-        group = "gameModeInfoString/" + condition.name
+        group = ::loc("conditions/gameModeInfoString/" + condition.name)
       }
 
       if ("locParamValue" in condition)
@@ -834,7 +841,7 @@ function UnlockConditions::_addCustomConditionsTextData(groupsList, condition)
       }
       else
       {
-        desc += "gameModeInfoString/" + v
+        desc += ::loc("conditions/gameModeInfoString/" + v)
       }
     }
   }

@@ -370,7 +370,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local view = []
     foreach (idx, esUnitType in basePanelConfig)
     {
-      local gameMode = chooseGameModeEsUnitType(gameModes, esUnitType)
+      local gameMode = chooseGameModeEsUnitType(gameModes, esUnitType, basePanelConfig)
       if (gameMode)
         view.push(createGameModeView(gameMode, false, true))
       else if (needEmptyGameModeBlocks)
@@ -384,10 +384,11 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
    * Find appropriate game mode from array and returns it.
    * If game mode is not null, it will be removed from array.
    */
-  function chooseGameModeEsUnitType(gameModes, esUnitType)
+  function chooseGameModeEsUnitType(gameModes, esUnitType, esUnitTypesFilter)
   {
     return getGameModeByCondition(gameModes,
-      @(gameMode) u.max(::game_mode_manager.getRequiredUnitTypes(gameMode)) == esUnitType)
+      @(gameMode) u.max(::game_mode_manager.getRequiredUnitTypes(gameMode).filter(
+        @(idx, esUType) ::isInArray(esUType, esUnitTypesFilter))) == esUnitType)
   }
 
   function saveValuesByGameModeId(gameModesView)

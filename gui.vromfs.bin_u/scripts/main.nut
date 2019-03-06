@@ -374,6 +374,7 @@ foreach (fn in [
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"
+  "scripts/controls/rawShortcuts.nut"
   "scripts/controls/controlsManager.nut"
 
   //used before xbox login
@@ -563,7 +564,6 @@ function load_scripts_after_login_once()
     "voiceMessages.nut"
     "controls/controlsPresets.nut"
     "controls/controlsUtils.nut"
-    "controls/rawShortcuts.nut"
     "controls/controls.nut"
     "controls/controlsConsole.nut"
     "controls/input/inputBase.nut"

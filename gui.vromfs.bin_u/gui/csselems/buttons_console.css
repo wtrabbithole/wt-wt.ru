@@ -969,8 +969,8 @@ DummyButton[btnName=B] {
   accessKey:'J:A | Esc';
 }
 
-Button_text[btnName=BNotEsc]           { accessKey:'J:B'; }
-[swap_ab=yes] Button_text[btnName=BNotEsc] { accessKey:'J:A'; }
+Button_text[btnName=BNotEsc], DummyButton[btnName=BNotEsc] { accessKey:'J:B'; }
+[swap_ab=yes] Button_text[btnName=BNotEsc], [swap_ab=yes] DummyButton[btnName=BNotEsc] { accessKey:'J:A'; }
 
 Button_text[btnName=A][menuShortcuts]  { accessKey:'J:A | J:Start | Space | Enter | NumEnter'; }
 [swap_ab=yes] Button_text[btnName=A][menuShortcuts] { accessKey:'J:B | J:Start | Space | Enter | NumEnter'; }

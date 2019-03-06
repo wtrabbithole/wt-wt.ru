@@ -984,8 +984,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       switchSlotbarCountry(headerObj, countryData)
-      ::game_mode_manager.setCurrentGameModeById(::slotbarPresets.getPresetsList(countryData.country)[
-                                                   ::slotbarPresets.getCurrent(countryData.country, 0)].gameModeId)
+      ::slotbarPresets.setCurrentGameModeByPreset(countryData.country)
     }
   }
 
