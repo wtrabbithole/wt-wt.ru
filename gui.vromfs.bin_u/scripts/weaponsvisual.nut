@@ -1139,7 +1139,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
                 ::round_by_value(param.caliber, ::isCaliberCannon(param.caliber) ? 1 : 0.01) + " " + ::loc("measureUnits/mm"))
     if (param.mass > 0)
       addProp(p, ::loc("bullet_properties/mass"),
-                ::roundToDigits(param.mass, 2) + " " + ::loc("measureUnits/kg"))
+                ::g_measure_type.getTypeByName("kg", true).getMeasureUnitsText(param.mass))
     if (param.speed > 0)
       addProp(p, ::loc("bullet_properties/speed"),
                  ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))

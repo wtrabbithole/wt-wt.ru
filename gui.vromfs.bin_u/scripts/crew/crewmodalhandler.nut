@@ -616,43 +616,45 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = ["crew_cur_points_block"]
         text = ::loc("tutorials/upg_crew/total_skill_points")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = [["crew_pages_list", "driver_available"]]
         text = ::loc("tutorials/upg_crew/skill_groups")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = [getObj("skill_row0").findObject("incCost"), "skill_row0"]
         text = ::loc("tutorials/upg_crew/take_skill_points")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = [getObj("skill_row0").findObject("buttonInc"), "skill_row0"]
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
-        accessKey = "J:A"
+        nextActionShortcut = "help/OBJ_CLICK"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(@() onButtonInc(getObj("skill_row0").findObject("buttonInc")), this)
       },
       {
         obj = [getObj("skill_row1").findObject("buttonInc"), "skill_row1"]
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
-        accessKey = "J:A"
+        nextActionShortcut = "help/OBJ_CLICK"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(@() onButtonInc(getObj("skill_row1").findObject("buttonInc")), this)
       },
       {
         obj = ["btn_apply"]
         text = ::loc("tutorials/upg_crew/apply_upgr_skills")
         actionType = tutorAction.OBJ_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(function() {
           afterApplyAction = canUpgradeCrewSpec(crew) ? onUpgrCrewSpec1Tutorial
             : onUpgrCrewTutorFinalStep
@@ -708,7 +710,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         obj = [btnSpecObj, skillRowObj]
         text = ::loc("tutorials/upg_crew/spec1")
         actionType = tutorAction.FIRST_OBJ_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(onUpgrCrewSpec1ConfirmTutorial, this)
       }
     ]
@@ -740,10 +742,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = [[specMsgBox.findObject("buttons_holder"), specMsgBox.findObject("msgText")]]
         text = ::loc("tutorials/upg_crew/confirm_spec1")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
         haveArrow = false
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }
     ]
     ::gui_modal_tutor(steps, this)
@@ -755,9 +757,9 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local steps = [
       {
         text = ::loc("tutorials/upg_crew/final_massage")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }
     ]
     ::gui_modal_tutor(steps, this)

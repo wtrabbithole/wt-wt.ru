@@ -1478,6 +1478,7 @@ enum ConflictGroups {
   { id = "ID_COMMON_INTERFACE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_FLIGHTMENU_SETUP",  checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_CONTINUE_SETUP",    checkGroup = ctrlGroups.NO_GROUP, checkAssign = false }
+    { id="ID_SKIP_CUTSCENE",    checkGroup = ctrlGroups.NO_GROUP, checkAssign = false }
     { id="ID_GAME_PAUSE",        checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_HIDE_HUD",          checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.NO_GROUP, checkAssign = false

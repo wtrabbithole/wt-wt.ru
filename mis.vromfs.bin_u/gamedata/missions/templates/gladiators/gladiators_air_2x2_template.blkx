@@ -153,7 +153,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [],
@@ -219,13 +220,16 @@
               "showOnMap": true
             },
             {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
               "radius": -1.0
             },
             {
               "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "replaceAreas": false
             },
             {
               "target": "t1_air_spawn_01"
@@ -235,6 +239,9 @@
             },
             {
               "team": "A"
+            },
+            {
+              "offset": [0.0,0.0,0.0]
             },
             {
               "tags": {
@@ -276,13 +283,16 @@
               "showOnMap": true
             },
             {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
               "radius": -1.0
             },
             {
               "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "resetStrictSpawnIndex": false
+            },
+            {
+              "replaceAreas": false
             },
             {
               "target": "t2_air_spawn_01"
@@ -292,6 +302,9 @@
             },
             {
               "team": "B"
+            },
+            {
+              "offset": [0.0,0.0,0.0]
             },
             {
               "tags": {
@@ -339,6 +352,7 @@
             "newGridHorizontalCellCount": 0,
             "killArea": false,
             "detectionArea": false,
+            "airMapArea": false,
             "area": "battle_area_01"
           }
         },
@@ -556,9 +570,6 @@
                 "isUnit": false
               },
               {
-                "offset": [0.0,0.0,0.0]
-              },
-              {
                 "radius": -1.0
               },
               {
@@ -583,6 +594,12 @@
                 "onlyOnePlayerPerSpawnPoint": false
               },
               {
+                "resetStrictSpawnIndex": false
+              },
+              {
+                "replaceAreas": false
+              },
+              {
                 "target": "t1_air_spawn_01"
               },
               {
@@ -593,6 +610,9 @@
               },
               {
                 "disableAfter": 0
+              },
+              {
+                "offset": [0.0,0.0,0.0]
               },
               {
                 "tags": {
@@ -616,9 +636,6 @@
                 "isUnit": false
               },
               {
-                "offset": [0.0,0.0,0.0]
-              },
-              {
                 "radius": -1.0
               },
               {
@@ -643,6 +660,12 @@
                 "onlyOnePlayerPerSpawnPoint": false
               },
               {
+                "resetStrictSpawnIndex": false
+              },
+              {
+                "replaceAreas": false
+              },
+              {
                 "target": "t2_air_spawn_01"
               },
               {
@@ -653,6 +676,9 @@
               },
               {
                 "disableAfter": 0
+              },
+              {
+                "offset": [0.0,0.0,0.0]
               },
               {
                 "tags": {
@@ -1793,6 +1819,66 @@
         "else_actions": {
           "triggerEnable": {
             "target": "unit_out_of_area_01_kill"
+          }
+        }
+      },
+      "unit_near_killarea_message": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenInArea": {
+            "math": "notNear2D",
+            "object_type": "isActive",
+            "object_marking": 1,
+            "check_objects": "any",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "object": "all_player_squad_alive",
+            "target": "battle_area_message"
+          }
+        },
+        "actions": {
+          "playHint": {
+            "hintType": "standard",
+            "name": "hints/youre_living_battlearea",
+            "action": "show",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "target": "all_player_squad_alive",
+            "useForTriggerFiltered": true
+          }
+        },
+        "else_actions": {
+          "playHint": {
+            "hintType": "standard",
+            "name": "hints/youre_living_battlearea",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "useForTriggerFiltered": true
           }
         }
       },

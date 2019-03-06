@@ -201,10 +201,10 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
       {
         obj = unitsObj
         text = ::loc("tutorials/research_next_aircraft")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
         haveArrow = false
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }]
     ::gui_modal_tutor(steps, this)
   }

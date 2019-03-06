@@ -95,8 +95,9 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     }
   }
   { id = "AwardDamage"
+    customValueName = "expAwardDamage"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
-    showByModes = function(gm) gm != ::GM_SKIRMISH
+    showByModes = function(gm) { return gm != ::GM_SKIRMISH }
     text = "multiplayer/naval_damage"
     icon = "icon/mpstats/navalDamage"
     isVisibleWhenEmpty = function()

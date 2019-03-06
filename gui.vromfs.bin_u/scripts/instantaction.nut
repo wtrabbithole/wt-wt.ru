@@ -1191,7 +1191,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       obj = [objs]
       text = ::loc("tutor/battleButton")
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      nextActionShortcut = "help/OBJ_CLICK"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = onStart
     }]
     ::gui_modal_tutor(steps, this)

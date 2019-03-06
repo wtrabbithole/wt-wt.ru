@@ -516,13 +516,6 @@ enums.addTypesByGlobalName("g_hud_hints", {
     maskId = 26
   }
 
-  PILOT_DAMAGED_HINT = {
-    locId = "hints/damaged_pilot"
-    showEvent = "hint:damaged_pilot:show"
-    lifeTime = 2.0
-    priority = CATASTROPHIC_HINT_PRIORITY
-  }
-
   ATGM_AIM_HINT = {
     hintType = ::g_hud_hint_types.COMMON
     locId = "hints/atgm_aim"

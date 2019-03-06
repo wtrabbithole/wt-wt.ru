@@ -2,10 +2,6 @@
 ::g_script_reloader.loadOnce("scripts/controls/controlsGlobals.nut")
 ::g_script_reloader.loadOnce("scripts/controls/controlsCompatibility.nut")
 
-local GAMEPAD_ENTER_SHORTCUT = ::ps4_is_circle_selected_as_enter_button() ?
-                                 ::SHORTCUT.GAMEPAD_B.btn[0] :
-                                 ::SHORTCUT.GAMEPAD_A.btn[0]
-
 ::g_controls_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["curPreset"]
 
@@ -20,8 +16,8 @@ local GAMEPAD_ENTER_SHORTCUT = ::ps4_is_circle_selected_as_enter_button() ?
       source = "ID_FLIGHTMENU"
       target = "ID_FLIGHTMENU_SETUP"
       value = [{
-        deviceId = ::ControlsPreset.deviceIdByType.joyButton
-        buttonId = 4 // Gamepad Start
+        deviceId = ::SHORTCUT.GAMEPAD_START.dev[0]
+        buttonId = ::SHORTCUT.GAMEPAD_START.btn[0]
       }]
       shouldAppendIfEmptyOnXInput = true
     }
@@ -30,16 +26,16 @@ local GAMEPAD_ENTER_SHORTCUT = ::ps4_is_circle_selected_as_enter_button() ?
       source = "ID_CONTINUE",
       target = "ID_CONTINUE_SETUP"
       value = [{
-        deviceId = ::ControlsPreset.deviceIdByType.joyButton
-        buttonId = GAMEPAD_ENTER_SHORTCUT
+        deviceId = ::GAMEPAD_ENTER_SHORTCUT.dev[0]
+        buttonId = ::GAMEPAD_ENTER_SHORTCUT.btn[0]
       }]
       shouldAppendIfEmptyOnXInput = true
     }
     {
       target = "ID_FLIGHTMENU"
       value = [[{
-        deviceId = ::ControlsPreset.deviceIdByType.keyboardKey
-        buttonId = 1 // Escape key
+        deviceId = ::SHORTCUT.KEY_ESC.dev[0]
+        buttonId = ::SHORTCUT.KEY_ESC.btn[0]
       }]]
     }
     {
@@ -47,12 +43,12 @@ local GAMEPAD_ENTER_SHORTCUT = ::ps4_is_circle_selected_as_enter_button() ?
       valueFunction = function()
       {
         return [[::is_xinput_device() ? {
-          deviceId = ::ControlsPreset.deviceIdByType.joyButton
-          buttonId = GAMEPAD_ENTER_SHORTCUT // used in mission hints
+          deviceId = ::GAMEPAD_ENTER_SHORTCUT.dev[0]
+          buttonId = ::GAMEPAD_ENTER_SHORTCUT.btn[0] // used in mission hints
         } :
         {
-          deviceId = ::ControlsPreset.deviceIdByType.keyboardKey
-          buttonId = 57 // Space key
+          deviceId = ::SHORTCUT.KEY_SPACE.dev[0]
+          buttonId = ::SHORTCUT.KEY_SPACE.btn[0]
         }]]
       }
     }
@@ -62,7 +58,13 @@ local GAMEPAD_ENTER_SHORTCUT = ::ps4_is_circle_selected_as_enter_button() ?
     {
       condition = function() { return ::is_platform_pc }
       list = [
-        {name = "ID_SCREENSHOT", combo = [{deviceId = 2, buttonId = 183} /*PrtSc*/ ]}
+        {
+          name = "ID_SCREENSHOT",
+          combo = [{
+            deviceId = ::SHORTCUT.KEY_PRNT_SCRN.dev[0]
+            buttonId = ::SHORTCUT.KEY_PRNT_SCRN.btn[0]
+          }]
+        }
       ]
     }
   ]

@@ -830,7 +830,6 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
   {
     base.initScreen()
 
-    updateButtons()
     initNavigation()
     initFocusArray()
   }
@@ -978,12 +977,6 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
       navigationHandlerWeak.setNavItems(headersItems)
       checkCurrentNavigationSection()
     }
-  }
-
-  function updateButtons()
-  {
-    local btnObj = scene.findObject("btn_apply")
-    if (btnObj) btnObj.setValue(::loc("mainmenu/btnOk"))
   }
 
   function goBack()

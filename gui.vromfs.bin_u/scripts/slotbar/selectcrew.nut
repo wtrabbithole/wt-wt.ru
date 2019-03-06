@@ -259,17 +259,17 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = getSlotbar() && getSlotbar().getBoxOfUnits()
         text = ::loc("help/takeAircraft", {unitName = ::getUnitName(unit)})
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
         haveArrow = false
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = "btn_set_air"
         text = ::loc("help/pressOnReady")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }
     ]
 
